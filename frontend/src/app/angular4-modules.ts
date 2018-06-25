@@ -208,6 +208,7 @@ import {CopyToClipboardDirective} from 'core-app/modules/common/copy-to-clipboar
 import {WorkPackageEmbeddedTableEntryComponent} from "core-components/wp-table/embedded/wp-embedded-table-entry.component";
 import {LinkedPluginsModule} from "core-app/modules/plugins/linked-plugins.module";
 import {HookService} from "core-app/modules/plugins/hook-service";
+import {ModalWrapperAugmentService} from "core-app/globals/augmenting/modal-wrapper.augment.service";
 
 @NgModule({
   imports: [
@@ -308,6 +309,10 @@ import {HookService} from "core-app/modules/plugins/hook-service";
 
     // External query configuration
     ExternalQueryConfigurationService,
+
+    // Augmenting Rails
+    ModalWrapperAugmentService,
+
   ],
   declarations: [
     ConfirmFormSubmitController,
@@ -538,7 +543,7 @@ import {HookService} from "core-app/modules/plugins/hook-service";
 })
 export class OpenProjectModule {
   // noinspection JSUnusedGlobalSymbols
-  ngDoBootstrap(appRef:ApplicationRef, injector:Injector) {
+  ngDoBootstrap(appRef:ApplicationRef) {
     bootstrapOptional(
       appRef,
       { tagName: 'main-menu-resizer', cls: MainMenuResizerComponent  },
@@ -574,8 +579,11 @@ export function bootstrapOptional(appRef:ApplicationRef, ...elements:{ tagName:s
 
 export function initializeServices(injector:Injector) {
   return () => {
-    const ExternalQueryConfiguration:ExternalQueryConfigurationService = injector.get(ExternalQueryConfigurationService);
-    const global = (window as any);
+    const ExternalQueryConfiguration = injector.get(ExternalQueryConfigurationService);
+    const ModalWrapper = injector.get(ModalWrapperAugmentService);
+
+    // Setup modal wrapping
+    ModalWrapper.setupListener();
 
     // Setup query configuration listener
     ExternalQueryConfiguration.setupListener();

@@ -250,9 +250,9 @@ uk:
           кошти для даного додатка.
       login_verification:
         other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+          will be asked to confirm your password.
         self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'Ваш обліковий запис ще не активовано. Щоб
       активувати ваш обліковий запис, перейдіть за посиланням, яке було відправлено
       вам електронною поштою.

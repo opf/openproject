@@ -123,6 +123,7 @@ nl:
     label_expand: Uitbreiden
     label_expanded: uitgebreid
     label_expand_all: Alles uitklappen
+    label_expand_project_menu: Expand project menu
     label_export: Exporteren
     label_filename: Bestand
     label_filesize: Grootte
@@ -130,6 +131,7 @@ nl:
     label_group_by: Groeperen op
     label_hide_attributes: Toon minder
     label_hide_column: Verberg kolom
+    label_hide_project_menu: Collapse project menu
     label_in: in
     label_in_less_than: in minder dan
     label_in_more_than: in meer dan
@@ -316,7 +318,6 @@ nl:
         one: Je kunt maar {{limit}} onderdeel selecteren
         other: Je kunt maar {{limit}} onderdelen selecteren
         zero: You cannot select any items
-    show_hide_project_menu: Project menu uitvouwen/samenvouwen
     project_menu_details: Details
     sort:
       sorted_asc: 'Oplopende sorteervolgorde toegepast, '
@@ -653,6 +654,7 @@ nl:
         messages_on_field: 'Het veld is ongeldig: %{messages}'
     error_could_not_resolve_version_name: Kan de verstane niet vinden
     error_could_not_resolve_user_name: Kan de gebruikersnaam niet vinden
+    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
     units:
       workPackage:
         one: werkpakket

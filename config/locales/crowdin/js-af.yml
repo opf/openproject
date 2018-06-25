@@ -120,6 +120,7 @@ af:
     label_expand: Expand
     label_expanded: expanded
     label_expand_all: Vou almal uit
+    label_expand_project_menu: Expand project menu
     label_export: Export
     label_filename: Lêer
     label_filesize: Grootte
@@ -127,6 +128,7 @@ af:
     label_group_by: Groepeer volgens
     label_hide_attributes: Wys minder
     label_hide_column: Hide column
+    label_hide_project_menu: Collapse project menu
     label_in: in
     label_in_less_than: in minder as
     label_in_more_than: in meer as
@@ -313,7 +315,6 @@ af:
         one: You can only select one item
         other: You can only select {{limit}} items
         zero: You cannot select any items
-    show_hide_project_menu: Vergroot/verklein projek kieslys
     project_menu_details: Besonderhede
     sort:
       sorted_asc: 'Ascending sort applied, '
@@ -645,6 +646,7 @@ af:
         messages_on_field: 'This field is invalid: %{messages}'
     error_could_not_resolve_version_name: Couldn't resolve version name
     error_could_not_resolve_user_name: Couldn't resolve user name
+    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
     units:
       workPackage:
         one: work package

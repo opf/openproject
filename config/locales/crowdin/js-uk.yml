@@ -122,6 +122,7 @@ uk:
     label_expand: Розгорнути
     label_expanded: розгорнуто
     label_expand_all: Expand all
+    label_expand_project_menu: Expand project menu
     label_export: Експорт
     label_filename: Файл
     label_filesize: Розмір
@@ -129,6 +130,7 @@ uk:
     label_group_by: Group by
     label_hide_attributes: Показати менше
     label_hide_column: Приховати стовпчик
+    label_hide_project_menu: Collapse project menu
     label_in: in
     label_in_less_than: in less than
     label_in_more_than: in more than
@@ -319,7 +321,6 @@ uk:
         zero: You cannot select any items
         few: Ви можете вибрати тільки {{limit}} елементи
         many: You can only select {{limit}} items
-    show_hide_project_menu: Expand/Collapse project menu
     project_menu_details: Details
     sort:
       sorted_asc: 'Ascending sort applied, '
@@ -651,6 +652,7 @@ uk:
         messages_on_field: 'Це поле невірне: %{messages}'
     error_could_not_resolve_version_name: Не вдалося визначити версію
     error_could_not_resolve_user_name: Не вдалося визначити ім'я користувача
+    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
     units:
       workPackage:
         one: work package

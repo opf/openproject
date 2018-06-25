@@ -28,8 +28,10 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <%= activate_angular_js do %>
-  <modal-wrapper initialize="true" modal-class-name="registration-modal modal-wrapper -highlight">
+  <section data-augmented-model-wrapper
+           data-modal-initialize-now="true"
+           data-modal-class-name="registration-modal modal-wrapper -highlight">
     <% @user ||= User.new %>
     <%= render partial: '/account/register' %>
-  </modal-wrapper>
+  </section>
 <% end %>

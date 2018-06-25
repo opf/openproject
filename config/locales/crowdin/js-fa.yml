@@ -122,6 +122,7 @@ fa:
     label_expand: گشودن
     label_expanded: بست یافته
     label_expand_all: Expand all
+    label_expand_project_menu: Expand project menu
     label_export: خروجی
     label_filename: فایل
     label_filesize: اندازه‌
@@ -129,6 +130,7 @@ fa:
     label_group_by: Group by
     label_hide_attributes: Show less
     label_hide_column: عدم نمایش ستون
+    label_hide_project_menu: Collapse project menu
     label_in: in
     label_in_less_than: in less than
     label_in_more_than: in more than
@@ -315,7 +317,6 @@ fa:
         one: You can only select one item
         other: You can only select {{limit}} items
         zero: You cannot select any items
-    show_hide_project_menu: Expand/Collapse project menu
     project_menu_details: Details
     sort:
       sorted_asc: 'Ascending sort applied, '
@@ -648,6 +649,7 @@ fa:
         messages_on_field: 'This field is invalid: %{messages}'
     error_could_not_resolve_version_name: تطبیق نام نسخه میسر نشد
     error_could_not_resolve_user_name: Couldn't resolve user name
+    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
     units:
       workPackage:
         one: بسته کاری

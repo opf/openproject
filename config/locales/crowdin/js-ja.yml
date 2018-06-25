@@ -118,6 +118,7 @@ ja:
     label_expand: 展開
     label_expanded: 展開
     label_expand_all: 全てを展開
+    label_expand_project_menu: Expand project menu
     label_export: 外部出力
     label_filename: ファイル
     label_filesize: サイズ
@@ -125,6 +126,7 @@ ja:
     label_group_by: グループ化
     label_hide_attributes: 非表示にする
     label_hide_column: 列を非表示
+    label_hide_project_menu: Collapse project menu
     label_in: 今日から○日後
     label_in_less_than: 今日から○日後以前
     label_in_more_than: 今日から○日後以降
@@ -302,7 +304,6 @@ ja:
         one: You can only select one item
         other: "{{limit}}つ項目のみを選択できます。"
         zero: You cannot select any items
-    show_hide_project_menu: プロジェクトメニューの展開/折りたたみ
     project_menu_details: 詳細
     sort:
       sorted_asc: '昇順の並べ替えを適用しました。 '
@@ -612,6 +613,7 @@ ja:
         messages_on_field: 'このフィールドは無効です: %{messages}'
     error_could_not_resolve_version_name: バージョン名を解決できませんでした。
     error_could_not_resolve_user_name: ユーザ名を特定できません
+    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
     units:
       workPackage:
         one: work package

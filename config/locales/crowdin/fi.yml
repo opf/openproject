@@ -249,9 +249,9 @@ fi:
           käyttäjäksi kuten kuka tahansa joka ei ole vielä sovelluksen käyttäjä.
       login_verification:
         other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+          will be asked to confirm your password.
         self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'Tilisi ei ole vielä aktivoitu. Aktivoidaksesi
       tilin, klikkaa linkkiä joka välitettiin sähköpostiisi.
 

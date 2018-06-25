@@ -42,7 +42,7 @@ namespace :assets do
   end
 
   desc 'Prepare locales and angular assets'
-  task prepare_op: [:angular, 'openproject:plugins:register_frontend', :export_locales]
+  task prepare_op: ['openproject:plugins:register_frontend', :angular, :export_locales]
 
   desc 'Compile assets with webpack'
   task :angular do

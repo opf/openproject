@@ -121,6 +121,7 @@ cs:
     label_expand: Rozbalit
     label_expanded: expanded
     label_expand_all: Rozbalit vše
+    label_expand_project_menu: Expand project menu
     label_export: Export
     label_filename: Soubor
     label_filesize: Velikost
@@ -128,6 +129,7 @@ cs:
     label_group_by: Seskupit podle
     label_hide_attributes: Zobrazit méně
     label_hide_column: Skrýt sloupec
+    label_hide_project_menu: Collapse project menu
     label_in: v
     label_in_less_than: za méně než
     label_in_more_than: za více než
@@ -318,7 +320,6 @@ cs:
         zero: You cannot select any items
         few: You can only select {{limit}} items
         many: You can only select {{limit}} items
-    show_hide_project_menu: Rozbalit/sbalit nabídku projektu
     project_menu_details: Podrobnosti
     sort:
       sorted_asc: 'Ascending sort applied, '
@@ -650,6 +651,7 @@ cs:
         messages_on_field: 'This field is invalid: %{messages}'
     error_could_not_resolve_version_name: Couldn't resolve version name
     error_could_not_resolve_user_name: Couldn't resolve user name
+    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
     units:
       workPackage:
         one: pracovní balíček

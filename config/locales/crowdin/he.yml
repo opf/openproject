@@ -248,9 +248,9 @@ he:
           השאפליקצייה מאפשרת.
       login_verification:
         other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+          will be asked to confirm your password.
         self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'החשבון שלך עדיין לא הופעל. כדי להפעיל את חשבונך,
       לחץ על הקישור שנשלח לדוא״ל שלך.
 

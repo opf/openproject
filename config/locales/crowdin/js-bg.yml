@@ -121,6 +121,7 @@ bg:
     label_expand: Разтвори
     label_expanded: разширена
     label_expand_all: Разгъване на всички
+    label_expand_project_menu: Expand project menu
     label_export: Експортиране
     label_filename: Файл
     label_filesize: Размер
@@ -128,6 +129,7 @@ bg:
     label_group_by: Групиране по
     label_hide_attributes: Скрии детайли
     label_hide_column: Скрий колоната
+    label_hide_project_menu: Collapse project menu
     label_in: в
     label_in_less_than: в по-малко от
     label_in_more_than: в повече от
@@ -313,7 +315,6 @@ bg:
         one: Можете да изберете само един елемент
         other: Можете да изберете само {{limit}} елемента
         zero: You cannot select any items
-    show_hide_project_menu: Разгъване/свиване на проектното меню
     project_menu_details: Подробности
     sort:
       sorted_asc: 'Ascending sort applied, '
@@ -648,6 +649,7 @@ bg:
         messages_on_field: 'Това поле е невалидно: %{messages}'
     error_could_not_resolve_version_name: Не можа да открие версия с име
     error_could_not_resolve_user_name: Не може да открие потребителско име
+    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
     units:
       workPackage:
         one: work package

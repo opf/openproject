@@ -255,10 +255,10 @@ nl:
           kiest om een gebruiker van deze toepassing opnieuw te worden, kan je dus
           met behulp van de middelen deze toepassing verleent.
       login_verification:
-        other: Voer de login- %{name} ter controle voor de verwijdering. Zodra deze
-          is ingegeven, zal u worden gevraagd uw wachtwoord te bevestigen.
-        self: Voer uw login- %{name} ter controle voor de verwijdering. Zodra deze
-          is ingegeven, zal u worden gevraagd uw wachtwoord te bevestigen.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'Uw account is nog niet geactiveerd. Klik op
       de link in de u toegestuurde mail om uw account te activeren.
 
