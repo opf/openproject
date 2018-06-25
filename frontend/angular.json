@@ -15,6 +15,7 @@
             "preserveSymlinks": true,
             "aot": true,
             "outputPath": "../public/assets/frontend/",
+            "aot": true,
             "index": "src/index2.html",
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
@@ -53,7 +54,9 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "OpenProject:build"
+            "browserTarget": "OpenProject:build",
+            "proxyConfig": "cli_to_rails_proxy.js",
+            "aot": true
           },
           "configurations": {
             "production": {

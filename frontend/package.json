@@ -117,7 +117,7 @@
     "zone.js": "^0.8.26"
   },
   "scripts": {
-    "serve": "ng serve --proxy-config cli_to_rails_proxy.js",
+    "serve": "ng serve",
     "test": "ng test",
     "tslint_typechecks": "tslint -p . -c tslint_typechecks.json",
     "posttest": "npm run tslint_typechecks",
