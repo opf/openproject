@@ -2067,6 +2067,9 @@ en:
     passwords: "Passwords"
     session: "Session"
     brute_force_prevention: "Automated user blocking"
+    user:
+      default_preferences: "Default preferences"
+      deletion: "Deletion"
 
   text_formatting:
     textile: 'Textile'
