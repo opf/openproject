@@ -21,16 +21,16 @@ class CostObjectsController < ApplicationController
   before_action :find_cost_object, only: [:show, :edit, :update, :copy]
   before_action :find_cost_objects, only: :destroy
   before_action :find_project, only: [
-    :new, :create,
-    :update_material_budget_item, :update_labor_budget_item
+      :new, :create,
+      :update_material_budget_item, :update_labor_budget_item
   ]
   before_action :find_optional_project, only: :index
 
   before_action :authorize_global, only: :index
   before_action :authorize, except: [
-    # unrestricted actions
-    :index,
-    :update_material_budget_item, :update_labor_budget_item
+      # unrestricted actions
+      :index,
+      :update_material_budget_item, :update_labor_budget_item
   ]
 
   helper :sort
@@ -47,8 +47,9 @@ class CostObjectsController < ApplicationController
 
   def index
     respond_to do |format|
-      format.html do end
-      format.csv  { limit = Setting.work_packages_export_limit.to_i }
+      format.html do
+      end
+      format.csv { limit = Setting.work_packages_export_limit.to_i }
     end
 
     sort_columns = { 'id' => "#{CostObject.table_name}.id",
@@ -60,23 +61,25 @@ class CostObjectsController < ApplicationController
     sort_update sort_columns
 
     @cost_objects = CostObject
-                    .visible(current_user)
-                    .order(sort_clause)
-                    .includes(:author)
-                    .where(project_id: @project.id)
-                    .page(page_param)
-                    .per_page(per_page_param)
+        .visible(current_user)
+        .order(sort_clause)
+        .includes(:author)
+        .where(project_id: @project.id)
+        .page(page_param)
+        .per_page(per_page_param)
 
     respond_to do |format|
-      format.html do render action: 'index', layout: !request.xhr? end
-      format.csv  { send_data(cost_objects_to_csv(@cost_objects), type: 'text/csv; header=present', filename: 'export.csv') }
+      format.html do
+        render action: 'index', layout: !request.xhr?
+      end
+      format.csv { send_data(cost_objects_to_csv(@cost_objects), type: 'text/csv; header=present', filename: 'export.csv') }
     end
   end
 
   def show
     @edit_allowed = User.current.allowed_to?(:edit_cost_objects, @project)
     respond_to do |format|
-      format.html { render action: 'show', layout: !request.xhr?  }
+      format.html { render action: 'show', layout: !request.xhr? }
     end
   end
 
@@ -128,7 +131,7 @@ class CostObjectsController < ApplicationController
 
       flash[:notice] = t(:notice_successful_create)
       redirect_to(params[:continue] ? { action: 'new' } :
-                                      { action: 'show', id: @cost_object })
+                      { action: 'show', id: @cost_object })
       return
     else
       render action: 'new', layout: !request.xhr?
@@ -151,10 +154,10 @@ class CostObjectsController < ApplicationController
     params[:cost_object].delete(:kind)
     @cost_object.attributes = permitted_params.cost_object if params[:cost_object]
     if params[:cost_object][:existing_material_budget_item_attributes].nil?
-      @cost_object.existing_material_budget_item_attributes=({})
+      @cost_object.existing_material_budget_item_attributes = ({})
     end
     if params[:cost_object][:existing_labor_budget_item_attributes].nil?
-      @cost_object.existing_labor_budget_item_attributes=({})
+      @cost_object.existing_labor_budget_item_attributes = ({})
     end
 
     @cost_object.attach_files(permitted_params.attachments.to_h)
@@ -184,16 +187,23 @@ class CostObjectsController < ApplicationController
     cost_type = CostType.where(id: params[:cost_type_id]).first
 
     if cost_type && params[:units].present?
-      volume = BigDecimal.new(Rate.clean_currency(params[:units]))
+      volume = BigDecimal.new(Rate.clean_currency(params[:units])) rescue 0.0
       @costs = (volume * cost_type.rate_at(params[:fixed_date]).rate rescue 0.0)
       @unit = volume == 1.0 ? cost_type.unit : cost_type.unit_plural
     else
       @costs = 0.0
-      @unit = ''
+      @unit = cost_type.try(:unit_plural) || ''
+    end
+
+    response = { "#{@element_id}_unit_name" => h(@unit) }
+    if current_user.allowed_to?(:view_cost_rates, @project)
+      response["#{@element_id}_costs"] = number_to_currency(@costs)
     end
 
     respond_to do |format|
-      format.js { render :update_material_budget_item }
+      format.json do
+        render json: response
+      end
     end
   end
 
@@ -208,8 +218,15 @@ class CostObjectsController < ApplicationController
       @costs = 0.0
     end
 
+    response = { "#{@element_id}_unit_name" => h(@unit) }
+    if current_user.allowed_to?(:view_hourly_rates, @project)
+      response["#{@element_id}_costs"] = number_to_currency(@costs)
+    end
+
     respond_to do |format|
-      format.js { render :update_labor_budget_item }
+      format.json do
+        render json: response
+      end
     end
   end
 

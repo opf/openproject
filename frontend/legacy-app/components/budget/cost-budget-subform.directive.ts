@@ -87,9 +87,11 @@ export class CostBudgetSubformController {
       url: this.updateUrl,
       method: 'POST',
       data: request,
-      headers: { 'Accept': 'application/javascript' }
+      headers: { 'Accept': 'application/json' }
     }).then((response:any) => {
-      eval(response.data);
+      _.each(response.data, (val:string, selector:string) => {
+        jQuery('#' + selector).html(val);
+      });
     }).catch(response => {
       this.pluginContext.context!.services.wpNotifications.handleErrorResponse(response);
     });

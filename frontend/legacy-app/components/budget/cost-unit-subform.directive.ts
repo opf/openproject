@@ -32,6 +32,9 @@ export class CostUnitSubformController {
   public objName: string;
 
   constructor(public $element:ng.IAugmentedJQuery) {
+    this.objId = this.$element.attr('obj-id');
+    this.objName = this.$element.attr('obj-name');
+
     // Add new row handler
     $element.find('#'+this.objId).click(() => {
       this.makeEditable('#'+this.objId, this.objName);
@@ -96,8 +99,6 @@ function costUnitSubform():any {
   return {
     restrict: 'E',
     scope: {
-      objId: '@',
-      objName: '@'
     },
     bindToController: true,
     controller: CostUnitSubformController,

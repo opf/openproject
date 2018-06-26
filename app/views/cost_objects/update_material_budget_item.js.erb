@@ -1,7 +1,0 @@
-(function($) {
-  <% if current_user.allowed_to? :view_cost_rates, @project %>
-    $('#<%= "#{@element_id}_costs" %>').html("<%= number_to_currency(@costs) %>");
-  <% end %>
-
-  $('#<%= "#{@element_id}_unit_name" %>').html("<%= h(@unit) %>");
-})(jQuery);
