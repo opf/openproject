@@ -37,9 +37,7 @@ module PasswordHelper
     if password_confirmation_required?
       options.reverse_merge!(html: {})
       data = options[:html].fetch(:data, {})
-      data[:'request-for-confirmation'] = ''
-
-      options[:html][:data] = data
+      options[:html][:data] = password_confirmation_data_attribute(data)
     end
 
     form_for(record, options, &block)
@@ -51,12 +49,18 @@ module PasswordHelper
   def password_confirmation_form_tag(url_for_options = {}, options = {}, &block)
     if password_confirmation_required?
       data = options.fetch(:data, {})
-      data[:'request-for-confirmation'] = ''
-
-      options[:data] = data
+      options[:data] = password_confirmation_data_attribute(data)
     end
 
     form_tag(url_for_options, options, &block)
+  end
+
+  def password_confirmation_data_attribute(with_data = {})
+    if password_confirmation_required?
+      with_data.merge('request-for-confirmation': true)
+    else
+      with_data
+    end
   end
 
   def render_password_complexity_tooltip
