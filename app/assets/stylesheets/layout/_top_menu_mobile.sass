@@ -134,6 +134,8 @@
     .project-menu-autocomplete--results
       border-bottom: 2px solid $header-drop-down-border-color !important
 
+// Workaround on tablet and mobile to prevent an icon having the wrong color after touch
+// After the touch event the focus is still staying on this element (unlike a mouse hover)
 @media (max-device-width: 1400px)
   #main-menu-toggle
     &:hover

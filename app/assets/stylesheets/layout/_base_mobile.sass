@@ -30,10 +30,14 @@
   html
     min-width: 0 !important
 
-  body
-    overflow: auto !important
-    overflow-y: scroll /* has to be scroll, not auto */
+  body,
+  #main,
+  #content,
+  #content-wrapper
     -webkit-overflow-scrolling: touch
+    overflow: visible
+  .lock-screen
+      overflow: hidden !important
 
   #main,
   #content-wrapper
@@ -42,8 +46,6 @@
 
   #main
     height: initial !important
-    &:not(.hidden-navigation)
-      overflow-y: hidden !important
 
   #header
     min-width: 0 !important
@@ -78,7 +80,7 @@
     display: none
 
 // For mobile and tablet size
-@media (orientation: landscape) and (max-width: 820px) and (max-height: 500px)
+@media (orientation: landscape) and (max-width: 830px) and (max-height: 500px)
   body, main
     height: 100%
 

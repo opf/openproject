@@ -113,6 +113,8 @@ export class MainMenuToggleService {
 
   private addRemoveClassHidden() : void {
     this.hideElements.toggleClass('hidden-navigation', !this.showNavigation());
+    // Prevent scrolling of the content behind the menu, when the sidebar is expanded
+    jQuery('body').toggleClass('lock-screen', this.showNavigation());
   }
 
   public saveWidth(width?:number) : void {

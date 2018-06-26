@@ -192,15 +192,6 @@
     .form--field-container
       max-width: 400px
 
-.controller-work_packages.action-show,
-.controller-work_packages.action-details,
-.controller-work_packages.action-index
-  #main
-    overflow: overlay
-  #content-wrapper,
-  #content
-    overflow-y: auto
-
 @media only screen and (max-width: 42.4375em)
   .work-packages-list-view--container
     // Set  padding on left side
@@ -209,7 +200,20 @@
     > .toolbar-container
       padding-right: 0
 
-@media screen and (max-width: 830px)
+@media screen and (max-width:680px)
   .work-packages-page--ui-view,
   .work-packages-list-view--container
     min-height: calc(100vh - 55px)
+
+  .controller-work_packages.action-show,
+  .controller-work_packages.action-details,
+  .controller-work_packages.action-index
+    #main
+      overflow: overlay
+      &:not(.hidden-navigation)
+        overflow: hidden
+    #content-wrapper,
+    #content
+      overflow-y: auto
+      &:not(.hidden-navigation)
+        overflow: hidden
