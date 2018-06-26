@@ -30,12 +30,14 @@ import {ConfigurationService} from 'core-app/modules/common/config/configuration
 import {input, State} from 'reactivestates';
 import {Injectable} from '@angular/core';
 import {UploadInProgress} from "core-components/api/op-file-upload/op-file-upload.service";
+import {OpQueryConfigurationTriggerEvent} from "core-components/wp-table/external-configuration/external-query-configuration.constants";
 
 export function removeSuccessFlashMessages() {
   jQuery('.flash.notice').remove();
 }
 
 export type NotificationType = 'success'|'error'|'warning'|'info'|'upload';
+export const OPNotificationEvent = 'op:notifications:add';
 
 export interface INotification {
   message:string;
@@ -51,6 +53,11 @@ export class NotificationsService {
   private stack = input<INotification[]>([]);
 
   constructor(readonly configurationService:ConfigurationService) {
+    jQuery(window)
+      .on(OPNotificationEvent,
+        (event:JQueryEventObject, notification:INotification) => {
+          this.add(notification)
+        });
   }
 
   /**

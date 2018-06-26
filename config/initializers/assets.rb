@@ -18,6 +18,7 @@ OpenProject::Application.configure do
     locales/*.js
     members_form.js
     members_select_boxes.js
+    my_page.js
     new_user.js
     project/responsible_attribute.js
     project/description_handling.js
