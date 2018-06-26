@@ -47,3 +47,16 @@
 
 .progress-bar-legend
   font-size: 80%
+
+@include breakpoint(680px down)
+  #roadmap span
+    display: flex
+    flex-direction: row
+    align-items: flex-end
+
+  .progress-bar
+    width: 100% !important
+    flex: 1
+    
+  .progress-info
+    padding-top: 5px

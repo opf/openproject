@@ -109,7 +109,7 @@
         // Viewport minus #account-nav-right when logged out, which is
         // 165px, as this is the space for the long login text label: "Connexion" (French).
         // 36px is the padding around the project name.
-        max-width: calc(100vW - 165px - 36px - #{$hamburger-width + $hamburger-right})
+        max-width: calc(100vw - 160px - 22px)
         .nosidebar &
           max-width: calc(100vW - 165px - 36px)
     .drop-down
@@ -134,10 +134,11 @@
     .project-menu-autocomplete--results
       border-bottom: 2px solid $header-drop-down-border-color !important
 
-  #main-menu-toggle:hover
-    @include varprop(background, primary-color)
-    @include varprop(color, primary-color)
-
-  #main-menu-toggle:not(.-collapsed)
+@media (max-device-width: 1400px)
+  #main-menu-toggle
+    &:hover
+      @include varprop(background, header-bg-color)
+      @include varprop(color, header-bg-color)
+    &:not(.-collapsed)
       @include varprop(background, header-item-bg-hover-color)
       @include varprop(color, header-item-font-hover-color)

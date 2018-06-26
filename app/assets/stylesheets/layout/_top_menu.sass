@@ -330,17 +330,13 @@ input.top-menu-search--input
     @include varprop(font-size, header-item-font-size)
     text-decoration: none
     padding: 0 15px
+  &:not(.-collapsed)
+    @include varprop(background, header-item-bg-hover-color)
+  &:hover
+    @include varprop(background, header-item-bg-hover-color)
 
   .nosidebar &
     display: none
-
-#main-menu-toggle:not(.-collapsed)
-    @include varprop(background, header-item-bg-hover-color)
-    @include varprop(color, header-item-font-hover-color)
-
-#main-menu-toggle:hover
-    @include varprop(background, header-item-bg-hover-color)
-    @include varprop(color, header-item-font-hover-color)
 
 @media only screen and (max-width: 18.75rem)
   #logo

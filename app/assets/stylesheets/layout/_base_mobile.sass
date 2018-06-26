@@ -38,13 +38,12 @@
   #main,
   #content-wrapper
     padding-bottom: 0 !important
-    position: relative !important
-    top: 0 !important
     min-height: calc(100vH - #{$header-height-mobile})
 
   #main
     height: initial !important
-    overflow: auto !important
+    &:not(.hidden-navigation)
+      overflow-y: hidden !important
 
   #header
     min-width: 0 !important
@@ -53,12 +52,15 @@
     background: #fff !important
 
   #content-wrapper
-    height: 100% !important
     margin: 0 !important
     padding: 20px !important
     width: 100% !important
   #main-menu ~ #content-wrapper
-    padding: 2rem 15px 0 15px !important
+    padding: 0 15px 0 15px !important
+
+  #content
+    %absolute-layout-mode &
+      min-height: calc(100vh - 55px)
 
   #breadcrumb,
   #sidebar,
@@ -74,3 +76,11 @@
 @include breakpoint(680px up)
   .hidden-for-desktop
     display: none
+
+// For mobile and tablet size
+@media (orientation: landscape) and (max-width: 820px) and (max-height: 500px)
+  body, main
+    height: 100%
+
+  .main-menu--resizer
+    display: none !important

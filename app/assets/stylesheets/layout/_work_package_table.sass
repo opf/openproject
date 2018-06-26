@@ -48,7 +48,7 @@
 // This makes use of more specific rules overwriting less specific ones.
 // Per default, the height is always 100%
 .work-packages-page--ui-view
-  height: 100%
+  min-height: calc(100vh - 55px)
 
 .work-packages-list-view--container
   // Set  padding on left side
@@ -56,7 +56,7 @@
   // Flexbox for the toolbar, filters and work package split view
   display: flex
   flex-direction: column
-  height: 100%
+  min-height: calc(100vh - 55px)
 
   > .toolbar-container
     margin-top: 0.5rem
@@ -192,16 +192,14 @@
     .form--field-container
       max-width: 400px
 
-// Workaround to make the toolbar menu accessible even on very small screens
-@media screen and (max-height: 25em)
-  .controller-work_packages.action-show,
-  .controller-work_packages.action-details,
-  .controller-work_packages.action-index
-    #main
-      overflow: overlay
-    #content-wrapper,
-    #content
-      overflow-y: auto
+.controller-work_packages.action-show,
+.controller-work_packages.action-details,
+.controller-work_packages.action-index
+  #main
+    overflow: overlay
+  #content-wrapper,
+  #content
+    overflow-y: auto
 
 @media only screen and (max-width: 42.4375em)
   .work-packages-list-view--container
@@ -210,3 +208,8 @@
 
     > .toolbar-container
       padding-right: 0
+
+@media screen and (max-width: 830px)
+  .work-packages-page--ui-view,
+  .work-packages-list-view--container
+    min-height: calc(100vh - 55px)
