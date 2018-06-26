@@ -117,10 +117,14 @@
     "zone.js": "^0.8.26"
   },
   "scripts": {
+    "prebuild": "./scripts/link_plugin_placeholder.js",
+    "build": "ng build --prod && npm run legacy-webpack",
+    "preserve": "./scripts/link_plugin_placeholder.js",
     "serve": "ng serve",
+    "pretest": "./scripts/link_plugin_placeholder.js",
     "test": "ng test",
-    "tslint_typechecks": "tslint -p . -c tslint_typechecks.json",
     "posttest": "npm run tslint_typechecks",
+    "tslint_typechecks": "tslint -p . -c tslint_typechecks.json",
     "generate-typings": "tsc -d -p src/tsconfig.app.json",
     "legacy-webpack": "./node_modules/.bin/webpack --colors --config legacy/webpack.config.js",
     "legacy-webpack-watch": "RAILS_ENV=development ./node_modules/.bin/webpack --config legacy/webpack.config.js --display-error-details --watch --colors --cache --debug"
