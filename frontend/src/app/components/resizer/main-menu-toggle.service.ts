@@ -27,7 +27,7 @@
 // ++
 
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {BehaviorSubject} from 'rxjs';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Injectable()

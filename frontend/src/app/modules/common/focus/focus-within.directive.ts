@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {BehaviorSubject} from 'rxjs';
 import {auditTime, takeUntil} from 'rxjs/operators';
 import {Directive, ElementRef, Input, OnDestroy, OnInit} from "@angular/core";
 import {componentDestroyed} from "ng2-rx-componentdestroyed";

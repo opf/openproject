@@ -26,18 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Observable} from 'rxjs/Observable';
-import {zip} from 'rxjs/observable/zip';
-import {take, takeUntil} from 'rxjs/operators';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {Observable, zip} from 'rxjs';
+import {take, takeUntil} from 'rxjs/operators';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {RelatedWorkPackagesGroup} from './wp-relations.interfaces';
 import {RelationsStateValue, WorkPackageRelationsService} from './wp-relations.service';
-import {Component, Inject, Input, OnDestroy, OnInit} from "@angular/core";
-
-import {componentDestroyed} from "ng2-rx-componentdestroyed";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 
 @Component({

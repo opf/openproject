@@ -28,7 +28,7 @@
 
 import {ChangeDetectorRef, Component, ElementRef, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {distinctUntilChanged} from 'rxjs/operators';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {MainMenuToggleService} from "core-components/resizer/main-menu-toggle.service";
 
