@@ -34,12 +34,14 @@ function remoteFieldUpdater($http:ng.IHttpService) {
     restrict: 'E',
     scope: {
       url: '@',
+      mode: '@',
       method: '@'
     },
     link: (scope:any, element:ng.IAugmentedJQuery) => {
       const input = element.find('.remote-field--input');
       const target = element.find('.remote-field--target');
       const method = (scope.method || 'GET').toUpperCase();
+      const json = (scope.mode || 'html') === 'json';
 
       function buildRequest(params:any) {
         const request:any = {
@@ -49,7 +51,11 @@ function remoteFieldUpdater($http:ng.IHttpService) {
         };
 
         // In HTML mode, expect html response
-        request.headers['Accept'] = 'text/html';
+        if (json) {
+          request.headers['Accept'] = 'application/json';
+        } else {
+          request.headers['Accept'] = 'text/html';
+        }
 
         // Append request to either URL params or body
         // Angular doesn't differentiate between those two on its own.
@@ -72,8 +78,14 @@ function remoteFieldUpdater($http:ng.IHttpService) {
         });
 
         $http(buildRequest(params)).then((response:any) => {
-          // Replace the given target
-          target.html(response.data);
+          if (json) {
+            _.each(response.data, (val:string, selector:string) => {
+              jQuery('#' + selector).html(val);
+            });
+          } else {
+            // Replace the given target
+            target.html(response.data);
+          }
         });
       }
 
