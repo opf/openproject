@@ -30,6 +30,6 @@
 
 module OpenProject
   module DefaultWpQueries
-    GANTT = '{"tv":true}'.freeze
+    GANTT = '{"tv":true,"hi":true}'.freeze
   end
 end
