@@ -66,6 +66,10 @@ export class CostsByTypeDisplayField extends DisplayField {
         }
     }
 
+    public get title() {
+        return '';
+    }
+
     public render(element:HTMLElement, displayText:string):void {
         const showCosts = this.resource.showCosts;
         if (this.isEmpty() || !showCosts) {

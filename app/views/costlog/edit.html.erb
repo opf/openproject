@@ -32,6 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 <%= activate_angular_js do %>
 <remote-field-updater url="<%= url_for(controller: :cost_objects, action: :update_material_budget_item, project_id: @cost_entry.project) %>"
+                      mode="json"
                       method="POST">
 <%= labelled_tabular_form_for @cost_entry, url: url, html: { method: method } do |f| %>
     <%= error_messages_for 'cost_entry' %>
@@ -108,7 +109,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
           <cost-unit-subform obj-id="cost_entry_costs" obj-name="cost_entry[overridden_costs]">
             <% if User.current.allowed_to? :view_cost_rates, @cost_entry.project %>
               <a href="#" id="cost_entry_costs" class="icon-context icon-edit" title="<%= t(:help_click_to_edit) %>">
-                <%= number_to_currency(@cost_entry.calculated_costs) %>
+                <%= number_to_currency(@cost_entry.real_costs) %>
               </a>
             <% else %>
               <span id="cost_entry_costs_editor" class="form--text-field-container">
