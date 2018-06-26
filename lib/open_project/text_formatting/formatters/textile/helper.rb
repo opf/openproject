@@ -67,10 +67,6 @@ module OpenProject::TextFormatting::Formatters
 
         ''.html_safe
       end
-
-      def self.initial_page_content(page)
-        "h1. #{page.title}"
-      end
     end
   end
 end

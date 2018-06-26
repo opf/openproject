@@ -165,7 +165,6 @@ class WikiController < ApplicationController
     @page.content = WikiContent.new(page: @page) if @page.new_record?
 
     @content = @page.content_for_version(params[:version])
-    @content.text = initial_page_content(@page) if @content.text.blank?
     # don't keep previous comment
     @content.comments = nil
 
@@ -184,7 +183,6 @@ class WikiController < ApplicationController
     @page.content = WikiContent.new(page: @page) if @page.new_record?
 
     @content = @page.content_for_version(params[:version])
-    @content.text = initial_page_content(@page) if @content.text.blank?
     # don't keep previous comment
     @content.comments = nil
     @page.attach_files(permitted_params.attachments.to_h)
@@ -427,18 +425,11 @@ class WikiController < ApplicationController
     @page.content = WikiContent.new page: @page
 
     @content = @page.content_for_version nil
-    @content.text = initial_page_content @page
   end
 
   # Returns true if the current user is allowed to edit the page, otherwise false
   def editable?(page = @page)
     page.editable_by?(User.current)
-  end
-
-  # Returns the default content of a new wiki page
-  def initial_page_content(page)
-    helper = OpenProject::TextFormatting::Formatters.helper_for(Setting.text_formatting)
-    helper.initial_page_content page
   end
 
   def load_pages_for_index
