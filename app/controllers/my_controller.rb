@@ -181,7 +181,7 @@ class MyController < ApplicationController
   # Add a block to the user's page at the top.
   # params[:block] : id of the block to add
   #
-  # Responds with a JS layout.
+  # Responds with a HTML block.
   def add_block
     @block = params[:block].to_s.underscore
 
@@ -202,6 +202,8 @@ class MyController < ApplicationController
     # Save user preference.
     @user.pref[:my_page_layout] = layout
     @user.pref.save
+
+    render layout: false
   end
 
   # Remove a block from the user's `my` page.
@@ -219,6 +221,8 @@ class MyController < ApplicationController
     # Save user preference.
     @user.pref[:my_page_layout] = layout
     @user.pref.save
+
+    head 200, content_type: "text/html"
   end
 
   def order_blocks

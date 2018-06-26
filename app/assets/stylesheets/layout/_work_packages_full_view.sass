@@ -103,11 +103,14 @@ body.controller-work_packages.full-create
 .work-packages-full-view--split-left
   border-right: 1px solid #ccc
   overflow-y: auto
-  overflow-x: auto
-  width: 60%
+  overflow-x: hidden
+  flex: 2
+  position: relative
+  min-width: 360px
 
   .work-packages--panel-inner
     padding: 5px 15px 20px 0px
+    width: 100%
 
     // These styles were taken over from the details tab styling.
     // Thus the header and the details tab can be aligned on the same line.
@@ -121,14 +124,16 @@ body.controller-work_packages.full-create
           line-height: $work-package-details--tab-height - 10px
 
 .work-packages-full-view--split-right
-  min-width: 420px
+  min-width: 480px
   overflow-y: auto
   overflow-x: auto
-  width: calc(40% + 15px)
-  margin-right: -15px
+  position: relative
 
   .work-packages--panel-inner
-    padding: 15px 15px 0px 15px
+    position: absolute
+    display: inline-block
+    padding: 15px 15px 0px 0px
+    width: calc(100% - 18px)
 
   .work-package-details-activities-activity-contents ul
     padding-left: 2em
@@ -139,6 +144,19 @@ body.controller-work_packages.full-create
   .button.icon-edit.ng-hide
     display: block !important
     visibility: hidden
+
+.work-packages-full-view--resizer
+  position: sticky
+  top: 0
+  bottom: 0
+  height: 100%
+  width: 18px
+  display: inline-block
+  .work-packages--resizer
+    left: -2px
+    width: 18px
+    &::before
+      left: 0
 
 .nosidebar
   ul.subject-header

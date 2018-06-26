@@ -34,28 +34,29 @@
   // Our application is still a hybrid one, meaning most routes are still
   // handled by Rails. As such, we disable the default link-hijacking that
   // Angular's HTML5-mode turns on.
-  $(document.body)
-    .off('click')
-    // Prevent angular handling clicks on href="#..." links from other libraries
-    // (especially jquery-ui and its datepicker) from routing to <base url>/#
-    .on('click', 'a[href^="#"]', (evt) => {
-      evt.preventDefault();
+  $(function() {
+    $(document.body)
+      .off('click')
+      // Prevent angular handling clicks on href="#..." links from other libraries
+      // (especially jquery-ui and its datepicker) from routing to <base url>/#
+      .on('click', 'a[href^="#"]', (evt) => {
+        evt.preventDefault();
 
-      // Set the location to the hash if there is any
-      // Since with the base tag, links like href="#whatever" otherwise target to <base>/#whatever
-      const link = evt.target.getAttribute('href');
-      if (link && link !== '#') {
-        window.location.hash = link;
-      }
+        // Set the location to the hash if there is any
+        // Since with the base tag, links like href="#whatever" otherwise target to <base>/#whatever
+        const link = evt.target.getAttribute('href');
+        if (link && link !== '#') {
+          window.location.hash = link;
+        }
 
-      return false;
-    });
+        return false;
+      });
 
-  // Disable global drag & drop handling, which results in the browser loading the image and losing the page
-  $(document.documentElement)
-    .on('dragover drop', (evt:JQueryEventObject) => {
-      evt.preventDefault();
-      return false;
-    });
-
+    // Disable global drag & drop handling, which results in the browser loading the image and losing the page
+    $(document.documentElement)
+      .on('dragover drop', (evt:JQueryEventObject) => {
+        evt.preventDefault();
+        return false;
+      });
+  });
 }(jQuery));

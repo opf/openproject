@@ -26,45 +26,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= nonced_javascript_tag do %>
-  jQuery(document).ready(function($) {
-    // Canonical list of containers that will exchange draggable elements.
-    var containers = jQuery('.dragula-container').toArray();
-    var drake = dragula(containers);
-
-    // On 'el' drop, we fire an Ajax request to persist the order chosen by
-    // the user. Actual ordering details are handled on the server.
-    drake.on('drop', function(el, target, source, sibling){
-      var url = "<%= my_order_blocks_url %>";
-
-      // Array of target ordered children after this drop.
-      var target_ordered_children = jQuery(target).find('.block-wrapper').map(function(){
-        return jQuery(this).data('name');
-      }).get();
-
-      // Array of source ordered children after this drop.
-      var source_ordered_children = jQuery(source).find('.block-wrapper').map(function(){
-        return jQuery(this).data('name');
-      }).get();
-
-      // We send the source, target, and the new order of the children in both
-      // containers to the server.
-      jQuery.ajax({
-        url: url,
-        type: 'POST',
-        data: {
-          target: jQuery(target).attr('id'),
-          source: jQuery(source).attr('id'),
-          target_ordered_children: target_ordered_children,
-          source_ordered_children: source_ordered_children
-        }
-      });
-    });
-  });
-<% end %>
+<%= javascript_include_tag 'my_page' %>
 
 <%= toolbar title: l(:label_my_page) do %>
-  <%= styled_form_tag({ action: "add_block" }, remote: true) do %>
+  <%= styled_form_tag({ action: "add_block" }, class: 'my-page--block-form') do %>
     <% options = "<option>--#{t(:button_add)}--</option>"
                   .html_safe
                   .concat(options_for_select(@block_options)) %>

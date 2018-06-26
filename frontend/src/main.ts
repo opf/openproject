@@ -9,7 +9,6 @@ import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 
 require('./app/init-vendors');
 require('./app/init-globals');
-// require('./app/bootstrap');
 
 
 if (environment.production) {

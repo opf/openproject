@@ -33,7 +33,7 @@ require 'open_project/assets'
 # Otherwise Sprockets cannot find the files that webpack produces.
 Rake::Task['assets:precompile']
   .clear_prerequisites
-  .enhance(['assets:compile_environment', 'assets:prepare_op'])
+  .enhance(%w[ assets:compile_environment assets:prepare_op])
 
 namespace :assets do
   # In this task, set prerequisites for the assets:precompile task
@@ -42,7 +42,7 @@ namespace :assets do
   end
 
   desc 'Prepare locales and angular assets'
-  task prepare_op: [:angular, :export_locales]
+  task prepare_op: ['openproject:plugins:register_frontend', :angular, :export_locales]
 
   desc 'Compile assets with webpack'
   task :angular do
@@ -50,14 +50,7 @@ namespace :assets do
 
     puts "Building angular frontend"
     Dir.chdir Rails.root.join('frontend') do
-      sh '$(npm bin)/ng build --prod' do |ok, res|
-        raise "Failed to compile angular frontend: #{res.exitstatus}" if !ok
-      end
-    end
-
-    puts "Building legacy frontend"
-    Dir.chdir Rails.root.join('frontend') do
-      sh 'npm run legacy-webpack' do |ok, res|
+      sh 'npm run build' do |ok, res|
         raise "Failed to compile angular frontend: #{res.exitstatus}" if !ok
       end
     end

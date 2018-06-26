@@ -26,6 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
+$table-timeline--compact-row-height: 28px
+
 // Disable CSS containment in the embedded container
 // unless we're setting an external height with overflow, containment will not work.
 .work-packages-embedded-view--container
@@ -48,7 +50,6 @@
     .generic-table--sort-header
       font-size: 12px
 
-
   &.-compact-tables
     .wp-table--row
       border-bottom: none !important
@@ -56,14 +57,23 @@
         @include varprop(background-color, table-row-highlighting-color)
 
     .generic-table--sort-header-outer
-      line-height: 28px
-      height: 28px
+      line-height: $table-timeline--compact-row-height
+      height: $table-timeline--compact-row-height
       border-bottom: none
 
     .wp-table--cell-td
-      height: 28px !important
+      height: $table-timeline--compact-row-height !important
       padding-top: 2px
       padding-bottom: 2px
+
+    // Fix inline create heights
+    .wp-inline-create--add-link
+      height: $table-timeline--compact-row-height
+      padding: 0
+      line-height: 2
+
+    .wp-inline-create-button-td
+      vertical-align: top
 
     // Disable default padding when hierarchies are disabled
     &.-hierarchy-disabled

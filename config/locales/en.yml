@@ -1226,7 +1226,9 @@ en:
   label_folder: "Folder"
   label_follows: "follows"
   label_force_user_language_to_default: "Set language of users having a non allowed language to default"
-  label_form_configuration: Form configuration
+  label_form_configuration: "Form configuration"
+  label_gantt: "Gantt"
+  label_gantt_chart: "Gantt chart"
   label_general: "General"
   label_generate_key: "Generate a key"
   label_git_path: "Path to .git directory"
@@ -2067,6 +2069,9 @@ en:
     passwords: "Passwords"
     session: "Session"
     brute_force_prevention: "Automated user blocking"
+    user:
+      default_preferences: "Default preferences"
+      deletion: "Deletion"
 
   text_formatting:
     textile: 'Textile'

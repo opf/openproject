@@ -69,7 +69,7 @@ class UserPreference < ActiveRecord::Base
   end
 
   def auto_hide_popups?
-    others[:auto_hide_popups] || false
+    others.fetch(:auto_hide_popups) { Setting.default_auto_hide_popups? }
   end
 
   def warn_on_leaving_unsaved?

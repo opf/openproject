@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {downgradeComponent} from '@angular/upgrade/static';
 import {Component, OnDestroy} from '@angular/core';
 import {INotification, NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';

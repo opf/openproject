@@ -50,7 +50,7 @@ export class AutocompleteSelectDecorationComponent {
 
   constructor(private $element:ng.IAugmentedJQuery,
               private $scope:ng.IScope) {
-    window.OpenProject.pluginContext.valuesPromise().then((context) => {
+    window.OpenProject.getPluginContext().then((context) => {
       this.i18n = context.services.i18n;
 
       this.setDomElements();

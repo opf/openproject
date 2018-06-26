@@ -1,14 +1,14 @@
-#!/usr/bin/env ruby
-#
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -25,36 +25,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'bundler'
-require 'json'
-
-DEFAULT_GROUPS  = [:opf_plugins]
-DEFAULT_GEMFILE = File.expand_path('../../Gemfile', __FILE__)
-
-def plugin_names(gemfile = DEFAULT_GEMFILE)
-  bundler_groups = ENV['BUNDLER_GROUPS']
-  groups = bundler_groups.split(',').each_with_object([]) { |group, l| l << group.to_sym } if bundler_groups
-  groups = DEFAULT_GROUPS if groups.nil?
-
-  gems = Bundler::Dsl.evaluate(gemfile, 'foo', true)
-
-  gems.dependencies.each_with_object({}) do |dep, l|
-    l[dep.name] = dep.inspect if (groups & dep.groups).any?
+module OpenProject
+  module DefaultWpQueries
+    GANTT = '{"tv":true}'.freeze
   end
 end
-
-def plugin_name_paths
-  op_dep = plugin_names
-
-  Bundler.load.specs.each_with_object({}) do |spec, h|
-    if op_dep.include?(spec.name)
-      options = spec.source.options
-      h[spec.name] = spec.full_gem_path
-    end
-  end
-end
-
-puts JSON.generate(plugin_name_paths)

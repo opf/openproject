@@ -34,7 +34,7 @@ See docs/COPYRIGHT.rdoc for more details.
       url: user_path(@user),
       html: {
           method: :delete, class: 'confirm_required form danger-zone',
-          data: { :'request-for-confirmation' => '' }
+          data: password_confirmation_data_attribute
       }) do %>
     <div class='wiki'>
       <section class="form--section">
