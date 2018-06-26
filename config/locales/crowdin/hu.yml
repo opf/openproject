@@ -1272,6 +1272,8 @@ hu:
   label_force_user_language_to_default: Nyelv beállitása a felhasználóknak, amelyeknél
     nem az alapértelmezett nyelv az elfogadott
   label_form_configuration: Űrlap konfiguráció
+  label_gantt: Gantt
+  label_gantt_chart: Gantt-diagram
   label_general: Általános
   label_generate_key: Létrehoz egy kulcsot
   label_git_path: ".Git könyvtár elérési útja"
@@ -2178,6 +2180,9 @@ hu:
     passwords: Jelszavak
     session: Munkamenet
     brute_force_prevention: Felhasználó automatikus blokkolása
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown

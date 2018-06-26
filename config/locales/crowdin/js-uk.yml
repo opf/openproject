@@ -55,6 +55,8 @@ uk:
     description_subwork_package: 'Нащадок пакету робіт #%{id}'
     error:
       internal: Сталася внутрішня помилка.
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
       query_saving: The query could not be saved.
     filter:
       description:

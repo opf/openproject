@@ -54,6 +54,8 @@ ko:
     description_subwork_package: '작업 패키지 #%{id}의 자식'
     error:
       internal: 내부 오류가 발생하였습니다.
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
       query_saving: The query could not be saved.
     filter:
       description:

@@ -1299,6 +1299,8 @@ pl:
   label_force_user_language_to_default: Ustaw język domyślny dla użytkowników o innych
     ustawieniach językowych niż dozwolone
   label_form_configuration: Konfiguracja formularza
+  label_gantt: Gantt
+  label_gantt_chart: Wykres Gantta
   label_general: Ogólne
   label_generate_key: Generuj klucz
   label_git_path: Ścieżka do katalogu .git
@@ -2228,6 +2230,9 @@ pl:
     passwords: Hasła
     session: Sesja
     brute_force_prevention: Automatyczne blokowanie użytkowników
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown

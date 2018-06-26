@@ -1298,6 +1298,8 @@ lt:
   label_force_user_language_to_default: Nustatyti numatytąją kalbą vartotojams, kurie
     nurodo, sistemoje nežinomą kalbą
   label_form_configuration: Formos konfigūracija
+  label_gantt: Gantt
+  label_gantt_chart: Ganto grafikas
   label_general: Bendra
   label_generate_key: Generuoti raktą
   label_git_path: Kelias į .git aplanką
@@ -2234,6 +2236,9 @@ lt:
     passwords: Slaptažodžiai
     session: Sesija
     brute_force_prevention: Automatinis vartotojų blokavimas
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown

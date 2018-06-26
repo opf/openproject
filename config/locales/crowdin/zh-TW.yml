@@ -1180,6 +1180,8 @@ zh-TW:
   label_follows: 關注
   label_force_user_language_to_default: 設置使用者使用預設語言
   label_form_configuration: 表單設置
+  label_gantt: Gantt
+  label_gantt_chart: 甘特圖
   label_general: 一般
   label_generate_key: 產生一個金鑰
   label_git_path: ".git 目錄的路徑"
@@ -2006,6 +2008,9 @@ zh-TW:
     passwords: 密碼
     session: Session
     brute_force_prevention: 自動禁止使用者
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: 紡織
     markdown: Markdown

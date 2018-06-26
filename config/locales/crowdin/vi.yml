@@ -1268,6 +1268,8 @@ vi:
   label_force_user_language_to_default: Có một ngôn ngữ không được cho phép để mặc
     định trong thiết lập ngôn ngữ cho người sử dụng
   label_form_configuration: Mẫu cấu hình
+  label_gantt: Gantt
+  label_gantt_chart: Gantt chart
   label_general: Tổng quan
   label_generate_key: Tạo khóa
   label_git_path: Đường dẫn đến thư mục .git
@@ -2170,6 +2172,9 @@ vi:
     passwords: Passwords
     session: Session
     brute_force_prevention: Automated user blocking
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown

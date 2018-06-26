@@ -55,6 +55,8 @@ ca:
     description_subwork_package: 'Fill del paquet de treball #%{id}'
     error:
       internal: S'ha produït un error intern.
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
       query_saving: The query could not be saved.
     filter:
       description:

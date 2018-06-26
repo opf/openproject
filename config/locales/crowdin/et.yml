@@ -1268,6 +1268,8 @@ et:
   label_force_user_language_to_default: Sea keel kasutajatele, kellel on vaikimisi
     keeleks valitud mittelubatud keel
   label_form_configuration: Form configuration
+  label_gantt: Gantt
+  label_gantt_chart: Gantt chart
   label_general: Üldine
   label_generate_key: Genereeri võti
   label_git_path: Tee .git kataloog
@@ -2163,6 +2165,9 @@ et:
     passwords: Paroolid
     session: Seanss
     brute_force_prevention: Automatiseeritud kasutajate blokeerimine
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown

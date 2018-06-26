@@ -55,6 +55,8 @@ de:
     description_subwork_package: 'Kind von Arbeitspaket #%{id}'
     error:
       internal: Ein interner Fehler ist aufgetreten.
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
       query_saving: Die Abfrage konnte nicht gespeichert werden.
     filter:
       description:

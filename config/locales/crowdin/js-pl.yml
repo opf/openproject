@@ -55,6 +55,8 @@ pl:
     description_subwork_package: 'Otwórz zadanie-dziecko #%{id}'
     error:
       internal: Wystąpił błąd wewnętrzny.
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
       query_saving: The query could not be saved.
     filter:
       description:

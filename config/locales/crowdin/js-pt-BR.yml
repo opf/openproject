@@ -55,6 +55,8 @@ pt-BR:
     description_subwork_package: 'Filho do pacote de trabalho #%{id}'
     error:
       internal: Ocorreu um erro interno.
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
       query_saving: A consulta não pôde ser salva.
     filter:
       description:

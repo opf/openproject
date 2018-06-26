@@ -55,6 +55,8 @@ fr:
     description_subwork_package: 'Enfant du lot de travaux #%{id}'
     error:
       internal: Une erreur interne s'est produite.
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
       query_saving: The query could not be saved.
     filter:
       description:

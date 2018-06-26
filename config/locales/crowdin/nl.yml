@@ -325,7 +325,7 @@ nl:
         expires_at: Verloopt op
         subscriber: Abonnee
         encoded_token: Enterprise ondersteuningstoken
-        active_user_count_restriction: Maximum active users
+        active_user_count_restriction: Maximum aantal actieve gebruikers
       relation:
         delay: Vertraging
         from: Werkpakket
@@ -378,7 +378,7 @@ nl:
         mail_notification: E-mailnotificaties
         new_password: Nieuw wachtwoord
         password_confirmation: Bevestiging
-        consented_at: Consented at
+        consented_at: Ingestemd op
       user_preference:
         comments_sorting: Toon reacties
         hide_mail: Verberg mijn e-mailadres
@@ -1285,6 +1285,8 @@ nl:
   label_force_user_language_to_default: Taal van gebruikers met een niet toegestane
     taal op standaard instellen
   label_form_configuration: Formulierconfiguratie
+  label_gantt: Gantt
+  label_gantt_chart: Gantt-grafiek
   label_general: Algemeen
   label_generate_key: Genereren van een sleutel
   label_git_path: Pad naar .git map
@@ -2208,6 +2210,9 @@ nl:
     passwords: Wachtwoorden
     session: Sessie
     brute_force_prevention: Automatische gebruiker blokkering
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown

@@ -1275,6 +1275,8 @@ af:
   label_force_user_language_to_default: Stel taal van gebruikers wat 'n nie-toegelate
     taal gebruik na verstektaal
   label_form_configuration: Vorm konfigurasie
+  label_gantt: Gantt
+  label_gantt_chart: Gantt chart
   label_general: Algemeen
   label_generate_key: Genereer 'n sleutel
   label_git_path: Pad na .git gids
@@ -2177,6 +2179,9 @@ af:
     passwords: Passwords
     session: Session
     brute_force_prevention: Automated user blocking
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown

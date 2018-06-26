@@ -251,10 +251,10 @@ cs:
           become a user of this application again, you can do so by using the means
           this application grants.
       login_verification:
-        other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be asked to confirm your password.
-        self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be asked to confirm your password.
+        other: Zadejte přihlašovací jméno %{name} k potvrzení odstranění. Poté budete
+          požádáni o potvrzení Vaším heslem.
+        self: Zadejte Vaše přihlašovací jméno %{name} k potvrzení odstranění. Poté
+          budete požádáni o potvrzení Vaším heslem.
     error_inactive_activation_by_mail: 'Váš účet nebyl dosud aktivován. Chcete-li
       aktivovat váš účet, klepněte na odkaz, který vám byl zaslán e-mailem.
 
@@ -320,7 +320,7 @@ cs:
         expires_at: Vyprší za
         subscriber: Odběratel
         encoded_token: Enterprise support token
-        active_user_count_restriction: Maximum active users
+        active_user_count_restriction: Maximální počet aktivních uživatelů
       relation:
         delay: Zpoždění
         from: Pracovní balíček
@@ -373,7 +373,7 @@ cs:
         mail_notification: E-mailová upozornění
         new_password: Nové heslo
         password_confirmation: Potvrzení
-        consented_at: Consented at
+        consented_at: Souhlas udělen
       user_preference:
         comments_sorting: Zobrazit komentáře
         hide_mail: Skrýt svou e-mailovou adresu
@@ -456,7 +456,7 @@ cs:
         before_or_equal_to: musí být před nebo rovno %{date}.
         could_not_be_copied: nelze (celé) zkopírovat.
         regex_invalid: could not be validated with the associated regular expression.
-        unchangeable: cannot be changed.
+        unchangeable: nelze změnit.
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
@@ -722,7 +722,7 @@ cs:
   button_unlock: Odemknout
   button_unwatch: Přestat sledovat
   button_update: Aktualizovat
-  button_upgrade: Upgrade
+  button_upgrade: Upgradovat
   button_upload: Nahrát
   button_view: Zobrazit
   button_watch: Sledovat
@@ -1299,6 +1299,8 @@ cs:
   label_force_user_language_to_default: Set language of users having a non allowed
     language to default
   label_form_configuration: Form configuration
+  label_gantt: Gantt
+  label_gantt_chart: Gantt chart
   label_general: Obecné
   label_generate_key: Generovat klíč
   label_git_path: Cesta ke složce .git
@@ -2115,9 +2117,9 @@ cs:
   setting_commit_logtime_activity_id: Aktivita pro odpracovaný čas
   setting_commit_logtime_enabled: Povolit zaznamenávání času
   setting_commit_ref_keywords: Referencing keywords
-  setting_consent_time: Consent time
+  setting_consent_time: Čas souhlasu
   setting_consent_info: Consent information text
-  setting_consent_required: Consent required
+  setting_consent_required: Souhlas vyžadován
   setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: Allow cross-project work package relations
   setting_date_format: Formát data
@@ -2212,6 +2214,9 @@ cs:
     passwords: Hesla
     session: Relace
     brute_force_prevention: Automated user blocking
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textil
     markdown: Zmenšení
@@ -2567,7 +2572,7 @@ cs:
       years: Roky
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
-  title_enterprise_upgrade: Upgrade to unlock more users.
+  title_enterprise_upgrade: Upgradujte pro odemčení více uživatelů.
   tooltip_user_default_timezone: 'Výchozí časové pásmo pro nové uživatele. Lze změnit
     v nastavení uživatele.
 
@@ -2640,8 +2645,8 @@ cs:
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Varování
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
-  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
-    to allow for additional users.
+  warning_user_limit_reached: Dosažel limit počtu uživatelů. Prosím <a href="%{upgrade_url}">upgradujte</a>
+    pro přidání více uživatelů.
   warning_registration_token_expired: 'Platnost aktivačního emailu vypršela. Poslali
     jsme vám nový %{email}. Klikněte prosím na odkaz uvnitř pro aktivaci vašeho účtu.
 

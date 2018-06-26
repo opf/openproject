@@ -1266,6 +1266,8 @@
   label_force_user_language_to_default: Sett språk for brukere som har et ikke-tillatt
     språk som standard
   label_form_configuration: Skjema konfigurering
+  label_gantt: Gantt
+  label_gantt_chart: Gantt chart
   label_general: Generell
   label_generate_key: Genererer en nøkkel
   label_git_path: Sti til .git-mappe
@@ -2165,6 +2167,9 @@
     passwords: Passord
     session: Sesjon
     brute_force_prevention: Automatisk blokkering av brukere
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown

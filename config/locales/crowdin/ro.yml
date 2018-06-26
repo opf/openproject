@@ -1291,6 +1291,8 @@ ro:
   label_force_user_language_to_default: Setare limbă pentru utilizatorii care au o
     limbă implicită nepermisă
   label_form_configuration: Configurarea formularului
+  label_gantt: Gantt
+  label_gantt_chart: Gantt chart
   label_general: General
   label_generate_key: Generare cheie
   label_git_path: Calea catre directorul .git
@@ -2219,6 +2221,9 @@ ro:
     passwords: Parole
     session: Sesiune
     brute_force_prevention: Blocare automată a utilizatorilor
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown

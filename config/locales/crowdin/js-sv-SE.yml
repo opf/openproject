@@ -55,6 +55,8 @@ sv-SE:
     description_subwork_package: 'Barn till arbetspaket #%{id}'
     error:
       internal: Ett internt fel har inträffat.
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
       query_saving: The query could not be saved.
     filter:
       description:

@@ -55,6 +55,8 @@ lt:
     description_subwork_package: 'Darbų paketo vaikas #%{id}'
     error:
       internal: Įvyko vidinė klaida.
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
       query_saving: The query could not be saved.
     filter:
       description:
