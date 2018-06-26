@@ -39,6 +39,9 @@ dependencies installed via npm (i.e. `npm install`).
 You can run all frontend tests with the standard npm command:
 
     npm test
+    
+
+[For more information, check out the frontend guides](https://github.com/opf/openproject/blob/dev/frontend/doc/README.md).
 
 ## Rails backend and integration tests
 
@@ -234,8 +237,23 @@ on a machine with 8 parallel instances.
 ## Manual acceptance tests
 
 * Sometimes you want to test things manually. Always remember: If you test something more than once, write an automated test for it.
-* Assuming you do not have a version of Internet Explorer already installed on your computer, you can grab a VM with preinstalled IE's directly from Microsoft: http://www.modern.ie/en-us/virtualization-tools#downloads
+* Assuming you do not have a version of Edge already installed on your computer, you can grab a VM with preinstalled IE's directly from Microsoft: http://www.modern.ie/en-us/virtualization-tools#downloads
 
+If you want to access the development server of OpenProject from a VM,
+you need to work around the CSP `localhost` restrictions.
+
+One way is to disable the Angular CLI that serves some of the assets when developing. To do that, run
+
+```bash
+
+# Precompile the application
+./bin/rails assets:precompile
+
+# Start the application server while disabling the CLI asset host 
+OPENPROJECT_CLI_PROXY='' ./bin/rails s -b 0.0.0.0 -p 3000
+```
+
+Now assuming networking is set up in your VM, you can access your app server on `<your local ip>:3000` from it.
 
 ## Legacy LDAP tests
 
