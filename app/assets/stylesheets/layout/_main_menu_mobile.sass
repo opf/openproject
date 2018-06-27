@@ -29,12 +29,14 @@
 @include breakpoint(680px down)
 
   .main-menu
+    min-height: 100%
+    height: 100%
     position: fixed !important
-    min-height: 0
+    top: 0
+    padding-top: 55px
     z-index: 11
-    border-bottom: 1px solid $main-menu-border-color
+    overflow: scroll !important
     width: calc(100% - 60px)
-    height: 100vh !important
     border: none
     -webkit-box-shadow: 1px 0px 10px #aaaaaa
     -moz-box-shadow: 1px 0px 10px #aaaaaa
