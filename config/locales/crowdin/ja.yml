@@ -1,0 +1,9 @@
+ja:
+  error_can_not_be_assigned: このユーザーに役割を割り当てることはできません
+  global_roles: グローバルロール
+  label_role_type: 種別
+  label_member_role: プロジェクトの役割
+  label_global_role: グローバルロール
+  label_not_changeable: '（変更不可）'
+  label_no_assignable_role: 割り当てに使用できるグローバルロールはありません
+  label_global: 全般
