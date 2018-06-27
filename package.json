@@ -6,7 +6,7 @@
     "test": "cd frontend && npm test && cd ..",
     "tslint_typechecks": "cd frontend && npm run tslint_typechecks && cd ..",
     "serve": "cd frontend && npm run serve",
-    "legacy-webpack": "cd frontend && npm run webpack && cd ..",
+    "legacy-webpack": "cd frontend && npm run legacy-webpack && cd ..",
     "legacy-webpack-watch": "cd frontend && npm run legacy-webpack-watch"
   },
   "private": true,
