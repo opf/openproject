@@ -308,7 +308,7 @@ nl:
         expires_at: Verloopt op
         subscriber: Abonnee
         encoded_token: Enterprise ondersteuningstoken
-        active_user_count_restriction: Maximum active users
+        active_user_count_restriction: Maximum aantal actieve gebruikers
       relation:
         delay: Vertraging
         from: Werkpakket
@@ -361,7 +361,7 @@ nl:
         mail_notification: E-mailnotificaties
         new_password: Nieuw wachtwoord
         password_confirmation: Bevestiging
-        consented_at: Consented at
+        consented_at: Ingestemd op
       user_preference:
         comments_sorting: Toon reacties
         hide_mail: Verberg mijn e-mailadres
