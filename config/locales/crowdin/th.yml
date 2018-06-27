@@ -1358,6 +1358,7 @@ th:
   label_next_week: อาทิตย์ถัดไป
   label_no_change_option: "(ไม่เปลี่ยนแปลง)"
   label_no_data: ไม่มีข้อมูลให้แสดง
+  label_no_parent_page: No parent page
   label_nothing_display: Nothing to display
   label_nobody: ไม่มีใคร
   label_none: ไม่มี

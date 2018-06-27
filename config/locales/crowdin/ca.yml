@@ -1387,6 +1387,7 @@ ca:
   label_next_week: Setmana següent
   label_no_change_option: "(sense canvis)"
   label_no_data: No hi ha dades per mostrar
+  label_no_parent_page: No parent page
   label_nothing_display: Res a mostrar
   label_nobody: ningú
   label_none: cap

@@ -1390,6 +1390,7 @@ hr:
   label_next_week: Sljedeći tjedan
   label_no_change_option: "(Nema promjene)"
   label_no_data: Nema podataka za prikaz
+  label_no_parent_page: No parent page
   label_nothing_display: Ništa za prikazati
   label_nobody: nitko
   label_none: none

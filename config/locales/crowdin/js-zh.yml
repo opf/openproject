@@ -163,7 +163,7 @@ zh:
     label_select_watcher: 选择一位关注者...
     label_selected_filter_list: 所选的筛选器
     label_show_attributes: 显示所有属性
-    label_show_in_menu: 在菜单中显示页面
+    label_show_in_menu: Show view in menu
     label_sort_by: 排序按
     label_sorted_by: 排序按照
     label_sort_higher: 向上移动
@@ -177,7 +177,7 @@ zh:
     label_activity_show_only_comments: 仅显示批注的活动
     label_activity_show_all: 显示所有项目
     label_total_progress: "%{percent} %总进度"
-    label_visible_for_others: 页面可被他人访问
+    label_visible_for_others: View visible for others
     label_updated_on: 更新于
     label_warning: 警告
     label_work_package: 工作包

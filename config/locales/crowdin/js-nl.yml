@@ -169,7 +169,7 @@ nl:
     label_select_watcher: Kies een toezichter...
     label_selected_filter_list: Geselecteerde filters
     label_show_attributes: Toon alle kenmerken
-    label_show_in_menu: Toon pagina in menu
+    label_show_in_menu: Show view in menu
     label_sort_by: Sorteer op
     label_sorted_by: gesorteerd door
     label_sort_higher: Omhoog
@@ -183,7 +183,7 @@ nl:
     label_activity_show_only_comments: Geef alleen activiteiten met commentaar weer
     label_activity_show_all: Geef alle activiteiten weer
     label_total_progress: "%{percent}% totale vooruitgang"
-    label_visible_for_others: Pagina zichtbaar voor anderen
+    label_visible_for_others: View visible for others
     label_updated_on: bijgewerkt op
     label_warning: Waarschuwing
     label_work_package: Werkpakket

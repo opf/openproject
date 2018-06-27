@@ -166,7 +166,7 @@ fi:
     label_select_watcher: Valitse seuraaja...
     label_selected_filter_list: Valitut suodattimet
     label_show_attributes: Näytä kaikki määritteet
-    label_show_in_menu: Näytä sivu valikossa
+    label_show_in_menu: Show view in menu
     label_sort_by: Sort by
     label_sorted_by: lajiteltu
     label_sort_higher: Siirrä ylös
@@ -180,7 +180,7 @@ fi:
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent} % eteneminen"
-    label_visible_for_others: Sivu on nähtävissä muille
+    label_visible_for_others: View visible for others
     label_updated_on: päivitetty vimeksi
     label_warning: Warning
     label_work_package: Työpaketti

@@ -167,7 +167,7 @@ ro:
     label_select_watcher: Selectaţi un observator...
     label_selected_filter_list: Filtre selectate
     label_show_attributes: Afișați toate câmpurile
-    label_show_in_menu: Afișați pagina în meniu
+    label_show_in_menu: Show view in menu
     label_sort_by: Sortare după
     label_sorted_by: sortare după
     label_sort_higher: Mută în sus
@@ -181,7 +181,7 @@ ro:
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent} % Progres total"
-    label_visible_for_others: Pagină vizibilă pentru altii
+    label_visible_for_others: View visible for others
     label_updated_on: actualizat la data de
     label_warning: Avertizare
     label_work_package: Pachet de lucru

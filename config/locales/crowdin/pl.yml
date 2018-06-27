@@ -1404,6 +1404,7 @@ pl:
   label_next_week: Następny tydzień
   label_no_change_option: "(Bez zmian)"
   label_no_data: Brak danych do pokazania
+  label_no_parent_page: No parent page
   label_nothing_display: Brak danych do pokazania
   label_nobody: nikt
   label_none: Brak

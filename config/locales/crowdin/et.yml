@@ -1373,6 +1373,7 @@ et:
   label_next_week: Järgmine nädal
   label_no_change_option: "(Ei muutu)"
   label_no_data: Pole
+  label_no_parent_page: No parent page
   label_nothing_display: Pole midagi näidata
   label_nobody: eikeegi
   label_none: pole

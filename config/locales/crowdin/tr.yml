@@ -1373,6 +1373,7 @@ tr:
   label_next_week: Gelecek hafta
   label_no_change_option: "(Değişiklik yok)"
   label_no_data: Görüntülenecek veri yok
+  label_no_parent_page: No parent page
   label_nothing_display: Görüntülenecek bir şey yok
   label_nobody: hiçkimse
   label_none: hiçbiri

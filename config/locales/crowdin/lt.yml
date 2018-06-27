@@ -1403,6 +1403,7 @@ lt:
   label_next_week: Sekanti savaitė
   label_no_change_option: "(Jokio pakeitimo)"
   label_no_data: Nėra rodytinų duomenų
+  label_no_parent_page: No parent page
   label_nothing_display: Nėra ką rodyti
   label_nobody: niekas
   label_none: joks

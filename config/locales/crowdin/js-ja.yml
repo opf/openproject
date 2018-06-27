@@ -54,9 +54,8 @@ ja:
     description_subwork_package: '作業項目の子 #%{id}'
     error:
       internal: 内部エラーが発生しました。
-      cannot_save_changes_with_message: 'Cannot save your changes due to the following
-        error: %{error}'
-      query_saving: The query could not be saved.
+      cannot_save_changes_with_message: '次のエラーのために変更を保存できません: %{error}'
+      query_saving: クエリを保存できませんでした。
     filter:
       description:
         text_open_filter: "'ALT' と矢印キーでこのフィルタを開きます。"
@@ -120,7 +119,7 @@ ja:
     label_expand: 展開
     label_expanded: 展開
     label_expand_all: 全てを展開
-    label_expand_project_menu: Expand project menu
+    label_expand_project_menu: プロジェクトメニューを展開
     label_export: 外部出力
     label_filename: ファイル
     label_filesize: サイズ
@@ -128,7 +127,7 @@ ja:
     label_group_by: グループ化
     label_hide_attributes: 非表示にする
     label_hide_column: 列を非表示
-    label_hide_project_menu: Collapse project menu
+    label_hide_project_menu: プロジェクトメニューを折りたたむ
     label_in: 今日から○日後
     label_in_less_than: 今日から○日後以前
     label_in_more_than: 今日から○日後以降
@@ -150,7 +149,7 @@ ja:
     label_not_equals: 等しくない
     label_on: オン
     label_open_menu: メニューを開く
-    label_open_context_menu: Open context menu
+    label_open_context_menu: コンテキストメニューを開く
     label_open_work_packages: 未完了
     label_password: パスワード
     label_previous: 前へ
@@ -164,7 +163,7 @@ ja:
     label_select_watcher: ウォッチャーを選択...
     label_selected_filter_list: 選択されたフィルタ
     label_show_attributes: すべての属性を表示
-    label_show_in_menu: ページをメニューに表示
+    label_show_in_menu: Show view in menu
     label_sort_by: 並べ替え
     label_sorted_by: 並べ替えされた
     label_sort_higher: 上へ
@@ -174,11 +173,11 @@ ja:
     label_subject: 題名
     label_this_week: 今週
     label_today: 今日
-    label_up: Up
+    label_up: アップ
     label_activity_show_only_comments: コメントのみのアクティビティを表示
     label_activity_show_all: すべてのアクティビティを表示
     label_total_progress: "%{percent}% 進行状況"
-    label_visible_for_others: 他人に見られるページ
+    label_visible_for_others: View visible for others
     label_updated_on: 更新日時
     label_warning: 注意
     label_work_package: 作業項目
@@ -321,7 +320,7 @@ ja:
     timelines:
       gantt_chart: ガントチャート
       labels:
-        title: Label configuration
+        title: ラベル設定
         bar: バーのラベル
         left: 左
         right: 右
@@ -452,7 +451,7 @@ ja:
         header_with_parent: '新しい %{type}（%{parent_type} #%{id} の子要素）'
         button: 作成
       copy:
-        title: Copy work package
+        title: 作業項目をコピー
       hierarchy:
         show: 階層モードを表示
         hide: 階層モードを非表示
@@ -520,28 +519,23 @@ ja:
           not_found: そのようなクエリはありません
         text_no_results: 一致するクエリが見つかりませんでした。
       table:
-        configure_button: Configure work package table
+        configure_button: ワークパッケージテーブルを設定する
         summary: 作業項目の行と、作業項目の属性の列から成る表。
         text_inline_edit: この表のほとんどのセルは、属性のインライン編集機能を有効にするボタンです。
         text_sort_hint: テーブル見出しのリンクで、並べ替え、グループ化、再並べ替え、削除、およびテーブルの列を追加ができます。
         text_select_hint: 選択ボックスは 'ALT'と矢印キーで開きます。
       table_configuration:
-        button: Configure this work package table
-        modal_title: Work package table configuration
-        embedded_tab_disabled: This configuration tab is not available for the embedded
-          query you're editing.
-        display_settings: Display settings
-        grouped_mode: Grouped mode
-        grouped_hint: Table results will be grouped by the given attribute.
-        default_mode: Default mode
+        button: このワークパッケージテーブルを設定する
+        modal_title: 作業パッケージ表の構成
+        embedded_tab_disabled: この設定タブは編集中の埋め込まれたクエリでは使用できません。
+        display_settings: 表示設定
+        grouped_mode: グループ化されたモード
+        grouped_hint: テーブルの結果は指定された属性でグループ化されます。
+        default_mode: デフォルトモード
         hierarchy_mode: 階層モード
-        hierarchy_hint: All filtered table results will be augmented with their ancestors.
-          Hierarchies can be expanded and collapsed.
-        display_sums_hint: Display sums of all summable attributes in a row below
-          the table results.
-        show_timeline_hint: Show an interactive gantt chart on the right side of the
-          table. You can change its width by dragging the divider between table and
-          gantt chart.
+        hierarchy_hint: フィルタリングされたテーブルのすべての結果はその祖先で拡張されます。階層を展開したり折りたたんだりすることができます。
+        display_sums_hint: 表の下にすべての集計可能な属性の合計を表示します。
+        show_timeline_hint: テーブルの右側にインタラクティブなガントチャートを表示します。テーブルとガントチャートの間の区切り線をドラッグすることで幅を変更することができます。
       tabs:
         overview: 概要
         activity: 活動
@@ -615,7 +609,7 @@ ja:
         messages_on_field: 'このフィールドは無効です: %{messages}'
     error_could_not_resolve_version_name: バージョン名を解決できませんでした。
     error_could_not_resolve_user_name: ユーザ名を特定できません
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload: 'ファイル ''%{name}'' のアップロードに失敗しました: %{error}'
     units:
       workPackage:
         one: work package

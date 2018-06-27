@@ -1383,6 +1383,7 @@ lv:
   label_next_week: Next week
   label_no_change_option: "(No change)"
   label_no_data: Nav dati
+  label_no_parent_page: No parent page
   label_nothing_display: Nav nekas ko parādīt
   label_nobody: nobody
   label_none: none

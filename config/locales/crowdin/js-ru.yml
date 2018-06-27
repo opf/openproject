@@ -167,7 +167,7 @@ ru:
     label_select_watcher: Выберите наблюдателя...
     label_selected_filter_list: Выбранные фильтры
     label_show_attributes: Показать все атрибуты
-    label_show_in_menu: Показать страницу в меню
+    label_show_in_menu: Show view in menu
     label_sort_by: Сортировать по
     label_sorted_by: отсортировано по
     label_sort_higher: Переместить вверх
@@ -181,7 +181,7 @@ ru:
     label_activity_show_only_comments: Показать только деятельности с комментариями
     label_activity_show_all: Показать все активности
     label_total_progress: "%{percent}% общего прогресса"
-    label_visible_for_others: Страница видна для других
+    label_visible_for_others: View visible for others
     label_updated_on: Обновлено
     label_warning: Предупреждение
     label_work_package: Пакет работ

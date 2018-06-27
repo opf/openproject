@@ -167,7 +167,7 @@ hr:
     label_select_watcher: Odaberite nadglednika...
     label_selected_filter_list: Odabrani filteri
     label_show_attributes: Pokaži sve atribute
-    label_show_in_menu: Prikaži stranicu u izborniku
+    label_show_in_menu: Show view in menu
     label_sort_by: Sortiraj prema
     label_sorted_by: sortirao
     label_sort_higher: Pomakni gore
@@ -181,7 +181,7 @@ hr:
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% ukupnog napretka"
-    label_visible_for_others: Stranice vidljive drugima
+    label_visible_for_others: View visible for others
     label_updated_on: ažurirano
     label_warning: Upozorenje
     label_work_package: Radni paket
