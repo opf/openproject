@@ -334,6 +334,9 @@ input.top-menu-search--input
     @include varprop(background, header-item-bg-hover-color)
   &:hover
     @include varprop(background, header-item-bg-hover-color)
+    &:not(.-collapsed)
+      i::before
+        content: "\f12c"
 
   .nosidebar &
     display: none

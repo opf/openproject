@@ -134,6 +134,12 @@
     .project-menu-autocomplete--results
       border-bottom: 2px solid $header-drop-down-border-color !important
 
+  // Change hamburger icon into closing icon, if menu is expanded
+  #main-menu-toggle
+    &:not(.-collapsed)
+      i::before
+        content: "\f12c"
+
 // Workaround on tablet and mobile to prevent an icon having the wrong color after touch
 // After the touch event the focus is still staying on this element (unlike a mouse hover)
 @media (max-device-width: 1400px)

@@ -41,7 +41,7 @@ import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
         (accessibleClick)="toggleService.toggleNavigation($event)"
         tabindex="0">
       <a icon="icon-hamburger">
-        <i [ngClass]="!this.toggleService.showNavigation() ? 'icon-hamburger' : 'icon-close'" aria-hidden="true"></i>
+        <i class="icon-hamburger" aria-hidden="true"></i>
       </a>
     </div>
   `
