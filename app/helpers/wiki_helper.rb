@@ -31,6 +31,9 @@ module WikiHelper
   def wiki_page_options_for_select(pages, parent = nil, level = 0)
     pages = pages.group_by(&:parent) unless pages.is_a?(Hash)
     s = []
+    if level.zero?
+      s << ["-- #{t('label_no_parent_page')} --", '']
+    end
     if pages.has_key?(parent)
       pages[parent].each do |page|
         indent = (level > 0) ? ('&nbsp;' * level * 2 + '&#187; ') : ''
