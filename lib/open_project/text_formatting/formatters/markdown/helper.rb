@@ -57,10 +57,6 @@ module OpenProject::TextFormatting::Formatters
         end
       end
 
-      def self.initial_page_content(page)
-        "# #{page.title}"
-      end
-
       private
 
       def wysiwyg_for(field_id)
