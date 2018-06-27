@@ -70,7 +70,7 @@ feature 'Query menu items' do
 
       click_on 'Settings'
       click_on 'Publish ...'
-      check 'Show page in menu'
+      check 'Show view in menu'
       click_on 'Save'
 
       notification.expect_success('Successful update')
