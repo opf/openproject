@@ -373,7 +373,8 @@ class WikiController < ApplicationController
 
   def current_menu_item_sym(page)
     if page == :parent_page
-      page = send(:page).parent
+      page = send(:page)
+      page = page.parent if page && page.parent
     else
       page = send(page)
     end
