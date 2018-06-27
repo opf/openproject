@@ -55,6 +55,8 @@ hu:
     description_subwork_package: 'Munkacsomag gyermeke #%{id}'
     error:
       internal: Belső hiba történt.
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
       query_saving: The query could not be saved.
     filter:
       description:

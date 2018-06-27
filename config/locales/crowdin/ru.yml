@@ -1304,6 +1304,8 @@ ru:
   label_force_user_language_to_default: Язык, который пользователям нельзя установить
     как действующий по-умолчанию
   label_form_configuration: Настройка форм
+  label_gantt: Gantt
+  label_gantt_chart: Диаграмма Гантта
   label_general: Общие
   label_generate_key: Сгенерируйте ключ
   label_git_path: Путь к директории .git
@@ -2232,6 +2234,9 @@ ru:
     passwords: Пароли
     session: Сессия
     brute_force_prevention: Автоматическое блокирование пользователя
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown

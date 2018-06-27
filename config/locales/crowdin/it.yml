@@ -1292,6 +1292,8 @@ it:
   label_force_user_language_to_default: Imposta la lingua degli utenti che non hanno
     una lingua consentita a quella predefinita
   label_form_configuration: Configurazione del modulo
+  label_gantt: Gantt
+  label_gantt_chart: Diagramma di Gantt
   label_general: Generale
   label_generate_key: Genera chiave
   label_git_path: Percorso per la cartella .git
@@ -2238,6 +2240,9 @@ it:
     passwords: Password
     session: Sessione
     brute_force_prevention: Blocco automatico degli utenti
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown

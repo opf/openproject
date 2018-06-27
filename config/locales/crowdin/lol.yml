@@ -1172,6 +1172,8 @@ lol:
   label_follows: crwdns97250:0crwdne97250:0
   label_force_user_language_to_default: crwdns97251:0crwdne97251:0
   label_form_configuration: crwdns97252:0crwdne97252:0
+  label_gantt: crwdns98997:0crwdne98997:0
+  label_gantt_chart: crwdns98998:0crwdne98998:0
   label_general: crwdns97253:0crwdne97253:0
   label_generate_key: crwdns97254:0crwdne97254:0
   label_git_path: crwdns97255:0crwdne97255:0
@@ -1981,6 +1983,9 @@ lol:
     passwords: crwdns97993:0crwdne97993:0
     session: crwdns97994:0crwdne97994:0
     brute_force_prevention: crwdns97995:0crwdne97995:0
+    user:
+      default_preferences: crwdns98999:0crwdne98999:0
+      deletion: crwdns99000:0crwdne99000:0
   text_formatting:
     textile: crwdns98897:0crwdne98897:0
     markdown: crwdns98898:0crwdne98898:0

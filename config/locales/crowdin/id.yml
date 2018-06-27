@@ -1265,6 +1265,8 @@ id:
   label_follows: Berikut
   label_force_user_language_to_default: Set bahasa user ke default
   label_form_configuration: Form configuration
+  label_gantt: Gantt
+  label_gantt_chart: Bagan Gantt
   label_general: Umum
   label_generate_key: Generate a key
   label_git_path: Path to .git directory
@@ -2161,6 +2163,9 @@ id:
     passwords: Password
     session: Sesi
     brute_force_prevention: Pemblokiran otomatis user
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown

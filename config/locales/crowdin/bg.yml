@@ -1272,6 +1272,8 @@ bg:
   label_force_user_language_to_default: Задаване на език по подразбиране за потребителите
     с липсващи в системата езици
   label_form_configuration: Конфигурация на формата
+  label_gantt: Gantt
+  label_gantt_chart: Gantt chart
   label_general: Общ
   label_generate_key: Генериране на ключ
   label_git_path: Път до .git директория
@@ -2173,6 +2175,9 @@ bg:
     passwords: Пароли
     session: Сесия
     brute_force_prevention: Automated user blocking
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown

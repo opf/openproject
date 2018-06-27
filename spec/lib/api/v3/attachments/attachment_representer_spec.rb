@@ -127,20 +127,20 @@ describe ::API::V3::Attachments::AttachmentRepresenter do
       end
 
       context 'for a remote attachment' do
-        let(:remote_url) { 'https://some.bogus/download/xyz' }
+        let(:external_url) { 'https://some.bogus/download/xyz' }
 
         before do
           allow(attachment)
             .to receive(:external_storage?)
             .and_return(true)
           allow(attachment)
-            .to receive(:remote_url)
-            .and_return(remote_url)
+            .to receive(:external_url)
+            .and_return(external_url)
         end
 
         it_behaves_like 'has an untitled link' do
           let(:link) { 'downloadLocation' }
-          let(:href) { remote_url }
+          let(:href) { external_url }
         end
       end
     end

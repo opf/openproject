@@ -1266,6 +1266,8 @@ sv-SE:
   label_force_user_language_to_default: Välj standardspråk för användare som har ett
     icke tillåtet språk
   label_form_configuration: Ställ in formulär
+  label_gantt: Gantt
+  label_gantt_chart: Gantt chart
   label_general: Allmänt
   label_generate_key: Generera en nyckel
   label_git_path: Sökväg till .git katalog
@@ -2165,6 +2167,9 @@ sv-SE:
     passwords: Lösenord
     session: Session
     brute_force_prevention: Automatiserad användarblockering
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown

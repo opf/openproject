@@ -1329,6 +1329,8 @@ ar:
   label_force_user_language_to_default: إعطاء لغة للمستخدمين غير اللغة المسموح بها
     بشكل افتراضي
   label_form_configuration: تشكيل النموذج
+  label_gantt: Gantt
+  label_gantt_chart: Gantt chart
   label_general: عام
   label_generate_key: توليد مفتاح
   label_git_path: المسار إلى .دليل البوابة
@@ -2239,6 +2241,9 @@ ar:
     passwords: كلمات المرور
     session: الجلسة
     brute_force_prevention: حجب المستخدم الآلي
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown

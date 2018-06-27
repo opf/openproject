@@ -1310,6 +1310,8 @@ sk:
   label_force_user_language_to_default: Nastavenie jazyka užívateľov ktorí majú nastavený
     ako predvolený nepovolený jazyk
   label_form_configuration: Konfigurácia formulára
+  label_gantt: Gantt
+  label_gantt_chart: Ganttov diagram
   label_general: Všeobecné
   label_generate_key: Vygenerovať kľúč
   label_git_path: Cesta ku .git adresáru
@@ -2227,6 +2229,9 @@ sk:
     passwords: Heslá
     session: Relácie
     brute_force_prevention: Automatizované blokovanie používateľa
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown

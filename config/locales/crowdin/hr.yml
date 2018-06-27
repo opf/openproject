@@ -1285,6 +1285,8 @@ hr:
   label_force_user_language_to_default: Postavi zadani jezik za korisnike koji imaju
     nedozvoljeni jezik kao zadani
   label_form_configuration: Form configuration
+  label_gantt: Gantt
+  label_gantt_chart: Gantt chart
   label_general: Općenito
   label_generate_key: Generiraj ključ
   label_git_path: Putanja do .git direktorija
@@ -2206,6 +2208,9 @@ hr:
     passwords: Lozinke
     session: Sesija
     brute_force_prevention: Automatizirano blokiranje korisnika
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown

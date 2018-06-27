@@ -1282,6 +1282,8 @@ ca:
   label_force_user_language_to_default: Definir la llengua pels usuaris que tenen
     una llengua per defecte no permesa
   label_form_configuration: Configuració del formulari
+  label_gantt: Gantt
+  label_gantt_chart: Gantt chart
   label_general: General
   label_generate_key: Generar una clau
   label_git_path: Ruta del directori de .git
@@ -2222,6 +2224,9 @@ ca:
     passwords: Contrasenyes
     session: Sessió
     brute_force_prevention: Bloqueig automàtic d'usuari
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown

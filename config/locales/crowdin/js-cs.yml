@@ -55,6 +55,8 @@ cs:
     description_subwork_package: 'Potomek pracovního balíčku #%{id}'
     error:
       internal: Došlo k vnitřní chybě.
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
       query_saving: Dotaz nelze uložit.
     filter:
       description:
@@ -121,7 +123,7 @@ cs:
     label_expand: Rozbalit
     label_expanded: expanded
     label_expand_all: Rozbalit vše
-    label_expand_project_menu: Expand project menu
+    label_expand_project_menu: Rozbalit nabídku projektu
     label_export: Export
     label_filename: Soubor
     label_filesize: Velikost
@@ -129,7 +131,7 @@ cs:
     label_group_by: Seskupit podle
     label_hide_attributes: Zobrazit méně
     label_hide_column: Skrýt sloupec
-    label_hide_project_menu: Collapse project menu
+    label_hide_project_menu: Sbalit nabídku projektu
     label_in: v
     label_in_less_than: za méně než
     label_in_more_than: za více než
@@ -651,7 +653,7 @@ cs:
         messages_on_field: 'This field is invalid: %{messages}'
     error_could_not_resolve_version_name: Couldn't resolve version name
     error_could_not_resolve_user_name: Couldn't resolve user name
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload: 'Nepodařilo se uložit soubor "%{name}": %{error}'
     units:
       workPackage:
         one: pracovní balíček

@@ -54,6 +54,7 @@ lol:
     description_subwork_package: crwdns98375:0%{id}crwdne98375:0
     error:
       internal: crwdns98376:0crwdne98376:0
+      cannot_save_changes_with_message: crwdns99001:0%{error}crwdne99001:0
       query_saving: crwdns98900:0crwdne98900:0
     filter:
       description:

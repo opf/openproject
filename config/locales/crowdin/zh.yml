@@ -1186,6 +1186,8 @@ zh:
   label_follows: 跟踪
   label_force_user_language_to_default: 设置拥有非允许语言的用户的默认语言
   label_form_configuration: 表格配置
+  label_gantt: Gantt
+  label_gantt_chart: 甘特图
   label_general: 通用
   label_generate_key: 生成密钥
   label_git_path: ".git 目录的路径"
@@ -2004,6 +2006,9 @@ zh:
     passwords: 密码
     session: 会话
     brute_force_prevention: 自动化的用户阻止
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown

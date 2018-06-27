@@ -1233,6 +1233,8 @@ ko:
   label_follows: 팔로우
   label_force_user_language_to_default: 허용되지 않는 언어가 있는 사용자의 언어를 기본값으로 설정
   label_form_configuration: 양식 구성
+  label_gantt: Gantt
+  label_gantt_chart: Gantt 차트
   label_general: 일반
   label_generate_key: 키 생성
   label_git_path: ".git 디렉터리의 경로"
@@ -2086,6 +2088,9 @@ ko:
     passwords: 암호
     session: 세션
     brute_force_prevention: 자동화된 사용자 차단
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown

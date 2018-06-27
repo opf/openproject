@@ -55,6 +55,8 @@ es:
     description_subwork_package: 'Hijo del paquete de trabajo #%{id}'
     error:
       internal: Ha ocurrido un error interno.
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
       query_saving: The query could not be saved.
     filter:
       description:

@@ -1309,6 +1309,8 @@ fil:
   label_force_user_language_to_default: Magtakda ng linggwahe ng mga gumagamit na
     mayroon pinayagang linggwahe sa default
   label_form_configuration: Form kompigurasyon
+  label_gantt: Gantt
+  label_gantt_chart: Gantt tsart
   label_general: Pangkalahatan
   label_generate_key: Bumuo ng susi
   label_git_path: Landas sa .git direktoryo
@@ -2254,6 +2256,9 @@ fil:
     passwords: Ang mga password
     session: Sesyon
     brute_force_prevention: Naka-automate na user block
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown

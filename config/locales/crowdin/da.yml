@@ -1266,6 +1266,8 @@ da:
   label_force_user_language_to_default: Sæt sprog for brugere, der har forhåndsvalgt
     et ikke gangbart sprog
   label_form_configuration: Form configuration
+  label_gantt: Gantt
+  label_gantt_chart: Gantt chart
   label_general: Generelle
   label_generate_key: Skab nøgle
   label_git_path: Sti til .git-mappe
@@ -2167,6 +2169,9 @@ da:
     passwords: Adgangskoder
     session: Session
     brute_force_prevention: Automatiseret brugerblokering
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown

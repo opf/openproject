@@ -1286,6 +1286,8 @@ he:
   label_force_user_language_to_default: Set language of users having a non allowed
     language to default
   label_form_configuration: Form configuration
+  label_gantt: Gantt
+  label_gantt_chart: Gantt chart
   label_general: כללי
   label_generate_key: ליצור מפתח
   label_git_path: Path to .git directory
@@ -2196,6 +2198,9 @@ he:
     passwords: סיסמאות
     session: Session
     brute_force_prevention: Automated user blocking
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown

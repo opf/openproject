@@ -54,6 +54,8 @@ zh-TW:
     description_subwork_package: '子工作項目 #%{id}'
     error:
       internal: 發生內部錯誤。
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
       query_saving: 事件無法儲存
     filter:
       description:

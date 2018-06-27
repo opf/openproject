@@ -1265,6 +1265,8 @@ fi:
   label_force_user_language_to_default: Määritä oletuskieli jos käytössä on kieli
     joka ei ole sallittu
   label_form_configuration: Lomakkeen muokkaus
+  label_gantt: Gantt
+  label_gantt_chart: Gantt chart
   label_general: Yleinen
   label_generate_key: Luo avain
   label_git_path: Polku .git hakemistoon
@@ -2161,6 +2163,9 @@ fi:
     passwords: Passwords
     session: Session
     brute_force_prevention: Automated user blocking
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown

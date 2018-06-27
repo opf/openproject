@@ -1188,6 +1188,8 @@ ja:
   label_follows: 次の項目に後続
   label_force_user_language_to_default: ユーザの言語設定が利用許可されていない場合、デフォルト言語を利用する
   label_form_configuration: フォーム設定
+  label_gantt: Gantt
+  label_gantt_chart: ガントチャート
   label_general: 概要
   label_generate_key: キーを生成する
   label_git_path: ".gitディレクトリへのパス"
@@ -2016,6 +2018,9 @@ ja:
     passwords: パスワード
     session: セッション
     brute_force_prevention: 自動的にユーザをロック
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown

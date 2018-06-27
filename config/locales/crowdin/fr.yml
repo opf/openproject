@@ -1294,6 +1294,8 @@ fr:
   label_force_user_language_to_default: Pour cet utilisateur, revenir au langage par
     defaut
   label_form_configuration: Configuration du formulaire
+  label_gantt: Gantt
+  label_gantt_chart: Diagramme de Gantt
   label_general: Général
   label_generate_key: Générer une clé
   label_git_path: Chemin d'accès au répertoire .git
@@ -2224,6 +2226,9 @@ fr:
     passwords: Mots de passe
     session: Session
     brute_force_prevention: Blocage d'utilisateur automatique (pour éviter les pirates)
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown

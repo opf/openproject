@@ -55,6 +55,8 @@ ru:
     description_subwork_package: 'Потомок пакета работ #%{id}'
     error:
       internal: Произошла внутренняя ошибка.
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
       query_saving: Запрос не может быть сохранен.
     filter:
       description:

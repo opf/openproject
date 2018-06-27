@@ -55,6 +55,8 @@ fa:
     description_subwork_package: 'Child of work package #%{id}'
     error:
       internal: An internal error has occurred.
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
       query_saving: The query could not be saved.
     filter:
       description:

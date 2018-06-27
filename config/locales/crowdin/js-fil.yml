@@ -55,6 +55,8 @@ fil:
     description_subwork_package: 'Bata ng work package #%{id}'
     error:
       internal: Isang internal error ang naganap.
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
       query_saving: The query could not be saved.
     filter:
       description:

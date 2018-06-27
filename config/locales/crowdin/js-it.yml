@@ -55,6 +55,8 @@ it:
     description_subwork_package: 'Subordinata alla macro-attività #%{id}'
     error:
       internal: Si è verificato un errore interno.
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
       query_saving: The query could not be saved.
     filter:
       description:
