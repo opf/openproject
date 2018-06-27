@@ -26,5 +26,5 @@ ja:
   validation_failure_integer: "は有効な整数ではありません。"
   reporting:
     group_by:
-      selected_columns: "Selected columns"
-      selected_rows: "Selected rows"
+      selected_columns: "選択された列"
+      selected_rows: "選択された行"

@@ -1,5 +1,5 @@
 ja:
   js:
     reporting_engine:
-      label_remove: "Delete"
-      label_response_error: "There was an error handling the query."
+      label_remove: "削除"
+      label_response_error: "クエリを処理中にエラーが発生しました。"
