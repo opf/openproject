@@ -141,7 +141,7 @@ html[dir="rtl"] .select2-container .select2-choice > .select2-chosen {
     width: 100%;
     margin-top: -1px;
     position: absolute;
-    z-index: 9999;
+    z-index: 20000;
     top: 100%;
 
     background: #fff;
@@ -606,7 +606,7 @@ html[dir="rtl"] .select2-container-multi .select2-choices .select2-search-choice
     height: 13px;
     position: absolute;
     right: 3px;
-    top: 4px;
+    top: 2px;
 
     font-size: 1px;
     outline: none;
