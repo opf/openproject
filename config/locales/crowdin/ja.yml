@@ -24,7 +24,7 @@ ja:
         work_package:
           attributes:
             fixed_version_id:
-              task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
+              task_version_must_be_the_same_as_story_version: "親ストーリーのバージョンと同じでなければなりません。"
             parent_id:
               parent_child_relationship_across_projects: "は無効です。作業項目'%{work_package_name}'はバックログタスクで、現在のプロジェクト外の親を持つことはできません。"
   backlogs:
@@ -33,7 +33,7 @@ ja:
     backlog_settings: "バックログの設定"
     burndown_graph: "バーンダウングラフ"
     card_paper_size: "カード印刷用の用紙サイズ"
-    chart_options: "Chart options"
+    chart_options: "チャートオプション"
     close: "終了する"
     column_width: "列の幅:"
     date: "日"
@@ -81,8 +81,8 @@ ja:
   backlogs_velocity_missing: "このプロジェクトのベロシティを計算できなかった"
   backlogs_velocity_varies: "ベロシティがスプリントと大幅に異なります"
   backlogs_wiki_template: "スプリントのWikiページのテンプレート"
-  backlogs_empty_title: "No versions are defined to be used in backlogs"
-  backlogs_empty_action_text: "To get started with backlogs, create a new version and assign it to a backlogs column."
+  backlogs_empty_title: "バックログで使用するバージョンは定義されていません"
+  backlogs_empty_action_text: "バックログを開始するには、新しいバージョンを作成しそれをバックログ列に割り当てます。"
   button_edit_wiki: "Wikiページの編集"
   error_intro_plural: "次のエラーが発生しました："
   error_intro_singular: "次のエラーが発生しました："
