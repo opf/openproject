@@ -168,7 +168,7 @@ id:
     label_select_watcher: Pilih pemantau...
     label_selected_filter_list: Filter terpilih
     label_show_attributes: Show all attributes
-    label_show_in_menu: Tampilkan halaman di menu
+    label_show_in_menu: Show view in menu
     label_sort_by: Sort by
     label_sorted_by: urut berdasarkan
     label_sort_higher: Naikkan
@@ -182,7 +182,7 @@ id:
     label_activity_show_only_comments: Tampilkan hanya aktivitas bersama komentar
     label_activity_show_all: Tampilkan semua aktivitas
     label_total_progress: "%{percent}% total progres"
-    label_visible_for_others: Halaman dapat diakses oleh member lain
+    label_visible_for_others: View visible for others
     label_updated_on: diupdate pada
     label_warning: Warning
     label_work_package: Paket-Penugasan

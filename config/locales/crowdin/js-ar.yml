@@ -165,7 +165,7 @@ ar:
     label_select_watcher: اختر مراقبًا...
     label_selected_filter_list: عوامل التصفية المٌختارة
     label_show_attributes: عرض كل السمات
-    label_show_in_menu: عرض الصفحة في القائمة
+    label_show_in_menu: Show view in menu
     label_sort_by: فرز حسب
     label_sorted_by: مرتبة حسب
     label_sort_higher: تحريك لأعلى
@@ -179,7 +179,7 @@ ar:
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent} من التقدم الكلي"
-    label_visible_for_others: الصفحة مرئية للآخرين
+    label_visible_for_others: View visible for others
     label_updated_on: تم التحديث بتاريخ
     label_warning: تحذير
     label_work_package: مجموعة العمل

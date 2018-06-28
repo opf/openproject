@@ -168,7 +168,7 @@ uk:
     label_select_watcher: Виберіть спостерігача...
     label_selected_filter_list: Вибрані фільтри
     label_show_attributes: Показати всі атрибути
-    label_show_in_menu: Показати сторінку в меню
+    label_show_in_menu: Show view in menu
     label_sort_by: Sort by
     label_sorted_by: відсортовано за
     label_sort_higher: Move up
@@ -182,7 +182,7 @@ uk:
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% загального прогресу"
-    label_visible_for_others: Сторінка видима для інших
+    label_visible_for_others: View visible for others
     label_updated_on: оновлено
     label_warning: Warning
     label_work_package: Work package

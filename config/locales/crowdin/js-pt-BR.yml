@@ -167,7 +167,7 @@ pt-BR:
     label_select_watcher: Selecione um observador...
     label_selected_filter_list: Filtros selecionados
     label_show_attributes: Mostrar todos os atributos
-    label_show_in_menu: Mostrar a página no menu
+    label_show_in_menu: Show view in menu
     label_sort_by: Ordenar por
     label_sorted_by: ordenados por
     label_sort_higher: Mover para cima
@@ -181,7 +181,7 @@ pt-BR:
     label_activity_show_only_comments: Mostrar somente as atividades com comentários
     label_activity_show_all: Mostrar todas as atividades
     label_total_progress: "%{percent}% Total de progresso"
-    label_visible_for_others: Página visível para outros
+    label_visible_for_others: View visible for others
     label_updated_on: atualizado em
     label_warning: Aviso
     label_work_package: Pacote de trabalho

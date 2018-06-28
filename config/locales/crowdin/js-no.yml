@@ -166,7 +166,7 @@
     label_select_watcher: Velg en overvåker...
     label_selected_filter_list: Valgte filtre
     label_show_attributes: Vis alle attributter
-    label_show_in_menu: Vis side i meny
+    label_show_in_menu: Show view in menu
     label_sort_by: Sorter på
     label_sorted_by: sortert på
     label_sort_higher: Flytt opp
@@ -180,7 +180,7 @@
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% utført"
-    label_visible_for_others: Siden er synlig for andre
+    label_visible_for_others: View visible for others
     label_updated_on: updated on
     label_warning: Advarsel
     label_work_package: Arbeidspakke

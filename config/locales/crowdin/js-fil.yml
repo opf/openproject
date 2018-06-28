@@ -166,7 +166,7 @@ fil:
     label_select_watcher: Pumili ng manunuod...
     label_selected_filter_list: Napiling mga filter
     label_show_attributes: Ipakita ang lahat ng mga katangian
-    label_show_in_menu: Ipakita ang pahina ng pagpipilian
+    label_show_in_menu: Show view in menu
     label_sort_by: Pag-uuri sa pamamagitan ng
     label_sorted_by: pinagsunod-sunod ayon sa
     label_sort_higher: Lumipat pataas
@@ -180,7 +180,7 @@ fil:
     label_activity_show_only_comments: Magpakita ng mga aktibidad sa komento lamang
     label_activity_show_all: Ipakita lahat ang mga aktibidad
     label_total_progress: "%{percent}% Kabuang progreso"
-    label_visible_for_others: Pahina na makikita sa iba
+    label_visible_for_others: View visible for others
     label_updated_on: i-update sa
     label_warning: Babala
     label_work_package: Work package

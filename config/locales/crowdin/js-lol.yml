@@ -162,7 +162,7 @@ lol:
     label_select_watcher: crwdns98470:0crwdne98470:0
     label_selected_filter_list: crwdns98471:0crwdne98471:0
     label_show_attributes: crwdns98472:0crwdne98472:0
-    label_show_in_menu: crwdns98473:0crwdne98473:0
+    label_show_in_menu: crwdns99003:0crwdne99003:0
     label_sort_by: crwdns98474:0crwdne98474:0
     label_sorted_by: crwdns98475:0crwdne98475:0
     label_sort_higher: crwdns98476:0crwdne98476:0
@@ -176,7 +176,7 @@ lol:
     label_activity_show_only_comments: crwdns98483:0crwdne98483:0
     label_activity_show_all: crwdns98484:0crwdne98484:0
     label_total_progress: crwdns98485:0%{percent}crwdne98485:0
-    label_visible_for_others: crwdns98486:0crwdne98486:0
+    label_visible_for_others: crwdns99004:0crwdne99004:0
     label_updated_on: crwdns98487:0crwdne98487:0
     label_warning: crwdns98488:0crwdne98488:0
     label_work_package: crwdns98489:0crwdne98489:0

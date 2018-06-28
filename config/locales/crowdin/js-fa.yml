@@ -168,7 +168,7 @@ fa:
     label_select_watcher: یک ناظر را انتخاب کنید...
     label_selected_filter_list: فیلترهای انتخاب شده
     label_show_attributes: Show all attributes
-    label_show_in_menu: نمایش صفحه در منو
+    label_show_in_menu: Show view in menu
     label_sort_by: Sort by
     label_sorted_by: مرتب شده بر اساس
     label_sort_higher: Move up
@@ -182,7 +182,7 @@ fa:
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent} مجموع پیشرفت"
-    label_visible_for_others: صفحه قابل مشاهده برای دیگر کاربران
+    label_visible_for_others: View visible for others
     label_updated_on: updated on
     label_warning: Warning
     label_work_package: Work package

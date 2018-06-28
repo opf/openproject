@@ -163,7 +163,7 @@ zh-TW:
     label_select_watcher: 選擇一位關注者
     label_selected_filter_list: 所選的篩選器
     label_show_attributes: 顯示所有屬性
-    label_show_in_menu: 在功能表中顯示頁面
+    label_show_in_menu: Show view in menu
     label_sort_by: 排序方式
     label_sorted_by: 排序條件
     label_sort_higher: 往上移動
@@ -177,7 +177,7 @@ zh-TW:
     label_activity_show_only_comments: 只顯示活動和其評論
     label_activity_show_all: 顯示所有的活動
     label_total_progress: "%{percent}%總進度"
-    label_visible_for_others: 頁面可被他人訪問
+    label_visible_for_others: View visible for others
     label_updated_on: 更新於
     label_warning: 警告
     label_work_package: 工作項目

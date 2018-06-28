@@ -44,7 +44,7 @@ See docs/COPYRIGHT.rdoc for more details.
     <div class="form--field -required">
       <%= f.fields_for :page, @page do |page_fields| %>
         <%= page_fields.hidden_field :parent_id %>
-        <%= page_fields.text_field :title, required: true, size: 120 %>
+        <%= page_fields.text_field :title, required: true, size: 120, placeholder: t('label_page_title') %>
       <% end %>
     </div>
     <div class="form--field -required">

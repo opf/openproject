@@ -94,7 +94,7 @@ describe 'Wiki unicode title spec', type: :feature, js: true do
     find('#content_text').set(wiki_body)
     click_button 'Save'
 
-    expect(page).to have_selector('.title-container h2', text: 'wiki')
+    expect(page).to have_selector('.title-container h2', text: 'Wiki')
     expect(page).to have_selector('a.wiki-page', count: 5)
   end
 

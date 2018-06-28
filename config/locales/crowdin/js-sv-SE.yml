@@ -165,7 +165,7 @@ sv-SE:
     label_select_watcher: Välj en bevakare...
     label_selected_filter_list: Valda filter
     label_show_attributes: Visa alla attribut
-    label_show_in_menu: Visa sidan i menyn
+    label_show_in_menu: Show view in menu
     label_sort_by: Sortera efter
     label_sorted_by: sorterade efter
     label_sort_higher: Flytta upp
@@ -179,7 +179,7 @@ sv-SE:
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% Totalt klart"
-    label_visible_for_others: Sidan synlig för andra
+    label_visible_for_others: View visible for others
     label_updated_on: uppdaterad den
     label_warning: Varning
     label_work_package: Arbetspaket

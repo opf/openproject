@@ -1370,6 +1370,7 @@ fi:
   label_next_week: Seuraava viikko
   label_no_change_option: "(Ei muutosta)"
   label_no_data: Ei tietoa näytettäväksi
+  label_no_parent_page: No parent page
   label_nothing_display: Ei näytettävää
   label_nobody: ei kukaan
   label_none: ei mitään

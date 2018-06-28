@@ -167,7 +167,7 @@ de:
     label_select_watcher: Beobachter auswählen ...
     label_selected_filter_list: Ausgewählte Filter
     label_show_attributes: Alle Attribute anzeigen
-    label_show_in_menu: Ansicht in Projektnavigation anzeigen
+    label_show_in_menu: Show view in menu
     label_sort_by: Sortieren nach
     label_sorted_by: sortiert nach
     label_sort_higher: Eins höher
@@ -181,7 +181,7 @@ de:
     label_activity_show_only_comments: Nur Aktivitäten mit Kommentaren
     label_activity_show_all: Alle Aktivitäten anzeigen
     label_total_progress: "%{percent}% Gesamtfortschritt"
-    label_visible_for_others: Ansicht sichtbar für andere Nutzer
+    label_visible_for_others: View visible for others
     label_updated_on: aktualisiert am
     label_warning: Warnung
     label_work_package: Arbeitspaket

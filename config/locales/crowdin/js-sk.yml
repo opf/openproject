@@ -166,7 +166,7 @@ sk:
     label_select_watcher: Vybrať pozorovateľa ...
     label_selected_filter_list: Vybrané filtre
     label_show_attributes: Zobraziť všetky atribúty
-    label_show_in_menu: Zobraziť stránku v menu
+    label_show_in_menu: Show view in menu
     label_sort_by: Zoradiť podľa
     label_sorted_by: zoradené podľa
     label_sort_higher: Presunúť vyššie
@@ -180,7 +180,7 @@ sk:
     label_activity_show_only_comments: Zobraziť len aktivity s komentármi
     label_activity_show_all: Zobraziť všetky aktivity
     label_total_progress: "%{percent}% celkový priebeh"
-    label_visible_for_others: Stránka viditeľná pre ostatných
+    label_visible_for_others: View visible for others
     label_updated_on: aktualizované
     label_warning: Upozornenie
     label_work_package: Pracovný balíček

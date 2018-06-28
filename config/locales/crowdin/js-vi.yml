@@ -6,17 +6,17 @@ vi:
       loading: Đang tải...
     autocomplete_select:
       placeholder:
-        multi: Add "%{name}"
-        single: Select "%{name}"
-      remove: Remove %{name}
-      active: Active %{label} %{name}
+        multi: Thêm "%{name}"
+        single: Chọn "%{name}"
+      remove: Xoá %{name}
+      active: Kích hoạt %{label} %{name}
     close_popup_title: Đóng
     close_filter_title: Close filter
     close_form_title: Close form
     clipboard:
       browser_error: Trình duyệt không hỗ trợ copy vào clipboard. Vui lòng copy văn
         bản đã chọn theo cách thủ công.
-      copied_successful: Thành công sao chép vào clipboard!
+      copied_successful: Sao chép thành công vào clipboard!
     button_add_watcher: Thêm người theo dõi
     button_back_to_list_view: Back to list view
     button_cancel: Hủy
@@ -167,7 +167,7 @@ vi:
     label_select_watcher: Select a watcher...
     label_selected_filter_list: Selected filters
     label_show_attributes: Hiển thị tất cả các thuộc tính
-    label_show_in_menu: Show page in menu
+    label_show_in_menu: Show view in menu
     label_sort_by: Sort by
     label_sorted_by: sorted by
     label_sort_higher: Move up
@@ -181,7 +181,7 @@ vi:
     label_activity_show_only_comments: Hiển thị các hoạt động với các bình luận
     label_activity_show_all: Hiển thị các hoạt động
     label_total_progress: "%{percent}% Total progress"
-    label_visible_for_others: Page visible for others
+    label_visible_for_others: View visible for others
     label_updated_on: cập Nhật ngày
     label_warning: Warning
     label_work_package: Work Package

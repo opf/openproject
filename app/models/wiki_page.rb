@@ -229,7 +229,7 @@ class WikiPage < ActiveRecord::Base
 
   def breadcrumb_title
     if item = menu_item
-      item.name
+      item.title
     else
       title
     end

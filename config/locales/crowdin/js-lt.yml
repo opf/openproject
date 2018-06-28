@@ -167,7 +167,7 @@ lt:
     label_select_watcher: Parinkti stebėtoją...
     label_selected_filter_list: Parinkti filtrus
     label_show_attributes: Rodyti visus atributus
-    label_show_in_menu: rodyti meniu juostoje
+    label_show_in_menu: Show view in menu
     label_sort_by: Rūšiuoti pagal
     label_sorted_by: surikiuota pagal
     label_sort_higher: Perkelti aukštyn
@@ -181,7 +181,7 @@ lt:
     label_activity_show_only_comments: Rodyti veiklą tik su komentarais
     label_activity_show_all: Rodyti visus atributus
     label_total_progress: "%{percent} % įvykdyta"
-    label_visible_for_others: Puslapis matomas kitiems
+    label_visible_for_others: View visible for others
     label_updated_on: atnaujintas
     label_warning: Įspėjimas
     label_work_package: Darbų paketas
