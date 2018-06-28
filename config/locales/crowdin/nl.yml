@@ -719,22 +719,24 @@ nl:
   button_configure_menu_entry: Menu-item configureren
   button_delete_menu_entry: Menu-item verwijderen
   consent:
-    checkbox_label: I have noted and do consent to the above.
+    checkbox_label: Ik heb kennis genomen van en stemt in met het bovenstaande.
     failure_message: Toestemming mislukt, kan niet doorgaan.
     title: Gebruikers toestemming
     decline_warning_message: U heeft de toestemming geweigerd en bent uitgelogd.
-    user_has_consented: User has consented to your configured statement at the given
-      time.
-    not_yet_consented: User has not consented yet, will be requested upon next login.
-    contact_mail_instructions: Define the mail address that users can reach a data
-      controller to perform data change or removal requests.
-    contact_your_administrator: Please contact your administrator if you want to have
-      your account deleted.
-    contact_this_mail_address: Please contact %{mail_address} if you want to have
-      your account deleted.
-    text_update_consent_time: Check this box to force users to consent again. Enable
-      when you have changed the legal aspect of the consent information above.
-    update_consent_last_time: 'Last update of consent: %{update_time}'
+    user_has_consented: Gebruiker heeft ingestemd met de geconfigureerde instructie
+      op het gegeven moment.
+    not_yet_consented: Gebruiker nog niet heeft toegestemd en zal worden herinnert
+      bij de volgende login.
+    contact_mail_instructions: Definieer het mail-adres waar gebruikers een gegevensbeheerder
+      op kunnen bereiken voor verzoeken om gegevens te wijzigen of te verwijderen.
+    contact_your_administrator: Neem contact op met uw beheerder als u wilt dat uw
+      account wordt verwijderd.
+    contact_this_mail_address: Neem contact op met %{mail_address} als u wilt dat
+      uw account wordt verwijderd.
+    text_update_consent_time: Schakel dit selectievakje in als u wilt afdwingen dat
+      gebruikers opnieuw toestemmen. Schakel deze in als u het juridische aspect van
+      de toestemming van bovenstaande informatie hebt gewijzigd.
+    update_consent_last_time: 'Laatste update van toestemming: %{update_time}'
   copy_project:
     started: Begonnen met project "%{source_project_name}" te kopiëren naar "%{target_project_name}".
       U wordt zo spoedig mogelijk per email op de hoogte gesteld wanneer "%{target_project_name}"
@@ -966,10 +968,10 @@ nl:
   error_cookie_missing: De cookie voor OpenProject ontbreekt. Zorg ervoor dat cookies
     zijn ingeschakeld aangezien deze toepassing anders niet goed zal functioneren.
   error_custom_option_not_found: Optie bestaat niet.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+  error_dependent_work_package: 'Fout in afhankelijke werkpakket #%{related_id} %{related_subject}:
     %{error}'
-  error_enterprise_activation_user_limit: Your account could not be activated (user
-    limit reached). Please contact your administrator to gain access.
+  error_enterprise_activation_user_limit: Uw account kon niet worden geactiveerd (gebruikerslimiet
+    bereikt). Neem contact op met uw beheerder om toegang te krijgen.
   error_failed_to_delete_entry: Fout bij het verwijderen van deze ingave.
   error_invalid_group_by: 'Kan niet groeperen op: %{value}'
   error_invalid_query_column: 'Ongeldige zoekopdracht kolom: %{value}'
@@ -1236,7 +1238,7 @@ nl:
   label_enumerations: Opsommingen
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edition
-  label_enterprise_active_users: "%{current}/%{limit} booked active users"
+  label_enterprise_active_users: "%{current}/%{limit} gereserveerd actieve gebruikers"
   label_environment: Omgeving
   label_estimates_and_time: Schattingen en tijden
   label_equals: is
@@ -1685,14 +1687,16 @@ nl:
   mail_subject_wiki_content_added: "'%{id}' wikipagina is toegevoegd"
   mail_subject_wiki_content_updated: "'%{id}' wikipagina is bijgewerkt"
   mail_user_activation_limit_reached:
-    subject: User activation limit reached
-    message: |
-      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
-      The user cannot activate their account since the user limit has been reached.
+    subject: Activering gebruikerslimiet bereikt
+    message: 'Een nieuwe gebruiker (%{email}) heeft geprobeerd om een account in een
+      OpenProject omgeving dat u beheerd (%{host}) te maken. De gebruiker kan het
+      account niet activeren omdat het maximum aantal gebruikers is bereikt.
+
+'
     steps:
-      label: 'To allow the user to sign in you can either: '
-      a: Upgrade your payment plan ([here](upgrade_url))
-      b: Lock or delete an existing user ([here](users_url))
+      label: 'Als u wilt dat de gebruiker ja inloggen kunt in u: '
+      a: Upgrade uw abbonement ([here](upgrade_url))
+      b: Vergrendelen of verwijderen van een bestaande gebruiker ([here](users_url))
   more_actions: Meer functies
   noscript_description: U moet JavaScript activeren om OpenProject te kunnen gebruiken!
   noscript_heading: JavaScript uitgeschakeld
@@ -2087,10 +2091,10 @@ nl:
   setting_commit_logtime_activity_id: Activiteit voor geregistreerde tijd
   setting_commit_logtime_enabled: Tijd-logboekregistratie inschakelen
   setting_commit_ref_keywords: Refererende trefwoorden
-  setting_consent_time: Consent time
-  setting_consent_info: Consent information text
-  setting_consent_required: Consent required
-  setting_consent_decline_mail: Consent contact mail address
+  setting_consent_time: Toestemming tijd
+  setting_consent_info: Toestemming informatie tekst
+  setting_consent_required: Toestemming vereist
+  setting_consent_decline_mail: Toestemming contact e-mailadres
   setting_cross_project_work_package_relations: Sta werkpakketten over meerdere projecten
     toe
   setting_date_format: Datumnotatie
@@ -2558,7 +2562,7 @@ nl:
       years: Jaren
   title_remove_and_delete_user: De uitgenodigde gebruiker uit het project verwijderen
     en verwijder hem/haar.
-  title_enterprise_upgrade: Upgrade to unlock more users.
+  title_enterprise_upgrade: Upgrade om meer gebruikers te ontgrendelen.
   tooltip_resend_invitation: 'Verzendt een andere uitnodiging e-mail met een nieuw
     token in geval het oude verlopen is of de gebruiker het oorspronkelijke e-mailbericht
     niet ontvangen heeft. Kan ook worden gebruikt voor actieve gebruikers om een nieuwe
@@ -2630,11 +2634,11 @@ nl:
   note_password_login_disabled: Wachtwoord is uitgeschakeld door %{configuration}.
   warning: Waarschuwing
   warning_attachments_not_saved: "%{count} bestanden kunnen niet worden opgeslagen."
-  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
-    to allow for additional users.
-  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
-    active users). Please contact sales@openproject.com to upgrade your Enterprise
-    Edition plan and add additional users.
+  warning_user_limit_reached: Gebruikerslimiet bereikt. Gelieve te upgraden <a href="%{upgrade_url}"></a>
+    om extra gebruikers mogelijk te maken.
+  warning_user_limit_reached_instructions: 'U bereikt uw gebruikerslimiet (%{current}/%{max}
+    actieve gebruikers). Neem contact op met sales@openproject.com om te upgraden
+    van uw Enterprise Edition-abonnement en extra gebruikers toevoegen.
 
 '
   menu_item: Menu-item

@@ -261,7 +261,7 @@ ja:
         expires_at: 有効期限
         subscriber: 購入者
         encoded_token: エンタープライズ サポート トークン
-        active_user_count_restriction: Maximum active users
+        active_user_count_restriction: アクティブなユーザーの最大数
       relation:
         delay: 遅延
         from: 作業項目
@@ -313,7 +313,7 @@ ja:
         mail_notification: 電子メールの通知
         new_password: 新しいパスワード
         password_confirmation: 確認のため再入力
-        consented_at: Consented at
+        consented_at: 同意しました。
       user_preference:
         comments_sorting: コメントの表示
         hide_mail: 電子メールアドレスを未公開
@@ -610,7 +610,7 @@ ja:
   button_create: 作成
   button_create_and_continue: 連続作成
   button_delete: 削除
-  button_decline: Decline
+  button_decline: 同意しない
   button_delete_watcher: ウォッチャー「%{name}」を削除
   button_download: ダウンロード
   button_duplicate: 複製
@@ -645,7 +645,7 @@ ja:
   button_unlock: ロックを解除
   button_unwatch: ウォッチしない
   button_update: 更新
-  button_upgrade: Upgrade
+  button_upgrade: アップグレード
   button_upload: アップロード
   button_view: 表示
   button_watch: ウォッチする
@@ -654,22 +654,17 @@ ja:
   button_configure_menu_entry: メニュー項目の設定
   button_delete_menu_entry: メニュー項目の削除
   consent:
-    checkbox_label: I have noted and do consent to the above.
-    failure_message: Consent failed, cannot proceed.
-    title: User Consent
-    decline_warning_message: You have declined to consent and have been logged out.
-    user_has_consented: User has consented to your configured statement at the given
-      time.
-    not_yet_consented: User has not consented yet, will be requested upon next login.
-    contact_mail_instructions: Define the mail address that users can reach a data
-      controller to perform data change or removal requests.
-    contact_your_administrator: Please contact your administrator if you want to have
-      your account deleted.
-    contact_this_mail_address: Please contact %{mail_address} if you want to have
-      your account deleted.
-    text_update_consent_time: Check this box to force users to consent again. Enable
-      when you have changed the legal aspect of the consent information above.
-    update_consent_last_time: 'Last update of consent: %{update_time}'
+    checkbox_label: 私は著名し上記に同意します。
+    failure_message: 同意に失敗しました。続行することはできません。
+    title: ユーザーの同意
+    decline_warning_message: 同意せずにログアウトしました。
+    user_has_consented: 指定された時刻で構成されているステートメントにユーザーが同意しました。
+    not_yet_consented: ユーザーはまだ同意していません。次のログイン時に要求されます。
+    contact_mail_instructions: データの変更または削除要求を実行するメールアドレスを定義します。
+    contact_your_administrator: アカウントを削除したい場合は、管理者に連絡してください。
+    contact_this_mail_address: アカウントを削除したい場合は %{mail_address} にご連絡ください。
+    text_update_consent_time: ユーザーに再度同意させるにはこのチェックボックスをオンにします。上記の同意についての法的側面を変更した場合に有効にします。
+    update_consent_last_time: '同意の最終更新日: %{update_time}'
   copy_project:
     started: プロジェクト「%{source_project_name}」を「%{target_project_name}」にコピーを開始しました。「%{target_project_name}」が利用可能になり次第、メールで通知されます。
     failed: プロジェクト「%{source_project_name}」をコピーできません。
@@ -889,10 +884,9 @@ ja:
   error_check_user_and_role: ユーザとロールを選択してください。
   error_cookie_missing: OpenProject のcookieが見つかりません。cookieが有効であることを確認してください。そうしないとこのアプリケーションは正しく動作しません。
   error_custom_option_not_found: オプションが存在しません。
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+  error_dependent_work_package: '依存するワークパッケージのエラー#%{related_id} %{related_subject}:
     %{error}'
-  error_enterprise_activation_user_limit: Your account could not be activated (user
-    limit reached). Please contact your administrator to gain access.
+  error_enterprise_activation_user_limit: あなたのアカウントを有効にすることができませんでした（ユーザー制限に達しました）。アクセスするには管理者に連絡してください。
   error_failed_to_delete_entry: このエントリを削除できませんでした。
   error_invalid_group_by: 'グループ化できません: %{value}'
   error_invalid_query_column: '無効なクエリ列: %{value}'
@@ -1052,7 +1046,7 @@ ja:
   label_calendar: カレンダー
   label_calendar_show: カレンダーを表示
   label_category: カテゴリ
-  label_consent_settings: User Consent
+  label_consent_settings: ユーザーの同意
   label_wiki_menu_item: Wikiのメニュー項目
   label_select_main_menu_item: 新しいメインメニュー項目を選択する
   label_select_project: プロジェクトの選択
@@ -1141,7 +1135,7 @@ ja:
   label_enumerations: 列挙型の一覧
   label_enterprise: エンタープライズ
   label_enterprise_edition: エンタープライズ版
-  label_enterprise_active_users: "%{current}/%{limit} booked active users"
+  label_enterprise_active_users: "%{current}/%{limit} 予約済みのアクティブユーザー"
   label_environment: 環境
   label_estimates_and_time: 見積もりと 時間
   label_equals: 等しい
@@ -1569,14 +1563,14 @@ ja:
   mail_subject_wiki_content_added: Wikiページ'%{id}'が追加されました
   mail_subject_wiki_content_updated: Wikiページ'%{id}'が更新されました
   mail_user_activation_limit_reached:
-    subject: User activation limit reached
+    subject: ユーザーのアクティブ化の上限に達しました。
     message: |
-      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
-      The user cannot activate their account since the user limit has been reached.
+      新しいユーザー（%{email}）が管理しているOpenProjectの環境（%{host})）上にアカウントを作成しようとしました。
+      ユーザーの制限に達しているため、ユーザーは自分のアカウントをアクティブ化できません。
     steps:
-      label: 'To allow the user to sign in you can either: '
-      a: Upgrade your payment plan ([here](upgrade_url))
-      b: Lock or delete an existing user ([here](users_url))
+      label: 'ユーザーがサインインできるようにするには、次のいずれかを行います: '
+      a: お支払いプランをアップグレードします。 ([ここ](upgrade_url))
+      b: 既存のユーザーをロックまたは削除する ([ここ](users_url))
   more_actions: 他の機能
   noscript_description: OpenProjectを使用するためにJavaScriptを有効にする必要があります！
   noscript_heading: JavaScriptは無効されています。
@@ -1909,10 +1903,10 @@ ja:
   setting_commit_logtime_activity_id: コミット時に作業時間を記録する
   setting_commit_logtime_enabled: 作業時間記録を有効にする
   setting_commit_ref_keywords: 参照用キーワード
-  setting_consent_time: Consent time
-  setting_consent_info: Consent information text
-  setting_consent_required: Consent required
-  setting_consent_decline_mail: Consent contact mail address
+  setting_consent_time: 同意時間
+  setting_consent_info: 同意文
+  setting_consent_required: 同意が必要です。
+  setting_consent_decline_mail: 連絡先メールアドレスに同意します。
   setting_cross_project_work_package_relations: 他プロジェクト間に作業項目の関連付けを許可する
   setting_date_format: 日付の形式
   setting_default_language: デフォルトの言語
@@ -2309,7 +2303,7 @@ ja:
       quarters: 四半期ごと
       years: " 年"
   title_remove_and_delete_user: プロジェクトから招待済のユーザを削除し、彼/彼女を削除します。
-  title_enterprise_upgrade: Upgrade to unlock more users.
+  title_enterprise_upgrade: アップグレードしてより多くのユーザーのロックを解除します。
   tooltip_resend_invitation: '古いメールの有効期限が切れた、またはユーザーが元のメールを受け取っていない場合に、新しいトークンで別の招待メールを送信します。アクティブなユーザーに新しい認証方法を選択するために使用することもできます。アクティブなユーザーに使用する場合、彼らの
     ステータスが ''招待'' に変更されます。
 
@@ -2366,11 +2360,10 @@ ja:
   note_password_login_disabled: パスワードを利用してログインは%{configuration}によって無効にされています。
   warning: 注意
   warning_attachments_not_saved: "%{count} 件のファイルを保存できませんでした。"
-  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
-    to allow for additional users.
-  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
-    active users). Please contact sales@openproject.com to upgrade your Enterprise
-    Edition plan and add additional users.
+  warning_user_limit_reached: ユーザー制限に達しました。追加のユーザーを追加できるように <a href="%{upgrade_url}">アップグレード</a>
+    してください。
+  warning_user_limit_reached_instructions: 'ユーザー制限（%{current}/%{max} アクティブユーザー）に達しました。
+    sales@openproject.com　に連絡してEnterprise Editionプランをアップグレードし、ユーザーを追加してください。
 
 '
   menu_item: メニュー項目

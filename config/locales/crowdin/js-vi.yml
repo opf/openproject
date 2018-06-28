@@ -10,7 +10,7 @@ vi:
     clipboard:
       browser_error: Trình duyệt không hỗ trợ copy vào clipboard. Vui lòng copy văn
         bản đã chọn theo cách thủ công.
-      copied_successful: Thành công sao chép vào clipboard!
+      copied_successful: Sao chép thành công vào clipboard!
     button_add_watcher: Thêm người theo dõi
     button_back_to_list_view: Back to list view
     button_cancel: Hủy

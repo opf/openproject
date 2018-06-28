@@ -300,7 +300,7 @@ pt-BR:
         expires_at: Expira em
         subscriber: Assinante
         encoded_token: Token de suporte Enterprise
-        active_user_count_restriction: Maximum active users
+        active_user_count_restriction: Máximo de usuários ativos
       relation:
         delay: Atraso
         from: Pacote de trabalho
@@ -701,7 +701,7 @@ pt-BR:
   button_unlock: Desbloquear
   button_unwatch: Não observar
   button_update: Atualizar
-  button_upgrade: Upgrade
+  button_upgrade: Atualizar
   button_upload: Carregar
   button_view: Ver
   button_watch: Observar
@@ -710,7 +710,7 @@ pt-BR:
   button_configure_menu_entry: Configurar item de menu
   button_delete_menu_entry: Excluir item de menu
   consent:
-    checkbox_label: Eu observei e concordo com o exposto acima.
+    checkbox_label: Eu li e concordo com o exposto acima.
     failure_message: Consentimento falhou, não pode continuar.
     title: Consentimento do usuário
     decline_warning_message: Você se recusou a consentir e foi desconectado.
@@ -958,8 +958,8 @@ pt-BR:
   error_custom_option_not_found: A opção não existe.
   error_dependent_work_package: 'Erro no pacote de trabalho dependente #%{related_id}
     %{related_subject}: %{error}'
-  error_enterprise_activation_user_limit: Your account could not be activated (user
-    limit reached). Please contact your administrator to gain access.
+  error_enterprise_activation_user_limit: Sua conta não pôde ser ativada (limite de
+    usuários atingido). Por favor, contate o administrador para obter acesso.
   error_failed_to_delete_entry: Falha ao excluir esta entrada.
   error_invalid_group_by: 'Não é possível agrupar por: %{value}'
   error_invalid_query_column: 'Coluna de consulta inválida: %{value}'
@@ -1228,7 +1228,7 @@ pt-BR:
   label_enumerations: Enumerações
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edition
-  label_enterprise_active_users: "%{current}/%{limit} booked active users"
+  label_enterprise_active_users: "%{current}/%{limit} usuários ativos reservados"
   label_environment: Ambiente
   label_estimates_and_time: Estimativas e tempo
   label_equals: é
@@ -1672,14 +1672,14 @@ pt-BR:
   mail_subject_wiki_content_added: página de wiki '%{id}' foi adicionada
   mail_subject_wiki_content_updated: página de wiki '%{id}' foi atualizada
   mail_user_activation_limit_reached:
-    subject: User activation limit reached
-    message: |
-      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
-      The user cannot activate their account since the user limit has been reached.
+    subject: Limite de ativação de usuários atingido
+    message: "Um novo usuário (%{email}) tentou criar uma conta em um ambiente do
+      OpenProject que você gerencia (%{host}). \nO usuário não conseguiu ativar sua
+      conta pois o limite máximo de usuários foi atingido.\n"
     steps:
-      label: 'To allow the user to sign in you can either: '
-      a: Upgrade your payment plan ([here](upgrade_url))
-      b: Lock or delete an existing user ([here](users_url))
+      label: 'Para permitir que o usuário entre você pode: '
+      a: Atualizar seu plano de pagamento ([here](upgrade_url))
+      b: Bloquear ou excluir um usuário existente ([here](users_url))
   more_actions: Mais funções
   noscript_description: Você precisa ativar o JavaScript para usar o OpenProject!
   noscript_heading: JavaScript desativado
@@ -2547,7 +2547,7 @@ pt-BR:
       quarters: Trimestres
       years: Anos
   title_remove_and_delete_user: Remover o usuário convidado do projeto e excluí-lo.
-  title_enterprise_upgrade: Upgrade to unlock more users.
+  title_enterprise_upgrade: Atualizar para desbloquear mais usuários.
   tooltip_resend_invitation: 'Envia outro e-mail de convite com um novo token, caso
     o antigo tenha expirado ou o usuário não tenha recebido o e-mail original. Também
     pode ser usado para que usuários ativos escolham um novo método de autenticação.
@@ -2615,11 +2615,11 @@ pt-BR:
   note_password_login_disabled: Login senha foi desativado pelo %{configuration}.
   warning: Aviso
   warning_attachments_not_saved: "%{count} arquivo(s) não pôde(m) ser salvo(s)."
-  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
-    to allow for additional users.
-  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
-    active users). Please contact sales@openproject.com to upgrade your Enterprise
-    Edition plan and add additional users.
+  warning_user_limit_reached: Atingido o limite de usuários. Por favor, <a href="%{upgrade_url}">atualize</a>
+    para permitir usuários adicionais.
+  warning_user_limit_reached_instructions: 'Você atingiu seu limite de usuários (%{current}/%{max}
+    usuários ativos). Entre em contato com sales@openproject.com para atualizar seu
+    plano Enterprise Edition e adicionar novos usuários.
 
 '
   menu_item: Item de menu
