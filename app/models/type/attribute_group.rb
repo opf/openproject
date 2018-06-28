@@ -36,7 +36,7 @@ class Type::AttributeGroup < Type::FormGroup
     # unexpected/unexplicable validation error.
     valid_keys = type.work_package_attributes.keys
 
-    (attributes & valid_keys).sort
+    (attributes & valid_keys)
   end
 
   def ==(other)
