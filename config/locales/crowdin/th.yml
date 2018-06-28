@@ -1377,6 +1377,7 @@ th:
   label_overall_activity: กิจกรรมในภาพรวม
   label_overall_spent_time: เวลาที่ใช้โดยรวม
   label_overview: ภาพรวม
+  label_page_title: Page title
   label_part_of: part of
   label_password_lost: ลืมรหัสผ่าน
   label_password_rule_lowercase: ตัวพิมพ์เล็ก

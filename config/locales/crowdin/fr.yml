@@ -1418,6 +1418,7 @@ fr:
   label_overall_activity: Activité totale
   label_overall_spent_time: Total du temps passé
   label_overview: Vue globale
+  label_page_title: Page title
   label_part_of: partie de
   label_password_lost: Mot de passe oublié
   label_password_rule_lowercase: Minuscules

@@ -1396,6 +1396,7 @@ bg:
   label_overall_activity: Overall activity
   label_overall_spent_time: Overall spent time
   label_overview: Общ преглед
+  label_page_title: Page title
   label_part_of: part of
   label_password_lost: Forgot your password?
   label_password_rule_lowercase: Lowercase

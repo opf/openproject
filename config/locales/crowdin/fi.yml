@@ -1389,6 +1389,7 @@ fi:
   label_overall_activity: Kokonaishistoria
   label_overall_spent_time: Käytetty kokonaisaika
   label_overview: Yleiskatsaus
+  label_page_title: Page title
   label_part_of: osana
   label_password_lost: Unohditko salasanasi?
   label_password_rule_lowercase: Pienet kirjaimet
