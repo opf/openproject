@@ -31,24 +31,24 @@
 
   $(function() {
     // set selected page for menu tree if provided.
-    $('[data-selected-page].tree-menu--container').each(function(_i, tree){
-      var selectedPage = $(tree).data('selected-page');
+    $('[data-selected-page].tree-menu--container').each(function(_i:number, tree:HTMLElement) {
+      let selectedPage = $(tree).data('selected-page');
       if (selectedPage) {
         $('[slug=' + selectedPage + ']', tree).toggleClass('-selected', true);
       }
     });
 
-    function toggle (event) {
+    function toggle (event:any) {
       // ignore the event if a key different from ENTER was pressed.
-      if (event.type === 'keypress' && event.which !== 13) { return false }
+      if (event.type === 'keypress' && event.which !== 13) { return false; }
 
-      var target = $(event.target);
-      var targetList = target.closest('ul.-with-hierarchy > li');
+      let target = $(event.target);
+      let targetList = target.closest('ul.-with-hierarchy > li');
       targetList.toggleClass('-hierarchy-collapsed -hierarchy-expanded');
       return false;
     }
 
     // set click handlers for expanding and collapsing tree nodes
-    $('.pages-hierarchy.-with-hierarchy .tree-menu--hierarchy-span').on('click keypress', toggle)
+    $('.pages-hierarchy.-with-hierarchy .tree-menu--hierarchy-span').on('click keypress', toggle);
   });
 }(jQuery));
