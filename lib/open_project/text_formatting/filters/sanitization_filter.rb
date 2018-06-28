@@ -31,6 +31,8 @@
 module OpenProject::TextFormatting
   module Filters
     class SanitizationFilter < HTML::Pipeline::SanitizationFilter
+      WHITELIST[:elements] << 'macro'
+      WHITELIST[:attributes].merge!('macro' => ['class'])
     end
   end
 end
