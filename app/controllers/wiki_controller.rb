@@ -72,6 +72,10 @@ class WikiController < ApplicationController
     controller.current_menu_item_sym :related_page
   end
 
+  current_menu_item :new_child do |controller|
+    controller.current_menu_item_sym :parent_page
+  end
+
   current_menu_item do |controller|
     controller.current_menu_item_sym :page
   end
@@ -368,7 +372,8 @@ class WikiController < ApplicationController
   end
 
   def current_menu_item_sym(page)
-    page = send(page)
+    page = page_for_menu_item(page)
+
     menu_item = page.try(:menu_item)
 
     if menu_item.present?
@@ -382,18 +387,12 @@ class WikiController < ApplicationController
   protected
 
   def parse_preview_data
-    page = @wiki.find_page(wiki_page_title)
+    page = @wiki.find_page(wiki_page_title.presence || params[:id])
     # page is nil when previewing a new page
     return render_403 unless page.nil? || editable?(page)
 
-    attachments = page && page.attachments
-    previewed =
-      if page
-        page.content
-      else
-        build_wiki_page_and_content
-        @content
-      end
+    attachments = page.try(:attachments)
+    previewed = content_to_preview(page)
 
     text = { WikiPage.human_attribute_name(:content) => params[:content][:text] }
 
@@ -402,8 +401,25 @@ class WikiController < ApplicationController
 
   private
 
+  def content_to_preview(page)
+    return page.content if page
+
+    build_wiki_page_and_content
+    @content
+  end
+
+  def page_for_menu_item(page)
+    if page == :parent_page
+      page = send(:page)
+      page = page.parent if page && page.parent
+    else
+      page = send(page)
+    end
+    page
+  end
+
   def wiki_page_title
-    params[:title] || params[:id]
+    params[:title] || action_name == 'new_child' ? '' : params[:id].to_s.capitalize.tr('-', ' ')
   end
 
   def find_wiki
@@ -416,12 +432,12 @@ class WikiController < ApplicationController
 
   # Finds the requested page and returns a 404 error if it doesn't exist
   def find_existing_page
-    @page = @wiki.find_page(wiki_page_title)
+    @page = @wiki.find_page(wiki_page_title.presence || params[:id])
     render_404 if @page.nil?
   end
 
   def build_wiki_page_and_content
-    @page = WikiPage.new wiki: @wiki, title: wiki_page_title.presence || I18n.t(:label_wiki_page)
+    @page = WikiPage.new wiki: @wiki, title: wiki_page_title.presence
     @page.content = WikiContent.new page: @page
 
     @content = @page.content_for_version nil
