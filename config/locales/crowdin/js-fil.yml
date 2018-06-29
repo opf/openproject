@@ -53,6 +53,9 @@ fil:
     description_select_work_package: 'Piliin ang work package #%{id}'
     description_selected_columns: Napiling mga hanay
     description_subwork_package: 'Bata ng work package #%{id}'
+    editor:
+      macro:
+        toc: Table of contents
     error:
       internal: Isang internal error ang naganap.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -591,6 +594,8 @@ fil:
         show_timeline_hint: Show an interactive gantt chart on the right side of the
           table. You can change its width by dragging the divider between table and
           gantt chart.
+        columns_help_text: Use the input above to add or remove columns to your table
+          view. You can drag and drop the columns to reorder them.
       tabs:
         overview: Buod
         activity: Aktibidad

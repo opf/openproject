@@ -52,6 +52,9 @@ ko:
     description_select_work_package: '작업 패키지 #%{id} 선택'
     description_selected_columns: 선택된 열
     description_subwork_package: '작업 패키지 #%{id}의 자식'
+    editor:
+      macro:
+        toc: Table of contents
     error:
       internal: 내부 오류가 발생하였습니다.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -547,6 +550,8 @@ ko:
         show_timeline_hint: Show an interactive gantt chart on the right side of the
           table. You can change its width by dragging the divider between table and
           gantt chart.
+        columns_help_text: Use the input above to add or remove columns to your table
+          view. You can drag and drop the columns to reorder them.
       tabs:
         overview: 요약
         activity: 활동

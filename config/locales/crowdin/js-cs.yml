@@ -53,6 +53,9 @@ cs:
     description_select_work_package: 'Vyberte pracovní balíček #%{id}'
     description_selected_columns: Vybrané sloupce
     description_subwork_package: 'Potomek pracovního balíčku #%{id}'
+    editor:
+      macro:
+        toc: Table of contents
     error:
       internal: Došlo k vnitřní chybě.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -580,6 +583,8 @@ cs:
           tabulkou výsledků.
         show_timeline_hint: Zobrazit interaktivní Ganttův graf na pravé straně tabulky.
           Šířku můžete změnit přetažením dělící příčky mezi tabulkou a Ganttovým diagramem.
+        columns_help_text: Use the input above to add or remove columns to your table
+          view. You can drag and drop the columns to reorder them.
       tabs:
         overview: Přehled
         activity: Aktivita

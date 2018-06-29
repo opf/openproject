@@ -52,6 +52,9 @@ zh:
     description_select_work_package: '选择工作包 #%{id}'
     description_selected_columns: 选定的列
     description_subwork_package: '子工作包 #%{id}'
+    editor:
+      macro:
+        toc: Table of contents
     error:
       internal: 发生了内部错误。
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -539,6 +542,8 @@ zh:
         show_timeline_hint: Show an interactive gantt chart on the right side of the
           table. You can change its width by dragging the divider between table and
           gantt chart.
+        columns_help_text: Use the input above to add or remove columns to your table
+          view. You can drag and drop the columns to reorder them.
       tabs:
         overview: 概述
         activity: 活动

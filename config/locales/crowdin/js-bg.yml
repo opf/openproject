@@ -53,6 +53,9 @@ bg:
     description_select_work_package: 'Избери работен пакет #%{id}'
     description_selected_columns: Избрани колони
     description_subwork_package: 'Подработен пакет #%{id}'
+    editor:
+      macro:
+        toc: Table of contents
     error:
       internal: Възникна вътрешна грешка.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -578,6 +581,8 @@ bg:
         show_timeline_hint: Show an interactive gantt chart on the right side of the
           table. You can change its width by dragging the divider between table and
           gantt chart.
+        columns_help_text: Use the input above to add or remove columns to your table
+          view. You can drag and drop the columns to reorder them.
       tabs:
         overview: Общ преглед
         activity: Активност

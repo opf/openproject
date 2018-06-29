@@ -53,6 +53,9 @@ ru:
     description_select_work_package: 'Выберите пакет работ #%{id}'
     description_selected_columns: Выбранные столбцы
     description_subwork_package: 'Потомок пакета работ #%{id}'
+    editor:
+      macro:
+        toc: Table of contents
     error:
       internal: Произошла внутренняя ошибка.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -579,6 +582,8 @@ ru:
           таблицей результатов.
         show_timeline_hint: Показать интерактивную диаграмму Гантта справа от таблицы.
           Ширина диаграммы изменяется с помощью разделяющей ее и таблицу линии.
+        columns_help_text: Use the input above to add or remove columns to your table
+          view. You can drag and drop the columns to reorder them.
       tabs:
         overview: Обзор
         activity: Деятельность

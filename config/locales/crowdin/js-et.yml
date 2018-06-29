@@ -53,6 +53,9 @@ et:
     description_select_work_package: 'Select work package #%{id}'
     description_selected_columns: Valitud väljad
     description_subwork_package: 'Child of work package #%{id}'
+    editor:
+      macro:
+        toc: Table of contents
     error:
       internal: An internal error has occurred.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -576,6 +579,8 @@ et:
         show_timeline_hint: Show an interactive gantt chart on the right side of the
           table. You can change its width by dragging the divider between table and
           gantt chart.
+        columns_help_text: Use the input above to add or remove columns to your table
+          view. You can drag and drop the columns to reorder them.
       tabs:
         overview: Ülevaade
         activity: Tegevus

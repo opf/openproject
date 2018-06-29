@@ -52,6 +52,9 @@ ja:
     description_select_work_package: '作業項目を選択 #%{id}'
     description_selected_columns: 選択された項目
     description_subwork_package: '作業項目の子 #%{id}'
+    editor:
+      macro:
+        toc: Table of contents
     error:
       internal: 内部エラーが発生しました。
       cannot_save_changes_with_message: '次のエラーのために変更を保存できません: %{error}'
@@ -163,7 +166,7 @@ ja:
     label_select_watcher: ウォッチャーを選択...
     label_selected_filter_list: 選択されたフィルタ
     label_show_attributes: すべての属性を表示
-    label_show_in_menu: Show view in menu
+    label_show_in_menu: メニューを表示する
     label_sort_by: 並べ替え
     label_sorted_by: 並べ替えされた
     label_sort_higher: 上へ
@@ -177,7 +180,7 @@ ja:
     label_activity_show_only_comments: コメントのみのアクティビティを表示
     label_activity_show_all: すべてのアクティビティを表示
     label_total_progress: "%{percent}% 進行状況"
-    label_visible_for_others: View visible for others
+    label_visible_for_others: 他の人に見えるようにする
     label_updated_on: 更新日時
     label_warning: 注意
     label_work_package: 作業項目
@@ -536,6 +539,8 @@ ja:
         hierarchy_hint: フィルタリングされたテーブルのすべての結果はその祖先で拡張されます。階層を展開したり折りたたんだりすることができます。
         display_sums_hint: 表の下にすべての集計可能な属性の合計を表示します。
         show_timeline_hint: テーブルの右側にインタラクティブなガントチャートを表示します。テーブルとガントチャートの間の区切り線をドラッグすることで幅を変更することができます。
+        columns_help_text: Use the input above to add or remove columns to your table
+          view. You can drag and drop the columns to reorder them.
       tabs:
         overview: 概要
         activity: 活動
