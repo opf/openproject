@@ -53,21 +53,11 @@ module OpenProject::TextFormatting::Formatters
         [
           :markdown,
           :sanitization,
+          HTML::Pipeline::TableOfContentsFilter,
+          :macro,
           :pattern_matcher,
           :autolink
         ]
-      end
-
-      protected
-
-      def located_filters
-        filters.map do |f|
-          if [Symbol, String].include? f.class
-            OpenProject::TextFormatting::Filters.const_get("#{f}_filter".classify)
-          else
-            f
-          end
-        end
       end
     end
   end

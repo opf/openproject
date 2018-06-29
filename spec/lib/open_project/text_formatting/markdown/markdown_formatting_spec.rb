@@ -52,20 +52,28 @@ describe OpenProject::TextFormatting::Formatters::Markdown::Formatter do
 
   it 'should escaping' do
     assert_html_output(
-      'this is a <script>'      => 'this is a &lt;script&gt;'
+      'this is a <script>' => 'this is a &lt;script&gt;'
     )
   end
 
   it 'should use of backslashes followed by numbers in headers' do
+    html = <<-HTML.strip_heredoc
+      <h1>
+        <a id="20090209" class="anchor" href="#20090209" aria-hidden="true">
+          <span aria-hidden="true" class="octicon octicon-link"></span>
+        </a>
+        2009\\02\\09
+      </h1>
+    HTML
     assert_html_output({
-                         '# 2009\02\09'      => '<h1>2009\02\09</h1>'
+                         '# 2009\02\09' => html
                        }, false)
   end
 
   it 'should double dashes should not strikethrough' do
     assert_html_output(
-      'double -- dashes -- test'  => 'double -- dashes -- test',
-      'double -- **dashes** -- test'  => 'double -- <strong>dashes</strong> -- test'
+      'double -- dashes -- test' => 'double -- dashes -- test',
+      'double -- **dashes** -- test' => 'double -- <strong>dashes</strong> -- test'
     )
   end
 
@@ -81,7 +89,6 @@ describe OpenProject::TextFormatting::Formatters::Markdown::Formatter do
     )
   end
 
-
   describe 'mail address autolink' do
     it 'prints autolinks for user references not existing' do
       assert_html_output(
@@ -94,16 +101,16 @@ describe OpenProject::TextFormatting::Formatters::Markdown::Formatter do
       let(:role) { FactoryBot.create(:role, permissions: %i(view_work_packages)) }
       let(:current_user) do
         FactoryBot.create(:user,
-                           member_in_project: project,
-                           member_through_role: role)
+                          member_in_project: project,
+                          member_through_role: role)
       end
       let(:user) do
         FactoryBot.create(:user,
-                           login: 'foo@bar.com',
-                           firstname: 'Foo',
-                           lastname: 'Barrit',
-                           member_in_project: project,
-                           member_through_role: role)
+                          login: 'foo@bar.com',
+                          firstname: 'Foo',
+                          lastname: 'Barrit',
+                          member_in_project: project,
+                          member_through_role: role)
       end
 
       before do
@@ -121,71 +128,71 @@ describe OpenProject::TextFormatting::Formatters::Markdown::Formatter do
 
   it 'should blockquote' do
     # orig raw text
-    raw = <<-RAW
-John said:
-> Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.
-> Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.
->
-> * Donec odio lorem,
-> * sagittis ac,
-> * malesuada in,
-> * adipiscing eu, dolor.
->
-> >Nulla varius pulvinar diam. Proin id arcu id lorem scelerisque condimentum. Proin vehicula turpis vitae lacus.
->
-> Proin a tellus. Nam vel neque.
+    raw = <<-RAW.strip_heredoc
+      John said:
+      > Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.
+      > Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.
+      >
+      > * Donec odio lorem,
+      > * sagittis ac,
+      > * malesuada in,
+      > * adipiscing eu, dolor.
+      >
+      > >Nulla varius pulvinar diam. Proin id arcu id lorem scelerisque condimentum. Proin vehicula turpis vitae lacus.
+      >
+      > Proin a tellus. Nam vel neque.
 
-He's right.
-RAW
+      He's right.
+    RAW
 
     # expected html
-    expected = <<-EXPECTED
-<p>John said:</p>
-<blockquote>
-<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.<br>
-Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.</p>
-<ul>
-  <li>Donec odio lorem,</li>
-  <li>sagittis ac,</li>
-  <li>malesuada in,</li>
-  <li>adipiscing eu, dolor.</li>
-</ul>
-<blockquote>
-<p>Nulla varius pulvinar diam. Proin id arcu id lorem scelerisque condimentum. Proin vehicula turpis vitae lacus.</p>
-</blockquote>
-<p>Proin a tellus. Nam vel neque.</p>
-</blockquote>
-<p>He's right.</p>
-EXPECTED
+    expected = <<-EXPECTED.strip_heredoc
+      <p>John said:</p>
+      <blockquote>
+      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.<br>
+      Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.</p>
+      <ul>
+        <li>Donec odio lorem,</li>
+        <li>sagittis ac,</li>
+        <li>malesuada in,</li>
+        <li>adipiscing eu, dolor.</li>
+      </ul>
+      <blockquote>
+      <p>Nulla varius pulvinar diam. Proin id arcu id lorem scelerisque condimentum. Proin vehicula turpis vitae lacus.</p>
+      </blockquote>
+      <p>Proin a tellus. Nam vel neque.</p>
+      </blockquote>
+      <p>He's right.</p>
+    EXPECTED
 
     expect(to_html(raw).gsub(%r{\s+}, '')).to eq(expected.gsub(%r{\s+}, ''))
   end
 
   it 'should table' do
-    raw = <<-RAW
-This is a table with header cells:
+    raw = <<-RAW.strip_heredoc
+      This is a table with header cells:
 
-|header|header|
-|------|------|
-|cell11|cell12|
-|cell21|cell23|
-|cell31|cell32|
-RAW
+      |header|header|
+      |------|------|
+      |cell11|cell12|
+      |cell21|cell23|
+      |cell31|cell32|
+    RAW
 
-    expected = <<-EXPECTED
-<p>This is a table with header cells:</p>
+    expected = <<-EXPECTED.strip_heredoc
+      <p>This is a table with header cells:</p>
 
-<table>
-  <thead>
-    <tr><th>header</th><th>header</th></tr>
-  </thead>
-  <tbody>
-  <tr><td>cell11</td><td>cell12</td></tr>
-  <tr><td>cell21</td><td>cell23</td></tr>
-  <tr><td>cell31</td><td>cell32</td></tr>
-  </tbody>
-</table>
-EXPECTED
+      <table>
+        <thead>
+          <tr><th>header</th><th>header</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>cell11</td><td>cell12</td></tr>
+        <tr><td>cell21</td><td>cell23</td></tr>
+        <tr><td>cell31</td><td>cell32</td></tr>
+        </tbody>
+      </table>
+    EXPECTED
 
     expect(to_html(raw).gsub(%r{\s+}, '')).to eq(expected.gsub(%r{\s+}, ''))
   end
@@ -200,6 +207,88 @@ EXPECTED
     expected = %[<p><imgsrc="/images/comment.png%22onclick=alert('XSS');%22" alt=""></p>]
 
     expect(expected.gsub(%r{\s+}, '')).to eq(to_html(raw).gsub(%r{\s+}, ''))
+  end
+
+  it 'inserts table of contents triggered by a macro' do
+    markdown = <<-MARKDOWN.strip_heredoc
+      <macro class="toc"></macro>
+
+      # The first h1 heading
+
+      Some text after the first h1 heading
+
+      ## The first h2 heading
+
+      Some text after the first h2 heading
+
+      ### The first h3 heading
+
+      Some text after the first h3 heading
+
+      # The second h1 heading
+
+      Some text after the second h1 heading
+
+      ## The second h2 heading
+
+      Some text after the second h2 heading
+
+      ### The second h3 heading
+
+      Some text after the second h3 heading
+    MARKDOWN
+
+    html = <<-HTML.strip_heredoc
+      <p><h1>Table of contents</h1><ul class="section-nav">
+      <li><a href="#the-first-h1-heading">The first h1 heading</a></li>
+      <li><a href="#the-first-h2-heading">The first h2 heading</a></li>
+      <li><a href="#the-first-h3-heading">The first h3 heading</a></li>
+      <li><a href="#the-second-h1-heading">The second h1 heading</a></li>
+      <li><a href="#the-second-h2-heading">The second h2 heading</a></li>
+      <li><a href="#the-second-h3-heading">The second h3 heading</a></li>
+      </ul></p>
+      <h1>
+        <a id="the-first-h1-heading" class="anchor" href="#the-first-h1-heading" aria-hidden="true">
+          <span aria-hidden="true" class="octicon octicon-link"></span>
+        </a>
+        The first h1 heading
+      </h1>
+      <p>Some text after the first h1 heading</p>
+      <h2>
+        <a id="the-first-h2-heading" class="anchor" href="#the-first-h2-heading" aria-hidden="true">
+          <span aria-hidden="true" class="octicon octicon-link"></span>
+        </a>
+        The first h2 heading
+      </h2>
+      <p>Some text after the first h2 heading</p>
+      <h3>
+        <a id="the-first-h3-heading" class="anchor" href="#the-first-h3-heading" aria-hidden="true">
+          <span aria-hidden="true" class="octicon octicon-link"></span>
+        </a>
+        The first h3 heading
+      </h3>
+      <p>Some text after the first h3 heading</p>
+      <h1>
+        <a id="the-second-h1-heading" class="anchor" href="#the-second-h1-heading" aria-hidden="true">
+          <span aria-hidden="true" class="octicon octicon-link"></span>
+        </a>The second h1 heading
+      </h1>
+      <p>Some text after the second h1 heading</p>
+      <h2>
+        <a id="the-second-h2-heading" class="anchor" href="#the-second-h2-heading" aria-hidden="true">
+          <span aria-hidden="true" class="octicon octicon-link"></span>
+        </a>The second h2 heading
+      </h2>
+      <p>Some text after the second h2 heading</p>
+      <h3>
+        <a id="the-second-h3-heading" class="anchor" href="#the-second-h3-heading" aria-hidden="true">
+          <span aria-hidden="true" class="octicon octicon-link"></span>
+        </a>The second h3 heading
+      </h3>
+      <p>Some text after the second h3 heading</p>
+    HTML
+
+    assert_html_output({ markdown => html }, false)
   end
 
   private
