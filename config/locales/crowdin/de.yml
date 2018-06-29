@@ -1697,14 +1697,14 @@ de:
   mail_subject_wiki_content_added: Wiki-Seite '%{id}' hinzugefügt
   mail_subject_wiki_content_updated: Wiki-Seite '%{id}' erfolgreich aktualisiert
   mail_user_activation_limit_reached:
-    subject: User activation limit reached
+    subject: Nutzer aktivierungs Limit erreicht
     message: |
-      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
-      The user cannot activate their account since the user limit has been reached.
+      Ein neuer Nutzer (%{email}) versuchte einen Account auf dem von ihnen Verwalteten OpenProject System (%{host}) zu erstellen.
+      Der Nutzer kann seinen Account aufgrund des Nutzer Limits nicht aktivieren.
     steps:
-      label: 'To allow the user to sign in you can either: '
+      label: 'Folgendes kannst du tuen um dem Nutzer das einloggen zu ermöglichen: '
       a: Upgrade your payment plan ([here](upgrade_url))
-      b: Lock or delete an existing user ([here](users_url))
+      b: Sprerren oder löschen eines bestehenden Nutzers ([here](users_url))
   more_actions: Weitere Funktionen
   noscript_description: Sie müssen JavaScript aktiveren, um OpenProject nutzen zu
     können!
@@ -2660,9 +2660,9 @@ de:
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
   warning_user_limit_reached: Nutzerlimit erreicht. Bitte <a href="%{upgrade_url}">upgraden</a>
     Sie um weitere Nutzer hinzuzufügen.
-  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
-    active users). Please contact sales@openproject.com to upgrade your Enterprise
-    Edition plan and add additional users.
+  warning_user_limit_reached_instructions: 'Du hast dein Nutzerlimit erreicht (%{current}/%{max}
+    active users). Bitte kontaktiere sales@openproject.com um deinen Enterprise Edition
+    Plan upzugraden und weitere Nutzer hinzuzufügen.
 
 '
   menu_item: Menüpunkt
