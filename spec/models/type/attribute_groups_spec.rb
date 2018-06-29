@@ -221,6 +221,31 @@ describe ::Type, type: :model do
       expect(type.save).to be_truthy
       expect(type.read_attribute(:attribute_groups)).not_to be_empty
     end
+
+    context 'with multiple CFs' do
+      let!(:custom_field2) do
+        FactoryBot.create(
+          :work_package_custom_field,
+          field_format: 'string'
+        )
+      end
+      let(:cf_identifier2) do
+        :"custom_field_#{custom_field2.id}"
+      end
+
+      it 'they are kept in their respective positions in the group (Regression test #27940)' do
+        # Enforce fresh lookup of groups
+        OpenProject::Cache.clear
+
+        # Can be enabled
+        type.attribute_groups = [['foo', [cf_identifier2.to_s, cf_identifier.to_s]]]
+        expect(type.save).to be_truthy
+        expect(type.read_attribute(:attribute_groups)).not_to be_empty
+
+        cf_group = type.attribute_groups[0]
+        expect(cf_group.members).to eq([cf_identifier2.to_s, cf_identifier.to_s])
+      end
+    end
   end
 
   describe 'custom field added implicitly to type' do
