@@ -1406,6 +1406,7 @@ ca:
   label_overall_activity: Activitat global
   label_overall_spent_time: Temps total invertit
   label_overview: Visió general
+  label_page_title: Page title
   label_part_of: part of
   label_password_lost: Heu oblidat la contrasenya?
   label_password_rule_lowercase: Minúscula

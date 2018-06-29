@@ -1409,6 +1409,7 @@ hr:
   label_overall_activity: Ukupna aktivnost
   label_overall_spent_time: Ukupno utrošeno vrijeme
   label_overview: Pregled
+  label_page_title: Page title
   label_part_of: dio
   label_password_lost: Zaboravili ste lozinku?
   label_password_rule_lowercase: Mala slova

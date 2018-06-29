@@ -1423,6 +1423,7 @@ cs:
   label_overall_activity: Celková aktivita
   label_overall_spent_time: Celkem strávený čas
   label_overview: Přehled
+  label_page_title: Page title
   label_part_of: part of
   label_password_lost: Zapomněli jste heslo?
   label_password_rule_lowercase: Malá písmena
