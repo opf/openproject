@@ -261,7 +261,7 @@ group :opf_plugins do
 end
 
 group :docker, optional: true do
-  gem 'passenger'
+  gem 'passenger', '~> 5.3.3'
 
   # Used to easily precompile assets
   gem 'sqlite3', require: false
