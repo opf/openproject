@@ -1,0 +1,174 @@
+ja:
+  activerecord:
+    attributes:
+      two_factor_authentication/device:
+        identifier: '識別子'
+        default: 'デフォルトとして使用'
+      two_factor_authentication/device/sms:
+        phone_number: "電話番号"
+    errors:
+      models:
+        two_factor_authentication/device:
+          default_already_exists: 'すでに別のOTPデバイス用に設定されています。'
+        two_factor_authentication/device/sms:
+          attributes:
+            phone_number:
+              error_phone_number_format: "形式+ XX XXXXXXXXXでなければなりません"
+    models:
+      two_factor_authentication/device: "2ファクターデバイス"
+      two_factor_authentication/device/sms: "携帯電話"
+      two_factor_authentication/device/totp: "認証システム アプリケーション"
+  two_factor_authentication:
+    error_2fa_disabled: "2FAの配信が無効になっています。"
+    error_no_device: "このインスタンスに必要であるにもかかわらず、このユーザーに登録された2FAデバイスが見つかりませんでした。"
+    error_no_matching_strategy: "このユーザーに対応する2FA方法はありません。管理者に連絡してください。"
+    error_is_enforced_not_active: '構成エラー：2ファクター認証が実施されていますが、有効な方法はありません。'
+    error_invalid_backup_code: '2FAバックアップコードが無効です'
+    channel_unavailable: "配信チャネル %{channel} は利用できません。"
+    no_valid_phone_number: "有効な電話番号が存在しません。"
+    label_pwd_confirmation: "パスワード"
+    notice_pwd_confirmation: "これらの設定を変更するにはパスワードを確認する必要があります。"
+    label_device_type: "デバイスタイプ"
+    label_default_device: "規定の2FAデバイス"
+    label_device: "2FAデバイス"
+    label_devices: "2FAデバイス"
+    label_one_time_password: 'ワンタイムパスワード'
+    label_2fa_enabled: '2段階認証が有効です'
+    label_2fa_disabled: '2段階認証が有効ではありません'
+    text_otp_delivery_message_sms: "あなたの %{app_title} ワンタイムパスワードは %{token} です"
+    text_otp_delivery_message_voice: "あなたの %{app_title} ワンタイムパスワード: %{pause} %{token}。 %{pause} 繰り返します: %{pause} %{token}"
+    text_enter_2fa: 'あなたのデバイスからワンタイムパスワードを入力してください。'
+    text_2fa_enabled: 'ログインごとに、デフォルトの2FAデバイスからOTPトークンを入力するよう要求されます。'
+    text_2fa_disabled: '2段階証を有効にするには、上記のボタンを使用して新しい2FAデバイスを登録します。既にデバイスがある場合は、デフォルトにする必要があります。'
+    login:
+      enter_backup_code_title: バックアップコードを入力
+      enter_backup_code_text: 登録された2FAデバイスにアクセスできない場合は、コードのリストから有効なバックアップコードを入力してください。
+      other_device: '別のデバイスまたはバックアップコードを使用する'
+    settings:
+      title: '2FA設定'
+      current_configuration: '現在の設定'
+      label_active_strategies: '有効な2FA方法'
+      label_enforced: '2FAを強制'
+      label_remember: '2FAログインを保持'
+      text_configuration: |
+        注意: これらの値は現在のアプリケーション全体の構成を表します。構成によって強制される設定を無効にすることも、現在のアクティブな戦略を変更することもできません。サーバーの再起動が必要なためです。
+      text_configuration_guide: 詳細については、設定ガイドを参照してください。
+      text_enforced: 'この設定を有効にすると、すべてのユーザーが次回のログイン時に2FAデバイスを強制的に登録します。設定によって強制されない場合にのみ無効にすることができます。'
+      text_remember: |
+        0より大きい値に設定すると、ユーザーは指定した日数の2FA認証を記憶させておくことができます。
+        その期間中に再入金を要求されることはありません。構成によって強制されない場合にのみ設定できます。
+      error_invalid_settings: '選択した2FA方法は無効です'
+      failed_to_save_settings: '2FA設定の更新に失敗しました: %{message}'
+    admin:
+      self_edit_path: '独自の2FAデバイスを追加または変更するには、こちら %{self_edit_link} をご覧ください。'
+      self_edit_link_name: 'アカウントページの2段階認証'
+      self_edit_forbidden: 'このパスで自分の2FAデバイスを編集することはできません。 マイアカウント > 二段階認証 の順に選択します。'
+      no_devices_for_user: 'このユーザーには2FAデバイスが登録されていません。'
+      all_devices_deleted: 'このユーザーの2FAデバイスはすべて削除されています'
+      delete_all_are_you_sure: 'このユーザーの2FAデバイスをすべて削除してもよろしいですか？'
+      button_delete_all_devices: '登録された2FAデバイスを削除します'
+      button_register_mobile_phone_for_user: '携帯電話番号で登録する'
+      text_2fa_enabled: 'ログインごとに、このユーザはデフォルトの2FAデバイスからOTPトークンを入力するよう要求されます。'
+      text_2fa_disabled: "ユーザーは2FAデバイスを「マイアカウントページ」から設定していません"
+    backup_codes:
+      none_found: このアカウントのバックアップコードはありません。
+      singular: バックアップコード
+      plural: バックアップコード
+      your_codes: あなたの %{app_name} アカウント %{login}
+      overview_description: |
+        2段階認証のデバイスにアクセスできない場合は、バックアップコードを使用してアカウントへのアクセスを回復することができます。
+        新しいバックアップコードセットを生成するには次のボタンを使用します。
+      generate:
+        title: バックアップ コードを生成します
+        keep_safe_as_password: '重要！これらのコードをパスワードとして扱います。'
+        keep_safe_warning: 'パスワードマネージャーに保存するか、このページを印刷して安全な場所に保管してください。'
+        regenerate_warning: '警告: 以前に作成したバックアップコードは無効になり、もはや機能しなくなります。'
+    devices:
+      add_new: '新しい2FAデバイスを追加します'
+      register: 'デバイスを登録する'
+      confirm_default: 'デフォルトデバイスの変更を確認する'
+      confirm_device: 'デバイスを確認'
+      confirm_now: '確認されていません、ここをクリックして有効にする'
+      cannot_delete_default: '既定のデバイスを削除できません。'
+      make_default_are_you_sure: 'この2FAデバイスをデフォルトにしてもよろしいですか？'
+      make_default_failed: 'デフォルトの2FAデバイスの更新に失敗しました。'
+      deletion_are_you_sure: 'この2FAデバイスを削除してもよろしいですか？'
+      registration_complete: '2FAデバイスの登録が完了しました！'
+      registration_failed_token_invalid: '2FAデバイスの登録に失敗しました。トークンが無効でした。'
+      registration_failed_update: '2FAデバイスの登録に失敗しました。トークンは有効でしたがデバイスを更新できませんでした。'
+      confirm_send_failed: '2FAデバイスの確認に失敗しました。'
+      button_complete_registration: '2FA登録を完了する'
+      text_confirm_to_complete_html: "規定のデバイスからワンタイムパスワードを入力して、デバイス <strong>%{identifier}</strong> の登録を完了してください。"
+      text_confirm_to_change_default_html: "現在の規定のデバイスからワンタイムパスワードを入力して、規定のデバイスを <strong>%{new_identifier}</strong> に変更してください。"
+      text_identifier: 'このフィールドを使用してデバイスにカスタムIDを与えることができます。'
+      failed_to_delete: '2FAデバイスの削除に失敗しました。'
+      is_default_cannot_delete: 'デバイスは規定になっているため、アクティブなセキュリティポリシーのため削除できません。削除する前に別のデバイスを規定にしてください。'
+      not_existing: 'アカウントに2FAデバイスが登録されていません。'
+      request_2fa: あなたの身元を確認するには %{device_name} からコードを入力してください。
+      totp:
+        title: 'アプリベースの認証ツールを使用する'
+        provisioning_uri: 'プロビジョニングURI'
+        secret_key: '秘密鍵'
+        time_based: '時間ベース'
+        account: 'アカウント名 / 発行者'
+        setup: |
+          Google Authenticator で二段階認証を設定するには、Apple App StoreまたはGoogle Playストアからアプリケーションをダウンロードしてください。
+          アプリを開いた後、次のQRコードをスキャンしてデバイスを登録することができます。
+        question_cannot_scan: |
+          アプリケーションを使用してコードをスキャンできませんか？
+        text_cannot_scan: |
+          コードをスキャンできない場合は、次の詳細を使用して手動で入力することができます:
+        description: |
+          OpenProjectで使用する認証プログラムに時間ベースのワンタイムパスワード認証方式を使用して登録します。
+          一般的な例は Google Authenticator または Authy です。
+      sms:
+        title: 'あなたの携帯電話を使用してください'
+        redacted_identifier: 'モバイルデバイス (%{redacted_number})'
+        request_2fa_identifier: '%{redacted_identifier}、%{delivery_channel} 経由で認証コードを送信しました。'
+        description: |
+          OpenProjectワンタイムパスワードの配信用に携帯電話番号を登録してください。
+    sns:
+      delivery_failed: 'SNSの配信に失敗しました:'
+    message_bird:
+      sms_delivery_failed: 'MessageBird SMSの配信に失敗しました。'
+      voice_delivery_failed: 'MessageBird音声通話に失敗しました。'
+    restdt:
+      delivery_failed_with_code: 'トークンの配信に失敗しました。 (エラーコード %{code})'
+    strategies:
+      totp: '認証システム アプリケーション'
+      sns: 'Amazon SNS'
+      resdt: 'SMS Rest API'
+    mobile_transmit_notification: "ワンタイムパスワードが携帯電話に送信されました。"
+    label_two_factor_authentication: '2段階認証'
+    forced_registration:
+      required_to_add_device: 'アクティブなセキュリティポリシーでは2段階認証を有効にする必要があります。デバイスを登録するには、次のフォームを使用してください。'
+    remember:
+      active_session_notice: >
+        あなたのアカウントには %{expires_on} まで有効なクッキーが記録されています。このクッキーを使用すると2段階認証なしでアカウントにログインすることができます。
+      label: '記憶する'
+      clear_cookie: 'このクッキーを削除するにはここをクリックしてください'
+      cookie_removed: '記憶させたクッキーは削除されました。'
+      dont_ask_again: "%{days} 日間このクライアントの2FA認証を記憶するためのクッキーを作成します。"
+  field_phone: "携帯電話"
+  field_otp: "ワンタイムパスワード"
+  notice_account_otp_invalid: "無効なワンタイムパスワードです。"
+  notice_account_otp_expired: "入力したワンタイムパスワードは期限切れです。"
+  notice_developer_strategy_otp: "開発者方式では、次のワンタイムパスワードが生成されました: %{token} (チャネル: %{channel})"
+  notice_account_otp_send_failed: "ワンタイムパスワードを送信できませんでした。"
+  notice_account_has_no_phone: "あなたのアカウントには携帯電話番号は関連付けられていません。"
+  label_expiration_hint: "%{date} またはログアウト時"
+  label_actions: '操作'
+  label_confirmed: '確認済み'
+  button_continue: '続行'
+  button_make_default: 'デフォルトとしてマークする'
+  label_unverified_phone: "Cell phone not yet verified"
+  message_expiration_time: "For security reasons it will expire in %{duration} (%{time}) automatically or when you log out."
+  notice_phone_number_format: "次の形式で番号を入力してください: +XX XXXXXXXX."
+  error_password_on_phone_change: "is required if you want to change your cell phone number"
+  notice_field_phone: "To login by one-time password you must be able to receive SMS messages sent to this number"
+  text_otp_not_receive: "その他の確認方法"
+  text_send_otp_again: "ワンタイムパスワードを再送信:"
+  button_resend_otp_form: "再送信"
+  button_otp_by_voice: "音声通話"
+  button_otp_by_sms: "SMS"
+  label_otp_channel: "配信チャネル"
