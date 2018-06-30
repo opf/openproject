@@ -171,9 +171,9 @@ nl:
       form_configuration: Formulierconfiguratie
       projects: Projecten
       enabled_projects: Ingeschakelde projecten
-      add_group: Add attribute group
-      add_subelements: Add subelements group
-      edit_query: Edit embedded query
+      add_group: Toevoegen van nieuwe attribuutgroepen
+      add_subelements: Subelementen groep toevoegen
+      edit_query: Bewerken van ingesloten zoekopdracht
       reset: Standaardinstellingen herstellen
   versions:
     overview:
@@ -255,10 +255,10 @@ nl:
           kiest om een gebruiker van deze toepassing opnieuw te worden, kan je dus
           met behulp van de middelen deze toepassing verleent.
       login_verification:
-        other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be asked to confirm your password.
-        self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be asked to confirm your password.
+        other: Voer de login- %{name} ter controle voor de verwijdering. Zodra deze
+          is ingegeven, zal u worden gevraagd uw wachtwoord te bevestigen.
+        self: Voer uw login- %{name} ter controle voor de verwijdering. Zodra deze
+          is ingegeven, zal u worden gevraagd uw wachtwoord te bevestigen.
     error_inactive_activation_by_mail: 'Uw account is nog niet geactiveerd. Klik op
       de link in de u toegestuurde mail om uw account te activeren.
 
@@ -402,7 +402,7 @@ nl:
       work_package:
         begin_insertion: Begin van het invoegen
         begin_deletion: Begin van de verwijdering
-        children: Subelements
+        children: Subelementen
         done_ratio: Voortgang (%)
         end_insertion: Einde van het invoegen
         end_deletion: Einde van de verwijdering
@@ -460,7 +460,7 @@ nl:
         before_or_equal_to: moet voor of gelijk zijn aan %{date}.
         could_not_be_copied: kon niet (volledig) worden gekopieerd.
         regex_invalid: kon niet worden gevalideerd met de bijbehorende reguliere expressie.
-        unchangeable: cannot be changed.
+        unchangeable: kan niet worden gewijzigd.
       models:
         custom_field:
           at_least_one_custom_option: Ten minste één optie moet beschikbaar zijn.
@@ -535,8 +535,8 @@ nl:
             status_id:
               status_transition_invalid: is ongeldig omdat geen geldige overgang van
                 de oude naar de nieuwe status voor de huidige gebruikersrollen bestaat.
-              status_invalid_in_type: is invalid because the current status does not
-                exist in this type.
+              status_invalid_in_type: is ongeldig omdat de huidige status niet in
+                dit type bestaat.
             priority_id:
               only_active_priorities_allowed: moet actief zijn.
             category:
@@ -1130,7 +1130,7 @@ nl:
   label_all: alle
   label_all_time: aller tijden
   label_all_words: Alle woorden
-  label_all_open_wps: All open
+  label_all_open_wps: Alles open
   label_always_visible: Altijd weergegeven
   label_announcement: Mededeling
   label_and_its_subprojects: "%{value} en zijn subprojecten"
@@ -1194,7 +1194,7 @@ nl:
   label_close_versions: Voltooide versies sluiten
   label_closed_work_packages: gesloten
   label_collapse: Samenvouwen
-  label_collapsed_click_to_show: Collapsed. Click to show
+  label_collapsed_click_to_show: Samengevouwen. Klik om te tonen
   label_configuration: configuratie
   label_comment_add: Een opmerking toevoegen
   label_comment_added: Opmerking toegevoegd
@@ -1263,13 +1263,13 @@ nl:
   label_enterprise: Enterprise
   label_enterprise_active_users: "%{current}/%{limit} gereserveerd actieve gebruikers"
   label_enterprise_edition: Enterprise Edition
-  label_entry_page: Entry page
+  label_entry_page: Pagina voor gegevensinvoer
   label_environment: Omgeving
   label_estimates_and_time: Schattingen en tijden
   label_equals: is
   label_example: Voorbeeld
   label_export_to: 'Ook verkrijgbaar in:'
-  label_expanded_click_to_collapse: Expanded. Click to collapse
+  label_expanded_click_to_collapse: Uitgebreid. Klik op samenvouwen
   label_f_hour: "%{value} uur"
   label_f_hour_plural: "%{value} uren"
   label_feed_plural: Feeds
@@ -1301,7 +1301,7 @@ nl:
   label_here: hier
   label_hide: Verbergen
   label_history: Geschiedenis
-  label_hierarchy_leaf: Hierarchy leaf
+  label_hierarchy_leaf: Hiërarchie blad
   label_home: Home
   label_in: in
   label_in_less_than: in minder dan
@@ -1315,7 +1315,7 @@ nl:
   label_information_plural: Informatie
   label_integer: Integer
   label_internal: Intern
-  label_introduction_video: Introduction video
+  label_introduction_video: Introductie video
   label_invite_user: Gebruiker uitnodigen
   label_show_hide: Weergeven/verbergen
   label_show_all_registered_users: Toon alle geregistreerde gebruikers
@@ -1392,7 +1392,7 @@ nl:
   label_next_week: Volgende week
   label_no_change_option: "(Niet wijzigen)"
   label_no_data: Geen gegevens om weer te geven
-  label_no_parent_page: No parent page
+  label_no_parent_page: Geen bovenliggende pagina
   label_nothing_display: Niets om weer te geven
   label_nobody: niemand
   label_none: geen
@@ -1411,7 +1411,7 @@ nl:
   label_overall_activity: Totale activiteit
   label_overall_spent_time: Totale verbruikte tijd
   label_overview: Overzicht
-  label_page_title: Page title
+  label_page_title: Pagina titel
   label_part_of: onderdeel van
   label_password_lost: Wachtwoord vergeten
   label_password_rule_lowercase: Kleine letters
@@ -1534,7 +1534,7 @@ nl:
   label_summary: Overzicht
   label_system: Systeem
   label_system_storage: Opslaginformatie
-  label_table_of_contents: Inhoudsopgave
+  label_table_of_contents: Table of contents
   label_tag: Label
   label_text: Lange tekst
   label_this_month: Deze maand
@@ -1580,7 +1580,7 @@ nl:
   label_version_sharing_none: Niet gedeeld
   label_version_sharing_system: Met alle projecten
   label_version_sharing_tree: Met projectstructuur
-  label_videos: Videos
+  label_videos: Video 's
   label_view_all_revisions: Alle herzieningen bekijken
   label_view_diff: Bekijk verschillen
   label_view_revisions: Bekijk revisies
@@ -2104,9 +2104,9 @@ nl:
     mislukte inlogpogingen
   setting_brute_force_block_minutes: De gebruiker is geblokkeerd voor tijd
   setting_cache_formatted_text: Cache opgemaakte tekst
-  setting_use_wysiwyg: WYSIWYG editor
-  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
-    users by default. CKEditor has limited functionality for GFM Markdown.
+  setting_use_wysiwyg: WYSIWYG-editor
+  setting_use_wysiwyg_description: Wilt u CKEditor5 WYSIWYG editor voor alle gebruikers
+    standaard ingeschakeld. CKEditor heeft een beperkte functionaliteit voor GFM Markdown.
   setting_column_options: Het uiterlijk van de werkpakketten lijsten aanpassen
   setting_commit_fix_keywords: Vaststelling van trefwoorden
   setting_commit_logs_encoding: Commit berichten coderen
@@ -2215,12 +2215,12 @@ nl:
     session: Sessie
     brute_force_prevention: Automatische gebruiker blokkering
     user:
-      default_preferences: Default preferences
-      deletion: Deletion
+      default_preferences: Standaardvoorkeuren
+      deletion: Verwijdering
   text_formatting:
     textile: Textile
     markdown: Markdown
-    plain: Plain text
+    plain: Onopgemaakte tekst
   status_active: actief
   status_archived: gearchiveerd
   status_invited: uitgenodigd

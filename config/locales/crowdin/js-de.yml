@@ -58,8 +58,8 @@ de:
         toc: Table of contents
     error:
       internal: Ein interner Fehler ist aufgetreten.
-      cannot_save_changes_with_message: 'Cannot save your changes due to the following
-        error: %{error}'
+      cannot_save_changes_with_message: 'Ihre Änderungen können nicht gespeichert
+        werden. Fehler: %{error}'
       query_saving: Die Abfrage konnte nicht gespeichert werden.
     filter:
       description:

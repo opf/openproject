@@ -571,20 +571,21 @@ nl:
       table_configuration:
         button: Configureer deze werkpakkettabel
         modal_title: Werk pakket tabel configuratie
-        embedded_tab_disabled: This configuration tab is not available for the embedded
-          query you're editing.
-        display_settings: Display settings
-        grouped_mode: Grouped mode
-        grouped_hint: Table results will be grouped by the given attribute.
-        default_mode: Default mode
+        embedded_tab_disabled: Het configuratie tabblad is niet beschikbaar voor de
+          zoekopdracht die u probeert te bewerken.
+        display_settings: Weergave-instellingen
+        grouped_mode: Gegroepeerde modus
+        grouped_hint: Tabel resultaten zullen worden gegroepeerd op het opgegeven
+          kenmerk.
+        default_mode: Standaardmodus
         hierarchy_mode: Hiërarchie-modus
-        hierarchy_hint: All filtered table results will be augmented with their ancestors.
-          Hierarchies can be expanded and collapsed.
-        display_sums_hint: Display sums of all summable attributes in a row below
-          the table results.
-        show_timeline_hint: Show an interactive gantt chart on the right side of the
-          table. You can change its width by dragging the divider between table and
-          gantt chart.
+        hierarchy_hint: Alle gefilterde tabel resultaten zal worden uitgebreid met
+          hun voorouders. Hiërarchieën kunnen worden uitgevouwen en samengevouwen.
+        display_sums_hint: Waarden van alle optelbare attributen in een rij onder
+          de tabel resultaten weergeven.
+        show_timeline_hint: Toon een interactieve Gantt-diagram aan de rechterkant
+          van de tabel. U kunt de breedte wijzigen door de scheidingslijn tussen de
+          tabel en Gantt-diagram te slepen.
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
       tabs:
@@ -661,7 +662,7 @@ nl:
         messages_on_field: 'Het veld is ongeldig: %{messages}'
     error_could_not_resolve_version_name: Kan de verstane niet vinden
     error_could_not_resolve_user_name: Kan de gebruikersnaam niet vinden
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload: 'Uploaden van bestand ''%{name}'' is mislukt: %{error}'
     units:
       workPackage:
         one: werkpakket

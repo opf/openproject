@@ -54,7 +54,7 @@ ja:
     description_subwork_package: '作業項目の子 #%{id}'
     editor:
       macro:
-        toc: Table of contents
+        toc: 目次
     error:
       internal: 内部エラーが発生しました。
       cannot_save_changes_with_message: '次のエラーのために変更を保存できません: %{error}'
@@ -539,8 +539,7 @@ ja:
         hierarchy_hint: フィルタリングされたテーブルのすべての結果はその祖先で拡張されます。階層を展開したり折りたたんだりすることができます。
         display_sums_hint: 表の下にすべての集計可能な属性の合計を表示します。
         show_timeline_hint: テーブルの右側にインタラクティブなガントチャートを表示します。テーブルとガントチャートの間の区切り線をドラッグすることで幅を変更することができます。
-        columns_help_text: Use the input above to add or remove columns to your table
-          view. You can drag and drop the columns to reorder them.
+        columns_help_text: テーブルビューに列を追加または削除するには上記の入力を使用します。列をドラッグ＆ドロップして並べ替えることができます。
       tabs:
         overview: 概要
         activity: 活動
