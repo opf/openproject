@@ -18,7 +18,7 @@ describe 'Upload attachment to work package', js: true do
   let(:wp_page) { ::Pages::FullWorkPackage.new(work_package, project) }
   let(:attachments) { ::Components::Attachments.new }
   let(:field) { WorkPackageEditorField.new wp_page, 'description' }
-  let(:image_fixture) {  Rails.root.join('spec/fixtures/files/image.png') }
+  let(:image_fixture) { Rails.root.join('spec/fixtures/files/image.png') }
 
   before do
     login_as(dev)
@@ -32,8 +32,13 @@ describe 'Upload attachment to work package', js: true do
       target = find('.op-ckeditor-element')
       attachments.drag_and_drop_file(target, image_fixture)
 
+      # Besides testing caption functionality this also slows down clicking on the submit button
+      # so that the image is properly embedded
+      page.find('figure.image figcaption').base.send_keys('Some image caption')
+
       field.submit_by_click
       expect(field.display_element).to have_selector('img')
+      expect(field.display_element).to have_content('Some image caption')
     end
   end
 

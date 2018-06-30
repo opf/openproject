@@ -171,9 +171,9 @@ nl:
       form_configuration: Formulierconfiguratie
       projects: Projecten
       enabled_projects: Ingeschakelde projecten
-      add_group: Add attribute group
-      add_subelements: Add subelements group
-      edit_query: Edit embedded query
+      add_group: Toevoegen van nieuwe attribuutgroepen
+      add_subelements: Subelementen groep toevoegen
+      edit_query: Bewerken van ingesloten zoekopdracht
       reset: Standaardinstellingen herstellen
   versions:
     overview:
@@ -255,10 +255,10 @@ nl:
           kiest om een gebruiker van deze toepassing opnieuw te worden, kan je dus
           met behulp van de middelen deze toepassing verleent.
       login_verification:
-        other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be asked to confirm your password.
-        self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be asked to confirm your password.
+        other: Voer de login- %{name} ter controle voor de verwijdering. Zodra deze
+          is ingegeven, zal u worden gevraagd uw wachtwoord te bevestigen.
+        self: Voer uw login- %{name} ter controle voor de verwijdering. Zodra deze
+          is ingegeven, zal u worden gevraagd uw wachtwoord te bevestigen.
     error_inactive_activation_by_mail: 'Uw account is nog niet geactiveerd. Klik op
       de link in de u toegestuurde mail om uw account te activeren.
 
@@ -402,7 +402,7 @@ nl:
       work_package:
         begin_insertion: Begin van het invoegen
         begin_deletion: Begin van de verwijdering
-        children: Subelements
+        children: Subelementen
         done_ratio: Voortgang (%)
         end_insertion: Einde van het invoegen
         end_deletion: Einde van de verwijdering
@@ -460,7 +460,7 @@ nl:
         before_or_equal_to: moet voor of gelijk zijn aan %{date}.
         could_not_be_copied: kon niet (volledig) worden gekopieerd.
         regex_invalid: kon niet worden gevalideerd met de bijbehorende reguliere expressie.
-        unchangeable: cannot be changed.
+        unchangeable: kan niet worden gewijzigd.
       models:
         custom_field:
           at_least_one_custom_option: Ten minste één optie moet beschikbaar zijn.
@@ -535,8 +535,8 @@ nl:
             status_id:
               status_transition_invalid: is ongeldig omdat geen geldige overgang van
                 de oude naar de nieuwe status voor de huidige gebruikersrollen bestaat.
-              status_invalid_in_type: is invalid because the current status does not
-                exist in this type.
+              status_invalid_in_type: is ongeldig omdat de huidige status niet in
+                dit type bestaat.
             priority_id:
               only_active_priorities_allowed: moet actief zijn.
             category:
@@ -733,22 +733,24 @@ nl:
   button_configure_menu_entry: Menu-item configureren
   button_delete_menu_entry: Menu-item verwijderen
   consent:
-    checkbox_label: I have noted and do consent to the above.
+    checkbox_label: Ik heb kennis genomen van en stemt in met het bovenstaande.
     failure_message: Toestemming mislukt, kan niet doorgaan.
     title: Gebruikers toestemming
     decline_warning_message: U heeft de toestemming geweigerd en bent uitgelogd.
-    user_has_consented: User has consented to your configured statement at the given
-      time.
-    not_yet_consented: User has not consented yet, will be requested upon next login.
-    contact_mail_instructions: Define the mail address that users can reach a data
-      controller to perform data change or removal requests.
-    contact_your_administrator: Please contact your administrator if you want to have
-      your account deleted.
-    contact_this_mail_address: Please contact %{mail_address} if you want to have
-      your account deleted.
-    text_update_consent_time: Check this box to force users to consent again. Enable
-      when you have changed the legal aspect of the consent information above.
-    update_consent_last_time: 'Last update of consent: %{update_time}'
+    user_has_consented: Gebruiker heeft ingestemd met de geconfigureerde instructie
+      op het gegeven moment.
+    not_yet_consented: Gebruiker nog niet heeft toegestemd en zal worden herinnert
+      bij de volgende login.
+    contact_mail_instructions: Definieer het mail-adres waar gebruikers een gegevensbeheerder
+      op kunnen bereiken voor verzoeken om gegevens te wijzigen of te verwijderen.
+    contact_your_administrator: Neem contact op met uw beheerder als u wilt dat uw
+      account wordt verwijderd.
+    contact_this_mail_address: Neem contact op met %{mail_address} als u wilt dat
+      uw account wordt verwijderd.
+    text_update_consent_time: Schakel dit selectievakje in als u wilt afdwingen dat
+      gebruikers opnieuw toestemmen. Schakel deze in als u het juridische aspect van
+      de toestemming van bovenstaande informatie hebt gewijzigd.
+    update_consent_last_time: 'Laatste update van toestemming: %{update_time}'
   copy_project:
     started: Begonnen met project "%{source_project_name}" te kopiëren naar "%{target_project_name}".
       U wordt zo spoedig mogelijk per email op de hoogte gesteld wanneer "%{target_project_name}"
@@ -980,10 +982,10 @@ nl:
   error_cookie_missing: De cookie voor OpenProject ontbreekt. Zorg ervoor dat cookies
     zijn ingeschakeld aangezien deze toepassing anders niet goed zal functioneren.
   error_custom_option_not_found: Optie bestaat niet.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+  error_dependent_work_package: 'Fout in afhankelijke werkpakket #%{related_id} %{related_subject}:
     %{error}'
-  error_enterprise_activation_user_limit: Your account could not be activated (user
-    limit reached). Please contact your administrator to gain access.
+  error_enterprise_activation_user_limit: Uw account kon niet worden geactiveerd (gebruikerslimiet
+    bereikt). Neem contact op met uw beheerder om toegang te krijgen.
   error_failed_to_delete_entry: Fout bij het verwijderen van deze ingave.
   error_invalid_group_by: 'Kan niet groeperen op: %{value}'
   error_invalid_query_column: 'Ongeldige zoekopdracht kolom: %{value}'
@@ -1128,7 +1130,7 @@ nl:
   label_all: alle
   label_all_time: aller tijden
   label_all_words: Alle woorden
-  label_all_open_wps: All open
+  label_all_open_wps: Alles open
   label_always_visible: Altijd weergegeven
   label_announcement: Mededeling
   label_and_its_subprojects: "%{value} en zijn subprojecten"
@@ -1192,7 +1194,7 @@ nl:
   label_close_versions: Voltooide versies sluiten
   label_closed_work_packages: gesloten
   label_collapse: Samenvouwen
-  label_collapsed_click_to_show: Collapsed. Click to show
+  label_collapsed_click_to_show: Samengevouwen. Klik om te tonen
   label_configuration: configuratie
   label_comment_add: Een opmerking toevoegen
   label_comment_added: Opmerking toegevoegd
@@ -1259,15 +1261,15 @@ nl:
   label_enumeration_value: Opsommingswaarde
   label_enumerations: Opsommingen
   label_enterprise: Enterprise
-  label_enterprise_active_users: "%{current}/%{limit} booked active users"
+  label_enterprise_active_users: "%{current}/%{limit} gereserveerd actieve gebruikers"
   label_enterprise_edition: Enterprise Edition
-  label_entry_page: Entry page
+  label_entry_page: Pagina voor gegevensinvoer
   label_environment: Omgeving
   label_estimates_and_time: Schattingen en tijden
   label_equals: is
   label_example: Voorbeeld
   label_export_to: 'Ook verkrijgbaar in:'
-  label_expanded_click_to_collapse: Expanded. Click to collapse
+  label_expanded_click_to_collapse: Uitgebreid. Klik op samenvouwen
   label_f_hour: "%{value} uur"
   label_f_hour_plural: "%{value} uren"
   label_feed_plural: Feeds
@@ -1299,7 +1301,7 @@ nl:
   label_here: hier
   label_hide: Verbergen
   label_history: Geschiedenis
-  label_hierarchy_leaf: Hierarchy leaf
+  label_hierarchy_leaf: Hiërarchie blad
   label_home: Home
   label_in: in
   label_in_less_than: in minder dan
@@ -1313,7 +1315,7 @@ nl:
   label_information_plural: Informatie
   label_integer: Integer
   label_internal: Intern
-  label_introduction_video: Introduction video
+  label_introduction_video: Introductie video
   label_invite_user: Gebruiker uitnodigen
   label_show_hide: Weergeven/verbergen
   label_show_all_registered_users: Toon alle geregistreerde gebruikers
@@ -1390,7 +1392,7 @@ nl:
   label_next_week: Volgende week
   label_no_change_option: "(Niet wijzigen)"
   label_no_data: Geen gegevens om weer te geven
-  label_no_parent_page: No parent page
+  label_no_parent_page: Geen bovenliggende pagina
   label_nothing_display: Niets om weer te geven
   label_nobody: niemand
   label_none: geen
@@ -1409,7 +1411,7 @@ nl:
   label_overall_activity: Totale activiteit
   label_overall_spent_time: Totale verbruikte tijd
   label_overview: Overzicht
-  label_page_title: Page title
+  label_page_title: Pagina titel
   label_part_of: onderdeel van
   label_password_lost: Wachtwoord vergeten
   label_password_rule_lowercase: Kleine letters
@@ -1532,7 +1534,7 @@ nl:
   label_summary: Overzicht
   label_system: Systeem
   label_system_storage: Opslaginformatie
-  label_table_of_contents: Inhoudsopgave
+  label_table_of_contents: Table of contents
   label_tag: Label
   label_text: Lange tekst
   label_this_month: Deze maand
@@ -1578,7 +1580,7 @@ nl:
   label_version_sharing_none: Niet gedeeld
   label_version_sharing_system: Met alle projecten
   label_version_sharing_tree: Met projectstructuur
-  label_videos: Videos
+  label_videos: Video 's
   label_view_all_revisions: Alle herzieningen bekijken
   label_view_diff: Bekijk verschillen
   label_view_revisions: Bekijk revisies
@@ -2102,19 +2104,19 @@ nl:
     mislukte inlogpogingen
   setting_brute_force_block_minutes: De gebruiker is geblokkeerd voor tijd
   setting_cache_formatted_text: Cache opgemaakte tekst
-  setting_use_wysiwyg: WYSIWYG editor
-  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
-    users by default. CKEditor has limited functionality for GFM Markdown.
+  setting_use_wysiwyg: WYSIWYG-editor
+  setting_use_wysiwyg_description: Wilt u CKEditor5 WYSIWYG editor voor alle gebruikers
+    standaard ingeschakeld. CKEditor heeft een beperkte functionaliteit voor GFM Markdown.
   setting_column_options: Het uiterlijk van de werkpakketten lijsten aanpassen
   setting_commit_fix_keywords: Vaststelling van trefwoorden
   setting_commit_logs_encoding: Commit berichten coderen
   setting_commit_logtime_activity_id: Activiteit voor geregistreerde tijd
   setting_commit_logtime_enabled: Tijd-logboekregistratie inschakelen
   setting_commit_ref_keywords: Refererende trefwoorden
-  setting_consent_time: Consent time
-  setting_consent_info: Consent information text
-  setting_consent_required: Consent required
-  setting_consent_decline_mail: Consent contact mail address
+  setting_consent_time: Toestemming tijd
+  setting_consent_info: Toestemming informatie tekst
+  setting_consent_required: Toestemming vereist
+  setting_consent_decline_mail: Toestemming contact e-mailadres
   setting_cross_project_work_package_relations: Sta werkpakketten over meerdere projecten
     toe
   setting_date_format: Datumnotatie
@@ -2213,12 +2215,12 @@ nl:
     session: Sessie
     brute_force_prevention: Automatische gebruiker blokkering
     user:
-      default_preferences: Default preferences
-      deletion: Deletion
+      default_preferences: Standaardvoorkeuren
+      deletion: Verwijdering
   text_formatting:
     textile: Textile
     markdown: Markdown
-    plain: Plain text
+    plain: Onopgemaakte tekst
   status_active: actief
   status_archived: gearchiveerd
   status_invited: uitgenodigd
@@ -2575,7 +2577,7 @@ nl:
       years: Jaren
   title_remove_and_delete_user: De uitgenodigde gebruiker uit het project verwijderen
     en verwijder hem/haar.
-  title_enterprise_upgrade: Upgrade to unlock more users.
+  title_enterprise_upgrade: Upgrade om meer gebruikers te ontgrendelen.
   tooltip_user_default_timezone: 'De standaardtijdzone voor nieuwe gebruikers. Deze
     kan worden gewijzigd in de instellingen van de gebruiker.
 
@@ -2651,8 +2653,8 @@ nl:
   note_password_login_disabled: Wachtwoord is uitgeschakeld door %{configuration}.
   warning: Waarschuwing
   warning_attachments_not_saved: "%{count} bestanden kunnen niet worden opgeslagen."
-  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
-    to allow for additional users.
+  warning_user_limit_reached: Gebruikerslimiet bereikt. Gelieve te upgraden <a href="%{upgrade_url}"></a>
+    om extra gebruikers mogelijk te maken.
   warning_registration_token_expired: 'De activatie e-mail is verlopen. Wij sturen
     u een nieuwe activatie e-mail naar %{email} gestuurd. Klik op de link in de activatie
     e-mail om uw account te activeren.

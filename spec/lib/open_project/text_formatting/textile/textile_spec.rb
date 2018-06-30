@@ -720,7 +720,7 @@ h2. Attributes
         expect(html).to be_html_eql(%{
           <fieldset class='form--fieldset -collapsible'>
             <legend class='form--fieldset-legend' title='Show/Hide table of contents'>
-              <a href='#'>Table of Contents</a>
+              <a href='#'>Table of contents</a>
             </legend>
             <div>
               <ul class="toc">

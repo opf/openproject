@@ -31,7 +31,6 @@
 module OpenProject::TextFormatting
   module Filters
     class MarkdownFilter < HTML::Pipeline::MarkdownFilter
-
       # Convert Markdown to HTML using CommonMarker
       def call
         options = [:GITHUB_PRE_LANG]

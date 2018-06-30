@@ -30,23 +30,19 @@
 
 module OpenProject::TextFormatting
   module Filters
-    class PatternMatcherFilter < HTML::Pipeline::Filter
-      # Skip text nodes that are within preformatted blocks
-      PREFORMATTED_BLOCKS = %w(pre code).to_set
+    class MacroFilter < HTML::Pipeline::Filter
+      cattr_accessor :registered
 
-      def self.matchers
-        [
-          OpenProject::TextFormatting::Matchers::ResourceLinksMatcher,
-          OpenProject::TextFormatting::Matchers::WikiLinksMatcher
-        ]
+      def self.register(macro)
+        self.registered ||= []
+
+        registered << macro
       end
 
       def call
-        doc.search('.//text()').each do |node|
-          next if has_ancestor?(node, PREFORMATTED_BLOCKS)
-
-          self.class.matchers.each do |matcher|
-            matcher.call(node, doc: doc, context: context)
+        doc.search('macro').each do |macro|
+          registered.each do |macro_class|
+            macro_class.apply_conditionally(macro, result)
           end
         end
 
@@ -55,3 +51,5 @@ module OpenProject::TextFormatting
     end
   end
 end
+
+OpenProject::TextFormatting::Filters::MacroFilter.register(OpenProject::TextFormatting::Filters::Macros::Toc)

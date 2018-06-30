@@ -52,6 +52,9 @@ zh-TW:
     description_select_work_package: '選取工作項目 #%{id}'
     description_selected_columns: 所選的欄
     description_subwork_package: '子工作項目 #%{id}'
+    editor:
+      macro:
+        toc: Table of contents
     error:
       internal: 發生內部錯誤。
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -534,6 +537,8 @@ zh-TW:
         hierarchy_hint: 所有已篩選的表結果都將隨其來源一起增強。層次結構可以展開和折疊。
         display_sums_hint: 顯示表結果下一行中所有 "可加總" 屬性的總和。
         show_timeline_hint: 在表格的右側顯示互動式甘特圖。可以通過在表和甘特圖之間拖動分隔線來更改其寬度。
+        columns_help_text: Use the input above to add or remove columns to your table
+          view. You can drag and drop the columns to reorder them.
       tabs:
         overview: 概要
         activity: 活動

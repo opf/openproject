@@ -49,9 +49,11 @@ describe 'Wysiwyg tables',
         editor.in_editor do |container, editable|
           # strangely, we need visible: :all here
           container.find('.ck-button', visible: :all, text: 'Insert table').click
+          # 2x2
+          container.find('.ck-insert-table-dropdown-grid-box:nth-of-type(12)').click
 
           # Edit table
-          tds = editable.all('table.ck-widget td')
+          tds = editable.all('.table.ck-widget td')
           values = %w(h1 h2 c1 c2)
           expect(tds.length).to eq(4)
 

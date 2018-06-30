@@ -53,6 +53,9 @@ ar:
     description_select_work_package: 'اختر مجموعة العمل #%{id}'
     description_selected_columns: الاعمدة المحددة
     description_subwork_package: 'إنتاج مجموعة العمل #%{id}'
+    editor:
+      macro:
+        toc: Table of contents
     error:
       internal: حدث خطأ داخلي.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -573,6 +576,8 @@ ar:
         show_timeline_hint: Show an interactive gantt chart on the right side of the
           table. You can change its width by dragging the divider between table and
           gantt chart.
+        columns_help_text: Use the input above to add or remove columns to your table
+          view. You can drag and drop the columns to reorder them.
       tabs:
         overview: نظرة عامة
         activity: النشاط

@@ -28,17 +28,28 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject::TextFormatting
-  module Filters
-      def anchor_icon
-        %Q(<span aria-hidden="true" class="wiki-anchor"></span>)
-      end
+module OpenProject::TextFormatting::Filters::Macros
+  module Toc
+    HTML_CLASS = 'toc'.freeze
 
-      def call
-        return doc if context[:headings] == false
+    module_function
 
-        super
-      end
+    def apply_conditionally(macro, result)
+      insert_toc(macro, result) if is?(macro)
+    end
+
+    def insert_toc(macro, result)
+      raise 'The HTML::Pipeline::TableOfContentsFilters needs to run before.' unless result[:toc]
+
+      macro.replace(heading + result[:toc])
+    end
+
+    def is?(macro)
+      macro['class'].include?(HTML_CLASS)
+    end
+
+    def heading
+      "<h1>#{I18n.t(:label_table_of_contents)}</h1>"
     end
   end
 end

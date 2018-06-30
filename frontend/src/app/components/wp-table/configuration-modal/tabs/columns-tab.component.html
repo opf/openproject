@@ -1,9 +1,15 @@
-<div class="columns-modal-content select2-modal-content">
+<div class="columns-modal--content select2-modal-content">
   <label
     [textContent]="text.selectedColumns"
     class="hidden-for-sighted">
   </label>
 
+  <ng-container *ngIf="!impaired">
+    <input #select2Columns
+           type="hidden" />
+    <p class="columns-modal--help-text" [textContent]="text.columnsHelp"></p>
+  </ng-container>
+  <ng-container *ngIf="impaired">
   <div *ngFor="let column of availableColumns; let first = first;">
     <label class="form--label-with-check-box" for="column-{{column.id}}">
       <div class="form--check-box-container">
@@ -17,6 +23,7 @@
       {{column.name}}
     </label>
   </div>
+  </ng-container>
 </div>
 <div *ngIf="eeShowBanners" class="ee-relation-columns-upsale">
   {{text.upsaleRelationColumns}}

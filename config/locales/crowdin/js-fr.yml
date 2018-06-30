@@ -53,6 +53,9 @@ fr:
     description_select_work_package: 'Sélectionner le lot de travaux #%{id}'
     description_selected_columns: Colonnes Sélectionnées
     description_subwork_package: 'Enfant du lot de travaux #%{id}'
+    editor:
+      macro:
+        toc: Table of contents
     error:
       internal: Une erreur interne s'est produite.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -590,6 +593,8 @@ fr:
         show_timeline_hint: Show an interactive gantt chart on the right side of the
           table. You can change its width by dragging the divider between table and
           gantt chart.
+        columns_help_text: Use the input above to add or remove columns to your table
+          view. You can drag and drop the columns to reorder them.
       tabs:
         overview: Vue globale
         activity: Activité

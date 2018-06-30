@@ -52,6 +52,9 @@ lol:
     description_select_work_package: crwdns98373:0%{id}crwdne98373:0
     description_selected_columns: crwdns98374:0crwdne98374:0
     description_subwork_package: crwdns98375:0%{id}crwdne98375:0
+    editor:
+      macro:
+        toc: crwdns99007:0crwdne99007:0
     error:
       internal: crwdns98376:0crwdne98376:0
       cannot_save_changes_with_message: crwdns99001:0%{error}crwdne99001:0
@@ -533,6 +536,7 @@ lol:
         hierarchy_hint: crwdns98916:0crwdne98916:0
         display_sums_hint: crwdns98917:0crwdne98917:0
         show_timeline_hint: crwdns98918:0crwdne98918:0
+        columns_help_text: crwdns99008:0crwdne99008:0
       tabs:
         overview: crwdns98772:0crwdne98772:0
         activity: crwdns98773:0crwdne98773:0

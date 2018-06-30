@@ -1510,7 +1510,7 @@ fi:
   label_summary: Yhteenveto
   label_system: System
   label_system_storage: Storage information
-  label_table_of_contents: Sisällysluettelo
+  label_table_of_contents: Table of contents
   label_tag: Tunniste
   label_text: Pitkä merkkijono
   label_this_month: tässä kuussa

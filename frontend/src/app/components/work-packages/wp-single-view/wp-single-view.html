@@ -19,9 +19,13 @@
          *ngIf="!workPackage.isNew">
       <span [textContent]="idLabel"></span>:
       <span [textContent]="text.infoRow.createdBy"></span>
+      <!-- The space has to be in an extra span
+      because otherwise the browser would add a second space after it -->
+      <span>&nbsp;</span>
       <user-link class="user-link"
                  [user]="workPackage.author"></user-link>.
       <span [textContent]="text.infoRow.lastUpdatedOn"></span>
+      <span>&nbsp;</span>
       <op-date-time [dateTimeValue]="workPackage.updatedAt"></op-date-time>.
      </div>
 

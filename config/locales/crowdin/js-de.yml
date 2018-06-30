@@ -53,10 +53,13 @@ de:
     description_select_work_package: 'Arbeitspaket #%{id} auswählen'
     description_selected_columns: Ausgewählte Spalten
     description_subwork_package: 'Kind von Arbeitspaket #%{id}'
+    editor:
+      macro:
+        toc: Table of contents
     error:
       internal: Ein interner Fehler ist aufgetreten.
-      cannot_save_changes_with_message: 'Cannot save your changes due to the following
-        error: %{error}'
+      cannot_save_changes_with_message: 'Ihre Änderungen können nicht gespeichert
+        werden. Fehler: %{error}'
       query_saving: Die Abfrage konnte nicht gespeichert werden.
     filter:
       description:
@@ -586,6 +589,8 @@ de:
         show_timeline_hint: Zeigt ein interaktives Gantt-Diagramm auf der rechten
           Seite der Tabelle an. Sie können die Aufteilung der beiden Elemente über
           Ziehen des Trennstrichs zwischen Tabelle und Gantt-Diagramm konfigurieren.
+        columns_help_text: Use the input above to add or remove columns to your table
+          view. You can drag and drop the columns to reorder them.
       tabs:
         overview: Übersicht
         activity: Aktivität

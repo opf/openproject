@@ -183,7 +183,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
         end
 
         it 'should resolve simple macros' do
-          expect(parsed_response['description']).to have_text('Table of Contents')
+          expect(parsed_response['description']).to have_text('Table of contents')
         end
       end
 

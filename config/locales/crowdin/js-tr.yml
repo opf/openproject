@@ -53,6 +53,9 @@ tr:
     description_select_work_package: "#%{id} nolu iş paketini seçin"
     description_selected_columns: Seçili Sütunlar
     description_subwork_package: "#%{id} nolu iş paketinin alt parçası"
+    editor:
+      macro:
+        toc: Table of contents
     error:
       internal: İç hata oluştu.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -576,6 +579,8 @@ tr:
         show_timeline_hint: Show an interactive gantt chart on the right side of the
           table. You can change its width by dragging the divider between table and
           gantt chart.
+        columns_help_text: Use the input above to add or remove columns to your table
+          view. You can drag and drop the columns to reorder them.
       tabs:
         overview: Genel Bakış
         activity: Etkinlik

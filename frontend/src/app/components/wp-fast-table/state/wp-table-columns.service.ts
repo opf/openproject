@@ -150,6 +150,11 @@ export class WorkPackageTableColumnsService extends WorkPackageTableBaseService<
     this.state.putValue(currentState);
   }
 
+  public setColumnsById(columnIds:string[]) {
+    const mapped = columnIds.map(id => _.find(this.all, c => c.id === id));
+    this.setColumns(_.compact(mapped));
+  }
+
   /**
    * Move the column at index {fromIndex} to {toIndex}.
    * - If toIndex is larger than all columns, insert at the end.
