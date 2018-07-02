@@ -57,6 +57,13 @@ module OpenProject
         active_user_count >= user_limit if user_limit
       end
 
+      ##
+      # While the active user limit has not been reached yet it would be reached
+      # if all registered and invited users were to activate their accounts.
+      def imminent_user_limit?
+        User.active_or_registered.count >= user_limit if user_limit
+      end
+
       def fail_fast?
         Hash(OpenProject::Configuration["enterprise"])["fail_fast"]
       end
