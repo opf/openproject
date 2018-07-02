@@ -28,8 +28,7 @@ import {APP_INITIALIZER, Injector, NgModule} from '@angular/core';
 import {AvatarUploadFormComponent} from "./avatar-upload-form/avatar-upload-form.component";
 import {HookService} from "../../hook-service";
 import {BrowserModule} from "@angular/platform-browser";
-import {registerGlobalAvatarFallback} from "./globals/global-avatar-fallback";
-
+import './globals/global-avatar-fallback'
 
 export function initializeAvatarsPlugin(injector:Injector) {
   return () => {
@@ -40,7 +39,6 @@ export function initializeAvatarsPlugin(injector:Injector) {
       ];
     });
 
-    registerGlobalAvatarFallback(jQuery);
   }
 }
 

@@ -29,30 +29,29 @@
 /**
  * Listen to failed avatar load requests and replace them with the default icon
  */
-export function registerGlobalAvatarFallback($:JQueryStatic) {
-  $(function() {
-    // We can employ useCapture to avoid binding to every image#error event
-    window.addEventListener('error', (evt) => {
-      const target = evt.target as HTMLElement;
+// We can employ useCapture to avoid binding to every image#error event
+window.addEventListener('error', (evt) => {
+  const target = evt.target as HTMLElement;
 
-      // Replace if we hit a gravatar image
-      if (!(target.tagName === 'IMG' && target.classList.contains('avatar--gravatar-image'))) {
-        return;
-      }
+  // Replace if we hit a gravatar image
+  if (!(target.tagName === 'IMG' && target.classList.contains('avatar--gravatar-image'))) {
+    return;
+  }
 
-      // We need to replace all gravatars with the same source since the error event
-      // is fired only once
-      const src = (target as HTMLImageElement).src;
-      $(`img.avatar--gravatar-image[src="${src}"]`).each((i, el) => {
-        const target = $(el);
-        const classes = target.data('avatarFallbackIcon');
+  // We need to replace all gravatars with the same source since the error event
+  // is fired only once
+  const src = (target as HTMLImageElement).src;
+  const targets = document.querySelectorAll(`img.avatar--gravatar-image[src="${src}"]`)
 
-        target.replaceWith(
-          $('<i>')
-            .addClass(classes)
-            .prop('aria-hidden', true)
-        );
-      });
-    }, true);
-  });
-}
+  for (var i = 0, l = targets.length;  i < l; i++) {
+    const target = targets[i] as HTMLElement;
+    const classes = target.dataset.avatarFallbackIcon || 'icon icon-user';
+
+    const replacement = document.createElement('i');
+    replacement.classList.add(...classes.split(/\s+/));
+    replacement.setAttribute('aria-hidden', 'true');
+
+    const parent = target.parentElement;
+    parent && parent.replaceChild(replacement, target);
+  }
+}, true);
