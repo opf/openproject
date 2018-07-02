@@ -84,6 +84,11 @@ en:
     editor:
       macro:
         toc: 'Table of contents'
+        embedded_table:
+          button: 'Embed work package table'
+          text: 'Embedded work package table (placeholder)'
+
+
     error:
       internal: "An internal error has occurred."
       cannot_save_changes_with_message: "Cannot save your changes due to the following error: %{error}"
@@ -634,7 +639,6 @@ en:
         text: "Are you sure you want to delete the following %{label} ?"
         has_children: "The work package has %{childUnits}:"
         deletes_children: "All child work packages will also be deleted."
-
 
     notice_successful_create: "Successful creation."
     notice_successful_delete: "Successful deletion."

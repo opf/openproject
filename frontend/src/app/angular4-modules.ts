@@ -209,6 +209,10 @@ import {WorkPackageEmbeddedTableEntryComponent} from "core-components/wp-table/e
 import {LinkedPluginsModule} from "core-app/modules/plugins/linked-plugins.module";
 import {HookService} from "core-app/modules/plugins/hook-service";
 import {ModalWrapperAugmentService} from "core-app/globals/augmenting/modal-wrapper.augment.service";
+import {
+  embeddedTableBootstrap,
+  EmbeddedTablesMacroComponent
+} from "core-components/wp-table/embedded/embedded-tables-macro.component";
 
 @NgModule({
   imports: [
@@ -463,8 +467,9 @@ import {ModalWrapperAugmentService} from "core-app/globals/augmenting/modal-wrap
     // Form configuration
     OpDragScrollDirective,
 
-    // CkEditor
+    // CkEditor and Macros
     OpCkeditorFormComponent,
+    EmbeddedTablesMacroComponent,
   ],
   entryComponents: [
     WorkPackagesBaseComponent,
@@ -537,8 +542,9 @@ import {ModalWrapperAugmentService} from "core-app/globals/augmenting/modal-wrap
     MainMenuResizerComponent,
     MainMenuToggleComponent,
 
-    // CKEditor and textareas
+    // CKEditor and macros
     OpCkeditorFormComponent,
+    EmbeddedTablesMacroComponent,
   ]
 })
 export class OpenProjectModule {
@@ -546,14 +552,15 @@ export class OpenProjectModule {
   ngDoBootstrap(appRef:ApplicationRef) {
     bootstrapOptional(
       appRef,
-      { tagName: 'main-menu-resizer', cls: MainMenuResizerComponent  },
-      { tagName: 'main-menu-toggle', cls: MainMenuToggleComponent  },
-      { tagName: 'work-packages-base', cls: WorkPackagesBaseComponent  },
-      { tagName: 'project-menu-autocomplete', cls: ProjectMenuAutocompleteComponent  },
-      { tagName: 'notifications-container', cls: NotificationsContainerComponent  },
-      { tagName: 'wp-embedded-table-entry', cls: WorkPackageEmbeddedTableEntryComponent },
-      { tagName: 'op-ckeditor-form', cls: OpCkeditorFormComponent },
-      { tagName: 'copy-to-clipboard', cls: CopyToClipboardDirective },
+      { selector: 'main-menu-resizer', cls: MainMenuResizerComponent  },
+      { selector: 'main-menu-toggle', cls: MainMenuToggleComponent  },
+      { selector: 'work-packages-base', cls: WorkPackagesBaseComponent  },
+      { selector: 'project-menu-autocomplete', cls: ProjectMenuAutocompleteComponent  },
+      { selector: 'notifications-container', cls: NotificationsContainerComponent  },
+      { selector: 'wp-embedded-table-entry', cls: WorkPackageEmbeddedTableEntryComponent },
+      { selector: 'op-ckeditor-form', cls: OpCkeditorFormComponent },
+      { selector: 'copy-to-clipboard', cls: CopyToClipboardDirective },
+      embeddedTableBootstrap
     );
 
     // Call hook service to allow modules to bootstrap additional elements.
@@ -561,15 +568,15 @@ export class OpenProjectModule {
     const hookService = (appRef as any)._injector.get(HookService);
     hookService
       .call('openProjectAngularBootstrap')
-      .forEach((results:{tagName:string, cls:any}[]) => {
+      .forEach((results:{selector:string, cls:any}[]) => {
         bootstrapOptional(appRef, ...results);
       });
   }
 }
 
-export function bootstrapOptional(appRef:ApplicationRef, ...elements:{ tagName:string, cls:any }[]) {
+export function bootstrapOptional(appRef:ApplicationRef, ...elements:{ selector:string, cls:any }[]) {
   elements.forEach(el => {
-    var elements = document.getElementsByTagName(el.tagName)
+    var elements = document.querySelectorAll(el.selector)
     for (var i = 0; i < elements.length; i++) {
       appRef.bootstrap(el.cls, elements[i]);
     }
