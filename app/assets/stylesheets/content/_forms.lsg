@@ -933,7 +933,7 @@ The modifier classes **-middle**, **-wide**, ... can be applied to the form-[inp
           </div>
         </div>
       </div></div>
-    <span class="add_another_file">
+    <span class="add-another-file">
       <a href="#">Add another file</a>
       (Maximum size: 5 MB)
     </span>
