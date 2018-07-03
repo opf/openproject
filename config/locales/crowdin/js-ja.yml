@@ -55,6 +55,9 @@ ja:
     editor:
       macro:
         toc: 目次
+        embedded_table:
+          button: Embed work package table
+          text: Embedded work package table (placeholder)
     error:
       internal: 内部エラーが発生しました。
       cannot_save_changes_with_message: '次のエラーのために変更を保存できません: %{error}'

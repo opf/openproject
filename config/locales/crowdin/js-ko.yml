@@ -55,6 +55,9 @@ ko:
     editor:
       macro:
         toc: Table of contents
+        embedded_table:
+          button: Embed work package table
+          text: Embedded work package table (placeholder)
     error:
       internal: 내부 오류가 발생하였습니다.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following

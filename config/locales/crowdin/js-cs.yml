@@ -56,6 +56,9 @@ cs:
     editor:
       macro:
         toc: Obsah
+        embedded_table:
+          button: Embed work package table
+          text: Embedded work package table (placeholder)
     error:
       internal: Došlo k vnitřní chybě.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following

@@ -56,6 +56,9 @@ pl:
     editor:
       macro:
         toc: Table of contents
+        embedded_table:
+          button: Embed work package table
+          text: Embedded work package table (placeholder)
     error:
       internal: Wystąpił błąd wewnętrzny.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following

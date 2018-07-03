@@ -55,6 +55,9 @@ zh-TW:
     editor:
       macro:
         toc: Table of contents
+        embedded_table:
+          button: Embed work package table
+          text: Embedded work package table (placeholder)
     error:
       internal: 發生內部錯誤。
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
