@@ -162,8 +162,11 @@ function typesFormConfigurationCtrl(
       'timelines': I18n.t('js.work_packages.table_configuration.embedded_tab_disabled')
     };
 
-
-    externalQueryConfiguration.show(originator, currentQuery, disabledTabs);
+    externalQueryConfiguration.show(
+      currentQuery,
+      (queryProps:any) => originator.data('queryProps', queryProps),
+      disabledTabs
+    );
   };
 
   $scope.extractQuery = (originator:JQuery) => {

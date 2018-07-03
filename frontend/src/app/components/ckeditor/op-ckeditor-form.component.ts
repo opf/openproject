@@ -28,14 +28,17 @@
 
 import {Component, ElementRef, OnInit} from "@angular/core";
 import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
+import {AutoCompleteHelperService} from "core-components/input/auto-complete-helper.service";
+import {CurrentProjectService} from "core-components/projects/current-project.service";
 
 export interface ICkeditorInstance {
   getData():string;
   setData(content:string):void;
+  config:any;
 }
 
 export interface ICkeditorStatic {
-  create(el:HTMLElement):Promise<ICkeditorInstance>;
+  create(el:HTMLElement, config?:any):Promise<ICkeditorInstance>;
 }
 
 declare global {
@@ -57,6 +60,7 @@ export class OpCkeditorFormComponent implements OnInit {
 
   // Which template to include
   public ckeditor:any;
+  public $element:JQuery;
   public formElement:JQuery;
   public wrappedTextArea:JQuery;
 
@@ -68,22 +72,29 @@ export class OpCkeditorFormComponent implements OnInit {
 
 
   constructor(protected elementRef:ElementRef,
+              protected AutoCompleteHelper:AutoCompleteHelperService,
+              protected currentProject:CurrentProjectService,
               protected ConfigurationService:ConfigurationService) {
 
   }
 
   public ngOnInit() {
-    const $element = jQuery(this.elementRef.nativeElement);
+    this.$element = jQuery(this.elementRef.nativeElement);
 
     // Parse the attribute explicitly since this is likely a bootstrapped element
     this.textareaSelector = this.elementRef.nativeElement.getAttribute('textarea-selector');
 
-    this.formElement = $element.closest('form');
+    this.formElement = this.$element.closest('form');
     this.wrappedTextArea = this.formElement.find(this.textareaSelector);
     this.wrappedTextArea.hide();
-    const wrapper = $element.find(`.${ckEditorReplacementClass}`);
+    const wrapper = this.$element.find(`.${ckEditorReplacementClass}`);
     window.OPClassicEditor
-      .create(wrapper[0])
+      .create(wrapper[0], {
+        openProject: {
+          context: null,
+          pluginContext: window.OpenProject.pluginContext.value
+        }
+      })
       .then(this.setup.bind(this))
       .catch((error:any) => {
         console.error(error);
@@ -96,11 +107,18 @@ export class OpCkeditorFormComponent implements OnInit {
 
   public setup(editor:ICkeditorInstance) {
     this.ckeditor = editor;
+    (window as any).ckeditor = editor;
     const rawValue = this.wrappedTextArea.val();
 
     if (rawValue) {
       editor.setData(rawValue);
     }
+
+    // Autocomplete
+    this.AutoCompleteHelper.enableTextareaAutoCompletion(
+      this.$element.find('.ck-content'),
+      this.currentProject.identifier
+    );
 
     // Listen for form submission to set textarea content
     this.formElement.on('submit.ckeditor', () => {
