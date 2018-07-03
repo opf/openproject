@@ -92,8 +92,21 @@ Redmine::MenuManager.map :account_menu do |menu|
             if: Proc.new { User.current.logged? }
 end
 
-Redmine::MenuManager.map :application_menu do |_menu|
-  # Empty
+Redmine::MenuManager.map :application_menu do |menu|
+  menu.push :work_packages,
+            { controller: '/work_packages', action: 'index' },
+            caption: :label_work_package_plural,
+            icon: 'icon2 icon-view-timeline',
+            html: {
+              id: 'main-menu-work-packages',
+              :'wp-query-menu' => 'wp-query-menu'
+            }
+
+  menu.push :work_packages_query_select,
+            { controller: '/work_packages', action: 'index' },
+            parent: :work_packages,
+            partial: 'work_packages/menu_query_select',
+            last: true
 end
 
 Redmine::MenuManager.map :my_menu do |menu|
@@ -257,21 +270,6 @@ Redmine::MenuManager.map :project_menu do |menu|
               id: 'main-menu-work-packages',
               :'wp-query-menu' => 'wp-query-menu'
             }
-
-  menu.push :all_open_wps,
-            { controller: '/work_packages', action: 'index' },
-            param: :project_id,
-            caption: :label_all_open_wps,
-            parent: :work_packages
-
-  menu.push :gantt,
-            { controller: '/work_packages',
-              action: 'index',
-              query_props: OpenProject::DefaultWpQueries::GANTT },
-            param: :project_id,
-            caption: :label_gantt_chart,
-            icon_after: 'icon2 icon-view-timeline',
-            parent: :work_packages
 
   menu.push :summary_field,
             { controller: '/work_packages/reports', action: 'report' },

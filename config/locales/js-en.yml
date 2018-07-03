@@ -217,6 +217,8 @@ en:
     label_unwatch: "Unwatch"
     label_unwatch_work_package: "Unwatch work package"
     label_uploaded_by: "Uploaded by"
+    label_default_queries: "Default queries"
+    label_starred_queries: "Favorite queries"
     label_global_queries: "Shared queries"
     label_custom_queries: "Private queries"
     label_columns: "Columns"

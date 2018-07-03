@@ -373,3 +373,96 @@ $arrow-left-width: 40px
       @include icon-mixin-arrow-left2
   %absolute-layout-mode &
     z-index: 100
+
+
+#querySelectDropdown
+  padding: 3px 0
+
+  .query-menu-container
+    float: left
+    clear: both
+    width: 100%
+    display: block
+
+  .search-query-wrapper
+    padding: 15px
+    overflow: hidden
+
+  .query-select-dropdown--no-results
+    padding: 15px 15px 0
+
+  ul li
+    display: block
+
+    &.ui-menu-item
+      cursor: pointer
+
+    &.hidden
+      display: none
+
+  .ui-autocomplete .ui-menu-item-wrapper
+    padding: 5px 15px !important
+
+  input
+    box-sizing: border-box
+    margin: 0 auto
+    width: 100%
+    height: 35px
+    line-height: 30px
+    border: 1px solid #cacaca
+    border-radius: 6px
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15)
+    color: #222222
+    padding-bottom: 10px
+
+  .title-group-header
+    padding: 0 15px 0 15px
+    font-weight: bold
+    text-transform: uppercase
+
+  #magnifier
+    position: absolute
+    top:   24px
+    right: 22px
+    color: #999999
+
+  .ui-widget-content.-inplace
+    width: 100% !important
+    max-height: 100%
+    overflow-x: auto
+    background: none
+
+  a
+    font-family: "openproject-icon-font" !important
+    font-style: normal !important
+    font-weight: normal !important
+    font-variant: normal !important
+    text-transform: none !important
+    text-decoration: none !important
+    speak: none
+    -webkit-font-smoothing: antialiased
+    -moz-osx-font-smoothing: grayscale
+    font-size: 0.6rem
+    padding: initial
+    border: none
+    background: initial
+    float: left !important
+    width: 15px
+    line-height: 30px
+    height: 100%
+
+    &::before
+      @include icon-mixin-arrow-up1
+
+    &.-collapsed
+      &::before
+        @include icon-mixin-arrow-down1
+
+  .ui-autocomplete--category
+    cursor: pointer
+    line-height: 30px
+    font-weight: bold
+    text-transform: uppercase
+
+  input[type="search"]::-webkit-search-cancel-button
+    display: none
