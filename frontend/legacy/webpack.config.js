@@ -29,6 +29,7 @@
 var webpack = require('webpack');
 var path = require('path');
 var _ = require('lodash');
+//var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 var MiniCssExtractPlugin = require('mini-css-extract-plugin');
