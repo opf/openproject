@@ -66,7 +66,7 @@ module OpenProject
       # the user limit having been reached.
       def send_activation_limit_notification_about(user)
         User.active.admin.each do |admin|
-          UserMailer.activation_limit_reached(user.mail, admin).deliver_later
+          MailUserJob.activation_limit_reached(user.mail, admin)
         end
       end
 
