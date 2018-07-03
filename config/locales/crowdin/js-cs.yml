@@ -55,7 +55,7 @@ cs:
     description_subwork_package: 'Potomek pracovního balíčku #%{id}'
     editor:
       macro:
-        toc: Table of contents
+        toc: Obsah
     error:
       internal: Došlo k vnitřní chybě.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following

@@ -1299,7 +1299,7 @@ cs:
   label_force_user_language_to_default: Set language of users having a non allowed
     language to default
   label_form_configuration: Form configuration
-  label_gantt: Gantt
+  label_gantt: Ganttův diagram
   label_gantt_chart: Gantt chart
   label_general: Obecné
   label_generate_key: Generovat klíč
@@ -1404,7 +1404,7 @@ cs:
   label_next_week: Příští týden
   label_no_change_option: "(Beze změny)"
   label_no_data: No data to display
-  label_no_parent_page: No parent page
+  label_no_parent_page: Žádná nadřazená stránka
   label_nothing_display: Nothing to display
   label_nobody: nikdo
   label_none: žádný
@@ -1423,7 +1423,7 @@ cs:
   label_overall_activity: Celková aktivita
   label_overall_spent_time: Celkem strávený čas
   label_overview: Přehled
-  label_page_title: Page title
+  label_page_title: Název stránky
   label_part_of: part of
   label_password_lost: Zapomněli jste heslo?
   label_password_rule_lowercase: Malá písmena
@@ -1543,7 +1543,7 @@ cs:
   label_summary: Souhrn
   label_system: Systém
   label_system_storage: Informace o úložišti
-  label_table_of_contents: Table of contents
+  label_table_of_contents: Obsah
   label_tag: Štítek
   label_text: Dlouhý text
   label_this_month: tento měsíc
@@ -2217,8 +2217,8 @@ cs:
     session: Relace
     brute_force_prevention: Automated user blocking
     user:
-      default_preferences: Default preferences
-      deletion: Deletion
+      default_preferences: Výchozí předvolby
+      deletion: Odstranění
   text_formatting:
     textile: Textil
     markdown: Zmenšení

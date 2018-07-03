@@ -529,7 +529,7 @@ ja:
         text_select_hint: 選択ボックスは 'ALT'と矢印キーで開きます。
       table_configuration:
         button: このワークパッケージテーブルを設定する
-        modal_title: 作業パッケージ表の構成
+        modal_title: 作業項目表の設定
         embedded_tab_disabled: この設定タブは編集中の埋め込まれたクエリでは使用できません。
         display_settings: 表示設定
         grouped_mode: グループ化されたモード
