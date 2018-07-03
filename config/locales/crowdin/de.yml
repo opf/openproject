@@ -2658,6 +2658,12 @@ de:
   note_password_login_disabled: Der Passwort-Login wurde per %{configuration} deaktiviert.
   warning: Warnung
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href=\"%{upgrade_url}\">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
   warning_user_limit_reached: Nutzerlimit erreicht. Bitte <a href="%{upgrade_url}">upgraden</a>
     Sie um weitere Nutzer hinzuzufügen.
   warning_user_limit_reached_instructions: 'Du hast dein Nutzerlimit erreicht (%{current}/%{max}

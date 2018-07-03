@@ -2322,6 +2322,9 @@ lol:
   note_password_login_disabled: crwdns94242:0%{configuration}crwdne94242:0
   warning: crwdns94243:0crwdne94243:0
   warning_attachments_not_saved: crwdns94244:0%{count}crwdne94244:0
+  warning_imminent_user_limit: 'crwdns99011:0%{upgrade_url}crwdne99011:0
+
+'
   warning_user_limit_reached: crwdns98977:0%{upgrade_url}crwdne98977:0
   warning_user_limit_reached_instructions: 'crwdns98991:0%{current}crwdnd98991:0%{max}crwdne98991:0
 

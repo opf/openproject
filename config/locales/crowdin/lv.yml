@@ -2593,6 +2593,12 @@ lv:
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Warning
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href=\"%{upgrade_url}\">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
   warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
     to allow for additional users.
   warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}

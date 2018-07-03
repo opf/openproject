@@ -2357,6 +2357,12 @@ zh-TW:
   note_password_login_disabled: 密碼登錄已被 %{configuration} 禁用。
   warning: 警告
   warning_attachments_not_saved: 無法儲存 %{count} 檔。
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href=\"%{upgrade_url}\">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
   warning_user_limit_reached: 已達到使用者限制。請 <a href="%{upgrade_url}">升級</a> 以允許其他使用者使用。
   warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
     active users). Please contact sales@openproject.com to upgrade your Enterprise
