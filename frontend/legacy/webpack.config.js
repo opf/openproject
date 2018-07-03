@@ -170,6 +170,10 @@ function getLegacyWebpackConfig() {
       }
     },
 
+    performance: {
+      hints: false
+    },
+
     plugins: [
       // Define modes for debug output
       new webpack.DefinePlugin({
@@ -209,6 +213,7 @@ function getLegacyWebpackConfig() {
     config.optimization.minimizer = [
       // we specify a custom UglifyJsPlugin here to get source maps in production
       new UglifyJsPlugin({
+        include: /app\//,
         cache: true,
         parallel: true,
         uglifyOptions: {
@@ -217,7 +222,18 @@ function getLegacyWebpackConfig() {
           ecma: 5,
         },
         sourceMap: true
-      })
+      }),
+      new UglifyJsPlugin({
+        exclude: /app\//,
+        cache: true,
+        parallel: true,
+        uglifyOptions: {
+          compress: true,
+          mangle: true,
+          ecma: 5,
+        },
+        sourceMap: true
+      }),
     ];
   }
 
