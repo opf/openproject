@@ -40,6 +40,10 @@ module Concerns::UserLimits
       end
 
       true
+    elsif imminent_user_limit?
+      show_imminent_user_limit_warning!
+
+      true
     else
       false
     end
@@ -91,7 +95,27 @@ module Concerns::UserLimits
     warning.html_safe
   end
 
+  def show_imminent_user_limit_warning!
+    flash[:warning] = imminent_user_limit_warning
+  end
+
+  ##
+  # A warning for when the user limit has technically not been reached yet
+  # but if all invited users were to activate their accounts it would be reached.
+  def imminent_user_limit_warning
+    warning = I18n.t(
+      :warning_imminent_user_limit,
+      upgrade_url: OpenProject::Enterprise.upgrade_path
+    )
+
+    warning.html_safe
+  end
+
   def user_limit_reached?
     OpenProject::Enterprise.user_limit_reached?
+  end
+
+  def imminent_user_limit?
+    OpenProject::Enterprise.imminent_user_limit?
   end
 end
