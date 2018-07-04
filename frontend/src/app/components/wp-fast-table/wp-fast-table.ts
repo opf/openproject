@@ -95,11 +95,7 @@ export class WorkPackageTable {
    * all elements.
    */
   public redrawTableAndTimeline() {
-    const renderPass = this.lastRenderPass = this.rowBuilder.buildRows();
-
-    // Insert table body
-    this.tbody.innerHTML = '';
-    this.tbody.appendChild(renderPass.tableBody);
+    const renderPass = this.performRenderPass();
 
     // Insert timeline body
     this.timelineBody.innerHTML = '';
@@ -112,12 +108,7 @@ export class WorkPackageTable {
    * Redraw all elements in the table section only
    */
   public redrawTable() {
-    this.editing.reset();
-    const renderPass = this.lastRenderPass = this.rowBuilder.buildRows();
-
-    this.tbody.innerHTML = '';
-    this.tbody.appendChild(renderPass.tableBody);
-
+    const renderPass = this.performRenderPass();
     this.tableState.rendered.putValue(renderPass.result);
   }
 
@@ -127,7 +118,7 @@ export class WorkPackageTable {
   public refreshRows(workPackage:WorkPackageResource) {
     const pass = this.lastRenderPass;
     if (!pass) {
-      debugLog('Trying to refresh a singular row without a previus render pass.');
+      debugLog('Trying to refresh a singular row without a previous render pass.');
       return;
     }
 
@@ -138,5 +129,16 @@ export class WorkPackageTable {
         pass.refresh(row, workPackage, this.tbody);
       }
     });
+  }
+
+  private performRenderPass() {
+    this.editing.reset();
+    const renderPass = this.lastRenderPass = this.rowBuilder.buildRows();
+
+    // Insert table body
+    this.tbody.innerHTML = '';
+    this.tbody.appendChild(renderPass.tableBody);
+
+    return renderPass;
   }
 }

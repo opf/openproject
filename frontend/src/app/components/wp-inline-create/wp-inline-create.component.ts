@@ -160,9 +160,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
       const rowElement = this.$element.find(`.${inlineCreateRowClassName}`);
 
       if (rowElement.length && this.currentWorkPackage) {
-        this.rowBuilder.refreshRow(this.currentWorkPackage,
-          this.workPackageEditForm!.changeset,
-          rowElement);
+        this.rowBuilder.refreshRow(this.currentWorkPackage, rowElement);
       }
     });
 

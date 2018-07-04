@@ -60,21 +60,26 @@ export class DatePicker {
     this.datepickerInstance = this.datepickerCont.datepicker(mergedOptions);
   }
 
-  private clear() {
+  public clear() {
     this.datepickerInstance.datepicker('setDate', null);
   }
 
-  private hide() {
+  public destroy() {
+    this.hide();
+    this.datepickerInstance.datepicker('destroy');
+  }
+
+  public hide() {
     this.datepickerInstance.datepicker('hide');
     this.datepickerCont.scrollParent().off('scroll');
   }
 
-  private show() {
+  public show() {
     this.datepickerInstance.datepicker('show');
     this.hideDuringScroll();
   }
 
-  private reshow() {
+  public reshow() {
     this.datepickerInstance.datepicker('show');
   }
 
