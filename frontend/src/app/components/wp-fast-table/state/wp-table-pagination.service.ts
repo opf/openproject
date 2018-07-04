@@ -34,6 +34,7 @@ import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {InputState} from 'reactivestates';
 import {WorkPackageTablePagination} from '../wp-table-pagination';
 import {WorkPackageTableBaseService,} from './wp-table-base.service';
+import {PaginationService} from 'core-components/table-pagination/pagination-service';
 
 export interface PaginationUpdateObject {
   page?:number;
@@ -44,7 +45,8 @@ export interface PaginationUpdateObject {
 
 @Injectable()
 export class WorkPackageTablePaginationService extends WorkPackageTableBaseService<WorkPackageTablePagination> {
-  public constructor(tableState:TableState) {
+  public constructor(tableState:TableState,
+                     readonly paginationService:PaginationService) {
     super(tableState);
   }
 
@@ -53,10 +55,18 @@ export class WorkPackageTablePaginationService extends WorkPackageTableBaseServi
   }
 
   public get paginationObject():PaginationObject {
-    return {
-      pageSize: this.current.perPage,
-      offset: this.current.page
-    };
+    if(this.current) {
+      return {
+        pageSize: this.current.perPage,
+        offset: this.current.page
+      };
+    } else {
+      return {
+        pageSize: this.paginationService.getCachedPerPage([]),
+        offset: 1
+      };
+    }
+
   }
 
   public valueFromQuery(query:QueryResource, results:WorkPackageCollectionResource) {

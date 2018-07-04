@@ -32,7 +32,7 @@
 
   <!-- Values -->
   <ng-container *ngIf="showValuesInput">
-    <div class="advanced-filters--filter-value" [ngSwitch]="filter.currentSchema!.values!.type">
+    <div class="advanced-filters--filter-value" [ngSwitch]="filter.currentSchema!.values!">
       <filter-integer-value *ngSwitchCase="'[1]Integer'"
                             (filterChanged)="onFilterUpdated($event)"
                             [filter]="filter"></filter-integer-value>

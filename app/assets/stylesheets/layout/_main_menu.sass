@@ -390,15 +390,22 @@ $arrow-left-width: 40px
 
   .query-select-dropdown--no-results
     padding: 15px 15px 0
+    display: inline-block
+    width: 100%
+    white-space: normal
+    &.hidden
+      display: none
 
-  ul li
+  .ui-menu-item
     display: block
-
-    &.ui-menu-item
-      cursor: pointer
+    cursor: pointer
 
     &.hidden
       display: none
+
+  li.selected
+    @include varprop(background, main-menu-bg-selected-background)
+    @include varprop(color, main-menu-selected-font-color)
 
   .ui-autocomplete .ui-menu-item-wrapper
     padding: 5px 15px !important
@@ -450,6 +457,7 @@ $arrow-left-width: 40px
     width: 15px
     line-height: 30px
     height: 100%
+    margin-bottom: 5px
 
     &::before
       @include icon-mixin-arrow-up1
@@ -463,6 +471,9 @@ $arrow-left-width: 40px
     line-height: 30px
     font-weight: bold
     text-transform: uppercase
+    font-size: 0.9em
+    border-bottom: 1px solid #ebebeb
+    margin-bottom: 5px
 
   input[type="search"]::-webkit-search-cancel-button
     display: none

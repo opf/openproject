@@ -263,12 +263,7 @@ export class WorkPackagesListService {
   }
 
   private getPaginationInfo() {
-    let pagination = this.wpTablePagination.current;
-
-    return {
-      pageSize: pagination.perPage,
-      offset: pagination.page
-    };
+    return this.wpTablePagination.paginationObject;
   }
 
   private conditionallyLoadForm(promise:Promise<QueryResource>):Promise<QueryResource> {
