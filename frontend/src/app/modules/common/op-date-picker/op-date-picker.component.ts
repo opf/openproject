@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Inject, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {DatePicker} from 'core-app/modules/common/op-date-picker/datepicker';
 import {TimezoneService} from 'core-components/datetime/timezone.service';
@@ -35,13 +35,13 @@ import {TimezoneService} from 'core-components/datetime/timezone.service';
   selector: 'op-date-picker',
   templateUrl: './op-date-picker.component.html'
 })
-export class OpDatePickerComponent implements OnInit {
+export class OpDatePickerComponent implements OnInit, OnDestroy {
   @Output() public onChange = new EventEmitter<string>();
   @Output() public onClose = new EventEmitter<string>();
   @Input() public initialDate?:string;
 
   private $element:JQuery;
-  private datePickerInstance:any;
+  private datePickerInstance:DatePicker;
   private input:JQuery;
 
   public constructor(private elementRef:ElementRef,
@@ -58,6 +58,10 @@ export class OpDatePickerComponent implements OnInit {
       this.input = this.$element.find('input');
       this.setup();
     }
+  }
+
+  ngOnDestroy() {
+    this.datePickerInstance && this.datePickerInstance.destroy();
   }
 
   public setup() {
