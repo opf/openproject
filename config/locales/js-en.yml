@@ -84,6 +84,13 @@ en:
     editor:
       macro:
         toc: 'Table of contents'
+        work_package_button:
+          button: 'Insert create work package button'
+          type: 'Work package type'
+          button_style: 'Use button style'
+          button_style_hint: 'Optional: Check to make macro appear as a button, not as a link.'
+          without_type: 'Create work package'
+          with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: 'Embed work package table'
           text: 'Embedded work package table (placeholder)'
