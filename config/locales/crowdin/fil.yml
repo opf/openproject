@@ -1714,6 +1714,9 @@ fil:
   macro_execution_error: May mali habang isinasagawa ang macro %{macro_name}
   macro_unavailable: Macro %{macro_name} hindi naka-display.
   macros:
+    legacy_warning:
+      timeline: This legacy timeline macro has been removed and is no longer available.
+        You can replace the functionality with an embedded table macro.
     create_work_package_link:
       errors:
         no_project_context: Pagtawag ng create_work_package macro mula sa labas ng

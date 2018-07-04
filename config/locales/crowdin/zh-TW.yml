@@ -1570,6 +1570,9 @@ zh-TW:
   macro_execution_error: 執行巨集 (%{macro_name}) 錯誤
   macro_unavailable: 巨集 "%{macro_name}" 無法顯示
   macros:
+    legacy_warning:
+      timeline: This legacy timeline macro has been removed and is no longer available.
+        You can replace the functionality with an embedded table macro.
     create_work_package_link:
       errors:
         no_project_context: 從外部專案上下文呼叫 create_work_package_link 巨集。

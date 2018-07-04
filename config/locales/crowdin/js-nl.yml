@@ -589,8 +589,9 @@ nl:
         show_timeline_hint: Toon een interactieve Gantt-diagram aan de rechterkant
           van de tabel. U kunt de breedte wijzigen door de scheidingslijn tussen de
           tabel en Gantt-diagram te slepen.
-        columns_help_text: Use the input above to add or remove columns to your table
-          view. You can drag and drop the columns to reorder them.
+        columns_help_text: Gebruik de bovenstaande toegang voor het toevoegen of verwijderen
+          van kolommen aan uw tabelweergave. U kunt de kolommen slepen en neerzetten
+          om deze te rangschikken.
       tabs:
         overview: Overzicht
         activity: Activiteit
