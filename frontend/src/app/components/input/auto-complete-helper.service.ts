@@ -124,9 +124,7 @@ export class AutoCompleteHelperService {
 
       // only activate autocompleter for mentioniong users if the user is
       // in the context of a project and work package.
-      if (jQuery('body.controller-work_packages').length > 0 &&
-         projectId &&
-         projectId.length > 0) {
+      if (projectId && projectId.length > 0) {
         jQuery(textarea).atwho(this.getAtWhoParametersMentionable('@', textarea, projectId));
         jQuery(textarea).atwho(this.getAtWhoParametersMentionable('user#', textarea, projectId));
       }

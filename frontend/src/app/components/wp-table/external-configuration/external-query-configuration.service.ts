@@ -5,8 +5,7 @@ import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 import {ExternalQueryConfigurationComponent} from "core-components/wp-table/external-configuration/external-query-configuration.component";
 import {
   OpQueryConfigurationLocalsToken,
-  OpQueryConfigurationTriggerEvent,
-  OpQueryConfigurationUpdatedEvent
+  OpQueryConfigurationTriggerEvent
 } from "core-components/wp-table/external-configuration/external-query-configuration.constants";
 
 
@@ -57,8 +56,8 @@ export class ExternalQueryConfigurationService {
   /**
    * Open a Modal reference and append it to the portal
    */
-  public show(originator:JQuery,
-              currentQuery:any,
+  public show(currentQuery:any,
+              callback:(newQuery:any) => void,
               disabledTabs:{[key:string]:string} = {}):void {
     this.detach();
 
@@ -66,7 +65,7 @@ export class ExternalQueryConfigurationService {
     const portal = new ComponentPortal(
       ExternalQueryConfigurationComponent,
       null,
-      this.injectorFor({ originator: originator, currentQuery: currentQuery, disabledTabs: disabledTabs }));
+      this.injectorFor({ callback: callback, currentQuery: currentQuery, disabledTabs: disabledTabs }));
     this.bodyPortalHost.attach(portal);
     this._portalHostElement.style.display = 'block';
   }
@@ -74,13 +73,7 @@ export class ExternalQueryConfigurationService {
   /**
    * Closes currently open modal window
    */
-  public close(originator:JQuery, queryProps:any) {
-    this.detach();
-    originator.data('queryProps', queryProps);
-    originator.trigger(OpQueryConfigurationUpdatedEvent, [queryProps]);
-  }
-
-  private detach() {
+  public detach() {
     // Detach any component currently in the portal
     if (this.bodyPortalHost.hasAttached()) {
       this.bodyPortalHost.detach();

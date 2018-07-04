@@ -56,6 +56,9 @@ nl:
     editor:
       macro:
         toc: Table of contents
+        embedded_table:
+          button: Embed work package table
+          text: Embedded work package table (placeholder)
     error:
       internal: Een interne fout is opgetreden.
       cannot_save_changes_with_message: 'Uw wijzigingen vanwege de volgende fout niet

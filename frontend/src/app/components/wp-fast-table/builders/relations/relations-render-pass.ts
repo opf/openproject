@@ -105,9 +105,8 @@ export class RelationsRenderPass {
 
   public refreshRelationRow(renderedRow:RelationRenderInfo,
                             workPackage:WorkPackageResource,
-                            changeset:WorkPackageChangeset,
                             oldRow:JQuery) {
-    const newRow = this.relationRowBuilder.refreshRow(workPackage, changeset, oldRow);
+    const newRow = this.relationRowBuilder.refreshRow(workPackage, oldRow);
     this.relationRowBuilder.appendRelationLabel(newRow,
       renderedRow.belongsTo!,
       renderedRow.data.relation,

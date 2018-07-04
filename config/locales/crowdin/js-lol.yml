@@ -55,6 +55,9 @@ lol:
     editor:
       macro:
         toc: crwdns99007:0crwdne99007:0
+        embedded_table:
+          button: Embed work package table
+          text: Embedded work package table (placeholder)
     error:
       internal: crwdns98376:0crwdne98376:0
       cannot_save_changes_with_message: crwdns99001:0%{error}crwdne99001:0

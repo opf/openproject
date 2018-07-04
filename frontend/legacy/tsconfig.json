@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES5",
-    "module": "commonjs",
+    "module": "es2015",
     "moduleResolution": "node",
     "removeComments": true,
     "preserveConstEnums": true,
