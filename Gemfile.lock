@@ -57,6 +57,34 @@ GIT
       activesupport (>= 3.0)
       rspec-mocks (>= 2.99, < 4.0)
 
+PATH
+  remote: ../plugins/openproject-costs
+  specs:
+    openproject-costs (8.0.0)
+
+PATH
+  remote: ../plugins/openproject-gitolite
+  specs:
+    openproject-gitolite (8.0.0)
+      gitolite-rugged
+      net-ssh
+      rails (>= 5.0)
+
+PATH
+  remote: ../plugins/openproject-reporting
+  specs:
+    openproject-reporting (8.0.0)
+      jquery-tablesorter (~> 1.22.3)
+      openproject-costs (= 8.0.0)
+      reporting_engine (>= 1.1.0)
+
+PATH
+  remote: ../plugins/reporting_engine
+  specs:
+    reporting_engine (8.0.0)
+      json
+      rails (~> 5.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -287,6 +315,9 @@ GEM
       ruby-progressbar (~> 1.4)
     get_process_mem (0.2.1)
     gherkin (4.1.3)
+    gitolite-rugged (1.2.2)
+      gratr19 (~> 0.4.4, >= 0.4.4.1)
+      rugged (~> 0.21, >= 0.21.0)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
     gon (6.2.0)
@@ -300,6 +331,7 @@ GEM
       rack (>= 1.3.0)
       rack-accept
       virtus (>= 1.0.0)
+    gratr19 (0.4.4.1)
     hashdiff (0.3.7)
     hashie (3.5.6)
     health_check (2.6.0)
@@ -320,6 +352,8 @@ GEM
     ipaddress (0.8.3)
     iso8601 (0.9.1)
     jmespath (1.4.0)
+    jquery-tablesorter (1.22.7)
+      railties (>= 3.2, < 6)
     json (1.8.6)
     json_spec (1.1.5)
       multi_json (~> 1.0)
@@ -359,6 +393,7 @@ GEM
       mustermann (~> 1.0.0)
     mysql2 (0.5.1)
     net-ldap (0.16.0)
+    net-ssh (5.0.2)
     netrc (0.11.0)
     newrelic_rpm (4.5.0.337)
     nio4r (2.3.0)
@@ -523,6 +558,7 @@ GEM
       i18n
     ruby-progressbar (1.9.0)
     rubyzip (1.2.1)
+    rugged (0.27.2)
     safe_yaml (1.0.4)
     sanitize (4.6.4)
       crass (~> 1.0.2)
@@ -673,6 +709,9 @@ DEPENDENCIES
   oj (~> 3.5.0)
   okcomputer (~> 1.16.0)
   omniauth!
+  openproject-costs!
+  openproject-gitolite!
+  openproject-reporting!
   openproject-token (~> 1.0.1)
   openproject-translations!
   parallel_tests (~> 2.21.3)
@@ -696,6 +735,7 @@ DEPENDENCIES
   rdoc (>= 2.4.2)
   reform (~> 2.2.0)
   reform-rails (~> 0.1.7)
+  reporting_engine!
   request_store (~> 1.4.1)
   responders (~> 2.4)
   retriable (~> 3.1.1)
