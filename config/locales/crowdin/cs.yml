@@ -724,18 +724,17 @@ cs:
     failure_message: Souhlas se nezdařil, nelze pokračovat.
     title: Souhlas uživatele
     decline_warning_message: Odmítli jste souhlas a byli jste odhlášeni.
-    user_has_consented: User has consented to your configured statement at the given
-      time.
-    not_yet_consented: User has not consented yet, will be requested upon next login.
-    contact_mail_instructions: Define the mail address that users can reach a data
-      controller to perform data change or removal requests.
-    contact_your_administrator: Please contact your administrator if you want to have
-      your account deleted.
-    contact_this_mail_address: Please contact %{mail_address} if you want to have
-      your account deleted.
-    text_update_consent_time: Check this box to force users to consent again. Enable
-      when you have changed the legal aspect of the consent information above.
-    update_consent_last_time: 'Last update of consent: %{update_time}'
+    user_has_consented: Uživatel udělil vámi nastavený souhlas v daném čase.
+    not_yet_consented: Uživatel ještě neudělil souhlas, ale při příštím přihlášení
+      bude vyzván.
+    contact_mail_instructions: Definujte e-mailovou adresu správce údajů, který může
+      vyřídit požadavky na změny v datech nebo žádosti o výmaz.
+    contact_your_administrator: Pokud chcete svůj účet odstranit, obraťte se na správce
+      systému.
+    contact_this_mail_address: Pokud chcete svůj účet odstranit, obraťte se na %{mail_address}.
+    text_update_consent_time: Zaškrtněte toto políčko k vynucení nového souhlasu uživatele.
+      Povolte v případě, že jste změnili právní aspekt souhlasu uvedeného výše.
+    update_consent_last_time: 'Poslední aktualizace souhlasu: %{update_time}'
   copy_project:
     started: Started to copy project "%{source_project_name}" to "%{target_project_name}".
       You will be informed by mail as soon as "%{target_project_name}" is available.
@@ -966,7 +965,8 @@ cs:
         add_groups: Add new attribute groups
         rename_groups: Rename attributes groups
       project_filters:
-        description_html: Upgrade to %{link} to filter and sort on custom fields
+        description_html: Upgradujte na %{link} pro filtrování a řazení ve vlastních
+          polích
   enumeration_activities: Aktivity (sledování času)
   enumeration_work_package_priorities: Priority pracovního balíčku
   enumeration_system_activity: Činnost systému
@@ -985,10 +985,10 @@ cs:
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.
   error_custom_option_not_found: Nastavení neexistuje.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+  error_dependent_work_package: 'Chyba v závislém balíčku #%{related_id} %{related_subject}:
     %{error}'
-  error_enterprise_activation_user_limit: Your account could not be activated (user
-    limit reached). Please contact your administrator to gain access.
+  error_enterprise_activation_user_limit: Váš účet nebyl aktivován (dosažen limit
+    počtu uživatelů). Prosím obraťte se na správce pro získání přístupu.
   error_failed_to_delete_entry: Failed to delete this entry.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1253,7 +1253,7 @@ cs:
   label_enumerations: Číselníky
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edice
-  label_enterprise_active_users: "%{current}/%{limit} booked active users"
+  label_enterprise_active_users: "%{current}/%{limit} rezervováno aktivních uživatelů"
   label_environment: Prostředí
   label_estimates_and_time: Odhady a čas
   label_equals: je
@@ -1677,8 +1677,8 @@ cs:
   macros:
     create_work_package_link:
       errors:
-        no_project_context: Calling create_work_package_link macro from outside project
-          context.
+        no_project_context: Volání create_work_package_link makra z kontextu vnějšího
+          projektu.
         invalid_type: Nenalezen typ s názvem '%{type}' v projektu '%{project}".
       link_name: Nový pracovní balíček
       link_name_type: Nový %{type_name}
@@ -1701,14 +1701,16 @@ cs:
   mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
   mail_user_activation_limit_reached:
-    subject: User activation limit reached
-    message: |
-      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
-      The user cannot activate their account since the user limit has been reached.
+    subject: Dosažen limit aktivace uživatelů
+    message: 'Nový uživatel (%{email}) se pokusil vytvořit účet v prostředí OpenProject
+      spravovaném vámi (%{host}). Uživatel nemůže aktivovat svůj účet, protože bylo
+      dosaženo limitu v počtu uživatelů.
+
+'
     steps:
-      label: 'To allow the user to sign in you can either: '
-      a: Upgrade your payment plan ([here](upgrade_url))
-      b: Lock or delete an existing user ([here](users_url))
+      label: 'Chcete-li umožnit uživateli přihlášení můžete buď: '
+      a: Upgrade plánu plateb ([here](upgrade_url))
+      b: Zamknutí nebo odstranění existujícího uživatele ([here](users_url))
   more_actions: Další funkce
   noscript_description: You need to activate JavaScript in order to use OpenProject!
   noscript_heading: Javascript zakázán
@@ -1740,9 +1742,9 @@ cs:
     You are logged in now.
   notice_activation_failed: Účet nemohl být aktivován.
   notice_auth_stage_verification_error: Nelze ověřit fázi '%{stage}".
-  notice_auth_stage_wrong_stage: Expected to finish authentication stage '%{expected}',
-    but '%{actual}' returned.
-  notice_auth_stage_error: Authentication stage '%{stage}' failed.
+  notice_auth_stage_wrong_stage: Očekáváno dokončení ověřovací fáze '%{expected}',
+    ale '%{actual}' se vrátil.
+  notice_auth_stage_error: Ověřovací fáze "%{stage}" selhala.
   notice_can_t_change_password: This account uses an external authentication source.
     Impossible to change the password.
   notice_custom_options_deleted: Option '%{option_value}' and its %{num_deleted} occurrences
@@ -2098,9 +2100,9 @@ cs:
   setting_commit_logtime_enabled: Povolit zaznamenávání času
   setting_commit_ref_keywords: Referencing keywords
   setting_consent_time: Čas souhlasu
-  setting_consent_info: Consent information text
+  setting_consent_info: Informační text souhlasu
   setting_consent_required: Souhlas vyžadován
-  setting_consent_decline_mail: Consent contact mail address
+  setting_consent_decline_mail: Kontaktní e-mailová adresa pro souhlas
   setting_cross_project_work_package_relations: Allow cross-project work package relations
   setting_date_format: Formát data
   setting_default_language: Výchozí jazyk
@@ -2627,10 +2629,11 @@ cs:
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Varování
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
-  warning_imminent_user_limit: 'You invited more users than are supported by your
-    current plan. Invited users may not be able to join your OpenProject environment.
-    Please <a href=\"%{upgrade_url}\">upgrade your plan</a> or block existing users
-    in order to allow invited and registered users to join.
+  warning_imminent_user_limit: 'Pozvali jste více uživatelů, než je podporováno vaším
+    aktuálním předplaceným plánem. Pozvaní uživatelé nemusí být schopni se připojit
+    do OpenProject prostředí. Prosím <a href=\"%{upgrade_url}\">upgradujte váš plán</a>
+    nebo zablokujte stávající uživatele, aby se pozvaní a registrovaní uživatelé mohli
+    připojit.
 
 '
   warning_user_limit_reached: Dosažel limit počtu uživatelů. Prosím <a href="%{upgrade_url}">upgradujte</a>
