@@ -51,7 +51,8 @@ class UsersController < ApplicationController
   before_action :check_password_confirmation, only: [:destroy]
 
   include Concerns::UserLimits
-  before_action :enforce_user_limit, only: [:new, :create]
+  before_action :enforce_user_limit, only: [:create]
+  before_action -> { enforce_user_limit flash_now: true }, only: [:new]
 
   accept_key_auth :index, :show, :create, :update, :destroy
 
