@@ -105,7 +105,7 @@ module Concerns::UserLimits
   def imminent_user_limit_warning
     warning = I18n.t(
       :warning_imminent_user_limit,
-      upgrade_url: OpenProject::Enterprise.upgrade_path
+      upgrade_url: OpenProject::Enterprise.upgrade_url
     )
 
     warning.html_safe
