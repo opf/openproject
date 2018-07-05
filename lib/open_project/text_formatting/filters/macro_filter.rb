@@ -33,23 +33,43 @@ module OpenProject::TextFormatting
     class MacroFilter < HTML::Pipeline::Filter
       cattr_accessor :registered
 
-      def self.register(macro)
+      def self.register(*macros)
         self.registered ||= []
 
-        registered << macro
+        macros.each { |macro| registered << macro }
       end
 
       def call
         doc.search('macro').each do |macro|
           registered.each do |macro_class|
-            macro_class.apply_conditionally(macro, result)
+            next unless macro['class'].include? macro_class.identifier
+
+            begin
+              macro_class.apply(macro, result: result, context: context)
+            rescue => e
+              Rails.logger.error("Failed to insert macro #{macro_class}: #{e} - #{e.message}")
+              macro.replace macro_error_placeholder(macro_class, e.message)
+            ensure
+              # This macro should have applied, even when an error occurred.
+              break
+            end
           end
         end
 
         doc
       end
+
+      def macro_error_placeholder(macro_class, message)
+        ApplicationController.helpers.content_tag :macro,
+                                                  "#{I18n.t(:macro_execution_error, macro_name: macro_class.identifier)} (#{message})",
+                                                  class: 'macro-unavailable',
+                                                  data: { macro_name: macro_class.identifier }
+      end
     end
   end
 end
 
-OpenProject::TextFormatting::Filters::MacroFilter.register(OpenProject::TextFormatting::Filters::Macros::Toc)
+OpenProject::TextFormatting::Filters::MacroFilter.register(
+  OpenProject::TextFormatting::Filters::Macros::Toc,
+  OpenProject::TextFormatting::Filters::Macros::CreateWorkPackageLink,
+)

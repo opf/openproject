@@ -346,19 +346,25 @@ module OpenProject::TextFormatting::Formatters
           all = $2
           macro = $3.gsub('\_', '_')
           args = $5 || ''
+          args_array = args.split(',').each(&:strip!)
+          data = {}
 
           # Escaped macros should probably render as before?
           return all if esc.present?
 
           case macro
           when 'timeline'
-            content_tag :macro, I18n.t('macros.legacy_warning.timeline'), class: 'legacy-macro -macro-unavailable'
+            return content_tag :macro, I18n.t('macros.legacy_warning.timeline'), class: 'legacy-macro -macro-unavailable'
           when 'hello_world'
-            ''
+            return ''
+          when 'create_work_package_link'
+            data[:type] = args_array[0] if args_array.length >= 1
+            data[:classes] = args_array[1] if args_array.length >= 2
           else
-            data = args.present? ? { arguments: args } : {}
-            content_tag :macro, '', class: macro, data: data
+            data[:arguments] = args if args.present?
           end
+
+          content_tag :macro, '', class: macro, data: data
         end
       end
 

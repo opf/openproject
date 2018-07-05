@@ -213,6 +213,8 @@ import {
   embeddedTableBootstrap,
   EmbeddedTablesMacroComponent
 } from "core-components/wp-table/embedded/embedded-tables-macro.component";
+import {WpButtonMacroModal} from "core-components/modals/editor/macro-wp-button-modal/wp-button-macro.modal";
+import {EditorMacrosService} from "core-components/modals/editor/editor-macros.service";
 
 @NgModule({
   imports: [
@@ -307,6 +309,7 @@ import {
     OpModalService,
     WpTableConfigurationService,
     ConfirmDialogService,
+    EditorMacrosService,
 
     // Main Menu
     MainMenuToggleService,
@@ -453,6 +456,7 @@ import {
     QuerySharingForm,
     RenameQueryModal,
     WpDestroyModal,
+    WpButtonMacroModal,
 
     // External query configuration
     ExternalQueryConfigurationComponent,
@@ -534,6 +538,7 @@ import {
     RenameQueryModal,
     WpDestroyModal,
     AttributeHelpTextModal,
+    WpButtonMacroModal,
 
     // External query configuration
     ExternalQueryConfigurationComponent,

@@ -77,7 +77,7 @@ export class ApiWorkPackagesService {
    *
    * @returns An empty work package form resource.
    */
-  public emptyCreateForm(request:any, projectIdentifier?:string):Promise<HalResource> {
+  public emptyCreateForm(request:any, projectIdentifier?:string|null):Promise<HalResource> {
     return this.halResourceService
       .post<HalResource>(this.workPackagesFormPath(projectIdentifier), request)
       .toPromise();
@@ -113,7 +113,7 @@ export class ApiWorkPackagesService {
       .toPromise();
   }
 
-  private workPackagesFormPath(projectIdentifier?:string):string {
+  private workPackagesFormPath(projectIdentifier?:string|null):string {
     if (projectIdentifier) {
       return this.pathHelper.api.v3.projects.id(projectIdentifier).work_packages.form.toString();
     } else {

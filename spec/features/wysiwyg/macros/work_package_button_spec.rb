@@ -28,17 +28,21 @@
 
 require 'spec_helper'
 
-describe 'Wysiwyg embedded work package tables',
+describe 'Wysiwyg work package button spec',
          with_settings: { text_formatting: 'markdown', use_wysiwyg?: true },
          type: :feature, js: true do
   let(:user) { FactoryBot.create :admin }
-  let(:project) { FactoryBot.create(:project, enabled_module_names: %w[wiki work_package_tracking]) }
-  let(:editor) { ::Components::WysiwygEditor.new }
-  let!(:work_package) { FactoryBot.create(:work_package, project: project) }
+  let!(:type) { FactoryBot.create :type, name: 'MyTaskName' }
+  let(:project) {
+    FactoryBot.create :valid_project,
+                      identifier: 'my-project',
+                      enabled_module_names: %w[wiki work_package_tracking],
+                      name: 'My project name',
+                      types: [type]
+  }
 
-  let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
-  let(:filters) { ::Components::WorkPackages::TableConfiguration::Filters.new }
-  let(:columns) { ::Components::WorkPackages::Columns.new }
+
+  let(:editor) { ::Components::WysiwygEditor.new }
 
   before do
     login_as(user)
@@ -53,40 +57,31 @@ describe 'Wysiwyg embedded work package tables',
       it 'can add and edit an embedded table widget' do
         editor.in_editor do |container, editable|
           # strangely, we need visible: :all here
-          container.find('.ck-button', visible: :all, text: 'Embed work package table').click
+          container.find('.ck-button', visible: :all, text: 'Insert create work package button').click
 
-          modal.expect_open
-          filters.expect_filter_count 1
-          filters.add_filter_by('Type', 'is', work_package.type.name)
+          expect(page).to have_selector('.op-modal--macro-modal')
+          select 'MyTaskName', from: 'selected-type'
 
-          modal.switch_to 'Columns'
-          columns.assume_opened
-          columns.uncheck_all save_changes: false
-          columns.add 'ID', save_changes: false
-          columns.add 'Subject', save_changes: false
-          columns.add 'Type', save_changes: false
-          columns.expect_checked 'ID'
-          columns.expect_checked 'Subject'
-          columns.expect_checked 'Type'
+          # Cancel editing
+          find('.op-modal--cancel-button').click
+          expect(editable).to have_no_selector('.macro.-create_work_package_link')
+
+          container.find('.ck-button', visible: :all, text: 'Insert create work package button').click
+          select 'MyTaskName', from: 'selected-type'
+          check 'button_style'
 
           # Save widget
-          modal.save
+          find('.op-modal--submit-button').click
 
           # Find widget, click to show toolbar
-          macro = editable.find('.ck-widget.macro.-embedded-table')
-          macro.click
+          modal = find('.macro.-create_work_package_link')
 
           # Edit widget again
+          modal.click
           page.find('.ck-balloon-panel .ck-button', visible: :all, text: 'Edit').click
-
-          modal.expect_open
-          filters.expect_filter_count 2
-          modal.switch_to 'Columns'
-          columns.assume_opened
-          columns.expect_checked 'ID'
-          columns.expect_checked 'Subject'
-          columns.expect_checked 'Type'
-          modal.cancel
+          expect(page).to have_checked_field('wp_button_macro_style')
+          expect(page).to have_select('selected-type', selected: 'MyTaskName')
+          find('.op-modal--cancel-button').click
         end
 
         # Save wiki page
@@ -95,8 +90,7 @@ describe 'Wysiwyg embedded work package tables',
         expect(page).to have_selector('.flash.notice')
 
         within('#content') do
-          embedded_table = ::Pages::EmbeddedWorkPackagesTable.new find('.wiki-content')
-          embedded_table.expect_work_package_listed work_package
+          expect(page).to have_selector("a[href=\"/projects/my-project/work_packages/new?type=#{type.id}\"]")
         end
       end
     end
