@@ -1562,8 +1562,14 @@ lol:
   macro_execution_error: crwdns97615:0%{macro_name}crwdne97615:0
   macro_unavailable: crwdns97616:0%{macro_name}crwdne97616:0
   macros:
+    errors:
+      missing_or_invalid_parameter: crwdns99015:0crwdne99015:0
     legacy_warning:
       timeline: crwdns99012:0crwdne99012:0
+    include_wiki_page:
+      errors:
+        page_not_found: crwdns99016:0%{name}crwdne99016:0
+        circular_inclusion: crwdns99017:0crwdne99017:0
     create_work_package_link:
       errors:
         no_project_context: crwdns97617:0crwdne97617:0

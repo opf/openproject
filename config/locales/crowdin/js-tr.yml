@@ -56,6 +56,21 @@ tr:
     editor:
       macro:
         toc: Table of contents
+        wiki_page_include:
+          button: Include content of another wiki page
+          text: Included wiki page (placeholder)
+          page: Viki sayfası
+          hint: |
+            Include the content of another wiki page by specifying its title or slug.
+            You can include the wiki page of another project by separating them with a colon like the following example.
+        work_package_button:
+          button: Insert create work package button
+          type: Work package type
+          button_style: Use button style
+          button_style_hint: 'Optional: Check to make macro appear as a button, not
+            as a link.'
+          without_type: Create work package
+          with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
           text: Embedded work package table (placeholder)
