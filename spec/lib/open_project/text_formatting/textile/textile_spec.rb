@@ -661,27 +661,6 @@ describe OpenProject::TextFormatting do
     end
   end
 
-  describe 'macros within pre block' do
-    let(:wiki_text) {
-      <<-WIKI_TEXT
-      <pre>{{include(wiki)}}</pre>
-
-      {{include(wiki)}}
-      WIKI_TEXT
-    }
-
-    subject(:html) { format_text(wiki_text) }
-
-    it 'does not expand the macro within <pre>' do
-      expect(html).to be_html_eql(%[
-        <pre>{{ $root.DOUBLE_LEFT_CURLY_BRACE }}include(wiki)}}</pre>
-        <p>
-          <span class=\"flash error macro-unavailable permanent\"> Error executing the macro include (Page not found) </span>
-        </p>
-      ])
-    end
-  end
-
   describe '{{toc}}', 'table of contents macro' do
     # Source: http://en.wikipedia.org/wiki/Orange_(fruit)
     let(:wiki_text) {
