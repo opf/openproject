@@ -29,19 +29,23 @@
 ##
 # Intended to be used by the UsersController to enforce the user limit.
 module Concerns::UserLimits
-  def enforce_user_limit(redirect_to: users_path, hard: OpenProject::Enterprise.fail_fast?)
+  def enforce_user_limit(
+    redirect_to: users_path,
+    hard: OpenProject::Enterprise.fail_fast?,
+    flash_now: false
+  )
     if user_limit_reached?
       if hard
         show_user_limit_error!
 
         redirect_back fallback_location: redirect_to
       else
-        show_user_limit_warning!
+        show_user_limit_warning! flash_now: flash_now
       end
 
       true
     elsif imminent_user_limit?
-      show_imminent_user_limit_warning!
+      show_imminent_user_limit_warning! flash_now: flash_now
 
       true
     else
@@ -78,8 +82,10 @@ module Concerns::UserLimits
     flash[:error] = I18n.t(:error_enterprise_activation_user_limit)
   end
 
-  def show_user_limit_warning!
-    flash[:warning] = user_limit_warning
+  def show_user_limit_warning!(flash_now: false)
+    f = flash_now ? flash.now : flash
+
+    f[:warning] = user_limit_warning
   end
 
   def show_user_limit_error!
@@ -95,8 +101,10 @@ module Concerns::UserLimits
     warning.html_safe
   end
 
-  def show_imminent_user_limit_warning!
-    flash[:warning] = imminent_user_limit_warning
+  def show_imminent_user_limit_warning!(flash_now: false)
+    f = flash_now ? flash.now : flash
+
+    f[:warning] = imminent_user_limit_warning
   end
 
   ##
