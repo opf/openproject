@@ -215,6 +215,7 @@ import {
 } from "core-components/wp-table/embedded/embedded-tables-macro.component";
 import {WpButtonMacroModal} from "core-components/modals/editor/macro-wp-button-modal/wp-button-macro.modal";
 import {EditorMacrosService} from "core-components/modals/editor/editor-macros.service";
+import {WikiIncludePageMacroModal} from "core-components/modals/editor/macro-wiki-include-page-modal/wiki-include-page-macro.modal";
 
 @NgModule({
   imports: [
@@ -457,6 +458,7 @@ import {EditorMacrosService} from "core-components/modals/editor/editor-macros.s
     RenameQueryModal,
     WpDestroyModal,
     WpButtonMacroModal,
+    WikiIncludePageMacroModal,
 
     // External query configuration
     ExternalQueryConfigurationComponent,
@@ -539,6 +541,7 @@ import {EditorMacrosService} from "core-components/modals/editor/editor-macros.s
     WpDestroyModal,
     AttributeHelpTextModal,
     WpButtonMacroModal,
+    WikiIncludePageMacroModal,
 
     // External query configuration
     ExternalQueryConfigurationComponent,

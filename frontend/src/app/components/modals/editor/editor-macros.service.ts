@@ -29,6 +29,7 @@
 import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {Injectable} from "@angular/core";
 import {WpButtonMacroModal} from "core-components/modals/editor/macro-wp-button-modal/wp-button-macro.modal";
+import {WikiIncludePageMacroModal} from "core-components/modals/editor/macro-wiki-include-page-modal/wiki-include-page-macro.modal";
 
 @Injectable()
 export class EditorMacrosService {
@@ -38,6 +39,7 @@ export class EditorMacrosService {
 
   /**
    * Show a modal to edit the work package button macro settings.
+   * Used from within ckeditor.
    */
   public configureWorkPackageButton(typeName?:string, classes?:string):Promise<{ type:string, classes:string }> {
     return new Promise<{ type:string, classes:string }>((resolve, reject) => {
@@ -45,6 +47,21 @@ export class EditorMacrosService {
       modal.closingEvent.subscribe((modal:WpButtonMacroModal) => {
         if (modal.changed) {
           resolve({type: modal.type, classes: modal.classes});
+        }
+      });
+    });
+  }
+
+  /**
+   * Show a modal to edit the wiki include macro.
+   * Used from within ckeditor.
+   */
+  public configureWikiPageInclude(page:string):Promise<string> {
+    return new Promise<string>((resolve, _) => {
+      const modal = this.opModalService.show(WikiIncludePageMacroModal, { page: page });
+      modal.closingEvent.subscribe((modal:WikiIncludePageMacroModal) => {
+        if (modal.changed) {
+          resolve(modal.page);
         }
       });
     });

@@ -357,6 +357,9 @@ module OpenProject::TextFormatting::Formatters
             return content_tag :macro, I18n.t('macros.legacy_warning.timeline'), class: 'legacy-macro -macro-unavailable'
           when 'hello_world'
             return ''
+          when 'include'
+            macro = 'include_wiki_page'
+            data[:page] = args
           when 'create_work_package_link'
             data[:type] = args_array[0] if args_array.length >= 1
             data[:classes] = args_array[1] if args_array.length >= 2

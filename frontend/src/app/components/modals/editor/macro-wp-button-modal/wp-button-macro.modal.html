@@ -14,7 +14,7 @@
     </div>
 
     <div class="ngdialog-body op-modal--modal-body">
-      <form class="form -vertical">
+      <form class="form -vertical" (submit)="applyAndClose($event)">
         <fieldset class="form--fieldset">
           <legend [textContent]="text.selected_type"></legend>
           <div class="form--field">
@@ -26,7 +26,9 @@
             <div class="form--field-container">
               <div class="form--select-container">
                 <select
+                    #typeSelect
                     id="selected-type"
+                    tabindex="1"
                     name="selected-type"
                     (change)="selectedType = $event.target.value"
                     class="form--select">
@@ -48,6 +50,7 @@
             <label class="form--label-with-check-box">
               <div class="form--check-box-container">
                 <input type="checkbox"
+                       tabindex="2"
                        id="wp_button_macro_style"
                        (change)="buttonStyle = $event.target.checked"
                        [checked]="buttonStyle"
@@ -63,11 +66,13 @@
     <div class="op-modal--modal-footer">
       <button class="op-modal--cancel-button button"
               (click)="closeMe($event)"
+              tabindex="4"
               [textContent]="text.button_cancel"
               [attr.title]="text.button_cancel">
       </button>
       <button class="op-modal--submit-button button -highlight"
               (click)="applyAndClose($event)"
+              tabindex="3"
               [textContent]="text.button_save"
               [attr.title]="text.button_save">
       </button>

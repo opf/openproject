@@ -37,30 +37,24 @@ import {TypeResource} from "core-app/modules/hal/resources/type-resource";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 
 @Component({
-  templateUrl: './wp-button-macro.modal.html'
+  templateUrl: './wiki-include-page-macro.modal.html'
 })
-export class WpButtonMacroModal extends OpModalComponent implements AfterViewInit {
+export class WikiIncludePageMacroModal extends OpModalComponent implements AfterViewInit {
 
   public changed = false;
   public showClose = true;
   public closeOnEscape = true;
   public closeOnOutsideClick = true;
 
-  public selectedType:string;
-  public buttonStyle:boolean;
+  public selectedPage:string;
+  public page:string = '';
 
-  public availableTypes:TypeResource[];
-  public type:string = '';
-  public classes:string = '';
-
-  @ViewChild('typeSelect') typeSelect:ElementRef;
+  @ViewChild('selectedPageInput') selectedPageInput:ElementRef;
 
   public text:any = {
-    title: this.I18n.t('js.editor.macro.work_package_button.button'),
-    none: this.I18n.t('js.label_none'),
-    selected_type: this.I18n.t('js.editor.macro.work_package_button.type'),
-    button_style: this.I18n.t('js.editor.macro.work_package_button.button_style'),
-    button_style_hint: this.I18n.t('js.editor.macro.work_package_button.button_style_hint'),
+    title: this.I18n.t('js.editor.macro.wiki_page_include.button'),
+    hint: this.I18n.t('js.editor.macro.wiki_page_include.hint'),
+    page: this.I18n.t('js.editor.macro.wiki_page_include.page'),
     button_save: this.I18n.t('js.button_save'),
     button_cancel: this.I18n.t('js.button_cancel'),
     close_popup: this.I18n.t('js.close_popup_title')
@@ -68,30 +62,22 @@ export class WpButtonMacroModal extends OpModalComponent implements AfterViewIni
 
   constructor(readonly elementRef:ElementRef,
               @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              @Inject(IWorkPackageCreateServiceToken) protected wpCreate:WorkPackageCreateService,
-              protected currentProject:CurrentProjectService,
               readonly I18n:I18nService) {
 
     super(locals, elementRef);
-    this.selectedType = this.type = this.locals.type;
-    this.classes = this.locals.classes;
-    this.buttonStyle = this.classes === 'button';
+    this.selectedPage = this.page = this.locals.page;
 
-    this.wpCreate.getEmptyForm(this.currentProject.identifier)
-      .then((form:any) => {
-        this.availableTypes = form.schema.type.allowedValues;
-      });
+    // We could provide an autocompleter here to get correct page names
   }
 
   public applyAndClose(evt:JQueryEventObject) {
     this.changed = true;
-    this.classes = this.buttonStyle ? 'button' : '';
-    this.type = this.selectedType;
+    this.page = this.selectedPage;
     this.closeMe(evt);
   }
 
   ngAfterViewInit() {
-    this.typeSelect.nativeElement.focus();
+    this.selectedPageInput.nativeElement.focus();
   }
 }
 

@@ -72,4 +72,5 @@ end
 OpenProject::TextFormatting::Filters::MacroFilter.register(
   OpenProject::TextFormatting::Filters::Macros::Toc,
   OpenProject::TextFormatting::Filters::Macros::CreateWorkPackageLink,
+  OpenProject::TextFormatting::Filters::Macros::IncludeWikiPage,
 )
