@@ -1702,6 +1702,9 @@ it:
   macro_execution_error: Errore nell'esecuzione della macro %{macro_name}
   macro_unavailable: Non può essere visualizzata la macro %{macro_name}.
   macros:
+    legacy_warning:
+      timeline: This legacy timeline macro has been removed and is no longer available.
+        You can replace the functionality with an embedded table macro.
     create_work_package_link:
       errors:
         no_project_context: Chiamando dal contesto progettuale esterno la macro crea_lavoro_pacchetto_link.

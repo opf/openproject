@@ -1698,6 +1698,9 @@ ro:
   macro_execution_error: Eroare la execuția macro-ului %{macro_name}
   macro_unavailable: Macro-ul %{macro_name} nu poate fi afișat.
   macros:
+    legacy_warning:
+      timeline: This legacy timeline macro has been removed and is no longer available.
+        You can replace the functionality with an embedded table macro.
     create_work_package_link:
       errors:
         no_project_context: Calling create_work_package_link macro from outside project

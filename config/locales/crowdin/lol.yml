@@ -1562,6 +1562,8 @@ lol:
   macro_execution_error: crwdns97615:0%{macro_name}crwdne97615:0
   macro_unavailable: crwdns97616:0%{macro_name}crwdne97616:0
   macros:
+    legacy_warning:
+      timeline: crwdns99012:0crwdne99012:0
     create_work_package_link:
       errors:
         no_project_context: crwdns97617:0crwdne97617:0

@@ -100,7 +100,7 @@ export class WorkPackageCreateService implements IWorkPackageCreateService {
     });
   }
 
-  public getEmptyForm(projectIdentifier:string):Promise<HalResource> {
+  public getEmptyForm(projectIdentifier:string|null):Promise<HalResource> {
     if (!this.form) {
       this.form = this.apiWorkPackages.emptyCreateForm({}, projectIdentifier);
     }

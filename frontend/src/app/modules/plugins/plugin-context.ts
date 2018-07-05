@@ -18,6 +18,7 @@ import {DisplayFieldService} from "core-app/modules/fields/display/display-field
 import {EditFieldService} from "core-app/modules/fields/edit/edit-field.service";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/op-file-upload.service";
+import {EditorMacrosService} from "core-components/modals/editor/editor-macros.service";
 
 /**
  * Plugin context bridge for plugins outside the CLI compiler context
@@ -46,6 +47,7 @@ export class OpenProjectPluginContext {
     displayField: this.injector.get<DisplayFieldService>(DisplayFieldService),
     editField: this.injector.get<EditFieldService>(EditFieldService),
     wpCache: this.injector.get<WorkPackageCacheService>(WorkPackageCacheService),
+    macros: this.injector.get<EditorMacrosService>(EditorMacrosService),
   };
 
   // Random collection of classes needed outside of angular
