@@ -89,7 +89,7 @@ module Concerns::UserLimits
   def user_limit_warning
     warning = I18n.t(
       :warning_user_limit_reached,
-      upgrade_url: OpenProject::Enterprise.upgrade_path
+      upgrade_url: OpenProject::Enterprise.upgrade_url
     )
 
     warning.html_safe
