@@ -28,7 +28,7 @@ import {APP_INITIALIZER, Injector, NgModule} from '@angular/core';
 import {AvatarUploadFormComponent} from "./avatar-upload-form/avatar-upload-form.component";
 import {HookService} from "../../hook-service";
 import {BrowserModule} from "@angular/platform-browser";
-
+import './globals/global-avatar-fallback'
 
 export function initializeAvatarsPlugin(injector:Injector) {
   return () => {
@@ -38,6 +38,7 @@ export function initializeAvatarsPlugin(injector:Injector) {
         { selector: 'avatar-upload-form', cls: AvatarUploadFormComponent }
       ];
     });
+
   }
 }
 
