@@ -35,7 +35,7 @@ export function initializeAvatarsPlugin(injector:Injector) {
     const hookService = injector.get(HookService);
     hookService.register('openProjectAngularBootstrap', () => {
       return [
-        { tagName: 'avatar-upload-form', cls: AvatarUploadFormComponent }
+        { selector: 'avatar-upload-form', cls: AvatarUploadFormComponent }
       ];
     });
   }
