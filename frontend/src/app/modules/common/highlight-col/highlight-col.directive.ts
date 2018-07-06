@@ -26,10 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Directive, ElementRef, OnInit, OnDestroy} from '@angular/core';
+import {Component, ElementRef, OnInit, OnDestroy} from '@angular/core';
 
-@Directive({
-  selector: '[highlight-col]'
+@Component({
+  selector: 'col[highlight-col]',
+  template: ''
 })
 
 export class HighlightColDirective implements OnInit, OnDestroy {
@@ -64,3 +65,8 @@ export class HighlightColDirective implements OnInit, OnDestroy {
     this.thead.off('mouseenter mouseleave');
   }
 }
+
+export const highlightColBootstrap = {
+  selector: 'col[highlight-col]',
+  cls: HighlightColDirective
+};

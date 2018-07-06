@@ -30,7 +30,7 @@
 
 import {FormsModule} from "@angular/forms";
 import {BrowserModule} from "@angular/platform-browser";
-import {NgModule} from "@angular/core";
+import {APP_INITIALIZER, Injector, NgModule} from "@angular/core";
 
 import {AuthoringComponent} from 'core-app/modules/common/authoring/authoring.component';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
@@ -57,6 +57,20 @@ import {HighlightColDirective} from "core-app/modules/common/highlight-col/highl
 import {CopyToClipboardDirective} from "core-app/modules/common/copy-to-clipboard/copy-to-clipboard.directive";
 import {WikiToolbarDirective} from "core-app/modules/common/wiki-toolbar/wiki-toolbar.directive";
 import {OpAutoCompleteDirective} from "core-components/input/op-auto-complete.directive";
+import {highlightColBootstrap} from "./highlight-col/highlight-col.directive";
+import {HookService} from "../plugins/hook-service";
+
+export function bootstrapModule(injector:Injector) {
+  return () => {
+    const hookService = injector.get(HookService);
+    hookService.register('openProjectAngularBootstrap', () => {
+      return [
+        highlightColBootstrap
+      ];
+    });
+  };
+}
+
 
 @NgModule({
   imports: [
@@ -88,6 +102,9 @@ import {OpAutoCompleteDirective} from "core-components/input/op-auto-complete.di
 
     // Add functionality to rails rendered templates
     WikiToolbarDirective,
+
+    // Table highlight
+    HighlightColDirective,
   ],
   declarations: [
     OpDatePickerComponent,
@@ -121,9 +138,11 @@ import {OpAutoCompleteDirective} from "core-components/input/op-auto-complete.di
   entryComponents: [
     OpDateTimeComponent,
     CopyToClipboardDirective,
-    NotificationsContainerComponent
+    NotificationsContainerComponent,
+    HighlightColDirective
   ],
   providers: [
+    { provide: APP_INITIALIZER, useFactory: bootstrapModule, deps: [Injector], multi: true },
     I18nService,
     NotificationsService,
     FocusHelperService,
