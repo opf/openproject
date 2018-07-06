@@ -50,24 +50,6 @@ describe Redmine::WikiFormatting::Macros, type: :helper do
     assert_equal '<p>{{ $root.DOUBLE_LEFT_CURLY_BRACE }}hello_world}}</p>', format_text(text)
   end
 
-  it 'should macro include' do
-    @project = Project.find(1)
-    # include a page of the current project wiki
-    text = '{{include(Another page)}}'
-    assert format_text(text).match(/This is a link to a ticket/)
-
-    @project = nil
-    # include a page of a specific project wiki
-    text = '{{include(ecookbook:Another page)}}'
-    assert format_text(text).match(/This is a link to a ticket/)
-
-    text = '{{include(ecookbook:)}}'
-    assert format_text(text).match(/CookBook documentation/)
-
-    text = '{{include(unknowidentifier:somepage)}}'
-    assert format_text(text).match(/Page not found/)
-  end
-
   it 'should macro child pages' do
     expected_keywords = ['Child 1',                       # Child
                          'Child 2',                       # Child

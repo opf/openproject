@@ -454,30 +454,6 @@ RAW
     assert helper.format_text(raw).gsub("\n", '').include?(expected), helper.format_text(raw)
   end
 
-  it 'should table of content should contain included page headings' do
-    @project.wiki.start_page = 'Wiki'
-    @project.save!
-    page  = FactoryBot.create :wiki_page_with_content, wiki: @project.wiki, title: 'Wiki'
-    child = FactoryBot.create :wiki_page, wiki: @project.wiki, title: 'Child_1', parent: page
-    child.content = FactoryBot.create :wiki_content, page: child, text: "h1. Child page 1\n\nThis is a child page"
-    child.save!
-
-    raw = <<-RAW
-{{toc}}
-
-h1. Included
-
-{{include(Child_1)}}
-RAW
-
-    expected = '<ul class="toc">' +
-               '<li><a href="#Included">Included</a></li>' +
-               '<li><a href="#Child-page-1">Child page 1</a></li>' +
-               '</ul>'
-
-    assert helper.format_text(raw).gsub("\n", '').include?(expected), helper.format_text(raw)
-  end
-
   it 'should default formatter' do
     Setting.text_formatting = 'unknown'
     text = 'a *link*: http://www.example.net/'

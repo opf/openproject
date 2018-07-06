@@ -71,10 +71,6 @@ describe WikiController, type: :controller do
     assert_response :success
     assert_template 'show'
     assert_select 'h1', content: /Another page/
-    # Included page with an inline image
-    assert_select 'p', content: /This is an inline image/
-    assert_select 'img', attributes: { src: '/attachments/3/download',
-                                         alt: 'This is a logo' }
   end
 
   it 'should show unexistent page without edit right' do

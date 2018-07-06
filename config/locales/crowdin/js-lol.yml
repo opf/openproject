@@ -55,6 +55,20 @@ lol:
     editor:
       macro:
         toc: crwdns99007:0crwdne99007:0
+        wiki_page_include:
+          button: crwdns99018:0crwdne99018:0
+          text: crwdns99019:0crwdne99019:0
+          page: crwdns99020:0crwdne99020:0
+          hint: 'crwdns99021:0crwdne99021:0
+
+'
+        work_package_button:
+          button: crwdns99022:0crwdne99022:0
+          type: crwdns99023:0crwdne99023:0
+          button_style: crwdns99024:0crwdne99024:0
+          button_style_hint: crwdns99025:0crwdne99025:0
+          without_type: crwdns99026:0crwdne99026:0
+          with_type: crwdns99027:0%{typename}crwdne99027:0
         embedded_table:
           button: crwdns99009:0crwdne99009:0
           text: crwdns99010:0crwdne99010:0

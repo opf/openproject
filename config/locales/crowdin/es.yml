@@ -1705,9 +1705,15 @@ es:
   macro_execution_error: Error ejecutando el macro %{macro_name}
   macro_unavailable: Macro  %{macro_name} no puede ser mostrado.
   macros:
+    errors:
+      missing_or_invalid_parameter: Missing or invalid macro parameter.
     legacy_warning:
       timeline: This legacy timeline macro has been removed and is no longer available.
         You can replace the functionality with an embedded table macro.
+    include_wiki_page:
+      errors:
+        page_not_found: Cannot find the wiki page '%{name}'.
+        circular_inclusion: Circular inclusion of pages detected.
     create_work_package_link:
       errors:
         no_project_context: Invocando la macro create_work_package_link desde el contexto
