@@ -129,8 +129,8 @@ id:
     sns:
       delivery_failed: 'Pengiriman SNS gagal:'
     message_bird:
-      sms_delivery_failed: 'MessageBird SMS delivery failed.'
-      voice_delivery_failed: 'MessageBird voice call failed.'
+      sms_delivery_failed: 'Pengiriman SMS MessageBird gagal.'
+      voice_delivery_failed: 'Panggilan suara MessageBird gagal.'
     restdt:
       delivery_failed_with_code: 'Token pengiriman yang gagal. (Kesalahan kode %{code})'
     strategies:

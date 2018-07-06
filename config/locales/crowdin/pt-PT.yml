@@ -35,7 +35,7 @@ pt:
     label_one_time_password: 'Palavra-passe de uso único'
     label_2fa_enabled: 'Autenticação de dois fatores está ativo'
     label_2fa_disabled: 'Autenticação de dois fatores não ativa'
-    text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
+    text_otp_delivery_message_sms: "Sua senha de uso único de %{app_title} é %{token}"
     text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
     text_enter_2fa: 'Digite a palavra-passe de utilização única de seu dispositivo.'
     text_2fa_enabled: 'Em cada login, você será solicitado a inserir um token OTP do seu dispositivo 2FA padrão.'
@@ -45,11 +45,11 @@ pt:
       enter_backup_code_text: Digite um código de backup válido da sua lista de códigos caso não possa mais acessar seus dispositivos registrados 2FA. Digite um código de backup válido da sua lista de códigos caso não possa mais acessar seus dispositivos registrados 2FA.
       other_device: 'Use outro dispositivo ou código de backup'
     settings:
-      title: '2FA settings'
-      current_configuration: 'Current configuration'
-      label_active_strategies: 'Active 2FA strategies'
-      label_enforced: 'Enforce 2FA'
-      label_remember: 'Remember 2FA login'
+      title: 'Definições 2FA'
+      current_configuration: 'Configuração atual'
+      label_active_strategies: 'Estratégias 2FA activas'
+      label_enforced: 'Forçar 2FA'
+      label_remember: 'Lembrar login 2FA'
       text_configuration: |
         Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
       text_configuration_guide: For more information, check the configuration guide.
@@ -111,7 +111,7 @@ pt:
       totp:
         title: 'Use o seu autenticador baseado em aplicativos'
         provisioning_uri: 'URI de provisionamento'
-        secret_key: 'Secret key'
+        secret_key: 'Chave secreta'
         time_based: 'Baseada no tempo'
         account: 'Nome da conta / Emissor'
         setup: |
@@ -148,8 +148,8 @@ pt:
     remember:
       active_session_notice: >
         Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
-      label: 'Remember'
-      clear_cookie: 'Click here to remove this cookie'
+      label: 'Lembrar'
+      clear_cookie: 'Clique aqui para remover esta cookie'
       cookie_removed: 'The remember cookie has been removed.'
       dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
   field_phone: "Telemóvel"
@@ -164,7 +164,7 @@ pt:
   label_confirmed: 'Confirmado'
   button_continue: 'Continuar'
   button_make_default: 'Marque como padrão'
-  label_unverified_phone: "Cell phone not yet verified"
+  label_unverified_phone: "Telemóvel ainda não verificado"
   notice_phone_number_format: "Digite o número no seguinte formato: + XX XXXXXXXX."
   text_otp_not_receive: "Outros métodos de verificação"
   text_send_otp_again: "Reenviar a senha única por:"
