@@ -527,6 +527,10 @@ OpenProject::Application.routes.draw do
     get '/my/access_token', action: 'access_token'
   end
 
+  scope controller: 'onboarding' do
+    patch 'user_settings', action: 'user_settings'
+  end
+
   get 'authentication' => 'authentication#index'
 
   resources :colors, controller: 'planning_element_type_colors' do

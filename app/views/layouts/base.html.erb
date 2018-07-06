@@ -148,9 +148,8 @@ See docs/COPYRIGHT.rdoc for more details.
       <% if show_onboarding_modal? %>
         <section data-augmented-model-wrapper
                  data-modal-initialize-now="true"
-                 data-modal-iframe-url="<%= OpenProject::Configuration.onboarding_video_url %>"
                  data-modal-class-name="onboarding-modal -highlight">
-          <%= render partial: '/onboarding/starting_video_modal' %>
+          <%= render partial: '/onboarding/configuration_modal' %>
         </section>
       <% end %>
       <div id="content" class="<%= initial_classes %>">

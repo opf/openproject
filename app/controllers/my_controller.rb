@@ -78,14 +78,13 @@ class MyController < ApplicationController
   # Edit user's account
   def account
     @user = User.current
-    @pref = @user.pref
-    write_settings(redirect_to: :account)
+    write_settings @user, request, permitted_params, params
   end
 
   # Edit user's settings
   def settings
     @user = User.current
-    write_settings(redirect_to: :settings)
+    write_settings @user, request, permitted_params, params
   end
 
   # Manage user's password
@@ -271,19 +270,14 @@ class MyController < ApplicationController
     end
   end
 
-  def write_settings(redirect_to:)
-    if request.patch?
-      @user.attributes = permitted_params.user
-      @user.pref.attributes = if params[:pref].present?
-                                permitted_params.pref
-                              else
-                                {}
-                              end
-      if @user.save
-        @user.pref.save
-        flash[:notice] = l(:notice_account_updated)
-        redirect_to(action: redirect_to)
-      end
+  def write_settings(current_user, request, permitted_params, params)
+    result = Users::UpdateService
+             .new(current_user: current_user)
+             .call(request, permitted_params, params)
+
+    if result && result.success
+      redirect_back(fallback_location: root_path)
+      flash[:notice] = l(:notice_account_updated)
     end
   end
 
