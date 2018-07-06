@@ -2617,12 +2617,15 @@ pt-BR:
   warning_attachments_not_saved: "%{count} arquivo(s) não pôde(m) ser salvo(s)."
   warning_imminent_user_limit: 'You invited more users than are supported by your
     current plan. Invited users may not be able to join your OpenProject environment.
-    Please <a href=\"%{upgrade_url}\">upgrade your plan</a> or block existing users
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
     in order to allow invited and registered users to join.
 
 '
-  warning_user_limit_reached: Atingido o limite de usuários. Por favor, <a href="%{upgrade_url}">atualize</a>
-    para permitir usuários adicionais.
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
   warning_user_limit_reached_instructions: 'Você atingiu seu limite de usuários (%{current}/%{max}
     usuários ativos). Entre em contato com sales@openproject.com para atualizar seu
     plano Enterprise Edition e adicionar novos usuários.

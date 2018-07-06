@@ -2636,12 +2636,15 @@ nl:
   warning_attachments_not_saved: "%{count} bestanden kunnen niet worden opgeslagen."
   warning_imminent_user_limit: 'You invited more users than are supported by your
     current plan. Invited users may not be able to join your OpenProject environment.
-    Please <a href=\"%{upgrade_url}\">upgrade your plan</a> or block existing users
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
     in order to allow invited and registered users to join.
 
 '
-  warning_user_limit_reached: Gebruikerslimiet bereikt. Gelieve te upgraden <a href="%{upgrade_url}"></a>
-    om extra gebruikers mogelijk te maken.
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
   warning_user_limit_reached_instructions: 'U bereikt uw gebruikerslimiet (%{current}/%{max}
     actieve gebruikers). Neem contact op met sales@openproject.com om te upgraden
     van uw Enterprise Edition-abonnement en extra gebruikers toevoegen.

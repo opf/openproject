@@ -198,7 +198,7 @@ zh-TW:
         self: 您的帳號將從系統中刪除。因此，您將不再能夠使用當前的帳密登錄。未來必需重新申請，才能再度成為使用者。
       login_verification:
         other: 輸入登入 %{name} 以驗證刪除。一旦提交, 您將被要求確認您的密碼。
-        self: 輸入您的登入 %{name} 以驗證刪除。一旦提交, 您將被要求確認您的密碼。
+        self: 輸入您的登入名 %{name} 以驗證刪除。一旦提交, 您將被要求確認您的密碼。
     error_inactive_activation_by_mail: '您的帳號尚未啟用。要啟用您的帳號，請點擊系統通過電子郵件發送給您的連結。
 
 '
@@ -1561,14 +1561,14 @@ zh-TW:
   mail_subject_wiki_content_added: Wiki 頁面 '%{id}' 已經被增加
   mail_subject_wiki_content_updated: Wiki 頁面 '%{id}' 已經被更新
   mail_user_activation_limit_reached:
-    subject: User activation limit reached
-    message: |
-      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
-      The user cannot activate their account since the user limit has been reached.
+    subject: 已達到用戶激活限制
+    message: '新用戶(%{email}) 試圖在您管理的 OpenProject 環境 (%{host}) 上創建賬戶。用戶無法激活其賬戶, 因爲已達到用戶限制。
+
+'
     steps:
-      label: 'To allow the user to sign in you can either: '
-      a: Upgrade your payment plan ([here](upgrade_url))
-      b: Lock or delete an existing user ([here](users_url))
+      label: '要允許用戶登錄，您可以： '
+      a: "([在這裏](upgrade_url)) 升級付款計劃"
+      b: "([在這裏](users_url)) 鎖定或刪除現有用戶"
   more_actions: 更多功能
   noscript_description: 您必須啟用 Javascript 才能使用 OpenProject!
   noscript_heading: JavaScript 已停用
@@ -2357,16 +2357,15 @@ zh-TW:
   note_password_login_disabled: 密碼登錄已被 %{configuration} 禁用。
   warning: 警告
   warning_attachments_not_saved: 無法儲存 %{count} 檔。
-  warning_imminent_user_limit: 'You invited more users than are supported by your
-    current plan. Invited users may not be able to join your OpenProject environment.
-    Please <a href=\"%{upgrade_url}\">upgrade your plan</a> or block existing users
-    in order to allow invited and registered users to join.
+  warning_imminent_user_limit: '您邀請的用戶數超過了當前計劃支持的用戶數。受邀用戶可能無法加入您的OpenProject環境。 請<a
+    href="%{upgrade_url}">升級您的計劃</a>或阻止現有用戶，以允許受邀和注冊用戶加入。
 
 '
-  warning_user_limit_reached: 已達到使用者限制。請 <a href="%{upgrade_url}">升級</a> 以允許其他使用者使用。
-  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
-    active users). Please contact sales@openproject.com to upgrade your Enterprise
-    Edition plan and add additional users.
+  warning_user_limit_reached: '達到用戶限制。 您無法再激活任何用戶。 請<a href="%{upgrade_url}">升級您的計劃</a>或阻止會員以允許其他用戶。
+
+'
+  warning_user_limit_reached_instructions: '您達到了用戶限制（%{current}/%{max}活躍用戶）。 請聯係sales@openproject.com以升級Enterprise
+    Edition計劃並添加其他用戶。
 
 '
   menu_item: 選單項目

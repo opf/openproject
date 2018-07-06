@@ -2629,15 +2629,17 @@ cs:
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Varování
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
-  warning_imminent_user_limit: 'Pozvali jste více uživatelů, než je podporováno vaším
-    aktuálním předplaceným plánem. Pozvaní uživatelé nemusí být schopni se připojit
-    do OpenProject prostředí. Prosím <a href=\"%{upgrade_url}\">upgradujte váš plán</a>
-    nebo zablokujte stávající uživatele, aby se pozvaní a registrovaní uživatelé mohli
-    připojit.
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
 
 '
-  warning_user_limit_reached: Dosažel limit počtu uživatelů. Prosím <a href="%{upgrade_url}">upgradujte</a>
-    pro přidání více uživatelů.
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
   warning_user_limit_reached_instructions: 'Limit počtu uživatelů (%{current}/%{max}
     aktivních uživatelů) dosažen. Prosím kontaktujte sales@openproject.com a upgradujte
     vaši Enterprise Edition a přidejte další uživatele.

@@ -259,7 +259,7 @@ zh:
         expires_at: 到期时间
         subscriber: 订阅者
         encoded_token: 企业版支持令牌
-        active_user_count_restriction: Maximum active users
+        active_user_count_restriction: 最大活动用户数
       relation:
         delay: 延迟
         from: 工作包
@@ -311,7 +311,7 @@ zh:
         mail_notification: 电子邮件通知
         new_password: 新密码
         password_confirmation: 确认
-        consented_at: Consented at
+        consented_at: 同意在
       user_preference:
         comments_sorting: 显示评论
         hide_mail: 隐藏我的电子邮件地址
@@ -608,7 +608,7 @@ zh:
   button_create: 创建
   button_create_and_continue: 创建并继续
   button_delete: 删除
-  button_decline: Decline
+  button_decline: 拒绝
   button_delete_watcher: 删除关注者 %{name}
   button_download: 下载
   button_duplicate: 复制
@@ -643,7 +643,7 @@ zh:
   button_unlock: 解锁​​​​
   button_unwatch: 取消关注
   button_update: 更新
-  button_upgrade: Upgrade
+  button_upgrade: 升级
   button_upload: 上传
   button_view: 查看
   button_watch: 关注
@@ -652,22 +652,17 @@ zh:
   button_configure_menu_entry: 配置菜单项
   button_delete_menu_entry: 删除菜单项
   consent:
-    checkbox_label: I have noted and do consent to the above.
-    failure_message: Consent failed, cannot proceed.
-    title: User Consent
-    decline_warning_message: You have declined to consent and have been logged out.
-    user_has_consented: User has consented to your configured statement at the given
-      time.
-    not_yet_consented: User has not consented yet, will be requested upon next login.
-    contact_mail_instructions: Define the mail address that users can reach a data
-      controller to perform data change or removal requests.
-    contact_your_administrator: Please contact your administrator if you want to have
-      your account deleted.
-    contact_this_mail_address: Please contact %{mail_address} if you want to have
-      your account deleted.
-    text_update_consent_time: Check this box to force users to consent again. Enable
-      when you have changed the legal aspect of the consent information above.
-    update_consent_last_time: 'Last update of consent: %{update_time}'
+    checkbox_label: 我已注意到并同意上述情况。
+    failure_message: 同意失败, 无法继续。
+    title: 用户同意
+    decline_warning_message: 您已拒绝同意并已注销。
+    user_has_consented: 用户已同意您在给定时间配置的语句。
+    not_yet_consented: 用户尚未同意, 将在下次登录时请求。
+    contact_mail_instructions: 定义用户可以访问数据控制器以执行数据更改或删除请求的邮件地址。
+    contact_your_administrator: 如果您想删除您的帐户, 请与您的管理员联系。
+    contact_this_mail_address: 如果您想删除您的帐户, 请联系%{mail_address}。
+    text_update_consent_time: 选中此框可强制用户再次同意。在更改上述同意信息的法律方面时启用。
+    update_consent_last_time: '同意的最后更新: %{update_time}'
   copy_project:
     started: 开始将项目“%{source_project_name}”复制到“%{target_project_name}“。“%{target_project_name}”可用后您将会立即收到电子邮件通知。
     failed: 无法复制项目 %{source_project_name}
@@ -887,10 +882,8 @@ zh:
   error_check_user_and_role: 请选择用户和角色。
   error_cookie_missing: OpenProject cookie 丢失。请确保已启用 cookie，因为如果不启用，此应用程序将无法正常运行。
   error_custom_option_not_found: 选项不存在。
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
-  error_enterprise_activation_user_limit: Your account could not be activated (user
-    limit reached). Please contact your administrator to gain access.
+  error_dependent_work_package: '相关工作包中的错误%{related_id} %{related_subject}: %{error}'
+  error_enterprise_activation_user_limit: 无法激活您的帐户 (已达到用户限制)。请与管理员联系以获取访问权限。
   error_failed_to_delete_entry: 无法删除此条目。
   error_invalid_group_by: 无法按照 %{value} 分组
   error_invalid_query_column: 无效的查询列：%{value}
@@ -1050,7 +1043,7 @@ zh:
   label_calendar: 日历
   label_calendar_show: 显示日历
   label_category: 类别
-  label_consent_settings: User Consent
+  label_consent_settings: 用户同意
   label_wiki_menu_item: Wiki 的菜单项
   label_select_main_menu_item: 选择新的主菜单项
   label_select_project: 选择项目
@@ -1139,7 +1132,7 @@ zh:
   label_enumerations: 枚举
   label_enterprise: 企业
   label_enterprise_edition: 企业版
-  label_enterprise_active_users: "%{current}/%{limit} booked active users"
+  label_enterprise_active_users: "%{current}/%{limit} 已预订的活动用户"
   label_environment: 环境
   label_estimates_and_time: 预估成本和时间
   label_equals: 是
@@ -1566,14 +1559,14 @@ zh:
   mail_subject_wiki_content_added: "'%{id}' wiki页面已添加"
   mail_subject_wiki_content_updated: "'%{id}' wiki页面已更新"
   mail_user_activation_limit_reached:
-    subject: User activation limit reached
-    message: |
-      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
-      The user cannot activate their account since the user limit has been reached.
+    subject: 已达到用户激活限制
+    message: '新用户 (%{email}) 试图在您管理的 OpenProject 环境 (%{host}) 上创建帐户。用户无法激活其帐户, 因为已达到用户限制。
+
+'
     steps:
-      label: 'To allow the user to sign in you can either: '
-      a: Upgrade your payment plan ([here](upgrade_url))
-      b: Lock or delete an existing user ([here](users_url))
+      label: '要允许用户登录, 您可以: '
+      a: "([在这里](upgrade_url)) 升级付款计划"
+      b: "([在这里](users_url)) 锁定或删除现有用户"
   more_actions: 更多功能
   noscript_description: 您需要激活JavaScript才能使用 OpenProject！
   noscript_heading: JavaScript 被禁用
@@ -1897,10 +1890,10 @@ zh:
   setting_commit_logtime_activity_id: 记录时间的活动
   setting_commit_logtime_enabled: 启用时间记录
   setting_commit_ref_keywords: 引用关键字
-  setting_consent_time: Consent time
-  setting_consent_info: Consent information text
-  setting_consent_required: Consent required
-  setting_consent_decline_mail: Consent contact mail address
+  setting_consent_time: 同意时间
+  setting_consent_info: 同意信息文本
+  setting_consent_required: 需要征得同意
+  setting_consent_decline_mail: 同意联系邮件地址
   setting_cross_project_work_package_relations: 允许跨项目工作包关系
   setting_date_format: 日期格式
   setting_default_language: 默认语言
@@ -2287,7 +2280,7 @@ zh:
       quarters: 季度
       years: 年
   title_remove_and_delete_user: 从项目中移除所邀请的用户并删除他/她。
-  title_enterprise_upgrade: Upgrade to unlock more users.
+  title_enterprise_upgrade: 升级以解锁更多用户。
   tooltip_resend_invitation: '旧邀请电子邮件过期或用户未收到之前的电子邮件时，再发送一封邀请电子邮件。也可由活跃用户用于选择新的身份验证方法。活跃用户使用时，状态会更改为“已邀请”。
 
 '
@@ -2344,17 +2337,15 @@ zh:
   note_password_login_disabled: 密码登录已被 %{configuration} 禁用。
   warning: 警告
   warning_attachments_not_saved: "%{count} 文件不能被保存。"
-  warning_imminent_user_limit: 'You invited more users than are supported by your
-    current plan. Invited users may not be able to join your OpenProject environment.
-    Please <a href=\"%{upgrade_url}\">upgrade your plan</a> or block existing users
-    in order to allow invited and registered users to join.
+  warning_imminent_user_limit: '您邀请的用户数超过了当前计划支持的用户数。 受邀用户可能无法加入您的OpenProject环境。 请<a
+    href="%{upgrade_url}">升级您的计划</a>或阻止现有用户，以允许受邀和注册用户加入。
 
 '
-  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
-    to allow for additional users.
-  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
-    active users). Please contact sales@openproject.com to upgrade your Enterprise
-    Edition plan and add additional users.
+  warning_user_limit_reached: '达到用户限制。 您无法再激活任何用户。 请<a href="%{upgrade_url}">升级您的计划</a>或阻止会员以允许其他用户。
+
+'
+  warning_user_limit_reached_instructions: '您达到了用户限制（%{current}/%{max}活跃用户）。 请联系sales@openproject.com以升级您的Enterprise
+    Edition计划并添加其他用户。
 
 '
   menu_item: 菜单项
