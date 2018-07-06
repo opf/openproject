@@ -26,14 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {AfterViewInit, Component, ElementRef, Inject, Injector, OnDestroy} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Injector, OnDestroy} from '@angular/core';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import {INotification, NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
+import {TypeDmService} from 'core-app/modules/hal/dm-services/type-dm.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
+import * as moment from 'moment';
 import {Moment} from 'moment';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {filter, map, take, takeUntil, withLatestFrom} from 'rxjs/operators';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {debugLog, timeOutput} from '../../../../helpers/debug_output';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../../../states.service';
 import {WorkPackageNotificationService} from '../../../wp-edit/wp-notification.service';
 import {RenderedRow} from '../../../wp-fast-table/builders/primary-render-pass';
@@ -50,17 +53,10 @@ import {
   calculateDaySpan,
   getPixelPerDayForZoomLevel,
   timelineElementCssClass,
-  timelineLeftSpacingInDays,
   timelineMarkerSelectionStartClass,
   TimelineViewParameters,
   zoomLevelOrder
 } from '../wp-timeline';
-import {TypeDmService} from 'core-app/modules/hal/dm-services/type-dm.service';
-import {
-  INotification,
-  NotificationsService
-} from 'core-app/modules/common/notifications/notifications.service';
-import * as moment from 'moment';
 
 @Component({
   selector: 'wp-timeline-container',
@@ -88,7 +84,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
 
   public timelineBody:JQuery;
 
-  private selectionParams: { notification: INotification|null } = {
+  private selectionParams:{ notification:INotification | null } = {
     notification: null
   };
 
@@ -399,10 +395,15 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     });
 
     // left spacing
-    newParams.dateDisplayStart.subtract(timelineLeftSpacingInDays, 'days');
+    newParams.dateDisplayStart.subtract(currentParams.dayCountForMarginLeft, 'days');
 
     // right spacing
-    const width = this.$element.width();
+    // RR: kept both variants for documentation purpose.
+    // A: calculate the minimal width based on the width of the timeline view
+    // B: calculate the minimal width based on the window width
+    const width = this.$element.children().width(); // A
+    // const width = jQuery('body').width(); // B
+
     const pixelPerDay = currentParams.pixelPerDay;
     const visibleDays = Math.ceil((width / pixelPerDay) * 1.5);
     newParams.dateDisplayEnd.add(visibleDays, 'days');
@@ -431,7 +432,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
   }
 
   private applyAutoZoomLevel() {
-    const daysSpan = calculateDaySpan(this.workPackageIdOrder, this.states.workPackages);
+    const daysSpan = calculateDaySpan(this.workPackageIdOrder, this.states.workPackages, this._viewParameters);
     const timelineWidthInPx = this.outerContainer.width();
 
     for (let zoomLevel of zoomLevelOrder) {

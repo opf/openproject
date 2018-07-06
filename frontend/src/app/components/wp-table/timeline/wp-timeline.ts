@@ -1,3 +1,6 @@
+import {TimelineZoomLevel} from 'core-app/modules/hal/resources/query-resource';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {WorkPackageChangeset} from 'core-components/wp-edit-form/work-package-changeset';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -29,9 +32,6 @@ import * as moment from 'moment';
 import {InputState, MultiInputState} from 'reactivestates';
 import {RenderedRow} from '../../wp-fast-table/builders/primary-render-pass';
 import Moment = moment.Moment;
-import {TimelineZoomLevel} from 'core-app/modules/hal/resources/query-resource';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageChangeset} from 'core-components/wp-edit-form/work-package-changeset';
 
 export const timelineElementCssClass = 'timeline-element';
 export const timelineGridElementCssClass = 'wp-timeline--grid-element';
@@ -64,12 +64,13 @@ export function getPixelPerDayForZoomLevel(zoomLevel:TimelineZoomLevel) {
     case 'years':
       return 0.5;
   }
+  throw new Error('invalid zoom level: ' + zoomLevel);
 }
 
 /**
- * Number of days to display before the earliest workpackage in view
+ * Number of pixels to display before the earliest workpackage in view
  */
-export const timelineLeftSpacingInDays = 3;
+export const requiredPixelMarginLeft = 120;
 
 /**
  *
@@ -103,6 +104,10 @@ export class TimelineViewParameters {
 
   get maxSteps():number {
     return this.dateDisplayEnd.diff(this.dateDisplayStart, 'days');
+  }
+
+  get dayCountForMarginLeft(): number {
+    return Math.ceil(requiredPixelMarginLeft / this.pixelPerDay);
   }
 
 }
@@ -174,7 +179,8 @@ export function getTimeSlicesForHeader(vp:TimelineViewParameters,
 }
 
 export function calculateDaySpan(visibleWorkPackages:RenderedRow[],
-                                 loadedWorkPackages:MultiInputState<WorkPackageResource>):number {
+                                 loadedWorkPackages:MultiInputState<WorkPackageResource>,
+                                 viewParameters:TimelineViewParameters):number {
   let earliest:Moment = moment();
   let latest:Moment = moment();
 
@@ -199,5 +205,5 @@ export function calculateDaySpan(visibleWorkPackages:RenderedRow[],
   });
 
   const daysSpan = latest.diff(earliest, 'days') + 1;
-  return daysSpan + timelineLeftSpacingInDays;
+  return daysSpan + viewParameters.dayCountForMarginLeft;
 }
