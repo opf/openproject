@@ -39,7 +39,6 @@ import {UserCacheService} from "core-components/user/user-cache.service";
 import {IEditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler.interface";
 import {CommentService} from "core-components/wp-activity/comment-service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {AutoCompleteHelperService} from "core-components/input/auto-complete-helper.service";
 
 @Component({
   selector: 'user-activity',
@@ -90,7 +89,6 @@ export class UserActivityComponent implements IEditFieldHandler, OnInit, AfterVi
               readonly ConfigurationService:ConfigurationService,
               readonly userCacheService:UserCacheService,
               readonly I18n:I18nService,
-              readonly AutoCompleteHelper:AutoCompleteHelperService,
               readonly textileService:TextileService) {
   }
 

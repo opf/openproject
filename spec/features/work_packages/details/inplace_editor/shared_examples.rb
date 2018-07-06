@@ -35,7 +35,7 @@ shared_examples 'an auth aware field' do
   end
 
   context 'when user is not authorized' do
-    let(:user) {
+    let(:user) do
       FactoryBot.create(
         :user,
         member_in_project: project,
@@ -44,7 +44,7 @@ shared_examples 'an auth aware field' do
           permissions: [:view_work_packages]
         )
       )
-    }
+    end
 
     it 'is not editable' do
       expect(field).not_to be_editable
@@ -124,10 +124,6 @@ end
 
 shared_examples 'a workpackage autocomplete field' do
   let!(:wp2) { FactoryBot.create(:work_package, project: project, subject: 'AutoFoo') }
-
-  before do
-    skip('Markdown mode does not provide autocompleting') if Setting.text_formatting == 'markdown'
-  end
 
   it 'autocompletes the other work package' do
     field.activate!

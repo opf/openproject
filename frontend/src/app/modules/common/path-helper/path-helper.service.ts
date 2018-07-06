@@ -173,15 +173,6 @@ export class PathHelperService {
     return this.workPackagesPath() + '/bulk';
   }
 
-  public workPackageJsonAutoCompletePath(projectId?:string) {
-    var path = this.workPackagesPath() + '/auto_complete.json';
-    if (projectId) {
-      path += '?project_id=' + projectId;
-    }
-
-    return path;
-  }
-
   public projectLevelListPath() {
     return this.projectsPath() +  '/level_list.json';
   }

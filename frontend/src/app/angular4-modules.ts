@@ -189,7 +189,6 @@ import {OpCkeditorFormComponent} from "core-components/ckeditor/op-ckeditor-form
 import {WorkPackageUploadComponent} from "core-components/wp-attachments/wp-attachments-upload/wp-attachments-upload.component";
 import {OpDragScrollDirective} from "core-app/modules/common/ui/op-drag-scroll.directive";
 import {TextileService} from "core-app/modules/common/textile/textile-service";
-import {AutoCompleteHelperService} from "core-components/input/auto-complete-helper.service";
 import {UIRouterModule} from "@uirouter/angular";
 import {initializeUiRouterConfiguration} from "core-components/routing/ui-router.config";
 import {WorkPackagesBaseComponent} from "core-components/routing/main/work-packages-base.component";
@@ -252,7 +251,6 @@ import {WikiIncludePageMacroModal} from "core-components/modals/editor/macro-wik
       multi: true
     },
     TextileService,
-    AutoCompleteHelperService,
     OpTitleService,
     TimezoneService,
     WorkPackageRelationsService,
