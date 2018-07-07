@@ -1870,6 +1870,7 @@ lt:
       ir komandos bendradarbiavimą naudojant OpenProject.
     text_show_again: Jūs galite paleisti šį video iš naujo iš pagalbos meniu
     welcome: Sveiki atvykę į OpenProject
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Pridėti pastabų
   permission_add_work_packages: Pridėti darbų paketų
   permission_add_messages: Skelbti pranešimus

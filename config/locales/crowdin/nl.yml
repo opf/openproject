@@ -1847,6 +1847,7 @@ nl:
       team samenwerking met OpenProject.
     text_show_again: U kunt deze video van het helpmenu opnieuw starten
     welcome: Welkom bij OpenProject
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Notities toevoegen
   permission_add_work_packages: Werkpakketten toevoegen
   permission_add_messages: Berichten posten

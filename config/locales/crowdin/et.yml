@@ -1811,6 +1811,7 @@ et:
       team collaboration with OpenProject.
     text_show_again: You can restart this video from the help menu
     welcome: Welcome to OpenProject
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Märkusi lisada
   permission_add_work_packages: Teemasid lisada
   permission_add_messages: Postitusi lisada

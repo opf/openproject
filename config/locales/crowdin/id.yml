@@ -62,8 +62,8 @@ id:
   custom_actions:
     actions:
       name: Tindakan
-      add: Add action
-    conditions: Conditions
+      add: Tambahkan tindakan
+    conditions: Kondisi
     plural: Custom actions
     new: New custom action
     edit: Edit custom action %{name}
@@ -314,7 +314,7 @@ id:
         expires_at: Berakhir masa berlaku pada
         subscriber: Pelanggan
         encoded_token: Token pendukung perusahaan
-        active_user_count_restriction: Maximum active users
+        active_user_count_restriction: Pengguna aktif maksimum
       relation:
         delay: Jeda
         from: Paket-Penugasan
@@ -674,7 +674,7 @@ id:
   button_create: Buat baru
   button_create_and_continue: Buat baru dan lanjut
   button_delete: Hapus
-  button_decline: Decline
+  button_decline: Tolak
   button_delete_watcher: Hapus pemantau, %{name}
   button_download: Download
   button_duplicate: Duplikasi
@@ -709,7 +709,7 @@ id:
   button_unlock: Unlock
   button_unwatch: Unwatch
   button_update: Update
-  button_upgrade: Upgrade
+  button_upgrade: Tingkatkan
   button_upload: Unggah
   button_view: Lihat
   button_watch: Pantau
@@ -1813,6 +1813,7 @@ id:
       proyek dan tim kolaborasi bersama OpenProject.
     text_show_again: You can restart this video from the help menu
     welcome: Welcome to OpenProject
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Tambahkan catatan
   permission_add_work_packages: Tambah Paket-Penugasan
   permission_add_messages: Kirim pesan

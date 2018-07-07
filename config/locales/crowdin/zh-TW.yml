@@ -211,10 +211,8 @@ zh-TW:
         other: 將從系統中刪除該帳號。因此，使用者將不再能夠用他當前的帳密登錄。未來必須重新申請，才能再度成為使用者。
         self: 您的帳號將從系統中刪除。因此，您將不再能夠使用當前的帳密登錄。未來必需重新申請，才能再度成為使用者。
       login_verification:
-        other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be asked to confirm your password.
-        self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be asked to confirm your password.
+        other: 輸入登入 %{name} 以驗證刪除。一旦提交, 您將被要求確認您的密碼。
+        self: 輸入您的登入名 %{name} 以驗證刪除。一旦提交, 您將被要求確認您的密碼。
     error_inactive_activation_by_mail: '您的帳號尚未啟用。要啟用您的帳號，請點擊系統通過電子郵件發送給您的連結。
 
 '
@@ -1180,7 +1178,7 @@ zh-TW:
   label_follows: 關注
   label_force_user_language_to_default: 設置使用者使用預設語言
   label_form_configuration: 表單設置
-  label_gantt: Gantt
+  label_gantt: 甘特圖
   label_gantt_chart: 甘特圖
   label_general: 一般
   label_generate_key: 產生一個金鑰
@@ -1285,7 +1283,7 @@ zh-TW:
   label_next_week: 下一週
   label_no_change_option: "(沒有變動)"
   label_no_data: 沒有資料可顯示
-  label_no_parent_page: No parent page
+  label_no_parent_page: 無上層頁面
   label_nothing_display: 沒有可以顯示的
   label_nobody: 沒有人
   label_none: 無
@@ -1304,7 +1302,7 @@ zh-TW:
   label_overall_activity: 全部活動
   label_overall_spent_time: 總體耗時
   label_overview: 概要
-  label_page_title: Page title
+  label_page_title: 網頁標題
   label_part_of: 部份於
   label_password_lost: 忘記你的密碼?
   label_password_rule_lowercase: 小寫
@@ -1424,7 +1422,7 @@ zh-TW:
   label_summary: 大綱
   label_system: 系统
   label_system_storage: 儲存空間資訊
-  label_table_of_contents: Table of contents
+  label_table_of_contents: 目錄
   label_tag: 標記
   label_text: 長文字
   label_this_month: 本月
@@ -1571,14 +1569,13 @@ zh-TW:
   macro_unavailable: 巨集 "%{macro_name}" 無法顯示
   macros:
     errors:
-      missing_or_invalid_parameter: Missing or invalid macro parameter.
+      missing_or_invalid_parameter: 丟失或無效的宏參數。
     legacy_warning:
-      timeline: This legacy timeline macro has been removed and is no longer available.
-        You can replace the functionality with an embedded table macro.
+      timeline: 該舊版本時間軸宏已經被消除並不再可用。您可以用嵌入式表格宏替代此功能。
     include_wiki_page:
       errors:
-        page_not_found: Cannot find the wiki page '%{name}'.
-        circular_inclusion: Circular inclusion of pages detected.
+        page_not_found: 無法找到Wiki頁“%{name}”。
+        circular_inclusion: 檢測到頁面的循環包含。
     create_work_package_link:
       errors:
         no_project_context: 從外部專案上下文呼叫 create_work_package_link 巨集。
@@ -1697,6 +1694,7 @@ zh-TW:
     text_getting_started_description: 用 OpenProject 取得專案管理和團隊協作的快速概覽。
     text_show_again: 您可以從 "説明" 功能表中重新開啟此影片
     welcome: 歡迎來到 OpenProject
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: 增加註釋
   permission_add_work_packages: 新增工作項目
   permission_add_messages: 張貼訊息
@@ -2020,8 +2018,8 @@ zh-TW:
     session: Session
     brute_force_prevention: 自動禁止使用者
     user:
-      default_preferences: Default preferences
-      deletion: Deletion
+      default_preferences: 默認偏好設置
+      deletion: 消除
   text_formatting:
     textile: 紡織
     markdown: Markdown

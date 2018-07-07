@@ -6,8 +6,8 @@ pt:
       loading: A carregar...
     autocomplete_select:
       placeholder:
-        multi: Add "%{name}"
-        single: Select "%{name}"
+        multi: Adicionar "%{name}"
+        single: Selecionar "%{name}"
       remove: Remover %{name}
       active: Active %{label} %{name}
     close_popup_title: Fechar janela
@@ -65,11 +65,11 @@ pt:
             You can include the wiki page of another project by separating them with a colon like the following example.
         work_package_button:
           button: Insert create work package button
-          type: Work package type
+          type: Tipo de tarefa
           button_style: Use button style
           button_style_hint: 'Optional: Check to make macro appear as a button, not
             as a link.'
-          without_type: Create work package
+          without_type: Criar tarefa
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table

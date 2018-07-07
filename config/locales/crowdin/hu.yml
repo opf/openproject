@@ -1828,6 +1828,7 @@ hu:
       csapatmunkáról az OpenProjecttel.
     text_show_again: Újra tudod indítani ezt a videót a segítség menüből
     welcome: Üdvözöl az OpenProject
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Megjegyzések hozzáadása
   permission_add_work_packages: Munkacsomag hozzáadása
   permission_add_messages: Elküldött üzenetek

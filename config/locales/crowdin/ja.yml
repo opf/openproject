@@ -1694,6 +1694,7 @@ ja:
     text_getting_started_description: OpenProject のプロジェクト管理とチームコラボレーションの簡単な概要を取得します。
     text_show_again: ヘルプメニューからこのビデオを再度開始することができます。
     welcome: OpenProjectへようこそ
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: 注記の追加
   permission_add_work_packages: 作業項目の追加
   permission_add_messages: メッセージの投稿

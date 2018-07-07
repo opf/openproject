@@ -54,29 +54,28 @@ zh-TW:
     description_subwork_package: '子工作項目 #%{id}'
     editor:
       macro:
-        toc: Table of contents
+        toc: 目錄
         wiki_page_include:
-          button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          button: 包含另一個 Wiki 頁面的內容
+          text: 包含的 Wiki 頁 (placeholder)
           page: 維基頁面
-          hint: |
-            Include the content of another wiki page by specifying its title or slug.
-            You can include the wiki page of another project by separating them with a colon like the following example.
+          hint: '通過指定其標題或Slug, 包括另一個 Wiki 頁面的內容。您可以通過將另一個專案的 Wiki 頁與下面的示例類似的冒號進行分隔,
+            從而包括該頁面。
+
+'
         work_package_button:
-          button: Insert create work package button
-          type: Work package type
-          button_style: Use button style
-          button_style_hint: 'Optional: Check to make macro appear as a button, not
-            as a link.'
-          without_type: Create work package
-          with_type: 'Create work package (Type: %{typename})'
+          button: 插入創建工作包按鈕
+          type: 工作項目類型
+          button_style: 使用按鈕樣式
+          button_style_hint: '可選: 檢查以使宏顯示為按鈕, 而不是連結。'
+          without_type: 建立工作項目
+          with_type: '創建工作包 (類型: %{typename})'
         embedded_table:
-          button: Embed work package table
-          text: Embedded work package table (placeholder)
+          button: 嵌入工作包表
+          text: 嵌入式工作包表 (placeholder)
     error:
       internal: 發生內部錯誤。
-      cannot_save_changes_with_message: 'Cannot save your changes due to the following
-        error: %{error}'
+      cannot_save_changes_with_message: '由於以下錯誤, 無法保存所做的更改: %{error}'
       query_saving: 事件無法儲存
     filter:
       description:
@@ -140,7 +139,7 @@ zh-TW:
     label_expand: 展開
     label_expanded: 已展開
     label_expand_all: 全部展開
-    label_expand_project_menu: Expand project menu
+    label_expand_project_menu: 展開專案選單
     label_export: 匯出
     label_filename: 檔案
     label_filesize: 檔案大小
@@ -148,7 +147,7 @@ zh-TW:
     label_group_by: 分組依據
     label_hide_attributes: 簡略
     label_hide_column: 隱藏欄
-    label_hide_project_menu: Collapse project menu
+    label_hide_project_menu: 折疊專案選單
     label_in: 在
     label_in_less_than: 少於
     label_in_more_than: 多於
@@ -184,7 +183,7 @@ zh-TW:
     label_select_watcher: 選擇一位關注者
     label_selected_filter_list: 所選的篩選器
     label_show_attributes: 顯示所有屬性
-    label_show_in_menu: Show view in menu
+    label_show_in_menu: 在選單中顯示視圖
     label_sort_by: 排序方式
     label_sorted_by: 排序條件
     label_sort_higher: 往上移動
@@ -198,7 +197,7 @@ zh-TW:
     label_activity_show_only_comments: 只顯示活動和其評論
     label_activity_show_all: 顯示所有的活動
     label_total_progress: "%{percent}%總進度"
-    label_visible_for_others: View visible for others
+    label_visible_for_others: 可被他人訪問
     label_updated_on: 更新於
     label_warning: 警告
     label_work_package: 工作項目
@@ -555,8 +554,7 @@ zh-TW:
         hierarchy_hint: 所有已篩選的表結果都將隨其來源一起增強。層次結構可以展開和折疊。
         display_sums_hint: 顯示表結果下一行中所有 "可加總" 屬性的總和。
         show_timeline_hint: 在表格的右側顯示互動式甘特圖。可以通過在表和甘特圖之間拖動分隔線來更改其寬度。
-        columns_help_text: Use the input above to add or remove columns to your table
-          view. You can drag and drop the columns to reorder them.
+        columns_help_text: 使用上面的輸入在表視圖中添加或移除列。可以拖放列以對其進行重新排序。
       tabs:
         overview: 概要
         activity: 活動
@@ -630,7 +628,7 @@ zh-TW:
         messages_on_field: '此欄位無效: %{messages}'
     error_could_not_resolve_version_name: 無法解析版本名稱
     error_could_not_resolve_user_name: 無法解析使用者名稱
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload: '檔 "%{name}" 無法上載: %{error}'
     units:
       workPackage:
         one: work package

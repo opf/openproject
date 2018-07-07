@@ -1813,6 +1813,7 @@ fi:
       team collaboration with OpenProject.
     text_show_again: Voit käynnistää tämä videon uudelleen ohjeet-valikosta
     welcome: Tervetuloa OpenProjectiin
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Lisää muistiinpanoja
   permission_add_work_packages: Lisää työpaketteja
   permission_add_messages: Jätä viesti
