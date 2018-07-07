@@ -1398,7 +1398,7 @@ pt-BR:
   label_overall_activity: Atividade global
   label_overall_spent_time: Tempo total gasto
   label_overview: Visão geral
-  label_page_title: Page title
+  label_page_title: Título da página
   label_part_of: parte de
   label_password_lost: Esqueceu a senha?
   label_password_rule_lowercase: Letras minúsculas
@@ -1520,7 +1520,7 @@ pt-BR:
   label_summary: Resumo
   label_system: Sistema
   label_system_storage: Informações de armazenamento
-  label_table_of_contents: Table of contents
+  label_table_of_contents: Tabela de conteúdos
   label_tag: Marca
   label_text: Texto longo
   label_this_month: este mês
@@ -1677,14 +1677,14 @@ pt-BR:
   macro_unavailable: Macro %{macro_name} não pode ser exibida.
   macros:
     errors:
-      missing_or_invalid_parameter: Missing or invalid macro parameter.
+      missing_or_invalid_parameter: Parâmetro de macro ausente ou inválido.
     legacy_warning:
-      timeline: This legacy timeline macro has been removed and is no longer available.
-        You can replace the functionality with an embedded table macro.
+      timeline: Essa macro de cronograma legada foi removida e não está mais disponível.
+        Você pode substituir a funcionalidade com uma macro da tabela embutida.
     include_wiki_page:
       errors:
-        page_not_found: Cannot find the wiki page '%{name}'.
-        circular_inclusion: Circular inclusion of pages detected.
+        page_not_found: Não é possível encontrar a página wiki '%{name} '.
+        circular_inclusion: Detectada inclusão circular de páginas.
     create_work_package_link:
       errors:
         no_project_context: Chamando macro create_work_package_link fora do contexto
@@ -1833,6 +1833,7 @@ pt-BR:
       e colaboração de equipe com o OpenProject.
     text_show_again: Você pode reiniciar este vídeo através do menu ajuda
     welcome: Bem-vindo ao OpenProject
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Adicionar anotações
   permission_add_work_packages: Adicionar pacotes de trabalho
   permission_add_messages: Postar mensagens

@@ -55,25 +55,27 @@ pt-BR:
     description_subwork_package: 'Filho do pacote de trabalho #%{id}'
     editor:
       macro:
-        toc: Table of contents
+        toc: Tabela de conteúdos
         wiki_page_include:
-          button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          button: Incluir o conteúdo de outra página wiki
+          text: Página wiki incluída (espaço reservado)
           page: Página wiki
-          hint: |
-            Include the content of another wiki page by specifying its title or slug.
-            You can include the wiki page of another project by separating them with a colon like the following example.
+          hint: 'Inclua o conteúdo de outra página wiki, especificando seu título
+            ou slug. Você pode incluir a página wiki de um outro projeto, separando-a
+            com dois pontos como exemplo a seguir.
+
+'
         work_package_button:
-          button: Insert create work package button
-          type: Work package type
-          button_style: Use button style
-          button_style_hint: 'Optional: Check to make macro appear as a button, not
-            as a link.'
-          without_type: Create work package
-          with_type: 'Create work package (Type: %{typename})'
+          button: Inserir botão para criar pacote de trabalho
+          type: Tipo de pacote de trabalho
+          button_style: Use o estilo de botão
+          button_style_hint: 'Opcional: Marque para fazer a macro aparecer como um
+            botão, não como um link.'
+          without_type: Criar pacote de trabalho
+          with_type: 'Criar pacote de trabalho (Tipo: %{typename})'
         embedded_table:
-          button: Embed work package table
-          text: Embedded work package table (placeholder)
+          button: Embutir tabela de pacote de trabalho
+          text: Tabela de pacote de trabalho embutida (espaço reservado)
     error:
       internal: Ocorreu um erro interno.
       cannot_save_changes_with_message: 'Não foi possível salvar as alterações devido
@@ -599,8 +601,8 @@ pt-BR:
         show_timeline_hint: Exiba um gráfico de gantt interativo no lado direito da
           tela. Você pode alterar a largura arrastando a linha divisória entre a tabela
           e o gráfico.
-        columns_help_text: Use the input above to add or remove columns to your table
-          view. You can drag and drop the columns to reorder them.
+        columns_help_text: Use a entrada acima para adicionar ou remover colunas à
+          sua exibição de tabela. Você pode arrastar e soltar as colunas para reordená-las.
       tabs:
         overview: Visão geral
         activity: Atividade

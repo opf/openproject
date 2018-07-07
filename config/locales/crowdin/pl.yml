@@ -1870,6 +1870,7 @@ pl:
       i pracą zespołową w OpenProject.
     text_show_again: Możesz zresetować to wideo w menu pomocy
     welcome: Witamy w OpenProject
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Dodawanie notatek
   permission_add_work_packages: Dodawanie pakietów roboczych
   permission_add_messages: Wysyłanie wiadomości

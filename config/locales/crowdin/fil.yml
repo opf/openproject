@@ -1875,6 +1875,7 @@ fil:
       at pakikipagtulungan ng koponan sa OpenProject.
     text_show_again: Maari mong i-restart amg video na ito mula sa tulong ng pagpipilian
     welcome: Maligayang pagdating sa OpenProject
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Magdagdag ng mga talaan
   permission_add_work_packages: Magdagdag ng mga work package
   permission_add_messages: Mga post na mensahe
