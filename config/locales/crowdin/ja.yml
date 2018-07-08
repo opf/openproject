@@ -1571,14 +1571,13 @@ ja:
   macro_unavailable: マクロ%{macro_name}を表示できません。
   macros:
     errors:
-      missing_or_invalid_parameter: Missing or invalid macro parameter.
+      missing_or_invalid_parameter: マクロパラメータがないか無効です。
     legacy_warning:
-      timeline: This legacy timeline macro has been removed and is no longer available.
-        You can replace the functionality with an embedded table macro.
+      timeline: このレガシータイムラインマクロは削除され、もう使用できなくなりました。 この機能を埋め込みテーブルマクロで置き換えることができます。
     include_wiki_page:
       errors:
-        page_not_found: Cannot find the wiki page '%{name}'.
-        circular_inclusion: Circular inclusion of pages detected.
+        page_not_found: Wikiページ'%{name}'が見つかりません。
+        circular_inclusion: ページの循環包含が検出されました。
     create_work_package_link:
       errors:
         no_project_context: 外部プロジェクトのコンテキストから create_work_package_link マクロを呼び出します。
@@ -1694,7 +1693,7 @@ ja:
     text_getting_started_description: OpenProject のプロジェクト管理とチームコラボレーションの簡単な概要を取得します。
     text_show_again: ヘルプメニューからこのビデオを再度開始することができます。
     welcome: OpenProjectへようこそ
-    select_language: Please select your language for OpenProject
+    select_language: OpenProjectの言語を選択してください
   permission_add_work_package_notes: 注記の追加
   permission_add_work_packages: 作業項目の追加
   permission_add_messages: メッセージの投稿
