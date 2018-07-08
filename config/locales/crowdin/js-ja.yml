@@ -56,23 +56,22 @@ ja:
       macro:
         toc: 目次
         wiki_page_include:
-          button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          button: 別のwikiページの内容を含める
+          text: Wikiページを含む（プレースホルダ）
           page: Wiki ページ
           hint: |
-            Include the content of another wiki page by specifying its title or slug.
-            You can include the wiki page of another project by separating them with a colon like the following example.
+            タイトルやスラッグを指定して別のwikiページの内容を含める。
+            次の例のように、別のプロジェクトのwikiページをコロンで区切って含めることができます。
         work_package_button:
-          button: Insert create work package button
-          type: Work package type
-          button_style: Use button style
-          button_style_hint: 'Optional: Check to make macro appear as a button, not
-            as a link.'
-          without_type: Create work package
-          with_type: 'Create work package (Type: %{typename})'
+          button: 作業項目作成ボタンを挿入
+          type: 作業項目の種類
+          button_style: ボタンスタイルを使用する
+          button_style_hint: 'オプション: マクロをリンクではなくボタンとして表示するかどうかをチェックします。'
+          without_type: 作業項目を作成
+          with_type: '作業項目を作成 (種類: %{typename})'
         embedded_table:
-          button: Embed work package table
-          text: Embedded work package table (placeholder)
+          button: 作業項目表を埋め込む
+          text: 埋め込まれた作業項目表（プレースホルダ）
     error:
       internal: 内部エラーが発生しました。
       cannot_save_changes_with_message: '次のエラーのために変更を保存できません: %{error}'
