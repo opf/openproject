@@ -297,7 +297,7 @@ id:
         expires_at: Berakhir masa berlaku pada
         subscriber: Pelanggan
         encoded_token: Token pendukung perusahaan
-        active_user_count_restriction: Maximum active users
+        active_user_count_restriction: Pengguna aktif maksimum
       relation:
         delay: Jeda
         from: Paket-Penugasan
@@ -663,7 +663,7 @@ id:
   button_create: Buat baru
   button_create_and_continue: Buat baru dan lanjut
   button_delete: Hapus
-  button_decline: Decline
+  button_decline: Tolak
   button_delete_watcher: Hapus pemantau, %{name}
   button_download: Download
   button_duplicate: Duplikasi
@@ -698,7 +698,7 @@ id:
   button_unlock: Unlock
   button_unwatch: Unwatch
   button_update: Update
-  button_upgrade: Upgrade
+  button_upgrade: Tingkatkan
   button_upload: Unggah
   button_view: Lihat
   button_watch: Pantau

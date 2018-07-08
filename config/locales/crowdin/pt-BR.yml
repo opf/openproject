@@ -2615,15 +2615,15 @@ pt-BR:
   note_password_login_disabled: Login senha foi desativado pelo %{configuration}.
   warning: Aviso
   warning_attachments_not_saved: "%{count} arquivo(s) não pôde(m) ser salvo(s)."
-  warning_imminent_user_limit: 'You invited more users than are supported by your
-    current plan. Invited users may not be able to join your OpenProject environment.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
-    in order to allow invited and registered users to join.
+  warning_imminent_user_limit: 'Você convidou usuários além do que é suportado pelo
+    seu plano atual. Usuários convidados podem não ser capazes de participar de seu
+    ambiente OpenProject. Por favor, <a href="%{upgrade_url}">atualize seu plano</a>
+    ou bloqueie usuários existentes a fim de permitir que convidados possam registrar-se.
 
 '
-  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
-    for additional users.
+  warning_user_limit_reached: 'Atingido o limite de usuários. Você não pode ativar
+    mais nenhum usuário. <a href="%{upgrade_url}">Atualize seus plano</a> ou bloqueie
+    a adição de novos usuários.
 
 '
   warning_user_limit_reached_instructions: 'Você atingiu seu limite de usuários (%{current}/%{max}
