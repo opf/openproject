@@ -118,19 +118,6 @@ describe 'activity comments (textile)',
         expect(page).to have_selector('.user-comment .message', text: 'Highlight')
       end
 
-      describe 'autocomplete' do
-        let!(:wp2) { FactoryBot.create(:work_package, project: project, subject: 'AutoFoo') }
-
-        it 'autocompletes the other work package' do
-          comment_field.input_element.send_keys("##{wp2.id}")
-          expect(page).to have_selector('.atwho-view-ul li', text: wp2.to_s.strip)
-        end
-      end
-
-      it_behaves_like 'a principal autocomplete field' do
-        let(:field) { comment_field }
-      end
-
       describe 'quoting' do
         it 'can quote a previous comment' do
           expect(page).to have_selector('.user-comment .message',

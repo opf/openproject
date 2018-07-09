@@ -28,7 +28,6 @@
 
 import {Component, ElementRef, OnInit} from "@angular/core";
 import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
-import {AutoCompleteHelperService} from "core-components/input/auto-complete-helper.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 
 export interface ICkeditorInstance {
@@ -72,7 +71,6 @@ export class OpCkeditorFormComponent implements OnInit {
 
 
   constructor(protected elementRef:ElementRef,
-              protected AutoCompleteHelper:AutoCompleteHelperService,
               protected currentProject:CurrentProjectService,
               protected ConfigurationService:ConfigurationService) {
 
@@ -113,12 +111,6 @@ export class OpCkeditorFormComponent implements OnInit {
     if (rawValue) {
       editor.setData(rawValue);
     }
-
-    // Autocomplete
-    this.AutoCompleteHelper.enableTextareaAutoCompletion(
-      this.$element.find('.ck-content'),
-      this.currentProject.identifier
-    );
 
     // Listen for form submission to set textarea content
     this.formElement.on('submit.ckeditor', () => {

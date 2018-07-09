@@ -56,9 +56,9 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HighlightColDirective} from "core-app/modules/common/highlight-col/highlight-col.directive";
 import {CopyToClipboardDirective} from "core-app/modules/common/copy-to-clipboard/copy-to-clipboard.directive";
 import {WikiToolbarDirective} from "core-app/modules/common/wiki-toolbar/wiki-toolbar.directive";
-import {OpAutoCompleteDirective} from "core-components/input/op-auto-complete.directive";
 import {highlightColBootstrap} from "./highlight-col/highlight-col.directive";
 import {HookService} from "../plugins/hook-service";
+import {HTMLSanitizeService} from "./html-sanitize/html-sanitize.service";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -70,7 +70,6 @@ export function bootstrapModule(injector:Injector) {
     });
   };
 }
-
 
 @NgModule({
   imports: [
@@ -89,7 +88,6 @@ export function bootstrapModule(injector:Injector) {
     FocusDirective,
     AuthoringComponent,
     WorkPackageEditActionsBarComponent,
-    OpAutoCompleteDirective,
 
     // Notifications
     NotificationsContainerComponent,
@@ -117,7 +115,6 @@ export function bootstrapModule(injector:Injector) {
     FocusDirective,
     AuthoringComponent,
     WorkPackageEditActionsBarComponent,
-    OpAutoCompleteDirective,
 
     // Notifications
     NotificationsContainerComponent,
@@ -151,6 +148,7 @@ export function bootstrapModule(injector:Injector) {
     AttributeHelpTextsService,
     ConfigurationService,
     PathHelperService,
+    HTMLSanitizeService
   ]
 })
 export class OpenprojectCommonModule { }

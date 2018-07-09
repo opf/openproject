@@ -30,51 +30,59 @@
 require 'rack/utils'
 
 class WorkPackages::AutoCompletesController < ::ApplicationController
-  before_action :on_no_valid_scope_404
-
   def index
     @work_packages = work_package_with_id | work_packages_by_subject_or_id
 
     respond_to do |format|
-      format.html do render layout: false end
-      format.any(:xml, :json) { render request.format.to_sym => wp_hashes_with_string(@work_packages) }
+      format.json { render request.format.to_sym => wp_hashes_with_string(@work_packages) }
     end
   end
 
   private
 
-  def on_no_valid_scope_404
-    scope = determine_scope
-    if scope.nil?
-      render_404
-
-      return false
-    end
-  end
-
   def work_package_with_id
-    scope = determine_scope
     query_term = params[:q].to_s
 
     if query_term =~ /\A\d+\z/
-      scope.visible.where(id: query_term.to_i)
+      work_package_scope.visible.where(id: query_term.to_i)
     else
       []
     end
   end
 
   def work_packages_by_subject_or_id
-    scope = determine_scope
-    query_term = params[:q].to_s
+    query_term_sql = subject_or_id_query(params[:q].to_s)
 
-    if query_term =~ /\A\d+\z/
-      sql_query = ["#{WorkPackage.table_name}.subject LIKE :q OR
-                   CAST(#{WorkPackage.table_name}.id AS CHAR(13)) LIKE :q",
-                   { q: "%#{query_term}%" }]
-    else
-      sql_query = ["LOWER(#{WorkPackage.table_name}.subject) LIKE :q",
-                   { q: "%#{query_term.downcase}%" }]
+    work_package_scope
+      .visible
+      .where(query_term_sql)
+      .order("#{WorkPackage.table_name}.id ASC") # :id does not work because...
+      .limit(10)
+      .includes(:type)
+  end
+
+  def wp_hashes_with_string(work_packages)
+    work_packages.map do |work_package|
+      wp_hash = Hash.new
+      work_package.attributes.each { |key, value| wp_hash[key] = Rack::Utils.escape_html(value) }
+      wp_hash['to_s'] = Rack::Utils.escape_html(work_package.to_s)
+      wp_hash
     end
+  end
+
+  def subject_or_id_query(query_term)
+    if query_term =~ /\A\d+\z/
+      ["#{WorkPackage.table_name}.subject LIKE :q OR
+       CAST(#{WorkPackage.table_name}.id AS CHAR(13)) LIKE :q",
+       { q: "%#{query_term}%" }]
+    else
+      ["LOWER(#{WorkPackage.table_name}.subject) LIKE :q",
+       { q: "%#{query_term.downcase}%" }]
+    end
+  end
+
+  def work_package_scope
+    scope = WorkPackage.all
 
     # The filter on subject in combination with the ORDER BY on id
     # seems to trip MySql's usage of indexes on the order statement
@@ -88,41 +96,5 @@ class WorkPackages::AutoCompletesController < ::ApplicationController
     end
 
     scope
-      .visible
-      .where(sql_query)
-      .order("#{WorkPackage.table_name}.id ASC") # :id does not work because...
-      .limit(10)
-      .includes(:type)
-  end
-
-  def wp_hashes_with_string(work_packages)
-    work_packages.map do |work_package|
-      wp_hash = Hash.new
-      work_package.attributes.each do |key, value| wp_hash[key] = Rack::Utils.escape_html(value) end
-      wp_hash['to_s'] = Rack::Utils.escape_html(work_package.to_s)
-      wp_hash
-    end
-  end
-
-  def find_project
-    project_id = (params[:work_package] && params[:work_package][:project_id]) || params[:project_id]
-    return nil unless project_id
-    Project.find_by(id: project_id)
-  end
-
-  def determine_scope
-    @scope ||= begin
-      project = find_project
-
-      if params[:scope] == 'relatable'
-        return nil unless project
-
-        Setting.cross_project_work_package_relations? ? WorkPackage.all : project.work_packages
-      elsif params[:scope] == 'all' || project.nil?
-        WorkPackage.all
-      else
-        project.work_packages
-      end
-    end
   end
 end

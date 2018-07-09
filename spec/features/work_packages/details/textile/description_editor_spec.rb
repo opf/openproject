@@ -124,7 +124,4 @@ describe 'description inplace editor', js: true, selenium: true do
       end
     end
   end
-
-  it_behaves_like 'a workpackage autocomplete field'
-  it_behaves_like 'a principal autocomplete field'
 end

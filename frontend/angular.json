@@ -15,7 +15,6 @@
             "preserveSymlinks": true,
             "aot": true,
             "outputPath": "../public/assets/frontend/",
-            "aot": true,
             "index": "src/index2.html",
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
