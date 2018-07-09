@@ -26,29 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {CurrentProjectService} from '../projects/current-project.service';
-import {Directive, ElementRef, Input, OnChanges} from "@angular/core";
-import {AutoCompleteHelperService} from "core-components/input/auto-complete-helper.service";
+import {Injectable, SecurityContext} from "@angular/core";
+import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 
-@Directive({
-  selector: '[op-auto-complete]',
-})
-export class OpAutoCompleteDirective implements OnChanges {
-  @Input() public opAutoCompleteProjectId:string|null|undefined;
+@Injectable()
+export class HTMLSanitizeService {
+  public constructor(readonly sanitizer:DomSanitizer) { }
 
-  constructor(readonly elementRef:ElementRef,
-              readonly AutoCompleteHelper:AutoCompleteHelperService,
-              readonly currentProject:CurrentProjectService) {
-  }
-
-  public ngOnChanges() {
-    this.opAutoCompleteProjectId = this.opAutoCompleteProjectId || this.currentProject.id;
-
-    // Target both regular textareas and wysiwyg wrapper
-    const element = jQuery(this.elementRef.nativeElement);
-    const targets = element.add(element.find('.op-ckeditor-wrapper'));
-
-    // Ensure the autocompleter gets enabled on project id changes.
-    this.AutoCompleteHelper.enableTextareaAutoCompletion(targets, this.opAutoCompleteProjectId);
+  public sanitize(string:string):SafeHtml {
+    return this.sanitizer.sanitize(SecurityContext.HTML, string) || '';
   }
 }

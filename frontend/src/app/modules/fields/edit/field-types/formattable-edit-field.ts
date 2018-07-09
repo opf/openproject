@@ -32,7 +32,6 @@ import {ICkeditorStatic} from "core-components/ckeditor/op-ckeditor-form.compone
 import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 import {FormattableTextareaEditFieldComponent} from "core-app/modules/fields/edit/field-types/formattable-textarea-edit-field.component";
 import {FormattableWysiwygEditFieldComponent} from "core-app/modules/fields/edit/field-types/formattable-wysiwyg-edit-field.component";
-import {AutoCompleteHelperService} from "core-components/input/auto-complete-helper.service";
 
 declare global {
   interface Window {
@@ -44,7 +43,6 @@ declare global {
 export class FormattableEditField extends EditField {
   // Dependencies
   readonly textileService:TextileService = this.$injector.get(TextileService);
-  readonly AutoCompleteHelper:AutoCompleteHelperService = this.$injector.get(AutoCompleteHelperService);
   readonly ConfigurationService:ConfigurationService = this.$injector.get(ConfigurationService);
 
   // Values used in template
@@ -94,7 +92,8 @@ export class FormattableEditField extends EditField {
       .then((editor:any) => {
         editor.config['openProject'] = {
           context: this.resource,
-          element: element
+          element: element,
+          pluginContext: window.OpenProject.pluginContext.value
         };
 
         this.ckeditor = editor;
