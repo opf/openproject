@@ -1,11 +1,6 @@
 <div class="title-container">
   <div class="text">
-    <h2>
-      <accessible-by-keyboard
-        linkClass="wp-table--query-menu-link"
-        [linkTitle]="text.search_query_title">
-        {{ selectedTitle | slice:0:50 }}
-      </accessible-by-keyboard>
+    <h2 title="{{ selectedTitle }}"> {{ selectedTitle | slice:0:50 }}
     </h2>
   </div>
 </div>

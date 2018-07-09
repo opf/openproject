@@ -51,6 +51,8 @@ import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-re
 import {WorkPackageTableHierarchiesService} from './../../wp-fast-table/state/wp-table-hierarchy.service';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {WorkPackageStaticQueries} from 'core-components/wp-query-select/wp-static-queries';
+
 
 @Component({
   selector: 'wp-list',
@@ -68,6 +70,7 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
 
   tableInformationLoaded = false;
   selectedTitle?:string;
+  staticTitle?:string;
 
   constructor(readonly states:States,
               readonly tableState:TableState,
@@ -243,7 +246,13 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
     if (query.id) {
       this.selectedTitle = query.name;
     } else {
-      this.selectedTitle = I18n.t('js.label_work_package_plural');
+      this.selectedTitle = WorkPackageStaticQueries.nameFor(query);
+      //this.selectedTitle = I18n.t('js.label_work_package_plural');
     }
+  }
+
+  updateStaticTitle(title:string) {
+    console.log("Title: ", title);
+    this.staticTitle = title;
   }
 }

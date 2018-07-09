@@ -29,7 +29,6 @@
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 import {Component, ElementRef, Inject, Input} from "@angular/core";
 import {OpContextMenuTrigger} from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
-import {WorkPackageQuerySelectDropdownComponent} from "core-components/wp-query-select/wp-query-select-dropdown.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 
@@ -50,14 +49,6 @@ export class WorkPackageQuerySelectableTitleComponent extends OpContextMenuTrigg
     super(elementRef, opContextMenu);
   }
 
-  public showDropDown(evt:Event) {
-    this.opContextMenu.show(this, evt, WorkPackageQuerySelectDropdownComponent);
-  }
-
-  public onOpen(menu:JQuery) {
-    menu.find('#query-title-filter').focus();
-  }
-
   /**
    * Positioning args for jquery-ui position.
    *
@@ -71,4 +62,3 @@ export class WorkPackageQuerySelectableTitleComponent extends OpContextMenuTrigg
     };
   }
 }
-

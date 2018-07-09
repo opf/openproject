@@ -30,6 +30,7 @@ import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {States} from '../states.service';
 import {WorkPackagesListService} from '../wp-list/wp-list.service';
 import {WorkPackagesListChecksumService} from '../wp-list/wp-list-checksum.service';
+import {WorkPackagesListComponent} from 'core-components/routing/wp-list/wp-list.component';
 import {StateService, TransitionService} from '@uirouter/core';
 import {Component, Inject, OnInit, OnDestroy, Attribute, ElementRef, Injector} from "@angular/core";
 import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
@@ -38,11 +39,16 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {WorkPackageStaticQueries} from 'core-components/wp-query-select/wp-static-queries';
+
 
 interface IAutocompleteItem {
+  auto_id?:any;
   label:any;
   query:any;          //QueryResource|null
   query_props:any;    //string|null
+  category: any;
 }
 
 interface IQueryAutocompleteJQuery extends JQuery {
@@ -50,12 +56,13 @@ interface IQueryAutocompleteJQuery extends JQuery {
 }
 
 
-
 @Component({
+  providers: [WorkPackagesListComponent],
   selector: 'wp-query-select',
   templateUrl: './wp-query-select.template.html'
 })
 export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestroy {
+  public selected_title:string;
   public loaded = false;
   public text = {
     loading: this.I18n.t('js.ajax.loading'),
@@ -64,7 +71,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     scope_starred: this.I18n.t('js.label_starred_queries'),
     scope_global: this.I18n.t('js.label_global_queries'),
     scope_private: this.I18n.t('js.label_custom_queries'),
-    no_results: this.I18n.t('js.work_packages.query.text_no_results')
+    no_results: this.I18n.t('js.work_packages.query.text_no_results'),
   };
   private unregisterTransitionListener:Function;
 
@@ -78,6 +85,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
               readonly states:States,
               readonly wpListService:WorkPackagesListService,
               readonly wpListChecksumService:WorkPackagesListChecksumService,
+              readonly wpListComponent: WorkPackagesListComponent,
               readonly loadingIndicator:LoadingIndicatorService,
               readonly pathHelper:PathHelperService) {
 
@@ -102,24 +110,55 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
 
   private openMenu() {
     this.loadQueries().then(collection => {
-      let sortedQueries = _.reverse(_.sortBy(collection.elements, 'public'));
-      let autocompleteValues:IAutocompleteItem[] = _.map(sortedQueries, (query:any) => { return { label: query.name, query: query, query_props: null }; } );
-      let defaultQuery = { label: 'All open', query: null, query_props: '' };
-      let ganttQuery = { label: 'Gantt Chart', query: null, query_props: '%7B%22tv%22%3Atrue%7D' };
-      let wishListQuery = { label: 'Wish List', query: null, query_props: '%7B%22c%22:%5B%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22,%22version%22%5D,%22tzl%22:%22days%22,%22hi%22:true,%22g%22:%22%22,%22t%22:%22parent:asc%22,%22f%22:%5B%7B%22n%22:%22status%22,%22o%22:%22o%22,%22v%22:%5B%5D%7D,%7B%22n%22:%22updatedAt%22,%22o%22:%22w%22,%22v%22:%5B%5D%7D%5D,%22pa%22:1,%22pp%22:20%7D' };
-      let latestActivityQuery = { label: 'Latest Activity', query: null, query_props: ''};
-      let staticQueries:IAutocompleteItem[] = [defaultQuery, ganttQuery, wishListQuery, latestActivityQuery]
+      let autocompleteValues:IAutocompleteItem[] = _.map(collection.elements, (query:any) => {
+        return { auto_id: null, label: query.name, query: query, query_props: null, category: null};
+      });
+      // Set a unique numeric identifier for every query in the collection
+      let allQueries = this.setAutocompleterId(autocompleteValues);
+      // Add teh right category to every item and order all queries by categories
+      allQueries = this.sortQueries(allQueries);
 
-      this.setupAutoCompletion(staticQueries.concat(autocompleteValues));
+      this.setupAutoCompletion(allQueries);
 
       this.setLoaded();
     });
   }
 
-  private getParamFromQuery(name:string) {
-    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-    if (results === null) { return null; }
-    else { return decodeURI(results[1]) || 0; }
+  private setAutocompleterId(queries:any) : IAutocompleteItem[] {
+    let idCounter = 0;
+    _.each(queries, query => {
+      query.auto_id = idCounter;
+      idCounter++;
+    });
+    queries = queries.concat(this.setStaticQueries(idCounter));
+
+    return queries;
+  }
+
+  // Create the static queries and return them as one Array
+  private setStaticQueries(idCounter:number) : IAutocompleteItem[] {
+    return _.map(WorkPackageStaticQueries.all, query => {
+      query['auto_id'] = idCounter++;
+
+      return query;
+    });
+  }
+
+  // Filter the collection by categories, add the correct categories to every item of the filtered array
+  // Concat all categories in the right order
+  private sortQueries(items:IAutocompleteItem[]) : IAutocompleteItem[] {
+    let sortedQueries:IAutocompleteItem[] = [];
+    sortedQueries = sortedQueries.concat(
+      items.filter(item => item.query && item.query.starred).map(item => this.setCategory(item, 'starred')),
+      items.filter(item => !item.query).map(item => this.setCategory(item, 'default')),
+      items.filter(item => item.query && !item.query.starred && item.query.public).map(item => this.setCategory(item, 'public')),
+      items.filter(item => item.query && !item.query.starred && !item.query.public).map(item => this.setCategory(item, 'private'))
+    );
+    return sortedQueries;
+  }
+
+  private setCategory(item:IAutocompleteItem, categoryString:string) : IAutocompleteItem {
+    return { auto_id: item.auto_id, label: item.label, query: item.query, query_props: item.query_props, category: categoryString } ;
   }
 
   private loadQueries() {
@@ -131,13 +170,17 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
 
     let input = jQuery('#query-title-filter') as IQueryAutocompleteJQuery;
     let noResults = jQuery('.query-select-dropdown--no-results');
+    let thisComponent = this;
 
     input.querycomplete({
       delay: 0,
       source: autocompleteValues,
       select: (ul:any, selected:{item:IAutocompleteItem}) => {
-        this.loadQuery(selected.item);
-        this.highlightSelected(selected.item);
+        thisComponent.loadQuery(selected.item);
+        thisComponent.highlightSelected(selected.item);
+
+        thisComponent.selected_title = selected.item.label;
+        thisComponent.wpListComponent.updateStaticTitle(selected.item.label);
       },
       response: (event:any, ui:any) => {
         // Show the noResults span if we don't have any matches
@@ -159,7 +202,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
 
   private defineJQueryQueryComplete() {
     let currentQueryParams = parseInt(this.$state.params.query_id);
-    let wpQueryComponent = this;
+    let thisComponent = this;
 
     jQuery.widget('custom.querycomplete', jQuery.ui.autocomplete, {
       _create: function(this:any) {
@@ -168,7 +211,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
         this._search('');
       },
       _renderItem: function(ul:any, item:IAutocompleteItem) {
-        let li = jQuery("<li class='ui-menu-item'><div class='ui-menu-item-wrapper' tabindex='0'>" + item.label + "</div></li>");
+        let li = jQuery("<li class='ui-menu-item " + item.category + "' auto_id='" + item.auto_id + "'><div class='ui-menu-item-wrapper' tabindex='0'>" + item.label + "</div></li>");
         li.data('ui-autocomplete-item', item);  // Focus method of autocompleter needs this data for accessibility - if not set, it will throw errors
 
         if (currentQueryParams && item.query && item.query.id === currentQueryParams) {
@@ -177,100 +220,93 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
         return ul.append(li);
       },
       _renderMenu: function(this:any, ul:any, items:IAutocompleteItem[]) {
-        let sortedArray = wpQueryComponent.sortQuery(items);
         let currentCategory:string;
-        let category:any;
+        let categoryDOMElement:any;
 
-        _.each(sortedArray, option => {
+        _.each(items, option => {
           // Check if item has same category as previous item and if not insert a new category label in the list
-          if (currentCategory !== wpQueryComponent.labelFunction(option)) {
-            currentCategory = wpQueryComponent.labelFunction(option);
-            category = ul.append( "<a tabindex='0' aria-hidden='true'></a>" +
-                                      "<li class='ui-autocomplete--category' title='" + currentCategory + "'>" + currentCategory + "</li>");
+          if (option.category !== currentCategory) {
+            currentCategory = option.category;
+            let label = thisComponent.labelFunction(currentCategory);
+            categoryDOMElement = ul.append( "<a tabindex='0' aria-hidden='true'></a>" +
+                                            "<li class='ui-autocomplete--category " + option.category + "' title='" + label + "'>" + label + "</li>");
           }
           this._renderItemData(ul, option);
         });
         /// Add an Eventlistener on all categories to show and hide the list elements from this category
-        category.on('click', (event:any) => {
-          let lisFromCategory = jQuery(event.target).nextUntil(jQuery('.ui-autocomplete--category'), '.ui-menu-item' );
-          lisFromCategory.toggleClass('hidden');
-          jQuery(event.target).prev('a').toggleClass("-collapsed");
-        });
+        thisComponent.setToggleCategories(categoryDOMElement);
       }
     });
   }
 
-  private labelFunction(option:IAutocompleteItem) {
-    let text:string = this.text.scope_default;
-    if (option.query) {
-      if (option.query.starred) {
-        text = this.text.scope_starred;
-      } else if (option.query.public) {
-        text = this.text.scope_global;
-      } else {
-        text = this.text.scope_private;
-      }
+  private labelFunction(category:string) : string {
+    switch(category) {
+      case 'starred': return this.text.scope_starred;
+      case 'public': return this.text.scope_global;
+      case 'private': return this.text.scope_private;
+      case 'default': return this.text.scope_default;
+      default: return '';
     }
-    return text;
   }
 
-  private sortQuery(items:IAutocompleteItem[]) {
-    let starredQueries:IAutocompleteItem[] = [];
-    let publicQueries:IAutocompleteItem[] = [];
-    let privateQueries:IAutocompleteItem[] = [];
-    let defaultQueries:IAutocompleteItem[] = [];
-
-    _.each(items, option => {
-      var query = option.query;
-      if (query) {  // If there is a query, check if it is starred, public or private
-        if (query.starred) {
-          starredQueries.push(option);
-        } else {
-          if (query.public) { publicQueries.push(option); }
-          else { privateQueries.push(option); }
-        }
-      } else { defaultQueries.push(option); }
+  private setToggleCategories(category:any) {
+    category.on('click', (event:JQueryEventObject) => {
+      let clickedCategory = event.target.classList[1];
+      jQuery('.' + clickedCategory).toggleClass('hidden');
+      jQuery(event.target).prev('a').toggleClass("-collapsed");
     });
-    let sortedQueries:IAutocompleteItem[] = starredQueries.concat(defaultQueries).concat(publicQueries).concat(privateQueries);
-    return sortedQueries;
   }
 
+  // On click of a menu item, load requested query
   private loadQuery(item:IAutocompleteItem) {
+    // Case 1: In the main wp list view, load requested without refreshing the page
     if (this.$state.includes('work-packages.list')) {
       this.wpListChecksumService.clear();
 
       let promise:Promise<QueryResource>;
-
       if (!item.query) {
         promise = this.wpListService.fromQueryParams({query_props: item.query_props}, this.projectIdentifier);
       } else {
         promise = this.wpListService.reloadQuery(item.query);
       }
       this.loadingIndicator.table.promise = promise;
-    } else if (this.$state.includes('work-packages')) {
-      if (!item.query) {
-        this.$state.go('work-packages.list', { query_props: item.query_props });
-      } else {
-        this.$state.go('work-packages.list', { query_id: item.query.id } );
-      }
-    } else {
+    }
+    // Case 2: In a subpage of the wp site, go back to wp main page to open the requested query (without refreshing)
+    else if (this.$state.includes('work-packages')) {
+      this.goBackToListView(item);
+    }
+    // Case 3: We are somewhere else in the project - on click of a menu item reload window with requested query
+    else {
       this.reloadWindow(item);
     }
   }
 
+  private goBackToListView(item:IAutocompleteItem) {
+    // Check if element has query or is a static query
+    let requestedQuery;
+    if (!item.query) {
+      requestedQuery = { query_props: item.query_props };
+    } else {
+      requestedQuery = { query_id: item.query.id };
+    }
+    this.$state.go('work-packages.list', requestedQuery);
+  }
+
+  // Set url to work packages page depending on current project path
   private reloadWindow(item:IAutocompleteItem) {
     if (this.projectIdentifier) {
-      if (!item.query) {
-        window.location.href = this.pathHelper.projectWorkPackagesPath(this.projectIdentifier) + '?query_props=' + item.query_props;
-      } else {
-        window.location.href = this.pathHelper.projectWorkPackagesPath(this.projectIdentifier) + '?query_id=' + item.query.id;
-      }
+      window.location.href = this.pathHelper.projectWorkPackagesPath(this.projectIdentifier) + this.subpathToItem(item);
     } else {
-      if (!item.query) {
-        window.location.href = this.pathHelper.workPackagesPath() + '?query_props=' + item.query_props;
-      } else {
-        window.location.href = this.pathHelper.workPackagesPath() + '?query_id=' + item.query.id;
-      }
+      window.location.href = this.pathHelper.workPackagesPath() + this.subpathToItem(item);
+    }
+  }
+
+
+  private subpathToItem(item:IAutocompleteItem) : string {
+    if (!item.query) {
+      return '?query_props=' + item.query_props;
+    } else {
+      return '?query_id=' + item.query.id;
     }
   }
 
@@ -278,7 +314,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     // Remove old selection
     jQuery(".ui-menu-item").removeClass('selected');
     //Find selected element in DOM and highlight it
-    jQuery(".ui-menu-item:contains(" + item.label + ")").addClass('selected');
+    jQuery(("[auto_id=" + item.auto_id + "]")).addClass('selected');
   }
 
   private setLoaded() {
