@@ -2360,19 +2360,16 @@ ja:
   note_password_login_disabled: パスワードを利用してログインは%{configuration}によって無効にされています。
   warning: 注意
   warning_attachments_not_saved: "%{count} 件のファイルを保存できませんでした。"
-  warning_imminent_user_limit: 'You invited more users than are supported by your
-    current plan. Invited users may not be able to join your OpenProject environment.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
-    in order to allow invited and registered users to join.
+  warning_imminent_user_limit: '現在のプランでサポートされているユーザーよりも多くのユーザーを招待しました。 招待されたユーザーは、OpenProject環境に参加できない場合があります。
+    招待者と登録ユーザーが参加できるようにするには、<a href="%{upgrade_url}">プランをアップグレード</a>するか、既存のユーザーをブロックしてください。
 
 '
-  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
-    for additional users.
+  warning_user_limit_reached: 'ユーザー制限に達しました。 これ以上ユーザーをアクティブにすることはできません。 追加のユーザーが参加できるように<a
+    href="%{upgrade_url}">プランをアップグレード</a>するか、メンバーをブロックしてください。
 
 '
   warning_user_limit_reached_instructions: 'ユーザー制限（%{current}/%{max} アクティブユーザー）に達しました。
-    sales@openproject.com　に連絡してEnterprise Editionプランをアップグレードし、ユーザーを追加してください。
+    sales@openproject.com に連絡してEnterprise Editionプランをアップグレードし、ユーザーを追加してください。
 
 '
   menu_item: メニュー項目
