@@ -32,8 +32,7 @@ import {ExpressionService} from "../../../../../../common/expression.service";
 export class FormattableDisplayField extends DisplayField {
 
   public render(element:HTMLElement, displayText:string):void {
-    jQuery(element).addClass('-multiline');
-    jQuery(element).addClass('read-value--html');
+    element.classList.add('read-value--html', 'wiki', 'highlight', '-multiline');
 
     let span = document.createElement('span');
     span.innerHTML = displayText;

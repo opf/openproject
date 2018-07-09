@@ -30,44 +30,23 @@
 
 module OpenProject::TextFormatting
   module Filters
-    class MarkdownFilter < HTML::Pipeline::MarkdownFilter
-      # Convert Markdown to HTML using CommonMarker
-      def call
-        render_html parse
-      end
+    class SyntaxHighlightFilter < HTML::Pipeline::SyntaxHighlightFilter
+      def initialize(*args)
+        super(*args)
 
-      private
-
-      ##
-      # Get initial CommonMarker AST for further processing
-      #
-      def parse
-        parse_options = %i[LIBERAL_HTML_TAG]
-
-        # We need liberal html tags thus parsing and rendering are several steps
-        # Check: We may be able to reuse the ast instead of rendering to html and then parsing with nokogiri again.
-        CommonMarker.render_doc(
-          text,
-          parse_options,
-          commonmark_extensions
-        )
+        @formatter = highlighter_class
       end
 
       ##
-      # Render the transformed AST
-      def render_html(ast)
-        render_options = %i[GITHUB_PRE_LANG]
-        render_options << :HARDBREAKS if context[:gfm] != false
-
-        ast
-          .to_html(render_options, commonmark_extensions)
-          .tap(&:rstrip!)
-      end
-
-      ##
-      # Extensions to the default CommonMarker operation
-      def commonmark_extensions
-        context.fetch :commonmarker_extensions, %i[table strikethrough tagfilter]
+      # Get highlighter class for the current context
+      def highlighter_class
+        # Get syntax highlighting options. If we're in a CSS-constrained environment (i.e., mail),
+        # inline syntax highlighting.
+        if context[:inline_css]
+          Rouge::Formatters::HTMLInline.new Rouge::Themes::Github
+        else
+          Rouge::Formatters::HTML.new
+        end
       end
     end
   end

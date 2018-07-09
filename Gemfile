@@ -36,7 +36,6 @@ gem 'activerecord-session_store', '~> 1.1.0'
 gem 'rails', '~> 5.1.5'
 gem 'responders', '~> 2.4'
 
-gem 'coderay', '~> 1.1.2'
 gem 'rubytree', git: 'https://github.com/dr0verride/RubyTree.git', ref: '06f53ee'
 gem 'rdoc', '>= 2.4.2'
 
@@ -70,9 +69,14 @@ gem 'stringex', '~> 2.7.1'
 
 # CommonMark markdown parser with GFM extension
 gem 'commonmarker', '~> 0.17.9'
+
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features
-gem 'html-pipeline', '~> 2.7.1'
+gem 'html-pipeline', '~> 2.8.0'
+# Requires escape-utils for faster escaping
+gem 'escape_utils', '~> 1.0'
+# Syntax highlighting used in html-pipeline with rouge
+gem 'rouge', '~> 3.1.1'
 # HTML sanitization used for html-pipeline
 gem 'sanitize', '~> 4.6.0'
 # HTML autolinking for mails and urls (replaces autolink)

@@ -67,7 +67,7 @@ module OpenProject::TextFormatting::Formatters
             content = @pre_list[$1.to_i]
             if content.match(/<code\s+class="(\w+)">\s?(.+)/m)
               content = "<code class=\"#{$1} CodeRay\">" +
-                Redmine::SyntaxHighlighting.highlight_by_language($2, $1)
+                OpenProject::SyntaxHighlighting.highlight_by_language($2, $1)
             end
             content
           end

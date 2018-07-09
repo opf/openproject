@@ -333,8 +333,7 @@ EXPECTED
 RAW
 
     expected = <<-EXPECTED
-<pre><code class="ruby CodeRay"><span class=\"CodeRay\"><span class="line-numbers"><a href=\"#n1\" name=\"n1\">1</a></span><span class="comment"># Some ruby code here</span></span>
-</code></pre>
+<pre><code class=\"ruby CodeRay\"><span class=\"c1\"># Some ruby code here</span></code></pre>
 EXPECTED
 
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), helper.format_text(raw).gsub(%r{[\r\n\t]}, '')

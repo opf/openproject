@@ -56,7 +56,8 @@ module OpenProject::TextFormatting::Formatters
           HTML::Pipeline::TableOfContentsFilter,
           :macro,
           :pattern_matcher,
-          :autolink
+          :autolink,
+          :syntax_highlight
         ]
       end
     end
