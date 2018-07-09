@@ -29,18 +29,16 @@
 require 'spec_helper'
 
 describe 'Wysiwyg work package button spec',
-         with_settings: { text_formatting: 'markdown', use_wysiwyg?: true },
          type: :feature, js: true do
   let(:user) { FactoryBot.create :admin }
   let!(:type) { FactoryBot.create :type, name: 'MyTaskName' }
-  let(:project) {
+  let(:project) do
     FactoryBot.create :valid_project,
                       identifier: 'my-project',
                       enabled_module_names: %w[wiki work_package_tracking],
                       name: 'My project name',
                       types: [type]
-  }
-
+  end
 
   let(:editor) { ::Components::WysiwygEditor.new }
 

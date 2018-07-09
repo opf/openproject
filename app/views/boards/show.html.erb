@@ -130,7 +130,7 @@ See docs/COPYRIGHT.rdoc for more details.
               <% if message.last_reply %>
                 <%= authoring message.last_reply.created_on, message.last_reply.author %><br/>
                 <br/>
-                <%= link_to message.subject, topic_path(message.last_reply) %>
+                <%= link_to_message message.last_reply, no_root: true %>
               <% end %>
             </td>
           </tr>

@@ -88,7 +88,7 @@ export class OpCkeditorFormComponent implements OnInit {
     this.wrappedTextArea = this.formElement.find(this.textareaSelector);
     this.wrappedTextArea.hide();
     const wrapper = this.$element.find(`.${ckEditorReplacementClass}`);
-    window.OPClassicEditor
+    let editorPromise = window.OPClassicEditor
       .create(wrapper[0], {
         openProject: {
           context: null,
@@ -100,6 +100,8 @@ export class OpCkeditorFormComponent implements OnInit {
       .catch((error:any) => {
         console.error(error);
       });
+
+    this.$element.data('editor', editorPromise);
   }
 
   public $onDestroy() {
@@ -123,6 +125,23 @@ export class OpCkeditorFormComponent implements OnInit {
       // Continue with submission
       return true;
     });
+
+    this.setLabel();
+
+    return editor;
+  }
+
+  private setLabel() {
+    let textareaId = this.textareaSelector.substring(1);
+    let label = jQuery(`label[for=${textareaId}`);
+
+    let ckContent = this.$element.find('.ck-content');
+
+    ckContent.attr('aria-label', null);
+    ckContent.attr('aria-labelledby', textareaId);
+
+    label.click(() => {
+      ckContent.focus();
+    });
   }
 }
-

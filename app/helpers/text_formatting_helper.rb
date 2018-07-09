@@ -52,10 +52,9 @@ module TextFormattingHelper
     end
   end
 
-  private
-
+  #TODO remove
   def current_formatting_helper
-    helper_class = OpenProject::TextFormatting::Formatters.helper_for(Setting.text_formatting)
+    helper_class = OpenProject::TextFormatting::Formats.rich_helper
     helper_class.new(self)
   end
 end

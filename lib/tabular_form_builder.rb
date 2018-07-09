@@ -35,8 +35,8 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   include ActionView::Helpers::AssetTagHelper
   include ERB::Util
 
-  (field_helpers - %i(radio_button hidden_field fields_for label) + %i(date_select)).each do |selector|
-    define_method selector do |field, options = {}, *args|
+  def self.tag_with_label_method(selector, &block)
+    ->(field, options, *args) do
       options[:class] = Array(options[:class]) + [field_css_class(selector)]
       merge_required_attributes(options[:required], options)
 
@@ -45,13 +45,28 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
       label = label_for_field(field, label_options)
       input = super(field, input_options, *args)
 
-      if options[:with_text_formatting]
-        input.concat text_formatting_wrapper options[:id]
-      end
+      input = instance_exec(input, options, &block) if block_given?
 
       (label + container_wrap_field(input, selector, options))
     end
   end
+
+  def self.with_text_formatting
+    ->(input, options) {
+      if options[:with_text_formatting]
+        # use either the provided id or fetch the one created by rails
+        input.concat text_formatting_wrapper options[:id] || input.match(/<[^>]* id="(\w+)"[^>]*>/)[1]
+      end
+
+      input
+    }
+  end
+
+  (field_helpers - %i(radio_button hidden_field fields_for label) + %i(date_select)).each do |selector|
+    define_method selector, &tag_with_label_method(selector)
+  end
+
+  define_method(:text_area, &tag_with_label_method(:text_area, &with_text_formatting))
 
   def label(method, text = nil, options = {}, &block)
     options[:class] = Array(options[:class]) + %w(form--label)
@@ -132,7 +147,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
                               prefix.html_safe,
                               class: 'form--field-affix',
                               id: options[:prefix_id],
-                              :'aria-hidden' => true)
+                              'aria-hidden': true)
     end
 
     if suffix
@@ -140,7 +155,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
                              suffix.html_safe,
                              class: 'form--field-affix',
                              id: options[:suffix_id],
-                             :'aria-hidden' => true)
+                             'aria-hidden': true)
     end
 
     field_container_wrap_field(ret, options)
@@ -148,7 +163,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
   def merge_required_attributes(required, options = nil)
     if required
-      options.merge!(required: true, :'aria-required' => 'true')
+      options.merge!(required: true, 'aria-required': 'true')
     end
   end
 
@@ -177,8 +192,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   def text_formatting_wrapper(target_id)
     return ''.html_safe unless target_id.present?
 
-    format = Setting.text_formatting
-    helper = ::OpenProject::TextFormatting::Formatters.helper_for(format).new(@template)
+    helper = ::OpenProject::TextFormatting::Formats.rich_helper.new(@template)
     helper.wikitoolbar_for target_id
   end
 
@@ -232,7 +246,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
       content << content_tag('span',
                              '*',
                              class: 'form--label-required',
-                             :'aria-hidden' => true)
+                             'aria-hidden': true)
     end
   end
 

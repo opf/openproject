@@ -191,34 +191,14 @@ describe ::API::V3::Utilities::PathHelper do
   end
 
   describe '#render_markup' do
-    subject { helper.render_markup(format: 'super_fancy', link: 'link-ish') }
+    subject { helper.render_markup(link: 'link-ish') }
 
-    before do
-      allow(Setting).to receive(:text_formatting).and_return('by-the-settings')
-    end
-
-    it_behaves_like 'api v3 path', '/render/super_fancy?context=link-ish'
+    it_behaves_like 'api v3 path', '/render/markdown?context=link-ish'
 
     context 'no link given' do
-      subject { helper.render_markup(format: 'super_fancy') }
-
-      it { is_expected.to eql('/api/v3/render/super_fancy') }
-    end
-
-    context 'no format given' do
       subject { helper.render_markup }
 
-      it { is_expected.to eql('/api/v3/render/by-the-settings') }
-
-      context 'settings set to no formatting' do
-        subject { helper.render_markup }
-
-        before do
-          allow(Setting).to receive(:text_formatting).and_return('')
-        end
-
-        it { is_expected.to eql('/api/v3/render/plain') }
-      end
+      it { is_expected.to eql('/api/v3/render/markdown') }
     end
   end
 

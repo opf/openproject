@@ -74,16 +74,25 @@ module Pages
       Setting.per_page_options = "#{n}, 50, 100"
     end
 
-    def expect_current_path
+    def expect_current_path(query_params = nil)
       uri = URI.parse(current_url)
-      expected_path = uri.path
-      expected_path += '?' + uri.query if uri.query
+      current_path = uri.path
+      current_path += '?' + uri.query if uri.query
 
-      expect(expected_path).to eql path
+      expected_path = path
+      expected_path += "?#{query_params}" if query_params
+
+      expect(current_path).to eql expected_path
     end
 
     def expect_notification(type: :success, message:)
-      expect(page).to have_selector(".notification-box.-#{type}", text: message, wait: 20)
+      if notification_type == :angular
+        expect(page).to have_selector(".notification-box.-#{type}", text: message, wait: 20)
+      elsif type == :error
+        expect(page).to have_selector(".errorExplanation", text: message)
+      else
+        raise NotImplementedError
+      end
     end
 
     def dismiss_notification!
@@ -96,6 +105,10 @@ module Pages
 
     def path
       nil
+    end
+
+    def notification_type
+      :angular
     end
   end
 end

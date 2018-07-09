@@ -95,7 +95,7 @@ module OpenProject
     def link_to_message(message, options = {}, html_options = nil)
       link_to(
         h(truncate(message.subject, length: 60)),
-        topic_path_or_url(message.root,
+        topic_path_or_url(options.delete(:no_root) ? message : message.root,
                           { r: (message.parent_id && message.id),
                             anchor: (message.parent_id ? "message-#{message.id}" : nil)
                           }.merge(options)),

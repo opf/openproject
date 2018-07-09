@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe 'Wysiwyg include wiki page spec',
-         with_settings: { text_formatting: 'markdown', use_wysiwyg?: true },
          type: :feature, js: true do
 
   let(:project) {

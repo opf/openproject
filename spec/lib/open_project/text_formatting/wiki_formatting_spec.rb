@@ -30,21 +30,13 @@ require 'spec_helper'
 
 describe OpenProject::WikiFormatting do
   it 'should markdown formatter' do
-    expect(OpenProject::TextFormatting::Formatters::Markdown::Formatter).to eq(OpenProject::TextFormatting::Formatters.formatter_for('markdown'))
-    expect(OpenProject::TextFormatting::Formatters::Markdown::Helper).to eq(OpenProject::TextFormatting::Formatters.helper_for('markdown'))
-  end
-
-  it 'should textile formatter' do
-    expect(OpenProject::TextFormatting::Formatters::Textile::Formatter).to eq(OpenProject::TextFormatting::Formatters.formatter_for('textile'))
-    expect(OpenProject::TextFormatting::Formatters::Textile::Helper).to eq(OpenProject::TextFormatting::Formatters.helper_for('textile'))
+    expect(OpenProject::TextFormatting::Formats::Markdown::Formatter).to eq(OpenProject::TextFormatting::Formats.rich_formatter)
+    expect(OpenProject::TextFormatting::Formats::Markdown::Helper).to eq(OpenProject::TextFormatting::Formats.rich_helper)
   end
 
   it 'should plain formatter' do
-    expect(OpenProject::TextFormatting::Formatters::Plain::Formatter).to eq(OpenProject::TextFormatting::Formatters.formatter_for('plain'))
-    expect(OpenProject::TextFormatting::Formatters::Plain::Helper).to eq(OpenProject::TextFormatting::Formatters.helper_for('plain'))
-
-    expect(OpenProject::TextFormatting::Formatters::Plain::Formatter).to eq(OpenProject::TextFormatting::Formatters.formatter_for('doesnotexist'))
-    expect(OpenProject::TextFormatting::Formatters::Plain::Helper).to eq(OpenProject::TextFormatting::Formatters.helper_for('doesnotexist'))
+    expect(OpenProject::TextFormatting::Formats::Plain::Formatter).to eq(OpenProject::TextFormatting::Formats.plain_formatter)
+    expect(OpenProject::TextFormatting::Formats::Plain::Helper).to eq(OpenProject::TextFormatting::Formats.plain_helper)
   end
 
   it 'should link urls and email addresses' do
@@ -58,6 +50,6 @@ DIFF
 and an email address <a href="mailto:foo@example.net">foo@example.net</a></p>
 EXPECTED
 
-    assert_equal expected.gsub(%r{[\r\n\t]}, ''),OpenProject::TextFormatting::Formatters::Plain::Formatter.new({}).to_html(raw).gsub(%r{[\r\n\t]}, '')
+    assert_equal expected.gsub(%r{[\r\n\t]}, ''), OpenProject::TextFormatting::Formats::Plain::Formatter.new({}).to_html(raw).gsub(%r{[\r\n\t]}, '')
   end
 end

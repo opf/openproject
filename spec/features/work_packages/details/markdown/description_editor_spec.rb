@@ -32,7 +32,7 @@ require 'features/work_packages/shared_contexts'
 require 'support/work_packages/work_package_field'
 require 'features/work_packages/work_packages_page'
 
-describe 'description inplace editor', js: true, selenium: true, with_settings: { text_formatting: 'markdown' } do
+describe 'description inplace editor', js: true, selenium: true do
   let(:project) { FactoryBot.create :project_with_types, is_public: true }
   let(:property_name) { :description }
   let(:property_title) { 'Description' }

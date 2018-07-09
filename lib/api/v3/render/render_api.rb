@@ -57,8 +57,7 @@ module API
             end
 
             def check_format(format)
-              supported_formats = ::OpenProject::TextFormatting::Formatters.format_names.map(&:to_s)
-              unless supported_formats.include?(format)
+              unless ::OpenProject::TextFormatting::Formats.supported?(format)
                 fail ::API::Errors::NotFound, I18n.t('api_v3.errors.code_404')
               end
             end

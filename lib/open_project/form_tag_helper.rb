@@ -31,9 +31,7 @@ module OpenProject
   module FormTagHelper
     include ActionView::Helpers::FormTagHelper
 
-    TEXT_LIKE_FIELDS = [
-      'number_field', 'password_field', 'url_field', 'telephone_field', 'email_field'
-    ].freeze
+    TEXT_LIKE_FIELDS = %w(number_field password_field url_field telephone_field email_field).freeze
 
     def styled_form_tag(url_for_options = {}, options = {}, &block)
       apply_css_class_to_options(options, 'form')
@@ -88,8 +86,7 @@ module OpenProject
     def text_formatting_wrapper(target_id)
       return ''.html_safe unless target_id.present?
 
-      format = Setting.text_formatting
-      helper = ::OpenProject::TextFormatting::Formatters.helper_for(format).new(self)
+      helper = ::OpenProject::TextFormatting::Formats.rich_helper.new(self)
       helper.wikitoolbar_for target_id
     end
 

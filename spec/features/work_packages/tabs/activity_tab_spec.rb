@@ -5,36 +5,36 @@ require 'support/work_packages/work_package_field'
 
 describe 'Activity tab', js: true, selenium: true do
   def alter_work_package_at(work_package, attributes:, at:, user: User.current)
-    work_package.update_attributes(attributes.merge({ updated_at: at }))
+    work_package.update_attributes(attributes.merge(updated_at: at))
 
     note_journal = work_package.journals.last
     note_journal.update_attributes(created_at: at, user: attributes[:user])
   end
 
   let(:project) { FactoryBot.create :project_with_types, is_public: true }
-  let!(:work_package) {
+  let!(:work_package) do
     work_package = FactoryBot.create(:work_package,
-                                      project: project,
-                                      created_at: 5.days.ago.to_date.to_s(:db),
-                                      subject: initial_subject,
-                                      journal_notes: initial_comment)
+                                     project: project,
+                                     created_at: 5.days.ago.to_date.to_s(:db),
+                                     subject: initial_subject,
+                                     journal_notes: initial_comment)
 
     note_journal = work_package.journals.last
     note_journal.update_attributes(created_at: 5.days.ago.to_date.to_s)
 
     work_package
-  }
+  end
 
   let(:initial_subject) { 'My Subject' }
   let(:initial_comment) { 'First comment on this wp.' }
   let(:comments_in_reverse) { false }
   let(:activity_tab) { ::Components::WorkPackages::Activities.new(work_package) }
 
-  let(:initial_note) {
+  let(:initial_note) do
     work_package.journals[0]
-  }
+  end
 
-  let!(:note_1) {
+  let!(:note_1) do
     attributes = { subject: 'New subject', description: 'Some not so long description.' }
 
     alter_work_package_at(work_package,
@@ -43,9 +43,9 @@ describe 'Activity tab', js: true, selenium: true do
                           user: user)
 
     work_package.journals.last
-  }
+  end
 
-  let!(:note_2) {
+  let!(:note_2) do
     attributes = { journal_notes: 'Another comment by a different user' }
 
     alter_work_package_at(work_package,
@@ -54,7 +54,7 @@ describe 'Activity tab', js: true, selenium: true do
                           user: FactoryBot.create(:admin))
 
     work_package.journals.last
-  }
+  end
 
   before do
     login_as(user)
@@ -64,11 +64,11 @@ describe 'Activity tab', js: true, selenium: true do
   end
 
   shared_examples 'shows activities in order' do
-    let(:journals) {
+    let(:journals) do
       journals = [initial_note, note_1, note_2]
 
       journals
-    }
+    end
 
     it 'shows activities in ascending order' do
       journals.each_with_index do |journal, idx|
@@ -85,7 +85,6 @@ describe 'Activity tab', js: true, selenium: true do
         # on the first 9 days of the month
         expect(page).to have_selector(date_selector,
                                       text: journal.created_at.to_date.strftime("%B %-d, %Y"))
-
 
         activity = page.find("#activity-#{idx + 1}")
 
@@ -114,15 +113,15 @@ describe 'Activity tab', js: true, selenium: true do
     end
 
     context 'with permission' do
-      let(:role) {
-        FactoryBot.create(:role, permissions: [:view_work_packages,
-                                                :add_work_package_notes])
-      }
-      let(:user) {
+      let(:role) do
+        FactoryBot.create(:role, permissions: %i[view_work_packages
+                                                 add_work_package_notes])
+      end
+      let(:user) do
         FactoryBot.create(:user,
-                           member_in_project: project,
-                           member_through_role: role)
-      }
+                          member_in_project: project,
+                          member_through_role: role)
+      end
 
       context 'with ascending comments' do
         let(:comments_in_reverse) { false }
@@ -155,16 +154,15 @@ describe 'Activity tab', js: true, selenium: true do
         activity_tab.hover_action('1', :quote)
 
         field = WorkPackageEditorField.new work_package_page,
-                                             'comment',
-                                             selector: '.work-packages--activity--add-comment'
+                                           'comment',
+                                           selector: '.work-packages--activity--add-comment'
 
         expect(field.editing?).to be true
 
         # Add our comment
-        quote = field.input_element[:value]
-        expect(quote).to include("> #{initial_comment}")
-        quote << "\nthis is some remark under a quote"
-        field.input_element.set(quote)
+        quote = field.input_element.text
+        expect(quote).to include(initial_comment)
+        field.input_element.base.send_keys "\nthis is some remark under a quote"
         field.submit_by_click
 
         expect(page).to have_selector('.user-comment > .message', count: 3)
@@ -173,14 +171,14 @@ describe 'Activity tab', js: true, selenium: true do
     end
 
     context 'with no permission' do
-      let(:role) {
+      let(:role) do
         FactoryBot.create(:role, permissions: [:view_work_packages])
-      }
-      let(:user) {
+      end
+      let(:user) do
         FactoryBot.create(:user,
-                           member_in_project: project,
-                           member_through_role: role)
-      }
+                          member_in_project: project,
+                          member_through_role: role)
+      end
 
       it 'shows the activities, but does not allow commenting' do
         expect(page).not_to have_selector('.work-packages--activity--add-comment', visible: true)

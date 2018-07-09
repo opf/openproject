@@ -28,42 +28,89 @@
 
 require 'spec_helper'
 
-describe 'messages', type: :feature do
-  let(:user) { FactoryBot.create :admin, firstname: 'Hugo', lastname: 'Hungrig' }
+describe 'messages', type: :feature, js: true do
+  let(:board) { FactoryBot.create(:board) }
+
+  let(:user) do
+    FactoryBot.create :user,
+                      member_in_project: board.project,
+                      member_through_role: role
+  end
+  let(:other_user) do
+    FactoryBot.create :user,
+                      member_in_project: board.project,
+                      member_through_role: role
+  end
+  let(:role) { FactoryBot.create(:role, permissions: [:add_messages]) }
+
+  let(:index_page) { Pages::Messages::Index.new(board.project) }
 
   before do
-    allow(User).to receive(:current).and_return user
+    login_as user
   end
 
-  describe 'quoting' do
-    let(:topic) { FactoryBot.create :message }
-    let!(:reply) do
-      FactoryBot.create :message,
-                         board: topic.board,
-                         parent: topic,
-                         author: user,
-                         subject: 'Go Ahead!',
-                         content: 'You can quote me on this!'
-    end
+  scenario 'adding, checking replies, replying' do
+    index_page.visit!
 
-    before do
-      visit topic_path(topic)
-    end
+    create_page = index_page.click_create_message
 
-    describe 'clicking on quote', js: true do
-      it 'opens the filled-in reply form' do
-        msg = find 'div.reply', text: /Go Ahead!/
-        within(msg) do click_on 'Quote' end
+    create_page.set_subject 'The message is'
+    create_page.click_save
 
-        reply = find '#reply'
-        expect(reply).to be_visible
+    create_page.expect_notification(type: :error, message: 'Content can\'t be blank')
+    create_page.add_text 'There is no message here'
 
-        subject = find '#reply_subject'
-        expect(subject.value).to eq 'RE: Go Ahead!'
+    show_page = create_page.click_save
 
-        content = find '#reply_content'
-        expect(content.value).to eq "Hugo Hungrig wrote:\n> You can quote me on this!\n\n"
-      end
-    end
+    show_page.expect_current_path
+
+    show_page.expect_subject('The message is')
+    show_page.expect_content('There is no message here')
+
+    index_page.visit!
+    index_page.expect_listed(subject: 'The message is',
+                             replies: 0)
+
+    # Replying as other user
+
+    login_as other_user
+
+    show_page.visit!
+    show_page.expect_no_replies
+    reply = show_page.reply 'But, but there should be one'
+
+    show_page.expect_current_path(reply)
+    show_page.expect_num_replies(1)
+
+    show_page.expect_reply(subject: 'RE: The message is',
+                           content: 'But, but there should be one')
+
+    index_page.visit!
+
+    index_page.expect_listed(subject: 'The message is',
+                             replies: 1,
+                             last_message: 'RE: The message is')
+
+    # Quoting as first user again
+    login_as user
+
+    show_page.visit!
+    quote = show_page.quote(quoted_message: reply,
+                            subject: 'And now to something completely different',
+                            content: "No, there really isn't\n\n")
+
+    show_page.expect_current_path(quote)
+
+    show_page.expect_num_replies(2)
+    show_page.expect_reply(reply: quote,
+                           subject: 'And now to something completely different',
+                           content: 'No, there really isn\'t')
+
+    expect(page).to have_selector('blockquote', text: 'But, but there should be one')
+
+    index_page.visit!
+    index_page.expect_listed(subject: 'The message is',
+                             replies: 2,
+                             last_message: 'And now to something completely different')
   end
 end

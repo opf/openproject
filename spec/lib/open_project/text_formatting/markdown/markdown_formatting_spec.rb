@@ -29,7 +29,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::TextFormatting::Formatters::Markdown::Formatter do
+describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
   it 'should modifiers' do
     assert_html_output(
       '**bold**'                => '<strong>bold</strong>',

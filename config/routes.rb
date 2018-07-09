@@ -88,7 +88,6 @@ OpenProject::Application.routes.draw do
   mount API::Root => '/'
 
   get '/roles/workflow/:id/:role_id/:type_id' => 'roles#workflow'
-  get '/help/:ctrl/:page' => 'help#index'
 
   get   '/types/:id/edit/:tab' => "types#edit",
         as: "edit_type_tab"
@@ -493,8 +492,6 @@ OpenProject::Application.routes.draw do
 
   resource :help, controller: :help, only: [] do
     member do
-      get :wiki_syntax
-      get :wiki_syntax_detailed
       get :keyboard_shortcuts
       get :text_formatting
     end

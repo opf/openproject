@@ -124,7 +124,6 @@ describe 'new work package', js: true do
 
     context 'with subject set' do
       it 'creates a basic work package' do
-
         wp_page.description_field.set(description)
 
         save_work_package!
