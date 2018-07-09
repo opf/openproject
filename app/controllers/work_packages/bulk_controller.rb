@@ -36,6 +36,7 @@ class WorkPackages::BulkController < ApplicationController
   include RelationsHelper
   include QueriesHelper
   include IssuesHelper
+  include ::WorkPackages::Shared::UpdateAncestors
 
   def edit
     @available_statuses = @projects.map { |p| Workflow.available_statuses(p) }.inject { |memo, w| memo & w }
@@ -47,6 +48,8 @@ class WorkPackages::BulkController < ApplicationController
 
   def update
     unsaved_work_package_ids = []
+    saved_work_packages = []
+
 
     @work_packages.each do |work_package|
       work_package.reload
@@ -58,10 +61,14 @@ class WorkPackages::BulkController < ApplicationController
 
       call_hook(:controller_work_packages_bulk_edit_before_save, params: params, work_package: work_package)
       JournalManager.send_notification = params[:send_notification] == '0' ? false : true
-      unless work_package.save
+      if work_package.save
+        saved_work_packages << work_package
+      else
         unsaved_work_package_ids << work_package.id
       end
     end
+
+    update_ancestors(saved_work_packages)
     set_flash_from_bulk_save(@work_packages, unsaved_work_package_ids)
     redirect_back_or_default(controller: '/work_packages', action: :index, project_id: @project)
   end
@@ -133,6 +140,10 @@ class WorkPackages::BulkController < ApplicationController
                         total: work_packages.size,
                         ids: '#' + unsaved_work_package_ids.join(', #'))
     end
+  end
+
+  def user
+    current_user
   end
 
   def default_breadcrumb
