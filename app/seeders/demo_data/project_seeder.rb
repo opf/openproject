@@ -45,6 +45,9 @@ module DemoData
         puts '   -Assigning types.'
         set_types(project, key)
 
+        puts '   -Creating categories'
+        seed_categories(project, key)
+
         puts '   -Creating versions.'
         seed_versions(project, key)
 
@@ -106,9 +109,15 @@ module DemoData
       end
     end
 
+    def seed_categories(project, key)
+      Array(I18n.t("seeders.demo_data.projects.#{key}.categories")).each do |cat_name|
+        project.categories.create name: cat_name
+      end
+    end
+
     def seed_news(project, key)
       Array(I18n.t("seeders.demo_data.projects.#{key}")[:news]).each do |news|
-        News.create! project: project, title: news[:title], description: news[:content]
+        News.create! project: project, title: news[:title], summary: news[:summary], description: news[:description]
       end
     end
 
