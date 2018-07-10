@@ -46,12 +46,12 @@ en:
                   We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
                   *Try the following steps:*
-                  !icon-1.png!:https://onboarding.openproject.com/projects/demo-project/members *Invite new members to your project*: -> Go to "Members":https://onboarding.openproject.com/projects/demo-project/members in the project navigation.
-                  !icon-2.png!:https://onboarding.openproject.com/projects/demo-project/work_packages *View the work in your project*: -> Go to "Work packages":https://onboarding.openproject.com/projects/demo-project/work_packages in the project navigation.
-                  !icon-3.png!:https://onboarding.openproject.com/projects/demo-project/work_packages/new *Create a new work package*: -> Go to "Work packages -> Create":https://onboarding.openproject.com/projects/demo-project/work_packages/new.
-                  !icon-4.png!:https://onboarding.openproject.com/projects/demo-project/work_packages?query_id=1 *Create and update a project plan*: -> Go to "Gantt charts":https://onboarding.openproject.com/projects/demo-project/work_packages?query_id=1 in the project navigation.
-                  !icon-5.png!:https://onboarding.openproject.com/projects/demo-project/settings/modules *Activate further modules*: -> Go to "Project settings -> Modules":https://onboarding.openproject.com/projects/demo-project/settings/modules.
-                  !icon-6.png!:https://onboarding.openproject.com/projects/demo-project/work_packages/details/41/overview?query_id=5 *Complete your tasks in the project*: -> Go to "Work packages -> Tasks":https://onboarding.openproject.com/projects/demo-project/work_packages/details/41/overview?query_id=5.
+                  !icon-1.png!:/projects/demo-project/members *Invite new members to your project*: -> Go to "Members":/projects/demo-project/members in the project navigation.
+                  !icon-2.png!:/projects/demo-project/work_packages *View the work in your project*: -> Go to "Work packages":/projects/demo-project/work_packages in the project navigation.
+                  !icon-3.png!:/projects/demo-project/work_packages/new *Create a new work package*: -> Go to "Work packages -> Create":/projects/demo-project/work_packages/new.
+                  !icon-4.png!:/projects/demo-project/work_packages?query_id=1 *Create and update a project plan*: -> Go to "Gantt charts":/projects/demo-project/work_packages?query_id=1 in the project navigation.
+                  !icon-5.png!:/projects/demo-project/settings/modules *Activate further modules*: -> Go to "Project settings -> Modules":/projects/demo-project/settings/modules.
+                  !icon-6.png!:/projects/demo-project/work_packages/details/41/overview?query_id=5 *Complete your tasks in the project*: -> Go to "Work packages -> Tasks":/projects/demo-project/work_packages/details/41/overview?query_id=5.
 
                   Here you will find our "User Guides":https://www.openproject.org/help/.
                   Please let us know if you have any questions or need support. Contact us: "support[at]openproject.com":mailto:support@openproject.com.
@@ -80,13 +80,13 @@ en:
                   We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
                   *Try the following steps:*
-                  !icon-1.png!:https://onboarding.openproject.com/projects/your-scrum-project/members *Invite new members to your project*: -> Go to "Members":https://onboarding.openproject.com/projects/your-scrum-project/members in the project navigation.
-                  !icon-2.png!:https://onboarding.openproject.com/projects/your-scrum-project/backlogs *View your Product backlog and Sprint backlogs*: -> Go to "Backlogs":https://onboarding.openproject.com/projects/your-scrum-project/backlogs in the project navigation.
-                  !icon-3.png!:https://onboarding.openproject.com/projects/your-scrum-project/sprints/38/taskboard *View your Task board*: -> Go to "Backlogs -> Click on right arrow on Sprint -> Select "Task Board":https://onboarding.openproject.com/projects/your-scrum-project/sprints/38/taskboard.
-                  !icon-3.png!:https://onboarding.openproject.com/projects/your-scrum-project/work_packages/new *Create a new work package*: -> Go to "Work packages -> Create":https://onboarding.openproject.com/projects/your-scrum-project/work_packages/new.
-                  !icon-4.png!:https://onboarding.openproject.com/projects/your-scrum-project/work_packages?query_id=67 *Create and update a project plan*: -> Go to "Gantt charts":https://onboarding.openproject.com/projects/your-scrum-project/work_packages?query_id=67 in the project navigation.
-                  !icon-5.png!:https://onboarding.openproject.com/projects/your-scrum-project/wiki/wiki *Create a Sprint wiki*: -> Go to "Backlogs":https://onboarding.openproject.com/projects/your-scrum-project/backlogs and oben the sprint wiki from the right drop down menu in a sprint. You can edit the "wiki template":https://onboarding.openproject.com/projects/your-scrum-project/wiki/ based on your needs.
-                  !icon-6.png!:https://onboarding.openproject.com/projects/your-scrum-project/settings/modules *Activate further modules*: -> Go to "Project settings -> Modules":https://onboarding.openproject.com/projects/your-scrum-project/settings/modules.
+                  !icon-1.png!:/projects/your-scrum-project/members *Invite new members to your project*: -> Go to "Members":/projects/your-scrum-project/members in the project navigation.
+                  !icon-2.png!:/projects/your-scrum-project/backlogs *View your Product backlog and Sprint backlogs*: -> Go to "Backlogs":/projects/your-scrum-project/backlogs in the project navigation.
+                  !icon-3.png!:/projects/your-scrum-project/sprints/38/taskboard *View your Task board*: -> Go to "Backlogs -> Click on right arrow on Sprint -> Select "Task Board":/projects/your-scrum-project/sprints/38/taskboard.
+                  !icon-3.png!:/projects/your-scrum-project/work_packages/new *Create a new work package*: -> Go to "Work packages -> Create":/projects/your-scrum-project/work_packages/new.
+                  !icon-4.png!:/projects/your-scrum-project/work_packages?query_id=67 *Create and update a project plan*: -> Go to "Gantt charts":/projects/your-scrum-project/work_packages?query_id=67 in the project navigation.
+                  !icon-5.png!:/projects/your-scrum-project/wiki/wiki *Create a Sprint wiki*: -> Go to "Backlogs":/projects/your-scrum-project/backlogs and open the sprint wiki from the right drop down menu in a sprint. You can edit the "wiki template":/projects/your-scrum-project/wiki/ based on your needs.
+                  !icon-6.png!:/projects/your-scrum-project/settings/modules *Activate further modules*: -> Go to "Project settings -> Modules":/projects/your-scrum-project/settings/modules.
 
                   Here you will find our "User Guides":https://www.openproject.org/help/.
                   Please let us know if you have any questions or need support. Contact us: "support[at]openproject.com":mailto:support@openproject.com.
