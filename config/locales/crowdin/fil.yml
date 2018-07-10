@@ -321,6 +321,7 @@ fil:
         expires_at: Matapos sa
         subscriber: Taga -subaybay
         encoded_token: Enterprise support token
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Antala
         from: Work package
@@ -373,6 +374,7 @@ fil:
         mail_notification: Mga abiso ng emailba
         new_password: Bagong password
         password_confirmation: Kompirmasyon
+        consented_at: Consented at
       user_preference:
         comments_sorting: Ipakita ang mga komento
         hide_mail: Itago ang aking email adress
@@ -685,11 +687,13 @@ fil:
   button_close: Isara
   button_collapse_all: Bumagsak lahat
   button_configure: I-configure
+  button_continue: Magpatuloy
   button_copy: Kopyahin
   button_copy_and_follow: Kopyahin at sundin
   button_create: Lumikha
   button_create_and_continue: Lumikha at magpatuloy
   button_delete: Burahin
+  button_decline: Decline
   button_delete_watcher: Burahin ang manunuod %{name}
   button_download: I-download
   button_duplicate: Kapareha
@@ -724,6 +728,7 @@ fil:
   button_unlock: I-unlock
   button_unwatch: I-unwatch
   button_update: I-update
+  button_upgrade: Upgrade
   button_upload: I-upload
   button_view: Tingnan
   button_watch: Tumingin
@@ -731,6 +736,23 @@ fil:
   button_add_menu_entry: Magdagdag ng pagpipiliang aytem
   button_configure_menu_entry: I-configure ang pagpipiliang aytem
   button_delete_menu_entry: Burahin ang pagpipiliang aytem
+  consent:
+    checkbox_label: I have noted and do consent to the above.
+    failure_message: Consent failed, cannot proceed.
+    title: User Consent
+    decline_warning_message: You have declined to consent and have been logged out.
+    user_has_consented: User has consented to your configured statement at the given
+      time.
+    not_yet_consented: User has not consented yet, will be requested upon next login.
+    contact_mail_instructions: Define the mail address that users can reach a data
+      controller to perform data change or removal requests.
+    contact_your_administrator: Please contact your administrator if you want to have
+      your account deleted.
+    contact_this_mail_address: Please contact %{mail_address} if you want to have
+      your account deleted.
+    text_update_consent_time: Check this box to force users to consent again. Enable
+      when you have changed the legal aspect of the consent information above.
+    update_consent_last_time: 'Last update of consent: %{update_time}'
   copy_project:
     started: Magsimula kopyahin ang proyekto "%{source_project_name}" sa "%{target_project_name}".
       Pinapaalam ka sa pamamagitan ng mail sa lalong madaling panahon na ang "%{target_project_name}"
@@ -963,6 +985,10 @@ fil:
     na ang mga cookie ay pinagana, bilang aplikasyon na ito ay hindi gumagana ng maayos
     na hindi kasama ang.
   error_custom_option_not_found: Ang opsyon ay hindi umiiral.
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Nabigong burahin ang entry na ito.
   error_invalid_group_by: 'Hindi ma grupo sa pamamagitan ng: %{value}'
   error_invalid_query_column: Hindi balido ang hanay ng query:%{value}
@@ -1145,6 +1171,7 @@ fil:
   label_calendar: Kalendaryo
   label_calendar_show: Ipakita ang kalendaryo
   label_category: Kategorya
+  label_consent_settings: User Consent
   label_wiki_menu_item: Ang aytem ng wiki na pagpipilian
   label_select_main_menu_item: Piliin ang bagong pangunahing pagpipilian aytem
   label_select_project: Pumili ng proyekto
@@ -1234,6 +1261,7 @@ fil:
   label_enumerations: Mga enumerasyon
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edition
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_environment: Kalikasan
   label_estimates_and_time: Mga pagtatantya at oras
   label_equals: ay
@@ -1343,6 +1371,7 @@ fil:
   label_my_page_block: Ang pahinang block
   label_my_projects: Ang mga aking proyekto
   label_my_queries: Ang mga aking custom query
+  label_never: Hindi kailanman
   label_new: Bago
   label_new_statuses_allowed: Pinayagang bagong estado
   label_news_added: Bagong idinagdag
@@ -1681,6 +1710,15 @@ fil:
   mail_subject_reminder: "%{count} work package dahil sa susunod na mga %{days} araw"
   mail_subject_wiki_content_added: Ang '%{id}' wikin pahina ay naidagdag
   mail_subject_wiki_content_updated: "'%{id}' wiking pahina ay naka-update na"
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: Karagdagang functio
   noscript_description: Kailangan mong i-aktibo ang JavaScript upang gamitin sa OpenProject!
   noscript_heading: Ang JavaScript ay hindi pinagana
@@ -2086,6 +2124,10 @@ fil:
   setting_commit_logtime_activity_id: Aktibidad para sa naka-log na oras
   setting_commit_logtime_enabled: Paganahin ang oras ng pag-log
   setting_commit_ref_keywords: Pagsangguni ng mga keyword
+  setting_consent_time: Consent time
+  setting_consent_info: Consent information text
+  setting_consent_required: Consent required
+  setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: Pahintulutan ang cross-project na
     relasyon ng work package
   setting_date_format: Format ng petsa
@@ -2572,6 +2614,7 @@ fil:
       years: Mga taon
   title_remove_and_delete_user: Alisin ang inimbitahan na user mula proyekto at tanggalin
     siya.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_resend_invitation: 'Magpadala ng ibang imbitasyong email kasama ang fresh
     token kung sakali walang bisa na ang lima o ang gumagamit ay hindi kumuha ng orihinak
     na email. Maari rin gamitin para sa aktibing gumagamit upang pumili ng bagong
@@ -2644,6 +2687,22 @@ fil:
     %{configuration}.
   warning: Babala
   warning_attachments_not_saved: "%{count} na(mga) file ay hindi mai-save."
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: Pagpipilian sa mga aytem
   menu_item_setting: Nakikita
   wiki_menu_item_for: Aytem na pagpipilian sa wikipage na "%{title}"

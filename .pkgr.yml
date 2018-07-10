@@ -10,6 +10,8 @@ targets:
     <<: *debian8
   ubuntu-16.04:
     <<: *debian8
+  ubuntu-18.04:
+    <<: *debian8
   centos-7:
    dependencies:
       - epel-release

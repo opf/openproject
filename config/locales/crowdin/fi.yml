@@ -301,6 +301,7 @@ fi:
         expires_at: Vanhenee
         subscriber: Tilaaja
         encoded_token: Enterprise support token
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Viive
         from: Työpaketti
@@ -354,6 +355,7 @@ fi:
         mail_notification: Sähköposti-ilmoitukset
         new_password: Uusi salasana
         password_confirmation: Vahvistus
+        consented_at: Consented at
       user_preference:
         comments_sorting: Näytä kommentit
         hide_mail: Piiloita sähköpostiosoitteeni
@@ -656,11 +658,13 @@ fi:
   button_close: Close
   button_collapse_all: Tiivistä kaikki
   button_configure: Asetukset
+  button_continue: Jatka
   button_copy: Kopioi
   button_copy_and_follow: Kopioi ja seuraa
   button_create: Luo
   button_create_and_continue: Luo ja jatka
   button_delete: Poista
+  button_decline: Decline
   button_delete_watcher: Poista seuraaja %{name}
   button_download: Lataa
   button_duplicate: Kahdenna
@@ -695,6 +699,7 @@ fi:
   button_unlock: Vapauta
   button_unwatch: Älä seuraa
   button_update: Päivitä
+  button_upgrade: Upgrade
   button_upload: Lähetä
   button_view: Näytä
   button_watch: Seuraa
@@ -702,6 +707,23 @@ fi:
   button_add_menu_entry: Lisää valikkovaihtoehto
   button_configure_menu_entry: Muokkaa valikkovaihtoehtoa
   button_delete_menu_entry: Poista valikkovaihtoehto
+  consent:
+    checkbox_label: I have noted and do consent to the above.
+    failure_message: Consent failed, cannot proceed.
+    title: User Consent
+    decline_warning_message: You have declined to consent and have been logged out.
+    user_has_consented: User has consented to your configured statement at the given
+      time.
+    not_yet_consented: User has not consented yet, will be requested upon next login.
+    contact_mail_instructions: Define the mail address that users can reach a data
+      controller to perform data change or removal requests.
+    contact_your_administrator: Please contact your administrator if you want to have
+      your account deleted.
+    contact_this_mail_address: Please contact %{mail_address} if you want to have
+      your account deleted.
+    text_update_consent_time: Check this box to force users to consent again. Enable
+      when you have changed the legal aspect of the consent information above.
+    update_consent_last_time: 'Last update of consent: %{update_time}'
   copy_project:
     started: Projektin "%{source_project_name}" kopiointi uudeksi projektiksi "%{target_project_name}"
       alkoi. Sinulle ilmoitetaan sähköpostitse, kun "%{target_project_name}" on saatavilla.
@@ -927,6 +949,10 @@ fi:
   error_cookie_missing: OpenProject evästeen puuttuu. Varmista, että evästeet ovat
     käytössä, koska tämä sovellus ei toimi oikein ilman evästeitä.
   error_custom_option_not_found: Vaihtoehtoa ei ole olemassa.
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Tämän merkinnän poisto ei onnistunut.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1103,6 +1129,7 @@ fi:
   label_calendar: Kalenteri
   label_calendar_show: Näytä kalenteri
   label_category: Kategoria
+  label_consent_settings: User Consent
   label_wiki_menu_item: Wiki-valikkovaihtoehto
   label_select_main_menu_item: Valitse uusi valikkovaihtoehto päävalikkoon
   label_select_project: Valitse projekti
@@ -1191,6 +1218,7 @@ fi:
   label_enumerations: Lista
   label_enterprise: Yritys
   label_enterprise_edition: Yritysversio
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_environment: Ympäristö
   label_estimates_and_time: Estimates and time
   label_equals: sama kuin
@@ -1300,6 +1328,7 @@ fi:
   label_my_page_block: Minun sivu
   label_my_projects: Omat projektit
   label_my_queries: Omat hakuni
+  label_never: Never
   label_new: Uusi
   label_new_statuses_allowed: Uudet tilat sallittu
   label_news_added: Uutinen lisätty
@@ -1627,6 +1656,15 @@ fi:
   mail_subject_reminder: "%{count} tapahtuma(a) erääntyy %{days} lähipäivinä"
   mail_subject_wiki_content_added: "'%{id}' wiki-sivu on poistettu"
   mail_subject_wiki_content_updated: "'%{id}' Wiki-sivu on päivitetty"
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: Enemmän toimintoja
   noscript_description: You need to activate JavaScript in order to use OpenProject!
   noscript_heading: JavaScript disabled
@@ -2008,6 +2046,10 @@ fi:
   setting_commit_logtime_activity_id: Aktiviteetti kirjatulle ajalle
   setting_commit_logtime_enabled: Mahdollista ajan kirjaaminen
   setting_commit_ref_keywords: Viittaavat hakusanat
+  setting_consent_time: Consent time
+  setting_consent_info: Consent information text
+  setting_consent_required: Consent required
+  setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: Salli projektien väliset työpakettien
     suhteet
   setting_date_format: Päivän muoto
@@ -2459,6 +2501,7 @@ fi:
       years: Years
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
     case the old one expired or the user did not get the original email. Can also
     be used for active users to choose a new authentication method. When used with
@@ -2526,6 +2569,22 @@ fi:
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Warning
   warning_attachments_not_saved: "%{count} tiedostoa ei voitu tallentaa."
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: Menu item
   menu_item_setting: Visibility
   wiki_menu_item_for: Menu item for wikipage "%{title}"

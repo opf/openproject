@@ -310,6 +310,7 @@ de:
         expires_at: Endet am
         subscriber: Abonnent
         encoded_token: Enterprise-Edition Support Token
+        active_user_count_restriction: Maximale aktive Nutzer
       relation:
         delay: Pufferzeit
         from: Arbeitspaket
@@ -362,6 +363,7 @@ de:
         mail_notification: Mailbenachrichtigung
         new_password: Neues Kennwort
         password_confirmation: Bestätigung
+        consented_at: Eingewilligt am
       user_preference:
         comments_sorting: Kommentare anzeigen
         hide_mail: E-Mail-Adresse nicht anzeigen
@@ -674,11 +676,13 @@ de:
   button_close: Schließen
   button_collapse_all: Alle zuklappen
   button_configure: Konfigurieren
+  button_continue: Fortfahren
   button_copy: Kopieren
   button_copy_and_follow: Kopieren und Arbeitspaket anzeigen
   button_create: Anlegen
   button_create_and_continue: Anlegen und weiter
   button_delete: Löschen
+  button_decline: Ablehnen
   button_delete_watcher: Lösche Beobachter %{name}
   button_download: Download
   button_duplicate: Duplizieren
@@ -713,6 +717,7 @@ de:
   button_unlock: Entsperren
   button_unwatch: Nicht beobachten
   button_update: Bearbeiten
+  button_upgrade: Upgraden
   button_upload: Hochladen
   button_view: Anzeigen
   button_watch: Beobachten
@@ -720,6 +725,28 @@ de:
   button_add_menu_entry: Menüpunkt hinzufügen
   button_configure_menu_entry: Menüpunkt verwalten
   button_delete_menu_entry: Menüpunkt entfernen
+  consent:
+    checkbox_label: Ich habe die obigen Angaben zur Kenntnis genommen und erkläre
+      mich einverstanden.
+    failure_message: Einwilligung fehlgeschlagen, kann nicht fortfahren.
+    title: Nutzer-Einwilligung
+    decline_warning_message: Sie haben die Einwilligung abgelehnt und wurden deshalb
+      abgelehnt.
+    user_has_consented: Der Benutzer hat seine Einwilligung zu dem Statement dieser
+      Instanz zu der angegebenen Zeit gegeben.
+    not_yet_consented: Der Benutzer hat seine Einwilligung noch nicht gegeben und
+      wird beim nächsten Login dazu befragt.
+    contact_mail_instructions: Definieren Sie die E-Mail-Adresse, über die Benutzer
+      einen Daten-Controller erreichen können, um Anfragen zu Datenänderung oder -löschung
+      einzureichen.
+    contact_your_administrator: Bitte kontaktieren Sie Ihren Administrator um bspw.
+      eine Löschung Ihres Accounts zu beantragen.
+    contact_this_mail_address: 'Bitte kontaktieren Sie für Datenänderungs- oder Löschanfragen
+      Ihren Administrator unter: %{mail_address}.'
+    text_update_consent_time: Aktivieren Sie dieses Häkchen, um Benutzer erneut zur
+      Einwilligung einer Datenschutz- oder Nutzungserklärung aufzufordern. Aktivieren
+      Sie es immer dann, wenn Sie rechtliche Aspekte der Zustimmung verändert haben.
+    update_consent_last_time: 'Letzte Änderung der Einwilligungsinformationen: %{update_time}'
   copy_project:
     started: Das Kopieren des Projekts "%{source_project_name}" nach "%{target_project_name}"
       wurde gestartet. Sie werden per Mail benachrichtigt, sobald "%{target_project_name}"
@@ -952,6 +979,11 @@ de:
     Cookies aktiviert sind, da diese Applikation ohne aktivierte Cookies nicht korrekt
     funktioniert.
   error_custom_option_not_found: Option ist nicht vorhanden.
+  error_dependent_work_package: 'Fehler in abhängigem Arbeitspaket #%{related_id}
+    %{related_subject}: %{error}'
+  error_enterprise_activation_user_limit: Ihr Konto konnte nicht aktiviert werden
+    (Nutzerlimit erreicht). Bitte kontaktieren Sie Ihren Administrator um Zugriff
+    zu erhalten.
   error_failed_to_delete_entry: Fehler beim Löschen dieses Eintrags.
   error_invalid_group_by: 'Kann nicht gruppieren nach: %{value}'
   error_invalid_query_column: 'Ungültige Filter-Spalte: %{value}'
@@ -1132,6 +1164,7 @@ de:
   label_calendar: Kalender
   label_calendar_show: Kalender anzeigen
   label_category: Kategorie
+  label_consent_settings: Nutzer-Einwilligung
   label_wiki_menu_item: Wiki Menüpunkt
   label_select_main_menu_item: Neuen Hauptmenüpunkt auwählen
   label_select_project: Projekt auswählen
@@ -1206,7 +1239,7 @@ de:
   label_download_plural: "%{count} Downloads"
   label_downloads_abbr: D/L
   label_duplicated_by: Dupliziert durch
-  label_duplicate: Dublikat
+  label_duplicate: Duplikat
   label_duplicates: Duplikat von
   label_edit: Bearbeiten
   label_enable_multi_select: Mehrfachauswahl umschalten
@@ -1221,6 +1254,7 @@ de:
   label_enumerations: Aufzählungen
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise-Edition
+  label_enterprise_active_users: "%{current}/%{limit} gebuchte aktive Nutzer"
   label_environment: Umgebung
   label_estimates_and_time: Schätzungen & Zeit
   label_equals: ist
@@ -1330,6 +1364,7 @@ de:
   label_my_page_block: Bereich "Meine Seite"
   label_my_projects: Meine Projekte
   label_my_queries: Meine Berichte
+  label_never: Nie
   label_new: Neu
   label_new_statuses_allowed: Neuer Status
   label_news_added: Neuigkeit hinzugefügt
@@ -1661,6 +1696,15 @@ de:
     Tagen abgeschlossen werden"
   mail_subject_wiki_content_added: Wiki-Seite '%{id}' hinzugefügt
   mail_subject_wiki_content_updated: Wiki-Seite '%{id}' erfolgreich aktualisiert
+  mail_user_activation_limit_reached:
+    subject: Nutzer aktivierungs Limit erreicht
+    message: |
+      Ein neuer Nutzer (%{email}) versuchte einen Account auf dem von ihnen Verwalteten OpenProject System (%{host}) zu erstellen.
+      Der Nutzer kann seinen Account aufgrund des Nutzer Limits nicht aktivieren.
+    steps:
+      label: 'Folgendes kannst du tuen um dem Nutzer das einloggen zu ermöglichen: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Sprerren oder löschen eines bestehenden Nutzers ([here](users_url))
   more_actions: Weitere Funktionen
   noscript_description: Sie müssen JavaScript aktiveren, um OpenProject nutzen zu
     können!
@@ -2067,6 +2111,10 @@ de:
   setting_commit_logtime_activity_id: Aktivität für die Zeiterfassung
   setting_commit_logtime_enabled: Aktiviere Zeiterfassung
   setting_commit_ref_keywords: Schlüsselwörter (Beziehungen)
+  setting_consent_time: Zeitpunkt der Einwilligung
+  setting_consent_info: Informationen zur Einwilligung
+  setting_consent_required: Einwilligung erforderlich
+  setting_consent_decline_mail: Kontaktadresse bei Rückfragen zur Einwilligung
   setting_cross_project_work_package_relations: Arbeitspaket-Beziehungen zwischen
     Projekten erlauben
   setting_date_format: Datumsformat
@@ -2538,6 +2586,7 @@ de:
       years: Jahre
   title_remove_and_delete_user: Den eingeladenen Benutzer aus dem Projekt entfernen
     und löschen.
+  title_enterprise_upgrade: Upgraden um weitere Nutzer freizuschalten.
   tooltip_resend_invitation: 'Sendet eine weitere Einladungs-Email mit einem neuen
     Token für den Fall, dass das alte Token abgelaufen ist oder der Benutzer nicht
     die ursprüngliche Email erhalten hat. Dies kann auch für aktive Nutzer genutzt
@@ -2609,6 +2658,22 @@ de:
   note_password_login_disabled: Der Passwort-Login wurde per %{configuration} deaktiviert.
   warning: Warnung
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'Du hast dein Nutzerlimit erreicht (%{current}/%{max}
+    active users). Bitte kontaktiere sales@openproject.com um deinen Enterprise Edition
+    Plan upzugraden und weitere Nutzer hinzuzufügen.
+
+'
   menu_item: Menüpunkt
   menu_item_setting: Sichtbarkeit
   wiki_menu_item_for: Menüpunkt für die Wikiseite "%{title}"

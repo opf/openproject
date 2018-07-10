@@ -241,8 +241,8 @@ sk:
       login_verification:
         other: Enter the login %{name} to verify the deletion. Once submitted, you
           will be ask to confirm your password.
-        self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+        self: Zadajte váš login %{name} na overenie odstránenia. Po jeho odoslaní
+          bude potrebné potvrdiť svoje heslo.
     error_inactive_activation_by_mail: 'Váš účet ešte nebol aktivovaný. Ak ho chcete
       aktivovať, kliknite na odkaz, ktorý bol doručený na Vašu e-mailovú adresu.
 
@@ -306,6 +306,7 @@ sk:
         expires_at: Expires at
         subscriber: Subscriber
         encoded_token: Enterprise support token
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Oneskorenie
         from: Pracovný balíček
@@ -358,6 +359,7 @@ sk:
         mail_notification: Upozornenia e-mailom
         new_password: Nové heslo
         password_confirmation: Potvrdenie
+        consented_at: Consented at
       user_preference:
         comments_sorting: Zobraziť komentáre
         hide_mail: Skryť svoju emailovú adresu
@@ -434,7 +436,7 @@ sk:
         inclusion: nie je nastavená na niektorú z povolených hodnôt.
         invalid: je neplatný.
         invalid_url: nie je platnou URL adresou.
-        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
+        invalid_url_scheme: 'nie je podporovaný protokol (povolené: %{allowed_schemes}).'
         less_than_or_equal_to: musí byť menšie alebo rovné ako %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
@@ -673,11 +675,13 @@ sk:
   button_close: Zatvoriť
   button_collapse_all: Zbaliť všetko
   button_configure: Konfigurovať
+  button_continue: Continue
   button_copy: Kopírovať
   button_copy_and_follow: Kopírovať a nasledovať
   button_create: Vytvoriť
   button_create_and_continue: Vytvoriť a pokračovať
   button_delete: Odstrániť
+  button_decline: Decline
   button_delete_watcher: Odobrať pozorovateľa %{name}
   button_download: Prevziať
   button_duplicate: Duplikovať
@@ -712,6 +716,7 @@ sk:
   button_unlock: Odomknúť
   button_unwatch: Prestať pozorovať
   button_update: Aktualizovať
+  button_upgrade: Upgrade
   button_upload: Upload
   button_view: Zobraziť
   button_watch: Začať pozorovať
@@ -719,6 +724,23 @@ sk:
   button_add_menu_entry: Pridať položku menu
   button_configure_menu_entry: Nakonfigurovať položku menu
   button_delete_menu_entry: Odstrániť položku menu
+  consent:
+    checkbox_label: I have noted and do consent to the above.
+    failure_message: Consent failed, cannot proceed.
+    title: User Consent
+    decline_warning_message: You have declined to consent and have been logged out.
+    user_has_consented: User has consented to your configured statement at the given
+      time.
+    not_yet_consented: User has not consented yet, will be requested upon next login.
+    contact_mail_instructions: Define the mail address that users can reach a data
+      controller to perform data change or removal requests.
+    contact_your_administrator: Please contact your administrator if you want to have
+      your account deleted.
+    contact_this_mail_address: Please contact %{mail_address} if you want to have
+      your account deleted.
+    text_update_consent_time: Check this box to force users to consent again. Enable
+      when you have changed the legal aspect of the consent information above.
+    update_consent_last_time: 'Last update of consent: %{update_time}'
   copy_project:
     started: Začalo sa kopírovanie projektu "%{source_project_name}" do projektu "%{target_project_name}".
       Budete informovaní mailom hneď ako bude "%{target_project_name}" k dispozícii.
@@ -971,6 +993,10 @@ sk:
   error_cookie_missing: Chýbajú súbory cookie pre OpenProject. Skontrolujte, či sú
     povolené súbory cookie, nakoľko bez nich táto aplikácia nebude správne fungovať.
   error_custom_option_not_found: Option does not exist.
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1148,6 +1174,7 @@ sk:
   label_calendar: Kalendár
   label_calendar_show: Zobraziť kalendár
   label_category: Kategória
+  label_consent_settings: User Consent
   label_wiki_menu_item: Položka menu wiki
   label_select_main_menu_item: Vyberte novú položku hlavného menu
   label_select_project: Select a project
@@ -1236,6 +1263,7 @@ sk:
   label_enumerations: Výpočet
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edition
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_environment: Prostredie
   label_estimates_and_time: Estimates and time
   label_equals: je
@@ -1345,6 +1373,7 @@ sk:
   label_my_page_block: Blok mojich strán
   label_my_projects: Moje projekty
   label_my_queries: Moje vlastné dopyty
+  label_never: Nikdy
   label_new: Nový
   label_new_statuses_allowed: Nové stavy povolené
   label_news_added: Novinky pridané
@@ -1685,6 +1714,15 @@ sk:
     %{days} dňoch"
   mail_subject_wiki_content_added: Bola pridaná wikistránka '%{id}'
   mail_subject_wiki_content_updated: Wikistránka '%{id}' bola aktualizovaná
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: Ďalšie funkcie
   noscript_description: Musíte aktivovať JavaScript, aby ste mohli používať OpenProject!
   noscript_heading: JavaScript vypnutý
@@ -2074,6 +2112,10 @@ sk:
   setting_commit_logtime_activity_id: Activity for logged time
   setting_commit_logtime_enabled: Enable time logging
   setting_commit_ref_keywords: Referencing keywords
+  setting_consent_time: Consent time
+  setting_consent_info: Consent information text
+  setting_consent_required: Consent required
+  setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: Allow cross-project work package relations
   setting_date_format: Date format
   setting_default_language: Default language
@@ -2531,6 +2573,7 @@ sk:
       years: Roky
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
     case the old one expired or the user did not get the original email. Can also
     be used for active users to choose a new authentication method. When used with
@@ -2600,6 +2643,22 @@ sk:
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Upozornenie
   warning_attachments_not_saved: "%{count} súbor (súborov) nebolo možné uložiť."
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: Položka menu
   menu_item_setting: Viditeľnosť
   wiki_menu_item_for: Položka menu pre wiki "%{title}"
@@ -2650,7 +2709,7 @@ sk:
         or malformed.
       multipart_body_error: Telo žiadosti neobsahuje očakávaný viacnásobné časti.
       multiple_errors: Boli porušené obmedzenia voči viacerým poliam.
-      unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment: Prílohu sa nepodarilo vytvoriť
       render:
         context_not_parsable: Zadaný kontext nie je odkazom na prostriedok.
         unsupported_context: Zadaný prostriedok nie je podporovaný ako kontext.

@@ -75,7 +75,7 @@ hr:
       korisnika.
     label_add_columns: Add columns
     label_add_comment: Dodaj komentar
-    label_add_comment_title: Comment and type @ to notify other people
+    label_add_comment_title: Unesi komentar i upiši @ da obavijestiš druge osobe
     label_add_selected_columns: Dodaj odabrani stupac
     label_added_by: dodao
     label_added_time_by: Dodao %{author} %{age}
@@ -107,7 +107,7 @@ hr:
     label_contains: sadrži
     label_created_on: kreirano
     label_edit_comment: Uredite komentar
-    label_edit_status: Edit the status of the work package
+    label_edit_status: Uredi status radnog paketa
     label_equals: je
     label_expand: Proširiti
     label_expanded: proširen
@@ -223,7 +223,7 @@ hr:
       work_package_belongs_to: This work package belongs to project %{projectname}.
       click_to_switch_context: Open this work package in that project.
       autocompleter:
-        label: Project autocompletion
+        label: Projekt se automatski završava
     text_are_you_sure: Da li ste sigurni?
     types:
       attribute_groups:

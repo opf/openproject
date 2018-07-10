@@ -302,6 +302,7 @@ af:
         expires_at: Expires at
         subscriber: Subscriber
         encoded_token: Enterprise support token
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Vertraag
         from: Werkspakket
@@ -354,6 +355,7 @@ af:
         mail_notification: E-poskennisgewings
         new_password: Nuwe wagwoord
         password_confirmation: Bevestig
+        consented_at: Consented at
       user_preference:
         comments_sorting: Vertoon kommentaar
         hide_mail: Versteek my e-pos adres
@@ -659,11 +661,13 @@ af:
   button_close: Close
   button_collapse_all: Vou almal op
   button_configure: Stel op
+  button_continue: Continue
   button_copy: Kopieer
   button_copy_and_follow: Kopieer en volg
   button_create: Skep
   button_create_and_continue: Skep en gaan voort
   button_delete: Skrap
+  button_decline: Decline
   button_delete_watcher: Verwyder kyker %{name}
   button_download: Laai af
   button_duplicate: Dupliseer
@@ -698,6 +702,7 @@ af:
   button_unlock: Ontsluit
   button_unwatch: Hou op dophou
   button_update: Opdateer
+  button_upgrade: Upgrade
   button_upload: Upload
   button_view: Bekyk
   button_watch: Hou dop
@@ -705,6 +710,23 @@ af:
   button_add_menu_entry: Voeg kieslysitem by
   button_configure_menu_entry: Konfigureer kieslysitem
   button_delete_menu_entry: Skrap kieslysitem
+  consent:
+    checkbox_label: I have noted and do consent to the above.
+    failure_message: Consent failed, cannot proceed.
+    title: User Consent
+    decline_warning_message: You have declined to consent and have been logged out.
+    user_has_consented: User has consented to your configured statement at the given
+      time.
+    not_yet_consented: User has not consented yet, will be requested upon next login.
+    contact_mail_instructions: Define the mail address that users can reach a data
+      controller to perform data change or removal requests.
+    contact_your_administrator: Please contact your administrator if you want to have
+      your account deleted.
+    contact_this_mail_address: Please contact %{mail_address} if you want to have
+      your account deleted.
+    text_update_consent_time: Check this box to force users to consent again. Enable
+      when you have changed the legal aspect of the consent information above.
+    update_consent_last_time: 'Last update of consent: %{update_time}'
   copy_project:
     started: Kopiëring van "%{source_project_name}" na "%{target_project_name}" het
       begin. Jy sal deur epos in kennis gestel word sodra "%{target_project_name}"
@@ -933,6 +955,10 @@ af:
     koekies geaktiveer is, aangesien hierdie toepassing nie behoorlik sal funksioneer
     daarsonder nie.
   error_custom_option_not_found: Option does not exist.
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1113,6 +1139,7 @@ af:
   label_calendar: Kalender
   label_calendar_show: Wys Kalender
   label_category: Kategorie
+  label_consent_settings: User Consent
   label_wiki_menu_item: Wiki kieslysitem
   label_select_main_menu_item: Kies nuwe hoofkieslysitem
   label_select_project: Select a project
@@ -1202,6 +1229,7 @@ af:
   label_enumerations: Lyste
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edition
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_environment: Omgewing
   label_estimates_and_time: Estimates and time
   label_equals: is
@@ -1311,6 +1339,7 @@ af:
   label_my_page_block: My bladsyblok
   label_my_projects: My projekte
   label_my_queries: My pasgemaakte navrae
+  label_never: Never
   label_new: Nuut
   label_new_statuses_allowed: Nuwe statusse toegelaat
   label_news_added: Nuus bygevoeg
@@ -1638,6 +1667,15 @@ af:
   mail_subject_reminder: "%{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: More functions
   noscript_description: You need to activate JavaScript in order to use OpenProject!
   noscript_heading: JavaScript disabled
@@ -2025,6 +2063,10 @@ af:
   setting_commit_logtime_activity_id: Activity for logged time
   setting_commit_logtime_enabled: Enable time logging
   setting_commit_ref_keywords: Referencing keywords
+  setting_consent_time: Consent time
+  setting_consent_info: Consent information text
+  setting_consent_required: Consent required
+  setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: Allow cross-project work package relations
   setting_date_format: Date format
   setting_default_language: Default language
@@ -2479,6 +2521,7 @@ af:
       years: Years
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
     case the old one expired or the user did not get the original email. Can also
     be used for active users to choose a new authentication method. When used with
@@ -2546,6 +2589,22 @@ af:
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Warning
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: Menu item
   menu_item_setting: Sigbaarheid
   wiki_menu_item_for: Kieslysitem vir wikibladsy "%{title}"

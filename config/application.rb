@@ -166,5 +166,9 @@ module OpenProject
     config.active_job.queue_adapter = :delayed_job
 
     config.action_controller.asset_host = OpenProject::Configuration['rails_asset_host']
+
+    def self.root_url
+      Setting.protocol + "://" + Setting.host_name
+    end
   end
 end

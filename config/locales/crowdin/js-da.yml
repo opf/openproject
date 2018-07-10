@@ -52,8 +52,8 @@ da:
     filter:
       description:
         text_open_filter: Åbn dette filter med 'ALT' og pile tasterne.
-        text_close_filter: To select an entry leave the focus for example by pressing
-          enter. To leave without filter select the first (empty) entry.
+        text_close_filter: For at vælge en post forlade fokuset ved at trykke på Enter.
+          For at undlade filterbrug vælg den første (tomme) post.
       noneElement: "(ingen)"
       time_zone_converted:
         two_values: "%{from} - %{to} in your local time."
@@ -70,9 +70,9 @@ da:
     general_text_No: Nej
     general_text_Yes: Ja
     label_activate: Aktiver
-    label_activity_no: Activity entry number %{activityNo}
-    label_activity_with_comment_no: Activity entry number %{activityNo}. Has a user
-      comment.
+    label_activity_no: Aktivitetsindlægsnummer %{activityNo}
+    label_activity_with_comment_no: Aktivitetsindlægsnummer %{activityNo}. Har en
+      brugerkommentar.
     label_add_columns: Add columns
     label_add_comment: Tilføj kommentar
     label_add_comment_title: Comment and type @ to notify other people
@@ -84,7 +84,7 @@ da:
     label_all_work_packages: alle arbejdspakker
     label_and: og
     label_ascending: Stigende
-    label_author: 'Author: %{user}'
+    label_author: 'Forfatter: %{user}'
     label_between: between
     label_board_locked: Låst
     label_board_sticky: Fremhævet
@@ -146,13 +146,13 @@ da:
     label_per_page: 'Per side:'
     label_please_wait: Please wait
     label_visibility_settings: Visibility settings
-    label_quote_comment: Quote this comment
+    label_quote_comment: Citér denne kommentar
     label_reset: Nulstil
     label_remove_columns: Fjern valgte kolonner
     label_save_as: Gem som
     label_select_watcher: Vælg en tilsynsførende...
     label_selected_filter_list: Valgte filtre
-    label_show_attributes: Show all attributes
+    label_show_attributes: Vis alle egenskaber
     label_show_in_menu: Vis siden i menu
     label_sort_by: Sortér efter
     label_sorted_by: sorteret efter
@@ -242,7 +242,7 @@ da:
         nevermind: Nevermind
     watchers:
       label_loading: indlæser iagttagere...
-      label_error_loading: An error occurred while loading the watchers
+      label_error_loading: En fejl opstod under indlæsning af seere
       label_search_watchers: Søg iagttagere
       label_add: Tilføj tilsynsførende
       label_discard: Kassér valg
@@ -418,7 +418,7 @@ da:
         delete: Bulk delete
       button_clear: Ryd
       comment_added: Kommentaren blev tilføjet.
-      comment_send_failed: An error has occurred. Could not submit the comment.
+      comment_send_failed: En fejl opstod. Kunne ikke indsende kommentaren.
       comment_updated: Kommentaren blev opdateret.
       confirm_edit_cancel: Are you sure you want to cancel editing the work package?
       description_filter: Filter
@@ -432,7 +432,7 @@ da:
         format:
           date: "%{attribute} is no valid date - YYYY-MM-DD expected."
         general: Der opstod en fejl.
-      edit_attribute: "%{attribute} - Edit"
+      edit_attribute: "%{attribute}: Redigér"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: Tillad multimarkeringer
       label_disable_multi_select: Slå multimarkeringer fra
@@ -532,8 +532,8 @@ da:
         summary: Table with rows of work package and columns of work package attributes.
         text_inline_edit: Most cells of this table are buttons that activate inline-editing
           functionality of that attribute.
-        text_sort_hint: With the links in the table headers you can sort, group, reorder,
-          remove and add table columns.
+        text_sort_hint: Med linksne i tabeloverskrifterne kan du sortere, gruppere,
+          omarrangere, fjerne og tilføje tabelkolonner.
         text_select_hint: Select boxes should be opened with 'ALT' and arrow keys.
       tabs:
         overview: Overblik

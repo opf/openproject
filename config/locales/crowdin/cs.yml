@@ -129,8 +129,8 @@ cs:
       failed_to_reset_token: 'Nepodařilo se obnovit přístupový token: %{error}'
       notice_reset_token: 'Byl vygenerován nový %{type} token. Váš přístupový token
         je:'
-      token_value_warning: 'Note: This is the only time you will see this token, make
-        sure to copy it now.'
+      token_value_warning: 'Poznámka: Toto je jedinkrát, kdy uvidíte tento token,
+        ujistěte se, že jste si hozkopírovali.'
       no_results_title_text: V současné době nejsou k dispozici žádné přístupové tokeny.
   news:
     index:
@@ -303,6 +303,7 @@ cs:
         expires_at: Vyprší za
         subscriber: Odběratel
         encoded_token: Enterprise support token
+        active_user_count_restriction: Maximální počet aktivních uživatelů
       relation:
         delay: Zpoždění
         from: Pracovní balíček
@@ -355,6 +356,7 @@ cs:
         mail_notification: E-mailová upozornění
         new_password: Nové heslo
         password_confirmation: Potvrzení
+        consented_at: Souhlas udělen
       user_preference:
         comments_sorting: Zobrazit komentáře
         hide_mail: Skrýt svou e-mailovou adresu
@@ -472,7 +474,7 @@ cs:
         query:
           attributes:
             project:
-              error_not_found: not found
+              error_not_found: nenalezeno
             public:
               error_unauthorized: "- The user has no permission to create public queries."
           group_by_hierarchies_exclusive: is mutually exclusive with group by '%{group_by}'.
@@ -483,7 +485,7 @@ cs:
               invalid: The custom field is not valid in the given context.
         relation:
           typed_dag:
-            circular_dependency: The relationship creates a circle of relationships.
+            circular_dependency: Vztah vytvoří cyklický vztah.
           attributes:
             to:
               error_not_found: work package in `to` position not found or not visible
@@ -554,7 +556,7 @@ cs:
             status:
               invalid_on_create: není platný stav pro nové uživatele.
             auth_source:
-              error_not_found: not found
+              error_not_found: nenalezeno
         member:
           principal_blank: Zvolte alespoň jednoho uživatele nebo skupinu.
           role_blank: Vyberte prosím alespoň jednu roli.
@@ -668,11 +670,13 @@ cs:
   button_close: Zavřít
   button_collapse_all: Sbalit vše
   button_configure: Přizpůsobit
+  button_continue: Pokračovat
   button_copy: Kopírovat
   button_copy_and_follow: Kopírovat a pokračovat
   button_create: Vytvořit
   button_create_and_continue: Vytvořit a pokračovat
   button_delete: Odstranit
+  button_decline: Zamítnout
   button_delete_watcher: Odstranit sledujícího %{name}
   button_download: Stáhnout
   button_duplicate: Kopie
@@ -707,6 +711,7 @@ cs:
   button_unlock: Odemknout
   button_unwatch: Přestat sledovat
   button_update: Aktualizovat
+  button_upgrade: Upgradovat
   button_upload: Nahrát
   button_view: Zobrazit
   button_watch: Sledovat
@@ -714,6 +719,22 @@ cs:
   button_add_menu_entry: Přidat položku menu
   button_configure_menu_entry: Konfigurace položky menu
   button_delete_menu_entry: Odstranit položku menu
+  consent:
+    checkbox_label: Zaznamenal(a) jsem a souhlasím s výše uvedeným.
+    failure_message: Souhlas se nezdařil, nelze pokračovat.
+    title: Souhlas uživatele
+    decline_warning_message: Odmítli jste souhlas a byli jste odhlášeni.
+    user_has_consented: Uživatel udělil vámi nastavený souhlas v daném čase.
+    not_yet_consented: Uživatel ještě neudělil souhlas, ale při příštím přihlášení
+      bude vyzván.
+    contact_mail_instructions: Definujte e-mailovou adresu správce údajů, který může
+      vyřídit požadavky na změny v datech nebo žádosti o výmaz.
+    contact_your_administrator: Pokud chcete svůj účet odstranit, obraťte se na správce
+      systému.
+    contact_this_mail_address: Pokud chcete svůj účet odstranit, obraťte se na %{mail_address}.
+    text_update_consent_time: Zaškrtněte toto políčko k vynucení nového souhlasu uživatele.
+      Povolte v případě, že jste změnili právní aspekt souhlasu uvedeného výše.
+    update_consent_last_time: 'Poslední aktualizace souhlasu: %{update_time}'
   copy_project:
     started: Started to copy project "%{source_project_name}" to "%{target_project_name}".
       You will be informed by mail as soon as "%{target_project_name}" is available.
@@ -742,7 +763,7 @@ cs:
     - Dub
     - Kvě
     - Čer
-    - Jul
+    - Červenec
     - Srp
     - Září
     - Říjen
@@ -786,28 +807,28 @@ cs:
         few: about %{count} hours
         many: about %{count} hours
       about_x_months:
-        one: about 1 month
+        one: přibližně 1 měsíc
         other: about %{count} months
         few: about %{count} months
         many: about %{count} months
       about_x_years:
-        one: about 1 year
+        one: přibližně 1 rok
         other: about %{count} years
         few: about %{count} years
         many: about %{count} years
       almost_x_years:
-        one: almost 1 year
+        one: téměř 1 rok
         other: almost %{count} years
         few: almost %{count} years
         many: almost %{count} years
       half_a_minute: půl minuty
       less_than_x_minutes:
-        one: less than a minute
+        one: méně než minutou
         other: less than %{count} minutes
         few: less than %{count} minutes
         many: less than %{count} minutes
       less_than_x_seconds:
-        one: less than 1 second
+        one: méně než 1 sekundou
         other: less than %{count} seconds
         few: less than %{count} seconds
         many: less than %{count} seconds
@@ -827,27 +848,27 @@ cs:
         few: "%{count} minutes"
         many: "%{count} minutes"
       x_months:
-        one: 1 month
+        one: 1 měsíc
         other: "%{count} months"
         few: "%{count} months"
         many: "%{count} months"
       x_seconds:
-        one: 1 second
+        one: 1 sekunda
         other: "%{count} seconds"
         few: "%{count} seconds"
         many: "%{count} seconds"
     units:
       hour:
-        one: hour
+        one: hodina
         other: hours
         few: hours
         many: hours
   default_activity_development: Vývoj
-  default_activity_management: Management
+  default_activity_management: Správa
   default_activity_other: Ostatní
-  default_activity_specification: Specification
+  default_activity_specification: Specifikace
   default_activity_support: Podpora
-  default_activity_testing: Testing
+  default_activity_testing: Testování
   default_color_black: Černá
   default_color_blue: Modrá
   default_color_blue_dark: Modrá (tmavá)
@@ -872,18 +893,18 @@ cs:
   default_status_new: Nové
   default_status_on_hold: Pozastaven
   default_status_rejected: Odmítnutý
-  default_status_scheduled: Scheduled
-  default_status_specified: Specified
-  default_status_tested: Tested
-  default_status_test_failed: Test failed
-  default_status_to_be_scheduled: To be scheduled
+  default_status_scheduled: Naplánováno
+  default_status_specified: Specifikováno
+  default_status_tested: Testováno
+  default_status_test_failed: Test selhal
+  default_status_to_be_scheduled: Bude naplánováno
   default_priority_low: Nízká
   default_priority_normal: Normální
   default_priority_high: Vysoká
   default_priority_immediate: Okamžitá
-  default_project_type_scrum: Scrum team
-  default_project_type_standard: Standard project
-  default_reported_project_status_green: Green
+  default_project_type_scrum: Scrum tým
+  default_project_type_standard: Standardní projekt
+  default_reported_project_status_green: Zelená
   default_reported_project_status_amber: Amber
   default_reported_project_status_red: Červená
   default_role_anonymous: Anonymní
@@ -927,7 +948,7 @@ cs:
   description_my_project: Jste člen
   description_notes: Poznámky
   description_parent_work_package: Nadřazený pracovní balíček aktuálního
-  description_project_scope: Search scope
+  description_project_scope: Rozsah vyhledávání
   description_query_sort_criteria_attribute: Atribut třídění
   description_query_sort_criteria_direction: Směr řazení
   description_search: Vyhledávání
@@ -944,7 +965,8 @@ cs:
         add_groups: Add new attribute groups
         rename_groups: Rename attributes groups
       project_filters:
-        description_html: Upgrade to %{link} to filter and sort on custom fields
+        description_html: Upgradujte na %{link} pro filtrování a řazení ve vlastních
+          polích
   enumeration_activities: Aktivity (sledování času)
   enumeration_work_package_priorities: Priority pracovního balíčku
   enumeration_system_activity: Činnost systému
@@ -963,6 +985,10 @@ cs:
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.
   error_custom_option_not_found: Nastavení neexistuje.
+  error_dependent_work_package: 'Chyba v závislém balíčku #%{related_id} %{related_subject}:
+    %{error}'
+  error_enterprise_activation_user_limit: Váš účet nebyl aktivován (dosažen limit
+    počtu uživatelů). Prosím obraťte se na správce pro získání přístupu.
   error_failed_to_delete_entry: Failed to delete this entry.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1115,40 +1141,41 @@ cs:
   label_attribute: Atribut
   label_attribute_plural: Atributy
   label_auth_source: Režim ověřování
-  label_auth_source_new: New authentication mode
-  label_auth_source_plural: Authentication modes
-  label_authentication: Authentication
+  label_auth_source_new: Nový režim ověřování
+  label_auth_source_plural: Režimy ověřování
+  label_authentication: Ověření
   label_available_project_work_package_categories: Dostupné kategorie pracovních balíčků
   label_available_project_boards: Available boards
   label_available_project_versions: Dostupné verze
   label_available_project_repositories: Dostupné repozitáře
   label_api_documentation: API dokumentace
   label_between: mezi
-  label_blocked_by: blocked by
+  label_blocked_by: zablokoval
   label_blocks: blocks
   label_blog: Blog
-  label_board_locked: Locked
-  label_board_new: New forum
+  label_board_locked: Uzamčeno
+  label_board_new: Nové fórum
   label_board_plural: Diskuse
   label_board_sticky: Sticky
-  label_boolean: Boolean
+  label_boolean: Logická hodnota
   label_branch: Větev
   label_browse: Procházet
   label_bulk_edit_selected_work_packages: Bulk edit selected work packages
   label_calendar: Kalendář
   label_calendar_show: Zobrazit kalendář
   label_category: Kategorie
+  label_consent_settings: Souhlas uživatele
   label_wiki_menu_item: Wiki menu item
   label_select_main_menu_item: Select new main menu item
   label_select_project: Zvolit projekt
   label_required_disk_storage: Required disk storage
   label_send_invitation: Odeslat pozvánku
   label_change_plural: Změny
-  label_change_properties: Change properties
-  label_change_status: Change status
+  label_change_properties: Změnit vlastnosti
+  label_change_status: Změnit stav
   label_change_status_of_user: 'Změnit stav #{username}'
   label_change_view_all: Zobrazit všechny změny
-  label_changes_details: Details of all changes
+  label_changes_details: Detaily všech změn
   label_changeset: Changeset
   label_changeset_id: Changeset ID
   label_changeset_plural: Changesets
@@ -1158,8 +1185,8 @@ cs:
   label_child_element: Child element
   label_chronological_order: In chronological order
   label_close_versions: Close completed versions
-  label_closed_work_packages: closed
-  label_collapse: Collapse
+  label_closed_work_packages: uzavřeno
+  label_collapse: Sbalit
   label_configuration: konfigurace
   label_comment_add: Přidat komentář
   label_comment_added: Komentář byl přidán
@@ -1226,9 +1253,10 @@ cs:
   label_enumerations: Číselníky
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edice
+  label_enterprise_active_users: "%{current}/%{limit} rezervováno aktivních uživatelů"
   label_environment: Prostředí
   label_estimates_and_time: Odhady a čas
-  label_equals: is
+  label_equals: je
   label_example: Příklad
   label_export_to: 'Také k dispozici:'
   label_f_hour: "%{value} hodina"
@@ -1244,7 +1272,7 @@ cs:
   label_filters_toggle: Zobrazit/skrýt filtry
   label_float: Desetinné číslo
   label_folder: Složka
-  label_follows: follows
+  label_follows: sleduje
   label_force_user_language_to_default: Set language of users having a non allowed
     language to default
   label_form_configuration: Form configuration
@@ -1262,8 +1290,8 @@ cs:
   label_history: Historie
   label_home: Domů
   label_in: v
-  label_in_less_than: in less than
-  label_in_more_than: in more than
+  label_in_less_than: za méně než
+  label_in_more_than: za více než
   label_inactive: Neaktivní
   label_incoming_emails: Příchozí e-maily
   label_includes: zahrnuje
@@ -1335,6 +1363,7 @@ cs:
   label_my_page_block: My page block
   label_my_projects: Moje projekty
   label_my_queries: Moje vlastní dotazy
+  label_never: Nikdy
   label_new: Nové
   label_new_statuses_allowed: Nové povolené stavy
   label_news_added: Přidané novinky
@@ -1346,31 +1375,31 @@ cs:
   label_news_view_all: Zobrazit všechny novinky
   label_next: Další
   label_next_week: Příští týden
-  label_no_change_option: "(No change)"
+  label_no_change_option: "(Beze změny)"
   label_no_data: No data to display
   label_nothing_display: Nothing to display
-  label_nobody: nobody
-  label_none: none
+  label_nobody: nikdo
+  label_none: žádný
   label_none_parentheses: "(žádný)"
-  label_not_contains: doesn't contain
-  label_not_equals: is not
+  label_not_contains: neobsahuje
+  label_not_equals: není
   label_notify_member_plural: Email updates
   label_on: 'on'
-  label_open_menu: Open menu
-  label_open_work_packages: open
-  label_open_work_packages_plural: open
+  label_open_menu: Otevřít nabídku
+  label_open_work_packages: otevřít
+  label_open_work_packages_plural: otevřít
   label_optional_description: Popis
-  label_options: Options
+  label_options: Možnosti
   label_other: Ostatní
-  label_overall_activity: Overall activity
-  label_overall_spent_time: Overall spent time
+  label_overall_activity: Celková aktivita
+  label_overall_spent_time: Celkem strávený čas
   label_overview: Přehled
   label_part_of: part of
   label_password_lost: Zapomněli jste heslo?
-  label_password_rule_lowercase: Lowercase
-  label_password_rule_numeric: Numeric Characters
-  label_password_rule_special: Special Characters
-  label_password_rule_uppercase: Uppercase
+  label_password_rule_lowercase: Malá písmena
+  label_password_rule_numeric: Numerické znaky
+  label_password_rule_special: Speciální znaky
+  label_password_rule_uppercase: Velká písmena
   label_path_encoding: Path encoding
   label_pdf_with_descriptions: PDF with Descriptions
   label_per_page: Per page
@@ -1433,8 +1462,8 @@ cs:
   label_repository: Repozitář
   label_repository_root: Repository root
   label_repository_plural: Repozitáře
-  label_required: required
-  label_requires: requires
+  label_required: vyžadováno
+  label_requires: vyžaduje
   label_responsible_for_work_packages: Pracovní balíčky, za které zodpovídám
   label_result_plural: Výsledky
   label_reverse_chronological_order: V obráceném chronologickém pořadí
@@ -1615,8 +1644,8 @@ cs:
   label_keyboard_accesskey: Přístupový klíč
   label_keyboard_shortcut_help_heading: Dostupné klávesové zkratky
   label_keyboard_shortcut_within_project: 'Project related shortcuts:'
-  label_keyboard_shortcut_global_shortcuts: 'Global shortcuts:'
-  label_keyboard_shortcut_some_pages_only: 'Special shortcuts:'
+  label_keyboard_shortcut_global_shortcuts: 'Globální zkratky:'
+  label_keyboard_shortcut_some_pages_only: 'Speciální zkratky:'
   label_keyboard_shortcut_search_global: Globální hledání
   label_keyboard_shortcut_search_project: Vyhledat projekt
   label_keyboard_shortcut_go_my_page: Go to my page
@@ -1648,8 +1677,8 @@ cs:
   macros:
     create_work_package_link:
       errors:
-        no_project_context: Calling create_work_package_link macro from outside project
-          context.
+        no_project_context: Volání create_work_package_link makra z kontextu vnějšího
+          projektu.
         invalid_type: Nenalezen typ s názvem '%{type}' v projektu '%{project}".
       link_name: Nový pracovní balíček
       link_name_type: Nový %{type_name}
@@ -1671,7 +1700,18 @@ cs:
   mail_subject_reminder: "%{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
-  more_actions: More functions
+  mail_user_activation_limit_reached:
+    subject: Dosažen limit aktivace uživatelů
+    message: 'Nový uživatel (%{email}) se pokusil vytvořit účet v prostředí OpenProject
+      spravovaném vámi (%{host}). Uživatel nemůže aktivovat svůj účet, protože bylo
+      dosaženo limitu v počtu uživatelů.
+
+'
+    steps:
+      label: 'Chcete-li umožnit uživateli přihlášení můžete buď: '
+      a: Upgrade plánu plateb ([here](upgrade_url))
+      b: Zamknutí nebo odstranění existujícího uživatele ([here](users_url))
+  more_actions: Další funkce
   noscript_description: You need to activate JavaScript in order to use OpenProject!
   noscript_heading: Javascript zakázán
   noscript_learn_more: Více informací
@@ -1684,8 +1724,8 @@ cs:
   notice_account_invalid_credentials_or_blocked: Invalid user or password or the account
     is blocked due to multiple failed login attempts. If so, it will be unblocked
     automatically in a short time.
-  notice_account_lost_email_sent: An email with instructions to choose a new password
-    has been sent to you.
+  notice_account_lost_email_sent: Byl vám zaslán email s intrukcemi jak si nastavíte
+    nové heslo.
   notice_account_new_password_forced: Vyžadováno nové heslo.
   notice_account_password_expired: Your password expired after %{days} days. Please
     set a new one.
@@ -1696,20 +1736,20 @@ cs:
   notice_account_unknown_email: Neznámý uživatel.
   notice_account_update_failed: Account setting could not be saved. Please have a
     look at your account page.
-  notice_account_updated: Account was successfully updated.
+  notice_account_updated: Účet byl úspěšně změněn.
   notice_account_wrong_password: Chybné heslo
   notice_account_registered_and_logged_in: Welcome, your account has been activated.
     You are logged in now.
   notice_activation_failed: Účet nemohl být aktivován.
   notice_auth_stage_verification_error: Nelze ověřit fázi '%{stage}".
-  notice_auth_stage_wrong_stage: Expected to finish authentication stage '%{expected}',
-    but '%{actual}' returned.
-  notice_auth_stage_error: Authentication stage '%{stage}' failed.
+  notice_auth_stage_wrong_stage: Očekáváno dokončení ověřovací fáze '%{expected}',
+    ale '%{actual}' se vrátil.
+  notice_auth_stage_error: Ověřovací fáze "%{stage}" selhala.
   notice_can_t_change_password: This account uses an external authentication source.
     Impossible to change the password.
   notice_custom_options_deleted: Option '%{option_value}' and its %{num_deleted} occurrences
     were deleted.
-  notice_email_error: An error occurred while sending mail (%{value})
+  notice_email_error: Při odesílání emailu nastala chyba (%{value})
   notice_email_sent: Email zaslán na %{value}
   notice_failed_to_save_work_packages: 'Failed to save %{count} work package(s) on
     %{total} selected: %{ids}.'
@@ -2059,6 +2099,10 @@ cs:
   setting_commit_logtime_activity_id: Aktivita pro odpracovaný čas
   setting_commit_logtime_enabled: Povolit zaznamenávání času
   setting_commit_ref_keywords: Referencing keywords
+  setting_consent_time: Čas souhlasu
+  setting_consent_info: Informační text souhlasu
+  setting_consent_required: Souhlas vyžadován
+  setting_consent_decline_mail: Kontaktní e-mailová adresa pro souhlas
   setting_cross_project_work_package_relations: Allow cross-project work package relations
   setting_date_format: Formát data
   setting_default_language: Výchozí jazyk
@@ -2516,6 +2560,7 @@ cs:
       years: Roky
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
+  title_enterprise_upgrade: Upgradujte pro odemčení více uživatelů.
   tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
     case the old one expired or the user did not get the original email. Can also
     be used for active users to choose a new authentication method. When used with
@@ -2577,13 +2622,29 @@ cs:
     status_change: Status change
     unlock: Odemknout
     unlock_and_reset_failed_logins: Odemknout a resetovat nezdařené přihlášení
-  version_status_closed: closed
+  version_status_closed: uzavřeno
   version_status_locked: uzamčeno
-  version_status_open: open
+  version_status_open: otevřít
   note: Poznámka
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Varování
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'Limit počtu uživatelů (%{current}/%{max}
+    aktivních uživatelů) dosažen. Prosím kontaktujte sales@openproject.com a upgradujte
+    vaši Enterprise Edition a přidejte další uživatele.
+
+'
   menu_item: Položka nabídky
   menu_item_setting: Viditelnost
   wiki_menu_item_for: Položka nabídky pro stránku wiki "%{title}"

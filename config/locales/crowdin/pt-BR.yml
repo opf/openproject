@@ -300,6 +300,7 @@ pt-BR:
         expires_at: Expira em
         subscriber: Assinante
         encoded_token: Token de suporte Enterprise
+        active_user_count_restriction: Máximo de usuários ativos
       relation:
         delay: Atraso
         from: Pacote de trabalho
@@ -352,6 +353,7 @@ pt-BR:
         mail_notification: Notificações por e-mail
         new_password: Nova senha
         password_confirmation: Confirmação
+        consented_at: Consentido em
       user_preference:
         comments_sorting: Exibir comentários
         hide_mail: Ocultar meu endereço de e-mail
@@ -658,11 +660,13 @@ pt-BR:
   button_close: Fechar
   button_collapse_all: Recolher todos
   button_configure: Configurar
+  button_continue: Continuar
   button_copy: Copiar
   button_copy_and_follow: Copiar e seguir
   button_create: Criar
   button_create_and_continue: Criar e continuar
   button_delete: Excluir
+  button_decline: Recusar
   button_delete_watcher: Excluir observador %{name}
   button_download: Baixar
   button_duplicate: Duplicar
@@ -697,6 +701,7 @@ pt-BR:
   button_unlock: Desbloquear
   button_unwatch: Não observar
   button_update: Atualizar
+  button_upgrade: Atualizar
   button_upload: Carregar
   button_view: Ver
   button_watch: Observar
@@ -704,6 +709,23 @@ pt-BR:
   button_add_menu_entry: Adicionar item de menu
   button_configure_menu_entry: Configurar item de menu
   button_delete_menu_entry: Excluir item de menu
+  consent:
+    checkbox_label: Eu li e concordo com o exposto acima.
+    failure_message: Consentimento falhou, não pode continuar.
+    title: Consentimento do usuário
+    decline_warning_message: Você se recusou a consentir e foi desconectado.
+    user_has_consented: Usuário consentiu no momento determinado.
+    not_yet_consented: Usuário ainda não consentiu, será solicitado no próximo login.
+    contact_mail_instructions: Defina o endereço de e-mail que os usuários devem utilizar
+      para solicitar alteração ou remoção de dados.
+    contact_your_administrator: Por favor, entre em contato com o administrador se
+      quiser ter sua conta excluída.
+    contact_this_mail_address: Por favor, entre em contato com %{mail_address} se
+      quiser ter sua conta excluída.
+    text_update_consent_time: Marque esta caixa para forçar os usuários a consentir
+      novamente. Ative quando você alterar o aspecto legal da informação de consentimento
+      acima.
+    update_consent_last_time: 'Última atualização do consentimento: %{update_time}'
   copy_project:
     started: A cópia de "%{source_project_name}" para "%{target_project_name}" foi
       iniciada. Você será informado por email tão logo "%{target_project_name}" estiver
@@ -934,6 +956,10 @@ pt-BR:
   error_cookie_missing: Está faltando o cookie do OpenProject. Por favor, certifique-se
     de que os cookies estão habilitados, sem os quais esta função não funcionará adequadamente.
   error_custom_option_not_found: A opção não existe.
+  error_dependent_work_package: 'Erro no pacote de trabalho dependente #%{related_id}
+    %{related_subject}: %{error}'
+  error_enterprise_activation_user_limit: Sua conta não pôde ser ativada (limite de
+    usuários atingido). Por favor, contate o administrador para obter acesso.
   error_failed_to_delete_entry: Falha ao excluir esta entrada.
   error_invalid_group_by: 'Não é possível agrupar por: %{value}'
   error_invalid_query_column: 'Coluna de consulta inválida: %{value}'
@@ -1112,6 +1138,7 @@ pt-BR:
   label_calendar: Calendário
   label_calendar_show: Mostrar Calendário
   label_category: Categoria
+  label_consent_settings: Consentimento do usuário
   label_wiki_menu_item: Item do menu wiki
   label_select_main_menu_item: Selecione novo item do menu principal
   label_select_project: Selecionar um projeto
@@ -1201,6 +1228,7 @@ pt-BR:
   label_enumerations: Enumerações
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edition
+  label_enterprise_active_users: "%{current}/%{limit} usuários ativos reservados"
   label_environment: Ambiente
   label_estimates_and_time: Estimativas e tempo
   label_equals: é
@@ -1310,6 +1338,7 @@ pt-BR:
   label_my_page_block: Meu bloco de página
   label_my_projects: Meus projetos
   label_my_queries: Minhas consultas personalizadas
+  label_never: Nunca
   label_new: Novo
   label_new_statuses_allowed: Novas situações permitidas
   label_news_added: Notícia adicionada
@@ -1642,6 +1671,15 @@ pt-BR:
     dias:"
   mail_subject_wiki_content_added: página de wiki '%{id}' foi adicionada
   mail_subject_wiki_content_updated: página de wiki '%{id}' foi atualizada
+  mail_user_activation_limit_reached:
+    subject: Limite de ativação de usuários atingido
+    message: "Um novo usuário (%{email}) tentou criar uma conta em um ambiente do
+      OpenProject que você gerencia (%{host}). \nO usuário não conseguiu ativar sua
+      conta pois o limite máximo de usuários foi atingido.\n"
+    steps:
+      label: 'Para permitir que o usuário entre você pode: '
+      a: Atualizar seu plano de pagamento ([here](upgrade_url))
+      b: Bloquear ou excluir um usuário existente ([here](users_url))
   more_actions: Mais funções
   noscript_description: Você precisa ativar o JavaScript para usar o OpenProject!
   noscript_heading: JavaScript desativado
@@ -2036,6 +2074,10 @@ pt-BR:
   setting_commit_logtime_activity_id: Atividades durante o tempo conectado
   setting_commit_logtime_enabled: Habilitar registro do tempo
   setting_commit_ref_keywords: Palavras-chave de referência
+  setting_consent_time: Data de consentimento
+  setting_consent_info: Texto de informações de consentimento
+  setting_consent_required: Consentimento necessário
+  setting_consent_decline_mail: E-mail de contato do consentimento
   setting_cross_project_work_package_relations: Permitir relações de pacote de trabalho
     entre projetos
   setting_date_format: Formato da data
@@ -2505,6 +2547,7 @@ pt-BR:
       quarters: Trimestres
       years: Anos
   title_remove_and_delete_user: Remover o usuário convidado do projeto e excluí-lo.
+  title_enterprise_upgrade: Atualizar para desbloquear mais usuários.
   tooltip_resend_invitation: 'Envia outro e-mail de convite com um novo token, caso
     o antigo tenha expirado ou o usuário não tenha recebido o e-mail original. Também
     pode ser usado para que usuários ativos escolham um novo método de autenticação.
@@ -2572,6 +2615,22 @@ pt-BR:
   note_password_login_disabled: Login senha foi desativado pelo %{configuration}.
   warning: Aviso
   warning_attachments_not_saved: "%{count} arquivo(s) não pôde(m) ser salvo(s)."
+  warning_imminent_user_limit: 'Você convidou usuários além do que é suportado pelo
+    seu plano atual. Usuários convidados podem não ser capazes de participar de seu
+    ambiente OpenProject. Por favor, <a href="%{upgrade_url}">atualize seu plano</a>
+    ou bloqueie usuários existentes a fim de permitir que convidados possam registrar-se.
+
+'
+  warning_user_limit_reached: 'Atingido o limite de usuários. Você não pode ativar
+    mais nenhum usuário. <a href="%{upgrade_url}">Atualize seus plano</a> ou bloqueie
+    a adição de novos usuários.
+
+'
+  warning_user_limit_reached_instructions: 'Você atingiu seu limite de usuários (%{current}/%{max}
+    usuários ativos). Entre em contato com sales@openproject.com para atualizar seu
+    plano Enterprise Edition e adicionar novos usuários.
+
+'
   menu_item: Item de menu
   menu_item_setting: Visibilidade
   wiki_menu_item_for: Item de menu para página wiki "%{title}"

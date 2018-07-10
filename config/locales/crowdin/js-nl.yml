@@ -76,7 +76,8 @@ nl:
       gebruikerscommentaar.
     label_add_columns: Kolommen toevoegen
     label_add_comment: Commentaar toevoegen
-    label_add_comment_title: Comment and type @ to notify other people
+    label_add_comment_title: Plaats een opmerking en gebruik het @-teken om anderen
+      te informeren
     label_add_selected_columns: Geselecteerde kolommen toevoegen
     label_added_by: toegevoegd door
     label_added_time_by: Toegevoegd door %{author} %{age}
@@ -108,7 +109,7 @@ nl:
     label_contains: bevat
     label_created_on: gecreëerd op
     label_edit_comment: Deze opmerking bewerken
-    label_edit_status: Edit the status of the work package
+    label_edit_status: De status van het werkpakket bewerken
     label_equals: is
     label_expand: Uitbreiden
     label_expanded: uitgebreid
@@ -225,7 +226,7 @@ nl:
       work_package_belongs_to: Dit werkpakket behoort tot project %{projectname}.
       click_to_switch_context: Open dit werkpakket in dat project.
       autocompleter:
-        label: Project autocompletion
+        label: Project auto aanvullen
     text_are_you_sure: Weet u het zeker?
     types:
       attribute_groups:
@@ -319,14 +320,15 @@ nl:
     timelines:
       gantt_chart: Gantt-grafiek
       labels:
-        bar: Bar labels
+        bar: Bar etiketten
         left: Linkerkant
         right: Rechterkant
         farRight: Uiterst rechts
-        showNone: "-- No label --"
-        description: 'Select the attributes you want to be shown in the respective
-          positions of the Gantt chart at all times. Note that when hovering an element,
-          its date labels will be shown instead of these attributes.
+        showNone: "--Geen label--"
+        description: 'Selecteer de kenmerken die u wilt te allen tijde in de respectieve
+          standpunten van het Gantt-diagram worden weergegeven. Merk op dat wanneer
+          u over een element zweeft, de datumlabels worden weergegeven in plaats van
+          deze kenmerken.
 
 '
       button_activate: Activeren van de tijdlijnmodus
@@ -620,10 +622,10 @@ nl:
     units:
       workPackage:
         one: werkpakket
-        other: work packages
+        other: werkpakketten
       child_work_packages:
         one: één onderliggend werkpakket
-        other: "%{count} work package children"
+        other: "%{count} werkpakket kinderen"
       hour:
         one: "%{count} uur"
         other: "%{count} uren"

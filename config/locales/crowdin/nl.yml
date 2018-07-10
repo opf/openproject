@@ -126,11 +126,11 @@ nl:
       no_results_content_text: Een lid toevoegen aan het project
   my:
     access_token:
-      failed_to_reset_token: 'Failed to reset access token: %{error}'
-      notice_reset_token: 'A new %{type} token has been generated. Your access token
+      failed_to_reset_token: 'Reset-toegangstoken mislukt: %{error}'
+      notice_reset_token: 'Een nieuwe %{type} -token is gegenereerd. Uw toegangstoken
         is:'
-      token_value_warning: 'Note: This is the only time you will see this token, make
-        sure to copy it now.'
+      token_value_warning: 'Opmerking: Dit is de enige keer dat u dit token ziet,
+        zorg ervoor dat u het nu kopiëren.'
       no_results_title_text: Er zijn momenteel geen toegangstokens beschikbaar.
   news:
     index:
@@ -240,10 +240,10 @@ nl:
           kiest om een gebruiker van deze toepassing opnieuw te worden, kan je dus
           met behulp van de middelen deze toepassing verleent.
       login_verification:
-        other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
-        self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+        other: Voer de login- %{name} ter controle voor de verwijdering. Zodra deze
+          is ingegeven, zal u worden gevraagd uw wachtwoord te bevestigen.
+        self: Voer uw login- %{name} ter controle voor de verwijdering. Zodra deze
+          is ingegeven, zal u worden gevraagd uw wachtwoord te bevestigen.
     error_inactive_activation_by_mail: 'Uw account is nog niet geactiveerd. Klik op
       de link in de u toegestuurde mail om uw account te activeren.
 
@@ -308,6 +308,7 @@ nl:
         expires_at: Verloopt op
         subscriber: Abonnee
         encoded_token: Enterprise ondersteuningstoken
+        active_user_count_restriction: Maximum aantal actieve gebruikers
       relation:
         delay: Vertraging
         from: Werkpakket
@@ -334,7 +335,7 @@ nl:
         relations_of_type_column: "%{type} betrekkingen"
         group_by: Groepeer resultaten op
         filters: Filters
-        timeline_labels: Timeline labels
+        timeline_labels: Tijdlijn etiketten
       repository:
         url: URL
       role:
@@ -360,6 +361,7 @@ nl:
         mail_notification: E-mailnotificaties
         new_password: Nieuw wachtwoord
         password_confirmation: Bevestiging
+        consented_at: Ingestemd op
       user_preference:
         comments_sorting: Toon reacties
         hide_mail: Verberg mijn e-mailadres
@@ -434,8 +436,8 @@ nl:
         greater_than_or_equal_to_start_date: moet groter of gelijk zijn aan startdatum.
         inclusion: is niet ingesteld op één van de toegestane waarden.
         invalid: is ongeldig.
-        invalid_url: is not a valid URL.
-        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
+        invalid_url: is geen geldige URL.
+        invalid_url_scheme: 'is geen ondersteunde protocol (toegestaan: %{allowed_schemes}).'
         less_than_or_equal_to: moet kleiner zijn dan of gelijk aan %{count}.
         not_a_date: is geen geldige datum.
         not_a_datetime: is geen geldige datum tijd.
@@ -490,7 +492,7 @@ nl:
               invalid: Het aangepaste veld is niet geldig in deze context.
         relation:
           typed_dag:
-            circular_dependency: The relationship creates a circle of relationships.
+            circular_dependency: De relatie wordt gemaakt van een kring van relaties.
           attributes:
             to:
               error_not_found: werkpakket in positie `naar` niet gevonden of niet
@@ -667,11 +669,13 @@ nl:
   button_close: Sluiten
   button_collapse_all: Alles inklappen
   button_configure: Configureer
+  button_continue: Ga verder
   button_copy: Kopieer
   button_copy_and_follow: Kopiëren en volg
   button_create: Maken
   button_create_and_continue: Aanmaken en doorgaan
   button_delete: Verwijderen
+  button_decline: Weigeren
   button_delete_watcher: Verwijderen van watcher %{name}
   button_download: Downloaden
   button_duplicate: Dupliceren
@@ -686,7 +690,7 @@ nl:
   button_login: Inloggen
   button_move: Verplaatsen
   button_move_and_follow: Verplaatsen en volgen
-  button_print: Print
+  button_print: Afdrukken
   button_quote: Citeer
   button_remove: Verwijder
   button_remove_widget: Widget verwijderen
@@ -706,6 +710,7 @@ nl:
   button_unlock: Ontgrendelen
   button_unwatch: Niet meer volgen
   button_update: Bijwerken
+  button_upgrade: Upgrade
   button_upload: Upload
   button_view: Toon
   button_watch: Volgen
@@ -713,6 +718,25 @@ nl:
   button_add_menu_entry: Menu-item toevoegen
   button_configure_menu_entry: Menu-item configureren
   button_delete_menu_entry: Menu-item verwijderen
+  consent:
+    checkbox_label: Ik heb kennis genomen van en stemt in met het bovenstaande.
+    failure_message: Toestemming mislukt, kan niet doorgaan.
+    title: Gebruikers toestemming
+    decline_warning_message: U heeft de toestemming geweigerd en bent uitgelogd.
+    user_has_consented: Gebruiker heeft ingestemd met de geconfigureerde instructie
+      op het gegeven moment.
+    not_yet_consented: Gebruiker nog niet heeft toegestemd en zal worden herinnert
+      bij de volgende login.
+    contact_mail_instructions: Definieer het mail-adres waar gebruikers een gegevensbeheerder
+      op kunnen bereiken voor verzoeken om gegevens te wijzigen of te verwijderen.
+    contact_your_administrator: Neem contact op met uw beheerder als u wilt dat uw
+      account wordt verwijderd.
+    contact_this_mail_address: Neem contact op met %{mail_address} als u wilt dat
+      uw account wordt verwijderd.
+    text_update_consent_time: Schakel dit selectievakje in als u wilt afdwingen dat
+      gebruikers opnieuw toestemmen. Schakel deze in als u het juridische aspect van
+      de toestemming van bovenstaande informatie hebt gewijzigd.
+    update_consent_last_time: 'Laatste update van toestemming: %{update_time}'
   copy_project:
     started: Begonnen met project "%{source_project_name}" te kopiëren naar "%{target_project_name}".
       U wordt zo spoedig mogelijk per email op de hoogte gesteld wanneer "%{target_project_name}"
@@ -720,7 +744,7 @@ nl:
     failed: Kan project niet kopiëren %{source_project_name}
     succeeded: Gemaakte project %{target_project_name}
     errors: Fout
-    project_custom_fields: Custom fields on project
+    project_custom_fields: Aangepaste velden in het project
     text:
       failed: Kan project "%{target_project_name}" project "%{source_project_name}"
         niet kopiëren.
@@ -922,7 +946,8 @@ nl:
         add_groups: Toevoegen van nieuwe attribuutgroepen
         rename_groups: Attribuutgroepen hernoemen
       project_filters:
-        description_html: Upgrade to %{link} to filter and sort on custom fields
+        description_html: Upgrade naar %{link} om te filteren en sorteren op basis
+          van aangepaste velden
   enumeration_activities: Activiteiten (tijdregistratie)
   enumeration_work_package_priorities: Werkpakket prioriteiten
   enumeration_system_activity: Systeemactiviteit
@@ -943,6 +968,10 @@ nl:
   error_cookie_missing: De cookie voor OpenProject ontbreekt. Zorg ervoor dat cookies
     zijn ingeschakeld aangezien deze toepassing anders niet goed zal functioneren.
   error_custom_option_not_found: Optie bestaat niet.
+  error_dependent_work_package: 'Fout in afhankelijke werkpakket #%{related_id} %{related_subject}:
+    %{error}'
+  error_enterprise_activation_user_limit: Uw account kon niet worden geactiveerd (gebruikerslimiet
+    bereikt). Neem contact op met uw beheerder om toegang te krijgen.
   error_failed_to_delete_entry: Fout bij het verwijderen van deze ingave.
   error_invalid_group_by: 'Kan niet groeperen op: %{value}'
   error_invalid_query_column: 'Ongeldige zoekopdracht kolom: %{value}'
@@ -1037,7 +1066,7 @@ nl:
       boards: Gemeenschapsforum
       newsletter: Beveiligingswaarschuwingen / nieuwsbrief
   links:
-    configuration_guide: Configuration guide
+    configuration_guide: Configuratiegids
   instructions_after_registration: U kan inloggen zodra uw account geactiveerd is
     door te klikken op %{signin}.
   instructions_after_logout: U kan terug inloggen door op %{signin} te klikken.
@@ -1119,11 +1148,12 @@ nl:
   label_calendar: Agenda
   label_calendar_show: Agenda weergeven
   label_category: Categorie
+  label_consent_settings: Gebruikers toestemming
   label_wiki_menu_item: Wiki menu-item
   label_select_main_menu_item: Selecteer nieuwe hoofdmenu-item
   label_select_project: Selecteer een project
   label_required_disk_storage: Vereiste schijfruimte
-  label_send_invitation: Send invitation
+  label_send_invitation: Verstuur uitnodiging
   label_change_plural: Wijzigingen
   label_change_properties: Eigenschappen wijzigen
   label_change_status: Status wijzigen
@@ -1208,6 +1238,7 @@ nl:
   label_enumerations: Opsommingen
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edition
+  label_enterprise_active_users: "%{current}/%{limit} gereserveerd actieve gebruikers"
   label_environment: Omgeving
   label_estimates_and_time: Schattingen en tijden
   label_equals: is
@@ -1223,7 +1254,7 @@ nl:
   label_file_plural: Bestanden
   label_filter_add: Filter toevoegen
   label_filter_plural: Filters
-  label_filters_toggle: Show/hide filters
+  label_filters_toggle: Filter tonen/verbergen
   label_float: Zwevend
   label_folder: Map
   label_follows: volgt
@@ -1277,7 +1308,7 @@ nl:
   label_less_than_ago: minder dan dagen geleden
   label_list: Lijst
   label_loading: Laden...
-  label_lock_user: Lock user
+  label_lock_user: Gebruiker vergrendelen
   label_logged_as: Ingelogd als
   label_login: Inloggen
   label_custom_logo: Eigen logo
@@ -1317,6 +1348,7 @@ nl:
   label_my_page_block: Mijn pagina blok
   label_my_projects: Mijn projecten
   label_my_queries: Mijn aangepaste query 's
+  label_never: Nooit
   label_new: Nieuw
   label_new_statuses_allowed: Nieuwe statussen toegestaan
   label_news_added: Nieuws toegevoegd
@@ -1386,8 +1418,8 @@ nl:
   label_projects_storage_information: "%{count} projecten die %{storage}-schijfopslag
     gebruiken"
   label_project_view_all: Bekijk alle projecten
-  label_project_show_details: Show project details
-  label_project_hide_details: Hide project details
+  label_project_show_details: Toon project details
+  label_project_hide_details: Verberg project details
   label_public_projects: Publieke projecten
   label_query_new: Nieuwe query
   label_query_plural: Aangepaste query 's
@@ -1527,7 +1559,7 @@ nl:
   label_wiki_dont_show_menu_item: Deze wiki pagina niet weergeven in projectnavigatie
   label_wiki_edit: Wiki bewerken
   label_wiki_edit_plural: Wiki bewerkingen
-  label_wiki_page_attachments: Wiki page attachments
+  label_wiki_page_attachments: Wiki pagina bijlagen
   label_wiki_page_id: Wikipagina ID
   label_wiki_navigation: Wiki navigatie
   label_wiki_page: Wikipagina
@@ -1627,11 +1659,11 @@ nl:
   macros:
     create_work_package_link:
       errors:
-        no_project_context: Calling create_work_package_link macro from outside project
+        no_project_context: Create_work_package_link macro aanroepen buitenom de project
           context.
-        invalid_type: No type found with name '%{type}' in project '%{project}'.
+        invalid_type: Geen type gevonden met de naam '%{type}' in het project '%{project}'.
       link_name: Nieuw werkpakket
-      link_name_type: New %{type_name}
+      link_name_type: Nieuwe %{type_name}
   mail:
     actions: Acties
   mail_body_account_activation_request: 'Een nieuwe gebruiker (%{value}) heeft zich
@@ -1654,6 +1686,17 @@ nl:
     dagen"
   mail_subject_wiki_content_added: "'%{id}' wikipagina is toegevoegd"
   mail_subject_wiki_content_updated: "'%{id}' wikipagina is bijgewerkt"
+  mail_user_activation_limit_reached:
+    subject: Activering gebruikerslimiet bereikt
+    message: 'Een nieuwe gebruiker (%{email}) heeft geprobeerd om een account in een
+      OpenProject omgeving dat u beheerd (%{host}) te maken. De gebruiker kan het
+      account niet activeren omdat het maximum aantal gebruikers is bereikt.
+
+'
+    steps:
+      label: 'Als u wilt dat de gebruiker ja inloggen kunt in u: '
+      a: Upgrade uw abbonement ([here](upgrade_url))
+      b: Vergrendelen of verwijderen van een bestaande gebruiker ([here](users_url))
   more_actions: Meer functies
   noscript_description: U moet JavaScript activeren om OpenProject te kunnen gebruiken!
   noscript_heading: JavaScript uitgeschakeld
@@ -1685,10 +1728,10 @@ nl:
   notice_account_registered_and_logged_in: Welkom, uw acount is geactiveerd. U bent
     nu ingelogd.
   notice_activation_failed: Het account kon niet worden geactiveerd.
-  notice_auth_stage_verification_error: Could not verify stage '%{stage}'.
-  notice_auth_stage_wrong_stage: Expected to finish authentication stage '%{expected}',
-    but '%{actual}' returned.
-  notice_auth_stage_error: Authentication stage '%{stage}' failed.
+  notice_auth_stage_verification_error: Fase '%{stage}' kan niet worden geverifieerd.
+  notice_auth_stage_wrong_stage: Verwacht om verificatie fase '%{expected}' af te
+    ronden, maar '%{actual}' terug.
+  notice_auth_stage_error: Verificatie fase '%{stage}' is mislukt.
   notice_can_t_change_password: Dit account gebruikt een externe verificatie bron.
     Het is onmogelijk om het wachtwoord te wijzigen.
   notice_custom_options_deleted: Optie '%{option_value}' en zijn %{num_deleted} exemplaren
@@ -1719,7 +1762,7 @@ nl:
   notice_not_authorized: U bent niet gemachtigd om deze pagina te openen.
   notice_not_authorized_archived_project: Het project dat u probeert te bezoeken is
     gearchiveerd.
-  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
+  notice_password_confirmation_failed: Uw wachtwoord is niet correct. Kan niet doorgaan.
   notice_principals_found_multiple: Er zijn %{number} resultaten gevonden.   Tab om
     het eerste resultaat te tonen.
   notice_principals_found_single: Er is één resultaat. Tab om te tonen.
@@ -1734,7 +1777,7 @@ nl:
   notice_unable_delete_version: Niet in staat om versie te verwijderen.
   notice_user_missing_authentication_method: Gebruiker dient nog een wachtwoord te
     kiezen of een andere manier om in te loggen te bepalen.
-  notice_user_invitation_resent: An invitation has been sent to %{email}.
+  notice_user_invitation_resent: Een nieuwe uitnodiging is verstuurd naar %{email}.
   present_access_key_value: 'Uw %{key_name} is: %{value}'
   notice_automatic_set_of_standard_type: Standaardtype automatisch ingesteld.
   notice_logged_out: U bent uitgelogd.
@@ -1870,12 +1913,12 @@ nl:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
-    active_or_archived: Active or archived
+    active_or_archived: Actieve of gearchiveerde
     assigned_to_role: Werknemer's rol
     member_of_group: Werknemer's groep
     assignee_or_group: Toegekend aan of hoort bij groep
     subproject_id: Subproject
-    name_or_identifier: Name or identifier
+    name_or_identifier: Naam of id
   repositories:
     at_identifier: op %{identifier}
     atom_revision_feed: Atom wijzigingsfeed
@@ -2048,6 +2091,10 @@ nl:
   setting_commit_logtime_activity_id: Activiteit voor geregistreerde tijd
   setting_commit_logtime_enabled: Tijd-logboekregistratie inschakelen
   setting_commit_ref_keywords: Refererende trefwoorden
+  setting_consent_time: Toestemming tijd
+  setting_consent_info: Toestemming informatie tekst
+  setting_consent_required: Toestemming vereist
+  setting_consent_decline_mail: Toestemming contact e-mailadres
   setting_cross_project_work_package_relations: Sta werkpakketten over meerdere projecten
     toe
   setting_date_format: Datumnotatie
@@ -2145,7 +2192,7 @@ nl:
     brute_force_prevention: Automatische gebruiker blokkering
   show_hide_project_menu: Project menu uitvouwen/samenvouwen
   status_active: actief
-  status_archived: archived
+  status_archived: gearchiveerd
   status_invited: uitgenodigd
   status_locked: geblokkeerd
   status_registered: geregistreerd
@@ -2515,6 +2562,7 @@ nl:
       years: Jaren
   title_remove_and_delete_user: De uitgenodigde gebruiker uit het project verwijderen
     en verwijder hem/haar.
+  title_enterprise_upgrade: Upgrade om meer gebruikers te ontgrendelen.
   tooltip_resend_invitation: 'Verzendt een andere uitnodiging e-mail met een nieuw
     token in geval het oude verlopen is of de gebruiker het oorspronkelijke e-mailbericht
     niet ontvangen heeft. Kan ook worden gebruikt voor actieve gebruikers om een nieuwe
@@ -2586,6 +2634,22 @@ nl:
   note_password_login_disabled: Wachtwoord is uitgeschakeld door %{configuration}.
   warning: Waarschuwing
   warning_attachments_not_saved: "%{count} bestanden kunnen niet worden opgeslagen."
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'U bereikt uw gebruikerslimiet (%{current}/%{max}
+    actieve gebruikers). Neem contact op met sales@openproject.com om te upgraden
+    van uw Enterprise Edition-abonnement en extra gebruikers toevoegen.
+
+'
   menu_item: Menu-item
   menu_item_setting: Zichtbaarheid
   wiki_menu_item_for: Menu-item voor wiki pagina "%{title}"
@@ -2638,7 +2702,7 @@ nl:
       multipart_body_error: Het hoofdgedeelte van de aanvraag bevatte niet de verwachte
         meerdere delen.
       multiple_errors: Meerdere veldbeperkingen werden overtreden.
-      unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment: De bijlage kon niet aangemaakt worden
       render:
         context_not_parsable: De geboden context is niet een link naar een bron.
         unsupported_context: De gegeven bron wordt niet ondersteund als context.

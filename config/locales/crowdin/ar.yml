@@ -296,6 +296,7 @@ ar:
         expires_at: Expires at
         subscriber: Subscriber
         encoded_token: Enterprise support token
+        active_user_count_restriction: Maximum active users
       relation:
         delay: تأخير
         from: مجموعة العمل
@@ -348,6 +349,7 @@ ar:
         mail_notification: إشعارات البريد الإلكتروني
         new_password: كلمة مرور جديدة
         password_confirmation: تأكيد
+        consented_at: Consented at
       user_preference:
         comments_sorting: عرض التعليقات
         hide_mail: إخفاء عنوان البريد الإلكتروني الخاص بي
@@ -667,11 +669,13 @@ ar:
   button_close: Close
   button_collapse_all: طَيْ الجميع
   button_configure: تكوين
+  button_continue: Continue
   button_copy: انسخ
   button_copy_and_follow: انسخ واتبع
   button_create: إنشاء
   button_create_and_continue: إنشاء ومواصلة
   button_delete: احذف
+  button_decline: Decline
   button_delete_watcher: حذف المراقب %{name}
   button_download: تحميل
   button_duplicate: كرِّر
@@ -706,6 +710,7 @@ ar:
   button_unlock: فتح القفل
   button_unwatch: وقْف المشاهدة
   button_update: التحديث
+  button_upgrade: Upgrade
   button_upload: Upload
   button_view: عرض
   button_watch: مشاهدة
@@ -713,6 +718,23 @@ ar:
   button_add_menu_entry: إضافة عنصر قائمة
   button_configure_menu_entry: تكوين عنصر القائمة
   button_delete_menu_entry: حذف عنصر القائمة
+  consent:
+    checkbox_label: I have noted and do consent to the above.
+    failure_message: Consent failed, cannot proceed.
+    title: User Consent
+    decline_warning_message: You have declined to consent and have been logged out.
+    user_has_consented: User has consented to your configured statement at the given
+      time.
+    not_yet_consented: User has not consented yet, will be requested upon next login.
+    contact_mail_instructions: Define the mail address that users can reach a data
+      controller to perform data change or removal requests.
+    contact_your_administrator: Please contact your administrator if you want to have
+      your account deleted.
+    contact_this_mail_address: Please contact %{mail_address} if you want to have
+      your account deleted.
+    text_update_consent_time: Check this box to force users to consent again. Enable
+      when you have changed the legal aspect of the consent information above.
+    update_consent_last_time: 'Last update of consent: %{update_time}'
   copy_project:
     started: بدأ بنسخ المشروع "%{source_project_name}" إلى "%{target_project_name}".
       سيتم إبلاغك بالبريد الإلكتروني حالما يتوفر "%{target_project_name}".
@@ -993,6 +1015,10 @@ ar:
     من أن يتم تمكين ملفات تعريف الارتباط "كوكيز"، لأن هذا التطبيق لن يعمل بشكل صحيح
     دون ذلك.
   error_custom_option_not_found: Option does not exist.
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1165,6 +1191,7 @@ ar:
   label_calendar: التقويم
   label_calendar_show: إظهار التقويم
   label_category: فئة
+  label_consent_settings: User Consent
   label_wiki_menu_item: عنصر القائمة wiki
   label_select_main_menu_item: حدد عنصر القائمة الرئيسية الجديد
   label_select_project: Select a project
@@ -1253,6 +1280,7 @@ ar:
   label_enumerations: تعدادات
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edition
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_environment: بيئة
   label_estimates_and_time: Estimates and time
   label_equals: يكون
@@ -1364,6 +1392,7 @@ ar:
   label_my_page_block: حظر الصفحة الخاصة بي
   label_my_projects: مشاريعي
   label_my_queries: استعلاماتي المخصصة
+  label_never: أبداً
   label_new: جديد
   label_new_statuses_allowed: الحالات الجديدة المسموح بها
   label_news_added: تم إضافة أحداث
@@ -1705,6 +1734,15 @@ ar:
   mail_subject_reminder: الحزمة (الحزم) %{count} العمل الواجب في الأيام القادمة %{days}
   mail_subject_wiki_content_added: تم إضافة صفحة wiki '%{id}'
   mail_subject_wiki_content_updated: تم تحديث صفحة wiki '%{id}'
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: المزيد من الوظائف
   noscript_description: تحتاج إلى تفعيل جافا سكريبت لاستخدام open project!
   noscript_heading: جافا سكريبت
@@ -2082,6 +2120,10 @@ ar:
   setting_commit_logtime_activity_id: النشاط لوقت الدخول
   setting_commit_logtime_enabled: تمكين تسجيل الوقت
   setting_commit_ref_keywords: الرجوع إلى الكلمات الرئيسية
+  setting_consent_time: Consent time
+  setting_consent_info: Consent information text
+  setting_consent_required: Consent required
+  setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: السماح بعلاقات عبر-المشروع مجموعة
     العمل
   setting_date_format: صيغة التاريخ
@@ -2530,6 +2572,7 @@ ar:
       quarters: أرباع
       years: السنوات
   title_remove_and_delete_user: قم بإزالة المستخدم المدعوين من المشروع وحذفه/حذفها.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
     case the old one expired or the user did not get the original email. Can also
     be used for active users to choose a new authentication method. When used with
@@ -2606,6 +2649,22 @@ ar:
   note_password_login_disabled: تم تعطيل تسجيل دخول كلمة المرور بواسطة %{configuration}.
   warning: تحذير
   warning_attachments_not_saved: تعذر حفظ الملف (الملفات) %{count}.
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: عناصر القائمة
   menu_item_setting: الظهور
   wiki_menu_item_for: عنصر القائمة "%{title}"

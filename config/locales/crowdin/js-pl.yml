@@ -74,7 +74,7 @@ pl:
     label_activity_with_comment_no: Aktywność %{activityNo} została skomentowana.
     label_add_columns: Dodaj kolumny
     label_add_comment: Dodaj komentarz
-    label_add_comment_title: Comment and type @ to notify other people
+    label_add_comment_title: Skomentuj - wpisz @ by powiadomić inne osoby
     label_add_selected_columns: Dodaj wybrane kolumny
     label_added_by: dodał
     label_added_time_by: Dodał %{author} %{age}
@@ -221,7 +221,7 @@ pl:
       work_package_belongs_to: Ten pakiet roboczy należy do projektu %{projectname}.
       click_to_switch_context: Otwórz ten pakiet roboczy w tym projekcie.
       autocompleter:
-        label: Project autocompletion
+        label: Autouzupełnianie projektu
     text_are_you_sure: Jesteś pewien?
     types:
       attribute_groups:

@@ -261,13 +261,17 @@ fieldset.form--fieldset
     @include icon-common
     font-size: 0.75rem
 
-    .form--fieldset.-collapsible > &
-      @extend .icon-arrow-up1:before
+  .form--fieldset.-collapsible > &
+    @extend .icon-arrow-up1
+
+    &:before
       padding:   0.625rem 0.25rem 0 0.25rem
 
-    .form--fieldset.-collapsible.-collapsed > &,
-    .form--fieldset.-collapsible.collapsed  > &
-      @extend .icon-arrow-down1:before
+  .form--fieldset.-collapsible.-collapsed > &,
+  .form--fieldset.-collapsible.collapsed  > &
+    @extend .icon-arrow-down1
+
+    &:before
       padding:   0.625rem 0.25rem 0 0.25rem
 
 #sidebar .form--fieldset-legend
