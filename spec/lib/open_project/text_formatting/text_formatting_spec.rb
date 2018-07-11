@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -25,31 +26,30 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
+require 'spec_helper'
 
-shared_examples_for 'valid preview' do
-  render_views
-
-  before do
-    put :preview, params: preview_params
+describe OpenProject::TextFormatting do
+  it 'should markdown formatter' do
+    expect(OpenProject::TextFormatting::Formats::Markdown::Formatter).to eq(OpenProject::TextFormatting::Formats.rich_formatter)
+    expect(OpenProject::TextFormatting::Formats::Markdown::Helper).to eq(OpenProject::TextFormatting::Formats.rich_helper)
   end
 
-  it { expect(response).to render_template('common/preview') }
-
-  it 'renders all texts' do
-    preview_texts.each do |text|
-      expect(response.body).to have_selector('fieldset.preview', text: text)
-    end
-  end
-end
-
-shared_examples_for 'authorizes object access' do
-  let(:unauthorized_user) { FactoryBot.create(:user) }
-
-  before do
-    allow(User).to receive(:current).and_return(unauthorized_user)
-
-    put :preview, params: preview_params
+  it 'should plain formatter' do
+    expect(OpenProject::TextFormatting::Formats::Plain::Formatter).to eq(OpenProject::TextFormatting::Formats.plain_formatter)
+    expect(OpenProject::TextFormatting::Formats::Plain::Helper).to eq(OpenProject::TextFormatting::Formats.plain_helper)
   end
 
-  it { expect(response.status).to eq(403) }
+  it 'should link urls and email addresses' do
+    raw = <<-DIFF
+This is a sample *text* with a link: http://www.redmine.org
+and an email address foo@example.net
+DIFF
+
+    expected = <<-EXPECTED
+<p>This is a sample *text* with a link: <a href="http://www.redmine.org">http://www.redmine.org</a><br>
+and an email address <a href="mailto:foo@example.net">foo@example.net</a></p>
+EXPECTED
+
+    assert_equal expected.gsub(%r{[\r\n\t]}, ''), OpenProject::TextFormatting::Formats::Plain::Formatter.new({}).to_html(raw).gsub(%r{[\r\n\t]}, '')
+  end
 end

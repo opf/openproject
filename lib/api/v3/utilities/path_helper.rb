@@ -139,8 +139,16 @@ module API
             "#{root}/help_texts/#{id}"
           end
 
+          def self.message(id)
+            "#{root}/messages/#{id}"
+          end
+
           def self.my_preferences
             "#{root}/my_preferences"
+          end
+
+          def self.news(id)
+            "#{root}/news/#{id}"
           end
 
           def self.post(id)

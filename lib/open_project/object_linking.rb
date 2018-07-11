@@ -54,13 +54,6 @@ module OpenProject
       end
     end
 
-    def link_to_work_package_preview(context = nil, options = {})
-      form_id = options[:form_id] || 'work_package-form-preview'
-      path = (context.is_a? WorkPackage) ? preview_work_package_path(context) : preview_work_packages_path
-
-      preview_link path, "#{form_id}-preview"
-    end
-
     # Generates a link to an attachment.
     # Options:
     # * :text - Link text (default to attachment filename)

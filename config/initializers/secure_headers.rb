@@ -45,7 +45,7 @@ SecureHeaders::Configuration.default do |config|
     # Allow iframe from vimeo (welcome video)
     frame_src: frame_src + %w('self'),
     frame_ancestors: %w('self'),
-  # Allow images from anywhere including data urls and blobs (used in resizing)
+    # Allow images from anywhere including data urls and blobs (used in resizing)
     img_src: %w(* data: blob:),
     # Allow scripts from self
     script_src: assets_src,

@@ -32,16 +32,16 @@ describe MessagesController, type: :controller do
   let(:user) { FactoryBot.create(:user) }
   let(:project) { FactoryBot.create(:project) }
   let(:role) { FactoryBot.create(:role) }
-  let!(:member) {
+  let!(:member) do
     FactoryBot.create(:member,
-                       project: project,
-                       principal: user,
-                       roles: [role])
-  }
-  let!(:board) {
+                      project: project,
+                      principal: user,
+                      roles: [role])
+  end
+  let!(:board) do
     FactoryBot.create(:board,
-                       project: project)
-  }
+                      project: project)
+  end
 
   let(:filename) { 'testfile.txt' }
   let(:file) { File.open(Rails.root.join('spec/fixtures/files', filename)) }
@@ -49,7 +49,7 @@ describe MessagesController, type: :controller do
     fixture_file_upload "files/#{filename}", filename
   end
 
-  before do allow(User).to receive(:current).and_return user end
+  before { allow(User).to receive(:current).and_return user }
 
   describe '#create' do
     context 'attachments' do
@@ -98,11 +98,11 @@ describe MessagesController, type: :controller do
   describe '#attachment' do
     let!(:message) { FactoryBot.create(:message) }
     let(:attachment_id) { "attachments_#{message.attachments.first.id}" }
-    let(:params) {
+    let(:params) do
       { id: message.id,
         attachments: { '1' => { 'file' => uploaded_file,
                                 'description' => '' } } }
-    }
+    end
 
     describe '#add' do
       before do
@@ -157,18 +157,18 @@ describe MessagesController, type: :controller do
     end
 
     describe '#remove' do
-      let!(:attachment) {
+      let!(:attachment) do
         FactoryBot.create(:attachment,
-                           container: message,
-                           author: user,
-                           filename: filename)
-      }
-      let!(:attachable_journal) {
+                          container: message,
+                          author: user,
+                          filename: filename)
+      end
+      let!(:attachable_journal) do
         FactoryBot.create(:journal_attachable_journal,
-                           journal: message.journals.last,
-                           attachment: attachment,
-                           filename: filename)
-      }
+                          journal: message.journals.last,
+                          attachment: attachment,
+                          filename: filename)
+      end
 
       before do
         message.reload
@@ -191,25 +191,6 @@ describe MessagesController, type: :controller do
           it { is_expected.to eq(filename) }
         end
       end
-    end
-  end
-
-  describe 'preview' do
-    let(:content) { 'Message content' }
-
-    it_behaves_like 'valid preview' do
-      let(:preview_texts) { [content] }
-      let(:preview_params) { { board_id: board.id, message: { content: content } } }
-    end
-
-    it_behaves_like 'valid preview' do
-      let(:preview_texts) { [content] }
-      let(:preview_params) { { board_id: board.id, reply: { content: content } } }
-    end
-
-    it_behaves_like 'authorizes object access' do
-      let(:message) { FactoryBot.create :message, board: board }
-      let(:preview_params) { { board_id: board.id, id: message.id, message: {} } }
     end
   end
 

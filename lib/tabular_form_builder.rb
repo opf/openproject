@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -34,9 +35,10 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   include Redmine::I18n
   include ActionView::Helpers::AssetTagHelper
   include ERB::Util
+  include TextFormattingHelper
 
   def self.tag_with_label_method(selector, &block)
-    ->(field, options, *args) do
+    ->(field, options = {}, *args) do
       options[:class] = Array(options[:class]) + [field_css_class(selector)]
       merge_required_attributes(options[:required], options)
 
@@ -50,19 +52,24 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
       (label + container_wrap_field(input, selector, options))
     end
   end
+  private_class_method :tag_with_label_method
 
   def self.with_text_formatting
     ->(input, options) {
       if options[:with_text_formatting]
         # use either the provided id or fetch the one created by rails
-        input.concat text_formatting_wrapper options[:id] || input.match(/<[^>]* id="(\w+)"[^>]*>/)[1]
+        id = options[:id] || input.match(/<[^>]* id="(\w+)"[^>]*>/)[1]
+        context_object = object.persisted? ? object : nil
+        context = options[:preview_context] || preview_context(context_object)
+        input.concat text_formatting_wrapper id, context
       end
 
       input
     }
   end
+  private_class_method :with_text_formatting
 
-  (field_helpers - %i(radio_button hidden_field fields_for label) + %i(date_select)).each do |selector|
+  (field_helpers - %i(radio_button hidden_field fields_for label text_area) + %i(date_select)).each do |selector|
     define_method selector, &tag_with_label_method(selector)
   end
 
@@ -189,11 +196,11 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
   ##
   # Create a wrapper for the text formatting toolbar for this field
-  def text_formatting_wrapper(target_id)
+  def text_formatting_wrapper(target_id, context)
     return ''.html_safe unless target_id.present?
 
     helper = ::OpenProject::TextFormatting::Formats.rich_helper.new(@template)
-    helper.wikitoolbar_for target_id
+    helper.wikitoolbar_for target_id, context
   end
 
   def field_css_class(selector)

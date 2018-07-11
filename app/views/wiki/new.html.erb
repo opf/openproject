@@ -65,8 +65,8 @@ See docs/COPYRIGHT.rdoc for more details.
                       cols: 100,
                       rows: 25,
                       class: 'wiki-edit',
-                      accesskey: accesskey(:edit) %>
-      <%= wikitoolbar_for 'content_text' %>
+                      accesskey: accesskey(:edit),
+                      with_text_formatting: true %>
     </div>
 
     <div class="form--field">
@@ -77,8 +77,6 @@ See docs/COPYRIGHT.rdoc for more details.
 
   <hr class="form--separator" />
   <%= f.button t(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>
-  <%= preview_link preview_project_wiki_index_path(@project), 'wiki_form-preview' %>
-
 <% end %>
 
 <div id="preview"></div>

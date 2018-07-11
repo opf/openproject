@@ -57,6 +57,7 @@ const ckEditorReplacementClass = '__op_ckeditor_replacement_container';
 })
 export class OpCkeditorFormComponent implements OnInit {
   public textareaSelector:string;
+  public previewContext:string;
 
   // Which template to include
   public ckeditor:any;
@@ -83,6 +84,7 @@ export class OpCkeditorFormComponent implements OnInit {
 
     // Parse the attribute explicitly since this is likely a bootstrapped element
     this.textareaSelector = this.$element.attr('textarea-selector');
+    this.previewContext = this.$element.attr('preview-context');
 
     this.formElement = this.$element.closest('form');
     this.wrappedTextArea = this.formElement.find(this.textareaSelector);
@@ -93,7 +95,8 @@ export class OpCkeditorFormComponent implements OnInit {
         openProject: {
           context: null,
           helpURL: this.pathHelper.textFormattingHelp(),
-          pluginContext: window.OpenProject.pluginContext.value
+          pluginContext: window.OpenProject.pluginContext.value,
+          previewContext: this.previewContext
         }
       })
       .then(this.setup.bind(this))

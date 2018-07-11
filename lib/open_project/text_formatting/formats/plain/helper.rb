@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -30,12 +31,8 @@
 module OpenProject::TextFormatting::Formats
   module Plain
     class Helper
-      def wikitoolbar_for(_field_id)
+      def wikitoolbar_for(_field_id, _context)
         ''.html_safe
-      end
-
-      def text_formatting_has_preview?
-        false
       end
 
       def text_formatting_js_includes; end

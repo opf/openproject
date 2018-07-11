@@ -45,7 +45,20 @@ See docs/COPYRIGHT.rdoc for more details.
   </div>
 <% end %>
 <div class="form--field -required">
-  <%= f.text_area :content, required: true, label: t(:description_message_content), class: 'wiki-edit', container_class: '-wide' %>
-  <%= wikitoolbar_for("#{f.object_name}_content") %>
+  <% preview_object = if replying
+                        f.object.parent
+                      elsif f.object.persisted?
+                        f.object
+                      else
+                        nil
+                      end %>
+
+  <%= f.text_area :content,
+                  required: true,
+                  label: t(:description_message_content),
+                  class: 'wiki-edit',
+                  container_class: '-wide',
+                  with_text_formatting: true,
+                  preview_context: preview_context(preview_object) %>
 </div>
 <%= render partial: 'attachments/form' %>

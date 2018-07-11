@@ -64,6 +64,7 @@ export class FormattableEditField extends EditField {
 
   public setupMarkdownEditor(container:HTMLElement) {
     const element = container.querySelector('.op-ckeditor-element') as HTMLElement;
+
     window.OPBalloonEditor
       .create(element, {
         openProject: {

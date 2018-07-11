@@ -184,10 +184,22 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/projects/42/work_packages/form'
   end
 
+  describe '#message' do
+    subject { helper.message(42) }
+
+    it_behaves_like 'api v3 path', '/messages/42'
+  end
+
   describe '#my_preferences' do
     subject { helper.my_preferences }
 
     it_behaves_like 'api v3 path', '/my_preferences'
+  end
+
+  describe '#news' do
+    subject { helper.news(42) }
+
+    it_behaves_like 'api v3 path', '/news/42'
   end
 
   describe '#render_markup' do

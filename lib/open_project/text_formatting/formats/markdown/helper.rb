@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -40,25 +41,22 @@ module OpenProject::TextFormatting::Formats
         view_context.javascript_include_tag 'vendor/ckeditor/ckeditor.js'
       end
 
-      def text_formatting_has_preview?
-        false
-      end
-
-      def wikitoolbar_for(field_id)
-        wysiwyg_for field_id
-      end
-
-      private
-
-      def wysiwyg_for(field_id)
+      def wikitoolbar_for(field_id, context = nil)
         # Hide the original textarea
         view_context.content_for(:additional_js_dom_ready) do
-          "document.getElementById('#{field_id}').style.display = 'none';".html_safe
+          js = <<-JAVASCRIPT
+            var field = document.getElementById('#{field_id}');
+            field.style.display = 'none';
+            field.removeAttribute('required');
+          JAVASCRIPT
+
+          js.html_safe
         end
 
         view_context.content_tag 'op-ckeditor-form',
                                  '',
-                                 'textarea-selector': "##{field_id}"
+                                 'textarea-selector': "##{field_id}",
+                                 'preview-context': context
       end
     end
   end

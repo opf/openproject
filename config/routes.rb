@@ -211,7 +211,6 @@ OpenProject::Application.routes.draw do
         post '/new' => 'wiki#create', as: 'create'
         get :export
         get :date_index
-        post :preview
         get '/index' => 'wiki#index'
       end
 
@@ -230,7 +229,6 @@ OpenProject::Application.routes.draw do
         get :list_attachments
         get :select_main_menu_item, to: 'wiki_menu_items#select_main_menu_item'
         post :replace_main_menu_item, to: 'wiki_menu_items#replace_main_menu_item'
-        post :preview
       end
     end
 
@@ -453,18 +451,12 @@ OpenProject::Application.routes.draw do
       member do
         get :quote
         post :reply, as: 'reply_to'
-        post :preview
       end
-
-      post :preview, on: :collection
     end
   end
 
   resources :news, only: %i[index destroy update edit show] do
     resources :comments, controller: 'news/comments', only: %i[create destroy], shallow: true
-
-    post :preview, on: :member
-    post :preview, on: :collection
   end
 
   # redirect for backwards compatibility
