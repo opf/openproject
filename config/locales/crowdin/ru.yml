@@ -1751,6 +1751,15 @@ ru:
   mail_subject_reminder: "%{count}  пакет(-ов) работ на  следующие %{days}"
   mail_subject_wiki_content_added: "'%{id}' wiki-страница добавлена"
   mail_subject_wiki_content_updated: "'%{id}' wiki страница была обновлена"
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: Больше функций
   noscript_description: Для правильной работы OpenProject JavaScript должен быть включён!
   noscript_heading: JavaScript отключён
@@ -2684,11 +2693,22 @@ ru:
   note_password_login_disabled: Вход по паролю был отключен через параметры %{configuration}.
   warning: Предупреждение
   warning_attachments_not_saved: "%{count} файл(-ов) не может быть сохранен(-о)."
-  warning_user_limit_reached: Достигнут предел пользователя. Обновите <a href="%{upgrade_url}"></a>
-    для дополнительных пользователей.
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
   warning_registration_token_expired: 'Срок ответа на письмо активации истек. Мы отправили
     вам новое на %{email}. Пожалуйста, нажмите на ссылку внутри него, чтобы активировать
     вашу учетную запись.
+
+'
+  warning_user_limit_reached: Достигнут предел пользователя. Обновите <a href="%{upgrade_url}"></a>
+    для дополнительных пользователей.
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
 
 '
   menu_item: Пункт меню
