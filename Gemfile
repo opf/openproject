@@ -269,7 +269,8 @@ group :opf_plugins do
 end
 
 group :docker, optional: true do
-  gem 'passenger', '~> 5.2'
+  gem 'passenger', '~> 5.3.3'
+
   # Used to easily precompile assets
   gem 'sqlite3', require: false
   gem 'rails_12factor', require: !!ENV['HEROKU']
