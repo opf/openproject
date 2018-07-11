@@ -29,6 +29,7 @@
 import {Component, ElementRef, OnInit} from "@angular/core";
 import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 
 export interface ICkeditorInstance {
   getData():string;
@@ -72,6 +73,7 @@ export class OpCkeditorFormComponent implements OnInit {
 
   constructor(protected elementRef:ElementRef,
               protected currentProject:CurrentProjectService,
+              protected pathHelper:PathHelperService,
               protected ConfigurationService:ConfigurationService) {
 
   }
@@ -80,7 +82,7 @@ export class OpCkeditorFormComponent implements OnInit {
     this.$element = jQuery(this.elementRef.nativeElement);
 
     // Parse the attribute explicitly since this is likely a bootstrapped element
-    this.textareaSelector = this.elementRef.nativeElement.getAttribute('textarea-selector');
+    this.textareaSelector = this.$element.attr('textarea-selector');
 
     this.formElement = this.$element.closest('form');
     this.wrappedTextArea = this.formElement.find(this.textareaSelector);
@@ -90,6 +92,7 @@ export class OpCkeditorFormComponent implements OnInit {
       .create(wrapper[0], {
         openProject: {
           context: null,
+          helpURL: this.pathHelper.textFormattingHelp(),
           pluginContext: window.OpenProject.pluginContext.value
         }
       })

@@ -65,7 +65,9 @@ module OpenProject::TextFormatting::Formatters
           "document.getElementById('#{field_id}').style.display = 'none';".html_safe
         end
 
-        view_context.content_tag 'op-ckeditor-form', '', 'textarea-selector': "##{field_id}"
+        view_context.content_tag 'op-ckeditor-form',
+                                 '',
+                                 'textarea-selector': "##{field_id}"
       end
 
       def jstoolbar_for(field_id)
