@@ -66,6 +66,8 @@ RB.Taskboard = (function ($) {
 
       this.initializeNewButtons();
       this.initializeSortables();
+
+      this.initializeTaskboardMenus();
     },
 
     initializeNewButtons : function () {
@@ -114,6 +116,18 @@ RB.Taskboard = (function ($) {
     initializeImpediments : function () {
       this.$.find('.impediment').each(function (index) {
         RB.Factory.initialize(RB.Impediment, this);
+      });
+    },
+
+    initializeTaskboardMenus : function () {
+      var toggleOpen = "open icon-pulldown-up icon-pulldown";
+
+      $(".backlog .menu > div.menu-trigger").on("click", function() {
+        $(this).toggleClass(toggleOpen);
+      });
+
+      $(".backlog .menu > ul.items li.item").on("click", function() {
+        $(this).closest(".menu").find("div.menu-trigger").toggleClass(toggleOpen);
       });
     },
 
