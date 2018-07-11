@@ -61,6 +61,10 @@ class LaborBudgetItem < ActiveRecord::Base
     budget || calculated_costs
   end
 
+  def overridden_budget?
+    budget.present?
+  end
+
   def calculated_costs(fixed_date = cost_object.fixed_date, project_id = cost_object.project_id)
     if user_id && hours && rate = HourlyRate.at_date_for_user_in_project(fixed_date, user_id, project_id)
       rate.rate * hours
