@@ -1741,14 +1741,16 @@ cs:
   mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
   mail_user_activation_limit_reached:
-    subject: User activation limit reached
-    message: |
-      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
-      The user cannot activate their account since the user limit has been reached.
+    subject: Dosažen limit aktivace uživatelů
+    message: 'Nový uživatel (%{email}) se pokusil vytvořit účet v prostředí OpenProject
+      spravovaném vámi (%{host}). Uživatel nemůže aktivovat svůj účet, protože bylo
+      dosaženo limitu v počtu uživatelů.
+
+'
     steps:
-      label: 'To allow the user to sign in you can either: '
-      a: Upgrade your payment plan ([here](upgrade_url))
-      b: Lock or delete an existing user ([here](users_url))
+      label: 'Chcete-li umožnit uživateli přihlášení můžete buď: '
+      a: Upgrade plánu plateb ([here](upgrade_url))
+      b: Zamknutí nebo odstranění existujícího uživatele ([here](users_url))
   more_actions: Další funkce
   noscript_description: You need to activate JavaScript in order to use OpenProject!
   noscript_heading: Javascript zakázán
@@ -2676,11 +2678,14 @@ cs:
     jsme vám nový %{email}. Klikněte prosím na odkaz uvnitř pro aktivaci vašeho účtu.
 
 '
-  warning_user_limit_reached: Dosažel limit počtu uživatelů. Prosím <a href="%{upgrade_url}">upgradujte</a>
-    pro přidání více uživatelů.
-  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
-    active users). Please contact sales@openproject.com to upgrade your Enterprise
-    Edition plan and add additional users.
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'Limit počtu uživatelů (%{current}/%{max}
+    aktivních uživatelů) dosažen. Prosím kontaktujte sales@openproject.com a upgradujte
+    vaši Enterprise Edition a přidejte další uživatele.
 
 '
   menu_item: Položka nabídky

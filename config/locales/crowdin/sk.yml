@@ -2691,8 +2691,11 @@ sk:
   warning_registration_token_expired: |
     The activation email has expired. We sent you a new one to %{email}.
     Please click the link inside of it to activate your account.
-  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
-    to allow for additional users.
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
   warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
     active users). Please contact sales@openproject.com to upgrade your Enterprise
     Edition plan and add additional users.

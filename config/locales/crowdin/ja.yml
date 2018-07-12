@@ -1601,14 +1601,14 @@ ja:
   mail_subject_wiki_content_added: Wikiページ'%{id}'が追加されました
   mail_subject_wiki_content_updated: Wikiページ'%{id}'が更新されました
   mail_user_activation_limit_reached:
-    subject: User activation limit reached
+    subject: ユーザーのアクティブ化の上限に達しました。
     message: |
-      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
-      The user cannot activate their account since the user limit has been reached.
+      新しいユーザー（%{email}）が管理しているOpenProjectの環境（%{host})）上にアカウントを作成しようとしました。
+      ユーザーの制限に達しているため、ユーザーは自分のアカウントをアクティブ化できません。
     steps:
-      label: 'To allow the user to sign in you can either: '
-      a: Upgrade your payment plan ([here](upgrade_url))
-      b: Lock or delete an existing user ([here](users_url))
+      label: 'ユーザーがサインインできるようにするには、次のいずれかを行います: '
+      a: お支払いプランをアップグレードします。 ([ここ](upgrade_url))
+      b: 既存のユーザーをロックまたは削除する ([ここ](users_url))
   more_actions: 他の機能
   noscript_description: OpenProjectを使用するためにJavaScriptを有効にする必要があります！
   noscript_heading: JavaScriptは無効されています。
@@ -2400,20 +2400,19 @@ ja:
   note_password_login_disabled: パスワードを利用してログインは%{configuration}によって無効にされています。
   warning: 注意
   warning_attachments_not_saved: "%{count} 件のファイルを保存できませんでした。"
-  warning_imminent_user_limit: 'You invited more users than are supported by your
-    current plan. Invited users may not be able to join your OpenProject environment.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
-    in order to allow invited and registered users to join.
+  warning_imminent_user_limit: '現在のプランでサポートされているユーザーよりも多くのユーザーを招待しました。 招待されたユーザーは、OpenProject環境に参加できない場合があります。
+    招待者と登録ユーザーが参加できるようにするには、<a href="%{upgrade_url}">プランをアップグレード</a>するか、既存のユーザーをブロックしてください。
 
 '
   warning_registration_token_expired: 'アクティベーションメールの有効期限が切れています。%{email} に新しいものを送りました。その中のリンクをクリックして、アカウントを有効にしてください。
 
 '
-  warning_user_limit_reached: ユーザー制限に達しました。追加のユーザーを追加できるように <a href="%{upgrade_url}">アップグレード</a>
-    してください。
-  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
-    active users). Please contact sales@openproject.com to upgrade your Enterprise
-    Edition plan and add additional users.
+  warning_user_limit_reached: 'ユーザー制限に達しました。 これ以上ユーザーをアクティブにすることはできません。 追加のユーザーが参加できるように<a
+    href="%{upgrade_url}">プランをアップグレード</a>するか、メンバーをブロックしてください。
+
+'
+  warning_user_limit_reached_instructions: 'ユーザー制限（%{current}/%{max} アクティブユーザー）に達しました。
+    sales@openproject.com に連絡してEnterprise Editionプランをアップグレードし、ユーザーを追加してください。
 
 '
   menu_item: メニュー項目

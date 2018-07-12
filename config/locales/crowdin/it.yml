@@ -2718,8 +2718,11 @@ it:
   warning_registration_token_expired: |
     L'attivazione della e-mail è scaduta. Te ne abbiamo mandata una nuova a %{email}.
     Clicca il link al suo interno per attivare il tuo account.
-  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
-    to allow for additional users.
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
   warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
     active users). Please contact sales@openproject.com to upgrade your Enterprise
     Edition plan and add additional users.
