@@ -53,7 +53,7 @@ import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.s
 export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
   @Input('workPackage') workPackage:WorkPackageResource;
   @Input('successState') successState?:string;
-  @Input('inEditMode') inEditMode:boolean = false;
+  @Input('inEditMode') initializeEditMode:boolean = false;
 
   public form:WorkPackageEditForm;
   public fields:{ [attribute:string]:WorkPackageEditFieldComponent } = {};
@@ -76,7 +76,7 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
     const requiresConfirmation = ConfigurationService.warnOnLeavingUnsaved();
 
     this.unregisterListener = $transitions.onStart({}, (transition:Transition) => {
-      if (!this.editMode) {
+      if (!this.editing) {
         return undefined;
       }
 
@@ -105,7 +105,7 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const context = new SingleViewEditContext(this.injector, this);
-    this.form = WorkPackageEditForm.createInContext(this.injector, context, this.workPackage, this.inEditMode);
+    this.form = WorkPackageEditForm.createInContext(this.injector, context, this.workPackage, this.initializeEditMode);
     this.states.workPackages.get(this.workPackage.id)
       .values$()
       .pipe(
@@ -115,12 +115,12 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
         _.each(this.fields, (ctrl) => this.updateDisplayField(ctrl, wp));
       });
 
-    if (this.inEditMode) {
+    if (this.initializeEditMode) {
       this.start();
     }
 
     // Stop editing whenever a work package was saved
-    if (this.inEditMode && this.workPackage.isNew) {
+    if (this.initializeEditMode && this.workPackage.isNew) {
       this.wpCreate.onNewWorkPackage()
         .pipe(
           takeUntil(componentDestroyed(this))
@@ -132,15 +132,19 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
     }
   }
 
+  public get editing():boolean {
+    return this.editMode || this.form.hasActiveFields();
+  }
+
   public get editMode() {
-    return this.inEditMode && this.form.editMode;
+    return this.form.editMode;
   }
 
   public register(field:WorkPackageEditFieldComponent) {
     this.fields[field.fieldName] = field;
     this.registeredFields.putValue(_.keys(this.fields));
 
-    if (this.inEditMode && !this.skipField(field)) {
+    if (this.editMode && !this.skipField(field)) {
       field.activateOnForm(this.form, true);
     } else if (this.form.activeFields[field.fieldName]) {
       field.activateOnForm(this.form, true);
@@ -168,7 +172,9 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
   }
 
   public stop() {
+    this.form.editMode = false;
     this.wpEditing.stopEditing(this.workPackage.id);
+    this.form.destroy();
   }
 
   public saveWorkPackage() {
@@ -181,7 +187,7 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
   }
 
   public stopEditingAndLeave(savedWorkPackage:WorkPackageResource, isInitial:boolean) {
-    this.wpEditing.stopEditing(this.workPackage.id);
+    this.stop();
 
     if (this.successState) {
       this.$state.go(this.successState, {workPackageId: savedWorkPackage.id})
