@@ -176,4 +176,9 @@ export class PathHelperService {
   public projectLevelListPath() {
     return this.projectsPath() +  '/level_list.json';
   }
+
+  public textFormattingHelp() {
+    // TODO: Allow override and make specific
+    return 'https://openproject.org/help';
+  }
 }

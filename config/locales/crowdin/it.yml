@@ -1736,6 +1736,15 @@ it:
     %{days} giorni"
   mail_subject_wiki_content_added: La pagina wiki '%{id}' è stata aggiunta
   mail_subject_wiki_content_updated: La pagina wiki '%{id}' è stata aggiornata
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: Altre funzioni
   noscript_description: È necessario attivare JavaScript per poter usare OpenProject!
   noscript_heading: JavaScript disabilitato
@@ -2700,11 +2709,22 @@ it:
     %{configuration}.
   warning: Attenzione
   warning_attachments_not_saved: "%{count} file non possono essere salvati."
-  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
-    to allow for additional users.
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
   warning_registration_token_expired: |
     L'attivazione della e-mail è scaduta. Te ne abbiamo mandata una nuova a %{email}.
     Clicca il link al suo interno per attivare il tuo account.
+  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
+    to allow for additional users.
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: Voce di menu
   menu_item_setting: Visibilità
   wiki_menu_item_for: Voce di menù per la pagina wiki "%{title}"

@@ -1740,6 +1740,15 @@ cs:
   mail_subject_reminder: "%{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: Další funkce
   noscript_description: You need to activate JavaScript in order to use OpenProject!
   noscript_heading: Javascript zakázán
@@ -2657,10 +2666,21 @@ cs:
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Varování
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
-  warning_user_limit_reached: Dosažel limit počtu uživatelů. Prosím <a href="%{upgrade_url}">upgradujte</a>
-    pro přidání více uživatelů.
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
   warning_registration_token_expired: 'Platnost aktivačního emailu vypršela. Poslali
     jsme vám nový %{email}. Klikněte prosím na odkaz uvnitř pro aktivaci vašeho účtu.
+
+'
+  warning_user_limit_reached: Dosažel limit počtu uživatelů. Prosím <a href="%{upgrade_url}">upgradujte</a>
+    pro přidání více uživatelů.
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
 
 '
   menu_item: Položka nabídky

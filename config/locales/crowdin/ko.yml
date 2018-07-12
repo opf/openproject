@@ -1664,6 +1664,15 @@ ko:
   mail_subject_reminder: 다음 %{days}일 후 만료되는 %{count} 작업 패키지
   mail_subject_wiki_content_added: "'%{id}' 위키 페이지가 추가되었습니다."
   mail_subject_wiki_content_updated: "'%{id}' 위키 페이지가 업데이트되었습니다."
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: 추가 기능
   noscript_description: OpenProject를 사용하려면 JavaScript를 활성화해야 합니다!
   noscript_heading: JavaScript 사용 안 함
@@ -2487,11 +2496,22 @@ ko:
   note_password_login_disabled: 암호 로그인이 %{configuration}에 의해 비활성화되었습니다.
   warning: 경고
   warning_attachments_not_saved: "%{count}개 파일을 저장할 수 없습니다."
-  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
-    to allow for additional users.
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
   warning_registration_token_expired: |
     The activation email has expired. We sent you a new one to %{email}.
     Please click the link inside of it to activate your account.
+  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
+    to allow for additional users.
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: 메뉴 항목
   menu_item_setting: 표시 여부
   wiki_menu_item_for: 위키 페이지 "%{title}"에 대한 메뉴 항목

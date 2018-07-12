@@ -1697,6 +1697,15 @@ fi:
   mail_subject_reminder: "%{count} tapahtuma(a) erääntyy %{days} lähipäivinä"
   mail_subject_wiki_content_added: "'%{id}' wiki-sivu on poistettu"
   mail_subject_wiki_content_updated: "'%{id}' Wiki-sivu on päivitetty"
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: Enemmän toimintoja
   noscript_description: You need to activate JavaScript in order to use OpenProject!
   noscript_heading: JavaScript disabled
@@ -2599,11 +2608,22 @@ fi:
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Warning
   warning_attachments_not_saved: "%{count} tiedostoa ei voitu tallentaa."
-  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
-    to allow for additional users.
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
   warning_registration_token_expired: |
     The activation email has expired. We sent you a new one to %{email}.
     Please click the link inside of it to activate your account.
+  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
+    to allow for additional users.
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: Menu item
   menu_item_setting: Visibility
   wiki_menu_item_for: Menu item for wikipage "%{title}"
