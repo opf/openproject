@@ -28,6 +28,9 @@
 
 $toggler-width: 40px
 
+::-webkit-scrollbar
+  display: none
+
 .main-menu
   bottom: auto
   @include varprop(width, main-menu-width)
@@ -44,7 +47,7 @@ $toggler-width: 40px
 
   #menu-sidebar
     height: 100%
-    
+
   %absolute-layout-mode &
     position: relative
 
@@ -458,22 +461,25 @@ $arrow-left-width: 40px
     line-height: 30px
     height: 100%
     margin-bottom: 5px
+    color: #a6a6a6
+    transform: scaleY(0.6)
 
     &::before
-      @include icon-mixin-arrow-up1
+      @include icon-mixin-arrow-up2
 
     &.-collapsed
       &::before
-        @include icon-mixin-arrow-down1
+        @include icon-mixin-arrow-down2
 
   .ui-autocomplete--category
     cursor: pointer
     line-height: 30px
-    font-weight: bold
+    font-weight: normal
     text-transform: uppercase
-    font-size: 0.9em
-    border-bottom: 1px solid #ebebeb
+    border-bottom: 1px solid $main-menu-border-color
     margin-bottom: 5px
+    color: #a6a6a6
+    font-size: 0.9rem
 
   input[type="search"]::-webkit-search-cancel-button
     display: none

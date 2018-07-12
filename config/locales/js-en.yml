@@ -217,10 +217,10 @@ en:
     label_unwatch: "Unwatch"
     label_unwatch_work_package: "Unwatch work package"
     label_uploaded_by: "Uploaded by"
-    label_default_queries: "Default queries"
-    label_starred_queries: "Favorite queries"
-    label_global_queries: "Shared queries"
-    label_custom_queries: "Private queries"
+    label_default_queries: "Default views"
+    label_starred_queries: "Favorite views"
+    label_global_queries: "Public views"
+    label_custom_queries: "Private views"
     label_columns: "Columns"
     label_attachments: Files
     label_drop_files: Drop files here
@@ -540,6 +540,13 @@ en:
         updatedAt: "Updated on"
         versionName: "Version"
         version: "Version"
+      default_queries:
+        latest_activity: "Latest Activity"
+        created_by_me: "Created by me"
+        assigned_to_me: "Assigned to me"
+        recently_created: "Recently created"
+        all_open: "All open"
+        summary: "Summary"
       jump_marks:
         pagination: "Jump to table pagination"
         label_pagination: "Click here to skip over the work packages table and go to pagination"
@@ -611,7 +618,7 @@ en:
         delete: "Delete"
       filter: "Filter"
       unselected_title: "Work package"
-      search_query_label: "Search saved filter queries"
+      search_query_label: "Search filter queries"
       search_query_title: "Click to search saved filter queries"
     modals:
       label_settings: "Rename query"

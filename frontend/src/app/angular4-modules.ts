@@ -116,6 +116,7 @@ import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-gr
 import {WorkPackagesListChecksumService} from 'core-components/wp-list/wp-list-checksum.service';
 import {WorkPackagesListInvalidQueryService} from 'core-components/wp-list/wp-list-invalid-query.service';
 import {WorkPackagesListService} from 'core-components/wp-list/wp-list.service';
+import {WorkPackageStaticQueriesService} from 'core-components/wp-query-select/wp-static-queries.service';
 import {WorkPackageStatesInitializationService} from 'core-components/wp-list/wp-states-initialization.service';
 import {WorkPackageCreateService} from 'core-components/wp-new/wp-create.service';
 import {WorkPackageNewFullViewComponent} from 'core-components/wp-new/wp-new-full-view.component';
@@ -273,6 +274,7 @@ import {WorkPackageEmbeddedTableEntryComponent} from "core-components/wp-table/e
     WorkPackageTableSumService,
     WorkPackageStatesInitializationService,
     WorkPackagesListService,
+    WorkPackageStaticQueriesService,
     WorkPackageTableRefreshService,
     WorkPackageTableAdditionalElementsService,
     WorkPackagesListInvalidQueryService,

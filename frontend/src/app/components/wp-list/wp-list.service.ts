@@ -46,9 +46,13 @@ import {PaginationObject, QueryDmService} from 'core-app/modules/hal/dm-services
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class WorkPackagesListService {
+  private queryChanges = new BehaviorSubject<string>('');
+  public queryChanges$ = this.queryChanges.asObservable();
+
   constructor(protected NotificationsService:NotificationsService,
               readonly I18n:I18nService,
               protected UrlParamsHelper:UrlParamsHelperService,
@@ -190,6 +194,9 @@ export class WorkPackagesListService {
       .then(query => {
         this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_create'));
         this.reloadQuery(query);
+
+        this.queryChanges.next(query.name);
+
         return query;
       });
 
@@ -216,7 +223,11 @@ export class WorkPackagesListService {
         }
 
         this.loadDefaultQuery(id);
+
+
+        this.queryChanges.next(query.name);
       });
+
 
     return promise;
   }
@@ -232,14 +243,14 @@ export class WorkPackagesListService {
       .then(() => {
         this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_update'));
 
-        this
-          .queryMenu
-          .rename(query!.id.toString(), query!.name);
+        this.updateMenuItem(query!);
 
         // We should actually put the query newly received
         // from the backend in here.
         // But the backend does currently not return work packages (results).
         this.states.query.resource.putValue(query!);
+
+        this.queryChanges.next(query!.name);
       })
       .catch((error:ErrorResource) => {
         this.NotificationsService.addError(error.message);
@@ -257,6 +268,8 @@ export class WorkPackagesListService {
       this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_update'));
 
       this.updateQueryMenu();
+
+      this.queryChanges.next(query.name);
     });
 
     return promise;
@@ -365,5 +378,11 @@ export class WorkPackagesListService {
     return this
       .queryMenu
       .remove(query.id.toString());
+  }
+
+  private updateMenuItem(query:QueryResource) {
+    return this
+      .queryMenu
+      .rename(query.id.toString(), query.name);
   }
 }

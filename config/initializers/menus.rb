@@ -271,12 +271,6 @@ Redmine::MenuManager.map :project_menu do |menu|
               :'wp-query-menu' => 'wp-query-menu'
             }
 
-  menu.push :summary_field,
-            { controller: '/work_packages/reports', action: 'report' },
-            param: :project_id,
-            caption: :label_workflow_summary,
-            parent: :work_packages
-
   menu.push :work_packages_query_select,
             { controller: '/work_packages', action: 'index' },
             param: :project_id,
