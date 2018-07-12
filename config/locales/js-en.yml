@@ -84,6 +84,11 @@ en:
     editor:
       macro:
         toc: 'Table of contents'
+        code_block:
+          button: 'Insert code snippet'
+          title: 'Insert / edit Code snippet'
+          language: 'Formatting language'
+          language_hint: 'Enter the formatting language that will be used for highlighting (if supported).'
         wiki_page_include:
           button: 'Include content of another wiki page'
           text: 'Included wiki page (placeholder)'

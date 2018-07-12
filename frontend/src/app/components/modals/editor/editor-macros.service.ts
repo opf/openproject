@@ -30,6 +30,7 @@ import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {Injectable} from "@angular/core";
 import {WpButtonMacroModal} from "core-components/modals/editor/macro-wp-button-modal/wp-button-macro.modal";
 import {WikiIncludePageMacroModal} from "core-components/modals/editor/macro-wiki-include-page-modal/wiki-include-page-macro.modal";
+import {CodeBlockMacroModal} from "core-components/modals/editor/macro-code-block-modal/code-block-macro.modal";
 
 @Injectable()
 export class EditorMacrosService {
@@ -62,6 +63,21 @@ export class EditorMacrosService {
       modal.closingEvent.subscribe((modal:WikiIncludePageMacroModal) => {
         if (modal.changed) {
           resolve(modal.page);
+        }
+      });
+    });
+  }
+
+  /**
+   * Show a modal to show an enhanced code editor for editing code blocks.
+   * Used from within ckeditor.
+   */
+  public editCodeBlock(content:string, languageClass:string):Promise<{ content:string, languageClass:string }> {
+    return new Promise<{ content:string, languageClass:string }>((resolve, _) => {
+      const modal = this.opModalService.show(CodeBlockMacroModal, { content: content, languageClass: languageClass });
+      modal.closingEvent.subscribe((modal:CodeBlockMacroModal) => {
+        if (modal.changed) {
+          resolve({ languageClass: modal.languageClass, content: modal.content });
         }
       });
     });
