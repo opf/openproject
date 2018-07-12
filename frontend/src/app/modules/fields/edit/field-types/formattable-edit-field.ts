@@ -32,6 +32,7 @@ import {ICkeditorStatic} from "core-components/ckeditor/op-ckeditor-form.compone
 import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 import {FormattableTextareaEditFieldComponent} from "core-app/modules/fields/edit/field-types/formattable-textarea-edit-field.component";
 import {FormattableWysiwygEditFieldComponent} from "core-app/modules/fields/edit/field-types/formattable-wysiwyg-edit-field.component";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 
 declare global {
   interface Window {
@@ -43,6 +44,7 @@ declare global {
 export class FormattableEditField extends EditField {
   // Dependencies
   readonly textileService:TextileService = this.$injector.get(TextileService);
+  readonly pathHelper:PathHelperService = this.$injector.get(PathHelperService);
   readonly ConfigurationService:ConfigurationService = this.$injector.get(ConfigurationService);
 
   // Values used in template
@@ -88,14 +90,15 @@ export class FormattableEditField extends EditField {
   public setupMarkdownEditor(container:HTMLElement) {
     const element = container.querySelector('.op-ckeditor-element') as HTMLElement;
     window.OPBalloonEditor
-      .create(element)
-      .then((editor:any) => {
-        editor.config['openProject'] = {
+      .create(element, {
+        openProject: {
           context: this.resource,
+          helpURL: this.pathHelper.textFormattingHelp(),
           element: element,
           pluginContext: window.OpenProject.pluginContext.value
-        };
-
+        }
+      })
+      .then((editor:any) => {
         this.ckeditor = editor;
         if (this.rawValue) {
           this.reset();
