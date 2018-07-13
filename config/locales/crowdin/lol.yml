@@ -1593,14 +1593,14 @@ lol:
   mail_subject_wiki_content_added: crwdns97634:0%{id}crwdne97634:0
   mail_subject_wiki_content_updated: crwdns97635:0%{id}crwdne97635:0
   mail_user_activation_limit_reached:
-    subject: User activation limit reached
-    message: |
-      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
-      The user cannot activate their account since the user limit has been reached.
+    subject: crwdns99029:0crwdne99029:0
+    message: 'crwdns99030:0%{email}crwdnd99030:0%{host}crwdne99030:0
+
+'
     steps:
-      label: 'To allow the user to sign in you can either: '
-      a: Upgrade your payment plan ([here](upgrade_url))
-      b: Lock or delete an existing user ([here](users_url))
+      label: crwdns99031:0crwdne99031:0
+      a: crwdns99032:0[here]crwdne99032:0
+      b: crwdns99033:0[here]crwdne99033:0
   more_actions: crwdns97636:0crwdne97636:0
   noscript_description: crwdns97637:0crwdne97637:0
   noscript_heading: crwdns97638:0crwdne97638:0
@@ -2359,19 +2359,16 @@ lol:
   note_password_login_disabled: crwdns98288:0%{configuration}crwdne98288:0
   warning: crwdns98289:0crwdne98289:0
   warning_attachments_not_saved: crwdns98290:0%{count}crwdne98290:0
-  warning_imminent_user_limit: 'You invited more users than are supported by your
-    current plan. Invited users may not be able to join your OpenProject environment.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
-    in order to allow invited and registered users to join.
+  warning_imminent_user_limit: 'crwdns99034:0%{upgrade_url}crwdne99034:0
 
 '
   warning_registration_token_expired: 'crwdns98856:0%{email}crwdne98856:0
 
 '
-  warning_user_limit_reached: crwdns98985:0%{upgrade_url}crwdne98985:0
-  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
-    active users). Please contact sales@openproject.com to upgrade your Enterprise
-    Edition plan and add additional users.
+  warning_user_limit_reached: 'crwdns99035:0%{upgrade_url}crwdne99035:0
+
+'
+  warning_user_limit_reached_instructions: 'crwdns99036:0%{current}crwdnd99036:0%{max}crwdne99036:0
 
 '
   menu_item: crwdns98291:0crwdne98291:0

@@ -1712,14 +1712,14 @@ pt-BR:
   mail_subject_wiki_content_added: página de wiki '%{id}' foi adicionada
   mail_subject_wiki_content_updated: página de wiki '%{id}' foi atualizada
   mail_user_activation_limit_reached:
-    subject: User activation limit reached
-    message: |
-      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
-      The user cannot activate their account since the user limit has been reached.
+    subject: Limite de ativação de usuários atingido
+    message: "Um novo usuário (%{email}) tentou criar uma conta em um ambiente do
+      OpenProject que você gerencia (%{host}). \nO usuário não conseguiu ativar sua
+      conta pois o limite máximo de usuários foi atingido.\n"
     steps:
-      label: 'To allow the user to sign in you can either: '
-      a: Upgrade your payment plan ([here](upgrade_url))
-      b: Lock or delete an existing user ([here](users_url))
+      label: 'Para permitir que o usuário entre você pode: '
+      a: Atualizar seu plano de pagamento ([here](upgrade_url))
+      b: Bloquear ou excluir um usuário existente ([here](users_url))
   more_actions: Mais funções
   noscript_description: Você precisa ativar o JavaScript para usar o OpenProject!
   noscript_heading: JavaScript desativado
@@ -2653,21 +2653,24 @@ pt-BR:
   note_password_login_disabled: Login senha foi desativado pelo %{configuration}.
   warning: Aviso
   warning_attachments_not_saved: "%{count} arquivo(s) não pôde(m) ser salvo(s)."
-  warning_imminent_user_limit: 'You invited more users than are supported by your
-    current plan. Invited users may not be able to join your OpenProject environment.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
-    in order to allow invited and registered users to join.
+  warning_imminent_user_limit: 'Você convidou usuários além do que é suportado pelo
+    seu plano atual. Usuários convidados podem não ser capazes de participar de seu
+    ambiente OpenProject. Por favor, <a href="%{upgrade_url}">atualize seu plano</a>
+    ou bloqueie usuários existentes a fim de permitir que convidados possam registrar-se.
 
 '
   warning_registration_token_expired: 'O e-mail de ativação expirou. Enviamos um novo
     para %{email}. Por favor, clique no link dentro dele para ativar sua conta.
 
 '
-  warning_user_limit_reached: Atingido o limite de usuários. Por favor, <a href="%{upgrade_url}">atualize</a>
-    para permitir usuários adicionais.
-  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
-    active users). Please contact sales@openproject.com to upgrade your Enterprise
-    Edition plan and add additional users.
+  warning_user_limit_reached: 'Atingido o limite de usuários. Você não pode ativar
+    mais nenhum usuário. <a href="%{upgrade_url}">Atualize seus plano</a> ou bloqueie
+    a adição de novos usuários.
+
+'
+  warning_user_limit_reached_instructions: 'Você atingiu seu limite de usuários (%{current}/%{max}
+    usuários ativos). Entre em contato com sales@openproject.com para atualizar seu
+    plano Enterprise Edition e adicionar novos usuários.
 
 '
   menu_item: Item de menu
