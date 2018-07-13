@@ -191,6 +191,8 @@ es:
       no_results_title_text: Actualmente no existen flujos de trabajo.
   work_packages:
     move:
+      no_common_statuses_exists: There is no status available for all selected work
+        packages. Their status cannot be changed.
       unsupported_for_multiple_projects: Mover o copiar por lotes no esta soportado
         para paquetes de trabajo de múltiples proyectos
     list_simple:

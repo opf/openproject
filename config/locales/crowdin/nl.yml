@@ -188,6 +188,8 @@ nl:
       no_results_title_text: Er zijn momenteel geen workflows.
   work_packages:
     move:
+      no_common_statuses_exists: There is no status available for all selected work
+        packages. Their status cannot be changed.
       unsupported_for_multiple_projects: Bulk verplaatsen/kopiëren wordt niet ondersteund
         voor werkpakketten uit meerdere projecten
     list_simple:

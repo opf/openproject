@@ -183,6 +183,8 @@ hu:
       no_results_title_text: Jelenleg nincsenek munkafolyamatok.
   work_packages:
     move:
+      no_common_statuses_exists: There is no status available for all selected work
+        packages. Their status cannot be changed.
       unsupported_for_multiple_projects: Tömeges mozgatás/másolás nem támogatott a
         különböző projektekből származó munkacsomagokhoz
     list_simple:

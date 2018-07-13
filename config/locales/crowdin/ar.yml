@@ -186,6 +186,8 @@ ar:
       no_results_title_text: لا يوجد حالياً أي سير عمل.
   work_packages:
     move:
+      no_common_statuses_exists: There is no status available for all selected work
+        packages. Their status cannot be changed.
       unsupported_for_multiple_projects: حجم النقل أو النسخ غير مدعوم من أجل حزم العمل
         المكونة من عدة مشاريع
     list_simple:

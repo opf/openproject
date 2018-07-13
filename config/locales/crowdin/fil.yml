@@ -195,6 +195,8 @@ fil:
       no_results_title_text: Sa kasalukuyan ay walang mga workflows.
   work_packages:
     move:
+      no_common_statuses_exists: There is no status available for all selected work
+        packages. Their status cannot be changed.
       unsupported_for_multiple_projects: Ang bulk na paglipat/kopya ay hindi suportado
         sa mga work packages mula sa iba't ibang mga proyekto
     list_simple:

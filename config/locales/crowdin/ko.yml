@@ -173,6 +173,8 @@ ko:
       no_results_title_text: 작업 흐름이 없습니다.
   work_packages:
     move:
+      no_common_statuses_exists: There is no status available for all selected work
+        packages. Their status cannot be changed.
       unsupported_for_multiple_projects: 여러 프로젝트에서 작업 패키지 일괄 이동/복사는 지원되지 않습니다.
     list_simple:
       assigned:

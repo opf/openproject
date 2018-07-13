@@ -168,6 +168,8 @@ zh-TW:
       no_results_title_text: 目前沒有工作流程
   work_packages:
     move:
+      no_common_statuses_exists: There is no status available for all selected work
+        packages. Their status cannot be changed.
       unsupported_for_multiple_projects: 工作項目不支援從多個專案的大區塊的移動/複製
     list_simple:
       assigned:

@@ -187,6 +187,8 @@ sk:
       no_results_title_text: Momentálne neexistujú žiadne toky činností.
   work_packages:
     move:
+      no_common_statuses_exists: There is no status available for all selected work
+        packages. Their status cannot be changed.
       unsupported_for_multiple_projects: Hromadné premiestnenie alebo kopírovanie
         nie je podporované pre pracovné balíky z viacerých projektov
     list_simple:

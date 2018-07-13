@@ -187,6 +187,8 @@ fr:
       no_results_title_text: Il n'y a actuellement aucun flux de travaux.
   work_packages:
     move:
+      no_common_statuses_exists: There is no status available for all selected work
+        packages. Their status cannot be changed.
       unsupported_for_multiple_projects: Déplacer/copier en masse n'est pas supporté
         pour des lots de travaux provenant de plusieurs projets
     list_simple:
