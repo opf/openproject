@@ -1,6 +1,19 @@
 <div class="title-container">
-  <div class="text">
-    <h2 title="{{ selectedTitle }}"> {{ selectedTitle | slice:0:50 }}
-    </h2>
+  <div  title="Click to edit"
+        (accessibleClick)="edit(selectedTitle)"
+        tabindex="0"
+        class="inline-edit">
+    <div *ngIf="editing; else notEditable">
+      <input  (blur)="onBlur($event)"
+              aria-required="true"
+              (accessibleClick)="onKeyPress($event)"
+              [(ngModel)]="selectedTitle"
+              type="text"
+              [placeholder]=""
+              [ngClass]="{ '-error': selectedTitle === '' }">
+    </div>
+    <ng-template #notEditable>
+      <h2 title="{{ selectedTitle }}"> {{ selectedTitle | slice:0:50 }} </h2>
+    </ng-template>
   </div>
 </div>

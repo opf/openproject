@@ -71,6 +71,8 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
   selectedTitle?:string;
   staticTitle?:string;
 
+  currentQuery:QueryResource;
+
   constructor(readonly states:States,
               readonly tableState:TableState,
               readonly authorisationService:AuthorisationService,
@@ -155,6 +157,7 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
       untilComponentDestroyed(this)
     ).subscribe((query) => {
       this.updateTitle(query);
+      this.currentQuery = query;
     });
 
     // Update the checksum and url query params whenever a new query is loaded

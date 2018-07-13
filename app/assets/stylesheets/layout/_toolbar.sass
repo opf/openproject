@@ -25,6 +25,13 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
+$nm-color-error-border: $content-form-danger-zone-bg-color
+$nm-color-error-icon: $content-form-danger-zone-bg-color
+$nm-color-error-background: #fedada
+
+$nm-color-success-border: #35c53f
+$nm-color-success-icon: #35c53f
+$nm-color-success-background: #d8fdd1
 
 @mixin query-select-dropdown-filter-select($color)
   text-decoration: underline
@@ -179,6 +186,30 @@
     color: $toolbar-title-color
     @include breakpoint(medium down)
       font-size: $h2-font-size
+
+  div.inline-edit
+    cursor: pointer
+
+  div.inline-edit input
+    border: 1px solid #ccc
+    border-radius: 2px
+    // padding: 4px 10px
+    margin: 12px 0
+    color: $toolbar-title-color
+    font-size: $h2-font-size
+
+    &.-error
+      background: $nm-color-error-background
+      border-color: $nm-color-error-border
+
+      &:hover
+        border-color: lighten($nm-color-error-border, 10%)
+
+    .-read-only
+      &:focus, &:hover
+        color: $inplace-edit--color--disabled
+        background: $inplace-edit--bg-color--disabled
+      cursor: not-allowed
 
   span
     @include varprop(color, content-link-color)

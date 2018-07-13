@@ -203,24 +203,11 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
       {
         // Sharing modal
         disabled: this.authorisationService.cannot('query', 'unstar') && this.authorisationService.cannot('query', 'star'),
-        linkText: this.I18n.t('js.toolbar.settings.publish'),
+        linkText: this.I18n.t('js.toolbar.settings.visibility_settings'),
         icon: 'icon-publish',
         onClick: ($event:JQueryEventObject) => {
           if (this.allowQueryAction($event, 'unstar') || this.allowQueryAction($event, 'star')) {
             this.opModalService.show(QuerySharingModal);
-          }
-
-          return true;
-        }
-      },
-      {
-        // Settings modal
-        disabled: !this.query.id || this.authorisationService.cannot('query', 'updateImmediately'),
-        linkText: this.I18n.t('js.toolbar.settings.page_settings'),
-        icon: 'icon-settings',
-        onClick: ($event:JQueryEventObject) => {
-          if (this.allowQueryAction($event, 'update')) {
-            this.opModalService.show(RenameQueryModal);
           }
 
           return true;
@@ -241,4 +228,3 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
     ];
   }
 }
-

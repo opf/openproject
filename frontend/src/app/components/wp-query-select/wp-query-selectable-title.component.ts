@@ -25,40 +25,92 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
-
-import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
-import {Component, ElementRef, Inject, Input} from "@angular/core";
-import {OpContextMenuTrigger} from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
+import {ViewChild, Component, forwardRef, OnInit, ElementRef, Inject, Input} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
+import {WorkPackagesListService} from 'core-components/wp-list/wp-list.service';
 
 @Component({
   selector: 'wp-query-selectable-title',
-  templateUrl: './wp-query-selectable-title.html'
+  templateUrl: './wp-query-selectable-title.html',
 })
-export class WorkPackageQuerySelectableTitleComponent extends OpContextMenuTrigger {
+export class WorkPackageQuerySelectableTitleComponent implements OnInit {
   @Input('selectedTitle') public selectedTitle:string;
+  @Input('currentQuery') public currentQuery:QueryResource;
+  @Input() disabled:boolean = false; // Is input disabled?
+
+  private defaultValue:string = ''; // The value before clicking to edit
+  public editing:boolean = false; // Is Component in edit mode?
+  private prevValue:string = '';
+
   public text = {
     search_query_title: this.I18n.t('js.toolbar.search_query_title')
   };
 
   constructor(readonly elementRef:ElementRef,
-              readonly opContextMenu:OPContextMenuService,
-              readonly I18n:I18nService) {
+              readonly I18n:I18nService,
+              readonly wpListService:WorkPackagesListService) {
+  }
 
-    super(elementRef, opContextMenu);
+  ngOnInit() {
+  }
+
+  // Element looses focus on click outside and is not editable anymore
+  onBlur(event:JQueryEventObject) {
+    if (this.empty) {
+      this.editing = true;
+    } else {
+      this.editing = false;
+      this.setTitle();
+    }
+  }
+
+  // Press Enter to save new title
+  onKeyPress(event:JQueryEventObject) {
+    if (event.keyCode === 13 && !this.empty) {
+        this.editing = false;
+        this.setTitle();
+    } else this.editing = true;
+  }
+
+  private setTitle() {
+    if (this.prevValue !== this.selectedTitle) {
+      this.currentQuery.name = this.selectedTitle;
+      this.wpListService.save(this.currentQuery);
+    }
+  }
+
+  private get empty() {
+    if (this.selectedTitle === '') {
+      return true;
+    } else return false;
+  }
+
+  // Edit value of input field
+  public edit(title:string) {
+    if (this.disabled) {
+      return;
+    }
+    // Remember start value as default (in case input is empty, title will be set back to default value)
+    if (this.defaultValue === '') {
+      this.defaultValue = title;
+    }
+    this.prevValue = this.selectedTitle;
+    this.editing = true;
+    // Set focus on input element, when clicked inside
+     setTimeout( () => jQuery('wp-query-selectable-title').find('input').focus())
   }
 
   /**
    * Positioning args for jquery-ui position.
    *
-   * @param {Event} openerEvent
+   * @param {JQueryEventObject} openerEvent
    */
-  public positionArgs(openerEvent:Event) {
+  public positionArgs(openerEvent:JQueryEventObject) {
     return {
       my: 'left top',
       at: 'left bottom',
-      of: this.$element.find('.wp-table--query-menu-link')
+      of: jQuery(this.elementRef).find('.wp-table--query-menu-link')
     };
   }
 }
