@@ -594,7 +594,8 @@ h4.comment
     // Neccessary so that button and select box have the same height
     line-height: 0.6rem
 
-@include breakpoint(680px down)
+// Breakpoint for big mobile screens in landscape mode
+@include breakpoint(830px down)
   #members_add_form .-flex
     align-items: flex-start
 
@@ -608,6 +609,11 @@ h4.comment
       margin-left: 0
     .form--field
       margin-bottom: 1rem
+
+  div
+    &#roadmap
+      .generic-table--no-results-container
+        max-width: 100%
 
 @media screen and (max-width: 87rem) and (min-width: 681px)
   #members_add_form .-flex.-with-button

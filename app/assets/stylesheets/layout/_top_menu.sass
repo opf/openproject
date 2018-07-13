@@ -65,7 +65,7 @@ $hamburger-width: 50px
     margin: 0
     padding: 0
     float: left
-    height: $header-height
+    height: 0
     border-top: 0
     position: relative
   li.drop-down,
@@ -330,6 +330,13 @@ input.top-menu-search--input
     @include varprop(font-size, header-item-font-size)
     text-decoration: none
     padding: 0 15px
+  &:not(.-collapsed)
+    @include varprop(background, header-item-bg-hover-color)
+  &:hover
+    @include varprop(background, header-item-bg-hover-color)
+    &:not(.-collapsed)
+      i::before
+        content: "\f12c"
 
   .nosidebar &
     display: none

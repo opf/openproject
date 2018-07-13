@@ -47,3 +47,17 @@
 
 .progress-bar-legend
   font-size: 80%
+
+// Prevent that the progress bar is cut off on mobile screens
+@include breakpoint(830px down)
+  #roadmap span
+    display: flex
+    flex-direction: row
+    align-items: flex-end
+
+  .progress-bar
+    width: 100% !important
+    flex: 1
+
+  .progress-info
+    padding-top: 5px

@@ -35,6 +35,7 @@ import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
   selector: 'main-menu-toggle',
   template: `
     <div id="main-menu-toggle"
+        [ngClass]="{'-collapsed': !this.toggleService.showNavigation()}"
         aria-haspopup="true"
         [attr.title]="toggleTitle"
         (accessibleClick)="toggleService.toggleNavigation($event)"
@@ -46,17 +47,10 @@ import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
   `
 })
 
-/*
-* Groesse des Menus feststellen
-* pruefen, ob kleiner 10 -> Groesse der Sidebar setzen
-* collapsed boolean setzen, label im resizer und hamburger icon setzen
-*
-*/
 export class MainMenuToggleComponent implements OnInit, OnDestroy {
 
   localStorageKey:string = "openProject-mainMenuWidth";
   toggleTitle:string = "";
-  showNavigation:boolean;
 
   constructor(readonly toggleService:MainMenuToggleService,
               readonly cdRef:ChangeDetectorRef) {

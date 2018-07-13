@@ -36,15 +36,14 @@ $toggler-width: 40px
   overflow-x: hidden
   left: 0
   border-right: $main-menu-border-width solid $main-menu-border-color
-
-  // min-height is full height minus header and footer.
+  // min-height is full height minus header height
   min-height: calc(100vh - 55px)
 
   @include varprop(background-color, main-menu-bg-color)
 
   #menu-sidebar
     height: 100%
-    
+
   %absolute-layout-mode &
     position: relative
 
