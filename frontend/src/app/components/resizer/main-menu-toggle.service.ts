@@ -27,7 +27,7 @@
 // ++
 
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {BehaviorSubject} from 'rxjs';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Injectable()
@@ -43,8 +43,13 @@ export class MainMenuToggleService {
   private mainMenu = jQuery('#main-menu')[0];  // main menu, containing sidebar and resizer
   private hideElements = jQuery('.can-hide-navigation');
 
-  private allData = new BehaviorSubject<string>('');
-  public allData$ = this.allData.asObservable();
+  // Title needs to be sync in main-menu-toggle.component.ts and main-menu-resizer.component.ts
+  private titleData = new BehaviorSubject<string>('');
+  public titleData$ = this.titleData.asObservable();
+
+  // Notes all changes of the menu size (currently needed in wp-resizer.component.ts)
+  private changeData = new BehaviorSubject<any>({});
+  public changeData$ = this.changeData.asObservable();
 
   constructor(protected I18n:I18nService) {
   }
@@ -108,7 +113,7 @@ export class MainMenuToggleService {
     } else {
       this.toggleTitle = this.I18n.t('js.label_expand_project_menu');
     }
-    this.allData.next(this.toggleTitle);
+    this.titleData.next(this.toggleTitle);
   }
 
   private addRemoveClassHidden() : void {
@@ -119,6 +124,12 @@ export class MainMenuToggleService {
     this.setWidth(width);
     window.OpenProject.guardedLocalStorage(this.localStorageKey, String(this.elementWidth));
     this.setToggleTitle();
+    // Send change event when size of menu is changing (menu toggled or resized)
+    // Event should only be fired, when transition is finished
+    let changeEvent = jQuery.Event("change");
+    jQuery('#content-wrapper').on('transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd', () => {
+      this.changeData.next(changeEvent);
+    });
   }
 
   public setWidth(width?:any) : void {

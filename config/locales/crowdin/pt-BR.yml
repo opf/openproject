@@ -248,10 +248,10 @@ pt-BR:
           de entrar com suas credenciais atuais. Se quiser, poderá cadastrar-se novamente
           pelos meios que este aplicativo permite.
       login_verification:
-        other: Digite o nome de usuário %{name} para verificar a exclusão. Depois
-          de enviado, você receberá uma solicitação de confirmação da sua senha.
-        self: Digite seu nome de usuário %{name} para verificar a exclusão. Depois
-          de enviado, você receberá uma solicitação de confirmação da sua senha.
+        other: Digite o nome de usuário %{name} para validar a exclusão. Depois de
+          enviado, você receberá uma solicitação de confirmação da sua senha.
+        self: Digite seu nome de usuário %{name} para validar a exclusão. Depois de
+          enviado, você receberá uma solicitação de confirmação da sua senha.
     error_inactive_activation_by_mail: 'Sua conta ainda não foi ativada. Para ativar
       sua conta, clique no link que foi enviado por e-mail à você.
 
@@ -317,6 +317,7 @@ pt-BR:
         expires_at: Expira em
         subscriber: Assinante
         encoded_token: Token de suporte Enterprise
+        active_user_count_restriction: Máximo de usuários ativos
       relation:
         delay: Atraso
         from: Pacote de trabalho
@@ -450,7 +451,7 @@ pt-BR:
         before_or_equal_to: deve ser antes ou igual a %{date}.
         could_not_be_copied: não pode ser copiado (totalmente).
         regex_invalid: não pode ser validado com a expressão regular associada.
-        unchangeable: cannot be changed.
+        unchangeable: não pode ser alterado.
       models:
         custom_field:
           at_least_one_custom_option: Pelo menos uma opção precisa estar disponível.
@@ -711,6 +712,7 @@ pt-BR:
   button_unlock: Desbloquear
   button_unwatch: Não observar
   button_update: Atualizar
+  button_upgrade: Atualizar
   button_upload: Carregar
   button_view: Ver
   button_watch: Observar
@@ -719,7 +721,7 @@ pt-BR:
   button_configure_menu_entry: Configurar item de menu
   button_delete_menu_entry: Excluir item de menu
   consent:
-    checkbox_label: Eu observei e concordo com o exposto acima.
+    checkbox_label: Eu li e concordo com o exposto acima.
     failure_message: Consentimento falhou, não pode continuar.
     title: Consentimento do usuário
     decline_warning_message: Você se recusou a consentir e foi desconectado.
@@ -967,6 +969,8 @@ pt-BR:
   error_custom_option_not_found: A opção não existe.
   error_dependent_work_package: 'Erro no pacote de trabalho dependente #%{related_id}
     %{related_subject}: %{error}'
+  error_enterprise_activation_user_limit: Sua conta não pôde ser ativada (limite de
+    usuários atingido). Por favor, contate o administrador para obter acesso.
   error_failed_to_delete_entry: Falha ao excluir esta entrada.
   error_invalid_group_by: 'Não é possível agrupar por: %{value}'
   error_invalid_query_column: 'Coluna de consulta inválida: %{value}'
@@ -1244,6 +1248,7 @@ pt-BR:
   label_enumeration_value: Valor de enumeração
   label_enumerations: Enumerações
   label_enterprise: Enterprise
+  label_enterprise_active_users: "%{current}/%{limit} usuários ativos reservados"
   label_enterprise_edition: Enterprise Edition
   label_entry_page: Página de entrada
   label_environment: Ambiente
@@ -1269,6 +1274,8 @@ pt-BR:
   label_force_user_language_to_default: Idioma de usuário definido com uma linguagem
     não permitida como padrão
   label_form_configuration: Configuração do formulário
+  label_gantt: Gantt
+  label_gantt_chart: Gráfico de Gantt
   label_general: Geral
   label_generate_key: Gerar uma chave
   label_git_path: Caminho para o diretório .git
@@ -1372,6 +1379,7 @@ pt-BR:
   label_next_week: Próxima semana
   label_no_change_option: "(Sem mudança)"
   label_no_data: Sem dados para exibir
+  label_no_parent_page: Nenhuma página pai
   label_nothing_display: Nada para exibir
   label_nobody: ninguém
   label_none: nenhum
@@ -1390,6 +1398,7 @@ pt-BR:
   label_overall_activity: Atividade global
   label_overall_spent_time: Tempo total gasto
   label_overview: Visão geral
+  label_page_title: Título da página
   label_part_of: parte de
   label_password_lost: Esqueceu a senha?
   label_password_rule_lowercase: Letras minúsculas
@@ -1667,6 +1676,15 @@ pt-BR:
   macro_execution_error: Erro de execução da macro %{macro_name}
   macro_unavailable: Macro %{macro_name} não pode ser exibida.
   macros:
+    errors:
+      missing_or_invalid_parameter: Parâmetro de macro ausente ou inválido.
+    legacy_warning:
+      timeline: Essa macro de cronograma legada foi removida e não está mais disponível.
+        Você pode substituir a funcionalidade com uma macro da tabela embutida.
+    include_wiki_page:
+      errors:
+        page_not_found: Não é possível encontrar a página wiki '%{name} '.
+        circular_inclusion: Detectada inclusão circular de páginas.
     create_work_package_link:
       errors:
         no_project_context: Chamando macro create_work_package_link fora do contexto
@@ -1693,6 +1711,15 @@ pt-BR:
     dias:"
   mail_subject_wiki_content_added: página de wiki '%{id}' foi adicionada
   mail_subject_wiki_content_updated: página de wiki '%{id}' foi atualizada
+  mail_user_activation_limit_reached:
+    subject: Limite de ativação de usuários atingido
+    message: "Um novo usuário (%{email}) tentou criar uma conta em um ambiente do
+      OpenProject que você gerencia (%{host}). \nO usuário não conseguiu ativar sua
+      conta pois o limite máximo de usuários foi atingido.\n"
+    steps:
+      label: 'Para permitir que o usuário entre você pode: '
+      a: Atualizar seu plano de pagamento ([here](upgrade_url))
+      b: Bloquear ou excluir um usuário existente ([here](users_url))
   more_actions: Mais funções
   noscript_description: Você precisa ativar o JavaScript para usar o OpenProject!
   noscript_heading: JavaScript desativado
@@ -1815,6 +1842,7 @@ pt-BR:
       e colaboração de equipe com o OpenProject.
     text_show_again: Você pode reiniciar este vídeo através do menu ajuda
     welcome: Bem-vindo ao OpenProject
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Adicionar anotações
   permission_add_work_packages: Adicionar pacotes de trabalho
   permission_add_messages: Postar mensagens
@@ -2190,10 +2218,13 @@ pt-BR:
     passwords: Senhas
     session: Sessão
     brute_force_prevention: Bloqueio de usuário automatizado
+    user:
+      default_preferences: Preferências padrão
+      deletion: Exclusão
   text_formatting:
     textile: Textile
     markdown: Markdown
-    plain: Texto sem formatação
+    plain: Texto simples
   status_active: ativo
   status_archived: arquivado
   status_invited: convidado
@@ -2267,7 +2298,7 @@ pt-BR:
   text_enumeration_destroy_question: "% {count} objetos estão atribuídos a esse valor."
   text_file_repository_writable: Diretório de anexos graváveis
   text_git_repo_example: um repositório e local (por exemplo, /gitrepo, c:\gitrepo)
-  text_hint_date_format: Insira uma data no formato YYYY-MM-DD. Outros formatos podem
+  text_hint_date_format: Digite uma data no formato YYYY-MM-DD. Outros formatos podem
     ser alterados para uma data não desejada.
   text_hint_disable_with_0: 'Nota: Desabilitar com 0'
   text_hours_between: Entre %{min} e %{max} horas.
@@ -2550,6 +2581,7 @@ pt-BR:
       quarters: Trimestres
       years: Anos
   title_remove_and_delete_user: Remover o usuário convidado do projeto e excluí-lo.
+  title_enterprise_upgrade: Atualizar para desbloquear mais usuários.
   tooltip_user_default_timezone: 'Fuso horário padrão para novos usuários. Pode ser
     alterado nas configurações do usuário.
 
@@ -2621,8 +2653,24 @@ pt-BR:
   note_password_login_disabled: Login senha foi desativado pelo %{configuration}.
   warning: Aviso
   warning_attachments_not_saved: "%{count} arquivo(s) não pôde(m) ser salvo(s)."
+  warning_imminent_user_limit: 'Você convidou usuários além do que é suportado pelo
+    seu plano atual. Usuários convidados podem não ser capazes de participar de seu
+    ambiente OpenProject. Por favor, <a href="%{upgrade_url}">atualize seu plano</a>
+    ou bloqueie usuários existentes a fim de permitir que convidados possam registrar-se.
+
+'
   warning_registration_token_expired: 'O e-mail de ativação expirou. Enviamos um novo
     para %{email}. Por favor, clique no link dentro dele para ativar sua conta.
+
+'
+  warning_user_limit_reached: 'Atingido o limite de usuários. Você não pode ativar
+    mais nenhum usuário. <a href="%{upgrade_url}">Atualize seus plano</a> ou bloqueie
+    a adição de novos usuários.
+
+'
+  warning_user_limit_reached_instructions: 'Você atingiu seu limite de usuários (%{current}/%{max}
+    usuários ativos). Entre em contato com sales@openproject.com para atualizar seu
+    plano Enterprise Edition e adicionar novos usuários.
 
 '
   menu_item: Item de menu

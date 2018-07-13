@@ -49,7 +49,7 @@ export class AttributeHelpTextController {
   constructor(protected $element:IAugmentedJQuery,
               protected $scope:angular.IScope) {
 
-    window.OpenProject.pluginContext.valuesPromise().then((context) => {
+    window.OpenProject.getPluginContext().then((context) => {
       this.i18n = context.services.i18n;
       this.helpTextDm = context.services.helpTextDm;
       this.opModal = context.services.opModalService;

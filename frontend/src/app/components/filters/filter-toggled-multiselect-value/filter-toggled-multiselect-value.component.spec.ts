@@ -50,7 +50,7 @@ describe('FilterToggledMultiselectValueComponent', () => {
   let element:HTMLElement;
   let debugElement:DebugElement;
 
-  const allowedValues = [
+  const allowedValues:any = [
     {
       _type: 'Foo',
       name: 'New York',

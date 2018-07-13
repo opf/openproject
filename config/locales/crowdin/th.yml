@@ -247,9 +247,9 @@ th:
           หากคุณต้องการกลับมาเป็นผู้ใช้แอปพลิเคชั่นนี้ใหม่อีกครั้ง คุณสามารถทำได้โดยวิธีการอนุญาตให้ใช้งานแอปพลิเคชั่น
       login_verification:
         other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+          will be asked to confirm your password.
         self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'บัญชีของคุณได้ไม่ได้เปิดการใช้งาน กรุณาคลิกที่ลิงค์ที่ถูกส่งไปยังอีเมลของคุณ
       เพื่อเปิดการใช้งาน
 
@@ -315,6 +315,7 @@ th:
         expires_at: Expires at
         subscriber: Subscriber
         encoded_token: Enterprise support token
+        active_user_count_restriction: Maximum active users
       relation:
         delay: ล่าช้า
         from: ชุดภารกิจ
@@ -705,6 +706,7 @@ th:
   button_unlock: ปลดล็อก
   button_unwatch: ไม่เข้าชม
   button_update: ปรับปรุง
+  button_upgrade: Upgrade
   button_upload: Upload
   button_view: ดู
   button_watch: ดู
@@ -957,6 +959,8 @@ th:
   error_custom_option_not_found: Option does not exist.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1224,6 +1228,7 @@ th:
   label_enumeration_value: Enumeration value
   label_enumerations: การระบุหมายเลข
   label_enterprise: Enterprise
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
   label_entry_page: Entry page
   label_environment: สภาพแวดล้อม
@@ -1248,6 +1253,8 @@ th:
   label_follows: ดังต่อไปนี้
   label_force_user_language_to_default: พบภาษาที่ไม่อนุญาตให้ใช้เป็นค่าเริ่มต้น ในชุดภาษาของผู้ใช้
   label_form_configuration: Form configuration
+  label_gantt: Gantt
+  label_gantt_chart: Gantt chart
   label_general: ทั่วไป
   label_generate_key: สร้างคีย์
   label_git_path: เส้นทางไปยังไดเรคทอรี่ ของไฟล์ .git
@@ -1351,6 +1358,7 @@ th:
   label_next_week: อาทิตย์ถัดไป
   label_no_change_option: "(ไม่เปลี่ยนแปลง)"
   label_no_data: ไม่มีข้อมูลให้แสดง
+  label_no_parent_page: No parent page
   label_nothing_display: Nothing to display
   label_nobody: ไม่มีใคร
   label_none: ไม่มี
@@ -1369,6 +1377,7 @@ th:
   label_overall_activity: กิจกรรมในภาพรวม
   label_overall_spent_time: เวลาที่ใช้โดยรวม
   label_overview: ภาพรวม
+  label_page_title: Page title
   label_part_of: part of
   label_password_lost: ลืมรหัสผ่าน
   label_password_rule_lowercase: ตัวพิมพ์เล็ก
@@ -1488,7 +1497,7 @@ th:
   label_summary: สรุป
   label_system: ระบบ
   label_system_storage: Storage information
-  label_table_of_contents: สารบัญ
+  label_table_of_contents: Table of contents
   label_tag: แท็ก
   label_text: ข้อความแบบยาว
   label_this_month: เดือนนี้
@@ -1635,6 +1644,15 @@ th:
   macro_execution_error: ข้อผิดพลาดในการรันมาโคร %{macro_name}
   macro_unavailable: Macro %{macro_name} cannot be displayed.
   macros:
+    errors:
+      missing_or_invalid_parameter: Missing or invalid macro parameter.
+    legacy_warning:
+      timeline: This legacy timeline macro has been removed and is no longer available.
+        You can replace the functionality with an embedded table macro.
+    include_wiki_page:
+      errors:
+        page_not_found: Cannot find the wiki page '%{name}'.
+        circular_inclusion: Circular inclusion of pages detected.
     create_work_package_link:
       errors:
         no_project_context: Calling create_work_package_link macro from outside project
@@ -1660,6 +1678,15 @@ th:
   mail_subject_reminder: มี %{count} ชุดภารกิจกำลังจะครบกำหนดในอีก %{days} วัน
   mail_subject_wiki_content_added: มีการเพิ่มหน้าวิกิ '%{id}' แล้ว
   mail_subject_wiki_content_updated: มีการปรับปรุงหน้าวิกิ '%{id}' แล้ว
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: ฟังก์ชันเพิ่มเติม
   noscript_description: คุณจำเป็นต้องเปิดใช้ JavaSript เพื่อใช้งาน OpenProject ก่อน!
   noscript_heading: ไม่ได้เปิดใช้ JavaScript
@@ -1771,6 +1798,7 @@ th:
       team collaboration with OpenProject.
     text_show_again: คุณสามารถเริ่มเล่นวิดีโอนี้ใหม่ได้จากเมนูวิธีใช้
     welcome: Welcome to OpenProject
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: เพิ่มหมายเหตุ
   permission_add_work_packages: เพิ่มลำดับภารกิจ
   permission_add_messages: โพสต์ข้อความ
@@ -2129,6 +2157,9 @@ th:
     passwords: รหัสผ่าน
     session: เซสชั่น
     brute_force_prevention: การบล็อกผู้ใช้อัตโนมัติ
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown
@@ -2459,6 +2490,7 @@ th:
       years: ปี
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
     in a user''s settings.
 
@@ -2529,9 +2561,25 @@ th:
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Warning
   warning_attachments_not_saved: มี %{count} ไฟล์ที่ไม่สามารถบันทึกได้
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
   warning_registration_token_expired: |
     The activation email has expired. We sent you a new one to %{email}.
     Please click the link inside of it to activate your account.
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: เมนู
   menu_item_setting: การมองเห็น
   wiki_menu_item_for: เมนูสำหรับหน้าวิกิ "%{title}"

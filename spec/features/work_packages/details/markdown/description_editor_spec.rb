@@ -32,18 +32,18 @@ require 'features/work_packages/shared_contexts'
 require 'support/work_packages/work_package_field'
 require 'features/work_packages/work_packages_page'
 
-describe 'description inplace editor', js: true, selenium: true do
+describe 'description inplace editor', js: true, selenium: true, with_settings: { text_formatting: 'markdown' } do
   let(:project) { FactoryBot.create :project_with_types, is_public: true }
   let(:property_name) { :description }
   let(:property_title) { 'Description' }
   let(:description_text) { 'Ima description' }
-  let!(:work_package) {
+  let!(:work_package) do
     FactoryBot.create(
       :work_package,
       project: project,
       description: description_text
     )
-  }
+  end
   let(:user) { FactoryBot.create :admin }
   let(:field) { WorkPackageEditorField.new wp_page, 'description' }
   let(:wp_page) { Pages::SplitWorkPackage.new(work_package, project) }

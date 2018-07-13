@@ -42,9 +42,6 @@ const meta = jQuery('meta[name=openproject_initializer]');
 I18n.locale = meta.data('defaultLocale');
 I18n.locale = meta.data('locale');
 
-var requireComponent = require.context('./components/', true, /^((?!\.(test|spec)).)*\.(js|ts|html)$/);
-requireComponent.keys().forEach(requireComponent);
-
 // Enable debug logging for reactive states
 whenDebugging(enableReactiveStatesLogging);
 

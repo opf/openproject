@@ -251,9 +251,9 @@ vi:
           vậy bằng cách sử dụng các phương tiện ứng dụng này cho phép.
       login_verification:
         other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+          will be asked to confirm your password.
         self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'Tài khoản của bạn đã không được nêu ra được
       kích hoạt. Để kích hoạt tài khoản của bạn, nhấp vào liên kết được gửi đến bạn.
 
@@ -319,6 +319,7 @@ vi:
         expires_at: Expires at
         subscriber: Subscriber
         encoded_token: Enterprise support token
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Trì hoãn
         from: Work Package
@@ -712,6 +713,7 @@ vi:
   button_unlock: Mở khoá
   button_unwatch: Ngừng theo dõi
   button_update: Cập Nhật
+  button_upgrade: Upgrade
   button_upload: Upload
   button_view: Khung nhìn
   button_watch: Theo dõi
@@ -964,6 +966,8 @@ vi:
   error_custom_option_not_found: Option does not exist.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1238,6 +1242,7 @@ vi:
   label_enumeration_value: Enumeration value
   label_enumerations: Enumerations
   label_enterprise: Enterprise
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
   label_entry_page: Entry page
   label_environment: Environment
@@ -1263,6 +1268,8 @@ vi:
   label_force_user_language_to_default: Có một ngôn ngữ không được cho phép để mặc
     định trong thiết lập ngôn ngữ cho người sử dụng
   label_form_configuration: Mẫu cấu hình
+  label_gantt: Gantt
+  label_gantt_chart: Gantt chart
   label_general: Tổng quan
   label_generate_key: Tạo khóa
   label_git_path: Đường dẫn đến thư mục .git
@@ -1366,6 +1373,7 @@ vi:
   label_next_week: Tuần tới
   label_no_change_option: "(không đổi)"
   label_no_data: Không có dữ liệu để hiển thị
+  label_no_parent_page: No parent page
   label_nothing_display: Nothing to display
   label_nobody: không ai
   label_none: không
@@ -1384,6 +1392,7 @@ vi:
   label_overall_activity: Tổng thể hoạt động
   label_overall_spent_time: Tổng thời gian sử dụng
   label_overview: Tổng quan
+  label_page_title: Page title
   label_part_of: part of
   label_password_lost: Quên Mật Khẩu?
   label_password_rule_lowercase: Chữ thường
@@ -1504,7 +1513,7 @@ vi:
   label_summary: Tóm tắt
   label_system: Hệ thống
   label_system_storage: Storage information
-  label_table_of_contents: Bảng mục lục
+  label_table_of_contents: Table of contents
   label_tag: Từ khóa
   label_text: Văn bản dài
   label_this_month: tháng này
@@ -1656,6 +1665,15 @@ vi:
   macro_execution_error: Error executing the macro %{macro_name}
   macro_unavailable: Macro %{macro_name} cannot be displayed.
   macros:
+    errors:
+      missing_or_invalid_parameter: Missing or invalid macro parameter.
+    legacy_warning:
+      timeline: This legacy timeline macro has been removed and is no longer available.
+        You can replace the functionality with an embedded table macro.
+    include_wiki_page:
+      errors:
+        page_not_found: Cannot find the wiki page '%{name}'.
+        circular_inclusion: Circular inclusion of pages detected.
     create_work_package_link:
       errors:
         no_project_context: Calling create_work_package_link macro from outside project
@@ -1682,6 +1700,15 @@ vi:
   mail_subject_reminder: "%{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: More functions
   noscript_description: You need to activate JavaScript in order to use OpenProject!
   noscript_heading: JavaScript disabled
@@ -1802,6 +1829,7 @@ vi:
       team collaboration with OpenProject.
     text_show_again: Bạn có thể khởi động lại video này từ trình đơn trợ giúp
     welcome: Welcome to OpenProject
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Add notes
   permission_add_work_packages: Thêm mới Gói công việc
   permission_add_messages: Đăng tin nhắn
@@ -2165,6 +2193,9 @@ vi:
     passwords: Passwords
     session: Session
     brute_force_prevention: Automated user blocking
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown
@@ -2518,6 +2549,7 @@ vi:
       years: Years
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
     in a user''s settings.
 
@@ -2589,9 +2621,25 @@ vi:
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Warning
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
   warning_registration_token_expired: |
     The activation email has expired. We sent you a new one to %{email}.
     Please click the link inside of it to activate your account.
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: Menu item
   menu_item_setting: Visibility
   wiki_menu_item_for: Menu item for wikipage "%{title}"

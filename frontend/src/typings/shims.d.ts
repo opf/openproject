@@ -51,6 +51,7 @@ declare global {
     topShelf:any;
     atwho:any;
     mark:any;
+    select2:any;
   }
 }
 

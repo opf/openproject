@@ -62,8 +62,8 @@ id:
   custom_actions:
     actions:
       name: Tindakan
-      add: Add action
-    conditions: Conditions
+      add: Tambahkan tindakan
+    conditions: Kondisi
     plural: Custom actions
     new: New custom action
     edit: Edit custom action %{name}
@@ -245,10 +245,10 @@ id:
         other: Akun akan dihapus dari sistem. User tidak akan bisa Login kembali.
         self: Akun Anda akan dihapus dari sistem. Anda tidak akan bisa Login kembali.
       login_verification:
-        other: Masuk ke login %{name} untuk memeriksa penghapusan. Begitu dikirim,
-          Anda akan diminta untuk mengkonfirmasi password Anda.
-        self: Masuk ke login Anda %{name} untuk memeriksa penghapusan. Begitu dikirim,
-          Anda akan diminta untuk mengkonfirmasi password Anda.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'Akun anda belum diaktifkan. Untuk mengaktifkan,
       klik pada link yang ada di email anda.
 
@@ -314,6 +314,7 @@ id:
         expires_at: Berakhir masa berlaku pada
         subscriber: Pelanggan
         encoded_token: Token pendukung perusahaan
+        active_user_count_restriction: Pengguna aktif maksimum
       relation:
         delay: Jeda
         from: Paket-Penugasan
@@ -673,7 +674,7 @@ id:
   button_create: Buat baru
   button_create_and_continue: Buat baru dan lanjut
   button_delete: Hapus
-  button_decline: Decline
+  button_decline: Tolak
   button_delete_watcher: Hapus pemantau, %{name}
   button_download: Download
   button_duplicate: Duplikasi
@@ -708,6 +709,7 @@ id:
   button_unlock: Unlock
   button_unwatch: Unwatch
   button_update: Update
+  button_upgrade: Tingkatkan
   button_upload: Unggah
   button_view: Lihat
   button_watch: Pantau
@@ -962,6 +964,8 @@ id:
   error_custom_option_not_found: Pilihan tidak ada.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Gagal untuk menghapus isian ini.
   error_invalid_group_by: 'Tidak dapat dikelompokkan dengan: %{value}'
   error_invalid_query_column: 'Permintaan tidak valid kolom: %{value}'
@@ -1236,6 +1240,7 @@ id:
   label_enumeration_value: Enumeration value
   label_enumerations: Enumerasi
   label_enterprise: Perusahaan
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Edisi Perusahaan
   label_entry_page: Entry page
   label_environment: Environment
@@ -1260,6 +1265,8 @@ id:
   label_follows: Berikut
   label_force_user_language_to_default: Set bahasa user ke default
   label_form_configuration: Form configuration
+  label_gantt: Gantt
+  label_gantt_chart: Bagan Gantt
   label_general: Umum
   label_generate_key: Generate a key
   label_git_path: Path to .git directory
@@ -1363,6 +1370,7 @@ id:
   label_next_week: Minggu depan
   label_no_change_option: "(tdk berubah)"
   label_no_data: Tidak ada data untuk ditampilkan
+  label_no_parent_page: No parent page
   label_nothing_display: Tidak ada yang ditampilkan
   label_nobody: tidak ada
   label_none: kosong
@@ -1381,6 +1389,7 @@ id:
   label_overall_activity: Keseluruhan Activity
   label_overall_spent_time: Durasi keseluruhan
   label_overview: Tinjauan
+  label_page_title: Page title
   label_part_of: bagian dari
   label_password_lost: Lupa password?
   label_password_rule_lowercase: Huruf kecil
@@ -1501,7 +1510,7 @@ id:
   label_summary: Ringkasan
   label_system: Sistem
   label_system_storage: Informasi storage
-  label_table_of_contents: Daftar isi
+  label_table_of_contents: Table of contents
   label_tag: Tag
   label_text: Teks panjang
   label_this_month: bulan ini
@@ -1653,6 +1662,15 @@ id:
   macro_execution_error: ERROR eksekusi makro %{macro_name}
   macro_unavailable: Makro %{macro_name} tidak dapat ditampilkan.
   macros:
+    errors:
+      missing_or_invalid_parameter: Missing or invalid macro parameter.
+    legacy_warning:
+      timeline: This legacy timeline macro has been removed and is no longer available.
+        You can replace the functionality with an embedded table macro.
+    include_wiki_page:
+      errors:
+        page_not_found: Cannot find the wiki page '%{name}'.
+        circular_inclusion: Circular inclusion of pages detected.
     create_work_package_link:
       errors:
         no_project_context: Pemanggilan makro create_work_package_link dari paket
@@ -1678,6 +1696,15 @@ id:
   mail_subject_reminder: "%{count} Paket-Penugasan akan berakhir %{days} hari lagi"
   mail_subject_wiki_content_added: Halaman Wiki '%{id}' telah ditambahkan
   mail_subject_wiki_content_updated: Halaman Wiki '%{id}' telah diupdate
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: Fungsi lainnya
   noscript_description: Aktifkan JavaScript di browser Anda untuk menjalankan Software
     ini!
@@ -1795,6 +1822,7 @@ id:
       proyek dan tim kolaborasi bersama OpenProject.
     text_show_again: You can restart this video from the help menu
     welcome: Welcome to OpenProject
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Tambahkan catatan
   permission_add_work_packages: Tambah Paket-Penugasan
   permission_add_messages: Kirim pesan
@@ -2156,6 +2184,9 @@ id:
     passwords: Password
     session: Sesi
     brute_force_prevention: Pemblokiran otomatis user
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown
@@ -2509,6 +2540,7 @@ id:
       years: Tahun
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
     in a user''s settings.
 
@@ -2578,9 +2610,25 @@ id:
   note_password_login_disabled: Password login telah dinonaktifkan (by %{configuration}).
   warning: Warning
   warning_attachments_not_saved: "%{count} file tidak akan disimpan."
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
   warning_registration_token_expired: |
     The activation email has expired. We sent you a new one to %{email}.
     Please click the link inside of it to activate your account.
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: Menu item
   menu_item_setting: Visibilitas
   wiki_menu_item_for: Menu untuk Halaman Wiki "%{title}"

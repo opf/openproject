@@ -52,8 +52,31 @@ ko:
     description_select_work_package: '작업 패키지 #%{id} 선택'
     description_selected_columns: 선택된 열
     description_subwork_package: '작업 패키지 #%{id}의 자식'
+    editor:
+      macro:
+        toc: Table of contents
+        wiki_page_include:
+          button: Include content of another wiki page
+          text: Included wiki page (placeholder)
+          page: 위키 페이지
+          hint: |
+            Include the content of another wiki page by specifying its title or slug.
+            You can include the wiki page of another project by separating them with a colon like the following example.
+        work_package_button:
+          button: Insert create work package button
+          type: Work package type
+          button_style: Use button style
+          button_style_hint: 'Optional: Check to make macro appear as a button, not
+            as a link.'
+          without_type: Create work package
+          with_type: 'Create work package (Type: %{typename})'
+        embedded_table:
+          button: Embed work package table
+          text: Embedded work package table (placeholder)
     error:
       internal: 내부 오류가 발생하였습니다.
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
       query_saving: The query could not be saved.
     filter:
       description:
@@ -118,6 +141,7 @@ ko:
     label_expand: 확장
     label_expanded: 확장됨
     label_expand_all: 모두 확장
+    label_expand_project_menu: Expand project menu
     label_export: 내보내기
     label_filename: 파일
     label_filesize: 크기
@@ -125,6 +149,7 @@ ko:
     label_group_by: 그룹화 기준
     label_hide_attributes: 간단히 표시
     label_hide_column: 열 숨기기
+    label_hide_project_menu: Collapse project menu
     label_in: "-"
     label_in_less_than: 보다 작음
     label_in_more_than: 보다 큼
@@ -160,7 +185,7 @@ ko:
     label_select_watcher: 주시하는 사람을 선택
     label_selected_filter_list: 선택된 필터
     label_show_attributes: 모든 특성 표시
-    label_show_in_menu: 메뉴에서 페이지 보기
+    label_show_in_menu: Show view in menu
     label_sort_by: 정렬 기준
     label_sorted_by: '정렬 :'
     label_sort_higher: 위로 이동
@@ -174,7 +199,7 @@ ko:
     label_activity_show_only_comments: 코멘트가 있는 활동만 표시
     label_activity_show_all: 모든 활동 표시
     label_total_progress: "%{percent}% 진행"
-    label_visible_for_others: 다른사람에게 보이기
+    label_visible_for_others: View visible for others
     label_updated_on: '업데이트 :'
     label_warning: 경고
     label_work_package: 작업 패키지
@@ -305,7 +330,6 @@ ko:
         one: You can only select one item
         other: "{{limit}}개만 선택하실 수 있습니다."
         zero: You cannot select any items
-    show_hide_project_menu: 프로젝트 메뉴 확장/축소
     project_menu_details: 세부 정보
     sort:
       sorted_asc: '오름차순 정렬이 적용됨, '
@@ -544,6 +568,8 @@ ko:
         show_timeline_hint: Show an interactive gantt chart on the right side of the
           table. You can change its width by dragging the divider between table and
           gantt chart.
+        columns_help_text: Use the input above to add or remove columns to your table
+          view. You can drag and drop the columns to reorder them.
       tabs:
         overview: 요약
         activity: 활동
@@ -617,6 +643,7 @@ ko:
         messages_on_field: "%{messages} 는 유효하지 않습니다."
     error_could_not_resolve_version_name: 버전 이름을 확인할 수 없습니다.
     error_could_not_resolve_user_name: 사용자 이름을 확인할 수 없습니다.
+    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
     units:
       workPackage:
         one: work package

@@ -53,8 +53,31 @@
     description_select_work_package: 'Velg arbeidspakke #%{id}'
     description_selected_columns: Valgte Kolonner
     description_subwork_package: 'Barn av arbeidspakke #%{id}'
+    editor:
+      macro:
+        toc: Table of contents
+        wiki_page_include:
+          button: Include content of another wiki page
+          text: Included wiki page (placeholder)
+          page: Wiki-side
+          hint: |
+            Include the content of another wiki page by specifying its title or slug.
+            You can include the wiki page of another project by separating them with a colon like the following example.
+        work_package_button:
+          button: Insert create work package button
+          type: Work package type
+          button_style: Use button style
+          button_style_hint: 'Optional: Check to make macro appear as a button, not
+            as a link.'
+          without_type: Create work package
+          with_type: 'Create work package (Type: %{typename})'
+        embedded_table:
+          button: Embed work package table
+          text: Embedded work package table (placeholder)
     error:
       internal: An internal error has occurred.
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
       query_saving: The query could not be saved.
     filter:
       description:
@@ -120,6 +143,7 @@
     label_expand: Utvid
     label_expanded: utvidet
     label_expand_all: Utvid alle
+    label_expand_project_menu: Expand project menu
     label_export: Eksportèr
     label_filename: Fil
     label_filesize: Størrelse
@@ -127,6 +151,7 @@
     label_group_by: Grupper etter
     label_hide_attributes: Vis færre
     label_hide_column: Skjul kolonne
+    label_hide_project_menu: Collapse project menu
     label_in: i
     label_in_less_than: i mindre enn
     label_in_more_than: i mer enn
@@ -162,7 +187,7 @@
     label_select_watcher: Velg en overvåker...
     label_selected_filter_list: Valgte filtre
     label_show_attributes: Vis alle attributter
-    label_show_in_menu: Vis side i meny
+    label_show_in_menu: Show view in menu
     label_sort_by: Sorter på
     label_sorted_by: sortert på
     label_sort_higher: Flytt opp
@@ -176,7 +201,7 @@
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% utført"
-    label_visible_for_others: Siden er synlig for andre
+    label_visible_for_others: View visible for others
     label_updated_on: updated on
     label_warning: Advarsel
     label_work_package: Arbeidspakke
@@ -312,7 +337,6 @@
         one: Du kan bare velge ett element
         other: You can only select {{limit}} items
         zero: You cannot select any items
-    show_hide_project_menu: Vis/Skjul Prosjekt-menyen
     project_menu_details: Detaljer
     sort:
       sorted_asc: 'Ascending sort applied, '
@@ -569,6 +593,8 @@
         show_timeline_hint: Show an interactive gantt chart on the right side of the
           table. You can change its width by dragging the divider between table and
           gantt chart.
+        columns_help_text: Use the input above to add or remove columns to your table
+          view. You can drag and drop the columns to reorder them.
       tabs:
         overview: Oversikt
         activity: Aktivitet
@@ -642,6 +668,7 @@
         messages_on_field: 'This field is invalid: %{messages}'
     error_could_not_resolve_version_name: Kunne ikke slå opp versjonsnavnet
     error_could_not_resolve_user_name: Kunne ikke slå opp brukernavn
+    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
     units:
       workPackage:
         one: work package

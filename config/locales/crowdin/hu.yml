@@ -243,10 +243,10 @@ hu:
           nem tud bejelentkezni a jelenlegi hozzáférésével. Ha úgy dönt, hogy a felhasználó
           az alkalmazást újra hasznáhatja, akkor azt újra megteheti.
       login_verification:
-        other: Add meg a felhasználó nevet %{name}, hogy megerősítsd a törlést. Amikor
-          elküldöd, meg kell erősítened a jelszavadat.
-        self: Add meg a felhasználó neved %{name}, hogy megerősítsd a törlést. Amikor
-          elküldöd, meg kell erősítened a jelszavadat.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'A felhasználói hozzáférésed még nem aktív.
       Felhasználói fiókjának aktiválásához kattintson az e-mailben kapott linkre.
 
@@ -314,6 +314,7 @@ hu:
         expires_at: Lejárat ekkor
         subscriber: Előfizető
         encoded_token: Vállalati támogatás kulcs
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Késés
         from: Munkacsomag
@@ -709,6 +710,7 @@ hu:
   button_unlock: A zárolás feloldása
   button_unwatch: Megfigyelés leállítása
   button_update: Frissítés
+  button_upgrade: Upgrade
   button_upload: Feltöltés
   button_view: Nézet
   button_watch: Megfigyelés
@@ -965,6 +967,8 @@ hu:
   error_custom_option_not_found: A beállítás nem létezik.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Nem sikerült törölni ezt a bejegyzést.
   error_invalid_group_by: 'Nem csoportosítható e szerint: %{value}'
   error_invalid_query_column: 'Érvénytelen lekérdezési oszlop: %{value}'
@@ -1242,6 +1246,7 @@ hu:
   label_enumeration_value: Új felsorolási érték
   label_enumerations: Elnevezések
   label_enterprise: Vállalati
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
   label_entry_page: Entry page
   label_environment: Környezet
@@ -1267,6 +1272,8 @@ hu:
   label_force_user_language_to_default: Nyelv beállitása a felhasználóknak, amelyeknél
     nem az alapértelmezett nyelv az elfogadott
   label_form_configuration: Űrlap konfiguráció
+  label_gantt: Gantt
+  label_gantt_chart: Gantt-diagram
   label_general: Általános
   label_generate_key: Létrehoz egy kulcsot
   label_git_path: ".Git könyvtár elérési útja"
@@ -1370,6 +1377,7 @@ hu:
   label_next_week: A jövő héten
   label_no_change_option: "(Nincs változás)"
   label_no_data: Nincs megjelenítendő adat
+  label_no_parent_page: No parent page
   label_nothing_display: Nincs megjeleníthető
   label_nobody: senki sem
   label_none: Nincs
@@ -1388,6 +1396,7 @@ hu:
   label_overall_activity: Általános tevékenység
   label_overall_spent_time: Teljes eltöltött idő
   label_overview: Áttekintő
+  label_page_title: Page title
   label_part_of: része
   label_password_lost: Elfelejtetted a jelszavad?
   label_password_rule_lowercase: Kisbetűk
@@ -1508,7 +1517,7 @@ hu:
   label_summary: Összegzés
   label_system: Rendszer
   label_system_storage: Tároló információ
-  label_table_of_contents: Tartalomjegyzék
+  label_table_of_contents: Table of contents
   label_tag: Cimke
   label_text: Hosszú szöveg
   label_this_month: Ebben a hónapban
@@ -1664,6 +1673,15 @@ hu:
   macro_execution_error: Hiba a makro %{macro_name} végrehajtásában
   macro_unavailable: A %{macro_name} makró nem jeleníthető meg.
   macros:
+    errors:
+      missing_or_invalid_parameter: Missing or invalid macro parameter.
+    legacy_warning:
+      timeline: This legacy timeline macro has been removed and is no longer available.
+        You can replace the functionality with an embedded table macro.
+    include_wiki_page:
+      errors:
+        page_not_found: Cannot find the wiki page '%{name}'.
+        circular_inclusion: Circular inclusion of pages detected.
     create_work_package_link:
       errors:
         no_project_context: A create_work_package_link makró hívása külső projektek
@@ -1690,6 +1708,15 @@ hu:
   mail_subject_reminder: "%{count} munkacsomag(ok) miatt a következő %{days} nap"
   mail_subject_wiki_content_added: "'%{id}' wiki oldal hozzáadva"
   mail_subject_wiki_content_updated: "'%{id}' wiki oldal frissítve"
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: További funkciók
   noscript_description: Engedélyezze a JavaScriptet, hogy használni tudja az OpenProjectet
     !
@@ -1810,6 +1837,7 @@ hu:
       csapatmunkáról az OpenProjecttel.
     text_show_again: Újra tudod indítani ezt a videót a segítség menüből
     welcome: Üdvözöl az OpenProject
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Megjegyzések hozzáadása
   permission_add_work_packages: Munkacsomag hozzáadása
   permission_add_messages: Elküldött üzenetek
@@ -2173,6 +2201,9 @@ hu:
     passwords: Jelszavak
     session: Munkamenet
     brute_force_prevention: Felhasználó automatikus blokkolása
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown
@@ -2530,6 +2561,7 @@ hu:
       years: Évek
   title_remove_and_delete_user: Távolítsa el a meghívott felhasználót a projektből,
     és törölje őt.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_user_default_timezone: 'Az új felhasználók alapértelmezett időzónája. A
     felhasználó beállításai megváltoztathatók.
 
@@ -2606,9 +2638,25 @@ hu:
   note_password_login_disabled: Bejelentkezési jelszót a %{configuration} letiltotta.
   warning: Figyelem
   warning_attachments_not_saved: "%{count} fájl nem menthető."
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
   warning_registration_token_expired: |
     Az aktiváló e-mail lejárt. Új levelet küldtünk Önnek %{email} részére.
     Kérjük, kattintson a belsejében lévő linkre a fiók aktiválásához.
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: Menüpont
   menu_item_setting: Látható
   wiki_menu_item_for: Wikipage "%{title}" menüeleme

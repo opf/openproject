@@ -37,7 +37,7 @@ export class QuerySharingForm {
   public get canPublish() {
     const form = this.states.query.form.value!;
 
-    return this.authorisationService.can('query', 'saveImmediately')
+    return this.authorisationService.can('query', 'updateImmediately')
       && form.schema.public.writable;
   }
 

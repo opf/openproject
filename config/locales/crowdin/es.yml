@@ -260,10 +260,10 @@ es:
           en un usuario de nuevo esta aplicación, puedes hacerlo mediante el uso de
           los medios otorga a esta aplicación.
       login_verification:
-        other: Escriba el %{name} de inicio de sesión para verificar la eliminación.
-          Después del envío, se le pedirá que confirme la contraseña.
-        self: Introducir el %{name} de inicio de sesión para verificar la eliminación.
-          Una vez que se envíe, se le pedirá confirmar la contraseña.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'Su cuenta aún no está activada. Para activar
       su cuenta, haga clic en el enlace que fue enviado por correo electrónico.
 
@@ -331,6 +331,7 @@ es:
         expires_at: Caduca el
         subscriber: Suscriptor
         encoded_token: Token de apoyo de versión corporativa
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Retraso
         from: Paquete de trabajo
@@ -733,6 +734,7 @@ es:
   button_unlock: Desbloquear
   button_unwatch: No controlar más
   button_update: Actualizar
+  button_upgrade: Upgrade
   button_upload: Cargar
   button_view: Ver
   button_watch: Controlar
@@ -990,6 +992,8 @@ es:
   error_custom_option_not_found: Esta opción no existe.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: No se puede eliminar esta entrada.
   error_invalid_group_by: 'No se puede agrupar por: %{value}'
   error_invalid_query_column: 'Columna no válida en la solicitud: %{value}'
@@ -1269,6 +1273,7 @@ es:
   label_enumeration_value: Valor de enumeración
   label_enumerations: Enumeraciones
   label_enterprise: Empresa
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Versión corporativa
   label_entry_page: Entry page
   label_environment: Entorno
@@ -1294,6 +1299,8 @@ es:
   label_force_user_language_to_default: Configurar idioma de usuarios que tienen un
     lenguaje no permitido por defecto
   label_form_configuration: Configuración del formato
+  label_gantt: Gantt
+  label_gantt_chart: Diagrama de Gantt
   label_general: General
   label_generate_key: Generar una contraseña
   label_git_path: Ruta al directorio .git
@@ -1397,6 +1404,7 @@ es:
   label_next_week: La próxima semana
   label_no_change_option: "(No hay cambios)"
   label_no_data: No hay datos disponibles
+  label_no_parent_page: No parent page
   label_nothing_display: Nada que mostrar
   label_nobody: nadie
   label_none: ninguno
@@ -1415,6 +1423,7 @@ es:
   label_overall_activity: Actividad general
   label_overall_spent_time: Tiempo total gastado
   label_overview: Resumen
+  label_page_title: Page title
   label_part_of: parte de
   label_password_lost: Contraseña perdida
   label_password_rule_lowercase: Minúscula
@@ -1536,7 +1545,7 @@ es:
   label_summary: Resumen
   label_system: Sistema
   label_system_storage: Información de almacenamiento
-  label_table_of_contents: Contenidos
+  label_table_of_contents: Table of contents
   label_tag: Etiqueta
   label_text: Texto largo
   label_this_month: este mes
@@ -1696,6 +1705,15 @@ es:
   macro_execution_error: Error ejecutando el macro %{macro_name}
   macro_unavailable: Macro  %{macro_name} no puede ser mostrado.
   macros:
+    errors:
+      missing_or_invalid_parameter: Missing or invalid macro parameter.
+    legacy_warning:
+      timeline: This legacy timeline macro has been removed and is no longer available.
+        You can replace the functionality with an embedded table macro.
+    include_wiki_page:
+      errors:
+        page_not_found: Cannot find the wiki page '%{name}'.
+        circular_inclusion: Circular inclusion of pages detected.
     create_work_package_link:
       errors:
         no_project_context: Invocando la macro create_work_package_link desde el contexto
@@ -1725,6 +1743,15 @@ es:
     %{days} dias"
   mail_subject_wiki_content_added: "'%{id}' wiki página ha sido agregada"
   mail_subject_wiki_content_updated: "'%{id}' wiki página ha sido actualizada"
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: Más funciones
   noscript_description: Necesita activar JavaScript para poder usar OpenProject!
   noscript_heading: JavaScript desactivado
@@ -1849,6 +1876,7 @@ es:
       administración de proyectos y la colaboración en equipo con OpenProject.
     text_show_again: Puede reiniciar este vídeo en el menú ayuda
     welcome: Bienvenido a OpenProject
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Añadir notas
   permission_add_work_packages: Añadir paquetes de trabajo
   permission_add_messages: Publicar mensajes
@@ -2237,6 +2265,9 @@ es:
     passwords: Contraseñas
     session: Sesión
     brute_force_prevention: Bloqueo automático de usuarios
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown
@@ -2595,6 +2626,7 @@ es:
       quarters: Cuatrimestres
       years: Años
   title_remove_and_delete_user: Eliminar al usurio invitado del proyecto y eliminarlo.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_user_default_timezone: 'La zona horaria por defecto para los nuevos usuarios.
     Puede ser modificada en la configuración del usuario.
 
@@ -2670,9 +2702,25 @@ es:
     por %{configuration}.
   warning: Alerta
   warning_attachments_not_saved: "%{count} archivo(s) no podrán ser salvados."
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
   warning_registration_token_expired: 'El e-mail de activación ha expirado. Le enviaremos
     uno nuevo a %{email}. Por favor haga click en el enlace incluido en el mismo para
     activar su cuenta.
+
+'
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
 
 '
   menu_item: Elemento de menú

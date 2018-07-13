@@ -36,6 +36,7 @@ export function removeSuccessFlashMessages() {
 }
 
 export type NotificationType = 'success'|'error'|'warning'|'info'|'upload';
+export const OPNotificationEvent = 'op:notifications:add';
 
 export interface INotification {
   message:string;
@@ -51,6 +52,11 @@ export class NotificationsService {
   private stack = input<INotification[]>([]);
 
   constructor(readonly configurationService:ConfigurationService) {
+    jQuery(window)
+      .on(OPNotificationEvent,
+        (event:JQueryEventObject, notification:INotification) => {
+          this.add(notification)
+        });
   }
 
   /**

@@ -259,9 +259,9 @@ ro:
           al aplicației prin mijloacele permise de sistem.
       login_verification:
         other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+          will be asked to confirm your password.
         self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'Contul nu a fost încă activat. Pentru a activa
       contul dumneavoastră, dați click pe link-ul care v-a fost trimis prin e-mail.
 
@@ -327,6 +327,7 @@ ro:
         expires_at: Expires at
         subscriber: Subscriber
         encoded_token: Enterprise support token
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Întârziere
         from: Pachet de lucru
@@ -723,6 +724,7 @@ ro:
   button_unlock: Deblocare
   button_unwatch: Stop monitorizare
   button_update: Actualizare
+  button_upgrade: Upgrade
   button_upload: Upload
   button_view: Vizualizare
   button_watch: Monitorizare
@@ -988,6 +990,8 @@ ro:
   error_custom_option_not_found: Option does not exist.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1261,6 +1265,7 @@ ro:
   label_enumeration_value: Enumeration value
   label_enumerations: Enumerări
   label_enterprise: Enterprise
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
   label_entry_page: Entry page
   label_environment: Mediu
@@ -1286,6 +1291,8 @@ ro:
   label_force_user_language_to_default: Setare limbă pentru utilizatorii care au o
     limbă implicită nepermisă
   label_form_configuration: Configurarea formularului
+  label_gantt: Gantt
+  label_gantt_chart: Gantt chart
   label_general: General
   label_generate_key: Generare cheie
   label_git_path: Calea catre directorul .git
@@ -1389,6 +1396,7 @@ ro:
   label_next_week: Săptămâna viitoare
   label_no_change_option: "(Fără modificări)"
   label_no_data: Nu există date de afișat
+  label_no_parent_page: No parent page
   label_nothing_display: Nimic de afișat
   label_nobody: nimeni
   label_none: niciunul
@@ -1407,6 +1415,7 @@ ro:
   label_overall_activity: Activitate globală
   label_overall_spent_time: Timp consumat global
   label_overview: Vedere de ansamblu
+  label_page_title: Page title
   label_part_of: part of
   label_password_lost: V-aţi uitat parola?
   label_password_rule_lowercase: Litere mici
@@ -1528,7 +1537,7 @@ ro:
   label_summary: Descriere
   label_system: Sistem
   label_system_storage: Informații privind stocarea
-  label_table_of_contents: Cuprins
+  label_table_of_contents: Table of contents
   label_tag: Etichetă
   label_text: Text lung
   label_this_month: luna curentă
@@ -1689,6 +1698,15 @@ ro:
   macro_execution_error: Eroare la execuția macro-ului %{macro_name}
   macro_unavailable: Macro-ul %{macro_name} nu poate fi afișat.
   macros:
+    errors:
+      missing_or_invalid_parameter: Missing or invalid macro parameter.
+    legacy_warning:
+      timeline: This legacy timeline macro has been removed and is no longer available.
+        You can replace the functionality with an embedded table macro.
+    include_wiki_page:
+      errors:
+        page_not_found: Cannot find the wiki page '%{name}'.
+        circular_inclusion: Circular inclusion of pages detected.
     create_work_package_link:
       errors:
         no_project_context: Calling create_work_package_link macro from outside project
@@ -1715,6 +1733,15 @@ ro:
     %{days} zile"
   mail_subject_wiki_content_added: Pagina de wiki '%{id}' a fost adăugată
   mail_subject_wiki_content_updated: Pagina wiki '%{id}' a fost actualizată
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: Mai multe acțiuni
   noscript_description: Trebuie să activaţi JavaScript pentru a utiliza OpenProject!
   noscript_heading: JavaScript dezactivat
@@ -1833,6 +1860,7 @@ ro:
       team collaboration with OpenProject.
     text_show_again: Poate reporni acest videoclip din meniul de ajutor
     welcome: Welcome to OpenProject
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Adăugare note
   permission_add_work_packages: Adăugare pachete de lucru
   permission_add_messages: Publicare mesaje
@@ -2214,6 +2242,9 @@ ro:
     passwords: Parole
     session: Sesiune
     brute_force_prevention: Blocare automată a utilizatorilor
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown
@@ -2572,6 +2603,7 @@ ro:
       quarters: Trimestre
       years: Ani
   title_remove_and_delete_user: Eliminaţi utilizatorul invitat din proiect şi ştergeţi-l.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
     in a user''s settings.
 
@@ -2646,9 +2678,25 @@ ro:
   note_password_login_disabled: Autentificarea cu parolă a fost dezactivată prin %{configuration}.
   warning: Avertizare
   warning_attachments_not_saved: Nu au putut fi salvate %{count} fișiere.
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
   warning_registration_token_expired: |
     The activation email has expired. We sent you a new one to %{email}.
     Please click the link inside of it to activate your account.
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: Element de meniu
   menu_item_setting: Vizibilitate
   wiki_menu_item_for: Meniu pentru pagina wiki "%{title}"

@@ -374,7 +374,7 @@ GEM
       parallel
     parser (2.5.0.5)
       ast (~> 2.4.0)
-    passenger (5.2.3)
+    passenger (5.3.3)
       rack
       rake (>= 0.8.1)
     pdf-core (0.7.0)
@@ -637,7 +637,7 @@ DEPENDENCIES
   chromedriver-helper (~> 1.2.0)
   coderay (~> 1.1.2)
   color-tools (~> 1.3.0)
-  commonmarker (~> 0.17.8)
+  commonmarker (~> 0.17.9)
   cucumber (~> 3.0.0)
   cucumber-rails (~> 1.6.0)
   daemons
@@ -674,7 +674,7 @@ DEPENDENCIES
   openproject-token (~> 1.0.1)
   openproject-translations!
   parallel_tests (~> 2.21.3)
-  passenger (~> 5.2)
+  passenger (~> 5.3.3)
   pg (~> 1.0.0)
   plaintext (= 0.1.0)
   prawn (~> 2.2)

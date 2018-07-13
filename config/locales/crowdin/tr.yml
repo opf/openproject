@@ -243,10 +243,10 @@ tr:
           oturum açmanız mümkün olmaz. Eğer bu uygulamaya tekrar üye olmak isterseniz.
           uygulamanın izin verdiği yollarla bunu gerçekleştirebilirsiniz.
       login_verification:
-        other: Silme işlemini doğrulamak için %{name} giriniz. Gönderildikten sonra,
-          şifrenizi onaylamanız istenecektir.
-        self: Silme işlemini doğrulamak için %{name} giriniz. Gönderildikten sonra,
-          şifrenizi onaylamanız istenecektir.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'Hesabınız henüz etkinleştirilmedi. Hesabınızı
       etkinleştirmek için size gönderilen e-posta bağlantısını tıklatın.
 
@@ -314,6 +314,7 @@ tr:
         expires_at: Süre sonu: 
         subscriber: Abone
         encoded_token: Kurumsal Destek anahtarı
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Gecikme
         from: İş paketi
@@ -710,6 +711,7 @@ tr:
   button_unlock: Kilidi kaldır
   button_unwatch: İzleme
   button_update: Güncelle
+  button_upgrade: Upgrade
   button_upload: Yükle
   button_view: Göster
   button_watch: İzle
@@ -966,6 +968,8 @@ tr:
   error_custom_option_not_found: Seçenek yok.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Girdi silinemedi.
   error_invalid_group_by: "%{value} ya göre guplandırılamadı"
   error_invalid_query_column: 'Geçersiz sorgu sütunu: %{value}'
@@ -1238,6 +1242,7 @@ tr:
   label_enumeration_value: Numaralandırma değeri
   label_enumerations: Sayım Listesi
   label_enterprise: Kurumsal
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Kurumsal Sürüm
   label_entry_page: Entry page
   label_environment: Ortam
@@ -1263,6 +1268,8 @@ tr:
   label_force_user_language_to_default: Varsayılan olmayan izin verildi bir dil olan
     kullanıcı dilini ayarlama
   label_form_configuration: Formu yapılandırma
+  label_gantt: Gantt
+  label_gantt_chart: Gantt görünümü
   label_general: Genel
   label_generate_key: Anahtar oluştur
   label_git_path: ".git dizininin yolu"
@@ -1366,6 +1373,7 @@ tr:
   label_next_week: Gelecek hafta
   label_no_change_option: "(Değişiklik yok)"
   label_no_data: Görüntülenecek veri yok
+  label_no_parent_page: No parent page
   label_nothing_display: Görüntülenecek bir şey yok
   label_nobody: hiçkimse
   label_none: hiçbiri
@@ -1384,6 +1392,7 @@ tr:
   label_overall_activity: Genel etkinlik
   label_overall_spent_time: Genel harcanan zaman
   label_overview: Genel Bakış
+  label_page_title: Page title
   label_part_of: parçası
   label_password_lost: Parolanızı mı unuttunuz?
   label_password_rule_lowercase: Küçük harf
@@ -1504,7 +1513,7 @@ tr:
   label_summary: Özet
   label_system: Sistem
   label_system_storage: Depolama bilgisi
-  label_table_of_contents: İçindekiler Tablosu
+  label_table_of_contents: Table of contents
   label_tag: Etiket
   label_text: Uzun metin
   label_this_month: bu ay
@@ -1658,6 +1667,15 @@ tr:
   macro_execution_error: Makroyu çalıştırırken hata oluştu %{macro_name}
   macro_unavailable: Makro %{macro_name} görüntülenemiyor.
   macros:
+    errors:
+      missing_or_invalid_parameter: Missing or invalid macro parameter.
+    legacy_warning:
+      timeline: This legacy timeline macro has been removed and is no longer available.
+        You can replace the functionality with an embedded table macro.
+    include_wiki_page:
+      errors:
+        page_not_found: Cannot find the wiki page '%{name}'.
+        circular_inclusion: Circular inclusion of pages detected.
     create_work_package_link:
       errors:
         no_project_context: Proje içeriği dışından create_work_package_link makrosu
@@ -1683,6 +1701,15 @@ tr:
   mail_subject_reminder: "%{days} günde %{count} iş paketi(ler) geçecek"
   mail_subject_wiki_content_added: "'%{id}' viki sayfası eklendi"
   mail_subject_wiki_content_updated: "'%{id}' viki sayfası güncellendi"
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: Daha fazla işlev
   noscript_description: OpenProject'i kullanmak için JavaScript'i etkinleştirmeniz
     gerekiyor!
@@ -1800,6 +1827,7 @@ tr:
       konusuna genel bir bakış.
     text_show_again: Bu videoyu Yardım menüsünden yeniden başlatabilirsiniz
     welcome: OpenProject'e hoş geldiniz
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Not eklemek
   permission_add_work_packages: İş paketi eklemek
   permission_add_messages: İleti göndermek
@@ -2166,6 +2194,9 @@ tr:
     passwords: Parolalar
     session: Oturum
     brute_force_prevention: Otomatik kullanıcı engelleme
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown
@@ -2517,6 +2548,7 @@ tr:
       quarters: Üç aylık
       years: Yıl
   title_remove_and_delete_user: Davet edilen kullanıcıyı projeden çıkarın ve onu silin.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_user_default_timezone: 'Yeni kullanıcılar için varsayılan saat dilimi. Bir
     kullanıcının ayarlarında değiştirilebilir.
 
@@ -2591,8 +2623,24 @@ tr:
     bırakıldı.
   warning: Uyarı
   warning_attachments_not_saved: "%{count} dosya (lar) kaydedilemedi."
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
   warning_registration_token_expired: 'Etkinleştirme e-postası süresi doldu. Sana
     yeni bir %{email} gönderdik. Hesabınızı etkinleştirmek için linki tıklayınız.
+
+'
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
 
 '
   menu_item: Menü seçeneği

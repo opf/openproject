@@ -53,8 +53,33 @@ pt-BR:
     description_select_work_package: 'Selecionar o pacote de trabalho #%{id}'
     description_selected_columns: Colunas selecionadas
     description_subwork_package: 'Filho do pacote de trabalho #%{id}'
+    editor:
+      macro:
+        toc: Tabela de conteúdos
+        wiki_page_include:
+          button: Incluir o conteúdo de outra página wiki
+          text: Página wiki incluída (espaço reservado)
+          page: Página wiki
+          hint: 'Inclua o conteúdo de outra página wiki, especificando seu título
+            ou slug. Você pode incluir a página wiki de um outro projeto, separando-a
+            com dois pontos como exemplo a seguir.
+
+'
+        work_package_button:
+          button: Inserir botão para criar pacote de trabalho
+          type: Tipo de pacote de trabalho
+          button_style: Use o estilo de botão
+          button_style_hint: 'Opcional: Marque para fazer a macro aparecer como um
+            botão, não como um link.'
+          without_type: Criar pacote de trabalho
+          with_type: 'Criar pacote de trabalho (Tipo: %{typename})'
+        embedded_table:
+          button: Embutir tabela de pacote de trabalho
+          text: Tabela de pacote de trabalho embutida (espaço reservado)
     error:
       internal: Ocorreu um erro interno.
+      cannot_save_changes_with_message: 'Não foi possível salvar as alterações devido
+        ao seguinte erro: %{error}'
       query_saving: A consulta não pôde ser salva.
     filter:
       description:
@@ -121,6 +146,7 @@ pt-BR:
     label_expand: Expandir
     label_expanded: expandido
     label_expand_all: Expandir todos
+    label_expand_project_menu: Expandir menu do projeto
     label_export: Exportar
     label_filename: Arquivo
     label_filesize: Tamanho
@@ -128,6 +154,7 @@ pt-BR:
     label_group_by: Agrupar por
     label_hide_attributes: Mostrar Menos
     label_hide_column: Ocultar coluna
+    label_hide_project_menu: Recolher menu do projeto
     label_in: em
     label_in_less_than: em menos de
     label_in_more_than: em mais de
@@ -163,7 +190,7 @@ pt-BR:
     label_select_watcher: Selecione um observador...
     label_selected_filter_list: Filtros selecionados
     label_show_attributes: Mostrar todos os atributos
-    label_show_in_menu: Mostrar a página no menu
+    label_show_in_menu: Mostrar visualização no menu
     label_sort_by: Ordenar por
     label_sorted_by: ordenados por
     label_sort_higher: Mover para cima
@@ -177,7 +204,7 @@ pt-BR:
     label_activity_show_only_comments: Mostrar somente as atividades com comentários
     label_activity_show_all: Mostrar todas as atividades
     label_total_progress: "%{percent}% Total de progresso"
-    label_visible_for_others: Página visível para outros
+    label_visible_for_others: Visualização visível para outros
     label_updated_on: atualizado em
     label_warning: Aviso
     label_work_package: Pacote de trabalho
@@ -315,7 +342,6 @@ pt-BR:
         one: Você pode selecionar somente um item
         other: Você pode selecionar {{limit}} itens
         zero: You cannot select any items
-    show_hide_project_menu: Expandir/Recolher o menu do projeto
     project_menu_details: Detalhes
     sort:
       sorted_asc: 'Classificação crescente aplicada, '
@@ -332,7 +358,7 @@ pt-BR:
     timelines:
       gantt_chart: Gráfico de Gantt
       labels:
-        title: Configuração de etiqueta
+        title: Configuração de rótulos
         bar: Barra de rótulos
         left: Esquerda
         right: Direita
@@ -575,6 +601,8 @@ pt-BR:
         show_timeline_hint: Exiba um gráfico de gantt interativo no lado direito da
           tela. Você pode alterar a largura arrastando a linha divisória entre a tabela
           e o gráfico.
+        columns_help_text: Use a entrada acima para adicionar ou remover colunas à
+          sua exibição de tabela. Você pode arrastar e soltar as colunas para reordená-las.
       tabs:
         overview: Visão geral
         activity: Atividade
@@ -648,6 +676,7 @@ pt-BR:
         messages_on_field: 'Este campo é inválido: %{messages}'
     error_could_not_resolve_version_name: Não foi possível identificar o nome da versão
     error_could_not_resolve_user_name: Não foi possível identificar o nome do usuário
+    error_attachment_upload: 'Arquivo ''%{name}'' falhou no envio: %{error}'
     units:
       workPackage:
         one: pacote de trabalho

@@ -40,10 +40,6 @@ module OpenProject::TextFormatting::Formatters
 
       def text_formatting_js_includes
       end
-
-      def self.initial_page_content(page)
-        page.title.to_s
-      end
     end
   end
 end

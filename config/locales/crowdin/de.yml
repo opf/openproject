@@ -256,10 +256,10 @@ de:
           Sofern Sie es wünschen, können Sie sich über die von der Anwendung zur Verfügung
           gestellten Mechanismen einen neuen Account zulegen.
       login_verification:
-        other: Geben Sie den Login %{name} ein, um den Löschvorgang zu bestätigen.
-          Sie müssen zusätzlich nach dem Absenden des Formulars Ihr Password bestätigen.
-        self: Geben Sie Ihren Login %{name} ein, um den Löschvorgang zu bestätigen.
-          Sie müssen zusätzlich nach dem Absenden des Formulars Ihr Password bestätigen.
+        other: Geben sie den %{name} ein um die löschung zu verifizieren. Zusätzlich
+          müssen sie nach dem Absenden des Formulars ihr Password bestätigen.
+        self: Gebe deinen Login %{name} ein, um den Löschvorgang zu bestätigen. Sie
+          müssen zusätzlich nach dem Absenden des Formulars Ihr Password bestätigen.
     error_inactive_activation_by_mail: 'Ihr Konto wurde noch nicht aktiviert. Zur
       Aktivierung folgen Sie bitte dem Link, der Ihnen bei der Registrierung per E-Mail
       zugeschickt wurde.
@@ -327,6 +327,7 @@ de:
         expires_at: Endet am
         subscriber: Abonnent
         encoded_token: Enterprise-Edition Support Token
+        active_user_count_restriction: Maximale aktive Nutzer
       relation:
         delay: Pufferzeit
         from: Arbeitspaket
@@ -463,7 +464,7 @@ de:
         could_not_be_copied: konnten nicht (vollständig) kopiert werden.
         regex_invalid: konnte nicht mit dem zugehörigen regulären Ausdruck überprüft
           werden.
-        unchangeable: cannot be changed.
+        unchangeable: kann nicht geändert werden.
       models:
         custom_field:
           at_least_one_custom_option: Mindestens ein Wert muss verfügbar sein.
@@ -729,6 +730,7 @@ de:
   button_unlock: Entsperren
   button_unwatch: Nicht beobachten
   button_update: Bearbeiten
+  button_upgrade: Upgraden
   button_upload: Hochladen
   button_view: Anzeigen
   button_watch: Beobachten
@@ -992,6 +994,9 @@ de:
   error_custom_option_not_found: Option ist nicht vorhanden.
   error_dependent_work_package: 'Fehler in abhängigem Arbeitspaket #%{related_id}
     %{related_subject}: %{error}'
+  error_enterprise_activation_user_limit: Ihr Konto konnte nicht aktiviert werden
+    (Nutzerlimit erreicht). Bitte kontaktieren Sie Ihren Administrator um Zugriff
+    zu erhalten.
   error_failed_to_delete_entry: Fehler beim Löschen dieses Eintrags.
   error_invalid_group_by: 'Kann nicht gruppieren nach: %{value}'
   error_invalid_query_column: 'Ungültige Filter-Spalte: %{value}'
@@ -1271,6 +1276,7 @@ de:
   label_enumeration_value: Aufzählungswert
   label_enumerations: Aufzählungen
   label_enterprise: Enterprise
+  label_enterprise_active_users: "%{current}/%{limit} gebuchte aktive Nutzer"
   label_enterprise_edition: Enterprise-Edition
   label_entry_page: Einstiegsseite
   label_environment: Umgebung
@@ -1296,6 +1302,8 @@ de:
   label_force_user_language_to_default: Setze Sprache für Nutzer, die eine nicht erlaubte
     Sprache gewählt haben, auf die Standard-Sprache
   label_form_configuration: Formularkonfiguration
+  label_gantt: Gantt
+  label_gantt_chart: Gantt-Diagramm
   label_general: Allgemein
   label_generate_key: Schlüssel generieren
   label_git_path: Pfad zum .git-Verzeichnis
@@ -1399,6 +1407,7 @@ de:
   label_next_week: Woche vor
   label_no_change_option: "(Keine Änderung)"
   label_no_data: Es sind keine Daten vorhanden
+  label_no_parent_page: Keine Übergeordnete Seite
   label_nothing_display: Nichts anzuzeigen
   label_nobody: Niemand
   label_none: kein
@@ -1417,6 +1426,7 @@ de:
   label_overall_activity: Aktivität aller Projekte anzeigen
   label_overall_spent_time: Aufgewendete Zeit aller Projekte anzeigen
   label_overview: Übersicht
+  label_page_title: Seitentitel
   label_part_of: enthalten in
   label_password_lost: Kennwort vergessen?
   label_password_rule_lowercase: Kleinbuchstaben
@@ -1538,7 +1548,7 @@ de:
   label_summary: Zusammenfassung
   label_system: System
   label_system_storage: Speicherinformation
-  label_table_of_contents: Inhaltsverzeichnis
+  label_table_of_contents: Table of contents
   label_tag: Markierung
   label_text: Langer Text
   label_this_month: aktueller Monat
@@ -1692,6 +1702,15 @@ de:
   macro_execution_error: Fehler beim Ausführen des Makros %{macro_name}
   macro_unavailable: Das Makro %{macro_name} kann nicht angezeigt werden.
   macros:
+    errors:
+      missing_or_invalid_parameter: Missing or invalid macro parameter.
+    legacy_warning:
+      timeline: This legacy timeline macro has been removed and is no longer available.
+        You can replace the functionality with an embedded table macro.
+    include_wiki_page:
+      errors:
+        page_not_found: Cannot find the wiki page '%{name}'.
+        circular_inclusion: Circular inclusion of pages detected.
     create_work_package_link:
       errors:
         no_project_context: Rufe create_work_link Makro aus externen Projekt auf.
@@ -1719,6 +1738,15 @@ de:
     Tagen abgeschlossen werden"
   mail_subject_wiki_content_added: Wiki-Seite '%{id}' hinzugefügt
   mail_subject_wiki_content_updated: Wiki-Seite '%{id}' erfolgreich aktualisiert
+  mail_user_activation_limit_reached:
+    subject: Nutzer aktivierungs Limit erreicht
+    message: |
+      Ein neuer Nutzer (%{email}) versuchte einen Account auf dem von ihnen Verwalteten OpenProject System (%{host}) zu erstellen.
+      Der Nutzer kann seinen Account aufgrund des Nutzer Limits nicht aktivieren.
+    steps:
+      label: 'Folgendes kannst du tuen um dem Nutzer das einloggen zu ermöglichen: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Sprerren oder löschen eines bestehenden Nutzers ([here](users_url))
   more_actions: Weitere Funktionen
   noscript_description: Sie müssen JavaScript aktiveren, um OpenProject nutzen zu
     können!
@@ -1846,6 +1874,7 @@ de:
       Projekt-Management und Zusammenarbeit in Teams mit OpenProject.
     text_show_again: Sie können dieses Video über das Hilfe-Menü erneut starten
     welcome: Willkommen bei OpenProject
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Kommentare hinzufügen
   permission_add_work_packages: Arbeitspakete hinzufügen
   permission_add_messages: Forenbeiträge hinzufügen
@@ -2228,6 +2257,9 @@ de:
     passwords: Passwörter
     session: Sitzung
     brute_force_prevention: Automatisches Sperren von Benutzern
+    user:
+      default_preferences: Standardeinstellungen
+      deletion: Löschen
   text_formatting:
     textile: Textile
     markdown: Markdown
@@ -2589,6 +2621,7 @@ de:
       years: Jahre
   title_remove_and_delete_user: Den eingeladenen Benutzer aus dem Projekt entfernen
     und löschen.
+  title_enterprise_upgrade: Upgraden um weitere Nutzer freizuschalten.
   tooltip_user_default_timezone: 'Die Standardzeitzone für neue Benutzer. Kann in
     den Einstellungen jedes Benutzers geändert werden.
 
@@ -2664,9 +2697,25 @@ de:
   note_password_login_disabled: Der Passwort-Login wurde per %{configuration} deaktiviert.
   warning: Warnung
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
   warning_registration_token_expired: 'E-Mail mit dem Aktivierungslink ist abgelaufen.
     Wir haben Ihnen ein neues zu %{email} geschickt. Bitte aktivieren Sie Ihr Konto
     über den Link in dieser E-Mail.
+
+'
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'Du hast dein Nutzerlimit erreicht (%{current}/%{max}
+    active users). Bitte kontaktiere sales@openproject.com um deinen Enterprise Edition
+    Plan upzugraden und weitere Nutzer hinzuzufügen.
 
 '
   menu_item: Menüpunkt

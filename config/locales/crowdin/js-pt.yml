@@ -6,9 +6,9 @@ pt:
       loading: A carregar...
     autocomplete_select:
       placeholder:
-        multi: Add "%{name}"
-        single: Select "%{name}"
-      remove: Remove %{name}
+        multi: Adicionar "%{name}"
+        single: Selecionar "%{name}"
+      remove: Remover %{name}
       active: Active %{label} %{name}
     close_popup_title: Fechar janela
     close_filter_title: Fechar filtro
@@ -53,8 +53,31 @@ pt:
     description_select_work_package: 'Selecionar pacote de trabalho #%{id}'
     description_selected_columns: Colunas selecionadas
     description_subwork_package: 'Filho de pacote de trabalho #%{id}'
+    editor:
+      macro:
+        toc: Table of contents
+        wiki_page_include:
+          button: Include content of another wiki page
+          text: Included wiki page (placeholder)
+          page: Página wiki
+          hint: |
+            Include the content of another wiki page by specifying its title or slug.
+            You can include the wiki page of another project by separating them with a colon like the following example.
+        work_package_button:
+          button: Insert create work package button
+          type: Tipo de tarefa
+          button_style: Use button style
+          button_style_hint: 'Optional: Check to make macro appear as a button, not
+            as a link.'
+          without_type: Criar tarefa
+          with_type: 'Create work package (Type: %{typename})'
+        embedded_table:
+          button: Embed work package table
+          text: Embedded work package table (placeholder)
     error:
       internal: Ocorreu um erro interno.
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
       query_saving: The query could not be saved.
     filter:
       description:
@@ -121,6 +144,7 @@ pt:
     label_expand: Expandir
     label_expanded: expandido
     label_expand_all: Expandir Tudo
+    label_expand_project_menu: Expand project menu
     label_export: Exportar
     label_filename: Ficheiro
     label_filesize: Tamanho
@@ -128,6 +152,7 @@ pt:
     label_group_by: Agrupar por
     label_hide_attributes: Mostrar Menos
     label_hide_column: Ocultar coluna
+    label_hide_project_menu: Collapse project menu
     label_in: em
     label_in_less_than: em menos de
     label_in_more_than: em mais de
@@ -163,7 +188,7 @@ pt:
     label_select_watcher: Selecione um "observador"...
     label_selected_filter_list: Filtros selecionados
     label_show_attributes: Mostrar todos os atributos
-    label_show_in_menu: Mostrar a página no menu
+    label_show_in_menu: Show view in menu
     label_sort_by: Ordenar por
     label_sorted_by: ordenado por
     label_sort_higher: Subir
@@ -177,7 +202,7 @@ pt:
     label_activity_show_only_comments: Mostrar apenas atividades com comentários
     label_activity_show_all: Mostrar todas as atividades
     label_total_progress: "%{percent}% Total de progresso"
-    label_visible_for_others: Página visível para os outros
+    label_visible_for_others: View visible for others
     label_updated_on: atualizado em
     label_warning: Aviso
     label_work_package: Pacote de trabalho
@@ -314,7 +339,6 @@ pt:
         one: Só pode selecionar um item
         other: Só pode selecionar {{limit}} itens
         zero: You cannot select any items
-    show_hide_project_menu: Expandir/Recolher menu de projeto
     project_menu_details: Detalhes
     sort:
       sorted_asc: 'Ordenação crescente aplicada, '
@@ -570,6 +594,8 @@ pt:
         show_timeline_hint: Show an interactive gantt chart on the right side of the
           table. You can change its width by dragging the divider between table and
           gantt chart.
+        columns_help_text: Use the input above to add or remove columns to your table
+          view. You can drag and drop the columns to reorder them.
       tabs:
         overview: Sinopse
         activity: Atividade
@@ -643,6 +669,7 @@ pt:
         messages_on_field: 'Este campo é inválido: %{messages}'
     error_could_not_resolve_version_name: Não consegui resolver o nome da versão
     error_could_not_resolve_user_name: Não consegui resolver o nome do utilizador
+    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
     units:
       workPackage:
         one: pacote de trabalho

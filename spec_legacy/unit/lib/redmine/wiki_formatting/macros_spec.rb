@@ -50,71 +50,65 @@ describe Redmine::WikiFormatting::Macros, type: :helper do
     assert_equal '<p>{{ $root.DOUBLE_LEFT_CURLY_BRACE }}hello_world}}</p>', format_text(text)
   end
 
-  it 'should macro include' do
-    @project = Project.find(1)
-    # include a page of the current project wiki
-    text = '{{include(Another page)}}'
-    assert format_text(text).match(/This is a link to a ticket/)
-
-    @project = nil
-    # include a page of a specific project wiki
-    text = '{{include(ecookbook:Another page)}}'
-    assert format_text(text).match(/This is a link to a ticket/)
-
-    text = '{{include(ecookbook:)}}'
-    assert format_text(text).match(/CookBook documentation/)
-
-    text = '{{include(unknowidentifier:somepage)}}'
-    assert format_text(text).match(/Page not found/)
-  end
-
   it 'should macro child pages' do
-    expected =  "<p><ul class=\"pages-hierarchy -with-hierarchy -hierarchy-expanded\"><li>" +
-                "<span class=\"tree-menu--item\" slug=\"child-1\"><span class=\"tree-menu--hierarchy-span\">" +
-                "<span tabindex=\"0\" class=\"tree-menu--leaf-indicator\">" +
-                "<span class=\"hidden-for-sighted\">Hierarchy leaf</span></span></span>" +
-                "<a class=\"tree-menu--title ellipsis\" href=\"/projects/ecookbook/wiki/child-1\">Child 1</a>" +
-                "</span></li><li><span class=\"tree-menu--item\" slug=\"child-2\">" +
-                "<span class=\"tree-menu--hierarchy-span\"><span tabindex=\"0\" class=\"tree-menu--leaf-indicator\">" +
-                "<span class=\"hidden-for-sighted\">Hierarchy leaf</span></span></span>" +
-                "<a class=\"tree-menu--title ellipsis\" href=\"/projects/ecookbook/wiki/child-2\">Child 2</a>" +
-                "</span></li></ul></p>"
+    expected_keywords = ['Child 1',                       # Child
+                         'Child 2',                       # Child
+                         'Hierarchy leaf',                # Hierarchy elements
+                         'hidden-for-sighted',            # Accessability
+                         'tabindex']                      # Accessability
+
+    not_expected_keywords = ['Another page']
 
     @project = Project.find(1)
+
     # child pages of the current wiki page
-    assert_equal expected, format_text('{{child_pages}}', object: WikiPage.find(2).content)
+    expect(format_text('{{child_pages}}', object: WikiPage.find(2).content)).to(
+      include(*expected_keywords)
+    )
+    expect(format_text('{{child_pages}}', object: WikiPage.find(2).content)).to_not(
+      include(*not_expected_keywords)
+    )
+
     # child pages of another page
-    assert_equal expected, format_text('{{child_pages(Another page)}}', object: WikiPage.find(1).content)
+    expect(format_text('{{child_pages(Another page)}}', object: WikiPage.find(2).content)).to(
+      include(*expected_keywords)
+    )
+    expect(format_text('{{child_pages(Another page)}}', object: WikiPage.find(2).content)).to_not(
+      include(*not_expected_keywords)
+    )
 
     @project = Project.find(2)
-    assert_equal expected, format_text('{{child_pages(ecookbook:Another page)}}', object: WikiPage.find(1).content)
+    expect(format_text('{{child_pages(ecookbook:Another page)}}', object: WikiPage.find(2).content)).to(
+      include(*expected_keywords)
+    )
+    expect(format_text('{{child_pages(ecookbook:Another page)}}', object: WikiPage.find(2).content)).to_not(
+      include(*not_expected_keywords)
+    )
   end
 
   it 'should macro child pages with option' do
-    expected =  "<p><ul class=\"pages-hierarchy -with-hierarchy -hierarchy-expanded\"><li>" +
-                "<span class=\"tree-menu--item\" slug=\"another-page\"><span class=\"tree-menu--hierarchy-span\">" +
-                "<a tabindex=\"0\" role=\"button\" class=\"tree-menu--hierarchy-indicator\">" +
-                "<span aria-hidden=\"true\" class=\"tree-menu--hierarchy-indicator-icon\">" +
-                "</span><span class=\"tree-menu--hierarchy-indicator-expanded hidden-for-sighted\">Expanded. Click to collapse</span>" +
-                "<span class=\"tree-menu--hierarchy-indicator-collapsed hidden-for-sighted\">Collapsed. Click to show</span></a>" +
-                "</span><a class=\"tree-menu--title ellipsis\" href=\"/projects/ecookbook/wiki/another-page\">Another page</a>" +
-                "</span><ul class=\"pages-hierarchy -with-hierarchy -hierarchy-expanded\"><li>" +
-                "<span class=\"tree-menu--item\" slug=\"child-1\"><span class=\"tree-menu--hierarchy-span\">" +
-                "<span tabindex=\"0\" class=\"tree-menu--leaf-indicator\">" +
-                "<span class=\"hidden-for-sighted\">Hierarchy leaf</span>" +
-                "</span></span><a class=\"tree-menu--title ellipsis\" href=\"/projects/ecookbook/wiki/child-1\">Child 1</a>" +
-                "</span></li><li><span class=\"tree-menu--item\" slug=\"child-2\"><span class=\"tree-menu--hierarchy-span\">" +
-                "<span tabindex=\"0\" class=\"tree-menu--leaf-indicator\"><span class=\"hidden-for-sighted\">Hierarchy leaf</span>" +
-                "</span></span><a class=\"tree-menu--title ellipsis\" href=\"/projects/ecookbook/wiki/child-2\">Child 2</a>" +
-                "</span></li></ul></li></ul></p>"
-
     @project = Project.find(1)
+
+    expected_keywords = ['Another page',                  # Parent
+                         'Child 1',                       # Child
+                         'Child 2',                       # Child
+                         'Hierarchy leaf',                # Hierarchy elements
+                         'hidden-for-sighted',            # Accessability
+                         'tabindex',                      # Accessability
+                         'Expanded. Click to collapse']   # Accessability
+
     # child pages of the current wiki page
-    assert_equal expected, format_text('{{child_pages(parent=1)}}', object: WikiPage.find(2).content)
+    expect(format_text('{{child_pages(parent=1)}}', object: WikiPage.find(2).content)).to(
+      include(*expected_keywords)
+    )
     # child pages of another page
-    assert_equal expected, format_text('{{child_pages(Another page, parent=1)}}', object: WikiPage.find(1).content)
+    expect(format_text('{{child_pages(Another page, parent=1)}}', object: WikiPage.find(2).content)).to(
+      include(*expected_keywords)
+    )
 
     @project = Project.find(2)
-    assert_equal expected, format_text('{{child_pages(ecookbook:Another page, parent=1)}}', object: WikiPage.find(1).content)
+    expect(format_text('{{child_pages(ecookbook:Another page, parent=1)}}', object: WikiPage.find(2).content)).to(
+      include(*expected_keywords)
+    )
   end
 end

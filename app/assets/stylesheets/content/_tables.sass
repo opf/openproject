@@ -58,43 +58,31 @@ table
       font-size: 0.9em
 
   &.workflow-table.generic-table
-    margin-bottom: 16px
-    overflow-x: hidden
+    // Let space for the turned header
+    margin-left: 30px
+    width: calc(100% - 30px)
+
+    .workflow-table--current-status
+      font-weight: bold
+      text-transform: uppercase
+      font-size: 0.875rem
+
     tbody
-      td
-        border-bottom: 1px solid $light-gray
-
-        &.-no-border
-          border-bottom: none
-          border-right: none
-
-        &.-border-right
-          border-right: 1px solid $light-gray
-
-      tr
-        border-bottom: none
-        &:hover
-          background: none
-
-      td.workflow-table--current-status
-        font-weight: bold
-        text-transform: uppercase
-        font-size: 0.875rem
-
-        .icon-context,
-        .icon
-          color: $body-font-color
-
       span.workflow-table--turned-header
         white-space: nowrap
         transform: rotate(270deg)
         position: absolute
         top: 235px
+        left: 0px
         transform-origin: 0 0
         text-transform: uppercase
         font-weight: bold
+        max-width: 220px
+        @include text-shortener
 
     thead
+      th
+        padding: 0 6px
       .workflow-table--header
         text-align: right
         display: flex
@@ -104,17 +92,8 @@ table
         font-size: 12px
         font-style: italic
         text-transform: none
-        a
-          @include varprop(color, content-link-color)
-          &:hover
-            @include varprop(color, content-link-color)
-            text-decoration: underline
-
-      .-border
-        border-bottom: 1px solid $light-gray
-
-    col.hover
-      background: none
+        a:hover
+          text-decoration: underline
 
     .generic-table--sort-header-outer:hover
       background: none

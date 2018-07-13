@@ -255,9 +255,9 @@ sk:
           môžte tak urobiť prostredníctvom tohto formulára.
       login_verification:
         other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
-        self: Zadajte váš login %{name} na overenie odstránenia. Po jeho odoslaní
-          bude potrebné potvrdiť svoje heslo.
+          will be asked to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'Váš účet ešte nebol aktivovaný. Ak ho chcete
       aktivovať, kliknite na odkaz, ktorý bol doručený na Vašu e-mailovú adresu.
 
@@ -323,6 +323,7 @@ sk:
         expires_at: Expires at
         subscriber: Subscriber
         encoded_token: Enterprise support token
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Oneskorenie
         from: Pracovný balíček
@@ -727,6 +728,7 @@ sk:
   button_unlock: Odomknúť
   button_unwatch: Prestať pozorovať
   button_update: Aktualizovať
+  button_upgrade: Upgrade
   button_upload: Upload
   button_view: Zobraziť
   button_watch: Začať pozorovať
@@ -1005,6 +1007,8 @@ sk:
   error_custom_option_not_found: Option does not exist.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1280,6 +1284,7 @@ sk:
   label_enumeration_value: Enumeration value
   label_enumerations: Výpočet
   label_enterprise: Enterprise
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
   label_entry_page: Entry page
   label_environment: Prostredie
@@ -1305,6 +1310,8 @@ sk:
   label_force_user_language_to_default: Nastavenie jazyka užívateľov ktorí majú nastavený
     ako predvolený nepovolený jazyk
   label_form_configuration: Konfigurácia formulára
+  label_gantt: Gantt
+  label_gantt_chart: Ganttov diagram
   label_general: Všeobecné
   label_generate_key: Vygenerovať kľúč
   label_git_path: Cesta ku .git adresáru
@@ -1408,6 +1415,7 @@ sk:
   label_next_week: Budúci týždeň
   label_no_change_option: "(Bez zmeny)"
   label_no_data: Žiadne dáta na zobrazenie
+  label_no_parent_page: No parent page
   label_nothing_display: Nič na zobrazenie
   label_nobody: nikto
   label_none: žiadne
@@ -1426,6 +1434,7 @@ sk:
   label_overall_activity: Celková aktivita
   label_overall_spent_time: Celkový strávený čas
   label_overview: Prehľad
+  label_page_title: Page title
   label_part_of: part of
   label_password_lost: Zabudli ste heslo?
   label_password_rule_lowercase: Malé písmená
@@ -1545,7 +1554,7 @@ sk:
   label_summary: Zhrnutie
   label_system: Systém
   label_system_storage: Storage information
-  label_table_of_contents: Obsah
+  label_table_of_contents: Table of contents
   label_tag: Označenie
   label_text: Dlhý text
   label_this_month: Tento mesiac
@@ -1711,6 +1720,15 @@ sk:
   macro_execution_error: Error executing the macro %{macro_name}
   macro_unavailable: Makro %{macro_name} sa nedá zobraziť.
   macros:
+    errors:
+      missing_or_invalid_parameter: Missing or invalid macro parameter.
+    legacy_warning:
+      timeline: This legacy timeline macro has been removed and is no longer available.
+        You can replace the functionality with an embedded table macro.
+    include_wiki_page:
+      errors:
+        page_not_found: Cannot find the wiki page '%{name}'.
+        circular_inclusion: Circular inclusion of pages detected.
     create_work_package_link:
       errors:
         no_project_context: Calling create_work_package_link macro from outside project
@@ -1737,6 +1755,15 @@ sk:
     %{days} dňoch"
   mail_subject_wiki_content_added: Bola pridaná wikistránka '%{id}'
   mail_subject_wiki_content_updated: Wikistránka '%{id}' bola aktualizovaná
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: Ďalšie funkcie
   noscript_description: Musíte aktivovať JavaScript, aby ste mohli používať OpenProject!
   noscript_heading: JavaScript vypnutý
@@ -1858,6 +1885,7 @@ sk:
       team collaboration with OpenProject.
     text_show_again: Môžete spustiť toto video z ponuky Pomocník
     welcome: Welcome to OpenProject
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Pridať poznámky
   permission_add_work_packages: Pridať pracovné balíky
   permission_add_messages: Post messages
@@ -2222,6 +2250,9 @@ sk:
     passwords: Heslá
     session: Relácie
     brute_force_prevention: Automatizované blokovanie používateľa
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown
@@ -2577,6 +2608,7 @@ sk:
       years: Roky
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
     in a user''s settings.
 
@@ -2650,9 +2682,25 @@ sk:
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Upozornenie
   warning_attachments_not_saved: "%{count} súbor (súborov) nebolo možné uložiť."
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
   warning_registration_token_expired: |
     The activation email has expired. We sent you a new one to %{email}.
     Please click the link inside of it to activate your account.
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: Položka menu
   menu_item_setting: Viditeľnosť
   wiki_menu_item_for: Položka menu pre wiki "%{title}"

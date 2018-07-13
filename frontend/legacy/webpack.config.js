@@ -27,15 +27,13 @@
 // ++
 
 var webpack = require('webpack');
-var fs = require('fs');
 var path = require('path');
 var _ = require('lodash');
-var pathConfig = require('./rails-plugins.conf');
+//var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 var MiniCssExtractPlugin = require('mini-css-extract-plugin');
 var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-// var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 var mode = 'production';
 var production = true;
@@ -50,24 +48,9 @@ var node_root = path.resolve(__dirname, '..', 'node_modules');
 var output_root = path.resolve(__dirname, '..', '..', 'app', 'assets', 'javascripts');
 var bundle_output = path.resolve(output_root, 'bundles');
 
-var pluginEntries = _.reduce(pathConfig.pluginNamesPaths, function (entries, pluginPath, name) {
-  entries[name.replace(/^openproject\-/, '')] = path.resolve(pluginPath, 'frontend', 'app', name + '-app.js');
-  return entries;
-}, {});
-
-var pluginAliases = _.reduce(pathConfig.pluginNamesPaths, function (entries, pluginPath, name) {
-  entries[name] = path.basename(pluginPath);
-  return entries;
-}, {});
-
 var loaders = [
   {
     test: /\.tsx?$/,
-    include: [
-      path.resolve(__dirname, '..', 'common'),
-      path.resolve(__dirname, 'app'),
-      path.resolve(__dirname, 'tests')
-    ].concat(_.values(pathConfig.pluginNamesPaths)),
     use: [
       {
         loader: 'ts-loader',
@@ -108,31 +91,8 @@ var loaders = [
   },
 ];
 
-for (var k in pathConfig.pluginNamesPaths) {
-  if (pathConfig.pluginNamesPaths.hasOwnProperty(k)) {
-    loaders.push({
-      test: new RegExp('templates\/plugin-' + k.replace(/^openproject\-/, '') + '/.*\.html$'),
-      use: [
-        {
-          loader: 'ngtemplate-loader',
-          options: {
-            module: 'OpenProjectLegacy',
-            relativeTo: path.join(pathConfig.pluginNamesPaths[k], 'frontend', 'app')
-          }
-        },
-        {
-          loader: 'html-loader',
-          options: {
-            minimize: false
-          }
-        }
-      ]
-    });
-  }
-}
-
 loaders.push({
-  test: /^((?!templates\/plugin).)*\.html$/,
+  test: /\.html$/,
   use: [
     {
       loader: 'ngtemplate-loader',
@@ -150,17 +110,17 @@ loaders.push({
   ]
 });
 
-function getWebpackMainConfig() {
-  config = {
+function getLegacyWebpackConfig() {
+  var config = {
     mode: mode,
 
     devtool: 'source-map',
 
     context: path.resolve(__dirname, 'app'),
 
-    entry: _.merge({
-      'core-app': './openproject-legacy-app'
-    }, pluginEntries),
+    entry: {
+      'legacy-app': './openproject-legacy-app'
+    },
 
     output: {
       filename: 'openproject-[name].js',
@@ -173,8 +133,11 @@ function getWebpackMainConfig() {
     },
 
     resolve: {
+      // Don't map symlinks from dynamically linked plugins to their real paths
+      symlinks: false,
+
       modules: [
-        'node_modules',
+        path.resolve(__dirname, '..', 'node_modules')
       ],
 
       extensions: ['.ts', '.tsx', '.js'],
@@ -182,12 +145,12 @@ function getWebpackMainConfig() {
       // Allow empty import without extension
       // enforceExtension: true,
 
-      alias: _.merge({
+      alias: {
         'angular': path.resolve(node_root, 'angular', 'angular.min.js'),
         'angular-dragula': path.resolve(node_root, 'angular-dragula', 'dist', 'angular-dragula.min.js'),
         'core-app': path.resolve(__dirname, 'app'),
         'core-components': path.resolve(__dirname, 'app', 'components'),
-      }, pluginAliases)
+      }
     },
 
     externals: {
@@ -261,4 +224,4 @@ function getWebpackMainConfig() {
   return config;
 }
 
-module.exports = getWebpackMainConfig;
+module.exports = getLegacyWebpackConfig;

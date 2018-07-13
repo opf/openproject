@@ -45,13 +45,14 @@ SecureHeaders::Configuration.default do |config|
     # Allow iframe from vimeo (welcome video)
     frame_src: frame_src + %w('self'),
     frame_ancestors: %w('self'),
-    # Allow images from anywhere
-    img_src: %w(* data:),
-    # Allow scripts from self (not inline, but)
-    # for now require unsafe-eval for Angular JIT
-    script_src: assets_src + %w('unsafe-eval'),
+  # Allow images from anywhere including data urls and blobs (used in resizing)
+    img_src: %w(* data: blob:),
+    # Allow scripts from self
+    script_src: assets_src,
     # Allow unsafe-inline styles
     style_src: assets_src + %w('unsafe-inline'),
+    # disallow all object-src
+    object_src: %w('none'),
 
     # Connect sources for CLI in dev mode
     connect_src: connect_src

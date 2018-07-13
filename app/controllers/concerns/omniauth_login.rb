@@ -119,6 +119,10 @@ module Concerns::OmniauthLogin
       omni_auth_hash: auth_hash
     }
 
+    # only enforce here so user has email filled in for the admin notification
+    # about who couldn't register/activate
+    return if enforce_activation_user_limit(user: user)
+
     # Create on the fly
     register_user_according_to_setting(user, opts) do
       # Allow registration form to show provider-specific title
@@ -146,7 +150,7 @@ module Concerns::OmniauthLogin
   end
 
   def fill_user_fields_from_omniauth(user, auth)
-    user.update_attributes omniauth_hash_to_user_attributes(auth)
+    user.assign_attributes omniauth_hash_to_user_attributes(auth)
     user.register unless user.invited?
     user
   end

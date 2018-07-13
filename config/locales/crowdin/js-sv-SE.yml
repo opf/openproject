@@ -53,8 +53,31 @@ sv-SE:
     description_select_work_package: 'Välj arbetspaket #%{id}'
     description_selected_columns: Markerade kolumner
     description_subwork_package: 'Barn till arbetspaket #%{id}'
+    editor:
+      macro:
+        toc: Table of contents
+        wiki_page_include:
+          button: Include content of another wiki page
+          text: Included wiki page (placeholder)
+          page: Wiki-sida
+          hint: |
+            Include the content of another wiki page by specifying its title or slug.
+            You can include the wiki page of another project by separating them with a colon like the following example.
+        work_package_button:
+          button: Insert create work package button
+          type: Work package type
+          button_style: Use button style
+          button_style_hint: 'Optional: Check to make macro appear as a button, not
+            as a link.'
+          without_type: Create work package
+          with_type: 'Create work package (Type: %{typename})'
+        embedded_table:
+          button: Embed work package table
+          text: Embedded work package table (placeholder)
     error:
       internal: Ett internt fel har inträffat.
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
       query_saving: The query could not be saved.
     filter:
       description:
@@ -119,6 +142,7 @@ sv-SE:
     label_expand: Expandera
     label_expanded: expanderade
     label_expand_all: Expandera alla
+    label_expand_project_menu: Expand project menu
     label_export: Exportera
     label_filename: Fil
     label_filesize: Filstorlek
@@ -126,6 +150,7 @@ sv-SE:
     label_group_by: Gruppera efter
     label_hide_attributes: Visa mindre
     label_hide_column: Dölj kolumn
+    label_hide_project_menu: Collapse project menu
     label_in: i
     label_in_less_than: i mindre än
     label_in_more_than: i mer än
@@ -161,7 +186,7 @@ sv-SE:
     label_select_watcher: Välj en bevakare...
     label_selected_filter_list: Valda filter
     label_show_attributes: Visa alla attribut
-    label_show_in_menu: Visa sidan i menyn
+    label_show_in_menu: Show view in menu
     label_sort_by: Sortera efter
     label_sorted_by: sorterade efter
     label_sort_higher: Flytta upp
@@ -175,7 +200,7 @@ sv-SE:
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% Totalt klart"
-    label_visible_for_others: Sidan synlig för andra
+    label_visible_for_others: View visible for others
     label_updated_on: uppdaterad den
     label_warning: Varning
     label_work_package: Arbetspaket
@@ -311,7 +336,6 @@ sv-SE:
         one: Du kan bara välja en sak
         other: Du kan bara välja {{limit}} saker
         zero: You cannot select any items
-    show_hide_project_menu: Expandera/minimera projektmenyn
     project_menu_details: Detaljer
     sort:
       sorted_asc: 'Stigande sortering används, '
@@ -568,6 +592,8 @@ sv-SE:
         show_timeline_hint: Show an interactive gantt chart on the right side of the
           table. You can change its width by dragging the divider between table and
           gantt chart.
+        columns_help_text: Use the input above to add or remove columns to your table
+          view. You can drag and drop the columns to reorder them.
       tabs:
         overview: Översikt
         activity: Aktivitet
@@ -641,6 +667,7 @@ sv-SE:
         messages_on_field: 'Fältet är ogiltigt: %{messages}'
     error_could_not_resolve_version_name: Kunde inte fastställa versionsnamn
     error_could_not_resolve_user_name: Kunde inte fastställa användarnamn
+    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
     units:
       workPackage:
         one: work package

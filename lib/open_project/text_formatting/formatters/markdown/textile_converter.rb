@@ -57,6 +57,8 @@ require 'open3'
 module OpenProject::TextFormatting::Formatters
   module Markdown
     class TextileConverter
+      include ActionView::Helpers::TagHelper
+
       TAG_CODE = 'pandoc-unescaped-single-backtick'.freeze
       TAG_FENCED_CODE_BLOCK = 'force-pandoc-to-ouput-fenced-code-block'.freeze
       DOCUMENT_BOUNDARY = "TextileConverterDocumentBoundary09339cab-f4f4-4739-85b0-d02ba1f342e6".freeze
@@ -93,7 +95,7 @@ module OpenProject::TextFormatting::Formatters
           print '.'
         end
 
-        puts 'done'
+        puts ' done'
       end
 
       ##
@@ -112,7 +114,7 @@ module OpenProject::TextFormatting::Formatters
 
             ActiveRecord::Base.connection.execute(batch_update_statement(klass, attributes, new_values))
           end
-          puts 'done'
+          puts ' done'
         end
       end
 
@@ -126,7 +128,7 @@ module OpenProject::TextFormatting::Formatters
           end
         end
 
-        puts 'done'
+        puts ' done'
       end
 
       # Iterate in batches to avoid plucking too much
@@ -322,7 +324,51 @@ module OpenProject::TextFormatting::Formatters
           $1.gsub(/([\n])([^\n]*)/, '\1> \2')
         end
 
+        convert_macro_syntax(markdown)
+
         markdown
+      end
+
+      # Convert old {{macroname(args)}} syntax to <macro class="macroname" data-arguments="">
+      def convert_macro_syntax(markdown)
+        old_macro_regex = /
+            (!)?                        # escaping
+            (
+            \{\{                        # opening tag
+            ([\w\\_]+)                  # macro name
+            (\(([^\}]*)\))?             # optional arguments
+            \}\}                        # closing tag
+            )
+          /x
+
+        markdown.gsub!(old_macro_regex) do
+          esc = $1
+          all = $2
+          macro = $3.gsub('\_', '_')
+          args = $5 || ''
+          args_array = args.split(',').each(&:strip!)
+          data = {}
+
+          # Escaped macros should probably render as before?
+          return all if esc.present?
+
+          case macro
+          when 'timeline'
+            return content_tag :macro, I18n.t('macros.legacy_warning.timeline'), class: 'legacy-macro -macro-unavailable'
+          when 'hello_world'
+            return ''
+          when 'include'
+            macro = 'include_wiki_page'
+            data[:page] = args
+          when 'create_work_package_link'
+            data[:type] = args_array[0] if args_array.length >= 1
+            data[:classes] = args_array[1] if args_array.length >= 2
+          else
+            data[:arguments] = args if args.present?
+          end
+
+          content_tag :macro, '', class: macro, data: data
+        end
       end
 
       # OpenProject support @ inside inline code marked with @ (such as "@git@github.com@"), but not pandoc.

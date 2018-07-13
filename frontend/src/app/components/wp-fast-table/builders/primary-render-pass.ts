@@ -95,14 +95,13 @@ export abstract class PrimaryRenderPass {
   public refresh(row:RowRenderInfo, workPackage:WorkPackageResource, body:HTMLElement) {
     let oldRow = jQuery(body).find(`.${row.classIdentifier}`);
     let replacement:JQuery | null = null;
-    let editing = this.wpEditing.changesetFor(workPackage);
 
     switch (row.renderType) {
       case 'primary':
-        replacement = this.rowBuilder.refreshRow(workPackage, editing, oldRow);
+        replacement = this.rowBuilder.refreshRow(workPackage, oldRow);
         break;
       case 'relations':
-        replacement = this.relations.refreshRelationRow(row as RelationRenderInfo, workPackage, editing, oldRow);
+        replacement = this.relations.refreshRelationRow(row as RelationRenderInfo, workPackage, oldRow);
     }
 
     if (replacement !== null && oldRow.length) {

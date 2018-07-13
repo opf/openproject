@@ -42,7 +42,7 @@ it:
         assistenza Enterprise Edition attivo.
       enterprise_link: Per ulteriori informazioni, clicca qui.
   announcements:
-    show_until: Visualizza fino a
+    show_until: Mostra fino a
     is_active: attualmente visualizzato
     is_inactive: attualmente non visualizzato
   attribute_help_texts:
@@ -254,10 +254,10 @@ it:
           di diventare nuovamente utente di quest'applicazione, potrai farlo ripercorrendo
           le normali procedure.
       login_verification:
-        other: Immetti le credenziali di accesso di %{name} per verificare l'eliminazione.
-          Una volta inviato, ti verrà richiesto di confermare la password.
-        self: Immetti le tue credenziali di accesso %{name} per verificare l'eliminazione.
-          Una volta inviato, ti verrà richiesto di confermare la password.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'Il tuo account non è stato ancora attivato.
       Per attivare il tuo account, clicca sul link che ti è stato inviato via email.
 
@@ -324,6 +324,7 @@ it:
         expires_at: Scade il
         subscriber: Iscritto
         encoded_token: Token di assistenza Enterprise
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Ritardo
         from: Macro-attività
@@ -529,7 +530,7 @@ it:
               not_a_valid_parent: non è valido.
             start_date:
               violates_relationships: può essere impostata solo su %{soonest_start}
-                o successiva per non violare le relazioni del pacchetto di lavori.
+                o successiva per non violare le relazioni dei pacchetti di lavoro.
             status_id:
               status_transition_invalid: non è valido perché non esiste alcuna transizione
                 valida dal vecchio al nuovo status sulla base del ruolo dell'utente
@@ -725,6 +726,7 @@ it:
   button_unlock: Sblocca
   button_unwatch: Smetti di Osservare
   button_update: Aggiorna
+  button_upgrade: Upgrade
   button_upload: Carica
   button_view: Vedi
   button_watch: Osserva
@@ -982,6 +984,8 @@ it:
   error_custom_option_not_found: L'opzione non esiste.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Cancellazione voce non riuscita.
   error_invalid_group_by: 'Impossibile raggruppare per: %{value}'
   error_invalid_query_column: 'Colonna di query non valida: %{value}'
@@ -1067,7 +1071,7 @@ it:
       projects: Progetti visibili più recenti in questa istanza.
       users: Utenti registrati più recenti in questa istanza.
     blocks:
-      community: Comunità OpenProject
+      community: Comunità di OpenProject
       upsale:
         become_hero: Diventa un eroe!
         title: Aggiorna ad Enterprise Edition
@@ -1085,7 +1089,7 @@ it:
       glossary: Glossario
       shortcuts: Tasti di scelta rapida
       forums: Forum
-      blog: Blog OpenProject
+      blog: Blog di OpenProject
       boards: Forum della Comunità
       newsletter: Avvisi di sicurezza / Notizie
   links:
@@ -1132,7 +1136,7 @@ it:
   label_all_time: tutto il tempo
   label_all_words: Tutte le parole
   label_all_open_wps: All open
-  label_always_visible: Visualizzato sempre
+  label_always_visible: Sempre visibile
   label_announcement: Annuncio
   label_and_its_subprojects: "%{value} e i suoi sotto-progetti"
   label_api_access_key: Chiave di accesso API
@@ -1262,6 +1266,7 @@ it:
   label_enumeration_value: Valore di enumerazione
   label_enumerations: Enumerazioni
   label_enterprise: Enterprise
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
   label_entry_page: Entry page
   label_environment: Ambiente
@@ -1287,6 +1292,8 @@ it:
   label_force_user_language_to_default: Imposta la lingua degli utenti che non hanno
     una lingua consentita a quella predefinita
   label_form_configuration: Configurazione del modulo
+  label_gantt: Gantt
+  label_gantt_chart: Diagramma di Gantt
   label_general: Generale
   label_generate_key: Genera chiave
   label_git_path: Percorso per la cartella .git
@@ -1390,6 +1397,7 @@ it:
   label_next_week: Prossima settimana
   label_no_change_option: "(Nessuna modifica)"
   label_no_data: Nessun dato da visualizzare
+  label_no_parent_page: No parent page
   label_nothing_display: Niente da visualizzare
   label_nobody: nessuno
   label_none: nessuno
@@ -1408,6 +1416,7 @@ it:
   label_overall_activity: Totale attività
   label_overall_spent_time: Totale tempo impiegato
   label_overview: Panoramica
+  label_page_title: Page title
   label_part_of: parte di
   label_password_lost: Password dimenticata?
   label_password_rule_lowercase: Minuscolo
@@ -1530,7 +1539,7 @@ it:
   label_summary: Sommario
   label_system: Sistema
   label_system_storage: Informazioni sullo spazio di archiviazione
-  label_table_of_contents: Sommario
+  label_table_of_contents: Table of contents
   label_tag: Tag
   label_text: Testo lungo
   label_this_month: questo mese
@@ -1693,6 +1702,15 @@ it:
   macro_execution_error: Errore nell'esecuzione della macro %{macro_name}
   macro_unavailable: Non può essere visualizzata la macro %{macro_name}.
   macros:
+    errors:
+      missing_or_invalid_parameter: Missing or invalid macro parameter.
+    legacy_warning:
+      timeline: This legacy timeline macro has been removed and is no longer available.
+        You can replace the functionality with an embedded table macro.
+    include_wiki_page:
+      errors:
+        page_not_found: Cannot find the wiki page '%{name}'.
+        circular_inclusion: Circular inclusion of pages detected.
     create_work_package_link:
       errors:
         no_project_context: Chiamando dal contesto progettuale esterno la macro crea_lavoro_pacchetto_link.
@@ -1718,6 +1736,15 @@ it:
     %{days} giorni"
   mail_subject_wiki_content_added: La pagina wiki '%{id}' è stata aggiunta
   mail_subject_wiki_content_updated: La pagina wiki '%{id}' è stata aggiornata
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: Altre funzioni
   noscript_description: È necessario attivare JavaScript per poter usare OpenProject!
   noscript_heading: JavaScript disabilitato
@@ -1840,6 +1867,7 @@ it:
       e il lavoro di squadra in OpenProject.
     text_show_again: È possibile riavviare questo video dal menu Guida
     welcome: Benvenuto in OpenProject
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Aggiungi nota
   permission_add_work_packages: Aggiungere macro-attività (work package)
   permission_add_messages: Postare messaggi
@@ -2233,6 +2261,9 @@ it:
     passwords: Password
     session: Sessione
     brute_force_prevention: Blocco automatico degli utenti
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown
@@ -2604,6 +2635,7 @@ it:
       quarters: Trimestri
       years: Anni
   title_remove_and_delete_user: Rimuovi l'utente invitato dal progetto ed eliminalo/a.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_user_default_timezone: 'L''orario predefinito per i nuovi utenti. Può essere
     cambiato in un impostazione utenti.
 
@@ -2677,9 +2709,25 @@ it:
     %{configuration}.
   warning: Attenzione
   warning_attachments_not_saved: "%{count} file non possono essere salvati."
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
   warning_registration_token_expired: |
     L'attivazione della e-mail è scaduta. Te ne abbiamo mandata una nuova a %{email}.
     Clicca il link al suo interno per attivare il tuo account.
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: Voce di menu
   menu_item_setting: Visibilità
   wiki_menu_item_for: Voce di menù per la pagina wiki "%{title}"

@@ -34,7 +34,6 @@ import {WorkPackageTableSortBy} from '../wp-table-sort-by';
 import {QueryColumn} from '../../wp-query/query-column';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Injectable} from '@angular/core';
-import {downgradeInjectable} from '@angular/upgrade/static';
 import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
 import {Observable} from 'rxjs';
 import {

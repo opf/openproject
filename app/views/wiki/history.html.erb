@@ -124,7 +124,7 @@ See docs/COPYRIGHT.rdoc for more details.
                                        (line_num==1),
                                        id: "cb-#{line_num}" %>
                 <% end %>
-                <% csp_onclick("jQuery(#'cbto-#{line_num+1}').attr('checked', true);", "#cb-#{line_num}}") %>
+                <% csp_onclick("jQuery('#cbto-#{line_num+1}').attr('checked', true);", "#cb-#{line_num}") %>
               </td>
               <td class="checkbox">
                 <% if show_diff && (line_num > 1) %>

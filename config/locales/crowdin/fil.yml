@@ -266,10 +266,10 @@ fil:
           ito sa pamamagitan ng paggamit ng mga ibig sabihin ng mga pamigay ng aplikasyon
           na ito.
       login_verification:
-        other: Ipasok ang login %{name} upang matiyak ang pagtanggal. Kapag naisumite
-          na, tatanungin ka upang kumpirmahin ang iyong password.
-        self: Ipasok ang iyong login %{name} upang matiyak ang pagbubura. Kapag maisumite,
-          tatanungin ka upang kumpirmahin ang iyong password.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'Ang iyong akawnt ay hindi ba aktibo. Upang
       gawing aktibo ang iyong akawnt, pindutin sa link na na-email sa iyo.
 
@@ -338,6 +338,7 @@ fil:
         expires_at: Matapos sa
         subscriber: Taga -subaybay
         encoded_token: Enterprise support token
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Antala
         from: Work package
@@ -740,6 +741,7 @@ fil:
   button_unlock: I-unlock
   button_unwatch: I-unwatch
   button_update: I-update
+  button_upgrade: Upgrade
   button_upload: I-upload
   button_view: Tingnan
   button_watch: Tumingin
@@ -998,6 +1000,8 @@ fil:
   error_custom_option_not_found: Ang opsyon ay hindi umiiral.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Nabigong burahin ang entry na ito.
   error_invalid_group_by: 'Hindi ma grupo sa pamamagitan ng: %{value}'
   error_invalid_query_column: Hindi balido ang hanay ng query:%{value}
@@ -1279,6 +1283,7 @@ fil:
   label_enumeration_value: Pag-enumerate ng halaga
   label_enumerations: Mga enumerasyon
   label_enterprise: Enterprise
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
   label_entry_page: Entry page
   label_environment: Kalikasan
@@ -1304,6 +1309,8 @@ fil:
   label_force_user_language_to_default: Magtakda ng linggwahe ng mga gumagamit na
     mayroon pinayagang linggwahe sa default
   label_form_configuration: Form kompigurasyon
+  label_gantt: Gantt
+  label_gantt_chart: Gantt tsart
   label_general: Pangkalahatan
   label_generate_key: Bumuo ng susi
   label_git_path: Landas sa .git direktoryo
@@ -1407,6 +1414,7 @@ fil:
   label_next_week: Susunod na linggo
   label_no_change_option: "( Walang pagbago)"
   label_no_data: Walang data upang ipakita
+  label_no_parent_page: No parent page
   label_nothing_display: Walang maipakita
   label_nobody: walang sinuman
   label_none: wala
@@ -1425,6 +1433,7 @@ fil:
   label_overall_activity: Pangkalahatang gawain
   label_overall_spent_time: Pangkalahatang tinipid ang oras
   label_overview: Buod
+  label_page_title: Page title
   label_part_of: bahagi ng
   label_password_lost: Nakalimutan ang iyong password?
   label_password_rule_lowercase: Lowercase
@@ -1547,7 +1556,7 @@ fil:
   label_summary: Buod
   label_system: Sistema
   label_system_storage: Impormasyon ng storage
-  label_table_of_contents: Talaan ng Nilalamn
+  label_table_of_contents: Table of contents
   label_tag: Tag
   label_text: Mahaba na teksto
   label_this_month: ngayong buwan
@@ -1705,6 +1714,15 @@ fil:
   macro_execution_error: May mali habang isinasagawa ang macro %{macro_name}
   macro_unavailable: Macro %{macro_name} hindi naka-display.
   macros:
+    errors:
+      missing_or_invalid_parameter: Missing or invalid macro parameter.
+    legacy_warning:
+      timeline: This legacy timeline macro has been removed and is no longer available.
+        You can replace the functionality with an embedded table macro.
+    include_wiki_page:
+      errors:
+        page_not_found: Cannot find the wiki page '%{name}'.
+        circular_inclusion: Circular inclusion of pages detected.
     create_work_package_link:
       errors:
         no_project_context: Pagtawag ng create_work_package macro mula sa labas ng
@@ -1734,6 +1752,15 @@ fil:
   mail_subject_reminder: "%{count} work package dahil sa susunod na mga %{days} araw"
   mail_subject_wiki_content_added: Ang '%{id}' wikin pahina ay naidagdag
   mail_subject_wiki_content_updated: "'%{id}' wiking pahina ay naka-update na"
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: Karagdagang functio
   noscript_description: Kailangan mong i-aktibo ang JavaScript upang gamitin sa OpenProject!
   noscript_heading: Ang JavaScript ay hindi pinagana
@@ -1857,6 +1884,7 @@ fil:
       at pakikipagtulungan ng koponan sa OpenProject.
     text_show_again: Maari mong i-restart amg video na ito mula sa tulong ng pagpipilian
     welcome: Maligayang pagdating sa OpenProject
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Magdagdag ng mga talaan
   permission_add_work_packages: Magdagdag ng mga work package
   permission_add_messages: Mga post na mensahe
@@ -2249,6 +2277,9 @@ fil:
     passwords: Ang mga password
     session: Sesyon
     brute_force_prevention: Naka-automate na user block
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown
@@ -2620,6 +2651,7 @@ fil:
       years: Mga taon
   title_remove_and_delete_user: Alisin ang inimbitahan na user mula proyekto at tanggalin
     siya.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_user_default_timezone: 'Ang default time zone para sa mga bagong gumagamit.
     Maaring baguhin sa mga user setting.
 
@@ -2696,9 +2728,25 @@ fil:
     %{configuration}.
   warning: Babala
   warning_attachments_not_saved: "%{count} na(mga) file ay hindi mai-save."
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
   warning_registration_token_expired: |
     Ang pagaaktibo ng email ay nag-expire na. Nagpadala kami ng isang bagi sa %{email}.
     Mangyaring pindutin ang link sa loob nito.
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: Pagpipilian sa mga aytem
   menu_item_setting: Nakikita
   wiki_menu_item_for: Aytem na pagpipilian sa wikipage na "%{title}"

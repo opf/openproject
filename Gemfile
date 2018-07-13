@@ -69,7 +69,7 @@ gem 'htmldiff'
 gem 'stringex', '~> 2.7.1'
 
 # CommonMark markdown parser with GFM extension
-gem 'commonmarker', '~> 0.17.8'
+gem 'commonmarker', '~> 0.17.9'
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features
 gem 'html-pipeline', '~> 2.7.1'
@@ -269,7 +269,8 @@ group :opf_plugins do
 end
 
 group :docker, optional: true do
-  gem 'passenger', '~> 5.2'
+  gem 'passenger', '~> 5.3.3'
+
   # Used to easily precompile assets
   gem 'sqlite3', require: false
   gem 'rails_12factor', require: !!ENV['HEROKU']

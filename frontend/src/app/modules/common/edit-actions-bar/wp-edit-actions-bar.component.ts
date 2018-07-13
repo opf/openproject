@@ -66,7 +66,7 @@ export class WorkPackageEditActionsBarComponent {
   }
 
   public cancel():void {
-    this.wpEditFieldGroup.inEditMode = false;
+    this.wpEditFieldGroup.stop();
     this.onCancel.emit();
   }
 }

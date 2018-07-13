@@ -35,7 +35,7 @@ import {TimezoneService} from 'core-components/datetime/timezone.service';
     <span title="{{date}} {{ time }}">
       <span [textContent]="date"></span>
       <span [textContent]="time"></span>
-    </span>'
+    </span>
   `
 })
 export class OpDateTimeComponent {

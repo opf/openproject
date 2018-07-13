@@ -92,5 +92,7 @@ npm-debug.log*
 /frontend/dist/
 /frontend/tests/*.gif
 node_modules/
+# Ignore global package-lock.json that generates
+/package-lock.json
 plaintext.yml
 structure.sql

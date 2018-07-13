@@ -53,8 +53,31 @@ uk:
     description_select_work_package: 'Виберіть пакет робіт #%{id}'
     description_selected_columns: Selected Columns
     description_subwork_package: 'Нащадок пакету робіт #%{id}'
+    editor:
+      macro:
+        toc: Table of contents
+        wiki_page_include:
+          button: Include content of another wiki page
+          text: Included wiki page (placeholder)
+          page: Wiki page
+          hint: |
+            Include the content of another wiki page by specifying its title or slug.
+            You can include the wiki page of another project by separating them with a colon like the following example.
+        work_package_button:
+          button: Insert create work package button
+          type: Work package type
+          button_style: Use button style
+          button_style_hint: 'Optional: Check to make macro appear as a button, not
+            as a link.'
+          without_type: Create work package
+          with_type: 'Create work package (Type: %{typename})'
+        embedded_table:
+          button: Embed work package table
+          text: Embedded work package table (placeholder)
     error:
       internal: Сталася внутрішня помилка.
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
       query_saving: The query could not be saved.
     filter:
       description:
@@ -122,6 +145,7 @@ uk:
     label_expand: Розгорнути
     label_expanded: розгорнуто
     label_expand_all: Expand all
+    label_expand_project_menu: Expand project menu
     label_export: Експорт
     label_filename: Файл
     label_filesize: Розмір
@@ -129,6 +153,7 @@ uk:
     label_group_by: Group by
     label_hide_attributes: Показати менше
     label_hide_column: Приховати стовпчик
+    label_hide_project_menu: Collapse project menu
     label_in: in
     label_in_less_than: in less than
     label_in_more_than: in more than
@@ -164,7 +189,7 @@ uk:
     label_select_watcher: Виберіть спостерігача...
     label_selected_filter_list: Вибрані фільтри
     label_show_attributes: Показати всі атрибути
-    label_show_in_menu: Показати сторінку в меню
+    label_show_in_menu: Show view in menu
     label_sort_by: Sort by
     label_sorted_by: відсортовано за
     label_sort_higher: Move up
@@ -178,7 +203,7 @@ uk:
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% загального прогресу"
-    label_visible_for_others: Сторінка видима для інших
+    label_visible_for_others: View visible for others
     label_updated_on: оновлено
     label_warning: Warning
     label_work_package: Work package
@@ -319,7 +344,6 @@ uk:
         zero: You cannot select any items
         few: Ви можете вибрати тільки {{limit}} елементи
         many: You can only select {{limit}} items
-    show_hide_project_menu: Expand/Collapse project menu
     project_menu_details: Details
     sort:
       sorted_asc: 'Ascending sort applied, '
@@ -578,6 +602,8 @@ uk:
         show_timeline_hint: Show an interactive gantt chart on the right side of the
           table. You can change its width by dragging the divider between table and
           gantt chart.
+        columns_help_text: Use the input above to add or remove columns to your table
+          view. You can drag and drop the columns to reorder them.
       tabs:
         overview: Overview
         activity: Activity
@@ -651,6 +677,7 @@ uk:
         messages_on_field: 'Це поле невірне: %{messages}'
     error_could_not_resolve_version_name: Не вдалося визначити версію
     error_could_not_resolve_user_name: Не вдалося визначити ім'я користувача
+    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
     units:
       workPackage:
         one: work package

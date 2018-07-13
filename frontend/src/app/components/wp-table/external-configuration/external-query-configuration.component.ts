@@ -8,7 +8,7 @@ export interface QueryConfigurationLocals {
   service:any;
   currentQuery:any;
   disabledTabs:{ [key:string]:string };
-  originator:JQuery;
+  callback:(newQuery:any) => void;
 }
 
 @Component({
@@ -34,7 +34,8 @@ export class ExternalQueryConfigurationComponent implements AfterViewInit {
     // to avoid nesting components in the view initialization.
     setTimeout(() => {
       this.embeddedTable.openConfigurationModal(() => {
-        this.service.close(this.locals.originator, this.embeddedTable.buildQueryProps());
+        this.service.detach();
+        this.locals.callback(this.embeddedTable.buildQueryProps());
       });
     });
   }

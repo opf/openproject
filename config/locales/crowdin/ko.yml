@@ -222,8 +222,10 @@ ko:
         self: 당신의 계정이 시스템에서 삭제됩니다. 따라서 당신은 지금의 인증 정보로 더 이상 로그인할 수 없습니다. 원한다면 이 애플리케이션이
           허용하는 방법을 따라서 다시 사용자가 될 수 있습니다.
       login_verification:
-        other: 삭제를 확인하려면 로그인 %{name}을(를) 입력하세요. 제출하면 암호를 확인하라는 메시지가 표시됩니다.
-        self: 삭제를 확인하려면 로그인 %{name}을(를) 입력하세요. 제출하면 암호를 확인하라는 메시지가 표시됩니다.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: '당신의 계정이 아직 활성화되지 않았습니다. 계정을 활성화하기 위해, 이메일로
       전송된 링크를 클릭하십시오.
 
@@ -289,6 +291,7 @@ ko:
         expires_at: 에서 만료됨
         subscriber: 구독자
         encoded_token: 엔터프라이즈 지원 토큰
+        active_user_count_restriction: Maximum active users
       relation:
         delay: 지연
         from: 작업 패키지
@@ -670,6 +673,7 @@ ko:
   button_unlock: 잠금 해제
   button_unwatch: 주시 안 함
   button_update: 업데이트
+  button_upgrade: Upgrade
   button_upload: 업로드하기
   button_view: 보기
   button_watch: 주시
@@ -941,6 +945,8 @@ ko:
   error_custom_option_not_found: 존재하지 않는 옵션입니다.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: 항목 삭제에 실패하였습니다.
   error_invalid_group_by: '그룹화할 수 없습니다: %{value}'
   error_invalid_query_column: '잘못 된 쿼리 열: %{value}'
@@ -1202,6 +1208,7 @@ ko:
   label_enumeration_value: 열거형 값
   label_enumerations: 열거형
   label_enterprise: 엔터프라이즈
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
   label_entry_page: Entry page
   label_environment: 환경
@@ -1226,6 +1233,8 @@ ko:
   label_follows: 팔로우
   label_force_user_language_to_default: 허용되지 않는 언어가 있는 사용자의 언어를 기본값으로 설정
   label_form_configuration: 양식 구성
+  label_gantt: Gantt
+  label_gantt_chart: Gantt 차트
   label_general: 일반
   label_generate_key: 키 생성
   label_git_path: ".git 디렉터리의 경로"
@@ -1329,6 +1338,7 @@ ko:
   label_next_week: 다음 주
   label_no_change_option: "(변경 없음)"
   label_no_data: 표시할 데이터가 없습니다.
+  label_no_parent_page: No parent page
   label_nothing_display: 표시할 것이 없음
   label_nobody: 아무도 없음
   label_none: 없음
@@ -1347,6 +1357,7 @@ ko:
   label_overall_activity: 전체 작업
   label_overall_spent_time: 총 소요 시간
   label_overview: 요약
+  label_page_title: Page title
   label_part_of: 부분의
   label_password_lost: 암호를 잊으셨습니까?
   label_password_rule_lowercase: 소문자
@@ -1466,7 +1477,7 @@ ko:
   label_summary: 요약
   label_system: 시스템
   label_system_storage: 저장 공간 정보
-  label_table_of_contents: 목차
+  label_table_of_contents: Table of contents
   label_tag: 태그
   label_text: 긴 텍스트
   label_this_month: 이번 달
@@ -1620,6 +1631,15 @@ ko:
   macro_execution_error: 매크로 %{macro_name} 실행 중에 오류 발생
   macro_unavailable: 매크로 %{macro_name}은(는) 표시할 수 없습니다.
   macros:
+    errors:
+      missing_or_invalid_parameter: Missing or invalid macro parameter.
+    legacy_warning:
+      timeline: This legacy timeline macro has been removed and is no longer available.
+        You can replace the functionality with an embedded table macro.
+    include_wiki_page:
+      errors:
+        page_not_found: Cannot find the wiki page '%{name}'.
+        circular_inclusion: Circular inclusion of pages detected.
     create_work_package_link:
       errors:
         no_project_context: Calling create_work_package_link macro from outside project
@@ -1644,6 +1664,15 @@ ko:
   mail_subject_reminder: 다음 %{days}일 후 만료되는 %{count} 작업 패키지
   mail_subject_wiki_content_added: "'%{id}' 위키 페이지가 추가되었습니다."
   mail_subject_wiki_content_updated: "'%{id}' 위키 페이지가 업데이트되었습니다."
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: 추가 기능
   noscript_description: OpenProject를 사용하려면 JavaScript를 활성화해야 합니다!
   noscript_heading: JavaScript 사용 안 함
@@ -1748,6 +1777,7 @@ ko:
       수 있습니다.
     text_show_again: 도움말 메뉴에서 이 비디오를 다시 시작할 수 있습니다.
     welcome: OpenProject에 오신 것을 환영합니다.
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: 메모 추가
   permission_add_work_packages: 작업 패키지 추가
   permission_add_messages: 메시지 게시
@@ -2079,6 +2109,9 @@ ko:
     passwords: 암호
     session: 세션
     brute_force_prevention: 자동화된 사용자 차단
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown
@@ -2398,6 +2431,7 @@ ko:
       quarters: 분기
       years: 년
   title_remove_and_delete_user: 초대받은 사용자를 프로젝트에서 제거하고 해당 사용자를 삭제하세요.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
     in a user''s settings.
 
@@ -2462,9 +2496,25 @@ ko:
   note_password_login_disabled: 암호 로그인이 %{configuration}에 의해 비활성화되었습니다.
   warning: 경고
   warning_attachments_not_saved: "%{count}개 파일을 저장할 수 없습니다."
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
   warning_registration_token_expired: |
     The activation email has expired. We sent you a new one to %{email}.
     Please click the link inside of it to activate your account.
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: 메뉴 항목
   menu_item_setting: 표시 여부
   wiki_menu_item_for: 위키 페이지 "%{title}"에 대한 메뉴 항목

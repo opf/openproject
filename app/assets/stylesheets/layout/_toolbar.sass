@@ -255,9 +255,10 @@
   .toolbar-container .toolbar-items
     background: #fff
     display: flex
-    margin-bottom: 20px
     width: calc(100% + 5px)
 
+    &:not(:empty)
+      margin-bottom: 20px
     > li
       -webkit-flex: 1 0 0
       flex: 1 0 0

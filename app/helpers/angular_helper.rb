@@ -37,13 +37,14 @@ module AngularHelper
 
   def activate_angular_js(type = :div, options = {}, &block)
     content_for(:header_tags) do
-      javascript_include_tag 'bundles/openproject-core-app'
+      javascript_include_tag 'bundles/openproject-legacy-app'
     end
 
     if block_given?
-      content_tag(type, options.merge('ng-app': 'OpenProjectLegacy'), &block)
+      merged_options = options.merge('ng-app': 'OpenProjectLegacy', 'ng-csp': '')
+      content_tag(type, merged_options, &block)
     else
-      'ng-app="OpenProjectLegacy"'.html_safe
+      'ng-app="OpenProjectLegacy" ng-csp'.html_safe
     end
   end
 end

@@ -26,7 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, ElementRef, HostListener, Injector, Input, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, HostListener, Injector, Input, OnDestroy, OnInit} from '@angular/core';
+import {distinctUntilChanged} from 'rxjs/operators';
+import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
+import {MainMenuToggleService} from "core-components/resizer/main-menu-toggle.service";
 
 @Component({
   selector: 'wp-resizer',
@@ -46,7 +49,8 @@ export class WpResizerDirective implements OnInit, OnDestroy {
 
   public moving:boolean = false;
 
-  constructor(private elementRef:ElementRef) {
+  constructor(readonly toggleService:MainMenuToggleService,
+              private elementRef:ElementRef) {
   }
 
   ngOnInit() {
@@ -65,11 +69,27 @@ export class WpResizerDirective implements OnInit, OnDestroy {
     }
     this.resizingElement.style.flexBasis = this.elementFlex + 'px';
 
-    // Apply two column layout
-    this.resizingElement.classList.toggle('-columns-2', this.elementFlex > 700);
+    // Wait until dom content is loaded and initialize column layout
+    // Otherwise function will be executed with empty list
+    jQuery(document).ready(() => {
+      this.applyColumnLayout(this.resizingElement, this.elementFlex);
+    });
 
     // Add event listener
     this.element = this.elementRef.nativeElement;
+
+    // Listen on sidebar changes and toggle column layout, if necessary
+    this.toggleService.changeData$
+      .pipe(
+        distinctUntilChanged(),
+        untilComponentDestroyed(this)
+      )
+      .subscribe( changeData => {
+        jQuery('.-can-have-columns').toggleClass('-columns-2', jQuery('.work-packages-full-view--split-left').width() > 750);
+      });
+    jQuery(window).resize(function() {
+      jQuery('.-can-have-columns').toggleClass('-columns-2', jQuery('.work-packages-full-view--split-left').width() > 750);
+    });
   }
 
   ngOnDestroy() {
@@ -149,9 +169,20 @@ export class WpResizerDirective implements OnInit, OnDestroy {
     window.OpenProject.guardedLocalStorage(this.localStorageKey, String(newValue));
 
     // Apply two column layout
-    element.classList.toggle('-columns-2', newValue > 700);
+    this.applyColumnLayout(element, newValue);
 
     // Set new width
     element.style.flexBasis = newValue + 'px';
+  }
+
+  private applyColumnLayout(element:HTMLElement, newWidth:number) {
+    // Apply two column layout in fullscreen view of a workpackage
+    if (element === jQuery('.work-packages-full-view--split-right')[0]) {
+      jQuery('.-can-have-columns').toggleClass('-columns-2', jQuery('.work-packages-full-view--split-left').width() > 750);
+    }
+    // Apply two column layout when details view of wp is open
+    else {
+      element.classList.toggle('-columns-2', newWidth > 700);
+    }
   }
 }

@@ -32,7 +32,6 @@ module TextFormattingHelper
   def_delegators :current_formatting_helper,
                  :text_formatting_has_preview?,
                  :text_formatting_js_includes,
-                 :initial_page_content,
                  :wikitoolbar_for,
                  :heads_for_wiki_formatter
 

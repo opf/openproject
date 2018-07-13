@@ -27,11 +27,11 @@
 // ++
 
 import {Component, ElementRef, OnInit} from '@angular/core';
+import {TimelineZoomLevel} from 'core-app/modules/hal/resources/query-resource';
 import {WorkPackageTimelineTableController} from 'core-components/wp-table/timeline/container/wp-timeline-container.directive';
 import * as moment from 'moment';
 import {calculatePositionValueForDayCount, getTimeSlicesForHeader, TimelineViewParameters} from '../wp-timeline';
 import Moment = moment.Moment;
-import {TimelineZoomLevel} from 'core-app/modules/hal/resources/query-resource';
 
 
 export const timelineHeaderCSSClass = 'wp-timeline--header-element';

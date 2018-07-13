@@ -53,8 +53,31 @@ it:
     description_select_work_package: 'Seleziona la macro-attività #%{id}'
     description_selected_columns: Colonne selezionate
     description_subwork_package: 'Subordinata alla macro-attività #%{id}'
+    editor:
+      macro:
+        toc: Table of contents
+        wiki_page_include:
+          button: Include content of another wiki page
+          text: Included wiki page (placeholder)
+          page: Pagina wiki
+          hint: |
+            Include the content of another wiki page by specifying its title or slug.
+            You can include the wiki page of another project by separating them with a colon like the following example.
+        work_package_button:
+          button: Insert create work package button
+          type: Work package type
+          button_style: Use button style
+          button_style_hint: 'Optional: Check to make macro appear as a button, not
+            as a link.'
+          without_type: Create work package
+          with_type: 'Create work package (Type: %{typename})'
+        embedded_table:
+          button: Embed work package table
+          text: Embedded work package table (placeholder)
     error:
       internal: Si è verificato un errore interno.
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
       query_saving: The query could not be saved.
     filter:
       description:
@@ -122,6 +145,7 @@ it:
     label_expand: Espandi
     label_expanded: espanso
     label_expand_all: Espandi tutto
+    label_expand_project_menu: Expand project menu
     label_export: Esporta
     label_filename: File
     label_filesize: Dimensione
@@ -129,6 +153,7 @@ it:
     label_group_by: Raggruppa per
     label_hide_attributes: Meno suggerimenti
     label_hide_column: Nascondi la colonna
+    label_hide_project_menu: Collapse project menu
     label_in: in
     label_in_less_than: in meno di
     label_in_more_than: in più di
@@ -164,7 +189,7 @@ it:
     label_select_watcher: Seleziona un osservatore...
     label_selected_filter_list: Filtri selezionati
     label_show_attributes: Mostra tutti gli attributi
-    label_show_in_menu: Visualizza la pagina nel menu
+    label_show_in_menu: Show view in menu
     label_sort_by: Ordina per
     label_sorted_by: ordinati per
     label_sort_higher: Sposta su
@@ -178,7 +203,7 @@ it:
     label_activity_show_only_comments: Mostra solo le attività con commenti
     label_activity_show_all: Mostra tutte le attività
     label_total_progress: "%{percent}% Progresso totale"
-    label_visible_for_others: Pagina visibile per gli altri
+    label_visible_for_others: View visible for others
     label_updated_on: aggiornato il
     label_warning: Attenzione
     label_work_package: Macro-attività
@@ -316,7 +341,6 @@ it:
         one: Puoi selezionare solo un elemento
         other: Puoi selezionare solo {{limit}} elementi
         zero: You cannot select any items
-    show_hide_project_menu: Espandi/Comprimi il menù di progetto
     project_menu_details: Dettagli
     sort:
       sorted_asc: 'Ordinamento crescente applicato, '
@@ -580,6 +604,8 @@ it:
         show_timeline_hint: Show an interactive gantt chart on the right side of the
           table. You can change its width by dragging the divider between table and
           gantt chart.
+        columns_help_text: Use the input above to add or remove columns to your table
+          view. You can drag and drop the columns to reorder them.
       tabs:
         overview: Panoramica
         activity: Attività
@@ -653,6 +679,7 @@ it:
         messages_on_field: 'Questo campo non è valido: %{messages}'
     error_could_not_resolve_version_name: Impossibile determinare il nome della versione
     error_could_not_resolve_user_name: Impossibile determinare il nome utente
+    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
     units:
       workPackage:
         one: macro-attività

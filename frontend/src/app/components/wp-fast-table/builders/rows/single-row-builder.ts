@@ -112,7 +112,7 @@ export class SingleRowBuilder {
   /**
    * Refresh a row that is currently being edited, that is, some edit fields may be open
    */
-  public refreshRow(workPackage:WorkPackageResource, changeset:WorkPackageChangeset, jRow:JQuery):JQuery {
+  public refreshRow(workPackage:WorkPackageResource, jRow:JQuery):JQuery {
     // Detach all current edit cells
     const cells = jRow.find(`.${wpCellTdClassName}`).detach();
 
@@ -123,7 +123,7 @@ export class SingleRowBuilder {
       const oldTd = cells.filter(`td.${column.id}`);
 
       // Skip the replacement of the column if this is being edited.
-      if (this.isColumnBeingEdited(changeset, column)) {
+      if (this.isColumnBeingEdited(workPackage, column)) {
         newCells.push(oldTd[0]);
         return;
       }
@@ -140,8 +140,14 @@ export class SingleRowBuilder {
     return jRow;
   }
 
-  protected isColumnBeingEdited(changeset:WorkPackageChangeset, column:QueryColumn) {
-    return changeset && changeset.isOverridden(column.id);
+  protected isColumnBeingEdited(workPackage:WorkPackageResource, column:QueryColumn) {
+    const form = this.workPackageTable.editing.forms[workPackage.id];
+    const changeset = this.workPackageTable.editing.changeset(workPackage.id);
+
+    const isOpen = form && form.activeFields[column.id];
+    const isChanged = changeset && changeset.isOverridden(column.id);
+
+    return isOpen || isChanged;
   }
 
   protected buildEmptyRow(workPackage:WorkPackageResource, row:HTMLElement):[HTMLElement, boolean] {

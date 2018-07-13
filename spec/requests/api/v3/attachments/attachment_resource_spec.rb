@@ -289,21 +289,21 @@ describe 'API v3 Attachment resource', type: :request, content_type: :json do
       end
 
       context 'for a remote file' do
-        let(:remote_url) { 'http://some_service.org/blubs.gif' }
+        let(:external_url) { 'http://some_service.org/blubs.gif' }
         let(:mock_file) { FileHelpers.mock_uploaded_file name: 'foobar.txt' }
         let(:attachment) do
           FactoryBot.create(:attachment, container: container, file: mock_file) do |a|
             # need to mock here to avoid dependency on external service
             allow_any_instance_of(Attachment)
               .to receive(:external_url)
-              .and_return(remote_url)
+              .and_return(external_url)
           end
         end
 
         it 'responds with 302 Redirect' do
           expect(subject.status).to eq 302
           expect(subject.headers['Location'])
-            .to eql remote_url
+            .to eql external_url
         end
       end
     end

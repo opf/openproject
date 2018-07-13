@@ -6,10 +6,10 @@ zh:
       loading: 加载中...
     autocomplete_select:
       placeholder:
-        multi: Add "%{name}"
-        single: Select "%{name}"
-      remove: Remove %{name}
-      active: Active %{label} %{name}
+        multi: 添加“%{name}”
+        single: 选择“%{name}”
+      remove: 移除%{name}
+      active: 活跃的%{label} %{name}
     close_popup_title: 关闭弹出窗口
     close_filter_title: 关闭过滤器
     close_form_title: 关闭表单
@@ -52,9 +52,30 @@ zh:
     description_select_work_package: '选择工作包 #%{id}'
     description_selected_columns: 选定的列
     description_subwork_package: '子工作包 #%{id}'
+    editor:
+      macro:
+        toc: 目录
+        wiki_page_include:
+          button: 包括另一个Wiki页的内容
+          text: 包括的Wiki页 (placeholder)
+          page: 维基页面
+          hint: |
+            通过指定其标题或Slug来包含其他Wiki页面的内容。
+            您可以通过使用冒号分隔另一个项目的Wiki页面，如下例所示。
+        work_package_button:
+          button: 插入创建工作包按钮
+          type: 工作包类型
+          button_style: 使用按键风格
+          button_style_hint: 可选：选中以使宏显示为按钮，而不是链接。
+          without_type: 创建工作包
+          with_type: 创建工作包（种类：%{typename}）
+        embedded_table:
+          button: 嵌入工作包表
+          text: 嵌入式工作包表 (placeholder)
     error:
       internal: 发生了内部错误。
-      query_saving: The query could not be saved.
+      cannot_save_changes_with_message: 由于%{error} 原因，无法保存您的更改。
+      query_saving: 无法保存查询。
     filter:
       description:
         text_open_filter: 使用 ALT 和方向键打开筛选器。
@@ -117,6 +138,7 @@ zh:
     label_expand: 展开
     label_expanded: 展开
     label_expand_all: 全部展开
+    label_expand_project_menu: 展开项目菜单
     label_export: 导出
     label_filename: 文件
     label_filesize: 大小
@@ -124,6 +146,7 @@ zh:
     label_group_by: 分组按照
     label_hide_attributes: 隐藏显示
     label_hide_column: 隐藏列
+    label_hide_project_menu: 折叠项目菜单
     label_in: 在
     label_in_less_than: 在小于
     label_in_more_than: 在多于
@@ -145,7 +168,7 @@ zh:
     label_not_equals: 不是
     label_on: 于
     label_open_menu: 打开菜单
-    label_open_context_menu: Open context menu
+    label_open_context_menu: 打开菜单目录
     label_open_work_packages: 打开
     label_password: 密码
     label_previous: 上一个
@@ -159,7 +182,7 @@ zh:
     label_select_watcher: 选择一位关注者...
     label_selected_filter_list: 所选的筛选器
     label_show_attributes: 显示所有属性
-    label_show_in_menu: 在菜单中显示页面
+    label_show_in_menu: 在菜单中显示视图
     label_sort_by: 排序按
     label_sorted_by: 排序按照
     label_sort_higher: 向上移动
@@ -169,11 +192,11 @@ zh:
     label_subject: 主题
     label_this_week: 这一周
     label_today: 今天
-    label_up: Up
+    label_up: 向上
     label_activity_show_only_comments: 仅显示批注的活动
     label_activity_show_all: 显示所有项目
     label_total_progress: "%{percent} %总进度"
-    label_visible_for_others: 页面可被他人访问
+    label_visible_for_others: 可被他人访问
     label_updated_on: 更新于
     label_warning: 警告
     label_work_package: 工作包
@@ -300,7 +323,6 @@ zh:
         one: You can only select one item
         other: 您可以只选择 {{limit}} 个条目
         zero: You cannot select any items
-    show_hide_project_menu: 展开/折叠项目菜单
     project_menu_details: 详细信息
     sort:
       sorted_asc: '升序排列已应用， '
@@ -316,7 +338,7 @@ zh:
     timelines:
       gantt_chart: 甘特图
       labels:
-        title: Label configuration
+        title: 标签配置
         bar: 条形标签
         left: 左
         right: 右
@@ -446,7 +468,7 @@ zh:
         header_with_parent: '新的 %{type} （%{parent_type} #%{id} 子）'
         button: 创建
       copy:
-        title: Copy work package
+        title: 复制工作包
       hierarchy:
         show: 显示层次结构模式
         hide: 隐藏层次结构模式
@@ -514,28 +536,24 @@ zh:
           not_found: 无此查询
         text_no_results: 未找到匹配的查询。
       table:
-        configure_button: Configure work package table
+        configure_button: 配置工作包表
         summary: 行为工作包且列为工作包属性的表格。
         text_inline_edit: 大多数此表格的单元格为激活工作包属性的直接编辑功能的按钮。
         text_sort_hint: 使用表格标题中的链接，您可以对表格中的列排序、分组、重排序、删除和添加。
         text_select_hint: 请使用Alt+方向键打开选择框。
       table_configuration:
-        button: Configure this work package table
-        modal_title: Work package table configuration
-        embedded_tab_disabled: This configuration tab is not available for the embedded
-          query you're editing.
-        display_settings: Display settings
-        grouped_mode: Grouped mode
-        grouped_hint: Table results will be grouped by the given attribute.
-        default_mode: Default mode
+        button: 配置当前工作包表
+        modal_title: 工作包表配置
+        embedded_tab_disabled: 此配置选项卡不适用于您正在编辑的嵌入式查询。
+        display_settings: 显示设置
+        grouped_mode: 分组模式
+        grouped_hint: 表结果将按给定属性分组。
+        default_mode: 默认模式
         hierarchy_mode: 层次结构模式
-        hierarchy_hint: All filtered table results will be augmented with their ancestors.
-          Hierarchies can be expanded and collapsed.
-        display_sums_hint: Display sums of all summable attributes in a row below
-          the table results.
-        show_timeline_hint: Show an interactive gantt chart on the right side of the
-          table. You can change its width by dragging the divider between table and
-          gantt chart.
+        hierarchy_hint: 所有过滤的表结果都将使用其上级进行扩充。 可以展开和折叠层次结构。
+        display_sums_hint: 在表结果下方一行中显示所有可累加属性的总和。
+        show_timeline_hint: 在表格的右侧显示交互式甘特图。 您可以通过拖动表格和甘特图之间的分隔线来更改其宽度。
+        columns_help_text: 使用上面的输入向表视图添加或删除列。 您可以拖放列以重新排序它们。
       tabs:
         overview: 概述
         activity: 活动
@@ -609,6 +627,7 @@ zh:
         messages_on_field: 此字段无效：%{messages}
     error_could_not_resolve_version_name: 无法解析版本名称
     error_could_not_resolve_user_name: 不能确定用户名
+    error_attachment_upload: 文件“%{name}”传输失败：%{error}
     units:
       workPackage:
         one: work package

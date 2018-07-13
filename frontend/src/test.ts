@@ -7,26 +7,24 @@ import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting
 } from '@angular/platform-browser-dynamic/testing';
+import {GlobalI18n} from "core-app/modules/common/i18n/i18n.service";
+import {I18nShim} from "./test/i18n-shim";
 
 declare const require:any;
+declare global {
+  interface Window {
+    I18n:GlobalI18n;
+  }
+}
+
+// Declare global I18n shim
+window.I18n = new I18nShim();
 
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting()
 );
-
-// import 'angular-mocks';
-// import './app/init-vendors';
-// import './app/init-globals';
-// import './app/globals/browser-specific-flags';
-// import './app/globals/top-shelf';
-// import './app/globals/unsupported-browsers';
-
-
-// require('expose-loader?sinon/lib/sinon.js');
-// require('expose-loader?sinon-chai/lib/sinon-chai.js');
-
 
 // Then we find all the tests.
 const context = require.context('./', true, /\.spec\.ts$/);

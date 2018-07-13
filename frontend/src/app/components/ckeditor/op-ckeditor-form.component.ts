@@ -28,14 +28,17 @@
 
 import {Component, ElementRef, OnInit} from "@angular/core";
 import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
+import {CurrentProjectService} from "core-components/projects/current-project.service";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 
 export interface ICkeditorInstance {
   getData():string;
   setData(content:string):void;
+  config:any;
 }
 
 export interface ICkeditorStatic {
-  create(el:HTMLElement):Promise<ICkeditorInstance>;
+  create(el:HTMLElement, config?:any):Promise<ICkeditorInstance>;
 }
 
 declare global {
@@ -57,6 +60,7 @@ export class OpCkeditorFormComponent implements OnInit {
 
   // Which template to include
   public ckeditor:any;
+  public $element:JQuery;
   public formElement:JQuery;
   public wrappedTextArea:JQuery;
 
@@ -68,22 +72,30 @@ export class OpCkeditorFormComponent implements OnInit {
 
 
   constructor(protected elementRef:ElementRef,
+              protected currentProject:CurrentProjectService,
+              protected pathHelper:PathHelperService,
               protected ConfigurationService:ConfigurationService) {
 
   }
 
   public ngOnInit() {
-    const $element = jQuery(this.elementRef.nativeElement);
+    this.$element = jQuery(this.elementRef.nativeElement);
 
     // Parse the attribute explicitly since this is likely a bootstrapped element
-    this.textareaSelector = this.elementRef.nativeElement.getAttribute('textarea-selector');
+    this.textareaSelector = this.$element.attr('textarea-selector');
 
-    this.formElement = $element.closest('form');
+    this.formElement = this.$element.closest('form');
     this.wrappedTextArea = this.formElement.find(this.textareaSelector);
     this.wrappedTextArea.hide();
-    const wrapper = $element.find(`.${ckEditorReplacementClass}`);
+    const wrapper = this.$element.find(`.${ckEditorReplacementClass}`);
     window.OPClassicEditor
-      .create(wrapper[0])
+      .create(wrapper[0], {
+        openProject: {
+          context: null,
+          helpURL: this.pathHelper.textFormattingHelp(),
+          pluginContext: window.OpenProject.pluginContext.value
+        }
+      })
       .then(this.setup.bind(this))
       .catch((error:any) => {
         console.error(error);
@@ -96,6 +108,7 @@ export class OpCkeditorFormComponent implements OnInit {
 
   public setup(editor:ICkeditorInstance) {
     this.ckeditor = editor;
+    (window as any).ckeditor = editor;
     const rawValue = this.wrappedTextArea.val();
 
     if (rawValue) {

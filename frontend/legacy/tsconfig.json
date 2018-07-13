@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES5",
-    "module": "commonjs",
+    "module": "es2015",
     "moduleResolution": "node",
     "removeComments": true,
     "preserveConstEnums": true,
@@ -21,6 +21,7 @@
     "noFallthroughCasesInSwitch": true,
     "strictNullChecks": true,
     "skipLibCheck": true,
+    "preserveSymlinks": true,
     "baseUrl": ".",
     "typeRoots": [
       "../node_modules/@types",

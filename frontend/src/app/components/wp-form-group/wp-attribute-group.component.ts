@@ -64,6 +64,6 @@ export class WorkPackageFormAttributeGroupComponent {
    */
   public shouldHideField(descriptor:FieldDescriptor) {
     const field = descriptor.field || descriptor.fields![0];
-    return this.wpEditFieldGroup.inEditMode && !field.writable;
+    return this.wpEditFieldGroup.editMode && !field.writable;
   }
 }

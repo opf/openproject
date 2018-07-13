@@ -53,8 +53,31 @@ ro:
     description_select_work_package: 'Selectaţi pachetul de lucru #%{id}'
     description_selected_columns: Coloane selectate
     description_subwork_package: 'Fiu al pachetului de lucru #%{id}'
+    editor:
+      macro:
+        toc: Table of contents
+        wiki_page_include:
+          button: Include content of another wiki page
+          text: Included wiki page (placeholder)
+          page: Pagină wiki
+          hint: |
+            Include the content of another wiki page by specifying its title or slug.
+            You can include the wiki page of another project by separating them with a colon like the following example.
+        work_package_button:
+          button: Insert create work package button
+          type: Work package type
+          button_style: Use button style
+          button_style_hint: 'Optional: Check to make macro appear as a button, not
+            as a link.'
+          without_type: Create work package
+          with_type: 'Create work package (Type: %{typename})'
+        embedded_table:
+          button: Embed work package table
+          text: Embedded work package table (placeholder)
     error:
       internal: A apărut o eroare internă.
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
       query_saving: The query could not be saved.
     filter:
       description:
@@ -121,6 +144,7 @@ ro:
     label_expand: Extindere
     label_expanded: extins
     label_expand_all: Extindere totală
+    label_expand_project_menu: Expand project menu
     label_export: Exportare
     label_filename: Fișier
     label_filesize: Dimensiune
@@ -128,6 +152,7 @@ ro:
     label_group_by: Grupare după
     label_hide_attributes: Arată mai puţin
     label_hide_column: Ascundere coloana
+    label_hide_project_menu: Collapse project menu
     label_in: în
     label_in_less_than: în mai puțin de
     label_in_more_than: în mai mult de
@@ -163,7 +188,7 @@ ro:
     label_select_watcher: Selectaţi un observator...
     label_selected_filter_list: Filtre selectate
     label_show_attributes: Afișați toate câmpurile
-    label_show_in_menu: Afișați pagina în meniu
+    label_show_in_menu: Show view in menu
     label_sort_by: Sortare după
     label_sorted_by: sortare după
     label_sort_higher: Mută în sus
@@ -177,7 +202,7 @@ ro:
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent} % Progres total"
-    label_visible_for_others: Pagină vizibilă pentru altii
+    label_visible_for_others: View visible for others
     label_updated_on: actualizat la data de
     label_warning: Avertizare
     label_work_package: Pachet de lucru
@@ -318,7 +343,6 @@ ro:
         other: Puteți selecta doar {{limit}} elemente
         zero: You cannot select any items
         few: Puteți selecta doar {{limit}} elemente
-    show_hide_project_menu: Extindere/Restrângere meniu proiect
     project_menu_details: Detalii
     sort:
       sorted_asc: 'Ascending sort applied, '
@@ -582,6 +606,8 @@ ro:
         show_timeline_hint: Show an interactive gantt chart on the right side of the
           table. You can change its width by dragging the divider between table and
           gantt chart.
+        columns_help_text: Use the input above to add or remove columns to your table
+          view. You can drag and drop the columns to reorder them.
       tabs:
         overview: Vedere de ansamblu
         activity: Activitate
@@ -655,6 +681,7 @@ ro:
         messages_on_field: 'Acest câmp este invalid: %{messages}'
     error_could_not_resolve_version_name: Nu a putut fi detectat numele versiunii
     error_could_not_resolve_user_name: Nu a putut fi detectat numele utilizatorului
+    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
     units:
       workPackage:
         one: work package

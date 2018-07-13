@@ -277,6 +277,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             parent: :work_packages,
             partial: 'work_packages/menu_query_select',
             last: true
+            # caption: :label_all_open_wps,
 
   menu.push :calendar,
             { controller: '/work_packages/calendars', action: 'index' },

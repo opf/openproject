@@ -26,16 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable, Injector} from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
-import {catchError, map, tap} from 'rxjs/operators';
-import {Observable} from 'rxjs';
-import {HalResource, HalResourceClass} from 'core-app/modules/hal/resources/hal-resource';
-import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-import {HalLink, HalLinkInterface} from 'core-app/modules/hal/hal-link/hal-link';
-import {ErrorObservable} from 'rxjs/observable/ErrorObservable';
-import {initializeHalProperties} from 'core-app/modules/hal/helpers/hal-resource-builder';
-import {URLParamsEncoder} from 'core-app/modules/hal/services/url-params-encoder';
+import {Injectable} from '@angular/core';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
 @Injectable()
 export class HalResourceSortingService {

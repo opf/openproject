@@ -40,9 +40,9 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
    * Refresh a single row after structural changes.
    * Remembers and re-adds the hierarchy indicator if neccessary.
    */
-  public refreshRow(workPackage:WorkPackageResource, changeset:WorkPackageChangeset, jRow:JQuery):JQuery {
+  public refreshRow(workPackage:WorkPackageResource, jRow:JQuery):JQuery {
     // Remove any old hierarchy
-    const newRow = super.refreshRow(workPackage, changeset, jRow);
+    const newRow = super.refreshRow(workPackage, jRow);
     newRow.find(`.wp-table--hierarchy-span`).remove();
     this.appendHierarchyIndicator(workPackage, newRow);
 

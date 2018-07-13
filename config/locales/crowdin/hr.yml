@@ -248,10 +248,10 @@ hr:
           U skladu s postavljenim dozvolama aplikacije korisnik/ica mogo ponovno izvršiti
           registraciju i pristupiti aplikaciji.
       login_verification:
-        other: Unesite korisničko ime %{name} da biste potvrdili brisanje. Nakon što
-          pošaljete, sustav će vas pitati da potvrdite svoju lozinku.
-        self: Unesite korisničko ime %{name} da biste potvrdili brisanje. Nakon što
-          pošaljete, sustav će vas pitati da potvrdite svoju lozinku.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'Vaš korisnički račun još nije aktiviran. Da
       bi ste aktivirali vaš korisnički račun, molimo vas da potvrdite poveznicu koja
       vam je poslana na email.
@@ -319,6 +319,7 @@ hr:
         expires_at: Ističe u
         subscriber: Pretplatnik
         encoded_token: Enterprise support token
+        active_user_count_restriction: Najviše aktivnih korisnika
       relation:
         delay: Kašnjenje
         from: Radni paket
@@ -716,6 +717,7 @@ hr:
   button_unlock: Otključaj
   button_unwatch: Ne nadgledaj više
   button_update: Ažuriraj
+  button_upgrade: Ažuriraj
   button_upload: Upload
   button_view: Pregled
   button_watch: Nadgledaj
@@ -980,6 +982,8 @@ hr:
   error_custom_option_not_found: Opcija ne postoji.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1255,6 +1259,7 @@ hr:
   label_enumeration_value: Enumeration value
   label_enumerations: Numeriranja
   label_enterprise: Enterprise
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise verzija
   label_entry_page: Entry page
   label_environment: Okruženje
@@ -1280,6 +1285,8 @@ hr:
   label_force_user_language_to_default: Postavi zadani jezik za korisnike koji imaju
     nedozvoljeni jezik kao zadani
   label_form_configuration: Form configuration
+  label_gantt: Gantt
+  label_gantt_chart: Gantt chart
   label_general: Općenito
   label_generate_key: Generiraj ključ
   label_git_path: Putanja do .git direktorija
@@ -1383,6 +1390,7 @@ hr:
   label_next_week: Sljedeći tjedan
   label_no_change_option: "(Nema promjene)"
   label_no_data: Nema podataka za prikaz
+  label_no_parent_page: No parent page
   label_nothing_display: Ništa za prikazati
   label_nobody: nitko
   label_none: none
@@ -1401,6 +1409,7 @@ hr:
   label_overall_activity: Ukupna aktivnost
   label_overall_spent_time: Ukupno utrošeno vrijeme
   label_overview: Pregled
+  label_page_title: Page title
   label_part_of: dio
   label_password_lost: Zaboravili ste lozinku?
   label_password_rule_lowercase: Mala slova
@@ -1521,7 +1530,7 @@ hr:
   label_summary: Sažetak
   label_system: Sustav
   label_system_storage: Informacije o podatkovnom sustavu
-  label_table_of_contents: Kazalo sadržaja
+  label_table_of_contents: Table of contents
   label_tag: Tag
   label_text: Dugi tekst
   label_this_month: ovaj mjesec
@@ -1682,6 +1691,15 @@ hr:
   macro_execution_error: Došlo je do pogreške tijekom izvođenja makroa %{macro_name}
   macro_unavailable: Makro %{macro_name} ne možete biti prikazan.
   macros:
+    errors:
+      missing_or_invalid_parameter: Missing or invalid macro parameter.
+    legacy_warning:
+      timeline: This legacy timeline macro has been removed and is no longer available.
+        You can replace the functionality with an embedded table macro.
+    include_wiki_page:
+      errors:
+        page_not_found: Cannot find the wiki page '%{name}'.
+        circular_inclusion: Circular inclusion of pages detected.
     create_work_package_link:
       errors:
         no_project_context: Calling create_work_package_link macro from outside project
@@ -1712,6 +1730,15 @@ hr:
     %{days} dana"
   mail_subject_wiki_content_added: "'%{id}' wiki stranica je dodana"
   mail_subject_wiki_content_updated: "'%{id}' wiki stranica je ažurirana"
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: Više funkcija
   noscript_description: Morate omogućiti korištenje JavaScripta da bi ste mogli korisiti
     OpenProject!
@@ -1835,6 +1862,7 @@ hr:
       team collaboration with OpenProject.
     text_show_again: You can restart this video from the help menu
     welcome: Welcome to OpenProject
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Dodaj bilješke
   permission_add_work_packages: Dodaj radne pakete
   permission_add_messages: Pošalji poruke
@@ -2201,6 +2229,9 @@ hr:
     passwords: Lozinke
     session: Sesija
     brute_force_prevention: Automatizirano blokiranje korisnika
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown
@@ -2553,6 +2584,7 @@ hr:
       years: Godine
   title_remove_and_delete_user: Uklonite pozvanog korinsika iz projekta i izbrište
     njega/nju.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
     in a user''s settings.
 
@@ -2626,9 +2658,25 @@ hr:
   note_password_login_disabled: Prijava korištenjem lozinke je onemogućena %{configuration}.
   warning: Upozorenje
   warning_attachments_not_saved: "%{count} datoteka(e) ne mogu biti spremljene."
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
   warning_registration_token_expired: |
     The activation email has expired. We sent you a new one to %{email}.
     Please click the link inside of it to activate your account.
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: Stavka izbornika
   menu_item_setting: Vidljivost
   wiki_menu_item_for: Stavka izbornika za wiki stranicu "%{title}"

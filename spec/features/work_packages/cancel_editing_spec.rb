@@ -96,6 +96,29 @@ describe 'Cancel editing work package', js: true do
     expect(wp_page).not_to have_alert_dialog
   end
 
+  it 'shows an alert when moving to other states while editing a single attribute (Regression #25135)' do
+    wp_table.visit!
+    wp_table.expect_work_package_listed(work_package, work_package2)
+
+    # Edit subject in split page
+    split_page = wp_table.open_split_view(work_package)
+    subject = split_page.edit_field :subject
+    subject.activate!
+
+    # Decline move, expect field still active
+    wp_table.open_split_view(work_package2)
+    page.driver.browser.switch_to.alert.dismiss
+    subject.expect_active!
+
+    sleep 1
+
+    # Now accept to move to the second page
+    split_page = wp_table.open_split_view(work_package2)
+    page.driver.browser.switch_to.alert.accept
+    subject = split_page.edit_field :subject
+    subject.expect_inactive!
+  end
+
   it 'cancels the editing when clicking the button' do
     paths.each do |path|
       expect_active_edit(path)

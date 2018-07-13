@@ -123,7 +123,8 @@ See docs/COPYRIGHT.rdoc for more details.
                              jQuery(this).hide();
                              jQuery('#add_attachment_form')[0].scrollIntoView();
                            },
-                           id: 'attach_files_link' %>
+                           id: 'attach_files_link',
+                           class: 'button -with-icon -tiny icon-attachment' %>
     </p>
     <%= form_tag({ controller: '/wiki', action: 'add_attachment', project_id: @project, id: @page }, multipart: true, id: "add_attachment_form", style: "display:none;") do %>
       <div class="box">

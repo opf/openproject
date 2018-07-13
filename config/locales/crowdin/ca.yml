@@ -258,9 +258,9 @@ ca:
           que l'aplicació proporciona.
       login_verification:
         other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+          will be asked to confirm your password.
         self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'El teu compte encara no ha estat activat.
       Per activar el compte, feu clic a l''enllaç que se us va enviar per e-mail.
 
@@ -327,6 +327,7 @@ ca:
         expires_at: Expires at
         subscriber: Subscriber
         encoded_token: Enterprise support token
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Retard
         from: Paquet de treball
@@ -719,6 +720,7 @@ ca:
   button_unlock: Desbloquejar
   button_unwatch: Deixa de Seguir
   button_update: Actualitza
+  button_upgrade: Upgrade
   button_upload: Upload
   button_view: Mostra
   button_watch: Observa
@@ -975,6 +977,8 @@ ca:
   error_custom_option_not_found: Option does not exist.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1252,6 +1256,7 @@ ca:
   label_enumeration_value: Enumeration value
   label_enumerations: Enumeracions
   label_enterprise: Enterprise
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
   label_entry_page: Entry page
   label_environment: Entorn
@@ -1277,6 +1282,8 @@ ca:
   label_force_user_language_to_default: Definir la llengua pels usuaris que tenen
     una llengua per defecte no permesa
   label_form_configuration: Configuració del formulari
+  label_gantt: Gantt
+  label_gantt_chart: Gantt chart
   label_general: General
   label_generate_key: Generar una clau
   label_git_path: Ruta del directori de .git
@@ -1380,6 +1387,7 @@ ca:
   label_next_week: Setmana següent
   label_no_change_option: "(sense canvis)"
   label_no_data: No hi ha dades per mostrar
+  label_no_parent_page: No parent page
   label_nothing_display: Res a mostrar
   label_nobody: ningú
   label_none: cap
@@ -1398,6 +1406,7 @@ ca:
   label_overall_activity: Activitat global
   label_overall_spent_time: Temps total invertit
   label_overview: Visió general
+  label_page_title: Page title
   label_part_of: part of
   label_password_lost: Heu oblidat la contrasenya?
   label_password_rule_lowercase: Minúscula
@@ -1519,7 +1528,7 @@ ca:
   label_summary: Resum
   label_system: Sistema
   label_system_storage: Informació d'emmagatzematge
-  label_table_of_contents: Taula de continguts
+  label_table_of_contents: Table of contents
   label_tag: Etiqueta
   label_text: Text llarg
   label_this_month: aquest més
@@ -1678,6 +1687,15 @@ ca:
   macro_execution_error: Error en l'execució de la macro %{macro_name}
   macro_unavailable: No es pot mostrar la macro %{macro_name}.
   macros:
+    errors:
+      missing_or_invalid_parameter: Missing or invalid macro parameter.
+    legacy_warning:
+      timeline: This legacy timeline macro has been removed and is no longer available.
+        You can replace the functionality with an embedded table macro.
+    include_wiki_page:
+      errors:
+        page_not_found: Cannot find the wiki page '%{name}'.
+        circular_inclusion: Circular inclusion of pages detected.
     create_work_package_link:
       errors:
         no_project_context: Calling create_work_package_link macro from outside project
@@ -1706,6 +1724,15 @@ ca:
     dies"
   mail_subject_wiki_content_added: S'ha afegit la pàgina wiki «%{id}»
   mail_subject_wiki_content_updated: S'ha actualitzat la pàgina wiki «%{id}»
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: Més funcions
   noscript_description: Cal activar JavaScript per utilitzar OpenProject!
   noscript_heading: JavaScript desactivat
@@ -1829,6 +1856,7 @@ ca:
       team collaboration with OpenProject.
     text_show_again: Pot reprendre aquest vídeo des del menú d'ajuda
     welcome: Welcome to OpenProject
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Afegir notes
   permission_add_work_packages: Afegir paquets de treball
   permission_add_messages: Publicar missatges
@@ -2217,6 +2245,9 @@ ca:
     passwords: Contrasenyes
     session: Sessió
     brute_force_prevention: Bloqueig automàtic d'usuari
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown
@@ -2579,6 +2610,7 @@ ca:
       years: Anys
   title_remove_and_delete_user: Eliminar l'usuari convidat del projecte i suprimir
     l'usuari.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
     in a user''s settings.
 
@@ -2652,9 +2684,25 @@ ca:
     %{configuration}.
   warning: Alerta
   warning_attachments_not_saved: No s'han pogut desar %{count} fitxer(s).
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
   warning_registration_token_expired: |
     The activation email has expired. We sent you a new one to %{email}.
     Please click the link inside of it to activate your account.
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: Element de menú
   menu_item_setting: Visibilitat
   wiki_menu_item_for: Element de menú per a la pàgina wiki "%{title}"

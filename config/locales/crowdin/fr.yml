@@ -254,10 +254,10 @@ fr:
           actuelles. Vous pourrez choisir de redevenir un utilisateur de cette application
           en suivant les procédures habituelles.
       login_verification:
-        other: Entrez le login %{name} pour vérifier la suppression. Une fois celui-ci
-          soumis, vous devrez confirmer votre mot de passe.
-        self: Entrez votre login %{name} pour vérifier la suppression. Une fois celui-ci
-          soumis, vous devrez confirmer votre mot de passe.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'Votre compte n''a pas encore été activé. Pour
       activer votre compte, cliquez sur le lien qui vous a été envoyé par courriel.
 
@@ -324,6 +324,7 @@ fr:
         expires_at: Expire le
         subscriber: Abonné
         encoded_token: Licence Entreprise
+        active_user_count_restriction: Nombre maximal d’utilisateurs actif
       relation:
         delay: Délai
         from: Lot de travaux
@@ -728,6 +729,7 @@ fr:
   button_unlock: Déverrouiller
   button_unwatch: Ne plus suivre
   button_update: Mettre à jour
+  button_upgrade: Upgrade
   button_upload: Charger
   button_view: Afficher
   button_watch: Suivre
@@ -985,6 +987,8 @@ fr:
   error_custom_option_not_found: L'option n'existe pas.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Échec lors de la suppression de cette entrée.
   error_invalid_group_by: 'Impossible de grouper par : %{value}'
   error_invalid_query_column: 'Colonne de requête invalide : %{value}'
@@ -1133,7 +1137,7 @@ fr:
   label_all: tous
   label_all_time: tout le temps
   label_all_words: Tous les mots
-  label_all_open_wps: All open
+  label_all_open_wps: Tous les ouverts
   label_always_visible: Toujours affiché
   label_announcement: 'Annonce ou avis. '
   label_and_its_subprojects: "%{value} et ses sous-projets"
@@ -1197,7 +1201,7 @@ fr:
   label_close_versions: Fermer les versions complètes
   label_closed_work_packages: clôturé
   label_collapse: Regrouper
-  label_collapsed_click_to_show: Collapsed. Click to show
+  label_collapsed_click_to_show: Réduit. Cliquez pour voir
   label_configuration: configuration
   label_comment_add: Ajouter un commentaire
   label_comment_added: Commentaire ajouté
@@ -1264,6 +1268,7 @@ fr:
   label_enumeration_value: Valeur d'énumération
   label_enumerations: Énumérations
   label_enterprise: Entreprise
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Version Entreprise
   label_entry_page: Entry page
   label_environment: Environement
@@ -1289,6 +1294,8 @@ fr:
   label_force_user_language_to_default: Pour cet utilisateur, revenir au langage par
     defaut
   label_form_configuration: Configuration du formulaire
+  label_gantt: Gantt
+  label_gantt_chart: Diagramme de Gantt
   label_general: Général
   label_generate_key: Générer une clé
   label_git_path: Chemin d'accès au répertoire .git
@@ -1392,6 +1399,7 @@ fr:
   label_next_week: Semaine suivante
   label_no_change_option: "(Aucun changement)"
   label_no_data: Aucune donnée à afficher
+  label_no_parent_page: No parent page
   label_nothing_display: Rien à afficher
   label_nobody: personne
   label_none: aucun(e)
@@ -1410,6 +1418,7 @@ fr:
   label_overall_activity: Activité totale
   label_overall_spent_time: Total du temps passé
   label_overview: Vue globale
+  label_page_title: Page title
   label_part_of: partie de
   label_password_lost: Mot de passe oublié
   label_password_rule_lowercase: Minuscules
@@ -1530,7 +1539,7 @@ fr:
   label_summary: Résumé
   label_system: Système
   label_system_storage: Informations de stockage
-  label_table_of_contents: Table des matières
+  label_table_of_contents: Table of contents
   label_tag: Étiquette
   label_text: Long texte
   label_this_month: ce mois
@@ -1691,6 +1700,15 @@ fr:
   macro_execution_error: Erreur lors de l'exécution de la macro %{macro_name}
   macro_unavailable: La macro %{macro_name} ne peut être affichée.
   macros:
+    errors:
+      missing_or_invalid_parameter: Missing or invalid macro parameter.
+    legacy_warning:
+      timeline: This legacy timeline macro has been removed and is no longer available.
+        You can replace the functionality with an embedded table macro.
+    include_wiki_page:
+      errors:
+        page_not_found: Cannot find the wiki page '%{name}'.
+        circular_inclusion: Circular inclusion of pages detected.
     create_work_package_link:
       errors:
         no_project_context: Appel de la macro create_work_package_link depuis un contexte
@@ -1718,6 +1736,15 @@ fr:
     jours"
   mail_subject_wiki_content_added: Page wiki '%{id}' a été ajouté
   mail_subject_wiki_content_updated: Page wiki '%{id}' a été mise à jour
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: Plus de fonctions
   noscript_description: Vous devez activer JavaScript afin d'utiliser OpenProject!
   noscript_heading: JavaScript désactivé
@@ -1840,6 +1867,7 @@ fr:
       et de la collaboration en équipe avec OpenProject.
     text_show_again: Vous pouvez relancer cette vidéo au départ du menu d'aide
     welcome: Bienvenue dans OpenProject
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Ajouter des notes
   permission_add_work_packages: Ajouter des lots de travaux
   permission_add_messages: Poster des messages
@@ -2219,6 +2247,9 @@ fr:
     passwords: Mots de passe
     session: Session
     brute_force_prevention: Blocage d'utilisateur automatique (pour éviter les pirates)
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown
@@ -2584,6 +2615,7 @@ fr:
       quarters: Trimestres
       years: Années
   title_remove_and_delete_user: Retirer du projet l'utilisateur invité et le supprimer.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_user_default_timezone: 'Fuseau horaire par défaut des nouveaux utilisateurs.
     Il peut-être modifié dans les paramètres utilisateur.
 
@@ -2659,9 +2691,25 @@ fr:
     par %{configuration}.
   warning: Attention
   warning_attachments_not_saved: "%{count} fichier(s) n'ont pu être sauvegardés."
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
   warning_registration_token_expired: 'L’émail d’activation a expiré. Nous vous avons
     envoyé un nouveau lien à l''adresse %{email}. Merci de cliquer sur ce lien pour
     activer votre compte.
+
+'
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
 
 '
   menu_item: Éléments de menu

@@ -167,6 +167,9 @@ available_languages:
   - ru
 default_language:
   default: en
+default_auto_hide_popups:
+  default: 1
+  format: boolean
 email_login: # use email address as login, hide login in registration form
   default: 0
 host_name:

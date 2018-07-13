@@ -46,7 +46,20 @@ RSpec.configure do |config|
       settings = aggregate_mocked_settings(example, settings)
 
       settings.each do |k, v|
-        allow(Setting).to receive(k).and_return(v)
+        bare, questionmarked = if k.to_s.ends_with?('?')
+                                 [k.to_s[0..-2].to_sym, k]
+                               else
+                                 [k, "#{k}?".to_sym]
+                               end
+
+        raise "#{k} is not a valid setting" unless Setting.respond_to?(bare)
+
+        if Setting.available_settings[bare.to_s] && Setting.available_settings[bare.to_s]['format'] == 'boolean'
+          allow(Setting).to receive(bare).and_return(v)
+          allow(Setting).to receive(questionmarked).and_return(v)
+        else
+          allow(Setting).to receive(k).and_return(v)
+        end
       end
     end
   end

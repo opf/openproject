@@ -53,8 +53,31 @@ tr:
     description_select_work_package: "#%{id} nolu iş paketini seçin"
     description_selected_columns: Seçili Sütunlar
     description_subwork_package: "#%{id} nolu iş paketinin alt parçası"
+    editor:
+      macro:
+        toc: Table of contents
+        wiki_page_include:
+          button: Include content of another wiki page
+          text: Included wiki page (placeholder)
+          page: Viki sayfası
+          hint: |
+            Include the content of another wiki page by specifying its title or slug.
+            You can include the wiki page of another project by separating them with a colon like the following example.
+        work_package_button:
+          button: Insert create work package button
+          type: Work package type
+          button_style: Use button style
+          button_style_hint: 'Optional: Check to make macro appear as a button, not
+            as a link.'
+          without_type: Create work package
+          with_type: 'Create work package (Type: %{typename})'
+        embedded_table:
+          button: Embed work package table
+          text: Embedded work package table (placeholder)
     error:
       internal: İç hata oluştu.
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
       query_saving: The query could not be saved.
     filter:
       description:
@@ -122,6 +145,7 @@ tr:
     label_expand: Genişlet
     label_expanded: genişletilmiş
     label_expand_all: Tümünü genişlet
+    label_expand_project_menu: Expand project menu
     label_export: Dışarı aktar
     label_filename: Dosya
     label_filesize: Boyutu
@@ -129,6 +153,7 @@ tr:
     label_group_by: Grupla
     label_hide_attributes: Daha az göster
     label_hide_column: Sütunu gizle
+    label_hide_project_menu: Collapse project menu
     label_in: şurada
     label_in_less_than: daha azdır
     label_in_more_than: daha fazla
@@ -164,7 +189,7 @@ tr:
     label_select_watcher: Takipçi seç...
     label_selected_filter_list: Seçilen filtreler
     label_show_attributes: Tüm öznitelikleri göster
-    label_show_in_menu: Sayfayı menüde göster
+    label_show_in_menu: Show view in menu
     label_sort_by: Sıralama şekli
     label_sorted_by: sıralayan
     label_sort_higher: Yukarı taşı
@@ -178,7 +203,7 @@ tr:
     label_activity_show_only_comments: Sadece yorumların olduğu etkinlikleri göster
     label_activity_show_all: Tüm etkinlikleri göster
     label_total_progress: Toplam ilerleme %{percent}%
-    label_visible_for_others: Sayfa diğerleri için görünsün
+    label_visible_for_others: View visible for others
     label_updated_on: güncelleme tarihi
     label_warning: Uyarı
     label_work_package: İş paketi
@@ -314,7 +339,6 @@ tr:
         one: Yalnızca bir öğe seçebilirsiniz
         other: Sadece {{limit}} tane seçebilirsiniz
         zero: You cannot select any items
-    show_hide_project_menu: Genişlet/Daralt proje menüsü
     project_menu_details: Detaylar
     sort:
       sorted_asc: 'Artan sıralama, uygulandı, '
@@ -573,6 +597,8 @@ tr:
         show_timeline_hint: Show an interactive gantt chart on the right side of the
           table. You can change its width by dragging the divider between table and
           gantt chart.
+        columns_help_text: Use the input above to add or remove columns to your table
+          view. You can drag and drop the columns to reorder them.
       tabs:
         overview: Genel Bakış
         activity: Etkinlik
@@ -646,6 +672,7 @@ tr:
         messages_on_field: 'Bu alan geçersiz: %{messages}'
     error_could_not_resolve_version_name: Sürüm adı çözümlenemedi
     error_could_not_resolve_user_name: Kullanıcı adı çözümlenemedi
+    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
     units:
       workPackage:
         one: iş paketleri

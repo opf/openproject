@@ -12,6 +12,8 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "preserveSymlinks": true,
+            "aot": true,
             "outputPath": "../public/assets/frontend/",
             "index": "src/index2.html",
             "main": "src/main.ts",
@@ -29,12 +31,13 @@
           },
           "configurations": {
             "production": {
+              "preserveSymlinks": true,
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": false, // TODO broken https://github.com/opf/openproject/pull/6346#issue-190950635
+              "aot": true,
               "extractLicenses": true,
               "vendorChunk": true,
               "buildOptimizer": false,
@@ -50,7 +53,9 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "OpenProject:build"
+            "browserTarget": "OpenProject:build",
+            "proxyConfig": "cli_to_rails_proxy.js",
+            "aot": true
           },
           "configurations": {
             "production": {

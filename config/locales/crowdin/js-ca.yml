@@ -53,8 +53,31 @@ ca:
     description_select_work_package: 'Seleccionar el paquet de treball #%{id}'
     description_selected_columns: Columnes seleccionades
     description_subwork_package: 'Fill del paquet de treball #%{id}'
+    editor:
+      macro:
+        toc: Table of contents
+        wiki_page_include:
+          button: Include content of another wiki page
+          text: Included wiki page (placeholder)
+          page: Pàgina wiki
+          hint: |
+            Include the content of another wiki page by specifying its title or slug.
+            You can include the wiki page of another project by separating them with a colon like the following example.
+        work_package_button:
+          button: Insert create work package button
+          type: Work package type
+          button_style: Use button style
+          button_style_hint: 'Optional: Check to make macro appear as a button, not
+            as a link.'
+          without_type: Create work package
+          with_type: 'Create work package (Type: %{typename})'
+        embedded_table:
+          button: Embed work package table
+          text: Embedded work package table (placeholder)
     error:
       internal: S'ha produït un error intern.
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
       query_saving: The query could not be saved.
     filter:
       description:
@@ -122,6 +145,7 @@ ca:
     label_expand: Expandir
     label_expanded: expandit
     label_expand_all: Expandeix tot
+    label_expand_project_menu: Expand project menu
     label_export: Exportar
     label_filename: Fitxer
     label_filesize: Mida
@@ -129,6 +153,7 @@ ca:
     label_group_by: Agrupa per
     label_hide_attributes: Mostrar menys
     label_hide_column: Amagar columna
+    label_hide_project_menu: Collapse project menu
     label_in: en
     label_in_less_than: en menys de
     label_in_more_than: en més de
@@ -164,7 +189,7 @@ ca:
     label_select_watcher: Seleccioneu un vigilant...
     label_selected_filter_list: Filtres seleccionats
     label_show_attributes: Mostrar tots els atributs
-    label_show_in_menu: Mostra pàgina al menú
+    label_show_in_menu: Show view in menu
     label_sort_by: Ordena per
     label_sorted_by: ordenat per
     label_sort_higher: Mou amunt
@@ -178,7 +203,7 @@ ca:
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% Progrés total"
-    label_visible_for_others: Pàgina visible per als altres
+    label_visible_for_others: View visible for others
     label_updated_on: actualitzat el
     label_warning: Alerta
     label_work_package: Paquet de treball
@@ -316,7 +341,6 @@ ca:
         one: Només podeu seleccionar un element
         other: Només podeu seleccionar {{limit}} elements
         zero: You cannot select any items
-    show_hide_project_menu: Expandeix/contrau menú de projecte
     project_menu_details: Detalls
     sort:
       sorted_asc: 'Ascending sort applied, '
@@ -577,6 +601,8 @@ ca:
         show_timeline_hint: Show an interactive gantt chart on the right side of the
           table. You can change its width by dragging the divider between table and
           gantt chart.
+        columns_help_text: Use the input above to add or remove columns to your table
+          view. You can drag and drop the columns to reorder them.
       tabs:
         overview: Visió general
         activity: Activitat
@@ -650,6 +676,7 @@ ca:
         messages_on_field: 'Aquest camp no és vàlid: %{messages}'
     error_could_not_resolve_version_name: No es pot determinar el nom de versió
     error_could_not_resolve_user_name: No es pot determinar el nom d'usuari
+    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
     units:
       workPackage:
         one: work package

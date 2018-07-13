@@ -32,34 +32,68 @@ module Components
       include Capybara::DSL
       include RSpec::Matchers
 
-      def initialize; end
+      attr_reader :impaired
 
-      def expect_column_available(name)
-        modal_open? or open_modal
-
-        within_modal do
-          page.find('#selected_columns').click
-
-          expect(page)
-            .to have_selector('li[role=option]', text: name)
-        end
+      def initialize(impaired: false)
+        @impaired = impaired
       end
 
       def expect_column_not_available(name)
         modal_open? or open_modal
 
-        within_modal do
-          expect(page)
-            .to have_no_selector('.form--check-box-container', text: name)
+        if impaired
+          within_modal do
+            expect(page)
+              .to have_no_selector('.form--check-box-container', text: name)
+          end
+        else
+          # Open select2
+          find('.columns-modal--content .select2-input').click
+          expect(page).to have_no_selector('.select2-result-label', text: name)
+          find('.columns-modal--content .select2-input').send_keys :escape
+        end
+      end
+
+      def expect_column_not_selectable(name)
+        modal_open? or open_modal
+
+        if impaired
+          expect_checked name
+        else
+          # Open select2
+          find('.columns-modal--content .select2-input').click
+          expect(page).to have_no_selector('.select2-result-label', text: name)
+          find('.columns-modal--content .select2-input').send_keys :escape
+        end
+      end
+
+      def expect_column_available(name)
+        modal_open? or open_modal
+
+        if impaired
+          within_modal do
+            expect(page)
+              .to have_selector('.form--label-with-check-box', text: name)
+          end
+        else
+          # Open select2
+          find('.columns-modal--content .select2-input').click
+          expect(page).to have_selector('.select2-result-label', text: name)
+          find('.columns-modal--content .select2-input').send_keys :escape
         end
       end
 
       def add(name, save_changes: true)
         modal_open? or open_modal
 
-        within_modal do
-          input = find "input[type=checkbox][title='#{name}'"
-          input.set true
+        if impaired
+          within_modal do
+            input = find "input[type=checkbox][title='#{name}'"
+            input.set true
+          end
+        else
+          find('.columns-modal--content .select2-input').click
+          find('.select2-results .select2-result-label', text: name).click
         end
 
         apply if save_changes
@@ -69,8 +103,13 @@ module Components
         modal_open? or open_modal
 
         within_modal do
-          input = find "input[type=checkbox][title='#{name}'"
-          input.set false
+          if impaired
+            input = find "input[type=checkbox][title='#{name}'"
+            input.set false
+          else
+            container = find('.select2-search-choice', text: name)
+            container.find('.select2-search-choice-close').click
+          end
         end
 
         apply if save_changes
@@ -78,7 +117,12 @@ module Components
 
       def expect_checked(name)
         within_modal do
-          expect(page).to have_selector("input[type=checkbox][title='#{name}']")
+          if impaired
+            checkbox = find("input[type=checkbox][title='#{name}']")
+            expect(checkbox).to be_checked
+          else
+            expect(page).to have_selector('.select2-search-choice', text: name)
+          end
         end
       end
 
@@ -86,12 +130,21 @@ module Components
         modal_open? or open_modal
 
         within_modal do
-          expect(page).to have_selector('input[type=checkbox][title="Subject"]')
-          page.all("input[type=checkbox]").each { |input| input.set false }
+          if impaired
+            expect(page).to have_selector('input[type=checkbox][title="Subject"]')
+            page.all("input[type=checkbox]").each { |input| input.set false }
+          else
+            expect(page).to have_selector('.select2-search-choice', minimum: 1)
+            page.all('.select2-search-choice-close').each do |el|
+              el.click
+              sleep 1
+            end
+          end
         end
 
         apply if save_changes
       end
+
 
       def apply
         @opened = false

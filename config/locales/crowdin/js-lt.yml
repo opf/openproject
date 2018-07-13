@@ -53,8 +53,31 @@ lt:
     description_select_work_package: 'Pasirinkite darbų paketą #%{id}'
     description_selected_columns: Pasirinkti stulpeliai
     description_subwork_package: 'Darbų paketo vaikas #%{id}'
+    editor:
+      macro:
+        toc: Table of contents
+        wiki_page_include:
+          button: Include content of another wiki page
+          text: Included wiki page (placeholder)
+          page: Wiki puslapis
+          hint: |
+            Include the content of another wiki page by specifying its title or slug.
+            You can include the wiki page of another project by separating them with a colon like the following example.
+        work_package_button:
+          button: Insert create work package button
+          type: Work package type
+          button_style: Use button style
+          button_style_hint: 'Optional: Check to make macro appear as a button, not
+            as a link.'
+          without_type: Create work package
+          with_type: 'Create work package (Type: %{typename})'
+        embedded_table:
+          button: Embed work package table
+          text: Embedded work package table (placeholder)
     error:
       internal: Įvyko vidinė klaida.
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
       query_saving: The query could not be saved.
     filter:
       description:
@@ -121,6 +144,7 @@ lt:
     label_expand: Išskleisti
     label_expanded: išskleistas
     label_expand_all: Išskleisti visus
+    label_expand_project_menu: Expand project menu
     label_export: Eksportuoti
     label_filename: Failas
     label_filesize: Dydis
@@ -128,6 +152,7 @@ lt:
     label_group_by: Grupuoti pagal
     label_hide_attributes: Rodyti mažiau
     label_hide_column: Slėpti stulpelį
+    label_hide_project_menu: Collapse project menu
     label_in: " "
     label_in_less_than: mažiau nei
     label_in_more_than: daugiau nei
@@ -163,7 +188,7 @@ lt:
     label_select_watcher: Parinkti stebėtoją...
     label_selected_filter_list: Parinkti filtrus
     label_show_attributes: Rodyti visus atributus
-    label_show_in_menu: rodyti meniu juostoje
+    label_show_in_menu: Show view in menu
     label_sort_by: Rūšiuoti pagal
     label_sorted_by: surikiuota pagal
     label_sort_higher: Perkelti aukštyn
@@ -177,7 +202,7 @@ lt:
     label_activity_show_only_comments: Rodyti veiklą tik su komentarais
     label_activity_show_all: Rodyti visus atributus
     label_total_progress: "%{percent} % įvykdyta"
-    label_visible_for_others: Puslapis matomas kitiems
+    label_visible_for_others: View visible for others
     label_updated_on: atnaujintas
     label_warning: Įspėjimas
     label_work_package: Darbų paketas
@@ -317,7 +342,6 @@ lt:
         zero: You cannot select any items
         few: Jūs galite pasirinkti tik {{limit}} elementus (-ą, -ų)
         many: You can only select {{limit}} items
-    show_hide_project_menu: Išplėsti/sutraukti projekto meniu
     project_menu_details: Detali informacija
     sort:
       sorted_asc: 'Pritaikyta didėjimo tvarka, '
@@ -578,6 +602,8 @@ lt:
         show_timeline_hint: Show an interactive gantt chart on the right side of the
           table. You can change its width by dragging the divider between table and
           gantt chart.
+        columns_help_text: Use the input above to add or remove columns to your table
+          view. You can drag and drop the columns to reorder them.
       tabs:
         overview: Peržiūra
         activity: Veikla
@@ -652,6 +678,7 @@ lt:
         messages_on_field: 'Šio laukelio reikšmė netinkama: %{messages}'
     error_could_not_resolve_version_name: Nepavyko nustatyti versijos pavadinimo
     error_could_not_resolve_user_name: Nepavyko nustatyti vartotojo vardo
+    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
     units:
       workPackage:
         one: darbų paketas

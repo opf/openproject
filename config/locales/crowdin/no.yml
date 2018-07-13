@@ -250,9 +250,9 @@
           tillater det.
       login_verification:
         other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+          will be asked to confirm your password.
         self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'Din konto er ennå ikke aktivert. For å aktivere
       kontoen må du følge lenken som er sendt deg på e-post.
 
@@ -318,6 +318,7 @@
         expires_at: Utløper på
         subscriber: Abonnent
         encoded_token: Enterprise support token
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Forsinkelse
         from: Arbeidspakke
@@ -710,6 +711,7 @@
   button_unlock: Lås opp
   button_unwatch: Stopp overvåking
   button_update: Oppdatèr
+  button_upgrade: Upgrade
   button_upload: Last opp
   button_view: Vis
   button_watch: Overvåk
@@ -962,6 +964,8 @@
   error_custom_option_not_found: Option does not exist.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1236,6 +1240,7 @@
   label_enumeration_value: Enumeration value
   label_enumerations: Opplistinger
   label_enterprise: Bedrift
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Bedriftsversjonen
   label_entry_page: Entry page
   label_environment: Miljø
@@ -1261,6 +1266,8 @@
   label_force_user_language_to_default: Sett språk for brukere som har et ikke-tillatt
     språk som standard
   label_form_configuration: Skjema konfigurering
+  label_gantt: Gantt
+  label_gantt_chart: Gantt chart
   label_general: Generell
   label_generate_key: Genererer en nøkkel
   label_git_path: Sti til .git-mappe
@@ -1364,6 +1371,7 @@
   label_next_week: Neste uke
   label_no_change_option: "(Ingen endring)"
   label_no_data: Ingen data å vise
+  label_no_parent_page: No parent page
   label_nothing_display: Nothing to display
   label_nobody: ingen
   label_none: ingen
@@ -1382,6 +1390,7 @@
   label_overall_activity: Samlet aktivitet
   label_overall_spent_time: Samlet tidsbruk
   label_overview: Oversikt
+  label_page_title: Page title
   label_part_of: part of
   label_password_lost: Glemt passord?
   label_password_rule_lowercase: Små bokstaver
@@ -1501,7 +1510,7 @@
   label_summary: Sammendrag
   label_system: System
   label_system_storage: Storage information
-  label_table_of_contents: Innholdsfortegnelse
+  label_table_of_contents: Table of contents
   label_tag: Etikett
   label_text: Lang tekst
   label_this_month: denne måneden
@@ -1654,6 +1663,15 @@
   macro_execution_error: Feil ved kjøring av makroen %{macro_name}
   macro_unavailable: Makroen %{macro_name} kan ikke vises.
   macros:
+    errors:
+      missing_or_invalid_parameter: Missing or invalid macro parameter.
+    legacy_warning:
+      timeline: This legacy timeline macro has been removed and is no longer available.
+        You can replace the functionality with an embedded table macro.
+    include_wiki_page:
+      errors:
+        page_not_found: Cannot find the wiki page '%{name}'.
+        circular_inclusion: Circular inclusion of pages detected.
     create_work_package_link:
       errors:
         no_project_context: Calling create_work_package_link macro from outside project
@@ -1679,6 +1697,15 @@
   mail_subject_reminder: "%{count} arbeidspakke(r) forfaller de neste %{days} dagene"
   mail_subject_wiki_content_added: Wiki-siden '%{id}' er lagt til
   mail_subject_wiki_content_updated: Wiki-siden '%{id}' er oppdatert
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: Flere funksjoner
   noscript_description: Du må aktivere JavaScript for å bruke OpenProject!
   noscript_heading: JavaScript deaktivert
@@ -1796,6 +1823,7 @@
       team collaboration with OpenProject.
     text_show_again: You can restart this video from the help menu
     welcome: Welcome to OpenProject
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Legg til notater
   permission_add_work_packages: Legg til arbeidspakker
   permission_add_messages: Skriv meldinger
@@ -2160,6 +2188,9 @@
     passwords: Passord
     session: Sesjon
     brute_force_prevention: Automatisk blokkering av brukere
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown
@@ -2512,6 +2543,7 @@
       years: År
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
     in a user''s settings.
 
@@ -2583,9 +2615,25 @@
   note_password_login_disabled: Passordinnlogging er deaktivert av %{configuration}.
   warning: Advarsel
   warning_attachments_not_saved: "%{count} fil(er) kunne ikke lagres."
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
   warning_registration_token_expired: |
     The activation email has expired. We sent you a new one to %{email}.
     Please click the link inside of it to activate your account.
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: Menyelement
   menu_item_setting: Synlighet
   wiki_menu_item_for: Menyelement for wiki-siden "%{title}"

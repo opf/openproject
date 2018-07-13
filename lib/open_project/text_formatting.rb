@@ -54,11 +54,13 @@ module OpenProject
 
       project = options.delete(:project) { @project || object.try(:project) }
       only_path = options.delete(:only_path) != false
+      current_user = options.delete(:current_user) { User.current }
 
       Renderer.format_text text,
                            options.merge(
                              object: object,
                              request: try(:request),
+                             current_user: current_user,
                              attribute: attribute,
                              only_path: only_path,
                              project: project

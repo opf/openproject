@@ -62,10 +62,10 @@ pt:
   custom_actions:
     actions:
       name: Ações
-      add: Add action
-    conditions: Conditions
-    plural: Custom actions
-    new: New custom action
+      add: Adicionar ação
+    conditions: Condições
+    plural: Ações personalizadas
+    new: Nova ação personalizada
     edit: Edit custom action %{name}
     execute: Execute %{name}
     upsale:
@@ -172,7 +172,7 @@ pt:
       form_configuration: Configuração do formulário
       projects: Projetos
       enabled_projects: Projetos ativados
-      add_group: Add attribute group
+      add_group: Adicionar grupo de atributos
       add_subelements: Add subelements group
       edit_query: Edit embedded query
       reset: Repor predefinições
@@ -286,7 +286,7 @@ pt:
         show_until: Exibir até
       attachment:
         attachment_content: Attachment content
-        attachment_file_name: Attachment file name
+        attachment_file_name: Tipos de ficheiro anexo
         downloads: Transferências
         file: Ficheiro
         filename: Ficheiro
@@ -328,6 +328,7 @@ pt:
         expires_at: Expira a
         subscriber: Assinante
         encoded_token: Token de suporte da versão Enterprise
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Atraso
         from: Pacote de trabalho
@@ -462,7 +463,7 @@ pt:
         before_or_equal_to: deve ser antes ou igual a %{date}.
         could_not_be_copied: não pode ser (totalmente) copiado.
         regex_invalid: não pode ser validado com a expressão regular associada.
-        unchangeable: cannot be changed.
+        unchangeable: não pode ser alterado.
       models:
         custom_field:
           at_least_one_custom_option: Pelo menos uma opção precisa estar disponível.
@@ -471,8 +472,8 @@ pt:
           empty: "(%{name}) value can't be empty."
           inclusion: "(%{name}) value is not set to one of the allowed values."
           not_an_integer: "(%{name}) is not an integer."
-          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
-          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          smaller_than_or_equal_to: "(%{name}) deve ser menor ou igual a %{count}."
+          greater_than_or_equal_to: "(%{name}) deve ser maior ou igual a %{count}."
         enterprise_token:
           unreadable: não foi possível ler. Tem a certeza que é um token de suporte?
         parse_schema_filter_params_service:
@@ -585,7 +586,7 @@ pt:
       attribute_help_text: Texto de ajuda do atributo
       board: Fórum
       comment: Comentario
-      custom_action: Custom action
+      custom_action: Ação personalizada
       custom_field: Campo personalizado
       group: Grupo
       category: Categoria
@@ -723,6 +724,7 @@ pt:
   button_unlock: Desbloquear
   button_unwatch: Não observar
   button_update: Atualizar
+  button_upgrade: Upgrade
   button_upload: Carregar
   button_view: Ver
   button_watch: Observar
@@ -981,6 +983,8 @@ pt:
   error_custom_option_not_found: A opção não existe.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Falha ao apagar esta entrada.
   error_invalid_group_by: 'Não é possível agrupar por: %{value}'
   error_invalid_query_column: 'Coluna de consulta inválida: %{value}'
@@ -1041,12 +1045,12 @@ pt:
       pdf_with_descriptions: PDF com descrições
   extraction:
     available:
-      pdftotext: Pdftotext available (optional)
-      unrtf: Unrtf available (optional)
-      catdoc: Catdoc available (optional)
-      xls2csv: Xls2csv available (optional)
-      catppt: Catppt available (optional)
-      tesseract: Tesseract available (optional)
+      pdftotext: Pdftotext disponível (opcional)
+      unrtf: Unrtf disponível (opcional)
+      catdoc: Catdoc disponível (opcional)
+      xls2csv: Xls2csv disponível (opcional)
+      catppt: Catppt disponível (opcional)
+      tesseract: Tesseract disponível (opcional)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -1259,6 +1263,7 @@ pt:
   label_enumeration_value: Valor de enumeração
   label_enumerations: Enumerações
   label_enterprise: Enterprise
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Versão Enterprise
   label_entry_page: Entry page
   label_environment: Ambiente
@@ -1284,6 +1289,8 @@ pt:
   label_force_user_language_to_default: Idioma de utilizadores definida com uma linguagem
     não permitida como padrão
   label_form_configuration: Configuração do formulário
+  label_gantt: Gantt
+  label_gantt_chart: Gráfico de Gantt
   label_general: Geral
   label_generate_key: Gerar uma chave
   label_git_path: Caminho para o diretório .git
@@ -1387,6 +1394,7 @@ pt:
   label_next_week: Próxima semana
   label_no_change_option: "(Sem mudança)"
   label_no_data: Sem dados para apresentar
+  label_no_parent_page: No parent page
   label_nothing_display: Nada para exibir
   label_nobody: ninguém
   label_none: nenhum
@@ -1405,6 +1413,7 @@ pt:
   label_overall_activity: Atividade global
   label_overall_spent_time: Total de tempo registado
   label_overview: Sinopse
+  label_page_title: Page title
   label_part_of: parte de
   label_password_lost: Esqueceu a sua senha?
   label_password_rule_lowercase: Minúsculas
@@ -1526,7 +1535,7 @@ pt:
   label_summary: Resumo
   label_system: Sistema
   label_system_storage: Informação do armazenamento
-  label_table_of_contents: Tabela de conteúdos
+  label_table_of_contents: Table of contents
   label_tag: Tag
   label_text: Texto longo
   label_this_month: este mês
@@ -1571,7 +1580,7 @@ pt:
   label_version_sharing_none: Não partilhado
   label_version_sharing_system: Com todos os projetos
   label_version_sharing_tree: Com a árvore de projeto
-  label_videos: Videos
+  label_videos: Vídeos
   label_view_all_revisions: Ver os todas as revisões
   label_view_diff: Ver diferenças
   label_view_revisions: Ver revisões
@@ -1683,6 +1692,15 @@ pt:
   macro_execution_error: Erro a executar a macro %{macro_name}
   macro_unavailable: Macro %{macro_name} não pode ser mostrada.
   macros:
+    errors:
+      missing_or_invalid_parameter: Missing or invalid macro parameter.
+    legacy_warning:
+      timeline: This legacy timeline macro has been removed and is no longer available.
+        You can replace the functionality with an embedded table macro.
+    include_wiki_page:
+      errors:
+        page_not_found: Cannot find the wiki page '%{name}'.
+        circular_inclusion: Circular inclusion of pages detected.
     create_work_package_link:
       errors:
         no_project_context: Calling create_work_package_link macro from outside project
@@ -1710,6 +1728,15 @@ pt:
     %{days} dias
   mail_subject_wiki_content_added: "'%{id}' wiki foi adicionada"
   mail_subject_wiki_content_updated: A página Wiki '%{id}' foi atualizada
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: Mais funções
   noscript_description: Tem de ativar o JavaScript para usar o OpenProject!
   noscript_heading: JavaScript desativado
@@ -1830,6 +1857,7 @@ pt:
       colaboração da equipa com o OpenProject.
     text_show_again: Pode reiniciar este vídeo através do menu de ajuda
     welcome: Bem-vindo ao OpenProject
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Adicionar notas
   permission_add_work_packages: Adicionar tarefas
   permission_add_messages: Publicar mensagens
@@ -2209,10 +2237,13 @@ pt:
     passwords: Senhas
     session: Sessão
     brute_force_prevention: Bloqueio de utilizador automatizado
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown
-    plain: Plain text
+    plain: Texto Simples
   status_active: ativo
   status_archived: arquivado
   status_invited: convidado
@@ -2569,6 +2600,7 @@ pt:
       quarters: Trimestres
       years: Anos
   title_remove_and_delete_user: Remova o utilizador convidado do projeto e apague-o/a.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
     in a user''s settings.
 
@@ -2643,9 +2675,25 @@ pt:
   note_password_login_disabled: A senha da sessão foi desativada por %{configuration}.
   warning: Aviso
   warning_attachments_not_saved: Não foi possível guardar %{count} ficheiro(s).
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
   warning_registration_token_expired: |
     The activation email has expired. We sent you a new one to %{email}.
     Please click the link inside of it to activate your account.
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: Item de menu
   menu_item_setting: Visibilidade
   wiki_menu_item_for: Item de menu para página wiki "%{title}"

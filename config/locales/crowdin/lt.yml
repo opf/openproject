@@ -246,10 +246,10 @@ lt:
           su savo prisijungimo duomenimis. Jei panorėsite vėl tapti šios sistemos
           vartotoju, galite pasinaudoti suteikta galimybe.
       login_verification:
-        other: Įveskite prisijungimo vardą %{name}, jei norite patvirtinti naikinimą.
-          Tada Jūsų paprašys patvirtinti savo slaptažodį.
-        self: Įveskite savo prisijungimo vardą %{name}, jei norite patvirtinti naikinimą.
-          Tada Jūsų paprašys patvirtinti savo slaptažodį.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'Jūsų paskyra dar neaktyvuota. Norėdami aktyvuoti,
       paspauskite nuorodą, kuri buvo nusiųsta į Jūsų nurodytą el. pašto dėžutę.
 
@@ -316,6 +316,7 @@ lt:
         expires_at: Nustoja galioti
         subscriber: Prenumeruotojas
         encoded_token: "„Enterprise“ paramos raktas"
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Vėlavimas
         from: Darbų paketas
@@ -716,6 +717,7 @@ lt:
   button_unlock: Atrakinti
   button_unwatch: Nestebėti
   button_update: Atnaujinti
+  button_upgrade: Upgrade
   button_upload: Įkelti
   button_view: Peržiūrėti
   button_watch: Stebėti
@@ -996,6 +998,8 @@ lt:
   error_custom_option_not_found: Galimybė neegzistuoja.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Šio įrašo nepavyko panaikinti.
   error_invalid_group_by: 'Negalima grupuoti naudojant: %{value}'
   error_invalid_query_column: 'Netinkamas užklausos stulpelis: %{value}'
@@ -1268,6 +1272,7 @@ lt:
   label_enumeration_value: Enumeracijos reikšmė
   label_enumerations: Enumeratoriai
   label_enterprise: Enterprise
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: "„Enterprise Edition“"
   label_entry_page: Entry page
   label_environment: Aplinka
@@ -1293,6 +1298,8 @@ lt:
   label_force_user_language_to_default: Nustatyti numatytąją kalbą vartotojams, kurie
     nurodo, sistemoje nežinomą kalbą
   label_form_configuration: Formos konfigūracija
+  label_gantt: Gantt
+  label_gantt_chart: Ganto grafikas
   label_general: Bendra
   label_generate_key: Generuoti raktą
   label_git_path: Kelias į .git aplanką
@@ -1396,6 +1403,7 @@ lt:
   label_next_week: Sekanti savaitė
   label_no_change_option: "(Jokio pakeitimo)"
   label_no_data: Nėra rodytinų duomenų
+  label_no_parent_page: No parent page
   label_nothing_display: Nėra ką rodyti
   label_nobody: niekas
   label_none: joks
@@ -1414,6 +1422,7 @@ lt:
   label_overall_activity: Visa veikla
   label_overall_spent_time: Visas praleistas laikas
   label_overview: Peržiūra
+  label_page_title: Page title
   label_part_of: dalis
   label_password_lost: Pamiršote slaptažodį?
   label_password_rule_lowercase: Mažosios raidės
@@ -1536,7 +1545,7 @@ lt:
   label_summary: Santrauka
   label_system: Sistema
   label_system_storage: Talpyklos informacija
-  label_table_of_contents: Turinys
+  label_table_of_contents: Table of contents
   label_tag: Žymė
   label_text: Ilgas tekstas
   label_this_month: šis mėnuo
@@ -1702,6 +1711,15 @@ lt:
   macro_execution_error: Klaida vykdant makrokomandą %{macro_name}
   macro_unavailable: Makrokomanda %{macro_name} negali būti rodoma.
   macros:
+    errors:
+      missing_or_invalid_parameter: Missing or invalid macro parameter.
+    legacy_warning:
+      timeline: This legacy timeline macro has been removed and is no longer available.
+        You can replace the functionality with an embedded table macro.
+    include_wiki_page:
+      errors:
+        page_not_found: Cannot find the wiki page '%{name}'.
+        circular_inclusion: Circular inclusion of pages detected.
     create_work_package_link:
       errors:
         no_project_context: Kviesti create_work_package_link makrokomandą projekto
@@ -1729,6 +1747,15 @@ lt:
     %{days} dienas(-ai, -ų)"
   mail_subject_wiki_content_added: Wiki puslapis '%{id}' buvo pridėtas
   mail_subject_wiki_content_updated: Wiki puslapis '%{id}' buvo atnaujintas
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: Daugiau funkcijų
   noscript_description: Jums reikia įjungti JavaScript, kad galėtumėte naudoti OpenProject!
   noscript_heading: JavaScript išjungta
@@ -1852,6 +1879,7 @@ lt:
       ir komandos bendradarbiavimą naudojant OpenProject.
     text_show_again: Jūs galite paleisti šį video iš naujo iš pagalbos meniu
     welcome: Sveiki atvykę į OpenProject
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Pridėti pastabų
   permission_add_work_packages: Pridėti darbų paketų
   permission_add_messages: Skelbti pranešimus
@@ -2229,6 +2257,9 @@ lt:
     passwords: Slaptažodžiai
     session: Sesija
     brute_force_prevention: Automatinis vartotojų blokavimas
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
     textile: Textile
     markdown: Markdown
@@ -2584,6 +2615,7 @@ lt:
       years: Metai(-ų)
   title_remove_and_delete_user: Pašalinti pakviestą vartotoją iš projekto ir ištrinti
     jį/ją.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_user_default_timezone: 'Numatytoji laiko juosta naujiems vartotojams. Gali
     būti pakeista vartotojo nustatymuose.
 
@@ -2661,9 +2693,25 @@ lt:
   warning: Įspėjimas
   warning_attachments_not_saved: "%{count} failas (-ai, -ų) negali būti išsaugotas
     (-i)."
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
   warning_registration_token_expired: 'Aktyvavimo el. laiško galiojimas pasibaigė.
     Išsiuntėme jums naują %{email}. Paspauskite laiške duotą nuorodą, kad aktyvuotumėte
     savo paskyrą.
+
+'
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
 
 '
   menu_item: Meniu punktas

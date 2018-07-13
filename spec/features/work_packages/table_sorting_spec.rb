@@ -73,8 +73,6 @@ describe 'Select work package row', type: :feature, js: true do
       end
 
       it 'sorts by version although version is not selected as a column' do
-        columns.remove 'Version'
-
         sort_by.open_modal
         sort_by.update_nth_criteria(0, 'Version')
         expect_work_packages_to_be_in_order([work_package_1, work_package_2])

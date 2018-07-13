@@ -53,9 +53,32 @@ nl:
     description_select_work_package: 'Selecteer werk pakket #%{id}'
     description_selected_columns: Geselecteerde kolommen
     description_subwork_package: 'Kind van werkpakket #%{id}'
+    editor:
+      macro:
+        toc: Table of contents
+        wiki_page_include:
+          button: Include content of another wiki page
+          text: Included wiki page (placeholder)
+          page: Wikipagina
+          hint: |
+            Include the content of another wiki page by specifying its title or slug.
+            You can include the wiki page of another project by separating them with a colon like the following example.
+        work_package_button:
+          button: Insert create work package button
+          type: Work package type
+          button_style: Use button style
+          button_style_hint: 'Optional: Check to make macro appear as a button, not
+            as a link.'
+          without_type: Create work package
+          with_type: 'Create work package (Type: %{typename})'
+        embedded_table:
+          button: Embed work package table
+          text: Embedded work package table (placeholder)
     error:
       internal: Een interne fout is opgetreden.
-      query_saving: The query could not be saved.
+      cannot_save_changes_with_message: 'Uw wijzigingen vanwege de volgende fout niet
+        opslaan: %{error}'
+      query_saving: De zoekopdracht kon niet bewaard worden.
     filter:
       description:
         text_open_filter: Open dit filter met de 'ALT'-knop en toetsenbord pijlen.
@@ -123,6 +146,7 @@ nl:
     label_expand: Uitbreiden
     label_expanded: uitgebreid
     label_expand_all: Alles uitklappen
+    label_expand_project_menu: Menu project uitvouwen
     label_export: Exporteren
     label_filename: Bestand
     label_filesize: Grootte
@@ -130,6 +154,7 @@ nl:
     label_group_by: Groeperen op
     label_hide_attributes: Toon minder
     label_hide_column: Verberg kolom
+    label_hide_project_menu: Project menu samenvouwen
     label_in: in
     label_in_less_than: in minder dan
     label_in_more_than: in meer dan
@@ -151,7 +176,7 @@ nl:
     label_not_equals: is niet
     label_on: op
     label_open_menu: Menu openen
-    label_open_context_menu: Open context menu
+    label_open_context_menu: Toon context menu
     label_open_work_packages: Open
     label_password: Wachtwoord
     label_previous: Vorige
@@ -165,7 +190,7 @@ nl:
     label_select_watcher: Kies een toezichter...
     label_selected_filter_list: Geselecteerde filters
     label_show_attributes: Toon alle kenmerken
-    label_show_in_menu: Toon pagina in menu
+    label_show_in_menu: Toon overzicht in menu
     label_sort_by: Sorteer op
     label_sorted_by: gesorteerd door
     label_sort_higher: Omhoog
@@ -175,11 +200,11 @@ nl:
     label_subject: Onderwerp
     label_this_week: deze week
     label_today: vandaag
-    label_up: Up
+    label_up: Omhoog
     label_activity_show_only_comments: Geef alleen activiteiten met commentaar weer
     label_activity_show_all: Geef alle activiteiten weer
     label_total_progress: "%{percent}% totale vooruitgang"
-    label_visible_for_others: Pagina zichtbaar voor anderen
+    label_visible_for_others: Overzicht zichtbaar voor anderen
     label_updated_on: bijgewerkt op
     label_warning: Waarschuwing
     label_work_package: Werkpakket
@@ -316,7 +341,6 @@ nl:
         one: Je kunt maar {{limit}} onderdeel selecteren
         other: Je kunt maar {{limit}} onderdelen selecteren
         zero: You cannot select any items
-    show_hide_project_menu: Project menu uitvouwen/samenvouwen
     project_menu_details: Details
     sort:
       sorted_asc: 'Oplopende sorteervolgorde toegepast, '
@@ -334,7 +358,7 @@ nl:
     timelines:
       gantt_chart: Gantt-grafiek
       labels:
-        title: Label configuration
+        title: Label configuratie
         bar: Bar etiketten
         left: Linkerkant
         right: Rechterkant
@@ -481,7 +505,7 @@ nl:
         header_with_parent: 'Nieuw %{type} (Kind van %{parent_type} #%{id})'
         button: Maken
       copy:
-        title: Copy work package
+        title: Werkpakketten kopiëren
       hierarchy:
         show: Toon hiërarchie modus
         hide: Hiërarchie modus verbergen
@@ -554,7 +578,7 @@ nl:
           not_found: Er is geen dergelijke query
         text_no_results: Geen overeenkomende query's werden gevonden.
       table:
-        configure_button: Configure work package table
+        configure_button: Configureer werkpakkettabel
         summary: Tabel met rijen van werkpakket en kolommen werk pakket kenmerken.
         text_inline_edit: De meeste cellen van deze tabel zijn knoppen die de inline-bewerken
           functionaliteit van dat kenmerk te activeren.
@@ -563,22 +587,26 @@ nl:
         text_select_hint: Selecteer vakken die moeten worden geopend met 'ALT' en
           pijl.
       table_configuration:
-        button: Configure this work package table
-        modal_title: Work package table configuration
-        embedded_tab_disabled: This configuration tab is not available for the embedded
-          query you're editing.
-        display_settings: Display settings
-        grouped_mode: Grouped mode
-        grouped_hint: Table results will be grouped by the given attribute.
-        default_mode: Default mode
+        button: Configureer deze werkpakkettabel
+        modal_title: Werk pakket tabel configuratie
+        embedded_tab_disabled: Het configuratie tabblad is niet beschikbaar voor de
+          zoekopdracht die u probeert te bewerken.
+        display_settings: Weergave-instellingen
+        grouped_mode: Gegroepeerde modus
+        grouped_hint: Tabel resultaten zullen worden gegroepeerd op het opgegeven
+          kenmerk.
+        default_mode: Standaardmodus
         hierarchy_mode: Hiërarchie-modus
-        hierarchy_hint: All filtered table results will be augmented with their ancestors.
-          Hierarchies can be expanded and collapsed.
-        display_sums_hint: Display sums of all summable attributes in a row below
-          the table results.
-        show_timeline_hint: Show an interactive gantt chart on the right side of the
-          table. You can change its width by dragging the divider between table and
-          gantt chart.
+        hierarchy_hint: Alle gefilterde tabel resultaten zal worden uitgebreid met
+          hun voorouders. Hiërarchieën kunnen worden uitgevouwen en samengevouwen.
+        display_sums_hint: Waarden van alle optelbare attributen in een rij onder
+          de tabel resultaten weergeven.
+        show_timeline_hint: Toon een interactieve Gantt-diagram aan de rechterkant
+          van de tabel. U kunt de breedte wijzigen door de scheidingslijn tussen de
+          tabel en Gantt-diagram te slepen.
+        columns_help_text: Gebruik de bovenstaande toegang voor het toevoegen of verwijderen
+          van kolommen aan uw tabelweergave. U kunt de kolommen slepen en neerzetten
+          om deze te rangschikken.
       tabs:
         overview: Overzicht
         activity: Activiteit
@@ -653,6 +681,7 @@ nl:
         messages_on_field: 'Het veld is ongeldig: %{messages}'
     error_could_not_resolve_version_name: Kan de verstane niet vinden
     error_could_not_resolve_user_name: Kan de gebruikersnaam niet vinden
+    error_attachment_upload: 'Uploaden van bestand ''%{name}'' is mislukt: %{error}'
     units:
       workPackage:
         one: werkpakket
