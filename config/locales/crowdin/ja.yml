@@ -33,13 +33,13 @@ ja:
     label_device: "2FAデバイス"
     label_devices: "2FAデバイス"
     label_one_time_password: 'ワンタイムパスワード'
-    label_2fa_enabled: '2段階認証が有効です'
-    label_2fa_disabled: '2段階認証が有効ではありません'
+    label_2fa_enabled: '2要素認証が有効です'
+    label_2fa_disabled: '2要素認証が有効ではありません'
     text_otp_delivery_message_sms: "あなたの %{app_title} ワンタイムパスワードは %{token} です"
     text_otp_delivery_message_voice: "あなたの %{app_title} ワンタイムパスワード: %{pause} %{token}。 %{pause} 繰り返します: %{pause} %{token}"
     text_enter_2fa: 'あなたのデバイスからワンタイムパスワードを入力してください。'
     text_2fa_enabled: 'ログインごとに、デフォルトの2FAデバイスからOTPトークンを入力するよう要求されます。'
-    text_2fa_disabled: '2段階証を有効にするには、上記のボタンを使用して新しい2FAデバイスを登録します。既にデバイスがある場合は、デフォルトにする必要があります。'
+    text_2fa_disabled: '2要素証を有効にするには、上記のボタンを使用して新しい2FAデバイスを登録します。既にデバイスがある場合は、デフォルトにする必要があります。'
     login:
       enter_backup_code_title: バックアップコードを入力
       enter_backup_code_text: 登録された2FAデバイスにアクセスできない場合は、コードのリストから有効なバックアップコードを入力してください。
@@ -61,8 +61,8 @@ ja:
       failed_to_save_settings: '2FA設定の更新に失敗しました: %{message}'
     admin:
       self_edit_path: '独自の2FAデバイスを追加または変更するには、こちら %{self_edit_link} をご覧ください。'
-      self_edit_link_name: 'アカウントページの2段階認証'
-      self_edit_forbidden: 'このパスで自分の2FAデバイスを編集することはできません。 マイアカウント > 二段階認証 の順に選択します。'
+      self_edit_link_name: 'アカウントページの2要素認証'
+      self_edit_forbidden: 'このパスで自分の2FAデバイスを編集することはできません。 マイアカウント > 2要素認証 の順に選択します。'
       no_devices_for_user: 'このユーザーには2FAデバイスが登録されていません。'
       all_devices_deleted: 'このユーザーの2FAデバイスはすべて削除されています'
       delete_all_are_you_sure: 'このユーザーの2FAデバイスをすべて削除してもよろしいですか？'
@@ -76,7 +76,7 @@ ja:
       plural: バックアップコード
       your_codes: あなたの %{app_name} アカウント %{login}
       overview_description: |
-        2段階認証のデバイスにアクセスできない場合は、バックアップコードを使用してアカウントへのアクセスを回復することができます。
+        2要素認証のデバイスにアクセスできない場合は、バックアップコードを使用してアカウントへのアクセスを回復することができます。
         新しいバックアップコードセットを生成するには次のボタンを使用します。
       generate:
         title: バックアップ コードを生成します
@@ -112,7 +112,7 @@ ja:
         time_based: '時間ベース'
         account: 'アカウント名 / 発行者'
         setup: |
-          Google Authenticator で二段階認証を設定するには、Apple App StoreまたはGoogle Playストアからアプリケーションをダウンロードしてください。
+          Google Authenticator で2要素認証を設定するには、Apple App StoreまたはGoogle Playストアからアプリケーションをダウンロードしてください。
           アプリを開いた後、次のQRコードをスキャンしてデバイスを登録することができます。
         question_cannot_scan: |
           アプリケーションを使用してコードをスキャンできませんか？
@@ -139,12 +139,12 @@ ja:
       sns: 'Amazon SNS'
       resdt: 'SMS Rest API'
     mobile_transmit_notification: "ワンタイムパスワードが携帯電話に送信されました。"
-    label_two_factor_authentication: '2段階認証'
+    label_two_factor_authentication: '2要素認証'
     forced_registration:
-      required_to_add_device: 'アクティブなセキュリティポリシーでは2段階認証を有効にする必要があります。デバイスを登録するには、次のフォームを使用してください。'
+      required_to_add_device: 'アクティブなセキュリティポリシーでは2要素認証を有効にする必要があります。デバイスを登録するには、次のフォームを使用してください。'
     remember:
       active_session_notice: >
-        あなたのアカウントには %{expires_on} まで有効なクッキーが記録されています。このクッキーを使用すると2段階認証なしでアカウントにログインすることができます。
+        あなたのアカウントには %{expires_on} まで有効なクッキーが記録されています。このクッキーを使用すると2要素認証なしでアカウントにログインすることができます。
       label: '記憶する'
       clear_cookie: 'このクッキーを削除するにはここをクリックしてください'
       cookie_removed: '記憶させたクッキーは削除されました。'
