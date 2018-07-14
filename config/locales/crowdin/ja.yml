@@ -168,8 +168,7 @@ ja:
       no_results_title_text: 現在、ワークフローはありません。
   work_packages:
     move:
-      no_common_statuses_exists: There is no status available for all selected work
-        packages. Their status cannot be changed.
+      no_common_statuses_exists: 選択されたすべての項目に利用可能なステータスはありません。 それらの状態は変更できません。
       unsupported_for_multiple_projects: 複数のプロジェクトから、作業項目の一括移動/コピーはサポートされていません
     list_simple:
       assigned:
