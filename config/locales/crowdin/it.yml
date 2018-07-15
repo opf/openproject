@@ -188,6 +188,8 @@ it:
       no_results_title_text: Al momento non vi sono flussi di lavoro.
   work_packages:
     move:
+      no_common_statuses_exists: There is no status available for all selected work
+        packages. Their status cannot be changed.
       unsupported_for_multiple_projects: Il comando sposta/copia multiplo non è supportato
         per macroattività da più progetti
     list_simple:

@@ -184,6 +184,8 @@ tr:
       no_results_title_text: Sitemizde şuan iş akışı yok.
   work_packages:
     move:
+      no_common_statuses_exists: There is no status available for all selected work
+        packages. Their status cannot be changed.
       unsupported_for_multiple_projects: Birden çok projeden iş paketi için toplu
         taşıma / kopyalama desteklenmiyor
     list_simple:
@@ -1296,7 +1298,7 @@ tr:
   label_information_plural: Bilgi
   label_integer: Tamsayı
   label_internal: Dahili
-  label_introduction_video: Introduction video
+  label_introduction_video: Tanıtım videosu
   label_invite_user: Kullanıcı davet et
   label_show_hide: Göster/gizle
   label_show_all_registered_users: Tüm kayıtlı kullanıcıları göster
@@ -1373,7 +1375,7 @@ tr:
   label_next_week: Gelecek hafta
   label_no_change_option: "(Değişiklik yok)"
   label_no_data: Görüntülenecek veri yok
-  label_no_parent_page: No parent page
+  label_no_parent_page: Üst sayfa yok
   label_nothing_display: Görüntülenecek bir şey yok
   label_nobody: hiçkimse
   label_none: hiçbiri
@@ -1385,14 +1387,14 @@ tr:
   label_open_menu: Menüyü Aç
   label_open_work_packages: açık
   label_open_work_packages_plural: açık
-  label_openproject_website: OpenProject website
+  label_openproject_website: OpenProject web sitesi
   label_optional_description: Açıklama
   label_options: Ayarlar
   label_other: Diğer
   label_overall_activity: Genel etkinlik
   label_overall_spent_time: Genel harcanan zaman
   label_overview: Genel Bakış
-  label_page_title: Page title
+  label_page_title: Sayfa başlığı
   label_part_of: parçası
   label_password_lost: Parolanızı mı unuttunuz?
   label_password_rule_lowercase: Küçük harf
@@ -1513,7 +1515,7 @@ tr:
   label_summary: Özet
   label_system: Sistem
   label_system_storage: Depolama bilgisi
-  label_table_of_contents: Table of contents
+  label_table_of_contents: İçindekiler
   label_tag: Etiket
   label_text: Uzun metin
   label_this_month: bu ay
@@ -1559,7 +1561,7 @@ tr:
   label_version_sharing_none: Paylaşılmamış
   label_version_sharing_system: Tüm projeler ile
   label_version_sharing_tree: Proje ağacı ile
-  label_videos: Videos
+  label_videos: Videolar
   label_view_all_revisions: Tüm revizyonları görüntüle
   label_view_diff: Farklılıkları gör
   label_view_revisions: Düzeltmeleri izle
@@ -1668,7 +1670,7 @@ tr:
   macro_unavailable: Makro %{macro_name} görüntülenemiyor.
   macros:
     errors:
-      missing_or_invalid_parameter: Missing or invalid macro parameter.
+      missing_or_invalid_parameter: Eksik ya da geçersiz macro parametreleri.
     legacy_warning:
       timeline: This legacy timeline macro has been removed and is no longer available.
         You can replace the functionality with an embedded table macro.
@@ -2084,9 +2086,10 @@ tr:
     kullanıcıyı engelle
   setting_brute_force_block_minutes: Kullanıcının engellediği süre
   setting_cache_formatted_text: Biçimlendirilmiş metni önbelleğe al
-  setting_use_wysiwyg: WYSIWYG editor
-  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
-    users by default. CKEditor has limited functionality for GFM Markdown.
+  setting_use_wysiwyg: WYSIWYG düzenleyici
+  setting_use_wysiwyg_description: Tüm kullanıcılar için varsayılan olarak CKEditor5
+    WYSIWYG düzenleyiciyi etkinleştirmek için seçin. GFM Markdown için CKEditor sınırlı
+    işleve sahiptir.
   setting_column_options: İş paketi listelerinin görünümünü özelleştirme
   setting_commit_fix_keywords: Anahtar kelimeleri düzeltme
   setting_commit_logs_encoding: İleti kodlamayı tamamla
@@ -2195,12 +2198,12 @@ tr:
     session: Oturum
     brute_force_prevention: Otomatik kullanıcı engelleme
     user:
-      default_preferences: Default preferences
-      deletion: Deletion
+      default_preferences: Varsayılan Tercihler
+      deletion: Silme
   text_formatting:
     textile: Textile
     markdown: Markdown
-    plain: Plain text
+    plain: Düz yazı
   status_active: etkin
   status_archived: arşivlendi
   status_invited: davet

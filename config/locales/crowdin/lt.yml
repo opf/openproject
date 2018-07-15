@@ -187,6 +187,8 @@ lt:
       no_results_title_text: Šiuo metu darbo sekų.
   work_packages:
     move:
+      no_common_statuses_exists: There is no status available for all selected work
+        packages. Their status cannot be changed.
       unsupported_for_multiple_projects: Masinis darbų paketų perkėlimas/kopijavimas
         nėra palaikomas darbui iškart su keliais projektais
     list_simple:

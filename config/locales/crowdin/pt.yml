@@ -189,6 +189,8 @@ pt:
       no_results_title_text: Atualmente, não existem ritmos de trabalho.
   work_packages:
     move:
+      no_common_statuses_exists: There is no status available for all selected work
+        packages. Their status cannot be changed.
       unsupported_for_multiple_projects: Mover/copiar em massa não é suportado por
         pacotes de trabalho de vários projetos
     list_simple:
