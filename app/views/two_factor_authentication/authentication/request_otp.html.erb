@@ -48,6 +48,7 @@ end %>
   <div id="resend_otp_container" style="display: none">
     <% if resend_supported %>
       <%= styled_form_tag({action: :retry }, autocomplete: 'off', id: 'resend_otp') do %>
+        <%= hidden_field_tag 'use_device', @service.device.id %>
         <hr />
         <div class="resend-header"><%= l(:text_send_otp_again) %></div>
         <div class="radios-wrapper">
