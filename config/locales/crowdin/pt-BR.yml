@@ -186,8 +186,8 @@ pt-BR:
       no_results_title_text: Atualmente, não há fluxos de trabalho.
   work_packages:
     move:
-      no_common_statuses_exists: There is no status available for all selected work
-        packages. Their status cannot be changed.
+      no_common_statuses_exists: Não há situação disponível para todos os pacotes
+        de trabalho selecionados. Sua situação não pode ser alterada.
       unsupported_for_multiple_projects: Movimentação/cópia em massa não é suportada
         para pacotes de trabalho de vários projetos
     list_simple:
@@ -1844,7 +1844,7 @@ pt-BR:
       e colaboração de equipe com o OpenProject.
     text_show_again: Você pode reiniciar este vídeo através do menu ajuda
     welcome: Bem-vindo ao OpenProject
-    select_language: Please select your language for OpenProject
+    select_language: Por favor, selecione seu idioma para o OpenProject
   permission_add_work_package_notes: Adicionar anotações
   permission_add_work_packages: Adicionar pacotes de trabalho
   permission_add_messages: Postar mensagens
