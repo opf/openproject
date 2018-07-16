@@ -30,6 +30,7 @@
 
 class WorkPackage::PdfExport::WorkPackageToPdf < WorkPackage::Exporter::Base
   include WorkPackage::PdfExport::Common
+  include WorkPackage::PdfExport::Attachments
 
   attr_accessor :pdf
 
