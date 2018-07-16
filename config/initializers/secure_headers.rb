@@ -26,8 +26,8 @@ SecureHeaders::Configuration.default do |config|
   connect_src = default_src
 
   if FrontendAssetHelper.assets_proxied?
-    connect_src += %w[ws://localhost:4200 http://localhost:4200]
-    assets_src += %w[ws://localhost:4200 http://localhost:4200]
+    connect_src += %w[ws://localhost:* http://localhost:*]
+    assets_src += %w[ws://localhost:* http://localhost:*]
   end
 
   config.csp = {

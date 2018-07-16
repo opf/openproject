@@ -239,14 +239,16 @@ describe OpenProject::TextFormatting::Formatters::Markdown::Formatter do
     MARKDOWN
 
     html = <<-HTML.strip_heredoc
-      <p><h1>Table of contents</h1><ul class="section-nav">
-      <li><a href="#the-first-h1-heading">The first h1 heading</a></li>
-      <li><a href="#the-first-h2-heading">The first h2 heading</a></li>
-      <li><a href="#the-first-h3-heading">The first h3 heading</a></li>
-      <li><a href="#the-second-h1-heading">The second h1 heading</a></li>
-      <li><a href="#the-second-h2-heading">The second h2 heading</a></li>
-      <li><a href="#the-second-h3-heading">The second h3 heading</a></li>
-      </ul></p>
+      <p></p>
+      <h1>Table of contents</h1>
+      <ul class="section-nav">
+        <li><a href="#the-first-h1-heading">The first h1 heading</a></li>
+        <li><a href="#the-first-h2-heading">The first h2 heading</a></li>
+        <li><a href="#the-first-h3-heading">The first h3 heading</a></li>
+        <li><a href="#the-second-h1-heading">The second h1 heading</a></li>
+        <li><a href="#the-second-h2-heading">The second h2 heading</a></li>
+        <li><a href="#the-second-h3-heading">The second h3 heading</a></li>
+      </ul>
       <h1>
         <a id="the-first-h1-heading" class="anchor" href="#the-first-h1-heading" aria-hidden="true">
           <span aria-hidden="true" class="octicon octicon-link"></span>
