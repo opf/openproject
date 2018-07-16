@@ -984,6 +984,7 @@ fr:
   error_invalid_sort_criterion: 'Impossible de trier par colonne : %{value}'
   error_pdf_export_too_many_columns: Trop de colonnes sélectionnées pour l’exportation
     PDF. Veuillez réduire le nombre de colonnes.
+  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
   error_token_authenticity: Impossible de vérifier le jeton de Cross-Site Request
     Forgery.
   error_work_package_done_ratios_not_updated: Les ratios de Lots de Travaux achevés
@@ -1037,6 +1038,8 @@ fr:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF avec descriptions
+      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
+      pdf_with_attachments: PDF with attachments
   general_csv_decimal_separator: ","
   general_csv_encoding: UTF-8
   general_csv_separator: "."

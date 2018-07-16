@@ -990,6 +990,7 @@ de:
   error_invalid_sort_criterion: 'Kann nicht nach Spalte sortieren: %{value}'
   error_pdf_export_too_many_columns: Zu viele Spalten für PDF-Export ausgewählt. Bitte
     reduzieren Sie die Anzahl der ausgewählten Spalten.
+  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
   error_token_authenticity: Cross-Site-Request-Forgery Token kann nicht verifiziert
     werden.
   error_work_package_done_ratios_not_updated: Der Arbeitspaket-Fortschritt wurde nicht
@@ -1042,6 +1043,8 @@ de:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF mit Beschreibungen
+      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
+      pdf_with_attachments: PDF with attachments
   general_csv_decimal_separator: ","
   general_csv_encoding: UTF-8
   general_csv_separator: ";"

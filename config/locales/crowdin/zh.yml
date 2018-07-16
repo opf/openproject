@@ -889,6 +889,7 @@ zh:
   error_invalid_query_column: 无效的查询列：%{value}
   error_invalid_sort_criterion: 无法按照列 %{value} 排序
   error_pdf_export_too_many_columns: 选择 PDF 导出的列太多。请减少列数。
+  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
   error_token_authenticity: 无法验证跨站域请求伪造令牌。
   error_work_package_done_ratios_not_updated: 工作包完成比率不更新。
   error_work_package_not_found_in_project: 工作包找不到或不属于此项目
@@ -929,6 +930,8 @@ zh:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: 带描述的PDF
+      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
+      pdf_with_attachments: PDF with attachments
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
