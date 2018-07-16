@@ -29,7 +29,7 @@ module OpenProject::TwoFactorAuthentication
         params = build_user_params
 
         # Validity 720 = 15 minutes of login token validity - 3 minutes buffer
-        response = message_bird_client.message_create Setting.app_title,
+        response = message_bird_client.message_create originator,
                                                       params[:recipients],
                                                       params[:message],
                                                       validity: 720
@@ -38,6 +38,12 @@ module OpenProject::TwoFactorAuthentication
       rescue => e
         Rails.logger.error("[2FA] MessageBird SMS delivery failed for user #{user.login}. Error: #{e} #{e.message}")
         raise I18n.t('two_factor_authentication.message_bird.sms_delivery_failed')
+      end
+
+      ##
+      # TODO ensure the originator cannot be larger than 11 characters
+      def originator
+        'OpenProject'
       end
 
       def send_voice
@@ -104,7 +110,7 @@ module OpenProject::TwoFactorAuthentication
       ##
       # Select a matching language from the available languages
       def build_localized_message(params)
-        locale_key = (user.language || Setting.default_language)
+        locale_key = (user.language.presence || Setting.default_language)
 
         # Check if the translation exist or fall back to english
         language =
