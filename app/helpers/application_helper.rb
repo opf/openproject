@@ -438,7 +438,9 @@ module ApplicationHelper
     # Ensure global AV context exists (when, e.g., called from widget)
     @_request ||= request
     include_calendar_headers_tags
-    nonced_javascript_tag("jQuery(function() { jQuery('##{field_id}').datepicker(); })")
+    nonced_javascript_tag <<-EOS
+      jQuery(function() { jQuery('##{field_id}').attr('autocomplete', 'off').datepicker(); });
+    EOS
   end
 
   def include_calendar_headers_tags

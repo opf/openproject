@@ -55,7 +55,7 @@ tr:
     description_subwork_package: "#%{id} nolu iş paketinin alt parçası"
     editor:
       macro:
-        toc: Table of contents
+        toc: İçindekiler
         wiki_page_include:
           button: Include content of another wiki page
           text: Included wiki page (placeholder)
@@ -65,19 +65,19 @@ tr:
             You can include the wiki page of another project by separating them with a colon like the following example.
         work_package_button:
           button: Insert create work package button
-          type: Work package type
-          button_style: Use button style
+          type: İş paketi tipi
+          button_style: Düğme biçimini kullan
           button_style_hint: 'Optional: Check to make macro appear as a button, not
             as a link.'
-          without_type: Create work package
-          with_type: 'Create work package (Type: %{typename})'
+          without_type: İş paketini oluştur
+          with_type: İş paketini oluştur (Tür %{typename})
         embedded_table:
-          button: Embed work package table
-          text: Embedded work package table (placeholder)
+          button: Gömülü iş paketi tablosu
+          text: Gömülü iş paketi tablosu (yer tutucu)
     error:
       internal: İç hata oluştu.
-      cannot_save_changes_with_message: 'Cannot save your changes due to the following
-        error: %{error}'
+      cannot_save_changes_with_message: 'Değişikliklerinizin kaydedilememesine sebep
+        olan hata: %{error}'
       query_saving: The query could not be saved.
     filter:
       description:
@@ -199,7 +199,7 @@ tr:
     label_subject: Konu
     label_this_week: bu hafta
     label_today: bugün
-    label_up: Up
+    label_up: Yukarı
     label_activity_show_only_comments: Sadece yorumların olduğu etkinlikleri göster
     label_activity_show_all: Tüm etkinlikleri göster
     label_total_progress: Toplam ilerleme %{percent}%
@@ -355,7 +355,7 @@ tr:
     timelines:
       gantt_chart: Gantt görünümü
       labels:
-        title: Label configuration
+        title: Etiket yapılandırma
         bar: Çubuk etiketleri
         left: Sol
         right: Sağ
@@ -500,7 +500,7 @@ tr:
         header_with_parent: 'Yeni %{type} (%{parent_type} #%{id} altında)'
         button: Oluştur
       copy:
-        title: Copy work package
+        title: İş paketini kopyala
       hierarchy:
         show: Hiyerarşiyi göster
         hide: Hiyerarşiyi gizle
@@ -573,7 +573,7 @@ tr:
           not_found: Böyle bir sorgu bulunmamakta
         text_no_results: Aranan sorgu maalesef bulunamadı.
       table:
-        configure_button: Configure work package table
+        configure_button: İş paketi tablosunu kopyala
         summary: İş paketi satır tabloları ve iş paketi nitelik sütunları.
         text_inline_edit: Bu tablodaki çoğu hücre o öznitelikteki satır içi düzenleme
           işlevselliğini etkinleşirme düğmeleridir.
@@ -581,14 +581,14 @@ tr:
           gruplayabilir, yeniden düzenleyebilir, silebilir ya da ekleyebilirsiniz.
         text_select_hint: Seçim kutuları 'ALT' ve ok tuşları ile açılmalıdır.
       table_configuration:
-        button: Configure this work package table
-        modal_title: Work package table configuration
+        button: Bu iş paketi tablosunu yapılandır
+        modal_title: İş paketi tablosu yapılandırma
         embedded_tab_disabled: This configuration tab is not available for the embedded
           query you're editing.
         display_settings: Display settings
-        grouped_mode: Grouped mode
+        grouped_mode: Gruplandırılmış mod
         grouped_hint: Table results will be grouped by the given attribute.
-        default_mode: Default mode
+        default_mode: Varsayılan mod
         hierarchy_mode: Hiyerarşi modu
         hierarchy_hint: All filtered table results will be augmented with their ancestors.
           Hierarchies can be expanded and collapsed.

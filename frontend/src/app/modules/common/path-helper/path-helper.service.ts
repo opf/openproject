@@ -178,7 +178,6 @@ export class PathHelperService {
   }
 
   public textFormattingHelp() {
-    // TODO: Allow override and make specific
-    return 'https://openproject.org/help';
+    return this.staticBase + '/help/text_formatting';
   }
 }
