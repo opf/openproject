@@ -7,6 +7,9 @@
   left: -1px
   width: 400px
   background: white
+  // Avoid scrolling body when autocompleter is at bottom
+  // (May not be supported by all browsers yet, but soonish)
+  overscroll-behavior: contain
 
   @include default-font($header-drop-down-projects-search-font-color, 13px)
   li
