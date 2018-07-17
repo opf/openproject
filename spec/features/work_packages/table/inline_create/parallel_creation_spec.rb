@@ -7,16 +7,16 @@ describe 'Parallel work package creation spec', js: true do
   let(:role) { FactoryBot.create :role, permissions: permissions }
   let(:user) do
     FactoryBot.create :user,
-                       member_in_project: project,
-                       member_through_role: role
+                      member_in_project: project,
+                      member_through_role: role
   end
   let(:status) { FactoryBot.create(:default_status) }
   let(:workflow) do
     FactoryBot.create :workflow,
-                       type_id: type.id,
-                       old_status: status,
-                       new_status: FactoryBot.create(:status),
-                       role: role
+                      type_id: type.id,
+                      old_status: status,
+                      new_status: FactoryBot.create(:status),
+                      role: role
   end
 
   let!(:project) { FactoryBot.create(:project, is_public: true) }

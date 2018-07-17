@@ -85,7 +85,7 @@ describe 'Authentication Stages', type: :feature, js: true do
     end
   end
   context 'when enabled, localized consent exists',
-          with_settings: { consent_info: { de: 'h1. Einwilligung', en: 'h1. Consent header!' } } do
+          with_settings: { consent_info: { de: '# Einwilligung', en: '# Consent header!' } } do
     let(:consent_required) { true }
     let(:language) { 'de' }
 
@@ -97,7 +97,7 @@ describe 'Authentication Stages', type: :feature, js: true do
     end
   end
 
-  context 'when enabled, but consent exists', with_settings: { consent_info: { en: 'h1. Consent header!' } } do
+  context 'when enabled, but consent exists', with_settings: { consent_info: { en: '# Consent header!' } } do
     let(:consent_required) { true }
     it 'should show consent' do
       expect(Setting.consent_time).to be_blank

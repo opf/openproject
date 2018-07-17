@@ -34,8 +34,8 @@ describe 'Work package attribute help texts', type: :feature, js: true do
 
   let(:instance) do
     FactoryBot.create :work_package_help_text,
-                       attribute_name: :status,
-                       help_text: 'Some *help text* for status.'
+                      attribute_name: :status,
+                      help_text: 'Some **help text** for status.'
   end
 
   let(:modal) { Components::AttributeHelpTextModal.new(instance) }
@@ -74,8 +74,8 @@ describe 'Work package attribute help texts', type: :feature, js: true do
     end
     let(:user) do
       FactoryBot.create :user,
-                         member_in_project: project,
-                         member_through_role: view_wps_role
+                        member_in_project: project,
+                        member_through_role: view_wps_role
     end
 
     it_behaves_like 'allows to view help texts'

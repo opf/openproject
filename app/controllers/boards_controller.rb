@@ -80,7 +80,9 @@ class BoardsController < ApplicationController
         render template: 'messages/index'
       end
       format.atom do
-        @messages = @board.messages.order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
+        @messages = @board
+                    .messages
+                    .order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
                     .includes(:author, :board)
                     .limit(Setting.feeds_limit.to_i)
 
@@ -90,14 +92,15 @@ class BoardsController < ApplicationController
   end
 
   def set_topics
-    @topics =  @board.topics.order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
-               .includes(:author,  last_reply: :author)
+    @topics =  @board
+               .topics
+               .order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
+               .includes(:author, last_reply: :author)
                .page(params[:page])
                .per_page(per_page_param)
   end
 
-  def new
-  end
+  def new; end
 
   def create
     if @board.save
@@ -108,8 +111,7 @@ class BoardsController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @board.update_attributes(permitted_params.board)

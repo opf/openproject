@@ -633,12 +633,6 @@ module ApplicationHelper
     end
   end
 
-  def wiki_helper
-    helper = Redmine::WikiFormatting.helper_for(Setting.text_formatting)
-    extend helper
-    self
-  end
-
   def link_to_content_update(text, url_params = {}, html_options = {})
     link_to(text, url_params, html_options)
   end

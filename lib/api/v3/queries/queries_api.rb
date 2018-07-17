@@ -48,7 +48,7 @@ module API
 
           helpers do
             def authorize_by_policy(action, &block)
-              authorize_by_with_raise(-> () { allowed_to?(action) }, &block)
+              authorize_by_with_raise(-> { allowed_to?(action) }, &block)
             end
 
             def allowed_to?(action)

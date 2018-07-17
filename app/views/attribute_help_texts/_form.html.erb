@@ -41,7 +41,6 @@ See docs/COPYRIGHT.rdoc for more details.
     <% end %>
   </div>
   <div class="form--field -required">
-    <%= f.text_area :help_text, :cols => 100, :rows => 20, :class => 'wiki-edit' %>
-    <%= wikitoolbar_for("#{f.object_name}_help_text") %>
+    <%= f.text_area :help_text, cols: 100, rows: 20, class: 'wiki-edit', with_text_formatting: true %>
   </div>
 </section>

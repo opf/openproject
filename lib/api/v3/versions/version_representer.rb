@@ -60,7 +60,7 @@ module API
                  getter: ->(*) {
                    ::API::Decorators::Formattable.new(represented.description,
                                                       object: represented,
-                                                      format: 'plain')
+                                                      plain: true)
                  },
                  render_nil: true
 

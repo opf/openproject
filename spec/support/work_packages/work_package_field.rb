@@ -146,7 +146,11 @@ class WorkPackageField
   end
 
   def input_selector
-    '.wp-inline-edit--field'
+    if property_name == 'description'
+      '.op-ckeditor-wrapper'
+    else
+      '.wp-inline-edit--field'
+    end
   end
 
   def field_type

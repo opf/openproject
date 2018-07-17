@@ -183,10 +183,10 @@ describe 'Activity tab', js: true, selenium: true do
         expect(field.editing?).to be true
 
         # Add our comment
-        quote = field.input_element[:value]
-        expect(quote).to include("> #{initial_comment}")
-        quote << "\nthis is some remark under a quote"
-        field.input_element.set(quote)
+        editor = find('.ck-content')
+        expect(editor).to have_selector('blockquote', text: initial_comment)
+
+        editor.base.send_keys "\nthis is some remark under a quote"
         field.submit_by_click
 
         expect(page).to have_selector('.user-comment > .message', count: 3)

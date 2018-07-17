@@ -143,23 +143,20 @@ embedded errors or simply state that multiple errors occured.
 
 # Formattable Text
 
-OpenProject supports text formatting in Textile. Other text formats *may* be introduced in the future.
-Properties that contain formattable text have a special representation in this API. In this specification their
+OpenProject supports text formatting in Markdown. Properties that contain formattable text have a special representation in this API. In this specification their
 type is indicated as `Formattable`. Their representation contains the following properties:
 
 | Property | Description                                        | Type   | Example                            | Supported operations |
 |:--------:| -------------------------------------------------- | ------ | ---------------------------------- | -------------------- |
-| format   | Indicates the formatting language of the raw text  | String | textile                            | READ                 |
-| raw      | The raw text, as entered by the user               | String | `I *am* formatted!`                | READ / WRITE         |
+| format   | Indicates the formatting language of the raw text  | String | markdown                           | READ                 |
+| raw      | The raw text, as entered by the user               | String | `I **am** formatted!`              | READ / WRITE         |
 | html     | The text converted to HTML according to the format | String | `I <strong>am</strong> formatted!` | READ                 |
 
 `format` can as of today have one of the following values:
 
 * `plain` - only basic formatting, e.g. inserting paragraphs and line breaks into HTML
-* `textile` - formatting using Textile
+* `markdown` - formatting using Markdown
 * `custom` - There is no apparent formatting rule that transforms the raw version to HTML (only used for read only properties)
-
-More formats might be added in the future.
 
 Note that `raw` is the only property supporting the **write** operation. A property of type *Formattable* that
 is marked as **read and write**, will only accept changes to the `raw` property. Changes to `format` and `html` will be **silently ignored**.
@@ -170,8 +167,8 @@ If the *Formattable* is marked as **read only**, the `raw` attribute also become
 #### Example
 
     {
-        "format": "textile",
-        "raw": "I *am* formatted!",
+        "format": "markdown",
+        "raw": "I **am** formatted!",
         "html": "I <strong>am</strong> formatted!"
     }
 

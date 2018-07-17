@@ -21,7 +21,7 @@ Subsequent calls to the form should contain a single JSON object as described by
 |:-------------------:| --------------------------------------------------------------------- | -------------------------------- |
 | validate            | Validate changes, show errors and allowed values for changed resource |                                  |
 | commit              | Actually perform changes to the resource                              | form content is valid            |
-| previewMarkup       | Post markup (e.g. textile) here to receive an HTML-rendered response  |                                  |
+| previewMarkup       | Post markup (e.g. markdown) here to receive an HTML-rendered response |                                  |
 
 ## Linked Properties
 
@@ -88,7 +88,7 @@ That is because the main purpose of a form is helping the client to sort out val
                         "method": "POST"
                     },
                     "previewMarkup": {
-                        "href": "/api/v3/render/textile",
+                        "href": "/api/v3/render/markdown",
                         "method": "POST"
                     },
                     "commit": {

@@ -29,7 +29,7 @@
 FactoryBot.define do
   factory :wiki_page do
     wiki
-    sequence(:title) do |n| "Wiki Page No. #{n}" end
+    sequence(:title) { |n| "Wiki Page No. #{n}" }
 
     factory :wiki_page_with_content do
       callback(:after_build) do |wiki_page|

@@ -123,14 +123,6 @@ export class ConfigurationService {
       this.settings.display.date_format !== '';
   }
 
-  public textFormat() {
-    return this.settings.display.text_format;
-  }
-
-  public useWysiwyg() {
-    return this.settings.display.use_wysiwyg;
-  }
-
   public dateFormat()  {
     return this.settings.display.date_format;
   }

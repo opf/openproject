@@ -33,22 +33,22 @@ describe TabularFormBuilder do
   include Capybara::RSpecMatchers
 
   let(:helper)   { ActionView::Base.new }
-  let(:resource) {
+  let(:resource) do
     FactoryBot.build(:user,
-                      firstname:  'JJ',
-                      lastname:   'Abrams',
-                      login:      'lost',
-                      mail:       'jj@lost-mail.com',
-                      failed_login_count: 45)
-  }
+                     firstname:  'JJ',
+                     lastname:   'Abrams',
+                     login:      'lost',
+                     mail:       'jj@lost-mail.com',
+                     failed_login_count: 45)
+  end
   let(:builder) { TabularFormBuilder.new(:user, resource, helper, {}) }
 
   describe '#text_field' do
     let(:options) { { title: 'Name', class: 'custom-class' } }
 
-    subject(:output) {
+    subject(:output) do
       builder.text_field :name, options
-    }
+    end
 
     it_behaves_like 'labelled by default'
 
@@ -126,13 +126,13 @@ describe TabularFormBuilder do
       end
 
       context 'with both prefix and suffix' do
-        let(:options) {
+        let(:options) do
           {
             title: 'Name',
             prefix: %{<span style="color:yellow">PREFIX</span>},
             suffix: %{<span style="color:green">SUFFIX</span>}
           }
-        }
+        end
 
         it 'should output elements' do
           expect(output).to be_html_eql(%{
@@ -172,9 +172,9 @@ describe TabularFormBuilder do
   describe '#text_area' do
     let(:options) { { title: 'Name', class: 'custom-class' } }
 
-    subject(:output) {
+    subject(:output) do
       builder.text_area :name, options
-    }
+    end
 
     it_behaves_like 'labelled by default'
     it_behaves_like 'wrapped in field-container by default'
@@ -188,13 +188,13 @@ JJ Abrams</textarea>
       }).at_path('textarea')
     end
 
-    context 'when requesting a text formatting wrapper', with_settings: { text_formatting: :markdown } do
+    context 'when requesting a text formatting wrapper' do
       let(:options) { { title: 'Name', class: 'custom-class', with_text_formatting: true } }
 
       context 'an id is missing' do
-        it 'does not output the wrapper' do
+        it 'outputs the wysiwyg wrapper' do
           expect(output).to have_selector 'textarea'
-          expect(output).to have_no_selector 'op-ckeditor-form'
+          expect(output).to have_selector 'op-ckeditor-form'
         end
       end
 
@@ -213,9 +213,9 @@ JJ Abrams</textarea>
     let(:options) { { title: 'Name' } }
     let(:html_options) { { class: 'custom-class' } }
 
-    subject(:output) {
+    subject(:output) do
       builder.select :name, '<option value="33">FUN</option>'.html_safe, options, html_options
-    }
+    end
 
     it_behaves_like 'labelled by default'
     it_behaves_like 'wrapped in field-container by default'
@@ -233,13 +233,13 @@ JJ Abrams</textarea>
     let(:options) { { title: 'Name' } }
     let(:html_options) { { class: 'custom-class' } }
 
-    subject(:output) {
+    subject(:output) do
       builder.collection_select :name, [
         OpenStruct.new(id: 56, name: 'Diana'),
         OpenStruct.new(id: 46, name: 'Ricky'),
         OpenStruct.new(id: 33, name: 'Jonas')
       ], :id, :name, options, html_options
-    }
+    end
 
     it_behaves_like 'labelled by default'
     it_behaves_like 'wrapped in field-container by default'
@@ -255,9 +255,9 @@ JJ Abrams</textarea>
   describe '#date_select' do
     let(:options) { { title: 'Last logged in on' } }
 
-    subject(:output) {
+    subject(:output) do
       builder.date_select :last_login_on, options
-    }
+    end
 
     it_behaves_like 'labelled by default'
     it_behaves_like 'wrapped in field-container by default'
@@ -272,9 +272,9 @@ JJ Abrams</textarea>
   describe '#check_box' do
     let(:options) { { title: 'Name', class: 'custom-class' } }
 
-    subject(:output) {
+    subject(:output) do
       builder.check_box :first_login, options
-    }
+    end
 
     it_behaves_like 'labelled by default'
     it_behaves_like 'wrapped in field-container by default'
@@ -292,13 +292,13 @@ JJ Abrams</textarea>
   describe '#collection_check_box' do
     let(:options) { {} }
 
-    subject(:output) {
+    subject(:output) do
       builder.collection_check_box :enabled_module_names,
                                    :repositories,
                                    true,
                                    'name',
                                    options
-    }
+    end
 
     it_behaves_like 'labelled by default'
     it_behaves_like 'wrapped in field-container by default'
@@ -319,9 +319,9 @@ JJ Abrams</textarea>
   describe '#radio_button' do
     let(:options) { { title: 'Name', class: 'custom-class' } }
 
-    subject(:output) {
+    subject(:output) do
       builder.radio_button :name, 'John', options
-    }
+    end
 
     it_behaves_like 'labelled by default'
     it_behaves_like 'wrapped in container'
@@ -342,9 +342,9 @@ JJ Abrams</textarea>
   describe '#number_field' do
     let(:options) { { title: 'Bad logins', class: 'custom-class' } }
 
-    subject(:output) {
+    subject(:output) do
       builder.number_field :failed_login_count, options
-    }
+    end
 
     it_behaves_like 'labelled by default'
     it_behaves_like 'wrapped in field-container by default'
@@ -362,9 +362,9 @@ JJ Abrams</textarea>
   describe '#range_field' do
     let(:options) { { title: 'Bad logins', class: 'custom-class' } }
 
-    subject(:output) {
+    subject(:output) do
       builder.range_field :failed_login_count, options
-    }
+    end
 
     it_behaves_like 'labelled by default'
     it_behaves_like 'wrapped in field-container by default'
@@ -382,9 +382,9 @@ JJ Abrams</textarea>
   describe '#search_field' do
     let(:options) { { title: 'Search name', class: 'custom-class' } }
 
-    subject(:output) {
+    subject(:output) do
       builder.search_field :name, options
-    }
+    end
 
     it_behaves_like 'labelled by default'
     it_behaves_like 'wrapped in field-container by default'
@@ -402,9 +402,9 @@ JJ Abrams</textarea>
   describe '#email_field' do
     let(:options) { { title: 'Email', class: 'custom-class' } }
 
-    subject(:output) {
+    subject(:output) do
       builder.email_field :mail, options
-    }
+    end
 
     it_behaves_like 'labelled by default'
     it_behaves_like 'wrapped in field-container by default'
@@ -422,9 +422,9 @@ JJ Abrams</textarea>
   describe '#telephone_field' do
     let(:options) { { title: 'Not really email', class: 'custom-class' } }
 
-    subject(:output) {
+    subject(:output) do
       builder.telephone_field :mail, options
-    }
+    end
 
     it_behaves_like 'labelled by default'
     it_behaves_like 'wrapped in field-container by default'
@@ -442,9 +442,9 @@ JJ Abrams</textarea>
   describe '#password_field' do
     let(:options) { { title: 'Not really password', class: 'custom-class' } }
 
-    subject(:output) {
+    subject(:output) do
       builder.password_field :login, options
-    }
+    end
 
     it_behaves_like 'labelled by default'
     it_behaves_like 'wrapped in field-container by default'
@@ -462,9 +462,9 @@ JJ Abrams</textarea>
   describe '#file_field' do
     let(:options) { { title: 'Not really file', class: 'custom-class' } }
 
-    subject(:output) {
+    subject(:output) do
       builder.file_field :name, options
-    }
+    end
 
     it_behaves_like 'labelled by default'
     it_behaves_like 'wrapped in field-container by default'
@@ -481,9 +481,9 @@ JJ Abrams</textarea>
   describe '#url_field' do
     let(:options) { { title: 'Not really file', class: 'custom-class' } }
 
-    subject(:output) {
+    subject(:output) do
       builder.url_field :name, options
-    }
+    end
 
     it_behaves_like 'labelled by default'
     it_behaves_like 'wrapped in field-container by default'
@@ -499,9 +499,9 @@ JJ Abrams</textarea>
   end
 
   describe '#submit' do
-    subject(:output) {
+    subject(:output) do
       Capybara::Node::Simple.new(builder.submit)
-    }
+    end
 
     it_behaves_like 'not labelled'
     it_behaves_like 'not wrapped in container'
@@ -513,9 +513,9 @@ JJ Abrams</textarea>
   end
 
   describe '#button' do
-    subject(:output) {
+    subject(:output) do
       builder.button
-    }
+    end
 
     it_behaves_like 'not labelled'
     it_behaves_like 'not wrapped in container'
@@ -618,14 +618,14 @@ JJ Abrams</textarea>
       end
 
       context 'with ActiveModel and without specified label' do
-        let(:resource) {
+        let(:resource) do
           FactoryBot.build_stubbed(:user,
-                                    firstname:  'JJ',
-                                    lastname:   'Abrams',
-                                    login:      'lost',
-                                    mail:       'jj@lost-mail.com',
-                                    failed_login_count: 45)
-        }
+                                   firstname:  'JJ',
+                                   lastname:   'Abrams',
+                                   login:      'lost',
+                                   mail:       'jj@lost-mail.com',
+                                   failed_login_count: 45)
+        end
 
         it 'uses the human attibute name' do
           expected_label_like(User.human_attribute_name(:name))
@@ -671,18 +671,18 @@ JJ Abrams</textarea>
         check_box
         password_field }.each do |input_type|
       context "for #{input_type}" do
-        subject(:output) {
+        subject(:output) do
           builder.send(input_type, :name, options)
-        }
+        end
 
         it_behaves_like 'generated label'
       end
     end
 
     context 'for select' do
-      subject(:output) {
+      subject(:output) do
         builder.select :name, [], options
-      }
+      end
 
       it_behaves_like 'generated label'
     end

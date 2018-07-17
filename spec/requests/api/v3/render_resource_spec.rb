@@ -37,8 +37,7 @@ describe 'API v3 Render resource', type: :request do
   let(:work_package) { FactoryBot.create(:work_package, project: project) }
   let(:user) { FactoryBot.create(:user, member_in_project: project) }
   let(:content_type) { 'text/plain, charset=UTF-8' }
-  let(:path) { api_v3_paths.render_markup format: format, link: context }
-  let(:format) { nil }
+  let(:path) { api_v3_paths.render_markup plain: plain, link: context }
   let(:context) { nil }
 
   before(:each) do
@@ -54,8 +53,8 @@ describe 'API v3 Render resource', type: :request do
     it { expect(subject.body).to be_html_eql(text) }
   end
 
-  describe 'textile' do
-    let(:format) { 'textile' }
+  describe 'markdown' do
+    let(:plain) { false }
 
     describe '#post' do
       subject(:response) { last_response }
@@ -64,14 +63,14 @@ describe 'API v3 Render resource', type: :request do
         describe 'valid' do
           context 'w/o context' do
             let(:params) do
-              'Hello World! This *is* textile with a ' +
-                '"link":http://community.openproject.org and ümläutß.'
+              'Hello World! This *is* markdown with a ' +
+                '[link](http://community.openproject.org) and ümläutß.'
             end
 
             it_behaves_like 'valid response' do
               let(:text) do
-                '<p>Hello World! This <strong>is</strong> textile with a ' +
-                  '<a href="http://community.openproject.org" class="external">link</a> ' +
+                '<p>Hello World! This <em>is</em> markdown with a ' +
+                  '<a href="http://community.openproject.org">link</a> ' +
                   'and ümläutß.</p>'
               end
             end
@@ -162,7 +161,7 @@ describe 'API v3 Render resource', type: :request do
 
   describe 'plain' do
     describe '#post' do
-      let(:format) { 'plain' }
+      let(:plain) { true }
 
       subject(:response) { last_response }
 

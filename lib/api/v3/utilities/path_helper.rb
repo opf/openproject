@@ -139,8 +139,16 @@ module API
             "#{root}/help_texts/#{id}"
           end
 
+          def self.message(id)
+            "#{root}/messages/#{id}"
+          end
+
           def self.my_preferences
             "#{root}/my_preferences"
+          end
+
+          def self.news(id)
+            "#{root}/news/#{id}"
           end
 
           def self.post(id)
@@ -264,9 +272,12 @@ module API
             "#{root}/revisions/#{id}"
           end
 
-          def self.render_markup(format: nil, link: nil)
-            format = format || Setting.text_formatting
-            format = 'plain' if format == '' # Setting will return '' for plain
+          def self.render_markup(link: nil, plain: false)
+            format = if plain
+                       OpenProject::TextFormatting::Formats.plain_format
+                     else
+                       OpenProject::TextFormatting::Formats.rich_format
+                     end
 
             path = "#{root}/render/#{format}"
             path += "?context=#{link}" if link
