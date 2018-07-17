@@ -78,8 +78,10 @@ describe WorkPackagePolicy, type: :controller do
 
     context 'for manage_subtasks' do
       it 'is true if the user has the manage_subtasks permission in the project' do
-        allow(user).to receive(:allowed_to?).with(:manage_subtasks, project)
+        allow(user)
+          .to receive(:allowed_to?).with(:manage_subtasks, project, global: false)
           .and_return true
+
         expect(subject.allowed?(work_package, :manage_subtasks)).to be_truthy
       end
     end
