@@ -32,11 +32,13 @@ module API
     class Formattable < Single
       include OpenProject::TextFormatting
 
-      def initialize(model, format: nil, object: nil)
-        @format = format || Setting.text_formatting
+      def initialize(model, plain: false, object: nil)
+        @format = if plain
+                    OpenProject::TextFormatting::Formats.plain_format
+                  else
+                    OpenProject::TextFormatting::Formats.rich_format
+                  end
         @object = object
-
-        @format = 'plain' if @format.blank?
 
         # Note: TextFormatting actually makes use of User.current, if it was possible to pass a
         # current_user explicitly, it would make sense to pass one here too.
@@ -45,16 +47,16 @@ module API
 
       property :format,
                exec_context: :decorator,
-               getter: -> (*) { @format },
+               getter: ->(*) { @format },
                writable: false,
                render_nil: true
       property :raw,
                exec_context: :decorator,
-               getter: -> (*) { represented },
+               getter: ->(*) { represented },
                render_nil: true
       property :html,
                exec_context: :decorator,
-               getter: -> (*) { to_html },
+               getter: ->(*) { to_html },
                writable: false,
                render_nil: true
 

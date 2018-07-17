@@ -2084,7 +2084,6 @@ et:
     login attempts
   setting_brute_force_block_minutes: Time the user is blocked for
   setting_cache_formatted_text: Vormindatud teksti jaoks kasutatakse vahemälu
-  setting_use_wysiwyg: WYSIWYG editor
   setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
     users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Teemade nimekirja vaikimisi veerud
@@ -2170,7 +2169,6 @@ et:
   setting_sys_api_enabled: Enable repository management web service
   setting_sys_api_description: The repository management web service provides integration
     and user authorization for accessing repositories.
-  setting_text_formatting: Tekstivormindamise abi
   setting_time_format: Aja esitusviis
   setting_accessibility_mode_for_anonymous: Võimalda külalistel kasutada hõlbustus-
     ja juurdepääsetavusrežiimi
@@ -2195,9 +2193,9 @@ et:
       default_preferences: Default preferences
       deletion: Deletion
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Plain text
+    textile: Textile
   status_active: aktiivne
   status_archived: archived
   status_invited: invited
@@ -2698,3 +2696,5 @@ et:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Schema
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_text_formatting: Tekstivormindamise abi

@@ -61,9 +61,7 @@ See docs/COPYRIGHT.rdoc for more details.
       <%= render partial: 'form', locals: { f: f } %>
       <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
       <%= link_to_function l(:button_cancel), 'jQuery("#edit-news").hide()', class: 'button'%>
-      <%= preview_link preview_news_path(@news), 'news-form-preview' %>
     <% end %>
-    <div id="preview"></div>
   </div>
 <% end %>
 <% if @news.summary.present? %>
@@ -96,7 +94,9 @@ See docs/COPYRIGHT.rdoc for more details.
     <%= form_for([@news, Comment.new], html: { id: "add_comment_form", style: "display:none;" }) do %>
       <div class="box">
         <%= label_tag 'comment_comments', Journal.human_attribute_name(:notes), class: 'hidden-for-sighted' %>
-        <%= text_area 'comment', 'comments', cols: 80, rows: 15, class: 'wiki-edit' %>
+        <%= text_area 'comment',
+                      'comments',
+                      class: 'wiki-edit' %>
         <%= wikitoolbar_for 'comment_comments' %>
       </div>
       <p><%= submit_tag l(:button_add), class: 'button -highlight' %></p>

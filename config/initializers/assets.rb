@@ -13,8 +13,6 @@ OpenProject::Application.configure do
     copy_issue_actions.js
     date-de-DE.js
     date-en-US.js
-    jstoolbar/textile.js
-    jstoolbar/markdown.js
     locales/*.js
     members_form.js
     members_select_boxes.js

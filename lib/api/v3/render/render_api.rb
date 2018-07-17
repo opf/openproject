@@ -36,7 +36,7 @@ module API
 
         resources :render do
           helpers do
-            SUPPORTED_CONTEXT_NAMESPACES = %w(work_packages projects).freeze
+            SUPPORTED_CONTEXT_NAMESPACES = %w(work_packages projects news posts).freeze
             SUPPORTED_MEDIA_TYPE = 'text/plain'
 
             def allowed_content_types
@@ -57,8 +57,7 @@ module API
             end
 
             def check_format(format)
-              supported_formats = ::OpenProject::TextFormatting::Formatters.format_names.map(&:to_s)
-              unless supported_formats.include?(format)
+              unless ::OpenProject::TextFormatting::Formats.supported?(format)
                 fail ::API::Errors::NotFound, I18n.t('api_v3.errors.code_404')
               end
             end
@@ -84,10 +83,18 @@ module API
               if params[:context]
                 context = parse_context
 
-                case context[:namespace]
-                when 'work_packages'
-                  WorkPackage.visible(current_user).find(context[:id])
-                end
+                klass = case context[:namespace]
+                        when 'work_packages'
+                          WorkPackage
+                        when 'news'
+                          News
+                        when 'posts'
+                          Message
+                        end
+
+                return unless klass
+
+                klass.visible(current_user).find(context[:id])
               end
             end
 

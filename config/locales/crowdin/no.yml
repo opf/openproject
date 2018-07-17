@@ -2086,7 +2086,6 @@
     login attempts
   setting_brute_force_block_minutes: Time the user is blocked for
   setting_cache_formatted_text: Mellomlagring av formattert tekst
-  setting_use_wysiwyg: WYSIWYG editor
   setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
     users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Tilpass utseendet for listen over arbeidspakker
@@ -2173,7 +2172,6 @@
   setting_sys_api_enabled: Aktiver web-tjeneste for pakkebrønn
   setting_sys_api_description: Pakkebrønn web-tjenesten sørger for integrasjon og
     bruker autentisering for tilgang til pakkebrønner.
-  setting_text_formatting: Tekstformatering
   setting_time_format: Tidsformat
   setting_accessibility_mode_for_anonymous: Aktiver tilgjengelighetsmodus for anonyme
     brukere
@@ -2197,9 +2195,9 @@
       default_preferences: Default preferences
       deletion: Deletion
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Plain text
+    textile: Textile
   status_active: aktiv
   status_archived: archived
   status_invited: invitert
@@ -2707,3 +2705,5 @@
       writing_read_only_attributes: Du kan ikke skrive til et skrivebeskyttet attributt.
     resources:
       schema: Skjema
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_text_formatting: Tekstformatering

@@ -142,26 +142,26 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
                                            description: description)
         end
         let(:description) do
-          %{
-      {{>toc}}
+          <<~DESCRIPTION
+            <macro class="toc"><macro>
 
-      h1. OpenProject Masterplan for 2015
+            # OpenProject Masterplan for 2015
 
-      h2. three point plan
+            ## three point plan
 
-      # One ###{other_wp.id}
-      # Two
-      # Three
+            1) One ###{other_wp.id}
+            2) Two
+            3) Three
 
-      h3. random thoughts
+            ### random thoughts
 
-      h4. things we like
+            ### things we like
 
-      * Pointed
-      * Relaxed
-      * Debonaire
-
-      } end
+            * Pointed
+            * Relaxed
+            * Debonaire
+          DESCRIPTION
+        end
 
         it 'should respond with work package in HAL+JSON format' do
           expect(parsed_response['id']).to eq(work_package.id)
@@ -316,7 +316,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
       context 'description' do
         shared_examples_for 'description updated' do
           it_behaves_like 'API V3 formattable', 'description' do
-            let(:format) { 'textile' }
+            let(:format) { 'markdown' }
 
             subject { response.body }
           end
@@ -337,7 +337,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
         end
 
         context 'with value' do
-          let(:raw) { '*Some text* _describing_ *something*...' }
+          let(:raw) { '**Some text** *describing* **something**...' }
           let(:html) do
             '<p><strong>Some text</strong> <em>describing</em> <strong>something</strong>...</p>'
           end

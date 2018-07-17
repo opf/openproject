@@ -96,7 +96,7 @@ module API
                  getter: ->(*) { filesize }
         property :description,
                  getter: ->(*) {
-                   ::API::Decorators::Formattable.new(description, format: 'plain')
+                   ::API::Decorators::Formattable.new(description, plain: true)
                  },
                  render_nil: true
         property :content_type

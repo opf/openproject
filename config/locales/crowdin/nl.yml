@@ -2130,7 +2130,6 @@ nl:
     mislukte inlogpogingen
   setting_brute_force_block_minutes: De gebruiker is geblokkeerd voor tijd
   setting_cache_formatted_text: Cache opgemaakte tekst
-  setting_use_wysiwyg: WYSIWYG-editor
   setting_use_wysiwyg_description: Wilt u CKEditor5 WYSIWYG editor voor alle gebruikers
     standaard ingeschakeld. CKEditor heeft een beperkte functionaliteit voor GFM Markdown.
   setting_column_options: Het uiterlijk van de werkpakketten lijsten aanpassen
@@ -2220,7 +2219,6 @@ nl:
   setting_sys_api_enabled: Repository beheer web-service inschakelen
   setting_sys_api_description: De repository beheer web-service biedt integratie en
     autorisatie van gebruikers voor toegang tot de archieven.
-  setting_text_formatting: Opmaak van tekst
   setting_time_format: Tijdnotatie
   setting_accessibility_mode_for_anonymous: Toegankelijkheid modus voor anonieme gebruikers
     inschakelen
@@ -2244,9 +2242,9 @@ nl:
       default_preferences: Standaardvoorkeuren
       deletion: Verwijdering
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Onopgemaakte tekst
+    textile: Textile
   status_active: actief
   status_archived: gearchiveerd
   status_invited: uitgenodigd
@@ -2769,3 +2767,5 @@ nl:
       writing_read_only_attributes: U mag geen read-only attribuut schrijven.
     resources:
       schema: Schema
+  setting_use_wysiwyg: WYSIWYG-editor
+  setting_text_formatting: Opmaak van tekst

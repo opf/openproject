@@ -34,7 +34,7 @@ module API
         include API::V3::Utilities
 
         self_link path: :revision,
-                  title_getter: -> (*) { nil }
+                  title_getter: ->(*) { nil }
 
         link :project do
           {
@@ -44,10 +44,12 @@ module API
         end
 
         link :author do
+          next if represented.user.nil?
+
           {
             href: api_v3_paths.user(represented.user.id),
             title: represented.user.name
-          } unless represented.user.nil?
+          }
         end
 
         link :showRevision do
@@ -63,16 +65,16 @@ module API
         property :author, as: :authorName
         property :message,
                  exec_context: :decorator,
-                 getter: -> (*) {
+                 getter: ->(*) {
                    ::API::Decorators::Formattable.new(represented.comments,
                                                       object: represented,
-                                                      format: 'plain')
+                                                      plain: true)
                  },
                  render_nil: true
 
         property :created_at,
                  exec_context: :decorator,
-                 getter: -> (*) {
+                 getter: ->(*) {
                    datetime_formatter.format_datetime(represented.committed_on)
                  }
 

@@ -28,9 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Wysiwyg code block macro',
-         with_settings: { text_formatting: 'markdown', use_wysiwyg?: true },
-         type: :feature, js: true do
+describe 'Wysiwyg code block macro', type: :feature, js: true do
   let(:user) { FactoryBot.create :admin }
   let(:project) { FactoryBot.create(:project, enabled_module_names: %w[wiki]) }
   let(:editor) { ::Components::WysiwygEditor.new }
@@ -61,7 +59,7 @@ describe 'Wysiwyg code block macro',
         visit project_wiki_path(project, :wiki)
       end
 
-      it 'can add and edit an embedded table widget' do
+      it 'can add and edit a code block widget' do
         editor.in_editor do |container,|
           editor.click_toolbar_button 'Insert code snippet'
 

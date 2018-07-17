@@ -2090,7 +2090,6 @@ da:
     forsøg på login
   setting_brute_force_block_minutes: Periode, brugeren vil være blokeret
   setting_cache_formatted_text: Gem tekstformat i cache
-  setting_use_wysiwyg: WYSIWYG editor
   setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
     users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Tilpas udseendet af listen over arbejdspakker
@@ -2175,7 +2174,6 @@ da:
   setting_sys_api_enabled: Aktiver repositorieadministrations-webtjeneste
   setting_sys_api_description: Repositorieadministration-webtjenesten sørger for integration
     og brugertilladelse for adgang til repositorier.
-  setting_text_formatting: Tekstformattering
   setting_time_format: Tidsformat
   setting_accessibility_mode_for_anonymous: Aktivér tilgængelighedstilstand for anonyme
     brugere
@@ -2199,9 +2197,9 @@ da:
       default_preferences: Default preferences
       deletion: Deletion
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Plain text
+    textile: Textile
   status_active: aktiv
   status_archived: archived
   status_invited: inviteret
@@ -2709,3 +2707,5 @@ da:
       writing_read_only_attributes: Du må ikke skrive til en skrivebeskyttet attribut.
     resources:
       schema: Skema
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_text_formatting: Tekstformattering

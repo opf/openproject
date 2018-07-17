@@ -29,7 +29,6 @@
 #++
 
 require 'spec_helper'
-require 'support/shared/previews'
 
 describe WorkPackagesController, type: :controller do
   before do

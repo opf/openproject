@@ -3,9 +3,7 @@ require 'spec_helper'
 require 'features/work_packages/shared_contexts'
 require 'features/work_packages/details/inplace_editor/shared_examples'
 
-describe 'activity comments',
-         with_settings: { text_formatting: 'markdown' },
-         js: true do
+describe 'activity comments', js: true do
   let(:project) { FactoryBot.create :project, is_public: true }
   let!(:work_package) do
     FactoryBot.create(:work_package,

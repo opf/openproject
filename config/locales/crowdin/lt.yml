@@ -2150,7 +2150,6 @@ lt:
     nesėkmingų prisijungimo bandymų
   setting_brute_force_block_minutes: Laikas, kuriam vartotojas yra blokuojamas
   setting_cache_formatted_text: Atmintyje laikyti formatuotą tekstą
-  setting_use_wysiwyg: WYSIWYG editor
   setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
     users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Pritaikyti sau darbų paketų sąrašų atvaizdavimą
@@ -2241,7 +2240,6 @@ lt:
   setting_sys_api_enabled: Įgalinti repozitorijos valdymo web tarnybą
   setting_sys_api_description: Repozitorijos valdymo web tarnyba teikia integraciją
     ir vartotojų autorizaciją bandant pasiekti repozitorijas.
-  setting_text_formatting: Teksto formatavimas
   setting_time_format: Laiko formatas
   setting_accessibility_mode_for_anonymous: Leisti lengvos prieigos režimą anoniminiams
     vartotojams
@@ -2266,9 +2264,9 @@ lt:
       default_preferences: Default preferences
       deletion: Deletion
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Plain text
+    textile: Textile
   status_active: aktyvus
   status_archived: suarchyvuotas
   status_invited: pakviestas
@@ -2787,3 +2785,5 @@ lt:
       writing_read_only_attributes: Jūs neturėtumėte įrašyti atributą „tik skaitomas“.
     resources:
       schema: Schema
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_text_formatting: Teksto formatavimas

@@ -2097,7 +2097,6 @@ hu:
     után tiltsa a felhasználót
   setting_brute_force_block_minutes: Mennyi időre tiltsa ki
   setting_cache_formatted_text: Gyorsítótárazott formázott szöveg
-  setting_use_wysiwyg: WYSIWYG editor
   setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
     users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: A munkacsomag listák megjelenésének testreszabása
@@ -2185,7 +2184,6 @@ hu:
   setting_sys_api_enabled: Csomagtároló webszolgáltatás bekapcsolva
   setting_sys_api_description: A csomagtároló webszolgáltatás integrációt és felhasználói
     hozzáférést biztosít a tároló eléréséhez.
-  setting_text_formatting: Szövegformázás
   setting_time_format: Időformátum
   setting_accessibility_mode_for_anonymous: Engedélyezi a kisegítő módot a névtelen
     felhasználók számára
@@ -2210,9 +2208,9 @@ hu:
       default_preferences: Default preferences
       deletion: Deletion
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Plain text
+    textile: Textile
   status_active: aktív
   status_archived: archivált
   status_invited: meghívott
@@ -2727,3 +2725,5 @@ hu:
       writing_read_only_attributes: Nem írhat egy csak olvasható tulajdonságot.
     resources:
       schema: Séma
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_text_formatting: Szövegformázás

@@ -62,7 +62,7 @@ describe ::API::V3::Activities::ActivityRepresenter do
       end
 
       it_behaves_like 'API V3 formattable', 'comment' do
-        let(:format) { 'textile' }
+        let(:format) { 'markdown' }
         let(:raw) { journal.notes }
         let(:html) { "#{journal.notes}" }
       end

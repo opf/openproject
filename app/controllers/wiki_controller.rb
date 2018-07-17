@@ -64,7 +64,6 @@ class WikiController < ApplicationController
   include AttachmentsHelper
   include PaginationHelper
   include Redmine::MenuManager::WikiMenuHelper
-  include OpenProject::Concerns::Preview
 
   attr_reader :page, :related_page
 
@@ -384,29 +383,7 @@ class WikiController < ApplicationController
     end
   end
 
-  protected
-
-  def parse_preview_data
-    page = @wiki.find_page(wiki_page_title.presence || params[:id])
-    # page is nil when previewing a new page
-    return render_403 unless page.nil? || editable?(page)
-
-    attachments = page.try(:attachments)
-    previewed = content_to_preview(page)
-
-    text = { WikiPage.human_attribute_name(:content) => params[:content][:text] }
-
-    [text, attachments, previewed]
-  end
-
   private
-
-  def content_to_preview(page)
-    return page.content if page
-
-    build_wiki_page_and_content
-    @content
-  end
 
   def page_for_menu_item(page)
     if page == :parent_page

@@ -71,7 +71,7 @@ export class AttributeHelpTextController {
         });
       }
 
-      // HACK: without this, the tempalte is not displayed
+      // HACK: without this, the template is not displayed
       setTimeout(() => this.$scope.$apply());
     });
   }

@@ -88,6 +88,16 @@ export class ApiV3Paths {
     }
   }
 
+  public previewMarkup(context:string) {
+    let base = this.apiV3Base + '/render/markdown';
+
+    if (context) {
+      return base + `?link=${context}`;
+    } else {
+      return base;
+    }
+  }
+
   public principals(projectId:string|number, term:string|null) {
     let filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
     // Only real and activated users:

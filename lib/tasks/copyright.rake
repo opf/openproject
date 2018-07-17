@@ -142,10 +142,7 @@ namespace :copyright do
 
   desc 'Update the copyright on .rb source files'
   task :update_rb, :arg1 do |_task, args|
-    excluded = (['acts_as_tree',
-                 'rfpdf',
-                 'verification'].map { |dir| "lib/plugins/#{dir}" }) +
-               (['redcloth'].map { |dir| "lib/#{dir}" })
+    excluded = (%w(acts_as_tree rfpdf verification).map { |dir| "lib/plugins/#{dir}" })
 
     rewrite_copyright('rb', excluded, :rb, args[:arg1])
   end

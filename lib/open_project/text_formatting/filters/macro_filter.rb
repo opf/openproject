@@ -42,7 +42,7 @@ module OpenProject::TextFormatting
       def call
         doc.search('macro').each do |macro|
           registered.each do |macro_class|
-            next unless macro['class'].include? macro_class.identifier
+            next unless Array(macro['class']).include? macro_class.identifier
 
             begin
               macro_class.apply(macro, result: result, context: context)

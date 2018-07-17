@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'OpenProject include wiki page macro', with_settings: { text_formatting: 'markdown'}  do
+describe 'OpenProject include wiki page macro' do
   include ActionView::Helpers::UrlHelper
   include OpenProject::StaticRouting::UrlHelpers
   include OpenProject::TextFormatting
@@ -83,6 +83,10 @@ describe 'OpenProject include wiki page macro', with_settings: { text_formatting
 
   let(:input) { }
   subject { format_text(input, project: project) }
+
+  before do
+    login_as user
+  end
 
   def error_html(exception_msg)
     "<p><macro class=\"macro-unavailable\" data-macro-name=\"include_wiki_page\">" \

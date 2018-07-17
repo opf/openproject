@@ -1913,7 +1913,6 @@ lol:
   setting_brute_force_block_after_failed_logins: crwdns97908:0crwdne97908:0
   setting_brute_force_block_minutes: crwdns97909:0crwdne97909:0
   setting_cache_formatted_text: crwdns97910:0crwdne97910:0
-  setting_use_wysiwyg: crwdns98895:0crwdne98895:0
   setting_use_wysiwyg_description: crwdns98896:0crwdne98896:0
   setting_column_options: crwdns97911:0crwdne97911:0
   setting_commit_fix_keywords: crwdns97912:0crwdne97912:0
@@ -1988,7 +1987,6 @@ lol:
   setting_start_of_week: crwdns97976:0crwdne97976:0
   setting_sys_api_enabled: crwdns97977:0crwdne97977:0
   setting_sys_api_description: crwdns97978:0crwdne97978:0
-  setting_text_formatting: crwdns97979:0crwdne97979:0
   setting_time_format: crwdns97980:0crwdne97980:0
   setting_accessibility_mode_for_anonymous: crwdns97981:0crwdne97981:0
   setting_user_format: crwdns97982:0crwdne97982:0
@@ -2011,9 +2009,9 @@ lol:
       default_preferences: crwdns98999:0crwdne98999:0
       deletion: crwdns99000:0crwdne99000:0
   text_formatting:
-    textile: crwdns98897:0crwdne98897:0
     markdown: crwdns98898:0crwdne98898:0
     plain: crwdns98899:0crwdne98899:0
+    textile: crwdns98897:0crwdne98897:0
   status_active: crwdns97997:0crwdne97997:0
   status_archived: crwdns97998:0crwdne97998:0
   status_invited: crwdns97999:0crwdne97999:0
@@ -2430,3 +2428,5 @@ lol:
       writing_read_only_attributes: crwdns98331:0crwdne98331:0
     resources:
       schema: crwdns98332:0crwdne98332:0
+  setting_use_wysiwyg: crwdns98895:0crwdne98895:0
+  setting_text_formatting: crwdns97979:0crwdne97979:0
