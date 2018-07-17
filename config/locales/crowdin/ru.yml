@@ -997,7 +997,7 @@ ru:
   error_invalid_sort_criterion: 'Невозможно сортировать по столбцу: %{value}'
   error_pdf_export_too_many_columns: Для экспорта в PDF-файл выбрано слишком много
     столбцов. Пожалуйста, сократите количество столбцов.
-  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
+  error_pdf_failed_to_export: 'Не удалось сохранить экспорт в PDF: %{error}'
   error_token_authenticity: Не удается проверить CSRF-токен.
   error_work_package_done_ratios_not_updated: Сделанные соотношения пакета работ не
     обновляются.
@@ -1049,8 +1049,8 @@ ru:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF с описанием
-      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
-      pdf_with_attachments: PDF with attachments
+      pdf_with_descriptions_and_attachments: PDF с описанием и вложениями
+      pdf_with_attachments: PDF с вложениями
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -1714,14 +1714,16 @@ ru:
   mail_subject_wiki_content_added: "'%{id}' wiki-страница добавлена"
   mail_subject_wiki_content_updated: "'%{id}' wiki страница была обновлена"
   mail_user_activation_limit_reached:
-    subject: User activation limit reached
-    message: |
-      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
-      The user cannot activate their account since the user limit has been reached.
+    subject: Достигнут лимит активации пользователя
+    message: 'Новый пользователь (%{email}) попытался создать учетную запись в OpenProject
+      (%{host}). Запись пользователя не может быть активирована, так как достигнут
+      лимит разрешенного числа пользователей.
+
+'
     steps:
-      label: 'To allow the user to sign in you can either: '
-      a: Upgrade your payment plan ([here](upgrade_url))
-      b: Lock or delete an existing user ([here](users_url))
+      label: 'Для разрешения пользователю подписаться к вам необходимо: '
+      a: Обновите ваш платежный план ([here](upgrade_url))
+      b: Заблокировать или удалить существующего пользователя ([here](users_url))
   more_actions: Больше функций
   noscript_description: Для правильной работы OpenProject JavaScript должен быть включён!
   noscript_heading: JavaScript отключён
@@ -2655,20 +2657,21 @@ ru:
   note_password_login_disabled: Вход по паролю был отключен через параметры %{configuration}.
   warning: Предупреждение
   warning_attachments_not_saved: "%{count} файл(-ов) не может быть сохранен(-о)."
-  warning_imminent_user_limit: 'You invited more users than are supported by your
-    current plan. Invited users may not be able to join your OpenProject environment.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
-    in order to allow invited and registered users to join.
+  warning_imminent_user_limit: 'Вы пригласили пользователей больше, чем позволяет
+    ваш текущий тарифный план. Приглашенные пользователи смогут присоединиться к OpenProject.
+    Пожалуйста <a href="%{upgrade_url}">обновите ваш план</a> или блокируйте существующих
+    пользователей для присоединения приглашенных и зарегистрированных пользователей.
 
 '
-  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
-    for additional users.
+  warning_user_limit_reached: 'Достигнут предел пользователя. Вы более не можете активировать
+    пользователей. <a href="%{upgrade_url}">, обновите ваш план</a> или блок участников
+    для дополнительных пользователей.
 
 '
-  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
-    active users). Please contact sales@openproject.com to upgrade your Enterprise
-    Edition plan and add additional users.
+  warning_user_limit_reached_instructions: 'Вы достигли вашего пользовательского предела
+    (%{current}/%{max} активных пользователей). Пожалуйста, свяжитесь с sales@openproject.com
+    для обновления своего плана до Корпоративной версии и добавьте дополнительных
+    пользователей.
 
 '
   menu_item: Пункт меню

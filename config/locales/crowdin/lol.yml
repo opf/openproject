@@ -886,7 +886,7 @@ lol:
   error_invalid_query_column: crwdns92956:0%{value}crwdne92956:0
   error_invalid_sort_criterion: crwdns92957:0%{value}crwdne92957:0
   error_pdf_export_too_many_columns: crwdns92958:0crwdne92958:0
-  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
+  error_pdf_failed_to_export: crwdns99038:0%{error}crwdne99038:0
   error_token_authenticity: crwdns92959:0crwdne92959:0
   error_work_package_done_ratios_not_updated: crwdns92960:0crwdne92960:0
   error_work_package_not_found_in_project: crwdns92961:0crwdne92961:0
@@ -926,8 +926,8 @@ lol:
       csv: crwdns92990:0crwdne92990:0
       pdf: crwdns92991:0crwdne92991:0
       pdf_with_descriptions: crwdns92992:0crwdne92992:0
-      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
-      pdf_with_attachments: PDF with attachments
+      pdf_with_descriptions_and_attachments: crwdns99039:0crwdne99039:0
+      pdf_with_attachments: crwdns99040:0crwdne99040:0
   general_csv_decimal_separator: crwdns92993:0crwdne92993:0
   general_csv_encoding: crwdns92994:0crwdne92994:0
   general_csv_separator: crwdns92995:0crwdne92995:0
