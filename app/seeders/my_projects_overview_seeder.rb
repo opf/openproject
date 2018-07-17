@@ -1,6 +1,8 @@
 module DemoData
   module MyProjectPage
     class MyProjectsOverviewSeeder < Seeder
+      include ::DemoData::References
+
       def seed_data!
         puts "*** Seeding MyProjectsOverview"
 
@@ -8,11 +10,13 @@ module DemoData
           puts "   -Creating overview for #{project[:name]}"
 
           if config = project[:"project-overview"]
+            project = Project.find_by! identifier: project[:identifier]
+
             mpo = MyProjectsOverview.create!(
-              project: Project.find_by(identifier: project[:identifier]),
-              left: Array(config[:left]).map { |top| area top },
-              right: Array(config[:right]).map { |top| area top },
-              top: Array(config[:top]).map { |top| area top }
+              project: project,
+              left: Array(config[:left]).map { |left| area left, project },
+              right: Array(config[:right]).map { |right| area right, project },
+              top: Array(config[:top]).map { |top| area top, project }
             )
 
             [:left, :right, :top].each do |a|
@@ -30,10 +34,10 @@ module DemoData
 
       private
 
-      def area(config)
+      def area(config, project)
         return config if config.is_a? String
 
-        [config[:id], config[:title], config[:content]]
+        [config[:id], config[:title], with_references(config[:content], project)]
       end
 
       def create_attachments!(my_project_overview, attributes)
