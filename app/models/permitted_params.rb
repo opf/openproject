@@ -590,7 +590,6 @@ class PermittedParams
         type: [
           :name,
           :is_in_roadmap,
-          :in_aggregation,
           :is_milestone,
           :is_default,
           :color_id,

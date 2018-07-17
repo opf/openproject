@@ -105,7 +105,6 @@ describe PermittedParams, type: :model do
 
       { name: 'blubs',
         is_in_roadmap: 'true',
-        in_aggregation: 'true',
         is_milestone: 'true',
         color_id: '1',
         project_ids: %w(2 3 4),

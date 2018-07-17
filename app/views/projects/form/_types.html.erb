@@ -75,15 +75,6 @@ See docs/COPYRIGHT.rdoc for more details.
               <div class="generic-table--sort-header-outer">
                 <div class="generic-table--sort-header">
                   <span>
-                    <%= Type.human_attribute_name(:in_aggregation) %>
-                  </span>
-                </div>
-              </div>
-            </th>
-            <th>
-              <div class="generic-table--sort-header-outer">
-                <div class="generic-table--sort-header">
-                  <span>
                     <%= Type.human_attribute_name(:is_in_roadmap) %>
                   </span>
                 </div>
@@ -117,9 +108,6 @@ See docs/COPYRIGHT.rdoc for more details.
               <td>
                 <%= icon_for_type(type) %>
                 <%=h type.name %>
-              </td>
-              <td class='center'>
-                <%= checked_image(type.in_aggregation) %>
               </td>
               <td class='center'>
                 <%= checked_image(type.is_in_roadmap) %>

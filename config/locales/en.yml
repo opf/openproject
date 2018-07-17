@@ -371,7 +371,6 @@ en:
         type: "Type"
       type:
         is_in_roadmap: "In roadmap"
-        in_aggregation: "In aggregation"
         is_milestone: "Is milestone"
         color: "Color"
       user:
@@ -2373,7 +2372,6 @@ en:
       show: "Status: %{comment}"
 
     planning_element_update: "Update: %{title}"
-    work_packages_are_displayed_in_aggregations: "Work packages are displayed in aggregations"
     project_type_could_not_be_saved: "Project type could not be saved"
     type_could_not_be_saved: "Type could not be saved"
     reporting_could_not_be_saved: "Reporting could not be saved"
