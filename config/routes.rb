@@ -496,6 +496,7 @@ OpenProject::Application.routes.draw do
       get :wiki_syntax
       get :wiki_syntax_detailed
       get :keyboard_shortcuts
+      get :text_formatting
     end
   end
 

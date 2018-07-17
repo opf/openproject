@@ -45,6 +45,7 @@ module OpenProject
       'autologin_cookie_secure' => false,
       'database_cipher_key'     => nil,
       'force_help_link'         => nil,
+      'force_formatting_help_link' => nil,
       'scm_git_command'         => nil,
       'scm_subversion_command'  => nil,
       'scm_local_checkout_path' => 'repositories', # relative to OpenProject directory
