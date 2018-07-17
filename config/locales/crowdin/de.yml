@@ -2149,7 +2149,6 @@ de:
     fehlgeschlagener Loginversuche
   setting_brute_force_block_minutes: Sperre Benutzer für Dauer von
   setting_cache_formatted_text: Formatierten Text im Cache speichern
-  setting_use_wysiwyg: WYSIWYG-Editor
   setting_use_wysiwyg_description: Aktivieren, um den CKEditor5 WYSIWYG-Editor für
     alle Nutzer zu aktivieren. CKEditor hat aktuell eingeschränkte Formatierungsfunktionen
     für Markdown.
@@ -2242,7 +2241,6 @@ de:
   setting_sys_api_enabled: Den Web-Service zur Projektarchiv-Verwaltung aktivieren
   setting_sys_api_description: Der Web-Service für Projektarchiv-Verwaltung erlaubt
     Integration und Nutzer-Autorisierung für den Zugriff auf Projektarchive.
-  setting_text_formatting: Textformatierung
   setting_time_format: Zeitformat
   setting_accessibility_mode_for_anonymous: Barrierefreien Modus für nicht angemeldete
     Nutzer aktivieren
@@ -2266,9 +2264,9 @@ de:
       default_preferences: Standardeinstellungen
       deletion: Löschen
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Reiner Text
+    textile: Textile
   status_active: aktiv
   status_archived: archiviert
   status_invited: eingeladen
@@ -2798,3 +2796,5 @@ de:
         werden.
     resources:
       schema: Schema
+  setting_use_wysiwyg: WYSIWYG-Editor
+  setting_text_formatting: Textformatierung

@@ -2089,7 +2089,6 @@ tr:
     kullanıcıyı engelle
   setting_brute_force_block_minutes: Kullanıcının engellediği süre
   setting_cache_formatted_text: Biçimlendirilmiş metni önbelleğe al
-  setting_use_wysiwyg: WYSIWYG düzenleyici
   setting_use_wysiwyg_description: Tüm kullanıcılar için varsayılan olarak CKEditor5
     WYSIWYG düzenleyiciyi etkinleştirmek için seçin. GFM Markdown için CKEditor sınırlı
     işleve sahiptir.
@@ -2180,7 +2179,6 @@ tr:
   setting_sys_api_enabled: Depo yönetimi web hizmetini etkinleştir
   setting_sys_api_description: Depo yönetimi web servisi depolara erişmek için entegrasyon
     ve kullanıcı yetkilendirmesi sağlar.
-  setting_text_formatting: Metin biçimi
   setting_time_format: Zaman Biçimi
   setting_accessibility_mode_for_anonymous: İsimsiz kullanıcılar için erişilebilirlik
     modunu etkinleştir
@@ -2204,9 +2202,9 @@ tr:
       default_preferences: Varsayılan Tercihler
       deletion: Silme
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Düz yazı
+    textile: Textile
   status_active: etkin
   status_archived: arşivlendi
   status_invited: davet
@@ -2715,3 +2713,5 @@ tr:
       writing_read_only_attributes: Salt okunur bir nitelik yazmamalısınız.
     resources:
       schema: Şema
+  setting_use_wysiwyg: WYSIWYG düzenleyici
+  setting_text_formatting: Metin biçimi

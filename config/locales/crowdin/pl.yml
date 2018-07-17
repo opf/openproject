@@ -2149,7 +2149,6 @@ pl:
     nieudanych prób zalogowania
   setting_brute_force_block_minutes: Czas, kiedy użytkownik jest zablokowany
   setting_cache_formatted_text: Tekst sformatowany w pamięci podręcznej
-  setting_use_wysiwyg: WYSIWYG editor
   setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
     users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Dostosuj wygląd list pakietów roboczych
@@ -2240,7 +2239,6 @@ pl:
   setting_sys_api_enabled: Uaktywnij zarządzanie repozytoriami przez www
   setting_sys_api_description: Zarządzanie repozytoriami przez www umożliwia integrację
     i autoryzację użytkowników do dostępu do repozytoriów.
-  setting_text_formatting: Formatowanie tekstu
   setting_time_format: Format czasu
   setting_accessibility_mode_for_anonymous: Włącz tryb dostępu dla użytkowników anonimowych
   setting_user_format: Format wyświetlania nazwy użytkownika
@@ -2264,9 +2262,9 @@ pl:
       default_preferences: Default preferences
       deletion: Deletion
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Plain text
+    textile: Textile
   status_active: aktywne
   status_archived: w archiwum
   status_invited: zaproszony
@@ -2780,3 +2778,5 @@ pl:
       writing_read_only_attributes: Nie możesz zapisać atrybutu tylko do odczytu.
     resources:
       schema: Schemat
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_text_formatting: Formatowanie tekstu

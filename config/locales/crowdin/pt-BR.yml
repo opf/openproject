@@ -2110,7 +2110,6 @@ pt-BR:
     de tentativas de login
   setting_brute_force_block_minutes: Tempo que o usuário está bloqueado para
   setting_cache_formatted_text: Texto formatado em cache
-  setting_use_wysiwyg: Editor WYSIWYG
   setting_use_wysiwyg_description: Selecione para habilitar o CKEditor5 para todos
     os usuários por padrão. O CKEditor tem funcionalidades limitadas para o GFM Markdown.
   setting_column_options: Personalizar a aparência das listas de pacotes de trabalho
@@ -2202,7 +2201,6 @@ pt-BR:
   setting_sys_api_enabled: Habilitar o serviço web de gerenciamento de repositório
   setting_sys_api_description: O serviço de web de gerenciamento de repositório fornece
     integração e autorização de usuário para acessar repositórios.
-  setting_text_formatting: Formatação de texto
   setting_time_format: Formato de hora
   setting_accessibility_mode_for_anonymous: Ativar o modo de acessibilidade para usuários
     anônimos
@@ -2227,9 +2225,9 @@ pt-BR:
       default_preferences: Preferências padrão
       deletion: Exclusão
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Texto simples
+    textile: Textile
   status_active: ativo
   status_archived: arquivado
   status_invited: convidado
@@ -2747,3 +2745,5 @@ pt-BR:
       writing_read_only_attributes: Você não pode escrever um atributo somente leitura.
     resources:
       schema: Esquema
+  setting_use_wysiwyg: Editor WYSIWYG
+  setting_text_formatting: Formatação de texto

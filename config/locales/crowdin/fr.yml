@@ -2139,7 +2139,6 @@ fr:
     de tentatives de connexion échouées
   setting_brute_force_block_minutes: Temps de bloquage de l'utilisateur
   setting_cache_formatted_text: Mettre le text formatté en memoire cache
-  setting_use_wysiwyg: WYSIWYG editor
   setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
     users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Personnaliser l'apparence des listes de Lot de Travaux
@@ -2231,7 +2230,6 @@ fr:
   setting_sys_api_enabled: Activer le service web de gestion de dépôt
   setting_sys_api_description: Le service web de gestion de dépôt fournit l'intégration
     et l'autorisation d'accès aux dépôts.
-  setting_text_formatting: Mise en forme texte
   setting_time_format: Format d'heure
   setting_accessibility_mode_for_anonymous: Activer le mode d'accessibilité pour les
     utilisateurs anonymes
@@ -2256,9 +2254,9 @@ fr:
       default_preferences: Default preferences
       deletion: Deletion
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Plain text
+    textile: Textile
   status_active: actif
   status_archived: archivé
   status_invited: invité
@@ -2793,3 +2791,5 @@ fr:
         seule.
     resources:
       schema: Schéma
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_text_formatting: Mise en forme texte

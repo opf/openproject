@@ -2018,7 +2018,6 @@ ko:
   setting_brute_force_block_after_failed_logins: 이 로그인 시도 실패 횟수를 넘으면 사용자 차단
   setting_brute_force_block_minutes: 사용자가 다음 시간 동안 차단되었습니다.
   setting_cache_formatted_text: 캐시 서식 있는 텍스트
-  setting_use_wysiwyg: WYSIWYG editor
   setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
     users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: 작업 패키지 목록의 모양 사용자 지정
@@ -2095,7 +2094,6 @@ ko:
   setting_start_of_week: '주의 시작:'
   setting_sys_api_enabled: 리포지토리 관리 웹 서비스 사용
   setting_sys_api_description: 리포지토리 관리 웹 서비스는 리포지토리에 액세스하기 위한 통합 및 사용자 인증을 제공합니다.
-  setting_text_formatting: 텍스트 서식 지정
   setting_time_format: 시간 형식
   setting_accessibility_mode_for_anonymous: 익명 사용자에 대해 접근성 모드 사용
   setting_user_format: 사용자 표시 형식
@@ -2118,9 +2116,9 @@ ko:
       default_preferences: Default preferences
       deletion: Deletion
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Plain text
+    textile: Textile
   status_active: 활성
   status_archived: 보관됨
   status_invited: 초대됨
@@ -2581,3 +2579,5 @@ ko:
       writing_read_only_attributes: 읽기 전용 특성은 변경할 수 없습니다.
     resources:
       schema: 스키마
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_text_formatting: 텍스트 서식 지정
