@@ -52,7 +52,7 @@ module WorkPackage::PdfExport::Attachments
     # Access the local file. For Carrierwave attachments, this will be blocking.
     file_path = attachment.file.local_file.path
     # Fit the image roughly in the center of each cell
-    pdf.make_cell(image: file_path, fit: [available_width, 250], position: :center)
+    pdf.make_cell(image: file_path, fit: [available_width, 125], position: :center)
   rescue => e
     Rails.logger.error { "Failed to attach work package image to PDF: #{e} #{e.message}" }
     nil
