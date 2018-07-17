@@ -60,14 +60,29 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
     jQuery(window).on('click', event => this.confirmCancel(event));
   }
 
+  // Edit value of input field if not disabled
+  public edit(title:string) {
+    if (this.disabled) {
+      return;
+    }
+    // Remember start value as default (in case input is empty, title will be set back to default value)
+    if (this.defaultValue === '') {
+      this.defaultValue = title;
+    }
+    this.prevValue = this.selectedTitle;
+    this.editing = true;
+    // Set focus on input element, when clicked inside
+    setTimeout( () => jQuery('wp-query-selectable-title').find('input').focus());
+  }
+
   private confirmCancel(event:JQueryEventObject) {
     // Check if field is empty and click target is table or menu (the intention was to leave this page)
     if (this.isEmpty && (jQuery(event.target).is('td') || jQuery(event.target).is('.ui-menu-item-wrapper')) ) {
       let confirm = window.confirm(this.text.confirm_edit_cancel);
       // Set title back to saved default and go to click target
       if (confirm) {
-        this.selectedTitle = this.defaultValue;
         this.editing = false;
+        this.selectedTitle = this.defaultValue;
         this.currentQuery.name = this.selectedTitle;
         jQuery(event.target).dblclick();
       } else {
@@ -76,20 +91,12 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
     }
   }
 
-  // Element looses focus on click outside and is not editable anymore
-  private onBlur(event:JQueryEventObject) {
-    this.editing = false;
-    this.renameView();
-  }
-
   // Press Enter to save new title
   private onKeyPress(event:JQueryEventObject) {
     if (event.keyCode === 32) {
-      let input:HTMLInputElement = event.target as HTMLInputElement;
-      this.setBlank(input);
-    } else if (event.keyCode == 13) {
-      this.editing = false;
-      this.renameView();
+      this.setBlank(event.target as HTMLInputElement);
+    } else if (event.keyCode === 13) {
+      this.onBlur();
     }
   }
 
@@ -100,13 +107,19 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
     setTimeout( () => input.setSelectionRange(cursorPosition+1, cursorPosition+1));
   }
 
+  // Element looses focus on click outside and is not editable anymore
+  private onBlur() {
+    this.editing = false;
+    this.renameView();
+  }
+
   private renameView() {
     this.selectedTitle = this.selectedTitle.trim();
     // Return if nothing changed
     if (this.prevValue === this.selectedTitle) { return };
 
     // Search if new name is already assigned to another query and if so, open confirmation
-    this.QueryDm.all('demo-project').then(collection => {
+    this.QueryDm.all(this.currentQuery.project.identifier).then(collection => {
       let itemsWithSameName = collection.elements.filter( (query:QueryResource) => query.name === this.selectedTitle);
       if (itemsWithSameName.length > 0) {
         this.confirmRename();
@@ -117,14 +130,15 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
   }
 
   private closeInput() {
-    console.log("Selected: ", this.selectedTitle);
     // If the title is empty, input field should stay opened
     if (this.isEmpty) {
       this.editing = true;
-    }
-    // If there is a new value in input field, send new query name to service to also update the name in the menu
+    } else {
+      this.editing = false;
+      // Send new query name to service to also update the name in the menu
       this.currentQuery.name = this.selectedTitle;
       this.wpListService.save(this.currentQuery);
+    }
   }
 
   private confirmRename() {
@@ -156,21 +170,6 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
     } else {
       return false;
     }
-  }
-
-  // Edit value of input field if not disabled
-  public edit(title:string) {
-    if (this.disabled) {
-      return;
-    }
-    // Remember start value as default (in case input is empty, title will be set back to default value)
-    if (this.defaultValue === '') {
-      this.defaultValue = title;
-    }
-    this.prevValue = this.selectedTitle;
-    this.editing = true;
-    // Set focus on input element, when clicked inside
-    setTimeout( () => jQuery('wp-query-selectable-title').find('input').focus());
   }
 
   /**

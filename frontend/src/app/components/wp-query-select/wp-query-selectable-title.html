@@ -5,7 +5,7 @@
         class="inline-edit">
     <div *ngIf="editing; else notEditable">
       <input type="text"
-              (blur)="onBlur($event)"
+              (blur)="onBlur()"
               aria-required="true"
               (accessibleClick)="onKeyPress($event)"
               [(ngModel)]="selectedTitle"

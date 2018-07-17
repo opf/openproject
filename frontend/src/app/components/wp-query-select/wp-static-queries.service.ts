@@ -58,14 +58,54 @@ export class WorkPackageStaticQueriesService {
     summary: this.I18n.t('js.work_packages.default_queries.summary')
   };
 
+  // Create all static queries manually
+  // The query_props configure default values of column names, sorting and applied filters
+  // All queries are sorted by their update or creation time (so the latest is always the first)
   public get all() {
-    this.latestActivityQuery = { query: null, label: this.text.latest_activity, query_props: '{"f":[{"n":"status","o":"o","v":[]},{"n":"updatedAt","o":"w","v":[]}]}'};
-    this.ganttQuery = { query: null, label: this.text.gantt, query_props: '%7B%22tv%22%3Atrue%7D' };
-    this.createdByMeQuery = { query: null, label: this.text.created_by_me, query_props: '{"f":[{"n":"status","o":"o","v":[]},{"n":"author","o":"=","v":["me"]}]}' };
-    this.assignedToMeQuery = { query: null, label: this.text.assigned_to_me, query_props: '{"f":[{"n":"status","o":"o","v":[]},{"n":"assignee","o":"=","v":["me"]}]}' };
-    this.recentlyCreatedQuery = { query: null, label: this.text.recently_created, query_props: '{"f":[{"n":"status","o":"o","v":[]},{"n":"createdAt","o":"w","v":[]}]}' };
-    this.defaultQuery = { query: null, label: this.text.all_open, query_props: '' };
-    this.summary = {query: null, label: this.text.summary, query_props: '' };
+    this.latestActivityQuery = {
+      query: null,
+      label: this.text.latest_activity,
+      query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],' +
+                    '"t":"updatedAt:desc,parent:asc",' +
+                    '"f":[{"n":"status","o":"o","v":[]},{"n":"updatedAt","o":"w","v":[]}]}'
+    };
+    this.ganttQuery = {
+      query: null,
+      label: this.text.gantt,
+      query_props: '%7B%22tv%22%3Atrue%7D'
+    };
+    this.createdByMeQuery = {
+      query: null,
+      label: this.text.created_by_me,
+      query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],' +
+                    '"t":"updatedAt:desc,parent:asc",' +
+                    '"f":[{"n":"status","o":"o","v":[]},{"n":"author","o":"=","v":["me"]}]}'
+    };
+    this.assignedToMeQuery = {
+      query: null,
+      label: this.text.assigned_to_me,
+      query_props: '{"c":["id","subject","type","status", "author", "updatedAt"],' +
+                    '"t":"updatedAt:desc,parent:asc",' +
+                    '"f":[{"n":"status","o":"o","v":[]},{"n":"assignee","o":"=","v":["me"]}]}'
+    };
+    this.recentlyCreatedQuery = {
+      query: null,
+      label: this.text.recently_created,
+      query_props: '{"c":["id","subject","type","status","assignee","createdAt"],' +
+                    '"t":"createdAt:desc,parent:asc",' +
+                    '"f":[{"n":"status","o":"o","v":[]},{"n":"createdAt","o":"w","v":[]}]}'
+    };
+    this.defaultQuery = {
+      query: null,
+      label: this.text.all_open,
+      query_props: '{"c":["id","subject","type","status","assignee","version","updatedAt"],' +
+                    '"t":"updatedAt:desc,parent:asc"}'
+    };
+    this.summary = {
+      query: null,
+      label: this.text.summary,
+      query_props: ''
+    };
 
     return [this.latestActivityQuery,
             this.ganttQuery,
