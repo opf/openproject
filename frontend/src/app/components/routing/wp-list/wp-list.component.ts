@@ -73,6 +73,8 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
 
   currentQuery:QueryResource;
 
+  disabled:boolean;
+
   constructor(readonly states:States,
               readonly tableState:TableState,
               readonly authorisationService:AuthorisationService,
@@ -248,8 +250,10 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
   updateTitle(query:QueryResource) {
     if (query.id) {
       this.selectedTitle = query.name;
+      this.disabled = false;
     } else {
       this.selectedTitle =  this.wpStaticQueries.nameFor(query);
+      this.disabled = true;
       //this.selectedTitle = I18n.t('js.label_work_package_plural');
     }
   }

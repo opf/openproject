@@ -4,16 +4,16 @@
         tabindex="0"
         class="inline-edit">
     <div *ngIf="editing; else notEditable">
-      <input  (blur)="onBlur($event)"
+      <input type="text"
+              (blur)="onBlur($event)"
               aria-required="true"
               (accessibleClick)="onKeyPress($event)"
               [(ngModel)]="selectedTitle"
-              type="text"
-              [placeholder]=""
-              [ngClass]="{ '-error': selectedTitle === '' }">
+              [ngClass]="{ '-error': selectedTitle === '' }"
+              placeholder="{{ I18n.t('js.toolbar.placeholder_query_title') }}"/>
     </div>
     <ng-template #notEditable>
-      <h2 title="{{ selectedTitle }}"> {{ selectedTitle | slice:0:50 }} </h2>
+      <h2 title="{{ selectedTitle }}" [ngClass]="{ '-disabled': disabled }"> {{ selectedTitle | slice:0:50 }} </h2>
     </ng-template>
   </div>
 </div>

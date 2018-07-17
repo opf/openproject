@@ -593,6 +593,7 @@ en:
         insert_columns: "Insert columns ..."
         filters: "Filters"
         display_sums: "Display Sums"
+        confirm_edit_cancel: "Are you sure you want to cancel editing the view?"
         errors:
           unretrievable_query: "Unable to retrieve query from URL"
           not_found: "There is no such query"
@@ -644,6 +645,7 @@ en:
       unselected_title: "Work package"
       search_query_label: "Search filter queries"
       search_query_title: "Click to search saved filter queries"
+      placeholder_query_title: "Set a title for this view..."
     modals:
       label_settings: "Rename query"
       label_name: "Name"

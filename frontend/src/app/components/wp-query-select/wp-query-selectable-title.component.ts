@@ -37,14 +37,15 @@ import {WorkPackagesListService} from 'core-components/wp-list/wp-list.service';
 export class WorkPackageQuerySelectableTitleComponent implements OnInit {
   @Input('selectedTitle') public selectedTitle:string;
   @Input('currentQuery') public currentQuery:QueryResource;
-  @Input() disabled:boolean = false; // Is input disabled?
+  @Input() disabled:boolean = false;
 
-  private defaultValue:string = ''; // The value before clicking to edit
-  public editing:boolean = false; // Is Component in edit mode?
-  private prevValue:string = '';
+  private defaultValue:string = ''; // The first saved value before editing
+  private prevValue:string = '';    // The value before editing again
+  public editing:boolean = false;
 
   public text = {
-    search_query_title: this.I18n.t('js.toolbar.search_query_title')
+    search_query_title: this.I18n.t('js.toolbar.search_query_title'),
+    confirm: this.I18n.t('js.work_packages.query.confirm_edit_cancel')
   };
 
   constructor(readonly elementRef:ElementRef,
@@ -53,37 +54,70 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
   }
 
   ngOnInit() {
+    jQuery(window).on('click', event => this.confirmCancel(event));
   }
 
-  // Element looses focus on click outside and is not editable anymore
-  onBlur(event:JQueryEventObject) {
-    if (this.empty) {
-      this.editing = true;
-    } else {
-      this.editing = false;
-      this.setTitle();
+  private confirmCancel(event:JQueryEventObject) {
+    // Check if field is empty and click target is table or menu (the intention was to leave this page)
+    if (this.isEmpty && (jQuery(event.target).is('td') || jQuery(event.target).is('.ui-menu-item-wrapper')) ) {
+      let confirm = window.confirm(this.text.confirm);
+      // Set title back to saved default and go to click target
+      if (confirm) {
+        this.selectedTitle = this.defaultValue;
+        this.editing = false;
+        this.currentQuery.name = this.selectedTitle;
+        jQuery(event.target).dblclick();
+      } else {
+        setTimeout( () => jQuery('wp-query-selectable-title').find('input').focus())
+      }
     }
   }
 
-  // Press Enter to save new title
-  onKeyPress(event:JQueryEventObject) {
-    if (event.keyCode === 13 && !this.empty) {
-        this.editing = false;
-        this.setTitle();
-    } else this.editing = true;
+  // Element looses focus on click outside and is not editable anymore
+  private onBlur(event:JQueryEventObject) {
+    this.editing = false;
+    this.closeInput();
   }
 
-  private setTitle() {
+  // Press Enter to save new title
+  private onKeyPress(event:JQueryEventObject) {
+    if (event.keyCode === 32) {
+      let input:HTMLInputElement = event.target as HTMLInputElement;
+      this.setBlank(input);
+    } else if (event.keyCode == 13) {
+      this.editing = false;
+      this.closeInput();
+    }
+  }
+
+  // Blank spaces have to be set manually, otherwise the space keypress will be ignored
+  private setBlank(input:HTMLInputElement) {
+    let cursorPosition:number = input.selectionStart;
+    this.selectedTitle = this.selectedTitle.slice(0, cursorPosition) + ' ' + this.selectedTitle.slice(cursorPosition);
+    setTimeout( () => input.setSelectionRange(cursorPosition+1, cursorPosition+1));
+  }
+
+  private closeInput() {
+    this.selectedTitle = this.selectedTitle.trim();
+
+    // If the title is empty, input field should stay opened
+    if (this.isEmpty) {
+      this.editing = true;
+    }
+    // If there is a new value in input field, send new query name to service to also update the name in the menu
     if (this.prevValue !== this.selectedTitle) {
       this.currentQuery.name = this.selectedTitle;
       this.wpListService.save(this.currentQuery);
     }
   }
 
-  private get empty() {
+  // Check if title of query is empty
+  private get isEmpty():boolean {
     if (this.selectedTitle === '') {
       return true;
-    } else return false;
+    } else {
+      return false;
+    }
   }
 
   // Edit value of input field
@@ -98,7 +132,7 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
     this.prevValue = this.selectedTitle;
     this.editing = true;
     // Set focus on input element, when clicked inside
-     setTimeout( () => jQuery('wp-query-selectable-title').find('input').focus())
+    setTimeout( () => jQuery('wp-query-selectable-title').find('input').focus());
   }
 
   /**
