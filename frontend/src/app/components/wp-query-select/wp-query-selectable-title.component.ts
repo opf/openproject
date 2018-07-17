@@ -86,7 +86,7 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
         this.currentQuery.name = this.selectedTitle;
         jQuery(event.target).dblclick();
       } else {
-        setTimeout( () => jQuery('wp-query-selectable-title').find('input').focus())
+        setTimeout( () => jQuery('wp-query-selectable-title').find('input').focus());
       }
     }
   }
@@ -102,9 +102,9 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
 
   // Blank spaces have to be set manually, otherwise the space keypress will be ignored
   private setBlank(input:HTMLInputElement) {
-    let cursorPosition:number = input.selectionStart;
-    this.selectedTitle = this.selectedTitle.slice(0, cursorPosition) + ' ' + this.selectedTitle.slice(cursorPosition);
-    setTimeout( () => input.setSelectionRange(cursorPosition+1, cursorPosition+1));
+    let cursorPos:number = input.selectionStart;
+    this.selectedTitle = this.selectedTitle.slice(0, cursorPos) + ' ' + this.selectedTitle.slice(cursorPos);
+    setTimeout( () => input.setSelectionRange(cursorPos + 1, cursorPos + 1));
   }
 
   // Element looses focus on click outside and is not editable anymore
@@ -116,7 +116,7 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
   private renameView() {
     this.selectedTitle = this.selectedTitle.trim();
     // Return if nothing changed
-    if (this.prevValue === this.selectedTitle) { return };
+    if (this.prevValue === this.selectedTitle) { return; }
 
     // Search if new name is already assigned to another query and if so, open confirmation
     this.QueryDm.all(this.currentQuery.project.identifier).then(collection => {

@@ -48,8 +48,8 @@ import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 export interface IAutocompleteItem {
   auto_id?:any;
   label:any;
-  query:any;          //QueryResource|null
-  query_props:any;    //string|null
+  query:any;
+  query_props:any;
   category?: any;
 }
 
@@ -86,10 +86,10 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
               readonly states:States,
               readonly wpListService:WorkPackagesListService,
               readonly wpListChecksumService:WorkPackagesListChecksumService,
-              readonly wpListComponent: WorkPackagesListComponent,
+              readonly wpListComponent:WorkPackagesListComponent,
               readonly loadingIndicator:LoadingIndicatorService,
               readonly pathHelper:PathHelperService,
-              readonly wpStaticQueries: WorkPackageStaticQueriesService) {
+              readonly wpStaticQueries:WorkPackageStaticQueriesService) {
 
   }
 
@@ -129,7 +129,6 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   private updateMenuOnChanges(input:any) {
     this.wpListService.queryChanges$
       .pipe(
-        //distinctUntilChanged(),
         untilComponentDestroyed(this)
       )
       .subscribe( () => {
@@ -137,10 +136,10 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
           input.querycomplete("option", { source: this.transformQueries(collection) });
           input.querycomplete("search", input.val());
         });
-      })
+      });
   }
 
-  private setAutocompleterId(queries:any) : IAutocompleteItem[] {
+  private setAutocompleterId(queries:any):IAutocompleteItem[] {
     let idCounter = 0;
     _.each(queries, query => {
       query.auto_id = idCounter;
@@ -151,7 +150,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   }
 
   // Create the static queries and return them as one Array
-  private setStaticQueries(idCounter:number) : IAutocompleteItem[] {
+  private setStaticQueries(idCounter:number):IAutocompleteItem[] {
     return _.map(  this.wpStaticQueries.all, (query:any) => {
       query.auto_id = idCounter++;
       query.category = null;
@@ -162,7 +161,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   // Filter the collection by categories, add the correct categories to every item of the filtered array
   // Sort every category array alphabetically, except the default queries
   // Concat all categories in the right order
-  private sortQueries(items:IAutocompleteItem[]) : IAutocompleteItem[] {
+  private sortQueries(items:IAutocompleteItem[]):IAutocompleteItem[] {
     let sortedQueries:IAutocompleteItem[] = [];
     sortedQueries = sortedQueries.concat(
       this.sortByLabel(items.filter(item => item.query && item.query.starred).map(item => this.setCategory(item, 'starred'))),
@@ -184,7 +183,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     });
   }
 
-  private setCategory(item:IAutocompleteItem, categoryString:string) : IAutocompleteItem {
+  private setCategory(item:IAutocompleteItem, categoryString:string):IAutocompleteItem {
     return { auto_id: item.auto_id, label: item.label, query: item.query, query_props: item.query_props, category: categoryString } ;
   }
 
@@ -265,8 +264,8 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     });
   }
 
-  private labelFunction(category:string) : string {
-    switch(category) {
+  private labelFunction(category:string):string {
+    switch (category) {
       case 'starred': return this.text.scope_starred;
       case 'public': return this.text.scope_global;
       case 'private': return this.text.scope_private;
@@ -333,7 +332,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   }
 
 
-  private subpathToItem(item:IAutocompleteItem) : string {
+  private subpathToItem(item:IAutocompleteItem):string {
     if (!item.query) {
       return '?query_props=' + item.query_props;
     } else {

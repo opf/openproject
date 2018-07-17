@@ -94,7 +94,7 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
               readonly $transitions:TransitionService,
               readonly $state:StateService,
               readonly I18n:I18nService,
-              readonly wpStaticQueries: WorkPackageStaticQueriesService) {
+              readonly wpStaticQueries:WorkPackageStaticQueriesService) {
 
   }
 

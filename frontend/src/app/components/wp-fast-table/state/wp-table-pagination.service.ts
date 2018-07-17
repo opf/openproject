@@ -55,7 +55,7 @@ export class WorkPackageTablePaginationService extends WorkPackageTableBaseServi
   }
 
   public get paginationObject():PaginationObject {
-    if(this.current) {
+    if (this.current) {
       return {
         pageSize: this.current.perPage,
         offset: this.current.page

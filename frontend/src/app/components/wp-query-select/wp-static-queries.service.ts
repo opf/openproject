@@ -122,18 +122,22 @@ export class WorkPackageStaticQueriesService {
       filters.push(filter.name);
     });
 
+    let labelText:string = '';
     if (query.timelineVisible) {
-      return this.text.gantt;
+      labelText = this.text.gantt;
     } else if (filters.length === 2 && filters.includes(this.text.updated_at)) {
-      return this.text.latest_activity;
+      labelText = this.text.latest_activity;
     } else if (filters.length === 2 && filters.includes(this.text.author)) {
-      return this.text.created_by_me;
+      labelText = this.text.created_by_me;
     } else if (filters.length === 2 && filters.includes(this.text.assignee)) {
-      return this.text.assigned_to_me;
+      labelText = this.text.assigned_to_me;
     } else if (filters.length === 2 && filters.includes(this.text.created_at)) {
-      return this.text.recently_created;
+      labelText = this.text.recently_created;
     } else if (filters.length === 1 && filters.includes(this.text.status)) {
-      return this.text.all_open;
-    } else return this.text.work_packages;
+      labelText = this.text.all_open;
+    } else {
+      labelText = this.text.work_packages;
+    }
+    return labelText;
   }
 }
