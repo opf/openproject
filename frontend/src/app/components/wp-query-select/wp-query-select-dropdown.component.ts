@@ -133,7 +133,6 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
         untilComponentDestroyed(this)
       )
       .subscribe( () => {
-        console.log("Query: Changes detected!");
         this.loadQueries().then(collection => {
           input.querycomplete("option", { source: this.transformQueries(collection) });
           input.querycomplete("search", input.val());

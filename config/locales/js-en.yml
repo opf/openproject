@@ -593,10 +593,11 @@ en:
         insert_columns: "Insert columns ..."
         filters: "Filters"
         display_sums: "Display Sums"
-        confirm_edit_cancel: "Are you sure you want to cancel editing the view?"
+        confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view?"
         errors:
           unretrievable_query: "Unable to retrieve query from URL"
           not_found: "There is no such query"
+          duplicate_query_title: "Name of this view already exists. Change anyway?"
         text_no_results: "No matching queries were found."
       table:
         configure_button: 'Configure work package table'

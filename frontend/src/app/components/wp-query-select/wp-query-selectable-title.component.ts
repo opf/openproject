@@ -29,6 +29,7 @@ import {ViewChild, Component, forwardRef, OnInit, ElementRef, Inject, Input} fro
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {WorkPackagesListService} from 'core-components/wp-list/wp-list.service';
+import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 
 @Component({
   selector: 'wp-query-selectable-title',
@@ -45,12 +46,14 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
 
   public text = {
     search_query_title: this.I18n.t('js.toolbar.search_query_title'),
-    confirm: this.I18n.t('js.work_packages.query.confirm_edit_cancel')
+    confirm_edit_cancel: this.I18n.t('js.work_packages.query.confirm_edit_cancel'),
+    duplicate_query_title: this.I18n.t('js.work_packages.query.errors.duplicate_query_title')
   };
 
   constructor(readonly elementRef:ElementRef,
               readonly I18n:I18nService,
-              readonly wpListService:WorkPackagesListService) {
+              readonly wpListService:WorkPackagesListService,
+              readonly QueryDm:QueryDmService) {
   }
 
   ngOnInit() {
@@ -60,7 +63,7 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
   private confirmCancel(event:JQueryEventObject) {
     // Check if field is empty and click target is table or menu (the intention was to leave this page)
     if (this.isEmpty && (jQuery(event.target).is('td') || jQuery(event.target).is('.ui-menu-item-wrapper')) ) {
-      let confirm = window.confirm(this.text.confirm);
+      let confirm = window.confirm(this.text.confirm_edit_cancel);
       // Set title back to saved default and go to click target
       if (confirm) {
         this.selectedTitle = this.defaultValue;
@@ -76,7 +79,7 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
   // Element looses focus on click outside and is not editable anymore
   private onBlur(event:JQueryEventObject) {
     this.editing = false;
-    this.closeInput();
+    this.renameView();
   }
 
   // Press Enter to save new title
@@ -86,7 +89,7 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
       this.setBlank(input);
     } else if (event.keyCode == 13) {
       this.editing = false;
-      this.closeInput();
+      this.renameView();
     }
   }
 
@@ -97,18 +100,53 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
     setTimeout( () => input.setSelectionRange(cursorPosition+1, cursorPosition+1));
   }
 
-  private closeInput() {
+  private renameView() {
     this.selectedTitle = this.selectedTitle.trim();
+    // Return if nothing changed
+    if (this.prevValue === this.selectedTitle) { return };
 
+    // Search if new name is already assigned to another query and if so, open confirmation
+    this.QueryDm.all('demo-project').then(collection => {
+      let itemsWithSameName = collection.elements.filter( (query:QueryResource) => query.name === this.selectedTitle);
+      if (itemsWithSameName.length > 0) {
+        this.confirmRename();
+      } else {
+        this.closeInput();
+      }
+    });
+  }
+
+  private closeInput() {
+    console.log("Selected: ", this.selectedTitle);
     // If the title is empty, input field should stay opened
     if (this.isEmpty) {
       this.editing = true;
     }
     // If there is a new value in input field, send new query name to service to also update the name in the menu
-    if (this.prevValue !== this.selectedTitle) {
       this.currentQuery.name = this.selectedTitle;
       this.wpListService.save(this.currentQuery);
+  }
+
+  private confirmRename() {
+    let confirm = window.confirm(this.text.duplicate_query_title);
+    // Set title back to saved default and go to click target
+    if (confirm) {
+      this.selectedTitle += ' (2)';
+      this.closeInput();
+    } else {
+      this.editing = true;
+      this.focusInputOnError();
     }
+  }
+
+  private focusInputOnError() {
+    setTimeout( () => {
+      let input = jQuery('wp-query-selectable-title').find('input');
+      input.addClass('-error').focus();
+      input.keydown(function() {
+        input.removeClass('-error');
+      });
+    });
   }
 
   // Check if title of query is empty
@@ -120,7 +158,7 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
     }
   }
 
-  // Edit value of input field
+  // Edit value of input field if not disabled
   public edit(title:string) {
     if (this.disabled) {
       return;
