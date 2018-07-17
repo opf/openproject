@@ -60,8 +60,8 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
         # use either the provided id or fetch the one created by rails
         id = options[:id] || input.match(/<[^>]* id="(\w+)"[^>]*>/)[1]
         context_object = object.persisted? ? object : nil
-        context = options[:preview_context] || preview_context(context_object)
-        input.concat text_formatting_wrapper id, context
+        options[:preview_context] ||= preview_context(context_object)
+        input.concat text_formatting_wrapper id, options
       end
 
       input
@@ -196,11 +196,11 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
   ##
   # Create a wrapper for the text formatting toolbar for this field
-  def text_formatting_wrapper(target_id, context)
+  def text_formatting_wrapper(target_id, options)
     return ''.html_safe unless target_id.present?
 
     helper = ::OpenProject::TextFormatting::Formats.rich_helper.new(@template)
-    helper.wikitoolbar_for target_id, context
+    helper.wikitoolbar_for target_id, options
   end
 
   def field_css_class(selector)

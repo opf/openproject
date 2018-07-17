@@ -76,7 +76,7 @@ module OpenProject
         if options[:with_text_formatting]
           # use either the provided id or fetch the one created by rails
           id = options[:id] || output.match(/<[^>]* id="(\w+)"[^>]*>/)[1]
-          output << text_formatting_wrapper(id, options[:preview_context])
+          output << text_formatting_wrapper(id, options)
         end
 
         output
@@ -85,11 +85,11 @@ module OpenProject
 
     ##
     # Create a wrapper for the text formatting toolbar for this field
-    def text_formatting_wrapper(target_id, preview_context)
+    def text_formatting_wrapper(target_id, options)
       return ''.html_safe unless target_id.present?
 
       helper = ::OpenProject::TextFormatting::Formats.rich_helper.new(self)
-      helper.wikitoolbar_for target_id, preview_context
+      helper.wikitoolbar_for target_id, options
     end
 
     def styled_check_box_tag(name, value = '1', checked = false, options = {})
