@@ -168,6 +168,7 @@ ja:
       no_results_title_text: 現在、ワークフローはありません。
   work_packages:
     move:
+      no_common_statuses_exists: 選択されたすべての項目に利用可能なステータスはありません。 それらの状態は変更できません。
       unsupported_for_multiple_projects: 複数のプロジェクトから、作業項目の一括移動/コピーはサポートされていません
     list_simple:
       assigned:
@@ -902,6 +903,7 @@ ja:
   error_invalid_query_column: '無効なクエリ列: %{value}'
   error_invalid_sort_criterion: '列を並べ替えできません: %{value}'
   error_pdf_export_too_many_columns: PDF エクスポート用に選択された列が多すぎます。 列の数を減らしてください。
+  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
   error_token_authenticity: クロスサイトリクエストフォージェリのトークンを検証できません。
   error_work_package_done_ratios_not_updated: 作業項目の進捗率が更新できません。
   error_work_package_not_found_in_project: 作業項目が見つからないか、このプロジェクトに属してないかです。
@@ -942,6 +944,8 @@ ja:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: 説明付きPDF
+      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
+      pdf_with_attachments: PDF with attachments
   extraction:
     available:
       pdftotext: Pdftotextが利用可能 (オプション)

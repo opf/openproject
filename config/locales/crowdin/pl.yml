@@ -187,6 +187,8 @@ pl:
       no_results_title_text: Nie ma jeszcze żadnego obiegu pracy.
   work_packages:
     move:
+      no_common_statuses_exists: There is no status available for all selected work
+        packages. Their status cannot be changed.
       unsupported_for_multiple_projects: Hurtowe przenoszenie / kopiowanie nie jest
         obsługiwane dla Zestawu zadań z różnych projektów
     list_simple:
@@ -1005,6 +1007,7 @@ pl:
   error_invalid_sort_criterion: 'Nie można sortować według kolumny: %{value}'
   error_pdf_export_too_many_columns: Wybrano zbyt dużo kolumn do eksportu PDF. Zmniejsz
     liczbę kolumn.
+  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
   error_token_authenticity: Nie można zweryfikować tokenu Cross-Site Request Forgery.
   error_work_package_done_ratios_not_updated: Nie zaktualizowane wskaźniki wykonania
     pakietu roboczego.
@@ -1056,6 +1059,8 @@ pl:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF z opisami
+      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
+      pdf_with_attachments: PDF with attachments
   extraction:
     available:
       pdftotext: Pdftotext available (optional)

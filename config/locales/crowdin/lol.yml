@@ -168,6 +168,7 @@ lol:
       no_results_title_text: crwdns96460:0crwdne96460:0
   work_packages:
     move:
+      no_common_statuses_exists: crwdns99037:0crwdne99037:0
       unsupported_for_multiple_projects: crwdns96461:0crwdne96461:0
     list_simple:
       assigned:
@@ -896,6 +897,7 @@ lol:
   error_invalid_query_column: crwdns97003:0%{value}crwdne97003:0
   error_invalid_sort_criterion: crwdns97004:0%{value}crwdne97004:0
   error_pdf_export_too_many_columns: crwdns97005:0crwdne97005:0
+  error_pdf_failed_to_export: crwdns99041:0%{error}crwdne99041:0
   error_token_authenticity: crwdns97006:0crwdne97006:0
   error_work_package_done_ratios_not_updated: crwdns97007:0crwdne97007:0
   error_work_package_not_found_in_project: crwdns97008:0crwdne97008:0
@@ -935,6 +937,8 @@ lol:
       csv: crwdns97037:0crwdne97037:0
       pdf: crwdns97038:0crwdne97038:0
       pdf_with_descriptions: crwdns97039:0crwdne97039:0
+      pdf_with_descriptions_and_attachments: crwdns99042:0crwdne99042:0
+      pdf_with_attachments: crwdns99043:0crwdne99043:0
   extraction:
     available:
       pdftotext: crwdns98859:0crwdne98859:0

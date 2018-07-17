@@ -189,6 +189,8 @@ ca:
       no_results_title_text: Actualment no hi ha cap flux de treball.
   work_packages:
     move:
+      no_common_statuses_exists: There is no status available for all selected work
+        packages. Their status cannot be changed.
       unsupported_for_multiple_projects: Moure o copiar en massa no està soportat
         per paquets de treball de múltiples projectes
     list_simple:
@@ -985,6 +987,7 @@ ca:
   error_invalid_sort_criterion: 'Can''t sort by column: %{value}'
   error_pdf_export_too_many_columns: Too many columns selected for the PDF export.
     Please reduce the number of columns.
+  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
   error_token_authenticity: No es pot verificar token de Cross-Site Request Forgery.
   error_work_package_done_ratios_not_updated: Ratios d'execució de paquets de treball
     no actualitzats.
@@ -1037,6 +1040,8 @@ ca:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF amb descripcions
+      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
+      pdf_with_attachments: PDF with attachments
   extraction:
     available:
       pdftotext: Pdftotext available (optional)

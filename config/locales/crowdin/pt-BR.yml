@@ -186,6 +186,8 @@ pt-BR:
       no_results_title_text: Atualmente, não há fluxos de trabalho.
   work_packages:
     move:
+      no_common_statuses_exists: Não há situação disponível para todos os pacotes
+        de trabalho selecionados. Sua situação não pode ser alterada.
       unsupported_for_multiple_projects: Movimentação/cópia em massa não é suportada
         para pacotes de trabalho de vários projetos
     list_simple:
@@ -977,6 +979,7 @@ pt-BR:
   error_invalid_sort_criterion: 'Não é possível ordenar por coluna: %{value}'
   error_pdf_export_too_many_columns: Muitas colunas selecionadas para a exportação
     para PDF. Reduza o número de colunas.
+  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
   error_token_authenticity: Não foi possível verificar o símbolo de Falsificação de
     Solicitação Entre Sites.
   error_work_package_done_ratios_not_updated: Percentual concluído do pacote de trabalho
@@ -1029,6 +1032,8 @@ pt-BR:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF com descrições
+      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
+      pdf_with_attachments: PDF with attachments
   extraction:
     available:
       pdftotext: Pdftotext disponível (opcional)
@@ -1842,7 +1847,7 @@ pt-BR:
       e colaboração de equipe com o OpenProject.
     text_show_again: Você pode reiniciar este vídeo através do menu ajuda
     welcome: Bem-vindo ao OpenProject
-    select_language: Please select your language for OpenProject
+    select_language: Por favor, selecione seu idioma para o OpenProject
   permission_add_work_package_notes: Adicionar anotações
   permission_add_work_packages: Adicionar pacotes de trabalho
   permission_add_messages: Postar mensagens

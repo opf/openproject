@@ -187,6 +187,8 @@ fr:
       no_results_title_text: Il n'y a actuellement aucun flux de travaux.
   work_packages:
     move:
+      no_common_statuses_exists: There is no status available for all selected work
+        packages. Their status cannot be changed.
       unsupported_for_multiple_projects: Déplacer/copier en masse n'est pas supporté
         pour des lots de travaux provenant de plusieurs projets
     list_simple:
@@ -995,6 +997,7 @@ fr:
   error_invalid_sort_criterion: 'Impossible de trier par colonne : %{value}'
   error_pdf_export_too_many_columns: Trop de colonnes sélectionnées pour l’exportation
     PDF. Veuillez réduire le nombre de colonnes.
+  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
   error_token_authenticity: Impossible de vérifier le jeton de Cross-Site Request
     Forgery.
   error_work_package_done_ratios_not_updated: Les ratios de Lots de Travaux achevés
@@ -1048,6 +1051,8 @@ fr:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF avec descriptions
+      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
+      pdf_with_attachments: PDF with attachments
   extraction:
     available:
       pdftotext: Pdftotext available (optional)

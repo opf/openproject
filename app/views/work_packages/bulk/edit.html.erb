@@ -52,6 +52,13 @@ See docs/COPYRIGHT.rdoc for more details.
                 <%= styled_select_tag('work_package[status_id]', "<option value=\"\">#{l(:label_no_change_option)}</option>".html_safe + options_from_collection_for_select(@available_statuses, :id, :name)) %>
               </div>
             </div>
+          <% else %>
+            <div class="form--field">
+              <label class="form--label" for='status_id'><%= WorkPackage.human_attribute_name(:status) %></label>
+              <div class="form--field-container">
+                <%= t('work_packages.move.no_common_statuses_exists') %>
+              </div>
+            </div>
           <% end %>
           <div class="form--field">
             <label class="form--label" for='work_package_priority_id'><%= WorkPackage.human_attribute_name(:priority) %></label>

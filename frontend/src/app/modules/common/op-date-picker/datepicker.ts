@@ -58,6 +58,9 @@ export class DatePicker {
     });
 
     this.datepickerInstance = this.datepickerCont.datepicker(mergedOptions);
+
+    // Disable autocomplete to avoid overlay
+    this.datepickerCont.attr('autocomplete', 'off');
   }
 
   public clear() {

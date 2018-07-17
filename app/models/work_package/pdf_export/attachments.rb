@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -27,19 +28,37 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class HelpController < ApplicationController
-  layout 'help'
+module WorkPackage::PdfExport::Attachments
 
-  def wiki_syntax; end
+  ##
+  # Creates cells for each attachment of the work package
+  #
+  def make_attachments_cells(attachments)
+    # Distribute all attachments on one line, this will work well with up to ~5 attachments.
+    # more than that will be resized further
+    available_width = (pdf.bounds.width / attachments.length) * 0.98
 
-  def wiki_syntax_detailed; end
+    attachments
+      .map { |attachment| make_attachment_cell attachment, available_width }
+      .compact
+  end
 
-  def keyboard_shortcuts; end
+  private
 
-  def text_formatting
-    default_link = OpenProject::Static::Links[:text_formatting][:href]
-    help_link = OpenProject::Configuration.force_formatting_help_link.presence || default_link
+  def make_attachment_cell(attachment, available_width)
+    # We can only include JPG and PNGs, maybe we want to add a text box for other attachments here
+    return nil unless pdf_embeddable?(attachment)
 
-    redirect_to help_link
+    # Access the local file. For Carrierwave attachments, this will be blocking.
+    file_path = attachment.file.local_file.path
+    # Fit the image roughly in the center of each cell
+    pdf.make_cell(image: file_path, fit: [available_width, 125], position: :center)
+  rescue => e
+    Rails.logger.error { "Failed to attach work package image to PDF: #{e} #{e.message}" }
+    nil
+  end
+
+  def pdf_embeddable?(attachment)
+    %w[image/jpeg image/png].include?(attachment.content_type)
   end
 end

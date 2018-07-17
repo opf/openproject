@@ -188,6 +188,8 @@ nl:
       no_results_title_text: Er zijn momenteel geen workflows.
   work_packages:
     move:
+      no_common_statuses_exists: There is no status available for all selected work
+        packages. Their status cannot be changed.
       unsupported_for_multiple_projects: Bulk verplaatsen/kopiëren wordt niet ondersteund
         voor werkpakketten uit meerdere projecten
     list_simple:
@@ -992,6 +994,7 @@ nl:
   error_invalid_sort_criterion: 'Kan niet sorteren op kolom: %{value}'
   error_pdf_export_too_many_columns: Te veel kolommen geselecteerd voor het exporteren
     naar PDF. Beperk het aantal kolommen.
+  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
   error_token_authenticity: Niet mogelijk om Cross-Site Request Forgery-token te verifiëren.
   error_work_package_done_ratios_not_updated: Werkpakket gedaan ratio's niet bijgewerkt.
   error_work_package_not_found_in_project: Het werkpakket werd niet gevonden of maakt
@@ -1042,6 +1045,8 @@ nl:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF met beschrijvingen
+      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
+      pdf_with_attachments: PDF with attachments
   extraction:
     available:
       pdftotext: Pdftotext beschikbaar (optioneel)
