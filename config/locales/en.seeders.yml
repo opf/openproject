@@ -86,6 +86,7 @@ en:
               priority: :default_priority_high
               estimated_hours: 8
               start: 4
+              duration: 0
               done_ratio: 50
             - subject: Project planning
               description: |
@@ -102,11 +103,12 @@ en:
               type: :default_type_phase
               priority: :default_priority_high
               estimated_hours: 8
+              start: 0
               duration: 3
               children:
                 - subject: Create a new project
                   description: |
-                    Please "create a new project (or subproject)":/projects/new from the project drop down menu in the left hand header navigation.
+                    Please "create a new project":/projects/new from the project drop down menu in the left hand header navigation.
 
                     *You can:*
                     * give your project a name,
@@ -213,7 +215,7 @@ en:
                     - work_packages.png
                 - subject: Create a project plan
                   description: |
-                    Please create a project plan by going to ##query:"Gantt chart" in the project navigation.
+                    Please create a project plan by going to "Gantt chart":##query:"Gantt chart" in the project navigation.
 
                     *You can:*
                     * create new phases and milestones by simply clicking in the project plan,
@@ -322,11 +324,11 @@ en:
                 - to: Develop v1.1
                   type: follows
         scrum-project:
-          name: Scrum Project
+          name: Scrum project
           identifier: your-scrum-project
           description: |
             *This is a Scrum demo project.*
-            You can edit the project description in the "Project settings -> Description":/projects/demo-project/settings.
+            You can edit the project description in the "Project settings -> Description":/projects/your-scrum-project/settings.
           timeline:
             name: Timeline
           modules:
@@ -570,16 +572,6 @@ en:
               type: :default_type_phase
               start: 14
               duration: 3
-            - subject: Develop v1.1
-              status: :default_status_new
-              type: :default_type_phase
-              start: 21
-              duration: 3
-            - subject: Develop v2.0
-              status: :default_status_new
-              type: :default_type_phase
-              start: 28
-              duration: 3
             - subject: Release v1.0
               status: :default_status_new
               type: :default_type_milestone
@@ -588,6 +580,11 @@ en:
               relations:
                 - to: Develop v1.0
                   type: follows
+            - subject: Develop v1.1
+              status: :default_status_new
+              type: :default_type_phase
+              start: 21
+              duration: 3
             - subject: Release v1.1
               status: :default_status_new
               type: :default_type_milestone
@@ -596,6 +593,11 @@ en:
               relations:
                 - to: Develop v1.1
                   type: follows
+            - subject: Develop v2.0
+              status: :default_status_new
+              type: :default_type_phase
+              start: 28
+              duration: 3
             - subject: Release v2.0
               status: :default_status_new
               type: :default_type_milestone

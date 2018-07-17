@@ -30,6 +30,8 @@ module DemoData
     attr_accessor :project, :user, :statuses, :repository,
                   :time_entry_activities, :types, :key
 
+    include ::DemoData::References
+
     def initialize(project, key)
       self.project = project
       self.key = key
@@ -73,7 +75,7 @@ module DemoData
       create_attachments! work_package, attributes
 
       description = link_children work_package.description, work_package
-      description = link_queries description
+      description = with_references description, project
 
       work_package.update description: description
 
@@ -88,20 +90,6 @@ module DemoData
         child.parent = work_package
         child.save!
       end
-    end
-
-    def link_children(str, work_package)
-      return str unless str.present? && str.include?("##child:")
-
-      str.gsub(/##child:\d+/) do |match|
-        index = match.split(":").last.to_i - 1
-
-        "##" + work_package.children[index].id.to_s
-      end
-    end
-
-    def link_queries(str)
-      # "Gantt charts":/projects/demo-project/work_packages?query_id=1
     end
 
     def base_work_package_attributes(attributes)
