@@ -184,8 +184,8 @@ ru:
       no_results_title_text: В данный момент рабочих потоков нет.
   work_packages:
     move:
-      no_common_statuses_exists: There is no status available for all selected work
-        packages. Their status cannot be changed.
+      no_common_statuses_exists: Статус не доступен для всех выбранных пакетов работ.
+        Их статус изменен быть не может.
       unsupported_for_multiple_projects: Массовое перемещение/копирование не поддерживается
         при работе с пакетами из нескольких проектов
     list_simple:
@@ -249,10 +249,10 @@ ru:
           не сможете войти в систему с текущими учетными данными. Если  снова хотите  стать
           пользователем, то делайте это через средства пердоставления прав этого приложения.
       login_verification:
-        other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be asked to confirm your password.
-        self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be asked to confirm your password.
+        other: Введите логин %{name} для проверки удаления. После, вам будет предложено
+          подтвердить свой пароль.
+        self: Введите ваш логин %{name} для проверки удаления. После, вам будет предложено
+          подтвердить свой пароль.
     error_inactive_activation_by_mail: 'Ваша учетная запись не была активирована.
       Для активации перейдите по ссылке, высланной вам по электронной почте.
 
@@ -1011,6 +1011,7 @@ ru:
   error_invalid_sort_criterion: 'Невозможно сортировать по столбцу: %{value}'
   error_pdf_export_too_many_columns: Для экспорта в PDF-файл выбрано слишком много
     столбцов. Пожалуйста, сократите количество столбцов.
+  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
   error_token_authenticity: Не удается проверить CSRF-токен.
   error_work_package_done_ratios_not_updated: Сделанные соотношения пакета работ не
     обновляются.
@@ -1062,6 +1063,8 @@ ru:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF с описанием
+      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
+      pdf_with_attachments: PDF with attachments
   extraction:
     available:
       pdftotext: Pdftotext доступно (опционально)
@@ -1306,7 +1309,7 @@ ru:
   label_force_user_language_to_default: Язык, который пользователям нельзя установить
     как действующий по-умолчанию
   label_form_configuration: Настройка форм
-  label_gantt: Gantt
+  label_gantt: Гант
   label_gantt_chart: Диаграмма Гантта
   label_general: Общие
   label_generate_key: Сгенерируйте ключ
@@ -1411,7 +1414,7 @@ ru:
   label_next_week: На следующей неделе
   label_no_change_option: "(Без изменений)"
   label_no_data: Нет данных для отображения
-  label_no_parent_page: No parent page
+  label_no_parent_page: Без родительской страницы
   label_nothing_display: Нет данных для отображения
   label_nobody: никто
   label_none: нет
@@ -1430,7 +1433,7 @@ ru:
   label_overall_activity: Общая деятельность
   label_overall_spent_time: Суммарное потраченное время
   label_overview: Обзор
-  label_page_title: Page title
+  label_page_title: Заголовок страницы
   label_part_of: часть
   label_password_lost: Забыли пароль?
   label_password_rule_lowercase: Нижний регистр
@@ -1554,7 +1557,7 @@ ru:
   label_summary: Сводка
   label_system: Система
   label_system_storage: Информация хранилища
-  label_table_of_contents: Table of contents
+  label_table_of_contents: Содержание
   label_tag: Метка
   label_text: Длинный текст
   label_this_month: в этом месяце
@@ -1719,14 +1722,14 @@ ru:
   macro_unavailable: Макрос %{macro_name} не может быть отображен.
   macros:
     errors:
-      missing_or_invalid_parameter: Missing or invalid macro parameter.
+      missing_or_invalid_parameter: Отсутствующие или недопустимые параметры макроса.
     legacy_warning:
-      timeline: This legacy timeline macro has been removed and is no longer available.
-        You can replace the functionality with an embedded table macro.
+      timeline: Макрос этого унаследованного графика был удален и более не доступен.
+        Вы можете заменить функциональность внедренной таблицей макросов.
     include_wiki_page:
       errors:
-        page_not_found: Cannot find the wiki page '%{name}'.
-        circular_inclusion: Circular inclusion of pages detected.
+        page_not_found: Не удается найти вики-страницу «%{name}».
+        circular_inclusion: Обнаружено циклическое включение страниц.
     create_work_package_link:
       errors:
         no_project_context: Вызов макроса create_work_package_link из контекста за
@@ -1754,14 +1757,16 @@ ru:
   mail_subject_wiki_content_added: "'%{id}' wiki-страница добавлена"
   mail_subject_wiki_content_updated: "'%{id}' wiki страница была обновлена"
   mail_user_activation_limit_reached:
-    subject: User activation limit reached
-    message: |
-      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
-      The user cannot activate their account since the user limit has been reached.
+    subject: Достигнут лимит активации пользователя
+    message: 'Новый пользователь (%{email}) попытался создать учетную запись в OpenProject
+      (%{host}). Запись пользователя не может быть активирована, так как достигнут
+      лимит разрешенного числа пользователей.
+
+'
     steps:
-      label: 'To allow the user to sign in you can either: '
-      a: Upgrade your payment plan ([here](upgrade_url))
-      b: Lock or delete an existing user ([here](users_url))
+      label: 'Для разрешения пользователю подписаться к вам необходимо: '
+      a: Обновите ваш платежный план ([here](upgrade_url))
+      b: Заблокировать или удалить существующего пользователя ([here](users_url))
   more_actions: Больше функций
   noscript_description: Для правильной работы OpenProject JavaScript должен быть включён!
   noscript_heading: JavaScript отключён
@@ -1884,7 +1889,7 @@ ru:
       сопровождения с OpenProject.
     text_show_again: Вы можете перезапустить это видео из меню «Справка»
     welcome: Добро пожаловать в OpenProject
-    select_language: Please select your language for OpenProject
+    select_language: Пожалуйста, выберите язык для OpenProject
   permission_add_work_package_notes: Добавить заметки
   permission_add_work_packages: Добавление пакетов работ
   permission_add_messages: Написать сообщения
@@ -2258,8 +2263,8 @@ ru:
     session: Сессия
     brute_force_prevention: Автоматическое блокирование пользователя
     user:
-      default_preferences: Default preferences
-      deletion: Deletion
+      default_preferences: Предпочтения по умолчанию
+      deletion: Удаление
   text_formatting:
     textile: Textile
     markdown: Markdown
@@ -2695,10 +2700,10 @@ ru:
   note_password_login_disabled: Вход по паролю был отключен через параметры %{configuration}.
   warning: Предупреждение
   warning_attachments_not_saved: "%{count} файл(-ов) не может быть сохранен(-о)."
-  warning_imminent_user_limit: 'You invited more users than are supported by your
-    current plan. Invited users may not be able to join your OpenProject environment.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
-    in order to allow invited and registered users to join.
+  warning_imminent_user_limit: 'Вы пригласили пользователей больше, чем позволяет
+    ваш текущий тарифный план. Приглашенные пользователи смогут присоединиться к OpenProject.
+    Пожалуйста <a href="%{upgrade_url}">обновите ваш план</a> или блокируйте существующих
+    пользователей для присоединения приглашенных и зарегистрированных пользователей.
 
 '
   warning_registration_token_expired: 'Срок ответа на письмо активации истек. Мы отправили
@@ -2706,14 +2711,15 @@ ru:
     вашу учетную запись.
 
 '
-  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
-    for additional users.
+  warning_user_limit_reached: 'Достигнут предел пользователя. Вы более не можете активировать
+    пользователей. <a href="%{upgrade_url}">, обновите ваш план</a> или блок участников
+    для дополнительных пользователей.
 
 '
-  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
-    active users). Please contact sales@openproject.com to upgrade your Enterprise
-    Edition plan and add additional users.
+  warning_user_limit_reached_instructions: 'Вы достигли вашего пользовательского предела
+    (%{current}/%{max} активных пользователей). Пожалуйста, свяжитесь с sales@openproject.com
+    для обновления своего плана до Корпоративной версии и добавьте дополнительных
+    пользователей.
 
 '
   menu_item: Пункт меню

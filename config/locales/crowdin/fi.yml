@@ -973,6 +973,7 @@ fi:
   error_invalid_sort_criterion: 'Can''t sort by column: %{value}'
   error_pdf_export_too_many_columns: Liikaa sarakkeita valittuina PDF-vientiin. Pienennä
     sarakkeiden määrää.
+  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
   error_token_authenticity: Unable to verify Cross-Site Request Forgery token.
   error_work_package_done_ratios_not_updated: Toimi paketti tehnyt suhdelukuja ei
     päivitetä.
@@ -1023,6 +1024,8 @@ fi:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF kuvauksilla
+      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
+      pdf_with_attachments: PDF with attachments
   extraction:
     available:
       pdftotext: Pdftotext available (optional)
