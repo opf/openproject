@@ -356,7 +356,6 @@ tr:
         type: Tür
       type:
         is_in_roadmap: Yol haritasında
-        in_aggregation: Kümelenme
         is_milestone: Kilometre taşı
         color: Renk
       user:
@@ -2204,7 +2203,6 @@ tr:
   text_formatting:
     markdown: Markdown
     plain: Düz yazı
-    textile: Textile
   status_active: etkin
   status_archived: arşivlendi
   status_invited: davet
@@ -2515,7 +2513,6 @@ tr:
       edit: 'Düzenleme durumu: %{comment}'
       show: 'Durum: %{comment}'
     planning_element_update: 'Güncelleme: %{title}'
-    work_packages_are_displayed_in_aggregations: Work packages are displayed in aggregations
     project_type_could_not_be_saved: Proje türü kaydedilemedi
     type_could_not_be_saved: Type kaydedilemedi
     reporting_could_not_be_saved: Raporlama kaydedilemedi
@@ -2713,5 +2710,3 @@ tr:
       writing_read_only_attributes: Salt okunur bir nitelik yazmamalısınız.
     resources:
       schema: Şema
-  setting_use_wysiwyg: WYSIWYG düzenleyici
-  setting_text_formatting: Metin biçimi

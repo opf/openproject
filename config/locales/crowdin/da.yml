@@ -360,7 +360,6 @@ da:
         type: Type
       type:
         is_in_roadmap: In roadmap
-        in_aggregation: In aggregation
         is_milestone: Is milestone
         color: Farve
       user:
@@ -2199,7 +2198,6 @@ da:
   text_formatting:
     markdown: Markdown
     plain: Plain text
-    textile: Textile
   status_active: aktiv
   status_archived: archived
   status_invited: inviteret
@@ -2509,7 +2507,6 @@ da:
       edit: 'Status for redigering: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Updatering:  %{title}'
-    work_packages_are_displayed_in_aggregations: Arbejdspakker er vist i sammensætninger
     project_type_could_not_be_saved: Projekttypen kan ikke gemmes
     type_could_not_be_saved: Typen kan ikke gemmes
     reporting_could_not_be_saved: Rapportering kan ikke gemmes
@@ -2707,5 +2704,3 @@ da:
       writing_read_only_attributes: Du må ikke skrive til en skrivebeskyttet attribut.
     resources:
       schema: Skema
-  setting_use_wysiwyg: WYSIWYG editor
-  setting_text_formatting: Tekstformattering

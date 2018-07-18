@@ -366,7 +366,6 @@ fr:
         type: Type
       type:
         is_in_roadmap: Dans la feuille de route
-        in_aggregation: En agrégation
         is_milestone: Est un jalon
         color: Couleur
       user:
@@ -2256,7 +2255,6 @@ fr:
   text_formatting:
     markdown: Markdown
     plain: Plain text
-    textile: Textile
   status_active: actif
   status_archived: archivé
   status_invited: invité
@@ -2580,8 +2578,6 @@ fr:
       edit: 'Modifier l''état : %{comment}'
       show: 'État : %{comment}'
     planning_element_update: 'Mis à jour: %{title}'
-    work_packages_are_displayed_in_aggregations: Les Lots de Travaux sont affichés
-      dans les agrégations
     project_type_could_not_be_saved: Le projet type n'a pas pu être sauvegardé
     type_could_not_be_saved: Le type n'a pas pu être sauvegardé
     reporting_could_not_be_saved: Le rapport n'a pas pu être enregistré
@@ -2791,5 +2787,3 @@ fr:
         seule.
     resources:
       schema: Schéma
-  setting_use_wysiwyg: WYSIWYG editor
-  setting_text_formatting: Mise en forme texte

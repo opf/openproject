@@ -369,7 +369,6 @@ de:
         type: Typ
       type:
         is_in_roadmap: In Roadmap anzeigen
-        in_aggregation: In aggregation anzeigen
         is_milestone: Ist ein Meilenstein
         color: Farbe
       user:
@@ -2266,7 +2265,6 @@ de:
   text_formatting:
     markdown: Markdown
     plain: Reiner Text
-    textile: Textile
   status_active: aktiv
   status_archived: archiviert
   status_invited: eingeladen
@@ -2585,8 +2583,6 @@ de:
       edit: 'Statusbericht bearbeiten: %{comment}'
       show: 'Statusbericht: %{comment}'
     planning_element_update: 'Aktualisiert: %{title}'
-    work_packages_are_displayed_in_aggregations: Arbeitspakete werden in Aggregation
-      angezeigt
     project_type_could_not_be_saved: Projekt-Typ konnte nicht gespeichert werden.
     type_could_not_be_saved: Typ konnte nicht gespeichert werden.
     reporting_could_not_be_saved: Statusbericht konnte nicht gespeichert werden.
@@ -2796,5 +2792,3 @@ de:
         werden.
     resources:
       schema: Schema
-  setting_use_wysiwyg: WYSIWYG-Editor
-  setting_text_formatting: Textformatierung

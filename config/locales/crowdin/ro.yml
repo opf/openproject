@@ -369,7 +369,6 @@ ro:
         type: Tip
       type:
         is_in_roadmap: În planul de lucru
-        in_aggregation: În agregare
         is_milestone: Este reper de etapă
         color: Culoare
       user:
@@ -2251,7 +2250,6 @@ ro:
   text_formatting:
     markdown: Markdown
     plain: Plain text
-    textile: Textile
   status_active: activ
   status_archived: archived
   status_invited: invitat
@@ -2569,7 +2567,6 @@ ro:
       edit: 'Stare editare: %{comment}'
       show: 'Stare: %{comment}'
     planning_element_update: 'Actualizare: %{title}'
-    work_packages_are_displayed_in_aggregations: Afișare pachete de lucru în agregări
     project_type_could_not_be_saved: Nu a putut fi salvat tipul de proiect
     type_could_not_be_saved: Tipul nu a putut fi salvat
     reporting_could_not_be_saved: Raportarea nu a putut fi salvată
@@ -2767,5 +2764,3 @@ ro:
       writing_read_only_attributes: Nu puteți scrie într-un câmp restricționat.
     resources:
       schema: Schemă
-  setting_use_wysiwyg: WYSIWYG editor
-  setting_text_formatting: Formatare text

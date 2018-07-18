@@ -332,7 +332,6 @@ ko:
         type: 타입
       type:
         is_in_roadmap: 로그맵 내
-        in_aggregation: 집계에
         is_milestone: 마일스톤
         color: 색상
       user:
@@ -2118,7 +2117,6 @@ ko:
   text_formatting:
     markdown: Markdown
     plain: Plain text
-    textile: Textile
   status_active: 활성
   status_archived: 보관됨
   status_invited: 초대됨
@@ -2401,7 +2399,6 @@ ko:
       edit: '상태 편집: %{comment}'
       show: '상태: %{comment}'
     planning_element_update: '업데이트: %{title}'
-    work_packages_are_displayed_in_aggregations: 작업 패키지가 집계에 표시됩니다.
     project_type_could_not_be_saved: 프로젝트 유형을 저장할 수 없습니다.
     type_could_not_be_saved: 유형을 저장할 수 없습니다.
     reporting_could_not_be_saved: 보고를 저장할 수 없습니다.
@@ -2579,5 +2576,3 @@ ko:
       writing_read_only_attributes: 읽기 전용 특성은 변경할 수 없습니다.
     resources:
       schema: 스키마
-  setting_use_wysiwyg: WYSIWYG editor
-  setting_text_formatting: 텍스트 서식 지정

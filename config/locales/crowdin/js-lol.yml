@@ -54,7 +54,13 @@ lol:
     description_subwork_package: crwdns98375:0%{id}crwdne98375:0
     editor:
       macro:
+        toolbar_help: crwdns99044:0crwdne99044:0
         toc: crwdns99007:0crwdne99007:0
+        code_block:
+          button: crwdns99045:0crwdne99045:0
+          title: crwdns99046:0crwdne99046:0
+          language: crwdns99047:0crwdne99047:0
+          language_hint: crwdns99048:0crwdne99048:0
         wiki_page_include:
           button: crwdns99018:0crwdne99018:0
           text: crwdns99019:0crwdne99019:0

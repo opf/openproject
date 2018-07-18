@@ -355,7 +355,6 @@ ar:
         type: النّوع
       type:
         is_in_roadmap: في خارطة الطريق
-        in_aggregation: في التجميع
         is_milestone: هو مشروع رئيسي
         color: اللون
       user:
@@ -2271,7 +2270,6 @@ ar:
   text_formatting:
     markdown: Markdown
     plain: Plain text
-    textile: Textile
   status_active: نشِط
   status_archived: archived
   status_invited: مدعوّ
@@ -2574,7 +2572,6 @@ ar:
       edit: 'تعديل الحالة: %{comment}'
       show: 'الحالة: %{comment}'
     planning_element_update: 'التحديث: %{title}'
-    work_packages_are_displayed_in_aggregations: حزم العمل المعروضة في التجميع
     project_type_could_not_be_saved: تعذر حفظ نوع المشروع
     type_could_not_be_saved: لا يمكن حفظ عنصر القائمة
     reporting_could_not_be_saved: التقرير غير قابل للحفظ
@@ -2775,5 +2772,3 @@ ar:
       writing_read_only_attributes: لا يجب أن تكتب على سمة للقراءة فقط.
     resources:
       schema: مخطّط
-  setting_use_wysiwyg: WYSIWYG editor
-  setting_text_formatting: تنسيق النص

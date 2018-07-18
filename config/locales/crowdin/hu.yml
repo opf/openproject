@@ -356,7 +356,6 @@ hu:
         type: Típus
       type:
         is_in_roadmap: Ütemtervben
-        in_aggregation: Összesítésben
         is_milestone: Mérföldkő
         color: Szín
       user:
@@ -2210,7 +2209,6 @@ hu:
   text_formatting:
     markdown: Markdown
     plain: Plain text
-    textile: Textile
   status_active: aktív
   status_archived: archivált
   status_invited: meghívott
@@ -2525,7 +2523,6 @@ hu:
       edit: 'Az állapot szerkesztése: %{comment}'
       show: 'Állapot: %{comment}'
     planning_element_update: 'Frissítve: %{title}'
-    work_packages_are_displayed_in_aggregations: Munkacsomagok megjelenítése csoportokban
     project_type_could_not_be_saved: Projekt típusát nem lehet menteni
     type_could_not_be_saved: A típust nem lehet menteni
     reporting_could_not_be_saved: A jelentés mentése nem sikerült
@@ -2725,5 +2722,3 @@ hu:
       writing_read_only_attributes: Nem írhat egy csak olvasható tulajdonságot.
     resources:
       schema: Séma
-  setting_use_wysiwyg: WYSIWYG editor
-  setting_text_formatting: Szövegformázás

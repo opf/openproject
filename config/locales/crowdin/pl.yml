@@ -356,7 +356,6 @@ pl:
         type: Typ
       type:
         is_in_roadmap: Na mapie
-        in_aggregation: Jako zbiór
         is_milestone: Jest Kamieniem Milowym
         color: Kolor
       user:
@@ -2264,7 +2263,6 @@ pl:
   text_formatting:
     markdown: Markdown
     plain: Plain text
-    textile: Textile
   status_active: aktywne
   status_archived: w archiwum
   status_invited: zaproszony
@@ -2577,8 +2575,6 @@ pl:
       edit: 'Edit status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Update: %{title}'
-    work_packages_are_displayed_in_aggregations: Pakiety robocze są wyświetlane w
-      agregacjach
     project_type_could_not_be_saved: Nie można zapisać typu projektu
     type_could_not_be_saved: Typ nie może być zapisany
     reporting_could_not_be_saved: Zgłoszenie nie może być zapisane
@@ -2778,5 +2774,3 @@ pl:
       writing_read_only_attributes: Nie możesz zapisać atrybutu tylko do odczytu.
     resources:
       schema: Schemat
-  setting_use_wysiwyg: WYSIWYG editor
-  setting_text_formatting: Formatowanie tekstu

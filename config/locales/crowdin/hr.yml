@@ -361,7 +361,6 @@ hr:
         type: Tip
       type:
         is_in_roadmap: U planu
-        in_aggregation: U agregaciji
         is_milestone: Je ključna točka
         color: Boja
       user:
@@ -2238,7 +2237,6 @@ hr:
   text_formatting:
     markdown: Markdown
     plain: Plain text
-    textile: Textile
   status_active: aktivno
   status_archived: archived
   status_invited: pozvani
@@ -2549,7 +2547,6 @@ hr:
       edit: 'Uredi status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Ažurirano: %{title}'
-    work_packages_are_displayed_in_aggregations: Work packages are displayed in aggregations
     project_type_could_not_be_saved: Tip projekta nije moguće spremiti
     type_could_not_be_saved: Tip nije moguće spremiti
     reporting_could_not_be_saved: Izvještavanje nije moguće spremiti
@@ -2749,5 +2746,3 @@ hr:
         je dopušteno samo čitanje.
     resources:
       schema: Shema
-  setting_use_wysiwyg: WYSIWYG editor
-  setting_text_formatting: Formatiranje teksta

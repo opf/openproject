@@ -362,7 +362,6 @@ bg:
         type: Тип
       type:
         is_in_roadmap: В пътната карта
-        in_aggregation: В сумиране
         is_milestone: Е крайъгълен камък
         color: Цвят
       user:
@@ -2205,7 +2204,6 @@ bg:
   text_formatting:
     markdown: Markdown
     plain: Plain text
-    textile: Textile
   status_active: active
   status_archived: archived
   status_invited: invited
@@ -2516,7 +2514,6 @@ bg:
       edit: 'Edit status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Update: %{title}'
-    work_packages_are_displayed_in_aggregations: Work packages are displayed in aggregations
     project_type_could_not_be_saved: Project type could not be saved
     type_could_not_be_saved: Type could not be saved
     reporting_could_not_be_saved: Reporting could not be saved
@@ -2712,5 +2709,3 @@ bg:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Схема
-  setting_use_wysiwyg: WYSIWYG editor
-  setting_text_formatting: Text formatting

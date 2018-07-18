@@ -359,7 +359,6 @@ et:
         type: Liik
       type:
         is_in_roadmap: In roadmap
-        in_aggregation: In aggregation
         is_milestone: Is milestone
         color: Värv
       user:
@@ -2195,7 +2194,6 @@ et:
   text_formatting:
     markdown: Markdown
     plain: Plain text
-    textile: Textile
   status_active: aktiivne
   status_archived: archived
   status_invited: invited
@@ -2500,7 +2498,6 @@ et:
       edit: 'Muuda olekut: %{comment}'
       show: 'Olek: %{comment}'
     planning_element_update: 'Muudatus: %{title}'
-    work_packages_are_displayed_in_aggregations: Teemad näidetakse koondatuna
     project_type_could_not_be_saved: Projekti tüüpi ei saa salvestada
     type_could_not_be_saved: Tüüpi ei saa salvestada
     reporting_could_not_be_saved: Aruandlust ei saa salvestada
@@ -2696,5 +2693,3 @@ et:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Schema
-  setting_use_wysiwyg: WYSIWYG editor
-  setting_text_formatting: Tekstivormindamise abi

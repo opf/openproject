@@ -367,7 +367,6 @@ nl:
         type: Type
       type:
         is_in_roadmap: In de roadmap
-        in_aggregation: In aggregatie
         is_milestone: Is mijlpaal
         color: Kleur
       user:
@@ -2244,7 +2243,6 @@ nl:
   text_formatting:
     markdown: Markdown
     plain: Onopgemaakte tekst
-    textile: Textile
   status_active: actief
   status_archived: gearchiveerd
   status_invited: uitgenodigd
@@ -2561,8 +2559,6 @@ nl:
       edit: 'Bewerk status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Bijgewerkt: %{title}'
-    work_packages_are_displayed_in_aggregations: Werkpakketten worden weergegeven
-      in samenvoegingen
     project_type_could_not_be_saved: Projecttype kan niet worden opgeslagen
     type_could_not_be_saved: Type kan niet worden opgeslagen
     reporting_could_not_be_saved: Rapportage kan niet worden opgeslagen
@@ -2767,5 +2763,3 @@ nl:
       writing_read_only_attributes: U mag geen read-only attribuut schrijven.
     resources:
       schema: Schema
-  setting_use_wysiwyg: WYSIWYG-editor
-  setting_text_formatting: Opmaak van tekst

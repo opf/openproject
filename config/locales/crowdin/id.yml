@@ -356,7 +356,6 @@ id:
         type: Tipe
       type:
         is_in_roadmap: In roadmap
-        in_aggregation: In aggregation
         is_milestone: Is milestone
         color: Warna
       user:
@@ -2193,7 +2192,6 @@ id:
   text_formatting:
     markdown: Markdown
     plain: Plain text
-    textile: Textile
   status_active: aktif
   status_archived: diarsipkan
   status_invited: invited
@@ -2505,7 +2503,6 @@ id:
       edit: 'Edit status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Update: %{title}'
-    work_packages_are_displayed_in_aggregations: Paket-Penugasan ditampilkan di agregasi
     project_type_could_not_be_saved: Tipe Project tidak bisa disimpan
     type_could_not_be_saved: Tipe tidak bisa disimpan
     reporting_could_not_be_saved: Pelaporan tidak bisa disimpan
@@ -2699,5 +2696,3 @@ id:
       writing_read_only_attributes: Anda tidak harus menulis hanya-baca atribut.
     resources:
       schema: Schema
-  setting_use_wysiwyg: WYSIWYG editor
-  setting_text_formatting: Text formatting

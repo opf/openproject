@@ -357,7 +357,6 @@ th:
         type: ประเภท
       type:
         is_in_roadmap: In roadmap
-        in_aggregation: In aggregation
         is_milestone: Is milestone
         color: สี
       user:
@@ -2166,7 +2165,6 @@ th:
   text_formatting:
     markdown: Markdown
     plain: Plain text
-    textile: Textile
   status_active: ใช้งานอยู่
   status_archived: archived
   status_invited: invited
@@ -2459,7 +2457,6 @@ th:
       edit: 'แก้ไขสถานะ: %{comment}'
       show: 'สถานะ: %{comment}'
     planning_element_update: 'แก้ไข: %{title}'
-    work_packages_are_displayed_in_aggregations: ชุดภารกิจแสดงผลในภาพรวม
     project_type_could_not_be_saved: ไม่สามารถบันทึกชนิดของโครงการได้
     type_could_not_be_saved: ไม่สามารถบันทึกชนิดได้
     reporting_could_not_be_saved: ไม่สามารถบันทึกรายงานได้
@@ -2648,5 +2645,3 @@ th:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Schema
-  setting_use_wysiwyg: WYSIWYG editor
-  setting_text_formatting: การจัดรูปแบบข้อความ

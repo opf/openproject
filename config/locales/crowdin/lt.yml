@@ -358,7 +358,6 @@ lt:
         type: Tipas
       type:
         is_in_roadmap: Veiksmų plane
-        in_aggregation: Apibendrintai
         is_milestone: Yra svarbus etapas
         color: Spalva
       user:
@@ -2266,7 +2265,6 @@ lt:
   text_formatting:
     markdown: Markdown
     plain: Plain text
-    textile: Textile
   status_active: aktyvus
   status_archived: suarchyvuotas
   status_invited: pakviestas
@@ -2579,7 +2577,6 @@ lt:
       edit: Redaguoti būseną %{comment}
       show: 'Būsena: %{comment}'
     planning_element_update: 'Atnaujinimas: %{title}'
-    work_packages_are_displayed_in_aggregations: Darbų paketai rodomi masėse
     project_type_could_not_be_saved: Projekto tipas negalėjo būti išsaugotas
     type_could_not_be_saved: Tipas negalėjo būti išsaugotas
     reporting_could_not_be_saved: Ataskaita negalėjo būti išsaugota
@@ -2785,5 +2782,3 @@ lt:
       writing_read_only_attributes: Jūs neturėtumėte įrašyti atributą „tik skaitomas“.
     resources:
       schema: Schema
-  setting_use_wysiwyg: WYSIWYG editor
-  setting_text_formatting: Teksto formatavimas

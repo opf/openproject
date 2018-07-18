@@ -366,7 +366,6 @@ it:
         type: Tipo
       type:
         is_in_roadmap: Nella tabella di marcia
-        in_aggregation: Nell'aggregato
         is_milestone: È un traguardo
         color: Colore
       user:
@@ -2270,7 +2269,6 @@ it:
   text_formatting:
     markdown: Markdown
     plain: Plain text
-    textile: Textile
   status_active: attivo
   status_archived: archiviato
   status_invited: invitato
@@ -2599,8 +2597,6 @@ it:
       edit: 'Modifica stato: %{comment}'
       show: 'Stato: %{comment}'
     planning_element_update: 'Aggiorna: %{title}'
-    work_packages_are_displayed_in_aggregations: Le macro-attività (work package)
-      vengono visualizzate nelle aggregazioni
     project_type_could_not_be_saved: Il tipo del progetto non può essere salvato
     type_could_not_be_saved: Il tipo non può essere salvato
     reporting_could_not_be_saved: Il prospetto non può essere salvato
@@ -2802,5 +2798,3 @@ it:
       writing_read_only_attributes: Non puoi scrivere un attributo di sola lettura.
     resources:
       schema: Schema
-  setting_use_wysiwyg: WYSIWYG editor
-  setting_text_formatting: Formattazione testo

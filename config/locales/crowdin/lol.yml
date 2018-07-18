@@ -315,7 +315,6 @@ lol:
         type: crwdns96555:0crwdne96555:0
       type:
         is_in_roadmap: crwdns96556:0crwdne96556:0
-        in_aggregation: crwdns96557:0crwdne96557:0
         is_milestone: crwdns96558:0crwdne96558:0
         color: crwdns96559:0crwdne96559:0
       user:
@@ -2011,7 +2010,6 @@ lol:
   text_formatting:
     markdown: crwdns98898:0crwdne98898:0
     plain: crwdns98899:0crwdne98899:0
-    textile: crwdns98897:0crwdne98897:0
   status_active: crwdns97997:0crwdne97997:0
   status_archived: crwdns97998:0crwdne97998:0
   status_invited: crwdns97999:0crwdne97999:0
@@ -2269,7 +2267,6 @@ lol:
       edit: crwdns98222:0%{comment}crwdne98222:0
       show: crwdns98223:0%{comment}crwdne98223:0
     planning_element_update: crwdns98224:0%{title}crwdne98224:0
-    work_packages_are_displayed_in_aggregations: crwdns98225:0crwdne98225:0
     project_type_could_not_be_saved: crwdns98226:0crwdne98226:0
     type_could_not_be_saved: crwdns98227:0crwdne98227:0
     reporting_could_not_be_saved: crwdns98228:0crwdne98228:0
@@ -2428,5 +2425,3 @@ lol:
       writing_read_only_attributes: crwdns98331:0crwdne98331:0
     resources:
       schema: crwdns98332:0crwdne98332:0
-  setting_use_wysiwyg: crwdns98895:0crwdne98895:0
-  setting_text_formatting: crwdns97979:0crwdne97979:0

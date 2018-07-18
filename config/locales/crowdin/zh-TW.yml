@@ -316,7 +316,6 @@ zh-TW:
         type: 類型
       type:
         is_in_roadmap: 在路徑圖
-        in_aggregation: 合併
         is_milestone: 是里程碑
         color: 顏色
       user:
@@ -2035,7 +2034,6 @@ zh-TW:
   text_formatting:
     markdown: Markdown
     plain: 純文字
-    textile: 紡織
   status_active: 啟用
   status_archived: 已封存
   status_invited: 已邀請
@@ -2304,7 +2302,6 @@ zh-TW:
       edit: 編輯狀態： %{comment}
       show: 狀態： %{comment}
     planning_element_update: 更新：%{title}
-    work_packages_are_displayed_in_aggregations: 工作包匯集顯示
     project_type_could_not_be_saved: 專案類型無法保存
     type_could_not_be_saved: 類型無法保存
     reporting_could_not_be_saved: 無法儲存報告
@@ -2478,5 +2475,3 @@ zh-TW:
         您不可寫入唯讀的屬性。
     resources:
       schema: 架構
-  setting_use_wysiwyg: 所見即所得 (WYSIWYG) 編輯器
-  setting_text_formatting: 文字格式
