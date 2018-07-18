@@ -216,20 +216,20 @@ export class WorkPackageResource extends HalResource {
   public uploadAttachments(files:UploadFile[]):Promise<{ response:HalResource, uploadUrl:string }[]> {
     const { uploads, finished } = this.performUpload(files);
 
-    const message = I18n.t('js.label_upload_notification', this);
-    const notification = this.NotificationsService.addWorkPackageUpload(message, uploads);
+    const message = I18n.t('js.label_work_package_upload_notification', this);
+    const notification = this.NotificationsService.addAttachmentUpload(message, uploads);
 
     return finished
-      .then((result:HalResource[]) => {
+      .then((result:{response:HalResource, uploadUrl:string }[]) => {
         setTimeout(() => this.NotificationsService.remove(notification), 700);
         if (!this.isNew) {
           this.updateAttachments();
         } else {
           result.forEach(r => {
-            this.attachments.elements.push(r);
+            this.attachments.elements.push(r.response);
           });
         }
-        return result.map((el:HalResource) => { return { response: el, uploadUrl: el.downloadLocation.href }; });
+        return result;
       })
       .catch((error:any) => {
         this.wpNotificationsService.handleRawError(error, this as any);
@@ -246,7 +246,7 @@ export class WorkPackageResource extends HalResource {
       href = this.attachments.$href!;
     }
 
-    return this.opFileUpload.upload(href, files);
+    return this.opFileUpload.uploadAndMapResponse(href, files);
   }
 
   public getSchemaName(name:string):string {
