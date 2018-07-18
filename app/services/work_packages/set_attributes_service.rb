@@ -51,9 +51,9 @@ class WorkPackages::SetAttributesService
   private
 
   def validate_and_result
-    boolean, errors = validate(work_package)
+    success, errors = validate(work_package)
 
-    ServiceResult.new(success: boolean,
+    ServiceResult.new(success: success,
                       errors: errors,
                       result: work_package)
   end
@@ -62,14 +62,23 @@ class WorkPackages::SetAttributesService
     if attributes.key?(:attachment_ids)
       work_package.attachments_replacements = Attachment.where(id: attributes[:attachment_ids])
     end
-    work_package.attributes = attributes.except(:attachment_ids)
 
+    set_static_attributes(attributes)
     set_default_attributes
     unify_dates
     update_project_dependent_attributes
+    set_custom_attributes(attributes)
     update_dates
     reset_custom_values
     reassign_invalid_status_if_type_changed
+  end
+
+  def set_static_attributes(attributes)
+    assignable_attributes = attributes.except(:attachment_ids).select do |key, _|
+      !CustomField.custom_field_attribute?(key) && work_package.respond_to?(key)
+    end
+
+    work_package.attributes = assignable_attributes
   end
 
   def set_default_attributes
@@ -78,6 +87,14 @@ class WorkPackages::SetAttributesService
     work_package.priority ||= IssuePriority.active.default
     work_package.author ||= user
     work_package.status ||= Status.default
+  end
+
+  def set_custom_attributes(attributes)
+    assignable_attributes = attributes.select do |key, _|
+      CustomField.custom_field_attribute?(key) && work_package.respond_to?(key)
+    end
+
+    work_package.attributes = assignable_attributes
   end
 
   def unify_dates
