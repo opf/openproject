@@ -38,45 +38,13 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <% html_title t("create_new_page") %>
 
-<%= labelled_tabular_form_for @content, as: :content, url: create_project_wiki_index_path(project_id: @project), html: { method: :post, multipart: true, id: 'wiki_form' } do |f| %>
-  <%= error_messages_for 'page' %>
+<%= labelled_tabular_form_for @content,
+                              as: :content,
+                              url: create_project_wiki_index_path(project_id: @project),
+                              html: { method: :post, multipart: true, id: 'wiki_form' } do |f| %>
 
-    <div class="form--field -required">
-      <%= f.fields_for :page, @page do |page_fields| %>
-        <%= page_fields.hidden_field :parent_id %>
-        <%= page_fields.text_field :title, required: true, size: 120, placeholder: t('label_page_title') %>
-      <% end %>
-    </div>
-    <div class="form--field -required">
-      <%= f.fields_for :page, @page do |page_fields| %>
-        <%= page_fields.select :parent_id,
-                               wiki_page_options_for_select(@wiki.pages),
-                               { label: WikiPage.human_attribute_name(:parent_title), include_blank: false },
-                               { class: "parent-select form--select" } %>
-      <% end%>
-    </div>
-    <div class="attributes-group">
-      <div class="attributes-group--header">
-        <div class="attributes-group--header-container">
-          <h3 class="attributes-group--header-text"><%= WikiPage.human_attribute_name(:text) %></h3>
-         </div>
-       </div>
-      <%= f.text_area :text,
-                      cols: 100,
-                      rows: 25,
-                      class: 'wiki-edit',
-                      accesskey: accesskey(:edit),
-                      with_text_formatting: true %>
-    </div>
+  <%= render partial: 'page_form', locals: {f: f}  %>
 
-    <div class="form--field">
-      <%= f.text_field :comments, size: 120 %>
-    </div>
-
-    <%= render partial: 'attachments/form', f: f %>
-
-  <hr class="form--separator" />
-  <%= f.button t(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>
 <% end %>
 
 <div id="preview"></div>
