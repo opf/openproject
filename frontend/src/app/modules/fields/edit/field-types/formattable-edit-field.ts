@@ -68,7 +68,7 @@ export class FormattableEditField extends EditField {
     window.OPBalloonEditor
       .create(element, {
         openProject: {
-          context: this.resource,
+          context: { resource: this.resource },
           helpURL: this.pathHelper.textFormattingHelp(),
           element: element,
           pluginContext: window.OpenProject.pluginContext.value

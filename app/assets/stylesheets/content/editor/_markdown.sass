@@ -1,0 +1,22 @@
+// Specific styles for displaying rendered markdown on all pages
+// This is still selected by div.wiki since this is still used throughout the app.
+
+div.wiki
+
+  // Style pre tags alone
+  pre
+    margin: 1em 1em 1em 1.6em
+    padding: 2px 2px 2px 0
+    background-color: #fafafa
+    border: 1px solid #dadada
+    width: auto
+    overflow-x: auto
+    overflow-y: hidden
+
+  // Avoid doubling borders in pre > code
+  pre > code
+    display: block
+    border: none
+    background: transparent
+    color: initial
+

@@ -57,6 +57,12 @@ OpenProject::Application.routes.draw do
   if FrontendAssetHelper.assets_proxied?
     match '/sockjs-node/*appendix',
           to: redirect("http://localhost:4200/sockjs-node/%{appendix}", status: 307),
+          format: false,
+          via: :all
+
+    match '/assets/frontend/*appendix',
+          to: redirect("http://localhost:4200/assets/frontend/%{appendix}", status: 307),
+          format: false,
           via: :all
   end
 

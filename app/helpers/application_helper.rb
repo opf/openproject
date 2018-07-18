@@ -300,7 +300,7 @@ module ApplicationHelper
   end
 
   def syntax_highlight(name, content)
-    highlighted = Redmine::SyntaxHighlighting.highlight_by_filename(content, name)
+    highlighted = OpenProject::SyntaxHighlighting.highlight_by_filename(content, name)
     highlighted.each_line do |line|
       yield highlighted.html_safe? ? line.html_safe : line
     end

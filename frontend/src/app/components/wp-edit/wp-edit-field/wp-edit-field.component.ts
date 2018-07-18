@@ -134,6 +134,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
   }
 
   public activate(noWarnings:boolean = false):Promise<WorkPackageEditFieldHandler> {
+    this.active = true;
     return this.activateOnForm(this.wpEditFieldGroup.form, noWarnings);
   }
 
