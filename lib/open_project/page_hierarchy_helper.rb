@@ -50,19 +50,20 @@ module OpenProject
 
     def render_hierarchy_item(page, is_parent, options = {})
       content_tag(:span, class: 'tree-menu--item', slug: page.slug) do
-        hierarchy_span_content = if is_parent
-                                   render_hierarchy_indicator_icons
-                                 else
-                                   render_leaf_indicator
-                                 end
-
-        concat content_tag(:span, hierarchy_span_content, class: 'tree-menu--hierarchy-span')
-
+        concat content_tag(:span, hierarchy_span_content(is_parent), class: 'tree-menu--hierarchy-span')
         concat link_to(page.title,
                        Rails.application.routes.url_helpers.project_wiki_path(page.project, page),
                        title: hierarchy_item_title(options, page),
                        class: 'tree-menu--title ellipsis') do
         end
+      end
+    end
+
+    def hierarchy_span_content(is_parent)
+      if is_parent
+        render_hierarchy_indicator_icons
+      else
+        render_leaf_indicator
       end
     end
 
