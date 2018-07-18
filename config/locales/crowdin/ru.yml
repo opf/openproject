@@ -35,8 +35,8 @@ ru:
     label_one_time_password: 'Одноразовый пароль'
     label_2fa_enabled: 'Двухфакторная аутентификация активна'
     label_2fa_disabled: 'Двухфакторная аутентификация неактивна'
-    text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
-    text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
+    text_otp_delivery_message_sms: "Ваш одноразовый пароль для %{app_title} это %{token}"
+    text_otp_delivery_message_voice: "Ваш одноразовый пароль для %{app_title}: %{pause} %{token}. %{pause} Повторяю: %{pause} %{token}"
     text_enter_2fa: 'Введите одноразовый пароль со своего устройства.'
     text_2fa_enabled: 'При каждом входе у вас будет запрашиваться токен ОП (одноразового пароля) с устройства 2ФА по умолчанию.'
     text_2fa_disabled: 'Чтобы включить двухфакторную аутентификацию, нажмите кнопку выше и зарегистрируйте новое устройство 2ФА. Если устройство у вас уже есть, необходимо сделать его устройством по умолчанию.'
@@ -45,20 +45,20 @@ ru:
       enter_backup_code_text: Если у вас больше нет доступа к зарегистрированным устройствам 2ФА, введите действительный резервный код из списка кодов.
       other_device: 'Использовать другое устройство или резервный код'
     settings:
-      title: '2FA settings'
-      current_configuration: 'Current configuration'
-      label_active_strategies: 'Active 2FA strategies'
-      label_enforced: 'Enforce 2FA'
-      label_remember: 'Remember 2FA login'
+      title: 'Параметры 2ФА'
+      current_configuration: 'Текущая конфигурация'
+      label_active_strategies: 'Активные стратегии 2ФА'
+      label_enforced: 'Принудительная 2ФА'
+      label_remember: 'Запомнить логин 2ФА'
       text_configuration: |
-        Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
-      text_configuration_guide: For more information, check the configuration guide.
-      text_enforced: 'Enable this setting to force all users to register a 2FA device on their next login. Can only be disabled when not enforced by configuration.'
+        Примечание: Эти значения представляют текущую конфигурацию для приложения в целом. Вы не можете отключить параметры, заданные конфигурацией, или изменить текущие активные стратегии, так как это требует перезапуска сервера.
+      text_configuration_guide: Для дополнительной информации обратитесь к руководству по настройке.
+      text_enforced: 'Включите этот параметр, чтобы всем пользователям при следующем входе потребовалось зарегистировать устройство 2ФА. Можно отключить только в том случае, если не настроено принудительно в конфигурации.'
       text_remember: |
-        Set this to greater than zero to allow users to remember their 2FA authentication for the given number of days.
-        They will not be requested to re-enter it during that period. Can only be set when not enforced by configuration.
-      error_invalid_settings: 'The 2FA strategies you selected are invalid'
-      failed_to_save_settings: 'Failed to update 2FA settings: %{message}'
+        Установите в этом параметре значение более нуля, чтобы разрешить пользователям сохранять их аутентификацию 2ФА на заданное количество дней.
+        В течение этого периода у них не будет запрашиваться повторный ввод. Можно установить только в том случае, если не настроено принудительно в конфигурации.
+      error_invalid_settings: 'Вы выбрали неправильные стратегии 2ФА'
+      failed_to_save_settings: 'Ошибка при обновлении параметров 2ФА: %{message}'
     admin:
       self_edit_path: 'Добавлять и изменять свои устройства 2ФА можно в разделе %{self_edit_link}'
       self_edit_link_name: '«Двухфакторная аутентификация» на странице учетной записи'
@@ -71,8 +71,8 @@ ru:
       text_2fa_enabled: 'При каждом входе у пользователя будет запрашиваться токен ОП (одноразового пароля) с его устройства 2ФА по умолчанию.'
       text_2fa_disabled: "Пользователь не настроил устройство 2ФА на своей странице «Моя учетная запись»"
     upsale:
-      title: 'Two-factor authentication is an enterprise feature'
-      description: 'Strenghten your internal or external authentication mechanisms with a second factor.'
+      title: 'Функция двухфакторной аутентификации работает в версии Enterprise'
+      description: 'Усильте ваш механизм внутренней или внешней аутентификации, используя второй фактор.'
     backup_codes:
       none_found: Для этой учетной записи резервных кодов нет.
       singular: Резервный код
@@ -101,7 +101,7 @@ ru:
       registration_failed_update: 'Ошибка регистрации устройства 2ФА: токен действителен, однако обновить устройство не удалось.'
       confirm_send_failed: 'Не удалось подтвердить устройство 2ФА.'
       button_complete_registration: 'Завершить регистрацию 2ФА'
-      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
+      text_confirm_to_complete_html: "Пожалуйста, завершите регистрацию вашего устройства <strong>%{identifier}</strong>: введите одноразовый пароль с вашего устройства по умолчанию."
       text_confirm_to_change_default_html: "Подтвердите новое устройство по умолчанию — <strong>%{new_identifier}</strong>: введите одноразовый пароль с текущего устройства по умолчанию."
       text_identifier: 'С помощью этого поля устройству можно присвоить идентификатор.'
       failed_to_delete: 'Не удалось удалить устройство 2ФА.'
@@ -111,7 +111,7 @@ ru:
       totp:
         title: 'Использование приложения для аутентификации'
         provisioning_uri: 'URI для подключения'
-        secret_key: 'Secret key'
+        secret_key: 'Секретный ключ'
         time_based: 'С синхронизацией по времени'
         account: 'Имя учетной записи / эмитент'
         setup: |
@@ -133,8 +133,8 @@ ru:
     sns:
       delivery_failed: 'Сбой доставки SNS:'
     message_bird:
-      sms_delivery_failed: 'MessageBird SMS delivery failed.'
-      voice_delivery_failed: 'MessageBird voice call failed.'
+      sms_delivery_failed: 'Ошибка при отправке SMS через MessageBird.'
+      voice_delivery_failed: 'Ошибка голосового вызова MessageBird.'
     restdt:
       delivery_failed_with_code: 'Ошибка доставки токена. (Код ошибки: %{code}.)'
     strategies:
@@ -147,11 +147,11 @@ ru:
       required_to_add_device: 'Активная политика безопасности требует использования двухфакторной аутентификации. Зарегистрируйте устройство с помощью следующей формы.'
     remember:
       active_session_notice: >
-        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
-      label: 'Remember'
-      clear_cookie: 'Click here to remove this cookie'
-      cookie_removed: 'The remember cookie has been removed.'
-      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
+        Для вашей учетной записи существует файл cookie, действительный до %{expires_on}. До указанного времени этот файл cookie позволяет вам входить в вашу учетную запись без второго фактора.
+      label: 'Запомнить'
+      clear_cookie: 'Нажмите сюда, чтобы удалить этот файл cookie'
+      cookie_removed: 'Файл cookie, используемый для запоминания, был удален.'
+      dont_ask_again: "Создать файл cookie для запоминания аутентификации 2ФА на этом клиенте в течение %{days} дней."
   field_phone: "Сотовый телефон"
   field_otp: "Одноразовый пароль"
   notice_account_otp_invalid: "Неправильный одноразовый пароль."
@@ -164,7 +164,7 @@ ru:
   label_confirmed: 'Подтвержден'
   button_continue: 'Далее'
   button_make_default: 'Задать по умолчанию'
-  label_unverified_phone: "Cell phone not yet verified"
+  label_unverified_phone: "Сотовый телефон еще не подтвержден"
   notice_phone_number_format: "Введите номер в следующем формате: +XX XXXXXXXX."
   text_otp_not_receive: "Другие способы проверки"
   text_send_otp_again: "Повторно отправить одноразовый пароль:"
