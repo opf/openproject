@@ -28,32 +28,16 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 <%= toolbar title: @page.title %>
 <% html_title t(:label_edit), @page.title %>
-<%= labelled_tabular_form_for @content, as: :content, url: {action: 'update', id: @page}, html: {method: :put, multipart: true, id: 'wiki_form'} do |f| %>
+<%= labelled_tabular_form_for @content,
+                              as: :content,
+                              url: {action: 'update', id: @page},
+                              html: {method: :put, multipart: true, id: 'wiki_form'} do |f| %>
   <%= f.hidden_field :lock_version %>
-  <%= error_messages_for 'content' %>
 
-  <div class="attributes-group">
-    <%= f.text_area :text,
-                    cols: 100,
-                    rows: 25,
-                    class: 'wiki-edit',
-                    accesskey:  accesskey(:edit),
-                    with_text_formatting: true,
-                    preview_context: preview_context(@page) %>
-  </div>
+  <%= render partial: 'wiki/page_form', locals: {f: f}  %>
 
-  <div class="form--field">
-    <%= f.text_field :comments, size: 120 %>
-  </div>
-
-  <%= render partial: 'attachments/form' %>
-
-  <hr class="form--separator" />
-  <%= f.button t(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>
-  <%= link_to t(:button_cancel),
-      { controller: '/wiki', action: 'show', project_id: @project, id: @page },
-      class: 'button' %>
 <% end %>
+
 <div id="preview"></div>
 <% content_for :header_tags do %>
   <%= robot_exclusion_tag %>

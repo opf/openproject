@@ -177,30 +177,22 @@ class WikiController < ApplicationController
 
   # Creates a new page or updates an existing one
   def update
-    @page = @wiki.find_or_new_page(wiki_page_title)
-    unless editable?
-      flash[:error] = l(:error_unable_update_wiki)
-      return render_403
-    end
+    @page = @wiki.find_page(params[:id])
+    render_404 if @page.nil?
+    @content = @page.content
+    return if locked?
 
-    @page.content = WikiContent.new(page: @page) if @page.new_record?
-
-    @content = @page.content_for_version(params[:version])
-    # don't keep previous comment
-    @content.comments = nil
     @page.attach_files(permitted_params.attachments.to_h)
 
-    if !@page.new_record? && params[:content].present? && @content.text == params[:content][:text]
-      render_attachment_warning_if_needed(@page)
-      # don't save if text wasn't changed
-      redirect_to_show
-      return
-    end
+    return if nothing_to_update?
+
+    @page.title = permitted_params.wiki_page[:title]
+    @page.parent_id = permitted_params.wiki_page[:parent_id].to_i
     @content.attributes = permitted_params.wiki_content
     @content.author = User.current
     @content.add_journal User.current, params['content']['comments']
-    # if page is new @page.save will also save content, but not if page isn't a new record
-    if @page.new_record? ? @page.save : @content.save
+
+    if @page.save_with_content
       render_attachment_warning_if_needed(@page)
       call_hook(:controller_wiki_edit_after_save, params: params, page: @page)
       flash[:notice] = l(:notice_successful_update)
@@ -384,6 +376,30 @@ class WikiController < ApplicationController
   end
 
   private
+
+  def nothing_to_update?
+    return false if @page.new_record?
+    if anything_to_update?
+      render_attachment_warning_if_needed(@page)
+      # don't save if text wasn't changed
+      redirect_to_show
+      true
+    end
+  end
+
+  def anything_to_update?
+    params[:content].present? &&
+      @content.text == permitted_params.wiki_content[:text] &&
+      @page.parent_id == permitted_params.wiki_page[:parent_id].to_i
+  end
+
+  def locked?
+    return false if editable?
+
+    flash[:error] = l(:error_unable_update_wiki)
+    render_403
+    true
+  end
 
   def page_for_menu_item(page)
     if page == :parent_page

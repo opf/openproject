@@ -87,10 +87,12 @@ describe WikiController, type: :controller do
 
   it 'should create page' do
     session[:user_id] = 2
-    put :update, params: { project_id: 1,
+    post :create, params: { project_id: 1,
                            id: 'New page',
                            content: { comments: 'Created the page',
-                                      text: "h1. New page\n\nThis is a new page" } }
+                                      text: "h1. New page\n\nThis is a new page",
+                                      page: { title: 'New page',
+                                              parent_id: '' } } }
     assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'new-page'
     page = wiki.find_page('New page')
     assert !page.new_record?
@@ -102,15 +104,17 @@ describe WikiController, type: :controller do
     session[:user_id] = 2
     assert_difference 'WikiPage.count' do
       assert_difference 'Attachment.count' do
-        put :update, params: { project_id: 1,
+        post :create, params: { project_id: 1,
                                id: 'New page',
                                content: { comments: 'Created the page',
                                           text: "h1. New page\n\nThis is a new page",
-                                          lock_version: 0 },
+                                          lock_version: 0,
+                                          page: { title: 'Freshly created page',
+                                                  parent_id: '' } },
                                attachments: { '1' => { 'file' => uploaded_test_file('testfile.txt', 'text/plain') } } }
       end
     end
-    page = wiki.find_page('New page')
+    page = wiki.find_page('Freshly created page')
     assert_equal 1, page.attachments.count
     assert_equal 'testfile.txt', page.attachments.first.filename
   end
@@ -128,14 +132,16 @@ describe WikiController, type: :controller do
                                  content: {
                                    comments: 'my comments',
                                    text: 'edited',
-                                   lock_version: 1
-                                 } }
+                                   lock_version: 1,
+                                   page: { title: 'Another page',
+                                           parent_id: '' } } }
         end
       end
     end
     assert_redirected_to '/projects/ecookbook/wiki/another-page'
 
     page.reload
+    assert_equal 'edited', page.content.text
     assert_equal 'edited', page.content.text
     assert_equal page.content.journals.map(&:version).max, page.content.version
     assert_equal 'my comments', page.content.last_journal.notes
@@ -151,7 +157,9 @@ describe WikiController, type: :controller do
                                  content: {
                                    comments: 'a' * 300, # failure here, comment is too long
                                    text: 'edited',
-                                   lock_version: 1
+                                   lock_version: 1,
+                                   page: { title: 'Another page',
+                                           parent_id: '' }
                                  } }
         end
       end
@@ -187,7 +195,9 @@ describe WikiController, type: :controller do
                                  content: {
                                    comments: 'My comments',
                                    text: 'Text should not be lost',
-                                   lock_version: 1
+                                   lock_version: 1,
+                                   page: { title: 'Another page',
+                                           parent_id: '' }
                                  } }
         end
       end
