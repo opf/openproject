@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe 'Wysiwyg tables',
-         with_settings: { text_formatting: 'markdown', use_wysiwyg?: true },
          type: :feature, js: true do
   let(:user) { FactoryBot.create :admin }
   let(:project) { FactoryBot.create(:project, enabled_module_names: %w[wiki]) }

@@ -188,7 +188,6 @@ import {WorkPackageCommentComponent} from "core-components/work-packages/work-pa
 import {OpCkeditorFormComponent} from "core-components/ckeditor/op-ckeditor-form.component";
 import {WorkPackageUploadComponent} from "core-components/wp-attachments/wp-attachments-upload/wp-attachments-upload.component";
 import {OpDragScrollDirective} from "core-app/modules/common/ui/op-drag-scroll.directive";
-import {TextileService} from "core-app/modules/common/textile/textile-service";
 import {UIRouterModule} from "@uirouter/angular";
 import {initializeUiRouterConfiguration} from "core-components/routing/ui-router.config";
 import {WorkPackagesBaseComponent} from "core-components/routing/main/work-packages-base.component";
@@ -215,6 +214,7 @@ import {
 import {WpButtonMacroModal} from "core-components/modals/editor/macro-wp-button-modal/wp-button-macro.modal";
 import {EditorMacrosService} from "core-components/modals/editor/editor-macros.service";
 import {WikiIncludePageMacroModal} from "core-components/modals/editor/macro-wiki-include-page-modal/wiki-include-page-macro.modal";
+import {CodeBlockMacroModal} from "core-components/modals/editor/macro-code-block-modal/code-block-macro.modal";
 
 @NgModule({
   imports: [
@@ -250,7 +250,6 @@ import {WikiIncludePageMacroModal} from "core-components/modals/editor/macro-wik
       deps: [Injector],
       multi: true
     },
-    TextileService,
     OpTitleService,
     TimezoneService,
     WorkPackageRelationsService,
@@ -457,6 +456,7 @@ import {WikiIncludePageMacroModal} from "core-components/modals/editor/macro-wik
     WpDestroyModal,
     WpButtonMacroModal,
     WikiIncludePageMacroModal,
+    CodeBlockMacroModal,
 
     // External query configuration
     ExternalQueryConfigurationComponent,
@@ -540,6 +540,7 @@ import {WikiIncludePageMacroModal} from "core-components/modals/editor/macro-wik
     AttributeHelpTextModal,
     WpButtonMacroModal,
     WikiIncludePageMacroModal,
+    CodeBlockMacroModal,
 
     // External query configuration
     ExternalQueryConfigurationComponent,

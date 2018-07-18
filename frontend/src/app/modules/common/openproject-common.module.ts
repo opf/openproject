@@ -55,7 +55,6 @@ import {FocusDirective} from "core-app/modules/common/focus/focus.directive";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HighlightColDirective} from "core-app/modules/common/highlight-col/highlight-col.directive";
 import {CopyToClipboardDirective} from "core-app/modules/common/copy-to-clipboard/copy-to-clipboard.directive";
-import {WikiToolbarDirective} from "core-app/modules/common/wiki-toolbar/wiki-toolbar.directive";
 import {highlightColBootstrap} from "./highlight-col/highlight-col.directive";
 import {HookService} from "../plugins/hook-service";
 import {HTMLSanitizeService} from "./html-sanitize/html-sanitize.service";
@@ -98,9 +97,6 @@ export function bootstrapModule(injector:Injector) {
     // Entries for ng1 downgraded components
     AttributeHelpTextComponent,
 
-    // Add functionality to rails rendered templates
-    WikiToolbarDirective,
-
     // Table highlight
     HighlightColDirective,
   ],
@@ -129,8 +125,7 @@ export function bootstrapModule(injector:Injector) {
     HighlightColDirective,
 
     // Add functionality to rails rendered templates
-    CopyToClipboardDirective,
-    WikiToolbarDirective
+    CopyToClipboardDirective
   ],
   entryComponents: [
     OpDateTimeComponent,

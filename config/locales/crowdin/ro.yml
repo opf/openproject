@@ -2131,7 +2131,6 @@ ro:
     de încercări de autentificare nereușite
   setting_brute_force_block_minutes: Durata pentru care utilizatorul este blocat
   setting_cache_formatted_text: Păstrare text formatat în memorie
-  setting_use_wysiwyg: WYSIWYG editor
   setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
     users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Personalizați aspectul listelor cu pachete de lucru
@@ -2226,7 +2225,6 @@ ro:
   setting_sys_api_enabled: Activare serviciul web de administrare repo
   setting_sys_api_description: Serviciul web de administrare repo oferă integrare
     şi autorizare utilizatori pentru accesul la repo-uri.
-  setting_text_formatting: Formatare text
   setting_time_format: Format oră
   setting_accessibility_mode_for_anonymous: Activează modul de accesibilitate pentru
     utilizatorii anonimi
@@ -2251,9 +2249,9 @@ ro:
       default_preferences: Default preferences
       deletion: Deletion
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Plain text
+    textile: Textile
   status_active: activ
   status_archived: archived
   status_invited: invitat
@@ -2769,3 +2767,5 @@ ro:
       writing_read_only_attributes: Nu puteți scrie într-un câmp restricționat.
     resources:
       schema: Schemă
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_text_formatting: Formatare text

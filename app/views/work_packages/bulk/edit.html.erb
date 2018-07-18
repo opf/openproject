@@ -122,7 +122,6 @@ See docs/COPYRIGHT.rdoc for more details.
               </div>
             </div>
             <div id="parent_work_package_candidates" class="autocomplete"></div>
-            <%= nonced_javascript_tag "observeParentIssueField('#{work_packages_auto_complete_path(project_id: @project.id)}')" %>
           <% end %>
           <div class="form--field">
             <label class="form--label" for='work_package_start_date'><%= WorkPackage.human_attribute_name(:start_date) %></label>
@@ -150,8 +149,7 @@ See docs/COPYRIGHT.rdoc for more details.
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= Journal.human_attribute_name(:notes) %></legend>
       <%= label_tag 'notes', Journal.human_attribute_name(:notes), class: 'hidden-for-sighted' %>
-      <%= styled_text_area_tag 'notes', @notes, cols: 60, rows: 10, class: 'wiki-edit' %>
-      <%= wikitoolbar_for 'notes' %>
+      <%= styled_text_area_tag 'notes', @notes, class: 'wiki-edit', with_text_formatting: true %>
       <p><%= send_notification_option %></p>
     </fieldset>
   </section>

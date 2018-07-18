@@ -35,7 +35,12 @@
         content = $("#reply_content");
 
       subject.val(result.subject);
-      content.val(result.content);
+
+      $('op-ckeditor-form')
+        .data('editor')
+        .then(function(editor) {
+          editor.setData(result.content);
+        });
 
       reply.slideDown();
       content.focus();

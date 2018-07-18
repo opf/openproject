@@ -300,7 +300,7 @@ module ApplicationHelper
   end
 
   def syntax_highlight(name, content)
-    highlighted = Redmine::SyntaxHighlighting.highlight_by_filename(content, name)
+    highlighted = OpenProject::SyntaxHighlighting.highlight_by_filename(content, name)
     highlighted.each_line do |line|
       yield highlighted.html_safe? ? line.html_safe : line
     end
@@ -631,12 +631,6 @@ module ApplicationHelper
     else
       [ll(lang_code.to_s, :general_lang_name), lang_code.to_s]
     end
-  end
-
-  def wiki_helper
-    helper = Redmine::WikiFormatting.helper_for(Setting.text_formatting)
-    extend helper
-    self
   end
 
   def link_to_content_update(text, url_params = {}, html_options = {})

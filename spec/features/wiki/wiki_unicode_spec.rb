@@ -31,20 +31,20 @@ require 'spec_helper'
 describe 'Wiki unicode title spec', type: :feature, js: true do
   let(:user) { FactoryBot.create :admin }
   let(:project) { FactoryBot.create :project }
-  let(:wiki_page_1) {
+  let(:wiki_page_1) do
     FactoryBot.build :wiki_page_with_content,
-                       title: '<script>alert("FOO")</script>'
-  }
-  let(:wiki_page_2) {
+                     title: '<script>alert("FOO")</script>'
+  end
+  let(:wiki_page_2) do
     FactoryBot.build :wiki_page_with_content,
-                       title: 'Base de données'
-  }
-  let(:wiki_page_3) {
+                     title: 'Base de données'
+  end
+  let(:wiki_page_3) do
     FactoryBot.build :wiki_page_with_content,
-                       title: 'Base_de_données'
-  }
+                     title: 'Base_de_données'
+  end
 
-  let(:wiki_body) {
+  let(:wiki_body) do
     <<-EOS
     [[Base de données]] should link to wiki_page_2
 
@@ -57,19 +57,13 @@ describe 'Wiki unicode title spec', type: :feature, js: true do
     [[<script>alert("FOO")</script>]]
 
     EOS
-  }
+  end
 
-  let(:expected_slugs) {
-    [
-      'base-de-donnees',
-      'base-de-donnees',
-      'base-de-donnees',
-      'base-de-donnees-1',
-      'alert-foo',
-    ]
-  }
+  let(:expected_slugs) do
+    %w(base-de-donnees base-de-donnees base-de-donnees base-de-donnees-1 alert-foo)
+  end
 
-  let(:expected_titles) {
+  let(:expected_titles) do
     [
       'Base de données',
       'Base de données',
@@ -77,7 +71,7 @@ describe 'Wiki unicode title spec', type: :feature, js: true do
       'Base_de_données',
       '<script>alert("FOO")</script>'
     ]
-  }
+  end
 
   before do
     login_as(user)
@@ -91,7 +85,7 @@ describe 'Wiki unicode title spec', type: :feature, js: true do
     visit project_wiki_path(project, :wiki)
 
     # Set value
-    find('#content_text').set(wiki_body)
+    find('.ck-content').base.send_keys(wiki_body)
     click_button 'Save'
 
     expect(page).to have_selector('.title-container h2', text: 'Wiki')

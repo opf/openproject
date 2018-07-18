@@ -39,10 +39,9 @@ import {FormsModule} from "@angular/forms";
 import {DurationEditFieldComponent} from "core-app/modules/fields/edit/field-types/duration-edit-field";
 import {FloatEditFieldComponent} from "core-app/modules/fields/edit/field-types/float-edit-field";
 import {IntegerEditFieldComponent} from "core-app/modules/fields/edit/field-types/integer-edit-field";
-import {FormattableTextareaEditFieldComponent} from "core-app/modules/fields/edit/field-types/formattable-textarea-edit-field.component";
 import {MultiSelectEditFieldComponent} from "core-app/modules/fields/edit/field-types/multi-select-edit-field";
 import {SelectEditFieldComponent} from "core-app/modules/fields/edit/field-types/select-edit-field";
-import {FormattableWysiwygEditFieldComponent} from "core-app/modules/fields/edit/field-types/formattable-wysiwyg-edit-field.component";
+import {FormattableEditFieldComponent} from "core-app/modules/fields/edit/field-types/formattable-edit-field.component";
 import {TextEditFieldComponent} from "core-app/modules/fields/edit/field-types/text-edit-field";
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
 import {WorkPackageEditingPortalService} from "core-app/modules/fields/edit/editing-portal/wp-editing-portal-service";
@@ -76,8 +75,7 @@ import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-
     DurationEditFieldComponent,
     FloatEditFieldComponent,
     IntegerEditFieldComponent,
-    FormattableWysiwygEditFieldComponent,
-    FormattableTextareaEditFieldComponent,
+    FormattableEditFieldComponent,
     MultiSelectEditFieldComponent,
     SelectEditFieldComponent,
     TextEditFieldComponent,
@@ -91,8 +89,7 @@ import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-
     DurationEditFieldComponent,
     FloatEditFieldComponent,
     IntegerEditFieldComponent,
-    FormattableWysiwygEditFieldComponent,
-    FormattableTextareaEditFieldComponent,
+    FormattableEditFieldComponent,
     MultiSelectEditFieldComponent,
     SelectEditFieldComponent,
     TextEditFieldComponent,

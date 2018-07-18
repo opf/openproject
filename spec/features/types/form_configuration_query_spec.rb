@@ -35,22 +35,29 @@ describe 'form subelements configuration', type: :feature, js: true do
   let(:type_task) { FactoryBot.create :type_task }
 
   let(:project) { FactoryBot.create :project, types: [type_bug, type_task] }
+  let(:other_project) { FactoryBot.create :project, types: [type_task] }
   let!(:work_package) do
     FactoryBot.create :work_package,
-                       project: project,
-                       type: type_bug
+                      project: project,
+                      type: type_bug
   end
   let!(:subtask) do
     FactoryBot.create :work_package,
-                       parent: work_package,
-                       project: project,
-                       type: type_task
+                      parent: work_package,
+                      project: project,
+                      type: type_task
+  end
+  let!(:subtask_other_project) do
+    FactoryBot.create :work_package,
+                      parent: work_package,
+                      project: other_project,
+                      type: type_task
   end
   let!(:subbug) do
     FactoryBot.create :work_package,
-                       parent: work_package,
-                       project: project,
-                       type: type_bug
+                      parent: work_package,
+                      project: project,
+                      type: type_bug
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
@@ -157,7 +164,7 @@ describe 'form subelements configuration', type: :feature, js: true do
       table_container = find(".attributes-group[data-group-name='Subtasks']")
                         .find('.work-packages-embedded-view--container')
       embedded_table = Pages::EmbeddedWorkPackagesTable.new(table_container)
-      embedded_table.expect_work_package_listed subtask
+      embedded_table.expect_work_package_listed subtask, subtask_other_project
       embedded_table.expect_work_package_not_listed subbug
 
       # Go back to type configuration

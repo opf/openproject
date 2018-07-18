@@ -2144,7 +2144,6 @@ it:
     di tentativi di login
   setting_brute_force_block_minutes: Durata del blocco utente
   setting_cache_formatted_text: Cache del testo formattato
-  setting_use_wysiwyg: WYSIWYG editor
   setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
     users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Personalizza l'aspetto degli elenchi di macro-attività (work
@@ -2244,7 +2243,6 @@ it:
   setting_sys_api_enabled: Abilita la gestione di archivi via web service
   setting_sys_api_description: Il web service di gestione archivio fornisce servizi
     per integrare ed autorizzare gli utenti nell'accesso agli archivi.
-  setting_text_formatting: Formattazione testo
   setting_time_format: Formato del tempo
   setting_accessibility_mode_for_anonymous: Abilita la modalità di accesso facilitato
     per utenti anonimi
@@ -2270,9 +2268,9 @@ it:
       default_preferences: Default preferences
       deletion: Deletion
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Plain text
+    textile: Textile
   status_active: attivo
   status_archived: archiviato
   status_invited: invitato
@@ -2804,3 +2802,5 @@ it:
       writing_read_only_attributes: Non puoi scrivere un attributo di sola lettura.
     resources:
       schema: Schema
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_text_formatting: Formattazione testo

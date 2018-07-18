@@ -51,7 +51,6 @@ module BasicData
                                                  color_id: green_color,
                                                  is_default: true,
                                                  is_in_roadmap: true,
-                                                 in_aggregation: true,
                                                  is_milestone: false)
 
           # Adds the standard type to all existing projects

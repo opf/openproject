@@ -1937,7 +1937,6 @@ ja:
   setting_brute_force_block_after_failed_logins: ユーザをロックさせるログイン失敗回数
   setting_brute_force_block_minutes: ユーザがロックされている期間
   setting_cache_formatted_text: 書式化されたテキストをキャッシュする
-  setting_use_wysiwyg: WYSIWYG エディター
   setting_use_wysiwyg_description: すべてのユーザーに対してデフォルトで CKEditor5 WYSIWYGエディタ を有効にする場合に選択します。
     CKEditor は GFM Markdown の機能が制限されています。
   setting_column_options: 作業項目一覧の表示をカスタマイズする
@@ -2014,7 +2013,6 @@ ja:
   setting_start_of_week: 週の開始
   setting_sys_api_enabled: リポジトリ管理Webサービスを有効にする
   setting_sys_api_description: リポジトリ管理Webサービスは、リポジトリへのアクセスの統合およびユーザー認証を提供します。
-  setting_text_formatting: テキストの書式
   setting_time_format: 時刻の形式
   setting_accessibility_mode_for_anonymous: 匿名ユーザ向けにアクセシビリティモードを有効
   setting_user_format: ユーザ情報の形式
@@ -2037,9 +2035,9 @@ ja:
       default_preferences: デフォルト設定
       deletion: 削除
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: プレーンテキスト
+    textile: Textile
   status_active: 有効
   status_archived: アーカイブ済
   status_invited: 招待済み
@@ -2476,3 +2474,5 @@ ja:
       writing_read_only_attributes: 読み取り専用の属性を書き込みできません。
     resources:
       schema: スキーマ
+  setting_use_wysiwyg: WYSIWYG エディター
+  setting_text_formatting: テキストの書式

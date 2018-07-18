@@ -29,15 +29,11 @@
 require 'spec_helper'
 
 describe ::API::Decorators::Formattable do
-  let(:represented) { 'A *raw* string!' }
+  let(:represented) { 'A **raw** string!' }
   subject { described_class.new(represented).to_json }
 
-  before do
-    allow(Setting).to receive(:text_formatting).and_return('textile')
-  end
-
   it 'should indicate its format' do
-    is_expected.to be_json_eql('textile'.to_json).at_path('format')
+    is_expected.to be_json_eql('markdown'.to_json).at_path('format')
   end
 
   it 'should contain the raw string' do
@@ -54,7 +50,7 @@ describe ::API::Decorators::Formattable do
 
     it 'passes that to format_text' do
       expect(subject)
-        .to receive(:format_text).with(anything, format: 'textile', object: object)
+        .to receive(:format_text).with(anything, format: :markdown, object: object)
         .and_call_original
 
       expect(subject.to_json)
@@ -63,29 +59,14 @@ describe ::API::Decorators::Formattable do
   end
 
   context 'format specified explicitly' do
-    subject { described_class.new(represented, format: 'plain').to_json }
+    subject { described_class.new(represented, plain: true).to_json }
 
     it 'should indicate the explicit format' do
       is_expected.to be_json_eql('plain'.to_json).at_path('format')
     end
 
     it 'should format using the explicit format' do
-      is_expected.to be_json_eql('<p>A *raw* string!</p>'.to_json).at_path('html')
-    end
-  end
-
-  context 'format set to plain by Settings' do
-    before do
-      # N.B. Settings may return '' even though they mean 'plain'
-      allow(Setting).to receive(:text_formatting).and_return('')
-    end
-
-    it 'should indicate the plain format' do
-      is_expected.to be_json_eql('plain'.to_json).at_path('format')
-    end
-
-    it 'should format using the plain format' do
-      is_expected.to be_json_eql('<p>A *raw* string!</p>'.to_json).at_path('html')
+      is_expected.to be_json_eql('<p>A **raw** string!</p>'.to_json).at_path('html')
     end
   end
 end

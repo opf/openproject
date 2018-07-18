@@ -183,7 +183,7 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit,
       .find(
         this.queryProps,
         this.queryId,
-        this.projectIdentifier
+        this.queryProjectScope
       )
       .then((query:QueryResource) => this.initializeStates(query, query.results));
 
@@ -192,5 +192,13 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit,
     }
 
     return promise;
+  }
+
+  private get queryProjectScope() {
+    if (!this.configuration.projectContext) {
+      return undefined;
+    } else {
+      return this.projectIdentifier;
+    }
   }
 }

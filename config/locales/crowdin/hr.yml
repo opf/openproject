@@ -2126,7 +2126,6 @@ hr:
     krivih pokušaja spajanja
   setting_brute_force_block_minutes: Vrijeme u kojem je korisnik blokiran
   setting_cache_formatted_text: Formatirani tekst u međumemoriji
-  setting_use_wysiwyg: WYSIWYG editor
   setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
     users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Prilagodite izgled liste radnih paketa
@@ -2214,7 +2213,6 @@ hr:
   setting_sys_api_enabled: Enable repository management web service
   setting_sys_api_description: Web servis za upravljanje repozitorijom omogućava integraciju
     i autorizaciju za pristup repozitorijima.
-  setting_text_formatting: Formatiranje teksta
   setting_time_format: Format vremena
   setting_accessibility_mode_for_anonymous: Enable accessibility mode for anonymous
     users
@@ -2238,9 +2236,9 @@ hr:
       default_preferences: Default preferences
       deletion: Deletion
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Plain text
+    textile: Textile
   status_active: aktivno
   status_archived: archived
   status_invited: pozvani
@@ -2751,3 +2749,5 @@ hr:
         je dopušteno samo čitanje.
     resources:
       schema: Shema
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_text_formatting: Formatiranje teksta

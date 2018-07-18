@@ -32,18 +32,18 @@ describe ::API::V3::WorkPackages::UpdateFormRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:errors) { [] }
-  let(:work_package) {
+  let(:work_package) do
     FactoryBot.build(:work_package,
-                      id: 42,
-                      created_at: DateTime.now,
-                      updated_at: DateTime.now)
-  }
-  let(:current_user) {
+                     id: 42,
+                     created_at: Time.now,
+                     updated_at: Time.now)
+  end
+  let(:current_user) do
     FactoryBot.build(:user, member_in_project: work_package.project)
-  }
-  let(:representer) {
+  end
+  let(:representer) do
     described_class.new(work_package, current_user: current_user, errors: errors)
-  }
+  end
 
   context 'generation' do
     subject(:generated) { representer.to_json }
@@ -67,8 +67,7 @@ describe ::API::V3::WorkPackages::UpdateFormRepresenter do
         it 'contains link to work package' do
           body = parse_json(subject)
           actual_preview_link = body['_links']['previewMarkup']['href']
-          expected_preview_link = api_v3_paths.render_markup format: 'textile',
-                                                             link: body['_links']['commit']['href']
+          expected_preview_link = api_v3_paths.render_markup link: body['_links']['commit']['href']
 
           expect(actual_preview_link).to eq(expected_preview_link)
         end
@@ -89,11 +88,11 @@ describe ::API::V3::WorkPackages::UpdateFormRepresenter do
 
         context 'user with insufficient permissions' do
           let(:role) { FactoryBot.create(:role, permissions: []) }
-          let(:current_user) {
+          let(:current_user) do
             FactoryBot.build(:user,
-                              member_in_project: work_package.project,
-                              member_through_role: role)
-          }
+                             member_in_project: work_package.project,
+                             member_through_role: role)
+          end
 
           it { is_expected.not_to have_json_path('_links/commit/href') }
         end

@@ -113,7 +113,7 @@ class WorkPackagePolicy < BasePolicy
 
   def manage_subtasks_allowed?(work_package)
     @manage_subtasks_cache ||= Hash.new do |hash, project|
-      hash[project] = user.allowed_to?(:manage_subtasks, work_package.project)
+      hash[project] = user.allowed_to?(:manage_subtasks, work_package.project, global: work_package.project.nil?)
     end
 
     @manage_subtasks_cache[work_package.project]

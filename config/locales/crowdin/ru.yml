@@ -2149,7 +2149,6 @@ ru:
     количества неудачных попыток входа
   setting_brute_force_block_minutes: Время блокирования пользователя за
   setting_cache_formatted_text: Кэшировать форматированный текст
-  setting_use_wysiwyg: WYSIWYG редактор
   setting_use_wysiwyg_description: Выберите включение CKEditor5 WYSIWYG редактора
     для всех пользователей по умолчанию. CKEditor обладает ограниченной функциональностью
     для GFM Markdown.
@@ -2241,7 +2240,6 @@ ru:
   setting_sys_api_enabled: Разрешить веб-сервис управления репоторием
   setting_sys_api_description: Веб-сервис управления репозиторием обеспечивает интеграцию
     и авторизацию пользователя для доступа к репозиторию.
-  setting_text_formatting: Форматирование текста
   setting_time_format: Формат времени
   setting_accessibility_mode_for_anonymous: Разрешить режим доступа людей с ограниченными
     возможностями для анонимных пользователей
@@ -2266,9 +2264,9 @@ ru:
       default_preferences: Предпочтения по умолчанию
       deletion: Удаление
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Обычный текст
+    textile: Textile
   status_active: Активно
   status_archived: в архиве
   status_invited: приглашено
@@ -2792,3 +2790,5 @@ ru:
         только для чтения.
     resources:
       schema: Схема
+  setting_use_wysiwyg: WYSIWYG редактор
+  setting_text_formatting: Форматирование текста

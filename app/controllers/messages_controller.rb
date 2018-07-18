@@ -29,12 +29,11 @@
 #++
 
 class MessagesController < ApplicationController
-  include OpenProject::Concerns::Preview
   menu_item :boards
   default_search_scope :messages
   model_object Message, scope: Board
-  before_action :find_object_and_scope, except: [:preview]
-  before_action :authorize, except: [:preview, :edit, :update, :destroy]
+  before_action :find_object_and_scope
+  before_action :authorize, except: [:edit, :update, :destroy]
 
   include AttachmentsHelper
   include PaginationHelper
@@ -57,7 +56,7 @@ class MessagesController < ApplicationController
                      .page(page)
                      .per_page(per_page_param)
 
-    @reply = Message.new(subject: "RE: #{@message.subject}")
+    @reply = Message.new(subject: "RE: #{@message.subject}", parent: @topic)
     render action: 'show', layout: !request.xhr?
   end
 
@@ -156,16 +155,6 @@ class MessagesController < ApplicationController
       format.json do
         render json: { subject: subject, content: content }
       end
-    end
-  end
-
-  protected
-
-  def parse_preview_data
-    if params.has_key?(:message)
-      parse_preview_data_helper :message, :content
-    else
-      parse_preview_data_helper :reply, :content, Message
     end
   end
 end

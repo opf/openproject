@@ -30,7 +30,6 @@
 
 module OpenProject::TextFormatting
   module Matchers
-
     # OpenProject links matching
     #
     # Examples:
@@ -99,7 +98,7 @@ module OpenProject::TextFormatting
             )
             |\.\z # Allow matching when string ends with .
             |, # or with ,
-            |\s
+            |[[:space:]]
             |\]
             |<
             |$
@@ -111,7 +110,7 @@ module OpenProject::TextFormatting
       # Allowed prefix matchers
       def self.allowed_prefixes
         link_handlers
-          .map { |handler| handler.allowed_prefixes }
+          .map(&:allowed_prefixes)
           .flatten
           .uniq
       end

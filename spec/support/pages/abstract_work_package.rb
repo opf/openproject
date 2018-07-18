@@ -229,14 +229,7 @@ module Pages
     end
 
     def update_comment(comment)
-      add_comment_container.fill_in 'value', with: comment
-    end
-
-    def preview_comment
-      label = I18n.t('js.inplace.btn_preview_enable')
-      add_comment_container
-        .find(:xpath, "//button[@title='#{label}']")
-        .click
+      add_comment_container.find('.op-ckeditor-wrapper').set(comment)
     end
 
     def save_comment
@@ -272,7 +265,7 @@ module Pages
     end
 
     def description_field
-      find('.wp-edit-field.description textarea')
+      find('.wp-edit-field.description .op-ckeditor-wrapper')
     end
 
     private

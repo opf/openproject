@@ -2157,7 +2157,6 @@ ar:
     الدخول الفاشلة
   setting_brute_force_block_minutes: المستخدم حظر لمدة
   setting_cache_formatted_text: نص منسق مسبقاً في ذاكرة الcache
-  setting_use_wysiwyg: WYSIWYG editor
   setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
     users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: تخصيص ظهور قوائم مجموعة العمل
@@ -2248,7 +2247,6 @@ ar:
   setting_sys_api_enabled: تمكين خدمة ويب إدارة المستودع
   setting_sys_api_description: ويوفر خدمة ويب إدارة المستودع التكامل و إذن للمستخدم  للوصول
     إلى المستودعات.
-  setting_text_formatting: تنسيق النص
   setting_time_format: تنسيق الوقت
   setting_accessibility_mode_for_anonymous: تمكين وضع إمكانية الوصول للمستخدمين المجهولين
   setting_user_format: تنسيق عرض المستخدمين
@@ -2271,9 +2269,9 @@ ar:
       default_preferences: Default preferences
       deletion: Deletion
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Plain text
+    textile: Textile
   status_active: نشِط
   status_archived: archived
   status_invited: مدعوّ
@@ -2777,3 +2775,5 @@ ar:
       writing_read_only_attributes: لا يجب أن تكتب على سمة للقراءة فقط.
     resources:
       schema: مخطّط
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_text_formatting: تنسيق النص

@@ -9,7 +9,7 @@
 | addRelation         | Adds a relation to this work package.                                    | **Permission**: manage wp relations    |
 | addWatcher          | Add any user to WP watchers                                              | **Permission**: add watcher            |
 | customActions       | Collection of predefined changes that can be applied to the work package |                                        |
-| previewMarkup       | Post markup (e.g. textile) here to receive an HTML-rendered response     |                                        |
+| previewMarkup       | Post markup (in markdown) here to receive an HTML-rendered response      |                                        |
 | removeWatcher       | Remove any user from WP watchers                                         | **Permission**: delete watcher         |
 | unwatch             | Remove current user from WP watchers                                     | logged in; watching                    |
 | update              | Form endpoint that aids in preparing and performing edits on a WP        | **Permission**: edit work package      |
@@ -253,7 +253,7 @@ and [update](#work-packages-work-package-patch). The attachments the work packag
                 "id": 1528,
                 "subject": "Develop API",
                 "description": {
-                    "format": "textile",
+                    "format": "markdown",
                     "raw": "Develop super cool OpenProject API.",
                     "html": "<p>Develop super cool OpenProject API.</p>"
                 },
@@ -1962,7 +1962,7 @@ Only linked revisions from repositories are shown if the user has the view chang
                         "id": 1,
                         "details": [ ],
                         "comment": {
-                            "format": "textile",
+                            "format": "markdown",
                             "raw": "Lorem ipsum dolor sit amet.",
                             "html": "<p>Lorem ipsum dolor sit amet.</p>"
                         },
@@ -1985,7 +1985,7 @@ Only linked revisions from repositories are shown if the user has the view chang
                         "id": 2,
                         "details": [ ],
                         "comment": {
-                            "format": "textile",
+                            "format": "markdown",
                             "raw": "Lorem ipsum dolor sit amet.",
                             "html": "<p>Lorem ipsum dolor sit amet.</p>"
                         },

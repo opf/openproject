@@ -26,8 +26,8 @@ SecureHeaders::Configuration.default do |config|
   connect_src = default_src
 
   if FrontendAssetHelper.assets_proxied?
-    connect_src += %w[ws://localhost:4200 http://localhost:4200]
-    assets_src += %w[ws://localhost:4200 http://localhost:4200]
+    connect_src += %w[ws://localhost:* http://localhost:*]
+    assets_src += %w[ws://localhost:* http://localhost:*]
   end
 
   config.csp = {
@@ -45,7 +45,7 @@ SecureHeaders::Configuration.default do |config|
     # Allow iframe from vimeo (welcome video)
     frame_src: frame_src + %w('self'),
     frame_ancestors: %w('self'),
-  # Allow images from anywhere including data urls and blobs (used in resizing)
+    # Allow images from anywhere including data urls and blobs (used in resizing)
     img_src: %w(* data: blob:),
     # Allow scripts from self
     script_src: assets_src,

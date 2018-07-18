@@ -29,18 +29,6 @@
 require 'spec_helper'
 
 describe HelpController, type: :routing do
-  it 'connects GET /help/wiki_syntax to help#wiki_syntax' do
-    expect(get('/help/wiki_syntax'))
-      .to route_to(controller: 'help',
-                   action: 'wiki_syntax')
-  end
-
-  it 'connects GET /help/wiki_syntax_details to help#wiki_syntax_detailed' do
-    expect(get('/help/wiki_syntax_detailed'))
-      .to route_to(controller: 'help',
-                   action: 'wiki_syntax_detailed')
-  end
-
   it 'connects GET /help/keyboard_shortcuts to help#keyboard_shortcuts' do
     expect(get('/help/keyboard_shortcuts'))
       .to route_to(controller: 'help',

@@ -1936,7 +1936,6 @@ zh-TW:
   setting_brute_force_block_after_failed_logins: 禁止使用者當嘗試登入失敗這個次數後
   setting_brute_force_block_minutes: 使用者被禁止的時間
   setting_cache_formatted_text: 快取格式化文字
-  setting_use_wysiwyg: 所見即所得 (WYSIWYG) 編輯器
   setting_use_wysiwyg_description: 勾選此選項可在預設情況下為所有使用者啟用 CKEditor5 所見即所得 (WYSIWYG)
     編輯器。CKEditor 對 GFM Markdown的功能有限。
   setting_column_options: 自訂工作項目清單的外觀
@@ -2012,7 +2011,6 @@ zh-TW:
   setting_start_of_week: 一週起始於
   setting_sys_api_enabled: 啟用版控容器管理網路服務
   setting_sys_api_description: 版控容器管理網路服務提供容器存取管理和使用者認證
-  setting_text_formatting: 文字格式
   setting_time_format: 時間格式
   setting_accessibility_mode_for_anonymous: 啟用匿名使用者存取模式
   setting_user_format: 使用者顯示格式
@@ -2035,9 +2033,9 @@ zh-TW:
       default_preferences: 默認偏好設置
       deletion: 消除
   text_formatting:
-    textile: 紡織
     markdown: Markdown
     plain: 純文字
+    textile: 紡織
   status_active: 啟用
   status_archived: 已封存
   status_invited: 已邀請
@@ -2480,3 +2478,5 @@ zh-TW:
         您不可寫入唯讀的屬性。
     resources:
       schema: 架構
+  setting_use_wysiwyg: 所見即所得 (WYSIWYG) 編輯器
+  setting_text_formatting: 文字格式

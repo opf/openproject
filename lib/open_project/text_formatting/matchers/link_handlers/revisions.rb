@@ -31,7 +31,6 @@
 module OpenProject::TextFormatting::Matchers
   module LinkHandlers
     class Revisions < Base
-
       ##
       # Match work package links.
       # Condition: Separator is #|##|###
@@ -45,7 +44,6 @@ module OpenProject::TextFormatting::Matchers
       #
       # #1234, ##1234, ###1234
       def call
-
         # don't handle link unless repository exists
         return nil unless project && project.repository
         changeset = Changeset.visible.find_by(repository_id: project.repository.id, revision: matcher.identifier)

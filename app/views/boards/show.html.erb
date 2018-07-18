@@ -41,7 +41,6 @@ See docs/COPYRIGHT.rdoc for more details.
 
       <hr class="form--separator"/>
       <%= styled_button_tag t(:button_create), class: '-highlight -with-icon icon-checkmark' %>
-      <%= preview_link preview_board_topics_path(@board), 'message-form-preview' %>
       <%= link_to t(:button_cancel), '', class: 'cancel-add-message-button button' %>
       <% csp_onclick('jQuery("#add-message").hide();', '.cancel-add-message-button') %>
     <% end %>
@@ -130,7 +129,7 @@ See docs/COPYRIGHT.rdoc for more details.
               <% if message.last_reply %>
                 <%= authoring message.last_reply.created_on, message.last_reply.author %><br/>
                 <br/>
-                <%= link_to message.subject, topic_path(message.last_reply) %>
+                <%= link_to_message message.last_reply, no_root: true %>
               <% end %>
             </td>
           </tr>

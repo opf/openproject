@@ -2162,7 +2162,6 @@ fil:
     ang numero na ito ay nabigo sa pagtatangkang pag-login
   setting_brute_force_block_minutes: Oras ng user na na-block sa
   setting_cache_formatted_text: Tesktong naka-format na cache
-  setting_use_wysiwyg: WYSIWYG editor
   setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
     users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: I-customize ang hitsura ng mga listahan ng work package
@@ -2259,7 +2258,6 @@ fil:
   setting_sys_api_enabled: Paganahin ang serbisyo ng repository management web
   setting_sys_api_description: Ang serbisyo ng repositoryo management web ay nagbibigay
     ng intregrasyon at user awtorisasyon para sa pag-access ng mga repositoryo.
-  setting_text_formatting: Pag-format ng teksto
   setting_time_format: Format ng oras
   setting_accessibility_mode_for_anonymous: Paganahin ang aksebilidad mode para sa
     mga gumagamit ng anonymous
@@ -2286,9 +2284,9 @@ fil:
       default_preferences: Default preferences
       deletion: Deletion
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Plain text
+    textile: Textile
   status_active: aktibo
   status_archived: naka-archive
   status_invited: imbitado
@@ -2828,3 +2826,5 @@ fil:
         basa-lang.
     resources:
       schema: Iskema
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_text_formatting: Pag-format ng teksto

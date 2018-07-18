@@ -46,7 +46,6 @@ describe 'OpenProject work package button macros' do
 
   before do
     login_as user
-    allow(Setting).to receive(:text_formatting).and_return('markdown')
   end
 
   def error_html(exception_msg)

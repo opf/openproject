@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -30,32 +31,25 @@
 module TextFormattingHelper
   extend Forwardable
   def_delegators :current_formatting_helper,
-                 :text_formatting_has_preview?,
                  :text_formatting_js_includes,
-                 :wikitoolbar_for,
-                 :heads_for_wiki_formatter
+                 :wikitoolbar_for
 
-  def preview_link(path, link_id, options = {})
-    return '' unless text_formatting_has_preview?
+  def preview_context(object = nil)
+    paths = API::V3::Utilities::PathHelper::ApiV3Path
 
-    options = {
-      accesskey: accesskey(:preview),
-      id: link_id,
-      'has-preview' => '',
-      # NOTE:   legacy JS relies on preview class
-      # FIXME:  fix preview icon naming
-      class: 'button preview -with-icon icon-preview'
-    }.merge(options)
-
-    link_to path, options do
-      l(:label_preview)
+    case object
+    when News
+      paths.news(object.id)
+    when Message
+      paths.post(object.id)
+    when WikiPage
+      paths.wiki_page(object.id)
     end
   end
 
-  private
-
+  #TODO remove
   def current_formatting_helper
-    helper_class = OpenProject::TextFormatting::Formatters.helper_for(Setting.text_formatting)
+    helper_class = OpenProject::TextFormatting::Formats.rich_helper
     helper_class.new(self)
   end
 end
