@@ -30,11 +30,8 @@ import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {Injectable} from "@angular/core";
 import {WpButtonMacroModal} from "core-components/modals/editor/macro-wp-button-modal/wp-button-macro.modal";
 import {WikiIncludePageMacroModal} from "core-components/modals/editor/macro-wiki-include-page-modal/wiki-include-page-macro.modal";
-<<<<<<< HEAD
 import {CodeBlockMacroModal} from "core-components/modals/editor/macro-code-block-modal/code-block-macro.modal";
-=======
 import {ChildPagesMacroModal} from "core-components/modals/editor/macro-child-pages-modal/child-pages-macro.modal";
->>>>>>> Replace old child_pages macro with WYSIWYG macro
 
 @Injectable()
 export class EditorMacrosService {
