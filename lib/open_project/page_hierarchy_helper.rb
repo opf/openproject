@@ -1,4 +1,6 @@
 #-- encoding: UTF-8
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -33,13 +35,14 @@ module OpenProject
       return '' unless pages[node]
 
       content_tag :ul, class: "pages-hierarchy -with-hierarchy" do
-        pages[node].map { |page|
+        chunks = pages[node].map do |page|
           content_tag :li, class: '-hierarchy-expanded' do
             is_parent = pages[page.id]
             concat render_hierarchy_item(page, is_parent, options)
             concat render_page_hierarchy(pages, page.id, options) if is_parent
           end
-        }.join.html_safe
+        end
+        chunks.join.html_safe
       end
     end
 

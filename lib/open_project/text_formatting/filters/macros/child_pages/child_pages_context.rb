@@ -1,4 +1,6 @@
 #-- encoding: UTF-8
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -27,26 +29,31 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_relative '../../../../legacy_spec_helper'
+module OpenProject::TextFormatting::Filters::Macros::ChildPages
+  class ChildPagesContext
+    attr_reader(:page_value, :include_parent, :user, :page)
 
-describe Redmine::WikiFormatting::Macros, type: :helper do
-  include ApplicationHelper
-  include WorkPackagesHelper
-  include ActionView::Helpers::TextHelper
-  include ActionView::Helpers::SanitizeHelper
-  extend ActionView::Helpers::SanitizeHelper::ClassMethods
+    def initialize(macro, pipeline_context)
+      @page_value = macro['data-page']
+      @include_parent = macro['data-include-parent'].to_s == 'true'
+      @user = pipeline_context[:current_user]
+      @page = fetch_page(pipeline_context)
+    end
 
-  fixtures :all
+    def check
+      if @page.nil? || !@user.allowed_to?(:view_wiki_pages, @page.wiki.project)
+        raise I18n.t('macros.include_wiki_page.errors.page_not_found', name: @page_value)
+      end
+    end
 
-  before do
-    @project = nil
-  end
+    private
 
-  it 'should macro hello world' do
-    text = '{{hello_world}}'
-    assert format_text(text).match(/Hello world!/)
-    # escaping
-    text = '!{{hello_world}}'
-    assert_equal '<p>{{ $root.DOUBLE_LEFT_CURLY_BRACE }}hello_world}}</p>', format_text(text)
+    def fetch_page(pipeline_context)
+      if page_value.present?
+        Wiki.find_page(page_value, project: pipeline_context[:project])
+      elsif pipeline_context[:object].is_a?(WikiContent)
+        pipeline_context[:object].page
+      end
+    end
   end
 end

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+# frozen_string_literal: true
 
 #-- copyright
 # OpenProject is a project management system.
@@ -556,7 +557,6 @@ module ApplicationHelper
   def permitted_params
     PermittedParams.new(params, current_user)
   end
-
 
   def translate_language(lang_code)
     # rename in-context translation language name for the language select box

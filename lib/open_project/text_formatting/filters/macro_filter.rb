@@ -75,5 +75,3 @@ OpenProject::TextFormatting::Filters::MacroFilter.register(
   OpenProject::TextFormatting::Filters::Macros::IncludeWikiPage,
   OpenProject::TextFormatting::Filters::Macros::ChildPages
 )
-
-
