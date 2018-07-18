@@ -43,7 +43,7 @@ module SearchHelper
         result << h(words.length > 100 ? "#{words.slice(0..44)} ... #{words.slice(-45..-1)}" : words)
       else
         t = (tokens.index(words.downcase) || 0) % 4
-        result << content_tag('span', h(words), class: "highlight token-#{t}")
+        result << content_tag('span', h(words), class: "search-highlight token-#{t}")
       end
     end
     result.html_safe
