@@ -33,12 +33,14 @@ describe 'wiki/new', type: :view do
   let(:wiki)    { stub_model(Wiki) }
   let(:page)    { stub_model(WikiPage) }
   let(:content) { stub_model(WikiContent) }
+  let(:user)    { stub_model(User) }
 
   before do
     assign(:project, project)
     assign(:wiki,    wiki)
     assign(:page,    page)
     assign(:content, content)
+    view.stub(:current_user).and_return(user)
   end
 
   it 'renders a form which POSTs to create_project_wiki_index_path' do

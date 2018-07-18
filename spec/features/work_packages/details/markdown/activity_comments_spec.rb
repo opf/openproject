@@ -92,7 +92,7 @@ describe 'activity comments', js: true do
         end
       end
 
-      describe 'autocomplete (at.js/autocompleter does not work (yet) in CKEditor)' do
+      describe 'autocomplete' do
         describe 'work packages' do
           let!(:wp2) { FactoryBot.create(:work_package, project: project, subject: 'AutoFoo') }
           it 'autocompletes the other work package' do
