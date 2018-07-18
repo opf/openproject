@@ -20,7 +20,6 @@
 
 class MeetingContentsController < ApplicationController
   include PaginationHelper
-  include OpenProject::Concerns::Preview
 
   menu_item :meetings
 
@@ -124,14 +123,6 @@ class MeetingContentsController < ApplicationController
     @author = User.current
   rescue ActiveRecord::RecordNotFound
     render_404
-  end
-
-  def parse_preview_data
-    text = {}
-
-    text = { WikiContent.human_attribute_name(:content) => content_params[:text] } if @content.editable?
-
-    [text, [], @content]
   end
 
   def content_params
