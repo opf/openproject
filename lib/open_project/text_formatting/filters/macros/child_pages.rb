@@ -1,5 +1,4 @@
 #-- encoding: UTF-8
-# frozen_string_literal: true
 
 #-- copyright
 # OpenProject is a project management system.
@@ -31,7 +30,7 @@
 
 module OpenProject::TextFormatting::Filters::Macros
   module ChildPages
-    HTML_CLASS = 'child_pages'
+    HTML_CLASS = 'child_pages'.freeze
 
     module_function
 
