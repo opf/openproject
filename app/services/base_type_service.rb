@@ -78,23 +78,23 @@ class BaseTypeService
   def parse_attribute_groups_params(params)
     return if params[:attribute_groups].nil?
 
-    transform_query_params_to_query(params[:attribute_groups])
+    transform_params_to_query(params[:attribute_groups])
   end
 
   def after_type_save(_params, _options)
     # noop to be overwritten by subclasses
   end
 
-  def transform_query_params_to_query(groups)
+  def transform_params_to_query(groups)
     groups.each_with_index do |(name, attributes), index|
       next unless attributes.is_a? Hash
       next if attributes.values.compact.empty?
 
-      call = ::API::V3::UpdateQueryFromV3ParamsService
-             .new(Query.new_default(name: "Embedded subelements: #{name}"), user)
-             .call(attributes.with_indifferent_access)
+      query = Query.new_default(name: "Embedded subelements: #{name}")
 
-      query = call.result
+      ::API::V3::UpdateQueryFromV3ParamsService
+        .new(query, user)
+        .call(attributes.with_indifferent_access)
 
       query.show_hierarchies = false
       query.add_filter('parent', '=', ::Queries::Filters::TemplatedValue::KEY)
