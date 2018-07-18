@@ -31,7 +31,7 @@ class ConvertToMarkdown < ActiveRecord::Migration[5.1]
     setting = Setting.where(name: 'text_formatting').pluck(:value)
 
     if setting && setting[0] == 'textile'
-      converter = OpenProject::TextFormatting::Formatters::Markdown::TextileConverter.new
+      converter = OpenProject::TextFormatting::Formats::Markdown::TextileConverter.new
       converter.run!
     end
 
