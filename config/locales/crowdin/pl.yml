@@ -355,6 +355,7 @@ pl:
         spent_on: Data
         type: Typ
       type:
+        attribute_groups: ''
         is_in_roadmap: Na mapie
         is_milestone: Jest Kamieniem Milowym
         color: Kolor
@@ -535,10 +536,11 @@ pl:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Grupy nienazwane nie są dozwolone.
-              duplicate_group: Nazwa  %{group} jest użyta więcej niż raz. Nazwy grup
-                muszą być unikalne.
               attribute_unknown: Użyto nieprawidłowego atrybutu zadania.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Grupy nienazwane nie są dozwolone.
         user:
           attributes:
             password:

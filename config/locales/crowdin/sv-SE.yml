@@ -358,6 +358,7 @@ sv-SE:
         spent_on: Datum
         type: Typ
       type:
+        attribute_groups: ''
         is_in_roadmap: I tidsplan
         is_milestone: Är milstolpe
         color: Färg
@@ -537,10 +538,11 @@ sv-SE:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Namnlösa grupper tillåts inte.
-              duplicate_group: Namnet %{group} används redan. Gruppnamn måste vara
-                unika.
               attribute_unknown: Ogiltig attribut för arbetspaket används.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Namnlösa grupper tillåts inte.
         user:
           attributes:
             password:

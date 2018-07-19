@@ -57,6 +57,16 @@ ca:
       macro:
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Pàgina wiki
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
         toc: Table of contents
         code_block:
           button: Insert code snippet
@@ -238,8 +248,9 @@ ca:
     label_remove_watcher: Treure l'observador %{name}
     label_remove_all_files: Elimina tots els arxius
     label_add_description: Afegiu una descripció per a %{file}
-    label_upload_notification: 'Pujada d''arxius per al paquet de treball #%{id}:
-      %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Pujada d''arxius per al paquet de treball
+      #%{id}: %{subject}'
     label_files_to_upload: 'Es pujaran aquests fitxers:'
     label_rejected_files: 'Aquests arxius no es poden pujar:'
     label_rejected_files_reason: Aquests arxius no es poden carregar perquè la seva
@@ -685,6 +696,8 @@ ca:
     error_could_not_resolve_version_name: No es pot determinar el nom de versió
     error_could_not_resolve_user_name: No es pot determinar el nom d'usuari
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: work package

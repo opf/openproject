@@ -355,6 +355,7 @@ hu:
         spent_on: Dátum
         type: Típus
       type:
+        attribute_groups: ''
         is_in_roadmap: Ütemtervben
         is_milestone: Mérföldkő
         color: Szín
@@ -535,10 +536,11 @@ hu:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Névtelen csoport nem engedélyezett.
-              duplicate_group: A %{group} név már használatban van. A csoport névnek
-                egyedinek kell lennie.
               attribute_unknown: Érvénytelen munkacsomag attribútumot használt.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Névtelen csoport nem engedélyezett.
         user:
           attributes:
             password:

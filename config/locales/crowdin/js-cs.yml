@@ -57,6 +57,16 @@ cs:
       macro:
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Stránka wiki
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
         toc: Obsah
         code_block:
           button: Insert code snippet
@@ -237,7 +247,9 @@ cs:
     label_remove_watcher: Remove watcher %{name}
     label_remove_all_files: Odstranit všechny soubory
     label_add_description: Add a description for %{file}
-    label_upload_notification: 'Uploading files for Work package #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Uploading files for Work package #%{id}:
+      %{subject}'
     label_files_to_upload: 'These files will be uploaded:'
     label_rejected_files: 'These files cannot be uploaded:'
     label_rejected_files_reason: These files cannot be uploaded as their size is greater
@@ -685,6 +697,8 @@ cs:
     error_could_not_resolve_version_name: Couldn't resolve version name
     error_could_not_resolve_user_name: Couldn't resolve user name
     error_attachment_upload: 'Nepodařilo se uložit soubor "%{name}": %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: pracovní balíček

@@ -356,6 +356,7 @@ th:
         spent_on: วันที่
         type: ประเภท
       type:
+        attribute_groups: ''
         is_in_roadmap: In roadmap
         is_milestone: Is milestone
         color: สี
@@ -531,10 +532,11 @@ th:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Unnamed groups are not allowed.
-              duplicate_group: The group name %{group} is used more than once. Group
-                names must be unique.
               attribute_unknown: Invalid work package attribute used.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Unnamed groups are not allowed.
         user:
           attributes:
             password:

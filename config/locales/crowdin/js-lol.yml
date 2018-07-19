@@ -55,6 +55,15 @@ lol:
     editor:
       macro:
         toolbar_help: crwdns99044:0crwdne99044:0
+        child_pages:
+          button: crwdns99052:0crwdne99052:0
+          include_parent: crwdns99053:0crwdne99053:0
+          text: crwdns99054:0[Placeholder]crwdne99054:0
+          page: crwdns99055:0crwdne99055:0
+          this_page: crwdns99056:0crwdne99056:0
+          hint: 'crwdns99057:0crwdne99057:0
+
+'
         toc: crwdns99007:0crwdne99007:0
         code_block:
           button: crwdns99045:0crwdne99045:0
@@ -227,7 +236,8 @@ lol:
     label_remove_watcher: crwdns98508:0%{name}crwdne98508:0
     label_remove_all_files: crwdns98509:0crwdne98509:0
     label_add_description: crwdns98510:0%{file}crwdne98510:0
-    label_upload_notification: crwdns98511:0%{id}crwdnd98511:0%{subject}crwdne98511:0
+    label_upload_notification: crwdns99058:0crwdne99058:0
+    label_work_package_upload_notification: crwdns99059:0%{id}crwdnd99059:0%{subject}crwdne99059:0
     label_files_to_upload: crwdns98512:0crwdne98512:0
     label_rejected_files: crwdns98513:0crwdne98513:0
     label_rejected_files_reason: crwdns98514:0%{maximumFilesize}crwdne98514:0
@@ -634,6 +644,7 @@ lol:
     error_could_not_resolve_version_name: crwdns98833:0crwdne98833:0
     error_could_not_resolve_user_name: crwdns98834:0crwdne98834:0
     error_attachment_upload: crwdns98990:0%{name}crwdnd98990:0%{error}crwdne98990:0
+    error_attachment_upload_permission: crwdns99060:0crwdne99060:0
     units:
       workPackage:
         one: crwdns98835:1crwdne98835:1

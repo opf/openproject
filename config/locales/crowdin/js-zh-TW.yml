@@ -56,6 +56,16 @@ zh-TW:
       macro:
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: 維基頁面
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
         toc: 目錄
         code_block:
           button: Insert code snippet
@@ -230,7 +240,8 @@ zh-TW:
     label_remove_watcher: 刪除關注者 %{name}
     label_remove_all_files: 刪除所有檔案
     label_add_description: 添加 %{file} 的說明
-    label_upload_notification: '上傳檔案到工作包 #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: '上傳檔案到工作包 #%{id}: %{subject}'
     label_files_to_upload: '將上傳這些檔案:'
     label_rejected_files: '不能上傳這些檔案:'
     label_rejected_files_reason: 這些檔案不能上傳，因為它們的大小大於 %{maximumFilesize}
@@ -637,6 +648,8 @@ zh-TW:
     error_could_not_resolve_version_name: 無法解析版本名稱
     error_could_not_resolve_user_name: 無法解析使用者名稱
     error_attachment_upload: '檔 "%{name}" 無法上載: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: work package

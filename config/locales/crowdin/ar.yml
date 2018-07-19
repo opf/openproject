@@ -354,6 +354,7 @@ ar:
         spent_on: التاريخ
         type: النّوع
       type:
+        attribute_groups: ''
         is_in_roadmap: في خارطة الطريق
         is_milestone: هو مشروع رئيسي
         color: اللون
@@ -529,10 +530,11 @@ ar:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Unnamed groups are not allowed.
-              duplicate_group: The group name %{group} is used more than once. Group
-                names must be unique.
               attribute_unknown: Invalid work package attribute used.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Unnamed groups are not allowed.
         user:
           attributes:
             password:

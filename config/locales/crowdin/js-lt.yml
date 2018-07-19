@@ -57,6 +57,16 @@ lt:
       macro:
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Wiki puslapis
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
         toc: Table of contents
         code_block:
           button: Insert code snippet
@@ -236,7 +246,8 @@ lt:
     label_remove_watcher: Pašalinti stebėtoją vardu %{name}
     label_remove_all_files: Ištrinti visus failus
     label_add_description: Pridėti %{file} aprašymą
-    label_upload_notification: 'Įkelti failus darbų paketui #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Įkelti failus darbų paketui #%{id}: %{subject}'
     label_files_to_upload: 'Šie failai bus įkelti:'
     label_rejected_files: 'Negalima įkelti šių failų:'
     label_rejected_files_reason: Šių failų neįmanoma nusiųsti, nes jų dydis yra didesnis
@@ -687,6 +698,8 @@ lt:
     error_could_not_resolve_version_name: Nepavyko nustatyti versijos pavadinimo
     error_could_not_resolve_user_name: Nepavyko nustatyti vartotojo vardo
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: darbų paketas

@@ -368,6 +368,7 @@ de:
         spent_on: Datum
         type: Typ
       type:
+        attribute_groups: ''
         is_in_roadmap: In Roadmap anzeigen
         is_milestone: Ist ein Meilenstein
         color: Farbe
@@ -555,10 +556,11 @@ de:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Unbenannte Gruppen sind nicht erlaubt.
-              duplicate_group: Der Gruppen-Name %{group} wird mehr als einmal verwendet.
-                Gruppen-Namen müssen eindeutig sein.
               attribute_unknown: Ungültige Arbeitspaket-Attribute verwendet.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Unbenannte Gruppen sind nicht erlaubt.
         user:
           attributes:
             password:

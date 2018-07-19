@@ -57,6 +57,16 @@ pt-BR:
       macro:
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Página wiki
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
         toc: Tabela de conteúdos
         code_block:
           button: Insert code snippet
@@ -239,8 +249,9 @@ pt-BR:
     label_remove_watcher: Remover observador %{name}
     label_remove_all_files: Excluir todos os arquivos
     label_add_description: Adicionar uma descrição para %{file}
-    label_upload_notification: 'Enviando arquivos para o pacote de trabalho #%{id}:
-      %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Enviando arquivos para o pacote de trabalho
+      #%{id}: %{subject}'
     label_files_to_upload: 'Estes arquivos serão enviados:'
     label_rejected_files: 'Estes arquivos não podem ser enviados:'
     label_rejected_files_reason: Estes arquivos não podem ser enviados, pois seu tamanho
@@ -685,6 +696,8 @@ pt-BR:
     error_could_not_resolve_version_name: Não foi possível identificar o nome da versão
     error_could_not_resolve_user_name: Não foi possível identificar o nome do usuário
     error_attachment_upload: 'Arquivo ''%{name}'' falhou no envio: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: pacote de trabalho
