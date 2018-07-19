@@ -31,7 +31,7 @@
 module OpenProject::TextFormatting::Formats
   module Plain
     class Helper
-      def wikitoolbar_for(_field_id, _context)
+      def wikitoolbar_for(*_args)
         ''.html_safe
       end
 

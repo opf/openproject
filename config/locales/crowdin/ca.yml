@@ -369,7 +369,6 @@ ca:
         type: Tipus
       type:
         is_in_roadmap: A la fulla de ruta
-        in_aggregation: En l'agregació
         is_milestone: És una fita
         color: Color
       user:
@@ -2254,7 +2253,6 @@ ca:
   text_formatting:
     markdown: Markdown
     plain: Plain text
-    textile: Textile
   status_active: actiu
   status_archived: archived
   status_invited: convidat
@@ -2572,8 +2570,6 @@ ca:
       edit: 'Editar l''estat: %{comment}'
       show: 'Estat: %{comment}'
     planning_element_update: 'Actualitzat: %{title}'
-    work_packages_are_displayed_in_aggregations: Paquets de treball es mostren en
-      agregació
     project_type_could_not_be_saved: El tipus de projecte no s'han pogut desar
     type_could_not_be_saved: No s'han pogut desar el tipus
     reporting_could_not_be_saved: No s'ha pogut desar l'informe
@@ -2776,5 +2772,3 @@ ca:
       writing_read_only_attributes: No s'ha d'escriure en un atribut de només de lectura.
     resources:
       schema: Esquema
-  setting_use_wysiwyg: WYSIWYG editor
-  setting_text_formatting: Format del text

@@ -359,7 +359,6 @@ ru:
         type: Тип
       type:
         is_in_roadmap: В дорожной карте
-        in_aggregation: В агрегате
         is_milestone: Это веха
         color: Цвет
       user:
@@ -1011,7 +1010,7 @@ ru:
   error_invalid_sort_criterion: 'Невозможно сортировать по столбцу: %{value}'
   error_pdf_export_too_many_columns: Для экспорта в PDF-файл выбрано слишком много
     столбцов. Пожалуйста, сократите количество столбцов.
-  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
+  error_pdf_failed_to_export: 'Не удалось сохранить экспорт в PDF: %{error}'
   error_token_authenticity: Не удается проверить CSRF-токен.
   error_work_package_done_ratios_not_updated: Сделанные соотношения пакета работ не
     обновляются.
@@ -1063,8 +1062,8 @@ ru:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF с описанием
-      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
-      pdf_with_attachments: PDF with attachments
+      pdf_with_descriptions_and_attachments: PDF с описанием и вложениями
+      pdf_with_attachments: PDF с вложениями
   extraction:
     available:
       pdftotext: Pdftotext доступно (опционально)
@@ -2266,7 +2265,6 @@ ru:
   text_formatting:
     markdown: Markdown
     plain: Обычный текст
-    textile: Textile
   status_active: Активно
   status_archived: в архиве
   status_invited: приглашено
@@ -2584,7 +2582,6 @@ ru:
       edit: 'Редактировать статус: %{comment}'
       show: 'Статус: %{comment}'
     planning_element_update: 'Последняя сводка: %{title}'
-    work_packages_are_displayed_in_aggregations: Пакеты работ отображаются в агрегациях
     project_type_could_not_be_saved: Тип проекта не может быть сохранен
     type_could_not_be_saved: Тип не может быть сохранен
     reporting_could_not_be_saved: Отчетность не может быть сохранена
@@ -2790,5 +2787,3 @@ ru:
         только для чтения.
     resources:
       schema: Схема
-  setting_use_wysiwyg: WYSIWYG редактор
-  setting_text_formatting: Форматирование текста

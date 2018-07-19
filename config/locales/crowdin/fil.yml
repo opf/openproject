@@ -380,7 +380,6 @@ fil:
         type: Uri
       type:
         is_in_roadmap: Sa roadmap
-        in_aggregation: Sa pagsama-sama
         is_milestone: Ay milestone
         color: Kulay
       user:
@@ -2286,7 +2285,6 @@ fil:
   text_formatting:
     markdown: Markdown
     plain: Plain text
-    textile: Textile
   status_active: aktibo
   status_archived: naka-archive
   status_invited: imbitado
@@ -2613,8 +2611,6 @@ fil:
       edit: 'I-edit ang estado: %{comment}'
       show: 'Estado: %{comment}'
     planning_element_update: 'I-update: %{title}'
-    work_packages_are_displayed_in_aggregations: Ang mga work package ay ipinapakita
-      sa agregasyon
     project_type_could_not_be_saved: Ang uri ng proyekto ay hindi mai-save
     type_could_not_be_saved: Ang mga uri ay hindi mai-save
     reporting_could_not_be_saved: Ang paguulat ay hindi mai-save
@@ -2826,5 +2822,3 @@ fil:
         basa-lang.
     resources:
       schema: Iskema
-  setting_use_wysiwyg: WYSIWYG editor
-  setting_text_formatting: Pag-format ng teksto

@@ -37,12 +37,14 @@ module API
         self_link title_getter: ->(*) { nil }
 
         link :attachments do
+          next if represented.new_record?
           {
             href: api_v3_paths.attachments_by_wiki_page(represented.id)
           }
         end
 
         link :addAttachment do
+          next if represented.new_record?
           next unless current_user_allowed_to(:edit_wiki_pages, context: represented.project)
 
           {
@@ -57,6 +59,7 @@ module API
 
         associated_resource :project,
                             link: ->(*) do
+                              next unless represented.project.present?
                               {
                                 href: api_v3_paths.project(represented.project.id),
                                 title: represented.project.name

@@ -356,7 +356,6 @@ lv:
         type: Veids
       type:
         is_in_roadmap: Ceļvedī
-        in_aggregation: Apkopojumā
         is_milestone: Ir atskaites punkts
         color: Krāsa
       user:
@@ -2211,7 +2210,6 @@ lv:
   text_formatting:
     markdown: Markdown
     plain: Plain text
-    textile: Textile
   status_active: active
   status_archived: arhivēts
   status_invited: uzaicināts
@@ -2523,7 +2521,6 @@ lv:
       edit: 'Edit status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Update: %{title}'
-    work_packages_are_displayed_in_aggregations: Work packages are displayed in aggregations
     project_type_could_not_be_saved: Project type could not be saved
     type_could_not_be_saved: Type could not be saved
     reporting_could_not_be_saved: Reporting could not be saved
@@ -2720,5 +2717,3 @@ lv:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Schema
-  setting_use_wysiwyg: WYSIWYG editor
-  setting_text_formatting: Palīdzība

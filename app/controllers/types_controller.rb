@@ -69,11 +69,12 @@ class TypesController < ApplicationController
     if params[:tab].blank?
       redirect_to tab: :settings
     else
-      @tab = params[:tab]
-      @projects = Project.all
-      @type = ::Type.includes(:projects,
-                              :custom_fields)
-                    .find(params[:id])
+      type = ::Type
+             .includes(:projects,
+                       :custom_fields)
+             .find(params[:id])
+
+      render_edit_tab(type)
     end
   end
 
@@ -89,8 +90,7 @@ class TypesController < ApplicationController
       end
 
       call.on_failure do
-        @projects = Project.all
-        render action: 'edit'
+        render_edit_tab(@type)
       end
     end
   end
@@ -150,6 +150,14 @@ class TypesController < ApplicationController
     else
       ActionController::Base.helpers.link_to(t(:label_work_package_types), types_path)
     end
+  end
+
+  def render_edit_tab(type)
+    @tab = params[:tab]
+    @projects = Project.all
+    @type = type
+
+    render action: 'edit'
   end
 
   def show_local_breadcrumb

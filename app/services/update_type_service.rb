@@ -29,7 +29,7 @@
 
 class UpdateTypeService < BaseTypeService
   def initialize(type, user)
-    super(user: user)
+    super(user)
     self.type = type
   end
 

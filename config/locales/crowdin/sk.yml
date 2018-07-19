@@ -365,7 +365,6 @@ sk:
         type: Typ
       type:
         is_in_roadmap: V pláne
-        in_aggregation: V súhrnne
         is_milestone: Je medzník
         color: Farba
       user:
@@ -2259,7 +2258,6 @@ sk:
   text_formatting:
     markdown: Markdown
     plain: Plain text
-    textile: Textile
   status_active: active
   status_archived: archived
   status_invited: invited
@@ -2573,7 +2571,6 @@ sk:
       edit: 'Edit status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Update: %{title}'
-    work_packages_are_displayed_in_aggregations: Work packages are displayed in aggregations
     project_type_could_not_be_saved: Project type could not be saved
     type_could_not_be_saved: Type could not be saved
     reporting_could_not_be_saved: Reporting could not be saved
@@ -2775,5 +2772,3 @@ sk:
         na čítanie.
     resources:
       schema: Schéma
-  setting_use_wysiwyg: WYSIWYG editor
-  setting_text_formatting: Formátovanie textu

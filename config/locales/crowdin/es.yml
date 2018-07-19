@@ -373,7 +373,6 @@ es:
         type: Tipo
       type:
         is_in_roadmap: En hoja de ruta
-        in_aggregation: En agregación
         is_milestone: Es un hito
         color: Color
       user:
@@ -2274,7 +2273,6 @@ es:
   text_formatting:
     markdown: Markdown
     plain: Plain text
-    textile: Textile
   status_active: activo
   status_archived: archivado
   status_invited: invitado
@@ -2597,8 +2595,6 @@ es:
       edit: 'Editar estado: %{comment}'
       show: 'Estado: %{comment}'
     planning_element_update: 'Actualizado: %{title}'
-    work_packages_are_displayed_in_aggregations: Los paquetes de trabajo aparecen
-      en agregaciones
     project_type_could_not_be_saved: No se pudo guardar el tipo de proyecto
     type_could_not_be_saved: No se pudo guardar el tipo
     reporting_could_not_be_saved: No se ha podido guardar el informe
@@ -2798,5 +2794,3 @@ es:
       writing_read_only_attributes: No debería escribir un atributo de solo lectura.
     resources:
       schema: Esquema
-  setting_use_wysiwyg: WYSIWYG editor
-  setting_text_formatting: Formato de texto

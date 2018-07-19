@@ -26,20 +26,25 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ICkeditorStatic} from "core-components/ckeditor/op-ckeditor-form.component";
 import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {FormattableEditFieldComponent} from "core-app/modules/fields/edit/field-types/formattable-edit-field.component";
+import {
+  CKEditorSetupService,
+  ICKEditorInstance,
+  ICKEditorStatic
+} from "core-components/ckeditor/ckeditor-setup.service";
 
 declare global {
   interface Window {
-    OPBalloonEditor:ICkeditorStatic;
-    OPClassicEditor:ICkeditorStatic;
+    OPBalloonEditor:ICKEditorStatic;
+    OPClassicEditor:ICKEditorStatic;
   }
 }
 
 export class FormattableEditField extends EditField {
   readonly pathHelper:PathHelperService = this.$injector.get(PathHelperService);
+  readonly ckEditorSetup:CKEditorSetupService = this.$injector.get(CKEditorSetupService);
 
   // Values used in template
   public isBusy:boolean = false;
@@ -64,28 +69,17 @@ export class FormattableEditField extends EditField {
 
   public setupMarkdownEditor(container:HTMLElement) {
     const element = container.querySelector('.op-ckeditor-element') as HTMLElement;
-
-    window.OPBalloonEditor
-      .create(element, {
-        openProject: {
-          context: { resource: this.resource },
-          helpURL: this.pathHelper.textFormattingHelp(),
-          element: element,
-          pluginContext: window.OpenProject.pluginContext.value
-        }
-      })
-      .then((editor:any) => {
+    
+    this.ckEditorSetup
+      .create('balloon', element, { resource: this.resource })
+      .then((editor:ICKEditorInstance) => {
         this.ckeditor = editor;
         if (this.rawValue) {
           this.reset();
         }
 
         setTimeout(() => editor.editing.view.focus());
-
         this.updateValueOnEditorChange(editor);
-      })
-      .catch((error:any) => {
-        console.error(error);
       });
   }
 

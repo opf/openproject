@@ -316,7 +316,6 @@ zh:
         type: 类型
       type:
         is_in_roadmap: 在Roadmap
-        in_aggregation: 在聚合中
         is_milestone: 是里程碑
         color: 颜色
       user:
@@ -2025,7 +2024,6 @@ zh:
   text_formatting:
     markdown: Markdown
     plain: 纯文本
-    textile: 家纺
   status_active: 激活
   status_archived: 已存档
   status_invited: 已邀请
@@ -2285,7 +2283,6 @@ zh:
       edit: 编辑状态：%{comment}
       show: 状态：%{comment}
     planning_element_update: 更新：%{title}
-    work_packages_are_displayed_in_aggregations: 项目包显示为聚合
     project_type_could_not_be_saved: 项目类型不能保存
     type_could_not_be_saved: 无法保存类型
     reporting_could_not_be_saved: 不能保存报告
@@ -2447,5 +2444,3 @@ zh:
       writing_read_only_attributes: 你不能写入只读属性。
     resources:
       schema: 方案
-  setting_use_wysiwyg: 所见即所得（What You See Is What You Get）编辑器
-  setting_text_formatting: 文本格式

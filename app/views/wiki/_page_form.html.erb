@@ -23,9 +23,11 @@
   <%= f.text_area :text,
                   cols: 100,
                   rows: 25,
-                  class: 'wiki-edit op-auto-complete',
+                  class: 'wiki-edit',
                   accesskey: accesskey(:edit),
-                  with_text_formatting: true %>
+                  with_text_formatting: true,
+                  resource: ::API::V3::WikiPages::WikiPageRepresenter.new(@page, current_user: current_user),
+                  preview_context: preview_context(@page) %>
 </div>
 
 <div class="form--field">

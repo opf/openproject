@@ -54,7 +54,15 @@ zh:
     description_subwork_package: '子工作包 #%{id}'
     editor:
       macro:
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
         toc: 目录
+        code_block:
+          button: Insert code snippet
+          title: Insert / edit Code snippet
+          language: Formatting language
+          language_hint: Enter the formatting language that will be used for highlighting
+            (if supported).
         wiki_page_include:
           button: 包括另一个Wiki页的内容
           text: 包括的Wiki页 (placeholder)

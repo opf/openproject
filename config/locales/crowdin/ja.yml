@@ -317,7 +317,6 @@ ja:
         type: 種別
       type:
         is_in_roadmap: ロードマップ内
-        in_aggregation: 参照関係
         is_milestone: マイルストーン
         color: 色
       user:
@@ -903,7 +902,7 @@ ja:
   error_invalid_query_column: '無効なクエリ列: %{value}'
   error_invalid_sort_criterion: '列を並べ替えできません: %{value}'
   error_pdf_export_too_many_columns: PDF エクスポート用に選択された列が多すぎます。 列の数を減らしてください。
-  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
+  error_pdf_failed_to_export: PDFエクスポートを保存できませんでした： %{error}
   error_token_authenticity: クロスサイトリクエストフォージェリのトークンを検証できません。
   error_work_package_done_ratios_not_updated: 作業項目の進捗率が更新できません。
   error_work_package_not_found_in_project: 作業項目が見つからないか、このプロジェクトに属してないかです。
@@ -944,8 +943,8 @@ ja:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: 説明付きPDF
-      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
-      pdf_with_attachments: PDF with attachments
+      pdf_with_descriptions_and_attachments: 説明と添付ファイル付きPDF
+      pdf_with_attachments: 添付ファイル付きPDF
   extraction:
     available:
       pdftotext: Pdftotextが利用可能 (オプション)
@@ -2037,7 +2036,6 @@ ja:
   text_formatting:
     markdown: Markdown
     plain: プレーンテキスト
-    textile: Textile
   status_active: 有効
   status_archived: アーカイブ済
   status_invited: 招待済み
@@ -2309,7 +2307,6 @@ ja:
       edit: ステータスを編集:%{comment}
       show: ステータス:%{comment}
     planning_element_update: 更新:%{title}
-    work_packages_are_displayed_in_aggregations: 集計に表示
     project_type_could_not_be_saved: プロジェクトの種類を保存できませんでした。
     type_could_not_be_saved: 作業項目の型を保存できませんでした。
     reporting_could_not_be_saved: レポートを保存できませんでした。
@@ -2474,5 +2471,3 @@ ja:
       writing_read_only_attributes: 読み取り専用の属性を書き込みできません。
     resources:
       schema: スキーマ
-  setting_use_wysiwyg: WYSIWYG エディター
-  setting_text_formatting: テキストの書式

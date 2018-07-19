@@ -361,7 +361,6 @@ vi:
         type: Kiểu
       type:
         is_in_roadmap: In roadmap
-        in_aggregation: In aggregation
         is_milestone: Is milestone
         color: Màu sắc
       user:
@@ -2202,7 +2201,6 @@ vi:
   text_formatting:
     markdown: Markdown
     plain: Plain text
-    textile: Textile
   status_active: active
   status_archived: archived
   status_invited: invited
@@ -2514,7 +2512,6 @@ vi:
       edit: 'Edit status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Update: %{title}'
-    work_packages_are_displayed_in_aggregations: Work packages are displayed in aggregations
     project_type_could_not_be_saved: Project type could not be saved
     type_could_not_be_saved: Type could not be saved
     reporting_could_not_be_saved: Reporting could not be saved
@@ -2710,5 +2707,3 @@ vi:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Schema
-  setting_use_wysiwyg: WYSIWYG editor
-  setting_text_formatting: Text formatting

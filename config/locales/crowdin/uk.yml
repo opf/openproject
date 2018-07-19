@@ -361,7 +361,6 @@ uk:
         type: Type
       type:
         is_in_roadmap: In roadmap
-        in_aggregation: In aggregation
         is_milestone: Is milestone
         color: Колір
       user:
@@ -2246,7 +2245,6 @@ uk:
   text_formatting:
     markdown: Markdown
     plain: Plain text
-    textile: Textile
   status_active: active
   status_archived: archived
   status_invited: invited
@@ -2559,7 +2557,6 @@ uk:
       edit: 'Edit status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Update: %{title}'
-    work_packages_are_displayed_in_aggregations: Робочі пакети відображаються в агрегати
     project_type_could_not_be_saved: Project type could not be saved
     type_could_not_be_saved: Type could not be saved
     reporting_could_not_be_saved: Звітність не може бути збережено
@@ -2756,5 +2753,3 @@ uk:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Схема
-  setting_use_wysiwyg: WYSIWYG editor
-  setting_text_formatting: Text formatting

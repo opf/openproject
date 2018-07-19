@@ -362,7 +362,6 @@ cs:
         type: Typ
       type:
         is_in_roadmap: In roadmap
-        in_aggregation: In aggregation
         is_milestone: Is milestone
         color: Barva
       user:
@@ -2246,7 +2245,6 @@ cs:
   text_formatting:
     markdown: Zmenšení
     plain: Obyčejný text
-    textile: Textil
   status_active: active
   status_archived: archivováno
   status_invited: invited
@@ -2560,7 +2558,6 @@ cs:
       edit: 'Edit status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Aktualizováno: %{title}'
-    work_packages_are_displayed_in_aggregations: Work packages are displayed in aggregations
     project_type_could_not_be_saved: Typ projektu nelze uložit
     type_could_not_be_saved: Typ nelze uložit
     reporting_could_not_be_saved: Přehled nelze uložit
@@ -2758,5 +2755,3 @@ cs:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Schema
-  setting_use_wysiwyg: WYSIWYG editor
-  setting_text_formatting: Formátování textu

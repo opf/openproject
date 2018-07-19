@@ -4,7 +4,7 @@ This file describes a part of the OpenProject configuration. You can find genera
 
 OpenProject can be configured either via a `configuration.yml` file, environment variables or a mix of both. While the latter is probably a bad idea, the environment variable option is often helpful for automatically deploying production systems. Using the configuration file is probably the simplest way of configuration.
 
-You can find a list of options below and an example file in [`config/configuration.yml.example`](../config/configuration.yml.example).
+You can find a list of options below and an example file in [`config/configuration.yml.example`](../../config/configuration.yml.example).
 
 ## Environment variables
 

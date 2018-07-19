@@ -361,7 +361,6 @@ af:
         type: Soort
       type:
         is_in_roadmap: In roadmap
-        in_aggregation: In aggregation
         is_milestone: Is milestone
         color: Kleur
       user:
@@ -2209,7 +2208,6 @@ af:
   text_formatting:
     markdown: Markdown
     plain: Plain text
-    textile: Textile
   status_active: active
   status_archived: geargiveer
   status_invited: invited
@@ -2520,7 +2518,6 @@ af:
       edit: 'Edit status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Update: %{title}'
-    work_packages_are_displayed_in_aggregations: Work packages are displayed in aggregations
     project_type_could_not_be_saved: Project type could not be saved
     type_could_not_be_saved: Type could not be saved
     reporting_could_not_be_saved: Reporting could not be saved
@@ -2718,5 +2715,3 @@ af:
       writing_read_only_attributes: Jy mag nie 'n leesalleen kenmerk skryf nie.
     resources:
       schema: Skema
-  setting_use_wysiwyg: WYSIWYG editor
-  setting_text_formatting: Text formatting

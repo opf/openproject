@@ -50,6 +50,7 @@ import {
 } from 'core-app/modules/hal/services/hal-resource.service';
 import {Injectable} from '@angular/core';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {WikiPageResource} from "core-app/modules/hal/resources/wiki-page-resource";
 
 const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInterface } = {
   WorkPackage: {
@@ -143,6 +144,9 @@ const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInter
   },
   CustomAction: {
     cls: CustomActionResource
+  },
+  WikiPage: {
+    cls: WikiPageResource
   }
 };
 

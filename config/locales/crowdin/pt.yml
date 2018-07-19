@@ -370,7 +370,6 @@ pt:
         type: Tipo
       type:
         is_in_roadmap: No roteiro
-        in_aggregation: Na agregação
         is_milestone: É um marco
         color: Cor
       user:
@@ -2246,7 +2245,6 @@ pt:
   text_formatting:
     markdown: Markdown
     plain: Texto Simples
-    textile: Textile
   status_active: ativo
   status_archived: arquivado
   status_invited: convidado
@@ -2564,7 +2562,6 @@ pt:
       edit: 'Editar o estado: %{comment}'
       show: 'Estado: %{comment}'
     planning_element_update: 'Atualizado: %{title}'
-    work_packages_are_displayed_in_aggregations: As tarefas são exibidas agregadas
     project_type_could_not_be_saved: Tipo de projeto não pôde ser salvo
     type_could_not_be_saved: Tipo não pôde ser guardado
     reporting_could_not_be_saved: Não foi possível guardar o relatório
@@ -2767,5 +2764,3 @@ pt:
         leitura.
     resources:
       schema: Esquema
-  setting_use_wysiwyg: WYSIWYG editor
-  setting_text_formatting: Formatação de texto

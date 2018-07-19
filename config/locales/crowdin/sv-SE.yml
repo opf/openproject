@@ -359,7 +359,6 @@ sv-SE:
         type: Typ
       type:
         is_in_roadmap: I tidsplan
-        in_aggregation: I aggregering
         is_milestone: Är milstolpe
         color: Färg
       user:
@@ -2197,7 +2196,6 @@ sv-SE:
   text_formatting:
     markdown: Markdown
     plain: Plain text
-    textile: Textile
   status_active: aktiv
   status_archived: archived
   status_invited: inbjuden
@@ -2505,7 +2503,6 @@ sv-SE:
       edit: 'Redigera status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Uppdaterad: %{title}'
-    work_packages_are_displayed_in_aggregations: Arbetspaket visas i aggregeringar
     project_type_could_not_be_saved: Projekttypen kunde inte sparas
     type_could_not_be_saved: Typen kunde inte sparas
     reporting_could_not_be_saved: Rapportering kunde inte sparas
@@ -2700,5 +2697,3 @@ sv-SE:
       writing_read_only_attributes: Du får inte skriva till ett skrivskyddat attribut.
     resources:
       schema: Schema
-  setting_use_wysiwyg: WYSIWYG editor
-  setting_text_formatting: Textformatering
