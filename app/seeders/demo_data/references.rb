@@ -82,6 +82,7 @@ module DemoData
       link_reference(
         str,
         model: WorkPackage,
+        tag: "wp",
         find_by: :subject,
         project: project,
         link: ->(wp) { work_package_link wp }
@@ -98,10 +99,12 @@ module DemoData
       )
     end
 
-    def link_reference(str, model:, find_by:, project:, link:)
+    def link_reference(str, model:, find_by:, project:, link:, tag:nil)
       return str unless str.present?
 
-      str.gsub(/###{model.name.downcase}(\.id)?:"[^"]+"/) do |match|
+      tag ||= model.name.downcase
+
+      str.gsub(/###{tag}(\.id)?:"[^"]+"/) do |match|
         identifier = match.split(":", 2).last[1..-2] # strip quotes of part behind :
         instance = model.where(find_by => identifier, :project => project).first!
 
