@@ -85,6 +85,14 @@ en:
       preview: 'Toggle preview mode'
       macro:
         toolbar_help: 'Click to select widget and show the toolbar. Double-click to edit widget'
+        child_pages:
+          button: 'Links to child pages'
+          include_parent: 'Include parent'
+          text: '[Placeholder] Links to child pages of'
+          page: 'Wiki page'
+          this_page: 'this page'
+          hint: |
+            Leave this field empty to list all child pages of the current page. If you want to reference a different page, provide its title or slug.
         toc: 'Table of contents'
         code_block:
           button: 'Insert code snippet'
@@ -108,7 +116,6 @@ en:
         embedded_table:
           button: 'Embed work package table'
           text: 'Embedded work package table (placeholder)'
-
 
     error:
       internal: "An internal error has occurred."

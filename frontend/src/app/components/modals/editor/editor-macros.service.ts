@@ -32,6 +32,7 @@ import {WpButtonMacroModal} from "core-components/modals/editor/macro-wp-button-
 import {WikiIncludePageMacroModal} from "core-components/modals/editor/macro-wiki-include-page-modal/wiki-include-page-macro.modal";
 import {CodeBlockMacroModal} from "core-components/modals/editor/macro-code-block-modal/code-block-macro.modal";
 import {ComponentType} from "@angular/cdk/portal";
+import {ChildPagesMacroModal} from "core-components/modals/editor/macro-child-pages-modal/child-pages-macro.modal";
 
 @Injectable()
 export class EditorMacrosService {
@@ -78,7 +79,25 @@ export class EditorMacrosService {
       const modal = this.opModalService.show(CodeBlockMacroModal, { content: content, languageClass: languageClass });
       modal.closingEvent.subscribe((modal:CodeBlockMacroModal) => {
         if (modal.changed) {
-          resolve({ languageClass: modal.languageClass, content: modal.content });
+          resolve({languageClass: modal.languageClass, content: modal.content});
+        }
+      });
+    });
+  }
+
+   /**
+   * Show a modal to edit the child pages macro.
+   * Used from within ckeditor.
+   */
+  public configureChildPages(page:string, includeParent:string):Promise<object> {
+    return new Promise<object>((resolve, _) => {
+      const modal = this.opModalService.show(ChildPagesMacroModal, { page: page, includeParent: includeParent });
+      modal.closingEvent.subscribe((modal:ChildPagesMacroModal) => {
+        if (modal.changed) {
+          resolve({
+            page: modal.page,
+            includeParent: modal.includeParent
+          });
         }
       });
     });

@@ -213,6 +213,7 @@ import {CodeBlockMacroModal} from "core-components/modals/editor/macro-code-bloc
 import {CKEditorSetupService} from "core-components/ckeditor/ckeditor-setup.service";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {CKEditorPreviewService} from "core-components/ckeditor/ckeditor-preview.service";
+import {ChildPagesMacroModal} from "core-components/modals/editor/macro-child-pages-modal/child-pages-macro.modal";
 
 @NgModule({
   imports: [
@@ -459,6 +460,7 @@ import {CKEditorPreviewService} from "core-components/ckeditor/ckeditor-preview.
     WpButtonMacroModal,
     WikiIncludePageMacroModal,
     CodeBlockMacroModal,
+    ChildPagesMacroModal,
 
     // External query configuration
     ExternalQueryConfigurationComponent,
@@ -543,6 +545,7 @@ import {CKEditorPreviewService} from "core-components/ckeditor/ckeditor-preview.
     WpButtonMacroModal,
     WikiIncludePageMacroModal,
     CodeBlockMacroModal,
+    ChildPagesMacroModal,
 
     // External query configuration
     ExternalQueryConfigurationComponent,
