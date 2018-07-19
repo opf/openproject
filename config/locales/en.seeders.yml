@@ -579,7 +579,7 @@ en:
             - subject: Release v1.0
               status: :default_status_new
               type: :default_type_milestone
-              start: 25
+              start: 18
               duration: 0
               relations:
                 - to: Develop v1.0
