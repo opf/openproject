@@ -48,7 +48,8 @@ module Redmine
             order(attachments_order)
           }, options.reverse_merge!(as: :container, dependent: :destroy)
 
-          attr_accessor :attachments_replacements
+          attr_accessor :attachments_replacements,
+                        :attachments_claimed
           send :include, Redmine::Acts::Attachable::InstanceMethods
         end
 
@@ -64,49 +65,110 @@ module Redmine
       end
 
       module InstanceMethods
-        def self.included(base)
-          base.extend ClassMethods
+        extend ActiveSupport::Concern
+
+        included do
+          after_save :persist_attachments_claimed
+
+          validate :validate_attachments_claimable
+
+          include InstanceMethods
         end
 
-        def attachments_visible?(user = User.current)
-          allowed_to_on_attachment?(user, self.class.attachable_options[:view_permission])
-        end
-
-        def attachments_deletable?(user = User.current)
-          allowed_to_on_attachment?(user, self.class.attachable_options[:delete_permission])
-        end
-
-        def attachments_addable?(user = User.current)
-          allowed_to_on_attachment?(user, self.class.attachable_options[:add_permission])
-        end
-
-        # Bulk attaches a set of files to an object
-        def attach_files(attachments)
-          if attachments && attachments.is_a?(Hash)
-            attachments.each_value do |attachment|
-              file = attachment['file']
-              next if !file || file.size.zero?
-              self.attachments.build(file: file,
-                                     container: self,
-                                     description: attachment['description'].to_s.strip,
-                                     author: User.current)
-            end
-          end
-        end
-
-        private
-
-        def allowed_to_on_attachment?(user, permissions)
-          Array(permissions).any? do |permission|
-            user.allowed_to?(permission, project)
-          end
-        end
-
-        module ClassMethods
+        class_methods do
           def attachments_addable?(user = User.current)
             Array(attachable_options[:add_permission]).any? do |permission|
               user.allowed_to_globally?(permission)
             end
+          end
+        end
+
+        module InstanceMethods
+          def attachments_visible?(user = User.current)
+            allowed_to_on_attachment?(user, self.class.attachable_options[:view_permission])
+          end
+
+          def attachments_deletable?(user = User.current)
+            allowed_to_on_attachment?(user, self.class.attachable_options[:delete_permission])
+          end
+
+          def attachments_addable?(user = User.current)
+            allowed_to_on_attachment?(user, self.class.attachable_options[:add_permission])
+          end
+
+          # Bulk attaches a set of files to an object
+          def attach_files(attachments)
+            return unless attachments&.is_a?(Hash)
+
+            attachments.each_value do |attachment|
+              if attachment['file']
+                build_attachments_from_hash(attachment)
+              elsif attachment['id']
+                memoize_attachment_for_claiming(attachment)
+              end
+            end
+          end
+
+          private
+
+          def allowed_to_on_attachment?(user, permissions)
+            Array(permissions).any? do |permission|
+              user.allowed_to?(permission, project)
+            end
+          end
+
+          def persist_attachments_claimed
+            return unless claimed_attachments?
+
+            Attachment
+              .where(id: attachments_claimed.map(&:id))
+              .update_all(container_id: id, container_type: attachable_class.name)
+
+            attachments_claimed.clear
+
+            attachments.reload
+          end
+
+          def attachable_class
+            (Redmine::Acts::Attachable.attachables & self.class.ancestors).first
+          end
+
+          def build_attachments_from_hash(attachment_hash)
+            if (file = attachment_hash['file']) && file && file.size.positive?
+              attachments.build(file: file,
+                                container: self,
+                                description: attachment_hash['description'].to_s.strip,
+                                author: User.current)
+            end
+          end
+
+          def memoize_attachment_for_claiming(attachment_hash)
+            self.attachments_claimed ||= []
+            self.attachments_claimed << Attachment.find(attachment_hash['id'])
+          end
+
+          def validate_attachments_claimable
+            return unless claimed_attachments?
+
+            if !attachments_addable?
+              errors.add :attachments, :not_allowed
+            elsif claimed_attachments_of_other_author?
+              errors.add :attachments, :does_not_exist
+            elsif claimed_attachments_already_claimed?
+              errors.add :attachments, :unchangeable
+            end
+          end
+
+          def claimed_attachments?
+            attachments_claimed&.any?
+          end
+
+          def claimed_attachments_of_other_author?
+            attachments_claimed.any? { |a| a.author != User.current }
+          end
+
+          def claimed_attachments_already_claimed?
+            attachments_claimed.any?(&:containered?)
           end
         end
       end

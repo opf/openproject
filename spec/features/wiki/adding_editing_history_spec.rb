@@ -72,8 +72,7 @@ describe 'wiki pages', type: :feature, js: true do
     # creating by accessing the page
     visit project_wiki_path(project, 'new page')
 
-    find('.ck-content').set(content_first_version)
-
+    find('.ck-content').base.send_keys(content_first_version)
     click_button 'Save'
 
     expect(page).to have_selector('.title-container', text: 'New page')

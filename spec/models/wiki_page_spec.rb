@@ -39,6 +39,10 @@ describe WikiPage, type: :model do
     let(:project) { model_instance.wiki.project }
   end
 
+  it_behaves_like 'acts_as_attachable included' do
+    let(:model_instance) { FactoryBot.create(:wiki_page_with_content) }
+  end
+
   describe '#create' do
     context 'when another project with same title exists' do
       let(:project2) { FactoryBot.create(:project) }

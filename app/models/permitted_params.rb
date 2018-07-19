@@ -354,7 +354,7 @@ class PermittedParams
   end
 
   def attachments
-    params.permit(attachments: %i[file description])['attachments']
+    params.permit(attachments: %i[file description id])['attachments']
   end
 
   def enumerations
