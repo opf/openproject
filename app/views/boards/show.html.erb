@@ -32,7 +32,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <div id="add-message" style="display:none;">
   <% if authorize_for('messages', 'new') %>
     <h2><%= link_to h(@board.name), project_board_path(@project, @board) %> &#187; <%= t(:label_message_new) %></h2>
-    <%= labelled_tabular_form_for Message.new,
+    <%= labelled_tabular_form_for Message.new(project: @project),
                                   url: board_topics_path(@board),
                                   html: {multipart: true,
                                          id: 'message-form',

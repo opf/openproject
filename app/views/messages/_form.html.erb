@@ -28,6 +28,12 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 <%= error_messages_for 'message' %>
 <% replying ||= false %>
+<% representer_object = if replying
+                          f.object.parent
+                        else
+                          f.object
+                        end %>
+
 <div class="form--field">
   <%= f.text_field :subject, required: true, container_class: '-wide', autofocus: true %>
 </div>
@@ -45,18 +51,13 @@ See docs/COPYRIGHT.rdoc for more details.
   </div>
 <% end %>
 <div class="form--field -required">
-  <% preview_object = if replying
-                        f.object.parent
-                      else
-                        f.object
-                      end %>
-
   <%= f.text_area :content,
                   required: true,
                   label: t(:description_message_content),
                   class: 'wiki-edit',
                   container_class: '-wide',
                   with_text_formatting: true,
-                  preview_context: preview_context(preview_object, @project) %>
+                  resource: ::API::V3::Posts::PostRepresenter.new(representer_object, current_user: current_user),
+                  preview_context: preview_context(representer_object) %>
 </div>
 <%= render partial: 'attachments/form' %>

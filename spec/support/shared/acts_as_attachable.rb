@@ -143,7 +143,7 @@ shared_examples_for 'acts_as_attachable included' do
       expect(attachment2.reload.container).to eql model_instance
 
       if described_class.journaled?
-        expect(journals.last.attachable_journals.map(&:attachment_id)).to match_array [attachment1.id, attachment2.id]
+        expect(model_instance.journals.last.attachable_journals.map(&:attachment_id)).to match_array [attachment1.id, attachment2.id]
       end
     end
   end

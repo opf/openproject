@@ -102,6 +102,10 @@ module Pages::Messages
       super(replies_to)
     end
 
+    def click_save
+      click_button 'Save'
+    end
+
     def path
       topic_path(message)
     end
