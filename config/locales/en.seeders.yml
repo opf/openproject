@@ -171,6 +171,8 @@ en:
                   type: :default_type_task
                   start: 0
                   duration: 0
+                  attachments:
+                    - project_modules.png
                 - subject: Invite new team members
                   description: |
                     Please invite new team members by going to "Members":/projects/demo-project/members in the project navigation.
@@ -214,7 +216,7 @@ en:
                   duration: 1
                   priority: :default_priority_high
                   attachments:
-                    - work_packages.png
+                    - create_work_package.png
                 - subject: Create a project plan
                   description: |
                     Please create a project plan by going to "Gantt chart":##query:"Gantt chart" in the project navigation.
