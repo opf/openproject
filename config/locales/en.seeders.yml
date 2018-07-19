@@ -74,10 +74,12 @@ en:
                 - subject
                 - start_date
                 - due_date
+              sort_by: id
             - name: Tasks
               status: open
               type: :default_type_task
               hierarchy: true
+              sort_by: id
           work_packages:
             - subject: Project kick-off
               description: Plan and execute the project kick-off.
