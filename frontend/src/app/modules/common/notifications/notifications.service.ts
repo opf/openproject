@@ -109,8 +109,8 @@ export class NotificationsService {
     return this.add(this.createNotification(message, 'info'));
   }
 
-  public addWorkPackageUpload(message:INotification|string, uploads:UploadInProgress[]) {
-    return this.add(this.createWorkPackageUploadNotification(message, uploads));
+  public addAttachmentUpload(message:INotification|string, uploads:UploadInProgress[]) {
+    return this.add(this.createAttachmentUploadNotification(message, uploads));
   }
 
   public remove(notification:INotification) {
@@ -134,7 +134,7 @@ export class NotificationsService {
     return message;
   }
 
-  private createWorkPackageUploadNotification(message:INotification|string, uploads:UploadInProgress[]) {
+  private createAttachmentUploadNotification(message:INotification|string, uploads:UploadInProgress[]) {
     if (!uploads.length) {
       throw new Error('Cannot create an upload notification without uploads!');
     }

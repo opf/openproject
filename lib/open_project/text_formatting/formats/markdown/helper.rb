@@ -41,7 +41,7 @@ module OpenProject::TextFormatting::Formats
         view_context.javascript_include_tag 'vendor/ckeditor/ckeditor.js'
       end
 
-      def wikitoolbar_for(field_id, context = nil)
+      def wikitoolbar_for(field_id, **context)
         # Hide the original textarea
         view_context.content_for(:additional_js_dom_ready) do
           js = <<-JAVASCRIPT
@@ -53,10 +53,13 @@ module OpenProject::TextFormatting::Formats
           js.html_safe
         end
 
+        # Pass an optional resource to the CKEditor instance
+        resource = context.fetch(:resource, {})
         view_context.content_tag 'op-ckeditor-form',
                                  '',
                                  'textarea-selector': "##{field_id}",
-                                 'preview-context': context
+                                 'preview-context': context[:preview],
+                                 'data-resource': resource.to_json
       end
     end
   end
