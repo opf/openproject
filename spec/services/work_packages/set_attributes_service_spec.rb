@@ -576,5 +576,21 @@ describe WorkPackages::SetAttributesService, type: :model do
         end
       end
     end
+
+    context 'custom fields' do
+      subject { instance.call(call_attributes) }
+
+      context 'non existing fields' do
+        let(:call_attributes) { { custom_field_891: '1' } }
+
+        before do
+          subject
+        end
+
+        it 'is successful' do
+          expect(subject).to be_success
+        end
+      end
+    end
   end
 end

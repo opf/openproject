@@ -241,7 +241,7 @@ module API
               [value].compact
             end
 
-            represented.custom_field_values = { custom_field.id => values }
+            represented.send(:"custom_field_#{custom_field.id}=", values)
           }
         end
 

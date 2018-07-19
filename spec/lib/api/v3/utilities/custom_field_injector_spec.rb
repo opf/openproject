@@ -474,17 +474,17 @@ describe ::API::V3::Utilities::CustomFieldInjector do
 
       it 'accepts a valid link' do
         json = { cf_path => { href: (api_v3_paths.user 2) } }.to_json
-        expected = { custom_field.id => ['2'] }
+        expected = ['2']
 
-        expect(represented).to receive(:custom_field_values=).with(expected)
+        expect(represented).to receive(:"custom_field_#{custom_field.id}=").with(expected)
         modified_class.new(represented, current_user: nil).from_json(json)
       end
 
       it 'accepts an empty link' do
         json = { cf_path => { href: nil } }.to_json
-        expected = { custom_field.id => [] }
+        expected = []
 
-        expect(represented).to receive(:custom_field_values=).with(expected)
+        expect(represented).to receive(:"custom_field_#{custom_field.id}=").with(expected)
         modified_class.new(represented, current_user: nil).from_json(json)
       end
     end
