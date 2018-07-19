@@ -94,10 +94,15 @@ shared_examples_for 'type service' do
       let(:service_result) { ServiceResult.new(success: true, result: query) }
 
       before do
+        allow(Query)
+          .to receive(:new_default)
+          .with(name: "Embedded subelements: group1")
+          .and_return(query)
+
         parse_service = double('ParseQueryParamsService')
         allow(::API::V3::UpdateQueryFromV3ParamsService)
           .to receive(:new)
-          .with(anything, anything)
+          .with(query, user)
           .and_return(parse_service)
 
         allow(parse_service)
@@ -107,7 +112,7 @@ shared_examples_for 'type service' do
       end
 
       it 'assigns the fully parsed query to the type\'s attribute group and adds the parent filter' do
-        service_call
+        expect(service_call).to be_success
 
         expect(type.attribute_groups[0].query)
           .to eql query
@@ -121,6 +126,18 @@ shared_examples_for 'type service' do
           .to eql '='
         expect(query.filters[0].values)
           .to eql [::Queries::Filters::TemplatedValue::KEY]
+      end
+
+      context 'when the query service reports an error' do
+        let(:success) { false }
+        let(:service_result) { ServiceResult.new(success: false, result: nil) }
+
+        it 'reports the error' do
+          expect(service_call).to be_failure
+
+          expect(type.attribute_groups[0].query)
+            .to eql query
+        end
       end
     end
 
