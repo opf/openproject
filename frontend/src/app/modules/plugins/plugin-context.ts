@@ -21,6 +21,7 @@ import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/o
 import {EditorMacrosService} from "core-components/modals/editor/editor-macros.service";
 import {HTMLSanitizeService} from "../common/html-sanitize/html-sanitize.service";
 import {PathHelperService} from "../common/path-helper/path-helper.service";
+import {CKEditorPreviewService} from "core-components/ckeditor/ckeditor-preview.service";
 
 /**
  * Plugin context bridge for plugins outside the CLI compiler context
@@ -51,6 +52,7 @@ export class OpenProjectPluginContext {
     wpCache: this.injector.get<WorkPackageCacheService>(WorkPackageCacheService),
     macros: this.injector.get<EditorMacrosService>(EditorMacrosService),
     htmlSanitizeService: this.injector.get<HTMLSanitizeService>(HTMLSanitizeService),
+    ckEditorPreview: this.injector.get<CKEditorPreviewService>(CKEditorPreviewService),
     pathHelperService: this.injector.get<PathHelperService>(PathHelperService)
   };
 

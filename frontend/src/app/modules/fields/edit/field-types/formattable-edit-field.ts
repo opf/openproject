@@ -71,7 +71,7 @@ export class FormattableEditField extends EditField {
     const element = container.querySelector('.op-ckeditor-element') as HTMLElement;
     
     this.ckEditorSetup
-      .create('balloon', element, { resource: this.resource })
+      .create('classic', element, { resource: this.resource })
       .then((editor:ICKEditorInstance) => {
         this.ckeditor = editor;
         if (this.rawValue) {

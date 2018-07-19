@@ -27,6 +27,7 @@
 // ++
 
 import {Component} from "@angular/core";
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
 @Component({
   selector: 'work-packages-base',
@@ -38,3 +39,5 @@ import {Component} from "@angular/core";
 })
 export class WorkPackagesBaseComponent {
 }
+
+DynamicBootstrapper.register({ selector: 'work-packages-base', cls: WorkPackagesBaseComponent });
