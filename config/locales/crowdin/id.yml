@@ -961,6 +961,7 @@ id:
   error_invalid_sort_criterion: 'Tidak dapat diurutkan dengan kolom: %{value}'
   error_pdf_export_too_many_columns: Kolom yang dipilih utnuk ekspor PDF terlalu banyak.
     Mohon kurangi jumlah kolom.
+  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
   error_token_authenticity: Unable to verify Cross-Site Request Forgery token.
   error_work_package_done_ratios_not_updated: Paket-Penugasan selesai, rasio tidak
     diupdate.
@@ -1009,6 +1010,8 @@ id:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF disertai deskripsi
+      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
+      pdf_with_attachments: PDF with attachments
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","

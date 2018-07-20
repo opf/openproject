@@ -984,6 +984,7 @@ he:
   error_invalid_sort_criterion: 'Can''t sort by column: %{value}'
   error_pdf_export_too_many_columns: Too many columns selected for the PDF export.
     Please reduce the number of columns.
+  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
   error_token_authenticity: Unable to verify Cross-Site Request Forgery token.
   error_work_package_done_ratios_not_updated: אחוזי הסיום בחבילת העבודה אינם מעודכנים.
   error_work_package_not_found_in_project: חבילת העבודה לא נמצאה או לא שייכת לפרוייקט
@@ -1030,6 +1031,8 @@ he:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF עם תיאור
+      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
+      pdf_with_attachments: PDF with attachments
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","

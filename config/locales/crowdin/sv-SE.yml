@@ -961,6 +961,7 @@ sv-SE:
   error_invalid_sort_criterion: 'Kan inte sortera på kolumn: %{value}'
   error_pdf_export_too_many_columns: För många kolumner har markerats för PDF-export.
     Vänlogen minska antalet kolumner.
+  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
   error_token_authenticity: Kunde inte verifiera Cross-Site Request Forgery token.
   error_work_package_done_ratios_not_updated: Arbetspaketets andel avklarat är inte
     uppdaterat.
@@ -1011,6 +1012,8 @@ sv-SE:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF med beskrivningar
+      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
+      pdf_with_attachments: PDF with attachments
   general_csv_decimal_separator: ","
   general_csv_encoding: UTF-8
   general_csv_separator: ";"

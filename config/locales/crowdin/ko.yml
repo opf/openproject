@@ -938,6 +938,7 @@ ko:
   error_invalid_query_column: '잘못 된 쿼리 열: %{value}'
   error_invalid_sort_criterion: '열로 정렬할 수 없습니다: %{value}'
   error_pdf_export_too_many_columns: PDF 내보내기에 대해 너무 많은 열을 선택했습니다. 열 수를 줄이십시오.
+  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
   error_token_authenticity: 교차 사이트 요청 위조 토큰을 확인할 수 없습니다.
   error_work_package_done_ratios_not_updated: 작업 패키지 완료 비율이 업데이트되지 않았습니다.
   error_work_package_not_found_in_project: 작업 패키지가 없거나 이 프로젝트에 속하지 않습니다.
@@ -980,6 +981,8 @@ ko:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: 설명이 첨부된 PDF
+      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
+      pdf_with_attachments: PDF with attachments
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
