@@ -20,6 +20,8 @@ export interface ICKEditorContext {
   removePlugins?:string[];
   // Set of enabled macro plugins or false to disable all
   macros?:false|string[];
+  // context link to append on preview requests
+  previewContext?:string;
 }
 
 declare global {

@@ -27,7 +27,7 @@
                   accesskey: accesskey(:edit),
                   with_text_formatting: true,
                   resource: ::API::V3::WikiPages::WikiPageRepresenter.new(@page, current_user: current_user),
-                  preview_context: preview_context(@page) %>
+                  preview_context: preview_context(@page, @project) %>
 </div>
 
 <div class="form--field">
