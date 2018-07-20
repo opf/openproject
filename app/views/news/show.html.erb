@@ -97,7 +97,7 @@ See docs/COPYRIGHT.rdoc for more details.
         <%= text_area 'comment',
                       'comments',
                       class: 'wiki-edit' %>
-        <%= wikitoolbar_for 'comment_comments' %>
+        <%= wikitoolbar_for 'comment_comments', preview_context: preview_context(@news) %>
       </div>
       <p><%= submit_tag l(:button_add), class: 'button -highlight' %></p>
     <% end %>
