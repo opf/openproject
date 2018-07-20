@@ -108,7 +108,7 @@ class WorkPackages::MovesController < ApplicationController
   end
 
   def prepare_for_work_package_move
-    @work_packages = @work_packages.sort
+    @work_packages = @work_packages.includes(:ancestors)
     @copy = params.has_key? :copy
     @allowed_projects = WorkPackage.allowed_target_projects_on_move(current_user)
     @target_project = @allowed_projects.detect { |p| p.id.to_s == params[:new_project_id].to_s } if params[:new_project_id]
@@ -117,6 +117,22 @@ class WorkPackages::MovesController < ApplicationController
     @available_statuses = Workflow.available_statuses(@project)
     @notes = params[:notes]
     @notes ||= ''
+
+    # When copying, avoid copying elements when any of their ancestors
+    # are in the set to be copied
+    if @copy
+      @work_packages = remove_hierarchy_duplicates
+    end
+  end
+
+  # Check if a parent work package is also selected for copying
+  def remove_hierarchy_duplicates
+    # Get all ancestors of the work_packages to copy
+    selected_ids = @work_packages.pluck(:id)
+
+    @work_packages.reject do |wp|
+      wp.ancestors.where(id: selected_ids).exists?
+    end
   end
 
   def permitted_create_params
