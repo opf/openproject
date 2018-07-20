@@ -314,6 +314,7 @@ lol:
         spent_on: crwdns96554:0crwdne96554:0
         type: crwdns96555:0crwdne96555:0
       type:
+        attribute_groups: crwdns99049:0crwdne99049:0
         is_in_roadmap: crwdns96556:0crwdne96556:0
         is_milestone: crwdns96558:0crwdne96558:0
         color: crwdns96559:0crwdne96559:0
@@ -480,9 +481,10 @@ lol:
         type:
           attributes:
             attribute_groups:
-              group_without_name: crwdns96670:0crwdne96670:0
-              duplicate_group: crwdns96671:0%{group}crwdne96671:0
               attribute_unknown: crwdns96672:0crwdne96672:0
+              duplicate_group: crwdns99050:0%{group}crwdne99050:0
+              query_invalid: crwdns99051:0%{group}crwdnd99051:0%{details}crwdne99051:0
+              group_without_name: crwdns96670:0crwdne96670:0
         user:
           attributes:
             password:

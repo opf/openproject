@@ -225,6 +225,9 @@ WhileUntilModifier:
 WordArray:
   Enabled: false
 
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
 # Lint
 
 AmbiguousOperator:

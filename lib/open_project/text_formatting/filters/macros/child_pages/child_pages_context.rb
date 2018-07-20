@@ -28,39 +28,30 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-def aggregate_mocked_settings(example, settings)
-  # We have to manually check parent groups for with_settings:,
-  # since they are being ignored otherwise
-  example.example_group.parents.each do |parent|
-    if parent.respond_to?(:metadata) && parent.metadata[:with_settings]
-      settings.reverse_merge!(parent.metadata[:with_settings])
+module OpenProject::TextFormatting::Filters::Macros::ChildPages
+  class ChildPagesContext
+    attr_reader(:page_value, :include_parent, :user, :page)
+
+    def initialize(macro, pipeline_context)
+      @page_value = macro['data-page']
+      @include_parent = macro['data-include-parent'].to_s == 'true'
+      @user = pipeline_context[:current_user]
+      @page = fetch_page(pipeline_context)
     end
-  end
 
-  settings
-end
+    def check
+      if @page.nil? || !@user.allowed_to?(:view_wiki_pages, @page.wiki.project)
+        raise I18n.t('macros.include_wiki_page.errors.page_not_found', name: @page_value)
+      end
+    end
 
-RSpec.configure do |config|
-  config.before(:each) do |example|
-    settings = example.metadata[:with_settings]
-    if settings.present?
-      settings = aggregate_mocked_settings(example, settings)
+    private
 
-      settings.each do |k, v|
-        bare, questionmarked = if k.to_s.ends_with?('?')
-                                 [k.to_s[0..-2].to_sym, k]
-                               else
-                                 [k, "#{k}?".to_sym]
-                               end
-
-        raise "#{k} is not a valid setting" unless Setting.respond_to?(bare)
-
-        if Setting.available_settings[bare.to_s] && Setting.available_settings[bare.to_s]['format'] == 'boolean'
-          allow(Setting).to receive(bare).and_return(v)
-          allow(Setting).to receive(questionmarked).and_return(v)
-        else
-          allow(Setting).to receive(k).and_return(v)
-        end
+    def fetch_page(pipeline_context)
+      if page_value.present?
+        Wiki.find_page(page_value, project: pipeline_context[:project])
+      elsif pipeline_context[:object].is_a?(WikiContent)
+        pipeline_context[:object].page
       end
     end
   end

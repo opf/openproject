@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe 'Wysiwyg include wiki page spec',
+describe 'Wysiwyg child pages spec',
          type: :feature, js: true do
 
   let(:project) {
@@ -48,17 +48,26 @@ describe 'Wysiwyg include wiki page spec',
                       content: FactoryBot.build(:wiki_content, text: '# My page')
   }
 
-  let(:included_page) {
+  let(:parent_page) {
     FactoryBot.create :wiki_page,
-                      title: 'Included',
-                      content: FactoryBot.build(:wiki_content, text: '# included page')
+                      title: 'Parent page',
+                      content: FactoryBot.build(:wiki_content, text: '# parent page')
+  }
+
+  let(:child_page) {
+    FactoryBot.create :wiki_page,
+                      title: 'Child page',
+                      content: FactoryBot.build(:wiki_content, text: '# child page')
   }
 
   before do
     login_as(user)
 
     project.wiki.pages << wiki_page
-    project.wiki.pages << included_page
+    project.wiki.pages << parent_page
+    project.wiki.pages << child_page
+    child_page.parent = parent_page
+    child_page.save!
     project.wiki.save!
   end
 
@@ -75,34 +84,32 @@ describe 'Wysiwyg include wiki page spec',
         visit edit_project_wiki_path(project, :test)
       end
 
-      it 'can add and edit an include page widget' do
+      it 'can add and edit an child pages widget' do
         editor.in_editor do |container, editable|
           expect(editable).to have_selector('h1', text: 'My page')
 
           # strangely, we need visible: :all here
-          container.find('.ck-button', visible: :all, text: 'Include content of another wiki page').click
+          container.find('.ck-button', visible: :all, text: 'Links to child pages').click
 
+          # Find widget, click to show toolbar
+          placeholder = find('.macro.-child_pages')
+
+          # Edit widget and cancel again
+          placeholder.click
+          page.find('.ck-balloon-panel .ck-button', visible: :all, text: 'Edit').click
           expect(page).to have_selector('.op-modal--macro-modal')
-          fill_in 'selected-page', with: 'included'
-
-          # Cancel editing
+          expect(page).to have_field('selected-page', with: '')
           find('.op-modal--cancel-button').click
-          expect(editable).to have_no_selector('.macro.-wiki_page_include')
 
-          container.find('.ck-button', visible: :all, text: 'Include content of another wiki page').click
-          fill_in 'selected-page', with: 'included'
+          # Edit widget and save
+          placeholder.click
+          page.find('.ck-balloon-panel .ck-button', visible: :all, text: 'Edit').click
+          expect(page).to have_selector('.op-modal--macro-modal')
+          fill_in 'selected-page', with: 'parent-page'
 
           # Save widget
           find('.op-modal--submit-button').click
 
-          # Find widget, click to show toolbar
-          modal = find('.macro.-wiki_page_include')
-
-          # Edit widget again
-          modal.click
-          page.find('.ck-balloon-panel .ck-button', visible: :all, text: 'Edit').click
-          expect(page).to have_field('selected-page', with: 'included')
-          find('.op-modal--cancel-button').click
         end
 
         # Save wiki page
@@ -111,10 +118,42 @@ describe 'Wysiwyg include wiki page spec',
         expect(page).to have_selector('.flash.notice')
 
         within('#content') do
-          expect(page).to have_selector('section.macros--included-wiki-page')
-          expect(page).to have_selector('section.macros--included-wiki-page h1', text: 'included page')
+          expect(page).to have_selector('.pages-hierarchy')
+          expect(page).to have_selector('.pages-hierarchy', text: 'Child page')
+          expect(page).not_to have_selector('.pages-hierarchy', text: 'Parent page')
           expect(page).to have_selector('h1', text: 'My page')
+
+          find('.toolbar .icon-edit').click
         end
+
+        editor.in_editor do |container, editable|
+          # Find widget, click to show toolbar
+          placeholder = find('.macro.-child_pages')
+
+          # Edit widget and save
+          placeholder.click
+          page.find('.ck-balloon-panel .ck-button', visible: :all, text: 'Edit').click
+          expect(page).to have_selector('.op-modal--macro-modal')
+          page.check 'include-parent'
+
+          # Save widget
+          find('.op-modal--submit-button').click
+        end
+
+        # Save wiki page
+        click_on 'Save'
+
+        expect(page).to have_selector('.flash.notice')
+
+        within('#content') do
+          expect(page).to have_selector('.pages-hierarchy')
+          expect(page).to have_selector('.pages-hierarchy', text: 'Child page')
+          expect(page).to have_selector('.pages-hierarchy', text: 'Parent page')
+          expect(page).to have_selector('h1', text: 'My page')
+
+          find('.toolbar .icon-edit').click
+        end
+
       end
     end
   end

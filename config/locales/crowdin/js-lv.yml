@@ -57,6 +57,16 @@ lv:
       macro:
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Wiki page
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
         toc: Table of contents
         code_block:
           button: Insert code snippet
@@ -236,7 +246,9 @@ lv:
     label_remove_watcher: Noņemt vērotāju %{name}
     label_remove_all_files: Dzēst visus failus
     label_add_description: Pievienot aprakstu priekš %{file}
-    label_upload_notification: 'Augšupielādēt failus Darba pakai #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Augšupielādēt failus Darba pakai #%{id}:
+      %{subject}'
     label_files_to_upload: 'Šie faili tiks augšupielādēti:'
     label_rejected_files: 'Nevar augšupielādēt šos failus:'
     label_rejected_files_reason: Šos failus nevar augšupielādēt, jo to izmērs ir lielāks
@@ -680,6 +692,8 @@ lv:
     error_could_not_resolve_version_name: Couldn't resolve version name
     error_could_not_resolve_user_name: Couldn't resolve user name
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: work package

@@ -360,6 +360,7 @@ hr:
         spent_on: Datum
         type: Tip
       type:
+        attribute_groups: ''
         is_in_roadmap: U planu
         is_milestone: Je ključna točka
         color: Boja
@@ -538,10 +539,11 @@ hr:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Unnamed groups are not allowed.
-              duplicate_group: The group name %{group} is used more than once. Group
-                names must be unique.
               attribute_unknown: Invalid work package attribute used.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Unnamed groups are not allowed.
         user:
           attributes:
             password:

@@ -359,6 +359,7 @@ fi:
         spent_on: Päivä
         type: Tyyppi
       type:
+        attribute_groups: ''
         is_in_roadmap: Suunnitelmassa
         is_milestone: On virstanpylväs
         color: Väri
@@ -537,10 +538,11 @@ fi:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Nimeämätön ryhmät eivät ole sallittuja.
-              duplicate_group: The group name %{group} is used more than once. Group
-                names must be unique.
               attribute_unknown: Invalid work package attribute used.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Nimeämätön ryhmät eivät ole sallittuja.
         user:
           attributes:
             password:

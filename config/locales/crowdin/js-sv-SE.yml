@@ -57,6 +57,16 @@ sv-SE:
       macro:
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Wiki-sida
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
         toc: Table of contents
         code_block:
           button: Insert code snippet
@@ -234,7 +244,9 @@ sv-SE:
     label_remove_watcher: Ta bort bevakare %{name}
     label_remove_all_files: Ta bort alla filer
     label_add_description: Lägga till en beskrivning för %{file}
-    label_upload_notification: 'Ladda upp filer för arbetspaket #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Ladda upp filer för arbetspaket #%{id}:
+      %{subject}'
     label_files_to_upload: 'Dessa filer kommer att laddas upp:'
     label_rejected_files: 'Dessa filer går inte att ladda upp:'
     label_rejected_files_reason: Dessa filer går inte att ladda upp eftersom deras
@@ -676,6 +688,8 @@ sv-SE:
     error_could_not_resolve_version_name: Kunde inte fastställa versionsnamn
     error_could_not_resolve_user_name: Kunde inte fastställa användarnamn
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: work package

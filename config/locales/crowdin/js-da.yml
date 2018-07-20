@@ -57,6 +57,16 @@ da:
       macro:
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Wiki-side
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
         toc: Table of contents
         code_block:
           button: Insert code snippet
@@ -236,7 +246,9 @@ da:
     label_remove_watcher: Fjern iagttager %{name}
     label_remove_all_files: Slet alle filer
     label_add_description: Tilføj en beskrivelse af %{file}
-    label_upload_notification: 'Upload af filer til arbejdspakke #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Upload af filer til arbejdspakke #%{id}:
+      %{subject}'
     label_files_to_upload: 'Disse filer vil blive uploadet:'
     label_rejected_files: 'Disse filer kan ikke uploades:'
     label_rejected_files_reason: Disse filer kan ikke uploades, da deres størrelse
@@ -677,6 +689,8 @@ da:
     error_could_not_resolve_version_name: Kunne ikke fastslå versionsnavn
     error_could_not_resolve_user_name: Kunne ikke finde brugernavnet
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: work package

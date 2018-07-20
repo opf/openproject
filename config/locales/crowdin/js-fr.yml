@@ -57,6 +57,16 @@ fr:
       macro:
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Page wiki
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
         toc: Table of contents
         code_block:
           button: Insert code snippet
@@ -239,8 +249,9 @@ fr:
     label_remove_watcher: Retirer l'observateur %{name}
     label_remove_all_files: Supprimer tous les fichiers
     label_add_description: Ajouter une description pour %{file}
-    label_upload_notification: 'Transfert en cours des fichiers pour le lot de travaux
-      #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Transfert en cours des fichiers pour
+      le lot de travaux #%{id}: %{subject}'
     label_files_to_upload: 'Ces fichiers vont être transférés:'
     label_rejected_files: 'Ces fichiers ne peuvent pas être transférés:'
     label_rejected_files_reason: Ces fichiers ne peuvent pas être transférés car leur
@@ -696,6 +707,8 @@ fr:
     error_could_not_resolve_version_name: Ne peut résoudre le nom de version
     error_could_not_resolve_user_name: Impossible de trouver l'utilisateur
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: lot de travaux

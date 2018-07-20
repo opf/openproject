@@ -54,15 +54,23 @@ ja:
     description_subwork_package: '作業項目の子 #%{id}'
     editor:
       macro:
-        toolbar_help: Click to select widget and show the toolbar. Double-click to
-          edit widget
+        toolbar_help: クリックしてウィジェットを選択しツールバーを表示します。 ダブルクリックしてウィジェットを編集
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Wiki ページ
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
         toc: 目次
         code_block:
-          button: Insert code snippet
-          title: Insert / edit Code snippet
-          language: Formatting language
-          language_hint: Enter the formatting language that will be used for highlighting
-            (if supported).
+          button: コードスニペットを挿入する
+          title: コードスニペットの挿入/編集
+          language: 言語の書式設定
+          language_hint: 強調表示に使用する言語の書式を入力します（サポートされている場合）。
         wiki_page_include:
           button: 別のwikiページの内容を含める
           text: Wikiページを含む（プレースホルダ）
@@ -230,7 +238,8 @@ ja:
     label_remove_watcher: ウォッチャー%{name}を削除
     label_remove_all_files: 全てのファイルを削除
     label_add_description: "%{file}の説明を追加"
-    label_upload_notification: '作業項目#%{id}: %{subject}用ファイルをアップロード中'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: '作業項目#%{id}: %{subject}用ファイルをアップロード中'
     label_files_to_upload: 'これらのファイルをアップロードします:'
     label_rejected_files: これらのファイルをアップロードできません：
     label_rejected_files_reason: ファイルサイズが%{maximumFilesize}を越えたために、これらのファイルをアップロードできません
@@ -639,6 +648,8 @@ ja:
     error_could_not_resolve_version_name: バージョン名を解決できませんでした。
     error_could_not_resolve_user_name: ユーザ名を特定できません
     error_attachment_upload: 'ファイル ''%{name}'' のアップロードに失敗しました: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: work package

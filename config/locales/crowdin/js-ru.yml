@@ -55,15 +55,25 @@ ru:
     description_subwork_package: 'Потомок пакета работ #%{id}'
     editor:
       macro:
-        toolbar_help: Click to select widget and show the toolbar. Double-click to
-          edit widget
+        toolbar_help: Кликните для выбора виджета и показа панели инструментов. Кликните
+          дважды для редактирования виджета
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Wiki-страница
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
         toc: Содержание
         code_block:
-          button: Insert code snippet
-          title: Insert / edit Code snippet
-          language: Formatting language
-          language_hint: Enter the formatting language that will be used for highlighting
-            (if supported).
+          button: Вставить фрагмент кода
+          title: Вставить / Редактировать фрагмент кода
+          language: Язык форматирования
+          language_hint: Введите язык форматирования, который будет использоваться
+            для выделения (если поддерживается).
         wiki_page_include:
           button: Включить содержание другой вики страницы
           text: Включенные вики-страницы (заполнитель)
@@ -238,7 +248,9 @@ ru:
     label_remove_watcher: Удалить наблюдателя %{name}
     label_remove_all_files: Удалить все файлы
     label_add_description: Добавить описание для %{file}
-    label_upload_notification: 'Загрузка файлов для пакета работ #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Загрузка файлов для пакета работ #%{id}:
+      %{subject}'
     label_files_to_upload: 'Эти файлы будут загружены:'
     label_rejected_files: 'Эти файлы не могут быть загружены:'
     label_rejected_files_reason: Эти файлы не могут быть загружены, как их размер
@@ -687,6 +699,8 @@ ru:
     error_could_not_resolve_version_name: Не удалось определить название этапа
     error_could_not_resolve_user_name: Не удалось найти такое имя пользователя
     error_attachment_upload: 'Файл «%{name}» загрузить не удалось: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: пакет работ

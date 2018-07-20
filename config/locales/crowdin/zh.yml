@@ -315,6 +315,7 @@ zh:
         spent_on: 日期
         type: 类型
       type:
+        attribute_groups: ''
         is_in_roadmap: 在Roadmap
         is_milestone: 是里程碑
         color: 颜色
@@ -481,9 +482,11 @@ zh:
         type:
           attributes:
             attribute_groups:
-              group_without_name: 不允许未命名的群组。
-              duplicate_group: 组名 %{group} 已多次使用。组名不能重复。
               attribute_unknown: 已使用无效的工作包属性。
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: 不允许未命名的群组。
         user:
           attributes:
             password:
