@@ -59,8 +59,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
       if options[:with_text_formatting]
         # use either the provided id or fetch the one created by rails
         id = options[:id] || input.match(/<[^>]* id="(\w+)"[^>]*>/)[1]
-        context_object = object.persisted? ? object : nil
-        options[:preview_context] ||= preview_context(context_object)
+        options[:preview_context] ||= preview_context(object)
         input.concat text_formatting_wrapper id, options
       end
 

@@ -70,8 +70,13 @@ export class FormattableEditField extends EditField {
   public setupMarkdownEditor(container:HTMLElement) {
     const element = container.querySelector('.op-ckeditor-element') as HTMLElement;
 
+    const context = { resource: this.resource,
+                      previewContext: this.previewContext };
+
     this.ckEditorSetup
-      .create('balloon', element, { resource: this.resource })
+      .create('balloon',
+              element,
+              context)
       .then((editor:ICKEditorInstance) => {
         this.ckeditor = editor;
         if (this.rawValue) {
@@ -87,6 +92,14 @@ export class FormattableEditField extends EditField {
     editor.model.document.on('change', () => {
       this.rawValue = this.ckeditor.getData();
     } );
+  }
+
+  private get previewContext() {
+    if (this.resource.isNew && this.resource.project) {
+      return this.resource.project.href;
+    } else if (!this.resource.isNew) {
+      return this.pathHelper.api.v3.work_packages.id(this.resource.id).path;
+    }
   }
 
   public reset() {
