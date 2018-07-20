@@ -92,7 +92,7 @@ export class ApiV3Paths {
     let base = this.apiV3Base + '/render/markdown';
 
     if (context) {
-      return base + `?link=${context}`;
+      return base + `?context=${context}`;
     } else {
       return base;
     }

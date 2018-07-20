@@ -38,11 +38,9 @@ See docs/COPYRIGHT.rdoc for more details.
                   container_class: '-wide' %>
 </div>
 <div class="form--field">
-  <% link_object = f.object.persisted? ? f.object : nil %>
   <%= f.text_area :description,
                   required: true,
                   class: 'wiki-edit wiki-toolbar',
                   container_class: '-wide',
-                  with_text_formatting: true,
-                  preview_context: preview_context(link_object) %>
+                  with_text_formatting: true %>
 </div>

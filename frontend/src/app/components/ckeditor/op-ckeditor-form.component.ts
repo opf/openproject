@@ -84,9 +84,13 @@ export class OpCkeditorFormComponent implements OnInit {
     this.wrappedTextArea = this.formElement.find(this.textareaSelector);
     this.wrappedTextArea.hide();
     const wrapper = this.$element.find(`.${ckEditorReplacementClass}`);
+    const context = { resource: this.resource,
+                      previewContext: this.previewContext };
 
     const editorPromise = this.ckEditorSetup
-      .create('classic', wrapper[0], { resource: this.resource })
+      .create('classic',
+              wrapper[0],
+              context)
       .then(this.setup.bind(this));
 
     this.$element.data('editor', editorPromise);
