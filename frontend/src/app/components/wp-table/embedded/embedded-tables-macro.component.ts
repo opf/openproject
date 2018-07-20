@@ -28,6 +28,7 @@
 
 import {Component, ElementRef} from "@angular/core";
 import {WorkPackageTableConfigurationObject} from "core-components/wp-table/wp-table-configuration";
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
 @Component({
   selector: 'macro.embedded-table',
@@ -56,7 +57,5 @@ export class EmbeddedTablesMacroComponent {
   }
 }
 
-export const embeddedTableBootstrap = {
-  selector: 'macro.embedded-table',
-  cls: EmbeddedTablesMacroComponent
-};
+DynamicBootstrapper.register(
+  { selector: 'macro.embedded-table', cls: EmbeddedTablesMacroComponent, embeddable: true });
