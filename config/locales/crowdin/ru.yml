@@ -183,6 +183,11 @@ ru:
     index:
       no_results_title_text: В данный момент рабочих потоков нет.
   work_packages:
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
+      few: "%{count} work package children"
+      many: "%{count} work package children"
     move:
       no_common_statuses_exists: Статус не доступен для всех выбранных пакетов работ.
         Их статус изменен быть не может.
@@ -538,9 +543,10 @@ ru:
           attributes:
             attribute_groups:
               attribute_unknown: Используется недопустимый атрибут пакета работ.
-              duplicate_group: The group name '%{group}' is used more than once. Group
-                names must be unique.
-              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              duplicate_group: Имя группы '%{group}' используется более одного раза.
+                Имена групп должны быть уникальными.
+              query_invalid: 'Встроенный запрос ''%{group}'' является недопустимым:
+                %{details}'
               group_without_name: Не именованные группы не допускаются.
         user:
           attributes:

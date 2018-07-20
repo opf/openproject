@@ -54,6 +54,7 @@ bg:
     description_selected_columns: Избрани колони
     description_subwork_package: 'Подработен пакет #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget

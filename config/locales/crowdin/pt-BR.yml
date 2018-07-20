@@ -185,6 +185,9 @@ pt-BR:
     index:
       no_results_title_text: Atualmente, não há fluxos de trabalho.
   work_packages:
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
     move:
       no_common_statuses_exists: Não há situação disponível para todos os pacotes
         de trabalho selecionados. Sua situação não pode ser alterada.
@@ -980,7 +983,7 @@ pt-BR:
   error_invalid_sort_criterion: 'Não é possível ordenar por coluna: %{value}'
   error_pdf_export_too_many_columns: Muitas colunas selecionadas para a exportação
     para PDF. Reduza o número de colunas.
-  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
+  error_pdf_failed_to_export: 'Não foi possível salvar a exportação do PDF: %{error}'
   error_token_authenticity: Não foi possível verificar o símbolo de Falsificação de
     Solicitação Entre Sites.
   error_work_package_done_ratios_not_updated: Percentual concluído do pacote de trabalho
@@ -1033,8 +1036,8 @@ pt-BR:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF com descrições
-      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
-      pdf_with_attachments: PDF with attachments
+      pdf_with_descriptions_and_attachments: PDF com descrições e anexos
+      pdf_with_attachments: PDF com anexos
   extraction:
     available:
       pdftotext: Pdftotext disponível (opcional)

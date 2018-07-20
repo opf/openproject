@@ -53,16 +53,16 @@ ja:
     description_selected_columns: 選択された項目
     description_subwork_package: '作業項目の子 #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
         toolbar_help: クリックしてウィジェットを選択しツールバーを表示します。 ダブルクリックしてウィジェットを編集
         child_pages:
-          button: Links to child pages
-          include_parent: Include parent
-          text: "[Placeholder] Links to child pages of"
+          button: 子ページへのリンク
+          include_parent: 親を含める
+          text: "[Placeholder] の子ページへのリンク"
           page: Wiki ページ
-          this_page: this page
-          hint: 'Leave this field empty to list all child pages of the current page.
-            If you want to reference a different page, provide its title or slug.
+          this_page: このページ
+          hint: '現在のページのすべての子ページを表示するには、このフィールドを空のままにします。 別のページを参照する場合は、そのタイトルまたはスラッグを入力します。
 
 '
         toc: 目次
@@ -238,7 +238,7 @@ ja:
     label_remove_watcher: ウォッチャー%{name}を削除
     label_remove_all_files: 全てのファイルを削除
     label_add_description: "%{file}の説明を追加"
-    label_upload_notification: Uploading files...
+    label_upload_notification: ファイルをアップロード中...
     label_work_package_upload_notification: '作業項目#%{id}: %{subject}用ファイルをアップロード中'
     label_files_to_upload: 'これらのファイルをアップロードします:'
     label_rejected_files: これらのファイルをアップロードできません：
@@ -648,8 +648,7 @@ ja:
     error_could_not_resolve_version_name: バージョン名を解決できませんでした。
     error_could_not_resolve_user_name: ユーザ名を特定できません
     error_attachment_upload: 'ファイル ''%{name}'' のアップロードに失敗しました: %{error}'
-    error_attachment_upload_permission: You don't have the permission to upload files
-      on this resource.
+    error_attachment_upload_permission: このリソースでファイルをアップロードする権限がありません。
     units:
       workPackage:
         one: work package

@@ -54,6 +54,7 @@ cs:
     description_selected_columns: Vybrané sloupce
     description_subwork_package: 'Potomek pracovního balíčku #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget
