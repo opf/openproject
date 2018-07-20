@@ -41,5 +41,10 @@ module Components
 
       sleep 0.5
     end
+
+    def insert_macro(label)
+      container.find('.ck-button', visible: :all, text: 'Macros').click
+      container.find('.ck-button', visible: :all, text: label).click
+    end
   end
 end

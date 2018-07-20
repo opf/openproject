@@ -50,9 +50,8 @@ describe 'Wysiwyg embedded work package tables',
       end
 
       it 'can add and edit an embedded table widget' do
-        editor.in_editor do |container, editable|
-          # strangely, we need visible: :all here
-          container.find('.ck-button', visible: :all, text: 'Embed work package table').click
+        editor.in_editor do |_container, editable|
+          editor.insert_macro 'Embed work package table'
 
           modal.expect_open
           filters.expect_filter_count 1
