@@ -47,7 +47,7 @@ class Activity::MeetingActivityProvider < Activity::BaseActivityProvider
         projection_statement(meeting_contents_table, :type, 'meeting_content_type'),
         projection_statement(meetings_table, :id, 'meeting_id'),
         projection_statement(meetings_table, :title, 'meeting_title'),
-        projection_statement(meetings_table, :project_id, 'project_id'),
+        projection_statement(meetings_table, :project_id, 'project_id')
       ]
     end
   end
