@@ -593,7 +593,7 @@ en:
         insert_columns: "Insert columns ..."
         filters: "Filters"
         display_sums: "Display Sums"
-        confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view?"
+        confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
         errors:
           unretrievable_query: "Unable to retrieve query from URL"
           not_found: "There is no such query"

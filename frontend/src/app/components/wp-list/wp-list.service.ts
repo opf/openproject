@@ -320,7 +320,7 @@ export class WorkPackagesListService {
     });
   }
 
-  private get currentQuery() {
+  public get currentQuery() {
     return this.states.query.resource.value!;
   }
 

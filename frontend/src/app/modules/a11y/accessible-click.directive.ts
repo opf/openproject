@@ -38,7 +38,7 @@ export class AccessibleClickDirective {
   @HostListener('click', ['$event'])
   @HostListener('keydown', ['$event'])
   public handleClick(event:JQueryEventObject) {
-    if (event.type === 'click' || event.which === keyCodes.ENTER || event.which === keyCodes.SPACE) {
+    if (event.type === 'click' || event.which === keyCodes.ENTER || event.which === keyCodes.SPACE || event.which === keyCodes.ESCAPE) {
       event.preventDefault();
       event.stopPropagation();
 

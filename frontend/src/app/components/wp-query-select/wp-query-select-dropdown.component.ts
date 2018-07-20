@@ -50,7 +50,7 @@ export interface IAutocompleteItem {
   label:any;
   query:any;
   query_props:any;
-  category?: any;
+  category?:any;
 }
 
 interface IQueryAutocompleteJQuery extends JQuery {
@@ -126,6 +126,9 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     return this.sortQueries(this.setAutocompleterId(autocompleteValues));
   }
 
+  // Listens on all changes of queries (via an observable in the service), e.g. delete, create, rename, toggle starred
+  // Update collection in autocompleter
+  // Search again for the current value in input field to update the menu without loosing the current search results
   private updateMenuOnChanges(input:any) {
     this.wpListService.queryChanges$
       .pipe(
@@ -160,20 +163,21 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
 
   // Filter the collection by categories, add the correct categories to every item of the filtered array
   // Sort every category array alphabetically, except the default queries
-  // Concat all categories in the right order
   private sortQueries(items:IAutocompleteItem[]):IAutocompleteItem[] {
-    let sortedQueries:IAutocompleteItem[] = [];
-    sortedQueries = sortedQueries.concat(
-      this.sortByLabel(items.filter(item => item.query && item.query.starred).map(item => this.setCategory(item, 'starred'))),
-      items.filter(item => !item.query).map(item => this.setCategory(item, 'default')),
-      this.sortByLabel(items.filter(item => item.query && !item.query.starred && item.query.public).map(item => this.setCategory(item, 'public'))),
-      this.sortByLabel(items.filter(item => item.query && !item.query.starred && !item.query.public).map(item => this.setCategory(item, 'private')))
+    let starredQueries = this.setCategory(items.filter(item => item.query && item.query.starred), 'starred');
+    let defaultQueries = this.setCategory(items.filter(item => !item.query), 'default');
+    let publicQueries = this.setCategory(items.filter(item => item.query && !item.query.starred && item.query.public), 'public');
+    let privateQueries = this.setCategory(items.filter(item => item.query && !item.query.starred && !item.query.public), 'private');
+
+    // Concat all categories in the right order
+    let sortedQueries:IAutocompleteItem[] = _.concat(
+      this.sortByLabel(starredQueries), defaultQueries, this.sortByLabel(publicQueries), this.sortByLabel(privateQueries)
     );
     return sortedQueries;
   }
 
   // Sort a given array of items by the value of their label attribute
-  private sortByLabel(items:IAutocompleteItem[]) {
+  private sortByLabel(items:IAutocompleteItem[]):IAutocompleteItem[] {
     return items.sort(function(a, b) {
       let labelA = a.label.toUpperCase(); // ignore upper and lowercase
       let labelB = b.label.toUpperCase(); // ignore upper and lowercase
@@ -183,8 +187,11 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     });
   }
 
-  private setCategory(item:IAutocompleteItem, categoryString:string):IAutocompleteItem {
-    return { auto_id: item.auto_id, label: item.label, query: item.query, query_props: item.query_props, category: categoryString } ;
+  private setCategory(items:IAutocompleteItem[], categoryName:string):IAutocompleteItem[] {
+    return items.map(item => {
+      item.category = categoryName;
+      return item;
+    });
   }
 
   private loadQueries() {
@@ -202,7 +209,6 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
       source: autocompleteValues,
       select: (ul:any, selected:{item:IAutocompleteItem}) => {
         this.loadQuery(selected.item);
-        this.highlightSelected(selected.item);
         return false; // Don't show title of selected query in the input field
       },
       response: (event:any, ui:any) => {
@@ -226,7 +232,6 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   }
 
   private defineJQueryQueryComplete() {
-    let currentQueryParams = parseInt(this.$state.params.query_id);
     let thisComponent = this;
 
     jQuery.widget('custom.querycomplete', jQuery.ui.autocomplete, {
@@ -234,14 +239,14 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
         this._super();
         this.widget().menu( 'option', 'items', '> :not(.ui-autocomplete--category)' );
         this._search('');
+        //this.focus();
       },
       _renderItem: function(ul:any, item:IAutocompleteItem) {
         let li = jQuery("<li class='ui-menu-item " + item.category + "' auto_id='" + item.auto_id + "'><div class='ui-menu-item-wrapper' tabindex='0'>" + item.label + "</div></li>");
         li.data('ui-autocomplete-item', item);  // Focus method of autocompleter needs this data for accessibility - if not set, it will throw errors
 
-        if (currentQueryParams && item.query && item.query.id === currentQueryParams) {
-          li.addClass('selected');  // Set class 'selected' on initial rendering of the menu
-        }
+        thisComponent.setInitialHighlighting(li, item);
+
         return ul.append(li);
       },
       _renderMenu: function(this:any, ul:any, items:IAutocompleteItem[]) {
@@ -264,16 +269,35 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     });
   }
 
-  private labelFunction(category:string):string {
-    switch (category) {
-      case 'starred': return this.text.scope_starred;
-      case 'public': return this.text.scope_global;
-      case 'private': return this.text.scope_private;
-      case 'default': return this.text.scope_default;
-      default: return '';
+  // Set class 'selected' on initial rendering of the menu
+  // Case 1: Wp menu is opened from somewhere else in the project -> Compare query params with url params and highlight selected
+  // Case 2: Click on menu item 'Work Packages' (query 'All open' is opened on default) -> highlight 'All open'
+  private setInitialHighlighting(currentLi:JQuery, item:IAutocompleteItem) {
+    let currentQueryParams:number = parseInt(this.$state.params.query_id);
+    let onWorkPackagesPage:boolean = this.$state.includes('work-packages');
+
+    if (currentQueryParams && item.query && item.query.id === currentQueryParams ||
+        onWorkPackagesPage && !currentQueryParams && item.label === 'All open') {
+      currentLi.addClass('selected');
     }
   }
 
+  private labelFunction(category:string):string {
+    switch (category) {
+      case 'starred':
+        return this.text.scope_starred;
+      case 'public':
+        return this.text.scope_global;
+      case 'private':
+        return this.text.scope_private;
+      case 'default':
+        return this.text.scope_default;
+      default:
+        return '';
+    }
+  }
+
+  // Toggle category: hide all items with the clicked category and change direction of arrow
   private setToggleCategories(category:any) {
     category.on('click', (event:JQueryEventObject) => {
       let clickedCategory = event.target.classList[1];
@@ -284,6 +308,12 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
 
   // On click of a menu item, load requested query
   private loadQuery(item:IAutocompleteItem) {
+    if (this.wpListService.currentQuery.name === '') {
+      return;
+    }
+
+    this.highlightSelected(item);
+
     // Case 1: In the main wp list view, load requested without refreshing the page
     if (this.$state.includes('work-packages.list')) {
       this.wpListChecksumService.clear();

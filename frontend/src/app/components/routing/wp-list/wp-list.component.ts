@@ -254,7 +254,6 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
     } else {
       this.selectedTitle =  this.wpStaticQueries.nameFor(query);
       this.disabled = true;
-      //this.selectedTitle = I18n.t('js.label_work_package_plural');
     }
   }
 }
