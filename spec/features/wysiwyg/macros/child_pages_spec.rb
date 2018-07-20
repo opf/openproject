@@ -94,6 +94,10 @@ describe 'Wysiwyg child pages spec',
           # Find widget, click to show toolbar
           placeholder = find('.macro.-child_pages')
 
+          # Placeholder states `this page` and no `Include parent`
+          expect(placeholder).to have_text('this page')
+          expect(placeholder).not_to have_text('Include parent')
+
           # Edit widget and cancel again
           placeholder.click
           page.find('.ck-balloon-panel .ck-button', visible: :all, text: 'Edit').click
@@ -110,6 +114,9 @@ describe 'Wysiwyg child pages spec',
           # Save widget
           find('.op-modal--submit-button').click
 
+          # Placeholder states `parent-page` and no `Include parent`
+          expect(placeholder).to have_text('parent-page')
+          expect(placeholder).not_to have_text('Include parent')
         end
 
         # Save wiki page
@@ -126,7 +133,7 @@ describe 'Wysiwyg child pages spec',
           find('.toolbar .icon-edit').click
         end
 
-        editor.in_editor do |container, editable|
+        editor.in_editor do |_container, _editable|
           # Find widget, click to show toolbar
           placeholder = find('.macro.-child_pages')
 
@@ -138,6 +145,10 @@ describe 'Wysiwyg child pages spec',
 
           # Save widget
           find('.op-modal--submit-button').click
+
+          # Placeholder states `parent-page` and `Include parent`
+          expect(placeholder).to have_text('parent-page')
+          expect(placeholder).to have_text('Include parent')
         end
 
         # Save wiki page
