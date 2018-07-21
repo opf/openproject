@@ -54,6 +54,7 @@ ca:
     description_selected_columns: Columnes seleccionades
     description_subwork_package: 'Fill del paquet de treball #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget

@@ -31,6 +31,7 @@ import {Injectable} from "@angular/core";
 import {WpButtonMacroModal} from "core-components/modals/editor/macro-wp-button-modal/wp-button-macro.modal";
 import {WikiIncludePageMacroModal} from "core-components/modals/editor/macro-wiki-include-page-modal/wiki-include-page-macro.modal";
 import {CodeBlockMacroModal} from "core-components/modals/editor/macro-code-block-modal/code-block-macro.modal";
+import {ComponentType} from "@angular/cdk/portal";
 import {ChildPagesMacroModal} from "core-components/modals/editor/macro-child-pages-modal/child-pages-macro.modal";
 
 @Injectable()
@@ -60,7 +61,8 @@ export class EditorMacrosService {
    */
   public configureWikiPageInclude(page:string):Promise<string> {
     return new Promise<string>((resolve, _) => {
-      const modal = this.opModalService.show(WikiIncludePageMacroModal, { page: page });
+      const pageValue = page || '';
+      const modal = this.opModalService.show(WikiIncludePageMacroModal, { page: pageValue });
       modal.closingEvent.subscribe((modal:WikiIncludePageMacroModal) => {
         if (modal.changed) {
           resolve(modal.page);

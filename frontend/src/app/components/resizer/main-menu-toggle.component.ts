@@ -30,6 +30,8 @@ import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {MainMenuToggleService} from './main-menu-toggle.service';
 import {distinctUntilChanged} from 'rxjs/operators';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
+import {MainMenuResizerComponent} from "core-components/resizer/main-menu-resizer.component";
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
 @Component({
   selector: 'main-menu-toggle',
@@ -80,3 +82,5 @@ export class MainMenuToggleComponent implements OnInit, OnDestroy {
     // Nothing to do
   }
 }
+
+DynamicBootstrapper.register({ selector: 'main-menu-toggle', cls: MainMenuToggleComponent  });

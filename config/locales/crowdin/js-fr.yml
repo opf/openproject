@@ -54,6 +54,7 @@ fr:
     description_selected_columns: Colonnes Sélectionnées
     description_subwork_package: 'Enfant du lot de travaux #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget

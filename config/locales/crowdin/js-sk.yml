@@ -54,6 +54,7 @@ sk:
     description_selected_columns: Vybraté stĺpce
     description_subwork_package: 'Podradený pracovný balík #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget

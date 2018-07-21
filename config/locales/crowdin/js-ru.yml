@@ -54,17 +54,19 @@ ru:
     description_selected_columns: Выбранные столбцы
     description_subwork_package: 'Потомок пакета работ #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
         toolbar_help: Кликните для выбора виджета и показа панели инструментов. Кликните
           дважды для редактирования виджета
         child_pages:
-          button: Links to child pages
-          include_parent: Include parent
-          text: "[Placeholder] Links to child pages of"
+          button: Ссылки на дочерние страницы
+          include_parent: Включить родителей
+          text: "[Placeholder] Ссылки на дочернюю страницу"
           page: Wiki-страница
-          this_page: this page
-          hint: 'Leave this field empty to list all child pages of the current page.
-            If you want to reference a different page, provide its title or slug.
+          this_page: эта страница
+          hint: 'Оставьте это поле пустым, чтобы перечислить все дочерние страницы
+            текущей страницы. Если вы хотите описать другую страницу, предоставьте
+            ее заголовок или иденцифицирующую строку.
 
 '
         toc: Содержание
@@ -248,7 +250,7 @@ ru:
     label_remove_watcher: Удалить наблюдателя %{name}
     label_remove_all_files: Удалить все файлы
     label_add_description: Добавить описание для %{file}
-    label_upload_notification: Uploading files...
+    label_upload_notification: Загрузка файлов...
     label_work_package_upload_notification: 'Загрузка файлов для пакета работ #%{id}:
       %{subject}'
     label_files_to_upload: 'Эти файлы будут загружены:'
@@ -699,8 +701,8 @@ ru:
     error_could_not_resolve_version_name: Не удалось определить название этапа
     error_could_not_resolve_user_name: Не удалось найти такое имя пользователя
     error_attachment_upload: 'Файл «%{name}» загрузить не удалось: %{error}'
-    error_attachment_upload_permission: You don't have the permission to upload files
-      on this resource.
+    error_attachment_upload_permission: У вас нет прав для загрузки файлов на этом
+      ресурсе.
     units:
       workPackage:
         one: пакет работ

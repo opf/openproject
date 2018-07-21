@@ -32,6 +32,7 @@ import {NotificationsService} from "core-app/modules/common/notifications/notifi
 import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {Component} from "@angular/core";
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
 @Component({
   template: '',
@@ -95,3 +96,5 @@ export class CopyToClipboardDirective implements OnInit {
     this.addNotification('addError', this.I18n.t('js.clipboard.browser_error'));
   }
 }
+
+DynamicBootstrapper.register({ selector: 'copy-to-clipboard', cls: CopyToClipboardDirective });

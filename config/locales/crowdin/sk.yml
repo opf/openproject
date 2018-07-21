@@ -186,6 +186,11 @@ sk:
     index:
       no_results_title_text: Momentálne neexistujú žiadne toky činností.
   work_packages:
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
+      few: "%{count} work package children"
+      many: "%{count} work package children"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.

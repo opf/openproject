@@ -54,6 +54,7 @@ fi:
     description_selected_columns: Valitut sarakkeet
     description_subwork_package: 'Alipaketti työpaketille #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget

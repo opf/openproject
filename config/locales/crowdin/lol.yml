@@ -167,6 +167,9 @@ lol:
     index:
       no_results_title_text: crwdns96460:0crwdne96460:0
   work_packages:
+    x_children:
+      one: crwdns99061:1crwdne99061:1
+      other: crwdns99061:5%{count}crwdne99061:5
     move:
       no_common_statuses_exists: crwdns99037:0crwdne99037:0
       unsupported_for_multiple_projects: crwdns96461:0crwdne96461:0

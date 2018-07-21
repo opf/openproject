@@ -53,6 +53,7 @@ lol:
     description_selected_columns: crwdns98374:0crwdne98374:0
     description_subwork_package: crwdns98375:0%{id}crwdne98375:0
     editor:
+      preview: crwdns99062:0crwdne99062:0
       macro:
         toolbar_help: crwdns99044:0crwdne99044:0
         child_pages:

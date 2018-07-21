@@ -58,7 +58,7 @@ module OpenProject::TextFormatting::Formats
         view_context.content_tag 'op-ckeditor-form',
                                  '',
                                  'textarea-selector': "##{field_id}",
-                                 'preview-context': context[:preview],
+                                 'preview-context': context[:preview_context],
                                  'data-resource': resource.to_json
       end
     end

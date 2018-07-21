@@ -182,6 +182,9 @@ hu:
     index:
       no_results_title_text: Jelenleg nincsenek munkafolyamatok.
   work_packages:
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.

@@ -30,6 +30,7 @@ import {Component, OnDestroy} from '@angular/core';
 import {INotification, NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
 @Component({
   template: `
@@ -59,3 +60,5 @@ export class NotificationsContainerComponent implements OnDestroy {
     // Nothing to do, interface compliance only.
   }
 }
+
+DynamicBootstrapper.register({ selector: 'notifications-container', cls: NotificationsContainerComponent  });

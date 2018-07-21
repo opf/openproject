@@ -96,10 +96,13 @@ describe 'Wysiwyg include wiki page spec',
           find('.op-modal--submit-button').click
 
           # Find widget, click to show toolbar
-          modal = find('.macro.-wiki_page_include')
+          placeholder = find('.macro.-wiki_page_include')
+
+          # Placeholder states `included`
+          expect(placeholder).to have_text('included')
 
           # Edit widget again
-          modal.click
+          placeholder.click
           page.find('.ck-balloon-panel .ck-button', visible: :all, text: 'Edit').click
           expect(page).to have_field('selected-page', with: 'included')
           find('.op-modal--cancel-button').click
