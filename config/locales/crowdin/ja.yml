@@ -169,7 +169,7 @@ ja:
   work_packages:
     x_children:
       one: One child work package
-      other: "%{count} work package children"
+      other: "%{count} の子作業項目"
     move:
       no_common_statuses_exists: 選択されたすべての項目に利用可能なステータスはありません。 それらの状態は変更できません。
       unsupported_for_multiple_projects: 複数のプロジェクトから、作業項目の一括移動/コピーはサポートされていません

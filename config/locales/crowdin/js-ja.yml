@@ -53,7 +53,7 @@ ja:
     description_selected_columns: 選択された項目
     description_subwork_package: '作業項目の子 #%{id}'
     editor:
-      preview: Toggle preview mode
+      preview: プレビューモードの切り替え
       macro:
         toolbar_help: クリックしてウィジェットを選択しツールバーを表示します。 ダブルクリックしてウィジェットを編集
         child_pages:
