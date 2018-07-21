@@ -201,12 +201,6 @@ $nm-color-success-background: #d8fdd1
       background: $nm-color-error-background
       border-color: $nm-color-error-border
 
-  ::placeholder,
-    font-size: 0.9rem
-
-  ::-ms-input-placeholder
-    font-size: 0.9rem
-
   div.inline-edit h2
     margin: 12px 0
     padding: 2px 5px
@@ -216,8 +210,10 @@ $nm-color-success-background: #d8fdd1
       cursor: text
 
     &.-disabled
-      border: none
       cursor: default
+
+      &:hover
+        border: none
 
   span
     @include varprop(color, content-link-color)

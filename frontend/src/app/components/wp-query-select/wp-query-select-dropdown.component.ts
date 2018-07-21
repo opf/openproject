@@ -209,6 +209,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
       source: autocompleteValues,
       select: (ul:any, selected:{item:IAutocompleteItem}) => {
         this.loadQuery(selected.item);
+        this.highlightSelected(selected.item);
         return false; // Don't show title of selected query in the input field
       },
       response: (event:any, ui:any) => {
@@ -239,7 +240,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
         this._super();
         this.widget().menu( 'option', 'items', '> :not(.ui-autocomplete--category)' );
         this._search('');
-        //this.focus();
+        this._focus();
       },
       _renderItem: function(ul:any, item:IAutocompleteItem) {
         let li = jQuery("<li class='ui-menu-item " + item.category + "' auto_id='" + item.auto_id + "'><div class='ui-menu-item-wrapper' tabindex='0'>" + item.label + "</div></li>");
@@ -308,12 +309,6 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
 
   // On click of a menu item, load requested query
   private loadQuery(item:IAutocompleteItem) {
-    if (this.wpListService.currentQuery.name === '') {
-      return;
-    }
-
-    this.highlightSelected(item);
-
     // Case 1: In the main wp list view, load requested without refreshing the page
     if (this.$state.includes('work-packages.list')) {
       this.wpListChecksumService.clear();

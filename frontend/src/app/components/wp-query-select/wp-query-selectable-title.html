@@ -8,8 +8,7 @@
               aria-required="true"
               (accessibleClick)="onKeyPress($event)"
               [(ngModel)]="selectedTitle"
-              [ngClass]="{ '-error': selectedTitle === '' }"
-              placeholder="{{ I18n.t('js.toolbar.placeholder_query_title') }}"/>
+              [ngClass]="{ '-error': selectedTitle === '' }"/>
     </div>
     <ng-template #notEditable>
       <h2 title="{{ selectedTitle }}" [ngClass]="{ '-disabled': disabled }"> {{ selectedTitle | slice:0:50 }} </h2>

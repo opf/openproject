@@ -32,6 +32,7 @@ import {WorkPackagesListService} from 'core-components/wp-list/wp-list.service';
 import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import {StateService, TransitionService} from '@uirouter/core';
 import {States} from 'core-components/states.service';
+import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 
 @Component({
   selector: 'wp-query-selectable-title',
@@ -45,7 +46,6 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
   private prevValue:string = '';    // The value before editing again
   public editing:boolean = false;
   public duplicateTitle:boolean = false;
-  private leavePage:boolean = false;
 
   public text = {
     search_query_title: this.I18n.t('js.toolbar.search_query_title'),
@@ -65,10 +65,18 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Register click outside the toolbar and open a confirm dialog when trying to leave this page while editing the title
-    jQuery(window).click( event => this.LeaveOnEmptyField(event));
+    // Register click on work packages and cancel edit (set field back to previous value)
+    jQuery(window).dblclick( event => {
+      if (!this.isEmpty) {
+        this.editing = true;
+      } else if (this.isEmpty && (jQuery(event.target).is('td')) ) {
+        this.cancelEdit();
+      }
+    });
+    // Register click on work packages and cancel edit
     this.unregisterTransitionListener = this.$transitions.onSuccess({}, (transition) => {
-      this.editing = false;
+      this.cancelEdit();
+      setTimeout( () => jQuery('.notification-box.-error').hide());
     });
   }
 
@@ -78,11 +86,14 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
 
   // Edit value of input field if not disabled
   public edit(title:string) {
+    // If query is static, the name should not be editable
     if (this.disabled) {
       return;
     }
     // Remember previous value as default (in case input is empty/dublicate, title will be set back to this value)
-    this.prevValue = this.selectedTitle;
+    if (this.selectedTitle.trim() !== '') {
+      this.prevValue = this.selectedTitle;
+    }
     this.editing = true;
     // Set focus on input element, when clicked inside
     setTimeout( () => jQuery('wp-query-selectable-title').find('input').focus());
@@ -92,8 +103,7 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
   private onKeyPress(event:JQueryEventObject) {
     switch (event.keyCode) {
       case 27: // ESC
-        this.editing = false;
-        this.selectedTitle = this.prevValue; break;
+        this.cancelEdit(); break;
       case 32: // SPACE
         this.setBlank(event.target as HTMLInputElement); break;
       case 13: // ENTER
@@ -101,13 +111,6 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
       default:
         return;
     }
-  }
-
-  // Blank spaces have to be set manually, otherwise the space keypress will be ignored
-  private setBlank(input:HTMLInputElement) {
-    let cursorPos:number = input.selectionStart;
-    this.selectedTitle = this.selectedTitle.slice(0, cursorPos) + ' ' + this.selectedTitle.slice(cursorPos);
-    setTimeout( () => input.setSelectionRange(cursorPos + 1, cursorPos + 1));
   }
 
   // Element looses focus on click outside and is not editable anymore
@@ -121,40 +124,39 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
         this.checkDuplicateName();
       }
     } else {
-      this.updateNameInMenu();  // throws an error message
+      this.updateItemInMenu();  // Throws an error message, when name is empty
+      this.focusInputOnError();
     }
   }
 
   //Search if new name is already assigned to another query and if so, open confirmation
   private checkDuplicateName() {
-    this.QueryDm.all(this.currentQuery.project.identifier).then(collection => {
-      let itemsWithSameName = collection.elements.filter( (query:QueryResource) => query.name === this.selectedTitle);
-      if (itemsWithSameName.length > 0 && !this.leavePage) {
-        this.duplicateTitle = true;
-        this.confirmRename();
-      } else {
-        this.updateNameInMenu();
+    this.QueryDm.all(this.currentQuery.project.identifier)
+    .then( collection => {
+      let itemsWithSameName = collection.elements.filter( query => query.name === this.selectedTitle);
+      if (itemsWithSameName.length > 0) {
+        this.selectedTitle = this.selectedTitle + ' (2)';
       }
+      this.updateItemInMenu();
     });
   }
 
-  private LeaveOnEmptyField(event:JQueryEventObject) {
-    // Check if field is empty and click target is table or menu (the intention was to leave this page)
-    if (this.errorState || this.editing && (jQuery(event.target).is('td') || jQuery(event.target).is('.ui-menu-item-wrapper')) ) {
-      this.leavePage = true;
+  // Send new query name to service to update the name in the menu
+  private updateItemInMenu() {
+    this.currentQuery.name = this.selectedTitle;
+    this.wpListService.save(this.currentQuery);
+  }
 
-      let confirm = window.confirm(this.text.confirm_edit_cancel);
+  // Blank spaces have to be set manually, otherwise the space keypress will be ignored
+  private setBlank(input:HTMLInputElement) {
+    let cursorPos:number = input.selectionStart;
+    this.selectedTitle = this.selectedTitle.slice(0, cursorPos) + ' ' + this.selectedTitle.slice(cursorPos);
+    setTimeout( () => input.setSelectionRange(cursorPos + 1, cursorPos + 1));
+  }
 
-      if (confirm) {  // Set title back to saved default and go to click target
-        this.currentQuery.name = this.selectedTitle = this.prevValue;
-        this.editing = false;
-        setTimeout( () =>jQuery('.notification-box.-error').hide());
-        jQuery(event.target).dblclick();
-      } else {  // Stay on this page and focus the input field
-        setTimeout( () => jQuery('.notification-box.-error').hide());
-        this.focusInputOnError();
-      }
-    } else { this.editing = true; }
+  private cancelEdit() {
+    this.editing = false;
+    this.currentQuery.name = this.selectedTitle = this.prevValue
   }
 
   private get errorState():boolean {
@@ -165,31 +167,10 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
     }
   }
 
-  private confirmRename() {
-    let confirm = window.confirm(this.text.duplicate_query_title);
-    // Set title back to saved default and go to click target
-    if (confirm) {
-      this.selectedTitle += ' (2)';
-      this.updateNameInMenu();
-    } else {
-      this.editing = true;
-      this.focusInputOnError();
-    }
-  }
-
-  // Send new query name to service to update the name in the menu
-  private updateNameInMenu() {
-    this.currentQuery.name = this.selectedTitle;
-    this.wpListService.save(this.currentQuery);
-  }
-
   private focusInputOnError() {
     setTimeout( () => {
       let input = jQuery('wp-query-selectable-title').find('input');
       input.addClass('-error').focus();
-      input.keydown(function() {
-        input.removeClass('-error');
-      });
     });
   }
 
@@ -202,16 +183,16 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
     }
   }
 
-  /**
-   * Positioning args for jquery-ui position.
-   *
-   * @param {JQueryEventObject} openerEvent
-   */
-  public positionArgs(openerEvent:JQueryEventObject) {
-    return {
-      my: 'left top',
-      at: 'left bottom',
-      of: jQuery(this.elementRef).find('.wp-table--query-menu-link')
-    };
-  }
+  // /**
+  //  * Positioning args for jquery-ui position.
+  //  *
+  //  * @param {JQueryEventObject} openerEvent
+  //  */
+  // public positionArgs(openerEvent:JQueryEventObject) {
+  //   return {
+  //     my: 'left top',
+  //     at: 'left bottom',
+  //     of: jQuery(this.elementRef).find('.wp-table--query-menu-link')
+  //   };
+  // }
 }
