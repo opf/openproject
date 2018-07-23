@@ -169,11 +169,18 @@ export class ProjectsOverviewController {
 
     // Add the block to hidden by default
     this.hiddenContainer.append(content);
+
     this.$element.find(this.idFromBlockName(blockName))[0].scrollIntoView();
   }
 
   private compileBlock(content:string) {
     let compileFn:any = this.$compile(content);
+
+    setTimeout(() => {
+      // Allow angular bootstrapper to run on content
+      this.pluginContext.context!.bootstrap(this.hiddenContainer[0]);
+    }, 20);
+
     return compileFn(this.$scope, undefined, {
       transcludeControllers: {
         overviewPageLayout: { instance: this }

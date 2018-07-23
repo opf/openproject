@@ -89,6 +89,10 @@ export class OverviewTextileBlockController {
    */
   public submitForm(evt:JQueryEventObject) {
     var form = this.$element.find('.textile-form');
+
+    // Update change event
+    form.trigger('change.ckeditor');
+
     var formData = new FormData(form[0] as HTMLFormElement);
 
     // $http fails to serialize the formData correctly,

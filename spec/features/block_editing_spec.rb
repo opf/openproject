@@ -47,6 +47,8 @@ describe 'My project page editing', type: :feature, js: true do
   # Save button
   let(:save_changes) { find('#save-block-form input[type=submit]') }
 
+  let(:editor) { ::Components::WysiwygEditor.new '#block_a' }
+
   # Block positions
   # Do not use let since it occasionally causes stale refernces
   def top
@@ -150,7 +152,7 @@ describe 'My project page editing', type: :feature, js: true do
 
     # edit form should be open
     find('#block_title_a').set 'My title'
-    find('#textile_a').set 'My **commonmark** content'
+    editor.click_and_type_slowly 'My **commonmark** content'
     find('#a-form-submit').click
 
     # expect changes to be saved
