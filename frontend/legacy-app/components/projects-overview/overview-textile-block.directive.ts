@@ -110,7 +110,7 @@ export class OverviewTextileBlockController {
     }).fail((error) => {
       deferred.reject();
       this.$timeout(() => {
-        this.pluginContext.context!.services.addError(
+        this.pluginContext.context!.services.notifications.addError(
           I18n.t('js.notification_update_block_failed') + ' ' + error.responseText
         );
       });

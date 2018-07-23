@@ -39,19 +39,15 @@ class MyProjectsOverviewsController < ApplicationController
     block_name = params["block_name"]
     block_title = params["block_title_#{block_name}"]
     textile = params["textile_#{block_name}"]
+    attaching_files = params['attachments']
 
-    if params["attachments"]
+    if attaching_files
       # Attach files and save them
       overview.attach_files(permitted_params.attachments.to_h)
-
-      unsaved = overview.attachments.select(&:new_record?)
-
-      if unsaved.any?
-        render text: t(:warning_attachments_not_saved, unsaved.size), status: 500
-      end
     end
 
     if overview.save_custom_element(block_name, block_title, textile)
+      render_attachment_warning_if_needed(overview) if attaching_files
       render(partial: "block_textilizable",
              locals: { project: project,
                        block_title: block_title,
