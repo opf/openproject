@@ -55,7 +55,7 @@ describe 'API v3 Work package form resource', type: :request do
       it { is_expected.to have_json_path('_embedded/payload/subject') }
 
       it_behaves_like 'API V3 formattable', '_embedded/payload/description' do
-        let(:format) { 'textile' }
+        let(:format) { 'markdown' }
         let(:raw) { defined?(raw_value) ? raw_value : work_package.description.to_s }
         let(:html) {
           defined?(html_value) ? html_value : ('<p>' + work_package.description.to_s + '</p>')
