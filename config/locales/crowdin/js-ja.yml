@@ -55,7 +55,6 @@ ja:
     editor:
       preview: プレビューモードの切り替え
       macro:
-        toolbar_help: クリックしてウィジェットを選択しツールバーを表示します。 ダブルクリックしてウィジェットを編集
         child_pages:
           button: 子ページへのリンク
           include_parent: 親を含める
@@ -65,12 +64,16 @@ ja:
           hint: '現在のページのすべての子ページを表示するには、このフィールドを空のままにします。 別のページを参照する場合は、そのタイトルまたはスラッグを入力します。
 
 '
-        toc: 目次
         code_block:
           button: コードスニペットを挿入する
           title: コードスニペットの挿入/編集
           language: 言語の書式設定
           language_hint: 強調表示に使用する言語の書式を入力します（サポートされている場合）。
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
+        toc: 目次
+        toolbar_help: クリックしてウィジェットを選択しツールバーを表示します。 ダブルクリックしてウィジェットを編集
         wiki_page_include:
           button: 別のwikiページの内容を含める
           text: Wikiページを含む（プレースホルダ）
