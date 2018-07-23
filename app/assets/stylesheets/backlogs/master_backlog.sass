@@ -82,6 +82,9 @@
       position: absolute
       top: 7px
       left: 12px
+      // Firefox wrongly positions icon
+      html.-browser-firefox &
+        top: 3px
       &.open
         &+ .items
           display: block
