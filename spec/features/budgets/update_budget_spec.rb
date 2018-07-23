@@ -119,7 +119,7 @@ describe 'updating a budget', type: :feature, js: true do
 
     context 'with two material budget items' do
       let!(:material_budget_item_2) do
-        FactoryGirl.create :material_budget_item, units: 5,
+        FactoryBot.create :material_budget_item, units: 5,
                            cost_type: cost_type,
                            cost_object: budget
       end
@@ -157,7 +157,7 @@ describe 'updating a budget', type: :feature, js: true do
 
     context 'with two labor budget items' do
       let!(:labor_budget_item_2) do
-        FactoryGirl.create :labor_budget_item, hours: 5,
+        FactoryBot.create :labor_budget_item, hours: 5,
                            user: user,
                            cost_object: budget
       end
