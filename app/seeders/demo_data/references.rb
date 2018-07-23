@@ -90,6 +90,8 @@ module DemoData
     end
 
     def link_sprints(str, project)
+      return str unless defined? OpenProject::Backlogs
+
       link_reference(
         str,
         model: Sprint,
@@ -99,7 +101,7 @@ module DemoData
       )
     end
 
-    def link_reference(str, model:, find_by:, project:, link:, tag:nil)
+    def link_reference(str, model:, find_by:, project:, link:, tag: nil)
       return str unless str.present?
 
       tag ||= model.name.downcase
