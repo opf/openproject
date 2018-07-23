@@ -56,7 +56,7 @@ describe MyProjectsOverview, type: :model do
       ce = subject.new_custom_element
       expect(ce[0]).to eq("a")
       expect(ce[1]).to be_kind_of String
-      expect(ce[2]).to match(/^h3\./)
+      expect(ce[2]).to match(/^### Custom text/)
     end
 
     it "can save a custom element" do

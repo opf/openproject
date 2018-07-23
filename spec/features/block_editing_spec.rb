@@ -150,7 +150,7 @@ describe 'My project page editing', type: :feature, js: true do
 
     # edit form should be open
     find('#block_title_a').set 'My title'
-    find('#textile_a').set 'My *textile* content'
+    find('#textile_a').set 'My **commonmark** content'
     find('#a-form-submit').click
 
     # expect changes to be saved
@@ -159,7 +159,7 @@ describe 'My project page editing', type: :feature, js: true do
     custom_block = find_block(hidden, :a)
 
     expect(custom_block).to have_selector('.widget-box--header-title', text: 'My title')
-    expect(custom_block).to have_selector('#a-text strong', text: 'textile')
+    expect(custom_block).to have_selector('#a-text strong', text: 'commonmark')
 
     # edit form should be closed
     expect(custom_block).to have_no_selector('#block_title_a', visible: true)
