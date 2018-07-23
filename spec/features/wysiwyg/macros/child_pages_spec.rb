@@ -85,11 +85,10 @@ describe 'Wysiwyg child pages spec',
       end
 
       it 'can add and edit an child pages widget' do
-        editor.in_editor do |container, editable|
+        editor.in_editor do |_container, editable|
           expect(editable).to have_selector('h1', text: 'My page')
 
-          # strangely, we need visible: :all here
-          container.find('.ck-button', visible: :all, text: 'Links to child pages').click
+          editor.insert_macro 'Links to child pages'
 
           # Find widget, click to show toolbar
           placeholder = find('.macro.-child_pages')
