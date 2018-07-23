@@ -1,0 +1,101 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See docs/COPYRIGHT.rdoc for more details.
+#++
+en:
+  seeders:
+    demo_data:
+      projects:
+        demo-project:
+          project-overview:
+            left:
+              - project_description
+              - work_package_tracking
+            right:
+              - members
+              - news_latest
+            top:
+              - id: a
+                title: Welcome to your demo project
+                content: |
+                  !>background-demo.jpg!
+
+                  We are glad you joined! We suggest to try a few things to get started in OpenProject.
+
+                  *Try the following steps:*
+                  !icon-1.png!:/projects/demo-project/members *Invite new members to your project*: -> Go to "Members":/projects/demo-project/members in the project navigation.
+                  !icon-2.png!:/projects/demo-project/work_packages *View the work in your project*: -> Go to "Work packages":/projects/demo-project/work_packages in the project navigation.
+                  !icon-3.png!:/projects/demo-project/work_packages/new *Create a new work package*: -> Go to "Work packages -> Create":/projects/demo-project/work_packages/new.
+                  !icon-4.png!:/projects/demo-project/work_packages?query_id=##query.id:"Gantt chart" *Create and update a project plan*: -> Go to "Gantt charts":/projects/demo-project/work_packages?query_id=##query.id:"Gantt chart" in the project navigation.
+                  !icon-5.png!:/projects/demo-project/settings/modules *Activate further modules*: -> Go to "Project settings -> Modules":/projects/demo-project/settings/modules.
+                  !icon-6.png!:/projects/demo-project/work_packages/details/##wp.id:"Edit a work package"/overview?query_id=##query.id:"Tasks" *Complete your tasks in the project*: -> Go to "Work packages -> Tasks":/projects/demo-project/work_packages/details/##wp.id:"Edit a work package"/overview?query_id=##query.id:"Tasks".
+
+                  Here you will find our "User Guides":https://www.openproject.org/help/.
+                  Please let us know if you have any questions or need support. Contact us: "support[at]openproject.com":mailto:support@openproject.com.
+                attachments:
+                  - background-demo.jpg
+                  - icon-1.png
+                  - icon-2.png
+                  - icon-3.png
+                  - icon-4.png
+                  - icon-5.png
+                  - icon-6.png
+        scrum-project:
+          project-overview:
+            left:
+              - project_description
+              - work_package_tracking
+            right:
+              - members
+              - news_latest
+            top:
+              - id: a
+                title: Welcome to your Scrum demo project
+                content: |
+                  !>background-scrum.jpg!
+
+                  We are glad you joined! We suggest to try a few things to get started in OpenProject.
+
+                  *Try the following steps:*
+                  !icon-1.png!:/projects/your-scrum-project/members *Invite new members to your project*: -> Go to "Members":/projects/your-scrum-project/members in the project navigation.
+                  !icon-2.png!:/projects/your-scrum-project/backlogs *View your Product backlog and Sprint backlogs*: -> Go to "Backlogs":/projects/your-scrum-project/backlogs in the project navigation.
+                  !icon-3.png!:##sprint:"Sprint 1" *View your Task board*: -> Go to "Backlogs -> Click on right arrow on Sprint -> Select "Task Board":##sprint:"Sprint 1".
+                  !icon-4.png!:/projects/your-scrum-project/work_packages/new *Create a new work package*: -> Go to "Work packages -> Create":/projects/your-scrum-project/work_packages/new.
+                  !icon-5.png!:##query:"Gantt chart" *Create and update a project plan*: -> Go to "Gantt charts":##query:"Gantt chart" in the project navigation.
+                  !icon-6.png!:/projects/your-scrum-project/wiki/wiki *Create a Sprint wiki*: -> Go to "Backlogs":/projects/your-scrum-project/backlogs and open the sprint wiki from the right drop down menu in a sprint. You can edit the "wiki template":/projects/your-scrum-project/wiki/ based on your needs.
+                  !icon-7.png!:/projects/your-scrum-project/settings/modules *Activate further modules*: -> Go to "Project settings -> Modules":/projects/your-scrum-project/settings/modules.
+
+                  Here you will find our "User Guides":https://www.openproject.org/help/.
+                  Please let us know if you have any questions or need support. Contact us: "support[at]openproject.com":mailto:support@openproject.com.
+                attachments:
+                  - background-scrum.jpg
+                  - icon-1.png
+                  - icon-2.png
+                  - icon-3.png
+                  - icon-4.png
+                  - icon-5.png
+                  - icon-6.png
+                  - icon-7.png
