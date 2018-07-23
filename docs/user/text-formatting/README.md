@@ -35,9 +35,9 @@ CKEditor5 allows certain CommonMark-like [autoformatting keyboard strokes](https
 
 
 
-## Inline (Balloon) editor
+## Inline editor
 
-In some resources such as work packages, the editor is shown using an inline / balloon style toolbar. To enable the toolbar, either select text in the editor, or double click on an empty area in the editor pane.
+In some resources such as work packages, the editor is shown using an inline style toolbar. To enable the toolbar, click into the editor pane.
 
  
 
