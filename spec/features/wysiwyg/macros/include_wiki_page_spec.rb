@@ -80,7 +80,7 @@ describe 'Wysiwyg include wiki page spec',
           expect(editable).to have_selector('h1', text: 'My page')
 
           # strangely, we need visible: :all here
-          container.find('.ck-button', visible: :all, text: 'Include content of another wiki page').click
+          editor.insert_macro 'Include content of another wiki page'
 
           expect(page).to have_selector('.op-modal--macro-modal')
           fill_in 'selected-page', with: 'included'
@@ -89,7 +89,7 @@ describe 'Wysiwyg include wiki page spec',
           find('.op-modal--cancel-button').click
           expect(editable).to have_no_selector('.macro.-wiki_page_include')
 
-          container.find('.ck-button', visible: :all, text: 'Include content of another wiki page').click
+          editor.insert_macro 'Include content of another wiki page'
           fill_in 'selected-page', with: 'included'
 
           # Save widget
