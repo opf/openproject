@@ -54,9 +54,20 @@ es:
     description_selected_columns: Columnas seleccionadas
     description_subwork_package: 'Hijo del paquete de trabajo #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Página wiki
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
         toc: Table of contents
         code_block:
           button: Insert code snippet
@@ -239,8 +250,9 @@ es:
     label_remove_watcher: Eliminar observador %{name}
     label_remove_all_files: Borrar todos los archivos
     label_add_description: Añadir una descripción para %{file}
-    label_upload_notification: 'Subiendo archivos para el paquete de trabajo #%{id}:
-      %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Subiendo archivos para el paquete de
+      trabajo #%{id}: %{subject}'
     label_files_to_upload: 'Estos archivos se cargarán:'
     label_rejected_files: 'Estos archivos no pueden ser cargados:'
     label_rejected_files_reason: Estos archivos no pueden cargarse debido a que su
@@ -691,6 +703,8 @@ es:
     error_could_not_resolve_version_name: No se puede resolver el nombre de la versión
     error_could_not_resolve_user_name: No se pudo identificar el nombre de usuario
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: paquete de trabajo

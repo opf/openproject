@@ -82,6 +82,7 @@ en:
     description_selected_columns: "Selected Columns"
     description_subwork_package: "Child of work package #%{id}"
     editor:
+      preview: 'Toggle preview mode'
       macro:
         child_pages:
           button: 'Links to child pages'

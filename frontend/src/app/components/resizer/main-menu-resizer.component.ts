@@ -31,6 +31,7 @@ import {distinctUntilChanged} from 'rxjs/operators';
 import {Subscription} from 'rxjs';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {MainMenuToggleService} from "core-components/resizer/main-menu-toggle.service";
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
 @Component({
   selector: 'main-menu-resizer',
@@ -152,3 +153,5 @@ export class MainMenuResizerComponent implements OnInit, OnDestroy {
     this.toggleService.setWidth(this.elementWidth);
   }
 }
+
+DynamicBootstrapper.register({ selector: 'main-menu-resizer', cls: MainMenuResizerComponent  });

@@ -54,9 +54,20 @@ hu:
     description_selected_columns: Oszlopok kiválasztása
     description_subwork_package: 'Munkacsomag gyermeke #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Wiki oldal
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
         toc: Table of contents
         code_block:
           button: Insert code snippet
@@ -236,7 +247,9 @@ hu:
     label_remove_watcher: 'Megfigyelő törlése: %{name}'
     label_remove_all_files: Összes fájl törlése
     label_add_description: Adjon meg leírást a %{file} fájlhoz
-    label_upload_notification: 'Fájlok feltöltése a #%{id}: %{subject} munkacsomaghoz'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Fájlok feltöltése a #%{id}: %{subject}
+      munkacsomaghoz'
     label_files_to_upload: 'Ezek a fájlok kerülnek feltöltésre:'
     label_rejected_files: 'Ezeket a fájlokat nem lehet felölteni:'
     label_rejected_files_reason: Ezeket a fájlokat nem lehet feltölteni, mert a méretük
@@ -680,6 +693,8 @@ hu:
     error_could_not_resolve_version_name: Nem sikerült a verziószám visszafejtése
     error_could_not_resolve_user_name: Nem sikerült a felhasználó visszafejtése
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: munkacsomag

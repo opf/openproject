@@ -186,6 +186,11 @@ sk:
     index:
       no_results_title_text: Momentálne neexistujú žiadne toky činností.
   work_packages:
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
+      few: "%{count} work package children"
+      many: "%{count} work package children"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -364,6 +369,7 @@ sk:
         spent_on: Dátum
         type: Typ
       type:
+        attribute_groups: ''
         is_in_roadmap: V pláne
         is_milestone: Je medzník
         color: Farba
@@ -545,10 +551,11 @@ sk:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Unnamed groups are not allowed.
-              duplicate_group: The group name %{group} is used more than once. Group
-                names must be unique.
               attribute_unknown: Invalid work package attribute used.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Unnamed groups are not allowed.
         user:
           attributes:
             password:

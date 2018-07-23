@@ -183,6 +183,9 @@ tr:
     index:
       no_results_title_text: Sitemizde şuan iş akışı yok.
   work_packages:
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -355,6 +358,7 @@ tr:
         spent_on: Tarih
         type: Tür
       type:
+        attribute_groups: ''
         is_in_roadmap: Yol haritasında
         is_milestone: Kilometre taşı
         color: Renk
@@ -537,10 +541,11 @@ tr:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Adsız gruplara izin verilmez.
-              duplicate_group: "%{group} grup ismi birden fazla kullanıldı. Grup isimleri
-                eşsiz olmalıdır."
               attribute_unknown: Geçersiz iş paketi özniteliği kullanıldı.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Adsız gruplara izin verilmez.
         user:
           attributes:
             password:

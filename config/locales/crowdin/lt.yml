@@ -186,6 +186,11 @@ lt:
     index:
       no_results_title_text: Šiuo metu darbo sekų.
   work_packages:
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
+      few: "%{count} work package children"
+      many: "%{count} work package children"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -357,6 +362,7 @@ lt:
         spent_on: Data
         type: Tipas
       type:
+        attribute_groups: ''
         is_in_roadmap: Veiksmų plane
         is_milestone: Yra svarbus etapas
         color: Spalva
@@ -533,10 +539,11 @@ lt:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Bevardės grupės nėra leidžiamos.
-              duplicate_group: Grupės pavadinimas %{group} jau yra naudojamas. Grupių
-                vardai turi būti unikalūs.
               attribute_unknown: Netinkamas darbų paketo atributas naudotas.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Bevardės grupės nėra leidžiamos.
         user:
           attributes:
             password:

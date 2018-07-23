@@ -47,10 +47,8 @@ See docs/COPYRIGHT.rdoc for more details.
 <div class="form--field -required">
   <% preview_object = if replying
                         f.object.parent
-                      elsif f.object.persisted?
-                        f.object
                       else
-                        nil
+                        f.object
                       end %>
 
   <%= f.text_area :content,
@@ -59,6 +57,6 @@ See docs/COPYRIGHT.rdoc for more details.
                   class: 'wiki-edit',
                   container_class: '-wide',
                   with_text_formatting: true,
-                  preview_context: preview_context(preview_object) %>
+                  preview_context: preview_context(preview_object, @project) %>
 </div>
 <%= render partial: 'attachments/form' %>

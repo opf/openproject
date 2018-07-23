@@ -183,6 +183,11 @@ ru:
     index:
       no_results_title_text: В данный момент рабочих потоков нет.
   work_packages:
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
+      few: "%{count} work package children"
+      many: "%{count} work package children"
     move:
       no_common_statuses_exists: Статус не доступен для всех выбранных пакетов работ.
         Их статус изменен быть не может.
@@ -358,6 +363,7 @@ ru:
         spent_on: Дата
         type: Тип
       type:
+        attribute_groups: ''
         is_in_roadmap: В дорожной карте
         is_milestone: Это веха
         color: Цвет
@@ -536,10 +542,12 @@ ru:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Не именованные группы не допускаются.
-              duplicate_group: Имя группы %{group} используется более одного раза.
-                Имена групп должны быть уникальными.
               attribute_unknown: Используется недопустимый атрибут пакета работ.
+              duplicate_group: Имя группы '%{group}' используется более одного раза.
+                Имена групп должны быть уникальными.
+              query_invalid: 'Встроенный запрос ''%{group}'' является недопустимым:
+                %{details}'
+              group_without_name: Не именованные группы не допускаются.
         user:
           attributes:
             password:

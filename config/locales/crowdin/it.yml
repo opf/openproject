@@ -187,6 +187,9 @@ it:
     index:
       no_results_title_text: Al momento non vi sono flussi di lavoro.
   work_packages:
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -365,6 +368,7 @@ it:
         spent_on: Data
         type: Tipo
       type:
+        attribute_groups: ''
         is_in_roadmap: Nella tabella di marcia
         is_milestone: È un traguardo
         color: Colore
@@ -549,10 +553,11 @@ it:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Non sono ammessi gruppi senza nome.
-              duplicate_group: Il nome di gruppo %{group} è usato più di una volta.
-                I nomi dei gruppi devono essere univoci.
               attribute_unknown: Attributo di macro-attività non valido utilizzato.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Non sono ammessi gruppi senza nome.
         user:
           attributes:
             password:

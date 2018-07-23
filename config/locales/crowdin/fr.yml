@@ -186,6 +186,9 @@ fr:
     index:
       no_results_title_text: Il n'y a actuellement aucun flux de travaux.
   work_packages:
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -365,6 +368,7 @@ fr:
         spent_on: Date
         type: Type
       type:
+        attribute_groups: ''
         is_in_roadmap: Dans la feuille de route
         is_milestone: Est un jalon
         color: Couleur
@@ -552,10 +556,11 @@ fr:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Les groupes sans nom ne sont pas autorisés.
-              duplicate_group: Le nom de groupe %{group} est utilisé plus d’une fois.
-                Les noms de groupe doivent être uniques.
               attribute_unknown: Attribut du lot de travaux invalide utilisé.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Les groupes sans nom ne sont pas autorisés.
         user:
           attributes:
             password:

@@ -54,9 +54,20 @@ pl:
     description_selected_columns: Wybrane kolumny
     description_subwork_package: 'Otwórz zadanie-dziecko #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Strony wiki
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
         toc: Table of contents
         code_block:
           button: Insert code snippet
@@ -234,7 +245,9 @@ pl:
     label_remove_watcher: Usuń obserwującego %{name}
     label_remove_all_files: Usuń wszystkie pliki
     label_add_description: Dodaj opis do %{file}
-    label_upload_notification: 'Wgrywanie plików dla Zestawu Zadań #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Wgrywanie plików dla Zestawu Zadań #%{id}:
+      %{subject}'
     label_files_to_upload: 'Pliki te zostaną przesłane:'
     label_rejected_files: 'Pliki nie mogą być przesłane:'
     label_rejected_files_reason: Wymienione pliki nie mogą być przesłane gdyż ich
@@ -682,6 +695,8 @@ pl:
     error_could_not_resolve_version_name: Nie można rozpoznać wersji
     error_could_not_resolve_user_name: Nie można rozpoznać nazwy użytkownika
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: pakiet roboczy

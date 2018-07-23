@@ -186,6 +186,11 @@ uk:
     index:
       no_results_title_text: There are currently no workflows.
   work_packages:
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
+      few: "%{count} work package children"
+      many: "%{count} work package children"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -360,6 +365,7 @@ uk:
         spent_on: Date
         type: Type
       type:
+        attribute_groups: ''
         is_in_roadmap: In roadmap
         is_milestone: Is milestone
         color: Колір
@@ -537,10 +543,11 @@ uk:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Unnamed groups are not allowed.
-              duplicate_group: The group name %{group} is used more than once. Group
-                names must be unique.
               attribute_unknown: Invalid work package attribute used.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Unnamed groups are not allowed.
         user:
           attributes:
             password:

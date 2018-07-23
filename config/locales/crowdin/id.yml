@@ -187,6 +187,9 @@ id:
     index:
       no_results_title_text: There are currently no workflows.
   work_packages:
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -355,6 +358,7 @@ id:
         spent_on: Tanggal
         type: Tipe
       type:
+        attribute_groups: ''
         is_in_roadmap: In roadmap
         is_milestone: Is milestone
         color: Warna
@@ -535,10 +539,11 @@ id:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Kelompok tak bernama tidak dibolehkan.
-              duplicate_group: Nama kelompok %{group} dipakai lebihdari satu kali.
-                Nama kelompok harus unik.
               attribute_unknown: Atribut paket kerja tidak valid digunakan.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Kelompok tak bernama tidak dibolehkan.
         user:
           attributes:
             password:

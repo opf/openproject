@@ -54,9 +54,20 @@ it:
     description_selected_columns: Colonne selezionate
     description_subwork_package: 'Subordinata alla macro-attività #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Pagina wiki
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
         toc: Table of contents
         code_block:
           button: Insert code snippet
@@ -237,8 +248,9 @@ it:
     label_remove_watcher: Rimuovi watcher %{name}
     label_remove_all_files: Elimina tutti i file
     label_add_description: Aggiunge una descrizione per %{file}
-    label_upload_notification: 'Caricamento dei file per la macro-attività #%{id}:
-      %{subject} in corso'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Caricamento dei file per la macro-attività
+      #%{id}: %{subject} in corso'
     label_files_to_upload: 'Verranno caricati questi files:'
     label_rejected_files: 'Questi file non possono essere caricati:'
     label_rejected_files_reason: Questi file non possono essere caricati perchè la
@@ -688,6 +700,8 @@ it:
     error_could_not_resolve_version_name: Impossibile determinare il nome della versione
     error_could_not_resolve_user_name: Impossibile determinare il nome utente
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: macro-attività

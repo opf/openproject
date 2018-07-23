@@ -54,9 +54,20 @@ fi:
     description_selected_columns: Valitut sarakkeet
     description_subwork_package: 'Alipaketti työpaketille #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Wiki-sivu
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
         toc: Table of contents
         code_block:
           button: Insert code snippet
@@ -235,7 +246,9 @@ fi:
     label_remove_watcher: Poista seuraaja %{name}
     label_remove_all_files: Poista kaikki tiedostot
     label_add_description: Lisää kuvaus tiedostolle %{file}
-    label_upload_notification: 'Lisää tiedostoja työpaketille #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Lisää tiedostoja työpaketille #%{id}:
+      %{subject}'
     label_files_to_upload: 'Nämä tiedostot lähetetään:'
     label_rejected_files: 'Näitä tiedostoja ei voida lähettää:'
     label_rejected_files_reason: Näitä tiedostoja ei voi lähettää, koska niiden koko
@@ -675,6 +688,8 @@ fi:
     error_could_not_resolve_version_name: Version nimeä ei voitu ratkaista
     error_could_not_resolve_user_name: Käyttäjän nimeä ei voitu ratkaista
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: work package

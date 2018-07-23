@@ -194,6 +194,9 @@ fil:
     index:
       no_results_title_text: Sa kasalukuyan ay walang mga workflows.
   work_packages:
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -379,6 +382,7 @@ fil:
         spent_on: Petsa
         type: Uri
       type:
+        attribute_groups: ''
         is_in_roadmap: Sa roadmap
         is_milestone: Ay milestone
         color: Kulay
@@ -564,10 +568,11 @@ fil:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Wala pangalan ng grupo ay hindi pinapayagan.
-              duplicate_group: Ang pangalan ng grupo %{group} ay ginamit mahigit pa
-                sa isa. Ang mga pangalan ng grulo ay dapat nakakatangi.
               attribute_unknown: Hindi balido ang work package attribute ang nagamit.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Wala pangalan ng grupo ay hindi pinapayagan.
         user:
           attributes:
             password:

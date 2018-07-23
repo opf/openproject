@@ -54,9 +54,20 @@ vi:
     description_selected_columns: Các cột được lựa chọn
     description_subwork_package: 'Con của work package #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Trang wiki
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
         toc: Table of contents
         code_block:
           button: Insert code snippet
@@ -237,7 +248,8 @@ vi:
     label_remove_watcher: Loại bỏ người theo dõi %{name}
     label_remove_all_files: Xóa tất cả các tập tin
     label_add_description: Thêm mô tả cho %{file}
-    label_upload_notification: 'Tải file cho một công việc #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Tải file cho một công việc #%{id}: %{subject}'
     label_files_to_upload: 'Những tập tin này sẽ được tải lên:'
     label_rejected_files: 'Các tệp này không thể được tải lên:'
     label_rejected_files_reason: Các tệp này không thể được tải lên như kích thước
@@ -680,6 +692,8 @@ vi:
     error_could_not_resolve_version_name: Couldn't resolve version name
     error_could_not_resolve_user_name: Couldn't resolve user name
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: work package

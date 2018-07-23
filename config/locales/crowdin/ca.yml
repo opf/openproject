@@ -188,6 +188,9 @@ ca:
     index:
       no_results_title_text: Actualment no hi ha cap flux de treball.
   work_packages:
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -368,6 +371,7 @@ ca:
         spent_on: Data
         type: Tipus
       type:
+        attribute_groups: ''
         is_in_roadmap: A la fulla de ruta
         is_milestone: És una fita
         color: Color
@@ -545,10 +549,11 @@ ca:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Unnamed groups are not allowed.
-              duplicate_group: The group name %{group} is used more than once. Group
-                names must be unique.
               attribute_unknown: Invalid work package attribute used.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Unnamed groups are not allowed.
         user:
           attributes:
             password:

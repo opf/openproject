@@ -185,6 +185,9 @@ bg:
     index:
       no_results_title_text: В момента няма работни потоци.
   work_packages:
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -361,6 +364,7 @@ bg:
         spent_on: Дата
         type: Тип
       type:
+        attribute_groups: ''
         is_in_roadmap: В пътната карта
         is_milestone: Е крайъгълен камък
         color: Цвят
@@ -538,10 +542,11 @@ bg:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Unnamed groups are not allowed.
-              duplicate_group: The group name %{group} is used more than once. Group
-                names must be unique.
               attribute_unknown: Invalid work package attribute used.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Unnamed groups are not allowed.
         user:
           attributes:
             password:

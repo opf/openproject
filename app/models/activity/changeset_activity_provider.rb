@@ -49,6 +49,21 @@ class Activity::ChangesetActivityProvider < Activity::BaseActivityProvider
     repositories_table
   end
 
+  ##
+  # Override this method if not the journal created_at datetime, but another column
+  # value is the actual relevant time event. (e..g., commit date)
+  def filter_for_event_datetime(query, journals_table, typed_journals_table, from, to)
+    if from
+      query = query.where(typed_journals_table[:committed_on].gteq(from))
+    end
+
+    if to
+      query = query.where(typed_journals_table[:committed_on].lteq(to))
+    end
+
+    query
+  end
+
   protected
 
   def event_type(_event, _activity)

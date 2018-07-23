@@ -54,9 +54,20 @@ fil:
     description_selected_columns: Napiling mga hanay
     description_subwork_package: 'Bata ng work package #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Pahina ng wiki
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
         toc: Table of contents
         code_block:
           button: Insert code snippet
@@ -236,8 +247,9 @@ fil:
     label_remove_watcher: Alisin ang watcher %{name}
     label_remove_all_files: Burahin ang lahat ang mga file
     label_add_description: Magdagdag ng deskripsyon para sa %{file}
-    label_upload_notification: 'Pag-upload ng mga file para sa Work package #%{id}:
-      %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Pag-upload ng mga file para sa Work package
+      #%{id}: %{subject}'
     label_files_to_upload: 'Itong mga file ay naka-upload:'
     label_rejected_files: 'Itong mga fike ay hindi ma-upload:'
     label_rejected_files_reason: Itong mga file ay hindi ma-upload kung ang laki ay
@@ -698,6 +710,8 @@ fil:
     error_could_not_resolve_version_name: Hindi ma resolba ang bersyon na pangalan
     error_could_not_resolve_user_name: Hindi mairesolba ang pangalan ng gumagamit
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: work package

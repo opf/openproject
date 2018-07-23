@@ -79,6 +79,7 @@ module UserInvitation
     user.login = user.login.presence || user.mail
     user.firstname = user.firstname.presence || placeholder.first
     user.lastname = user.lastname.presence || placeholder.last
+    user.language = user.language.presence || Setting.default_language
   end
 
   ##

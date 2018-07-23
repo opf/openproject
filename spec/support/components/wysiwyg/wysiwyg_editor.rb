@@ -27,6 +27,15 @@ module Components
       expect(input_element.text).to eq(value)
     end
 
+    def within_enabled_preview
+      click_toolbar_button 'Toggle preview mode'
+      begin
+        yield container.find('.ck-editor__preview')
+      ensure
+        click_toolbar_button 'Toggle preview mode'
+      end
+    end
+
     def click_toolbar_button(label)
       # strangely, we need visible: :all here
       container.find('.ck-button', visible: :all, text: label).click

@@ -53,9 +53,20 @@ ko:
     description_selected_columns: 선택된 열
     description_subwork_package: '작업 패키지 #%{id}의 자식'
     editor:
+      preview: Toggle preview mode
       macro:
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: 위키 페이지
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
         toc: Table of contents
         code_block:
           button: Insert code snippet
@@ -232,7 +243,8 @@ ko:
     label_remove_watcher: 관찰자 %{name} 제거
     label_remove_all_files: 모든 파일을 삭제
     label_add_description: "%{file} 의 설명 추가"
-    label_upload_notification: '작업 패키지 #%{id}: %{subject} 를 위한 파일 업로딩'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: '작업 패키지 #%{id}: %{subject} 를 위한 파일 업로딩'
     label_files_to_upload: 이 파일들이 업로드 됩니다.
     label_rejected_files: 파일들이 업로드 할 수 없습니다.
     label_rejected_files_reason: 파일 사이즈가 %{maximumFilesize} 보다 크기 때문에 업로드할 수 없습니다.
@@ -652,6 +664,8 @@ ko:
     error_could_not_resolve_version_name: 버전 이름을 확인할 수 없습니다.
     error_could_not_resolve_user_name: 사용자 이름을 확인할 수 없습니다.
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: work package

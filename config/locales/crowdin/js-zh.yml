@@ -53,9 +53,20 @@ zh:
     description_selected_columns: 选定的列
     description_subwork_package: '子工作包 #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: 维基页面
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
         toc: 目录
         code_block:
           button: Insert code snippet
@@ -229,7 +240,8 @@ zh:
     label_remove_watcher: 删除关注者 %{name}
     label_remove_all_files: 删除所有文件
     label_add_description: 为%{file} 添加说明
-    label_upload_notification: '正在为 #%{id}: %{subject} 工作列表上传文件'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: '正在为 #%{id}: %{subject} 工作列表上传文件'
     label_files_to_upload: '这些文件将被上传:'
     label_rejected_files: '这些文件无法上传:'
     label_rejected_files_reason: 这些文件不能上传，因为它们大于 %{maximumFilesize}
@@ -636,6 +648,8 @@ zh:
     error_could_not_resolve_version_name: 无法解析版本名称
     error_could_not_resolve_user_name: 不能确定用户名
     error_attachment_upload: 文件“%{name}”传输失败：%{error}
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: work package

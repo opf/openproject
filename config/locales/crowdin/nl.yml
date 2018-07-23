@@ -187,6 +187,9 @@ nl:
     index:
       no_results_title_text: Er zijn momenteel geen workflows.
   work_packages:
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -366,6 +369,7 @@ nl:
         spent_on: Datum
         type: Type
       type:
+        attribute_groups: ''
         is_in_roadmap: In de roadmap
         is_milestone: Is mijlpaal
         color: Kleur
@@ -549,10 +553,11 @@ nl:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Groepen zonder namen zijn niet toegestaan.
-              duplicate_group: De groep naam %{group} word meer dan één keer gebruikt.
-                Groep namen moeten uniek zijn.
               attribute_unknown: Ongeldig werk pakket attribuut wordt gebruikt.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Groepen zonder namen zijn niet toegestaan.
         user:
           attributes:
             password:

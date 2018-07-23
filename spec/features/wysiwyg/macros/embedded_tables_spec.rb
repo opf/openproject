@@ -85,6 +85,12 @@ describe 'Wysiwyg embedded work package tables',
           columns.expect_checked 'Subject'
           columns.expect_checked 'Type'
           modal.cancel
+
+          # Expect we can preview the table within ckeditor
+          editor.within_enabled_preview do |preview_container|
+            embedded_table = ::Pages::EmbeddedWorkPackagesTable.new preview_container
+            embedded_table.expect_work_package_listed work_package
+          end
         end
 
         # Save wiki page
@@ -92,10 +98,8 @@ describe 'Wysiwyg embedded work package tables',
 
         expect(page).to have_selector('.flash.notice')
 
-        within('#content') do
-          embedded_table = ::Pages::EmbeddedWorkPackagesTable.new find('.wiki-content')
-          embedded_table.expect_work_package_listed work_package
-        end
+        embedded_table = ::Pages::EmbeddedWorkPackagesTable.new find('.wiki-content')
+        embedded_table.expect_work_package_listed work_package
       end
     end
   end

@@ -54,9 +54,20 @@ id:
     description_selected_columns: Kolom dipilih
     description_subwork_package: 'Child of work package #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Halaman Wiki
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
         toc: Table of contents
         code_block:
           button: Insert code snippet
@@ -237,7 +248,9 @@ id:
     label_remove_watcher: Remove watcher %{name}
     label_remove_all_files: Hapus semua file
     label_add_description: Tambahkan deskripsi untuk %{file}
-    label_upload_notification: 'Upload file untuk Work package #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Upload file untuk Work package #%{id}:
+      %{subject}'
     label_files_to_upload: 'Upload file berikut:'
     label_rejected_files: 'File ini tidak bisa di-upload:'
     label_rejected_files_reason: File berikut melebihi ketentuan ukuran yang diperbolehkan
@@ -683,6 +696,8 @@ id:
     error_could_not_resolve_version_name: Tidak bisa menyelesaikan versi nama
     error_could_not_resolve_user_name: User name tidak ditemukan
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: work package

@@ -54,9 +54,20 @@ ar:
     description_selected_columns: الاعمدة المحددة
     description_subwork_package: 'إنتاج مجموعة العمل #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: صفحة وِيكيبيديا
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
         toc: Table of contents
         code_block:
           button: Insert code snippet
@@ -234,7 +245,8 @@ ar:
     label_remove_watcher: حذف المراقب %{name}
     label_remove_all_files: حذف كل الملفات
     label_add_description: إضافة توصيفات إلى%{file}
-    label_upload_notification: تحميل ملفات إلى حزمة العمل%{id}:%{subject}
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: تحميل ملفات إلى حزمة العمل%{id}:%{subject}
     label_files_to_upload: 'هذه الملفات ستحمل:'
     label_rejected_files: 'هذه الملفات لا يمكن أن تحمل:'
     label_rejected_files_reason: هذه الملفات لا يمكن تحميلها بينما حجمها أكبر من%{maximumFilesize}
@@ -678,6 +690,8 @@ ar:
     error_could_not_resolve_version_name: تعثّر حل اسم الإصدار
     error_could_not_resolve_user_name: تعذر حل اسم المستخدم
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: work package

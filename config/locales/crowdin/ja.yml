@@ -167,6 +167,9 @@ ja:
     index:
       no_results_title_text: 現在、ワークフローはありません。
   work_packages:
+    x_children:
+      one: One child work package
+      other: "%{count} の子作業項目"
     move:
       no_common_statuses_exists: 選択されたすべての項目に利用可能なステータスはありません。 それらの状態は変更できません。
       unsupported_for_multiple_projects: 複数のプロジェクトから、作業項目の一括移動/コピーはサポートされていません
@@ -316,6 +319,7 @@ ja:
         spent_on: 日付
         type: 種別
       type:
+        attribute_groups: ''
         is_in_roadmap: ロードマップ内
         is_milestone: マイルストーン
         color: 色
@@ -482,9 +486,10 @@ ja:
         type:
           attributes:
             attribute_groups:
-              group_without_name: 名前のないグループは指定できません。
-              duplicate_group: グループ名 %{group} が複数回使用されています。グループ名は一意にする必要があります。
               attribute_unknown: 無効なワークパッケージの属性が使用されています。
+              duplicate_group: グループ名 '%{group}' は複数回使用されています。グループ名は一意でなければなりません。
+              query_invalid: 埋め込みクエリ '%{group}' は無効です： %{details}
+              group_without_name: 名前のないグループは指定できません。
         user:
           attributes:
             password:

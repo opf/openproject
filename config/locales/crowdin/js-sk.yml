@@ -54,9 +54,20 @@ sk:
     description_selected_columns: Vybraté stĺpce
     description_subwork_package: 'Podradený pracovný balík #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Wiki stránka
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
         toc: Table of contents
         code_block:
           button: Insert code snippet
@@ -236,7 +247,9 @@ sk:
     label_remove_watcher: Odstrániť pozorovateľa %{name}
     label_remove_all_files: Odstrániť všetky súbory
     label_add_description: Pridať popis %{file}
-    label_upload_notification: 'Nahrávanie súborov pre Pracovný balík #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Nahrávanie súborov pre Pracovný balík
+      #%{id}: %{subject}'
     label_files_to_upload: 'Tieto súbory budú odovzdané:'
     label_rejected_files: 'Tieto súbory nie je možné odovzdať:'
     label_rejected_files_reason: Tieto súbory nie je možné odovzdať, pretože ich veľkosť
@@ -684,6 +697,8 @@ sk:
     error_could_not_resolve_version_name: Nebolo možné zistiť názov verzie
     error_could_not_resolve_user_name: Nebolo možné zistiť užívateľské meno
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: pracovný balíček

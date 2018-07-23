@@ -29,6 +29,7 @@ import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-c
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
 @Component({
   selector: 'wp-embedded-table-entry',
@@ -51,3 +52,5 @@ export class WorkPackageEmbeddedTableEntryComponent implements OnInit {
     this.configuration = JSON.parse(element.getAttribute('configuration'));
   }
 }
+
+DynamicBootstrapper.register({ selector: 'wp-embedded-table-entry', cls: WorkPackageEmbeddedTableEntryComponent });

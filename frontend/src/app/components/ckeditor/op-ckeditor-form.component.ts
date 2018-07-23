@@ -33,6 +33,7 @@ import {PathHelperService} from "core-app/modules/common/path-helper/path-helper
 import {CKEditorSetupService, ICKEditorInstance} from "core-components/ckeditor/ckeditor-setup.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
 const ckEditorWrapperClass = 'op-ckeditor--wrapper';
 const ckEditorReplacementClass = '__op_ckeditor_replacement_container';
@@ -83,9 +84,13 @@ export class OpCkeditorFormComponent implements OnInit {
     this.wrappedTextArea = this.formElement.find(this.textareaSelector);
     this.wrappedTextArea.hide();
     const wrapper = this.$element.find(`.${ckEditorReplacementClass}`);
+    const context = { resource: this.resource,
+                      previewContext: this.previewContext };
 
     const editorPromise = this.ckEditorSetup
-      .create('classic', wrapper[0], { resource: this.resource })
+      .create('classic',
+              wrapper[0],
+              context)
       .then(this.setup.bind(this));
 
     this.$element.data('editor', editorPromise);
@@ -132,3 +137,5 @@ export class OpCkeditorFormComponent implements OnInit {
     });
   }
 }
+
+DynamicBootstrapper.register({ selector: 'op-ckeditor-form', cls: OpCkeditorFormComponent });

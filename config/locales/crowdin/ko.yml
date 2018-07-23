@@ -172,6 +172,9 @@ ko:
     index:
       no_results_title_text: 작업 흐름이 없습니다.
   work_packages:
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -331,6 +334,7 @@ ko:
         spent_on: 날짜
         type: 타입
       type:
+        attribute_groups: ''
         is_in_roadmap: 로그맵 내
         is_milestone: 마일스톤
         color: 색상
@@ -503,9 +507,11 @@ ko:
         type:
           attributes:
             attribute_groups:
-              group_without_name: 명명되지 않은 그룹은 허용되지 않습니다.
-              duplicate_group: "%{group} 이라는 그룹 이름은 한 번 이상 사용되었습니다. 그룹 이름은 중복될 수 없습니다."
               attribute_unknown: 잘못된 작업 패키지 특성이 사용되었습니다.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: 명명되지 않은 그룹은 허용되지 않습니다.
         user:
           attributes:
             password:

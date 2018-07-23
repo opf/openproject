@@ -54,9 +54,20 @@ de:
     description_selected_columns: Ausgewählte Spalten
     description_subwork_package: 'Kind von Arbeitspaket #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Wiki-Seite
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
         toc: Table of contents
         code_block:
           button: Insert code snippet
@@ -237,7 +248,9 @@ de:
     label_remove_watcher: Beobachter %{name} entfernen
     label_remove_all_files: Alle Dateien löschen
     label_add_description: Fügen Sie eine Beschreibung für %{file} hinzu
-    label_upload_notification: 'Hochladen von Dateien für Arbeitspaket #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Hochladen von Dateien für Arbeitspaket
+      #%{id}: %{subject}'
     label_files_to_upload: 'Diese Dateien werden hochgeladen:'
     label_rejected_files: 'Diese Dateien können nicht hochgeladen werden:'
     label_rejected_files_reason: Diese Dateien können nicht hochgeladen werden, da
@@ -692,6 +705,8 @@ de:
     error_could_not_resolve_version_name: Versionsname konnte nicht aufgelöst werden
     error_could_not_resolve_user_name: Benutzername konnte nicht aufgelöst werden
     error_attachment_upload: 'Konnte Datei %{name} nicht hochladen: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: Arbeitspaket

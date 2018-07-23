@@ -54,9 +54,20 @@ nl:
     description_selected_columns: Geselecteerde kolommen
     description_subwork_package: 'Kind van werkpakket #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Wikipagina
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
         toc: Table of contents
         code_block:
           button: Insert code snippet
@@ -239,7 +250,9 @@ nl:
     label_remove_watcher: Volger %{name} verwijderen
     label_remove_all_files: Verwijder alle bestanden
     label_add_description: Een beschrijving voor %{file} toevoegen
-    label_upload_notification: 'Uploaden van bestanden voor werk pakket #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Uploaden van bestanden voor werk pakket
+      #%{id}: %{subject}'
     label_files_to_upload: 'Deze bestanden worden geüpload:'
     label_rejected_files: 'Deze bestanden kunnen niet worden geüpload:'
     label_rejected_files_reason: Deze bestanden kunnen niet worden geüpload gezien
@@ -690,6 +703,8 @@ nl:
     error_could_not_resolve_version_name: Kan de verstane niet vinden
     error_could_not_resolve_user_name: Kan de gebruikersnaam niet vinden
     error_attachment_upload: 'Uploaden van bestand ''%{name}'' is mislukt: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: werkpakket
