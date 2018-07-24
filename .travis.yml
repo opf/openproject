@@ -61,7 +61,7 @@ env:
     - RAILS_ENV=test
 
   matrix:
-    - "TEST_SUITE=npm"
+    - "TEST_SUITE=npm DB=none"
 
 
     - "TEST_SUITE=spec_legacy       DB=mysql     GROUP_SIZE=1 GROUP=1"
@@ -102,10 +102,10 @@ before_install:
 bundler_args: --binstubs --without development production docker
 
 before_script:
-  - sh script/ci_setup.sh $TEST_SUITE $DB
+  - bash script/ci_setup.sh $TEST_SUITE $DB
 
 script:
-  - sh script/ci_runner.sh
+  - bash script/ci_runner.sh
 
 
 addons:
