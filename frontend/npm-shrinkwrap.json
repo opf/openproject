@@ -13789,7 +13789,8 @@
     },
     "stringstream": {
       "version": "0.0.5",
-      "resolved": ""
+      "resolved": "https://registry.npmjs.org/stringstream/-/stringstream-0.0.5.tgz",
+      "integrity": "sha1-TkhM1N5aC7vuGORjB3EKioFiGHg="
     },
     "strip-ansi": {
       "version": "3.0.1",
