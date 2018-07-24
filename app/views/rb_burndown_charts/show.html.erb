@@ -34,9 +34,14 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<h3>
+<% content_for :header_tags do %>
+  <%= render :partial => 'shared/backlogs_header' %>
+  <%= stylesheet_link_tag 'backlogs/master_backlog.css' %>
+<% end %>
+
+<h2>
   <%= "#{@sprint.name}: #{@sprint.start_date.present? ? I18n.l(@sprint.start_date) : ''} - #{@sprint.effective_date.present? ? I18n.l(@sprint.effective_date) : ''}" %>
-</h3>
+</h2>
 
 <% if @burndown %>
   <%= render :partial => 'burndown', :locals => {:div => 'burndown_', :burndown => @burndown } %>

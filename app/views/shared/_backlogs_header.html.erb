@@ -34,9 +34,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
- <%= stylesheet_link_tag 'backlogs/backlogs.css' %>
- <%= javascript_include_tag 'backlogs/backlogs.js' %>
+<%= stylesheet_link_tag 'backlogs/backlogs.css' %>
+<%= javascript_include_tag 'backlogs/backlogs.js' %>
 
- <script type="text/javascript">
+ <%= nonced_javascript_tag do %>
    <%= render(partial: 'shared/server_variables.js.erb') %>
- </script>
+ <% end %>
