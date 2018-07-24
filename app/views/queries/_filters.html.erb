@@ -124,8 +124,13 @@ See docs/COPYRIGHT.rdoc for more details.
                          options_for_select(operators_for_select(filter),
                                             query.filter_for(field).try(:operator)),
                          id:       "operators_#{field}",
-                         onchange: "toggle_operator('#{field}');",
                          class:    "advanced-filters--select" %>
+
+          <%=
+            content_for(:additional_js_dom_ready) do
+              "jQuery('#operators_#{field}').change(toggle_operator('#{field}'));".html_safe
+            end
+          %>
 
         </div>
         <div id="div_values_<%= field %>" style="display:none;" class="advanced-filters--filter-value">
@@ -181,9 +186,14 @@ See docs/COPYRIGHT.rdoc for more details.
     <div class="advanced-filters--add-filter-value">
       <%= select_tag 'add_filter_select',
                      options_for_select(entries_for_filter_select_sorted(query)),
-                     onchange: "add_filter();",
                      class:    "advanced-filters--select",
                      name:     nil %>
+
+      <%=
+        content_for(:additional_js_dom_ready) do
+          "jQuery('.advanced-filters--select').change(add_filter);".html_safe
+        end
+      %>
     </div>
   </li>
 </ul>

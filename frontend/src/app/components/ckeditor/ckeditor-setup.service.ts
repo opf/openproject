@@ -5,6 +5,7 @@ import {Injectable} from "@angular/core";
 export interface ICKEditorInstance {
   getData():string;
   setData(content:string):void;
+  model:any;
   editing:any;
   config:any;
 }

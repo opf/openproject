@@ -27,13 +27,18 @@
 # See doc/COPYRIGHT.rdoc for more details.
 module DemoData
   class WikiSeeder < Seeder
-    attr_reader :project
+    attr_reader :project, :key
 
-    def initialize(project)
+    def initialize(project, key)
       @project = project
+      @key = key
     end
 
     def seed_data!
+      text = I18n.t("seeders.demo_data.projects.#{key}.wiki")
+
+      return if text.start_with?("translation missing")
+
       user = User.admin.first
 
       print '    ↳ Creating wikis'
@@ -47,7 +52,7 @@ module DemoData
       WikiContent.create!(
         page:   wiki_page,
         author: user,
-        text:   I18n.t('seeders.demo_data.wiki.content')
+        text:   text
       )
 
       puts

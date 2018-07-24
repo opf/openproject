@@ -26,43 +26,51 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 module DemoData
-  class CustomFieldSeeder < Seeder
-    attr_reader :project, :key
+  class VersionBuilder
+    attr_reader :config
+    attr_reader :project
 
-    def initialize(project, key)
+    def initialize(config, project)
+      @config = config
       @project = project
-      @key = key
     end
 
-    def seed_data!
-      # Careful: The seeding recreates the seeded project before it runs, so any changes
-      # on the seeded project will be lost.
-      print '    ↳ Creating custom fields...'
+    def create!
+      create_version if valid?
+    end
 
-      # create some custom fields and add them to the project
-      Array(I18n.t("seeders.demo_data.projects.#{key}")[:custom_fields]).each do |name|
-        cf = WorkPackageCustomField.create!(
-          name: name,
-          regexp: '',
-          is_required: false,
-          min_length: false,
-          default_value: '',
-          max_length: false,
-          editable: true,
-          possible_values: '',
-          visible: true,
-          field_format: 'text'
-        )
-        print '.'
+    private
 
-        project.work_package_custom_fields << cf
+    def valid?
+      true
+    end
+
+    def create_version
+      version.tap do |version|
+        project.versions << version
       end
-
-      puts
     end
 
-    def applicable?
-      not WorkPackageCustomField.any?
+    def version
+      version = Version.create!(
+        name:    config[:name],
+        status:  config[:status],
+        sharing: config[:sharing],
+        project: project
+      )
+
+      set_wiki! version, config[:wiki] if config[:wiki]
+
+      version
+    end
+
+    def set_wiki!(version, config)
+      version.wiki_page_title = config[:title]
+      page = WikiPage.create! wiki: version.project.wiki, title: version.wiki_page_title
+
+      WikiContent.create! page: page, author: User.admin.first, text: config[:content]
+
+      version.save!
     end
   end
 end

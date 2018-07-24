@@ -56,8 +56,6 @@ uk:
     editor:
       preview: Toggle preview mode
       macro:
-        toolbar_help: Click to select widget and show the toolbar. Double-click to
-          edit widget
         child_pages:
           button: Links to child pages
           include_parent: Include parent
@@ -68,13 +66,18 @@ uk:
             If you want to reference a different page, provide its title or slug.
 
 '
-        toc: Table of contents
         code_block:
           button: Insert code snippet
           title: Insert / edit Code snippet
           language: Formatting language
           language_hint: Enter the formatting language that will be used for highlighting
             (if supported).
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
+        toc: Table of contents
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
         wiki_page_include:
           button: Include content of another wiki page
           text: Included wiki page (placeholder)

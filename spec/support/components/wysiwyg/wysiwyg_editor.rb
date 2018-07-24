@@ -24,7 +24,7 @@ module Components
     end
 
     def expect_value(value)
-      expect(input_element.text).to eq(value)
+      expect(editor_element.text).to eq(value)
     end
 
     def within_enabled_preview
@@ -43,10 +43,10 @@ module Components
 
     def click_and_type_slowly(text)
       sleep 0.5
-      input_element.click
+      editor_element.click
 
       sleep 0.5
-      input_element.send_keys text
+      editor_element.send_keys text
 
       sleep 0.5
     end

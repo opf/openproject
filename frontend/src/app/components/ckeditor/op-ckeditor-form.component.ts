@@ -66,7 +66,6 @@ export class OpCkeditorFormComponent implements OnInit {
               protected halResourceService:HalResourceService,
               protected ckEditorSetup:CKEditorSetupService,
               protected ConfigurationService:ConfigurationService) {
-
   }
 
   public ngOnInit() {
@@ -110,7 +109,7 @@ export class OpCkeditorFormComponent implements OnInit {
     }
 
     // Listen for form submission to set textarea content
-    this.formElement.on('submit.ckeditor', () => {
+    this.formElement.on('submit.ckeditor change.ckeditor', () => {
       const value = this.ckeditor.getData();
       this.wrappedTextArea.val(value);
 
@@ -138,4 +137,8 @@ export class OpCkeditorFormComponent implements OnInit {
   }
 }
 
-DynamicBootstrapper.register({ selector: 'op-ckeditor-form', cls: OpCkeditorFormComponent });
+DynamicBootstrapper.register({
+  selector: 'op-ckeditor-form',
+  cls: OpCkeditorFormComponent,
+  embeddable: true
+});
