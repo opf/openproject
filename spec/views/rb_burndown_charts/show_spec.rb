@@ -106,6 +106,7 @@ describe 'rb_burndown_charts/show', type: :view do
   describe 'burndown chart' do
     it 'renders a version with dates' do
       assign(:sprint, sprint)
+      assign(:project, project)
       assign(:burndown, sprint.burndown(project))
       render
 
@@ -117,6 +118,7 @@ describe 'rb_burndown_charts/show', type: :view do
       sprint.effective_date = nil
       sprint.save
       assign(:sprint, sprint)
+      assign(:project, project)
       assign(:burndown, sprint.burndown(project))
 
       render
