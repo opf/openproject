@@ -28,6 +28,7 @@ import {APP_INITIALIZER, Injector, NgModule} from '@angular/core';
 import {OpenProjectPluginContext} from "core-app/modules/plugins/plugin-context";
 import {CostsByTypeDisplayField} from './wp-display/wp-display-costs-by-type-field.module';
 import {CurrencyDisplayField} from './wp-display/wp-display-currency-field.module';
+import {BudgetResource} from './hal/resources/budget-resource';
 
 export function initializeCostsPlugin() {
     return () => {
@@ -38,6 +39,9 @@ export function initializeCostsPlugin() {
             displayFieldService.extendFieldType('resource', ['Budget']);
             displayFieldService.addFieldType(CostsByTypeDisplayField, 'costs', ['costsByType']);
             displayFieldService.addFieldType(CurrencyDisplayField, 'currency', ['laborCosts', 'materialCosts', 'overallCosts']);
+
+            let halResourceService = pluginContext.services.halResource;
+            halResourceService.registerResource('Budget', { cls: BudgetResource });
 
             pluginContext.hooks.workPackageSingleContextMenu(function(params:any) {
                 return {

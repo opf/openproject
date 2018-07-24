@@ -72,4 +72,10 @@ describe ::API::V3::Utilities::PathHelper do
 
     it { is_expected.to eql('/api/v3/projects/42/budgets') }
   end
+
+  describe '#attachments_by_budget' do
+    subject { helper.attachments_by_budget 42 }
+
+    it { is_expected.to eql('/api/v3/budgets/42/attachments') }
+  end
 end

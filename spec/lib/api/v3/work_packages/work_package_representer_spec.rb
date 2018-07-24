@@ -23,48 +23,48 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:project) { FactoryBot.create(:project) }
-  let(:role) {
+  let(:role) do
     FactoryBot.create(:role, permissions: [:view_time_entries,
                                             :view_cost_entries,
                                             :view_cost_rates,
                                             :view_work_packages])
-  }
-  let(:user) {
+  end
+  let(:user) do
     FactoryBot.create(:user,
-                       member_in_project: project,
-                       member_through_role: role)
-  }
+                      member_in_project: project,
+                      member_through_role: role)
+  end
 
   let(:cost_object) { FactoryBot.create(:cost_object, project: project) }
-  let(:cost_entry_1) {
+  let(:cost_entry_1) do
     FactoryBot.create(:cost_entry,
-                       work_package: work_package,
-                       project: project,
-                       units: 3,
-                       spent_on: Date.today,
-                       user: user,
-                       comments: 'Entry 1')
-  }
-  let(:cost_entry_2) {
+                      work_package: work_package,
+                      project: project,
+                      units: 3,
+                      spent_on: Date.today,
+                      user: user,
+                      comments: 'Entry 1')
+  end
+  let(:cost_entry_2) do
     FactoryBot.create(:cost_entry,
-                       work_package: work_package,
-                       project: project,
-                       units: 3,
-                       spent_on: Date.today,
-                       user: user,
-                       comments: 'Entry 2')
-  }
+                      work_package: work_package,
+                      project: project,
+                      units: 3,
+                      spent_on: Date.today,
+                      user: user,
+                      comments: 'Entry 2')
+  end
 
-  let(:work_package) {
+  let(:work_package) do
     FactoryBot.create(:work_package,
-                       project_id: project.id,
-                       cost_object: cost_object)
-  }
-  let(:representer) {
+                      project_id: project.id,
+                      cost_object: cost_object)
+  end
+  let(:representer) do
     described_class.new(work_package,
                         current_user: user,
                         embed_links: true)
-  }
+  end
 
   before(:each) do
     allow(User).to receive(:current).and_return user
@@ -116,27 +116,27 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       describe 'spentTime' do
         context 'time entry with single hour' do
-          let(:time_entry) {
+          let(:time_entry) do
             FactoryBot.create(:time_entry,
-                               project: work_package.project,
-                               work_package: work_package,
-                               hours: 1.0)
-          }
+                              project: work_package.project,
+                              work_package: work_package,
+                              hours: 1.0)
+          end
 
-          before do time_entry end
+          before { time_entry }
 
           it { is_expected.to be_json_eql('PT1H'.to_json).at_path('spentTime') }
         end
 
         context 'time entry with multiple hours' do
-          let(:time_entry) {
+          let(:time_entry) do
             FactoryBot.create(:time_entry,
-                               project: work_package.project,
-                               work_package: work_package,
-                               hours: 42.5)
-          }
+                              project: work_package.project,
+                              work_package: work_package,
+                              hours: 42.5)
+          end
 
-          before do time_entry end
+          before { time_entry }
 
           it { is_expected.to be_json_eql('P1DT18H30M'.to_json).at_path('spentTime') }
         end
@@ -150,32 +150,32 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'only view_own_time_entries permission' do
-          let(:own_time_entries_role) {
+          let(:own_time_entries_role) do
             FactoryBot.create(:role, permissions: [:view_own_time_entries,
                                                     :view_work_packages])
-          }
+          end
 
-          let(:user2) {
+          let(:user2) do
             FactoryBot.create(:user,
-                               member_in_project: project,
-                               member_through_role: own_time_entries_role)
-          }
+                              member_in_project: project,
+                              member_through_role: own_time_entries_role)
+          end
 
-          let!(:own_time_entry) {
+          let!(:own_time_entry) do
             FactoryBot.create(:time_entry,
-                               project: work_package.project,
-                               work_package: work_package,
-                               hours: 2,
-                               user: user2)
-          }
+                              project: work_package.project,
+                              work_package: work_package,
+                              hours: 2,
+                              user: user2)
+          end
 
-          let!(:other_time_entry) {
+          let!(:other_time_entry) do
             FactoryBot.create(:time_entry,
-                               project: work_package.project,
-                               work_package: work_package,
-                               hours: 1,
-                               user: user)
-          }
+                              project: work_package.project,
+                              work_package: work_package,
+                              hours: 1,
+                              user: user)
+          end
 
           before do
             allow(User).to receive(:current).and_return(user2)
@@ -436,9 +436,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
   describe '.to_eager_load' do
     it 'includes the cost objects' do
-      expect(described_class.to_eager_load.any? { |el|
+      expect(described_class.to_eager_load.any? do |el|
         el == :cost_object
-      }).to be_truthy
+      end).to be_truthy
     end
   end
 end

@@ -130,6 +130,10 @@ module OpenProject::Costs
       "#{project(project_id)}/budgets"
     end
 
+    add_api_path :attachments_by_budget do |id|
+      "#{budget(id)}/attachments"
+    end
+
     add_api_endpoint 'API::V3::Root' do
       mount ::API::V3::Budgets::BudgetsAPI
       mount ::API::V3::CostEntries::CostEntriesAPI

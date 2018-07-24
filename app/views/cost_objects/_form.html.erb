@@ -24,7 +24,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   <%= f.text_field :subject, required: true, autofocus: true, container_class: '-wide' %>
 </div>
 <div class="form--field">
-  <%= f.text_area :description, rows: (@cost_object.description.blank? ? 10 : [[10, @cost_object.description.length / 50].max, 100].min), cols: 60, container_class: '-wide' %>
+  <%= f.text_area :description,
+                  container_class: '-xxwide',
+                  with_text_formatting: true,
+                  resource: ::API::V3::Budgets::BudgetRepresenter.new(f.object, current_user: current_user) %>
 </div>
 <div class="form--field">
   <%= f.text_field :fixed_date, container_class: '-xslim' %>
@@ -41,5 +44,3 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <div style="clear: both;"> </div>
 
 <%= render :partial => 'attachments/form' %>
-
-<%= wikitoolbar_for 'cost_object_description' %>

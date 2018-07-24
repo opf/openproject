@@ -1,13 +1,12 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -24,27 +23,28 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module API
   module V3
-    module Budgets
-      class BudgetsAPI < ::API::OpenProjectAPI
-        resources :budgets do
-          route_param :id do
-            before do
-              @budget = CostObject.find(params[:id])
+    module Attachments
+      class AttachmentsByBudgetAPI < ::API::OpenProjectAPI
+        resources :attachments do
+          helpers API::V3::Attachments::AttachmentsByContainerAPI::Helpers
 
-              authorize_any([:view_work_packages, :view_budgets], projects: @budget.project)
+          helpers do
+            def container
+              @budget
             end
 
-            get do
-              BudgetRepresenter.new(@budget, current_user: current_user)
+            def get_attachment_self_path
+              api_v3_paths.attachments_by_budget(container.id)
             end
-
-            mount ::API::V3::Attachments::AttachmentsByBudgetAPI
           end
+
+          get &API::V3::Attachments::AttachmentsByContainerAPI.read
+          post &API::V3::Attachments::AttachmentsByContainerAPI.create
         end
       end
     end
