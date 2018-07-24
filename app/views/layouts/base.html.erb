@@ -27,7 +27,11 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%><!DOCTYPE html>
 <% show_decoration = params["layout"].nil? %>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= I18n.locale.to_s %>" xml:lang="<%= I18n.locale.to_s %>" class="<%= 'in_modal' unless show_decoration %>">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      lang="<%= I18n.locale.to_s %>"
+      xml:lang="<%= I18n.locale.to_s %>"
+      ng-csp="no-unsafe-eval"
+      class="<%= 'in_modal' unless show_decoration %>">
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
   <meta name="viewport" content="width=device-width">
