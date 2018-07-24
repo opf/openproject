@@ -33,10 +33,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <%= javascript_include_tag 'backlogs/jquery.flot/excanvas.js' %>
 
-<script type="text/javascript" language="javascript">
+
+<%= nonced_javascript_tag do %>
   jQuery(function ($) {
     var Burndown = {
       datasets: <%= dataseries(burndown).to_json.html_safe %> ,
@@ -133,4 +133,4 @@ See doc/COPYRIGHT.rdoc for more details.
 
     Burndown.init();
   });
-</script>
+<% end %>

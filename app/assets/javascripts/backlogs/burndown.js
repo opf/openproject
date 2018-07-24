@@ -62,18 +62,9 @@ RB.Burndown = (function ($) {
         $('<div id="charts"></div>').appendTo("body");
       }
       $('#charts').html("<div class='loading'>" + RB.i18n.generating_graph + "</div>");
-      $('#charts').load(RB.urlFor('show_burndown_chart', { sprint_id: $(this).data('this').sprintId,
-                                                           project_id: RB.constants.project_id}));
-      $('#charts').dialog({
-        dialogClass: "rb_dialog",
-        height: 530,
-        width: 710,
-        position: 'center',
-        modal: true,
-        title: RB.i18n.burndown_graph,
-        resizable: false
-      });
-      $('.ui-icon-closethick').prop('title', 'close');
+
+      var url = RB.urlFor('show_burndown_chart', { sprint_id: $(this).data('this').sprintId, project_id: RB.constants.project_id});
+      window.open(url);
     }
   });
 }(jQuery));
