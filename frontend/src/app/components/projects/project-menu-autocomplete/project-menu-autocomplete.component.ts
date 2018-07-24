@@ -116,7 +116,7 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
   // Items per page to show before using lazy load
   // Please note that the max-height of the container is relevant here.
   public get maxItemsPerPage() {
-    return 50;
+    return 250;
   }
 
   onItemSelected(project:IProjectMenuEntry):void {

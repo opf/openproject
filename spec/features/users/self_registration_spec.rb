@@ -39,6 +39,26 @@ describe 'user self registration', type: :feature, js: true do
         .and_return true
     end
 
+    it 'allows self registration on login page (Regression #28076)' do
+      visit signin_path
+
+      click_link 'Create a new account'
+      # deliberately inserting a wrong password confirmation
+      within '.registration-modal' do
+        fill_in 'Login', with: 'heidi'
+        fill_in 'First name', with: 'Heidi'
+        fill_in 'Last name', with: 'Switzerland'
+        fill_in 'Email', with: 'heidi@heidiland.com'
+        fill_in 'Password', with: 'test123=321test'
+        fill_in 'Confirmation', with: 'test123=321test'
+
+        click_button 'Create'
+      end
+
+      expect(page)
+        .to have_content('Your account was created and is now pending administrator approval.')
+    end
+
     it 'allows self registration and activation by an admin' do
       home_page.visit!
 
