@@ -6,7 +6,7 @@
      ]">
 
   <div #editContainer
-       hidden>
+       [hidden]="!active">
   </div>
 
   <div (accessibleClick)="activateIfEditable($event)"
