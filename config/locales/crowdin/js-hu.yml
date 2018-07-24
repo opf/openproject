@@ -80,7 +80,7 @@ hu:
           edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Wiki oldal
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -290,9 +290,9 @@ hu:
         error_duplicate_group_name: A %{group} név már használatban van. A csoport
           névnek egyedinek kell lennie.
         reset_title: Űrlap konfiguráció visszaállítása
-        confirm_reset: 'Figyelmeztetés: Biztosan visszaállítja az alap űrlap beállítást?
-          Az attribútumok az alapértelmezett csoportba kerülnek, a láthatósági beállítások
-          elvesznek és MINDEN egyéni mező deaktiválódik.
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Frissítés a Vállalati Verzióra
@@ -645,14 +645,14 @@ hu:
         save_as: Mentés másként ...
         export: Exportálás...
         publish: Közzététel ...
-        page_settings: Lekérdezés átnevezése ...
+        page_settings: Rename view ...
         delete: Törlés
       filter: Szűrő
       unselected_title: Munkacsomag
       search_query_label: Mentett szűrés keresése
       search_query_title: Kattintson mentett szűrések kereséséhez
     modals:
-      label_settings: Lekérdezés átnevezése
+      label_settings: Rename view
       label_name: Név
       label_delete_page: Aktuális oldal törlése
       button_apply: Alkalmaz

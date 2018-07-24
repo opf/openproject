@@ -79,7 +79,7 @@ th:
           edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: หน้าวิกิ
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -291,8 +291,8 @@ th:
           names must be unique.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group, unset the visibility
-          checkboxes, and disable ALL custom fields.
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Upgrade to Enterprise Edition
@@ -643,14 +643,14 @@ th:
         save_as: บันทึกเป็น...
         export: Export ...
         publish: Publish ...
-        page_settings: Rename query ...
+        page_settings: Rename view ...
         delete: ลบ
       filter: ตัวกรอง
       unselected_title: ชุดภารกิจ
       search_query_label: Search saved filter queries
       search_query_title: Click to search saved filter queries
     modals:
-      label_settings: Rename query
+      label_settings: Rename view
       label_name: ชื่อ
       label_delete_page: ลบหน้าปัจจุบัน
       button_apply: นำไปใช้

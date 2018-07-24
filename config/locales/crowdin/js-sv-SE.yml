@@ -6,10 +6,10 @@ sv-SE:
       loading: Laddar ...
     autocomplete_select:
       placeholder:
-        multi: Add "%{name}"
-        single: Select "%{name}"
-      remove: Remove %{name}
-      active: Active %{label} %{name}
+        multi: Lägg till ”%{name}”
+        single: Välj ”%{name}”
+      remove: Ta bort %{name}
+      active: Aktiva %{label} %{name}
     close_popup_title: Stäng popup
     close_filter_title: Stäng filter
     close_form_title: Stäng formulär
@@ -54,53 +54,56 @@ sv-SE:
     description_selected_columns: Markerade kolumner
     description_subwork_package: 'Barn till arbetspaket #%{id}'
     editor:
-      preview: Toggle preview mode
+      preview: Växla förhandsgranskningsläge
       macro:
         child_pages:
-          button: Links to child pages
-          include_parent: Include parent
-          text: "[Placeholder] Links to child pages of"
+          button: Länkar till underordnade sidor
+          include_parent: Inkludera överordnade
+          text: "[Placeholder] länkar till underordnade sidor av"
           page: Wiki-sida
-          this_page: this page
-          hint: 'Leave this field empty to list all child pages of the current page.
-            If you want to reference a different page, provide its title or slug.
+          this_page: den här sidan
+          hint: 'Lämna fältet tomt om du vill lista alla underordnade sidor på den
+            aktuella sidan. Om du vill referera till en annan sida, ange dess titel
+            eller slug.
 
 '
         code_block:
-          button: Insert code snippet
-          title: Insert / edit Code snippet
-          language: Formatting language
-          language_hint: Enter the formatting language that will be used for highlighting
-            (if supported).
+          button: Infoga kodstycket
+          title: Infoga / redigera kodavsnitt
+          language: Formateringsspråk
+          language_hint: Ange det formateringsspråk som används för att belysa (om
+            det stöds).
         dropdown:
           macros: Macros
           chose_macro: Chose macro
-        toc: Table of contents
-        toolbar_help: Click to select widget and show the toolbar. Double-click to
-          edit widget
+        toc: Innehållsförteckning
+        toolbar_help: Klicka på välj widget och visa verktygsfältet. Dubbelklicka
+          om du vill redigera widget
         wiki_page_include:
-          button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          button: Inkludera innehåll från en annan wiki-sida
+          text: "[Placeholder] Included wiki page of"
           page: Wiki-sida
-          hint: |
-            Include the content of another wiki page by specifying its title or slug.
-            You can include the wiki page of another project by separating them with a colon like the following example.
+          hint: 'Inkludera innehåll från en annan wiki-sida genom att ange dess titel
+            eller slug. Du kan inkludera wiki-sidan för ett annat projekt genom att
+            separera dem med ett kolon som följande exempel.
+
+'
         work_package_button:
-          button: Insert create work package button
-          type: Work package type
-          button_style: Use button style
-          button_style_hint: 'Optional: Check to make macro appear as a button, not
-            as a link.'
-          without_type: Create work package
-          with_type: 'Create work package (Type: %{typename})'
+          button: Lägg till skapa arbetspaket-knapp
+          type: Arbetspaketstyper
+          button_style: Använd knappstil
+          button_style_hint: 'Frivilligt: Markera för att makrot ska synas som en
+            knapp istället för en länk.'
+          without_type: Skapa arbetspaket
+          with_type: 'Skapa arbetspaket (Typ: %{typename})'
         embedded_table:
-          button: Embed work package table
-          text: Embedded work package table (placeholder)
+          button: Bädda in arbetspaket-tabell
+          text: Inbäddad arbetspaket-tabell (platshållare)
     error:
       internal: Ett internt fel har inträffat.
-      cannot_save_changes_with_message: 'Cannot save your changes due to the following
-        error: %{error}'
-      query_saving: The query could not be saved.
+      cannot_save_changes_with_message: 'Kan inte spara dina ändringar på grund av
+        följande error: %{error}'
+      query_saving: Frågan kunde inte sparas.
     filter:
       description:
         text_open_filter: Öppna det här filtret med 'ALT' och piltangenterna.
@@ -117,7 +120,7 @@ sv-SE:
           one: Första sorteringskriteriet
           two: Andra sorteringskriteriet
           three: Tredje sorteringskriteriet
-      upsale_for_more: For more advanced filters, check out the
+      upsale_for_more: För mer avancerade filter, kolla in
       upsale_link: Enterprise Edition.
     general_text_no: nej
     general_text_yes: ja
@@ -164,7 +167,7 @@ sv-SE:
     label_expand: Expandera
     label_expanded: expanderade
     label_expand_all: Expandera alla
-    label_expand_project_menu: Expand project menu
+    label_expand_project_menu: Expandera projektmenyn
     label_export: Exportera
     label_filename: Fil
     label_filesize: Filstorlek
@@ -172,7 +175,7 @@ sv-SE:
     label_group_by: Gruppera efter
     label_hide_attributes: Visa mindre
     label_hide_column: Dölj kolumn
-    label_hide_project_menu: Collapse project menu
+    label_hide_project_menu: Minimera projektmenyn
     label_in: i
     label_in_less_than: i mindre än
     label_in_more_than: i mer än
@@ -194,7 +197,7 @@ sv-SE:
     label_not_equals: är inte
     label_on: på
     label_open_menu: Öppna meny
-    label_open_context_menu: Open context menu
+    label_open_context_menu: Öppna kontextmenyn
     label_open_work_packages: öppna
     label_password: Lösenord
     label_previous: Föregående
@@ -208,7 +211,7 @@ sv-SE:
     label_select_watcher: Välj en bevakare...
     label_selected_filter_list: Valda filter
     label_show_attributes: Visa alla attribut
-    label_show_in_menu: Show view in menu
+    label_show_in_menu: Visa vyn i menyn
     label_sort_by: Sortera efter
     label_sorted_by: sorterade efter
     label_sort_higher: Flytta upp
@@ -218,11 +221,11 @@ sv-SE:
     label_subject: Ämne
     label_this_week: denna vecka
     label_today: idag
-    label_up: Up
+    label_up: Upp
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% Totalt klart"
-    label_visible_for_others: View visible for others
+    label_visible_for_others: Vyn synlig för andra
     label_updated_on: uppdaterad den
     label_warning: Varning
     label_work_package: Arbetspaket
@@ -248,7 +251,7 @@ sv-SE:
     label_remove_watcher: Ta bort bevakare %{name}
     label_remove_all_files: Ta bort alla filer
     label_add_description: Lägga till en beskrivning för %{file}
-    label_upload_notification: Uploading files...
+    label_upload_notification: Laddar upp fil(er)...
     label_work_package_upload_notification: 'Ladda upp filer för arbetspaket #%{id}:
       %{subject}'
     label_files_to_upload: 'Dessa filer kommer att laddas upp:'
@@ -288,9 +291,9 @@ sv-SE:
         error_duplicate_group_name: Namnet %{group} används redan. Gruppnamn måste
           vara unika.
         reset_title: Återställ formulärinställningarna
-        confirm_reset: 'Varning: Är du säker på att du vill återställa formulärinställningarna?
-          Detta kommer att återställa attributen till deras standardgrupper, avmarkera
-          kryssrutorna för synlighet samt inaktivera samtliga anpassade fält.
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Uppgradera till Enterprise Edition
@@ -377,7 +380,7 @@ sv-SE:
     timelines:
       gantt_chart: Gantt chart
       labels:
-        title: Label configuration
+        title: Etikettsinställning
         bar: Bar labels
         left: Left
         right: Right
@@ -518,7 +521,7 @@ sv-SE:
         header_with_parent: 'Ny %{type} (barn till %{parent_type} #%{id})'
         button: Skapa
       copy:
-        title: Copy work package
+        title: Kopiera arbetspaket
       hierarchy:
         show: Visa hierarkiläge
         hide: Dölj hierarkiläge
@@ -592,7 +595,7 @@ sv-SE:
           not_found: Det finns ingen sådan fråga
         text_no_results: Inga matchande frågor hittades.
       table:
-        configure_button: Configure work package table
+        configure_button: Konfigurera arbetspakets-tabell
         summary: Tabell med ett arbetspaket för varje rad och kolumner för varje arbetspaketsattribut.
         text_inline_edit: Du kan klicka på de flesta celler i den här tabellen för
           att redigera attributens funktion.
@@ -600,24 +603,24 @@ sv-SE:
           ändra ordning, radera och lägga till kolumner.
         text_select_hint: Valda celler öppnas med 'ALT' och piltangenterna.
       table_configuration:
-        button: Configure this work package table
-        modal_title: Work package table configuration
-        embedded_tab_disabled: This configuration tab is not available for the embedded
-          query you're editing.
-        display_settings: Display settings
-        grouped_mode: Grouped mode
-        grouped_hint: Table results will be grouped by the given attribute.
-        default_mode: Default mode
+        button: Konfigurera detta arbetspaket-tabell
+        modal_title: Inställningar för arbetspaket-tabell
+        embedded_tab_disabled: Denna konfigurationsflik är inte tillgänglig för den
+          inbäddade fråga du redigerar.
+        display_settings: Skärminställningar
+        grouped_mode: Grupperat läge
+        grouped_hint: Tabellresultatet kommer grupperas av det angivna attributet.
+        default_mode: Standardläge
         hierarchy_mode: Hierarkiläge
-        hierarchy_hint: All filtered table results will be augmented with their ancestors.
-          Hierarchies can be expanded and collapsed.
-        display_sums_hint: Display sums of all summable attributes in a row below
-          the table results.
-        show_timeline_hint: Show an interactive gantt chart on the right side of the
-          table. You can change its width by dragging the divider between table and
-          gantt chart.
-        columns_help_text: Use the input above to add or remove columns to your table
-          view. You can drag and drop the columns to reorder them.
+        hierarchy_hint: Alla filtrerade tabellresultat kommer att kompletteras med
+          sina förfäder. Hierarkier kan utökas och kollapsas.
+        display_sums_hint: Visa summor av alla sammanlagda attribut i en rad under
+          tabellresultatet.
+        show_timeline_hint: Visa ett interaktivt gantt-diagram på höger sida av tabellen.
+          Du kan ändra dess bredd genom att dra delaren mellan tabellen och gantt-diagrammet.
+        columns_help_text: Använd inmatningen ovan för att lägga till eller ta bort
+          kolumner i din tabellvy. Du kan dra och släppa kolumnerna för att omordna
+          dem.
       tabs:
         overview: Översikt
         activity: Aktivitet
@@ -641,14 +644,14 @@ sv-SE:
         save_as: Spara som ...
         export: Exportera...
         publish: Publish ...
-        page_settings: Byt namn på fråga...
+        page_settings: Rename view ...
         delete: Ta bort
       filter: Filter
       unselected_title: Arbetspaket
       search_query_label: Sök sparade filtreringsfrågor
       search_query_title: Klicka för att söka bland sparade filtreringsfrågor
     modals:
-      label_settings: Byt namn på fråga
+      label_settings: Rename view
       label_name: Namn
       label_delete_page: Ta bort aktuell sida
       button_apply: Använd
@@ -691,9 +694,9 @@ sv-SE:
         messages_on_field: 'Fältet är ogiltigt: %{messages}'
     error_could_not_resolve_version_name: Kunde inte fastställa versionsnamn
     error_could_not_resolve_user_name: Kunde inte fastställa användarnamn
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
-    error_attachment_upload_permission: You don't have the permission to upload files
-      on this resource.
+    error_attachment_upload: 'Filen ''%{name}'' misslyckades att laddas upp: %{error}'
+    error_attachment_upload_permission: Du har inte rättigheter att ladda upp filer
+      i den här resursen.
     units:
       workPackage:
         one: work package

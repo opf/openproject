@@ -80,7 +80,7 @@ it:
           edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Pagina wiki
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -292,9 +292,9 @@ it:
         error_duplicate_group_name: Il nome %{group} è usato più di una volta. I nomi
           dei gruppi devono essere univoci.
         reset_title: Reimposta la configurazione del modulo
-        confirm_reset: 'Attenzione: voi reimpostare la configurazione del modulo?
-          Tutti gli attributi torneranno al loro gruppo predefinito e le caselle di
-          controllo e TUTTI i campi personalizzati verranno disattivati.
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Aggiorna ad Enterprise Edition
@@ -652,14 +652,14 @@ it:
         save_as: Salva come …
         export: Esporta ...
         publish: Pubblica...
-        page_settings: Rinomina query...
+        page_settings: Rename view ...
         delete: Cancella
       filter: Filtro
       unselected_title: Macro-attività
       search_query_label: Ricerca tra le query di filtro salvate
       search_query_title: Fare click per ricercare tra le query di filtro salvate
     modals:
-      label_settings: Rinomina query
+      label_settings: Rename view
       label_name: Nome
       label_delete_page: Elimina pagina corrente
       button_apply: Applica

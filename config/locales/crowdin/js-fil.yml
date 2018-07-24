@@ -80,7 +80,7 @@ fil:
           edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Pahina ng wiki
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -293,10 +293,9 @@ fil:
         error_duplicate_group_name: Ang pangalan ng %{group} ay ginamit higit pa sa
           isang beses. Ang mga pangalan ng grupo ay dapat nakakakatangi.
         reset_title: Reset form configuration
-        confirm_reset: 'Babala: Sigurado ka ba gusto mong i-reset ang form ng kumpigurasyon?
-          Ito ay i-reset ang mga katangian sa kanilang grupong default, tanggalin
-          ang kakayahang makita ang mga checkbox at hindi paganahin ang LAHAT ng kustom
-          na patlang.
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: I-upgrade sa Enterprise Edition
@@ -660,14 +659,14 @@ fil:
         save_as: I-save bilang ...
         export: I-export ...
         publish: Ipalabas...
-        page_settings: Palitan ng pangalan ang query...
+        page_settings: Rename view ...
         delete: Burahin
       filter: Salain
       unselected_title: Work package
       search_query_label: Hanapin ang mga naka-save na query
       search_query_title: Pindutin upang hanapin ang mga naka-save na filter query
     modals:
-      label_settings: Palitan ng pangalan ang query
+      label_settings: Rename view
       label_name: Pangalan
       label_delete_page: Burahin ang kasukuyang pahina
       button_apply: Ilagay

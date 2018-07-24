@@ -80,7 +80,7 @@ ro:
           edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Pagină wiki
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -293,8 +293,8 @@ ro:
           names must be unique.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group, unset the visibility
-          checkboxes, and disable ALL custom fields.
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Upgrade to Enterprise Edition
@@ -654,14 +654,14 @@ ro:
         save_as: Salvare ca ...
         export: Exportare ...
         publish: Publish ...
-        page_settings: Redenumire interogare ...
+        page_settings: Rename view ...
         delete: Ștergere
       filter: Filtrare
       unselected_title: Pachet de lucru
       search_query_label: Căutare interogare de filtrare salvată
       search_query_title: Click pentru a căuta o interogare de filtrare salvată
     modals:
-      label_settings: Redenumire interogare
+      label_settings: Rename view
       label_name: Nume
       label_delete_page: Ştergeți pagina curentă
       button_apply: Salvare

@@ -70,13 +70,13 @@ ja:
           language: 言語の書式設定
           language_hint: 強調表示に使用する言語の書式を入力します（サポートされている場合）。
         dropdown:
-          macros: Macros
+          macros: マクロ
           chose_macro: Chose macro
         toc: 目次
         toolbar_help: クリックしてウィジェットを選択しツールバーを表示します。 ダブルクリックしてウィジェットを編集
         wiki_page_include:
           button: 別のwikiページの内容を含める
-          text: Wikiページを含む（プレースホルダ）
+          text: "[Placeholder] Included wiki page of"
           page: Wiki ページ
           hint: |
             タイトルやスラッグを指定して別のwikiページの内容を含める。
@@ -276,7 +276,9 @@ ja:
       attribute_groups:
         error_duplicate_group_name: 名前 %{group} が複数回使用されています。グループ名は一意にする必要があります。
         reset_title: フォーム設定をリセット
-        confirm_reset: '警告: フォームの設定をリセットしてもよろしいですか? これにより、デフォルトのグループに属性をリセットし、表示チェックボックスの設定を解除し、すべてのカスタムフィールドを無効にします。
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: エンタープライズ版にアップグレード
@@ -600,14 +602,14 @@ ja:
         save_as: 名前を付けて保存
         export: 出力...
         publish: 公開 ...
-        page_settings: 問い合わせ名を変更。。。
+        page_settings: Rename view ...
         delete: 削除
       filter: フィルタ
       unselected_title: 作業項目
       search_query_label: 保存されたフィルタクエリを検索
       search_query_title: クリックして保存されたフィルタクエリを検索
     modals:
-      label_settings: 問い合わせ名を変更
+      label_settings: Rename view
       label_name: 名称
       label_delete_page: 現在のページを削除
       button_apply: 適用

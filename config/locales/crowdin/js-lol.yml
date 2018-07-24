@@ -70,13 +70,13 @@ lol:
           language: crwdns99047:0crwdne99047:0
           language_hint: crwdns99048:0crwdne99048:0
         dropdown:
-          macros: Macros
-          chose_macro: Chose macro
+          macros: crwdns99063:0crwdne99063:0
+          chose_macro: crwdns99064:0crwdne99064:0
         toc: crwdns99007:0crwdne99007:0
         toolbar_help: crwdns99044:0crwdne99044:0
         wiki_page_include:
           button: crwdns99018:0crwdne99018:0
-          text: crwdns99019:0crwdne99019:0
+          text: crwdns99065:0[Placeholder]crwdne99065:0
           page: crwdns99020:0crwdne99020:0
           hint: 'crwdns99021:0crwdne99021:0
 
@@ -275,7 +275,7 @@ lol:
       attribute_groups:
         error_duplicate_group_name: crwdns98534:0%{group}crwdne98534:0
         reset_title: crwdns98535:0crwdne98535:0
-        confirm_reset: 'crwdns98536:0crwdne98536:0
+        confirm_reset: 'crwdns99066:0crwdne99066:0
 
 '
         upgrade_to_ee: crwdns98537:0crwdne98537:0
@@ -597,14 +597,14 @@ lol:
         save_as: crwdns98788:0crwdne98788:0
         export: crwdns98789:0crwdne98789:0
         publish: crwdns98790:0crwdne98790:0
-        page_settings: crwdns98791:0crwdne98791:0
+        page_settings: crwdns99067:0crwdne99067:0
         delete: crwdns98792:0crwdne98792:0
       filter: crwdns98793:0crwdne98793:0
       unselected_title: crwdns98794:0crwdne98794:0
       search_query_label: crwdns98795:0crwdne98795:0
       search_query_title: crwdns98796:0crwdne98796:0
     modals:
-      label_settings: crwdns98797:0crwdne98797:0
+      label_settings: crwdns99068:0crwdne99068:0
       label_name: crwdns98798:0crwdne98798:0
       label_delete_page: crwdns98799:0crwdne98799:0
       button_apply: crwdns98800:0crwdne98800:0

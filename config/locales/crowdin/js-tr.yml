@@ -80,7 +80,7 @@ tr:
           edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Viki sayfası
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -290,9 +290,9 @@ tr:
         error_duplicate_group_name: "%{group} ismi birden fazla kullanıldı. Grup isimleri
           eşsiz olmalıdır."
         reset_title: Form ayarlarlarını sıfırlayın
-        confirm_reset: 'Uyarı: Yapılandırmayı sıfırlamak istiyor musunuz? Bu öznitelikler
-          kendi varsayılan grup, unset görünürlüğü onay kutularını sıfırlayacak ve
-          tüm özel alanları devre dışı bırakacak.
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Enterprise Edition sürümüne yükseltme
@@ -646,14 +646,14 @@ tr:
         save_as: Farklı kaydet ...
         export: Dışa aktar ...
         publish: Yayımla...
-        page_settings: Sorguyu yeniden adlandırın ...
+        page_settings: Rename view ...
         delete: Sil
       filter: Filtre
       unselected_title: İş paketi
       search_query_label: Kaydedilmiş arama filtrelerini ara
       search_query_title: Kaydedilmiş arama filtrelerini aramak için tıkla
     modals:
-      label_settings: Sorguyu yeniden adlandırın
+      label_settings: Rename view
       label_name: İsim
       label_delete_page: Şu anki sayfayı sil
       button_apply: Uygula

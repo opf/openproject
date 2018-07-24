@@ -80,7 +80,7 @@ id:
           edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Halaman Wiki
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -291,10 +291,9 @@ id:
         error_duplicate_group_name: Nama %{group} digunakan lebih dari satu kali.
           Nama grup harus unik.
         reset_title: Setel ulang konfigurasi formulir
-        confirm_reset: 'Perhatian: Apakah Anda yakin untuk melakukan penyetelan ulang
-          form konfigurasi? Ini akan menyetel ulang atribut-atribut ke nilai awal
-          kelompoknya, membatakan seting penampakan kotak centang, dan menon aktifkan
-          SEMUA field kustom.
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Tingkatkan ke edisi enterprise
@@ -647,14 +646,14 @@ id:
         save_as: Simpan sebagai...
         export: Ekspor...
         publish: Terbitkan ...
-        page_settings: Ubah nama query ...
+        page_settings: Rename view ...
         delete: Hapus
       filter: Filter
       unselected_title: Paket-Penugasan
       search_query_label: Search saved filter queries
       search_query_title: Click to search saved filter queries
     modals:
-      label_settings: Ubah nama
+      label_settings: Rename view
       label_name: Nama
       label_delete_page: Hapus halaman ini
       button_apply: Apply

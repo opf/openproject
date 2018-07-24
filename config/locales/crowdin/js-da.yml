@@ -80,7 +80,7 @@ da:
           edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Wiki-side
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -290,8 +290,8 @@ da:
           names must be unique.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group, unset the visibility
-          checkboxes, and disable ALL custom fields.
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Opgradér til Enterprise Edition
@@ -642,14 +642,14 @@ da:
         save_as: Gem som...
         export: Eksporter...
         publish: Publish ...
-        page_settings: Omdøb forespørgsel...
+        page_settings: Rename view ...
         delete: Slet
       filter: Filter
       unselected_title: Arbejdspakke
       search_query_label: Search saved filter queries
       search_query_title: Click to search saved filter queries
     modals:
-      label_settings: Omdøb forespørgsel
+      label_settings: Rename view
       label_name: Navn
       label_delete_page: Slet denne side
       button_apply: Benyt

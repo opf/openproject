@@ -80,7 +80,7 @@ ar:
           edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: صفحة وِيكيبيديا
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -286,8 +286,8 @@ ar:
           names must be unique.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group, unset the visibility
-          checkboxes, and disable ALL custom fields.
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Upgrade to Enterprise Edition
@@ -642,14 +642,14 @@ ar:
         save_as: حفظ بشكل ...
         export: تصدير ...
         publish: Publish ...
-        page_settings: قم بإعادة تسمية الاستعلام ...
+        page_settings: Rename view ...
         delete: احذف
       filter: فلترة
       unselected_title: مجموعة العمل
       search_query_label: استعلامات البحث حفظ عامل التصفية
       search_query_title: انقر فوق لتصفية حفظ استعلامات البحث
     modals:
-      label_settings: قم بإعادة تسمية الاستعلام
+      label_settings: Rename view
       label_name: الاسم
       label_delete_page: احذف الصفحة الحالية
       button_apply: تطبيق

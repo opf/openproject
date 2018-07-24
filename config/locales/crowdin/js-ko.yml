@@ -79,7 +79,7 @@ ko:
           edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: 위키 페이지
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -283,8 +283,9 @@ ko:
         error_duplicate_group_name: "%{group} 이라는 그룹 이름은 한 번 이상 사용되었습니다. 그룹 이름은 중복될
           수 없습니다."
         reset_title: 구성 양식 초기화
-        confirm_reset: '경고: 양식 구성을 재설정하시겠습니까? 그러면 특성이 기본 그룹으로 재설정되고, 표시 여부 확인란이 설정
-          해제되고, 모든 사용자 지정 필드가 비활성화됩니다.
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Enterprise Edition으로 업그레이드 하세요.
@@ -616,14 +617,14 @@ ko:
         save_as: 다른 이름으로 저장...
         export: 내보내기...
         publish: 게시...
-        page_settings: 쿼리 이름 바꾸기...
+        page_settings: Rename view ...
         delete: 삭제
       filter: 필터
       unselected_title: 작업 패키지
       search_query_label: 저장된 필터 쿼리 검색
       search_query_title: 저장된 필터 쿼리를 검색하려면 클릭하세요.
     modals:
-      label_settings: 쿼리 이름 바꾸기
+      label_settings: Rename view
       label_name: 이름
       label_delete_page: 현재 페이지 삭제
       button_apply: 적용

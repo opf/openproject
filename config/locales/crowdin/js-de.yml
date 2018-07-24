@@ -80,7 +80,7 @@ de:
           edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Wiki-Seite
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -291,9 +291,9 @@ de:
         error_duplicate_group_name: Der Name %{group} wird mehr als einmal verwendet.
           Gruppen-Namen müssen eindeutig sein.
         reset_title: Formularkonfiguration zurücksetzen
-        confirm_reset: 'Achtung: Wollen Sie die Formkonfiguration wirklich zurücksetzen?
-          Alle Attribute und Gruppen werden auf ihre Standardwerte zurück, die Sichtbarkeit
-          und ALLE benutzerdefinierten Felder entfernt.
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Auf Enterprise-Edition upgraden
@@ -656,14 +656,14 @@ de:
         save_as: Speichern unter ...
         export: Exportieren ...
         publish: Veröffentlichen ...
-        page_settings: Ansicht umbenennen ...
+        page_settings: Rename view ...
         delete: Löschen
       filter: Filter
       unselected_title: Arbeitspaket
       search_query_label: Gespeicherte Filter durchsuchen
       search_query_title: Klicken um gespeicherte Filter zu durchsuchen
     modals:
-      label_settings: Filter umbenennen
+      label_settings: Rename view
       label_name: Name
       label_delete_page: Aktuelle Ansicht löschen
       button_apply: Anwenden

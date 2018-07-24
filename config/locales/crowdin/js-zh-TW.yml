@@ -79,7 +79,7 @@ zh-TW:
           edit widget
         wiki_page_include:
           button: 包含另一個 Wiki 頁面的內容
-          text: 包含的 Wiki 頁 (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: 維基頁面
           hint: '通過指定其標題或Slug, 包括另一個 Wiki 頁面的內容。您可以通過將另一個專案的 Wiki 頁與下面的示例類似的冒號進行分隔,
             從而包括該頁面。
@@ -279,7 +279,9 @@ zh-TW:
       attribute_groups:
         error_duplicate_group_name: 名稱 %{group} 已被使用，群組名稱不可重複。
         reset_title: 重設表單配置
-        confirm_reset: '警告：您確定要重設表單設定嗎？這將會重新設定所有屬性至它們的預設群組，取消所有可見度勾選和停用所有的自訂欄位。
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: 升級到企業版
@@ -601,14 +603,14 @@ zh-TW:
         save_as: 另存為…
         export: 匯出...
         publish: 發佈 ...
-        page_settings: 重新命名查詢...
+        page_settings: Rename view ...
         delete: 删除
       filter: 篩選器
       unselected_title: 工作項目
       search_query_label: 查詢儲存的搜索篩選器
       search_query_title: 按一下此處，搜索儲存的篩選器查詢
     modals:
-      label_settings: 重新命名查詢
+      label_settings: Rename view
       label_name: 名稱
       label_delete_page: 刪除目前的頁面
       button_apply: 套用

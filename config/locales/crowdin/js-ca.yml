@@ -80,7 +80,7 @@ ca:
           edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Pàgina wiki
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -293,8 +293,8 @@ ca:
           names must be unique.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group, unset the visibility
-          checkboxes, and disable ALL custom fields.
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Upgrade to Enterprise Edition
@@ -649,14 +649,14 @@ ca:
         save_as: Anomena i desa ...
         export: Exporta...
         publish: Publish ...
-        page_settings: Reanomena consulta...
+        page_settings: Rename view ...
         delete: Esborrar
       filter: Filtre
       unselected_title: Paquet de treball
       search_query_label: Cercar consultes de filtre salvades
       search_query_title: Feu clic per cercar entre les consultes de filtre desades
     modals:
-      label_settings: Reanomena consulta
+      label_settings: Rename view
       label_name: Nom
       label_delete_page: Suprimeix la pàgina actual
       button_apply: Aplicar

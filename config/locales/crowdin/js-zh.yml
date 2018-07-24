@@ -79,7 +79,7 @@ zh:
           edit widget
         wiki_page_include:
           button: 包括另一个Wiki页的内容
-          text: 包括的Wiki页 (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: 维基页面
           hint: |
             通过指定其标题或Slug来包含其他Wiki页面的内容。
@@ -278,7 +278,9 @@ zh:
       attribute_groups:
         error_duplicate_group_name: 名称 %{group} 已多次使用。组名不能重复。
         reset_title: 重置表单配置
-        confirm_reset: '警告：是否确定想要重置表单配置？这会将属性重置为它们的默认组，取消设置可见性复选框并禁用所有自定义字段。
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: 升级到企业版
@@ -600,14 +602,14 @@ zh:
         save_as: 另存为...
         export: 导出...
         publish: 发布...
-        page_settings: 重命名查询...
+        page_settings: Rename view ...
         delete: 删除
       filter: 筛选器
       unselected_title: 工作包
       search_query_label: 搜索保存的筛选器查询
       search_query_title: 单击搜索保存的筛选器查询
     modals:
-      label_settings: 重命名查询
+      label_settings: Rename view
       label_name: 名称
       label_delete_page: 删除当前页面
       button_apply: 应用
