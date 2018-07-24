@@ -57,9 +57,16 @@ See docs/COPYRIGHT.rdoc for more details.
                           size: 30,
                           label: t('repositories.subversion.password'),
                           name: 'ignore',
+                          id: 'repository-password-placeholder',
                           value: ((repository.new_record? || repository.password.blank?) ? '' : ('x' * 15)),
-                          onfocus: "this.value=''; this.name='repository[password]';",
-                          onchange: "this.name='repository[password]';",
                           container_class: '-middle')
+  %>
+  <%=
+    content_for(:additional_js_dom_ready) do
+      "jQuery('#repository-password-placeholder')
+        .change(function() { this.name = 'repository[password]'; })
+        .focus(function() { this.value = ''; this.name = 'repository[password]'; });
+        ".html_safe
+    end
   %>
 </div>
