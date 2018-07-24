@@ -56,7 +56,13 @@ export class ModalWrapperAugmentService {
    */
   public wrapElement(element:JQuery) {
     // Find activation link
-    const activationLink = element.find('.modal-wrapper--activation-link');
+    let activationLink = element.find('.modal-wrapper--activation-link');
+    let activationSelector = element.data('activationSelector');
+
+    if (activationSelector) {
+      activationLink = jQuery(activationSelector);
+    }
+
     const initializeNow = element.data('modalInitializeNow');
 
     if (initializeNow) {
