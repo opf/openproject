@@ -43,6 +43,7 @@ describe 'new work package', js: true do
     wp_page.click_create_wp_button(type)
 
     loading_indicator_saveguard
+    expect(page).to have_focus_on('#wp-new-inline-edit--field-subject')
     wp_page.subject_field.set(subject)
 
     sleep 1

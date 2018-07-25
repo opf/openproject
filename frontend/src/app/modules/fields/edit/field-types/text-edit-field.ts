@@ -34,6 +34,7 @@ import {EditField} from "core-app/modules/fields/edit/edit.field.module";
   template: `
     <input type="text"
            class="wp-inline-edit--field"
+           [focus]="shouldFocus"
            [attr.aria-required]="field.required"
            [attr.required]="field.required"
            [disabled]="field.inFlight"
@@ -44,6 +45,7 @@ import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 })
 export class TextEditFieldComponent extends EditFieldComponent {
   public field:TextEditField;
+  public shouldFocus = this.field.name === 'subject';
 }
 
 export class TextEditField extends EditField {
