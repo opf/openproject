@@ -80,7 +80,7 @@ uk:
           edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Wiki page
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -293,8 +293,8 @@ uk:
           names must be unique.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group, unset the visibility
-          checkboxes, and disable ALL custom fields.
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Upgrade to Enterprise Edition
@@ -651,14 +651,14 @@ uk:
         save_as: Зберегти як ...
         export: Експортувати ...
         publish: Publish ...
-        page_settings: Перейменувати запит ...
+        page_settings: Rename view ...
         delete: Delete
       filter: Filter
       unselected_title: Work package
       search_query_label: Пошук збережених запитів фільтрації
       search_query_title: Клацніть для пошуку збережених запитів фільтрації
     modals:
-      label_settings: Перейменувати запит
+      label_settings: Rename view
       label_name: Name
       label_delete_page: Видалити поточну сторінку
       button_apply: Apply

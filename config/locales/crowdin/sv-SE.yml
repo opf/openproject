@@ -62,16 +62,16 @@ sv-SE:
   custom_actions:
     actions:
       name: Actions
-      add: Add action
-    conditions: Conditions
-    plural: Custom actions
-    new: New custom action
-    edit: Edit custom action %{name}
-    execute: Execute %{name}
+      add: Lägg till åtgärd
+    conditions: Villkor
+    plural: Anpassade åtgärder
+    new: Lägg till ny anpassad åtgärd
+    edit: Redigera anpassad åtgärd %{name}
+    execute: Verkställ %{name}
     upsale:
-      title: Custom actions is an Enterprise Edition feature
-      description: Custom actions streamline everyday work by combining a set of individual
-        steps into one button.
+      title: Anpassade åtgärder är en Enterprise Edition funktion
+      description: Anpassade åtgärder effektiviserar det dagliga arbetet genom att
+        kombinera en uppsättning enskilda steg till en knapp.
   custom_fields:
     text_add_new_custom_field: 'Innan du kan lägga till nya anpassade fält till ett
       projekt måste du skapa dessa.
@@ -171,9 +171,9 @@ sv-SE:
       form_configuration: Ställ in formulär
       projects: Projekt
       enabled_projects: Aktiverade projekt
-      add_group: Add attribute group
-      add_subelements: Add subelements group
-      edit_query: Edit embedded query
+      add_group: Lägg till attributgrupp
+      add_subelements: Lägg till underelement grupp
+      edit_query: Redigera inbäddad fråga
       reset: Återställ standardinställningar
   versions:
     overview:
@@ -188,11 +188,11 @@ sv-SE:
       no_results_title_text: Det finns för närvarande inga arbetsflöden.
   work_packages:
     x_children:
-      one: One child work package
-      other: "%{count} work package children"
+      one: Ett barn arbetspaket
+      other: "%{count} arbetspaket barn"
     move:
-      no_common_statuses_exists: There is no status available for all selected work
-        packages. Their status cannot be changed.
+      no_common_statuses_exists: Det finns ingen status för alla valda arbetspaket.
+        Deras status kan inte ändras.
       unsupported_for_multiple_projects: Att flytta/kopiera i bulk stöds inte för
         arbetspaket från flera projekt
     list_simple:
@@ -252,10 +252,10 @@ sv-SE:
           logga in med dina aktuella autentiseringsuppgifter. Du kan välja att bli
           användare igen genom det sätt som detta system medger.
       login_verification:
-        other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be asked to confirm your password.
-        self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be asked to confirm your password.
+        other: Ange inloggning %{name} för att bekräfta borttagningen, du kommer bli
+          ombedd att bekräfta med ditt lösenord.
+        self: Ange din inloggning %{name} för att bekräfta borttagningen, du kommer
+          bli ombedd att bekräfta med ditt lösenord.
     error_inactive_activation_by_mail: 'Ditt konto har ännu inte aktiverats. För att
       aktivera ditt konto, klicka på länken som har skickas till dig via E-post.
 
@@ -279,8 +279,8 @@ sv-SE:
       announcements:
         show_until: Visa fram till
       attachment:
-        attachment_content: Attachment content
-        attachment_file_name: Attachment file name
+        attachment_content: Bifogat innehåll
+        attachment_file_name: Bilagans filnamn
         downloads: Nedladdningar
         file: Fil
         filename: Fil
@@ -399,7 +399,7 @@ sv-SE:
       work_package:
         begin_insertion: Början av införandet
         begin_deletion: Början av raderingen
-        children: Subelements
+        children: Underelement
         done_ratio: Progress (%)
         end_insertion: Slutet av införandet
         end_deletion: Slutet av raderingen
@@ -457,17 +457,19 @@ sv-SE:
         before_or_equal_to: måste vara före eller lika med %{date}.
         could_not_be_copied: kunde inte (fullständigt) kopieras.
         regex_invalid: could not be validated with the associated regular expression.
-        unchangeable: cannot be changed.
+        unchangeable: kan inte ändras.
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
         custom_actions:
-          only_one_allowed: "(%{name}) only one value is allowed."
-          empty: "(%{name}) value can't be empty."
-          inclusion: "(%{name}) value is not set to one of the allowed values."
-          not_an_integer: "(%{name}) is not an integer."
-          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
-          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          only_one_allowed: "(%{name}) endast ett värde är tillåtet."
+          empty: "(%{name}) värdet kan inte vara tomt."
+          inclusion: "(%{name}) värdet är inte inställt på ett av de tillåtna värdena."
+          not_an_integer: "(%{name}) är inte ett heltal."
+          smaller_than_or_equal_to: "(%{name}) måste vara mindre än eller lika med
+            %{count}."
+          greater_than_or_equal_to: "(%{name}) måste vara större än eller lika med
+            %{count}."
         enterprise_token:
           unreadable: kan inte läsas. Är du säker på att det är en support-nyckel?
         parse_schema_filter_params_service:
@@ -528,8 +530,8 @@ sv-SE:
               status_transition_invalid: är ogiltig eftersom det finns någon giltig
                 övergång ifrån den gamla till nya statusen för den aktuella användarens
                 roller.
-              status_invalid_in_type: is invalid because the current status does not
-                exist in this type.
+              status_invalid_in_type: är ogiltig eftersom aktuell status inte existerar
+                i den här typen.
             priority_id:
               only_active_priorities_allowed: måste vara aktiv.
             category:
@@ -542,9 +544,9 @@ sv-SE:
           attributes:
             attribute_groups:
               attribute_unknown: Ogiltig attribut för arbetspaket används.
-              duplicate_group: The group name '%{group}' is used more than once. Group
-                names must be unique.
-              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              duplicate_group: Namnet %{group} används redan. Gruppnamn måste vara
+                unika.
+              query_invalid: 'Den inbäddade frågan ''%{group}'' är ogiltigt: %{details}'
               group_without_name: Namnlösa grupper tillåts inte.
         user:
           attributes:
@@ -580,7 +582,7 @@ sv-SE:
       attribute_help_text: Attribute help text
       board: Forum
       comment: Kommentar
-      custom_action: Custom action
+      custom_action: Anpassad åtgärd
       custom_field: Anpassat fält
       group: Grupp
       category: Kategori
@@ -1033,12 +1035,12 @@ sv-SE:
       pdf_with_attachments: PDF with attachments
   extraction:
     available:
-      pdftotext: Pdftotext available (optional)
-      unrtf: Unrtf available (optional)
-      catdoc: Catdoc available (optional)
-      xls2csv: Xls2csv available (optional)
-      catppt: Catppt available (optional)
-      tesseract: Tesseract available (optional)
+      pdftotext: Pdftotext tillgängligt (tillval)
+      unrtf: Unrtf tillgänglig (tillval)
+      catdoc: Catdoc tillgängligt (tillval)
+      xls2csv: Xls2csv tillgängligt (tillval)
+      catppt: Catppt tillgängligt (tillval)
+      tesseract: Tesseract tillgängligt (tillval)
   general_csv_decimal_separator: ","
   general_csv_encoding: UTF-8
   general_csv_separator: ";"
@@ -1118,7 +1120,7 @@ sv-SE:
   label_all: alla
   label_all_time: all tid
   label_all_words: Alla ord
-  label_all_open_wps: All open
+  label_all_open_wps: Alla öppna
   label_always_visible: Visas alltid
   label_announcement: Meddelande
   label_and_its_subprojects: "%{value} och dess delprojekt"
@@ -1182,7 +1184,7 @@ sv-SE:
   label_close_versions: Stäng slutförda versioner
   label_closed_work_packages: stängt
   label_collapse: Fäll ihop
-  label_collapsed_click_to_show: Collapsed. Click to show
+  label_collapsed_click_to_show: Kollapsade. Klicka för att Visa
   label_configuration: konfiguration
   label_comment_add: Lägg till en kommentar
   label_comment_added: Kommentar tillagd
@@ -1251,13 +1253,13 @@ sv-SE:
   label_enterprise: Företag
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
-  label_entry_page: Entry page
+  label_entry_page: Ingångssidan
   label_environment: Miljö
   label_estimates_and_time: Uppskattningar och tid
   label_equals: är
   label_example: Exempel
   label_export_to: 'Finns även som:'
-  label_expanded_click_to_collapse: Expanded. Click to collapse
+  label_expanded_click_to_collapse: Expanderat. Klicka för att dölja
   label_f_hour: "%{value} timme"
   label_f_hour_plural: "%{value} timmar"
   label_feed_plural: Flöden
@@ -1275,7 +1277,7 @@ sv-SE:
   label_force_user_language_to_default: Välj standardspråk för användare som har ett
     icke tillåtet språk
   label_form_configuration: Ställ in formulär
-  label_gantt: Gantt
+  label_gantt: Gantt-schema
   label_gantt_chart: Gantt chart
   label_general: Allmänt
   label_generate_key: Generera en nyckel
@@ -1289,7 +1291,7 @@ sv-SE:
   label_here: här
   label_hide: Dölj
   label_history: Historik
-  label_hierarchy_leaf: Hierarchy leaf
+  label_hierarchy_leaf: Hierarki-blad
   label_home: Hem
   label_in: i
   label_in_less_than: i mindre än
@@ -1303,7 +1305,7 @@ sv-SE:
   label_information_plural: Information
   label_integer: Heltal
   label_internal: Intern
-  label_introduction_video: Introduction video
+  label_introduction_video: Introduktionsvideo
   label_invite_user: Bjud in användare
   label_show_hide: Visa/Dölj
   label_show_all_registered_users: Show all registered users
@@ -1380,7 +1382,7 @@ sv-SE:
   label_next_week: Nästa vecka
   label_no_change_option: "(Ingen ändring)"
   label_no_data: Ingen data att visa
-  label_no_parent_page: No parent page
+  label_no_parent_page: Ingen överordnad sida
   label_nothing_display: Inget att visa
   label_nobody: ingen
   label_none: ingen
@@ -1392,14 +1394,14 @@ sv-SE:
   label_open_menu: Öppna meny
   label_open_work_packages: öppna
   label_open_work_packages_plural: öppna
-  label_openproject_website: OpenProject website
+  label_openproject_website: OpenProject hemsida
   label_optional_description: Beskrivning
   label_options: Alternativ
   label_other: Andra
   label_overall_activity: Total aktivitet
   label_overall_spent_time: Totalt förbrukad tid
   label_overview: Översikt
-  label_page_title: Page title
+  label_page_title: Sidtitel
   label_part_of: del av
   label_password_lost: Glömt ditt lösenord?
   label_password_rule_lowercase: Gemener
@@ -1519,7 +1521,7 @@ sv-SE:
   label_summary: Sammanfattning
   label_system: System
   label_system_storage: Lagringsinformation
-  label_table_of_contents: Table of contents
+  label_table_of_contents: Innehållsförteckning
   label_tag: Etikett
   label_text: Lång text
   label_this_month: denna månad
@@ -1563,7 +1565,7 @@ sv-SE:
   label_version_sharing_none: Inte delade
   label_version_sharing_system: Med alla projekt
   label_version_sharing_tree: Med projektträd
-  label_videos: Videos
+  label_videos: Videor
   label_view_all_revisions: Visa alla revisioner
   label_view_diff: Visa skillnader
   label_view_revisions: Visa revisioner
@@ -1674,14 +1676,14 @@ sv-SE:
   macro_unavailable: Makrot %{macro_name} kan inte visas.
   macros:
     errors:
-      missing_or_invalid_parameter: Missing or invalid macro parameter.
+      missing_or_invalid_parameter: Saknad eller ogiltig makro-parameter.
     legacy_warning:
-      timeline: This legacy timeline macro has been removed and is no longer available.
-        You can replace the functionality with an embedded table macro.
+      timeline: Detta äldre tidslinje-makro har tagits bort och är inte längre tillgängligt.
+        Du kan ersätta funktionen med ett inbäddat tabell-makro.
     include_wiki_page:
       errors:
-        page_not_found: Cannot find the wiki page '%{name}'.
-        circular_inclusion: Circular inclusion of pages detected.
+        page_not_found: Kan inte hitta wiki-sidan '%{name}'.
+        circular_inclusion: Cirkulärt införande av sidor upptäckt.
     create_work_package_link:
       errors:
         no_project_context: Calling create_work_package_link macro from outside project
@@ -1833,7 +1835,7 @@ sv-SE:
       samarbete med OpenProject.
     text_show_again: Du kan starta om denna video från hjälpmenyn
     welcome: Välkommen till OpenProject
-    select_language: Please select your language for OpenProject
+    select_language: Vänligen välj språk för OpenProject
   permission_add_work_package_notes: Lägg till anteckningar
   permission_add_work_packages: Lägg till arbetspaket
   permission_add_messages: Publicera meddelanden
@@ -2090,8 +2092,9 @@ sv-SE:
     felaktiga inloggningsförsök
   setting_brute_force_block_minutes: Tiden som användaren är blockerad
   setting_cache_formatted_text: Cache-formaterad text
-  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
-    users by default. CKEditor has limited functionality for GFM Markdown.
+  setting_use_wysiwyg_description: Välj för att aktivera CKEditor5 WYSIWYG editor
+    för alla användare som standard. CKEditor har begränsad funktionalitet för GFM
+    Markdown.
   setting_column_options: Anpassa utseendet på arbetspaketslistan
   setting_commit_fix_keywords: Nyckelord för fixande
   setting_commit_logs_encoding: Kodning av incheckningsmeddelanden
@@ -2120,7 +2123,7 @@ sv-SE:
   setting_feeds_limit: Innehållsbegränsning på Flöden
   setting_file_max_size_displayed: Maxstorlek på textfiler som visas inline
   setting_host_name: Värdnamn
-  setting_invitation_expiration_days: Activation E-Mail expires after
+  setting_invitation_expiration_days: Aktiveringsmail upphör efter
   setting_work_package_done_ratio: Beräkna arbetspaketets andel avklarat med
   setting_work_package_done_ratio_field: Använd fältet arbetspaket
   setting_work_package_done_ratio_status: Använd fältet arbetspaketsstatus
@@ -2180,7 +2183,7 @@ sv-SE:
   setting_accessibility_mode_for_anonymous: Aktivera hjälpmedelsläget för anonyma
     användare
   setting_user_format: Användarvisningsformat
-  setting_user_default_timezone: Users default time zone
+  setting_user_default_timezone: Standardtidszon för användarna
   setting_users_deletable_by_admins: Användarkonton kan tas bort av administratörer
   setting_users_deletable_by_self: Användare kan ta bort sina konton
   setting_welcome_text: Textblock för välkomstmeddelande
@@ -2196,11 +2199,11 @@ sv-SE:
     session: Session
     brute_force_prevention: Automatiserad användarblockering
     user:
-      default_preferences: Default preferences
-      deletion: Deletion
+      default_preferences: Förvalda inställningar
+      deletion: Borttagning
   text_formatting:
     markdown: Markdown
-    plain: Plain text
+    plain: Oformaterad text
   status_active: aktiv
   status_archived: archived
   status_invited: inbjuden
@@ -2256,7 +2259,7 @@ sv-SE:
     inte är transparent annars det ser dåligt på iOS.
 
 '
-  text_database_allows_tsv: Database allows TSVector (optional)
+  text_database_allows_tsv: Databasen tillåter TSVector (tillval)
   text_default_administrator_account_changed: Standardadministratörskontot har ändrats
   text_default_encoding: 'Standard: UTF-8'
   text_destroy: Ta bort
@@ -2291,7 +2294,7 @@ sv-SE:
   text_journal_aggregation_time_explanation: Kombinera journaler för visning om deras
     åldersskillnad är mindre än det angivna tidsintervallet. Detta fördröjer också
     aviseringar med samma tid.
-  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
+  text_journal_changed: "%{label} ändrad från %{old} </br><strong>till</strong> %{new}"
   text_journal_changed_no_detail: "%{label} uppdaterades"
   text_journal_changed_with_diff: "%{label} ändrades (%{link})"
   text_journal_deleted: "%{label} raderad (%{old})"
@@ -2546,8 +2549,8 @@ sv-SE:
   title_remove_and_delete_user: Ta bort den inbjudna medlemmen från projektet och
     radera honom/henne.
   title_enterprise_upgrade: Upgrade to unlock more users.
-  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
-    in a user''s settings.
+  tooltip_user_default_timezone: 'Standardtidszon för nya användare. Kan ändras i
+    en användares inställningar.
 
 '
   tooltip_resend_invitation: 'Skickar en ny nyckel om den gamla löpt ut eller användaren
@@ -2623,9 +2626,10 @@ sv-SE:
     in order to allow invited and registered users to join.
 
 '
-  warning_registration_token_expired: |
-    The activation email has expired. We sent you a new one to %{email}.
-    Please click the link inside of it to activate your account.
+  warning_registration_token_expired: 'Aktiveringsmailet har löpt ut. Vi skickade
+    ett nytt till %{email}. Klicka på länken inne i mailet för att aktivera ditt konto.
+
+'
   warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
     Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
     for additional users.

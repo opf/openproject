@@ -174,13 +174,20 @@ class WorkPackagesController < ApplicationController
   end
 
   def journals
-    @journals ||= work_package
-                  .journals
-                  .changing
-                  .includes(:user)
-                  .order("#{Journal.table_name}.created_at ASC").to_a
-    @journals.reverse_order if current_user.wants_comments_in_reverse_order?
-    @journals
+    @journals ||= begin
+      order =
+        if current_user.wants_comments_in_reverse_order?
+          Journal.arel_table['created_at'].desc
+        else
+          Journal.arel_table['created_at'].asc
+        end
+
+      work_package
+        .journals
+        .changing
+        .includes(:user)
+        .order(order).to_a
+      end
   end
 
   def index_redirect_path

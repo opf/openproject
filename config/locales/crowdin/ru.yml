@@ -184,10 +184,10 @@ ru:
       no_results_title_text: В данный момент рабочих потоков нет.
   work_packages:
     x_children:
-      one: One child work package
-      other: "%{count} work package children"
-      few: "%{count} work package children"
-      many: "%{count} work package children"
+      one: Пакет работ с одним дочерним
+      other: Пакет работ с %{count} дочерними
+      few: Пакет работ с %{count} дочерними
+      many: Пакет работ с %{count} дочерними
     move:
       no_common_statuses_exists: Статус не доступен для всех выбранных пакетов работ.
         Их статус изменен быть не может.

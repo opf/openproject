@@ -80,7 +80,7 @@ nl:
           edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Wikipagina
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -293,9 +293,9 @@ nl:
         error_duplicate_group_name: De groep naam %{group} word meer dan één keer
           gebruikt. Groep namen moeten uniek zijn.
         reset_title: Reset formulier configuratie
-        confirm_reset: 'Waarschuwing: Weet u zeker dat u wilt herstellen van de configuratie
-          van het formulier? Dit herstelt de kenmerken hun standaardgroep, unset de
-          selectievakjes van de zichtbaarheid, en alle aangepaste velden uitschakelen.
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Upgrade naar Enterprise Edition
@@ -654,14 +654,14 @@ nl:
         save_as: Opslaan als ...
         export: Exporteren ...
         publish: Publiceren...
-        page_settings: Zoekopdracht hernoemen...
+        page_settings: Rename view ...
         delete: Verwijderen
       filter: Filter
       unselected_title: Werkpakket
       search_query_label: Zoek opgeslagen filter zoekopdrachten
       search_query_title: Klik om te zoeken in opgeslagen filter zoekopdrachten
     modals:
-      label_settings: Hernoem zoekopdracht
+      label_settings: Rename view
       label_name: Naam
       label_delete_page: Verwijder huidige pagina
       button_apply: Toepassen

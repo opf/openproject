@@ -61,7 +61,7 @@ pt-BR:
           include_parent: Include parent
           text: "[Placeholder] Links to child pages of"
           page: Página wiki
-          this_page: this page
+          this_page: esta página
           hint: 'Leave this field empty to list all child pages of the current page.
             If you want to reference a different page, provide its title or slug.
 
@@ -80,7 +80,7 @@ pt-BR:
           edit widget
         wiki_page_include:
           button: Incluir o conteúdo de outra página wiki
-          text: Página wiki incluída (espaço reservado)
+          text: "[Placeholder] Included wiki page of"
           page: Página wiki
           hint: 'Inclua o conteúdo de outra página wiki, especificando seu título
             ou slug. Você pode incluir a página wiki de um outro projeto, separando-a
@@ -293,9 +293,9 @@ pt-BR:
         error_duplicate_group_name: O nome %{group} foi usado mais de uma vez. Nomes
           de Grupos devem ser únicos.
         reset_title: Voltar para a configuração padrão do formulário
-        confirm_reset: 'Aviso: Tem certeza de que deseja redefinir a configuração
-          do formulário? Isto irá redefinir os atributos para o grupo padrão, desmarcar
-          as caixas de seleção de visibilidade e desativar TODOS os campos personalizados.
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Atualizar para a versão Enterprise Edition
@@ -649,14 +649,14 @@ pt-BR:
         save_as: Salvar como ...
         export: Exportar ...
         publish: Publicar ...
-        page_settings: Renomear consulta...
+        page_settings: Rename view ...
         delete: Excluir
       filter: Filtro
       unselected_title: Pacote de trabalho
       search_query_label: Localizar filtro de pesquisa salvo
       search_query_title: Clique para localizar filtros de pesquisa salvos
     modals:
-      label_settings: Renomear consulta
+      label_settings: Rename view
       label_name: Nome
       label_delete_page: Excluir página atual
       button_apply: Aplicar

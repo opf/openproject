@@ -80,7 +80,7 @@ fi:
           edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Wiki-sivu
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -290,8 +290,8 @@ fi:
           names must be unique.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group, unset the visibility
-          checkboxes, and disable ALL custom fields.
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Päivitä yritysversioon
@@ -640,14 +640,14 @@ fi:
         save_as: Tallenna nimellä...
         export: Vie...
         publish: Publish ...
-        page_settings: Nimeä kysely uudelleen...
+        page_settings: Rename view ...
         delete: Poista
       filter: Suodata
       unselected_title: Työpaketti
       search_query_label: Search saved filter queries
       search_query_title: Click to search saved filter queries
     modals:
-      label_settings: Nimeä kysely uudelleen
+      label_settings: Rename view
       label_name: Nimi
       label_delete_page: Poista nykyinen sivu
       button_apply: Ota käyttöön

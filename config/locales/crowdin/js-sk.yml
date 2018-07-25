@@ -80,7 +80,7 @@ sk:
           edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Wiki stránka
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -290,8 +290,8 @@ sk:
           names must be unique.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group, unset the visibility
-          checkboxes, and disable ALL custom fields.
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Upgrade to Enterprise Edition
@@ -649,14 +649,14 @@ sk:
         save_as: Uložiť ako ...
         export: Exportovať ...
         publish: Publikovať...
-        page_settings: Premenovať dopyt ...
+        page_settings: Rename view ...
         delete: Odstrániť
       filter: Filtrovať
       unselected_title: Pracovný balíček
       search_query_label: Prehľadávať uložené filtrovacie požiadavky
       search_query_title: Kliknite pre prehľadávanie uložených filtrovacích požiadaviek
     modals:
-      label_settings: Premenovať dopyt
+      label_settings: Rename view
       label_name: Názov
       label_delete_page: Odstrániť aktuálnu stránku
       button_apply: Použiť

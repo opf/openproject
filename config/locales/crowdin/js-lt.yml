@@ -80,7 +80,7 @@ lt:
           edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Wiki puslapis
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -289,9 +289,9 @@ lt:
         error_duplicate_group_name: "%{group} grupės pavadinimas naudotas daugiau
           nei kartą. Grupių pavadinimai privalo būti unikalūs."
         reset_title: Nustatyti iš naujo formos konfigūraciją
-        confirm_reset: 'Įspėjimas: Ar tikrai norite nustatyti iš naujo formos konfigūraciją?
-          Tai nustatys iš naujo atributus į jų numatytąsias grupes, atstatys matomumo
-          žymėjimo langelius, išjungs VISUS pritaikytus laukelius.
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Patobulinti į „Enterprise Edition“ versiją
@@ -650,14 +650,14 @@ lt:
         save_as: Išsaugoti kaip ...
         export: Eksportuoti ...
         publish: Publikuoti...
-        page_settings: Pervardinti užklausą ...
+        page_settings: Rename view ...
         delete: Ištrinti
       filter: Filtras
       unselected_title: Darbų paketas
       search_query_label: Ieškoti išsaugotų filtro užklausų
       search_query_title: Paspauskite, kad ieškotumėte išsaugotų filtro užklausų
     modals:
-      label_settings: Pervardinti užklausą
+      label_settings: Rename view
       label_name: Vardas
       label_delete_page: Naikinti dabartinį puslapį
       button_apply: Taikyti

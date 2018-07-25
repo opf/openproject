@@ -80,7 +80,7 @@ es:
           edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Página wiki
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -294,10 +294,9 @@ es:
         error_duplicate_group_name: El nombre %{group} se ha usado más de una vez.
           Los nombres de grupos deben ser únicos.
         reset_title: Restablecer la configuración del formulario
-        confirm_reset: 'Advertencia: ¿Está seguro/a de que desea restablecer la configuración
-          del formulario? Con ello se restablecerán los atributos a su grupo predeterminado,
-          se eliminarán los ajustes de visibilidad y se deshabilitarán TODOS los campos
-          personalizados.
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Actualizar hasta versión corporativa
@@ -654,14 +653,14 @@ es:
         save_as: Guardar como ...
         export: Exportar ...
         publish: Publicar…
-        page_settings: Renombrar consulta...
+        page_settings: Rename view ...
         delete: Borrar
       filter: Filtro
       unselected_title: Paquete de trabajo
       search_query_label: Buscar sentencias de búsquedas de filtrado guardadas
       search_query_title: Haga clic para buscar filtros guardados
     modals:
-      label_settings: Renombrar consulta
+      label_settings: Rename view
       label_name: Nombre
       label_delete_page: Borrar página actual
       button_apply: Aplicar

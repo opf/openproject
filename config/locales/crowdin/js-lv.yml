@@ -80,7 +80,7 @@ lv:
           edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Wiki page
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -290,8 +290,8 @@ lv:
           names must be unique.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group, unset the visibility
-          checkboxes, and disable ALL custom fields.
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Upgrade to Enterprise Edition
@@ -645,14 +645,14 @@ lv:
         save_as: Saglabāt kā ...
         export: Eksportēt...
         publish: Publish ...
-        page_settings: Pārsaukt skatu...
+        page_settings: Rename view ...
         delete: Dzēst
       filter: Filtrēt
       unselected_title: Work package
       search_query_label: Meklēt saglabātos filtru vaicājumus
       search_query_title: Noklikšķiniet, lai meklētu saglabātos filtru vaicājumus
     modals:
-      label_settings: Rename query
+      label_settings: Rename view
       label_name: Name
       label_delete_page: Delete current page
       button_apply: Apstiprināt

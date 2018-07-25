@@ -80,7 +80,7 @@ pl:
           edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Strony wiki
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -288,9 +288,9 @@ pl:
         error_duplicate_group_name: Nazwa  %{group} jest użyta więcej niż raz. Nazwy
           grup muszą być unikalne.
         reset_title: Zresetuj konfigurację formularza
-        confirm_reset: 'Uwaga: czy na pewno chcesz zresetować konfigurację formularza?
-          Przywróci to atrybuty do ich grupy domyślnej, zresetuje ustawienia pól wyboru
-          dla widoczności i wyłączy WSZYSTKIE pola niestandardowe.
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Aktualizuj do wersji Enterprise
@@ -647,14 +647,14 @@ pl:
         save_as: Zapisz jako ...
         export: Eksportuj ...
         publish: Opublikuj...
-        page_settings: Zmień nazwę kwerendy ...
+        page_settings: Rename view ...
         delete: Usuń
       filter: Filtr
       unselected_title: Pakiet roboczy
       search_query_label: Szukaj zapisanych filtrów
       search_query_title: Kliknij aby wyszukać zapisane filtry
     modals:
-      label_settings: Zmień nazwę kwerendy
+      label_settings: Rename view
       label_name: Nazwa
       label_delete_page: Usuń bieżącą stronę
       button_apply: Zastosuj

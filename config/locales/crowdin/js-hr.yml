@@ -80,7 +80,7 @@ hr:
           edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Wiki stranica
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -291,8 +291,8 @@ hr:
           names must be unique.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group, unset the visibility
-          checkboxes, and disable ALL custom fields.
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Nadogradnja na izdanje Enterprise
@@ -648,14 +648,14 @@ hr:
         save_as: Spremi kao ...
         export: Izvezi ...
         publish: Publish ...
-        page_settings: Preimenuj upit ...
+        page_settings: Rename view ...
         delete: Obriši
       filter: Filter
       unselected_title: Radni paket
       search_query_label: Pretraživanje spremljenih filtra upita
       search_query_title: Kliknite pretraživanje spremljenih filtra upita
     modals:
-      label_settings: Preimenuj upit
+      label_settings: Rename view
       label_name: Naziv
       label_delete_page: Izbrišite trenutnu stranicu
       button_apply: Primjeni
