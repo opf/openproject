@@ -83,7 +83,10 @@ class DocumentsController < ApplicationController
 
   def update
     @document.attributes = document_params
+    @document.attach_files(permitted_params.attachments.to_h)
+
     if @document.save
+      render_attachment_warning_if_needed(@document)
       flash[:notice] = l(:notice_successful_update)
       redirect_to action: 'show', id: @document
     else

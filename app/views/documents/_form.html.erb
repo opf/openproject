@@ -41,7 +41,9 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= f.text_field :title, required: true, container_class: '-wide' %>
 </div>
 <div class="form--field">
-  <%= f.text_area :description, container_class: '-wide' %>
+  <%= f.text_area :description,
+                  container_class: '-xxwide',
+                  with_text_formatting: true,
+                  resource: { _type: 'Document' } %>
 </div>
-
-<%= wikitoolbar_for 'document_description' %>
+<%= render :partial => 'attachments/form' %>
