@@ -138,7 +138,9 @@ export class WorkPackageEditForm {
       return Promise.resolve(activeField.element);
     }
 
-    return this.activate(fieldName, true);
+    return this.editContext.requireVisible(fieldName).then(() => {
+      return this.activate(fieldName, true);
+    });
   }
 
   /**

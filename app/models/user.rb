@@ -189,7 +189,7 @@ class User < Principal
   end
 
   def self.search_in_project(query, options)
-    Project.find(options.fetch(:project)).users.like(query)
+    options.fetch(:project).users.like(query)
   end
 
   # Returns the user that matches provided login and password, or nil

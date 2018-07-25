@@ -83,7 +83,10 @@ export class FormattableEditField extends EditField {
           this.reset();
         }
 
-        setTimeout(() => editor.editing.view.focus());
+        if (!this.resource.isNew) {
+          setTimeout(() => editor.editing.view.focus());
+        }
+
         this.updateValueOnEditorChange(editor);
       });
   }
