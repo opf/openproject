@@ -52,10 +52,13 @@ See doc/COPYRIGHT.md for more details.
           <div class="form--field -required">
             <%= styled_label_tag "textile_#{block_name}", t('info_custom_text') %>
             <div class="form--field-container" ng-non-bindable>
-              <%= styled_text_area_tag "textile_#{block_name}", textile.html_safe, cols: 40, rows: 5, class: 'wiki-edit' %>
+              <%= styled_text_area_tag "textile_#{block_name}",
+                                       textile.html_safe,
+                                       class: 'wiki-edit',
+                                       with_text_formatting: true,
+                                       resource: { _type: 'OverviewTextileBlock' } %>
             </div>
           </div>
-          <%= wikitoolbar_for "textile_#{block_name}" %>
           <%= render partial: 'attachments/form' %>
           <%= styled_button_tag l(:button_save),
               id: "#{block_name}-form-submit",

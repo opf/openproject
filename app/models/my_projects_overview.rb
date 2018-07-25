@@ -23,11 +23,11 @@ class MyProjectsOverview < ActiveRecord::Base
   after_initialize :initialize_default_values
 
   DEFAULTS = {
-    "left" => ["project_description", "project_details", "work_package_tracking"],
-    "right" => ["members", "news_latest"],
+    "left" => %w(project_description project_details work_package_tracking),
+    "right" => %w(members news_latest),
     "top" => [],
     "hidden" => []
-  }
+  }.freeze
 
   def initialize_default_values
     # attributes() creates a copy every time it is called, so better not use it in a loop
@@ -50,7 +50,9 @@ class MyProjectsOverview < ActiveRecord::Base
 
   validate :fields_are_arrays
 
-  acts_as_attachable delete_permission: :edit_project, view_permission: :view_project
+  acts_as_attachable delete_permission: :edit_project,
+                     view_permission: :view_project,
+                     add_permission: :edit_project
 
   def fields_are_arrays
     Array === top && Array === left && Array === right && Array === hidden
