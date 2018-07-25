@@ -21,7 +21,7 @@ module DemoData
 
             [:left, :right, :top].each do |a|
               Array(config[a]).each do |cfg|
-                create_attachments! mpo, cfg if cfg.is_a? Hash
+                create_attachments! mpo, a, cfg if cfg.is_a? Hash
               end
             end
           end
@@ -40,7 +40,7 @@ module DemoData
         [config[:id], config[:title], with_references(config[:content], project)]
       end
 
-      def create_attachments!(my_project_overview, attributes)
+      def create_attachments!(my_project_overview, area, attributes)
         Array(attributes[:attachments]).each do |file_name|
           attachment = my_project_overview.attachments.build
           attachment.author = User.admin.first
@@ -48,6 +48,12 @@ module DemoData
 
           attachment.save!
         end
+
+        area_with_references = Array(my_project_overview.send(area)).map do |tag, title, content|
+          [tag, title, link_attachments(content, my_project_overview.attachments)]
+        end
+
+        my_project_overview.update area => area_with_references
       end
 
       def attachment_path(file_name)
