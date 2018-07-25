@@ -189,11 +189,11 @@ de:
       no_results_title_text: Derzeit gibt es keine Workflows.
   work_packages:
     x_children:
-      one: One child work package
-      other: "%{count} work package children"
+      one: Ein untergeordnetes Arbeitspaket
+      other: "%{count} untergeordnete Arbeitspakete"
     move:
-      no_common_statuses_exists: There is no status available for all selected work
-        packages. Their status cannot be changed.
+      no_common_statuses_exists: Es gibt keine gemeinsamen Status für die ausgewählten
+        Arbeitspakete. Ihr Status kann daher nicht verändert werden.
       unsupported_for_multiple_projects: Verschieben / Kopieren nicht unterstützt
         für Arbeitspakete in verschiedenen Projekten
     list_simple:
@@ -560,9 +560,10 @@ de:
           attributes:
             attribute_groups:
               attribute_unknown: Ungültige Arbeitspaket-Attribute verwendet.
-              duplicate_group: The group name '%{group}' is used more than once. Group
-                names must be unique.
-              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              duplicate_group: Der Gruppen-Name %{group} wird mehr als einmal verwendet.
+                Gruppen-Namen müssen eindeutig sein.
+              query_invalid: 'Die eingebettete Ansicht ''%{group}'' ist ungültig:
+                %{details}'
               group_without_name: Unbenannte Gruppen sind nicht erlaubt.
         user:
           attributes:
@@ -1557,7 +1558,7 @@ de:
   label_summary: Zusammenfassung
   label_system: System
   label_system_storage: Speicherinformation
-  label_table_of_contents: Table of contents
+  label_table_of_contents: Inhaltsverzeichnis
   label_tag: Markierung
   label_text: Langer Text
   label_this_month: aktueller Monat
@@ -1712,14 +1713,15 @@ de:
   macro_unavailable: Das Makro %{macro_name} kann nicht angezeigt werden.
   macros:
     errors:
-      missing_or_invalid_parameter: Missing or invalid macro parameter.
+      missing_or_invalid_parameter: Fehlende oder ungültige Makro-Parameter.
     legacy_warning:
-      timeline: This legacy timeline macro has been removed and is no longer available.
-        You can replace the functionality with an embedded table macro.
+      timeline: Das alte Timeline-Makro wurde entfernt und steht nicht mehr zur Verfügung.
+        Verwenden Sie stattdessen das eingebettete Arbeitspaket-Tabellen-Makro, um
+        eine Gantt Ansicht zu erzeugen.
     include_wiki_page:
       errors:
-        page_not_found: Cannot find the wiki page '%{name}'.
-        circular_inclusion: Circular inclusion of pages detected.
+        page_not_found: Die Wiki-Seite '%{name}' konnte nicht gefunden werden.
+        circular_inclusion: Zyklische Einbettung von Seiten erkannt.
     create_work_package_link:
       errors:
         no_project_context: Rufe create_work_link Makro aus externen Projekt auf.
@@ -1883,7 +1885,7 @@ de:
       Projekt-Management und Zusammenarbeit in Teams mit OpenProject.
     text_show_again: Sie können dieses Video über das Hilfe-Menü erneut starten
     welcome: Willkommen bei OpenProject
-    select_language: Please select your language for OpenProject
+    select_language: Bitte wählen Sie Ihre Sprache für OpenProject
   permission_add_work_package_notes: Kommentare hinzufügen
   permission_add_work_packages: Arbeitspakete hinzufügen
   permission_add_messages: Forenbeiträge hinzufügen
