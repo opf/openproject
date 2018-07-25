@@ -132,10 +132,6 @@ $se2-width: 100%;
     height: $se2-element-height;
     line-height: $se2-line-height;
 
-    .select2-chosen {
-      line-height: $se2-line-height;
-    }
-
     .select2-arrow {
       @include varprop(background, se2-theme-selectable-color);
       border-radius: 0;
