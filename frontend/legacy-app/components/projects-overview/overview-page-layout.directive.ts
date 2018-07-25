@@ -36,6 +36,7 @@ export class ProjectsOverviewController {
               public $scope:ng.IScope,
               public $http:ng.IHttpService,
               public $compile:ng.ICompileService,
+              public $window:ng.IWindowService,
               public pluginContext:PluginContextService) {
   }
 
@@ -136,6 +137,24 @@ export class ProjectsOverviewController {
     }).finally(() => {
       this.selectedBlock = null;
     });
+  }
+
+  public handleAttachmentDeletion(event:Event) {
+      event.preventDefault();
+
+      let $link = angular.element(event.currentTarget);
+
+      if (this.$window.confirm(I18n.t('js.text_are_you_sure'))) {
+          this.$http({
+              url: $link.attr('href'),
+              method: 'DELETE'
+          }).then((response:{data: any}) => {
+            $link.closest('p').remove();
+          })
+      }
+
+      return false;
+
   }
 
   /**

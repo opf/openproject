@@ -102,7 +102,7 @@ class MyProjectsOverviewsController < ApplicationController
       end
     end
 
-    render partial: 'page_layout_attachments'
+    head :no_content
   end
 
   helper_method :project,
