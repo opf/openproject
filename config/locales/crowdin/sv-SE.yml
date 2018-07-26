@@ -13,7 +13,7 @@ sv:
   error_can_not_activate_export_card_configuration: "Denna konfiguration kan inte aktiveras"
   error_can_not_deactivate_export_card_configuration: "Denna konfiguration kan inte deaktiveras"
   validation_error_required_keys_not_present: "Krävda nycklar är inte tillgängliga:"
-  validation_error_yaml_is_badly_formed: "has no valid YAML format."
+  validation_error_yaml_is_badly_formed: "har inget giltig YAML-format."
   validation_error_uknown_key: "Okänd nyckel:"
   yaml_error: "YAML fel:"
   help_link_rows_format: "Radformatering"
