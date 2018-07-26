@@ -118,7 +118,7 @@ en:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: 'Embed work package table'
-          text: 'Embedded work package table (placeholder)'
+          text: '[Placeholder] Embedded work package table'
 
     error:
       internal: "An internal error has occurred."
