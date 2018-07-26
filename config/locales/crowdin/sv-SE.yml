@@ -8,8 +8,8 @@ sv:
   enumeration:
     document_category:
       documentation: Dokumentation
-      specification: Specification
-      other: Other
+      specification: Specifikation
+      other: Andra
   label_document_added: "Dokumentet tillagt"
   label_document_new: "Nytt dokument"
   label_document_plural: "Dokument"
