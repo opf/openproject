@@ -8,6 +8,7 @@ describe 'Switching types in work package table', js: true do
       FactoryBot.create(
         :work_package_custom_field,
         field_format: 'string',
+        name: 'Required CF',
         is_required: true,
         is_for_all: false
       )
@@ -124,6 +125,39 @@ describe 'Switching types in work package table', js: true do
       expect { req_text_field.display_element }.to raise_error(Capybara::ElementNotFound)
     end
 
+    it 'can switch back from an open required CF (Regression test #28099)' do
+      # Switch type
+      type_field.activate!
+      type_field.set_value type_bug.name
+
+      wp_table.expect_notification(
+        type: :error,
+        message: "#{cf_req_text.name} can't be blank."
+      )
+      # safegurards
+      wp_table.dismiss_notification!
+      wp_table.expect_no_notification(
+        type: :error,
+        message: "#{cf_req_text.name} can't be blank."
+      )
+
+      # Required CF requires activation
+      req_text_field.expect_active!
+
+      # Now switch back to a type without the required CF
+      type_field.activate!
+      type_field.set_value type_task.name
+
+      wp_table.expect_notification(
+        message: 'Successful update. Click here to open this work package in fullscreen view.'
+      )
+      # safegurards
+      wp_table.dismiss_notification!
+      wp_table.expect_no_notification(
+        message: 'Successful update. Click here to open this work package in fullscreen view.'
+      )
+    end
+
     context 'switching to single view' do
       let(:wp_split) { wp_table.open_split_view(work_package) }
       let(:type_field) { wp_split.edit_field(:type) }
@@ -207,7 +241,7 @@ describe 'Switching types in work package table', js: true do
       wp_page.ensure_page_loaded
     end
 
-    it  'can switch to the bug type without errors' do
+    it 'can switch to the bug type without errors' do
       type_field.expect_state_text type_task.name
       type_field.update type_bug.name
 
