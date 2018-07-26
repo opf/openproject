@@ -44,6 +44,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= f.text_area :description,
                   container_class: '-xxwide',
                   with_text_formatting: true,
-                  resource: { _type: 'Document' } %>
+                  resource: { _type: 'Document' },
+                  preview_context: preview_context(f.object.project) %>
 </div>
 <%= render :partial => 'attachments/form' %>
