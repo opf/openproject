@@ -58,7 +58,13 @@ export class EditFieldComponent implements OnDestroy {
       )
       .subscribe((changeset) => {
         if (!this.changeset.empty && this.changeset.wpForm.hasValue()) {
-          this.field.schema = changeset.wpForm.value!.schema[this.field.name];
+          const fieldSchema = changeset.wpForm.value!.schema[this.field.name];
+
+          if (!fieldSchema) {
+            return handler.deactivate(false);
+          }
+
+          this.field.schema = fieldSchema;
           this.field.resource = changeset.workPackage;
           this.initialize();
           this.cdRef.markForCheck();
