@@ -26,5 +26,5 @@ sv:
   validation_failure_integer: "är inte ett giltigt heltal"
   reporting:
     group_by:
-      selected_columns: "Selected columns"
-      selected_rows: "Selected rows"
+      selected_columns: "Valda kolumner"
+      selected_rows: "Markerade rader"

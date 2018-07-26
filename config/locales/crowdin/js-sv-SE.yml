@@ -1,5 +1,5 @@
 sv:
   js:
     reporting_engine:
-      label_remove: "Delete"
-      label_response_error: "There was an error handling the query."
+      label_remove: "Ta bort"
+      label_response_error: "Det uppstod ett fel när frågan hanterades."
