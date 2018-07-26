@@ -74,7 +74,7 @@ export class FormattableEditField extends EditField {
                       previewContext: this.previewContext };
 
     this.ckEditorSetup
-      .create('balloon',
+      .create('inline',
               element,
               context)
       .then((editor:ICKEditorInstance) => {
