@@ -33,8 +33,8 @@ en:
           name: Demo project
           identifier: demo-project
           description: >
-            *This is a demo project*. You can edit the description in
-            the "Project settings -> Description":/projects/demo-project/settings.
+            **This is a demo project**. You can edit the description in
+            the [Project settings -> Description](/projects/demo-project/settings).
           timeline:
             name: Timeline
           modules:
@@ -110,18 +110,18 @@ en:
               children:
                 - subject: Create a new project
                   description: |
-                    Please "create a new project":/projects/new from the project drop down menu in the left hand header navigation.
+                    Please [create a new project](/projects/new) from the project drop down menu in the left hand header navigation.
 
-                    *You can:*
+                    **You can:**
                     * give your project a name,
                     * add a project description,
                     * create a project structure,
                     * set a project to public.
 
-                    *Visuals:*
-                    !new_project.png!
+                    **Visuals:**
+                    ![new project](##attachment:"new_project.png")
 
-                    *Find out more:*
+                    **Find out more:**
                     * https://www.openproject.org/help/administration/manage-projects/
                   status: :default_status_new
                   type: :default_type_task
@@ -131,19 +131,19 @@ en:
                     - new_project.png
                 - subject: Customize project overview page
                   description: |
-                    You can "customize your project overview page":/my_projects_overview/demo-project/page_layout to add important information, such as project description, important links, work packages overview, news, and much more.
+                    You can [customize your project overview page](/my_projects_overview/demo-project/page_layout) to add important information, such as project description, important links, work packages overview, news, and much more.
 
-                    *You can:*
+                    **You can:**
                     * edit the project overview by clicking on the gear icon,
                     * add a project description,
                     * add links to important project information or custom reports,
                     * insert news or work packages,
                     * and much more.
 
-                    *Visuals:*
-                    !project_overview.png!
+                    **Visuals:**
+                    ![project overview](##attachment:"project_overview.png")
 
-                    *Find out more:*
+                    **Find out more:**
                     * https://www.openproject.org/help/project-setup/
                   status: :default_status_new
                   type: :default_type_task
@@ -153,19 +153,19 @@ en:
                     - project_overview.png
                 - subject: Activate further modules
                   description: |
-                    Please activate further "Modules":/projects/demo-project/settings/modules in the Project settings in order to have more features in your project.
+                    Please activate further [Modules](/projects/demo-project/settings/modules) in the Project settings in order to have more features in your project.
 
-                    *You can:*
+                    **You can:**
                     * add a Scrum module (Backlogs),
                     * add time tracking, reporting, and budgets (Time Tracking, Cost Reports, Cost Control),
                     * add a wiki,
                     * add meetings,
                     * and more.
 
-                    *Visuals:*
-                    !project_modules.png!
+                    **Visuals:**
+                    ![project modules](##attachment:"project_modules.png")
 
-                    *Find out more:*
+                    **Find out more:**
                     * https://www.openproject.org/help/activate-deactivate-modules/
                   status: :default_status_new
                   type: :default_type_task
@@ -175,17 +175,17 @@ en:
                     - project_modules.png
                 - subject: Invite new team members
                   description: |
-                    Please invite new team members by going to "Members":/projects/demo-project/members in the project navigation.
+                    Please invite new team members by going to [Members](/projects/demo-project/members) in the project navigation.
 
-                    *You can:*
+                    **You can:**
                     * add existing users to  a project by typing in their names,
                     * invite new users to OpenProject by typing in their email address,
                     * assign a certain role in this project for each user.
 
-                    *Visuals:*
-                    !project_members.png!
+                    **Visuals:**
+                    ![project members](##attachment:"project_members.png")
 
-                    *Find out more:*
+                    **Find out more:**
                     * https://www.openproject.org/help/add-project-members/
                   status: :default_status_new
                   type: :default_type_task
@@ -196,19 +196,19 @@ en:
                     - project_members.png
                 - subject: Create work packages
                   description: |
-                    Please create work packages for your project. Go to "Work package":/projects/demo-project/work_packages and click the green +Create button.
+                    Please create work packages for your project. Go to [Work package](/projects/demo-project/work_packages) and click the green +Create button.
 
-                    *You can*:
+                    **You can**:
                     * create any type of work, e.g. features, tasks, bugs, risks, ideas,
                     * add a title and description,
                     * add attachments via copy and paste to the description,
                     * set status, priority and assign it to a team member,
                     * insert any custom field to the forms.
 
-                    *Visuals*:
-                    !create_work_package.png!
+                    **Visuals**:
+                    ![create work package](##attachment:"create_work_package.png")
 
-                    *Find out more*:
+                    **Find out more**:
                     * https://www.openproject.org/help/work-packages/create-new-work-package/
                   status: :default_status_new
                   type: :default_type_task
@@ -219,19 +219,19 @@ en:
                     - create_work_package.png
                 - subject: Create a project plan
                   description: |
-                    Please create a project plan by going to "Gantt chart":##query:"Gantt chart" in the project navigation.
+                    Please create a project plan by going to [Gantt chart](##query:"Gantt chart") in the project navigation.
 
-                    *You can:*
+                    **You can:**
                     * create new phases and milestones by simply clicking in the project plan,
                     * change phases and milestones with drag and drop,
                     * add labels, such as start and due date, title, or assignee,
                     * add dependencies by right clicking on a phase or milestone and choose pre-decessor or follower,
                     * custom columns, group, filter and save timeline reports to have them at your fingertips.
 
-                    *Visuals:*
-                    !gantt_chart.png!
+                    **Visuals:**
+                    ![gantt chart](##attachment:"gantt_chart.png")
 
-                    *Find out more:*
+                    **Find out more:**
                     * https://www.openproject.org/help/timelines/integrated-timeline-work-package-page/
                   status: :default_status_new
                   type: :default_type_task
@@ -242,9 +242,9 @@ en:
                     - gantt_chart.png
                 - subject: Edit a work package
                   description: |
-                    "Edit a work package":/projects/demo-project/work_packages/41/activity by double clicking on a row in the list view or open the split screen with the "i".
+                    [Edit a work package](/projects/demo-project/work_packages/41/activity) by double clicking on a row in the list view or open the split screen with the "i".
 
-                    *You can*:
+                    **You can**:
                     * change title or description,
                     * assign it to a team member,
                     * comment on topics or notify team members with @-notifications,
@@ -253,10 +253,10 @@ en:
                     * add relations to other work packages,
                     * change forms in the Administration settings.
 
-                    *Visuals*:
-                    !edit_work_package.png!
+                    **Visuals**:
+                    ![edit work package](##attachment:"edit_work_package.png")
 
-                    *Find out more*:
+                    **Find out more**:
                     * https://www.openproject.org/help/work-packages/
                   status: :default_status_new
                   type: :default_type_task
@@ -332,7 +332,7 @@ en:
           identifier: your-scrum-project
           description: |
             *This is a Scrum demo project.*
-            You can edit the project description in the "Project settings -> Description":/projects/your-scrum-project/settings.
+            You can edit the project description in the [Project settings -> Description](/projects/your-scrum-project/settings).
           timeline:
             name: Timeline
           modules:
@@ -362,9 +362,7 @@ en:
               wiki:
                 title: Sprint 1
                 content: |
-                  h1. Sprint 1
-
-                  h3. Sprint planning meeting
+                  ### Sprint planning meeting
 
                   _Please document here topics to the Sprint planning meeting_
 
@@ -374,23 +372,23 @@ en:
 
                   * Divided into two additional time boxes of 4 h:
 
-                  ** The Product Owner presents the team the "Product Backlog":/projects/your-scrum-project/backlogs and the priorities and explanes the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team committs to the discussed delivery.
-                  ** The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a "Sprint Backlog":/projects/your-scrum-project/backlogs.
+                      * The Product Owner presents the team the [Product Backlog](/projects/your-scrum-project/backlogs) and the priorities and explanes the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team committs to the discussed delivery.
+                      * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog](/projects/your-scrum-project/backlogs).
 
 
-                  h3. Daily Scrum meeting
+                  ### Daily Scrum meeting
 
                   _Please document here topics to the Daily Scrum meeting_
 
                   * Short, daily status meeting of the team.
                   * Time boxed (max. 15 min).
-                  * Stand-up meeting to discuss the following topics from the "Task board":/projects/your-scrum-project/sprints/38/taskboard.
-                  ** What do I plan to do until the next Daily Scrum?
-                  ** What has blocked my work (Impediments)?
-                  * Scrum Master moderates and notes down "Sprint Impediments":/projects/your-scrum-project/sprints/38/taskboard.
+                  * Stand-up meeting to discuss the following topics from the [Task board](/projects/your-scrum-project/sprints/38/taskboard).
+                      * What do I plan to do until the next Daily Scrum?
+                      * What has blocked my work (Impediments)?
+                  * Scrum Master moderates and notes down [Sprint Impediments](/projects/your-scrum-project/sprints/38/taskboard).
                   * Product Owner may participate may participate in order to stay informed.
 
-                  h3. Sprint Review meeting
+                  ### Sprint Review meeting
 
                   _Please document here topcis to the Sprint Review meeting_
 
@@ -402,7 +400,7 @@ en:
                   * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
 
 
-                  h3. Sprint Retrospective
+                  ### Sprint Retrospective
 
                   _Please document here topcis to the Sprint Retrospective meeting_
 
@@ -611,7 +609,7 @@ en:
                 - to: Develop v2.0
                   type: follows
           wiki: |
-            h3. Sprint planning meeting
+            ### Sprint planning meeting
 
             _Please document here topics to the Sprint planning meeting_
 
@@ -621,23 +619,23 @@ en:
 
             * Divided into two additional time boxes of 4 h:
 
-            ** The Product Owner presents the team the "Product Backlog":/projects/your-scrum-project/backlogs and the priorities and explanes the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team committs to the discussed delivery.
-            ** The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a "Sprint Backlog":/projects/your-scrum-project/backlogs.
+                * The Product Owner presents the team the [Product Backlog](/projects/your-scrum-project/backlogs) and the priorities and explanes the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team committs to the discussed delivery.
+                * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog](/projects/your-scrum-project/backlogs).
 
 
-            h3. Daily Scrum meeting
+            ### Daily Scrum meeting
 
             _Please document here topics to the Daily Scrum meeting_
 
             * Short, daily status meeting of the team.
             * Time boxed (max. 15 min).
-            * Stand-up meeting to discuss the following topics from the "Task board":/projects/your-scrum-project/sprints/38/taskboard.
-            ** What do I plan to do until the next Daily Scrum?
-            ** What has blocked my work (Impediments)?
-            * Scrum Master moderates and notes down "Sprint Impediments":/projects/your-scrum-project/sprints/38/taskboard.
+            * Stand-up meeting to discuss the following topics from the [Task board](/projects/your-scrum-project/sprints/38/taskboard).
+                * What do I plan to do until the next Daily Scrum?
+                * What has blocked my work (Impediments)?
+            * Scrum Master moderates and notes down [Sprint Impediments](/projects/your-scrum-project/sprints/38/taskboard).
             * Product Owner may participate may participate in order to stay informed.
 
-            h3. Sprint Review meeting
+            ### Sprint Review meeting
 
             _Please document here topcis to the Sprint Review meeting_
 
@@ -649,7 +647,7 @@ en:
             * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
 
 
-            h3. Sprint Retrospective
+            ### Sprint Retrospective
 
             _Please document here topcis to the Sprint Retrospective meeting_
 

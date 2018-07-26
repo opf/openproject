@@ -133,19 +133,12 @@ export class WorkPackageEditFieldComponent implements OnInit {
     return false;
   }
 
-  public activate(noWarnings:boolean = false):Promise<WorkPackageEditFieldHandler> {
-    this.active = true;
-    return this.activateOnForm(this.wpEditFieldGroup.form, noWarnings);
-  }
-
   public activateOnForm(form:WorkPackageEditForm, noWarnings:boolean = false) {
     // Activate the field
-    const promise = form.activate(this.fieldName, noWarnings);
-    promise
-      .then(() => this.active = true)
+    this.active = true;
+    return form
+      .activate(this.fieldName, noWarnings)
       .catch(() => this.deactivate(true));
-
-    return promise;
   }
 
   public handleUserActivate(evt:JQueryEventObject|null) {
@@ -163,7 +156,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
       positionOffset = ClickPositionMapper.getPosition(evt);
     }
 
-    this.activate()
+    this.activateOnForm(this.wpEditFieldGroup.form)
       .then((handler) => {
         handler.focus(positionOffset);
       });

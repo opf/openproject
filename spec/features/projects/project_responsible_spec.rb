@@ -26,31 +26,37 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require Rails.root + 'spec/support/file_helpers'
+require 'spec_helper'
+require 'features/projects/project_settings_page'
 
-FactoryBot.define do
-  factory :attachment do
-    container factory: :work_package
-    author factory: :user
-    description nil
+describe 'Projects responsible setting',
+         type: :feature,
+         with_settings: { user_format: :firstname_lastname },
+         js: true do
+  include Capybara::Select2
+  let!(:admin) { FactoryBot.create :admin }
+  let!(:user) { FactoryBot.create(:user, firstname: 'Foo', lastname: 'Bar', member_in_project: project) }
 
-    transient do
-      filename nil
-    end
+  let!(:project) do
+    FactoryBot.create(:project,
+                      name: 'Plain project',
+                      identifier: 'plain-project')
+  end
+  let(:settings_page) { ProjectSettingsPage.new(project) }
 
-    content_type 'application/binary'
-    sequence(:file) do |n|
-      FileHelpers.mock_uploaded_file name: filename || "file-#{n}.test",
-                                     content_type: content_type,
-                                     binary: true
-    end
+  before do
+    login_as admin
+  end
 
-    factory :wiki_attachment do
-      container factory: :wiki_page_with_content
-    end
+  it 'can set the responsible (Regression test #28091)' do
+    settings_page.visit_settings
+    expect(page).to have_selector('.form--label', text: 'Responsible')
 
-    factory :attached_picture do
-      content_type 'image/jpeg'
-    end
+    select2('Foo Bar', css: '#s2id_project_responsible_id')
+    click_on 'Save'
+
+    expect(page).to have_selector('.select2-chosen', text: 'Foo Bar')
+    project.reload
+    expect(project.responsible).to eq(user)
   end
 end

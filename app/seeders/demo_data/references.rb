@@ -57,6 +57,29 @@ module DemoData
     end
 
     ##
+    # Links attachments from the given set of attachments, referenced via name.
+    # For instance:
+    #
+    #   `##attachment:"picture.jpg"`
+    #
+    # @param str [String] String in which to substitute attachment references.
+    # @param attachments [ActiveRecord::QueryMethods] Query to set of attachments which can be referenced.
+    def link_attachments(str, attachments)
+      return str unless str.present?
+
+      str.gsub(/##attachment(\.id)?:"[^"]+"/) do |match|
+        file = match.split(":", 2).last[1..-2] # strip quotes of part behind :
+        attachment = attachments.where(file: file).first!
+
+        if match.include?(".id")
+          attachment.id
+        else
+          url_helpers.attachment_path id: attachment.id
+        end
+      end
+    end
+
+    ##
     # Turns `##query:"Gantt chart"` into
     # `/projects/demo-project/work_packages?query_id=1` given there is a query
     # named "Gantt chart" (its ID here being 1).

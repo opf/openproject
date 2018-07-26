@@ -34,6 +34,7 @@ import {TimezoneService} from 'core-components/datetime/timezone.service';
   template: `
     <span title="{{date}} {{ time }}">
       <span [textContent]="date"></span>
+      <span>&nbsp;</span>
       <span [textContent]="time"></span>
     </span>
   `

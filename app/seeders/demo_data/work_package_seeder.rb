@@ -74,7 +74,9 @@ module DemoData
       create_children! work_package, attributes
       create_attachments! work_package, attributes
 
-      description = link_children work_package.description, work_package
+      description = work_package.description
+      description = link_attachments description, work_package.attachments
+      description = link_children description, work_package
       description = with_references description, project
 
       work_package.update description: description

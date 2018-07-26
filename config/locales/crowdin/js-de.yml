@@ -54,48 +54,52 @@ de:
     description_selected_columns: Ausgewählte Spalten
     description_subwork_package: 'Kind von Arbeitspaket #%{id}'
     editor:
-      preview: Toggle preview mode
+      preview: Vorschau-Modus ein/aus
       macro:
         child_pages:
-          button: Links to child pages
-          include_parent: Include parent
-          text: "[Placeholder] Links to child pages of"
+          button: Auflistung untergeordneter Seiten
+          include_parent: Elternseite anzeigen
+          text: "[Platzhalter] Auflistung untergeordneter Seiten von"
           page: Wiki-Seite
-          this_page: this page
-          hint: 'Leave this field empty to list all child pages of the current page.
-            If you want to reference a different page, provide its title or slug.
+          this_page: diese Seite
+          hint: 'Lassen Sie dieses Feld leer, um alle untergeordneten Seiten der aktuellen
+            Seite aufzulisten. Wenn Sie die untergeordneten Seiten einer anderen Wikiseite
+            referenzieren möchten, geben Sie ihren Titel oder URL-Slug ein.
 
 '
         code_block:
-          button: Insert code snippet
-          title: Insert / edit Code snippet
-          language: Formatting language
-          language_hint: Enter the formatting language that will be used for highlighting
-            (if supported).
+          button: Code-Snippet einfügen
+          title: Code-Snippet einfügen / bearbeiten
+          language: Sprache für Syntaxhervorhebung
+          language_hint: Geben Sie eine Sprache für Syntaxhervorhebung ein, die für
+            das Hervorheben des Code-Snippets verwendet wird (sofern unterstützt).
         dropdown:
-          macros: Macros
-          chose_macro: Chose macro
-        toc: Table of contents
-        toolbar_help: Click to select widget and show the toolbar. Double-click to
-          edit widget
+          macros: Makros
+          chose_macro: Makro einfügen
+        toc: Inhaltsverzeichnis
+        toolbar_help: Klicken Sie auf das Widget zum Auswählen und Anzeigen der Symbolleiste.
+          Doppelklicken zum Editieren des Makros
         wiki_page_include:
-          button: Include content of another wiki page
-          text: "[Placeholder] Included wiki page of"
+          button: Inhalt einer anderen Wikiseite einbetten
+          text: "[Platzhalter] Eingebetteter Inhalt von"
           page: Wiki-Seite
-          hint: |
-            Include the content of another wiki page by specifying its title or slug.
-            You can include the wiki page of another project by separating them with a colon like the following example.
+          hint: 'Fügen Sie den Inhalt einer anderen Wikiseite eine, indem Sie hier
+            ihren Titel oder URL-Slug angeben. Sie können auch die Wikiseite eines
+            anderen Projekts angeben, indem Sie Projekt-Identifier und Seite wie folgt
+            angeben.
+
+'
         work_package_button:
-          button: Insert create work package button
-          type: Work package type
-          button_style: Use button style
-          button_style_hint: 'Optional: Check to make macro appear as a button, not
-            as a link.'
-          without_type: Create work package
-          with_type: 'Create work package (Type: %{typename})'
+          button: '"Arbeitspaket anlegen"-Schaltfläche einfügen'
+          type: Arbeitspaket-Typ
+          button_style: Als Schaltfläche anzeigen
+          button_style_hint: 'Optinoal: Haken setzen, um das Makro nicht als Link,
+            sondern als Schaltfläche erscheinen zu lassen.'
+          without_type: Arbeitspaket erstellen
+          with_type: 'Arbeitspaket erstellen (Typ: %{typename})'
         embedded_table:
-          button: Embed work package table
-          text: Embedded work package table (placeholder)
+          button: Arbeitspaket-Tabelle einbetten
+          text: "[Platzhalter] Eingebettete Arbeitspaket-Tabelle"
     error:
       internal: Ein interner Fehler ist aufgetreten.
       cannot_save_changes_with_message: 'Ihre Änderungen können nicht gespeichert
@@ -210,7 +214,7 @@ de:
     label_select_watcher: Beobachter auswählen ...
     label_selected_filter_list: Ausgewählte Filter
     label_show_attributes: Alle Attribute anzeigen
-    label_show_in_menu: Show view in menu
+    label_show_in_menu: Ansicht im Seitenmenü anzeigen
     label_sort_by: Sortieren nach
     label_sorted_by: sortiert nach
     label_sort_higher: Eins höher
@@ -224,7 +228,7 @@ de:
     label_activity_show_only_comments: Nur Aktivitäten mit Kommentaren
     label_activity_show_all: Alle Aktivitäten anzeigen
     label_total_progress: "%{percent}% Gesamtfortschritt"
-    label_visible_for_others: View visible for others
+    label_visible_for_others: Ansicht sichtbar für andere Nutzer
     label_updated_on: aktualisiert am
     label_warning: Warnung
     label_work_package: Arbeitspaket
@@ -251,7 +255,7 @@ de:
     label_remove_watcher: Beobachter %{name} entfernen
     label_remove_all_files: Alle Dateien löschen
     label_add_description: Fügen Sie eine Beschreibung für %{file} hinzu
-    label_upload_notification: Uploading files...
+    label_upload_notification: Dateien werden hochgeladen...
     label_work_package_upload_notification: 'Hochladen von Dateien für Arbeitspaket
       #%{id}: %{subject}'
     label_files_to_upload: 'Diese Dateien werden hochgeladen:'
@@ -291,9 +295,9 @@ de:
         error_duplicate_group_name: Der Name %{group} wird mehr als einmal verwendet.
           Gruppen-Namen müssen eindeutig sein.
         reset_title: Formularkonfiguration zurücksetzen
-        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group and disable ALL custom
-          fields.
+        confirm_reset: 'Achtung: Wollen Sie die Formkonfiguration wirklich zurücksetzen?
+          Alle Attribute und Gruppen werden auf ihre Standardwerte zurück gesetzt
+          und ALLE benutzerdefinierten Felder entfernt.
 
 '
         upgrade_to_ee: Auf Enterprise-Edition upgraden
@@ -631,8 +635,9 @@ de:
         show_timeline_hint: Zeigt ein interaktives Gantt-Diagramm auf der rechten
           Seite der Tabelle an. Sie können die Aufteilung der beiden Elemente über
           Ziehen des Trennstrichs zwischen Tabelle und Gantt-Diagramm konfigurieren.
-        columns_help_text: Use the input above to add or remove columns to your table
-          view. You can drag and drop the columns to reorder them.
+        columns_help_text: Verwenden Sie die Eingabe oben um Spalten zur Tabellenansicht
+          hinzuzufügen oder zu entfernen. Sie können die Reihenfolge der Spalten über
+          Drag & Drop verändern.
       tabs:
         overview: Übersicht
         activity: Aktivität
@@ -656,14 +661,14 @@ de:
         save_as: Speichern unter ...
         export: Exportieren ...
         publish: Veröffentlichen ...
-        page_settings: Rename view ...
+        page_settings: Ansicht umbenennen ...
         delete: Löschen
       filter: Filter
       unselected_title: Arbeitspaket
       search_query_label: Gespeicherte Filter durchsuchen
       search_query_title: Klicken um gespeicherte Filter zu durchsuchen
     modals:
-      label_settings: Rename view
+      label_settings: Ansicht umbenennen
       label_name: Name
       label_delete_page: Aktuelle Ansicht löschen
       button_apply: Anwenden
@@ -708,8 +713,8 @@ de:
     error_could_not_resolve_version_name: Versionsname konnte nicht aufgelöst werden
     error_could_not_resolve_user_name: Benutzername konnte nicht aufgelöst werden
     error_attachment_upload: 'Konnte Datei %{name} nicht hochladen: %{error}'
-    error_attachment_upload_permission: You don't have the permission to upload files
-      on this resource.
+    error_attachment_upload_permission: Sie haben keine Berechtigung zum Hochladen
+      von Dateien auf dieser Resource.
     units:
       workPackage:
         one: Arbeitspaket

@@ -74,14 +74,14 @@ sv-SE:
           language_hint: Ange det formateringsspråk som används för att belysa (om
             det stöds).
         dropdown:
-          macros: Macros
-          chose_macro: Chose macro
+          macros: Makron
+          chose_macro: Välj makro
         toc: Innehållsförteckning
         toolbar_help: Klicka på välj widget och visa verktygsfältet. Dubbelklicka
           om du vill redigera widget
         wiki_page_include:
           button: Inkludera innehåll från en annan wiki-sida
-          text: "[Placeholder] Included wiki page of"
+          text: "[Placeholder] Inkluderad wiki-sida för"
           page: Wiki-sida
           hint: 'Inkludera innehåll från en annan wiki-sida genom att ange dess titel
             eller slug. Du kan inkludera wiki-sidan för ett annat projekt genom att
@@ -291,9 +291,9 @@ sv-SE:
         error_duplicate_group_name: Namnet %{group} används redan. Gruppnamn måste
           vara unika.
         reset_title: Återställ formulärinställningarna
-        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group and disable ALL custom
-          fields.
+        confirm_reset: 'Varning: Är du säker på att du vill återställa formulärinställningarna?
+          Detta kommer att återställa attributen till deras standardgrupper, avmarkera
+          kryssrutorna för synlighet samt inaktivera samtliga anpassade fält.
 
 '
         upgrade_to_ee: Uppgradera till Enterprise Edition
@@ -644,14 +644,14 @@ sv-SE:
         save_as: Spara som ...
         export: Exportera...
         publish: Publish ...
-        page_settings: Rename view ...
+        page_settings: Byt namn på vyn ...
         delete: Ta bort
       filter: Filter
       unselected_title: Arbetspaket
       search_query_label: Sök sparade filtreringsfrågor
       search_query_title: Klicka för att söka bland sparade filtreringsfrågor
     modals:
-      label_settings: Rename view
+      label_settings: Byt namn på vyn
       label_name: Namn
       label_delete_page: Ta bort aktuell sida
       button_apply: Använd

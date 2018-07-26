@@ -101,6 +101,6 @@ export class FocusHelperService {
 
     setTimeout(() => {
       this.focus(element);
-    });
+    }, 10);
   }
 }
