@@ -54,6 +54,7 @@ describe 'Wysiwyg embedded work package tables',
           editor.insert_macro 'Embed work package table'
 
           modal.expect_open
+          modal.switch_to 'Filters'
           filters.expect_filter_count 1
           filters.add_filter_by('Type', 'is', work_package.type.name)
 
@@ -78,6 +79,7 @@ describe 'Wysiwyg embedded work package tables',
           page.find('.ck-balloon-panel .ck-button', visible: :all, text: 'Edit').click
 
           modal.expect_open
+          modal.switch_to 'Filters'
           filters.expect_filter_count 2
           modal.switch_to 'Columns'
           columns.assume_opened

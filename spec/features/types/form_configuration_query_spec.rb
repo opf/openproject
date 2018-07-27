@@ -149,6 +149,7 @@ describe 'form subelements configuration', type: :feature, js: true do
 
       # Restrict filters to type_task
       modal.expect_open
+      modal.switch_to 'Filters'
       filters.expect_filter_count 1
       filters.add_filter_by('Type', 'is', type_task.name)
       filters.save
@@ -175,6 +176,7 @@ describe 'form subelements configuration', type: :feature, js: true do
 
       # Expect filter still there
       modal.expect_open
+      modal.switch_to 'Filters'
       filters.expect_filter_count 2
       filters.expect_filter_by 'Type', 'is', type_task.name
 
