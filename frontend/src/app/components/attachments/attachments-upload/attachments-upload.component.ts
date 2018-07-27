@@ -62,12 +62,6 @@ export class AttachmentsUploadComponent implements OnInit {
   ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
 
-    if (!this.resource) {
-      // Parse the resource if any exists
-      const source = this.$element.data('resource');
-      this.resource = this.halResourceService.createHalResource(source, true);
-    }
-
     this.ConfigurationService.api().then((settings:any) => {
       this.maxFileSize = settings.maximumAttachmentFileSize;
     });

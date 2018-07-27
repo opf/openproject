@@ -40,6 +40,7 @@ import {States} from 'core-components/states.service';
 export class AttachmentListItemComponent {
   @Input('resource') public resource:HalResource;
   @Input('attachment') public attachment:any;
+  @Input() public index:any;
 
   public text = {
     destroyConfirmation: this.I18n.t('js.text_attachment_destroy_confirmation'),

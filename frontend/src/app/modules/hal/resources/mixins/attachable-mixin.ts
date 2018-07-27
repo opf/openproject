@@ -50,6 +50,8 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
     private opFileUpload:OpenProjectFileUploadService;
     private pathHelper:PathHelperService;
 
+    private attachmentsLinkImmediately:boolean;
+
     /**
      * Remove the given attachment either from the pending attachments or from
      * the attachment collection, if it is a resource.
@@ -103,7 +105,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
     private performUpload(files:UploadFile[]) {
       let href = '';
 
-      if (!this.id) {
+      if (!this.id || !this.attachmentsLinkImmediately) {
         href = this.pathHelper.api.v3.attachments.path;
       } else {
         href = this.addAttachment.$link.href;

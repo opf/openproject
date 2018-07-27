@@ -185,8 +185,6 @@ class WikiController < ApplicationController
 
     @page.attach_files(permitted_params.attachments.to_h)
 
-    return if nothing_to_update?
-
     @page.title = permitted_params.wiki_page[:title]
     @page.parent_id = permitted_params.wiki_page[:parent_id].to_i
     @content.attributes = permitted_params.wiki_content
@@ -377,22 +375,6 @@ class WikiController < ApplicationController
   end
 
   private
-
-  def nothing_to_update?
-    return false if @page.new_record?
-    if anything_to_update?
-      render_attachment_warning_if_needed(@page)
-      # don't save if text wasn't changed
-      redirect_to_show
-      true
-    end
-  end
-
-  def anything_to_update?
-    params[:content].present? &&
-      @content.text == permitted_params.wiki_content[:text] &&
-      @page.parent_id == permitted_params.wiki_page[:parent_id].to_i
-  end
 
   def locked?
     return false if editable?

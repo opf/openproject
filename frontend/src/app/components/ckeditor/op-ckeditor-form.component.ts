@@ -145,7 +145,7 @@ export class OpCkeditorFormComponent implements OnInit, OnDestroy {
 
   private setupAttachmentAddedCallback() {
     this.ckeditor.model.on('op:attachment-added', () => {
-      this.states.wikiPages.get(this.resource!.id).putValue(this.resource);
+      this.states.wikiPages.get(this.resource!.id).putValue(this.resource!);
     });
   }
 

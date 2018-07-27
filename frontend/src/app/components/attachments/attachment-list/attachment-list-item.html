@@ -22,4 +22,6 @@
     <op-icon icon-classes="icon-delete"
              [icon-title]="text.removeFile({fileName: attachment.fileName})"></op-icon>
   </a>
+
+  <input type="hidden" name="attachments[{{index}}][id]" value="{{attachment.id}}" *ngIf="!attachment.container">
 </li>
