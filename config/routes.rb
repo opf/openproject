@@ -26,7 +26,7 @@ OpenProject::Application.routes.draw do
 
   resources :meetings, except: [:new, :create, :index] do
 
-    resource :agenda, controller: 'meeting_agendas', only: [:show, :update] do
+    resource :agenda, controller: 'meeting_agendas', only: [:update] do
       member do
         get :history
         get :diff
@@ -50,7 +50,7 @@ OpenProject::Application.routes.draw do
       end
     end
 
-    resource :minutes, controller: 'meeting_minutes', only: [:show, :update] do
+    resource :minutes, controller: 'meeting_minutes', only: [:update] do
       member do
         get :history
         get :diff
