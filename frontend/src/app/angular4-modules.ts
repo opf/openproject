@@ -214,6 +214,10 @@ import {CKEditorSetupService} from "core-components/ckeditor/ckeditor-setup.serv
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {CKEditorPreviewService} from "core-components/ckeditor/ckeditor-preview.service";
 import {ChildPagesMacroModal} from "core-components/modals/editor/macro-child-pages-modal/child-pages-macro.modal";
+import {AttachmentListComponent} from 'core-components/attachments/attachment-list/attachment-list.component';
+import {AttachmentListItemComponent} from 'core-components/attachments/attachment-list/attachment-list-item.component';
+import {AttachmentsUploadComponent} from 'core-components/attachments/attachments-upload/attachments-upload.component';
+import {AttachmentsComponent} from 'core-components/attachments/attachments.component';
 
 @NgModule({
   imports: [
@@ -478,6 +482,12 @@ import {ChildPagesMacroModal} from "core-components/modals/editor/macro-child-pa
     // CkEditor and Macros
     OpCkeditorFormComponent,
     EmbeddedTablesMacroComponent,
+
+    // Attachments
+    AttachmentsComponent,
+    AttachmentListComponent,
+    AttachmentListItemComponent,
+    AttachmentsUploadComponent,
   ],
   entryComponents: [
     WorkPackagesBaseComponent,
@@ -557,6 +567,9 @@ import {ChildPagesMacroModal} from "core-components/modals/editor/macro-child-pa
     // CKEditor and macros
     OpCkeditorFormComponent,
     EmbeddedTablesMacroComponent,
+
+    // Attachments
+    AttachmentsComponent,
   ]
 })
 export class OpenProjectModule {

@@ -1,0 +1,25 @@
+<li class="form--selected-value--container" focus-within focusWithinSelector=".inplace-edit--icon-wrapper">
+  <span class="form--selected-value">
+    <op-icon icon-classes="icon-context icon-attachment"></op-icon>
+    <a
+        class="work-package--attachments--filename"
+        [attr.href]="downloadPath || '#'"
+        download>
+
+      {{ attachment.fileName || attachment.customName || attachment.name }}
+
+      <authoring class="work-package--attachments--info"
+                 [createdOn]="attachment.createdAt"
+                 [author]="attachment.author"
+                 [showAuthorAsLink]="false"></authoring>
+    </a>
+  </span>
+  <a
+      href=""
+      class="form--selected-value--remover work-package--atachments--delete-button"
+      *ngIf="!!attachment.$links.delete"
+      (click)="confirmRemoveAttachment($event)">
+    <op-icon icon-classes="icon-delete"
+             [icon-title]="text.removeFile({fileName: attachment.fileName})"></op-icon>
+  </a>
+</li>

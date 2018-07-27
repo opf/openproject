@@ -66,8 +66,22 @@ module API
                               }
                             end
 
+        property :attachments,
+                 embedded: true,
+                 exec_context: :decorator,
+                 if: ->(*) { embed_links },
+                 uncacheable: true
+
         def _type
           'WikiPage'
+        end
+
+        def attachments
+          self_path = api_v3_paths.attachments_by_wiki_page(represented.id)
+          attachments = represented.attachments.includes(:container)
+          ::API::V3::Attachments::AttachmentCollectionRepresenter.new(attachments,
+                                                                      self_path,
+                                                                      current_user: current_user)
         end
       end
     end

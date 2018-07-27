@@ -10,6 +10,7 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {WPFocusState} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {input, InputState, multiInput, MultiInputState, StatesGroup} from 'reactivestates';
 import {QueryColumn} from './wp-query/query-column';
+import {WikiPageResource} from 'core-app/modules/hal/resources/wiki-page-resource';
 
 export class States extends StatesGroup {
 
@@ -20,6 +21,9 @@ export class States extends StatesGroup {
 
   /* /api/v3/work_packages */
   workPackages = multiInput<WorkPackageResource>();
+
+  /* /api/v3/work_packages */
+  wikiPages = multiInput<WikiPageResource>();
 
   /* /api/v3/schemas */
   schemas = multiInput<SchemaResource>();

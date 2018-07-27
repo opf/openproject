@@ -51,6 +51,30 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
     private pathHelper:PathHelperService;
 
     /**
+     * Remove the given attachment either from the pending attachments or from
+     * the attachment collection, if it is a resource.
+     *
+     * Removing it from the elements array assures that the view gets updated immediately.
+     * If an error occurs, the user gets notified and the attachment is pushed to the elements.
+     */
+    public removeAttachment(attachment:any):Promise<any> {
+      _.pull(this.attachments.elements, attachment);
+
+      if (attachment.$isHal) {
+        return attachment.delete()
+          .then(() => {
+            // TODO: handle for ressource not supporting this.updateAttachments
+            //this.updateAttachments();
+          })
+          .catch((error:any) => {
+            this.wpNotificationsService.handleErrorResponse(error, this as any);
+            this.attachments.elements.push(attachment);
+          });
+      }
+      return Promise.resolve();
+    }
+
+    /**
      * Upload the given attachments, update the resource and notify the user.
      * Return an updated AttachmentCollectionResource.
      */
