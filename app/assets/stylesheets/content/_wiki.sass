@@ -27,6 +27,8 @@
 //++
 
 div.wiki
+  // ------------------- FONT -------------------
+
   font-size: $wiki-default-font-size
   $wiki-max-heading-font-size: $wiki-default-font-size * 1.5
 
@@ -52,6 +54,8 @@ div.wiki
     text-transform: none
     border-bottom: 1px dotted #bbbbbb
 
+
+  // ------------------- TABLES -------------------
   table
     border: 1px solid #505050
     border-collapse: collapse
@@ -61,9 +65,30 @@ div.wiki
     border: 1px solid #bbb
     padding: 4px
 
-  .external.icon-context:before
-    padding: 4px 4px 0 0
+  .-compact-tables
+    // In FF there is bug (https://bugzilla.mozilla.org/show_bug.cgi?id=688556) which causes
+    // the border of tables to vanish once the background of table cells is set.
+    // Therefor we need to disable the automatic table border rendering with border-collapse: collapse and
+    // add the borders manually.
+    .work-package-table
+      border-collapse: separate
+      border: none
+      padding: 0
 
+      .wp-table--table-header:not(:last-of-type)
+        border-right: 0px solid #bbb
+        &:first-of-type
+          border-left: 1px solid #bbb
+
+      .wp-table--cell-td:not(:last-of-type)
+        border-right: 0px solid #bbb
+        &:first-of-type
+          border-left: 1px solid #bbb
+      .wp-table--row:not(:last-of-type)
+        .wp-table--cell-td
+          border-bottom: 0px solid #bbb
+
+  // ------------------- LISTINGS -------------------
   ul.toc
     margin-bottom: 12px
     margin-right: 12px
@@ -108,6 +133,12 @@ div.wiki
 
   li li
     margin-left: 1.5em
+
+
+  // ------------------- GENERAL -------------------
+  .external.icon-context:before
+    padding: 4px 4px 0 0
+
   fieldset.collapsible legend
     font-weight: bold
     font-size: $wiki-toc-header-font-size
