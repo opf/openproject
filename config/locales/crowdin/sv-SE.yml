@@ -40,8 +40,8 @@ sv:
     models:
       cost_object: "Budget"
       cost_type:
-        one: "Cost type"
-        other: "Cost types"
+        one: "Kostnadstyp"
+        other: "Kostnadstyper"
       material_budget_item: "Enhet"
       rate: "Timpris"
     errors:
@@ -108,7 +108,7 @@ sv:
   label_current_default_rate: "Nuvarande standardtimpris"
   label_date_on: "den"
   label_deleted_cost_types: "Borttagna kostnadstyper"
-  label_locked_cost_types: "Locked cost types"
+  label_locked_cost_types: "Låsta kostnadstyper"
   label_deliverable: "Budget"
   label_display_cost_entries: "Visa enhetskostnader"
   label_display_time_entries: "Visa rapporterade timmar"
@@ -143,8 +143,8 @@ sv:
   notice_no_cost_objects_available: "Inga budgetar tillgängliga."
   notice_something_wrong: "Ett fel inträffade. Försök igen."
   notice_successful_restore: "Lyckad återställning."
-  notice_successful_lock: "Locked successfully."
-  notice_cost_logged_successfully: 'Unit cost logged successfully.'
+  notice_successful_lock: "Låst framgångsrikt."
+  notice_cost_logged_successfully: 'Enhetskostnaden loggad framgångsrikt.'
   permission_edit_cost_entries: "Redigera bokade enhetskostnader"
   permission_edit_cost_objects: "Redigera budgetar"
   permission_edit_own_cost_entries: "Redigera egna bokade enhetskostnader"
