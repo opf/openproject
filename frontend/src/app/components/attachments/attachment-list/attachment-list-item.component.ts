@@ -29,7 +29,7 @@
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {Component, Inject, Input} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {States} from 'core-components/states.service';
 
@@ -38,8 +38,8 @@ import {States} from 'core-components/states.service';
   templateUrl: './attachment-list-item.html'
 })
 export class AttachmentListItemComponent {
-  @Input('resource') public resource:HalResource;
-  @Input('attachment') public attachment:any;
+  @Input() public resource:HalResource;
+  @Input() public attachment:any;
   @Input() public index:any;
 
   public text = {
@@ -64,12 +64,9 @@ export class AttachmentListItemComponent {
       return false;
     }
 
-    this
-      .resource
-      .removeAttachment(this.attachment)
-      .then(() => {
-        this.states.wikiPages.get(this.resource.id).putValue(this.resource)
-      });
+    _.pull(this.resource.attachments.elements, this.attachment);
+    this.states.wikiPages.get(this.resource.id).putValue(this.resource)
+
     return false;
   }
 }

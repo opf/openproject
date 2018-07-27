@@ -69,7 +69,6 @@ export class OpCkeditorFormComponent implements OnInit, OnDestroy {
   private attachments:HalResource[];
 
   constructor(protected elementRef:ElementRef,
-              protected currentProject:CurrentProjectService,
               protected pathHelper:PathHelperService,
               protected halResourceService:HalResourceService,
               protected ckEditorSetup:CKEditorSetupService,

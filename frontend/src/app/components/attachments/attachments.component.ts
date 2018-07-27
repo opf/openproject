@@ -43,9 +43,11 @@ import {filter, takeUntil} from 'rxjs/operators';
 export class AttachmentsComponent implements OnInit, OnDestroy {
   @Input('resource') public resource:HalResource;
 
-  public $element: JQuery;
+  public $element:JQuery;
   public allowUploading:boolean;
   public text:any;
+  public $formElement:JQuery;
+  public initialAttachments:HalResource[];
 
   constructor(protected elementRef:ElementRef,
               protected I18n:I18nService,
@@ -68,6 +70,30 @@ export class AttachmentsComponent implements OnInit, OnDestroy {
 
     this.allowUploading = this.$element.data('allow-uploading');
 
+    this.setupAttachmentDeletionCallback();
+    this.setupResourceUpdateListener();
+  }
+
+  public setupAttachmentDeletionCallback() {
+    this.initialAttachments = _.clone(this.resource.attachments.elements);
+
+    this.$formElement = this.$element.closest('form');
+    this.$formElement.on('submit.attachment-component', () => {
+      let missingAttachments = _.differenceBy(this.initialAttachments,
+        this.resource.attachments.elements,
+        (attachment:HalResource) => attachment.id);
+
+      if (missingAttachments.length) {
+        missingAttachments.forEach((attachment) => {
+          this
+            .resource
+            .removeAttachment(attachment)
+        })
+      }
+    });
+  }
+
+  public setupResourceUpdateListener() {
     this.states.wikiPages.get(this.resource.id).changes$()
       .pipe(
         takeUntil(componentDestroyed(this)),
@@ -79,7 +105,7 @@ export class AttachmentsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // nothing
+    this.$formElement.off('submit.attachment-component');
   }
 }
 
