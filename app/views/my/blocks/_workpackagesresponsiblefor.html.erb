@@ -35,8 +35,8 @@ See docs/COPYRIGHT.rdoc for more details.
   <span class="widget-box--header-title"><%=l(:label_responsible_for_work_packages)%></span>
 </h3>
 
-<%= render partial: 'work_packages/me_list_simple',
-           locals: { user_filter: :responsible } %>
+<%= render partial: 'my/blocks/embedded_work_package_table',
+           locals: { edit: edit, user_filter: :responsible } %>
 
 <% content_for :header_tags do %>
   <%= auto_discovery_link_tag(:atom,

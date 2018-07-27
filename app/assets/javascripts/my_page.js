@@ -111,7 +111,7 @@ jQuery(document).ready(function($) {
   // On 'el' drop, we fire an Ajax request to persist the order chosen by
   // the user. Actual ordering details are handled on the server.
   drake.on('drop', function(el, target, source, sibling){
-    var url = "<%= my_order_blocks_url %>";
+    var url = window.gon.my_order_blocks_url;
 
     // Array of target ordered children after this drop.
     var target_ordered_children = jQuery(target).find('.block-wrapper').map(function(){

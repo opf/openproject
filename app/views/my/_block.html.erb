@@ -41,6 +41,6 @@ See docs/COPYRIGHT.rdoc for more details.
   <% end %>
 
   <div class='handle'>
-    <%= render partial: "my/blocks/#{block_name}", locals: { user: user, block_name: block_name } %>
+    <%= render partial: "my/blocks/#{block_name}", locals: { user: user, edit: true, block_name: block_name } %>
   </div>
 </div>

@@ -68,7 +68,6 @@ class ApplicationController < ActionController::Base
   # Thus, we show an error message unless the request probably is an API
   # request.
   def handle_unverified_request
-    super
     cookies.delete(OpenProject::Configuration['autologin_cookie_name'])
     self.logged_user = nil
 

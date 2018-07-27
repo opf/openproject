@@ -168,6 +168,9 @@ class MyController < ApplicationController
     @blocks         = get_current_layout
     @block_options  = []
 
+    # Pass block url to frontend
+    gon.my_order_blocks_url = my_order_blocks_url;
+
     # We track blocks that will show up on the page. This is in order to have
     # them disabled in the blocks-to-add-to-page dropdown.
     blocks_on_page = get_current_layout.values.flatten
