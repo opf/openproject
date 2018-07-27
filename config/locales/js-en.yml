@@ -417,8 +417,7 @@ en:
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times.
           Note that when hovering an element, its date labels will be shown instead of these attributes.
 
-      button_activate: 'Activate timeline mode'
-      button_deactivate: 'Deactivate timeline mode'
+      button_activate: 'Show Gantt chart'
       cancel: Cancel
       change: "Change in planning"
       due_date: "Due date"
@@ -636,6 +635,7 @@ en:
         months: "months"
     toolbar:
       settings:
+        configure_view: "Configure view ..."
         columns: "Columns ..."
         sort_by: "Sort by ..."
         group_by: "Group by ..."

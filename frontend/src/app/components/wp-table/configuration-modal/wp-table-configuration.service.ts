@@ -12,6 +12,11 @@ export class WpTableConfigurationService {
 
   protected _tabs:TabInterface[] = [
     {
+      name: 'columns',
+      title: this.I18n.t('js.label_columns'),
+      componentClass: WpTableConfigurationColumnsTab,
+    },
+    {
       name: 'filters',
       title: this.I18n.t('js.work_packages.query.filters'),
       componentClass: WpTableConfigurationFiltersTab,
@@ -20,11 +25,6 @@ export class WpTableConfigurationService {
       name: 'sort-by',
       title: this.I18n.t('js.label_sort_by'),
       componentClass: WpTableConfigurationSortByTab,
-    },
-    {
-      name: 'columns',
-      title: this.I18n.t('js.label_columns'),
-      componentClass: WpTableConfigurationColumnsTab,
     },
     {
       name: 'display-settings',
