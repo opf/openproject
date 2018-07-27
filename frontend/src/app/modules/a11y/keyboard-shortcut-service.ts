@@ -86,6 +86,12 @@ export class KeyboardShortcutService {
    */
   public register() {
     _.each(this.shortcuts, (action:() => void, key:string) => Mousetrap.bind(key, action));
+
+    // Register help link clicks
+    jQuery('.help-link-shortcuts-link').click(() => {
+      this.showHelpModal();
+      return false;
+    });
   }
 
   public accessKey(keyName:'preview'|'newWorkPackage'|'edit'|'quickSearch'|'projectSearch'|'help'|'moreMenu'|'details') {
