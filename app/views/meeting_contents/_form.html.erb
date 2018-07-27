@@ -20,16 +20,17 @@ See doc/COPYRIGHT.md for more details.
 ++#%>
 
 <%= form_for content, :url => {:controller => '/' + content_type.pluralize, :action => 'update', :meeting_id => content.meeting}, :html => {:id => "#{content_type}_form", :method => :put} do |f| %>
-<%= error_messages_for content_type %>
+  <%= error_messages_for content_type %>
 
-<p><%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit),
-                   :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json) %></p>
-<%= f.hidden_field :lock_version %>
-<p><label for="<%= content_type %>_comment"><%= Meeting.human_attribute_name(:comments) %></label><%= f.text_field :comment, :size => 120 %></p>
-<p><%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
-<% path = send("preview_#{content_type}_path", content.meeting) %>
-<%= link_to l(:button_cancel), "#", data: { 'content-type': content_type }, class: 'button button--cancel-agenda' %>
-<%= wikitoolbar_for "#{content_type}_text", preview_context: @project %>
+  <p><%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit),
+                     :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json) %></p>
+  <%= f.hidden_field :lock_version %>
+  <% path = send("preview_#{content_type}_path", content.meeting) %>
+  <%= wikitoolbar_for "#{content_type}_text", preview_context: @project %>
+
+  <p><label for="<%= content_type %>_comment"><%= Meeting.human_attribute_name(:comments) %></label><%= f.text_field :comment, :size => 120 %></p>
+  <p><%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+  <%= link_to l(:button_cancel), "#", data: { 'content-type': content_type }, class: 'button button--cancel-agenda' %>
 <% end %>
 
 <%= render :partial => 'shared/meeting_header' %>
