@@ -72,6 +72,7 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit,
               readonly urlParamsHelper:UrlParamsHelperService,
               readonly loadingIndicatorService:LoadingIndicatorService,
               readonly tableActionsService:OpTableActionsService,
+              readonly wpTableTimeline:WorkPackageTableTimelineService,
               readonly wpTablePagination:WorkPackageTablePaginationService,
               readonly wpStatesInitialization:WorkPackageStatesInitializationService,
               readonly currentProject:CurrentProjectService) {
@@ -155,6 +156,11 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit,
         .then(() => {
           this.showTablePagination = results.total > results.count;
           this.tableInformationLoaded = this.configuration.tableVisible;
+
+          // Disable compact mode when timeline active
+          if (this.wpTableTimeline.isVisible) {
+            this.compactTableStyle = false;
+          }
         });
     });
   }
