@@ -29,7 +29,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= error_messages_for 'message' %>
 <% replying ||= false %>
 <div class="form--field">
-  <%= f.text_field :subject, required: true, container_class: '-wide' %>
+  <%= f.text_field :subject, required: true, container_class: '-wide', autofocus: true %>
 </div>
 <% unless replying %>
   <div class="form--field">
