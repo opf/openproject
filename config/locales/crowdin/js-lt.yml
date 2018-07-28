@@ -95,7 +95,7 @@ lt:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: Įvyko vidinė klaida.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -392,8 +392,7 @@ lt:
           virš elemento, jo datos informacija bus rodoma vietoj šių atributų.
 
 '
-      button_activate: Aktyvuoti laiko juostos režimą
-      button_deactivate: Išjungti laiko juostos režimą
+      button_activate: Show Gantt chart
       cancel: Atšaukti
       change: Pakeisti planavime
       due_date: Užbaigimo data
@@ -639,6 +638,7 @@ lt:
         months: mėnesiai(-ių)
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Stulpeliai ...
         sort_by: Rūšiuoti pagal ...
         group_by: Grupuoti pagal ...

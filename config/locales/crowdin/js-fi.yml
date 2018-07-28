@@ -95,7 +95,7 @@ fi:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: Tapahtui sisäinen virhe.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -388,8 +388,7 @@ fi:
           its date labels will be shown instead of these attributes.
 
 '
-      button_activate: Ota aikajana tila käyttöön
-      button_deactivate: Poista aikajana tila käytöstä
+      button_activate: Show Gantt chart
       cancel: Peruuta
       change: Muuta suunnittelussa
       due_date: Määräpäivä
@@ -629,6 +628,7 @@ fi:
         months: months
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Sarakkeet...
         sort_by: Järjestä...
         group_by: Ryhmittele...

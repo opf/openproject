@@ -94,7 +94,7 @@ zh-TW:
           with_type: '創建工作包 (類型: %{typename})'
         embedded_table:
           button: 嵌入工作包表
-          text: 嵌入式工作包表 (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: 發生內部錯誤。
       cannot_save_changes_with_message: '由於以下錯誤, 無法保存所做的更改: %{error}'
@@ -373,8 +373,7 @@ zh-TW:
         description: '選擇要在甘特圖的對應位置上始終顯示的屬性。請注意, 在游標停在元素上時, 將顯示其日期標籤, 而不是這些屬性。
 
 '
-      button_activate: 啟動 timeline 模式
-      button_deactivate: 停用 timeline 模式
+      button_activate: Show Gantt chart
       cancel: 取消
       change: 更改計劃
       due_date: 截止日期
@@ -592,6 +591,7 @@ zh-TW:
         months: 月
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: 欄
         sort_by: 排序條件...
         group_by: 分組條件...

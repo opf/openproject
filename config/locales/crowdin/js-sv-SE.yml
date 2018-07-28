@@ -98,7 +98,7 @@ sv-SE:
           with_type: 'Skapa arbetspaket (Typ: %{typename})'
         embedded_table:
           button: Bädda in arbetspaket-tabell
-          text: Inbäddad arbetspaket-tabell (platshållare)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: Ett internt fel har inträffat.
       cannot_save_changes_with_message: 'Kan inte spara dina ändringar på grund av
@@ -391,8 +391,7 @@ sv-SE:
           its date labels will be shown instead of these attributes.
 
 '
-      button_activate: Aktivera tidslinjeläge
-      button_deactivate: Inaktivera tidslinjeläge
+      button_activate: Show Gantt chart
       cancel: Avbryt
       change: Ändra i planeringen
       due_date: Förfallodatum
@@ -633,6 +632,7 @@ sv-SE:
         months: månader
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Kolumner ...
         sort_by: Sortera efter ...
         group_by: Gruppera efter ...

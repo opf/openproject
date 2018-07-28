@@ -90,7 +90,7 @@ lol:
           with_type: crwdns99027:0%{typename}crwdne99027:0
         embedded_table:
           button: crwdns99009:0crwdne99009:0
-          text: crwdns99010:0crwdne99010:0
+          text: crwdns99069:0[Placeholder]crwdne99069:0
     error:
       internal: crwdns98376:0crwdne98376:0
       cannot_save_changes_with_message: crwdns99001:0%{error}crwdne99001:0
@@ -367,8 +367,7 @@ lol:
         description: 'crwdns98604:0crwdne98604:0
 
 '
-      button_activate: crwdns98605:0crwdne98605:0
-      button_deactivate: crwdns98606:0crwdne98606:0
+      button_activate: crwdns99070:0crwdne99070:0
       cancel: crwdns98607:0crwdne98607:0
       change: crwdns98608:0crwdne98608:0
       due_date: crwdns98609:0crwdne98609:0
@@ -586,6 +585,7 @@ lol:
         months: crwdns98779:0crwdne98779:0
     toolbar:
       settings:
+        configure_view: crwdns99071:0crwdne99071:0
         columns: crwdns98780:0crwdne98780:0
         sort_by: crwdns98781:0crwdne98781:0
         group_by: crwdns98782:0crwdne98782:0

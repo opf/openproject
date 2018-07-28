@@ -95,7 +95,7 @@ id:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: An internal error has occurred.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -391,8 +391,7 @@ id:
           atributnya.
 
 '
-      button_activate: Aktifkan untuk modus garis waktu
-      button_deactivate: Menonaktifkan modus garis waktu
+      button_activate: Show Gantt chart
       cancel: Batal
       change: Perubahan dalam perencanaan
       due_date: Tenggat waktu
@@ -635,6 +634,7 @@ id:
         months: bulan
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Kolom...
         sort_by: Urut berdasarkan...
         group_by: Grup oleh...

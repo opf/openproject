@@ -95,7 +95,7 @@ pl:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: Wystąpił błąd wewnętrzny.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -392,8 +392,7 @@ pl:
           pokazane jego etykiety daty zamiast tych atrybutów.
 
 '
-      button_activate: Aktywuj tryb osi czasu
-      button_deactivate: Dezaktywuj tryb osi czasu
+      button_activate: Show Gantt chart
       cancel: Anuluj
       change: Zmiany w zakresie planowania
       due_date: Termin
@@ -636,6 +635,7 @@ pl:
         months: miesiące
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Kolumny ...
         sort_by: Sortuj według ...
         group_by: Grupuj według ...

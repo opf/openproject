@@ -97,7 +97,7 @@ pt-BR:
           with_type: 'Criar pacote de trabalho (Tipo: %{typename})'
         embedded_table:
           button: Embutir tabela de pacote de trabalho
-          text: Tabela de pacote de trabalho embutida (espaço reservado)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: Ocorreu um erro interno.
       cannot_save_changes_with_message: 'Não foi possível salvar as alterações devido
@@ -392,8 +392,7 @@ pt-BR:
           elemento, seus marcadores de data serão exibidos em vez desses atributos.
 
 '
-      button_activate: Ativar o modo de linha do tempo
-      button_deactivate: Desativar o modo de linha do tempo
+      button_activate: Show Gantt chart
       cancel: Cancelar
       change: Mudar no planejamento
       due_date: Prazo
@@ -638,6 +637,7 @@ pt-BR:
         months: meses
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Colunas...
         sort_by: Ordenar por...
         group_by: Agrupar por...

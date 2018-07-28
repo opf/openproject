@@ -94,7 +94,7 @@ ko:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: 내부 오류가 발생하였습니다.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -379,8 +379,7 @@ ko:
           표시됩니다.
 
 '
-      button_activate: 타임라인 모드 활성화
-      button_deactivate: 타임라인 모드 비활성화
+      button_activate: Show Gantt chart
       cancel: 취소
       change: 계획에서 변경
       due_date: 기한
@@ -606,6 +605,7 @@ ko:
         months: 개월
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: 열...
         sort_by: 정렬 기준...
         group_by: 그룹화 기준...

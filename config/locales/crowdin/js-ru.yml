@@ -98,7 +98,7 @@ ru:
           with_type: 'Создать пакет работ (Тип: %{typename})'
         embedded_table:
           button: Вложить таблицу пакетов работ
-          text: Вложенная таблица пакетов работ (заполнитель)
+          text: "[Placeholder] Таблица внедренных пакетов работ"
     error:
       internal: Произошла внутренняя ошибка.
       cannot_save_changes_with_message: 'Не удается сохранить изменения из-за следующей
@@ -394,8 +394,7 @@ ru:
           атрибутов будет показана их даты.
 
 '
-      button_activate: Активировать режим временной шкалы
-      button_deactivate: Отключить режим временной шкалы
+      button_activate: Show Gantt chart
       cancel: Отмена
       change: Изменения в планировании
       due_date: Дата завершения
@@ -641,6 +640,7 @@ ru:
         months: месяцев
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Столбцы...
         sort_by: Сортировать по ...
         group_by: Группировать по...

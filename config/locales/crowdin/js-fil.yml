@@ -95,7 +95,7 @@ fil:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: Isang internal error ang naganap.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -395,8 +395,7 @@ fil:
           ito.
 
 '
-      button_activate: I-aktibo ang timeline mode
-      button_deactivate: I-deactivate ang timeline mode
+      button_activate: Show Gantt chart
       cancel: Kanselahin
       change: Baguhin ang pagpaplano
       due_date: Takdang petsa
@@ -648,6 +647,7 @@ fil:
         months: mga buwan
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Mga hanay ...
         sort_by: Ayusin sa ...
         group_by: Grupohin sa ...

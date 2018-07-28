@@ -95,7 +95,7 @@ it:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: Si è verificato un errore interno.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -392,8 +392,7 @@ it:
           anziché questi attributi.
 
 '
-      button_activate: Attiva modalità sequenza temporale
-      button_deactivate: Disattiva modalità sequenza temporale
+      button_activate: Show Gantt chart
       cancel: Cancella
       change: Cambiare nella pianificazione
       due_date: Data di consegna
@@ -641,6 +640,7 @@ it:
         months: mesi
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Colonne ...
         sort_by: Ordina per ...
         group_by: Raggruppa per...
