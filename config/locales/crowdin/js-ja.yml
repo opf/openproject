@@ -90,7 +90,7 @@ ja:
           with_type: '作業項目を作成 (種類: %{typename})'
         embedded_table:
           button: 作業項目表を埋め込む
-          text: "[Placeholder] Embedded work package table"
+          text: "[Placeholder] 埋め込まれた作業項目表"
     error:
       internal: 内部エラーが発生しました。
       cannot_save_changes_with_message: '次のエラーのために変更を保存できません: %{error}'
@@ -370,7 +370,7 @@ ja:
         description: '毎回、ガントチャートのそれぞれの位置に表示する属性を選択します。要素にカーソルを合わせたときに、その属性の代わりに、日付ラベルが表示されることに注意してください。
 
 '
-      button_activate: Show Gantt chart
+      button_activate: ガントチャートの表示
       cancel: キャンセル
       change: 計画の変更する
       due_date: 期限
@@ -589,7 +589,7 @@ ja:
         months: ヶ月間
     toolbar:
       settings:
-        configure_view: Configure view ...
+        configure_view: 表示設定...
         columns: 列...
         sort_by: 並べ替え...
         group_by: グループ化...
