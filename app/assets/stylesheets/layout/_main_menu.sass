@@ -406,9 +406,14 @@ $arrow-left-width: 40px
     &.hidden
       display: none
 
-  li.selected
-    @include varprop(background, main-menu-bg-selected-background)
-    @include varprop(color, main-menu-selected-font-color)
+  .ui-state-active
+    background: none !important
+    color: inherit !important
+
+  li.selected,
+  li:hover
+      @include varprop(background, main-menu-bg-selected-background)
+      @include varprop(color, main-menu-selected-font-color)
 
   .ui-autocomplete .ui-menu-item-wrapper
     padding: 5px 15px !important

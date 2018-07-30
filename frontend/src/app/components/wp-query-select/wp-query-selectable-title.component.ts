@@ -67,7 +67,7 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
   ngOnInit() {
     // Register click on work packages and cancel edit (set field back to previous value)
     jQuery(window).dblclick( event => {
-      if (!this.isEmpty) {
+      if (!this.isEmpty && !this.disabled) {
         this.editing = true;
       } else if (this.isEmpty && (jQuery(event.target).is('td')) ) {
         this.cancelEdit();
@@ -182,17 +182,4 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
       return this.editing = false;
     }
   }
-
-  // /**
-  //  * Positioning args for jquery-ui position.
-  //  *
-  //  * @param {JQueryEventObject} openerEvent
-  //  */
-  // public positionArgs(openerEvent:JQueryEventObject) {
-  //   return {
-  //     my: 'left top',
-  //     at: 'left bottom',
-  //     of: jQuery(this.elementRef).find('.wp-table--query-menu-link')
-  //   };
-  // }
 }

@@ -276,7 +276,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             param: :project_id,
             parent: :work_packages,
             partial: 'work_packages/menu_query_select',
-            last: true
+            last: true,
             caption: :label_all_open_wps
 
   menu.push :calendar,
