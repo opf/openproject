@@ -53,6 +53,16 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
     private attachmentsBackend:boolean|null;
 
     /**
+     * Return whether the user is able to upload an attachment.
+     *
+     * If either the `addAttachment` link is provided or the resource is being created,
+     * adding attachments is allowed.
+     */
+    public get canAddAttachments():boolean {
+      return !!this.$links.addAttachment || this.isNew;
+    }
+
+    /**
      * Remove the given attachment either from the pending attachments or from
      * the attachment collection, if it is a resource.
      *
@@ -91,9 +101,13 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
         .then((result:{response:HalResource, uploadUrl:string }[]) => {
           setTimeout(() => this.NotificationsService.remove(notification), 700);
 
-          result.forEach(r => {
-            this.attachments.elements.push(r.response);
-          });
+          if (!this.isNew) {
+            this.updateAttachments();
+          } else {
+            result.forEach(r => {
+              this.attachments.elements.push(r.response);
+            });
+          }
 
           return result;
         })
