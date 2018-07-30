@@ -27,7 +27,7 @@ export interface ICKEditorContext {
 
 declare global {
   interface Window {
-    OPBalloonEditor:ICKEditorStatic;
+    OPConstrainedEditor:ICKEditorStatic;
     OPClassicEditor:ICKEditorStatic;
   }
 }
@@ -42,13 +42,14 @@ export class CKEditorSetupService {
    * Pass a ICKEditorContext object that will be used to decide active plugins.
    *
    *
-   * @param {"classic" | "balloon"} type
+   * @param {"full" | "constrained"} type
    * @param {HTMLElement} wrapper
    * @param {ICKEditorContext} context
    * @returns {Promise<ICKEditorInstance>}
    */
- public create(type:'classic'|'balloon', wrapper:HTMLElement, context:ICKEditorContext) {
-   const editor = type === 'balloon' ? window.OPBalloonEditor : window.OPClassicEditor;
+ public create(type:'full'|'constrained', wrapper:HTMLElement, context:ICKEditorContext) {
+   const editor = type === 'constrained' ? window.OPConstrainedEditor : window.OPClassicEditor;
+   wrapper.classList.add(`ckeditor-type-${type}`);
 
    return editor
      .createCustomized(wrapper, {
@@ -57,6 +58,15 @@ export class CKEditorSetupService {
          helpURL: this.PathHelper.textFormattingHelp(),
          pluginContext: window.OpenProject.pluginContext.value
        }
+     })
+     .then((editor) => {
+       // Allow custom events on wrapper to set/get data for debugging
+       jQuery(wrapper)
+         .on('op:ckeditor:setData', (event:any, data:string) => editor.setData(data))
+         .on('op:ckeditor:clear', (event:any) => editor.setData(' '))
+         .on('op:ckeditor:getData', (event:any, cb:any) => cb(editor.getData()));
+
+       return editor;
      })
      .catch((error:any) => {
        console.error(`Failed to setup CKEditor instance: ${error}`);

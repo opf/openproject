@@ -43,7 +43,7 @@ module Pages
 
     def update_attributes(attribute_map)
       attribute_map.each do |label, value|
-        WorkPackageField.new(page, label.downcase).set_value(value)
+        work_package_field(label.downcase).set_value(value)
       end
     end
 

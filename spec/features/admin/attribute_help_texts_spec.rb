@@ -33,12 +33,9 @@ describe 'Attribute help texts' do
 
   let(:instance) { AttributeHelpText.last }
   let(:modal) { Components::AttributeHelpTextModal.new(instance) }
+  let(:editor) { Components::WysiwygEditor.new }
 
   let(:relation_columns_allowed) { true }
-
-  def set_help_text(text)
-    find('.ck-content').set(text)
-  end
 
   describe 'Work package help texts' do
     before do
@@ -59,7 +56,7 @@ describe 'Attribute help texts' do
         # Set attributes
         # -> create
         select 'Status', from: 'attribute_help_text_attribute_name'
-        set_help_text('My attribute help text')
+        editor.set_markdown('My attribute help text')
         click_button 'Save'
 
         # Should now show on index for editing
@@ -71,12 +68,12 @@ describe 'Attribute help texts' do
         # -> edit
         page.find('.attribute-help-text--entry td a', text: 'Status').click
         expect(page).to have_selector('#attribute_help_text_attribute_name[disabled]')
-        set_help_text(' ')
+        editor.set_markdown(' ')
         click_button 'Save'
 
         # Handle errors
         expect(page).to have_selector('#errorExplanation', text: "Help text can't be blank.")
-        set_help_text('New**help**text')
+        editor.set_markdown('New**help**text')
         click_button 'Save'
 
         # On index again

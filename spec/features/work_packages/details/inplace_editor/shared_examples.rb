@@ -106,7 +106,8 @@ shared_examples 'a workpackage autocomplete field' do
 
   it 'autocompletes the other work package' do
     field.activate!
-    field.input_element.send_keys(" ##{wp2.id}")
+    field.clear
+    field.type(" ##{wp2.id}")
     expect(page).to have_selector('.atwho-view-ul li.cur', text: wp2.to_s.strip)
   end
 end
