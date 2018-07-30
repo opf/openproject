@@ -54,33 +54,34 @@ pt-BR:
     description_selected_columns: Colunas selecionadas
     description_subwork_package: 'Filho do pacote de trabalho #%{id}'
     editor:
-      preview: Toggle preview mode
+      preview: Alternar modo de visualização
       macro:
         child_pages:
           button: Links para páginas filhas
-          include_parent: Include parent
-          text: "[Placeholder] Links to child pages of"
+          include_parent: Incluir pai
+          text: "[Placeholder] Links para páginas filhas de"
           page: Página wiki
           this_page: esta página
-          hint: 'Leave this field empty to list all child pages of the current page.
-            If you want to reference a different page, provide its title or slug.
+          hint: 'Deixe este campo em branco para listar todas as páginas filhas da
+            página atual. Se você deseja fazer referência a uma página diferente,
+            forneça seu título ou "slug".
 
 '
         code_block:
-          button: Insert code snippet
-          title: Insert / edit Code snippet
-          language: Formatting language
-          language_hint: Enter the formatting language that will be used for highlighting
-            (if supported).
+          button: Inserir trecho de código
+          title: Inserir / editar Trecho de código
+          language: Linguagem de formatação
+          language_hint: Insira a linguagem de formatação que será usada para destacar
+            (se suportado).
         dropdown:
           macros: Macros
           chose_macro: Escolher macro
         toc: Tabela de conteúdos
-        toolbar_help: Click to select widget and show the toolbar. Double-click to
-          edit widget
+        toolbar_help: Clique para selecionar o widget e mostrar a barra de ferramentas.
+          Clique duas vezes para editar o widget
         wiki_page_include:
           button: Incluir o conteúdo de outra página wiki
-          text: "[Placeholder] Included wiki page of"
+          text: "[Placeholder] Incluída a página wiki de"
           page: Página wiki
           hint: 'Inclua o conteúdo de outra página wiki, especificando seu título
             ou slug. Você pode incluir a página wiki de um outro projeto, separando-a
@@ -97,7 +98,7 @@ pt-BR:
           with_type: 'Criar pacote de trabalho (Tipo: %{typename})'
         embedded_table:
           button: Embutir tabela de pacote de trabalho
-          text: "[Placeholder] Embedded work package table"
+          text: "[Placeholder] Embutida tabela de pacote de trabalho"
     error:
       internal: Ocorreu um erro interno.
       cannot_save_changes_with_message: 'Não foi possível salvar as alterações devido
@@ -293,9 +294,9 @@ pt-BR:
         error_duplicate_group_name: O nome %{group} foi usado mais de uma vez. Nomes
           de Grupos devem ser únicos.
         reset_title: Voltar para a configuração padrão do formulário
-        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group and disable ALL custom
-          fields.
+        confirm_reset: 'Aviso: Tem certeza de que deseja redefinir a configuração
+          de formulário? Isto irá redefinir os atributos para o grupo padrão e desativar
+          TODOS os campos personalizados.
 
 '
         upgrade_to_ee: Atualizar para a versão Enterprise Edition
@@ -392,7 +393,7 @@ pt-BR:
           elemento, seus marcadores de data serão exibidos em vez desses atributos.
 
 '
-      button_activate: Show Gantt chart
+      button_activate: Exibir gráfico de Gantt
       cancel: Cancelar
       change: Mudar no planejamento
       due_date: Prazo
@@ -637,7 +638,7 @@ pt-BR:
         months: meses
     toolbar:
       settings:
-        configure_view: Configure view ...
+        configure_view: Configurar visualização...
         columns: Colunas...
         sort_by: Ordenar por...
         group_by: Agrupar por...
@@ -649,14 +650,14 @@ pt-BR:
         save_as: Salvar como ...
         export: Exportar ...
         publish: Publicar ...
-        page_settings: Rename view ...
+        page_settings: Renomear visualização...
         delete: Excluir
       filter: Filtro
       unselected_title: Pacote de trabalho
       search_query_label: Localizar filtro de pesquisa salvo
       search_query_title: Clique para localizar filtros de pesquisa salvos
     modals:
-      label_settings: Rename view
+      label_settings: Renomear visualização
       label_name: Nome
       label_delete_page: Excluir página atual
       button_apply: Aplicar
@@ -700,8 +701,8 @@ pt-BR:
     error_could_not_resolve_version_name: Não foi possível identificar o nome da versão
     error_could_not_resolve_user_name: Não foi possível identificar o nome do usuário
     error_attachment_upload: 'Arquivo ''%{name}'' falhou no envio: %{error}'
-    error_attachment_upload_permission: You don't have the permission to upload files
-      on this resource.
+    error_attachment_upload_permission: Você não tem permissão para enviar arquivos
+      nesse recurso.
     units:
       workPackage:
         one: pacote de trabalho
