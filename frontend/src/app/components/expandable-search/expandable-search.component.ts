@@ -30,9 +30,12 @@ import {Component, ElementRef, HostListener, OnDestroy, Renderer2, ViewChild} fr
 import {ContainHelpers} from 'core-app/modules/common/focus/contain-helpers';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+
+export const expandableSearchSelector = 'expandable-search';
 
 @Component({
-  selector: 'expandable-search',
+  selector: expandableSearchSelector,
   templateUrl: './expandable-search.component.html'
 })
 
@@ -113,3 +116,7 @@ export class ExpandableSearchComponent implements OnDestroy {
     this.input.nativeElement.value = val;
   }
 }
+
+DynamicBootstrapper.register({
+  selector: expandableSearchSelector, cls: ExpandableSearchComponent
+});
