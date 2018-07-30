@@ -27,7 +27,7 @@
 // ++
 
 import {FirstRouteService} from 'app/components/routing/first-route-service';
-import {StateDeclaration, StateRegistry, Transition, TransitionService, UrlService} from '@uirouter/core';
+import {StateDeclaration, StateRegistry, StateService, Transition, TransitionService, UrlService} from '@uirouter/core';
 import {WorkPackageSplitViewComponent} from 'core-components/routing/wp-split-view/wp-split-view.component';
 import {WorkPackagesListComponent} from 'core-components/routing/wp-list/wp-list.component';
 import {WorkPackageOverviewTabComponent} from 'core-components/wp-single-view-tabs/overview-tab/overview-tab.component';
@@ -43,6 +43,7 @@ import {NotificationsService} from "core-app/modules/common/notifications/notifi
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {Injector} from "@angular/core";
 import {WorkPackagesBaseComponent} from "core-components/routing/main/work-packages-base.component";
+import {wpBaseAppSelector} from "./main/work-packages-base.component";
 
 const panels = {
   get overview() {
@@ -195,6 +196,7 @@ export const OPENPROJECT_ROUTES:StateDeclaration[] = [
 export function initializeUiRouterConfiguration(injector:Injector) {
   return () => {
     const $transitions:TransitionService = injector.get(TransitionService);
+    const stateService = injector.get(StateService);
     const notificationsService:NotificationsService = injector.get(NotificationsService);
     const currentProject:CurrentProjectService = injector.get(CurrentProjectService);
     const firstRoute:FirstRouteService = injector.get(FirstRouteService);
@@ -212,16 +214,32 @@ export function initializeUiRouterConfiguration(injector:Injector) {
     // Synchronize now that routes are updated
     urlService.sync();
 
+    // Check whether we are running within our complete app, or only within some other bootstrapped
+    // component
+    let wpBase = document.querySelector(wpBaseAppSelector);
+
     $transitions.onStart({}, function(transition:Transition) {
       const $state = transition.router.stateService;
       const toParams = transition.params('to');
       const toState = transition.to();
 
+      // Abort the transition and move to the url instead
+      if (wpBase === null) {
+
+        // Only move to the URL if we're not coming from an initial URL load
+        // (cases like /work_packages/invalid/activity which render a 403 without frontend,
+        // but trigger the ui-router state)
+        if (!(transition.options().source === 'url' && firstRoute.isEmpty)) {
+          const target = stateService.href(toState, toParams);
+          window.location.href = target;
+          return false;
+        }
+      }
+
       // We need to distinguish between actions that should run on the initial page load
       // (ie. openining a new tab in the details view should focus on the element in the table)
       // so we need to know which route we visited initially
       firstRoute.setIfFirst(toState.name, toParams);
-
 
       // Clear all notifications when actually moving between states.
       if (transition.to().name !== transition.from().name) {

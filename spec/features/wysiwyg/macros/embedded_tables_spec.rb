@@ -102,6 +102,10 @@ describe 'Wysiwyg embedded work package tables',
 
         embedded_table = ::Pages::EmbeddedWorkPackagesTable.new find('.wiki-content')
         embedded_table.expect_work_package_listed work_package
+
+        # Clicking on work package ID redirects
+        full_view = embedded_table.open_full_screen_by_doubleclick work_package
+        full_view.ensure_page_loaded
       end
     end
   end
