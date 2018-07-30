@@ -40,7 +40,7 @@ module TextFormattingHelper
     elsif object.is_a? Message
       message_preview_context(object)
     else
-      object_preview_context(object)
+      object_preview_context(object, project)
     end
   end
 
@@ -68,11 +68,13 @@ module TextFormattingHelper
       .post(message.id)
   end
 
-  def object_preview_context(object)
+  def object_preview_context(object, project)
     paths = API::V3::Utilities::PathHelper::ApiV3Path
 
     if paths.respond_to?(object.class.name.underscore.singularize)
       paths.send(object.class.name.underscore.singularize, object.id)
+    else
+      project_preview_context(object, project)
     end
   end
 end
