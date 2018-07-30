@@ -33,6 +33,9 @@ See docs/COPYRIGHT.rdoc for more details.
                         else
                           f.object
                         end %>
+<% resource = ::API::V3::Posts::PostRepresenter.new(representer_object,
+                                                    current_user: current_user,
+                                                    embed_links: true) %>
 
 <div class="form--field">
   <%= f.text_field :subject, required: true, container_class: '-wide', autofocus: true %>
@@ -50,14 +53,15 @@ See docs/COPYRIGHT.rdoc for more details.
     <%= f.select :board_id, @project.boards.collect {|b| [b.name, b.id]}, label: Board.name.humanize, container_class: '-wide' %>
   </div>
 <% end %>
+
 <div class="form--field -required">
   <%= f.text_area :content,
                   required: true,
                   label: t(:description_message_content),
                   class: 'wiki-edit',
-                  container_class: '-wide',
+                  container_class: '-xxwide',
                   with_text_formatting: true,
-                  resource: ::API::V3::Posts::PostRepresenter.new(representer_object, current_user: current_user),
+                  resource: resource,
                   preview_context: preview_context(representer_object) %>
 </div>
-<%= render partial: 'attachments/form' %>
+<attachments data-resource="<%= resource.to_json %>" data-allow-uploading="true"></attachments>

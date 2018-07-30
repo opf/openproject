@@ -53,7 +53,7 @@ export class AttachmentListComponent implements OnInit {
       this.resource = this.halResourceService.createHalResource(source, true);
     }
 
-    if (this.resource.attachments) {
+    if (this.resource.attachments && this.resource.attachmentsBackend) {
       this.resource.attachments.updateElements();
     }
   }

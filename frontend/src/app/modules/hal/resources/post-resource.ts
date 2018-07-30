@@ -35,9 +35,11 @@ export interface PostResourceLinks {
 
 class PostBaseResource extends HalResource {
   public $links:PostResourceLinks;
+
+  private attachmentsBackend = false;
 }
 
 export const PostResource = Attachable(PostBaseResource);
 
-export interface PageResource extends PostResourceLinks {
+export interface PostResource extends PostResourceLinks {
 }

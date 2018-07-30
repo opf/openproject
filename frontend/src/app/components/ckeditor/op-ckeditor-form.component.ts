@@ -125,7 +125,6 @@ export class OpCkeditorFormComponent implements OnInit, OnDestroy {
       this.setupAttachmentRemovalSignal();
     }
 
-
     // Listen for form submission to set textarea content
     this.formElement.on('submit.ckeditor change.ckeditor', () => {
       const value = this.ckeditor.getData();
@@ -144,21 +143,21 @@ export class OpCkeditorFormComponent implements OnInit, OnDestroy {
 
   private setupAttachmentAddedCallback() {
     this.ckeditor.model.on('op:attachment-added', () => {
-      this.states.wikiPages.get(this.resource!.id).putValue(this.resource!);
+      this.states.forResource(this.resource!).putValue(this.resource!);
     });
   }
 
   private setupAttachmentRemovalSignal() {
     this.attachments = _.clone(this.resource!.attachments.elements);
 
-    this.states.wikiPages.get(this.resource!.id).changes$()
+    this.states.forResource(this.resource!).changes$()
       .pipe(
         takeUntil(componentDestroyed(this)),
         filter(resource => !!resource)
       ).subscribe(resource => {
       let missingAttachments = _.differenceBy(this.attachments,
-        resource!.attachments.elements,
-        (attachment:HalResource) => attachment.id);
+                                              resource!.attachments.elements,
+                                              (attachment:HalResource) => attachment.id);
 
       let removedUrls = missingAttachments.map(attachment => attachment.downloadLocation.$href);
 

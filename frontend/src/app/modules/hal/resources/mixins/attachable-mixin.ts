@@ -50,7 +50,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
     private opFileUpload:OpenProjectFileUploadService;
     private pathHelper:PathHelperService;
 
-    private attachmentsLinkImmediately:boolean;
+    private attachmentsBackend:boolean|null;
 
     /**
      * Remove the given attachment either from the pending attachments or from
@@ -65,8 +65,9 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
       if (attachment.$isHal) {
         return attachment.delete()
           .then(() => {
-            // TODO: handle for ressource not supporting this.updateAttachments
-            //this.updateAttachments();
+            if (!!this.attachmentsBackend) {
+              this.updateAttachments();
+            }
           })
           .catch((error:any) => {
             this.wpNotificationsService.handleErrorResponse(error, this as any);
@@ -105,7 +106,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
     private performUpload(files:UploadFile[]) {
       let href = '';
 
-      if (!this.id || !this.attachmentsLinkImmediately) {
+      if (!this.id || !this.attachmentsBackend) {
         href = this.pathHelper.api.v3.attachments.path;
       } else {
         href = this.addAttachment.$link.href;

@@ -65,7 +65,7 @@ export class AttachmentListItemComponent {
     }
 
     _.pull(this.resource.attachments.elements, this.attachment);
-    this.states.wikiPages.get(this.resource.id).putValue(this.resource)
+    this.states.forResource(this.resource!).putValue(this.resource);
 
     return false;
   }

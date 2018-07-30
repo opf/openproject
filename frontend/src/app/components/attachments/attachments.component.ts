@@ -94,12 +94,12 @@ export class AttachmentsComponent implements OnInit, OnDestroy {
   }
 
   public setupResourceUpdateListener() {
-    this.states.wikiPages.get(this.resource.id).changes$()
+    this.states.forResource(this.resource).changes$()
       .pipe(
         takeUntil(componentDestroyed(this)),
         filter(newResource => !!newResource)
       )
-      .subscribe(newResource => {
+      .subscribe((newResource:HalResource)=> {
         this.resource = newResource || this.resource;
       });
   }

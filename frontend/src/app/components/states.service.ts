@@ -11,8 +11,11 @@ import {WPFocusState} from 'core-components/wp-fast-table/state/wp-table-focus.s
 import {input, InputState, multiInput, MultiInputState, StatesGroup} from 'reactivestates';
 import {QueryColumn} from './wp-query/query-column';
 import {WikiPageResource} from 'core-app/modules/hal/resources/wiki-page-resource';
+import {PostResource} from 'core-app/modules/hal/resources/post-resource';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
 export class States extends StatesGroup {
+  [key: string]: any;
 
   name = 'MainStore';
 
@@ -22,8 +25,11 @@ export class States extends StatesGroup {
   /* /api/v3/work_packages */
   workPackages = multiInput<WorkPackageResource>();
 
-  /* /api/v3/work_packages */
+  /* /api/v3/wiki_pages */
   wikiPages = multiInput<WikiPageResource>();
+
+  /* /api/v3/wiki_pages */
+  posts = multiInput<PostResource>();
 
   /* /api/v3/schemas */
   schemas = multiInput<SchemaResource>();
@@ -40,6 +46,15 @@ export class States extends StatesGroup {
   // Current focused work package (e.g, row preselected for details button)
   focusedWorkPackage:InputState<WPFocusState> = input<WPFocusState>();
 
+  forResource(resource:HalResource):InputState<HalResource> {
+    let stateName = _.camelCase(resource._type) + 's';
+
+    return this[stateName].get(resource.id);
+  }
+
+  public add(name:string, state:MultiInputState<HalResource>) {
+    this[name] = state;
+  }
 }
 
 export class QueryStates {
