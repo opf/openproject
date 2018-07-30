@@ -99,7 +99,7 @@ de:
           with_type: 'Arbeitspaket erstellen (Typ: %{typename})'
         embedded_table:
           button: Arbeitspaket-Tabelle einbetten
-          text: "[Platzhalter] Eingebettete Arbeitspaket-Tabelle"
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: Ein interner Fehler ist aufgetreten.
       cannot_save_changes_with_message: 'Ihre Änderungen können nicht gespeichert
@@ -397,8 +397,7 @@ de:
           dieser Attribute.
 
 '
-      button_activate: Zeitplan-Ansicht aktivieren
-      button_deactivate: Zeitplan-Ansicht deaktivieren
+      button_activate: Show Gantt chart
       cancel: Abbrechen
       change: Planungsänderung
       due_date: Abgabedatum
@@ -650,6 +649,7 @@ de:
         months: Monaten
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Spalten ...
         sort_by: Sortiere nach ...
         group_by: Gruppiere nach ...

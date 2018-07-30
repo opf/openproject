@@ -95,7 +95,7 @@ cs:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Vložit tabulku pracovního balíčku
-          text: Vestavěná tabulka pracovního balíčku (zástupný znak)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: Došlo k vnitřní chybě.
       cannot_save_changes_with_message: 'Nelze uložit změny kvůli následující chybě:
@@ -395,8 +395,7 @@ cs:
           its date labels will be shown instead of these attributes.
 
 '
-      button_activate: Activate timeline mode
-      button_deactivate: Deactivate timeline mode
+      button_activate: Show Gantt chart
       cancel: Zrušit
       change: Změna v plánování
       due_date: Uzavřít do
@@ -639,6 +638,7 @@ cs:
         months: mesice
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Columns ...
         sort_by: Sort by ...
         group_by: Group by ...

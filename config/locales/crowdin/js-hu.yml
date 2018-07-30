@@ -95,7 +95,7 @@ hu:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: Belső hiba történt.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -388,8 +388,7 @@ hu:
           a dátumcímkék jelennek meg ezen attribútumok helyén.
 
 '
-      button_activate: Aktiválva az idővonal mód
-      button_deactivate: Idővonal mód kikapcsolva
+      button_activate: Show Gantt chart
       cancel: Mégsem
       change: A tervezés módosítása
       due_date: Lejárati időpont
@@ -634,6 +633,7 @@ hu:
         months: hónap
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Oszlopok...
         sort_by: Rendezés...
         group_by: Csoportosítás...

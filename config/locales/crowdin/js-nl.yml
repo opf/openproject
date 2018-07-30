@@ -95,7 +95,7 @@ nl:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: Een interne fout is opgetreden.
       cannot_save_changes_with_message: 'Uw wijzigingen vanwege de volgende fout niet
@@ -394,8 +394,7 @@ nl:
           deze kenmerken.
 
 '
-      button_activate: Activeren van de tijdlijnmodus
-      button_deactivate: Deactiveren van de tijdlijnmodus
+      button_activate: Show Gantt chart
       cancel: Annuleren
       change: In de planning wijzigen
       due_date: Vervaldatum
@@ -643,6 +642,7 @@ nl:
         months: maanden
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Kolommen ...
         sort_by: Sorteer per ...
         group_by: Groeperen op...

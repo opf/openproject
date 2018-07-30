@@ -95,7 +95,7 @@ tr:
           with_type: İş paketini oluştur (Tür %{typename})
         embedded_table:
           button: Gömülü iş paketi tablosu
-          text: Gömülü iş paketi tablosu (yer tutucu)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: İç hata oluştu.
       cannot_save_changes_with_message: 'Değişikliklerinizin kaydedilememesine sebep
@@ -390,8 +390,7 @@ tr:
           özellikleri yerine etiketinin görüneceğini unutmayın.
 
 '
-      button_activate: Zaman çizelgesini etkinleştir
-      button_deactivate: Zaman çizelgesini pasifleştir
+      button_activate: Show Gantt chart
       cancel: İptal
       change: Planlama değişikliği
       due_date: Teslim tarihi
@@ -635,6 +634,7 @@ tr:
         months: ay
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Sütunlar ...
         sort_by: Şuna göre sırala ...
         group_by: Gruplandır...

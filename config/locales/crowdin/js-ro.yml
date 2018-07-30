@@ -95,7 +95,7 @@ ro:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: A apărut o eroare internă.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -394,8 +394,7 @@ ro:
           its date labels will be shown instead of these attributes.
 
 '
-      button_activate: Activate timeline mode
-      button_deactivate: Deactivate timeline mode
+      button_activate: Show Gantt chart
       cancel: Anulare
       change: Schimbare în planificare
       due_date: Dată scadentă
@@ -643,6 +642,7 @@ ro:
         months: luni
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Coloane...
         sort_by: Sortare după...
         group_by: Grupare după...

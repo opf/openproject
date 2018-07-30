@@ -123,11 +123,18 @@ export class WorkPackageEditFieldComponent implements OnInit {
       return true;
     }
 
+    // Skip activation if the user clicked on a link
+    const target = jQuery(event.target);
+    if (target.closest('a', this.displayContainer.nativeElement).length > 0) {
+      return true;
+    }
+
     if (this.isEditable) {
       this.handleUserActivate(event);
     }
 
     this.opContextMenu.close();
+    event.preventDefault();
     event.stopImmediatePropagation();
 
     return false;
@@ -145,13 +152,6 @@ export class WorkPackageEditFieldComponent implements OnInit {
     let positionOffset = 0;
 
     if (evt) {
-      // Skip activation if the user clicked on a link
-      const target = jQuery(evt.target);
-
-      if (target.closest('a', this.displayContainer.nativeElement).length > 0) {
-        return true;
-      }
-
       // Get the position where the user clicked.
       positionOffset = ClickPositionMapper.getPosition(evt);
     }

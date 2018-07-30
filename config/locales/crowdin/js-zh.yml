@@ -93,7 +93,7 @@ zh:
           with_type: 创建工作包（种类：%{typename}）
         embedded_table:
           button: 嵌入工作包表
-          text: 嵌入式工作包表 (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: 发生了内部错误。
       cannot_save_changes_with_message: 由于%{error} 原因，无法保存您的更改。
@@ -372,8 +372,7 @@ zh:
         description: '选择要在甘特图的各个位置显示的属性。请注意, 在元素上悬停时, 将显示其日期标签而不是这些属性。
 
 '
-      button_activate: 激活时间线模式
-      button_deactivate: 取消激活时间线模式
+      button_activate: Show Gantt chart
       cancel: 取消
       change: 更改计划
       due_date: 截止日期
@@ -591,6 +590,7 @@ zh:
         months: 月
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: 列...
         sort_by: 排序...
         group_by: 分组...

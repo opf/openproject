@@ -95,7 +95,7 @@ uk:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: Сталася внутрішня помилка.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -395,8 +395,7 @@ uk:
           its date labels will be shown instead of these attributes.
 
 '
-      button_activate: Activate timeline mode
-      button_deactivate: Deactivate timeline mode
+      button_activate: Show Gantt chart
       cancel: Cancel
       change: Change in planning
       due_date: Due date
@@ -640,6 +639,7 @@ uk:
         months: months
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Стовпці...
         sort_by: Сортувати за ...
         group_by: Групувати за ...

@@ -95,7 +95,7 @@ da:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: En intern fejl opstod.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -388,8 +388,7 @@ da:
           its date labels will be shown instead of these attributes.
 
 '
-      button_activate: Activate timeline mode
-      button_deactivate: Deactivate timeline mode
+      button_activate: Show Gantt chart
       cancel: Annuller
       change: Ændring i planlægning
       due_date: Forfaldsdato
@@ -631,6 +630,7 @@ da:
         months: måneder
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Kolonner...
         sort_by: Sorter efter...
         group_by: Gruppér efter...

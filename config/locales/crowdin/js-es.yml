@@ -95,7 +95,7 @@ es:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: Ha ocurrido un error interno.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -394,8 +394,7 @@ es:
           correspondientes del diagrama de Gantt en todo momento. Tenga en cuenta
           que, al mantener el ratón sobre un elemento, se mostrarán las etiquetas
           de fecha, en lugar de estos atributos. \n"
-      button_activate: Activar modo de línea de tiempo
-      button_deactivate: Desactivar modo de línea de tiempo
+      button_activate: Show Gantt chart
       cancel: Cancelar
       change: Cambio en la planificación
       due_date: Fecha de vencimiento
@@ -642,6 +641,7 @@ es:
         months: meses
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Columnas ...
         sort_by: Ordenado por ...
         group_by: Agrupar por ...

@@ -42,8 +42,12 @@ $table-timeline--compact-row-height: 28px
   .work-packages-split-view--tabletimeline-content
     overflow: auto
 
-  .work-package-table--container
+  // Disable css containment since we have no inner elements
+  .work-packages-tabletimeline--table-side,
+  .work-packages-tabletimeline--timeline-side
     contain: initial !important
+
+  .work-package-table--container
     overflow: visible
 
     .generic-table--header,
@@ -55,29 +59,6 @@ $table-timeline--compact-row-height: 28px
       border-bottom: none !important
       &:hover
         @include varprop(background-color, table-row-highlighting-color)
-
-    // In FF there is bug (https://bugzilla.mozilla.org/show_bug.cgi?id=688556) which causes
-    // the border of tables to vanish once the background of table cells is set.
-    // Therefor we need to disable the automatic table border rendering with border-collapse: collapse and
-    // add the borders manually.
-    .work-package-table
-      border-collapse: separate
-      border: none
-      padding: 0
-
-      .wp-table--table-header:not(:last-of-type)
-        border-right: 0px solid #bbb
-        &:first-of-type
-          border-left: 1px solid #bbb
-
-      .wp-table--cell-td:not(:last-of-type)
-        border-right: 0px solid #bbb
-        &:first-of-type
-          border-left: 1px solid #bbb
-      .wp-table--row:not(:last-of-type)
-        .wp-table--cell-td
-          border-bottom: 0px solid #bbb
-
 
     thead,
     .generic-table--sort-header-outer

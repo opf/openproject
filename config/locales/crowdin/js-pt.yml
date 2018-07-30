@@ -95,7 +95,7 @@ pt:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: Ocorreu um erro interno.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -389,8 +389,7 @@ pt:
           um elemento, os seus marcadores de data serão exibidos em vez desses atributos.
 
 '
-      button_activate: Ativar modo de linha temporal
-      button_deactivate: Desativar modo de linha temporal
+      button_activate: Show Gantt chart
       cancel: Cancelar
       change: Alteração no planeamento
       due_date: Prazo
@@ -631,6 +630,7 @@ pt:
         months: meses
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Colunas...
         sort_by: Ordenar por...
         group_by: Agrupar por...

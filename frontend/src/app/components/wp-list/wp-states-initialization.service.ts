@@ -108,9 +108,7 @@ export class WorkPackageStatesInitializationService {
   }
 
   public updateChecksum(query:QueryResource, results:WorkPackageCollectionResource) {
-
     this.wpListChecksumService.updateIfDifferent(this.states.query.resource.value!, this.wpTablePagination.current);
-
     this.authorisationService.initModelAuth('work_packages', results.$links);
   }
 
@@ -125,6 +123,7 @@ export class WorkPackageStatesInitializationService {
     this.wpTableHierarchies.initialize(query, results);
 
     this.authorisationService.initModelAuth('query', query.$links);
+    this.authorisationService.initModelAuth('work_packages', results.$links);
   }
 
   public applyToQuery(query:QueryResource) {

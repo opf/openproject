@@ -95,7 +95,7 @@ fa:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: An internal error has occurred.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -392,8 +392,7 @@ fa:
           عنصر، برچسب تاریخ به جای ویژگی های آن نشان داده خواهد شد.
 
 '
-      button_activate: Activate timeline mode
-      button_deactivate: Deactivate timeline mode
+      button_activate: Show Gantt chart
       cancel: Cancel
       change: Change in planning
       due_date: موعد مقرر
@@ -637,6 +636,7 @@ fa:
         months: months
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Columns ...
         sort_by: Sort by ...
         group_by: Group by ...

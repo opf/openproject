@@ -36,8 +36,12 @@ export class FirstRouteService {
 
   constructor() {}
 
+  public get isEmpty() {
+    return !this.name;
+  }
+
   public setIfFirst(stateName:string|undefined, params:any) {
-    if (this.name || !stateName) {
+    if (!this.isEmpty || !stateName) {
       return;
     }
 

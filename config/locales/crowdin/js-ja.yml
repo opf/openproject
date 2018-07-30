@@ -71,12 +71,12 @@ ja:
           language_hint: 強調表示に使用する言語の書式を入力します（サポートされている場合）。
         dropdown:
           macros: マクロ
-          chose_macro: Chose macro
+          chose_macro: マクロを選ぶ
         toc: 目次
         toolbar_help: クリックしてウィジェットを選択しツールバーを表示します。 ダブルクリックしてウィジェットを編集
         wiki_page_include:
           button: 別のwikiページの内容を含める
-          text: "[Placeholder] Included wiki page of"
+          text: "[Placeholder] のwikiページが含まれています"
           page: Wiki ページ
           hint: |
             タイトルやスラッグを指定して別のwikiページの内容を含める。
@@ -90,7 +90,7 @@ ja:
           with_type: '作業項目を作成 (種類: %{typename})'
         embedded_table:
           button: 作業項目表を埋め込む
-          text: 埋め込まれた作業項目表（プレースホルダ）
+          text: "[Placeholder] 埋め込まれた作業項目表"
     error:
       internal: 内部エラーが発生しました。
       cannot_save_changes_with_message: '次のエラーのために変更を保存できません: %{error}'
@@ -276,9 +276,8 @@ ja:
       attribute_groups:
         error_duplicate_group_name: 名前 %{group} が複数回使用されています。グループ名は一意にする必要があります。
         reset_title: フォーム設定をリセット
-        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group and disable ALL custom
-          fields.
+        confirm_reset: '警告：フォーム設定をリセットしてもよろしいですか？ これにより、属性が規定のグループにリセットされ、すべてのカスタムフィールドが無効になります。
+            コンテキスト| リクエストコンテキスト
 
 '
         upgrade_to_ee: エンタープライズ版にアップグレード
@@ -371,8 +370,7 @@ ja:
         description: '毎回、ガントチャートのそれぞれの位置に表示する属性を選択します。要素にカーソルを合わせたときに、その属性の代わりに、日付ラベルが表示されることに注意してください。
 
 '
-      button_activate: タイムライン モードをアクティブにする
-      button_deactivate: タイムライン モードを非アクティブにする
+      button_activate: ガントチャートの表示
       cancel: キャンセル
       change: 計画の変更する
       due_date: 期限
@@ -591,6 +589,7 @@ ja:
         months: ヶ月間
     toolbar:
       settings:
+        configure_view: 表示設定...
         columns: 列...
         sort_by: 並べ替え...
         group_by: グループ化...
@@ -602,14 +601,14 @@ ja:
         save_as: 名前を付けて保存
         export: 出力...
         publish: 公開 ...
-        page_settings: Rename view ...
+        page_settings: ビューの名前を変更...
         delete: 削除
       filter: フィルタ
       unselected_title: 作業項目
       search_query_label: 保存されたフィルタクエリを検索
       search_query_title: クリックして保存されたフィルタクエリを検索
     modals:
-      label_settings: Rename view
+      label_settings: ビューの名前を変更...
       label_name: 名称
       label_delete_page: 現在のページを削除
       button_apply: 適用
