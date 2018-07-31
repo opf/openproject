@@ -186,8 +186,8 @@ pt-BR:
       no_results_title_text: Atualmente, não há fluxos de trabalho.
   work_packages:
     x_children:
-      one: One child work package
-      other: "%{count} work package children"
+      one: Um pacote de trabalho filho
+      other: "%{count} pacotes de trabalho filho"
     move:
       no_common_statuses_exists: Não há situação disponível para todos os pacotes
         de trabalho selecionados. Sua situação não pode ser alterada.
@@ -541,9 +541,9 @@ pt-BR:
           attributes:
             attribute_groups:
               attribute_unknown: Atributo de pacote de trabalho inválido usado.
-              duplicate_group: The group name '%{group}' is used more than once. Group
-                names must be unique.
-              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              duplicate_group: O nome de grupo %{group} foi usado mais de uma vez.
+                Nomes de grupos devem ser únicos.
+              query_invalid: 'A consulta embutida ''%{group}'' é inválida: %{details}'
               group_without_name: Grupos sem nome não são permitidos.
         user:
           attributes:

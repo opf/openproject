@@ -40,7 +40,10 @@ const ckEditorReplacementClass = '__op_ckeditor_replacement_container';
 
 @Component({
   selector: 'op-ckeditor-form',
-  template: `<div class="${ckEditorWrapperClass}"><div class="${ckEditorReplacementClass}"></div></div>`
+  template: `
+    <div class="${ckEditorWrapperClass}">
+      <div class="${ckEditorReplacementClass} op-ckeditor-source-element"></div>
+    </div>`
 })
 export class OpCkeditorFormComponent implements OnInit {
   public textareaSelector:string;
@@ -87,7 +90,7 @@ export class OpCkeditorFormComponent implements OnInit {
                       previewContext: this.previewContext };
 
     const editorPromise = this.ckEditorSetup
-      .create('classic',
+      .create('full',
               wrapper[0],
               context)
       .then(this.setup.bind(this));

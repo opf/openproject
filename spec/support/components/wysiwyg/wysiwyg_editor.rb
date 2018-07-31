@@ -27,6 +27,24 @@ module Components
       expect(editor_element.text).to eq(value)
     end
 
+    def set_markdown(text)
+      textarea = container.find('.op-ckeditor-source-element', visible: :all)
+      page.execute_script(
+        'jQuery(arguments[0]).trigger("op:ckeditor:setData", arguments[1])',
+        textarea.native,
+        text
+      )
+    end
+
+
+    def clear
+      textarea = container.find('.op-ckeditor-source-element', visible: :all)
+      page.execute_script(
+        'jQuery(arguments[0]).trigger("op:ckeditor:clear")',
+        textarea.native
+      )
+    end
+
     def within_enabled_preview
       click_toolbar_button 'Toggle preview mode'
       begin

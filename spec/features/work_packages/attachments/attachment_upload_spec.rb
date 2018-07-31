@@ -29,7 +29,7 @@ describe 'Upload attachment to work package', js: true do
     it 'can upload an image via drag & drop' do
       # Activate the edit field
       field.activate!
-      target = find('.op-ckeditor-element')
+      target = find('.ck-content')
       attachments.drag_and_drop_file(target, image_fixture)
 
       # Besides testing caption functionality this also slows down clicking on the submit button

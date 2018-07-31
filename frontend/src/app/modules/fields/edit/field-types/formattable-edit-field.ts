@@ -68,21 +68,17 @@ export class FormattableEditField extends EditField {
   }
 
   public setupMarkdownEditor(container:HTMLElement) {
-    const element = container.querySelector('.op-ckeditor-element') as HTMLElement;
+    const element = container.querySelector('.op-ckeditor-source-element') as HTMLElement;
 
     const context = { resource: this.resource,
                       previewContext: this.previewContext };
 
     this.ckEditorSetup
-      .create('balloon',
+      .create(this.editorType,
               element,
               context)
       .then((editor:ICKEditorInstance) => {
         this.ckeditor = editor;
-        if (this.rawValue) {
-          this.reset();
-        }
-
         if (!this.resource.isNew) {
           setTimeout(() => editor.editing.view.focus());
         }
@@ -95,6 +91,14 @@ export class FormattableEditField extends EditField {
     editor.model.document.on('change', () => {
       this.rawValue = this.ckeditor.getData();
     } );
+  }
+
+  private get editorType() {
+    if (this.name === 'description') {
+      return 'full';
+    } else {
+      return 'constrained';
+    }
   }
 
   private get previewContext() {

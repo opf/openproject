@@ -49,7 +49,7 @@ module Pages
     end
 
     def edit_field(attribute)
-      WorkPackageField.new(container, attribute)
+      work_package_field(attribute)
     end
 
     def custom_edit_field(custom_field)
@@ -185,16 +185,16 @@ module Pages
         cf = CustomField.find $1
 
         if cf.field_format == 'text'
-          WorkPackageEditorField.new page, key
+          WorkPackageEditorField.new container, key
         else
-          WorkPackageField.new page, key
+          WorkPackageField.new container, key
         end
       elsif key == :description
-        WorkPackageEditorField.new page, key
+        WorkPackageEditorField.new container, key
       elsif key == :status
-        WorkPackageStatusField.new page
+        WorkPackageStatusField.new container
       else
-        WorkPackageField.new page, key
+        WorkPackageField.new container, key
       end
     end
 
@@ -229,7 +229,8 @@ module Pages
     end
 
     def update_comment(comment)
-      add_comment_container.find('.op-ckeditor-wrapper').set(comment)
+      editor = ::Components::WysiwygEditor.new '.work-packages--activity--add-comment'
+      editor.click_and_type_slowly comment
     end
 
     def save_comment
@@ -262,10 +263,6 @@ module Pages
     def subject_field
       expect(page).to have_selector(@subject_field_selector + ' input', wait: 10)
       find(@subject_field_selector + ' input')
-    end
-
-    def description_field
-      find('.wp-edit-field.description .op-ckeditor-wrapper')
     end
 
     private

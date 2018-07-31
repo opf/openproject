@@ -12,7 +12,7 @@ class WorkPackageStatusField < WorkPackageField
   end
 
   def input_element
-    @context.find "#{input_selector}"
+    page.find "#{input_selector}"
   end
 
   def display_element
@@ -42,16 +42,16 @@ class WorkPackageStatusField < WorkPackageField
   end
 
   def active?
-    @context.has_selector? "#{input_selector}", wait: 1
+    page.has_selector? input_selector, wait: 1
   end
   alias :editing? :active?
 
   def expect_active!
-    expect(@context).to have_selector("#{input_selector}", wait: 10),
+    expect(page).to have_selector(input_selector, wait: 10),
           "Expected context menu for status."
   end
 
   def expect_inactive!
-    expect(@context).to have_no_selector("#{input_selector}")
+    expect(page).to have_no_selector(input_selector)
   end
 end
