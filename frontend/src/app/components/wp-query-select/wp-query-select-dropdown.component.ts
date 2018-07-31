@@ -78,6 +78,8 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
 
   private projectIdentifier:string;
 
+  private hiddenCategories:any = [];
+
   constructor(readonly element:ElementRef,
               readonly QueryDm:QueryDmService,
               readonly $state:StateService,
@@ -90,7 +92,6 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
               readonly loadingIndicator:LoadingIndicatorService,
               readonly pathHelper:PathHelperService,
               readonly wpStaticQueries:WorkPackageStaticQueriesService) {
-
   }
 
   public ngOnInit() {
@@ -119,27 +120,11 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
 
   private transformQueries(collection:CollectionResource) {
     let autocompleteValues:IAutocompleteItem[] = _.map(collection.elements, (query:any) => {
-      return { auto_id: null, label: query.name, query: query, query_props: null, category: null};
+      return { auto_id: null, label: query.name, query: query, query_props: null, category: null };
     });
     // Set a unique numeric identifier for every query in the collection
     // Add the right category to every item and order all queries by categories
     return this.sortQueries(this.setAutocompleterId(autocompleteValues));
-  }
-
-  // Listens on all changes of queries (via an observable in the service), e.g. delete, create, rename, toggle starred
-  // Update collection in autocompleter
-  // Search again for the current value in input field to update the menu without loosing the current search results
-  private updateMenuOnChanges(input:any) {
-    this.wpListService.queryChanges$
-      .pipe(
-        untilComponentDestroyed(this)
-      )
-      .subscribe( () => {
-        this.loadQueries().then(collection => {
-          input.querycomplete("option", { source: this.transformQueries(collection) });
-          input.querycomplete("search", input.val());
-        });
-      });
   }
 
   private setAutocompleterId(queries:any):IAutocompleteItem[] {
@@ -240,10 +225,10 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
         this._super();
         this.widget().menu( 'option', 'items', '> :not(.ui-autocomplete--category)' );
         this._search('');
-        this._focus();
+        jQuery('#query-title-filter').focus();
       },
       _renderItem: function(ul:any, item:IAutocompleteItem) {
-        let li = jQuery("<li class='ui-menu-item " + item.category + "' auto_id='" + item.auto_id + "'><div class='ui-menu-item-wrapper' tabindex='0'>" + item.label + "</div></li>");
+        let li = jQuery("<li class='ui-menu-item' auto_id='" + item.auto_id + "' category='" + item.category + "'><div class='ui-menu-item-wrapper' tabindex='0'>" + item.label + "</div></li>");
         li.data('ui-autocomplete-item', item);  // Focus method of autocompleter needs this data for accessibility - if not set, it will throw errors
 
         thisComponent.setInitialHighlighting(li, item);
@@ -260,12 +245,12 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
             currentCategory = option.category;
             let label = thisComponent.labelFunction(currentCategory);
             categoryDOMElement = ul.append( "<a tabindex='0' aria-hidden='true'></a>" +
-                                            "<li class='ui-autocomplete--category " + option.category + "' title='" + label + "'>" + label + "</li>");
+                                            "<li class='ui-autocomplete--category' title='" + label + "' category='" + option.category + "'>" + label + "</li>");
           }
           this._renderItemData(ul, option);
         });
         /// Add an Eventlistener on all categories to show and hide the list elements from this category
-        thisComponent.setToggleCategories(categoryDOMElement);
+        thisComponent.setToggleCategories();
       }
     });
   }
@@ -274,6 +259,8 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   // Case 1: Wp menu is opened from somewhere else in the project -> Compare query params with url params and highlight selected
   // Case 2: Click on menu item 'Work Packages' (query 'All open' is opened on default) -> highlight 'All open'
   private setInitialHighlighting(currentLi:JQuery, item:IAutocompleteItem) {
+    console.log("Item: ", item);
+
     let currentQueryParams:number = parseInt(this.$state.params.query_id);
     let onWorkPackagesPage:boolean = this.$state.includes('work-packages');
 
@@ -298,13 +285,47 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     }
   }
 
+  // Listens on all changes of queries (via an observable in the service), e.g. delete, create, rename, toggle starred
+  // Update collection in autocompleter
+  // Search again for the current value in input field to update the menu without loosing the current search results
+  private updateMenuOnChanges(input:any) {
+    this.wpListService.queryChanges$
+      .pipe(
+        untilComponentDestroyed(this),
+      )
+      .subscribe( () => {
+        this.loadQueries().then(collection => {
+          // Update the complete collection
+          input.querycomplete("option", { source: this.transformQueries(collection) });
+          // To visibly show the changes, we need to search again
+          input.querycomplete("search", input.val());
+          // To search an empty string would expand all categories again every time
+          // Remember all previously hidden categories and set them again after updating the menu
+          _.each(this.hiddenCategories, category => {
+            let thisCategory:string = jQuery(category).attr("category");
+            this.expandCollapseCategory(thisCategory);
+          })
+        });
+      });
+  }
+
   // Toggle category: hide all items with the clicked category and change direction of arrow
-  private setToggleCategories(category:any) {
-    category.on('click', (event:JQueryEventObject) => {
-      let clickedCategory = event.target.classList[1];
-      jQuery('.' + clickedCategory).toggleClass('hidden');
-      jQuery(event.target).prev('a').toggleClass("-collapsed");
+  private setToggleCategories() {
+    let categories = jQuery('.ui-autocomplete--category');
+    // Set click listener on all category elements
+    categories.on('click', (event:JQueryEventObject) => {
+      let clickedCategory = event.target.getAttribute("category");
+      if (clickedCategory !== null) {
+        this.expandCollapseCategory(clickedCategory);
+      }
+      // Remember all hidden catagories
+      this.hiddenCategories = jQuery(".ui-autocomplete--category.hidden");
     });
+  }
+
+  private expandCollapseCategory(category:string) {
+    jQuery("[category='" + category + "']").toggleClass('hidden');
+    jQuery('.ui-autocomplete--category[category="' + category + '"]').prev('a').toggleClass("-collapsed");
   }
 
   // On click of a menu item, load requested query
@@ -317,7 +338,6 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
 
       if (item.auto_id === this.wpStaticQueries.summary.auto_id) {
         window.location.href = this.pathHelper.projectWorkPackagesPath(this.projectIdentifier) + '/report';
-        //this.$state.go('work-packages.report');
       }
       else if (!item.query) {
         promise = this.wpListService.fromQueryParams({query_props: item.query_props}, this.projectIdentifier);

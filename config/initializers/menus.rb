@@ -93,14 +93,14 @@ Redmine::MenuManager.map :account_menu do |menu|
 end
 
 Redmine::MenuManager.map :application_menu do |menu|
-  menu.push :work_packages,
-            { controller: '/work_packages', action: 'index' },
-            caption: :label_work_package_plural,
-            icon: 'icon2 icon-view-timeline',
-            html: {
-              id: 'main-menu-work-packages',
-              :'wp-query-menu' => 'wp-query-menu'
-            }
+  # menu.push :work_packages,
+  #           { controller: '/work_packages', action: 'index' },
+  #           caption: :label_work_package_plural,
+  #           icon: 'icon2 icon-view-timeline',
+  #           html: {
+  #             id: 'main-menu-work-packages',
+  #             :'wp-query-menu' => 'wp-query-menu'
+  #           }
 
   menu.push :work_packages_query_select,
             { controller: '/work_packages', action: 'index' },

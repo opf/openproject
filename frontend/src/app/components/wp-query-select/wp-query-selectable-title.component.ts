@@ -67,9 +67,7 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
   ngOnInit() {
     // Register click on work packages and cancel edit (set field back to previous value)
     jQuery(window).dblclick( event => {
-      if (!this.isEmpty && !this.disabled) {
-        this.editing = true;
-      } else if (this.isEmpty && (jQuery(event.target).is('td')) ) {
+      if (this.isEmpty && (jQuery(event.target).is('td') || (jQuery(event.target).is('.ui-menu-item-wrapper')) )) {
         this.cancelEdit();
       }
     });
@@ -98,7 +96,7 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
     // Set focus on input element, when clicked inside
     setTimeout( () => jQuery('wp-query-selectable-title').find('input').focus());
   }
-
+  
   // Press Enter to save new title
   private onKeyPress(event:JQueryEventObject) {
     switch (event.keyCode) {

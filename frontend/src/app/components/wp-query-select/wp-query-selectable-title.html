@@ -1,6 +1,7 @@
 <div class="title-container">
   <div  title="Click to edit"
         (accessibleClick)="edit(selectedTitle)"
+        (dblclick)="edit(selectedTitle)"
         tabindex="0"
         class="inline-edit">
     <div *ngIf="editing; else notEditable">
