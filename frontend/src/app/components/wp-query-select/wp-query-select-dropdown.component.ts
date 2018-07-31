@@ -224,8 +224,8 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
       _create: function(this:any) {
         this._super();
         this.widget().menu( 'option', 'items', '> :not(.ui-autocomplete--category)' );
-        this._search('');
-        jQuery('#query-title-filter').focus();
+        this._search(''); // Search empty string to show all items
+        this._search();   // Show placeholder
       },
       _renderItem: function(ul:any, item:IAutocompleteItem) {
         let li = jQuery("<li class='ui-menu-item' auto_id='" + item.auto_id + "' category='" + item.category + "'><div class='ui-menu-item-wrapper' tabindex='0'>" + item.label + "</div></li>");
@@ -245,7 +245,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
             currentCategory = option.category;
             let label = thisComponent.labelFunction(currentCategory);
             categoryDOMElement = ul.append( "<a tabindex='0' aria-hidden='true'></a>" +
-                                            "<li class='ui-autocomplete--category' title='" + label + "' category='" + option.category + "'>" + label + "</li>");
+                                            "<li class='ui-autocomplete--category ellipsis' title='" + label + "' category='" + option.category + "'>" + label + "</li>");
           }
           this._renderItemData(ul, option);
         });
@@ -259,8 +259,6 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   // Case 1: Wp menu is opened from somewhere else in the project -> Compare query params with url params and highlight selected
   // Case 2: Click on menu item 'Work Packages' (query 'All open' is opened on default) -> highlight 'All open'
   private setInitialHighlighting(currentLi:JQuery, item:IAutocompleteItem) {
-    console.log("Item: ", item);
-
     let currentQueryParams:number = parseInt(this.$state.params.query_id);
     let onWorkPackagesPage:boolean = this.$state.includes('work-packages');
 
@@ -304,7 +302,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
           _.each(this.hiddenCategories, category => {
             let thisCategory:string = jQuery(category).attr("category");
             this.expandCollapseCategory(thisCategory);
-          })
+          });
         });
       });
   }

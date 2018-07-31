@@ -1,14 +1,16 @@
 <div id="querySelectDropdown">
   <div class="search-query-wrapper">
-    <label for="query-title-filter"
-           class="hidden-for-sighted"
-           [textContent]="text.label" ></label>
-    <input type="text"
-           class="ui-autocomplete--input"
+    <div id="searchbar">
+      <label for="query-title-filter"
+             class="hidden-for-sighted"
+             [textContent]="text.label" ></label>
+      <input type="text"
+           class="ui-autocomplete--input ellipsis"
            name="query-title-filter"
            id="query-title-filter"
            [attr.placeholder]="text.search">
-    <i id="magnifier" class="icon-search"></i>
+      <i id="magnifier" class="icon-search"></i>
+    </div>
   </div>
   <p class="query-select-dropdown--no-results hidden"
      [textContent]="text.no_results"></p>

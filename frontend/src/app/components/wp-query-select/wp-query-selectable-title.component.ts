@@ -96,7 +96,7 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
     // Set focus on input element, when clicked inside
     setTimeout( () => jQuery('wp-query-selectable-title').find('input').focus());
   }
-  
+
   // Press Enter to save new title
   private onKeyPress(event:JQueryEventObject) {
     switch (event.keyCode) {
@@ -154,7 +154,7 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
 
   private cancelEdit() {
     this.editing = false;
-    this.currentQuery.name = this.selectedTitle = this.prevValue
+    this.currentQuery.name = this.selectedTitle = this.prevValue;
   }
 
   private get errorState():boolean {

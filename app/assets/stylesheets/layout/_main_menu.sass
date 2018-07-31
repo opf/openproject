@@ -418,28 +418,32 @@ $arrow-left-width: 40px
   .ui-autocomplete .ui-menu-item-wrapper
     padding: 5px 15px !important
 
-  input
-    box-sizing: border-box
-    margin: 0 auto
-    width: 100%
-    height: 35px
-    line-height: 30px
-    border: 1px solid #cacaca
-    border-radius: 6px
-    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15)
-    color: #222222
-    padding-bottom: 10px
+  div#searchbar
+    position: relative
+    min-width: 55px
+
+    input#query-title-filter
+      box-sizing: border-box
+      margin: 0 auto
+      width: 100%
+      height: 35px
+      line-height: 30px
+      border: 1px solid #cacaca
+      border-radius: 6px
+      box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15)
+      color: #222222
+      padding: 0px 25px 0px 10px
+
+    #magnifier
+      position: absolute
+      top:   5px
+      right: 10px
+      color: #999999
 
   .title-group-header
     padding: 0 15px 0 15px
     font-weight: bold
     text-transform: uppercase
-
-  #magnifier
-    position: absolute
-    top:   24px
-    right: 22px
-    color: #999999
 
   .ui-widget-content.-inplace
     width: 100% !important
