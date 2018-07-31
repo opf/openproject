@@ -9,10 +9,11 @@
               aria-required="true"
               (accessibleClick)="onKeyPress($event)"
               [(ngModel)]="selectedTitle"
-              [ngClass]="{ '-error': selectedTitle === '' }"/>
+              [ngClass]="{ '-error': selectedTitle === '' }"
+              class="ellipsis"/>
     </div>
     <ng-template #notEditable>
-      <h2 title="{{ selectedTitle }}" [ngClass]="{ '-disabled': disabled }"> {{ selectedTitle | slice:0:50 }} </h2>
+      <h2 title="{{ selectedTitle }}" [ngClass]="{ '-disabled': disabled }" class="ellipsis"> {{ selectedTitle | slice:0:50 }} </h2>
     </ng-template>
   </div>
 </div>

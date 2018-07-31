@@ -106,7 +106,7 @@ en:
     error:
       internal: "An internal error has occurred."
       cannot_save_changes_with_message: "Cannot save your changes due to the following error: %{error}"
-      query_saving: "The query could not be saved."
+      query_saving: "The view could not be saved."
     filter:
       description:
         text_open_filter: "Open this filter with 'ALT' and arrow keys."
@@ -387,7 +387,7 @@ en:
       activate_no: 'activate to remove the sort'
 
     text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
-    text_query_destroy_confirmation: "Are you sure you want to delete the selected query?"
+    text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
     text_attachment_destroy_confirmation: "Are you sure you want to delete the attachment?"
     timelines:
       gantt_chart: 'Gantt chart'
@@ -533,7 +533,7 @@ en:
         children_expanded: 'Hierarchy level %{level}, expanded. Click to collapse the filtered children'
       faulty_query:
         title: Work packages could not be loaded.
-        description: Your query is erroneous and could not be processed.
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: No work packages to display.
         description: Either none have been created or all work packages are filtered out.
@@ -595,10 +595,10 @@ en:
         display_sums: "Display Sums"
         confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
         errors:
-          unretrievable_query: "Unable to retrieve query from URL"
-          not_found: "There is no such query"
+          unretrievable_query: "Unable to retrieve view from URL"
+          not_found: "There is no such view"
           duplicate_query_title: "Name of this view already exists. Change anyway?"
-        text_no_results: "No matching queries were found."
+        text_no_results: "No matching views were found."
       table:
         configure_button: 'Configure work package table'
         summary: "Table with rows of work package and columns of work package attributes."
@@ -608,7 +608,7 @@ en:
       table_configuration:
         button: 'Configure this work package table'
         modal_title: 'Work package table configuration'
-        embedded_tab_disabled: "This configuration tab is not available for the embedded query you're editing."
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you're editing."
         display_settings: 'Display settings'
         grouped_mode: "Grouped mode"
         grouped_hint: "Table results will be grouped by the given attribute."
@@ -644,11 +644,10 @@ en:
         delete: "Delete"
       filter: "Filter"
       unselected_title: "Work package"
-      search_query_label: "Search filter queries"
-      search_query_title: "Click to search saved filter queries"
-      placeholder_query_title: "Set a title for this view..."
+      search_query_label: "Search saved views"
+      search_query_title: "Click to search saved views"
+      placeholder_query_title: "Set a title for this view"
     modals:
-      label_settings: "Rename query"
       label_name: "Name"
       label_delete_page: "Delete current page"
       button_apply: "Apply"

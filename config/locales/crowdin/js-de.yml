@@ -194,6 +194,8 @@ de:
     label_sort_higher: Eins höher
     label_sort_lower: Eins tiefer
     label_sorting: Sortierung
+    label_star_query: "Favorisiert"
+    label_public_query: "Öffentlich"
     label_sum_for: Summe für
     label_subject: Thema
     label_this_week: aktuelle Woche
@@ -216,8 +218,10 @@ de:
     label_unwatch: Nicht beobachten
     label_unwatch_work_package: Arbeitspaket nicht beobachten
     label_uploaded_by: Hochgeladen von
-    label_global_queries: Gemeinsame Filter
-    label_custom_queries: Meine Filter
+    label_default_queries: "Standardansichten"
+    label_starred_queries: "Favorisierte Ansichten"
+    label_global_queries: "Öffentliche Ansichten"
+    label_custom_queries: "Private Ansichten"
     label_columns: Spalten
     label_attachments: Dateien
     label_drop_files: Dateien hier ablegen
@@ -350,7 +354,7 @@ de:
       activate_no: aktivieren um Sortierung zu entfernen
     text_work_packages_destroy_confirmation: Sind Sie sicher, dass Sie die ausgewählten
       Arbeitspakete löschen möchten?
-    text_query_destroy_confirmation: Möchten Sie den ausgewählten Filter wirklich
+    text_query_destroy_confirmation: Möchten Sie die ausgewählte Ansicht wirklich
       löschen?
     text_attachment_destroy_confirmation: Sind Sie sicher, dass Sie diesen Anhang
       löschen möchten?
@@ -516,7 +520,7 @@ de:
           gefilterten Kinder auszublenden
       faulty_query:
         title: Das Arbeitspaket konnte nicht geladen werden.
-        description: Dieser Filter ist fehlerhaft und konnte nicht verarbeitet werden.
+        description: Diese Ansicht ist fehlerhaft und konnte nicht verarbeitet werden.
       no_results:
         title: Keine Arbeitspakete anzuzeigen.
         description: Es wurden entweder keine Arbeitspakete erzeugt oder alle Arbeitspakete
@@ -576,8 +580,8 @@ de:
         display_sums: Summen anzeigen
         errors:
           unretrievable_query: Die URL enthält keine benutzerdefinierte Abfrage
-          not_found: Filter existiert nicht
-        text_no_results: Keine passenden Filter gefunden.
+          not_found: Ansicht existiert nicht
+        text_no_results: Keine passenden Ansichten gefunden.
       table:
         configure_button: Arbeitspaket-Tabelle konfigurieren
         summary: Tabelle mit Zeilen von Arbeitspaketen und Spalten von Attributen
@@ -631,15 +635,14 @@ de:
         save: Speichern
         save_as: Speichern unter ...
         export: Exportieren ...
-        publish: Veröffentlichen ...
+        visibility_settings: Sichtbarkeit ...
         page_settings: Ansicht umbenennen ...
         delete: Löschen
       filter: Filter
       unselected_title: Arbeitspaket
-      search_query_label: Gespeicherte Filter durchsuchen
-      search_query_title: Klicken um gespeicherte Filter zu durchsuchen
+      search_query_label: Ansichten durchsuchen
+      search_query_title: Klicken um gespeicherte Ansichten zu durchsuchen
     modals:
-      label_settings: Filter umbenennen
       label_name: Name
       label_delete_page: Aktuelle Ansicht löschen
       button_apply: Anwenden
