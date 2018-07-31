@@ -32,12 +32,13 @@ require File.expand_path('../shared/become_member', __FILE__)
 module PermissionSpecs
   def self.included(base)
     base.class_eval do
-      let(:project) { FactoryBot.create(:project, is_public: false) }
+      let(:is_public) { false }
+      let(:project) { FactoryBot.create(:project, is_public: is_public) }
       let(:current_user) { FactoryBot.create(:user) }
 
       include BecomeMember
 
-      def self.check_permission_required_for(controller_action, permission)
+      def self.check_permission_required_for(controller_action, permission, publishable_permission: false)
         controller_name, action_name = controller_action.split('#')
 
         it "should allow calling #{controller_action} when having the permission #{permission} permission" do
@@ -46,10 +47,22 @@ module PermissionSpecs
           expect(controller.send(:authorize, controller_name, action_name)).to be_truthy
         end
 
-        it "should prevent calling #{controller_action} when not having the permission #{permission} permission" do
-          become_member_with_permissions(project, current_user)
 
-          expect(controller.send(:authorize, controller_name, action_name)).to be_falsey
+        if publishable_permission
+          context 'when user is non-member' do
+            let!(:role) { FactoryBot.create :non_member }
+            let(:is_public) { true }
+
+            it 'authorizes on the public permission' do
+              expect(controller.send(:authorize, controller_name, action_name)).to be_truthy
+            end
+          end
+        else
+          it "should prevent calling #{controller_action} when not having the permission #{permission} permission" do
+            become_member_with_permissions(project, current_user)
+
+            expect(controller.send(:authorize, controller_name, action_name)).to be_falsey
+          end
         end
       end
 

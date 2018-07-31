@@ -59,7 +59,8 @@ Redmine::AccessControl.map do |map|
                  require: :member
 
   map.permission :view_members,
-                 { members: [:index] }
+                 { members: [:index] },
+                 public: true
 
   map.permission :manage_versions,
                  { project_settings: [:show],
