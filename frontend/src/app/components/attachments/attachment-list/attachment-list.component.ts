@@ -47,16 +47,13 @@ export class AttachmentListComponent implements OnInit {
   ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
 
-    if (!this.resource) {
-      // Parse the resource if any exists
-      const source = this.$element.data('resource');
-      this.resource = this.halResourceService.createHalResource(source, true);
-    }
-
     if (this.resource.attachments && this.resource.attachmentsBackend) {
       this.resource.attachments.updateElements();
     }
   }
 }
 
-DynamicBootstrapper.register({ selector: 'attachment-list', cls: AttachmentListComponent });
+DynamicBootstrapper.register({
+  selector: 'attachment-list',
+  cls: AttachmentListComponent
+});

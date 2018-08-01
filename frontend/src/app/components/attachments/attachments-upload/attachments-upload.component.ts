@@ -115,7 +115,7 @@ export class AttachmentsUploadComponent implements OnInit {
 
   private containsFiles(dataTransfer:any) {
     if (dataTransfer.types.contains) {
-      return dataTransfer.types.contains('Files')
+      return dataTransfer.types.contains('Files');
     } else {
       return (dataTransfer as DataTransfer).types.indexOf('Files') >= 0;
     }

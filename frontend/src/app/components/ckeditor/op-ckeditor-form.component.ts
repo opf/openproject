@@ -117,10 +117,7 @@ export class OpCkeditorFormComponent implements OnInit, OnDestroy {
       editor.setData(rawValue);
     }
 
-    if (this.resource) {
-
-      let resource = this.resource;
-
+    if (this.resource && this.resource.attachments) {
       this.setupAttachmentAddedCallback();
       this.setupAttachmentRemovalSignal();
     }

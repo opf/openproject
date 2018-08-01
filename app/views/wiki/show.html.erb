@@ -115,7 +115,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= render(partial: "wiki/content", locals: {content: @content}) %>
 
 <% resource = ::API::V3::WikiPages::WikiPageRepresenter.new(@page, current_user: current_user, embed_links: true) %>
-<attachments data-resource="<%= resource.to_json %>" data-allow-uploading="<%= @editable && authorize_for('wiki', 'add_attachment') %>"></attachments>
+<attachments data-resource="<%= resource.to_json %>" data-allow-uploading="false"></attachments>
 
 <%= other_formats_links do |f| %>
   <%= f.link_to 'Atom', url: { controller: '/activities',

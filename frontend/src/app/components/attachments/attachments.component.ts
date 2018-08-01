@@ -87,8 +87,8 @@ export class AttachmentsComponent implements OnInit, OnDestroy {
         missingAttachments.forEach((attachment) => {
           this
             .resource
-            .removeAttachment(attachment)
-        })
+            .removeAttachment(attachment);
+        });
       }
     });
   }
@@ -99,7 +99,7 @@ export class AttachmentsComponent implements OnInit, OnDestroy {
         takeUntil(componentDestroyed(this)),
         filter(newResource => !!newResource)
       )
-      .subscribe((newResource:HalResource)=> {
+      .subscribe((newResource:HalResource) => {
         this.resource = newResource || this.resource;
       });
   }
@@ -109,4 +109,4 @@ export class AttachmentsComponent implements OnInit, OnDestroy {
   }
 }
 
-DynamicBootstrapper.register({ selector: 'attachments', cls: AttachmentsComponent });
+DynamicBootstrapper.register({ selector: 'attachments', cls: AttachmentsComponent, embeddable: true });

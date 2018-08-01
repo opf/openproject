@@ -56,11 +56,42 @@ module Redmine
         private
 
         def set_acts_as_attachable_options(options)
-          name_default = name.pluralize.underscore
-          self.attachable_options = {}
-          attachable_options[:view_permission] = options.delete(:view_permission) || "view_#{name_default}".to_sym
-          attachable_options[:delete_permission] = options.delete(:delete_permission) || "edit_#{name_default}".to_sym
-          attachable_options[:add_permission] = options.delete(:add_permission) || "edit_#{name_default}".to_sym
+          self.attachable_options = {
+            view_permission: view_permission(options),
+            delete_permission: delete_permission(options),
+            add_on_new_permission: add_on_new_permission(options),
+            add_on_persisted_permission: add_on_persisted_permission(options)
+          }
+
+          options.except!(:view_permission,
+                          :delete_permission,
+                          :add_on_new_permission,
+                          :add_on_persisted_permission,
+                          :add_permission)
+        end
+
+        def view_permission(options)
+          options[:view_permission] || view_permission_default
+        end
+
+        def delete_permission(options)
+          options[:delete_permission] || edit_permission_default
+        end
+
+        def add_on_new_permission(options)
+          options[:add_on_new_permission] || options[:add_permission] || edit_permission_default
+        end
+
+        def add_on_persisted_permission(options)
+          options[:add_on_persisted_permission] || options[:add_permission] || edit_permission_default
+        end
+
+        def view_permission_default
+          "view_#{name.pluralize.underscore}".to_sym
+        end
+
+        def edit_permission_default
+          "edit_#{name.pluralize.underscore}".to_sym
         end
       end
 
@@ -77,9 +108,8 @@ module Redmine
 
         class_methods do
           def attachments_addable?(user = User.current)
-            Array(attachable_options[:add_permission]).any? do |permission|
-              user.allowed_to_globally?(permission)
-            end
+            user.allowed_to_globally?(attachable_options[:add_on_new_permission]) ||
+              user.allowed_to_globally?(attachable_options[:add_on_persisted_permission])
           end
         end
 
@@ -93,7 +123,8 @@ module Redmine
           end
 
           def attachments_addable?(user = User.current)
-            allowed_to_on_attachment?(user, self.class.attachable_options[:add_permission])
+            (new_record? && allowed_to_on_attachment?(user, self.class.attachable_options[:add_on_new_permission])) ||
+              (persisted? && allowed_to_on_attachment?(user, self.class.attachable_options[:add_on_persisted_permission]))
           end
 
           # Bulk attaches a set of files to an object

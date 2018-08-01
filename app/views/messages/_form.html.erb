@@ -33,9 +33,7 @@ See docs/COPYRIGHT.rdoc for more details.
                         else
                           f.object
                         end %>
-<% resource = ::API::V3::Posts::PostRepresenter.new(representer_object,
-                                                    current_user: current_user,
-                                                    embed_links: true) %>
+<% resource = message_attachment_representer(representer_object) %>
 
 <div class="form--field">
   <%= f.text_field :subject, required: true, container_class: '-wide', autofocus: true %>

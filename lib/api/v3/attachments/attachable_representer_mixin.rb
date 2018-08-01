@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -46,9 +47,6 @@ module API
                cache_if: -> do
                  represented.attachments_addable?(current_user)
                end do
-
-            next unless represented.attachments_addable?(current_user)
-
             {
               href: attachments_by_resource,
               method: :post

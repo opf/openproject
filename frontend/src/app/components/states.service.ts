@@ -15,7 +15,7 @@ import {PostResource} from 'core-app/modules/hal/resources/post-resource';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
 export class States extends StatesGroup {
-  [key: string]: any;
+  [key:string]:any;
 
   name = 'MainStore';
 
