@@ -76,7 +76,7 @@ nl:
         dropdown:
           macros: Macro's
           chose_macro: Kies macro
-        toc: Table of contents
+        toc: Inhoudsopgave
         toolbar_help: Klik op widget en geef de werkbalk weer. Dubbelklikken om de
           widget te bewerken
         wiki_page_include:
@@ -93,10 +93,10 @@ nl:
           button_style_hint: 'Optioneel: Controleer of de macro wordt weergegeven
             als een knop, niet als een link.'
           without_type: Nieuw werkpakket maken
-          with_type: 'Create work package (Type: %{typename})'
+          with_type: 'Werkpakket maken (Type: %{typename})'
         embedded_table:
-          button: Embed work package table
-          text: "[Placeholder] Embedded work package table"
+          button: Werk pakket tabel insluiten
+          text: "[Placeholder] ingesloten werkpakket tabel"
     error:
       internal: Een interne fout is opgetreden.
       cannot_save_changes_with_message: 'Uw wijzigingen vanwege de volgende fout niet
@@ -254,7 +254,7 @@ nl:
     label_remove_watcher: Volger %{name} verwijderen
     label_remove_all_files: Verwijder alle bestanden
     label_add_description: Een beschrijving voor %{file} toevoegen
-    label_upload_notification: Uploading files...
+    label_upload_notification: Uploaden van bestanden...
     label_work_package_upload_notification: 'Uploaden van bestanden voor werk pakket
       #%{id}: %{subject}'
     label_files_to_upload: 'Deze bestanden worden geüpload:'
@@ -294,9 +294,10 @@ nl:
         error_duplicate_group_name: De groep naam %{group} word meer dan één keer
           gebruikt. Groep namen moeten uniek zijn.
         reset_title: Reset formulier configuratie
-        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group and disable ALL custom
-          fields.
+        confirm_reset: 'Waarschuwing: Weet u zeker dat u de configuratie van het formulier
+          wilt herstellen? Dit herstelt de kenmerken hun standaardgroep, deselecteerd
+          de selectievakjes van de zichtbaarheid, en schakeld alle aangepaste velden
+          uit.
 
 '
         upgrade_to_ee: Upgrade naar Enterprise Edition
@@ -395,7 +396,7 @@ nl:
           deze kenmerken.
 
 '
-      button_activate: Show Gantt chart
+      button_activate: Toon Gantt-diagram
       cancel: Annuleren
       change: In de planning wijzigen
       due_date: Vervaldatum
@@ -643,7 +644,7 @@ nl:
         months: maanden
     toolbar:
       settings:
-        configure_view: Configure view ...
+        configure_view: Weergave instellingen...
         columns: Kolommen ...
         sort_by: Sorteer per ...
         group_by: Groeperen op...
@@ -655,14 +656,14 @@ nl:
         save_as: Opslaan als ...
         export: Exporteren ...
         publish: Publiceren...
-        page_settings: Rename view ...
+        page_settings: Hernoem weergave...
         delete: Verwijderen
       filter: Filter
       unselected_title: Werkpakket
       search_query_label: Zoek opgeslagen filter zoekopdrachten
       search_query_title: Klik om te zoeken in opgeslagen filter zoekopdrachten
     modals:
-      label_settings: Rename view
+      label_settings: Hernoem weergave
       label_name: Naam
       label_delete_page: Verwijder huidige pagina
       button_apply: Toepassen
@@ -707,8 +708,8 @@ nl:
     error_could_not_resolve_version_name: Kan de verstane niet vinden
     error_could_not_resolve_user_name: Kan de gebruikersnaam niet vinden
     error_attachment_upload: 'Uploaden van bestand ''%{name}'' is mislukt: %{error}'
-    error_attachment_upload_permission: You don't have the permission to upload files
-      on this resource.
+    error_attachment_upload_permission: U bent niet gemachtigd om bestanden naar deze
+      bron te uploaden.
     units:
       workPackage:
         one: werkpakket
