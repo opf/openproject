@@ -27,6 +27,7 @@
 //++
 
 $toggler-width: 40px
+$menu-item-line-height: 30px
 
 ::-webkit-scrollbar
   display: none
@@ -44,6 +45,13 @@ $toggler-width: 40px
   min-height: calc(100vh - 55px)
 
   @include varprop(background-color, main-menu-bg-color)
+
+  @-moz-document url-prefix()
+    #menu-sidebar
+      margin-right: -20px !important
+      margin-bottom: -20px !important
+      overflow-y: scroll
+      overflow-x: hidden
 
   #menu-sidebar
     height: 100%
@@ -379,7 +387,8 @@ $arrow-left-width: 40px
 
 
 #querySelectDropdown
-  padding: 3px 0
+  #ui-id-1
+    top: 0 !important
 
   .query-menu-container
     float: left
@@ -388,8 +397,12 @@ $arrow-left-width: 40px
     display: block
 
   .search-query-wrapper
-    padding: 15px
+    padding: 10px 7px 7px 7px
     overflow: hidden
+
+  @-moz-document url-prefix()
+    .search-query-wrapper
+      padding-right: 14px
 
   .query-select-dropdown--no-results
     padding: 15px 15px 0
@@ -410,13 +423,23 @@ $arrow-left-width: 40px
     background: none !important
     color: inherit !important
 
-  li.selected,
-  li:hover
+  li
+    border-radius: 3px
+
+    .selected
       @include varprop(background, main-menu-bg-selected-background)
       @include varprop(color, main-menu-selected-font-color)
 
+      &:hover
+        @include varprop(color, main-menu-font-color)
+
+    &:hover
+      @include varprop(background, main-menu-bg-hover-background)
+
   .ui-autocomplete .ui-menu-item-wrapper
-    padding: 5px 15px !important
+    line-height: $menu-item-line-height
+    padding: 0px 0px 0px 40px
+    white-space: nowrap
 
   div#searchbar
     position: relative
@@ -424,15 +447,15 @@ $arrow-left-width: 40px
 
     input#query-title-filter
       box-sizing: border-box
-      margin: 0 auto
+      margin: 0px auto
       width: 100%
       height: 35px
-      line-height: 30px
+      line-height: $menu-item-line-height
       border: 1px solid #cacaca
       border-radius: 6px
       box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15)
       color: #222222
-      padding: 0px 25px 0px 10px
+      padding: 0px 30px 0px 10px
 
     #magnifier
       position: absolute
@@ -448,7 +471,7 @@ $arrow-left-width: 40px
   .ui-widget-content.-inplace
     width: 100% !important
     max-height: 100%
-    overflow-x: auto
+    overflow-x: hidden
     background: none
 
   a
@@ -465,30 +488,33 @@ $arrow-left-width: 40px
     padding: initial
     border: none
     background: initial
-    float: left !important
-    width: 15px
-    line-height: 30px
-    height: 100%
-    margin-bottom: 5px
-    color: #a6a6a6
-    transform: scaleY(0.6)
+    line-height: $menu-item-line-height
+    height: $menu-item-line-height
+    margin: 0px 8px
+    position: absolute
+    @include varprop(color, content-icon-link-pressed-color)
 
     &::before
-      @include icon-mixin-arrow-up2
+      @include icon-mixin-arrow-up1
 
     &.-collapsed
       &::before
-        @include icon-mixin-arrow-down2
+        @include icon-mixin-arrow-down1
 
   .ui-autocomplete--category
+    width: 100%
+    padding-left: 25px
     cursor: pointer
-    line-height: 30px
+    line-height: $menu-item-line-height
+    height: $menu-item-line-height
     font-weight: normal
     text-transform: uppercase
-    border-bottom: 1px solid $main-menu-border-color
-    margin-bottom: 5px
-    color: #a6a6a6
-    font-size: 0.9rem
+    // border-bottom: 1px solid $main-menu-border-color
+    font-size: 0.8rem
+    @include varprop(color, content-icon-link-pressed-color)
+
+  .ui-autocomplete.-inplace
+    padding-top: 10px
 
   input[type="search"]::-webkit-search-cancel-button
     display: none

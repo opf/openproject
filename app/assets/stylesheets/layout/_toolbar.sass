@@ -181,30 +181,17 @@ $nm-color-success-background: #d8fdd1
   padding: 0
   width: 50%
 
-  h2
-    border: 0
-    padding: 12px 0
-    color: $toolbar-title-color
-    @include breakpoint(medium down)
-      font-size: $h2-font-size
-
   div.inline-edit
     cursor: pointer
 
-  div.inline-edit input
-    padding: 8px 6px
-    margin: 12px 0
-    color: $toolbar-title-color
-    font-size: $h2-font-size
-
-    &.-error
-      display: block
-      background: $nm-color-error-background
-      border-color: $nm-color-error-border
-
   div.inline-edit h2
-    margin: 12px 0
-    padding: 2px 5px
+    margin: 10px 0
+    padding: 0px 5px
+    color: $toolbar-title-color
+    line-height: 34px
+    height: 34px
+    @include breakpoint(medium down)
+      font-size: $h2-font-size
 
     &:focus, &:hover
       outline: 1px solid #ddd
@@ -215,6 +202,21 @@ $nm-color-success-background: #d8fdd1
 
       &:hover
         outline: none
+
+  div.inline-edit input
+    padding: 0px 5px
+    -moz-margin: 10px 0
+    margin: 9px 0
+    color: $toolbar-title-color
+    font-size: $h2-font-size
+    height: 36px
+    line-height: 36px
+    width: calc(100% + 2px)
+
+    &.-error
+      display: block
+      background: $nm-color-error-background  !important
+      border-color: $nm-color-error-border !important
 
   span
     @include varprop(color, content-link-color)

@@ -65,11 +65,11 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Register click on work packages and cancel edit (set field back to previous value)
-    jQuery(window).dblclick( event => {
-      if (this.isEmpty && (jQuery(event.target).is('td') || (jQuery(event.target).is('.ui-menu-item-wrapper')) )) {
-        this.cancelEdit();
-      }
+    // Register click on work packages table and cancel edit (set field back to previous value)
+    setTimeout( () => {
+      jQuery('table').dblclick( event => {
+        if (this.isEmpty) { this.cancelEdit(); }
+      });
     });
     // Register click on work packages and cancel edit
     this.unregisterTransitionListener = this.$transitions.onSuccess({}, (transition) => {
