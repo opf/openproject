@@ -71,8 +71,6 @@ describe ::API::V3::Projects::ProjectRepresenter do
         let(:date) { project.updated_on }
         let(:json_path) { 'updatedAt' }
       end
-
-      it { is_expected.to have_json_path('type') }
     end
 
     describe '_links' do
@@ -161,11 +159,6 @@ describe ::API::V3::Projects::ProjectRepresenter do
       end
 
       describe '#json_cache_key' do
-        let(:project_type) { FactoryBot.build_stubbed(:project_type) }
-
-        before do
-          project.project_type = project_type
-        end
         let!(:former_cache_key) { representer.json_cache_key }
 
         it 'includes the name of the representer class' do
@@ -182,13 +175,6 @@ describe ::API::V3::Projects::ProjectRepresenter do
 
         it 'changes when the project is updated' do
           project.updated_on = Time.now + 20.seconds
-
-          expect(representer.json_cache_key)
-            .not_to eql former_cache_key
-        end
-
-        it 'changes when the project\'s project_type is updated' do
-          project.project_type.updated_at = Time.now + 20.seconds
 
           expect(representer.json_cache_key)
             .not_to eql former_cache_key

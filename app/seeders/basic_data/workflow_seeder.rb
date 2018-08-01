@@ -53,22 +53,6 @@ module BasicData
                                                  is_in_roadmap: true,
                                                  is_milestone: false)
 
-          # Adds the standard type to all existing projects
-          #
-          # As this seed might be executed on an existing database, there might be projects
-          # that do not have the default type yet.
-
-          condition = "NOT EXISTS
-                         (SELECT * from projects_types
-                          WHERE projects.id = projects_types.project_id
-                          AND projects_types.type_id = #{standard_type.id})"
-
-          projects_without_standard_type = Project.where(condition).all
-
-          projects_without_standard_type.each do |project|
-            project.types << standard_type
-          end
-
           [WorkPackage, Journal::WorkPackageJournal].each do |klass|
             klass.where(type_id: nil).update_all(type_id: standard_type.id)
           end

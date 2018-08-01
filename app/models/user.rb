@@ -67,9 +67,6 @@ class User < Principal
   has_many :responsible_for_issues, foreign_key: 'responsible_id',
                                     class_name: 'WorkPackage',
                                     dependent: :nullify
-  has_many :responsible_for_projects, foreign_key: 'responsible_id',
-                                      class_name: 'Project',
-                                      dependent: :nullify
   has_many :watches, class_name: 'Watcher',
                      dependent: :delete_all
   has_many :changesets, dependent: :nullify

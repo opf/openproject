@@ -537,16 +537,6 @@ OpenProject::Application.routes.draw do
     end
   end
 
-  resources :project_types, controller: 'project_types' do
-    member do
-      get :confirm_destroy
-      get :move
-      post :move
-    end
-
-    resources :projects, only: %i[index show], controller: 'projects'
-  end
-
   # This route should probably be removed, but it's used at least by one cuke and we don't
   # want to break it.
   # This route intentionally occurs after the admin/roles/new route, so that one takes

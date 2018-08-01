@@ -127,7 +127,6 @@
 #       - settings
 #       - ldap_authentication
 #       - colors
-#       - project_types
 #       - export_card_configurations
 #       - plugins
 #       - info
@@ -143,7 +142,6 @@
 #     - 'admin/info'
 #     - 'admin/plugins'
 #     - 'export_card_configurations'
-#     - 'project_types'
 #     - 'colors'
 #     - 'settings'
 #     - 'admin/enumerations'

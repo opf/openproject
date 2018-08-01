@@ -152,10 +152,6 @@ en:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: Create a new version
 
-  project_types:
-    index:
-      no_results_title_text: There are currently no project types.
-      no_results_content_text: Create a new project type
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -351,7 +347,6 @@ en:
         identifier: "Identifier"
         latest_activity_at: "Latest activity at"
         parent: "Subproject of"
-        project_type: "Project type"
         queries: "Queries"
         types: "Types"
         versions: "Versions"
@@ -405,8 +400,6 @@ en:
         redirect_existing_links: "Redirect existing links"
       planning_element_type_color:
         hexcode: Hex code
-      project_type:
-        position: Position
       work_package:
         begin_insertion: "Begin of the insertion"
         begin_deletion: "Begin of the deletion"
@@ -590,7 +583,6 @@ en:
         one : "Role"
         other: "Roles"
       type: "Type"
-      project_type: Project type
       user: "User"
       version: "Version"
       wiki: "Wiki"
@@ -852,11 +844,6 @@ en:
   default_priority_normal: "Normal"
   default_priority_high: "High"
   default_priority_immediate: "Immediate"
-  default_project_type_scrum: "Scrum team"
-  default_project_type_standard: "Standard project"
-  default_reported_project_status_green: "Green"
-  default_reported_project_status_amber: "Amber"
-  default_reported_project_status_red: "Red"
   default_role_anonymous: "Anonymous"
   default_role_developer: "Developer"
   default_role_project_admin: "Project admin"
@@ -1200,7 +1187,6 @@ en:
   label_edit: "Edit"
   label_enable_multi_select: "Toggle multiselect"
   label_enabled_project_custom_fields: 'Enabled custom fields'
-  label_enabled_project_types: 'Enabled types'
   label_enabled_project_modules: 'Enabled modules'
   label_enabled_project_activities: 'Enabled time tracking activities'
   label_end_to_end: "end to end"
@@ -2240,8 +2226,6 @@ en:
     admin_menu:
       color: "Color"
       colors: "Colors"
-      project_type: "Project type"
-      project_types: "Project types"
     associations: "Dependencies"
     board_could_not_be_saved: "Board could not be saved"
     button_delete_all: "Delete all"
@@ -2258,7 +2242,6 @@ en:
       one:   "1 day"
       other: "%{count} days"
     edit_color: "Edit color"
-    edit_project_type: "Edit project type"
     edit_thing: "Edit"
     edit_timeline: "Edit timeline report %{timeline}"
     delete_timeline: "Delete timeline report %{timeline}"
@@ -2335,7 +2318,6 @@ en:
       project_filters: "Filter projects"
       project_responsible: "Show projects with accountable"
       project_status: "Show project status"
-      project_types: "Show project types"
       timeframe: "Show timeframe"
       timeframe_end: "to"
       timeframe_start: "from"
@@ -2345,7 +2327,6 @@ en:
     new_color: "New color"
     new_association: "New dependency"
     new_work_package: "New work package"
-    new_project_type: "New project type"
     new_reporting: "New reporting"
     new_timeline: "New timeline report"
     no_projects_for_reporting_available: "There are no projects to which a reporting association can be created."
@@ -2371,20 +2352,12 @@ en:
       show: "Status: %{comment}"
 
     planning_element_update: "Update: %{title}"
-    project_type_could_not_be_saved: "Project type could not be saved"
     type_could_not_be_saved: "Type could not be saved"
     reporting_could_not_be_saved: "Reporting could not be saved"
     properties: "Properties"
     really_delete_color: >
       Are you sure, you want to delete the following color?
       Types using this color will not be deleted.
-    really_delete_project_type: >
-      Are you sure, you want to delete the following project type?
-      Projects using this type will not be deleted.
-    really_delete_timeline: >
-      Are you sure, you want to delete the following timeline report?
-      Work packages shown in this timeline report will not be
-      deleted.
     really_delete_reporting: >
       Are you sure, you want to delete the following reporting?
       Previous reporting statuses will be deleted, too.
@@ -2393,7 +2366,6 @@ en:
     timelines: "Timeline reports"
     settings: "Timelines"
     vertical_work_package: "Vertical work packages"
-    without_project_type: "Without project type"
     you_are_viewing_the_selected_timeline: "You are viewing the selected timeline report"
     zoom:
       in: "Zoom in"
