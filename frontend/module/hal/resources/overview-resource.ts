@@ -31,15 +31,17 @@
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {Attachable} from 'core-app/modules/hal/resources/mixins/attachable-mixin';
 
-export interface OverviewTextileBlockResourceLinks {
+export interface OverviewResourceLinks {
     addAttachment(attachment:HalResource):Promise<any>;
 }
 
-class OverviewTextileBlockBaseResource extends HalResource {
-    public $links:OverviewTextileBlockResourceLinks;
+class OverviewBaseResource extends HalResource {
+    public $links:OverviewResourceLinks;
+
+    private attachmentsBackend = false;
 }
 
-export const OverviewTextileBlockResource = Attachable(OverviewTextileBlockBaseResource);
+export const OverviewResource = Attachable(OverviewBaseResource);
 
-export interface OverviewTextileBlockResource extends OverviewTextileBlockResourceLinks {
+export interface OverviewResource extends OverviewBaseResource, OverviewResourceLinks {
 }

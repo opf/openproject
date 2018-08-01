@@ -36,7 +36,6 @@ export class ProjectsOverviewController {
               public $scope:ng.IScope,
               public $http:ng.IHttpService,
               public $compile:ng.ICompileService,
-              public $window:ng.IWindowService,
               public pluginContext:PluginContextService) {
   }
 
@@ -139,65 +138,41 @@ export class ProjectsOverviewController {
     });
   }
 
-  public handleAttachmentDeletion(event:Event) {
-      event.preventDefault();
-
-      let $link = angular.element(event.currentTarget);
-
-      if (this.$window.confirm(I18n.t('js.text_are_you_sure'))) {
-          this.$http({
-              url: $link.attr('href'),
-              method: 'DELETE'
-          }).then((response:{data: any}) => {
-            $link.closest('p').remove();
-          })
-      }
-
-      return false;
-
-  }
-
   /**
    * Refresh an existing (custom) block from the backend
    */
   public updateBlock(blockName:string, content:string) {
-    var block = this.$element.find(this.idFromBlockName(blockName));
-    content = this.compileBlock(content);
+    var block = this.$element.find(this.idFromBlockName(blockName)).parent();
+    block.find('div').remove();
 
-    block.replaceWith(content);
+    let $content = angular.element(content);
+
+    $content.filter('div.widget-box').insertAfter(block);
+
+    let compiled = this.compileBlock($content.filter('overview-textile-block'), blockName);
+
+    block.replaceWith(compiled);
   }
 
-  /**
-   * Refresh the attachments on the page layout
-   */
-   public updateAttachments() {
-     var attachments = this.$element.find('#page_layout_attachments');
-     this.$http({
-       url: attachments.data('refreshUrl'),
-       method: 'GET',
-       headers: { Accept: 'text/html' }
-    }).then((response:any) => {
-      attachments.html(response.data);
-    }).catch(error => {
-     this.pluginContext.context!.services.wpNotifications.handleErrorResponse(error);
-    });
-   }
-
   private addBlock(blockName:string, content:string) {
-    content = this.compileBlock(content);
+    let $content = angular.element(content);
+
+    this.hiddenContainer.append($content.filter('div.widget-box'));
+
+    let compiled = this.compileBlock($content.filter('overview-textile-block, overview-block'), blockName);
 
     // Add the block to hidden by default
-    this.hiddenContainer.append(content);
+    this.hiddenContainer.append(compiled);
 
     this.$element.find(this.idFromBlockName(blockName))[0].scrollIntoView();
   }
 
-  private compileBlock(content:string) {
+  private compileBlock(content:string|ng.IAugmentedJQuery, blockName:string) {
     let compileFn:any = this.$compile(content);
 
     setTimeout(() => {
       // Allow angular bootstrapper to run on content
-      this.pluginContext.context!.bootstrap(this.hiddenContainer[0]);
+      this.pluginContext.context!.bootstrap(this.$element.find(this.idFromBlockName(blockName))[0]);
     }, 20);
 
     return compileFn(this.$scope, undefined, {
@@ -208,7 +183,7 @@ export class ProjectsOverviewController {
   }
 }
 
-function overviewPageLayout():any {
+function overviewPageLayout($compile:any):any {
   return {
     restrict: 'E',
     scope: {},
@@ -220,9 +195,11 @@ function overviewPageLayout():any {
         attrs:ng.IAttributes,
         ctrls:any,
         transclude:any) {
+
         transclude(scope, (clone:any) => {
-          element.append(clone);
-          scope.$ctrl.initialize();
+            let original = jQuery('#page-layout');
+            element.append($compile(original)(scope));
+            scope.$ctrl.initialize();
         });
       };
     },

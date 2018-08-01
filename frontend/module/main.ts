@@ -27,15 +27,19 @@
 // ++
 
 import {APP_INITIALIZER, Injector, NgModule} from '@angular/core';
-import {OpenProjectPluginContext} from "core-app/modules/plugins/plugin-context";
-import {OverviewTextileBlockResource} from './hal/resources/overview-textile-block-resource';
+import {OpenProjectPluginContext} from 'core-app/modules/plugins/plugin-context';
+import {OverviewResource} from './hal/resources/overview-resource';
+import {multiInput} from 'reactivestates';
 
 export function initializeMyProjectPagePlugin() {
     return () => {
         window.OpenProject.getPluginContext()
             .then((pluginContext:OpenProjectPluginContext) => {
                 let halResourceService = pluginContext.services.halResource;
-                halResourceService.registerResource('OverviewTextileBlock', { cls: OverviewTextileBlockResource });
+                halResourceService.registerResource('Overview', { cls: OverviewResource });
+
+                let states = pluginContext.services.states;
+                states.add('overviews', multiInput<OverviewResource>());
             });
     };
 }

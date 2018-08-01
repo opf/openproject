@@ -110,7 +110,7 @@ export class OverviewTextileBlockController {
       deferred.resolve();
       this.pluginContext.context!.services.notifications.addSuccess(I18n.t('js.notice_successful_update'));
       this.layoutCtrl.updateBlock(this.blockName, response);
-      this.layoutCtrl.updateAttachments();
+      this.toggleEditForm();
     }).fail((error) => {
       deferred.reject();
       this.$timeout(() => {
@@ -125,9 +125,9 @@ export class OverviewTextileBlockController {
   }
 }
 
-function overviewTextileBlock():any {
+function overviewTextileBlock($compile:any):any {
   return {
-    restrict: 'EA',
+    restrict: 'E',
     scope: {
       newBlock: '=?',
       blockName: '@'
@@ -140,9 +140,13 @@ function overviewTextileBlock():any {
         attrs:ng.IAttributes,
         ctrl:any,
         transclude:any) {
-        scope.$ctrl.layoutCtrl = ctrl;
+
+        scope.$ctrl.layoutCtrl = scope.$parent.$ctrl;
+
         transclude(scope, (clone:any) => {
-          element.append(clone);
+          let original = jQuery(`#block_${scope.$ctrl.blockName}`);
+          element.append($compile(original)(scope));
+
           scope.$ctrl.initialize();
         });
       };

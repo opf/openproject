@@ -53,9 +53,9 @@ class MyProjectsOverviewsController < ApplicationController
                        block_title: block_title,
                        block_name: block_name,
                        textile: textile })
-   else
-     render plain: t(:error_textile_not_saved), status: 400
-   end
+    else
+      render plain: t(:error_textile_not_saved), status: 400
+    end
   end
 
   # Add a block to user's page
@@ -86,23 +86,6 @@ class MyProjectsOverviewsController < ApplicationController
                              errors: overview.errors.full_messages.join(', '))
       render :page_layout
     end
-  end
-
-  def render_attachments
-    render partial: 'page_layout_attachments'
-  end
-
-  def destroy_attachment
-    if user.allowed_to?(:edit_project, project)
-      begin
-        att = Attachment.find(params[:attachment_id].to_i)
-        overview.attachments.delete(att)
-        overview.save
-      rescue ActiveRecord::RecordNotFound
-      end
-    end
-
-    head :no_content
   end
 
   helper_method :project,

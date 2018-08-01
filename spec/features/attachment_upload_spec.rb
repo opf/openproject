@@ -55,14 +55,17 @@ describe 'Upload attachment to overview page', js: true do
     end
 
     within '.textile-form' do
+      expect(page).to have_selector('attachment-list-item', text: 'image.png')
+
       click_on 'Save'
     end
 
     expect(page).to have_selector('#content img', count: 1)
     expect(page).to have_content('Image uploaded on creation')
-    expect(page).to have_selector('.attachments', text: 'image.png')
 
     find('.block-teaser .icon-edit').click
+
+    expect(page).to have_selector('attachment-list-item', text: 'image.png')
 
     editor.in_editor do |container, editable|
       attachments.drag_and_drop_file(editable, image_fixture)
@@ -73,11 +76,12 @@ describe 'Upload attachment to overview page', js: true do
     end
 
     within '.textile-form' do
+      expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
+
       click_on 'Save'
     end
 
     expect(page).to have_selector('#content img', count: 2)
-    expect(page).to have_selector('.attachments a', text: 'image.png', count: 2)
     expect(page).to have_content('Image uploaded on creation')
     expect(page).to have_content('Image uploaded the second time')
   end

@@ -21,12 +21,13 @@ See doc/COPYRIGHT.md for more details.
 
 <% new_block ||= local_assigns[:new_block] %>
 
-<div overview-textile-block
-     id="block_<%= block_name %>"
+<% resource = ::API::V3::Overview::OverviewRepresenter.new(overview,
+                                                           current_user: current_user,
+                                                           embed_links: true) %>
+
+<div id="block_<%= block_name %>"
      ng-cloak
-     class="widget-box block-teaser"
-     block-name="<%= block_name %>"
-     new-block="<%= !!new_block %>">
+     class="widget-box block-teaser">
   <div class="handle" cg-busy="$ctrl.loadingIndicator">
     <% content_for block_name do %>
       <div id="<%= block_name %>-form-div" class="textile-form-wrapper" ng-show="$ctrl.formVisible">
@@ -49,20 +50,24 @@ See doc/COPYRIGHT.md for more details.
               <%= styled_text_field_tag "block_title_#{block_name}", block_title %>
             </div>
           </div>
+
           <div class="form--field -required">
             <%= styled_label_tag "textile_#{block_name}", t('info_custom_text') %>
             <div class="form--field-container" ng-non-bindable>
+
               <%= styled_text_area_tag "textile_#{block_name}",
                                        textile.html_safe,
                                        class: 'wiki-edit',
                                        with_text_formatting: true,
-                                       resource: { _type: 'OverviewTextileBlock' } %>
+                                       resource: resource %>
             </div>
           </div>
-          <%= render partial: 'attachments/form' %>
+
+          <attachments data-resource="<%= resource.to_json %>" data-allow-uploading="true"></attachments>
+
           <%= styled_button_tag l(:button_save),
-              id: "#{block_name}-form-submit",
-              class: '-highlight' %>
+                                id: "#{block_name}-form-submit",
+                                class: '-highlight' %>
           <a href="#" ng-click="$ctrl.toggleEditForm(false)" class="reset-textilizable button"><%= t(:button_cancel) %></a>
         <% end %>
       </div>
@@ -90,3 +95,8 @@ See doc/COPYRIGHT.md for more details.
     </div>
   </div>
 </div>
+
+<overview-textile-block
+  block-name="<%= block_name %>"
+  new-block="<%= !!new_block %>">
+</overview-textile-block>

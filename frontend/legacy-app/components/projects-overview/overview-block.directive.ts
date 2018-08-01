@@ -48,13 +48,14 @@ export class OverviewBlockController {
     this.layoutCtrl.updateAvailableBlocks();
     return false;
   }
-
 }
 
-function overviewBlock():any {
+function overviewBlock($compile:any):any {
   return {
-    restrict: 'EA',
-    scope: {},
+    restrict: 'E',
+    scope: {
+      blockName: '@'
+    },
     transclude: true,
     compile: function() {
       return function(
@@ -63,9 +64,12 @@ function overviewBlock():any {
         attrs:ng.IAttributes,
         ctrl:any,
         transclude:any) {
-        scope.$ctrl.layoutCtrl = ctrl;
+
+        scope.$ctrl.layoutCtrl = scope.$parent.$ctrl;
+
         transclude(scope, (clone:any) => {
-          element.append(clone);
+          let original = jQuery(`#block_${scope.$ctrl.blockName}`);
+          element.append($compile(original)(scope));
         });
       };
     },

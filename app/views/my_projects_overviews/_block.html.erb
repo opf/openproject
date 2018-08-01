@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.md for more details.
 
 ++#%>
-<div id="block_<%= block_name %>" class="widget-box" overview-block block-name="<%= block_name %>">
+<div id="block_<%= block_name %>" class="widget-box">
 
   <% block_name_id = "my_page_#{block_name}_box_actions" %>
   <% content_for block_name_id do %>
@@ -37,3 +37,6 @@ See doc/COPYRIGHT.md for more details.
     <%= render partial: "my_projects_overviews/blocks/#{block_name}", locals: { block_name_id: block_name_id } %>
   </div>
 </div>
+
+<overview-block block-name="<%= block_name %>">
+</overview-block>

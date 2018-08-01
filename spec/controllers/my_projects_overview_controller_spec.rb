@@ -130,17 +130,6 @@ describe MyProjectsOverviewsController, type: :controller do
     end
   end
 
-  describe '#render_attachments' do
-    before do
-      get :render_attachments, params: params, xhr: true
-    end
-
-    it 'renders the attachments partial' do
-      expect(response).to be_success
-      expect(response).to render_template(partial: '_page_layout_attachments')
-    end
-  end
-
   describe '#add_block' do
     context 'regular block' do
       render_views
