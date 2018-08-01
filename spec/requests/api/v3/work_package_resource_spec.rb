@@ -652,7 +652,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
                 let(:message) do
                   I18n.t('api_v3.errors.validation.' \
                                      'invalid_user_assigned_to_work_package',
-                         property: property.capitalize)
+                         property: WorkPackage.human_attribute_name(property))
                 end
               end
             end
@@ -664,7 +664,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
               it_behaves_like 'constraint violation' do
                 let(:message) do
                   I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
-                         property: property.capitalize)
+                         property: WorkPackage.human_attribute_name(property))
                 end
               end
             end
@@ -693,7 +693,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
               it_behaves_like 'constraint violation' do
                 let(:message) do
                   I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
-                         property: "#{property.capitalize}")
+                         property: WorkPackage.human_attribute_name(property))
                 end
               end
             end

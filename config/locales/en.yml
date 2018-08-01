@@ -232,7 +232,7 @@ en:
       reported:
         no_results_title_text: There are currently no work packages that I have reported.
       responsible:
-        no_results_title_text: There are currently no work packages that I am responsible for.
+        no_results_title_text: There are currently no work packages that I am accountable for.
       watched:
         no_results_title_text: There are currently no work packages that I am watching.
 
@@ -353,7 +353,6 @@ en:
         parent: "Subproject of"
         project_type: "Project type"
         queries: "Queries"
-        responsible: "Responsible"
         types: "Types"
         versions: "Versions"
         work_packages: "Work Packages"
@@ -421,7 +420,6 @@ en:
         parent_work_package: "Parent"
         priority: "Priority"
         progress: "Progress (%)"
-        responsible: "Responsible"
         spent_hours: "Spent time"
         spent_time: "Spent time"
         subproject: "Subproject"
@@ -649,7 +647,7 @@ en:
     password: "Password"
     priority: "Priority"
     project: "Project"
-    responsible: "Responsible"
+    responsible: "Accountable"
     role: "Role"
     roles: "Roles"
     start_date: "Start date"
@@ -1431,7 +1429,7 @@ en:
   label_repository_plural: "Repositories"
   label_required: 'required'
   label_requires: 'requires'
-  label_responsible_for_work_packages: "Work packages I am responsible for"
+  label_responsible_for_work_packages: "Work packages I am accountable for"
   label_result_plural: "Results"
   label_reverse_chronological_order: "In reverse chronological order"
   label_revision: "Revision"
@@ -1565,7 +1563,7 @@ en:
   label_work_package_view_all: "View all work packages"
   label_work_package_view_all_assigned_to_me: "View all work packages assigned to me"
   label_work_package_view_all_reported_by_me: "View all work packages reported by me"
-  label_work_package_view_all_responsible_for: "View all work packages that I am responsible for"
+  label_work_package_view_all_responsible_for: "View all work packages that I am accountable for"
   label_work_package_view_all_watched: "View all watched work packages"
   label_work_package_watchers: "Watchers"
   label_workflow: "Workflow"
@@ -1989,7 +1987,6 @@ en:
   setting_smtp_address: "SMTP server"
   setting_smtp_port: "SMTP port"
   setting_smtp_authentication: "SMTP authentication"
-  setting_smtp_domain: "SMTP domain"
   setting_smtp_user_name: "SMTP username"
   setting_smtp_password: "SMTP password"
   setting_smtp_domain: "SMTP HELLO domain"
@@ -2296,7 +2293,6 @@ en:
         due_date: "End date"
         name: "Name"
         status: "Status"
-        responsible: "Responsible"
         start_date: "Start date"
       columns: "Columns"
       comparisons: "Comparisons"
@@ -2325,7 +2321,7 @@ en:
       outline: "Initial outline expansion"
       parent: "Show subprojects of"
       work_package_filters: "Filter work packages"
-      work_package_responsible: "Show work packages with responsible"
+      work_package_responsible: "Show work packages with accountable"
       work_package_assignee: "Show work packages with assignee"
       types: "Show types"
       status: "Show status"
@@ -2337,7 +2333,7 @@ en:
       project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago, %{end_label} %{endspan}%{endspanunit} from now"
       project_filters: "Filter projects"
-      project_responsible: "Show projects with responsible"
+      project_responsible: "Show projects with accountable"
       project_status: "Show project status"
       project_types: "Show project types"
       timeframe: "Show timeframe"
