@@ -40,9 +40,11 @@ export interface DocumentResourceLinks {
 
 class DocumentBaseResource extends HalResource {
     public $links:DocumentResourceLinks;
+
+    private attachmentsBackend = false;
 }
 
 export const DocumentResource = Attachable(DocumentBaseResource);
 
-export interface DocumentResource extends DocumentResourceLinks {
+export interface DocumentResource extends DocumentBaseResource {
 }

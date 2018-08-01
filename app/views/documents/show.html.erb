@@ -53,25 +53,8 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= format_text @document.description, attachments: @document.attachments %>
 </div>
 
-<h3><%= l(:label_attachment_plural) %></h3>
-<%= link_to_attachments @document %>
+<% resource = ::API::V3::Documents::DocumentRepresenter.new(@document,
+                                                            current_user: current_user,
+                                                            embed_links: true) %>
 
-<% if authorize_for('documents', 'add_attachment') %>
-  <p>
-    <%= link_to_function l(:label_attachment_new),
-                         %{
-                           jQuery('#add_attachment_form').show();
-                           jQuery(this).hide();
-                           jQuery('#add_attachment_form')[0].scrollIntoView();
-                         },
-                         id: 'attach_files_link' %>
-  </p>
-  <%= form_tag(add_attachment_document_path(@document), method: :post, multipart: true, id: "add_attachment_form", style: "display:none;") do %>
-  <div class="box">
-  <p><%= render partial: 'attachments/form' %></p>
-  </div>
-  <%= styled_button_tag l(:button_add), class: "-highlight -with-icon icon-checkmark" %>
-
-  <% end %>
-<% end %>
-
+<attachments data-resource="<%= resource.to_json %>" data-allow-uploading="false"></attachments>

@@ -70,14 +70,14 @@ describe 'Upload attachment to documents', js: true do
       editable.find('figure.image figcaption').base.send_keys('Image uploaded on creation')
     end
 
+    expect(page).to have_selector('attachment-list-item', text: 'image.png')
+
     click_on 'Create'
 
     expect(page).to have_selector('#content img', count: 1)
     expect(page).to have_content('Image uploaded on creation')
 
     click_on 'New documentation'
-
-    expect(page).to have_selector('.attachments', text: 'image.png')
 
     within '.toolbar-items' do
       click_on 'Edit'
@@ -91,11 +91,13 @@ describe 'Upload attachment to documents', js: true do
       editable.find('figure.image figcaption').base.send_keys('Image uploaded the second time')
     end
 
+    expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
+
     click_on 'Save'
 
     expect(page).to have_selector('#content img', count: 2)
     expect(page).to have_content('Image uploaded on creation')
     expect(page).to have_content('Image uploaded the second time')
-    expect(page).to have_selector('.attachments a', text: 'image.png', count: 2)
+    expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
   end
 end

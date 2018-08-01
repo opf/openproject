@@ -32,6 +32,7 @@
 import {APP_INITIALIZER, Injector, NgModule} from '@angular/core';
 import {OpenProjectPluginContext} from "core-app/modules/plugins/plugin-context";
 import {DocumentResource} from './hal/resources/document-resource';
+import {multiInput} from 'reactivestates';
 
 export function initializeDocumentPlugin() {
     return () => {
@@ -39,6 +40,9 @@ export function initializeDocumentPlugin() {
             .then((pluginContext:OpenProjectPluginContext) => {
                 let halResourceService = pluginContext.services.halResource;
                 halResourceService.registerResource('Document', { cls: DocumentResource });
+
+                let states = pluginContext.services.states;
+                states.add('documents', multiInput<DocumentResource>());
             });
     };
 }
