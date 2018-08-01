@@ -394,7 +394,7 @@ ru:
           атрибутов будет показана их даты.
 
 '
-      button_activate: Show Gantt chart
+      button_activate: Показать диаграмму Ганта
       cancel: Отмена
       change: Изменения в планировании
       due_date: Дата завершения
@@ -640,7 +640,7 @@ ru:
         months: месяцев
     toolbar:
       settings:
-        configure_view: Configure view ...
+        configure_view: Настроить вид ...
         columns: Столбцы...
         sort_by: Сортировать по ...
         group_by: Группировать по...

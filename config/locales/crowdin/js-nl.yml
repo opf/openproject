@@ -54,44 +54,45 @@ nl:
     description_selected_columns: Geselecteerde kolommen
     description_subwork_package: 'Kind van werkpakket #%{id}'
     editor:
-      preview: Toggle preview mode
+      preview: Voorbeeld modus wijzigen
       macro:
         child_pages:
-          button: Links to child pages
-          include_parent: Include parent
-          text: "[Placeholder] Links to child pages of"
+          button: Links naar onderliggende pagina 's
+          include_parent: Inclusief bovenliggende
+          text: "[Placeholder] links naar onderliggende pagina's van"
           page: Wikipagina
-          this_page: this page
-          hint: 'Leave this field empty to list all child pages of the current page.
-            If you want to reference a different page, provide its title or slug.
+          this_page: deze pagina
+          hint: 'Laat dit veld leeg om alle onderliggende pagina''s van de huidige
+            pagina weer te geven. Als u wilt verwijzen naar een andere pagina, geef
+            de titel of de witruimte van de pagina in.
 
 '
         code_block:
-          button: Insert code snippet
-          title: Insert / edit Code snippet
-          language: Formatting language
-          language_hint: Enter the formatting language that will be used for highlighting
-            (if supported).
+          button: Codefragment invoegen
+          title: Insert / codefragment bewerken
+          language: Opmaaktaal
+          language_hint: Voer de opmaaktaal die wordt gebruikt voor het benadrukken(indien
+            ondersteund).
         dropdown:
-          macros: Macros
-          chose_macro: Chose macro
+          macros: Macro's
+          chose_macro: Kies macro
         toc: Table of contents
-        toolbar_help: Click to select widget and show the toolbar. Double-click to
-          edit widget
+        toolbar_help: Klik op widget en geef de werkbalk weer. Dubbelklikken om de
+          widget te bewerken
         wiki_page_include:
-          button: Include content of another wiki page
-          text: "[Placeholder] Included wiki page of"
+          button: Inhoud van een andere wikipagina opnemen
+          text: "[Placeholder] opgenomen wikipagina van"
           page: Wikipagina
           hint: |
-            Include the content of another wiki page by specifying its title or slug.
-            You can include the wiki page of another project by separating them with a colon like the following example.
+            Neem de inhoud van een andere wikipagina op door de de titel of de witruimte rond de pagina in te geven.
+            U kunt de wikipagina van een ander project opnemen door deze te scheiden met een dubbele punt zoals in het volgende voorbeeld.
         work_package_button:
-          button: Insert create work package button
-          type: Work package type
-          button_style: Use button style
-          button_style_hint: 'Optional: Check to make macro appear as a button, not
-            as a link.'
-          without_type: Create work package
+          button: Voegen werk pakket knop maken In
+          type: Werkpakket type
+          button_style: Gebruik knopstijl
+          button_style_hint: 'Optioneel: Controleer of de macro wordt weergegeven
+            als een knop, niet als een link.'
+          without_type: Nieuw werkpakket maken
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table

@@ -998,7 +998,7 @@ nl:
   error_invalid_sort_criterion: 'Kan niet sorteren op kolom: %{value}'
   error_pdf_export_too_many_columns: Te veel kolommen geselecteerd voor het exporteren
     naar PDF. Beperk het aantal kolommen.
-  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
+  error_pdf_failed_to_export: De pdf export kan niet worden opgeslagen:%{error}
   error_token_authenticity: Niet mogelijk om Cross-Site Request Forgery-token te verifiëren.
   error_work_package_done_ratios_not_updated: Werkpakket gedaan ratio's niet bijgewerkt.
   error_work_package_not_found_in_project: Het werkpakket werd niet gevonden of maakt
@@ -1049,8 +1049,8 @@ nl:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF met beschrijvingen
-      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
-      pdf_with_attachments: PDF with attachments
+      pdf_with_descriptions_and_attachments: PDF met beschrijvingen en bijlagen
+      pdf_with_attachments: PDF met bijlagen
   extraction:
     available:
       pdftotext: Pdftotext beschikbaar (optioneel)
@@ -2678,10 +2678,11 @@ nl:
   note_password_login_disabled: Wachtwoord is uitgeschakeld door %{configuration}.
   warning: Waarschuwing
   warning_attachments_not_saved: "%{count} bestanden kunnen niet worden opgeslagen."
-  warning_imminent_user_limit: 'You invited more users than are supported by your
-    current plan. Invited users may not be able to join your OpenProject environment.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
-    in order to allow invited and registered users to join.
+  warning_imminent_user_limit: 'U heeft meer gebruikers uitgenodigd dan wordt ondersteund
+    in uw huidig abbonement. Uitgenodigde gebruikers kunnen mogelijk niet kunnen inloggen
+    in uw OpenProject omgeving. Voer een <a href="%{upgrade_url}">verhoging van het
+    abbonement uit</a> of blokkeer bestaande gebruikers zodat nieuwe gebruikers kunnen
+    inloggen.
 
 '
   warning_registration_token_expired: 'De activatie e-mail is verlopen. Wij sturen
@@ -2689,9 +2690,9 @@ nl:
     e-mail om uw account te activeren.
 
 '
-  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
-    for additional users.
+  warning_user_limit_reached: 'Gebruikerslimiet bereikt. U kunt geen gebruikers meer
+    activeren. <a href="%{upgrade_url}">upgrade uw abbonement</a> of blokkeer gebruikers
+    om extra gebruikers toegang te geven.
 
 '
   warning_user_limit_reached_instructions: 'U bereikt uw gebruikerslimiet (%{current}/%{max}

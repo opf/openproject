@@ -1010,7 +1010,7 @@ de:
   error_invalid_sort_criterion: 'Kann nicht nach Spalte sortieren: %{value}'
   error_pdf_export_too_many_columns: Zu viele Spalten für PDF-Export ausgewählt. Bitte
     reduzieren Sie die Anzahl der ausgewählten Spalten.
-  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
+  error_pdf_failed_to_export: 'Der PDF-Export konnte nicht gespeichert werden: %{error}'
   error_token_authenticity: Cross-Site-Request-Forgery Token kann nicht verifiziert
     werden.
   error_work_package_done_ratios_not_updated: Der Arbeitspaket-Fortschritt wurde nicht
@@ -1063,8 +1063,8 @@ de:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF mit Beschreibungen
-      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
-      pdf_with_attachments: PDF with attachments
+      pdf_with_descriptions_and_attachments: PDF mit Beschreibungen und Anhängen
+      pdf_with_attachments: PDF mit Anhängen
   extraction:
     available:
       pdftotext: Pdftotext verfügbar (optional)
@@ -1756,7 +1756,7 @@ de:
       Der Nutzer kann seinen Account aufgrund des Nutzer Limits nicht aktivieren.
     steps:
       label: 'Folgendes kannst du tuen um dem Nutzer das einloggen zu ermöglichen: '
-      a: Upgrade your payment plan ([here](upgrade_url))
+      a: Upgraden Sie Ihren Zahlungsplan ([here](upgrade_url))
       b: Sprerren oder löschen eines bestehenden Nutzers ([here](users_url))
   more_actions: Weitere Funktionen
   noscript_description: Sie müssen JavaScript aktiveren, um OpenProject nutzen zu
@@ -2703,10 +2703,11 @@ de:
   note_password_login_disabled: Der Passwort-Login wurde per %{configuration} deaktiviert.
   warning: Warnung
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
-  warning_imminent_user_limit: 'You invited more users than are supported by your
-    current plan. Invited users may not be able to join your OpenProject environment.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
-    in order to allow invited and registered users to join.
+  warning_imminent_user_limit: 'Sie haben mehr Nutzer eingeladen, als Ihr momentaner
+    Plan zulässt. Eingeladene Nutzer können Ihrem OpenProject möglicherweise nicht
+    beitreten. Bitte <a href="%{upgrade_url}">upgraden Sie Ihren Tarif</a> oder blockieren
+    Sie vorhandene Mitglieder, um den eingeladenen und registrierten Nutzern die Möglichkeit
+    zu bieten, Ihrem Projekt beizutreten.
 
 '
   warning_registration_token_expired: 'E-Mail mit dem Aktivierungslink ist abgelaufen.
@@ -2714,9 +2715,9 @@ de:
     über den Link in dieser E-Mail.
 
 '
-  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
-    for additional users.
+  warning_user_limit_reached: 'Nutzerlimit erreicht. Sie können keine weiteren Nutzer
+    aktivieren. Bitte <a href="%{upgrade_url}">upgraden Sie Ihren Tarif</a> oder blockieren
+    Sie Mitglieder, um Platz für weitere Nutzer zu schaffen.
 
 '
   warning_user_limit_reached_instructions: 'Du hast dein Nutzerlimit erreicht (%{current}/%{max}
