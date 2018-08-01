@@ -23,10 +23,6 @@ module Components
       'div.ck-content'
     end
 
-    def expect_value(value)
-      expect(editor_element.text).to eq(value)
-    end
-
     def set_markdown(text)
       textarea = container.find('.op-ckeditor-source-element', visible: :all)
       page.execute_script(
@@ -36,13 +32,16 @@ module Components
       )
     end
 
-
     def clear
       textarea = container.find('.op-ckeditor-source-element', visible: :all)
       page.execute_script(
         'jQuery(arguments[0]).trigger("op:ckeditor:clear")',
         textarea.native
       )
+    end
+
+    def expect_value(value)
+      expect(editor_element.text).to eq(value)
     end
 
     def within_enabled_preview
@@ -67,6 +66,10 @@ module Components
       editor_element.send_keys text
 
       sleep 0.5
+    end
+
+    def click_hover_toolbar_button(label)
+      page.find('.ck-toolbar .ck-button', text: label, visible: :all).click
     end
 
     def insert_macro(label)
