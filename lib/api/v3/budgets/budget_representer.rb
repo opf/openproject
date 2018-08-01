@@ -25,28 +25,13 @@ module API
     module Budgets
       class BudgetRepresenter < ::API::Decorators::Single
         self_link title_getter: ->(*) { represented.subject }
+        include API::Caching::CachedRepresenter
+        include ::API::V3::Attachments::AttachableRepresenterMixin
 
         link :staticPath do
           next if represented.new_record?
           {
             href: cost_object_path(represented.id)
-          }
-        end
-
-        link :attachments do
-          next if represented.new_record?
-          {
-            href: api_v3_paths.attachments_by_budget(represented.id)
-          }
-        end
-
-        link :addAttachment do
-          next if represented.new_record?
-          next unless current_user_allowed_to(:edit_cost_objects, context: represented.project)
-
-          {
-            href: api_v3_paths.attachments_by_budget(represented.id),
-            method: :post
           }
         end
 

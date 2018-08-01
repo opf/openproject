@@ -25,10 +25,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 
 import {APP_INITIALIZER, Injector, NgModule} from '@angular/core';
-import {OpenProjectPluginContext} from "core-app/modules/plugins/plugin-context";
+import {OpenProjectPluginContext} from 'core-app/modules/plugins/plugin-context';
 import {CostsByTypeDisplayField} from './wp-display/wp-display-costs-by-type-field.module';
 import {CurrencyDisplayField} from './wp-display/wp-display-currency-field.module';
 import {BudgetResource} from './hal/resources/budget-resource';
+import {multiInput} from 'reactivestates';
 
 export function initializeCostsPlugin() {
     return () => {
@@ -68,6 +69,9 @@ export function initializeCostsPlugin() {
                     text: I18n.t('js.button_log_costs'),
                 };
             });
+
+            let states = pluginContext.services.states;
+            states.add('budgets', multiInput<BudgetResource>());
         });
     };
 }

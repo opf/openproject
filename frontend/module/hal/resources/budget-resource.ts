@@ -37,5 +37,5 @@ class BudgetBaseResource extends HalResource {
 
 export const BudgetResource = Attachable(BudgetBaseResource);
 
-export interface BudgetResource extends BudgetResourceLinks {
+export interface BudgetResource extends BudgetBaseResource, BudgetResourceLinks {
 }
