@@ -45,7 +45,6 @@ module Redmine::MenuManager::MenuHelper
       build_wiki_menus(project)
       render_menu(:project_menu, project)
     elsif menu == :module_menu
-      # TODO check project new to see if there is a menu which shouldn't be there
       render_menu(:application_menu, project)
     else
       render_menu(menu, project)
