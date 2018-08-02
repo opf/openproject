@@ -10,7 +10,7 @@ zh-TW:
   info_custom_text: "自訂文字"
   label_confirm_delete: "確定要刪除這個項目"
   label_work_packages_reported_by_me: "我所回報的工作項目"
-  label_work_packages_responsible_for: "我負責的工作項目"
+  label_work_packages_responsible_for: "Work packages I am accountable for"
   label_work_packages_assigned_to_me: "指派給我的工作項目"
   label_work_packages_watched: "已關注的工作項目"
   label_work_package_tracking: " 工作項目追蹤"

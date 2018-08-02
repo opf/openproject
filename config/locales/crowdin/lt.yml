@@ -10,7 +10,7 @@ lt:
   info_custom_text: "Pritaikytas tekstas"
   label_confirm_delete: "Tikrai ištrinti šį elementą?"
   label_work_packages_reported_by_me: "Darbų paketai, kuriuos atsiskaičiau aš"
-  label_work_packages_responsible_for: "Darbų paketai, už kuriuos atsakau aš"
+  label_work_packages_responsible_for: "Work packages I am accountable for"
   label_work_packages_assigned_to_me: "Man priskirti darbų paketai"
   label_work_packages_watched: "Stebimi darbų paketai"
   label_work_package_tracking: " Darbų paketo sekimas"

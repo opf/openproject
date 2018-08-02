@@ -10,7 +10,7 @@ hu:
   info_custom_text: "Egyéni szöveg"
   label_confirm_delete: "Valóban törli ezt az elemet?"
   label_work_packages_reported_by_me: "Munkacsomagok, amikről beszámolok"
-  label_work_packages_responsible_for: "Munkacsomagok, amikért felelős vagyok"
+  label_work_packages_responsible_for: "Work packages I am accountable for"
   label_work_packages_assigned_to_me: "Hozzám rendelt munkacsomagok"
   label_work_packages_watched: "Megfigyelt munkacsomagok"
   label_work_package_tracking: " Munkacsomagok"

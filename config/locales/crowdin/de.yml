@@ -10,7 +10,7 @@ de:
   info_custom_text: "Benutzerdefinierter Text"
   label_confirm_delete: "Dieses Element wirklich löschen?"
   label_work_packages_reported_by_me: "Von mir gemeldete Arbeitspakete"
-  label_work_packages_responsible_for: "Von mir verantwortete Arbeitspakete"
+  label_work_packages_responsible_for: "Work packages I am accountable for"
   label_work_packages_assigned_to_me: "Mir zugewiesene Tickets"
   label_work_packages_watched: "Beobachtete Arbeitspakete"
   label_work_package_tracking: "Arbeitspaket-Verfolgung"

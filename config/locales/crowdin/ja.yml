@@ -10,7 +10,7 @@ ja:
   info_custom_text: "カスタムテキスト"
   label_confirm_delete: "本当にこの要素を削除しますか？"
   label_work_packages_reported_by_me: "担当している作業項目"
-  label_work_packages_responsible_for: "責任者である作業項目"
+  label_work_packages_responsible_for: "Work packages I am accountable for"
   label_work_packages_assigned_to_me: "担当している作業項目"
   label_work_packages_watched: "ウォッチしている作業項目"
   label_work_package_tracking: " 作業項目の追跡"

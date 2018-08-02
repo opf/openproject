@@ -10,7 +10,7 @@ pl:
   info_custom_text: "Tekst niestandardowy/użytkownika"
   label_confirm_delete: "Naprawdę usunąć ten element?"
   label_work_packages_reported_by_me: "Zadania zgłoszone przeze mnie"
-  label_work_packages_responsible_for: "Zadania, za które jestem odpowiedzialny"
+  label_work_packages_responsible_for: "Work packages I am accountable for"
   label_work_packages_assigned_to_me: "Zadania przypisane do mnie"
   label_work_packages_watched: "Obserwowane zadania"
   label_work_package_tracking: " Śledzenie zadania"

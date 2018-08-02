@@ -10,7 +10,7 @@ tr:
   info_custom_text: "Özel metin"
   label_confirm_delete: "Bu öğeyi gerçekten silmek istiyor musunuz?"
   label_work_packages_reported_by_me: "Benim tarafımdan rapor edilen iş paketleri"
-  label_work_packages_responsible_for: "Benim sorumlu olduğum iş paketleri"
+  label_work_packages_responsible_for: "Work packages I am accountable for"
   label_work_packages_assigned_to_me: "Bana atanan iş paketleri"
   label_work_packages_watched: "Bakılan çalışma paketleri"
   label_work_package_tracking: " İş paketi takibi"

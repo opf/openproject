@@ -10,7 +10,7 @@ sv:
   info_custom_text: "Egen text"
   label_confirm_delete: "Vill du verkligen ta bort detta element?"
   label_work_packages_reported_by_me: "Arbetspaket rapporterade av mig"
-  label_work_packages_responsible_for: "Arbetspaket jag är ansvarig för"
+  label_work_packages_responsible_for: "Work packages I am accountable for"
   label_work_packages_assigned_to_me: "Arbetspaket som tilldelats till mig"
   label_work_packages_watched: "Bevakade arbetspaket"
   label_work_package_tracking: " Spåra arbetspaket"

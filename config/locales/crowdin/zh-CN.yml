@@ -10,7 +10,7 @@ zh-CN:
   info_custom_text: "自定义文本"
   label_confirm_delete: "是否确实要删除此元素？"
   label_work_packages_reported_by_me: "由我汇报的工作包"
-  label_work_packages_responsible_for: "我负责的工作包"
+  label_work_packages_responsible_for: "Work packages I am accountable for"
   label_work_packages_assigned_to_me: "分配给我的工作包"
   label_work_packages_watched: "受关注的工作包"
   label_work_package_tracking: "工作包跟踪"

@@ -10,7 +10,7 @@ id:
   info_custom_text: "Teks bebas"
   label_confirm_delete: "Benar-benar menghapus elemen ini?"
   label_work_packages_reported_by_me: "Paket kerja yang saya laporkan"
-  label_work_packages_responsible_for: "Paket-Penugasan dibawah tanggung jawab saya"
+  label_work_packages_responsible_for: "Work packages I am accountable for"
   label_work_packages_assigned_to_me: "Paket-Penugasan yang saya kerjakan"
   label_work_packages_watched: "Paket-Penugasan yang telah diakses"
   label_work_package_tracking: " Tracking Paket-Penugasan"

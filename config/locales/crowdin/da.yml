@@ -10,7 +10,7 @@ da:
   info_custom_text: "Tilpasset tekst"
   label_confirm_delete: "Vil du virkelig slette dette element?"
   label_work_packages_reported_by_me: "Arbejdspakker der rapporterer til mig"
-  label_work_packages_responsible_for: "Arbejdspakker jeg er ansvarlig for"
+  label_work_packages_responsible_for: "Work packages I am accountable for"
   label_work_packages_assigned_to_me: "Arbejdspakker tilknyttet mig"
   label_work_packages_watched: "Overvågede arbejdspakker"
   label_work_package_tracking: " Work package tracking"

@@ -10,7 +10,7 @@ ru:
   info_custom_text: "Пользовательский текст"
   label_confirm_delete: "Действительно удалить этот элемент?"
   label_work_packages_reported_by_me: "Работа пакеты, за которые я отчитался"
-  label_work_packages_responsible_for: "Пакеты работ, за которые я несу ответственность"
+  label_work_packages_responsible_for: "Work packages I am accountable for"
   label_work_packages_assigned_to_me: "Пакеты работ, предназначенные мне"
   label_work_packages_watched: "Наблюдаемые пакеты работ"
   label_work_package_tracking: " Отслеживание комплекса работ"

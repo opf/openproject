@@ -10,7 +10,7 @@ ar:
   info_custom_text: "نص مخصص"
   label_confirm_delete: "حقًا تريد حذف هذا العنصر؟"
   label_work_packages_reported_by_me: "مجموعات العمل التي تم تقديم التقارير عنها بواسطتي"
-  label_work_packages_responsible_for: "مجموعات العمل تحت مسؤوليتي"
+  label_work_packages_responsible_for: "Work packages I am accountable for"
   label_work_packages_assigned_to_me: "مجموعات العمل الموكلة لي"
   label_work_packages_watched: "مجموعات العمل المراقبة"
   label_work_package_tracking: " تعقُّب مجموعة العمل"

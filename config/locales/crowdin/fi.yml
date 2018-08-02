@@ -10,7 +10,7 @@ fi:
   info_custom_text: "Mukautettu teksti"
   label_confirm_delete: "Haluatko varmasti poistaa tämän elementin?"
   label_work_packages_reported_by_me: "Työpaketit jotka olen raportoinut"
-  label_work_packages_responsible_for: "Työpaketit joista olen vastuussa"
+  label_work_packages_responsible_for: "Work packages I am accountable for"
   label_work_packages_assigned_to_me: "Minulle määritetyt työpaketit"
   label_work_packages_watched: "Seuratut työpaketit"
   label_work_package_tracking: " Työpaketin seuranta"

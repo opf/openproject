@@ -10,7 +10,7 @@ lv:
   info_custom_text: "Pielāgots teksts"
   label_confirm_delete: "Vai tiešām dzēst šo elementu?"
   label_work_packages_reported_by_me: "Mani izveidotie pieteikumi"
-  label_work_packages_responsible_for: "Pieteikumi, kuros es esmu atbildīgais"
+  label_work_packages_responsible_for: "Work packages I am accountable for"
   label_work_packages_assigned_to_me: "Man piešķirtie pieteikumi"
   label_work_packages_watched: "Pieteikumi, kuriem tiek sekots"
   label_work_package_tracking: " Work package tracking"

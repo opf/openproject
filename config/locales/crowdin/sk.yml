@@ -10,7 +10,7 @@ sk:
   info_custom_text: "Vlastný text"
   label_confirm_delete: "Naozaj chcete odstrániť tento prvok?"
   label_work_packages_reported_by_me: "Pracovné balíčky, ktoré som reportoval"
-  label_work_packages_responsible_for: "Pracovné balíčky, za ktoré som zodpovedný(a)"
+  label_work_packages_responsible_for: "Work packages I am accountable for"
   label_work_packages_assigned_to_me: "Mne priradené pracovné balíčky"
   label_work_packages_watched: "Pozorované pracovné balíčky"
   label_work_package_tracking: " Work package tracking"
