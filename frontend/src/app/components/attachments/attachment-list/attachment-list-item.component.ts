@@ -41,6 +41,7 @@ export class AttachmentListItemComponent {
   @Input() public resource:HalResource;
   @Input() public attachment:any;
   @Input() public index:any;
+  @Input() public selfDestroy?:boolean;
 
   public text = {
     destroyConfirmation: this.I18n.t('js.text_attachment_destroy_confirmation'),
@@ -66,6 +67,12 @@ export class AttachmentListItemComponent {
 
     _.pull(this.resource.attachments.elements, this.attachment);
     this.states.forResource(this.resource!).putValue(this.resource);
+
+    if (!!this.selfDestroy) {
+      this
+        .resource
+        .removeAttachment(this.attachment);
+    }
 
     return false;
   }

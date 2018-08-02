@@ -62,4 +62,4 @@ See docs/COPYRIGHT.rdoc for more details.
                   resource: resource,
                   preview_context: preview_context(representer_object) %>
 </div>
-<attachments data-resource="<%= resource.to_json %>" data-allow-uploading="true"></attachments>
+<%= list_attachments(resource, true) %>
