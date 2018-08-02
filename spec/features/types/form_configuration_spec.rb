@@ -102,7 +102,7 @@ describe 'form configuration', type: :feature, js: true do
         #
         form.expect_group 'people',
                           'People',
-                          key: :responsible, translation: 'Responsible'
+                          key: :responsible, translation: 'Accountable'
 
         form.expect_group 'estimates_and_time',
                           'Estimates and time',
@@ -153,7 +153,7 @@ describe 'form configuration', type: :feature, js: true do
 
         form.expect_group 'Cool Stuff',
                           'Cool Stuff',
-                          { key: :responsible, translation: 'Responsible' }
+                          { key: :responsible, translation: 'Accountable' }
 
         form.expect_group 'estimates_and_time',
                           'Estimates and time',

@@ -715,7 +715,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         it_behaves_like 'has basic schema properties' do
           let(:path) { 'responsible' }
           let(:type) { 'User' }
-          let(:name) { I18n.t('activerecord.attributes.work_package.responsible') }
+          let(:name) { I18n.t('attributes.responsible') }
           let(:required) { false }
           let(:writable) { true }
         end

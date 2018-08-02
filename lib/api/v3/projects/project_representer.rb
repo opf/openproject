@@ -36,8 +36,6 @@ module API
       class ProjectRepresenter < ::API::Decorators::Single
         include ::API::Caching::CachedRepresenter
 
-        cached_representer key_parts: %i(project_type)
-
         self_link
 
         link :createWorkPackage,
@@ -86,8 +84,6 @@ module API
                  as: 'updatedAt',
                  exec_context: :decorator,
                  getter: ->(*) { datetime_formatter.format_datetime(represented.updated_on) }
-
-        property :type, getter: ->(*) { project_type.try(:name) }, render_nil: true
 
         def _type
           'Project'
