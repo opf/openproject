@@ -95,6 +95,8 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
 
   public ngOnInit() {
     this.projectIdentifier = this.element.nativeElement.getAttribute("identifier");
+    this.hideShowHamburgerIcon(this.projectIdentifier);
+
     jQuery(document).ready(() => {
       let toggler = jQuery('#main-menu-work-packages-wrapper .toggler');
       toggler.on('click', event => {
@@ -108,6 +110,14 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
 
   ngOnDestroy() {
     this.unregisterTransitionListener();
+  }
+
+  private hideShowHamburgerIcon(projectIdentifier:string) {
+    if (this.projectIdentifier !== "") {
+      setTimeout( () => jQuery('#main-menu-toggle').css("display", "block"));
+    } else {
+      setTimeout( () => jQuery('#main-menu-toggle').css("display", "none"));
+    }
   }
 
   private openMenu() {
@@ -138,10 +148,15 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
 
   // Create the static queries and return them as one Array
   private setStaticQueries(idCounter:number):IAutocompleteItem[] {
-    return _.map(  this.wpStaticQueries.all, (query:any) => {
-      query.auto_id = idCounter++;
-      query.category = null;
-      return query;
+    let all = this.wpStaticQueries.all;
+    // If no project is selected, delete summary from collection (for there is no summary for the global workpackages)
+    if (!this.projectIdentifier) {
+      all = _.filter( this.wpStaticQueries.all, item => item !== this.wpStaticQueries.summary);
+    }
+    return _.map( all, (item:any) => {
+      item.auto_id = idCounter++;
+      item.category = null;
+      return item;
     });
   }
 
@@ -336,8 +351,12 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
       if (item.auto_id === this.wpStaticQueries.summary.auto_id) {
         window.location.href = this.pathHelper.projectWorkPackagesPath(this.projectIdentifier) + '/report';
       }
-      else if (!item.query) {
-        promise = this.wpListService.fromQueryParams({query_props: item.query_props}, this.projectIdentifier);
+      else if (!item.query) { // default query
+        if (this.projectIdentifier) {
+          promise = this.wpListService.fromQueryParams({query_props: item.query_props}, this.projectIdentifier);
+        } else {
+          promise = this.wpListService.fromQueryParams({query_props: item.query_props});
+        }
       } else {
         promise = this.wpListService.reloadQuery(item.query);
       }

@@ -412,10 +412,6 @@ $arrow-left-width: 40px
     &.hidden
       display: none
 
-  .ui-menu-item
-    display: block
-    cursor: pointer
-
     &.hidden
       display: none
 
@@ -424,7 +420,26 @@ $arrow-left-width: 40px
     color: inherit !important
 
   li
+    display: block
+    cursor: pointer
     border-radius: 3px
+
+    &:hover
+      @include varprop(background, main-menu-bg-hover-background)
+
+  li.ui-autocomplete--category
+    width: 100%
+    padding-left: 25px
+    line-height: $menu-item-line-height
+    height: $menu-item-line-height
+    font-weight: normal
+    text-transform: uppercase
+    // border-bottom: 1px solid $main-menu-border-color
+    font-size: 0.8rem
+    @include varprop(color, content-icon-link-pressed-color)
+
+  li.ui-menu-item
+    margin-left: 18px
 
     .selected
       @include varprop(background, main-menu-bg-selected-background)
@@ -433,12 +448,9 @@ $arrow-left-width: 40px
       &:hover
         @include varprop(color, main-menu-font-color)
 
-    &:hover
-      @include varprop(background, main-menu-bg-hover-background)
-
   .ui-autocomplete .ui-menu-item-wrapper
     line-height: $menu-item-line-height
-    padding: 0px 0px 0px 40px
+    padding: 0px 0px 0px 25px
     white-space: nowrap
 
   div#searchbar
@@ -500,18 +512,6 @@ $arrow-left-width: 40px
     &.-collapsed
       &::before
         @include icon-mixin-arrow-down1
-
-  .ui-autocomplete--category
-    width: 100%
-    padding-left: 25px
-    cursor: pointer
-    line-height: $menu-item-line-height
-    height: $menu-item-line-height
-    font-weight: normal
-    text-transform: uppercase
-    // border-bottom: 1px solid $main-menu-border-color
-    font-size: 0.8rem
-    @include varprop(color, content-icon-link-pressed-color)
 
   .ui-autocomplete.-inplace
     padding-top: 10px
