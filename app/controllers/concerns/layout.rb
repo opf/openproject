@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,35 +28,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Components
-  module UIAutocompleteHelpers
-    def search_autocomplete(element, query:)
-      # Open the element
-      element.click
-      # Insert the text to find
-      element.set(query)
-      sleep(0.5)
+module Concerns::Layout
+  extend ActiveSupport::Concern
 
-      ##
-      # Find the open dropdown
-      scroll_to_element(element.find('.ui-autocomplete'))
-      element.find('.ui-autocomplete', visible: true)
-    end
-
-    def select_autocomplete(element, query:, select_text: nil)
-      target_dropdown = search_autocomplete(element, query: query)
-
-      ##
-      # If a specific select_text is given, use that to locate the match,
-      # otherwise use the query
-      text = select_text.presence || query
-
-      # click the element to select it
-      target_dropdown.find('.ui-menu-item', text: text).click
+  included do
+    def layout_non_or_no_menu
+      if request.xhr?
+        false
+      elsif @project
+        true
+      else
+        'no_menu'
+      end
     end
   end
-end
-
-shared_context 'ui-autocomplete helpers' do
-  include ::Components::UIAutocompleteHelpers
 end

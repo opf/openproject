@@ -45,6 +45,8 @@ class AccountController < ApplicationController
 
   before_action :check_auth_source_sso_failure, only: :auth_source_sso_failed
 
+  layout 'no_menu'
+
   # Login request and validation
   def login
     user = User.current

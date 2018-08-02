@@ -27,13 +27,14 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% local_assigns[:additional_breadcrumb].nil? ? (breadcrumb_paths(l(:label_administration),
-                     default_breadcrumb)) : (breadcrumb_paths(l(:label_administration),
-                     default_breadcrumb, local_assigns[:additional_breadcrumb])) %>
+<%
+  if local_assigns[:additional_breadcrumb].nil?
+    breadcrumb_paths(t(:label_administration), default_breadcrumb)
+  else
+    breadcrumb_paths(t(:label_administration), default_breadcrumb, local_assigns[:additional_breadcrumb])
+  end
+%>
 
 <% @page_header_title = l(:label_administration) %>
-<% content_for :main_menu do %>
-  <%= render partial: 'admin/menu' %>
-<% end %>
 
-<%= render file: "layouts/base" %>
+<%= render file: "layouts/base", locals: { menu_name: :admin_menu } %>

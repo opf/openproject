@@ -26,7 +26,5 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<% content_for :sidebar do %>
-  <%= render partial: 'my/sidebar' %>
-<% end %>
-<%= render file: "layouts/base" %>
+
+<%= render file: "layouts/base", locals: { menu_name: :my_menu } %>

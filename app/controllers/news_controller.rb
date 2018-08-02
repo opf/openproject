@@ -29,6 +29,7 @@
 
 class NewsController < ApplicationController
   include PaginationHelper
+  include Concerns::Layout
 
   default_search_scope :news
 
@@ -49,7 +50,7 @@ class NewsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        render layout: !request.xhr?
+        render layout: layout_non_or_no_menu
       end
       format.atom do
         render_feed(@newss,
