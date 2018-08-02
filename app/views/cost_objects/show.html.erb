@@ -90,7 +90,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   </div>
 
   <% resource = budget_attachment_representer(@cost_object) %>
-  <attachments data-resource="<%= resource.to_json %>" data-allow-uploading="false"></attachments>
+  <%= list_attachments(resource) %>
 
   <%= render :partial => "show_variable_cost_object" %>
 </div>
