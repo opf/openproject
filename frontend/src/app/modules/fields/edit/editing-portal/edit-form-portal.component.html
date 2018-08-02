@@ -1,9 +1,7 @@
 <div *ngIf="handler"
      class="wp-inline-edit--active-field wp-edit-field inplace-edit {{ editField.name }}"
      [ngClass]="{'-error': handler.isErrorenous }">
-  <form (click)="handler.stopPropagation($event)"
-        (dblclick)="handler.stopPropagation($event)"
-        (submit)="handler.handleUserSubmit()"
+  <form (submit)="handler.handleUserSubmit()"
         role="form"
         tabindex="-1">
 

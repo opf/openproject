@@ -19,9 +19,6 @@ export class RowClickHandler implements TableEventHandler {
   public wpTableSelection:WorkPackageTableSelection = this.injector.get(WorkPackageTableSelection);
   public wpTableFocus:WorkPackageTableFocusService = this.injector.get(WorkPackageTableFocusService);
 
-  private clicks = 0;
-  private timer:number;
-
   constructor(public readonly injector:Injector,
               table:WorkPackageTable) {
   }
