@@ -54,11 +54,33 @@ fr:
     description_selected_columns: Colonnes Sélectionnées
     description_subwork_package: 'Enfant du lot de travaux #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Page wiki
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
+        code_block:
+          button: Insert code snippet
+          title: Insert / edit Code snippet
+          language: Formatting language
+          language_hint: Enter the formatting language that will be used for highlighting
+            (if supported).
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
         toc: Table of contents
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Page wiki
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -73,7 +95,7 @@ fr:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: Une erreur interne s'est produite.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -231,8 +253,9 @@ fr:
     label_remove_watcher: Retirer l'observateur %{name}
     label_remove_all_files: Supprimer tous les fichiers
     label_add_description: Ajouter une description pour %{file}
-    label_upload_notification: 'Transfert en cours des fichiers pour le lot de travaux
-      #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Transfert en cours des fichiers pour
+      le lot de travaux #%{id}: %{subject}'
     label_files_to_upload: 'Ces fichiers vont être transférés:'
     label_rejected_files: 'Ces fichiers ne peuvent pas être transférés:'
     label_rejected_files_reason: Ces fichiers ne peuvent pas être transférés car leur
@@ -271,10 +294,9 @@ fr:
         error_duplicate_group_name: Le nom %{group} est utilisé plus d’une fois. Les
           noms de groupe doivent être uniques.
         reset_title: Réinitialiser la configuration du formulaire
-        confirm_reset: 'Avertissement : êtes-vous sûr de vouloir réinitialiser la
-          configuration du formulaire ? Ceci va réinitialiser les attributs à leur
-          groupe par défaut, effacer les paramètres de visibilité et désactiver TOUS
-          les champs personnalisés.
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Passer à la version Entreprise
@@ -374,8 +396,7 @@ fr:
           la place de ces attributs.
 
 '
-      button_activate: Activer le mode ligne du temps
-      button_deactivate: Désactiver le mode ligne du temps
+      button_activate: Show Gantt chart
       cancel: Annuler
       change: Changement dans la planification
       due_date: Échéance
@@ -625,6 +646,7 @@ fr:
         months: mois
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Colonnes…
         sort_by: Trier par…
         group_by: Grouper par…
@@ -636,14 +658,14 @@ fr:
         save_as: Enregistrer sous…
         export: Exporter…
         publish: Publier...
-        page_settings: Renommer la requête…
+        page_settings: Rename view ...
         delete: Supprimer
       filter: Filtre
       unselected_title: Lot de travaux
       search_query_label: Rechercher filtre de recherches enregistrées
       search_query_title: Cliquer pour rechercher des filtres de requêtes enregistrées
     modals:
-      label_settings: Renommez la requête
+      label_settings: Rename view
       label_name: Nom
       label_delete_page: Effacer la page en cours
       button_apply: Appliquer
@@ -688,6 +710,8 @@ fr:
     error_could_not_resolve_version_name: Ne peut résoudre le nom de version
     error_could_not_resolve_user_name: Impossible de trouver l'utilisateur
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: lot de travaux

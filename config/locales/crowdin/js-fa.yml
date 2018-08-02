@@ -54,11 +54,33 @@ fa:
     description_selected_columns: Selected Columns
     description_subwork_package: 'Child of work package #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Wiki page
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
+        code_block:
+          button: Insert code snippet
+          title: Insert / edit Code snippet
+          language: Formatting language
+          language_hint: Enter the formatting language that will be used for highlighting
+            (if supported).
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
         toc: Table of contents
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Wiki page
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -73,7 +95,7 @@ fa:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: An internal error has occurred.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -230,7 +252,9 @@ fa:
     label_remove_watcher: Remove watcher %{name}
     label_remove_all_files: Delete all files
     label_add_description: Add a description for %{file}
-    label_upload_notification: 'Uploading files for Work package #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Uploading files for Work package #%{id}:
+      %{subject}'
     label_files_to_upload: 'These files will be uploaded:'
     label_rejected_files: 'These files cannot be uploaded:'
     label_rejected_files_reason: These files cannot be uploaded as their size is greater
@@ -269,8 +293,8 @@ fa:
           names must be unique.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group, unset the visibility
-          checkboxes, and disable ALL custom fields.
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Upgrade to Enterprise Edition
@@ -368,8 +392,7 @@ fa:
           عنصر، برچسب تاریخ به جای ویژگی های آن نشان داده خواهد شد.
 
 '
-      button_activate: Activate timeline mode
-      button_deactivate: Deactivate timeline mode
+      button_activate: Show Gantt chart
       cancel: Cancel
       change: Change in planning
       due_date: موعد مقرر
@@ -613,6 +636,7 @@ fa:
         months: months
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Columns ...
         sort_by: Sort by ...
         group_by: Group by ...
@@ -624,14 +648,14 @@ fa:
         save_as: Save as ...
         export: Export ...
         publish: Publish ...
-        page_settings: Rename query ...
+        page_settings: Rename view ...
         delete: Delete
       filter: Filter
       unselected_title: Work package
       search_query_label: Search saved filter queries
       search_query_title: Click to search saved filter queries
     modals:
-      label_settings: Rename query
+      label_settings: Rename view
       label_name: نام
       label_delete_page: Delete current page
       button_apply: Apply
@@ -675,6 +699,8 @@ fa:
     error_could_not_resolve_version_name: تطبیق نام نسخه میسر نشد
     error_could_not_resolve_user_name: Couldn't resolve user name
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: بسته کاری

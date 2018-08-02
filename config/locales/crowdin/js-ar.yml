@@ -54,11 +54,33 @@ ar:
     description_selected_columns: الاعمدة المحددة
     description_subwork_package: 'إنتاج مجموعة العمل #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: صفحة وِيكيبيديا
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
+        code_block:
+          button: Insert code snippet
+          title: Insert / edit Code snippet
+          language: Formatting language
+          language_hint: Enter the formatting language that will be used for highlighting
+            (if supported).
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
         toc: Table of contents
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: صفحة وِيكيبيديا
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -73,7 +95,7 @@ ar:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: حدث خطأ داخلي.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -226,7 +248,8 @@ ar:
     label_remove_watcher: حذف المراقب %{name}
     label_remove_all_files: حذف كل الملفات
     label_add_description: إضافة توصيفات إلى%{file}
-    label_upload_notification: تحميل ملفات إلى حزمة العمل%{id}:%{subject}
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: تحميل ملفات إلى حزمة العمل%{id}:%{subject}
     label_files_to_upload: 'هذه الملفات ستحمل:'
     label_rejected_files: 'هذه الملفات لا يمكن أن تحمل:'
     label_rejected_files_reason: هذه الملفات لا يمكن تحميلها بينما حجمها أكبر من%{maximumFilesize}
@@ -263,8 +286,8 @@ ar:
           names must be unique.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group, unset the visibility
-          checkboxes, and disable ALL custom fields.
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Upgrade to Enterprise Edition
@@ -367,8 +390,7 @@ ar:
           its date labels will be shown instead of these attributes.
 
 '
-      button_activate: Activate timeline mode
-      button_deactivate: Deactivate timeline mode
+      button_activate: Show Gantt chart
       cancel: إلغاء
       change: تغيير في تخطيط
       due_date: تاريخ الاستحقاق
@@ -608,6 +630,7 @@ ar:
         months: أشهر
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: أعمدة...
         sort_by: تم تصنيفه حسب...
         group_by: تم تجميعه حسب...
@@ -619,14 +642,14 @@ ar:
         save_as: حفظ بشكل ...
         export: تصدير ...
         publish: Publish ...
-        page_settings: قم بإعادة تسمية الاستعلام ...
+        page_settings: Rename view ...
         delete: احذف
       filter: فلترة
       unselected_title: مجموعة العمل
       search_query_label: استعلامات البحث حفظ عامل التصفية
       search_query_title: انقر فوق لتصفية حفظ استعلامات البحث
     modals:
-      label_settings: قم بإعادة تسمية الاستعلام
+      label_settings: Rename view
       label_name: الاسم
       label_delete_page: احذف الصفحة الحالية
       button_apply: تطبيق
@@ -670,6 +693,8 @@ ar:
     error_could_not_resolve_version_name: تعثّر حل اسم الإصدار
     error_could_not_resolve_user_name: تعذر حل اسم المستخدم
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: work package

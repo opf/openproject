@@ -95,7 +95,7 @@ describe GroupsController, type: :controller do
 
   it 'should create membership' do
     assert_difference 'Group.find(10).members.count' do
-      post :create_memberships, params: { id: 10, membership: { project_id: 2, role_ids: ['1', '2'] } }
+      post :create_memberships, params: { id: 10, new_membership: { project_id: 2, role_ids: ['1', '2'] } }
     end
   end
 

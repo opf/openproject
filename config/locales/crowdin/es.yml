@@ -190,6 +190,9 @@ es:
     index:
       no_results_title_text: Actualmente no existen flujos de trabajo.
   work_packages:
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -372,8 +375,8 @@ es:
         spent_on: Fecha
         type: Tipo
       type:
+        attribute_groups: ''
         is_in_roadmap: En hoja de ruta
-        in_aggregation: En agregación
         is_milestone: Es un hito
         color: Color
       user:
@@ -559,11 +562,12 @@ es:
         type:
           attributes:
             attribute_groups:
-              group_without_name: No se permiten grupos sin nombre.
-              duplicate_group: El nombre de grupo %{group} se ha usado más de una
-                vez. Los nombres de grupos deben ser únicos.
               attribute_unknown: Se ha usado un atributo de paquete de trabajo no
                 válido.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: No se permiten grupos sin nombre.
         user:
           attributes:
             password:
@@ -2152,7 +2156,6 @@ es:
     número de intentos de login fallidos
   setting_brute_force_block_minutes: Tiempo que el usuario estará bloqueado
   setting_cache_formatted_text: Texto formateado del cache
-  setting_use_wysiwyg: WYSIWYG editor
   setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
     users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Personalizar la apariencia de las listas de paquete te trabajo
@@ -2249,7 +2252,6 @@ es:
   setting_sys_api_enabled: Habilitar el servicio web de administración de repositorios
   setting_sys_api_description: El servicio web de administración de repositorios proporciona
     integración y autorización de usuario para acceder a los repositorios.
-  setting_text_formatting: Formato de texto
   setting_time_format: Formato de hora
   setting_accessibility_mode_for_anonymous: Activar el modo de accesibilidad para
     usuarios anónimos
@@ -2274,7 +2276,6 @@ es:
       default_preferences: Default preferences
       deletion: Deletion
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Plain text
   status_active: activo
@@ -2599,8 +2600,6 @@ es:
       edit: 'Editar estado: %{comment}'
       show: 'Estado: %{comment}'
     planning_element_update: 'Actualizado: %{title}'
-    work_packages_are_displayed_in_aggregations: Los paquetes de trabajo aparecen
-      en agregaciones
     project_type_could_not_be_saved: No se pudo guardar el tipo de proyecto
     type_could_not_be_saved: No se pudo guardar el tipo
     reporting_could_not_be_saved: No se ha podido guardar el informe

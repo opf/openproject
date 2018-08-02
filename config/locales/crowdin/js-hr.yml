@@ -54,11 +54,33 @@ hr:
     description_selected_columns: Odabrani stupci
     description_subwork_package: 'Child of work package #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Wiki stranica
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
+        code_block:
+          button: Insert code snippet
+          title: Insert / edit Code snippet
+          language: Formatting language
+          language_hint: Enter the formatting language that will be used for highlighting
+            (if supported).
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
         toc: Table of contents
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Wiki stranica
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -73,7 +95,7 @@ hr:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: Dogodila se interna greška.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -229,7 +251,9 @@ hr:
     label_remove_watcher: Uklonite nadglednika %{name}
     label_remove_all_files: Izbrišite sve datoteke
     label_add_description: Dodaj opis za %{file}
-    label_upload_notification: 'Prijenos datoteka za Radni paket #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Prijenos datoteka za Radni paket #%{id}:
+      %{subject}'
     label_files_to_upload: 'Ove datoteke će biti prenešene:'
     label_rejected_files: 'Ove datoteke ne mogu biti prenešene:'
     label_rejected_files_reason: Ove datoteke ne mogu biti prenešeno zato što je njihova
@@ -267,8 +291,8 @@ hr:
           names must be unique.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group, unset the visibility
-          checkboxes, and disable ALL custom fields.
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Nadogradnja na izdanje Enterprise
@@ -368,8 +392,7 @@ hr:
           its date labels will be shown instead of these attributes.
 
 '
-      button_activate: Activate timeline mode
-      button_deactivate: Deactivate timeline mode
+      button_activate: Show Gantt chart
       cancel: Odustani
       change: Promjene u planiranju
       due_date: Krajnji rok
@@ -613,6 +636,7 @@ hr:
         months: mjeseci
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Stupci...
         sort_by: Sortiraj po...
         group_by: Grupiraj po ...
@@ -624,14 +648,14 @@ hr:
         save_as: Spremi kao ...
         export: Izvezi ...
         publish: Publish ...
-        page_settings: Preimenuj upit ...
+        page_settings: Rename view ...
         delete: Obriši
       filter: Filter
       unselected_title: Radni paket
       search_query_label: Pretraživanje spremljenih filtra upita
       search_query_title: Kliknite pretraživanje spremljenih filtra upita
     modals:
-      label_settings: Preimenuj upit
+      label_settings: Rename view
       label_name: Naziv
       label_delete_page: Izbrišite trenutnu stranicu
       button_apply: Primjeni
@@ -676,6 +700,8 @@ hr:
     error_could_not_resolve_user_name: Neuspijeli pokušaj razrješavanja korisničkog
       imena
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: work package

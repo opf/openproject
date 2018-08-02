@@ -40,10 +40,9 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {WorkPackageStaticQueriesService} from 'core-components/wp-query-select/wp-static-queries.service';
-import {distinctUntilChanged} from 'rxjs/operators';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
 export interface IAutocompleteItem {
   auto_id?:any;
@@ -395,3 +394,5 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     this.text.search = '';
   }
 }
+
+DynamicBootstrapper.register({ selector: 'wp-query-select', cls: WorkPackageQuerySelectDropdownComponent });

@@ -187,6 +187,11 @@ cs:
     index:
       no_results_title_text: V současné době neexistují žádné pracovní postupy.
   work_packages:
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
+      few: "%{count} work package children"
+      many: "%{count} work package children"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -361,8 +366,8 @@ cs:
         spent_on: Datum
         type: Typ
       type:
+        attribute_groups: ''
         is_in_roadmap: In roadmap
-        in_aggregation: In aggregation
         is_milestone: Is milestone
         color: Barva
       user:
@@ -540,10 +545,11 @@ cs:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Unnamed groups are not allowed.
-              duplicate_group: The group name %{group} is used more than once. Group
-                names must be unique.
               attribute_unknown: Invalid work package attribute used.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Unnamed groups are not allowed.
         user:
           attributes:
             password:
@@ -2135,7 +2141,6 @@ cs:
     login attempts
   setting_brute_force_block_minutes: Time the user is blocked for
   setting_cache_formatted_text: Ukládat formátovaný text do vyrovnávací paměti
-  setting_use_wysiwyg: WYSIWYG editor
   setting_use_wysiwyg_description: Zaškrtnutím tohoto políčka povolíte CKEditor5 WYSIWYG
     editor pro všechny uživatele ve výchozím nastavení. Aplikaci CKEditor má omezenou
     funkčnost pro GFM Markdown.
@@ -2223,7 +2228,6 @@ cs:
   setting_sys_api_enabled: Enable repository management web service
   setting_sys_api_description: The repository management web service provides integration
     and user authorization for accessing repositories.
-  setting_text_formatting: Formátování textu
   setting_time_format: Formát času
   setting_accessibility_mode_for_anonymous: Povolit režim usnadnění pro anonymní uživatele
   setting_user_format: Formát zobrazení uživatelů
@@ -2246,7 +2250,6 @@ cs:
       default_preferences: Výchozí předvolby
       deletion: Odstranění
   text_formatting:
-    textile: Textil
     markdown: Zmenšení
     plain: Obyčejný text
   status_active: active
@@ -2562,7 +2565,6 @@ cs:
       edit: 'Edit status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Aktualizováno: %{title}'
-    work_packages_are_displayed_in_aggregations: Work packages are displayed in aggregations
     project_type_could_not_be_saved: Typ projektu nelze uložit
     type_could_not_be_saved: Typ nelze uložit
     reporting_could_not_be_saved: Přehled nelze uložit

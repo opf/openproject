@@ -1,0 +1,40 @@
+<%= error_messages_for 'page' %>
+
+<div class="form--field -required">
+  <%= f.fields_for :page, @page do |page_fields| %>
+    <%= page_fields.hidden_field :parent_id %>
+    <%= page_fields.text_field :title, required: true, size: 120, placeholder: t('label_page_title') %>
+  <% end %>
+</div>
+<div class="form--field -required">
+  <%= f.fields_for :page, @page do |page_fields| %>
+    <%= page_fields.select :parent_id,
+                           wiki_page_options_for_select(@wiki.pages),
+                           { label: WikiPage.human_attribute_name(:parent_title), include_blank: false },
+                           { class: "parent-select form--select" } %>
+  <% end%>
+</div>
+<div class="attributes-group">
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text"><%= WikiPage.human_attribute_name(:text) %></h3>
+    </div>
+  </div>
+  <%= f.text_area :text,
+                  cols: 100,
+                  rows: 25,
+                  class: 'wiki-edit',
+                  accesskey: accesskey(:edit),
+                  with_text_formatting: true,
+                  resource: ::API::V3::WikiPages::WikiPageRepresenter.new(@page, current_user: current_user),
+                  preview_context: preview_context(@page, @project) %>
+</div>
+
+<div class="form--field">
+  <%= f.text_field :comments, size: 120 %>
+</div>
+
+<%= render partial: 'attachments/form', f: f %>
+
+<hr class="form--separator" />
+<%= f.button t(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>

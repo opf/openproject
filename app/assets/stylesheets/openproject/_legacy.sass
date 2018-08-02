@@ -45,15 +45,6 @@ $version-summary-width: 380px
     &:hover
       opacity: 1
 
-.highlight
-  background-color: #FCFD8D
-  &.token-1
-    background-color: #faa
-  &.token-2
-    background-color: #afa
-  &.token-3
-    background-color: #aaf
-
 .contextual
   float: right
   white-space: nowrap
@@ -170,6 +161,10 @@ div
       margin-bottom: 1em
       td.checkbox
         display: none
+
+    @media only screen and (min-width: 680px)
+      .generic-table--no-results-container
+        max-width: calc(100% - #{$version-summary-width})
 
   &#version-summary
     float: right
@@ -367,10 +362,6 @@ div.issue hr
 
 .question .wiki
   margin: 0
-
-.wiki
-  ol, ul
-    margin-bottom: 6px
 
 // The min-height takes care that menus within the toolbar can be seen.
 // On the full screen view the min-height crashes the complete view

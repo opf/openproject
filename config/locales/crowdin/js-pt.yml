@@ -54,11 +54,33 @@ pt:
     description_selected_columns: Colunas selecionadas
     description_subwork_package: 'Filho de pacote de trabalho #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Página wiki
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
+        code_block:
+          button: Insert code snippet
+          title: Insert / edit Code snippet
+          language: Formatting language
+          language_hint: Enter the formatting language that will be used for highlighting
+            (if supported).
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
         toc: Table of contents
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Página wiki
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -73,7 +95,7 @@ pt:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: Ocorreu um erro interno.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -107,7 +129,7 @@ pt:
       Tem um comentário de utilizador.
     label_add_columns: Adicionar colunas
     label_add_comment: Adicionar comentário
-    label_add_comment_title: Comment and type @ to notify other people
+    label_add_comment_title: Comentar e escrever @ para notificar outras pessoas
     label_add_selected_columns: Adicionar colunas selecionadas
     label_added_by: adicionado por
     label_added_time_by: Adicionado por %{author} %{age}
@@ -229,7 +251,9 @@ pt:
     label_remove_watcher: Remover o observador %{name}
     label_remove_all_files: Elimina todos os ficheiros
     label_add_description: Adicionar uma descrição para %{file}
-    label_upload_notification: 'Upload de ficheiros para a tarefa #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Upload de ficheiros para a tarefa #%{id}:
+      %{subject}'
     label_files_to_upload: 'Esses ficheiros serão enviados:'
     label_rejected_files: 'Esses ficheiros não podem ser carregados:'
     label_rejected_files_reason: Esses ficheiros não podem ser carregados enquanto
@@ -259,17 +283,16 @@ pt:
       work_package_belongs_to: Este pacote de trabalho pertence ao projeto %{projectname}.
       click_to_switch_context: Abra este pacote de trabalho nesse projeto.
       autocompleter:
-        label: Project autocompletion
+        label: Autocompletar Projeto
     text_are_you_sure: Tem a certeza?
     types:
       attribute_groups:
         error_duplicate_group_name: O nome %{group} é utilizado mais de uma vez. Os
           nomes de grupos têm de ser exclusivos.
         reset_title: Redefinir configuração do formulário
-        confirm_reset: 'Aviso: Tem certeza de que deseja redefinir a configuração
-          de formulário? Isto irá redefinir os atributos para o grupo padrão, retirar
-          a seleção das caixas de verificação de visibilidade, e desativar TODOS os
-          campos personalizados.
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Atualizar para a versão Enterprise
@@ -366,8 +389,7 @@ pt:
           um elemento, os seus marcadores de data serão exibidos em vez desses atributos.
 
 '
-      button_activate: Ativar modo de linha temporal
-      button_deactivate: Desativar modo de linha temporal
+      button_activate: Show Gantt chart
       cancel: Cancelar
       change: Alteração no planeamento
       due_date: Prazo
@@ -608,6 +630,7 @@ pt:
         months: meses
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Colunas...
         sort_by: Ordenar por...
         group_by: Agrupar por...
@@ -619,14 +642,14 @@ pt:
         save_as: Guardar Como ...
         export: Exportar ...
         publish: Publicar...
-        page_settings: Renomear a consulta...
+        page_settings: Rename view ...
         delete: Eliminar
       filter: Filtro
       unselected_title: Pacote de trabalho
       search_query_label: Pesquisar filtros de consultas guardados
       search_query_title: Clique para pesquisar filtros de consultas guardados
     modals:
-      label_settings: Renomear a consulta
+      label_settings: Rename view
       label_name: Nome
       label_delete_page: Eliminar página atual
       button_apply: Aplicar
@@ -670,6 +693,8 @@ pt:
     error_could_not_resolve_version_name: Não consegui resolver o nome da versão
     error_could_not_resolve_user_name: Não consegui resolver o nome do utilizador
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: pacote de trabalho

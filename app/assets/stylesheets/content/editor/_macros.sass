@@ -4,17 +4,18 @@ macro.legacy-macro
   border: 2px dashed $nm-color-warning-border
   padding: 10px 5px
 
-// Macro rendering in CKEditor
-.op-ckeditor--wrapper
+.ck-widget.macro
+  border: 2px dashed #ccc
+  min-height: 50px
+  display: flex
+  justify-content: center
+  align-items: center
+  color: #575757
+  background: #f8f8f8
 
-  .ck-widget.macro
-    border: 2px dashed #ccc
-    min-height: 50px
-    display: flex
-    justify-content: center
-    align-items: center
-    color: #575757
-    background: #f8f8f8
+  .macro-value
+    font-style: italic
+    color: $gray-dark
 
 // Unavailable macros
 macro.macro-unavailable

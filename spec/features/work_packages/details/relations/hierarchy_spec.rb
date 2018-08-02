@@ -5,7 +5,6 @@ describe 'Work package relations tab', js: true, selenium: true do
 
   let(:user) { FactoryBot.create :admin }
 
-
   let(:project) { FactoryBot.create(:project) }
   let(:work_package) { FactoryBot.create(:work_package, project: project) }
   let(:work_packages_page) { ::Pages::SplitWorkPackage.new(work_package) }
@@ -27,7 +26,6 @@ describe 'Work package relations tab', js: true, selenium: true do
     work_packages_page.expect_subject
     loading_indicator_saveguard
   end
-
 
   describe 'as admin' do
     let!(:parent) { FactoryBot.create(:work_package, project: project) }

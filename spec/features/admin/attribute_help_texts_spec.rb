@@ -33,6 +33,7 @@ describe 'Attribute help texts' do
 
   let(:instance) { AttributeHelpText.last }
   let(:modal) { Components::AttributeHelpTextModal.new(instance) }
+  let(:editor) { Components::WysiwygEditor.new }
 
   let(:relation_columns_allowed) { true }
 
@@ -55,7 +56,7 @@ describe 'Attribute help texts' do
         # Set attributes
         # -> create
         select 'Status', from: 'attribute_help_text_attribute_name'
-        fill_in 'Help text', with: 'My attribute help text'
+        editor.set_markdown('My attribute help text')
         click_button 'Save'
 
         # Should now show on index for editing
@@ -67,18 +68,18 @@ describe 'Attribute help texts' do
         # -> edit
         page.find('.attribute-help-text--entry td a', text: 'Status').click
         expect(page).to have_selector('#attribute_help_text_attribute_name[disabled]')
-        fill_in 'Help text', with: ''
+        editor.set_markdown(' ')
         click_button 'Save'
 
         # Handle errors
         expect(page).to have_selector('#errorExplanation', text: "Help text can't be blank.")
-        fill_in 'Help text', with: 'New *help* text'
+        editor.set_markdown('New**help**text')
         click_button 'Save'
 
         # On index again
         expect(page).to have_selector('.attribute-help-text--entry td', text: 'Status')
         instance.reload
-        expect(instance.help_text).to eq 'New *help* text'
+        expect(instance.help_text).to eq 'New**help**text'
 
         # Open help text modal
         modal.open!

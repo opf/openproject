@@ -26,6 +26,7 @@ crons:
   - packaging/cron/openproject-hourly-tasks
   - packaging/cron/openproject-clear-old-sessions
   - packaging/cron/openproject-clear-uploaded-files
+  - packaging/cron/openproject-clear-tmp-cache
 services:
   - postgres
 installer: https://github.com/pkgr/installer.git

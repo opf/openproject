@@ -40,7 +40,6 @@ class ProjectsController < ApplicationController
   before_action :require_admin, only: [:archive, :unarchive, :destroy, :destroy_info]
   before_action :jump_to_project_menu_item, only: :show
   before_action :load_project_settings, only: :settings
-  before_action :determine_base
 
   accept_key_auth :index, :level_list, :show, :create, :update, :destroy
 
@@ -302,14 +301,6 @@ class ProjectsController < ApplicationController
   end
 
   protected
-
-  def determine_base
-    @base = if params[:project_type_id]
-              ProjectType.find(params[:project_type_id]).projects
-            else
-              Project
-            end
-  end
 
   def set_sorting(query)
     orders = query.orders.select(&:valid?).map { |o| [o.attribute.to_s, o.direction.to_s] }

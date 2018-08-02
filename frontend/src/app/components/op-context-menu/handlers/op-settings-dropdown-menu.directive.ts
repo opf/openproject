@@ -43,6 +43,7 @@ import {WpTableExportModal} from "core-components/modals/export-modal/wp-table-e
 import {SaveQueryModal} from "core-components/modals/save-modal/save-query.modal";
 import {QuerySharingModal} from "core-components/modals/share-modal/query-sharing.modal";
 import {RenameQueryModal} from "core-components/modals/rename-query-modal/rename-query.modal";
+import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
 
 @Directive({
   selector: '[opSettingsContextMenu]'
@@ -144,6 +145,18 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
 
   private buildItems() {
     this.items = [
+      {
+        // Query save modal
+        disabled: false,
+        linkText: this.I18n.t('js.toolbar.settings.configure_view'),
+        icon: 'icon-settings3',
+        onClick: ($event:JQueryEventObject) => {
+          this.opContextMenu.close();
+          this.opModalService.show<WpTableConfigurationModalComponent>(WpTableConfigurationModalComponent);
+
+          return true;
+        }
+      },
       {
         // Query save modal
         disabled: this.authorisationService.cannot('query', 'updateImmediately'),

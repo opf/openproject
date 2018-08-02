@@ -183,6 +183,10 @@ hr:
     index:
       no_results_title_text: Trenutno ne postoji niti jedan workflow.
   work_packages:
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
+      few: "%{count} work package children"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -360,8 +364,8 @@ hr:
         spent_on: Datum
         type: Tip
       type:
+        attribute_groups: ''
         is_in_roadmap: U planu
-        in_aggregation: U agregaciji
         is_milestone: Je ključna točka
         color: Boja
       user:
@@ -539,10 +543,11 @@ hr:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Unnamed groups are not allowed.
-              duplicate_group: The group name %{group} is used more than once. Group
-                names must be unique.
               attribute_unknown: Invalid work package attribute used.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Unnamed groups are not allowed.
         user:
           attributes:
             password:
@@ -2126,7 +2131,6 @@ hr:
     krivih pokušaja spajanja
   setting_brute_force_block_minutes: Vrijeme u kojem je korisnik blokiran
   setting_cache_formatted_text: Formatirani tekst u međumemoriji
-  setting_use_wysiwyg: WYSIWYG editor
   setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
     users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Prilagodite izgled liste radnih paketa
@@ -2214,7 +2218,6 @@ hr:
   setting_sys_api_enabled: Enable repository management web service
   setting_sys_api_description: Web servis za upravljanje repozitorijom omogućava integraciju
     i autorizaciju za pristup repozitorijima.
-  setting_text_formatting: Formatiranje teksta
   setting_time_format: Format vremena
   setting_accessibility_mode_for_anonymous: Enable accessibility mode for anonymous
     users
@@ -2238,7 +2241,6 @@ hr:
       default_preferences: Default preferences
       deletion: Deletion
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Plain text
   status_active: aktivno
@@ -2551,7 +2553,6 @@ hr:
       edit: 'Uredi status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Ažurirano: %{title}'
-    work_packages_are_displayed_in_aggregations: Work packages are displayed in aggregations
     project_type_could_not_be_saved: Tip projekta nije moguće spremiti
     type_could_not_be_saved: Tip nije moguće spremiti
     reporting_could_not_be_saved: Izvještavanje nije moguće spremiti

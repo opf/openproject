@@ -54,11 +54,33 @@ sk:
     description_selected_columns: Vybraté stĺpce
     description_subwork_package: 'Podradený pracovný balík #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Wiki stránka
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
+        code_block:
+          button: Insert code snippet
+          title: Insert / edit Code snippet
+          language: Formatting language
+          language_hint: Enter the formatting language that will be used for highlighting
+            (if supported).
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
         toc: Table of contents
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Wiki stránka
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -73,7 +95,7 @@ sk:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: Vyskytla sa vnútorná chyba.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -228,7 +250,9 @@ sk:
     label_remove_watcher: Odstrániť pozorovateľa %{name}
     label_remove_all_files: Odstrániť všetky súbory
     label_add_description: Pridať popis %{file}
-    label_upload_notification: 'Nahrávanie súborov pre Pracovný balík #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Nahrávanie súborov pre Pracovný balík
+      #%{id}: %{subject}'
     label_files_to_upload: 'Tieto súbory budú odovzdané:'
     label_rejected_files: 'Tieto súbory nie je možné odovzdať:'
     label_rejected_files_reason: Tieto súbory nie je možné odovzdať, pretože ich veľkosť
@@ -266,8 +290,8 @@ sk:
           names must be unique.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group, unset the visibility
-          checkboxes, and disable ALL custom fields.
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Upgrade to Enterprise Edition
@@ -368,8 +392,7 @@ sk:
           tohto atribútu zobrazená menovka s dátumom.
 
 '
-      button_activate: Activate timeline mode
-      button_deactivate: Deactivate timeline mode
+      button_activate: Show Gantt chart
       cancel: Zrušíť
       change: Change in planning
       due_date: Do dátumu
@@ -614,6 +637,7 @@ sk:
         months: mesiace
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Stĺpce ...
         sort_by: Zoradiť podľa ...
         group_by: Zoskupiť podľa ...
@@ -625,14 +649,14 @@ sk:
         save_as: Uložiť ako ...
         export: Exportovať ...
         publish: Publikovať...
-        page_settings: Premenovať dopyt ...
+        page_settings: Rename view ...
         delete: Odstrániť
       filter: Filtrovať
       unselected_title: Pracovný balíček
       search_query_label: Prehľadávať uložené filtrovacie požiadavky
       search_query_title: Kliknite pre prehľadávanie uložených filtrovacích požiadaviek
     modals:
-      label_settings: Premenovať dopyt
+      label_settings: Rename view
       label_name: Názov
       label_delete_page: Odstrániť aktuálnu stránku
       button_apply: Použiť
@@ -676,6 +700,8 @@ sk:
     error_could_not_resolve_version_name: Nebolo možné zistiť názov verzie
     error_could_not_resolve_user_name: Nebolo možné zistiť užívateľské meno
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: pracovný balíček

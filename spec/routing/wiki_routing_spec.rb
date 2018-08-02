@@ -112,11 +112,5 @@ describe WikiController, type: :routing do
                                                               project_id: 'abc',
                                                               id: 'blubs')
     end
-
-    it 'should connect POST /projects/:project_id/wiki/preview to wiki#preview' do
-      expect(post('/projects/abc/wiki/preview')).to route_to(controller: 'wiki',
-                                                             action: 'preview',
-                                                             project_id: 'abc')
-    end
   end
 end

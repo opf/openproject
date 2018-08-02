@@ -239,6 +239,16 @@ class WikiPage < ActiveRecord::Base
     slug || title.to_url
   end
 
+  def save_with_content
+    if valid? && content.valid?
+      ActiveRecord::Base.transaction do
+        save!
+        content.save!
+      end
+      true
+    end
+  end
+
   def is_only_wiki_page?
     wiki.pages == [self]
   end

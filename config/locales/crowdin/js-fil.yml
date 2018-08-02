@@ -54,11 +54,33 @@ fil:
     description_selected_columns: Napiling mga hanay
     description_subwork_package: 'Bata ng work package #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Pahina ng wiki
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
+        code_block:
+          button: Insert code snippet
+          title: Insert / edit Code snippet
+          language: Formatting language
+          language_hint: Enter the formatting language that will be used for highlighting
+            (if supported).
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
         toc: Table of contents
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Pahina ng wiki
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -73,7 +95,7 @@ fil:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: Isang internal error ang naganap.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -228,8 +250,9 @@ fil:
     label_remove_watcher: Alisin ang watcher %{name}
     label_remove_all_files: Burahin ang lahat ang mga file
     label_add_description: Magdagdag ng deskripsyon para sa %{file}
-    label_upload_notification: 'Pag-upload ng mga file para sa Work package #%{id}:
-      %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Pag-upload ng mga file para sa Work package
+      #%{id}: %{subject}'
     label_files_to_upload: 'Itong mga file ay naka-upload:'
     label_rejected_files: 'Itong mga fike ay hindi ma-upload:'
     label_rejected_files_reason: Itong mga file ay hindi ma-upload kung ang laki ay
@@ -270,10 +293,9 @@ fil:
         error_duplicate_group_name: Ang pangalan ng %{group} ay ginamit higit pa sa
           isang beses. Ang mga pangalan ng grupo ay dapat nakakakatangi.
         reset_title: Reset form configuration
-        confirm_reset: 'Babala: Sigurado ka ba gusto mong i-reset ang form ng kumpigurasyon?
-          Ito ay i-reset ang mga katangian sa kanilang grupong default, tanggalin
-          ang kakayahang makita ang mga checkbox at hindi paganahin ang LAHAT ng kustom
-          na patlang.
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: I-upgrade sa Enterprise Edition
@@ -373,8 +395,7 @@ fil:
           ito.
 
 '
-      button_activate: I-aktibo ang timeline mode
-      button_deactivate: I-deactivate ang timeline mode
+      button_activate: Show Gantt chart
       cancel: Kanselahin
       change: Baguhin ang pagpaplano
       due_date: Takdang petsa
@@ -626,6 +647,7 @@ fil:
         months: mga buwan
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Mga hanay ...
         sort_by: Ayusin sa ...
         group_by: Grupohin sa ...
@@ -637,14 +659,14 @@ fil:
         save_as: I-save bilang ...
         export: I-export ...
         publish: Ipalabas...
-        page_settings: Palitan ng pangalan ang query...
+        page_settings: Rename view ...
         delete: Burahin
       filter: Salain
       unselected_title: Work package
       search_query_label: Hanapin ang mga naka-save na query
       search_query_title: Pindutin upang hanapin ang mga naka-save na filter query
     modals:
-      label_settings: Palitan ng pangalan ang query
+      label_settings: Rename view
       label_name: Pangalan
       label_delete_page: Burahin ang kasukuyang pahina
       button_apply: Ilagay
@@ -690,6 +712,8 @@ fil:
     error_could_not_resolve_version_name: Hindi ma resolba ang bersyon na pangalan
     error_could_not_resolve_user_name: Hindi mairesolba ang pangalan ng gumagamit
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: work package

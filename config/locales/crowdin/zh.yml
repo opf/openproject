@@ -167,6 +167,9 @@ zh:
     index:
       no_results_title_text: 目前没有工作流。
   work_packages:
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -315,8 +318,8 @@ zh:
         spent_on: 日期
         type: 类型
       type:
+        attribute_groups: ''
         is_in_roadmap: 在Roadmap
-        in_aggregation: 在聚合中
         is_milestone: 是里程碑
         color: 颜色
       user:
@@ -482,9 +485,11 @@ zh:
         type:
           attributes:
             attribute_groups:
-              group_without_name: 不允许未命名的群组。
-              duplicate_group: 组名 %{group} 已多次使用。组名不能重复。
               attribute_unknown: 已使用无效的工作包属性。
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: 不允许未命名的群组。
         user:
           attributes:
             password:
@@ -1925,7 +1930,6 @@ zh:
   setting_brute_force_block_after_failed_logins: 登录失败的尝试次数多于该数字将用户阻止
   setting_brute_force_block_minutes: 用户被阻止的时长
   setting_cache_formatted_text: 缓存带格式的文本
-  setting_use_wysiwyg: 所见即所得（What You See Is What You Get）编辑器
   setting_use_wysiwyg_description: 选择为默认情况下为所有用户启用CKEditor5 所见即所得编辑器。 CKEditor对GFM
     Markdown的功能有限。
   setting_column_options: 自定义工作包列表的外观
@@ -2002,7 +2006,6 @@ zh:
   setting_start_of_week: 一周起始日
   setting_sys_api_enabled: 启用版本库管理 web 服务
   setting_sys_api_description: 版本库管理 web 服务提供了一体化的，以及用户授权来访问版本库。
-  setting_text_formatting: 文本格式
   setting_time_format: 时间格式
   setting_accessibility_mode_for_anonymous: 为匿名用户启用辅助功能模式
   setting_user_format: 用户显示格式
@@ -2025,7 +2028,6 @@ zh:
       default_preferences: 默认偏好设置
       deletion: 删除
   text_formatting:
-    textile: 家纺
     markdown: Markdown
     plain: 纯文本
   status_active: 激活
@@ -2287,7 +2289,6 @@ zh:
       edit: 编辑状态：%{comment}
       show: 状态：%{comment}
     planning_element_update: 更新：%{title}
-    work_packages_are_displayed_in_aggregations: 项目包显示为聚合
     project_type_could_not_be_saved: 项目类型不能保存
     type_could_not_be_saved: 无法保存类型
     reporting_could_not_be_saved: 不能保存报告

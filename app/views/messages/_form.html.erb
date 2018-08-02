@@ -29,7 +29,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= error_messages_for 'message' %>
 <% replying ||= false %>
 <div class="form--field">
-  <%= f.text_field :subject, required: true, container_class: '-wide' %>
+  <%= f.text_field :subject, required: true, container_class: '-wide', autofocus: true %>
 </div>
 <% unless replying %>
   <div class="form--field">
@@ -45,7 +45,18 @@ See docs/COPYRIGHT.rdoc for more details.
   </div>
 <% end %>
 <div class="form--field -required">
-  <%= f.text_area :content, required: true, label: t(:description_message_content), class: 'wiki-edit', container_class: '-wide' %>
-  <%= wikitoolbar_for("#{f.object_name}_content") %>
+  <% preview_object = if replying
+                        f.object.parent
+                      else
+                        f.object
+                      end %>
+
+  <%= f.text_area :content,
+                  required: true,
+                  label: t(:description_message_content),
+                  class: 'wiki-edit',
+                  container_class: '-wide',
+                  with_text_formatting: true,
+                  preview_context: preview_context(preview_object, @project) %>
 </div>
 <%= render partial: 'attachments/form' %>

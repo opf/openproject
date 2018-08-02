@@ -42,8 +42,12 @@ $table-timeline--compact-row-height: 28px
   .work-packages-split-view--tabletimeline-content
     overflow: auto
 
-  .work-package-table--container
+  // Disable css containment since we have no inner elements
+  .work-packages-tabletimeline--table-side,
+  .work-packages-tabletimeline--timeline-side
     contain: initial !important
+
+  .work-package-table--container
     overflow: visible
 
     .generic-table--header,
@@ -56,6 +60,7 @@ $table-timeline--compact-row-height: 28px
       &:hover
         @include varprop(background-color, table-row-highlighting-color)
 
+    thead,
     .generic-table--sort-header-outer
       line-height: $table-timeline--compact-row-height
       height: $table-timeline--compact-row-height

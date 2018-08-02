@@ -179,12 +179,6 @@ class Project < ActiveRecord::Base
   scope :visible, ->(user = User.current) { Project.visible_by(user) }
   scope :newest, -> { order(created_on: :desc) }
 
-  # timelines stuff
-
-  belongs_to :project_type, class_name: '::ProjectType'
-
-  belongs_to :responsible,  class_name: 'User'
-
   def visible?(user = User.current)
     self.active? and (self.is_public? or user.admin? or user.member_of?(self))
   end

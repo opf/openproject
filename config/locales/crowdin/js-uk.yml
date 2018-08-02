@@ -54,11 +54,33 @@ uk:
     description_selected_columns: Selected Columns
     description_subwork_package: 'Нащадок пакету робіт #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Wiki page
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
+        code_block:
+          button: Insert code snippet
+          title: Insert / edit Code snippet
+          language: Formatting language
+          language_hint: Enter the formatting language that will be used for highlighting
+            (if supported).
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
         toc: Table of contents
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Wiki page
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -73,7 +95,7 @@ uk:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: Сталася внутрішня помилка.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -230,7 +252,9 @@ uk:
     label_remove_watcher: Видалити спостерігача %{name}
     label_remove_all_files: Видалити всі файли
     label_add_description: Додати опис для %{file}
-    label_upload_notification: 'Завантаження файлів для пакета робіт #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Завантаження файлів для пакета робіт
+      #%{id}: %{subject}'
     label_files_to_upload: 'Ці файли будуть завантажені на сервер:'
     label_rejected_files: 'Ці файли не можуть бути завантажені на сервер:'
     label_rejected_files_reason: Ці файли не можуть бути завантажені на сервер, оскільки
@@ -269,8 +293,8 @@ uk:
           names must be unique.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group, unset the visibility
-          checkboxes, and disable ALL custom fields.
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Upgrade to Enterprise Edition
@@ -371,8 +395,7 @@ uk:
           its date labels will be shown instead of these attributes.
 
 '
-      button_activate: Activate timeline mode
-      button_deactivate: Deactivate timeline mode
+      button_activate: Show Gantt chart
       cancel: Cancel
       change: Change in planning
       due_date: Due date
@@ -616,6 +639,7 @@ uk:
         months: months
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Стовпці...
         sort_by: Сортувати за ...
         group_by: Групувати за ...
@@ -627,14 +651,14 @@ uk:
         save_as: Зберегти як ...
         export: Експортувати ...
         publish: Publish ...
-        page_settings: Перейменувати запит ...
+        page_settings: Rename view ...
         delete: Delete
       filter: Filter
       unselected_title: Work package
       search_query_label: Пошук збережених запитів фільтрації
       search_query_title: Клацніть для пошуку збережених запитів фільтрації
     modals:
-      label_settings: Перейменувати запит
+      label_settings: Rename view
       label_name: Name
       label_delete_page: Видалити поточну сторінку
       button_apply: Apply
@@ -678,6 +702,8 @@ uk:
     error_could_not_resolve_version_name: Не вдалося визначити версію
     error_could_not_resolve_user_name: Не вдалося визначити ім'я користувача
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: work package

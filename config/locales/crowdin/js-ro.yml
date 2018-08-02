@@ -54,11 +54,33 @@ ro:
     description_selected_columns: Coloane selectate
     description_subwork_package: 'Fiu al pachetului de lucru #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Pagină wiki
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
+        code_block:
+          button: Insert code snippet
+          title: Insert / edit Code snippet
+          language: Formatting language
+          language_hint: Enter the formatting language that will be used for highlighting
+            (if supported).
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
         toc: Table of contents
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Pagină wiki
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -73,7 +95,7 @@ ro:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: A apărut o eroare internă.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -229,8 +251,9 @@ ro:
     label_remove_watcher: Eliminare observator %{name}
     label_remove_all_files: Ştergeţi toate fişierele
     label_add_description: Adăugați o descriere pentru %{file}
-    label_upload_notification: 'Fişierele pentru pachetul de lucru #%{id}: %{subject}
-      sunt în curs de încărcare'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Fişierele pentru pachetul de lucru #%{id}:
+      %{subject} sunt în curs de încărcare'
     label_files_to_upload: 'Următoarele fişiere vor fi încărcate:'
     label_rejected_files: 'Următoarele fişiere nu pot fi încărcate:'
     label_rejected_files_reason: Aceste fişiere nu pot fi încărcate deoarece mărimea
@@ -270,8 +293,8 @@ ro:
           names must be unique.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group, unset the visibility
-          checkboxes, and disable ALL custom fields.
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Upgrade to Enterprise Edition
@@ -371,8 +394,7 @@ ro:
           its date labels will be shown instead of these attributes.
 
 '
-      button_activate: Activate timeline mode
-      button_deactivate: Deactivate timeline mode
+      button_activate: Show Gantt chart
       cancel: Anulare
       change: Schimbare în planificare
       due_date: Dată scadentă
@@ -620,6 +642,7 @@ ro:
         months: luni
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Coloane...
         sort_by: Sortare după...
         group_by: Grupare după...
@@ -631,14 +654,14 @@ ro:
         save_as: Salvare ca ...
         export: Exportare ...
         publish: Publish ...
-        page_settings: Redenumire interogare ...
+        page_settings: Rename view ...
         delete: Ștergere
       filter: Filtrare
       unselected_title: Pachet de lucru
       search_query_label: Căutare interogare de filtrare salvată
       search_query_title: Click pentru a căuta o interogare de filtrare salvată
     modals:
-      label_settings: Redenumire interogare
+      label_settings: Rename view
       label_name: Nume
       label_delete_page: Ştergeți pagina curentă
       button_apply: Salvare
@@ -682,6 +705,8 @@ ro:
     error_could_not_resolve_version_name: Nu a putut fi detectat numele versiunii
     error_could_not_resolve_user_name: Nu a putut fi detectat numele utilizatorului
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: work package

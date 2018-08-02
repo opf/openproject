@@ -187,9 +187,12 @@ nl:
     index:
       no_results_title_text: Er zijn momenteel geen workflows.
   work_packages:
+    x_children:
+      one: Een onderliggend werkpakket
+      other: "%{count} onderliggende werkpakket(ten)"
     move:
-      no_common_statuses_exists: There is no status available for all selected work
-        packages. Their status cannot be changed.
+      no_common_statuses_exists: Er is geen status beschikbaar voor alle geselecteerde
+        werkpakketten. Hun status kan niet worden gewijzigd.
       unsupported_for_multiple_projects: Bulk verplaatsen/kopiëren wordt niet ondersteund
         voor werkpakketten uit meerdere projecten
     list_simple:
@@ -366,8 +369,8 @@ nl:
         spent_on: Datum
         type: Type
       type:
+        attribute_groups: ''
         is_in_roadmap: In de roadmap
-        in_aggregation: In aggregatie
         is_milestone: Is mijlpaal
         color: Kleur
       user:
@@ -550,10 +553,12 @@ nl:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Groepen zonder namen zijn niet toegestaan.
-              duplicate_group: De groep naam %{group} word meer dan één keer gebruikt.
-                Groep namen moeten uniek zijn.
               attribute_unknown: Ongeldig werk pakket attribuut wordt gebruikt.
+              duplicate_group: De groep naam ‘%{group}’ word meer dan één keer gebruikt.
+                Groep namen moeten uniek zijn.
+              query_invalid: 'De ingesloten zoekopdracht ''%{group}'' is ongeldig:
+                %{details}'
+              group_without_name: Groepen zonder namen zijn niet toegestaan.
         user:
           attributes:
             password:
@@ -994,7 +999,7 @@ nl:
   error_invalid_sort_criterion: 'Kan niet sorteren op kolom: %{value}'
   error_pdf_export_too_many_columns: Te veel kolommen geselecteerd voor het exporteren
     naar PDF. Beperk het aantal kolommen.
-  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
+  error_pdf_failed_to_export: De pdf export kan niet worden opgeslagen:%{error}
   error_token_authenticity: Niet mogelijk om Cross-Site Request Forgery-token te verifiëren.
   error_work_package_done_ratios_not_updated: Werkpakket gedaan ratio's niet bijgewerkt.
   error_work_package_not_found_in_project: Het werkpakket werd niet gevonden of maakt
@@ -1045,8 +1050,8 @@ nl:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF met beschrijvingen
-      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
-      pdf_with_attachments: PDF with attachments
+      pdf_with_descriptions_and_attachments: PDF met beschrijvingen en bijlagen
+      pdf_with_attachments: PDF met bijlagen
   extraction:
     available:
       pdftotext: Pdftotext beschikbaar (optioneel)
@@ -1539,7 +1544,7 @@ nl:
   label_summary: Overzicht
   label_system: Systeem
   label_system_storage: Opslaginformatie
-  label_table_of_contents: Table of contents
+  label_table_of_contents: Inhoudsopgave
   label_tag: Label
   label_text: Lange tekst
   label_this_month: Deze maand
@@ -1697,14 +1702,14 @@ nl:
   macro_unavailable: Macro %{macro_name} kan niet worden weergegeven.
   macros:
     errors:
-      missing_or_invalid_parameter: Missing or invalid macro parameter.
+      missing_or_invalid_parameter: Ontbrekende of ongeldige parameter van de macro.
     legacy_warning:
-      timeline: This legacy timeline macro has been removed and is no longer available.
-        You can replace the functionality with an embedded table macro.
+      timeline: Deze oudere tijdlijn macro is verwijderd en is niet langer beschikbaar.
+        U kunt de functionaliteit vervangen door een ingesloten tabel macro.
     include_wiki_page:
       errors:
-        page_not_found: Cannot find the wiki page '%{name}'.
-        circular_inclusion: Circular inclusion of pages detected.
+        page_not_found: Kan de wiki-pagina '%{name} ' niet vinden.
+        circular_inclusion: Er zijn circulaire opnemingen van pagina's gedetecteerd.
     create_work_package_link:
       errors:
         no_project_context: Create_work_package_link macro aanroepen buitenom de project
@@ -1863,7 +1868,7 @@ nl:
       team samenwerking met OpenProject.
     text_show_again: U kunt deze video van het helpmenu opnieuw starten
     welcome: Welkom bij OpenProject
-    select_language: Please select your language for OpenProject
+    select_language: Selecteer uw taal voor OpenProject
   permission_add_work_package_notes: Notities toevoegen
   permission_add_work_packages: Werkpakketten toevoegen
   permission_add_messages: Berichten posten
@@ -2130,7 +2135,6 @@ nl:
     mislukte inlogpogingen
   setting_brute_force_block_minutes: De gebruiker is geblokkeerd voor tijd
   setting_cache_formatted_text: Cache opgemaakte tekst
-  setting_use_wysiwyg: WYSIWYG-editor
   setting_use_wysiwyg_description: Wilt u CKEditor5 WYSIWYG editor voor alle gebruikers
     standaard ingeschakeld. CKEditor heeft een beperkte functionaliteit voor GFM Markdown.
   setting_column_options: Het uiterlijk van de werkpakketten lijsten aanpassen
@@ -2220,7 +2224,6 @@ nl:
   setting_sys_api_enabled: Repository beheer web-service inschakelen
   setting_sys_api_description: De repository beheer web-service biedt integratie en
     autorisatie van gebruikers voor toegang tot de archieven.
-  setting_text_formatting: Opmaak van tekst
   setting_time_format: Tijdnotatie
   setting_accessibility_mode_for_anonymous: Toegankelijkheid modus voor anonieme gebruikers
     inschakelen
@@ -2244,7 +2247,6 @@ nl:
       default_preferences: Standaardvoorkeuren
       deletion: Verwijdering
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Onopgemaakte tekst
   status_active: actief
@@ -2563,8 +2565,6 @@ nl:
       edit: 'Bewerk status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Bijgewerkt: %{title}'
-    work_packages_are_displayed_in_aggregations: Werkpakketten worden weergegeven
-      in samenvoegingen
     project_type_could_not_be_saved: Projecttype kan niet worden opgeslagen
     type_could_not_be_saved: Type kan niet worden opgeslagen
     reporting_could_not_be_saved: Rapportage kan niet worden opgeslagen
@@ -2679,10 +2679,11 @@ nl:
   note_password_login_disabled: Wachtwoord is uitgeschakeld door %{configuration}.
   warning: Waarschuwing
   warning_attachments_not_saved: "%{count} bestanden kunnen niet worden opgeslagen."
-  warning_imminent_user_limit: 'You invited more users than are supported by your
-    current plan. Invited users may not be able to join your OpenProject environment.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
-    in order to allow invited and registered users to join.
+  warning_imminent_user_limit: 'U heeft meer gebruikers uitgenodigd dan wordt ondersteund
+    in uw huidig abbonement. Uitgenodigde gebruikers kunnen mogelijk niet kunnen inloggen
+    in uw OpenProject omgeving. Voer een <a href="%{upgrade_url}">verhoging van het
+    abbonement uit</a> of blokkeer bestaande gebruikers zodat nieuwe gebruikers kunnen
+    inloggen.
 
 '
   warning_registration_token_expired: 'De activatie e-mail is verlopen. Wij sturen
@@ -2690,9 +2691,9 @@ nl:
     e-mail om uw account te activeren.
 
 '
-  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
-    for additional users.
+  warning_user_limit_reached: 'Gebruikerslimiet bereikt. U kunt geen gebruikers meer
+    activeren. <a href="%{upgrade_url}">upgrade uw abbonement</a> of blokkeer gebruikers
+    om extra gebruikers toegang te geven.
 
 '
   warning_user_limit_reached_instructions: 'U bereikt uw gebruikerslimiet (%{current}/%{max}

@@ -53,11 +53,33 @@ zh:
     description_selected_columns: 选定的列
     description_subwork_package: '子工作包 #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: 维基页面
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
+        code_block:
+          button: Insert code snippet
+          title: Insert / edit Code snippet
+          language: Formatting language
+          language_hint: Enter the formatting language that will be used for highlighting
+            (if supported).
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
         toc: 目录
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
         wiki_page_include:
           button: 包括另一个Wiki页的内容
-          text: 包括的Wiki页 (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: 维基页面
           hint: |
             通过指定其标题或Slug来包含其他Wiki页面的内容。
@@ -71,7 +93,7 @@ zh:
           with_type: 创建工作包（种类：%{typename}）
         embedded_table:
           button: 嵌入工作包表
-          text: 嵌入式工作包表 (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: 发生了内部错误。
       cannot_save_changes_with_message: 由于%{error} 原因，无法保存您的更改。
@@ -221,7 +243,8 @@ zh:
     label_remove_watcher: 删除关注者 %{name}
     label_remove_all_files: 删除所有文件
     label_add_description: 为%{file} 添加说明
-    label_upload_notification: '正在为 #%{id}: %{subject} 工作列表上传文件'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: '正在为 #%{id}: %{subject} 工作列表上传文件'
     label_files_to_upload: '这些文件将被上传:'
     label_rejected_files: '这些文件无法上传:'
     label_rejected_files_reason: 这些文件不能上传，因为它们大于 %{maximumFilesize}
@@ -255,7 +278,9 @@ zh:
       attribute_groups:
         error_duplicate_group_name: 名称 %{group} 已多次使用。组名不能重复。
         reset_title: 重置表单配置
-        confirm_reset: '警告：是否确定想要重置表单配置？这会将属性重置为它们的默认组，取消设置可见性复选框并禁用所有自定义字段。
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: 升级到企业版
@@ -347,8 +372,7 @@ zh:
         description: '选择要在甘特图的各个位置显示的属性。请注意, 在元素上悬停时, 将显示其日期标签而不是这些属性。
 
 '
-      button_activate: 激活时间线模式
-      button_deactivate: 取消激活时间线模式
+      button_activate: Show Gantt chart
       cancel: 取消
       change: 更改计划
       due_date: 截止日期
@@ -566,6 +590,7 @@ zh:
         months: 月
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: 列...
         sort_by: 排序...
         group_by: 分组...
@@ -577,14 +602,14 @@ zh:
         save_as: 另存为...
         export: 导出...
         publish: 发布...
-        page_settings: 重命名查询...
+        page_settings: Rename view ...
         delete: 删除
       filter: 筛选器
       unselected_title: 工作包
       search_query_label: 搜索保存的筛选器查询
       search_query_title: 单击搜索保存的筛选器查询
     modals:
-      label_settings: 重命名查询
+      label_settings: Rename view
       label_name: 名称
       label_delete_page: 删除当前页面
       button_apply: 应用
@@ -628,6 +653,8 @@ zh:
     error_could_not_resolve_version_name: 无法解析版本名称
     error_could_not_resolve_user_name: 不能确定用户名
     error_attachment_upload: 文件“%{name}”传输失败：%{error}
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: work package

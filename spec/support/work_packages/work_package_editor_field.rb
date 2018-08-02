@@ -2,16 +2,12 @@ require_relative './work_package_field'
 
 class WorkPackageEditorField < WorkPackageField
 
-  def input_selector
-    if markdown?
-      'div.op-ckeditor-wrapper'
-    else
-      '.textarea-wrapper textarea'
-    end
+  def ckeditor
+    @ckeditor ||= ::Components::WysiwygEditor.new @selector
   end
 
-  def markdown?
-    Setting.text_formatting == 'markdown'
+  def input_selector
+    '.ck-content'
   end
 
   def expect_save_button(enabled: true)
@@ -23,25 +19,28 @@ class WorkPackageEditorField < WorkPackageField
   end
 
   def expect_value(value)
-    if markdown?
-      expect(input_element.text).to eq(value)
-    else
-      expect(input_element.value).to eq(value)
-    end
+    expect(input_element.text).to eq(value)
   end
 
   def save!
     submit_by_click
   end
 
+  def set_value(text)
+    ckeditor.set_markdown text
+  end
+
+
+  def clear
+    ckeditor.clear
+  end
+
   def click_and_type_slowly(text)
-    sleep 0.5
-    input_element.click
+    ckeditor.click_and_type_slowly text
+  end
 
-    sleep 0.5
-    input_element.send_keys text
-
-    sleep 0.5
+  def type(text)
+    click_and_type_slowly text
   end
 
   def submit_by_click

@@ -47,20 +47,20 @@ describe OpenProject::TextFormatting,
     let(:identifier) { project.identifier }
     let(:role) do
       FactoryBot.create :role,
-                         permissions: %i(view_work_packages edit_work_packages
-                                         browse_repository view_changesets view_wiki_pages)
+                        permissions: %i(view_work_packages edit_work_packages
+                                        browse_repository view_changesets view_wiki_pages)
     end
 
     let(:project_member) do
       FactoryBot.create :user,
-                         member_in_project: project,
-                         member_through_role: role
+                        member_in_project: project,
+                        member_through_role: role
     end
     let(:issue) do
       FactoryBot.create :work_package,
-                         project: project,
-                         author: project_member,
-                         type: project.types.first
+                        project: project,
+                        author: project_member,
+                        type: project.types.first
     end
 
     let!(:non_member) do
@@ -70,23 +70,22 @@ describe OpenProject::TextFormatting,
     before do
       @project = project
       allow(User).to receive(:current).and_return(project_member)
-      allow(Setting).to receive(:text_formatting).and_return('markdown')
     end
 
     context 'Changeset links' do
       let(:repository) do
         FactoryBot.build_stubbed :repository_subversion,
-                                  project: project
+                                 project: project
       end
       let(:changeset1) do
         FactoryBot.build_stubbed :changeset,
-                                  repository: repository,
-                                  comments: 'My very first commit'
+                                 repository: repository,
+                                 comments: 'My very first commit'
       end
       let(:changeset2) do
         FactoryBot.build_stubbed :changeset,
-                                  repository: repository,
-                                  comments: 'This commit fixes #1, #2 and references #1 & #3'
+                                 repository: repository,
+                                 comments: 'This commit fixes #1, #2 and references #1 & #3'
       end
       let(:changeset_link) do
         link_to("r#{changeset1.revision}",
@@ -146,16 +145,16 @@ describe OpenProject::TextFormatting,
     end
 
     context 'Version link' do
-      let!(:version) {
+      let!(:version) do
         FactoryBot.create :version,
-                           name: '1.0',
-                           project: project
-      }
-      let(:version_link) {
+                          name: '1.0',
+                          project: project
+      end
+      let(:version_link) do
         link_to('1.0',
                 { controller: 'versions', action: 'show', id: version.id },
                 class: 'version')
-      }
+      end
 
       context 'Link with version id' do
         subject { format_text("version##{version.id}") }
@@ -196,11 +195,11 @@ describe OpenProject::TextFormatting,
     context 'Message links' do
       let(:board) { FactoryBot.create :board, project: project }
       let(:message1) { FactoryBot.create :message, board: board }
-      let(:message2) {
+      let(:message2) do
         FactoryBot.create :message,
-                           board: board,
-                           parent: message1
-      }
+                          board: board,
+                          parent: message1
+      end
 
       before do
         message1.reload
@@ -220,11 +219,11 @@ describe OpenProject::TextFormatting,
     end
 
     context 'Issue links' do
-      let(:issue_link) {
+      let(:issue_link) do
         link_to("##{issue.id}",
                 work_package_path(issue),
                 class: 'issue work_package status-3 priority-1 created-by-me', title: "#{issue.subject} (#{issue.status})")
-      }
+      end
 
       context 'Plain issue link' do
         subject { format_text("##{issue.id}, [##{issue.id}], (##{issue.id}) and ##{issue.id}.") }
@@ -251,12 +250,12 @@ describe OpenProject::TextFormatting,
       end
 
       context 'Cyclic Description Links' do
-        let(:issue2) {
+        let(:issue2) do
           FactoryBot.create :work_package,
-                             project: project,
-                             author: project_member,
-                             type: project.types.first
-        }
+                            project: project,
+                            author: project_member,
+                            type: project.types.first
+        end
 
         before do
           issue2.description = "####{issue.id}"
@@ -307,14 +306,14 @@ describe OpenProject::TextFormatting,
     context 'User links' do
       let(:role) do
         FactoryBot.create :role,
-                           permissions: %i[view_work_packages edit_work_packages
-                                           browse_repository view_changesets view_wiki_pages]
+                          permissions: %i[view_work_packages edit_work_packages
+                                          browse_repository view_changesets view_wiki_pages]
       end
 
       let(:linked_project_member) do
         FactoryBot.create :user,
-                           member_in_project: project,
-                           member_through_role: role
+                          member_in_project: project,
+                          member_through_role: role
       end
 
       context 'User link via ID' do
@@ -348,9 +347,9 @@ describe OpenProject::TextFormatting,
           context "with an email address as login name" do
             let(:linked_project_member) do
               FactoryBot.create :user,
-                                 member_in_project: project,
-                                 member_through_role: role,
-                                 login: "foo@bar.com"
+                                member_in_project: project,
+                                member_through_role: role,
+                                login: "foo@bar.com"
             end
             subject { format_text("user:\"#{linked_project_member.login}\"") }
 
@@ -373,15 +372,15 @@ describe OpenProject::TextFormatting,
     context 'Group reference' do
       let(:role) do
         FactoryBot.create :role,
-                           permissions: []
+                          permissions: []
       end
 
       let(:linked_project_member_group) do
         FactoryBot.create(:group).tap do |group|
           FactoryBot.create(:member,
-                             principal: group,
-                             project: project,
-                             roles: [role])
+                            principal: group,
+                            project: project,
+                            roles: [role])
         end
       end
 
@@ -409,37 +408,37 @@ describe OpenProject::TextFormatting,
     end
 
     context 'Wiki links' do
-      let(:project_2) {
+      let(:project_2) do
         FactoryBot.create :valid_project,
-                           identifier: 'onlinestore'
-      }
-      let(:wiki_1) {
+                          identifier: 'onlinestore'
+      end
+      let(:wiki_1) do
         FactoryBot.create :wiki,
-                           start_page: 'CookBook documentation',
-                           project: project
-      }
-      let(:wiki_page_1_1) {
+                          start_page: 'CookBook documentation',
+                          project: project
+      end
+      let(:wiki_page_1_1) do
         FactoryBot.create :wiki_page_with_content,
-                           wiki: wiki_1,
-                           title: 'CookBook documentation'
-      }
-      let(:wiki_page_1_2) {
+                          wiki: wiki_1,
+                          title: 'CookBook documentation'
+      end
+      let(:wiki_page_1_2) do
         FactoryBot.create :wiki_page_with_content,
-                           wiki: wiki_1,
-                           title: 'Another page'
-      }
-      let(:wiki_page_1_3) {
+                          wiki: wiki_1,
+                          title: 'Another page'
+      end
+      let(:wiki_page_1_3) do
         FactoryBot.create :wiki_page_with_content,
-                           wiki: wiki_1,
-                           title: '<script>alert("FOO")</script>'
-      }
+                          wiki: wiki_1,
+                          title: '<script>alert("FOO")</script>'
+      end
 
       before do
         project_2.reload
 
         wiki_page_2_1 = FactoryBot.create :wiki_page_with_content,
-                                           wiki: project_2.wiki,
-                                           title: 'Start Page'
+                                          wiki: project_2.wiki,
+                                          title: 'Start Page'
 
         project_2.wiki.pages << wiki_page_2_1
         project_2.wiki.start_page = 'Start Page'
@@ -606,42 +605,42 @@ describe OpenProject::TextFormatting,
     end
 
     context 'Pre content should not parse wiki and redmine links' do
-      let(:wiki) {
+      let(:wiki) do
         FactoryBot.create :wiki,
-                           start_page: 'CookBook documentation',
-                           project: project
-      }
-      let(:wiki_page) {
+                          start_page: 'CookBook documentation',
+                          project: project
+      end
+      let(:wiki_page) do
         FactoryBot.create :wiki_page_with_content,
-                           wiki: wiki,
-                           title: 'CookBook documentation'
-      }
-      let(:raw) {
-        <<-RAW
-[[CookBook documentation]]
+                          wiki: wiki,
+                          title: 'CookBook documentation'
+      end
+      let(:raw) do
+        <<~RAW
+          [[CookBook documentation]]
 
-##{issue.id}
+          ##{issue.id}
 
-```
-[[CookBook documentation]]
+          ```
+          [[CookBook documentation]]
 
-##{issue.id}
-```
-</pre>
+          ##{issue.id}
+          ```
+          </pre>
         RAW
-      }
+      end
 
-      let(:expected) {
-        <<-EXPECTED
-<p><a class="wiki-page" href="/projects/#{project.identifier}/wiki/cookbook-documentation">CookBook documentation</a></p>
-<p><a class="issue work_package status-3 priority-1 created-by-me" href="/work_packages/#{issue.id}" title="#{issue.subject} (#{issue.status})">##{issue.id}</a></p>
-<pre><code>
-[[CookBook documentation]]
+      let(:expected) do
+        <<~EXPECTED
+          <p><a class="wiki-page" href="/projects/#{project.identifier}/wiki/cookbook-documentation">CookBook documentation</a></p>
+          <p><a class="issue work_package status-3 priority-1 created-by-me" href="/work_packages/#{issue.id}" title="#{issue.subject} (#{issue.status})">##{issue.id}</a></p>
+          <pre><code>
+          [[CookBook documentation]]
 
-##{issue.id}
-</code></pre>
+          ##{issue.id}
+          </code></pre>
         EXPECTED
-      }
+      end
 
       before do
         project.wiki = wiki
@@ -659,7 +658,7 @@ describe OpenProject::TextFormatting,
           expect(format_text('_Stars!_')).to be_html_eql('<p><em>Stars!</em></p>')
         end
 
-        it 'uses format of options, if specified' do
+        it 'allows plain format of options, if specified' do
           expect(format_text('*Stars!*', format: 'plain')).to be_html_eql('<p>*Stars!*</p>')
         end
       end

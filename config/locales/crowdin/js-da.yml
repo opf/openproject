@@ -54,11 +54,33 @@ da:
     description_selected_columns: Valgte kolonner
     description_subwork_package: 'Child of work package #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Wiki-side
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
+        code_block:
+          button: Insert code snippet
+          title: Insert / edit Code snippet
+          language: Formatting language
+          language_hint: Enter the formatting language that will be used for highlighting
+            (if supported).
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
         toc: Table of contents
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Wiki-side
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -73,7 +95,7 @@ da:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: En intern fejl opstod.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -228,7 +250,9 @@ da:
     label_remove_watcher: Fjern iagttager %{name}
     label_remove_all_files: Slet alle filer
     label_add_description: Tilføj en beskrivelse af %{file}
-    label_upload_notification: 'Upload af filer til arbejdspakke #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Upload af filer til arbejdspakke #%{id}:
+      %{subject}'
     label_files_to_upload: 'Disse filer vil blive uploadet:'
     label_rejected_files: 'Disse filer kan ikke uploades:'
     label_rejected_files_reason: Disse filer kan ikke uploades, da deres størrelse
@@ -266,8 +290,8 @@ da:
           names must be unique.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group, unset the visibility
-          checkboxes, and disable ALL custom fields.
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Opgradér til Enterprise Edition
@@ -364,8 +388,7 @@ da:
           its date labels will be shown instead of these attributes.
 
 '
-      button_activate: Activate timeline mode
-      button_deactivate: Deactivate timeline mode
+      button_activate: Show Gantt chart
       cancel: Annuller
       change: Ændring i planlægning
       due_date: Forfaldsdato
@@ -607,6 +630,7 @@ da:
         months: måneder
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Kolonner...
         sort_by: Sorter efter...
         group_by: Gruppér efter...
@@ -618,14 +642,14 @@ da:
         save_as: Gem som...
         export: Eksporter...
         publish: Publish ...
-        page_settings: Omdøb forespørgsel...
+        page_settings: Rename view ...
         delete: Slet
       filter: Filter
       unselected_title: Arbejdspakke
       search_query_label: Search saved filter queries
       search_query_title: Click to search saved filter queries
     modals:
-      label_settings: Omdøb forespørgsel
+      label_settings: Rename view
       label_name: Navn
       label_delete_page: Slet denne side
       button_apply: Benyt
@@ -669,6 +693,8 @@ da:
     error_could_not_resolve_version_name: Kunne ikke fastslå versionsnavn
     error_could_not_resolve_user_name: Kunne ikke finde brugernavnet
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: work package

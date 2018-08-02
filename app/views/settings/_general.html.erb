@@ -49,13 +49,6 @@ See docs/COPYRIGHT.rdoc for more details.
       </span>
     </div>
     <div class="form--field"><%= setting_select :protocol, [['HTTP', 'http'], ['HTTPS', 'https']], container_class: '-xslim' %></div>
-    <div class="form--field"><%= setting_select :text_formatting, OpenProject::TextFormatting::Formatters.format_names.collect{|name| [t("text_formatting.#{name}"), name]}, container_class: '-xslim' %></div>
-    <div class="form--field">
-      <%= setting_check_box :use_wysiwyg %>
-      <span class="form--field-instructions">
-        <%= t(:setting_use_wysiwyg_description) %>
-      </span>
-    </div>
     <div class="form--field"><%= setting_check_box :cache_formatted_text %></div>
     <div class="form--field"><%= setting_select :wiki_compression, [['Gzip', 'gzip']], blank: :label_none, container_class: '-xslim' %></div>
     <div class="form--field"><%= setting_check_box :feeds_enabled, size: 6 %></div>

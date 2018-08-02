@@ -194,6 +194,9 @@ fil:
     index:
       no_results_title_text: Sa kasalukuyan ay walang mga workflows.
   work_packages:
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -379,8 +382,8 @@ fil:
         spent_on: Petsa
         type: Uri
       type:
+        attribute_groups: ''
         is_in_roadmap: Sa roadmap
-        in_aggregation: Sa pagsama-sama
         is_milestone: Ay milestone
         color: Kulay
       user:
@@ -565,10 +568,11 @@ fil:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Wala pangalan ng grupo ay hindi pinapayagan.
-              duplicate_group: Ang pangalan ng grupo %{group} ay ginamit mahigit pa
-                sa isa. Ang mga pangalan ng grulo ay dapat nakakatangi.
               attribute_unknown: Hindi balido ang work package attribute ang nagamit.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Wala pangalan ng grupo ay hindi pinapayagan.
         user:
           attributes:
             password:
@@ -2162,7 +2166,6 @@ fil:
     ang numero na ito ay nabigo sa pagtatangkang pag-login
   setting_brute_force_block_minutes: Oras ng user na na-block sa
   setting_cache_formatted_text: Tesktong naka-format na cache
-  setting_use_wysiwyg: WYSIWYG editor
   setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
     users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: I-customize ang hitsura ng mga listahan ng work package
@@ -2259,7 +2262,6 @@ fil:
   setting_sys_api_enabled: Paganahin ang serbisyo ng repository management web
   setting_sys_api_description: Ang serbisyo ng repositoryo management web ay nagbibigay
     ng intregrasyon at user awtorisasyon para sa pag-access ng mga repositoryo.
-  setting_text_formatting: Pag-format ng teksto
   setting_time_format: Format ng oras
   setting_accessibility_mode_for_anonymous: Paganahin ang aksebilidad mode para sa
     mga gumagamit ng anonymous
@@ -2286,7 +2288,6 @@ fil:
       default_preferences: Default preferences
       deletion: Deletion
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Plain text
   status_active: aktibo
@@ -2615,8 +2616,6 @@ fil:
       edit: 'I-edit ang estado: %{comment}'
       show: 'Estado: %{comment}'
     planning_element_update: 'I-update: %{title}'
-    work_packages_are_displayed_in_aggregations: Ang mga work package ay ipinapakita
-      sa agregasyon
     project_type_could_not_be_saved: Ang uri ng proyekto ay hindi mai-save
     type_could_not_be_saved: Ang mga uri ay hindi mai-save
     reporting_could_not_be_saved: Ang paguulat ay hindi mai-save

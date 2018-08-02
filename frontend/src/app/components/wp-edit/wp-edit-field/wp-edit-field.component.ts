@@ -123,46 +123,40 @@ export class WorkPackageEditFieldComponent implements OnInit {
       return true;
     }
 
+    // Skip activation if the user clicked on a link
+    const target = jQuery(event.target);
+    if (target.closest('a', this.displayContainer.nativeElement).length > 0) {
+      return true;
+    }
+
     if (this.isEditable) {
       this.handleUserActivate(event);
     }
 
     this.opContextMenu.close();
+    event.preventDefault();
     event.stopImmediatePropagation();
 
     return false;
   }
 
-  public activate(noWarnings:boolean = false):Promise<WorkPackageEditFieldHandler> {
-    return this.activateOnForm(this.wpEditFieldGroup.form, noWarnings);
-  }
-
   public activateOnForm(form:WorkPackageEditForm, noWarnings:boolean = false) {
     // Activate the field
-    const promise = form.activate(this.fieldName, noWarnings);
-    promise
-      .then(() => this.active = true)
+    this.active = true;
+    return form
+      .activate(this.fieldName, noWarnings)
       .catch(() => this.deactivate(true));
-
-    return promise;
   }
 
   public handleUserActivate(evt:JQueryEventObject|null) {
     let positionOffset = 0;
 
     if (evt) {
-      // Skip activation if the user clicked on a link
-      const target = jQuery(evt.target);
-
-      if (target.closest('a', this.displayContainer.nativeElement).length > 0) {
-        return true;
-      }
-
       // Get the position where the user clicked.
       positionOffset = ClickPositionMapper.getPosition(evt);
     }
 
-    this.activate()
+    this.activateOnForm(this.wpEditFieldGroup.form)
       .then((handler) => {
         handler.focus(positionOffset);
       });

@@ -188,6 +188,9 @@ pt:
     index:
       no_results_title_text: Atualmente, não existem ritmos de trabalho.
   work_packages:
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -330,7 +333,7 @@ pt:
         expires_at: Expira a
         subscriber: Assinante
         encoded_token: Token de suporte da versão Enterprise
-        active_user_count_restriction: Maximum active users
+        active_user_count_restriction: Máximo de utilizadores ativos
       relation:
         delay: Atraso
         from: Pacote de trabalho
@@ -369,8 +372,8 @@ pt:
         spent_on: Data
         type: Tipo
       type:
+        attribute_groups: ''
         is_in_roadmap: No roteiro
-        in_aggregation: Na agregação
         is_milestone: É um marco
         color: Cor
       user:
@@ -383,7 +386,7 @@ pt:
         mail_notification: Notificações por e-mail
         new_password: Nova senha
         password_confirmation: Confirmação
-        consented_at: Consented at
+        consented_at: Consentiu em
       user_preference:
         comments_sorting: Exibir comentários
         hide_mail: Ocultar meu endereço de e-mail
@@ -549,10 +552,11 @@ pt:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Não são permitidos grupos sem nome.
-              duplicate_group: O nome de grupo %{group} foi usado mais de uma vez.
-                Nomes de grupos têm de ser exclusivos.
               attribute_unknown: Foi utilizado um atributo de pacote de trabalho inválido.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Não são permitidos grupos sem nome.
         user:
           attributes:
             password:
@@ -691,7 +695,7 @@ pt:
   button_create: Criar
   button_create_and_continue: Criar e continuar
   button_delete: Eliminar
-  button_decline: Decline
+  button_decline: Rejeitar
   button_delete_watcher: Eliminar observador %{name}
   button_download: Transferir
   button_duplicate: Duplicar
@@ -726,7 +730,7 @@ pt:
   button_unlock: Desbloquear
   button_unwatch: Não observar
   button_update: Atualizar
-  button_upgrade: Upgrade
+  button_upgrade: Atualizar
   button_upload: Carregar
   button_view: Ver
   button_watch: Observar
@@ -735,10 +739,10 @@ pt:
   button_configure_menu_entry: Configurar item de menu
   button_delete_menu_entry: Excluir o item de menu
   consent:
-    checkbox_label: I have noted and do consent to the above.
-    failure_message: Consent failed, cannot proceed.
-    title: User Consent
-    decline_warning_message: You have declined to consent and have been logged out.
+    checkbox_label: Eu reparei e dou consentimento com o acima.
+    failure_message: Consentimento falhou, não pode continuar.
+    title: Consentimento do utilizador
+    decline_warning_message: Recusou consentir e foi desligado.
     user_has_consented: User has consented to your configured statement at the given
       time.
     not_yet_consented: User has not consented yet, will be requested upon next login.
@@ -1178,7 +1182,7 @@ pt:
   label_calendar: Calendário
   label_calendar_show: Mostrar calendário
   label_category: Categoria
-  label_consent_settings: User Consent
+  label_consent_settings: Consentimento do utilizador
   label_wiki_menu_item: Item do menu wiki
   label_select_main_menu_item: Seleccione novo item do menu principal
   label_select_project: Selecionar um projeto
@@ -2129,7 +2133,6 @@ pt:
     de tentativas de início de sessão
   setting_brute_force_block_minutes: Tempo de bloqueio do utilizador
   setting_cache_formatted_text: Colocar formatação do texto na memória cache
-  setting_use_wysiwyg: WYSIWYG editor
   setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
     users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Personalizar a aparência das listas de pacotes de trabalho
@@ -2221,7 +2224,6 @@ pt:
   setting_sys_api_enabled: Habilitar o serviço web de gestão do repositório
   setting_sys_api_description: O serviço de web de gestão de repositório fornece integração
     e autorização ao utilizador para aceder a repositórios.
-  setting_text_formatting: Formatação de texto
   setting_time_format: Formato da hora
   setting_accessibility_mode_for_anonymous: Ativar modo de acessibilidade para utilizadores
     anônimos
@@ -2246,7 +2248,6 @@ pt:
       default_preferences: Default preferences
       deletion: Deletion
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Texto Simples
   status_active: ativo
@@ -2566,7 +2567,6 @@ pt:
       edit: 'Editar o estado: %{comment}'
       show: 'Estado: %{comment}'
     planning_element_update: 'Atualizado: %{title}'
-    work_packages_are_displayed_in_aggregations: As tarefas são exibidas agregadas
     project_type_could_not_be_saved: Tipo de projeto não pôde ser salvo
     type_could_not_be_saved: Tipo não pôde ser guardado
     reporting_could_not_be_saved: Não foi possível guardar o relatório

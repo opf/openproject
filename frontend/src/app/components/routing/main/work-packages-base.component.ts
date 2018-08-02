@@ -27,9 +27,12 @@
 // ++
 
 import {Component} from "@angular/core";
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+
+export const wpBaseAppSelector = 'work-packages-base';
 
 @Component({
-  selector: 'work-packages-base',
+  selector: wpBaseAppSelector,
   template: `
     <div class="work-packages-page--ui-view">
       <ui-view></ui-view>
@@ -38,3 +41,5 @@ import {Component} from "@angular/core";
 })
 export class WorkPackagesBaseComponent {
 }
+
+DynamicBootstrapper.register({ selector: wpBaseAppSelector, cls: WorkPackagesBaseComponent });

@@ -31,59 +31,59 @@ require 'spec_helper'
 RSpec.feature 'Work package copy', js: true, selenium: true do
   let(:user) do
     FactoryBot.create(:user,
-                       member_in_project: project,
-                       member_through_role: create_role)
+                      member_in_project: project,
+                      member_through_role: create_role)
   end
   let(:work_flow) do
     FactoryBot.create(:workflow,
-                       role: create_role,
-                       type_id: original_work_package.type_id,
-                       old_status: original_work_package.status,
-                       new_status: FactoryBot.create(:status))
+                      role: create_role,
+                      type_id: original_work_package.type_id,
+                      old_status: original_work_package.status,
+                      new_status: FactoryBot.create(:status))
   end
 
   let(:create_role) do
     FactoryBot.create(:role,
-                       permissions: [:view_work_packages,
-                                     :add_work_packages,
-                                     :edit_work_packages])
+                      permissions: [:view_work_packages,
+                                    :add_work_packages,
+                                    :edit_work_packages])
   end
   let(:type) { FactoryBot.create(:type) }
   let(:project) { FactoryBot.create(:project, types: [type]) }
   let(:original_work_package) do
     FactoryBot.build(:work_package,
-                      project: project,
-                      assigned_to: assignee,
-                      responsible: responsible,
-                      fixed_version: version,
-                      type: type,
-                      author: author)
+                     project: project,
+                     assigned_to: assignee,
+                     responsible: responsible,
+                     fixed_version: version,
+                     type: type,
+                     author: author)
   end
   let(:role) { FactoryBot.build(:role, permissions: [:view_work_packages]) }
   let(:assignee) do
     FactoryBot.build(:user,
-                      firstname: 'An',
-                      lastname: 'assignee',
-                      member_in_project: project,
-                      member_through_role: role)
+                     firstname: 'An',
+                     lastname: 'assignee',
+                     member_in_project: project,
+                     member_through_role: role)
   end
   let(:responsible) do
     FactoryBot.build(:user,
-                      firstname: 'The',
-                      lastname: 'responsible',
-                      member_in_project: project,
-                      member_through_role: role)
+                     firstname: 'The',
+                     lastname: 'responsible',
+                     member_in_project: project,
+                     member_through_role: role)
   end
   let(:author) do
     FactoryBot.build(:user,
-                      firstname: 'The',
-                      lastname: 'author',
-                      member_in_project: project,
-                      member_through_role: role)
+                     firstname: 'The',
+                     lastname: 'author',
+                     member_in_project: project,
+                     member_through_role: role)
   end
   let(:version) do
     FactoryBot.build(:version,
-                      project: project)
+                     project: project)
   end
 
   before do

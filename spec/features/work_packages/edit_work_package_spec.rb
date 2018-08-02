@@ -4,27 +4,27 @@ require 'features/page_objects/notification'
 describe 'edit work package', js: true do
   let(:dev_role) do
     FactoryBot.create :role,
-                       permissions: [:view_work_packages,
-                                     :add_work_packages]
+                      permissions: [:view_work_packages,
+                                    :add_work_packages]
   end
   let(:dev) do
     FactoryBot.create :user,
-                       firstname: 'Dev',
-                       lastname: 'Guy',
-                       member_in_project: project,
-                       member_through_role: dev_role
+                      firstname: 'Dev',
+                      lastname: 'Guy',
+                      member_in_project: project,
+                      member_through_role: dev_role
   end
   let(:manager_role) do
     FactoryBot.create :role,
-                       permissions: [:view_work_packages,
-                                     :edit_work_packages]
+                      permissions: [:view_work_packages,
+                                    :edit_work_packages]
   end
   let(:manager) do
     FactoryBot.create :admin,
-                       firstname: 'Manager',
-                       lastname: 'Guy',
-                       member_in_project: project,
-                       member_through_role: manager_role
+                      firstname: 'Manager',
+                      lastname: 'Guy',
+                      member_in_project: project,
+                      member_through_role: manager_role
   end
 
   let(:cf_all) do
@@ -42,18 +42,18 @@ describe 'edit work package', js: true do
   let(:type) { FactoryBot.create :type, custom_fields: [cf_all, cf_tp1] }
   let(:type2) { FactoryBot.create :type, custom_fields: [cf_all, cf_tp2] }
   let(:project) { FactoryBot.create(:project, types: [type, type2]) }
-  let(:work_package) {
+  let(:work_package) do
     work_package = FactoryBot.create(:work_package,
-                                      author: dev,
-                                      project: project,
-                                      type: type,
-                                      created_at: 5.days.ago.to_date.to_s(:db))
+                                     author: dev,
+                                     project: project,
+                                     type: type,
+                                     created_at: 5.days.ago.to_date.to_s(:db))
 
     note_journal = work_package.journals.last
     note_journal.update_attributes(created_at: 5.days.ago.to_date.to_s)
 
     work_package
-  }
+  end
   let(:status) { work_package.status }
 
   let(:new_subject) { 'Some other subject' }
@@ -62,10 +62,10 @@ describe 'edit work package', js: true do
   let(:status2) { FactoryBot.create :status }
   let(:workflow) do
     FactoryBot.create :workflow,
-                       type_id: type2.id,
-                       old_status: work_package.status,
-                       new_status: status2,
-                       role: manager_role
+                      type_id: type2.id,
+                      old_status: work_package.status,
+                      new_status: status2,
+                      role: manager_role
   end
   let(:version) { FactoryBot.create :version, project: project }
   let(:category) { FactoryBot.create :category, project: project }
@@ -161,7 +161,7 @@ describe 'edit work package', js: true do
   end
 
   context 'switching to custom field with required CF' do
-    let(:custom_field) {
+    let(:custom_field) do
       FactoryBot.create(
         :work_package_custom_field,
         field_format: 'string',
@@ -169,7 +169,7 @@ describe 'edit work package', js: true do
         is_required:  true,
         is_for_all:   true
       )
-    }
+    end
     let!(:type2) { FactoryBot.create(:type, custom_fields: [custom_field]) }
 
     it 'shows the required field when switching' do
@@ -187,14 +187,11 @@ describe 'edit work package', js: true do
     end
   end
 
-  it 'allows the user to add a comment to a work package with previewing the stuff before' do
+  it 'allows the user to add a comment to a work package' do
     wp_page.ensure_page_loaded
 
     wp_page.trigger_edit_comment
     wp_page.update_comment 'hallo welt'
-    wp_page.preview_comment
-
-    expect(page).to have_selector('.inplace-edit--preview', text: 'hallo welt', wait: 10)
 
     wp_page.save_comment
 

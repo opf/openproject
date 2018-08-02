@@ -167,6 +167,9 @@ zh-TW:
     index:
       no_results_title_text: 目前沒有工作流程
   work_packages:
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -315,8 +318,8 @@ zh-TW:
         spent_on: 日期
         type: 類型
       type:
+        attribute_groups: ''
         is_in_roadmap: 在路徑圖
-        in_aggregation: 合併
         is_milestone: 是里程碑
         color: 顏色
       user:
@@ -482,9 +485,11 @@ zh-TW:
         type:
           attributes:
             attribute_groups:
-              group_without_name: 不允許未命名的群組。
-              duplicate_group: 群組名稱 %{group} 已被使用，群組名稱不可重複。
               attribute_unknown: 使用了無效的工作包屬性。
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: 不允許未命名的群組。
         user:
           attributes:
             password:
@@ -1936,7 +1941,6 @@ zh-TW:
   setting_brute_force_block_after_failed_logins: 禁止使用者當嘗試登入失敗這個次數後
   setting_brute_force_block_minutes: 使用者被禁止的時間
   setting_cache_formatted_text: 快取格式化文字
-  setting_use_wysiwyg: 所見即所得 (WYSIWYG) 編輯器
   setting_use_wysiwyg_description: 勾選此選項可在預設情況下為所有使用者啟用 CKEditor5 所見即所得 (WYSIWYG)
     編輯器。CKEditor 對 GFM Markdown的功能有限。
   setting_column_options: 自訂工作項目清單的外觀
@@ -2012,7 +2016,6 @@ zh-TW:
   setting_start_of_week: 一週起始於
   setting_sys_api_enabled: 啟用版控容器管理網路服務
   setting_sys_api_description: 版控容器管理網路服務提供容器存取管理和使用者認證
-  setting_text_formatting: 文字格式
   setting_time_format: 時間格式
   setting_accessibility_mode_for_anonymous: 啟用匿名使用者存取模式
   setting_user_format: 使用者顯示格式
@@ -2035,7 +2038,6 @@ zh-TW:
       default_preferences: 默認偏好設置
       deletion: 消除
   text_formatting:
-    textile: 紡織
     markdown: Markdown
     plain: 純文字
   status_active: 啟用
@@ -2306,7 +2308,6 @@ zh-TW:
       edit: 編輯狀態： %{comment}
       show: 狀態： %{comment}
     planning_element_update: 更新：%{title}
-    work_packages_are_displayed_in_aggregations: 工作包匯集顯示
     project_type_could_not_be_saved: 專案類型無法保存
     type_could_not_be_saved: 類型無法保存
     reporting_could_not_be_saved: 無法儲存報告

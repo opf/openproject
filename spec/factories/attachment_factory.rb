@@ -32,6 +32,7 @@ FactoryBot.define do
   factory :attachment do
     container factory: :work_package
     author factory: :user
+    description nil
 
     transient do
       filename nil

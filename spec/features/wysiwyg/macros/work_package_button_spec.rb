@@ -29,18 +29,16 @@
 require 'spec_helper'
 
 describe 'Wysiwyg work package button spec',
-         with_settings: { text_formatting: 'markdown', use_wysiwyg?: true },
          type: :feature, js: true do
   let(:user) { FactoryBot.create :admin }
   let!(:type) { FactoryBot.create :type, name: 'MyTaskName' }
-  let(:project) {
+  let(:project) do
     FactoryBot.create :valid_project,
                       identifier: 'my-project',
                       enabled_module_names: %w[wiki work_package_tracking],
                       name: 'My project name',
                       types: [type]
-  }
-
+  end
 
   let(:editor) { ::Components::WysiwygEditor.new }
 
@@ -56,8 +54,7 @@ describe 'Wysiwyg work package button spec',
 
       it 'can add and edit an embedded table widget' do
         editor.in_editor do |container, editable|
-          # strangely, we need visible: :all here
-          container.find('.ck-button', visible: :all, text: 'Insert create work package button').click
+          editor.insert_macro 'Insert create work package button'
 
           expect(page).to have_selector('.op-modal--macro-modal')
           select 'MyTaskName', from: 'selected-type'
@@ -66,7 +63,7 @@ describe 'Wysiwyg work package button spec',
           find('.op-modal--cancel-button').click
           expect(editable).to have_no_selector('.macro.-create_work_package_link')
 
-          container.find('.ck-button', visible: :all, text: 'Insert create work package button').click
+          editor.insert_macro  'Insert create work package button'
           select 'MyTaskName', from: 'selected-type'
           check 'button_style'
 

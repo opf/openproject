@@ -183,6 +183,11 @@ ru:
     index:
       no_results_title_text: В данный момент рабочих потоков нет.
   work_packages:
+    x_children:
+      one: Пакет работ с одним дочерним
+      other: Пакет работ с %{count} дочерними
+      few: Пакет работ с %{count} дочерними
+      many: Пакет работ с %{count} дочерними
     move:
       no_common_statuses_exists: Статус не доступен для всех выбранных пакетов работ.
         Их статус изменен быть не может.
@@ -358,8 +363,8 @@ ru:
         spent_on: Дата
         type: Тип
       type:
+        attribute_groups: ''
         is_in_roadmap: В дорожной карте
-        in_aggregation: В агрегате
         is_milestone: Это веха
         color: Цвет
       user:
@@ -537,10 +542,12 @@ ru:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Не именованные группы не допускаются.
-              duplicate_group: Имя группы %{group} используется более одного раза.
-                Имена групп должны быть уникальными.
               attribute_unknown: Используется недопустимый атрибут пакета работ.
+              duplicate_group: Имя группы '%{group}' используется более одного раза.
+                Имена групп должны быть уникальными.
+              query_invalid: 'Встроенный запрос ''%{group}'' является недопустимым:
+                %{details}'
+              group_without_name: Не именованные группы не допускаются.
         user:
           attributes:
             password:
@@ -1011,7 +1018,7 @@ ru:
   error_invalid_sort_criterion: 'Невозможно сортировать по столбцу: %{value}'
   error_pdf_export_too_many_columns: Для экспорта в PDF-файл выбрано слишком много
     столбцов. Пожалуйста, сократите количество столбцов.
-  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
+  error_pdf_failed_to_export: 'Не удалось сохранить экспорт в PDF: %{error}'
   error_token_authenticity: Не удается проверить CSRF-токен.
   error_work_package_done_ratios_not_updated: Сделанные соотношения пакета работ не
     обновляются.
@@ -1063,8 +1070,8 @@ ru:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF с описанием
-      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
-      pdf_with_attachments: PDF with attachments
+      pdf_with_descriptions_and_attachments: PDF с описанием и вложениями
+      pdf_with_attachments: PDF с вложениями
   extraction:
     available:
       pdftotext: Pdftotext доступно (опционально)
@@ -2149,7 +2156,6 @@ ru:
     количества неудачных попыток входа
   setting_brute_force_block_minutes: Время блокирования пользователя за
   setting_cache_formatted_text: Кэшировать форматированный текст
-  setting_use_wysiwyg: WYSIWYG редактор
   setting_use_wysiwyg_description: Выберите включение CKEditor5 WYSIWYG редактора
     для всех пользователей по умолчанию. CKEditor обладает ограниченной функциональностью
     для GFM Markdown.
@@ -2241,7 +2247,6 @@ ru:
   setting_sys_api_enabled: Разрешить веб-сервис управления репоторием
   setting_sys_api_description: Веб-сервис управления репозиторием обеспечивает интеграцию
     и авторизацию пользователя для доступа к репозиторию.
-  setting_text_formatting: Форматирование текста
   setting_time_format: Формат времени
   setting_accessibility_mode_for_anonymous: Разрешить режим доступа людей с ограниченными
     возможностями для анонимных пользователей
@@ -2266,7 +2271,6 @@ ru:
       default_preferences: Предпочтения по умолчанию
       deletion: Удаление
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Обычный текст
   status_active: Активно
@@ -2586,7 +2590,6 @@ ru:
       edit: 'Редактировать статус: %{comment}'
       show: 'Статус: %{comment}'
     planning_element_update: 'Последняя сводка: %{title}'
-    work_packages_are_displayed_in_aggregations: Пакеты работ отображаются в агрегациях
     project_type_could_not_be_saved: Тип проекта не может быть сохранен
     type_could_not_be_saved: Тип не может быть сохранен
     reporting_could_not_be_saved: Отчетность не может быть сохранена

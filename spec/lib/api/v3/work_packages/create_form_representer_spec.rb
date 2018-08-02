@@ -95,8 +95,7 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
 
         it 'contains link to work package' do
           expected_preview_link =
-            api_v3_paths.render_markup(format: 'textile',
-                                       link: "/api/v3/projects/#{work_package.project_id}")
+            api_v3_paths.render_markup(link: "/api/v3/projects/#{work_package.project_id}")
           expect(subject)
             .to be_json_eql(expected_preview_link.to_json)
             .at_path('_links/previewMarkup/href')

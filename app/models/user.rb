@@ -67,9 +67,6 @@ class User < Principal
   has_many :responsible_for_issues, foreign_key: 'responsible_id',
                                     class_name: 'WorkPackage',
                                     dependent: :nullify
-  has_many :responsible_for_projects, foreign_key: 'responsible_id',
-                                      class_name: 'Project',
-                                      dependent: :nullify
   has_many :watches, class_name: 'Watcher',
                      dependent: :delete_all
   has_many :changesets, dependent: :nullify
@@ -189,7 +186,7 @@ class User < Principal
   end
 
   def self.search_in_project(query, options)
-    Project.find(options.fetch(:project)).users.like(query)
+    options.fetch(:project).users.like(query)
   end
 
   # Returns the user that matches provided login and password, or nil

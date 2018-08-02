@@ -31,7 +31,6 @@
 module OpenProject::TextFormatting::Matchers
   module LinkHandlers
     class WorkPackages < Base
-
       ##
       # Match work package links.
       # Condition: Separator is #|##|###
@@ -66,7 +65,6 @@ module OpenProject::TextFormatting::Matchers
       end
 
       def render_work_package_link(work_package)
-
         if matcher.sep == '##'
           return work_package_quick_info(work_package, only_path: context[:only_path])
         elsif matcher.sep == '###' && !context[:no_nesting]

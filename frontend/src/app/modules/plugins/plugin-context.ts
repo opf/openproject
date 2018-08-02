@@ -1,4 +1,4 @@
-import {Injector} from "@angular/core";
+import {ApplicationRef, Injector} from "@angular/core";
 import {HookService} from "core-app/modules/plugins/hook-service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {ConfirmDialogService} from "core-components/modals/confirm-dialog/confirm-dialog.service";
@@ -21,6 +21,8 @@ import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/o
 import {EditorMacrosService} from "core-components/modals/editor/editor-macros.service";
 import {HTMLSanitizeService} from "../common/html-sanitize/html-sanitize.service";
 import {PathHelperService} from "../common/path-helper/path-helper.service";
+import {CKEditorPreviewService} from "core-components/ckeditor/ckeditor-preview.service";
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
 /**
  * Plugin context bridge for plugins outside the CLI compiler context
@@ -51,7 +53,8 @@ export class OpenProjectPluginContext {
     wpCache: this.injector.get<WorkPackageCacheService>(WorkPackageCacheService),
     macros: this.injector.get<EditorMacrosService>(EditorMacrosService),
     htmlSanitizeService: this.injector.get<HTMLSanitizeService>(HTMLSanitizeService),
-    pathHelperService: this.injector.get<PathHelperService>(PathHelperService)
+    ckEditorPreview: this.injector.get<CKEditorPreviewService>(CKEditorPreviewService),
+    pathHelperService: this.injector.get<PathHelperService>(PathHelperService),
   };
 
   // Random collection of classes needed outside of angular
@@ -75,5 +78,12 @@ export class OpenProjectPluginContext {
       .forEach((hook:string) => {
         this.hooks[hook] = (callback:Function) => this.services.hooks.register(hook, callback);
       });
+  }
+
+  public bootstrap(element:HTMLElement) {
+    DynamicBootstrapper.bootstrapOptionalEmbeddable(
+      this.injector.get(ApplicationRef),
+      element
+      )
   }
 }

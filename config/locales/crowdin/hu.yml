@@ -182,6 +182,9 @@ hu:
     index:
       no_results_title_text: Jelenleg nincsenek munkafolyamatok.
   work_packages:
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -355,8 +358,8 @@ hu:
         spent_on: Dátum
         type: Típus
       type:
+        attribute_groups: ''
         is_in_roadmap: Ütemtervben
-        in_aggregation: Összesítésben
         is_milestone: Mérföldkő
         color: Szín
       user:
@@ -536,10 +539,11 @@ hu:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Névtelen csoport nem engedélyezett.
-              duplicate_group: A %{group} név már használatban van. A csoport névnek
-                egyedinek kell lennie.
               attribute_unknown: Érvénytelen munkacsomag attribútumot használt.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Névtelen csoport nem engedélyezett.
         user:
           attributes:
             password:
@@ -2097,7 +2101,6 @@ hu:
     után tiltsa a felhasználót
   setting_brute_force_block_minutes: Mennyi időre tiltsa ki
   setting_cache_formatted_text: Gyorsítótárazott formázott szöveg
-  setting_use_wysiwyg: WYSIWYG editor
   setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
     users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: A munkacsomag listák megjelenésének testreszabása
@@ -2185,7 +2188,6 @@ hu:
   setting_sys_api_enabled: Csomagtároló webszolgáltatás bekapcsolva
   setting_sys_api_description: A csomagtároló webszolgáltatás integrációt és felhasználói
     hozzáférést biztosít a tároló eléréséhez.
-  setting_text_formatting: Szövegformázás
   setting_time_format: Időformátum
   setting_accessibility_mode_for_anonymous: Engedélyezi a kisegítő módot a névtelen
     felhasználók számára
@@ -2210,7 +2212,6 @@ hu:
       default_preferences: Default preferences
       deletion: Deletion
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Plain text
   status_active: aktív
@@ -2527,7 +2528,6 @@ hu:
       edit: 'Az állapot szerkesztése: %{comment}'
       show: 'Állapot: %{comment}'
     planning_element_update: 'Frissítve: %{title}'
-    work_packages_are_displayed_in_aggregations: Munkacsomagok megjelenítése csoportokban
     project_type_could_not_be_saved: Projekt típusát nem lehet menteni
     type_could_not_be_saved: A típust nem lehet menteni
     reporting_could_not_be_saved: A jelentés mentése nem sikerült

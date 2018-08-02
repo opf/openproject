@@ -91,6 +91,10 @@ env:
 
 before_install:
 
+  # Install pandoc for testing textile migration
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq pandoc
+
   # Install Node latest LTS
   - "nvm install --lts"
   # work around https://github.com/travis-ci/travis-ci/issues/8969
@@ -102,10 +106,10 @@ before_install:
 bundler_args: --binstubs --without development production docker
 
 before_script:
-  - sh script/ci_setup.sh $TEST_SUITE $DB
+  - bash script/ci_setup.sh $TEST_SUITE $DB
 
 script:
-  - sh script/ci_runner.sh
+  - bash script/ci_runner.sh
 
 
 addons:

@@ -184,6 +184,9 @@ fi:
     index:
       no_results_title_text: Tällä hetkellä ei ole olemassa työnkulkuja.
   work_packages:
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -359,8 +362,8 @@ fi:
         spent_on: Päivä
         type: Tyyppi
       type:
+        attribute_groups: ''
         is_in_roadmap: Suunnitelmassa
-        in_aggregation: Mukana kertymässä
         is_milestone: On virstanpylväs
         color: Väri
       user:
@@ -538,10 +541,11 @@ fi:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Nimeämätön ryhmät eivät ole sallittuja.
-              duplicate_group: The group name %{group} is used more than once. Group
-                names must be unique.
               attribute_unknown: Invalid work package attribute used.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Nimeämätön ryhmät eivät ole sallittuja.
         user:
           attributes:
             password:
@@ -2083,7 +2087,6 @@ fi:
     kirjautumisyrityksiä on tätä arvoa enemmän
   setting_brute_force_block_minutes: Aika jonka käyttäjä on estettynä
   setting_cache_formatted_text: Käytä välimuistia muotoillulle tekstille
-  setting_use_wysiwyg: WYSIWYG editor
   setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
     users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Mukauta työpakettilistan ulkoasua
@@ -2170,7 +2173,6 @@ fi:
   setting_sys_api_enabled: Salli WS tietovaraston hallintaan
   setting_sys_api_description: The repository management web service provides integration
     and user authorization for accessing repositories.
-  setting_text_formatting: Tekstin muotoilu
   setting_time_format: Aikakormaatti
   setting_accessibility_mode_for_anonymous: Ota helppokäyttötila anonyymeille käyttäjille
   setting_user_format: Käyttäjien esitysmuoto
@@ -2193,7 +2195,6 @@ fi:
       default_preferences: Default preferences
       deletion: Deletion
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Plain text
   status_active: aktiivinen
@@ -2503,7 +2504,6 @@ fi:
       edit: 'Edit status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Update: %{title}'
-    work_packages_are_displayed_in_aggregations: Work packages are displayed in aggregations
     project_type_could_not_be_saved: Project type could not be saved
     type_could_not_be_saved: Type could not be saved
     reporting_could_not_be_saved: Raportointi ei voitu tallenneta

@@ -53,11 +53,33 @@ ko:
     description_selected_columns: 선택된 열
     description_subwork_package: '작업 패키지 #%{id}의 자식'
     editor:
+      preview: Toggle preview mode
       macro:
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: 위키 페이지
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
+        code_block:
+          button: Insert code snippet
+          title: Insert / edit Code snippet
+          language: Formatting language
+          language_hint: Enter the formatting language that will be used for highlighting
+            (if supported).
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
         toc: Table of contents
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: 위키 페이지
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -72,7 +94,7 @@ ko:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: 내부 오류가 발생하였습니다.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -224,7 +246,8 @@ ko:
     label_remove_watcher: 관찰자 %{name} 제거
     label_remove_all_files: 모든 파일을 삭제
     label_add_description: "%{file} 의 설명 추가"
-    label_upload_notification: '작업 패키지 #%{id}: %{subject} 를 위한 파일 업로딩'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: '작업 패키지 #%{id}: %{subject} 를 위한 파일 업로딩'
     label_files_to_upload: 이 파일들이 업로드 됩니다.
     label_rejected_files: 파일들이 업로드 할 수 없습니다.
     label_rejected_files_reason: 파일 사이즈가 %{maximumFilesize} 보다 크기 때문에 업로드할 수 없습니다.
@@ -260,8 +283,9 @@ ko:
         error_duplicate_group_name: "%{group} 이라는 그룹 이름은 한 번 이상 사용되었습니다. 그룹 이름은 중복될
           수 없습니다."
         reset_title: 구성 양식 초기화
-        confirm_reset: '경고: 양식 구성을 재설정하시겠습니까? 그러면 특성이 기본 그룹으로 재설정되고, 표시 여부 확인란이 설정
-          해제되고, 모든 사용자 지정 필드가 비활성화됩니다.
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Enterprise Edition으로 업그레이드 하세요.
@@ -355,8 +379,7 @@ ko:
           표시됩니다.
 
 '
-      button_activate: 타임라인 모드 활성화
-      button_deactivate: 타임라인 모드 비활성화
+      button_activate: Show Gantt chart
       cancel: 취소
       change: 계획에서 변경
       due_date: 기한
@@ -582,6 +605,7 @@ ko:
         months: 개월
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: 열...
         sort_by: 정렬 기준...
         group_by: 그룹화 기준...
@@ -593,14 +617,14 @@ ko:
         save_as: 다른 이름으로 저장...
         export: 내보내기...
         publish: 게시...
-        page_settings: 쿼리 이름 바꾸기...
+        page_settings: Rename view ...
         delete: 삭제
       filter: 필터
       unselected_title: 작업 패키지
       search_query_label: 저장된 필터 쿼리 검색
       search_query_title: 저장된 필터 쿼리를 검색하려면 클릭하세요.
     modals:
-      label_settings: 쿼리 이름 바꾸기
+      label_settings: Rename view
       label_name: 이름
       label_delete_page: 현재 페이지 삭제
       button_apply: 적용
@@ -644,6 +668,8 @@ ko:
     error_could_not_resolve_version_name: 버전 이름을 확인할 수 없습니다.
     error_could_not_resolve_user_name: 사용자 이름을 확인할 수 없습니다.
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: work package

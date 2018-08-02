@@ -36,6 +36,7 @@ import {LinkHandling} from 'core-app/modules/common/link-handling/link-handling'
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HttpClient} from "@angular/common/http";
 import {ChangeDetectorRef, Component, ElementRef, OnInit} from "@angular/core";
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
 export interface IProjectMenuEntry {
   id:number;
@@ -115,7 +116,7 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
   // Items per page to show before using lazy load
   // Please note that the max-height of the container is relevant here.
   public get maxItemsPerPage() {
-    return 50;
+    return 250;
   }
 
   onItemSelected(project:IProjectMenuEntry):void {
@@ -281,3 +282,5 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
     return params;
   }
 }
+
+DynamicBootstrapper.register({ selector: 'project-menu-autocomplete', cls: ProjectMenuAutocompleteComponent });

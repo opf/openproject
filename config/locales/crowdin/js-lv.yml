@@ -54,11 +54,33 @@ lv:
     description_selected_columns: Selected Columns
     description_subwork_package: 'Child of work package #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Wiki page
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
+        code_block:
+          button: Insert code snippet
+          title: Insert / edit Code snippet
+          language: Formatting language
+          language_hint: Enter the formatting language that will be used for highlighting
+            (if supported).
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
         toc: Table of contents
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Wiki page
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -73,7 +95,7 @@ lv:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: Radusies iekšēja kļūda.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -228,7 +250,9 @@ lv:
     label_remove_watcher: Noņemt vērotāju %{name}
     label_remove_all_files: Dzēst visus failus
     label_add_description: Pievienot aprakstu priekš %{file}
-    label_upload_notification: 'Augšupielādēt failus Darba pakai #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Augšupielādēt failus Darba pakai #%{id}:
+      %{subject}'
     label_files_to_upload: 'Šie faili tiks augšupielādēti:'
     label_rejected_files: 'Nevar augšupielādēt šos failus:'
     label_rejected_files_reason: Šos failus nevar augšupielādēt, jo to izmērs ir lielāks
@@ -266,8 +290,8 @@ lv:
           names must be unique.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group, unset the visibility
-          checkboxes, and disable ALL custom fields.
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Upgrade to Enterprise Edition
@@ -365,8 +389,7 @@ lv:
           its date labels will be shown instead of these attributes.
 
 '
-      button_activate: Activate timeline mode
-      button_deactivate: Deactivate timeline mode
+      button_activate: Show Gantt chart
       cancel: Atcelt
       change: Change in planning
       due_date: Izpildes datums
@@ -610,6 +633,7 @@ lv:
         months: months
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Kolonnas...
         sort_by: Kārtot pēc...
         group_by: Grupēt pēc...
@@ -621,14 +645,14 @@ lv:
         save_as: Saglabāt kā ...
         export: Eksportēt...
         publish: Publish ...
-        page_settings: Pārsaukt skatu...
+        page_settings: Rename view ...
         delete: Dzēst
       filter: Filtrēt
       unselected_title: Work package
       search_query_label: Meklēt saglabātos filtru vaicājumus
       search_query_title: Noklikšķiniet, lai meklētu saglabātos filtru vaicājumus
     modals:
-      label_settings: Rename query
+      label_settings: Rename view
       label_name: Name
       label_delete_page: Delete current page
       button_apply: Apstiprināt
@@ -672,6 +696,8 @@ lv:
     error_could_not_resolve_version_name: Couldn't resolve version name
     error_could_not_resolve_user_name: Couldn't resolve user name
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: work package

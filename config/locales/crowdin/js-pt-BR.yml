@@ -54,11 +54,34 @@ pt-BR:
     description_selected_columns: Colunas selecionadas
     description_subwork_package: 'Filho do pacote de trabalho #%{id}'
     editor:
+      preview: Alternar modo de visualização
       macro:
+        child_pages:
+          button: Links para páginas filhas
+          include_parent: Incluir pai
+          text: "[Placeholder] Links para páginas filhas de"
+          page: Página wiki
+          this_page: esta página
+          hint: 'Deixe este campo em branco para listar todas as páginas filhas da
+            página atual. Se você deseja fazer referência a uma página diferente,
+            forneça seu título ou "slug".
+
+'
+        code_block:
+          button: Inserir trecho de código
+          title: Inserir / editar Trecho de código
+          language: Linguagem de formatação
+          language_hint: Insira a linguagem de formatação que será usada para destacar
+            (se suportado).
+        dropdown:
+          macros: Macros
+          chose_macro: Escolher macro
         toc: Tabela de conteúdos
+        toolbar_help: Clique para selecionar o widget e mostrar a barra de ferramentas.
+          Clique duas vezes para editar o widget
         wiki_page_include:
           button: Incluir o conteúdo de outra página wiki
-          text: Página wiki incluída (espaço reservado)
+          text: "[Placeholder] Incluída a página wiki de"
           page: Página wiki
           hint: 'Inclua o conteúdo de outra página wiki, especificando seu título
             ou slug. Você pode incluir a página wiki de um outro projeto, separando-a
@@ -75,7 +98,7 @@ pt-BR:
           with_type: 'Criar pacote de trabalho (Tipo: %{typename})'
         embedded_table:
           button: Embutir tabela de pacote de trabalho
-          text: Tabela de pacote de trabalho embutida (espaço reservado)
+          text: "[Placeholder] Embutida tabela de pacote de trabalho"
     error:
       internal: Ocorreu um erro interno.
       cannot_save_changes_with_message: 'Não foi possível salvar as alterações devido
@@ -231,8 +254,9 @@ pt-BR:
     label_remove_watcher: Remover observador %{name}
     label_remove_all_files: Excluir todos os arquivos
     label_add_description: Adicionar uma descrição para %{file}
-    label_upload_notification: 'Enviando arquivos para o pacote de trabalho #%{id}:
-      %{subject}'
+    label_upload_notification: Enviando arquivos...
+    label_work_package_upload_notification: 'Enviando arquivos para o pacote de trabalho
+      #%{id}: %{subject}'
     label_files_to_upload: 'Estes arquivos serão enviados:'
     label_rejected_files: 'Estes arquivos não podem ser enviados:'
     label_rejected_files_reason: Estes arquivos não podem ser enviados, pois seu tamanho
@@ -271,8 +295,8 @@ pt-BR:
           de Grupos devem ser únicos.
         reset_title: Voltar para a configuração padrão do formulário
         confirm_reset: 'Aviso: Tem certeza de que deseja redefinir a configuração
-          do formulário? Isto irá redefinir os atributos para o grupo padrão, desmarcar
-          as caixas de seleção de visibilidade e desativar TODOS os campos personalizados.
+          de formulário? Isto irá redefinir os atributos para o grupo padrão e desativar
+          TODOS os campos personalizados.
 
 '
         upgrade_to_ee: Atualizar para a versão Enterprise Edition
@@ -369,8 +393,7 @@ pt-BR:
           elemento, seus marcadores de data serão exibidos em vez desses atributos.
 
 '
-      button_activate: Ativar o modo de linha do tempo
-      button_deactivate: Desativar o modo de linha do tempo
+      button_activate: Exibir gráfico de Gantt
       cancel: Cancelar
       change: Mudar no planejamento
       due_date: Prazo
@@ -615,6 +638,7 @@ pt-BR:
         months: meses
     toolbar:
       settings:
+        configure_view: Configurar visualização...
         columns: Colunas...
         sort_by: Ordenar por...
         group_by: Agrupar por...
@@ -626,14 +650,14 @@ pt-BR:
         save_as: Salvar como ...
         export: Exportar ...
         publish: Publicar ...
-        page_settings: Renomear consulta...
+        page_settings: Renomear visualização...
         delete: Excluir
       filter: Filtro
       unselected_title: Pacote de trabalho
       search_query_label: Localizar filtro de pesquisa salvo
       search_query_title: Clique para localizar filtros de pesquisa salvos
     modals:
-      label_settings: Renomear consulta
+      label_settings: Renomear visualização
       label_name: Nome
       label_delete_page: Excluir página atual
       button_apply: Aplicar
@@ -677,6 +701,8 @@ pt-BR:
     error_could_not_resolve_version_name: Não foi possível identificar o nome da versão
     error_could_not_resolve_user_name: Não foi possível identificar o nome do usuário
     error_attachment_upload: 'Arquivo ''%{name}'' falhou no envio: %{error}'
+    error_attachment_upload_permission: Você não tem permissão para enviar arquivos
+      nesse recurso.
     units:
       workPackage:
         one: pacote de trabalho

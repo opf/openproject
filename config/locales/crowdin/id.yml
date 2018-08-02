@@ -187,6 +187,9 @@ id:
     index:
       no_results_title_text: There are currently no workflows.
   work_packages:
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -355,8 +358,8 @@ id:
         spent_on: Tanggal
         type: Tipe
       type:
+        attribute_groups: ''
         is_in_roadmap: In roadmap
-        in_aggregation: In aggregation
         is_milestone: Is milestone
         color: Warna
       user:
@@ -536,10 +539,11 @@ id:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Kelompok tak bernama tidak dibolehkan.
-              duplicate_group: Nama kelompok %{group} dipakai lebihdari satu kali.
-                Nama kelompok harus unik.
               attribute_unknown: Atribut paket kerja tidak valid digunakan.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Kelompok tak bernama tidak dibolehkan.
         user:
           attributes:
             password:
@@ -2083,7 +2087,6 @@ id:
   setting_brute_force_block_after_failed_logins: Jumlah percobaan login sebelum diblokir
   setting_brute_force_block_minutes: Waktu tunggu blokir
   setting_cache_formatted_text: Cache teks yang diformat
-  setting_use_wysiwyg: WYSIWYG editor
   setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
     users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Sesuaikan tampilan daftar Paket-Penugasan
@@ -2169,7 +2172,6 @@ id:
   setting_sys_api_enabled: Aktifkan web service untuk manajemen repository
   setting_sys_api_description: Repository management web service menyediakan integrasi
     fungsi dan otorisasi untuk akses repository.
-  setting_text_formatting: Text formatting
   setting_time_format: Format waktu
   setting_accessibility_mode_for_anonymous: Aktifkan mode Aksesibilitas untuk user
     anonim
@@ -2193,7 +2195,6 @@ id:
       default_preferences: Default preferences
       deletion: Deletion
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Plain text
   status_active: aktif
@@ -2507,7 +2508,6 @@ id:
       edit: 'Edit status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Update: %{title}'
-    work_packages_are_displayed_in_aggregations: Paket-Penugasan ditampilkan di agregasi
     project_type_could_not_be_saved: Tipe Project tidak bisa disimpan
     type_could_not_be_saved: Tipe tidak bisa disimpan
     reporting_could_not_be_saved: Pelaporan tidak bisa disimpan

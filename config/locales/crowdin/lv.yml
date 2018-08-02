@@ -185,6 +185,10 @@ lv:
     index:
       no_results_title_text: Pašlaik nav neviena darbuplūsma.
   work_packages:
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
+      zero: "%{count} work package children"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -355,8 +359,8 @@ lv:
         spent_on: Datums
         type: Veids
       type:
+        attribute_groups: ''
         is_in_roadmap: Ceļvedī
-        in_aggregation: Apkopojumā
         is_milestone: Ir atskaites punkts
         color: Krāsa
       user:
@@ -533,10 +537,11 @@ lv:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Unnamed groups are not allowed.
-              duplicate_group: The group name %{group} is used more than once. Group
-                names must be unique.
               attribute_unknown: Invalid work package attribute used.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Unnamed groups are not allowed.
         user:
           attributes:
             password:
@@ -2102,7 +2107,6 @@ lv:
     login attempts
   setting_brute_force_block_minutes: Time the user is blocked for
   setting_cache_formatted_text: Cache formatted text
-  setting_use_wysiwyg: WYSIWYG editor
   setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
     users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Customize the appearance of the work package lists
@@ -2187,7 +2191,6 @@ lv:
   setting_sys_api_enabled: Enable repository management web service
   setting_sys_api_description: The repository management web service provides integration
     and user authorization for accessing repositories.
-  setting_text_formatting: Palīdzība
   setting_time_format: Time format
   setting_accessibility_mode_for_anonymous: Enable accessibility mode for anonymous
     users
@@ -2211,7 +2214,6 @@ lv:
       default_preferences: Default preferences
       deletion: Deletion
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Plain text
   status_active: active
@@ -2525,7 +2527,6 @@ lv:
       edit: 'Edit status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Update: %{title}'
-    work_packages_are_displayed_in_aggregations: Work packages are displayed in aggregations
     project_type_could_not_be_saved: Project type could not be saved
     type_could_not_be_saved: Type could not be saved
     reporting_could_not_be_saved: Reporting could not be saved

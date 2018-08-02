@@ -232,11 +232,6 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption:    :'timelines.admin_menu.colors',
             icon: 'icon2 icon-status'
 
-  menu.push :project_types,
-            { controller: '/project_types', action: 'index' },
-            caption:    :'timelines.admin_menu.project_types',
-            icon: 'icon2 icon-project-types'
-
   menu.push :enterprise,
             { controller: '/enterprises', action: 'show' },
             caption:    :label_enterprise_edition,

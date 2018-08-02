@@ -189,7 +189,6 @@ import {WorkPackageCommentComponent} from "core-components/work-packages/work-pa
 import {OpCkeditorFormComponent} from "core-components/ckeditor/op-ckeditor-form.component";
 import {WorkPackageUploadComponent} from "core-components/wp-attachments/wp-attachments-upload/wp-attachments-upload.component";
 import {OpDragScrollDirective} from "core-app/modules/common/ui/op-drag-scroll.directive";
-import {TextileService} from "core-app/modules/common/textile/textile-service";
 import {UIRouterModule} from "@uirouter/angular";
 import {initializeUiRouterConfiguration} from "core-components/routing/ui-router.config";
 import {WorkPackagesBaseComponent} from "core-components/routing/main/work-packages-base.component";
@@ -197,25 +196,25 @@ import {WorkPackageService} from "core-components/work-packages/work-package.ser
 import {OpenprojectPluginsModule} from "core-app/modules/plugins/openproject-plugins.module";
 import {ConfirmFormSubmitController} from "core-components/modals/confirm-form-submit/confirm-form-submit.directive";
 import {ProjectMenuAutocompleteComponent} from "core-components/projects/project-menu-autocomplete/project-menu-autocomplete.component";
-import {NotificationsContainerComponent} from "core-app/modules/common/notifications/notifications-container.component";
 import {MainMenuToggleComponent} from "core-components/resizer/main-menu-toggle.component";
 import {MainMenuToggleService} from "core-components/resizer/main-menu-toggle.service";
 import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
 import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/op-file-upload.service";
 import {AttributeHelpTextModal} from "./modules/common/help-texts/attribute-help-text.modal";
-import {CopyToClipboardDirective} from 'core-app/modules/common/copy-to-clipboard/copy-to-clipboard.directive';
 import {WorkPackageEmbeddedTableEntryComponent} from "core-components/wp-table/embedded/wp-embedded-table-entry.component";
 import {LinkedPluginsModule} from "core-app/modules/plugins/linked-plugins.module";
 import {HookService} from "core-app/modules/plugins/hook-service";
 import {ModalWrapperAugmentService} from "core-app/globals/augmenting/modal-wrapper.augment.service";
-import {
-  embeddedTableBootstrap,
-  EmbeddedTablesMacroComponent
-} from "core-components/wp-table/embedded/embedded-tables-macro.component";
+import {EmbeddedTablesMacroComponent} from "core-components/wp-table/embedded/embedded-tables-macro.component";
 import {WpButtonMacroModal} from "core-components/modals/editor/macro-wp-button-modal/wp-button-macro.modal";
 import {EditorMacrosService} from "core-components/modals/editor/editor-macros.service";
 import {WikiIncludePageMacroModal} from "core-components/modals/editor/macro-wiki-include-page-modal/wiki-include-page-macro.modal";
+import {CodeBlockMacroModal} from "core-components/modals/editor/macro-code-block-modal/code-block-macro.modal";
+import {CKEditorSetupService} from "core-components/ckeditor/ckeditor-setup.service";
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import {CKEditorPreviewService} from "core-components/ckeditor/ckeditor-preview.service";
+import {ChildPagesMacroModal} from "core-components/modals/editor/macro-child-pages-modal/child-pages-macro.modal";
 
 @NgModule({
   imports: [
@@ -251,7 +250,6 @@ import {WikiIncludePageMacroModal} from "core-components/modals/editor/macro-wik
       deps: [Injector],
       multi: true
     },
-    TextileService,
     OpTitleService,
     TimezoneService,
     WorkPackageRelationsService,
@@ -310,7 +308,11 @@ import {WikiIncludePageMacroModal} from "core-components/modals/editor/macro-wik
     OpModalService,
     WpTableConfigurationService,
     ConfirmDialogService,
+
+    // CKEditor
+    CKEditorSetupService,
     EditorMacrosService,
+    CKEditorPreviewService,
 
     // Main Menu
     MainMenuToggleService,
@@ -459,6 +461,8 @@ import {WikiIncludePageMacroModal} from "core-components/modals/editor/macro-wik
     WpDestroyModal,
     WpButtonMacroModal,
     WikiIncludePageMacroModal,
+    CodeBlockMacroModal,
+    ChildPagesMacroModal,
 
     // External query configuration
     ExternalQueryConfigurationComponent,
@@ -542,6 +546,8 @@ import {WikiIncludePageMacroModal} from "core-components/modals/editor/macro-wik
     AttributeHelpTextModal,
     WpButtonMacroModal,
     WikiIncludePageMacroModal,
+    CodeBlockMacroModal,
+    ChildPagesMacroModal,
 
     // External query configuration
     ExternalQueryConfigurationComponent,
@@ -558,19 +564,10 @@ import {WikiIncludePageMacroModal} from "core-components/modals/editor/macro-wik
 export class OpenProjectModule {
   // noinspection JSUnusedGlobalSymbols
   ngDoBootstrap(appRef:ApplicationRef) {
-    bootstrapOptional(
-      appRef,
-      { selector: 'main-menu-resizer', cls: MainMenuResizerComponent  },
-      { selector: 'main-menu-toggle', cls: MainMenuToggleComponent  },
-      { selector: 'work-packages-base', cls: WorkPackagesBaseComponent  },
-      { selector: 'project-menu-autocomplete', cls: ProjectMenuAutocompleteComponent  },
-      { selector: 'notifications-container', cls: NotificationsContainerComponent  },
-      { selector: 'wp-embedded-table-entry', cls: WorkPackageEmbeddedTableEntryComponent },
-      { selector: 'op-ckeditor-form', cls: OpCkeditorFormComponent },
-      { selector: 'copy-to-clipboard', cls: CopyToClipboardDirective },
-      { selector: 'wp-query-select', cls: WorkPackageQuerySelectDropdownComponent },
-      embeddedTableBootstrap
-    );
+
+    // Perform global dynamic bootstrapping of our entry components
+    // that are in the current DOM response.
+    DynamicBootstrapper.bootstrapOptionalDocument(appRef, document);
 
     // Call hook service to allow modules to bootstrap additional elements.
     // We can't use ngDoBootstrap in nested modules since they are not called.
@@ -578,25 +575,16 @@ export class OpenProjectModule {
     hookService
       .call('openProjectAngularBootstrap')
       .forEach((results:{selector:string, cls:any}[]) => {
-        bootstrapOptional(appRef, ...results);
+        DynamicBootstrapper.bootstrapOptionalDocument(appRef, document, results);
       });
   }
 }
-
-export function bootstrapOptional(appRef:ApplicationRef, ...elements:{ selector:string, cls:any }[]) {
-  elements.forEach(el => {
-    var elements = document.querySelectorAll(el.selector)
-    for (var i = 0; i < elements.length; i++) {
-      appRef.bootstrap(el.cls, elements[i]);
-    }
-  });
-}
-
 
 export function initializeServices(injector:Injector) {
   return () => {
     const ExternalQueryConfiguration = injector.get(ExternalQueryConfigurationService);
     const ModalWrapper = injector.get(ModalWrapperAugmentService);
+    const EditorMacros = injector.get(EditorMacrosService);
 
     // Setup modal wrapping
     ModalWrapper.setupListener();

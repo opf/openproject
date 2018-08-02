@@ -6,10 +6,11 @@
      ]">
 
   <div #editContainer
-       hidden>
+       [hidden]="!active">
   </div>
 
   <div (accessibleClick)="activateIfEditable($event)"
+       [accessibleClickStopEvent]="false"
        [hidden]="active"
        tabindex="-1"
        #displayContainer></div>

@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -29,7 +31,6 @@
 require 'spec_helper'
 
 describe 'Wysiwyg include wiki page spec',
-         with_settings: { text_formatting: 'markdown', use_wysiwyg?: true },
          type: :feature, js: true do
 
   let(:project) {
@@ -74,12 +75,12 @@ describe 'Wysiwyg include wiki page spec',
         visit edit_project_wiki_path(project, :test)
       end
 
-      it 'can add and edit an embedded table widget' do
+      it 'can add and edit an include page widget' do
         editor.in_editor do |container, editable|
           expect(editable).to have_selector('h1', text: 'My page')
 
           # strangely, we need visible: :all here
-          container.find('.ck-button', visible: :all, text: 'Include content of another wiki page').click
+          editor.insert_macro 'Include content of another wiki page'
 
           expect(page).to have_selector('.op-modal--macro-modal')
           fill_in 'selected-page', with: 'included'
@@ -88,17 +89,20 @@ describe 'Wysiwyg include wiki page spec',
           find('.op-modal--cancel-button').click
           expect(editable).to have_no_selector('.macro.-wiki_page_include')
 
-          container.find('.ck-button', visible: :all, text: 'Include content of another wiki page').click
+          editor.insert_macro 'Include content of another wiki page'
           fill_in 'selected-page', with: 'included'
 
           # Save widget
           find('.op-modal--submit-button').click
 
           # Find widget, click to show toolbar
-          modal = find('.macro.-wiki_page_include')
+          placeholder = find('.macro.-wiki_page_include')
+
+          # Placeholder states `included`
+          expect(placeholder).to have_text('included')
 
           # Edit widget again
-          modal.click
+          placeholder.click
           page.find('.ck-balloon-panel .ck-button', visible: :all, text: 'Edit').click
           expect(page).to have_field('selected-page', with: 'included')
           find('.op-modal--cancel-button').click

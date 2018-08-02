@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe 'Wysiwyg tables',
-         with_settings: { text_formatting: 'markdown', use_wysiwyg?: true },
          type: :feature, js: true do
   let(:user) { FactoryBot.create :admin }
   let(:project) { FactoryBot.create(:project, enabled_module_names: %w[wiki]) }
@@ -76,12 +75,73 @@ describe 'Wysiwyg tables',
           expect(page).to have_selector('table td', text: 'c2')
         end
       end
+
+      it 'can add tables with headers' do
+        editor.in_editor do |container, editable|
+          # strangely, we need visible: :all here
+          editor.click_toolbar_button 'Insert table'
+          # 2x2
+          container.find('.ck-insert-table-dropdown-grid-box:nth-of-type(12)').click
+
+          # Edit table
+          tds = editable.all('.table.ck-widget td')
+          values = %w(h1 h2 a)
+          expect(tds.length).to eq(4)
+
+          tds.take(3).each_with_index do |td, i|
+            td.click
+            td.send_keys values[i]
+            sleep 0.5
+          end
+
+          # Make first row th
+          tds.first.click
+
+          # Click row toolbar
+          editor.click_hover_toolbar_button 'RowRow'
+
+          # Enable header row
+          header_button = find('.ck-switchbutton', text: 'Header row')
+          header_button.find('.ck-button__toggle').click
+
+          # Table should now have header
+          expect(editable).to have_selector('th', count: 2)
+          expect(editable).to have_selector('td', count: 2)
+          expect(editable).to have_selector('th', text: 'h1')
+          expect(editable).to have_selector('th', text: 'h2')
+          expect(editable).to have_selector('td', text: 'a')
+        end
+
+        # Save wiki page
+        click_on 'Save'
+
+        expect(page).to have_selector('.flash.notice')
+
+        within('#content') do
+          expect(page).to have_selector('table th', text: 'h1')
+          expect(page).to have_selector('table th', text: 'h2')
+          expect(page).to have_selector('table td', count: 2)
+          expect(page).to have_selector('td', text: 'a')
+        end
+
+        # Edit again
+        click_on 'Edit'
+
+        editor.in_editor do |container, editable|
+          # Table should still have header
+          expect(editable).to have_selector('th', count: 2)
+          expect(editable).to have_selector('td', count: 2)
+          expect(editable).to have_selector('th', text: 'h1')
+          expect(editable).to have_selector('th', text: 'h2')
+          expect(editable).to have_selector('td', text: 'a')
+        end
+      end
     end
 
     describe 'editing a wiki page with tables' do
       let(:wiki_page) {
         page = FactoryBot.build :wiki_page_with_content,
-                         title: 'Wiki page with titles'
+                                title: 'Wiki page with titles'
         page.content.text = <<~EOS
         
           ## This is markdown!

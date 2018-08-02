@@ -185,6 +185,9 @@ pt-BR:
     index:
       no_results_title_text: Atualmente, não há fluxos de trabalho.
   work_packages:
+    x_children:
+      one: Um pacote de trabalho filho
+      other: "%{count} pacotes de trabalho filho"
     move:
       no_common_statuses_exists: Não há situação disponível para todos os pacotes
         de trabalho selecionados. Sua situação não pode ser alterada.
@@ -358,8 +361,8 @@ pt-BR:
         spent_on: Data
         type: Tipo
       type:
+        attribute_groups: ''
         is_in_roadmap: No planejamento
-        in_aggregation: Na agregação
         is_milestone: É marco
         color: Cor
       user:
@@ -537,10 +540,11 @@ pt-BR:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Grupos sem nome não são permitidos.
+              attribute_unknown: Atributo de pacote de trabalho inválido usado.
               duplicate_group: O nome de grupo %{group} foi usado mais de uma vez.
                 Nomes de grupos devem ser únicos.
-              attribute_unknown: Atributo de pacote de trabalho inválido usado.
+              query_invalid: 'A consulta embutida ''%{group}'' é inválida: %{details}'
+              group_without_name: Grupos sem nome não são permitidos.
         user:
           attributes:
             password:
@@ -979,7 +983,7 @@ pt-BR:
   error_invalid_sort_criterion: 'Não é possível ordenar por coluna: %{value}'
   error_pdf_export_too_many_columns: Muitas colunas selecionadas para a exportação
     para PDF. Reduza o número de colunas.
-  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
+  error_pdf_failed_to_export: 'Não foi possível salvar a exportação do PDF: %{error}'
   error_token_authenticity: Não foi possível verificar o símbolo de Falsificação de
     Solicitação Entre Sites.
   error_work_package_done_ratios_not_updated: Percentual concluído do pacote de trabalho
@@ -1032,8 +1036,8 @@ pt-BR:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF com descrições
-      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
-      pdf_with_attachments: PDF with attachments
+      pdf_with_descriptions_and_attachments: PDF com descrições e anexos
+      pdf_with_attachments: PDF com anexos
   extraction:
     available:
       pdftotext: Pdftotext disponível (opcional)
@@ -2110,7 +2114,6 @@ pt-BR:
     de tentativas de login
   setting_brute_force_block_minutes: Tempo que o usuário está bloqueado para
   setting_cache_formatted_text: Texto formatado em cache
-  setting_use_wysiwyg: Editor WYSIWYG
   setting_use_wysiwyg_description: Selecione para habilitar o CKEditor5 para todos
     os usuários por padrão. O CKEditor tem funcionalidades limitadas para o GFM Markdown.
   setting_column_options: Personalizar a aparência das listas de pacotes de trabalho
@@ -2202,7 +2205,6 @@ pt-BR:
   setting_sys_api_enabled: Habilitar o serviço web de gerenciamento de repositório
   setting_sys_api_description: O serviço de web de gerenciamento de repositório fornece
     integração e autorização de usuário para acessar repositórios.
-  setting_text_formatting: Formatação de texto
   setting_time_format: Formato de hora
   setting_accessibility_mode_for_anonymous: Ativar o modo de acessibilidade para usuários
     anônimos
@@ -2227,7 +2229,6 @@ pt-BR:
       default_preferences: Preferências padrão
       deletion: Exclusão
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Texto simples
   status_active: ativo
@@ -2546,8 +2547,6 @@ pt-BR:
       edit: 'Editar situação: %{comment}'
       show: 'Situação: %{comment}'
     planning_element_update: 'Atualização: %{title}'
-    work_packages_are_displayed_in_aggregations: Pacotes de trabalho são exibidos
-      em agregações
     project_type_could_not_be_saved: Tipo de projeto não pôde ser salvo.
     type_could_not_be_saved: Tipo não pôde ser salvo
     reporting_could_not_be_saved: Relatórios não podem ser salvos

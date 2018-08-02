@@ -186,6 +186,11 @@ pl:
     index:
       no_results_title_text: Nie ma jeszcze żadnego obiegu pracy.
   work_packages:
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
+      few: "%{count} work package children"
+      many: "%{count} work package children"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -355,8 +360,8 @@ pl:
         spent_on: Data
         type: Typ
       type:
+        attribute_groups: ''
         is_in_roadmap: Na mapie
-        in_aggregation: Jako zbiór
         is_milestone: Jest Kamieniem Milowym
         color: Kolor
       user:
@@ -536,10 +541,11 @@ pl:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Grupy nienazwane nie są dozwolone.
-              duplicate_group: Nazwa  %{group} jest użyta więcej niż raz. Nazwy grup
-                muszą być unikalne.
               attribute_unknown: Użyto nieprawidłowego atrybutu zadania.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Grupy nienazwane nie są dozwolone.
         user:
           attributes:
             password:
@@ -2149,7 +2155,6 @@ pl:
     nieudanych prób zalogowania
   setting_brute_force_block_minutes: Czas, kiedy użytkownik jest zablokowany
   setting_cache_formatted_text: Tekst sformatowany w pamięci podręcznej
-  setting_use_wysiwyg: WYSIWYG editor
   setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
     users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Dostosuj wygląd list pakietów roboczych
@@ -2240,7 +2245,6 @@ pl:
   setting_sys_api_enabled: Uaktywnij zarządzanie repozytoriami przez www
   setting_sys_api_description: Zarządzanie repozytoriami przez www umożliwia integrację
     i autoryzację użytkowników do dostępu do repozytoriów.
-  setting_text_formatting: Formatowanie tekstu
   setting_time_format: Format czasu
   setting_accessibility_mode_for_anonymous: Włącz tryb dostępu dla użytkowników anonimowych
   setting_user_format: Format wyświetlania nazwy użytkownika
@@ -2264,7 +2268,6 @@ pl:
       default_preferences: Default preferences
       deletion: Deletion
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Plain text
   status_active: aktywne
@@ -2579,8 +2582,6 @@ pl:
       edit: 'Edit status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Update: %{title}'
-    work_packages_are_displayed_in_aggregations: Pakiety robocze są wyświetlane w
-      agregacjach
     project_type_could_not_be_saved: Nie można zapisać typu projektu
     type_could_not_be_saved: Typ nie może być zapisany
     reporting_could_not_be_saved: Zgłoszenie nie może być zapisane

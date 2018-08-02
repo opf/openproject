@@ -54,11 +54,33 @@ vi:
     description_selected_columns: Các cột được lựa chọn
     description_subwork_package: 'Con của work package #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Trang wiki
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
+        code_block:
+          button: Insert code snippet
+          title: Insert / edit Code snippet
+          language: Formatting language
+          language_hint: Enter the formatting language that will be used for highlighting
+            (if supported).
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
         toc: Table of contents
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Trang wiki
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -73,7 +95,7 @@ vi:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: Lỗi nội bộ đã xảy ra.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -229,7 +251,8 @@ vi:
     label_remove_watcher: Loại bỏ người theo dõi %{name}
     label_remove_all_files: Xóa tất cả các tập tin
     label_add_description: Thêm mô tả cho %{file}
-    label_upload_notification: 'Tải file cho một công việc #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Tải file cho một công việc #%{id}: %{subject}'
     label_files_to_upload: 'Những tập tin này sẽ được tải lên:'
     label_rejected_files: 'Các tệp này không thể được tải lên:'
     label_rejected_files_reason: Các tệp này không thể được tải lên như kích thước
@@ -267,8 +290,8 @@ vi:
           names must be unique.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group, unset the visibility
-          checkboxes, and disable ALL custom fields.
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Upgrade to Enterprise Edition
@@ -366,8 +389,7 @@ vi:
           its date labels will be shown instead of these attributes.
 
 '
-      button_activate: Activate timeline mode
-      button_deactivate: Deactivate timeline mode
+      button_activate: Show Gantt chart
       cancel: Hủy
       change: Change in planning
       due_date: Ngày hết hạn
@@ -610,6 +632,7 @@ vi:
         months: months
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Columns ...
         sort_by: Sort by ...
         group_by: Group by ...
@@ -621,14 +644,14 @@ vi:
         save_as: Save as ...
         export: Export ...
         publish: Công khai
-        page_settings: Rename query ...
+        page_settings: Rename view ...
         delete: Xoá
       filter: Bộ lọc
       unselected_title: Work Package
       search_query_label: Truy vấn tìm kiếm đã lưu bộ lọc
       search_query_title: Nhấn vào đây để lưu bộ lọc truy vấn tìm kiếm
     modals:
-      label_settings: Rename query
+      label_settings: Rename view
       label_name: Tên
       label_delete_page: Delete current page
       button_apply: Áp dụng
@@ -672,6 +695,8 @@ vi:
     error_could_not_resolve_version_name: Couldn't resolve version name
     error_could_not_resolve_user_name: Couldn't resolve user name
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: work package

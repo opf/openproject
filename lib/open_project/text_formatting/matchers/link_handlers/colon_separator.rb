@@ -31,7 +31,6 @@
 module OpenProject::TextFormatting::Matchers
   module LinkHandlers
     class ColonSeparator < Base
-
       def self.allowed_prefixes
         %w(commit source export version project user attachment)
       end
@@ -77,15 +76,13 @@ module OpenProject::TextFormatting::Matchers
       end
 
       def oid
-        if matcher.identifier
-          matcher.identifier.gsub(%r{\A"(.*)"\z}, '\\1')
-        end
+        matcher.identifier&.gsub(%r{\A"(.*)"\z}, '\\1')
       end
 
       private
 
       def render_version
-        if project && version = project.versions.visible.find_by(name: oid)
+        if project && (version = project.versions.visible.find_by(name: oid))
           link_to h(version.name),
                   { only_path: context[:only_path], controller: '/versions', action: 'show', id: version },
                   class: 'version'
@@ -93,7 +90,7 @@ module OpenProject::TextFormatting::Matchers
       end
 
       def render_commit
-        if project && project.repository && (changeset = Changeset.visible.where(['repository_id = ? AND scmid LIKE ?', project.repository.id, "#{oid}%"]).first)
+        if project&.repository && (changeset = Changeset.visible.where(['repository_id = ? AND scmid LIKE ?', project.repository.id, "#{oid}%"]).first)
           link_to h("#{project_prefix}#{name}"),
                   { only_path: context[:only_path], controller: '/repositories', action: 'revision', project_id: project, rev: changeset.identifier },
                   class: 'changeset',
@@ -102,7 +99,7 @@ module OpenProject::TextFormatting::Matchers
       end
 
       def render_source
-        if project && project.repository && User.current.allowed_to?(:browse_repository, project)
+        if project&.repository && User.current.allowed_to?(:browse_repository, project)
           matcher.identifier =~ %r{\A[/\\]*(.*?)(@([0-9a-f]+))?(#(L\d+))?\z}
           path = $1
           rev = $3
@@ -131,16 +128,16 @@ module OpenProject::TextFormatting::Matchers
 
       def render_project
         p = Project
-          .visible
-          .where(['projects.identifier = :s OR LOWER(projects.name) = :s', { s: oid.downcase }])
-          .first
+            .visible
+            .where(['projects.identifier = :s OR LOWER(projects.name) = :s', { s: oid.downcase }])
+            .first
         if p
           link_to_project(p, { only_path: context[:only_path] }, class: 'project')
         end
       end
 
       def render_user
-        if user = User.in_visible_project.find_by(login: oid)
+        if (user = User.in_visible_project.find_by(login: oid))
           link_to_user(user, class: 'user-mention')
         end
       end

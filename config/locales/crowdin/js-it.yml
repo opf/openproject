@@ -54,11 +54,33 @@ it:
     description_selected_columns: Colonne selezionate
     description_subwork_package: 'Subordinata alla macro-attività #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Pagina wiki
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
+        code_block:
+          button: Insert code snippet
+          title: Insert / edit Code snippet
+          language: Formatting language
+          language_hint: Enter the formatting language that will be used for highlighting
+            (if supported).
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
         toc: Table of contents
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Pagina wiki
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -73,7 +95,7 @@ it:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: Si è verificato un errore interno.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -229,8 +251,9 @@ it:
     label_remove_watcher: Rimuovi watcher %{name}
     label_remove_all_files: Elimina tutti i file
     label_add_description: Aggiunge una descrizione per %{file}
-    label_upload_notification: 'Caricamento dei file per la macro-attività #%{id}:
-      %{subject} in corso'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Caricamento dei file per la macro-attività
+      #%{id}: %{subject} in corso'
     label_files_to_upload: 'Verranno caricati questi files:'
     label_rejected_files: 'Questi file non possono essere caricati:'
     label_rejected_files_reason: Questi file non possono essere caricati perchè la
@@ -269,9 +292,9 @@ it:
         error_duplicate_group_name: Il nome %{group} è usato più di una volta. I nomi
           dei gruppi devono essere univoci.
         reset_title: Reimposta la configurazione del modulo
-        confirm_reset: 'Attenzione: voi reimpostare la configurazione del modulo?
-          Tutti gli attributi torneranno al loro gruppo predefinito e le caselle di
-          controllo e TUTTI i campi personalizzati verranno disattivati.
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Aggiorna ad Enterprise Edition
@@ -369,8 +392,7 @@ it:
           anziché questi attributi.
 
 '
-      button_activate: Attiva modalità sequenza temporale
-      button_deactivate: Disattiva modalità sequenza temporale
+      button_activate: Show Gantt chart
       cancel: Cancella
       change: Cambiare nella pianificazione
       due_date: Data di consegna
@@ -618,6 +640,7 @@ it:
         months: mesi
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Colonne ...
         sort_by: Ordina per ...
         group_by: Raggruppa per...
@@ -629,14 +652,14 @@ it:
         save_as: Salva come …
         export: Esporta ...
         publish: Pubblica...
-        page_settings: Rinomina query...
+        page_settings: Rename view ...
         delete: Cancella
       filter: Filtro
       unselected_title: Macro-attività
       search_query_label: Ricerca tra le query di filtro salvate
       search_query_title: Fare click per ricercare tra le query di filtro salvate
     modals:
-      label_settings: Rinomina query
+      label_settings: Rename view
       label_name: Nome
       label_delete_page: Elimina pagina corrente
       button_apply: Applica
@@ -680,6 +703,8 @@ it:
     error_could_not_resolve_version_name: Impossibile determinare il nome della versione
     error_could_not_resolve_user_name: Impossibile determinare il nome utente
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: macro-attività

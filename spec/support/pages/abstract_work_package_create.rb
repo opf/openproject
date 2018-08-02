@@ -42,9 +42,8 @@ module Pages
     end
 
     def update_attributes(attribute_map)
-      # Only designed for text fields and selects for now
       attribute_map.each do |label, value|
-        select_attribute(label, value) || fill_in(label, with: value)
+        work_package_field(label.downcase).set_value(value)
       end
     end
 

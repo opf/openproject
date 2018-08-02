@@ -19,6 +19,7 @@ RUN apt-get update -qq && \
 	unrtf \
 	tesseract-ocr \
 	catdoc && \
+	pandoc && \
 	apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # using /home/app since npm cache and other stuff will be put there when running npm install

@@ -62,7 +62,7 @@ module FrontendAssetHelper
   private
 
   def angular_cli_asset(path)
-    URI.join(FrontendAssetHelper.cli_proxy, path)
+    URI.join(FrontendAssetHelper.cli_proxy, "assets/frontend/#{path}")
   end
 
   def frontend_asset_path(unhashed, options = {})

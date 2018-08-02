@@ -66,7 +66,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       it { is_expected.to have_json_path('subject') }
 
       it_behaves_like 'API V3 formattable', 'description' do
-        let(:format) { 'textile' }
+        let(:format) { 'markdown' }
         let(:raw) { work_package.description }
         let(:html) { '<p>' + work_package.description + '</p>' }
       end

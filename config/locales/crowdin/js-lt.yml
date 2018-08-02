@@ -54,11 +54,33 @@ lt:
     description_selected_columns: Pasirinkti stulpeliai
     description_subwork_package: 'Darbų paketo vaikas #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Wiki puslapis
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
+        code_block:
+          button: Insert code snippet
+          title: Insert / edit Code snippet
+          language: Formatting language
+          language_hint: Enter the formatting language that will be used for highlighting
+            (if supported).
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
         toc: Table of contents
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Wiki puslapis
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -73,7 +95,7 @@ lt:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: Įvyko vidinė klaida.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -228,7 +250,8 @@ lt:
     label_remove_watcher: Pašalinti stebėtoją vardu %{name}
     label_remove_all_files: Ištrinti visus failus
     label_add_description: Pridėti %{file} aprašymą
-    label_upload_notification: 'Įkelti failus darbų paketui #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Įkelti failus darbų paketui #%{id}: %{subject}'
     label_files_to_upload: 'Šie failai bus įkelti:'
     label_rejected_files: 'Negalima įkelti šių failų:'
     label_rejected_files_reason: Šių failų neįmanoma nusiųsti, nes jų dydis yra didesnis
@@ -266,9 +289,9 @@ lt:
         error_duplicate_group_name: "%{group} grupės pavadinimas naudotas daugiau
           nei kartą. Grupių pavadinimai privalo būti unikalūs."
         reset_title: Nustatyti iš naujo formos konfigūraciją
-        confirm_reset: 'Įspėjimas: Ar tikrai norite nustatyti iš naujo formos konfigūraciją?
-          Tai nustatys iš naujo atributus į jų numatytąsias grupes, atstatys matomumo
-          žymėjimo langelius, išjungs VISUS pritaikytus laukelius.
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Patobulinti į „Enterprise Edition“ versiją
@@ -369,8 +392,7 @@ lt:
           virš elemento, jo datos informacija bus rodoma vietoj šių atributų.
 
 '
-      button_activate: Aktyvuoti laiko juostos režimą
-      button_deactivate: Išjungti laiko juostos režimą
+      button_activate: Show Gantt chart
       cancel: Atšaukti
       change: Pakeisti planavime
       due_date: Užbaigimo data
@@ -616,6 +638,7 @@ lt:
         months: mėnesiai(-ių)
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Stulpeliai ...
         sort_by: Rūšiuoti pagal ...
         group_by: Grupuoti pagal ...
@@ -627,14 +650,14 @@ lt:
         save_as: Išsaugoti kaip ...
         export: Eksportuoti ...
         publish: Publikuoti...
-        page_settings: Pervardinti užklausą ...
+        page_settings: Rename view ...
         delete: Ištrinti
       filter: Filtras
       unselected_title: Darbų paketas
       search_query_label: Ieškoti išsaugotų filtro užklausų
       search_query_title: Paspauskite, kad ieškotumėte išsaugotų filtro užklausų
     modals:
-      label_settings: Pervardinti užklausą
+      label_settings: Rename view
       label_name: Vardas
       label_delete_page: Naikinti dabartinį puslapį
       button_apply: Taikyti
@@ -679,6 +702,8 @@ lt:
     error_could_not_resolve_version_name: Nepavyko nustatyti versijos pavadinimo
     error_could_not_resolve_user_name: Nepavyko nustatyti vartotojo vardo
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: darbų paketas

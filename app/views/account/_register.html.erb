@@ -34,8 +34,10 @@ See docs/COPYRIGHT.rdoc for more details.
     <%= error_messages_for :user %>
 
     <div class="op-modal--modal-header">
-      <%= homescreen_user_avatar %>
-      <h2><%= I18n.t('onboarding.welcome') %></h2>
+      <h2>
+        <%= op_icon 'icon-context icon-user' %>
+        <%= I18n.t('onboarding.welcome') %>
+      </h2>
       <a class="op-modal--modal-close-button dynamic-content-modal--close-button"
          title="<%= t('js.close_popup_title') %>"
          aria-label="<%= t('js.close_popup_title') %>">

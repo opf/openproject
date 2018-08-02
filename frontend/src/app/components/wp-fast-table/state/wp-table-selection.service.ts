@@ -130,17 +130,14 @@ export class WorkPackageTableSelection {
 
     // If there are no other selections, it does not matter what the index is
     if (this.selectionCount === 0 || state.activeRowIndex === null) {
-      console.warn(`Selection count is empty, setting ${wpId} to selected.`);
       state.selected[wpId] = true;
       state.activeRowIndex = position;
     } else {
-      console.warn(`Active index is ${state.activeRowIndex}`);
       let start = Math.min(position, state.activeRowIndex);
       let end = Math.max(position, state.activeRowIndex);
 
       rows.forEach((row, i) => {
         if (row.workPackageId) {
-          console.warn(`Setting ${row.workPackageId} ? ${i >= start && i <= end}`);
           state.selected[row.workPackageId] = i >= start && i <= end;
         }
       });

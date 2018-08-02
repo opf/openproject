@@ -37,8 +37,7 @@ See docs/COPYRIGHT.rdoc for more details.
     <p>
       <%= f.select :parent_id,
             wiki_page_options_for_select(@parent_pages),
-            { label: WikiPage.human_attribute_name(:parent_title),
-              include_blank: t('placeholders.default') },
+            { label: WikiPage.human_attribute_name(:parent_title), include_blank: false },
             { class: "parent-select" } %>
     </p>
 

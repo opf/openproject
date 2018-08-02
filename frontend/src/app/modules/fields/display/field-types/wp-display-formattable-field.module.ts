@@ -32,8 +32,7 @@ import {ExpressionService} from "../../../../../../common/expression.service";
 export class FormattableDisplayField extends DisplayField {
 
   public render(element:HTMLElement, displayText:string):void {
-    jQuery(element).addClass('-multiline');
-    jQuery(element).addClass('read-value--html');
+    element.classList.add('read-value--html', 'wiki', 'highlight', '-multiline');
 
     let span = document.createElement('span');
     span.innerHTML = displayText;
@@ -50,7 +49,12 @@ export class FormattableDisplayField extends DisplayField {
     if (!this.schema) {
       return null;
     }
-    return this.unescape(this.resource[this.name].html);
+    const element = this.resource[this.name];
+    if (!(element && element.html)) {
+      return '';
+    }
+
+    return this.unescape(element.html);
   }
 
   // Escape the given HTML string from the backend, which contains escaped Angular expressions.

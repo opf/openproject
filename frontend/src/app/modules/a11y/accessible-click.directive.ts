@@ -26,21 +26,25 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Directive, EventEmitter, HostListener, Output} from '@angular/core';
+import {Directive, EventEmitter, HostListener, Input, Output} from '@angular/core';
 import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 
 @Directive({
   selector: '[accessibleClick]',
 })
 export class AccessibleClickDirective {
+  @Input('accessibleClickStopEvent') stopEventPropagation:boolean = true;
   @Output('accessibleClick') onClick = new EventEmitter<JQueryEventObject>();
 
   @HostListener('click', ['$event'])
   @HostListener('keydown', ['$event'])
   public handleClick(event:JQueryEventObject) {
-    if (event.type === 'click' || event.which === keyCodes.ENTER || event.which === keyCodes.SPACE || event.which === keyCodes.ESCAPE) {
-      event.preventDefault();
-      event.stopPropagation();
+    if (event.type === 'click' || event.which === keyCodes.ENTER || event.which === keyCodes.SPACE) {
+
+      if (this.stopEventPropagation) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
 
       this.onClick.emit(event);
     }

@@ -50,7 +50,12 @@ export type UploadInProgress = [UploadFile, Observable<UploadHttpEvent>];
 
 export interface UploadResult {
   uploads:UploadInProgress[];
-  finished:Promise<HalResource[]>;
+  finished:Promise<any[]>;
+}
+
+export interface MappedUploadResult {
+  uploads:UploadInProgress[];
+  finished:Promise<{ response:any, uploadUrl:string }[]>;
 }
 
 @Injectable()
@@ -60,7 +65,25 @@ export class OpenProjectFileUploadService {
   }
 
   /**
-   * Upload multiple files using `ngFileUpload` and return a single promise.
+   * Upload multiple files and return a promise for each uploading file and a single promise for all processed uploads
+   * with their accessible URLs returned.
+   * @param {string} url
+   * @param {UploadFile[]} files
+   * @param {string} method
+   * @returns {Promise<{response:HalResource; uploadUrl:any}[]>}
+   */
+  public uploadAndMapResponse(url:string, files:UploadFile[], method:string = 'post') {
+    const { uploads, finished } = this.upload(url, files);
+    const mapped = finished
+      .then((result:HalResource[]) => result.map((el:HalResource) => {
+          return { response: el, uploadUrl: el.downloadLocation.href };
+      })) as Promise<{ response:HalResource, uploadUrl:string }[]>;
+
+    return { uploads: uploads, finished: mapped } as MappedUploadResult;
+  }
+
+  /**
+   * Upload multiple files and return a promise for each uploading file and a single promise for all processed uploads
    * Ignore directories.
    */
   public upload(url:string, files:UploadFile[], method:string = 'post'):UploadResult {
@@ -68,7 +91,7 @@ export class OpenProjectFileUploadService {
     const uploads:UploadInProgress[] = _.map(files, (file:UploadFile) => this.uploadSingle(url, file, method));
 
     const finished = this.whenFinished(uploads);
-    return {uploads, finished} as any;
+    return {uploads, finished} as UploadResult;
   }
 
   /**

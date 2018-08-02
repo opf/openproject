@@ -41,7 +41,7 @@ module Components
         end
 
         def open
-          modal.open!
+          modal.open_and_switch_to 'Filters'
           expect_open
         end
 

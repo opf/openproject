@@ -188,9 +188,12 @@ de:
     index:
       no_results_title_text: Derzeit gibt es keine Workflows.
   work_packages:
+    x_children:
+      one: Ein untergeordnetes Arbeitspaket
+      other: "%{count} untergeordnete Arbeitspakete"
     move:
-      no_common_statuses_exists: There is no status available for all selected work
-        packages. Their status cannot be changed.
+      no_common_statuses_exists: Es gibt keine gemeinsamen Status für die ausgewählten
+        Arbeitspakete. Ihr Status kann daher nicht verändert werden.
       unsupported_for_multiple_projects: Verschieben / Kopieren nicht unterstützt
         für Arbeitspakete in verschiedenen Projekten
     list_simple:
@@ -368,8 +371,8 @@ de:
         spent_on: Datum
         type: Typ
       type:
+        attribute_groups: ''
         is_in_roadmap: In Roadmap anzeigen
-        in_aggregation: In aggregation anzeigen
         is_milestone: Ist ein Meilenstein
         color: Farbe
       user:
@@ -556,10 +559,12 @@ de:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Unbenannte Gruppen sind nicht erlaubt.
+              attribute_unknown: Ungültige Arbeitspaket-Attribute verwendet.
               duplicate_group: Der Gruppen-Name %{group} wird mehr als einmal verwendet.
                 Gruppen-Namen müssen eindeutig sein.
-              attribute_unknown: Ungültige Arbeitspaket-Attribute verwendet.
+              query_invalid: 'Die eingebettete Ansicht ''%{group}'' ist ungültig:
+                %{details}'
+              group_without_name: Unbenannte Gruppen sind nicht erlaubt.
         user:
           attributes:
             password:
@@ -1005,7 +1010,7 @@ de:
   error_invalid_sort_criterion: 'Kann nicht nach Spalte sortieren: %{value}'
   error_pdf_export_too_many_columns: Zu viele Spalten für PDF-Export ausgewählt. Bitte
     reduzieren Sie die Anzahl der ausgewählten Spalten.
-  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
+  error_pdf_failed_to_export: 'Der PDF-Export konnte nicht gespeichert werden: %{error}'
   error_token_authenticity: Cross-Site-Request-Forgery Token kann nicht verifiziert
     werden.
   error_work_package_done_ratios_not_updated: Der Arbeitspaket-Fortschritt wurde nicht
@@ -1058,8 +1063,8 @@ de:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF mit Beschreibungen
-      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
-      pdf_with_attachments: PDF with attachments
+      pdf_with_descriptions_and_attachments: PDF mit Beschreibungen und Anhängen
+      pdf_with_attachments: PDF mit Anhängen
   extraction:
     available:
       pdftotext: Pdftotext verfügbar (optional)
@@ -1553,7 +1558,7 @@ de:
   label_summary: Zusammenfassung
   label_system: System
   label_system_storage: Speicherinformation
-  label_table_of_contents: Table of contents
+  label_table_of_contents: Inhaltsverzeichnis
   label_tag: Markierung
   label_text: Langer Text
   label_this_month: aktueller Monat
@@ -1708,14 +1713,15 @@ de:
   macro_unavailable: Das Makro %{macro_name} kann nicht angezeigt werden.
   macros:
     errors:
-      missing_or_invalid_parameter: Missing or invalid macro parameter.
+      missing_or_invalid_parameter: Fehlende oder ungültige Makro-Parameter.
     legacy_warning:
-      timeline: This legacy timeline macro has been removed and is no longer available.
-        You can replace the functionality with an embedded table macro.
+      timeline: Das alte Timeline-Makro wurde entfernt und steht nicht mehr zur Verfügung.
+        Verwenden Sie stattdessen das eingebettete Arbeitspaket-Tabellen-Makro, um
+        eine Gantt Ansicht zu erzeugen.
     include_wiki_page:
       errors:
-        page_not_found: Cannot find the wiki page '%{name}'.
-        circular_inclusion: Circular inclusion of pages detected.
+        page_not_found: Die Wiki-Seite '%{name}' konnte nicht gefunden werden.
+        circular_inclusion: Zyklische Einbettung von Seiten erkannt.
     create_work_package_link:
       errors:
         no_project_context: Rufe create_work_link Makro aus externen Projekt auf.
@@ -1750,7 +1756,7 @@ de:
       Der Nutzer kann seinen Account aufgrund des Nutzer Limits nicht aktivieren.
     steps:
       label: 'Folgendes kannst du tuen um dem Nutzer das einloggen zu ermöglichen: '
-      a: Upgrade your payment plan ([here](upgrade_url))
+      a: Upgraden Sie Ihren Zahlungsplan ([here](upgrade_url))
       b: Sprerren oder löschen eines bestehenden Nutzers ([here](users_url))
   more_actions: Weitere Funktionen
   noscript_description: Sie müssen JavaScript aktiveren, um OpenProject nutzen zu
@@ -1879,7 +1885,7 @@ de:
       Projekt-Management und Zusammenarbeit in Teams mit OpenProject.
     text_show_again: Sie können dieses Video über das Hilfe-Menü erneut starten
     welcome: Willkommen bei OpenProject
-    select_language: Please select your language for OpenProject
+    select_language: Bitte wählen Sie Ihre Sprache für OpenProject
   permission_add_work_package_notes: Kommentare hinzufügen
   permission_add_work_packages: Arbeitspakete hinzufügen
   permission_add_messages: Forenbeiträge hinzufügen
@@ -2149,7 +2155,6 @@ de:
     fehlgeschlagener Loginversuche
   setting_brute_force_block_minutes: Sperre Benutzer für Dauer von
   setting_cache_formatted_text: Formatierten Text im Cache speichern
-  setting_use_wysiwyg: WYSIWYG-Editor
   setting_use_wysiwyg_description: Aktivieren, um den CKEditor5 WYSIWYG-Editor für
     alle Nutzer zu aktivieren. CKEditor hat aktuell eingeschränkte Formatierungsfunktionen
     für Markdown.
@@ -2242,7 +2247,6 @@ de:
   setting_sys_api_enabled: Den Web-Service zur Projektarchiv-Verwaltung aktivieren
   setting_sys_api_description: Der Web-Service für Projektarchiv-Verwaltung erlaubt
     Integration und Nutzer-Autorisierung für den Zugriff auf Projektarchive.
-  setting_text_formatting: Textformatierung
   setting_time_format: Zeitformat
   setting_accessibility_mode_for_anonymous: Barrierefreien Modus für nicht angemeldete
     Nutzer aktivieren
@@ -2266,7 +2270,6 @@ de:
       default_preferences: Standardeinstellungen
       deletion: Löschen
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Reiner Text
   status_active: aktiv
@@ -2587,8 +2590,6 @@ de:
       edit: 'Statusbericht bearbeiten: %{comment}'
       show: 'Statusbericht: %{comment}'
     planning_element_update: 'Aktualisiert: %{title}'
-    work_packages_are_displayed_in_aggregations: Arbeitspakete werden in Aggregation
-      angezeigt
     project_type_could_not_be_saved: Projekt-Typ konnte nicht gespeichert werden.
     type_could_not_be_saved: Typ konnte nicht gespeichert werden.
     reporting_could_not_be_saved: Statusbericht konnte nicht gespeichert werden.
@@ -2702,10 +2703,11 @@ de:
   note_password_login_disabled: Der Passwort-Login wurde per %{configuration} deaktiviert.
   warning: Warnung
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
-  warning_imminent_user_limit: 'You invited more users than are supported by your
-    current plan. Invited users may not be able to join your OpenProject environment.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
-    in order to allow invited and registered users to join.
+  warning_imminent_user_limit: 'Sie haben mehr Nutzer eingeladen, als Ihr momentaner
+    Plan zulässt. Eingeladene Nutzer können Ihrem OpenProject möglicherweise nicht
+    beitreten. Bitte <a href="%{upgrade_url}">upgraden Sie Ihren Tarif</a> oder blockieren
+    Sie vorhandene Mitglieder, um den eingeladenen und registrierten Nutzern die Möglichkeit
+    zu bieten, Ihrem Projekt beizutreten.
 
 '
   warning_registration_token_expired: 'E-Mail mit dem Aktivierungslink ist abgelaufen.
@@ -2713,9 +2715,9 @@ de:
     über den Link in dieser E-Mail.
 
 '
-  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
-    for additional users.
+  warning_user_limit_reached: 'Nutzerlimit erreicht. Sie können keine weiteren Nutzer
+    aktivieren. Bitte <a href="%{upgrade_url}">upgraden Sie Ihren Tarif</a> oder blockieren
+    Sie Mitglieder, um Platz für weitere Nutzer zu schaffen.
 
 '
   warning_user_limit_reached_instructions: 'Du hast dein Nutzerlimit erreicht (%{current}/%{max}

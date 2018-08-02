@@ -30,7 +30,6 @@
 
 module OpenProject::TextFormatting
   module Matchers
-
     # OpenProject wiki link syntax
     # Examples:
     #   [[mypage]]
@@ -134,20 +133,20 @@ module OpenProject::TextFormatting
         wiki_title = title || default_wiki_title
 
         url = case context[:wiki_links]
-        when :local;
-          "#{title}.html"
-        when :anchor;
-          "##{title}" # used for single-file wiki export
-        else
-          wiki_page_id = wiki_page.nil? ? page.to_url : wiki_page.slug
-          url_for only_path: context[:only_path],
-                  controller: '/wiki',
-                  action: 'show',
-                  project_id: project.identifier,
-                  title: wiki_page.nil? ? wiki_title.strip : nil,
-                  id: wiki_page_id,
-                anchor: anchor
-        end
+              when :local
+                "#{title}.html"
+              when :anchor
+                "##{title}" # used for single-file wiki export
+              else
+                wiki_page_id = wiki_page.nil? ? page.to_url : wiki_page.slug
+                url_for only_path: context[:only_path],
+                        controller: '/wiki',
+                        action: 'show',
+                        project_id: project.identifier,
+                        title: wiki_page.nil? ? wiki_title.strip : nil,
+                        id: wiki_page_id,
+                        anchor: anchor
+              end
 
         link_to h(wiki_title),
                 url,

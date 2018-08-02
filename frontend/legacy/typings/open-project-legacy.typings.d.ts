@@ -39,6 +39,7 @@ import {GlobalI18n} from "../../src/app/modules/common/i18n/i18n.service";
 export interface IPluginContext {
   classes:any;
   services:any;
+  bootstrap(element:HTMLElement):void;
 }
 
 declare global {

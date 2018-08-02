@@ -76,7 +76,7 @@ describe('NotificationsService', function () {
   });
 
   it('should be able to create upload messages with uploads', function () {
-    var notification = notificationsService.addWorkPackageUpload('uploading...', [0, 1, 2] as any);
+    var notification = notificationsService.addAttachmentUpload('uploading...', [0, 1, 2] as any);
     expect(notification).toEqual({
       message: 'uploading...',
       type: 'upload',
@@ -86,13 +86,13 @@ describe('NotificationsService', function () {
 
   it('should throw an Error if trying to create an upload with uploads = null', function () {
     expect(function () {
-      notificationsService.addWorkPackageUpload('themUploads', null as any);
+      notificationsService.addAttachmentUpload('themUploads', null as any);
     }).toThrow();
   });
 
   it('should throw an Error if trying to create an upload without uploads', function () {
     expect(function () {
-      notificationsService.addWorkPackageUpload('themUploads', []);
+      notificationsService.addAttachmentUpload('themUploads', []);
     }).toThrow();
   });
 

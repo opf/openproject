@@ -54,11 +54,33 @@ bg:
     description_selected_columns: Избрани колони
     description_subwork_package: 'Подработен пакет #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Wiki страница
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
+        code_block:
+          button: Insert code snippet
+          title: Insert / edit Code snippet
+          language: Formatting language
+          language_hint: Enter the formatting language that will be used for highlighting
+            (if supported).
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
         toc: Table of contents
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Wiki страница
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -73,7 +95,7 @@ bg:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: Възникна вътрешна грешка.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -228,7 +250,9 @@ bg:
     label_remove_watcher: Премахване на наблюдателя %{name}
     label_remove_all_files: Изтриване на всички файлове
     label_add_description: Добавете на описание за %{file}
-    label_upload_notification: 'Качване на файлове за работа пакет #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Качване на файлове за работа пакет #%{id}:
+      %{subject}'
     label_files_to_upload: 'Тези файлове ще бъдат качени:'
     label_rejected_files: 'Тези файлове не могат да бъдат качени:'
     label_rejected_files_reason: Тези файлове не могат да бъдат качени, тъй като техният
@@ -267,8 +291,8 @@ bg:
           names must be unique.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group, unset the visibility
-          checkboxes, and disable ALL custom fields.
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Upgrade to Enterprise Edition
@@ -367,8 +391,7 @@ bg:
           its date labels will be shown instead of these attributes.
 
 '
-      button_activate: Activate timeline mode
-      button_deactivate: Deactivate timeline mode
+      button_activate: Show Gantt chart
       cancel: Отказ
       change: Change in planning
       due_date: Дата на падеж
@@ -613,6 +636,7 @@ bg:
         months: месеци
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Колони...
         sort_by: Сортирай по...
         group_by: Групиране по...
@@ -624,14 +648,14 @@ bg:
         save_as: Запиши като ...
         export: Експортиране ...
         publish: Publish ...
-        page_settings: Преименуване на търсене...
+        page_settings: Rename view ...
         delete: Изтрий
       filter: Филтър
       unselected_title: Работен пакет
       search_query_label: Търсене на запазени заявки за филтриране
       search_query_title: Щракнете, за търсене на запазени заявки за филтриране
     modals:
-      label_settings: Преименуване на търсене
+      label_settings: Rename view
       label_name: Име
       label_delete_page: Изтриване на текущата страница
       button_apply: Приложи
@@ -675,6 +699,8 @@ bg:
     error_could_not_resolve_version_name: Не можа да открие версия с име
     error_could_not_resolve_user_name: Не може да открие потребителско име
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: work package

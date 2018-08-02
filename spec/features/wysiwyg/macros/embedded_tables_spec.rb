@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe 'Wysiwyg embedded work package tables',
-         with_settings: { text_formatting: 'markdown', use_wysiwyg?: true },
          type: :feature, js: true do
   let(:user) { FactoryBot.create :admin }
   let(:project) { FactoryBot.create(:project, enabled_module_names: %w[wiki work_package_tracking]) }
@@ -51,11 +50,11 @@ describe 'Wysiwyg embedded work package tables',
       end
 
       it 'can add and edit an embedded table widget' do
-        editor.in_editor do |container, editable|
-          # strangely, we need visible: :all here
-          container.find('.ck-button', visible: :all, text: 'Embed work package table').click
+        editor.in_editor do |_container, editable|
+          editor.insert_macro 'Embed work package table'
 
           modal.expect_open
+          modal.switch_to 'Filters'
           filters.expect_filter_count 1
           filters.add_filter_by('Type', 'is', work_package.type.name)
 
@@ -80,6 +79,7 @@ describe 'Wysiwyg embedded work package tables',
           page.find('.ck-balloon-panel .ck-button', visible: :all, text: 'Edit').click
 
           modal.expect_open
+          modal.switch_to 'Filters'
           filters.expect_filter_count 2
           modal.switch_to 'Columns'
           columns.assume_opened
@@ -87,6 +87,12 @@ describe 'Wysiwyg embedded work package tables',
           columns.expect_checked 'Subject'
           columns.expect_checked 'Type'
           modal.cancel
+
+          # Expect we can preview the table within ckeditor
+          editor.within_enabled_preview do |preview_container|
+            embedded_table = ::Pages::EmbeddedWorkPackagesTable.new preview_container
+            embedded_table.expect_work_package_listed work_package
+          end
         end
 
         # Save wiki page
@@ -94,10 +100,12 @@ describe 'Wysiwyg embedded work package tables',
 
         expect(page).to have_selector('.flash.notice')
 
-        within('#content') do
-          embedded_table = ::Pages::EmbeddedWorkPackagesTable.new find('.wiki-content')
-          embedded_table.expect_work_package_listed work_package
-        end
+        embedded_table = ::Pages::EmbeddedWorkPackagesTable.new find('.wiki-content')
+        embedded_table.expect_work_package_listed work_package
+
+        # Clicking on work package ID redirects
+        full_view = embedded_table.open_full_screen_by_doubleclick work_package
+        full_view.ensure_page_loaded
       end
     end
   end

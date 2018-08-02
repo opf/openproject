@@ -53,11 +53,33 @@ zh-TW:
     description_selected_columns: 所選的欄
     description_subwork_package: '子工作項目 #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: 維基頁面
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
+        code_block:
+          button: Insert code snippet
+          title: Insert / edit Code snippet
+          language: Formatting language
+          language_hint: Enter the formatting language that will be used for highlighting
+            (if supported).
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
         toc: 目錄
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
         wiki_page_include:
           button: 包含另一個 Wiki 頁面的內容
-          text: 包含的 Wiki 頁 (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: 維基頁面
           hint: '通過指定其標題或Slug, 包括另一個 Wiki 頁面的內容。您可以通過將另一個專案的 Wiki 頁與下面的示例類似的冒號進行分隔,
             從而包括該頁面。
@@ -72,7 +94,7 @@ zh-TW:
           with_type: '創建工作包 (類型: %{typename})'
         embedded_table:
           button: 嵌入工作包表
-          text: 嵌入式工作包表 (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: 發生內部錯誤。
       cannot_save_changes_with_message: '由於以下錯誤, 無法保存所做的更改: %{error}'
@@ -222,7 +244,8 @@ zh-TW:
     label_remove_watcher: 刪除關注者 %{name}
     label_remove_all_files: 刪除所有檔案
     label_add_description: 添加 %{file} 的說明
-    label_upload_notification: '上傳檔案到工作包 #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: '上傳檔案到工作包 #%{id}: %{subject}'
     label_files_to_upload: '將上傳這些檔案:'
     label_rejected_files: '不能上傳這些檔案:'
     label_rejected_files_reason: 這些檔案不能上傳，因為它們的大小大於 %{maximumFilesize}
@@ -256,7 +279,9 @@ zh-TW:
       attribute_groups:
         error_duplicate_group_name: 名稱 %{group} 已被使用，群組名稱不可重複。
         reset_title: 重設表單配置
-        confirm_reset: '警告：您確定要重設表單設定嗎？這將會重新設定所有屬性至它們的預設群組，取消所有可見度勾選和停用所有的自訂欄位。
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: 升級到企業版
@@ -348,8 +373,7 @@ zh-TW:
         description: '選擇要在甘特圖的對應位置上始終顯示的屬性。請注意, 在游標停在元素上時, 將顯示其日期標籤, 而不是這些屬性。
 
 '
-      button_activate: 啟動 timeline 模式
-      button_deactivate: 停用 timeline 模式
+      button_activate: Show Gantt chart
       cancel: 取消
       change: 更改計劃
       due_date: 截止日期
@@ -567,6 +591,7 @@ zh-TW:
         months: 月
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: 欄
         sort_by: 排序條件...
         group_by: 分組條件...
@@ -578,14 +603,14 @@ zh-TW:
         save_as: 另存為…
         export: 匯出...
         publish: 發佈 ...
-        page_settings: 重新命名查詢...
+        page_settings: Rename view ...
         delete: 删除
       filter: 篩選器
       unselected_title: 工作項目
       search_query_label: 查詢儲存的搜索篩選器
       search_query_title: 按一下此處，搜索儲存的篩選器查詢
     modals:
-      label_settings: 重新命名查詢
+      label_settings: Rename view
       label_name: 名稱
       label_delete_page: 刪除目前的頁面
       button_apply: 套用
@@ -629,6 +654,8 @@ zh-TW:
     error_could_not_resolve_version_name: 無法解析版本名稱
     error_could_not_resolve_user_name: 無法解析使用者名稱
     error_attachment_upload: '檔 "%{name}" 無法上載: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: work package

@@ -142,15 +142,22 @@ class GroupsController < ApplicationController
   def create_memberships
     membership_params = permitted_params.group_membership
     membership_id = membership_params[:membership_id]
-    @membership = membership_id.present? ? Member.find(membership_id) : Member.new(principal: @group)
+
+    if membership_id.present?
+      key = :membership
+      @membership = Member.find(membership_id)
+    else
+      key = :new_membership
+      @membership = Member.new(principal: @group)
+    end
 
     service = ::Members::EditMembershipService.new(@membership, save: true, current_user: current_user)
-    result = service.call(attributes: membership_params[:membership])
+    result = service.call(attributes: membership_params[key])
 
     if result.success?
       flash[:notice] = I18n.t :notice_successful_update
     else
-      flash[:error] = result.errors.full_mesages.join("\n")
+      flash[:error] = result.errors.full_messages.join("\n")
     end
     redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'memberships'
   end

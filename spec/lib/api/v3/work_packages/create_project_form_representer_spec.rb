@@ -35,9 +35,9 @@ describe ::API::V3::WorkPackages::CreateProjectFormRepresenter do
   let(:errors) { [] }
   let(:work_package) {
     FactoryBot.build(:work_package,
-                      id: 42,
-                      created_at: DateTime.now,
-                      updated_at: DateTime.now)
+                     id: 42,
+                     created_at: DateTime.now,
+                     updated_at: DateTime.now)
   }
   let(:current_user) {
     FactoryBot.build(:user, member_in_project: work_package.project)
@@ -86,8 +86,7 @@ describe ::API::V3::WorkPackages::CreateProjectFormRepresenter do
 
         it 'contains link to work package' do
           expected_preview_link =
-            api_v3_paths.render_markup(format: 'textile',
-                                       link: "/api/v3/projects/#{work_package.project_id}")
+            api_v3_paths.render_markup(link: "/api/v3/projects/#{work_package.project_id}")
           expect(subject).to be_json_eql(expected_preview_link.to_json)
             .at_path('_links/previewMarkup/href')
         end
@@ -118,8 +117,8 @@ describe ::API::V3::WorkPackages::CreateProjectFormRepresenter do
           let(:role) { FactoryBot.create(:role, permissions: []) }
           let(:current_user) do
             FactoryBot.build(:user,
-                              member_in_project: work_package.project,
-                              member_through_role: role)
+                             member_in_project: work_package.project,
+                             member_through_role: role)
           end
 
           it do
@@ -192,10 +191,10 @@ describe ::API::V3::WorkPackages::CreateProjectFormRepresenter do
             let(:type) { FactoryBot.build_stubbed(:type) }
             let(:work_package) do
               FactoryBot.build(:work_package,
-                                id: 42,
-                                created_at: DateTime.now,
-                                updated_at: DateTime.now,
-                                type: type)
+                               id: 42,
+                               created_at: DateTime.now,
+                               updated_at: DateTime.now,
+                               type: type)
             end
 
             before do

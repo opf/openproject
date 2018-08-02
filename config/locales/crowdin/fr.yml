@@ -186,6 +186,9 @@ fr:
     index:
       no_results_title_text: Il n'y a actuellement aucun flux de travaux.
   work_packages:
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -365,8 +368,8 @@ fr:
         spent_on: Date
         type: Type
       type:
+        attribute_groups: ''
         is_in_roadmap: Dans la feuille de route
-        in_aggregation: En agrégation
         is_milestone: Est un jalon
         color: Couleur
       user:
@@ -553,10 +556,11 @@ fr:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Les groupes sans nom ne sont pas autorisés.
-              duplicate_group: Le nom de groupe %{group} est utilisé plus d’une fois.
-                Les noms de groupe doivent être uniques.
               attribute_unknown: Attribut du lot de travaux invalide utilisé.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Les groupes sans nom ne sont pas autorisés.
         user:
           attributes:
             password:
@@ -2139,7 +2143,6 @@ fr:
     de tentatives de connexion échouées
   setting_brute_force_block_minutes: Temps de bloquage de l'utilisateur
   setting_cache_formatted_text: Mettre le text formatté en memoire cache
-  setting_use_wysiwyg: WYSIWYG editor
   setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
     users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Personnaliser l'apparence des listes de Lot de Travaux
@@ -2231,7 +2234,6 @@ fr:
   setting_sys_api_enabled: Activer le service web de gestion de dépôt
   setting_sys_api_description: Le service web de gestion de dépôt fournit l'intégration
     et l'autorisation d'accès aux dépôts.
-  setting_text_formatting: Mise en forme texte
   setting_time_format: Format d'heure
   setting_accessibility_mode_for_anonymous: Activer le mode d'accessibilité pour les
     utilisateurs anonymes
@@ -2256,7 +2258,6 @@ fr:
       default_preferences: Default preferences
       deletion: Deletion
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Plain text
   status_active: actif
@@ -2582,8 +2583,6 @@ fr:
       edit: 'Modifier l''état : %{comment}'
       show: 'État : %{comment}'
     planning_element_update: 'Mis à jour: %{title}'
-    work_packages_are_displayed_in_aggregations: Les Lots de Travaux sont affichés
-      dans les agrégations
     project_type_could_not_be_saved: Le projet type n'a pas pu être sauvegardé
     type_could_not_be_saved: Le type n'a pas pu être sauvegardé
     reporting_could_not_be_saved: Le rapport n'a pas pu être enregistré

@@ -54,11 +54,33 @@ fi:
     description_selected_columns: Valitut sarakkeet
     description_subwork_package: 'Alipaketti työpaketille #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Wiki-sivu
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
+        code_block:
+          button: Insert code snippet
+          title: Insert / edit Code snippet
+          language: Formatting language
+          language_hint: Enter the formatting language that will be used for highlighting
+            (if supported).
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
         toc: Table of contents
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Wiki-sivu
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -73,7 +95,7 @@ fi:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: Tapahtui sisäinen virhe.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -227,7 +249,9 @@ fi:
     label_remove_watcher: Poista seuraaja %{name}
     label_remove_all_files: Poista kaikki tiedostot
     label_add_description: Lisää kuvaus tiedostolle %{file}
-    label_upload_notification: 'Lisää tiedostoja työpaketille #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Lisää tiedostoja työpaketille #%{id}:
+      %{subject}'
     label_files_to_upload: 'Nämä tiedostot lähetetään:'
     label_rejected_files: 'Näitä tiedostoja ei voida lähettää:'
     label_rejected_files_reason: Näitä tiedostoja ei voi lähettää, koska niiden koko
@@ -266,8 +290,8 @@ fi:
           names must be unique.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group, unset the visibility
-          checkboxes, and disable ALL custom fields.
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Päivitä yritysversioon
@@ -364,8 +388,7 @@ fi:
           its date labels will be shown instead of these attributes.
 
 '
-      button_activate: Ota aikajana tila käyttöön
-      button_deactivate: Poista aikajana tila käytöstä
+      button_activate: Show Gantt chart
       cancel: Peruuta
       change: Muuta suunnittelussa
       due_date: Määräpäivä
@@ -605,6 +628,7 @@ fi:
         months: months
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Sarakkeet...
         sort_by: Järjestä...
         group_by: Ryhmittele...
@@ -616,14 +640,14 @@ fi:
         save_as: Tallenna nimellä...
         export: Vie...
         publish: Publish ...
-        page_settings: Nimeä kysely uudelleen...
+        page_settings: Rename view ...
         delete: Poista
       filter: Suodata
       unselected_title: Työpaketti
       search_query_label: Search saved filter queries
       search_query_title: Click to search saved filter queries
     modals:
-      label_settings: Nimeä kysely uudelleen
+      label_settings: Rename view
       label_name: Nimi
       label_delete_page: Poista nykyinen sivu
       button_apply: Ota käyttöön
@@ -667,6 +691,8 @@ fi:
     error_could_not_resolve_version_name: Version nimeä ei voitu ratkaista
     error_could_not_resolve_user_name: Käyttäjän nimeä ei voitu ratkaista
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: work package

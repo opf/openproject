@@ -57,6 +57,12 @@ OpenProject::Application.routes.draw do
   if FrontendAssetHelper.assets_proxied?
     match '/sockjs-node/*appendix',
           to: redirect("http://localhost:4200/sockjs-node/%{appendix}", status: 307),
+          format: false,
+          via: :all
+
+    match '/assets/frontend/*appendix',
+          to: redirect("http://localhost:4200/assets/frontend/%{appendix}", status: 307),
+          format: false,
           via: :all
   end
 
@@ -88,7 +94,6 @@ OpenProject::Application.routes.draw do
   mount API::Root => '/'
 
   get '/roles/workflow/:id/:role_id/:type_id' => 'roles#workflow'
-  get '/help/:ctrl/:page' => 'help#index'
 
   get   '/types/:id/edit/:tab' => "types#edit",
         as: "edit_type_tab"
@@ -212,7 +217,6 @@ OpenProject::Application.routes.draw do
         post '/new' => 'wiki#create', as: 'create'
         get :export
         get :date_index
-        post :preview
         get '/index' => 'wiki#index'
       end
 
@@ -231,7 +235,6 @@ OpenProject::Application.routes.draw do
         get :list_attachments
         get :select_main_menu_item, to: 'wiki_menu_items#select_main_menu_item'
         post :replace_main_menu_item, to: 'wiki_menu_items#replace_main_menu_item'
-        post :preview
       end
     end
 
@@ -454,18 +457,12 @@ OpenProject::Application.routes.draw do
       member do
         get :quote
         post :reply, as: 'reply_to'
-        post :preview
       end
-
-      post :preview, on: :collection
     end
   end
 
   resources :news, only: %i[index destroy update edit show] do
     resources :comments, controller: 'news/comments', only: %i[create destroy], shallow: true
-
-    post :preview, on: :member
-    post :preview, on: :collection
   end
 
   # redirect for backwards compatibility
@@ -493,8 +490,6 @@ OpenProject::Application.routes.draw do
 
   resource :help, controller: :help, only: [] do
     member do
-      get :wiki_syntax
-      get :wiki_syntax_detailed
       get :keyboard_shortcuts
       get :text_formatting
     end
@@ -540,16 +535,6 @@ OpenProject::Application.routes.draw do
       get :move
       post :move
     end
-  end
-
-  resources :project_types, controller: 'project_types' do
-    member do
-      get :confirm_destroy
-      get :move
-      post :move
-    end
-
-    resources :projects, only: %i[index show], controller: 'projects'
   end
 
   # This route should probably be removed, but it's used at least by one cuke and we don't

@@ -27,6 +27,8 @@
 //++
 
 div.wiki
+  // ------------------- FONT -------------------
+
   font-size: $wiki-default-font-size
   $wiki-max-heading-font-size: $wiki-default-font-size * 1.5
 
@@ -52,27 +54,18 @@ div.wiki
     text-transform: none
     border-bottom: 1px dotted #bbbbbb
 
-  table
-    border: 1px solid #505050
+
+  // ------------------- TABLES -------------------
+  table:not(.work-package-table)
+    border: 1px solid #bbb
     border-collapse: collapse
     margin-bottom: 1em
 
-  table, td, th
-    border: 1px solid #bbb
-    padding: 4px
+    td, th
+      border: 1px solid #bbb
+      padding: 4px
 
-  .external.icon-context:before
-    padding: 4px 4px 0 0
-
-  pre
-    margin: 1em 1em 1em 1.6em
-    padding: 2px 2px 2px 0
-    background-color: #fafafa
-    border: 1px solid #dadada
-    width: auto
-    overflow-x: auto
-    overflow-y: hidden
-
+  // ------------------- LISTINGS -------------------
   ul.toc
     margin-bottom: 12px
     margin-right: 12px
@@ -98,25 +91,11 @@ div.wiki
     li
       list-style-type: none
 
-  ol, ul
-    padding: 0 0 0 2em
-    margin: 0.3em 0
-    font-size: $wiki-default-font-size
 
-  li
-    list-style-position: outside
-    margin: 0
+  // ------------------- GENERAL -------------------
+  .external.icon-context:before
+    padding: 4px 4px 0 0
 
-  ol li
-    list-style-type: decimal
-    list-style-position: inherit
-
-  ul li
-    list-style-type: disc
-    list-style-position: inherit
-
-  li li
-    margin-left: 1.5em
   fieldset.collapsible legend
     font-weight: bold
     font-size: $wiki-toc-header-font-size
@@ -204,8 +183,14 @@ blockquote
   span
     vertical-align: middle
 
-body.controller-wiki #content
-  overflow: initial
+body.controller-wiki
+
+  #content
+    overflow: initial
+
+  .ck-content
+    min-height: 25vh
+
 
 
 @include breakpoint(680px down)

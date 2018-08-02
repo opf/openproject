@@ -1,0 +1,59 @@
+<div class="op-modal--portal op-modal--macro-modal ngdialog-theme-openproject">
+  <div class="op-modal--modal-container -wide" tabindex="1">
+    <div class="op-modal--modal-header">
+      <a class="op-modal--modal-close-button" *ngIf="showClose">
+        <i
+            class="icon-close"
+            (click)="closeMe($event)"
+            [attr.title]="text.close_popup">
+        </i>
+      </a>
+      <h3 class="icon-context icon-attention" [textContent]="text.title"></h3>
+    </div>
+
+    <div class="ngdialog-body op-modal--modal-body">
+      <form class="form -vertical">
+        <textarea name="codemirror-element"
+                  id="codemirror-element"
+                  [ngModel]="content"
+                  #codeMirrorPane></textarea>
+        <hr/>
+        <div class="form--field">
+          <label
+              for="selected-language"
+              [textContent]="text.language"
+              class="form--label hidden-for-sighted">
+          </label>
+          <div class="form--field-container">
+            <div class="form--select-container">
+              <input
+                  #selectedLanguage
+                  tabindex="2"
+                  type="text"
+                  id="selected-language"
+                  name="selected-language"
+                  [ngModel]="language"
+                  (ngModelChange)="updateLanguage($event)"
+                  class="form--select" />
+            </div>
+          </div>
+          <p [textContent]="text.language_hint"></p>
+        </div>
+      </form>
+    </div>
+    <div class="op-modal--modal-footer">
+      <button class="op-modal--cancel-button button"
+              (click)="closeMe($event)"
+              tabindex="4"
+              [textContent]="text.button_cancel"
+              [attr.title]="text.button_cancel">
+      </button>
+      <button class="op-modal--submit-button button -highlight"
+              (click)="applyAndClose($event)"
+              tabindex="3"
+              [textContent]="text.button_save"
+              [attr.title]="text.button_save">
+      </button>
+    </div>
+  </div>
+</div>

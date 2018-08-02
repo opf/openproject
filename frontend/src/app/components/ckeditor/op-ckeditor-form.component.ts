@@ -30,33 +30,24 @@ import {Component, ElementRef, OnInit} from "@angular/core";
 import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-
-export interface ICkeditorInstance {
-  getData():string;
-  setData(content:string):void;
-  config:any;
-}
-
-export interface ICkeditorStatic {
-  create(el:HTMLElement, config?:any):Promise<ICkeditorInstance>;
-}
-
-declare global {
-  interface Window {
-    OPBalloonEditor:ICkeditorStatic;
-    OPClassicEditor:ICkeditorStatic;
-  }
-}
+import {CKEditorSetupService, ICKEditorInstance} from "core-components/ckeditor/ckeditor-setup.service";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
 const ckEditorWrapperClass = 'op-ckeditor--wrapper';
 const ckEditorReplacementClass = '__op_ckeditor_replacement_container';
 
 @Component({
   selector: 'op-ckeditor-form',
-  template: `<div class="${ckEditorWrapperClass}"><div class="${ckEditorReplacementClass}"></div></div>`
+  template: `
+    <div class="${ckEditorWrapperClass}">
+      <div class="${ckEditorReplacementClass} op-ckeditor-source-element"></div>
+    </div>`
 })
 export class OpCkeditorFormComponent implements OnInit {
   public textareaSelector:string;
+  public previewContext:string;
 
   // Which template to include
   public ckeditor:any;
@@ -69,13 +60,15 @@ export class OpCkeditorFormComponent implements OnInit {
   public inFlight:boolean = false;
 
   public text:any;
+  public resource?:HalResource;
 
 
   constructor(protected elementRef:ElementRef,
               protected currentProject:CurrentProjectService,
               protected pathHelper:PathHelperService,
+              protected halResourceService:HalResourceService,
+              protected ckEditorSetup:CKEditorSetupService,
               protected ConfigurationService:ConfigurationService) {
-
   }
 
   public ngOnInit() {
@@ -83,30 +76,33 @@ export class OpCkeditorFormComponent implements OnInit {
 
     // Parse the attribute explicitly since this is likely a bootstrapped element
     this.textareaSelector = this.$element.attr('textarea-selector');
+    this.previewContext = this.$element.attr('preview-context');
+
+    // Parse the resource if any exists
+    const source = this.$element.data('resource');
+    this.resource = source ? this.halResourceService.createHalResource(source, true) : undefined;
 
     this.formElement = this.$element.closest('form');
     this.wrappedTextArea = this.formElement.find(this.textareaSelector);
     this.wrappedTextArea.hide();
     const wrapper = this.$element.find(`.${ckEditorReplacementClass}`);
-    window.OPClassicEditor
-      .create(wrapper[0], {
-        openProject: {
-          context: null,
-          helpURL: this.pathHelper.textFormattingHelp(),
-          pluginContext: window.OpenProject.pluginContext.value
-        }
-      })
-      .then(this.setup.bind(this))
-      .catch((error:any) => {
-        console.error(error);
-      });
+    const context = { resource: this.resource,
+                      previewContext: this.previewContext };
+
+    const editorPromise = this.ckEditorSetup
+      .create('full',
+              wrapper[0],
+              context)
+      .then(this.setup.bind(this));
+
+    this.$element.data('editor', editorPromise);
   }
 
   public $onDestroy() {
     this.formElement.off('submit.ckeditor');
   }
 
-  public setup(editor:ICkeditorInstance) {
+  public setup(editor:ICKEditorInstance) {
     this.ckeditor = editor;
     (window as any).ckeditor = editor;
     const rawValue = this.wrappedTextArea.val();
@@ -116,13 +112,36 @@ export class OpCkeditorFormComponent implements OnInit {
     }
 
     // Listen for form submission to set textarea content
-    this.formElement.on('submit.ckeditor', () => {
+    this.formElement.on('submit.ckeditor change.ckeditor', () => {
       const value = this.ckeditor.getData();
       this.wrappedTextArea.val(value);
 
       // Continue with submission
       return true;
     });
+
+    this.setLabel();
+
+    return editor;
+  }
+
+  private setLabel() {
+    let textareaId = this.textareaSelector.substring(1);
+    let label = jQuery(`label[for=${textareaId}`);
+
+    let ckContent = this.$element.find('.ck-content');
+
+    ckContent.attr('aria-label', null);
+    ckContent.attr('aria-labelledby', textareaId);
+
+    label.click(() => {
+      ckContent.focus();
+    });
   }
 }
 
+DynamicBootstrapper.register({
+  selector: 'op-ckeditor-form',
+  cls: OpCkeditorFormComponent,
+  embeddable: true
+});

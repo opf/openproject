@@ -50,7 +50,7 @@ module BasicData
     # @return [Array<Hash>] List of attributes for each type.
     def data
       colors = PlanningElementTypeColor.all
-      colors = colors.map { |c| { c.name =>  c.id } }.reduce({}, :merge)
+      colors = colors.map { |c| { c.name => c.id } }.reduce({}, :merge)
 
       type_table.map do |name, values|
         {
@@ -59,25 +59,24 @@ module BasicData
           is_default:           values[1],
           color_id:             colors[I18n.t(values[2])],
           is_in_roadmap:        values[3],
-          in_aggregation:       values[4],
-          is_milestone:         values[5]
+          is_milestone:         values[4]
         }
       end
     end
 
     def type_names
-      [:task, :milestone, :phase, :feature, :epic, :user_story, :bug]
+      %i[task milestone phase feature epic user_story bug]
     end
 
     def type_table
-      { # position is_default color_id is_in_roadmap in_aggregation is_milestone
-        task:       [1, true, :default_color_blue,        true,  false, false],
-        milestone:  [2, true, :default_color_green_light, false, true,  true],
-        phase:      [3, true, :default_color_blue_dark,   false, true,  false],
-        feature:    [4, true, :default_color_blue,        true,  false, false],
-        epic:       [5, true, :default_color_orange,      true,  true,  false],
-        user_story: [6, true, :default_color_grey_dark,   true,  false, false],
-        bug:        [7, true, :default_color_red,         true,  false, false]
+      { # position is_default color_id is_in_roadmap is_milestone
+        task:       [1, true, :default_color_blue,        true,  false],
+        milestone:  [2, true, :default_color_green_light, false, true],
+        phase:      [3, true, :default_color_blue_dark,   false, false],
+        feature:    [4, true, :default_color_blue,        true,  false],
+        epic:       [5, true, :default_color_orange,      true,  false],
+        user_story: [6, true, :default_color_grey_dark,   true,  false],
+        bug:        [7, true, :default_color_red,         true,  false]
       }
     end
   end

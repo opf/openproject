@@ -53,11 +53,30 @@ lol:
     description_selected_columns: crwdns98374:0crwdne98374:0
     description_subwork_package: crwdns98375:0%{id}crwdne98375:0
     editor:
+      preview: crwdns99062:0crwdne99062:0
       macro:
+        child_pages:
+          button: crwdns99052:0crwdne99052:0
+          include_parent: crwdns99053:0crwdne99053:0
+          text: crwdns99054:0[Placeholder]crwdne99054:0
+          page: crwdns99055:0crwdne99055:0
+          this_page: crwdns99056:0crwdne99056:0
+          hint: 'crwdns99057:0crwdne99057:0
+
+'
+        code_block:
+          button: crwdns99045:0crwdne99045:0
+          title: crwdns99046:0crwdne99046:0
+          language: crwdns99047:0crwdne99047:0
+          language_hint: crwdns99048:0crwdne99048:0
+        dropdown:
+          macros: crwdns99063:0crwdne99063:0
+          chose_macro: crwdns99064:0crwdne99064:0
         toc: crwdns99007:0crwdne99007:0
+        toolbar_help: crwdns99044:0crwdne99044:0
         wiki_page_include:
           button: crwdns99018:0crwdne99018:0
-          text: crwdns99019:0crwdne99019:0
+          text: crwdns99065:0[Placeholder]crwdne99065:0
           page: crwdns99020:0crwdne99020:0
           hint: 'crwdns99021:0crwdne99021:0
 
@@ -71,7 +90,7 @@ lol:
           with_type: crwdns99027:0%{typename}crwdne99027:0
         embedded_table:
           button: crwdns99009:0crwdne99009:0
-          text: crwdns99010:0crwdne99010:0
+          text: crwdns99069:0[Placeholder]crwdne99069:0
     error:
       internal: crwdns98376:0crwdne98376:0
       cannot_save_changes_with_message: crwdns99001:0%{error}crwdne99001:0
@@ -221,7 +240,8 @@ lol:
     label_remove_watcher: crwdns98508:0%{name}crwdne98508:0
     label_remove_all_files: crwdns98509:0crwdne98509:0
     label_add_description: crwdns98510:0%{file}crwdne98510:0
-    label_upload_notification: crwdns98511:0%{id}crwdnd98511:0%{subject}crwdne98511:0
+    label_upload_notification: crwdns99058:0crwdne99058:0
+    label_work_package_upload_notification: crwdns99059:0%{id}crwdnd99059:0%{subject}crwdne99059:0
     label_files_to_upload: crwdns98512:0crwdne98512:0
     label_rejected_files: crwdns98513:0crwdne98513:0
     label_rejected_files_reason: crwdns98514:0%{maximumFilesize}crwdne98514:0
@@ -255,7 +275,7 @@ lol:
       attribute_groups:
         error_duplicate_group_name: crwdns98534:0%{group}crwdne98534:0
         reset_title: crwdns98535:0crwdne98535:0
-        confirm_reset: 'crwdns98536:0crwdne98536:0
+        confirm_reset: 'crwdns99066:0crwdne99066:0
 
 '
         upgrade_to_ee: crwdns98537:0crwdne98537:0
@@ -347,8 +367,7 @@ lol:
         description: 'crwdns98604:0crwdne98604:0
 
 '
-      button_activate: crwdns98605:0crwdne98605:0
-      button_deactivate: crwdns98606:0crwdne98606:0
+      button_activate: crwdns99070:0crwdne99070:0
       cancel: crwdns98607:0crwdne98607:0
       change: crwdns98608:0crwdne98608:0
       due_date: crwdns98609:0crwdne98609:0
@@ -566,6 +585,7 @@ lol:
         months: crwdns98779:0crwdne98779:0
     toolbar:
       settings:
+        configure_view: crwdns99071:0crwdne99071:0
         columns: crwdns98780:0crwdne98780:0
         sort_by: crwdns98781:0crwdne98781:0
         group_by: crwdns98782:0crwdne98782:0
@@ -577,14 +597,14 @@ lol:
         save_as: crwdns98788:0crwdne98788:0
         export: crwdns98789:0crwdne98789:0
         publish: crwdns98790:0crwdne98790:0
-        page_settings: crwdns98791:0crwdne98791:0
+        page_settings: crwdns99067:0crwdne99067:0
         delete: crwdns98792:0crwdne98792:0
       filter: crwdns98793:0crwdne98793:0
       unselected_title: crwdns98794:0crwdne98794:0
       search_query_label: crwdns98795:0crwdne98795:0
       search_query_title: crwdns98796:0crwdne98796:0
     modals:
-      label_settings: crwdns98797:0crwdne98797:0
+      label_settings: crwdns99068:0crwdne99068:0
       label_name: crwdns98798:0crwdne98798:0
       label_delete_page: crwdns98799:0crwdne98799:0
       button_apply: crwdns98800:0crwdne98800:0
@@ -628,6 +648,7 @@ lol:
     error_could_not_resolve_version_name: crwdns98833:0crwdne98833:0
     error_could_not_resolve_user_name: crwdns98834:0crwdne98834:0
     error_attachment_upload: crwdns98990:0%{name}crwdnd98990:0%{error}crwdne98990:0
+    error_attachment_upload_permission: crwdns99060:0crwdne99060:0
     units:
       workPackage:
         one: crwdns98835:1crwdne98835:1

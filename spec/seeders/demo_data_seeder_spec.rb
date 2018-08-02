@@ -34,6 +34,8 @@ describe 'seeds' do
     perform_deliveries = ActionMailer::Base.perform_deliveries
     ActionMailer::Base.perform_deliveries = false
 
+    num_queries = defined?(OpenProject::Backlogs) ? 8 : 6
+
     begin
       # Avoid asynchronous DeliverWorkPackageCreatedJob
       Delayed::Worker.delay_jobs = false
@@ -43,10 +45,10 @@ describe 'seeds' do
       expect { DemoDataSeeder.new.seed! }.not_to raise_error
 
       expect(User.where(admin: true).count).to eq 1
-      expect(Project.count).to eq 1
-      expect(WorkPackage.count).to eq 7
-      expect(Wiki.count).to eq 0
-      expect(Query.count).to eq 6
+      expect(Project.count).to eq 2
+      expect(WorkPackage.count).to eq 41
+      expect(Wiki.count).to eq 1
+      expect(Query.count).to eq num_queries
     ensure
       ActionMailer::Base.perform_deliveries = perform_deliveries
     end

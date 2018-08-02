@@ -25,11 +25,11 @@ describe 'Upload attachment to work package', js: true do
     wp_page.visit!
   end
 
-  describe 'wysiwyg editor', with_settings: { text_formatting: 'markdown', use_wysiwyg?: 1 } do
+  describe 'wysiwyg editor' do
     it 'can upload an image via drag & drop' do
       # Activate the edit field
       field.activate!
-      target = find('.op-ckeditor-element')
+      target = find('.ck-content')
       attachments.drag_and_drop_file(target, image_fixture)
 
       # Besides testing caption functionality this also slows down clicking on the submit button

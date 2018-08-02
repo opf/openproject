@@ -130,16 +130,8 @@ class PermittedParams
     params.require(:member).permit(*self.class.permitted_attributes[:member])
   end
 
-  def project_type
-    params.require(:project_type).permit(*self.class.permitted_attributes[:project_type])
-  end
-
   def projects_type_ids
     params.require(:project).require(:type_ids).map(&:to_i).select { |x| x > 0 }
-  end
-
-  def project_type_move
-    params.require(:project_type).permit(*self.class.permitted_attributes[:move_to])
   end
 
   def query
@@ -509,6 +501,10 @@ class PermittedParams
           membership: [
             :project_id,
             role_ids: []
+          ],
+          new_membership: [
+            :project_id,
+            role_ids: []
           ]
         ],
         member: [
@@ -590,7 +586,6 @@ class PermittedParams
         type: [
           :name,
           :is_in_roadmap,
-          :in_aggregation,
           :is_milestone,
           :is_default,
           :color_id,

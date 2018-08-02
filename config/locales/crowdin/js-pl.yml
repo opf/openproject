@@ -54,11 +54,33 @@ pl:
     description_selected_columns: Wybrane kolumny
     description_subwork_package: 'Otwórz zadanie-dziecko #%{id}'
     editor:
+      preview: Toggle preview mode
       macro:
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Strony wiki
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
+        code_block:
+          button: Insert code snippet
+          title: Insert / edit Code snippet
+          language: Formatting language
+          language_hint: Enter the formatting language that will be used for highlighting
+            (if supported).
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
         toc: Table of contents
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Strony wiki
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -73,7 +95,7 @@ pl:
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
-          text: Embedded work package table (placeholder)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: Wystąpił błąd wewnętrzny.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -226,7 +248,9 @@ pl:
     label_remove_watcher: Usuń obserwującego %{name}
     label_remove_all_files: Usuń wszystkie pliki
     label_add_description: Dodaj opis do %{file}
-    label_upload_notification: 'Wgrywanie plików dla Zestawu Zadań #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Wgrywanie plików dla Zestawu Zadań #%{id}:
+      %{subject}'
     label_files_to_upload: 'Pliki te zostaną przesłane:'
     label_rejected_files: 'Pliki nie mogą być przesłane:'
     label_rejected_files_reason: Wymienione pliki nie mogą być przesłane gdyż ich
@@ -264,9 +288,9 @@ pl:
         error_duplicate_group_name: Nazwa  %{group} jest użyta więcej niż raz. Nazwy
           grup muszą być unikalne.
         reset_title: Zresetuj konfigurację formularza
-        confirm_reset: 'Uwaga: czy na pewno chcesz zresetować konfigurację formularza?
-          Przywróci to atrybuty do ich grupy domyślnej, zresetuje ustawienia pól wyboru
-          dla widoczności i wyłączy WSZYSTKIE pola niestandardowe.
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Aktualizuj do wersji Enterprise
@@ -368,8 +392,7 @@ pl:
           pokazane jego etykiety daty zamiast tych atrybutów.
 
 '
-      button_activate: Aktywuj tryb osi czasu
-      button_deactivate: Dezaktywuj tryb osi czasu
+      button_activate: Show Gantt chart
       cancel: Anuluj
       change: Zmiany w zakresie planowania
       due_date: Termin
@@ -612,6 +635,7 @@ pl:
         months: miesiące
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Kolumny ...
         sort_by: Sortuj według ...
         group_by: Grupuj według ...
@@ -623,14 +647,14 @@ pl:
         save_as: Zapisz jako ...
         export: Eksportuj ...
         publish: Opublikuj...
-        page_settings: Zmień nazwę kwerendy ...
+        page_settings: Rename view ...
         delete: Usuń
       filter: Filtr
       unselected_title: Pakiet roboczy
       search_query_label: Szukaj zapisanych filtrów
       search_query_title: Kliknij aby wyszukać zapisane filtry
     modals:
-      label_settings: Zmień nazwę kwerendy
+      label_settings: Rename view
       label_name: Nazwa
       label_delete_page: Usuń bieżącą stronę
       button_apply: Zastosuj
@@ -674,6 +698,8 @@ pl:
     error_could_not_resolve_version_name: Nie można rozpoznać wersji
     error_could_not_resolve_user_name: Nie można rozpoznać nazwy użytkownika
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: pakiet roboczy

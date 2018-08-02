@@ -54,11 +54,33 @@ tr:
     description_selected_columns: Seçili Sütunlar
     description_subwork_package: "#%{id} nolu iş paketinin alt parçası"
     editor:
+      preview: Toggle preview mode
       macro:
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Viki sayfası
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
+        code_block:
+          button: Insert code snippet
+          title: Insert / edit Code snippet
+          language: Formatting language
+          language_hint: Enter the formatting language that will be used for highlighting
+            (if supported).
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
         toc: İçindekiler
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
         wiki_page_include:
           button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          text: "[Placeholder] Included wiki page of"
           page: Viki sayfası
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -73,7 +95,7 @@ tr:
           with_type: İş paketini oluştur (Tür %{typename})
         embedded_table:
           button: Gömülü iş paketi tablosu
-          text: Gömülü iş paketi tablosu (yer tutucu)
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: İç hata oluştu.
       cannot_save_changes_with_message: 'Değişikliklerinizin kaydedilememesine sebep
@@ -229,7 +251,9 @@ tr:
     label_remove_watcher: "%{name} isimli takipçi sil"
     label_remove_all_files: Tüm dosyaları temizle
     label_add_description: "%{file} için açıklama ekle"
-    label_upload_notification: "#%{id}: %{subject} iş paketi için dosyalar yükleniyor"
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: "#%{id}: %{subject} iş paketi için dosyalar
+      yükleniyor"
     label_files_to_upload: 'Bu dosyalar yüklenecek:'
     label_rejected_files: 'Bu dosyalar yüklenemiyor:'
     label_rejected_files_reason: Dosyaların boyutu %{maximumFilesize} boyutunu aştığı
@@ -266,9 +290,9 @@ tr:
         error_duplicate_group_name: "%{group} ismi birden fazla kullanıldı. Grup isimleri
           eşsiz olmalıdır."
         reset_title: Form ayarlarlarını sıfırlayın
-        confirm_reset: 'Uyarı: Yapılandırmayı sıfırlamak istiyor musunuz? Bu öznitelikler
-          kendi varsayılan grup, unset görünürlüğü onay kutularını sıfırlayacak ve
-          tüm özel alanları devre dışı bırakacak.
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Enterprise Edition sürümüne yükseltme
@@ -366,8 +390,7 @@ tr:
           özellikleri yerine etiketinin görüneceğini unutmayın.
 
 '
-      button_activate: Zaman çizelgesini etkinleştir
-      button_deactivate: Zaman çizelgesini pasifleştir
+      button_activate: Show Gantt chart
       cancel: İptal
       change: Planlama değişikliği
       due_date: Teslim tarihi
@@ -611,6 +634,7 @@ tr:
         months: ay
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Sütunlar ...
         sort_by: Şuna göre sırala ...
         group_by: Gruplandır...
@@ -622,14 +646,14 @@ tr:
         save_as: Farklı kaydet ...
         export: Dışa aktar ...
         publish: Yayımla...
-        page_settings: Sorguyu yeniden adlandırın ...
+        page_settings: Rename view ...
         delete: Sil
       filter: Filtre
       unselected_title: İş paketi
       search_query_label: Kaydedilmiş arama filtrelerini ara
       search_query_title: Kaydedilmiş arama filtrelerini aramak için tıkla
     modals:
-      label_settings: Sorguyu yeniden adlandırın
+      label_settings: Rename view
       label_name: İsim
       label_delete_page: Şu anki sayfayı sil
       button_apply: Uygula
@@ -673,6 +697,8 @@ tr:
     error_could_not_resolve_version_name: Sürüm adı çözümlenemedi
     error_could_not_resolve_user_name: Kullanıcı adı çözümlenemedi
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: iş paketleri

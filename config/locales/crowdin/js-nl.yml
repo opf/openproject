@@ -54,26 +54,49 @@ nl:
     description_selected_columns: Geselecteerde kolommen
     description_subwork_package: 'Kind van werkpakket #%{id}'
     editor:
+      preview: Voorbeeld modus wijzigen
       macro:
-        toc: Table of contents
+        child_pages:
+          button: Links naar onderliggende pagina 's
+          include_parent: Inclusief bovenliggende
+          text: "[Placeholder] links naar onderliggende pagina's van"
+          page: Wikipagina
+          this_page: deze pagina
+          hint: 'Laat dit veld leeg om alle onderliggende pagina''s van de huidige
+            pagina weer te geven. Als u wilt verwijzen naar een andere pagina, geef
+            de titel of de witruimte van de pagina in.
+
+'
+        code_block:
+          button: Codefragment invoegen
+          title: Insert / codefragment bewerken
+          language: Opmaaktaal
+          language_hint: Voer de opmaaktaal die wordt gebruikt voor het benadrukken(indien
+            ondersteund).
+        dropdown:
+          macros: Macro's
+          chose_macro: Kies macro
+        toc: Inhoudsopgave
+        toolbar_help: Klik op widget en geef de werkbalk weer. Dubbelklikken om de
+          widget te bewerken
         wiki_page_include:
-          button: Include content of another wiki page
-          text: Included wiki page (placeholder)
+          button: Inhoud van een andere wikipagina opnemen
+          text: "[Placeholder] opgenomen wikipagina van"
           page: Wikipagina
           hint: |
-            Include the content of another wiki page by specifying its title or slug.
-            You can include the wiki page of another project by separating them with a colon like the following example.
+            Neem de inhoud van een andere wikipagina op door de de titel of de witruimte rond de pagina in te geven.
+            U kunt de wikipagina van een ander project opnemen door deze te scheiden met een dubbele punt zoals in het volgende voorbeeld.
         work_package_button:
-          button: Insert create work package button
-          type: Work package type
-          button_style: Use button style
-          button_style_hint: 'Optional: Check to make macro appear as a button, not
-            as a link.'
-          without_type: Create work package
-          with_type: 'Create work package (Type: %{typename})'
+          button: Voegen werk pakket knop maken In
+          type: Werkpakket type
+          button_style: Gebruik knopstijl
+          button_style_hint: 'Optioneel: Controleer of de macro wordt weergegeven
+            als een knop, niet als een link.'
+          without_type: Nieuw werkpakket maken
+          with_type: 'Werkpakket maken (Type: %{typename})'
         embedded_table:
-          button: Embed work package table
-          text: Embedded work package table (placeholder)
+          button: Werk pakket tabel insluiten
+          text: "[Placeholder] ingesloten werkpakket tabel"
     error:
       internal: Een interne fout is opgetreden.
       cannot_save_changes_with_message: 'Uw wijzigingen vanwege de volgende fout niet
@@ -231,7 +254,9 @@ nl:
     label_remove_watcher: Volger %{name} verwijderen
     label_remove_all_files: Verwijder alle bestanden
     label_add_description: Een beschrijving voor %{file} toevoegen
-    label_upload_notification: 'Uploaden van bestanden voor werk pakket #%{id}: %{subject}'
+    label_upload_notification: Uploaden van bestanden...
+    label_work_package_upload_notification: 'Uploaden van bestanden voor werk pakket
+      #%{id}: %{subject}'
     label_files_to_upload: 'Deze bestanden worden geüpload:'
     label_rejected_files: 'Deze bestanden kunnen niet worden geüpload:'
     label_rejected_files_reason: Deze bestanden kunnen niet worden geüpload gezien
@@ -269,9 +294,10 @@ nl:
         error_duplicate_group_name: De groep naam %{group} word meer dan één keer
           gebruikt. Groep namen moeten uniek zijn.
         reset_title: Reset formulier configuratie
-        confirm_reset: 'Waarschuwing: Weet u zeker dat u wilt herstellen van de configuratie
-          van het formulier? Dit herstelt de kenmerken hun standaardgroep, unset de
-          selectievakjes van de zichtbaarheid, en alle aangepaste velden uitschakelen.
+        confirm_reset: 'Waarschuwing: Weet u zeker dat u de configuratie van het formulier
+          wilt herstellen? Dit herstelt de kenmerken hun standaardgroep, deselecteerd
+          de selectievakjes van de zichtbaarheid, en schakeld alle aangepaste velden
+          uit.
 
 '
         upgrade_to_ee: Upgrade naar Enterprise Edition
@@ -370,8 +396,7 @@ nl:
           deze kenmerken.
 
 '
-      button_activate: Activeren van de tijdlijnmodus
-      button_deactivate: Deactiveren van de tijdlijnmodus
+      button_activate: Toon Gantt-diagram
       cancel: Annuleren
       change: In de planning wijzigen
       due_date: Vervaldatum
@@ -619,6 +644,7 @@ nl:
         months: maanden
     toolbar:
       settings:
+        configure_view: Weergave instellingen...
         columns: Kolommen ...
         sort_by: Sorteer per ...
         group_by: Groeperen op...
@@ -630,14 +656,14 @@ nl:
         save_as: Opslaan als ...
         export: Exporteren ...
         publish: Publiceren...
-        page_settings: Zoekopdracht hernoemen...
+        page_settings: Hernoem weergave...
         delete: Verwijderen
       filter: Filter
       unselected_title: Werkpakket
       search_query_label: Zoek opgeslagen filter zoekopdrachten
       search_query_title: Klik om te zoeken in opgeslagen filter zoekopdrachten
     modals:
-      label_settings: Hernoem zoekopdracht
+      label_settings: Hernoem weergave
       label_name: Naam
       label_delete_page: Verwijder huidige pagina
       button_apply: Toepassen
@@ -682,6 +708,8 @@ nl:
     error_could_not_resolve_version_name: Kan de verstane niet vinden
     error_could_not_resolve_user_name: Kan de gebruikersnaam niet vinden
     error_attachment_upload: 'Uploaden van bestand ''%{name}'' is mislukt: %{error}'
+    error_attachment_upload_permission: U bent niet gemachtigd om bestanden naar deze
+      bron te uploaden.
     units:
       workPackage:
         one: werkpakket
