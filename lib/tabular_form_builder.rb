@@ -292,7 +292,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def field_has_errors?(field)
-    @object.errors&.include?(field)
+    @object&.errors&.include?(field)
   end
 
   def extract_from(options)

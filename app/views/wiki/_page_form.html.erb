@@ -36,8 +36,7 @@
   <% end%>
 </div>
 
-
-<attachments data-resource="<%= resource.to_json %>" data-allow-uploading="true"></attachments>
+<%= list_attachments(resource, true) %>
 
 <hr class="form--separator" />
 

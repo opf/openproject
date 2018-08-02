@@ -45,6 +45,7 @@ export class AttachmentsComponent implements OnInit, OnDestroy {
 
   public $element:JQuery;
   public allowUploading:boolean;
+  public destroyImmediately:boolean;
   public text:any;
   public $formElement:JQuery;
   public initialAttachments:HalResource[];
@@ -70,26 +71,22 @@ export class AttachmentsComponent implements OnInit, OnDestroy {
 
     this.allowUploading = this.$element.data('allow-uploading');
 
+    if (this.$element.data('destroy-immediately') !== undefined) {
+      this.destroyImmediately = this.$element.data('destroy-immediately');
+    } else {
+      this.destroyImmediately = true;
+    }
+
     this.setupAttachmentDeletionCallback();
     this.setupResourceUpdateListener();
   }
 
   public setupAttachmentDeletionCallback() {
-    this.initialAttachments = _.clone(this.resource.attachments.elements);
+    this.memoizeCurrentAttachments();
 
     this.$formElement = this.$element.closest('form');
     this.$formElement.on('submit.attachment-component', () => {
-      let missingAttachments = _.differenceBy(this.initialAttachments,
-        this.resource.attachments.elements,
-        (attachment:HalResource) => attachment.id);
-
-      if (missingAttachments.length) {
-        missingAttachments.forEach((attachment) => {
-          this
-            .resource
-            .removeAttachment(attachment);
-        });
-      }
+      this.destroyRemovedAttachments();
     });
   }
 
@@ -101,11 +98,34 @@ export class AttachmentsComponent implements OnInit, OnDestroy {
       )
       .subscribe((newResource:HalResource) => {
         this.resource = newResource || this.resource;
+
+        if (this.destroyImmediately) {
+          this.destroyRemovedAttachments();
+          this.memoizeCurrentAttachments();
+        }
       });
   }
 
   ngOnDestroy() {
     this.$formElement.off('submit.attachment-component');
+  }
+
+  private destroyRemovedAttachments() {
+    let missingAttachments = _.differenceBy(this.initialAttachments,
+      this.resource.attachments.elements,
+      (attachment:HalResource) => attachment.id);
+
+    if (missingAttachments.length) {
+      missingAttachments.forEach((attachment) => {
+        this
+          .resource
+          .removeAttachment(attachment);
+      });
+    }
+  }
+
+  private memoizeCurrentAttachments() {
+    this.initialAttachments = _.clone(this.resource.attachments.elements);
   }
 }
 
