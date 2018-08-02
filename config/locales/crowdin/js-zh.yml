@@ -405,7 +405,6 @@ zh:
         level5: 展开 5 级
         all: 全部显示
       project_status: 项目状态
-      project_type: 项目类型
       really_close_dialog: 你真的想要关闭对话框并丢失输入的数据吗？
       responsible: 责任人
       save: 保存

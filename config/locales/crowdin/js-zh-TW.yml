@@ -406,7 +406,6 @@ zh-TW:
         level5: 展開第5層
         all: 顯示全部
       project_status: 專案狀態
-      project_type: 專案類型
       really_close_dialog: 您真的要關閉對話視窗並放棄輸入的資料嗎？
       responsible: 責任歸屬者
       save: 儲存

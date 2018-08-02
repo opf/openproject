@@ -135,10 +135,6 @@ fil:
       versions:
         no_results_title_text: Sa kasalukuyan ay walang mga bersyon para sa proyekto.
         no_results_content_text: Gumawa ng bagong bersyon
-  project_types:
-    index:
-      no_results_title_text: Sa kasalukuyan ay walang mga uri ng proyekto.
-      no_results_content_text: Gumuwa ng bagong uri ng proyekto
   members:
     index:
       no_results_title_text: Sa kasalukuyan ay walang parte ng mga myembro sa proyektong
@@ -210,8 +206,8 @@ fil:
         no_results_title_text: Sa kasalukuyan ay walang mga work packages na aking
           na-ireport.
       responsible:
-        no_results_title_text: Sa kasalukuyan ay walang mga work packages na ako ang
-          responsable.
+        no_results_title_text: There are currently no work packages that I am accountable
+          for.
       watched:
         no_results_title_text: Sa kasalukuyan ay walang mga work packages na aking
           tinatanaw.
@@ -358,9 +354,7 @@ fil:
         identifier: Ang pagkakakilanlan
         latest_activity_at: Pinakamabagong aktibidad sa
         parent: Ang kahaliling proyekto ng
-        project_type: Uri ng proyekto
         queries: Mga query
-        responsible: Responsable
         types: Mga uri
         versions: Mga bersyon
         work_packages: Ang mga pakete na ginawa
@@ -415,8 +409,6 @@ fil:
         redirect_existing_links: Pag-redirect sa umiiral ng mga link
       planning_element_type_color:
         hexcode: Hex code
-      project_type:
-        position: Posisyon
       work_package:
         begin_insertion: Nagsimula na ang pagpasok
         begin_deletion: Nagsimula na ang pagbubura
@@ -430,7 +422,6 @@ fil:
         parent_work_package: Magulang
         priority: Ang prayoridad
         progress: Isinasagawa (%)
-        responsible: Responsable
         spent_hours: Nauubos na oras
         spent_time: Nauubos na oras
         subproject: Kahaliling proyekto
@@ -440,11 +431,16 @@ fil:
     errors:
       messages:
         accepted: kailangang tanggapin.
+        after: dapat ay matapos %{date}.
+        after_or_equal_to: dapat ay matapos o katumbas sa %{date}.
+        before: dapat ay bago ang %{date}.
+        before_or_equal_to: dapat ay bago o katumbas sa %{date}.
         blank: hindi pwedeng blanko.
         cant_link_a_work_package_with_a_descendant: Ang isang package ng pagawaan
           ay hindi maaring mai-ugnay sa isa sa mga substak.
         circular_dependency: Itong pakikipag-ugnayan ay lilikha ng kabilugang dependecia.
         confirmation: hindi tugma %{attribute}.
+        could_not_be_copied: dapat hindi masyado kinopya ang lahat.
         does_not_exist: hindi umiiral.
         empty: hindi pwedeng blanko.
         even: dapat ay kapareho.
@@ -452,11 +448,9 @@ fil:
         file_too_large: ay masyadong malaki (pinakamataas na laki ay %{count} Bytes).
         greater_than: dapat ay mas malaki kaysa %{count}.
         greater_than_or_equal_to: dapat ay mas malaki o kapareho sa %{count}.
-        smaller_than_or_equal_to_max_length: dapat ay mas maliit kaysa o katumbas
-          sa pinakamataas na haba.
-        greater_than_start_date: dapat ay mas malaki kaysa sa petsa ng pagsisiimula.
         greater_than_or_equal_to_start_date: dapat ay mas malaki kaysa o katumbas
           sa petsa ng pagsisimula.
+        greater_than_start_date: dapat ay mas malaki kaysa sa petsa ng pagsisiimula.
         inclusion: ay hindi nakatakda sa isa ng mga pinahintulutan halaga.
         invalid: ay hindi balido.
         invalid_url: ay hindi balidong URL.
@@ -464,22 +458,20 @@ fil:
         less_than_or_equal_to: dapat ay hindi baba o katumbas sa %{count}.
         not_a_date: ay hindi balido ang petsa.
         not_a_datetime: ay hindi balido ang petsa ng oras.
-        not_an_iso_date: 'ay hindi balido ang petsa. Ang kinakailangan format: YYYY-MM-DD.'
         not_a_number: ay hindi numero.
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: ay hindi integer.
+        not_an_iso_date: 'ay hindi balido ang petsa. Ang kinakailangan format: YYYY-MM-DD.'
         not_same_project: ay hindi nabibilang sa parehong proyekto.
         odd: dapat ay kakaiba.
+        regex_invalid: hindi pwedeng mapatunayan sa nauugnay na mga regular na ekspresyon.
+        smaller_than_or_equal_to_max_length: dapat ay mas maliit kaysa o katumbas
+          sa pinakamataas na haba.
         taken: ay nakuha na.
         too_long: ay masyadong mahaba (pinakamataas ay ang mga %{count} karakter).
         too_short: ay masyadong mababa (pinakamaliit ay ang mga %{count} karakter.
-        wrong_length: ay ang maling haba (dapat ay %{count} ang mga karakter).
-        after: dapat ay matapos %{date}.
-        after_or_equal_to: dapat ay matapos o katumbas sa %{date}.
-        before: dapat ay bago ang %{date}.
-        before_or_equal_to: dapat ay bago o katumbas sa %{date}.
-        could_not_be_copied: dapat hindi masyado kinopya ang lahat.
-        regex_invalid: hindi pwedeng mapatunayan sa nauugnay na mga regular na ekspresyon.
         unchangeable: cannot be changed.
+        wrong_length: ay ang maling haba (dapat ay %{count} ang mga karakter).
       models:
         custom_field:
           at_least_one_custom_option: Kahit isang opsyon lang ang kinakailangan na
@@ -622,7 +614,6 @@ fil:
         one: Tungkulin
         other: Mga tungkulin
       type: Uri
-      project_type: Uri ng proyekto
       user: Gumagamit
       version: Bersyon
       wiki: Wiki
@@ -676,7 +667,7 @@ fil:
     password: Password
     priority: Ang prayoridad
     project: Proyekto
-    responsible: Responsable
+    responsible: Accountable
     role: Tungkulin
     roles: Ang mga tungkulin
     start_date: Petsa ng pagsimula
@@ -916,11 +907,6 @@ fil:
   default_priority_normal: Katamtaman
   default_priority_high: Mataas
   default_priority_immediate: Agarang
-  default_project_type_scrum: Scrum na koponan
-  default_project_type_standard: Pamantayang proyekto
-  default_reported_project_status_green: Green
-  default_reported_project_status_amber: Amber
-  default_reported_project_status_red: Pula
   default_role_anonymous: Hindi kilala
   default_role_developer: Bumubuo
   default_role_project_admin: Namuno ng proyekto
@@ -1283,7 +1269,6 @@ fil:
   label_edit: I-edit
   label_enable_multi_select: Toggle multi select
   label_enabled_project_custom_fields: Pinagana ang mga custom na patlang
-  label_enabled_project_types: Pinagana ang mga uri
   label_enabled_project_modules: Pinagana ang mga modyul
   label_enabled_project_activities: Pinagana ang mga aktibidad ng time tracking
   label_end_to_end: katapusan hanggang sa katapusan
@@ -1516,7 +1501,7 @@ fil:
   label_repository_plural: Mga repositoryo
   label_required: kailangan
   label_requires: kinakailangan
-  label_responsible_for_work_packages: Ang work package ako ay responsable para sa
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Mga resulta
   label_reverse_chronological_order: Sa kabaligtaran ng chronological order
   label_revision: Rebisyon
@@ -1655,8 +1640,8 @@ fil:
     sa akin
   label_work_package_view_all_reported_by_me: Tanawin lahat ang mga work package inuulat
     sa akin
-  label_work_package_view_all_responsible_for: Tanawin ang lahat ng mga work package
-    na ako ang may pananagutan
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
+    for
   label_work_package_view_all_watched: Tanawin lahat ang mga binabantayang work package
   label_work_package_watchers: Manonood
   label_workflow: Daloy ng trabaho
@@ -2151,9 +2136,9 @@ fil:
   setting_smtp_address: Server g SMTP
   setting_smtp_port: Port ng SMTP
   setting_smtp_authentication: Pagpapatunay ng SMTP
-  setting_smtp_domain: HELLO domain ng SMTP
   setting_smtp_user_name: Username ng SMTP
   setting_smtp_password: Password ng SMTP
+  setting_smtp_domain: HELLO domain ng SMTP
   setting_activity_days_default: Ang mga araw na naka-display sa aktibidad ng proyekto
   setting_app_subtitle: Aplikasyong subtitle
   setting_app_title: Aplikasyong pamagat
@@ -2471,8 +2456,6 @@ fil:
     admin_menu:
       color: Kulay
       colors: Mga kulay
-      project_type: Uri ng proyekto
-      project_types: Ang mga uri ng proyekto
     associations: Dependencia
     board_could_not_be_saved: Ang board ay hindi ma i-save
     button_delete_all: Burahin ang lahat
@@ -2490,7 +2473,6 @@ fil:
       one: Isang araw
       other: mga Isang %{count} araw
     edit_color: I-edit ang kulay
-    edit_project_type: I-edit ang uri ng proyekto
     edit_thing: I-edit
     edit_timeline: I-edit ang timeline ng ulat %{timeline}
     delete_timeline: Burahin ang timeline ng proyekto %{timeline}
@@ -2534,7 +2516,6 @@ fil:
         due_date: Ang pagtatapos ng petsa
         name: Pangalan
         status: Estado
-        responsible: Responsable
         start_date: Petsa ng pagsimula
       columns: Mga hanay
       comparisons: Mga kahalintulad
@@ -2564,7 +2545,7 @@ fil:
       outline: Paunang pagpapalawak ng balangkas
       parent: Ipakita ang mga subproject sa
       work_package_filters: I-filter ang mga package na gawain
-      work_package_responsible: Ipakita ang mga responsabling package na gawain
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: Ipakita ang mga itinalagang package na gawain
       types: Ipakita ang mga uri
       status: Ipakita ang estado
@@ -2577,9 +2558,8 @@ fil:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} na
         ang nakakaraan, %{end_label} %{endspan}%{endspanunit} mula sa ngayon"
       project_filters: I-filter ang mga proyekto
-      project_responsible: Ipakita ang mga responsabling proyekto
+      project_responsible: Show projects with accountable
       project_status: Ipakita ang estado ng proyekto
-      project_types: Ipakita ang mga uri ng proyekto
       timeframe: Magpakita ng timeframe
       timeframe_end: sa
       timeframe_start: mula sa
@@ -2589,7 +2569,6 @@ fil:
     new_color: Bagong kulay
     new_association: Bagong dependencia
     new_work_package: Bagong work package
-    new_project_type: Bagong uri na proyekto
     new_reporting: Bagong pag-uulat
     new_timeline: Bagong timeline na ulat
     no_projects_for_reporting_available: Walang mga proyekto upang piliin kung alin
@@ -2616,21 +2595,11 @@ fil:
       edit: 'I-edit ang estado: %{comment}'
       show: 'Estado: %{comment}'
     planning_element_update: 'I-update: %{title}'
-    project_type_could_not_be_saved: Ang uri ng proyekto ay hindi mai-save
     type_could_not_be_saved: Ang mga uri ay hindi mai-save
     reporting_could_not_be_saved: Ang paguulat ay hindi mai-save
     properties: Mga property
     really_delete_color: 'Sigurado ka ba, na gusto mong burahin ang sumusunod na kulay?
       Ang mga uri gamit ang kulay ay hindi mabubura.
-
-'
-    really_delete_project_type: 'Sigurado ka na, na gusto mong burahin anh sumusunod
-      na uri ng proyekto? Ang mga proyekto gumagamit ng uri na ito ay hindi mabubura.
-
-'
-    really_delete_timeline: 'Sigurado ka ba, na gusto mong burahin ang sumusunod na
-      timeline na ulat? Ang mga work package ay nagpapakita ng timeline report na
-      ito ay mabubura.
 
 '
     really_delete_reporting: 'Sigurado ka ba gusto mong burahin ang sumusunod ng mga
@@ -2642,7 +2611,6 @@ fil:
     timelines: Ang mga ulat ng timeline
     settings: Ang mga timeline
     vertical_work_package: Pataas na work package
-    without_project_type: Walng uri na proyekto
     you_are_viewing_the_selected_timeline: Ikaw at tumatanaw sa napiling timeline
       na ulat
     zoom:

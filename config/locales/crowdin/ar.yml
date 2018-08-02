@@ -128,10 +128,6 @@ ar:
       versions:
         no_results_title_text: لا يوجد حالياً أية إصدارات للمشروع.
         no_results_content_text: إنشاء إصدار جديد
-  project_types:
-    index:
-      no_results_title_text: لا يوجد حالياً أي أنواع مشاريع.
-      no_results_content_text: أنشئ نوع مشروع جديد
   members:
     index:
       no_results_title_text: لا يوجد حالياً قسم للأعضاء في هذا المشروع.
@@ -203,7 +199,8 @@ ar:
       reported:
         no_results_title_text: لا يوجد حاليا أي حزم عمل التي قد ذكرت في التقرير.
       responsible:
-        no_results_title_text: لا يوجد حاليا أي حزم عمل التي أنا مسؤول عنها.
+        no_results_title_text: There are currently no work packages that I am accountable
+          for.
       watched:
         no_results_title_text: لا يوجد حاليا أي حزم عمل اراقبها.
     summary:
@@ -337,9 +334,7 @@ ar:
         identifier: المعرّف
         latest_activity_at: آخر نشاط في
         parent: المشروع الفرعي من
-        project_type: نوع المشروع
         queries: الاستفسارات
-        responsible: مسؤول
         types: الأنواع
         versions: الإصدارات
         work_packages: مجموعات العمل
@@ -394,8 +389,6 @@ ar:
         redirect_existing_links: إعادة توجيه الروابط القائمة
       planning_element_type_color:
         hexcode: رمز Hex
-      project_type:
-        position: الموقع
       work_package:
         begin_insertion: البدء بالإدراج
         begin_deletion: البدء بالحذف
@@ -409,7 +402,6 @@ ar:
         parent_work_package: الجذر
         priority: الأولوية
         progress: التقدم (%)
-        responsible: مسؤول
         spent_hours: الوقت المستهلك
         spent_time: الوقت المستهلك
         subproject: مشروع فرعي
@@ -419,11 +411,16 @@ ar:
     errors:
       messages:
         accepted: يجب أن تقبل.
+        after: يجب أن يكون بعد %{date}.
+        after_or_equal_to: يجب أن يكون بعد أو ما يعادل %{date}.
+        before: يجب أن يكون قبل %{date}.
+        before_or_equal_to: يجب أن يكون قبل أو يساوي %{date}.
         blank: لا يمكن أن يكون فارغا.
         cant_link_a_work_package_with_a_descendant: حزمة العمل لا يمكن أن تكون مرتبطة
           إلى واحدة من المهام الفرعية.
         circular_dependency: ان هذه العلاقة خلق تبعية دائرية.
         confirmation: لا يتطابق مع %{attribute}.
+        could_not_be_copied: لا يمكن أن ينسخ بشكل كامل.
         does_not_exist: غير موجود.
         empty: لا يمكن أن تكون فارغة.
         even: يجب أن يكون زوجي.
@@ -431,9 +428,8 @@ ar:
         file_too_large: إنه كبير جدا(الحجم الأكبر هو%{count} بايت).
         greater_than: يجب أن يكون أكبر من %{count}.
         greater_than_or_equal_to: يجب أن يكون أكبر أو يساوي%{count}.
-        smaller_than_or_equal_to_max_length: يجب أن يكون أصغر أو يساوي الطول الأعظم.
-        greater_than_start_date: يجب أن يكون أكبر من تاريخ البدء.
         greater_than_or_equal_to_start_date: يجب أن يكون أكبر أو يساوي تاريخ البدء.
+        greater_than_start_date: يجب أن يكون أكبر من تاريخ البدء.
         inclusion: لم يتم تعيين إلى واحدة من القيم المسموح بها.
         invalid: غير صالح.
         invalid_url: is not a valid URL.
@@ -441,22 +437,19 @@ ar:
         less_than_or_equal_to: يجب أن يكون أقل من أو يساوي %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
-        not_an_iso_date: 'ليس تاريخًا صالحًا. الشكل المطلوب: YYYY-MM-DD.'
         not_a_number: ليس رقماً.
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: ليس عدداً صحيحاً.
+        not_an_iso_date: 'ليس تاريخًا صالحًا. الشكل المطلوب: YYYY-MM-DD.'
         not_same_project: لا ينتمي إلى نفس المشروع.
         odd: يجب أن يكون فردي.
+        regex_invalid: could not be validated with the associated regular expression.
+        smaller_than_or_equal_to_max_length: يجب أن يكون أصغر أو يساوي الطول الأعظم.
         taken: قد اتخذت بالفعل.
         too_long: طويل جداً (الحد الأقصى من الأحرف %{count}).
         too_short: قصيرة جداً (الحد الأدنى هو الأحرف %{count}).
-        wrong_length: هو طول خاطئ (يجب أن تكون الأحرف %{count}).
-        after: يجب أن يكون بعد %{date}.
-        after_or_equal_to: يجب أن يكون بعد أو ما يعادل %{date}.
-        before: يجب أن يكون قبل %{date}.
-        before_or_equal_to: يجب أن يكون قبل أو يساوي %{date}.
-        could_not_be_copied: لا يمكن أن ينسخ بشكل كامل.
-        regex_invalid: could not be validated with the associated regular expression.
         unchangeable: cannot be changed.
+        wrong_length: هو طول خاطئ (يجب أن تكون الأحرف %{count}).
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
@@ -609,7 +602,6 @@ ar:
         few: Roles
         many: Roles
       type: النّوع
-      project_type: نوع المشروع
       user: المستخدم
       version: الإصدار
       wiki: Wiki
@@ -661,7 +653,7 @@ ar:
     password: كلمة المرور
     priority: الأولوية
     project: مشروع
-    responsible: مسؤول
+    responsible: Accountable
     role: الدور
     roles: الأدوار
     start_date: تاريخ البدء
@@ -954,11 +946,6 @@ ar:
   default_priority_normal: عادية
   default_priority_high: مرتفعة
   default_priority_immediate: عاجلة
-  default_project_type_scrum: فريق مزاحمة scrum
-  default_project_type_standard: مشروع قياسي
-  default_reported_project_status_green: أخضر
-  default_reported_project_status_amber: كهرمان
-  default_reported_project_status_red: أحمر
   default_role_anonymous: مجهول
   default_role_developer: مطوِّر
   default_role_project_admin: مدير المشروع
@@ -1305,7 +1292,6 @@ ar:
   label_edit: تعديل
   label_enable_multi_select: تبديل متعدد الخيارات
   label_enabled_project_custom_fields: تمكين الحقول المخصصة
-  label_enabled_project_types: تمكين أنواع
   label_enabled_project_modules: تمكين الأنماط
   label_enabled_project_activities: تمكين وقت تتبع الأنشطة
   label_end_to_end: نهاية إلى نهاية
@@ -1538,7 +1524,7 @@ ar:
   label_repository_plural: مستودعات البيانات
   label_required: مطلوب
   label_requires: متطلبات
-  label_responsible_for_work_packages: مجموعات العمل التي أنا مسؤول عنها
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: نتائج
   label_reverse_chronological_order: في ترتيب زمني عكسي
   label_revision: مراجعة
@@ -1672,8 +1658,8 @@ ar:
   label_work_package_view_all: عرض جميع مجموعات العمل
   label_work_package_view_all_assigned_to_me: عرض جميع مجموعات العمل الموكلة لي
   label_work_package_view_all_reported_by_me: عرض جميع مجموعات العمل التي أوردت لي
-  label_work_package_view_all_responsible_for: عرض جميع مجموعات العمل التي أنا مسؤول
-    عنها
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
+    for
   label_work_package_view_all_watched: عرض جميع مجموعات العمل المشاهدة
   label_work_package_watchers: المشاهدون
   label_workflow: سير العمل
@@ -2150,9 +2136,9 @@ ar:
   setting_smtp_address: خادم SMTP
   setting_smtp_port: منفذ SMTP
   setting_smtp_authentication: مصادقة SMTP
-  setting_smtp_domain: مرحبا SMTP المجال
   setting_smtp_user_name: اسم المستخدم SMTP
   setting_smtp_password: كلمة مرور SMTP
+  setting_smtp_domain: مرحبا SMTP المجال
   setting_activity_days_default: الأيام المعروضة على نشاط المشروع
   setting_app_subtitle: العنوان الفرعي للتطبيق
   setting_app_title: عنوان التطبيق
@@ -2442,8 +2428,6 @@ ar:
     admin_menu:
       color: اللون
       colors: الألوان
-      project_type: نوع المشروع
-      project_types: أنواع المشاريع
     associations: الاعتماديات
     board_could_not_be_saved: لا يمكن حفظ عنصر
     button_delete_all: حذف الكل
@@ -2465,7 +2449,6 @@ ar:
       few: "%{count} days"
       many: "%{count} days"
     edit_color: تحرير الألوان
-    edit_project_type: تعديل نوع المشروع
     edit_thing: تعديل
     edit_timeline: تحرير تقرير الخط الزمني %{timeline}
     delete_timeline: حذف الجدول الزمني تقرير %{timeline}
@@ -2503,7 +2486,6 @@ ar:
         due_date: تاريخ الانتهاء
         name: الاسم
         status: الحالة
-        responsible: مسؤول
         start_date: تاريخ البدء
       columns: الأعمدة
       comparisons: مقارنات
@@ -2532,7 +2514,7 @@ ar:
       outline: توسيع المخطط الأولى
       parent: إظهار المشاريع الفرعية من
       work_package_filters: تصفية مجموعات العمل
-      work_package_responsible: إظهار حزم العمل مع المسؤولين
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: إظهار حزم العمل مع المحال إليه
       types: إظهار أنواع
       status: إظهار حالة
@@ -2544,9 +2526,8 @@ ar:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit}،
         %{endspan}%{endspanunit} %{end_label} من الآن"
       project_filters: مشاريع التصفية
-      project_responsible: إظهار المشاريع مع المسؤولين
+      project_responsible: Show projects with accountable
       project_status: إظهار حالة المشروع
-      project_types: إظهار أنواع المشاريع
       timeframe: إظهار الإطار الزمني
       timeframe_end: الى
       timeframe_start: من
@@ -2556,7 +2537,6 @@ ar:
     new_color: اللون الجديد
     new_association: تبعية جديدة
     new_work_package: مجموعة عمل جديدة
-    new_project_type: نوع المشروع الجديد
     new_reporting: تقرير جديد
     new_timeline: تقرير الجدول الزمني الجديد
     no_projects_for_reporting_available: وهناك مشاريع لا يمكن إنشاء ارتباط إبلاغ التي.
@@ -2581,20 +2561,11 @@ ar:
       edit: 'تعديل الحالة: %{comment}'
       show: 'الحالة: %{comment}'
     planning_element_update: 'التحديث: %{title}'
-    project_type_could_not_be_saved: تعذر حفظ نوع المشروع
     type_could_not_be_saved: لا يمكن حفظ عنصر القائمة
     reporting_could_not_be_saved: التقرير غير قابل للحفظ
     properties: الخصائص
     really_delete_color: 'هل أنت متأكد أنك تريد حذف الألوان التالية؟ لن يتم حذف أنواع
       استخدام هذا اللون.
-
-'
-    really_delete_project_type: 'هل أنت متأكد أنك تريد حذف نوع المشروع التالية؟ لن
-      يتم حذف المشاريع التي تستخدم هذا النوع.
-
-'
-    really_delete_timeline: 'هل أنت متأكد أنك تريد حذف التقرير الفترة الزمنية التالية؟
-      لن يتم حذف حزم العمل المبين في هذا التقرير الجدول الزمني.
 
 '
     really_delete_reporting: 'هل أنت متأكد أنك تريد حذف التقارير التالية؟ أيضا سيتم
@@ -2606,7 +2577,6 @@ ar:
     timelines: تقارير الجدول الزمني
     settings: الخطوط الزمنية
     vertical_work_package: مجموعات العمل الرأسية
-    without_project_type: بلا نوع المشروع
     you_are_viewing_the_selected_timeline: تقوم بعرض تقرير الجدول الزمني المحدد
     zoom:
       in: تكبير

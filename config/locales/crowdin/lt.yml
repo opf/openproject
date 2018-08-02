@@ -129,10 +129,6 @@ lt:
       versions:
         no_results_title_text: Projektas neturi jokių laidų.
         no_results_content_text: Sukurti naują versiją
-  project_types:
-    index:
-      no_results_title_text: Nėra jokių projektų rūšių.
-      no_results_content_text: Sukurti naują projektų rūšį
   members:
     index:
       no_results_title_text: Nėra nė vieno šio projekto dalyvio.
@@ -203,7 +199,8 @@ lt:
         no_results_title_text: Šiuo metu nėra darbų paketo, apie kurio vykdymą turėčiau
           atsiskaityti.
       responsible:
-        no_results_title_text: Šiuo metu nėra darbų paketų, už kuriuos būčiau atsakingas.
+        no_results_title_text: There are currently no work packages that I am accountable
+          for.
       watched:
         no_results_title_text: Nėra mano stebimų darbų paketų.
     summary:
@@ -338,9 +335,7 @@ lt:
         identifier: Identifikatorius
         latest_activity_at: Naujausia veikla
         parent: Priklauso projektui
-        project_type: Projekto tipas
         queries: Užklausos
-        responsible: Atsakingas asmuo/grupė
         types: Tipai
         versions: Versijos
         work_packages: Darbų paketai
@@ -395,8 +390,6 @@ lt:
         redirect_existing_links: Peradresuoti egzistuojančias nuorodas
       planning_element_type_color:
         hexcode: Šešioliktainis kodas
-      project_type:
-        position: Vieta
       work_package:
         begin_insertion: Įterpimo pradžioje
         begin_deletion: Ištrynimo pradžioje
@@ -410,7 +403,6 @@ lt:
         parent_work_package: Tėvas
         priority: Pirmenybė
         progress: Progresas (%)
-        responsible: Atsakingas asmuo/grupė
         spent_hours: Praleista laiko
         spent_time: Praleista laiko
         subproject: Sub-projektas
@@ -420,11 +412,16 @@ lt:
     errors:
       messages:
         accepted: turi būti patvirtinta.
+        after: turi būti po %{date}.
+        after_or_equal_to: turi eiti po arba būti lygu %{date}.
+        before: turi eiti prieš %{date}.
+        before_or_equal_to: turi eiti prieš arba būti lygu %{date}.
         blank: negali būti tuščia.
         cant_link_a_work_package_with_a_descendant: Darbų paketas negali būti susietas
           su viena iš savo vidinių užduočių.
         circular_dependency: Šis ryšys sukurtų ciklinę priklausomybę.
         confirmation: nesutampa su %{attribute}.
+        could_not_be_copied: negalima (pilnai) nukopijuoti.
         does_not_exist: neegzistuoja.
         empty: negali būti tuščia.
         even: turi būti lyginis.
@@ -432,11 +429,9 @@ lt:
         file_too_large: per didelis (didžiausias leistinas dydis yra %{count} baitų).
         greater_than: turi būti didesnis už %{count}.
         greater_than_or_equal_to: turi būti didesnis arba lygus %{count}.
-        smaller_than_or_equal_to_max_length: turi būti mažesnis arba lygus didžiausiam
-          ilgiui.
-        greater_than_start_date: turi būti didesnis už pradžios datą.
         greater_than_or_equal_to_start_date: turi būti didesnis arba lygus už pradžios
           datą.
+        greater_than_start_date: turi būti didesnis už pradžios datą.
         inclusion: nenustatyta kaip viena iš leidžiamų reikšmių.
         invalid: " neteisingas."
         invalid_url: nėra tinkamas URL.
@@ -444,22 +439,20 @@ lt:
         less_than_or_equal_to: turi būti mažesnis arba lygus %{count}.
         not_a_date: nėra tinkama data.
         not_a_datetime: nėra tinkama data ir laikas.
-        not_an_iso_date: 'nėra tinkama data. Reikalingas formatas: YYYY-MM-DD.'
         not_a_number: nėra skaičius.
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: nėra sveikasis skaičius.
+        not_an_iso_date: 'nėra tinkama data. Reikalingas formatas: YYYY-MM-DD.'
         not_same_project: nepriklauso tam pačiam projektui.
         odd: turi būti nelyginis.
+        regex_invalid: negalėjo būti patvirtintas su susieta reguliaria išraiška.
+        smaller_than_or_equal_to_max_length: turi būti mažesnis arba lygus didžiausiam
+          ilgiui.
         taken: jau užimtas.
         too_long: yra per ilgas (daugiausiai galima %{count} simbolių).
         too_short: yra per trumpas (mažiausiai %{count} simbolių).
-        wrong_length: yra neteisingo ilgio (turi būti %{count} simbolių).
-        after: turi būti po %{date}.
-        after_or_equal_to: turi eiti po arba būti lygu %{date}.
-        before: turi eiti prieš %{date}.
-        before_or_equal_to: turi eiti prieš arba būti lygu %{date}.
-        could_not_be_copied: negalima (pilnai) nukopijuoti.
-        regex_invalid: negalėjo būti patvirtintas su susieta reguliaria išraiška.
         unchangeable: cannot be changed.
+        wrong_length: yra neteisingo ilgio (turi būti %{count} simbolių).
       models:
         custom_field:
           at_least_one_custom_option: Turi būti prieinama bent viena savybė.
@@ -600,7 +593,6 @@ lt:
         few: Rolės (-ė, -ių)
         many: Roles
       type: Tipas
-      project_type: Projekto tipas
       user: Vartotojas
       version: Versija
       wiki: Wiki
@@ -654,7 +646,7 @@ lt:
     password: Slaptažodis
     priority: Pirmenybė
     project: Projektas
-    responsible: Atsakingas asmuo/grupė
+    responsible: Accountable
     role: Rolė
     roles: Rolės
     start_date: Pradžios data
@@ -918,11 +910,6 @@ lt:
   default_priority_normal: Normalus
   default_priority_high: Aukštis
   default_priority_immediate: Neatidėliotinas
-  default_project_type_scrum: Scrum komanda
-  default_project_type_standard: Standartinis projektas
-  default_reported_project_status_green: Žalia
-  default_reported_project_status_amber: Gintarinė
-  default_reported_project_status_red: Raudona
   default_role_anonymous: Anonimas
   default_role_developer: Kūrėjas
   default_role_project_admin: Projekto administratorius
@@ -1274,7 +1261,6 @@ lt:
   label_edit: Redaguoti
   label_enable_multi_select: Perjungti daugybinį pažymėjimą
   label_enabled_project_custom_fields: Įgalinti papildomi laukai
-  label_enabled_project_types: Įgalinti tipai
   label_enabled_project_modules: Įgalinti moduliai
   label_enabled_project_activities: Įgalintos laiko sekimo veiklos
   label_end_to_end: pabaiga į pabaigą
@@ -1507,7 +1493,7 @@ lt:
   label_repository_plural: Repozitorijos
   label_required: reikalingas
   label_requires: turi turėti
-  label_responsible_for_work_packages: Darbų paketai, už kuriuos atsakau aš
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Rezultatai
   label_reverse_chronological_order: Atbuline chronologine tvarka
   label_revision: Revizija
@@ -1644,8 +1630,8 @@ lt:
     man
   label_work_package_view_all_reported_by_me: Peržiūrėti visus darbų paketus, kuriuos
     užregistravau aš
-  label_work_package_view_all_responsible_for: Peržiūrėti visus darbų paketus, už
-    kuriuos esu atsakingas
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
+    for
   label_work_package_view_all_watched: Peržiūrėti visus stebimus darbų paketus
   label_work_package_watchers: Stebėtojai
   label_workflow: Darbų eiga
@@ -2141,9 +2127,9 @@ lt:
   setting_smtp_address: SMTP serveris
   setting_smtp_port: SMTP prievadas
   setting_smtp_authentication: SMTP autentifikacija
-  setting_smtp_domain: SMTP HELLO domenas
   setting_smtp_user_name: SMTP vartotojo vardas
   setting_smtp_password: SMTP slaptažodis
+  setting_smtp_domain: SMTP HELLO domenas
   setting_activity_days_default: Projekto veiklos atvaizduojamų dienų skaičius
   setting_app_subtitle: Programos paantraštė
   setting_app_title: Programos pavadinimas
@@ -2445,8 +2431,6 @@ lt:
     admin_menu:
       color: Spalva
       colors: Spalvos
-      project_type: Projekto tipas
-      project_types: Projekto tipai
     associations: Priklausomybės
     board_could_not_be_saved: Skelbimų lenta negalėjo būti išsaugota
     button_delete_all: Ištrinti viską
@@ -2466,7 +2450,6 @@ lt:
       few: "%{count} dienas (-ą, -ų)"
       many: "%{count} days"
     edit_color: Redaguoti spalvą
-    edit_project_type: Redaguoti projekto tipą
     edit_thing: Redaguoti
     edit_timeline: Redaguoti laiko juostos ataskaitą %{timeline}
     delete_timeline: Ištrinti laiko juostos ataskaitą %{timeline}
@@ -2504,7 +2487,6 @@ lt:
         due_date: Pabaigos data
         name: Vardas
         status: Būsena
-        responsible: Atsakingas asmuo/grupė
         start_date: Pradžios data
       columns: Stulpeliai
       comparisons: Palyginimai
@@ -2533,7 +2515,7 @@ lt:
       outline: Pirminio plano plėtra
       parent: Rodyti sub-projektus
       work_package_filters: Filtruoti darbų paketus
-      work_package_responsible: Rodyti darbų paketus su atsakingu
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: Rodyti darbų paketus su vykdančiuoju asmeniu
       types: Rodyti tipus
       status: Rodyti būsenas
@@ -2545,9 +2527,8 @@ lt:
       project_time_filter_relative: "%{start_label} %{startspan} %{startspanunit}
         prieš, %{end_label} %{endspan} %{endspanunit} nuo dabar"
       project_filters: Filtruoti projektus
-      project_responsible: Rodyti projektus su atsakingu
+      project_responsible: Show projects with accountable
       project_status: Rodyti projekto būseną
-      project_types: Rodyti projekto tipus
       timeframe: Rodyti trukmę
       timeframe_end: iki
       timeframe_start: nuo
@@ -2557,7 +2538,6 @@ lt:
     new_color: Nauja spalva
     new_association: Nauja priklausomybė
     new_work_package: Naujas darbų paketas
-    new_project_type: Naujas projekto tipas
     new_reporting: Nauja ataskaita
     new_timeline: Nauja laiko juostos ataskaita
     no_projects_for_reporting_available: Čia nėra galimų projektų, kuriems gali būti
@@ -2584,20 +2564,11 @@ lt:
       edit: Redaguoti būseną %{comment}
       show: 'Būsena: %{comment}'
     planning_element_update: 'Atnaujinimas: %{title}'
-    project_type_could_not_be_saved: Projekto tipas negalėjo būti išsaugotas
     type_could_not_be_saved: Tipas negalėjo būti išsaugotas
     reporting_could_not_be_saved: Ataskaita negalėjo būti išsaugota
     properties: Ypatybės
     really_delete_color: 'Ar tikrai norite ištrinti šią spalvą? Ją naudojantys tipai
       nebus ištrinti.
-
-'
-    really_delete_project_type: 'Ar tikrai norite ištrinti šį projekto tipą? Jį naudojantys
-      projektai nebus ištrinti.
-
-'
-    really_delete_timeline: 'Ar tikrai norite ištrinti šią laiko ataskaita? Joje pavaizduoti
-      darbų paketai nebus ištrinti.
 
 '
     really_delete_reporting: 'Ar tikrai norite ištrinti šias ataskaitas? Ankstesnės
@@ -2609,7 +2580,6 @@ lt:
     timelines: Laiko juostos ataskaitos
     settings: Laiko juostos
     vertical_work_package: Vertikalūs darbų paketai
-    without_project_type: Be projekto tipo
     you_are_viewing_the_selected_timeline: Jūs peržiūrite pasirinktos laiko juostos
       atskaitą
     zoom:

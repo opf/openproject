@@ -126,10 +126,6 @@ hu:
       versions:
         no_results_title_text: Jelenleg nincsenek verziók a projekthez.
         no_results_content_text: Új verzió létrehozása
-  project_types:
-    index:
-      no_results_title_text: Jelenleg nincsenek projekt típusok.
-      no_results_content_text: Új projekt típus létrehozása
   members:
     index:
       no_results_title_text: Jelenleg egy tagja sincs a projektnek.
@@ -196,7 +192,8 @@ hu:
       reported:
         no_results_title_text: Nincs általam beszámolt munkacsomag.
       responsible:
-        no_results_title_text: Nincs munkacsomag, amelyért én vagyok a felelős.
+        no_results_title_text: There are currently no work packages that I am accountable
+          for.
       watched:
         no_results_title_text: Nincs általam megfigyelt munkacsomag.
     summary:
@@ -334,9 +331,7 @@ hu:
         identifier: Azonosító
         latest_activity_at: Legújabb tevékenység ekkor
         parent: Alprojekt
-        project_type: Projekt típus
         queries: Lekérdezések
-        responsible: Felelős
         types: Típus
         versions: Verzió
         work_packages: Munka csomagok
@@ -391,8 +386,6 @@ hu:
         redirect_existing_links: A létező link átirányítása
       planning_element_type_color:
         hexcode: Hexa kód
-      project_type:
-        position: Pozició
       work_package:
         begin_insertion: Beillesztés kezdete
         begin_deletion: Törlés kezdete
@@ -406,7 +399,6 @@ hu:
         parent_work_package: Szülő
         priority: Fontosság
         progress: Folyamat állapot (%)
-        responsible: Felelős
         spent_hours: Eltöltött idő
         spent_time: Eltöltött idő
         subproject: Alprojekt
@@ -416,11 +408,16 @@ hu:
     errors:
       messages:
         accepted: el kell fogadni.
+        after: későbbinek kell lennie, mint %{date}.
+        after_or_equal_to: későbbinek vagy egyenlőnek kell lennie, mint %{date}.
+        before: korábbinak kell lennie, mint %{date}.
+        before_or_equal_to: korábbinak vagy egyenlőnek kell lennie, mint %{date}.
         blank: nem lehet üres.
         cant_link_a_work_package_with_a_descendant: A munka csomag nem kapcsolható
           saját részfeladatához.
         circular_dependency: Ez a kapcsolat egy körkörös függőséget eredményezne.
         confirmation: "%{attribute} nem egyezik."
+        could_not_be_copied: nem lehet (teljesen) másolni.
         does_not_exist: nem létezik.
         empty: nem lehet üres.
         even: kell még.
@@ -428,11 +425,9 @@ hu:
         file_too_large: túl nagy fájlméret (maximális méret %{count} Byte).
         greater_than: nagyobbnak kell lenni mint %{count}.
         greater_than_or_equal_to: nagyobbnak vagy egyenlőnek kell lennie mint %{count}.
-        smaller_than_or_equal_to_max_length: a maximális hossznak kisebbnek vagy egyenlőnek
-          kell lennie.
-        greater_than_start_date: nagyobbnak kell lennie, mint a kezdő dátum.
         greater_than_or_equal_to_start_date: nagyobbnak vagy egyenlőnek kell lennie,
           mint a kezdő dátum.
+        greater_than_start_date: nagyobbnak kell lennie, mint a kezdő dátum.
         inclusion: nem a megengedett értékek egyike lett beállítva.
         invalid: érvénytelen.
         invalid_url: nem érvényes URL.
@@ -440,22 +435,20 @@ hu:
         less_than_or_equal_to: kisebbnek vagy egyenlőnek kell lennie mint, %{count}.
         not_a_date: nem érvényes dátum.
         not_a_datetime: ez nem érvényes dátum.
-        not_an_iso_date: nem érvényes dátum. A szükséges formátum ÉÉÉÉ-HH-NN.
         not_a_number: ez nem egy szám.
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: ez nem egy szám.
+        not_an_iso_date: nem érvényes dátum. A szükséges formátum ÉÉÉÉ-HH-NN.
         not_same_project: nem azonos projekthez tartozik.
         odd: páratlan kell legyen.
+        regex_invalid: nem lehet a hozzárendelt reguláris kifejezéssel ellenőrizni.
+        smaller_than_or_equal_to_max_length: a maximális hossznak kisebbnek vagy egyenlőnek
+          kell lennie.
         taken: már foglalt.
         too_long: túl hosszú (nem lehet több %{count} karakternél).
         too_short: túl rövid (legalább %{count} karakter kell legyen).
-        wrong_length: nem megfelelő hosszúságú (%{count} karakter szükséges).
-        after: későbbinek kell lennie, mint %{date}.
-        after_or_equal_to: későbbinek vagy egyenlőnek kell lennie, mint %{date}.
-        before: korábbinak kell lennie, mint %{date}.
-        before_or_equal_to: korábbinak vagy egyenlőnek kell lennie, mint %{date}.
-        could_not_be_copied: nem lehet (teljesen) másolni.
-        regex_invalid: nem lehet a hozzárendelt reguláris kifejezéssel ellenőrizni.
         unchangeable: cannot be changed.
+        wrong_length: nem megfelelő hosszúságú (%{count} karakter szükséges).
       models:
         custom_field:
           at_least_one_custom_option: Minimum egy opciónak elérhetőnek kell lennie.
@@ -592,7 +585,6 @@ hu:
         one: Szerepkör
         other: Szerepkörök
       type: Típus
-      project_type: Projekt típus
       user: Felhasználó
       version: Verzió
       wiki: Wiki
@@ -645,7 +637,7 @@ hu:
     password: Jelszó
     priority: Fontosság
     project: Projekt
-    responsible: Felelős
+    responsible: Accountable
     role: Szerepkör
     roles: Szerepkörök
     start_date: Indulási dátum
@@ -887,11 +879,6 @@ hu:
   default_priority_normal: Átlagos
   default_priority_high: Magas
   default_priority_immediate: Azonnali
-  default_project_type_scrum: Scrum csapat
-  default_project_type_standard: Sztenderd projekt
-  default_reported_project_status_green: Zöld
-  default_reported_project_status_amber: Borostyán
-  default_reported_project_status_red: Piros
   default_role_anonymous: Anonymous
   default_role_developer: Fejlesztő
   default_role_project_admin: Projekt admin
@@ -1246,7 +1233,6 @@ hu:
   label_edit: Szerkesztés
   label_enable_multi_select: Multiselect ki-/ bekapcsolása
   label_enabled_project_custom_fields: Egyéni mezők engedélyezve
-  label_enabled_project_types: Engedélyezett típusok
   label_enabled_project_modules: Engedélyezett modulok
   label_enabled_project_activities: Engedélyezett időkövetés tevékenységek
   label_end_to_end: végétől a végéig
@@ -1477,7 +1463,7 @@ hu:
   label_repository_plural: Csomagtárolók
   label_required: kötelező
   label_requires: igényel
-  label_responsible_for_work_packages: Én vagyok felelős ezekért a munkacsomagokért
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Eredmények
   label_reverse_chronological_order: Fordított időrendi sorrendben
   label_revision: Felülvizsgálat
@@ -1616,8 +1602,8 @@ hu:
     megtekintése
   label_work_package_view_all_reported_by_me: Az összes magamhoz rendelt munkacsomag
     módosításainak listája
-  label_work_package_view_all_responsible_for: Az összes munkacsomag megtekintése,
-    amelyért én vagyok a felelős
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
+    for
   label_work_package_view_all_watched: Az összes megfigyelt munkacsomag megtekintése
   label_work_package_watchers: Megfigyelők
   label_workflow: Munkafolyamat
@@ -2086,9 +2072,9 @@ hu:
   setting_smtp_address: SMTP-kiszolgáló
   setting_smtp_port: SMTP-port
   setting_smtp_authentication: SMTP-hitelesítés
-  setting_smtp_domain: SMTP HELLO-tartomány
   setting_smtp_user_name: SMTP-Felhasználónév
   setting_smtp_password: SMTP-jelszó
+  setting_smtp_domain: SMTP HELLO-tartomány
   setting_activity_days_default: Ennyi nap megjelenítése a projekttevékenységekben
   setting_app_subtitle: Alkalmazás felirat
   setting_app_title: Alkalmazás címe
@@ -2386,8 +2372,6 @@ hu:
     admin_menu:
       color: Szín
       colors: Színek
-      project_type: Projekt típus
-      project_types: Projekt típusok
     associations: Szükséges összetevők
     board_could_not_be_saved: A tábla nem menthető
     button_delete_all: Összes törlése
@@ -2405,7 +2389,6 @@ hu:
       one: 1 napja
       other: "%{count} napja"
     edit_color: Színek szerkesztése
-    edit_project_type: Projekt típus módosítása
     edit_thing: Szerkesztés
     edit_timeline: A %{timeline} ütemterv jelentés szerkesztése
     delete_timeline: A %{timeline} ütemterv jelentés törlése
@@ -2447,7 +2430,6 @@ hu:
         due_date: Záró dátuma
         name: Név
         status: Állapot
-        responsible: Felelős
         start_date: Indulási dátum
       columns: Oszlopok
       comparisons: Összehasonlítások
@@ -2476,7 +2458,7 @@ hu:
       outline: Első vázlat bővítése
       parent: Az alprojektek megjelenítése
       work_package_filters: A munkacsomagok szűrése
-      work_package_responsible: A munkacsomagok megjelenítése a felelősökkel
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: A munkacsomagok megjelenítése a hozzárendelésekkel
       types: Típusok megjelenítése
       status: Állapot megjelenítése
@@ -2489,9 +2471,8 @@ hu:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago,
         %{end_label} %{endspan}%{endspanunit} ból most"
       project_filters: Projekt szűrés
-      project_responsible: A projektek megjelenítése a felelősökkel
+      project_responsible: Show projects with accountable
       project_status: Projekt állapotának megjelenítése
-      project_types: Mutasd a  projekt típust
       timeframe: Mutasd az időkeretet
       timeframe_end: címzett
       timeframe_start: tól
@@ -2501,7 +2482,6 @@ hu:
     new_color: Új szín
     new_association: Új függőség
     new_work_package: Új munkacsomag
-    new_project_type: Új projekt típus
     new_reporting: Új jelentés
     new_timeline: Új idővonal-jelentés
     no_projects_for_reporting_available: Nincsenek projektek, amelyekre a jelentés
@@ -2528,20 +2508,11 @@ hu:
       edit: 'Az állapot szerkesztése: %{comment}'
       show: 'Állapot: %{comment}'
     planning_element_update: 'Frissítve: %{title}'
-    project_type_could_not_be_saved: Projekt típusát nem lehet menteni
     type_could_not_be_saved: A típust nem lehet menteni
     reporting_could_not_be_saved: A jelentés mentése nem sikerült
     properties: Tulajdonságok
     really_delete_color: 'Biztos, hogy törli a következő színt? Ezt a színt használja
       egy típus, igy nem törlhető.
-
-'
-    really_delete_project_type: 'Biztos, hogy törli a következő projekt-típust?Egy
-      projekt használja ezt a típust igy nem törölhető.
-
-'
-    really_delete_timeline: 'Biztos, hogy törölni akarja az alábbi ütemterv jelentést?
-      Az ütemterv jelentésben szereplő munkacsomagok, igy nem törölhető.
 
 '
     really_delete_reporting: 'Biztosan, törli a következő jelentést? Az előző jelentés
@@ -2553,7 +2524,6 @@ hu:
     timelines: Jelentések az idővonalakról
     settings: Idővonalak
     vertical_work_package: Függőleges munkacsomagok
-    without_project_type: Projekt típus nélkül
     you_are_viewing_the_selected_timeline: A kijelölt ütemtervből készült jelentés
       megtekintése
     zoom:

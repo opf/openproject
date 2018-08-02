@@ -117,10 +117,6 @@ ko:
       versions:
         no_results_title_text: 프로젝트에 버전이 없습니다.
         no_results_content_text: 새 버전 생성
-  project_types:
-    index:
-      no_results_title_text: 프로젝트 타입이 없습니다.
-      no_results_content_text: 새 프로젝트 타입 생성
   members:
     index:
       no_results_title_text: 프로젝트에 멤버 파트가 없습니다.
@@ -185,7 +181,8 @@ ko:
       reported:
         no_results_title_text: 내가 보고한 작업 패키지가 없습니다.
       responsible:
-        no_results_title_text: 내 책임의 작업 패키지가 없습니다.
+        no_results_title_text: There are currently no work packages that I am accountable
+          for.
       watched:
         no_results_title_text: 내가 관찰하는 작업 패키지가 없습니다.
     summary:
@@ -311,9 +308,7 @@ ko:
         identifier: 식별자
         latest_activity_at: 다음의 최근 활동
         parent: 하위 프로젝트
-        project_type: 프로젝트 형식
         queries: 쿼리
-        responsible: 책임
         types: 종류
         versions: 버전
         work_packages: 작업 패키지
@@ -366,8 +361,6 @@ ko:
         redirect_existing_links: 기존 링크 리디렉션
       planning_element_type_color:
         hexcode: 16진수 코드
-      project_type:
-        position: 위치
       work_package:
         begin_insertion: 삽입 시작
         begin_deletion: 삭제 시작
@@ -381,7 +374,6 @@ ko:
         parent_work_package: 부모
         priority: 우선 순위
         progress: 진행률 (%)
-        responsible: 책임
         spent_hours: 소비한 시간
         spent_time: 소비한 시간
         subproject: 하위 프로젝트
@@ -391,11 +383,16 @@ ko:
     errors:
       messages:
         accepted: 허용 되어야 합니다.
+        after: 은(는) %{date} 후이어야  합니다.
+        after_or_equal_to: 은(는) %{date} 이후여야 합니다.
+        before: 은(는) %{date} 보다 전이어야 합니다.
+        before_or_equal_to: 은(는) %{date} 이전이어야 합니다.
         blank: 내용을 입력해주세요
         cant_link_a_work_package_with_a_descendant: 작업 패키지는 하위 작업패키지들 중 하나에 연결 될 수
           없습니다.
         circular_dependency: 이 연계는 순환 종속관계를 만듭니다.
         confirmation: "%{attribute} 속성에 부합하지 않습니다."
+        could_not_be_copied: 은(는) (완전히) 복제될 수 없습니다.
         does_not_exist: 존재하지 않음
         empty: 비워둘 수 없습니다.
         even: 에 짝수를 입력해 주세요
@@ -403,9 +400,8 @@ ko:
         file_too_large: 은(는) 너무 큽니다. (최대 %{count} 바이트)
         greater_than: 은(는) %{count}보다 커야 합니다
         greater_than_or_equal_to: 은(는) %{count}보다 크거야 같아야 합니다
-        smaller_than_or_equal_to_max_length: 은(는) 최대 길이보다 같거나 작아야 합니다.
-        greater_than_start_date: 은(는) 시작 날짜 이후이어야 합니다.
         greater_than_or_equal_to_start_date: 은(는) 시작 날짜 이후이거나 같아야 합니다.
+        greater_than_start_date: 은(는) 시작 날짜 이후이어야 합니다.
         inclusion: 은(는) 허용되는 값이 아닙니다.
         invalid: 은(는) 올바르지 않은 값입니다
         invalid_url: 은(는) 올바른 URL이 아닙니다.
@@ -413,22 +409,19 @@ ko:
         less_than_or_equal_to: 은(는) %{count} 보다 작거나 같아야 합니다
         not_a_date: 은(는) 유효한 날짜가 아닙니다.
         not_a_datetime: 은(는) 유효한 날짜가 아닙니다.
-        not_an_iso_date: '은(는) 유효한 날짜가 아닙니다. 필요한 형식: YYYY-MM-DD.'
         not_a_number: 은(는) 숫자가 아닙니다.
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: 은(는) 정수가 아닙니다.
+        not_an_iso_date: '은(는) 유효한 날짜가 아닙니다. 필요한 형식: YYYY-MM-DD.'
         not_same_project: 은(는) 동일한 프로젝트에 속하지 않습니다.
         odd: 에 홀수를 입력해 주세요
+        regex_invalid: 관련 정규식으로 유효성을 확인할 수 없습니다.
+        smaller_than_or_equal_to_max_length: 은(는) 최대 길이보다 같거나 작아야 합니다.
         taken: 은(는) 이미 존재합니다.
         too_long: 은(는) 너무 깁니다 (최대 %{count}자까지 가능합니다)
         too_short: 은(는) 너무 짧습니다. (최소 %{count} 자 이상이어야 합니다)
-        wrong_length: 너무 짧습니다 (최소 %{count} 자 이상이어야 합니다).
-        after: 은(는) %{date} 후이어야  합니다.
-        after_or_equal_to: 은(는) %{date} 이후여야 합니다.
-        before: 은(는) %{date} 보다 전이어야 합니다.
-        before_or_equal_to: 은(는) %{date} 이전이어야 합니다.
-        could_not_be_copied: 은(는) (완전히) 복제될 수 없습니다.
-        regex_invalid: 관련 정규식으로 유효성을 확인할 수 없습니다.
         unchangeable: cannot be changed.
+        wrong_length: 너무 짧습니다 (최소 %{count} 자 이상이어야 합니다).
       models:
         custom_field:
           at_least_one_custom_option: 하나 이상의 옵션을 사용할 수 있어야 합니다.
@@ -557,7 +550,6 @@ ko:
         one: Role
         other: 역할
       type: 타입
-      project_type: 프로젝트 형식
       user: 사용자
       version: 버전
       wiki: 위키
@@ -609,7 +601,7 @@ ko:
     password: 암호
     priority: 우선 순위
     project: 프로젝트
-    responsible: 책임
+    responsible: Accountable
     role: 역할
     roles: 역할
     start_date: 시작 날짜
@@ -870,11 +862,6 @@ ko:
   default_priority_normal: 보통
   default_priority_high: 높음
   default_priority_immediate: 즉시
-  default_project_type_scrum: 스크럼 팀
-  default_project_type_standard: 표준 프로젝트
-  default_reported_project_status_green: 초록
-  default_reported_project_status_amber: 황색
-  default_reported_project_status_red: 빨강
   default_role_anonymous: 익명
   default_role_developer: 개발자
   default_role_project_admin: 프로젝트 관리자
@@ -1209,7 +1196,6 @@ ko:
   label_edit: 편집
   label_enable_multi_select: 다중 선택 토글
   label_enabled_project_custom_fields: 사용자 정의 필드 사용
-  label_enabled_project_types: 활성화 유형
   label_enabled_project_modules: 사용 가능한 모듈
   label_enabled_project_activities: 활동 추적 시간 사용
   label_end_to_end: 끝 - 끝
@@ -1438,7 +1424,7 @@ ko:
   label_repository_plural: 리포지토리
   label_required: 필수
   label_requires: 필수
-  label_responsible_for_work_packages: 내가 담당하는 작업 패키지
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: 결과
   label_reverse_chronological_order: 시간 역순으로
   label_revision: 수정
@@ -1572,7 +1558,8 @@ ko:
   label_work_package_view_all: 모든 작업 패키지 보기
   label_work_package_view_all_assigned_to_me: 내게 할당된 모든 작업 패키지 보기
   label_work_package_view_all_reported_by_me: 내가 보고한 모든 작업 패키지 보기
-  label_work_package_view_all_responsible_for: 내가 책임을 갖고 있는 모든 작업 패키지 보기
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
+    for
   label_work_package_view_all_watched: 주시하는 모든 작업 패키지 보기
   label_work_package_watchers: 주시자
   label_workflow: 워크플로
@@ -2009,9 +1996,9 @@ ko:
   setting_smtp_address: SMTP 서버
   setting_smtp_port: SMTP 포트
   setting_smtp_authentication: SMTP 인증
-  setting_smtp_domain: SMTP HELLO 도메인
   setting_smtp_user_name: SMTP 사용자 이름
   setting_smtp_password: SMTP 비밀번호
+  setting_smtp_domain: SMTP HELLO 도메인
   setting_activity_days_default: 프로젝트 작업에 표시되는 기간(일)
   setting_app_subtitle: 응용 프로그램 부제목
   setting_app_title: 응용 프로그램 제목
@@ -2271,8 +2258,6 @@ ko:
     admin_menu:
       color: 색상
       colors: 색상
-      project_type: 프로젝트 형식
-      project_types: 프로젝트 유형
     associations: 종속성
     board_could_not_be_saved: 보드를 저장할 수 없습니다.
     button_delete_all: 모두 삭제
@@ -2291,7 +2276,6 @@ ko:
         1일
         %{count}일
     edit_color: 색상 편집
-    edit_project_type: 프로젝트 유형 편집
     edit_thing: 편집
     edit_timeline: 타임라인 보고서 %{timeline} 편집
     delete_timeline: 타임라인 보고서 %{timeline} 삭제
@@ -2327,7 +2311,6 @@ ko:
         due_date: 종료 날짜
         name: 이름
         status: 상태
-        responsible: 책임
         start_date: 시작 날짜
       columns: 컬럼
       comparisons: 비교
@@ -2356,7 +2339,7 @@ ko:
       outline: 초기 윤곽 확장
       parent: 다음의 하위 프로젝트 표시
       work_package_filters: 작업 패키지 필터링
-      work_package_responsible: 담당하는 작업 패키지 표시
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: 작업 패키지와 담당자 표시
       types: 유형 표시
       status: 상태 표시
@@ -2368,9 +2351,8 @@ ko:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} 전,
         앞으로 %{end_label} %{endspan}%{endspanunit} 후"
       project_filters: 프로젝트 필터링
-      project_responsible: 담당하는 프로젝트 표시
+      project_responsible: Show projects with accountable
       project_status: 프로젝트 상태 표시
-      project_types: 프로젝트 유형 표시
       timeframe: 시간 범위 표시
       timeframe_end: 끝
       timeframe_start: 시작
@@ -2380,7 +2362,6 @@ ko:
     new_color: 새 색상
     new_association: 새 종속성
     new_work_package: 새 작업 패키지
-    new_project_type: 새 프로젝트 유형
     new_reporting: 새 보고
     new_timeline: 새 타임라인 보고서
     no_projects_for_reporting_available: 보고 연결을 만들 수 있는 프로젝트가 없습니다.
@@ -2405,17 +2386,10 @@ ko:
       edit: '상태 편집: %{comment}'
       show: '상태: %{comment}'
     planning_element_update: '업데이트: %{title}'
-    project_type_could_not_be_saved: 프로젝트 유형을 저장할 수 없습니다.
     type_could_not_be_saved: 유형을 저장할 수 없습니다.
     reporting_could_not_be_saved: 보고를 저장할 수 없습니다.
     properties: 속성
     really_delete_color: '다음 색상을 삭제하시겠습니까? 이 색상을 사용하는 유형은 삭제되지 않습니다.
-
-'
-    really_delete_project_type: '다음 프로젝트 유형을 삭제하시겠습니까? 이 유형을 사용하는 프로젝트는 삭제되지 않습니다.
-
-'
-    really_delete_timeline: '다음 타임라인 보고서를 삭제하시겠습니까? 이 타임라인 보고서에 표시된 작업 패키지는 삭제되지 않습니다.
 
 '
     really_delete_reporting: '다음 보고를 삭제하시겠습니까? 이전 보고 상태도 삭제됩니다.
@@ -2426,7 +2400,6 @@ ko:
     timelines: 타임라인 보고서
     settings: 타임라인
     vertical_work_package: 세로 작업 패키지
-    without_project_type: 프로젝트 유형 없음
     you_are_viewing_the_selected_timeline: 선택한 타임라인 보고서를 보고 있습니다.
     zoom:
       in: 확대

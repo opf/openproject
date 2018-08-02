@@ -429,7 +429,6 @@ pl:
         level5: Rozwiń poziom 5
         all: Pokaż wszystkie
       project_status: Stan projektu
-      project_type: Typ projektu
       really_close_dialog: Czy naprawdę chcesz zamknąć okno dialogowe i utracić wprowadzone
         dane?
       responsible: Odpowiedzialny

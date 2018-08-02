@@ -413,7 +413,6 @@ ko:
         level5: 확장 수준 5
         all: 모두 표시
       project_status: 프로젝트 상태
-      project_type: 프로젝트 형식
       really_close_dialog: 입력된 자료를 저장하지 않고 대화상자를 닫으시겠습니까?
       responsible: 책임
       save: 저장

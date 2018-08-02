@@ -424,7 +424,6 @@ th:
         level5: ขยายระดับ 5
         all: แสดงทั้งหมด
       project_status: สถานะของโครงการ
-      project_type: ประเภทของโครงการ
       really_close_dialog: Do you really want to close the dialog and lose the entered
         data?
       responsible: รับผิดชอบ

@@ -128,10 +128,6 @@ sv-SE:
       versions:
         no_results_title_text: Det finns för närvarande inga versioner av projektet.
         no_results_content_text: Skapa en ny version
-  project_types:
-    index:
-      no_results_title_text: För närvarande finns det inga projekttyper.
-      no_results_content_text: Skapa en ny projekttyp
   members:
     index:
       no_results_title_text: Det finns för närvarande inga medlemmar i detta projekt.
@@ -201,7 +197,8 @@ sv-SE:
       reported:
         no_results_title_text: Jag har inte rapporterat några arbetspaket.
       responsible:
-        no_results_title_text: Jag är inte ansvarig för några arbetspaket.
+        no_results_title_text: There are currently no work packages that I am accountable
+          for.
       watched:
         no_results_title_text: Jag bevakar inte några arbetspaket.
     summary:
@@ -337,9 +334,7 @@ sv-SE:
         identifier: Identifierare
         latest_activity_at: Senaste aktivitet vid
         parent: Delprojekt under
-        project_type: Projekttyp
         queries: Frågor
-        responsible: Ansvarig
         types: Typer
         versions: Versioner
         work_packages: Arbetspaket
@@ -394,8 +389,6 @@ sv-SE:
         redirect_existing_links: Omdirigera befintliga länkar
       planning_element_type_color:
         hexcode: Hex-kod
-      project_type:
-        position: Position
       work_package:
         begin_insertion: Början av införandet
         begin_deletion: Början av raderingen
@@ -409,7 +402,6 @@ sv-SE:
         parent_work_package: Överordnad
         priority: Prioritet
         progress: Progress (%)
-        responsible: Ansvarig
         spent_hours: Förbrukad tid
         spent_time: Förbrukad tid
         subproject: Delprojekt
@@ -419,11 +411,16 @@ sv-SE:
     errors:
       messages:
         accepted: måste accepteras.
+        after: måste vara efter %{date}.
+        after_or_equal_to: måste vara efter eller lika med %{date}.
+        before: måste vara innan %{date}.
+        before_or_equal_to: måste vara före eller lika med %{date}.
         blank: kan inte vara tomt.
         cant_link_a_work_package_with_a_descendant: Ett arbetspaket kan inte kopplas
           till någon av dess underaktiviteter.
         circular_dependency: Detta förhållande skulle skapa ett cirkelberoende.
         confirmation: matchar inte %{attribute}.
+        could_not_be_copied: kunde inte (fullständigt) kopieras.
         does_not_exist: finns inte.
         empty: kan inte vara tomt.
         even: måste vara jämn.
@@ -431,10 +428,8 @@ sv-SE:
         file_too_large: är för stor (största storleken är %{count} Bytes).
         greater_than: måste vara större än %{count}.
         greater_than_or_equal_to: måste vara större än eller lika med %{count}.
-        smaller_than_or_equal_to_max_length: måste vara mindre än eller lika med maximal
-          längd.
-        greater_than_start_date: måste vara senare än startdatumet.
         greater_than_or_equal_to_start_date: måste vara senare eller lika som startdatumet.
+        greater_than_start_date: måste vara senare än startdatumet.
         inclusion: inte är inställd på ett av de tillåtna värdena.
         invalid: är ogiltig.
         invalid_url: is not a valid URL.
@@ -442,22 +437,20 @@ sv-SE:
         less_than_or_equal_to: måste vara mindre än eller lika med %{count}.
         not_a_date: är inte är ett giltigt datum.
         not_a_datetime: är inte en giltig datumtid.
-        not_an_iso_date: är inte ett giltigt datum. Använd formatet ÅÅÅÅ-MM-DD.
         not_a_number: är inte ett nummer.
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: är inte ett heltal.
+        not_an_iso_date: är inte ett giltigt datum. Använd formatet ÅÅÅÅ-MM-DD.
         not_same_project: tillhör inte samma projekt.
         odd: måste vara udda.
+        regex_invalid: could not be validated with the associated regular expression.
+        smaller_than_or_equal_to_max_length: måste vara mindre än eller lika med maximal
+          längd.
         taken: har redan använts.
         too_long: är för långt (maximalt är %{count} tecken).
         too_short: är för kort (minimum är %{count} tecken).
-        wrong_length: har fel längd (måste vara %{count} tecken).
-        after: måste vara efter %{date}.
-        after_or_equal_to: måste vara efter eller lika med %{date}.
-        before: måste vara innan %{date}.
-        before_or_equal_to: måste vara före eller lika med %{date}.
-        could_not_be_copied: kunde inte (fullständigt) kopieras.
-        regex_invalid: could not be validated with the associated regular expression.
         unchangeable: kan inte ändras.
+        wrong_length: har fel längd (måste vara %{count} tecken).
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
@@ -595,7 +588,6 @@ sv-SE:
         one: Roll
         other: Roller
       type: Typ
-      project_type: Projekttyp
       user: Användare
       version: Version
       wiki: Wiki
@@ -649,7 +641,7 @@ sv-SE:
     password: Lösenord
     priority: Prioritet
     project: Projekt
-    responsible: Ansvarig
+    responsible: Accountable
     role: Roll
     roles: Roller
     start_date: Startdatum
@@ -888,11 +880,6 @@ sv-SE:
   default_priority_normal: Normal
   default_priority_high: Hög
   default_priority_immediate: Omedelbar
-  default_project_type_scrum: Scrum-teamet
-  default_project_type_standard: Standardprojekt
-  default_reported_project_status_green: Grön
-  default_reported_project_status_amber: Gul
-  default_reported_project_status_red: Röd
   default_role_anonymous: Anonym
   default_role_developer: Utvecklare
   default_role_project_admin: Projektadministratör
@@ -1242,7 +1229,6 @@ sv-SE:
   label_edit: Redigera
   label_enable_multi_select: Växla multival
   label_enabled_project_custom_fields: Aktiverade anpassade fält
-  label_enabled_project_types: Aktiverade typer
   label_enabled_project_modules: Aktiverad Moduler
   label_enabled_project_activities: Aktiverade aktiviteter för tidsspårning
   label_end_to_end: slut till slut
@@ -1472,7 +1458,7 @@ sv-SE:
   label_repository_plural: Versionsarkiv
   label_required: obligatorisk
   label_requires: kräver
-  label_responsible_for_work_packages: Arbetspaket jag är ansvarig för
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Resultat
   label_reverse_chronological_order: I omvänd kronologisk ordning
   label_revision: Revision
@@ -1609,8 +1595,8 @@ sv-SE:
     till mig
   label_work_package_view_all_reported_by_me: Visa alla arbetspaket som rapporterats
     av mig
-  label_work_package_view_all_responsible_for: Visa alla arbetspaket jag är ansvarig
-    för
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
+    for
   label_work_package_view_all_watched: Visa alla bevakade arbetspaket
   label_work_package_watchers: Bevakare
   label_workflow: Arbetsflöde
@@ -2077,9 +2063,9 @@ sv-SE:
   setting_smtp_address: SMTP-server
   setting_smtp_port: SMTP-port
   setting_smtp_authentication: SMTP-autentisering
-  setting_smtp_domain: SMTP HELLO-domän
   setting_smtp_user_name: SMTP-användarnamn
   setting_smtp_password: SMTP-lösenord
+  setting_smtp_domain: SMTP HELLO-domän
   setting_activity_days_default: Dagar som visas i projektaktivitet
   setting_app_subtitle: Undertitel för applikation
   setting_app_title: Programnamn
@@ -2370,8 +2356,6 @@ sv-SE:
     admin_menu:
       color: Färg
       colors: Färger
-      project_type: Projekttyp
-      project_types: Typer av projekt
     associations: Beroenden
     board_could_not_be_saved: Anslagstavlan kunde inte sparas
     button_delete_all: Ta bort alla
@@ -2388,7 +2372,6 @@ sv-SE:
       one: 1 dag
       other: "%{count} dagar"
     edit_color: Redigera färg
-    edit_project_type: Redigera projekttyp
     edit_thing: Redigera
     edit_timeline: Redigera tidslinjerapport %{timeline}
     delete_timeline: Ta bort tidslinjerapport %{timeline}
@@ -2430,7 +2413,6 @@ sv-SE:
         due_date: Slutdatum
         name: Namn
         status: Status
-        responsible: Ansvarig
         start_date: Startdatum
       columns: Kolumner
       comparisons: Jämförelser
@@ -2459,7 +2441,7 @@ sv-SE:
       outline: Ursprunglig översikt expansion
       parent: Visa delprojekt för
       work_package_filters: Filtrera arbetspaket
-      work_package_responsible: Visa arbetspaket med ansvarig
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: Visa arbetspaket som tilldelats
       types: Visa typer
       status: Visa status
@@ -2472,9 +2454,8 @@ sv-SE:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} sen,
         %{end_label} %{endspan}%{endspanunit} från nu"
       project_filters: Filtrera projekt
-      project_responsible: Visa projekt med ansvariga
+      project_responsible: Show projects with accountable
       project_status: Visa projektstatus
-      project_types: Visa typer av projekt
       timeframe: Visa tidsram
       timeframe_end: till
       timeframe_start: från
@@ -2484,7 +2465,6 @@ sv-SE:
     new_color: Ny färg
     new_association: Nytt beroende
     new_work_package: Nya arbetspaket
-    new_project_type: Ny projekttyp
     new_reporting: Ny rapportering
     new_timeline: Ny tidslinjerapport
     no_projects_for_reporting_available: Det finns inga projekt för att inrätta en
@@ -2511,20 +2491,11 @@ sv-SE:
       edit: 'Redigera status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Uppdaterad: %{title}'
-    project_type_could_not_be_saved: Projekttypen kunde inte sparas
     type_could_not_be_saved: Typen kunde inte sparas
     reporting_could_not_be_saved: Rapportering kunde inte sparas
     properties: Egenskaper
     really_delete_color: 'Är du säker på att du vill ta bort följande färg? Typer
       med den här färgen kommer inte att raderas.
-
-'
-    really_delete_project_type: 'Är du säker på att du vill ta bort följande projekttyp?
-      Projekt som använder denna typ raderas inte.
-
-'
-    really_delete_timeline: 'Är du säker på att du vill ta bort följande tidslinjerapport?
-      Arbetspaket som visas denna tidslinjerapport tas inte bort.
 
 '
     really_delete_reporting: 'Är du säker på att du vill ta bort följande rapportering?
@@ -2536,7 +2507,6 @@ sv-SE:
     timelines: Tidslinjerapporter
     settings: Tidslinjer
     vertical_work_package: Vertikala arbetspaket
-    without_project_type: Utan projekttyp
     you_are_viewing_the_selected_timeline: Du visar markerad tidslinjerapport
     zoom:
       in: Zooma in

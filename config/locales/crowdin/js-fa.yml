@@ -429,7 +429,6 @@ fa:
         level5: Expand level 5
         all: Show all
       project_status: وضعیت پروژه
-      project_type: نوع پروژه
       really_close_dialog: Do you really want to close the dialog and lose the entered
         data?
       responsible: مسئول

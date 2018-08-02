@@ -426,7 +426,6 @@ vi:
         level5: Expand level 5
         all: Show all
       project_status: Tình trạng dự án
-      project_type: Loại dự án
       really_close_dialog: Do you really want to close the dialog and lose the entered
         data?
       responsible: Chịu trách nhiệm

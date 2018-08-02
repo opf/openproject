@@ -424,7 +424,6 @@
         level5: Ekspander nivå 5
         all: Vis alle
       project_status: Prosjektstatus
-      project_type: Prosjekttype
       really_close_dialog: Er du sikker på at du vil lukke dialogboksen og tape data
         som ikke er lagret?
       responsible: Ansvarlig

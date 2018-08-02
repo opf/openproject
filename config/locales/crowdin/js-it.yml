@@ -430,7 +430,6 @@ it:
         level5: Espandi livello 5
         all: Mostra tutti
       project_status: Stato del progetto
-      project_type: Tipo di progetto
       really_close_dialog: Vuoi davvero chiudere la finestra di dialogo e perdere
         i dati inseriti?
       responsible: Responsabile

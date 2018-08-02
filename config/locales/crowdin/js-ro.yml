@@ -432,7 +432,6 @@ ro:
         level5: Afișare level 5
         all: Afișare completă
       project_status: Stare proiect
-      project_type: Tip proiect
       really_close_dialog: Sunteți sigur că doriți să închideți formularul și să pierdeți
         datele introduse?
       responsible: Responsabil

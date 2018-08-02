@@ -426,7 +426,6 @@ ar:
         level5: توسيع مستوى 5
         all: إظهار الكل
       project_status: حالة المشروع
-      project_type: نوع المشروع
       really_close_dialog: هل تريد حقًا إغلاق الحوار وفقدان البيانات المدخلة؟
       responsible: مسؤول
       save: حفظ

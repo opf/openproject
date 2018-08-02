@@ -427,7 +427,6 @@ sv-SE:
         level5: Expandera nivå 5
         all: Visa alla
       project_status: Projektstatus
-      project_type: Projekttyp
       really_close_dialog: Vill du verkligen stänga dialogrutan och förlora inmatad
         data?
       responsible: Ansvarig

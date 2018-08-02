@@ -129,10 +129,6 @@ id:
       versions:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: Create a new version
-  project_types:
-    index:
-      no_results_title_text: There are currently no project types.
-      no_results_content_text: Create a new project type
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -201,7 +197,7 @@ id:
       reported:
         no_results_title_text: There are currently no work packages that I have reported.
       responsible:
-        no_results_title_text: There are currently no work packages that I am responsible
+        no_results_title_text: There are currently no work packages that I am accountable
           for.
       watched:
         no_results_title_text: There are currently no work packages that I am watching.
@@ -334,9 +330,7 @@ id:
         identifier: Pengenal
         latest_activity_at: Latest activity at
         parent: Sub-Project dari
-        project_type: Tipe Project
         queries: Query
-        responsible: Penanggung jawab
         types: Tipe
         versions: Versi
         work_packages: Paket-Penugasan
@@ -391,8 +385,6 @@ id:
         redirect_existing_links: Redirect link
       planning_element_type_color:
         hexcode: Kode Hexa
-      project_type:
-        position: Posisi
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
@@ -406,7 +398,6 @@ id:
         parent_work_package: Induk
         priority: Prioritas
         progress: Progress (%)
-        responsible: Penanggung jawab
         spent_hours: Durasi
         spent_time: Durasi
         subproject: Sub-Project
@@ -416,11 +407,16 @@ id:
     errors:
       messages:
         accepted: harus disetujui.
+        after: harus setelah %{date}.
+        after_or_equal_to: harus setelah atau sama dengan %{date}.
+        before: harus sebelum %{date}.
+        before_or_equal_to: harus sebelum atau maksimal %{date}.
         blank: harus di isi.
         cant_link_a_work_package_with_a_descendant: Work package tidak dapat dihubungkan
           dengan subtask-nya.
         circular_dependency: Relasi ini menyebabkan dependensi circular.
         confirmation: tidak sesuai dengan %{attribute}.
+        could_not_be_copied: sebagian tidak dapat dicopy.
         does_not_exist: tidak ditemukan.
         empty: harus di isi.
         even: harus imbang.
@@ -428,11 +424,9 @@ id:
         file_too_large: ukuran maksimum yang diperbolehkan %{count} Bytes.
         greater_than: harus lebih besar dari %{count}.
         greater_than_or_equal_to: harus lebih besar atau sama dengan %{count}.
-        smaller_than_or_equal_to_max_length: harus lebih kecil atau sama dengan panjang
-          maksimum.
-        greater_than_start_date: must be greater than the start date.
         greater_than_or_equal_to_start_date: must be greater than or equal to the
           start date.
+        greater_than_start_date: must be greater than the start date.
         inclusion: belum di set dengan nilai yang diperbolehkan.
         invalid: tidak valid.
         invalid_url: bukanlah URL yang Valid.
@@ -441,22 +435,20 @@ id:
         less_than_or_equal_to: harus kurang dari atau sama dengan %{count}.
         not_a_date: bukan tanggal yang valid.
         not_a_datetime: bukan tanggal waktu yang valid.
-        not_an_iso_date: 'is not a valid date. Required format: YYYY-MM-DD.'
         not_a_number: harus diisi angka.
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: harus bilangan bulat.
+        not_an_iso_date: 'is not a valid date. Required format: YYYY-MM-DD.'
         not_same_project: harus berasal dari proyek yang sama.
         odd: harus ganjil.
+        regex_invalid: tidak dapat divalidasi dengan ekspresi reguler terkait.
+        smaller_than_or_equal_to_max_length: harus lebih kecil atau sama dengan panjang
+          maksimum.
         taken: sudah dipakai.
         too_long: panjang karakter maksimal %{count}.
         too_short: minimal %{count} karakter.
-        wrong_length: panjang tidak sesuai (harus %{count} karakter).
-        after: harus setelah %{date}.
-        after_or_equal_to: harus setelah atau sama dengan %{date}.
-        before: harus sebelum %{date}.
-        before_or_equal_to: harus sebelum atau maksimal %{date}.
-        could_not_be_copied: sebagian tidak dapat dicopy.
-        regex_invalid: tidak dapat divalidasi dengan ekspresi reguler terkait.
         unchangeable: cannot be changed.
+        wrong_length: panjang tidak sesuai (harus %{count} karakter).
       models:
         custom_field:
           at_least_one_custom_option: Paling tidak, satu pilihan dibutuhkan untuk
@@ -591,7 +583,6 @@ id:
         one: Role
         other: Roles
       type: Tipe
-      project_type: Tipe Project
       user: User
       version: Versi
       wiki: Wiki
@@ -644,7 +635,7 @@ id:
     password: Password
     priority: Prioritas
     project: Project
-    responsible: Penanggung jawab
+    responsible: Accountable
     role: Role
     roles: Peran
     start_date: Tanggal start
@@ -884,11 +875,6 @@ id:
   default_priority_normal: Normal
   default_priority_high: High
   default_priority_immediate: Segera
-  default_project_type_scrum: Scrum team
-  default_project_type_standard: Standart project
-  default_reported_project_status_green: Hijau
-  default_reported_project_status_amber: Amber
-  default_reported_project_status_red: Merah
   default_role_anonymous: Anonimus
   default_role_developer: Pengembang
   default_role_project_admin: Project admin
@@ -1240,7 +1226,6 @@ id:
   label_edit: Edit
   label_enable_multi_select: Beralih ke multiselect
   label_enabled_project_custom_fields: Enabled custom fields
-  label_enabled_project_types: Enabled types
   label_enabled_project_modules: Enabled modules
   label_enabled_project_activities: Enabled time tracking activities
   label_end_to_end: finish untuk mengakhiri
@@ -1470,7 +1455,7 @@ id:
   label_repository_plural: Repositori
   label_required: dibutuhkan
   label_requires: dibutuhkan
-  label_responsible_for_work_packages: Paket-Penugasan dibawah tanggung jawab saya
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Hasil
   label_reverse_chronological_order: Urutan kronologi terbalik
   label_revision: Revisi
@@ -1607,7 +1592,7 @@ id:
     pada saya
   label_work_package_view_all_reported_by_me: Lihat semua Paket-Penugasan yang telah
     saya laporkan
-  label_work_package_view_all_responsible_for: View all work packages that I am responsible
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
     for
   label_work_package_view_all_watched: Lihat semua Paket-Penugasan yang telah diakses
   label_work_package_watchers: Pemantau
@@ -2073,9 +2058,9 @@ id:
   setting_smtp_address: SMTP server
   setting_smtp_port: SMTP port
   setting_smtp_authentication: SMTP authentication
-  setting_smtp_domain: SMTP HELLO domain
   setting_smtp_user_name: SMTP username
   setting_smtp_password: SMTP password
+  setting_smtp_domain: SMTP HELLO domain
   setting_activity_days_default: Hari ditampilkan pada Project aktiviti
   setting_app_subtitle: Subjudul aplikasi
   setting_app_title: Judul aplikasi
@@ -2367,8 +2352,6 @@ id:
     admin_menu:
       color: Warna
       colors: Warna
-      project_type: Tipe Project
-      project_types: Tipe Project
     associations: Dependensi
     board_could_not_be_saved: Board tidak dapat disimpan
     button_delete_all: Hapus semua
@@ -2386,7 +2369,6 @@ id:
       one: 1 day
       other: "%{count} hari"
     edit_color: Edit warna
-    edit_project_type: Edit Tipe Project
     edit_thing: Edit
     edit_timeline: Edit laporan timeline %{timeline}
     delete_timeline: Hapus laporan Timeline %{timeline}
@@ -2428,7 +2410,6 @@ id:
         due_date: Tanggal finish
         name: Nama
         status: Status
-        responsible: Penanggung jawab
         start_date: Tanggal start
       columns: Kolom
       comparisons: Komparasi
@@ -2457,7 +2438,7 @@ id:
       outline: Outline inisial untuk ekspansi
       parent: Tampilkan Sub-Project dari
       work_package_filters: Filter Paket-Penugasan
-      work_package_responsible: Tunjukkan Paket-Penugasan berserta penanggungjawabnya
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: Tunjukkan Paket-Penugasan beserta pelimpahannya
       types: Tunjukka Tipe
       status: Tunjukkan status
@@ -2470,9 +2451,8 @@ id:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago,
         %{end_label} %{endspan}%{endspanunit} dari sekarang"
       project_filters: Filter Project
-      project_responsible: Tampilkan Project dan penanggungjawabnya
+      project_responsible: Show projects with accountable
       project_status: Tampilkan status Project
-      project_types: Tampilkan Tipe Project
       timeframe: Tampilkan Timeframe
       timeframe_end: untuk
       timeframe_start: dari
@@ -2482,7 +2462,6 @@ id:
     new_color: Warna baru
     new_association: Dependensi baru
     new_work_package: Paket-Penugasan baru
-    new_project_type: Tipe Project baru
     new_reporting: Pelaporan baru
     new_timeline: Laporan Timeline baru
     no_projects_for_reporting_available: Tidak ada Project yang terasosiasi dengan
@@ -2508,20 +2487,11 @@ id:
       edit: 'Edit status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Update: %{title}'
-    project_type_could_not_be_saved: Tipe Project tidak bisa disimpan
     type_could_not_be_saved: Tipe tidak bisa disimpan
     reporting_could_not_be_saved: Pelaporan tidak bisa disimpan
     properties: Properti
     really_delete_color: 'Yakin ingin menghapus? Tipe yang menggunakan warna tersebut
       tidak akan dihapus.
-
-'
-    really_delete_project_type: 'Yakin ingin menghapus? Project yang menggunakan Tipe
-      ini tidak akan dihapus.
-
-'
-    really_delete_timeline: 'Yakin ingin menghapus? Work Package yang ditampilkan
-      dalam laporan Timeline ini tidak akan dihapus.
 
 '
     really_delete_reporting: 'Status Reporting sebelumnya akan terhapus juga. Yakin
@@ -2533,7 +2503,6 @@ id:
     timelines: Laporan Timeline
     settings: Timeline
     vertical_work_package: Paket-Penugasan vertikal
-    without_project_type: Tanpa Tipe Project
     you_are_viewing_the_selected_timeline: Anda sedang melihat laporan Timeline terpilih
     zoom:
       in: Zoom in

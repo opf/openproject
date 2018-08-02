@@ -129,10 +129,6 @@ nl:
       versions:
         no_results_title_text: Momenteel zijn er geen versies voor het project.
         no_results_content_text: Maak een nieuwe versie
-  project_types:
-    index:
-      no_results_title_text: Er zijn momenteel geen projecttypes.
-      no_results_content_text: Maak een nieuw projecttype
   members:
     index:
       no_results_title_text: Er zijn momenteel geen leden onderdeel van dit project.
@@ -202,8 +198,8 @@ nl:
       reported:
         no_results_title_text: Er zijn momenteel geen werkpakketten die ik heb gerapporteerd.
       responsible:
-        no_results_title_text: Er zijn momenteel geen werkpakketten waar ik verantwoordelijk
-          voor ben.
+        no_results_title_text: There are currently no work packages that I am accountable
+          for.
       watched:
         no_results_title_text: Er zijn momenteel geen werkpakketten die ik volg.
     summary:
@@ -345,9 +341,7 @@ nl:
         identifier: Identifier
         latest_activity_at: Laatste activiteit om
         parent: Subproject van
-        project_type: Projecttype
         queries: Query 's
-        responsible: Verantwoordelijk
         types: Typen
         versions: Versies
         work_packages: Werkpakketten
@@ -402,8 +396,6 @@ nl:
         redirect_existing_links: Bestaande koppelingen omleiden
       planning_element_type_color:
         hexcode: Hexadecimale code
-      project_type:
-        position: Positie
       work_package:
         begin_insertion: Begin van het invoegen
         begin_deletion: Begin van de verwijdering
@@ -417,7 +409,6 @@ nl:
         parent_work_package: Bovenliggende
         priority: Prioriteit
         progress: Voortgang (%)
-        responsible: Verantwoordelijk
         spent_hours: Bestede tijd
         spent_time: Bestede tijd
         subproject: Subproject
@@ -427,11 +418,16 @@ nl:
     errors:
       messages:
         accepted: moet geaccepteerd worden.
+        after: moet na %{date} zijn.
+        after_or_equal_to: moet gelijk aan of na %{date} zijn.
+        before: moet voor %{date} zijn.
+        before_or_equal_to: moet voor of gelijk zijn aan %{date}.
         blank: mag niet leeg zijn.
         cant_link_a_work_package_with_a_descendant: Een werkpakket kan niet worden
           gekoppeld aan een van de bijbehorende subtaken.
         circular_dependency: Deze relatie zou een circulaire afhankelijkheid creëren.
         confirmation: komt niet overeen met %{attribute}.
+        could_not_be_copied: kon niet (volledig) worden gekopieerd.
         does_not_exist: bestaat niet.
         empty: mag niet leeg zijn.
         even: moet gelijk zijn.
@@ -439,10 +435,8 @@ nl:
         file_too_large: is te groot (maximum grootte is %{count} Bytes).
         greater_than: moet groter zijn dan %{count}.
         greater_than_or_equal_to: moet groter dan of gelijk zijn aan %{count}.
-        smaller_than_or_equal_to_max_length: moet kleiner zijn dan of even groot zijn
-          als de maximale lengte.
-        greater_than_start_date: moet groter zijn dan startdatum.
         greater_than_or_equal_to_start_date: moet groter of gelijk zijn aan startdatum.
+        greater_than_start_date: moet groter zijn dan startdatum.
         inclusion: is niet ingesteld op één van de toegestane waarden.
         invalid: is ongeldig.
         invalid_url: is geen geldige URL.
@@ -450,22 +444,20 @@ nl:
         less_than_or_equal_to: moet kleiner zijn dan of gelijk aan %{count}.
         not_a_date: is geen geldige datum.
         not_a_datetime: is geen geldige datum tijd.
-        not_an_iso_date: 'is geen geldige datum. Vereist formaat: JJJJ-MM-DD.'
         not_a_number: is geen getal.
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: is niet een geheel getal.
+        not_an_iso_date: 'is geen geldige datum. Vereist formaat: JJJJ-MM-DD.'
         not_same_project: hoort niet bij hetzelfde project.
         odd: moet oneven zijn.
+        regex_invalid: kon niet worden gevalideerd met de bijbehorende reguliere expressie.
+        smaller_than_or_equal_to_max_length: moet kleiner zijn dan of even groot zijn
+          als de maximale lengte.
         taken: is al in gebruik.
         too_long: is te lang (maximaal %{count} karakters).
         too_short: is te kort (minimum is %{count} karakters).
-        wrong_length: is de verkeerde lengte (dient %{count} karakters te zijn).
-        after: moet na %{date} zijn.
-        after_or_equal_to: moet gelijk aan of na %{date} zijn.
-        before: moet voor %{date} zijn.
-        before_or_equal_to: moet voor of gelijk zijn aan %{date}.
-        could_not_be_copied: kon niet (volledig) worden gekopieerd.
-        regex_invalid: kon niet worden gevalideerd met de bijbehorende reguliere expressie.
         unchangeable: kan niet worden gewijzigd.
+        wrong_length: is de verkeerde lengte (dient %{count} karakters te zijn).
       models:
         custom_field:
           at_least_one_custom_option: Ten minste één optie moet beschikbaar zijn.
@@ -607,7 +599,6 @@ nl:
         one: Rol
         other: Rol
       type: Type
-      project_type: Projecttype
       user: Gebruiker
       version: Versie
       wiki: Wiki
@@ -660,7 +651,7 @@ nl:
     password: Wachtwoord
     priority: Prioriteit
     project: Project
-    responsible: Verantwoordelijk
+    responsible: Accountable
     role: Rol
     roles: Rollen
     start_date: Startdatum
@@ -903,11 +894,6 @@ nl:
   default_priority_normal: Normaal
   default_priority_high: Hoog
   default_priority_immediate: Onmiddellijk
-  default_project_type_scrum: Scrum team
-  default_project_type_standard: Standaard project
-  default_reported_project_status_green: Groen
-  default_reported_project_status_amber: Amber
-  default_reported_project_status_red: Rood
   default_role_anonymous: Anoniem
   default_role_developer: Ontwikkelaar
   default_role_project_admin: Project admin
@@ -1262,7 +1248,6 @@ nl:
   label_edit: Wijzig
   label_enable_multi_select: Omschakelen multiselect
   label_enabled_project_custom_fields: Ingeschakelde aangepaste velden
-  label_enabled_project_types: Ingeschakelde typen
   label_enabled_project_modules: Ingeschakelde modules
   label_enabled_project_activities: Ingeschakelde activiteiten voor tijdregistratie
   label_end_to_end: einde tot einde
@@ -1494,8 +1479,7 @@ nl:
   label_repository_plural: Repositories
   label_required: vereist
   label_requires: vereist
-  label_responsible_for_work_packages: Werkpakketten waar ik verantwoordelijk voor
-    ben
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Resultaten
   label_reverse_chronological_order: In omgekeerde chronologische volgorde
   label_revision: Revisie
@@ -1635,8 +1619,8 @@ nl:
     aan mij
   label_work_package_view_all_reported_by_me: Bekijk alle werkpakketten gemeld door
     mij
-  label_work_package_view_all_responsible_for: Bekijk alle werkpakketten waar ik verantwoordelijk
-    voor ben
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
+    for
   label_work_package_view_all_watched: Bekijk alle gevolgde werkpakketten
   label_work_package_watchers: Volgers
   label_workflow: Werkstroom
@@ -2120,9 +2104,9 @@ nl:
   setting_smtp_address: SMTP server
   setting_smtp_port: SMTP-port
   setting_smtp_authentication: SMTP-authenticatie
-  setting_smtp_domain: SMTP-Hallo afzender domein
   setting_smtp_user_name: SMTP gebruikersnaam
   setting_smtp_password: SMTP wachtwoord
+  setting_smtp_domain: SMTP-Hallo afzender domein
   setting_activity_days_default: Dagen weergegeven op projectactiviteit
   setting_app_subtitle: Applicatie ondertitel
   setting_app_title: Toepassingsnaam
@@ -2421,8 +2405,6 @@ nl:
     admin_menu:
       color: Kleur
       colors: Kleuren
-      project_type: Projecttype
-      project_types: Projecttypes
     associations: Afhankelijkheden
     board_could_not_be_saved: Bord kon niet opgeslagen worden
     button_delete_all: Alles verwijderen
@@ -2440,7 +2422,6 @@ nl:
       one: "%{count} dag"
       other: "%{count} dagen"
     edit_color: Bewerk kleur
-    edit_project_type: Projecttype bewerken
     edit_thing: Wijzig
     edit_timeline: Bewerk tijdlijn verslag %{timeline}
     delete_timeline: Verwijder tijdlijn verslag %{timeline}
@@ -2484,7 +2465,6 @@ nl:
         due_date: Einddatum
         name: Naam
         status: Status
-        responsible: Verantwoordelijk
         start_date: Startdatum
       columns: Kolommen
       comparisons: Vergelijkingen
@@ -2513,7 +2493,7 @@ nl:
       outline: Uitbreiding van de eerste schets
       parent: Toon subprojecten van
       work_package_filters: Filter werkpakketten
-      work_package_responsible: Toon werkpakketten met verantwoordelijk
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: Toon werkpakketten met uitvoerder
       types: Typen weergeven
       status: Toon status
@@ -2526,9 +2506,8 @@ nl:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} geleden,
         %{end_label} %{endspan}%{endspanunit} vanaf nu"
       project_filters: Filter projecten
-      project_responsible: Toon projecten met verantwoordelijk
+      project_responsible: Show projects with accountable
       project_status: Toon project status
-      project_types: Toon projecttypes
       timeframe: Toon tijdschema
       timeframe_end: naar
       timeframe_start: van
@@ -2538,7 +2517,6 @@ nl:
     new_color: Nieuwe kleur
     new_association: Nieuwe afhankelijkheid
     new_work_package: Nieuw werkpakket
-    new_project_type: Nieuw projecttype
     new_reporting: Nieuwe rapportage
     new_timeline: Nieuw rapport van de tijdlijn
     no_projects_for_reporting_available: Er zijn geen projecten waarnaar een rapportage
@@ -2565,21 +2543,11 @@ nl:
       edit: 'Bewerk status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Bijgewerkt: %{title}'
-    project_type_could_not_be_saved: Projecttype kan niet worden opgeslagen
     type_could_not_be_saved: Type kan niet worden opgeslagen
     reporting_could_not_be_saved: Rapportage kan niet worden opgeslagen
     properties: Eigenschappen
     really_delete_color: 'Weet u zeker, dat u wilt de volgende kleur verwijderen?
       Typen van deze kleur zullen niet worden verwijderd.
-
-'
-    really_delete_project_type: 'Weet u zeker, dat u de volgende projecttype wilt
-      verwijderen? Projecten van dit type zullen niet worden verwijderd.
-
-'
-    really_delete_timeline: 'Weet u zeker, dat u het volgende rapport van de tijdlijn
-      wilt verwijderen? Werkpakketten die in dit rapport van deze tijdlijn weergegeven
-      worden, worden niet verwijderd.
 
 '
     really_delete_reporting: 'Weet u zeker, dat u de volgende rapportage wilt verwijderen?
@@ -2591,7 +2559,6 @@ nl:
     timelines: Tijdlijn rapporten
     settings: Tijdlijnen
     vertical_work_package: Verticale werkpakketten
-    without_project_type: Zonder projecttype
     you_are_viewing_the_selected_timeline: U bekijkt het geselecteerde tijdlijn Rapport
     zoom:
       in: Inzoomen

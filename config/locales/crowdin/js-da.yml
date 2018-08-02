@@ -424,7 +424,6 @@ da:
         level5: Udvidelsesniveau 5
         all: Vis alle
       project_status: Projektstatus
-      project_type: Projekttype
       really_close_dialog: Vil du virkelig lukke dialogboksen og miste ugemte data?
       responsible: Ansvarlig
       save: Gem
