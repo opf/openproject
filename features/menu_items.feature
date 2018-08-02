@@ -46,6 +46,7 @@ Feature: Menu items
     When I go to the overview page of the project "Awesome Project"
     Then I should see "Calendar" within "#main-menu"
 
+  @javascript
   Scenario: Work Packages Summary should be visible and accessible
     When I go to the overview page of the project "Awesome Project"
     And I toggle the "Work packages" submenu

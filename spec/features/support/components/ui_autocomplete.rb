@@ -37,8 +37,8 @@ module Components
 
       ##
       # Find the open dropdown
-      scroll_to_element(page.find('.ui-autocomplete'))
-      page.find('.ui-autocomplete', visible: true)
+      scroll_to_element(element.find('.ui-autocomplete'))
+      element.find('.ui-autocomplete', visible: true)
     end
 
     def select_autocomplete(element, query:, select_text: nil)
