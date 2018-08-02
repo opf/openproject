@@ -44,6 +44,10 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
       input_options, label_options = extract_from options
 
+      if field_has_errors?(field)
+        input_options[:class] << ' -error'
+      end
+
       label = label_for_field(field, label_options)
       input = super(field, input_options, *args)
 
@@ -86,6 +90,10 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     input_options, label_options = extract_from options
     label_options[:for] = "#{sanitized_object_name}_#{field}_#{value.downcase}"
 
+    if field_has_errors?(field)
+      input_options[:class] << ' -error'
+    end
+
     label = label_for_field(field, label_options)
     input = super(field, value, input_options, *args)
 
@@ -97,6 +105,11 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     if html_options[:container_class].present?
       options[:container_class] = html_options[:container_class]
     end
+
+    if field_has_errors?(field)
+      html_options[:class] << ' -error'
+    end
+
     merge_required_attributes(options[:required], html_options)
     label_for_field(field, options) + container_wrap_field(super, 'select', options)
   end
@@ -238,7 +251,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def label_for_field_errors(content, options, field)
-    if @object.try(:errors) && @object.errors.include?(field)
+    if field_has_errors?(field)
       options[:class] << ' -error'
       error_label = I18n.t('errors.field_erroneous_label',
                            full_errors: @object.errors.full_messages_for(field).join(' '))
@@ -278,9 +291,13 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
+  def field_has_errors?(field)
+    @object.errors&.include?(field)
+  end
+
   def extract_from(options)
     label_options = options.dup.except(:class)
-    input_options = options.dup.except(:for, :label, :no_label, :prefix, :suffix)
+    input_options = options.dup.except(:for, :label, :no_label, :prefix, :suffix, :label_options)
 
     label_options.merge!(options.delete(:label_options) || {})
 
