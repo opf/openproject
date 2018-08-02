@@ -47,6 +47,24 @@ module OpenProject::MyProjectPage
       end
     end
 
+    # Add paths to satisfy AttachableRespresenter interface
+    add_api_path :overview do |id|
+      "#{root}/overviews/#{id}"
+    end
+
+    add_api_path :my_projects_overview do |id|
+      "#{root}/my_projects_overviews/#{id}"
+    end
+
+    add_api_path :attachments_by_overview do |id|
+      "#{my_projects_overview(id)}/attachments"
+    end
+
+    add_api_path :attachments_by_my_projects_overview do |id|
+      "#{overview(id)}/attachments"
+    end
+
+
     patch_with_namespace :OpenProject, :TextFormatting, :Formats, :Markdown, :TextileConverter
 
     assets %w(my_project_page/my_projects_overview.css)

@@ -19,7 +19,6 @@
 #++
 
 module MyProjectsOverviewsHelper
-
   def top_fields
     %w(top)
   end
@@ -73,8 +72,6 @@ module MyProjectsOverviewsHelper
               .order("#{News.table_name}.created_on DESC")
               .limit(5)
   end
-
-
 
   def attachments
     @attachments = overview.attachments || []
