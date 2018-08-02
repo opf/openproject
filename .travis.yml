@@ -61,7 +61,7 @@ env:
     - RAILS_ENV=test
 
   matrix:
-    - "TEST_SUITE=npm DB=none"
+    - "TEST_SUITE=npm"
 
 
     - "TEST_SUITE=spec_legacy       DB=mysql     GROUP_SIZE=1 GROUP=1"
