@@ -38,11 +38,18 @@ module Redmine::MenuManager::MenuHelper
   end
 
   # Renders the application main menu
-  def render_main_menu(project)
-    if project
+  def render_main_menu(menu, project = nil)
+    if !menu
+      nil
+    elsif menu == :module_menu && project && project.persisted?
       build_wiki_menus(project)
+      render_menu(:project_menu, project)
+    elsif menu == :module_menu
+      # TODO check project new to see if there is a menu which shouldn't be there
+      render_menu(:application_menu, project)
+    else
+      render_menu(menu, project)
     end
-    render_menu((project && !project.new_record?) ? :project_menu : :application_menu, project)
   end
 
   def display_main_menu?(project)
