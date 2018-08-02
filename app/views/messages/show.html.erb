@@ -78,7 +78,7 @@ See docs/COPYRIGHT.rdoc for more details.
   </div>
 
   <% resource = message_attachment_representer(@topic) %>
-  <attachments data-resource="<%= resource.to_json %>" data-allow-uploading="false"></attachments>
+  <%= list_attachments(resource) %>
 
 </div>
 <br />
@@ -117,7 +117,7 @@ See docs/COPYRIGHT.rdoc for more details.
         <%= format_text message, :content, attachments: message.attachments %>
       </div>
       <% resource = message_attachment_representer(message) %>
-      <attachments data-resource="<%= resource.to_json %>" data-allow-uploading="false"></attachments>
+      <%= list_attachments(resource) %>
     </div>
   <% end %>
   <%= pagination_links_full @replies, per_page_links: false %>

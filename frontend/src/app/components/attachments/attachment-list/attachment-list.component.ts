@@ -37,7 +37,8 @@ import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.ser
   templateUrl: './attachment-list.html'
 })
 export class AttachmentListComponent implements OnInit {
-  @Input('resource') public resource:HalResource;
+  @Input() public resource:HalResource;
+  @Input() public selfDestroy:boolean = false;
 
   public $element:JQuery;
 

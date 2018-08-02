@@ -36,7 +36,7 @@
   <%= f.text_field :comments, size: 120 %>
 </div>
 
-<attachments data-resource="<%= resource.to_json %>" data-allow-uploading="true"></attachments>
+<%= list_attachments(resource, true) %>
 
 <hr class="form--separator" />
 <%= f.button t(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>
