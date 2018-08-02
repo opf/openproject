@@ -449,18 +449,6 @@ describe User, 'deletion', type: :model do
     end
   end
 
-  describe 'WHEN the user is responsible for a project' do
-    before do
-      project.responsible = user
-      project.save!
-      user.destroy
-      project.reload
-    end
-
-    it { expect(Project.find_by(id: project.id)).to eq(project) }
-    it { expect(project.responsible).to be_nil }
-  end
-
   describe 'WHEN the user is assigned an issue category' do
     let(:category) {
       FactoryBot.build(:category, assigned_to: user,
