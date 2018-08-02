@@ -20,22 +20,24 @@
 require 'spec_helper'
 
 describe ::API::V3::Budgets::BudgetRepresenter do
+  include ::API::V3::Utilities::PathHelper
+
   let(:project) { FactoryBot.build(:project, id: 999) }
-  let(:user) {
+  let(:user) do
     FactoryBot.build(:user,
-                      member_in_project: project,
+                     member_in_project: project,
+                     created_on: 1.day.ago,
+                     updated_on: Date.today)
+  end
+  let(:budget) do
+    FactoryBot.create(:cost_object,
+                      author: user,
+                      project: project,
                       created_on: 1.day.ago,
                       updated_on: Date.today)
-  }
-  let(:budget) {
-    FactoryBot.create(:cost_object,
-                       author: user,
-                       project: project,
-                       created_on: 1.day.ago,
-                       updated_on: Date.today)
-  }
+  end
 
-  let(:representer)  { described_class.new(budget, current_user: user) }
+  let(:representer) { described_class.new(budget, current_user: user) }
 
   context 'generation' do
     subject(:generated) { representer.to_json }
@@ -43,9 +45,21 @@ describe ::API::V3::Budgets::BudgetRepresenter do
     describe 'self link' do
       it_behaves_like 'has a titled link' do
         let(:link) { 'self' }
-        let(:href) { "/api/v3/budgets/#{budget.id}" }
+        let(:href) { api_v3_paths.budget(budget.id) }
         let(:title) { budget.subject }
       end
+    end
+
+    it_behaves_like 'has an untitled link' do
+      let(:link) { :attachments }
+      let(:href) { api_v3_paths.attachments_by_budget budget.id }
+    end
+
+    it_behaves_like 'has an untitled action link' do
+      let(:link) { :addAttachment }
+      let(:href) { api_v3_paths.attachments_by_budget budget.id }
+      let(:method) { :post }
+      let(:permission) { :edit_cost_objects }
     end
 
     it 'indicates its type' do

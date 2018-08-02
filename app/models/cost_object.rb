@@ -94,9 +94,9 @@ class CostObject < ActiveRecord::Base
     if [FixedCostObject.name, VariableCostObject.name].include?(to)
       self.type = to
       self.save!
-      return CostObject.find(id)
+      CostObject.find(id)
     else
-      return self
+      self
     end
   end
 
