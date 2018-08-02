@@ -26,20 +26,34 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+import {Component, Input, OnInit} from '@angular/core';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {Attachable} from 'core-app/modules/hal/resources/mixins/attachable-mixin';
+import {DynamicBootstrapper} from 'core-app/globals/dynamic-bootstrapper';
+import {ElementRef} from '@angular/core';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 
-export interface WikiPageResourceLinks {
-  addAttachment(attachment:HalResource):Promise<any>;
+@Component({
+  selector: 'attachment-list',
+  templateUrl: './attachment-list.html'
+})
+export class AttachmentListComponent implements OnInit {
+  @Input('resource') public resource:HalResource;
+
+  public $element:JQuery;
+
+  constructor(protected elementRef:ElementRef,
+              protected halResourceService:HalResourceService) { }
+
+  ngOnInit() {
+    this.$element = jQuery(this.elementRef.nativeElement);
+
+    if (this.resource.attachments && this.resource.attachmentsBackend) {
+      this.resource.attachments.updateElements();
+    }
+  }
 }
 
-class WikiPageBaseResource extends HalResource {
-  public $links:WikiPageResourceLinks;
-
-  private attachmentsBackend = false;
-}
-
-export const WikiPageResource = Attachable(WikiPageBaseResource);
-
-export interface WikiPageResource extends HalResource {
-}
+DynamicBootstrapper.register({
+  selector: 'attachment-list',
+  cls: AttachmentListComponent
+});

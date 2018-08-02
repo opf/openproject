@@ -1,6 +1,5 @@
 <div
   class="wp-attachment-upload hide-when-print"
-  *ngIf="workPackage.canAddAttachments"
   (drop)="onDropFiles($event)"
   (dragover)="onDragOver($event)"
   (dragleave)="onDragLeave($event)"
@@ -9,7 +8,7 @@
          type="file"
          id="attachment_files"
          name="attachment_files"
-         (change)="onFilePickerChanged($event)"
+         (change)="onFilePickerChanged()"
          hidden
          multiple />
   <div class="work-package--attachments--drop-box"

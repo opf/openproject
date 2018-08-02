@@ -76,7 +76,10 @@ See docs/COPYRIGHT.rdoc for more details.
   <div class="wiki">
     <%= format_text(@topic.content, object: @topic, attachments: @topic.attachments) %>
   </div>
-  <%= link_to_attachments @topic, author: false %>
+
+  <% resource = message_attachment_representer(@topic) %>
+  <attachments data-resource="<%= resource.to_json %>" data-allow-uploading="false"></attachments>
+
 </div>
 <br />
 <% unless @replies.empty? %>
@@ -113,7 +116,8 @@ See docs/COPYRIGHT.rdoc for more details.
       <div class="wiki">
         <%= format_text message, :content, attachments: message.attachments %>
       </div>
-      <%= link_to_attachments message, author: false %>
+      <% resource = message_attachment_representer(message) %>
+      <attachments data-resource="<%= resource.to_json %>" data-allow-uploading="false"></attachments>
     </div>
   <% end %>
   <%= pagination_links_full @replies, per_page_links: false %>

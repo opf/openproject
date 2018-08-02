@@ -77,8 +77,6 @@ import {WorkPackageSingleViewComponent} from 'core-components/work-packages/wp-s
 import {WorkPackageSubjectComponent} from 'core-components/work-packages/wp-subject/wp-subject.component';
 import {WorkPackageTypeStatusComponent} from 'core-components/work-packages/wp-type-status/wp-type-status.component';
 import {WorkPackageWatcherButtonComponent} from 'core-components/work-packages/wp-watcher-button/wp-watcher-button.component';
-import {WorkPackageAttachmentListItemComponent} from 'core-components/wp-attachments/wp-attachment-list/wp-attachment-list-item.component';
-import {WorkPackageAttachmentListComponent} from 'core-components/wp-attachments/wp-attachment-list/wp-attachment-list.component';
 import {WorkPackageCreateButtonComponent} from 'core-components/wp-buttons/wp-create-button/wp-create-button.component';
 import {WorkPackageDetailsViewButtonComponent} from 'core-components/wp-buttons/wp-details-view-button/wp-details-view-button.component';
 import {WorkPackageFilterButtonComponent} from 'core-components/wp-buttons/wp-filter-button/wp-filter-button.component';
@@ -186,7 +184,6 @@ import {RevisionActivityComponent} from "core-components/wp-activity/revision/re
 import {CommentService} from "core-components/wp-activity/comment-service";
 import {WorkPackageCommentComponent} from "core-components/work-packages/work-package-comment/work-package-comment.component";
 import {OpCkeditorFormComponent} from "core-components/ckeditor/op-ckeditor-form.component";
-import {WorkPackageUploadComponent} from "core-components/wp-attachments/wp-attachments-upload/wp-attachments-upload.component";
 import {OpDragScrollDirective} from "core-app/modules/common/ui/op-drag-scroll.directive";
 import {UIRouterModule} from "@uirouter/angular";
 import {initializeUiRouterConfiguration} from "core-components/routing/ui-router.config";
@@ -214,6 +211,10 @@ import {CKEditorSetupService} from "core-components/ckeditor/ckeditor-setup.serv
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {CKEditorPreviewService} from "core-components/ckeditor/ckeditor-preview.service";
 import {ChildPagesMacroModal} from "core-components/modals/editor/macro-child-pages-modal/child-pages-macro.modal";
+import {AttachmentListComponent} from 'core-components/attachments/attachment-list/attachment-list.component';
+import {AttachmentListItemComponent} from 'core-components/attachments/attachment-list/attachment-list-item.component';
+import {AttachmentsUploadComponent} from 'core-components/attachments/attachments-upload/attachments-upload.component';
+import {AttachmentsComponent} from 'core-components/attachments/attachments.component';
 
 @NgModule({
   imports: [
@@ -378,12 +379,9 @@ import {ChildPagesMacroModal} from "core-components/modals/editor/macro-child-pa
     WorkPackageSingleViewComponent,
     WorkPackageStatusButtonComponent,
     WorkPackageReplacementLabelComponent,
-    WorkPackageAttachmentListComponent,
-    WorkPackageAttachmentListItemComponent,
     UserLinkComponent,
     WorkPackageChildrenQueryComponent,
     WorkPackageFormAttributeGroupComponent,
-    WorkPackageUploadComponent,
 
     // Activity Tab
     NewestActivityOnOverviewComponent,
@@ -478,6 +476,12 @@ import {ChildPagesMacroModal} from "core-components/modals/editor/macro-child-pa
     // CkEditor and Macros
     OpCkeditorFormComponent,
     EmbeddedTablesMacroComponent,
+
+    // Attachments
+    AttachmentsComponent,
+    AttachmentListComponent,
+    AttachmentListItemComponent,
+    AttachmentsUploadComponent,
   ],
   entryComponents: [
     WorkPackagesBaseComponent,
@@ -557,6 +561,9 @@ import {ChildPagesMacroModal} from "core-components/modals/editor/macro-child-pa
     // CKEditor and macros
     OpCkeditorFormComponent,
     EmbeddedTablesMacroComponent,
+
+    // Attachments
+    AttachmentsComponent,
   ]
 })
 export class OpenProjectModule {
