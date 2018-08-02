@@ -34,23 +34,10 @@ module API
     module Documents
       class DocumentRepresenter < ::API::Decorators::Single
         include API::Decorators::LinkedResource
+        include API::Caching::CachedRepresenter
+        include ::API::V3::Attachments::AttachableRepresenterMixin
 
         self_link title_getter: ->(*) { represented.title }
-
-        link :attachments do
-          {
-            href: api_v3_paths.attachments_by_document(represented.id)
-          }
-        end
-
-        link :addAttachment do
-          next unless current_user_allowed_to(:manage_documents, context: represented.project)
-
-          {
-            href: api_v3_paths.attachments_by_document(represented.id),
-            method: :post
-          }
-        end
 
         property :id
 
