@@ -33,6 +33,7 @@ import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service'
 import {StateService, TransitionService} from '@uirouter/core';
 import {States} from 'core-components/states.service';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
+import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 
 @Component({
   selector: 'wp-query-selectable-title',
@@ -65,9 +66,16 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
   }
 
   ngOnInit() {
+    // Listen on esc keypress (this event is not fired by accessible click directive)
+      jQuery(window).keydown( (event:JQueryKeyEventObject) => {
+        if (jQuery('wp-query-selectable-title').find('input').is( ":focus" ) && this.editing && event.which === keyCodes.ESCAPE) {
+          this.cancelEdit();
+        }
+        return true;
+      });
     // Register click on work packages table and cancel edit (set field back to previous value)
     setTimeout( () => {
-      jQuery('table').dblclick( event => {
+      jQuery('table').dblclick( (event:JQueryKeyEventObject) => {
         if (this.isEmpty) { this.cancelEdit(); }
       });
     });
@@ -98,14 +106,16 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
   }
 
   // Press Enter to save new title
-  private onKeyPress(event:JQueryEventObject) {
+  public onKeyPress(event:JQueryEventObject) {
     switch (event.keyCode) {
-      case 27: // ESC
-        this.cancelEdit(); break;
       case 32: // SPACE
         this.setBlank(event.target as HTMLInputElement); break;
       case 13: // ENTER
-        this.renameView(); break;
+        if (this.editing) {
+          this.renameView(); break;
+        } else {
+          this.edit(this.selectedTitle); break;
+        }
       default:
         return;
     }
