@@ -148,7 +148,7 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
       (this.editMode && !this.skipField(field) || this.form.activeFields[field.fieldName])
 
     if (shouldActivate) {
-      field.activateOnForm(this.form, true);
+      field.activateOnForm(true);
     } else {
       this.states.workPackages
         .get(this.workPackage.id)

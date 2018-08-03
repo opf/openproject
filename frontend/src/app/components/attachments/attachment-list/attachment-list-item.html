@@ -1,4 +1,9 @@
-<li class="form--selected-value--container" focus-within focusWithinSelector=".inplace-edit--icon-wrapper">
+<li class="form--selected-value--container work-package--attachments--draggable-item"
+    focus-within
+    draggable="true"
+    (dragstart)="setDragData($event)"
+    [title]="text.dragHint"
+    focusWithinSelector=".inplace-edit--icon-wrapper">
   <span class="form--selected-value">
     <op-icon icon-classes="icon-context icon-attachment"></op-icon>
     <a
