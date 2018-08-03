@@ -29,6 +29,8 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {CurrentProjectService} from "core-components/projects/current-project.service";
+import {Injector} from "@angular/core";
 
 @Injectable()
 export class MainMenuToggleService {
@@ -51,7 +53,8 @@ export class MainMenuToggleService {
   private changeData = new BehaviorSubject<any>({});
   public changeData$ = this.changeData.asObservable();
 
-  constructor(protected I18n:I18nService) {
+  constructor(protected I18n:I18nService,
+              protected injector:Injector) {
   }
 
   public initializeMenu() : void {
@@ -65,7 +68,8 @@ export class MainMenuToggleService {
       this.setWidth();
     }
 
-    if (jQuery(document.body).hasClass('controller-my') && this.elementWidth == 0) {
+    let currentProject:CurrentProjectService = this.injector.get(CurrentProjectService);
+    if (jQuery(document.body).hasClass('controller-my') && this.elementWidth == 0 || currentProject.id === null) {
       this.saveWidth(this.defaultWidth);
     }
 

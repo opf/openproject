@@ -32,7 +32,7 @@ import {WorkPackagesListService} from '../wp-list/wp-list.service';
 import {WorkPackagesListChecksumService} from '../wp-list/wp-list-checksum.service';
 import {WorkPackagesListComponent} from 'core-components/routing/wp-list/wp-list.component';
 import {StateService, TransitionService} from '@uirouter/core';
-import {Component, OnInit, OnDestroy, ElementRef} from "@angular/core";
+import {Component, Inject, OnInit, OnDestroy, Attribute, ElementRef, Injector} from "@angular/core";
 import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
@@ -94,7 +94,6 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
 
   public ngOnInit() {
     this.projectIdentifier = this.element.nativeElement.getAttribute("identifier");
-    this.hideShowHamburgerIcon(this.projectIdentifier);
 
     jQuery(document).ready(() => {
       // If we start out outside of the work packages module,
@@ -102,10 +101,9 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
       // work packages menu item.
       let toggler = jQuery('#main-menu-work-packages-wrapper .toggler');
       toggler.one('click', event => {
-       this.openMenu();
+        this.openMenu();
       });
-
-      // If we start out on the work package report/summary page
+       // If we start out on the work package report/summary page
       // open the menu at once. Rails is instructed to mark
       // the "work_packages" menu item to be selected.
       if (jQuery('body').is(this.reportsBodySelector)) {
@@ -121,21 +119,13 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     });
   }
 
+
   ngOnDestroy() {
     this.unregisterTransitionListener();
   }
 
-  private hideShowHamburgerIcon(projectIdentifier:string) {
-    if (this.projectIdentifier !== "") {
-      setTimeout( () => jQuery('#main-menu-toggle').css("display", "block"));
-    } else {
-      setTimeout( () => jQuery('#main-menu-toggle').css("display", "none"));
-    }
-  }
-
   private openMenu() {
     let input = jQuery('#query-title-filter') as IQueryAutocompleteJQuery;
-
     this.setupAutoCompletion(input);
     this.updateMenuOnChanges(input);
   }
@@ -372,7 +362,6 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
       } else {
         promise = this.wpListService.reloadQuery(item.query);
       }
-
       this.loadingIndicator.table.promise = promise!;
     }
     // Case 2: In a subpage of the wp site, go back to wp main page to open the requested query (without refreshing)
