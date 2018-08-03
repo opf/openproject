@@ -204,7 +204,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     let noResults = jQuery('.query-select-dropdown--no-results');
 
     input.querycomplete({
-      delay: 0,
+      delay: 100,
       source: autocompleteValues,
       select: (ul:any, selected:{item:IAutocompleteItem}) => {
         this.loadQuery(selected.item);
@@ -238,8 +238,6 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
       _create: function(this:any) {
         this._super();
         this.widget().menu( 'option', 'items', '> :not(.ui-autocomplete--category)' );
-        this._search(''); // Search empty string to show all items
-        this._search();   // Show placeholder
       },
       _renderItem: function(ul:any, item:IAutocompleteItem) {
         let li = jQuery("<li class='ui-menu-item' auto_id='" + item.auto_id + "' category='" + item.category + "'><div class='ui-menu-item-wrapper' tabindex='0'>" + item.label + "</div></li>");
@@ -410,7 +408,6 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
 
   private setLoaded() {
     this.loaded = true;
-    this.text.search = '';
   }
 }
 
