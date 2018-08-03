@@ -198,7 +198,7 @@ en:
     label_in: "in"
     label_in_less_than: "in less than"
     label_in_more_than: "in more than"
-    label_latest_activity: "Latest Activity"
+    label_latest_activity: "Latest activity"
     label_last_updated_on: "Last updated on"
     label_less_or_equal: "<="
     label_less_than_ago: "less than days ago"
@@ -581,7 +581,7 @@ en:
         versionName: "Version"
         version: "Version"
       default_queries:
-        latest_activity: "Latest Activity"
+        latest_activity: "Latest activity"
         created_by_me: "Created by me"
         assigned_to_me: "Assigned to me"
         recently_created: "Recently created"
