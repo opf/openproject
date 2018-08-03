@@ -186,7 +186,7 @@ class WikiController < ApplicationController
     @page.attach_files(permitted_params.attachments.to_h)
 
     @page.title = permitted_params.wiki_page[:title]
-    @page.parent_id = permitted_params.wiki_page[:parent_id].to_i
+    @page.parent_id = permitted_params.wiki_page[:parent_id].presence
     @content.attributes = permitted_params.wiki_content
     @content.author = User.current
     @content.add_journal User.current, params['content']['comments']
@@ -315,7 +315,7 @@ class WikiController < ApplicationController
         @page.descendants.each(&:destroy)
       when 'reassign'
         # Reassign children to another parent page
-        reassign_to = @wiki.pages.find_by(id: params[:reassign_to_id].to_i)
+        reassign_to = @wiki.pages.find_by(id: params[:reassign_to_id].presence)
         return unless reassign_to
         @page.children.each do |child|
           child.update_attribute(:parent, reassign_to)
