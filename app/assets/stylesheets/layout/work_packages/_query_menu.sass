@@ -62,13 +62,12 @@ $wp-query-menu-search-container-height: 35px
     .ui-autocomplete--category
       width: 100%
       padding-left: 25px
-      margin: 2px 0
       line-height: $menu-item-line-height
       height: $menu-item-line-height
       font-weight: normal
       text-transform: uppercase
       // border-bottom: 1px solid $main-menu-border-color
-      font-size: 0.8rem
+      font-size: 0.7rem
       @include varprop(color, content-icon-link-pressed-color)
       cursor: pointer
 
@@ -84,24 +83,16 @@ $wp-query-menu-search-container-height: 35px
 
   // Category collapsible links
   .wp-query-menu--category-icon
-    font-family: "openproject-icon-font" !important
-    font-style: normal !important
-    font-weight: normal !important
-    font-variant: normal !important
-    text-transform: none !important
-    text-decoration: none !important
+    @include icon-font-common
     // Overridden due to main menu :/
-    padding: initial !important
-    font-size: 0.6rem !important
-    line-height: $menu-item-line-height !important
-    height: $menu-item-line-height !important
-    margin: 0px 8px !important
-    position: absolute !important
-    color: $content-icon-link-pressed-color !important
-
-    speak: none
-    -webkit-font-smoothing: antialiased
-    -moz-osx-font-smoothing: grayscale
+    padding: initial
+    font-size: 0.6rem
+    line-height: $menu-item-line-height
+    height: $menu-item-line-height
+    margin: 0px 8px
+    position: absolute
+    color: $content-icon-link-pressed-color
+    z-index: 1
     border: none
     background: initial
 
@@ -134,6 +125,7 @@ $wp-query-menu-search-container-height: 35px
   // Link within element wrapper
   .wp-query-menu--item-link
     @include text-shortener
+    @include varprop(color, main-menu-font-color)
     padding: 0px 2px 0px 5px !important
     margin: 0
     line-height: 30px
@@ -149,10 +141,11 @@ $wp-query-menu-search-container-height: 35px
     width: 100%
     height: 35px
     line-height: $menu-item-line-height
-    border: 1px solid #cacaca
-    border-radius: 25px
+    border: 0px solid
+    border-radius: 3px
     box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15)
-    color: #222222
+    background-color: rgba(255, 255, 255, 0.1)
+    color: rgba(255, 255, 255, 0.5)
     padding: 0px 30px 0px 10px
 
     // Hide the little x to remove input where exists + supported

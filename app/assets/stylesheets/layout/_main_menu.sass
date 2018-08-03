@@ -213,6 +213,7 @@ $arrow-left-width: 40px
   width: 40px
   &:hover
     @include varprop(background, main-menu-bg-hover-background)
+    @include varprop(color, main-menu-hover-font-color)
 
 a.main-menu--parent-node
   display: inline-block
@@ -223,8 +224,10 @@ a.main-menu--parent-node
   height: $main-menu-item-height
   line-height: $main-menu-item-height
   border-radius: 3px
+  @include varprop(color, main-menu-font-color)
   &:hover
     @include varprop(background, main-menu-bg-hover-background)
+    @include varprop(color, main-menu-hover-font-color)
 
 // logic for showing either parent or child menu
 .main-menu
