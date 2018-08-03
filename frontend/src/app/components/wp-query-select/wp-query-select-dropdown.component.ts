@@ -40,6 +40,7 @@ import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper
 import {WorkPackageStaticQueriesService} from 'core-components/wp-query-select/wp-static-queries.service';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 
 export interface IAutocompleteItem {
   auto_id?:any;
@@ -355,21 +356,24 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     if (this.$state.includes('work-packages.list')) {
       this.wpListChecksumService.clear();
 
-      let promise:any = null;
+      let promise:Promise<QueryResource>|null = null;
 
       if (item.auto_id === this.wpStaticQueries.summary.auto_id) {
         window.location.href = this.pathHelper.projectWorkPackagesPath(this.projectIdentifier) + '/report';
       }
       else if (!item.query) { // default query
         if (this.projectIdentifier) {
+          this.$state.go('work-packages.list', { query_props: item.query_props, projectPath: this.projectIdentifier });
           promise = this.wpListService.fromQueryParams({query_props: item.query_props}, this.projectIdentifier);
         } else {
+          this.$state.go('work-packages.list', { query_props: item.query_props });
           promise = this.wpListService.fromQueryParams({query_props: item.query_props});
         }
       } else {
         promise = this.wpListService.reloadQuery(item.query);
       }
-      this.loadingIndicator.table.promise = promise;
+
+      this.loadingIndicator.table.promise = promise!;
     }
     // Case 2: In a subpage of the wp site, go back to wp main page to open the requested query (without refreshing)
     else if (this.$state.includes('work-packages')) {
