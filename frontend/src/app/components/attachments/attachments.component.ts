@@ -110,6 +110,12 @@ export class AttachmentsComponent implements OnInit, OnDestroy {
     this.$formElement.off('submit.attachment-component');
   }
 
+  // Only show attachment list when allow uploading is set
+  // or when at least one attachment exists
+  public showAttachments() {
+    return this.allowUploading || _.get(this.resource, 'attachments.count', 0) > 0;
+  }
+
   private destroyRemovedAttachments() {
     let missingAttachments = _.differenceBy(this.initialAttachments,
       this.resource.attachments.elements,

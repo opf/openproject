@@ -81,6 +81,8 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
           .then(() => {
             if (!!this.attachmentsBackend) {
               this.updateAttachments();
+            } else {
+              this.attachments.count = Math.max(this.attachments.count - 1, 0);
             }
           })
           .catch((error:any) => {
@@ -108,6 +110,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
           if (!!this.attachmentsBackend && !this.isNew) {
             this.updateAttachments();
           } else {
+            this.attachments.count += result.length;
             result.forEach(r => {
               this.attachments.elements.push(r.response);
             });
