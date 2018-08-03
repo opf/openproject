@@ -82,7 +82,7 @@ import {WorkPackageDetailsViewButtonComponent} from 'core-components/wp-buttons/
 import {WorkPackageFilterButtonComponent} from 'core-components/wp-buttons/wp-filter-button/wp-filter-button.component';
 import {WorkPackageStatusButtonComponent} from 'core-components/wp-buttons/wp-status-button/wp-status-button.component';
 import {WorkPackageTimelineButtonComponent} from 'core-components/wp-buttons/wp-timeline-toggle-button/wp-timeline-toggle-button.component';
-import {WorkPackageZenModeButtonComponent} from 'core-components/wp-buttons/wp-zen-mode-toggle-button/wp-zen-mode-toggle-button.component';
+import {ZenModeButtonComponent} from 'core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
 import {WorkPackageCopyFullViewComponent} from 'core-components/wp-copy/wp-copy-full-view.component';
 import {WorkPackageCopySplitViewComponent} from 'core-components/wp-copy/wp-copy-split-view.component';
 import {WpCustomActionsComponent} from 'core-components/wp-custom-actions/wp-custom-actions.component';
@@ -340,7 +340,7 @@ import {AttachmentsComponent} from 'core-components/attachments/attachments.comp
     WorkPackageFilterButtonComponent,
     WorkPackageDetailsViewButtonComponent,
     WorkPackageTimelineButtonComponent,
-    WorkPackageZenModeButtonComponent,
+    ZenModeButtonComponent,
     WpResizerDirective,
     MainMenuResizerComponent,
     WpCustomActionComponent,
@@ -564,6 +564,9 @@ import {AttachmentsComponent} from 'core-components/attachments/attachments.comp
 
     // Attachments
     AttachmentsComponent,
+
+    // Zen mode button
+    ZenModeButtonComponent,
   ]
 })
 export class OpenProjectModule {

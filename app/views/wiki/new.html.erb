@@ -27,15 +27,6 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<h2 class="legacy-heading">
-  <% if @page.parent %>
-    <% breadcrumb_for_page(@page.parent, t("create_new_page")) %>
-  <% else %>
-    <% breadcrumb_paths(t("create_new_page")) %>
-  <% end %>
-  <%= t("create_new_page") %>
-</h2>
-
 <% html_title t("create_new_page") %>
 
 <%= labelled_tabular_form_for @content,

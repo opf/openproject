@@ -1,0 +1,28 @@
+// Provide and editable container toolbar
+.toolbar-container.-editable
+
+  // Align editable title and toolbar with flex
+  .toolbar
+    display: flex
+    align-items: center
+
+  // Allow title container to grow
+  .title-container
+    flex: 1
+
+    span:hover
+      text-decoration: none
+
+  // Avoid default float of toolbar
+  .toolbar-items
+    float: none
+
+    // Fix up default margins of items in floating toolbar
+    .button
+      margin: 0
+
+  input[type="text"].toolbar--editable-toolbar
+    color: $toolbar-title-color
+    font-size: 20px
+    font-weight: bold
+    height: 34px

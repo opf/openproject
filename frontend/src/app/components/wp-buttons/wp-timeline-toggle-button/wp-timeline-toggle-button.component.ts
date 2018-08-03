@@ -95,7 +95,7 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
     return this.wpTableTimeline.zoomLevel;
   }
 
-  public performAction() {
+  public performAction(event:Event) {
     this.toggleTimeline();
   }
 

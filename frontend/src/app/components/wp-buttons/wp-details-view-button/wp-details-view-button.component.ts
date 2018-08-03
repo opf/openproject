@@ -79,7 +79,7 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
     return this.$state.includes(this.activeState);
   }
 
-  public performAction() {
+  public performAction(event:Event) {
     if (this.isActive()) {
       this.openListView();
     } else {

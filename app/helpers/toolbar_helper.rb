@@ -15,11 +15,35 @@ module ToolbarHelper
     end
   end
 
+  def editable_toolbar(form:, field_name:, html: {})
+    container_classes = ['toolbar-container -editable', html[:class]].compact.join(' ')
+    content_tag :div, class: container_classes do
+      content_tag :div, class: 'toolbar' do
+        concat(editable_toolbar_title(form, field_name))
+        concat(dom_toolbar { yield if block_given? })
+      end
+    end
+  end
+
   def breadcrumb_toolbar(*elements, subtitle: '', html: {}, &block)
     toolbar(title: safe_join(elements, ' &raquo '.html_safe), subtitle: subtitle, html: html, &block)
   end
 
   protected
+
+  def editable_toolbar_title(form, field_name)
+    new_element = form.object.new_record?
+
+    content_tag :div, class: 'title-container' do
+      form.text_field field_name,
+                      class: 'toolbar--editable-toolbar -border-on-hover-only',
+                      placeholder: t(:label_page_title),
+                      'aria-label': t(:label_page_title),
+                      autocomplete: 'off',
+                      autofocus: new_element,
+                      no_label: true
+    end
+  end
 
   def dom_title(raw_title, link_to = nil, title_class: nil, title_extra: nil)
     title = ''.html_safe

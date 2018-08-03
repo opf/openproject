@@ -26,17 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {AbstractWorkPackageButtonComponent,} from '../wp-buttons.module';
+import {AbstractWorkPackageButtonComponent} from '../wp-buttons.module';
 import {Component} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
 const screenfull:any = require('screenfull/dist/screenfull.js');
 
+export const zenModeComponentSelector = 'zen-mode-toggle-button';
+
 @Component({
   templateUrl: '../wp-button.template.html',
-  selector: 'wp-zen-mode-toggle-button',
+  selector: zenModeComponentSelector,
 })
-export class WorkPackageZenModeButtonComponent extends AbstractWorkPackageButtonComponent {
+export class ZenModeButtonComponent extends AbstractWorkPackageButtonComponent {
   public buttonId:string = 'work-packages-zen-mode-toggle-button';
   public buttonClass:string = 'toolbar-icon';
   public iconClass:string = 'icon-zen-mode';
@@ -77,31 +80,37 @@ export class WorkPackageZenModeButtonComponent extends AbstractWorkPackageButton
   }
 
   public isActive():boolean {
-    return WorkPackageZenModeButtonComponent.inZenMode;
+    return ZenModeButtonComponent.inZenMode;
   }
 
   private deactivateZenMode():void {
-    WorkPackageZenModeButtonComponent.inZenMode = false;
+    ZenModeButtonComponent.inZenMode = false;
     jQuery('body').removeClass('zen-mode');
     this.disabled = false;
     if (screenfull.enabled && screenfull.isFullscreen) {
       screenfull.exit();
     }
+
   }
 
-  private activateZenMode():void {
-    WorkPackageZenModeButtonComponent.inZenMode = true;
+  private activateZenMode() {
+    ZenModeButtonComponent.inZenMode = true;
     jQuery('body').addClass('zen-mode');
     if (screenfull.enabled) {
       screenfull.request();
     }
   }
 
-  public performAction() {
-    if (WorkPackageZenModeButtonComponent.inZenMode) {
+  public performAction(evt:Event):false {
+    if (ZenModeButtonComponent.inZenMode) {
       this.deactivateZenMode();
     } else {
       this.activateZenMode();
     }
+
+    evt.preventDefault();
+    return false;
   }
 }
+
+DynamicBootstrapper.register({ selector: zenModeComponentSelector, cls: ZenModeButtonComponent });
