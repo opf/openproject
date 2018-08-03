@@ -405,12 +405,11 @@ $arrow-left-width: 40px
       padding-right: 14px
 
   .query-select-dropdown--no-results
+    display: block
     padding: 15px 15px 0
     display: inline-block
     width: 100%
     white-space: normal
-    &.hidden
-      display: none
 
     &.hidden
       display: none
@@ -427,7 +426,7 @@ $arrow-left-width: 40px
     &:hover
       @include varprop(background, main-menu-bg-hover-background)
 
-  li.ui-autocomplete--category
+  .ui-autocomplete--category
     width: 100%
     padding-left: 25px
     line-height: $menu-item-line-height
@@ -438,10 +437,14 @@ $arrow-left-width: 40px
     font-size: 0.8rem
     @include varprop(color, content-icon-link-pressed-color)
 
-  li.ui-menu-item
+  .ui-menu-item
+    display: block
     margin-left: 18px
 
-    .selected
+    &.hidden
+      display: none
+
+    &.selected
       @include varprop(background, main-menu-bg-selected-background)
       @include varprop(color, main-menu-selected-font-color)
 
