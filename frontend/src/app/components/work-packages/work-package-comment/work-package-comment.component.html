@@ -12,6 +12,7 @@
                           [editFieldHandler]="handler">
         </edit-form-portal>
         <div *ngIf="!active"
+             (dragover)="startDragOverActivation($event)"
              class="inplace-edit--read">
           <accessible-by-keyboard
             class="inplace-editing--trigger-container"
