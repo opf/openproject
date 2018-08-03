@@ -34,8 +34,7 @@ import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {
   OpenProjectFileUploadService,
-  UploadFile,
-  UploadResult
+  UploadFile
 } from 'core-components/api/op-file-upload/op-file-upload.service';
 import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
 import {States} from 'core-components/states.service';
@@ -43,10 +42,9 @@ import {ApiWorkPackagesService} from 'core-components/api/api-work-packages/api-
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
-import {WorkPackageCreateService} from 'core-components/wp-new/wp-create.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
-import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
+import {Attachable} from 'core-app/modules/hal/resources/mixins/attachable-mixin';
 
 export interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
@@ -112,7 +110,7 @@ export interface WorkPackageLinksObject extends WorkPackageResourceLinks {
   schema:HalResource;
 }
 
-export class WorkPackageResource extends HalResource {
+export class WorkPackageBaseResource extends HalResource {
   public $embedded:WorkPackageResourceEmbedded;
   public $links:WorkPackageLinksObject;
   public subject:string;
@@ -132,9 +130,10 @@ export class WorkPackageResource extends HalResource {
   readonly NotificationsService:NotificationsService = this.injector.get(NotificationsService);
   readonly wpNotificationsService:WorkPackageNotificationService = this.injector.get(
     WorkPackageNotificationService);
-  readonly wpCreate:WorkPackageCreateService = this.injector.get<WorkPackageCreateService>(IWorkPackageCreateServiceToken);
   readonly pathHelper:PathHelperService = this.injector.get(PathHelperService);
   readonly opFileUpload:OpenProjectFileUploadService = this.injector.get(OpenProjectFileUploadService);
+
+  readonly attachmentsBackend = true;
 
   public get id():string {
     return this.$source.id || this.idFromLink;
@@ -174,67 +173,6 @@ export class WorkPackageResource extends HalResource {
 
   public get isEditable():boolean {
     return !!this.$links.update || this.isNew;
-  }
-
-  /**
-   * Return whether the user is able to upload an attachment.
-   *
-   * If either the `addAttachment` link is provided or the resource is being created,
-   * adding attachments is allowed.
-   */
-  public get canAddAttachments():boolean {
-    return !!this.$links.addAttachment || this.isNew;
-  }
-
-  /**
-   * Remove the given attachment either from the pending attachments or from
-   * the attachment collection, if it is a resource.
-   *
-   * Removing it from the elements array assures that the view gets updated immediately.
-   * If an error occurs, the user gets notified and the attachment is pushed to the elements.
-   */
-  public removeAttachment(attachment:any):Promise<any> {
-    _.pull(this.attachments.elements, attachment);
-
-    if (attachment.$isHal) {
-      return attachment.delete()
-        .then(() => {
-          this.updateAttachments();
-        })
-        .catch((error:any) => {
-          this.wpNotificationsService.handleErrorResponse(error, this as any);
-          this.attachments.elements.push(attachment);
-        });
-    }
-    return Promise.resolve();
-  }
-
-  /**
-   * Upload the given attachments, update the resource and notify the user.
-   * Return an updated AttachmentCollectionResource.
-   */
-  public uploadAttachments(files:UploadFile[]):Promise<{ response:HalResource, uploadUrl:string }[]> {
-    const { uploads, finished } = this.performUpload(files);
-
-    const message = I18n.t('js.label_work_package_upload_notification', this);
-    const notification = this.NotificationsService.addAttachmentUpload(message, uploads);
-
-    return finished
-      .then((result:{response:HalResource, uploadUrl:string }[]) => {
-        setTimeout(() => this.NotificationsService.remove(notification), 700);
-        if (!this.isNew) {
-          this.updateAttachments();
-        } else {
-          result.forEach(r => {
-            this.attachments.elements.push(r.response);
-          });
-        }
-        return result;
-      })
-      .catch((error:any) => {
-        this.wpNotificationsService.handleRawError(error, this as any);
-        return;
-      });
   }
 
   private performUpload(files:UploadFile[]) {
@@ -360,5 +298,7 @@ export class WorkPackageResource extends HalResource {
   }
 }
 
-export interface WorkPackageResource extends WorkPackageResourceLinks, WorkPackageResourceEmbedded {
+export const WorkPackageResource = Attachable(WorkPackageBaseResource);
+
+export interface WorkPackageResource extends WorkPackageBaseResource, WorkPackageResourceLinks, WorkPackageResourceEmbedded {
 }

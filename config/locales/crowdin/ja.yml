@@ -112,10 +112,6 @@ ja:
       versions:
         no_results_title_text: 現在、プロジェクトのバージョンはありません。
         no_results_content_text: 新しいバージョンを作成
-  project_types:
-    index:
-      no_results_title_text: 現在、プロジェクトの種類はありません。
-      no_results_content_text: 新しいプロジェクトの種類を作成
   members:
     index:
       no_results_title_text: 現在、このプロジェクトのメンバーはいません。
@@ -179,7 +175,8 @@ ja:
       reported:
         no_results_title_text: 現在、自分が報告している作業項目はありません。
       responsible:
-        no_results_title_text: 現在、自分が責任者の作業項目はありません。
+        no_results_title_text: There are currently no work packages that I am accountable
+          for.
       watched:
         no_results_title_text: 現在、自分がウォッチしている作業項目はありません。
     summary:
@@ -296,9 +293,7 @@ ja:
         identifier: 識別子
         latest_activity_at: 最新の活動
         parent: 親プロジェクト名
-        project_type: プロジェクトの種類
         queries: クエリ
-        responsible: 責任者
         types: 作業項目の型
         versions: バージョン
         work_packages: 作業項目
@@ -351,8 +346,6 @@ ja:
         redirect_existing_links: 既存のリンクをリダイレクトする
       planning_element_type_color:
         hexcode: 16進コード
-      project_type:
-        position: 位置
       work_package:
         begin_insertion: 挿入の始まり
         begin_deletion: 削除の始まり
@@ -366,7 +359,6 @@ ja:
         parent_work_package: 親項目
         priority: 優先度
         progress: 進行状況 (%)
-        responsible: 責任者
         spent_hours: 作業時間の記録
         spent_time: 作業時間の記録
         subproject: 子プロジェクト
@@ -376,10 +368,15 @@ ja:
     errors:
       messages:
         accepted: は受諾しなければなりません。
+        after: は%{date}より後にしてください。
+        after_or_equal_to: は%{date}以降にしてください。
+        before: は%{date}の前にしてください。
+        before_or_equal_to: は%{date}より以前にしてください。
         blank: は空白にすることができません。
         cant_link_a_work_package_with_a_descendant: 親子関係にある作業項目間で関連設定できません。
         circular_dependency: この関係は循環依存になります。
         confirmation: は%{attribute} と一致しません。
+        could_not_be_copied: "（完全に）コピーできませんでした。"
         does_not_exist: は存在しません。
         empty: は空にすることができません。
         even: は偶数にしてください。
@@ -387,9 +384,8 @@ ja:
         file_too_large: は大きすぎます (最大サイズは%{count}バイト)
         greater_than: は%{count}より大きい値にしてください。
         greater_than_or_equal_to: は%{count}以上の値にしてください。
-        smaller_than_or_equal_to_max_length: は最大長さより以下でなければなりません。
-        greater_than_start_date: は開始日より後にしてください。
         greater_than_or_equal_to_start_date: は開始日以後にしてください。
+        greater_than_start_date: は開始日より後にしてください。
         inclusion: は許可されている値ではありません。
         invalid: は不正な値です。
         invalid_url: は有効な URL ではありません。
@@ -397,22 +393,19 @@ ja:
         less_than_or_equal_to: は%{count}以下の値にしてください。
         not_a_date: は有効な日付ではありません。
         not_a_datetime: は有効な日時ではありません。
-        not_an_iso_date: 'は有効な日付ではありません。必要な形式: YYYY-MM-dd。'
         not_a_number: は数値にしてください。
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: は整数にしてください。
+        not_an_iso_date: 'は有効な日付ではありません。必要な形式: YYYY-MM-dd。'
         not_same_project: は同じプロジェクトに属していません。
         odd: は奇数にしてください。
+        regex_invalid: 関連付けられた正規表現を検証できませんでした。
+        smaller_than_or_equal_to_max_length: は最大長さより以下でなければなりません。
         taken: は既に使用されています。
         too_long: は%{count}文字以内を入力してください。
         too_short: は%{count}文字以上を入力してください。
-        wrong_length: は%{count}文字を入力してください。
-        after: は%{date}より後にしてください。
-        after_or_equal_to: は%{date}以降にしてください。
-        before: は%{date}の前にしてください。
-        before_or_equal_to: は%{date}より以前にしてください。
-        could_not_be_copied: "（完全に）コピーできませんでした。"
-        regex_invalid: 関連付けられた正規表現を検証できませんでした。
         unchangeable: 変更できません。
+        wrong_length: は%{count}文字を入力してください。
       models:
         custom_field:
           at_least_one_custom_option: 少なくとも 1 つオプションが有効である必要があります。
@@ -535,7 +528,6 @@ ja:
         one: Role
         other: ロール
       type: 種別
-      project_type: プロジェクトの種類
       user: ユーザ
       version: バージョン
       wiki: Wiki
@@ -589,7 +581,7 @@ ja:
     password: パスワード
     priority: 優先度
     project: プロジェクト
-    responsible: 責任者
+    responsible: Accountable
     role: ロール
     roles: ロール
     start_date: 開始日
@@ -822,11 +814,6 @@ ja:
   default_priority_normal: 通常
   default_priority_high: 高め
   default_priority_immediate: 急いで
-  default_project_type_scrum: スクラムチーム
-  default_project_type_standard: 標準プロジェクト
-  default_reported_project_status_green: 緑
-  default_reported_project_status_amber: アンバー
-  default_reported_project_status_red: 赤
   default_role_anonymous: 匿名ユーザ
   default_role_developer: 開発者
   default_role_project_admin: プロジェクト管理者
@@ -1153,7 +1140,6 @@ ja:
   label_edit: 編集
   label_enable_multi_select: 複数選択の切り替え
   label_enabled_project_custom_fields: 有効なカスタム フィールド
-  label_enabled_project_types: 有効な種類
   label_enabled_project_modules: 有効なモジュール
   label_enabled_project_activities: 有効な時間追跡活動
   label_end_to_end: 最後～最後
@@ -1383,7 +1369,7 @@ ja:
   label_repository_plural: リポジトリ
   label_required: 必須
   label_requires: 要求
-  label_responsible_for_work_packages: 責任者である作業項目
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: 検索結果
   label_reverse_chronological_order: 新しい順
   label_revision: リビジョン
@@ -1517,7 +1503,8 @@ ja:
   label_work_package_view_all: 全ての作業項目を表示
   label_work_package_view_all_assigned_to_me: 担当している全ての作業項目を表示
   label_work_package_view_all_reported_by_me: 報告した全ての作業項目を表示
-  label_work_package_view_all_responsible_for: 責任者である全ての作業項目を表示
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
+    for
   label_work_package_view_all_watched: ウォッチしている全ての作業項目を表示
   label_work_package_watchers: ウォッチャー
   label_workflow: ワークフロー
@@ -1927,9 +1914,9 @@ ja:
   setting_smtp_address: SMTPサーバ
   setting_smtp_port: SMTPポート
   setting_smtp_authentication: SMTP認証
-  setting_smtp_domain: SMTP HELLO ドメイン
   setting_smtp_user_name: SMTPユーザ名
   setting_smtp_password: SMTPパスワード
+  setting_smtp_domain: SMTP HELLO ドメイン
   setting_activity_days_default: プロジェクトの活動ページに表示される日数
   setting_app_subtitle: アプリケーションのサブタイトル
   setting_app_title: アプリケーションのタイトル
@@ -2181,8 +2168,6 @@ ja:
     admin_menu:
       color: 色
       colors: 色
-      project_type: プロジェクトの種類
-      project_types: プロジェクトの種類
     associations: 依存関係
     board_could_not_be_saved: ボードを保存できませんでした。
     button_delete_all: 全ての削除
@@ -2199,7 +2184,6 @@ ja:
       one: 1 day
       other: "%{count}日間"
     edit_color: 色を編集する
-    edit_project_type: プロジェクトの種類を編集する
     edit_thing: 編集
     edit_timeline: タイムラインレポート「%{timeline}」を編集
     delete_timeline: タイムラインレポート「%{timeline}」を削除
@@ -2234,7 +2218,6 @@ ja:
         due_date: 完了日
         name: 名称
         status: ステータス
-        responsible: 責任者
         start_date: 開始日
       columns: 列
       comparisons: 比較
@@ -2263,7 +2246,7 @@ ja:
       outline: 初期概要の拡大
       parent: 子プロジェクトを表示
       work_package_filters: 作業項目のフィルタ
-      work_package_responsible: 責任者付きの作業項目を表示
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: 担当者付きの作業項目を表示
       types: 作業項目の型を表示
       status: ステータスを表示
@@ -2275,9 +2258,8 @@ ja:
       project_time_filter_relative: "%{start_label} %{startspan} %{startspanunit}
         前、今から%{end_label} %{endspan} %{endspanunit}"
       project_filters: プロジェクトのフィルタ
-      project_responsible: 責任者付きプロジェクトの表示
+      project_responsible: Show projects with accountable
       project_status: プロジェクトの進捗状況を表示
-      project_types: プロジェクトの種類を表示
       timeframe: 期間を表示
       timeframe_end: まで
       timeframe_start: から
@@ -2287,7 +2269,6 @@ ja:
     new_color: 新しい色
     new_association: 新しい依存関係
     new_work_package: 新しい作業項目
-    new_project_type: プロジェクトの新しい種類
     new_reporting: 新規レポート
     new_timeline: 新規タイムラインレポート
     no_projects_for_reporting_available: レポートの関連づけを作成できるプロジェクトがありません。
@@ -2312,17 +2293,10 @@ ja:
       edit: ステータスを編集:%{comment}
       show: ステータス:%{comment}
     planning_element_update: 更新:%{title}
-    project_type_could_not_be_saved: プロジェクトの種類を保存できませんでした。
     type_could_not_be_saved: 作業項目の型を保存できませんでした。
     reporting_could_not_be_saved: レポートを保存できませんでした。
     properties: プロパティ
     really_delete_color: '次の色を削除してもよろしいですか。この色を使用している作業項目は削除されません。
-
-'
-    really_delete_project_type: 'このプロジェクトの種類を削除してもよろしいですか。この種類を使用しているプロジェクトは削除されません。
-
-'
-    really_delete_timeline: '次のタイムラインレポートを削除してもよろしいですか？このタイムラインレポートに表示されている作業項目は削除されません。
 
 '
     really_delete_reporting: '以下のレポートを削除してもよろしいですか？以前レポートステータスも削除されます。
@@ -2333,7 +2307,6 @@ ja:
     timelines: タイムラインレポート
     settings: タイムライン
     vertical_work_package: 垂直作業項目
-    without_project_type: プロジェクトの種類なし
     you_are_viewing_the_selected_timeline: 選択したタイムラインレポートが表示されています
     zoom:
       in: 拡大

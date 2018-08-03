@@ -128,10 +128,6 @@ vi:
       versions:
         no_results_title_text: Hiện đang có phiên bản dự án.
         no_results_content_text: Tạo ra một phiên bản mới
-  project_types:
-    index:
-      no_results_title_text: Hiện không có phân loại dự án.
-      no_results_content_text: Tạo ra một loại dự án mới
   members:
     index:
       no_results_title_text: Hiện có không có thành viên của dự án này.
@@ -200,7 +196,7 @@ vi:
       reported:
         no_results_title_text: There are currently no work packages that I have reported.
       responsible:
-        no_results_title_text: There are currently no work packages that I am responsible
+        no_results_title_text: There are currently no work packages that I am accountable
           for.
       watched:
         no_results_title_text: There are currently no work packages that I am watching.
@@ -339,9 +335,7 @@ vi:
         identifier: Định danh
         latest_activity_at: Các hoạt động mới nhất tại
         parent: Dự án con của
-        project_type: Loại dự án
         queries: Truy vấn
-        responsible: Chịu trách nhiệm
         types: Các loại
         versions: Các phiên bản
         work_packages: Work Packages
@@ -396,8 +390,6 @@ vi:
         redirect_existing_links: Chuyển hướng các liên kết hiện có
       planning_element_type_color:
         hexcode: Mã Hex
-      project_type:
-        position: Vị trí
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
@@ -411,7 +403,6 @@ vi:
         parent_work_package: Cha
         priority: Độ ưu tiên
         progress: Progress (%)
-        responsible: Chịu trách nhiệm
         spent_hours: Thời gian
         spent_time: Thời gian
         subproject: Dự án con
@@ -421,11 +412,16 @@ vi:
     errors:
       messages:
         accepted: must be accepted.
+        after: must be after %{date}.
+        after_or_equal_to: must be after or equal to %{date}.
+        before: must be before %{date}.
+        before_or_equal_to: must be before or equal to %{date}.
         blank: can't be blank.
         cant_link_a_work_package_with_a_descendant: A work package cannot be linked
           to one of its subtasks.
         circular_dependency: This relation would create a circular dependency.
         confirmation: doesn't match %{attribute}.
+        could_not_be_copied: could not be (fully) copied.
         does_not_exist: does not exist.
         empty: can't be empty.
         even: must be even.
@@ -433,10 +429,8 @@ vi:
         file_too_large: is too large (maximum size is %{count} Bytes).
         greater_than: must be greater than %{count}.
         greater_than_or_equal_to: must be greater than or equal to %{count}.
-        smaller_than_or_equal_to_max_length: must be smaller than or equal to maximum
-          length.
-        greater_than_start_date: phải lớn hơn ngày bắt đầu.
         greater_than_or_equal_to_start_date: phải lớn hơn hoặc bằng ngày bắt đầu.
+        greater_than_start_date: phải lớn hơn ngày bắt đầu.
         inclusion: is not set to one of the allowed values.
         invalid: is invalid.
         invalid_url: is not a valid URL.
@@ -444,23 +438,21 @@ vi:
         less_than_or_equal_to: must be less than or equal to %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
-        not_an_iso_date: 'không phải là một ngày hợp lệ. Yêu cầu định dạng: YYYY-MM-DD.'
         not_a_number: is not a number.
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: is not an integer.
+        not_an_iso_date: 'không phải là một ngày hợp lệ. Yêu cầu định dạng: YYYY-MM-DD.'
         not_same_project: doesn't belong to the same project.
         odd: must be odd.
+        regex_invalid: có thể không được xác nhận với các biểu hiện thường xuyên liên
+          kết.
+        smaller_than_or_equal_to_max_length: must be smaller than or equal to maximum
+          length.
         taken: has already been taken.
         too_long: is too long (maximum is %{count} characters).
         too_short: is too short (minimum is %{count} characters).
-        wrong_length: is the wrong length (should be %{count} characters).
-        after: must be after %{date}.
-        after_or_equal_to: must be after or equal to %{date}.
-        before: must be before %{date}.
-        before_or_equal_to: must be before or equal to %{date}.
-        could_not_be_copied: could not be (fully) copied.
-        regex_invalid: có thể không được xác nhận với các biểu hiện thường xuyên liên
-          kết.
         unchangeable: cannot be changed.
+        wrong_length: is the wrong length (should be %{count} characters).
       models:
         custom_field:
           at_least_one_custom_option: Ít nhất một lựa chọn cần phải được cung cấp.
@@ -594,7 +586,6 @@ vi:
         one: Role
         other: Vai trò
       type: Kiểu
-      project_type: Loại dự án
       user: Người dùng
       version: Phiên bản
       wiki: Wiki
@@ -648,7 +639,7 @@ vi:
     password: Mật khẩu
     priority: Độ ưu tiên
     project: Dự án
-    responsible: Chịu trách nhiệm
+    responsible: Accountable
     role: Vai trò
     roles: Vai trò
     start_date: Ngày bắt đầu
@@ -887,11 +878,6 @@ vi:
   default_priority_normal: Bình Thường
   default_priority_high: Cao
   default_priority_immediate: Ngay lập tức
-  default_project_type_scrum: đội Scrum
-  default_project_type_standard: Dự án tiêu chuẩn
-  default_reported_project_status_green: Xanh
-  default_reported_project_status_amber: Hổ phách
-  default_reported_project_status_red: Đỏ
   default_role_anonymous: Ẩn danh
   default_role_developer: Nhà phát triển
   default_role_project_admin: Quản trị dự án
@@ -1242,7 +1228,6 @@ vi:
   label_edit: Chỉnh sửa
   label_enable_multi_select: Bật/tắt đa lựa chọn
   label_enabled_project_custom_fields: Enabled custom fields
-  label_enabled_project_types: Enabled types
   label_enabled_project_modules: Enabled modules
   label_enabled_project_activities: Enabled time tracking activities
   label_end_to_end: kết thúc đến kết thúc
@@ -1473,7 +1458,7 @@ vi:
   label_repository_plural: Repositories
   label_required: required
   label_requires: requires
-  label_responsible_for_work_packages: Work packages I am responsible for
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Results
   label_reverse_chronological_order: In reverse chronological order
   label_revision: Revision
@@ -1609,7 +1594,7 @@ vi:
     định cho tôi
   label_work_package_view_all_reported_by_me: Xem tất cả các work package được báo
     cáo bởi tôi
-  label_work_package_view_all_responsible_for: View all work packages that I am responsible
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
     for
   label_work_package_view_all_watched: View all watched work packages
   label_work_package_watchers: Watchers
@@ -2082,9 +2067,9 @@ vi:
   setting_smtp_address: Máy chủ SMTP
   setting_smtp_port: Cổng SMTP
   setting_smtp_authentication: Xác thực SMTP
-  setting_smtp_domain: Tên miền SMTP HELLO
   setting_smtp_user_name: Tên truy cập SMTP
   setting_smtp_password: Mật khẩu SMTP
+  setting_smtp_domain: Tên miền SMTP HELLO
   setting_activity_days_default: Days displayed on project activity
   setting_app_subtitle: Application subtitle
   setting_app_title: Application title
@@ -2375,8 +2360,6 @@ vi:
     admin_menu:
       color: Màu sắc
       colors: Colors
-      project_type: Loại dự án
-      project_types: Project types
     associations: Dependencies
     board_could_not_be_saved: Board could not be saved
     button_delete_all: Delete all
@@ -2394,7 +2377,6 @@ vi:
       one: 1 day
       other: "%{count} ngày"
     edit_color: Edit color
-    edit_project_type: Edit project type
     edit_thing: Chỉnh sửa
     edit_timeline: Edit timeline report %{timeline}
     delete_timeline: Delete timeline report %{timeline}
@@ -2436,7 +2418,6 @@ vi:
         due_date: End date
         name: Tên
         status: Trạng thái
-        responsible: Chịu trách nhiệm
         start_date: Ngày bắt đầu
       columns: Cột
       comparisons: Comparisons
@@ -2465,7 +2446,7 @@ vi:
       outline: Initial outline expansion
       parent: Show subprojects of
       work_package_filters: Filter work packages
-      work_package_responsible: Show work packages with responsible
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: Show work packages with assignee
       types: Show types
       status: Show status
@@ -2478,9 +2459,8 @@ vi:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago,
         %{end_label} %{endspan}%{endspanunit} from now"
       project_filters: Filter projects
-      project_responsible: Show projects with responsible
+      project_responsible: Show projects with accountable
       project_status: Show project status
-      project_types: Show project types
       timeframe: Show timeframe
       timeframe_end: to
       timeframe_start: from
@@ -2490,7 +2470,6 @@ vi:
     new_color: New color
     new_association: New dependency
     new_work_package: Work package mới
-    new_project_type: New project type
     new_reporting: New reporting
     new_timeline: New timeline report
     no_projects_for_reporting_available: There are no projects to which a reporting
@@ -2517,20 +2496,11 @@ vi:
       edit: 'Edit status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Update: %{title}'
-    project_type_could_not_be_saved: Project type could not be saved
     type_could_not_be_saved: Type could not be saved
     reporting_could_not_be_saved: Reporting could not be saved
     properties: Properties
     really_delete_color: 'Are you sure, you want to delete the following color? Types
       using this color will not be deleted.
-
-'
-    really_delete_project_type: 'Are you sure, you want to delete the following project
-      type? Projects using this type will not be deleted.
-
-'
-    really_delete_timeline: 'Are you sure, you want to delete the following timeline
-      report? Work packages shown in this timeline report will not be deleted.
 
 '
     really_delete_reporting: 'Are you sure, you want to delete the following reporting?
@@ -2542,7 +2512,6 @@ vi:
     timelines: Timeline reports
     settings: Timelines
     vertical_work_package: Vertical work packages
-    without_project_type: Without project type
     you_are_viewing_the_selected_timeline: You are viewing the selected timeline report
     zoom:
       in: Zoom in

@@ -120,8 +120,7 @@
       </div>
     </div>
 
-    <wp-attachment-list [workPackage]="workPackage"></wp-attachment-list>
-    <wp-attachments-upload [workPackage]="workPackage" class="hide-when-print">
-    </wp-attachments-upload>
+    <attachment-list [resource]="workPackage" [selfDestroy]="true"></attachment-list>
+    <attachments-upload [resource]="workPackage" class="hide-when-print"></attachments-upload>
   </div>
 </div>

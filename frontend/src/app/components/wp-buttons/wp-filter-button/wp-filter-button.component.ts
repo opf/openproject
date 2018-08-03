@@ -78,7 +78,7 @@ export class WorkPackageFilterButtonComponent extends AbstractWorkPackageButtonC
     return this.wpFiltersService.visible;
   }
 
-  public performAction() {
+  public performAction(event:Event) {
     this.toggleVisibility();
   }
 

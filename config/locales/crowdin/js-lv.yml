@@ -426,7 +426,6 @@ lv:
         level5: Expand level 5
         all: Show all
       project_status: Projekta statuss
-      project_type: Projekta tips
       really_close_dialog: Do you really want to close the dialog and lose the entered
         data?
       responsible: Atbildīgais

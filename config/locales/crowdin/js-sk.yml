@@ -429,7 +429,6 @@ sk:
         level5: Expand level 5
         all: Show all
       project_status: Stav projektu
-      project_type: Typ projektu
       really_close_dialog: Naozaj chcete zatvoriť dialógové okno a prísť o zadané
         údaje?
       responsible: Zodpovedný

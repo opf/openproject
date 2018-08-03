@@ -427,7 +427,6 @@ af:
         level5: Expand level 5
         all: Show all
       project_status: Projek status
-      project_type: Projek soort
       really_close_dialog: Do you really want to close the dialog and lose the entered
         data?
       responsible: Verantwoordelik

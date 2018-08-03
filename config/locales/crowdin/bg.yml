@@ -128,10 +128,6 @@ bg:
       versions:
         no_results_title_text: В момента няма версии за проекта.
         no_results_content_text: Създаване на нова версия
-  project_types:
-    index:
-      no_results_title_text: В момента няма типове за проекти.
-      no_results_content_text: Създаване на нов тип проект
   members:
     index:
       no_results_title_text: В момента има няма членове част от този проект.
@@ -199,7 +195,8 @@ bg:
       reported:
         no_results_title_text: В момента няма работни пакети, които са докладвани.
       responsible:
-        no_results_title_text: В момента няма работни пакети, за които аз съм отговорен.
+        no_results_title_text: There are currently no work packages that I am accountable
+          for.
       watched:
         no_results_title_text: В момента няма работни пакети, на които съм наблюдател.
     summary:
@@ -340,9 +337,7 @@ bg:
         identifier: Идентификатор
         latest_activity_at: Последна активност на
         parent: Подпроект на
-        project_type: Тип проект
         queries: Търсения
-        responsible: Отговорен
         types: Видове
         versions: Версии
         work_packages: Работен пакет
@@ -397,8 +392,6 @@ bg:
         redirect_existing_links: Пренасочи съществуващи връзки
       planning_element_type_color:
         hexcode: Шестнадесетичен код
-      project_type:
-        position: Позиция
       work_package:
         begin_insertion: Начало на вмъкване
         begin_deletion: Начало на изтриване
@@ -412,7 +405,6 @@ bg:
         parent_work_package: Горна категория
         priority: Приоритет
         progress: Прогрес (%)
-        responsible: Отговорен
         spent_hours: Отработено време
         spent_time: Отработено време
         subproject: Подпроект
@@ -422,11 +414,16 @@ bg:
     errors:
       messages:
         accepted: трябва да бъде одобрено.
+        after: трябва да бъде след %{date}.
+        after_or_equal_to: трябва да бъде след или равно на %{date}.
+        before: трябва да бъде преди %{date}.
+        before_or_equal_to: трябва да бъде преди или е равно на %{date}.
         blank: не може да бъде празно.
         cant_link_a_work_package_with_a_descendant: Работния пакет не може да бъде
           свързан с една от неговите подзадачи.
         circular_dependency: Тази връзка ще доведе до циклична зависимост.
         confirmation: не съвпада с %{attribute}.
+        could_not_be_copied: не можа да бъде копиран (изцяло).
         does_not_exist: не съществува.
         empty: не може да бъде празно.
         even: трябва да бъде четно число.
@@ -434,11 +431,9 @@ bg:
         file_too_large: е твърде голям (максимален размер %{count} байта).
         greater_than: трябва да бъде по-голямо от %{count}.
         greater_than_or_equal_to: трябва да бъде по-голямо от или равно на %{count}.
-        smaller_than_or_equal_to_max_length: трябва да бъде по-малка от или равна
-          на максималната дължина.
-        greater_than_start_date: трябва да бъде по-голяма от началната дата.
         greater_than_or_equal_to_start_date: трябва да бъде по-голяма от или равна
           на началната дата.
+        greater_than_start_date: трябва да бъде по-голяма от началната дата.
         inclusion: не е зададена, като позволена стойност.
         invalid: е невалиден.
         invalid_url: is not a valid URL.
@@ -446,22 +441,20 @@ bg:
         less_than_or_equal_to: трябва да бъде по-малка или равна на %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
-        not_an_iso_date: 'не е валидна дата. Изискван формат: ГГГГ-ММ-ДД.'
         not_a_number: не е число.
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: не е цяло число.
+        not_an_iso_date: 'не е валидна дата. Изискван формат: ГГГГ-ММ-ДД.'
         not_same_project: не принадлежат към един и същ проект.
         odd: трябва да бъде нечетен.
+        regex_invalid: could not be validated with the associated regular expression.
+        smaller_than_or_equal_to_max_length: трябва да бъде по-малка от или равна
+          на максималната дължина.
         taken: вече съществува.
         too_long: е твърде дълго (максимума е %{count} знаци).
         too_short: е твърде кратък (минимум е %{count} знаци).
-        wrong_length: е грешна дължина (трябва да бъде %{count} знаци).
-        after: трябва да бъде след %{date}.
-        after_or_equal_to: трябва да бъде след или равно на %{date}.
-        before: трябва да бъде преди %{date}.
-        before_or_equal_to: трябва да бъде преди или е равно на %{date}.
-        could_not_be_copied: не можа да бъде копиран (изцяло).
-        regex_invalid: could not be validated with the associated regular expression.
         unchangeable: cannot be changed.
+        wrong_length: е грешна дължина (трябва да бъде %{count} знаци).
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
@@ -595,7 +588,6 @@ bg:
         one: Роля
         other: Роли
       type: Тип
-      project_type: Тип проект
       user: Потребител
       version: Версия
       wiki: Wiki
@@ -648,7 +640,7 @@ bg:
     password: Парола
     priority: Приоритет
     project: Проект
-    responsible: Отговорен
+    responsible: Accountable
     role: Роля
     roles: Роли
     start_date: Начална дата
@@ -888,11 +880,6 @@ bg:
   default_priority_normal: Нормален
   default_priority_high: Висок
   default_priority_immediate: Незабавно
-  default_project_type_scrum: Scrum екип
-  default_project_type_standard: Стандартен проект
-  default_reported_project_status_green: Зелен
-  default_reported_project_status_amber: Амбър
-  default_reported_project_status_red: Червен
   default_role_anonymous: Анонимен
   default_role_developer: Разработчик
   default_role_project_admin: Администратор на проект
@@ -1246,7 +1233,6 @@ bg:
   label_edit: Редактиране
   label_enable_multi_select: Превключване към множествен избор
   label_enabled_project_custom_fields: Разрешени потребителски полета
-  label_enabled_project_types: Разрешени типове
   label_enabled_project_modules: Разрешени модули
   label_enabled_project_activities: Включеное проследяване за време на активност
   label_end_to_end: край до край
@@ -1478,7 +1464,7 @@ bg:
   label_repository_plural: Хранилища
   label_required: required
   label_requires: requires
-  label_responsible_for_work_packages: Работни пакети, за които съм отговорен
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Резултати
   label_reverse_chronological_order: В обратен хронологичен ред
   label_revision: Преразглеждане
@@ -1615,8 +1601,8 @@ bg:
     на мен
   label_work_package_view_all_reported_by_me: Покажи всички работни пакети, докладвани
     от мен
-  label_work_package_view_all_responsible_for: Покажи всички работни пакети, за които
-    аз съм отговорен
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
+    for
   label_work_package_view_all_watched: Покажи всички наблюдавани работни пакети
   label_work_package_watchers: Наблюдатели
   label_workflow: Работен поток
@@ -2085,9 +2071,9 @@ bg:
   setting_smtp_address: SMTP сървър
   setting_smtp_port: SMTP порт
   setting_smtp_authentication: SMTP Удостоверяване
-  setting_smtp_domain: SMTP HELLO домейн
   setting_smtp_user_name: SMTP потребителско име
   setting_smtp_password: SMTP парола
+  setting_smtp_domain: SMTP HELLO домейн
   setting_activity_days_default: Days displayed on project activity
   setting_app_subtitle: Application subtitle
   setting_app_title: Application title
@@ -2377,8 +2363,6 @@ bg:
     admin_menu:
       color: Цвят
       colors: Цветове
-      project_type: Тип проект
-      project_types: Project types
     associations: Dependencies
     board_could_not_be_saved: Board could not be saved
     button_delete_all: Изтриване на всичко
@@ -2396,7 +2380,6 @@ bg:
       one: 1 ден
       other: "%{count} дни"
     edit_color: Edit color
-    edit_project_type: Edit project type
     edit_thing: Редактиране
     edit_timeline: Edit timeline report %{timeline}
     delete_timeline: Delete timeline report %{timeline}
@@ -2438,7 +2421,6 @@ bg:
         due_date: Крайна дата
         name: Име
         status: Състояние
-        responsible: Отговорен
         start_date: Начална дата
       columns: Колони
       comparisons: Comparisons
@@ -2467,7 +2449,7 @@ bg:
       outline: Initial outline expansion
       parent: Show subprojects of
       work_package_filters: Filter work packages
-      work_package_responsible: Show work packages with responsible
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: Show work packages with assignee
       types: Show types
       status: Show status
@@ -2480,9 +2462,8 @@ bg:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago,
         %{end_label} %{endspan}%{endspanunit} from now"
       project_filters: Filter projects
-      project_responsible: Show projects with responsible
+      project_responsible: Show projects with accountable
       project_status: Show project status
-      project_types: Show project types
       timeframe: Show timeframe
       timeframe_end: до
       timeframe_start: от
@@ -2492,7 +2473,6 @@ bg:
     new_color: Нов цвят
     new_association: Нова зависимост
     new_work_package: Нов работен пакет
-    new_project_type: Нов тип проекти
     new_reporting: New reporting
     new_timeline: New timeline report
     no_projects_for_reporting_available: There are no projects to which a reporting
@@ -2519,20 +2499,11 @@ bg:
       edit: 'Edit status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Update: %{title}'
-    project_type_could_not_be_saved: Project type could not be saved
     type_could_not_be_saved: Type could not be saved
     reporting_could_not_be_saved: Reporting could not be saved
     properties: Свойства
     really_delete_color: 'Are you sure, you want to delete the following color? Types
       using this color will not be deleted.
-
-'
-    really_delete_project_type: 'Are you sure, you want to delete the following project
-      type? Projects using this type will not be deleted.
-
-'
-    really_delete_timeline: 'Are you sure, you want to delete the following timeline
-      report? Work packages shown in this timeline report will not be deleted.
 
 '
     really_delete_reporting: 'Are you sure, you want to delete the following reporting?
@@ -2544,7 +2515,6 @@ bg:
     timelines: Timeline reports
     settings: Timelines
     vertical_work_package: Vertical work packages
-    without_project_type: Without project type
     you_are_viewing_the_selected_timeline: You are viewing the selected timeline report
     zoom:
       in: Приближаване

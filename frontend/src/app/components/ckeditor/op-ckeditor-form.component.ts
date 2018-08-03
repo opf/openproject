@@ -26,14 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, OnInit} from "@angular/core";
-import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {CKEditorSetupService, ICKEditorInstance} from "core-components/ckeditor/ckeditor-setup.service";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import {Component, ElementRef, OnInit, OnDestroy} from '@angular/core';
+import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
+import {CurrentProjectService} from 'core-components/projects/current-project.service';
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
+import {CKEditorSetupService, ICKEditorInstance} from 'core-components/ckeditor/ckeditor-setup.service';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
+import {DynamicBootstrapper} from 'core-app/globals/dynamic-bootstrapper';
+import {States} from 'core-components/states.service';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {takeUntil, filter} from 'rxjs/operators';
 
 const ckEditorWrapperClass = 'op-ckeditor--wrapper';
 const ckEditorReplacementClass = '__op_ckeditor_replacement_container';
@@ -45,7 +48,7 @@ const ckEditorReplacementClass = '__op_ckeditor_replacement_container';
       <div class="${ckEditorReplacementClass} op-ckeditor-source-element"></div>
     </div>`
 })
-export class OpCkeditorFormComponent implements OnInit {
+export class OpCkeditorFormComponent implements OnInit, OnDestroy {
   public textareaSelector:string;
   public previewContext:string;
 
@@ -54,6 +57,7 @@ export class OpCkeditorFormComponent implements OnInit {
   public $element:JQuery;
   public formElement:JQuery;
   public wrappedTextArea:JQuery;
+  public $attachmentsElement:JQuery;
 
   // Remember if the user changed
   public changed:boolean = false;
@@ -62,12 +66,13 @@ export class OpCkeditorFormComponent implements OnInit {
   public text:any;
   public resource?:HalResource;
 
+  private attachments:HalResource[];
 
   constructor(protected elementRef:ElementRef,
-              protected currentProject:CurrentProjectService,
               protected pathHelper:PathHelperService,
               protected halResourceService:HalResourceService,
               protected ckEditorSetup:CKEditorSetupService,
+              protected states:States,
               protected ConfigurationService:ConfigurationService) {
   }
 
@@ -85,6 +90,7 @@ export class OpCkeditorFormComponent implements OnInit {
     this.formElement = this.$element.closest('form');
     this.wrappedTextArea = this.formElement.find(this.textareaSelector);
     this.wrappedTextArea.hide();
+    this.$attachmentsElement = this.formElement.find('#attachments_fields');
     const wrapper = this.$element.find(`.${ckEditorReplacementClass}`);
     const context = { resource: this.resource,
                       previewContext: this.previewContext };
@@ -98,7 +104,7 @@ export class OpCkeditorFormComponent implements OnInit {
     this.$element.data('editor', editorPromise);
   }
 
-  public $onDestroy() {
+  public ngOnDestroy() {
     this.formElement.off('submit.ckeditor');
   }
 
@@ -111,10 +117,17 @@ export class OpCkeditorFormComponent implements OnInit {
       editor.setData(rawValue);
     }
 
+    if (this.resource && this.resource.attachments) {
+      this.setupAttachmentAddedCallback();
+      this.setupAttachmentRemovalSignal();
+    }
+
     // Listen for form submission to set textarea content
     this.formElement.on('submit.ckeditor change.ckeditor', () => {
       const value = this.ckeditor.getData();
       this.wrappedTextArea.val(value);
+
+      this.addUploadedAttachmentsToForm();
 
       // Continue with submission
       return true;
@@ -123,6 +136,34 @@ export class OpCkeditorFormComponent implements OnInit {
     this.setLabel();
 
     return editor;
+  }
+
+  private setupAttachmentAddedCallback() {
+    this.ckeditor.model.on('op:attachment-added', () => {
+      this.states.forResource(this.resource!).putValue(this.resource!);
+    });
+  }
+
+  private setupAttachmentRemovalSignal() {
+    this.attachments = _.clone(this.resource!.attachments.elements);
+
+    this.states.forResource(this.resource!).changes$()
+      .pipe(
+        takeUntil(componentDestroyed(this)),
+        filter(resource => !!resource)
+      ).subscribe(resource => {
+      let missingAttachments = _.differenceBy(this.attachments,
+                                              resource!.attachments.elements,
+                                              (attachment:HalResource) => attachment.id);
+
+      let removedUrls = missingAttachments.map(attachment => attachment.downloadLocation.$href);
+
+      if (removedUrls.length) {
+        this.ckeditor.model.fire('op:attachment-removed', removedUrls);
+      }
+
+      this.attachments = _.clone(resource!.attachments.elements);
+    });
   }
 
   private setLabel() {
@@ -136,6 +177,30 @@ export class OpCkeditorFormComponent implements OnInit {
 
     label.click(() => {
       ckContent.focus();
+    });
+  }
+
+  private addUploadedAttachmentsToForm() {
+    if (!this.resource || this.resource.id) {
+      return;
+    }
+
+    const takenIds = this.$attachmentsElement.find('input[type=\'file\']').map((index, input) => {
+      let match = (input.getAttribute('name') || '').match(/attachments\[(\d+)\]\[(?:file|id)\]/);
+
+      if (match) {
+        return parseInt(match[1]);
+      } else {
+        return 0;
+      }
+    });
+
+    const maxValue = takenIds.toArray().sort().pop() || 0;
+
+    let addedAttachments = this.resource.attachments.elements || [];
+
+    jQuery.each(addedAttachments, (index, attachment:HalResource) => {
+      this.$attachmentsElement.append(`<input type="hidden" name="attachments[${maxValue + index + 1}][id]" value="${attachment.id}">`);
     });
   }
 }

@@ -428,7 +428,6 @@ lt:
         level5: Išplėtimo lygis 5
         all: Rodyti viską
       project_status: Projekto būsena
-      project_type: Projekto tipas
       really_close_dialog: Ar tikrai norite uždaryti dialogo langą ir prarasti įvestus
         duomenis?
       responsible: Atsakingas asmuo/grupė

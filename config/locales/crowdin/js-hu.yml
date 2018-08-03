@@ -424,7 +424,6 @@ hu:
         level5: Az 5-ös szint kibontása
         all: Minden megjelenítése
       project_status: Projekt állapot
-      project_type: Projekt típus
       really_close_dialog: Igazán akar zárja be a párbeszédpanelt, és elveszíteni
         a bevitt adatokat?
       responsible: Felelős

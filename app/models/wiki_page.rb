@@ -249,7 +249,7 @@ class WikiPage < ActiveRecord::Base
     end
   end
 
-  def is_only_wiki_page?
+  def only_wiki_page?
     wiki.pages == [self]
   end
 

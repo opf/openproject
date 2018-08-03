@@ -43,8 +43,6 @@ import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notific
 import {IWorkPackageCreateServiceToken} from 'core-components/wp-new/wp-create.service.interface';
 import {take, takeWhile} from 'rxjs/operators';
 
-// require('core-app/angular4-test-setup');
-
 describe('WorkPackageCacheService', () => {
   let injector:Injector;
   let wpCacheService:WorkPackageCacheService;
@@ -98,7 +96,7 @@ describe('WorkPackageCacheService', () => {
       'WorkPackage'
     );
 
-    dummyWorkPackages = [workPackage1];
+    dummyWorkPackages = [workPackage1 as any];
   });
 
   it('returns a work package after the list has been initialized', function(done:any) {

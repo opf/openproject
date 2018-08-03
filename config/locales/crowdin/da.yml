@@ -128,10 +128,6 @@ da:
       versions:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: Create a new version
-  project_types:
-    index:
-      no_results_title_text: Der er i øjeblikket ingen projekttyper.
-      no_results_content_text: Opret en ny projekttype
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -200,7 +196,7 @@ da:
       reported:
         no_results_title_text: There are currently no work packages that I have reported.
       responsible:
-        no_results_title_text: There are currently no work packages that I am responsible
+        no_results_title_text: There are currently no work packages that I am accountable
           for.
       watched:
         no_results_title_text: There are currently no work packages that I am watching.
@@ -338,9 +334,7 @@ da:
         identifier: ID
         latest_activity_at: Latest activity at
         parent: Delprojekt af
-        project_type: Projekttype
         queries: Forespørgsler
-        responsible: Ansvarlig
         types: Typer
         versions: Versioner
         work_packages: Arbejdspakker
@@ -395,8 +389,6 @@ da:
         redirect_existing_links: Omdiriger eksisterende links
       planning_element_type_color:
         hexcode: Hex kode
-      project_type:
-        position: Placering
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
@@ -410,7 +402,6 @@ da:
         parent_work_package: Overordnet
         priority: Prioritet
         progress: Fremskridt (%)
-        responsible: Ansvarlig
         spent_hours: Anvendt tid
         spent_time: Anvendt tid
         subproject: Underprojekt
@@ -420,11 +411,16 @@ da:
     errors:
       messages:
         accepted: skal accepteres.
+        after: skal være senere end %{date}.
+        after_or_equal_to: skal være tidligst %{date}.
+        before: skal være før %{date}.
+        before_or_equal_to: skal være senest %{date}.
         blank: må ikke være tomt.
         cant_link_a_work_package_with_a_descendant: En arbejdspakke kan ikke knyttes
           til en af dens underopgaver.
         circular_dependency: Denne relation vil skabe en cirkulær afhængighed.
         confirmation: matcher ikke %{attribute}.
+        could_not_be_copied: kunne ikke (fuldt ud) kopieres.
         does_not_exist: findes ikke.
         empty: må ikke være tomt.
         even: skal være lige.
@@ -432,11 +428,9 @@ da:
         file_too_large: er for stor (maks. størrelse er %{count} Bytes).
         greater_than: skal være større end %{count}.
         greater_than_or_equal_to: skal være større end eller lig med %{count}.
-        smaller_than_or_equal_to_max_length: skal være mindre end eller lig den maksimale
-          længde.
-        greater_than_start_date: must be greater than the start date.
         greater_than_or_equal_to_start_date: must be greater than or equal to the
           start date.
+        greater_than_start_date: must be greater than the start date.
         inclusion: er ikke sat til en tilladt værdi.
         invalid: er ugyldig.
         invalid_url: is not a valid URL.
@@ -444,22 +438,20 @@ da:
         less_than_or_equal_to: skal være mindre end eller lig med %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
-        not_an_iso_date: 'is not a valid date. Required format: YYYY-MM-DD.'
         not_a_number: er ikke et tal.
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: er ikke et heltal.
+        not_an_iso_date: 'is not a valid date. Required format: YYYY-MM-DD.'
         not_same_project: hører ikke til samme projekt.
         odd: skal være ulige.
+        regex_invalid: could not be validated with the associated regular expression.
+        smaller_than_or_equal_to_max_length: skal være mindre end eller lig den maksimale
+          længde.
         taken: er allerede taget.
         too_long: 'er for lang (maks.: %{count} tegn).'
         too_short: 'er for kort (min.: %{count} tegn).'
-        wrong_length: har forkert længde (burde være %{count} tegn).
-        after: skal være senere end %{date}.
-        after_or_equal_to: skal være tidligst %{date}.
-        before: skal være før %{date}.
-        before_or_equal_to: skal være senest %{date}.
-        could_not_be_copied: kunne ikke (fuldt ud) kopieres.
-        regex_invalid: could not be validated with the associated regular expression.
         unchangeable: cannot be changed.
+        wrong_length: har forkert længde (burde være %{count} tegn).
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
@@ -592,7 +584,6 @@ da:
         one: Rolle
         other: Roller
       type: Type
-      project_type: Projekttype
       user: Bruger
       version: Version
       wiki: Wiki
@@ -646,7 +637,7 @@ da:
     password: Adgangskode
     priority: Prioritet
     project: Projekt
-    responsible: Ansvarlig
+    responsible: Accountable
     role: Rolle
     roles: Roller
     start_date: Start dato
@@ -886,11 +877,6 @@ da:
   default_priority_normal: Normal
   default_priority_high: Høj
   default_priority_immediate: Straks
-  default_project_type_scrum: Scrum-team
-  default_project_type_standard: Standardprojekt
-  default_reported_project_status_green: Grøn
-  default_reported_project_status_amber: Gul
-  default_reported_project_status_red: Rød
   default_role_anonymous: Anonymt
   default_role_developer: Udvikler
   default_role_project_admin: Projektadmin
@@ -1240,7 +1226,6 @@ da:
   label_edit: Rediger
   label_enable_multi_select: Vælg multivalg
   label_enabled_project_custom_fields: Aktiverede brugerdefinerede felter
-  label_enabled_project_types: Aktiverede typer
   label_enabled_project_modules: Aktiverede moduler
   label_enabled_project_activities: Aktiverede aktivitetstidsregistrering
   label_end_to_end: fra slutning til slutning
@@ -1470,7 +1455,7 @@ da:
   label_repository_plural: Projektarkiver
   label_required: required
   label_requires: requires
-  label_responsible_for_work_packages: Arbejdspakker jeg er ansvarlig for
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Resultater
   label_reverse_chronological_order: I omvendt kronologisk rækkefølge
   label_revision: Revidering
@@ -1607,7 +1592,7 @@ da:
     mig
   label_work_package_view_all_reported_by_me: Vis alle arbejdspakker, der rapporterer
     til mig
-  label_work_package_view_all_responsible_for: View all work packages that I am responsible
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
     for
   label_work_package_view_all_watched: Vis alle arbejdspakker, jeg fører tilsyn med
   label_work_package_watchers: Tilsynsførende
@@ -2079,9 +2064,9 @@ da:
   setting_smtp_address: SMTP server
   setting_smtp_port: SMTP port
   setting_smtp_authentication: SMTP authentication
-  setting_smtp_domain: SMTP HELLO domain
   setting_smtp_user_name: SMTP username
   setting_smtp_password: SMTP password
+  setting_smtp_domain: SMTP HELLO domain
   setting_activity_days_default: Dage, der vises under projektaktivitet
   setting_app_subtitle: Appens undertitel
   setting_app_title: Appens titel
@@ -2371,8 +2356,6 @@ da:
     admin_menu:
       color: Farve
       colors: Farver
-      project_type: Projekttype
-      project_types: Projekttyper
     associations: Aflæggere
     board_could_not_be_saved: Tavle kan ikke gemmes
     button_delete_all: Slet alt
@@ -2389,7 +2372,6 @@ da:
       one: 1 dag
       other: "%{count} dage"
     edit_color: Rediger farve
-    edit_project_type: Rediger projekttype
     edit_thing: Rediger
     edit_timeline: Rediger lidslinjerapport %{timeline}
     delete_timeline: Slet tidslinjerapport %{timeline}
@@ -2431,7 +2413,6 @@ da:
         due_date: Slutdato
         name: Navn
         status: Status
-        responsible: Ansvarlig
         start_date: Start dato
       columns: Kolonner
       comparisons: Sammenligninger
@@ -2460,7 +2441,7 @@ da:
       outline: Udvidet udgave af indledende disposition
       parent: Vis underprojekter til
       work_package_filters: Filtrér arbejdspakker
-      work_package_responsible: Vis arbjedspakker med ansvarlig
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: Vis arbejdspakker med opdragsgiver
       types: Vis typer
       status: Vis status
@@ -2473,9 +2454,8 @@ da:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} siden,
         %{end_label} %{endspan}%{endspanunit} fra nu"
       project_filters: Filtrér projekter
-      project_responsible: Vis projekter med ansvarlige
+      project_responsible: Show projects with accountable
       project_status: Vis projektstatus
-      project_types: Vis projekttyper
       timeframe: Vis tidsrammer
       timeframe_end: til
       timeframe_start: fra
@@ -2485,7 +2465,6 @@ da:
     new_color: Ny farve
     new_association: Ny sammenhæng
     new_work_package: Ny arbejdspakke
-    new_project_type: Ny projekttype
     new_reporting: Ny rapportering
     new_timeline: Ny tidslinjerapport
     no_projects_for_reporting_available: Der er ikke nogen projekter hvortil der kan
@@ -2512,20 +2491,11 @@ da:
       edit: 'Status for redigering: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Updatering:  %{title}'
-    project_type_could_not_be_saved: Projekttypen kan ikke gemmes
     type_could_not_be_saved: Typen kan ikke gemmes
     reporting_could_not_be_saved: Rapportering kan ikke gemmes
     properties: Egenskaber
     really_delete_color: 'Er du sikker på, du vil slette den følgende farve? Typer
       med denne farve vil ikke blive slettet.
-
-'
-    really_delete_project_type: 'Er du sikker på, du vil slette den følgende projekttype?
-      Projekter der bruger denne type vil ikke blive slettet.
-
-'
-    really_delete_timeline: 'Er du sikker på, du vil slette denne tidslinjerapport?
-      Arbejdspakker vist i denne rapport vil ikke blive slettet.
 
 '
     really_delete_reporting: 'Er du sikker på, du vil slette den følgende rapportering?
@@ -2537,7 +2507,6 @@ da:
     timelines: Tidslinjerapporter
     settings: Tidslinjer
     vertical_work_package: Lodret arbejdspakke
-    without_project_type: Uden projekttype
     you_are_viewing_the_selected_timeline: Du ser den valgte tidslinjerapport
     zoom:
       in: Zoom ind

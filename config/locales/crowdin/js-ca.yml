@@ -429,7 +429,6 @@ ca:
         level5: Ampliar el nivell 5
         all: Mostrar tots
       project_status: Estat del projecte
-      project_type: Tipus de projecte
       really_close_dialog: Realment voleu tancar el diàleg i perdre les dades introduïdes?
       responsible: Responsable
       save: Desa

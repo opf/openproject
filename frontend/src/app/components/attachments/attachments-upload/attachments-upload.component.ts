@@ -26,33 +26,43 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {UploadFile} from '../../api/op-file-upload/op-file-upload.service';
-import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {Component, ElementRef, Input, ViewChild} from "@angular/core";
+import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import {Component, ElementRef, Input, ViewChild} from '@angular/core';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
+import {OnInit} from '@angular/core';
 
 @Component({
-  selector: 'wp-attachments-upload',
-  templateUrl: './wp-attachments-upload.html'
+  selector: 'attachments-upload',
+  templateUrl: './attachments-upload.html'
 })
-export class WorkPackageUploadComponent {
-  @Input() public workPackage:WorkPackageResource;
+export class AttachmentsUploadComponent implements OnInit {
+  @Input() public resource:HalResource;
 
   @ViewChild('hiddenFileInput') public filePicker:ElementRef;
 
   public draggingOver:boolean = false;
   public text:any;
   public maxFileSize:number;
+  public $element:JQuery;
 
   constructor(readonly I18n:I18nService,
-              readonly ConfigurationService:ConfigurationService) {
+              readonly ConfigurationService:ConfigurationService,
+              protected elementRef:ElementRef,
+              protected halResourceService:HalResourceService) {
     this.text = {
       uploadLabel: I18n.t('js.label_add_attachments'),
       dropFiles: I18n.t('js.label_drop_files'),
       dropFilesHint: I18n.t('js.label_drop_files_hint')
     };
-    ConfigurationService.api().then((settings:any) => {
+  }
+
+  ngOnInit() {
+    this.$element = jQuery(this.elementRef.nativeElement);
+
+    this.ConfigurationService.api().then((settings:any) => {
       this.maxFileSize = settings.maximumAttachmentFileSize;
     });
   }
@@ -105,7 +115,7 @@ export class WorkPackageUploadComponent {
 
   private containsFiles(dataTransfer:any) {
     if (dataTransfer.types.contains) {
-      return dataTransfer.types.contains('Files')
+      return dataTransfer.types.contains('Files');
     } else {
       return (dataTransfer as DataTransfer).types.indexOf('Files') >= 0;
     }
@@ -116,6 +126,6 @@ export class WorkPackageUploadComponent {
       return;
     }
 
-    this.workPackage.uploadAttachments(files);
+    this.resource.uploadAttachments(files);
   }
 }

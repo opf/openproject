@@ -432,7 +432,6 @@ uk:
         level5: Розширити рівень 5
         all: Show all
       project_status: Project status
-      project_type: Тип проекту
       really_close_dialog: Ви дійсно хочете закрити діалог і втратити введені дані?
       responsible: Responsible
       save: Save

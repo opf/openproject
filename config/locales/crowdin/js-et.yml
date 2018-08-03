@@ -427,7 +427,6 @@ et:
         level5: Laienda tasemele 5
         all: Näita kõiki
       project_status: Projekti olek
-      project_type: Projekti tüüp
       really_close_dialog: Do you really want to close the dialog and lose the entered
         data?
       responsible: Vastutaja

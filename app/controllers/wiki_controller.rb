@@ -185,10 +185,8 @@ class WikiController < ApplicationController
 
     @page.attach_files(permitted_params.attachments.to_h)
 
-    return if nothing_to_update?
-
     @page.title = permitted_params.wiki_page[:title]
-    @page.parent_id = permitted_params.wiki_page[:parent_id].to_i
+    @page.parent_id = permitted_params.wiki_page[:parent_id].presence
     @content.attributes = permitted_params.wiki_content
     @content.author = User.current
     @content.add_journal User.current, params['content']['comments']
@@ -317,7 +315,7 @@ class WikiController < ApplicationController
         @page.descendants.each(&:destroy)
       when 'reassign'
         # Reassign children to another parent page
-        reassign_to = @wiki.pages.find_by(id: params[:reassign_to_id].to_i)
+        reassign_to = @wiki.pages.find_by(id: params[:reassign_to_id].presence)
         return unless reassign_to
         @page.children.each do |child|
           child.update_attribute(:parent, reassign_to)
@@ -377,22 +375,6 @@ class WikiController < ApplicationController
   end
 
   private
-
-  def nothing_to_update?
-    return false if @page.new_record?
-    if anything_to_update?
-      render_attachment_warning_if_needed(@page)
-      # don't save if text wasn't changed
-      redirect_to_show
-      true
-    end
-  end
-
-  def anything_to_update?
-    params[:content].present? &&
-      @content.text == permitted_params.wiki_content[:text] &&
-      @page.parent_id == permitted_params.wiki_page[:parent_id].to_i
-  end
 
   def locked?
     return false if editable?

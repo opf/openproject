@@ -426,7 +426,6 @@ tr:
         level5: Seviye 5 genişletin
         all: Tümünü göster
       project_status: Proje Durumu
-      project_type: Proje türü
       really_close_dialog: Pencerenin kapanmasını ve girilen verilerinizin kaybolmasını
         istiyor musunuz?
       responsible: Sorumlu

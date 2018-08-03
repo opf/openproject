@@ -432,7 +432,6 @@ cs:
         level5: Expand level 5
         all: Zobrazit vše
       project_status: Stav projektu
-      project_type: Typ projektu
       really_close_dialog: Opravdu chcete zavřít dialogové okno a ztratit zadaná data?
       responsible: Zodpovědný
       save: Uložit

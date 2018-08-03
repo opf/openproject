@@ -129,10 +129,6 @@ ca:
       versions:
         no_results_title_text: Actualment no hi ha cap versió per al projecte.
         no_results_content_text: Crear una nova versió
-  project_types:
-    index:
-      no_results_title_text: Actualment no hi ha cap tipus de projecte.
-      no_results_content_text: Crear un nou tipus de projecte
   members:
     index:
       no_results_title_text: Actualment no hi ha cap membre que formi part d'aquest
@@ -203,7 +199,8 @@ ca:
       reported:
         no_results_title_text: Actualment no he informat cap paquet de treball.
       responsible:
-        no_results_title_text: Actualment no sóc responsable de cap paquet de treball.
+        no_results_title_text: There are currently no work packages that I am accountable
+          for.
       watched:
         no_results_title_text: Actualment no estic seguint cap paquet de treball.
     summary:
@@ -347,9 +344,7 @@ ca:
         identifier: Identificador
         latest_activity_at: Última activitat al
         parent: Subprojecte de
-        project_type: Tipus de projecte
         queries: Consultes
-        responsible: Responsable
         types: Tipus
         versions: Versions
         work_packages: Paquets de treball
@@ -405,8 +400,6 @@ ca:
         redirect_existing_links: Redirigeix els enllaços existents
       planning_element_type_color:
         hexcode: Codi hexadecimal
-      project_type:
-        position: Posició
       work_package:
         begin_insertion: Inici de la inserció
         begin_deletion: Inici de la supressió
@@ -420,7 +413,6 @@ ca:
         parent_work_package: Pare
         priority: Prioritat
         progress: Progrés (%)
-        responsible: Responsable
         spent_hours: Temps invertit
         spent_time: Temps invertit
         subproject: Subprojecte
@@ -430,11 +422,16 @@ ca:
     errors:
       messages:
         accepted: hauran de ser acceptats.
+        after: ha de ser després de %{date}.
+        after_or_equal_to: ha de ser igual o després de %{date}.
+        before: ha de ser abans de %{date}.
+        before_or_equal_to: ha de ser igual o abans de %{date}.
         blank: no pot estar en blanc.
         cant_link_a_work_package_with_a_descendant: Un paquet de treball no es pot
           enllaçar a una de les seves subtasques.
         circular_dependency: Aquesta relació crearia una dependència circular.
         confirmation: no coincideix amb el %{attribute}.
+        could_not_be_copied: no pot ser (completament) copiat.
         does_not_exist: no existeix.
         empty: no pot estar buit.
         even: ha de ser parell.
@@ -442,10 +439,8 @@ ca:
         file_too_large: és massa gran (la mida màxima és de %{count} Bytes).
         greater_than: ha de ser més gran que %{count}.
         greater_than_or_equal_to: ha de ser més gran o igual a %{count}.
-        smaller_than_or_equal_to_max_length: ha de ser inferior o igual a la longitud
-          màxima.
-        greater_than_start_date: ha de ser major que la data d'inici.
         greater_than_or_equal_to_start_date: ha de ser major o igual a la data d'inici.
+        greater_than_start_date: ha de ser major que la data d'inici.
         inclusion: no està establert a un dels valors permesos.
         invalid: no és vàlid.
         invalid_url: is not a valid URL.
@@ -453,22 +448,20 @@ ca:
         less_than_or_equal_to: ha de ser menor o igual a %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
-        not_an_iso_date: 'no és una data vàlida. Format requerit: AAAA-MM-DD.'
         not_a_number: no és un número.
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: no és un enter.
+        not_an_iso_date: 'no és una data vàlida. Format requerit: AAAA-MM-DD.'
         not_same_project: no pertany al mateix projecte.
         odd: ha de ser senar.
+        regex_invalid: could not be validated with the associated regular expression.
+        smaller_than_or_equal_to_max_length: ha de ser inferior o igual a la longitud
+          màxima.
         taken: ja s'està utilitzant.
         too_long: és massa llarg (el màxim són %{count} caràcters).
         too_short: és massa curt (el mínim són %{count} caràcters).
-        wrong_length: la longitud és incorrecta (haurien de ser %{count} caràcters).
-        after: ha de ser després de %{date}.
-        after_or_equal_to: ha de ser igual o després de %{date}.
-        before: ha de ser abans de %{date}.
-        before_or_equal_to: ha de ser igual o abans de %{date}.
-        could_not_be_copied: no pot ser (completament) copiat.
-        regex_invalid: could not be validated with the associated regular expression.
         unchangeable: cannot be changed.
+        wrong_length: la longitud és incorrecta (haurien de ser %{count} caràcters).
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
@@ -602,7 +595,6 @@ ca:
         one: Rol
         other: Rol
       type: Tipus
-      project_type: Tipus de projecte
       user: Usuari
       version: Versió
       wiki: Wiki
@@ -655,7 +647,7 @@ ca:
     password: Contrasenya
     priority: Prioritat
     project: Projecte
-    responsible: Responsable
+    responsible: Accountable
     role: Rol
     roles: Rols
     start_date: Data d'inici
@@ -896,11 +888,6 @@ ca:
   default_priority_normal: Normal
   default_priority_high: Alta
   default_priority_immediate: Immediata
-  default_project_type_scrum: Equip Scrum
-  default_project_type_standard: Projecte estàndard
-  default_reported_project_status_green: Verd
-  default_reported_project_status_amber: Ambre
-  default_reported_project_status_red: Vermell
   default_role_anonymous: Anònim
   default_role_developer: Desenvolupador
   default_role_project_admin: Administrador del projecte
@@ -1256,7 +1243,6 @@ ca:
   label_edit: Editar
   label_enable_multi_select: Activa/desactiva selecció múltiple
   label_enabled_project_custom_fields: Habilita camps personalitzats
-  label_enabled_project_types: Tipus habilitats
   label_enabled_project_modules: Mòduls habilitats
   label_enabled_project_activities: Activitats de seguiment de temps habilitades
   label_end_to_end: de punta a punta
@@ -1488,7 +1474,7 @@ ca:
   label_repository_plural: Repositoris
   label_required: required
   label_requires: requires
-  label_responsible_for_work_packages: Paquets de treball dels que en sóc responsable
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Resultats
   label_reverse_chronological_order: En ordre cronològic invers
   label_revision: Revisió
@@ -1628,8 +1614,8 @@ ca:
     a mi
   label_work_package_view_all_reported_by_me: Veure tots els paquets de treball comunicats
     per mi
-  label_work_package_view_all_responsible_for: Veure tots els paquets de treball dels
-    que sóc responsable
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
+    for
   label_work_package_view_all_watched: Veure tots els paquets de treball observats
   label_work_package_watchers: Observadors
   label_workflow: Flux de treball
@@ -2124,9 +2110,9 @@ ca:
   setting_smtp_address: Servidor SMTP
   setting_smtp_port: Port SMTP
   setting_smtp_authentication: Autenticació SMTP
-  setting_smtp_domain: domini HELLO SMTP
   setting_smtp_user_name: Nom d'usuari SMTP
   setting_smtp_password: Contrasenya SMTP
+  setting_smtp_domain: domini HELLO SMTP
   setting_activity_days_default: Dies a mostrar a l'activitat del projecte
   setting_app_subtitle: Subtítol de l'aplicació
   setting_app_title: Títol de l'aplicació
@@ -2432,8 +2418,6 @@ ca:
     admin_menu:
       color: Color
       colors: Colors
-      project_type: Tipus de projecte
-      project_types: Tipus de projecte
     associations: Dependències
     board_could_not_be_saved: No es pot desar el tauler
     button_delete_all: Esborrar tot
@@ -2451,7 +2435,6 @@ ca:
       one: 1 dia
       other: "%{count} dies"
     edit_color: Editar el color
-    edit_project_type: Editar tipus de projecte
     edit_thing: Editar
     edit_timeline: Editar l'informe de terminis %{timeline}
     delete_timeline: Esborrar l'informe de terminis %{timeline}
@@ -2494,7 +2477,6 @@ ca:
         due_date: Data de fi
         name: Nom
         status: Estat
-        responsible: Responsable
         start_date: Data d'inici
       columns: Columnes
       comparisons: Comparacions
@@ -2523,7 +2505,7 @@ ca:
       outline: Expansió de l'esquema inicial
       parent: Mostra els subprojectes de
       work_package_filters: Filtrar paquets de treball
-      work_package_responsible: Mostra els paquets de treball amb responsables
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: Mostra els paquest de treball amb assignat
       types: Mostra el tipus
       status: Mostra l'estat
@@ -2536,9 +2518,8 @@ ca:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} fa
         %{end_label} %{endspan}%{endspanunit} des d'ara"
       project_filters: Filtrar projectes
-      project_responsible: Mostrar projectes amb responsable
+      project_responsible: Show projects with accountable
       project_status: Mostra l'estat del projecte
-      project_types: Mostra el tipus de projecte
       timeframe: Mostra el calendari
       timeframe_end: a
       timeframe_start: de
@@ -2548,7 +2529,6 @@ ca:
     new_color: Nou color
     new_association: Nova dependència
     new_work_package: Paquet de treball nou
-    new_project_type: Nou tipus de projecte
     new_reporting: Nou informe
     new_timeline: Nou informe de terminis
     no_projects_for_reporting_available: No hi ha cap projecte pel qual es pot crear
@@ -2575,21 +2555,11 @@ ca:
       edit: 'Editar l''estat: %{comment}'
       show: 'Estat: %{comment}'
     planning_element_update: 'Actualitzat: %{title}'
-    project_type_could_not_be_saved: El tipus de projecte no s'han pogut desar
     type_could_not_be_saved: No s'han pogut desar el tipus
     reporting_could_not_be_saved: No s'ha pogut desar l'informe
     properties: Propietats
     really_delete_color: 'Esteu segur que voleu suprimir el següent color? Els tipus
       amb aquest color no es suprimiran.
-
-'
-    really_delete_project_type: 'Esteu segur que voleu suprimir el següent tipus de
-      projecte? Els projectes amb aquest tipus no es suprimiran.
-
-'
-    really_delete_timeline: 'Esteu segur que voleu suprimir el següent informe de
-      terminis? Els paquets de treball que apareixen en aquest informe de terminis
-      no es suprimiran.
 
 '
     really_delete_reporting: 'Esteu segur que voleu suprimir el següent informe? Els
@@ -2601,7 +2571,6 @@ ca:
     timelines: Cronologia d'informes
     settings: Terminis
     vertical_work_package: Paquets de treball vertical
-    without_project_type: Sense tipus de projecte
     you_are_viewing_the_selected_timeline: Esteu visualitzant l'informe de terminis
       selecciont
     zoom:

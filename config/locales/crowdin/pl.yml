@@ -128,10 +128,6 @@ pl:
       versions:
         no_results_title_text: Nie ma innych wersji tego projektu.
         no_results_content_text: Utwórz nową wersję projektu
-  project_types:
-    index:
-      no_results_title_text: Nie ma jeszcze typu projektu.
-      no_results_content_text: Utwórz nowy typ projektu
   members:
     index:
       no_results_title_text: Nie ma jeszcze żadnych członków projektu.
@@ -202,7 +198,8 @@ pl:
       reported:
         no_results_title_text: Obecnie nie ma Zestawów zadań, które zostały zgłoszone.
       responsible:
-        no_results_title_text: Nie ma aktualnie żadnych zadań, za które jestem odpowiedzialny.
+        no_results_title_text: There are currently no work packages that I am accountable
+          for.
       watched:
         no_results_title_text: Obecnie nie ma Zestawów zadań, które możesz przeglądać.
     summary:
@@ -336,9 +333,7 @@ pl:
         identifier: Identyfikator
         latest_activity_at: Ostatnia aktywność o
         parent: Projekt nadrzędny
-        project_type: Typ projektu
         queries: Kwerendy
-        responsible: Odpowiedzialny
         types: Typy
         versions: Wersje
         work_packages: Zadania
@@ -393,8 +388,6 @@ pl:
         redirect_existing_links: Przekieruj istniejące powiązania
       planning_element_type_color:
         hexcode: Kod szesnastkowy
-      project_type:
-        position: Pozycja
       work_package:
         begin_insertion: Początek wstawiania
         begin_deletion: Początek usuwania
@@ -408,7 +401,6 @@ pl:
         parent_work_package: Rodzic
         priority: Priorytet
         progress: Postęp (%)
-        responsible: Odpowiedzialny
         spent_hours: Czas pracy
         spent_time: Czas pracy
         subproject: Podprojekt
@@ -418,11 +410,16 @@ pl:
     errors:
       messages:
         accepted: musi być zaakceptowane.
+        after: musi być po %{date}.
+        after_or_equal_to: musi być po lub równe %{date}.
+        before: musi być przed %{date}.
+        before_or_equal_to: musi być przed lub równe %{date}.
         blank: nie może być puste.
         cant_link_a_work_package_with_a_descendant: Zestaw zadań nie może być powiązany
           z jego podzadaniami.
         circular_dependency: Ta relacja może wytworzyć zależność cykliczną.
         confirmation: nie pasuje do %{attribute}.
+        could_not_be_copied: nie można skopiować (w całości).
         does_not_exist: nie istnieje.
         empty: nie może być puste.
         even: musi być takie samo.
@@ -430,11 +427,9 @@ pl:
         file_too_large: jest za długie (maksymalna wielkość to %{count} Bajtów).
         greater_than: musi być większe niż %{count}.
         greater_than_or_equal_to: musi być większe niż lub równe %{count}.
-        smaller_than_or_equal_to_max_length: musi być mniejsze niż lub równe z maksymalnej
-          długości.
-        greater_than_start_date: musi być późniejsza niż data początku.
         greater_than_or_equal_to_start_date: musi być późniejsza niż data początku
           albo równa jej.
+        greater_than_start_date: musi być późniejsza niż data początku.
         inclusion: jest niezgodne z jednym z dozwolonych wartości.
         invalid: jest nieprawidłowe.
         invalid_url: nie jest poprawnym adresem URL.
@@ -442,22 +437,20 @@ pl:
         less_than_or_equal_to: musi być mniejsze niż lub równe %{count}.
         not_a_date: nie jest poprawną datą.
         not_a_datetime: nie jest poprawną datą i czasem.
-        not_an_iso_date: 'wprowadzono nieprawidłową datę. Wymagany format: RRRR-MM-DD.'
         not_a_number: nie jest liczbą.
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: nie jest liczbą całkowitą.
+        not_an_iso_date: 'wprowadzono nieprawidłową datę. Wymagany format: RRRR-MM-DD.'
         not_same_project: nie należy do tego samego projektu.
         odd: musi być nieparzyste.
+        regex_invalid: nie może być zastosowany z zastosowanym wyrażeniem regularnym.
+        smaller_than_or_equal_to_max_length: musi być mniejsze niż lub równe z maksymalnej
+          długości.
         taken: zostały już podjęte.
         too_long: jest zbyt długi (maksymalnie %{count} znaków).
         too_short: jest zbyt krótkie (min. %{count} znaków).
-        wrong_length: ma nieprawidłową długość (powinno mieć %{count} znaków).
-        after: musi być po %{date}.
-        after_or_equal_to: musi być po lub równe %{date}.
-        before: musi być przed %{date}.
-        before_or_equal_to: musi być przed lub równe %{date}.
-        could_not_be_copied: nie można skopiować (w całości).
-        regex_invalid: nie może być zastosowany z zastosowanym wyrażeniem regularnym.
         unchangeable: cannot be changed.
+        wrong_length: ma nieprawidłową długość (powinno mieć %{count} znaków).
       models:
         custom_field:
           at_least_one_custom_option: Przynajmniej jedna opcja musi być dostępna.
@@ -599,7 +592,6 @@ pl:
         few: Role
         many: Roles
       type: Typ
-      project_type: Typ projektu
       user: Użytkownik
       version: Wersja
       wiki: Wiki
@@ -652,7 +644,7 @@ pl:
     password: Hasło
     priority: Priorytet
     project: Projekt
-    responsible: Odpowiedzialny
+    responsible: Accountable
     role: Rola
     roles: Role
     start_date: Data rozpoczęcia
@@ -917,11 +909,6 @@ pl:
   default_priority_normal: Normalne
   default_priority_high: Wysokie
   default_priority_immediate: Natychmiastowe
-  default_project_type_scrum: Zespół Scrum
-  default_project_type_standard: Standardowy projekt
-  default_reported_project_status_green: Zielony
-  default_reported_project_status_amber: Bursztynowy
-  default_reported_project_status_red: Czerwony
   default_role_anonymous: Anonimowy
   default_role_developer: Deweloper
   default_role_project_admin: Administrator projektu
@@ -1277,7 +1264,6 @@ pl:
   label_edit: Edycja
   label_enable_multi_select: Włącz wybór wielokrotny
   label_enabled_project_custom_fields: Aktywne pola niestandardowe
-  label_enabled_project_types: Aktywne typy
   label_enabled_project_modules: Aktywne moduły
   label_enabled_project_activities: Włączony czas śledzenia działań
   label_end_to_end: koniec do końca
@@ -1509,7 +1495,7 @@ pl:
   label_repository_plural: Repozytoria
   label_required: wymagane
   label_requires: wymaga
-  label_responsible_for_work_packages: Pakiety robocze za które jestem odpowiedzialny
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Wyniki
   label_reverse_chronological_order: W odwrotnej kolejności chronologicznej
   label_revision: Rewizja
@@ -1645,8 +1631,8 @@ pl:
     do mnie
   label_work_package_view_all_reported_by_me: Pokaż wszystkie pakiety robocze zgłoszone
     przeze mnie
-  label_work_package_view_all_responsible_for: Zobacz wszystkie zadania, za które
-    jestem odpowiedzialny
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
+    for
   label_work_package_view_all_watched: Pokaż wszystkie obserwowane pakiety robocze
   label_work_package_watchers: Obserwatorzy
   label_workflow: Przepływ pracy
@@ -2140,9 +2126,9 @@ pl:
   setting_smtp_address: Serwer SMTP
   setting_smtp_port: Port SMTP
   setting_smtp_authentication: Uwierzytelnianie SMTP
-  setting_smtp_domain: Domena SMTP HELLO
   setting_smtp_user_name: Nazwa użytkownika SMTP
   setting_smtp_password: Hasło SMTP
+  setting_smtp_domain: Domena SMTP HELLO
   setting_activity_days_default: Dni wyświetlane w aktywności projektu
   setting_app_subtitle: Podtytuł
   setting_app_title: Tytuł
@@ -2438,8 +2424,6 @@ pl:
     admin_menu:
       color: Kolor
       colors: Kolory
-      project_type: Typ projektu
-      project_types: Typy projektów
     associations: Zależności
     board_could_not_be_saved: Pulpit nie może być zapisany
     button_delete_all: Usuń wszystkie
@@ -2459,7 +2443,6 @@ pl:
       few: "%{count} dni"
       many: "%{count} days"
     edit_color: Edycja koloru
-    edit_project_type: Edycja typu projektu
     edit_thing: Edycja
     edit_timeline: Edit timeline report %{timeline}
     delete_timeline: Delete timeline report %{timeline}
@@ -2501,7 +2484,6 @@ pl:
         due_date: Data zakończenia
         name: Nazwa
         status: Status
-        responsible: Odpowiedzialny
         start_date: Data rozpoczęcia
       columns: Kolumny
       comparisons: Porównania
@@ -2530,7 +2512,7 @@ pl:
       outline: Initial outline expansion
       parent: Pokaż projekty podrzędne z
       work_package_filters: Filtruj pakiety robocze
-      work_package_responsible: Pokaż pakiety robocze z odpowiedzialnym
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: Pokaż pakiety robocze z przypisanym
       types: Pokaż typy
       status: Pokaż status
@@ -2543,9 +2525,8 @@ pl:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago,
         %{end_label} %{endspan}%{endspanunit} from now"
       project_filters: Filtr projektów
-      project_responsible: Pokaż projekty z odpowiedzialnym
+      project_responsible: Show projects with accountable
       project_status: Pokaż status projektu
-      project_types: Pokaż typy projektu
       timeframe: Pokaż ramy czasowe
       timeframe_end: do
       timeframe_start: od
@@ -2555,7 +2536,6 @@ pl:
     new_color: Nowy kolor
     new_association: Nowa zależność
     new_work_package: Nowy pakiet roboczy
-    new_project_type: Nowy typ projektu
     new_reporting: Nowe zgłoszenie
     new_timeline: Nowy raport na osi czasu
     no_projects_for_reporting_available: There are no projects to which a reporting
@@ -2582,20 +2562,11 @@ pl:
       edit: 'Edit status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Update: %{title}'
-    project_type_could_not_be_saved: Nie można zapisać typu projektu
     type_could_not_be_saved: Typ nie może być zapisany
     reporting_could_not_be_saved: Zgłoszenie nie może być zapisane
     properties: Właściwości
     really_delete_color: 'Czy na pewno chcesz usunąć poniższy kolor? Typy używające
       tego koloru nie zostaną usunięte.
-
-'
-    really_delete_project_type: 'Czy na pewno chcesz usunąć następujący typ projektu?
-      Projekty używające tego typu nie zostaną usunięte.
-
-'
-    really_delete_timeline: 'Czy na pewno chcesz usunąć następujący raport osi czasu?
-      Pakiety robocze pokazane w tym raporcie nie zostaną usunięte.
 
 '
     really_delete_reporting: 'Czy na pewno chcesz usunąć poniższe zgłoszenie? Poprzednie
@@ -2607,7 +2578,6 @@ pl:
     timelines: Sprawozdania terminów
     settings: Terminarz
     vertical_work_package: Pionowe pakiety robocze
-    without_project_type: Bez typu projektu
     you_are_viewing_the_selected_timeline: Oglądasz raport zaznaczonej osi czasu
     zoom:
       in: Powiększ

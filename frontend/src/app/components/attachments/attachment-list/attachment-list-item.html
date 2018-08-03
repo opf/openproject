@@ -7,6 +7,7 @@
         download>
 
       {{ attachment.fileName || attachment.customName || attachment.name }}
+
       <authoring class="work-package--attachments--info"
                  [createdOn]="attachment.createdAt"
                  [author]="attachment.author"
@@ -21,4 +22,6 @@
     <op-icon icon-classes="icon-delete"
              [icon-title]="text.removeFile({fileName: attachment.fileName})"></op-icon>
   </a>
+
+  <input type="hidden" name="attachments[{{index}}][id]" value="{{attachment.id}}" *ngIf="!attachment.container">
 </li>

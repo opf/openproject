@@ -10,9 +10,15 @@
 .op-ckeditor--wrapper
   margin-bottom: 2rem
 
+// Ensure same border and min-height for preview
+.ck-content,
+.ck-editor__preview
+  border: 1px solid var(--ck-color-base-border)
+  min-height: 100px
+  padding: 10px
+
 // Specific overrides for ck contenteditable
 .ck-content
-  min-height: 100px
 
   // Code block
   pre

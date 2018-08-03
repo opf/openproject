@@ -128,10 +128,6 @@ sk:
       versions:
         no_results_title_text: V súčasnosti neexistujú žiadne verzie projektu.
         no_results_content_text: Vytvoriť novú verziu
-  project_types:
-    index:
-      no_results_title_text: Momentálne neexistujú žiadne typy projektov.
-      no_results_content_text: Vytvoriť nový typ projektu
   members:
     index:
       no_results_title_text: Tento projekt nemá momentálne pridelených žiadnych členov.
@@ -204,8 +200,8 @@ sk:
         no_results_title_text: Momentálne neexistujú žiadne pracovné balíčky, ktoré
           by boli hlásené.
       responsible:
-        no_results_title_text: Momentálne neexistujú žiadne pracovné balíčky, za ktoré
-          som zodpovedný.
+        no_results_title_text: There are currently no work packages that I am accountable
+          for.
       watched:
         no_results_title_text: Momentálne nemá nastavenú funkciu pozorovania pre žiadne
           pracovné balíčky.
@@ -345,9 +341,7 @@ sk:
         identifier: Identifikátor
         latest_activity_at: Posledná aktivita v
         parent: podprojekt projektu
-        project_type: Typ projektu
         queries: Požiadavky
-        responsible: Zodpovedný
         types: Typy
         versions: Verzie
         work_packages: Pracovné balíčky
@@ -402,8 +396,6 @@ sk:
         redirect_existing_links: Presmerovať existujúce prepojenia
       planning_element_type_color:
         hexcode: Hex kód
-      project_type:
-        position: Pozícia
       work_package:
         begin_insertion: Začiatok vkladania
         begin_deletion: Začiatok odstraňovania
@@ -417,7 +409,6 @@ sk:
         parent_work_package: Nadradený balíček
         priority: Priorita
         progress: Stav spracovania (%)
-        responsible: Zodpovedný
         spent_hours: Strávený čas
         spent_time: Strávený čas
         subproject: Podprojekt
@@ -427,11 +418,16 @@ sk:
     errors:
       messages:
         accepted: musí byť akceptovaný.
+        after: musí byť po termíne %{date}.
+        after_or_equal_to: musí byť po alebo rovné termínu %{date}.
+        before: musí byť pred termínom %{date}.
+        before_or_equal_to: musí byť pred alebo rovné termínu %{date}.
         blank: nemôže byť prázdne.
         cant_link_a_work_package_with_a_descendant: Pracovný balíček nemôže byť previazaný
           na žiadny zo svojich podriadenými balíčkov.
         circular_dependency: Tento vzťah by vytvoril cyklickú závislosť.
         confirmation: "%{attribute} sa nezhoduje."
+        could_not_be_copied: Nepodarilo sa (úplne) skopírovať.
         does_not_exist: neexistuje.
         empty: nemôže byť prázdny.
         even: musí byť párne.
@@ -439,11 +435,9 @@ sk:
         file_too_large: je príliš veľká (maximálna veľkosť je %{count} bytov).
         greater_than: musí byť väčšie ako %{count}.
         greater_than_or_equal_to: musí byť väčšie alebo rovné ako %{count}.
-        smaller_than_or_equal_to_max_length: musí byť menšie alebo rovné ako maximálne
-          dĺžka.
-        greater_than_start_date: musí byť väčší ako počiatočný dátum.
         greater_than_or_equal_to_start_date: musí byť väčší alebo rovný ako počiatočný
           dátum.
+        greater_than_start_date: musí byť väčší ako počiatočný dátum.
         inclusion: nie je nastavená na niektorú z povolených hodnôt.
         invalid: je neplatný.
         invalid_url: nie je platnou URL adresou.
@@ -451,22 +445,20 @@ sk:
         less_than_or_equal_to: musí byť menšie alebo rovné ako %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
-        not_an_iso_date: 'nie je platný dátum. Požadovaný formát: RRRR-MM-DD.'
         not_a_number: nie je číslo.
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: nie je celé číslo.
+        not_an_iso_date: 'nie je platný dátum. Požadovaný formát: RRRR-MM-DD.'
         not_same_project: nepodlieha rovnakému projektu.
         odd: musí byť nepárne.
+        regex_invalid: could not be validated with the associated regular expression.
+        smaller_than_or_equal_to_max_length: musí byť menšie alebo rovné ako maximálne
+          dĺžka.
         taken: už existuje v systéme.
         too_long: je príliš dlhý (maximum je %{count} znakov).
         too_short: je príliš krátky (minimum je %{count} znakov).
-        wrong_length: má chybnú dĺžku (správne má byť %{count} znakov).
-        after: musí byť po termíne %{date}.
-        after_or_equal_to: musí byť po alebo rovné termínu %{date}.
-        before: musí byť pred termínom %{date}.
-        before_or_equal_to: musí byť pred alebo rovné termínu %{date}.
-        could_not_be_copied: Nepodarilo sa (úplne) skopírovať.
-        regex_invalid: could not be validated with the associated regular expression.
         unchangeable: cannot be changed.
+        wrong_length: má chybnú dĺžku (správne má byť %{count} znakov).
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
@@ -612,7 +604,6 @@ sk:
         few: Roly
         many: Roles
       type: Typ
-      project_type: Typ projektu
       user: Užívateľ(ka)
       version: Verzia
       wiki: Wiki
@@ -665,7 +656,7 @@ sk:
     password: Heslo
     priority: Priorita
     project: Projekt
-    responsible: Zodpovedný
+    responsible: Accountable
     role: Rola
     roles: Role
     start_date: Dátum začiatku
@@ -930,11 +921,6 @@ sk:
   default_priority_normal: Normálna
   default_priority_high: Vysoká
   default_priority_immediate: Okamžité
-  default_project_type_scrum: SCRUM tím
-  default_project_type_standard: Štandardný projekt
-  default_reported_project_status_green: Zelená
-  default_reported_project_status_amber: Jantárová
-  default_reported_project_status_red: Červená
   default_role_anonymous: Anonymný
   default_role_developer: Vývojár
   default_role_project_admin: Projekt admin
@@ -1286,7 +1272,6 @@ sk:
   label_edit: Upraviť
   label_enable_multi_select: Prepnúť multiselect
   label_enabled_project_custom_fields: Povolené vlastné polia
-  label_enabled_project_types: Povolené typy
   label_enabled_project_modules: Zapnuté moduly
   label_enabled_project_activities: Zapnuté časy sledovania aktivít
   label_end_to_end: od konca do konca
@@ -1516,7 +1501,7 @@ sk:
   label_repository_plural: Repozitáre
   label_required: required
   label_requires: requires
-  label_responsible_for_work_packages: Pracovné balíky za ktoré zodpovedám
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Výsledky
   label_reverse_chronological_order: V obrátenom chronologickom poradí
   label_revision: Revízia
@@ -1653,8 +1638,8 @@ sk:
     mne
   label_work_package_view_all_reported_by_me: Zobraziť všetky pracovné balíčky hlásené
     mnou
-  label_work_package_view_all_responsible_for: Zobraziť všetky pracovné balíčky, za
-    ktoré som zodpovedný
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
+    for
   label_work_package_view_all_watched: Zobraziť všetky sledované pracovné balíčky
   label_work_package_watchers: Pozorovatelia
   label_workflow: Pracovný postup
@@ -2140,9 +2125,9 @@ sk:
   setting_smtp_address: SMTP server
   setting_smtp_port: SMTP port
   setting_smtp_authentication: Overenie serverom SMTP
-  setting_smtp_domain: SMTP HELLO Doména
   setting_smtp_user_name: SMTP užívateľské meno
   setting_smtp_password: SMTP heslo
+  setting_smtp_domain: SMTP HELLO Doména
   setting_activity_days_default: Počet zobrazovaných dní v rámci projektovej aktivity
   setting_app_subtitle: Application subtitle
   setting_app_title: Application title
@@ -2434,8 +2419,6 @@ sk:
     admin_menu:
       color: Farba
       colors: Farby
-      project_type: Typ projektu
-      project_types: Typy projektov
     associations: Závislosti
     board_could_not_be_saved: Panel sa nepodarilo uložiť
     button_delete_all: Odstrániť všetky
@@ -2455,7 +2438,6 @@ sk:
       few: "%{count} dni"
       many: "%{count} days"
     edit_color: Upraviť farbu
-    edit_project_type: Upraviť typ projektu
     edit_thing: Upraviť
     edit_timeline: Edit timeline report %{timeline}
     delete_timeline: Delete timeline report %{timeline}
@@ -2497,7 +2479,6 @@ sk:
         due_date: Dátum ukončenia
         name: Názov
         status: Stav
-        responsible: Zodpovedný
         start_date: Dátum začiatku
       columns: Stĺpce
       comparisons: Porovnanie
@@ -2526,7 +2507,7 @@ sk:
       outline: Initial outline expansion
       parent: Show subprojects of
       work_package_filters: Filter work packages
-      work_package_responsible: Show work packages with responsible
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: Zobraziť pracovné balíčky s priradenou osobou
       types: Show types
       status: Show status
@@ -2539,9 +2520,8 @@ sk:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago,
         %{end_label} %{endspan}%{endspanunit} from now"
       project_filters: Filter projects
-      project_responsible: Show projects with responsible
+      project_responsible: Show projects with accountable
       project_status: Show project status
-      project_types: Show project types
       timeframe: Show timeframe
       timeframe_end: do
       timeframe_start: od
@@ -2551,7 +2531,6 @@ sk:
     new_color: Nová farba
     new_association: Nová závislosť
     new_work_package: Nový pracovný balíček
-    new_project_type: Nový typ projektu
     new_reporting: New reporting
     new_timeline: New timeline report
     no_projects_for_reporting_available: There are no projects to which a reporting
@@ -2578,20 +2557,11 @@ sk:
       edit: 'Edit status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Update: %{title}'
-    project_type_could_not_be_saved: Project type could not be saved
     type_could_not_be_saved: Type could not be saved
     reporting_could_not_be_saved: Reporting could not be saved
     properties: Properties
     really_delete_color: 'Are you sure, you want to delete the following color? Types
       using this color will not be deleted.
-
-'
-    really_delete_project_type: 'Are you sure, you want to delete the following project
-      type? Projects using this type will not be deleted.
-
-'
-    really_delete_timeline: 'Are you sure, you want to delete the following timeline
-      report? Work packages shown in this timeline report will not be deleted.
 
 '
     really_delete_reporting: 'Are you sure, you want to delete the following reporting?
@@ -2603,7 +2573,6 @@ sk:
     timelines: Timeline reports
     settings: Timelines
     vertical_work_package: Vertical work packages
-    without_project_type: Without project type
     you_are_viewing_the_selected_timeline: You are viewing the selected timeline report
     zoom:
       in: Priblížiť

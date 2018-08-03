@@ -52,7 +52,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-require 'open3'
+require_relative 'pandoc_wrapper'
 
 module OpenProject::TextFormatting::Formats
   module Markdown
@@ -186,20 +186,16 @@ module OpenProject::TextFormatting::Formats
 
         cleanup_before_pandoc(textile)
 
-        # TODO pandoc recommends format 'gfm' but that isnt available in current LTS
-        # markdown_github, which is deprecated, is however available.
-        # --wrap=preserve will keep the wrapping the same
-        # --atx-headers will lead to headers like `### Some header` and '## Another header'
-        command = %w(pandoc --wrap=preserve --atx-headers -f textile -t markdown_github)
-        markdown, stderr_str, status = begin
-          Open3.capture3(*command, stdin_data: textile)
-        rescue StandardError
-          raise "Pandoc failed with unspecific error"
-        end
-
-        raise "Pandoc failed: #{stderr_str}" unless status.success?
+        markdown = execute_pandoc_with_stdin! textile
 
         cleanup_after_pandoc(markdown)
+      end
+
+      def execute_pandoc_with_stdin!(textile)
+        wrapper = PandocWrapper.new
+        wrapper.execute! textile
+      rescue StandardError => e
+        raise "Execution of pandoc failed: #{e}"
       end
 
       def models_to_convert

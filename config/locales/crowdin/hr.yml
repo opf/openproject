@@ -126,10 +126,6 @@ hr:
       versions:
         no_results_title_text: Trenutno nema dostupnih novih verzija projekta.
         no_results_content_text: Dodaj novu verziju projekta
-  project_types:
-    index:
-      no_results_title_text: Trenutno nema dostupnih tipova projekta.
-      no_results_content_text: Novi tip projekta
   members:
     index:
       no_results_title_text: Trenutno nema korisnika koji su dio ovog projekta.
@@ -200,7 +196,8 @@ hr:
         no_results_title_text: Trenutno ne postoji niti jedan radni paket kojeg je
           potrebno izvjestiti.
       responsible:
-        no_results_title_text: Trenutno ne postoji radni paket za kojeg sam odgovoran.
+        no_results_title_text: There are currently no work packages that I am accountable
+          for.
       watched:
         no_results_title_text: Trenutno ne postoji radni paket kojeg nadgledam.
     summary:
@@ -340,9 +337,7 @@ hr:
         identifier: Identifikator
         latest_activity_at: Latest activity at
         parent: Potprojekt od
-        project_type: Tip projekta
         queries: Upiti
-        responsible: Odgovoran
         types: Tipovi
         versions: Verzije
         work_packages: Radni paketi
@@ -397,8 +392,6 @@ hr:
         redirect_existing_links: Preusmjeri postojeće poveznice
       planning_element_type_color:
         hexcode: Heksadecimalni kod
-      project_type:
-        position: Pozicija
       work_package:
         begin_insertion: Početak umetanja
         begin_deletion: Početak brisanja
@@ -412,7 +405,6 @@ hr:
         parent_work_package: Matični
         priority: Prioritet
         progress: Napredak (%)
-        responsible: Odgovoran
         spent_hours: Utrošeno vrijeme
         spent_time: Utrošeno vrijeme
         subproject: Potprojekt
@@ -422,11 +414,16 @@ hr:
     errors:
       messages:
         accepted: mora biti prihvaćeno.
+        after: mora biti nakon %{date}.
+        after_or_equal_to: mora biti nakon ili jednako %{date}.
+        before: mora biti prije %{date}.
+        before_or_equal_to: mora biti prije ili jednako %{date}.
         blank: ne može biti prazan unos.
         cant_link_a_work_package_with_a_descendant: Radni paket ne može biti pridružen
           podređenim radnim zadacima.
         circular_dependency: Ova relacija izraditi će skupnu odnosno cirkularnu ovisnost.
         confirmation: ne odgovara %{attribute}.
+        could_not_be_copied: ne može biti (u potpunosti) kopirano.
         does_not_exist: ne postoji.
         empty: ne može biti prazan unos.
         even: mora biti izjednačeno.
@@ -434,11 +431,9 @@ hr:
         file_too_large: je prevelik (maksimalna veličina iznosi %{count} bajta).
         greater_than: mora biti veće od %{count}.
         greater_than_or_equal_to: mora biti veće od ili jednako %{count}.
-        smaller_than_or_equal_to_max_length: mora biti manje od ili jednako maksimalnom
-          trajanju.
-        greater_than_start_date: must be greater than the start date.
         greater_than_or_equal_to_start_date: must be greater than or equal to the
           start date.
+        greater_than_start_date: must be greater than the start date.
         inclusion: nije postavljeno na jednu od dozvoljenih vrijednosti.
         invalid: je nevažeće.
         invalid_url: nije valjani URL.
@@ -446,22 +441,20 @@ hr:
         less_than_or_equal_to: mora biti manji od ili jednak %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
-        not_an_iso_date: 'is not a valid date. Required format: YYYY-MM-DD.'
         not_a_number: nije tip podataka number.
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: nije tip podatka integer.
+        not_an_iso_date: 'is not a valid date. Required format: YYYY-MM-DD.'
         not_same_project: ne pripada istom projektu.
         odd: mora biti neparan.
+        regex_invalid: could not be validated with the associated regular expression.
+        smaller_than_or_equal_to_max_length: mora biti manje od ili jednako maksimalnom
+          trajanju.
         taken: već je zauzeto.
         too_long: je predugo (maksimalno %{count} znakova).
         too_short: je prekratko (minimalno %{count} znakova).
-        wrong_length: je krive duljine (mora biti %{count} znakova).
-        after: mora biti nakon %{date}.
-        after_or_equal_to: mora biti nakon ili jednako %{date}.
-        before: mora biti prije %{date}.
-        before_or_equal_to: mora biti prije ili jednako %{date}.
-        could_not_be_copied: ne može biti (u potpunosti) kopirano.
-        regex_invalid: could not be validated with the associated regular expression.
         unchangeable: cannot be changed.
+        wrong_length: je krive duljine (mora biti %{count} znakova).
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
@@ -600,7 +593,6 @@ hr:
         other: Rola
         few: Roli
       type: Tip
-      project_type: Tip projekta
       user: Korisnik
       version: Verzija
       wiki: Wiki
@@ -653,7 +645,7 @@ hr:
     password: Lozinka
     priority: Prioritet
     project: Projekt
-    responsible: Odgovoran
+    responsible: Accountable
     role: Role
     roles: Role
     start_date: Datum Početka
@@ -904,11 +896,6 @@ hr:
   default_priority_normal: Normalan
   default_priority_high: Visoki
   default_priority_immediate: Žuran
-  default_project_type_scrum: Scrum tim
-  default_project_type_standard: Standardni projekt
-  default_reported_project_status_green: Zelena
-  default_reported_project_status_amber: Tamno žuta
-  default_reported_project_status_red: Crvena
   default_role_anonymous: Anonimno
   default_role_developer: Razvojni programer
   default_role_project_admin: Projekt administrator
@@ -1260,7 +1247,6 @@ hr:
   label_edit: Uredi
   label_enable_multi_select: Aktiviraj/deaktiviraj selekciju
   label_enabled_project_custom_fields: Omogućena prilagođena polja
-  label_enabled_project_types: Omogući tipove
   label_enabled_project_modules: Omogućeni moduli
   label_enabled_project_activities: Omogući aktivnosti praćenja vremena
   label_end_to_end: s kraja na kraj
@@ -1491,7 +1477,7 @@ hr:
   label_repository_plural: Repozitoriji
   label_required: potrebne
   label_requires: zahtijeva
-  label_responsible_for_work_packages: Radni paketi za koje sam odgovoran
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Rezultati
   label_reverse_chronological_order: U obrnutom kronološkom redu
   label_revision: Revizija
@@ -1629,8 +1615,8 @@ hr:
   label_work_package_view_all_assigned_to_me: Pogledaj sve radne pakete dodijeljene
     meni
   label_work_package_view_all_reported_by_me: Pogledaj sve radne pakete koje sam priopćio
-  label_work_package_view_all_responsible_for: Pogeldaj sve radne pakete za koje sam
-    odgovoran
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
+    for
   label_work_package_view_all_watched: Pogledaj sve nadgledane radne pakete
   label_work_package_watchers: Nadglednici
   label_workflow: Tijek rada
@@ -2116,9 +2102,9 @@ hr:
   setting_smtp_address: SMTP server
   setting_smtp_port: SMTP port
   setting_smtp_authentication: SMTP authentication
-  setting_smtp_domain: SMTP HELLO domain
   setting_smtp_user_name: SMTP korisničko ime
   setting_smtp_password: SMTP lozinka
+  setting_smtp_domain: SMTP HELLO domain
   setting_activity_days_default: Prikazani dani na aktivnosti projekta
   setting_app_subtitle: Podnaslov aplikacije
   setting_app_title: Naslov aplikacije
@@ -2411,8 +2397,6 @@ hr:
     admin_menu:
       color: Boja
       colors: Boje
-      project_type: Tip projekta
-      project_types: Tipovi projekta
     associations: Ovisnosti
     board_could_not_be_saved: Forum nije moguće spremiti
     button_delete_all: Obriši sve
@@ -2430,7 +2414,6 @@ hr:
       other: "%{count} dana"
       few: "%{count} dana"
     edit_color: Uredi boju
-    edit_project_type: Uredi tip projekta
     edit_thing: Uredi
     edit_timeline: Uredi izvješće kronologije %{timeline}
     delete_timeline: Izbriši izvješće kronologije %{timeline}
@@ -2473,7 +2456,6 @@ hr:
         due_date: Datum završteka
         name: Naziv
         status: Status
-        responsible: Odgovoran
         start_date: Datum Početka
       columns: Stupci
       comparisons: Usporedbe
@@ -2502,7 +2484,7 @@ hr:
       outline: Initial outline expansion
       parent: Prikaži podprojekte od
       work_package_filters: Filtriraj radne pakete
-      work_package_responsible: Prikaži radne pakete s nadležnin
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: Prikaži radne pakete s dodijeljenim opunomoćenikom
       types: Prikaži tipove
       status: Prikaži status
@@ -2515,9 +2497,8 @@ hr:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago,
         %{end_label} %{endspan}%{endspanunit} from now"
       project_filters: Filtriranje projekata
-      project_responsible: Show projects with responsible
+      project_responsible: Show projects with accountable
       project_status: Pokaži status projekta
-      project_types: Prikažite tipove projkta
       timeframe: Prikaži vremenske okvire
       timeframe_end: prema
       timeframe_start: od
@@ -2527,7 +2508,6 @@ hr:
     new_color: Nova boja
     new_association: Nova ovisnost
     new_work_package: Novi radni paket
-    new_project_type: Novi tip projekta
     new_reporting: Novo izvješće
     new_timeline: Novo izvješće kronologije
     no_projects_for_reporting_available: Nema projekata za koje udruženo izvještavanje
@@ -2553,20 +2533,11 @@ hr:
       edit: 'Uredi status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Ažurirano: %{title}'
-    project_type_could_not_be_saved: Tip projekta nije moguće spremiti
     type_could_not_be_saved: Tip nije moguće spremiti
     reporting_could_not_be_saved: Izvještavanje nije moguće spremiti
     properties: Postavke
     really_delete_color: 'Da li ste sigurni da želite izbrisati sljedeću boju? Tipovi
       koji koriste ovu boju neće biti izbrisani.
-
-'
-    really_delete_project_type: 'Da li ste sigurni da želite izbrisati sljedeći tip
-      projekta? Projekti koji koriste ovaj tip neće biti izbrisani.
-
-'
-    really_delete_timeline: 'Da li ste sigurni da želite izbrisati sljedeće kronološke
-      izvještaje? Radni paket prikazani u ovom kronološkom izvješću neće biti izbrisani.
 
 '
     really_delete_reporting: 'Da li ste sigurni da želite izbrisati sljedeće izvještavanje?
@@ -2578,7 +2549,6 @@ hr:
     timelines: Izvješća vremenskog tijeka
     settings: Kronologija
     vertical_work_package: Vertikalni radni paketi
-    without_project_type: Bez tipa projekta
     you_are_viewing_the_selected_timeline: Pregledavate odabrano kronološko izvješće
     zoom:
       in: Zumiraj
