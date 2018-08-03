@@ -26,19 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {States} from '../states.service';
 import {WorkPackagesListService} from '../wp-list/wp-list.service';
 import {WorkPackagesListChecksumService} from '../wp-list/wp-list-checksum.service';
 import {WorkPackagesListComponent} from 'core-components/routing/wp-list/wp-list.component';
 import {StateService, TransitionService} from '@uirouter/core';
-import {Component, Inject, OnInit, OnDestroy, Attribute, ElementRef, Injector} from "@angular/core";
+import {Component, OnInit, OnDestroy, ElementRef} from "@angular/core";
 import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {WorkPackageStaticQueriesService} from 'core-components/wp-query-select/wp-static-queries.service';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
@@ -103,14 +100,13 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
       // we load the menu once the user clicks on the toggler next to the
       // work packages menu item.
       let toggler = jQuery('#main-menu-work-packages-wrapper .toggler');
-      toggler.on('click', event => {
+      toggler.one('click', event => {
        this.openMenu();
       });
 
       // If we start out on the work package report/summary page
       // open the menu at once. Rails is instructed to mark
       // the "work_packages" menu item to be selected.
-      // TODO: mark summary as selected
       if (jQuery('body').is(this.reportsBodySelector)) {
         this.openMenu();
       }
@@ -119,6 +115,8 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     // a transition, meaning initially.
     this.unregisterTransitionListener = this.$transitions.onSuccess({}, (transition) => {
       this.openMenu();
+      // We only want to load the menu once.
+      this.unregisterTransitionListener();
     });
   }
 
@@ -135,10 +133,10 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   }
 
   private openMenu() {
-    this.loadQueries().then(collection => {
-      this.setupAutoCompletion(this.transformQueries(collection));
-      this.setLoaded();
-    });
+    let input = jQuery('#query-title-filter') as IQueryAutocompleteJQuery;
+
+    this.setupAutoCompletion(input);
+    this.updateMenuOnChanges(input);
   }
 
   private transformQueries(collection:CollectionResource) {
@@ -211,15 +209,16 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     return this.QueryDm.all(this.projectIdentifier);
   }
 
-  private setupAutoCompletion(autocompleteValues:IAutocompleteItem[]) {
+  private setupAutoCompletion(input:IQueryAutocompleteJQuery) {
     this.defineJQueryQueryComplete();
 
-    let input = jQuery('#query-title-filter') as IQueryAutocompleteJQuery;
     let noResults = jQuery('.query-select-dropdown--no-results');
 
     input.querycomplete({
       delay: 100,
-      source: autocompleteValues,
+      // The values are added later by the listener also covering
+      // the changes to queries (updateMenuOnChanges()).
+      source: [],
       select: (ul:any, selected:{item:IAutocompleteItem}) => {
         this.loadQuery(selected.item);
         this.highlightSelected(selected.item);
@@ -241,8 +240,6 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
       autoFocus: false,
       minLength: 0
     });
-
-    this.updateMenuOnChanges(input);
   }
 
   private defineJQueryQueryComplete() {
@@ -315,7 +312,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   private updateMenuOnChanges(input:any) {
     this.wpListService.queryChanges$
       .pipe(
-        untilComponentDestroyed(this),
+        untilComponentDestroyed(this)
       )
       .subscribe( () => {
         this.loadQueries().then(collection => {
@@ -418,10 +415,6 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     jQuery(".ui-menu-item").removeClass('selected');
     //Find selected element in DOM and highlight it
     jQuery(("[auto_id=" + item.auto_id + "]")).addClass('selected');
-  }
-
-  private setLoaded() {
-    this.loaded = true;
   }
 }
 
