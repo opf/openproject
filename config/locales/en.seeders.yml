@@ -41,8 +41,6 @@ en:
               - id: a
                 title: Welcome to your demo project
                 content: |
-                  ![teaser](background-demo.jpg)
-
                   We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
                   *Try the following steps:*
@@ -56,7 +54,6 @@ en:
                   Here you will find our [User Guides](https://www.openproject.org/help/).
                   Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
                 attachments:
-                  - background-demo.jpg
                   - icon-1.png
                   - icon-2.png
                   - icon-3.png
@@ -75,8 +72,6 @@ en:
               - id: a
                 title: Welcome to your Scrum demo project
                 content: |
-                  ![teaser](background-scrum.jpg)
-
                   We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
                   *Try the following steps:*
@@ -91,7 +86,6 @@ en:
                   Here you will find our [User Guides](https://www.openproject.org/help/).
                   Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
                 attachments:
-                  - background-scrum.jpg
                   - icon-1.png
                   - icon-2.png
                   - icon-3.png
