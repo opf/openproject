@@ -79,6 +79,8 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
 
   private hiddenCategories:any = [];
 
+  private reportsBodySelector = '.controller-work_packages\\/reports';
+
   constructor(readonly element:ElementRef,
               readonly QueryDm:QueryDmService,
               readonly $state:StateService,
@@ -87,7 +89,6 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
               readonly states:States,
               readonly wpListService:WorkPackagesListService,
               readonly wpListChecksumService:WorkPackagesListChecksumService,
-              readonly wpListComponent:WorkPackagesListComponent,
               readonly loadingIndicator:LoadingIndicatorService,
               readonly pathHelper:PathHelperService,
               readonly wpStaticQueries:WorkPackageStaticQueriesService) {
@@ -98,11 +99,24 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     this.hideShowHamburgerIcon(this.projectIdentifier);
 
     jQuery(document).ready(() => {
+      // If we start out outside of the work packages module,
+      // we load the menu once the user clicks on the toggler next to the
+      // work packages menu item.
       let toggler = jQuery('#main-menu-work-packages-wrapper .toggler');
       toggler.on('click', event => {
        this.openMenu();
       });
+
+      // If we start out on the work package report/summary page
+      // open the menu at once. Rails is instructed to mark
+      // the "work_packages" menu item to be selected.
+      // TODO: mark summary as selected
+      if (jQuery('body').is(this.reportsBodySelector)) {
+        this.openMenu();
+      }
     });
+    // If we start on any work packages page, we open the menu on
+    // a transition, meaning initially.
     this.unregisterTransitionListener = this.$transitions.onSuccess({}, (transition) => {
       this.openMenu();
     });
