@@ -2335,6 +2335,8 @@ tr:
   text_user_wrote: "%{value} demiş ki:"
   text_warn_on_leaving_unsaved: İş paketi bu sayfadan ayrıldığınızda kaybolabilecek
     kaydedilmemiş metinler içeriyor.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Bu wiki'yi ve içeriğini silmek istediğinizden emin
     misiniz?
   text_wiki_page_destroy_children: Çocuk sayfalarını ve tüm torunlarını sil

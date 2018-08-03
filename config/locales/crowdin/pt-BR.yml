@@ -2363,6 +2363,8 @@ pt-BR:
   text_user_wrote: "%{value} escreveu:"
   text_warn_on_leaving_unsaved: O pacote de trabalho contém texto que não foi salvo
     e será perdido se você sair desta página.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Tem certeza que deseja excluir este wiki e todo
     o seu conteúdo?
   text_wiki_page_destroy_children: Excluir páginas filhas e todos os seus descendentes

@@ -2120,6 +2120,8 @@ zh:
   text_user_invited: 用户已被邀请，正在等待注册。
   text_user_wrote: "%{value} 写道："
   text_warn_on_leaving_unsaved: 此工作包包含未保存的文本，如果您离开此页面未保存的文本将会丢失。
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: 确实要删除此 wiki 和它的所有内容吗?
   text_wiki_page_destroy_children: 删除子页面和所有他们的派生页面
   text_wiki_page_destroy_question: 此页有 %{descendants} 子页面和派生页面。你想做什么？

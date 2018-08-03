@@ -4,6 +4,10 @@ lol:
     ajax:
       hide: crwdns98333:0crwdne98333:0
       loading: crwdns98334:0crwdne98334:0
+    attachments:
+      draggable_hint: 'crwdns99081:0crwdne99081:0
+
+'
     autocomplete_select:
       placeholder:
         multi: crwdns98881:0%{name}crwdne98881:0

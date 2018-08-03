@@ -2102,6 +2102,7 @@ lol:
   text_user_invited: crwdns98081:0crwdne98081:0
   text_user_wrote: crwdns98082:0%{value}crwdne98082:0
   text_warn_on_leaving_unsaved: crwdns98083:0crwdne98083:0
+  text_what_did_you_change_click_to_add_comment: crwdns99080:0crwdne99080:0
   text_wiki_destroy_confirmation: crwdns98084:0crwdne98084:0
   text_wiki_page_destroy_children: crwdns98085:0crwdne98085:0
   text_wiki_page_destroy_question: crwdns98086:0%{descendants}crwdne98086:0

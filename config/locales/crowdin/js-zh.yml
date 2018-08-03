@@ -4,6 +4,11 @@ zh:
     ajax:
       hide: 隐藏
       loading: 加载中...
+    attachments:
+      draggable_hint: 'Drag on editor field to inline image or reference attachment.
+        Closed editor fields will be opened while you keep dragging.
+
+'
     autocomplete_select:
       placeholder:
         multi: 添加“%{name}”

@@ -2396,6 +2396,8 @@ fr:
   text_user_wrote: "%{value} écrit:"
   text_warn_on_leaving_unsaved: Le lot de travaux contient du texte non sauvegardé
     qui sera perdu si vous quittez cette page.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Êtes vous sur de vouloir supprimer ce wiki et tout
     son contenu?
   text_wiki_page_destroy_children: Supprimer les pages enfants et toute leur descendance

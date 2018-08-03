@@ -2345,6 +2345,8 @@ hu:
   text_user_wrote: "%{value} írta:"
   text_warn_on_leaving_unsaved: A munkacsomag nem mentett szöveget tartalmaz, ami
     elveszik ha elhagyod ezt az oldalt.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Biztosan törli ezt a wikit és annak tartalmát?
   text_wiki_page_destroy_children: A gyermek oldalak és azok aloldalainak törlése
   text_wiki_page_destroy_question: Ez az oldal  %{descendants} gyermek oldalakkal

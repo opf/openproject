@@ -2403,6 +2403,8 @@ lt:
   text_user_wrote: "%{value} parašė:"
   text_warn_on_leaving_unsaved: Darbų paketas turi neišsaugoto teksto, kuris bus prarastas,
     jei išeisite iš šio puslapio.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Ar esate įsitikinęs, jog norite pašalinti šį wiki
     puslapį ir visą jo turinį?
   text_wiki_page_destroy_children: Pašalinti vaikų puslapius ir jų palikuonis

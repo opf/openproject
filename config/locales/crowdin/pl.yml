@@ -2398,6 +2398,8 @@ pl:
   text_user_wrote: "%{value} napisał:"
   text_warn_on_leaving_unsaved: Zadanie zawiera niezapisany tekst, który zostanie
     utracony, jeśli opuścisz tę stronę.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Czy na pewno chcesz usunąć to wiki i całą jego zawartość?
   text_wiki_page_destroy_children: Usuń stronę i wszystkie podrzędne
   text_wiki_page_destroy_question: This page has %{descendants} child page(s) and

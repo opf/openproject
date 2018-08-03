@@ -2139,6 +2139,8 @@ zh-TW:
   text_user_invited: 這個使用者已經被邀請而且正在等待註冊。
   text_user_wrote: "%{value} 寫道："
   text_warn_on_leaving_unsaved: 若離開當前頁面，則此工作包內未儲存的內容將遺失。
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: 您是否確定要刪除此 wiki 和它所有的內容？
   text_wiki_page_destroy_children: 刪除子頁面和所有他們的派生頁面
   text_wiki_page_destroy_question: 此頁有 %{descendants} 子頁面和派生頁面。您想進行何種操作？

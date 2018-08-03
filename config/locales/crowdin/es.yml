@@ -2416,6 +2416,8 @@ es:
   text_user_wrote: "%{value} escribió:"
   text_warn_on_leaving_unsaved: El paquete de trabajo contiene texto no guardado que
     se perderá en caso de abandonar esta página.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: "¿Está seguro que desea eliminar este wiki y todo
     su contenido?"
   text_wiki_page_destroy_children: Eliminar páginas hijas y todos sus descendientes

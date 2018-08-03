@@ -2390,6 +2390,8 @@ ca:
   text_user_wrote: "%{value} va escriure:"
   text_warn_on_leaving_unsaved: The work package contains unsaved text that will be
     lost if you leave this page.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Segur que voleu suprimir aquesta wiki i tot el seu
     contingut?
   text_wiki_page_destroy_children: Suprimir les pàgines filles i tots els seus descendents

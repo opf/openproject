@@ -2402,6 +2402,8 @@ ar:
   text_user_wrote: "%{value} كتب:"
   text_warn_on_leaving_unsaved: The work package contains unsaved text that will be
     lost if you leave this page.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: هل أنت متأكد من أنك تريد حذف هذا wikiوكافة محتوياته؟
   text_wiki_page_destroy_children: حذف الصفحات المرتبطة وجميع ذريتهم
   text_wiki_page_destroy_question: تحتوي هذه الصفحة على صفحة /صفحات مرتبطة %{descendants}
