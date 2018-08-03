@@ -276,8 +276,9 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     let currentQueryParams:number = parseInt(this.$state.params.query_id);
     let onWorkPackagesPage:boolean = this.$state.includes('work-packages');
 
-    if (currentQueryParams && item.query && item.query.id === currentQueryParams ||
-        onWorkPackagesPage && !currentQueryParams && item.label === 'All open') {
+    if (item.query && item.query.id === currentQueryParams ||
+        !item.query && item.query_props === this.$state.params.query_props ||
+        onWorkPackagesPage && !this.$state.params.query_props && !this.$state.params.query_id && item.label === 'All open') {
       currentLi.addClass('selected');
     }
   }

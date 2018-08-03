@@ -65,41 +65,32 @@ export class WorkPackageStaticQueriesService {
     this.latestActivityQuery = {
       query: null,
       label: this.text.latest_activity,
-      query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],' +
-                    '"t":"updatedAt:desc,parent:asc",' +
-                    '"f":[{"n":"status","o":"o","v":[]},{"n":"updatedAt","o":"w","v":[]}]}'
+      query_props: '{%22c%22:[%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22,%22updatedAt%22],%22t%22:%22updatedAt:desc,parent:asc%22,%22f%22:[{%22n%22:%22status%22,%22o%22:%22o%22,%22v%22:[]},{%22n%22:%22updatedAt%22,%22o%22:%22w%22,%22v%22:[]}]}'
     };
     this.ganttQuery = {
       query: null,
       label: this.text.gantt,
-      query_props: '%7B%22tv%22%3Atrue%7D'
+      query_props: '{%22c%22:[%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22,%22project%22],%22tv%22:true,%22tzl%22:%22quarters%22,%22hi%22:false,%22g%22:%22%22,%22t%22:%22parent:asc%22,%22f%22:[{%22n%22:%22status%22,%22o%22:%22o%22,%22v%22:[]}],%22pa%22:1,%22pp%22:20}'
     };
     this.createdByMeQuery = {
       query: null,
       label: this.text.created_by_me,
-      query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],' +
-                    '"t":"updatedAt:desc,parent:asc",' +
-                    '"f":[{"n":"status","o":"o","v":[]},{"n":"author","o":"=","v":["me"]}]}'
+      query_props: "{%22c%22:[%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22,%22updatedAt%22],%22tzl%22:%22days%22,%22hi%22:false,%22g%22:%22%22,%22t%22:%22updatedAt:desc,parent:asc%22,%22f%22:[{%22n%22:%22status%22,%22o%22:%22o%22,%22v%22:[]},{%22n%22:%22author%22,%22o%22:%22=%22,%22v%22:[%22me%22]}],%22pa%22:1,%22pp%22:20}"
     };
     this.assignedToMeQuery = {
       query: null,
       label: this.text.assigned_to_me,
-      query_props: '{"c":["id","subject","type","status", "author", "updatedAt"],' +
-                    '"t":"updatedAt:desc,parent:asc",' +
-                    '"f":[{"n":"status","o":"o","v":[]},{"n":"assignee","o":"=","v":["me"]}]}'
+      query_props: '{%22c%22:[%22id%22,%22subject%22,%22type%22,%22status%22,%20%22author%22,%20%22updatedAt%22],%22t%22:%22updatedAt:desc,parent:asc%22,%22f%22:[{%22n%22:%22status%22,%22o%22:%22o%22,%22v%22:[]},{%22n%22:%22assignee%22,%22o%22:%22=%22,%22v%22:[%22me%22]}]}'
     };
     this.recentlyCreatedQuery = {
       query: null,
       label: this.text.recently_created,
-      query_props: '{"c":["id","subject","type","status","assignee","createdAt"],' +
-                    '"t":"createdAt:desc,parent:asc",' +
-                    '"f":[{"n":"status","o":"o","v":[]},{"n":"createdAt","o":"w","v":[]}]}'
+      query_props: '{%22c%22:[%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22,%22createdAt%22],%22t%22:%22createdAt:desc,parent:asc%22,%22f%22:[{%22n%22:%22status%22,%22o%22:%22o%22,%22v%22:[]},{%22n%22:%22createdAt%22,%22o%22:%22w%22,%22v%22:[]}]}'
     };
     this.defaultQuery = {
       query: null,
       label: this.text.all_open,
-      query_props: '{"c":["id","subject","type","status","assignee","version","updatedAt"],' +
-                    '"t":"updatedAt:desc,parent:asc"}'
+      query_props: '{%22c%22:[%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22,%22version%22,%22updatedAt%22],%22t%22:%22updatedAt:desc,parent:asc%22}'
     };
     this.summary = {
       query: null,
