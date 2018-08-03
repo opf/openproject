@@ -35,6 +35,7 @@
     border-bottom: 1px solid $main-menu-border-color
     width: 100vw !important
     border: none
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15)
 
     %absolute-layout-mode &
       height: auto
@@ -47,3 +48,6 @@
 
   .main-menu--resizer
     display: none
+
+  #wrapper:not(.hidden-navigation) #main-menu-toggle i:before
+    @include icon-mixin-close
