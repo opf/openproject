@@ -333,7 +333,7 @@ es:
         expires_at: Caduca el
         subscriber: Suscriptor
         encoded_token: Token de apoyo de versión corporativa
-        active_user_count_restriction: Maximum active users
+        active_user_count_restriction: Usuarios más activos
       relation:
         delay: Retraso
         from: Paquete de trabajo
@@ -384,7 +384,7 @@ es:
         mail_notification: Notificaciones de correo electrónico
         new_password: Nueva contraseña
         password_confirmation: Confirmación
-        consented_at: Consented at
+        consented_at: Consentido en
       user_preference:
         comments_sorting: Mostrar comentarios
         hide_mail: Ocultar mi dirección de correo electrónico
@@ -732,7 +732,7 @@ es:
   button_unlock: Desbloquear
   button_unwatch: No controlar más
   button_update: Actualizar
-  button_upgrade: Upgrade
+  button_upgrade: Mejorar
   button_upload: Cargar
   button_view: Ver
   button_watch: Controlar
@@ -742,11 +742,11 @@ es:
   button_delete_menu_entry: Eliminar el elemento del menú
   consent:
     checkbox_label: He tomado nota y doy mi consentimiento a lo anterior.
-    failure_message: Consent failed, cannot proceed.
+    failure_message: Consento falido, no puede coninuar.
     title: Consentimiento del usuario
-    decline_warning_message: You have declined to consent and have been logged out.
-    user_has_consented: User has consented to your configured statement at the given
-      time.
+    decline_warning_message: Han disminuido dar su consentimmiento y han sido registrados.
+    user_has_consented: Usuario haya consentido en su estado de cuento configurada
+      en el momento dado.
     not_yet_consented: User has not consented yet, will be requested upon next login.
     contact_mail_instructions: Define the mail address that users can reach a data
       controller to perform data change or removal requests.

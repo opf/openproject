@@ -5,10 +5,9 @@ ja:
       hide: 非表示
       loading: ロード中...
     attachments:
-      draggable_hint: 'Drag on editor field to inline image or reference attachment.
-        Closed editor fields will be opened while you keep dragging.
-
-'
+      draggable_hint: |
+        インライン画像または参照添付ファイルをエディタ領域にドラッグします。
+        ドラッグしつづけると閉じられたエディタ領域が開きます。
     autocomplete_select:
       placeholder:
         multi: '"%{name}" を追加'
