@@ -2329,6 +2329,8 @@ da:
   text_user_wrote: "%{value} skrev:"
   text_warn_on_leaving_unsaved: The work package contains unsaved text that will be
     lost if you leave this page.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Er du sikker på du vil slette denne wiki og hele
     dens indhold?
   text_wiki_page_destroy_children: Slet underordnede sider og alle deres afledte

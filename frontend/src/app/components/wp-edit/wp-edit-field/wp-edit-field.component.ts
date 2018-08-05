@@ -30,13 +30,11 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../wp-notification.service';
 import {States} from '../../states.service';
-import {WorkPackageEditForm} from '../../wp-edit-form/work-package-edit-form';
 import {
   displayClassName,
   DisplayFieldRenderer,
   editFieldContainerClass
 } from '../../wp-edit-form/display-field-renderer';
-import {WorkPackageEditFieldHandler} from '../../wp-edit-form/work-package-edit-field-handler';
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 import {SelectionHelpers} from '../../../helpers/selection-helpers';
 import {debugLog} from '../../../helpers/debug_output';
@@ -59,6 +57,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
   @Input('workPackageId') public workPackageId:string;
   @Input('wrapperClasses') public wrapperClasses?:string;
   @Input('displayPlaceholder') public displayPlaceholder?:string;
+  @Input('isDropTarget') public isDropTarget?:boolean = false;
 
   @ViewChild('displayContainer') readonly displayContainer:ElementRef;
   @ViewChild('editContainer') readonly editContainer:ElementRef;
@@ -87,6 +86,17 @@ export class WorkPackageEditFieldComponent implements OnInit {
   public ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
     this.wpEditFieldGroup.register(this);
+  }
+
+  // Open the field when its closed and relay drag & drop events to it.
+  public startDragOverActivation(event:JQueryEventObject) {
+    if (!this.isDropTarget || this.active) {
+      return true;
+    }
+
+    this.handleUserActivate(null);
+    event.preventDefault();
+    return false;
   }
 
   public render() {
@@ -140,10 +150,10 @@ export class WorkPackageEditFieldComponent implements OnInit {
     return false;
   }
 
-  public activateOnForm(form:WorkPackageEditForm, noWarnings:boolean = false) {
+  public activateOnForm(noWarnings:boolean = false) {
     // Activate the field
     this.active = true;
-    return form
+    return this.wpEditFieldGroup.form
       .activate(this.fieldName, noWarnings)
       .catch(() => this.deactivate(true));
   }
@@ -156,7 +166,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
       positionOffset = ClickPositionMapper.getPosition(evt);
     }
 
-    this.activateOnForm(this.wpEditFieldGroup.form)
+    this.activateOnForm()
       .then((handler) => {
         handler.focus(positionOffset);
       });

@@ -175,8 +175,7 @@ ja:
       reported:
         no_results_title_text: 現在、自分が報告している作業項目はありません。
       responsible:
-        no_results_title_text: There are currently no work packages that I am accountable
-          for.
+        no_results_title_text: 現在、自分が責任者の作業項目はありません。
       watched:
         no_results_title_text: 現在、自分がウォッチしている作業項目はありません。
     summary:
@@ -394,7 +393,7 @@ ja:
         not_a_date: は有効な日付ではありません。
         not_a_datetime: は有効な日時ではありません。
         not_a_number: は数値にしてください。
-        not_allowed: is invalid because of missing permissions.
+        not_allowed: 権限がないため無効です。
         not_an_integer: は整数にしてください。
         not_an_iso_date: 'は有効な日付ではありません。必要な形式: YYYY-MM-dd。'
         not_same_project: は同じプロジェクトに属していません。
@@ -581,7 +580,7 @@ ja:
     password: パスワード
     priority: 優先度
     project: プロジェクト
-    responsible: Accountable
+    responsible: 責任がある
     role: ロール
     roles: ロール
     start_date: 開始日
@@ -1369,7 +1368,7 @@ ja:
   label_repository_plural: リポジトリ
   label_required: 必須
   label_requires: 要求
-  label_responsible_for_work_packages: Work packages I am accountable for
+  label_responsible_for_work_packages: 責任者である作業項目
   label_result_plural: 検索結果
   label_reverse_chronological_order: 新しい順
   label_revision: リビジョン
@@ -1503,8 +1502,7 @@ ja:
   label_work_package_view_all: 全ての作業項目を表示
   label_work_package_view_all_assigned_to_me: 担当している全ての作業項目を表示
   label_work_package_view_all_reported_by_me: 報告した全ての作業項目を表示
-  label_work_package_view_all_responsible_for: View all work packages that I am accountable
-    for
+  label_work_package_view_all_responsible_for: 責任者である全ての作業項目を表示
   label_work_package_view_all_watched: ウォッチしている全ての作業項目を表示
   label_work_package_watchers: ウォッチャー
   label_workflow: ワークフロー
@@ -2143,6 +2141,7 @@ ja:
   text_user_invited: ユーザは招待されて、登録は保留中です。
   text_user_wrote: "%{value}が書き込みました："
   text_warn_on_leaving_unsaved: このページから移動すると、保存されてないテキストを含むワークパッケージが失われます。
+  text_what_did_you_change_click_to_add_comment: 何を変更しましたか？コメントを追加するをクリックしてください
   text_wiki_destroy_confirmation: 本当にこのWikiページとその内容のすべてを削除してもよろしいですか？
   text_wiki_page_destroy_children: 配下の子孫ページも削除する
   text_wiki_page_destroy_question: この親ページの配下に%{descendants}ページの子孫ページがあります。どれかを選択してください。
@@ -2246,7 +2245,7 @@ ja:
       outline: 初期概要の拡大
       parent: 子プロジェクトを表示
       work_package_filters: 作業項目のフィルタ
-      work_package_responsible: Show work packages with accountable
+      work_package_responsible: 責任を持つ作業項目を表示
       work_package_assignee: 担当者付きの作業項目を表示
       types: 作業項目の型を表示
       status: ステータスを表示
@@ -2258,7 +2257,7 @@ ja:
       project_time_filter_relative: "%{start_label} %{startspan} %{startspanunit}
         前、今から%{end_label} %{endspan} %{endspanunit}"
       project_filters: プロジェクトのフィルタ
-      project_responsible: Show projects with accountable
+      project_responsible: 責任を持つプロジェクトを表示
       project_status: プロジェクトの進捗状況を表示
       timeframe: 期間を表示
       timeframe_end: まで

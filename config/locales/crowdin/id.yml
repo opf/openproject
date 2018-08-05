@@ -2325,6 +2325,8 @@ id:
   text_user_wrote: "%{value} wrote:"
   text_warn_on_leaving_unsaved: Paket kerja berisi teks yang belum disimpan yang akan
     hilang jika Anda meninggalkan halaman ini.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all
     its content?
   text_wiki_page_destroy_children: Hapus sub-halaman dan semua turunannya

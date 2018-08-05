@@ -4,6 +4,11 @@ es:
     ajax:
       hide: Ocultar
       loading: Cargando ...
+    attachments:
+      draggable_hint: 'Drag on editor field to inline image or reference attachment.
+        Closed editor fields will be opened while you keep dragging.
+
+'
     autocomplete_select:
       placeholder:
         multi: Añadir "%{name}"

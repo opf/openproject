@@ -2412,6 +2412,8 @@ it:
   text_user_wrote: "%{value} ha scritto:"
   text_warn_on_leaving_unsaved: La macro-attività corrente contiene testo non salvato
     che andrà perso se abbandoni questa pagina.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Sei sicuro di che voler cancellare questo wiki e
     tutti i suoi contenuti?
   text_wiki_page_destroy_children: Cancella le sotto-pagine e le loro pagine discendenti

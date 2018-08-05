@@ -2379,6 +2379,8 @@ cs:
   text_user_wrote: "%{value} napsal:"
   text_warn_on_leaving_unsaved: Pracovní balíček obsahuje neuložený text, který bude
     ztracen, když opustíte stránku.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Opravdu si přejete odstranit tuto Wiki a celý její
     obsah?
   text_wiki_page_destroy_children: Smazat podstránky a všechny jejich potomky

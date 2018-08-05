@@ -2232,6 +2232,8 @@ ko:
   text_user_invited: 사용자가 초대되었으며 등록 보류 중입니다.
   text_user_wrote: "%{value}이(가) 작성함:"
   text_warn_on_leaving_unsaved: 현재 페이지에는 저장되지 않은 텍스트가 있습니다. 이 페이지를 나가면 텍스트가 손실됩니다.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: 이 위키와 모든 해당 콘텐츠를 삭제하시겠습니까?
   text_wiki_page_destroy_children: 자식 페이지 및 모든 하위 페이지 삭제
   text_wiki_page_destroy_question: 이 페이지에는 %{descendants}개의 자식 페이지와 하위 항목이 있습니다. 어떻게

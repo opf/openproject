@@ -4,6 +4,10 @@ ja:
     ajax:
       hide: 非表示
       loading: ロード中...
+    attachments:
+      draggable_hint: |
+        インライン画像または参照添付ファイルをエディタ領域にドラッグします。
+        ドラッグしつづけると閉じられたエディタ領域が開きます。
     autocomplete_select:
       placeholder:
         multi: '"%{name}" を追加'

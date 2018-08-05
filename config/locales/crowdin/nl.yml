@@ -198,8 +198,8 @@ nl:
       reported:
         no_results_title_text: Er zijn momenteel geen werkpakketten die ik heb gerapporteerd.
       responsible:
-        no_results_title_text: There are currently no work packages that I am accountable
-          for.
+        no_results_title_text: Er zijn momenteel geen werkpakketten waar ik aansprakelijk
+          voor ben.
       watched:
         no_results_title_text: Er zijn momenteel geen werkpakketten die ik volg.
     summary:
@@ -445,7 +445,7 @@ nl:
         not_a_date: is geen geldige datum.
         not_a_datetime: is geen geldige datum tijd.
         not_a_number: is geen getal.
-        not_allowed: is invalid because of missing permissions.
+        not_allowed: is ongeldig vanwege ontbrekende machtigingen.
         not_an_integer: is niet een geheel getal.
         not_an_iso_date: 'is geen geldige datum. Vereist formaat: JJJJ-MM-DD.'
         not_same_project: hoort niet bij hetzelfde project.
@@ -651,7 +651,7 @@ nl:
     password: Wachtwoord
     priority: Prioriteit
     project: Project
-    responsible: Accountable
+    responsible: Verantwoording afleggen
     role: Rol
     roles: Rollen
     start_date: Startdatum
@@ -1479,7 +1479,8 @@ nl:
   label_repository_plural: Repositories
   label_required: vereist
   label_requires: vereist
-  label_responsible_for_work_packages: Work packages I am accountable for
+  label_responsible_for_work_packages: Werkpakketten waar ik verantwoordelijk voor
+    ben
   label_result_plural: Resultaten
   label_reverse_chronological_order: In omgekeerde chronologische volgorde
   label_revision: Revisie
@@ -1619,8 +1620,8 @@ nl:
     aan mij
   label_work_package_view_all_reported_by_me: Bekijk alle werkpakketten gemeld door
     mij
-  label_work_package_view_all_responsible_for: View all work packages that I am accountable
-    for
+  label_work_package_view_all_responsible_for: Bekijk alle werkpakketten waar ik verantwoordelijk
+    voor ben
   label_work_package_view_all_watched: Bekijk alle gevolgde werkpakketten
   label_work_package_watchers: Volgers
   label_workflow: Werkstroom
@@ -2378,6 +2379,8 @@ nl:
   text_user_wrote: "%{value} schreef:"
   text_warn_on_leaving_unsaved: Het werkpakket bevat niet-opgeslagen tekst die verloren
     gaat als u deze pagina verlaat.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Weet u zeker dat u deze wiki en alle inhoud wilt
     verwijderen?
   text_wiki_page_destroy_children: Verwijder alle subpagina's en onderliggende pagina's
@@ -2493,7 +2496,7 @@ nl:
       outline: Uitbreiding van de eerste schets
       parent: Toon subprojecten van
       work_package_filters: Filter werkpakketten
-      work_package_responsible: Show work packages with accountable
+      work_package_responsible: Toon werkpakketten met verantwoordelijk
       work_package_assignee: Toon werkpakketten met uitvoerder
       types: Typen weergeven
       status: Toon status
@@ -2506,7 +2509,7 @@ nl:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} geleden,
         %{end_label} %{endspan}%{endspanunit} vanaf nu"
       project_filters: Filter projecten
-      project_responsible: Show projects with accountable
+      project_responsible: Toon projecten met verantwoordelijk
       project_status: Toon project status
       timeframe: Toon tijdschema
       timeframe_end: naar

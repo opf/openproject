@@ -2322,6 +2322,8 @@ fi:
   text_user_wrote: "%{value} kirjoitti:"
   text_warn_on_leaving_unsaved: The work package contains unsaved text that will be
     lost if you leave this page.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Oletko varma että haluat poistaa tämän wiki:n ja
     kaikki sen sisältämän tiedon?
   text_wiki_page_destroy_children: Poista alisivut ja kaikki niiden jälkeläiset

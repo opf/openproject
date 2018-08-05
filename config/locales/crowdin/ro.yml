@@ -2387,6 +2387,8 @@ ro:
   text_user_wrote: "%{value} a scris:"
   text_warn_on_leaving_unsaved: The work package contains unsaved text that will be
     lost if you leave this page.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Sunteți sigur că doriți să ștergeți acest wiki şi
     a întregului conținut?
   text_wiki_page_destroy_children: Ștergere pagini fii și a tuturor descendenților

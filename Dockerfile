@@ -18,7 +18,7 @@ RUN apt-get update -qq && \
 	poppler-utils \
 	unrtf \
 	tesseract-ocr \
-	catdoc && \
+	catdoc \
 	pandoc && \
 	apt-get clean && rm -rf /var/lib/apt/lists/*
 

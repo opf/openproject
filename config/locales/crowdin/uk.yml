@@ -2379,6 +2379,8 @@ uk:
   text_user_wrote: "%{value} wrote:"
   text_warn_on_leaving_unsaved: The work package contains unsaved text that will be
     lost if you leave this page.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Ви впевнені що хочете видалити цю Вікі і весь її
     вміст?
   text_wiki_page_destroy_children: Видалення дочірніх сторінок і всі їх нащадки

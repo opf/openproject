@@ -2289,6 +2289,8 @@ th:
   text_user_wrote: "%{value} เขียนว่า:"
   text_warn_on_leaving_unsaved: The work package contains unsaved text that will be
     lost if you leave this page.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: คุณแน่ใจหรือว่าจะลบวิกิและเนื้อหาของวิกินี้ ?
   text_wiki_page_destroy_children: ลบเพจลูกและเพจที่เกี่ยวข้องทั้งหมด
   text_wiki_page_destroy_question: เพจนี้มี เพจย่อย %{descendants} และเพจที่เกี่ยวข้องอื่นๆ

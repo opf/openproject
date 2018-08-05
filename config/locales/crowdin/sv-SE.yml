@@ -2328,6 +2328,8 @@ sv-SE:
   text_user_wrote: "%{value} skrev:"
   text_warn_on_leaving_unsaved: Arbetspaketet innehåller osparad text som försvinner
     om du lämnar sidan.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Är du säker du vill ta bort denna wiki och allt
     dess innehåll?
   text_wiki_page_destroy_children: Ta bort underordnade sidor och alla deras ättlingar

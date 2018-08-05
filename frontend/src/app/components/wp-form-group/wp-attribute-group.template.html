@@ -24,6 +24,7 @@
         <wp-edit-field *ngIf="!descriptor.field.isFormattable"
                        [workPackageId]="workPackage.id"
                        [fieldName]="descriptor.name"
+                       [isDropTarget]="true"
                        [ngClass]="descriptor.field!.schema.type === 'String' ? 'wp-edit-field--text' : ''">
         </wp-edit-field>
       </div>
