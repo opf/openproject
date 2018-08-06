@@ -26,31 +26,27 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Menu items
-  Background:
-    Given there is 1 project with the following:
-      | name            | Awesome Project      |
-      | identifier      | awesome-project      |
-    And project "Awesome Project" uses the following modules:
-      | calendar |
-    And there is a role "member"
-    And the role "member" may have the following rights:
-      | view_calendar  |
-      | view_work_packages  |
-    And there is 1 user with the following:
-      | login | bob |
-    And the user "bob" is a "member" in the project "Awesome Project"
-    And I am already logged in as "bob"
+require 'spec_helper'
+require 'features/work_packages/work_packages_page'
 
-  Scenario: Calendar menu should be visible when calendar is activated
-    When I go to the overview page of the project "Awesome Project"
-    Then I should see "Calendar" within "#main-menu"
+describe 'Work package query summary item', type: :feature, js: true do
+  let(:project) { FactoryBot.create :project, identifier: 'test_project', is_public: false }
+  let(:role) { FactoryBot.create :role, permissions: [:view_work_packages] }
+  let(:work_package) { FactoryBot.create :work_package, project: project }
+  let(:wp_page) { ::Pages::WorkPackagesTable.new project }
+  let(:current_user) do
+    FactoryBot.create :user, member_in_project: project,
+                      member_through_role: role
+  end
 
-  @javascript
-  Scenario: Work Packages Summary should be visible and accessible
-    When I go to the overview page of the project "Awesome Project"
-    And I toggle the "Work packages" submenu
-    Then I should see "Summary" within "#main-menu"
+  before do
+    login_as(current_user)
+    wp_page.visit!
+  end
 
-    When I click on "Summary" within "#main-menu"
-    Then I should see "SUMMARY" within "#content"
+  it 'allows users to visit the summary page' do
+    find('.ui-menu-item', text: 'Summary', wait: 10).click
+    expect(page).to have_selector('h2', text: 'Summary')
+    expect(page).to have_selector('td', text: work_package.type.name)
+  end
+end
