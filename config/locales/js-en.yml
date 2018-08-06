@@ -243,6 +243,7 @@ en:
     label_sort_lower: "Move down"
     label_sorting: "Sorting"
     label_star_query: "Favored"
+    label_press_enter_to_save: "Press enter to save"
     label_public_query: "Public"
     label_sum_for: "Sum for"
     label_subject: "Subject"
@@ -616,6 +617,7 @@ en:
         filters: "Filters"
         display_sums: "Display Sums"
         confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
+        click_to_edit_query_name: "Click to edit title of this view."
         errors:
           unretrievable_query: "Unable to retrieve view from URL"
           not_found: "There is no such view"

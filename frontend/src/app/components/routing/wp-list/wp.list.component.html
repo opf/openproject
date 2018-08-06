@@ -1,7 +1,10 @@
 <div class="work-packages-list-view--container">
-  <div class="toolbar-container">
+  <div class="toolbar-container -editable">
     <div class="toolbar">
-      <wp-query-selectable-title [currentQuery]="currentQuery" [selectedTitle]="selectedTitle" [disabled]="disabled"></wp-query-selectable-title>
+      <wp-query-selectable-title [currentQuery]="currentQuery"
+                                 [selectedTitle]="selectedTitle"
+                                 [editable]="titleEditingEnabled">
+      </wp-query-selectable-title>
 
       <ul class="toolbar-items hide-when-print"
           *ngIf="tableInformationLoaded">

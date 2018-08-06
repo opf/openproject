@@ -1,19 +1,19 @@
-<div class="title-container">
-  <div  title="Click to edit"
-        (accessibleClick)="edit(selectedTitle)"
-        (dblclick)="edit(selectedTitle)"
-        tabindex="0"
-        class="inline-edit">
-    <div *ngIf="editing; else notEditable">
-      <input type="text"
-              aria-required="true"
-              (accessibleClick)="onKeyPress($event)"
-              [(ngModel)]="selectedTitle"
-              [ngClass]="{ '-error': selectedTitle === '' }"
-              class="ellipsis"/>
-    </div>
-    <ng-template #notEditable>
-      <h2 title="{{ selectedTitle }}" [ngClass]="{ '-disabled': disabled }" class="ellipsis"> {{ selectedTitle | slice:0:50 }} </h2>
-    </ng-template>
-  </div>
-</div>
+<ng-container>
+  <input *ngIf="editable"
+         #editableTitleInput
+         type="text"
+         aria-required="true"
+         (keydown.escape)="reset($event)"
+         (keydown.enter)="save($event)"
+         (blur)="reset($event)"
+         [attr.title]="text.input_title"
+         [(ngModel)]="selectedTitle"
+         [disabled]="inFlight"
+         [ngClass]="{ '-error': selectedTitle === '' }"
+         class="wp-query--selectable-title -border-on-hover-only toolbar--editable-toolbar ellipsis"/>
+  <h2 *ngIf="!editable"
+      [attr.title]="selectedTitle"
+      [ngClass]="{ '-disabled': disabled }"
+      class="ellipsis"> {{ selectedTitle | slice:0:50 }}
+  </h2>
+</ng-container>

@@ -32,7 +32,7 @@ import {WorkPackagesListService} from '../wp-list/wp-list.service';
 import {WorkPackagesListChecksumService} from '../wp-list/wp-list-checksum.service';
 import {WorkPackagesListComponent} from 'core-components/routing/wp-list/wp-list.component';
 import {StateService, TransitionService} from '@uirouter/core';
-import {Component, Inject, OnInit, OnDestroy, Attribute, ElementRef, Injector} from "@angular/core";
+import {Component, ElementRef, OnDestroy, OnInit} from "@angular/core";
 import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";

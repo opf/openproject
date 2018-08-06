@@ -70,10 +70,10 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
   tableInformationLoaded = false;
   selectedTitle?:string;
   staticTitle?:string;
+  titleEditingEnabled:boolean;
 
   currentQuery:QueryResource;
 
-  disabled:boolean;
 
   constructor(readonly states:States,
               readonly tableState:TableState,
@@ -250,10 +250,10 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
   updateTitle(query:QueryResource) {
     if (query.id) {
       this.selectedTitle = query.name;
-      this.disabled = false;
+      this.titleEditingEnabled = true;
     } else {
       this.selectedTitle =  this.wpStaticQueries.nameFor(query);
-      this.disabled = true;
+      this.titleEditingEnabled = false;
     }
   }
 }
