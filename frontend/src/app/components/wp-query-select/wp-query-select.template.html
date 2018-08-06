@@ -1,6 +1,6 @@
 <div id="querySelectDropdown" class="wp-query-menu--container">
   <div class="wp-query-menu--search-container">
-    <div id="wp-query-menu--search-bar">
+    <div class="wp-query-menu--search-bar">
       <label for="query-title-filter"
              class="hidden-for-sighted"
              [textContent]="text.label" ></label>
@@ -12,6 +12,7 @@
       <i class="icon-search wp-query-menu--search-icon"></i>
     </div>
   </div>
-  <p class="wp-query-menu--no-results-container hidden"
+  <p class="wp-query-menu--no-results-container"
+     [hidden]="!noResults"
      [textContent]="text.no_results"></p>
 </div>

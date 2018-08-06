@@ -63,6 +63,8 @@ interface IQueryAutocompleteJQuery extends JQuery {
 })
 export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestroy {
   public loaded = false;
+  public noResults = false;
+
   public text = {
     search: this.I18n.t('js.toolbar.search_query_label'),
     label: this.I18n.t('js.toolbar.search_query_label'),
@@ -79,6 +81,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   private hiddenCategories:any = [];
 
   private reportsBodySelector = '.controller-work_packages\\/reports';
+
 
   constructor(readonly element:ElementRef,
               readonly QueryDm:QueryDmService,
@@ -207,8 +210,6 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   private setupAutoCompletion(input:IQueryAutocompleteJQuery) {
     this.defineJQueryQueryComplete();
 
-    let noResults = jQuery('.wp-query-menu--no-results-container');
-
     input.querycomplete({
       delay: 100,
       // The values are added later by the listener also covering
@@ -221,10 +222,10 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
       },
       response: (event:any, ui:any) => {
         // Show the noResults span if we don't have any matches
-        noResults.toggleClass('-hidden', !(ui.content.length === 0));
+        this.noResults = (ui.content.length === 0);
       },
-      close : function (event:any, ui:any) {
-        if (!jQuery("ul.ui-autocomplete").is(":visible") && (noResults.hasClass('-hidden'))) {
+      close : (event:any, ui:any) => {
+        if (!jQuery("ul.ui-autocomplete").is(":visible") && this.noResults) {
             jQuery("ul.ui-autocomplete").show();
         }
       },
@@ -248,16 +249,16 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
       },
       _renderItem: function(this:{}, ul:any, item:IAutocompleteItem) {
         const link = jQuery('<a>')
-          .addClass('wp-query-menu--ui-menu-item-link')
+          .addClass('wp-query-menu--item-link')
           .attr('href', thisComponent.buildQueryItemUrl(item))
           .text(item.label);
 
         const div = jQuery('<div>')
-          .addClass('ui-menu-item-wrapper')
+          .addClass('wp-query-menu--item-wrapper')
           .append(link);
 
         const li = jQuery('<li>')
-          .addClass(`ui-menu-item ui-menu-item-${item.auto_id} wp-query-menu--ui-menu-item`)
+          .addClass(`ui-menu-item ui-menu-item-${item.auto_id} wp-query-menu--item`)
           .attr('data-auto-id', item.auto_id)
           .attr('data-category', item.category)
           .data('ui-autocomplete-item', item)  // Focus method of autocompleter needs this data for accessibility - if not set, it will throw errors
@@ -277,9 +278,9 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
             currentCategory = option.category;
             let label = thisComponent.labelFunction(currentCategory);
 
-            ul.append(`<a tabindex="0" class="wp-query-menu--category-icon" aria-hidden="true"></a>`);
+            ul.append(`<a tabindex="0" class="wp-query-menu--category-icon wp-query-menu--category-toggle" data-category="${currentCategory}" aria-hidden="true"></a>`);
             jQuery('<li>')
-              .addClass('ui-autocomplete--category ellipsis')
+              .addClass('ui-autocomplete--category wp-query-menu--category-toggle ellipsis')
               .attr('title', label)
               .attr('data-category', option.category)
               .text(label)
@@ -348,21 +349,12 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
 
   // Toggle category: hide all items with the clicked category and change direction of arrow
   private setToggleCategories() {
-    let categories = jQuery('.ui-autocomplete--category');
-    // Set click listener on all category elements
-    categories.on('click', (event:JQueryEventObject) => {
-      let clickedCategory = event.target.getAttribute("category");
-      if (clickedCategory !== null) {
-        this.expandCollapseCategory(clickedCategory);
-      }
-      // Remember all hidden catagories
-      this.hiddenCategories = jQuery(".ui-autocomplete--category.hidden");
-    });
+
   }
 
   private expandCollapseCategory(category:string) {
-    jQuery("[category='" + category + "']").toggleClass('hidden');
-    jQuery('.ui-autocomplete--category[category="' + category + '"]').prev('a').toggleClass("-collapsed");
+    jQuery(`[data-category="${category}"]`).toggleClass('-hidden');
+    jQuery(`.wp-query-menu--category-icon[data-category="${category}"]`).toggleClass('-collapsed');
   }
 
   // On click of a menu item, load requested query
@@ -455,14 +447,28 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
    *
    */
   private addClickHandler() {
-    jQuery(this.element.nativeElement)
-      .find('.wp-query-menu--search-container')
-      .on('click', '.ui-menu-item a', (evt:JQueryEventObject) => {
-        if (LinkHandling.isClickedWithModifier(evt)) {
-          evt.stopImmediatePropagation();
-        }
+    const container = jQuery(this.element.nativeElement).find('.wp-query-menu--search-container');
 
-        return true;
+    container
+        .on('click', '.ui-menu-item a', (evt:JQueryEventObject) => {
+          if (LinkHandling.isClickedWithModifier(evt)) {
+            evt.stopImmediatePropagation();
+          }
+
+          return true;
+        })
+      .on('click', '.wp-query-menu--category-toggle', (evt:JQueryEventObject) => {
+        const target = jQuery(evt.target);
+        const clickedCategory = target.data('category');
+
+        if (clickedCategory) {
+          this.expandCollapseCategory(clickedCategory);
+        }
+        // Remember all hidden catagories
+        this.hiddenCategories = jQuery(".ui-autocomplete--category.hidden");
+
+        evt.preventDefault();
+        return false;
       });
   }
 }

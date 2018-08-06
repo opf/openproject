@@ -1,121 +1,139 @@
 
-
-.wp-query-menu--container
-  #ui-id-1
+// Wrap in global ID due to specificity issues
+// from main_menu.sass :/
+#querySelectDropdown
+  .wp-query-menu--search-ul
     top: 0 !important
+    width: 100% !important
+    padding-top: 10px !important
+    max-height: 100%
+    overflow-x: hidden
+    background: none
 
-.wp-query-menu--no-results-container
-  display: block
-  padding: 15px 15px 0
-  display: inline-block
-  width: 100%
-  white-space: normal
-
-
-.wp-query-menu--search-container
-  padding: 15px 7px 7px 7px
-  overflow: hidden
-
-  // Specific fix for Firefox
-  body.-browser-firefox &
-    padding-right: 14px
-
-  .ui-state-active
-    background: none !important
-    color: inherit !important
-
-  .ui-autocomplete--category
+  .wp-query-menu--no-results-container
+    display: block
+    padding: 15px 15px 0
+    display: inline-block
     width: 100%
-    padding-left: 25px
-    line-height: $menu-item-line-height
-    height: $menu-item-line-height
-    font-weight: normal
-    text-transform: uppercase
-    // border-bottom: 1px solid $main-menu-border-color
-    font-size: 0.8rem
-    @include varprop(color, content-icon-link-pressed-color)
+    white-space: normal
 
-// Category collapsible links
-.wp-query-menu--category-icon
-  font-family: "openproject-icon-font" !important
-  font-style: normal !important
-  font-weight: normal !important
-  font-variant: normal !important
-  text-transform: none !important
-  text-decoration: none !important
-  speak: none
-  -webkit-font-smoothing: antialiased
-  -moz-osx-font-smoothing: grayscale
-  font-size: 0.6rem
-  padding: initial
-  border: none
-  background: initial
-  line-height: $menu-item-line-height
-  height: $menu-item-line-height
-  margin: 0px 8px
-  position: absolute
-  @include varprop(color, content-icon-link-pressed-color)
 
-  &::before
-    @include icon-mixin-arrow-up1
+  .wp-query-menu--search-container
+    padding: 15px 7px 7px 7px
+    overflow: hidden
 
-  &.-collapsed
+    // Specific fix for Firefox
+    body.-browser-firefox &
+      padding-right: 14px
+
+    .ui-state-active
+      background: none !important
+      color: inherit !important
+
+    .ui-autocomplete--category
+      width: 100%
+      padding-left: 25px
+      line-height: $menu-item-line-height
+      height: $menu-item-line-height
+      font-weight: normal
+      text-transform: uppercase
+      // border-bottom: 1px solid $main-menu-border-color
+      font-size: 0.8rem
+      @include varprop(color, content-icon-link-pressed-color)
+      cursor: pointer
+
+      &:hover
+        @include varprop(background, main-menu-bg-hover-background)
+
+  // Category collapsible links
+  .wp-query-menu--category-icon
+    font-family: "openproject-icon-font" !important
+    font-style: normal !important
+    font-weight: normal !important
+    font-variant: normal !important
+    text-transform: none !important
+    text-decoration: none !important
+    // Overridden due to main menu :/
+    padding: initial !important
+    font-size: 0.6rem !important
+    line-height: $menu-item-line-height !important
+    height: $menu-item-line-height !important
+    margin: 0px 8px !important
+    position: absolute !important
+    color: $content-icon-link-pressed-color !important
+
+    speak: none
+    -webkit-font-smoothing: antialiased
+    -moz-osx-font-smoothing: grayscale
+    border: none
+    background: initial
+
     &::before
-      @include icon-mixin-arrow-down1
+      @include icon-mixin-arrow-up1
+
+    &.-collapsed
+      &::before
+        @include icon-mixin-arrow-down1
 
 
+  // Single result element wrapper
+  .wp-query-menu--item
+    display: block !important
+    height: 30px !important
+    margin-left: 18px !important
+    padding: 0px 0px 0px 25px !important
+    border-radius: 3px
 
-// Single result element wrapper
-.wp-query-menu--ui-menu-item
-  display: block
-  margin-left: 18px
-  border-radius: 3px
-
-  &:hover
-    @include varprop(background, main-menu-bg-hover-background)
-
-  &.selected
-    @include varprop(background, main-menu-bg-selected-background)
-    @include varprop(color, main-menu-selected-font-color)
+    &.-hidden
+      display: none !important
 
     &:hover
-      @include varprop(color, main-menu-font-color)
+      @include varprop(background, main-menu-bg-hover-background)
 
-  .ui-autocomplete .ui-menu-item-wrapper
+    &.selected
+      @include varprop(background, main-menu-bg-selected-background)
+
+      .wp-query-menu--item-link
+        @include varprop(color, main-menu-selected-font-color)
+
+        &:hover
+          @include varprop(color, main-menu-font-color)
+
+    .ui-autocomplete .ui-menu-item-wrapper
+      line-height: $menu-item-line-height
+      padding: 0px 0px 0px 25px
+      white-space: nowrap
+
+  // Link within element wrapper
+  .wp-query-menu--item-link
+    line-height: 30px
+    height: 30px !important
+    padding: 0 !important
+
+  .wp-query-menu--search-bar
+    position: relative
+    min-width: 55px
+
+  // Rule complexed for specificity issues
+  input[type="text"].wp-query-menu--search-input
+    box-sizing: border-box
+    margin: 0px auto
+    width: 100%
+    height: 35px
     line-height: $menu-item-line-height
-    padding: 0px 0px 0px 25px
-    white-space: nowrap
+    border: 1px solid #cacaca
+    border-radius: 25px
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15)
+    color: #222222
+    padding: 0px 30px 0px 10px
 
-.wp-query-menu--search-bar
-  position: relative
-  min-width: 55px
+    // Hide the little x to remove input where exists + supported
+    &::-webkit-search-cancel-button
+      display: none
 
-.wp-query-menu--search-input
-  box-sizing: border-box
-  margin: 0px auto
-  width: 100%
-  height: 35px
-  line-height: $menu-item-line-height
-  border: 1px solid #cacaca
-  border-radius: 25px
-  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15)
-  color: #222222
-  padding: 0px 30px 0px 10px
-
-  // Hide the little x to remove input where exists + supported
-  &::-webkit-search-cancel-button
-    display: none
-
-.wp-query-menu--search-icon
-  position: absolute
-  top:   5px
-  right: 10px
-  color: #999999
-
-.wp-query-menu--search-ul
-  width: 100% !important
-  max-height: 100%
-  overflow-x: hidden
-  background: none
-  padding-top: 10px
+  .wp-query-menu--search-icon
+    position: absolute
+    top:   5px
+    right: 10px
+    color: #999999
 
