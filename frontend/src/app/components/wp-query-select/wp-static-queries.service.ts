@@ -29,18 +29,15 @@ import {IAutocompleteItem} from 'core-components/wp-query-select/wp-query-select
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {Injectable} from '@angular/core';
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {CurrentProjectService} from "core-components/projects/current-project.service";
 
 @Injectable()
 export class WorkPackageStaticQueriesService {
-  constructor(readonly I18n:I18nService) { }
-
-  public latestActivityQuery:IAutocompleteItem;
-  public ganttQuery:IAutocompleteItem;
-  public createdByMeQuery:IAutocompleteItem;
-  public assignedToMeQuery:IAutocompleteItem;
-  public recentlyCreatedQuery:IAutocompleteItem;
-  public defaultQuery:IAutocompleteItem;
-  public summary:IAutocompleteItem;
+  constructor(private readonly I18n:I18nService,
+              private readonly CurrentProject:CurrentProjectService,
+              private readonly PathHelper:PathHelperService) {
+  }
 
   public text = {
     assignee: this.I18n.t('js.work_packages.properties.assignee'),
@@ -61,50 +58,43 @@ export class WorkPackageStaticQueriesService {
   // Create all static queries manually
   // The query_props configure default values of column names, sorting and applied filters
   // All queries are sorted by their update or creation time (so the latest is always the first)
-  public get all() {
-    this.latestActivityQuery = {
-      query: null,
-      label: this.text.latest_activity,
-      query_props: '{%22c%22:[%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22,%22updatedAt%22],%22t%22:%22updatedAt:desc,parent:asc%22,%22f%22:[{%22n%22:%22status%22,%22o%22:%22o%22,%22v%22:[]},{%22n%22:%22updatedAt%22,%22o%22:%22w%22,%22v%22:[]}]}'
-    };
-    this.ganttQuery = {
-      query: null,
+  public get all():IAutocompleteItem[] {
+    let items = [
+      {
+        label: this.text.latest_activity,
+        query_props: '{%22c%22:[%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22,%22updatedAt%22],%22t%22:%22updatedAt:desc,parent:asc%22,%22f%22:[{%22n%22:%22status%22,%22o%22:%22o%22,%22v%22:[]},{%22n%22:%22updatedAt%22,%22o%22:%22w%22,%22v%22:[]}]}'
+      },
+      {
       label: this.text.gantt,
       query_props: '{%22c%22:[%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22,%22project%22],%22tv%22:true,%22tzl%22:%22quarters%22,%22hi%22:false,%22g%22:%22%22,%22t%22:%22parent:asc%22,%22f%22:[{%22n%22:%22status%22,%22o%22:%22o%22,%22v%22:[]}],%22pa%22:1,%22pp%22:20}'
-    };
-    this.createdByMeQuery = {
-      query: null,
+    },
+    {
       label: this.text.created_by_me,
       query_props: "{%22c%22:[%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22,%22updatedAt%22],%22tzl%22:%22days%22,%22hi%22:false,%22g%22:%22%22,%22t%22:%22updatedAt:desc,parent:asc%22,%22f%22:[{%22n%22:%22status%22,%22o%22:%22o%22,%22v%22:[]},{%22n%22:%22author%22,%22o%22:%22=%22,%22v%22:[%22me%22]}],%22pa%22:1,%22pp%22:20}"
-    };
-    this.assignedToMeQuery = {
-      query: null,
+    },
+    {
       label: this.text.assigned_to_me,
       query_props: '{%22c%22:[%22id%22,%22subject%22,%22type%22,%22status%22,%20%22author%22,%20%22updatedAt%22],%22t%22:%22updatedAt:desc,parent:asc%22,%22f%22:[{%22n%22:%22status%22,%22o%22:%22o%22,%22v%22:[]},{%22n%22:%22assignee%22,%22o%22:%22=%22,%22v%22:[%22me%22]}]}'
-    };
-    this.recentlyCreatedQuery = {
-      query: null,
+    },
+    {
       label: this.text.recently_created,
       query_props: '{%22c%22:[%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22,%22createdAt%22],%22t%22:%22createdAt:desc,parent:asc%22,%22f%22:[{%22n%22:%22status%22,%22o%22:%22o%22,%22v%22:[]},{%22n%22:%22createdAt%22,%22o%22:%22w%22,%22v%22:[]}]}'
-    };
-    this.defaultQuery = {
-      query: null,
+    },
+    {
       label: this.text.all_open,
       query_props: '{%22c%22:[%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22,%22version%22,%22updatedAt%22],%22t%22:%22updatedAt:desc,parent:asc%22}'
-    };
-    this.summary = {
-      query: null,
-      label: this.text.summary,
-      query_props: ''
-    };
+    }
+    ] as IAutocompleteItem[];
 
-    return [this.latestActivityQuery,
-            this.ganttQuery,
-            this.createdByMeQuery,
-            this.assignedToMeQuery,
-            this.recentlyCreatedQuery,
-            this.defaultQuery,
-            this.summary];
+    const projectIdentifier = this.CurrentProject.identifier;
+    if (projectIdentifier) {
+      items.push({
+        label: this.text.summary,
+        static_link: this.PathHelper.projectWorkPackagesPath(projectIdentifier) + '/report'
+      });
+    }
+
+    return items;
   }
 
   public nameFor(query:QueryResource) {

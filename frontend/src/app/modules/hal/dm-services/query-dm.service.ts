@@ -147,7 +147,7 @@ export class QueryDmService {
     }
   }
 
-  public all(projectIdentifier?:string):Promise<CollectionResource> {
+  public all(projectIdentifier:string|null|undefined):Promise<CollectionResource> {
     let filters = new ApiV3FilterBuilder();
 
     if (projectIdentifier) {
