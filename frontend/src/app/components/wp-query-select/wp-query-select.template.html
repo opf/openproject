@@ -1,17 +1,17 @@
-<div id="querySelectDropdown">
-  <div class="search-query-wrapper">
-    <div id="searchbar">
+<div id="querySelectDropdown" class="wp-query-menu--container">
+  <div class="wp-query-menu--search-container">
+    <div id="wp-query-menu--search-bar">
       <label for="query-title-filter"
              class="hidden-for-sighted"
              [textContent]="text.label" ></label>
       <input type="text"
-           class="ui-autocomplete--input ellipsis"
+           class="wp-query-menu--search-input ui-autocomplete--input ellipsis"
            name="query-title-filter"
            id="query-title-filter"
            [attr.placeholder]="text.search">
-      <i id="magnifier" class="icon-search"></i>
+      <i class="icon-search wp-query-menu--search-icon"></i>
     </div>
   </div>
-  <p class="query-select-dropdown--no-results hidden"
+  <p class="wp-query-menu--no-results-container hidden"
      [textContent]="text.no_results"></p>
 </div>

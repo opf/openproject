@@ -47,7 +47,7 @@ module Components
       end
 
       def results_container
-        '.search-query-wrapper'
+        '.wp-query-menu--search-container'
       end
     end
   end

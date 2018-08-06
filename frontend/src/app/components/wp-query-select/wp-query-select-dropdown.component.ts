@@ -41,6 +41,7 @@ import {WorkPackageStaticQueriesService} from 'core-components/wp-query-select/w
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
+import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
 
 export interface IAutocompleteItem {
   auto_id?:any;
@@ -117,6 +118,9 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
       // We only want to load the menu once.
       this.unregisterTransitionListener();
     });
+
+    // Register click handler on results
+    this.addClickHandler();
   }
 
 
@@ -203,7 +207,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   private setupAutoCompletion(input:IQueryAutocompleteJQuery) {
     this.defineJQueryQueryComplete();
 
-    let noResults = jQuery('.query-select-dropdown--no-results');
+    let noResults = jQuery('.wp-query-menu--no-results-container');
 
     input.querycomplete({
       delay: 100,
@@ -217,16 +221,17 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
       },
       response: (event:any, ui:any) => {
         // Show the noResults span if we don't have any matches
-        noResults.toggleClass('hidden', !(ui.content.length === 0));
+        noResults.toggleClass('-hidden', !(ui.content.length === 0));
       },
       close : function (event:any, ui:any) {
-        if (!jQuery("ul.ui-autocomplete").is(":visible") && (noResults.hasClass('hidden'))) {
+        if (!jQuery("ul.ui-autocomplete").is(":visible") && (noResults.hasClass('-hidden'))) {
             jQuery("ul.ui-autocomplete").show();
         }
       },
-      appendTo: '.search-query-wrapper',
+      appendTo: '.wp-query-menu--search-container',
       classes: {
-        'ui-autocomplete': '-inplace'
+        'ui-autocomplete': 'wp-query-menu--search-ul -inplace',
+        'ui-menu-divider': 'wp-query-menu--category-icon'
       },
       autoFocus: false,
       minLength: 0
@@ -241,25 +246,44 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
         this._super();
         this.widget().menu( 'option', 'items', '> :not(.ui-autocomplete--category)' );
       },
-      _renderItem: function(ul:any, item:IAutocompleteItem) {
-        let li = jQuery("<li class='ui-menu-item' auto_id='" + item.auto_id + "' category='" + item.category + "'><div class='ui-menu-item-wrapper' tabindex='0'>" + item.label + "</div></li>");
-        li.data('ui-autocomplete-item', item);  // Focus method of autocompleter needs this data for accessibility - if not set, it will throw errors
+      _renderItem: function(this:{}, ul:any, item:IAutocompleteItem) {
+        const link = jQuery('<a>')
+          .addClass('wp-query-menu--ui-menu-item-link')
+          .attr('href', thisComponent.buildQueryItemUrl(item))
+          .text(item.label);
+
+        const div = jQuery('<div>')
+          .addClass('ui-menu-item-wrapper')
+          .append(link);
+
+        const li = jQuery('<li>')
+          .addClass(`ui-menu-item ui-menu-item-${item.auto_id} wp-query-menu--ui-menu-item`)
+          .attr('data-auto-id', item.auto_id)
+          .attr('data-category', item.category)
+          .data('ui-autocomplete-item', item)  // Focus method of autocompleter needs this data for accessibility - if not set, it will throw errors
+          .append(div)
+          .appendTo(ul);
 
         thisComponent.setInitialHighlighting(li, item);
 
-        return ul.append(li);
+        return li;
       },
       _renderMenu: function(this:any, ul:any, items:IAutocompleteItem[]) {
         let currentCategory:string;
-        let categoryDOMElement:any;
 
         _.each(items, option => {
           // Check if item has same category as previous item and if not insert a new category label in the list
           if (option.category !== currentCategory) {
             currentCategory = option.category;
             let label = thisComponent.labelFunction(currentCategory);
-            categoryDOMElement = ul.append( "<a tabindex='0' aria-hidden='true'></a>" +
-                                            "<li class='ui-autocomplete--category ellipsis' title='" + label + "' category='" + option.category + "'>" + label + "</li>");
+
+            ul.append(`<a tabindex="0" class="wp-query-menu--category-icon" aria-hidden="true"></a>`);
+            jQuery('<li>')
+              .addClass('ui-autocomplete--category ellipsis')
+              .attr('title', label)
+              .attr('data-category', option.category)
+              .text(label)
+              .appendTo(ul);
           }
           this._renderItemData(ul, option);
         });
@@ -375,6 +399,20 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     }
   }
 
+  private buildQueryItemUrl(item:IAutocompleteItem):string {
+    if (item.auto_id === this.wpStaticQueries.summary.auto_id) {
+      return this.pathHelper.projectWorkPackagesPath(this.projectIdentifier) + '/report';
+    }
+
+    if (item.query) {
+      // Saved query resource -> Reset to query id with empty query_props
+      return this.$state.href('work-packages.list', { query_id: item.query.id, query_props: null });
+    } else {
+      // Default query
+      return this.$state.href('work-packages.list', { query_props: item.query_props });
+    }
+  }
+
   private goBackToListView(item:IAutocompleteItem) {
     // Check if element has query or is a static query
     let requestedQuery;
@@ -409,6 +447,23 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     jQuery(".ui-menu-item").removeClass('selected');
     //Find selected element in DOM and highlight it
     jQuery(("[auto_id=" + item.auto_id + "]")).addClass('selected');
+  }
+
+  /**
+   * When clicking an item with meta keys,
+   * avoid its propagation.
+   *
+   */
+  private addClickHandler() {
+    jQuery(this.element.nativeElement)
+      .find('.wp-query-menu--search-container')
+      .on('click', '.ui-menu-item a', (evt:JQueryEventObject) => {
+        if (LinkHandling.isClickedWithModifier(evt)) {
+          evt.stopImmediatePropagation();
+        }
+
+        return true;
+      });
   }
 }
 

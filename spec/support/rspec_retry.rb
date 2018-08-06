@@ -29,13 +29,8 @@ end
 ##
 # Allow specific code blocks to retry on specific errors
 Retriable.configure do |c|
-  # Three tries in that block
-  if ENV['CI']
-    c.tries = 3
-    c.base_interval = 1
-  else
-    c.tries = 1
-  end
+  c.tries = 3
+  c.base_interval = 1
 end
 
 ##
