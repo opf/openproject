@@ -81,19 +81,14 @@
     display: block !important
     height: 30px !important
     margin-left: 18px !important
-    padding: 0px 0px 0px 25px !important
     border-radius: 3px
 
     &.-hidden
       display: none !important
 
-    &:hover
-      @include varprop(background, main-menu-bg-hover-background)
-
     &.selected
-      @include varprop(background, main-menu-bg-selected-background)
-
       .wp-query-menu--item-link
+        @include varprop(background, main-menu-bg-selected-background)
         @include varprop(color, main-menu-selected-font-color)
 
         &:hover
@@ -106,9 +101,12 @@
 
   // Link within element wrapper
   .wp-query-menu--item-link
+    padding: 0px 0px 0px 25px !important
     line-height: 30px
     height: 30px !important
-    padding: 0 !important
+
+    &:hover, &:focus
+      @include varprop(background, main-menu-bg-hover-background)
 
   .wp-query-menu--search-bar
     position: relative

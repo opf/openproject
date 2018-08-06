@@ -4,14 +4,15 @@
       <label for="query-title-filter"
              class="hidden-for-sighted"
              [textContent]="text.label" ></label>
-      <input type="text"
-           class="wp-query-menu--search-input ui-autocomplete--input ellipsis"
-           name="query-title-filter"
-           id="query-title-filter"
-           [attr.placeholder]="text.search">
+      <input #wpQueryMenuSearchInput
+             type="text"
+             class="wp-query-menu--search-input ui-autocomplete--input ellipsis"
+             name="query-title-filter"
+             id="query-title-filter"
+             [attr.placeholder]="text.search" />
       <i class="icon-search wp-query-menu--search-icon"></i>
     </div>
-    <div class="wp-query-menu--results-container">
+    <div #queryResultsContainer class="wp-query-menu--results-container">
     </div>
   </div>
   <p class="wp-query-menu--no-results-container"

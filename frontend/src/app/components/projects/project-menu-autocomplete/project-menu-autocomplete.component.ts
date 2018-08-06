@@ -134,11 +134,6 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
       .text(item.label)
       .appendTo(div);
 
-    // Needed for iOS to ensure that the link is executed on the first click (touch)
-    link.on('touchstart',(evt:JQueryEventObject) => {
-      window.location.href =  this.projectLink(item.object.identifier);
-    });
-
     // When in hierarchy, indent
     if (item.object.level > 0) {
       link
@@ -264,6 +259,10 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
         }
 
         return true;
+      })
+      // Needed for iOS to ensure that the link is executed on the first click (touch)
+      .on('touchstart', 'ui-menu-item a', (evt:JQueryEventObject) => {
+        window.location.href =  (evt.target as HTMLAnchorElement).href;
       });
   }
 

@@ -34,9 +34,8 @@ import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-c
 import {WorkPackageTablePaginationService} from '../wp-fast-table/state/wp-table-pagination.service';
 import {WorkPackagesListInvalidQueryService} from './wp-list-invalid-query.service';
 import {WorkPackageStatesInitializationService} from './wp-states-initialization.service';
-import {QueryMenuService} from 'core-components/wp-query-menu/wp-query-menu.service';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
-import {StateParams, StateService} from '@uirouter/core';
+import {StateService} from '@uirouter/core';
 import {WorkPackagesListChecksumService} from 'core-components/wp-list/wp-list-checksum.service';
 import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
@@ -66,8 +65,7 @@ export class WorkPackagesListService {
               protected wpListChecksumService:WorkPackagesListChecksumService,
               protected wpStatesInitialization:WorkPackageStatesInitializationService,
               protected loadingIndicator:LoadingIndicatorService,
-              protected wpListInvalidQueryService:WorkPackagesListInvalidQueryService,
-              protected queryMenu:QueryMenuService) {
+              protected wpListInvalidQueryService:WorkPackagesListInvalidQueryService) {
   }
 
   /**
@@ -215,8 +213,6 @@ export class WorkPackagesListService {
       .then(() => {
         this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_delete'));
 
-        this.removeMenuItem(query);
-
         let id;
         if (query.project) {
           id = query.project.$href!.split('/').pop();
@@ -243,8 +239,6 @@ export class WorkPackagesListService {
       .then(() => {
         this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_update'));
 
-        this.updateMenuItem(query!);
-
         // We should actually put the query newly received
         // from the backend in here.
         // But the backend does currently not return work packages (results).
@@ -266,8 +260,6 @@ export class WorkPackagesListService {
       this.states.query.resource.putValue(query);
 
       this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_update'));
-
-      this.updateQueryMenu();
 
       this.queryChanges.next(query.name);
     });
@@ -324,16 +316,6 @@ export class WorkPackagesListService {
     return this.states.query.resource.value!;
   }
 
-  private updateQueryMenu() {
-    let query = this.currentQuery;
-
-    if (query.starred) {
-      this.createMenuItem(query);
-    } else {
-      this.removeMenuItem(query);
-    }
-  }
-
   private handleQueryLoadingError(error:ErrorResource, queryProps:any, queryId?:number, projectIdentifier?:string) {
     this.NotificationsService.addError(this.I18n.t('js.work_packages.faulty_query.description'), error.message);
 
@@ -364,25 +346,5 @@ export class WorkPackagesListService {
         })
         .catch(reject);
     });
-  }
-
-  private createMenuItem(query:QueryResource) {
-    return this
-      .queryMenu
-      .add(query.name,
-        this.$state.href('work-packages.list', {query_id: query.id}),
-        query.id.toString());
-  }
-
-  private removeMenuItem(query:QueryResource) {
-    return this
-      .queryMenu
-      .remove(query.id.toString());
-  }
-
-  private updateMenuItem(query:QueryResource) {
-    return this
-      .queryMenu
-      .rename(query.id.toString(), query.name);
   }
 }

@@ -118,7 +118,6 @@ import {WorkPackageStatesInitializationService} from 'core-components/wp-list/wp
 import {WorkPackageCreateService} from 'core-components/wp-new/wp-create.service';
 import {WorkPackageNewFullViewComponent} from 'core-components/wp-new/wp-new-full-view.component';
 import {WorkPackageNewSplitViewComponent} from 'core-components/wp-new/wp-new-split-view.component';
-import {QueryMenuService} from 'core-components/wp-query-menu/wp-query-menu.service';
 import {WorkPackageQuerySelectDropdownComponent} from 'core-components/wp-query-select/wp-query-select-dropdown.component';
 import {WorkPackageQuerySelectableTitleComponent} from 'core-components/wp-query-select/wp-query-selectable-title.component';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
@@ -294,7 +293,6 @@ import {AttachmentsComponent} from 'core-components/attachments/attachments.comp
     OpTableActionsService,
     CurrentProjectService,
     FirstRouteService,
-    QueryMenuService,
     // Split view
     CommentService,
     WorkPackagesActivityService,

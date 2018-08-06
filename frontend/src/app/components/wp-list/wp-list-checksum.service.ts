@@ -75,7 +75,7 @@ export class WorkPackagesListChecksumService {
     this.set(query.id, newQueryChecksum);
 
     this.maintainUrlQueryState(query.id, null);
-  }
+}
 
   public isQueryOutdated(query:QueryResource,
                          pagination:WorkPackageTablePagination) {

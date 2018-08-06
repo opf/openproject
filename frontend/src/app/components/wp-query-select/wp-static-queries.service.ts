@@ -61,26 +61,32 @@ export class WorkPackageStaticQueriesService {
   public get all():IAutocompleteItem[] {
     let items = [
       {
+        identifier: 'latest_ctivity',
         label: this.text.latest_activity,
         query_props: '{%22c%22:[%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22,%22updatedAt%22],%22t%22:%22updatedAt:desc,parent:asc%22,%22f%22:[{%22n%22:%22status%22,%22o%22:%22o%22,%22v%22:[]},{%22n%22:%22updatedAt%22,%22o%22:%22w%22,%22v%22:[]}]}'
       },
       {
+      identifier: 'gantt',
       label: this.text.gantt,
       query_props: '{%22c%22:[%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22,%22project%22],%22tv%22:true,%22tzl%22:%22quarters%22,%22hi%22:false,%22g%22:%22%22,%22t%22:%22parent:asc%22,%22f%22:[{%22n%22:%22status%22,%22o%22:%22o%22,%22v%22:[]}],%22pa%22:1,%22pp%22:20}'
     },
     {
+      identifier: 'created_by_me',
       label: this.text.created_by_me,
       query_props: "{%22c%22:[%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22,%22updatedAt%22],%22tzl%22:%22days%22,%22hi%22:false,%22g%22:%22%22,%22t%22:%22updatedAt:desc,parent:asc%22,%22f%22:[{%22n%22:%22status%22,%22o%22:%22o%22,%22v%22:[]},{%22n%22:%22author%22,%22o%22:%22=%22,%22v%22:[%22me%22]}],%22pa%22:1,%22pp%22:20}"
     },
     {
+      identifier: 'assigned_to_me',
       label: this.text.assigned_to_me,
       query_props: '{%22c%22:[%22id%22,%22subject%22,%22type%22,%22status%22,%20%22author%22,%20%22updatedAt%22],%22t%22:%22updatedAt:desc,parent:asc%22,%22f%22:[{%22n%22:%22status%22,%22o%22:%22o%22,%22v%22:[]},{%22n%22:%22assignee%22,%22o%22:%22=%22,%22v%22:[%22me%22]}]}'
     },
     {
+      identifier: 'recently_created',
       label: this.text.recently_created,
       query_props: '{%22c%22:[%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22,%22createdAt%22],%22t%22:%22createdAt:desc,parent:asc%22,%22f%22:[{%22n%22:%22status%22,%22o%22:%22o%22,%22v%22:[]},{%22n%22:%22createdAt%22,%22o%22:%22w%22,%22v%22:[]}]}'
     },
     {
+      identifier: 'all_open',
       label: this.text.all_open,
       query_props: '{%22c%22:[%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22,%22version%22,%22updatedAt%22],%22t%22:%22updatedAt:desc,parent:asc%22}'
     }
@@ -89,6 +95,7 @@ export class WorkPackageStaticQueriesService {
     const projectIdentifier = this.CurrentProject.identifier;
     if (projectIdentifier) {
       items.push({
+        identifier: 'summary',
         label: this.text.summary,
         static_link: this.PathHelper.projectWorkPackagesPath(projectIdentifier) + '/report'
       });
