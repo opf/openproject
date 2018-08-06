@@ -2405,8 +2405,8 @@ ru:
   text_user_wrote: "%{value} написал:"
   text_warn_on_leaving_unsaved: Не сохраненный текст текущего пакета работ будет потерян,
     если вы покинете эту страницу.
-  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
-    comment
+  text_what_did_you_change_click_to_add_comment: Что вы изменили? Кликните для добавления
+    комментария
   text_wiki_destroy_confirmation: Вы уверены, что хотите удалить этот wiki и все его
     содержимое?
   text_wiki_page_destroy_children: Удаление дочерних страниц и всех их потомков
