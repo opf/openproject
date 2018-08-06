@@ -113,33 +113,10 @@ See docs/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <%= render(partial: "wiki/content", locals: {content: @content}) %>
-<%= link_to_attachments @page %>
-<% if @editable && authorize_for('wiki', 'add_attachment') %>
-  <div id="wiki_add_attachment" class="hide-when-print">
-    <p>
-      <%= link_to_function l(:label_attachment_new),
-                           %{
-                             jQuery('#add_attachment_form').show();
-                             jQuery(this).hide();
-                             jQuery('#add_attachment_form')[0].scrollIntoView();
-                           },
-                           id: 'attach_files_link',
-                           class: 'button -with-icon -tiny icon-attachment' %>
-    </p>
-    <%= form_tag({ controller: '/wiki', action: 'add_attachment', project_id: @project, id: @page }, multipart: true, id: "add_attachment_form", style: "display:none;") do %>
-      <div class="box">
-        <p><%= render partial: 'attachments/form' %></p>
-      </div>
-      <%= submit_tag l(:button_add), class: 'button -highlight' %>
-      <%= link_to_function l(:button_cancel),
-                           %{
-                             jQuery('#add_attachment_form').hide();
-                             jQuery('#attach_files_link').show()
-                           },
-                           class: 'button' %>
-    <% end %>
-  </div>
-<% end %>
+
+<% resource = ::API::V3::WikiPages::WikiPageRepresenter.new(@page, current_user: current_user, embed_links: true) %>
+<%= list_attachments(resource, false) %>
+
 <%= other_formats_links do |f| %>
   <%= f.link_to 'Atom', url: { controller: '/activities',
                                   action: 'index',

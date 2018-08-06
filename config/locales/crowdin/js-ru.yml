@@ -4,6 +4,11 @@ ru:
     ajax:
       hide: Скрыть
       loading: Загрузка ...
+    attachments:
+      draggable_hint: 'Drag on editor field to inline image or reference attachment.
+        Closed editor fields will be opened while you keep dragging.
+
+'
     autocomplete_select:
       placeholder:
         multi: Добавить «%{name}»
@@ -430,7 +435,6 @@ ru:
         level5: Развернуть уровень 5
         all: Показывать всё
       project_status: Состояние проекта
-      project_type: Тип проекта
       really_close_dialog: Вы действительно хотите закрыть диалоговое окно и потерять
         введенные данные?
       responsible: Ответственный

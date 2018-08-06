@@ -4,6 +4,11 @@ et:
     ajax:
       hide: Peida
       loading: Laadimine ...
+    attachments:
+      draggable_hint: 'Drag on editor field to inline image or reference attachment.
+        Closed editor fields will be opened while you keep dragging.
+
+'
     autocomplete_select:
       placeholder:
         multi: Add "%{name}"
@@ -427,7 +432,6 @@ et:
         level5: Laienda tasemele 5
         all: Näita kõiki
       project_status: Projekti olek
-      project_type: Projekti tüüp
       really_close_dialog: Do you really want to close the dialog and lose the entered
         data?
       responsible: Vastutaja

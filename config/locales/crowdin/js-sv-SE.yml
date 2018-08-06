@@ -4,6 +4,11 @@ sv-SE:
     ajax:
       hide: Dölj
       loading: Laddar ...
+    attachments:
+      draggable_hint: 'Drag on editor field to inline image or reference attachment.
+        Closed editor fields will be opened while you keep dragging.
+
+'
     autocomplete_select:
       placeholder:
         multi: Lägg till ”%{name}”
@@ -427,7 +432,6 @@ sv-SE:
         level5: Expandera nivå 5
         all: Visa alla
       project_status: Projektstatus
-      project_type: Projekttyp
       really_close_dialog: Vill du verkligen stänga dialogrutan och förlora inmatad
         data?
       responsible: Ansvarig

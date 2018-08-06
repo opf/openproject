@@ -127,10 +127,6 @@ ru:
       versions:
         no_results_title_text: На данный момент этапы в проекте отсутствуют.
         no_results_content_text: Создать новый этап проекта
-  project_types:
-    index:
-      no_results_title_text: На данный момент типы проектов отсутствуют.
-      no_results_content_text: Создать новый тип проекта
   members:
     index:
       no_results_title_text: На данный момент у этого проекта нет участников.
@@ -201,8 +197,8 @@ ru:
         no_results_title_text: В настоящее время нет рабочих пакетов, о которых я
           сообщал.
       responsible:
-        no_results_title_text: В настоящее время нет рабочих пакетов, за которые я
-          несу ответственность.
+        no_results_title_text: На данный момент нет пакетов работ, за которые я несу
+          ответственность.
       watched:
         no_results_title_text: На данный момент у меня нет рабочих пакетов, за которыми
           я наблюдаю.
@@ -339,9 +335,7 @@ ru:
         identifier: Идентификатор
         latest_activity_at: Последняя активность
         parent: Подпроект
-        project_type: Тип проекта
         queries: Запросы
-        responsible: Ответственный
         types: Типы
         versions: Этапы
         work_packages: Задачи
@@ -396,8 +390,6 @@ ru:
         redirect_existing_links: Перенаправление существующих ссылок
       planning_element_type_color:
         hexcode: Шестнадцатеричный код
-      project_type:
-        position: Позиция
       work_package:
         begin_insertion: Начало вставки
         begin_deletion: Начало удаления
@@ -411,7 +403,6 @@ ru:
         parent_work_package: Родитель
         priority: Приоритет
         progress: Прогресс (%)
-        responsible: Ответственный
         spent_hours: Затраченное время
         spent_time: Затраченное время
         subproject: Подпроект
@@ -421,11 +412,16 @@ ru:
     errors:
       messages:
         accepted: нужно подтвердить.
+        after: должно быть после %{date}.
+        after_or_equal_to: должна быть после или ровно %{date}.
+        before: должны быть до %{date}.
+        before_or_equal_to: должны быть до или ровно %{date}.
         blank: не может быть пустым.
         cant_link_a_work_package_with_a_descendant: Пакет работ не может быть связан
           с одной из своих подзадач.
         circular_dependency: Это отношение создаст циклическую зависимость.
         confirmation: не совпадает со значением поля %{attribute}.
+        could_not_be_copied: не может быть скопировано (полностью).
         does_not_exist: не существует.
         empty: не может быть пустым.
         even: должно быть чётным.
@@ -433,11 +429,9 @@ ru:
         file_too_large: слишком большой (максимальный размер составляет %{count} байт).
         greater_than: должно быть больше чем %{count}.
         greater_than_or_equal_to: должен быть больше или равно %{count}.
-        smaller_than_or_equal_to_max_length: должно быть меньше или равно максимальной
-          длине.
-        greater_than_start_date: должна быть позднее даты начала.
         greater_than_or_equal_to_start_date: должна быть позднее даты начала или совпадать
           с ней.
+        greater_than_start_date: должна быть позднее даты начала.
         inclusion: не задано ни одно из допустимых значений.
         invalid: неверно.
         invalid_url: не является допустимым URL-адресом.
@@ -446,22 +440,20 @@ ru:
         less_than_or_equal_to: должно быть меньше или равно %{count}.
         not_a_date: не является допустимой датой.
         not_a_datetime: дата и время не являются допустимыми.
-        not_an_iso_date: 'недопустимая дата. Требуемый формат: гггг-мм-дд.'
         not_a_number: не является числом.
+        not_allowed: неверно ввиду отсутствия прав.
         not_an_integer: не является целым числом.
+        not_an_iso_date: 'недопустимая дата. Требуемый формат: гггг-мм-дд.'
         not_same_project: не принадлежит тому же проекту.
         odd: должно быть нечетным.
+        regex_invalid: не может быть проверен связанным регулярным выражением.
+        smaller_than_or_equal_to_max_length: должно быть меньше или равно максимальной
+          длине.
         taken: уже принято.
         too_long: слишком длинно (максимум — %{count} знаков).
         too_short: слишком коротко (минимум — %{count} знаков).
-        wrong_length: неправильная длина (должно быть %{count} знаков).
-        after: должно быть после %{date}.
-        after_or_equal_to: должна быть после или ровно %{date}.
-        before: должны быть до %{date}.
-        before_or_equal_to: должны быть до или ровно %{date}.
-        could_not_be_copied: не может быть скопировано (полностью).
-        regex_invalid: не может быть проверен связанным регулярным выражением.
         unchangeable: изменить нельзя.
+        wrong_length: неправильная длина (должно быть %{count} знаков).
       models:
         custom_field:
           at_least_one_custom_option: По крайней мере один параметр должен быть доступен.
@@ -608,7 +600,6 @@ ru:
         few: Роли
         many: Roles
       type: Тип
-      project_type: Тип проекта
       user: Пользователь
       version: Этап
       wiki: Wiki
@@ -661,7 +652,7 @@ ru:
     password: Пароль
     priority: Приоритет
     project: Проект
-    responsible: Ответственный
+    responsible: Ответственность
     role: Роль
     roles: Роли
     start_date: Дата начала
@@ -925,11 +916,6 @@ ru:
   default_priority_normal: Обычное
   default_priority_high: Высокое
   default_priority_immediate: Срочно
-  default_project_type_scrum: Команда Scrum
-  default_project_type_standard: Стандартный проект
-  default_reported_project_status_green: Зеленый
-  default_reported_project_status_amber: Янтарный
-  default_reported_project_status_red: Красный
   default_role_anonymous: Анонимно
   default_role_developer: Разработчик
   default_role_project_admin: Администратор проекта
@@ -1281,7 +1267,6 @@ ru:
   label_edit: Правка
   label_enable_multi_select: Разрешен множественный выбор
   label_enabled_project_custom_fields: Доступные настраиваемые поля
-  label_enabled_project_types: Доступные типы
   label_enabled_project_modules: Включенные модули
   label_enabled_project_activities: Включенная деятельность по отслеживанию времени
   label_end_to_end: конец в конец
@@ -1652,8 +1637,8 @@ ru:
     работ
   label_work_package_view_all_reported_by_me: Посмотреть все комплексы работ, описанные
     мной
-  label_work_package_view_all_responsible_for: Просмотреть все рабочие пакеты, подответственные
-    мне
+  label_work_package_view_all_responsible_for: Посмотреть все пакеты работ, за которые
+    я отвечаю
   label_work_package_view_all_watched: Посмотреть все наблюдаемые пакеты работ
   label_work_package_watchers: Наблюдатель
   label_workflow: Рабочий поток
@@ -2141,9 +2126,9 @@ ru:
   setting_smtp_address: SMTP сервер
   setting_smtp_port: SMTP порт
   setting_smtp_authentication: SMTP аутентификация
-  setting_smtp_domain: SMTP HELLO домен
   setting_smtp_user_name: Имя пользователя SMTP
   setting_smtp_password: SMTP пароль
+  setting_smtp_domain: SMTP HELLO домен
   setting_activity_days_default: Дни отображенные на проектной деятельности
   setting_app_subtitle: Второе название приложения
   setting_app_title: Название приложения
@@ -2420,6 +2405,8 @@ ru:
   text_user_wrote: "%{value} написал:"
   text_warn_on_leaving_unsaved: Не сохраненный текст текущего пакета работ будет потерян,
     если вы покинете эту страницу.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Вы уверены, что хотите удалить этот wiki и все его
     содержимое?
   text_wiki_page_destroy_children: Удаление дочерних страниц и всех их потомков
@@ -2448,8 +2435,6 @@ ru:
     admin_menu:
       color: Цвет
       colors: Цвета
-      project_type: Тип проекта
-      project_types: Типы проекта
     associations: Связи
     board_could_not_be_saved: Форум сохранён быть не может
     button_delete_all: Удалить всё
@@ -2469,7 +2454,6 @@ ru:
       few: "%{count} дня"
       many: "%{count} days"
     edit_color: Изменить цвет
-    edit_project_type: Редактировать тип проекта
     edit_thing: Правка
     edit_timeline: Редактировать отчет по графику %{timeline}
     delete_timeline: Удалить отчет графика  %{timeline}
@@ -2509,7 +2493,6 @@ ru:
         due_date: Дате окончания
         name: Имя
         status: Состояние
-        responsible: Ответственный
         start_date: Дата начала
       columns: Столбцы
       comparisons: Сравнения
@@ -2538,7 +2521,7 @@ ru:
       outline: Первоначальная схема детализации
       parent: Показывать подпроекты
       work_package_filters: Фильтровать пакеты работ
-      work_package_responsible: Показать  пакеты работ с ответственным
+      work_package_responsible: Показать пакеты работ с ответственным
       work_package_assignee: Показать пакеты работ с назначениями
       types: Показать типы
       status: Показать состояние
@@ -2553,7 +2536,6 @@ ru:
       project_filters: Фильтр проектов
       project_responsible: Показать проекты с ответственным
       project_status: Показать статус проекта
-      project_types: Показать типы проектов
       timeframe: Показать сроки
       timeframe_end: до
       timeframe_start: от
@@ -2563,7 +2545,6 @@ ru:
     new_color: Новый цвет
     new_association: Новая зависимость
     new_work_package: Новый пакет работ
-    new_project_type: Новый тип проекта
     new_reporting: Новые отчетности
     new_timeline: Новый отчет по графику
     no_projects_for_reporting_available: Нет проектов, для которых может быть создана
@@ -2590,20 +2571,11 @@ ru:
       edit: 'Редактировать статус: %{comment}'
       show: 'Статус: %{comment}'
     planning_element_update: 'Последняя сводка: %{title}'
-    project_type_could_not_be_saved: Тип проекта не может быть сохранен
     type_could_not_be_saved: Тип не может быть сохранен
     reporting_could_not_be_saved: Отчетность не может быть сохранена
     properties: Свойства
     really_delete_color: 'Вы действительно хотите удалить этот цвет? Типы, использующие
       этот цвет удалены не будут.
-
-'
-    really_delete_project_type: 'Вы действительно хотите удалить следующий тип проекта?
-      Проекты с использованием этого типа удалены не будут.
-
-'
-    really_delete_timeline: 'Вы действительно хотите удалить отчет по этому графику?
-      Пакеты работ, показанные в настоящем отчете удалены не будут.
 
 '
     really_delete_reporting: 'Вы уверены, вы хотите удалить следующие отчетности?
@@ -2615,7 +2587,6 @@ ru:
     timelines: Отчеты по графикам
     settings: Графики
     vertical_work_package: Вертикальные пакеты работ
-    without_project_type: Без типа проекта
     you_are_viewing_the_selected_timeline: Вы просматриваете выбранный отчет по графику
     zoom:
       in: Увеличить

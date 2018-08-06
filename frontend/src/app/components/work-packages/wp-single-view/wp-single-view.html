@@ -82,6 +82,7 @@
     <div class="single-attribute work-packages--details--description">
       <wp-edit-field [fieldName]="'description'"
                      [workPackageId]="workPackage.id"
+                     [isDropTarget]="true"
                      [wrapperClasses]="'-no-label'"
                      [displayPlaceholder]="text.description.placeholder">
       </wp-edit-field>
@@ -120,8 +121,7 @@
       </div>
     </div>
 
-    <wp-attachment-list [workPackage]="workPackage"></wp-attachment-list>
-    <wp-attachments-upload [workPackage]="workPackage" class="hide-when-print">
-    </wp-attachments-upload>
+    <attachment-list [resource]="workPackage" [selfDestroy]="true"></attachment-list>
+    <attachments-upload [resource]="workPackage" class="hide-when-print"></attachments-upload>
   </div>
 </div>

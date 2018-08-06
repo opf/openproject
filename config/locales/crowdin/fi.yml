@@ -127,10 +127,6 @@ fi:
       versions:
         no_results_title_text: Projektille ei ole versioita.
         no_results_content_text: Luo uusi versio
-  project_types:
-    index:
-      no_results_title_text: Projekteille ei ole määriteltyjä tyyppejä.
-      no_results_content_text: Luo uusi projektityyppi
   members:
     index:
       no_results_title_text: Tähän projektiin ei kuulu yhtään henkilöä.
@@ -199,8 +195,8 @@ fi:
         no_results_title_text: Tällä hetkellä ei ole työpaketteja jotka olisi olisin
           raportoinut.
       responsible:
-        no_results_title_text: Tällä hetkellä ei ole sellaisia työpaketteja joista
-          olisin vastuussa.
+        no_results_title_text: There are currently no work packages that I am accountable
+          for.
       watched:
         no_results_title_text: En ole tällä hetkellä seuraajana työpaketeissa.
     summary:
@@ -338,9 +334,7 @@ fi:
         identifier: Tunniste
         latest_activity_at: Viimeisin toiminta
         parent: Aliprojekti
-        project_type: Projektityyppi
         queries: Kyselyt
-        responsible: Vastuullinen
         types: Tyypit
         versions: Versiot
         work_packages: Työpaketit
@@ -396,8 +390,6 @@ fi:
         redirect_existing_links: Uudelleenohjaa olemassa olevat linkit
       planning_element_type_color:
         hexcode: Hex koodi
-      project_type:
-        position: Sijainti
       work_package:
         begin_insertion: Lisäyksen alku
         begin_deletion: Poistokohdan alku
@@ -411,7 +403,6 @@ fi:
         parent_work_package: Ylätaso
         priority: Tärkeys
         progress: Edistyminen (%)
-        responsible: Vastuullinen
         spent_hours: Käytetty aika
         spent_time: Käytetty aika
         subproject: Aliprojekti
@@ -421,11 +412,16 @@ fi:
     errors:
       messages:
         accepted: täytyy olla hyväksytty.
+        after: on oltava myöhemmin kuin %{date}.
+        after_or_equal_to: on oltava %{date} tai myöhempi.
+        before: on oltava ennen %{date}.
+        before_or_equal_to: on oltava %{date} tai sitä ennen.
         blank: ei voi olla sisällötön.
         cant_link_a_work_package_with_a_descendant: Työpakettia ei voida yhdistää
           ko. työpaketin alitehtäviin.
         circular_dependency: Tämä suhde loisi kehän.
         confirmation: ei vastaa %{attribute}.
+        could_not_be_copied: kopioiminen ei onnistunut (täysimääräisesti).
         does_not_exist: ei ole olemassa.
         empty: ei voi olla tyhjä.
         even: täytyy olla parillinen.
@@ -433,11 +429,9 @@ fi:
         file_too_large: on liian suuri (suurin sallittu koko on %{count} tavua).
         greater_than: täytyy olla suurempi kuin %{count}.
         greater_than_or_equal_to: täytyy olla suurempi tai yhtä suuri kuin%{count}.
-        smaller_than_or_equal_to_max_length: on oltava pienempi tai yhtä suuri kuin
-          suurin sallittu pituus.
-        greater_than_start_date: tulee olla aloituspäivän jälkeinen.
         greater_than_or_equal_to_start_date: on oltava suurempi tai yhtä suuri kuin
           alkamispäivä.
+        greater_than_start_date: tulee olla aloituspäivän jälkeinen.
         inclusion: ei löydy listauksesta.
         invalid: ei kelpaa.
         invalid_url: is not a valid URL.
@@ -445,22 +439,20 @@ fi:
         less_than_or_equal_to: täytyy olla pienempi tai yhtä suuri kuin %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
-        not_an_iso_date: 'ei ole kelvollinen päivämäärä. Vaadittava muoto: VVVV-KK-PP.'
         not_a_number: ei ole numero.
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: ei ole kokonaisluku.
+        not_an_iso_date: 'ei ole kelvollinen päivämäärä. Vaadittava muoto: VVVV-KK-PP.'
         not_same_project: ei kuulu samaan projektiin.
         odd: täytyy olla pariton.
+        regex_invalid: could not be validated with the associated regular expression.
+        smaller_than_or_equal_to_max_length: on oltava pienempi tai yhtä suuri kuin
+          suurin sallittu pituus.
         taken: on jo käytössä.
         too_long: on liian pitkä (maksimi on %{count} merkkiä).
         too_short: on liian lyhyt (minimi on %{count} merkkiä).
-        wrong_length: on väärän pituinen (täytyy olla täsmälleen %{count} merkkiä).
-        after: on oltava myöhemmin kuin %{date}.
-        after_or_equal_to: on oltava %{date} tai myöhempi.
-        before: on oltava ennen %{date}.
-        before_or_equal_to: on oltava %{date} tai sitä ennen.
-        could_not_be_copied: kopioiminen ei onnistunut (täysimääräisesti).
-        regex_invalid: could not be validated with the associated regular expression.
         unchangeable: cannot be changed.
+        wrong_length: on väärän pituinen (täytyy olla täsmälleen %{count} merkkiä).
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
@@ -593,7 +585,6 @@ fi:
         one: Rooli
         other: Roolit
       type: Tyyppi
-      project_type: Projektityyppi
       user: Käyttäjä
       version: Versio
       wiki: Wiki
@@ -646,7 +637,7 @@ fi:
     password: Salasana
     priority: Tärkeys
     project: Projekti
-    responsible: Vastuullinen
+    responsible: Accountable
     role: Rooli
     roles: Roolit
     start_date: Aloituspäivä
@@ -885,11 +876,6 @@ fi:
   default_priority_normal: Normaali
   default_priority_high: Korkea
   default_priority_immediate: Valitön
-  default_project_type_scrum: Scrum-tiimi
-  default_project_type_standard: Normaali projekti
-  default_reported_project_status_green: Vihreä
-  default_reported_project_status_amber: Kkellanruskea (meripihka)
-  default_reported_project_status_red: Punainen
   default_role_anonymous: Anonyymi
   default_role_developer: Kehittäjä
   default_role_project_admin: Projektin hallinnoija
@@ -1239,7 +1225,6 @@ fi:
   label_edit: Muokkaa
   label_enable_multi_select: Vaihda monivalinta
   label_enabled_project_custom_fields: Käytössä olevat mukautetut kentät
-  label_enabled_project_types: Käytössä olevat tyypit
   label_enabled_project_modules: Käytössä olevat moduulit
   label_enabled_project_activities: Käytössä olevat ajanseurannan aktiviteetit
   label_end_to_end: lopusta loppuun
@@ -1470,7 +1455,7 @@ fi:
   label_repository_plural: Tietovarastot
   label_required: Required
   label_requires: edellyttää
-  label_responsible_for_work_packages: Kaikki työpaketit joista olen vastuussa
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Tulokset
   label_reverse_chronological_order: Käänteisessä aikajärjestyksessä
   label_revision: Revisio
@@ -1606,8 +1591,8 @@ fi:
   label_work_package_view_all_assigned_to_me: Näytä kaikki minulle määritetyt työpaketit
   label_work_package_view_all_reported_by_me: Näytä kaikki työpaketit jotka minä olen
     raportoinut
-  label_work_package_view_all_responsible_for: Näytä kaikki työpaketit joista olen
-    vastuussa
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
+    for
   label_work_package_view_all_watched: Näytä kaikki seuratut työpaketit
   label_work_package_watchers: Seuraajat
   label_workflow: Työnkulku
@@ -2072,9 +2057,9 @@ fi:
   setting_smtp_address: SMTP server
   setting_smtp_port: SMTP port
   setting_smtp_authentication: SMTP authentication
-  setting_smtp_domain: SMTP HELLO domain
   setting_smtp_user_name: SMTP username
   setting_smtp_password: SMTP password
+  setting_smtp_domain: SMTP HELLO domain
   setting_activity_days_default: Päivien esittäminen projektien historiassa
   setting_app_subtitle: Ohjelman alaotsikko
   setting_app_title: Ohjelman otsikko
@@ -2337,6 +2322,8 @@ fi:
   text_user_wrote: "%{value} kirjoitti:"
   text_warn_on_leaving_unsaved: The work package contains unsaved text that will be
     lost if you leave this page.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Oletko varma että haluat poistaa tämän wiki:n ja
     kaikki sen sisältämän tiedon?
   text_wiki_page_destroy_children: Poista alisivut ja kaikki niiden jälkeläiset
@@ -2364,8 +2351,6 @@ fi:
     admin_menu:
       color: Väri
       colors: Colors
-      project_type: Projektityyppi
-      project_types: Projektityypit
     associations: Riippuvuudet
     board_could_not_be_saved: Taulua ei voitu tallentaa
     button_delete_all: Poista kaikki
@@ -2382,7 +2367,6 @@ fi:
       one: päivä
       other: "%{count} päivää"
     edit_color: Muokkaa väriä
-    edit_project_type: Muokkaa projektin tyyppiä
     edit_thing: Muokkaa
     edit_timeline: Muokkaa aikajanaraporttia %{timeline}
     delete_timeline: Poista aikajanaraportti %{timeline}
@@ -2423,7 +2407,6 @@ fi:
         due_date: End date
         name: Nimi
         status: Tila
-        responsible: Vastuullinen
         start_date: Aloituspäivä
       columns: Sarakkeet
       comparisons: Comparisons
@@ -2452,7 +2435,7 @@ fi:
       outline: Initial outline expansion
       parent: Show subprojects of
       work_package_filters: Filter work packages
-      work_package_responsible: Show work packages with responsible
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: Show work packages with assignee
       types: Näytä tyypit
       status: Näytä tila
@@ -2465,9 +2448,8 @@ fi:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago,
         %{end_label} %{endspan}%{endspanunit} from now"
       project_filters: Filter projects
-      project_responsible: Näytä hankkeita joiden tehtävänä
+      project_responsible: Show projects with accountable
       project_status: Näytä projekti tila
-      project_types: Näytä projekti tyypit
       timeframe: Näytä aikataulu
       timeframe_end: to
       timeframe_start: from
@@ -2477,7 +2459,6 @@ fi:
     new_color: New color
     new_association: New dependency
     new_work_package: Uusi työpaketti
-    new_project_type: Uusi projektityyppi
     new_reporting: New reporting
     new_timeline: Uusi aikajana-raportti
     no_projects_for_reporting_available: Ei ole hankkeita joihin raportointi yhdistys
@@ -2504,20 +2485,11 @@ fi:
       edit: 'Edit status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Update: %{title}'
-    project_type_could_not_be_saved: Project type could not be saved
     type_could_not_be_saved: Type could not be saved
     reporting_could_not_be_saved: Raportointi ei voitu tallenneta
     properties: Ominaisuudet
     really_delete_color: 'Oletko varma, että haluat poistaa seuraava väri? Tyypit
       käyttää tätä väri ei poisteta.
-
-'
-    really_delete_project_type: 'Oletko varma, että haluat poistaa seuraavat projekti
-      tyyppi? Projekti avulla tämä tyyppi ei poisteta.
-
-'
-    really_delete_timeline: 'Oletko varma, että haluat poistaa seuraavat aikajana
-      raportti? toimia paketti näkyy tämä aikajana raportti ei poisteta.
 
 '
     really_delete_reporting: 'Oletko varma, että haluat poistaa seuraavat raportointia?
@@ -2529,7 +2501,6 @@ fi:
     timelines: Aikajanaraportit
     settings: Aikataulut
     vertical_work_package: Vertical work packages
-    without_project_type: Without project type
     you_are_viewing_the_selected_timeline: Sinä olet katselu valittu aikajana raportti
     zoom:
       in: Lähennä

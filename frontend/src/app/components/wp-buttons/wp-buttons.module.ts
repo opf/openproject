@@ -88,7 +88,7 @@ export abstract class AbstractWorkPackageButtonComponent {
 
   public abstract isActive():boolean;
 
-  public abstract performAction():void;
+  public abstract performAction(event:Event):void;
 }
 
 export abstract class WorkPackageNavigationButtonComponent extends AbstractWorkPackageButtonComponent {

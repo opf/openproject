@@ -4,6 +4,11 @@ da:
     ajax:
       hide: Gem
       loading: Henter...
+    attachments:
+      draggable_hint: 'Drag on editor field to inline image or reference attachment.
+        Closed editor fields will be opened while you keep dragging.
+
+'
     autocomplete_select:
       placeholder:
         multi: Add "%{name}"
@@ -424,7 +429,6 @@ da:
         level5: Udvidelsesniveau 5
         all: Vis alle
       project_status: Projektstatus
-      project_type: Projekttype
       really_close_dialog: Vil du virkelig lukke dialogboksen og miste ugemte data?
       responsible: Ansvarlig
       save: Gem

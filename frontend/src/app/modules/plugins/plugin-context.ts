@@ -23,6 +23,7 @@ import {HTMLSanitizeService} from "../common/html-sanitize/html-sanitize.service
 import {PathHelperService} from "../common/path-helper/path-helper.service";
 import {CKEditorPreviewService} from "core-components/ckeditor/ckeditor-preview.service";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import {States} from 'core-components/states.service';
 
 /**
  * Plugin context bridge for plugins outside the CLI compiler context
@@ -55,6 +56,7 @@ export class OpenProjectPluginContext {
     htmlSanitizeService: this.injector.get<HTMLSanitizeService>(HTMLSanitizeService),
     ckEditorPreview: this.injector.get<CKEditorPreviewService>(CKEditorPreviewService),
     pathHelperService: this.injector.get<PathHelperService>(PathHelperService),
+    states: this.injector.get<States>(States),
   };
 
   // Random collection of classes needed outside of angular

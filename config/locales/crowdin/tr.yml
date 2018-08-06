@@ -127,10 +127,6 @@ tr:
       versions:
         no_results_title_text: Şu anda proje için versiyon mevcut değil.
         no_results_content_text: Yeni bir versiyon oluştur
-  project_types:
-    index:
-      no_results_title_text: Hiç proje tipi bulunmamakta.
-      no_results_content_text: Yeni bir proje tipi mevcut
   members:
     index:
       no_results_title_text: Bu projenini parçası olan mevcut bir üye bulunmamakta.
@@ -197,7 +193,8 @@ tr:
       reported:
         no_results_title_text: Raporladığım iş paketi bulunmuyor.
       responsible:
-        no_results_title_text: Sorumlusu olduğum iş paketi bulunmuyor.
+        no_results_title_text: There are currently no work packages that I am accountable
+          for.
       watched:
         no_results_title_text: İzlediğim iş paketi bulunmuyor.
     summary:
@@ -334,9 +331,7 @@ tr:
         identifier: Tanımlayıcı
         latest_activity_at: Son etkinlik zamanı
         parent: Alt Proje
-        project_type: Proje türü
         queries: Sorgular
-        responsible: Sorumlu
         types: Türler
         versions: Sürümler
         work_packages: İş Paketleri
@@ -392,8 +387,6 @@ tr:
         redirect_existing_links: Varolan bağlantıları yönlendirme
       planning_element_type_color:
         hexcode: Hex kodu
-      project_type:
-        position: Pozisyon
       work_package:
         begin_insertion: Eklemeye başlama
         begin_deletion: Silme işleminin başlangıcı
@@ -407,7 +400,6 @@ tr:
         parent_work_package: Kaynak
         priority: Öncelik
         progress: İlerleme (%)
-        responsible: Sorumlu
         spent_hours: Harcanan zaman
         spent_time: Harcanan zaman
         subproject: Alt proje
@@ -417,11 +409,16 @@ tr:
     errors:
       messages:
         accepted: kabul edilmelidir.
+        after: "%{date} sonra olması gerekir."
+        after_or_equal_to: "%{date} için eşit veya sonra olmalı."
+        before: "%{date}'dan daha önce olması gerekir."
+        before_or_equal_to: "%{date}} tarihinden önce veya ona eşit olmalıdır."
         blank: boş bırakılamaz.
         cant_link_a_work_package_with_a_descendant: İş paketi alt görevlerinden birine
           bağlanamaz.
         circular_dependency: Bu ilişki döngüsel bağımlılık oluşturacak.
         confirmation: "%{attribute} eşleşmiyor."
+        could_not_be_copied: "(tamamen) kopyalanamadı."
         does_not_exist: mevcut değil.
         empty: boş olamaz.
         even: çift olmalı.
@@ -429,11 +426,9 @@ tr:
         file_too_large: çok büyük (en büyük boyut %{count} bayt).
         greater_than: "%{count}'ten büyük olması gerekir."
         greater_than_or_equal_to: "%{count} ya da daha büyük olması gerekir."
-        smaller_than_or_equal_to_max_length: en fazla uzunluğa eşit veya daha küçük
-          olmalıdır.
-        greater_than_start_date: başlangıç tarihinden daha büyük olması gerekir.
         greater_than_or_equal_to_start_date: başlangıç tarihi ile aynı ya da daha
           büyük olması gerekir.
+        greater_than_start_date: başlangıç tarihinden daha büyük olması gerekir.
         inclusion: izin verilen değerlerden birine ayarlanmamış.
         invalid: geçersizdir.
         invalid_url: geçerli bir adres değil.
@@ -441,22 +436,20 @@ tr:
         less_than_or_equal_to: "%{count} 'ten küçük veya bu değere eşit olmalıdır."
         not_a_date: geçerli bir tarih değil.
         not_a_datetime: geçerli bir zaman değil.
-        not_an_iso_date: 'geçerli bir tarih değil. Gerekli biçim:: YYYY-AA-GG.'
         not_a_number: bir sayı değil.
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: bir tamsayı değil.
+        not_an_iso_date: 'geçerli bir tarih değil. Gerekli biçim:: YYYY-AA-GG.'
         not_same_project: aynı projeye ait değil.
         odd: tek sayı olmalı.
+        regex_invalid: atanmış düzenli ifadeler ile doğrulanamadı.
+        smaller_than_or_equal_to_max_length: en fazla uzunluğa eşit veya daha küçük
+          olmalıdır.
         taken: zaten alınmıştır.
         too_long: çok uzun (en fazla %{count} karakterdir).
         too_short: çok kısa (en az %{count} karakterdir).
-        wrong_length: uzunluğu yanlıştır (%{count} karakter olmalıdır).
-        after: "%{date} sonra olması gerekir."
-        after_or_equal_to: "%{date} için eşit veya sonra olmalı."
-        before: "%{date}'dan daha önce olması gerekir."
-        before_or_equal_to: "%{date}} tarihinden önce veya ona eşit olmalıdır."
-        could_not_be_copied: "(tamamen) kopyalanamadı."
-        regex_invalid: atanmış düzenli ifadeler ile doğrulanamadı.
         unchangeable: cannot be changed.
+        wrong_length: uzunluğu yanlıştır (%{count} karakter olmalıdır).
       models:
         custom_field:
           at_least_one_custom_option: En az bir seçeneğin uygun olması gerekir.
@@ -592,7 +585,6 @@ tr:
         one: Rol
         other: Yetkiler
       type: Tür
-      project_type: Proje türü
       user: Kullanıcı
       version: Sürüm
       wiki: Viki
@@ -646,7 +638,7 @@ tr:
     password: Parola
     priority: Öncelik
     project: Proje
-    responsible: Sorumlu
+    responsible: Accountable
     role: Rol
     roles: Roller
     start_date: Başlangıç tarihi
@@ -888,11 +880,6 @@ tr:
   default_priority_normal: Normal
   default_priority_high: Yüksek
   default_priority_immediate: Acil
-  default_project_type_scrum: Scrum takımı
-  default_project_type_standard: Standart proje
-  default_reported_project_status_green: Yeşil
-  default_reported_project_status_amber: Kehribar
-  default_reported_project_status_red: Kırmızı
   default_role_anonymous: Anonim
   default_role_developer: Geliştirici
   default_role_project_admin: Proje yöneticisi
@@ -1242,7 +1229,6 @@ tr:
   label_edit: Düzenle
   label_enable_multi_select: Çoklu seçimi etkinleştir
   label_enabled_project_custom_fields: Etkin özel alanlar
-  label_enabled_project_types: Etkin türler
   label_enabled_project_modules: Aktif modüller
   label_enabled_project_activities: Etkin zaman izleme etkinlikleri
   label_end_to_end: uçtan uca
@@ -1473,7 +1459,7 @@ tr:
   label_repository_plural: Depolar
   label_required: gerekli
   label_requires: gerektirir
-  label_responsible_for_work_packages: Benim sorumlu olduğum iş paketleri
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Sonuçlar
   label_reverse_chronological_order: Ters tarih sırasına göre
   label_revision: Gözden geçirme
@@ -1610,8 +1596,8 @@ tr:
   label_work_package_view_all: Tüm iş paketleri görüntüle
   label_work_package_view_all_assigned_to_me: Bana atanan tüm iş paketlerini göster
   label_work_package_view_all_reported_by_me: Bildirdiğim tüm iş paketleri
-  label_work_package_view_all_responsible_for: Benim sorumlu olduğum tüm iş paketlerini
-    görüntüle
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
+    for
   label_work_package_view_all_watched: Takip edilen tüm iş paketlerini göster
   label_work_package_watchers: Takip Edenler
   label_workflow: İş akışı
@@ -2078,9 +2064,9 @@ tr:
   setting_smtp_address: SMTP Sunucusu
   setting_smtp_port: SMTP port
   setting_smtp_authentication: SMTP kimlik doğrulaması
-  setting_smtp_domain: SMTP HELLO alan adı
   setting_smtp_user_name: SMTP Kullanıcı Adı
   setting_smtp_password: SMTP Parolası
+  setting_smtp_domain: SMTP HELLO alan adı
   setting_activity_days_default: Proje faaliyetin de gösterilen gün sayısı istinaden
   setting_app_subtitle: Uygulama alt başlığı
   setting_app_title: Uygulama başlığı
@@ -2349,6 +2335,8 @@ tr:
   text_user_wrote: "%{value} demiş ki:"
   text_warn_on_leaving_unsaved: İş paketi bu sayfadan ayrıldığınızda kaybolabilecek
     kaydedilmemiş metinler içeriyor.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Bu wiki'yi ve içeriğini silmek istediğinizden emin
     misiniz?
   text_wiki_page_destroy_children: Çocuk sayfalarını ve tüm torunlarını sil
@@ -2376,8 +2364,6 @@ tr:
     admin_menu:
       color: Renk
       colors: Renkler
-      project_type: Proje türü
-      project_types: Proje türü
     associations: Bağımlılıklar
     board_could_not_be_saved: Kurul kaydedilemedi
     button_delete_all: Tümünü sil
@@ -2395,7 +2381,6 @@ tr:
       one: 1 gün
       other: "%{count} gün"
     edit_color: Renk Düzenle
-    edit_project_type: Proje türünü düzenle
     edit_thing: Düzenle
     edit_timeline: Zaman çizelgesi raporunu düzenle %{timeline}
     delete_timeline: Zaman çizelgesi raporunu sil %{timeline}
@@ -2437,7 +2422,6 @@ tr:
         due_date: Bitiş tarihi
         name: İsim
         status: Durum
-        responsible: Sorumlu
         start_date: Başlangıç tarihi
       columns: Sütunlar
       comparisons: Karşılaştırmalar
@@ -2466,7 +2450,7 @@ tr:
       outline: İlk seferde anahat genişletme
       parent: Şunun altprojelerini göster
       work_package_filters: İş paketlerini filtrele
-      work_package_responsible: Show work packages with responsible
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: Atanmış kişiye ait iş paketlerini göster
       types: Türleri göster
       status: Durumu göster
@@ -2479,9 +2463,8 @@ tr:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago,
         %{end_label} %{endspan}%{endspanunit} from now"
       project_filters: Projeleri filtrele
-      project_responsible: Projeleri sorumlu ile göster
+      project_responsible: Show projects with accountable
       project_status: Proje durumunu göster
-      project_types: Proje türlerini göster
       timeframe: Zaman aralığını göster
       timeframe_end: bitiş
       timeframe_start: başlangıç
@@ -2491,7 +2474,6 @@ tr:
     new_color: Yeni renk
     new_association: Yeni bağımlılık
     new_work_package: Yeni iş paketi
-    new_project_type: Yeni proje türü
     new_reporting: Yeni raporlama
     new_timeline: Yeni zaman çizelgesi raporu
     no_projects_for_reporting_available: There are no projects to which a reporting
@@ -2518,20 +2500,11 @@ tr:
       edit: 'Düzenleme durumu: %{comment}'
       show: 'Durum: %{comment}'
     planning_element_update: 'Güncelleme: %{title}'
-    project_type_could_not_be_saved: Proje türü kaydedilemedi
     type_could_not_be_saved: Type kaydedilemedi
     reporting_could_not_be_saved: Raporlama kaydedilemedi
     properties: Özellikler
     really_delete_color: 'Aşağıdaki rengi silmek istediğinizden emin misiniz? Bu rengi
       kullanan türler silinmeyecek.
-
-'
-    really_delete_project_type: 'Aşağıdaki proje türünü silmek istediğinizden emin
-      misiniz? Bu türü kullanan projeler silinmeyecek.
-
-'
-    really_delete_timeline: 'Aşağıdaki zaman akışı raporunu silmek istediğinizden
-      emin misiniz? Zaman akışı raporunda görünen iş paketleri silinmeyecek.
 
 '
     really_delete_reporting: 'Aşağıdaki raporlama silmek istediğinizden emin misiniz?
@@ -2543,7 +2516,6 @@ tr:
     timelines: Zaman çizelgesi raporu
     settings: Zaman çizelgeleri
     vertical_work_package: Dikey iş paketleri
-    without_project_type: Proje türü olmadan
     you_are_viewing_the_selected_timeline: Seçili zaman çizelgesi raporu görüntüleme
     zoom:
       in: Yakınlaştır

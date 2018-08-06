@@ -4,6 +4,11 @@ hr:
     ajax:
       hide: Sakrij
       loading: Učitavanje ...
+    attachments:
+      draggable_hint: 'Drag on editor field to inline image or reference attachment.
+        Closed editor fields will be opened while you keep dragging.
+
+'
     autocomplete_select:
       placeholder:
         multi: Add "%{name}"
@@ -429,7 +434,6 @@ hr:
         level5: Proširi nivo 5
         all: Prikaži sve
       project_status: Status projekta
-      project_type: Tip projekta
       really_close_dialog: Da li stvarno želite zatvoriti trenutni dijaloški okvir
         i izgubiti sve unesene podatke?
       responsible: Odgovoran

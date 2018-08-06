@@ -70,7 +70,7 @@ class WikiMenuItemsController < ApplicationController
     if wiki_menu_setting == 'no_item'
       unless @wiki_menu_item.nil?
         if @wiki_menu_item.is_only_main_item?
-          if @page.is_only_wiki_page?
+          if @page.only_wiki_page?
             flash.now[:error] = t(:wiki_menu_item_delete_not_permitted)
             render(:edit, id: @page_title) and return
           else

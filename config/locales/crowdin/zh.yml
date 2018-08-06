@@ -112,10 +112,6 @@ zh:
       versions:
         no_results_title_text: 目前这个项目没有版本。
         no_results_content_text: 创建一个新的版本
-  project_types:
-    index:
-      no_results_title_text: 目前没有项目类型。
-      no_results_content_text: 创建一个新的项目类型
   members:
     index:
       no_results_title_text: 目前这个项目没有成员。
@@ -180,7 +176,8 @@ zh:
       reported:
         no_results_title_text: 目前没有我已报告的工作包。
       responsible:
-        no_results_title_text: 目前没有我负责的工作包。
+        no_results_title_text: There are currently no work packages that I am accountable
+          for.
       watched:
         no_results_title_text: 目前没有我关注的工作包。
     summary:
@@ -295,9 +292,7 @@ zh:
         identifier: 标识符
         latest_activity_at: 最近一次活动
         parent: 父项目
-        project_type: 项目类型
         queries: 查询
-        responsible: 责任人
         types: 类型
         versions: 版本
         work_packages: 工作包
@@ -350,8 +345,6 @@ zh:
         redirect_existing_links: 将现有的链接重定向
       planning_element_type_color:
         hexcode: 十六进制代码
-      project_type:
-        position: 位置
       work_package:
         begin_insertion: 开始插入
         begin_deletion: 开始删除
@@ -365,7 +358,6 @@ zh:
         parent_work_package: 父
         priority: 优先级
         progress: 进度 (%)
-        responsible: 责任人
         spent_hours: 已耗时间
         spent_time: 已耗时间
         subproject: 子项目
@@ -375,10 +367,15 @@ zh:
     errors:
       messages:
         accepted: 必须接受。
+        after: 必须在 %{date} 之后。
+        after_or_equal_to: 必须后或等于 %{date}。
+        before: 必须在 %{date} 之前。
+        before_or_equal_to: 必须在早于或等于 %{date}
         blank: 不能为空。
         cant_link_a_work_package_with_a_descendant: 工作包无法链接到它的子任务之一。
         circular_dependency: 这种关系将创建循环依赖项。
         confirmation: 不匹配 %{attribute}。
+        could_not_be_copied: 不能 (完全) 复制。
         does_not_exist: 不存在。
         empty: 不能为空。
         even: 必须是偶数。
@@ -386,9 +383,8 @@ zh:
         file_too_large: 太大 (最大大小为 %{count} 字节)。
         greater_than: 必须大于 %{count}。
         greater_than_or_equal_to: 必须大于或等于 %{count}。
-        smaller_than_or_equal_to_max_length: 必须小于或等于最大长度。
-        greater_than_start_date: 必须晚于开始日期。
         greater_than_or_equal_to_start_date: 必须晚于或等于开始日期。
+        greater_than_start_date: 必须晚于开始日期。
         inclusion: 未设置为允许的值之一。
         invalid: 是无效的。
         invalid_url: 不是有效的 URL。
@@ -396,22 +392,19 @@ zh:
         less_than_or_equal_to: 必须小于或等于 %{count}。
         not_a_date: 不是有效的日期。
         not_a_datetime: 不是有效的日期时间。
-        not_an_iso_date: 不是有效日期。所需格式：YYYY-MM-DD。
         not_a_number: 不是一个数字。
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: 不是一个整数。
+        not_an_iso_date: 不是有效日期。所需格式：YYYY-MM-DD。
         not_same_project: 不属于同一个项目。
         odd: 必须是奇数。
+        regex_invalid: 无法与关联的正则表达式进行验证。
+        smaller_than_or_equal_to_max_length: 必须小于或等于最大长度。
         taken: 已经采取。
         too_long: 太长 (最多 %{count} 个字符)。
         too_short: 太短 (最低是 %{count} 个字符)。
-        wrong_length: 长度不正确 (应该是 %{count} 个字符)。
-        after: 必须在 %{date} 之后。
-        after_or_equal_to: 必须后或等于 %{date}。
-        before: 必须在 %{date} 之前。
-        before_or_equal_to: 必须在早于或等于 %{date}
-        could_not_be_copied: 不能 (完全) 复制。
-        regex_invalid: 无法与关联的正则表达式进行验证。
         unchangeable: 不能更改。
+        wrong_length: 长度不正确 (应该是 %{count} 个字符)。
       models:
         custom_field:
           at_least_one_custom_option: 至少有需要一个可用选项。
@@ -535,7 +528,6 @@ zh:
         one: Role
         other: 角色
       type: 类型
-      project_type: 项目类型
       user: 用户
       version: 版本
       wiki: 维基
@@ -589,7 +581,7 @@ zh:
     password: 密码
     priority: 优先级
     project: 项目
-    responsible: 责任人
+    responsible: Accountable
     role: 角色
     roles: 角色
     start_date: 开始日期
@@ -822,11 +814,6 @@ zh:
   default_priority_normal: 普通
   default_priority_high: 高
   default_priority_immediate: 立即
-  default_project_type_scrum: Scrum 团队
-  default_project_type_standard: 标准项目
-  default_reported_project_status_green: 绿色
-  default_reported_project_status_amber: 琥珀色
-  default_reported_project_status_red: 红色
   default_role_anonymous: 匿名
   default_role_developer: 开发者
   default_role_project_admin: 项目管理员
@@ -1152,7 +1139,6 @@ zh:
   label_edit: 编辑
   label_enable_multi_select: 切换多选
   label_enabled_project_custom_fields: 启用自定义字段
-  label_enabled_project_types: 启用的类型
   label_enabled_project_modules: 启用的模块
   label_enabled_project_activities: 启用的时间跟踪活动
   label_end_to_end: 结束结束
@@ -1381,7 +1367,7 @@ zh:
   label_repository_plural: 代码库
   label_required: 必填
   label_requires: 要求
-  label_responsible_for_work_packages: 我负责的工作包
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: 结果
   label_reverse_chronological_order: 在相反的顺序
   label_revision: 修订
@@ -1515,7 +1501,8 @@ zh:
   label_work_package_view_all: 查看所有工作包
   label_work_package_view_all_assigned_to_me: 查看分配给我的所有工作包
   label_work_package_view_all_reported_by_me: 查看所有由我报告的工作包
-  label_work_package_view_all_responsible_for: 查看所有我负责的工作包
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
+    for
   label_work_package_view_all_watched: 查看所有被关注的工作包
   label_work_package_watchers: 关注人
   label_workflow: 工作流
@@ -1916,9 +1903,9 @@ zh:
   setting_smtp_address: SMTP 服务器
   setting_smtp_port: SMTP 端口
   setting_smtp_authentication: SMTP 身份验证
-  setting_smtp_domain: SMTP HELLO 域
   setting_smtp_user_name: SMTP 用户名
   setting_smtp_password: SMTP 密码
+  setting_smtp_domain: SMTP HELLO 域
   setting_activity_days_default: 显示在项目活动上的天
   setting_app_subtitle: 应用副标题
   setting_app_title: 应用程序标题
@@ -2133,6 +2120,8 @@ zh:
   text_user_invited: 用户已被邀请，正在等待注册。
   text_user_wrote: "%{value} 写道："
   text_warn_on_leaving_unsaved: 此工作包包含未保存的文本，如果您离开此页面未保存的文本将会丢失。
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: 确实要删除此 wiki 和它的所有内容吗?
   text_wiki_page_destroy_children: 删除子页面和所有他们的派生页面
   text_wiki_page_destroy_question: 此页有 %{descendants} 子页面和派生页面。你想做什么？
@@ -2158,8 +2147,6 @@ zh:
     admin_menu:
       color: 颜色
       colors: 颜色
-      project_type: 项目类型
-      project_types: 项目类型
     associations: 依赖项
     board_could_not_be_saved: 面板不能被保存
     button_delete_all: 删除所有
@@ -2176,7 +2163,6 @@ zh:
       one: 1 day
       other: "%{count} 天"
     edit_color: 编辑颜色
-    edit_project_type: 编辑项目类型
     edit_thing: 编辑
     edit_timeline: 编辑时间线报告
     delete_timeline: 删除时间线报告
@@ -2211,7 +2197,6 @@ zh:
         due_date: 结束日期
         name: 名称
         status: 状态
-        responsible: 责任人
         start_date: 开始日期
       columns: 列
       comparisons: 比较
@@ -2240,7 +2225,7 @@ zh:
       outline: 初始大纲扩展
       parent: 显示子项目属于
       work_package_filters: 筛选工作包
-      work_package_responsible: 显示工作包与责任人
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: 显示工作包指定人
       types: 显示类型
       status: 显示状态
@@ -2252,9 +2237,8 @@ zh:
       project_time_filter_relative: "%{start_label} %{startspan} %{startspanunit}
         前，从现在起的 %{end_label} %{endspan} %{endspanunit}"
       project_filters: 筛选项目
-      project_responsible: 显示项目与责任人
+      project_responsible: Show projects with accountable
       project_status: 显示项目的状态
-      project_types: 显示项目类型
       timeframe: 显示时间段
       timeframe_end: 到
       timeframe_start: 从
@@ -2264,7 +2248,6 @@ zh:
     new_color: 新的颜色
     new_association: 新依赖项
     new_work_package: 新工作包
-    new_project_type: 新项目类型
     new_reporting: 新的报表
     new_timeline: 新的时间线报表
     no_projects_for_reporting_available: 没有任何项目可以创建报告关联。
@@ -2289,17 +2272,10 @@ zh:
       edit: 编辑状态：%{comment}
       show: 状态：%{comment}
     planning_element_update: 更新：%{title}
-    project_type_could_not_be_saved: 项目类型不能保存
     type_could_not_be_saved: 无法保存类型
     reporting_could_not_be_saved: 不能保存报告
     properties: 属性
     really_delete_color: '您确定您要删除以下颜色？使用这种颜色的类型不会被删除。
-
-'
-    really_delete_project_type: '您确定你要删除以下项目类型？使用这种类型的项目不会被删除。
-
-'
-    really_delete_timeline: '您确定您要删除以下时间线报告？在该时间线报告中的工作包不会被删除。
 
 '
     really_delete_reporting: '您确定您要删除以下报告吗？之前的报告状态也会被删除。
@@ -2310,7 +2286,6 @@ zh:
     timelines: 时间线报表
     settings: 时间线
     vertical_work_package: 垂直工作包
-    without_project_type: 没有项目类型
     you_are_viewing_the_selected_timeline: 您正在查看所选时间线报表
     zoom:
       in: 放大

@@ -130,10 +130,6 @@ ro:
       versions:
         no_results_title_text: În acest moment nu există versiuni pentru acest proiect.
         no_results_content_text: Creare versiune nouă
-  project_types:
-    index:
-      no_results_title_text: În acest moment nu există tipuri de proiecte.
-      no_results_content_text: Creare tip nou de proiect
   members:
     index:
       no_results_title_text: În acest moment nu există niciun participant la acest
@@ -207,8 +203,8 @@ ro:
         no_results_title_text: În acest moment nu există pachete de lucru raportate
           de mine.
       responsible:
-        no_results_title_text: În acest moment nu există pachete de lucru de care
-          sunt eu responsabil.
+        no_results_title_text: There are currently no work packages that I am accountable
+          for.
       watched:
         no_results_title_text: În acest moment nu există pachete de lucru urmărite
           de mine.
@@ -348,9 +344,7 @@ ro:
         identifier: Identificator
         latest_activity_at: Ultima activitate la
         parent: Subproiect în
-        project_type: Tip proiect
         queries: Interogări
-        responsible: Responsabil
         types: Tipuri
         versions: Versiuni
         work_packages: Pachete de lucru
@@ -405,8 +399,6 @@ ro:
         redirect_existing_links: Redirectare link-uri existente
       planning_element_type_color:
         hexcode: Cod hexa
-      project_type:
-        position: Poziţie
       work_package:
         begin_insertion: Început de inserare
         begin_deletion: Început de ștergere
@@ -420,7 +412,6 @@ ro:
         parent_work_package: Părinte
         priority: Prioritate
         progress: Progres (%)
-        responsible: Responsabil
         spent_hours: Timp consumat
         spent_time: Timp consumat
         subproject: Subproiect
@@ -430,11 +421,16 @@ ro:
     errors:
       messages:
         accepted: trebuie acceptat.
+        after: trebuie să fie după %{date}.
+        after_or_equal_to: trebuie să fie după sau în %{date}.
+        before: trebuie să fie înainte de %{date}.
+        before_or_equal_to: trebuie să fie înainte sau în %{date}.
         blank: nu poate fi gol.
         cant_link_a_work_package_with_a_descendant: Un pachet de lucru nu poate fi
           legat de una din sub-activitățile sale.
         circular_dependency: Această relație ar crea o dependință circulară.
         confirmation: nu se potrivește cu %{attribute}.
+        could_not_be_copied: nu poate fi (complet) copiat(ă).
         does_not_exist: nu există.
         empty: nu poate fi gol.
         even: trebuie să fie par.
@@ -442,11 +438,9 @@ ro:
         file_too_large: este prea mare (dimensiunea maximă este %{count} Octeți).
         greater_than: trebuie să fie mai mare de %{count}.
         greater_than_or_equal_to: trebuie să fie mai mare sau egal cu %{count}.
-        smaller_than_or_equal_to_max_length: trebuie să fie mai mic sau egal cu lungimea
-          maximă.
-        greater_than_start_date: trebuie să fie după data de începere.
         greater_than_or_equal_to_start_date: trebuie să fie după sau la fel cu data
           de începere.
+        greater_than_start_date: trebuie să fie după data de începere.
         inclusion: nu este setată la una din valorile permise.
         invalid: este invalid.
         invalid_url: is not a valid URL.
@@ -454,22 +448,20 @@ ro:
         less_than_or_equal_to: trebuie să fie mai mic sau egal cu %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
-        not_an_iso_date: 'nu este o dată validă. Formatul necesar: AAAA-MM-ZZ.'
         not_a_number: nu este un număr.
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: nu este un întreg.
+        not_an_iso_date: 'nu este o dată validă. Formatul necesar: AAAA-MM-ZZ.'
         not_same_project: nu aparține aceluiași proiect.
         odd: trebuie să fie impar.
+        regex_invalid: could not be validated with the associated regular expression.
+        smaller_than_or_equal_to_max_length: trebuie să fie mai mic sau egal cu lungimea
+          maximă.
         taken: a fost luat deja.
         too_long: este prea lung (maximul admis este de %{count} caractere).
         too_short: este prea scurt (minimum admis este de %{count} caractere).
-        wrong_length: nu are lungimea corectă (ar trebui să fie de %{count} characters).
-        after: trebuie să fie după %{date}.
-        after_or_equal_to: trebuie să fie după sau în %{date}.
-        before: trebuie să fie înainte de %{date}.
-        before_or_equal_to: trebuie să fie înainte sau în %{date}.
-        could_not_be_copied: nu poate fi (complet) copiat(ă).
-        regex_invalid: could not be validated with the associated regular expression.
         unchangeable: cannot be changed.
+        wrong_length: nu are lungimea corectă (ar trebui să fie de %{count} characters).
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
@@ -606,7 +598,6 @@ ro:
         other: Roluri
         few: Roluri
       type: Tip
-      project_type: Tip proiect
       user: Utilizator
       version: Versiune
       wiki: Wiki
@@ -660,7 +651,7 @@ ro:
     password: Parolă
     priority: Prioritate
     project: Proiect
-    responsible: Responsabil
+    responsible: Accountable
     role: Rol
     roles: Roluri
     start_date: Data de început
@@ -912,11 +903,6 @@ ro:
   default_priority_normal: Normală
   default_priority_high: Ridicată
   default_priority_immediate: Imediată
-  default_project_type_scrum: Echipă Scrum
-  default_project_type_standard: Proiect standard
-  default_reported_project_status_green: Verde
-  default_reported_project_status_amber: Portocaliu
-  default_reported_project_status_red: Roșu
   default_role_anonymous: Anonim
   default_role_developer: Programator
   default_role_project_admin: Admin proiect
@@ -1266,7 +1252,6 @@ ro:
   label_edit: Editare
   label_enable_multi_select: Comutare selecție multiplă
   label_enabled_project_custom_fields: Câmpuri personalizate activate
-  label_enabled_project_types: Tipuri activate
   label_enabled_project_modules: Module activate
   label_enabled_project_activities: Activități de urmărire timp activate
   label_end_to_end: sfârșit la sfărșit
@@ -1498,7 +1483,7 @@ ro:
   label_repository_plural: Repo-uri
   label_required: required
   label_requires: requires
-  label_responsible_for_work_packages: Pachete de lucru de care sunt responsabil
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Rezultate
   label_reverse_chronological_order: În ordine invers cronologică
   label_revision: Revizie
@@ -1636,8 +1621,8 @@ ro:
   label_work_package_view_all_assigned_to_me: Toate pachetele de lucru atribuite mie
   label_work_package_view_all_reported_by_me: Toate pachetele de lucru deschise de
     mine
-  label_work_package_view_all_responsible_for: Vizualizare toate pachetele de lucru
-    pentru care sunt responsabil
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
+    for
   label_work_package_view_all_watched: Toate pachetele de lucru la care sunt observator
   label_work_package_watchers: Observatori
   label_workflow: Flux de lucru
@@ -2121,9 +2106,9 @@ ro:
   setting_smtp_address: Server SMTP
   setting_smtp_port: Port SMTP
   setting_smtp_authentication: Autentificare SMTP
-  setting_smtp_domain: Domeniu "HELLO" SMTP
   setting_smtp_user_name: Utilizatorul SMTP
   setting_smtp_password: Parola SMTP
+  setting_smtp_domain: Domeniu "HELLO" SMTP
   setting_activity_days_default: Zile afișate în lista de activități a proiectului
   setting_app_subtitle: Subtitlu aplicație
   setting_app_title: Titlu aplicație
@@ -2402,6 +2387,8 @@ ro:
   text_user_wrote: "%{value} a scris:"
   text_warn_on_leaving_unsaved: The work package contains unsaved text that will be
     lost if you leave this page.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Sunteți sigur că doriți să ștergeți acest wiki şi
     a întregului conținut?
   text_wiki_page_destroy_children: Ștergere pagini fii și a tuturor descendenților
@@ -2429,8 +2416,6 @@ ro:
     admin_menu:
       color: Culoare
       colors: Culori
-      project_type: Tip proiect
-      project_types: Tipuri de proiect
     associations: Dependenţe
     board_could_not_be_saved: Forumul nu a putut fi salvat
     button_delete_all: Șterge tot
@@ -2448,7 +2433,6 @@ ro:
       other: "%{count} zile"
       few: "%{count} zile"
     edit_color: Editare culoare
-    edit_project_type: Editare tip proiect
     edit_thing: Editare
     edit_timeline: Editare raport planificări %{timeline}
     delete_timeline: Ștergere raport planificări %{timeline}
@@ -2492,7 +2476,6 @@ ro:
         due_date: Dată de sfârşit
         name: Nume
         status: Stare
-        responsible: Responsabil
         start_date: Data de început
       columns: Coloane
       comparisons: Comparaţii
@@ -2521,7 +2504,7 @@ ro:
       outline: Extindere contur inițial
       parent: Afișare subproiecte ale
       work_package_filters: Filtrare pachete de lucru
-      work_package_responsible: Afișare pachete de lucru cu responsabil
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: Afișare pachete de lucru cu executant
       types: Afișare tipuri
       status: Afișare stare
@@ -2534,9 +2517,8 @@ ro:
       project_time_filter_relative: "%{start_label} acum %{startspan}%{startspanunit},
         %{end_label} după %{endspan}%{endspanunit}"
       project_filters: Filtrare proiecte
-      project_responsible: Afișare proiecte cu responsabil
+      project_responsible: Show projects with accountable
       project_status: Afișare stare proiect
-      project_types: Afișare tipuri proiect
       timeframe: Afișare interval
       timeframe_end: până la
       timeframe_start: de la
@@ -2546,7 +2528,6 @@ ro:
     new_color: Culoare nouă
     new_association: Dependență nouă
     new_work_package: Pachet de lucru nou
-    new_project_type: Tip proiect nou
     new_reporting: Raportare nouă
     new_timeline: Raport nou de interval
     no_projects_for_reporting_available: Nu există proiecte pentru care să se poată
@@ -2573,20 +2554,11 @@ ro:
       edit: 'Stare editare: %{comment}'
       show: 'Stare: %{comment}'
     planning_element_update: 'Actualizare: %{title}'
-    project_type_could_not_be_saved: Nu a putut fi salvat tipul de proiect
     type_could_not_be_saved: Tipul nu a putut fi salvat
     reporting_could_not_be_saved: Raportarea nu a putut fi salvată
     properties: Proprietăţi
     really_delete_color: 'Sunteţi sigur că doriţi să ştergeţi următoarea culoare?
       Tipurile care folosesc această culoare nu vor fi şterse.
-
-'
-    really_delete_project_type: 'Sunteţi sigur că doriţi să ştergeţi următorul tip
-      de proiect? Proiectele care folosesc acest tip de proiect nu vor fi şterse.
-
-'
-    really_delete_timeline: 'Sunteţi sigur că doriţi să ştergeţi următorul raport
-      de interval? Pachetele de lucru afișate în cadrul lui nu vor fi șterse.
 
 '
     really_delete_reporting: 'Sunteţi sigur că doriţi să ştergeţi următoarea raportare?
@@ -2598,7 +2570,6 @@ ro:
     timelines: Raportări de interval
     settings: Planificări
     vertical_work_package: Pachete de lucru verticale
-    without_project_type: Fără tipuri de proiect
     you_are_viewing_the_selected_timeline: Raportul de interval selectat este afișat
     zoom:
       in: Mărire

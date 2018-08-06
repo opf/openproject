@@ -128,10 +128,6 @@ he:
       versions:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: Create a new version
-  project_types:
-    index:
-      no_results_title_text: There are currently no project types.
-      no_results_content_text: Create a new project type
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -201,7 +197,7 @@ he:
       reported:
         no_results_title_text: There are currently no work packages that I have reported.
       responsible:
-        no_results_title_text: There are currently no work packages that I am responsible
+        no_results_title_text: There are currently no work packages that I am accountable
           for.
       watched:
         no_results_title_text: There are currently no work packages that I am watching.
@@ -338,9 +334,7 @@ he:
         identifier: מזהה
         latest_activity_at: Latest activity at
         parent: תת פרוייקט של
-        project_type: סוג פרוייקט
         queries: שאילתות
-        responsible: אחראי על
         types: סוגים
         versions: גירסאות
         work_packages: חבילות עבודה
@@ -395,8 +389,6 @@ he:
         redirect_existing_links: ניתוב מחדש של קישורים קיימים
       planning_element_type_color:
         hexcode: קוד hex
-      project_type:
-        position: מיקום
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
@@ -410,7 +402,6 @@ he:
         parent_work_package: אב
         priority: עדיפות
         progress: Progress (%)
-        responsible: אחראי על
         spent_hours: זמן שבוזבז
         spent_time: זמן שבוזבז
         subproject: תת פרוייקט
@@ -420,11 +411,16 @@ he:
     errors:
       messages:
         accepted: must be accepted.
+        after: must be after %{date}.
+        after_or_equal_to: must be after or equal to %{date}.
+        before: must be before %{date}.
+        before_or_equal_to: must be before or equal to %{date}.
         blank: can't be blank.
         cant_link_a_work_package_with_a_descendant: A work package cannot be linked
           to one of its subtasks.
         circular_dependency: This relation would create a circular dependency.
         confirmation: doesn't match %{attribute}.
+        could_not_be_copied: could not be (fully) copied.
         does_not_exist: does not exist.
         empty: can't be empty.
         even: must be even.
@@ -432,11 +428,9 @@ he:
         file_too_large: is too large (maximum size is %{count} Bytes).
         greater_than: must be greater than %{count}.
         greater_than_or_equal_to: must be greater than or equal to %{count}.
-        smaller_than_or_equal_to_max_length: must be smaller than or equal to maximum
-          length.
-        greater_than_start_date: must be greater than the start date.
         greater_than_or_equal_to_start_date: must be greater than or equal to the
           start date.
+        greater_than_start_date: must be greater than the start date.
         inclusion: is not set to one of the allowed values.
         invalid: is invalid.
         invalid_url: is not a valid URL.
@@ -444,22 +438,20 @@ he:
         less_than_or_equal_to: must be less than or equal to %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
-        not_an_iso_date: 'is not a valid date. Required format: YYYY-MM-DD.'
         not_a_number: is not a number.
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: is not an integer.
+        not_an_iso_date: 'is not a valid date. Required format: YYYY-MM-DD.'
         not_same_project: doesn't belong to the same project.
         odd: must be odd.
+        regex_invalid: could not be validated with the associated regular expression.
+        smaller_than_or_equal_to_max_length: must be smaller than or equal to maximum
+          length.
         taken: has already been taken.
         too_long: is too long (maximum is %{count} characters).
         too_short: is too short (minimum is %{count} characters).
-        wrong_length: is the wrong length (should be %{count} characters).
-        after: must be after %{date}.
-        after_or_equal_to: must be after or equal to %{date}.
-        before: must be before %{date}.
-        before_or_equal_to: must be before or equal to %{date}.
-        could_not_be_copied: could not be (fully) copied.
-        regex_invalid: could not be validated with the associated regular expression.
         unchangeable: cannot be changed.
+        wrong_length: is the wrong length (should be %{count} characters).
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
@@ -596,7 +588,6 @@ he:
         two: תפקידים
         many: תפקידים
       type: סוג
-      project_type: סוג פרוייקט
       user: משתמש
       version: גירסה
       wiki: ויקי
@@ -650,7 +641,7 @@ he:
     password: סיסמה
     priority: עדיפות
     project: פרוייקט
-    responsible: אחראי על
+    responsible: Accountable
     role: תפקיד
     roles: תפקידים
     start_date: תאריך התחלה
@@ -913,11 +904,6 @@ he:
   default_priority_normal: רגיל
   default_priority_high: גבוה
   default_priority_immediate: מיידי
-  default_project_type_scrum: צוות Scrum
-  default_project_type_standard: פרוייקט סטנדרטי
-  default_reported_project_status_green: ירוק
-  default_reported_project_status_amber: אמבר
-  default_reported_project_status_red: אדום
   default_role_anonymous: אנונימי
   default_role_developer: מפתח
   default_role_project_admin: מנהל פרוייקט
@@ -1262,7 +1248,6 @@ he:
   label_edit: עריכה
   label_enable_multi_select: בטל בחירה מרובה
   label_enabled_project_custom_fields: Enabled custom fields
-  label_enabled_project_types: Enabled types
   label_enabled_project_modules: Enabled modules
   label_enabled_project_activities: Enabled time tracking activities
   label_end_to_end: סוף לסיים
@@ -1492,7 +1477,7 @@ he:
   label_repository_plural: Repositories
   label_required: required
   label_requires: requires
-  label_responsible_for_work_packages: Work packages I am responsible for
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: תוצאות
   label_reverse_chronological_order: In reverse chronological order
   label_revision: Revision
@@ -1626,7 +1611,7 @@ he:
   label_work_package_view_all: View all work packages
   label_work_package_view_all_assigned_to_me: View all work packages assigned to me
   label_work_package_view_all_reported_by_me: View all work packages reported by me
-  label_work_package_view_all_responsible_for: View all work packages that I am responsible
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
     for
   label_work_package_view_all_watched: View all watched work packages
   label_work_package_watchers: צופים
@@ -2110,9 +2095,9 @@ he:
   setting_smtp_address: SMTP server
   setting_smtp_port: SMTP port
   setting_smtp_authentication: SMTP authentication
-  setting_smtp_domain: SMTP HELLO domain
   setting_smtp_user_name: SMTP username
   setting_smtp_password: SMTP password
+  setting_smtp_domain: SMTP HELLO domain
   setting_activity_days_default: Days displayed on project activity
   setting_app_subtitle: Application subtitle
   setting_app_title: Application title
@@ -2375,6 +2360,8 @@ he:
   text_user_wrote: "%{value} wrote:"
   text_warn_on_leaving_unsaved: The work package contains unsaved text that will be
     lost if you leave this page.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all
     its content?
   text_wiki_page_destroy_children: Delete child pages and all their descendants
@@ -2402,8 +2389,6 @@ he:
     admin_menu:
       color: צבע
       colors: צבעים
-      project_type: סוג פרוייקט
-      project_types: Project types
     associations: Dependencies
     board_could_not_be_saved: Board could not be saved
     button_delete_all: Delete all
@@ -2423,7 +2408,6 @@ he:
       two: "%{count} ימים"
       many: "%{count} ימים"
     edit_color: Edit color
-    edit_project_type: Edit project type
     edit_thing: עריכה
     edit_timeline: Edit timeline report %{timeline}
     delete_timeline: Delete timeline report %{timeline}
@@ -2465,7 +2449,6 @@ he:
         due_date: תאריך סיום
         name: שם
         status: מצב
-        responsible: אחראי על
         start_date: תאריך התחלה
       columns: עמודות
       comparisons: Comparisons
@@ -2494,7 +2477,7 @@ he:
       outline: Initial outline expansion
       parent: Show subprojects of
       work_package_filters: Filter work packages
-      work_package_responsible: Show work packages with responsible
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: Show work packages with assignee
       types: Show types
       status: Show status
@@ -2507,9 +2490,8 @@ he:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago,
         %{end_label} %{endspan}%{endspanunit} from now"
       project_filters: Filter projects
-      project_responsible: Show projects with responsible
+      project_responsible: Show projects with accountable
       project_status: Show project status
-      project_types: Show project types
       timeframe: Show timeframe
       timeframe_end: to
       timeframe_start: from
@@ -2519,7 +2501,6 @@ he:
     new_color: צבע חדש
     new_association: New dependency
     new_work_package: New work package
-    new_project_type: New project type
     new_reporting: New reporting
     new_timeline: New timeline report
     no_projects_for_reporting_available: There are no projects to which a reporting
@@ -2546,20 +2527,11 @@ he:
       edit: 'Edit status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Update: %{title}'
-    project_type_could_not_be_saved: Project type could not be saved
     type_could_not_be_saved: Type could not be saved
     reporting_could_not_be_saved: Reporting could not be saved
     properties: Properties
     really_delete_color: 'Are you sure, you want to delete the following color? Types
       using this color will not be deleted.
-
-'
-    really_delete_project_type: 'Are you sure, you want to delete the following project
-      type? Projects using this type will not be deleted.
-
-'
-    really_delete_timeline: 'Are you sure, you want to delete the following timeline
-      report? Work packages shown in this timeline report will not be deleted.
 
 '
     really_delete_reporting: 'Are you sure, you want to delete the following reporting?
@@ -2571,7 +2543,6 @@ he:
     timelines: Timeline reports
     settings: צירי זמן
     vertical_work_package: Vertical work packages
-    without_project_type: Without project type
     you_are_viewing_the_selected_timeline: You are viewing the selected timeline report
     zoom:
       in: Zoom in

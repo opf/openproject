@@ -103,6 +103,19 @@ export class WorkPackageCommentComponent implements IEditFieldHandler, OnInit, O
       });
   }
 
+  // Open the field when its closed and relay drag & drop events to it.
+  public startDragOverActivation(event:JQueryEventObject) {
+    if (this.active) {
+      return true;
+    }
+
+    this.activate();
+
+    event.preventDefault();
+    return false;
+  }
+
+
   public ngOnDestroy() {
     // Nothing to do.
   }

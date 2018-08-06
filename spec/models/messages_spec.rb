@@ -39,6 +39,10 @@ describe Message, type: :model do
     let(:project) { model_instance.board.project }
   end
 
+  it_behaves_like 'acts_as_attachable included' do
+    let(:model_instance) { FactoryBot.build(:message) }
+  end
+
   describe '#project' do
     it 'is the same as the project on wiki' do
       expect(message.project).to eql(message.board.project)

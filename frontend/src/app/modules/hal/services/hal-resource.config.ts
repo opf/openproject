@@ -51,6 +51,7 @@ import {
 import {Injectable} from '@angular/core';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {WikiPageResource} from "core-app/modules/hal/resources/wiki-page-resource";
+import {PostResource} from "core-app/modules/hal/resources/post-resource";
 
 const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInterface } = {
   WorkPackage: {
@@ -147,6 +148,9 @@ const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInter
   },
   WikiPage: {
     cls: WikiPageResource
+  },
+  Post: {
+    cls: PostResource
   }
 };
 

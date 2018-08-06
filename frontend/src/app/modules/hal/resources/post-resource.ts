@@ -26,20 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {Component, Input, OnInit} from '@angular/core';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {Attachable} from 'core-app/modules/hal/resources/mixins/attachable-mixin';
 
-@Component({
-  selector: 'wp-attachment-list',
-  templateUrl: './wp-attachment-list.html'
-})
-export class WorkPackageAttachmentListComponent implements OnInit {
-  @Input('workPackage') public workPackage:WorkPackageResource;
+export interface PostResourceLinks {
+  addAttachment(attachment:HalResource):Promise<any>;
+}
 
-  ngOnInit() {
-    if (this.workPackage.attachments) {
-      this.workPackage.attachments.updateElements();
-    }
-  }
+class PostBaseResource extends HalResource {
+  public $links:PostResourceLinks;
+
+  private attachmentsBackend = false;
+}
+
+export const PostResource = Attachable(PostBaseResource);
+
+export interface PostResource extends PostResourceLinks {
 }

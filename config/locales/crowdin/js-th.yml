@@ -4,6 +4,11 @@ th:
     ajax:
       hide: ซ่อน
       loading: กำลังโหลด...
+    attachments:
+      draggable_hint: 'Drag on editor field to inline image or reference attachment.
+        Closed editor fields will be opened while you keep dragging.
+
+'
     autocomplete_select:
       placeholder:
         multi: Add "%{name}"
@@ -424,7 +429,6 @@ th:
         level5: ขยายระดับ 5
         all: แสดงทั้งหมด
       project_status: สถานะของโครงการ
-      project_type: ประเภทของโครงการ
       really_close_dialog: Do you really want to close the dialog and lose the entered
         data?
       responsible: รับผิดชอบ

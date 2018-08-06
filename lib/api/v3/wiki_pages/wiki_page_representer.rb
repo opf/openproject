@@ -33,25 +33,10 @@ module API
     module WikiPages
       class WikiPageRepresenter < ::API::Decorators::Single
         include API::Decorators::LinkedResource
+        include API::Caching::CachedRepresenter
+        include ::API::V3::Attachments::AttachableRepresenterMixin
 
         self_link title_getter: ->(*) { nil }
-
-        link :attachments do
-          next if represented.new_record?
-          {
-            href: api_v3_paths.attachments_by_wiki_page(represented.id)
-          }
-        end
-
-        link :addAttachment do
-          next if represented.new_record?
-          next unless current_user_allowed_to(:edit_wiki_pages, context: represented.project)
-
-          {
-            href: api_v3_paths.attachments_by_wiki_page(represented.id),
-            method: :post
-          }
-        end
 
         property :id
 

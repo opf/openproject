@@ -129,10 +129,6 @@ cs:
       versions:
         no_results_title_text: V současné době neexistují žádné verze pro projekt.
         no_results_content_text: Vytvořit novou verzi
-  project_types:
-    index:
-      no_results_title_text: V současné době neexistují žádné typy projektů.
-      no_results_content_text: Vytvořit nový typ projektu
   members:
     index:
       no_results_title_text: Momentálně nejsou žádní členové součástí tohoto projektu.
@@ -203,7 +199,7 @@ cs:
       reported:
         no_results_title_text: There are currently no work packages that I have reported.
       responsible:
-        no_results_title_text: There are currently no work packages that I am responsible
+        no_results_title_text: There are currently no work packages that I am accountable
           for.
       watched:
         no_results_title_text: There are currently no work packages that I am watching.
@@ -342,9 +338,7 @@ cs:
         identifier: Identifikátor
         latest_activity_at: Poslední aktivita
         parent: Dílčí projekt
-        project_type: Typ projektu
         queries: Dotazy
-        responsible: Zodpovědný
         types: Typy
         versions: Verze
         work_packages: Pracovní balíčky
@@ -399,8 +393,6 @@ cs:
         redirect_existing_links: Přesměrovat existující odkazy
       planning_element_type_color:
         hexcode: Hex kód
-      project_type:
-        position: Pozice
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
@@ -414,7 +406,6 @@ cs:
         parent_work_package: Rodič
         priority: Priorita
         progress: Průběh (%)
-        responsible: Zodpovědný
         spent_hours: Strávený čas
         spent_time: Strávený čas
         subproject: Dílčí projekt
@@ -424,11 +415,16 @@ cs:
     errors:
       messages:
         accepted: must be accepted.
+        after: musí být po %{date}.
+        after_or_equal_to: musí být po nebo rovno %{date}.
+        before: musí být před %{date}.
+        before_or_equal_to: musí být před nebo rovno %{date}.
         blank: nemůže být prázdné.
         cant_link_a_work_package_with_a_descendant: A work package cannot be linked
           to one of its subtasks.
         circular_dependency: This relation would create a circular dependency.
         confirmation: doesn't match %{attribute}.
+        could_not_be_copied: nelze (celé) zkopírovat.
         does_not_exist: neexistuje.
         empty: nemůže být prázdné.
         even: musí být sudé.
@@ -436,11 +432,9 @@ cs:
         file_too_large: je příliš velký (maximální velikost je %{count} Bajtů).
         greater_than: musí být větší než %{count}.
         greater_than_or_equal_to: musí být větší než nebo rovno %{count}.
-        smaller_than_or_equal_to_max_length: musí být menší než nebo rovno maximální
-          délce.
-        greater_than_start_date: must be greater than the start date.
         greater_than_or_equal_to_start_date: must be greater than or equal to the
           start date.
+        greater_than_start_date: must be greater than the start date.
         inclusion: is not set to one of the allowed values.
         invalid: je neplatné.
         invalid_url: není platná adresa URL.
@@ -448,22 +442,20 @@ cs:
         less_than_or_equal_to: musí být menší než nebo rovno %{count}.
         not_a_date: není platné datum.
         not_a_datetime: není platný čas.
-        not_an_iso_date: 'is not a valid date. Required format: YYYY-MM-DD.'
         not_a_number: není číslo.
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: není celé číslo.
+        not_an_iso_date: 'is not a valid date. Required format: YYYY-MM-DD.'
         not_same_project: nepatří do stejného projektu.
         odd: musí být liché.
+        regex_invalid: could not be validated with the associated regular expression.
+        smaller_than_or_equal_to_max_length: musí být menší než nebo rovno maximální
+          délce.
         taken: je již použito.
         too_long: je příliš dlouhý (maximum je %{count} znaků).
         too_short: je příliš krátký (minimum je %{count} znaků).
-        wrong_length: má chybnou délku (měla by být %{count} znaků).
-        after: musí být po %{date}.
-        after_or_equal_to: musí být po nebo rovno %{date}.
-        before: musí být před %{date}.
-        before_or_equal_to: musí být před nebo rovno %{date}.
-        could_not_be_copied: nelze (celé) zkopírovat.
-        regex_invalid: could not be validated with the associated regular expression.
         unchangeable: nelze změnit.
+        wrong_length: má chybnou délku (měla by být %{count} znaků).
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
@@ -605,7 +597,6 @@ cs:
         few: Role
         many: Roles
       type: Typ
-      project_type: Typ projektu
       user: Uživatel
       version: Verze
       wiki: Wiki
@@ -659,7 +650,7 @@ cs:
     password: Heslo
     priority: Priorita
     project: Projekt
-    responsible: Zodpovědný
+    responsible: Accountable
     role: Role
     roles: Role
     start_date: Datum zahájení
@@ -921,11 +912,6 @@ cs:
   default_priority_normal: Normální
   default_priority_high: Vysoká
   default_priority_immediate: Okamžitá
-  default_project_type_scrum: Scrum tým
-  default_project_type_standard: Standardní projekt
-  default_reported_project_status_green: Zelená
-  default_reported_project_status_amber: Amber
-  default_reported_project_status_red: Červená
   default_role_anonymous: Anonymní
   default_role_developer: Vývojář
   default_role_project_admin: Project admin
@@ -1275,7 +1261,6 @@ cs:
   label_edit: Upravit
   label_enable_multi_select: Přepnout multiselect
   label_enabled_project_custom_fields: Enabled custom fields
-  label_enabled_project_types: Enabled types
   label_enabled_project_modules: Enabled modules
   label_enabled_project_activities: Enabled time tracking activities
   label_end_to_end: end to end
@@ -1505,7 +1490,7 @@ cs:
   label_repository_plural: Repozitáře
   label_required: vyžadováno
   label_requires: vyžaduje
-  label_responsible_for_work_packages: Pracovní balíčky, za které zodpovídám
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Výsledky
   label_reverse_chronological_order: V obráceném chronologickém pořadí
   label_revision: Revize
@@ -1642,7 +1627,7 @@ cs:
     mně
   label_work_package_view_all_reported_by_me: Zobrazit všechny pracovní balíčky mnou
     nahlášené
-  label_work_package_view_all_responsible_for: View all work packages that I am responsible
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
     for
   label_work_package_view_all_watched: Zobrazit všechny sledované balíčky
   label_work_package_watchers: Sledující
@@ -2126,9 +2111,9 @@ cs:
   setting_smtp_address: Server SMTP
   setting_smtp_port: Port SMTP
   setting_smtp_authentication: Ověřování SMTP
-  setting_smtp_domain: SMTP HELLO domain
   setting_smtp_user_name: Uživatelské jméno SMTP
   setting_smtp_password: Heslo SMTP
+  setting_smtp_domain: SMTP HELLO domain
   setting_activity_days_default: Days displayed on project activity
   setting_app_subtitle: Podtitulek aplikace
   setting_app_title: Název aplikace
@@ -2394,6 +2379,8 @@ cs:
   text_user_wrote: "%{value} napsal:"
   text_warn_on_leaving_unsaved: Pracovní balíček obsahuje neuložený text, který bude
     ztracen, když opustíte stránku.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Opravdu si přejete odstranit tuto Wiki a celý její
     obsah?
   text_wiki_page_destroy_children: Smazat podstránky a všechny jejich potomky
@@ -2421,8 +2408,6 @@ cs:
     admin_menu:
       color: Barva
       colors: Barvy
-      project_type: Typ projektu
-      project_types: Typy projektů
     associations: Závislosti
     board_could_not_be_saved: Board could not be saved
     button_delete_all: Odstranit vše
@@ -2442,7 +2427,6 @@ cs:
       few: "%{count} days"
       many: "%{count} days"
     edit_color: Upravit barvy
-    edit_project_type: Upravit typ projektu
     edit_thing: Upravit
     edit_timeline: Edit timeline report %{timeline}
     delete_timeline: Delete timeline report %{timeline}
@@ -2484,7 +2468,6 @@ cs:
         due_date: Datum ukončení
         name: Jméno
         status: Stav
-        responsible: Zodpovědný
         start_date: Datum zahájení
       columns: Sloupce
       comparisons: Porovnání
@@ -2513,7 +2496,7 @@ cs:
       outline: Initial outline expansion
       parent: Zobrazit podprojekty
       work_package_filters: Filtrovat pracovní balíčky
-      work_package_responsible: Show work packages with responsible
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: Show work packages with assignee
       types: Zobrazit typy
       status: Show status
@@ -2526,9 +2509,8 @@ cs:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago,
         %{end_label} %{endspan}%{endspanunit} from now"
       project_filters: Filtrovat projekty
-      project_responsible: Show projects with responsible
+      project_responsible: Show projects with accountable
       project_status: Zobrazit stav projektu
-      project_types: Zobrazit typy projektů
       timeframe: Zobrazit časový rámec
       timeframe_end: do
       timeframe_start: od
@@ -2538,7 +2520,6 @@ cs:
     new_color: Nová barva
     new_association: Nová závislost
     new_work_package: Nový pracovní balíček
-    new_project_type: Nový typ projektu
     new_reporting: Nové hlášení
     new_timeline: Nová zpráva časové osy
     no_projects_for_reporting_available: There are no projects to which a reporting
@@ -2565,20 +2546,11 @@ cs:
       edit: 'Edit status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Aktualizováno: %{title}'
-    project_type_could_not_be_saved: Typ projektu nelze uložit
     type_could_not_be_saved: Typ nelze uložit
     reporting_could_not_be_saved: Přehled nelze uložit
     properties: Vlastnosti
     really_delete_color: 'Opravdu chcete odstranit následující barvu? Typy v této
       barvě nebudou odstraněny.
-
-'
-    really_delete_project_type: 'Opravdu chcete odstranit následující typ projektu?
-      Projekty tohoto typu nebudou odstraněny.
-
-'
-    really_delete_timeline: 'Opravdu chcete odstranit následující zprávu časové osy?
-      Pracovní balíčky uvedené v této zprávě časové osy nebudou odstraněny.
 
 '
     really_delete_reporting: 'Are you sure, you want to delete the following reporting?
@@ -2590,7 +2562,6 @@ cs:
     timelines: Přehledy časové osy
     settings: Časové osy
     vertical_work_package: Vertical work packages
-    without_project_type: Without project type
     you_are_viewing_the_selected_timeline: You are viewing the selected timeline report
     zoom:
       in: Přiblížit

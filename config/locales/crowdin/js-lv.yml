@@ -4,6 +4,11 @@ lv:
     ajax:
       hide: Hide
       loading: Notiek ielāde...
+    attachments:
+      draggable_hint: 'Drag on editor field to inline image or reference attachment.
+        Closed editor fields will be opened while you keep dragging.
+
+'
     autocomplete_select:
       placeholder:
         multi: Add "%{name}"
@@ -426,7 +431,6 @@ lv:
         level5: Expand level 5
         all: Show all
       project_status: Projekta statuss
-      project_type: Projekta tips
       really_close_dialog: Do you really want to close the dialog and lose the entered
         data?
       responsible: Atbildīgais

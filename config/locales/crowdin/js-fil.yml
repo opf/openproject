@@ -4,6 +4,11 @@ fil:
     ajax:
       hide: Itago
       loading: Naglo-load ...
+    attachments:
+      draggable_hint: 'Drag on editor field to inline image or reference attachment.
+        Closed editor fields will be opened while you keep dragging.
+
+'
     autocomplete_select:
       placeholder:
         multi: Magdagdag ng "%{name}"
@@ -433,7 +438,6 @@ fil:
         level5: Palawakin ang ika-5 na antas
         all: Ipakita ang lahat
       project_status: Estado ng proyekto
-      project_type: Uri ng proyekto
       really_close_dialog: Sigurado ka na ba na gusto mong isara ang dialogo at mawala
         lahat ang ipanasok na data?
       responsible: Responsable

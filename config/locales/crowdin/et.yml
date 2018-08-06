@@ -128,10 +128,6 @@ et:
       versions:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: Create a new version
-  project_types:
-    index:
-      no_results_title_text: There are currently no project types.
-      no_results_content_text: Create a new project type
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -200,7 +196,7 @@ et:
       reported:
         no_results_title_text: There are currently no work packages that I have reported.
       responsible:
-        no_results_title_text: There are currently no work packages that I am responsible
+        no_results_title_text: There are currently no work packages that I am accountable
           for.
       watched:
         no_results_title_text: There are currently no work packages that I am watching.
@@ -337,9 +333,7 @@ et:
         identifier: Identifikaator
         latest_activity_at: Latest activity at
         parent: Ülemprojekt
-        project_type: Projekti tüüp
         queries: Päringuid
-        responsible: Vastutaja
         types: Tüübid
         versions: Versioonid
         work_packages: Teemad
@@ -394,8 +388,6 @@ et:
         redirect_existing_links: Suuna olemasolevad lingid ümber
       planning_element_type_color:
         hexcode: Hex kood
-      project_type:
-        position: Positsioon
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
@@ -409,7 +401,6 @@ et:
         parent_work_package: Pärineb teemast
         priority: Prioriteet
         progress: Progress (%)
-        responsible: Vastutaja
         spent_hours: Kulutatud aeg
         spent_time: Kulutatud aeg
         subproject: Alamprojekt
@@ -419,11 +410,16 @@ et:
     errors:
       messages:
         accepted: must be accepted.
+        after: must be after %{date}.
+        after_or_equal_to: must be after or equal to %{date}.
+        before: must be before %{date}.
+        before_or_equal_to: must be before or equal to %{date}.
         blank: ei tohi olla tühi.
         cant_link_a_work_package_with_a_descendant: A work package cannot be linked
           to one of its subtasks.
         circular_dependency: This relation would create a circular dependency.
         confirmation: doesn't match %{attribute}.
+        could_not_be_copied: could not be (fully) copied.
         does_not_exist: does not exist.
         empty: ei tohi olla tühi.
         even: peab olema paarisarv.
@@ -431,11 +427,9 @@ et:
         file_too_large: is too large (maximum size is %{count} Bytes).
         greater_than: must be greater than %{count}.
         greater_than_or_equal_to: must be greater than or equal to %{count}.
-        smaller_than_or_equal_to_max_length: must be smaller than or equal to maximum
-          length.
-        greater_than_start_date: must be greater than the start date.
         greater_than_or_equal_to_start_date: must be greater than or equal to the
           start date.
+        greater_than_start_date: must be greater than the start date.
         inclusion: is not set to one of the allowed values.
         invalid: on vigane.
         invalid_url: is not a valid URL.
@@ -443,22 +437,20 @@ et:
         less_than_or_equal_to: must be less than or equal to %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
-        not_an_iso_date: 'is not a valid date. Required format: YYYY-MM-DD.'
         not_a_number: pole arv.
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: pole täisarv.
+        not_an_iso_date: 'is not a valid date. Required format: YYYY-MM-DD.'
         not_same_project: doesn't belong to the same project.
         odd: peab olema paaritu arv.
+        regex_invalid: could not be validated with the associated regular expression.
+        smaller_than_or_equal_to_max_length: must be smaller than or equal to maximum
+          length.
         taken: on juba kasutusel.
         too_long: is too long (maximum is %{count} characters).
         too_short: is too short (minimum is %{count} characters).
-        wrong_length: is the wrong length (should be %{count} characters).
-        after: must be after %{date}.
-        after_or_equal_to: must be after or equal to %{date}.
-        before: must be before %{date}.
-        before_or_equal_to: must be before or equal to %{date}.
-        could_not_be_copied: could not be (fully) copied.
-        regex_invalid: could not be validated with the associated regular expression.
         unchangeable: cannot be changed.
+        wrong_length: is the wrong length (should be %{count} characters).
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
@@ -592,7 +584,6 @@ et:
         one: Roll
         other: Roles
       type: Liik
-      project_type: Projekti tüüp
       user: Kasutaja
       version: Versioon
       wiki: Viki
@@ -646,7 +637,7 @@ et:
     password: Parool
     priority: Prioriteet
     project: Projekt
-    responsible: Vastutaja
+    responsible: Accountable
     role: Role
     roles: Rollid
     start_date: Alguskuupäev
@@ -886,11 +877,6 @@ et:
   default_priority_normal: Tavaline
   default_priority_high: Pakiline
   default_priority_immediate: Kohe vaja
-  default_project_type_scrum: Scrum team
-  default_project_type_standard: Standard project
-  default_reported_project_status_green: Green
-  default_reported_project_status_amber: Amber
-  default_reported_project_status_red: Punane
   default_role_anonymous: Anonüümne
   default_role_developer: Arendaja
   default_role_project_admin: Project admin
@@ -1242,7 +1228,6 @@ et:
   label_edit: Muuda
   label_enable_multi_select: Võimalda mitmene valik
   label_enabled_project_custom_fields: Enabled custom fields
-  label_enabled_project_types: Enabled types
   label_enabled_project_modules: Enabled modules
   label_enabled_project_activities: Enabled time tracking activities
   label_end_to_end: otsast lõpuni
@@ -1472,7 +1457,7 @@ et:
   label_repository_plural: Hoidlad
   label_required: required
   label_requires: requires
-  label_responsible_for_work_packages: Teemad minu vastutuses
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Tulemused
   label_reverse_chronological_order: Pööratud ajalises järjestuses
   label_revision: Sissekanne
@@ -1607,7 +1592,7 @@ et:
   label_work_package_view_all: Kuva kõiki teemasid
   label_work_package_view_all_assigned_to_me: Kuva kõik minule kuuluvad teemad
   label_work_package_view_all_reported_by_me: Kuva kõik minu poolt lisatud teemad
-  label_work_package_view_all_responsible_for: View all work packages that I am responsible
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
     for
   label_work_package_view_all_watched: Kuva kõik jälgimisel olevad teemad
   label_work_package_watchers: Jälgijad
@@ -2073,9 +2058,9 @@ et:
   setting_smtp_address: SMTP server
   setting_smtp_port: SMTP port
   setting_smtp_authentication: SMTP authentication
-  setting_smtp_domain: SMTP HELLO domain
   setting_smtp_user_name: SMTP username
   setting_smtp_password: SMTP password
+  setting_smtp_domain: SMTP HELLO domain
   setting_activity_days_default: Projektide ajalugu näidatakse
   setting_app_subtitle: Rakenduse alamnimetus
   setting_app_title: Rakenduse nimetus
@@ -2340,6 +2325,8 @@ et:
   text_user_wrote: "%{value} kirjutas:"
   text_warn_on_leaving_unsaved: The work package contains unsaved text that will be
     lost if you leave this page.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Oled Sa kindel oma soovis kustutada see Viki koos
     kogu sisuga?
   text_wiki_page_destroy_children: Kustuta järglaslehed ja kõik nende järglased
@@ -2367,8 +2354,6 @@ et:
     admin_menu:
       color: Värv
       colors: Värvid
-      project_type: Projekti tüüp
-      project_types: Projekti tüübid
     associations: Projekti sõltuvused
     board_could_not_be_saved: "(?) ei saa salvestada"
     button_delete_all: Kustuta kõik
@@ -2386,7 +2371,6 @@ et:
       one: 1 päev
       other: "%{count} päeva"
     edit_color: Muuda värvi
-    edit_project_type: Muuda projekti tüüpi
     edit_thing: Muuda
     edit_timeline: Muuda ajakulu sissekannet %{timeline}
     delete_timeline: Kustuta ajakulu aruanne %{timeline}
@@ -2424,7 +2408,6 @@ et:
         due_date: Lõppkuupäev
         name: Nimi
         status: Olek
-        responsible: Vastutaja
         start_date: Alguskuupäev
       columns: Väljad
       comparisons: Võrdlused
@@ -2453,7 +2436,7 @@ et:
       outline: Esmase kontuuri laiendamine
       parent: Näita alamprojekte
       work_package_filters: Filtreeri teemasid
-      work_package_responsible: Kuva teemad nende vastutajatega
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: Kuva teemad nende tegijatega
       types: Kuva tüübid
       status: Kuva olek
@@ -2465,9 +2448,8 @@ et:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} tagasi,
         %{end_label} %{endspan}%{endspanunit} praegusest"
       project_filters: Filtreeri projektid
-      project_responsible: Näita projektid mis kuuluvad
+      project_responsible: Show projects with accountable
       project_status: Kuva projekti olek
-      project_types: Kuva projekti tüüp
       timeframe: Kuva ajakava
       timeframe_end: kuni
       timeframe_start: alates
@@ -2477,7 +2459,6 @@ et:
     new_color: Uus värv
     new_association: Uus sõltuvus
     new_work_package: Uus teema
-    new_project_type: Uus projekti tüüp
     new_reporting: Uus aruandlus
     new_timeline: Uus aruanne ajakava kohta
     no_projects_for_reporting_available: Pole ühtki projekti mille juurde võiks lisada
@@ -2503,20 +2484,11 @@ et:
       edit: 'Muuda olekut: %{comment}'
       show: 'Olek: %{comment}'
     planning_element_update: 'Muudatus: %{title}'
-    project_type_could_not_be_saved: Projekti tüüpi ei saa salvestada
     type_could_not_be_saved: Tüüpi ei saa salvestada
     reporting_could_not_be_saved: Aruandlust ei saa salvestada
     properties: Atribuudid
     really_delete_color: 'Kas oled kindel, et tahad seda värvi kustutada? Tüübid,
       mis seda värvi kasutavad, jäävad alles.
-
-'
-    really_delete_project_type: 'Kas sa oled kindel, et tahad kustutada selle projektitüübi?
-      Projektid, mis kasutavad seda tüüpi, jäävad alles.
-
-'
-    really_delete_timeline: 'Kas sa oled kindel, et tahad kustutada seda aruannet?
-      Aruandes näidatud teemad jäävad alles.
 
 '
     really_delete_reporting: 'Kas sa oled kindel, et tahad seda aruannet kustutada?
@@ -2528,7 +2500,6 @@ et:
     timelines: Ajakavade aruandlused
     settings: Ajakavad
     vertical_work_package: Vertikaalsed teemad
-    without_project_type: Ilma projektitüübita
     you_are_viewing_the_selected_timeline: Sa näed valitud perioodi aruannet
     zoom:
       in: Vaata lähemalt

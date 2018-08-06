@@ -4,6 +4,11 @@ fi:
     ajax:
       hide: Piilota
       loading: Ladataan...
+    attachments:
+      draggable_hint: 'Drag on editor field to inline image or reference attachment.
+        Closed editor fields will be opened while you keep dragging.
+
+'
     autocomplete_select:
       placeholder:
         multi: Add "%{name}"
@@ -424,7 +429,6 @@ fi:
         level5: Laajenna taso 5
         all: Näytä kaikki
       project_status: Projektin tila
-      project_type: Projektityyppi
       really_close_dialog: Haluatko varmasti sulkea ikkunan ja menettää syötetyt tiedot?
       responsible: Vastuullinen
       save: Tallenna

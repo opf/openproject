@@ -4,6 +4,11 @@ cs:
     ajax:
       hide: Skrýt
       loading: Načítání ...
+    attachments:
+      draggable_hint: 'Drag on editor field to inline image or reference attachment.
+        Closed editor fields will be opened while you keep dragging.
+
+'
     autocomplete_select:
       placeholder:
         multi: Přidat "%{name}"
@@ -432,7 +437,6 @@ cs:
         level5: Expand level 5
         all: Zobrazit vše
       project_status: Stav projektu
-      project_type: Typ projektu
       really_close_dialog: Opravdu chcete zavřít dialogové okno a ztratit zadaná data?
       responsible: Zodpovědný
       save: Uložit

@@ -3,7 +3,8 @@
       fieldName,
       active && '-active' || '',
       wrapperClasses || '-small'
-     ]">
+     ]"
+     (dragover)="startDragOverActivation($event)">
 
   <div #editContainer
        [hidden]="!active">

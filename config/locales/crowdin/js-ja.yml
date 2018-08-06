@@ -4,6 +4,10 @@ ja:
     ajax:
       hide: 非表示
       loading: ロード中...
+    attachments:
+      draggable_hint: |
+        インライン画像または参照添付ファイルをエディタ領域にドラッグします。
+        ドラッグしつづけると閉じられたエディタ領域が開きます。
     autocomplete_select:
       placeholder:
         multi: '"%{name}" を追加'
@@ -403,7 +407,6 @@ ja:
         level5: レベル５を展開
         all: 全てを表示
       project_status: プロジェクトの進捗状況
-      project_type: プロジェクトの種類
       really_close_dialog: ダイアログボックスを閉じて入力したデータを破棄してもよろしいですか？
       responsible: 責任者
       save: 保存

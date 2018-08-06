@@ -4,6 +4,11 @@ ca:
     ajax:
       hide: Amagar
       loading: Carregant ...
+    attachments:
+      draggable_hint: 'Drag on editor field to inline image or reference attachment.
+        Closed editor fields will be opened while you keep dragging.
+
+'
     autocomplete_select:
       placeholder:
         multi: Add "%{name}"
@@ -429,7 +434,6 @@ ca:
         level5: Ampliar el nivell 5
         all: Mostrar tots
       project_status: Estat del projecte
-      project_type: Tipus de projecte
       really_close_dialog: Realment voleu tancar el diàleg i perdre les dades introduïdes?
       responsible: Responsable
       save: Desa

@@ -128,10 +128,6 @@ fr:
       versions:
         no_results_title_text: Aucune version du projet pour le moment.
         no_results_content_text: Créer une nouvelle version
-  project_types:
-    index:
-      no_results_title_text: Il n'y a actuellement aucun type de projet.
-      no_results_content_text: Créer un nouveau type de projet
   members:
     index:
       no_results_title_text: Aucun membre dans ce projet pour le moment.
@@ -202,8 +198,8 @@ fr:
         no_results_title_text: Il n'y a actuellement aucun lot de travaux que j'ai
           consigné.
       responsible:
-        no_results_title_text: Il n'y a actuellement aucun lot de travaux dont je
-          suis responsable.
+        no_results_title_text: There are currently no work packages that I am accountable
+          for.
       watched:
         no_results_title_text: Il n'y a actuellement aucun lot de travaux que je suis.
     summary:
@@ -344,9 +340,7 @@ fr:
         identifier: Identifiant
         latest_activity_at: Dernière activité à
         parent: Sous-projet de
-        project_type: Type de projet
         queries: Requêtes
-        responsible: Responsable
         types: Types
         versions: Versions
         work_packages: Lots de Travaux
@@ -402,8 +396,6 @@ fr:
         redirect_existing_links: Rediriger les liens existants
       planning_element_type_color:
         hexcode: Code hexadécimal
-      project_type:
-        position: Position
       work_package:
         begin_insertion: Début de l’insertion
         begin_deletion: Début de la suppression
@@ -417,7 +409,6 @@ fr:
         parent_work_package: Parent
         priority: Priorité
         progress: Progrès (%)
-        responsible: Responsable
         spent_hours: Temps passé
         spent_time: Temps passé
         subproject: Sous-projet
@@ -427,11 +418,16 @@ fr:
     errors:
       messages:
         accepted: doi(ven)t être accepté(e)(s).
+        after: doit être après %{date}.
+        after_or_equal_to: Doit être après ou égal à %{date}.
+        before: doit être antérieur(e) à %{date}.
+        before_or_equal_to: doit être antérieur(e) ou égal(e) à %{date}.
         blank: ne peut pas être vide.
         cant_link_a_work_package_with_a_descendant: Un lot de travaux ne peut pas
           être lié à l'une de ses sous-tâches.
         circular_dependency: Cette relation créerait une dépendance circulaire.
         confirmation: ne correspond pas à %{attribute}.
+        could_not_be_copied: n'a pas pu être copié (entièrement).
         does_not_exist: n'existe pas.
         empty: ne peut pas être vide.
         even: doit être pair.
@@ -439,11 +435,9 @@ fr:
         file_too_large: est trop volumineux (la taille maximale est de %{count} octets).
         greater_than: doit être supérieur à %{count}.
         greater_than_or_equal_to: doit être supérieur ou égal à %{count}.
-        smaller_than_or_equal_to_max_length: doit être inférieur ou égal à la longueur
-          maximale.
-        greater_than_start_date: doit être postérieure à la date de début.
         greater_than_or_equal_to_start_date: doit être supérieur ou égal à la date
           de début.
+        greater_than_start_date: doit être postérieure à la date de début.
         inclusion: ne correspond à aucune des valeurs autorisées.
         invalid: est invalide.
         invalid_url: n’est pas une URL valide.
@@ -451,22 +445,20 @@ fr:
         less_than_or_equal_to: doit être inférieur ou égal à %{count}.
         not_a_date: n'est pas une date valide.
         not_a_datetime: n'est pas une heure valide.
-        not_an_iso_date: 'n’est pas une date valide. Format requis : AAAA-MM-JJ.'
         not_a_number: n'est pas un nombre.
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: n'est pas un entier.
+        not_an_iso_date: 'n’est pas une date valide. Format requis : AAAA-MM-JJ.'
         not_same_project: n'appartient pas au même projet.
         odd: doit être impair.
+        regex_invalid: n’a pas pu être validé avec l’expression régulière associée.
+        smaller_than_or_equal_to_max_length: doit être inférieur ou égal à la longueur
+          maximale.
         taken: a déjà été pris.
         too_long: est trop long (le maximum est de %{count} caractères).
         too_short: est trop court (le minimum est de %{count} caractères).
-        wrong_length: est de mauvaise longueur (devrait être %{count} caractères).
-        after: doit être après %{date}.
-        after_or_equal_to: Doit être après ou égal à %{date}.
-        before: doit être antérieur(e) à %{date}.
-        before_or_equal_to: doit être antérieur(e) ou égal(e) à %{date}.
-        could_not_be_copied: n'a pas pu être copié (entièrement).
-        regex_invalid: n’a pas pu être validé avec l’expression régulière associée.
         unchangeable: cannot be changed.
+        wrong_length: est de mauvaise longueur (devrait être %{count} caractères).
       models:
         custom_field:
           at_least_one_custom_option: Au moins une option doit être disponible.
@@ -609,7 +601,6 @@ fr:
         one: Rôle
         other: Rôles
       type: Type
-      project_type: Type de projet
       user: Utilisateur
       version: Version
       wiki: Wiki
@@ -664,7 +655,7 @@ fr:
     password: Mot de passe
     priority: Priorité
     project: Projet
-    responsible: Responsable
+    responsible: Accountable
     role: Rôle
     roles: Rôles
     start_date: Date de début
@@ -905,11 +896,6 @@ fr:
   default_priority_normal: Normal
   default_priority_high: Haut
   default_priority_immediate: Immédiat
-  default_project_type_scrum: Scrum team
-  default_project_type_standard: Projet standard
-  default_reported_project_status_green: Vert
-  default_reported_project_status_amber: Ambre
-  default_reported_project_status_red: Rouge
   default_role_anonymous: Anonyme
   default_role_developer: Développeur
   default_role_project_admin: Administrateur du projet
@@ -1268,7 +1254,6 @@ fr:
   label_edit: Éditer
   label_enable_multi_select: Basculer multisélection
   label_enabled_project_custom_fields: Champs personnalisés activés
-  label_enabled_project_types: Types activés
   label_enabled_project_modules: Modules activés
   label_enabled_project_activities: Activités de suivi du temps activées
   label_end_to_end: bout à bout
@@ -1499,7 +1484,7 @@ fr:
   label_repository_plural: Dépôts
   label_required: requis
   label_requires: requiert
-  label_responsible_for_work_packages: Lots de Travaux dont je suis responsable
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Résultats
   label_reverse_chronological_order: Dans l'ordre chronologique inversé
   label_revision: Révision
@@ -1640,8 +1625,8 @@ fr:
     me sont assignés
   label_work_package_view_all_reported_by_me: Afficher tous les lots de travaux que
     j'ai consignés
-  label_work_package_view_all_responsible_for: Afficher tous les lots de travaux dont
-    je suis responsable
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
+    for
   label_work_package_view_all_watched: Afficher tous les lots de travaux suivis
   label_work_package_watchers: Observateurs
   label_workflow: Flux de travail
@@ -2128,9 +2113,9 @@ fr:
   setting_smtp_address: Serveur SMTP
   setting_smtp_port: Port SMTP
   setting_smtp_authentication: Authentification SMTP
-  setting_smtp_domain: Domaine SMTP HELLO
   setting_smtp_user_name: Utilisateur SMTP
   setting_smtp_password: Mot de passe SMTP
+  setting_smtp_domain: Domaine SMTP HELLO
   setting_activity_days_default: Nombre des jours affichés dans l'activité du projet
   setting_app_subtitle: Sous-titre de l'Application
   setting_app_title: Titre de l'Application
@@ -2411,6 +2396,8 @@ fr:
   text_user_wrote: "%{value} écrit:"
   text_warn_on_leaving_unsaved: Le lot de travaux contient du texte non sauvegardé
     qui sera perdu si vous quittez cette page.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Êtes vous sur de vouloir supprimer ce wiki et tout
     son contenu?
   text_wiki_page_destroy_children: Supprimer les pages enfants et toute leur descendance
@@ -2438,8 +2425,6 @@ fr:
     admin_menu:
       color: Couleur
       colors: Couleurs
-      project_type: Type de projet
-      project_types: Types de projet
     associations: Dépendances
     board_could_not_be_saved: Le tableau n'a pas pu être enregistré
     button_delete_all: Tout supprimer
@@ -2457,7 +2442,6 @@ fr:
       one: 1 jour
       other: "%{count} jours"
     edit_color: Éditer la couleur
-    edit_project_type: Editer le type de projet
     edit_thing: Éditer
     edit_timeline: Éditer la ligne du temps %{timeline}
     delete_timeline: Supprimer la ligne du temps %{timeline}
@@ -2501,7 +2485,6 @@ fr:
         due_date: Échéance
         name: Nom
         status: Statut
-        responsible: Responsable
         start_date: Date de début
       columns: Colonnes
       comparisons: Comparaisons
@@ -2530,7 +2513,7 @@ fr:
       outline: Expansion de ligne par défaut
       parent: Afficher sous-projets de
       work_package_filters: Filtrer les Lots de Travaux
-      work_package_responsible: Afficher les Lots de Travaux avec les responsables
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: Afficher les Lots de Travaux assignés à
       types: Afficher types
       status: Afficher statut
@@ -2543,9 +2526,8 @@ fr:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago,
         %{end_label} %{endspan}%{endspanunit} from now"
       project_filters: Filtrer les projets
-      project_responsible: Afficher projets avec le responsable
+      project_responsible: Show projects with accountable
       project_status: Afficher statut du projet
-      project_types: Afficher types du projet
       timeframe: Afficher période
       timeframe_end: à
       timeframe_start: de
@@ -2555,7 +2537,6 @@ fr:
     new_color: Nouvelle couleur
     new_association: Nouvelle dépendance
     new_work_package: Nouveau Lot de Travaux
-    new_project_type: Nouveau type de projet
     new_reporting: Nouveau rapport
     new_timeline: Nouvelle ligne du temps
     no_projects_for_reporting_available: Il n'y a pas de projets pour lesquels une
@@ -2583,20 +2564,11 @@ fr:
       edit: 'Modifier l''état : %{comment}'
       show: 'État : %{comment}'
     planning_element_update: 'Mis à jour: %{title}'
-    project_type_could_not_be_saved: Le projet type n'a pas pu être sauvegardé
     type_could_not_be_saved: Le type n'a pas pu être sauvegardé
     reporting_could_not_be_saved: Le rapport n'a pas pu être enregistré
     properties: Propriétés
     really_delete_color: 'Êtes-vous sûr de vouloir supprimer la couleur suivante ?
       Les types utilisant cette couleur ne seront pas supprimés.
-
-'
-    really_delete_project_type: 'Voulez-vous vraiment supprimer le projet type suivant?
-      Les projets utilisant ce type ne seront pas supprimés.
-
-'
-    really_delete_timeline: 'Voulez-vous vraiment supprimer la ligne du temps suivante
-      ? Les lots de travaux affichés dans cette ligne du temps ne seront pas supprimés.
 
 '
     really_delete_reporting: 'Voulez-vous vraiment supprimer le rapport suivant ?
@@ -2608,7 +2580,6 @@ fr:
     timelines: Lignes du temps
     settings: Chronologie
     vertical_work_package: Lots de Travaux verticaux
-    without_project_type: Sans le projet type
     you_are_viewing_the_selected_timeline: Vous visualisez la ligne du temps selectionnée
     zoom:
       in: Zoomer

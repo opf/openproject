@@ -4,6 +4,11 @@ pt-BR:
     ajax:
       hide: Ocultar
       loading: Carregando ...
+    attachments:
+      draggable_hint: 'Drag on editor field to inline image or reference attachment.
+        Closed editor fields will be opened while you keep dragging.
+
+'
     autocomplete_select:
       placeholder:
         multi: Adicionar "%{name}"
@@ -430,7 +435,6 @@ pt-BR:
         level5: Expandir nível 5
         all: Mostrar todos
       project_status: Situação do projeto
-      project_type: Tipo de projeto
       really_close_dialog: Você quer realmente fechar a caixa de diálogo e perder
         os dados introduzidos?
       responsible: Responsável

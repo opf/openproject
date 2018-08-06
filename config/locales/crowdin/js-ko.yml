@@ -4,6 +4,11 @@ ko:
     ajax:
       hide: 숨기기
       loading: 불러오는 중 ...
+    attachments:
+      draggable_hint: 'Drag on editor field to inline image or reference attachment.
+        Closed editor fields will be opened while you keep dragging.
+
+'
     autocomplete_select:
       placeholder:
         multi: '"%{name}"을 추가'
@@ -413,7 +418,6 @@ ko:
         level5: 확장 수준 5
         all: 모두 표시
       project_status: 프로젝트 상태
-      project_type: 프로젝트 형식
       really_close_dialog: 입력된 자료를 저장하지 않고 대화상자를 닫으시겠습니까?
       responsible: 책임
       save: 저장

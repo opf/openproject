@@ -41,7 +41,7 @@ module Attachments
     private
 
     def validate_attachments_replacements
-      model.attachments_replacements and model.attachments_replacements.each do |attachment|
+      model.attachments_replacements&.each do |attachment|
         error_if_attachment_assigned(attachment)
         error_if_other_user_attachment(attachment)
       end

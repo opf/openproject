@@ -128,10 +128,6 @@
       versions:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: Create a new version
-  project_types:
-    index:
-      no_results_title_text: There are currently no project types.
-      no_results_content_text: Create a new project type
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -200,7 +196,7 @@
       reported:
         no_results_title_text: There are currently no work packages that I have reported.
       responsible:
-        no_results_title_text: There are currently no work packages that I am responsible
+        no_results_title_text: There are currently no work packages that I am accountable
           for.
       watched:
         no_results_title_text: There are currently no work packages that I am watching.
@@ -338,9 +334,7 @@
         identifier: Identifikator
         latest_activity_at: Siste aktivitet på
         parent: Underprosjekt av
-        project_type: Prosjekttype
         queries: Spørringer
-        responsible: Ansvarlig
         types: Typer
         versions: Versjoner
         work_packages: Arbeidspakker
@@ -395,8 +389,6 @@
         redirect_existing_links: Omdirigere eksisterende lenker
       planning_element_type_color:
         hexcode: Hexadesimalkode
-      project_type:
-        position: Plassering
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
@@ -410,7 +402,6 @@
         parent_work_package: Overordnet
         priority: Prioritet
         progress: Progress (%)
-        responsible: Ansvarlig
         spent_hours: Tid brukt
         spent_time: Tid brukt
         subproject: Underprosjekt
@@ -420,11 +411,16 @@
     errors:
       messages:
         accepted: must be accepted.
+        after: must be after %{date}.
+        after_or_equal_to: must be after or equal to %{date}.
+        before: must be before %{date}.
+        before_or_equal_to: must be before or equal to %{date}.
         blank: can't be blank.
         cant_link_a_work_package_with_a_descendant: A work package cannot be linked
           to one of its subtasks.
         circular_dependency: This relation would create a circular dependency.
         confirmation: doesn't match %{attribute}.
+        could_not_be_copied: could not be (fully) copied.
         does_not_exist: does not exist.
         empty: can't be empty.
         even: must be even.
@@ -432,10 +428,8 @@
         file_too_large: is too large (maximum size is %{count} Bytes).
         greater_than: must be greater than %{count}.
         greater_than_or_equal_to: must be greater than or equal to %{count}.
-        smaller_than_or_equal_to_max_length: must be smaller than or equal to maximum
-          length.
-        greater_than_start_date: må være lenger frem enn startdato.
         greater_than_or_equal_to_start_date: må være lenger frem eller lik startdato.
+        greater_than_start_date: må være lenger frem enn startdato.
         inclusion: is not set to one of the allowed values.
         invalid: er ugyldig.
         invalid_url: is not a valid URL.
@@ -443,22 +437,20 @@
         less_than_or_equal_to: must be less than or equal to %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
-        not_an_iso_date: 'is not a valid date. Required format: YYYY-MM-DD.'
         not_a_number: is not a number.
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: is not an integer.
+        not_an_iso_date: 'is not a valid date. Required format: YYYY-MM-DD.'
         not_same_project: doesn't belong to the same project.
         odd: must be odd.
+        regex_invalid: could not be validated with the associated regular expression.
+        smaller_than_or_equal_to_max_length: must be smaller than or equal to maximum
+          length.
         taken: has already been taken.
         too_long: is too long (maximum is %{count} characters).
         too_short: is too short (minimum is %{count} characters).
-        wrong_length: is the wrong length (should be %{count} characters).
-        after: must be after %{date}.
-        after_or_equal_to: must be after or equal to %{date}.
-        before: must be before %{date}.
-        before_or_equal_to: must be before or equal to %{date}.
-        could_not_be_copied: could not be (fully) copied.
-        regex_invalid: could not be validated with the associated regular expression.
         unchangeable: cannot be changed.
+        wrong_length: is the wrong length (should be %{count} characters).
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
@@ -592,7 +584,6 @@
         one: Rolle
         other: Roles
       type: Type
-      project_type: Prosjekttype
       user: Bruker
       version: Versjon
       wiki: Wiki
@@ -646,7 +637,7 @@
     password: Passord
     priority: Prioritet
     project: Prosjekt
-    responsible: Ansvarlig
+    responsible: Accountable
     role: Rolle
     roles: Roller
     start_date: Startdato
@@ -886,11 +877,6 @@
   default_priority_normal: Normal
   default_priority_high: Høy
   default_priority_immediate: Øyeblikkelig
-  default_project_type_scrum: Scrum team
-  default_project_type_standard: Standardprosjekt
-  default_reported_project_status_green: Grønn
-  default_reported_project_status_amber: Gul
-  default_reported_project_status_red: Rød
   default_role_anonymous: Anonym
   default_role_developer: Utvikler
   default_role_project_admin: Prosjekt admin
@@ -1240,7 +1226,6 @@
   label_edit: Rediger
   label_enable_multi_select: Veksle multivalg
   label_enabled_project_custom_fields: Enabled custom fields
-  label_enabled_project_types: Enabled types
   label_enabled_project_modules: Enabled modules
   label_enabled_project_activities: Enabled time tracking activities
   label_end_to_end: ende til ende
@@ -1470,7 +1455,7 @@
   label_repository_plural: Pakkebrønner
   label_required: påkrevd
   label_requires: krever
-  label_responsible_for_work_packages: Arbeidspakker jeg står som ansvarlig for
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Resultater
   label_reverse_chronological_order: I omvendt kronologisk rekkefølge
   label_revision: Revisjon
@@ -1606,7 +1591,7 @@
   label_work_package_view_all_assigned_to_me: Vis alle arbeidspakker tildelt meg
   label_work_package_view_all_reported_by_me: Vis alle arbeidspakker rapportert av
     meg
-  label_work_package_view_all_responsible_for: View all work packages that I am responsible
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
     for
   label_work_package_view_all_watched: Vis alle overvåkede arbeidspakker
   label_work_package_watchers: Overvåkere
@@ -2075,9 +2060,9 @@
   setting_smtp_address: SMTP-server
   setting_smtp_port: SMTP-port
   setting_smtp_authentication: SMTP-Autentisering
-  setting_smtp_domain: SMTP HELLO domene
   setting_smtp_user_name: SMTP Brukernavn
   setting_smtp_password: SMTP passord
+  setting_smtp_domain: SMTP HELLO domene
   setting_activity_days_default: Dager som vises i prosjektaktivitet
   setting_app_subtitle: Undertittel for applikasjon
   setting_app_title: Applikasjonsnavn
@@ -2343,6 +2328,8 @@
   text_user_wrote: "%{value} skrev:"
   text_warn_on_leaving_unsaved: The work package contains unsaved text that will be
     lost if you leave this page.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Er du sikker på at du vil slette denne wikien og
     alt innholdet i den?
   text_wiki_page_destroy_children: Slett undersider og alle deres underordnede sider
@@ -2370,8 +2357,6 @@
     admin_menu:
       color: Farge
       colors: Farger
-      project_type: Prosjekttype
-      project_types: Prosjekttyper
     associations: Avhengigheter
     board_could_not_be_saved: Forum kunne ikke lagres
     button_delete_all: Slett alle
@@ -2388,7 +2373,6 @@
       one: 1 dag
       other: "%{count} days"
     edit_color: Endre farge
-    edit_project_type: Endre prosjekttype
     edit_thing: Rediger
     edit_timeline: Endre tidslinjerapport %{timeline}
     delete_timeline: Slett tidslinjerapport %{timeline}
@@ -2430,7 +2414,6 @@
         due_date: Sluttdato
         name: Navn
         status: Status
-        responsible: Ansvarlig
         start_date: Startdato
       columns: Kolonner
       comparisons: Sammenligninger
@@ -2459,7 +2442,7 @@
       outline: Opprinnelig disposisjonsutvidelse
       parent: Vis underprosjekt for
       work_package_filters: Filtrer arbeidspakker
-      work_package_responsible: Vis arbeidspakker med ansvarlig
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: Vis arbeidspakker med deltaker
       types: Vis typer
       status: Vis status
@@ -2472,9 +2455,8 @@
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} siden,
         %{end_label} %{endspan}%{endspanunit} fra nå"
       project_filters: Filtrer prosjekter
-      project_responsible: Vis prosjekter med ansvarlig
+      project_responsible: Show projects with accountable
       project_status: Vis prosjektstatus
-      project_types: Vis prosjekttyper
       timeframe: Vis tidsramme
       timeframe_end: til
       timeframe_start: fra
@@ -2484,7 +2466,6 @@
     new_color: Ny farge
     new_association: Ny avhengighet
     new_work_package: Ny arbeidspakke
-    new_project_type: Ny prosjekttype
     new_reporting: Ny rapportering
     new_timeline: Ny tidslinjerapport
     no_projects_for_reporting_available: Det finnes ingen prosjekter som det kan opprettes
@@ -2511,20 +2492,11 @@
       edit: 'Endre status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Oppdater: %{title}'
-    project_type_could_not_be_saved: Prosjekttype kunne ikke lagres
     type_could_not_be_saved: Type kunne ikke lagres
     reporting_could_not_be_saved: Rapportering kunne ikke lagres
     properties: Egenskaper
     really_delete_color: 'Er du sikker på at du vil slette følgende farge? Typer som
       bruker denne fargen vil ikke bli slettet.
-
-'
-    really_delete_project_type: 'Er du sikker på at du vil slette følgende prosjekttype?
-      Prosjekter som bruker denne typen vil ikke bli slettet.
-
-'
-    really_delete_timeline: 'Er du sikker på at du vil slette følgende tidslinjerapport?
-      Arbeidspakker vist i denne tidslinjerapporten vil ikke bli slettet.
 
 '
     really_delete_reporting: 'Er du sikker på at du vil slette følgende rapportering?
@@ -2536,7 +2508,6 @@
     timelines: Tidslinjerapporter
     settings: Tidslinjer
     vertical_work_package: Vertikale arbeidspakker
-    without_project_type: Uten prosjekttype
     you_are_viewing_the_selected_timeline: Viser valgt tidslinjerapport
     zoom:
       in: Zoom inn

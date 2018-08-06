@@ -4,6 +4,11 @@ tr:
     ajax:
       hide: Gizle
       loading: Yükleniyor ...
+    attachments:
+      draggable_hint: 'Drag on editor field to inline image or reference attachment.
+        Closed editor fields will be opened while you keep dragging.
+
+'
     autocomplete_select:
       placeholder:
         multi: '"%{name}" ekle'
@@ -426,7 +431,6 @@ tr:
         level5: Seviye 5 genişletin
         all: Tümünü göster
       project_status: Proje Durumu
-      project_type: Proje türü
       really_close_dialog: Pencerenin kapanmasını ve girilen verilerinizin kaybolmasını
         istiyor musunuz?
       responsible: Sorumlu
