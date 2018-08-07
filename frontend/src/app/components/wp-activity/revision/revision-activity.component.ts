@@ -93,7 +93,7 @@ export class RevisionActivityComponent implements OnInit {
       this.userName = this.activity.authorName;
     } else {
       this.userCacheService
-        .require(this.activity.user.idFromLink  )
+        .require(this.activity.author.idFromLink)
         .then((user:UserResource) => {
           this.userId = user.id;
           this.userName = user.name;
