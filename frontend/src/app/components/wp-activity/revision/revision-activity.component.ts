@@ -83,7 +83,7 @@ export class RevisionActivityComponent implements OnInit {
 
     this.revisionLink = this.I18n.t("js.label_committed_at",
       {
-        committed_revision_link: link,
+        committed_revision_link: link.outerHTML,
         date: this.timezoneService.formattedDatetime(this.activity.createdAt)
       });
   }
