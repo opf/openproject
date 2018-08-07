@@ -31,10 +31,12 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {Injectable} from '@angular/core';
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
+import {StateService} from "@uirouter/core";
 
 @Injectable()
 export class WorkPackageStaticQueriesService {
   constructor(private readonly I18n:I18nService,
+              private readonly $state:StateService,
               private readonly CurrentProject:CurrentProjectService,
               private readonly PathHelper:PathHelperService) {
   }
@@ -104,28 +106,11 @@ export class WorkPackageStaticQueriesService {
     return items;
   }
 
-  public nameFor(query:QueryResource) {
-    let filters:string[] = [];
-    _.each(query.filters, filter => {
-      filters.push(filter.name);
-    });
+  public getStaticName() {
+    const matched = _.find(this.all, item =>
+      item.query_props && item.query_props === this.$state.params.query_props
+    );
 
-    let labelText:string = '';
-    if (query.timelineVisible) {
-      labelText = this.text.gantt;
-    } else if (filters.length === 2 && filters.includes(this.text.updated_at)) {
-      labelText = this.text.latest_activity;
-    } else if (filters.length === 2 && filters.includes(this.text.author)) {
-      labelText = this.text.created_by_me;
-    } else if (filters.length === 2 && filters.includes(this.text.assignee)) {
-      labelText = this.text.assigned_to_me;
-    } else if (filters.length === 2 && filters.includes(this.text.created_at)) {
-      labelText = this.text.recently_created;
-    } else if (filters.length === 1 && filters.includes(this.text.status)) {
-      labelText = this.text.all_open;
-    } else {
-      labelText = this.text.work_packages;
-    }
-    return labelText;
+    return matched ? matched.label : this.text.work_packages;
   }
 }

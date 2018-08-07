@@ -149,7 +149,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
         // Query save modal
         disabled: false,
         linkText: this.I18n.t('js.toolbar.settings.configure_view'),
-        icon: 'icon-settings3',
+        icon: 'icon-settings',
         onClick: ($event:JQueryEventObject) => {
           this.opContextMenu.close();
           this.opModalService.show<WpTableConfigurationModalComponent>(WpTableConfigurationModalComponent);
@@ -217,7 +217,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
         // Sharing modal
         disabled: this.authorisationService.cannot('query', 'unstar') && this.authorisationService.cannot('query', 'star'),
         linkText: this.I18n.t('js.toolbar.settings.visibility_settings'),
-        icon: 'icon-publish',
+        icon: 'icon-watched',
         onClick: ($event:JQueryEventObject) => {
           if (this.allowQueryAction($event, 'unstar') || this.allowQueryAction($event, 'star')) {
             this.opModalService.show(QuerySharingModal);

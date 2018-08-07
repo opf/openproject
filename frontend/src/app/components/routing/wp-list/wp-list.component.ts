@@ -252,7 +252,7 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
       this.selectedTitle = query.name;
       this.titleEditingEnabled = true;
     } else {
-      this.selectedTitle =  this.wpStaticQueries.nameFor(query);
+      this.selectedTitle =  this.wpStaticQueries.getStaticName();
       this.titleEditingEnabled = false;
     }
   }
