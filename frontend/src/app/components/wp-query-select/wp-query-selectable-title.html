@@ -1,19 +1,26 @@
-<ng-container>
-  <input *ngIf="editable"
-         #editableTitleInput
+<div *ngIf="editable"
+     (focusout)="resetWhenFocusOutside($event)"
+     class="wp-query-selectable-title--container">
+  <accessible-by-keyboard *ngIf="showSave"
+                          (execute)="save($event, true)"
+                          [linkAriaLabel]="text.query_has_changed_click_to_save"
+                          [linkTitle]="text.query_has_changed_click_to_save"
+                          linkClass="wp-query-selectable-title--save"
+                          spanClass="icon icon-save">
+  </accessible-by-keyboard>
+  <input #editableTitleInput
          type="text"
          aria-required="true"
          (keydown.escape)="reset($event)"
          (keydown.enter)="save($event)"
-         (blur)="reset($event)"
          [attr.title]="text.input_title"
          [(ngModel)]="selectedTitle"
          [disabled]="inFlight"
-         [ngClass]="{ '-error': selectedTitle === '' }"
+         [ngClass]="{ '-error': isEmpty, '-changed': showSave }"
          class="wp-query--selectable-title -border-on-hover-only toolbar--editable-toolbar ellipsis"/>
-  <h2 *ngIf="!editable"
-      [attr.title]="selectedTitle"
-      [ngClass]="{ '-disabled': disabled }"
-      class="ellipsis"> {{ selectedTitle | slice:0:50 }}
-  </h2>
-</ng-container>
+</div>
+<h2 *ngIf="!editable"
+    [attr.title]="selectedTitle"
+    [ngClass]="{ '-disabled': disabled }"
+    class="ellipsis"> {{ selectedTitle | slice:0:50 }}
+</h2>

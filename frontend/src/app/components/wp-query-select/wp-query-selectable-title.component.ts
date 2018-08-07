@@ -25,22 +25,27 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
-import {Component, ElementRef, Input, OnInit, ViewChild} from "@angular/core";
+import {Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {WorkPackagesListService} from 'core-components/wp-list/wp-list.service';
 import {StateService, TransitionService} from '@uirouter/core';
 import {States} from 'core-components/states.service';
+import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
+import {ContainHelpers} from "core-app/modules/common/focus/contain-helpers";
 
 @Component({
   selector: 'wp-query-selectable-title',
   templateUrl: './wp-query-selectable-title.html',
+  styleUrls: ['./wp-query-selectable-title.sass'],
+  // Don't encapsulate styles because we're styling within other components
+  encapsulation: ViewEncapsulation.None,
   host: { 'class': 'title-container' }
 })
 export class WorkPackageQuerySelectableTitleComponent implements OnInit {
   @Input() public selectedTitle:string;
   @Input() public currentQuery:QueryResource;
-  @Input() editable:boolean = true;
+  @Input() queryEditable:boolean = true;
 
   @ViewChild('editableTitleInput') inputField?:ElementRef;
 
@@ -49,6 +54,7 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
   public text = {
     click_to_edit: this.I18n.t('js.work_packages.query.click_to_edit_query_name'),
     press_enter_to_save: this.I18n.t('js.label_press_enter_to_save'),
+    query_has_changed_click_to_save: 'Query has changed, click to save',
     input_title: '',
     search_query_title: this.I18n.t('js.toolbar.search_query_title'),
     confirm_edit_cancel: this.I18n.t('js.work_packages.query.confirm_edit_cancel'),
@@ -59,7 +65,7 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
   constructor(readonly elementRef:ElementRef,
               readonly I18n:I18nService,
               readonly wpListService:WorkPackagesListService,
-              readonly $transitions:TransitionService,
+              readonly authorisationService:AuthorisationService,
               readonly $state:StateService,
               readonly states:States) {
   }
@@ -68,13 +74,26 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
     this.text['input_title'] = `${this.text.click_to_edit} ${this.text.press_enter_to_save}`;
   }
 
+  public resetWhenFocusOutside($event:FocusEvent) {
+    ContainHelpers.whenOutside(this.elementRef.nativeElement, () => this.reset());
+  }
+
   public reset() {
     this.resetInputField();
     this.selectedTitle = this.currentTitle;
   }
 
+  public get editable() {
+    return this.queryEditable &&
+      this.authorisationService.can('query', 'updateImmediately');
+  }
+
+  public get showSave() {
+    return this.editable && this.$state.params.query_props;
+  }
+
   // Element looses focus on click outside and is not editable anymore
-  public save($event:Event) {
+  public save($event:Event, force = false) {
     $event.preventDefault();
 
     this.resetInputField();
@@ -87,11 +106,16 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
       return;
     }
 
-    if (this.currentTitle === this.selectedTitle) {
+    if (!force && this.currentTitle === this.selectedTitle) {
       return; // Nothing changed
     }
 
     this.updateItemInMenu();
+  }
+
+  // Check if title of query is empty
+  public get isEmpty():boolean {
+    return this.selectedTitle === '';
   }
 
   /**
@@ -103,7 +127,7 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
 
   // Send new query name to service to update the name in the menu
   private updateItemInMenu() {
-    this.inFlight = true
+    this.inFlight = true;
     this.currentQuery.name = this.selectedTitle;
     this.wpListService.save(this.currentQuery)
       .then(() => this.inFlight = false)
@@ -123,10 +147,5 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
       const el = this.inputField.nativeElement;
       el.classList.remove('-error');
     }
-  }
-
-  // Check if title of query is empty
-  private get isEmpty():boolean {
-    return this.selectedTitle === '';
   }
 }

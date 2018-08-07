@@ -239,11 +239,7 @@ export class WorkPackagesListService {
       .then(() => {
         this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_update'));
 
-        // We should actually put the query newly received
-        // from the backend in here.
-        // But the backend does currently not return work packages (results).
-        this.states.query.resource.putValue(query!);
-
+        this.$state.go('.', { query_id: query!.id, query_props: null }, { reload: true });
         this.queryChanges.next(query!.name);
       })
       .catch((error:ErrorResource) => {

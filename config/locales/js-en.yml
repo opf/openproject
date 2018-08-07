@@ -243,7 +243,7 @@ en:
     label_sort_lower: "Move down"
     label_sorting: "Sorting"
     label_star_query: "Favored"
-    label_press_enter_to_save: "Press enter to save"
+    label_press_enter_to_save: "Press enter to save."
     label_public_query: "Public"
     label_sum_for: "Sum for"
     label_subject: "Subject"
