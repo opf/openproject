@@ -28,7 +28,7 @@
 
 module Components
   module UIAutocompleteHelpers
-    def search_autocomplete(element, query:)
+    def search_autocomplete(element, query:, results_selector: nil)
       # Open the element
       element.click
       # Insert the text to find
@@ -37,27 +37,19 @@ module Components
 
       ##
       # Find the open dropdown
-      input_selector = "#{element.tag_name}.#{element[:class].split(' ').join('.')}"
-
-      # Get the autocomplete instance belonging to the input
-      autocompleter = page.evaluate_script <<-SCRIPT
-        jQuery('#{input_selector}').autocomplete('instance');
-      SCRIPT
-
-      # If we have an instance, great,
-      # if not we just hope that there is no other autocomplete open on the page.
-      list = if autocompleter
-               autocompleter['classesElementLookup']['ui-autocomplete'][0]
-             else
-               page.find('.ui-autocomplete')
-             end
+      list =
+        if results_selector
+          page.find(results_selector)
+        else
+          page.find('.ui-autocomplete')
+        end
 
       scroll_to_element(list)
       list
     end
 
-    def select_autocomplete(element, query:, select_text: nil)
-      target_dropdown = search_autocomplete(element, query: query)
+    def select_autocomplete(element, query:, results_selector: nil, select_text: nil)
+      target_dropdown = search_autocomplete(element, results_selector: results_selector, query: query)
 
       ##
       # If a specific select_text is given, use that to locate the match,

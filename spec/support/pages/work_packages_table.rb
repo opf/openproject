@@ -89,9 +89,13 @@ module Pages
       end
     end
 
-    def expect_title(name)
-      expect(page)
-        .to have_selector('.title-container', text: name, wait: 20)
+    def expect_title(name, editable: true)
+      if editable
+        expect(page).to have_field('wp-query-selectable-title', with: name, wait: 10)
+      else
+        expect(page)
+          .to have_selector('.toolbar-container', text: name, wait: 10)
+      end
     end
 
     def expect_query_in_select_dropdown(name)

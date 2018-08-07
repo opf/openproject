@@ -11,6 +11,7 @@
   <input #editableTitleInput
          type="text"
          aria-required="true"
+         name="wp-query-selectable-title"
          (keydown.escape)="reset($event)"
          (keydown.enter)="save($event)"
          [attr.title]="text.input_title"
