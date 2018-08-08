@@ -14,8 +14,8 @@
     </div>
     <div #queryResultsContainer class="wp-query-menu--results-container">
     </div>
+    <p class="wp-query-menu--no-results-container"
+       [hidden]="!noResults"
+       [textContent]="text.no_results"></p>
   </div>
-  <p class="wp-query-menu--no-results-container"
-     [hidden]="!noResults"
-     [textContent]="text.no_results"></p>
 </div>

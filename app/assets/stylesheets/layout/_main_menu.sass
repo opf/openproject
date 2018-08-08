@@ -29,9 +29,6 @@
 $toggler-width: 40px
 $menu-item-line-height: 30px
 
-::-webkit-scrollbar
-  display: none
-
 .main-menu
   bottom: auto
   @include varprop(width, main-menu-width)
@@ -59,9 +56,18 @@ $menu-item-line-height: 30px
   %absolute-layout-mode &
     position: relative
 
-    #menu-sidebar
-      +allow-vertical-scrolling
-      -ms-overflow-style: -ms-autohiding-scrollbar
+    // Fixed heights to allow inner scrolling
+    .menu_root,
+    .menu_root > li.open,
+    .main-menu--children > li.partial,
+    wp-query-select,
+    .wp-query-menu--container,
+    .wp-query-menu--search-container
+      height: 100%
+
+    .main-menu--children
+      height: calc(100% - (#{$main-menu-item-height} + 20px))
+
   ul
     margin: 0
     padding: 0
@@ -195,7 +201,7 @@ $arrow-left-width: 40px
   padding: 10px
   border-bottom: 1px solid
   border-bottom: $main-menu-border-width solid $main-menu-border-color
-  height: calc(#{$main-menu-item-height} + (2 * 10px))
+  height: calc(#{$main-menu-item-height} + 20px)
 
 .main-menu--arrow-left-to-project
   display: inline-block
@@ -304,6 +310,9 @@ $arrow-left-width: 40px
       padding: 0
 
   &.-hidden
+    display: none
+
+  %absolute-layout-mode &
     display: none
 
 .menu-wiki-pages-tree

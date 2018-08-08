@@ -1,14 +1,39 @@
 
+$wp-query-menu-search-container-height: 35px
+
 // Wrap in global ID due to specificity issues
 // from main_menu.sass :/
 #querySelectDropdown
   .wp-query-menu--search-ul
+    +allow-vertical-scrolling
+    -ms-overflow-style: -ms-autohiding-scrollbar
+    left: 0 !important
     top: 0 !important
     width: 100% !important
     padding-top: 10px !important
     max-height: 100%
-    overflow-x: hidden
     background: none
+
+    &::-webkit-scrollbar
+      width: 8px
+      height: 12px
+
+    &::-webkit-scrollbar-track
+      background: transparent
+
+    &::-webkit-scrollbar-thumb
+      background: #ddd
+      visibility:hidden
+
+    &:hover::-webkit-scrollbar-thumb
+      visibility:visible
+
+
+  .wp-query-menu--results-container
+    padding-top: 5px
+
+    %absolute-layout-mode &
+      height: calc(100% - #{$wp-query-menu-search-container-height})
 
   .wp-query-menu--no-results-container
     display: block
@@ -17,9 +42,8 @@
     width: 100%
     white-space: normal
 
-
   .wp-query-menu--search-container
-    padding: 15px 7px 7px 7px
+    padding-top: 15px
     overflow: hidden
 
     // Specific fix for Firefox
@@ -44,6 +68,13 @@
 
       &:hover
         @include varprop(background, main-menu-bg-hover-background)
+
+  // The actual search input
+  .wp-query-menu--search-bar
+    height: $wp-query-menu-search-container-height
+    position: relative
+    margin: 0 10px
+    min-width: 55px
 
   // Category collapsible links
   .wp-query-menu--category-icon
@@ -94,23 +125,15 @@
         &:hover
           @include varprop(color, main-menu-font-color)
 
-    .ui-autocomplete .ui-menu-item-wrapper
-      line-height: $menu-item-line-height
-      padding: 0px 0px 0px 25px
-      white-space: nowrap
-
   // Link within element wrapper
   .wp-query-menu--item-link
-    padding: 0px 0px 0px 25px !important
+    padding: 0px 0px 0px 5px !important
+    margin-left: 8px
     line-height: 30px
     height: 30px !important
 
     &:hover, &:focus
       @include varprop(background, main-menu-bg-hover-background)
-
-  .wp-query-menu--search-bar
-    position: relative
-    min-width: 55px
 
   // Rule complexed for specificity issues
   input[type="text"].wp-query-menu--search-input

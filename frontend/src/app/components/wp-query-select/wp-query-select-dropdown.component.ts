@@ -75,7 +75,7 @@ interface IQueryAutocompleteJQuery extends JQuery {
   templateUrl: './wp-query-select.template.html'
 })
 export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestroy {
-  @ViewChild('wpQueryMenuSearchInput') wpQueryMenuSearchInput:ElementRef;
+  @ViewChild('wpQueryMenuSearchInput') _wpQueryMenuSearchInput:ElementRef;
   @ViewChild('queryResultsContainer') _queryResultsContainerElement:ElementRef;
 
   public loaded = false;
@@ -99,6 +99,8 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   private reportsBodySelector = '.controller-work_packages\\/reports';
 
   private queryResultsContainer:JQuery;
+
+  private searchInput:IQueryAutocompleteJQuery;
 
   private initialized = false;
 
@@ -156,10 +158,10 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
       return;
     }
 
-    let input = jQuery(this.wpQueryMenuSearchInput.nativeElement) as any;
+    this.searchInput = jQuery(this._wpQueryMenuSearchInput.nativeElement) as any;
     this.initialized = true;
-    this.setupAutoCompletion(input);
-    this.updateMenuOnChanges(input);
+    this.setupAutoCompletion(this.searchInput);
+    this.updateMenuOnChanges(this.searchInput);
   }
 
   private transformQueries(collection:CollectionResource) {
@@ -313,6 +315,15 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
           }
           this._renderItemData(ul, option);
         });
+
+
+        // Scroll to selected element if search is empty
+        if (thisComponent.searchInput.val() === '') {
+          let selected = thisComponent.queryResultsContainer.find('.wp-query-menu--item.selected');
+          if (selected.length > 0) {
+            setTimeout(() => selected[0].scrollIntoView({ behavior: 'instant', block: 'center' }), 20);
+          }
+        }
       }
     });
   }
