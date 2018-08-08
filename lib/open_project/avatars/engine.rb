@@ -60,5 +60,6 @@ module OpenProject::Avatars
     end
 
     patches %i[User]
+    patch_with_namespace :API, :V3, :Users, :UserRepresenter
   end
 end

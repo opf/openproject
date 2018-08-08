@@ -75,7 +75,7 @@ AvatarHelper.class_eval do
 
       tag_options = merge_image_options(user, opts)
       tag_options[:alt] = 'Gravatar'
-      tag_options[:class] << ' avatar--gravatar-image'
+      tag_options[:class] << ' avatar--gravatar-image avatar--fallback'
       tag_options[:data] = { :'avatar-fallback-icon' => options.fetch(:fallbackIcon, 'icon icon-user') }
 
       gravatar_image_tag(mail, tag_options)
