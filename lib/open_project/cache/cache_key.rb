@@ -34,8 +34,12 @@ module OpenProject
          OpenProject::VERSION] + parts.flatten(1)
       end
 
-      def self.expand(ar_models)
-        key = ActiveSupport::Cache.expand_cache_key ar_models
+      ##
+      # Expand a cache key.
+      # Shallow wrapper around ActiveSupport::Cache, which supports
+      # anything that responds to #cache_key or #to_param, or strings
+      def self.expand(cachable)
+        key = ActiveSupport::Cache.expand_cache_key cachable
 
         Digest::SHA2.hexdigest(key)
       end
