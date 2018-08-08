@@ -618,6 +618,7 @@ en:
         display_sums: "Display Sums"
         confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
         click_to_edit_query_name: "Click to edit title of this view."
+        rename_query_placeholder: "Name of this view"
         errors:
           unretrievable_query: "Unable to retrieve view from URL"
           not_found: "There is no such view"

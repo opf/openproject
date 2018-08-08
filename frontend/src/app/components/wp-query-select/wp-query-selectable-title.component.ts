@@ -25,7 +25,7 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
-import {Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation} from "@angular/core";
+import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {WorkPackagesListService} from 'core-components/wp-list/wp-list.service';
@@ -33,6 +33,9 @@ import {StateService, TransitionService} from '@uirouter/core';
 import {States} from 'core-components/states.service';
 import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
 import {ContainHelpers} from "core-app/modules/common/focus/contain-helpers";
+
+export const triggerEditingEvent = 'op:selectableTitle:trigger';
+export const selectableTitleIdentifier = 'wp-query-selectable-title';
 
 @Component({
   selector: 'wp-query-selectable-title',
@@ -50,12 +53,14 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
   @ViewChild('editableTitleInput') inputField?:ElementRef;
 
   public inFlight:boolean = false;
+  public selectableTitleIdentifier = selectableTitleIdentifier;
 
   public text = {
     click_to_edit: this.I18n.t('js.work_packages.query.click_to_edit_query_name'),
     press_enter_to_save: this.I18n.t('js.label_press_enter_to_save'),
     query_has_changed_click_to_save: 'Query has changed, click to save',
     input_title: '',
+    input_placeholder: this.I18n.t('js.work_packages.query.rename_query_placeholder'),
     search_query_title: this.I18n.t('js.toolbar.search_query_title'),
     confirm_edit_cancel: this.I18n.t('js.work_packages.query.confirm_edit_cancel'),
     duplicate_query_title: this.I18n.t('js.work_packages.query.errors.duplicate_query_title')
@@ -72,6 +77,21 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
 
   ngOnInit() {
     this.text['input_title'] = `${this.text.click_to_edit} ${this.text.press_enter_to_save}`;
+
+    jQuery(this.elementRef.nativeElement).on(triggerEditingEvent, (evt:Event, val:string = '') => {
+      // In case we're not editable, ignore request
+      if (!this.inputField) {
+        return;
+      }
+
+      this.selectedTitle = val;
+      setTimeout(() => {
+        let field = jQuery(this.inputField!.nativeElement);
+        field.focus();
+      }, 20);
+
+      evt.stopPropagation();
+    });
   }
 
   public resetWhenFocusOutside($event:FocusEvent) {

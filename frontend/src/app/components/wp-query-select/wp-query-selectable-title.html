@@ -11,9 +11,11 @@
   <input #editableTitleInput
          type="text"
          aria-required="true"
-         name="wp-query-selectable-title"
+         [attr.name]="selectableTitleIdentifier"
+         [attr.id]="selectableTitleIdentifier"
          (keydown.escape)="reset($event)"
          (keydown.enter)="save($event)"
+         [attr.placeholder]="text.input_placeholder"
          [attr.title]="text.input_title"
          [(ngModel)]="selectedTitle"
          [disabled]="inFlight"

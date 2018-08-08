@@ -165,7 +165,6 @@ import {PasswordConfirmationModal} from "core-components/modals/request-for-conf
 import {QuerySharingModal} from "core-components/modals/share-modal/query-sharing.modal";
 import {SaveQueryModal} from "core-components/modals/save-modal/save-query.modal";
 import {QuerySharingForm} from "core-components/modals/share-modal/query-sharing-form.component";
-import {RenameQueryModal} from "core-components/modals/rename-query-modal/rename-query.modal";
 import {WpDestroyModal} from "core-components/modals/wp-destroy-modal/wp-destroy.modal";
 import {WorkPackageChildrenQueryComponent} from 'core-components/wp-relations/wp-relation-children/wp-children-query.component';
 import {OpTitleService} from 'core-components/html/op-title.service';
@@ -453,7 +452,6 @@ import {AttachmentsComponent} from 'core-components/attachments/attachments.comp
     QuerySharingModal,
     SaveQueryModal,
     QuerySharingForm,
-    RenameQueryModal,
     WpDestroyModal,
     WpButtonMacroModal,
     WikiIncludePageMacroModal,
@@ -543,7 +541,6 @@ import {AttachmentsComponent} from 'core-components/attachments/attachments.comp
     PasswordConfirmationModal,
     QuerySharingModal,
     SaveQueryModal,
-    RenameQueryModal,
     WpDestroyModal,
     AttributeHelpTextModal,
     WpButtonMacroModal,

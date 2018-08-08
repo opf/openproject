@@ -101,5 +101,17 @@ describe 'Query name inline edit', js: true do
 
     assignee_query.reload
     expect(assignee_query.name).to eq 'Not my assignee query'
+
+    # Rename query through context menu
+    wp_table.click_setting_item 'Rename view ...'
+
+    expect(page).to have_focus_on('#wp-query-selectable-title')
+    page.driver.browser.switch_to.active_element.send_keys('Some other name')
+    page.driver.browser.switch_to.active_element.send_keys(:return)
+
+    wp_table.expect_notification message: 'Successful update.'
+
+    assignee_query.reload
+    expect(assignee_query.name).to eq 'Some other name'
   end
 end
