@@ -413,14 +413,6 @@ hr:
           pogreška.
         report_timeout: Kronologiju nije moguće učitati u razumnom vremenu.
       filter:
-        column:
-          assigned_to: Dodijeljeno korisniku
-          type: Tip
-          due_date: Datum završteka
-          name: Naziv
-          status: Status
-          responsible: Odgovoran
-          start_date: Datum Početka
         grouping_other: Ostalo
         noneSelection: "(nijedan)"
       name: Naziv

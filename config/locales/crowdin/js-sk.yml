@@ -413,14 +413,6 @@ sk:
         report_timeout: The timeline could not be loaded in a reasonable amount of
           time.
       filter:
-        column:
-          assigned_to: Priradené
-          type: Typ
-          due_date: Dátum ukončenia
-          name: Názov
-          status: Stav
-          responsible: Zodpovedný
-          start_date: Dátum začiatku
         grouping_other: Ostatné
         noneSelection: "(none)"
       name: Názov

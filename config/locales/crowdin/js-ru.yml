@@ -414,14 +414,6 @@ ru:
         report_epicfail: График не может быть загружен из-за неожиданной ошибки.
         report_timeout: График не может быть загружен в разумный период времени.
       filter:
-        column:
-          assigned_to: Назначенный
-          type: Тип
-          due_date: Дате окончания
-          name: Имя
-          status: Состояние
-          responsible: Ответственный
-          start_date: Дата начала
         grouping_other: Другие
         noneSelection: "(нет)"
       name: Имя

@@ -416,14 +416,6 @@ ro:
         report_timeout: Planificările nu au putut fi încărcate într-un interval de
           timp rezonabil.
       filter:
-        column:
-          assigned_to: Executant
-          type: Tip
-          due_date: Dată de sfârşit
-          name: Nume
-          status: Stare
-          responsible: Responsabil
-          start_date: Data de început
         grouping_other: Altele
         noneSelection: "(nimic)"
       name: Nume

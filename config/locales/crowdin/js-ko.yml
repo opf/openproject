@@ -397,14 +397,6 @@ ko:
         report_epicfail: 예기치 않은 오류로 인해 타임라인을 로드할 수 없습니다.
         report_timeout: 적절한 시간에 타임라인을 로드할 수 없습니다.
       filter:
-        column:
-          assigned_to: 담당자
-          type: 타입
-          due_date: 종료 날짜
-          name: 이름
-          status: 상태
-          responsible: 책임
-          start_date: 시작 날짜
         grouping_other: 기타
         noneSelection: "(없음)"
       name: 이름

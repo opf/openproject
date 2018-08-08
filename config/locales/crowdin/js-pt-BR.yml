@@ -414,14 +414,6 @@ pt-BR:
         report_timeout: O cronograma não pôde ser carregado em uma quantidade razoável
           de tempo.
       filter:
-        column:
-          assigned_to: Atribuição
-          type: Tipo
-          due_date: Data de término
-          name: Nome
-          status: Situação
-          responsible: Responsável
-          start_date: Data de início
         grouping_other: Outro
         noneSelection: "(nenhum)"
       name: Nome

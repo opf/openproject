@@ -389,14 +389,6 @@ zh:
         report_epicfail: 发生意外错误，无法加载时间线。
         report_timeout: 不能在合理的时间内加载时间线。
       filter:
-        column:
-          assigned_to: 指定人
-          type: 类型
-          due_date: 结束日期
-          name: 名称
-          status: 状态
-          responsible: 责任人
-          start_date: 开始日期
         grouping_other: 其他
         noneSelection: "(无)"
       name: 名称

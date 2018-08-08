@@ -419,14 +419,6 @@ de:
         report_timeout: Der Zeitplan-Report konnte nicht in angemessener Zeit geladen
           werden.
       filter:
-        column:
-          assigned_to: Zugewiesen an
-          type: Typ
-          due_date: Abschlussdatum
-          name: Name
-          status: Status
-          responsible: Verantwortlicher
-          start_date: Beginn
         grouping_other: Sonstiges
         noneSelection: "(keines)"
       name: Name

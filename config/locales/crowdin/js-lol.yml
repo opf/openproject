@@ -383,14 +383,6 @@ lol:
         report_epicfail: crwdns98614:0crwdne98614:0
         report_timeout: crwdns98615:0crwdne98615:0
       filter:
-        column:
-          assigned_to: crwdns98616:0crwdne98616:0
-          type: crwdns98617:0crwdne98617:0
-          due_date: crwdns98618:0crwdne98618:0
-          name: crwdns98619:0crwdne98619:0
-          status: crwdns98620:0crwdne98620:0
-          responsible: crwdns98621:0crwdne98621:0
-          start_date: crwdns98622:0crwdne98622:0
         grouping_other: crwdns98623:0crwdne98623:0
         noneSelection: crwdns98624:0crwdne98624:0
       name: crwdns98625:0crwdne98625:0

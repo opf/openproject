@@ -386,14 +386,6 @@ ja:
         report_epicfail: タイムラインは予期しないエラーのため読み込めませんでした。
         report_timeout: タイムラインは適切な時間内に読み込めませんでした。
       filter:
-        column:
-          assigned_to: 担当者
-          type: 種別
-          due_date: 完了日
-          name: 名称
-          status: ステータス
-          responsible: 責任者
-          start_date: 開始日
         grouping_other: その他
         noneSelection: "(なし)"
       name: 名称

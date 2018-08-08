@@ -417,14 +417,6 @@ fil:
         report_timeout: Ang timeline ay hindi maipupuno dahil sa isang makatwirang
           halaga ng oras.
       filter:
-        column:
-          assigned_to: Naitalaga
-          type: Uri
-          due_date: Ang pagtatapos ng petsa
-          name: Pangalan
-          status: Estado
-          responsible: Responsable
-          start_date: Petsa ng pagsimula
         grouping_other: Iba pa
         noneSelection: "(wala)"
       name: Pangalan

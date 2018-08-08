@@ -410,14 +410,6 @@ tr:
         report_epicfail: Beklenmeyen bir hata nedeniyle zaman çizelgesi yüklenemedi.
         report_timeout: Zaman çizelgesi makul bir süre içinde yüklenemedi.
       filter:
-        column:
-          assigned_to: Atanan
-          type: Tür
-          due_date: Bitiş tarihi
-          name: İsim
-          status: Durum
-          responsible: Sorumlu
-          start_date: Başlangıç tarihi
         grouping_other: Diğer
         noneSelection: "(yok)"
       name: İsim

@@ -408,14 +408,6 @@ hu:
         report_epicfail: Váratlan hiba miatt nem lehet betölteni az ütemtervet.
         report_timeout: Az ütemtervet nem lehetett betölteni az ésszerű idő alatt.
       filter:
-        column:
-          assigned_to: Megbízott
-          type: Típus
-          due_date: Záró dátuma
-          name: Név
-          status: Állapot
-          responsible: Felelős
-          start_date: Indulási dátum
         grouping_other: Egyéb
         noneSelection: "(nincs)"
       name: Név

@@ -415,14 +415,6 @@ es:
         report_timeout: No se pudo cargar la línea de tiempo en una cantidad razonable
           de tiempo.
       filter:
-        column:
-          assigned_to: Asignado a
-          type: Tipo
-          due_date: Fecha de finalización
-          name: Nombre
-          status: Estado
-          responsible: Responsable
-          start_date: Fecha de inicio
         grouping_other: Otros
         noneSelection: "(ninguno)"
       name: Nombre

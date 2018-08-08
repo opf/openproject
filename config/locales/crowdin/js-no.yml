@@ -408,14 +408,6 @@
         report_epicfail: Tidslinjen kunne ikke lastes på grunn av en uventet feil.
         report_timeout: Tidslinjen brukte for lang tid på å laste.
       filter:
-        column:
-          assigned_to: Deltaker
-          type: Type
-          due_date: Sluttdato
-          name: Navn
-          status: Status
-          responsible: Ansvarlig
-          start_date: Startdato
         grouping_other: Øvrig
         noneSelection: "(ingen)"
       name: Navn

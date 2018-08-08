@@ -410,14 +410,6 @@ lv:
         report_timeout: The timeline could not be loaded in a reasonable amount of
           time.
       filter:
-        column:
-          assigned_to: Pašreizējais atbildīgais
-          type: Veids
-          due_date: End date
-          name: Name
-          status: Statuss
-          responsible: Atbildīgais
-          start_date: Sākuma datums
         grouping_other: Other
         noneSelection: "(none)"
       name: Name

@@ -409,14 +409,6 @@ pt:
         report_epicfail: A linha temporal não foi carregada devido a um erro inesperado.
         report_timeout: A linha temporal não foi carregada numa duração razoável.
       filter:
-        column:
-          assigned_to: Atribuído para
-          type: Tipo
-          due_date: Data final
-          name: Nome
-          status: Situação
-          responsible: Responsável
-          start_date: Data de início
         grouping_other: Outro
         noneSelection: "(nenhum)"
       name: Nome

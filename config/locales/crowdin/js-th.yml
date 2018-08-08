@@ -408,14 +408,6 @@ th:
         report_epicfail: พบข้อผิดพลาด ไม่สามารถโหลดแผนภูมิเวลา ได้
         report_timeout: ไม่สามารถโหลดแผนภูมิเวลาในระยะเวลาที่เหมาะสมได้
       filter:
-        column:
-          assigned_to: ผู้ได้รับมอบหมาย
-          type: ประเภท
-          due_date: วันสิ้นสุด
-          name: ชื่อ
-          status: สถานะ
-          responsible: รับผิดชอบ
-          start_date: วันเริ่มต้น
         grouping_other: อื่น ๆ
         noneSelection: "(ไม่มี)"
       name: ชื่อ

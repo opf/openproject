@@ -418,14 +418,6 @@ fr:
         report_timeout: La vue Chronologique ne peut être chargé dans un laps de temps
           raisonnable.
       filter:
-        column:
-          assigned_to: Assigné à
-          type: Type
-          due_date: Échéance
-          name: Nom
-          status: Statut
-          responsible: Responsable
-          start_date: Date de début
         grouping_other: Autre
         noneSelection: "(none)"
       name: Nom

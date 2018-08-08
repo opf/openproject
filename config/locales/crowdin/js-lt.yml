@@ -412,14 +412,6 @@ lt:
         report_epicfail: Laiko juosta negalėjo būti įkelta dėl nenumatytų priežasčių.
         report_timeout: Laiko juosta negalėjo būti įkelta per priimtiną laiką.
       filter:
-        column:
-          assigned_to: Paskirtas
-          type: Tipas
-          due_date: Pabaigos data
-          name: Vardas
-          status: Būsena
-          responsible: Atsakingas asmuo/grupė
-          start_date: Pradžios data
         grouping_other: Kita
         noneSelection: "(nėra)"
       name: Vardas

@@ -413,14 +413,6 @@ ca:
         report_timeout: No s'ha pogut carregar la línia de temps en una quantitat
           raonable de temps.
       filter:
-        column:
-          assigned_to: Assignat a
-          type: Tipus
-          due_date: Data de fi
-          name: Nom
-          status: Estat
-          responsible: Responsable
-          start_date: Data d'inici
         grouping_other: Altres
         noneSelection: "(cap)"
       name: Nom

@@ -411,14 +411,6 @@ et:
         report_epicfail: Ajakava ei saa laadida ootamatu tõrke tõttu.
         report_timeout: Ajakava ei saa laadida vastuvõetava aja jooksul.
       filter:
-        column:
-          assigned_to: Määratud tegija
-          type: Liik
-          due_date: Lõppkuupäev
-          name: Nimi
-          status: Olek
-          responsible: Vastutaja
-          start_date: Alguskuupäev
         grouping_other: Muu
         noneSelection: "(pole)"
       name: Nimi

@@ -414,14 +414,6 @@ he:
         report_timeout: The timeline could not be loaded in a reasonable amount of
           time.
       filter:
-        column:
-          assigned_to: משויך אל
-          type: סוג
-          due_date: תאריך סיום
-          name: שם
-          status: מצב
-          responsible: אחראי על
-          start_date: תאריך התחלה
         grouping_other: אחר
         noneSelection: "(none)"
       name: שם

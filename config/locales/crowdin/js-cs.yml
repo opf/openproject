@@ -416,14 +416,6 @@ cs:
         report_timeout: The timeline could not be loaded in a reasonable amount of
           time.
       filter:
-        column:
-          assigned_to: Řešitel
-          type: Typ
-          due_date: Datum ukončení
-          name: Jméno
-          status: Stav
-          responsible: Zodpovědný
-          start_date: Datum zahájení
         grouping_other: Ostatní
         noneSelection: "(žádný)"
       name: Jméno

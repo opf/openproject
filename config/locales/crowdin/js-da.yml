@@ -408,14 +408,6 @@ da:
         report_epicfail: Tidslinjen kunne ikke indlæses på grund af en uventet fejl.
         report_timeout: Tidslinjen kunne ikke indlæses indenfor en remelig tid.
       filter:
-        column:
-          assigned_to: Tildelt
-          type: Type
-          due_date: Slutdato
-          name: Navn
-          status: Status
-          responsible: Ansvarlig
-          start_date: Start dato
         grouping_other: Andet
         noneSelection: "(ingen)"
       name: Navn

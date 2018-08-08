@@ -414,14 +414,6 @@ it:
         report_timeout: Non è stato possibile caricare la cronologia in un lasso ti
           tempo ragionevole.
       filter:
-        column:
-          assigned_to: Assegnatario
-          type: Tipo
-          due_date: Data di scadenza
-          name: Nome
-          status: Stato
-          responsible: Responsabile
-          start_date: Data di inizio
         grouping_other: Altro
         noneSelection: "(nessuno)"
       name: Nome

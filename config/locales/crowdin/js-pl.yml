@@ -413,14 +413,6 @@ pl:
         report_timeout: The timeline could not be loaded in a reasonable amount of
           time.
       filter:
-        column:
-          assigned_to: Przypisany do
-          type: Typ
-          due_date: Data zakończenia
-          name: Nazwa
-          status: Status
-          responsible: Odpowiedzialny
-          start_date: Data rozpoczęcia
         grouping_other: Inne
         noneSelection: "(brak)"
       name: Nazwa

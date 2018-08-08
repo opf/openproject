@@ -413,14 +413,6 @@ fa:
         report_timeout: The timeline could not be loaded in a reasonable amount of
           time.
       filter:
-        column:
-          assigned_to: Assignee
-          type: نوع
-          due_date: End date
-          name: نام
-          status: Status
-          responsible: مسئول
-          start_date: Start date
         grouping_other: Other
         noneSelection: "(none)"
       name: نام

@@ -390,14 +390,6 @@ zh-TW:
         report_epicfail: 由於出現意外錯誤, 無法載入時間表。
         report_timeout: 無法在合理的時間內載入時間表。
       filter:
-        column:
-          assigned_to: 負責執行者
-          type: 類型
-          due_date: 結束日期
-          name: 名稱
-          status: 狀態
-          responsible: 責任歸屬者
-          start_date: 起始日期
         grouping_other: 其他
         noneSelection: "（無）"
       name: 名稱

@@ -408,14 +408,6 @@ fi:
         report_timeout: The timeline could not be loaded in a reasonable amount of
           time.
       filter:
-        column:
-          assigned_to: Vastuuhenkilö
-          type: Tyyppi
-          due_date: End date
-          name: Nimi
-          status: Tila
-          responsible: Vastuullinen
-          start_date: Aloituspäivä
         grouping_other: Muut
         noneSelection: "(none)"
       name: Nimi

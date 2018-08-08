@@ -411,14 +411,6 @@ af:
         report_timeout: The timeline could not be loaded in a reasonable amount of
           time.
       filter:
-        column:
-          assigned_to: Gedelegeerde
-          type: Soort
-          due_date: End date
-          name: Naam
-          status: Status
-          responsible: Verantwoordelik
-          start_date: Begindatum
         grouping_other: Ander
         noneSelection: "(none)"
       name: Naam

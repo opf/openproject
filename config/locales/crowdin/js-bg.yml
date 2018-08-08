@@ -412,14 +412,6 @@ bg:
         report_timeout: The timeline could not be loaded in a reasonable amount of
           time.
       filter:
-        column:
-          assigned_to: Изпълнител
-          type: Тип
-          due_date: Крайна дата
-          name: Име
-          status: Състояние
-          responsible: Отговорен
-          start_date: Начална дата
         grouping_other: Други
         noneSelection: "(none)"
       name: Име

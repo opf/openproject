@@ -418,14 +418,6 @@ nl:
         report_timeout: De tijdlijn kan niet worden geladen in een redelijke hoeveelheid
           tijd.
       filter:
-        column:
-          assigned_to: Toegewezene
-          type: Type
-          due_date: Einddatum
-          name: Naam
-          status: Status
-          responsible: Verantwoordelijk
-          start_date: Startdatum
         grouping_other: Overig
         noneSelection: "(geen)"
       name: Naam

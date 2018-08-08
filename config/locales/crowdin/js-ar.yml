@@ -410,14 +410,6 @@ ar:
         report_epicfail: لا يمكن تحميل المخطط الزمني بسبب خطأ غير متوقع.
         report_timeout: لا يمكن تحميل المخطط الزمني في كمية معقولة من الزمن.
       filter:
-        column:
-          assigned_to: المُسند إليه
-          type: النّوع
-          due_date: تاريخ الانتهاء
-          name: الاسم
-          status: الحالة
-          responsible: مسؤول
-          start_date: تاريخ البدء
         grouping_other: اخرى
         noneSelection: "(بلا)"
       name: الاسم

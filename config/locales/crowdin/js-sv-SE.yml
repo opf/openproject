@@ -411,14 +411,6 @@ sv-SE:
         report_epicfail: Tidslinjen kunde inte hämtas på grund av ett oväntat fel.
         report_timeout: Tidslinjen kunde inte laddas på en rimlig tid.
       filter:
-        column:
-          assigned_to: Tilldelad till
-          type: Typ
-          due_date: Slutdatum
-          name: Namn
-          status: Status
-          responsible: Ansvarig
-          start_date: Startdatum
         grouping_other: Andra
         noneSelection: "(ingen)"
       name: Namn

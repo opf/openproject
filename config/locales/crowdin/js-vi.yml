@@ -410,14 +410,6 @@ vi:
         report_timeout: The timeline could not be loaded in a reasonable amount of
           time.
       filter:
-        column:
-          assigned_to: Người được giao
-          type: Kiểu
-          due_date: End date
-          name: Tên
-          status: Trạng thái
-          responsible: Chịu trách nhiệm
-          start_date: Ngày bắt đầu
         grouping_other: Khác
         noneSelection: "(none)"
       name: Tên

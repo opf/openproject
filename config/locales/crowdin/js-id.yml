@@ -411,14 +411,6 @@ id:
         report_epicfail: 'Error : Timeline tidak dapat dibuka karena ada kesalahan.'
         report_timeout: Timeline tidak dapat dibuka untuk sementara waktu.
       filter:
-        column:
-          assigned_to: Pelimpahan
-          type: Tipe
-          due_date: Tanggal finish
-          name: Nama
-          status: Status
-          responsible: Penanggung jawab
-          start_date: Tanggal start
         grouping_other: Lainnya
         noneSelection: "(kosong)"
       name: Nama
