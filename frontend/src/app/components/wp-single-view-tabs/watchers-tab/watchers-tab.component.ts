@@ -116,6 +116,9 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
     input.autocomplete({
       delay: 250,
       autoFocus: false, // Accessibility!
+      classes: {
+        'ui-autocomplete': 'wp-watchers-autocomplete--results'
+      },
       source: (request:{ term:string }, response:Function) => {
         this.autocompleteWatchers(request.term).then((values:any) => {
           response(values.map((watcher:any) => {

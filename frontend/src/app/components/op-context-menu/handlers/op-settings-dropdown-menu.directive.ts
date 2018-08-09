@@ -26,12 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Directive, ElementRef, Inject, Input, OnDestroy} from '@angular/core';
+import {Directive, ElementRef, Input, OnDestroy} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
-import {OpContextMenuItem} from 'core-components/op-context-menu/op-context-menu.types';
 import {States} from 'core-components/states.service';
 import {WorkPackagesListService} from 'core-components/wp-list/wp-list.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
@@ -42,8 +41,11 @@ import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {WpTableExportModal} from "core-components/modals/export-modal/wp-table-export.modal";
 import {SaveQueryModal} from "core-components/modals/save-modal/save-query.modal";
 import {QuerySharingModal} from "core-components/modals/share-modal/query-sharing.modal";
-import {RenameQueryModal} from "core-components/modals/rename-query-modal/rename-query.modal";
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
+import {
+  selectableTitleIdentifier,
+  triggerEditingEvent
+} from "core-components/wp-query-select/wp-query-selectable-title.component";
 
 @Directive({
   selector: '[opSettingsContextMenu]'
@@ -52,6 +54,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
   @Input('opSettingsContextMenu-query') public query:QueryResource;
   private form:QueryFormResource;
   private loadingPromise:PromiseLike<any>;
+  private focusAfterClose = true;
 
   constructor(readonly elementRef:ElementRef,
               readonly opContextMenu:OPContextMenuService,
@@ -117,6 +120,12 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
     };
   }
 
+  public onClose() {
+    if (this.focusAfterClose) {
+      this.afterFocusOn.focus();
+    }
+  }
+
   private allowQueryAction(event:JQueryEventObject, action:any) {
     return this.allowAction(event, 'query', action);
   }
@@ -146,13 +155,27 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
   private buildItems() {
     this.items = [
       {
-        // Query save modal
+        // Configuration modal
         disabled: false,
         linkText: this.I18n.t('js.toolbar.settings.configure_view'),
-        icon: 'icon-settings3',
+        icon: 'icon-settings',
         onClick: ($event:JQueryEventObject) => {
           this.opContextMenu.close();
           this.opModalService.show<WpTableConfigurationModalComponent>(WpTableConfigurationModalComponent);
+
+          return true;
+        }
+      },
+      {
+        // Rename query shortcut
+        disabled: !this.query.id || this.authorisationService.cannot('query', 'updateImmediately'),
+        linkText: this.I18n.t('js.toolbar.settings.page_settings'),
+        icon: 'icon-edit',
+        onClick: ($event:JQueryEventObject) => {
+          if (this.allowQueryAction($event, 'update')) {
+            this.focusAfterClose = false;
+            jQuery(`#${selectableTitleIdentifier}`).trigger(triggerEditingEvent);
+          }
 
           return true;
         }
@@ -216,24 +239,11 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
       {
         // Sharing modal
         disabled: this.authorisationService.cannot('query', 'unstar') && this.authorisationService.cannot('query', 'star'),
-        linkText: this.I18n.t('js.toolbar.settings.publish'),
-        icon: 'icon-publish',
+        linkText: this.I18n.t('js.toolbar.settings.visibility_settings'),
+        icon: 'icon-watched',
         onClick: ($event:JQueryEventObject) => {
           if (this.allowQueryAction($event, 'unstar') || this.allowQueryAction($event, 'star')) {
             this.opModalService.show(QuerySharingModal);
-          }
-
-          return true;
-        }
-      },
-      {
-        // Settings modal
-        disabled: !this.query.id || this.authorisationService.cannot('query', 'updateImmediately'),
-        linkText: this.I18n.t('js.toolbar.settings.page_settings'),
-        icon: 'icon-settings',
-        onClick: ($event:JQueryEventObject) => {
-          if (this.allowQueryAction($event, 'update')) {
-            this.opModalService.show(RenameQueryModal);
           }
 
           return true;
@@ -254,4 +264,3 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
     ];
   }
 }
-

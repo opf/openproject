@@ -61,15 +61,21 @@ module Components
       end
 
       def search_and_select(query)
-        select_autocomplete(autocompleter, query: query)
+        select_autocomplete autocompleter,
+                            results_selector: autocompleter_results_selector,
+                            query: query
       end
 
       def search_results
-        page.find '.project-menu-autocomplete--results'
+        page.find autocompleter_results_selector
       end
 
       def autocompleter
         page.find autocompleter_selector
+      end
+
+      def autocompleter_results_selector
+        '.project-menu-autocomplete--results'
       end
 
       def autocompleter_selector

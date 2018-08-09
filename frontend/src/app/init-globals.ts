@@ -50,5 +50,8 @@ I18n.locale = meta.data('defaultLocale');
 I18n.locale = meta.data('locale');
 
 // Enable debug logging for reactive states
-whenDebugging(enableReactiveStatesLogging);
+whenDebugging(() => {
+  (window as any).enableReactiveStatesLogging = () => enableReactiveStatesLogging(true);
+  (window as any).disableReactiveStatesLogging = () => enableReactiveStatesLogging(false);
+});
 

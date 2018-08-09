@@ -25,50 +25,147 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
-
-import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
-import {Component, ElementRef, Inject, Input} from "@angular/core";
-import {OpContextMenuTrigger} from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
-import {WorkPackageQuerySelectDropdownComponent} from "core-components/wp-query-select/wp-query-select-dropdown.component";
+import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
+import {WorkPackagesListService} from 'core-components/wp-list/wp-list.service';
+import {StateService, TransitionService} from '@uirouter/core';
+import {States} from 'core-components/states.service';
+import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
+import {ContainHelpers} from "core-app/modules/common/focus/contain-helpers";
 
+export const triggerEditingEvent = 'op:selectableTitle:trigger';
+export const selectableTitleIdentifier = 'wp-query-selectable-title';
 
 @Component({
   selector: 'wp-query-selectable-title',
-  templateUrl: './wp-query-selectable-title.html'
+  templateUrl: './wp-query-selectable-title.html',
+  styleUrls: ['./wp-query-selectable-title.sass'],
+  // Don't encapsulate styles because we're styling within other components
+  encapsulation: ViewEncapsulation.None,
+  host: { 'class': 'title-container' }
 })
-export class WorkPackageQuerySelectableTitleComponent extends OpContextMenuTrigger {
-  @Input('selectedTitle') public selectedTitle:string;
+export class WorkPackageQuerySelectableTitleComponent implements OnInit {
+  @Input() public selectedTitle:string;
+  @Input() public currentQuery:QueryResource;
+  @Input() queryEditable:boolean = true;
+
+  @ViewChild('editableTitleInput') inputField?:ElementRef;
+
+  public inFlight:boolean = false;
+  public selectableTitleIdentifier = selectableTitleIdentifier;
+
   public text = {
-    search_query_title: this.I18n.t('js.toolbar.search_query_title')
+    click_to_edit: this.I18n.t('js.work_packages.query.click_to_edit_query_name'),
+    press_enter_to_save: this.I18n.t('js.label_press_enter_to_save'),
+    query_has_changed_click_to_save: 'Query has changed, click to save',
+    input_title: '',
+    input_placeholder: this.I18n.t('js.work_packages.query.rename_query_placeholder'),
+    search_query_title: this.I18n.t('js.toolbar.search_query_title'),
+    confirm_edit_cancel: this.I18n.t('js.work_packages.query.confirm_edit_cancel'),
+    duplicate_query_title: this.I18n.t('js.work_packages.query.errors.duplicate_query_title')
   };
 
+
   constructor(readonly elementRef:ElementRef,
-              readonly opContextMenu:OPContextMenuService,
-              readonly I18n:I18nService) {
-
-    super(elementRef, opContextMenu);
+              readonly I18n:I18nService,
+              readonly wpListService:WorkPackagesListService,
+              readonly authorisationService:AuthorisationService,
+              readonly $state:StateService,
+              readonly states:States) {
   }
 
-  public showDropDown(evt:Event) {
-    this.opContextMenu.show(this, evt, WorkPackageQuerySelectDropdownComponent);
+  ngOnInit() {
+    this.text['input_title'] = `${this.text.click_to_edit} ${this.text.press_enter_to_save}`;
+
+    jQuery(this.elementRef.nativeElement).on(triggerEditingEvent, (evt:Event, val:string = '') => {
+      // In case we're not editable, ignore request
+      if (!this.inputField) {
+        return;
+      }
+
+      this.selectedTitle = val;
+      setTimeout(() => {
+        let field = jQuery(this.inputField!.nativeElement);
+        field.focus();
+      }, 20);
+
+      evt.stopPropagation();
+    });
   }
 
-  public onOpen(menu:JQuery) {
-    menu.find('#query-title-filter').focus();
+  public resetWhenFocusOutside($event:FocusEvent) {
+    ContainHelpers.whenOutside(this.elementRef.nativeElement, () => this.reset());
+  }
+
+  public reset() {
+    this.resetInputField();
+    this.selectedTitle = this.currentTitle;
+  }
+
+  public get editable() {
+    return this.queryEditable &&
+      this.authorisationService.can('query', 'updateImmediately');
+  }
+
+  public get showSave() {
+    return this.editable && this.$state.params.query_props;
+  }
+
+  // Element looses focus on click outside and is not editable anymore
+  public save($event:Event, force = false) {
+    $event.preventDefault();
+
+    this.resetInputField();
+    this.selectedTitle = this.selectedTitle.trim();
+
+    // If the title is empty, show an error
+    if (this.isEmpty) {
+      this.updateItemInMenu();  // Throws an error message, when name is empty
+      this.focusInputOnError();
+      return;
+    }
+
+    if (!force && this.currentTitle === this.selectedTitle) {
+      return; // Nothing changed
+    }
+
+    this.updateItemInMenu();
+  }
+
+  // Check if title of query is empty
+  public get isEmpty():boolean {
+    return this.selectedTitle === '';
   }
 
   /**
-   * Positioning args for jquery-ui position.
-   *
-   * @param {Event} openerEvent
+   * The current saved title
    */
-  public positionArgs(openerEvent:Event) {
-    return {
-      my: 'left top',
-      at: 'left bottom',
-      of: this.$element.find('.wp-table--query-menu-link')
-    };
+  private get currentTitle():string {
+    return this.currentQuery.name;
+  }
+
+  // Send new query name to service to update the name in the menu
+  private updateItemInMenu() {
+    this.inFlight = true;
+    this.currentQuery.name = this.selectedTitle;
+    this.wpListService.save(this.currentQuery)
+      .then(() => this.inFlight = false)
+      .catch(() => this.inFlight = false);
+  }
+
+  private focusInputOnError() {
+    if (this.inputField) {
+      const el = this.inputField.nativeElement;
+      el.classList.add('-error');
+      el.focus();
+    }
+  }
+
+  private resetInputField() {
+    if (this.inputField) {
+      const el = this.inputField.nativeElement;
+      el.classList.remove('-error');
+    }
   }
 }
-

@@ -19,8 +19,8 @@ export class QuerySharingForm {
   @Output() public onChange = new EventEmitter<QuerySharingChange>();
 
   public text = {
-    showInMenu: this.I18n.t('js.label_show_in_menu'),
-    visibleForOthers: this.I18n.t('js.label_visible_for_others')
+    showInMenu: this.I18n.t('js.label_star_query'),
+    visibleForOthers: this.I18n.t('js.label_public_query')
   };
 
   constructor(readonly states:States,

@@ -61,7 +61,7 @@ describe 'Query menu item', js: true do
       find('.button', text: 'Save').click
 
       wp_table.expect_notification message: 'Successful creation.'
-      expect(page).to have_selector('.query-menu-item', text: 'Some query name')
+      expect(page).to have_selector('.ui-menu-item', text: 'Some query name')
 
       last_query = Query.last
       expect(last_query.is_public).to be_truthy
@@ -86,7 +86,7 @@ describe 'Query menu item', js: true do
       expect(URI.parse(page.current_url).query).to include("query_id=#{last_query.id}&query_props=")
 
       # Publish query
-      wp_table.click_setting_item 'Publish'
+      wp_table.click_setting_item I18n.t('js.label_visibility_settings')
       find('#show-in-menu').set true
       find('.button', text: 'Save').click
 
@@ -100,11 +100,14 @@ describe 'Query menu item', js: true do
       wp_table.expect_work_package_listed work_package_with_version, work_package_without_version
 
       # Locate query
-      query_item = page.find(".query-menu-item[data-query-id='#{last_query.id}']")
+      query_item = page.find(".ui-menu-item", text: 'Some query name')
       query_item.click
 
       # Overrides the query_props
-      expect(page.current_url).not_to include('query_props')
+      retry_block do
+        # Run in retry block because page.current_url is not synchronized
+        raise 'query_props should not be in URL path' if page.current_url.include?('query_props')
+      end
 
       wp_table.expect_work_package_listed work_package_with_version
       wp_table.expect_work_package_not_listed work_package_without_version
@@ -118,10 +121,14 @@ describe 'Query menu item', js: true do
       filters.expect_filter_count 1
       expect(page.current_url).to include('query_props')
 
-      query_item = page.find(".query-menu-item[data-query-id='#{last_query.id}']")
+      query_item = page.find(".ui-menu-item", text: 'Some query name')
       query_item.click
 
-      expect(page.current_url).not_to include('query_props')
+      retry_block do
+        # Run in retry block because page.current_url is not synchronized
+        raise 'query_props should not be in URL path' if page.current_url.include?('query_props')
+      end
+
       filters.expect_filter_count 2
       filters.open
       filters.expect_filter_by('Version', 'is', version.name)

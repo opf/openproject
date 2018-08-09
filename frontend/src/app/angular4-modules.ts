@@ -113,11 +113,11 @@ import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-gr
 import {WorkPackagesListChecksumService} from 'core-components/wp-list/wp-list-checksum.service';
 import {WorkPackagesListInvalidQueryService} from 'core-components/wp-list/wp-list-invalid-query.service';
 import {WorkPackagesListService} from 'core-components/wp-list/wp-list.service';
+import {WorkPackageStaticQueriesService} from 'core-components/wp-query-select/wp-static-queries.service';
 import {WorkPackageStatesInitializationService} from 'core-components/wp-list/wp-states-initialization.service';
 import {WorkPackageCreateService} from 'core-components/wp-new/wp-create.service';
 import {WorkPackageNewFullViewComponent} from 'core-components/wp-new/wp-new-full-view.component';
 import {WorkPackageNewSplitViewComponent} from 'core-components/wp-new/wp-new-split-view.component';
-import {QueryMenuService} from 'core-components/wp-query-menu/wp-query-menu.service';
 import {WorkPackageQuerySelectDropdownComponent} from 'core-components/wp-query-select/wp-query-select-dropdown.component';
 import {WorkPackageQuerySelectableTitleComponent} from 'core-components/wp-query-select/wp-query-selectable-title.component';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
@@ -165,7 +165,6 @@ import {PasswordConfirmationModal} from "core-components/modals/request-for-conf
 import {QuerySharingModal} from "core-components/modals/share-modal/query-sharing.modal";
 import {SaveQueryModal} from "core-components/modals/save-modal/save-query.modal";
 import {QuerySharingForm} from "core-components/modals/share-modal/query-sharing-form.component";
-import {RenameQueryModal} from "core-components/modals/rename-query-modal/rename-query.modal";
 import {WpDestroyModal} from "core-components/modals/wp-destroy-modal/wp-destroy.modal";
 import {WorkPackageChildrenQueryComponent} from 'core-components/wp-relations/wp-relation-children/wp-children-query.component';
 import {OpTitleService} from 'core-components/html/op-title.service';
@@ -280,6 +279,7 @@ import {AttachmentsComponent} from 'core-components/attachments/attachments.comp
     WorkPackageTableSumService,
     WorkPackageStatesInitializationService,
     WorkPackagesListService,
+    WorkPackageStaticQueriesService,
     WorkPackageTableRefreshService,
     WorkPackageTableAdditionalElementsService,
     WorkPackagesListInvalidQueryService,
@@ -292,7 +292,6 @@ import {AttachmentsComponent} from 'core-components/attachments/attachments.comp
     OpTableActionsService,
     CurrentProjectService,
     FirstRouteService,
-    QueryMenuService,
     // Split view
     CommentService,
     WorkPackagesActivityService,
@@ -453,7 +452,6 @@ import {AttachmentsComponent} from 'core-components/attachments/attachments.comp
     QuerySharingModal,
     SaveQueryModal,
     QuerySharingForm,
-    RenameQueryModal,
     WpDestroyModal,
     WpButtonMacroModal,
     WikiIncludePageMacroModal,
@@ -543,7 +541,6 @@ import {AttachmentsComponent} from 'core-components/attachments/attachments.comp
     PasswordConfirmationModal,
     QuerySharingModal,
     SaveQueryModal,
-    RenameQueryModal,
     WpDestroyModal,
     AttributeHelpTextModal,
     WpButtonMacroModal,

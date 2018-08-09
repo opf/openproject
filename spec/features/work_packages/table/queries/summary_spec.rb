@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -27,21 +26,27 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class HomescreenController < ApplicationController
-  skip_before_action :check_if_login_required, only: [:robots]
+require 'spec_helper'
+require 'features/work_packages/work_packages_page'
 
-  layout 'no_menu'
-
-  def index
-    @newest_projects = Project.visible.newest.take(3)
-    @newest_users = User.active.newest.take(3)
-    @news = News.latest(count: 3)
-    @announcement = Announcement.active_and_current
-
-    @homescreen = OpenProject::Static::Homescreen
+describe 'Work package query summary item', type: :feature, js: true do
+  let(:project) { FactoryBot.create :project, identifier: 'test_project', is_public: false }
+  let(:role) { FactoryBot.create :role, permissions: [:view_work_packages] }
+  let(:work_package) { FactoryBot.create :work_package, project: project }
+  let(:wp_page) { ::Pages::WorkPackagesTable.new project }
+  let(:current_user) do
+    FactoryBot.create :user, member_in_project: project,
+                      member_through_role: role
   end
 
-  def robots
-    @projects = Project.active.public_projects
+  before do
+    login_as(current_user)
+    wp_page.visit!
+  end
+
+  it 'allows users to visit the summary page' do
+    find('.ui-menu-item', text: 'Summary', wait: 10).click
+    expect(page).to have_selector('h2', text: 'Summary')
+    expect(page).to have_selector('td', text: work_package.type.name)
   end
 end

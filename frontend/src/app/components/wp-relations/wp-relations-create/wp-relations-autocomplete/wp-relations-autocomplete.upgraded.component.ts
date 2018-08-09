@@ -71,6 +71,9 @@ export class WpRelationsAutocompleteComponent implements OnInit {
       delay: 250,
       autoFocus: false, // Accessibility!
       appendTo: '.detail-panel--autocomplete-target',
+      classes: {
+        'ui-autocomplete': 'wp-relations-autocomplete--results'
+      },
       source: (request:{ term:string }, response:Function) => {
         this.autocompleteWorkPackages(request.term).then((values) => {
           selected = false;

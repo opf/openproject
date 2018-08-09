@@ -25,6 +25,13 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
+$nm-color-error-border: $content-form-danger-zone-bg-color
+$nm-color-error-icon: $content-form-danger-zone-bg-color
+$nm-color-error-background: #fedada
+
+$nm-color-success-border: #35c53f
+$nm-color-success-icon: #35c53f
+$nm-color-success-background: #d8fdd1
 
 @mixin query-select-dropdown-filter-select($color)
   text-decoration: underline
@@ -172,13 +179,44 @@
   float:   left
   height:  auto
   padding: 0
+  width: 50%
 
-  h2
-    border: 0
-    padding: 12px 0
+  div.inline-edit
+    cursor: pointer
+
+  div.inline-edit h2
+    margin: 10px 0
+    padding: 0px 5px
     color: $toolbar-title-color
+    line-height: 34px
+    height: 34px
     @include breakpoint(medium down)
       font-size: $h2-font-size
+
+    &:focus, &:hover
+      outline: 1px solid #ddd
+      cursor: text
+
+    &.-disabled
+      cursor: default
+
+      &:hover
+        outline: none
+
+  div.inline-edit input
+    padding: 0px 5px
+    -moz-margin: 10px 0
+    margin: 9px 0
+    color: $toolbar-title-color
+    font-size: $h2-font-size
+    height: 36px
+    line-height: 36px
+    width: calc(100% + 2px)
+
+    &.-error
+      display: block
+      background: $nm-color-error-background  !important
+      border-color: $nm-color-error-border !important
 
   span
     @include varprop(color, content-link-color)
@@ -237,52 +275,6 @@
 
     &.-append
       border-left: none !important
-
-
-#querySelectDropdown
-  min-width: 250px
-  border: 1px solid #dddddd
-  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15)
-  background: #ffffff
-  padding: 3px 0
-  .query-menu-container
-    float: left
-    clear: both
-    width: 100%
-    display: block
-  .search-query-wrapper
-    padding: 15px
-    overflow: hidden
-  .query-select-dropdown--no-results
-    padding: 15px 15px 0
-  .ui-menu-item
-    cursor: pointer
-  input
-    box-sizing: border-box
-    margin: 0 auto
-    width: 100%
-    min-width: 250px
-    height: 30px
-    line-height: 30px
-    background: #ffffff
-    border: 1px solid #cacaca
-    color: #222222
-    border-radius: 2px
-  .title-group-header
-    padding: 0 15px 0 15px
-    font-weight: bold
-    text-transform: uppercase
-  #magnifier
-    position: absolute
-    top:   24px
-    right: 22px
-    color: #999999
-  .ui-widget-content.-inplace
-    max-height: 55vh
-    overflow-x: auto
-
-  input[type="search"]::-webkit-search-cancel-button
-    display: none
 
 .text
   cursor: pointer

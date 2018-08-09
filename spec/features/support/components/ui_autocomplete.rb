@@ -28,7 +28,7 @@
 
 module Components
   module UIAutocompleteHelpers
-    def search_autocomplete(element, query:)
+    def search_autocomplete(element, query:, results_selector: nil)
       # Open the element
       element.click
       # Insert the text to find
@@ -37,12 +37,19 @@ module Components
 
       ##
       # Find the open dropdown
-      scroll_to_element(page.find('.ui-autocomplete'))
-      page.find('.ui-autocomplete', visible: true)
+      list =
+        if results_selector
+          page.find(results_selector)
+        else
+          page.find('.ui-autocomplete')
+        end
+
+      scroll_to_element(list)
+      list
     end
 
-    def select_autocomplete(element, query:, select_text: nil)
-      target_dropdown = search_autocomplete(element, query: query)
+    def select_autocomplete(element, query:, results_selector: nil, select_text: nil)
+      target_dropdown = search_autocomplete(element, results_selector: results_selector, query: query)
 
       ##
       # If a specific select_text is given, use that to locate the match,

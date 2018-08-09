@@ -27,6 +27,4 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% content_for :main_menu do %>
-  <%= render_menu :my_menu %>
-<% end %>
+<%= render file: "layouts/base", locals: { menu_name: nil } %>

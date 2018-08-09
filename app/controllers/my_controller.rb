@@ -71,7 +71,7 @@ class MyController < ApplicationController
   def index
     @user = User.current
     @blocks = get_current_layout
-    render action: 'page', layout: 'base'
+    render action: 'page', layout: 'no_menu'
   end
   alias :page :index
 

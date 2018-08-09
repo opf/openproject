@@ -36,8 +36,11 @@ module Components
       include SeleniumWorkarounds
 
       def open
-        filter_button.click
-        expect_open
+        retry_block do
+          # Run in retry block because filters do nothing if not yet loaded
+          filter_button.click
+          find(filters_selector, visible: true)
+        end
       end
 
       def expect_filter_count(num)
@@ -45,7 +48,7 @@ module Components
       end
 
       def expect_open
-        expect(page).to have_selector(filters_selector, visible: true)
+        expect(page).to have_selector(filters_selector, wait: 5, visible: true)
       end
 
       def expect_closed
