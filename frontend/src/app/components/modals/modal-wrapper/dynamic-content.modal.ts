@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, Inject, OnDestroy, OnInit} from "@angular/core";
+import {ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit} from "@angular/core";
 import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
 import {OpModalComponent} from "core-components/op-modals/op-modal.component";
@@ -38,9 +38,10 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 export class DynamicContentModal extends OpModalComponent implements OnInit, OnDestroy {
   constructor(readonly elementRef:ElementRef,
               @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+              readonly cdRef:ChangeDetectorRef,
               readonly I18n:I18nService) {
 
-    super(locals, elementRef);
+    super(locals, cdRef, elementRef);
   }
 
 

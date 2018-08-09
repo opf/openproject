@@ -21,7 +21,7 @@ export function performAnchorHijacking(evt:JQueryEventObject, target:JQuery):voi
   const hashPos = link.indexOf('#');
 
   // If link is neither empty nor starts with hash, ignore it
-  if (link !== '' && hashPos === -1) {
+  if (link !== '' && hashPos !== 0) {
     return;
   }
 

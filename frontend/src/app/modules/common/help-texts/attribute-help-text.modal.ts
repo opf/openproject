@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, Inject} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, Inject} from '@angular/core';
 import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
 import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
 import {HelpTextResource} from 'core-app/modules/hal/resources/help-text-resource';
@@ -53,8 +53,9 @@ export class AttributeHelpTextModal extends OpModalComponent {
 
   constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
               readonly I18n:I18nService,
+              readonly cdRef:ChangeDetectorRef,
               readonly elementRef:ElementRef) {
-    super(locals, elementRef);
+    super(locals, cdRef, elementRef);
   }
 
   public get helpTextLink() {
