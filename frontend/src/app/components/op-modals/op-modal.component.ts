@@ -1,4 +1,4 @@
-import {ElementRef, OnDestroy, OnInit} from '@angular/core';
+import {AfterContentInit, AfterViewInit, ChangeDetectorRef, ElementRef, OnDestroy, OnInit} from '@angular/core';
 import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {EventEmitter} from '@angular/core';
@@ -21,7 +21,9 @@ export abstract class OpModalComponent implements OnInit, OnDestroy {
 
   public openingEvent = new EventEmitter<this>();
 
-  constructor(public locals:OpModalLocalsMap, readonly elementRef:ElementRef) {
+  constructor(public locals:OpModalLocalsMap,
+              readonly cdRef:ChangeDetectorRef,
+              readonly elementRef:ElementRef) {
   }
 
   ngOnInit() {
@@ -39,7 +41,7 @@ export abstract class OpModalComponent implements OnInit, OnDestroy {
    * @returns {boolean}
    */
   public onClose():boolean {
-    this.afterFocusOn.focus();
+    this.afterFocusOn && this.afterFocusOn.focus();
     return true;
   }
 
@@ -49,6 +51,7 @@ export abstract class OpModalComponent implements OnInit, OnDestroy {
 
   public onOpen(modalElement:JQuery) {
     this.openingEvent.emit();
+    this.cdRef.detectChanges();
   }
 
   protected get afterFocusOn():JQuery {

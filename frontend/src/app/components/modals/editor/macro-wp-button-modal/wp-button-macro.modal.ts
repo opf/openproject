@@ -28,7 +28,7 @@
 
 import {OpModalComponent} from "core-components/op-modals/op-modal.component";
 import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
-import {AfterViewInit, Component, ElementRef, Inject, ViewChild} from "@angular/core";
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, ViewChild} from "@angular/core";
 import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
@@ -70,9 +70,10 @@ export class WpButtonMacroModal extends OpModalComponent implements AfterViewIni
               @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
               @Inject(IWorkPackageCreateServiceToken) protected wpCreate:WorkPackageCreateService,
               protected currentProject:CurrentProjectService,
+              readonly cdRef:ChangeDetectorRef,
               readonly I18n:I18nService) {
 
-    super(locals, elementRef);
+    super(locals, cdRef, elementRef);
     this.selectedType = this.type = this.locals.type;
     this.classes = this.locals.classes;
     this.buttonStyle = this.classes === 'button';
