@@ -32,8 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
                   resource: resource %>
 </div>
 <div class="form--field">
-  <%= f.text_field :fixed_date, container_class: '-xslim' %>
-  <%= calendar_for :cost_object_fixed_date %>
+  <%= f.text_field :fixed_date, container_class: '-xslim', class: '-augmented-datepicker' %>
 </div>
 
 <% if @cost_object.kind == "VariableCostObject" -%>

@@ -40,14 +40,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
     <h4><%= t(:label_date_from) %></h4>
     <div class="form--field">
       <%= styled_label_tag :from, t(:description_date_range_list) %>
-      <%= styled_text_field_tag :from, @from %>
-      <%= calendar_for :from %>
+      <%= styled_text_field_tag :from, @from, class: '-augmented-datepicker' %>
     </div>
     <h4><%= t(:label_date_to) %></h4>
     <div class="form--field">
       <%= styled_label_tag :to, t(:description_date_range_interval) %>
-      <%= styled_text_field_tag :to, @to %>
-      <%= calendar_for :to %>
+      <%= styled_text_field_tag :to, @to, class: '-augmented-datepicker'  %>
     </div>
   </div>
   <%= styled_button_tag t(:button_apply), class: '-with-icon icon-checkmark' %>

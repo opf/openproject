@@ -37,9 +37,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
       <li class="simple-filters--filter">
         <%= styled_label_tag :fixed_date, t(:label_fixed_date), class: 'simple-filters--filter-name' %>
         <div class='simple-filters--filter-value'>
-          <%= styled_text_field_tag :fixed_date, @fixed_date %>
+          <%= styled_text_field_tag :fixed_date, @fixed_date, class: '-augmented-datepicker' %>
         </div>
-        <%= calendar_for :fixed_date %>
       </li>
       <li class="simple-filters--filter">
         <%= styled_label_tag :include_deleted, t(:caption_show_locked), class: 'simple-filters--filter-name -small' %>
