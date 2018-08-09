@@ -126,13 +126,13 @@ See docs/COPYRIGHT.rdoc for more details.
           <div class="form--field">
             <label class="form--label" for='work_package_start_date'><%= WorkPackage.human_attribute_name(:start_date) %></label>
             <div class="form--field-container">
-              <%= styled_text_field_tag 'work_package[start_date]', '', size: 10 %><%= calendar_for('work_package_start_date') %>
+              <%= styled_text_field_tag 'work_package[start_date]', '', size: 10, class: '-augmented-datepicker' %>
             </div>
           </div>
           <div class="form--field">
             <label class="form--label" for='work_package_due_date'><%= WorkPackage.human_attribute_name(:due_date) %></label>
             <div class="form--field-container">
-              <%= styled_text_field_tag 'work_package[due_date]', '', size: 10 %><%= calendar_for('work_package_due_date') %>
+              <%= styled_text_field_tag 'work_package[due_date]', '', size: 10, class: '-augmented-datepicker' %>
             </div>
           </div>
           <% if WorkPackage.use_field_for_done_ratio? %>
