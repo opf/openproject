@@ -188,7 +188,7 @@ class MyController < ApplicationController
     @block = params[:block].to_s.underscore
 
     unless MyController.available_blocks.keys.include? @block
-      render nothing: true
+      render plain: I18n.t(:error_invalid_selected_value), status: 400
       return
     end
 
