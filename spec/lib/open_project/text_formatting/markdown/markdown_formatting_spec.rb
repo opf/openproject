@@ -96,7 +96,7 @@ describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
       )
     end
 
-    context 'when visible user exists' do
+    context 'when visible user exists', with_settings: { host_name: "openproject.org" } do
       let(:project) { FactoryBot.create :project }
       let(:role) { FactoryBot.create(:role, permissions: %i(view_work_packages)) }
       let(:current_user) do
@@ -120,7 +120,7 @@ describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
 
       it 'outputs the reference' do
         assert_html_output(
-          'Link to user:"foo@bar.com"' => %(Link to <a class="user-mention" href="/users/#{user.id}">Foo Barrit</a>)
+          'Link to user:"foo@bar.com"' => %(Link to <a class="user-mention" href="http://openproject.org/users/#{user.id}">Foo Barrit</a>)
         )
       end
     end

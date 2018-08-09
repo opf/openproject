@@ -44,8 +44,12 @@ module OpenProject
     def link_to_user(user, options = {})
       if user.is_a?(User)
         name = user.name
+        only_path = options.delete(:only_path) { false }
+
         if user.active? || user.registered? || user.invited?
-          link_to(name, user, options)
+          href = only_path ? user_path(user) : user_url(user)
+
+          link_to(name, href, options)
         else
           name
         end
