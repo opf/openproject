@@ -109,6 +109,8 @@
     "style-loader": "^0.8.3",
     "ticky": "^1.0.1",
     "ts-loader": "^4.3.1",
+    "node-sass": "^4.9.0",
+    "sass-loader": "^7.1.0",
     "typescript": "2.7.2",
     "ui-select": "~0.19.6",
     "url-loader": "^1.0.1",

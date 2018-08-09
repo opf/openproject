@@ -140,13 +140,19 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
 
   protected load(id:string) {
     return new Promise<WorkPackageResource>((resolve, reject) => {
+
+      const errorAndReject = (error:any) => {
+        this.wpNotificationsService.handleErrorResponse(error);
+        reject(error);
+      };
+
       this.apiWorkPackages.loadWorkPackageById(id, true)
         .then((workPackage:WorkPackageResource) => {
           this.schemaCacheService.ensureLoaded(workPackage).then(() => {
             this.multiState.get(id).putValue(workPackage);
             resolve(workPackage);
-          }, reject);
-        }, reject);
+          }, errorAndReject);
+        }, errorAndReject);
     });
   }
 
