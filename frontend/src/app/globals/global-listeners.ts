@@ -45,7 +45,9 @@ import {augmentedDatePicker} from "./global-listeners/augmented-date-picker";
 
         // Prevent angular handling clicks on href="#..." links from other libraries
         // (especially jquery-ui and its datepicker) from routing to <base url>/#
-        return performAnchorHijacking(evt, target);
+        performAnchorHijacking(evt, target);
+
+        return true;
       });
 
     // Disable global drag & drop handling, which results in the browser loading the image and losing the page
