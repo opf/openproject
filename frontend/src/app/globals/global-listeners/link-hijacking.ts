@@ -5,7 +5,7 @@
  * @param evt
  * @param target
  */
-export function performAnchorHijacking(evt:JQueryEventObject, target:JQuery):boolean {
+export function performAnchorHijacking(evt:JQueryEventObject, target:JQuery):void {
   // Avoid defaulting clicks on elements already removed from DOM
   if (!document.contains(evt.target)) {
     evt.preventDefault();
@@ -14,7 +14,7 @@ export function performAnchorHijacking(evt:JQueryEventObject, target:JQuery):boo
   // Avoid handling clicks on anything other than a
   const linkElement = target.closest('a');
   if (linkElement.length === 0) {
-    return true;
+    return;
   }
 
   const link = linkElement.attr('href') || '';
@@ -22,7 +22,7 @@ export function performAnchorHijacking(evt:JQueryEventObject, target:JQuery):boo
 
   // If link is neither empty nor starts with hash, ignore it
   if (link !== '' && hashPos === -1) {
-    return true;
+    return;
   }
 
   // Set the location to the hash if there is any
@@ -32,5 +32,4 @@ export function performAnchorHijacking(evt:JQueryEventObject, target:JQuery):boo
   }
 
   evt.preventDefault();
-  return false;
 }

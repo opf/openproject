@@ -42,7 +42,7 @@ require('expose-loader?Promise!es6-promise');
 require('expose-loader?jQuery!jquery');
 require('jquery-ujs');
 
-require('expose-loader?mousetrap!mousetrap/mousetrap.min.js');
+require('expose-loader?mousetrap!mousetrap/mousetrap.js');
 
 // Angular dependencies
 require('expose-loader?dragula!dragula/dist/dragula.min.js');

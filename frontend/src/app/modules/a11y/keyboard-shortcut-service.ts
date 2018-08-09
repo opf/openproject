@@ -105,7 +105,7 @@ export class KeyboardShortcutService {
       } else if (elem.is('[href]')) {
         this.clickLink(elem[0]);
       } else {
-        elem.click();
+        elem[0].click();
       }
     };
   }
