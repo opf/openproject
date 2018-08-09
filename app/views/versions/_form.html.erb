@@ -56,10 +56,10 @@ See doc/COPYRIGHT.rdoc for more details.
                      container_class: '-wide'  %>
   </div>
   <div class="form--field">
-    <%= f.text_field :start_date, container_class: '-xslim' %><%= calendar_for('version_start_date') %>
+    <%= f.text_field :start_date, container_class: '-xslim', class: '-augmented-datepicker' %>
   </div>
   <div class="form--field">
-    <%= f.text_field :effective_date, container_class: '-xslim' %><%= calendar_for('version_effective_date') %>
+    <%= f.text_field :effective_date, container_class: '-xslim', class: '-augmented-datepicker' %>
   </div>
   <div class="form--field">
     <%= f.select :sharing,
