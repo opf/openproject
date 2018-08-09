@@ -49,6 +49,7 @@ class CostReportsController < ApplicationController
   before_action :find_optional_user
 
   include Report::Controller
+  include Concerns::Layout
   prepend QueryPreperation
 
   before_action :set_cost_types # has to be set AFTER the Report::Controller filters run
@@ -79,7 +80,7 @@ class CostReportsController < ApplicationController
     respond_to do |format|
       format.html {
         session[report_engine.name.underscore.to_sym].try(:delete, :name)
-        render action: 'index'
+        render action: 'index', layout: layout_non_or_no_menu
       }
     end unless performed?
   end
