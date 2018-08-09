@@ -64,8 +64,8 @@ class CustomFieldFormBuilder < TabularFormBuilder
 
     case field_format.try(:edit_as)
     when 'date'
-      text_field(field, input_options) +
-        template.calendar_for(custom_field_field_id)
+      input_options[:class] = (input_options[:class] || '') << ' -augmented-datepicker'
+      text_field(field, input_options)
     when 'text'
       text_area(field, input_options.merge(rows: 3))
     when 'bool'
