@@ -98,7 +98,7 @@ ja:
     error:
       internal: 内部エラーが発生しました。
       cannot_save_changes_with_message: '次のエラーのために変更を保存できません: %{error}'
-      query_saving: クエリを保存できませんでした。
+      query_saving: The view could not be saved.
     filter:
       description:
         text_open_filter: "'ALT' と矢印キーでこのフィルタを開きます。"
@@ -174,7 +174,7 @@ ja:
     label_in: 今日から○日後
     label_in_less_than: 今日から○日後以前
     label_in_more_than: 今日から○日後以降
-    label_latest_activity: 最新の活動
+    label_latest_activity: Latest activity
     label_last_updated_on: 最終更新日：
     label_less_or_equal: 以下
     label_less_than_ago: 今日より○日前以降
@@ -212,6 +212,9 @@ ja:
     label_sort_higher: 上へ
     label_sort_lower: 下へ移動
     label_sorting: ソート中
+    label_star_query: Favored
+    label_press_enter_to_save: Press enter to save.
+    label_public_query: 公開
     label_sum_for: 合計
     label_subject: 題名
     label_this_week: 今週
@@ -220,7 +223,6 @@ ja:
     label_activity_show_only_comments: コメントのみのアクティビティを表示
     label_activity_show_all: すべてのアクティビティを表示
     label_total_progress: "%{percent}% 進行状況"
-    label_visible_for_others: 他の人に見えるようにする
     label_updated_on: 更新日時
     label_warning: 注意
     label_work_package: 作業項目
@@ -233,8 +235,10 @@ ja:
     label_unwatch: ウォッチしない
     label_unwatch_work_package: 作業項目のウォッチを削除
     label_uploaded_by: アップロードした人
-    label_global_queries: 共有された問い合わせ
-    label_custom_queries: 個人用のクエリ
+    label_default_queries: Default views
+    label_starred_queries: Favorite views
+    label_global_queries: Public views
+    label_custom_queries: Private views
     label_columns: 列
     label_attachments: ファイルを添付する
     label_drop_files: ここにファイルをドロップ
@@ -360,7 +364,8 @@ ja:
       activate_dsc: 降順の並べ替えを適用
       activate_no: 並べ替えを削除
     text_work_packages_destroy_confirmation: 選択した作業項目を削除してもよろしいですか？
-    text_query_destroy_confirmation: 選択したクエリを削除してもよろしいですか？
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      view?
     text_attachment_destroy_confirmation: この添付ファイルを削除してよろしいですか。
     timelines:
       gantt_chart: ガントチャート
@@ -496,7 +501,7 @@ ja:
         children_expanded: 階層レベル %{level} を展開しました。クリックすると、フィルターされた子を折りたたみます
       faulty_query:
         title: 作業項目が読み込めませんでした。
-        description: クエリが誤っているため処理できませんでした。
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: 表示できる作業項目がありません。
         description: 作業項目が作成されていないかすべての作業項目が除外されています。
@@ -527,6 +532,13 @@ ja:
         updatedAt: 更新日時
         versionName: バージョン
         version: バージョン
+      default_queries:
+        latest_activity: Latest activity
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: 開いているすべて
+        summary: サマリー
       jump_marks:
         pagination: 表のページ設定に移動する
         label_pagination: ここをクリックすると、作業項目表をスキップしてページ設定に移動します
@@ -549,10 +561,15 @@ ja:
         insert_columns: 列の挿入.
         filters: フィルタ
         display_sums: 合計を表示
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
         errors:
-          unretrievable_query: URL からクエリを取得できません。
-          not_found: そのようなクエリはありません
-        text_no_results: 一致するクエリが見つかりませんでした。
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
       table:
         configure_button: ワークパッケージテーブルを設定する
         summary: 作業項目の行と、作業項目の属性の列から成る表。
@@ -562,7 +579,8 @@ ja:
       table_configuration:
         button: このワークパッケージテーブルを設定する
         modal_title: 作業項目表の設定
-        embedded_tab_disabled: この設定タブは編集中の埋め込まれたクエリでは使用できません。
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          view you're editing.
         display_settings: 表示設定
         grouped_mode: グループ化されたモード
         grouped_hint: テーブルの結果は指定された属性でグループ化されます。
@@ -595,13 +613,14 @@ ja:
         save: 保存
         save_as: 名前を付けて保存
         export: 出力...
-        publish: 公開 ...
+        visibility_settings: Visibility settings ...
         page_settings: ビューの名前を変更...
         delete: 削除
       filter: フィルタ
       unselected_title: 作業項目
-      search_query_label: 保存されたフィルタクエリを検索
-      search_query_title: クリックして保存されたフィルタクエリを検索
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
     modals:
       label_settings: ビューの名前を変更...
       label_name: 名称

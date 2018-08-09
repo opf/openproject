@@ -996,6 +996,7 @@ lt:
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Šio įrašo nepavyko panaikinti.
+  error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Negalima grupuoti naudojant: %{value}'
   error_invalid_query_column: 'Netinkamas užklausos stulpelis: %{value}'
   error_invalid_sort_criterion: 'Negalima rūšiuoti pagal stulpelį: %{value}'

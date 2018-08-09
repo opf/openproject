@@ -105,7 +105,7 @@ id:
       internal: An internal error has occurred.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
         error: %{error}'
-      query_saving: The query could not be saved.
+      query_saving: The view could not be saved.
     filter:
       description:
         text_open_filter: Buka filter ini dengan 'ALT' dan tombol panah.
@@ -184,7 +184,7 @@ id:
     label_in: dalam
     label_in_less_than: kurang dari
     label_in_more_than: lebih dari
-    label_latest_activity: Aktifitas terbaru
+    label_latest_activity: Latest activity
     label_last_updated_on: Terakhir diupdate pada
     label_less_or_equal: "<="
     label_less_than_ago: kemarin lusa
@@ -222,6 +222,9 @@ id:
     label_sort_higher: Naikkan
     label_sort_lower: Pindahkan ke bawah
     label_sorting: Mengurutkan
+    label_star_query: Favored
+    label_press_enter_to_save: Press enter to save.
+    label_public_query: Publik
     label_sum_for: Jumlah
     label_subject: Perihal
     label_this_week: minggu ini
@@ -230,7 +233,6 @@ id:
     label_activity_show_only_comments: Tampilkan hanya aktivitas bersama komentar
     label_activity_show_all: Tampilkan semua aktivitas
     label_total_progress: "%{percent}% total progres"
-    label_visible_for_others: View visible for others
     label_updated_on: diupdate pada
     label_warning: Warning
     label_work_package: Paket-Penugasan
@@ -243,8 +245,10 @@ id:
     label_unwatch: Unwatch
     label_unwatch_work_package: Tidak pantau Paket-Penugasan
     label_uploaded_by: Diupload oleh
-    label_global_queries: Query bersama
-    label_custom_queries: Query pribadi
+    label_default_queries: Default views
+    label_starred_queries: Favorite views
+    label_global_queries: Public views
+    label_custom_queries: Private views
     label_columns: Kolom
     label_attachments: File
     label_drop_files: Drop file di sini
@@ -378,8 +382,8 @@ id:
       activate_dsc: aktifkan untuk penerapan urutan menurun
       activate_no: aktifkan untuk menghapus urutan
     text_work_packages_destroy_confirmation: Yakin akan menghapus?
-    text_query_destroy_confirmation: Apakah Anda yakin Anda ingin menghapus query
-      yang dipilih?
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      view?
     text_attachment_destroy_confirmation: Apakah Anda yakin ingin menghapus lampiran?
     timelines:
       gantt_chart: Bagan Gantt
@@ -529,7 +533,7 @@ id:
           anak anak yang telah disaring
       faulty_query:
         title: Paket kerja tidak dapat dimuat.
-        description: Kueri salah dan tidak dapat diproses.
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: No work packages to display.
         description: Either none have been created or all work packages are filtered
@@ -561,6 +565,13 @@ id:
         updatedAt: Diperbarui
         versionName: Versi
         version: Versi
+      default_queries:
+        latest_activity: Latest activity
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: All open
+        summary: Ringkasan
       jump_marks:
         pagination: Jump to table pagination
         label_pagination: Click here to skip over the work packages table and go to
@@ -586,10 +597,15 @@ id:
         insert_columns: Sisipkan kolom...
         filters: Filter
         display_sums: Tampilkan jumlah
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
         errors:
-          unretrievable_query: Tidak dapat mengambil queri URL
-          not_found: Tidak ada pertanyaan lagi
-        text_no_results: Tidak ada pertanyaan yang cocok ditemukan.
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
       table:
         configure_button: Configure work package table
         summary: Table with rows of work package and columns of work package attributes.
@@ -603,7 +619,7 @@ id:
         button: Configure this work package table
         modal_title: Work package table configuration
         embedded_tab_disabled: This configuration tab is not available for the embedded
-          query you're editing.
+          view you're editing.
         display_settings: Display settings
         grouped_mode: Grouped mode
         grouped_hint: Table results will be grouped by the given attribute.
@@ -641,13 +657,14 @@ id:
         save: Simpan
         save_as: Simpan sebagai...
         export: Ekspor...
-        publish: Terbitkan ...
+        visibility_settings: Visibility settings ...
         page_settings: Rename view ...
         delete: Hapus
       filter: Filter
       unselected_title: Paket-Penugasan
-      search_query_label: Search saved filter queries
-      search_query_title: Click to search saved filter queries
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
     modals:
       label_settings: Rename view
       label_name: Nama

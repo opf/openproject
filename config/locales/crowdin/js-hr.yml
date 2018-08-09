@@ -105,7 +105,7 @@ hr:
       internal: Dogodila se interna greška.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
         error: %{error}'
-      query_saving: The query could not be saved.
+      query_saving: The view could not be saved.
     filter:
       description:
         text_open_filter: Otvorite ovaj filtar s 'ALT' i tipke sa strelicama.
@@ -183,7 +183,7 @@ hr:
     label_in: u
     label_in_less_than: u manje od
     label_in_more_than: u više od
-    label_latest_activity: Posljednja aktivnost
+    label_latest_activity: Latest activity
     label_last_updated_on: Zadnje ažuriranje
     label_less_or_equal: "<="
     label_less_than_ago: manje od dana
@@ -221,6 +221,9 @@ hr:
     label_sort_higher: Pomakni gore
     label_sort_lower: Pomakni dolje
     label_sorting: Sortiranje
+    label_star_query: Favored
+    label_press_enter_to_save: Press enter to save.
+    label_public_query: Javno
     label_sum_for: Iznos za
     label_subject: Predmet
     label_this_week: ovog tjedna
@@ -229,7 +232,6 @@ hr:
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% ukupnog napretka"
-    label_visible_for_others: View visible for others
     label_updated_on: ažurirano
     label_warning: Upozorenje
     label_work_package: Radni paket
@@ -243,8 +245,10 @@ hr:
     label_unwatch: Ne nadgledaj više
     label_unwatch_work_package: Ne nadgledaj radni paket
     label_uploaded_by: Dodao
-    label_global_queries: Dijeljeni upiti
-    label_custom_queries: Privatni upiti
+    label_default_queries: Default views
+    label_starred_queries: Favorite views
+    label_global_queries: Public views
+    label_custom_queries: Private views
     label_columns: Stupci
     label_attachments: Datoteke
     label_drop_files: Ovdje dodajte datoteke
@@ -380,8 +384,8 @@ hr:
       activate_no: activate to remove the sort
     text_work_packages_destroy_confirmation: Are you sure you want to delete the selected
       work package(s)?
-    text_query_destroy_confirmation: Jeste li sigurni da želite izbrisati odabrane
-      upite?
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      view?
     text_attachment_destroy_confirmation: Da li ste sigurni da želite izbrisati privitke?
     timelines:
       gantt_chart: Gantt chart
@@ -532,7 +536,7 @@ hr:
           filtered children
       faulty_query:
         title: Work packages could not be loaded.
-        description: Your query is erroneous and could not be processed.
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: Nema radnih paketa za prikaz.
         description: Either none have been created or all work packages are filtered
@@ -564,6 +568,13 @@ hr:
         updatedAt: Ažurirano
         versionName: Verzija
         version: Verzija
+      default_queries:
+        latest_activity: Latest activity
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: All open
+        summary: Sažetak
       jump_marks:
         pagination: Skok na numeriranje stranica tabele
         label_pagination: Click here to skip over the work packages table and go to
@@ -589,10 +600,15 @@ hr:
         insert_columns: Umetni stupce ...
         filters: Filteri
         display_sums: Prikaži iznose
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
         errors:
-          unretrievable_query: Nije moguće dohvatit upit iz URLa
-          not_found: Nema takvog upita
-        text_no_results: No matching queries were found.
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
       table:
         configure_button: Configure work package table
         summary: Table with rows of work package and columns of work package attributes.
@@ -605,7 +621,7 @@ hr:
         button: Configure this work package table
         modal_title: Work package table configuration
         embedded_tab_disabled: This configuration tab is not available for the embedded
-          query you're editing.
+          view you're editing.
         display_settings: Display settings
         grouped_mode: Grouped mode
         grouped_hint: Table results will be grouped by the given attribute.
@@ -643,13 +659,14 @@ hr:
         save: Spremi
         save_as: Spremi kao ...
         export: Izvezi ...
-        publish: Publish ...
+        visibility_settings: Visibility settings ...
         page_settings: Rename view ...
         delete: Obriši
       filter: Filter
       unselected_title: Radni paket
-      search_query_label: Pretraživanje spremljenih filtra upita
-      search_query_title: Kliknite pretraživanje spremljenih filtra upita
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
     modals:
       label_settings: Rename view
       label_name: Naziv

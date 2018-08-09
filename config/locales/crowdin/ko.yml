@@ -942,6 +942,7 @@ ko:
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: 항목 삭제에 실패하였습니다.
+  error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: '그룹화할 수 없습니다: %{value}'
   error_invalid_query_column: '잘못 된 쿼리 열: %{value}'
   error_invalid_sort_criterion: '열로 정렬할 수 없습니다: %{value}'

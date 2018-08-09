@@ -965,6 +965,7 @@ pt-BR:
   error_enterprise_activation_user_limit: Sua conta não pôde ser ativada (limite de
     usuários atingido). Por favor, contate o administrador para obter acesso.
   error_failed_to_delete_entry: Falha ao excluir esta entrada.
+  error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Não é possível agrupar por: %{value}'
   error_invalid_query_column: 'Coluna de consulta inválida: %{value}'
   error_invalid_sort_criterion: 'Não é possível ordenar por coluna: %{value}'

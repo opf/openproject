@@ -102,7 +102,7 @@ zh:
     error:
       internal: 发生了内部错误。
       cannot_save_changes_with_message: 由于%{error} 原因，无法保存您的更改。
-      query_saving: 无法保存查询。
+      query_saving: The view could not be saved.
     filter:
       description:
         text_open_filter: 使用 ALT 和方向键打开筛选器。
@@ -177,7 +177,7 @@ zh:
     label_in: 在
     label_in_less_than: 在小于
     label_in_more_than: 在多于
-    label_latest_activity: 最新活动
+    label_latest_activity: Latest activity
     label_last_updated_on: 最后更新日期
     label_less_or_equal: "<="
     label_less_than_ago: 小于数日前
@@ -215,6 +215,9 @@ zh:
     label_sort_higher: 向上移动
     label_sort_lower: 向下移动
     label_sorting: 排序
+    label_star_query: Favored
+    label_press_enter_to_save: Press enter to save.
+    label_public_query: 公开
     label_sum_for: 总和
     label_subject: 主题
     label_this_week: 这一周
@@ -223,7 +226,6 @@ zh:
     label_activity_show_only_comments: 仅显示批注的活动
     label_activity_show_all: 显示所有项目
     label_total_progress: "%{percent} %总进度"
-    label_visible_for_others: 可被他人访问
     label_updated_on: 更新于
     label_warning: 警告
     label_work_package: 工作包
@@ -236,8 +238,10 @@ zh:
     label_unwatch: 取消关注
     label_unwatch_work_package: 取消工作包关注
     label_uploaded_by: 上传者
-    label_global_queries: 共享的查询
-    label_custom_queries: 私人查询
+    label_default_queries: Default views
+    label_starred_queries: Favorite views
+    label_global_queries: Public views
+    label_custom_queries: Private views
     label_columns: 列
     label_attachments: 文件
     label_drop_files: 将文件拖至此处
@@ -363,7 +367,8 @@ zh:
       activate_dsc: 激活以进行降序排序
       activate_no: 激活以移除排序
     text_work_packages_destroy_confirmation: 确实要删除所选的工作包吗?
-    text_query_destroy_confirmation: 是否确实要删除所选的查询?
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      view?
     text_attachment_destroy_confirmation: 你确定要删除这个附件?
     timelines:
       gantt_chart: 甘特图
@@ -498,7 +503,7 @@ zh:
         children_expanded: 层次结构级别 %{level} 已展开。单击以折叠筛选的子任务
       faulty_query:
         title: 无法加载工作包。
-        description: 您的查询不正确，无法处理。
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: 没有要显示的工作包。
         description: 没有已创建的工作包或所有工作包都被筛选排除。
@@ -529,6 +534,13 @@ zh:
         updatedAt: 更新于
         versionName: 版本
         version: 版本
+      default_queries:
+        latest_activity: Latest activity
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: 全部打开
+        summary: 摘要
       jump_marks:
         pagination: 跳转到表格分页
         label_pagination: 单击此处跳过工作包表格并转到分页
@@ -551,10 +563,15 @@ zh:
         insert_columns: 插入列...
         filters: 筛选器
         display_sums: 显示汇总
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
         errors:
-          unretrievable_query: 无法从 URL 检索查询
-          not_found: 无此查询
-        text_no_results: 未找到匹配的查询。
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
       table:
         configure_button: 配置工作包表
         summary: 行为工作包且列为工作包属性的表格。
@@ -564,7 +581,8 @@ zh:
       table_configuration:
         button: 配置当前工作包表
         modal_title: 工作包表配置
-        embedded_tab_disabled: 此配置选项卡不适用于您正在编辑的嵌入式查询。
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          view you're editing.
         display_settings: 显示设置
         grouped_mode: 分组模式
         grouped_hint: 表结果将按给定属性分组。
@@ -597,13 +615,14 @@ zh:
         save: 保存
         save_as: 另存为...
         export: 导出...
-        publish: 发布...
+        visibility_settings: Visibility settings ...
         page_settings: Rename view ...
         delete: 删除
       filter: 筛选器
       unselected_title: 工作包
-      search_query_label: 搜索保存的筛选器查询
-      search_query_title: 单击搜索保存的筛选器查询
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
     modals:
       label_settings: Rename view
       label_name: 名称

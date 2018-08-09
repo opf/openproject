@@ -999,6 +999,7 @@ ru:
   error_enterprise_activation_user_limit: Ваша учетная запись не может быть активирована
     (достигнут предел пользователя). Обратитесь к администратору для получения доступа.
   error_failed_to_delete_entry: Не удалось удалить эту запись.
+  error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Невозможно группировать по: %{value}'
   error_invalid_query_column: 'Недопустимый столбец в запросе: %{value}'
   error_invalid_sort_criterion: 'Невозможно сортировать по столбцу: %{value}'

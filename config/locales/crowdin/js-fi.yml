@@ -105,7 +105,7 @@ fi:
       internal: Tapahtui sisäinen virhe.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
         error: %{error}'
-      query_saving: The query could not be saved.
+      query_saving: The view could not be saved.
     filter:
       description:
         text_open_filter: Avaa suodatin "Alt"-näppäintä ja nuolinäppäimiä käyttämällä.
@@ -182,7 +182,7 @@ fi:
     label_in: tässä
     label_in_less_than: pienempi kuin
     label_in_more_than: suurempi kuin
-    label_latest_activity: Viimeisimmät tapahtumat
+    label_latest_activity: Latest activity
     label_last_updated_on: Viimeisin päivitys
     label_less_or_equal: "<="
     label_less_than_ago: vähemmän kuin päivää sitten
@@ -220,6 +220,9 @@ fi:
     label_sort_higher: Siirrä ylös
     label_sort_lower: Siirrä alas
     label_sorting: Lajittelu
+    label_star_query: Favored
+    label_press_enter_to_save: Press enter to save.
+    label_public_query: Julkinen
     label_sum_for: Summa
     label_subject: Aihe
     label_this_week: tällä viikolla
@@ -228,7 +231,6 @@ fi:
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent} % eteneminen"
-    label_visible_for_others: View visible for others
     label_updated_on: päivitetty vimeksi
     label_warning: Warning
     label_work_package: Työpaketti
@@ -241,8 +243,10 @@ fi:
     label_unwatch: Älä seuraa
     label_unwatch_work_package: Lopeta työpaketin seuraaminen
     label_uploaded_by: Lataaja
-    label_global_queries: Jaetut kyselyt
-    label_custom_queries: Oma kyselyt
+    label_default_queries: Default views
+    label_starred_queries: Favorite views
+    label_global_queries: Public views
+    label_custom_queries: Private views
     label_columns: Sarakkeet
     label_attachments: Tiedostot
     label_drop_files: Pudota tiedostoja tähän
@@ -377,7 +381,8 @@ fi:
       activate_no: activate to remove the sort
     text_work_packages_destroy_confirmation: Are you sure you want to delete the selected
       work package(s)?
-    text_query_destroy_confirmation: Oletko varma, että haluat poistaa valitun kyselyn?
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      view?
     text_attachment_destroy_confirmation: Oletko varma, että haluat poistaa liitteen?
     timelines:
       gantt_chart: Gantt chart
@@ -525,7 +530,7 @@ fi:
           filtered children
       faulty_query:
         title: Työpakettia ei voitu ladata.
-        description: Kysely on virheellinen, joten sitä ei voida käsitellä.
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: Ei työpaketteja näytettäväksi.
         description: Yhtään ei ole luotu tai sitten kaikki on suodatettu pois.
@@ -556,6 +561,13 @@ fi:
         updatedAt: Päivitetty vimeksi
         versionName: Versio
         version: Versio
+      default_queries:
+        latest_activity: Latest activity
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: All open
+        summary: Yhteenveto
       jump_marks:
         pagination: Jump to table pagination
         label_pagination: Click here to skip over the work packages table and go to
@@ -581,10 +593,15 @@ fi:
         insert_columns: Lisää sarakkeita...
         filters: Suodattimet
         display_sums: Näytä summat
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
         errors:
-          unretrievable_query: Ei voi noutaa kyselyn URL-osoitetta
-          not_found: Kyselyä ei ole olemassa
-        text_no_results: No matching queries were found.
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
       table:
         configure_button: Configure work package table
         summary: Taulukko, jossa työpaketit ovat riveinä ja niiden ominaisuudet sarakkeina.
@@ -597,7 +614,7 @@ fi:
         button: Configure this work package table
         modal_title: Work package table configuration
         embedded_tab_disabled: This configuration tab is not available for the embedded
-          query you're editing.
+          view you're editing.
         display_settings: Display settings
         grouped_mode: Grouped mode
         grouped_hint: Table results will be grouped by the given attribute.
@@ -635,13 +652,14 @@ fi:
         save: Tallenna
         save_as: Tallenna nimellä...
         export: Vie...
-        publish: Publish ...
+        visibility_settings: Visibility settings ...
         page_settings: Rename view ...
         delete: Poista
       filter: Suodata
       unselected_title: Työpaketti
-      search_query_label: Search saved filter queries
-      search_query_title: Click to search saved filter queries
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
     modals:
       label_settings: Rename view
       label_name: Nimi

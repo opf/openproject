@@ -891,6 +891,7 @@ zh-TW:
   error_dependent_work_package: '相關工作包中的錯誤%{related_id} %{related_subject}: %{error}'
   error_enterprise_activation_user_limit: 無法啟動您的帳戶 (已達到使用者限制)。請與管理員聯繫以獲取存取權限。
   error_failed_to_delete_entry: 刪除此項目失敗。
+  error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 無法按照 %{value} 分組
   error_invalid_query_column: 無效的查詢欄：%{value}
   error_invalid_sort_criterion: 無法按照 %{value} 排序

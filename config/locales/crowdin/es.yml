@@ -988,6 +988,7 @@ es:
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: No se puede eliminar esta entrada.
+  error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'No se puede agrupar por: %{value}'
   error_invalid_query_column: 'Columna no válida en la solicitud: %{value}'
   error_invalid_sort_criterion: 'No se puede ordenar por la columna: %{value}'

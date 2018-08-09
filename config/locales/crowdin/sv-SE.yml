@@ -962,6 +962,7 @@ sv-SE:
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Det gick inte ta bort denna post.
+  error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Kan inte gruppera efter: %{value}'
   error_invalid_query_column: 'Ogiltig frågekolumn: %{value}'
   error_invalid_sort_criterion: 'Kan inte sortera på kolumn: %{value}'

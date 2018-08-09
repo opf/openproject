@@ -982,6 +982,7 @@ fr:
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Échec lors de la suppression de cette entrée.
+  error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Impossible de grouper par : %{value}'
   error_invalid_query_column: 'Colonne de requête invalide : %{value}'
   error_invalid_sort_criterion: 'Impossible de trier par colonne : %{value}'

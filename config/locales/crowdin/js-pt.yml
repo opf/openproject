@@ -105,7 +105,7 @@ pt:
       internal: Ocorreu um erro interno.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
         error: %{error}'
-      query_saving: The query could not be saved.
+      query_saving: The view could not be saved.
     filter:
       description:
         text_open_filter: Abra este filtro com 'ALT' e teclas de seta.
@@ -183,7 +183,7 @@ pt:
     label_in: em
     label_in_less_than: em menos de
     label_in_more_than: em mais de
-    label_latest_activity: Última atividade
+    label_latest_activity: Latest activity
     label_last_updated_on: Última actualização em
     label_less_or_equal: "<="
     label_less_than_ago: menos que dias atrás
@@ -221,6 +221,9 @@ pt:
     label_sort_higher: Subir
     label_sort_lower: Descer
     label_sorting: Ordenação
+    label_star_query: Favored
+    label_press_enter_to_save: Press enter to save.
+    label_public_query: Público
     label_sum_for: Soma por
     label_subject: Assunto
     label_this_week: esta semana
@@ -229,7 +232,6 @@ pt:
     label_activity_show_only_comments: Mostrar apenas atividades com comentários
     label_activity_show_all: Mostrar todas as atividades
     label_total_progress: "%{percent}% Total de progresso"
-    label_visible_for_others: View visible for others
     label_updated_on: atualizado em
     label_warning: Aviso
     label_work_package: Pacote de trabalho
@@ -243,8 +245,10 @@ pt:
     label_unwatch: Não observar
     label_unwatch_work_package: Deixar de observar tarefa
     label_uploaded_by: Carregado por
-    label_global_queries: Consultas partilhadas
-    label_custom_queries: Consultas privadas
+    label_default_queries: Default views
+    label_starred_queries: Favorite views
+    label_global_queries: Public views
+    label_custom_queries: Private views
     label_columns: Colunas
     label_attachments: Ficheiros
     label_drop_files: Largar ficheiro aqui
@@ -378,7 +382,8 @@ pt:
       activate_no: ativar para remover a ordenação
     text_work_packages_destroy_confirmation: Tem certeza que deseja apagar o(s) pacote(s)
       de trabalho selecionado(s)?
-    text_query_destroy_confirmation: Tem certeza que deseja excluir a consulta selecionada?
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      view?
     text_attachment_destroy_confirmation: Tem certeza de que deseja apagar o anexo?
     timelines:
       gantt_chart: Gráfico de Gantt
@@ -526,7 +531,7 @@ pt:
           para minimizar as crianças filtradas
       faulty_query:
         title: Não foi possível carregar os pacotes de trabalho.
-        description: A sua consulta está incorreta e não foi possível ser processada.
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: Não há pacotes de trabalho para exibir.
         description: Ou não foram criados ou todos os pacotes de trabalho estão filtrados.
@@ -557,6 +562,13 @@ pt:
         updatedAt: Atualizado em
         versionName: Versão
         version: Versão
+      default_queries:
+        latest_activity: Latest activity
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: All open
+        summary: Resumo
       jump_marks:
         pagination: Saltar para paginação da tabela
         label_pagination: Clique aqui para saltar a tabela de pacotes de trabalho
@@ -582,10 +594,15 @@ pt:
         insert_columns: Inserir colunas...
         filters: Filtros
         display_sums: Exibir somas
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
         errors:
-          unretrievable_query: Não é possível recuperar a consulta do URL
-          not_found: Não existe tal 'query'
-        text_no_results: Não foram encontradas consultas correspondentes.
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
       table:
         configure_button: Configure work package table
         summary: Tabela com linhas do pacote de trabalho e colunas dos atributos do
@@ -599,7 +616,7 @@ pt:
         button: Configure this work package table
         modal_title: Work package table configuration
         embedded_tab_disabled: This configuration tab is not available for the embedded
-          query you're editing.
+          view you're editing.
         display_settings: Display settings
         grouped_mode: Grouped mode
         grouped_hint: Table results will be grouped by the given attribute.
@@ -637,13 +654,14 @@ pt:
         save: Guardar
         save_as: Guardar Como ...
         export: Exportar ...
-        publish: Publicar...
+        visibility_settings: Visibility settings ...
         page_settings: Rename view ...
         delete: Eliminar
       filter: Filtro
       unselected_title: Pacote de trabalho
-      search_query_label: Pesquisar filtros de consultas guardados
-      search_query_title: Clique para pesquisar filtros de consultas guardados
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
     modals:
       label_settings: Rename view
       label_name: Nome

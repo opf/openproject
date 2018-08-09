@@ -979,6 +979,7 @@ it:
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Cancellazione voce non riuscita.
+  error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Impossibile raggruppare per: %{value}'
   error_invalid_query_column: 'Colonna di query non valida: %{value}'
   error_invalid_sort_criterion: 'Impossibile ordinare per la colonna: %{value}'

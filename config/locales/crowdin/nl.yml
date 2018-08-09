@@ -980,6 +980,7 @@ nl:
   error_enterprise_activation_user_limit: Uw account kon niet worden geactiveerd (gebruikerslimiet
     bereikt). Neem contact op met uw beheerder om toegang te krijgen.
   error_failed_to_delete_entry: Fout bij het verwijderen van deze ingave.
+  error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Kan niet groeperen op: %{value}'
   error_invalid_query_column: 'Ongeldige zoekopdracht kolom: %{value}'
   error_invalid_sort_criterion: 'Kan niet sorteren op kolom: %{value}'

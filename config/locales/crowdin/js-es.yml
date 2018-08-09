@@ -105,7 +105,7 @@ es:
       internal: Ha ocurrido un error interno.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
         error: %{error}'
-      query_saving: The query could not be saved.
+      query_saving: The view could not be saved.
     filter:
       description:
         text_open_filter: Abrir este filtro con 'ALT' y las flechas de dirección.
@@ -185,7 +185,7 @@ es:
     label_in: en
     label_in_less_than: en menos de
     label_in_more_than: en más de
-    label_latest_activity: Actividad Reciente
+    label_latest_activity: Latest activity
     label_last_updated_on: Ultima actualizacion realizada el
     label_less_or_equal: "<="
     label_less_than_ago: menos que hace días
@@ -223,6 +223,9 @@ es:
     label_sort_higher: Mueva hacia arriba
     label_sort_lower: Mover hacia abajo
     label_sorting: Ordenando
+    label_star_query: Favored
+    label_press_enter_to_save: Press enter to save.
+    label_public_query: Público
     label_sum_for: Suma para
     label_subject: Asunto
     label_this_week: esta semana
@@ -231,7 +234,6 @@ es:
     label_activity_show_only_comments: Solo mostrar las actividades con comentarios
     label_activity_show_all: Mostrar todas las actividades
     label_total_progress: 'Progreso total: %{percent}%'
-    label_visible_for_others: View visible for others
     label_updated_on: actualizado el
     label_warning: Alerta
     label_work_package: Paquete de trabajo
@@ -245,8 +247,10 @@ es:
     label_unwatch: No controlar más
     label_unwatch_work_package: Ocultar paquetes de trabajo
     label_uploaded_by: Subido por
-    label_global_queries: Consultas compartidas
-    label_custom_queries: Consultas privadas
+    label_default_queries: Default views
+    label_starred_queries: Favorite views
+    label_global_queries: Public views
+    label_custom_queries: Private views
     label_columns: Columnas
     label_attachments: Archivos
     label_drop_files: Suelta los archivos aquí
@@ -382,8 +386,8 @@ es:
       activate_no: activar para deshabilitar ordenación
     text_work_packages_destroy_confirmation: "¿Esta usted seguro que desea eliminar
       paquete(s) de trabajo seleccionado(s)?"
-    text_query_destroy_confirmation: "¿Esta seguro que deseas eliminar la sentencia
-      seleccionada?"
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      view?
     text_attachment_destroy_confirmation: "¿Está seguro que desea eliminar el archivo
       adjunto?"
     timelines:
@@ -536,7 +540,7 @@ es:
           para minimizar los elementos secundarios filtrados
       faulty_query:
         title: No se han podido cargar paquetes de trabajo.
-        description: Su consulta es errónea y podría no ser procesada.
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: No hay paquetes de trabajo para mostrar.
         description: O bien no se han creado o se filtran todos los paquetes de trabajo.
@@ -567,6 +571,13 @@ es:
         updatedAt: Actualizada el
         versionName: Versión
         version: Versión
+      default_queries:
+        latest_activity: Latest activity
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: All open
+        summary: Resumen
       jump_marks:
         pagination: Saltar a la paginación de la tabla
         label_pagination: Haga clic aquí para omitir la tabla de paquetes de trabajo
@@ -592,11 +603,15 @@ es:
         insert_columns: Insertar columnas...
         filters: Filtros
         display_sums: Mostrar sumas
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
         errors:
-          unretrievable_query: Imposible recuperar la sentencia desde la direccion
-            URL
-          not_found: La consulta no existe
-        text_no_results: No se encontraron coincidencias.
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
       table:
         configure_button: Configure work package table
         summary: Tabla con filas de paquetes de trabajo y columnas con sus atributos.
@@ -610,7 +625,7 @@ es:
         button: Configure this work package table
         modal_title: Work package table configuration
         embedded_tab_disabled: This configuration tab is not available for the embedded
-          query you're editing.
+          view you're editing.
         display_settings: Display settings
         grouped_mode: Grouped mode
         grouped_hint: Table results will be grouped by the given attribute.
@@ -648,13 +663,14 @@ es:
         save: Guardar
         save_as: Guardar como ...
         export: Exportar ...
-        publish: Publicar…
+        visibility_settings: Visibility settings ...
         page_settings: Rename view ...
         delete: Borrar
       filter: Filtro
       unselected_title: Paquete de trabajo
-      search_query_label: Buscar sentencias de búsquedas de filtrado guardadas
-      search_query_title: Haga clic para buscar filtros guardados
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
     modals:
       label_settings: Rename view
       label_name: Nombre

@@ -105,7 +105,7 @@ cs:
       internal: Došlo k vnitřní chybě.
       cannot_save_changes_with_message: 'Nelze uložit změny kvůli následující chybě:
         %{error}'
-      query_saving: Dotaz nelze uložit.
+      query_saving: The view could not be saved.
     filter:
       description:
         text_open_filter: Otevřete tento filtr "ALT" a šipkami.
@@ -183,7 +183,7 @@ cs:
     label_in: v
     label_in_less_than: za méně než
     label_in_more_than: za více než
-    label_latest_activity: Poslední aktivita
+    label_latest_activity: Latest activity
     label_last_updated_on: Naposled aktualizováno
     label_less_or_equal: "<="
     label_less_than_ago: před méně jak (dny)
@@ -221,6 +221,9 @@ cs:
     label_sort_higher: Move up
     label_sort_lower: Move down
     label_sorting: Řazení
+    label_star_query: Favored
+    label_press_enter_to_save: Press enter to save.
+    label_public_query: Veřejné
     label_sum_for: Součet pro
     label_subject: Předmět
     label_this_week: tento týden
@@ -229,7 +232,6 @@ cs:
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% Total progress"
-    label_visible_for_others: Pohled viditelný pro ostatní
     label_updated_on: aktualizováno
     label_warning: Varování
     label_work_package: Pracovní balíček
@@ -243,8 +245,10 @@ cs:
     label_unwatch: Přestat sledovat
     label_unwatch_work_package: Přestat sledovat pracovní balíček
     label_uploaded_by: Nahrál
-    label_global_queries: Sdílené dotazy
-    label_custom_queries: Sourkomé dotazy
+    label_default_queries: Default views
+    label_starred_queries: Favorite views
+    label_global_queries: Public views
+    label_custom_queries: Private views
     label_columns: Sloupce
     label_attachments: Soubory
     label_drop_files: Sem přetáhněte soubory
@@ -384,7 +388,7 @@ cs:
     text_work_packages_destroy_confirmation: Are you sure you want to delete the selected
       work package(s)?
     text_query_destroy_confirmation: Are you sure you want to delete the selected
-      query?
+      view?
     text_attachment_destroy_confirmation: Are you sure you want to delete the attachment?
     timelines:
       gantt_chart: Gantt chart
@@ -534,7 +538,7 @@ cs:
           filtered children
       faulty_query:
         title: Pracovní balíčky nelze načíst.
-        description: Váš dotaz je chybný a nelze jej zpracovat.
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: Žádné pracovní balíčky k zobrazení.
         description: Either none have been created or all work packages are filtered
@@ -566,6 +570,13 @@ cs:
         updatedAt: Aktualizováno
         versionName: Verze
         version: Verze
+      default_queries:
+        latest_activity: Latest activity
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: Všechny otevřené
+        summary: Souhrn
       jump_marks:
         pagination: Jump to table pagination
         label_pagination: Click here to skip over the work packages table and go to
@@ -591,10 +602,15 @@ cs:
         insert_columns: Insert columns ...
         filters: Filtry
         display_sums: Zobrazit součty
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
         errors:
-          unretrievable_query: Unable to retrieve query from URL
-          not_found: Neexistuje žádný takový dotaz
-        text_no_results: No matching queries were found.
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
       table:
         configure_button: Konfigurovat tabulku pracovních balíčků
         summary: Table with rows of work package and columns of work package attributes.
@@ -607,8 +623,8 @@ cs:
       table_configuration:
         button: Konfigurovat tabulku tohoto pracovního balíčku
         modal_title: Konfigurace tabulky pracovních balíčků
-        embedded_tab_disabled: Tato karta konfigurace není k dispozici pro vložený
-          dotaz, který upravujete.
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          view you're editing.
         display_settings: Zobrazit nastavení
         grouped_mode: Režim seskupení
         grouped_hint: Výsledky budou seskupeny podle daného atributu.
@@ -645,13 +661,14 @@ cs:
         save: Uložit
         save_as: Uložit jako...
         export: Exportovat ...
-        publish: Publish ...
+        visibility_settings: Visibility settings ...
         page_settings: Rename view ...
         delete: Odstranit
       filter: Filtr
       unselected_title: Pracovní balíček
-      search_query_label: Search saved filter queries
-      search_query_title: Click to search saved filter queries
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
     modals:
       label_settings: Rename view
       label_name: Jméno

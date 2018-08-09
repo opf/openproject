@@ -991,6 +991,7 @@ de:
     (Nutzerlimit erreicht). Bitte kontaktieren Sie Ihren Administrator um Zugriff
     zu erhalten.
   error_failed_to_delete_entry: Fehler beim Löschen dieses Eintrags.
+  error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Kann nicht gruppieren nach: %{value}'
   error_invalid_query_column: 'Ungültige Filter-Spalte: %{value}'
   error_invalid_sort_criterion: 'Kann nicht nach Spalte sortieren: %{value}'

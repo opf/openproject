@@ -5,8 +5,8 @@ nl:
       hide: Verbergen
       loading: Bezig met laden ...
     attachments:
-      draggable_hint: 'Drag on editor field to inline image or reference attachment.
-        Closed editor fields will be opened while you keep dragging.
+      draggable_hint: 'Sleep op het invoerveld naar in line afbeelding of verwijzing
+        bijlage. Gesloten invoervelden wordt geopend terwijl u blijft slepen.
 
 '
     autocomplete_select:
@@ -106,7 +106,7 @@ nl:
       internal: Een interne fout is opgetreden.
       cannot_save_changes_with_message: 'Uw wijzigingen vanwege de volgende fout niet
         opslaan: %{error}'
-      query_saving: De zoekopdracht kon niet bewaard worden.
+      query_saving: The view could not be saved.
     filter:
       description:
         text_open_filter: Open dit filter met de 'ALT'-knop en toetsenbord pijlen.
@@ -186,7 +186,7 @@ nl:
     label_in: in
     label_in_less_than: in minder dan
     label_in_more_than: in meer dan
-    label_latest_activity: Laatste Activiteit
+    label_latest_activity: Latest activity
     label_last_updated_on: Laatst geüpdatet op
     label_less_or_equal: "<="
     label_less_than_ago: minder dan dagen geleden
@@ -224,6 +224,9 @@ nl:
     label_sort_higher: Omhoog
     label_sort_lower: Omlaag
     label_sorting: Sortering
+    label_star_query: Favored
+    label_press_enter_to_save: Press enter to save.
+    label_public_query: Publiek
     label_sum_for: Som voor
     label_subject: Onderwerp
     label_this_week: deze week
@@ -232,7 +235,6 @@ nl:
     label_activity_show_only_comments: Geef alleen activiteiten met commentaar weer
     label_activity_show_all: Geef alle activiteiten weer
     label_total_progress: "%{percent}% totale vooruitgang"
-    label_visible_for_others: Overzicht zichtbaar voor anderen
     label_updated_on: bijgewerkt op
     label_warning: Waarschuwing
     label_work_package: Werkpakket
@@ -246,8 +248,10 @@ nl:
     label_unwatch: Niet meer volgen
     label_unwatch_work_package: Stop met het bekijken van werkpakket
     label_uploaded_by: Geüpload door
-    label_global_queries: Gedeelde zoekopdrachten
-    label_custom_queries: Persoonlijke zoekopdrachten
+    label_default_queries: Default views
+    label_starred_queries: Favorite views
+    label_global_queries: Public views
+    label_custom_queries: Private views
     label_columns: Kolommen
     label_attachments: Bestanden
     label_drop_files: Bestanden hier neerzetten
@@ -383,8 +387,8 @@ nl:
       activate_no: activeer om de sortering te verwijderen
     text_work_packages_destroy_confirmation: Weet u zeker dat u geselecteerd(e) werkpakket(ten)
       wilt verwijderen?
-    text_query_destroy_confirmation: Bent u zeker dat u de geselecteerde vraag wilt
-      verwijderen?
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      view?
     text_attachment_destroy_confirmation: Weet u zeker dat u de bijlage wilt verwijderen?
     timelines:
       gantt_chart: Gantt-grafiek
@@ -538,7 +542,7 @@ nl:
           te vouwen van de gefilterde kinderen
       faulty_query:
         title: Werkpakketten konden niet worden geladen.
-        description: Uw query is onjuist en kan niet worden verwerkt.
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: Geen werkpakketten om te tonen.
         description: Ofwel zijn er geen gecreëerd ofwel zijn alle werkpakketten uitgefilterd.
@@ -569,6 +573,13 @@ nl:
         updatedAt: Bijgewerkt op
         versionName: Versie
         version: Versie
+      default_queries:
+        latest_activity: Latest activity
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: Alles open
+        summary: Overzicht
       jump_marks:
         pagination: Ga naar de tabelpaginering
         label_pagination: Klik hier om de tabel werk pakketten over te slaan en ga
@@ -594,10 +605,15 @@ nl:
         insert_columns: Voeg kolommen in ...
         filters: Filters
         display_sums: Bedragen weergeven
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
         errors:
-          unretrievable_query: Onmogelijk om zoekopdracht terug te vinden uit URL
-          not_found: Er is geen dergelijke query
-        text_no_results: Geen overeenkomende query's werden gevonden.
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
       table:
         configure_button: Configureer werkpakkettabel
         summary: Tabel met rijen van werkpakket en kolommen werk pakket kenmerken.
@@ -610,8 +626,8 @@ nl:
       table_configuration:
         button: Configureer deze werkpakkettabel
         modal_title: Werk pakket tabel configuratie
-        embedded_tab_disabled: Het configuratie tabblad is niet beschikbaar voor de
-          zoekopdracht die u probeert te bewerken.
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          view you're editing.
         display_settings: Weergave-instellingen
         grouped_mode: Gegroepeerde modus
         grouped_hint: Tabel resultaten zullen worden gegroepeerd op het opgegeven
@@ -651,13 +667,14 @@ nl:
         save: Opslaan
         save_as: Opslaan als ...
         export: Exporteren ...
-        publish: Publiceren...
+        visibility_settings: Visibility settings ...
         page_settings: Hernoem weergave...
         delete: Verwijderen
       filter: Filter
       unselected_title: Werkpakket
-      search_query_label: Zoek opgeslagen filter zoekopdrachten
-      search_query_title: Klik om te zoeken in opgeslagen filter zoekopdrachten
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
     modals:
       label_settings: Hernoem weergave
       label_name: Naam

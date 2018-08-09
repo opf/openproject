@@ -105,7 +105,7 @@ bg:
       internal: Възникна вътрешна грешка.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
         error: %{error}'
-      query_saving: The query could not be saved.
+      query_saving: The view could not be saved.
     filter:
       description:
         text_open_filter: Отворете този филтър с клавишите "ALT" и клавишите за стрелки.
@@ -183,7 +183,7 @@ bg:
     label_in: в
     label_in_less_than: в по-малко от
     label_in_more_than: в повече от
-    label_latest_activity: Последна активност
+    label_latest_activity: Latest activity
     label_last_updated_on: Последно актуализиран на
     label_less_or_equal: "<="
     label_less_than_ago: по-скоро от няколко дни
@@ -221,6 +221,9 @@ bg:
     label_sort_higher: Премести нагоре
     label_sort_lower: Премести надолу
     label_sorting: Сортиране
+    label_star_query: Favored
+    label_press_enter_to_save: Press enter to save.
+    label_public_query: Публичен
     label_sum_for: Сума за
     label_subject: Заглавие
     label_this_week: тази седмица
@@ -229,7 +232,6 @@ bg:
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent} % Общ напредък"
-    label_visible_for_others: View visible for others
     label_updated_on: актуализиран на
     label_warning: Предупреждение
     label_work_package: Работен пакет
@@ -242,8 +244,10 @@ bg:
     label_unwatch: Спри наблюдение
     label_unwatch_work_package: Ненаблюдаван работен пакет
     label_uploaded_by: Качено от
-    label_global_queries: Споделени търсения
-    label_custom_queries: Персонални търсения
+    label_default_queries: Default views
+    label_starred_queries: Favorite views
+    label_global_queries: Public views
+    label_custom_queries: Private views
     label_columns: Колони
     label_attachments: Файлове
     label_drop_files: Пуснете файлове тук
@@ -378,8 +382,8 @@ bg:
       activate_no: activate to remove the sort
     text_work_packages_destroy_confirmation: Are you sure you want to delete the selected
       work package(s)?
-    text_query_destroy_confirmation: Сигурни ли сте, че искате да изтриете избраното
-      търсене?
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      view?
     text_attachment_destroy_confirmation: Наистина ли искате да изтриете прикачения
       файл?
     timelines:
@@ -533,7 +537,7 @@ bg:
           filtered children
       faulty_query:
         title: Work packages could not be loaded.
-        description: Your query is erroneous and could not be processed.
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: Няма работни пакети за показване.
         description: Или никакви работни пакети не са създадени, или всички са филтрирани.
@@ -564,6 +568,13 @@ bg:
         updatedAt: Актуализиран на
         versionName: Версия
         version: Версия
+      default_queries:
+        latest_activity: Latest activity
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: All open
+        summary: Обобщение
       jump_marks:
         pagination: Jump to table pagination
         label_pagination: Click here to skip over the work packages table and go to
@@ -589,10 +600,15 @@ bg:
         insert_columns: Вмъкване на колони...
         filters: Филтри
         display_sums: Показване на суми
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
         errors:
-          unretrievable_query: Не може да извлече заявката от URL
-          not_found: There is no such query
-        text_no_results: No matching queries were found.
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
       table:
         configure_button: Configure work package table
         summary: Таблица с атрибути от редове и колони на работен пакет.
@@ -605,7 +621,7 @@ bg:
         button: Configure this work package table
         modal_title: Work package table configuration
         embedded_tab_disabled: This configuration tab is not available for the embedded
-          query you're editing.
+          view you're editing.
         display_settings: Display settings
         grouped_mode: Grouped mode
         grouped_hint: Table results will be grouped by the given attribute.
@@ -643,13 +659,14 @@ bg:
         save: Запази
         save_as: Запиши като ...
         export: Експортиране ...
-        publish: Publish ...
+        visibility_settings: Visibility settings ...
         page_settings: Rename view ...
         delete: Изтрий
       filter: Филтър
       unselected_title: Работен пакет
-      search_query_label: Търсене на запазени заявки за филтриране
-      search_query_title: Щракнете, за търсене на запазени заявки за филтриране
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
     modals:
       label_settings: Rename view
       label_name: Име

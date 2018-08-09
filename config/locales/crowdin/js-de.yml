@@ -109,7 +109,7 @@ de:
       internal: Ein interner Fehler ist aufgetreten.
       cannot_save_changes_with_message: 'Ihre Änderungen können nicht gespeichert
         werden. Fehler: %{error}'
-      query_saving: Die Abfrage konnte nicht gespeichert werden.
+      query_saving: The view could not be saved.
     filter:
       description:
         text_open_filter: Öffnen Sie diesen Filter mittels "Alt" und den Pfeiltasten.
@@ -187,7 +187,7 @@ de:
     label_in: an
     label_in_less_than: in weniger als
     label_in_more_than: in mehr als
-    label_latest_activity: Letzte Änderungen
+    label_latest_activity: Latest activity
     label_last_updated_on: Zuletzt aktualisiert am
     label_less_or_equal: "<="
     label_less_than_ago: vor weniger als (Tage)
@@ -225,8 +225,9 @@ de:
     label_sort_higher: Eins höher
     label_sort_lower: Eins tiefer
     label_sorting: Sortierung
-    label_star_query: "Favorisiert"
-    label_public_query: "Öffentlich"
+    label_star_query: Favored
+    label_press_enter_to_save: Press enter to save.
+    label_public_query: Öffentlich
     label_sum_for: Summe für
     label_subject: Thema
     label_this_week: aktuelle Woche
@@ -235,7 +236,6 @@ de:
     label_activity_show_only_comments: Nur Aktivitäten mit Kommentaren
     label_activity_show_all: Alle Aktivitäten anzeigen
     label_total_progress: "%{percent}% Gesamtfortschritt"
-    label_visible_for_others: Ansicht sichtbar für andere Nutzer
     label_updated_on: aktualisiert am
     label_warning: Warnung
     label_work_package: Arbeitspaket
@@ -249,10 +249,10 @@ de:
     label_unwatch: Nicht beobachten
     label_unwatch_work_package: Arbeitspaket nicht beobachten
     label_uploaded_by: Hochgeladen von
-    label_default_queries: "Standardansichten"
-    label_starred_queries: "Favorisierte Ansichten"
-    label_global_queries: "Öffentliche Ansichten"
-    label_custom_queries: "Private Ansichten"
+    label_default_queries: Default views
+    label_starred_queries: Favorite views
+    label_global_queries: Public views
+    label_custom_queries: Private views
     label_columns: Spalten
     label_attachments: Dateien
     label_drop_files: Dateien hier ablegen
@@ -387,8 +387,8 @@ de:
       activate_no: aktivieren um Sortierung zu entfernen
     text_work_packages_destroy_confirmation: Sind Sie sicher, dass Sie die ausgewählten
       Arbeitspakete löschen möchten?
-    text_query_destroy_confirmation: Möchten Sie die ausgewählte Ansicht wirklich
-      löschen?
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      view?
     text_attachment_destroy_confirmation: Sind Sie sicher, dass Sie diesen Anhang
       löschen möchten?
     timelines:
@@ -543,7 +543,7 @@ de:
           gefilterten Kinder auszublenden
       faulty_query:
         title: Das Arbeitspaket konnte nicht geladen werden.
-        description: Diese Ansicht ist fehlerhaft und konnte nicht verarbeitet werden.
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: Keine Arbeitspakete anzuzeigen.
         description: Es wurden entweder keine Arbeitspakete erzeugt oder alle Arbeitspakete
@@ -575,6 +575,13 @@ de:
         updatedAt: Aktualisiert am
         versionName: Version
         version: Version
+      default_queries:
+        latest_activity: Latest activity
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: Alle offenen
+        summary: Zusammenfassung
       jump_marks:
         pagination: Zur Seitennavigation springen
         label_pagination: Hier klicken, um über die Tabelle der Arbeitspakete hinweg
@@ -601,10 +608,15 @@ de:
         insert_columns: Spalten hinzufügen ...
         filters: Filter
         display_sums: Summen anzeigen
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
         errors:
-          unretrievable_query: Die URL enthält keine benutzerdefinierte Abfrage
-          not_found: Ansicht existiert nicht
-        text_no_results: Keine passenden Ansichten gefunden.
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
       table:
         configure_button: Arbeitspaket-Tabelle konfigurieren
         summary: Tabelle mit Zeilen von Arbeitspaketen und Spalten von Attributen
@@ -618,8 +630,8 @@ de:
       table_configuration:
         button: Konfigurieren Sie diese Arbeitspaket-Tabelle
         modal_title: Konfiguration der Arbeitspaket-Tabelle
-        embedded_tab_disabled: Dieser Tab ist nicht verfübar für diese eingebettete
-          Tabelle.
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          view you're editing.
         display_settings: Anzeige-Einstellungen
         grouped_mode: Gruppierte Ansicht
         grouped_hint: Ergebnisse der Tabelle werden anhand des angegebenen Attributs
@@ -660,13 +672,14 @@ de:
         save: Speichern
         save_as: Speichern unter ...
         export: Exportieren ...
-        visibility_settings: Sichtbarkeit ...
+        visibility_settings: Visibility settings ...
         page_settings: Ansicht umbenennen ...
         delete: Löschen
       filter: Filter
       unselected_title: Arbeitspaket
-      search_query_label: Ansichten durchsuchen
-      search_query_title: Klicken um gespeicherte Ansichten zu durchsuchen
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
     modals:
       label_settings: Ansicht umbenennen
       label_name: Name
