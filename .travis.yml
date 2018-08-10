@@ -81,8 +81,8 @@ before_install:
   - git checkout openproject/$TRAVIS_BRANCH
 
   # Install pandoc for testing textile migration
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq pandoc
+  - travis_retry sudo apt-get update -qq
+  - travis_retry sudo apt-get install -qq pandoc
 
   # Install Node latest LTS
   - "nvm install --lts"
