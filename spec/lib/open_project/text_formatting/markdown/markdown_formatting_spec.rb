@@ -67,7 +67,7 @@ describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
     HTML
     assert_html_output({
                          '# 2009\02\09' => html
-                       }, false)
+                       }, expect_paragraph: false)
   end
 
   it 'should double dashes should not strikethrough' do
@@ -118,10 +118,24 @@ describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
         login_as current_user
       end
 
-      it 'outputs the reference' do
-        assert_html_output(
-          'Link to user:"foo@bar.com"' => %(Link to <a class="user-mention" href="/users/#{user.id}">Foo Barrit</a>)
-        )
+      context 'with path only' do
+        it 'outputs the reference' do
+          assert_html_output(
+            'Link to user:"foo@bar.com"' => %(Link to <a class="user-mention" href="/users/#{user.id}">Foo Barrit</a>)
+          )
+        end
+      end
+
+      context 'with absolute URLs (path_only is false)', with_settings: { host_name: "openproject.org" } do
+        it 'outputs the reference' do
+          assert_html_output(
+            {
+              'Link to user:"foo@bar.com"' =>
+                %(Link to <a class="user-mention" href="http://openproject.org/users/#{user.id}">Foo Barrit</a>)
+            },
+            only_path: false
+          )
+        end
       end
     end
   end
@@ -291,19 +305,22 @@ describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
       <p>Some text after the second h3 heading</p>
     HTML
 
-    assert_html_output({ markdown => html }, false)
+    assert_html_output({ markdown => html }, expect_paragraph: false)
   end
 
   private
 
-  def assert_html_output(to_test, expect_paragraph = true)
+  def assert_html_output(to_test, options = {})
+    options = { expect_paragraph: true }.merge options
+    expect_paragraph = options.delete :expect_paragraph
+
     to_test.each do |text, expected|
       expected = expect_paragraph ? "<p>#{expected}</p>" : expected
-      expect(to_html(text)).to be_html_eql expected
+      expect(to_html(text, options)).to be_html_eql expected
     end
   end
 
-  def to_html(text)
-    described_class.new({}).to_html(text)
+  def to_html(text, options = {})
+    described_class.new(options).to_html(text)
   end
 end
