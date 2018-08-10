@@ -355,7 +355,8 @@ fieldset.form--fieldset
 .form--label
   @include grid-content(2)
   @extend %label-style
-  @include text-shortener
+  overflow-x: hidden
+  white-space: normal
   overflow-y: visible
   padding:      0 1rem 0 0
   font-size:    $form-label-fontsize
