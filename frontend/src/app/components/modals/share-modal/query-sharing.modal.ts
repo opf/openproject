@@ -32,7 +32,7 @@ import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.serv
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {OpModalComponent} from "core-components/op-modals/op-modal.component";
-import {Component, ElementRef, Inject, OnInit, ViewChild} from "@angular/core";
+import {ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild} from "@angular/core";
 import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
 import {QuerySharingChange} from "core-components/modals/share-modal/query-sharing-form.component";
@@ -62,10 +62,11 @@ export class QuerySharingModal extends OpModalComponent implements OnInit {
               @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
               readonly I18n:I18nService,
               readonly states:States,
+              readonly cdRef:ChangeDetectorRef,
               readonly wpListService:WorkPackagesListService,
               readonly wpNotificationsService:WorkPackageNotificationService,
               readonly notificationsService:NotificationsService) {
-    super(locals, elementRef);
+    super(locals, cdRef, elementRef);
   }
 
   ngOnInit() {

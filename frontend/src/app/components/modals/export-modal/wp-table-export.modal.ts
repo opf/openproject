@@ -1,4 +1,4 @@
-import {Component, ElementRef, Inject, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, Inject, OnInit} from '@angular/core';
 import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
 import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
 import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
@@ -37,8 +37,9 @@ export class WpTableExportModal extends OpModalComponent implements OnInit {
               readonly elementRef:ElementRef,
               readonly UrlParamsHelper:UrlParamsHelperService,
               readonly tableState:TableState,
+              readonly cdRef:ChangeDetectorRef,
               readonly wpTableColumns:WorkPackageTableColumnsService) {
-    super(locals, elementRef);
+    super(locals, cdRef, elementRef);
   }
 
   ngOnInit() {

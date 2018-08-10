@@ -28,7 +28,7 @@
 
 import {OpModalComponent} from "core-components/op-modals/op-modal.component";
 import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
-import {Component, ElementRef, Inject} from "@angular/core";
+import {ChangeDetectorRef, Component, ElementRef, Inject} from "@angular/core";
 import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
@@ -65,9 +65,10 @@ export class ConfirmDialogModal extends OpModalComponent {
 
   constructor(readonly elementRef:ElementRef,
               @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+              readonly cdRef:ChangeDetectorRef,
               readonly I18n:I18nService) {
 
-    super(locals, elementRef);
+    super(locals, cdRef, elementRef);
 
     this.options = locals.options || {};
     this.closeOnEscape = _.defaultTo(this.options.closeByEscape, true);
