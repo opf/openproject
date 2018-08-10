@@ -43,6 +43,51 @@ describe 'Wysiwyg embedded work package tables',
     login_as(user)
   end
 
+  describe 'in a work package description' do
+    let(:wp_page) { ::Pages::FullWorkPackage.new(work_package, project) }
+    let(:embedded_table) { ::Pages::EmbeddedWorkPackagesTable.new page.find('.work-packages--details--description') }
+    let(:editor) { ::Components::WysiwygEditor.new '.work-packages--details--description' }
+
+    before do
+      wp_page.visit!
+      wp_page.ensure_page_loaded
+    end
+
+    it 'can embed a table with the same work package listed' do
+      description_field = wp_page.work_package_field :description
+      description_field.activate!
+
+      editor.in_editor do |_container, editable|
+        editor.insert_macro 'Embed work package table'
+
+        # Keep all open as filter
+        modal.expect_open
+        modal.save
+
+        description_field.submit_by_click
+        wp_page.expect_and_dismiss_notification message: 'Successful update'
+
+        # Expect work package page in container
+        embedded_table.expect_work_package_listed work_package
+        embedded_subject = embedded_table.edit_field work_package, :subject
+        embedded_subject.update 'My new subject!'
+
+        wp_page.expect_and_dismiss_notification message: 'Successful update'
+
+        # Updates the outer same WP
+        wp_page.edit_field(:subject).expect_state_text 'My new subject!'
+
+        work_package.reload
+        expect(work_package.subject).to eq 'My new subject!'
+
+        # Updates the wp table
+        embedded_table.expect_work_package_listed work_package
+        embedded_subject = embedded_table.edit_field work_package, :subject
+        embedded_subject.expect_state_text 'My new subject!'
+      end
+    end
+  end
+
   describe 'in wikis' do
     describe 'creating a wiki page' do
       before do

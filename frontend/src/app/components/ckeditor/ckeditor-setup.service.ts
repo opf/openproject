@@ -4,7 +4,9 @@ import {Injectable} from "@angular/core";
 
 export interface ICKEditorInstance {
   getData():string;
+
   setData(content:string):void;
+
   model:any;
   editing:any;
   config:any;
@@ -12,6 +14,7 @@ export interface ICKEditorInstance {
 
 export interface ICKEditorStatic {
   create(el:HTMLElement, config?:any):Promise<ICKEditorInstance>;
+
   createCustomized(el:HTMLElement, config?:any):Promise<ICKEditorInstance>;
 }
 
@@ -20,7 +23,7 @@ export interface ICKEditorContext {
   // Specific removing of plugins
   removePlugins?:string[];
   // Set of enabled macro plugins or false to disable all
-  macros?:false|string[];
+  macros?:'none'|'wp'|'full'|boolean|string[];
   // context link to append on preview requests
   previewContext?:string;
 }
@@ -34,8 +37,8 @@ declare global {
 
 @Injectable()
 export class CKEditorSetupService {
- constructor(private PathHelper:PathHelperService) {
- }
+  constructor(private PathHelper:PathHelperService) {
+  }
 
   /**
    * Create a CKEditor instance of the given type on the wrapper element.
@@ -47,29 +50,46 @@ export class CKEditorSetupService {
    * @param {ICKEditorContext} context
    * @returns {Promise<ICKEditorInstance>}
    */
- public create(type:'full'|'constrained', wrapper:HTMLElement, context:ICKEditorContext) {
-   const editor = type === 'constrained' ? window.OPConstrainedEditor : window.OPClassicEditor;
-   wrapper.classList.add(`ckeditor-type-${type}`);
+  public create(type:'full' | 'constrained', wrapper:HTMLElement, context:ICKEditorContext) {
+    const editor = type === 'constrained' ? window.OPConstrainedEditor : window.OPClassicEditor;
+    wrapper.classList.add(`ckeditor-type-${type}`);
 
-   return editor
-     .createCustomized(wrapper, {
-       openProject: {
-         context: context,
-         helpURL: this.PathHelper.textFormattingHelp(),
-         pluginContext: window.OpenProject.pluginContext.value
-       }
-     })
-     .then((editor) => {
-       // Allow custom events on wrapper to set/get data for debugging
-       jQuery(wrapper)
-         .on('op:ckeditor:setData', (event:any, data:string) => editor.setData(data))
-         .on('op:ckeditor:clear', (event:any) => editor.setData(' '))
-         .on('op:ckeditor:getData', (event:any, cb:any) => cb(editor.getData()));
+    return editor
+      .createCustomized(wrapper, {
+        openProject: this.createConfig(context)
+      })
+      .then((editor) => {
+        // Allow custom events on wrapper to set/get data for debugging
+        jQuery(wrapper)
+          .on('op:ckeditor:setData', (event:any, data:string) => editor.setData(data))
+          .on('op:ckeditor:clear', (event:any) => editor.setData(' '))
+          .on('op:ckeditor:getData', (event:any, cb:any) => cb(editor.getData()));
 
-       return editor;
-     })
-     .catch((error:any) => {
-       console.error(`Failed to setup CKEditor instance: ${error}`);
-     });
- }
+        return editor;
+      })
+      .catch((error:any) => {
+        console.error(`Failed to setup CKEditor instance: ${error}`);
+      });
+  }
+
+  private createConfig(context:ICKEditorContext):any {
+    if (context.macros === 'none') {
+      context.macros = false;
+    }
+    else if (context.macros === 'wp') {
+      context.macros = [
+        'OPMacroToc',
+        'OPMacroEmbeddedTable',
+        'OPMacroWpButton'
+      ];
+    } else {
+      context.macros = true;
+    }
+
+    return {
+      context: context,
+      helpURL: this.PathHelper.textFormattingHelp(),
+      pluginContext: window.OpenProject.pluginContext.value
+    };
+  }
 }
