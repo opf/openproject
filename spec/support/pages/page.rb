@@ -95,6 +95,12 @@ module Pages
       end
     end
 
+    def expect_and_dismiss_notification(type: :success, message:)
+      expect_notification(type: type, message: message)
+      dismiss_notification!
+      expect_no_notification(type: type, message: message)
+    end
+
     def dismiss_notification!
       page.find('.notification-box--close').click
     end

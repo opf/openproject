@@ -45,8 +45,7 @@ module Pages
             click_link 'Edit'
           end
 
-          custom_action = CustomAction.find_by(name: name)
-
+          custom_action = CustomAction.find_by!(name: name)
           Pages::Admin::CustomActions::Edit.new(custom_action)
         end
 

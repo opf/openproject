@@ -103,9 +103,9 @@ module Pages
       attribute_expectations.each do |label_name, value|
         label = label_name.to_s
         if label == 'status'
-          expect(page).to have_selector(".wp-status-button .button", text: value)
+          expect(page).to have_selector(".wp-status-button .button", text: value, wait: 10)
         else
-          expect(page).to have_selector(".wp-edit-field.#{label.camelize(:lower)}", text: value)
+          expect(page).to have_selector(".wp-edit-field.#{label.camelize(:lower)}", text: value, wait: 10)
         end
       end
     end
@@ -214,10 +214,16 @@ module Pages
       page
     end
 
-    def click_custom_action(name)
-      within('.custom-actions') do
+    def click_custom_action(name, expect_success: true)
+      page.within('.custom-actions') do
         click_button(name)
       end
+
+      if expect_success
+        expect_and_dismiss_notification message: 'Successful update'
+        sleep 1
+      end
+
     end
 
     def trigger_edit_mode
