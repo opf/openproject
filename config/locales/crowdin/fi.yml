@@ -2168,7 +2168,6 @@ fi:
   setting_welcome_text: Tervehdysteksti
   setting_welcome_title: Tervehdyspalkki
   setting_welcome_on_homescreen: Näytä tervehdyspalkki kotinäkymässä
-  setting_welcome_on_projects_page: Näytä tervehdyspalkki projektin yleisnäkymässä
   setting_wiki_compression: Wiki historian tiivistys
   setting_work_package_group_assignment: Allow assignment to groups
   settings:

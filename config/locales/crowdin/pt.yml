@@ -2221,7 +2221,6 @@ pt:
   setting_welcome_text: Bloco de texto de boas-vindas
   setting_welcome_title: Título de texto de boas-vindas
   setting_welcome_on_homescreen: Exibir o bloco de boas-vindas no ecrã inicial
-  setting_welcome_on_projects_page: Exibir o bloco de boas-vindas na sinopse do projeto
   setting_wiki_compression: Compressão do histórico da wiki
   setting_work_package_group_assignment: Permitir atribuição de grupos
   settings:

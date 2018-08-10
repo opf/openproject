@@ -2174,7 +2174,6 @@ da:
   setting_welcome_text: Velkomstblok-tekst
   setting_welcome_title: Velkomstblok-titel
   setting_welcome_on_homescreen: Vis velkomstblok på hjemmeskærm
-  setting_welcome_on_projects_page: Vis velkomstblok på projektoversigt
   setting_wiki_compression: Sammendrag af wiki-historie
   setting_work_package_group_assignment: Tillad tilknytning til grupper
   settings:

@@ -2243,8 +2243,6 @@ lt:
   setting_welcome_text: Pasisveikinimo bloko tekstas
   setting_welcome_title: Pasisveikinimo bloko pavadinimas
   setting_welcome_on_homescreen: Rodyti pasisveikinimo bloką namų lange
-  setting_welcome_on_projects_page: Rodyti pasisveikinimo bloką projekto peržiūros
-    lange
   setting_wiki_compression: Wiki istorijos suspaudimas
   setting_work_package_group_assignment: Leisti priskyrimus grupėms
   settings:

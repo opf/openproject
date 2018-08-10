@@ -2180,7 +2180,6 @@ tr:
   setting_welcome_text: Hoş geldiniz blok metini
   setting_welcome_title: Hoş geldiniz blok başlığı
   setting_welcome_on_homescreen: Hoşgeldiniz bloğunu ana ekranda göster
-  setting_welcome_on_projects_page: Projeye genel bakış için karşılama blokunu gösterin
   setting_wiki_compression: Wiki geçmişini sıkıştır
   setting_work_package_group_assignment: Gruplara iş atanmasına izin ver
   settings:

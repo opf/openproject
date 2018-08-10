@@ -2176,7 +2176,6 @@ sv-SE:
   setting_welcome_text: Textblock för välkomstmeddelande
   setting_welcome_title: Textblock för välkomsttitel
   setting_welcome_on_homescreen: Visa välkomstblocket på hemsidan
-  setting_welcome_on_projects_page: Visa välkomstblocket på projektsidan
   setting_wiki_compression: Wiki komprimera historia
   setting_work_package_group_assignment: Tillåt tilldelning till grupper
   settings:

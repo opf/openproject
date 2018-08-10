@@ -2012,7 +2012,6 @@ ja:
   setting_welcome_text: ようこそブロックのテキスト
   setting_welcome_title: ようこそブロックのタイトル
   setting_welcome_on_homescreen: ホーム画面にようこそブロックを表示
-  setting_welcome_on_projects_page: プロジェクト概要にようこそブロックを表示
   setting_wiki_compression: Wiki履歴を圧縮する
   setting_work_package_group_assignment: グループへの割り当てを許可する
   settings:

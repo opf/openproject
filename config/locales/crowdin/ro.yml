@@ -2226,8 +2226,6 @@ ro:
   setting_welcome_text: Text bloc "bun venit"
   setting_welcome_title: Titlu bloc "bun venit"
   setting_welcome_on_homescreen: Afişare bloc "bun venit" pe ecranul de start
-  setting_welcome_on_projects_page: Afişare bloc "bun venit" în vederea de ansamblu
-    a proiectului
   setting_wiki_compression: Comprimare istoric wiki
   setting_work_package_group_assignment: Atribuire la grupuri permisă
   settings:

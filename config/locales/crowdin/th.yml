@@ -2141,7 +2141,6 @@ th:
   setting_welcome_text: Welcome block text
   setting_welcome_title: Welcome block title
   setting_welcome_on_homescreen: Display welcome block on homescreen
-  setting_welcome_on_projects_page: Display welcome block on project overview
   setting_wiki_compression: การบีบอัดไฟล์ประวัติของวิกิ
   setting_work_package_group_assignment: อนุญาตให้มอบหมายไปยังกลุ่ม
   settings:

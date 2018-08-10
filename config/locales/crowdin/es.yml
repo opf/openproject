@@ -2249,8 +2249,6 @@ es:
   setting_welcome_text: Bloque de texto de bienvenida
   setting_welcome_title: Título del bloque de bienvenida
   setting_welcome_on_homescreen: Mostrar bloque de bienvenida en la pagina de inicio
-  setting_welcome_on_projects_page: Mostrar bloque de bienvenida en el resumen del
-    proyecto
   setting_wiki_compression: Comprensión del historial del Wiki
   setting_work_package_group_assignment: Permite la asignación a grupos
   settings:

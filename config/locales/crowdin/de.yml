@@ -200,8 +200,8 @@ de:
         no_results_title_text: Derzeit gibt es keine Arbeitspakete, die ich gemeldet
           habe.
       responsible:
-        no_results_title_text: There are currently no work packages that I am accountable
-          for.
+        no_results_title_text: Derzeit gibt es keine Arbeitspakete, für die ich verantwortlich
+          bin.
       watched:
         no_results_title_text: Derzeit gibt es keine Arbeitspakete, die ich beobachte.
     summary:
@@ -448,7 +448,7 @@ de:
         not_a_date: ist kein gültiges Datum.
         not_a_datetime: ist kein gültiges Datum.
         not_a_number: ist keine Zahl.
-        not_allowed: is invalid because of missing permissions.
+        not_allowed: ist ungültig aufgrund fehlender Berechtigungen.
         not_an_integer: ist keine ganzzahlige Zahl.
         not_an_iso_date: 'ist kein gültiges Datum - Erwartetes Format: YYY-MM-DD.'
         not_same_project: gehört nicht zum selben Projekt.
@@ -657,7 +657,7 @@ de:
     password: Kennwort
     priority: Priorität
     project: Projekt
-    responsible: Accountable
+    responsible: Verantwortlich
     role: Rolle
     roles: Rollen
     start_date: Beginn
@@ -991,7 +991,7 @@ de:
     (Nutzerlimit erreicht). Bitte kontaktieren Sie Ihren Administrator um Zugriff
     zu erhalten.
   error_failed_to_delete_entry: Fehler beim Löschen dieses Eintrags.
-  error_invalid_selected_value: Invalid selected value.
+  error_invalid_selected_value: Ausgewählter Wert ist ungültig.
   error_invalid_group_by: 'Kann nicht gruppieren nach: %{value}'
   error_invalid_query_column: 'Ungültige Filter-Spalte: %{value}'
   error_invalid_sort_criterion: 'Kann nicht nach Spalte sortieren: %{value}'
@@ -1495,7 +1495,7 @@ de:
   label_repository_plural: Projektarchive
   label_required: benötigt von
   label_requires: benötigt
-  label_responsible_for_work_packages: Work packages I am accountable for
+  label_responsible_for_work_packages: Von mir verantwortete Arbeitspakete
   label_result_plural: Ergebnisse
   label_reverse_chronological_order: in umgekehrter zeitlicher Reihenfolge
   label_revision: Revision
@@ -1633,8 +1633,8 @@ de:
     anzeigen
   label_work_package_view_all_reported_by_me: Alle von mir erstellten Arbeitspakete
     anzeigen
-  label_work_package_view_all_responsible_for: View all work packages that I am accountable
-    for
+  label_work_package_view_all_responsible_for: Alle Arbeitspakete anzeigen, für die
+    ich verantwortlich bin
   label_work_package_view_all_watched: Alle beobachteten Arbeitspakete anzeigen
   label_work_package_watchers: Beobachter
   label_workflow: Workflow
@@ -2243,7 +2243,6 @@ de:
   setting_welcome_text: Text für Willkommens-Block
   setting_welcome_title: Titel des Willkommens-Block
   setting_welcome_on_homescreen: Willkommens-Block auf Startseite anzeigen
-  setting_welcome_on_projects_page: Willkommen-Block auf der Projektübersicht anzeigen
   setting_wiki_compression: Wiki-Historie komprimieren
   setting_work_package_group_assignment: Zuweisung zu Gruppen erlauben
   settings:
@@ -2404,8 +2403,8 @@ de:
   text_user_wrote: "%{value} schrieb:"
   text_warn_on_leaving_unsaved: Das Arbeitspaket enthält ungespeicherten Text, der
     verloren geht wenn Sie die Seite verlassen.
-  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
-    comment
+  text_what_did_you_change_click_to_add_comment: Was haben Sie geändert? Klicken,
+    um einen Kommentar hinzufügen
   text_wiki_destroy_confirmation: Sind Sie sicher, dass Sie dieses Wiki mit sämtlichem
     Inhalt löschen möchten?
   text_wiki_page_destroy_children: Lösche alle Unterseiten
@@ -2522,7 +2521,7 @@ de:
       outline: Zu Beginn angezeigte Hierarchie
       parent: Zeige Unterprojekte von
       work_package_filters: Arbeitspakete filtern
-      work_package_responsible: Show work packages with accountable
+      work_package_responsible: Arbeitspakete mit diesem Verantwortlichen anzeigen
       work_package_assignee: Arbeitspakete mit dieser zugewiesenen Person anzeigen
       types: Typen anzeigen
       status: Status anzeigen
@@ -2535,7 +2534,7 @@ de:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} %{end_label}
         %{endspan}%{endspanunit}"
       project_filters: Projekte filtern
-      project_responsible: Show projects with accountable
+      project_responsible: Projekte mit diesem Verantwortlichen anzeigen
       project_status: Projekt-Status anzeigen
       timeframe: Zeitausschnitt bestimmen
       timeframe_end: bis

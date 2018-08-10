@@ -2241,8 +2241,6 @@ pl:
   setting_welcome_text: Tekst bloku powitalnego
   setting_welcome_title: Tytuł bloku powitalnego
   setting_welcome_on_homescreen: Wyświetl wiadomość powitalną na ekranie głównym
-  setting_welcome_on_projects_page: Wyświetl blok powitalny na stronie powitalnej
-    przeglądu projektu
   setting_wiki_compression: Kompresja historii wiki
   setting_work_package_group_assignment: Allow assignment to groups
   settings:

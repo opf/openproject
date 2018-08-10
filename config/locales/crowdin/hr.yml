@@ -2215,7 +2215,6 @@ hr:
   setting_welcome_text: Tekst dobrodošlice
   setting_welcome_title: Naslov dobrodošlice
   setting_welcome_on_homescreen: Prikaži tekst dobrodošlice na početnoj stranici
-  setting_welcome_on_projects_page: Prikaži tekst dobrodošlice na stranici projekta
   setting_wiki_compression: Kompresija Wiki povijesti
   setting_work_package_group_assignment: Allow assignment to groups
   settings:

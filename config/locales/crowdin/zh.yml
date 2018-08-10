@@ -2003,7 +2003,6 @@ zh:
   setting_welcome_text: 欢迎块文本
   setting_welcome_title: 欢迎区块标题
   setting_welcome_on_homescreen: 在主屏幕上显示欢迎信息
-  setting_welcome_on_projects_page: 在项目概述里显示欢迎内容
   setting_wiki_compression: Wiki 历史压缩
   setting_work_package_group_assignment: 允许分配到组
   settings:

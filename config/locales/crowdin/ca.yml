@@ -2229,8 +2229,6 @@ ca:
   setting_welcome_text: Bloc de text de benvinguda
   setting_welcome_title: Títol del bloc de benvinguda
   setting_welcome_on_homescreen: Mostrar el bloc de benvinguda a la pàgina d'inici
-  setting_welcome_on_projects_page: Mostrar el bloc de benvinguda a la vista general
-    del projecte
   setting_wiki_compression: Compressió de l'historial de la wiki
   setting_work_package_group_assignment: Permeten l'assignació als grups
   settings:

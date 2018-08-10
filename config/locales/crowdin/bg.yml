@@ -2181,7 +2181,6 @@ bg:
   setting_welcome_text: Welcome block text
   setting_welcome_title: Welcome block title
   setting_welcome_on_homescreen: Display welcome block on homescreen
-  setting_welcome_on_projects_page: Показване на началния блок при преглед на проекта
   setting_wiki_compression: Wiki history compression
   setting_work_package_group_assignment: Allow assignment to groups
   settings:

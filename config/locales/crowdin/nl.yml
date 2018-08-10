@@ -2220,7 +2220,6 @@ nl:
   setting_welcome_text: Welkom blok tekst
   setting_welcome_title: Welkom blok titel
   setting_welcome_on_homescreen: Toon het Welkom blok op thuisscherm
-  setting_welcome_on_projects_page: Welkom blok op projectoverzicht weergeven
   setting_wiki_compression: Compressie van wiki geschiedenis
   setting_work_package_group_assignment: Sta toewijzingen een groepen toe
   settings:

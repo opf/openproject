@@ -108,7 +108,7 @@ ru:
       internal: Произошла внутренняя ошибка.
       cannot_save_changes_with_message: 'Не удается сохранить изменения из-за следующей
         ошибки: %{error}'
-      query_saving: The view could not be saved.
+      query_saving: Представление не может быть сохранено.
     filter:
       description:
         text_open_filter: Откройте этот фильтр с «ALT» и клавишей со стрелкой.
@@ -186,7 +186,7 @@ ru:
     label_in: в
     label_in_less_than: менее чем
     label_in_more_than: более чем
-    label_latest_activity: Latest activity
+    label_latest_activity: Последние действия
     label_last_updated_on: Последний раз обновлено
     label_less_or_equal: "<="
     label_less_than_ago: меньше чем день назад
@@ -224,8 +224,8 @@ ru:
     label_sort_higher: Переместить вверх
     label_sort_lower: Переместить вниз
     label_sorting: Сортировка
-    label_star_query: Favored
-    label_press_enter_to_save: Press enter to save.
+    label_star_query: Добавлено в избранное
+    label_press_enter_to_save: Нажмите ввод для сохранения.
     label_public_query: Общий
     label_sum_for: Сумма для
     label_subject: Тема
@@ -247,10 +247,10 @@ ru:
     label_unwatch: Прекратить наблюдение
     label_unwatch_work_package: Прекратить наблюдение за пакетом работ
     label_uploaded_by: Загружено
-    label_default_queries: Default views
-    label_starred_queries: Favorite views
-    label_global_queries: Public views
-    label_custom_queries: Private views
+    label_default_queries: Представления по умолчанию
+    label_starred_queries: Избранные представления
+    label_global_queries: Публичные представления
+    label_custom_queries: Приватные представления
     label_columns: Столбцы
     label_attachments: Файлы
     label_drop_files: Перетащите файлы сюда
@@ -387,8 +387,7 @@ ru:
       activate_no: активировать для удаления сортировки
     text_work_packages_destroy_confirmation: Вы уверены, что хотите удалить выбранные
       пакет(-ы) работ?
-    text_query_destroy_confirmation: Are you sure you want to delete the selected
-      view?
+    text_query_destroy_confirmation: Уверены, что хотите удалить выбранное представление?
     text_attachment_destroy_confirmation: Вы уверены, что вы хотите удалить вложение?
     timelines:
       gantt_chart: Диаграмма Гантта
@@ -541,7 +540,7 @@ ru:
           отфильтрованные дочерние элементы
       faulty_query:
         title: Не удалось загрузить рабочие пакеты.
-        description: Your view is erroneous and could not be processed.
+        description: Ваше представление ошибочно и не может быть обработано.
       no_results:
         title: Нет пакетов работ для показа.
         description: Ничего не найдено.
@@ -573,10 +572,10 @@ ru:
         versionName: Этап
         version: Этап
       default_queries:
-        latest_activity: Latest activity
-        created_by_me: Created by me
-        assigned_to_me: Assigned to me
-        recently_created: Recently created
+        latest_activity: Последние действия
+        created_by_me: Создано мной
+        assigned_to_me: Предназначено для меня
+        recently_created: Недавно созданное
         all_open: Все открытые
         summary: Сводка
       jump_marks:
@@ -603,15 +602,16 @@ ru:
         insert_columns: Вставьте столбцы...
         filters: Фильтры
         display_sums: Отображение суммы
-        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
-          view? Title will be set back to previous value.
-        click_to_edit_query_name: Click to edit title of this view.
-        rename_query_placeholder: Name of this view
+        confirm_edit_cancel: Уверены, что хотите отменить редактирование названия
+          этого представления? Заголовку будет присвоено прежнее название.
+        click_to_edit_query_name: Кликните, чтобы изменить название этого представления.
+        rename_query_placeholder: Название этого представления
         errors:
-          unretrievable_query: Unable to retrieve view from URL
-          not_found: There is no such view
-          duplicate_query_title: Name of this view already exists. Change anyway?
-        text_no_results: No matching views were found.
+          unretrievable_query: Не удается получить представление из URL-адреса
+          not_found: Нет такого представления
+          duplicate_query_title: Представление с таким именем уже существует. Менять
+            в любом случае?
+        text_no_results: Подходящие представления не найдены.
       table:
         configure_button: Настроить таблицу пакетов работ
         summary: Таблица с названиями пакетов работ в строках и атрибутами пакетов
@@ -625,8 +625,8 @@ ru:
       table_configuration:
         button: Настроить эту таблицу пакетов работ
         modal_title: Настройка таблицы пакетов работ
-        embedded_tab_disabled: This configuration tab is not available for the embedded
-          view you're editing.
+        embedded_tab_disabled: Эта вкладка конфигурации не доступна для редактируемого
+          вами встроенного представления.
         display_settings: Настройки экрана
         grouped_mode: Режим группировки
         grouped_hint: Результаты таблицы будет сгруппированы по заданным атрибутом.
@@ -664,14 +664,14 @@ ru:
         save: Сохранить
         save_as: Сохранить как ...
         export: Экспортировать ...
-        visibility_settings: Visibility settings ...
+        visibility_settings: Параметры видимости ...
         page_settings: Переименовать представления...
         delete: Удалить
       filter: Фильтр
       unselected_title: Пакет работ
-      search_query_label: Search saved views
-      search_query_title: Click to search saved views
-      placeholder_query_title: Set a title for this view
+      search_query_label: Найти сохраненные представления
+      search_query_title: Кликните для поиска сохраненных представлений
+      placeholder_query_title: Задать заголовок для этого представления
     modals:
       label_settings: Переименовать представления
       label_name: Имя

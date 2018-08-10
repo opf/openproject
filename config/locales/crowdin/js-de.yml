@@ -5,8 +5,9 @@ de:
       hide: Verbergen
       loading: Lädt ...
     attachments:
-      draggable_hint: 'Drag on editor field to inline image or reference attachment.
-        Closed editor fields will be opened while you keep dragging.
+      draggable_hint: 'Ziehen Sie diesen Anhang auf ein editierbares Feld um das Bild
+        oder den Anhang einzubinden. Geöffnete Felder werden automatisch geöffnet
+        während Sie das Attachment mit der Maus ziehen und halten.
 
 '
     autocomplete_select:
@@ -104,12 +105,12 @@ de:
           with_type: 'Arbeitspaket erstellen (Typ: %{typename})'
         embedded_table:
           button: Arbeitspaket-Tabelle einbetten
-          text: "[Placeholder] Embedded work package table"
+          text: "[Platzhalter] Eingebette Arbeitspaket-Tabelle"
     error:
       internal: Ein interner Fehler ist aufgetreten.
       cannot_save_changes_with_message: 'Ihre Änderungen können nicht gespeichert
         werden. Fehler: %{error}'
-      query_saving: The view could not be saved.
+      query_saving: Die Ansicht konnte nicht gespeichert werden.
     filter:
       description:
         text_open_filter: Öffnen Sie diesen Filter mittels "Alt" und den Pfeiltasten.
@@ -187,7 +188,7 @@ de:
     label_in: an
     label_in_less_than: in weniger als
     label_in_more_than: in mehr als
-    label_latest_activity: Latest activity
+    label_latest_activity: Letzte Änderungen
     label_last_updated_on: Zuletzt aktualisiert am
     label_less_or_equal: "<="
     label_less_than_ago: vor weniger als (Tage)
@@ -225,8 +226,8 @@ de:
     label_sort_higher: Eins höher
     label_sort_lower: Eins tiefer
     label_sorting: Sortierung
-    label_star_query: Favored
-    label_press_enter_to_save: Press enter to save.
+    label_star_query: Favorisiert
+    label_press_enter_to_save: Drücken Sie Enter zum Speichern.
     label_public_query: Öffentlich
     label_sum_for: Summe für
     label_subject: Thema
@@ -249,10 +250,10 @@ de:
     label_unwatch: Nicht beobachten
     label_unwatch_work_package: Arbeitspaket nicht beobachten
     label_uploaded_by: Hochgeladen von
-    label_default_queries: Default views
-    label_starred_queries: Favorite views
-    label_global_queries: Public views
-    label_custom_queries: Private views
+    label_default_queries: Standardansichten
+    label_starred_queries: Favoriten
+    label_global_queries: Öffentliche Ansichten
+    label_custom_queries: Private Ansichten
     label_columns: Spalten
     label_attachments: Dateien
     label_drop_files: Dateien hier ablegen
@@ -387,8 +388,8 @@ de:
       activate_no: aktivieren um Sortierung zu entfernen
     text_work_packages_destroy_confirmation: Sind Sie sicher, dass Sie die ausgewählten
       Arbeitspakete löschen möchten?
-    text_query_destroy_confirmation: Are you sure you want to delete the selected
-      view?
+    text_query_destroy_confirmation: Sind Sie sicher, dass Sie die ausgewählte Ansicht
+      löschen möchten?
     text_attachment_destroy_confirmation: Sind Sie sicher, dass Sie diesen Anhang
       löschen möchten?
     timelines:
@@ -406,7 +407,7 @@ de:
           dieser Attribute.
 
 '
-      button_activate: Show Gantt chart
+      button_activate: Gantt-Diagramm zeigen
       cancel: Abbrechen
       change: Planungsänderung
       due_date: Abgabedatum
@@ -543,7 +544,7 @@ de:
           gefilterten Kinder auszublenden
       faulty_query:
         title: Das Arbeitspaket konnte nicht geladen werden.
-        description: Your view is erroneous and could not be processed.
+        description: Diese Ansicht ist fehlerhaft und konnte nicht verarbeitet werden.
       no_results:
         title: Keine Arbeitspakete anzuzeigen.
         description: Es wurden entweder keine Arbeitspakete erzeugt oder alle Arbeitspakete
@@ -576,10 +577,10 @@ de:
         versionName: Version
         version: Version
       default_queries:
-        latest_activity: Latest activity
-        created_by_me: Created by me
-        assigned_to_me: Assigned to me
-        recently_created: Recently created
+        latest_activity: Letzte Änderungen
+        created_by_me: Erstellt von mir
+        assigned_to_me: Mir zugewiesen
+        recently_created: Kürzlich erstellt
         all_open: Alle offenen
         summary: Zusammenfassung
       jump_marks:
@@ -608,15 +609,16 @@ de:
         insert_columns: Spalten hinzufügen ...
         filters: Filter
         display_sums: Summen anzeigen
-        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
-          view? Title will be set back to previous value.
-        click_to_edit_query_name: Click to edit title of this view.
-        rename_query_placeholder: Name of this view
+        confirm_edit_cancel: Sind Sie sicher, dass Sie die Umbenennung dieser Ansicht
+          abbrechen wollen? Der Titel wird zum letzten gespeicherten Wert zurückgesetzt.
+        click_to_edit_query_name: Klicken, um den Titel dieser Ansicht zu bearbeiten.
+        rename_query_placeholder: Name der Ansicht
         errors:
-          unretrievable_query: Unable to retrieve view from URL
-          not_found: There is no such view
-          duplicate_query_title: Name of this view already exists. Change anyway?
-        text_no_results: No matching views were found.
+          unretrievable_query: Konnte die Ansicht nicht verarbeiten
+          not_found: Diese Ansicht konnte nicht gefunden werden
+          duplicate_query_title: Eine Ansicht mit diesem Namen existiert bereits.
+            Trotzdem ändern?
+        text_no_results: Keine übereinstimmenden Ansichten gefunden.
       table:
         configure_button: Arbeitspaket-Tabelle konfigurieren
         summary: Tabelle mit Zeilen von Arbeitspaketen und Spalten von Attributen
@@ -630,8 +632,8 @@ de:
       table_configuration:
         button: Konfigurieren Sie diese Arbeitspaket-Tabelle
         modal_title: Konfiguration der Arbeitspaket-Tabelle
-        embedded_tab_disabled: This configuration tab is not available for the embedded
-          view you're editing.
+        embedded_tab_disabled: Dieser Tab ist nicht verfübar für diese eingebettete
+          Ansicht.
         display_settings: Anzeige-Einstellungen
         grouped_mode: Gruppierte Ansicht
         grouped_hint: Ergebnisse der Tabelle werden anhand des angegebenen Attributs
@@ -661,7 +663,7 @@ de:
         months: Monaten
     toolbar:
       settings:
-        configure_view: Configure view ...
+        configure_view: Ansicht konfigurieren …
         columns: Spalten ...
         sort_by: Sortiere nach ...
         group_by: Gruppiere nach ...
@@ -672,14 +674,14 @@ de:
         save: Speichern
         save_as: Speichern unter ...
         export: Exportieren ...
-        visibility_settings: Visibility settings ...
+        visibility_settings: Sichtbarkeit konfigurieren …
         page_settings: Ansicht umbenennen ...
         delete: Löschen
       filter: Filter
       unselected_title: Arbeitspaket
-      search_query_label: Search saved views
-      search_query_title: Click to search saved views
-      placeholder_query_title: Set a title for this view
+      search_query_label: Gespeicherte Ansichten durchsuchen
+      search_query_title: Klicken, um gespeicherte Ansichten zu durchsuchen
+      placeholder_query_title: Namen für diese Ansicht eingeben
     modals:
       label_settings: Ansicht umbenennen
       label_name: Name
