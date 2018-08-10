@@ -36,6 +36,7 @@ import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-c
 import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {Injectable} from '@angular/core';
+import {debugLog} from "core-app/helpers/debug_output";
 
 function getWorkPackageId(id:number | string):string {
   return (id || '__new_work_package__').toString();
@@ -53,21 +54,28 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
   }
 
   public updateValue(id:string, val:WorkPackageResource) {
-    this.updateWorkPackageList([val]);
+    this.updateWorkPackageList([val], false);
   }
 
   updateWorkPackage(wp:WorkPackageResource) {
-    this.updateWorkPackageList([wp]);
+    this.updateWorkPackageList([wp], false);
   }
 
-  updateWorkPackageList(list:WorkPackageResource[]) {
+  updateWorkPackageList(list:WorkPackageResource[], skipOnIdentical = true) {
     for (var i of list) {
       const wp = i;
       const workPackageId = getWorkPackageId(wp.id);
+      const state = this.multiState.get(workPackageId);
 
       // If the work package is new, ignore the schema
       if (wp.isNew) {
-        this.multiState.get(workPackageId).putValue(wp);
+        state.putValue(wp);
+        continue;
+      }
+
+      // Check if the work package has changed
+      if (skipOnIdentical && state.hasValue() && _.isEqual(state.value!.$source, wp.$source)) {
+        debugLog('Skipping identical work package from updating');
         continue;
       }
 

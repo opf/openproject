@@ -66,6 +66,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
   public fieldRenderer = new DisplayFieldRenderer(this.injector, 'single-view');
   public editFieldContainerClass = editFieldContainerClass;
   public active = false;
+  public rendered = false;
   private $element:JQuery;
 
   constructor(protected states:States,
@@ -103,6 +104,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
     const el = this.fieldRenderer.render(this.resource, this.fieldName, null, this.displayPlaceholder);
     this.displayContainer.nativeElement.innerHTML = '';
     this.displayContainer.nativeElement.appendChild(el);
+    this.rendered = true;
   }
 
   public deactivate(focus:boolean = false) {
@@ -118,7 +120,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
   public get resource() {
     return this.wpEditing
       .temporaryEditResource(this.workPackageId)
-      .getValueOr(this.wpEditFieldGroup.workPackage);
+      .getValueOr(this.workPackage);
   }
 
   public get isEditable() {
@@ -133,9 +135,9 @@ export class WorkPackageEditFieldComponent implements OnInit {
       return true;
     }
 
-    // Skip activation if the user clicked on a link
+    // Skip activation if the user clicked on a link or within a macro
     const target = jQuery(event.target);
-    if (target.closest('a', this.displayContainer.nativeElement).length > 0) {
+    if (target.closest('a,macro', this.displayContainer.nativeElement).length > 0) {
       return true;
     }
 
