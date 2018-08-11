@@ -212,8 +212,8 @@ ja:
     label_sort_higher: 上へ
     label_sort_lower: 下へ移動
     label_sorting: ソート中
-    label_star_query: Favored
-    label_press_enter_to_save: Press enter to save.
+    label_star_query: 支持された
+    label_press_enter_to_save: Enterを押して保存します。
     label_public_query: 公開
     label_sum_for: 合計
     label_subject: 題名
@@ -235,8 +235,8 @@ ja:
     label_unwatch: ウォッチしない
     label_unwatch_work_package: 作業項目のウォッチを削除
     label_uploaded_by: アップロードした人
-    label_default_queries: Default views
-    label_starred_queries: Favorite views
+    label_default_queries: デフォルトビュー
+    label_starred_queries: お気に入りのビュー
     label_global_queries: Public views
     label_custom_queries: Private views
     label_columns: 列
