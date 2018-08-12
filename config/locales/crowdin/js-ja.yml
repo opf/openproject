@@ -98,7 +98,7 @@ ja:
     error:
       internal: 内部エラーが発生しました。
       cannot_save_changes_with_message: '次のエラーのために変更を保存できません: %{error}'
-      query_saving: The view could not be saved.
+      query_saving: ビューを保存できませんでした。
     filter:
       description:
         text_open_filter: "'ALT' と矢印キーでこのフィルタを開きます。"
@@ -174,7 +174,7 @@ ja:
     label_in: 今日から○日後
     label_in_less_than: 今日から○日後以前
     label_in_more_than: 今日から○日後以降
-    label_latest_activity: Latest activity
+    label_latest_activity: 最新の活動
     label_last_updated_on: 最終更新日：
     label_less_or_equal: 以下
     label_less_than_ago: 今日より○日前以降
@@ -237,8 +237,8 @@ ja:
     label_uploaded_by: アップロードした人
     label_default_queries: デフォルトビュー
     label_starred_queries: お気に入りのビュー
-    label_global_queries: Public views
-    label_custom_queries: Private views
+    label_global_queries: パブリックビュー
+    label_custom_queries: プライベートビュー
     label_columns: 列
     label_attachments: ファイルを添付する
     label_drop_files: ここにファイルをドロップ
@@ -364,8 +364,7 @@ ja:
       activate_dsc: 降順の並べ替えを適用
       activate_no: 並べ替えを削除
     text_work_packages_destroy_confirmation: 選択した作業項目を削除してもよろしいですか？
-    text_query_destroy_confirmation: Are you sure you want to delete the selected
-      view?
+    text_query_destroy_confirmation: 選択したビューを削除してもよろしいですか？
     text_attachment_destroy_confirmation: この添付ファイルを削除してよろしいですか。
     timelines:
       gantt_chart: ガントチャート
@@ -501,7 +500,7 @@ ja:
         children_expanded: 階層レベル %{level} を展開しました。クリックすると、フィルターされた子を折りたたみます
       faulty_query:
         title: 作業項目が読み込めませんでした。
-        description: Your view is erroneous and could not be processed.
+        description: あなたの ビューは間違っており、処理できませんでした。
       no_results:
         title: 表示できる作業項目がありません。
         description: 作業項目が作成されていないかすべての作業項目が除外されています。
@@ -533,10 +532,10 @@ ja:
         versionName: バージョン
         version: バージョン
       default_queries:
-        latest_activity: Latest activity
-        created_by_me: Created by me
-        assigned_to_me: Assigned to me
-        recently_created: Recently created
+        latest_activity: 最新の活動
+        created_by_me: 私が作成した
+        assigned_to_me: 私に割り当てられた
+        recently_created: 最近作成された
         all_open: 開いているすべて
         summary: サマリー
       jump_marks:
@@ -561,15 +560,14 @@ ja:
         insert_columns: 列の挿入.
         filters: フィルタ
         display_sums: 合計を表示
-        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
-          view? Title will be set back to previous value.
-        click_to_edit_query_name: Click to edit title of this view.
-        rename_query_placeholder: Name of this view
+        confirm_edit_cancel: このビューの名前の編集をキャンセルしてもよろしいですか？ タイトルは以前の値に戻されます。
+        click_to_edit_query_name: クリックすると、このビューのタイトルを編集できます。
+        rename_query_placeholder: このビューの名前
         errors:
-          unretrievable_query: Unable to retrieve view from URL
-          not_found: There is no such view
-          duplicate_query_title: Name of this view already exists. Change anyway?
-        text_no_results: No matching views were found.
+          unretrievable_query: URLからビューを取得できません
+          not_found: そのようなビューはありません
+          duplicate_query_title: このビューの名前は既に存在します。 とにかく変更しますか？
+        text_no_results: 一致するビューは見つかりませんでした。
       table:
         configure_button: ワークパッケージテーブルを設定する
         summary: 作業項目の行と、作業項目の属性の列から成る表。
@@ -579,8 +577,7 @@ ja:
       table_configuration:
         button: このワークパッケージテーブルを設定する
         modal_title: 作業項目表の設定
-        embedded_tab_disabled: This configuration tab is not available for the embedded
-          view you're editing.
+        embedded_tab_disabled: この設定タブは編集中の埋め込みビューでは使用できません。
         display_settings: 表示設定
         grouped_mode: グループ化されたモード
         grouped_hint: テーブルの結果は指定された属性でグループ化されます。
@@ -613,14 +610,14 @@ ja:
         save: 保存
         save_as: 名前を付けて保存
         export: 出力...
-        visibility_settings: Visibility settings ...
+        visibility_settings: 表示設定...
         page_settings: ビューの名前を変更...
         delete: 削除
       filter: フィルタ
       unselected_title: 作業項目
-      search_query_label: Search saved views
-      search_query_title: Click to search saved views
-      placeholder_query_title: Set a title for this view
+      search_query_label: 保存したビューを検索
+      search_query_title: クリックして保存したビューを検索する
+      placeholder_query_title: このビューのタイトルを設定する
     modals:
       label_settings: ビューの名前を変更...
       label_name: 名称
