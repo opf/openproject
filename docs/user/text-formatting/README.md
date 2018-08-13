@@ -10,6 +10,11 @@ The CKEditor5 build in OpenProject supports basic text styles, such as bold and 
 
 Create hyperlinks by pressing the toolbar (optionally with some selected text), or by pressing `CTRL+k` to open a popup to enter the link href.
 
+### Widgets and Newlines
+
+CKEditor usese widgets to display block elements such as images, tables, and other elements that are not inline. You can select most widgets by pressing on it - The only exception to that is the table widget, it has a little select knob at the top left to select the entire table.
+
+When you have a widget selected, you can remove or cut it. You can create a newline below it by selecting the widget and pressing `ENTER`, or a newline above it by pressing `SHIFT+enter`. This is especially needed when the widget is the first or last element on the page to insert a line below or above it.
 
 
 ### Code Blocks
