@@ -8,8 +8,8 @@ export class TimelineTransformer {
 
   public tableState:TableState = this.injector.get(TableState);
 
-  constructor(public readonly injector:Injector,
-              table:WorkPackageTable) {
+  constructor(private readonly injector:Injector,
+              private readonly table:WorkPackageTable) {
 
    this.tableState.timelineVisible.values$()
       .pipe(
@@ -24,7 +24,8 @@ export class TimelineTransformer {
    * Update all currently visible rows to match the selection state.
    */
   private renderVisibility(visible:boolean) {
-    jQuery('.work-packages-tabletimeline--timeline-side').toggle(visible);
-    jQuery('.work-packages-tabletimeline--table-side').toggleClass('-timeline-visible', visible);
+    const container = jQuery(this.table.container);
+    container.find('.work-packages-tabletimeline--timeline-side').toggle(visible);
+    container.find('.work-packages-tabletimeline--table-side').toggleClass('-timeline-visible', visible);
   }
 }
