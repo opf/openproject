@@ -261,7 +261,7 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
         return true;
       })
       // Needed for iOS to ensure that the link is executed on the first click (touch)
-      .on('touchstart', 'ui-menu-item a', (evt:JQueryEventObject) => {
+      .on('touchstart', '.ui-menu-item a', (evt:JQueryEventObject) => {
         window.location.href =  (evt.target as HTMLAnchorElement).href;
       });
   }
