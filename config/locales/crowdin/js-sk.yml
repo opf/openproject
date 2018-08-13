@@ -105,7 +105,7 @@ sk:
       internal: Vyskytla sa vnútorná chyba.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
         error: %{error}'
-      query_saving: The query could not be saved.
+      query_saving: The view could not be saved.
     filter:
       description:
         text_open_filter: Otvorte tento filter pomocou „Alt“ a šípok.
@@ -182,7 +182,7 @@ sk:
     label_in: v
     label_in_less_than: v menej ako
     label_in_more_than: vo viac ako
-    label_latest_activity: Posledná aktivita
+    label_latest_activity: Latest activity
     label_last_updated_on: Naposledy aktualizované
     label_less_or_equal: "<="
     label_less_than_ago: pred necelým dňom
@@ -220,6 +220,9 @@ sk:
     label_sort_higher: Presunúť vyššie
     label_sort_lower: Presunúť nižšie
     label_sorting: Zoradenie
+    label_star_query: Favored
+    label_press_enter_to_save: Press enter to save.
+    label_public_query: Verejný
     label_sum_for: Súčet pre
     label_subject: Predmet
     label_this_week: tento týždeň
@@ -228,7 +231,6 @@ sk:
     label_activity_show_only_comments: Zobraziť len aktivity s komentármi
     label_activity_show_all: Zobraziť všetky aktivity
     label_total_progress: "%{percent}% celkový priebeh"
-    label_visible_for_others: View visible for others
     label_updated_on: aktualizované
     label_warning: Upozornenie
     label_work_package: Pracovný balíček
@@ -242,8 +244,10 @@ sk:
     label_unwatch: Prestať pozorovať
     label_unwatch_work_package: Prestaň sledovať pracovný balíček
     label_uploaded_by: Nahral
-    label_global_queries: Zdieľané dopyty
-    label_custom_queries: Súkromné dopyty
+    label_default_queries: Default views
+    label_starred_queries: Favorite views
+    label_global_queries: Public views
+    label_custom_queries: Private views
     label_columns: Stĺpce
     label_attachments: Súbory
     label_drop_files: Presuňte súbory sem
@@ -381,7 +385,8 @@ sk:
       activate_no: activate to remove the sort
     text_work_packages_destroy_confirmation: Are you sure you want to delete the selected
       work package(s)?
-    text_query_destroy_confirmation: Naozaj chcete odstrániť vybratý dopyt?
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      view?
     text_attachment_destroy_confirmation: Naozaj chcete odstrániť prílohu?
     timelines:
       gantt_chart: Ganttov diagram
@@ -413,14 +418,6 @@ sk:
         report_timeout: The timeline could not be loaded in a reasonable amount of
           time.
       filter:
-        column:
-          assigned_to: Priradené
-          type: Typ
-          due_date: Dátum ukončenia
-          name: Názov
-          status: Stav
-          responsible: Zodpovedný
-          start_date: Dátum začiatku
         grouping_other: Ostatné
         noneSelection: "(none)"
       name: Názov
@@ -541,7 +538,7 @@ sk:
           filtered children
       faulty_query:
         title: Work packages could not be loaded.
-        description: Your query is erroneous and could not be processed.
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: Žiadne pracovné balíčky na zobrazenie.
         description: Nevytvorili sa žiadne alebo všetky pracovné balíky sú odfiltrované.
@@ -572,6 +569,13 @@ sk:
         updatedAt: Aktualizované
         versionName: Verzia
         version: Verzia
+      default_queries:
+        latest_activity: Latest activity
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: All open
+        summary: Zhrnutie
       jump_marks:
         pagination: Prejsť na stránkovanie tabuľky
         label_pagination: Kliknite sem pre preskočenie tabuľky pracovných balíčkov
@@ -597,10 +601,15 @@ sk:
         insert_columns: Vložiť stĺpce ...
         filters: Filtre
         display_sums: Zobraziť súčty
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
         errors:
-          unretrievable_query: Nepodarilo sa načítať dopyt z adresy URL
-          not_found: There is no such query
-        text_no_results: No matching queries were found.
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
       table:
         configure_button: Configure work package table
         summary: Tabuľka s riadkami pracovného balíka a so stĺpcami pracovného balíka
@@ -614,7 +623,7 @@ sk:
         button: Configure this work package table
         modal_title: Work package table configuration
         embedded_tab_disabled: This configuration tab is not available for the embedded
-          query you're editing.
+          view you're editing.
         display_settings: Display settings
         grouped_mode: Grouped mode
         grouped_hint: Table results will be grouped by the given attribute.
@@ -652,13 +661,14 @@ sk:
         save: Uložiť
         save_as: Uložiť ako ...
         export: Exportovať ...
-        publish: Publikovať...
+        visibility_settings: Visibility settings ...
         page_settings: Rename view ...
         delete: Odstrániť
       filter: Filtrovať
       unselected_title: Pracovný balíček
-      search_query_label: Prehľadávať uložené filtrovacie požiadavky
-      search_query_title: Kliknite pre prehľadávanie uložených filtrovacích požiadaviek
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
     modals:
       label_settings: Rename view
       label_name: Názov

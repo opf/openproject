@@ -105,7 +105,7 @@ ro:
       internal: A apărut o eroare internă.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
         error: %{error}'
-      query_saving: The query could not be saved.
+      query_saving: The view could not be saved.
     filter:
       description:
         text_open_filter: Deschideți acest filtru cu 'ALT' și tastele săgeată.
@@ -183,7 +183,7 @@ ro:
     label_in: în
     label_in_less_than: în mai puțin de
     label_in_more_than: în mai mult de
-    label_latest_activity: Ultima acțiune
+    label_latest_activity: Latest activity
     label_last_updated_on: Ultima actualizare la data de
     label_less_or_equal: "<="
     label_less_than_ago: acum mai puțin de zile
@@ -221,6 +221,9 @@ ro:
     label_sort_higher: Mută în sus
     label_sort_lower: Mută în jos
     label_sorting: Sortare
+    label_star_query: Favored
+    label_press_enter_to_save: Press enter to save.
+    label_public_query: Public
     label_sum_for: Suma pentru
     label_subject: Subiect
     label_this_week: săptămâna curentă
@@ -229,7 +232,6 @@ ro:
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent} % Progres total"
-    label_visible_for_others: View visible for others
     label_updated_on: actualizat la data de
     label_warning: Avertizare
     label_work_package: Pachet de lucru
@@ -243,8 +245,10 @@ ro:
     label_unwatch: Stop monitorizare
     label_unwatch_work_package: Opriți urmărirea pachetului de lucru
     label_uploaded_by: Încărcat de
-    label_global_queries: Interogări publice
-    label_custom_queries: Interogări private
+    label_default_queries: Default views
+    label_starred_queries: Favorite views
+    label_global_queries: Public views
+    label_custom_queries: Private views
     label_columns: Coloane
     label_attachments: Fişiere
     label_drop_files: Trageți fișierele aici
@@ -382,8 +386,8 @@ ro:
       activate_no: activate to remove the sort
     text_work_packages_destroy_confirmation: Sunteți sigur că doriți ștergerea pachetelor
       de lucru selectate?
-    text_query_destroy_confirmation: Sunteți sigur că doriți să ștergeți interogarea
-      selectată?
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      view?
     text_attachment_destroy_confirmation: Sunteţi sigur că doriţi să ştergeţi atașamentul?
     timelines:
       gantt_chart: Gantt chart
@@ -416,14 +420,6 @@ ro:
         report_timeout: Planificările nu au putut fi încărcate într-un interval de
           timp rezonabil.
       filter:
-        column:
-          assigned_to: Executant
-          type: Tip
-          due_date: Dată de sfârşit
-          name: Nume
-          status: Stare
-          responsible: Responsabil
-          start_date: Data de început
         grouping_other: Altele
         noneSelection: "(nimic)"
       name: Nume
@@ -545,7 +541,7 @@ ro:
           filtered children
       faulty_query:
         title: Work packages could not be loaded.
-        description: Your query is erroneous and could not be processed.
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: Nu sunt pachete de lucru de afișat.
         description: Nu a fost creat niciun pachet de lucru, sau toate sunt eliminate
@@ -577,6 +573,13 @@ ro:
         updatedAt: Actualizat pe
         versionName: Versiune
         version: Versiune
+      default_queries:
+        latest_activity: Latest activity
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: All open
+        summary: Descriere
       jump_marks:
         pagination: Salt la paginarea tabelului
         label_pagination: Click aici pentru a sări peste tabelul cu pachete de lucru
@@ -602,10 +605,15 @@ ro:
         insert_columns: Inserare coloane...
         filters: Filtre
         display_sums: Afişare totaluri
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
         errors:
-          unretrievable_query: Interogarea nu a putut fi extrasă din URL
-          not_found: Nu există această interogare
-        text_no_results: No matching queries were found.
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
       table:
         configure_button: Configure work package table
         summary: Tabel cu pachete de lucru pe rânduri şi câmpurile pachetelor pe coloane.
@@ -619,7 +627,7 @@ ro:
         button: Configure this work package table
         modal_title: Work package table configuration
         embedded_tab_disabled: This configuration tab is not available for the embedded
-          query you're editing.
+          view you're editing.
         display_settings: Display settings
         grouped_mode: Grouped mode
         grouped_hint: Table results will be grouped by the given attribute.
@@ -657,13 +665,14 @@ ro:
         save: Salvare
         save_as: Salvare ca ...
         export: Exportare ...
-        publish: Publish ...
+        visibility_settings: Visibility settings ...
         page_settings: Rename view ...
         delete: Ștergere
       filter: Filtrare
       unselected_title: Pachet de lucru
-      search_query_label: Căutare interogare de filtrare salvată
-      search_query_title: Click pentru a căuta o interogare de filtrare salvată
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
     modals:
       label_settings: Rename view
       label_name: Nume

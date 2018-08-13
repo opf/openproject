@@ -87,4 +87,33 @@ describe 'Upload attachment to wiki page', js: true do
     expect(page).to have_content('Image uploaded the second time')
     expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
   end
+
+  it 'can upload an image on the new wiki page and recover from an error without losing the attachment (Regression #28171)' do
+    visit project_wiki_path(project, 'test')
+
+    expect(page).to have_selector('#content_page_title')
+    expect(page).to have_selector('.work-package--attachments--drop-box')
+
+    # Upload image to dropzone
+    expect(page).to have_no_selector('.work-package--attachments--filename')
+    attachments.attach_file_on_input(image_fixture)
+    expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png')
+
+    # Don't add anything to the editor so we result in an error
+    click_on 'Save'
+
+    expect(page).to have_selector('#errorExplanation', text: 'Content is invalid')
+    expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png')
+
+    editor.in_editor do |container, editable|
+      editable.send_keys 'hello there.'
+    end
+
+    click_on 'Save'
+
+
+    expect(page).to have_selector('.controller-wiki.action-show')
+    expect(page).to have_selector('h2', text: 'Test')
+    expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png')
+  end
 end

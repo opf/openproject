@@ -5,7 +5,8 @@
      (mouseenter)="focus()"
      (mouseleave)="blur()">
   <div *ngIf="userAvatar">
-    <img class="avatar"
+    <img class="avatar avatar--fallback"
+         data-avatar-fallback-remove="true"
          [attr.src]="userAvatar"
          [attr.title]="userName"
          alt="Avatar" />

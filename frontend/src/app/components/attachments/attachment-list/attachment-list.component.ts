@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {DynamicBootstrapper} from 'core-app/globals/dynamic-bootstrapper';
 import {ElementRef} from '@angular/core';
@@ -36,7 +36,7 @@ import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.ser
   selector: 'attachment-list',
   templateUrl: './attachment-list.html'
 })
-export class AttachmentListComponent implements OnInit {
+export class AttachmentListComponent implements OnInit, OnChanges {
   @Input() public resource:HalResource;
   @Input() public selfDestroy:boolean = false;
 
@@ -48,9 +48,19 @@ export class AttachmentListComponent implements OnInit {
   ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
 
-    if (this.resource.attachments && this.resource.attachmentsBackend) {
+    if (this.attachmentsUpdatable) {
       this.resource.attachments.updateElements();
     }
+  }
+
+  ngOnChanges() {
+    if (this.attachmentsUpdatable) {
+      this.resource.attachments.updateElements();
+    }
+  }
+
+  private get attachmentsUpdatable() {
+    return (this.resource.attachments && this.resource.attachmentsBackend);
   }
 }
 

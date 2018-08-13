@@ -53,6 +53,19 @@ describe OpenProject::TextFormatting::Formats::Markdown::PandocWrapper do
         expect(subject.output_format).to eq 'markdown_github'
       end
     end
+
+    context 'list-output-formats does not exist' do
+      let(:usage_string) { 'does not matter' }
+
+      before do
+        allow(subject).to receive(:run_pandoc!).and_raise 'unrecognized option `--list-output-formats`'
+        allow(subject).to receive(:read_output_formats).and_call_original
+      end
+
+      it 'still falls back to markdown_github' do
+        expect(subject.output_format).to eq 'markdown_github'
+      end
+    end
   end
 
   describe 'wrap mode' do

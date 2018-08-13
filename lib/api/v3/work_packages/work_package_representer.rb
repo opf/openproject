@@ -604,7 +604,7 @@ module API
            'WorkPackageRepresenter',
            'json',
            I18n.locale,
-           json_key_model_parts,
+           json_key_representer_parts,
            represented.cache_checksum,
            Setting.work_package_done_ratio,
            Setting.feeds_enabled?]

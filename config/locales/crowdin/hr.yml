@@ -979,6 +979,7 @@ hr:
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
+  error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
   error_invalid_sort_criterion: 'Can''t sort by column: %{value}'
@@ -2214,7 +2215,6 @@ hr:
   setting_welcome_text: Tekst dobrodošlice
   setting_welcome_title: Naslov dobrodošlice
   setting_welcome_on_homescreen: Prikaži tekst dobrodošlice na početnoj stranici
-  setting_welcome_on_projects_page: Prikaži tekst dobrodošlice na stranici projekta
   setting_wiki_compression: Kompresija Wiki povijesti
   setting_work_package_group_assignment: Allow assignment to groups
   settings:

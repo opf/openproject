@@ -995,6 +995,7 @@ pl:
     (osiągnięty limit użytkownika). Skontaktuj się z administratorem, aby uzyskać
     dostęp.
   error_failed_to_delete_entry: Nie udało się usunąć tego wpisu.
+  error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Nie można grupować przez: %{value}'
   error_invalid_query_column: 'Nieprawidłowa kolumna zapytań: %{value}'
   error_invalid_sort_criterion: 'Nie można sortować według kolumny: %{value}'
@@ -2240,8 +2241,6 @@ pl:
   setting_welcome_text: Tekst bloku powitalnego
   setting_welcome_title: Tytuł bloku powitalnego
   setting_welcome_on_homescreen: Wyświetl wiadomość powitalną na ekranie głównym
-  setting_welcome_on_projects_page: Wyświetl blok powitalny na stronie powitalnej
-    przeglądu projektu
   setting_wiki_compression: Kompresja historii wiki
   setting_work_package_group_assignment: Allow assignment to groups
   settings:

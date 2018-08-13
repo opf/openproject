@@ -35,6 +35,7 @@ module Pages
     module CustomActions
       class New < Form
         def create
+          sleep 2
           click_button 'Create'
         end
 

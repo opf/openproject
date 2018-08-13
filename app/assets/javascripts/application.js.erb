@@ -49,22 +49,6 @@
 //= require danger_zone_validation
 //= require flash_messages
 
-jQuery(document).ready(function ($) {
-  //remove modal layout=false if we ctrl-click!
-  jQuery(document.body).on("click", "a", function (e) {
-    if (top != self && e.ctrlKey) {
-      if (e.target && e.target.href) {
-        var url = e.target.href;
-        if (url.match(/(&)?layout=false/)) {
-          url = url.replace(/(&)?layout=false/g, "").replace(/\?$/, "");
-          window.open(url);
-          e.preventDefault();
-        }
-      }
-    }
-  });
-});
-
 function checkAll(selector, checked) {
   jQuery('#' + selector + ' input:checkbox').not(':disabled').each(function() {
     this.checked = checked;

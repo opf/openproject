@@ -38,35 +38,16 @@ module Redmine::MenuManager::MenuHelper
   end
 
   # Renders the application main menu
-  def render_main_menu(project)
-    if project
+  def render_main_menu(menu, project = nil)
+    if !menu
+      nil
+    elsif menu == :module_menu && project && project.persisted?
       build_wiki_menus(project)
-      build_work_packages_menu(project)
-    end
-    render_menu((project && !project.new_record?) ? :project_menu : :application_menu, project)
-  end
-
-  def build_work_packages_menu(_project)
-    query_menu_items = visible_queries
-                       .includes(:query_menu_item)
-                       .map(&:query_menu_item)
-                       .compact
-
-    Redmine::MenuManager.loose :project_menu do |menu|
-      query_menu_items.each do |query_menu_item|
-        # url = project_work_packages_path(project, query_id: query_menu_item.navigatable_id) does not work because the authorization check fails
-        url = { controller: '/work_packages', action: 'index', params: { query_id: query_menu_item.navigatable_id } }
-        menu.push query_menu_item.unique_name,
-                  url,
-                  param: :project_id,
-                  caption: query_menu_item.title,
-                  parent: :work_packages,
-                  html:    {
-                    id: "wp-query-menu-item-#{query_menu_item.navigatable_id}",
-                    class: 'query-menu-item',
-                    'data-query-id' => query_menu_item.navigatable_id
-                  }
-      end
+      render_menu(:project_menu, project)
+    elsif menu == :module_menu
+      render_menu(:application_menu, project)
+    else
+      render_menu(menu, project)
     end
   end
 

@@ -28,8 +28,12 @@
 
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
 import {ExpressionService} from "../../../../../../common/expression.service";
+import {ApplicationRef} from "@angular/core";
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
 export class FormattableDisplayField extends DisplayField {
+
+  private readonly appRef = this.$injector.get(ApplicationRef);
 
   public render(element:HTMLElement, displayText:string):void {
     element.classList.add('read-value--html', 'wiki', 'highlight', '-multiline');
@@ -39,6 +43,9 @@ export class FormattableDisplayField extends DisplayField {
 
     element.innerHTML = '';
     element.appendChild(span);
+
+    // Allow embeddable rendered content
+    DynamicBootstrapper.bootstrapOptionalEmbeddable(this.appRef, span);
   }
 
   public get isFormattable():boolean {

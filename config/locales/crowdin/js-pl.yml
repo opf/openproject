@@ -105,7 +105,7 @@ pl:
       internal: Wystąpił błąd wewnętrzny.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
         error: %{error}'
-      query_saving: The query could not be saved.
+      query_saving: The view could not be saved.
     filter:
       description:
         text_open_filter: Otwórz filtr klawiszami strzałek przytrzymując klawisz 'ALT'.
@@ -181,7 +181,7 @@ pl:
     label_in: w
     label_in_less_than: w mniej niż
     label_in_more_than: w ponad
-    label_latest_activity: Ostatnia aktywność
+    label_latest_activity: Latest activity
     label_last_updated_on: Ostatnia aktualizacja
     label_less_or_equal: "≤"
     label_less_than_ago: mniej niż dni temu
@@ -219,6 +219,9 @@ pl:
     label_sort_higher: Przenieś wyżej
     label_sort_lower: Przenieś niżej
     label_sorting: Sortowanie
+    label_star_query: Favored
+    label_press_enter_to_save: Press enter to save.
+    label_public_query: Publiczny
     label_sum_for: Suma dla
     label_subject: Temat
     label_this_week: ten tydzień
@@ -227,7 +230,6 @@ pl:
     label_activity_show_only_comments: Wyświetl aktywności tylko z komentarzami
     label_activity_show_all: Wyświetl wszystkie aktywności
     label_total_progress: "%{percent}% Całkowitego postępu"
-    label_visible_for_others: View visible for others
     label_updated_on: zaktualizowany
     label_warning: Ostrzeżenie
     label_work_package: Pakiet roboczy
@@ -240,8 +242,10 @@ pl:
     label_unwatch: Nie obserwuj
     label_unwatch_work_package: Wyłącz obserwowanie zadania
     label_uploaded_by: Przesłane przez
-    label_global_queries: Kwerendy współdzielone
-    label_custom_queries: Kwerendy prywatne
+    label_default_queries: Default views
+    label_starred_queries: Favorite views
+    label_global_queries: Public views
+    label_custom_queries: Private views
     label_columns: Kolumny
     label_attachments: Pliki
     label_drop_files: Upuść pliki tutaj
@@ -380,8 +384,8 @@ pl:
       activate_no: aktywuj, aby usunąć sortowanie
     text_work_packages_destroy_confirmation: Czy na pewno chcesz usunąć wybrane pakiety
       robocze?
-    text_query_destroy_confirmation: Czy jesteś pewien, że chcesz usunąć zaznaczone
-      elementy?
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      view?
     text_attachment_destroy_confirmation: Jesteś pewien, że chcesz usunąć ten załącznik?
     timelines:
       gantt_chart: Wykres Gantta
@@ -413,14 +417,6 @@ pl:
         report_timeout: The timeline could not be loaded in a reasonable amount of
           time.
       filter:
-        column:
-          assigned_to: Przypisany do
-          type: Typ
-          due_date: Data zakończenia
-          name: Nazwa
-          status: Status
-          responsible: Odpowiedzialny
-          start_date: Data rozpoczęcia
         grouping_other: Inne
         noneSelection: "(brak)"
       name: Nazwa
@@ -540,7 +536,7 @@ pl:
           filtrowane dzieci"
       faulty_query:
         title: Pakiety robocze nie mogły zostać załadowane.
-        description: Twoje zapytanie jest błędne i nie może być przetworzone.
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: Brak pakietów prac do wyświetlenia.
         description: Pakiety prac nie zostały utworzone albo wszystkie są odfiltrowane.
@@ -571,6 +567,13 @@ pl:
         updatedAt: Aktualizacja
         versionName: Wersja
         version: Wersja
+      default_queries:
+        latest_activity: Latest activity
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: All open
+        summary: Podsumowanie
       jump_marks:
         pagination: Przejdź do stronicowania tabeli
         label_pagination: Kliknij tutaj, aby pominąć tablicę zadań i przejść do stronicowania
@@ -595,10 +598,15 @@ pl:
         insert_columns: Wstaw kolumny ...
         filters: Filtry
         display_sums: Wyświetlanie sumy
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
         errors:
-          unretrievable_query: Nie można pobrać zapytania z URL
-          not_found: Tam jest nie takiego wyniku zapytania
-        text_no_results: Nie znaleziono pasujących kwerend.
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
       table:
         configure_button: Configure work package table
         summary: Tabela, której wiersze zawierają pakiety pracy, a kolumny ich atrybuty.
@@ -612,7 +620,7 @@ pl:
         button: Configure this work package table
         modal_title: Work package table configuration
         embedded_tab_disabled: This configuration tab is not available for the embedded
-          query you're editing.
+          view you're editing.
         display_settings: Display settings
         grouped_mode: Grouped mode
         grouped_hint: Table results will be grouped by the given attribute.
@@ -650,13 +658,14 @@ pl:
         save: Zapisz
         save_as: Zapisz jako ...
         export: Eksportuj ...
-        publish: Opublikuj...
+        visibility_settings: Visibility settings ...
         page_settings: Rename view ...
         delete: Usuń
       filter: Filtr
       unselected_title: Pakiet roboczy
-      search_query_label: Szukaj zapisanych filtrów
-      search_query_title: Kliknij aby wyszukać zapisane filtry
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
     modals:
       label_settings: Rename view
       label_name: Nazwa

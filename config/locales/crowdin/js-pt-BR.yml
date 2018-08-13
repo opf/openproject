@@ -108,7 +108,7 @@ pt-BR:
       internal: Ocorreu um erro interno.
       cannot_save_changes_with_message: 'Não foi possível salvar as alterações devido
         ao seguinte erro: %{error}'
-      query_saving: A consulta não pôde ser salva.
+      query_saving: The view could not be saved.
     filter:
       description:
         text_open_filter: Abra este filtro com a tecla 'ALT' e as teclas de seta.
@@ -186,7 +186,7 @@ pt-BR:
     label_in: em
     label_in_less_than: em menos de
     label_in_more_than: em mais de
-    label_latest_activity: Últimas atividades
+    label_latest_activity: Latest activity
     label_last_updated_on: Última atualização em
     label_less_or_equal: "<="
     label_less_than_ago: menos dias atrás
@@ -224,6 +224,9 @@ pt-BR:
     label_sort_higher: Mover para cima
     label_sort_lower: Mover para baixo
     label_sorting: Ordenação
+    label_star_query: Favored
+    label_press_enter_to_save: Press enter to save.
+    label_public_query: Público
     label_sum_for: Soma para
     label_subject: Assunto
     label_this_week: esta semana
@@ -232,7 +235,6 @@ pt-BR:
     label_activity_show_only_comments: Mostrar somente as atividades com comentários
     label_activity_show_all: Mostrar todas as atividades
     label_total_progress: "%{percent}% Total de progresso"
-    label_visible_for_others: Visualização visível para outros
     label_updated_on: atualizado em
     label_warning: Aviso
     label_work_package: Pacote de trabalho
@@ -246,8 +248,10 @@ pt-BR:
     label_unwatch: Não observar
     label_unwatch_work_package: Não mais observar pacote de trabalho
     label_uploaded_by: Enviado por
-    label_global_queries: Consultas compartilhadas
-    label_custom_queries: Consultas privadas
+    label_default_queries: Default views
+    label_starred_queries: Favorite views
+    label_global_queries: Public views
+    label_custom_queries: Private views
     label_columns: Colunas
     label_attachments: Arquivos
     label_drop_files: Solte os arquivos aqui
@@ -382,7 +386,8 @@ pt-BR:
       activate_no: ative para remover a classificação
     text_work_packages_destroy_confirmation: Tem certeza que deseja excluir o(s) pacote(s)
       de trabalho selecionado(s)?
-    text_query_destroy_confirmation: Tem certeza de que deseja excluir os itens selecionados?
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      view?
     text_attachment_destroy_confirmation: Tem certeza de que deseja excluir o anexo?
     timelines:
       gantt_chart: Gráfico de Gantt
@@ -414,14 +419,6 @@ pt-BR:
         report_timeout: O cronograma não pôde ser carregado em uma quantidade razoável
           de tempo.
       filter:
-        column:
-          assigned_to: Atribuição
-          type: Tipo
-          due_date: Data de término
-          name: Nome
-          status: Situação
-          responsible: Responsável
-          start_date: Data de início
         grouping_other: Outro
         noneSelection: "(nenhum)"
       name: Nome
@@ -541,7 +538,7 @@ pt-BR:
           os filhos filtrados
       faulty_query:
         title: Pacotes de trabalho não podem ser carregados.
-        description: Sua consulta está incorreta e não poderia ser processada.
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: Não há pacotes de trabalho para exibir.
         description: Nenhum pacote criado ou todos os pacotes de trabalho foram filtrados.
@@ -572,6 +569,13 @@ pt-BR:
         updatedAt: Atualizado em
         versionName: Versão
         version: Versão
+      default_queries:
+        latest_activity: Latest activity
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: Tudo aberto
+        summary: Resumo
       jump_marks:
         pagination: Pular para a tabela de paginação
         label_pagination: Clique aqui para pular a tabela de pacotes de trabalho e
@@ -597,10 +601,15 @@ pt-BR:
         insert_columns: Inserir colunas...
         filters: Filtros
         display_sums: Exibir somas
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
         errors:
-          unretrievable_query: Não foi possível recuperar a consulta de URL
-          not_found: Não existe tal consulta
-        text_no_results: Nenhuma consulta correspondente foi encontrada.
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
       table:
         configure_button: Configurar a tabela de pacote de trabalho
         summary: Tabela com linhas de pacote de trabalho e colunas com atributos do
@@ -614,8 +623,8 @@ pt-BR:
       table_configuration:
         button: Configurar esta tabela de pacote de trabalho
         modal_title: Configuração de tabela de pacote de trabalho
-        embedded_tab_disabled: Esta guia de configuração não está disponível para
-          a consulta embutida que você está editando.
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          view you're editing.
         display_settings: Configurações de exibição
         grouped_mode: Modo agrupado
         grouped_hint: Resultados da tabela serão agrupados pelo atributo determinado.
@@ -653,13 +662,14 @@ pt-BR:
         save: Salvar
         save_as: Salvar como ...
         export: Exportar ...
-        publish: Publicar ...
+        visibility_settings: Visibility settings ...
         page_settings: Renomear visualização...
         delete: Excluir
       filter: Filtro
       unselected_title: Pacote de trabalho
-      search_query_label: Localizar filtro de pesquisa salvo
-      search_query_title: Clique para localizar filtros de pesquisa salvos
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
     modals:
       label_settings: Renomear visualização
       label_name: Nome

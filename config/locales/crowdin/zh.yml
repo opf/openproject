@@ -889,6 +889,7 @@ zh:
   error_dependent_work_package: '相关工作包中的错误%{related_id} %{related_subject}: %{error}'
   error_enterprise_activation_user_limit: 无法激活您的帐户 (已达到用户限制)。请与管理员联系以获取访问权限。
   error_failed_to_delete_entry: 无法删除此条目。
+  error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 无法按照 %{value} 分组
   error_invalid_query_column: 无效的查询列：%{value}
   error_invalid_sort_criterion: 无法按照列 %{value} 排序
@@ -2002,7 +2003,6 @@ zh:
   setting_welcome_text: 欢迎块文本
   setting_welcome_title: 欢迎区块标题
   setting_welcome_on_homescreen: 在主屏幕上显示欢迎信息
-  setting_welcome_on_projects_page: 在项目概述里显示欢迎内容
   setting_wiki_compression: Wiki 历史压缩
   setting_work_package_group_assignment: 允许分配到组
   settings:

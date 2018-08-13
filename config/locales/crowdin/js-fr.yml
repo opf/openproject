@@ -105,7 +105,7 @@ fr:
       internal: Une erreur interne s'est produite.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
         error: %{error}'
-      query_saving: The query could not be saved.
+      query_saving: The view could not be saved.
     filter:
       description:
         text_open_filter: Ouvrir ce filtre avec les touches « ALT » et fléchées.
@@ -184,7 +184,7 @@ fr:
     label_in: dans
     label_in_less_than: en moins de
     label_in_more_than: en plus de
-    label_latest_activity: Dernière activité
+    label_latest_activity: Latest activity
     label_last_updated_on: Dernière modification le
     label_less_or_equal: "<="
     label_less_than_ago: il y a moins de quelques jours
@@ -222,6 +222,9 @@ fr:
     label_sort_higher: Déplacer vers le haut
     label_sort_lower: Déplacer vers le bas
     label_sorting: Tri
+    label_star_query: Favored
+    label_press_enter_to_save: Press enter to save.
+    label_public_query: Public
     label_sum_for: somme pour
     label_subject: Objet
     label_this_week: cette semaine
@@ -231,7 +234,6 @@ fr:
       seulement
     label_activity_show_all: Afficher toutes les activités
     label_total_progress: "%{percent}% de progression totale"
-    label_visible_for_others: View visible for others
     label_updated_on: mis à jour le
     label_warning: Attention
     label_work_package: Lot de travaux
@@ -245,8 +247,10 @@ fr:
     label_unwatch: Ne plus suivre
     label_unwatch_work_package: Ne plus suivre le lot de travaux
     label_uploaded_by: Téléversé par
-    label_global_queries: Requêtes partagées
-    label_custom_queries: Requêtes privées
+    label_default_queries: Default views
+    label_starred_queries: Favorite views
+    label_global_queries: Public views
+    label_custom_queries: Private views
     label_columns: Colonnes
     label_attachments: Fichiers
     label_drop_files: Déposez des fichiers ici
@@ -382,8 +386,8 @@ fr:
       activate_no: activer pour supprimer le tri
     text_work_packages_destroy_confirmation: Voulez-vous vraiment supprimer le(s)
       Lot(s) de Travaux sélectionnés?
-    text_query_destroy_confirmation: Êtes-vous sûr de vouloir supprimer la requête
-      sélectionnée ?
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      view?
     text_attachment_destroy_confirmation: Êtes-vous sûr de vouloir supprimer la pièce
       jointe ?
     timelines:
@@ -418,14 +422,6 @@ fr:
         report_timeout: La vue Chronologique ne peut être chargé dans un laps de temps
           raisonnable.
       filter:
-        column:
-          assigned_to: Assigné à
-          type: Type
-          due_date: Échéance
-          name: Nom
-          status: Statut
-          responsible: Responsable
-          start_date: Date de début
         grouping_other: Autre
         noneSelection: "(none)"
       name: Nom
@@ -549,7 +545,7 @@ fr:
           les enfants filtrés
       faulty_query:
         title: Les lots de travaux n'ont pas pu être chargés.
-        description: Votre requête est erronée et n'a pas pu être traitée.
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: Aucun lot de travaux à afficher.
         description: Soit aucun n'a été créé, soit tous les lots de travaux sont filtrés.
@@ -580,6 +576,13 @@ fr:
         updatedAt: Mis à jour le
         versionName: Version
         version: Version
+      default_queries:
+        latest_activity: Latest activity
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: Tous les ouverts
+        summary: Résumé
       jump_marks:
         pagination: Passer à la pagination du tableau
         label_pagination: Cliquez ici pour sauter le tableau des lots de travaux et
@@ -605,10 +608,15 @@ fr:
         insert_columns: Insérer des colonnes…
         filters: Filtres
         display_sums: Afficher les sommes
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
         errors:
-          unretrievable_query: Impossible de récupérer la requête par l'URL
-          not_found: Il y a aucune requête de ce type
-        text_no_results: Aucune requête correspondante n'a été trouvée.
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
       table:
         configure_button: Configure work package table
         summary: Tableau avec lignes de lots de travaux et colonnes d’attributs de
@@ -623,7 +631,7 @@ fr:
         button: Configure this work package table
         modal_title: Work package table configuration
         embedded_tab_disabled: This configuration tab is not available for the embedded
-          query you're editing.
+          view you're editing.
         display_settings: Display settings
         grouped_mode: Grouped mode
         grouped_hint: Table results will be grouped by the given attribute.
@@ -661,13 +669,14 @@ fr:
         save: Enregistrer
         save_as: Enregistrer sous…
         export: Exporter…
-        publish: Publier...
+        visibility_settings: Visibility settings ...
         page_settings: Rename view ...
         delete: Supprimer
       filter: Filtre
       unselected_title: Lot de travaux
-      search_query_label: Rechercher filtre de recherches enregistrées
-      search_query_title: Cliquer pour rechercher des filtres de requêtes enregistrées
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
     modals:
       label_settings: Rename view
       label_name: Nom

@@ -103,7 +103,7 @@ zh-TW:
     error:
       internal: 發生內部錯誤。
       cannot_save_changes_with_message: '由於以下錯誤, 無法保存所做的更改: %{error}'
-      query_saving: 事件無法儲存
+      query_saving: The view could not be saved.
     filter:
       description:
         text_open_filter: 使用 ALT 和方向鍵打開此篩選器。
@@ -178,7 +178,7 @@ zh-TW:
     label_in: 在
     label_in_less_than: 少於
     label_in_more_than: 多於
-    label_latest_activity: 最新活動
+    label_latest_activity: Latest activity
     label_last_updated_on: 最後更新於
     label_less_or_equal: "<="
     label_less_than_ago: 少於幾天前
@@ -216,6 +216,9 @@ zh-TW:
     label_sort_higher: 往上移動
     label_sort_lower: 往下移動
     label_sorting: 排序
+    label_star_query: Favored
+    label_press_enter_to_save: Press enter to save.
+    label_public_query: 公開
     label_sum_for: 總和
     label_subject: 主題
     label_this_week: 本週
@@ -224,7 +227,6 @@ zh-TW:
     label_activity_show_only_comments: 只顯示活動和其評論
     label_activity_show_all: 顯示所有的活動
     label_total_progress: "%{percent}%總進度"
-    label_visible_for_others: 可被他人訪問
     label_updated_on: 更新於
     label_warning: 警告
     label_work_package: 工作項目
@@ -237,8 +239,10 @@ zh-TW:
     label_unwatch: 取消監看
     label_unwatch_work_package: 取消關注工作項目
     label_uploaded_by: 上傳者
-    label_global_queries: 共用的查詢
-    label_custom_queries: 私人查詢
+    label_default_queries: Default views
+    label_starred_queries: Favorite views
+    label_global_queries: Public views
+    label_custom_queries: Private views
     label_columns: 欄
     label_attachments: 檔案
     label_drop_files: 將檔案拖曳至此處
@@ -364,7 +368,8 @@ zh-TW:
       activate_dsc: 啟動以套用降冪排序
       activate_no: 啟動以移除排序
     text_work_packages_destroy_confirmation: 你確定要刪除選定的工作項目嗎？
-    text_query_destroy_confirmation: 確定要刪除已選擇的查詢項目嗎?
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      view?
     text_attachment_destroy_confirmation: 你確定你想要刪除附件?
     timelines:
       gantt_chart: 甘特圖
@@ -390,14 +395,6 @@ zh-TW:
         report_epicfail: 由於出現意外錯誤, 無法載入時間表。
         report_timeout: 無法在合理的時間內載入時間表。
       filter:
-        column:
-          assigned_to: 負責執行者
-          type: 類型
-          due_date: 結束日期
-          name: 名稱
-          status: 狀態
-          responsible: 責任歸屬者
-          start_date: 起始日期
         grouping_other: 其他
         noneSelection: "（無）"
       name: 名稱
@@ -507,7 +504,7 @@ zh-TW:
         children_expanded: 層次級別 %{level} 已展開。點擊以收合篩選的子任務
       faulty_query:
         title: 無法載入工作包。
-        description: 您的查詢不正確, 無法處理。
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: 無工作項目可顯示
         description: 無工作項目或是被篩選器把工作項目隱藏了
@@ -538,6 +535,13 @@ zh-TW:
         updatedAt: 更新於
         versionName: 版本
         version: 版本
+      default_queries:
+        latest_activity: Latest activity
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: 全部打開
+        summary: 大綱
       jump_marks:
         pagination: 跳轉至表格分頁
         label_pagination: 點擊此處跳過工作包表格並轉到分頁
@@ -560,10 +564,15 @@ zh-TW:
         insert_columns: 插入欄...
         filters: 篩選器
         display_sums: 顯示加總
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
         errors:
-          unretrievable_query: 無法從 URL 取得查詢結果
-          not_found: 無此查詢
-        text_no_results: 未找到匹配的查詢。
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
       table:
         configure_button: 配置工作包表
         summary: 由工作項目和工作項目屬性列組成的表格。
@@ -573,7 +582,8 @@ zh-TW:
       table_configuration:
         button: 配置此工作包表
         modal_title: 工作包表配置
-        embedded_tab_disabled: 此配置選項卡對您正在編輯的嵌入式查詢不可用。
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          view you're editing.
         display_settings: 顯示設定
         grouped_mode: 組合模式
         grouped_hint: 表格結果將按給定的屬性進行分組。
@@ -606,13 +616,14 @@ zh-TW:
         save: 儲存
         save_as: 另存為…
         export: 匯出...
-        publish: 發佈 ...
+        visibility_settings: Visibility settings ...
         page_settings: Rename view ...
         delete: 删除
       filter: 篩選器
       unselected_title: 工作項目
-      search_query_label: 查詢儲存的搜索篩選器
-      search_query_title: 按一下此處，搜索儲存的篩選器查詢
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
     modals:
       label_settings: Rename view
       label_name: 名稱

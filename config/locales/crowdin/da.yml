@@ -959,6 +959,7 @@ da:
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
+  error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
   error_invalid_sort_criterion: 'Can''t sort by column: %{value}'
@@ -2173,7 +2174,6 @@ da:
   setting_welcome_text: Velkomstblok-tekst
   setting_welcome_title: Velkomstblok-titel
   setting_welcome_on_homescreen: Vis velkomstblok på hjemmeskærm
-  setting_welcome_on_projects_page: Vis velkomstblok på projektoversigt
   setting_wiki_compression: Sammendrag af wiki-historie
   setting_work_package_group_assignment: Tillad tilknytning til grupper
   settings:

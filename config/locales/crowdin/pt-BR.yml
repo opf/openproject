@@ -965,6 +965,7 @@ pt-BR:
   error_enterprise_activation_user_limit: Sua conta não pôde ser ativada (limite de
     usuários atingido). Por favor, contate o administrador para obter acesso.
   error_failed_to_delete_entry: Falha ao excluir esta entrada.
+  error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Não é possível agrupar por: %{value}'
   error_invalid_query_column: 'Coluna de consulta inválida: %{value}'
   error_invalid_sort_criterion: 'Não é possível ordenar por coluna: %{value}'
@@ -2201,8 +2202,6 @@ pt-BR:
   setting_welcome_text: Texto do bloco de boas-vindas
   setting_welcome_title: Título do bloco de boas-vindas
   setting_welcome_on_homescreen: Exibir bloco de boas-vindas na tela inicial
-  setting_welcome_on_projects_page: Exibir bloco de boas-vindas na visão geral do
-    projeto
   setting_wiki_compression: Compactação de histórico do wiki
   setting_work_package_group_assignment: Permitir a atribuição de grupos
   settings:

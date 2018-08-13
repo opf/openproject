@@ -56,8 +56,8 @@ describe 'Custom actions', type: :feature, js: true do
                       member_in_project: project,
                       member_through_role: role)
   end
-  let(:project) { FactoryBot.create(:project) }
-  let(:other_project) { FactoryBot.create(:project) }
+  let(:project) { FactoryBot.create(:project, name: 'This project') }
+  let(:other_project) { FactoryBot.create(:project, name: 'Other project') }
   let!(:work_package) do
     FactoryBot.create(:work_package,
                       project: project,
@@ -76,7 +76,7 @@ describe 'Custom actions', type: :feature, js: true do
                       position: IssuePriority.maximum(:position) + 1)
   end
   let(:default_status) do
-    FactoryBot.create(:default_status)
+    FactoryBot.create(:default_status, name: 'Default status')
   end
   let(:closed_status) do
     FactoryBot.create(:closed_status, name: 'Closed')
@@ -93,21 +93,26 @@ describe 'Custom actions', type: :feature, js: true do
   end
   let!(:workflows) do
     FactoryBot.create(:workflow,
-                      old_status: work_package.status,
+                      old_status: default_status,
                       new_status: closed_status,
                       role: role,
                       type: work_package.type)
 
     FactoryBot.create(:workflow,
-                      new_status: work_package.status,
+                      new_status: default_status,
                       old_status: closed_status,
                       role: role,
                       type: work_package.type)
     FactoryBot.create(:workflow,
-                      old_status: work_package.status,
+                      old_status: default_status,
                       new_status: rejected_status,
                       role: role,
                       type: work_package.type)
+    FactoryBot.create(:workflow,
+                      old_status: rejected_status,
+                      new_status: default_status,
+                      role: role,
+                      type: other_type)
   end
   let!(:list_custom_field) do
     cf = FactoryBot.create(:list_wp_custom_field, multi_value: true)
@@ -138,86 +143,159 @@ describe 'Custom actions', type: :feature, js: true do
     login_as(admin)
   end
 
-  scenario 'viewing workflow buttons', retry: 3 do
+  scenario 'viewing workflow buttons' do
     # create custom action 'Unassign'
     index_ca_page.visit!
 
     new_ca_page = index_ca_page.new
-    new_ca_page.set_name('Unassign')
-    new_ca_page.set_description('Removes the assignee')
-    new_ca_page.add_action('Assignee', '-')
+    retry_block do
+      new_ca_page.visit!
+      new_ca_page.set_name('Unassign')
+      new_ca_page.set_description('Removes the assignee')
+      new_ca_page.add_action('Assignee', '-')
+      expect(page).to have_selector('#custom-actions-form--active-actions .form--selected-value', text: '-')
+    end
+
     new_ca_page.create
 
     index_ca_page.expect_current_path
     index_ca_page.expect_listed('Unassign')
 
+    unassign = CustomAction.last
+    expect(unassign.actions.length).to eq(1)
+    expect(unassign.conditions.length).to eq(0)
+
     # create custom action 'Close'
 
     new_ca_page = index_ca_page.new
-    new_ca_page.set_name('Close')
-    new_ca_page.add_action('Status', 'Close')
-    new_ca_page.set_condition('Role', role.name)
-    new_ca_page.set_condition('Status', [default_status.name, rejected_status.name])
+
+    retry_block do
+      new_ca_page.visit!
+      new_ca_page.set_name('Close')
+      new_ca_page.add_action('Status', 'Close')
+      page.assert_selector('#custom-actions-form--active-actions .form--selected-value', text: 'Close')
+      new_ca_page.set_condition('Role', role.name)
+      page.assert_selector('#custom-actions-form--conditions .form--selected-value', text: role.name)
+      new_ca_page.set_condition('Status', [default_status.name, rejected_status.name])
+      page.assert_selector('#custom-actions-form--conditions .form--selected-value', text: default_status.name)
+      page.assert_selector('#custom-actions-form--conditions .form--selected-value', text: rejected_status.name)
+    end
+
     new_ca_page.create
 
     index_ca_page.expect_current_path
     index_ca_page.expect_listed('Unassign', 'Close')
 
+    close = CustomAction.last
+    expect(close.actions.length).to eq(1)
+    expect(close.conditions.length).to eq(2)
+
     # create custom action 'Escalate'
+
     new_ca_page = index_ca_page.new
-    new_ca_page.set_name('Escalate')
-    new_ca_page.add_action('Priority', immediate_priority.name)
-    new_ca_page.add_action('Notify', other_member_user.name)
-    new_ca_page.add_action(list_custom_field.name, selected_list_custom_field_options.map(&:name))
+
+    retry_block do
+      new_ca_page.visit!
+      new_ca_page.set_name('Escalate')
+      new_ca_page.add_action('Priority', immediate_priority.name)
+      page.assert_selector('#custom-actions-form--active-actions .form--selected-value', text: immediate_priority.name)
+      new_ca_page.add_action('Notify', other_member_user.name)
+      page.assert_selector('#custom-actions-form--active-actions .form--selected-value', text: other_member_user.name)
+      new_ca_page.add_action(list_custom_field.name, selected_list_custom_field_options.map(&:name))
+      page.assert_selector('#custom-actions-form--active-actions .form--selected-value', text: 'A', minimum: 1)
+      page.assert_selector('#custom-actions-form--active-actions .form--selected-value', text: 'G', minimum: 1)
+    end
+
     new_ca_page.create
 
     index_ca_page.expect_current_path
     index_ca_page.expect_listed('Unassign', 'Close', 'Escalate')
 
+    escalate = CustomAction.last
+    expect(escalate.actions.length).to eq(3)
+    expect(escalate.conditions.length).to eq(0)
+
     # create custom action 'Reset'
 
     new_ca_page = index_ca_page.new
 
-    new_ca_page.set_name('Reset')
-    new_ca_page.add_action('Priority', default_priority.name)
-    new_ca_page.add_action('Status', default_status.name)
-    new_ca_page.add_action('Assignee', user.name)
-    # This custom field is not applicable
-    new_ca_page.add_action(int_custom_field.name, '1')
-    new_ca_page.set_condition('Status', closed_status.name)
+    retry_block do
+      new_ca_page.visit!
+      new_ca_page.set_name('Reset')
+      new_ca_page.add_action('Priority', default_priority.name)
+      page.assert_selector('#custom-actions-form--active-actions .form--selected-value', text: default_priority.name)
+      new_ca_page.add_action('Status', default_status.name)
+      page.assert_selector('#custom-actions-form--active-actions .form--selected-value', text: default_status.name)
+      new_ca_page.add_action('Assignee', user.name)
+      page.assert_selector('#custom-actions-form--active-actions .form--selected-value', text: user.name)
+      # This custom field is not applicable
+      new_ca_page.add_action(int_custom_field.name, '1')
+      page.find_field("custom_action_actions_custom_field_#{int_custom_field.id}", with: '1')
+      new_ca_page.set_condition('Status', closed_status.name)
+      page.assert_selector('#custom-actions-form--conditions .form--selected-value', text: closed_status.name)
+    end
+
     new_ca_page.create
 
     index_ca_page.expect_current_path
     index_ca_page.expect_listed('Unassign', 'Close', 'Escalate', 'Reset')
 
+    reset = CustomAction.last
+    expect(reset.actions.length).to eq(4)
+    expect(reset.conditions.length).to eq(1)
+
     # create custom action 'Other roles action'
 
     new_ca_page = index_ca_page.new
-
-    new_ca_page.set_name('Other roles action')
-    new_ca_page.add_action('Status', default_status.name)
-    new_ca_page.set_condition('Role', other_role.name)
+    retry_block do
+      new_ca_page.visit!
+      new_ca_page.set_name('Other roles action')
+      new_ca_page.add_action('Status', default_status.name)
+      page.assert_selector('#custom-actions-form--active-actions .form--selected-value', text: default_status.name)
+      new_ca_page.set_condition('Role', other_role.name)
+      page.assert_selector('#custom-actions-form--conditions .form--selected-value', text: other_role.name)
+    end
     new_ca_page.create
 
     index_ca_page.expect_current_path
     index_ca_page.expect_listed('Unassign', 'Close', 'Escalate', 'Reset', 'Other roles action')
 
+    other_roles_action = CustomAction.last
+    expect(other_roles_action.actions.length).to eq(1)
+    expect(other_roles_action.conditions.length).to eq(1)
+
     # create custom action 'Move project'
 
     new_ca_page = index_ca_page.new
 
-    new_ca_page.set_name('Move project')
-    new_ca_page.add_action(date_custom_field.name, (Date.today + 5.days).to_s)
+    retry_block do
+      new_ca_page.visit!
+      new_ca_page.set_name('Move project')
+      date = (Date.today + 5.days).to_s
+      new_ca_page.add_action(date_custom_field.name, date)
+      page.find_field("custom_action_actions_custom_field_#{date_custom_field.id}", with: date)
 
-    # Close autocompleter
-    if page.has_selector? '.ui-datepicker-close'
-      scroll_to_and_click(find('.ui-datepicker-close'))
+      # Close autocompleter
+      if page.has_selector? '.ui-datepicker-close'
+        scroll_to_and_click(find('.ui-datepicker-close'))
+      end
+
+      new_ca_page.add_action('Type', other_type.name)
+      page.assert_selector('#custom-actions-form--active-actions .form--selected-value', text: other_type.name)
+      new_ca_page.add_action('Project', other_project.name)
+      page.assert_selector('#custom-actions-form--active-actions .form--selected-value', text: other_project.name)
+      new_ca_page.set_condition('Project', project.name)
+      page.assert_selector('#custom-actions-form--conditions .form--selected-value', text: project.name)
     end
 
-    new_ca_page.add_action('Type', other_type.name)
-    new_ca_page.add_action('Project', other_project.name)
-    new_ca_page.set_condition('Project', project.name)
     new_ca_page.create
+
+    index_ca_page.expect_current_path
+    index_ca_page.expect_listed('Unassign', 'Close', 'Escalate', 'Reset', 'Other roles action', 'Move project')
+
+    move_project = CustomAction.last
+    expect(move_project.actions.length).to eq(3)
+    expect(move_project.conditions.length).to eq(1)
 
     # use custom actions
     login_as(user)
@@ -240,13 +318,9 @@ describe 'Custom actions', type: :feature, js: true do
     end
 
     wp_page.click_custom_action('Unassign')
-
     wp_page.expect_attributes assignee: '-'
-    wp_page.expect_notification message: 'Successful update'
-    wp_page.dismiss_notification!
 
     wp_page.click_custom_action('Escalate')
-
     wp_page.expect_attributes priority: immediate_priority.name,
                               status: default_status.name,
                               assignee: '-',
@@ -254,15 +328,10 @@ describe 'Custom actions', type: :feature, js: true do
 
     expect(page)
       .to have_selector('.work-package-details-activities-activity-contents a.user-mention', text: other_member_user.name)
-    wp_page.expect_notification message: 'Successful update'
-    wp_page.dismiss_notification!
 
     wp_page.click_custom_action('Close')
-
     wp_page.expect_attributes status: closed_status.name,
                               priority: immediate_priority.name
-    wp_page.expect_notification message: 'Successful update'
-    wp_page.dismiss_notification!
 
     wp_page.expect_custom_action('Reset')
     wp_page.expect_no_custom_action('Close')
@@ -273,7 +342,6 @@ describe 'Custom actions', type: :feature, js: true do
                               status: default_status.name,
                               assignee: user.name
     wp_page.expect_no_attribute "customField#{int_custom_field.id}"
-    wp_page.expect_notification message: 'Successful update'
 
     # edit 'Reset' to now be named 'Reject' which sets the status to 'Rejected'
     login_as(admin)
@@ -282,15 +350,27 @@ describe 'Custom actions', type: :feature, js: true do
 
     edit_ca_page = index_ca_page.edit('Reset')
 
-    edit_ca_page.set_name 'Reject'
-    edit_ca_page.remove_action 'Priority'
-    edit_ca_page.set_action 'Assignee', '-'
-    edit_ca_page.set_action 'Status', rejected_status.name
-    edit_ca_page.set_condition 'Status', default_status.name
+    retry_block do
+      edit_ca_page.visit!
+      edit_ca_page.set_name 'Reject'
+      edit_ca_page.remove_action 'Priority'
+      edit_ca_page.set_action 'Assignee', '-'
+      find('#custom-actions-form--active-actions .form--selected-value', text: '-')
+
+      edit_ca_page.set_action 'Status', rejected_status.name
+      find('#custom-actions-form--active-actions .form--selected-value', text: rejected_status.name)
+      edit_ca_page.set_condition 'Status', default_status.name
+      find('#custom-actions-form--conditions .form--selected-value', text: default_status.name)
+    end
+
     edit_ca_page.save
 
     index_ca_page.expect_current_path
     index_ca_page.expect_listed('Unassign', 'Close', 'Escalate', 'Reject')
+
+    reset = CustomAction.find_by(name: 'Reject')
+    expect(reset.actions.length).to eq(3)
+    expect(reset.conditions.length).to eq(1)
 
     index_ca_page.move_top 'Move project'
     index_ca_page.move_bottom 'Escalate'
@@ -311,12 +391,9 @@ describe 'Custom actions', type: :feature, js: true do
     wp_page.expect_custom_action_order('Move project', 'Close', 'Reject', 'Unassign', 'Escalate')
 
     wp_page.click_custom_action('Reject')
-
     wp_page.expect_attributes assignee: '-',
                               status: rejected_status.name,
                               priority: default_priority.name
-    wp_page.expect_notification message: 'Successful update'
-    wp_page.dismiss_notification!
 
     wp_page.expect_custom_action('Close')
     wp_page.expect_no_custom_action('Reject')
@@ -353,7 +430,7 @@ describe 'Custom actions', type: :feature, js: true do
     ## Bump the lockVersion and by that force a conflict.
     work_package.reload.touch
 
-    wp_page.click_custom_action('Escalate')
+    wp_page.click_custom_action('Escalate', expect_success: false)
 
     wp_page.expect_notification type: :error, message: I18n.t('api_v3.errors.code_409')
   end

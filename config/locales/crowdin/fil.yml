@@ -995,6 +995,7 @@ fil:
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Nabigong burahin ang entry na ito.
+  error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Hindi ma grupo sa pamamagitan ng: %{value}'
   error_invalid_query_column: Hindi balido ang hanay ng query:%{value}
   error_invalid_sort_criterion: 'Hindi masunod sa pamamagitan ng hanay: %{value}'
@@ -2259,8 +2260,6 @@ fil:
   setting_welcome_text: Teskstong welcome block
   setting_welcome_title: Titulo ng welcome back
   setting_welcome_on_homescreen: I-display ang welcome block sa homescreen
-  setting_welcome_on_projects_page: I-display ang welcome block sa pangkalahatang
-    ideya ng proyekto
   setting_wiki_compression: Pag-compress ng wiki na kasaysayan
   setting_work_package_group_assignment: Pinayagan ang gawain sa mga grupo
   settings:

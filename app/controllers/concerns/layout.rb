@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,30 +28,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Menu items
-  Background:
-    Given there is 1 project with the following:
-      | name            | Awesome Project      |
-      | identifier      | awesome-project      |
-    And project "Awesome Project" uses the following modules:
-      | calendar |
-    And there is a role "member"
-    And the role "member" may have the following rights:
-      | view_calendar  |
-      | view_work_packages  |
-    And there is 1 user with the following:
-      | login | bob |
-    And the user "bob" is a "member" in the project "Awesome Project"
-    And I am already logged in as "bob"
+module Concerns::Layout
+  extend ActiveSupport::Concern
 
-  Scenario: Calendar menu should be visible when calendar is activated
-    When I go to the overview page of the project "Awesome Project"
-    Then I should see "Calendar" within "#main-menu"
-
-  Scenario: Work Packages Summary should be visible and accessible
-    When I go to the overview page of the project "Awesome Project"
-    And I toggle the "Work packages" submenu
-    Then I should see "Summary" within "#main-menu"
-
-    When I click on "Summary" within "#main-menu"
-    Then I should see "SUMMARY" within "#content"
+  included do
+    def layout_non_or_no_menu
+      if request.xhr?
+        false
+      elsif @project
+        true
+      else
+        'no_menu'
+      end
+    end
+  end
+end

@@ -889,6 +889,7 @@ ja:
     %{error}'
   error_enterprise_activation_user_limit: あなたのアカウントを有効にすることができませんでした（ユーザー制限に達しました）。アクセスするには管理者に連絡してください。
   error_failed_to_delete_entry: このエントリを削除できませんでした。
+  error_invalid_selected_value: 選択された値が無効です。
   error_invalid_group_by: 'グループ化できません: %{value}'
   error_invalid_query_column: '無効なクエリ列: %{value}'
   error_invalid_sort_criterion: '列を並べ替えできません: %{value}'
@@ -2011,7 +2012,6 @@ ja:
   setting_welcome_text: ようこそブロックのテキスト
   setting_welcome_title: ようこそブロックのタイトル
   setting_welcome_on_homescreen: ホーム画面にようこそブロックを表示
-  setting_welcome_on_projects_page: プロジェクト概要にようこそブロックを表示
   setting_wiki_compression: Wiki履歴を圧縮する
   setting_work_package_group_assignment: グループへの割り当てを許可する
   settings:

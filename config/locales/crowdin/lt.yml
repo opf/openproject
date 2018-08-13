@@ -996,6 +996,7 @@ lt:
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Šio įrašo nepavyko panaikinti.
+  error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Negalima grupuoti naudojant: %{value}'
   error_invalid_query_column: 'Netinkamas užklausos stulpelis: %{value}'
   error_invalid_sort_criterion: 'Negalima rūšiuoti pagal stulpelį: %{value}'
@@ -2242,8 +2243,6 @@ lt:
   setting_welcome_text: Pasisveikinimo bloko tekstas
   setting_welcome_title: Pasisveikinimo bloko pavadinimas
   setting_welcome_on_homescreen: Rodyti pasisveikinimo bloką namų lange
-  setting_welcome_on_projects_page: Rodyti pasisveikinimo bloką projekto peržiūros
-    lange
   setting_wiki_compression: Wiki istorijos suspaudimas
   setting_work_package_group_assignment: Leisti priskyrimus grupėms
   settings:

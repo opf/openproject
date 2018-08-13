@@ -105,7 +105,7 @@ fil:
       internal: Isang internal error ang naganap.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
         error: %{error}'
-      query_saving: The query could not be saved.
+      query_saving: The view could not be saved.
     filter:
       description:
         text_open_filter: Buksan ang filter na ito sa 'ALT' at ang mga arrow key.
@@ -182,7 +182,7 @@ fil:
     label_in: sa
     label_in_less_than: mas mababa kaysa
     label_in_more_than: mahigit sa
-    label_latest_activity: Pinakamabagong aktibidad
+    label_latest_activity: Latest activity
     label_last_updated_on: Huking naka-update sa
     label_less_or_equal: "<="
     label_less_than_ago: mas mababa kaysa sa mga araw na lumipas
@@ -220,6 +220,9 @@ fil:
     label_sort_higher: Lumipat pataas
     label_sort_lower: Ilipat sa ibaba
     label_sorting: Pag-aayos
+    label_star_query: Favored
+    label_press_enter_to_save: Press enter to save.
+    label_public_query: Publiko
     label_sum_for: Halaga para sa
     label_subject: Paksa
     label_this_week: ngayong semana
@@ -228,7 +231,6 @@ fil:
     label_activity_show_only_comments: Magpakita ng mga aktibidad sa komento lamang
     label_activity_show_all: Ipakita lahat ang mga aktibidad
     label_total_progress: "%{percent}% Kabuang progreso"
-    label_visible_for_others: View visible for others
     label_updated_on: i-update sa
     label_warning: Babala
     label_work_package: Work package
@@ -242,8 +244,10 @@ fil:
     label_unwatch: I-unwatch
     label_unwatch_work_package: I-unwatch ang work package
     label_uploaded_by: Naka-upload sa pamamagitan ng
-    label_global_queries: Ibinahaging mga query
-    label_custom_queries: Pribadong mga query
+    label_default_queries: Default views
+    label_starred_queries: Favorite views
+    label_global_queries: Public views
+    label_custom_queries: Private views
     label_columns: Mga hanay
     label_attachments: Mga file
     label_drop_files: Ihulog ang mga file dito
@@ -381,8 +385,8 @@ fil:
       activate_no: aktibk upang alisin ang pagsaayos
     text_work_packages_destroy_confirmation: Sigurado ka ba na gusto mong burahin
       ang napiling work package?
-    text_query_destroy_confirmation: Sigurado ka ba na gusto mong burahin ang napiling
-      query?
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      view?
     text_attachment_destroy_confirmation: Sigurado ka ba na gusto mong burahin ang
       nakalakip?
     timelines:
@@ -417,14 +421,6 @@ fil:
         report_timeout: Ang timeline ay hindi maipupuno dahil sa isang makatwirang
           halaga ng oras.
       filter:
-        column:
-          assigned_to: Naitalaga
-          type: Uri
-          due_date: Ang pagtatapos ng petsa
-          name: Pangalan
-          status: Estado
-          responsible: Responsable
-          start_date: Petsa ng pagsimula
         grouping_other: Iba pa
         noneSelection: "(wala)"
       name: Pangalan
@@ -548,7 +544,7 @@ fil:
           ang naka-filtered na mga bata
       faulty_query:
         title: Ang mga work package ay hindi mai-load.
-        description: Ang iyong query ay mali at hindi maiproseso.
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: Walang mga work package ang i-displey.
         description: Alinman sa walang ang nilikha o mga work package ay naka-filter
@@ -580,6 +576,13 @@ fil:
         updatedAt: Naka-update sa
         versionName: Bersyon
         version: Bersyon
+      default_queries:
+        latest_activity: Latest activity
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: All open
+        summary: Buod
       jump_marks:
         pagination: Dumiretso sa talaan ng pagination
         label_pagination: Pindutin dito upang lagpasan ang mga talaan ng work package
@@ -606,10 +609,15 @@ fil:
         insert_columns: Isingit ang mga hanay...
         filters: Mga nasala
         display_sums: Ipakita ang mga sum
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
         errors:
-          unretrievable_query: Hindi mabalik ang query mula sa URL
-          not_found: Walang ganitong query
-        text_no_results: Walang mga nagkakatugmang query ay natagpuan.
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
       table:
         configure_button: Configure work package table
         summary: Talaab sa mga hilera ng work package at mga hanay na katangian ng
@@ -624,7 +632,7 @@ fil:
         button: Configure this work package table
         modal_title: Work package table configuration
         embedded_tab_disabled: This configuration tab is not available for the embedded
-          query you're editing.
+          view you're editing.
         display_settings: Display settings
         grouped_mode: Grouped mode
         grouped_hint: Table results will be grouped by the given attribute.
@@ -662,13 +670,14 @@ fil:
         save: I-save
         save_as: I-save bilang ...
         export: I-export ...
-        publish: Ipalabas...
+        visibility_settings: Visibility settings ...
         page_settings: Rename view ...
         delete: Burahin
       filter: Salain
       unselected_title: Work package
-      search_query_label: Hanapin ang mga naka-save na query
-      search_query_title: Pindutin upang hanapin ang mga naka-save na filter query
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
     modals:
       label_settings: Rename view
       label_name: Pangalan

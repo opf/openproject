@@ -125,7 +125,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
         title: I18n.t('js.work_packages.faulty_query.title'),
         description: I18n.t('js.work_packages.faulty_query.description')
       },
-      configureTable: I18n.t('js.work_packages.table_configuration.button'),
+      configureTable: I18n.t('js.toolbar.settings.configure_view'),
       tableSummary: I18n.t('js.work_packages.table.summary'),
       tableSummaryHints: [
         I18n.t('js.work_packages.table.text_inline_edit'),

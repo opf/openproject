@@ -31,7 +31,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= toolbar title: l(:label_my_page) do %>
   <%= styled_form_tag({ action: "add_block" }, class: 'my-page--block-form') do %>
-    <% options = "<option>--#{t(:button_add)}--</option>"
+    <% options = "<option disabled selected>--#{t(:button_add)}--</option>"
                   .html_safe
                   .concat(options_for_select(@block_options)) %>
 

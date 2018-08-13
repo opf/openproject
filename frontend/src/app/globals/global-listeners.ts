@@ -26,48 +26,28 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+import {performAnchorHijacking} from "./global-listeners/link-hijacking";
+import {augmentedDatePicker} from "./global-listeners/augmented-date-picker";
+
 /**
  * A set of listeners that are relevant on every page to set sensible defaults
  */
 (function($:JQueryStatic) {
 
-  // Our application is still a hybrid one, meaning most routes are still
-  // handled by Rails. As such, we disable the default link-hijacking that
-  // Angular's HTML5-mode turns on.
+
   $(function() {
     $(document.documentElement)
-      // Prevent angular handling clicks on href="#..." links from other libraries
-      // (especially jquery-ui and its datepicker) from routing to <base url>/#
       .on('click', (evt) => {
         const target = jQuery(evt.target);
 
-        // Avoid defaulting clicks on elements already removed from DOM
-        if (!document.contains(evt.target)) {
-          evt.preventDefault();
-        }
+        // Create datepickers dynamically for Rails-based views
+        augmentedDatePicker(evt, target);
 
-        // Avoid handling clicks on anything other than a
-        const linkElement = target.closest('a');
-        if (linkElement.length === 0) {
-          return true;
-        }
+        // Prevent angular handling clicks on href="#..." links from other libraries
+        // (especially jquery-ui and its datepicker) from routing to <base url>/#
+        performAnchorHijacking(evt, target);
 
-        const link = linkElement.attr('href') || '';
-        const hashPos = link.indexOf('#');
-
-        // If link is neither empty nor starts with hash, ignore it
-        if (link !== '' && hashPos === -1) {
-          return true;
-        }
-
-        // Set the location to the hash if there is any
-        // Since with the base tag, links like href="#whatever" otherwise target to <base>/#whatever
-        if (hashPos !== -1 && link !== '#') {
-          window.location.hash = link;
-        }
-
-        evt.preventDefault();
-        return false;
+        return true;
       });
 
     // Disable global drag & drop handling, which results in the browser loading the image and losing the page

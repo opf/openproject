@@ -83,7 +83,7 @@ export class RevisionActivityComponent implements OnInit {
 
     this.revisionLink = this.I18n.t("js.label_committed_at",
       {
-        committed_revision_link: link,
+        committed_revision_link: link.outerHTML,
         date: this.timezoneService.formattedDatetime(this.activity.createdAt)
       });
   }
@@ -93,7 +93,7 @@ export class RevisionActivityComponent implements OnInit {
       this.userName = this.activity.authorName;
     } else {
       this.userCacheService
-        .require(this.activity.user.idFromLink  )
+        .require(this.activity.author.idFromLink)
         .then((user:UserResource) => {
           this.userId = user.id;
           this.userName = user.name;

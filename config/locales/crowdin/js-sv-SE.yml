@@ -108,7 +108,7 @@ sv-SE:
       internal: Ett internt fel har inträffat.
       cannot_save_changes_with_message: 'Kan inte spara dina ändringar på grund av
         följande error: %{error}'
-      query_saving: Frågan kunde inte sparas.
+      query_saving: The view could not be saved.
     filter:
       description:
         text_open_filter: Öppna det här filtret med 'ALT' och piltangenterna.
@@ -184,7 +184,7 @@ sv-SE:
     label_in: i
     label_in_less_than: i mindre än
     label_in_more_than: i mer än
-    label_latest_activity: Senaste aktivitet
+    label_latest_activity: Latest activity
     label_last_updated_on: Senast uppdaterad den
     label_less_or_equal: "<="
     label_less_than_ago: mindre än dagar sedan
@@ -222,6 +222,9 @@ sv-SE:
     label_sort_higher: Flytta upp
     label_sort_lower: Flytta ned
     label_sorting: Sortering
+    label_star_query: Favored
+    label_press_enter_to_save: Press enter to save.
+    label_public_query: Offentlig
     label_sum_for: Summa för
     label_subject: Ämne
     label_this_week: denna vecka
@@ -230,7 +233,6 @@ sv-SE:
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% Totalt klart"
-    label_visible_for_others: Vyn synlig för andra
     label_updated_on: uppdaterad den
     label_warning: Varning
     label_work_package: Arbetspaket
@@ -243,8 +245,10 @@ sv-SE:
     label_unwatch: Sluta bevaka
     label_unwatch_work_package: Sluta bevaka arbetspaket
     label_uploaded_by: Uppladdad av
-    label_global_queries: Delade frågor
-    label_custom_queries: Privata frågor
+    label_default_queries: Default views
+    label_starred_queries: Favorite views
+    label_global_queries: Public views
+    label_custom_queries: Private views
     label_columns: Kolumner
     label_attachments: Filer
     label_drop_files: Släpp filer här
@@ -379,7 +383,8 @@ sv-SE:
       activate_no: aktivera för att ta bort sortering
     text_work_packages_destroy_confirmation: Är du säker du vill ta bort det valda
       arbetspaket(paketen)?
-    text_query_destroy_confirmation: Är du säker du vill ta bort den valda frågan?
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      view?
     text_attachment_destroy_confirmation: Är du säker på att du vill ta bort denna
       bilaga?
     timelines:
@@ -411,14 +416,6 @@ sv-SE:
         report_epicfail: Tidslinjen kunde inte hämtas på grund av ett oväntat fel.
         report_timeout: Tidslinjen kunde inte laddas på en rimlig tid.
       filter:
-        column:
-          assigned_to: Tilldelad till
-          type: Typ
-          due_date: Slutdatum
-          name: Namn
-          status: Status
-          responsible: Ansvarig
-          start_date: Startdatum
         grouping_other: Andra
         noneSelection: "(ingen)"
       name: Namn
@@ -536,7 +533,7 @@ sv-SE:
           de filtrerade barnen
       faulty_query:
         title: Arbetspaket kunde inte laddas.
-        description: Din fråga är felaktig och kunde inte behandlas.
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: Inga arbetspaket att visa.
         description: Antingen finns det inga arbetspaket eller så har alla filtrerats
@@ -568,6 +565,13 @@ sv-SE:
         updatedAt: Uppdaterat den
         versionName: Version
         version: Version
+      default_queries:
+        latest_activity: Latest activity
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: Alla öppna
+        summary: Sammanfattning
       jump_marks:
         pagination: Gå till sidnumrering för tabell
         label_pagination: Klicka här för att hoppa arbetspaketets tabell och gå till
@@ -593,10 +597,15 @@ sv-SE:
         insert_columns: Infoga kolumner...
         filters: Filter
         display_sums: Visa summor
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
         errors:
-          unretrievable_query: Det gick inte att hämta fråga från URL
-          not_found: Det finns ingen sådan fråga
-        text_no_results: Inga matchande frågor hittades.
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
       table:
         configure_button: Konfigurera arbetspakets-tabell
         summary: Tabell med ett arbetspaket för varje rad och kolumner för varje arbetspaketsattribut.
@@ -608,8 +617,8 @@ sv-SE:
       table_configuration:
         button: Konfigurera detta arbetspaket-tabell
         modal_title: Inställningar för arbetspaket-tabell
-        embedded_tab_disabled: Denna konfigurationsflik är inte tillgänglig för den
-          inbäddade fråga du redigerar.
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          view you're editing.
         display_settings: Skärminställningar
         grouped_mode: Grupperat läge
         grouped_hint: Tabellresultatet kommer grupperas av det angivna attributet.
@@ -647,13 +656,14 @@ sv-SE:
         save: Spara
         save_as: Spara som ...
         export: Exportera...
-        publish: Publish ...
+        visibility_settings: Visibility settings ...
         page_settings: Byt namn på vyn ...
         delete: Ta bort
       filter: Filter
       unselected_title: Arbetspaket
-      search_query_label: Sök sparade filtreringsfrågor
-      search_query_title: Klicka för att söka bland sparade filtreringsfrågor
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
     modals:
       label_settings: Byt namn på vyn
       label_name: Namn

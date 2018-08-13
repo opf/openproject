@@ -982,6 +982,7 @@ fr:
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Échec lors de la suppression de cette entrée.
+  error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Impossible de grouper par : %{value}'
   error_invalid_query_column: 'Colonne de requête invalide : %{value}'
   error_invalid_sort_criterion: 'Impossible de trier par colonne : %{value}'
@@ -2229,8 +2230,6 @@ fr:
   setting_welcome_text: Bloc de texte de bienvenue
   setting_welcome_title: Bloc de titre de bienvenue
   setting_welcome_on_homescreen: Afficher le bloc de bienvenue sur l'écran d'accueil
-  setting_welcome_on_projects_page: Afficher le bloc de bienvenue sur l'aperçu du
-    projet
   setting_wiki_compression: Compression de l'historique du wiki
   setting_work_package_group_assignment: Autoriser l'assignation à des groupes
   settings:

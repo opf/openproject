@@ -152,11 +152,12 @@ export class AutocompleteSelectDecorationComponent {
     } as any;
 
     this.$input!.autocomplete(autocompleteOptions);
+    this.$input!.focus(() => this.autocompleteInstance.search(this.$input!.val()));
 
     // Disable handling all dashes as dividers
     // https://github.com/jquery/jquery-ui/blob/master/ui/widgets/menu.js#L347
     // as we use them as placeholders.
-    (<any>this.$input!.autocomplete('instance')).menu._isDivider = () => false;
+    this.autocompleteInstance.menu._isDivider = () => false;
   }
 
   private switchIds() {
@@ -170,6 +171,10 @@ export class AutocompleteSelectDecorationComponent {
     this.$select = this.$element.find('select');
     this.label = this.labelOverride || angular.element("label[for='" + this.$select!.prop('id') + "']").text();
     this.isMulti = this.$select!.prop('multiple');
+  }
+
+  private get autocompleteInstance() {
+    return this.$input!.autocomplete('instance') as any;
   }
 
   private setInitialized() {

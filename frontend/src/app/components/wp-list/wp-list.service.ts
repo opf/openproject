@@ -34,9 +34,8 @@ import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-c
 import {WorkPackageTablePaginationService} from '../wp-fast-table/state/wp-table-pagination.service';
 import {WorkPackagesListInvalidQueryService} from './wp-list-invalid-query.service';
 import {WorkPackageStatesInitializationService} from './wp-states-initialization.service';
-import {QueryMenuService} from 'core-components/wp-query-menu/wp-query-menu.service';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
-import {StateParams, StateService} from '@uirouter/core';
+import {StateService} from '@uirouter/core';
 import {WorkPackagesListChecksumService} from 'core-components/wp-list/wp-list-checksum.service';
 import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
@@ -46,9 +45,13 @@ import {PaginationObject, QueryDmService} from 'core-app/modules/hal/dm-services
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class WorkPackagesListService {
+  private queryChanges = new BehaviorSubject<string>('');
+  public queryChanges$ = this.queryChanges.asObservable();
+
   constructor(protected NotificationsService:NotificationsService,
               readonly I18n:I18nService,
               protected UrlParamsHelper:UrlParamsHelperService,
@@ -62,8 +65,7 @@ export class WorkPackagesListService {
               protected wpListChecksumService:WorkPackagesListChecksumService,
               protected wpStatesInitialization:WorkPackageStatesInitializationService,
               protected loadingIndicator:LoadingIndicatorService,
-              protected wpListInvalidQueryService:WorkPackagesListInvalidQueryService,
-              protected queryMenu:QueryMenuService) {
+              protected wpListInvalidQueryService:WorkPackagesListInvalidQueryService) {
   }
 
   /**
@@ -190,6 +192,9 @@ export class WorkPackagesListService {
       .then(query => {
         this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_create'));
         this.reloadQuery(query);
+
+        this.queryChanges.next(query.name);
+
         return query;
       });
 
@@ -208,15 +213,17 @@ export class WorkPackagesListService {
       .then(() => {
         this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_delete'));
 
-        this.removeMenuItem(query);
-
         let id;
         if (query.project) {
           id = query.project.$href!.split('/').pop();
         }
 
         this.loadDefaultQuery(id);
+
+
+        this.queryChanges.next(query.name);
       });
+
 
     return promise;
   }
@@ -232,14 +239,8 @@ export class WorkPackagesListService {
       .then(() => {
         this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_update'));
 
-        this
-          .queryMenu
-          .rename(query!.id.toString(), query!.name);
-
-        // We should actually put the query newly received
-        // from the backend in here.
-        // But the backend does currently not return work packages (results).
-        this.states.query.resource.putValue(query!);
+        this.$state.go('.', { query_id: query!.id, query_props: null }, { reload: true });
+        this.queryChanges.next(query!.name);
       })
       .catch((error:ErrorResource) => {
         this.NotificationsService.addError(error.message);
@@ -256,19 +257,14 @@ export class WorkPackagesListService {
 
       this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_update'));
 
-      this.updateQueryMenu();
+      this.queryChanges.next(query.name);
     });
 
     return promise;
   }
 
   private getPaginationInfo() {
-    let pagination = this.wpTablePagination.current;
-
-    return {
-      pageSize: pagination.perPage,
-      offset: pagination.page
-    };
+    return this.wpTablePagination.paginationObject;
   }
 
   private conditionallyLoadForm(promise:Promise<QueryResource>):Promise<QueryResource> {
@@ -312,18 +308,8 @@ export class WorkPackagesListService {
     });
   }
 
-  private get currentQuery() {
+  public get currentQuery() {
     return this.states.query.resource.value!;
-  }
-
-  private updateQueryMenu() {
-    let query = this.currentQuery;
-
-    if (query.starred) {
-      this.createMenuItem(query);
-    } else {
-      this.removeMenuItem(query);
-    }
   }
 
   private handleQueryLoadingError(error:ErrorResource, queryProps:any, queryId?:number, projectIdentifier?:string) {
@@ -356,19 +342,5 @@ export class WorkPackagesListService {
         })
         .catch(reject);
     });
-  }
-
-  private createMenuItem(query:QueryResource) {
-    return this
-      .queryMenu
-      .add(query.name,
-        this.$state.href('work-packages.list', {query_id: query.id}),
-        query.id.toString());
-  }
-
-  private removeMenuItem(query:QueryResource) {
-    return this
-      .queryMenu
-      .remove(query.id.toString());
   }
 }

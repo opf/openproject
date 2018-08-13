@@ -71,7 +71,7 @@ class MyController < ApplicationController
   def index
     @user = User.current
     @blocks = get_current_layout
-    render action: 'page', layout: 'base'
+    render action: 'page', layout: 'no_menu'
   end
   alias :page :index
 
@@ -188,7 +188,7 @@ class MyController < ApplicationController
     @block = params[:block].to_s.underscore
 
     unless MyController.available_blocks.keys.include? @block
-      render nothing: true
+      render plain: I18n.t(:error_invalid_selected_value), status: 400
       return
     end
 

@@ -41,9 +41,12 @@ module Pages
         end
 
         def add_action(name, value)
+          sleep 1
           select name, from: 'Add action'
-
+          sleep 1
           set_action_value(name, value)
+          sleep 1
+          page.assert_selector('#custom-actions-form--active-actions .form--label', text: name)
         end
 
         def remove_action(name)
@@ -61,9 +64,24 @@ module Pages
         end
 
         def set_condition(name, value)
+          page.within('#custom-actions-form--conditions') do
+            page.find_field(name)
+          end
+
           Array(value).each do |val|
-            fill_in name, with: val
+            within '#custom-actions-form--conditions' do
+              fill_in name, with: val
+            end
+
+            sleep 1
+
             find('.ui-menu-item', text: val).click
+
+            within '#custom-actions-form--conditions' do
+              page.assert_selector('.form--selected-value', text: val)
+            end
+
+            sleep 1
           end
         end
 
@@ -76,18 +94,21 @@ module Pages
 
           Array(value).each do |val|
             within field do
-              if has_selector?('.form--selected-value--container')
+              if has_selector?('.form--selected-value--container', wait: 1)
                 find('.form--selected-value--container').click
                 autocomplete = true
-              elsif has_selector?('.form--input.-autocomplete')
+              elsif has_selector?('.form--input.-autocomplete', wait: 1)
                 autocomplete = true
               end
 
-              fill_in name, with: val
+              target = page.find_field(name)
+              target.send_keys val
             end
 
             if autocomplete
-              find('.ui-menu-item', text: val).click
+              sleep 2
+              dropdown_el = find('.ui-menu-item', text: val, wait: 5)
+              scroll_to_and_click(dropdown_el)
             end
           end
         end

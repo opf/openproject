@@ -964,6 +964,7 @@ tr:
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Girdi silinemedi.
+  error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: "%{value} ya göre guplandırılamadı"
   error_invalid_query_column: 'Geçersiz sorgu sütunu: %{value}'
   error_invalid_sort_criterion: 'Sütuna göre sıralama yapamazsınız: %{value}'
@@ -2179,7 +2180,6 @@ tr:
   setting_welcome_text: Hoş geldiniz blok metini
   setting_welcome_title: Hoş geldiniz blok başlığı
   setting_welcome_on_homescreen: Hoşgeldiniz bloğunu ana ekranda göster
-  setting_welcome_on_projects_page: Projeye genel bakış için karşılama blokunu gösterin
   setting_wiki_compression: Wiki geçmişini sıkıştır
   setting_work_package_group_assignment: Gruplara iş atanmasına izin ver
   settings:

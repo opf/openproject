@@ -32,11 +32,13 @@ import {distinctUntilChanged} from 'rxjs/operators';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {MainMenuResizerComponent} from "core-components/resizer/main-menu-resizer.component";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import {CurrentProjectService} from "core-components/projects/current-project.service";
+import {Injector} from "@angular/core";
 
 @Component({
   selector: 'main-menu-toggle',
   template: `
-    <div id="main-menu-toggle"
+    <div *ngIf="this.currentProject.id !== null" id="main-menu-toggle"
         aria-haspopup="true"
         [attr.title]="toggleTitle"
         (accessibleClick)="toggleService.toggleNavigation($event)"
@@ -55,13 +57,12 @@ import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 *
 */
 export class MainMenuToggleComponent implements OnInit, OnDestroy {
-
-  localStorageKey:string = "openProject-mainMenuWidth";
   toggleTitle:string = "";
-  showNavigation:boolean;
+  currentProject:CurrentProjectService = this.injector.get(CurrentProjectService);
 
   constructor(readonly toggleService:MainMenuToggleService,
-              readonly cdRef:ChangeDetectorRef) {
+              readonly cdRef:ChangeDetectorRef,
+              protected injector:Injector) {
   }
 
   ngOnInit() {

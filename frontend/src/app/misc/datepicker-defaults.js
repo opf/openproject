@@ -30,9 +30,8 @@ jQuery(function($) {
   var regional = regions[I18n.locale] || regions[''];
 
   // see ./app/helpers/application_helper.rb:508
-  var CS = window.CS || {};
-  if (typeof CS.firstDay === 'number') {
-    regional.firstDay = CS.firstDay;
+  if (typeof I18n.firstDayOfWeek === 'number') {
+    regional.firstDay = I18n.firstDayOfWeek;
   }
 
   $.datepicker.setDefaults(regional);

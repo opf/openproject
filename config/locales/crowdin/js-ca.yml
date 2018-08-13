@@ -105,7 +105,7 @@ ca:
       internal: S'ha produït un error intern.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
         error: %{error}'
-      query_saving: The query could not be saved.
+      query_saving: The view could not be saved.
     filter:
       description:
         text_open_filter: Obrir aquest filtre amb les tecles 'ALT' i cursors.
@@ -184,7 +184,7 @@ ca:
     label_in: en
     label_in_less_than: en menys de
     label_in_more_than: en més de
-    label_latest_activity: Última activitat
+    label_latest_activity: Latest activity
     label_last_updated_on: La darrera actualització el
     label_less_or_equal: "<="
     label_less_than_ago: fa menys de
@@ -222,6 +222,9 @@ ca:
     label_sort_higher: Mou amunt
     label_sort_lower: Mou cap avall
     label_sorting: Ordenació
+    label_star_query: Favored
+    label_press_enter_to_save: Press enter to save.
+    label_public_query: Públic
     label_sum_for: Suma de
     label_subject: Assumpte
     label_this_week: aquesta setmana
@@ -230,7 +233,6 @@ ca:
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% Progrés total"
-    label_visible_for_others: View visible for others
     label_updated_on: actualitzat el
     label_warning: Alerta
     label_work_package: Paquet de treball
@@ -244,8 +246,10 @@ ca:
     label_unwatch: Deixa de Seguir
     label_unwatch_work_package: Deixa de seguir paquet de treball
     label_uploaded_by: Pujat per
-    label_global_queries: Consultes compartides
-    label_custom_queries: Consultes privades
+    label_default_queries: Default views
+    label_starred_queries: Favorite views
+    label_global_queries: Public views
+    label_custom_queries: Private views
     label_columns: Columnes
     label_attachments: Arxius
     label_drop_files: Arrossegueu els fitxers aquí
@@ -380,7 +384,8 @@ ca:
       activate_no: activate to remove the sort
     text_work_packages_destroy_confirmation: "¿Està segur que desitja eliminar el(s)
       paquet(s) de treball seleccionat(s)?"
-    text_query_destroy_confirmation: Esteu segur que voleu suprimir la consulta seleccionada?
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      view?
     text_attachment_destroy_confirmation: Esteu segur que voleu suprimir el fitxer
       adjunt?
     timelines:
@@ -413,14 +418,6 @@ ca:
         report_timeout: No s'ha pogut carregar la línia de temps en una quantitat
           raonable de temps.
       filter:
-        column:
-          assigned_to: Assignat a
-          type: Tipus
-          due_date: Data de fi
-          name: Nom
-          status: Estat
-          responsible: Responsable
-          start_date: Data d'inici
         grouping_other: Altres
         noneSelection: "(cap)"
       name: Nom
@@ -541,7 +538,7 @@ ca:
           filtered children
       faulty_query:
         title: Work packages could not be loaded.
-        description: Your query is erroneous and could not be processed.
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: Cap paquet de treball a visualitzar.
         description: No se n'ha creat cap o tots els paquets de treball s'han filtrat.
@@ -572,6 +569,13 @@ ca:
         updatedAt: Actualitzat el
         versionName: Versió
         version: Versió
+      default_queries:
+        latest_activity: Latest activity
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: All open
+        summary: Resum
       jump_marks:
         pagination: Saltar a la paginació de la taula
         label_pagination: Feu clic aquí per saltar sobre la taula de paquets de treball
@@ -597,10 +601,15 @@ ca:
         insert_columns: Insereix columnes...
         filters: Filtres
         display_sums: Mostra les sumes
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
         errors:
-          unretrievable_query: No es pot recuperar la consulta de la URL
-          not_found: There is no such query
-        text_no_results: No matching queries were found.
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
       table:
         configure_button: Configure work package table
         summary: Taula amb fileres de paquets de treball i columnes amb els atributs
@@ -614,7 +623,7 @@ ca:
         button: Configure this work package table
         modal_title: Work package table configuration
         embedded_tab_disabled: This configuration tab is not available for the embedded
-          query you're editing.
+          view you're editing.
         display_settings: Display settings
         grouped_mode: Grouped mode
         grouped_hint: Table results will be grouped by the given attribute.
@@ -652,13 +661,14 @@ ca:
         save: Desa
         save_as: Anomena i desa ...
         export: Exporta...
-        publish: Publish ...
+        visibility_settings: Visibility settings ...
         page_settings: Rename view ...
         delete: Esborrar
       filter: Filtre
       unselected_title: Paquet de treball
-      search_query_label: Cercar consultes de filtre salvades
-      search_query_title: Feu clic per cercar entre les consultes de filtre desades
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
     modals:
       label_settings: Rename view
       label_name: Nom

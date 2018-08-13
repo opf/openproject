@@ -963,6 +963,7 @@ hu:
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Nem sikerült törölni ezt a bejegyzést.
+  error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Nem csoportosítható e szerint: %{value}'
   error_invalid_query_column: 'Érvénytelen lekérdezési oszlop: %{value}'
   error_invalid_sort_criterion: 'Nem lehet rendezni ezen oszlop szerint: %{value}'
@@ -2185,7 +2186,6 @@ hu:
   setting_welcome_text: Üdvözlő blokk szöveg
   setting_welcome_title: Üdvözlő blokk címe
   setting_welcome_on_homescreen: Üdvözlő blokk megjelenítése a kezdőképernyőn
-  setting_welcome_on_projects_page: Üdvözlő blokk megjelenítése a projekt áttekintőben
   setting_wiki_compression: Wiki előzmények tömörítése
   setting_work_package_group_assignment: Hozzárendelés engedélyezése csoportokhoz
   settings:

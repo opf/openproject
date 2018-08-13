@@ -105,7 +105,7 @@ uk:
       internal: Сталася внутрішня помилка.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
         error: %{error}'
-      query_saving: The query could not be saved.
+      query_saving: The view could not be saved.
     filter:
       description:
         text_open_filter: Відкрийте цей фільтр за допомогою «ALT» і клавіш зі стрілками.
@@ -184,7 +184,7 @@ uk:
     label_in: in
     label_in_less_than: in less than
     label_in_more_than: in more than
-    label_latest_activity: Остання активність
+    label_latest_activity: Latest activity
     label_last_updated_on: Останнє оновлення
     label_less_or_equal: "<="
     label_less_than_ago: less than days ago
@@ -222,6 +222,9 @@ uk:
     label_sort_higher: Move up
     label_sort_lower: Move down
     label_sorting: Сортування
+    label_star_query: Favored
+    label_press_enter_to_save: Press enter to save.
+    label_public_query: Public
     label_sum_for: Сума для
     label_subject: Subject
     label_this_week: this week
@@ -230,7 +233,6 @@ uk:
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% загального прогресу"
-    label_visible_for_others: View visible for others
     label_updated_on: оновлено
     label_warning: Warning
     label_work_package: Work package
@@ -244,8 +246,10 @@ uk:
     label_unwatch: Unwatch
     label_unwatch_work_package: Припинити спостерігати за пакетом робіт
     label_uploaded_by: Завантажено
-    label_global_queries: Спільні запити
-    label_custom_queries: Приватні запити
+    label_default_queries: Default views
+    label_starred_queries: Favorite views
+    label_global_queries: Public views
+    label_custom_queries: Private views
     label_columns: Columns
     label_attachments: Files
     label_drop_files: Перетягніть файли сюди
@@ -384,7 +388,8 @@ uk:
       activate_no: activate to remove the sort
     text_work_packages_destroy_confirmation: Are you sure you want to delete the selected
       work package(s)?
-    text_query_destroy_confirmation: Ви дійсно бажаєте видалити вибраний запит?
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      view?
     text_attachment_destroy_confirmation: Ви впевнені, що бажаєте видалити вкладення?
     timelines:
       gantt_chart: Gantt chart
@@ -416,14 +421,6 @@ uk:
         report_timeout: The timeline could not be loaded in a reasonable amount of
           time.
       filter:
-        column:
-          assigned_to: Assignee
-          type: Type
-          due_date: End date
-          name: Name
-          status: Status
-          responsible: Responsible
-          start_date: Start date
         grouping_other: Other
         noneSelection: "(none)"
       name: Name
@@ -543,7 +540,7 @@ uk:
           filtered children
       faulty_query:
         title: Work packages could not be loaded.
-        description: Your query is erroneous and could not be processed.
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: Немає пакетів робіт для показу.
         description: Або нічого не було створено, або всі пакети робіт відфільтровані.
@@ -574,6 +571,13 @@ uk:
         updatedAt: Updated on
         versionName: Version
         version: Version
+      default_queries:
+        latest_activity: Latest activity
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: All open
+        summary: Summary
       jump_marks:
         pagination: Перейти до розбиття таблиці на сторінки
         label_pagination: Клацніть тут, щоб пропустити пакунки робіт і перейти до
@@ -599,10 +603,15 @@ uk:
         insert_columns: Вставити стовпці ...
         filters: Filters
         display_sums: Display Sums
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
         errors:
-          unretrievable_query: Не вдалося отримати запит з URL-адреси
-          not_found: Немає такого запиту
-        text_no_results: No matching queries were found.
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
       table:
         configure_button: Configure work package table
         summary: Таблиця з рядками пакетів робіт і стовпцями атрибутів пакетів робіт.
@@ -616,7 +625,7 @@ uk:
         button: Configure this work package table
         modal_title: Work package table configuration
         embedded_tab_disabled: This configuration tab is not available for the embedded
-          query you're editing.
+          view you're editing.
         display_settings: Display settings
         grouped_mode: Grouped mode
         grouped_hint: Table results will be grouped by the given attribute.
@@ -654,13 +663,14 @@ uk:
         save: Save
         save_as: Зберегти як ...
         export: Експортувати ...
-        publish: Publish ...
+        visibility_settings: Visibility settings ...
         page_settings: Rename view ...
         delete: Delete
       filter: Filter
       unselected_title: Work package
-      search_query_label: Пошук збережених запитів фільтрації
-      search_query_title: Клацніть для пошуку збережених запитів фільтрації
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
     modals:
       label_settings: Rename view
       label_name: Name

@@ -105,7 +105,7 @@ tr:
       internal: İç hata oluştu.
       cannot_save_changes_with_message: 'Değişikliklerinizin kaydedilememesine sebep
         olan hata: %{error}'
-      query_saving: The query could not be saved.
+      query_saving: The view could not be saved.
     filter:
       description:
         text_open_filter: Bu filtreyi 'ALT' ve ok tuşları ile açın.
@@ -184,7 +184,7 @@ tr:
     label_in: şurada
     label_in_less_than: daha azdır
     label_in_more_than: daha fazla
-    label_latest_activity: Son Etkinlik
+    label_latest_activity: Latest activity
     label_last_updated_on: Son güncelleme
     label_less_or_equal: "<="
     label_less_than_ago: bir haftadan kısa bir süre önce
@@ -222,6 +222,9 @@ tr:
     label_sort_higher: Yukarı taşı
     label_sort_lower: Aşağı taşı
     label_sorting: Sıralama
+    label_star_query: Favored
+    label_press_enter_to_save: Press enter to save.
+    label_public_query: Herkese Açık
     label_sum_for: Toplam
     label_subject: Konu
     label_this_week: bu hafta
@@ -230,7 +233,6 @@ tr:
     label_activity_show_only_comments: Sadece yorumların olduğu etkinlikleri göster
     label_activity_show_all: Tüm etkinlikleri göster
     label_total_progress: Toplam ilerleme %{percent}%
-    label_visible_for_others: View visible for others
     label_updated_on: güncelleme tarihi
     label_warning: Uyarı
     label_work_package: İş paketi
@@ -243,8 +245,10 @@ tr:
     label_unwatch: İzleme
     label_unwatch_work_package: İş pakaketini izlemeyi bırak
     label_uploaded_by: Yükleyen
-    label_global_queries: Paylaşılan sorgular
-    label_custom_queries: Özel Sorgular
+    label_default_queries: Default views
+    label_starred_queries: Favorite views
+    label_global_queries: Public views
+    label_custom_queries: Private views
     label_columns: Sütunlar
     label_attachments: Dosyalar
     label_drop_files: Dosyaları buraya bırakın
@@ -379,7 +383,8 @@ tr:
       activate_no: sıralamayı kaldırmak için etkinleştir
     text_work_packages_destroy_confirmation: Seçilen çalışma paket(ler) ini silmek
       istediğinizden emin misiniz?
-    text_query_destroy_confirmation: Seçili öğeleri silmek istediğinizden emin misiniz?
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      view?
     text_attachment_destroy_confirmation: Eki silmek istediğinizden emin misiniz?
     timelines:
       gantt_chart: Gantt görünümü
@@ -410,14 +415,6 @@ tr:
         report_epicfail: Beklenmeyen bir hata nedeniyle zaman çizelgesi yüklenemedi.
         report_timeout: Zaman çizelgesi makul bir süre içinde yüklenemedi.
       filter:
-        column:
-          assigned_to: Atanan
-          type: Tür
-          due_date: Bitiş tarihi
-          name: İsim
-          status: Durum
-          responsible: Sorumlu
-          start_date: Başlangıç tarihi
         grouping_other: Diğer
         noneSelection: "(yok)"
       name: İsim
@@ -539,7 +536,7 @@ tr:
           bileşenleri gizlemek için tıklayın
       faulty_query:
         title: İş paketleri yüklenemiyor.
-        description: Hatalı olan sorgunuz işlenemedi.
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: Görüntülecek bir iş paketi bulunmuyor.
         description: Ya hiç iş paketi oluşturulmamış, ya da tüm iş paketeri filtrelenmiş.
@@ -570,6 +567,13 @@ tr:
         updatedAt: Güncelleme tarihi
         versionName: Sürüm
         version: Sürüm
+      default_queries:
+        latest_activity: Latest activity
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: All open
+        summary: Özet
       jump_marks:
         pagination: Tablo numaralandırmaya yönlendir
         label_pagination: İş paketleri tablosuna geçiş yapmak ve numaralandırma sayfasına
@@ -595,10 +599,15 @@ tr:
         insert_columns: Sütun ekle ...
         filters: Filtreler
         display_sums: Toplamları görüntüle
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
         errors:
-          unretrievable_query: URL'den sorgu alınamadı
-          not_found: Böyle bir sorgu bulunmamakta
-        text_no_results: Aranan sorgu maalesef bulunamadı.
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
       table:
         configure_button: İş paketi tablosunu kopyala
         summary: İş paketi satır tabloları ve iş paketi nitelik sütunları.
@@ -611,7 +620,7 @@ tr:
         button: Bu iş paketi tablosunu yapılandır
         modal_title: İş paketi tablosu yapılandırma
         embedded_tab_disabled: This configuration tab is not available for the embedded
-          query you're editing.
+          view you're editing.
         display_settings: Display settings
         grouped_mode: Gruplandırılmış mod
         grouped_hint: Table results will be grouped by the given attribute.
@@ -649,13 +658,14 @@ tr:
         save: Kaydet
         save_as: Farklı kaydet ...
         export: Dışa aktar ...
-        publish: Yayımla...
+        visibility_settings: Visibility settings ...
         page_settings: Rename view ...
         delete: Sil
       filter: Filtre
       unselected_title: İş paketi
-      search_query_label: Kaydedilmiş arama filtrelerini ara
-      search_query_title: Kaydedilmiş arama filtrelerini aramak için tıkla
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
     modals:
       label_settings: Rename view
       label_name: İsim

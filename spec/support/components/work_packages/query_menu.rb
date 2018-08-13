@@ -31,23 +31,24 @@ module Components
     class QueryMenu
       include Capybara::DSL
       include RSpec::Matchers
+      include ::Components::UIAutocompleteHelpers
 
       def select(query)
-        page.find(selector).click
-
-        page.fill_in 'query-title-filter', with: query.name
-
-        page.within(results_container) do
-          page.find('.ui-menu-item-wrapper', text: query.name).click
-        end
+        select_autocomplete autocompleter,
+                            results_selector: autocompleter_results_selector,
+                            query: query
       end
 
-      def selector
-        '.wp-table--query-menu-link'
+      def autocompleter
+        page.find autocompleter_selector
       end
 
-      def results_container
-        '.search-query-wrapper'
+      def autocompleter_results_selector
+        '.wp-query-menu--results-container'
+      end
+
+      def autocompleter_selector
+        '#query-title-filter'
       end
     end
   end

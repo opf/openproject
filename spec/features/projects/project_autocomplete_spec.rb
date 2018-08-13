@@ -34,21 +34,21 @@ describe 'Projects autocomplete page', type: :feature, js: true do
 
   let!(:project) do
     FactoryBot.create(:project,
-                       name: 'Plain project',
-                       identifier: 'plain-project')
+                      name: 'Plain project',
+                      identifier: 'plain-project')
   end
 
   let!(:project2) do
     FactoryBot.create(:project,
-                       name: '<strong>foobar</strong>',
-                       identifier: 'foobar')
+                      name: '<strong>foobar</strong>',
+                      identifier: 'foobar')
   end
 
   let!(:project3) do
     FactoryBot.create(:project,
-                       name: 'Plain other project',
-                       parent: project2,
-                       identifier: 'plain-project-2')
+                      name: 'Plain other project',
+                      parent: project2,
+                      identifier: 'plain-project-2')
   end
 
   let!(:other_projects) do
@@ -133,13 +133,13 @@ describe 'Projects autocomplete page', type: :feature, js: true do
 
     # Keeps the current module
     visit project_work_packages_path(project2)
-    expect(page).to have_selector('.all-open-wps-menu-item.selected')
+    expect(page).to have_selector('.ui-menu-item.selected', text: 'All open')
 
     top_menu.toggle
     top_menu.expect_open
     top_menu.search_and_select 'Plain project'
 
     expect(current_path).to eq(project_work_packages_path(project))
-    expect(page).to have_selector('.all-open-wps-menu-item.selected')
+    expect(page).to have_selector('.ui-menu-item.selected', text: 'All open')
   end
 end

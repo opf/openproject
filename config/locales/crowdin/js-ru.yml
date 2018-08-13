@@ -108,7 +108,7 @@ ru:
       internal: Произошла внутренняя ошибка.
       cannot_save_changes_with_message: 'Не удается сохранить изменения из-за следующей
         ошибки: %{error}'
-      query_saving: Запрос не может быть сохранен.
+      query_saving: Представление не может быть сохранено.
     filter:
       description:
         text_open_filter: Откройте этот фильтр с «ALT» и клавишей со стрелкой.
@@ -186,7 +186,7 @@ ru:
     label_in: в
     label_in_less_than: менее чем
     label_in_more_than: более чем
-    label_latest_activity: Последняя активность
+    label_latest_activity: Последние действия
     label_last_updated_on: Последний раз обновлено
     label_less_or_equal: "<="
     label_less_than_ago: меньше чем день назад
@@ -224,6 +224,9 @@ ru:
     label_sort_higher: Переместить вверх
     label_sort_lower: Переместить вниз
     label_sorting: Сортировка
+    label_star_query: Добавлено в избранное
+    label_press_enter_to_save: Нажмите ввод для сохранения.
+    label_public_query: Общий
     label_sum_for: Сумма для
     label_subject: Тема
     label_this_week: на этой неделе
@@ -232,7 +235,6 @@ ru:
     label_activity_show_only_comments: Показать только деятельности с комментариями
     label_activity_show_all: Показать все активности
     label_total_progress: "%{percent}% общего прогресса"
-    label_visible_for_others: Просмотреть видимое для других
     label_updated_on: Обновлено
     label_warning: Предупреждение
     label_work_package: Пакет работ
@@ -245,8 +247,10 @@ ru:
     label_unwatch: Прекратить наблюдение
     label_unwatch_work_package: Прекратить наблюдение за пакетом работ
     label_uploaded_by: Загружено
-    label_global_queries: Общие запросы
-    label_custom_queries: Частные запросы
+    label_default_queries: Представления по умолчанию
+    label_starred_queries: Избранные представления
+    label_global_queries: Публичные представления
+    label_custom_queries: Приватные представления
     label_columns: Столбцы
     label_attachments: Файлы
     label_drop_files: Перетащите файлы сюда
@@ -383,7 +387,7 @@ ru:
       activate_no: активировать для удаления сортировки
     text_work_packages_destroy_confirmation: Вы уверены, что хотите удалить выбранные
       пакет(-ы) работ?
-    text_query_destroy_confirmation: Вы уверены, что хотите удалить выбранный запрос?
+    text_query_destroy_confirmation: Уверены, что хотите удалить выбранное представление?
     text_attachment_destroy_confirmation: Вы уверены, что вы хотите удалить вложение?
     timelines:
       gantt_chart: Диаграмма Гантта
@@ -414,14 +418,6 @@ ru:
         report_epicfail: График не может быть загружен из-за неожиданной ошибки.
         report_timeout: График не может быть загружен в разумный период времени.
       filter:
-        column:
-          assigned_to: Назначенный
-          type: Тип
-          due_date: Дате окончания
-          name: Имя
-          status: Состояние
-          responsible: Ответственный
-          start_date: Дата начала
         grouping_other: Другие
         noneSelection: "(нет)"
       name: Имя
@@ -544,7 +540,7 @@ ru:
           отфильтрованные дочерние элементы
       faulty_query:
         title: Не удалось загрузить рабочие пакеты.
-        description: Ваш запрос ошибочен и не может быть обработан.
+        description: Ваше представление ошибочно и не может быть обработано.
       no_results:
         title: Нет пакетов работ для показа.
         description: Ничего не найдено.
@@ -575,6 +571,13 @@ ru:
         updatedAt: Обновлено
         versionName: Этап
         version: Этап
+      default_queries:
+        latest_activity: Последние действия
+        created_by_me: Создано мной
+        assigned_to_me: Предназначено для меня
+        recently_created: Недавно созданное
+        all_open: Все открытые
+        summary: Сводка
       jump_marks:
         pagination: Перейти вёрстке таблицы
         label_pagination: Кликните здесь чтобы пропустить таблицу рабочих пакетов
@@ -599,10 +602,16 @@ ru:
         insert_columns: Вставьте столбцы...
         filters: Фильтры
         display_sums: Отображение суммы
+        confirm_edit_cancel: Уверены, что хотите отменить редактирование названия
+          этого представления? Заголовку будет присвоено прежнее название.
+        click_to_edit_query_name: Кликните, чтобы изменить название этого представления.
+        rename_query_placeholder: Название этого представления
         errors:
-          unretrievable_query: Не удается получить запрос из URL-адреса
-          not_found: Нет такого запроса
-        text_no_results: Подходящие запросы не найдены.
+          unretrievable_query: Не удается получить представление из URL-адреса
+          not_found: Нет такого представления
+          duplicate_query_title: Представление с таким именем уже существует. Менять
+            в любом случае?
+        text_no_results: Подходящие представления не найдены.
       table:
         configure_button: Настроить таблицу пакетов работ
         summary: Таблица с названиями пакетов работ в строках и атрибутами пакетов
@@ -617,7 +626,7 @@ ru:
         button: Настроить эту таблицу пакетов работ
         modal_title: Настройка таблицы пакетов работ
         embedded_tab_disabled: Эта вкладка конфигурации не доступна для редактируемого
-          вами встроенного запроса.
+          вами встроенного представления.
         display_settings: Настройки экрана
         grouped_mode: Режим группировки
         grouped_hint: Результаты таблицы будет сгруппированы по заданным атрибутом.
@@ -655,13 +664,14 @@ ru:
         save: Сохранить
         save_as: Сохранить как ...
         export: Экспортировать ...
-        publish: Опубликовать...
+        visibility_settings: Параметры видимости ...
         page_settings: Переименовать представления...
         delete: Удалить
       filter: Фильтр
       unselected_title: Пакет работ
-      search_query_label: Поиск сохраненого фильтра запросов
-      search_query_title: Кликните для поиска сохраненного фильтра запросов
+      search_query_label: Найти сохраненные представления
+      search_query_title: Кликните для поиска сохраненных представлений
+      placeholder_query_title: Задать заголовок для этого представления
     modals:
       label_settings: Переименовать представления
       label_name: Имя

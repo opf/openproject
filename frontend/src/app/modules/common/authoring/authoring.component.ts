@@ -34,6 +34,7 @@ import {TimezoneService} from 'core-components/datetime/timezone.service';
 
 @Component({
   templateUrl: './authoring.html',
+  styleUrls: ['./authoring.sass'],
   selector: 'authoring',
 })
 export class AuthoringComponent implements OnInit {

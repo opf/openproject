@@ -512,7 +512,7 @@ class ApplicationController < ActionController::Base
   #
   # @return [boolean, string] name of the layout to use or false for no layout
   def use_layout
-    request.xhr? ? false : 'base'
+    request.xhr? ? false : 'no_menu'
   end
 
   def render_feed(items, options = {})

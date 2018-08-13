@@ -35,12 +35,10 @@ describe 'robots.txt', type: :feature do
     visit '/robots.txt'
   end
 
-  it 'disallows global paths' do
+  it 'disallows global paths and paths from public project' do
     expect(page).to have_content('Disallow: /work_packages/calendar')
     expect(page).to have_content('Disallow: /activity')
-  end
-
-  it 'disallows paths from the public project' do
+    
     expect(page).to have_content("Disallow: /projects/#{project.identifier}/repository")
     expect(page).to have_content("Disallow: /projects/#{project.identifier}/work_packages")
     expect(page).to have_content("Disallow: /projects/#{project.identifier}/activity")

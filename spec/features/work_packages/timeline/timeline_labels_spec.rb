@@ -37,7 +37,6 @@ RSpec.feature 'Work package timeline labels',
   let(:milestone_type) { FactoryBot.create(:type, is_milestone: true) }
 
   let(:project) { FactoryBot.create(:project, types: [type, milestone_type]) }
-  let(:query_menu) { Components::WorkPackages::QueryMenu.new }
   let(:settings_menu) { Components::WorkPackages::SettingsMenu.new }
   let(:config_modal) { Components::Timelines::ConfigurationModal.new }
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(project) }

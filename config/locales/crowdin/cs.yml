@@ -995,6 +995,7 @@ cs:
   error_enterprise_activation_user_limit: Váš účet nebyl aktivován (dosažen limit
     počtu uživatelů). Prosím obraťte se na správce pro získání přístupu.
   error_failed_to_delete_entry: Failed to delete this entry.
+  error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
   error_invalid_sort_criterion: 'Can''t sort by column: %{value}'
@@ -2222,7 +2223,6 @@ cs:
   setting_welcome_text: Welcome block text
   setting_welcome_title: Welcome block title
   setting_welcome_on_homescreen: Display welcome block on homescreen
-  setting_welcome_on_projects_page: Display welcome block on project overview
   setting_wiki_compression: Wiki history compression
   setting_work_package_group_assignment: Povolit přiřazení do skupin
   settings:

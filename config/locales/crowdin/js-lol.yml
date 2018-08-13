@@ -98,7 +98,7 @@ lol:
     error:
       internal: crwdns98376:0crwdne98376:0
       cannot_save_changes_with_message: crwdns99001:0%{error}crwdne99001:0
-      query_saving: crwdns98900:0crwdne98900:0
+      query_saving: crwdns99083:0crwdne99083:0
     filter:
       description:
         text_open_filter: crwdns98377:0crwdne98377:0
@@ -173,7 +173,7 @@ lol:
     label_in: crwdns98439:0crwdne98439:0
     label_in_less_than: crwdns98440:0crwdne98440:0
     label_in_more_than: crwdns98441:0crwdne98441:0
-    label_latest_activity: crwdns98442:0crwdne98442:0
+    label_latest_activity: crwdns99084:0crwdne99084:0
     label_last_updated_on: crwdns98443:0crwdne98443:0
     label_less_or_equal: crwdns98444:0crwdne98444:0
     label_less_than_ago: crwdns98445:0crwdne98445:0
@@ -211,6 +211,9 @@ lol:
     label_sort_higher: crwdns98476:0crwdne98476:0
     label_sort_lower: crwdns98477:0crwdne98477:0
     label_sorting: crwdns98478:0crwdne98478:0
+    label_star_query: crwdns99085:0crwdne99085:0
+    label_press_enter_to_save: crwdns99086:0crwdne99086:0
+    label_public_query: crwdns99087:0crwdne99087:0
     label_sum_for: crwdns98479:0crwdne98479:0
     label_subject: crwdns98480:0crwdne98480:0
     label_this_week: crwdns98481:0crwdne98481:0
@@ -219,7 +222,6 @@ lol:
     label_activity_show_only_comments: crwdns98483:0crwdne98483:0
     label_activity_show_all: crwdns98484:0crwdne98484:0
     label_total_progress: crwdns98485:0%{percent}crwdne98485:0
-    label_visible_for_others: crwdns99004:0crwdne99004:0
     label_updated_on: crwdns98487:0crwdne98487:0
     label_warning: crwdns98488:0crwdne98488:0
     label_work_package: crwdns98489:0crwdne98489:0
@@ -232,8 +234,10 @@ lol:
     label_unwatch: crwdns98496:0crwdne98496:0
     label_unwatch_work_package: crwdns98497:0crwdne98497:0
     label_uploaded_by: crwdns98498:0crwdne98498:0
-    label_global_queries: crwdns98499:0crwdne98499:0
-    label_custom_queries: crwdns98500:0crwdne98500:0
+    label_default_queries: crwdns99088:0crwdne99088:0
+    label_starred_queries: crwdns99089:0crwdne99089:0
+    label_global_queries: crwdns99090:0crwdne99090:0
+    label_custom_queries: crwdns99091:0crwdne99091:0
     label_columns: crwdns98501:0crwdne98501:0
     label_attachments: crwdns98502:0crwdne98502:0
     label_drop_files: crwdns98503:0crwdne98503:0
@@ -357,7 +361,7 @@ lol:
       activate_dsc: crwdns98593:0crwdne98593:0
       activate_no: crwdns98594:0crwdne98594:0
     text_work_packages_destroy_confirmation: crwdns98595:0crwdne98595:0
-    text_query_destroy_confirmation: crwdns98596:0crwdne98596:0
+    text_query_destroy_confirmation: crwdns99092:0crwdne99092:0
     text_attachment_destroy_confirmation: crwdns98597:0crwdne98597:0
     timelines:
       gantt_chart: crwdns98598:0crwdne98598:0
@@ -383,14 +387,6 @@ lol:
         report_epicfail: crwdns98614:0crwdne98614:0
         report_timeout: crwdns98615:0crwdne98615:0
       filter:
-        column:
-          assigned_to: crwdns98616:0crwdne98616:0
-          type: crwdns98617:0crwdne98617:0
-          due_date: crwdns98618:0crwdne98618:0
-          name: crwdns98619:0crwdne98619:0
-          status: crwdns98620:0crwdne98620:0
-          responsible: crwdns98621:0crwdne98621:0
-          start_date: crwdns98622:0crwdne98622:0
         grouping_other: crwdns98623:0crwdne98623:0
         noneSelection: crwdns98624:0crwdne98624:0
       name: crwdns98625:0crwdne98625:0
@@ -500,7 +496,7 @@ lol:
         children_expanded: crwdns98715:0%{level}crwdne98715:0
       faulty_query:
         title: crwdns98716:0crwdne98716:0
-        description: crwdns98717:0crwdne98717:0
+        description: crwdns99093:0crwdne99093:0
       no_results:
         title: crwdns98718:0crwdne98718:0
         description: crwdns98719:0crwdne98719:0
@@ -531,6 +527,13 @@ lol:
         updatedAt: crwdns98742:0crwdne98742:0
         versionName: crwdns98743:0crwdne98743:0
         version: crwdns98744:0crwdne98744:0
+      default_queries:
+        latest_activity: crwdns99094:0crwdne99094:0
+        created_by_me: crwdns99095:0crwdne99095:0
+        assigned_to_me: crwdns99096:0crwdne99096:0
+        recently_created: crwdns99097:0crwdne99097:0
+        all_open: crwdns99098:0crwdne99098:0
+        summary: crwdns99099:0crwdne99099:0
       jump_marks:
         pagination: crwdns98745:0crwdne98745:0
         label_pagination: crwdns98746:0crwdne98746:0
@@ -553,10 +556,14 @@ lol:
         insert_columns: crwdns98762:0crwdne98762:0
         filters: crwdns98763:0crwdne98763:0
         display_sums: crwdns98764:0crwdne98764:0
+        confirm_edit_cancel: crwdns99100:0crwdne99100:0
+        click_to_edit_query_name: crwdns99101:0crwdne99101:0
+        rename_query_placeholder: crwdns99102:0crwdne99102:0
         errors:
-          unretrievable_query: crwdns98765:0crwdne98765:0
-          not_found: crwdns98766:0crwdne98766:0
-        text_no_results: crwdns98767:0crwdne98767:0
+          unretrievable_query: crwdns99103:0crwdne99103:0
+          not_found: crwdns99104:0crwdne99104:0
+          duplicate_query_title: crwdns99105:0crwdne99105:0
+        text_no_results: crwdns99106:0crwdne99106:0
       table:
         configure_button: crwdns98907:0crwdne98907:0
         summary: crwdns98768:0crwdne98768:0
@@ -566,7 +573,7 @@ lol:
       table_configuration:
         button: crwdns98908:0crwdne98908:0
         modal_title: crwdns98909:0crwdne98909:0
-        embedded_tab_disabled: crwdns98910:0crwdne98910:0
+        embedded_tab_disabled: crwdns99107:0crwdne99107:0
         display_settings: crwdns98911:0crwdne98911:0
         grouped_mode: crwdns98912:0crwdne98912:0
         grouped_hint: crwdns98913:0crwdne98913:0
@@ -599,13 +606,14 @@ lol:
         save: crwdns98787:0crwdne98787:0
         save_as: crwdns98788:0crwdne98788:0
         export: crwdns98789:0crwdne98789:0
-        publish: crwdns98790:0crwdne98790:0
+        visibility_settings: crwdns99108:0crwdne99108:0
         page_settings: crwdns99067:0crwdne99067:0
         delete: crwdns98792:0crwdne98792:0
       filter: crwdns98793:0crwdne98793:0
       unselected_title: crwdns98794:0crwdne98794:0
-      search_query_label: crwdns98795:0crwdne98795:0
-      search_query_title: crwdns98796:0crwdne98796:0
+      search_query_label: crwdns99109:0crwdne99109:0
+      search_query_title: crwdns99110:0crwdne99110:0
+      placeholder_query_title: crwdns99111:0crwdne99111:0
     modals:
       label_settings: crwdns99068:0crwdne99068:0
       label_name: crwdns98798:0crwdne98798:0

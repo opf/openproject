@@ -104,6 +104,9 @@ module OpenProject::TextFormatting::Formats
 
       def read_output_formats
         run_pandoc! %w[--list-output-formats]
+      rescue StandardError => e
+        warn "Failed to detect output format (Error was: #{e}). Falling back to github_markdown"
+        ''
       end
     end
   end

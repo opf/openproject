@@ -1,5 +1,5 @@
 import {
-  ApplicationRef,
+  ApplicationRef, ChangeDetectorRef,
   Component,
   ComponentFactoryResolver,
   ElementRef, EventEmitter,
@@ -76,9 +76,10 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
               readonly wpStatesInitialization:WorkPackageStatesInitializationService,
               readonly wpNotificationsService:WorkPackageNotificationService,
               readonly wpTableColumns:WorkPackageTableColumnsService,
+              readonly cdRef:ChangeDetectorRef,
               readonly ConfigurationService:ConfigurationService,
               readonly elementRef:ElementRef) {
-    super(locals, elementRef);
+    super(locals, cdRef, elementRef);
   }
 
   ngOnInit() {

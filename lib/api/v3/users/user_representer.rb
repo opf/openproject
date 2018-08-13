@@ -33,12 +33,19 @@ module API
     module Users
       class UserRepresenter < ::API::V3::Principals::PrincipalRepresenter
         include AvatarHelper
+        ##
+        # Dependencies required to cache users with avatars
+        # Extended by plugin
+        def self.avatar_cache_dependencies
+          []
+        end
 
-        cached_representer key_parts: %i(auth_source)
+        cached_representer key_parts: %i(auth_source), dependencies: ->(*) { avatar_cache_dependencies }
 
         def self.create(user, current_user:)
           new(user, current_user: current_user)
         end
+
 
         def initialize(user, current_user:)
           super(user, current_user: current_user)

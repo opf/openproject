@@ -43,6 +43,7 @@ class TimelogController < ApplicationController
   include TimelogHelper
   include CustomFieldsHelper
   include PaginationHelper
+  include Concerns::Layout
   include OpenProject::ClientPreferenceExtractor
 
   menu_item :time_entries
@@ -93,7 +94,7 @@ class TimelogController < ApplicationController
         gon.total_count = total_entry_count(cond)
         gon.settings = client_preferences
 
-        render layout: !request.xhr?
+        render layout: layout_non_or_no_menu
       end
       format.json do
         set_entries(cond)

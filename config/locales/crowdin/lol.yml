@@ -883,6 +883,7 @@ lol:
   error_dependent_work_package: crwdns98962:0%{related_id}crwdnd98962:0%{related_subject}crwdnd98962:0%{error}crwdne98962:0
   error_enterprise_activation_user_limit: crwdns98982:0crwdne98982:0
   error_failed_to_delete_entry: crwdns97001:0crwdne97001:0
+  error_invalid_selected_value: crwdns99082:0crwdne99082:0
   error_invalid_group_by: crwdns97002:0%{value}crwdne97002:0
   error_invalid_query_column: crwdns97003:0%{value}crwdne97003:0
   error_invalid_sort_criterion: crwdns97004:0%{value}crwdne97004:0
@@ -1985,7 +1986,6 @@ lol:
   setting_welcome_text: crwdns97985:0crwdne97985:0
   setting_welcome_title: crwdns97986:0crwdne97986:0
   setting_welcome_on_homescreen: crwdns97987:0crwdne97987:0
-  setting_welcome_on_projects_page: crwdns97988:0crwdne97988:0
   setting_wiki_compression: crwdns97989:0crwdne97989:0
   setting_work_package_group_assignment: crwdns97990:0crwdne97990:0
   settings:

@@ -4,6 +4,7 @@ targets:
   debian-8: &debian8
     build_dependencies:
       - libsqlite3-dev
+      - pandoc
   debian-9:
     <<: *debian8
   ubuntu-14.04:
@@ -14,10 +15,8 @@ targets:
     <<: *debian8
   centos-7:
    dependencies:
+      - pandoc
       - epel-release
-  sles-11:
-    build_dependencies:
-      - sqlite3-devel
   sles-12:
     build_dependencies:
       - sqlite3-devel
