@@ -90,7 +90,7 @@ export class WorkPackageStaticQueriesService {
     {
       identifier: 'all_open',
       label: this.text.all_open,
-      query_props: '{%22c%22:[%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22,%22version%22,%22updatedAt%22],%22t%22:%22updatedAt:desc,parent:asc%22}'
+      query_props: null
     }
     ] as IAutocompleteItem[];
 
