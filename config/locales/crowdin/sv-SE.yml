@@ -1662,6 +1662,7 @@ sv-SE:
   macro_execution_error: Fel under körning av makrot %{macro_name}
   macro_unavailable: Makrot %{macro_name} kan inte visas.
   macros:
+    placeholder: "[Placeholder] Macro %{macro_name}"
     errors:
       missing_or_invalid_parameter: Saknad eller ogiltig makro-parameter.
     legacy_warning:

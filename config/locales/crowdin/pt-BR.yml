@@ -1672,6 +1672,7 @@ pt-BR:
   macro_execution_error: Erro de execução da macro %{macro_name}
   macro_unavailable: Macro %{macro_name} não pode ser exibida.
   macros:
+    placeholder: "[Placeholder] Macro %{macro_name}"
     errors:
       missing_or_invalid_parameter: Parâmetro de macro ausente ou inválido.
     legacy_warning:

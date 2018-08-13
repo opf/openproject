@@ -1669,6 +1669,7 @@ hu:
   macro_execution_error: Hiba a makro %{macro_name} végrehajtásában
   macro_unavailable: A %{macro_name} makró nem jeleníthető meg.
   macros:
+    placeholder: "[Placeholder] Macro %{macro_name}"
     errors:
       missing_or_invalid_parameter: Missing or invalid macro parameter.
     legacy_warning:

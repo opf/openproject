@@ -1663,6 +1663,7 @@ tr:
   macro_execution_error: Makroyu çalıştırırken hata oluştu %{macro_name}
   macro_unavailable: Makro %{macro_name} görüntülenemiyor.
   macros:
+    placeholder: "[Placeholder] Macro %{macro_name}"
     errors:
       missing_or_invalid_parameter: Eksik ya da geçersiz macro parametreleri.
     legacy_warning:

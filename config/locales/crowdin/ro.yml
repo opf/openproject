@@ -1694,6 +1694,7 @@ ro:
   macro_execution_error: Eroare la execuția macro-ului %{macro_name}
   macro_unavailable: Macro-ul %{macro_name} nu poate fi afișat.
   macros:
+    placeholder: "[Placeholder] Macro %{macro_name}"
     errors:
       missing_or_invalid_parameter: Missing or invalid macro parameter.
     legacy_warning:

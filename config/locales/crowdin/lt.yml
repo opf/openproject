@@ -1709,6 +1709,7 @@ lt:
   macro_execution_error: Klaida vykdant makrokomandą %{macro_name}
   macro_unavailable: Makrokomanda %{macro_name} negali būti rodoma.
   macros:
+    placeholder: "[Placeholder] Macro %{macro_name}"
     errors:
       missing_or_invalid_parameter: Missing or invalid macro parameter.
     legacy_warning:

@@ -1687,6 +1687,7 @@ nl:
   macro_execution_error: Fout bij het uitvoeren van de macro %{macro_name}
   macro_unavailable: Macro %{macro_name} kan niet worden weergegeven.
   macros:
+    placeholder: "[Placeholder] Macro %{macro_name}"
     errors:
       missing_or_invalid_parameter: Ontbrekende of ongeldige parameter van de macro.
     legacy_warning:
