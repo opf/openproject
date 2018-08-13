@@ -401,7 +401,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     const currentId = _.toString(this.$state.params.query_id);
     let opts = {reload: false};
 
-    if (params.query_id && params.query_id === currentId.toString()) {
+    if (item.identifier || params.query_id && params.query_id === currentId.toString()) {
       this.wpListChecksumService.clear();
       opts.reload = true;
     }
