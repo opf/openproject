@@ -136,6 +136,10 @@ module OpenProject
       end
     end
 
+    def self.semantic_version(version_string = self.version)
+      Gem::Version.new version_string
+    end
+
     def self.numeric_version
       case name
       when :mysql
