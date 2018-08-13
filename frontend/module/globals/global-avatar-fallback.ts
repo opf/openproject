@@ -49,7 +49,7 @@ window.addEventListener('error', (evt) => {
 
     if (target.dataset.avatarFallbackRemove) {
       parent && parent.removeChild(target);
-      return;
+      continue;
     }
 
     const classes = target.dataset.avatarFallbackIcon || 'icon icon-user avatar';
