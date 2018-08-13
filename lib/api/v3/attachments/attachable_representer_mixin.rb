@@ -60,7 +60,13 @@ module API
                    uncacheable: true
 
           def attachments
-            attachments = represented.attachments.includes(:container)
+            attachments = represented.attachments.includes(:container).to_a
+
+            # Concat any claimed attachments on this resource
+            # (e.g., when new an coming back from backend with an error)
+            claimed = represented.attachments_claimed
+            attachments.concat(claimed) unless claimed.nil?
+
             ::API::V3::Attachments::AttachmentCollectionRepresenter.new(attachments,
                                                                         attachments_by_resource,
                                                                         current_user: current_user)
