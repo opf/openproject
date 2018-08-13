@@ -292,7 +292,7 @@ class WorkPackage::PdfExport::WorkPackageToPdf < WorkPackage::Exporter::Base
         [
           attachment.filename,
           number_to_human_size(attachment.filesize, precision: 3),
-          format_date(attachment.created_on),
+          format_date(attachment.created_at),
           attachment.author.name
         ]
       end
