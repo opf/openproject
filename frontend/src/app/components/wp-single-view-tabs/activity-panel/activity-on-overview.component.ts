@@ -65,7 +65,17 @@ export class NewestActivityOnOverviewComponent extends ActivityPanelBaseControll
   }
 
   private latestActivities(visible:number = 3) {
-    let segment = this.unfilteredActivities.slice(-visible);
-    return segment.map((el:HalResource, i:number) => this.info(el, i));
+
+    if (this.reverse) {
+      // In reverse, we already get reversed entries from API.
+      // So simply take the first three
+      let segment = this.unfilteredActivities.slice(0, visible);
+      return segment.map((el:HalResource, i:number) => this.info(el, i));
+    } else {
+      // In ascending sort, take the last three items
+      let segment = this.unfilteredActivities.slice(-visible);
+      let startIndex = this.unfilteredActivities.length - segment.length;
+      return segment.map((el:HalResource, i:number) => this.info(el, startIndex + i));
+    }
   }
 }
