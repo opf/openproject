@@ -44,6 +44,12 @@ module OpenProject::TextFormatting
           registered.each do |macro_class|
             next unless Array(macro['class']).include? macro_class.identifier
 
+            # If requested to skip macro expansion, do that
+            if context[:disable_macro_expansion]
+              macro.replace macro_placeholder(macro_class)
+              break
+            end
+
             begin
               macro_class.apply(macro, result: result, context: context)
             rescue => e
@@ -65,6 +71,14 @@ module OpenProject::TextFormatting
                                                   class: 'macro-unavailable',
                                                   data: { macro_name: macro_class.identifier }
       end
+
+
+      def macro_placeholder(macro_class)
+        ApplicationController.helpers.content_tag :macro,
+                                                  I18n.t('macros.placeholder', macro_name: macro_class.identifier),
+                                                  class: 'macro-placeholder',
+                                                  data: { macro_name: macro_class.identifier }
+      end
     end
   end
 end
@@ -73,5 +87,6 @@ OpenProject::TextFormatting::Filters::MacroFilter.register(
   OpenProject::TextFormatting::Filters::Macros::Toc,
   OpenProject::TextFormatting::Filters::Macros::CreateWorkPackageLink,
   OpenProject::TextFormatting::Filters::Macros::IncludeWikiPage,
+  OpenProject::TextFormatting::Filters::Macros::EmbeddedTable,
   OpenProject::TextFormatting::Filters::Macros::ChildPages
 )
