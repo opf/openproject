@@ -1714,7 +1714,7 @@ ru:
   macro_execution_error: Ошибка при выполнении макроса %{macro_name}
   macro_unavailable: Макрос %{macro_name} не может быть отображен.
   macros:
-    placeholder: "[Placeholder] Macro %{macro_name}"
+    placeholder: макро [Placeholder] %{macro_name}
     errors:
       missing_or_invalid_parameter: Отсутствующие или недопустимые параметры макроса.
     legacy_warning:
