@@ -285,7 +285,10 @@ class WikiController < ApplicationController
 
   def diff
     if (@diff = @page.diff(params[:version], params[:version_from]))
-      @html_diff = HTMLDiff::DiffBuilder.new(@diff.content_from.data.text, @diff.content_to.data.text).build
+      @html_diff = HTMLDiff::DiffBuilder.new(
+        helpers.format_text(@diff.content_from.data.text, disable_macro_expansion: true),
+        helpers.format_text(@diff.content_to.data.text, disable_macro_expansion: true)
+      ).build
     else
       render_404
     end

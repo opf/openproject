@@ -1740,6 +1740,7 @@ ar:
   macro_execution_error: خطأ في تنفيذ %{macro_name} الماكرو
   macro_unavailable: لا يمكن عرض الماكرو %{macro_name}.
   macros:
+    placeholder: "[Placeholder] Macro %{macro_name}"
     errors:
       missing_or_invalid_parameter: Missing or invalid macro parameter.
     legacy_warning:

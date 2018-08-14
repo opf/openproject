@@ -1564,6 +1564,7 @@ ja:
   macro_execution_error: マクロ%{macro_name}を実行中にエラーが発生しました。
   macro_unavailable: マクロ%{macro_name}を表示できません。
   macros:
+    placeholder: "[Placeholder] Macro %{macro_name}"
     errors:
       missing_or_invalid_parameter: マクロパラメータがないか無効です。
     legacy_warning:

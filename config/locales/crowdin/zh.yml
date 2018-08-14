@@ -1564,6 +1564,7 @@ zh:
   macro_execution_error: 执行宏 %{macro_name} 出错
   macro_unavailable: 无法显示宏 %{macro_name} 。
   macros:
+    placeholder: "[Placeholder] Macro %{macro_name}"
     errors:
       missing_or_invalid_parameter: 缺少或无效的宏参数。
     legacy_warning:

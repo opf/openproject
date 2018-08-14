@@ -65,8 +65,18 @@ module OpenProject::TextFormatting::Formats
       BLOCKQUOTE_START = "TextileConverterBlockquoteStart09339cab-f4f4-4739-85b0-d02ba1f342e6".freeze
       BLOCKQUOTE_END = "TextileConverterBlockquoteEnd09339cab-f4f4-4739-85b0-d02ba1f342e6".freeze
 
+      attr_reader :pandoc
+
+      def initialize
+        @pandoc = PandocWrapper.new
+      end
+
       def run!
         puts 'Starting conversion of Textile fields to CommonMark+GFM.'
+
+
+        puts 'Checking compatibility of your installed pandoc version.'
+        pandoc.check_arguments!
 
         ActiveRecord::Base.transaction do
           converters.each(&:call)
@@ -192,8 +202,7 @@ module OpenProject::TextFormatting::Formats
       end
 
       def execute_pandoc_with_stdin!(textile)
-        wrapper = PandocWrapper.new
-        wrapper.execute! textile
+        pandoc.execute! textile
       rescue StandardError => e
         raise "Execution of pandoc failed: #{e}"
       end

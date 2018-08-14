@@ -39,6 +39,11 @@ module OpenProject::TextFormatting::Formats
         run_pandoc! pandoc_arguments, stdin_data: stdin
       end
 
+      def check_arguments!
+        wrap_mode
+        read_output_formats
+      end
+
       def pandoc_arguments
         [
           wrap_mode,
@@ -68,15 +73,17 @@ module OpenProject::TextFormatting::Formats
       # In older versions we try to use the deprecated --no-wrap instead
       # --atx-headers will lead to headers like `### Some header` and '## Another header'
       def wrap_mode
-        usage = read_usage_string
+        @wrap_mode ||= begin
+          usage = read_usage_string
 
-        # Detect wrap usage
-        if usage.include? '--wrap='
-          '--wrap=preserve'
-        elsif usage.include? '--no-wrap'
-          '--no-wrap'
-        else
-          raise 'Your pandoc version has neither --no-wrap nor --wrap=preserve. Please install a recent version of pandoc.'
+          # Detect wrap usage
+          if usage.include? '--wrap='
+            '--wrap=preserve'
+          elsif usage.include? '--no-wrap'
+            '--no-wrap'
+          else
+            raise 'Your pandoc version has neither --no-wrap nor --wrap=preserve. Please install a recent version of pandoc.'
+          end
         end
       end
 
@@ -103,10 +110,14 @@ module OpenProject::TextFormatting::Formats
       end
 
       def read_output_formats
-        run_pandoc! %w[--list-output-formats]
-      rescue StandardError => e
-        warn "Failed to detect output format (Error was: #{e}). Falling back to github_markdown"
-        ''
+        @output_formats ||= begin
+          begin
+            run_pandoc! %w[--list-output-formats]
+          rescue StandardError => e
+            warn "Failed to detect output format (Error was: #{e}). Falling back to github_markdown"
+            ''
+          end
+        end
       end
     end
   end
