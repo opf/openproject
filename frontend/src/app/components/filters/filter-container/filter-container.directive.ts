@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Inject, OnDestroy} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {WorkPackageTableFiltersService} from 'core-components/wp-fast-table/state/wp-table-filters.service';
 import {WorkPackageTableFilters} from 'core-components/wp-fast-table/wp-table-filters';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
@@ -43,7 +43,9 @@ export class WorkPackageFilterContainerComponent implements OnDestroy {
               readonly wpFiltersService:WorkPackageFiltersService) {
     this.wpTableFilters
       .observeUntil(componentDestroyed(this))
-      .subscribe(() => this.filters = this.wpTableFilters.currentState);
+      .subscribe(() => {
+        this.filters = this.wpTableFilters.currentState;
+    });
   }
 
   ngOnDestroy() {

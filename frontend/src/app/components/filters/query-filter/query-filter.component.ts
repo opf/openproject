@@ -73,6 +73,14 @@ export class QueryFilterComponent implements OnInit, OnDestroy {
     this.deactivateFilter.emit(this.filter);
   }
 
+  public get valueType():string|undefined {
+    if (this.filter.currentSchema && this.filter.currentSchema.values) {
+      return this.filter.currentSchema.values.type;
+    }
+
+    return undefined;
+  }
+
   ngOnInit() {
     this.eeShowBanners = jQuery('body').hasClass('ee-banners-visible');
     this.availableOperators = this.filter.schema.availableOperators;

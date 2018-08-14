@@ -172,17 +172,12 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
   }
 
   public registerTimeline(controller:WorkPackageTimelineTableController, body:HTMLElement) {
-    let t0 = performance.now();
-
     const tbody = this.$element.find('.work-package--results-tbody');
     this.workPackageTable = new WorkPackageTable(this.injector, this.$element[0], tbody[0], body, controller, this.configuration);
     this.tbody = tbody;
     controller.workPackageTable = this.workPackageTable;
     new TableHandlerRegistry(this.injector).attachTo(this.workPackageTable);
     this.cdRef.detectChanges();
-
-    let t1 = performance.now();
-    debugLog('Render took ', t1 - t0, ' milliseconds.');
   }
 
   public openTableConfigurationModal() {

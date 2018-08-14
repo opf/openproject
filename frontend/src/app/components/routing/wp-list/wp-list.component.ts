@@ -114,7 +114,13 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
     this.setupRefreshObserver();
 
     // Listen for param changes
-    this.$transitions.onSuccess({}, (transition) => {
+    this.$transitions.onSuccess({}, (transition):any => {
+      let options = transition.options();
+
+      // Avoid performing any changes when we're going to reload
+      if (options.reload || (options.custom && options.custom.notify === false)) {
+        return true;
+      }
 
       const params = transition.params('to');
       let newChecksum = this.wpListService.getCurrentQueryProps(params);
@@ -160,15 +166,6 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
     ).subscribe((query) => {
       this.updateTitle(query);
       this.currentQuery = query;
-    });
-
-    // Update the checksum and url query params whenever a new query is loaded
-    this.states.query.resource.values$().pipe(
-      untilComponentDestroyed(this),
-      distinctUntilChanged((query, formerQuery) => query.id === formerQuery.id),
-      withLatestFrom(this.wpTablePagination.state.values$())
-    ).subscribe(([query, pagination]) => {
-      this.wpListChecksumService.setToQuery(query, pagination);
     });
 
     this.tableState.ready.fireOnStateChange(this.wpTablePagination.state,
