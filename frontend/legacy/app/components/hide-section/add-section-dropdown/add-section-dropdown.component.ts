@@ -54,9 +54,9 @@ export class AddSectionDropdownComponent {
   subscribe() {
     this.allSubscription = combineLatest(this.HideSectionService.all$, this.HideSectionService.displayed$)
       .subscribe(([all, displayed]) => {
-        this.selectable = _.filter(all, all_candidate =>
-          !_.some(displayed, displayed_candidate => all_candidate.key === displayed_candidate.key)
-        ).sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()))
+        this.selectable = _.filter(all, (all_candidate:any) =>
+          !_.some(displayed, (displayed_candidate:any) => all_candidate.key === displayed_candidate.key)
+        ).sort((a:any, b:any) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()))
 
         this.selectable.unshift(this.placeholder());
 
