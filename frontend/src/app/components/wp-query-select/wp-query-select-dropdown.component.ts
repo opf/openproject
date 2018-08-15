@@ -399,10 +399,18 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   private loadQuery(item:IAutocompleteItem) {
     const params = this.getQueryParams(item);
     const currentId = _.toString(this.$state.params.query_id);
-    let opts = {reload: false};
+    let opts = { reload: false };
 
-    if (item.identifier || params.query_id && params.query_id === currentId.toString()) {
+    const isStaticItem = !!item.identifier;
+    const isSameItem = params.query_id && params.query_id === currentId.toString();
+
+
+    // Ensure we're loading the query
+    if (isStaticItem || isSameItem) {
       this.wpListChecksumService.clear();
+    }
+
+    if (isSameItem) {
       opts.reload = true;
     }
 

@@ -21,12 +21,7 @@ export class RowsTransformer {
         takeUntil(this.tableState.stopAllSubscriptions)
       )
       .subscribe((rows:WorkPackageResource[]) => {
-        var t0 = performance.now();
-
         table.initialSetup(rows);
-
-        var t1 = performance.now();
-        debugLog('[RowTransformer] Reinitialized in ' + (t1 - t0) + ' milliseconds.');
       });
 
     // Refresh a single row if it exists

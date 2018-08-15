@@ -55,7 +55,7 @@ export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
   public remainingFilters:any[] = [];
   public eeShowBanners:boolean = false;
   public focusElementIndex:number = 0;
-  public compareByName = AngularTrackingHelpers.compareByName;
+  public compareByName = AngularTrackingHelpers.trackByName;
 
   public text = {
     open_filter: this.I18n.t('js.filter.description.text_open_filter'),
