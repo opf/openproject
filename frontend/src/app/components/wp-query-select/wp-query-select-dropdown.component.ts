@@ -490,7 +490,11 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
 
           return true;
         })
-      .on('click', '.wp-query-menu--category-toggle', (evt:JQueryEventObject) => {
+      .on('click keydown', '.wp-query-menu--category-toggle', (evt:JQueryEventObject) => {
+        if (evt.type === 'keydown' && evt.which !== keyCodes.ENTER) {
+          return true;
+        }
+
         const target = jQuery(evt.target);
         const clickedCategory = target.data('category');
 
