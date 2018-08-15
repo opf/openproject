@@ -3,7 +3,8 @@ ro:
   no_results_title_text: În acest moment nu este nimic de afișat.
   activities:
     index:
-      no_results_title_text: Nu există activitate pentru acest proiect.
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: În acest moment nu există plugin-uri disponibile.
@@ -2335,7 +2336,8 @@ ro:
   text_journal_aggregation_time_explanation: Combină jurnalele de afişare dacă diferența
     de timp este mai mică decât intervalul specificat. Acest lucru va întârzia, de
     asemenea, notificările prin e-mail cu același interval.
-  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} actualizat"
   text_journal_changed_with_diff: "%{label} modificat (%{link})"
   text_journal_deleted: "%{label} șters (%{old})"

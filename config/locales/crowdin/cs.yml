@@ -3,7 +3,8 @@ cs:
   no_results_title_text: Momentálně není nic k zobrazení.
   activities:
     index:
-      no_results_title_text: Pro projekt neprobíhá žádná aktivita.
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: V současné době nejsou k dispozici žádné pluginy.
@@ -2329,7 +2330,8 @@ cs:
   text_journal_aggregation_time_explanation: Combine journals for display if their
     age difference is less than the specified timespan. This will also delay mail
     notifications by the same amount of time.
-  text_journal_changed: "%{label} se změnil z %{old} </br><strong></strong> %{new}"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} aktualizován"
   text_journal_changed_with_diff: "%{label} změněn (%{link})"
   text_journal_deleted: "%{label} smazán (%{old})"

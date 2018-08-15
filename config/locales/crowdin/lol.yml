@@ -3,7 +3,7 @@ lol:
   no_results_title_text: crwdns96368:0crwdne96368:0
   activities:
     index:
-      no_results_title_text: crwdns96369:0crwdne96369:0
+      no_results_title_text: crwdns99113:0crwdne99113:0
   admin:
     plugins:
       no_results_title_text: crwdns96370:0crwdne96370:0
@@ -2066,7 +2066,8 @@ lol:
   text_work_packages_ref_in_commit_messages: crwdns98044:0crwdne98044:0
   text_journal_added: crwdns98045:0%{label}crwdnd98045:0%{value}crwdne98045:0
   text_journal_aggregation_time_explanation: crwdns98046:0crwdne98046:0
-  text_journal_changed: crwdns98886:0%{label}crwdnd98886:0%{old}crwdnd98886:0%{new}crwdne98886:0
+  text_journal_changed: crwdns99114:0%{label}crwdnd99114:0%{old}crwdnd99114:0%{new}crwdne99114:0
+  text_journal_changed_plain: crwdns99115:0%{label}crwdnd99115:0%{old}crwdnd99115:0%{new}crwdne99115:0
   text_journal_changed_no_detail: crwdns98048:0%{label}crwdne98048:0
   text_journal_changed_with_diff: crwdns98049:0%{label}crwdnd98049:0%{link}crwdne98049:0
   text_journal_deleted: crwdns98050:0%{label}crwdnd98050:0%{old}crwdne98050:0

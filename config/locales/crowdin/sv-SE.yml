@@ -3,7 +3,8 @@ sv-SE:
   no_results_title_text: För närvarande finns det inget att visa.
   activities:
     index:
-      no_results_title_text: Det har inte varit någon aktivitet i projektet.
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: Det finns för närvarande inga tillgängliga plugins.
@@ -2281,7 +2282,8 @@ sv-SE:
   text_journal_aggregation_time_explanation: Kombinera journaler för visning om deras
     åldersskillnad är mindre än det angivna tidsintervallet. Detta fördröjer också
     aviseringar med samma tid.
-  text_journal_changed: "%{label} ändrad från %{old} </br><strong>till</strong> %{new}"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} uppdaterades"
   text_journal_changed_with_diff: "%{label} ändrades (%{link})"
   text_journal_deleted: "%{label} raderad (%{old})"

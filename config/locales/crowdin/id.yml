@@ -3,7 +3,8 @@ id:
   no_results_title_text: Tidak ada yang ditampilkan saat ini.
   activities:
     index:
-      no_results_title_text: Belum ada aktivitas untuk proyek ini.
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: Tidak ada plugin yang tersedia saat ini.
@@ -2276,7 +2277,8 @@ id:
   text_journal_aggregation_time_explanation: Bila selisih umur jurnal lebih kecil
     dari yang ditentukan, gabungkan jurnal tersebut. Notifikasi mail akan tertunda
     hingga pengabungan selesai.
-  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} telah diupdate"
   text_journal_changed_with_diff: "%{label} dirubah menjadi (%{link})"
   text_journal_deleted: "%{label} telah dihapus (%{old})"

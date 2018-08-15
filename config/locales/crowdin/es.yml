@@ -3,7 +3,8 @@ es:
   no_results_title_text: No hay nada que mostrar.
   activities:
     index:
-      no_results_title_text: No ha habido actividad para este proyecto.
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: No hay complementos disponibles.
@@ -2363,7 +2364,8 @@ es:
   text_journal_aggregation_time_explanation: Combinar revistas para mostrar sí su
     diferencia de edad es menor que el intervalo de tiempo especificado. Esto también
     retrasará las notificaciones por correo la misma cantidad de tiempo.
-  text_journal_changed: "%{label} cambiada de %{old} </br><strong>a</strong> %{new}"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "% {label} actualizado"
   text_journal_changed_with_diff: "%{label} modificado (% {link})"
   text_journal_deleted: "%{label} eliminado (% {old})"

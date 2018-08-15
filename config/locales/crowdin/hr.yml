@@ -3,7 +3,8 @@ hr:
   no_results_title_text: Trenutno nema zapisa za prikaz.
   activities:
     index:
-      no_results_title_text: Trenutno ne postoje aktivnosti vezane uz projekt.
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: Nema dostupnih dodataka.
@@ -2321,7 +2322,8 @@ hr:
   text_journal_aggregation_time_explanation: Kombinirajte journale za prikaz ako je
     njihova razlika starosti manja nego specificirani vremenski raspon. Ovo će također
     odgoditi mail notifikacije za istu količinu vremena.
-  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} promijenjen (%{link})"
   text_journal_deleted: "%{label} izbrisan (%{old})"

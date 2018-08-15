@@ -3,7 +3,8 @@ tr:
   no_results_title_text: Şu anda gösterilecek bir şey yok.
   activities:
     index:
-      no_results_title_text: Projede herhangi bir etkinlik olmamıştır.
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: Şu anda kullanılabilir eklenti mevcut değil.
@@ -2285,7 +2286,8 @@ tr:
   text_journal_aggregation_time_explanation: Yaş farkı belirtilen zaman aralığından
     azsa dergileri görüntü için birleştirin. Bu aynı zamanda posta bildirimlerini
     aynı süreyle erteleyecektir.
-  text_journal_changed: "%{label} %{old} </br><strong></strong> %{new} olarak değişti"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} güncellendi"
   text_journal_changed_with_diff: "%{label} değişti ( %{link})"
   text_journal_deleted: "%{label}, ( %{old}) silindi"

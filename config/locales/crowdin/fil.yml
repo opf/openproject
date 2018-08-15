@@ -3,7 +3,8 @@ fil:
   no_results_title_text: Sa kasalukuyan ay walang maipakita.
   activities:
     index:
-      no_results_title_text: Hindi nagkaroon ng anumang mga aktibidad para sa proyekto.
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: Sa kasalukuyan ay walang mga plugin na available.
@@ -2374,7 +2375,8 @@ fil:
   text_journal_aggregation_time_explanation: Pagsamahhin ang mga journak para ipakita
     kung ang kanilang edad ay pagkakaiba ay mas mababa ng tinukoy na timespan. Ito
     rin ay ipagpaliban ang mga abiso ng email sa kaparehong halaga ng oras.
-  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} ay naka-update"
   text_journal_changed_with_diff: "%{label} binagko (%{link})"
   text_journal_deleted: "%{label} binura (%{old})"

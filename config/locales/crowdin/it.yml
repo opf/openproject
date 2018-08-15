@@ -3,7 +3,8 @@ it:
   no_results_title_text: Al momento non c'è niente da visualizzare.
   activities:
     index:
-      no_results_title_text: Non c'è stata alcuna attività per il progetto.
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: Al momento non vi sono plugin disponibili.
@@ -2357,7 +2358,8 @@ it:
   text_journal_aggregation_time_explanation: Aggrega i rapporti se la loro distanza
     temporale è inferiore all'intervallo di tempo specificato. Questo ritarderà inoltre
     della stessa quantità di tempo anche le notifiche via posta elettronica.
-  text_journal_changed: modificato da %{old} </br><strong>in</strong> %{new} %{label}
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} aggiornata"
   text_journal_changed_with_diff: "%{label} cambiato (%{link})"
   text_journal_deleted: "%{label} cancellato (%{old})"

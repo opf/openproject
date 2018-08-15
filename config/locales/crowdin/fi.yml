@@ -3,7 +3,8 @@ fi:
   no_results_title_text: Ei ole tällä hetkellä näytettävää.
   activities:
     index:
-      no_results_title_text: Projektissa ei ole ollut yhtään tapahtumaa.
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: Tällä hetkellä ei ole liitännäisiä saatavilla.
@@ -2274,7 +2275,8 @@ fi:
   text_journal_aggregation_time_explanation: Yhdistele aktiviteettiuutiset jos niiden
     julkaisuajan ero on pienempi kuin syötetty aika. Tämä viivästyttää myös aktiviteettiuutisten
     sähköposti-ilmoituksia samalla aikamäärällä.
-  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} päivitetty"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
   text_journal_deleted: "%{label} poistettu (%{old})"
