@@ -211,7 +211,7 @@ OpenProject::Application.routes.draw do
     # is reserved for the format. This assumes that we have only two formats:
     # .txt and .html
     resources :wiki,
-              constraints: { id: /([^\/]+(?=\.txt|\.html)|[^\/]+)/ },
+              constraints: { id: /([^\/]+(?=\.markdown)|[^\/]+)/ },
               except: %i[index create] do
       collection do
         post '/new' => 'wiki#create', as: 'create'

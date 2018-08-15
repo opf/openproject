@@ -149,15 +149,9 @@ class WikiController < ApplicationController
       return
     end
     @content = @page.content_for_version(params[:version])
-    if User.current.allowed_to?(:export_wiki_pages, @project)
-      if params[:format] == 'html'
-        export = render_to_string action: 'export', layout: false
-        send_data(export, type: 'text/html', filename: "#{@page.title}.html")
-        return
-      elsif params[:format] == 'txt'
-        send_data(@content.text, type: 'text/plain', filename: "#{@page.title}.txt")
-        return
-      end
+    if params[:format] == 'markdown' && User.current.allowed_to?(:export_wiki_pages, @project)
+      send_data(@content.text, type: 'text/plain', filename: "#{@page.title}.md")
+      return
     end
     @editable = editable?
   end
