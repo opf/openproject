@@ -30,6 +30,7 @@ class Journal::BaseJournal < ActiveRecord::Base
   self.abstract_class = true
 
   belongs_to :journal
+  belongs_to :author, class_name: 'User', foreign_key: :author_id
 
   def journaled_attributes
     attributes.symbolize_keys.select { |k, _| self.class.journaled_attributes.include? k }

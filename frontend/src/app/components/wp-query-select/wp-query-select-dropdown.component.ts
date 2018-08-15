@@ -399,10 +399,18 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   private loadQuery(item:IAutocompleteItem) {
     const params = this.getQueryParams(item);
     const currentId = _.toString(this.$state.params.query_id);
-    let opts = {reload: false};
+    let opts = { reload: false };
 
-    if (item.identifier || params.query_id && params.query_id === currentId.toString()) {
+    const isStaticItem = !!item.identifier;
+    const isSameItem = params.query_id && params.query_id === currentId.toString();
+
+
+    // Ensure we're loading the query
+    if (isStaticItem || isSameItem) {
       this.wpListChecksumService.clear();
+    }
+
+    if (isSameItem) {
       opts.reload = true;
     }
 
@@ -482,7 +490,11 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
 
           return true;
         })
-      .on('click', '.wp-query-menu--category-toggle', (evt:JQueryEventObject) => {
+      .on('click keydown', '.wp-query-menu--category-toggle', (evt:JQueryEventObject) => {
+        if (evt.type === 'keydown' && evt.which !== keyCodes.ENTER) {
+          return true;
+        }
+
         const target = jQuery(evt.target);
         const clickedCategory = target.data('category');
 

@@ -106,7 +106,7 @@ nl:
       internal: Een interne fout is opgetreden.
       cannot_save_changes_with_message: 'Uw wijzigingen vanwege de volgende fout niet
         opslaan: %{error}'
-      query_saving: The view could not be saved.
+      query_saving: Het overzicht kon niet bewaard worden.
     filter:
       description:
         text_open_filter: Open dit filter met de 'ALT'-knop en toetsenbord pijlen.
@@ -186,7 +186,7 @@ nl:
     label_in: in
     label_in_less_than: in minder dan
     label_in_more_than: in meer dan
-    label_latest_activity: Latest activity
+    label_latest_activity: Laatste Activiteit
     label_last_updated_on: Laatst geüpdatet op
     label_less_or_equal: "<="
     label_less_than_ago: minder dan dagen geleden
@@ -224,8 +224,8 @@ nl:
     label_sort_higher: Omhoog
     label_sort_lower: Omlaag
     label_sorting: Sortering
-    label_star_query: Favored
-    label_press_enter_to_save: Press enter to save.
+    label_star_query: Favoriet
+    label_press_enter_to_save: Druk op Enter om te bewaren.
     label_public_query: Publiek
     label_sum_for: Som voor
     label_subject: Onderwerp
@@ -248,10 +248,10 @@ nl:
     label_unwatch: Niet meer volgen
     label_unwatch_work_package: Stop met het bekijken van werkpakket
     label_uploaded_by: Geüpload door
-    label_default_queries: Default views
-    label_starred_queries: Favorite views
-    label_global_queries: Public views
-    label_custom_queries: Private views
+    label_default_queries: Standaardweergaven
+    label_starred_queries: Favoriete weergaven
+    label_global_queries: Openbare weergaven
+    label_custom_queries: Privé weergaven
     label_columns: Kolommen
     label_attachments: Bestanden
     label_drop_files: Bestanden hier neerzetten
@@ -387,8 +387,8 @@ nl:
       activate_no: activeer om de sortering te verwijderen
     text_work_packages_destroy_confirmation: Weet u zeker dat u geselecteerd(e) werkpakket(ten)
       wilt verwijderen?
-    text_query_destroy_confirmation: Are you sure you want to delete the selected
-      view?
+    text_query_destroy_confirmation: Weet u zeker dat u het geselecteerde overzicht
+      wilt verwijderen?
     text_attachment_destroy_confirmation: Weet u zeker dat u de bijlage wilt verwijderen?
     timelines:
       gantt_chart: Gantt-grafiek
@@ -542,7 +542,7 @@ nl:
           te vouwen van de gefilterde kinderen
       faulty_query:
         title: Werkpakketten konden niet worden geladen.
-        description: Your view is erroneous and could not be processed.
+        description: Uw overzicht is onjuist en kan niet worden verwerkt.
       no_results:
         title: Geen werkpakketten om te tonen.
         description: Ofwel zijn er geen gecreëerd ofwel zijn alle werkpakketten uitgefilterd.
@@ -574,10 +574,10 @@ nl:
         versionName: Versie
         version: Versie
       default_queries:
-        latest_activity: Latest activity
-        created_by_me: Created by me
-        assigned_to_me: Assigned to me
-        recently_created: Recently created
+        latest_activity: Laatste Activiteit
+        created_by_me: Gemaakt door mijzelf
+        assigned_to_me: Toegewezen aan mij
+        recently_created: Onlangs gecreëerd
         all_open: Alles open
         summary: Overzicht
       jump_marks:
@@ -605,15 +605,16 @@ nl:
         insert_columns: Voeg kolommen in ...
         filters: Filters
         display_sums: Bedragen weergeven
-        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
-          view? Title will be set back to previous value.
-        click_to_edit_query_name: Click to edit title of this view.
-        rename_query_placeholder: Name of this view
+        confirm_edit_cancel: Weet u zeker dat u wilt stoppen met het bewerken van
+          de naam van deze weergave? De Titel zal terug naar vorige waarde worden
+          ingesteld.
+        click_to_edit_query_name: Klik om de titel van de weergave te bewerken.
+        rename_query_placeholder: Naam van deze weergave
         errors:
-          unretrievable_query: Unable to retrieve view from URL
-          not_found: There is no such view
-          duplicate_query_title: Name of this view already exists. Change anyway?
-        text_no_results: No matching views were found.
+          unretrievable_query: Het is onmogelijk om de weergave van de url op te halen
+          not_found: Deze weergave bestaat niet
+          duplicate_query_title: Naam van deze weergave bestaat al. Toch wijzigen?
+        text_no_results: Geen overeenkomende weergaven werden gevonden.
       table:
         configure_button: Configureer werkpakkettabel
         summary: Tabel met rijen van werkpakket en kolommen werk pakket kenmerken.
@@ -626,8 +627,8 @@ nl:
       table_configuration:
         button: Configureer deze werkpakkettabel
         modal_title: Werk pakket tabel configuratie
-        embedded_tab_disabled: This configuration tab is not available for the embedded
-          view you're editing.
+        embedded_tab_disabled: Het configuratie tabblad is niet beschikbaar voor het
+          overzicht dat u probeert te bewerken.
         display_settings: Weergave-instellingen
         grouped_mode: Gegroepeerde modus
         grouped_hint: Tabel resultaten zullen worden gegroepeerd op het opgegeven
@@ -667,14 +668,14 @@ nl:
         save: Opslaan
         save_as: Opslaan als ...
         export: Exporteren ...
-        visibility_settings: Visibility settings ...
+        visibility_settings: Zichtbaarheidsinstellingen...
         page_settings: Hernoem weergave...
         delete: Verwijderen
       filter: Filter
       unselected_title: Werkpakket
-      search_query_label: Search saved views
-      search_query_title: Click to search saved views
-      placeholder_query_title: Set a title for this view
+      search_query_label: Zoek opgeslagen weergaven
+      search_query_title: Klik om te zoeken naar opgeslagen weergaven
+      placeholder_query_title: Een titel voor deze weergave instellen
     modals:
       label_settings: Hernoem weergave
       label_name: Naam

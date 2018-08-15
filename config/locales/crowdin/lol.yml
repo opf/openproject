@@ -1556,7 +1556,7 @@ lol:
   macro_execution_error: crwdns97615:0%{macro_name}crwdne97615:0
   macro_unavailable: crwdns97616:0%{macro_name}crwdne97616:0
   macros:
-    placeholder: "[Placeholder] Macro %{macro_name}"
+    placeholder: crwdns99112:0[Placeholder]crwdnd99112:0%{macro_name}crwdne99112:0
     errors:
       missing_or_invalid_parameter: crwdns99015:0crwdne99015:0
     legacy_warning:

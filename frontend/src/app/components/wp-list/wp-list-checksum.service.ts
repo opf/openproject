@@ -87,7 +87,7 @@ export class WorkPackagesListChecksumService {
   public executeIfOutdated(newId:number,
                            newChecksum:string | null,
                            callback:Function) {
-    if (this.isOutdated(newId, newChecksum)) {
+    if (this.isUninitialized() || this.isOutdated(newId, newChecksum)) {
       this.set(newId, newChecksum);
 
       callback();
@@ -146,6 +146,6 @@ export class WorkPackagesListChecksumService {
   private maintainUrlQueryState(id:string | number | null, checksum:string | null) {
     this.visibleChecksum = checksum;
 
-    this.$state.go('.', {query_props: checksum, query_id: id}, {notify: false});
+    this.$state.go('.', {query_props: checksum, query_id: id}, {custom: { notify: false } });
   }
 }
