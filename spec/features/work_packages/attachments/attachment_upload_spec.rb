@@ -23,22 +23,73 @@ describe 'Upload attachment to work package', js: true do
   before do
     login_as(dev)
     wp_page.visit!
+    wp_page.ensure_page_loaded
   end
 
   describe 'wysiwyg editor' do
-    it 'can upload an image via drag & drop' do
-      # Activate the edit field
-      field.activate!
-      target = find('.ck-content')
-      attachments.drag_and_drop_file(target, image_fixture)
+    context 'on an existing page' do
 
-      # Besides testing caption functionality this also slows down clicking on the submit button
-      # so that the image is properly embedded
-      page.find('figure.image figcaption').base.send_keys('Some image caption')
+      before do
+        wp_page.visit!
+        wp_page.ensure_page_loaded
+      end
 
-      field.submit_by_click
-      expect(field.display_element).to have_selector('img')
-      expect(field.display_element).to have_content('Some image caption')
+      it 'can upload an image via drag & drop' do
+        # Activate the edit field
+        field.activate!
+        target = find('.ck-content')
+        attachments.drag_and_drop_file(target, image_fixture)
+
+        # Besides testing caption functionality this also slows down clicking on the submit button
+        # so that the image is properly embedded
+        page.find('figure.image figcaption').base.send_keys('Some image caption')
+
+        field.submit_by_click
+
+        expect(field.display_element).to have_selector('img')
+        expect(field.display_element).to have_content('Some image caption')
+      end
+    end
+
+    context 'on a new page' do
+      let!(:new_page) { Pages::FullWorkPackageCreate.new }
+      let!(:type) { FactoryBot.create(:type_task) }
+      let!(:status) { FactoryBot.create(:status, is_default: true) }
+      let!(:priority) { FactoryBot.create(:priority, is_default: true) }
+      let!(:project) do
+        FactoryBot.create(:project, types: [type])
+      end
+
+      before do
+        visit new_project_work_packages_path(project.identifier, type: type.id)
+      end
+
+      it 'can upload in image via drag & drop (Regression #28189)' do
+        subject = new_page.edit_field :subject
+        subject.set_value 'My subject'
+
+        target = find('.ck-content')
+        attachments.drag_and_drop_file(target, image_fixture)
+
+        # Besides testing caption functionality this also slows down clicking on the submit button
+        # so that the image is properly embedded
+        page.find('figure.image figcaption').base.send_keys('Some image caption')
+        expect(page).to have_selector('img[src^="/api/v3/attachments"]')
+
+        click_on 'Save'
+
+        wp_page.expect_notification(
+          message: 'Successful creation.'
+        )
+
+        field = wp_page.edit_field :description
+        expect(field.display_element).to have_selector('img')
+        expect(field.display_element).to have_content('Some image caption')
+
+        wp = WorkPackage.last
+        expect(wp.subject).to eq('My subject')
+        expect(wp.attachments.count).to eq(1)
+      end
     end
   end
 
