@@ -31,7 +31,7 @@ en:
 
   activities:
     index:
-      no_results_title_text: There has not been any activity for the project.
+      no_results_title_text: There has not been any activity for the project within this time frame.
 
   admin:
     plugins:
