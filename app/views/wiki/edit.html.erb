@@ -29,7 +29,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <% html_title t(:label_edit), @page.title %>
 <%= labelled_tabular_form_for @content,
                               as: :content,
-                              url: {action: 'update', id: @page},
+                              url: {action: 'update', id: @page.title.presence || @old_title},
                               html: {method: :put, multipart: true, id: 'wiki_form'} do |f| %>
   <%= f.hidden_field :lock_version %>
 
