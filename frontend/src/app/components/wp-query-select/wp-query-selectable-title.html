@@ -25,5 +25,5 @@
 <h2 *ngIf="!editable"
     [attr.title]="selectedTitle"
     [ngClass]="{ '-disabled': disabled }"
-    class="ellipsis"> {{ selectedTitle | slice:0:50 }}
+    class="ellipsis wp-query-selectable-title--fixed"> {{ selectedTitle | slice:0:50 }}
 </h2>

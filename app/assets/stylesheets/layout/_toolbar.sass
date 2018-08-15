@@ -44,7 +44,7 @@ $nm-color-success-background: #d8fdd1
     text-decoration: none
 
 @mixin toolbar-element-sizing
-  margin: 0.625rem 0 0
+  margin: 0
   height: 34px
   line-height: 22px
 
@@ -63,10 +63,12 @@ $nm-color-success-background: #d8fdd1
     position: relative
 
 .toolbar
-  ul
-    margin:  0
-    padding: 0
-    float: right
+  display: flex
+  align-items: center
+
+.toolbar-items
+  margin:  0
+  padding: 0
 
   li
     list-style-type: none
@@ -175,11 +177,11 @@ $nm-color-success-background: #d8fdd1
         vertical-align: text-top
 
 .title-container
-  @include clearfix
-  float:   left
-  height:  auto
+  flex: 1
   padding: 0
-  width: 50%
+
+  h2
+    padding: 0
 
   div.inline-edit
     cursor: pointer
