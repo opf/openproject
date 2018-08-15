@@ -36,16 +36,15 @@ export class FormattableDisplayField extends DisplayField {
   private readonly appRef = this.$injector.get(ApplicationRef);
 
   public render(element:HTMLElement, displayText:string):void {
-    element.classList.add('read-value--html', 'wiki', 'highlight', '-multiline');
-
-    let span = document.createElement('span');
-    span.innerHTML = displayText;
+    let div = document.createElement('div');
+    div.classList.add('read-value--html', 'wiki', 'highlight', '-multiline');
+    div.innerHTML = displayText;
 
     element.innerHTML = '';
-    element.appendChild(span);
+    element.appendChild(div);
 
     // Allow embeddable rendered content
-    DynamicBootstrapper.bootstrapOptionalEmbeddable(this.appRef, span);
+    DynamicBootstrapper.bootstrapOptionalEmbeddable(this.appRef, div);
   }
 
   public get isFormattable():boolean {
