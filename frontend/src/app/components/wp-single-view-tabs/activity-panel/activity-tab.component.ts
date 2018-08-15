@@ -33,6 +33,7 @@ import {WorkPackageCacheService} from 'core-components/work-packages/work-packag
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {ActivityPanelBaseController} from 'core-components/wp-single-view-tabs/activity-panel/activity-base.controller';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
+import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 
 @Component({
   templateUrl: './activity-tab.html',
@@ -41,6 +42,7 @@ import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/a
 export class WorkPackageActivityTabComponent extends ActivityPanelBaseController implements OnDestroy {
   public workPackage:WorkPackageResource;
   public tabName = this.I18n.t('js.work_packages.tabs.activity');
+  public trackByHref = AngularTrackingHelpers.trackByHref;
 
   constructor(readonly wpCacheService:WorkPackageCacheService,
               readonly $transition:Transition,

@@ -14,6 +14,14 @@ export namespace AngularTrackingHelpers {
     return _.get(item, 'name');
   }
 
+  export function trackByHref(i:number, item:HalResource) {
+    return _.get(item, 'href');
+  }
+
+  export function trackByTrackingIdentifier(i:number, item:any) {
+    return _.get(item, 'trackingIdentifier', item && item.href);
+  }
+
   export function compareByHref<T extends HalResource>(a:T|undefined|null, b:T|undefined|null):boolean {
     const bothNil = !a && !b;
     return bothNil || (!!a && !!b && a.$href === b.$href);

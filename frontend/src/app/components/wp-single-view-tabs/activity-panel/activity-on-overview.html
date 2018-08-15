@@ -1,7 +1,7 @@
 <work-package-comment [workPackage]="workPackage">
   <ng-template>
     <ul class='work-package-details-activities-list'>
-      <li *ngFor="let inf of latestActivityInfo"
+      <li *ngFor="let inf of latestActivityInfo; trackBy:trackByHref"
           class="work-package-details-activities-activity">
         <activity-entry [workPackage]="workPackage"
                         [activity]="inf.activity"
