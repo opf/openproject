@@ -258,7 +258,7 @@ export function registerWorkPackageMouseHandler(this:void,
           });
       })
       .catch((error) => {
-        wpNotificationsService.handleErrorResponse(error, renderInfo.workPackage);
+        wpNotificationsService.handleRawError(error, renderInfo.workPackage);
       });
   }
 }

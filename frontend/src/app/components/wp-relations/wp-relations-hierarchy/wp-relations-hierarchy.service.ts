@@ -74,7 +74,7 @@ export class WorkPackageRelationsHierarchyService {
         return wp;
       })
       .catch((error) => {
-        this.wpNotificationsService.handleErrorResponse(error, workPackage);
+        this.wpNotificationsService.handleRawError(error, workPackage);
         return Promise.reject(error);
       });
   }
@@ -128,7 +128,7 @@ export class WorkPackageRelationsHierarchyService {
         this.wpCacheService.updateWorkPackage(wp);
       })
       .catch((error) => {
-        this.wpNotificationsService.handleErrorResponse(error, childWorkPackage);
+        this.wpNotificationsService.handleRawError(error, childWorkPackage);
         return Promise.reject(error);
       });
     });

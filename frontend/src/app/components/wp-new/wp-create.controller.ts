@@ -118,7 +118,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
               window.location.href = url.toString();
             }
           });
-          this.wpNotificationsService.handleErrorResponse(error);
+          this.wpNotificationsService.handleRawError(error);
         }
       });
   }

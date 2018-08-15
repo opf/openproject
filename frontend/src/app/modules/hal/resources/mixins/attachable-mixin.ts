@@ -38,6 +38,7 @@ import {
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
+import {HttpErrorResponse} from "@angular/common/http";
 
 type Constructor<T = {}> = new (...args:any[]) => T;
 
@@ -86,7 +87,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
             }
           })
           .catch((error:any) => {
-            this.wpNotificationsService.handleErrorResponse(error, this as any);
+            this.wpNotificationsService.handleRawError(error, this as any);
             this.attachments.elements.push(attachment);
           });
       }
@@ -118,9 +119,9 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
 
           return result;
         })
-        .catch((error:any) => {
+        .catch((error:HttpErrorResponse) => {
           this.wpNotificationsService.handleRawError(error);
-          return;
+          return _.get(error, 'message', I18n.t('js.error.internal'));
         });
     }
 

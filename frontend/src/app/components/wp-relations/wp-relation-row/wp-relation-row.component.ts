@@ -145,7 +145,7 @@ export class WorkPackageRelationRowComponent implements OnInit {
 
         this.userInputs.showRelationTypesForm = false;
       })
-      .catch((error:any) => this.wpNotificationsService.handleErrorResponse(error, this.workPackage));
+      .catch((error:any) => this.wpNotificationsService.handleRawError(error, this.workPackage));
   }
 
   public toggleUserDescriptionForm() {
@@ -158,7 +158,7 @@ export class WorkPackageRelationRowComponent implements OnInit {
         this.wpCacheService.updateWorkPackage(this.relatedWorkPackage);
         this.wpNotificationsService.showSave(this.relatedWorkPackage);
       })
-      .catch((err:any) => this.wpNotificationsService.handleErrorResponse(err,
+      .catch((err:any) => this.wpNotificationsService.handleRawError(err,
         this.relatedWorkPackage));
   }
 }
