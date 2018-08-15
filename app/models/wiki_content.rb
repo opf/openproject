@@ -32,7 +32,6 @@ require 'zlib'
 class WikiContent < ActiveRecord::Base
   belongs_to :page, class_name: 'WikiPage', foreign_key: 'page_id'
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
-  validates_presence_of :text
   validates_length_of :comments, maximum: 255, allow_nil: true
 
   attr_accessor :comments
@@ -61,6 +60,10 @@ class WikiContent < ActiveRecord::Base
 
   def attachments
     page.nil? ? [] : page.attachments
+  end
+
+  def text=(value)
+    super value.presence || ''
   end
 
   # Returns the mail adresses of users that should be notified
