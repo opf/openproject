@@ -51,7 +51,7 @@ import {WorkPackageTimelineCell} from '../cells/wp-timeline-cell';
 import {WorkPackageTimelineCellsRenderer} from '../cells/wp-timeline-cells-renderer';
 import {
   calculateDaySpan,
-  getPixelPerDayForZoomLevel,
+  getPixelPerDayForZoomLevel, requiredPixelMarginLeft,
   timelineElementCssClass,
   timelineMarkerSelectionStartClass,
   TimelineViewParameters,
@@ -433,7 +433,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
 
   private applyAutoZoomLevel() {
     const daysSpan = calculateDaySpan(this.workPackageIdOrder, this.states.workPackages, this._viewParameters);
-    const timelineWidthInPx = this.outerContainer.width();
+    const timelineWidthInPx = this.outerContainer.width() - (2 * requiredPixelMarginLeft);
 
     for (let zoomLevel of zoomLevelOrder) {
       const pixelPerDay = getPixelPerDayForZoomLevel(zoomLevel);
