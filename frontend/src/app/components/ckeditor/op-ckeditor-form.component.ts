@@ -181,7 +181,7 @@ export class OpCkeditorFormComponent implements OnInit, OnDestroy {
   }
 
   private addUploadedAttachmentsToForm() {
-    if (!this.resource || this.resource.id) {
+    if (!this.resource || !this.resource.attachments || this.resource.id) {
       return;
     }
 

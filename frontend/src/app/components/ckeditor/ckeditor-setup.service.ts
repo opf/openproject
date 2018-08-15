@@ -83,7 +83,7 @@ export class CKEditorSetupService {
         'OPMacroWpButton'
       ];
     } else {
-      context.macros = true;
+      context.macros = context.macros;
     }
 
     return {
