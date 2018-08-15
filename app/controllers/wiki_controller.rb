@@ -437,7 +437,11 @@ class WikiController < ApplicationController
   end
 
   def show_local_breadcrumb
-    true
+    @page.ancestors.any?
+  end
+
+  def show_local_breadcrumb_defaults
+    false
   end
 
   def redirect_to_show
