@@ -2,7 +2,7 @@
   <ng-template>
     <div class="detail-activity">
       <ul class="work-package-details-activities-list">
-        <li *ngFor="let inf of visibleActivities; let first = first"
+        <li *ngFor="let inf of visibleActivities; trackBy:trackByHref; let first = first"
             class="work-package-details-activities-activity">
           <h3 class="activity-date"
               [ngClass]="{'-with-toggler': first && showToggler}"

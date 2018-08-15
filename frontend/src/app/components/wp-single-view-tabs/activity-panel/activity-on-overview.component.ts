@@ -34,6 +34,7 @@ import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/a
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {ActivityEntryInfo} from 'core-components/wp-single-view-tabs/activity-panel/activity-entry-info';
+import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 
 @Component({
   selector: 'newest-activity-on-overview',
@@ -43,6 +44,7 @@ export class NewestActivityOnOverviewComponent extends ActivityPanelBaseControll
   @Input('workPackage') public workPackage:WorkPackageResource;
 
   public latestActivityInfo:ActivityEntryInfo[] = [];
+  public trackByHref = AngularTrackingHelpers.trackByHref;
 
   constructor(readonly wpCacheService:WorkPackageCacheService,
               readonly I18n:I18nService,
