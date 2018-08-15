@@ -34,7 +34,7 @@ class JournalFormatter::NamedAssociation < JournalFormatter::Attribute
       label, old_value, value = *format_html_details(label, old_value, value)
     end
 
-    render_ternary_detail_text(label, value, old_value)
+    render_ternary_detail_text(label, value, old_value, options)
   end
 
   private

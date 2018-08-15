@@ -102,7 +102,7 @@ describe OpenProject::JournalFormatter::CustomField do
       let(:values) { ['0', '1'] }
 
       let(:expected) do
-        I18n.t(:text_journal_changed,
+        I18n.t(:text_journal_changed_plain,
                label: custom_field.name,
                old: format_value(values.first, custom_field),
                new: format_value(values.last, custom_field))
