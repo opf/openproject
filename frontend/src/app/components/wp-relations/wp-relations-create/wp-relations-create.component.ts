@@ -60,7 +60,7 @@ export class WorkPackageRelationsCreateComponent {
         this.toggleRelationsCreateForm();
       })
       .catch(err => {
-        this.wpNotificationsService.handleErrorResponse(err, this.workPackage);
+        this.wpNotificationsService.handleRawError(err, this.workPackage);
         this.toggleRelationsCreateForm();
       });
   }

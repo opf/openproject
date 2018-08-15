@@ -161,7 +161,7 @@ export class WorkPackageChangeset {
         })
         .catch((error:any) => {
           this.wpForm.clear();
-          this.wpNotificationsService.handleErrorResponse(error, this.workPackage);
+          this.wpNotificationsService.handleRawError(error, this.workPackage);
           reject(error);
         });
     });

@@ -190,7 +190,7 @@ export class WorkPackageEditForm {
           this.wpTableRefresh.request(`Saved work package ${savedWorkPackage.id}`);
         })
         .catch((error:ErrorResource|Object) => {
-          this.wpNotificationsService.handleErrorResponse(error, this.workPackage);
+          this.wpNotificationsService.handleRawError(error, this.workPackage);
 
           if (error instanceof ErrorResource) {
             this.handleSubmissionErrors(error, reject);

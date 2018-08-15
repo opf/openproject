@@ -66,7 +66,7 @@ export class WorkPackageTableAdditionalElementsService {
       })
       .catch((e) => {
         this.tableState.additionalRequiredWorkPackages.putValue(null, 'Failure loading required work packages');
-        this.wpNotificationsService.handleErrorResponse(e);
+        this.wpNotificationsService.handleRawError(e);
       });
   }
 

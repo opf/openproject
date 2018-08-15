@@ -116,7 +116,7 @@ export class UploadProgressComponent implements OnInit, OnDestroy {
   private handleError(error:HttpErrorResponse, file:UploadFile) {
     let message:string;
 
-    debugLog(error);
+    console.error("Error while uploading: %O", error);
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred.
       message = this.I18n.t('js.error_attachment_upload', {name: file.name, error: error});

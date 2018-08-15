@@ -34,6 +34,7 @@ import {Injectable} from '@angular/core';
 import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Injectable()
 export class WorkPackageNotificationService {
@@ -57,16 +58,46 @@ export class WorkPackageNotificationService {
     this.NotificationsService.addSuccess(message);
   }
 
+  /**
+   * Handle any kind of error response:
+   * - HAL ErrorResources
+   * - Angular HttpErrorResponses
+   * - Older .data error responses
+   * - String error messages
+   *
+   * @param response
+   * @param workPackage
+   */
   public handleRawError(response:any, workPackage?:WorkPackageResource) {
+    // Some transformation may already have returned the error as a HAL resource,
+    // which we will forward to handleErrorResponse
+    if (response instanceof ErrorResource) {
+      return this.handleErrorResponse(response, workPackage);
+    }
+
+    // Otherwise, we try to detect what we got, this may either be an HttpErrorResponse,
+    // some older XHR response object or a string
+    let errorBody:any|string|null;
+
+    // Angular http response have an error body attribute
+    if (response instanceof HttpErrorResponse) {
+      errorBody = response.error || response.message;
+    }
+
+    // Some older response may have a data attribute
     if (response && response.data && response.data._type === 'Error') {
-      const resource = this.halResourceService.createHalResource(response.data);
+      errorBody = response.data;
+    }
+
+    if (errorBody && errorBody._type === 'Error') {
+      const resource = this.halResourceService.createHalResource(errorBody);
       return this.handleErrorResponse(resource, workPackage);
     }
 
     this.showGeneralError(response);
   }
 
-  public handleErrorResponse(errorResource:any, workPackage?:WorkPackageResource) {
+  protected handleErrorResponse(errorResource:any, workPackage?:WorkPackageResource) {
     if (!(errorResource instanceof ErrorResource)) {
       return this.showGeneralError(errorResource);
     }
