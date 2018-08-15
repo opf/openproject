@@ -90,24 +90,28 @@ jQuery(document).ready(function($) {
     // 3. reinsert the <span class="toggler"> so that it sits outside of the above
     .after(toggler);
 
+  function navigateUp(event) {
+    event.preventDefault();
+    var target = $(this);
+    $(target).parents('li').first().removeClass('open');
+    $(".menu_root").removeClass('closed').addClass('open');
+
+    target.parents('li').first().find('.toggler').first().focus();
+
+    // TODO: Instead of hiding the sidebar move sidebar's contents to submenus and cache it.
+    $('#sidebar').toggleClass('-hidden', false);
+  }
+
   $('#main-menu ul.main-menu--children').each(function(_i, child){
     var title = $(child).parents('li').find('.main-item-wrapper .menu-item--title').text();
+    var parentURL = $(child).parents('li').find('.main-item-wrapper > a')[0].href;
     var header = $('<div class="main-menu--children-menu-header"></div>');
     var upLink = $('<a class="main-menu--arrow-left-to-project" href="#"><i class="icon-arrow-left1" aria-hidden="true"></i></a>');
+    var parentLink = $(`<a href="${parentURL}" class="main-menu--parent-node ellipsis">${title}</a>`);
     upLink.attr('title', I18n.t('js.label_up'));
-    upLink.click(function(event) {
-      event.preventDefault();
-      var target = $(this);
-      $(target).parents('li').first().removeClass('open');
-      $(".menu_root").removeClass('closed').addClass('open');
-
-      target.parents('li').first().find('.toggler').first().focus();
-
-      // TODO: Instead of hiding the sidebar move sidebar's contents to submenus and cache it.
-      $('#sidebar').toggleClass('-hidden', false);
-    });
+    upLink.click(navigateUp);
     header.append(upLink);
-    header.append('<span class="main-menu--parent-node ellipsis">' + title + '</span>');
+    header.append(parentLink);
     $(child).before(header);
   })
 

@@ -1198,7 +1198,6 @@ en:
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: "Enterprise Edition"
-  label_entry_page: "Entry page"
   label_environment: "Environment"
   label_estimates_and_time: "Estimates and time"
   label_equals: "is"

@@ -121,7 +121,7 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def any_item_selected?(items)
-    items.any? { |item| item.name == current_menu_item || entry_page_selected?(item) }
+    items.any? { |item| item.name == current_menu_item }
   end
 
   def render_menu_node(node, project = nil)
@@ -293,13 +293,7 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def node_selected?(item)
-    current_menu_item == item.name ||
-      entry_page_selected?(item) ||
-      no_wiki_menu_item_selected?(item)
-  end
-
-  def entry_page_selected?(item)
-    item.name == MenuItems::WikiMenuItem.add_entry_item_prefix(current_menu_item)
+    current_menu_item == item.name || no_wiki_menu_item_selected?(item)
   end
 
   def no_wiki_menu_item_selected?(item)
