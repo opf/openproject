@@ -71,7 +71,7 @@ export class FormattableEditField extends EditField {
     const element = container.querySelector('.op-ckeditor-source-element') as HTMLElement;
 
     const context = { resource: this.resource,
-                      macros: 'wp' as 'wp',
+                      macros: 'none' as 'none',
                       previewContext: this.previewContext };
 
     this.ckEditorSetup
