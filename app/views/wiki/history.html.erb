@@ -122,9 +122,10 @@ See docs/COPYRIGHT.rdoc for more details.
                   <%= radio_button_tag 'version',
                                        ver.version,
                                        (line_num==1),
+                                       class: 'history-cb-from',
+                                       data: { 'select-to': "#cbto-#{line_num + 1}" },
                                        id: "cb-#{line_num}" %>
                 <% end %>
-                <% csp_onclick("jQuery('#cbto-#{line_num+1}').attr('checked', true);", "#cb-#{line_num}") %>
               </td>
               <td class="checkbox">
                 <% if show_diff && (line_num > 1) %>
@@ -148,5 +149,12 @@ See docs/COPYRIGHT.rdoc for more details.
     <%= submit_tag l(:label_view_diff), class: 'button -highlight -small' if show_diff %>
   </div>
 
+  <%= nonced_javascript_tag  do -%>
+    jQuery(function($) {
+      $('.history-cb-from').click(function() {
+        var target = $($(this).data('selectTo')).prop('checked', true);
+      });
+    });
+  <% end -%>
   <%= pagination_links_full @versions %>
 <% end %>
