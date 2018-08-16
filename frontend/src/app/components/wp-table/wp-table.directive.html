@@ -43,9 +43,10 @@
         <td [attr.colspan]="columns.length + 1">
           <span *ngIf="!query.hasError">
             <op-icon icon-classes="icon-info1 icon-context"></op-icon>
-            <strong>{{text.noResults.title}}</strong>
-            &nbsp;
-            <span>{{text.noResults.description}}</span>
+            <span>
+              <strong>{{text.noResults.title}}</strong>
+              {{text.noResults.description}}
+            </span>
           </span>
           <span *ngIf="query.hasError">
             <op-icon icon-classes="wp-table--faulty-query-icon icon-warning icon-context"></op-icon>
