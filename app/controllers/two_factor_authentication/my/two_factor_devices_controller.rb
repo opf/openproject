@@ -106,6 +106,10 @@ module ::TwoFactorAuthentication
         url_for action: :index
       end
 
+      def show_local_breadcrumb
+        false
+      end
+
       def set_user_variables
         @user = current_user
         @default_device = @user.otp_devices.get_default

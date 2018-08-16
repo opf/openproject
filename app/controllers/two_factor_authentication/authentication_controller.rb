@@ -5,6 +5,8 @@ module ::TwoFactorAuthentication
     include ::TwoFactorAuthentication::Concerns::RememberToken
     # Backup tokens functionality
     include ::TwoFactorAuthentication::Concerns::BackupCodes
+    # Include global layout helper
+    layout 'no_menu'
 
     # User is not yet logged in, so skip login required check
     skip_before_action :check_if_login_required

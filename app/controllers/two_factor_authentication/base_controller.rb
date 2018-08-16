@@ -9,6 +9,8 @@ module ::TwoFactorAuthentication
 
     before_action :find_device, only: [:confirm, :make_default, :destroy]
 
+    layout 'no_menu'
+
     def new
       if params[:type]
         @device_type = params[:type].to_sym
