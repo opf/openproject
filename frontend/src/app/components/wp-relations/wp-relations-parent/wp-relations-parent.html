@@ -5,7 +5,8 @@
         <div class="grid-content medium-7 collapse" wp-single-relation>
             <span ng-style="{'padding-left': indentBy + 'px'}"
                   class="wp-relations-hierarchy-subject">
-                <a ui-sref="work-packages.show.relations({ workPackageId: workPackage.parent.id})"
+                <a uiSref="work-packages.show.relations"
+                   [uiParams]="{ workPackageId: workPackage.parent.id }"
                    class="wp-relations--subject-field"
                    id="wp-relations-parent-element"
                    [attr.aria-label]="text.parent"
