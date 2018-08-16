@@ -106,7 +106,7 @@ export class TimelineViewParameters {
     return this.dateDisplayEnd.diff(this.dateDisplayStart, 'days');
   }
 
-  get dayCountForMarginLeft(): number {
+  get dayCountForMarginLeft():number {
     return Math.ceil(requiredPixelMarginLeft / this.pixelPerDay);
   }
 
@@ -205,5 +205,5 @@ export function calculateDaySpan(visibleWorkPackages:RenderedRow[],
   });
 
   const daysSpan = latest.diff(earliest, 'days') + 1;
-  return daysSpan + viewParameters.dayCountForMarginLeft;
+  return daysSpan;
 }
