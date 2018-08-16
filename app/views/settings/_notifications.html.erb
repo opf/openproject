@@ -31,7 +31,6 @@ See docs/COPYRIGHT.rdoc for more details.
     <section class="form--section">
       <div class="form--field"><%= setting_text_field :mail_from, size: 60, container_class: '-middle' %></div>
       <div class="form--field"><%= setting_check_box :bcc_recipients %></div>
-      <div class="form--field"><%= setting_check_box :plain_text_mail %></div>
       <div class="form--field"><%= setting_select(:default_notification_option, User.valid_notification_options.collect {|o| [t(o.last), o.first.to_s]}, container_class: '-middle') %></div>
     </section>
     <fieldset id="notified_events" class="form--fieldset"><legend class="form--fieldset-legend"><%=t(:text_select_mail_notifications)%></legend>

@@ -28,15 +28,36 @@
 #++
 
 class BaseMailer < ActionMailer::Base
-  def mail(headers = {}, &block)
-    block ||= method(:default_formats_for_setting)
-    super(headers, &block)
-  end
 
-  private
+  class << self
 
-  def default_formats_for_setting(format)
-    format.html unless Setting.plain_text_mail?
-    format.text
+    ##
+    # Execute the following mailer method immediately, not in a delayed job.
+    def deliver_immediately!(method, *args)
+      target = immediate(method)
+
+      raise NoMethodError.new("Method #{method} does not exist on mailer.") unless respond_to?(target)
+
+      mailer_obj = public_send(target, *args)
+      mailer_obj.deliver_now
+    end
+
+    protected
+
+    ##
+    # Whether the method is immediate?
+    def immediate?(method)
+      method.to_s.end_with? '!'
+    end
+
+    ##
+    # Get the immediate counterpart method
+    def immediate(method)
+      if immediate?(method)
+        method.to_sym
+      else
+        :"#{method}!"
+      end
+    end
   end
 end

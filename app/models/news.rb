@@ -105,7 +105,7 @@ class News < ActiveRecord::Base
   def send_news_added_mail
     if Setting.notified_events.include?('news_added')
       recipients.uniq.each do |user|
-        UserMailer.news_added(user, self, User.current).deliver_now
+        UserMailer.news_added(user, self, User.current)
       end
     end
   end

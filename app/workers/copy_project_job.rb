@@ -56,11 +56,11 @@ class CopyProjectJob < ApplicationJob
     }
 
     if target_project
-      UserMailer.copy_project_succeeded(user, source_project, target_project, errors).deliver_now
+      UserMailer.copy_project_succeeded(user, source_project, target_project, errors)
     else
       target_project_name = target_project_params['name']
 
-      UserMailer.copy_project_failed(user, source_project, target_project_name, errors).deliver_now
+      UserMailer.copy_project_failed(user, source_project, target_project_name, errors)
     end
   end
 

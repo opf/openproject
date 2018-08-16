@@ -30,22 +30,17 @@
 require 'spec_helper'
 
 describe UserMailer, type: :mailer do
-  let(:type_standard) { FactoryBot.build_stubbed(:type_standard) }
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:journal) { FactoryBot.build_stubbed(:work_package_journal) }
+  let(:type_standard) { FactoryBot.create(:type_standard) }
+  let(:user) { FactoryBot.create(:user) }
   let(:work_package) {
-    FactoryBot.build_stubbed(:work_package,
+    FactoryBot.create(:work_package,
                              type: type_standard)
   }
 
-  let(:recipient) { FactoryBot.build_stubbed(:user) }
+  let(:journal) { FactoryBot.create(:work_package_journal, journable: work_package, user: user) }
+  let(:recipient) { FactoryBot.create(:user) }
 
   before do
-    allow(work_package).to receive(:reload).and_return(work_package)
-
-    allow(journal).to receive(:journable).and_return(work_package)
-    allow(journal).to receive(:user).and_return(user)
-
     allow(Setting).to receive(:mail_from).and_return('john@doe.com')
     allow(Setting).to receive(:host_name).and_return('mydomain.foo')
     allow(Setting).to receive(:protocol).and_return('http')
@@ -74,9 +69,9 @@ describe UserMailer, type: :mailer do
 
   shared_examples_for 'does only send mails to author if permitted' do
     let(:user_preference) {
-      FactoryBot.build(:user_preference, others: { no_self_notified: true })
+      FactoryBot.create(:user_preference, others: { no_self_notified: true })
     }
-    let(:user) { FactoryBot.build_stubbed(:user, preference: user_preference) }
+    let(:user) { FactoryBot.create(:user, preference: user_preference) }
 
     context 'mail is for another user' do
       it_behaves_like 'mail is sent'
@@ -91,8 +86,8 @@ describe UserMailer, type: :mailer do
 
   describe '#test_mail' do
     let(:test_email) { 'bob.bobbi@example.com' }
-    let(:test_user) { User.new(firstname: 'Bob', lastname: 'Bobbi', mail: test_email) }
-    let(:mail) { UserMailer.test_mail(test_user) }
+    let(:test_user) { User.create(firstname: 'Bob', lastname: 'Bobbi', mail: test_email) }
+    let(:mail) { UserMailer.test_mail!(test_user) }
 
     before do
       # the name method uses a format setting to determine how to concatenate first name
@@ -108,7 +103,7 @@ describe UserMailer, type: :mailer do
 
   describe '#work_package_added' do
     before do
-      UserMailer.work_package_added(recipient, journal, user).deliver_now
+      UserMailer.work_package_added!(recipient, journal, user).deliver_now
     end
 
     it_behaves_like 'mail is sent'
@@ -122,7 +117,7 @@ describe UserMailer, type: :mailer do
 
   describe '#work_package_updated' do
     before do
-      UserMailer.work_package_updated(recipient, journal, user).deliver_now
+      UserMailer.deliver_immediately!(:work_package_updated, recipient, journal, user)
     end
 
     it_behaves_like 'mail is sent'
@@ -133,7 +128,7 @@ describe UserMailer, type: :mailer do
   describe '#work_package_watcher_added' do
     let(:watcher_setter) { user }
     before do
-      UserMailer.work_package_watcher_added(work_package, recipient, watcher_setter).deliver_now
+      UserMailer.deliver_immediately!(:work_package_watcher_added, work_package, recipient, watcher_setter)
     end
 
     it_behaves_like 'mail is sent'
@@ -147,7 +142,7 @@ describe UserMailer, type: :mailer do
     let(:wiki_content) { FactoryBot.create(:wiki_content) }
 
     before do
-      UserMailer.wiki_content_added(recipient, wiki_content, user).deliver_now
+      UserMailer.deliver_immediately!(:wiki_content_added, recipient, wiki_content, user)
     end
 
     it_behaves_like 'mail is sent'
@@ -159,7 +154,7 @@ describe UserMailer, type: :mailer do
     let(:wiki_content) { FactoryBot.create(:wiki_content) }
 
     before do
-      UserMailer.wiki_content_updated(recipient, wiki_content, user).deliver_now
+      UserMailer.deliver_immediately!(:wiki_content_updated, recipient, wiki_content, user)
     end
 
     it_behaves_like 'mail is sent'
@@ -173,17 +168,15 @@ describe UserMailer, type: :mailer do
 
   describe '#message_id' do
     describe 'same user' do
-      let(:journal_2) { FactoryBot.build_stubbed(:work_package_journal) }
+      let(:journal_2) { FactoryBot.create(:work_package_journal, journable: work_package, user: user) }
 
       before do
-        allow(journal_2).to receive(:journable).and_return(work_package)
-        allow(journal_2).to receive(:user).and_return(user)
         allow(journal_2).to receive(:created_at).and_return(journal.created_at + 5.seconds)
       end
 
       subject do
         message_ids = [journal, journal_2].each_with_object([]) do |j, l|
-          l << UserMailer.work_package_updated(user, j).message_id
+          l << UserMailer.work_package_updated!(user, j).message_id
         end
 
         message_ids.uniq.count
@@ -193,7 +186,7 @@ describe UserMailer, type: :mailer do
     end
 
     describe 'same timestamp' do
-      let(:user_2) { FactoryBot.build_stubbed(:user) }
+      let(:user_2) { FactoryBot.create(:user) }
 
       before do
         allow(work_package).to receive(:recipients).and_return([user, user_2])
@@ -201,7 +194,7 @@ describe UserMailer, type: :mailer do
 
       subject do
         message_ids = [user, user_2].each_with_object([]) do |u, l|
-          l << UserMailer.work_package_updated(u, journal).message_id
+          l << UserMailer.deliver_immediately!(:work_package_updated, u, journal).message_id
         end
 
         message_ids.uniq.count
@@ -212,13 +205,9 @@ describe UserMailer, type: :mailer do
   end
 
   describe 'journal details' do
-    subject { UserMailer.work_package_updated(user, journal).body.encoded.gsub("\r\n", "\n") }
+    subject { UserMailer.work_package_updated!(user, journal).body.encoded.gsub("\r\n", "\n") }
 
     describe 'plain text mail' do
-      before do
-        allow(Setting).to receive(:plain_text_mail).and_return('1')
-      end
-
       describe 'done ration modifications' do
         context 'changed done ratio' do
           before do
@@ -318,8 +307,8 @@ describe UserMailer, type: :mailer do
       end
 
       describe 'attribute type' do
-        let(:type_1) { FactoryBot.create(:type_standard) }
-        let(:type_2) { FactoryBot.create(:type_bug) }
+        let(:type_1) { FactoryBot.create(:type_standard, name: 'Type Bla') }
+        let(:type_2) { FactoryBot.create(:type_bug, name: 'Type Bug') }
 
         before do
           allow(journal).to receive(:details).and_return('type_id' => [type_1.id, type_2.id])
@@ -488,10 +477,6 @@ describe UserMailer, type: :mailer do
                                     :work_package])
       }
       let(:expected_prefix) { "<li><strong>#{expected_translation}</strong>" }
-
-      before do
-        allow(Setting).to receive(:plain_text_mail).and_return('0')
-      end
 
       context 'changed done ratio' do
         let(:expected) { "#{expected_prefix} changed from <i title=\"40\">40</i> <br/><strong>to</strong> <i title=\"100\">100</i>" }

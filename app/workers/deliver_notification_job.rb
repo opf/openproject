@@ -38,6 +38,7 @@ class DeliverNotificationJob < ApplicationJob
     return unless recipient
 
     mail = User.execute_as(recipient) { build_mail }
+
     if mail
       mail.deliver_now
     end
@@ -55,7 +56,7 @@ class DeliverNotificationJob < ApplicationJob
   def build_mail
     render_mail(recipient: recipient, sender: sender)
   rescue StandardError => e
-    Rails.logger.error "#{self.class.name}: Unexpected error rendering a mail: #{e}"
+    Rails.logger.error "#{self.class.name}: Unexpected error while generating a mail: #{e} #{e.message}"
     # not raising, to avoid re-schedule of DelayedJob; don't expect render errors to fix themselves
     # by retrying
     nil

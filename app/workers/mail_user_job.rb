@@ -47,15 +47,18 @@
 # MailUserJob.some_mail "some_param"
 # ```
 class MailUserJob < ApplicationJob
-  attr_reader :mail
+  attr_reader :mail, :current_user_id
 
-  def initialize(mail, *args)
+  def initialize(mail, *args, current_user:)
     @mail = mail
+    @current_user_id = current_user.id
     @serialized_params = args.map { |arg| serialize_param arg }
   end
 
   def perform
-    UserMailer.send(mail, *params).deliver_now
+    User.execute_as(current_user) do
+      UserMailer.deliver_immediately!(mail, *params)
+    end
   end
 
   def params
@@ -68,15 +71,13 @@ class MailUserJob < ApplicationJob
     end
   end
 
-  def self.method_missing(method, *args, &block)
-    UserMailer.send method unless UserMailer.respond_to? method # fail with NoMethodError
-
-    job = MailUserJob.new method, *args
-
-    Delayed::Job.enqueue job
-  end
-
   private
+
+  def current_user
+    @current_user ||= begin
+      User.find_by(id: current_user_id) || User.anonymous
+    end
+  end
 
   def serialize_param(param)
     if param.is_a? ActiveRecord::Base
