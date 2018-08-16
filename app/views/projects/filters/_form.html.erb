@@ -78,7 +78,10 @@
           <div class="advanced-filters--add-filter-info">
             <div class="notification-box">
               <div class="notification-box--content">
-                <%= t('ee.upsale.project_filters.description_html', link: link_to(t(:label_enterprise_edition), "#{OpenProject::Static::Links.links[:upsale][:href]}/?utm_source=unknown&utm_medium=community-edition&utm_campaign=project-list-filter")) %>
+                <%= t('ee.upsale.project_filters.description_html',
+                      link: link_to(t(:label_enterprise_edition),
+                                    "#{OpenProject::Static::Links.links[:upsale][:href]}/?utm_source=unknown&utm_medium=community-edition&utm_campaign=project-list-filter",
+                                    target: '_blank')) %>
               </div>
             </div>
           </div>
