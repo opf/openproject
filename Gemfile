@@ -56,6 +56,8 @@ gem 'typed_dag', '~> 2.0.2'
 
 gem 'color-tools', '~> 1.3.0', require: 'color'
 
+gem 'addressable', '~> 2.5.2'
+
 gem 'ruby-progressbar'
 
 # Provide timezone info for TZInfo used by AR
