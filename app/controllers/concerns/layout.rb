@@ -41,5 +41,13 @@ module Concerns::Layout
         'no_menu'
       end
     end
+
+    def project_or_module_menu
+      if @project
+        :project_menu
+      else
+        :module_menu
+      end
+    end
   end
 end

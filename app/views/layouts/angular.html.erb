@@ -37,4 +37,4 @@ See docs/COPYRIGHT.rdoc for more details.
   <work-packages-base></work-packages-base>
 <% end -%>
 
-<%= render template: 'layouts/base', locals: { no_action_menu: true } %>
+<%= render template: 'layouts/base', locals: local_assigns.merge({ no_action_menu: true }) %>

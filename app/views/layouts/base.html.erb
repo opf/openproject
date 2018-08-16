@@ -93,7 +93,7 @@ See docs/COPYRIGHT.rdoc for more details.
     </h2>
   </div>
 </noscript>
-<% main_menu = render_main_menu(local_assigns.fetch(:menu_name, :module_menu), @project) %>
+<% main_menu = render_main_menu(local_assigns.fetch(:menu_name, nil), @project) %>
 <% side_displayed = content_for?(:sidebar) || content_for?(:main_menu) || !main_menu.blank? %>
 <% initial_classes = initial_menu_classes(side_displayed, show_decoration) %>
 <div id="wrapper" style="<%= initial_menu_styles %>" class="<%= initial_classes %>">

@@ -39,6 +39,12 @@ module Redmine::MenuManager::MenuHelper
 
   # Renders the application main menu
   def render_main_menu(menu, project = nil)
+    # Fall back to module_menu when project exists
+    if menu.nil? && project
+      menu = :module_menu
+    end
+
+
     if !menu
       nil
     elsif menu == :module_menu && project && project.persisted?
