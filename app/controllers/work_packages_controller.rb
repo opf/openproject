@@ -32,6 +32,7 @@ class WorkPackagesController < ApplicationController
   include QueriesHelper
   include PaginationHelper
   include OpenProject::ClientPreferenceExtractor
+  include Concerns::Layout
 
   accept_key_auth :index, :show
 
@@ -47,7 +48,7 @@ class WorkPackagesController < ApplicationController
   def show
     respond_to do |format|
       format.html do
-        render :show, locals: { work_package: work_package }, layout: 'angular'
+        render :show, locals: { work_package: work_package, menu_name: project_or_module_menu }, layout: 'angular'
       end
 
       format.any(*WorkPackage::Exporter.single_formats) do
@@ -63,7 +64,7 @@ class WorkPackagesController < ApplicationController
   def index
     respond_to do |format|
       format.html do
-        render :index, locals: { query: @query, project: @project },
+        render :index, locals: { query: @query, project: @project, menu_name: project_or_module_menu },
                        layout: 'angular'
       end
 
