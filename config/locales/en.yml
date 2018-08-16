@@ -1004,6 +1004,7 @@ en:
   homescreen:
     additional:
       projects: "Newest visible projects in this instance."
+      no_visible_projects: "There are no visible projects in this instance."
       users: "Newest registered users in this instance."
     blocks:
       community: "OpenProject community"
