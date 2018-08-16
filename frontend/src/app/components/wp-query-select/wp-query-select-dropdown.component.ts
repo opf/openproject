@@ -334,6 +334,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     const currentId = this.$state.params.query_id;
     const currentProps = this.$state.params.query_props;
     let onWorkPackagesPage:boolean = this.$state.includes('work-packages');
+    let onWorkPackagesReportPage:boolean = jQuery('body').hasClass('controller-work_packages/reports');
 
     // When the current ID is selected
     const currentIdSelected = params.query_id && (currentId || '').toString() === params.query_id.toString();
@@ -344,7 +345,10 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     // Case2: We're on the All open menu item
     const allOpen = onWorkPackagesPage && !currentId && !currentProps && item.identifier === 'all_open';
 
-    if (currentIdSelected || matchesStaticQueryProps || allOpen) {
+    // Case3: We're on the static summary page
+    const onSummary = onWorkPackagesReportPage && item.identifier === 'summary';
+
+    if (currentIdSelected || matchesStaticQueryProps || allOpen || onSummary) {
       currentLi.addClass('selected');
     }
   }
