@@ -53,6 +53,9 @@ export class ApiV3Paths {
   // /api/v3/statuses
   public readonly statuses = new SimpleResourceCollection(this.apiV3Base, 'statuses');
 
+  // /api/v3/relations
+  public readonly relations = new SimpleResourceCollection(this.apiV3Base, 'relations');
+
   // /api/v3/statuses
   public readonly types = new SimpleResourceCollection(this.apiV3Base, 'types');
 
