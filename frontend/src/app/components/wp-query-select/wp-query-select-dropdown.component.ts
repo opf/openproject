@@ -250,10 +250,21 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
           autocompleteUi.show();
         }
       },
-      focus: (event:Event, ui:{ item:IAutocompleteItem }) => {
-        this.queryResultsContainer
-          .find(`#wp-query-menu-item-${ui.item.auto_id} .wp-query-menu--item-link`)
-          .focus();
+      focus: (_event:JQueryEventObject, ui:{ item:IAutocompleteItem }) => {
+        let sourceEvent:any|null = _event;
+
+        while(sourceEvent && sourceEvent.originalEvent) {
+          sourceEvent = sourceEvent.originalEvent as any;
+        }
+
+        // Focus the given item, but only when we're using the keyboard.
+        // With the mouse, hover shall suffice to avoid weird focus/hover combinations
+        // e.g., https://community.openproject.com/wp/28197
+        if (sourceEvent && sourceEvent.type === 'keydown') {
+          this.queryResultsContainer
+            .find(`#wp-query-menu-item-${ui.item.auto_id} .wp-query-menu--item-link`)
+            .focus();
+        }
 
         return false;
       },
