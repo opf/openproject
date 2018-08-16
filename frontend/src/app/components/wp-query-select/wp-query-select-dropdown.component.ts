@@ -45,7 +45,7 @@ import {LinkHandling} from "core-app/modules/common/link-handling/link-handling"
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {keyCodes} from "../../../../legacy/app/components/keyCodes.enum";
 
-export type QueryCategory = 'starred'|'public'|'private'|'default';
+export type QueryCategory = 'starred' | 'public' | 'private' | 'default';
 
 export interface IAutocompleteItem {
   // Some optional identifier
@@ -92,7 +92,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   };
   private unregisterTransitionListener:Function;
 
-  private projectIdentifier:string|null;
+  private projectIdentifier:string | null;
 
   private hiddenCategories:any = [];
 
@@ -131,7 +131,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
       toggler.one('click', event => {
         this.initializeAutocomplete();
       });
-       // If we start out on the work package report/summary page
+      // If we start out on the work package report/summary page
       // open the menu at once. Rails is instructed to mark
       // the "work_packages" menu item to be selected.
       if (jQuery('body').is(this.reportsBodySelector)) {
@@ -166,7 +166,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
 
   private transformQueries(collection:CollectionResource) {
     let loadedQueries:IAutocompleteItem[] = _.map(collection.elements, (query:any) => {
-      return { label: query.name, query: query, query_props: null };
+      return {label: query.name, query: query, query_props: null};
     });
 
     // Add to the loaded set of queries the fixed set of queries for the current project context
@@ -178,7 +178,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   // Sort every category array alphabetically, except the default queries
   private sortQueries(items:IAutocompleteItem[]):IAutocompleteItem[] {
     // Concat all categories in the right order
-    let categorized:{[category:string]:IAutocompleteItem[]} = {
+    let categorized:{ [category:string]:IAutocompleteItem[] } = {
       // Starred / favored
       starred: [],
       // default
@@ -237,22 +237,20 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
       // The values are added later by the listener also covering
       // the changes to queries (updateMenuOnChanges()).
       source: [],
-      select: (ul:any, selected:{item:IAutocompleteItem}) => {
-        this.loadQuery(selected.item);
-        this.highlightSelected(selected.item);
+      select: (ul:any, selected:{ item:IAutocompleteItem }) => {
         return false; // Don't show title of selected query in the input field
       },
       response: (event:any, ui:any) => {
         // Show the noResults span if we don't have any matches
         this.noResults = (ui.content.length === 0);
       },
-      close : (event:any, ui:any) => {
+      close: (event:any, ui:any) => {
         const autocompleteUi = this.queryResultsContainer.find('ul.ui-autocomplete');
         if (!autocompleteUi.is(":visible") && !this.noResults) {
-            autocompleteUi.show();
+          autocompleteUi.show();
         }
       },
-      focus: (event:Event, ui:{ item:IAutocompleteItem}) => {
+      focus: (event:Event, ui:{ item:IAutocompleteItem }) => {
         this.queryResultsContainer
           .find(`#wp-query-menu-item-${ui.item.auto_id} .wp-query-menu--item-link`)
           .focus();
@@ -275,7 +273,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     jQuery.widget('custom.querycomplete', jQuery.ui.autocomplete, {
       _create: function(this:any) {
         this._super();
-        this.widget().menu( 'option', 'items', '.wp-query-menu--item' );
+        this.widget().menu('option', 'items', '.wp-query-menu--item');
         this._search('');
       },
       _renderItem: function(this:{}, ul:any, item:IAutocompleteItem) {
@@ -321,7 +319,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
         if (thisComponent.searchInput.val() === '') {
           let selected = thisComponent.queryResultsContainer.find('.wp-query-menu--item.selected');
           if (selected.length > 0) {
-            setTimeout(() => selected[0].scrollIntoView({ behavior: 'instant', block: 'center' }), 20);
+            setTimeout(() => selected[0].scrollIntoView({behavior: 'instant', block: 'center'}), 20);
           }
         }
       }
@@ -374,10 +372,10 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
       .pipe(
         untilComponentDestroyed(this)
       )
-      .subscribe( () => {
+      .subscribe(() => {
         this.loadQueries().then(collection => {
           // Update the complete collection
-          input.querycomplete("option", { source: this.transformQueries(collection) });
+          input.querycomplete("option", {source: this.transformQueries(collection)});
           // To visibly show the changes, we need to search again
           input.querycomplete("search", input.val());
           // To search an empty string would expand all categories again every time
@@ -399,7 +397,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   private loadQuery(item:IAutocompleteItem) {
     const params = this.getQueryParams(item);
     const currentId = _.toString(this.$state.params.query_id);
-    let opts = { reload: false };
+    let opts = {reload: false};
 
     const isStaticItem = !!item.identifier;
     const isSameItem = params.query_id && params.query_id === currentId.toString();
@@ -422,7 +420,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   }
 
   private getQueryParams(item:IAutocompleteItem) {
-    let val:{query_id:string|null, query_props:string|null, projects?:string, projectPath?:string} = {
+    let val:{ query_id:string | null, query_props:string | null, projects?:string, projectPath?:string } = {
       query_id: item.query ? _.toString(item.query.id) : null,
       query_props: item.query ? null : item.query_props,
     };
@@ -446,10 +444,14 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   }
 
   private highlightSelected(item:IAutocompleteItem) {
+    this.highlightBySelector(`#wp-query-menu-item-${item.auto_id}`);
+  }
+
+  private highlightBySelector(selector:string) {
     // Remove old selection
     this.queryResultsContainer.find(".ui-menu-item").removeClass('selected');
     //Find selected element in DOM and highlight it
-    this.queryResultsContainer.find(`#wp-query-menu-item-${item.auto_id}`).addClass('selected');
+    this.queryResultsContainer.find(selector).addClass('selected');
   }
 
   /**
@@ -459,37 +461,40 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
    */
   private addClickHandler() {
     this.queryResultsContainer
-        .on('click keydown', '.ui-menu-item a', (evt:JQueryEventObject) => {
-          if (evt.type === 'keydown' && evt.which !== keyCodes.ENTER) {
-            return true;
-          }
-
-          // Find the item from the clicked element
-          const target = jQuery(evt.target);
-          const item:IAutocompleteItem = target
-            .closest('.wp-query-menu--item')
-            .data('ui-autocomplete-item');
-
-          // Either the link is clicked with a modifier, then always cancel any propagation
-          const clickedWithModifier = evt.type === 'click' && LinkHandling.isClickedWithModifier(evt);
-
-          // Or the item is only a static link, then cancel propagation
-          const isStatic = !!item.static_link;
-
-          if (clickedWithModifier || isStatic) {
-            evt.stopImmediatePropagation();
-
-            if (evt.type === 'keydown') {
-              window.location.href = target.attr('href');
-            }
-          } else {
-            // If neither clicked with modifier nor static
-            // Then prevent the default link handling
-            evt.preventDefault();
-          }
-
+      .on('click keydown', '.ui-menu-item a', (evt:JQueryEventObject) => {
+        if (evt.type === 'keydown' && evt.which !== keyCodes.ENTER) {
           return true;
-        })
+        }
+
+        // Find the item from the clicked element
+        const target = jQuery(evt.target);
+        const item:IAutocompleteItem = target
+          .closest('.wp-query-menu--item')
+          .data('ui-autocomplete-item');
+
+        // Either the link is clicked with a modifier, then always cancel any propagation
+        const clickedWithModifier = evt.type === 'click' && LinkHandling.isClickedWithModifier(evt);
+
+        // Or the item is only a static link, then cancel propagation
+        const isStatic = !!item.static_link;
+
+        if (clickedWithModifier || isStatic) {
+          evt.stopImmediatePropagation();
+
+          if (evt.type === 'keydown') {
+            window.location.href = target.attr('href');
+          }
+        } else {
+          // If neither clicked with modifier nor static
+          // Then prevent the default link handling and load the query
+          evt.preventDefault();
+          this.loadQuery(item);
+          this.highlightSelected(item);
+          return false;
+        }
+
+        return true;
+      })
       .on('click keydown', '.wp-query-menu--category-toggle', (evt:JQueryEventObject) => {
         if (evt.type === 'keydown' && evt.which !== keyCodes.ENTER) {
           return true;
@@ -511,4 +516,4 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   }
 }
 
-DynamicBootstrapper.register({ selector: 'wp-query-select', cls: WorkPackageQuerySelectDropdownComponent });
+DynamicBootstrapper.register({selector: 'wp-query-select', cls: WorkPackageQuerySelectDropdownComponent});
