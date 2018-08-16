@@ -1044,6 +1044,7 @@ tr:
   homescreen:
     additional:
       projects: Bu bölümdeki görülebilir en yeni projeler.
+      no_visible_projects: There are no visible projects in this instance.
       users: Bu bölümdeki kaydolan en son kullanıcılar.
     blocks:
       community: OpenProject topluluğu
@@ -1241,7 +1242,6 @@ tr:
   label_enterprise: Kurumsal
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Kurumsal Sürüm
-  label_entry_page: Entry page
   label_environment: Ortam
   label_estimates_and_time: Tahminler & zaman
   label_equals: şuysa
@@ -2690,3 +2690,4 @@ tr:
       writing_read_only_attributes: Salt okunur bir nitelik yazmamalısınız.
     resources:
       schema: Şema
+  label_entry_page: Entry page

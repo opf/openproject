@@ -1043,6 +1043,7 @@ da:
   homescreen:
     additional:
       projects: Nyeste synlige projekter i denne omgang.
+      no_visible_projects: There are no visible projects in this instance.
       users: Nyeste registrerede brugere i denne omgang.
     blocks:
       community: OpenProject community
@@ -1238,7 +1239,6 @@ da:
   label_enterprise: Enterprise
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
-  label_entry_page: Entry page
   label_environment: Miljø
   label_estimates_and_time: Estimates and time
   label_equals: er
@@ -2683,3 +2683,4 @@ da:
       writing_read_only_attributes: Du må ikke skrive til en skrivebeskyttet attribut.
     resources:
       schema: Skema
+  label_entry_page: Entry page

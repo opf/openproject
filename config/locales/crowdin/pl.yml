@@ -1079,6 +1079,7 @@ pl:
   homescreen:
     additional:
       projects: Najnowsze projekty
+      no_visible_projects: There are no visible projects in this instance.
       users: Nowi użytkownicy
     blocks:
       community: Społeczność OpenProject
@@ -1276,7 +1277,6 @@ pl:
   label_enterprise: Przedsiębiorstwo
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
-  label_entry_page: Entry page
   label_environment: Środowisko
   label_estimates_and_time: Szacowany czas
   label_equals: jest
@@ -2755,3 +2755,4 @@ pl:
       writing_read_only_attributes: Nie możesz zapisać atrybutu tylko do odczytu.
     resources:
       schema: Schemat
+  label_entry_page: Entry page

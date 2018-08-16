@@ -963,6 +963,7 @@ zh-TW:
   homescreen:
     additional:
       projects: 最新的可見專案
+      no_visible_projects: There are no visible projects in this instance.
       users: 最新註冊的使用者
     blocks:
       community: OpenProject 社群
@@ -1153,7 +1154,6 @@ zh-TW:
   label_enterprise: 企業
   label_enterprise_active_users: "%{current}/%{limit} 已預訂的活動使用者"
   label_enterprise_edition: 企業版
-  label_entry_page: 條目頁
   label_environment: 環境
   label_estimates_and_time: 預估成本和時間
   label_equals: 是
@@ -2459,3 +2459,4 @@ zh-TW:
         您不可寫入唯讀的屬性。
     resources:
       schema: 架構
+  label_entry_page: 條目頁

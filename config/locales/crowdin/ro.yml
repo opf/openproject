@@ -1069,6 +1069,7 @@ ro:
   homescreen:
     additional:
       projects: Cele mai noi proiecte vizibile.
+      no_visible_projects: There are no visible projects in this instance.
       users: Cei mai noi utilizatori înregistrați.
     blocks:
       community: Comunitatea OpenProject
@@ -1264,7 +1265,6 @@ ro:
   label_enterprise: Enterprise
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
-  label_entry_page: Entry page
   label_environment: Mediu
   label_estimates_and_time: Estimates and time
   label_equals: este
@@ -2743,3 +2743,4 @@ ro:
       writing_read_only_attributes: Nu puteți scrie într-un câmp restricționat.
     resources:
       schema: Schemă
+  label_entry_page: Entry page

@@ -953,6 +953,7 @@ lol:
   homescreen:
     additional:
       projects: crwdns97052:0crwdne97052:0
+      no_visible_projects: There are no visible projects in this instance.
       users: crwdns97053:0crwdne97053:0
     blocks:
       community: crwdns97054:0crwdne97054:0
@@ -1143,7 +1144,6 @@ lol:
   label_enterprise: crwdns97230:0crwdne97230:0
   label_enterprise_active_users: crwdns98983:0%{current}crwdnd98983:0%{limit}crwdne98983:0
   label_enterprise_edition: crwdns97231:0crwdne97231:0
-  label_entry_page: crwdns98942:0crwdne98942:0
   label_environment: crwdns97232:0crwdne97232:0
   label_estimates_and_time: crwdns97233:0crwdne97233:0
   label_equals: crwdns97234:0crwdne97234:0
@@ -2404,3 +2404,4 @@ lol:
       writing_read_only_attributes: crwdns98331:0crwdne98331:0
     resources:
       schema: crwdns98332:0crwdne98332:0
+  label_entry_page: crwdns98942:0crwdne98942:0

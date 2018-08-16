@@ -1047,6 +1047,7 @@ bg:
   homescreen:
     additional:
       projects: Най-новите проекти, видими в този случай.
+      no_visible_projects: There are no visible projects in this instance.
       users: Най-новите регистрирани потребители в този случай.
     blocks:
       community: OpenProject Общността
@@ -1245,7 +1246,6 @@ bg:
   label_enterprise: Enterprise
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
-  label_entry_page: Entry page
   label_environment: Среда
   label_estimates_and_time: Estimates and time
   label_equals: е
@@ -2689,3 +2689,4 @@ bg:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Схема
+  label_entry_page: Entry page

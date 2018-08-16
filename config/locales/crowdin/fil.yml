@@ -1081,6 +1081,7 @@ fil:
   homescreen:
     additional:
       projects: Pinakamabagong makikitang proyekto sa pagkakataong ito.
+      no_visible_projects: There are no visible projects in this instance.
       users: Pinakamabagong rehistrong gumagamit sa panahong ito.
     blocks:
       community: Komunidad ng OpenProject
@@ -1281,7 +1282,6 @@ fil:
   label_enterprise: Enterprise
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
-  label_entry_page: Entry page
   label_environment: Kalikasan
   label_estimates_and_time: Mga pagtatantya at oras
   label_equals: ay
@@ -2799,3 +2799,4 @@ fil:
         basa-lang.
     resources:
       schema: Iskema
+  label_entry_page: Entry page

@@ -1088,6 +1088,7 @@ sk:
   homescreen:
     additional:
       projects: Najnovšie viditeľné projekty v tejto inštancii.
+      no_visible_projects: There are no visible projects in this instance.
       users: Najnovší registrovaní používatelia v tejto inštancii.
     blocks:
       community: OpenProject komunita
@@ -1284,7 +1285,6 @@ sk:
   label_enterprise: Enterprise
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
-  label_entry_page: Entry page
   label_environment: Prostredie
   label_estimates_and_time: Estimates and time
   label_equals: je
@@ -2753,3 +2753,4 @@ sk:
         na čítanie.
     resources:
       schema: Schéma
+  label_entry_page: Entry page

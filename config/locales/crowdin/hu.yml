@@ -1047,6 +1047,7 @@ hu:
   homescreen:
     additional:
       projects: Legújabb projektek ebben az esetben.
+      no_visible_projects: There are no visible projects in this instance.
       users: Legújabb regisztrált felhasználók ebben az esetben.
     blocks:
       community: OpenProject Közösség
@@ -1245,7 +1246,6 @@ hu:
   label_enterprise: Vállalati
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
-  label_entry_page: Entry page
   label_environment: Környezet
   label_estimates_and_time: Becslések & időpontok
   label_equals: van
@@ -2702,3 +2702,4 @@ hu:
       writing_read_only_attributes: Nem írhat egy csak olvasható tulajdonságot.
     resources:
       schema: Séma
+  label_entry_page: Entry page

@@ -1040,6 +1040,7 @@ id:
   homescreen:
     additional:
       projects: Newest visible projects in this instance.
+      no_visible_projects: There are no visible projects in this instance.
       users: Newest registered users in this instance.
     blocks:
       community: OpenProject community
@@ -1238,7 +1239,6 @@ id:
   label_enterprise: Perusahaan
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Edisi Perusahaan
-  label_entry_page: Entry page
   label_environment: Environment
   label_estimates_and_time: Perkiraan dan waktu
   label_equals: adalah
@@ -2675,3 +2675,4 @@ id:
       writing_read_only_attributes: Anda tidak harus menulis hanya-baca atribut.
     resources:
       schema: Schema
+  label_entry_page: Entry page

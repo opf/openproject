@@ -1068,6 +1068,7 @@ fr:
   homescreen:
     additional:
       projects: Les projets visibles les plus récents de cette instance.
+      no_visible_projects: There are no visible projects in this instance.
       users: Les utilisateurs enregistrés les plus récents de cette instance.
     blocks:
       community: Communauté OpenProject
@@ -1266,7 +1267,6 @@ fr:
   label_enterprise: Entreprise
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Version Entreprise
-  label_entry_page: Entry page
   label_environment: Environement
   label_estimates_and_time: Estimations et temps
   label_equals: est
@@ -2765,3 +2765,4 @@ fr:
         seule.
     resources:
       schema: Schéma
+  label_entry_page: Entry page

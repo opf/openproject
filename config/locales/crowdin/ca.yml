@@ -1058,6 +1058,7 @@ ca:
   homescreen:
     additional:
       projects: Els projectes més visibles en aquesta instància.
+      no_visible_projects: There are no visible projects in this instance.
       users: Els usuaris més nous registrats en aquesta instància.
     blocks:
       community: Comunitat OpenProject
@@ -1255,7 +1256,6 @@ ca:
   label_enterprise: Enterprise
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
-  label_entry_page: Entry page
   label_environment: Entorn
   label_estimates_and_time: Estimates and time
   label_equals: és
@@ -2750,3 +2750,4 @@ ca:
       writing_read_only_attributes: No s'ha d'escriure en un atribut de només de lectura.
     resources:
       schema: Esquema
+  label_entry_page: Entry page

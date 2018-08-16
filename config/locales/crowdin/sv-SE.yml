@@ -1045,6 +1045,7 @@ sv-SE:
   homescreen:
     additional:
       projects: De senast synliga projekten just nu.
+      no_visible_projects: There are no visible projects in this instance.
       users: De senast registrerade användarna just nu.
     blocks:
       community: OpenProject community
@@ -1241,7 +1242,6 @@ sv-SE:
   label_enterprise: Företag
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
-  label_entry_page: Ingångssidan
   label_environment: Miljö
   label_estimates_and_time: Uppskattningar och tid
   label_equals: är
@@ -2681,3 +2681,4 @@ sv-SE:
       writing_read_only_attributes: Du får inte skriva till ett skrivskyddat attribut.
     resources:
       schema: Schema
+  label_entry_page: Ingångssidan

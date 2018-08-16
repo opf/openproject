@@ -961,6 +961,7 @@ ja:
   homescreen:
     additional:
       projects: このインスタンスの、最新の表示されるプロジェクト。
+      no_visible_projects: There are no visible projects in this instance.
       users: このインスタンスの、最新の登録ユーザー。
     blocks:
       community: OpenProject コミュニティ
@@ -1151,7 +1152,6 @@ ja:
   label_enterprise: エンタープライズ
   label_enterprise_active_users: "%{current}/%{limit} 予約済みのアクティブユーザー"
   label_enterprise_edition: エンタープライズ版
-  label_entry_page: エントリーページ
   label_environment: 環境
   label_estimates_and_time: 見積もりと 時間
   label_equals: 等しい
@@ -2451,3 +2451,4 @@ ja:
       writing_read_only_attributes: 読み取り専用の属性を書き込みできません。
     resources:
       schema: スキーマ
+  label_entry_page: エントリーページ

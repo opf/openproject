@@ -1063,6 +1063,7 @@ hr:
   homescreen:
     additional:
       projects: Najnoviji vidljivi projekti unutar ove instance.
+      no_visible_projects: There are no visible projects in this instance.
       users: Najnoviji registrirani korisnik unutar ove instance.
     blocks:
       community: OpenProject Zajednica
@@ -1259,7 +1260,6 @@ hr:
   label_enterprise: Enterprise
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise verzija
-  label_entry_page: Entry page
   label_environment: Okruženje
   label_estimates_and_time: Estimates and time
   label_equals: je
@@ -2727,3 +2727,4 @@ hr:
         je dopušteno samo čitanje.
     resources:
       schema: Shema
+  label_entry_page: Entry page

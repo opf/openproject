@@ -1032,6 +1032,7 @@ th:
   homescreen:
     additional:
       projects: Newest visible projects in this instance.
+      no_visible_projects: There are no visible projects in this instance.
       users: Newest registered users in this instance.
     blocks:
       community: OpenProject community
@@ -1226,7 +1227,6 @@ th:
   label_enterprise: Enterprise
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
-  label_entry_page: Entry page
   label_environment: สภาพแวดล้อม
   label_estimates_and_time: Estimates and time
   label_equals: เป็น
@@ -2626,3 +2626,4 @@ th:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Schema
+  label_entry_page: Entry page

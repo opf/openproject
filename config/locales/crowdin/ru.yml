@@ -1083,6 +1083,7 @@ ru:
   homescreen:
     additional:
       projects: Новые видимые проекты в данном экземпляре.
+      no_visible_projects: There are no visible projects in this instance.
       users: Новые зарегистрированные пользователи в данном экземпляре.
     blocks:
       community: OpenProject сообщество
@@ -1279,7 +1280,6 @@ ru:
   label_enterprise: Предприятие
   label_enterprise_active_users: "%{current}/%{limit} забронировано активных пользователей"
   label_enterprise_edition: Корпоративная версия
-  label_entry_page: Страница входа
   label_environment: Переменные среды
   label_estimates_and_time: Оценки и время
   label_equals: "—"
@@ -2769,3 +2769,4 @@ ru:
         только для чтения.
     resources:
       schema: Схема
+  label_entry_page: Страница входа

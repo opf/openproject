@@ -961,6 +961,7 @@ zh:
   homescreen:
     additional:
       projects: 这个实例中的最新可见项目。
+      no_visible_projects: There are no visible projects in this instance.
       users: 这个实例中的最新注册用户。
     blocks:
       community: OpenProject 社区
@@ -1151,7 +1152,6 @@ zh:
   label_enterprise: 企业
   label_enterprise_active_users: "%{current}/%{limit} 已预订的活动用户"
   label_enterprise_edition: 企业版
-  label_entry_page: 入口页面
   label_environment: 环境
   label_estimates_and_time: 预估成本和时间
   label_equals: 是
@@ -2428,3 +2428,4 @@ zh:
       writing_read_only_attributes: 你不能写入只读属性。
     resources:
       schema: 方案
+  label_entry_page: 入口页面

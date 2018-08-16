@@ -1077,6 +1077,7 @@ lt:
   homescreen:
     additional:
       projects: Naujausi matomi projektai.
+      no_visible_projects: There are no visible projects in this instance.
       users: Naujausi registruoti vartotojai.
     blocks:
       community: OpenProject community
@@ -1273,7 +1274,6 @@ lt:
   label_enterprise: Enterprise
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: "„Enterprise Edition“"
-  label_entry_page: Entry page
   label_environment: Aplinka
   label_estimates_and_time: Sąmatos ir laikas
   label_equals: yra
@@ -2763,3 +2763,4 @@ lt:
       writing_read_only_attributes: Jūs neturėtumėte įrašyti atributą „tik skaitomas“.
     resources:
       schema: Schema
+  label_entry_page: Entry page

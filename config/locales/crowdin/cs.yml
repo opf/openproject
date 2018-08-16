@@ -1078,6 +1078,7 @@ cs:
   homescreen:
     additional:
       projects: Nejnovější projekty viditelné v této instalaci.
+      no_visible_projects: There are no visible projects in this instance.
       users: Poslední registrovaní uživatelé v této instalaci.
     blocks:
       community: OpenProject komunita
@@ -1273,7 +1274,6 @@ cs:
   label_enterprise: Enterprise
   label_enterprise_active_users: "%{current}/%{limit} rezervováno aktivních uživatelů"
   label_enterprise_edition: Enterprise Edice
-  label_entry_page: Vstupní stránka
   label_environment: Prostředí
   label_estimates_and_time: Odhady a čas
   label_equals: je
@@ -2736,3 +2736,4 @@ cs:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Schema
+  label_entry_page: Vstupní stránka

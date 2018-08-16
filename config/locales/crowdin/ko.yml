@@ -1016,6 +1016,7 @@ ko:
   homescreen:
     additional:
       projects: 이 경우 최신 표시 프로젝트입니다.
+      no_visible_projects: There are no visible projects in this instance.
       users: 이 경우 최신 등록 된 사용자입니다.
     blocks:
       community: OpenProject 커뮤니티
@@ -1208,7 +1209,6 @@ ko:
   label_enterprise: 엔터프라이즈
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
-  label_entry_page: Entry page
   label_environment: 환경
   label_estimates_and_time: 견적 및 시간
   label_equals: 일치함
@@ -2560,3 +2560,4 @@ ko:
       writing_read_only_attributes: 읽기 전용 특성은 변경할 수 없습니다.
     resources:
       schema: 스키마
+  label_entry_page: Entry page

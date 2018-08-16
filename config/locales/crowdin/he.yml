@@ -1064,6 +1064,7 @@ he:
   homescreen:
     additional:
       projects: Newest visible projects in this instance.
+      no_visible_projects: There are no visible projects in this instance.
       users: Newest registered users in this instance.
     blocks:
       community: OpenProject community
@@ -1260,7 +1261,6 @@ he:
   label_enterprise: Enterprise
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
-  label_entry_page: Entry page
   label_environment: סביבה
   label_estimates_and_time: Estimates and time
   label_equals: הינו
@@ -2716,3 +2716,4 @@ he:
       writing_read_only_attributes: אתה חייב שלא לכתוב תכונה לקריאה בלבד.
     resources:
       schema: סכימה
+  label_entry_page: Entry page
