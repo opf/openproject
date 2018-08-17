@@ -35,7 +35,7 @@ class Widget::Filters::Date < Widget::Filters::Base
       arg1 = content_tag :span, id: "#{id_prefix}arg_1" do
         text1 = text_field_tag name, @filter.values.first.to_s,
                                size: 10,
-                               class: 'advanced-filters--text-field',
+                               class: 'advanced-filters--text-field -augmented-datepicker',
                                id: "#{id_prefix}arg_1_val",
                                :'data-type' => 'date'
         label1 + text1
@@ -48,15 +48,13 @@ class Widget::Filters::Date < Widget::Filters::Base
       arg2 = content_tag :span, id: "#{id_prefix}arg_2", class: 'advanced-filters--filter-value2' do
         text2 = text_field_tag "#{name}", @filter.values.second.to_s,
                                size: 10,
-                               class: 'advanced-filters--text-field',
+                               class: 'advanced-filters--text-field -augmented-datepicker',
                                id: "#{id_prefix}arg_2_val",
                                :'data-type' => 'date'
         label2 + text2
       end
 
-      cal1 = calendar_for("#{id_prefix}arg_1_val")
-      cal2 = calendar_for("#{id_prefix}arg_2_val")
-      arg1 + arg2 + cal1 + cal2
+      arg1 + arg2
     end)
   end
 end
