@@ -39,6 +39,12 @@ module Redmine::MenuManager::MenuHelper
 
   # Renders the application main menu
   def render_main_menu(menu, project = nil)
+    # Fall back to module_menu when project exists
+    if menu.nil? && project && project.persisted?
+      menu = :module_menu
+    end
+
+
     if !menu
       nil
     elsif menu == :module_menu && project && project.persisted?
@@ -121,7 +127,7 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def any_item_selected?(items)
-    items.any? { |item| item.name == current_menu_item || entry_page_selected?(item) }
+    items.any? { |item| item.name == current_menu_item }
   end
 
   def render_menu_node(node, project = nil)
@@ -293,13 +299,7 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def node_selected?(item)
-    current_menu_item == item.name ||
-      entry_page_selected?(item) ||
-      no_wiki_menu_item_selected?(item)
-  end
-
-  def entry_page_selected?(item)
-    item.name == MenuItems::WikiMenuItem.add_entry_item_prefix(current_menu_item)
+    current_menu_item == item.name || no_wiki_menu_item_selected?(item)
   end
 
   def no_wiki_menu_item_selected?(item)

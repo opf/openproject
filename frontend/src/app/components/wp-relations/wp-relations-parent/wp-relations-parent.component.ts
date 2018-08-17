@@ -71,7 +71,7 @@ export class WpRelationParentComponent implements OnInit, OnDestroy {
         setTimeout(() => jQuery('#hierarchy--parent').focus());
       })
       .catch((err:any) => {
-        this.wpNotificationsService.handleErrorResponse(err, this.workPackage);
+        this.wpNotificationsService.handleRawError(err, this.workPackage);
       })
       .then(() => this.isSaving = false); // Behaves as .finally()
   }

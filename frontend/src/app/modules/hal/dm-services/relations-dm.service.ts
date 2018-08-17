@@ -56,7 +56,7 @@ export class RelationsDmService {
     }
 
     return this.halResourceService.get<CollectionResource<RelationResource>>(
-      '/api/v3/relations',
+      this.pathHelper.api.v3.relations.toPath(),
       {
         filters: buildApiV3Filter('involved', '=', validIds).toJson()
       })

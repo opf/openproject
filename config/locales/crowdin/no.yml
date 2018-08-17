@@ -3,7 +3,8 @@
   no_results_title_text: There is currently nothing to display.
   activities:
     index:
-      no_results_title_text: There has not been any activity for the project.
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: There are currently no plugins available.
@@ -1041,6 +1042,7 @@
   homescreen:
     additional:
       projects: Newest visible projects in this instance.
+      no_visible_projects: There are no visible projects in this instance.
       users: Newest registered users in this instance.
     blocks:
       community: OpenProject fellesskap
@@ -1237,7 +1239,6 @@
   label_enterprise: Bedrift
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Bedriftsversjonen
-  label_entry_page: Entry page
   label_environment: Miljø
   label_estimates_and_time: Estimates and time
   label_equals: er
@@ -2278,7 +2279,8 @@
   text_journal_aggregation_time_explanation: Combine journals for display if their
     age difference is less than the specified timespan. This will also delay mail
     notifications by the same amount of time.
-  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} oppdatert"
   text_journal_changed_with_diff: "%{label} endret (%{link})"
   text_journal_deleted: "%{label} slettet (%{old})"
@@ -2679,3 +2681,4 @@
       writing_read_only_attributes: Du kan ikke skrive til et skrivebeskyttet attributt.
     resources:
       schema: Skjema
+  label_entry_page: Entry page

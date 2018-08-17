@@ -3,7 +3,8 @@ sk:
   no_results_title_text: Momentálne nič na zobrazenie.
   activities:
     index:
-      no_results_title_text: Žiadne aktivity pre projekt.
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: Momentálne nie sú k dispozícii žiadne zásuvné moduly.
@@ -1087,6 +1088,7 @@ sk:
   homescreen:
     additional:
       projects: Najnovšie viditeľné projekty v tejto inštancii.
+      no_visible_projects: There are no visible projects in this instance.
       users: Najnovší registrovaní používatelia v tejto inštancii.
     blocks:
       community: OpenProject komunita
@@ -1283,7 +1285,6 @@ sk:
   label_enterprise: Enterprise
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
-  label_entry_page: Entry page
   label_environment: Prostredie
   label_estimates_and_time: Estimates and time
   label_equals: je
@@ -2342,7 +2343,8 @@ sk:
   text_journal_aggregation_time_explanation: Combine journals for display if their
     age difference is less than the specified timespan. This will also delay mail
     notifications by the same amount of time.
-  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
   text_journal_deleted: "%{label} deleted (%{old})"
@@ -2751,3 +2753,4 @@ sk:
         na čítanie.
     resources:
       schema: Schéma
+  label_entry_page: Entry page

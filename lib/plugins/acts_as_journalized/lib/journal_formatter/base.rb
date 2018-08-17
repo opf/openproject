@@ -45,7 +45,7 @@ class JournalFormatter::Base
       label, old_value, value = *format_html_details(label, old_value, value)
     end
 
-    render_ternary_detail_text(label, value, old_value)
+    render_ternary_detail_text(label, value, old_value, options)
   end
 
   private
@@ -73,15 +73,14 @@ class JournalFormatter::Base
     @journal.journable.class.human_attribute_name(key)
   end
 
-  def render_ternary_detail_text(label, value, old_value)
-    if value.blank?
-      l(:text_journal_deleted, label: label, old: old_value)
+  def render_ternary_detail_text(label, value, old_value, options)
+    return I18n.t(:text_journal_deleted, label: label, old: old_value) if value.blank?
+    return I18n.t(:text_journal_set_to, label: label, value: value) if old_value.blank?
+
+    if options[:no_html]
+      I18n.t(:text_journal_changed_plain, label: label, old: old_value, new: value).html_safe
     else
-      if old_value.blank?
-        l(:text_journal_set_to, label: label, value: value)
-      else
-        l(:text_journal_changed, label: label, old: old_value, new: value).html_safe
-      end
+      I18n.t(:text_journal_changed, label: label, old: old_value, new: value).html_safe
     end
   end
 

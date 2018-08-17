@@ -203,10 +203,10 @@ describe('WorkPackage', () => {
           attachment.delete = jasmine.createSpy('delete')
             .and.returnValue(Promise.reject({ foo: 'bar'}));
 
-          errorStub = spyOn(wpNotificationsService, 'handleErrorResponse');
+          errorStub = spyOn(wpNotificationsService, 'handleRawError');
         });
 
-        it('should call the handleErrorResponse notification', (done) => {
+        it('should call the handleRawError notification', (done) => {
           workPackage.removeAttachment(attachment).then(() => {
             expect(errorStub).toHaveBeenCalled();
             done();

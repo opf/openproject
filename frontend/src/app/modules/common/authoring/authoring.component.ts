@@ -60,7 +60,7 @@ export class AuthoringComponent implements OnInit {
     this.createdOnTime = this.timezoneService.parseDatetime(this.createdOn);
     this.timeago = this.createdOnTime.fromNow();
     this.time = this.createdOnTime.format('LLL');
-    this.userLink = this.PathHelper.userPath(this.author.id);
+    this.userLink = this.PathHelper.userPath(this.author.idFromLink);
   }
 
   public activityFromPath(from:any) {

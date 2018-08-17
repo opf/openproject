@@ -256,7 +256,7 @@ class WorkPackage::PdfExport::WorkPackageToPdf < WorkPackage::Exporter::Base
       newline!
 
       pdf.font style: :italic, size: 8
-      for detail in journal.details
+      journal.details.each do |detail|
         text = journal
           .render_detail(detail, no_html: true, only_path: false)
           .gsub(/\((https?[^\)]+)\)$/, "(<link href='\\1'>\\1</link>)")

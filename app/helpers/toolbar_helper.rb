@@ -40,6 +40,7 @@ module ToolbarHelper
                       placeholder: t(:label_page_title),
                       'aria-label': t(:label_page_title),
                       autocomplete: 'off',
+                      required: true,
                       autofocus: new_element,
                       no_label: true
     end

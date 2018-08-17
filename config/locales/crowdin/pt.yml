@@ -3,7 +3,8 @@ pt:
   no_results_title_text: Atualmente, não há nada para exibir.
   activities:
     index:
-      no_results_title_text: Não houve qualquer atividade para o projeto.
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: Atualmente, não existem extensões disponíveis.
@@ -1062,6 +1063,7 @@ pt:
   homescreen:
     additional:
       projects: Mais recentes projectos visíveis nesta instância.
+      no_visible_projects: There are no visible projects in this instance.
       users: Utilizadores mais novos registados nesta instância.
     blocks:
       community: Comunidade de OpenProject
@@ -1260,7 +1262,6 @@ pt:
   label_enterprise: Enterprise
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Versão Enterprise
-  label_entry_page: Entry page
   label_environment: Ambiente
   label_estimates_and_time: Valores estimados e tempo
   label_equals: é
@@ -2330,7 +2331,8 @@ pt:
   text_journal_aggregation_time_explanation: Combine diários para ver se a sua diferença
     de idade é menor que o período de tempo especificado. Isso também vai atrasar
     as notificações de correio pela mesma quantidade de tempo.
-  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} atualizado"
   text_journal_changed_with_diff: "%{label} alterado (%{link})"
   text_journal_deleted: "%{label} eliminado (%{old})"
@@ -2740,3 +2742,4 @@ pt:
         leitura.
     resources:
       schema: Esquema
+  label_entry_page: Entry page

@@ -52,8 +52,6 @@ module Redmine::MenuManager::WikiMenuHelper
               icon: 'icon2 icon-wiki',
               html:    { class: 'wiki-menu--main-item' }
 
-    push_wiki_entry_page_item(main_item, menu)
-
     if project.wiki.pages.any?
       push_wiki_menu_partial(main_item, menu)
     end
@@ -91,14 +89,5 @@ module Redmine::MenuManager::WikiMenuHelper
               parent: main_item.menu_identifier,
               partial: 'wiki/menu_pages_tree',
               last: true
-  end
-
-  def push_wiki_entry_page_item(main_item, menu)
-    menu.push main_item.as_entry_item_symbol,
-              { controller: '/wiki', action: 'show', id: main_item.slug },
-              param: :project_id,
-              caption: t('label_entry_page'),
-              parent: main_item.menu_identifier,
-              first: true
   end
 end

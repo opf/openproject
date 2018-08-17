@@ -36,6 +36,10 @@ $wp-query-menu-search-container-height: 35px
     %absolute-layout-mode &
       height: calc(100% - #{$wp-query-menu-search-container-height})
 
+    // Firefox needs more left padding for whatever reason
+    html.-browser-firefox &
+      padding-left: 10px
+
   .wp-query-menu--no-results-container
     display: block
     padding: 15px 15px 0
@@ -58,6 +62,7 @@ $wp-query-menu-search-container-height: 35px
     .ui-autocomplete--category
       width: 100%
       padding-left: 25px
+      margin: 2px 0
       line-height: $menu-item-line-height
       height: $menu-item-line-height
       font-weight: normal
@@ -128,8 +133,9 @@ $wp-query-menu-search-container-height: 35px
 
   // Link within element wrapper
   .wp-query-menu--item-link
-    padding: 0px 0px 0px 5px !important
-    margin-left: 8px
+    @include text-shortener
+    padding: 0px 2px 0px 5px !important
+    margin: 0
     line-height: 30px
     height: 30px !important
 

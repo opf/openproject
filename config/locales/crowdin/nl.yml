@@ -3,8 +3,8 @@ nl:
   no_results_title_text: Er is op dit moment niets om weer te geven.
   activities:
     index:
-      no_results_title_text: Er heeft nog geen activiteit plaatsgevonden voor het
-        project.
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: Er zijn momenteel geen plugins beschikbaar.
@@ -980,7 +980,7 @@ nl:
   error_enterprise_activation_user_limit: Uw account kon niet worden geactiveerd (gebruikerslimiet
     bereikt). Neem contact op met uw beheerder om toegang te krijgen.
   error_failed_to_delete_entry: Fout bij het verwijderen van deze ingave.
-  error_invalid_selected_value: Invalid selected value.
+  error_invalid_selected_value: De geselecteerde waarde is ongeldig.
   error_invalid_group_by: 'Kan niet groeperen op: %{value}'
   error_invalid_query_column: 'Ongeldige zoekopdracht kolom: %{value}'
   error_invalid_sort_criterion: 'Kan niet sorteren op kolom: %{value}'
@@ -1062,6 +1062,7 @@ nl:
   homescreen:
     additional:
       projects: Nieuwste zichtbare projecten in deze instantie.
+      no_visible_projects: There are no visible projects in this instance.
       users: Nieuwste geregistreerde gebruikers in deze instantie.
     blocks:
       community: OpenProject gemeenschap
@@ -1259,7 +1260,6 @@ nl:
   label_enterprise: Enterprise
   label_enterprise_active_users: "%{current}/%{limit} gereserveerd actieve gebruikers"
   label_enterprise_edition: Enterprise Edition
-  label_entry_page: Pagina voor gegevensinvoer
   label_environment: Omgeving
   label_estimates_and_time: Schattingen en tijden
   label_equals: is
@@ -1687,7 +1687,7 @@ nl:
   macro_execution_error: Fout bij het uitvoeren van de macro %{macro_name}
   macro_unavailable: Macro %{macro_name} kan niet worden weergegeven.
   macros:
-    placeholder: "[Placeholder] Macro %{macro_name}"
+    placeholder: "[Placeholder] macro %{macro_name}"
     errors:
       missing_or_invalid_parameter: Ontbrekende of ongeldige parameter van de macro.
     legacy_warning:
@@ -2327,7 +2327,8 @@ nl:
   text_journal_aggregation_time_explanation: Tijdschriften voor weergave combineren
     als leeftijdsverschil kleiner dan de opgegeven timespan is. Dit zal ook e-mail
     kennisgevingen door de dezelfde hoeveelheid tijd vertragen.
-  text_journal_changed: "%{label} gewijzigd van %{old} </br><strong></strong> %{new}"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} bijgewerkt"
   text_journal_changed_with_diff: "%{label} gewijzigd (%{link})"
   text_journal_deleted: "%{label} verwijderd (%{old})"
@@ -2380,8 +2381,8 @@ nl:
   text_user_wrote: "%{value} schreef:"
   text_warn_on_leaving_unsaved: Het werkpakket bevat niet-opgeslagen tekst die verloren
     gaat als u deze pagina verlaat.
-  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
-    comment
+  text_what_did_you_change_click_to_add_comment: Wat heb je te veranderen? Klik op
+    Opmerking toevoegen
   text_wiki_destroy_confirmation: Weet u zeker dat u deze wiki en alle inhoud wilt
     verwijderen?
   text_wiki_page_destroy_children: Verwijder alle subpagina's en onderliggende pagina's
@@ -2741,3 +2742,4 @@ nl:
       writing_read_only_attributes: U mag geen read-only attribuut schrijven.
     resources:
       schema: Schema
+  label_entry_page: Pagina voor gegevensinvoer

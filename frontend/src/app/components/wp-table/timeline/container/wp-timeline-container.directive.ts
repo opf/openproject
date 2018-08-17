@@ -51,7 +51,7 @@ import {WorkPackageTimelineCell} from '../cells/wp-timeline-cell';
 import {WorkPackageTimelineCellsRenderer} from '../cells/wp-timeline-cells-renderer';
 import {
   calculateDaySpan,
-  getPixelPerDayForZoomLevel,
+  getPixelPerDayForZoomLevel, requiredPixelMarginLeft,
   timelineElementCssClass,
   timelineMarkerSelectionStartClass,
   TimelineViewParameters,
@@ -281,7 +281,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     this.activateSelectionMode(start.id, end => {
       this.wpRelations
         .addCommonRelation(start as any, 'follows', end.id)
-        .catch((error:any) => this.wpNotificationsService.handleErrorResponse(error, end));
+        .catch((error:any) => this.wpNotificationsService.handleRawError(error, end));
     });
   }
 
@@ -289,7 +289,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     this.activateSelectionMode(start.id, end => {
       this.wpRelations
         .addCommonRelation(start as any, 'precedes', end.id)
-        .catch((error:any) => this.wpNotificationsService.handleErrorResponse(error, end));
+        .catch((error:any) => this.wpNotificationsService.handleRawError(error, end));
     });
   }
 
@@ -433,7 +433,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
 
   private applyAutoZoomLevel() {
     const daysSpan = calculateDaySpan(this.workPackageIdOrder, this.states.workPackages, this._viewParameters);
-    const timelineWidthInPx = this.outerContainer.width();
+    const timelineWidthInPx = this.outerContainer.width() - (2 * requiredPixelMarginLeft);
 
     for (let zoomLevel of zoomLevelOrder) {
       const pixelPerDay = getPixelPerDayForZoomLevel(zoomLevel);

@@ -3,7 +3,8 @@ zh:
   no_results_title_text: 目前没有什么可显示。
   activities:
     index:
-      no_results_title_text: 项目中没有任何活动。
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: 目前没有插件可用。
@@ -960,6 +961,7 @@ zh:
   homescreen:
     additional:
       projects: 这个实例中的最新可见项目。
+      no_visible_projects: There are no visible projects in this instance.
       users: 这个实例中的最新注册用户。
     blocks:
       community: OpenProject 社区
@@ -1150,7 +1152,6 @@ zh:
   label_enterprise: 企业
   label_enterprise_active_users: "%{current}/%{limit} 已预订的活动用户"
   label_enterprise_edition: 企业版
-  label_entry_page: 入口页面
   label_environment: 环境
   label_estimates_and_time: 预估成本和时间
   label_equals: 是
@@ -2084,7 +2085,8 @@ zh:
   text_work_packages_ref_in_commit_messages: 引用和修复工作包中提交消息
   text_journal_added: "%{label} %{value} 已添加"
   text_journal_aggregation_time_explanation: 如果两篇日志的时间差小于指定的时间区间，将它们组合显示。这也将邮件通知延迟同样的时间。
-  text_journal_changed: "%{label} 已从%{old} </br> <strong>更改为</strong>%{new}"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} 已更新"
   text_journal_changed_with_diff: "%{label} 已变更 (%{link})"
   text_journal_deleted: "%{label} 已删除 (%{old})"
@@ -2426,3 +2428,4 @@ zh:
       writing_read_only_attributes: 你不能写入只读属性。
     resources:
       schema: 方案
+  label_entry_page: 入口页面

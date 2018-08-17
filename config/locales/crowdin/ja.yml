@@ -3,7 +3,8 @@ ja:
   no_results_title_text: 現在表示する対象がありません。
   activities:
     index:
-      no_results_title_text: プロジェクトは活動を行っていません。
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: 現在利用可能なプラグインはありません。
@@ -960,6 +961,7 @@ ja:
   homescreen:
     additional:
       projects: このインスタンスの、最新の表示されるプロジェクト。
+      no_visible_projects: There are no visible projects in this instance.
       users: このインスタンスの、最新の登録ユーザー。
     blocks:
       community: OpenProject コミュニティ
@@ -1150,7 +1152,6 @@ ja:
   label_enterprise: エンタープライズ
   label_enterprise_active_users: "%{current}/%{limit} 予約済みのアクティブユーザー"
   label_enterprise_edition: エンタープライズ版
-  label_entry_page: エントリーページ
   label_environment: 環境
   label_estimates_and_time: 見積もりと 時間
   label_equals: 等しい
@@ -2098,7 +2099,8 @@ ja:
   text_work_packages_ref_in_commit_messages: コミットメッセージ内で作業項目の参照/修正
   text_journal_added: "%{label}で%{value}を追加"
   text_journal_aggregation_time_explanation: 発生時刻の差が指定された期間内であれば、履歴記述を集計して表示する。またメールの通知がこの期間で遅らせます。
-  text_journal_changed: "%{label} が %{old} </br><strong>から</strong> %{new} に変更されました"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label}を更新"
   text_journal_changed_with_diff: "%{label}を変更（%{link}）"
   text_journal_deleted: "%{label}を削除（%{old}）"
@@ -2449,3 +2451,4 @@ ja:
       writing_read_only_attributes: 読み取り専用の属性を書き込みできません。
     resources:
       schema: スキーマ
+  label_entry_page: エントリーページ

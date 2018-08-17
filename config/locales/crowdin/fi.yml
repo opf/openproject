@@ -3,7 +3,8 @@ fi:
   no_results_title_text: Ei ole tällä hetkellä näytettävää.
   activities:
     index:
-      no_results_title_text: Projektissa ei ole ollut yhtään tapahtumaa.
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: Tällä hetkellä ei ole liitännäisiä saatavilla.
@@ -1040,6 +1041,7 @@ fi:
   homescreen:
     additional:
       projects: Uusimmat näkyvissä olevat projektit.
+      no_visible_projects: There are no visible projects in this instance.
       users: Uusimmat rekisteröityneet käyttäjät.
     blocks:
       community: OpenProject yhteisö
@@ -1236,7 +1238,6 @@ fi:
   label_enterprise: Yritys
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Yritysversio
-  label_entry_page: Entry page
   label_environment: Ympäristö
   label_estimates_and_time: Estimates and time
   label_equals: sama kuin
@@ -2274,7 +2275,8 @@ fi:
   text_journal_aggregation_time_explanation: Yhdistele aktiviteettiuutiset jos niiden
     julkaisuajan ero on pienempi kuin syötetty aika. Tämä viivästyttää myös aktiviteettiuutisten
     sähköposti-ilmoituksia samalla aikamäärällä.
-  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} päivitetty"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
   text_journal_deleted: "%{label} poistettu (%{old})"
@@ -2669,3 +2671,4 @@ fi:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Schema
+  label_entry_page: Entry page

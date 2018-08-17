@@ -65,7 +65,7 @@ export class WpRelationAddChildComponent implements OnInit {
         this.toggleRelationsCreateForm();
       })
       .catch(err => {
-        this.wpNotificationsService.handleErrorResponse(err, this.workPackage);
+        this.wpNotificationsService.handleRawError(err, this.workPackage);
         this.isDisabled = false;
         this.toggleRelationsCreateForm();
       });

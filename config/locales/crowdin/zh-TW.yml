@@ -3,7 +3,8 @@ zh-TW:
   no_results_title_text: 目前無資料可以顯示
   activities:
     index:
-      no_results_title_text: 這個專案目前尚未有任何活動！
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: 目前沒有外掛可以使用
@@ -962,6 +963,7 @@ zh-TW:
   homescreen:
     additional:
       projects: 最新的可見專案
+      no_visible_projects: There are no visible projects in this instance.
       users: 最新註冊的使用者
     blocks:
       community: OpenProject 社群
@@ -1152,7 +1154,6 @@ zh-TW:
   label_enterprise: 企業
   label_enterprise_active_users: "%{current}/%{limit} 已預訂的活動使用者"
   label_enterprise_edition: 企業版
-  label_entry_page: 條目頁
   label_environment: 環境
   label_estimates_and_time: 預估成本和時間
   label_equals: 是
@@ -2097,7 +2098,8 @@ zh-TW:
   text_work_packages_ref_in_commit_messages: 在提交訊息中引用和修復工作項目
   text_journal_added: "%{label} %{value} 已增加"
   text_journal_aggregation_time_explanation: 合併日誌顯示，如果他們的建立時間差小於某固定時間。這也會減慢郵件通知相同時間。
-  text_journal_changed: "%{label} 從 %{old} </br><strong>到</strong> %{new}"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} 已更新"
   text_journal_changed_with_diff: "%{label} 已改變 (%{link})"
   text_journal_deleted: "%{label}已刪除 (%{old})"
@@ -2457,3 +2459,4 @@ zh-TW:
         您不可寫入唯讀的屬性。
     resources:
       schema: 架構
+  label_entry_page: 條目頁

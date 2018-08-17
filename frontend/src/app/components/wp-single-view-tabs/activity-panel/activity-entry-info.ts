@@ -51,6 +51,10 @@ export class ActivityEntryInfo {
     }
   }
 
+  public get href() {
+    return this.activity.href;
+  }
+
   public get isNextDate() {
     return this.date !== this.dateOfPrevious;
   }

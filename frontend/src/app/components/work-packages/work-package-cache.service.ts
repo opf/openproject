@@ -99,7 +99,7 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
           resolve(workPackage);
         })
         .catch((error:any) => {
-          this.wpNotificationsService.handleErrorResponse(error, workPackage);
+          this.wpNotificationsService.handleRawError(error, workPackage);
           reject(workPackage);
         });
     });
@@ -150,7 +150,7 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
     return new Promise<WorkPackageResource>((resolve, reject) => {
 
       const errorAndReject = (error:any) => {
-        this.wpNotificationsService.handleErrorResponse(error);
+        this.wpNotificationsService.handleRawError(error);
         reject(error);
       };
 

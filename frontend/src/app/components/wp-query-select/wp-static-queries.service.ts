@@ -106,11 +106,23 @@ export class WorkPackageStaticQueriesService {
     return items;
   }
 
-  public getStaticName() {
+  public getStaticName(query:QueryResource) {
     const matched = _.find(this.all, item =>
       item.query_props && item.query_props === this.$state.params.query_props
     );
 
-    return matched ? matched.label : this.text.work_packages;
+    if (matched) {
+      return matched.label
+    }
+
+    // Try to detect the all open filter
+    if (query.filters.length === 1 && // Only one filter
+      query.filters[0].id === 'status' && // that is status
+      query.filters[0].operator.id === 'o') { // and is open
+      return this.text.all_open;
+    }
+
+    // Otherwise, fall back to work packages
+    return this.text.work_packages
   }
 }

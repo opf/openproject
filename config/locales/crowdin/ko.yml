@@ -3,7 +3,8 @@ ko:
   no_results_title_text: 표시할 내용이 없습니다.
   activities:
     index:
-      no_results_title_text: 프로젝트에 포함된 활동이 없습니다.
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: 사용 가능한 플러그인이 없습니다.
@@ -1015,6 +1016,7 @@ ko:
   homescreen:
     additional:
       projects: 이 경우 최신 표시 프로젝트입니다.
+      no_visible_projects: There are no visible projects in this instance.
       users: 이 경우 최신 등록 된 사용자입니다.
     blocks:
       community: OpenProject 커뮤니티
@@ -1207,7 +1209,6 @@ ko:
   label_enterprise: 엔터프라이즈
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
-  label_entry_page: Entry page
   label_environment: 환경
   label_estimates_and_time: 견적 및 시간
   label_equals: 일치함
@@ -2188,7 +2189,8 @@ ko:
   text_journal_added: "%{label} %{value} 추가됨"
   text_journal_aggregation_time_explanation: 해당 기간 차이가 지정된 시간 간격보다 적은 경우 표시를 위해 저널을
     결합합니다. 또한 이렇게 하면 동일한 시간까지 메일 알림이 지연됩니다.
-  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} 업데이트됨"
   text_journal_changed_with_diff: "%{label} 변경됨(%{link})"
   text_journal_deleted: "%{label} 삭제됨(%{old})"
@@ -2558,3 +2560,4 @@ ko:
       writing_read_only_attributes: 읽기 전용 특성은 변경할 수 없습니다.
     resources:
       schema: 스키마
+  label_entry_page: Entry page

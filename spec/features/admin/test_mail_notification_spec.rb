@@ -28,30 +28,25 @@
 
 require 'spec_helper'
 
-RSpec.feature 'Work package index view' do
-  let(:user) { FactoryBot.create(:admin) }
-  let(:project) { FactoryBot.create(:project) }
-  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+describe 'Test mail notification', type: :feature do
+  include Redmine::I18n
+
+  let(:admin) { FactoryBot.create(:admin) }
 
   before do
-    login_as(user)
+    login_as(admin)
+    visit settings_path(tab: :notifications)
   end
 
-  scenario 'is reachable by clicking the sidebar menu item', js: true do
-    visit project_path(project)
+  it 'shows the correct message on errors in test notification (Regression #28226)' do
+    error_message = '"error" with <strong>Markup?</strong>'
+    expect(UserMailer).to receive(:test_mail).with(admin)
+      .and_raise error_message
 
-    within('#content') do
-      expect(page).to have_content('Overview')
-    end
+    click_link 'Send a test email'
 
-    within('#main-menu') do
-      click_link 'Work package'
-    end
-
-    expect(current_path).to eql("/projects/#{project.identifier}/work_packages")
-    within('#content') do
-      wp_table.expect_title('All open', editable: false)
-      expect(page).to have_content('No work packages to display')
-    end
+    expected = "An error occurred while sending mail (#{error_message})"
+    expect(page).to have_selector('.flash.error', text: expected)
+    expect(page).to have_no_selector('.flash.error strong')
   end
 end

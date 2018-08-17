@@ -80,7 +80,7 @@ describe 'Upload attachment to wiki page', js: true do
 
     expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
 
-    click_on 'Save'
+  click_on 'Save'
 
     expect(page).to have_selector('#content img', count: 2)
     expect(page).to have_content('Image uploaded the first time')
@@ -99,18 +99,21 @@ describe 'Upload attachment to wiki page', js: true do
     attachments.attach_file_on_input(image_fixture)
     expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png')
 
-    # Don't add anything to the editor so we result in an error
+    # Assume we could still save the page with an empty title
+    page.execute_script 'jQuery("#content_page_title").removeAttr("required aria-required");'
+    # Remove title so we will result in an error
+    fill_in 'content_page_title', with: ''
     click_on 'Save'
 
-    expect(page).to have_selector('#errorExplanation', text: 'Content is invalid')
+    expect(page).to have_selector('#errorExplanation', text: "Title can't be blank.")
     expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png')
 
     editor.in_editor do |container, editable|
       editable.send_keys 'hello there.'
     end
 
+    fill_in 'content_page_title', with: 'Test'
     click_on 'Save'
-
 
     expect(page).to have_selector('.controller-wiki.action-show')
     expect(page).to have_selector('h2', text: 'Test')

@@ -77,7 +77,7 @@ export class CommentService {
   }
 
   private errorAndReject(error:HalResource, workPackage?:WorkPackageResource) {
-    this.wpNotificationsService.handleErrorResponse(error, workPackage);
+    this.wpNotificationsService.handleRawError(error, workPackage);
 
     // returning a reject will enable to correctly work with subsequent then/catch handlers.
     return Promise.reject(error);

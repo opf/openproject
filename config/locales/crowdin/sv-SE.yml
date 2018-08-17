@@ -3,7 +3,8 @@ sv-SE:
   no_results_title_text: För närvarande finns det inget att visa.
   activities:
     index:
-      no_results_title_text: Det har inte varit någon aktivitet i projektet.
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: Det finns för närvarande inga tillgängliga plugins.
@@ -1044,6 +1045,7 @@ sv-SE:
   homescreen:
     additional:
       projects: De senast synliga projekten just nu.
+      no_visible_projects: There are no visible projects in this instance.
       users: De senast registrerade användarna just nu.
     blocks:
       community: OpenProject community
@@ -1240,7 +1242,6 @@ sv-SE:
   label_enterprise: Företag
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
-  label_entry_page: Ingångssidan
   label_environment: Miljö
   label_estimates_and_time: Uppskattningar och tid
   label_equals: är
@@ -2281,7 +2282,8 @@ sv-SE:
   text_journal_aggregation_time_explanation: Kombinera journaler för visning om deras
     åldersskillnad är mindre än det angivna tidsintervallet. Detta fördröjer också
     aviseringar med samma tid.
-  text_journal_changed: "%{label} ändrad från %{old} </br><strong>till</strong> %{new}"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} uppdaterades"
   text_journal_changed_with_diff: "%{label} ändrades (%{link})"
   text_journal_deleted: "%{label} raderad (%{old})"
@@ -2679,3 +2681,4 @@ sv-SE:
       writing_read_only_attributes: Du får inte skriva till ett skrivskyddat attribut.
     resources:
       schema: Schema
+  label_entry_page: Ingångssidan

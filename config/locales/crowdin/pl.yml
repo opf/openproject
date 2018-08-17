@@ -3,7 +3,8 @@ pl:
   no_results_title_text: Obecnie nie ma nic do wyświetlenia.
   activities:
     index:
-      no_results_title_text: Nie ma żadnej aktywności w projekcie.
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: Aktualnie nie ma dostępnych żadnych dodatków.
@@ -1078,6 +1079,7 @@ pl:
   homescreen:
     additional:
       projects: Najnowsze projekty
+      no_visible_projects: There are no visible projects in this instance.
       users: Nowi użytkownicy
     blocks:
       community: Społeczność OpenProject
@@ -1275,7 +1277,6 @@ pl:
   label_enterprise: Przedsiębiorstwo
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
-  label_entry_page: Entry page
   label_environment: Środowisko
   label_estimates_and_time: Szacowany czas
   label_equals: jest
@@ -2347,7 +2348,8 @@ pl:
   text_journal_aggregation_time_explanation: Połącz dzienniki dla wyświetlania, jeśli
     ich różnica wiekowa jest poniżej wskazanej wartości. To opóźni dostawę powiadomień
     mailowych o ten sam czas.
-  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
   text_journal_deleted: "%{label} deleted (%{old})"
@@ -2753,3 +2755,4 @@ pl:
       writing_read_only_attributes: Nie możesz zapisać atrybutu tylko do odczytu.
     resources:
       schema: Schemat
+  label_entry_page: Entry page

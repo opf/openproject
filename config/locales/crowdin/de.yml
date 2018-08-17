@@ -3,7 +3,8 @@ de:
   no_results_title_text: Es gibt derzeit nichts anzuzeigen.
   activities:
     index:
-      no_results_title_text: Es gibt keine Aktivität für dieses Projekt.
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: Zur Zeit stehen keine Plugins zur Verfügung.
@@ -1075,6 +1076,7 @@ de:
   homescreen:
     additional:
       projects: Neueste sichtbare Projekte in dieser Instanz.
+      no_visible_projects: There are no visible projects in this instance.
       users: Neueste registrierte Benutzer in dieser Instanz.
     blocks:
       community: OpenProject Community
@@ -1274,7 +1276,6 @@ de:
   label_enterprise: Enterprise
   label_enterprise_active_users: "%{current}/%{limit} gebuchte aktive Nutzer"
   label_enterprise_edition: Enterprise-Edition
-  label_entry_page: Einstiegsseite
   label_environment: Umgebung
   label_estimates_and_time: Schätzungen & Zeit
   label_equals: ist
@@ -2352,7 +2353,8 @@ de:
   text_journal_aggregation_time_explanation: Fasst Änderungen bei der Anzeige zusammen,
     falls ihr Zeitunterschied weniger als die angegebene Zeitspanne beträgt. Der Versand
     von Benachrichtigungen wird um die gleiche Zeit verzögert.
-  text_journal_changed: "%{label} von %{old} </br><strong>in</strong> %{new} geändert"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} aktualisiert"
   text_journal_changed_with_diff: "%{label} geändert (%{link})"
   text_journal_deleted: "%{label} %{old} wurde gelöscht"
@@ -2772,3 +2774,4 @@ de:
         werden.
     resources:
       schema: Schema
+  label_entry_page: Einstiegsseite

@@ -3,7 +3,8 @@ pt-BR:
   no_results_title_text: Atualmente, não há o que exibir.
   activities:
     index:
-      no_results_title_text: Não houve qualquer atividade para o projeto.
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: Atualmente, não existem plugins disponíveis.
@@ -1049,6 +1050,7 @@ pt-BR:
   homescreen:
     additional:
       projects: Projetos mais recentes visíveis nesta instância.
+      no_visible_projects: There are no visible projects in this instance.
       users: Usuários mais recentes registrados nesta instância.
     blocks:
       community: Comunidade do OpenProject
@@ -1246,7 +1248,6 @@ pt-BR:
   label_enterprise: Enterprise
   label_enterprise_active_users: "%{current}/%{limit} usuários ativos reservados"
   label_enterprise_edition: Enterprise Edition
-  label_entry_page: Página de entrada
   label_environment: Ambiente
   label_estimates_and_time: Estimativas e tempo
   label_equals: é
@@ -2311,7 +2312,8 @@ pt-BR:
   text_journal_aggregation_time_explanation: Combine diários para exibir se a diferença
     de tempo for menor que o intervalo de tempo especificado. Isso também vai atrasar
     as notificações de email pela mesma quantidade de tempo.
-  text_journal_changed: "%{label} alterado de %{old} </br><strong>para</strong> %{new}"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} atualizado"
   text_journal_changed_with_diff: "%{label} alterado %{link}"
   text_journal_deleted: "%{label} excluído %{old} "
@@ -2717,3 +2719,4 @@ pt-BR:
       writing_read_only_attributes: Você não pode escrever um atributo somente leitura.
     resources:
       schema: Esquema
+  label_entry_page: Página de entrada

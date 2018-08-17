@@ -3,7 +3,8 @@ ar:
   no_results_title_text: لا يوجد حالياً أي شيء لعرضه.
   activities:
     index:
-      no_results_title_text: لا يوجد حالياً أي نشاط لهذا المشروع.
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: لا يوجد حالياً أية إضافات متاحة.
@@ -1108,6 +1109,7 @@ ar:
   homescreen:
     additional:
       projects: أحدث المشاريع المرئية في هذه الجلسة.
+      no_visible_projects: There are no visible projects in this instance.
       users: أحدث المستخدمين المسجلين في هذه الجلسة.
     blocks:
       community: مجتمع أوبِن بروجِكت
@@ -1303,7 +1305,6 @@ ar:
   label_enterprise: Enterprise
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
-  label_entry_page: Entry page
   label_environment: بيئة
   label_estimates_and_time: Estimates and time
   label_equals: يكون
@@ -2354,7 +2355,8 @@ ar:
   text_journal_aggregation_time_explanation: الجمع بين دفاتر اليومية للعرض إذا كان
     الفارق في السن أقل من المدى الزمني المحدد. وهذا أيضا تأخير إعلامات البريد بنفس
     المقدار من الوقت.
-  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} تم تحديثه"
   text_journal_changed_with_diff: "%{label} تغير (%{link})"
   text_journal_deleted: "%{label} تم حذفه (%{old})"
@@ -2754,3 +2756,4 @@ ar:
       writing_read_only_attributes: لا يجب أن تكتب على سمة للقراءة فقط.
     resources:
       schema: مخطّط
+  label_entry_page: Entry page

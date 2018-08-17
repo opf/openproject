@@ -103,7 +103,7 @@ export class SaveQueryModal extends OpModalComponent {
         this.closeMe($event);
         return Promise.resolve(true);
       })
-      .catch((error:any) => this.wpNotificationsService.handleErrorResponse(error))
+      .catch((error:any) => this.wpNotificationsService.handleRawError(error))
       .then(() => this.isBusy = false); // Same as .finally()
   }
 }

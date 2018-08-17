@@ -62,7 +62,6 @@ export class UserActivityComponent implements IEditFieldHandler, OnInit, AfterVi
   public userActive:boolean;
   public userPath:string | null;
   public userLabel:string;
-  public postedComment:string;
   public fieldLabel:string;
   public details:any[] = [];
   public isComment:boolean;
@@ -96,7 +95,6 @@ export class UserActivityComponent implements IEditFieldHandler, OnInit, AfterVi
     this.reset();
     this.userCanEdit = !!this.activity.update;
     this.userCanQuote = !!this.workPackage.addComment;
-    this.postedComment = this.activity.comment.html;
 
     if (this.postedComment) {
       this.fieldLabel = this.I18n.t('js.label_activity_with_comment_no', {
@@ -129,6 +127,9 @@ export class UserActivityComponent implements IEditFieldHandler, OnInit, AfterVi
     return !(this.isComment && (this.focussing() || this.accessibilityModeEnabled));
   }
 
+  public get postedComment() {
+    return this.activity.comment.html;
+  }
 
   public ngAfterViewInit() {
     if (window.location.hash === 'activity-' + this.activityNo) {

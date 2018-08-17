@@ -27,17 +27,12 @@
 //++
 
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {AttachmentCollectionResource} from 'core-app/modules/hal/resources/attachment-collection-resource';
-import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-import {
-  OpenProjectFileUploadService,
-  UploadFile,
-  UploadResult
-} from 'core-components/api/op-file-upload/op-file-upload.service';
+import {OpenProjectFileUploadService, UploadFile} from 'core-components/api/op-file-upload/op-file-upload.service';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
+import {HttpErrorResponse} from "@angular/common/http";
 
 type Constructor<T = {}> = new (...args:any[]) => T;
 
@@ -86,7 +81,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
             }
           })
           .catch((error:any) => {
-            this.wpNotificationsService.handleErrorResponse(error, this as any);
+            this.wpNotificationsService.handleRawError(error, this as any);
             this.attachments.elements.push(attachment);
           });
       }
@@ -118,16 +113,16 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
 
           return result;
         })
-        .catch((error:any) => {
+        .catch((error:HttpErrorResponse) => {
           this.wpNotificationsService.handleRawError(error);
-          return;
+          return _.get(error, 'message', I18n.t('js.error.internal'));
         });
     }
 
     private performUpload(files:UploadFile[]) {
       let href = '';
 
-      if (!this.id || !this.attachmentsBackend) {
+      if (this.isNew || !this.id || !this.attachmentsBackend) {
         href = this.pathHelper.api.v3.attachments.path;
       } else {
         href = this.addAttachment.$link.href;

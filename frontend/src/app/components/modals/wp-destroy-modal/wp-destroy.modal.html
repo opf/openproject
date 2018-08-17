@@ -37,7 +37,7 @@
             <ul>
               <li *ngFor="let child of singleWorkPackageChildren">
                 #<span [textContent]="child.id"></span>
-                <span [textContent]="child.subject"></span>
+                <span [textContent]="child.subject || ''"></span>
               </li>
             </ul>
             <p>

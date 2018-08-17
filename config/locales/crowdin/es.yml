@@ -3,7 +3,8 @@ es:
   no_results_title_text: No hay nada que mostrar.
   activities:
     index:
-      no_results_title_text: No ha habido actividad para este proyecto.
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: No hay complementos disponibles.
@@ -1073,6 +1074,7 @@ es:
   homescreen:
     additional:
       projects: Projectos visibles mas recientes en esta instancia.
+      no_visible_projects: There are no visible projects in this instance.
       users: Usuarios registrados mas recientes en esta instancia.
     blocks:
       community: Comunidad de OpenProject
@@ -1271,7 +1273,6 @@ es:
   label_enterprise: Empresa
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Versión corporativa
-  label_entry_page: Entry page
   label_environment: Entorno
   label_estimates_and_time: Valores estimados y tiempo
   label_equals: es
@@ -2363,7 +2364,8 @@ es:
   text_journal_aggregation_time_explanation: Combinar revistas para mostrar sí su
     diferencia de edad es menor que el intervalo de tiempo especificado. Esto también
     retrasará las notificaciones por correo la misma cantidad de tiempo.
-  text_journal_changed: "%{label} cambiada de %{old} </br><strong>a</strong> %{new}"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "% {label} actualizado"
   text_journal_changed_with_diff: "%{label} modificado (% {link})"
   text_journal_deleted: "%{label} eliminado (% {old})"
@@ -2774,3 +2776,4 @@ es:
       writing_read_only_attributes: No debería escribir un atributo de solo lectura.
     resources:
       schema: Esquema
+  label_entry_page: Entry page

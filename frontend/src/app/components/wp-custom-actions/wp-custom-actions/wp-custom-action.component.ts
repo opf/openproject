@@ -75,7 +75,7 @@ export class WpCustomActionComponent {
         this.wpActivity.clear(this.workPackage.id);
         this.wpCacheService.updateWorkPackage(savedWp);
       }).catch((errorResource:any) => {
-        this.wpNotificationsService.handleErrorResponse(errorResource, this.workPackage);
+        this.wpNotificationsService.handleRawError(errorResource, this.workPackage);
       });
   }
 

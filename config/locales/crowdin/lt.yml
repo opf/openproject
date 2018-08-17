@@ -3,7 +3,8 @@ lt:
   no_results_title_text: Nėra nieko rodytino.
   activities:
     index:
-      no_results_title_text: Projekte nėra jokios veiklos.
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: Nėra jokių pasiekiamų plėtinių.
@@ -1076,6 +1077,7 @@ lt:
   homescreen:
     additional:
       projects: Naujausi matomi projektai.
+      no_visible_projects: There are no visible projects in this instance.
       users: Naujausi registruoti vartotojai.
     blocks:
       community: OpenProject community
@@ -1272,7 +1274,6 @@ lt:
   label_enterprise: Enterprise
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: "„Enterprise Edition“"
-  label_entry_page: Entry page
   label_environment: Aplinka
   label_estimates_and_time: Sąmatos ir laikas
   label_equals: yra
@@ -2351,7 +2352,8 @@ lt:
   text_journal_aggregation_time_explanation: Kombinuoti žurnalus rodymui, ar jų amžius
     skiriasi mažiau nei nustatyta trukmė. Tai taip pat vėlins įspėjimo el. laiškų
     atsiuntimą tokia pat laiko trukme.
-  text_journal_changed: "%{label} pakeista iš %{old} </br><strong>į</strong> %{new}"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} atnaujintas"
   text_journal_changed_with_diff: "%{label} pasikeitė (%{link})"
   text_journal_deleted: "%{label} ištrintas (%{old})"
@@ -2761,3 +2763,4 @@ lt:
       writing_read_only_attributes: Jūs neturėtumėte įrašyti atributą „tik skaitomas“.
     resources:
       schema: Schema
+  label_entry_page: Entry page

@@ -38,7 +38,7 @@ RUN bundle install --jobs 8 --retry 3 --with docker
 # Then, npm install node modules
 COPY package.json /tmp/npm/package.json
 COPY frontend/*.json /tmp/npm/frontend/
-RUN cd /tmp/npm/frontend/ && RAILS_ENV=production npm install --ignore-scripts && mv /tmp/npm/frontend /usr/src/app/
+RUN cd /tmp/npm/frontend/ && RAILS_ENV=production npm install && mv /tmp/npm/frontend /usr/src/app/
 
 # Finally, copy over the whole thing
 COPY . /usr/src/app

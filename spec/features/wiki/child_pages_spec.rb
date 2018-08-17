@@ -65,7 +65,7 @@ describe 'wiki child pages', type: :feature, js: true do
 
     # hierarchy displayed in the breadcrumb
     expect(page).to have_selector('#breadcrumb .breadcrumb',
-                                  text: "#{parent_page.title}\n#{child_page_name}")
+                                  text: "#{parent_page.title}")
 
     # hierarchy displayed in the sidebar
     expect(page).to have_selector('.pages-hierarchy',
