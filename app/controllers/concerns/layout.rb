@@ -42,11 +42,11 @@ module Concerns::Layout
       end
     end
 
-    def project_or_module_menu
+    def project_or_wp_query_menu
       if @project
         :project_menu
       else
-        :module_menu
+        :wp_query_menu
       end
     end
   end

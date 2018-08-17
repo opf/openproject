@@ -39,27 +39,22 @@ module Redmine::MenuManager::MenuHelper
 
   # Renders the application main menu
   def render_main_menu(menu, project = nil)
-    # Fall back to module_menu when project exists
+    # Fall back to project_menu when project exists (not during project creation)
     if menu.nil? && project && project.persisted?
-      menu = :module_menu
+      menu = :project_menu
     end
 
-
     if !menu
+      # For some global pages such as home
       nil
-    elsif menu == :module_menu && project && project.persisted?
+    elsif menu == :project_menu && project && project.persisted?
       build_wiki_menus(project)
       render_menu(:project_menu, project)
-    elsif menu == :module_menu
+    elsif menu == :wp_query_menu
       render_menu(:application_menu, project)
     else
       render_menu(menu, project)
     end
-  end
-
-  def display_main_menu?(project)
-    menu_name = project && !project.new_record? ? :project_menu : :application_menu
-    Redmine::MenuManager.items(menu_name).size > 1 # 1 element is the root
   end
 
   def render_menu(menu, project = nil)
