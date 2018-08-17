@@ -151,9 +151,11 @@ class WorkPackage::PdfExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
       if options[:show_attachments] && work_package.attachments.exists?
         attachments = make_attachments_cells(work_package.attachments)
 
-        result << [
-          { content: pdf.make_table([attachments]), colspan: description_colspan }
-        ]
+        if attachments.any?
+          result << [
+            { content: pdf.make_table([attachments]), colspan: description_colspan }
+          ]
+        end
       end
 
       if query.grouped? && (group = query.group_by_column.value(work_package)) != previous_group
