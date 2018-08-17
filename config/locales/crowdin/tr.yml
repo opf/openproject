@@ -2690,4 +2690,3 @@ tr:
       writing_read_only_attributes: Salt okunur bir nitelik yazmamalısınız.
     resources:
       schema: Şema
-  label_entry_page: Entry page

@@ -3,8 +3,8 @@ de:
   no_results_title_text: Es gibt derzeit nichts anzuzeigen.
   activities:
     index:
-      no_results_title_text: There has not been any activity for the project within
-        this time frame.
+      no_results_title_text: Innerhalb dieses Zeitraums haben keine Aktivitäten in
+        dem Projekt stattgefunden.
   admin:
     plugins:
       no_results_title_text: Zur Zeit stehen keine Plugins zur Verfügung.
@@ -1076,7 +1076,7 @@ de:
   homescreen:
     additional:
       projects: Neueste sichtbare Projekte in dieser Instanz.
-      no_visible_projects: There are no visible projects in this instance.
+      no_visible_projects: Es gibt keine sichtbaren Projekte in dieser OpenProject-Umgebung.
       users: Neueste registrierte Benutzer in dieser Instanz.
     blocks:
       community: OpenProject Community
@@ -1699,7 +1699,7 @@ de:
   macro_execution_error: Fehler beim Ausführen des Makros %{macro_name}
   macro_unavailable: Das Makro %{macro_name} kann nicht angezeigt werden.
   macros:
-    placeholder: "[Placeholder] Macro %{macro_name}"
+    placeholder: "[Placeholder] Makro %{macro_name}"
     errors:
       missing_or_invalid_parameter: Fehlende oder ungültige Makro-Parameter.
     legacy_warning:
@@ -2353,8 +2353,8 @@ de:
   text_journal_aggregation_time_explanation: Fasst Änderungen bei der Anzeige zusammen,
     falls ihr Zeitunterschied weniger als die angegebene Zeitspanne beträgt. Der Versand
     von Benachrichtigungen wird um die gleiche Zeit verzögert.
-  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
-  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
+  text_journal_changed: "%{label} geändert von %{old} <br/><strong>zu</strong> %{new}"
+  text_journal_changed_plain: "%{label} geändert von %{old} \nzu %{new}"
   text_journal_changed_no_detail: "%{label} aktualisiert"
   text_journal_changed_with_diff: "%{label} geändert (%{link})"
   text_journal_deleted: "%{label} %{old} wurde gelöscht"
@@ -2774,4 +2774,3 @@ de:
         werden.
     resources:
       schema: Schema
-  label_entry_page: Einstiegsseite

@@ -953,7 +953,7 @@ lol:
   homescreen:
     additional:
       projects: crwdns97052:0crwdne97052:0
-      no_visible_projects: There are no visible projects in this instance.
+      no_visible_projects: crwdns99116:0crwdne99116:0
       users: crwdns97053:0crwdne97053:0
     blocks:
       community: crwdns97054:0crwdne97054:0
@@ -2404,4 +2404,3 @@ lol:
       writing_read_only_attributes: crwdns98331:0crwdne98331:0
     resources:
       schema: crwdns98332:0crwdne98332:0
-  label_entry_page: crwdns98942:0crwdne98942:0

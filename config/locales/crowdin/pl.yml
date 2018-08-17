@@ -2755,4 +2755,3 @@ pl:
       writing_read_only_attributes: Nie możesz zapisać atrybutu tylko do odczytu.
     resources:
       schema: Schemat
-  label_entry_page: Entry page
