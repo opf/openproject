@@ -92,7 +92,7 @@ module OpenProject
       'main-menu-hover-font-color'                           => "$main-menu-font-color",
       'main-menu-resizer-color'                              => "$primary-color",
       'main-menu-selected-font-color'                        => "$main-menu-font-color",
-      'main-menu-font-size'                                  => "15px",
+      'main-menu-font-size'                                  => "14px",
       'main-menu-selected-indicator-color'                   => "#E0E0E0",
       'main-menu-hover-indicator-color'                      => "$primary-color-dark",
       'main-menu-selected-hover-indicator-width'             => "4px",

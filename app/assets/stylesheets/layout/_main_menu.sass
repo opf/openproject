@@ -150,7 +150,7 @@ $arrow-left-width: 40px
       &:hover
         @include varprop(background, main-menu-bg-hover-background)
 
-    &:hover
+    &:hover, &:focus , &:active
       @include varprop(background, main-menu-bg-hover-background)
       @include varprop(color, main-menu-hover-font-color)
 
@@ -193,7 +193,7 @@ $arrow-left-width: 40px
       &.selected, &.selected
         @include varprop(background, main-menu-bg-selected-background)
         @include varprop(color, main-menu-selected-font-color)
-      &:hover
+      &:hover, &:focus , &:active
         @include varprop(color, main-menu-hover-font-color)
         @include varprop(background, main-menu-child-bg-hover-color)
 
@@ -211,21 +211,21 @@ $arrow-left-width: 40px
   padding-left: 14px
   padding-right: 14px
   width: 40px
-  &:hover
+  &:hover, &:focus, &:active
     @include varprop(background, main-menu-bg-hover-background)
     @include varprop(color, main-menu-hover-font-color)
 
 a.main-menu--parent-node
   display: inline-block
   padding: 0px 11px 0 11px
-  font-size: 15px
+  font-size: $main-menu-font-size
   font-weight: 700
   width: calc(100% - #{$arrow-left-width})
   height: $main-menu-item-height
   line-height: $main-menu-item-height
   border-radius: 3px
   @include varprop(color, main-menu-font-color)
-  &:hover
+  &:hover, &:focus, &:active
     @include varprop(background, main-menu-bg-hover-background)
     @include varprop(color, main-menu-hover-font-color)
 
@@ -330,10 +330,10 @@ a.main-menu--parent-node
   padding-right: 7px
 
 .main-menu--segment-header
-  color: $gray-dark
+  @include varprop(color, content-icon-link-pressed-color)
   text-transform: uppercase
   padding-left: $hierarchy-span-width
-  font-size: 0.8rem
+  font-size: 0.7rem
 
 .main-menu--resizer
   background: none
@@ -355,7 +355,6 @@ a.main-menu--parent-node
     @include varprop(border-left-color, main-menu-resizer-color)
     .main-menu--navigation-toggler
       opacity: 1
-      font-size: 11px
       i:before
         @include varprop(color, main-menu-navigation-toggler-font-hover-color)
 
@@ -381,7 +380,6 @@ a.main-menu--parent-node
   margin-top: 50vh
   margin-left: -14px
   padding: 0
-  font-size: 14px
   // Center toggle icon vertically. The element is higher than it looks like.
   line-height: 38px
   i

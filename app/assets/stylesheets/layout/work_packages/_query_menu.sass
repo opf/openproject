@@ -46,10 +46,12 @@ $wp-query-menu-search-container-height: 35px
     display: inline-block
     width: 100%
     white-space: normal
+    font-size: $main-menu-font-size
 
   .wp-query-menu--search-container
     padding-top: 15px
     overflow: hidden
+    @include varprop(color, main-menu-font-color)
 
     // Specific fix for Firefox
     body.-browser-firefox &
@@ -131,29 +133,30 @@ $wp-query-menu-search-container-height: 35px
     line-height: 30px
     height: 30px !important
 
-    &:hover, &:focus
+    &:hover, &:focus, &:active
       @include varprop(background, main-menu-bg-hover-background)
 
   // Rule complexed for specificity issues
   input[type="text"].wp-query-menu--search-input
-    box-sizing: border-box
-    margin: 0px auto
+    @include varprop(color, main-menu-font-color)
     width: 100%
     height: 35px
-    line-height: $menu-item-line-height
-    border: 0px solid
+    border: 1px solid $main-menu-border-color
     border-radius: 3px
     box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15)
-    background-color: rgba(255, 255, 255, 0.1)
-    color: rgba(255, 255, 255, 0.5)
+    background-color: rgba(0, 0, 0, 0.15)
     padding: 0px 30px 0px 10px
 
     // Hide the little x to remove input where exists + supported
     &::-webkit-search-cancel-button
       display: none
+    &::placeholder
+      @include varprop(color, main-menu-font-color)
+      opacity: 0.5
 
   .wp-query-menu--search-icon
     position: absolute
     top:   5px
     right: 10px
-    color: #999999
+    @include varprop(color, main-menu-font-color)
+    opacity: 0.5
