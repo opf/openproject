@@ -61,10 +61,17 @@ export class WorkPackageTableColumnsService extends WorkPackageTableBaseService<
   }
 
   public applyToQuery(query:QueryResource) {
-    query.columns = cloneHalResourceCollection<QueryColumn>(this.getColumns());
+    const toApply = this.getColumns();
+
+    const oldColumns = query.columns.map(el => el.id);
+    const newColumns = toApply.map(el => el.id);
+    query.columns = cloneHalResourceCollection<QueryColumn>(toApply);
+
+    // We can avoid reloading even with relation columns if we only removed columns
+    const onlyRemoved = _.difference(newColumns, oldColumns).length === 0;
 
     // Reload the table visibly if adding relation columns.
-    return this.hasRelationColumns();
+    return !onlyRemoved && this.hasRelationColumns();
   }
 
   /**
