@@ -2,10 +2,10 @@
      data-indicator-name="modal">
   <div class="op-modal--modal-container attribute-help-text--modal" tabindex="0">
     <div class="op-modal--modal-header">
-      <a>
+      <a class="op-modal--modal-close-button">
         <i
           class="icon-close"
-          (click)="closeMe($event)"
+          (accessibleClick)="closeMe($event)"
           [attr.title]="text.close">
         </i>
       </a>
