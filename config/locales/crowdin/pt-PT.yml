@@ -160,7 +160,7 @@ pt:
   permission_view_own_cost_entries: "Ver custos próprios marcados"
   permission_view_own_hourly_rate: "Ver taxa horária própria"
   permission_view_own_time_entries: "Ver tempo próprio gasto"
-  project_module_costs_module: "Controlo de custo"
+  project_module_costs_module: "Orçamentos"
   text_assign_time_and_cost_entries_to_project: "Atribuir horas e custos reportados ao projeto"
   text_cost_object_change_type_confirmation: "Tem a certeza? Esta operação irá destruir informações do tipo específico de orçamento."
   text_destroy_cost_entries_question: "%{cost_entries} foram reportados nos pacotes de trabalho que está prestes a apagar. Tem a certeza que pretende apagar?"
