@@ -28,8 +28,19 @@
 
 .custom-actions
   display: flex
-  flex-grow: 2
+  flex-wrap: wrap
   justify-content: flex-end
 
-.custom-action
-  margin-left: 0.625em
+  .custom-action
+    display: flex
+    justify-content: flex-end
+    flex: 1 1 10px
+    margin-bottom: 0.5rem
+    @include text-shortener
+
+    .button
+      @include text-shortener
+      width: 100%
+
+    &:not(:last-of-type)
+      margin-right: 0.625em

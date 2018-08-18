@@ -2743,4 +2743,3 @@ ro:
       writing_read_only_attributes: Nu puteți scrie într-un câmp restricționat.
     resources:
       schema: Schemă
-  label_entry_page: Entry page

@@ -99,6 +99,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   private reportsBodySelector = '.controller-work_packages\\/reports';
 
   private queryResultsContainer:JQuery;
+  private buttonArrowLeft:JQuery;
 
   private searchInput:IQueryAutocompleteJQuery;
 
@@ -159,7 +160,9 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     }
 
     this.searchInput = jQuery(this._wpQueryMenuSearchInput.nativeElement) as any;
+    this.buttonArrowLeft = jQuery('.main-menu--arrow-left-to-project', jQuery('#main-menu-work-packages-wrapper').parent()) as any;
     this.initialized = true;
+    this.buttonArrowLeft.focus();
     this.setupAutoCompletion(this.searchInput);
     this.updateMenuOnChanges(this.searchInput);
   }

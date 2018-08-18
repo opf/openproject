@@ -2683,4 +2683,3 @@ da:
       writing_read_only_attributes: Du må ikke skrive til en skrivebeskyttet attribut.
     resources:
       schema: Skema
-  label_entry_page: Entry page

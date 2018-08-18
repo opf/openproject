@@ -2689,4 +2689,3 @@ bg:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Схема
-  label_entry_page: Entry page

@@ -29,12 +29,17 @@
 @include breakpoint (680px down)
   .toolbar-container
     margin-bottom: 0px
+    margin-top: 10px
+
+    .toolbar
+      flex-wrap: wrap
 
     .toolbar-items
       background: #fff
       display: flex
       width: calc(100% + 5px)
       margin-bottom: 20px
+      margin-top: 5px
 
       &:not(:empty)
         margin-bottom: 20px

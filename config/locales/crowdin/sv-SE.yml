@@ -2681,4 +2681,3 @@ sv-SE:
       writing_read_only_attributes: Du får inte skriva till ett skrivskyddat attribut.
     resources:
       schema: Schema
-  label_entry_page: Ingångssidan

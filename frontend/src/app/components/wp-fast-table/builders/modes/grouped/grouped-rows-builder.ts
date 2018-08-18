@@ -73,7 +73,9 @@ export class GroupedRowsBuilder extends RowsBuilder {
     const colspan = this.wpTableColumns.columnCount + 1;
     const rendered = this.tableState.rendered.value!;
 
-    jQuery(`.${rowGroupClassName}`).each((i:number, oldRow:Element) => {
+    jQuery(this.workPackageTable.container)
+      .find(`.${rowGroupClassName}`)
+      .each((i:number, oldRow:Element) => {
       let groupIndex = jQuery(oldRow).data('groupIndex');
       let group = groups[groupIndex];
 
@@ -86,7 +88,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
 
       // Set expansion state of contained rows
       const affected = jQuery(`.${groupedRowClassName(groupIndex)}`);
-      affected.toggleClass(collapsedRowClass, group.collapsed);
+      affected.toggleClass(collapsedRowClass, !!group.collapsed);
 
       // Update the hidden section of the rendered state
       affected.filter(`.${tableRowClassName}`).each((i, el) => {

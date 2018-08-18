@@ -2560,4 +2560,3 @@ ko:
       writing_read_only_attributes: 읽기 전용 특성은 변경할 수 없습니다.
     resources:
       schema: 스키마
-  label_entry_page: Entry page

@@ -39,7 +39,7 @@ import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 export class AttributeHelpTextModal extends OpModalComponent {
 
   /* Close on escape? */
-  public closeOnEscape = false;
+  public closeOnEscape = true;
 
   /* Close on outside click */
   public closeOnOutsideClick = false;

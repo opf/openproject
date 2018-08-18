@@ -2776,4 +2776,3 @@ es:
       writing_read_only_attributes: No debería escribir un atributo de solo lectura.
     resources:
       schema: Esquema
-  label_entry_page: Entry page

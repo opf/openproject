@@ -270,6 +270,26 @@ i
     margin: 0 10px 0 -10px
     .icon:before
       padding: 0
+  .work-packages--info-row
+    flex-grow: 1
+    margin-right: 5px
+
+  &.-wrapped
+    flex-wrap: wrap
+    .work-packages--info-row
+      order: -1
+      flex-basis: 100%
+      margin-bottom: 0.5rem
+
+    .wp-status-button
+      flex-grow: 1
+      margin-bottom: 0.5rem
+    attribute-help-text
+      // Take care that the help text is next to the button and the action buttons are still at the right side
+      flex-grow: 100
+      margin-bottom: 0.5rem
+    wp-custom-action
+      margin-bottom: 0.5rem
 
 .work-packages--new .wp-status-button
   padding: 3px
