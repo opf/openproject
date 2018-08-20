@@ -102,13 +102,14 @@ module API
         # returns whether expectation and actual are identical
         # will always be true if there is no expectation (nil)
         def matches_expectation?(expected, actual)
-          expected.nil? || expected.to_s == actual
+          expected.nil? || Array(expected).any? { |e| e.to_s == actual }
         end
 
-        def make_expected_link(version, namespace)
+        def make_expected_link(version, namespaces)
           version = "v#{version}" || ':apiVersion'
-          namespace = namespace || ':resource'
-          "/api/#{version}/#{namespace}/:id"
+          namespaces = Array(namespaces || ':resource')
+
+          namespaces.map { |namespace| "/api/#{version}/#{namespace}/:id" }
         end
       end
     end

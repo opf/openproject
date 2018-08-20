@@ -107,6 +107,9 @@ en:
       no_results_title_text: There are currently no custom fields.
       no_results_content_text: Create a new custom field
 
+  concatenation:
+    single: 'or'
+
   deprecations:
     old_timeline:
       replacement: "This timelines module is being replaced by the interactive timeline embedded into the work packages module."
