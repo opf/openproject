@@ -37,6 +37,8 @@ import {DynamicBootstrapper} from 'core-app/globals/dynamic-bootstrapper';
 import {States} from 'core-components/states.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil, filter} from 'rxjs/operators';
+import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 const ckEditorWrapperClass = 'op-ckeditor--wrapper';
 const ckEditorReplacementClass = '__op_ckeditor_replacement_container';
@@ -72,6 +74,8 @@ export class OpCkeditorFormComponent implements OnInit, OnDestroy {
               protected pathHelper:PathHelperService,
               protected halResourceService:HalResourceService,
               protected ckEditorSetup:CKEditorSetupService,
+              protected Notifications:NotificationsService,
+              protected I18n:I18nService,
               protected states:States,
               protected ConfigurationService:ConfigurationService) {
   }
@@ -124,8 +128,16 @@ export class OpCkeditorFormComponent implements OnInit, OnDestroy {
 
     // Listen for form submission to set textarea content
     this.formElement.on('submit.ckeditor change.ckeditor', () => {
-      const value = this.ckeditor.getData();
-      this.wrappedTextArea.val(value);
+      try {
+        const value = this.ckeditor.getData();
+        this.wrappedTextArea.val(value);
+      } catch (e) {
+        console.error(`Failed to save CKEditor body to textarea: ${e}.`)
+        this.Notifications.addError(e || this.I18n.t('js.errors.internal'));
+
+        // Avoid submission of the form
+        return false;
+      }
 
       this.addUploadedAttachmentsToForm();
 
