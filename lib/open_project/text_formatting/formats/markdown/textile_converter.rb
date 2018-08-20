@@ -221,7 +221,8 @@ module OpenProject::TextFormatting::Formats
           ::Journal => [:notes],
           ::Journal::MessageJournal => [:content],
           ::Journal::WikiContentJournal => [:text],
-          ::Journal::WorkPackageJournal => [:description]
+          ::Journal::WorkPackageJournal => [:description],
+          ::AttributeHelpText => [:help_text]
         }
       end
 
