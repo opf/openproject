@@ -34,7 +34,7 @@ class News < ActiveRecord::Base
     order('created_on')
   }, as: :commented, dependent: :delete_all
 
-  validates_presence_of :title, :description
+  validates_presence_of :title
   validates_length_of :title, maximum: 60
   validates_length_of :summary, maximum: 255
 
@@ -60,6 +60,10 @@ class News < ActiveRecord::Base
 
   def visible?(user = User.current)
     !user.nil? && user.allowed_to?(:view_news, project)
+  end
+
+  def description=(val)
+    super val.presence || ''
   end
 
   # returns latest news for projects visible by user
