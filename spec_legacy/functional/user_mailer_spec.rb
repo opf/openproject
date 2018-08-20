@@ -35,7 +35,6 @@ describe UserMailer, type: :mailer do
     Setting.mail_from = 'john@doe.com'
     Setting.host_name = 'mydomain.foo'
     Setting.protocol = 'http'
-    Setting.plain_text_mail = '0'
     Setting.default_language = 'en'
 
     User.delete_all
@@ -49,8 +48,9 @@ describe UserMailer, type: :mailer do
 
     FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
 
-    mail = UserMailer.test_mail(user)
-    assert mail.deliver_now
+    assert UserMailer.deliver_immediately!(:test_mail, user)
+    assert last_email
+    mail = last_email
 
     assert_equal 1, ActionMailer::Base.deliveries.size
 
@@ -67,7 +67,7 @@ describe UserMailer, type: :mailer do
 
     project, user, related_issue, issue, changeset, attachment, journal = setup_complex_issue_update
 
-    assert UserMailer.work_package_updated(user, journal).deliver_now
+    assert UserMailer.deliver_immediately!(:work_package_updated, user, journal)
     assert last_email
 
     assert_select_email do
@@ -110,7 +110,7 @@ describe UserMailer, type: :mailer do
 
       project, user, related_issue, issue, changeset, attachment, journal = setup_complex_issue_update
 
-      assert UserMailer.work_package_updated(user, journal).deliver_now
+      assert UserMailer.deliver_immediately!(:work_package_updated, user, journal)
       assert last_email
 
       assert_select_email do
@@ -148,33 +148,24 @@ describe UserMailer, type: :mailer do
   end
 
   it 'should email headers' do
-    user  = FactoryBot.create(:user)
+    user = FactoryBot.create(:user)
+    # notify him
+    user.pref[:no_self_notified] = false
+    user.pref.save
+
     issue = FactoryBot.create(:work_package)
-    mail = UserMailer.work_package_added(user, issue.journals.first, user)
-    assert mail.deliver_now
+    assert UserMailer.deliver_immediately!(:work_package_added, user, issue.journals.first, user)
+    mail = last_email
     refute_nil mail
     assert_equal 'bulk', mail.header['Precedence'].to_s
     assert_equal 'auto-generated', mail.header['Auto-Submitted'].to_s
   end
 
-  it 'sends plain text mail' do
-    Setting.plain_text_mail = 1
-    user = FactoryBot.create(:user)
-    FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
-    issue = FactoryBot.create(:work_package)
-    UserMailer.work_package_added(user, issue.journals.first, user).deliver_now
-    mail = ActionMailer::Base.deliveries.last
-    assert_match /text\/plain/, mail.content_type
-    assert_equal 0, mail.parts.size
-    assert !mail.encoded.include?('href')
-  end
-
   it 'sends html mail' do
-    Setting.plain_text_mail = 0
     user = FactoryBot.create(:user)
     FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
     issue = FactoryBot.create(:work_package)
-    UserMailer.work_package_added(user, issue.journals.first, user).deliver_now
+    UserMailer.deliver_immediately!(:work_package_added, user, issue.journals.first, user)
     mail = ActionMailer::Base.deliveries.last
     assert_match /multipart\/alternative/, mail.content_type
     assert_equal 2, mail.parts.size
@@ -185,7 +176,7 @@ describe UserMailer, type: :mailer do
     it 'should mail from with phrase' do
       user = FactoryBot.create(:user)
       FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
-      UserMailer.test_mail(user).deliver_now
+      UserMailer.deliver_immediately!(:test_mail, user)
       mail = ActionMailer::Base.deliveries.last
       refute_nil mail
       assert_equal 'Redmine app <redmine@example.net>', mail.header['From'].to_s
@@ -200,22 +191,26 @@ describe UserMailer, type: :mailer do
     user.pref[:no_self_notified] = false
     user.pref.save
     ActionMailer::Base.deliveries.clear
-    UserMailer.news_added(user, news, user).deliver_now
+    UserMailer.deliver_immediately!(:news_added, user, news, user)
     assert_equal 1, last_email.to.size
 
     # nobody to notify
     user.pref[:no_self_notified] = true
     user.pref.save
     ActionMailer::Base.deliveries.clear
-    UserMailer.news_added(user, news, user).deliver_now
+    UserMailer.deliver_immediately!(:news_added, user, news, user)
     assert ActionMailer::Base.deliveries.empty?
   end
 
   it 'should issue add message id' do
     user  = FactoryBot.create(:user)
+    # notify him
+    user.pref[:no_self_notified] = false
+    user.pref.save
+
     issue = FactoryBot.create(:work_package)
-    mail = UserMailer.work_package_added(user, issue.journals.first, user)
-    mail.deliver_now
+    UserMailer.deliver_immediately!(:work_package_added, user, issue.journals.first, user)
+    mail = ActionMailer::Base.deliveries.last
     refute_nil mail
     assert_equal UserMailer.generate_message_id(issue, user), mail.message_id
     assert_nil mail.references
@@ -225,7 +220,7 @@ describe UserMailer, type: :mailer do
     user  = FactoryBot.create(:user)
     issue = FactoryBot.create(:work_package)
     journal = issue.journals.first
-    UserMailer.work_package_updated(user, journal).deliver_now
+    UserMailer.deliver_immediately!(:work_package_updated, user, journal)
     mail = ActionMailer::Base.deliveries.last
     refute_nil mail
     assert_equal UserMailer.generate_message_id(journal, user), mail.message_id
@@ -236,7 +231,7 @@ describe UserMailer, type: :mailer do
     user    = FactoryBot.create(:user)
     FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
     message = FactoryBot.create(:message)
-    UserMailer.message_posted(user, message, user).deliver_now
+    UserMailer.deliver_immediately!(:message_posted, user, message, user)
     mail = ActionMailer::Base.deliveries.last
     refute_nil mail
     assert_equal UserMailer.generate_message_id(message, user), mail.message_id
@@ -252,7 +247,7 @@ describe UserMailer, type: :mailer do
     FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
     parent  = FactoryBot.create(:message)
     message = FactoryBot.create(:message, parent: parent)
-    UserMailer.message_posted(user, message, user).deliver_now
+    UserMailer.deliver_immediately!(:message_posted, user, message, user)
     mail = ActionMailer::Base.deliveries.last
     refute_nil mail
     assert_equal UserMailer.generate_message_id(message, user), mail.message_id
@@ -271,7 +266,7 @@ describe UserMailer, type: :mailer do
       FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
 
       I18n.locale = 'en'
-      assert UserMailer.work_package_added(user, issue.journals.first, user).deliver_now
+      assert UserMailer.deliver_immediately!(:work_package_added, user, issue.journals.first, user)
       assert_equal 1, ActionMailer::Base.deliveries.size
       mail = last_email
       assert_equal ['foo@bar.de'], mail.to
@@ -289,7 +284,7 @@ describe UserMailer, type: :mailer do
       FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
 
       I18n.locale = 'de'
-      assert UserMailer.work_package_added(user, issue.journals.first, user).deliver_now
+      assert UserMailer.deliver_immediately!(:work_package_added, user, issue.journals.first, user)
       assert_equal 1, ActionMailer::Base.deliveries.size
       mail = last_email
       assert_equal ['foo@bar.de'], mail.to
@@ -302,31 +297,31 @@ describe UserMailer, type: :mailer do
   it 'should news added' do
     user = FactoryBot.create(:user)
     news = FactoryBot.create(:news)
-    assert UserMailer.news_added(user, news, user).deliver_now
+    assert UserMailer.deliver_immediately!(:news_added, user, news, user)
   end
 
   it 'should news comment added' do
     user    = FactoryBot.create(:user)
     news    = FactoryBot.create(:news)
     comment = FactoryBot.create(:comment, commented: news)
-    assert UserMailer.news_comment_added(user, comment, user).deliver_now
+    assert UserMailer.deliver_immediately!(:news_comment_added, user, comment, user)
   end
 
   it 'should message posted' do
     user    = FactoryBot.create(:user)
     message = FactoryBot.create(:message)
-    assert UserMailer.message_posted(user, message, user).deliver_now
+    assert UserMailer.deliver_immediately!(:message_posted, user, message, user)
   end
 
   it 'should account information' do
     user = FactoryBot.create(:user)
-    assert UserMailer.account_information(user, 'pAsswORd').deliver_now
+    assert UserMailer.deliver_immediately!(:account_information, user, 'pAsswORd')
   end
 
   it 'should lost password' do
     user  = FactoryBot.create(:user)
     token = FactoryBot.create(:recovery_token, user: user)
-    assert UserMailer.password_lost(token).deliver_now
+    assert UserMailer.deliver_immediately!(:password_lost, token)
   end
 
   it 'should register' do
@@ -335,8 +330,8 @@ describe UserMailer, type: :mailer do
     Setting.host_name = 'redmine.foo'
     Setting.protocol = 'https'
 
-    mail = UserMailer.user_signed_up(token)
-    assert mail.deliver_now
+    UserMailer.deliver_immediately!(:user_signed_up, token)
+    mail = last_email
     assert mail.body.encoded.include?("https://redmine.foo/account/activate?token=#{token.value}")
   end
 
@@ -376,7 +371,7 @@ describe UserMailer, type: :mailer do
       I18n.locale = :en
       # Send an email to a german user
       user = FactoryBot.create(:user, language: 'de')
-      UserMailer.account_activated(user).deliver_now
+      UserMailer.deliver_immediately!(:account_activated, user)
       mail = ActionMailer::Base.deliveries.last
       assert mail.body.encoded.include?('aktiviert')
       assert_equal :en, I18n.locale
@@ -386,7 +381,7 @@ describe UserMailer, type: :mailer do
   it 'should with deliveries off' do
     user = FactoryBot.create(:user)
     UserMailer.with_deliveries(false) do
-      UserMailer.test_mail(user).deliver_now
+      UserMailer.deliver_immediately!(:test_mail, user)
     end
     assert ActionMailer::Base.deliveries.empty?
     # should restore perform_deliveries
@@ -400,7 +395,7 @@ describe UserMailer, type: :mailer do
           } do
     it 'should include the emails_header depeding on the locale' do
       user = FactoryBot.create(:user, language: :de)
-      assert UserMailer.test_mail(user).deliver_now
+      assert UserMailer.deliver_immediately!(:test_mail, user)
       mail = ActionMailer::Base.deliveries.last
       assert mail.body.encoded.include?('deutscher header')
     end

@@ -92,7 +92,7 @@ class WikiContent < ActiveRecord::Base
     return unless Setting.notified_events.include?('wiki_content_added')
 
     create_recipients.uniq.each do |user|
-      UserMailer.wiki_content_added(user, self, User.current).deliver_now
+      UserMailer.wiki_content_added(user, self, User.current)
     end
   end
 
@@ -100,7 +100,7 @@ class WikiContent < ActiveRecord::Base
     return unless Setting.notified_events.include?('wiki_content_updated')
 
     update_recipients.uniq.each do |user|
-      UserMailer.wiki_content_updated(user, self, User.current).deliver_now
+      UserMailer.wiki_content_updated(user, self, User.current)
     end
   end
 

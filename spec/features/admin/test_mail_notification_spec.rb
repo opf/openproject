@@ -40,7 +40,7 @@ describe 'Test mail notification', type: :feature do
 
   it 'shows the correct message on errors in test notification (Regression #28226)' do
     error_message = '"error" with <strong>Markup?</strong>'
-    expect(UserMailer).to receive(:test_mail).with(admin)
+    expect(UserMailer).to receive(:test_mail!).with(admin)
       .and_raise error_message
 
     click_link 'Send a test email'

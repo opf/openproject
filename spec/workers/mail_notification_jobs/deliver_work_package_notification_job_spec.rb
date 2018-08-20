@@ -36,25 +36,29 @@ describe DeliverWorkPackageNotificationJob, type: :model do
     FactoryBot.create(:user, member_in_project: project, member_through_role: role)
   }
   let(:author) { FactoryBot.create(:user) }
+
   let(:work_package) {
     FactoryBot.create(:work_package,
                        project: project,
                        author: author)
   }
+
   let(:journal) { work_package.journals.first }
   subject { described_class.new(journal.id, recipient.id, author.id) }
 
   before do
     # make sure no actual calls make it into the UserMailer
-    allow(UserMailer).to receive(:work_package_added).and_return(double('mail', deliver_now: nil))
-    allow(UserMailer).to receive(:work_package_updated).and_return(double('mail', deliver_now: nil))
+    allow(UserMailer).to receive(:work_package_added)
+    allow(UserMailer).to receive(:work_package_updated)
+    work_package
   end
 
   it 'sends a mail' do
-    expect(UserMailer).to receive(:work_package_added).with(
-                            recipient,
-                            an_instance_of(Journal::AggregatedJournal),
-                            author)
+    expect(UserMailer)
+      .to receive(:work_package_added!)
+      .with(recipient, an_instance_of(Journal::AggregatedJournal), author)
+      .and_call_original
+
     subject.perform
   end
 
@@ -64,7 +68,7 @@ describe DeliverWorkPackageNotificationJob, type: :model do
     end
 
     it 'sends no mail' do
-      expect(UserMailer).not_to receive(:work_package_added)
+      expect(UserMailer).not_to receive(:work_package_added!)
       subject.perform
     end
   end
@@ -75,13 +79,14 @@ describe DeliverWorkPackageNotificationJob, type: :model do
     end
 
     it 'sends a mail' do
-      expect(UserMailer).to receive(:work_package_added)
+      expect(UserMailer).to receive(:work_package_added!).and_call_original
       subject.perform
     end
 
     it 'uses the deleted user as author' do
-      expect(UserMailer).to receive(:work_package_added)
+      expect(UserMailer).to receive(:work_package_added!)
                               .with(anything, anything, DeletedUser.first)
+                              .and_call_original
 
       subject.perform
     end
@@ -108,18 +113,20 @@ describe DeliverWorkPackageNotificationJob, type: :model do
     end
 
     it 'sends an update mail' do
-      expect(UserMailer).to receive(:work_package_updated)
+      expect(UserMailer).to receive(:work_package_updated!).and_call_original
       subject.perform
     end
 
     it 'sends a mail for the aggregated journal' do
       expected = Journal::AggregatedJournal.aggregated_journals(journable: work_package).last
-      expect(UserMailer).to receive(:work_package_updated) do |_recipient, journal, _author|
-        expect(journal.id).to eq expected.id
-        expect(journal.notes_id).to eq expected.notes_id
+      expect(UserMailer)
+        .to receive(:work_package_updated!)
+        .and_wrap_original do |m, *args, &block|
+          expect(args[1].id).to eq expected.id
+          expect(args[1].notes_id).to eq expected.notes_id
+          m.call(*args, &block)
+        end
 
-        double('mail', deliver_now: nil)
-      end
       subject.perform
     end
   end
@@ -127,9 +134,11 @@ describe DeliverWorkPackageNotificationJob, type: :model do
   describe 'impersonation' do
     describe 'the recipient should become the current user during mail creation' do
       before do
-        expect(UserMailer).to receive(:work_package_added) do
+        expect(UserMailer)
+          .to receive(:work_package_added!)
+                .and_wrap_original do |m, *args, &block|
           expect(User.current).to eql(recipient)
-          double('mail', deliver_now: nil)
+          m.call(*args, &block)
         end
       end
 
@@ -149,9 +158,7 @@ describe DeliverWorkPackageNotificationJob, type: :model do
 
   describe 'exceptions during delivery' do
     before do
-      mail = double('mail')
-      allow(mail).to receive(:deliver_now).and_raise(SocketError)
-      expect(UserMailer).to receive(:work_package_added).and_return(mail)
+      expect(UserMailer).to receive_message_chain(:work_package_added!, :deliver_now).and_raise(SocketError)
     end
 
     it 'raises the error' do
@@ -161,10 +168,10 @@ describe DeliverWorkPackageNotificationJob, type: :model do
 
   describe 'exceptions during rendering' do
     before do
-      expect(UserMailer).to receive(:work_package_added).and_raise('not today!')
+      expect(UserMailer).to receive(:work_package_added!).and_raise(SocketError)
     end
 
-    it 'swallows the error' do
+    it 'does not raise the error' do
       expect { subject.perform }.not_to raise_error
     end
   end

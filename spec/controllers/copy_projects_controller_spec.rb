@@ -143,15 +143,9 @@ describe CopyProjectsController, type: :controller do
   end
 
   describe 'copy sends eMail' do
-    let(:maildouble) { double('Mail::Message', deliver: true) }
-
-    before do
-      allow(maildouble).to receive(:deliver_now).and_return nil
-    end
-
     context 'on success' do
       it 'user receives success mail' do
-        expect(UserMailer).to receive(:copy_project_succeeded).and_return(maildouble)
+        expect(UserMailer).to receive(:copy_project_succeeded)
 
         copy_project(project)
       end
@@ -163,7 +157,7 @@ describe CopyProjectsController, type: :controller do
       end
 
       it 'user receives success mail' do
-        expect(UserMailer).to receive(:copy_project_failed).and_return(maildouble)
+        expect(UserMailer).to receive(:copy_project_failed)
 
         copy_project(project)
       end

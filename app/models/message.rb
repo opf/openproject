@@ -151,9 +151,8 @@ class Message < ActiveRecord::Base
     to_mail = recipients +
               root.watcher_recipients +
               board.watcher_recipients
-
     to_mail.uniq.each do |user|
-      UserMailer.message_posted(user, self, User.current).deliver_now
+      UserMailer.message_posted(user, self, User.current)
     end
   end
 end

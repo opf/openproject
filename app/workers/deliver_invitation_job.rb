@@ -36,7 +36,7 @@ class DeliverInvitationJob < ApplicationJob
 
   def perform
     if token
-      UserMailer.user_signed_up(token).deliver_now
+      UserMailer.user_signed_up(token)
     else
       Rails.logger.warn "Can't deliver invitation. The token is missing: #{token_id}"
     end

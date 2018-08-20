@@ -100,7 +100,7 @@ class MailHandler < ActionMailer::Base
         @user = MailHandler.create_user_from_email(email)
         if @user
           log "[#{@user.login}] account created"
-          UserMailer.account_information(@user, @user.password).deliver_now
+          UserMailer.account_information(@user, @user.password)
         else
           log "could not create account for [#{sender_email}]", :error
           return false

@@ -34,7 +34,7 @@ module JournalChanges
 
     @changes = HashWithIndifferentAccess.new
 
-    if predecessor.nil?
+    if predecessor.nil? || predecessor.data.nil?
       @changes = data.journaled_attributes
                  .reject { |_, new_value| new_value.nil? }
                  .inject({}) { |result, (attribute, new_value)|

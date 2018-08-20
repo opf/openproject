@@ -2042,7 +2042,6 @@ en:
   setting_password_min_length: "Minimum length"
   setting_password_min_adhered_rules: "Minimum number of required classes"
   setting_per_page_options: "Objects per page options"
-  setting_plain_text_mail: "Plain text mail (no HTML)"
   setting_protocol: "Protocol"
   setting_registration_footer: "Registration footer"
   setting_repositories_automatic_managed_vendor: "Automatic repository vendor type"

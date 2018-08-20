@@ -193,7 +193,7 @@ END_DESC
       ActionMailer::Base.raise_delivery_errors = true
 
       begin
-        UserMailer.test_mail(user).deliver_now
+        UserMailer.deliver_immediately!(:test_mail, user)
         puts I18n.t(:notice_email_sent, value: user.mail)
       rescue => e
         abort I18n.t(:notice_email_error, e.message)

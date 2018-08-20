@@ -52,7 +52,7 @@ class Comment < ActiveRecord::Base
 
     recipients = commented.recipients + commented.watcher_recipients
     recipients.uniq.each do |user|
-      UserMailer.news_comment_added(user, self, User.current).deliver_now
+      UserMailer.news_comment_added(user, self, User.current)
     end
   end
 end
