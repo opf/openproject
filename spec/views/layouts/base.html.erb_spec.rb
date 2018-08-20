@@ -243,4 +243,27 @@ describe 'layouts/base', type: :view do
       end
     end
   end
+
+  describe 'current user meta tag' do
+    before do
+      login_as(current_user)
+
+      render
+    end
+    context 'with the user being logged in' do
+      let(:current_user) { user }
+
+      it 'has a current_user metatag' do
+        expect(rendered).to have_selector("meta[name=current_user]", visible: false)
+      end
+    end
+
+    context 'with the user being anonymous' do
+      let(:current_user) { anonymous }
+
+      it 'has no current_user metatag' do
+        expect(rendered).not_to have_selector('meta[name=current_user]', visible: false)
+      end
+    end
+  end
 end
