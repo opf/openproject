@@ -259,22 +259,6 @@ Feature: Scrum Master
       And Story A should be in the 2nd position of the sprint named Sprint 001
       And Story B should be the higher item of Story A
 
-  Scenario: view the sprint notes
-    Given I have set the content for wiki page Sprint Template to Sprint Template
-      And I have made Sprint Template the template page for sprint notes
-      And I am on the taskboard for "Sprint 001"
-     When I view the sprint notes
-     Then the request should complete successfully
-    Then the wiki page Sprint 001 should contain Sprint Template
-
-  Scenario: edit the sprint notes
-    Given I have set the content for wiki page Sprint Template to Sprint Template
-      And I have made Sprint Template the template page for sprint notes
-      And I am on the taskboard for "Sprint 001"
-     When I edit the sprint notes
-     Then the request should complete successfully
-     Then the wiki page Sprint 001 should contain Sprint Template
-
   Scenario: View tasks that have subtasks
   Given I am on the taskboard for "Sprint 005"
    Then I should see "Task 10" within "#tasks"
