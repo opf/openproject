@@ -36,8 +36,8 @@ describe 'layouts/base', type: :view do
 
   include Redmine::MenuManager::MenuHelper
   helper Redmine::MenuManager::MenuHelper
-  let!(:user) { FactoryBot.create :user }
-  let!(:anonymous) { FactoryBot.create(:anonymous) }
+  let(:user) { FactoryBot.build_stubbed :user }
+  let(:anonymous) { FactoryBot.build_stubbed(:anonymous) }
 
   before do
     allow(view).to receive(:current_menu_item).and_return('overview')
@@ -45,13 +45,16 @@ describe 'layouts/base', type: :view do
     allow(controller).to receive(:default_search_scope)
     allow(view)
       .to receive(:render_to_string)
+
+    allow(User).to receive(:current).and_return current_user
+    allow(view).to receive(:current_user).and_return current_user
   end
 
   describe 'projects menu visibility' do
     context 'when the user is not logged in' do
+      let(:current_user) { anonymous }
+
       before do
-        allow(User).to receive(:current).and_return anonymous
-        allow(view).to receive(:current_user).and_return anonymous
         render
       end
 
@@ -61,9 +64,9 @@ describe 'layouts/base', type: :view do
     end
 
     context 'when the user is logged in' do
+      let(:current_user) { user }
+
       before do
-        allow(User).to receive(:current).and_return user
-        allow(view).to receive(:current_user).and_return user
         render
       end
 
@@ -74,16 +77,13 @@ describe 'layouts/base', type: :view do
   end
 
   describe 'Sign in button' do
+    let(:current_user) { anonymous }
+
     before do
-      allow(User).to receive(:current).and_return anonymous
-      allow(view).to receive(:current_user).and_return anonymous
+      render
     end
 
     context 'with omni_auth_direct_login disabled' do
-      before do
-        render
-      end
-
       it 'shows the login drop down menu' do
         expect(rendered).to have_selector('div#nav-login-content', visible: false)
       end
@@ -91,10 +91,6 @@ describe 'layouts/base', type: :view do
 
     context 'with omni_auth_direct_login enabled',
              with_config: { omniauth_direct_login_provider: 'some_provider' } do
-
-      before do
-        render
-      end
 
       it 'shows just a sign-in link, no menu' do
         expect(rendered).to have_selector "a[href='/login']"
@@ -104,10 +100,7 @@ describe 'layouts/base', type: :view do
   end
 
   describe 'login form' do
-    before do
-      allow(User).to receive(:current).and_return anonymous
-      allow(view).to receive(:current_user).and_return anonymous
-    end
+    let(:current_user) { anonymous }
 
     context 'with password login enabled' do
       before do
@@ -134,9 +127,9 @@ describe 'layouts/base', type: :view do
   end
 
   describe 'icons' do
+    let(:current_user) { anonymous }
+
     before do
-      allow(User).to receive(:current).and_return anonymous
-      allow(view).to receive(:current_user).and_return anonymous
       render
     end
 
@@ -172,14 +165,10 @@ describe 'layouts/base', type: :view do
 
   describe "inline custom styles" do
     let(:a_token) { EnterpriseToken.new }
-
-    before do
-      allow(User).to receive(:current).and_return anonymous
-      allow(view).to receive(:current_user).and_return anonymous
-    end
+    let(:current_user) { anonymous }
 
     context "EE is active and styles are present" do
-      let(:custom_style) { CustomStyle.new }
+      let(:custom_style) { FactoryBot.create(:custom_style) }
       let(:primary_color) { FactoryBot.create :"design_color_primary-color" }
 
       before do
@@ -193,10 +182,8 @@ describe 'layouts/base', type: :view do
       end
 
       it "renders CSS4 variables" do
-        custom_style.save
         primary_color
         render
-        expect(DesignColor.overwritten.size).to eq(1)
         expect(rendered).to render_template partial: 'custom_styles/_inline_css'
         expect(rendered).to match /--primary-color:\s*#{primary_color.get_hexcode}/
       end
@@ -240,6 +227,28 @@ describe 'layouts/base', type: :view do
 
       it "does not contain an inline CSS block for styles." do
         expect(rendered).to_not render_template partial: 'custom_styles/_inline_css'
+      end
+    end
+  end
+
+  describe 'current user meta tag' do
+    before do
+      render
+    end
+
+    context 'with the user being logged in' do
+      let(:current_user) { user }
+
+      it 'has a current_user metatag' do
+        expect(rendered).to have_selector("meta[name=current_user]", visible: false)
+      end
+    end
+
+    context 'with the user being anonymous' do
+      let(:current_user) { anonymous }
+
+      it 'has no current_user metatag' do
+        expect(rendered).not_to have_selector('meta[name=current_user]', visible: false)
       end
     end
   end

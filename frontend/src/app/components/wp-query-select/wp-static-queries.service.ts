@@ -32,13 +32,15 @@ import {Injectable} from '@angular/core';
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {StateService} from "@uirouter/core";
+import {CurrentUserService} from "core-components/user/current-user.service";
 
 @Injectable()
 export class WorkPackageStaticQueriesService {
   constructor(private readonly I18n:I18nService,
               private readonly $state:StateService,
               private readonly CurrentProject:CurrentProjectService,
-              private readonly PathHelper:PathHelperService) {
+              private readonly PathHelper:PathHelperService,
+              private readonly CurrentUserService:CurrentUserService) {
   }
 
   public text = {
@@ -73,16 +75,6 @@ export class WorkPackageStaticQueriesService {
       query_props: '{%22c%22:[%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22,%22project%22],%22tv%22:true,%22tzl%22:%22quarters%22,%22hi%22:false,%22g%22:%22%22,%22t%22:%22parent:asc%22,%22f%22:[{%22n%22:%22status%22,%22o%22:%22o%22,%22v%22:[]}],%22pa%22:1,%22pp%22:20}'
     },
     {
-      identifier: 'created_by_me',
-      label: this.text.created_by_me,
-      query_props: "{%22c%22:[%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22,%22updatedAt%22],%22tzl%22:%22days%22,%22hi%22:false,%22g%22:%22%22,%22t%22:%22updatedAt:desc,parent:asc%22,%22f%22:[{%22n%22:%22status%22,%22o%22:%22o%22,%22v%22:[]},{%22n%22:%22author%22,%22o%22:%22=%22,%22v%22:[%22me%22]}],%22pa%22:1,%22pp%22:20}"
-    },
-    {
-      identifier: 'assigned_to_me',
-      label: this.text.assigned_to_me,
-      query_props: '{%22c%22:[%22id%22,%22subject%22,%22type%22,%22status%22,%20%22author%22,%20%22updatedAt%22],%22t%22:%22updatedAt:desc,parent:asc%22,%22f%22:[{%22n%22:%22status%22,%22o%22:%22o%22,%22v%22:[]},{%22n%22:%22assignee%22,%22o%22:%22=%22,%22v%22:[%22me%22]}]}'
-    },
-    {
       identifier: 'recently_created',
       label: this.text.recently_created,
       query_props: '{%22c%22:[%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22,%22createdAt%22],%22t%22:%22createdAt:desc,parent:asc%22,%22f%22:[{%22n%22:%22status%22,%22o%22:%22o%22,%22v%22:[]},{%22n%22:%22createdAt%22,%22o%22:%22w%22,%22v%22:[]}]}'
@@ -101,6 +93,21 @@ export class WorkPackageStaticQueriesService {
         label: this.text.summary,
         static_link: this.PathHelper.projectWorkPackagesPath(projectIdentifier) + '/report'
       });
+    }
+
+    if (this.CurrentUserService.isLoggedIn) {
+      items = items.concat([
+        {
+          identifier: 'created_by_me',
+          label: this.text.created_by_me,
+          query_props: "{%22c%22:[%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22,%22updatedAt%22],%22tzl%22:%22days%22,%22hi%22:false,%22g%22:%22%22,%22t%22:%22updatedAt:desc,parent:asc%22,%22f%22:[{%22n%22:%22status%22,%22o%22:%22o%22,%22v%22:[]},{%22n%22:%22author%22,%22o%22:%22=%22,%22v%22:[%22me%22]}],%22pa%22:1,%22pp%22:20}"
+        },
+        {
+          identifier: 'assigned_to_me',
+          label: this.text.assigned_to_me,
+          query_props: '{%22c%22:[%22id%22,%22subject%22,%22type%22,%22status%22,%20%22author%22,%20%22updatedAt%22],%22t%22:%22updatedAt:desc,parent:asc%22,%22f%22:[{%22n%22:%22status%22,%22o%22:%22o%22,%22v%22:[]},{%22n%22:%22assignee%22,%22o%22:%22=%22,%22v%22:[%22me%22]}]}'
+        }
+      ]);
     }
 
     return items;
