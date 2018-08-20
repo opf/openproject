@@ -211,7 +211,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   def text_formatting_wrapper(target_id, options)
     return ''.html_safe unless target_id.present?
 
-    helper = ::OpenProject::TextFormatting::Formats.rich_helper.new(@template)
+    helper = ::OpenProject::TextFormatting::Formats.rich_helper.new
     helper.wikitoolbar_for target_id, options
   end
 
