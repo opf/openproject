@@ -13,9 +13,9 @@
       <i class="icon-search wp-query-menu--search-icon"></i>
     </div>
     <div #queryResultsContainer class="wp-query-menu--results-container">
+      <p class="wp-query-menu--no-results-container"
+         [hidden]="!noResults"
+         [textContent]="text.no_results"></p>
     </div>
-    <p class="wp-query-menu--no-results-container"
-       [hidden]="!noResults"
-       [textContent]="text.no_results"></p>
   </div>
 </div>
