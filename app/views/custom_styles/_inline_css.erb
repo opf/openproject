@@ -46,6 +46,9 @@ See doc/COPYRIGHT.rdoc for more details.
     <% if design_color.variable == "header-border-bottom-color" %>
       --header-border-bottom-width: 1px;
     <% end %>
+    <% if design_color.variable == "main-menu-border-color" %>
+      --main-menu-border-width: 1px;
+    <% end %>
     <% if design_color.variable == "alternative-color" %>
       --button--alt-highlight-background-hover-color: <%= darken_color design_color.hexcode, 0.82 %>;
     <% end %>

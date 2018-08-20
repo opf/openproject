@@ -36,7 +36,9 @@ $menu-item-line-height: 30px
   float: left
   overflow-x: hidden
   left: 0
-  border-right: $main-menu-border-width solid $main-menu-border-color
+  border-right-style: solid
+  @include varprop(border-right-width, main-menu-border-width)
+  @include varprop(border-right-color, header-border-bottom-color)
 
   // min-height is full height minus header and footer.
   min-height: calc(100vh - 55px)
@@ -198,10 +200,8 @@ $arrow-left-width: 40px
         @include varprop(background, main-menu-child-bg-hover-color)
 
 .main-menu--children-menu-header
-  padding: 10px
-  border-bottom: 1px solid
-  border-bottom: $main-menu-border-width solid $main-menu-border-color
-  height: calc(#{$main-menu-item-height} + 20px)
+  padding: 10px 10px 0 10px
+  height: calc(#{$main-menu-item-height} + 10px)
 
 .main-menu--arrow-left-to-project
   display: inline-block

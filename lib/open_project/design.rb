@@ -58,14 +58,14 @@ module OpenProject
       'h4-font-color'                                        => "$body-font-color",
       'header-height'                                        => "55px",
       'header-height-mobile'                                 => "55px",
-      'header-bg-color'                                      => "$primary-color",
+      'header-bg-color'                                      => "#06799F",
       'header-home-link-bg'                                  => '#{image-url("logo_openproject_white_big.png") no-repeat 20px 0}',
       'header-border-bottom-color'                           => "$primary-color",
       'header-border-bottom-width'                           => "0",
       'header-item-font-size'                                => "14px",
       'header-item-font-color'                               => "$font-color-on-primary",
       'header-item-font-hover-color'                         => "$font-color-on-primary-dark",
-      'header-item-bg-hover-color'                           => "$primary-color-dark",
+      'header-item-bg-hover-color'                           => "#16D280",
       'header-drop-down-bg-color'                            => "#FFFFFF",
       'header-drop-down-border-color'                        => "#DDDDDD",
       'header-drop-down-item-font-color'                     => "$body-font-color",
@@ -79,15 +79,15 @@ module OpenProject
       'header-search-field-border'                           => "0",
       'main-menu-width'                                      => "230px",
       'main-menu-folded-width'                               => "0px",
-      'main-menu-border-color'                               => "rgba(231, 231, 231, 0.15)",
-      'main-menu-border-width'                               => "1px",
+      'main-menu-border-color'                               => "#EAEAEA",
+      'main-menu-border-width'                               => "0px",
       'main-menu-item-height'                                => "40px",
-      'main-menu-item-border-color'                          => "#EAEAEA",
+      'main-menu-item-border-color'                          => "$primary-color",
       'main-menu-item-border-width'                          => "1px",
       'main-menu-enable-toggle-highlighting'                 => "false",
-      'main-menu-bg-color'                                   => "#3F4C56",
-      'main-menu-bg-selected-background'                     => "#175A8E",
-      'main-menu-bg-hover-background'                        => "$main-menu-bg-selected-background",
+      'main-menu-bg-color'                                   => "#376585",
+      'main-menu-bg-selected-background'                     => "#00A3BF",
+      'main-menu-bg-hover-background'                        => "#16D280",
       'main-menu-font-color'                                 => "#FFFFFF",
       'main-menu-hover-font-color'                           => "$main-menu-font-color",
       'main-menu-resizer-color'                              => "$primary-color",
@@ -274,7 +274,12 @@ module OpenProject
           header-border-bottom-color
           content-link-color
           main-menu-bg-color
-          main-menu-font-color )
+          main-menu-font-color
+          main-menu-bg-selected-background
+          main-menu-selected-font-color
+          main-menu-bg-hover-background
+          main-menu-hover-font-color
+          main-menu-border-color )
     end
   end
 end
