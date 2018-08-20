@@ -242,6 +242,9 @@ on a machine with 8 parallel instances.
 If you want to access the development server of OpenProject from a VM,
 you need to work around the CSP `localhost` restrictions.
 
+
+### Old way, fixed compilation
+
 One way is to disable the Angular CLI that serves some of the assets when developing. To do that, run
 
 ```bash
@@ -254,6 +257,22 @@ OPENPROJECT_CLI_PROXY='' ./bin/rails s -b 0.0.0.0 -p 3000
 ```
 
 Now assuming networking is set up in your VM, you can access your app server on `<your local ip>:3000` from it.
+
+### New way, with ng serve
+
+**The better way** when you want to develop against Edge is to set up your server to allow the CSP to the remote host.
+Assuming your openproject is served at `<your local ip>:3000` and your ng serve middleware is running at `<your local ip>:4200`,
+you can access both from inside a VM with nat/bridged networking as follows:
+
+```bash
+# Start ng serve middleware binding to all interfaces
+ng serve --host 0.0.0.0
+
+# Start your openproject server with the CLI proxy configuration set
+OPENPROJECT_CLI_PROXY='<your local ip>:4200' ./bin/rails s -b 0.0.0.0 -p 3000
+
+# Now access your server from http://<your local ip>:3000 with code reloading
+```
 
 ## Legacy LDAP tests
 

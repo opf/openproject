@@ -47,7 +47,7 @@ module TextFormattingHelper
   #TODO remove
   def current_formatting_helper
     helper_class = OpenProject::TextFormatting::Formats.rich_helper
-    helper_class.new(self)
+    helper_class.new
   end
 
   def project_preview_context(object, project)

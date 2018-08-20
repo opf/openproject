@@ -31,19 +31,16 @@
 module OpenProject::TextFormatting::Formats
   module Markdown
     class Helper
-      attr_reader :view_context
 
-      def initialize(view_context)
-        @view_context = view_context
-      end
+      def initialize; end
 
       def text_formatting_js_includes
-        view_context.javascript_include_tag 'vendor/ckeditor/ckeditor.js'
+        helpers.javascript_include_tag 'vendor/ckeditor/ckeditor.js'
       end
 
       def wikitoolbar_for(field_id, **context)
         # Hide the original textarea
-        view_context.content_for(:additional_js_dom_ready) do
+        helpers.content_for(:additional_js_dom_ready) do
           js = <<-JAVASCRIPT
             var field = document.getElementById('#{field_id}');
             field.style.display = 'none';
@@ -55,11 +52,17 @@ module OpenProject::TextFormatting::Formats
 
         # Pass an optional resource to the CKEditor instance
         resource = context.fetch(:resource, {})
-        view_context.content_tag 'op-ckeditor-form',
+        helpers.content_tag 'op-ckeditor-form',
                                  '',
                                  'textarea-selector': "##{field_id}",
                                  'preview-context': context[:preview_context],
                                  'data-resource': resource.to_json
+      end
+
+      protected
+
+      def helpers
+        ApplicationController.helpers
       end
     end
   end

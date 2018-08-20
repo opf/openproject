@@ -25,9 +25,11 @@ SecureHeaders::Configuration.default do |config|
   # Allow requests to CLI in dev mode
   connect_src = default_src
 
+  # Add proxy configuration for Angular CLI to csp
   if FrontendAssetHelper.assets_proxied?
-    connect_src += %w[ws://localhost:* http://localhost:*]
-    assets_src += %w[ws://localhost:* http://localhost:*]
+    proxied = ['ws://localhost:*', 'http://localhost:*', FrontendAssetHelper.cli_proxy]
+    connect_src += proxied
+    assets_src += proxied
   end
 
   config.csp = {
