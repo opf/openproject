@@ -1,0 +1,12 @@
+<ng-container>
+  <div class="op-ckeditor--wrapper">
+    <div class="op-ckeditor-source-element __op_ckeditor_replacement_container"></div>
+  </div>
+
+  <ng-container *ngIf="resource">
+    <attachments [resource]="resource"
+                 data-allow-uploading="true"
+                 data-destroy-immediately="false">
+    </attachments>
+  </ng-container>
+</ng-container>
