@@ -114,7 +114,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= render(partial: "wiki/content", locals: {content: @content}) %>
 
 <% resource = ::API::V3::WikiPages::WikiPageRepresenter.new(@page, current_user: current_user, embed_links: true) %>
-<%= list_attachments(resource, false) %>
+<%= list_attachments(resource) %>
 
 <%= other_formats_links do |f| %>
   <%= f.link_to 'Atom', url: { controller: '/activities',

@@ -36,11 +36,17 @@ module AttachmentsHelper
     str.encode('UTF-8', invalid: :replace, undef: :replace, replace: '') # better replace: '?'
   end
 
-  def list_attachments(resource, edit = false)
+  ##
+  # List attachments outside the edit form
+  # allowing immediate removal or addition of attachments
+  #
+  # Within ckeditor-form, this attachment list is added automatically
+  # when a resource is added.
+  def list_attachments(resource)
     content_tag 'attachments',
                 '',
                 'data-resource': resource.to_json,
-                'data-allow-uploading': edit,
-                'data-destroy-immediately': !edit
+                'data-allow-uploading': false,
+                'data-destroy-immediately': true
   end
 end
