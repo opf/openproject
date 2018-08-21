@@ -164,7 +164,7 @@ export class UserActivityComponent implements IEditFieldHandler, OnInit, AfterVi
   }
 
   public quoteComment() {
-    this.commentService.quoteEvents.putValue(this.quotedText(this.activity.comment.raw));
+    this.commentService.quoteEvents.next(this.quotedText(this.activity.comment.raw));
   }
 
   public updateComment() {

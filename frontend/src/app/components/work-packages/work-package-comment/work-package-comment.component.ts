@@ -93,7 +93,7 @@ export class WorkPackageCommentComponent implements IEditFieldHandler, OnInit, O
     this.canAddComment = !!this.workPackage.addComment;
     this.showAbove = this.ConfigurationService.commentsSortedInDescendingOrder();
 
-    this.commentService.quoteEvents.values$()
+    this.commentService.quoteEvents
       .pipe(
         untilComponentDestroyed(this)
       )
