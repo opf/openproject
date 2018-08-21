@@ -30,6 +30,7 @@
 
 module OpenProject
   module PageHierarchyHelper
+
     def render_page_hierarchy(pages, node = nil, options = {})
       return '' unless pages[node]
 
@@ -51,11 +52,15 @@ module OpenProject
       content_tag(:span, class: 'tree-menu--item', slug: page.slug) do
         concat content_tag(:span, hierarchy_span_content(is_parent), class: 'tree-menu--hierarchy-span')
         concat link_to(page.title,
-                       Rails.application.routes.url_helpers.project_wiki_path(page.project, page),
+                       url_helpers.project_wiki_path(page.project, page),
                        title: hierarchy_item_title(options, page),
                        class: 'tree-menu--title ellipsis') do
         end
       end
+    end
+
+    def url_helpers
+      @url_helpers ||= OpenProject::StaticRouting::StaticRouter.new.url_helpers
     end
 
     def hierarchy_span_content(is_parent)

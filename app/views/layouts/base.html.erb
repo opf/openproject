@@ -46,13 +46,17 @@ See docs/COPYRIGHT.rdoc for more details.
           data-project-id="<%= @project.id %>"
           data-project-identifier="<%= @project.identifier %>"/>
   <% end %>
+  <% unless User.current.anonymous? %>
+    <meta name="current_user"
+          data-name="<%= User.current.name %>"
+          data-id="<%= User.current.id %>" />
+  <% end %>
 
   <meta name="openproject_initializer"
         data-locale="<%= I18n.locale %>"
         data-default-locale="<%= I18n.default_locale %>"
         data-environment="<%= Rails.env %>"/>
   <meta name="current_menu_item" content="<%= current_menu_item %>"/>
-  <meta name="accessibility-mode" content="<%= current_user.impaired? %>"/>
   <%= csrf_meta_tags %>
   <%= render 'common/favicons' %>
   <%= stylesheet_link_tag 'openproject', media: "all" %>

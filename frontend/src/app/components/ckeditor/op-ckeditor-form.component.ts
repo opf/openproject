@@ -28,7 +28,6 @@
 
 import {Component, ElementRef, OnInit, OnDestroy} from '@angular/core';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {CurrentProjectService} from 'core-components/projects/current-project.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {CKEditorSetupService, ICKEditorInstance} from 'core-components/ckeditor/ckeditor-setup.service';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
@@ -37,16 +36,13 @@ import {DynamicBootstrapper} from 'core-app/globals/dynamic-bootstrapper';
 import {States} from 'core-components/states.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil, filter} from 'rxjs/operators';
+import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
-const ckEditorWrapperClass = 'op-ckeditor--wrapper';
-const ckEditorReplacementClass = '__op_ckeditor_replacement_container';
 
 @Component({
   selector: 'op-ckeditor-form',
-  template: `
-    <div class="${ckEditorWrapperClass}">
-      <div class="${ckEditorReplacementClass} op-ckeditor-source-element"></div>
-    </div>`
+  templateUrl: './op-ckeditor-form.html'
 })
 export class OpCkeditorFormComponent implements OnInit, OnDestroy {
   public textareaSelector:string;
@@ -72,6 +68,8 @@ export class OpCkeditorFormComponent implements OnInit, OnDestroy {
               protected pathHelper:PathHelperService,
               protected halResourceService:HalResourceService,
               protected ckEditorSetup:CKEditorSetupService,
+              protected Notifications:NotificationsService,
+              protected I18n:I18nService,
               protected states:States,
               protected ConfigurationService:ConfigurationService) {
   }
@@ -91,7 +89,7 @@ export class OpCkeditorFormComponent implements OnInit, OnDestroy {
     this.wrappedTextArea = this.formElement.find(this.textareaSelector);
     this.wrappedTextArea.hide();
     this.$attachmentsElement = this.formElement.find('#attachments_fields');
-    const wrapper = this.$element.find(`.${ckEditorReplacementClass}`);
+    const wrapper = this.$element.find(`.__op_ckeditor_replacement_container`);
     const context = { resource: this.resource,
                       previewContext: this.previewContext };
 
@@ -124,8 +122,16 @@ export class OpCkeditorFormComponent implements OnInit, OnDestroy {
 
     // Listen for form submission to set textarea content
     this.formElement.on('submit.ckeditor change.ckeditor', () => {
-      const value = this.ckeditor.getData();
-      this.wrappedTextArea.val(value);
+      try {
+        const value = this.ckeditor.getData();
+        this.wrappedTextArea.val(value);
+      } catch (e) {
+        console.error(`Failed to save CKEditor body to textarea: ${e}.`)
+        this.Notifications.addError(e || this.I18n.t('js.errors.internal'));
+
+        // Avoid submission of the form
+        return false;
+      }
 
       this.addUploadedAttachmentsToForm();
 
@@ -168,7 +174,7 @@ export class OpCkeditorFormComponent implements OnInit, OnDestroy {
 
   private setLabel() {
     let textareaId = this.textareaSelector.substring(1);
-    let label = jQuery(`label[for=${textareaId}`);
+    let label = jQuery(`label[for=${textareaId}]`);
 
     let ckContent = this.$element.find('.ck-content');
 

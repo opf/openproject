@@ -214,6 +214,7 @@ import {AttachmentListComponent} from 'core-components/attachments/attachment-li
 import {AttachmentListItemComponent} from 'core-components/attachments/attachment-list/attachment-list-item.component';
 import {AttachmentsUploadComponent} from 'core-components/attachments/attachments-upload/attachments-upload.component';
 import {AttachmentsComponent} from 'core-components/attachments/attachments.component';
+import {CurrentUserService} from 'core-components/user/current-user.service';
 
 @NgModule({
   imports: [
@@ -257,6 +258,7 @@ import {AttachmentsComponent} from 'core-components/attachments/attachments.comp
     SchemaCacheService,
     ProjectCacheService,
     UserCacheService,
+    CurrentUserService,
     {provide: States, useValue: new States()},
     PaginationService,
     KeepTabService,
