@@ -3,7 +3,7 @@
     <div class="op-ckeditor-source-element __op_ckeditor_replacement_container"></div>
   </div>
 
-  <ng-container *ngIf="resource">
+  <ng-container *ngIf="resource && resource.attachments">
     <attachments [resource]="resource"
                  data-allow-uploading="true"
                  data-destroy-immediately="false">
