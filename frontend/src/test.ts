@@ -1,5 +1,7 @@
 // This file is required by karma.conf.js and loads recursively all the .spec and framework files
 
+// Require the reflect ES7 polyfill for JIT
+import 'core-js/es7/reflect';
 
 import 'zone.js/dist/zone-testing';
 import { getTestBed } from '@angular/core/testing';
@@ -10,6 +12,7 @@ import {
 import {GlobalI18n} from "core-app/modules/common/i18n/i18n.service";
 import {I18nShim} from "./test/i18n-shim";
 
+
 declare const require:any;
 declare global {
   interface Window {
@@ -19,6 +22,7 @@ declare global {
 
 // Declare global I18n shim
 window.I18n = new I18nShim();
+
 
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(
