@@ -104,35 +104,35 @@ describe JournalManager, type: :model do
   describe 'self.#update_user_references' do
     let!(:work_package) { FactoryBot.create :work_package }
     let!(:doomed_user) { work_package.author }
-    let!(:data1) {
+    let!(:data1) do
       FactoryBot.build(:journal_work_package_journal,
-                        subject: work_package.subject,
-                        status_id: work_package.status_id,
-                        type_id: work_package.type_id,
-                        author_id: doomed_user.id,
-                        project_id: work_package.project_id)
-    }
-    let!(:data2) {
+                       subject: work_package.subject,
+                       status_id: work_package.status_id,
+                       type_id: work_package.type_id,
+                       author_id: doomed_user.id,
+                       project_id: work_package.project_id)
+    end
+    let!(:data2) do
       FactoryBot.build(:journal_work_package_journal,
-                        subject: work_package.subject,
-                        status_id: work_package.status_id,
-                        type_id: work_package.type_id,
-                        author_id: doomed_user.id,
-                        project_id: work_package.project_id)
-    }
-    let!(:doomed_user_journal) {
+                       subject: work_package.subject,
+                       status_id: work_package.status_id,
+                       type_id: work_package.type_id,
+                       author_id: doomed_user.id,
+                       project_id: work_package.project_id)
+    end
+    let!(:doomed_user_journal) do
       FactoryBot.create :work_package_journal,
-                         notes: '1',
-                         user: doomed_user,
-                         journable_id: work_package.id,
-                         data: data1
-    }
-    let!(:some_other_journal) {
+                        notes: '1',
+                        user: doomed_user,
+                        journable_id: work_package.id,
+                        data: data1
+    end
+    let!(:some_other_journal) do
       FactoryBot.create :work_package_journal,
-                         notes: '2',
-                         journable_id: work_package.id,
-                         data: data2
-    }
+                        notes: '2',
+                        journable_id: work_package.id,
+                        data: data2
+    end
 
     before do
       doomed_user.destroy
@@ -143,7 +143,7 @@ describe JournalManager, type: :model do
     end
 
     it "should not mark an unrelated journal's user as deleted" do
-      expect(some_other_journal.reload.user.is_a?(DeletedUser)).to be_falsy
+      expect(some_other_journal.reload.user.is_a?(DeletedUser)).to be_falsey
     end
   end
 end

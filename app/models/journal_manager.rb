@@ -60,8 +60,7 @@ class JournalManager
 
     # we generally ignore changes from blank to blank
     predecessor
-      .map { |k, v| current[k.to_s] != v && (v.present? || current[k.to_s].present?) }
-      .any?
+      .any? { |k, v| current[k.to_s] != v && (v.present? || current[k.to_s].present?) }
   end
 
   def self.association_changed?(journable, journal_association, association, id, key, value)
@@ -79,7 +78,7 @@ class JournalManager
       changes.merge! JournalManager.removed_references(merged_journals, association.to_s, value.to_s)
       changes.merge! JournalManager.changed_references(merged_journals, association.to_s, value.to_s)
 
-      not changes.empty?
+      !changes.empty?
     else
       false
     end
