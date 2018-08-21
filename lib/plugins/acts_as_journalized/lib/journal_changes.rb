@@ -72,13 +72,14 @@ module JournalChanges
       new_journals = send(journal_assoc_name).map(&:attributes)
       old_journals = predecessor.send(journal_assoc_name).map(&:attributes)
 
-      merged_journals = JournalManager.merge_reference_journals_by_id new_journals,
+      merged_journals = JournalManager.merge_reference_journals_by_id(new_journals,
                                                                       old_journals,
-                                                                      key.to_s
+                                                                      key.to_s,
+                                                                      value.to_s)
 
-      changes.merge! JournalManager.added_references(merged_journals, association, value.to_s)
-      changes.merge! JournalManager.removed_references(merged_journals, association, value.to_s)
-      changes.merge! JournalManager.changed_references(merged_journals, association, value.to_s)
+      changes.merge! JournalManager.added_references(merged_journals, association)
+      changes.merge! JournalManager.removed_references(merged_journals, association)
+      changes.merge! JournalManager.changed_references(merged_journals, association)
     end
 
     changes

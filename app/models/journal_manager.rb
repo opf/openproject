@@ -72,11 +72,11 @@ class JournalManager
 
       current = remove_empty_associations(current, value.to_s)
 
-      merged_journals = JournalManager.merge_reference_journals_by_id current, predecessor, key.to_s
+      merged_journals = JournalManager.merge_reference_journals_by_id(current, predecessor, key.to_s, value.to_s)
 
-      changes.merge! JournalManager.added_references(merged_journals, association.to_s, value.to_s)
-      changes.merge! JournalManager.removed_references(merged_journals, association.to_s, value.to_s)
-      changes.merge! JournalManager.changed_references(merged_journals, association.to_s, value.to_s)
+      changes.merge! JournalManager.added_references(merged_journals, association.to_s)
+      changes.merge! JournalManager.removed_references(merged_journals, association.to_s)
+      changes.merge! JournalManager.changed_references(merged_journals, association.to_s)
 
       !changes.empty?
     else
@@ -91,45 +91,39 @@ class JournalManager
   # This would lead to false change information, otherwise.
   # We need to be careful though, because we want to accept false (and false.blank? == true)
   def self.remove_empty_associations(associations, value)
-    associations.reject { |association|
+    associations.reject do |association|
       association.has_key?(value) &&
         association[value].blank? &&
         association[value] != false
-    }
+    end
   end
 
-  def self.merge_reference_journals_by_id(new_journals, old_journals, id_key)
+  def self.merge_reference_journals_by_id(new_journals, old_journals, id_key, value)
     all_associated_journal_ids = new_journals.map { |j| j[id_key] } |
                                  old_journals.map { |j| j[id_key] }
 
-    all_associated_journal_ids.each_with_object({}) { |id, result|
-      result[id] = [old_journals.detect { |j| j[id_key] == id },
-                    new_journals.detect { |j| j[id_key] == id }]
-    }
+    all_associated_journal_ids.each_with_object({}) do |id, result|
+      result[id] = [select_and_combine(old_journals, id, id_key, value),
+                    select_and_combine(new_journals, id, id_key, value)]
+    end
   end
 
-  def self.added_references(merged_references, key, value)
-    merged_references.select { |_, (old_attributes, new_attributes)|
-      old_attributes.nil? && !new_attributes.nil?
-    }.each_with_object({}) { |(id, (_, new_attributes)), result|
-      result["#{key}_#{id}"] = [nil, new_attributes[value]]
-    }
+  def self.added_references(merged_references, key)
+    merged_references
+      .select { |_, (old_value, new_value)| old_value.nil? && new_value.present? }
+      .each_with_object({}) { |(id, (_, new_value)), result| result["#{key}_#{id}"] = [nil, new_value] }
   end
 
-  def self.removed_references(merged_references, key, value)
-    merged_references.select { |_, (old_attributes, new_attributes)|
-      !old_attributes.nil? && new_attributes.nil?
-    }.each_with_object({}) { |(id, (old_attributes, _)), result|
-      result["#{key}_#{id}"] = [old_attributes[value], nil]
-    }
+  def self.removed_references(merged_references, key)
+    merged_references
+      .select { |_, (old_value, new_value)| old_value.present? && new_value.nil? }
+      .each_with_object({}) { |(id, (old_value, _)), result| result["#{key}_#{id}"] = [old_value, nil] }
   end
 
-  def self.changed_references(merged_references, key, value)
-    merged_references.select { |_, (old_attributes, new_attributes)|
-      !old_attributes.nil? && !new_attributes.nil? && old_attributes[value] != new_attributes[value]
-    }.each_with_object({}) { |(id, (old_attributes, new_attributes)), result|
-      result["#{key}_#{id}"] = [old_attributes[value], new_attributes[value]]
-    }
+  def self.changed_references(merged_references, key)
+    merged_references
+      .select { |_, (old_value, new_value)| old_value.present? && new_value.present? && old_value != new_value }
+      .each_with_object({}) { |(id, (old_value, new_value)), result| result["#{key}_#{id}"] = [old_value, new_value] }
   end
 
   def self.recreate_initial_journal(type, journal, changed_data)
@@ -325,5 +319,15 @@ class JournalManager
 
   def self.reset_notification
     @send_notification = true
+  end
+
+  def self.select_and_combine(journals, id, key, value)
+    selected_journals = journals.select { |j| j[key] == id }.map { |j| j[value] }
+
+    if selected_journals.empty?
+      nil
+    else
+      selected_journals.join(',')
+    end
   end
 end
