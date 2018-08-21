@@ -3,7 +3,7 @@
     {{ text.attachments }}
   </legend>
   <div id="attachments_fields">
-    <attachment-list [resource]="resource"></attachment-list>
+    <attachment-list *ngIf="resource.attachments" [resource]="resource"></attachment-list>
     <attachments-upload [resource]="resource" class="hide-when-print" *ngIf="allowUploading"></attachments-upload>
   </div>
 </fieldset>
