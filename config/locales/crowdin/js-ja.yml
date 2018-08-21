@@ -58,6 +58,7 @@ ja:
     description_subwork_package: '作業項目の子 #%{id}'
     editor:
       preview: プレビューモードの切り替え
+      error_saving_failed: 'Saving the document failed with the following error: %{e}'
       macro:
         child_pages:
           button: 子ページへのリンク

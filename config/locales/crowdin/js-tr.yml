@@ -60,6 +60,7 @@ tr:
     description_subwork_package: "#%{id} nolu iş paketinin alt parçası"
     editor:
       preview: Toggle preview mode
+      error_saving_failed: 'Saving the document failed with the following error: %{e}'
       macro:
         child_pages:
           button: Links to child pages

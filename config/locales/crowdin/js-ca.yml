@@ -60,6 +60,7 @@ ca:
     description_subwork_package: 'Fill del paquet de treball #%{id}'
     editor:
       preview: Toggle preview mode
+      error_saving_failed: 'Saving the document failed with the following error: %{e}'
       macro:
         child_pages:
           button: Links to child pages

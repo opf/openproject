@@ -61,6 +61,7 @@ de:
     description_subwork_package: 'Kind von Arbeitspaket #%{id}'
     editor:
       preview: Vorschau-Modus ein/aus
+      error_saving_failed: 'Saving the document failed with the following error: %{e}'
       macro:
         child_pages:
           button: Auflistung untergeordneter Seiten

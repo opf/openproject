@@ -60,6 +60,7 @@ vi:
     description_subwork_package: 'Con của work package #%{id}'
     editor:
       preview: Toggle preview mode
+      error_saving_failed: 'Saving the document failed with the following error: %{e}'
       macro:
         child_pages:
           button: Links to child pages
@@ -570,7 +571,7 @@ vi:
         created_by_me: Created by me
         assigned_to_me: Assigned to me
         recently_created: Recently created
-        all_open: All open
+        all_open: Mở tất cả
         summary: Tóm tắt
       jump_marks:
         pagination: Viet nam

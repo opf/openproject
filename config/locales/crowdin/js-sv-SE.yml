@@ -60,6 +60,7 @@ sv-SE:
     description_subwork_package: 'Barn till arbetspaket #%{id}'
     editor:
       preview: Växla förhandsgranskningsläge
+      error_saving_failed: 'Saving the document failed with the following error: %{e}'
       macro:
         child_pages:
           button: Länkar till underordnade sidor

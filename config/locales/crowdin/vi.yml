@@ -3,8 +3,8 @@ vi:
   no_results_title_text: Hiện không có nội dung.
   activities:
     index:
-      no_results_title_text: There has not been any activity for the project within
-        this time frame.
+      no_results_title_text: Đã không có bất kỳ hoạt động nào cho dự án trong khung
+        thời gian này.
   admin:
     plugins:
       no_results_title_text: Không có plugins nào khả dụng.
@@ -63,16 +63,16 @@ vi:
   custom_actions:
     actions:
       name: Actions
-      add: Add action
-    conditions: Conditions
-    plural: Custom actions
-    new: New custom action
-    edit: Edit custom action %{name}
-    execute: Execute %{name}
+      add: Thêm hành động
+    conditions: Điều kiện
+    plural: Tác vụ tùy chỉnh
+    new: Hành động tùy chỉnh mới
+    edit: Chỉnh sửa hành động tùy chỉnh %{name}
+    execute: Thực hiện %{name}
     upsale:
-      title: Custom actions is an Enterprise Edition feature
-      description: Custom actions streamline everyday work by combining a set of individual
-        steps into one button.
+      title: Những hành động tùy chỉnh là một tính năng của phiên bản doanh nghiệp
+      description: Những hành động tùy chỉnh sắp xếp công việc hàng ngày bằng cách
+        kết hợp một bộ các bước cá nhân vào một nút.
   custom_fields:
     text_add_new_custom_field: 'To add new custom fields to a project you first need
       to create them before you can add them to this project.
@@ -167,9 +167,9 @@ vi:
       form_configuration: Mẫu cấu hình
       projects: Các dự án
       enabled_projects: Enabled projects
-      add_group: Add attribute group
-      add_subelements: Add subelements group
-      edit_query: Edit embedded query
+      add_group: Thêm 1 nhóm thuộc tính
+      add_subelements: Thêm subelements nhóm
+      edit_query: Chỉnh sửa nhúng truy vấn
       reset: Reset to defaults
   versions:
     overview:
@@ -185,10 +185,10 @@ vi:
   work_packages:
     x_children:
       one: One child work package
-      other: "%{count} work package children"
+      other: "%{count} tác phẩm gói phần mềm trẻ em"
     move:
-      no_common_statuses_exists: There is no status available for all selected work
-        packages. Their status cannot be changed.
+      no_common_statuses_exists: Có là tình trạng không có sẵn cho tất cả các gói
+        đã chọn công việc. Tình trạng của họ không thể thay đổi.
       unsupported_for_multiple_projects: Bulk move/copy is not supported for work
         packages from multiple projects
     list_simple:
@@ -197,8 +197,7 @@ vi:
       reported:
         no_results_title_text: There are currently no work packages that I have reported.
       responsible:
-        no_results_title_text: There are currently no work packages that I am accountable
-          for.
+        no_results_title_text: Hiện có không có gói công việc tôi là trách nhiệm.
       watched:
         no_results_title_text: There are currently no work packages that I am watching.
     summary:
@@ -252,10 +251,10 @@ vi:
           thành một người sử dụng của ứng dụng này một lần nữa, bạn có thể làm như
           vậy bằng cách sử dụng các phương tiện ứng dụng này cho phép.
       login_verification:
-        other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be asked to confirm your password.
-        self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be asked to confirm your password.
+        other: Nhập đăng nhập %{name} để xác nhận việc xóa. Sau khi gửi, bạn sẽ được
+          yêu cầu xác nhận mật khẩu của bạn.
+        self: Nhập đăng nhập %{name} để xác nhận việc xóa. Sau khi gửi, bạn sẽ được
+          yêu cầu xác nhận mật khẩu của bạn.
     error_inactive_activation_by_mail: 'Tài khoản của bạn đã không được nêu ra được
       kích hoạt. Để kích hoạt tài khoản của bạn, nhấp vào liên kết được gửi đến bạn.
 
@@ -278,8 +277,8 @@ vi:
       announcements:
         show_until: Hiển thị cho đến khi
       attachment:
-        attachment_content: Attachment content
-        attachment_file_name: Attachment file name
+        attachment_content: Số lượng Tệp đính kèm
+        attachment_file_name: Tên tập tin đính kèm
         downloads: Những mục đã tải xuống
         file: Tệp
         filename: Tệp
@@ -440,7 +439,7 @@ vi:
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
         not_a_number: is not a number.
-        not_allowed: is invalid because of missing permissions.
+        not_allowed: không hợp lệ vì thiếu quyền.
         not_an_integer: is not an integer.
         not_an_iso_date: 'không phải là một ngày hợp lệ. Yêu cầu định dạng: YYYY-MM-DD.'
         not_same_project: doesn't belong to the same project.
@@ -452,18 +451,19 @@ vi:
         taken: has already been taken.
         too_long: is too long (maximum is %{count} characters).
         too_short: is too short (minimum is %{count} characters).
-        unchangeable: cannot be changed.
+        unchangeable: không thể thay đổi.
         wrong_length: is the wrong length (should be %{count} characters).
       models:
         custom_field:
           at_least_one_custom_option: Ít nhất một lựa chọn cần phải được cung cấp.
         custom_actions:
-          only_one_allowed: "(%{name}) only one value is allowed."
-          empty: "(%{name}) value can't be empty."
-          inclusion: "(%{name}) value is not set to one of the allowed values."
-          not_an_integer: "(%{name}) is not an integer."
-          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
-          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          only_one_allowed: "(%{name}) chỉ có một giá trị được cho phép."
+          empty: giá trị (%{name}) không thể để trống.
+          inclusion: giá trị (%{name}) không được đặt vào một trong các giá trị được
+            cho phép.
+          not_an_integer: "(%{name}) không phải là một số nguyên."
+          smaller_than_or_equal_to: "(%{name}) phải nhỏ hơn hoặc bằng %{count}."
+          greater_than_or_equal_to: "(%{name}) phải nhỏ hơn hoặc bằng %{count}."
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
         parse_schema_filter_params_service:
@@ -521,8 +521,8 @@ vi:
             status_id:
               status_transition_invalid: is invalid because no valid transition exists
                 from old to new status for the current user's roles.
-              status_invalid_in_type: is invalid because the current status does not
-                exist in this type.
+              status_invalid_in_type: không hợp lệ vì tình trạng hiện tại không tồn
+                tại loại này.
             priority_id:
               only_active_priorities_allowed: needs to be active.
             category:
@@ -535,9 +535,9 @@ vi:
           attributes:
             attribute_groups:
               attribute_unknown: Invalid work package attribute used.
-              duplicate_group: The group name '%{group}' is used more than once. Group
-                names must be unique.
-              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              duplicate_group: Nhóm tên '%{group}' được sử dụng nhiều hơn một lần.
+                Tên nhóm phải là duy nhất.
+              query_invalid: 'Truy vấn nhúng ''%{group}'' là không hợp lệ: %{details}'
               group_without_name: Unnamed groups are not allowed.
         user:
           attributes:
@@ -574,7 +574,7 @@ vi:
       attribute_help_text: Thuộc tính văn bản trợ giúp
       board: Diễn đàn
       comment: Nhận xét
-      custom_action: Custom action
+      custom_action: Tác vụ tùy chỉnh
       custom_field: Tùy chỉnh mục
       group: Nhóm
       category: Thể loại
@@ -640,7 +640,7 @@ vi:
     password: Mật khẩu
     priority: Độ ưu tiên
     project: Dự án
-    responsible: Accountable
+    responsible: Trách nhiệm
     role: Vai trò
     roles: Vai trò
     start_date: Ngày bắt đầu
@@ -962,7 +962,7 @@ vi:
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
-  error_invalid_selected_value: Invalid selected value.
+  error_invalid_selected_value: Giá trị đã chọn không hợp lệ.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
   error_invalid_sort_criterion: 'Can''t sort by column: %{value}'
@@ -1023,12 +1023,12 @@ vi:
       pdf_with_attachments: PDF with attachments
   extraction:
     available:
-      pdftotext: Pdftotext available (optional)
-      unrtf: Unrtf available (optional)
-      catdoc: Catdoc available (optional)
-      xls2csv: Xls2csv available (optional)
-      catppt: Catppt available (optional)
-      tesseract: Tesseract available (optional)
+      pdftotext: Pdftotext có sẵn (không bắt buộc)
+      unrtf: Unrtf có sẵn (không bắt buộc)
+      catdoc: Catdoc có sẵn (không bắt buộc)
+      xls2csv: Xls2csv có sẵn (không bắt buộc)
+      catppt: Catppt có sẵn (không bắt buộc)
+      tesseract: Tesseract có (không bắt buộc)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -1044,7 +1044,8 @@ vi:
   homescreen:
     additional:
       projects: Newest visible projects in this instance.
-      no_visible_projects: There are no visible projects in this instance.
+      no_visible_projects: Không có không có thể nhìn thấy các dự án trong trường
+        hợp này.
       users: Newest registered users in this instance.
     blocks:
       community: Cộng đồng OpenProject
@@ -1110,7 +1111,7 @@ vi:
   label_all: tất cả
   label_all_time: tất cả thời gian
   label_all_words: Tất cả các từ
-  label_all_open_wps: All open
+  label_all_open_wps: Mở tất cả
   label_always_visible: Luôn luôn hiển thị
   label_announcement: Thông báo
   label_and_its_subprojects: "%{value} và các dự án con của nó"
@@ -1174,7 +1175,7 @@ vi:
   label_close_versions: Đóng các phiên bản đã hoàn thành
   label_closed_work_packages: đã đóng
   label_collapse: Thu gọn
-  label_collapsed_click_to_show: Collapsed. Click to show
+  label_collapsed_click_to_show: Thu gọn. Nhấn vào đây để hiển thị
   label_configuration: cấu hình
   label_comment_add: Thêm bình luận
   label_comment_added: Đã thêm bình luận
@@ -1246,7 +1247,7 @@ vi:
   label_equals: is
   label_example: Ví dụ
   label_export_to: 'Cũng có sẵn tại:'
-  label_expanded_click_to_collapse: Expanded. Click to collapse
+  label_expanded_click_to_collapse: Mở rộng. Bấm vào để thu gọn
   label_f_hour: "%{value} giờ"
   label_f_hour_plural: "%{value} giờ"
   label_feed_plural: Feeds
@@ -1264,7 +1265,7 @@ vi:
   label_force_user_language_to_default: Có một ngôn ngữ không được cho phép để mặc
     định trong thiết lập ngôn ngữ cho người sử dụng
   label_form_configuration: Mẫu cấu hình
-  label_gantt: Gantt
+  label_gantt: Biểu đồ sự kiện
   label_gantt_chart: Gantt chart
   label_general: Tổng quan
   label_generate_key: Tạo khóa
@@ -1278,7 +1279,7 @@ vi:
   label_here: đây
   label_hide: Ẩn
   label_history: Lịch sử
-  label_hierarchy_leaf: Hierarchy leaf
+  label_hierarchy_leaf: Hệ thống phân cấp lá
   label_home: Home
   label_in: trong
   label_in_less_than: ít hơn
@@ -1292,7 +1293,7 @@ vi:
   label_information_plural: Thông tin
   label_integer: Số nguyên
   label_internal: Nội bộ
-  label_introduction_video: Introduction video
+  label_introduction_video: Giới thiệu video
   label_invite_user: Invite user
   label_show_hide: Show/hide
   label_show_all_registered_users: Show all registered users
@@ -1369,7 +1370,7 @@ vi:
   label_next_week: Tuần tới
   label_no_change_option: "(không đổi)"
   label_no_data: Không có dữ liệu để hiển thị
-  label_no_parent_page: No parent page
+  label_no_parent_page: Không có trang quan hệ
   label_nothing_display: Nothing to display
   label_nobody: không ai
   label_none: không
@@ -1381,14 +1382,14 @@ vi:
   label_open_menu: Mở trình đơn
   label_open_work_packages: mở
   label_open_work_packages_plural: mở
-  label_openproject_website: OpenProject website
+  label_openproject_website: Trang web OpenProject
   label_optional_description: Mô tả
   label_options: Tuỳ chọn
   label_other: Khác
   label_overall_activity: Tổng thể hoạt động
   label_overall_spent_time: Tổng thời gian sử dụng
   label_overview: Tổng quan
-  label_page_title: Page title
+  label_page_title: Tiêu đề trang
   label_part_of: part of
   label_password_lost: Quên Mật Khẩu?
   label_password_rule_lowercase: Chữ thường

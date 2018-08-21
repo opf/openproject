@@ -60,6 +60,7 @@ ru:
     description_subwork_package: 'Потомок пакета работ #%{id}'
     editor:
       preview: Переключить режим предпросмотра
+      error_saving_failed: 'Saving the document failed with the following error: %{e}'
       macro:
         child_pages:
           button: Ссылки на дочерние страницы
