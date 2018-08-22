@@ -87,7 +87,11 @@ module API
           schema :public,
                  type: 'Boolean',
                  required: false,
-                 writable: true,
+                 writable: -> do
+                   current_user.allowed_to?(:manage_public_queries,
+                                            represented.project,
+                                            global: represented.project.nil?)
+                 end,
                  has_default: true,
                  visibility: false
 

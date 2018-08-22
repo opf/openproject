@@ -521,7 +521,7 @@ describe "POST /api/v3/queries/form", type: :request do
 
       it "should reject the request" do
         expect(form.dig("_embedded", "validationErrors", "public", "message"))
-          .to eq "Public - The user has no permission to create public queries."
+          .to eq "Public - The user has no permission to create public views."
       end
     end
   end

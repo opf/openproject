@@ -487,7 +487,7 @@ en:
             project:
               error_not_found: "not found"
             public:
-              error_unauthorized: "- The user has no permission to create public queries."
+              error_unauthorized: "- The user has no permission to create public views."
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
           filters:
             custom_fields:
@@ -1796,7 +1796,7 @@ en:
   permission_manage_members: "Manage members"
   permission_manage_news: "Manage news"
   permission_manage_project_activities: "Manage project activities"
-  permission_manage_public_queries: "Manage public queries"
+  permission_manage_public_queries: "Manage public views"
   permission_manage_repository: "Manage repository"
   permission_manage_subtasks: "Manage subtasks"
   permission_manage_versions: "Manage versions"
@@ -1805,7 +1805,7 @@ en:
   permission_move_work_packages: "Move work packages"
   permission_protect_wiki_pages: "Protect wiki pages"
   permission_rename_wiki_pages: "Rename wiki pages"
-  permission_save_queries: "Save queries"
+  permission_save_queries: "Save views"
   permission_select_project_modules: "Select project modules"
   permission_manage_types: "Select types"
   permission_view_calendar: "View calendar"

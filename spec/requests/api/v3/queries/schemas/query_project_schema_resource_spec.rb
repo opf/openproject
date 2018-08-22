@@ -34,18 +34,15 @@ describe 'API v3 Query Schema resource', type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:project) { FactoryBot.create(:project) }
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:permissions) { [:view_work_packages] }
   let(:user) do
     FactoryBot.create(:user,
-                       member_in_project: project,
-                       member_through_role: role)
+                      member_in_project: project,
+                      member_with_permissions: permissions)
   end
 
   before do
-    allow(User)
-      .to receive(:current)
-      .and_return(user)
+    login_as(user)
   end
 
   describe '#get queries/schema' do

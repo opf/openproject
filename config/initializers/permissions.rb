@@ -142,11 +142,11 @@ Redmine::AccessControl.map do |map|
                    {}
     # Queries
     wpt.permission :manage_public_queries,
-                   { queries: [:star, :unstar] },
+                   {},
                    require: :member
 
     wpt.permission :save_queries,
-                   { queries: [:star, :unstar] },
+                   {},
                    require: :loggedin
     # Watchers
     wpt.permission :view_work_package_watchers,
