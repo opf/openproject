@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,7 +28,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-#-- encoding: UTF-8
 module JournalChanges
   def get_changes
     return @changes if @changes
@@ -54,33 +55,24 @@ module JournalChanges
       end
     end
 
-    @changes.merge!(get_association_changes predecessor, 'attachable', 'attachments', :attachment_id, :filename)
-    @changes.merge!(get_association_changes predecessor, 'customizable', 'custom_fields', :custom_field_id, :value)
+    @changes.merge!(get_association_changes(predecessor, 'attachable', 'attachments', :attachment_id, :filename))
+    @changes.merge!(get_association_changes(predecessor, 'customizable', 'custom_fields', :custom_field_id, :value))
   end
 
   def get_association_changes(predecessor, journal_association, association, key, value)
-    changes = {}
     journal_assoc_name = "#{journal_association}_journals"
 
     if predecessor.nil?
-      send(journal_assoc_name).each_with_object(changes) { |associated_journal, h|
+      send(journal_assoc_name).each_with_object({}) do |associated_journal, h|
         changed_attribute = "#{association}_#{associated_journal.send(key)}"
         new_value = associated_journal.send(value)
         h[changed_attribute] = [nil, new_value]
-      }
+      end
     else
       new_journals = send(journal_assoc_name).map(&:attributes)
       old_journals = predecessor.send(journal_assoc_name).map(&:attributes)
 
-      merged_journals = JournalManager.merge_reference_journals_by_id new_journals,
-                                                                      old_journals,
-                                                                      key.to_s
-
-      changes.merge! JournalManager.added_references(merged_journals, association, value.to_s)
-      changes.merge! JournalManager.removed_references(merged_journals, association, value.to_s)
-      changes.merge! JournalManager.changed_references(merged_journals, association, value.to_s)
+      JournalManager.changes_on_association(new_journals, old_journals, association, key, value)
     end
-
-    changes
   end
 end

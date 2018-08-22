@@ -59,6 +59,7 @@ ko:
     description_subwork_package: '작업 패키지 #%{id}의 자식'
     editor:
       preview: Toggle preview mode
+      error_saving_failed: 'Saving the document failed with the following error: %{e}'
       macro:
         child_pages:
           button: Links to child pages

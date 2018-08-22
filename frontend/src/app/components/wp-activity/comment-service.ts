@@ -33,13 +33,14 @@ import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {input, InputState} from 'reactivestates';
 import {WorkPackageNotificationService} from './../wp-edit/wp-notification.service';
+import {Subject} from "rxjs";
 
 @Injectable()
 export class CommentService {
 
   // Replacement for ng1 $scope.$emit on activty-entry to mark comments to be quoted.
   // Should be generalized if needed for more than that.
-  public quoteEvents:InputState<string> = input<string>();
+  public quoteEvents = new Subject<string>();
 
   constructor(
     readonly I18n:I18nService,

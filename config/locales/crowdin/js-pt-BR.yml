@@ -60,6 +60,7 @@ pt-BR:
     description_subwork_package: 'Filho do pacote de trabalho #%{id}'
     editor:
       preview: Alternar modo de visualização
+      error_saving_failed: 'Saving the document failed with the following error: %{e}'
       macro:
         child_pages:
           button: Links para páginas filhas

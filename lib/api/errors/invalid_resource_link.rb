@@ -33,9 +33,11 @@ module API
       identifier 'urn:openproject-org:api:v3:errors:ResourceTypeMismatch'
 
       def initialize(property_name, expected_link, actual_link)
+        expected_i18n = Array(expected_link).join("' #{I18n.t('concatenation.single')} '")
+
         message = I18n.t('api_v3.errors.invalid_resource',
                          property: property_name,
-                         expected: expected_link,
+                         expected: expected_i18n,
                          actual: actual_link)
 
         super(422, message)

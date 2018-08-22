@@ -37,7 +37,7 @@ module API
 
         self_link path: :activity,
                   id_attribute: :notes_id,
-                  title_getter: -> (*) { nil }
+                  title_getter: ->(*) { nil }
 
         link :workPackage do
           {
@@ -53,26 +53,28 @@ module API
         end
 
         link :update do
+          next unless current_user_allowed_to_edit?
+
           {
             href: api_v3_paths.activity(represented.notes_id),
             method: :patch
-          } if current_user_allowed_to_edit?
+          }
         end
 
         property :id,
-                 getter: -> (*) { notes_id },
+                 getter: ->(*) { notes_id },
                  render_nil: true
         property :comment,
                  exec_context: :decorator,
-                 getter: -> (*) {
+                 getter: ->(*) {
                    ::API::Decorators::Formattable.new(represented.notes,
                                                       object: represented.journable)
                  },
-                 setter: -> (value, *) { represented.notes = value['raw'] },
+                 setter: ->(value, *) { represented.notes = value['raw'] },
                  render_nil: true
         property :details,
                  exec_context: :decorator,
-                 getter: -> (*) {
+                 getter: ->(*) {
                    details = render_details(represented, no_html: true)
                    html_details = render_details(represented)
                    formattables = details.zip(html_details)
@@ -81,7 +83,7 @@ module API
                  },
                  render_nil: true
         property :version, render_nil: true
-        property :created_at, getter: -> (*) { DateTimeFormatter::format_datetime(created_at) }
+        property :created_at, getter: ->(*) { DateTimeFormatter::format_datetime(created_at) }
 
         def _type
           if represented.notes.blank?

@@ -191,9 +191,11 @@ export class WorkPackagesListService {
     promise
       .then(query => {
         this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_create'));
-        this.reloadQuery(query);
 
-        this.queryChanges.next(query.name);
+        // Reload the query, and then reload the menu
+        this.reloadQuery(query).then(() => {
+          this.queryChanges.next(query.name);
+        });
 
         return query;
       });

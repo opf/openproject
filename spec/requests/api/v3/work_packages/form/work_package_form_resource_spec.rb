@@ -473,7 +473,7 @@ describe 'API v3 Work package form resource', type: :request do
                       let(:message) do
                         I18n.t('api_v3.errors.invalid_resource',
                                property: property,
-                               expected: '/api/v3/users/:id',
+                               expected: "/api/v3/groups/:id' or '/api/v3/users/:id",
                                actual: user_link)
                       end
                     end

@@ -124,7 +124,7 @@ export class OpenProjectFileUploadService {
         {
           body: formData,
           // Observe the response, not the body
-          observe: 'response',
+          observe: 'events',
           withCredentials: true,
           responseType: responseType as any,
           // Subscribe to progress events. subscribe() will fire multiple times!
@@ -133,7 +133,7 @@ export class OpenProjectFileUploadService {
       )
       .pipe(
         share()
-      )
+      );
 
     return [file, observable] as UploadInProgress;
   }

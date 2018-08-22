@@ -60,6 +60,7 @@ pl:
     description_subwork_package: 'Otwórz zadanie-dziecko #%{id}'
     editor:
       preview: Toggle preview mode
+      error_saving_failed: 'Saving the document failed with the following error: %{e}'
       macro:
         child_pages:
           button: Links to child pages
