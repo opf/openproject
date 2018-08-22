@@ -191,7 +191,7 @@ describe Query, type: :model do
   it 'should operator contains' do
     query = Query.new(project: Project.find(1), name: '_')
     query.add_filter('subject', '~', ['uNable'])
-    assert query.statement.include?("LOWER(#{WorkPackage.table_name}.subject) LIKE '%unable%'")
+    assert query.statement.include?("COALESCE(LOWER(#{WorkPackage.table_name}.subject), '') LIKE '%unable%'")
     result = find_issues_with_query(query)
     assert result.empty?
     result.each { |issue| assert issue.subject.downcase.include?('unable') }
@@ -200,7 +200,7 @@ describe Query, type: :model do
   it 'should operator does not contains' do
     query = Query.new(project: Project.find(1), name: '_')
     query.add_filter('subject', '!~', ['uNable'])
-    assert query.statement.include?("LOWER(#{WorkPackage.table_name}.subject) NOT LIKE '%unable%'")
+    assert query.statement.include?("COALESCE(LOWER(#{WorkPackage.table_name}.subject), '') NOT LIKE '%unable%'")
     find_issues_with_query(query)
   end
 
