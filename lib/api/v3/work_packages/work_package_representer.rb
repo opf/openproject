@@ -432,12 +432,14 @@ module API
 
         associated_resource :responsible,
                             v3_path: :user,
-                            getter: ::API::V3::Principals::AssociatedSubclassLambda.getter(:responsible)
+                            getter: ::API::V3::Principals::AssociatedSubclassLambda.getter(:responsible),
+                            setter: ::API::V3::Principals::AssociatedSubclassLambda.setter(:responsible)
 
         associated_resource :assigned_to,
                             as: :assignee,
                             v3_path: :user,
-                            getter: ::API::V3::Principals::AssociatedSubclassLambda.getter(:assigned_to)
+                            getter: ::API::V3::Principals::AssociatedSubclassLambda.getter(:assigned_to),
+                            setter: ::API::V3::Principals::AssociatedSubclassLambda.setter(:assigned_to, :assignee)
 
         associated_resource :fixed_version,
                             as: :version,

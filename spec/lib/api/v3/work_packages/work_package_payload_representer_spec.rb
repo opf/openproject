@@ -575,25 +575,44 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
     end
 
     describe 'assignee' do
+      let(:attribute_name) { 'assignee' }
+
       before do
         work_package.assigned_to_id = 1
       end
 
-      it_behaves_like 'linked resource' do
-        let(:path) { api_v3_paths.user(id) }
-        let(:attribute_name) { 'assignee' }
-        let(:association_name) { 'assigned_to_id' }
+      context 'with a user' do
+        it_behaves_like 'linked resource' do
+          let(:path) { api_v3_paths.user(id) }
+          let(:association_name) { 'assigned_to_id' }
+        end
+      end
+
+      context 'with a group' do
+        it_behaves_like 'linked resource' do
+          let(:path) { api_v3_paths.group(id) }
+          let(:association_name) { 'assigned_to_id' }
+        end
       end
     end
 
     describe 'responsible' do
+      let(:attribute_name) { 'responsible' }
+
       before do
         work_package.responsible_id = 1
       end
 
-      it_behaves_like 'linked resource' do
-        let(:path) { api_v3_paths.user(id) }
-        let(:attribute_name) { 'responsible' }
+      context 'with a user' do
+        it_behaves_like 'linked resource' do
+          let(:path) { api_v3_paths.user(id) }
+        end
+      end
+
+      context 'with a group' do
+        it_behaves_like 'linked resource' do
+          let(:path) { api_v3_paths.group(id) }
+        end
       end
     end
 
