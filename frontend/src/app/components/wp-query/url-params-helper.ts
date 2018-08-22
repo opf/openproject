@@ -193,6 +193,7 @@ export class UrlParamsHelperService {
     queryData.showSums = query.sums;
     queryData.timelineVisible = !!query.timelineVisible;
     queryData.timelineZoomLevel = query.timelineZoomLevel;
+    queryData.timelineLabels = JSON.stringify(query.timelineLabels);
     queryData.showHierarchies = !!query.showHierarchies;
     queryData.groupBy = _.get(query.groupBy, 'id', '');
 
