@@ -30,6 +30,122 @@
 class JournalManager
   class << self
     attr_accessor :send_notification
+
+    def changes_on_association(current, predecessor, association, key, value)
+      merged_journals = merge_reference_journals_by_id(current, predecessor, key.to_s, value.to_s)
+
+      changes = added_references(merged_journals)
+                .merge(removed_references(merged_journals))
+                .merge(changed_references(merged_journals))
+
+      to_changes_format(changes, association.to_s)
+    end
+
+    def reset_notification
+      @send_notification = true
+    end
+
+    private
+
+    def merge_reference_journals_by_id(new_journals, old_journals, id_key, value)
+      all_associated_journal_ids = new_journals.map { |j| j[id_key] } | old_journals.map { |j| j[id_key] }
+
+      all_associated_journal_ids.each_with_object({}) do |id, result|
+        result[id] = [select_and_combine(old_journals, id, id_key, value),
+                      select_and_combine(new_journals, id, id_key, value)]
+      end
+    end
+
+    def added_references(merged_references)
+      merged_references
+        .select { |_, (old_value, new_value)| old_value.nil? && new_value.present? }
+    end
+
+    def removed_references(merged_references)
+      merged_references
+        .select { |_, (old_value, new_value)| old_value.present? && new_value.nil? }
+    end
+
+    def changed_references(merged_references)
+      merged_references
+        .select { |_, (old_value, new_value)| old_value.present? && new_value.present? && old_value != new_value }
+    end
+
+    def to_changes_format(references, key)
+      references.each_with_object({}) do |(id, (old_value, new_value)), result|
+        result["#{key}_#{id}"] = [old_value, new_value]
+      end
+    end
+
+    def journable_details(journable)
+      calculated_proc = journable.class.vestal_journals_options[:calculate]
+
+      attributes = journable.attributes.symbolize_keys
+
+      if calculated_proc
+        attributes
+          .merge!(journable.instance_exec(&calculated_proc))
+      end
+
+      attributes
+    end
+
+    def journal_class_name(type)
+      "#{base_class(type).name}Journal"
+    end
+
+    def base_class(type)
+      type.base_class
+    end
+
+    def create_association_data(journable, journal)
+      create_attachment_data journable, journal if journable.respond_to? :attachments
+      create_custom_field_data journable, journal if journable.respond_to? :custom_values
+    end
+
+    def create_attachment_data(journable, journal)
+      journable.attachments.each do |a|
+        journal.attachable_journals.build attachment: a, filename: a.filename
+      end
+    end
+
+    def create_custom_field_data(journable, journal)
+      journable.custom_values.group_by(&:custom_field).each do |custom_field, custom_values|
+        # Consider only custom values with non-blank values. Otherwise,
+        # non-existing custom values are different to custom values with an empty
+        # value.
+        # Mind that false.present? == false, but we don't consider false this being "blank"...
+        # This does not matter when we use stringly typed values (as in the database),
+        # but it matters when we use real types
+        valid_values = custom_values.select { |cv| cv.value.present? || cv.value == false }
+
+        if custom_field.multi_value? && valid_values.any?
+          build_multi_value_custom_field_journal! journal, custom_field, valid_values
+        elsif valid_values.any?
+          build_custom_field_journal! journal, custom_field, valid_values.first
+        end
+      end
+    end
+
+    def build_multi_value_custom_field_journal!(journal, custom_field, custom_values)
+      value = custom_values.map(&:value).join(",") # comma separated custom option IDs
+
+      journal.customizable_journals.build custom_field_id: custom_field.id, value: value
+    end
+
+    def build_custom_field_journal!(journal, custom_field, custom_value)
+      journal.customizable_journals.build custom_field_id: custom_field.id, value: custom_value.value
+    end
+
+    def select_and_combine(journals, id, key, value)
+      selected_journals = journals.select { |j| j[key] == id }.map { |j| j[value] }
+
+      if selected_journals.empty?
+        nil
+      else
+        selected_journals.join(',')
+      end
+    end
   end
 
   self.send_notification = true
@@ -60,26 +176,20 @@ class JournalManager
 
     # we generally ignore changes from blank to blank
     predecessor
-      .map { |k, v| current[k.to_s] != v && (v.present? || current[k.to_s].present?) }
-      .any?
+      .any? { |k, v| current[k.to_s] != v && (v.present? || current[k.to_s].present?) }
   end
 
   def self.association_changed?(journable, journal_association, association, id, key, value)
     if journable.respond_to? association
       journal_assoc_name = "#{journal_association}_journals"
-      changes = {}
       current = journable.send(association).map { |a| { key.to_s => a.send(id), value.to_s => a.send(value) } }
       predecessor = journable.journals.last.send(journal_assoc_name).map(&:attributes)
 
       current = remove_empty_associations(current, value.to_s)
 
-      merged_journals = JournalManager.merge_reference_journals_by_id current, predecessor, key.to_s
+      changes = JournalManager.changes_on_association(current, predecessor, association, key, value)
 
-      changes.merge! JournalManager.added_references(merged_journals, association.to_s, value.to_s)
-      changes.merge! JournalManager.removed_references(merged_journals, association.to_s, value.to_s)
-      changes.merge! JournalManager.changed_references(merged_journals, association.to_s, value.to_s)
-
-      not changes.empty?
+      !changes.empty?
     else
       false
     end
@@ -92,45 +202,11 @@ class JournalManager
   # This would lead to false change information, otherwise.
   # We need to be careful though, because we want to accept false (and false.blank? == true)
   def self.remove_empty_associations(associations, value)
-    associations.reject { |association|
+    associations.reject do |association|
       association.has_key?(value) &&
         association[value].blank? &&
         association[value] != false
-    }
-  end
-
-  def self.merge_reference_journals_by_id(new_journals, old_journals, id_key)
-    all_associated_journal_ids = new_journals.map { |j| j[id_key] } |
-                                 old_journals.map { |j| j[id_key] }
-
-    all_associated_journal_ids.each_with_object({}) { |id, result|
-      result[id] = [old_journals.detect { |j| j[id_key] == id },
-                    new_journals.detect { |j| j[id_key] == id }]
-    }
-  end
-
-  def self.added_references(merged_references, key, value)
-    merged_references.select { |_, (old_attributes, new_attributes)|
-      old_attributes.nil? && !new_attributes.nil?
-    }.each_with_object({}) { |(id, (_, new_attributes)), result|
-      result["#{key}_#{id}"] = [nil, new_attributes[value]]
-    }
-  end
-
-  def self.removed_references(merged_references, key, value)
-    merged_references.select { |_, (old_attributes, new_attributes)|
-      !old_attributes.nil? && new_attributes.nil?
-    }.each_with_object({}) { |(id, (old_attributes, _)), result|
-      result["#{key}_#{id}"] = [old_attributes[value], nil]
-    }
-  end
-
-  def self.changed_references(merged_references, key, value)
-    merged_references.select { |_, (old_attributes, new_attributes)|
-      !old_attributes.nil? && !new_attributes.nil? && old_attributes[value] != new_attributes[value]
-    }.each_with_object({}) { |(id, (old_attributes, new_attributes)), result|
-      result["#{key}_#{id}"] = [old_attributes[value], new_attributes[value]]
-    }
+    end
   end
 
   def self.recreate_initial_journal(type, journal, changed_data)
@@ -259,72 +335,5 @@ class JournalManager
     self.send_notification = old_value
 
     result
-  end
-
-  private
-
-  def self.journable_details(journable)
-    calculated_proc = journable.class.vestal_journals_options[:calculate]
-
-    attributes = journable.attributes.symbolize_keys
-
-    if calculated_proc
-      attributes
-        .merge!(journable.instance_exec(&calculated_proc))
-    end
-
-    attributes
-  end
-  private_class_method :journable_details
-
-  def self.journal_class_name(type)
-    "#{base_class(type).name}Journal"
-  end
-
-  def self.base_class(type)
-    type.base_class
-  end
-
-  def self.create_association_data(journable, journal)
-    create_attachment_data journable, journal if journable.respond_to? :attachments
-    create_custom_field_data journable, journal if journable.respond_to? :custom_values
-  end
-
-  def self.create_attachment_data(journable, journal)
-    journable.attachments.each do |a|
-      journal.attachable_journals.build attachment: a, filename: a.filename
-    end
-  end
-
-  def self.create_custom_field_data(journable, journal)
-    journable.custom_values.group_by(&:custom_field).each do |custom_field, custom_values|
-      # Consider only custom values with non-blank values. Otherwise,
-      # non-existing custom values are different to custom values with an empty
-      # value.
-      # Mind that false.present? == false, but we don't consider false this being "blank"...
-      # This does not matter when we use stringly typed values (as in the database),
-      # but it matters when we use real types
-      valid_values = custom_values.select { |cv| cv.value.present? || cv.value == false }
-
-      if custom_field.multi_value? && valid_values.any?
-        build_multi_value_custom_field_journal! journal, custom_field, valid_values
-      elsif valid_values.any?
-        build_custom_field_journal! journal, custom_field, valid_values.first
-      end
-    end
-  end
-
-  def self.build_multi_value_custom_field_journal!(journal, custom_field, custom_values)
-    value = custom_values.map(&:value).join(",") # comma separated custom option IDs
-
-    journal.customizable_journals.build custom_field_id: custom_field.id, value: value
-  end
-
-  def self.build_custom_field_journal!(journal, custom_field, custom_value)
-    journal.customizable_journals.build custom_field_id: custom_field.id, value: custom_value.value
-  end
-
-  def self.reset_notification
-    @send_notification = true
   end
 end
