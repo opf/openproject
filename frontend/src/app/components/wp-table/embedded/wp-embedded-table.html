@@ -12,4 +12,7 @@
       <wp-table-pagination [hideForSinglePageResults]="true"></wp-table-pagination>
     </div>
   </ng-container>
+  <div class="notification-box -error" *ngIf="error">
+    <span [textContent]="error.message || error"></span>
+  </div>
 </div>
