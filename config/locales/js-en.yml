@@ -471,6 +471,9 @@ en:
         quarters: "Quarters"
         years: "Years"
         slider: "Zoom slider"
+        description: >
+          Either select the initial zoom level that should be shown or check the auto zoom box to adjust the gantt chart
+          to fit the visible area.
     tl_toolbar:
       zooms: "Zoom level"
       outlines: "Hierarchy level"
