@@ -91,6 +91,8 @@ fil:
     tab:
       no_results_title_text: Sa kasalukuyan ay walang mga custom field.
       no_results_content_text: Gumawa ng bagong patlang na custom
+  concatenation:
+    single: or
   deprecations:
     old_timeline:
       replacement: Itong timeline modyul ay pinalitan ng interactive timeline na naka-embededd
@@ -503,8 +505,7 @@ fil:
             project:
               error_not_found: hindi nakita
             public:
-              error_unauthorized: "- Ang gumagamit ay walang permiso para lumikha
-                ng mga bagong query."
+              error_unauthorized: "- The user has no permission to create public views."
           group_by_hierarchies_exclusive: ay mutually wxclusive sa grupo ng '%{group_by}'.
             Hindi mo maaring i-aktibi ang dalawa.
           filters:
@@ -1923,7 +1924,7 @@ fil:
   permission_manage_members: Pamahalain ang mga miyembro
   permission_manage_news: Pamahalain ang mga balita
   permission_manage_project_activities: Ang mga aktibidad ng pamahalaing proyekto
-  permission_manage_public_queries: Pamahalain ang mga publikong query
+  permission_manage_public_queries: Manage public views
   permission_manage_repository: Pamahalain ang repositoryo
   permission_manage_subtasks: Pamahalain ang mga subtask
   permission_manage_versions: Pamahalain ang mga bersyon
@@ -1932,7 +1933,7 @@ fil:
   permission_move_work_packages: Ilipat ang work package
   permission_protect_wiki_pages: Protektahan ang mga wiki package
   permission_rename_wiki_pages: Baguhin ang pangalan ng mga wiki na pahina
-  permission_save_queries: I-save ang mga query
+  permission_save_queries: Save views
   permission_select_project_modules: Piliin ang mga proyektong modyul
   permission_manage_types: Pumili ng mga uri
   permission_view_calendar: Tanawin ang kalendaryo

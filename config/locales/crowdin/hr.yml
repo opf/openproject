@@ -84,6 +84,8 @@ hr:
     tab:
       no_results_title_text: Trenutno nije dostupno niti jedno prilagođeno polje.
       no_results_content_text: Novo prilagođeno polje
+  concatenation:
+    single: or
   deprecations:
     old_timeline:
       replacement: This timelines module is being replaced by the interactive timeline
@@ -484,7 +486,7 @@ hr:
             project:
               error_not_found: nije pronađeno
             public:
-              error_unauthorized: "- The user has no permission to create public queries."
+              error_unauthorized: "- The user has no permission to create public views."
           group_by_hierarchies_exclusive: is mutually exclusive with group by '%{group_by}'.
             You cannot activate both.
           filters:
@@ -1902,7 +1904,7 @@ hr:
   permission_manage_members: Upravljanje korisnicima
   permission_manage_news: Upravljanje vijestima
   permission_manage_project_activities: Upravljanje aktivnosima projekta
-  permission_manage_public_queries: Upravljanje javnim upitima
+  permission_manage_public_queries: Manage public views
   permission_manage_repository: Upravljanje repozitorijem
   permission_manage_subtasks: Upravljanje podzadacima
   permission_manage_versions: Upravljanje verzijama
@@ -1911,7 +1913,7 @@ hr:
   permission_move_work_packages: Premjesti radne pakete
   permission_protect_wiki_pages: Zaštiti wiki stranice
   permission_rename_wiki_pages: Preimenuj wiki stranice
-  permission_save_queries: Spremi upite
+  permission_save_queries: Save views
   permission_select_project_modules: Odaberi module projekta
   permission_manage_types: Odaberi tipove
   permission_view_calendar: Prikaži kalendar

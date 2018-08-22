@@ -86,6 +86,8 @@ et:
     tab:
       no_results_title_text: There are currently no custom fields.
       no_results_content_text: Create a new custom field
+  concatenation:
+    single: or
   deprecations:
     old_timeline:
       replacement: This timelines module is being replaced by the interactive timeline
@@ -479,7 +481,7 @@ et:
             project:
               error_not_found: not found
             public:
-              error_unauthorized: "- The user has no permission to create public queries."
+              error_unauthorized: "- The user has no permission to create public views."
           group_by_hierarchies_exclusive: is mutually exclusive with group by '%{group_by}'.
             You cannot activate both.
           filters:
@@ -1858,7 +1860,7 @@ et:
   permission_manage_members: Halda liikmeid
   permission_manage_news: Halda uudiseid
   permission_manage_project_activities: Halda projekti tegevusi
-  permission_manage_public_queries: Halda avalikke päringuid
+  permission_manage_public_queries: Manage public views
   permission_manage_repository: Halda hoidlat
   permission_manage_subtasks: Halda alamülesandeid
   permission_manage_versions: Halda versioone
@@ -1867,7 +1869,7 @@ et:
   permission_move_work_packages: Teemasid liigutada
   permission_protect_wiki_pages: Kaitse viki lehekülgi
   permission_rename_wiki_pages: Nimeta viki lehekülgi ümber
-  permission_save_queries: Salvesta päringuid
+  permission_save_queries: Save views
   permission_select_project_modules: Vali projekti mooduleid
   permission_manage_types: Muuta tüüpe
   permission_view_calendar: Kuva kalendrit

@@ -3,8 +3,8 @@ nl:
   no_results_title_text: Er is op dit moment niets om weer te geven.
   activities:
     index:
-      no_results_title_text: There has not been any activity for the project within
-        this time frame.
+      no_results_title_text: Er is geen activiteit voor deze projecten binnen deze
+        periode.
   admin:
     plugins:
       no_results_title_text: Er zijn momenteel geen plugins beschikbaar.
@@ -86,6 +86,8 @@ nl:
     tab:
       no_results_title_text: Momenteel zijn er geen aangepaste velden.
       no_results_content_text: Maak een nieuw aangepast veld
+  concatenation:
+    single: or
   deprecations:
     old_timeline:
       replacement: Deze tijdlijn module is vervangen door de interactieve tijdlijn
@@ -490,8 +492,7 @@ nl:
             project:
               error_not_found: niet gevonden
             public:
-              error_unauthorized: "-De gebruiker heeft geen toestemming om openbare
-                query's maken."
+              error_unauthorized: "- The user has no permission to create public views."
           group_by_hierarchies_exclusive: is uitsluiten door samenvoeging, '%{group_by}'.
             U kunt beide niet activeren.
           filters:
@@ -1062,7 +1063,7 @@ nl:
   homescreen:
     additional:
       projects: Nieuwste zichtbare projecten in deze instantie.
-      no_visible_projects: There are no visible projects in this instance.
+      no_visible_projects: Er zijn geen zichtbare projecten binnen deze instantie.
       users: Nieuwste geregistreerde gebruikers in deze instantie.
     blocks:
       community: OpenProject gemeenschap
@@ -1897,7 +1898,7 @@ nl:
   permission_manage_members: Beheer gebruikers
   permission_manage_news: Beheren van nieuws
   permission_manage_project_activities: Projectactiviteiten beheren
-  permission_manage_public_queries: Openbare query's beheren
+  permission_manage_public_queries: Manage public views
   permission_manage_repository: Repository beheren
   permission_manage_subtasks: Beheren van subtaken
   permission_manage_versions: Versies beheren
@@ -1906,7 +1907,7 @@ nl:
   permission_move_work_packages: Werkpakketten verplaatsen
   permission_protect_wiki_pages: Wiki-pagina's beveiligen
   permission_rename_wiki_pages: Wiki-pagina's wijzigen
-  permission_save_queries: Query's opslaan
+  permission_save_queries: Save views
   permission_select_project_modules: Selecteer project modules
   permission_manage_types: Selecteer typen
   permission_view_calendar: Weergave agenda
@@ -2327,8 +2328,9 @@ nl:
   text_journal_aggregation_time_explanation: Tijdschriften voor weergave combineren
     als leeftijdsverschil kleiner dan de opgegeven timespan is. Dit zal ook e-mail
     kennisgevingen door de dezelfde hoeveelheid tijd vertragen.
-  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
-  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
+  text_journal_changed: "%{label} gewijzigd van %{old} <br/><strong>naar</strong>
+    %{new}"
+  text_journal_changed_plain: "%{label} gewijzigd van %{old} naar %{new}"
   text_journal_changed_no_detail: "%{label} bijgewerkt"
   text_journal_changed_with_diff: "%{label} gewijzigd (%{link})"
   text_journal_deleted: "%{label} verwijderd (%{old})"

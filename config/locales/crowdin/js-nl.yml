@@ -60,7 +60,8 @@ nl:
     description_subwork_package: 'Kind van werkpakket #%{id}'
     editor:
       preview: Voorbeeld modus wijzigen
-      error_saving_failed: 'Saving the document failed with the following error: %{e}'
+      error_saving_failed: Het opslaan van het document is mislukt met de volgende
+        reden:%{e}
       macro:
         child_pages:
           button: Links naar onderliggende pagina 's
@@ -108,6 +109,7 @@ nl:
       cannot_save_changes_with_message: 'Uw wijzigingen vanwege de volgende fout niet
         opslaan: %{error}'
       query_saving: Het overzicht kon niet bewaard worden.
+      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
     filter:
       description:
         text_open_filter: Open dit filter met de 'ALT'-knop en toetsenbord pijlen.
@@ -455,6 +457,10 @@ nl:
         quarters: Kwartalen
         years: Jaren
         slider: Zoom-schuifregelaar
+        description: 'Either select the initial zoom level that should be shown or
+          check the auto zoom box to adjust the gantt chart to fit the visible area.
+
+'
     tl_toolbar:
       zooms: Zoom niveau
       outlines: Niveau van de hiërarchie

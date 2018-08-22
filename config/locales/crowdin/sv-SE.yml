@@ -86,6 +86,8 @@ sv-SE:
     tab:
       no_results_title_text: Det finns för närvarande inga anpassade fält.
       no_results_content_text: Skapa ett nytt anpassat fält
+  concatenation:
+    single: or
   deprecations:
     old_timeline:
       replacement: Den här tidslinjemodulen ersätts av den interaktiva tidslinjen
@@ -481,8 +483,7 @@ sv-SE:
             project:
               error_not_found: hittades inte
             public:
-              error_unauthorized: "- Användaren har inte behörighet att skapa offentliga
-                frågor."
+              error_unauthorized: "- The user has no permission to create public views."
           group_by_hierarchies_exclusive: är ömsesidigt uteslutande med grupperingen
             '%{group_by}'. Du kan inte aktivera båda.
           filters:
@@ -1866,7 +1867,7 @@ sv-SE:
   permission_manage_members: Hantera medlemmar
   permission_manage_news: Hantera nyheter
   permission_manage_project_activities: Hantera projektaktivitet
-  permission_manage_public_queries: Hantera allmänna frågor
+  permission_manage_public_queries: Manage public views
   permission_manage_repository: Hantera versionsarkiv
   permission_manage_subtasks: Hantera underaktiviteter
   permission_manage_versions: Hantera versioner
@@ -1875,7 +1876,7 @@ sv-SE:
   permission_move_work_packages: Flytta arbetspaket
   permission_protect_wiki_pages: Skydda wiki-sidor
   permission_rename_wiki_pages: Byt namn på wiki-sidor
-  permission_save_queries: Spara frågor
+  permission_save_queries: Save views
   permission_select_project_modules: Välj projektmoduler
   permission_manage_types: Välj typer
   permission_view_calendar: Visa kalender

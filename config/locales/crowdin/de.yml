@@ -87,6 +87,8 @@ de:
     tab:
       no_results_title_text: Zur Zeit existieren keine benutzerdefinierten Felder.
       no_results_content_text: Neues benutzerdefiniertes Feld anlegen
+  concatenation:
+    single: or
   deprecations:
     old_timeline:
       replacement: Dieses Timelines-Modul wird durch eine interaktive Timelines-Ansicht
@@ -494,8 +496,7 @@ de:
             project:
               error_not_found: nicht gefunden
             public:
-              error_unauthorized: "- Der Nutzer hat nicht die Berechtigung öffentliche
-                Filter zu erstellen."
+              error_unauthorized: "- The user has no permission to create public views."
           group_by_hierarchies_exclusive: schließt sich gegenseitig mit der Gruppierung
             nach "%{group_by}" aus. Beide können nicht zeitgleich aktiv sein.
           filters:
@@ -1915,7 +1916,7 @@ de:
   permission_manage_members: Mitglieder verwalten
   permission_manage_news: Neuigkeiten verwalten
   permission_manage_project_activities: Aktivitäten (Zeiterfassung) verwalten
-  permission_manage_public_queries: Öffentliche Filter verwalten
+  permission_manage_public_queries: Manage public views
   permission_manage_repository: Projektarchiv verwalten
   permission_manage_subtasks: Unteraufgaben verwalten
   permission_manage_versions: Versionen verwalten
@@ -1924,7 +1925,7 @@ de:
   permission_move_work_packages: Arbeitspakete verschieben
   permission_protect_wiki_pages: Wiki-Seiten schützen
   permission_rename_wiki_pages: Wiki-Seiten umbenennen
-  permission_save_queries: Filter speichern
+  permission_save_queries: Save views
   permission_select_project_modules: Projektmodule auswählen
   permission_manage_types: Typen auswählen
   permission_view_calendar: Kalender ansehen

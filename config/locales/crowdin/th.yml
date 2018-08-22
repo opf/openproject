@@ -86,6 +86,8 @@ th:
     tab:
       no_results_title_text: There are currently no custom fields.
       no_results_content_text: Create a new custom field
+  concatenation:
+    single: or
   deprecations:
     old_timeline:
       replacement: This timelines module is being replaced by the interactive timeline
@@ -477,7 +479,7 @@ th:
             project:
               error_not_found: not found
             public:
-              error_unauthorized: "- The user has no permission to create public queries."
+              error_unauthorized: "- The user has no permission to create public views."
           group_by_hierarchies_exclusive: is mutually exclusive with group by '%{group_by}'.
             You cannot activate both.
           filters:
@@ -1836,7 +1838,7 @@ th:
   permission_manage_members: จัดการสมาชิก
   permission_manage_news: จัดการข่าวสาร
   permission_manage_project_activities: จัดกิจกรรมของโครงการ
-  permission_manage_public_queries: จัดการแบบสอบถามสาธารณะ
+  permission_manage_public_queries: Manage public views
   permission_manage_repository: จัดการที่เก็บข้อมูล
   permission_manage_subtasks: จัดการงานย่อย
   permission_manage_versions: จัดการเวอร์ชั่น
@@ -1845,7 +1847,7 @@ th:
   permission_move_work_packages: ย้ายชุดภารกิจ
   permission_protect_wiki_pages: ป้องกันหน้าวิกิ
   permission_rename_wiki_pages: เปลี่ยนชื่อหน้าวิกิ
-  permission_save_queries: บันทึกแบบสอบถาม
+  permission_save_queries: Save views
   permission_select_project_modules: เลือกโมดูลของโครงการ
   permission_manage_types: เลือกชนิด
   permission_view_calendar: ดูปฏิทิน

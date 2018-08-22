@@ -87,6 +87,8 @@ it:
     tab:
       no_results_title_text: Al momento non esistono campi personalizzati.
       no_results_content_text: Crea un nuovo campo personalizzato
+  concatenation:
+    single: or
   deprecations:
     old_timeline:
       replacement: Questo modulo sulle sequenze temporali è stato sostituito dalle
@@ -488,7 +490,7 @@ it:
             project:
               error_not_found: non trovato
             public:
-              error_unauthorized: "- L'utente non è autorizzato a creare query pubbliche."
+              error_unauthorized: "- The user has no permission to create public views."
           group_by_hierarchies_exclusive: è mutuamente esclusivo con il raggruppamento
             per '%{group_by}'. Non puoi attivare entrambi.
           filters:
@@ -1907,7 +1909,7 @@ it:
   permission_manage_members: Gestire i membri dei team
   permission_manage_news: Gestire le notizie
   permission_manage_project_activities: Gestire le attività del progetto
-  permission_manage_public_queries: Gestire le query pubbliche
+  permission_manage_public_queries: Manage public views
   permission_manage_repository: Gestire gli archivi
   permission_manage_subtasks: Gestire sotto-attività
   permission_manage_versions: Gestire le versioni
@@ -1916,7 +1918,7 @@ it:
   permission_move_work_packages: Spostare le macro-attività (work package)
   permission_protect_wiki_pages: Proteggere l'accesso a pagine wiki
   permission_rename_wiki_pages: Rinominare pagine wiki
-  permission_save_queries: Salvare query
+  permission_save_queries: Save views
   permission_select_project_modules: Seleziona moduli del progetto
   permission_manage_types: Seleziona i tipi
   permission_view_calendar: Vedi calendario

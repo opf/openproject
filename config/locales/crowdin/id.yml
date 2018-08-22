@@ -87,6 +87,8 @@ id:
     tab:
       no_results_title_text: Tidak ada bidang kustom saat ini.
       no_results_content_text: Buat bidang kustom baru
+  concatenation:
+    single: or
   deprecations:
     old_timeline:
       replacement: Modul jadwal in digantikan oleh jadwal interaktiv yang dilekatkan
@@ -478,8 +480,7 @@ id:
             project:
               error_not_found: tidak ditemukan
             public:
-              error_unauthorized: "- Pengguna tidak memiliki izin untuk menciptakan
-                query publik."
+              error_unauthorized: "- The user has no permission to create public views."
           group_by_hierarchies_exclusive: saling ekslusif bersama kelompok dengan
             '%{group_by}'. Anda tidak dapat mengaktifkan keduanya.
           filters:
@@ -1860,7 +1861,7 @@ id:
   permission_manage_members: Kelola member
   permission_manage_news: Kelola Berita
   permission_manage_project_activities: Kelola Project Activity
-  permission_manage_public_queries: Atur query publik
+  permission_manage_public_queries: Manage public views
   permission_manage_repository: Kelola repositori
   permission_manage_subtasks: Kelola Sub-Tugas
   permission_manage_versions: Kelola Versi
@@ -1869,7 +1870,7 @@ id:
   permission_move_work_packages: Pindahkan Paket-Penugasan
   permission_protect_wiki_pages: Proteksi halaman Wiki
   permission_rename_wiki_pages: Rename halaman Wiki
-  permission_save_queries: Simpan permintaan
+  permission_save_queries: Save views
   permission_select_project_modules: Pilih modul Project
   permission_manage_types: Pilih Tipe
   permission_view_calendar: Lihat kalender

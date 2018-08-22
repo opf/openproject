@@ -107,6 +107,7 @@ tr:
       cannot_save_changes_with_message: 'Değişikliklerinizin kaydedilememesine sebep
         olan hata: %{error}'
       query_saving: The view could not be saved.
+      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
     filter:
       description:
         text_open_filter: Bu filtreyi 'ALT' ve ok tuşları ile açın.
@@ -449,6 +450,10 @@ tr:
         quarters: Üç aylık
         years: Yıl
         slider: Yakınlaştırma kaydırıcısı
+        description: 'Either select the initial zoom level that should be shown or
+          check the auto zoom box to adjust the gantt chart to fit the visible area.
+
+'
     tl_toolbar:
       zooms: Yakınlaştırma düzeyi
       outlines: Hiyerarşi düzeyi

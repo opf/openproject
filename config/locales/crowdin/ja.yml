@@ -71,6 +71,8 @@ ja:
     tab:
       no_results_title_text: 現在、カスタム フィールドはありません。
       no_results_content_text: 新しいカスタム フィールドを作成
+  concatenation:
+    single: or
   deprecations:
     old_timeline:
       replacement: ワークパッケージ モジュールに埋め込まれたインタラクティブなタイムラインで、このタイムライン モジュールを交換します。
@@ -432,7 +434,7 @@ ja:
             project:
               error_not_found: 存在しません
             public:
-              error_unauthorized: "- ユーザーは、公開クエリを作成する権限がありません。"
+              error_unauthorized: "- The user has no permission to create public views."
           group_by_hierarchies_exclusive: "'%{group_by}' でのグループ化は相互に排他的です。両方を有効にはできません。"
           filters:
             custom_fields:
@@ -1738,7 +1740,7 @@ ja:
   permission_manage_members: メンバーの管理
   permission_manage_news: ニュースの管理
   permission_manage_project_activities: プロジェクト活動の管理
-  permission_manage_public_queries: 共有クエリの管理
+  permission_manage_public_queries: Manage public views
   permission_manage_repository: リポジトリの管理
   permission_manage_subtasks: 子タスクの管理
   permission_manage_versions: バージョンの管理
@@ -1747,7 +1749,7 @@ ja:
   permission_move_work_packages: 作業項目の移動
   permission_protect_wiki_pages: Wikiページの凍結
   permission_rename_wiki_pages: Wikiページ名の変更
-  permission_save_queries: クエリの保存
+  permission_save_queries: Save views
   permission_select_project_modules: プロジェクトでモジュールの選択
   permission_manage_types: 作業項目の型の選択
   permission_view_calendar: カレンダーの閲覧

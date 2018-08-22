@@ -85,6 +85,8 @@ tr:
     tab:
       no_results_title_text: Şu anda özel bir alan bulunmamakta.
       no_results_content_text: Yeni bir özel alan oluştur
+  concatenation:
+    single: or
   deprecations:
     old_timeline:
       replacement: Bu zaman akışı modülü iş paketleri modülüyle birleşik etkileşimli
@@ -479,8 +481,7 @@ tr:
             project:
               error_not_found: bulunamadı
             public:
-              error_unauthorized: "- Kullanıcı genel sorgular oluşturma iznine sahip
-                değil."
+              error_unauthorized: "- The user has no permission to create public views."
           group_by_hierarchies_exclusive: grubu tarafından '%{group_by}' ile birlikte
             kullanılamaz. Her ikisi de etkinleştiremezsiniz.
           filters:
@@ -1866,7 +1867,7 @@ tr:
   permission_manage_members: Üyeleri yönet
   permission_manage_news: Haberleri yönet
   permission_manage_project_activities: Proje aktivitilerini yönet
-  permission_manage_public_queries: Herkese açık sorguları yönetin
+  permission_manage_public_queries: Manage public views
   permission_manage_repository: Depo yönetimi
   permission_manage_subtasks: Alt görevleri yönet
   permission_manage_versions: Sürümleri Yönet
@@ -1875,7 +1876,7 @@ tr:
   permission_move_work_packages: İş paketini taşı
   permission_protect_wiki_pages: Wiki sayfalarını koruma
   permission_rename_wiki_pages: Wiki sayfalarını yeniden adlandır
-  permission_save_queries: Sorguları kaydet
+  permission_save_queries: Save views
   permission_select_project_modules: Proje modüllerini seçin
   permission_manage_types: Türleri seç
   permission_view_calendar: Takvimi görüntüle

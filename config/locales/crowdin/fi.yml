@@ -85,6 +85,8 @@ fi:
     tab:
       no_results_title_text: Tällä hetkellä ei ole mukautettuja kenttiä.
       no_results_content_text: Luo uusi mukautettu kenttä
+  concatenation:
+    single: or
   deprecations:
     old_timeline:
       replacement: Tämä aikajana-moduuli tullaan korvaamaan työpaketti-moduuliin upotettavalla
@@ -481,7 +483,7 @@ fi:
             project:
               error_not_found: ei löydetty
             public:
-              error_unauthorized: "- The user has no permission to create public queries."
+              error_unauthorized: "- The user has no permission to create public views."
           group_by_hierarchies_exclusive: is mutually exclusive with group by '%{group_by}'.
             You cannot activate both.
           filters:
@@ -1860,7 +1862,7 @@ fi:
   permission_manage_members: Hallinnoi jäseniä
   permission_manage_news: Hallinnoi uutisia
   permission_manage_project_activities: Hallinnoi projektin tehtäviä
-  permission_manage_public_queries: Hallinnoi julkisia hakuja
+  permission_manage_public_queries: Manage public views
   permission_manage_repository: Hallinnoi tietovarastoa
   permission_manage_subtasks: Hallinnoi alitehtäviä
   permission_manage_versions: Hallinnoi versioita
@@ -1869,7 +1871,7 @@ fi:
   permission_move_work_packages: Siirrä työpaketteja
   permission_protect_wiki_pages: Suojaa wiki sivut
   permission_rename_wiki_pages: Uudelleennimeä wiki sivuja
-  permission_save_queries: Tallenna hakuja
+  permission_save_queries: Save views
   permission_select_project_modules: Valitse projektin modulit
   permission_manage_types: Valitse tyypit
   permission_view_calendar: Näytä kalenteri
