@@ -42,45 +42,57 @@ describe AddAttachmentService do
                              description: description
     end
 
-    context 'happy path' do
-      before do
-        call_tested_method
-      end
-
-      it 'should save the attachment' do
+    shared_examples 'successful creation' do
+      it 'saves the attachment' do
         attachment = Attachment.first
         expect(attachment.filename).to eq 'foobar.txt'
         expect(attachment.description).to eq description
       end
 
-      it 'should add the attachment to the WP' do
+      it 'adds the attachment to the WP' do
         work_package.reload
         expect(work_package.attachments).to include Attachment.first
       end
 
-      it 'should add a journal entry on the WP' do
+      it 'adds a journal entry on the WP' do
         expect(work_package.journals.count).to eq 2 # 1 for WP creation + 1 for the attachment
       end
     end
 
-    context "can't save work package" do
+    context 'happy path' do
       before do
-        allow(work_package).to receive(:save!)
-          .and_raise(ActiveRecord::RecordInvalid.new(work_package))
+        call_tested_method
       end
 
-      it 'should raise the exception' do
-        expect { call_tested_method }.to raise_error ActiveRecord::RecordInvalid
+      it_behaves_like 'successful creation'
+    end
+
+    context "invalid container" do
+      before do
+        # have an invalid work package
+        work_package.subject = ''
+
+        call_tested_method
       end
 
-      it 'should not save the attachment' do
+      it_behaves_like 'successful creation'
+    end
+
+    context 'invalid attachment', with_settings: { attachment_max_size: 0 } do
+      it 'raises the exception' do
+        expect { call_tested_method }
+          .to raise_exception ActiveRecord::RecordInvalid
+      end
+
+      it 'does not create the attachment' do
         begin
           call_tested_method
         rescue ActiveRecord::RecordInvalid
-          # we expect that to happen
+          # expected
         end
 
-        expect(Attachment.count).to eq 0
+        expect(Attachment.count)
+          .to eq 0
       end
     end
   end
