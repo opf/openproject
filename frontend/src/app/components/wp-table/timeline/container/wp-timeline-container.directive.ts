@@ -236,7 +236,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       // Reset the width of the outer container if its content shrinks
       this.outerContainer.css('width', 'auto');
 
-      if (this.tableState.timelineAutoZoom.value!) {
+      if (!this.workPackageTable.configuration.isEmbedded && this.tableState.timelineAutoZoom.value) {
         this.applyAutoZoomLevel();
       }
 

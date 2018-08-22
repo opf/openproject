@@ -189,6 +189,7 @@ describe('UrlParamsHelper', function() {
         id: 1,
         name: 'knoblauch soße',
         timelineZoomLevel: 0,
+        timelineLabels: { left: 'foo', right: 'bar', farRight: 'asdf' },
         sums: true,
         columns: [{ id: 'type' }, { id: 'status' }, { id: 'soße' }],
         groupBy: {
@@ -231,7 +232,6 @@ describe('UrlParamsHelper', function() {
           }
         ]),
         sortBy: JSON.stringify([['type', 'desc'], ['status', 'asc']]),
-        timelineZoomLevel: 0,
         timelineVisible: false,
         showHierarchies: false,
         offset: 10,
@@ -288,7 +288,6 @@ describe('UrlParamsHelper', function() {
         ]),
         groupBy: '',
         showSums: false,
-        timelineZoomLevel: 0,
         timelineVisible: false,
         showHierarchies: false,
 

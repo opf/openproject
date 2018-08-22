@@ -29,6 +29,7 @@ import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-c
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
   selector: 'wp-embedded-table',
@@ -64,11 +65,13 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit,
   public tableInformationLoaded = false;
   public showTablePagination = false;
   public configuration:WorkPackageTableConfiguration;
+  public error:string|null = null;
 
   constructor(readonly QueryDm:QueryDmService,
               readonly tableState:TableState,
               readonly injector:Injector,
               readonly opModalService:OpModalService,
+              readonly I18n:I18nService,
               readonly urlParamsHelper:UrlParamsHelperService,
               readonly loadingIndicatorService:LoadingIndicatorService,
               readonly tableActionsService:OpTableActionsService,
@@ -185,13 +188,20 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit,
       this.queryProps.pageSize = 1;
     }
 
+    this.error = null;
     const promise = this.QueryDm
       .find(
         this.queryProps,
         this.queryId,
         this.queryProjectScope
       )
-      .then((query:QueryResource) => this.initializeStates(query, query.results));
+      .then((query:QueryResource) => this.initializeStates(query, query.results))
+      .catch((error) => {
+        this.error = this.I18n.t(
+          'js.error.embedded_table_loading',
+          { message: _.get(error, 'message', error) }
+        );
+      });
 
     if (visible) {
       this.loadingIndicator = promise;
