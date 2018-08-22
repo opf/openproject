@@ -32,6 +32,29 @@ module API
   module V3
     module Principals
       module AssociatedSubclassLambda
+        include ::API::Decorators::LinkedResource
+
+        def self.link(name)
+          ->(*) {
+            instance = represented.send(name)
+
+            v3_path = case instance
+                      when User
+                        :user
+                      when Group
+                        :group
+                      when NilClass
+                        # Fall back to user for unknown principal
+                        # since we do not have a principal route.
+                        :user
+                      else
+                        raise "undefined subclass for #{instance}"
+                      end
+
+            instance_exec(&self.class.associated_resource_default_link(name, v3_path, -> { false }, :name))
+          }
+        end
+
         def self.getter(name)
           ->(*) {
             next unless embed_links

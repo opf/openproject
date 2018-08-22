@@ -367,7 +367,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe 'assignee' do
-        context 'assignee is set' do
+        context 'is user' do
           let(:work_package) do
             FactoryBot.build(:work_package, id: 42, assigned_to: FactoryBot.build_stubbed(:user))
           end
@@ -379,7 +379,19 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
         end
 
-        context 'assignee is not set' do
+        context 'is group' do
+          let(:work_package) do
+            FactoryBot.build(:work_package, id: 42, assigned_to: FactoryBot.build_stubbed(:group))
+          end
+
+          it_behaves_like 'has a titled link' do
+            let(:link) { 'assignee' }
+            let(:href) { "/api/v3/groups/#{work_package.assigned_to.id}" }
+            let(:title) { work_package.assigned_to.name }
+          end
+        end
+
+        context 'is not set' do
           it_behaves_like 'has an empty link' do
             let(:link) { 'assignee' }
           end
@@ -387,7 +399,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe 'responsible' do
-        context 'responsible is set' do
+        context 'is user' do
           let(:work_package) do
             FactoryBot.build(:work_package, id: 42, responsible: FactoryBot.build_stubbed(:user))
           end
@@ -399,7 +411,19 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
         end
 
-        context 'responsible is not set' do
+        context 'is group' do
+          let(:work_package) do
+            FactoryBot.build(:work_package, id: 42, responsible: FactoryBot.build_stubbed(:group))
+          end
+
+          it_behaves_like 'has a titled link' do
+            let(:link) { 'responsible' }
+            let(:href) { "/api/v3/groups/#{work_package.responsible.id}" }
+            let(:title) { work_package.responsible.name }
+          end
+        end
+
+        context 'is not set' do
           it_behaves_like 'has an empty link' do
             let(:link) { 'responsible' }
           end

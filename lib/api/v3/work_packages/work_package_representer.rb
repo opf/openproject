@@ -431,15 +431,14 @@ module API
                             representer: ::API::V3::Users::UserRepresenter
 
         associated_resource :responsible,
-                            v3_path: :user,
                             getter: ::API::V3::Principals::AssociatedSubclassLambda.getter(:responsible),
-                            setter: ::API::V3::Principals::AssociatedSubclassLambda.setter(:responsible)
+                            setter: ::API::V3::Principals::AssociatedSubclassLambda.setter(:responsible),
+                            link: ::API::V3::Principals::AssociatedSubclassLambda.link(:responsible)
 
-        associated_resource :assigned_to,
-                            as: :assignee,
-                            v3_path: :user,
+        associated_resource :assignee,
                             getter: ::API::V3::Principals::AssociatedSubclassLambda.getter(:assigned_to),
-                            setter: ::API::V3::Principals::AssociatedSubclassLambda.setter(:assigned_to, :assignee)
+                            setter: ::API::V3::Principals::AssociatedSubclassLambda.setter(:assigned_to, :assignee),
+                            link: ::API::V3::Principals::AssociatedSubclassLambda.link(:assigned_to)
 
         associated_resource :fixed_version,
                             as: :version,
