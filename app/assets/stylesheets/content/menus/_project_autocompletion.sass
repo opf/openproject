@@ -4,17 +4,17 @@
 
 .project-search-results
   position: absolute
-  left: -1px
   width: 400px
   background: white
   // Avoid scrolling body when autocompleter is at bottom
   // (May not be supported by all browsers yet, but soonish)
   overscroll-behavior: contain
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15)
 
   @include default-font($header-drop-down-projects-search-font-color, 13px)
   li
     padding: 0 10px
-    font-size: 15px
+    font-size: 14px
 
   .select2-search
     margin: 1px 0 0 0
@@ -44,7 +44,7 @@
   // Search input wrapper
   .project-menu-autocomplete--input-container
     padding: 12px 0
-    border-width: 1px 2px 1px 2px
+    border-width: 1px 1px 0px 1px
     border-style: solid
     border-color: $header-drop-down-border-color
 
@@ -53,6 +53,7 @@
     margin: 0 10px
     padding: 0px 32px 0px 10px
     border: 1px solid #D9D9D9
+    border-radius: 3px
     box-shadow: inset 0px 1px 3px 0px rgba(0,0,0,0.1)
     box-sizing: border-box
     width: calc(100% - 20px)
@@ -73,12 +74,12 @@
     overflow-y: auto
     // Override the computed width of the input, but span the entire width
     // of the dropdown
-    width: 396px !important
+    width: 398px !important
     padding-top: 5px
     // Borders to complete the menu look
-    border-right: 2px solid $header-drop-down-border-color
-    border-bottom: 2px solid $header-drop-down-border-color
-    border-left: 2px solid $header-drop-down-border-color
+    border-right: 1px solid $header-drop-down-border-color
+    border-bottom: 1px solid $header-drop-down-border-color
+    border-left: 1px solid $header-drop-down-border-color
 
   // Cut off result element width
   .ui-menu-item-wrapper
