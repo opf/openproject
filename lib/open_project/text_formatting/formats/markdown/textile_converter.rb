@@ -74,7 +74,6 @@ module OpenProject::TextFormatting::Formats
       def run!
         puts 'Starting conversion of Textile fields to CommonMark+GFM.'
 
-
         puts 'Checking compatibility of your installed pandoc version.'
         pandoc.check_arguments!
 
@@ -415,7 +414,7 @@ module OpenProject::TextFormatting::Formats
 
       # Remove empty paragraph blocks which trip up pandoc
       def remove_empty_paragraphs(textile)
-        textile.gsub!(/\np\.\n/, '')
+        textile.gsub!(/\np(=|>)?\.[\s\.]*\n/, '')
       end
 
       # Replace numbered headings as they are not supported in commonmark/gfm
