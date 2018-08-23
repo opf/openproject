@@ -59,6 +59,37 @@ describe 'Wysiwyg code block macro', type: :feature, js: true do
         visit project_wiki_path(project, :wiki)
       end
 
+      it 'can add and save multiple code blocks (Regression #28350)' do
+
+        editor.in_editor do |container,|
+          editor.set_markdown expected
+
+          # Expect first macro saved to editor
+          expect(container).to have_selector('.op-ckeditor--code-block', text: snippet)
+          expect(container).to have_selector('.op-ckeditor--code-block-language', text: 'ruby')
+
+          editor.set_markdown "#{expected}\n#{expected}"
+          expect(container).to have_selector('.op-ckeditor--code-block', text: snippet, count: 2)
+          expect(container).to have_selector('.op-ckeditor--code-block-language', text: 'ruby', count: 2)
+        end
+
+        click_on 'Save'
+        expect(page).to have_selector('.flash.notice')
+
+        # Expect output widget
+        within('#content') do
+          expect(page).to have_selector('pre.highlight-ruby', count: 2)
+        end
+
+        # Edit page again, expect widget
+        click_on 'Edit'
+
+        editor.in_editor do |container,|
+          expect(container).to have_selector('.op-ckeditor--code-block', text: snippet, count: 2)
+          expect(container).to have_selector('.op-ckeditor--code-block-language', text: 'ruby', count: 2)
+        end
+      end
+
       it 'can add and edit a code block widget' do
         editor.in_editor do |container,|
           editor.click_toolbar_button 'Insert code snippet'
