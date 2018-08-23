@@ -443,7 +443,7 @@ describe 'API v3 Work package form resource', type: :request do
                   end
 
                   context 'existing group' do
-                    let(:user_link) { api_v3_paths.user group.id }
+                    let(:user_link) { api_v3_paths.group group.id }
 
                     include_context 'setup group membership', true
 
@@ -480,25 +480,18 @@ describe 'API v3 Work package form resource', type: :request do
                   end
 
                   context 'group assignement disabled' do
-                    let(:user_link) { api_v3_paths.user group.id }
-                    let(:error_message_path) { "_embedded/validationErrors/#{property}/message" }
-                    let(:error_message) do
-                      I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
-                             property: WorkPackage.human_attribute_name(property)).to_json
-                    end
+                    let(:user_link) { api_v3_paths.group group.id }
 
                     include_context 'setup group membership', false
                     include_context 'post request'
 
-                    it_behaves_like 'valid payload'
-
-                    it_behaves_like 'having an error', property
-
-                    it_behaves_like 'having updated work package principal'
-
-                    it 'returns correct error message' do
-                      expect(subject.body).to be_json_eql(error_message)
-                        .at_path(error_message_path)
+                    it_behaves_like 'invalid resource link' do
+                      let(:message) do
+                        I18n.t('api_v3.errors.invalid_resource',
+                               property: property,
+                               expected: "/api/v3/users/:id",
+                               actual: user_link)
+                      end
                     end
                   end
                 end
