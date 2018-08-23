@@ -95,6 +95,9 @@ gem 'ruby-duration', '~> 3.2.0'
 # provide compatible filesystem information for available storage
 gem 'sys-filesystem', '~> 1.1.4', require: false
 
+# Faster posix-compliant spawns for 8.0. conversions with pandoc
+gem 'posix-spawn', '~> 0.3.13', require: false
+
 gem 'bcrypt', '~> 3.1.6'
 
 gem 'multi_json', '~> 1.12.1'

@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'open3'
+require 'posix-spawn'
 
 module OpenProject::TextFormatting::Formats
   module Markdown
@@ -97,16 +97,22 @@ module OpenProject::TextFormatting::Formats
       private
 
       ##
-      # Run pandoc through open3 and raise if an exception occurred
-      def run_pandoc!(args, **options)
-        output, stderr_str, status = Open3.capture3('pandoc', *args, **options)
-        raise stderr_str unless status.success?
+      # Run pandoc through posix-spawn and raise if an exception occurred
+      def run_pandoc!(command, stdin_data: nil, timeout: pandoc_timeout)
+        child = POSIX::Spawn::Child.new('pandoc', *command, input: stdin_data, timeout: timeout)
+        raise child.err unless child.status.success?
 
-        output
+        child.out
+      rescue POSIX::Spawn::TimeoutExceeded => e
+        raise Timeout::Error, "Timeout occurred while running pandoc: #{e.message}"
       end
 
       def read_usage_string
         run_pandoc! %w[--help]
+      end
+
+      def pandoc_timeout
+        ENV.fetch('OPENPROJECT_PANDOC_TIMEOUT_SECONDS', 10).to_i
       end
 
       def read_output_formats

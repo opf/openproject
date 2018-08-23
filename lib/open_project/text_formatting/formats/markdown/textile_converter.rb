@@ -117,7 +117,6 @@ module OpenProject::TextFormatting::Formats
           # Iterate in batches to avoid plucking too much
           with_original_values_in_batches(klass, attributes) do |orig_values|
             markdowns_in_groups = bulk_convert_textile_with_fallback(orig_values, attributes)
-
             new_values = new_values_for(attributes, orig_values, markdowns_in_groups)
 
             next if new_values.empty?
@@ -198,11 +197,18 @@ module OpenProject::TextFormatting::Formats
 
         markdown = execute_pandoc_with_stdin! textile
 
-        cleanup_after_pandoc(markdown)
+        if markdown.empty?
+          markdown
+        else
+          cleanup_after_pandoc(markdown)
+        end
       end
 
       def execute_pandoc_with_stdin!(textile)
         pandoc.execute! textile
+      rescue Timeout::Error => e
+        warn "Execution of pandoc failed: #{e}"
+        ''
       rescue StandardError => e
         raise "Execution of pandoc failed: #{e}"
       end
