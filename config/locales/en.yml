@@ -315,6 +315,8 @@ en:
         repository: "Repository"
       comment:
         commented: "Commented" # an object that this comment belongs to
+      custom_action:
+        actions: "Actions"
       custom_field:
         default_value: "Default value"
         editable: "Editable"
