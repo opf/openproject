@@ -66,6 +66,7 @@
       <div class="form--space -left-spacing">
         <button class="button -danger"
                 [textContent]="text.confirm"
+                [attr.disabled]="busy || undefined"
                 (click)="confirmDeletion($event)">
         </button>
         <button class="button"
