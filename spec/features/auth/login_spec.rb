@@ -45,15 +45,14 @@ describe 'Login', type: :feature do
     let(:new_user_password) { 'obb' * 4 }
     let(:user) do
       FactoryBot.create(:user,
-                         force_password_change: true,
-                         first_login: true,
-                         login: 'bob',
-                         mail: 'bob@example.com',
-                         firstname: 'Bo',
-                         lastname: 'B',
-                         password: user_password,
-                         password_confirmation: user_password,
-                        )
+                        force_password_change: true,
+                        first_login: true,
+                        login: 'bob',
+                        mail: 'bob@example.com',
+                        firstname: 'Bo',
+                        lastname: 'B',
+                        password: user_password,
+                        password_confirmation: user_password)
     end
 
     it 'redirects to homescreen after forced password change
