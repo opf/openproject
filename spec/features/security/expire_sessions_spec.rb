@@ -28,17 +28,10 @@
 
 require 'spec_helper'
 
-describe 'Expire old user sessions', type: :feature do
+describe 'Expire old user sessions',
+         with_config: { session_store: :active_record_store },
+         type: :feature do
   let(:user) { FactoryBot.create :admin }
-
-  before :all do
-    @session_store = OpenProject::Application.config.session_store
-    OpenProject::Application.config.session_store :active_record_store
-  end
-
-  after :all do
-    OpenProject::Application.config.session_store = @session_store
-  end
 
   before do
     login_with(user.login, user.password)
