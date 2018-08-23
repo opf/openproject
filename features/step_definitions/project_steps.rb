@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-Given /^there is a project named "([^"]*)?$/ do |name|
+Given /^there is a project named "([^"]*)"?$/ do |name|
   attributes = { name: name,
                  identifier: name.downcase.gsub(' ', '_') }
 

@@ -32,10 +32,27 @@ require 'features/work_packages/shared_contexts'
 require 'features/work_packages/work_packages_page'
 
 feature 'Wiki menu items' do
-  let(:user) { FactoryBot.create :admin }
+  let(:user) do
+    FactoryBot.create :user,
+                      member_in_project: project,
+                      member_with_permissions: %w[view_wiki_pages
+                                                  manage_wiki_menu
+                                                  delete_wiki_pages]
+  end
   let(:project) { FactoryBot.create :project, enabled_module_names: %w[wiki] }
   let(:wiki) { project.wiki }
   let(:parent_menu) { wiki.wiki_menu_items.find_by(name: 'wiki') }
+  let(:wiki_page) { FactoryBot.create :wiki_page_with_content, wiki: wiki }
+  let(:other_wiki_page) do
+    FactoryBot.create(:wiki_page_with_content, wiki: wiki).tap do |page|
+      MenuItems::WikiMenuItem.create!(navigatable_id: page.id,
+                                      title: page.title,
+                                      name: page.slug)
+    end
+  end
+  let(:another_wiki_page) do
+    FactoryBot.create(:wiki_page_with_content, wiki: wiki)
+  end
 
   before do
     allow(User).to receive(:current).and_return user
@@ -66,5 +83,100 @@ feature 'Wiki menu items' do
       expect(wiki.wiki_menu_items.count).to eq(2)
       expect(wiki.wiki_menu_items.pluck(:name).sort).to eq(%w(slug wiki))
     end
+  end
+
+  it 'allows managing the menu item of a wiki page', js: true do
+    other_wiki_page
+    another_wiki_page
+
+    visit project_wiki_path(project, wiki_page)
+
+    # creating the menu item with the pages name for the menu item
+    click_link 'More'
+    click_link 'Configure menu item'
+
+    choose "Show as menu item in project navigation"
+
+    click_button "Save"
+
+    expect(page)
+      .to have_selector('.main-menu--children-menu-header', text: wiki_page.title)
+
+    find('.main-menu--arrow-left-to-project').click
+
+    expect(page)
+      .to have_selector('.main-item-wrapper', text: wiki_page.title)
+
+    # clicking the menu item leads to the page
+    click_link wiki_page.title
+
+    expect(page)
+      .to have_current_path(project_wiki_path(project, wiki_page))
+
+    # modifying the menu item to a different name and to be a subpage
+
+    click_link 'More'
+    click_link 'Configure menu item'
+
+    fill_in 'Name of menu item', with: 'Custom page name'
+
+    choose "Show as submenu item of"
+
+    select other_wiki_page.slug, from: 'parent_wiki_menu_item'
+
+    click_button "Save"
+
+    # the other page is now the main heading
+    expect(page)
+      .to have_selector('.main-menu--children-menu-header', text: other_wiki_page.title)
+
+    expect(page)
+      .to have_selector('.wiki-menu--sub-item', text: 'Custom page name')
+
+    click_link 'Custom page name'
+
+    expect(page)
+      .to have_current_path(project_wiki_path(project, wiki_page))
+
+    # the submenu item is not visible on top level
+    find('.main-menu--arrow-left-to-project').click
+
+    expect(page)
+      .to have_no_selector('.main-item-wrapper', text: 'Custom page name')
+
+    # deleting the page will remove the menu item
+    visit project_wiki_path(project, wiki_page)
+
+    click_link 'More'
+    click_link 'Delete'
+
+    page.driver.browser.switch_to.alert.accept
+
+    within '#menu-sidebar' do
+      expect(page).to have_no_content('Custom page name')
+    end
+
+    # removing the menu item which is also the last wiki menu item
+    # removing the default wiki menu item programatically first
+    MenuItems::WikiMenuItem.where(name: "wiki").delete_all
+    visit project_wiki_path(project, other_wiki_page)
+
+    click_link 'More'
+    click_link 'Configure menu item'
+
+    choose 'Do not show this wikipage in project navigation'
+
+    click_button 'Save'
+
+    # Because it is the last wiki menu item, the user is prompted to select another menu item
+    select another_wiki_page.title, from: 'main-menu-item-select'
+
+    click_button 'Save'
+
+    expect(page)
+      .to have_no_selector('.main-menu--children-menu-header', text: other_wiki_page.title)
+
+    expect(page)
+      .to have_selector('.main-menu--children-menu-header', text: another_wiki_page.title)
   end
 end
