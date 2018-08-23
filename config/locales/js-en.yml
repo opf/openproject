@@ -430,6 +430,7 @@ en:
           Note that when hovering an element, its date labels will be shown instead of these attributes.
 
       button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
       cancel: Cancel
       change: "Change in planning"
       due_date: "Due date"
