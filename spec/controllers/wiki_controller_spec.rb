@@ -329,7 +329,7 @@ describe WikiController, type: :controller do
           get 'index', params: { id: @wiki_menu_item.name, project_id: @project.id }
 
           expect(response).to be_success
-          assert_select '#content h2', text: 'Index by title'
+          assert_select '#content h2', text: 'Table of Contents'
           assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item.selected"
         end
       end

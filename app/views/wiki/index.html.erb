@@ -33,15 +33,13 @@ See docs/COPYRIGHT.rdoc for more details.
   <% breadcrumb_paths(t(:label_table_of_contents)) %>
 <% end %>
 
-<% content_for :action_menu_specific do %>
+<%= toolbar title: t(:label_wiki_toc) do %>
   <%= content_tag(:li, watcher_link(@wiki, User.current), class: 'toolbar-item') %>
 <% end %>
 
 <% html_title t(:label_wiki_toc) %>
 
-<%= render partial: 'layouts/action_menu_specific' %>
 <div class="wiki-content">
-<h2 class="legacy-heading"><%= t(:label_index_by_title) %></h2>
 <%= render_page_hierarchy(@pages_by_parent_id, nil, timestamp: true) %>
 </div>
 
