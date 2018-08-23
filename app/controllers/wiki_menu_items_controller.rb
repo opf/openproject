@@ -112,11 +112,15 @@ class WikiMenuItemsController < ApplicationController
 
   def select_main_menu_item
     @page = WikiPage.find params[:id]
-    @possible_wiki_pages = @project.wiki.pages.includes(:parent)
-                           .reject { |page|
-                             page != @page && page.menu_item.present? &&
-                             page.menu_item.is_main_item?
-                           }
+    @possible_wiki_pages = @project
+                           .wiki
+                           .pages
+                           .includes(:parent)
+                           .reject do |page|
+                             page != @page &&
+                               page.menu_item.present? &&
+                               page.menu_item.is_main_item?
+                           end
   end
 
   def replace_main_menu_item
@@ -141,11 +145,10 @@ class WikiMenuItemsController < ApplicationController
 
     @page = wiki.find_page(params[:id])
     @page_title = @page.title
-    @wiki_menu_item = MenuItems::WikiMenuItem.find_or_initialize_by(
-      navigatable_id: wiki.id,
-      name: @page.slug
-    )
-    @wiki_menu_item.title ||= @page_title
+    @wiki_menu_item = MenuItems::WikiMenuItem
+                      .where(navigatable_id: wiki.id, name: @page.slug)
+                      .first_or_initialize(title: @page_title)
+
     possible_parent_menu_items = MenuItems::WikiMenuItem.main_items(wiki.id) - [@wiki_menu_item]
 
     @parent_menu_item_options = possible_parent_menu_items.map { |item| [item.name, item.id] }
