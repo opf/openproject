@@ -89,6 +89,7 @@ sv-SE:
           button: Inkludera innehåll från en annan wiki-sida
           text: "[Placeholder] Inkluderad wiki-sida för"
           page: Wiki-sida
+          not_set: "(Page not yet set)"
           hint: 'Inkludera innehåll från en annan wiki-sida genom att ange dess titel
             eller slug. Du kan inkludera wiki-sidan för ett annat projekt genom att
             separera dem med ett kolon som följande exempel.
@@ -404,6 +405,7 @@ sv-SE:
 
 '
       button_activate: Show Gantt chart
+      button_deactivate: Hide Gantt chart
       cancel: Avbryt
       change: Ändra i planeringen
       due_date: Förfallodatum

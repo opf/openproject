@@ -182,9 +182,9 @@ tr:
     index:
       no_results_title_text: Sitemizde şuan iş akışı yok.
   work_packages:
-    x_children:
-      one: One child work package
-      other: "%{count} work package children"
+    x_descendants:
+      one: One descendant work package
+      other: "%{count} work package descendants"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -216,6 +216,9 @@ tr:
           no_results_title_text: Şu anda hiçbir tip mevcut değil.
         version:
           no_results_title_text: Şu anda sürüm bulunmuyor.
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
   label_invitation: Davet
   account:
     delete: Hesabı sil
@@ -299,6 +302,8 @@ tr:
         repository: Depo
       comment:
         commented: Yorumlananlar
+      custom_action:
+        actions: Actions
       custom_field:
         default_value: Varsayılan değer
         editable: Düzenlenebilir

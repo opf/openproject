@@ -186,9 +186,9 @@ it:
     index:
       no_results_title_text: Al momento non vi sono flussi di lavoro.
   work_packages:
-    x_children:
-      one: One child work package
-      other: "%{count} work package children"
+    x_descendants:
+      one: One descendant work package
+      other: "%{count} work package descendants"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -220,6 +220,9 @@ it:
           no_results_title_text: Al momento non sono disponibili tipi.
         version:
           no_results_title_text: Al momento non vi sono versioni disponibili.
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
   label_invitation: Invito
   account:
     delete: Cancella account
@@ -308,6 +311,8 @@ it:
         repository: Archivio
       comment:
         commented: Commentato
+      custom_action:
+        actions: Actions
       custom_field:
         default_value: Valore predefinito
         editable: Modificabile

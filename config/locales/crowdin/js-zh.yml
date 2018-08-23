@@ -87,6 +87,7 @@ zh:
           button: 包括另一个Wiki页的内容
           text: "[Placeholder] Included wiki page of"
           page: 维基页面
+          not_set: "(Page not yet set)"
           hint: |
             通过指定其标题或Slug来包含其他Wiki页面的内容。
             您可以通过使用冒号分隔另一个项目的Wiki页面，如下例所示。
@@ -385,6 +386,7 @@ zh:
 
 '
       button_activate: Show Gantt chart
+      button_deactivate: Hide Gantt chart
       cancel: 取消
       change: 更改计划
       due_date: 截止日期

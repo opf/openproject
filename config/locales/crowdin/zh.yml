@@ -166,9 +166,9 @@ zh:
     index:
       no_results_title_text: 目前没有工作流。
   work_packages:
-    x_children:
-      one: One child work package
-      other: "%{count} work package children"
+    x_descendants:
+      one: One descendant work package
+      other: "%{count} work package descendants"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -199,6 +199,8 @@ zh:
           no_results_title_text: 目前有可用的类型。
         version:
           no_results_title_text: 目前有可用的版本。
+    x_children:
+      other: "%{count} work package children"
   label_invitation: 邀请
   account:
     delete: 删除帐户
@@ -260,6 +262,8 @@ zh:
         repository: 代码库
       comment:
         commented: 评论
+      custom_action:
+        actions: Actions
       custom_field:
         default_value: 默认值
         editable: 可编辑

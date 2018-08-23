@@ -185,9 +185,9 @@ vi:
     index:
       no_results_title_text: There are currently no workflows.
   work_packages:
-    x_children:
-      one: One child work package
-      other: "%{count} tác phẩm gói phần mềm trẻ em"
+    x_descendants:
+      one: One descendant work package
+      other: "%{count} work package descendants"
     move:
       no_common_statuses_exists: Có là tình trạng không có sẵn cho tất cả các gói
         đã chọn công việc. Tình trạng của họ không thể thay đổi.
@@ -218,6 +218,8 @@ vi:
           no_results_title_text: Không có phân loại.
         version:
           no_results_title_text: There are currently no versions available.
+    x_children:
+      other: "%{count} tác phẩm gói phần mềm trẻ em"
   label_invitation: Invitation
   account:
     delete: Xoá tài khoản
@@ -302,6 +304,8 @@ vi:
         repository: Repository
       comment:
         commented: Nhận xét
+      custom_action:
+        actions: Actions
       custom_field:
         default_value: Giá trị mặc định
         editable: Có thể chỉnh sửa

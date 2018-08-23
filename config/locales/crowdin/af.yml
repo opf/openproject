@@ -185,9 +185,9 @@ af:
     index:
       no_results_title_text: There are currently no workflows.
   work_packages:
-    x_children:
-      one: One child work package
-      other: "%{count} work package children"
+    x_descendants:
+      one: One descendant work package
+      other: "%{count} work package descendants"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -219,6 +219,9 @@ af:
           no_results_title_text: There are currently no types available.
         version:
           no_results_title_text: There are currently no versions available.
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
   label_invitation: Invitation
   account:
     delete: Verwyder rekening
@@ -303,6 +306,8 @@ af:
         repository: Repository
       comment:
         commented: Kommentaar gelewer
+      custom_action:
+        actions: Actions
       custom_field:
         default_value: Standaardwaarde
         editable: Redigeerbaar

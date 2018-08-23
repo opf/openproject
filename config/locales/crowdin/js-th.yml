@@ -87,6 +87,7 @@ th:
           button: Include content of another wiki page
           text: "[Placeholder] Included wiki page of"
           page: หน้าวิกิ
+          not_set: "(Page not yet set)"
           hint: |
             Include the content of another wiki page by specifying its title or slug.
             You can include the wiki page of another project by separating them with a colon like the following example.
@@ -402,6 +403,7 @@ th:
 
 '
       button_activate: Show Gantt chart
+      button_deactivate: Hide Gantt chart
       cancel: ยกเลิก
       change: การเปลี่ยนแปลงในการวางแผน
       due_date: วันครบกำหนด

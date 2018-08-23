@@ -187,9 +187,9 @@ de:
     index:
       no_results_title_text: Derzeit gibt es keine Workflows.
   work_packages:
-    x_children:
-      one: Ein untergeordnetes Arbeitspaket
-      other: "%{count} untergeordnete Arbeitspakete"
+    x_descendants:
+      one: One descendant work package
+      other: "%{count} work package descendants"
     move:
       no_common_statuses_exists: Es gibt keine gemeinsamen Status für die ausgewählten
         Arbeitspakete. Ihr Status kann daher nicht verändert werden.
@@ -223,6 +223,9 @@ de:
           no_results_title_text: Derzeit stehen keine Typen zur Verfügung.
         version:
           no_results_title_text: Derzeit sind keine Versionen verfügbar.
+    x_children:
+      one: Ein untergeordnetes Arbeitspaket
+      other: "%{count} untergeordnete Arbeitspakete"
   label_invitation: Einladung
   account:
     delete: Konto löschen
@@ -311,6 +314,8 @@ de:
         repository: Projektarchiv
       comment:
         commented: Kommentiert
+      custom_action:
+        actions: Actions
       custom_field:
         default_value: Standardwert
         editable: Bearbeitbar

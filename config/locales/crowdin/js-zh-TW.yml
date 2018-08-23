@@ -87,6 +87,7 @@ zh-TW:
           button: 包含另一個 Wiki 頁面的內容
           text: "[Placeholder] Included wiki page of"
           page: 維基頁面
+          not_set: "(Page not yet set)"
           hint: '通過指定其標題或Slug, 包括另一個 Wiki 頁面的內容。您可以通過將另一個專案的 Wiki 頁與下面的示例類似的冒號進行分隔,
             從而包括該頁面。
 
@@ -386,6 +387,7 @@ zh-TW:
 
 '
       button_activate: Show Gantt chart
+      button_deactivate: Hide Gantt chart
       cancel: 取消
       change: 更改計劃
       due_date: 截止日期

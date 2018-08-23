@@ -184,9 +184,9 @@ pt-BR:
     index:
       no_results_title_text: Atualmente, não há fluxos de trabalho.
   work_packages:
-    x_children:
-      one: Um pacote de trabalho filho
-      other: "%{count} pacotes de trabalho filho"
+    x_descendants:
+      one: One descendant work package
+      other: "%{count} work package descendants"
     move:
       no_common_statuses_exists: Não há situação disponível para todos os pacotes
         de trabalho selecionados. Sua situação não pode ser alterada.
@@ -220,6 +220,9 @@ pt-BR:
           no_results_title_text: Atualmente, não há tipos disponíveis.
         version:
           no_results_title_text: Atualmente, não há versões disponíveis.
+    x_children:
+      one: Um pacote de trabalho filho
+      other: "%{count} pacotes de trabalho filho"
   label_invitation: Convite
   account:
     delete: Excluir conta
@@ -302,6 +305,8 @@ pt-BR:
         repository: Repositório
       comment:
         commented: Comentado
+      custom_action:
+        actions: Actions
       custom_field:
         default_value: Valor padrão
         editable: Editável

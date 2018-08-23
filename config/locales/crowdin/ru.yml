@@ -182,11 +182,9 @@ ru:
     index:
       no_results_title_text: В данный момент рабочих потоков нет.
   work_packages:
-    x_children:
-      one: Пакет работ с одним дочерним
-      other: Пакет работ с %{count} дочерними
-      few: Пакет работ с %{count} дочерними
-      many: Пакет работ с %{count} дочерними
+    x_descendants:
+      one: One descendant work package
+      other: "%{count} work package descendants"
     move:
       no_common_statuses_exists: Статус не доступен для всех выбранных пакетов работ.
         Их статус изменен быть не может.
@@ -221,6 +219,11 @@ ru:
           no_results_title_text: На данный момент доступных типов нет.
         version:
           no_results_title_text: На данный момент этапы отсутствуют.
+    x_children:
+      one: Пакет работ с одним дочерним
+      few: Пакет работ с %{count} дочерними
+      many: Пакет работ с %{count} дочерними
+      other: Пакет работ с %{count} дочерними
   label_invitation: Приглашение
   account:
     delete: Удалить учётную запись
@@ -303,6 +306,8 @@ ru:
         repository: Репозиторий
       comment:
         commented: Прокомментировано
+      custom_action:
+        actions: Actions
       custom_field:
         default_value: Значение по умолчанию
         editable: Доступно для правки

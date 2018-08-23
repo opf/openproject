@@ -185,9 +185,9 @@ nl:
     index:
       no_results_title_text: Er zijn momenteel geen workflows.
   work_packages:
-    x_children:
-      one: Een onderliggend werkpakket
-      other: "%{count} onderliggende werkpakket(ten)"
+    x_descendants:
+      one: One descendant work package
+      other: "%{count} work package descendants"
     move:
       no_common_statuses_exists: Er is geen status beschikbaar voor alle geselecteerde
         werkpakketten. Hun status kan niet worden gewijzigd.
@@ -220,6 +220,9 @@ nl:
           no_results_title_text: Er zijn momenteel geen types beschikbaar.
         version:
           no_results_title_text: Er zijn momenteel geen versies beschikbaar.
+    x_children:
+      one: Een onderliggend werkpakket
+      other: "%{count} onderliggende werkpakket(ten)"
   label_invitation: Uitnodiging
   account:
     delete: Account Verwijderen
@@ -308,6 +311,8 @@ nl:
         repository: Repository
       comment:
         commented: Becommentarieerd
+      custom_action:
+        actions: Actions
       custom_field:
         default_value: Standaardwaarde
         editable: Bewerkbaar

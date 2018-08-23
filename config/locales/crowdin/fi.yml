@@ -183,9 +183,9 @@ fi:
     index:
       no_results_title_text: Tällä hetkellä ei ole olemassa työnkulkuja.
   work_packages:
-    x_children:
-      one: One child work package
-      other: "%{count} work package children"
+    x_descendants:
+      one: One descendant work package
+      other: "%{count} work package descendants"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -218,6 +218,9 @@ fi:
           no_results_title_text: Tällä hetkellä tyyppejä ei ole saatavilla.
         version:
           no_results_title_text: Tällä hetkellä versioita ei ole saatavilla.
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
   label_invitation: Kutsu
   account:
     delete: Poista tili
@@ -302,6 +305,8 @@ fi:
         repository: Tietovarasto
       comment:
         commented: Kommentoitu
+      custom_action:
+        actions: Actions
       custom_field:
         default_value: Oletusarvo
         editable: Muokattava

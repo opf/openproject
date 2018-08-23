@@ -171,9 +171,9 @@ ko:
     index:
       no_results_title_text: 작업 흐름이 없습니다.
   work_packages:
-    x_children:
-      one: One child work package
-      other: "%{count} work package children"
+    x_descendants:
+      one: One descendant work package
+      other: "%{count} work package descendants"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -204,6 +204,8 @@ ko:
           no_results_title_text: 사용 가능한 타입이 없습니다.
         version:
           no_results_title_text: 현재 사용가능한 버전이 없습니다.
+    x_children:
+      other: "%{count} work package children"
   label_invitation: 초대
   account:
     delete: 계정 삭제
@@ -276,6 +278,8 @@ ko:
         repository: 리포지토리
       comment:
         commented: 덧글을 달았습니다.
+      custom_action:
+        actions: Actions
       custom_field:
         default_value: 기본값
         editable: 편집 가능

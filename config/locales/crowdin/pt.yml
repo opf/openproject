@@ -187,9 +187,9 @@ pt:
     index:
       no_results_title_text: Atualmente, não existem ritmos de trabalho.
   work_packages:
-    x_children:
-      one: One child work package
-      other: "%{count} work package children"
+    x_descendants:
+      one: One descendant work package
+      other: "%{count} work package descendants"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -227,6 +227,9 @@ pt:
           no_results_title_text: Atualmente, não existem tipos disponíveis.
         version:
           no_results_title_text: Atualmente, não existem versões disponíveis.
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
   label_invitation: Convite
   account:
     delete: Eliminar conta
@@ -312,6 +315,8 @@ pt:
         repository: Repositório
       comment:
         commented: Comentado
+      custom_action:
+        actions: Actions
       custom_field:
         default_value: Valor predefinido
         editable: Editável

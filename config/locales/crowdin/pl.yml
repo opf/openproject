@@ -185,11 +185,9 @@ pl:
     index:
       no_results_title_text: Nie ma jeszcze żadnego obiegu pracy.
   work_packages:
-    x_children:
-      one: One child work package
-      other: "%{count} work package children"
-      few: "%{count} work package children"
-      many: "%{count} work package children"
+    x_descendants:
+      one: One descendant work package
+      other: "%{count} work package descendants"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -221,6 +219,11 @@ pl:
           no_results_title_text: Nie ma dostępnych typów.
         version:
           no_results_title_text: Obecnie żadne wersje nie są dostępne.
+    x_children:
+      one: One child work package
+      few: "%{count} work package children"
+      many: "%{count} work package children"
+      other: "%{count} work package children"
   label_invitation: Zaproszenie
   account:
     delete: Usuń konto
@@ -301,6 +304,8 @@ pl:
         repository: Repozytorium
       comment:
         commented: Skomentował
+      custom_action:
+        actions: Actions
       custom_field:
         default_value: Wartość domyślna
         editable: Edytowalne

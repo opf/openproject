@@ -184,9 +184,9 @@ bg:
     index:
       no_results_title_text: В момента няма работни потоци.
   work_packages:
-    x_children:
-      one: One child work package
-      other: "%{count} work package children"
+    x_descendants:
+      one: One descendant work package
+      other: "%{count} work package descendants"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -218,6 +218,9 @@ bg:
           no_results_title_text: В момента има няма типове на разположение.
         version:
           no_results_title_text: В момента няма налични версии.
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
   label_invitation: Покана
   account:
     delete: Изтриване на профил
@@ -305,6 +308,8 @@ bg:
         repository: Хранилище
       comment:
         commented: Коментирани
+      custom_action:
+        actions: Actions
       custom_field:
         default_value: Стойност по подразбиране
         editable: Редактируемо
