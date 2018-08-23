@@ -31,20 +31,15 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <h2><%= @copy ? l(:button_copy) : l(:button_move) %></h2>
 <ul>
-  <% total = 0 %>
   <% @work_packages.each do |work_package| -%>
-    <% total += 1 %>
     <li>
       <%= link_to_work_package work_package %>
-      <% if work_package.children.size > 0 %>
-        <span class="contextual-info -small">(+ <%= t('work_packages.x_children', count: work_package.children.size) %>)</span>
-        <% total += work_package.children.size %>
+      <% descendant_count = work_package.descendants.size %>
+      <% if descendant_count > 0 %>
+        <span class="contextual-info -small">(+ <%= t('work_packages.x_descendants', count: descendant_count) %>)</span>
       <% end %>
     </li>
   <% end -%>
-  <p>
-    <%= t(:label_total) %>: <%= total %>
-  </p>
 </ul>
 
 <%= activate_angular_js do %>
