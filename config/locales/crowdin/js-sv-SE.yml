@@ -110,6 +110,7 @@ sv-SE:
       cannot_save_changes_with_message: 'Kan inte spara dina ändringar på grund av
         följande error: %{error}'
       query_saving: The view could not be saved.
+      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
     filter:
       description:
         text_open_filter: Öppna det här filtret med 'ALT' och piltangenterna.
@@ -449,6 +450,10 @@ sv-SE:
         quarters: Kvartal
         years: År
         slider: Zoomreglaget
+        description: 'Either select the initial zoom level that should be shown or
+          check the auto zoom box to adjust the gantt chart to fit the visible area.
+
+'
     tl_toolbar:
       zooms: Zoomnivå
       outlines: Hierarkinivå

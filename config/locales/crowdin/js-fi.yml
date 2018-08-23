@@ -107,6 +107,7 @@ fi:
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
         error: %{error}'
       query_saving: The view could not be saved.
+      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
     filter:
       description:
         text_open_filter: Avaa suodatin "Alt"-näppäintä ja nuolinäppäimiä käyttämällä.
@@ -446,6 +447,10 @@ fi:
         quarters: Quarters
         years: Years
         slider: Lähennyksen säätö
+        description: 'Either select the initial zoom level that should be shown or
+          check the auto zoom box to adjust the gantt chart to fit the visible area.
+
+'
     tl_toolbar:
       zooms: Lähennyksen taso
       outlines: Hierarkian taso

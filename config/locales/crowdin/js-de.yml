@@ -112,6 +112,7 @@ de:
       cannot_save_changes_with_message: 'Ihre Änderungen können nicht gespeichert
         werden. Fehler: %{error}'
       query_saving: Die Ansicht konnte nicht gespeichert werden.
+      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
     filter:
       description:
         text_open_filter: Öffnen Sie diesen Filter mittels "Alt" und den Pfeiltasten.
@@ -457,6 +458,10 @@ de:
         quarters: Quartale
         years: Jahre
         slider: Zoom-Regler
+        description: 'Either select the initial zoom level that should be shown or
+          check the auto zoom box to adjust the gantt chart to fit the visible area.
+
+'
     tl_toolbar:
       zooms: Zoomstufe
       outlines: Hierarchie-Stufe

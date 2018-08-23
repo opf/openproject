@@ -76,6 +76,8 @@ ko:
     tab:
       no_results_title_text: 사용자 필드가 없습니다.
       no_results_content_text: 새 사용자 필드 생성
+  concatenation:
+    single: or
   deprecations:
     old_timeline:
       replacement: 이 타임라인 모듈은 작업 패키지 모듈에 포함된 대화형 타임라인에 의해 대체됩니다.
@@ -450,7 +452,7 @@ ko:
             project:
               error_not_found: 찾을 수 없음
             public:
-              error_unauthorized: "- 해당 사용자는 공용 쿼리를 만들 권한이 없습니다."
+              error_unauthorized: "- The user has no permission to create public views."
           group_by_hierarchies_exclusive: 은(는) %{group_by} 에 의해 그룹과 상호배타적입니다. 당신은
             둘 다 활성화할 수 없습니다.
           filters:
@@ -1818,7 +1820,7 @@ ko:
   permission_manage_members: 멤버 관리
   permission_manage_news: 뉴스 관리
   permission_manage_project_activities: 프로젝트 작업 관리
-  permission_manage_public_queries: 공용 쿼리 관리
+  permission_manage_public_queries: Manage public views
   permission_manage_repository: 리포지토리 관리
   permission_manage_subtasks: 하위 작업 관리
   permission_manage_versions: 버전 관리
@@ -1827,7 +1829,7 @@ ko:
   permission_move_work_packages: 작업 패키지 이동
   permission_protect_wiki_pages: 위키 페이지 보호
   permission_rename_wiki_pages: 위키 페이지 이름 바꾸기
-  permission_save_queries: 쿼리 저장
+  permission_save_queries: Save views
   permission_select_project_modules: 프로젝트 모듈 선택
   permission_manage_types: 유형 선택
   permission_view_calendar: 달력 보기

@@ -107,6 +107,7 @@ sk:
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
         error: %{error}'
       query_saving: The view could not be saved.
+      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
     filter:
       description:
         text_open_filter: Otvorte tento filter pomocou „Alt“ a šípok.
@@ -452,6 +453,10 @@ sk:
         quarters: Kvartály
         years: Roky
         slider: Posuvný ovládač priblíženia / oddialenia
+        description: 'Either select the initial zoom level that should be shown or
+          check the auto zoom box to adjust the gantt chart to fit the visible area.
+
+'
     tl_toolbar:
       zooms: Úroveň priblíženia
       outlines: Úroveň vnorenia

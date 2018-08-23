@@ -59,7 +59,11 @@ class AddAttachmentService
         # reload to get the newly added attachment
         container.attachments.reload
         container.add_journal author
-        container.save!
+        # We allow invalid containers to be saved as
+        # adding the attachments does not change the validity of the container
+        # but without that leeway, the user needs to fix the container before
+        # the attachment can be added.
+        container.save!(validate: false)
       end
     end
   end

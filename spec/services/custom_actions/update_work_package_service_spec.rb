@@ -45,7 +45,9 @@ describe CustomActions::UpdateWorkPackageService do
 
     allow(action)
       .to receive(:apply)
-      .with(work_package)
+      .with(work_package) do
+      work_package.subject = ''
+    end
 
     action
   end
@@ -54,12 +56,19 @@ describe CustomActions::UpdateWorkPackageService do
 
     allow(action)
       .to receive(:apply)
-      .with(work_package)
+      .with(work_package) do
+      work_package.status_id = 100
+    end
 
     action
   end
   let(:user) { FactoryBot.build_stubbed(:user) }
   let(:instance) { described_class.new(action: custom_action, user: user) }
+  let(:update_service_call_implementation) do
+    -> do
+      result
+    end
+  end
   let!(:update_wp_service) do
     wp_service_instance = double('WorkPackages::UpdateService instance')
 
@@ -69,8 +78,9 @@ describe CustomActions::UpdateWorkPackageService do
       .and_return(wp_service_instance)
 
     allow(wp_service_instance)
-      .to receive(:call)
-      .and_return(result)
+      .to receive(:call) do
+      update_service_call_implementation.()
+    end
 
     wp_service_instance
   end
@@ -98,6 +108,7 @@ describe CustomActions::UpdateWorkPackageService do
     let(:call) do
       instance.call(work_package: work_package)
     end
+    let(:subject) { call }
 
     it 'returns the update wp service result' do
       expect(call)
@@ -153,39 +164,74 @@ describe CustomActions::UpdateWorkPackageService do
 
         allow(contract)
           .to receive(:errors)
-          .once
           .and_return(alter_action1.key => ['invalid'])
-
-        allow(alter_action1)
-          .to receive(:apply)
-          .with(work_package) do
-          work_package.subject = ''
-        end
-
-        allow(alter_action2)
-          .to receive(:apply)
-          .with(work_package) do
-          work_package.status_id = 100
-        end
 
         work_package.lock_version = 200
 
-        call
+        subject
       end
 
-      it 'applies only the action not causing an error' do
-        expect(work_package.status_id)
-          .to eql 100
+      let(:update_service_call_implementation) do
+        -> do
+          # check that the work package retains only the valid changes
+          # when passing it to the update service
+          expect(work_package.subject)
+            .not_to eql ''
+
+          expect(work_package.status_id)
+            .to eql 100
+
+          expect(work_package.lock_version)
+            .to eql 200
+
+          result
+        end
       end
 
-      it 'rejects the action causing an error' do
-        expect(work_package.subject)
-          .not_to eql ''
+      it 'is successful' do
+        expect(subject)
+          .to be_success
+      end
+    end
+
+    context 'on unfixable validation error' do
+      let(:result) do
+        ServiceResult.new(result: work_package, success: false)
+      end
+      before do
+        allow(contract)
+          .to receive(:validate)
+          .and_return(false)
+
+        allow(contract)
+          .to receive(:errors)
+          .and_return(:base => ['invalid'])
+
+        work_package.lock_version = 200
+
+        subject
       end
 
-      it 'keeps the lock version' do
-        expect(work_package.lock_version)
-          .to eql 200
+      let(:update_service_call_implementation) do
+        -> do
+          # check that the work package has all the changes
+          # of the actions when passing it to the update service
+          expect(work_package.subject)
+            .to be_blank
+
+          expect(work_package.status_id)
+            .to eql 100
+
+          expect(work_package.lock_version)
+            .to eql 200
+
+          result
+        end
+      end
+
+      it 'is failure' do
+        expect(subject)
+          .to be_failure
       end
     end
   end

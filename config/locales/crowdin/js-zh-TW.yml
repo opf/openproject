@@ -105,6 +105,7 @@ zh-TW:
       internal: 發生內部錯誤。
       cannot_save_changes_with_message: '由於以下錯誤, 無法保存所做的更改: %{error}'
       query_saving: The view could not be saved.
+      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
     filter:
       description:
         text_open_filter: 使用 ALT 和方向鍵打開此篩選器。
@@ -426,6 +427,10 @@ zh-TW:
         quarters: 季
         years: 年
         slider: 縮放滑動器
+        description: 'Either select the initial zoom level that should be shown or
+          check the auto zoom box to adjust the gantt chart to fit the visible area.
+
+'
     tl_toolbar:
       zooms: 縮放等級
       outlines: 層次結構級別

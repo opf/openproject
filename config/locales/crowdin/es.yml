@@ -87,6 +87,8 @@ es:
     tab:
       no_results_title_text: Actualmente no hay campos personalizados.
       no_results_content_text: Crear un nuevo campo personalizado
+  concatenation:
+    single: or
   deprecations:
     old_timeline:
       replacement: Este módulo de líneas de tiempo se ha sustituido por una la línea
@@ -497,8 +499,7 @@ es:
             project:
               error_not_found: no encontrado
             public:
-              error_unauthorized: "- El usuario no tiene permiso para crear solicitudes
-                públicas."
+              error_unauthorized: "- The user has no permission to create public views."
           group_by_hierarchies_exclusive: es mutuamente exclusivo con el grupo '%{group_by}'.
             No puede activar ambos.
           filters:
@@ -1917,7 +1918,7 @@ es:
   permission_manage_members: Gestión de Miembros
   permission_manage_news: Administrar noticias
   permission_manage_project_activities: Gestionar actividades del proyecto
-  permission_manage_public_queries: Administrar consultas públicas
+  permission_manage_public_queries: Manage public views
   permission_manage_repository: Gestionar repositorio
   permission_manage_subtasks: Gestionar subtareas
   permission_manage_versions: Administrar versiones
@@ -1926,7 +1927,7 @@ es:
   permission_move_work_packages: Mover paquetes de trabajo
   permission_protect_wiki_pages: Proteger páginas wiki
   permission_rename_wiki_pages: Renombrar páginas wiki
-  permission_save_queries: Guardar consultas
+  permission_save_queries: Save views
   permission_select_project_modules: Seleccionar módulos de proyecto
   permission_manage_types: Seleccionar Tipos
   permission_view_calendar: Ver calendario

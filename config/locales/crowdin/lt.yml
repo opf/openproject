@@ -86,6 +86,8 @@ lt:
     tab:
       no_results_title_text: Nėra jokių pasirinktinų laukų.
       no_results_content_text: Sukurti naują pasirinktinį lauką
+  concatenation:
+    single: or
   deprecations:
     old_timeline:
       replacement: Šis laiko juostos modulis buvo pakeistas nauju, kuris integruotas
@@ -481,7 +483,7 @@ lt:
             project:
               error_not_found: nerasta
             public:
-              error_unauthorized: "- Vartotojas neturi teisių viešoms užklausoms kurti."
+              error_unauthorized: "- The user has no permission to create public views."
           group_by_hierarchies_exclusive: yra nesuderinamas su grupavimu pagal '%{group_by}'.
             Jūs negalite įjungti abiejų.
           filters:
@@ -1921,7 +1923,7 @@ lt:
   permission_manage_members: Valdyti narius
   permission_manage_news: Valdyti naujienas
   permission_manage_project_activities: Valdyti projekto veiklas
-  permission_manage_public_queries: Valdyti viešas užklausas
+  permission_manage_public_queries: Manage public views
   permission_manage_repository: Valdyti repozitoriją
   permission_manage_subtasks: Valdyti darbų dalis
   permission_manage_versions: Valdyti versijas
@@ -1930,7 +1932,7 @@ lt:
   permission_move_work_packages: Perkelti darbų paketus
   permission_protect_wiki_pages: Apsaugoti wiki puslapius
   permission_rename_wiki_pages: Pervadinti wiki puslapius
-  permission_save_queries: Išsaugoti užklausas
+  permission_save_queries: Save views
   permission_select_project_modules: Parinkti projekto modulius
   permission_manage_types: Pasirinkti tipus
   permission_view_calendar: Peržiūrėti kalendorių

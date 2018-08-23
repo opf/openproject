@@ -86,6 +86,8 @@ ro:
     tab:
       no_results_title_text: În acest moment nu există câmpuri personalizate.
       no_results_content_text: Creare câmp personalizat nou
+  concatenation:
+    single: or
   deprecations:
     old_timeline:
       replacement: This timelines module is being replaced by the interactive timeline
@@ -490,7 +492,7 @@ ro:
             project:
               error_not_found: not found
             public:
-              error_unauthorized: "- The user has no permission to create public queries."
+              error_unauthorized: "- The user has no permission to create public views."
           group_by_hierarchies_exclusive: is mutually exclusive with group by '%{group_by}'.
             You cannot activate both.
           filters:
@@ -1899,7 +1901,7 @@ ro:
   permission_manage_members: Gestionare participanți
   permission_manage_news: Gestionare știri
   permission_manage_project_activities: Gestionare activități proiect
-  permission_manage_public_queries: Gestionare interogări publice
+  permission_manage_public_queries: Manage public views
   permission_manage_repository: Gestionare arhivă
   permission_manage_subtasks: Gestionare subactivități
   permission_manage_versions: Gestionare versiuni
@@ -1908,7 +1910,7 @@ ro:
   permission_move_work_packages: Mutare pachete de lucru
   permission_protect_wiki_pages: Protejare pagini wiki
   permission_rename_wiki_pages: Redenumire pagini wiki
-  permission_save_queries: Salvare interogări
+  permission_save_queries: Save views
   permission_select_project_modules: Selectare module proiect
   permission_manage_types: Selectare tipuri
   permission_view_calendar: Vizualizare calendar

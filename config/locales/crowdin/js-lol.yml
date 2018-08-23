@@ -100,6 +100,7 @@ lol:
       internal: crwdns98376:0crwdne98376:0
       cannot_save_changes_with_message: crwdns99001:0%{error}crwdne99001:0
       query_saving: crwdns99083:0crwdne99083:0
+      embedded_table_loading: crwdns99123:0%{message}crwdne99123:0
     filter:
       description:
         text_open_filter: crwdns98377:0crwdne98377:0
@@ -418,6 +419,9 @@ lol:
         quarters: crwdns98649:0crwdne98649:0
         years: crwdns98650:0crwdne98650:0
         slider: crwdns98651:0crwdne98651:0
+        description: 'crwdns99124:0crwdne99124:0
+
+'
     tl_toolbar:
       zooms: crwdns98652:0crwdne98652:0
       outlines: crwdns98653:0crwdne98653:0

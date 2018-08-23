@@ -72,6 +72,8 @@ zh:
     tab:
       no_results_title_text: 目前没有自定义字段。
       no_results_content_text: 创建新的自定义字段
+  concatenation:
+    single: or
   deprecations:
     old_timeline:
       replacement: 此时间线模块已由嵌入工作包模块中的交互式时间线模块取代。
@@ -433,7 +435,7 @@ zh:
             project:
               error_not_found: 未找到
             public:
-              error_unauthorized: "- 此用户没有创建公共查询的权限。"
+              error_unauthorized: "- The user has no permission to create public views."
           group_by_hierarchies_exclusive: 与按照“%{group_by}”分组的群组互相排斥。您无法将它们都激活。
           filters:
             custom_fields:
@@ -1742,7 +1744,7 @@ zh:
   permission_manage_members: 管理成员
   permission_manage_news: 管理新闻
   permission_manage_project_activities: 管理项目活动
-  permission_manage_public_queries: 管理公共查询
+  permission_manage_public_queries: Manage public views
   permission_manage_repository: 管理代码库
   permission_manage_subtasks: 管理子任务
   permission_manage_versions: 管理版本
@@ -1751,7 +1753,7 @@ zh:
   permission_move_work_packages: 移动工作包
   permission_protect_wiki_pages: 保护维基页面
   permission_rename_wiki_pages: 重命名 wiki 网页
-  permission_save_queries: 保存查询
+  permission_save_queries: Save views
   permission_select_project_modules: 选择项目模块
   permission_manage_types: 选择类型
   permission_view_calendar: 查看日历

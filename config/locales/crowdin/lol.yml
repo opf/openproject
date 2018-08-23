@@ -71,6 +71,8 @@ lol:
     tab:
       no_results_title_text: crwdns96408:0crwdne96408:0
       no_results_content_text: crwdns96409:0crwdne96409:0
+  concatenation:
+    single: crwdns99119:0crwdne99119:0
   deprecations:
     old_timeline:
       replacement: crwdns96410:0crwdne96410:0
@@ -430,7 +432,7 @@ lol:
             project:
               error_not_found: crwdns96644:0crwdne96644:0
             public:
-              error_unauthorized: crwdns96645:0crwdne96645:0
+              error_unauthorized: crwdns99120:0crwdne99120:0
           group_by_hierarchies_exclusive: crwdns96646:0%{group_by}crwdne96646:0
           filters:
             custom_fields:
@@ -1728,7 +1730,7 @@ lol:
   permission_manage_members: crwdns97753:0crwdne97753:0
   permission_manage_news: crwdns97754:0crwdne97754:0
   permission_manage_project_activities: crwdns97755:0crwdne97755:0
-  permission_manage_public_queries: crwdns97756:0crwdne97756:0
+  permission_manage_public_queries: crwdns99121:0crwdne99121:0
   permission_manage_repository: crwdns97757:0crwdne97757:0
   permission_manage_subtasks: crwdns97758:0crwdne97758:0
   permission_manage_versions: crwdns97759:0crwdne97759:0
@@ -1737,7 +1739,7 @@ lol:
   permission_move_work_packages: crwdns97762:0crwdne97762:0
   permission_protect_wiki_pages: crwdns97763:0crwdne97763:0
   permission_rename_wiki_pages: crwdns97764:0crwdne97764:0
-  permission_save_queries: crwdns97765:0crwdne97765:0
+  permission_save_queries: crwdns99122:0crwdne99122:0
   permission_select_project_modules: crwdns97766:0crwdne97766:0
   permission_manage_types: crwdns97767:0crwdne97767:0
   permission_view_calendar: crwdns97768:0crwdne97768:0

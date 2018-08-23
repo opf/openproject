@@ -72,6 +72,8 @@ zh-TW:
     tab:
       no_results_title_text: 目前沒有自定義的欄位
       no_results_content_text: 建立一個新的自定義欄位
+  concatenation:
+    single: or
   deprecations:
     old_timeline:
       replacement: 此時間軸模組正在被嵌入在工作項目模組的互動式時間軸所取代。
@@ -433,7 +435,7 @@ zh-TW:
             project:
               error_not_found: 未找到
             public:
-              error_unauthorized: "- 此用戶沒有建立公共查詢的權限。"
+              error_unauthorized: "- The user has no permission to create public views."
           group_by_hierarchies_exclusive: 與按照 "%{group_by}" 分組的群組相互排斥。不能同時啟動兩者。
           filters:
             custom_fields:
@@ -1744,7 +1746,7 @@ zh-TW:
   permission_manage_members: 管理成員
   permission_manage_news: 管理消息
   permission_manage_project_activities: 管理專案活動
-  permission_manage_public_queries: 管理公開查詢
+  permission_manage_public_queries: Manage public views
   permission_manage_repository: 管理版本庫
   permission_manage_subtasks: 管理子任務
   permission_manage_versions: 管理版本
@@ -1753,7 +1755,7 @@ zh-TW:
   permission_move_work_packages: 移動工作項目
   permission_protect_wiki_pages: 專案維基頁面
   permission_rename_wiki_pages: 重新命名維基頁面
-  permission_save_queries: 儲存查詢
+  permission_save_queries: Save views
   permission_select_project_modules: 選擇專案的模組
   permission_manage_types: 選擇類型
   permission_view_calendar: 檢視行事曆

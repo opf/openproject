@@ -53,10 +53,11 @@ describe WorkPackagePolicy, type: :controller do
         expect(subject).to be_truthy
       end
 
-      it 'is true if the user has the add_work_package_notes permission in the project' do
+      # used to be truthy
+      it 'is false if the user has only the add_work_package_notes permission in the project' do
         allow(user).to receive(:allowed_to?).with(:add_work_package_notes, project)
           .and_return true
-        expect(subject).to be_truthy
+        expect(subject).to be_falsey
       end
 
       it 'is false if the user has the edit_work_package permission in the project' do
@@ -65,7 +66,7 @@ describe WorkPackagePolicy, type: :controller do
         expect(subject).to be_truthy
       end
 
-      it 'is false if the user has the permissions but the work package is unperisted' do
+      it 'is false if the user has the permissions but the work package is unpersisted' do
         allow(user).to receive(:allowed_to?).with(:edit_work_packages, project)
           .and_return true
         allow(user).to receive(:allowed_to?).with(:add_work_package_notes, project)

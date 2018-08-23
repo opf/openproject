@@ -58,7 +58,7 @@ ja:
     description_subwork_package: '作業項目の子 #%{id}'
     editor:
       preview: プレビューモードの切り替え
-      error_saving_failed: 'Saving the document failed with the following error: %{e}'
+      error_saving_failed: '次のエラーで文書を保存するのに失敗しました: %{e}'
       macro:
         child_pages:
           button: 子ページへのリンク
@@ -100,6 +100,7 @@ ja:
       internal: 内部エラーが発生しました。
       cannot_save_changes_with_message: '次のエラーのために変更を保存できません: %{error}'
       query_saving: ビューを保存できませんでした。
+      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
     filter:
       description:
         text_open_filter: "'ALT' と矢印キーでこのフィルタを開きます。"
@@ -421,6 +422,10 @@ ja:
         quarters: 四半期ごと
         years: " 年"
         slider: ズームスライダー
+        description: 'Either select the initial zoom level that should be shown or
+          check the auto zoom box to adjust the gantt chart to fit the visible area.
+
+'
     tl_toolbar:
       zooms: ズームレベル
       outlines: 階層レベル

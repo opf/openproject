@@ -315,6 +315,8 @@ en:
         repository: "Repository"
       comment:
         commented: "Commented" # an object that this comment belongs to
+      custom_action:
+        actions: "Actions"
       custom_field:
         default_value: "Default value"
         editable: "Editable"
@@ -916,7 +918,7 @@ en:
   enumeration_reported_project_statuses: "Reported project status"
 
   error_auth_source_sso_failed: "Single Sign-On (SSO) for user '%{value}' failed"
-  error_can_not_archive_project: "This project cannot be archived"
+  error_can_not_archive_project: "This project cannot be archived: There is at least one work package assigned to a version defined in this project."
   error_can_not_delete_entry: "Unable to delete entry"
   error_can_not_delete_custom_field: "Unable to delete custom field"
   error_can_not_delete_type: "This type contains work packages and cannot be deleted."

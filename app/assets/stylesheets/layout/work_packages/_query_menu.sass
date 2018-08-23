@@ -46,10 +46,12 @@ $wp-query-menu-search-container-height: 35px
     display: inline-block
     width: 100%
     white-space: normal
+    font-size: $main-menu-font-size
 
   .wp-query-menu--search-container
-    padding-top: 15px
+    padding-top: 10px
     overflow: hidden
+    @include varprop(color, main-menu-font-color)
 
     // Specific fix for Firefox
     body.-browser-firefox &
@@ -62,13 +64,12 @@ $wp-query-menu-search-container-height: 35px
     .ui-autocomplete--category
       width: 100%
       padding-left: 25px
-      margin: 2px 0
       line-height: $menu-item-line-height
       height: $menu-item-line-height
       font-weight: normal
       text-transform: uppercase
       // border-bottom: 1px solid $main-menu-border-color
-      font-size: 0.8rem
+      font-size: 0.7rem
       @include varprop(color, content-icon-link-pressed-color)
       cursor: pointer
 
@@ -84,24 +85,16 @@ $wp-query-menu-search-container-height: 35px
 
   // Category collapsible links
   .wp-query-menu--category-icon
-    font-family: "openproject-icon-font" !important
-    font-style: normal !important
-    font-weight: normal !important
-    font-variant: normal !important
-    text-transform: none !important
-    text-decoration: none !important
+    @include icon-font-common
     // Overridden due to main menu :/
-    padding: initial !important
-    font-size: 0.6rem !important
-    line-height: $menu-item-line-height !important
-    height: $menu-item-line-height !important
-    margin: 0px 8px !important
-    position: absolute !important
-    color: $content-icon-link-pressed-color !important
-
-    speak: none
-    -webkit-font-smoothing: antialiased
-    -moz-osx-font-smoothing: grayscale
+    padding: initial
+    font-size: 0.6rem
+    line-height: $menu-item-line-height
+    height: $menu-item-line-height
+    margin: 0px 8px
+    position: absolute
+    color: $content-icon-link-pressed-color
+    z-index: 1
     border: none
     background: initial
 
@@ -134,33 +127,36 @@ $wp-query-menu-search-container-height: 35px
   // Link within element wrapper
   .wp-query-menu--item-link
     @include text-shortener
+    @include varprop(color, main-menu-font-color)
     padding: 0px 2px 0px 5px !important
     margin: 0
     line-height: 30px
     height: 30px !important
 
-    &:hover, &:focus
+    &:hover, &:focus, &:active
       @include varprop(background, main-menu-bg-hover-background)
 
   // Rule complexed for specificity issues
   input[type="text"].wp-query-menu--search-input
-    box-sizing: border-box
-    margin: 0px auto
+    @include varprop(color, main-menu-font-color)
     width: 100%
     height: 35px
-    line-height: $menu-item-line-height
-    border: 1px solid #cacaca
-    border-radius: 25px
+    border: 1px solid rgba(231, 231, 231, 0.15)
+    border-radius: 3px
     box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15)
-    color: #222222
+    background-color: rgba(0, 0, 0, 0.15)
     padding: 0px 30px 0px 10px
 
     // Hide the little x to remove input where exists + supported
     &::-webkit-search-cancel-button
       display: none
+    &::placeholder
+      @include varprop(color, main-menu-font-color)
+      opacity: 0.5
 
   .wp-query-menu--search-icon
     position: absolute
     top:   5px
     right: 10px
-    color: #999999
+    @include varprop(color, main-menu-font-color)
+    opacity: 0.5

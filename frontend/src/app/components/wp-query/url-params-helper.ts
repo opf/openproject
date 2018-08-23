@@ -74,13 +74,14 @@ export class UrlParamsHelperService {
 
     if (!!query.timelineVisible) {
       paramsData.tv = query.timelineVisible;
+
+      if (!_.isEmpty(query.timelineLabels)) {
+        paramsData.tll = JSON.stringify(query.timelineLabels);
+      }
+
+      paramsData.tzl = query.timelineZoomLevel;
     }
 
-    if (!_.isEmpty(query.timelineLabels)) {
-      paramsData.tll = JSON.stringify(query.timelineLabels);
-    }
-
-    paramsData.tzl = query.timelineZoomLevel;
     paramsData.hi = !!query.showHierarchies;
     paramsData.g = _.get(query.groupBy, 'id', '');
     if (query.sortBy) {
@@ -134,13 +135,14 @@ export class UrlParamsHelperService {
     }
     if (!!properties.tv) {
       queryData.timelineVisible = properties.tv;
-    }
-    if (!!properties.tll) {
-      queryData.timelineLabels = properties.tll;
-    }
 
-    if (properties.tzl) {
-      queryData.timelineZoomLevel = properties.tzl;
+      if (!!properties.tll) {
+        queryData.timelineLabels = properties.tll;
+      }
+
+      if (properties.tzl) {
+        queryData.timelineZoomLevel = properties.tzl;
+      }
     }
 
     if (properties.hi === false || properties.hi === true) {
@@ -192,7 +194,12 @@ export class UrlParamsHelperService {
     queryData["columns[]"] = this.buildV3GetColumnsFromQueryResource(query);
     queryData.showSums = query.sums;
     queryData.timelineVisible = !!query.timelineVisible;
-    queryData.timelineZoomLevel = query.timelineZoomLevel;
+
+    if (!!query.timelineVisible) {
+      queryData.timelineZoomLevel = query.timelineZoomLevel;
+      queryData.timelineLabels = JSON.stringify(query.timelineLabels);
+    }
+
     queryData.showHierarchies = !!query.showHierarchies;
     queryData.groupBy = _.get(query.groupBy, 'id', '');
 

@@ -84,6 +84,8 @@ hu:
     tab:
       no_results_title_text: Jelenleg nincsenek egyéni mezők.
       no_results_content_text: Új egyéni mező létrehozása
+  concatenation:
+    single: or
   deprecations:
     old_timeline:
       replacement: Ezt az idővonalak modult egy munkacsomagok modulba ágyazott interaktív
@@ -478,8 +480,7 @@ hu:
             project:
               error_not_found: nem található
             public:
-              error_unauthorized: "- A felhasználó nem jogosult nyilvános lekérdezéseket
-                létrehozni."
+              error_unauthorized: "- The user has no permission to create public views."
           group_by_hierarchies_exclusive: kölcsönösen kizárja a csoportot a '%{group_by}'
             csoporttal. Nem aktiválhatja mindkettőt.
           filters:
@@ -1877,7 +1878,7 @@ hu:
   permission_manage_members: Tagok kezelése
   permission_manage_news: Hírek kezelése
   permission_manage_project_activities: Projekt tevékenységek kezelése
-  permission_manage_public_queries: Nyilvános lekérdezések kezelése
+  permission_manage_public_queries: Manage public views
   permission_manage_repository: Csomagtároló kezelése
   permission_manage_subtasks: Altevékenységek kezelése
   permission_manage_versions: Verziók kezelése
@@ -1886,7 +1887,7 @@ hu:
   permission_move_work_packages: Munkacsomagok áthelyezése
   permission_protect_wiki_pages: Védett wiki oldalak
   permission_rename_wiki_pages: Wiki oldalak átnevezése
-  permission_save_queries: Lekérdezések mentése
+  permission_save_queries: Save views
   permission_select_project_modules: Projekt modulok kiválasztása
   permission_manage_types: Jelölje ki a típust
   permission_view_calendar: A naptár megtekintése

@@ -86,6 +86,8 @@ ca:
     tab:
       no_results_title_text: Actualment no hi ha camps personalitzats.
       no_results_content_text: Crear un camp personalitzat nou
+  concatenation:
+    single: or
   deprecations:
     old_timeline:
       replacement: This timelines module is being replaced by the interactive timeline
@@ -490,7 +492,7 @@ ca:
             project:
               error_not_found: not found
             public:
-              error_unauthorized: "- The user has no permission to create public queries."
+              error_unauthorized: "- The user has no permission to create public views."
           group_by_hierarchies_exclusive: is mutually exclusive with group by '%{group_by}'.
             You cannot activate both.
           filters:
@@ -1896,7 +1898,7 @@ ca:
   permission_manage_members: Gestionar els membres
   permission_manage_news: Gestionar noticies
   permission_manage_project_activities: Gestionar les activitats del projecte
-  permission_manage_public_queries: Gestionar consultes públiques
+  permission_manage_public_queries: Manage public views
   permission_manage_repository: Gestionar el repositori
   permission_manage_subtasks: Gestionar subtasques
   permission_manage_versions: Gestionar les versions
@@ -1905,7 +1907,7 @@ ca:
   permission_move_work_packages: Moure paquets de treball
   permission_protect_wiki_pages: Protegir les pàgines wiki
   permission_rename_wiki_pages: Canviar el nom de les pàgines wiki
-  permission_save_queries: Desar consultes
+  permission_save_queries: Save views
   permission_select_project_modules: Selecciona els mòduls del projecte
   permission_manage_types: Seleccioneu tipus
   permission_view_calendar: Visualitzar calendari

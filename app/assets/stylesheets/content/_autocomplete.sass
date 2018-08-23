@@ -87,7 +87,8 @@ div.autocomplete
     &.ui-state-active
       border: none
       @include varprop(background, drop-down-selected-bg-color)
-      @include varprop(color, drop-down-selected-font-color)
+      a
+        @include varprop(color, drop-down-selected-font-color)
 
   &.-inplace
     position: relative

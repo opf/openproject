@@ -36,7 +36,7 @@ $hamburger-width: 50px
   left: calc(50% - 230px / 2)
 
   .home-link
-    margin-top: 14px
+    margin-top: 15px
     display: block
     background: $header-home-link-bg
     background-size: 140px
@@ -93,15 +93,14 @@ $hamburger-width: 50px
     > ul
       min-width: 270px
       padding: 6px 0
-      border: 2px solid $header-drop-down-border-color
+      border: 1px solid $header-drop-down-border-color
       border-top: 0
       background-color: $header-drop-down-bg-color
       li
         float: none
     > ul.drop-down--projects
       width: 400px
-      left: -2px
-      box-shadow: none
+      left: 0px
 
   li.drop-down
     &:hover
@@ -125,7 +124,7 @@ $hamburger-width: 50px
     li
       > a
         color: $header-drop-down-item-font-color
-        &:hover
+        &:hover, &:focus
           @include varprop(background, drop-down-hover-bg-color)
           @include varprop(color, drop-down-hover-font-color)
 

@@ -107,6 +107,7 @@ es:
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
         error: %{error}'
       query_saving: The view could not be saved.
+      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
     filter:
       description:
         text_open_filter: Abrir este filtro con 'ALT' y las flechas de dirección.
@@ -452,6 +453,10 @@ es:
         quarters: Cuatrimestres
         years: Años
         slider: Deslizador del Zoom
+        description: 'Either select the initial zoom level that should be shown or
+          check the auto zoom box to adjust the gantt chart to fit the visible area.
+
+'
     tl_toolbar:
       zooms: nivel de Zoom
       outlines: Nivel de jerarquía
