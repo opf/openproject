@@ -374,7 +374,7 @@ en:
         type: "Type"
       type:
         attribute_groups: ''
-        is_in_roadmap: "In roadmap"
+        is_in_roadmap: "Displayed in roadmap by default"
         is_milestone: "Is milestone"
         color: "Color"
       user:
