@@ -56,6 +56,8 @@ module OpenProject
       'h3-font-color'                                        => "$body-font-color",
       'h4-font-size'                                         => "calc($h3-font-size * 0.75)",
       'h4-font-color'                                        => "$body-font-color",
+      'list-side-margin'                                     => "40px",
+      'list-nested-margin'                                   => "30px",
       'header-height'                                        => "55px",
       'header-height-mobile'                                 => "55px",
       'header-bg-color'                                      => "$primary-color",
