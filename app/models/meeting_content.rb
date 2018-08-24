@@ -18,6 +18,9 @@
 # See doc/COPYRIGHT.md for more details.
 #++
 
+# Because of the WikiDiff class defined therein
+require 'wiki_page'
+
 class MeetingContent < ActiveRecord::Base
   belongs_to :meeting
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
@@ -49,7 +52,7 @@ class MeetingContent < ActiveRecord::Base
     content_to = journals.find_by_version(version_to)
     content_from = journals.find_by_version(version_from)
 
-    (content_to && content_from) ? WikiPage::WikiDiff.new(content_to, content_from) : nil
+    (content_to && content_from) ? ::WikiDiff.new(content_to, content_from) : nil
   end
 
   def at_version(version)
