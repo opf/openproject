@@ -49,6 +49,7 @@ module WorkPackages
       with_unchanged_project_id do
         next if @can.allowed?(model, :edit)
         next user_allowed_to_change_parent if @can.allowed?(model, :manage_subtasks)
+        next if allowed_journal_addition?
 
         errors.add :base, :error_unauthorized
       end
@@ -89,6 +90,10 @@ module WorkPackages
       else
         yield
       end
+    end
+
+    def allowed_journal_addition?
+      model.changes.empty? && model.journal_notes && can.allowed?(model, :comment)
     end
   end
 end

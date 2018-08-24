@@ -34,7 +34,7 @@ describe WorkPackages::UpdateContract do
   let(:work_package) { FactoryBot.create(:work_package, project: project) }
   let(:user) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
-  let(:permissions) { [:view_work_packages, :edit_work_packages] }
+  let(:permissions) { %i[view_work_packages edit_work_packages] }
 
   subject(:contract) { described_class.new(work_package, user) }
 
@@ -71,7 +71,9 @@ describe WorkPackages::UpdateContract do
   end
 
   describe 'authorization' do
+    let(:attributes) { {} }
     before do
+      work_package.attributes = attributes
       contract.validate
     end
 
@@ -90,6 +92,26 @@ describe WorkPackages::UpdateContract do
 
       it { expect(contract.errors.symbols_for(:base)).to include(:error_unauthorized) }
     end
+
+    context 'only comment permission' do
+      let(:permissions) { %i[view_work_packages add_work_package_notes] }
+
+      context 'when only adding a journal' do
+        let(:attributes) { { journal_notes: 'some notes' } }
+
+        it 'is valid' do
+          expect(contract.errors).to be_empty
+        end
+      end
+
+      context 'when changing more than a journal' do
+        let(:attributes) { { journal_notes: 'some notes', subject: 'blubs' } }
+
+        it 'is invalid' do
+          expect(contract.errors.symbols_for(:base)).to include(:error_unauthorized)
+        end
+      end
+    end
   end
 
   describe 'project_id' do
@@ -98,9 +120,9 @@ describe WorkPackages::UpdateContract do
 
     before do
       FactoryBot.create :member,
-                         user: user,
-                         project: target_project,
-                         roles: [FactoryBot.create(:role, permissions: target_permissions)]
+                        user: user,
+                        project: target_project,
+                        roles: [FactoryBot.create(:role, permissions: target_permissions)]
 
       work_package.project = target_project
 
@@ -132,7 +154,7 @@ describe WorkPackages::UpdateContract do
     end
 
     context 'if the user has edit and subtasks permissions' do
-      let(:permissions) { [:edit_work_packages, :view_work_packages, :manage_subtasks] }
+      let(:permissions) { %i[edit_work_packages view_work_packages manage_subtasks] }
 
       it('is valid') do
         expect(contract.errors).to be_empty
@@ -155,7 +177,7 @@ describe WorkPackages::UpdateContract do
     end
 
     context 'with manage_subtasks permission' do
-      let(:permissions) { [:view_work_packages, :manage_subtasks] }
+      let(:permissions) { %i[view_work_packages manage_subtasks] }
 
       it('is valid') do
         expect(contract.errors).to be_empty
