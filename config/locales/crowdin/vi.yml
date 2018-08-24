@@ -218,8 +218,6 @@ vi:
           no_results_title_text: Không có phân loại.
         version:
           no_results_title_text: There are currently no versions available.
-    x_children:
-      other: "%{count} tác phẩm gói phần mềm trẻ em"
   label_invitation: Invitation
   account:
     delete: Xoá tài khoản
@@ -365,6 +363,7 @@ vi:
       type:
         attribute_groups: ''
         is_in_roadmap: In roadmap
+        is_default: Activated for new projects by default
         is_milestone: Is milestone
         color: Màu sắc
       user:
@@ -950,7 +949,8 @@ vi:
   enumeration_system_activity: Hoạt động hệ thống
   enumeration_reported_project_statuses: Tình trạng dự án đã báo cáo
   error_auth_source_sso_failed: Single Sign-On (SSO) for user '%{value}' failed
-  error_can_not_archive_project: Dự án này không thể lưu trữ được
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Không thể xoá
   error_can_not_delete_custom_field: Không thể xóa mục tùy biến
   error_can_not_delete_type: Kiểu này chứa các work package và không thể bị xóa.
@@ -1531,7 +1531,6 @@ vi:
   label_total: Tổng cộng
   label_type_new: Kiểu mới
   label_type_plural: Các loại
-  label_type_default_new_projects: Type activated for new projects by default
   label_ui: Giao diện người dùng
   label_update_work_package_done_ratios: Cập nhật tỉ lệ hoàn thành work package
   label_updated_time: Cập nhật cách đây %{value}
@@ -2693,3 +2692,4 @@ vi:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Schema
+  label_type_default_new_projects: Type activated for new projects by default

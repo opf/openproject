@@ -691,7 +691,8 @@ id:
         title: Mengkonfirmasi penghapusan %{label}
         text: Apakah Anda yakin ingin menghapus %{label} berikut ?
         has_children: 'Paket kerja memiliki %{childUnits}:'
-        deletes_children: Semua turunan paket kerja juga akan dihapus.
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: Berhasil dibuat.
     notice_successful_delete: Berhasil dihapus.
     notice_successful_update: Berhasil diperbarui.

@@ -199,8 +199,6 @@ zh:
           no_results_title_text: 目前有可用的类型。
         version:
           no_results_title_text: 目前有可用的版本。
-    x_children:
-      other: "%{count} work package children"
   label_invitation: 邀请
   account:
     delete: 删除帐户
@@ -263,7 +261,7 @@ zh:
       comment:
         commented: 评论
       custom_action:
-        actions: Actions
+        actions: 操作
       custom_field:
         default_value: 默认值
         editable: 可编辑
@@ -322,6 +320,7 @@ zh:
       type:
         attribute_groups: ''
         is_in_roadmap: 在Roadmap
+        is_default: Activated for new projects by default
         is_milestone: 是里程碑
         color: 颜色
       user:
@@ -882,7 +881,8 @@ zh:
   enumeration_system_activity: 系统活动
   enumeration_reported_project_statuses: 报告的项目状态
   error_auth_source_sso_failed: 用户 "%{value}" 的单次登录 (SSO) 失败
-  error_can_not_archive_project: 此项目不能存档
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: 无法删除条目
   error_can_not_delete_custom_field: 无法删除自定义字段
   error_can_not_delete_type: 这种类型包含工作包，不能被删除。
@@ -1439,7 +1439,6 @@ zh:
   label_total: 共
   label_type_new: 新类型
   label_type_plural: 类型
-  label_type_default_new_projects: 默认情况下为新项目激活的类型
   label_ui: 用户界面
   label_update_work_package_done_ratios: 更新工作包完成比率
   label_updated_time: "%{value} 前更新"
@@ -2434,3 +2433,4 @@ zh:
       writing_read_only_attributes: 你不能写入只读属性。
     resources:
       schema: 方案
+  label_type_default_new_projects: 默认情况下为新项目激活的类型

@@ -648,7 +648,8 @@ zh:
         title: 确认删除%{label}
         text: 是否确实要删除以下%{label}？
         has_children: '工作包有 %{childUnits}:'
-        deletes_children: 所有子工作包也将被删除。
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: 成功创建。
     notice_successful_delete: 成功删除。
     notice_successful_update: 成功更新。

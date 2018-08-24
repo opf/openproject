@@ -188,6 +188,8 @@ sk:
     x_descendants:
       one: One descendant work package
       other: "%{count} work package descendants"
+      few: "%{count} work package descendants"
+      many: "%{count} work package descendants"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -225,11 +227,6 @@ sk:
           no_results_title_text: Momentálne nie sú k dispozícii žiadne typy.
         version:
           no_results_title_text: V súčasnosti nie sú k dispozícii žiadne verzie.
-    x_children:
-      one: One child work package
-      few: "%{count} work package children"
-      many: "%{count} work package children"
-      other: "%{count} work package children"
   label_invitation: Pozvánka
   account:
     delete: Vymazať účet
@@ -313,7 +310,7 @@ sk:
       comment:
         commented: Komentované
       custom_action:
-        actions: Actions
+        actions: Akcie
       custom_field:
         default_value: Predvolená hodnota
         editable: Editovateľné
@@ -373,6 +370,7 @@ sk:
       type:
         attribute_groups: ''
         is_in_roadmap: V pláne
+        is_default: Activated for new projects by default
         is_milestone: Je medzník
         color: Farba
       user:
@@ -994,7 +992,8 @@ sk:
   enumeration_system_activity: Systémové aktivity
   enumeration_reported_project_statuses: Nahlásený stav projektu
   error_auth_source_sso_failed: Single Sign-On (SSO) for user '%{value}' failed
-  error_can_not_archive_project: Tento projekt nie je možné archivovať
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Záznam sa nedá odstrániť
   error_can_not_delete_custom_field: Nepodarilo sa odstrániť vlastné pole
   error_can_not_delete_type: Tento typ obsahuje pracovné balíky a nedá sa odstrániť.
@@ -1574,7 +1573,6 @@ sk:
   label_total: Dohromady
   label_type_new: Nový typ
   label_type_plural: Typy
-  label_type_default_new_projects: Type activated for new projects by default
   label_ui: Používateľské rozhranie
   label_update_work_package_done_ratios: Aktualizovať štatistiky pracovných balíčkov
   label_updated_time: Aktualizované pred %{value}
@@ -2760,3 +2758,4 @@ sk:
         na čítanie.
     resources:
       schema: Schéma
+  label_type_default_new_projects: Type activated for new projects by default

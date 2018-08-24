@@ -703,7 +703,8 @@ fr:
         title: Confirmer la suppression de %{label}
         text: Voulez-vous vraiment supprimer le %{label} suivant ?
         has_children: 'Le lot de travaux a %{childUnits} :'
-        deletes_children: Tous les lots de travaux enfants seront également supprimés.
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: Création réussie.
     notice_successful_delete: Suppression réussie.
     notice_successful_update: Mise à jour réussie.

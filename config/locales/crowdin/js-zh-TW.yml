@@ -649,7 +649,8 @@ zh-TW:
         title: 確認刪除 %{label}
         text: 您確定要刪除以下 %{label}？
         has_children: '此工作項目包含 %{childUnits}:'
-        deletes_children: 所有的子工作項目將會被一併刪除。
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: 建立成功
     notice_successful_delete: 刪除成功
     notice_successful_update: 更新成功

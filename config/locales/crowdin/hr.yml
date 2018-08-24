@@ -185,6 +185,7 @@ hr:
     x_descendants:
       one: One descendant work package
       other: "%{count} work package descendants"
+      few: "%{count} work package descendants"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -218,10 +219,6 @@ hr:
           no_results_title_text: Trenutno nema dostupnih tipova.
         version:
           no_results_title_text: Trenutno ne postoje dostupne verzije projekta.
-    x_children:
-      one: One child work package
-      few: "%{count} work package children"
-      other: "%{count} work package children"
   label_invitation: Pozivnica
   account:
     delete: Izbriši korisnički račun
@@ -369,6 +366,7 @@ hr:
       type:
         attribute_groups: ''
         is_in_roadmap: U planu
+        is_default: Activated for new projects by default
         is_milestone: Je ključna točka
         color: Boja
       user:
@@ -969,7 +967,8 @@ hr:
   enumeration_system_activity: Aktivnost sustava
   enumeration_reported_project_statuses: Priopćeni statusi projekta
   error_auth_source_sso_failed: Single Sign-On (SSO) for user '%{value}' failed
-  error_can_not_archive_project: Ovaj projekt ne može biti arhiviran
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Unable to delete entry
   error_can_not_delete_custom_field: Nije moguće izbrisati prilagođeno polje
   error_can_not_delete_type: Ovaj tip sadrži radni paket i ne može biti izbrisan.
@@ -1550,8 +1549,6 @@ hr:
   label_total: Ukupno
   label_type_new: Novi tip
   label_type_plural: Tipovi
-  label_type_default_new_projects: Zadana početna vrijednost tipa radnog paketa za
-    novi projekt
   label_ui: Korisničko sučelje
   label_update_work_package_done_ratios: Ažuiraj omjer učinjenoga radnog paketa
   label_updated_time: Ažurirano prije %{value}
@@ -2734,3 +2731,5 @@ hr:
         je dopušteno samo čitanje.
     resources:
       schema: Shema
+  label_type_default_new_projects: Zadana početna vrijednost tipa radnog paketa za
+    novi projekt

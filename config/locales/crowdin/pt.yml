@@ -227,9 +227,6 @@ pt:
           no_results_title_text: Atualmente, não existem tipos disponíveis.
         version:
           no_results_title_text: Atualmente, não existem versões disponíveis.
-    x_children:
-      one: One child work package
-      other: "%{count} work package children"
   label_invitation: Convite
   account:
     delete: Eliminar conta
@@ -316,7 +313,7 @@ pt:
       comment:
         commented: Comentado
       custom_action:
-        actions: Actions
+        actions: Ações
       custom_field:
         default_value: Valor predefinido
         editable: Editável
@@ -376,6 +373,7 @@ pt:
       type:
         attribute_groups: ''
         is_in_roadmap: No roteiro
+        is_default: Activated for new projects by default
         is_milestone: É um marco
         color: Cor
       user:
@@ -966,7 +964,8 @@ pt:
   enumeration_reported_project_statuses: Estado do projeto reportado
   error_auth_source_sso_failed: Single Sign-On (SSO) para o utilizador '%{value}'
     falhou
-  error_can_not_archive_project: Este projeto não pode ser arquivado
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Não é possível apagar a entrada
   error_can_not_delete_custom_field: Não é possível eliminar o campo personalizado
   error_can_not_delete_type: Este tipo contém pacotes de trabalho e não pode ser apagado.
@@ -1552,7 +1551,6 @@ pt:
   label_total: Total
   label_type_new: Novo tipo
   label_type_plural: Tipos
-  label_type_default_new_projects: Tipo ativado para novos projetos por padrão
   label_ui: Interface do utilizador
   label_update_work_package_done_ratios: Atualizar as percentagens completas do pacote
     de trabalho
@@ -2748,3 +2746,4 @@ pt:
         leitura.
     resources:
       schema: Esquema
+  label_type_default_new_projects: Tipo ativado para novos projetos por padrão

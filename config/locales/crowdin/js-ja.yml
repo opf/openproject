@@ -643,7 +643,8 @@ ja:
         title: "%{label} の削除を確認"
         text: 次の %{label} を削除してもよろしいですか?
         has_children: ワークパッケージは %{childUnits} あります。
-        deletes_children: すべての子ワークパッケージも削除されます。
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: 正常に作成しました。
     notice_successful_delete: 正常に削除しました。
     notice_successful_update: 正常に更新しました。

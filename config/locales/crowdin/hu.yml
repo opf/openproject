@@ -215,9 +215,6 @@ hu:
           no_results_title_text: Jelenleg nincs elérhető típus.
         version:
           no_results_title_text: Nincs elérhető verzió.
-    x_children:
-      one: One child work package
-      other: "%{count} work package children"
   label_invitation: Meghívó
   account:
     delete: Felhasználói hozzáférés törölése
@@ -303,7 +300,7 @@ hu:
       comment:
         commented: Hozzászólás
       custom_action:
-        actions: Actions
+        actions: Műveletek
       custom_field:
         default_value: Alap érték
         editable: Szerkeszthető
@@ -363,6 +360,7 @@ hu:
       type:
         attribute_groups: ''
         is_in_roadmap: Ütemtervben
+        is_default: Activated for new projects by default
         is_milestone: Mérföldkő
         color: Szín
       user:
@@ -951,7 +949,8 @@ hu:
   enumeration_system_activity: Rendszer tevékenység
   enumeration_reported_project_statuses: Projekt állapot beszámoló
   error_auth_source_sso_failed: Single Sign-On (SSO) a '%{value}' felhasználóval sikertelen
-  error_can_not_archive_project: Ezt a projektet nem lehet archiválni
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Bejegyzését nem lehet törölni
   error_can_not_delete_custom_field: Nem törölhető az egyéni mező
   error_can_not_delete_type: Ez a típus munkcsomagot  tartalmaz, és nem lehet törölni.
@@ -1535,7 +1534,6 @@ hu:
   label_total: Össszesen
   label_type_new: Új típus
   label_type_plural: Típus
-  label_type_default_new_projects: A típus aktiválva alapértelmezetten az új projekteknél
   label_ui: Felhasználói felület
   label_update_work_package_done_ratios: Frissítse a munkacsomag  elvégzett arányokat
   label_updated_time: Ezelőtt frissített %{value}
@@ -2708,3 +2706,4 @@ hu:
       writing_read_only_attributes: Nem írhat egy csak olvasható tulajdonságot.
     resources:
       schema: Séma
+  label_type_default_new_projects: A típus aktiválva alapértelmezetten az új projekteknél

@@ -187,6 +187,8 @@ he:
     x_descendants:
       one: One descendant work package
       other: "%{count} work package descendants"
+      two: "%{count} work package descendants"
+      many: "%{count} work package descendants"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -218,11 +220,6 @@ he:
           no_results_title_text: There are currently no types available.
         version:
           no_results_title_text: There are currently no versions available.
-    x_children:
-      one: One child work package
-      two: "%{count} work package children"
-      many: "%{count} work package children"
-      other: "%{count} work package children"
   label_invitation: Invitation
   account:
     delete: מחק חשבון
@@ -366,6 +363,7 @@ he:
       type:
         attribute_groups: ''
         is_in_roadmap: In roadmap
+        is_default: Activated for new projects by default
         is_milestone: Is milestone
         color: צבע
       user:
@@ -975,7 +973,8 @@ he:
   enumeration_system_activity: פעילות מערכת
   enumeration_reported_project_statuses: סטטוסים של הפרויקט המדווח
   error_auth_source_sso_failed: Single Sign-On (SSO) for user '%{value}' failed
-  error_can_not_archive_project: פרויקט זה לא יאוחסן בארכיון
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Unable to delete entry
   error_can_not_delete_custom_field: אין אפשרות למחוק שדה מותאם אישית
   error_can_not_delete_type: סוג זה מכיל חבילות עבודה, ואין יכול להמחק.
@@ -1550,7 +1549,6 @@ he:
   label_total: סה"כ
   label_type_new: סוג חדש
   label_type_plural: סוגים
-  label_type_default_new_projects: Type activated for new projects by default
   label_ui: ממשק משתמש
   label_update_work_package_done_ratios: Update work package done ratios
   label_updated_time: Updated %{value} ago
@@ -2723,3 +2721,4 @@ he:
       writing_read_only_attributes: אתה חייב שלא לכתוב תכונה לקריאה בלבד.
     resources:
       schema: סכימה
+  label_type_default_new_projects: Type activated for new projects by default

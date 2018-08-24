@@ -220,9 +220,6 @@ pt-BR:
           no_results_title_text: Atualmente, não há tipos disponíveis.
         version:
           no_results_title_text: Atualmente, não há versões disponíveis.
-    x_children:
-      one: Um pacote de trabalho filho
-      other: "%{count} pacotes de trabalho filho"
   label_invitation: Convite
   account:
     delete: Excluir conta
@@ -306,7 +303,7 @@ pt-BR:
       comment:
         commented: Comentado
       custom_action:
-        actions: Actions
+        actions: Ações
       custom_field:
         default_value: Valor padrão
         editable: Editável
@@ -366,6 +363,7 @@ pt-BR:
       type:
         attribute_groups: ''
         is_in_roadmap: No planejamento
+        is_default: Activated for new projects by default
         is_milestone: É marco
         color: Cor
       user:
@@ -954,7 +952,8 @@ pt-BR:
   enumeration_system_activity: Atividade do Sistema
   enumeration_reported_project_statuses: Situação relatada do projeto
   error_auth_source_sso_failed: Single Sign-On (SSO) para o usuário '%{value}' falhou
-  error_can_not_archive_project: Este projeto não pode ser arquivado
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Não é possível excluir a entrada
   error_can_not_delete_custom_field: Não é possível excluir o campo personalizado
   error_can_not_delete_type: Este tipo contém pacotes de trabalho e não pode ser excluído.
@@ -1538,7 +1537,6 @@ pt-BR:
   label_total: Total
   label_type_new: Novo tipo
   label_type_plural: Tipos
-  label_type_default_new_projects: Tipo ativado para novos projetos por padrão
   label_ui: Interface de usuário
   label_update_work_package_done_ratios: Atualizar % Terminado do pacote de trabalho
   label_updated_time: Atualizado há %{value} atrás
@@ -2725,3 +2723,4 @@ pt-BR:
       writing_read_only_attributes: Você não pode escrever um atributo somente leitura.
     resources:
       schema: Esquema
+  label_type_default_new_projects: Tipo ativado para novos projetos por padrão

@@ -187,6 +187,10 @@ ar:
     x_descendants:
       one: One descendant work package
       other: "%{count} work package descendants"
+      zero: "%{count} work package descendants"
+      two: "%{count} work package descendants"
+      few: "%{count} work package descendants"
+      many: "%{count} work package descendants"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -218,13 +222,6 @@ ar:
           no_results_title_text: لا يوجد حالياً أي أنواع متاحة.
         version:
           no_results_title_text: لا يوجد حاليا أي إصدارات متوفرة.
-    x_children:
-      zero: "%{count} work package children"
-      one: One child work package
-      two: "%{count} work package children"
-      few: "%{count} work package children"
-      many: "%{count} work package children"
-      other: "%{count} work package children"
   label_invitation: دعوة
   account:
     delete: حذف الحساب
@@ -366,6 +363,7 @@ ar:
       type:
         attribute_groups: ''
         is_in_roadmap: في خارطة الطريق
+        is_default: Activated for new projects by default
         is_milestone: هو مشروع رئيسي
         color: اللون
       user:
@@ -1018,7 +1016,8 @@ ar:
   enumeration_system_activity: نشاط النظام
   enumeration_reported_project_statuses: حالة للمشروع المبلغ عنه
   error_auth_source_sso_failed: Single Sign-On (SSO) for user '%{value}' failed
-  error_can_not_archive_project: لا يمكن ارشفة هذا المشروع
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Unable to delete entry
   error_can_not_delete_custom_field: غير قادر على حذف الحقل المخصص
   error_can_not_delete_type: هذا النوع يحتوي على مجموعة عمل ولا يمكن حذفه.
@@ -1597,7 +1596,6 @@ ar:
   label_total: إجمالي
   label_type_new: نوع جديد
   label_type_plural: الأنواع
-  label_type_default_new_projects: نوع المنشط لمشاريع جديدة بشكل افتراضي
   label_ui: واجهة المستخدم
   label_update_work_package_done_ratios: تحديث نسبة مهمات العمل التي تم إنجازها
   label_updated_time: قبل%{value} تحديث
@@ -2763,3 +2761,4 @@ ar:
       writing_read_only_attributes: لا يجب أن تكتب على سمة للقراءة فقط.
     resources:
       schema: مخطّط
+  label_type_default_new_projects: نوع المنشط لمشاريع جديدة بشكل افتراضي

@@ -199,8 +199,6 @@ zh-TW:
           no_results_title_text: 目前沒有可用的類型
         version:
           no_results_title_text: 目前沒有可用的版本號
-    x_children:
-      other: "%{count} work package children"
   label_invitation: 邀請
   account:
     delete: 刪除帳號
@@ -263,7 +261,7 @@ zh-TW:
       comment:
         commented: 已評論
       custom_action:
-        actions: Actions
+        actions: 操作
       custom_field:
         default_value: 預設值
         editable: 可編輯
@@ -322,6 +320,7 @@ zh-TW:
       type:
         attribute_groups: ''
         is_in_roadmap: 在路徑圖
+        is_default: Activated for new projects by default
         is_milestone: 是里程碑
         color: 顏色
       user:
@@ -884,7 +883,8 @@ zh-TW:
   enumeration_system_activity: 系統活動
   enumeration_reported_project_statuses: 報告的專案狀態
   error_auth_source_sso_failed: 單一登入 (SSO) 使用者 '%{value}' 失敗
-  error_can_not_archive_project: 這個專案無法被封存
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: 無法刪除項目
   error_can_not_delete_custom_field: 無法刪除自訂欄位
   error_can_not_delete_type: 這個類型還有工作項目在使用，無法刪除。
@@ -1441,7 +1441,6 @@ zh-TW:
   label_total: 全部
   label_type_new: 新類型
   label_type_plural: 類型
-  label_type_default_new_projects: 新專案的預設啟動類型
   label_ui: 使用者介面
   label_update_work_package_done_ratios: 更新工作項目完成比例
   label_updated_time: "%{value}前更新"
@@ -2465,3 +2464,4 @@ zh-TW:
         您不可寫入唯讀的屬性。
     resources:
       schema: 架構
+  label_type_default_new_projects: 新專案的預設啟動類型

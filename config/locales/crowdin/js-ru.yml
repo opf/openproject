@@ -60,7 +60,7 @@ ru:
     description_subwork_package: 'Потомок пакета работ #%{id}'
     editor:
       preview: Переключить режим предпросмотра
-      error_saving_failed: 'Saving the document failed with the following error: %{e}'
+      error_saving_failed: 'Сохранить документ не удалось по следующей ошибке: %{e}'
       macro:
         child_pages:
           button: Ссылки на дочерние страницы
@@ -111,7 +111,7 @@ ru:
       cannot_save_changes_with_message: 'Не удается сохранить изменения из-за следующей
         ошибки: %{error}'
       query_saving: Представление не может быть сохранено.
-      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
+      embedded_table_loading: 'Встроенное представление не может быть загружено: %{message}'
     filter:
       description:
         text_open_filter: Откройте этот фильтр с «ALT» и клавишей со стрелкой.
@@ -697,7 +697,8 @@ ru:
         title: Подтвердите удаление %{label}
         text: Вы уверены, что хотите удалить следующую %{label} ?
         has_children: 'Пакет работ имеет %{childUnits}:'
-        deletes_children: Также будут удалены все дочерние пакеты работ.
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: Создание выполнено.
     notice_successful_delete: Удаление выполнено.
     notice_successful_update: Обновление выполнено.

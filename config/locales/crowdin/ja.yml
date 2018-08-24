@@ -196,8 +196,6 @@ ja:
           no_results_title_text: 現在、有効な種類はありません。
         version:
           no_results_title_text: 現在、有効なバージョンはありません。
-    x_children:
-      other: "%{count} の子作業項目"
   label_invitation: 案内
   account:
     delete: アカウントを削除
@@ -262,7 +260,7 @@ ja:
       comment:
         commented: コメントしました。
       custom_action:
-        actions: Actions
+        actions: 操作
       custom_field:
         default_value: デフォルト値
         editable: 編集可能
@@ -321,6 +319,7 @@ ja:
       type:
         attribute_groups: ''
         is_in_roadmap: ロードマップ内
+        is_default: Activated for new projects by default
         is_milestone: マイルストーン
         color: 色
       user:
@@ -880,7 +879,8 @@ ja:
   enumeration_system_activity: システム作業分類
   enumeration_reported_project_statuses: 報告されるプロジェクト進捗状況
   error_auth_source_sso_failed: ユーザー '%{value}' のシングルサインオン (SSO) に失敗しました
-  error_can_not_archive_project: このプロジェクトはアーカイブできません。
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: エントリを削除できません
   error_can_not_delete_custom_field: カスタムフィールドを削除できません。
   error_can_not_delete_type: この型の作業項目が存在しています。削除できません。
@@ -1439,7 +1439,6 @@ ja:
   label_total: 合計
   label_type_new: 新しい型
   label_type_plural: 作業項目の型
-  label_type_default_new_projects: デフォルトで新しいプロジェクトに適用される種類
   label_ui: UI（ユーザインターフェイス）
   label_update_work_package_done_ratios: 進捗率の更新
   label_updated_time: "%{value}前に更新"
@@ -2456,3 +2455,4 @@ ja:
       writing_read_only_attributes: 読み取り専用の属性を書き込みできません。
     resources:
       schema: スキーマ
+  label_type_default_new_projects: デフォルトで新しいプロジェクトに適用される種類

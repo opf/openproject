@@ -691,7 +691,8 @@ tr:
         title: "%{label} için silme işlimini onaylayın"
         text: "%{label} silinecek. Emin misiniz?"
         has_children: 'İş paketi %{childUnits} alt paketlerine sahip:'
-        deletes_children: Tüm alt iş paketeri de silinecek.
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: Oluşturma başarılı.
     notice_successful_delete: Silme başarılı.
     notice_successful_update: Güncelleme başarılı.

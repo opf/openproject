@@ -218,9 +218,6 @@ bg:
           no_results_title_text: В момента има няма типове на разположение.
         version:
           no_results_title_text: В момента няма налични версии.
-    x_children:
-      one: One child work package
-      other: "%{count} work package children"
   label_invitation: Покана
   account:
     delete: Изтриване на профил
@@ -369,6 +366,7 @@ bg:
       type:
         attribute_groups: ''
         is_in_roadmap: В пътната карта
+        is_default: Activated for new projects by default
         is_milestone: Е крайъгълен камък
         color: Цвят
       user:
@@ -953,7 +951,8 @@ bg:
   enumeration_system_activity: Системна дейност
   enumeration_reported_project_statuses: Докладвани статуси на проект
   error_auth_source_sso_failed: Single Sign-On (SSO) for user '%{value}' failed
-  error_can_not_archive_project: Този проект не може да се архивира
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Unable to delete entry
   error_can_not_delete_custom_field: Не може да изтриете това потребителско поле
   error_can_not_delete_type: Този тип съдържа работни пакети и не може да бъде изтрит.
@@ -1537,7 +1536,6 @@ bg:
   label_total: Oбщо
   label_type_new: Нов тип
   label_type_plural: Видове
-  label_type_default_new_projects: Активирани типове по подразбиране за нови проекти
   label_ui: Потребителски интерфейс
   label_update_work_package_done_ratios: Актуализиране на готовност на работни пакети
   label_updated_time: Актуализиран преди %{value}
@@ -2696,3 +2694,4 @@ bg:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Схема
+  label_type_default_new_projects: Активирани типове по подразбиране за нови проекти

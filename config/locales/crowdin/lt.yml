@@ -188,6 +188,8 @@ lt:
     x_descendants:
       one: One descendant work package
       other: "%{count} work package descendants"
+      few: "%{count} work package descendants"
+      many: "%{count} work package descendants"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -220,11 +222,6 @@ lt:
           no_results_title_text: Nėra prieinamų tipų.
         version:
           no_results_title_text: Šiuo metu nėra prieinamų versijų.
-    x_children:
-      one: One child work package
-      few: "%{count} work package children"
-      many: "%{count} work package children"
-      other: "%{count} work package children"
   label_invitation: Pakvietimas
   account:
     delete: Pašaslinti paskyrą
@@ -307,7 +304,7 @@ lt:
       comment:
         commented: Komentavo
       custom_action:
-        actions: Actions
+        actions: Veiksmai
       custom_field:
         default_value: Numatytoji vertė
         editable: Galimas redaguoti
@@ -367,6 +364,7 @@ lt:
       type:
         attribute_groups: ''
         is_in_roadmap: Veiksmų plane
+        is_default: Activated for new projects by default
         is_milestone: Yra svarbus etapas
         color: Spalva
       user:
@@ -985,7 +983,8 @@ lt:
   enumeration_reported_project_statuses: Pranešta projekto būsena
   error_auth_source_sso_failed: Bendroji autentifikacija (SSO) vartotojui „%{value}“
     nepavyko
-  error_can_not_archive_project: Šio projekto negalima archyvuoti
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Nepavyko ištrinti įrašo
   error_can_not_delete_custom_field: Neįmanoma ištrinti kliento laukelio
   error_can_not_delete_type: Šis tipas turi priklausomų darbų paketų ir todėl negali
@@ -1566,7 +1565,6 @@ lt:
   label_total: Iš viso
   label_type_new: Naujas tipas
   label_type_plural: Tipai
-  label_type_default_new_projects: Pagal nutylėjimą aktyvuotas naujų projektų tipas
   label_ui: Vartotojo sąsaja
   label_update_work_package_done_ratios: Atnaujinti darbų paketo atlikimo santykius
   label_updated_time: Atnaujinta prieš %{value}
@@ -2770,3 +2768,4 @@ lt:
       writing_read_only_attributes: Jūs neturėtumėte įrašyti atributą „tik skaitomas“.
     resources:
       schema: Schema
+  label_type_default_new_projects: Pagal nutylėjimą aktyvuotas naujų projektų tipas

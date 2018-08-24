@@ -228,9 +228,6 @@ es:
           no_results_title_text: Actualmente no hay tipos disponibles.
         version:
           no_results_title_text: No hay versiones disponibles por el momento.
-    x_children:
-      one: One child work package
-      other: "%{count} work package children"
   label_invitation: Invitación
   account:
     delete: Borrar cuenta
@@ -320,7 +317,7 @@ es:
       comment:
         commented: Comentado
       custom_action:
-        actions: Actions
+        actions: Acciones
       custom_field:
         default_value: Valor predeterminado
         editable: Editable
@@ -380,6 +377,7 @@ es:
       type:
         attribute_groups: ''
         is_in_roadmap: En hoja de ruta
+        is_default: Activated for new projects by default
         is_milestone: Es un hito
         color: Color
       user:
@@ -975,7 +973,8 @@ es:
   enumeration_reported_project_statuses: Estatus del proyecto reportado
   error_auth_source_sso_failed: El intento de inicio de sesión único (SSO) para el
     usuario “%{value}” falló
-  error_can_not_archive_project: El proyecto no se puede archivar
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: No se puede eliminar la entrada
   error_can_not_delete_custom_field: Imposible eliminar el campo seleccionado
   error_can_not_delete_type: Este tipo contiene paquetes de trabajo y no se puede
@@ -1563,7 +1562,6 @@ es:
   label_total: Total
   label_type_new: Nuevo tipo
   label_type_plural: Tipos
-  label_type_default_new_projects: Tipo activado por defecto para los nuevos proyectos
   label_ui: Interfaz de usuario
   label_update_work_package_done_ratios: Actualizar relación de paquetes de trabajo
     ejecutados
@@ -2782,3 +2780,4 @@ es:
       writing_read_only_attributes: No debería escribir un atributo de solo lectura.
     resources:
       schema: Esquema
+  label_type_default_new_projects: Tipo activado por defecto para los nuevos proyectos

@@ -220,9 +220,6 @@ it:
           no_results_title_text: Al momento non sono disponibili tipi.
         version:
           no_results_title_text: Al momento non vi sono versioni disponibili.
-    x_children:
-      one: One child work package
-      other: "%{count} work package children"
   label_invitation: Invito
   account:
     delete: Cancella account
@@ -312,7 +309,7 @@ it:
       comment:
         commented: Commentato
       custom_action:
-        actions: Actions
+        actions: Azioni
       custom_field:
         default_value: Valore predefinito
         editable: Modificabile
@@ -372,6 +369,7 @@ it:
       type:
         attribute_groups: ''
         is_in_roadmap: Nella tabella di marcia
+        is_default: Activated for new projects by default
         is_milestone: È un traguardo
         color: Colore
       user:
@@ -968,7 +966,8 @@ it:
   enumeration_system_activity: Attività del sistema
   enumeration_reported_project_statuses: Stato di progetto segnalato
   error_auth_source_sso_failed: Single Sign-On (SSO) per l'utente '%{value}' non riuscita
-  error_can_not_archive_project: Questo progetto non può essere archiviato
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Impossibile eliminare la voce
   error_can_not_delete_custom_field: Impossibile eliminare il campo personalizzato
   error_can_not_delete_type: Questo tipo risulta contenere macro-attività e non può
@@ -1557,8 +1556,6 @@ it:
   label_total: Totale
   label_type_new: Nuovo tipo
   label_type_plural: Tipi
-  label_type_default_new_projects: Nei nuovi progetti i tipi sono attivati per impostazione
-    predefinita
   label_ui: Interfaccia Utente
   label_update_work_package_done_ratios: Aggiorna la percentuale di completamento
     della macro-attività (work package)
@@ -2782,3 +2779,5 @@ it:
       writing_read_only_attributes: Non puoi scrivere un attributo di sola lettura.
     resources:
       schema: Schema
+  label_type_default_new_projects: Nei nuovi progetti i tipi sono attivati per impostazione
+    predefinita

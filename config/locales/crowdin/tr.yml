@@ -216,9 +216,6 @@ tr:
           no_results_title_text: Şu anda hiçbir tip mevcut değil.
         version:
           no_results_title_text: Şu anda sürüm bulunmuyor.
-    x_children:
-      one: One child work package
-      other: "%{count} work package children"
   label_invitation: Davet
   account:
     delete: Hesabı sil
@@ -303,7 +300,7 @@ tr:
       comment:
         commented: Yorumlananlar
       custom_action:
-        actions: Actions
+        actions: Eylemler
       custom_field:
         default_value: Varsayılan değer
         editable: Düzenlenebilir
@@ -363,6 +360,7 @@ tr:
       type:
         attribute_groups: ''
         is_in_roadmap: Yol haritasında
+        is_default: Activated for new projects by default
         is_milestone: Kilometre taşı
         color: Renk
       user:
@@ -953,7 +951,8 @@ tr:
   enumeration_reported_project_statuses: Bildirilen proje durumları
   error_auth_source_sso_failed: Çoklu oturum açma (SSO) için kullanıcı '%{value}'
     başarısız oldu
-  error_can_not_archive_project: Bu proje arşivlenemez
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Girdi silinemiyor
   error_can_not_delete_custom_field: Özel alan silinemiyor
   error_can_not_delete_type: Bu tür iş paketleri içeriyor ve silinemez.
@@ -1531,8 +1530,6 @@ tr:
   label_total: Toplam
   label_type_new: Yeni tür
   label_type_plural: Türler
-  label_type_default_new_projects: Yeni projeler için varsayılan olarak etkinleştirildi
-    yazın
   label_ui: Kullanıcı Arayüzü
   label_update_work_package_done_ratios: İş paketi bitirme oranlarını güncelle
   label_updated_time: "%{value} önce güncellendi"
@@ -2696,3 +2693,5 @@ tr:
       writing_read_only_attributes: Salt okunur bir nitelik yazmamalısınız.
     resources:
       schema: Şema
+  label_type_default_new_projects: Yeni projeler için varsayılan olarak etkinleştirildi
+    yazın

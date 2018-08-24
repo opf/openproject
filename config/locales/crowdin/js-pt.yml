@@ -687,7 +687,8 @@ pt:
         title: Confirmar exclusão do %{label}
         text: Tem certeza que deseja apagar o seguinte %{label}?
         has_children: 'O pacote de trabalho tem %{childUnits}:'
-        deletes_children: Todos os pacotes de trabalho filhos também serão eliminados.
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: Criado com sucesso.
     notice_successful_delete: Eliminado com sucesso.
     notice_successful_update: Actualizado com sucesso.

@@ -662,7 +662,8 @@ ko:
         title: "%{label} 삭제 확인"
         text: 다음 %{label}을(를) 삭제하시겠습니까?
         has_children: 작업 패키지에 %{childUnits}이(가) 있습니다.
-        deletes_children: 모든 자식 작업 패키지도 삭제됩니다.
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: 생성에 성공했습니다.
     notice_successful_delete: 삭제에 성공했습니다.
     notice_successful_update: 업데이트에 성공했습니다.

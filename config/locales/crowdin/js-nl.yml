@@ -703,7 +703,8 @@ nl:
         title: Bevestig verwijdering van %{label}
         text: Weet u zeker dat u werkpakket %{label} wilt verwijderen?
         has_children: 'Het werkpakket heeft %{childUnits}:'
-        deletes_children: Alle onderliggende werkpakketten worden ook verwijderd.
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: Aanmaak geslaagd.
     notice_successful_delete: Verwijdering geslaagd.
     notice_successful_update: Succesvolle wijziging.

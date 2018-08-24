@@ -233,9 +233,6 @@ fil:
           no_results_title_text: Sa kasalukuyan ay walang mga uri na available.
         version:
           no_results_title_text: Walang kasalukuyang bersyon ang magagamit.
-    x_children:
-      one: One child work package
-      other: "%{count} work package children"
   label_invitation: Imbitasyon
   account:
     delete: Alisin ang akawnt
@@ -326,7 +323,7 @@ fil:
       comment:
         commented: Ang komento
       custom_action:
-        actions: Actions
+        actions: Mga aksyon
       custom_field:
         default_value: Ang default na halaga
         editable: Pwedeng mabago
@@ -386,6 +383,7 @@ fil:
       type:
         attribute_groups: ''
         is_in_roadmap: Sa roadmap
+        is_default: Activated for new projects by default
         is_milestone: Ay milestone
         color: Kulay
       user:
@@ -982,7 +980,8 @@ fil:
   enumeration_reported_project_statuses: Estado ng inuulat na proyekto
   error_auth_source_sso_failed: Single Sign-On (SSO) para sa gumagamit ng '%{value}'
     ay nabigo
-  error_can_not_archive_project: Ito proyekto ay hinde pwede ma-archive
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Hindi mabura na entry
   error_can_not_delete_custom_field: Hindi mabura ang custom field
   error_can_not_delete_type: Itong uri ay naglalaman ng mga work package at hindi
@@ -1573,8 +1572,6 @@ fil:
   label_total: Kabuuan
   label_type_new: Bagong uri
   label_type_plural: Mga uri
-  label_type_default_new_projects: Naka-aktibo uri para sa mga bagong proyekto sa
-    pamamagitan ng default
   label_ui: User Interface
   label_update_work_package_done_ratios: I-update ang mga work package done ratio
   label_updated_time: I-update ang nakalipas na %{value}
@@ -2805,3 +2802,5 @@ fil:
         basa-lang.
     resources:
       schema: Iskema
+  label_type_default_new_projects: Naka-aktibo uri para sa mga bagong proyekto sa
+    pamamagitan ng default

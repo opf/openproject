@@ -83,7 +83,7 @@ lol:
           button: crwdns99018:0crwdne99018:0
           text: crwdns99065:0[Placeholder]crwdne99065:0
           page: crwdns99020:0crwdne99020:0
-          not_set: "(Page not yet set)"
+          not_set: crwdns99128:0crwdne99128:0
           hint: 'crwdns99021:0crwdne99021:0
 
 '
@@ -379,7 +379,7 @@ lol:
 
 '
       button_activate: crwdns99070:0crwdne99070:0
-      button_deactivate: Hide Gantt chart
+      button_deactivate: crwdns99129:0crwdne99129:0
       cancel: crwdns98607:0crwdne98607:0
       change: crwdns98608:0crwdne98608:0
       due_date: crwdns98609:0crwdne98609:0
@@ -638,7 +638,7 @@ lol:
         title: crwdns98808:0%{label}crwdne98808:0
         text: crwdns98809:0%{label}crwdne98809:0
         has_children: crwdns98810:0%{childUnits}crwdne98810:0
-        deletes_children: crwdns98811:0crwdne98811:0
+        deletes_children: crwdns99130:0crwdne99130:0
     notice_successful_create: crwdns98812:0crwdne98812:0
     notice_successful_delete: crwdns98813:0crwdne98813:0
     notice_successful_update: crwdns98814:0crwdne98814:0

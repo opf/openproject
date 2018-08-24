@@ -225,9 +225,6 @@ ca:
           no_results_title_text: Actualment no hi ha cap tipus disponible.
         version:
           no_results_title_text: Hi ha actualment cap versió disponible.
-    x_children:
-      one: One child work package
-      other: "%{count} work package children"
   label_invitation: Invitació
   account:
     delete: Elimina el compte
@@ -376,6 +373,7 @@ ca:
       type:
         attribute_groups: ''
         is_in_roadmap: A la fulla de ruta
+        is_default: Activated for new projects by default
         is_milestone: És una fita
         color: Color
       user:
@@ -962,7 +960,8 @@ ca:
   enumeration_system_activity: Activitat del sistema
   enumeration_reported_project_statuses: Estats de projecte notificats
   error_auth_source_sso_failed: Single Sign-On (SSO) for user '%{value}' failed
-  error_can_not_archive_project: Aquest projecte no es pot arxivar
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Unable to delete entry
   error_can_not_delete_custom_field: No s'ha pogut suprimir el camp personalitat
   error_can_not_delete_type: Aquest tipus conté paquets de treball i no es pot suprimir.
@@ -1547,7 +1546,6 @@ ca:
   label_total: Total
   label_type_new: Nou tipus
   label_type_plural: Tipus
-  label_type_default_new_projects: Tipus activat per defecte per a nous projectes
   label_ui: Interifície d'usuari
   label_update_work_package_done_ratios: Actualitzar el ratio de paquets de treball
     fets
@@ -2757,3 +2755,4 @@ ca:
       writing_read_only_attributes: No s'ha d'escriure en un atribut de només de lectura.
     resources:
       schema: Esquema
+  label_type_default_new_projects: Tipus activat per defecte per a nous projectes

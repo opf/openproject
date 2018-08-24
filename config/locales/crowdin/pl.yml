@@ -188,6 +188,8 @@ pl:
     x_descendants:
       one: One descendant work package
       other: "%{count} work package descendants"
+      few: "%{count} work package descendants"
+      many: "%{count} work package descendants"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -219,11 +221,6 @@ pl:
           no_results_title_text: Nie ma dostępnych typów.
         version:
           no_results_title_text: Obecnie żadne wersje nie są dostępne.
-    x_children:
-      one: One child work package
-      few: "%{count} work package children"
-      many: "%{count} work package children"
-      other: "%{count} work package children"
   label_invitation: Zaproszenie
   account:
     delete: Usuń konto
@@ -305,7 +302,7 @@ pl:
       comment:
         commented: Skomentował
       custom_action:
-        actions: Actions
+        actions: Akcje
       custom_field:
         default_value: Wartość domyślna
         editable: Edytowalne
@@ -365,6 +362,7 @@ pl:
       type:
         attribute_groups: ''
         is_in_roadmap: Na mapie
+        is_default: Activated for new projects by default
         is_milestone: Jest Kamieniem Milowym
         color: Kolor
       user:
@@ -982,7 +980,8 @@ pl:
   enumeration_reported_project_statuses: Status zgłoszonego projektu
   error_auth_source_sso_failed: Pojedyncze logowanie (SSO) dla użytkownika '%{value}'
     nie powiodło się
-  error_can_not_archive_project: Ten projekt nie może być archiwizowany
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Nie można usunąć wpisu
   error_can_not_delete_custom_field: Nie można usunąć pola niestandardowego
   error_can_not_delete_type: Ten typ zawiera pakiety robocze i nie może zostać usunięty.
@@ -1567,7 +1566,6 @@ pl:
   label_total: Ogółem
   label_type_new: Nowy typ
   label_type_plural: Typy
-  label_type_default_new_projects: Typ włączony domyślnie dla nowych projektów
   label_ui: Interfejs użytkownika
   label_update_work_package_done_ratios: Zaktualizuj wskaźniki postępu pakietu roboczego
   label_updated_time: Aktualizacja %{value} temu
@@ -2761,3 +2759,4 @@ pl:
       writing_read_only_attributes: Nie możesz zapisać atrybutu tylko do odczytu.
     resources:
       schema: Schemat
+  label_type_default_new_projects: Typ włączony domyślnie dla nowych projektów

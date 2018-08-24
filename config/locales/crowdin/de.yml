@@ -223,9 +223,6 @@ de:
           no_results_title_text: Derzeit stehen keine Typen zur Verfügung.
         version:
           no_results_title_text: Derzeit sind keine Versionen verfügbar.
-    x_children:
-      one: Ein untergeordnetes Arbeitspaket
-      other: "%{count} untergeordnete Arbeitspakete"
   label_invitation: Einladung
   account:
     delete: Konto löschen
@@ -315,7 +312,7 @@ de:
       comment:
         commented: Kommentiert
       custom_action:
-        actions: Actions
+        actions: Aktionen
       custom_field:
         default_value: Standardwert
         editable: Bearbeitbar
@@ -375,6 +372,7 @@ de:
       type:
         attribute_groups: ''
         is_in_roadmap: In Roadmap anzeigen
+        is_default: Activated for new projects by default
         is_milestone: Ist ein Meilenstein
         color: Farbe
       user:
@@ -976,7 +974,8 @@ de:
   enumeration_system_activity: System-Aktivität
   enumeration_reported_project_statuses: Gemeldeter Projekt-Status
   error_auth_source_sso_failed: Single Sign-On (SSO) für Nutzer '%{value}' fehlgeschlagen
-  error_can_not_archive_project: Dieses Projekt kann nicht archiviert werden.
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Eintrag kann nicht gelöscht werden
   error_can_not_delete_custom_field: Benutzerdefiniertes Feld kann nicht gelöscht
     werden.
@@ -1566,7 +1565,6 @@ de:
   label_total: Gesamtzahl
   label_type_new: Neuer Typ
   label_type_plural: Typen
-  label_type_default_new_projects: Typ für neue Projekte standardmäßig aktiviert
   label_ui: Nutzeroberfläche
   label_update_work_package_done_ratios: Arbeitspaket-Fortschritt aktualisieren
   label_updated_time: Vor %{value} aktualisiert
@@ -2780,3 +2778,4 @@ de:
         werden.
     resources:
       schema: Schema
+  label_type_default_new_projects: Typ für neue Projekte standardmäßig aktiviert

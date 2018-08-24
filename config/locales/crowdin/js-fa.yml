@@ -692,7 +692,8 @@ fa:
         title: تایید حذف %{label}
         text: آیا مطمئن هستید که میخواهید %{label} را حذف کنید؟
         has_children: 'بسته کار دارای %{childUnits} است:'
-        deletes_children: تمام زیر بسته ها نیز حذف خواهد شد.
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: Successful creation.
     notice_successful_delete: Successful deletion.
     notice_successful_update: Successful update.

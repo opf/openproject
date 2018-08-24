@@ -692,7 +692,8 @@ hr:
         title: Confirm deletion of %{label}
         text: Are you sure you want to delete the following %{label} ?
         has_children: 'The work package has %{childUnits}:'
-        deletes_children: All child work packages will also be deleted.
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: Uspješno kreirano.
     notice_successful_delete: Brisanje uspješno.
     notice_successful_update: Ažuriranje je uspješno završeno.

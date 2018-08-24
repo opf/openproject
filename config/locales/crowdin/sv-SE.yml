@@ -220,9 +220,6 @@ sv-SE:
           no_results_title_text: Det finns för närvarande inga typer tillgängliga.
         version:
           no_results_title_text: Det finns för närvarande inga tillgängliga versioner.
-    x_children:
-      one: Ett barn arbetspaket
-      other: "%{count} arbetspaket barn"
   label_invitation: Inbjudan
   account:
     delete: Ta bort konto
@@ -366,6 +363,7 @@ sv-SE:
       type:
         attribute_groups: ''
         is_in_roadmap: I tidsplan
+        is_default: Activated for new projects by default
         is_milestone: Är milstolpe
         color: Färg
       user:
@@ -951,7 +949,8 @@ sv-SE:
   enumeration_system_activity: Systemaktivitet
   enumeration_reported_project_statuses: Rapporterad projektstatus
   error_auth_source_sso_failed: Single Sign-On (SSO) for user '%{value}' failed
-  error_can_not_archive_project: Detta projekt kan inte arkiveras
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Unable to delete entry
   error_can_not_delete_custom_field: Det går inte att ta bort anpassat fält
   error_can_not_delete_type: Denna typ innehåller arbetspaket och kan inte tas bort.
@@ -1530,7 +1529,6 @@ sv-SE:
   label_total: Total
   label_type_new: Ny typ
   label_type_plural: Typer
-  label_type_default_new_projects: Typen är aktiverad som standard för nya projekt
   label_ui: Användargränssnitt
   label_update_work_package_done_ratios: Uppdatera arbetspaketets andel avklarat
   label_updated_time: Uppdaterad %{value} sen
@@ -2687,3 +2685,4 @@ sv-SE:
       writing_read_only_attributes: Du får inte skriva till ett skrivskyddat attribut.
     resources:
       schema: Schema
+  label_type_default_new_projects: Typen är aktiverad som standard för nya projekt

@@ -219,9 +219,6 @@ da:
           no_results_title_text: There are currently no types available.
         version:
           no_results_title_text: There are currently no versions available.
-    x_children:
-      one: One child work package
-      other: "%{count} work package children"
   label_invitation: Invitation
   account:
     delete: Slet konto
@@ -366,6 +363,7 @@ da:
       type:
         attribute_groups: ''
         is_in_roadmap: In roadmap
+        is_default: Activated for new projects by default
         is_milestone: Is milestone
         color: Farve
       user:
@@ -949,7 +947,8 @@ da:
   enumeration_system_activity: Systemaktivitet
   enumeration_reported_project_statuses: Rapporteret projektstatus
   error_auth_source_sso_failed: Single Sign-On (SSO) for user '%{value}' failed
-  error_can_not_archive_project: Dette projekt kan ikke arkiveres
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Unable to delete entry
   error_can_not_delete_custom_field: Kan ikke slette det selvvalgte felt
   error_can_not_delete_type: Denne type indeholder arbejdspakker og kan ikke slettes.
@@ -1528,7 +1527,6 @@ da:
   label_total: Total 
   label_type_new: Ny type
   label_type_plural: Typer
-  label_type_default_new_projects: Type activated for new projects by default
   label_ui: Brugergrænseflade
   label_update_work_package_done_ratios: Opdater fremgang for arbejdspakke
   label_updated_time: Opdateret %{value} siden
@@ -2690,3 +2688,4 @@ da:
       writing_read_only_attributes: Du må ikke skrive til en skrivebeskyttet attribut.
     resources:
       schema: Skema
+  label_type_default_new_projects: Type activated for new projects by default

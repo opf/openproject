@@ -695,8 +695,8 @@ lt:
         title: Patvirtinkite, jog %{label} ištrinamas
         text: Ar Jūs tikrai norite, kad %{label} būtų ištrintas?
         has_children: 'Darbų paketas turi %{childUnits}:'
-        deletes_children: Visi vaikų tipo pagal hierarchiją darbų paketai taip pat
-          bus ištrinti.
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: Sėkmingas sukūrimas.
     notice_successful_delete: Sėkmingas panaikinimas.
     notice_successful_update: Sėkmingas atnaujinimas.

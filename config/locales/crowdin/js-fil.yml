@@ -704,7 +704,8 @@ fil:
         title: Kumpirmahin ang pagbubura ng %{label}
         text: Sigurado ka ba na gusto mong burahin ang sumusunod na %{label}?
         has_children: 'Ang work package ay mayroong %{childUnits}:'
-        deletes_children: Lahat ng mga batang work package ay maari rin burahin.
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: Matagumpay pagkalikha.
     notice_successful_delete: Matagumpay ang pagtanggal.
     notice_successful_update: Matagumpay nai-update.

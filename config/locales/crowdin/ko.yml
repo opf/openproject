@@ -204,8 +204,6 @@ ko:
           no_results_title_text: 사용 가능한 타입이 없습니다.
         version:
           no_results_title_text: 현재 사용가능한 버전이 없습니다.
-    x_children:
-      other: "%{count} work package children"
   label_invitation: 초대
   account:
     delete: 계정 삭제
@@ -279,7 +277,7 @@ ko:
       comment:
         commented: 덧글을 달았습니다.
       custom_action:
-        actions: Actions
+        actions: 작업
       custom_field:
         default_value: 기본값
         editable: 편집 가능
@@ -338,6 +336,7 @@ ko:
       type:
         attribute_groups: ''
         is_in_roadmap: 로그맵 내
+        is_default: Activated for new projects by default
         is_milestone: 마일스톤
         color: 색상
       user:
@@ -932,7 +931,8 @@ ko:
   enumeration_system_activity: 시스템 작업
   enumeration_reported_project_statuses: 보고된 프로젝트 상태
   error_auth_source_sso_failed: 사용자 '%{value}'에 대한 Single Sign-On(SSO) 실패
-  error_can_not_archive_project: 이 프로젝트를 보관할 수 없습니다.
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: 항목을 삭제할 수 없습니다.
   error_can_not_delete_custom_field: 사용자 지정 필드를 삭제할 수 없습니다.
   error_can_not_delete_type: 이 유형에는 작업 패키지가 포함되어 있으며 삭제할 수 없습니다.
@@ -1496,7 +1496,6 @@ ko:
   label_total: 합계
   label_type_new: 새 유형
   label_type_plural: 종류
-  label_type_default_new_projects: 새 프로젝트를 위한 기본으로 활성화된 유형
   label_ui: 사용자 인터페이스
   label_update_work_package_done_ratios: 작업 패키지 완료 비율 업데이트
   label_updated_time: "%{value} 전에 업데이트됨"
@@ -2566,3 +2565,4 @@ ko:
       writing_read_only_attributes: 읽기 전용 특성은 변경할 수 없습니다.
     resources:
       schema: 스키마
+  label_type_default_new_projects: 새 프로젝트를 위한 기본으로 활성화된 유형

@@ -219,9 +219,6 @@
           no_results_title_text: There are currently no types available.
         version:
           no_results_title_text: There are currently no versions available.
-    x_children:
-      one: One child work package
-      other: "%{count} work package children"
   label_invitation: Invitasjon
   account:
     delete: Slett konto
@@ -306,7 +303,7 @@
       comment:
         commented: Kommentert
       custom_action:
-        actions: Actions
+        actions: Handlinger
       custom_field:
         default_value: Standardverdi
         editable: Redigerbar
@@ -366,6 +363,7 @@
       type:
         attribute_groups: ''
         is_in_roadmap: In roadmap
+        is_default: Activated for new projects by default
         is_milestone: Is milestone
         color: Farge
       user:
@@ -949,7 +947,8 @@
   enumeration_system_activity: Systemaktivitet
   enumeration_reported_project_statuses: Rapportert prosjektstatus
   error_auth_source_sso_failed: Single Sign-On (SSO) for user '%{value}' failed
-  error_can_not_archive_project: Prosjektet kan ikke arkiveres
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Unable to delete entry
   error_can_not_delete_custom_field: Kunne ikke slette det egendefinerte feltet
   error_can_not_delete_type: Denne typen inneholder arbeidspakker og kan ikke slettes.
@@ -1528,7 +1527,6 @@
   label_total: Total
   label_type_new: Ny type
   label_type_plural: Typer
-  label_type_default_new_projects: Type activated for new projects by default
   label_ui: Brukergrensesnitt
   label_update_work_package_done_ratios: Oppdatèr ferdigstillelsesgrad for arbeidspakke
   label_updated_time: Oppdatert for %{value} siden
@@ -2688,3 +2686,4 @@
       writing_read_only_attributes: Du kan ikke skrive til et skrivebeskyttet attributt.
     resources:
       schema: Skjema
+  label_type_default_new_projects: Type activated for new projects by default

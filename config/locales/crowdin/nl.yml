@@ -220,9 +220,6 @@ nl:
           no_results_title_text: Er zijn momenteel geen types beschikbaar.
         version:
           no_results_title_text: Er zijn momenteel geen versies beschikbaar.
-    x_children:
-      one: Een onderliggend werkpakket
-      other: "%{count} onderliggende werkpakket(ten)"
   label_invitation: Uitnodiging
   account:
     delete: Account Verwijderen
@@ -312,7 +309,7 @@ nl:
       comment:
         commented: Becommentarieerd
       custom_action:
-        actions: Actions
+        actions: Acties
       custom_field:
         default_value: Standaardwaarde
         editable: Bewerkbaar
@@ -372,6 +369,7 @@ nl:
       type:
         attribute_groups: ''
         is_in_roadmap: In de roadmap
+        is_default: Activated for new projects by default
         is_milestone: Is mijlpaal
         color: Kleur
       user:
@@ -967,7 +965,8 @@ nl:
   enumeration_reported_project_statuses: Gerapporteerde projectstatus
   error_auth_source_sso_failed: Single Sign-On (SSO) voor gebruiker '%{value}' is
     mislukt
-  error_can_not_archive_project: Dit project kan niet worden gearchiveerd
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Niet in staat om ingave te verwijderen
   error_can_not_delete_custom_field: Aangepast veld kan niet verwijderd worden
   error_can_not_delete_type: Dit type bevat werkpakketten en kan niet worden verwijderd.
@@ -1551,7 +1550,6 @@ nl:
   label_total: Totaal
   label_type_new: Nieuw type
   label_type_plural: Typen
-  label_type_default_new_projects: Type standaard ingeschakeld voor nieuwe projecten
   label_ui: Gebruiksinterface
   label_update_work_package_done_ratios: Werk pakket gedaan ratio's bijwerken
   label_updated_time: Bijgewerkt %{value} geleden
@@ -2749,3 +2747,4 @@ nl:
       writing_read_only_attributes: U mag geen read-only attribuut schrijven.
     resources:
       schema: Schema
+  label_type_default_new_projects: Type standaard ingeschakeld voor nieuwe projecten

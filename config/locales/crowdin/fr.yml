@@ -221,9 +221,6 @@ fr:
           no_results_title_text: Il n'y a actuellement aucun type disponible.
         version:
           no_results_title_text: Il n'y a actuellement aucune version disponible.
-    x_children:
-      one: One child work package
-      other: "%{count} work package children"
   label_invitation: Invitation
   account:
     delete: Supprimer le compte
@@ -372,6 +369,7 @@ fr:
       type:
         attribute_groups: ''
         is_in_roadmap: Dans la feuille de route
+        is_default: Activated for new projects by default
         is_milestone: Est un jalon
         color: Couleur
       user:
@@ -970,7 +968,8 @@ fr:
   enumeration_reported_project_statuses: Statuts de projet signalés
   error_auth_source_sso_failed: Single Sign-On (SSO) pour l’utilisateur '%{value}'
     a échoué
-  error_can_not_archive_project: Ce projet ne peut être archivé
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Impossible de supprimer l’élément
   error_can_not_delete_custom_field: Impossible de supprimer le champ personnalisé
   error_can_not_delete_type: Ce type contient des Lots de Travaux et ne peut être
@@ -1556,7 +1555,6 @@ fr:
   label_total: Total
   label_type_new: Nouveau type
   label_type_plural: Types
-  label_type_default_new_projects: Type activé par défaut pour les nouveaux projets
   label_ui: Interface de l'utilisateur
   label_update_work_package_done_ratios: Mis à jour du taux d'avancement du Lots de
     Travaux
@@ -2771,3 +2769,4 @@ fr:
         seule.
     resources:
       schema: Schéma
+  label_type_default_new_projects: Type activé par défaut pour les nouveaux projets

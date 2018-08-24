@@ -690,7 +690,8 @@ hu:
         title: Jóváhagyja %{label} törlését
         text: Biztosan törölni akarja %{label}-t?
         has_children: 'A munkacsomagnak van %{childUnits}:'
-        deletes_children: Minden gyermek munkacsomag törlődni fog.
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: Sikeres létrehozás.
     notice_successful_delete: Sikeres törlés.
     notice_successful_update: Sikeres frissítés.

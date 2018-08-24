@@ -85,7 +85,7 @@ ru:
       no_results_title_text: Нет настраиваемых полей.
       no_results_content_text: Создать новое настраиваемое поле
   concatenation:
-    single: or
+    single: или
   deprecations:
     old_timeline:
       replacement: Этот модуль графиков заменяется интерактивным графиком, который
@@ -185,6 +185,8 @@ ru:
     x_descendants:
       one: One descendant work package
       other: "%{count} work package descendants"
+      few: "%{count} work package descendants"
+      many: "%{count} work package descendants"
     move:
       no_common_statuses_exists: Статус не доступен для всех выбранных пакетов работ.
         Их статус изменен быть не может.
@@ -219,11 +221,6 @@ ru:
           no_results_title_text: На данный момент доступных типов нет.
         version:
           no_results_title_text: На данный момент этапы отсутствуют.
-    x_children:
-      one: Пакет работ с одним дочерним
-      few: Пакет работ с %{count} дочерними
-      many: Пакет работ с %{count} дочерними
-      other: Пакет работ с %{count} дочерними
   label_invitation: Приглашение
   account:
     delete: Удалить учётную запись
@@ -307,7 +304,7 @@ ru:
       comment:
         commented: Прокомментировано
       custom_action:
-        actions: Actions
+        actions: Действия
       custom_field:
         default_value: Значение по умолчанию
         editable: Доступно для правки
@@ -367,6 +364,7 @@ ru:
       type:
         attribute_groups: ''
         is_in_roadmap: В дорожной карте
+        is_default: Activated for new projects by default
         is_milestone: Это веха
         color: Цвет
       user:
@@ -489,7 +487,8 @@ ru:
             project:
               error_not_found: не найдено
             public:
-              error_unauthorized: "- The user has no permission to create public views."
+              error_unauthorized: "- У пользователя нет прав для создания общедоступных
+                представлений."
           group_by_hierarchies_exclusive: является взаимоисключающим при группировке
             «%{group_by}». Вы не можете активировать оба.
           filters:
@@ -988,7 +987,8 @@ ru:
   enumeration_system_activity: Активность системы
   enumeration_reported_project_statuses: Перечень отчетов о статусах проекта
   error_auth_source_sso_failed: Сбой единого входа (SSO) для пользователя «%{value}»
-  error_can_not_archive_project: Этот проект не может быть отправлен в архив
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Не удается удалить содержимое
   error_can_not_delete_custom_field: Не удается удалить настраиваемое поле
   error_can_not_delete_type: Этот тип содержит пакет работ и не может быть удален.
@@ -1089,7 +1089,7 @@ ru:
   homescreen:
     additional:
       projects: Новые видимые проекты в данном экземпляре.
-      no_visible_projects: There are no visible projects in this instance.
+      no_visible_projects: Не видимые проекты в данном экземпляре.
       users: Новые зарегистрированные пользователи в данном экземпляре.
     blocks:
       community: OpenProject сообщество
@@ -1572,7 +1572,6 @@ ru:
   label_total: Всего
   label_type_new: Новый тип
   label_type_plural: Типы
-  label_type_default_new_projects: Тип активируется в новых проектах по умолчанию
   label_ui: Интерфейс пользователя
   label_update_work_package_done_ratios: Обновить  пакет работ созданными коэффициентами
   label_updated_time: Обновлено %{value} назад
@@ -1932,7 +1931,7 @@ ru:
   permission_manage_members: Управление участниками
   permission_manage_news: Управление новостями
   permission_manage_project_activities: Управление проектной деятельностью
-  permission_manage_public_queries: Manage public views
+  permission_manage_public_queries: Управление общими представлениями
   permission_manage_repository: Управление репозиторием
   permission_manage_subtasks: Управление подзадачами
   permission_manage_versions: Управление этапами
@@ -1941,7 +1940,7 @@ ru:
   permission_move_work_packages: Переместить пакет работ
   permission_protect_wiki_pages: Защитить wiki-страницы
   permission_rename_wiki_pages: Переименование wiki-страниц
-  permission_save_queries: Save views
+  permission_save_queries: Сохранить представления
   permission_select_project_modules: Выбор модулей проекта
   permission_manage_types: Выберите типы
   permission_view_calendar: Календарь
@@ -2775,3 +2774,4 @@ ru:
         только для чтения.
     resources:
       schema: Схема
+  label_type_default_new_projects: Тип активируется в новых проектах по умолчанию

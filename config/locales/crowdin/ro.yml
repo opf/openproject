@@ -192,6 +192,7 @@ ro:
     x_descendants:
       one: One descendant work package
       other: "%{count} work package descendants"
+      few: "%{count} work package descendants"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -229,10 +230,6 @@ ro:
           no_results_title_text: În acest moment nu există tipuri disponibile.
         version:
           no_results_title_text: În acest moment nu există versiuni disponibile.
-    x_children:
-      one: One child work package
-      few: "%{count} work package children"
-      other: "%{count} work package children"
   label_invitation: Invitație
   account:
     delete: Ştergere cont
@@ -376,6 +373,7 @@ ro:
       type:
         attribute_groups: ''
         is_in_roadmap: În planul de lucru
+        is_default: Activated for new projects by default
         is_milestone: Este reper de etapă
         color: Culoare
       user:
@@ -976,7 +974,8 @@ ro:
   enumeration_system_activity: Activitate sistem
   enumeration_reported_project_statuses: Stările proiectului raportat
   error_auth_source_sso_failed: Single Sign-On (SSO) for user '%{value}' failed
-  error_can_not_archive_project: Acest proiect nu poate fi arhivat
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Unable to delete entry
   error_can_not_delete_custom_field: Câmpul personalizat nu poate fi șters
   error_can_not_delete_type: Acest tip conține pachete de lucru și nu poate fi șters.
@@ -1556,7 +1555,6 @@ ro:
   label_total: Total
   label_type_new: Tip nou
   label_type_plural: Tipuri
-  label_type_default_new_projects: Tip activat în mod implicit pentru proiecte noi
   label_ui: Interfaţa cu utilizatorul
   label_update_work_package_done_ratios: Actualizare procente de finalizare pachete
     de lucru
@@ -2750,3 +2748,4 @@ ro:
       writing_read_only_attributes: Nu puteți scrie într-un câmp restricționat.
     resources:
       schema: Schemă
+  label_type_default_new_projects: Tip activat în mod implicit pentru proiecte noi

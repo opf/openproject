@@ -220,8 +220,6 @@ id:
           no_results_title_text: There are currently no types available.
         version:
           no_results_title_text: There are currently no versions available.
-    x_children:
-      other: "%{count} work package children"
   label_invitation: Undangan
   account:
     delete: Hapus akun
@@ -301,7 +299,7 @@ id:
       comment:
         commented: Komentar
       custom_action:
-        actions: Actions
+        actions: Tindakan
       custom_field:
         default_value: Nilai default
         editable: Dapat diedit
@@ -361,6 +359,7 @@ id:
       type:
         attribute_groups: ''
         is_in_roadmap: In roadmap
+        is_default: Activated for new projects by default
         is_milestone: Is milestone
         color: Warna
       user:
@@ -947,7 +946,8 @@ id:
   enumeration_system_activity: Sistem Activity
   enumeration_reported_project_statuses: Status Project yang di-Report
   error_auth_source_sso_failed: Single Sign-On (SSO) untuk pengguna '%{value}' gagal
-  error_can_not_archive_project: Project ini tidak bisa diarsip
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Tidak dapat menghapus isian
   error_can_not_delete_custom_field: Tidak dapat menghapus isian kustom
   error_can_not_delete_type: Tipe ini berisi Work Package dan tidak dapat dihapus.
@@ -1526,7 +1526,6 @@ id:
   label_total: Total
   label_type_new: Tipe baru
   label_type_plural: Tipe
-  label_type_default_new_projects: Type activated for new projects by default
   label_ui: Antarmuka user
   label_update_work_package_done_ratios: Rasio Paket-Penugasan telah diupdate
   label_updated_time: Diperbarui %{value} yang lalu
@@ -2680,3 +2679,4 @@ id:
       writing_read_only_attributes: Anda tidak harus menulis hanya-baca atribut.
     resources:
       schema: Schema
+  label_type_default_new_projects: Type activated for new projects by default

@@ -219,9 +219,6 @@ et:
           no_results_title_text: There are currently no types available.
         version:
           no_results_title_text: There are currently no versions available.
-    x_children:
-      one: One child work package
-      other: "%{count} work package children"
   label_invitation: Kutse
   account:
     delete: Kustuta konto
@@ -365,6 +362,7 @@ et:
       type:
         attribute_groups: ''
         is_in_roadmap: In roadmap
+        is_default: Activated for new projects by default
         is_milestone: Is milestone
         color: Värv
       user:
@@ -949,7 +947,8 @@ et:
   enumeration_system_activity: Süsteemi tegevus
   enumeration_reported_project_statuses: Esitatud projekti olek
   error_auth_source_sso_failed: Single Sign-On (SSO) for user '%{value}' failed
-  error_can_not_archive_project: Seda projekti ei saa arhiveerida
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Unable to delete entry
   error_can_not_delete_custom_field: Lisavälja ei saa kustutada
   error_can_not_delete_type: Tüüp on mõnes teemas kasutusel ja seda ei saa kustutada.
@@ -1530,7 +1529,6 @@ et:
   label_total: Kokku
   label_type_new: Uus tüüp
   label_type_plural: Tüübid
-  label_type_default_new_projects: Type activated for new projects by default
   label_ui: Kasutajaliides
   label_update_work_package_done_ratios: Uuenda edenemise astmeid
   label_updated_time: Uuendatud %{value} tagasi
@@ -2679,3 +2677,4 @@ et:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Schema
+  label_type_default_new_projects: Type activated for new projects by default

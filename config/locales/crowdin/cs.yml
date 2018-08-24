@@ -189,6 +189,8 @@ cs:
     x_descendants:
       one: One descendant work package
       other: "%{count} work package descendants"
+      few: "%{count} work package descendants"
+      many: "%{count} work package descendants"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -220,11 +222,6 @@ cs:
           no_results_title_text: V současné době nejsou k dispozici žádné typy.
         version:
           no_results_title_text: There are currently no versions available.
-    x_children:
-      one: One child work package
-      few: "%{count} work package children"
-      many: "%{count} work package children"
-      other: "%{count} work package children"
   label_invitation: Pozvánka
   account:
     delete: Odstranit účet
@@ -310,7 +307,7 @@ cs:
       comment:
         commented: Komentované
       custom_action:
-        actions: Actions
+        actions: Akce
       custom_field:
         default_value: Výchozí hodnota
         editable: Upravitelné
@@ -370,6 +367,7 @@ cs:
       type:
         attribute_groups: ''
         is_in_roadmap: In roadmap
+        is_default: Activated for new projects by default
         is_milestone: Is milestone
         color: Barva
       user:
@@ -985,7 +983,8 @@ cs:
   enumeration_system_activity: Činnost systému
   enumeration_reported_project_statuses: Nahlášený stav projektu
   error_auth_source_sso_failed: Single Sign-On (SSO) for user '%{value}' failed
-  error_can_not_archive_project: Tento projekt nemůže být archivován
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Unable to delete entry
   error_can_not_delete_custom_field: Nelze odstranit vlastní pole
   error_can_not_delete_type: This type contains work packages and cannot be deleted.
@@ -1563,7 +1562,6 @@ cs:
   label_total: Celkem
   label_type_new: Nový typ
   label_type_plural: Typy
-  label_type_default_new_projects: Type activated for new projects by default
   label_ui: Uživatelské rozhraní
   label_update_work_package_done_ratios: Update work package done ratios
   label_updated_time: Aktualizováno před %{value}
@@ -2743,3 +2741,4 @@ cs:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Schema
+  label_type_default_new_projects: Type activated for new projects by default

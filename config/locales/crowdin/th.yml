@@ -219,8 +219,6 @@ th:
           no_results_title_text: There are currently no types available.
         version:
           no_results_title_text: There are currently no versions available.
-    x_children:
-      other: "%{count} work package children"
   label_invitation: Invitation
   account:
     delete: ลบบัญชีผู้ใช้
@@ -362,6 +360,7 @@ th:
       type:
         attribute_groups: ''
         is_in_roadmap: In roadmap
+        is_default: Activated for new projects by default
         is_milestone: Is milestone
         color: สี
       user:
@@ -943,7 +942,8 @@ th:
   enumeration_system_activity: กิจกรรมของระบบ
   enumeration_reported_project_statuses: สถานะโครงการที่รายงานแล้ว
   error_auth_source_sso_failed: Single Sign-On (SSO) for user '%{value}' failed
-  error_can_not_archive_project: โครงการนี้ไม่ได้ถูกเก็บถาวร
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Unable to delete entry
   error_can_not_delete_custom_field: ไม่สามารถลบฟิลด์ที่กำหนดเองได้
   error_can_not_delete_type: ประเภทนี้มีชุดภารกิจและไม่สามารถลบได้
@@ -1514,7 +1514,6 @@ th:
   label_total: ผลรวม
   label_type_new: ชนิดใหม่
   label_type_plural: ประเภท
-  label_type_default_new_projects: Type activated for new projects by default
   label_ui: ส่วนติดต่อผู้ใช้งาน
   label_update_work_package_done_ratios: ปรับปรุงอัตราส่วนชุดภารกิจที่ทำแล้ว
   label_updated_time: ปรับปรุงเมื่อ %{value} ที่ผ่านมา
@@ -2632,3 +2631,4 @@ th:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Schema
+  label_type_default_new_projects: Type activated for new projects by default

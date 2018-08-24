@@ -218,9 +218,6 @@ fi:
           no_results_title_text: Tällä hetkellä tyyppejä ei ole saatavilla.
         version:
           no_results_title_text: Tällä hetkellä versioita ei ole saatavilla.
-    x_children:
-      one: One child work package
-      other: "%{count} work package children"
   label_invitation: Kutsu
   account:
     delete: Poista tili
@@ -366,6 +363,7 @@ fi:
       type:
         attribute_groups: ''
         is_in_roadmap: Suunnitelmassa
+        is_default: Activated for new projects by default
         is_milestone: On virstanpylväs
         color: Väri
       user:
@@ -948,7 +946,8 @@ fi:
   enumeration_system_activity: Järjestelmän toiminta
   enumeration_reported_project_statuses: Reported project status
   error_auth_source_sso_failed: Single Sign-On (SSO) for user '%{value}' failed
-  error_can_not_archive_project: Tätä projektia ei voida arkistoida
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Unable to delete entry
   error_can_not_delete_custom_field: Mukautettua kenttää ei voi poistaa
   error_can_not_delete_type: Tämä tyyppinen työ sisältää pakettia ja ei voi poistaa.
@@ -1528,7 +1527,6 @@ fi:
   label_total: Yhteensä
   label_type_new: Uusi tyyppi
   label_type_plural: Tyypit
-  label_type_default_new_projects: Tyyppi aktivoitu uusia hankkeita oletuksena
   label_ui: Käyttöliittymä
   label_update_work_package_done_ratios: Päivitä työpaketin valmiusasteet
   label_updated_time: Päivitetty %{value} sitten
@@ -2678,3 +2676,4 @@ fi:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Schema
+  label_type_default_new_projects: Tyyppi aktivoitu uusia hankkeita oletuksena

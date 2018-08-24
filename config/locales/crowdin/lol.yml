@@ -166,8 +166,8 @@ lol:
       no_results_title_text: crwdns96460:0crwdne96460:0
   work_packages:
     x_descendants:
-      one: One descendant work package
-      other: "%{count} work package descendants"
+      one: crwdns99125:1crwdne99125:1
+      other: crwdns99125:5%{count}crwdne99125:5
     move:
       no_common_statuses_exists: crwdns99037:0crwdne99037:0
       unsupported_for_multiple_projects: crwdns96461:0crwdne96461:0
@@ -196,9 +196,6 @@ lol:
           no_results_title_text: crwdns96471:0crwdne96471:0
         version:
           no_results_title_text: crwdns96472:0crwdne96472:0
-    x_children:
-      one: crwdns99061:1crwdne99061:1
-      other: crwdns99061:5%{count}crwdne99061:5
   label_invitation: crwdns96473:0crwdne96473:0
   account:
     delete: crwdns96474:0crwdne96474:0
@@ -261,7 +258,7 @@ lol:
       comment:
         commented: crwdns96511:0crwdne96511:0
       custom_action:
-        actions: Actions
+        actions: crwdns99126:0crwdne99126:0
       custom_field:
         default_value: crwdns96512:0crwdne96512:0
         editable: crwdns96513:0crwdne96513:0
@@ -320,6 +317,7 @@ lol:
       type:
         attribute_groups: crwdns99049:0crwdne99049:0
         is_in_roadmap: crwdns96556:0crwdne96556:0
+        is_default: Activated for new projects by default
         is_milestone: crwdns96558:0crwdne96558:0
         color: crwdns96559:0crwdne96559:0
       user:
@@ -876,7 +874,7 @@ lol:
   enumeration_system_activity: crwdns96987:0crwdne96987:0
   enumeration_reported_project_statuses: crwdns96988:0crwdne96988:0
   error_auth_source_sso_failed: crwdns96989:0%{value}crwdne96989:0
-  error_can_not_archive_project: crwdns96990:0crwdne96990:0
+  error_can_not_archive_project: crwdns99127:0crwdne99127:0
   error_can_not_delete_entry: crwdns96991:0crwdne96991:0
   error_can_not_delete_custom_field: crwdns96992:0crwdne96992:0
   error_can_not_delete_type: crwdns96993:0crwdne96993:0
@@ -1432,7 +1430,6 @@ lol:
   label_total: crwdns97501:0crwdne97501:0
   label_type_new: crwdns97502:0crwdne97502:0
   label_type_plural: crwdns97503:0crwdne97503:0
-  label_type_default_new_projects: crwdns97504:0crwdne97504:0
   label_ui: crwdns97505:0crwdne97505:0
   label_update_work_package_done_ratios: crwdns97506:0crwdne97506:0
   label_updated_time: crwdns97507:0%{value}crwdne97507:0
@@ -2411,3 +2408,4 @@ lol:
       writing_read_only_attributes: crwdns98331:0crwdne98331:0
     resources:
       schema: crwdns98332:0crwdne98332:0
+  label_type_default_new_projects: crwdns97504:0crwdne97504:0

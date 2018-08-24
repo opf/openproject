@@ -691,7 +691,8 @@ pl:
         title: Potwierdź usunięcie %{label}
         text: Czy na pewno chcesz usunąć następujący %{label}?
         has_children: 'Pakiet roboczy zawiera %{childUnits}:'
-        deletes_children: Wszystkie potomne pakiety robocze również zostaną usunięte.
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: Tworzenie zakończone sukcesem.
     notice_successful_delete: Usuwanie zakończone sukcesem.
     notice_successful_update: Aktualizacja zakończona sukcesem.
