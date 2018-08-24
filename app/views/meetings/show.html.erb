@@ -59,7 +59,7 @@ See doc/COPYRIGHT.md for more details.
 <div class="meeting details box">
   <div class="grid-block wrap">
     <div class="grid-content small-12 block--author">
-      <%= avatar(@meeting.author) %>
+      <%= avatar(@meeting.author, remove_on_missing: true) %>
       <p class="author"><%= authoring @meeting.created_at, @meeting.author %></p>
     </div>
     <div class="grid-content small-6">
