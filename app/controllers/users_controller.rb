@@ -343,6 +343,6 @@ class UsersController < ApplicationController
   end
 
   def show_local_breadcrumb
-    true
+    current_user.admin?
   end
 end
