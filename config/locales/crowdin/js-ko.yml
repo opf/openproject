@@ -87,6 +87,7 @@ ko:
           button: Include content of another wiki page
           text: "[Placeholder] Included wiki page of"
           page: 위키 페이지
+          not_set: "(Page not yet set)"
           hint: |
             Include the content of another wiki page by specifying its title or slug.
             You can include the wiki page of another project by separating them with a colon like the following example.
@@ -392,6 +393,7 @@ ko:
 
 '
       button_activate: Show Gantt chart
+      button_deactivate: Hide Gantt chart
       cancel: 취소
       change: 계획에서 변경
       due_date: 기한

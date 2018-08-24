@@ -90,6 +90,7 @@ nl:
           button: Inhoud van een andere wikipagina opnemen
           text: "[Placeholder] opgenomen wikipagina van"
           page: Wikipagina
+          not_set: "(Page not yet set)"
           hint: |
             Neem de inhoud van een andere wikipagina op door de de titel of de witruimte rond de pagina in te geven.
             U kunt de wikipagina van een ander project opnemen door deze te scheiden met een dubbele punt zoals in het volgende voorbeeld.
@@ -409,6 +410,7 @@ nl:
 
 '
       button_activate: Toon Gantt-diagram
+      button_deactivate: Hide Gantt chart
       cancel: Annuleren
       change: In de planning wijzigen
       due_date: Vervaldatum

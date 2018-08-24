@@ -189,10 +189,9 @@ ro:
     index:
       no_results_title_text: În acest moment nu există fluxuri de lucru.
   work_packages:
-    x_children:
-      one: One child work package
-      other: "%{count} work package children"
-      few: "%{count} work package children"
+    x_descendants:
+      one: One descendant work package
+      other: "%{count} work package descendants"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -230,6 +229,10 @@ ro:
           no_results_title_text: În acest moment nu există tipuri disponibile.
         version:
           no_results_title_text: În acest moment nu există versiuni disponibile.
+    x_children:
+      one: One child work package
+      few: "%{count} work package children"
+      other: "%{count} work package children"
   label_invitation: Invitație
   account:
     delete: Ştergere cont
@@ -312,6 +315,8 @@ ro:
         repository: Repo
       comment:
         commented: Cu comentarii
+      custom_action:
+        actions: Actions
       custom_field:
         default_value: Valoare implicită
         editable: Editabil

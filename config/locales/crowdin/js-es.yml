@@ -88,6 +88,7 @@ es:
           button: Include content of another wiki page
           text: "[Placeholder] Included wiki page of"
           page: Página wiki
+          not_set: "(Page not yet set)"
           hint: |
             Include the content of another wiki page by specifying its title or slug.
             You can include the wiki page of another project by separating them with a colon like the following example.
@@ -406,6 +407,7 @@ es:
           que, al mantener el ratón sobre un elemento, se mostrarán las etiquetas
           de fecha, en lugar de estos atributos. \n"
       button_activate: Show Gantt chart
+      button_deactivate: Hide Gantt chart
       cancel: Cancelar
       change: Cambio en la planificación
       due_date: Fecha de vencimiento

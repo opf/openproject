@@ -33,7 +33,7 @@ See docs/COPYRIGHT.rdoc for more details.
     <div class="form--field -wide-label"><%= f.text_field :name, required: true, disabled: @type.is_standard?, container_class: '-middle' %></div>
     <div class="form--field -wide-label"><%= f.check_box :is_in_roadmap %></div>
     <div class="form--field -wide-label"><%= f.select :color_id, options_for_colors(@type), container_class: '-slim' %></div>
-    <div class="form--field -wide-label"><%= f.check_box :is_default, label:  t(:label_type_default_new_projects) %></div>
+    <div class="form--field -wide-label"><%= f.check_box :is_default %></div>
     <div class="form--field -wide-label"><%= f.check_box :is_milestone %></div>
 
     <% if @type.new_record? && @types.any? %>

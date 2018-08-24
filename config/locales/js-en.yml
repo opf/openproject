@@ -113,6 +113,7 @@ en:
           button: 'Include content of another wiki page'
           text: '[Placeholder] Included wiki page of'
           page: 'Wiki page'
+          not_set: '(Page not yet set)'
           hint: |
             Include the content of another wiki page by specifying its title or slug.
             You can include the wiki page of another project by separating them with a colon like the following example.
@@ -689,7 +690,7 @@ en:
         title: "Confirm deletion of %{label}"
         text: "Are you sure you want to delete the following %{label} ?"
         has_children: "The work package has %{childUnits}:"
-        deletes_children: "All child work packages will also be deleted."
+        deletes_children: "All child work packages and their descendants will also be recursively deleted."
 
     notice_successful_create: "Successful creation."
     notice_successful_delete: "Successful deletion."

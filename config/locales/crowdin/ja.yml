@@ -165,9 +165,9 @@ ja:
     index:
       no_results_title_text: 現在、ワークフローはありません。
   work_packages:
-    x_children:
-      one: One child work package
-      other: "%{count} の子作業項目"
+    x_descendants:
+      one: One descendant work package
+      other: "%{count} work package descendants"
     move:
       no_common_statuses_exists: 選択されたすべての項目に利用可能なステータスはありません。 それらの状態は変更できません。
       unsupported_for_multiple_projects: 複数のプロジェクトから、作業項目の一括移動/コピーはサポートされていません
@@ -196,6 +196,8 @@ ja:
           no_results_title_text: 現在、有効な種類はありません。
         version:
           no_results_title_text: 現在、有効なバージョンはありません。
+    x_children:
+      other: "%{count} の子作業項目"
   label_invitation: 案内
   account:
     delete: アカウントを削除
@@ -259,6 +261,8 @@ ja:
         repository: リポジトリ
       comment:
         commented: コメントしました。
+      custom_action:
+        actions: Actions
       custom_field:
         default_value: デフォルト値
         editable: 編集可能

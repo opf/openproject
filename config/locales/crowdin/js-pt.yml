@@ -88,6 +88,7 @@ pt:
           button: Include content of another wiki page
           text: "[Placeholder] Included wiki page of"
           page: Página wiki
+          not_set: "(Page not yet set)"
           hint: |
             Include the content of another wiki page by specifying its title or slug.
             You can include the wiki page of another project by separating them with a colon like the following example.
@@ -402,6 +403,7 @@ pt:
 
 '
       button_activate: Show Gantt chart
+      button_deactivate: Hide Gantt chart
       cancel: Cancelar
       change: Alteração no planeamento
       due_date: Prazo

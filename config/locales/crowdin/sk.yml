@@ -185,11 +185,9 @@ sk:
     index:
       no_results_title_text: Momentálne neexistujú žiadne toky činností.
   work_packages:
-    x_children:
-      one: One child work package
-      other: "%{count} work package children"
-      few: "%{count} work package children"
-      many: "%{count} work package children"
+    x_descendants:
+      one: One descendant work package
+      other: "%{count} work package descendants"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -227,6 +225,11 @@ sk:
           no_results_title_text: Momentálne nie sú k dispozícii žiadne typy.
         version:
           no_results_title_text: V súčasnosti nie sú k dispozícii žiadne verzie.
+    x_children:
+      one: One child work package
+      few: "%{count} work package children"
+      many: "%{count} work package children"
+      other: "%{count} work package children"
   label_invitation: Pozvánka
   account:
     delete: Vymazať účet
@@ -309,6 +312,8 @@ sk:
         repository: Repozitár
       comment:
         commented: Komentované
+      custom_action:
+        actions: Actions
       custom_field:
         default_value: Predvolená hodnota
         editable: Editovateľné

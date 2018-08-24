@@ -83,6 +83,7 @@ ja:
           button: 別のwikiページの内容を含める
           text: "[Placeholder] のwikiページが含まれています"
           page: Wiki ページ
+          not_set: "(Page not yet set)"
           hint: |
             タイトルやスラッグを指定して別のwikiページの内容を含める。
             次の例のように、別のプロジェクトのwikiページをコロンで区切って含めることができます。
@@ -381,6 +382,7 @@ ja:
 
 '
       button_activate: ガントチャートの表示
+      button_deactivate: Hide Gantt chart
       cancel: キャンセル
       change: 計画の変更する
       due_date: 期限

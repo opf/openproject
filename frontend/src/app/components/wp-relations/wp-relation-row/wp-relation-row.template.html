@@ -54,7 +54,7 @@
                               linkClass="wp-relations--description-btn"
                               [ngClass]="{'-visible': showDescriptionInfo }"
                               (execute)="userInputs.showRelationInfo = !userInputs.showRelationInfo">
-        <op-icon icon-classes="icon-info1 wp-relations--icon wp-relations--description-icon"
+        <op-icon icon-classes="icon-info1 -padded wp-relations--icon wp-relations--description-icon"
                  icon-title="text.toggleDescription"></op-icon>
       </accessible-by-keyboard>
       <accessible-by-keyboard *ngIf="relation.delete"
@@ -63,7 +63,7 @@
                               [linkAriaLabel]="text.removeButton"
                               [linkTitle]="text.removeButton"
                               linkClass="relation-row--remove-btn">
-        <op-icon icon-classes="icon-remove wp-relations--icon" [icon-title]="text.removeButton"></op-icon>
+        <op-icon icon-classes="icon-remove -padded wp-relations--icon" [icon-title]="text.removeButton"></op-icon>
       </accessible-by-keyboard>
     </div>
   </div>

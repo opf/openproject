@@ -186,9 +186,9 @@ sv-SE:
     index:
       no_results_title_text: Det finns för närvarande inga arbetsflöden.
   work_packages:
-    x_children:
-      one: Ett barn arbetspaket
-      other: "%{count} arbetspaket barn"
+    x_descendants:
+      one: One descendant work package
+      other: "%{count} work package descendants"
     move:
       no_common_statuses_exists: Det finns ingen status för alla valda arbetspaket.
         Deras status kan inte ändras.
@@ -220,6 +220,9 @@ sv-SE:
           no_results_title_text: Det finns för närvarande inga typer tillgängliga.
         version:
           no_results_title_text: Det finns för närvarande inga tillgängliga versioner.
+    x_children:
+      one: Ett barn arbetspaket
+      other: "%{count} arbetspaket barn"
   label_invitation: Inbjudan
   account:
     delete: Ta bort konto
@@ -302,6 +305,8 @@ sv-SE:
         repository: Versionsarkiv
       comment:
         commented: Kommenterade
+      custom_action:
+        actions: Actions
       custom_field:
         default_value: Standardvärde
         editable: Redigerbar

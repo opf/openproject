@@ -26,30 +26,27 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Check links to a wiki page
+require 'spec_helper'
+require 'features/page_objects/notification'
+require 'features/work_packages/shared_contexts'
+require 'features/work_packages/work_packages_page'
 
-  Background:
-    Given there is 1 user with the following:
-      | login | bob |
-    And there is a role "member"
-    And the role "member" may have the following rights:
-      | view_wiki_pages |
-      | edit_wiki_pages |
-      | view_wiki_edits |
-    And there is 1 project with the following:
-      | name       | project1 |
-      | identifier | project1 |
-    And the user "bob" is a "member" in the project "project1"
-    And the project "project1" has 1 wiki page with the following:
-      | title | WikiPage |
-    And I am working in project "project1"
-    And the project uses the following modules:
-      | wiki |
-    And I am already logged in as "bob"
+feature 'Wiki menu items' do
+  let(:user) do
+    FactoryBot.create :user,
+                      member_in_project: project,
+                      member_with_permissions: %w[view_wiki_pages]
+  end
+  let(:project) { FactoryBot.create :project, enabled_module_names: %w[wiki] }
+  let(:wiki) { project.wiki }
 
-  Scenario: Check activity link
-    When I go to the activity page of the project "project1"
-     And I activate activity filter "Wiki edit"
-    When I click "Apply"
-     And I click "Wiki edit: WikiPage (#1)"
-    Then I should see "WikiPage"
+  before do
+    login_as user
+    visit index_project_wiki_index_path(project)
+  end
+
+  it 'allows managing the menu item of a wiki page' do
+    expect(page).to have_selector('h2', text: 'Table of Contents')
+    expect(page).to have_no_selector('.main-menu--children .selected')
+  end
+end

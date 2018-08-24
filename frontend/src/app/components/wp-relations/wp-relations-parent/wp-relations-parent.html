@@ -27,13 +27,13 @@
           <accessible-by-keyboard *ngIf="canModifyHierarchy"
                                   (execute)="showEditForm = true"
                                   linkClass="wp-relation--edit">
-              <op-icon icon-classes="icon-edit" [icon-title]="text.change_parent"></op-icon>
+              <op-icon icon-classes="icon-edit -padded" [icon-title]="text.change_parent"></op-icon>
           </accessible-by-keyboard>
 
           <accessible-by-keyboard *ngIf="canModifyHierarchy"
                                   (execute)="removeParent()"
                                   linkClass="wp-relation--remove">
-              <op-icon icon-classes="icon-remove"
+              <op-icon icon-classes="icon-remove -padded"
                        [icon-title]="text.remove_parent"></op-icon>
           </accessible-by-keyboard>
         </div>
@@ -72,13 +72,13 @@
               [isDisabled]="!selectedWpId || isSaving"
               (execute)="changeParent()"
               aria-hidden="false">
-              <op-icon icon-classes="icon-checkmark" [icon-title]="text.save"></op-icon>
+              <op-icon icon-classes="icon-checkmark -padded" [icon-title]="text.save"></op-icon>
             </accessible-by-keyboard>
             <accessible-by-keyboard
               linkClass="wp-create-relation--cancel"
               (execute)="showEditForm = false"
               aria-hidden="false">
-              <op-icon icon-classes="icon-remove" [icon-title]="text.abort"></op-icon>
+              <op-icon icon-classes="icon-remove -padded" [icon-title]="text.abort"></op-icon>
             </accessible-by-keyboard>
           </div>
         </div>

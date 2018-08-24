@@ -217,9 +217,9 @@ en:
       no_results_title_text: There are currently no workflows.
 
   work_packages:
-    x_children:
-      one: 'One child work package'
-      other: '%{count} work package children'
+    x_descendants:
+      one: 'One descendant work package'
+      other: '%{count} work package descendants'
 
     move:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
@@ -374,7 +374,8 @@ en:
         type: "Type"
       type:
         attribute_groups: ''
-        is_in_roadmap: "In roadmap"
+        is_in_roadmap: "Displayed in roadmap by default"
+        is_default: "Activated for new projects by default"
         is_milestone: "Is milestone"
         color: "Color"
       user:
@@ -1485,7 +1486,6 @@ en:
   label_total: "Total"
   label_type_new: "New type"
   label_type_plural: "Types"
-  label_type_default_new_projects: "Type activated for new projects by default"
   label_ui: "User Interface"
   label_update_work_package_done_ratios: "Update work package done ratios"
   label_updated_time: "Updated %{value} ago"

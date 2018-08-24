@@ -181,9 +181,9 @@ hu:
     index:
       no_results_title_text: Jelenleg nincsenek munkafolyamatok.
   work_packages:
-    x_children:
-      one: One child work package
-      other: "%{count} work package children"
+    x_descendants:
+      one: One descendant work package
+      other: "%{count} work package descendants"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -215,6 +215,9 @@ hu:
           no_results_title_text: Jelenleg nincs elérhető típus.
         version:
           no_results_title_text: Nincs elérhető verzió.
+    x_children:
+      one: One child work package
+      other: "%{count} work package children"
   label_invitation: Meghívó
   account:
     delete: Felhasználói hozzáférés törölése
@@ -299,6 +302,8 @@ hu:
         repository: Csomagtároló
       comment:
         commented: Hozzászólás
+      custom_action:
+        actions: Actions
       custom_field:
         default_value: Alap érték
         editable: Szerkeszthető

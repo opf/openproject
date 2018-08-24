@@ -83,6 +83,7 @@ lol:
           button: crwdns99018:0crwdne99018:0
           text: crwdns99065:0[Placeholder]crwdne99065:0
           page: crwdns99020:0crwdne99020:0
+          not_set: "(Page not yet set)"
           hint: 'crwdns99021:0crwdne99021:0
 
 '
@@ -378,6 +379,7 @@ lol:
 
 '
       button_activate: crwdns99070:0crwdne99070:0
+      button_deactivate: Hide Gantt chart
       cancel: crwdns98607:0crwdne98607:0
       change: crwdns98608:0crwdne98608:0
       due_date: crwdns98609:0crwdne98609:0

@@ -165,9 +165,9 @@ lol:
     index:
       no_results_title_text: crwdns96460:0crwdne96460:0
   work_packages:
-    x_children:
-      one: crwdns99061:1crwdne99061:1
-      other: crwdns99061:5%{count}crwdne99061:5
+    x_descendants:
+      one: One descendant work package
+      other: "%{count} work package descendants"
     move:
       no_common_statuses_exists: crwdns99037:0crwdne99037:0
       unsupported_for_multiple_projects: crwdns96461:0crwdne96461:0
@@ -196,6 +196,9 @@ lol:
           no_results_title_text: crwdns96471:0crwdne96471:0
         version:
           no_results_title_text: crwdns96472:0crwdne96472:0
+    x_children:
+      one: crwdns99061:1crwdne99061:1
+      other: crwdns99061:5%{count}crwdne99061:5
   label_invitation: crwdns96473:0crwdne96473:0
   account:
     delete: crwdns96474:0crwdne96474:0
@@ -257,6 +260,8 @@ lol:
         repository: crwdns96510:0crwdne96510:0
       comment:
         commented: crwdns96511:0crwdne96511:0
+      custom_action:
+        actions: Actions
       custom_field:
         default_value: crwdns96512:0crwdne96512:0
         editable: crwdns96513:0crwdne96513:0

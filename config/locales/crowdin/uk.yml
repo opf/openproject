@@ -185,11 +185,9 @@ uk:
     index:
       no_results_title_text: There are currently no workflows.
   work_packages:
-    x_children:
-      one: One child work package
-      other: "%{count} work package children"
-      few: "%{count} work package children"
-      many: "%{count} work package children"
+    x_descendants:
+      one: One descendant work package
+      other: "%{count} work package descendants"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -221,6 +219,11 @@ uk:
           no_results_title_text: There are currently no types available.
         version:
           no_results_title_text: There are currently no versions available.
+    x_children:
+      one: One child work package
+      few: "%{count} work package children"
+      many: "%{count} work package children"
+      other: "%{count} work package children"
   label_invitation: Invitation
   account:
     delete: Видалити обліковий запис
@@ -305,6 +308,8 @@ uk:
         repository: Repository
       comment:
         commented: Commented
+      custom_action:
+        actions: Actions
       custom_field:
         default_value: Значення за замовчуванням
         editable: Editable

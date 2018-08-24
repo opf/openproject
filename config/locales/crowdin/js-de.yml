@@ -90,6 +90,7 @@ de:
           button: Inhalt einer anderen Wikiseite einbetten
           text: "[Platzhalter] Eingebetteter Inhalt von"
           page: Wiki-Seite
+          not_set: "(Page not yet set)"
           hint: 'Fügen Sie den Inhalt einer anderen Wikiseite eine, indem Sie hier
             ihren Titel oder URL-Slug angeben. Sie können auch die Wikiseite eines
             anderen Projekts angeben, indem Sie Projekt-Identifier und Seite wie folgt
@@ -410,6 +411,7 @@ de:
 
 '
       button_activate: Gantt-Diagramm zeigen
+      button_deactivate: Hide Gantt chart
       cancel: Abbrechen
       change: Planungsänderung
       due_date: Abgabedatum

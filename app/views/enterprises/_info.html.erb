@@ -18,6 +18,7 @@
     </p>
     <%= link_to( "#{OpenProject::Static::Links.links[:upsale][:href]}/?utm_source=unknown&utm_medium=community-edition&utm_campaign=enterprise-admin",
                  { class: 'button -alt-highlight',
+                   target: '_blank',
                    aria: {label: t('admin.enterprise.order')},
                    title: t('admin.enterprise.order')}) do %>
       <%= op_icon('button--icon icon-add') %>

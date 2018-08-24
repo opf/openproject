@@ -184,13 +184,9 @@ ar:
     index:
       no_results_title_text: لا يوجد حالياً أي سير عمل.
   work_packages:
-    x_children:
-      one: One child work package
-      other: "%{count} work package children"
-      zero: "%{count} work package children"
-      two: "%{count} work package children"
-      few: "%{count} work package children"
-      many: "%{count} work package children"
+    x_descendants:
+      one: One descendant work package
+      other: "%{count} work package descendants"
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -222,6 +218,13 @@ ar:
           no_results_title_text: لا يوجد حالياً أي أنواع متاحة.
         version:
           no_results_title_text: لا يوجد حاليا أي إصدارات متوفرة.
+    x_children:
+      zero: "%{count} work package children"
+      one: One child work package
+      two: "%{count} work package children"
+      few: "%{count} work package children"
+      many: "%{count} work package children"
+      other: "%{count} work package children"
   label_invitation: دعوة
   account:
     delete: حذف الحساب
@@ -302,6 +305,8 @@ ar:
         repository: مستودع البيانات
       comment:
         commented: علّق
+      custom_action:
+        actions: Actions
       custom_field:
         default_value: القيمة الافتراضية
         editable: قابل للتعديل
