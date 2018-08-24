@@ -19,6 +19,6 @@ export abstract class OpTableAction {
   /** Identifier to uniquely identify the action */
   public abstract readonly identifier:string;
 
-  /** The actual action factory to return the action element */
-  public abstract buildElement():HTMLElement;
+  /** The actual action factory to return the action element, if it can be rendered */
+  public abstract buildElement():HTMLElement|null;
 }

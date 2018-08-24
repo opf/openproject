@@ -59,7 +59,9 @@ export class WorkPackageChildrenQueryComponent implements OnInit {
         this.childrenEmbeddedTable.loadingIndicator = this.wpRelationsHierarchyService
           .removeChild(child)
           .then(() => this.refreshTable());
-      })
+      },
+      (child:WorkPackageResource) => !!child.changeParent
+    )
   ];
 
   constructor(protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
