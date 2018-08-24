@@ -329,6 +329,10 @@ input.top-menu-search--input
 
   .nosidebar &
     display: none
+    
+  &:hover
+    @include varprop(background, header-item-bg-hover-color)
+    @include varprop(color, header-item-font-hover-color)
 
 @media only screen and (max-width: 18.75rem)
   #logo
