@@ -117,6 +117,9 @@ export class WpTableConfigurationColumnsTab implements TabComponent, AfterViewIn
         start: function() { input.select2("onSortStart"); },
         update: function() { input.select2("onSortEnd"); }
       });
+
+    input
+      .select2('focus')
   }
 
   private column2Like(c:QueryColumn):ColumnLike {
