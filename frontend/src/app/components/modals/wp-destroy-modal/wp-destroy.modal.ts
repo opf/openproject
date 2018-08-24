@@ -51,6 +51,7 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
   // Single work package
   public singleWorkPackage:WorkPackageResource;
   public singleWorkPackageChildren:WorkPackageResource[];
+  public busy = false;
 
   public text:any = {
     label_visibility_settings: this.I18n.t('js.label_visibility_settings'),
@@ -106,12 +107,23 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
 
 
   public confirmDeletion($event:JQueryEventObject) {
+    if (this.busy) {
+      return false;
+    }
+
+    this.busy = true;
     this.WorkPackageService.performBulkDelete(this.workPackages.map(el => el.id), true)
       .then(() => {
+        this.busy = false;
         this.closeMe($event);
         this.wpTableFocus.clear();
         this.$state.go('work-packages.list');
+      })
+      .catch(() => {
+        this.busy = false;
       });
+
+    return false;
   }
 
   public children(workPackage:WorkPackageResource) {
