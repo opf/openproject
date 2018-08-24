@@ -31,6 +31,11 @@
 
 config = OpenProject::Configuration
 
+# Enforce session storage for testing
+if Rails.env.test?
+  config['session_store'] = :active_record_store
+end
+
 session_store     = config['session_store'].to_sym
 relative_url_root = config['rails_relative_url_root'].presence
 
