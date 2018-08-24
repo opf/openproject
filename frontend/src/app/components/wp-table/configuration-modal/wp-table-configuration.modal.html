@@ -23,7 +23,8 @@
              [ngClass]="{ '-disabled': tab.disableBecause != null, 'selected': currentTab && tab.name === currentTab.name }"
              [attr.title]="tab.disableBecause || tab.title"
              [textContent]="tab.title"
-             (click)="switchTo(tab.name)">
+             (click)="switchTo(tab.name)"
+             href>
           </a>
       </ul>
       <div class="tabs-buttons" style="display:none;">
