@@ -26,7 +26,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
+
 <%= toolbar title: l(:label_roadmap) %>
+
 <% if @versions.empty? %>
   <%= no_results_box %>
 <% else %>
@@ -57,48 +59,8 @@ See docs/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <% content_for :sidebar do %>
-  <%= form_tag({}, method: :get) do %>
-    <fieldset class="form--fieldset">
-      <legend class="form--fieldset-legend"><%= l(:description_filter) %></legend>
-      <% @types.each do |type| %>
-        <div class="form--field -trailing-label -no-margin">
-          <%= styled_label_tag "type-#{type.id}", type.name %>
-          <div class="form--field-container">
-            <%= styled_check_box_tag "type_ids[]", type.id, (@selected_type_ids.include? type.id.to_s), id: "type-#{type.id}" %>
-          </div>
-        </div>
-      <% end %>
-
-      <div class="form--space"></div>
-
-      <div class="form--field -trailing-label -no-margin">
-        <%= styled_label_tag "completed", t(:label_show_completed_versions) %>
-        <div class="form--field-container">
-          <%= styled_check_box_tag "completed", 1, params[:completed] %>
-        </div>
-      </div>
-
-      <% if @project.descendants.active.any? %>
-        <div class="form--space"></div>
-        <%= hidden_field_tag 'with_subprojects', 0 %>
-        <div class="form--field -trailing-label -no-margin">
-          <%= styled_label_tag "with-subprojects", t(:label_subproject_plural) %>
-
-          <div class="form--field-container">
-            <%= styled_check_box_tag 'with-subprojects', 1, @with_subprojects %>
-          </div>
-        </div>
-      <% end %>
-
-      <div class="form--space"></div>
-
-      <div><%= submit_tag l(:button_apply), class: 'button -small -alt-highlight', name: nil %></div>
-
-    </fieldset>
-  <% end %>
-      <h3><%= l(:label_version_plural) %></h3>
-      <% @versions.each do |version| %>
-        <%= link_to format_version_name(version), "#{project_roadmap_url}##{version.name}" %><br />
-      <% end %>
+  <%= render partial: 'roadmap_filter' %>
+  <%= render partial: 'roadmap_version_links' %>
 <% end %>
+
 <% html_title(l(:label_roadmap)) %>
