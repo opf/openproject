@@ -13,6 +13,7 @@ export class OpUnlinkTableAction extends OpTableAction {
               public workPackage:WorkPackageResource,
               public readonly identifier:string,
               private title:string,
+              readonly applicable:(workPackage:WorkPackageResource) => boolean,
               readonly onClick:(workPackage:WorkPackageResource) => void) {
     super(injector, workPackage);
 
@@ -27,17 +28,23 @@ export class OpUnlinkTableAction extends OpTableAction {
    */
   public static factoryFor(identifier:string,
                            title:string,
-                           onClick:(workPackage:WorkPackageResource) => void):OpTableActionFactory {
+                           onClick:(workPackage:WorkPackageResource) => void,
+                           applicable:(workPackage:WorkPackageResource) => boolean = () => true):OpTableActionFactory {
     return (injector:Injector, workPackage:WorkPackageResource) => {
       return new OpUnlinkTableAction(injector,
         workPackage,
         identifier,
         title,
+        applicable,
         onClick) as OpTableAction;
     };
   }
 
   public buildElement() {
+    if (!this.applicable(this.workPackage)) {
+      return null;
+    }
+
     let element = document.createElement('a');
     element.title = this.title;
     element.href = '#';
