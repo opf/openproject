@@ -428,8 +428,8 @@ zh:
         quarters: 季度
         years: 年
         slider: 缩放滑块
-        description: 'Either select the initial zoom level that should be shown or
-          check the auto zoom box to adjust the gantt chart to fit the visible area.
+        description: 'Select the initial zoom level that should be shown when autozoom
+          is not available.
 
 '
     tl_toolbar:

@@ -368,7 +368,7 @@ fr:
         type: Type
       type:
         attribute_groups: ''
-        is_in_roadmap: Dans la feuille de route
+        is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
         is_milestone: Est un jalon
         color: Couleur
@@ -2769,4 +2769,3 @@ fr:
         seule.
     resources:
       schema: Schéma
-  label_type_default_new_projects: Type activé par défaut pour les nouveaux projets

@@ -365,7 +365,7 @@ hr:
         type: Tip
       type:
         attribute_groups: ''
-        is_in_roadmap: U planu
+        is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
         is_milestone: Je ključna točka
         color: Boja
@@ -2731,5 +2731,3 @@ hr:
         je dopušteno samo čitanje.
     resources:
       schema: Shema
-  label_type_default_new_projects: Zadana početna vrijednost tipa radnog paketa za
-    novi projekt

@@ -365,7 +365,7 @@ bg:
         type: Тип
       type:
         attribute_groups: ''
-        is_in_roadmap: В пътната карта
+        is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
         is_milestone: Е крайъгълен камък
         color: Цвят
@@ -2694,4 +2694,3 @@ bg:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Схема
-  label_type_default_new_projects: Активирани типове по подразбиране за нови проекти

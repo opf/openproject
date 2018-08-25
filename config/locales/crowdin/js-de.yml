@@ -61,7 +61,7 @@ de:
     description_subwork_package: 'Kind von Arbeitspaket #%{id}'
     editor:
       preview: Vorschau-Modus ein/aus
-      error_saving_failed: 'Saving the document failed with the following error: %{e}'
+      error_saving_failed: 'Fehler beim Speichern des Dokuments: %{e}'
       macro:
         child_pages:
           button: Auflistung untergeordneter Seiten
@@ -90,7 +90,7 @@ de:
           button: Inhalt einer anderen Wikiseite einbetten
           text: "[Platzhalter] Eingebetteter Inhalt von"
           page: Wiki-Seite
-          not_set: "(Page not yet set)"
+          not_set: "(Seite noch nicht festgelegt)"
           hint: 'Fügen Sie den Inhalt einer anderen Wikiseite eine, indem Sie hier
             ihren Titel oder URL-Slug angeben. Sie können auch die Wikiseite eines
             anderen Projekts angeben, indem Sie Projekt-Identifier und Seite wie folgt
@@ -412,7 +412,7 @@ de:
 
 '
       button_activate: Gantt-Diagramm zeigen
-      button_deactivate: Hide Gantt chart
+      button_deactivate: Gantt-Diagramm ausblenden
       cancel: Abbrechen
       change: Planungsänderung
       due_date: Abgabedatum
@@ -461,8 +461,8 @@ de:
         quarters: Quartale
         years: Jahre
         slider: Zoom-Regler
-        description: 'Wählen Sie entweder die anzuzeigende Zoom-Stufe or aktivieren
-          Sie den Auto-Zoom um das Gantt-Diagramm an den sichtbaren Bereich anzupassen.
+        description: 'Select the initial zoom level that should be shown when autozoom
+          is not available.
 
 '
     tl_toolbar:
@@ -709,8 +709,8 @@ de:
         title: Löschen von %{label} bestätigen
         text: Sind Sie sicher, dass Sie %{label} löschen möchten?
         has_children: 'Dieses Arbeitspaket hat %{childUnits}:'
-        deletes_children: All child work packages and their descendants will also
-          be recursively deleted.
+        deletes_children: Alle untergeordneten Arbeitspaketen und deren Nachkommen
+          werden auch rekursiv gelöscht.
     notice_successful_create: Erfolgreich angelegt.
     notice_successful_delete: Erfolgreich gelöscht.
     notice_successful_update: Erfolgreich aktualisiert.

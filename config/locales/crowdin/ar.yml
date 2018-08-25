@@ -362,7 +362,7 @@ ar:
         type: النّوع
       type:
         attribute_groups: ''
-        is_in_roadmap: في خارطة الطريق
+        is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
         is_milestone: هو مشروع رئيسي
         color: اللون
@@ -2761,4 +2761,3 @@ ar:
       writing_read_only_attributes: لا يجب أن تكتب على سمة للقراءة فقط.
     resources:
       schema: مخطّط
-  label_type_default_new_projects: نوع المنشط لمشاريع جديدة بشكل افتراضي

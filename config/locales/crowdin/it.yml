@@ -368,7 +368,7 @@ it:
         type: Tipo
       type:
         attribute_groups: ''
-        is_in_roadmap: Nella tabella di marcia
+        is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
         is_milestone: È un traguardo
         color: Colore
@@ -2779,5 +2779,3 @@ it:
       writing_read_only_attributes: Non puoi scrivere un attributo di sola lettura.
     resources:
       schema: Schema
-  label_type_default_new_projects: Nei nuovi progetti i tipi sono attivati per impostazione
-    predefinita

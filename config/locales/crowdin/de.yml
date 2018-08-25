@@ -88,7 +88,7 @@ de:
       no_results_title_text: Zur Zeit existieren keine benutzerdefinierten Felder.
       no_results_content_text: Neues benutzerdefiniertes Feld anlegen
   concatenation:
-    single: or
+    single: oder
   deprecations:
     old_timeline:
       replacement: Dieses Timelines-Modul wird durch eine interaktive Timelines-Ansicht
@@ -188,8 +188,8 @@ de:
       no_results_title_text: Derzeit gibt es keine Workflows.
   work_packages:
     x_descendants:
-      one: One descendant work package
-      other: "%{count} work package descendants"
+      one: Ein untergeordnetes Arbeitspaket
+      other: "%{count} untergeordnete Arbeitspakete"
     move:
       no_common_statuses_exists: Es gibt keine gemeinsamen Status für die ausgewählten
         Arbeitspakete. Ihr Status kann daher nicht verändert werden.
@@ -371,7 +371,7 @@ de:
         type: Typ
       type:
         attribute_groups: ''
-        is_in_roadmap: In Roadmap anzeigen
+        is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
         is_milestone: Ist ein Meilenstein
         color: Farbe
@@ -499,7 +499,8 @@ de:
             project:
               error_not_found: nicht gefunden
             public:
-              error_unauthorized: "- The user has no permission to create public views."
+              error_unauthorized: "- Der Nutzer hat nicht die Berechtigung öffentliche
+                Ansichten zu erstellen."
           group_by_hierarchies_exclusive: schließt sich gegenseitig mit der Gruppierung
             nach "%{group_by}" aus. Beide können nicht zeitgleich aktiv sein.
           filters:
@@ -974,8 +975,9 @@ de:
   enumeration_system_activity: System-Aktivität
   enumeration_reported_project_statuses: Gemeldeter Projekt-Status
   error_auth_source_sso_failed: Single Sign-On (SSO) für Nutzer '%{value}' fehlgeschlagen
-  error_can_not_archive_project: 'This project cannot be archived: There is at least
-    one work package assigned to a version defined in this project.'
+  error_can_not_archive_project: 'Dieses Projekt kann nicht archiviert werden: Es
+    gibt mindestens ein Arbeitspaket, das einer Version aus diesem Projekt zugeordnet
+    ist.'
   error_can_not_delete_entry: Eintrag kann nicht gelöscht werden
   error_can_not_delete_custom_field: Benutzerdefiniertes Feld kann nicht gelöscht
     werden.
@@ -1919,7 +1921,7 @@ de:
   permission_manage_members: Mitglieder verwalten
   permission_manage_news: Neuigkeiten verwalten
   permission_manage_project_activities: Aktivitäten (Zeiterfassung) verwalten
-  permission_manage_public_queries: Manage public views
+  permission_manage_public_queries: Öffentliche Ansichten verwalten
   permission_manage_repository: Projektarchiv verwalten
   permission_manage_subtasks: Unteraufgaben verwalten
   permission_manage_versions: Versionen verwalten
@@ -1928,7 +1930,7 @@ de:
   permission_move_work_packages: Arbeitspakete verschieben
   permission_protect_wiki_pages: Wiki-Seiten schützen
   permission_rename_wiki_pages: Wiki-Seiten umbenennen
-  permission_save_queries: Save views
+  permission_save_queries: Ansichten speichern
   permission_select_project_modules: Projektmodule auswählen
   permission_manage_types: Typen auswählen
   permission_view_calendar: Kalender ansehen
@@ -2778,4 +2780,3 @@ de:
         werden.
     resources:
       schema: Schema
-  label_type_default_new_projects: Typ für neue Projekte standardmäßig aktiviert

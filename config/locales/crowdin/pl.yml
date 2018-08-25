@@ -361,7 +361,7 @@ pl:
         type: Typ
       type:
         attribute_groups: ''
-        is_in_roadmap: Na mapie
+        is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
         is_milestone: Jest Kamieniem Milowym
         color: Kolor
@@ -2759,4 +2759,3 @@ pl:
       writing_read_only_attributes: Nie możesz zapisać atrybutu tylko do odczytu.
     resources:
       schema: Schemat
-  label_type_default_new_projects: Typ włączony domyślnie dla nowych projektów

@@ -319,7 +319,7 @@ zh:
         type: 类型
       type:
         attribute_groups: ''
-        is_in_roadmap: 在Roadmap
+        is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
         is_milestone: 是里程碑
         color: 颜色
@@ -2433,4 +2433,3 @@ zh:
       writing_read_only_attributes: 你不能写入只读属性。
     resources:
       schema: 方案
-  label_type_default_new_projects: 默认情况下为新项目激活的类型

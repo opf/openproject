@@ -369,7 +369,7 @@ sk:
         type: Typ
       type:
         attribute_groups: ''
-        is_in_roadmap: V pláne
+        is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
         is_milestone: Je medzník
         color: Farba
@@ -2758,4 +2758,3 @@ sk:
         na čítanie.
     resources:
       schema: Schéma
-  label_type_default_new_projects: Type activated for new projects by default

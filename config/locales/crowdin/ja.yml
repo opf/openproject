@@ -318,7 +318,7 @@ ja:
         type: 種別
       type:
         attribute_groups: ''
-        is_in_roadmap: ロードマップ内
+        is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
         is_milestone: マイルストーン
         color: 色
@@ -2455,4 +2455,3 @@ ja:
       writing_read_only_attributes: 読み取り専用の属性を書き込みできません。
     resources:
       schema: スキーマ
-  label_type_default_new_projects: デフォルトで新しいプロジェクトに適用される種類

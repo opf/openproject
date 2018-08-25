@@ -368,7 +368,7 @@ nl:
         type: Type
       type:
         attribute_groups: ''
-        is_in_roadmap: In de roadmap
+        is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
         is_milestone: Is mijlpaal
         color: Kleur
@@ -2747,4 +2747,3 @@ nl:
       writing_read_only_attributes: U mag geen read-only attribuut schrijven.
     resources:
       schema: Schema
-  label_type_default_new_projects: Type standaard ingeschakeld voor nieuwe projecten

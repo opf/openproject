@@ -335,7 +335,7 @@ ko:
         type: 타입
       type:
         attribute_groups: ''
-        is_in_roadmap: 로그맵 내
+        is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
         is_milestone: 마일스톤
         color: 색상
@@ -2565,4 +2565,3 @@ ko:
       writing_read_only_attributes: 읽기 전용 특성은 변경할 수 없습니다.
     resources:
       schema: 스키마
-  label_type_default_new_projects: 새 프로젝트를 위한 기본으로 활성화된 유형

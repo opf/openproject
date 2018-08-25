@@ -372,7 +372,7 @@ ca:
         type: Tipus
       type:
         attribute_groups: ''
-        is_in_roadmap: A la fulla de ruta
+        is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
         is_milestone: És una fita
         color: Color
@@ -2755,4 +2755,3 @@ ca:
       writing_read_only_attributes: No s'ha d'escriure en un atribut de només de lectura.
     resources:
       schema: Esquema
-  label_type_default_new_projects: Tipus activat per defecte per a nous projectes

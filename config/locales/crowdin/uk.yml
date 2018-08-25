@@ -365,7 +365,7 @@ uk:
         type: Type
       type:
         attribute_groups: ''
-        is_in_roadmap: In roadmap
+        is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
         is_milestone: Is milestone
         color: Колір
@@ -2739,4 +2739,3 @@ uk:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Схема
-  label_type_default_new_projects: Type activated for new projects by default

@@ -183,10 +183,10 @@ ru:
       no_results_title_text: В данный момент рабочих потоков нет.
   work_packages:
     x_descendants:
-      one: One descendant work package
-      other: "%{count} work package descendants"
-      few: "%{count} work package descendants"
-      many: "%{count} work package descendants"
+      one: Один пакет работ, являющийся потомком
+      other: 'Пакетов работ, являющихся потомками: %{count}'
+      few: 'Пакетов работ, являющихся потомками: %{count}'
+      many: 'Пакетов работ, являющихся потомками: %{count}'
     move:
       no_common_statuses_exists: Статус не доступен для всех выбранных пакетов работ.
         Их статус изменен быть не может.
@@ -363,7 +363,7 @@ ru:
         type: Тип
       type:
         attribute_groups: ''
-        is_in_roadmap: В дорожной карте
+        is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
         is_milestone: Это веха
         color: Цвет
@@ -987,8 +987,9 @@ ru:
   enumeration_system_activity: Активность системы
   enumeration_reported_project_statuses: Перечень отчетов о статусах проекта
   error_auth_source_sso_failed: Сбой единого входа (SSO) для пользователя «%{value}»
-  error_can_not_archive_project: 'This project cannot be archived: There is at least
-    one work package assigned to a version defined in this project.'
+  error_can_not_archive_project: 'Этот проект не может быть заархивирован: существует
+    по крайней мере один пакет работ, назначенный для версии, определенной в этом
+    проекте.'
   error_can_not_delete_entry: Не удается удалить содержимое
   error_can_not_delete_custom_field: Не удается удалить настраиваемое поле
   error_can_not_delete_type: Этот тип содержит пакет работ и не может быть удален.
@@ -2774,4 +2775,3 @@ ru:
         только для чтения.
     resources:
       schema: Схема
-  label_type_default_new_projects: Тип активируется в новых проектах по умолчанию

@@ -89,7 +89,7 @@ ru:
           button: Включить содержание другой вики страницы
           text: "[Placeholder] включая вики страницы"
           page: Wiki-страница
-          not_set: "(Page not yet set)"
+          not_set: "(Страница пока не установлена)"
           hint: 'Включите содержание другой вики-страницы, указав её название или
             строку. Вы можете включить вики-страницы из другого проекта, разделив
             их двоеточием, как в следующем примере.
@@ -407,7 +407,7 @@ ru:
 
 '
       button_activate: Показать диаграмму Ганта
-      button_deactivate: Hide Gantt chart
+      button_deactivate: Скрыть диаграмму Ганта
       cancel: Отмена
       change: Изменения в планировании
       due_date: Дата завершения
@@ -455,8 +455,8 @@ ru:
         quarters: Кварталы
         years: Годы
         slider: Ползунок масштаба
-        description: 'Either select the initial zoom level that should be shown or
-          check the auto zoom box to adjust the gantt chart to fit the visible area.
+        description: 'Select the initial zoom level that should be shown when autozoom
+          is not available.
 
 '
     tl_toolbar:
@@ -697,8 +697,8 @@ ru:
         title: Подтвердите удаление %{label}
         text: Вы уверены, что хотите удалить следующую %{label} ?
         has_children: 'Пакет работ имеет %{childUnits}:'
-        deletes_children: All child work packages and their descendants will also
-          be recursively deleted.
+        deletes_children: Все дочерние пакеты работ и их потомки будут также рекурсивно
+          удалены.
     notice_successful_create: Создание выполнено.
     notice_successful_delete: Удаление выполнено.
     notice_successful_update: Обновление выполнено.

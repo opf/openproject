@@ -376,7 +376,7 @@ es:
         type: Tipo
       type:
         attribute_groups: ''
-        is_in_roadmap: En hoja de ruta
+        is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
         is_milestone: Es un hito
         color: Color
@@ -2780,4 +2780,3 @@ es:
       writing_read_only_attributes: No debería escribir un atributo de solo lectura.
     resources:
       schema: Esquema
-  label_type_default_new_projects: Tipo activado por defecto para los nuevos proyectos

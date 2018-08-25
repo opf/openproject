@@ -359,7 +359,7 @@ hu:
         type: Típus
       type:
         attribute_groups: ''
-        is_in_roadmap: Ütemtervben
+        is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
         is_milestone: Mérföldkő
         color: Szín
@@ -2706,4 +2706,3 @@ hu:
       writing_read_only_attributes: Nem írhat egy csak olvasható tulajdonságot.
     resources:
       schema: Séma
-  label_type_default_new_projects: A típus aktiválva alapértelmezetten az új projekteknél

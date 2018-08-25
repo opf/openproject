@@ -363,7 +363,7 @@ lt:
         type: Tipas
       type:
         attribute_groups: ''
-        is_in_roadmap: Veiksmų plane
+        is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
         is_milestone: Yra svarbus etapas
         color: Spalva
@@ -2768,4 +2768,3 @@ lt:
       writing_read_only_attributes: Jūs neturėtumėte įrašyti atributą „tik skaitomas“.
     resources:
       schema: Schema
-  label_type_default_new_projects: Pagal nutylėjimą aktyvuotas naujų projektų tipas

@@ -319,7 +319,7 @@ zh-TW:
         type: 類型
       type:
         attribute_groups: ''
-        is_in_roadmap: 在路徑圖
+        is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
         is_milestone: 是里程碑
         color: 顏色
@@ -2464,4 +2464,3 @@ zh-TW:
         您不可寫入唯讀的屬性。
     resources:
       schema: 架構
-  label_type_default_new_projects: 新專案的預設啟動類型

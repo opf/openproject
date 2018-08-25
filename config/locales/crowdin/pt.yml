@@ -372,7 +372,7 @@ pt:
         type: Tipo
       type:
         attribute_groups: ''
-        is_in_roadmap: No roteiro
+        is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
         is_milestone: É um marco
         color: Cor
@@ -2746,4 +2746,3 @@ pt:
         leitura.
     resources:
       schema: Esquema
-  label_type_default_new_projects: Tipo ativado para novos projetos por padrão

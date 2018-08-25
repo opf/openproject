@@ -362,7 +362,7 @@ fi:
         type: Tyyppi
       type:
         attribute_groups: ''
-        is_in_roadmap: Suunnitelmassa
+        is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
         is_milestone: On virstanpylväs
         color: Väri
@@ -2676,4 +2676,3 @@ fi:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Schema
-  label_type_default_new_projects: Tyyppi aktivoitu uusia hankkeita oletuksena

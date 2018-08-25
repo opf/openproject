@@ -382,7 +382,7 @@ fil:
         type: Uri
       type:
         attribute_groups: ''
-        is_in_roadmap: Sa roadmap
+        is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
         is_milestone: Ay milestone
         color: Kulay
@@ -2802,5 +2802,3 @@ fil:
         basa-lang.
     resources:
       schema: Iskema
-  label_type_default_new_projects: Naka-aktibo uri para sa mga bagong proyekto sa
-    pamamagitan ng default

@@ -372,7 +372,7 @@ ro:
         type: Tip
       type:
         attribute_groups: ''
-        is_in_roadmap: În planul de lucru
+        is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
         is_milestone: Este reper de etapă
         color: Culoare
@@ -2748,4 +2748,3 @@ ro:
       writing_read_only_attributes: Nu puteți scrie într-un câmp restricționat.
     resources:
       schema: Schemă
-  label_type_default_new_projects: Tip activat în mod implicit pentru proiecte noi

@@ -362,7 +362,7 @@ he:
         type: סוג
       type:
         attribute_groups: ''
-        is_in_roadmap: In roadmap
+        is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
         is_milestone: Is milestone
         color: צבע
@@ -2721,4 +2721,3 @@ he:
       writing_read_only_attributes: אתה חייב שלא לכתוב תכונה לקריאה בלבד.
     resources:
       schema: סכימה
-  label_type_default_new_projects: Type activated for new projects by default

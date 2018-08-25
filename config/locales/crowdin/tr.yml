@@ -359,7 +359,7 @@ tr:
         type: Tür
       type:
         attribute_groups: ''
-        is_in_roadmap: Yol haritasında
+        is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
         is_milestone: Kilometre taşı
         color: Renk
@@ -2693,5 +2693,3 @@ tr:
       writing_read_only_attributes: Salt okunur bir nitelik yazmamalısınız.
     resources:
       schema: Şema
-  label_type_default_new_projects: Yeni projeler için varsayılan olarak etkinleştirildi
-    yazın

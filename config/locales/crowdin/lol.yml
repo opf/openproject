@@ -316,8 +316,8 @@ lol:
         type: crwdns96555:0crwdne96555:0
       type:
         attribute_groups: crwdns99049:0crwdne99049:0
-        is_in_roadmap: crwdns96556:0crwdne96556:0
-        is_default: Activated for new projects by default
+        is_in_roadmap: crwdns99131:0crwdne99131:0
+        is_default: crwdns99132:0crwdne99132:0
         is_milestone: crwdns96558:0crwdne96558:0
         color: crwdns96559:0crwdne96559:0
       user:
@@ -2408,4 +2408,3 @@ lol:
       writing_read_only_attributes: crwdns98331:0crwdne98331:0
     resources:
       schema: crwdns98332:0crwdne98332:0
-  label_type_default_new_projects: crwdns97504:0crwdne97504:0
