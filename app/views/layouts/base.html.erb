@@ -135,6 +135,7 @@ See docs/COPYRIGHT.rdoc for more details.
         <div id="menu-sidebar">
           <%= main_menu %>
           <%= content_for :main_menu %>
+          <%= call_hook :view_layouts_base_main_menu %>
           <!-- Sidebar -->
           <div id="sidebar">
             <%= content_for :sidebar %>
