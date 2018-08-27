@@ -363,8 +363,8 @@ ru:
         type: Тип
       type:
         attribute_groups: ''
-        is_in_roadmap: Displayed in roadmap by default
-        is_default: Activated for new projects by default
+        is_in_roadmap: По умолчанию отображается в дорожной карте
+        is_default: В новых проектах активируется по умолчанию
         is_milestone: Это веха
         color: Цвет
       user:

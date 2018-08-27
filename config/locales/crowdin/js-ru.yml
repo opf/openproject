@@ -455,8 +455,7 @@ ru:
         quarters: Кварталы
         years: Годы
         slider: Ползунок масштаба
-        description: 'Select the initial zoom level that should be shown when autozoom
-          is not available.
+        description: 'Выберите первоначальный масштаб, при отсутствии доступа к автомасштабированию.
 
 '
     tl_toolbar:
