@@ -424,8 +424,8 @@ ja:
         quarters: 四半期ごと
         years: " 年"
         slider: ズームスライダー
-        description: 'Either select the initial zoom level that should be shown or
-          check the auto zoom box to adjust the gantt chart to fit the visible area.
+        description: 'Select the initial zoom level that should be shown when autozoom
+          is not available.
 
 '
     tl_toolbar:
@@ -643,7 +643,8 @@ ja:
         title: "%{label} の削除を確認"
         text: 次の %{label} を削除してもよろしいですか?
         has_children: ワークパッケージは %{childUnits} あります。
-        deletes_children: すべての子ワークパッケージも削除されます。
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: 正常に作成しました。
     notice_successful_delete: 正常に削除しました。
     notice_successful_update: 正常に更新しました。

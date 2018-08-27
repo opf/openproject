@@ -2,8 +2,6 @@ user: openproject
 group: openproject
 targets:
   debian-8: &debian8
-    dependencies:
-      - pandoc
     build_dependencies:
       - libsqlite3-dev
   debian-9:
@@ -16,7 +14,6 @@ targets:
     <<: *debian8
   centos-7:
    dependencies:
-      - pandoc
       - epel-release
   sles-12:
     build_dependencies:

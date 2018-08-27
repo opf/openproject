@@ -272,7 +272,7 @@ i
     .icon:before
       padding: 0
   .work-packages--info-row
-    flex-grow: 1
+    flex-grow: 2
     margin-right: 5px
 
   &.-wrapped
@@ -282,12 +282,15 @@ i
       flex-basis: 100%
       margin-bottom: 0.5rem
 
-    .wp-status-button
-      flex-grow: 1
+    wp-status-button
       margin-bottom: 0.5rem
+      // In case that there is no attribute help text, the status button needs to increase.
+      // This is a heuristic based on the current DOM structure.
+      &:nth-last-child(3)
+        flex-grow: 2
     attribute-help-text
       // Take care that the help text is next to the button and the action buttons are still at the right side
-      flex-grow: 100
+      flex-grow: 2
       margin-bottom: 0.5rem
     wp-custom-action
       margin-bottom: 0.5rem

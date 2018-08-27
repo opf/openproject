@@ -136,12 +136,6 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
     return true;
   }
 
-  public onOpen(modalElement:JQuery) {
-    modalElement
-      .find('.wp-table--configuration-modal')
-      .focus();
-  }
-
   protected get afterFocusOn():JQuery {
     return this.$element;
   }

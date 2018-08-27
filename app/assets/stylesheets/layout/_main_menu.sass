@@ -191,7 +191,7 @@ $arrow-left-width: 40px
         @include varprop(color, main-menu-selected-font-color)
       &:hover, &:focus , &:active
         @include varprop(color, main-menu-hover-font-color)
-        @include varprop(background, main-menu-child-bg-hover-color)
+        @include varprop(background, main-menu-bg-hover-color)
 
 .main-menu--children-menu-header
   padding: 10px 10px 0 10px
@@ -324,7 +324,7 @@ a.main-menu--parent-node
   padding-right: 7px
 
 .main-menu--segment-header
-  @include varprop(color, content-icon-link-pressed-color)
+  @include varprop(color, main-menu-fieldset-header-color)
   text-transform: uppercase
   padding-left: $hierarchy-span-width
   font-size: 0.7rem

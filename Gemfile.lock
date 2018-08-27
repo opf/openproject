@@ -701,6 +701,7 @@ DEPENDENCIES
   reform-rails (~> 0.1.7)
   request_store (~> 1.4.1)
   responders (~> 2.4)
+  rest-client (~> 2.0)
   retriable (~> 3.1.1)
   rinku (~> 2.0.4)
   roar (~> 1.1.0)
@@ -713,7 +714,6 @@ DEPENDENCIES
   rspec-retry (~> 0.5.6)
   rubocop
   ruby-duration (~> 3.2.0)
-  ruby-progressbar
   rubytree!
   sanitize (~> 4.6.0)
   sass (= 3.5.1)

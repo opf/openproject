@@ -453,8 +453,8 @@ hr:
         quarters: Kvartali
         years: Godine
         slider: Slider za zumiranje
-        description: 'Either select the initial zoom level that should be shown or
-          check the auto zoom box to adjust the gantt chart to fit the visible area.
+        description: 'Select the initial zoom level that should be shown when autozoom
+          is not available.
 
 '
     tl_toolbar:
@@ -692,7 +692,8 @@ hr:
         title: Confirm deletion of %{label}
         text: Are you sure you want to delete the following %{label} ?
         has_children: 'The work package has %{childUnits}:'
-        deletes_children: All child work packages will also be deleted.
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: Uspješno kreirano.
     notice_successful_delete: Brisanje uspješno.
     notice_successful_update: Ažuriranje je uspješno završeno.

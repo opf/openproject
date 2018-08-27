@@ -137,8 +137,10 @@ table.generic-table
     tr:not(.-no-highlighting)
       border-bottom: 1px solid $table-row-border-color
 
-    td
+    td:not(.-no-ellipsis)
       @include text-shortener
+
+    td
       max-width: 300px
       text-align: left
       line-height: 1.6

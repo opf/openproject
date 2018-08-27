@@ -1,6 +1,6 @@
 <button
     (click)="update()"
     class="custom-action--button button -narrow"
-    title="{{action.description}}" >
+    title="{{action.description ? action.description : action.name}}" >
   {{action.name}}
 </button>

@@ -456,8 +456,8 @@ it:
         quarters: Trimestri
         years: Anni
         slider: cursore di zoom
-        description: 'Either select the initial zoom level that should be shown or
-          check the auto zoom box to adjust the gantt chart to fit the visible area.
+        description: 'Select the initial zoom level that should be shown when autozoom
+          is not available.
 
 '
     tl_toolbar:
@@ -697,7 +697,8 @@ it:
         title: Conferma l'eliminazione di %{label}
         text: Eliminare i seguenti %{label} ?
         has_children: 'Questa macro-attività ha %{childUnits}:'
-        deletes_children: Verranno eliminate anche tutte le macro-attività subordinate.
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: Creato con successo.
     notice_successful_delete: Cancellato con successo.
     notice_successful_update: Aggiornato con successo.

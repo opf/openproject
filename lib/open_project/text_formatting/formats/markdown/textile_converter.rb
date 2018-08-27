@@ -335,6 +335,11 @@ module OpenProject::TextFormatting::Formats
           $1.gsub(/([\n])([^\n]*)/, '\1> \2')
         end
 
+        # Create markdown links from !image!:link syntax
+        # ![alt](image])
+        markdown.gsub! /(?<image>\!\[[^\]]*\]\([^\)]+\)):(?<link>https?:\S+)/,
+                       '[\k<image>](\k<link>)'
+
         convert_macro_syntax(markdown)
 
         markdown

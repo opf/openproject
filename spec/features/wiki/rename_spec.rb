@@ -27,26 +27,50 @@
 #++
 
 require 'spec_helper'
-require 'features/page_objects/notification'
-require 'features/work_packages/shared_contexts'
-require 'features/work_packages/work_packages_page'
 
-feature 'Wiki menu items' do
+describe 'Wiki page', type: :feature, js: true do
+  let(:project) { FactoryBot.create(:project, enabled_module_names: %w[wiki]) }
   let(:user) do
     FactoryBot.create :user,
                       member_in_project: project,
-                      member_with_permissions: %w[view_wiki_pages]
+                      member_with_permissions: %i[view_wiki_pages
+                                                  rename_wiki_pages]
   end
-  let(:project) { FactoryBot.create :project, enabled_module_names: %w[wiki] }
-  let(:wiki) { project.wiki }
+  let!(:wiki_page) do
+    FactoryBot.create(:wiki_page_with_content, wiki: project.wiki, title: initial_name)
+  end
+  let(:initial_name) { 'Initial name' }
+  let(:rename_name) { 'Rename name' }
 
   before do
-    login_as user
-    visit index_project_wiki_index_path(project)
+    login_as(user)
   end
 
-  it 'allows managing the menu item of a wiki page' do
-    expect(page).to have_selector('h2', text: 'Table of Contents')
-    expect(page).to have_no_selector('.main-menu--children .selected')
+  it 'allows renaming' do
+    visit project_wiki_path(project, wiki_page)
+
+    click_link 'More'
+    click_link 'Rename'
+
+    fill_in 'Title', with: rename_name
+
+    click_button 'Rename'
+
+    expect(page)
+      .to have_content(rename_name)
+
+    # One can still use the former name to find the wiki page
+    visit project_wiki_path(project, initial_name)
+
+    within('#content') do
+      expect(page)
+        .to have_content(rename_name)
+    end
+
+    # But the application uses the new name preferably
+    click_link rename_name
+
+    expect(page)
+      .to have_current_path(project_wiki_path(project, 'rename-name'))
   end
 end

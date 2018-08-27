@@ -32,6 +32,7 @@ export class OpTableActionsService {
    * @param {WorkPackageResource} workPackage
    */
   public render(workPackage:WorkPackageResource):HTMLElement[] {
-    return this.actions.map((factory) => factory(this.injector, workPackage).buildElement());
+    let built = this.actions.map((factory) => factory(this.injector, workPackage).buildElement());
+    return _.compact(built);
   }
 }

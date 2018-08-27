@@ -58,8 +58,6 @@ gem 'color-tools', '~> 1.3.0', require: 'color'
 
 gem 'addressable', '~> 2.5.2'
 
-gem 'ruby-progressbar'
-
 # Provide timezone info for TZInfo used by AR
 gem 'tzinfo-data', '~> 1.2018.4'
 
@@ -178,6 +176,8 @@ gem 'aws-sdk-s3', '~> 1.9.1'
 gem 'openproject-token', '~> 1.0.1'
 
 gem 'plaintext', '0.1.0'
+
+gem 'rest-client', '~> 2.0'
 
 group :test do
   gem 'rack-test', '~> 1.0.0'

@@ -26,6 +26,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
+require 'features/support/components/ui_autocomplete'
+
 module Components
   module WorkPackages
     class QueryMenu

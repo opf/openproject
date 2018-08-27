@@ -193,6 +193,6 @@ export class WpResizerDirective implements OnInit, OnDestroy {
   }
 
   private applyInfoRowLayout() {
-    jQuery('.wp-info-wrapper').toggleClass('-wrapped', jQuery('.wp-info-wrapper').width() - jQuery('wp-custom-actions').width() - jQuery('wp-status-button').width() < 430);
+    jQuery('.wp-info-wrapper').toggleClass('-wrapped', jQuery('.wp-info-wrapper').width() - jQuery('wp-custom-actions').width() - jQuery('wp-status-button .button').width() < 475);
   }
 }

@@ -1,0 +1,5 @@
+<h3><%= l(:label_version_plural) %></h3>
+
+<% @versions.each do |version| %>
+  <%= link_to format_version_name(version), "#{project_roadmap_url}##{version.name}" %><br />
+<% end %>

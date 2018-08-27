@@ -455,8 +455,8 @@ cs:
         quarters: Čtvrtletí
         years: Roky
         slider: Zoom slider
-        description: 'Either select the initial zoom level that should be shown or
-          check the auto zoom box to adjust the gantt chart to fit the visible area.
+        description: 'Select the initial zoom level that should be shown when autozoom
+          is not available.
 
 '
     tl_toolbar:
@@ -694,7 +694,8 @@ cs:
         title: Confirm deletion of %{label}
         text: Opravdu chcete odstranit %{label}?
         has_children: 'The work package has %{childUnits}:'
-        deletes_children: All child work packages will also be deleted.
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: Úspěšné vytvoření.
     notice_successful_delete: Úspěšné odstranění.
     notice_successful_update: Úspěšná aktualizace.

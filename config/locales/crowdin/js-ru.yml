@@ -60,7 +60,7 @@ ru:
     description_subwork_package: 'Потомок пакета работ #%{id}'
     editor:
       preview: Переключить режим предпросмотра
-      error_saving_failed: 'Saving the document failed with the following error: %{e}'
+      error_saving_failed: 'Сохранить документ не удалось по следующей ошибке: %{e}'
       macro:
         child_pages:
           button: Ссылки на дочерние страницы
@@ -89,7 +89,7 @@ ru:
           button: Включить содержание другой вики страницы
           text: "[Placeholder] включая вики страницы"
           page: Wiki-страница
-          not_set: "(Page not yet set)"
+          not_set: "(Страница пока не установлена)"
           hint: 'Включите содержание другой вики-страницы, указав её название или
             строку. Вы можете включить вики-страницы из другого проекта, разделив
             их двоеточием, как в следующем примере.
@@ -111,7 +111,7 @@ ru:
       cannot_save_changes_with_message: 'Не удается сохранить изменения из-за следующей
         ошибки: %{error}'
       query_saving: Представление не может быть сохранено.
-      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
+      embedded_table_loading: 'Встроенное представление не может быть загружено: %{message}'
     filter:
       description:
         text_open_filter: Откройте этот фильтр с «ALT» и клавишей со стрелкой.
@@ -407,7 +407,7 @@ ru:
 
 '
       button_activate: Показать диаграмму Ганта
-      button_deactivate: Hide Gantt chart
+      button_deactivate: Скрыть диаграмму Ганта
       cancel: Отмена
       change: Изменения в планировании
       due_date: Дата завершения
@@ -455,8 +455,8 @@ ru:
         quarters: Кварталы
         years: Годы
         slider: Ползунок масштаба
-        description: 'Either select the initial zoom level that should be shown or
-          check the auto zoom box to adjust the gantt chart to fit the visible area.
+        description: 'Select the initial zoom level that should be shown when autozoom
+          is not available.
 
 '
     tl_toolbar:
@@ -697,7 +697,8 @@ ru:
         title: Подтвердите удаление %{label}
         text: Вы уверены, что хотите удалить следующую %{label} ?
         has_children: 'Пакет работ имеет %{childUnits}:'
-        deletes_children: Также будут удалены все дочерние пакеты работ.
+        deletes_children: Все дочерние пакеты работ и их потомки будут также рекурсивно
+          удалены.
     notice_successful_create: Создание выполнено.
     notice_successful_delete: Удаление выполнено.
     notice_successful_update: Обновление выполнено.

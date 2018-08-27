@@ -277,7 +277,7 @@ fieldset.form--fieldset
       padding:   0.625rem 0.25rem 0 0.25rem
 
 #sidebar .form--fieldset-legend
-  @include varprop(color, main-menu-sidebar-font-color)
+  @include varprop(color, main-menu-fieldset-header-color)
 
 .form--fieldset-control
   float:          right
@@ -351,6 +351,9 @@ fieldset.form--fieldset
       box-shadow: none
   &.-reduced-margin
     margin-bottom: 0.5rem
+
+  &.-no-margin
+    margin-bottom: 0
 
 .form--label
   @include grid-content(2)

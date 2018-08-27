@@ -36,6 +36,7 @@ module OpenProject::TextFormatting::Formats
       def initialize; end
 
       def execute!(stdin)
+        PandocDownloader.check_or_download!
         run_pandoc! pandoc_arguments, stdin_data: stdin
       end
 
@@ -99,7 +100,7 @@ module OpenProject::TextFormatting::Formats
       ##
       # Run pandoc through posix-spawn and raise if an exception occurred
       def run_pandoc!(command, stdin_data: nil, timeout: pandoc_timeout)
-        child = POSIX::Spawn::Child.new('pandoc', *command, input: stdin_data, timeout: timeout)
+        child = POSIX::Spawn::Child.new(PandocDownloader.pandoc_path, *command, input: stdin_data, timeout: timeout)
         raise child.err unless child.status.success?
 
         child.out

@@ -453,8 +453,8 @@ lt:
         quarters: Ketvirčiai
         years: Metai(-ų)
         slider: Didinimo slankiklis
-        description: 'Either select the initial zoom level that should be shown or
-          check the auto zoom box to adjust the gantt chart to fit the visible area.
+        description: 'Select the initial zoom level that should be shown when autozoom
+          is not available.
 
 '
     tl_toolbar:
@@ -695,8 +695,8 @@ lt:
         title: Patvirtinkite, jog %{label} ištrinamas
         text: Ar Jūs tikrai norite, kad %{label} būtų ištrintas?
         has_children: 'Darbų paketas turi %{childUnits}:'
-        deletes_children: Visi vaikų tipo pagal hierarchiją darbų paketai taip pat
-          bus ištrinti.
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: Sėkmingas sukūrimas.
     notice_successful_delete: Sėkmingas panaikinimas.
     notice_successful_update: Sėkmingas atnaujinimas.

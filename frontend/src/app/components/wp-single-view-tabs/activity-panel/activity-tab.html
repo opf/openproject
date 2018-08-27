@@ -1,8 +1,8 @@
 <work-package-comment [workPackage]="workPackage">
   <ng-template>
     <div class="detail-activity">
-      <ul class="work-package-details-activities-list">
-        <li *ngFor="let inf of visibleActivities; trackBy:trackByHref; let first = first"
+      <div class="work-package-details-activities-list">
+        <div *ngFor="let inf of visibleActivities; trackBy:trackByHref; let first = first"
             class="work-package-details-activities-activity">
           <h3 class="activity-date"
               [ngClass]="{'-with-toggler': first && showToggler}"
@@ -21,8 +21,8 @@
                           [activityNo]="inf.number(inf.isReversed)"
                           [isInitial]="inf.isInitial()">
           </activity-entry>
-        </li>
-      </ul>
+        </div>
+      </div>
     </div>
   </ng-template>
 </work-package-comment>
