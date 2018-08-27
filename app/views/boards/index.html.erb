@@ -80,7 +80,7 @@ See docs/COPYRIGHT.rdoc for more details.
       <tbody>
         <% for board in @boards %>
           <tr>
-            <td>
+            <td class="-no-ellipsis">
               <%= link_to h(board.name), { action: 'show', id: board }, class: "board"  %><br />
               <%=h board.description %>
             </td>
