@@ -38,7 +38,7 @@
           </th>
         </tr>
       </thead>
-      <tbody class="work-package--empty-tbody" *ngIf="query.hasError || rowcount === 0">
+      <tbody class="work-package--empty-tbody" *ngIf="!isEmbedded && (query.hasError || rowcount === 0)">
       <tr id="empty-row-notification">
         <td [attr.colspan]="columns.length + 1">
           <span *ngIf="!query.hasError">

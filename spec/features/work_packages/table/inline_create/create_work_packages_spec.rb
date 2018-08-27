@@ -53,8 +53,10 @@ describe 'inline create work package', js: true do
         )
 
         # Expect new create row to exist
-        expect(page).to have_selector('.wp--row', count: 3)
-        expect(page).to have_selector('.wp-inline-create-row')
+        expect(page).to have_selector('.wp--row', count: 2)
+        expect(page).to have_selector('.wp-inline-create--add-link')
+
+        wp_table.click_inline_create
 
         subject_field = wp_table.edit_field(nil, :subject)
         subject_field.expect_active!
@@ -73,11 +75,8 @@ describe 'inline create work package', js: true do
           message: 'Successful update. Click here to open this work package in fullscreen view.'
         )
 
-        # Cancel creation
-        expect(page).to have_selector('.wp-inline-create-row')
-        page.find('.wp-table--cancel-create-link').click
+        # Expect no inline create open
         expect(page).to have_no_selector('.wp-inline-create-row')
-        expect(page).to have_selector('.wp-inline-create--add-link')
       end
     end
 

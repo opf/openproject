@@ -185,6 +185,10 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     this.opModalService.show<WpTableConfigurationModalComponent>(WpTableConfigurationModalComponent);
   }
 
+  public get isEmbedded() {
+    return this.configuration.isEmbedded;
+  }
+
   private getTableAndTimelineElement():[HTMLElement, HTMLElement] {
     const $tableSide = this.$element.find('.work-packages-tabletimeline--table-side');
     const $timelineSide = this.$element.find('.work-packages-tabletimeline--timeline-side');

@@ -57,10 +57,9 @@ describe 'Parallel work package creation spec', js: true do
     subject_field = wp_table.edit_field(nil, :subject)
     subject_field.save!
 
-    # Since the WP was started inline, a new row is entered
-    expect(page).to have_selector('.wp-inline-create-row')
-    scroll_to_and_click(page.find('.wp-table--cancel-create-link'))
+    # There should be one row, and no open inline create row
     expect(page).to have_selector('.wp--row', count: 1)
+    expect(page).to have_no_selector('.wp-inline-create-row')
 
     wp_table.expect_notification(
       message: 'Successful creation. Click here to open this work package in fullscreen view.'
@@ -93,12 +92,12 @@ describe 'Parallel work package creation spec', js: true do
     subject_field.expect_value 'New subject'
     subject_field.save!
 
-    expect(page).to have_selector('.wp-inline-create-row')
-    expect(page).to have_selector('.wp--row', count: 3)
     wp_table.expect_notification(
       message: 'Successful creation.'
     )
     wp_table.dismiss_notification!
+    expect(page).to have_selector('.wp--row', count: 2)
+    expect(page).to have_no_selector('.wp-inline-create-row')
 
     # Get the last work package
     wp2 = WorkPackage.last
