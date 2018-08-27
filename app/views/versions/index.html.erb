@@ -26,7 +26,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
+
 <%= toolbar title: l(:label_roadmap) %>
+
 <% if @versions.empty? %>
   <%= no_results_box %>
 <% else %>
@@ -55,36 +57,10 @@ See docs/COPYRIGHT.rdoc for more details.
     <% end %>
   </div>
 <% end %>
+
 <% content_for :sidebar do %>
-  <%= form_tag({}, method: :get) do %>
-    <fieldset class="form--fieldset">
-      <legend class="form--fieldset-legend"><%= l(:description_filter) %></legend>
-      <div class="form--field">
-        <p>
-          <% @types.each do |type| %>
-            <%= check_box_tag "type_ids[]", type.id, (@selected_type_ids.include? type.id.to_s), id: "type-#{type.name}" %>
-            <label for="type-<%=type.name%>"><%=h type.name %></label><br />
-            <label class="hidden-for-sighted" for= "type-<%=type.name%>" ><%=h type.name %></label>
-          <% end %>
-        </p>
-        <p>
-          <%= check_box_tag "completed", 1, params[:completed] %>
-          <label for="completed"> <%= l(:label_show_completed_versions) %></label>
-        </p>
-        <% if @project.descendants.active.any? %>
-          <%= hidden_field_tag 'with_subprojects', 0 %>
-          <p>
-            <%= check_box_tag 'with_subprojects', 1, @with_subprojects %>
-            <label><%=l(:label_subproject_plural)%></label>
-          </p>
-        <% end %>
-      </div>
-      <div><%= submit_tag l(:button_apply), class: 'button -small -highlight', name: nil %></div>
-    </fieldset>
-  <% end %>
-      <h3><%= l(:label_version_plural) %></h3>
-      <% @versions.each do |version| %>
-        <%= link_to format_version_name(version), "#{project_roadmap_url}##{version.name}" %><br />
-      <% end %>
+  <%= render partial: 'roadmap_filter' %>
+  <%= render partial: 'roadmap_version_links' %>
 <% end %>
+
 <% html_title(l(:label_roadmap)) %>
