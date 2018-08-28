@@ -179,6 +179,8 @@ gem 'plaintext', '0.1.0'
 
 gem 'rest-client', '~> 2.0'
 
+gem 'ruby-progressbar', '~> 1.9.0', require: false
+
 group :test do
   gem 'rack-test', '~> 1.0.0'
   gem 'shoulda-context', '~> 1.2'
