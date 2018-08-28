@@ -714,6 +714,7 @@ DEPENDENCIES
   rspec-retry (~> 0.5.6)
   rubocop
   ruby-duration (~> 3.2.0)
+  ruby-progressbar (~> 1.9.0)
   rubytree!
   sanitize (~> 4.6.0)
   sass (= 3.5.1)

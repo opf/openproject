@@ -52,6 +52,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+require 'ruby-progressbar'
 require_relative 'pandoc_wrapper'
 
 module OpenProject::TextFormatting::Formats
@@ -65,23 +66,24 @@ module OpenProject::TextFormatting::Formats
       BLOCKQUOTE_START = "TextileConverterBlockquoteStart09339cab-f4f4-4739-85b0-d02ba1f342e6".freeze
       BLOCKQUOTE_END = "TextileConverterBlockquoteEnd09339cab-f4f4-4739-85b0-d02ba1f342e6".freeze
 
-      attr_reader :pandoc
+      attr_reader :pandoc, :logger
 
       def initialize
-        @pandoc = PandocWrapper.new
+        @logger = ::OpenProject::Logging::TeeLogger.new 'markdown-migration'
+        @pandoc = PandocWrapper.new logger
       end
 
       def run!
-        puts 'Starting conversion of Textile fields to CommonMark+GFM.'
+        logger.info 'Starting conversion of Textile fields to CommonMark+GFM.'
 
-        puts 'Checking compatibility of your installed pandoc version.'
+        logger.info 'Checking compatibility of your installed pandoc version.'
         pandoc.check_arguments!
 
         ActiveRecord::Base.transaction do
           converters.each(&:call)
         end
 
-        puts "\n-- Completed --"
+        logger.info "\n-- Completed --"
       end
 
       private
@@ -95,23 +97,19 @@ module OpenProject::TextFormatting::Formats
       end
 
       def convert_settings
-        print 'Converting settings '
+        logger.info 'Converting settings '
         Setting.welcome_text = convert_textile_to_markdown(Setting.welcome_text)
-        print '.'
 
         Setting.registration_footer = Setting.registration_footer.dup.tap do |footer|
           footer.transform_values { |val| convert_textile_to_markdown(val) }
-          print '.'
         end
-
-        puts ' done'
       end
 
       ##
       # Converting model attributes as defined in +models_to_convert+.
       def convert_models
         models_to_convert.each do |klass, attributes|
-          print "#{klass.name} "
+          logger.info "Converting #{klass.name.pluralize} "
 
           # Iterate in batches to avoid plucking too much
           with_original_values_in_batches(klass, attributes) do |orig_values|
@@ -122,29 +120,32 @@ module OpenProject::TextFormatting::Formats
 
             ActiveRecord::Base.connection.execute(batch_update_statement(klass, attributes, new_values))
           end
-          puts ' done'
         end
       end
 
       def convert_custom_field_longtext
         formattable_cfs = CustomField.where(field_format: 'text').pluck(:id)
-        print "CustomField type text "
-        CustomValue.where(custom_field_id: formattable_cfs).in_batches(of: 200) do |relation|
+        logger.info "CustomField type text "
+        scope = CustomValue.where(custom_field_id: formattable_cfs)
+        progress = ProgressBar.create(title: "Formattable CustomValues", total: scope.count)
+        scope.in_batches(of: 200) do |relation|
           relation.pluck(:id, :value).each do |cv_id, value|
             CustomValue.where(id: cv_id).update_all(value: convert_textile_to_markdown(value))
-            print '.'
+            progress.increment
           end
         end
-
-        puts ' done'
+        progress.finish
       end
 
       # Iterate in batches to avoid plucking too much
       def with_original_values_in_batches(klass, attributes)
-        batches_of_objects_to_convert(klass, attributes) do |relation|
+        batches_of_objects_to_convert(klass, attributes) do |relation, progress|
           orig_values = relation.pluck(:id, *attributes)
 
-          yield orig_values
+          result = yield orig_values
+          progress.progress += orig_values.count
+
+          result
         end
       end
 
@@ -155,11 +156,10 @@ module OpenProject::TextFormatting::Formats
 
         joined_textile = concatenate_textile(old_values)
 
-        markdown = convert_textile_to_markdown(joined_textile)
-
         markdowns_in_groups = []
 
         begin
+          markdown = convert_textile_to_markdown(joined_textile,  raise_on_timeout: true)
           markdowns_in_groups = split_markdown(markdown).each_slice(attributes.length).to_a
         rescue StandardError
           # Don't do anything. Let the subsequent code try to handle it again
@@ -168,11 +168,16 @@ module OpenProject::TextFormatting::Formats
         if markdowns_in_groups.length != orig_values.length
           # Error handling: Some textile seems to be misformed e.g. <pre>something</pre (without closing >).
           # In such cases, handle texts individually to avoid the error affecting other texts
+          logger.warn "Mismatch detected in conversion result. Retrying all items individually one time."
+          progress = ProgressBar.create(title: "Converting items individually due to pandoc mismatch", total: orig_values.length)
           markdowns = old_values.map do |old_value|
-            convert_textile_to_markdown(old_value)
+            res = convert_textile_to_markdown(old_value, raise_on_timeout: false)
+            progress.increment
+            res
           end
 
           markdowns_in_groups = markdowns.each_slice(attributes.length).to_a
+          progress.finish
         end
 
         markdowns_in_groups
@@ -182,19 +187,17 @@ module OpenProject::TextFormatting::Formats
         new_values = []
         orig_values.each_with_index do |values, index|
           new_values << { id: values[0] }.merge(attributes.zip(markdowns_in_groups[index]).to_h)
-
-          print '.'
         end
 
         new_values
       end
 
-      def convert_textile_to_markdown(textile)
+      def convert_textile_to_markdown(textile, raise_on_timeout: false)
         return '' unless textile.present?
 
         cleanup_before_pandoc(textile)
 
-        markdown = execute_pandoc_with_stdin! textile
+        markdown = execute_pandoc_with_stdin! textile, raise_on_timeout
 
         if markdown.empty?
           markdown
@@ -203,12 +206,23 @@ module OpenProject::TextFormatting::Formats
         end
       end
 
-      def execute_pandoc_with_stdin!(textile)
+      def execute_pandoc_with_stdin!(textile, raise_on_timeout)
         pandoc.execute! textile
       rescue Timeout::Error => e
-        warn "Execution of pandoc failed: #{e}"
-        ''
+        logger.error <<~TIMEOUT
+          Execution of pandoc timed out: #{e}.
+
+          You may want to increase the timeout
+          (OPENPROJECT_PANDOC_TIMEOUT_SECONDS, currently at #{pandoc.pandoc_timeout} seconds)
+        TIMEOUT
+
+        if raise_on_timeout
+          raise e
+        else
+          ''
+        end
       rescue StandardError => e
+        logger.error "Execution of pandoc failed: #{e}"
         raise "Execution of pandoc failed: #{e}"
       end
 
@@ -240,9 +254,11 @@ module OpenProject::TextFormatting::Formats
         end
 
         # Iterate in batches to avoid plucking too much
+        progress = ProgressBar.create(title: "Conversion", starting_at: 0, total: scope.count)
         scope.in_batches(of: 50) do |relation|
-          yield relation
+          yield relation, progress
         end
+        progress.finish
       end
 
       def batch_update_statement(klass, attributes, values)
