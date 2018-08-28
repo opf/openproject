@@ -62,6 +62,19 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
     }
 
     /**
+     * Try to find an existing file's download URL given its filename
+     * @param file
+     */
+    public lookupDownloadLocationByName(file:string):string|null {
+      if (!(this.attachments && this.attachments.elements)) {
+        return null;
+      }
+
+      const match = _.find(this.attachments.elements, (res:HalResource) => res.name === file);
+      return _.get(match, 'downloadLocation.href', null);
+    }
+
+    /**
      * Remove the given attachment either from the pending attachments or from
      * the attachment collection, if it is a resource.
      *
