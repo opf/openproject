@@ -3,8 +3,8 @@ fr:
   no_results_title_text: Il n'y a actuellement rien à afficher.
   activities:
     index:
-      no_results_title_text: There has not been any activity for the project within
-        this time frame.
+      no_results_title_text: Il n’a aucune activité pour le projet dans ce laps de
+        temps.
   admin:
     plugins:
       no_results_title_text: Il n'y a actuellement aucun plugin disponible.
@@ -87,7 +87,7 @@ fr:
       no_results_title_text: Il n'y a actuellement aucun champ personnalisé.
       no_results_content_text: Créer un nouveau champ personnalisé
   concatenation:
-    single: or
+    single: ou
   deprecations:
     old_timeline:
       replacement: Ce module ligne du temps sera remplacé par une ligne du temps interactive
@@ -1419,7 +1419,7 @@ fr:
   label_overall_activity: Activité totale
   label_overall_spent_time: Total du temps passé
   label_overview: Vue globale
-  label_page_title: Page title
+  label_page_title: Titre de la page
   label_part_of: partie de
   label_password_lost: Mot de passe oublié
   label_password_rule_lowercase: Minuscules
@@ -1585,7 +1585,7 @@ fr:
   label_version_sharing_none: Non partagé
   label_version_sharing_system: Avec tous les projets
   label_version_sharing_tree: Avec l'arbre du projet
-  label_videos: Videos
+  label_videos: Vidéos
   label_view_all_revisions: Afficher toutes les révisions
   label_view_diff: Afficher les différences
   label_view_revisions: Afficher les révisions
