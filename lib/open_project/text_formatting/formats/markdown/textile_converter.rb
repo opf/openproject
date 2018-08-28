@@ -294,7 +294,7 @@ module OpenProject::TextFormatting::Formats
       end
 
       def split_markdown(markdown)
-        markdown.split(DOCUMENT_BOUNDARY).map(&:strip)
+        markdown.split("\n\n#{DOCUMENT_BOUNDARY}\n\n")
       end
 
       def cleanup_before_pandoc(textile)
