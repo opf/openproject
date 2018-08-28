@@ -294,7 +294,7 @@ module OpenProject::TextFormatting::Formats
       end
 
       def split_markdown(markdown)
-        markdown.split(DOCUMENT_BOUNDARY).map(&:strip)
+        markdown.split("\n\n#{DOCUMENT_BOUNDARY}\n\n")
       end
 
       def cleanup_before_pandoc(textile)
@@ -366,13 +366,13 @@ module OpenProject::TextFormatting::Formats
           data = {}
 
           # Escaped macros should probably render as before?
-          return all if esc.present?
+          next all if esc.present?
 
           case macro
           when 'timeline'
-            return content_tag :macro, I18n.t('macros.legacy_warning.timeline'), class: 'legacy-macro -macro-unavailable'
+            next content_tag :macro, I18n.t('macros.legacy_warning.timeline'), class: 'legacy-macro -macro-unavailable'
           when 'hello_world'
-            return ''
+            next ''
           when 'include'
             macro = 'include_wiki_page'
             data[:page] = args

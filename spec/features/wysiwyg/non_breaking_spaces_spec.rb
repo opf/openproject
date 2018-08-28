@@ -26,25 +26,43 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Former Passwords are banned from reuse
-    Scenario: A user trying to reuse two former passwords
-        Given users are not allowed to reuse the last 2 passwords
-        And I am logged in
-        When I try to set my new password to "adminADMIN!"
-        Then there should be an error message
-        When I try to set my new password to "adminADMIN!New"
-        Then the password change should succeed
-        When I try to change my password from "adminADMIN!New" to "adminADMIN!Third"
-        Then the password change should succeed
-        When I try to change my password from "adminADMIN!Third" to "adminADMIN!Third"
-        Then there should be an error message
-        When I try to change my password from "adminADMIN!Third" to "adminADMIN!New"
-        Then there should be an error message
-        When I try to change my password from "adminADMIN!Third" to "adminADMIN!"
-        Then the password change should succeed
+require 'spec_helper'
 
-    Scenario: Former passwords are allowed
-        Given users are not allowed to reuse the last 0 passwords
-        And I am logged in
-        When I try to set my new password to "adminADMIN!"
-        Then the password change should succeed
+describe 'Wysiwyg &nbsp; behavior',
+         type: :feature, js: true do
+  let(:user) { FactoryBot.create :admin }
+  let(:project) { FactoryBot.create(:project, enabled_module_names: %w[wiki]) }
+  let(:editor) { ::Components::WysiwygEditor.new }
+
+  before do
+    login_as(user)
+  end
+
+  describe 'in wikis' do
+    describe 'creating a wiki page' do
+      before do
+        visit project_wiki_path(project, :wiki)
+      end
+
+      it 'can insert strong formatting with nbsp' do
+        editor.in_editor do |container, editable|
+
+          editor.click_and_type_slowly 'some text '
+          container.find('.ck-button', visible: :all, text: 'Bold').click
+
+          editor.click_and_type_slowly 'with bold '
+        end
+
+        # Save wiki page
+        click_on 'Save'
+
+        expect(page).to have_selector('.flash.notice')
+
+        within('#content') do
+          expect(page).to have_selector('p', text: 'some text with bold')
+          expect(page).to have_selector('strong', text: 'with bold')
+        end
+      end
+    end
+  end
+end

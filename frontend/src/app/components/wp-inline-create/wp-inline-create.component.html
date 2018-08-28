@@ -6,7 +6,7 @@
       <a class="wp-inline-create--add-link"
               href
               role="link"
-              focus
+              [focus]="focus"
               (accessibleClick)="handleAddRowClick()"
               [attr.disabled]="!isAllowed || undefined"
               [attr.aria-label]="text.create"
