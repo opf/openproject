@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'random password generation', type: :feature, js: true do
+describe 'random password generation', type: :feature do
   let(:admin) { FactoryBot.create :admin }
   let(:auth_source) { FactoryBot.build :dummy_auth_source }
   let(:old_password) { 'old_Password!123' }
@@ -41,7 +41,7 @@ describe 'random password generation', type: :feature, js: true do
       login_with admin.login, 'adminADMIN!'
     end
 
-    it 'can log in with a random generated password' do
+    it 'can log in with a random generated password', js: true do
       user_page.visit!
 
       expect(page).to have_selector('#user_password')
@@ -56,7 +56,7 @@ describe 'random password generation', type: :feature, js: true do
       password = nil
       expect(OpenProject::Passwords::Generator)
         .to receive(:random_password)
-              .and_wrap_original { |m, *args| password = m.call(*args) }
+        .and_wrap_original { |m, *args| password = m.call(*args) }
 
       click_on 'Save'
 
@@ -107,7 +107,7 @@ describe 'random password generation', type: :feature, js: true do
       login_with admin.login, 'adminADMIN!'
     end
 
-    it 'can configure and enforce password rules' do
+    it 'can configure and enforce password rules', js: true do
       visit '/settings'
       expect_angular_frontend_initialized
 
@@ -164,10 +164,11 @@ describe 'random password generation', type: :feature, js: true do
 
   context 'as a user on his my page' do
     let(:user_page) { ::Pages::My::PasswordPage.new }
+    let(:third_password) { 'third_Password!123' }
 
     before do
       login_with user.login, old_password
-      visit '/my/password'
+      user_page.visit!
     end
 
     context 'with 2 of lowercase, uppercase, and numeric characters',
@@ -175,18 +176,52 @@ describe 'random password generation', type: :feature, js: true do
               password_active_rules: %w(lowercase uppercase numeric),
               password_min_adhered_rules: 2,
               password_min_length: 4
-            } do
+            },
+            js: true do
 
       it 'enforces those rules' do
         # Change to valid password according to spec
         user_page.change_password(old_password, 'password')
-
-        expect(page).to have_selector('#errorExplanation', text: "Password Must contain characters of the following classes (at least 2 of 3): lowercase (e.g. 'a'), uppercase (e.g. 'A'), numeric (e.g. '1').")
+        user_page.expect_password_weak_error_message
 
         # Change to valid password according to spec
         user_page.change_password(old_password, 'Password')
-        expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_account_password_updated))
+        user_page.expect_password_updated_message
       end
+    end
+
+    it 'enforces the former passwords count rule' do
+      allow(Setting)
+        .to receive(:[])
+        .and_call_original
+
+      # disabled
+      allow(Setting)
+        .to receive(:[])
+        .with(:password_count_former_banned)
+        .and_return(0)
+
+      # user can reuse the old password
+      user_page.change_password(old_password, old_password)
+      user_page.expect_password_updated_message
+
+      # Setting to two most recent passwords
+      allow(Setting)
+        .to receive(:[])
+        .with(:password_count_former_banned)
+        .and_return(2)
+
+      user_page.change_password(old_password, old_password)
+      user_page.expect_password_reuse_error_message(2)
+
+      user_page.change_password(old_password, new_password)
+      user_page.expect_password_updated_message
+
+      user_page.change_password(new_password, old_password)
+      user_page.expect_password_reuse_error_message(2)
+
+      user_page.change_password(new_password, third_password)
+      user_page.expect_password_updated_message
     end
   end
 end
