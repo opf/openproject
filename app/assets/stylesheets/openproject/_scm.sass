@@ -26,8 +26,6 @@
  * See doc/COPYRIGHT.rdoc for more details. ++*/
 
 
-@import 'openproject/coderay'
-
 div.changeset-changes ul
   list-style-type: none
   margin: 0
@@ -208,6 +206,7 @@ tr.dir
   a
     &.dir-expander i
       @include icon-common
+      @extend .icon-plus
       cursor: pointer
       &:before
         @include icon-mixin-plus

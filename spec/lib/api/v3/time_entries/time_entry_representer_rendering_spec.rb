@@ -204,7 +204,7 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
 
       it "has property for the custom field" do
         expected = {
-          format: "textile",
+          format: "markdown",
           html: "<p>#{custom_value.value}</p>",
           raw: custom_value.value
         }

@@ -75,13 +75,13 @@
 
 @mixin icon-action-menu-rules
   padding: 0 10px 0 0
-  font-size: 15px
+  font-size: 14px
   line-height: 5px
 
 @mixin icon-sub-menu-rules
   padding: 0
   float: right
-  font-size: 15px
+  font-size: 14px
   line-height: 5px
   vertical-align: -40%
 
@@ -198,6 +198,9 @@
 /* remove once all menu items have an icon */
 .no-icon
   margin-left: 15px
+
+[class^=icon].-padded
+  padding: 0 5px
 
 // used for icons in the content area, which appear in context (menus)
 .action-menu .icon:before,

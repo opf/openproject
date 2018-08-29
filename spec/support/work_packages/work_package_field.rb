@@ -34,6 +34,10 @@ class WorkPackageField
     @context.find "#{@selector} #{input_selector}"
   end
 
+  def clear
+    input_element.native.clear
+  end
+
   def expect_state_text(text)
     expect(context).to have_selector(@selector, text: text)
   end
@@ -117,6 +121,12 @@ class WorkPackageField
     end
   end
 
+
+  def type(text)
+    scroll_to_element(input_element)
+    input_element.send_keys text
+  end
+
   ##
   # Update this attribute while retrying to open the field
   # if unsuccessful at first.
@@ -146,7 +156,11 @@ class WorkPackageField
   end
 
   def input_selector
-    '.wp-inline-edit--field'
+    if property_name == 'description'
+      '.op-ckeditor--wrapper'
+    else
+      '.wp-inline-edit--field'
+    end
   end
 
   def field_type

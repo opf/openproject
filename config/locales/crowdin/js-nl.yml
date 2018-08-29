@@ -4,6 +4,11 @@ nl:
     ajax:
       hide: Verbergen
       loading: Bezig met laden ...
+    attachments:
+      draggable_hint: 'Sleep op het invoerveld naar in line afbeelding of verwijzing
+        bijlage. Gesloten invoervelden wordt geopend terwijl u blijft slepen.
+
+'
     autocomplete_select:
       placeholder:
         multi: Toevoegen "%{name}"
@@ -53,9 +58,59 @@ nl:
     description_select_work_package: 'Selecteer werk pakket #%{id}'
     description_selected_columns: Geselecteerde kolommen
     description_subwork_package: 'Kind van werkpakket #%{id}'
+    editor:
+      preview: Voorbeeld modus wijzigen
+      error_saving_failed: Het opslaan van het document is mislukt met de volgende
+        reden:%{e}
+      macro:
+        child_pages:
+          button: Links naar onderliggende pagina 's
+          include_parent: Inclusief bovenliggende
+          text: "[Placeholder] links naar onderliggende pagina's van"
+          page: Wikipagina
+          this_page: deze pagina
+          hint: 'Laat dit veld leeg om alle onderliggende pagina''s van de huidige
+            pagina weer te geven. Als u wilt verwijzen naar een andere pagina, geef
+            de titel of de witruimte van de pagina in.
+
+'
+        code_block:
+          button: Codefragment invoegen
+          title: Insert / codefragment bewerken
+          language: Opmaaktaal
+          language_hint: Voer de opmaaktaal die wordt gebruikt voor het benadrukken(indien
+            ondersteund).
+        dropdown:
+          macros: Macro's
+          chose_macro: Kies macro
+        toc: Inhoudsopgave
+        toolbar_help: Klik op widget en geef de werkbalk weer. Dubbelklikken om de
+          widget te bewerken
+        wiki_page_include:
+          button: Inhoud van een andere wikipagina opnemen
+          text: "[Placeholder] opgenomen wikipagina van"
+          page: Wikipagina
+          not_set: "(Page not yet set)"
+          hint: |
+            Neem de inhoud van een andere wikipagina op door de de titel of de witruimte rond de pagina in te geven.
+            U kunt de wikipagina van een ander project opnemen door deze te scheiden met een dubbele punt zoals in het volgende voorbeeld.
+        work_package_button:
+          button: Voegen werk pakket knop maken In
+          type: Werkpakket type
+          button_style: Gebruik knopstijl
+          button_style_hint: 'Optioneel: Controleer of de macro wordt weergegeven
+            als een knop, niet als een link.'
+          without_type: Nieuw werkpakket maken
+          with_type: 'Werkpakket maken (Type: %{typename})'
+        embedded_table:
+          button: Werk pakket tabel insluiten
+          text: "[Placeholder] ingesloten werkpakket tabel"
     error:
       internal: Een interne fout is opgetreden.
-      query_saving: The query could not be saved.
+      cannot_save_changes_with_message: 'Uw wijzigingen vanwege de volgende fout niet
+        opslaan: %{error}'
+      query_saving: Het overzicht kon niet bewaard worden.
+      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
     filter:
       description:
         text_open_filter: Open dit filter met de 'ALT'-knop en toetsenbord pijlen.
@@ -123,6 +178,7 @@ nl:
     label_expand: Uitbreiden
     label_expanded: uitgebreid
     label_expand_all: Alles uitklappen
+    label_expand_project_menu: Menu project uitvouwen
     label_export: Exporteren
     label_filename: Bestand
     label_filesize: Grootte
@@ -130,6 +186,7 @@ nl:
     label_group_by: Groeperen op
     label_hide_attributes: Toon minder
     label_hide_column: Verberg kolom
+    label_hide_project_menu: Project menu samenvouwen
     label_in: in
     label_in_less_than: in minder dan
     label_in_more_than: in meer dan
@@ -151,7 +208,7 @@ nl:
     label_not_equals: is niet
     label_on: op
     label_open_menu: Menu openen
-    label_open_context_menu: Open context menu
+    label_open_context_menu: Toon context menu
     label_open_work_packages: Open
     label_password: Wachtwoord
     label_previous: Vorige
@@ -165,21 +222,23 @@ nl:
     label_select_watcher: Kies een toezichter...
     label_selected_filter_list: Geselecteerde filters
     label_show_attributes: Toon alle kenmerken
-    label_show_in_menu: Toon pagina in menu
+    label_show_in_menu: Toon overzicht in menu
     label_sort_by: Sorteer op
     label_sorted_by: gesorteerd door
     label_sort_higher: Omhoog
     label_sort_lower: Omlaag
     label_sorting: Sortering
+    label_star_query: Favoriet
+    label_press_enter_to_save: Druk op Enter om te bewaren.
+    label_public_query: Publiek
     label_sum_for: Som voor
     label_subject: Onderwerp
     label_this_week: deze week
     label_today: vandaag
-    label_up: Up
+    label_up: Omhoog
     label_activity_show_only_comments: Geef alleen activiteiten met commentaar weer
     label_activity_show_all: Geef alle activiteiten weer
     label_total_progress: "%{percent}% totale vooruitgang"
-    label_visible_for_others: Pagina zichtbaar voor anderen
     label_updated_on: bijgewerkt op
     label_warning: Waarschuwing
     label_work_package: Werkpakket
@@ -193,8 +252,10 @@ nl:
     label_unwatch: Niet meer volgen
     label_unwatch_work_package: Stop met het bekijken van werkpakket
     label_uploaded_by: Geüpload door
-    label_global_queries: Gedeelde zoekopdrachten
-    label_custom_queries: Persoonlijke zoekopdrachten
+    label_default_queries: Standaardweergaven
+    label_starred_queries: Favoriete weergaven
+    label_global_queries: Openbare weergaven
+    label_custom_queries: Privé weergaven
     label_columns: Kolommen
     label_attachments: Bestanden
     label_drop_files: Bestanden hier neerzetten
@@ -206,7 +267,9 @@ nl:
     label_remove_watcher: Volger %{name} verwijderen
     label_remove_all_files: Verwijder alle bestanden
     label_add_description: Een beschrijving voor %{file} toevoegen
-    label_upload_notification: 'Uploaden van bestanden voor werk pakket #%{id}: %{subject}'
+    label_upload_notification: Uploaden van bestanden...
+    label_work_package_upload_notification: 'Uploaden van bestanden voor werk pakket
+      #%{id}: %{subject}'
     label_files_to_upload: 'Deze bestanden worden geüpload:'
     label_rejected_files: 'Deze bestanden kunnen niet worden geüpload:'
     label_rejected_files_reason: Deze bestanden kunnen niet worden geüpload gezien
@@ -244,9 +307,10 @@ nl:
         error_duplicate_group_name: De groep naam %{group} word meer dan één keer
           gebruikt. Groep namen moeten uniek zijn.
         reset_title: Reset formulier configuratie
-        confirm_reset: 'Waarschuwing: Weet u zeker dat u wilt herstellen van de configuratie
-          van het formulier? Dit herstelt de kenmerken hun standaardgroep, unset de
-          selectievakjes van de zichtbaarheid, en alle aangepaste velden uitschakelen.
+        confirm_reset: 'Waarschuwing: Weet u zeker dat u de configuratie van het formulier
+          wilt herstellen? Dit herstelt de kenmerken hun standaardgroep, deselecteerd
+          de selectievakjes van de zichtbaarheid, en schakeld alle aangepaste velden
+          uit.
 
 '
         upgrade_to_ee: Upgrade naar Enterprise Edition
@@ -316,7 +380,6 @@ nl:
         one: Je kunt maar {{limit}} onderdeel selecteren
         other: Je kunt maar {{limit}} onderdelen selecteren
         zero: You cannot select any items
-    show_hide_project_menu: Project menu uitvouwen/samenvouwen
     project_menu_details: Details
     sort:
       sorted_asc: 'Oplopende sorteervolgorde toegepast, '
@@ -328,13 +391,13 @@ nl:
       activate_no: activeer om de sortering te verwijderen
     text_work_packages_destroy_confirmation: Weet u zeker dat u geselecteerd(e) werkpakket(ten)
       wilt verwijderen?
-    text_query_destroy_confirmation: Bent u zeker dat u de geselecteerde vraag wilt
-      verwijderen?
+    text_query_destroy_confirmation: Weet u zeker dat u het geselecteerde overzicht
+      wilt verwijderen?
     text_attachment_destroy_confirmation: Weet u zeker dat u de bijlage wilt verwijderen?
     timelines:
       gantt_chart: Gantt-grafiek
       labels:
-        title: Label configuration
+        title: Label configuratie
         bar: Bar etiketten
         left: Linkerkant
         right: Rechterkant
@@ -346,8 +409,8 @@ nl:
           deze kenmerken.
 
 '
-      button_activate: Activeren van de tijdlijnmodus
-      button_deactivate: Deactiveren van de tijdlijnmodus
+      button_activate: Toon Gantt-diagram
+      button_deactivate: Hide Gantt chart
       cancel: Annuleren
       change: In de planning wijzigen
       due_date: Vervaldatum
@@ -364,14 +427,6 @@ nl:
         report_timeout: De tijdlijn kan niet worden geladen in een redelijke hoeveelheid
           tijd.
       filter:
-        column:
-          assigned_to: Toegewezene
-          type: Type
-          due_date: Einddatum
-          name: Naam
-          status: Status
-          responsible: Verantwoordelijk
-          start_date: Startdatum
         grouping_other: Overig
         noneSelection: "(geen)"
       name: Naam
@@ -385,7 +440,6 @@ nl:
         level5: Uitbreiden van niveau 5
         all: Toon alle
       project_status: Projectstatus
-      project_type: Projecttype
       really_close_dialog: Wilt u echt het dialoogvenster sluiten alle ingevoerde
         data verliezen?
       responsible: Verantwoordelijk
@@ -405,6 +459,10 @@ nl:
         quarters: Kwartalen
         years: Jaren
         slider: Zoom-schuifregelaar
+        description: 'Select the initial zoom level that should be shown when autozoom
+          is not available.
+
+'
     tl_toolbar:
       zooms: Zoom niveau
       outlines: Niveau van de hiërarchie
@@ -481,7 +539,7 @@ nl:
         header_with_parent: 'Nieuw %{type} (Kind van %{parent_type} #%{id})'
         button: Maken
       copy:
-        title: Copy work package
+        title: Werkpakketten kopiëren
       hierarchy:
         show: Toon hiërarchie modus
         hide: Hiërarchie modus verbergen
@@ -493,7 +551,7 @@ nl:
           te vouwen van de gefilterde kinderen
       faulty_query:
         title: Werkpakketten konden niet worden geladen.
-        description: Uw query is onjuist en kan niet worden verwerkt.
+        description: Uw overzicht is onjuist en kan niet worden verwerkt.
       no_results:
         title: Geen werkpakketten om te tonen.
         description: Ofwel zijn er geen gecreëerd ofwel zijn alle werkpakketten uitgefilterd.
@@ -524,6 +582,13 @@ nl:
         updatedAt: Bijgewerkt op
         versionName: Versie
         version: Versie
+      default_queries:
+        latest_activity: Laatste Activiteit
+        created_by_me: Gemaakt door mijzelf
+        assigned_to_me: Toegewezen aan mij
+        recently_created: Onlangs gecreëerd
+        all_open: Alles open
+        summary: Overzicht
       jump_marks:
         pagination: Ga naar de tabelpaginering
         label_pagination: Klik hier om de tabel werk pakketten over te slaan en ga
@@ -549,12 +614,18 @@ nl:
         insert_columns: Voeg kolommen in ...
         filters: Filters
         display_sums: Bedragen weergeven
+        confirm_edit_cancel: Weet u zeker dat u wilt stoppen met het bewerken van
+          de naam van deze weergave? De Titel zal terug naar vorige waarde worden
+          ingesteld.
+        click_to_edit_query_name: Klik om de titel van de weergave te bewerken.
+        rename_query_placeholder: Naam van deze weergave
         errors:
-          unretrievable_query: Onmogelijk om zoekopdracht terug te vinden uit URL
-          not_found: Er is geen dergelijke query
-        text_no_results: Geen overeenkomende query's werden gevonden.
+          unretrievable_query: Het is onmogelijk om de weergave van de url op te halen
+          not_found: Deze weergave bestaat niet
+          duplicate_query_title: Naam van deze weergave bestaat al. Toch wijzigen?
+        text_no_results: Geen overeenkomende weergaven werden gevonden.
       table:
-        configure_button: Configure work package table
+        configure_button: Configureer werkpakkettabel
         summary: Tabel met rijen van werkpakket en kolommen werk pakket kenmerken.
         text_inline_edit: De meeste cellen van deze tabel zijn knoppen die de inline-bewerken
           functionaliteit van dat kenmerk te activeren.
@@ -563,22 +634,26 @@ nl:
         text_select_hint: Selecteer vakken die moeten worden geopend met 'ALT' en
           pijl.
       table_configuration:
-        button: Configure this work package table
-        modal_title: Work package table configuration
-        embedded_tab_disabled: This configuration tab is not available for the embedded
-          query you're editing.
-        display_settings: Display settings
-        grouped_mode: Grouped mode
-        grouped_hint: Table results will be grouped by the given attribute.
-        default_mode: Default mode
+        button: Configureer deze werkpakkettabel
+        modal_title: Werk pakket tabel configuratie
+        embedded_tab_disabled: Het configuratie tabblad is niet beschikbaar voor het
+          overzicht dat u probeert te bewerken.
+        display_settings: Weergave-instellingen
+        grouped_mode: Gegroepeerde modus
+        grouped_hint: Tabel resultaten zullen worden gegroepeerd op het opgegeven
+          kenmerk.
+        default_mode: Standaardmodus
         hierarchy_mode: Hiërarchie-modus
-        hierarchy_hint: All filtered table results will be augmented with their ancestors.
-          Hierarchies can be expanded and collapsed.
-        display_sums_hint: Display sums of all summable attributes in a row below
-          the table results.
-        show_timeline_hint: Show an interactive gantt chart on the right side of the
-          table. You can change its width by dragging the divider between table and
-          gantt chart.
+        hierarchy_hint: Alle gefilterde tabel resultaten zal worden uitgebreid met
+          hun voorouders. Hiërarchieën kunnen worden uitgevouwen en samengevouwen.
+        display_sums_hint: Waarden van alle optelbare attributen in een rij onder
+          de tabel resultaten weergeven.
+        show_timeline_hint: Toon een interactieve Gantt-diagram aan de rechterkant
+          van de tabel. U kunt de breedte wijzigen door de scheidingslijn tussen de
+          tabel en Gantt-diagram te slepen.
+        columns_help_text: Gebruik de bovenstaande toegang voor het toevoegen of verwijderen
+          van kolommen aan uw tabelweergave. U kunt de kolommen slepen en neerzetten
+          om deze te rangschikken.
       tabs:
         overview: Overzicht
         activity: Activiteit
@@ -591,6 +666,7 @@ nl:
         months: maanden
     toolbar:
       settings:
+        configure_view: Weergave instellingen...
         columns: Kolommen ...
         sort_by: Sorteer per ...
         group_by: Groeperen op...
@@ -601,15 +677,16 @@ nl:
         save: Opslaan
         save_as: Opslaan als ...
         export: Exporteren ...
-        publish: Publiceren...
-        page_settings: Zoekopdracht hernoemen...
+        visibility_settings: Zichtbaarheidsinstellingen...
+        page_settings: Hernoem weergave...
         delete: Verwijderen
       filter: Filter
       unselected_title: Werkpakket
-      search_query_label: Zoek opgeslagen filter zoekopdrachten
-      search_query_title: Klik om te zoeken in opgeslagen filter zoekopdrachten
+      search_query_label: Zoek opgeslagen weergaven
+      search_query_title: Klik om te zoeken naar opgeslagen weergaven
+      placeholder_query_title: Een titel voor deze weergave instellen
     modals:
-      label_settings: Hernoem zoekopdracht
+      label_settings: Hernoem weergave
       label_name: Naam
       label_delete_page: Verwijder huidige pagina
       button_apply: Toepassen
@@ -626,7 +703,8 @@ nl:
         title: Bevestig verwijdering van %{label}
         text: Weet u zeker dat u werkpakket %{label} wilt verwijderen?
         has_children: 'Het werkpakket heeft %{childUnits}:'
-        deletes_children: Alle onderliggende werkpakketten worden ook verwijderd.
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: Aanmaak geslaagd.
     notice_successful_delete: Verwijdering geslaagd.
     notice_successful_update: Succesvolle wijziging.
@@ -653,6 +731,9 @@ nl:
         messages_on_field: 'Het veld is ongeldig: %{messages}'
     error_could_not_resolve_version_name: Kan de verstane niet vinden
     error_could_not_resolve_user_name: Kan de gebruikersnaam niet vinden
+    error_attachment_upload: 'Uploaden van bestand ''%{name}'' is mislukt: %{error}'
+    error_attachment_upload_permission: U bent niet gemachtigd om bestanden naar deze
+      bron te uploaden.
     units:
       workPackage:
         one: werkpakket

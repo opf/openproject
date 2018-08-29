@@ -76,7 +76,10 @@ See docs/COPYRIGHT.rdoc for more details.
   <div class="wiki">
     <%= format_text(@topic.content, object: @topic, attachments: @topic.attachments) %>
   </div>
-  <%= link_to_attachments @topic, author: false %>
+
+  <% resource = message_attachment_representer(@topic) %>
+  <%= list_attachments(resource) %>
+
 </div>
 <br />
 <% unless @replies.empty? %>
@@ -113,7 +116,8 @@ See docs/COPYRIGHT.rdoc for more details.
       <div class="wiki">
         <%= format_text message, :content, attachments: message.attachments %>
       </div>
-      <%= link_to_attachments message, author: false %>
+      <% resource = message_attachment_representer(message) %>
+      <%= list_attachments(resource) %>
     </div>
   <% end %>
   <%= pagination_links_full @replies, per_page_links: false %>
@@ -139,7 +143,6 @@ See docs/COPYRIGHT.rdoc for more details.
       <hr class="form--separator" />
 
       <%= f.button t(:button_submit), class: 'button -highlight -highlight -with-icon icon-checkmark' %>
-      <%= preview_link preview_topic_path(@message), 'message-form-preview' %>
     <% end %>
     <div id="preview"></div>
   </div>

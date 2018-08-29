@@ -33,7 +33,7 @@ module Queries::Operators
     set_symbol '!~'
 
     def self.sql_for_field(values, db_table, db_field)
-      "LOWER(#{db_table}.#{db_field}) NOT LIKE " +
+      "COALESCE(LOWER(#{db_table}.#{db_field}), '') NOT LIKE " +
         "'%#{connection.quote_string(values.first.to_s.downcase)}%'"
     end
   end

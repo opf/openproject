@@ -1,3 +1,5 @@
+<%= activate_angular_js do %>
+
 <%= initialize_hide_sections_with @custom_action.all_actions.map { |a| { key: a.key, label: a.human_name } },
                                   @custom_action.actions.map { |a| { key: a.key, label: a.human_name } } %>
 
@@ -39,7 +41,7 @@
 
   <div id="custom-actions-form--active-actions">
     <% @custom_action.all_actions.each do |action| %>
-      <hide-section section-name="<%= action.key %>">
+      <hide-section section-name="'<%= action.key %>'">
         <div class="form--field">
           <%= styled_label_tag("custom_action_actions_#{action.key}", action.human_name, class: '-top') %>
 
@@ -57,12 +59,11 @@
               </autocomplete-select-decoration>
             </div>
           <% elsif %i(date_property).include?(action.type) %>
-            <op-date-picker>
-              <%= styled_text_field_tag input_name,
-                                        action.values,
-                                        container_class: '-slim',
-                                        size: '10' %>
-            </op-date-picker>
+            <%= styled_text_field_tag input_name,
+                                      action.values,
+                                      container_class: '-slim',
+                                      class: '-augmented-datepicker',
+                                      size: '10' %>
           <% elsif %i(string_property text_property).include?(action.type) %>
             <%= styled_text_field_tag input_name,
                                       action.values,
@@ -83,7 +84,7 @@
                                         max: action.maximum,
                                         step: 1 %>
           <% end %>
-          <hide-section-link section-name="<%= action.key %>"></hide-section-link>
+          <hide-section-link section-name="'<%= action.key %>'"></hide-section-link>
         </div>
       </hide-section>
     <% end %>
@@ -93,17 +94,17 @@
 
   <div class="form--field">
     <label class="form--label" for="custom-actions-form--add-action">
-      <op-icon icon-classes="icon-add icon4" class="op-icon--wrapper">
-        <i class="icon-add icon4" aria-hidden="true"></i>
-      </op-icon>
+      <%= op_icon("icon-add icon4") %>
       <%= I18n.t(:'custom_actions.actions.add') %>
     </label>
     <span class="form--field-container">
       <span class="form--text-field-container -middle">
-        <add-section-dropdown html-id="custom-actions-form--add-action"
+        <add-section-dropdown html-id="'custom-actions-form--add-action'"
                               id="custom-actions-form--selectable-actions">
         </add-section-dropdown>
       </span>
     </span>
   </div>
 </fieldset>
+
+<% end %>

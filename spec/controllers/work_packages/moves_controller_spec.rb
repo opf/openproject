@@ -32,7 +32,7 @@ describe WorkPackages::MovesController, type: :controller do
   let(:user) { FactoryBot.create(:user) }
   let(:role) do
     FactoryBot.create :role,
-                       permissions: %i(move_work_packages
+                      permissions: %i(move_work_packages
                                        view_work_packages
                                        add_work_packages
                                        edit_work_packages
@@ -46,15 +46,15 @@ describe WorkPackages::MovesController, type: :controller do
   let(:target_priority) { FactoryBot.create :priority }
   let(:project) do
     FactoryBot.create(:project,
-                       is_public: false,
-                       types: [type, type_2])
+                      is_public: false,
+                      types: [type, type_2])
   end
   let(:work_package) do
     FactoryBot.create(:work_package,
-                       project_id: project.id,
-                       type: type,
-                       author: user,
-                       priority: priority)
+                      project_id: project.id,
+                      type: type,
+                      author: user,
+                      priority: priority)
   end
 
   let(:current_user) { FactoryBot.create(:user) }
@@ -121,9 +121,9 @@ describe WorkPackages::MovesController, type: :controller do
     let(:target_project) { FactoryBot.create(:project, is_public: false) }
     let(:work_package_2) {
       FactoryBot.create(:work_package,
-                         project_id: project.id,
-                         type: type_2,
-                         priority: priority)
+                        project_id: project.id,
+                        type: type_2,
+                        priority: priority)
     }
 
     describe 'an issue to another project' do
@@ -332,9 +332,9 @@ describe WorkPackages::MovesController, type: :controller do
             user = FactoryBot.create :user
 
             FactoryBot.create(:member,
-                               user: user,
-                               project: target_project,
-                               roles: [role])
+                              user: user,
+                              project: target_project,
+                              roles: [role])
 
             user
           end
@@ -416,22 +416,74 @@ describe WorkPackages::MovesController, type: :controller do
           it { expect(subject.last.notes).to eq(note) }
         end
 
+        context 'parent and child work package' do
+          let!(:child_wp) do
+            FactoryBot.create(:work_package,
+                              type: type,
+                              project: project,
+                              parent: work_package)
+          end
+
+          before do
+            allow(User).to receive(:current).and_return(current_user)
+          end
+
+          context 'on new' do
+            before do
+              get :new,
+                  params: {
+                    ids: [work_package.id, child_wp.id],
+                    copy: '',
+                    new_project_id: to_project.id,
+                  }
+
+              it 'reports the one child work package' do
+                expect(response.body).to have_selector "a.issue", count: 1
+                expect(response.body).to have_selector "contextual-info", text: '(+ One child work package)'
+              end
+            end
+          end
+
+          context 'on create' do
+            it 'only copies the parent work package' do
+              expect(::WorkPackages::MoveService)
+                .to receive(:new)
+                      .with(work_package, current_user)
+                      .and_call_original
+
+              expect(::WorkPackages::MoveService)
+                .not_to receive(:new)
+                          .with(child_wp, current_user)
+
+              expect {
+                post :create,
+                     params: {
+                       ids: [work_package.id, child_wp.id],
+                       copy: '',
+                     }
+              }.to change(WorkPackage, :count).by(2)
+
+              expect(flash[:notice]).to eq(I18n.t(:notice_successful_create))
+            end
+          end
+        end
+
         context 'child work package from one project to other' do
           let(:to_project) do
             FactoryBot.create(:project,
-                               types: [type])
+                              types: [type])
           end
           let!(:member) do
             FactoryBot.create(:member,
-                               user: current_user,
-                               roles: [role],
-                               project: to_project)
+                              user: current_user,
+                              roles: [role],
+                              project: to_project)
           end
           let!(:child_wp) do
             FactoryBot.create(:work_package,
-                               type: type,
-                               project: project,
-                               parent: work_package)
+                              type: type,
+                              project: project,
+                              parent: work_package)
           end
 
           shared_examples_for 'successful move' do

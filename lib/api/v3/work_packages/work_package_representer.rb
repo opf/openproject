@@ -34,6 +34,7 @@ module API
       class WorkPackageRepresenter < ::API::Decorators::Single
         include API::Decorators::LinkedResource
         include API::Caching::CachedRepresenter
+        include ::API::V3::Attachments::AttachableRepresenterMixin
         extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
 
         cached_representer key_parts: %i(project),
@@ -165,22 +166,6 @@ module API
         link :activities do
           {
             href: api_v3_paths.work_package_activities(represented.id)
-          }
-        end
-
-        link :attachments do
-          {
-            href: api_v3_paths.attachments_by_work_package(represented.id)
-          }
-        end
-
-        link :addAttachment,
-             cache_if: -> do
-               current_user_allowed_to(:edit_work_packages, context: represented.project)
-             end do
-          {
-            href: api_v3_paths.attachments_by_work_package(represented.id),
-            method: :post
           }
         end
 
@@ -425,12 +410,6 @@ module API
                      embed_links
                  }
 
-        property :attachments,
-                 embedded: true,
-                 exec_context: :decorator,
-                 if: ->(*) { embed_links },
-                 uncacheable: true
-
         property :relations,
                  embedded: true,
                  exec_context: :decorator,
@@ -452,13 +431,14 @@ module API
                             representer: ::API::V3::Users::UserRepresenter
 
         associated_resource :responsible,
-                            v3_path: :user,
-                            getter: ::API::V3::Principals::AssociatedSubclassLambda.getter(:responsible)
+                            getter: ::API::V3::Principals::AssociatedSubclassLambda.getter(:responsible),
+                            setter: ::API::V3::Principals::AssociatedSubclassLambda.setter(:responsible),
+                            link: ::API::V3::Principals::AssociatedSubclassLambda.link(:responsible)
 
-        associated_resource :assigned_to,
-                            as: :assignee,
-                            v3_path: :user,
-                            getter: ::API::V3::Principals::AssociatedSubclassLambda.getter(:assigned_to)
+        associated_resource :assignee,
+                            getter: ::API::V3::Principals::AssociatedSubclassLambda.getter(:assigned_to),
+                            setter: ::API::V3::Principals::AssociatedSubclassLambda.setter(:assigned_to, :assignee),
+                            link: ::API::V3::Principals::AssociatedSubclassLambda.link(:assigned_to)
 
         associated_resource :fixed_version,
                             as: :version,
@@ -549,14 +529,6 @@ module API
           represented.watchers.any? { |w| w.user_id == current_user.id }
         end
 
-        def attachments
-          self_path = api_v3_paths.attachments_by_work_package(represented.id)
-          attachments = represented.attachments.includes(:container)
-          ::API::V3::Attachments::AttachmentCollectionRepresenter.new(attachments,
-                                                                      self_path,
-                                                                      current_user: current_user)
-        end
-
         def relations
           self_path = api_v3_paths.work_package_relations(represented.id)
           visible_relations = represented
@@ -633,7 +605,7 @@ module API
            'WorkPackageRepresenter',
            'json',
            I18n.locale,
-           json_key_model_parts,
+           json_key_representer_parts,
            represented.cache_checksum,
            Setting.work_package_done_ratio,
            Setting.feeds_enabled?]

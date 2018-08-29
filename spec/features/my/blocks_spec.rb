@@ -62,7 +62,7 @@ describe 'Blocks on the my page', type: :feature, js: true do
     visit my_page_path
   end
 
-  scenario 'viewing the blocks' do
+  scenario 'viewing and modifying the blocks' do
     # displays only the open and watched work packages for the watched block
     expect(page)
       .to have_selector('#top .wp-table--cell-td.subject', text: open_wp.subject)
@@ -70,5 +70,40 @@ describe 'Blocks on the my page', type: :feature, js: true do
       .to have_no_selector('#top .wp-table--cell-td.subject', text: closed_wp.subject)
     expect(page)
       .to have_no_selector('#top .wp-table--cell-td.subject', text: unwatched_wp.subject)
+
+    # Go to page layout
+    find('.my-page--personalize-button').click
+
+    # Add a block
+    select 'Calendar', from: 'block-options'
+    click_on 'Add'
+
+    # Expect block disabled
+    expect(page).to have_selector('#block-options option[value=calendar][disabled]')
+
+    within '#top' do
+      expect(page).to have_selector('#block-calendar')
+    end
+
+    # Add another block
+    select 'Latest news', from: 'block-options'
+    click_on 'Add'
+    expect(page).to have_selector('#block-options option[value=news][disabled]')
+    within '#top' do
+      expect(page).to have_selector('#block-news')
+    end
+
+    # Remove a block
+    within '#block-calendar' do
+      find('.my-page--remove-block').click
+    end
+
+    # Expect block reenabled
+    expect(page).to have_selector('#block-options option[value=calendar]')
+    expect(page).to have_no_selector('#block-options option[value=calendar][disabled]')
+
+    within '#top' do
+      expect(page).to have_no_selector('#block-calendar')
+    end
   end
 end

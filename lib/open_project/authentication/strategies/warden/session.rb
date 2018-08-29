@@ -12,7 +12,16 @@ module OpenProject
           include ::OpenProject::Authentication::SessionExpiry
 
           def valid?
-            session && !session_ttl_expired? && xml_request_header_set?
+            # A session must exist and valid
+            return false if session.nil? || session_ttl_expired?
+
+            # We allow GET requests on the API session
+            # without headers (e.g., for images on attachments)
+            return true if request.get?
+
+            # For all other requests, to mitigate CSRF vectors,
+            # require the frontend header to be present.
+            xml_request_header_set?
           end
 
           def authenticate!

@@ -62,4 +62,3 @@ exclude_paths:
   - "**/node_modules/"
   - spec/**
   - spec_legacy/**/*
-  - lib/redcloth3.rb

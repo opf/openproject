@@ -3,7 +3,8 @@ ru:
   no_results_title_text: Показать нечего.
   activities:
     index:
-      no_results_title_text: Активности по проекту не было.
+      no_results_title_text: В течение этого периода времени не было никакой деятельности
+        по проекту.
   admin:
     plugins:
       no_results_title_text: Дополнения отсутствуют.
@@ -83,6 +84,8 @@ ru:
     tab:
       no_results_title_text: Нет настраиваемых полей.
       no_results_content_text: Создать новое настраиваемое поле
+  concatenation:
+    single: или
   deprecations:
     old_timeline:
       replacement: Этот модуль графиков заменяется интерактивным графиком, который
@@ -127,10 +130,6 @@ ru:
       versions:
         no_results_title_text: На данный момент этапы в проекте отсутствуют.
         no_results_content_text: Создать новый этап проекта
-  project_types:
-    index:
-      no_results_title_text: На данный момент типы проектов отсутствуют.
-      no_results_content_text: Создать новый тип проекта
   members:
     index:
       no_results_title_text: На данный момент у этого проекта нет участников.
@@ -183,7 +182,14 @@ ru:
     index:
       no_results_title_text: В данный момент рабочих потоков нет.
   work_packages:
+    x_descendants:
+      one: Один пакет работ, являющийся потомком
+      other: 'Пакетов работ, являющихся потомками: %{count}'
+      few: 'Пакетов работ, являющихся потомками: %{count}'
+      many: 'Пакетов работ, являющихся потомками: %{count}'
     move:
+      no_common_statuses_exists: Статус не доступен для всех выбранных пакетов работ.
+        Их статус изменен быть не может.
       unsupported_for_multiple_projects: Массовое перемещение/копирование не поддерживается
         при работе с пакетами из нескольких проектов
     list_simple:
@@ -194,8 +200,8 @@ ru:
         no_results_title_text: В настоящее время нет рабочих пакетов, о которых я
           сообщал.
       responsible:
-        no_results_title_text: В настоящее время нет рабочих пакетов, за которые я
-          несу ответственность.
+        no_results_title_text: На данный момент нет пакетов работ, за которые я несу
+          ответственность.
       watched:
         no_results_title_text: На данный момент у меня нет рабочих пакетов, за которыми
           я наблюдаю.
@@ -247,10 +253,10 @@ ru:
           не сможете войти в систему с текущими учетными данными. Если  снова хотите  стать
           пользователем, то делайте это через средства пердоставления прав этого приложения.
       login_verification:
-        other: Чтобы подтвердить удаление, введите логин %{name}. Затем вам нужно
-          будет ввести пароль.
-        self: Чтобы подтвердить удаление, введите свой логин %{name}. Затем вам нужно
-          будет ввести пароль.
+        other: Введите логин %{name} для проверки удаления. После, вам будет предложено
+          подтвердить свой пароль.
+        self: Введите ваш логин %{name} для проверки удаления. После, вам будет предложено
+          подтвердить свой пароль.
     error_inactive_activation_by_mail: 'Ваша учетная запись не была активирована.
       Для активации перейдите по ссылке, высланной вам по электронной почте.
 
@@ -297,6 +303,8 @@ ru:
         repository: Репозиторий
       comment:
         commented: Прокомментировано
+      custom_action:
+        actions: Действия
       custom_field:
         default_value: Значение по умолчанию
         editable: Доступно для правки
@@ -317,6 +325,7 @@ ru:
         expires_at: Срок действия до
         subscriber: Подписчик
         encoded_token: Маркер поддержки корпоративной версии
+        active_user_count_restriction: Максимальное число активных пользователей
       relation:
         delay: Задержка
         from: Пакет работ
@@ -331,9 +340,7 @@ ru:
         identifier: Идентификатор
         latest_activity_at: Последняя активность
         parent: Подпроект
-        project_type: Тип проекта
         queries: Запросы
-        responsible: Ответственный
         types: Типы
         versions: Этапы
         work_packages: Задачи
@@ -355,8 +362,9 @@ ru:
         spent_on: Дата
         type: Тип
       type:
-        is_in_roadmap: В дорожной карте
-        in_aggregation: В агрегате
+        attribute_groups: ''
+        is_in_roadmap: По умолчанию отображается в дорожной карте
+        is_default: В новых проектах активируется по умолчанию
         is_milestone: Это веха
         color: Цвет
       user:
@@ -388,8 +396,6 @@ ru:
         redirect_existing_links: Перенаправление существующих ссылок
       planning_element_type_color:
         hexcode: Шестнадцатеричный код
-      project_type:
-        position: Позиция
       work_package:
         begin_insertion: Начало вставки
         begin_deletion: Начало удаления
@@ -403,7 +409,6 @@ ru:
         parent_work_package: Родитель
         priority: Приоритет
         progress: Прогресс (%)
-        responsible: Ответственный
         spent_hours: Затраченное время
         spent_time: Затраченное время
         subproject: Подпроект
@@ -413,11 +418,16 @@ ru:
     errors:
       messages:
         accepted: нужно подтвердить.
+        after: должно быть после %{date}.
+        after_or_equal_to: должна быть после или ровно %{date}.
+        before: должны быть до %{date}.
+        before_or_equal_to: должны быть до или ровно %{date}.
         blank: не может быть пустым.
         cant_link_a_work_package_with_a_descendant: Пакет работ не может быть связан
           с одной из своих подзадач.
         circular_dependency: Это отношение создаст циклическую зависимость.
         confirmation: не совпадает со значением поля %{attribute}.
+        could_not_be_copied: не может быть скопировано (полностью).
         does_not_exist: не существует.
         empty: не может быть пустым.
         even: должно быть чётным.
@@ -425,11 +435,9 @@ ru:
         file_too_large: слишком большой (максимальный размер составляет %{count} байт).
         greater_than: должно быть больше чем %{count}.
         greater_than_or_equal_to: должен быть больше или равно %{count}.
-        smaller_than_or_equal_to_max_length: должно быть меньше или равно максимальной
-          длине.
-        greater_than_start_date: должна быть позднее даты начала.
         greater_than_or_equal_to_start_date: должна быть позднее даты начала или совпадать
           с ней.
+        greater_than_start_date: должна быть позднее даты начала.
         inclusion: не задано ни одно из допустимых значений.
         invalid: неверно.
         invalid_url: не является допустимым URL-адресом.
@@ -438,22 +446,20 @@ ru:
         less_than_or_equal_to: должно быть меньше или равно %{count}.
         not_a_date: не является допустимой датой.
         not_a_datetime: дата и время не являются допустимыми.
-        not_an_iso_date: 'недопустимая дата. Требуемый формат: гггг-мм-дд.'
         not_a_number: не является числом.
+        not_allowed: неверно ввиду отсутствия прав.
         not_an_integer: не является целым числом.
+        not_an_iso_date: 'недопустимая дата. Требуемый формат: гггг-мм-дд.'
         not_same_project: не принадлежит тому же проекту.
         odd: должно быть нечетным.
+        regex_invalid: не может быть проверен связанным регулярным выражением.
+        smaller_than_or_equal_to_max_length: должно быть меньше или равно максимальной
+          длине.
         taken: уже принято.
         too_long: слишком длинно (максимум — %{count} знаков).
         too_short: слишком коротко (минимум — %{count} знаков).
-        wrong_length: неправильная длина (должно быть %{count} знаков).
-        after: должно быть после %{date}.
-        after_or_equal_to: должна быть после или ровно %{date}.
-        before: должны быть до %{date}.
-        before_or_equal_to: должны быть до или ровно %{date}.
-        could_not_be_copied: не может быть скопировано (полностью).
-        regex_invalid: не может быть проверен связанным регулярным выражением.
         unchangeable: изменить нельзя.
+        wrong_length: неправильная длина (должно быть %{count} знаков).
       models:
         custom_field:
           at_least_one_custom_option: По крайней мере один параметр должен быть доступен.
@@ -482,7 +488,7 @@ ru:
               error_not_found: не найдено
             public:
               error_unauthorized: "- У пользователя нет прав для создания общедоступных
-                запросов."
+                представлений."
           group_by_hierarchies_exclusive: является взаимоисключающим при группировке
             «%{group_by}». Вы не можете активировать оба.
           filters:
@@ -534,10 +540,12 @@ ru:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Не именованные группы не допускаются.
-              duplicate_group: Имя группы %{group} используется более одного раза.
-                Имена групп должны быть уникальными.
               attribute_unknown: Используется недопустимый атрибут пакета работ.
+              duplicate_group: Имя группы '%{group}' используется более одного раза.
+                Имена групп должны быть уникальными.
+              query_invalid: 'Встроенный запрос ''%{group}'' является недопустимым:
+                %{details}'
+              group_without_name: Не именованные группы не допускаются.
         user:
           attributes:
             password:
@@ -598,7 +606,6 @@ ru:
         few: Роли
         many: Roles
       type: Тип
-      project_type: Тип проекта
       user: Пользователь
       version: Этап
       wiki: Wiki
@@ -651,7 +658,7 @@ ru:
     password: Пароль
     priority: Приоритет
     project: Проект
-    responsible: Ответственный
+    responsible: Ответственность
     role: Роль
     roles: Роли
     start_date: Дата начала
@@ -722,6 +729,7 @@ ru:
   button_unlock: Разблокировать
   button_unwatch: Прекратить наблюдение
   button_update: Обновление
+  button_upgrade: Обновить
   button_upload: Загрузить
   button_view: Вид
   button_watch: Просмотреть
@@ -914,11 +922,6 @@ ru:
   default_priority_normal: Обычное
   default_priority_high: Высокое
   default_priority_immediate: Срочно
-  default_project_type_scrum: Команда Scrum
-  default_project_type_standard: Стандартный проект
-  default_reported_project_status_green: Зеленый
-  default_reported_project_status_amber: Янтарный
-  default_reported_project_status_red: Красный
   default_role_anonymous: Анонимно
   default_role_developer: Разработчик
   default_role_project_admin: Администратор проекта
@@ -984,7 +987,9 @@ ru:
   enumeration_system_activity: Активность системы
   enumeration_reported_project_statuses: Перечень отчетов о статусах проекта
   error_auth_source_sso_failed: Сбой единого входа (SSO) для пользователя «%{value}»
-  error_can_not_archive_project: Этот проект не может быть отправлен в архив
+  error_can_not_archive_project: 'Этот проект не может быть заархивирован: существует
+    по крайней мере один пакет работ, назначенный для версии, определенной в этом
+    проекте.'
   error_can_not_delete_entry: Не удается удалить содержимое
   error_can_not_delete_custom_field: Не удается удалить настраиваемое поле
   error_can_not_delete_type: Этот тип содержит пакет работ и не может быть удален.
@@ -999,12 +1004,16 @@ ru:
   error_custom_option_not_found: Параметр не существует.
   error_dependent_work_package: 'Ошибка в зависимостях пакетов работ #%{related_id}
     %{related_subject}: %{error}'
+  error_enterprise_activation_user_limit: Ваша учетная запись не может быть активирована
+    (достигнут предел пользователя). Обратитесь к администратору для получения доступа.
   error_failed_to_delete_entry: Не удалось удалить эту запись.
+  error_invalid_selected_value: Выбранное значение недопустимо.
   error_invalid_group_by: 'Невозможно группировать по: %{value}'
   error_invalid_query_column: 'Недопустимый столбец в запросе: %{value}'
   error_invalid_sort_criterion: 'Невозможно сортировать по столбцу: %{value}'
   error_pdf_export_too_many_columns: Для экспорта в PDF-файл выбрано слишком много
     столбцов. Пожалуйста, сократите количество столбцов.
+  error_pdf_failed_to_export: 'Не удалось сохранить экспорт в PDF: %{error}'
   error_token_authenticity: Не удается проверить CSRF-токен.
   error_work_package_done_ratios_not_updated: Сделанные соотношения пакета работ не
     обновляются.
@@ -1056,6 +1065,8 @@ ru:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF с описанием
+      pdf_with_descriptions_and_attachments: PDF с описанием и вложениями
+      pdf_with_attachments: PDF с вложениями
   extraction:
     available:
       pdftotext: Pdftotext доступно (опционально)
@@ -1079,6 +1090,7 @@ ru:
   homescreen:
     additional:
       projects: Новые видимые проекты в данном экземпляре.
+      no_visible_projects: Не видимые проекты в данном экземпляре.
       users: Новые зарегистрированные пользователи в данном экземпляре.
     blocks:
       community: OpenProject сообщество
@@ -1265,7 +1277,6 @@ ru:
   label_edit: Правка
   label_enable_multi_select: Разрешен множественный выбор
   label_enabled_project_custom_fields: Доступные настраиваемые поля
-  label_enabled_project_types: Доступные типы
   label_enabled_project_modules: Включенные модули
   label_enabled_project_activities: Включенная деятельность по отслеживанию времени
   label_end_to_end: конец в конец
@@ -1274,8 +1285,8 @@ ru:
   label_enumeration_value: Значение перечисления
   label_enumerations: Перечисления
   label_enterprise: Предприятие
+  label_enterprise_active_users: "%{current}/%{limit} забронировано активных пользователей"
   label_enterprise_edition: Корпоративная версия
-  label_entry_page: Страница входа
   label_environment: Переменные среды
   label_estimates_and_time: Оценки и время
   label_equals: "—"
@@ -1299,6 +1310,8 @@ ru:
   label_force_user_language_to_default: Язык, который пользователям нельзя установить
     как действующий по-умолчанию
   label_form_configuration: Настройка форм
+  label_gantt: Гант
+  label_gantt_chart: Диаграмма Гантта
   label_general: Общие
   label_generate_key: Сгенерируйте ключ
   label_git_path: Путь к директории .git
@@ -1402,6 +1415,7 @@ ru:
   label_next_week: На следующей неделе
   label_no_change_option: "(Без изменений)"
   label_no_data: Нет данных для отображения
+  label_no_parent_page: Без родительской страницы
   label_nothing_display: Нет данных для отображения
   label_nobody: никто
   label_none: нет
@@ -1420,6 +1434,7 @@ ru:
   label_overall_activity: Общая деятельность
   label_overall_spent_time: Суммарное потраченное время
   label_overview: Обзор
+  label_page_title: Заголовок страницы
   label_part_of: часть
   label_password_lost: Забыли пароль?
   label_password_rule_lowercase: Нижний регистр
@@ -1558,7 +1573,6 @@ ru:
   label_total: Всего
   label_type_new: Новый тип
   label_type_plural: Типы
-  label_type_default_new_projects: Тип активируется в новых проектах по умолчанию
   label_ui: Интерфейс пользователя
   label_update_work_package_done_ratios: Обновить  пакет работ созданными коэффициентами
   label_updated_time: Обновлено %{value} назад
@@ -1631,8 +1645,8 @@ ru:
     работ
   label_work_package_view_all_reported_by_me: Посмотреть все комплексы работ, описанные
     мной
-  label_work_package_view_all_responsible_for: Просмотреть все рабочие пакеты, подответственные
-    мне
+  label_work_package_view_all_responsible_for: Посмотреть все пакеты работ, за которые
+    я отвечаю
   label_work_package_view_all_watched: Посмотреть все наблюдаемые пакеты работ
   label_work_package_watchers: Наблюдатель
   label_workflow: Рабочий поток
@@ -1707,6 +1721,16 @@ ru:
   macro_execution_error: Ошибка при выполнении макроса %{macro_name}
   macro_unavailable: Макрос %{macro_name} не может быть отображен.
   macros:
+    placeholder: макро [Placeholder] %{macro_name}
+    errors:
+      missing_or_invalid_parameter: Отсутствующие или недопустимые параметры макроса.
+    legacy_warning:
+      timeline: Макрос этого унаследованного графика был удален и более не доступен.
+        Вы можете заменить функциональность внедренной таблицей макросов.
+    include_wiki_page:
+      errors:
+        page_not_found: Не удается найти вики-страницу «%{name}».
+        circular_inclusion: Обнаружено циклическое включение страниц.
     create_work_package_link:
       errors:
         no_project_context: Вызов макроса create_work_package_link из контекста за
@@ -1733,6 +1757,17 @@ ru:
   mail_subject_reminder: "%{count}  пакет(-ов) работ на  следующие %{days}"
   mail_subject_wiki_content_added: "'%{id}' wiki-страница добавлена"
   mail_subject_wiki_content_updated: "'%{id}' wiki страница была обновлена"
+  mail_user_activation_limit_reached:
+    subject: Достигнут лимит активации пользователя
+    message: 'Новый пользователь (%{email}) попытался создать учетную запись в OpenProject
+      (%{host}). Запись пользователя не может быть активирована, так как достигнут
+      лимит разрешенного числа пользователей.
+
+'
+    steps:
+      label: 'Для разрешения пользователю подписаться к вам необходимо: '
+      a: Обновите ваш платежный план ([here](upgrade_url))
+      b: Заблокировать или удалить существующего пользователя ([here](users_url))
   more_actions: Больше функций
   noscript_description: Для правильной работы OpenProject JavaScript должен быть включён!
   noscript_heading: JavaScript отключён
@@ -1855,6 +1890,7 @@ ru:
       сопровождения с OpenProject.
     text_show_again: Вы можете перезапустить это видео из меню «Справка»
     welcome: Добро пожаловать в OpenProject
+    select_language: Пожалуйста, выберите язык для OpenProject
   permission_add_work_package_notes: Добавить заметки
   permission_add_work_packages: Добавление пакетов работ
   permission_add_messages: Написать сообщения
@@ -1896,7 +1932,7 @@ ru:
   permission_manage_members: Управление участниками
   permission_manage_news: Управление новостями
   permission_manage_project_activities: Управление проектной деятельностью
-  permission_manage_public_queries: Управление общественными запросами
+  permission_manage_public_queries: Управление общими представлениями
   permission_manage_repository: Управление репозиторием
   permission_manage_subtasks: Управление подзадачами
   permission_manage_versions: Управление этапами
@@ -1905,7 +1941,7 @@ ru:
   permission_move_work_packages: Переместить пакет работ
   permission_protect_wiki_pages: Защитить wiki-страницы
   permission_rename_wiki_pages: Переименование wiki-страниц
-  permission_save_queries: Сохранение запросов
+  permission_save_queries: Сохранить представления
   permission_select_project_modules: Выбор модулей проекта
   permission_manage_types: Выберите типы
   permission_view_calendar: Календарь
@@ -2099,9 +2135,9 @@ ru:
   setting_smtp_address: SMTP сервер
   setting_smtp_port: SMTP порт
   setting_smtp_authentication: SMTP аутентификация
-  setting_smtp_domain: SMTP HELLO домен
   setting_smtp_user_name: Имя пользователя SMTP
   setting_smtp_password: SMTP пароль
+  setting_smtp_domain: SMTP HELLO домен
   setting_activity_days_default: Дни отображенные на проектной деятельности
   setting_app_subtitle: Второе название приложения
   setting_app_title: Название приложения
@@ -2114,7 +2150,6 @@ ru:
     количества неудачных попыток входа
   setting_brute_force_block_minutes: Время блокирования пользователя за
   setting_cache_formatted_text: Кэшировать форматированный текст
-  setting_use_wysiwyg: WYSIWYG редактор
   setting_use_wysiwyg_description: Выберите включение CKEditor5 WYSIWYG редактора
     для всех пользователей по умолчанию. CKEditor обладает ограниченной функциональностью
     для GFM Markdown.
@@ -2206,7 +2241,6 @@ ru:
   setting_sys_api_enabled: Разрешить веб-сервис управления репоторием
   setting_sys_api_description: Веб-сервис управления репозиторием обеспечивает интеграцию
     и авторизацию пользователя для доступа к репозиторию.
-  setting_text_formatting: Форматирование текста
   setting_time_format: Формат времени
   setting_accessibility_mode_for_anonymous: Разрешить режим доступа людей с ограниченными
     возможностями для анонимных пользователей
@@ -2218,7 +2252,6 @@ ru:
   setting_welcome_text: Текст приветствия
   setting_welcome_title: Заголовок приветствия
   setting_welcome_on_homescreen: Показывать приветствие на домашней странице
-  setting_welcome_on_projects_page: Показывать приветствие при просмотре проекта
   setting_wiki_compression: Сжатие истории  изменений wiki
   setting_work_package_group_assignment: Разрешить назначения группам
   settings:
@@ -2227,8 +2260,10 @@ ru:
     passwords: Пароли
     session: Сессия
     brute_force_prevention: Автоматическое блокирование пользователя
+    user:
+      default_preferences: Предпочтения по умолчанию
+      deletion: Удаление
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Обычный текст
   status_active: Активно
@@ -2325,7 +2360,8 @@ ru:
   text_journal_aggregation_time_explanation: Объединить журналы для отображения, если
     разница в их возрасте меньше заданного значения. Это приведет к задержке почтовых
     уведомлений на указанное время.
-  text_journal_changed: "%{label} изменено с %{old} </br><strong>на</strong> %{new}"
+  text_journal_changed: "%{label} изменено с %{old} <br/><strong>на</strong> %{new}"
+  text_journal_changed_plain: "%{label} изменено с %{old} на %{new}"
   text_journal_changed_no_detail: "%{label} обновлено"
   text_journal_changed_with_diff: "%{label} изменена (%{link})"
   text_journal_deleted: "%{label} удалена (%{old})"
@@ -2378,6 +2414,8 @@ ru:
   text_user_wrote: "%{value} написал:"
   text_warn_on_leaving_unsaved: Не сохраненный текст текущего пакета работ будет потерян,
     если вы покинете эту страницу.
+  text_what_did_you_change_click_to_add_comment: Что вы изменили? Кликните для добавления
+    комментария
   text_wiki_destroy_confirmation: Вы уверены, что хотите удалить этот wiki и все его
     содержимое?
   text_wiki_page_destroy_children: Удаление дочерних страниц и всех их потомков
@@ -2406,8 +2444,6 @@ ru:
     admin_menu:
       color: Цвет
       colors: Цвета
-      project_type: Тип проекта
-      project_types: Типы проекта
     associations: Связи
     board_could_not_be_saved: Форум сохранён быть не может
     button_delete_all: Удалить всё
@@ -2427,7 +2463,6 @@ ru:
       few: "%{count} дня"
       many: "%{count} days"
     edit_color: Изменить цвет
-    edit_project_type: Редактировать тип проекта
     edit_thing: Правка
     edit_timeline: Редактировать отчет по графику %{timeline}
     delete_timeline: Удалить отчет графика  %{timeline}
@@ -2467,7 +2502,6 @@ ru:
         due_date: Дате окончания
         name: Имя
         status: Состояние
-        responsible: Ответственный
         start_date: Дата начала
       columns: Столбцы
       comparisons: Сравнения
@@ -2496,7 +2530,7 @@ ru:
       outline: Первоначальная схема детализации
       parent: Показывать подпроекты
       work_package_filters: Фильтровать пакеты работ
-      work_package_responsible: Показать  пакеты работ с ответственным
+      work_package_responsible: Показать пакеты работ с ответственным
       work_package_assignee: Показать пакеты работ с назначениями
       types: Показать типы
       status: Показать состояние
@@ -2511,7 +2545,6 @@ ru:
       project_filters: Фильтр проектов
       project_responsible: Показать проекты с ответственным
       project_status: Показать статус проекта
-      project_types: Показать типы проектов
       timeframe: Показать сроки
       timeframe_end: до
       timeframe_start: от
@@ -2521,7 +2554,6 @@ ru:
     new_color: Новый цвет
     new_association: Новая зависимость
     new_work_package: Новый пакет работ
-    new_project_type: Новый тип проекта
     new_reporting: Новые отчетности
     new_timeline: Новый отчет по графику
     no_projects_for_reporting_available: Нет проектов, для которых может быть создана
@@ -2548,21 +2580,11 @@ ru:
       edit: 'Редактировать статус: %{comment}'
       show: 'Статус: %{comment}'
     planning_element_update: 'Последняя сводка: %{title}'
-    work_packages_are_displayed_in_aggregations: Пакеты работ отображаются в агрегациях
-    project_type_could_not_be_saved: Тип проекта не может быть сохранен
     type_could_not_be_saved: Тип не может быть сохранен
     reporting_could_not_be_saved: Отчетность не может быть сохранена
     properties: Свойства
     really_delete_color: 'Вы действительно хотите удалить этот цвет? Типы, использующие
       этот цвет удалены не будут.
-
-'
-    really_delete_project_type: 'Вы действительно хотите удалить следующий тип проекта?
-      Проекты с использованием этого типа удалены не будут.
-
-'
-    really_delete_timeline: 'Вы действительно хотите удалить отчет по этому графику?
-      Пакеты работ, показанные в настоящем отчете удалены не будут.
 
 '
     really_delete_reporting: 'Вы уверены, вы хотите удалить следующие отчетности?
@@ -2574,7 +2596,6 @@ ru:
     timelines: Отчеты по графикам
     settings: Графики
     vertical_work_package: Вертикальные пакеты работ
-    without_project_type: Без типа проекта
     you_are_viewing_the_selected_timeline: Вы просматриваете выбранный отчет по графику
     zoom:
       in: Увеличить
@@ -2586,6 +2607,7 @@ ru:
       years: Годы
   title_remove_and_delete_user: Исключить из проекта приглашенного пользователя и
     удалить его.
+  title_enterprise_upgrade: Обновление для разблокировки большего числа пользователей.
   tooltip_user_default_timezone: 'Часовой пояс по умолчанию для новых пользователей.
     Может быть изменен в настройках пользователя.
 
@@ -2661,9 +2683,26 @@ ru:
   note_password_login_disabled: Вход по паролю был отключен через параметры %{configuration}.
   warning: Предупреждение
   warning_attachments_not_saved: "%{count} файл(-ов) не может быть сохранен(-о)."
+  warning_imminent_user_limit: 'Вы пригласили пользователей больше, чем позволяет
+    ваш текущий тарифный план. Приглашенные пользователи смогут присоединиться к OpenProject.
+    Пожалуйста <a href="%{upgrade_url}">обновите ваш план</a> или блокируйте существующих
+    пользователей для присоединения приглашенных и зарегистрированных пользователей.
+
+'
   warning_registration_token_expired: 'Срок ответа на письмо активации истек. Мы отправили
     вам новое на %{email}. Пожалуйста, нажмите на ссылку внутри него, чтобы активировать
     вашу учетную запись.
+
+'
+  warning_user_limit_reached: 'Достигнут предел пользователя. Вы более не можете активировать
+    пользователей. <a href="%{upgrade_url}">, обновите ваш план</a> или блок участников
+    для дополнительных пользователей.
+
+'
+  warning_user_limit_reached_instructions: 'Вы достигли вашего пользовательского предела
+    (%{current}/%{max} активных пользователей). Пожалуйста, свяжитесь с sales@openproject.com
+    для обновления своего плана до Корпоративной версии и добавьте дополнительных
+    пользователей.
 
 '
   menu_item: Пункт меню

@@ -201,10 +201,8 @@ module API
           representer ||= default_representer(name.to_s.singularize)
 
           ->(*) do
-            if represented.send(name)
-              represented.send(name).map do |associated|
-                representer.new(associated, current_user: current_user)
-              end
+            represented.send(name)&.map do |associated|
+              representer.new(associated, current_user: current_user)
             end
           end
         end

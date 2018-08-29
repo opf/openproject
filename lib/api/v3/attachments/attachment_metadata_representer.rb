@@ -42,7 +42,7 @@ module API
         property :file_name
         property :description,
                  getter: ->(*) {
-                   ::API::Decorators::Formattable.new(description, format: 'plain')
+                   ::API::Decorators::Formattable.new(description, plain: true)
                  },
                  setter: ->(fragment:, **) { self.description = fragment['raw'] },
                  render_nil: true

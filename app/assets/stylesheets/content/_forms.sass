@@ -277,7 +277,7 @@ fieldset.form--fieldset
       padding:   0.625rem 0.25rem 0 0.25rem
 
 #sidebar .form--fieldset-legend
-  @include varprop(color, main-menu-sidebar-font-color)
+  @include varprop(color, main-menu-fieldset-header-color)
 
 .form--fieldset-control
   float:          right
@@ -352,10 +352,14 @@ fieldset.form--fieldset
   &.-reduced-margin
     margin-bottom: 0.5rem
 
+  &.-no-margin
+    margin-bottom: 0
+
 .form--label
   @include grid-content(2)
   @extend %label-style
-  @include text-shortener
+  overflow-x: hidden
+  white-space: normal
   overflow-y: visible
   padding:      0 1rem 0 0
   font-size:    $form-label-fontsize
@@ -538,6 +542,25 @@ select
   &:hover, &:focus, &:active
     border-color: #999
 
+.-hide-placeholder-on-focus
+  &:focus::placeholder
+    opacity: 0
+
+.-border-on-hover-only
+  &:not(.-error)
+    // Reduce padding usually shown
+    padding-left: 1px
+    border-color: transparent
+
+    // Don't show border on focus or active
+    &:focus,
+    &:active
+      border-color: transparent
+
+    // But as an indicator, do show one on hover
+    &:hover
+      border-color: #999
+
 select
   &[disabled=disabled]
     background-color: $inplace-edit--bg-color--disabled
@@ -564,6 +587,7 @@ input[readonly].-clickable
     // TODO: this has to be fixed upstream as select are fixed
     // in height in foundation for apps.
     height: auto
+    min-width: 40px
 
 .form--select2
   border: none

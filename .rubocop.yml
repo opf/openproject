@@ -1,5 +1,5 @@
 AllCops:
-  TargetRubyVersion: 2.2
+  TargetRubyVersion: 2.5
   Exclude:
     - db/schema.rb
 
@@ -223,6 +223,9 @@ WhileUntilModifier:
   Enabled: false
 
 WordArray:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
   Enabled: false
 
 # Lint

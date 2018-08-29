@@ -13,6 +13,14 @@
           <span><%= @current_token.mail %></span>
         </div>
       </div>
+      <% Hash(@current_token.restrictions).each do |key, value| %>
+      <div class="attributes-key-value--key"><%= EnterpriseToken.human_attribute_name("#{key}_restriction") %></div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span><%= value %></span>
+        </div>
+      </div>
+      <% end %>
       <div class="attributes-key-value--key"><%= EnterpriseToken.human_attribute_name(:starts_at) %></div>
       <div class="attributes-key-value--value-container">
         <div class="attributes-key-value--value -text">

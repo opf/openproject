@@ -33,11 +33,11 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <h3 class="widget-box--header">
   <%= op_icon('icon-context icon-reported-by-me') %>
-  <span class="widget-box--header-title"><%=l(:label_reported_work_packages)%> (<%= @user.reported_work_package_count %>)</span>
+  <span class="widget-box--header-title"><%=l(:label_reported_work_packages)%></span>
 </h3>
 
-<%= render partial: 'work_packages/me_list_simple',
-           locals: { user_filter: :author } %>
+<%= render partial: 'my/blocks/embedded_work_package_table',
+    locals: { edit: edit, user_filter: :author } %>
 
 <% content_for :header_tags do %>
   <%= auto_discovery_link_tag(:atom,

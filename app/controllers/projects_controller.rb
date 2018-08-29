@@ -40,7 +40,6 @@ class ProjectsController < ApplicationController
   before_action :require_admin, only: [:archive, :unarchive, :destroy, :destroy_info]
   before_action :jump_to_project_menu_item, only: :show
   before_action :load_project_settings, only: :settings
-  before_action :determine_base
 
   accept_key_auth :index, :level_list, :show, :create, :update, :destroy
 
@@ -68,7 +67,7 @@ class ProjectsController < ApplicationController
         head(:gone)
       end
       format.html do
-        render action: :index
+        render layout: 'no_menu'
       end
     end
   end
@@ -78,11 +77,9 @@ class ProjectsController < ApplicationController
   end
 
   def new
-    @issue_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
-    @types = ::Type.all
-    @project = Project.new
-    @project.parent = Project.find(params[:parent_id]) if params[:parent_id]
-    @project.attributes = permitted_params.project if params[:project].present?
+    assign_default_create_variables
+
+    render layout: 'no_menu'
   end
 
   current_menu_item :new do
@@ -90,10 +87,7 @@ class ProjectsController < ApplicationController
   end
 
   def create
-    @issue_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
-    @types = ::Type.all
-    @project = Project.new
-    @project.attributes = permitted_params.project
+    assign_default_create_variables
 
     if validate_parent_id && @project.save
       @project.set_allowed_parent!(params['project']['parent_id']) if params['project'].has_key?('parent_id')
@@ -106,7 +100,7 @@ class ProjectsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html do render action: 'new' end
+        format.html { render action: 'new', layout: 'no_menu' }
       end
     end
   end
@@ -137,8 +131,6 @@ class ProjectsController < ApplicationController
       format.html
     end
   end
-
-  def edit; end
 
   def update
     @altered_project = Project.find(@project.id)
@@ -301,15 +293,15 @@ class ProjectsController < ApplicationController
     end
   end
 
-  protected
-
-  def determine_base
-    @base = if params[:project_type_id]
-              ProjectType.find(params[:project_type_id]).projects
-            else
-              Project
-            end
+  def assign_default_create_variables
+    @issue_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
+    @types = ::Type.all
+    @project = Project.new
+    @project.parent = Project.find(params[:parent_id]) if params[:parent_id]
+    @project.attributes = permitted_params.project if params[:project].present?
   end
+
+  protected
 
   def set_sorting(query)
     orders = query.orders.select(&:valid?).map { |o| [o.attribute.to_s, o.direction.to_s] }

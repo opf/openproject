@@ -12,3 +12,9 @@
 /tests/openproject-test-bundle.js
 /tests/openproject-main.css
 /tests/openproject-tests.css
+
+/out-tsc
+/generated_typings
+/src/app/modules/plugins/linked/
+/src/app/modules/plugins/linked-plugins.module.ts
+/legacy/app/plugins/*

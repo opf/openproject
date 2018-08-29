@@ -77,7 +77,7 @@ consent_time:
 consent_info:
   serialized: true
   default:
-    en: "h2. Consent\n\nYou need to agree to the privacy and security policy of this OpenProject instance."
+    en: "## Consent\n\nYou need to agree to the privacy and security policy of this OpenProject instance."
 # Indicates wether or not users need to consent to something such as privacy policy.
 consent_required:
   default: 0
@@ -89,9 +89,6 @@ welcome_title:
 welcome_text:
   default:
 welcome_on_homescreen:
-  default: 0
-  format: boolean
-welcome_on_projects_page:
   default: 0
   format: boolean
 log_requesting_user:
@@ -144,10 +141,6 @@ bcc_recipients:
   default: 1
 plain_text_mail:
   default: 0
-text_formatting:
-  default: textile
-use_wysiwyg:
-  default: 1
 cache_formatted_text:
   default: 0
 wiki_compression:
@@ -167,6 +160,9 @@ available_languages:
   - ru
 default_language:
   default: en
+default_auto_hide_popups:
+  default: 1
+  format: boolean
 email_login: # use email address as login, hide login in registration form
   default: 0
 host_name:

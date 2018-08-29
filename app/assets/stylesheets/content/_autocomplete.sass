@@ -68,6 +68,7 @@ div.autocomplete
   cursor: default
   margin: 0
   list-style: none
+  z-index: 10000
 
   .ui-menu-item
     border-bottom: 1px solid $content-default-border-color
@@ -86,7 +87,8 @@ div.autocomplete
     &.ui-state-active
       border: none
       @include varprop(background, drop-down-selected-bg-color)
-      @include varprop(color, drop-down-selected-font-color)
+      a
+        @include varprop(color, drop-down-selected-font-color)
 
   &.-inplace
     position: relative

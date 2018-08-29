@@ -157,14 +157,13 @@ module WorkPackages
     end
 
     def validate_parent_not_milestone
-      if model.parent && model.parent.is_milestone?
+      if model.parent&.is_milestone?
         errors.add :parent, :cannot_be_milestone
       end
     end
 
     def validate_parent_exists
-      if model.parent &&
-         model.parent.is_a?(WorkPackage::InexistentWorkPackage)
+      if model.parent&.is_a?(WorkPackage::InexistentWorkPackage)
 
         errors.add :parent, :does_not_exist
       end

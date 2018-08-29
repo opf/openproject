@@ -50,7 +50,7 @@ describe 'Refreshing query menu item', js: true do
     wp_table.save_as('Some query name')
 
     # Publish query
-    wp_table.click_setting_item 'Publish'
+    wp_table.click_setting_item I18n.t('js.toolbar.settings.visibility_settings')
     find('#show-in-menu').set true
     find('.button', text: 'Save').click
 
@@ -60,7 +60,7 @@ describe 'Refreshing query menu item', js: true do
     expect(url).not_to match(/query_props=.+/)
 
     # Locate query and refresh
-    query_item = page.find(".query-menu-item[data-query-id='#{last_query.id}']")
+    query_item = page.find(".wp-query-menu--item", text: last_query.name)
     query_item.click
 
     wp_table.expect_work_package_listed work_package, other_work_package

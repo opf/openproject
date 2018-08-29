@@ -62,6 +62,7 @@ See docs/COPYRIGHT.rdoc for more details.
   </fieldset>
 <% end %>
 <% if @type && @role && @statuses.any? %>
+  <%= activate_angular_js do %>
     <%= form_tag({}, id: 'workflow_form' ) do %>
       <%= hidden_field_tag 'type_id', @type.id %>
       <%= hidden_field_tag 'role_id', @role.id %>
@@ -86,6 +87,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
       <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
     <% end %>
+  <% end %>
 <% end %>
 
 <% html_title(Workflow.model_name.human) -%>

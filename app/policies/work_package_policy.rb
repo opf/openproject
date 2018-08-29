@@ -57,9 +57,7 @@ class WorkPackagePolicy < BasePolicy
 
   def edit_allowed?(work_package)
     @edit_cache ||= Hash.new do |hash, project|
-      hash[project] = work_package.persisted? &&
-                      (user.allowed_to?(:edit_work_packages, project) ||
-                       user.allowed_to?(:add_work_package_notes, project))
+      hash[project] = work_package.persisted? && user.allowed_to?(:edit_work_packages, project)
     end
 
     @edit_cache[work_package.project]
@@ -113,7 +111,7 @@ class WorkPackagePolicy < BasePolicy
 
   def manage_subtasks_allowed?(work_package)
     @manage_subtasks_cache ||= Hash.new do |hash, project|
-      hash[project] = user.allowed_to?(:manage_subtasks, work_package.project)
+      hash[project] = user.allowed_to?(:manage_subtasks, work_package.project, global: work_package.project.nil?)
     end
 
     @manage_subtasks_cache[work_package.project]

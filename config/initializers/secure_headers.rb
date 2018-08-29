@@ -19,11 +19,24 @@ SecureHeaders::Configuration.default do |config|
   # Valid for iframes
   frame_src = %w['self' https://player.vimeo.com]
 
+  # Default src
+  default_src = %w('self')
+
+  # Allow requests to CLI in dev mode
+  connect_src = default_src
+
+  # Add proxy configuration for Angular CLI to csp
+  if FrontendAssetHelper.assets_proxied?
+    proxied = ['ws://localhost:*', 'http://localhost:*', FrontendAssetHelper.cli_proxy]
+    connect_src += proxied
+    assets_src += proxied
+  end
+
   config.csp = {
     preserve_schemes: true,
 
     # Fallback when no value is defined
-    default_src: %w('self'),
+    default_src: default_src,
     # Allowed uri in <base> tag
     base_uri: %w('self'),
 
@@ -34,12 +47,16 @@ SecureHeaders::Configuration.default do |config|
     # Allow iframe from vimeo (welcome video)
     frame_src: frame_src + %w('self'),
     frame_ancestors: %w('self'),
-    # Allow images from anywhere
-    img_src: %w(* data:),
-    # Allow scripts from self (not inline, but)
-    # for now require unsafe-eval for Angular JIT
-    script_src: assets_src + %w('unsafe-eval'),
+    # Allow images from anywhere including data urls and blobs (used in resizing)
+    img_src: %w(* data: blob:),
+    # Allow scripts from self
+    script_src: assets_src,
     # Allow unsafe-inline styles
     style_src: assets_src + %w('unsafe-inline'),
+    # disallow all object-src
+    object_src: %w('none'),
+
+    # Connect sources for CLI in dev mode
+    connect_src: connect_src
   }
 end

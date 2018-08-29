@@ -48,7 +48,7 @@ RSpec.feature 'Work package pagination', js: true do
     end
 
     scenario do
-      expect(page).to have_content('Work packages')
+      expect(page).to have_content('All open')
 
       within('.work-packages-list-view--container') do
         expect(page).to     have_content(work_package_1.subject)

@@ -29,7 +29,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::TextFormatting::Formatters::Plain::Formatter do
+describe OpenProject::TextFormatting::Formats::Plain::Formatter do
   subject { described_class.new({}) }
 
   it 'should plain text' do
@@ -38,7 +38,7 @@ describe OpenProject::TextFormatting::Formatters::Plain::Formatter do
 
   it 'should escaping' do
     assert_html_output(
-      'this is a <script>'      => 'this is a &lt;script&gt;'
+      'this is a <script>' => 'this is a &lt;script&gt;'
     )
   end
 

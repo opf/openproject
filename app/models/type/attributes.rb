@@ -143,7 +143,7 @@ module Type::Attributes
         I18n.t('label_date')
       else
         key = attr_i18n_key(name)
-        I18n.t("activerecord.attributes.work_package.#{key}", default: '')
+        I18n.t("activerecord.attributes.work_package.#{key}", fallback: false, default: '')
           .presence || I18n.t("attributes.#{key}")
       end
     end

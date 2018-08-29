@@ -1,0 +1,26 @@
+<div class="work-package-details-activities-activity-contents"
+     *ngIf="workPackage"
+     tabindex="0"
+     [attr.aria-label]="activityLabel">
+  <div class="comments-number">
+    <activity-link [workPackage]="workPackage"
+                   [activityNo]="activityNo">
+    </activity-link>
+  </div>
+  <div *ngIf="userAvatar">
+    <img class="avatar"
+         [attr.src]="userAvatar"
+         [attr.title]="userName"
+         alt="Avatar" />
+  </div>
+  <span class="user" *ngIf="userActive">
+    <a [attr.href]="userPath"
+       [attr.aria-label]="userLabel"
+       [textContent]="userName"></a>
+  </span>
+  <span class="user" *ngIf="!userActive" [textContent]="userName"></span>
+  <span class="revision-activity--revision-link date" [innerHtml]="revisionLink"></span>
+  <span class="user-comment wiki">
+    <span class="message" [innerHtml]="message"></span>
+  </span>
+</div>

@@ -4,6 +4,11 @@ fil:
     ajax:
       hide: Itago
       loading: Naglo-load ...
+    attachments:
+      draggable_hint: 'Drag on editor field to inline image or reference attachment.
+        Closed editor fields will be opened while you keep dragging.
+
+'
     autocomplete_select:
       placeholder:
         multi: Magdagdag ng "%{name}"
@@ -53,9 +58,57 @@ fil:
     description_select_work_package: 'Piliin ang work package #%{id}'
     description_selected_columns: Napiling mga hanay
     description_subwork_package: 'Bata ng work package #%{id}'
+    editor:
+      preview: Toggle preview mode
+      error_saving_failed: 'Saving the document failed with the following error: %{e}'
+      macro:
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Pahina ng wiki
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
+        code_block:
+          button: Insert code snippet
+          title: Insert / edit Code snippet
+          language: Formatting language
+          language_hint: Enter the formatting language that will be used for highlighting
+            (if supported).
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
+        toc: Table of contents
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
+        wiki_page_include:
+          button: Include content of another wiki page
+          text: "[Placeholder] Included wiki page of"
+          page: Pahina ng wiki
+          not_set: "(Page not yet set)"
+          hint: |
+            Include the content of another wiki page by specifying its title or slug.
+            You can include the wiki page of another project by separating them with a colon like the following example.
+        work_package_button:
+          button: Insert create work package button
+          type: Work package type
+          button_style: Use button style
+          button_style_hint: 'Optional: Check to make macro appear as a button, not
+            as a link.'
+          without_type: Create work package
+          with_type: 'Create work package (Type: %{typename})'
+        embedded_table:
+          button: Embed work package table
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: Isang internal error ang naganap.
-      query_saving: The query could not be saved.
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
+      query_saving: The view could not be saved.
+      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
     filter:
       description:
         text_open_filter: Buksan ang filter na ito sa 'ALT' at ang mga arrow key.
@@ -120,6 +173,7 @@ fil:
     label_expand: Palawakin
     label_expanded: pinalawak
     label_expand_all: Malakihin lahat
+    label_expand_project_menu: Expand project menu
     label_export: I-export
     label_filename: File
     label_filesize: Sukat
@@ -127,10 +181,11 @@ fil:
     label_group_by: Pangkat sa
     label_hide_attributes: Magpakita ng mas kaunti
     label_hide_column: Itago ang mga hanay
+    label_hide_project_menu: Collapse project menu
     label_in: sa
     label_in_less_than: mas mababa kaysa
     label_in_more_than: mahigit sa
-    label_latest_activity: Pinakamabagong aktibidad
+    label_latest_activity: Latest activity
     label_last_updated_on: Huking naka-update sa
     label_less_or_equal: "<="
     label_less_than_ago: mas mababa kaysa sa mga araw na lumipas
@@ -162,12 +217,15 @@ fil:
     label_select_watcher: Pumili ng manunuod...
     label_selected_filter_list: Napiling mga filter
     label_show_attributes: Ipakita ang lahat ng mga katangian
-    label_show_in_menu: Ipakita ang pahina ng pagpipilian
+    label_show_in_menu: Show view in menu
     label_sort_by: Pag-uuri sa pamamagitan ng
     label_sorted_by: pinagsunod-sunod ayon sa
     label_sort_higher: Lumipat pataas
     label_sort_lower: Ilipat sa ibaba
     label_sorting: Pag-aayos
+    label_star_query: Favored
+    label_press_enter_to_save: Press enter to save.
+    label_public_query: Publiko
     label_sum_for: Halaga para sa
     label_subject: Paksa
     label_this_week: ngayong semana
@@ -176,7 +234,6 @@ fil:
     label_activity_show_only_comments: Magpakita ng mga aktibidad sa komento lamang
     label_activity_show_all: Ipakita lahat ang mga aktibidad
     label_total_progress: "%{percent}% Kabuang progreso"
-    label_visible_for_others: Pahina na makikita sa iba
     label_updated_on: i-update sa
     label_warning: Babala
     label_work_package: Work package
@@ -190,8 +247,10 @@ fil:
     label_unwatch: I-unwatch
     label_unwatch_work_package: I-unwatch ang work package
     label_uploaded_by: Naka-upload sa pamamagitan ng
-    label_global_queries: Ibinahaging mga query
-    label_custom_queries: Pribadong mga query
+    label_default_queries: Default views
+    label_starred_queries: Favorite views
+    label_global_queries: Public views
+    label_custom_queries: Private views
     label_columns: Mga hanay
     label_attachments: Mga file
     label_drop_files: Ihulog ang mga file dito
@@ -203,8 +262,9 @@ fil:
     label_remove_watcher: Alisin ang watcher %{name}
     label_remove_all_files: Burahin ang lahat ang mga file
     label_add_description: Magdagdag ng deskripsyon para sa %{file}
-    label_upload_notification: 'Pag-upload ng mga file para sa Work package #%{id}:
-      %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Pag-upload ng mga file para sa Work package
+      #%{id}: %{subject}'
     label_files_to_upload: 'Itong mga file ay naka-upload:'
     label_rejected_files: 'Itong mga fike ay hindi ma-upload:'
     label_rejected_files_reason: Itong mga file ay hindi ma-upload kung ang laki ay
@@ -245,10 +305,9 @@ fil:
         error_duplicate_group_name: Ang pangalan ng %{group} ay ginamit higit pa sa
           isang beses. Ang mga pangalan ng grupo ay dapat nakakakatangi.
         reset_title: Reset form configuration
-        confirm_reset: 'Babala: Sigurado ka ba gusto mong i-reset ang form ng kumpigurasyon?
-          Ito ay i-reset ang mga katangian sa kanilang grupong default, tanggalin
-          ang kakayahang makita ang mga checkbox at hindi paganahin ang LAHAT ng kustom
-          na patlang.
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: I-upgrade sa Enterprise Edition
@@ -318,7 +377,6 @@ fil:
         one: Maari ka lamang oumili ng isang aytem
         other: Maari ka lamang pumili ng mga {{limit}} aytem
         zero: You cannot select any items
-    show_hide_project_menu: Palawakin/Pagbagsak na proyektong pagpipilian
     project_menu_details: Mga detalye
     sort:
       sorted_asc: 'Pataas na paayos ang inilapat '
@@ -330,8 +388,8 @@ fil:
       activate_no: aktibk upang alisin ang pagsaayos
     text_work_packages_destroy_confirmation: Sigurado ka ba na gusto mong burahin
       ang napiling work package?
-    text_query_destroy_confirmation: Sigurado ka ba na gusto mong burahin ang napiling
-      query?
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      view?
     text_attachment_destroy_confirmation: Sigurado ka ba na gusto mong burahin ang
       nakalakip?
     timelines:
@@ -349,8 +407,8 @@ fil:
           ito.
 
 '
-      button_activate: I-aktibo ang timeline mode
-      button_deactivate: I-deactivate ang timeline mode
+      button_activate: Show Gantt chart
+      button_deactivate: Hide Gantt chart
       cancel: Kanselahin
       change: Baguhin ang pagpaplano
       due_date: Takdang petsa
@@ -367,14 +425,6 @@ fil:
         report_timeout: Ang timeline ay hindi maipupuno dahil sa isang makatwirang
           halaga ng oras.
       filter:
-        column:
-          assigned_to: Naitalaga
-          type: Uri
-          due_date: Ang pagtatapos ng petsa
-          name: Pangalan
-          status: Estado
-          responsible: Responsable
-          start_date: Petsa ng pagsimula
         grouping_other: Iba pa
         noneSelection: "(wala)"
       name: Pangalan
@@ -388,7 +438,6 @@ fil:
         level5: Palawakin ang ika-5 na antas
         all: Ipakita ang lahat
       project_status: Estado ng proyekto
-      project_type: Uri ng proyekto
       really_close_dialog: Sigurado ka na ba na gusto mong isara ang dialogo at mawala
         lahat ang ipanasok na data?
       responsible: Responsable
@@ -409,6 +458,10 @@ fil:
         quarters: Mga quarter
         years: Mga taon
         slider: Zoom Slider
+        description: 'Select the initial zoom level that should be shown when autozoom
+          is not available.
+
+'
     tl_toolbar:
       zooms: Zoom level
       outlines: Hierarchy level
@@ -499,7 +552,7 @@ fil:
           ang naka-filtered na mga bata
       faulty_query:
         title: Ang mga work package ay hindi mai-load.
-        description: Ang iyong query ay mali at hindi maiproseso.
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: Walang mga work package ang i-displey.
         description: Alinman sa walang ang nilikha o mga work package ay naka-filter
@@ -531,6 +584,13 @@ fil:
         updatedAt: Naka-update sa
         versionName: Bersyon
         version: Bersyon
+      default_queries:
+        latest_activity: Latest activity
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: All open
+        summary: Buod
       jump_marks:
         pagination: Dumiretso sa talaan ng pagination
         label_pagination: Pindutin dito upang lagpasan ang mga talaan ng work package
@@ -557,10 +617,15 @@ fil:
         insert_columns: Isingit ang mga hanay...
         filters: Mga nasala
         display_sums: Ipakita ang mga sum
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
         errors:
-          unretrievable_query: Hindi mabalik ang query mula sa URL
-          not_found: Walang ganitong query
-        text_no_results: Walang mga nagkakatugmang query ay natagpuan.
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
       table:
         configure_button: Configure work package table
         summary: Talaab sa mga hilera ng work package at mga hanay na katangian ng
@@ -575,7 +640,7 @@ fil:
         button: Configure this work package table
         modal_title: Work package table configuration
         embedded_tab_disabled: This configuration tab is not available for the embedded
-          query you're editing.
+          view you're editing.
         display_settings: Display settings
         grouped_mode: Grouped mode
         grouped_hint: Table results will be grouped by the given attribute.
@@ -588,6 +653,8 @@ fil:
         show_timeline_hint: Show an interactive gantt chart on the right side of the
           table. You can change its width by dragging the divider between table and
           gantt chart.
+        columns_help_text: Use the input above to add or remove columns to your table
+          view. You can drag and drop the columns to reorder them.
       tabs:
         overview: Buod
         activity: Aktibidad
@@ -600,6 +667,7 @@ fil:
         months: mga buwan
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Mga hanay ...
         sort_by: Ayusin sa ...
         group_by: Grupohin sa ...
@@ -610,15 +678,16 @@ fil:
         save: I-save
         save_as: I-save bilang ...
         export: I-export ...
-        publish: Ipalabas...
-        page_settings: Palitan ng pangalan ang query...
+        visibility_settings: Visibility settings ...
+        page_settings: Rename view ...
         delete: Burahin
       filter: Salain
       unselected_title: Work package
-      search_query_label: Hanapin ang mga naka-save na query
-      search_query_title: Pindutin upang hanapin ang mga naka-save na filter query
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
     modals:
-      label_settings: Palitan ng pangalan ang query
+      label_settings: Rename view
       label_name: Pangalan
       label_delete_page: Burahin ang kasukuyang pahina
       button_apply: Ilagay
@@ -635,7 +704,8 @@ fil:
         title: Kumpirmahin ang pagbubura ng %{label}
         text: Sigurado ka ba na gusto mong burahin ang sumusunod na %{label}?
         has_children: 'Ang work package ay mayroong %{childUnits}:'
-        deletes_children: Lahat ng mga batang work package ay maari rin burahin.
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: Matagumpay pagkalikha.
     notice_successful_delete: Matagumpay ang pagtanggal.
     notice_successful_update: Matagumpay nai-update.
@@ -663,6 +733,9 @@ fil:
         messages_on_field: 'Ito patlang ay hindi balido: %{messages}'
     error_could_not_resolve_version_name: Hindi ma resolba ang bersyon na pangalan
     error_could_not_resolve_user_name: Hindi mairesolba ang pangalan ng gumagamit
+    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: work package

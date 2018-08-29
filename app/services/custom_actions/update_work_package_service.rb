@@ -60,20 +60,24 @@ class CustomActions::UpdateWorkPackageService
     contract = WorkPackages::UpdateContract.new(work_package, user)
 
     unless contract.validate
-      work_package.restore_attributes(work_package.changes.keys - changes_before.keys)
-
-      retry_apply_actions(work_package, actions, contract.errors)
+      retry_apply_actions(work_package, actions, contract.errors, changes_before)
     end
   end
 
-  def retry_apply_actions(work_package, actions, errors)
-    invalid_keys = errors.keys.map { |k| append_id(k) }
-
-    new_actions = actions.reject { |a| invalid_keys.include?(append_id(a.key)) }
+  def retry_apply_actions(work_package, actions, errors, changes_before)
+    new_actions = without_invalid_actions(actions, errors)
 
     if new_actions.any? && actions.length != new_actions.length
+      work_package.restore_attributes(work_package.changes.keys - changes_before.keys)
+
       apply_actions(work_package, new_actions)
     end
+  end
+
+  def without_invalid_actions(actions, errors)
+    invalid_keys = errors.keys.map { |k| append_id(k) }
+
+    actions.reject { |a| invalid_keys.include?(append_id(a.key)) }
   end
 
   def apply_actions_sorted(work_package, actions)

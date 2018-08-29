@@ -137,8 +137,10 @@ table.generic-table
     tr:not(.-no-highlighting)
       border-bottom: 1px solid $table-row-border-color
 
-    td
+    td:not(.-no-ellipsis)
       @include text-shortener
+
+    td
       max-width: 300px
       text-align: left
       line-height: 1.6
@@ -205,7 +207,7 @@ html.-supports-sticky-headers
   height:       $generic-table--footer-height
 
 .generic-table--header-outer,
-.generic-table--sort-header-outer,
+.generic-table--sort-header-outer
   padding:      0 12px 0 6px
   line-height:  $generic-table--header-height
   height:  $generic-table--header-height
@@ -220,6 +222,8 @@ html.-supports-sticky-headers
     .generic-table--header,
     .generic-table--sort-header
       visibility: hidden
+      // Matches the min-width of .generic-table--header, .generic-table--sort-header
+      max-width: 40px
 
 .generic-table--empty-header
   padding:       0 6px

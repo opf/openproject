@@ -242,30 +242,30 @@ describe WikiController, type: :controller do
 
       # creating pages
       @page_default = FactoryBot.create(:wiki_page, wiki_id: @project.wiki.id,
-                                                     title:   'Wiki')
+                                                    title:   'Wiki')
       @page_with_content = FactoryBot.create(:wiki_page, wiki_id: @project.wiki.id,
-                                                          title:   'PagewithContent')
+                                                         title:   'PagewithContent')
       @page_without_content = FactoryBot.create(:wiki_page, wiki_id: @project.wiki.id,
-                                                             title:   'PagewithoutContent')
+                                                            title:   'PagewithoutContent')
       @unrelated_page = FactoryBot.create(:wiki_page, wiki_id: @project.wiki.id,
-                                                       title:   'UnrelatedPage')
+                                                      title:   'UnrelatedPage')
 
       # creating page contents
       FactoryBot.create(:wiki_content, page_id:   @page_default.id,
-                                        author_id: @user.id)
+                                       author_id: @user.id)
       FactoryBot.create(:wiki_content, page_id:   @page_with_content.id,
-                                        author_id: @user.id)
+                                       author_id: @user.id)
       FactoryBot.create(:wiki_content, page_id:   @unrelated_page.id,
-                                        author_id: @user.id)
+                                       author_id: @user.id)
 
       # creating some child pages
       @children = {}
       [@page_with_content].each do |page|
         child_page = FactoryBot.create(:wiki_page, wiki_id:   @project.wiki.id,
-                                                    parent_id: page.id,
-                                                    title:     page.title + ' child')
+                                                   parent_id: page.id,
+                                                   title:     page.title + ' child')
         FactoryBot.create(:wiki_content, page_id: child_page.id,
-                                          author_id: @user.id)
+                                         author_id: @user.id)
 
         @children[page] = child_page
       end
@@ -291,7 +291,6 @@ describe WikiController, type: :controller do
           get 'show', params: { id: @unrelated_page.slug, project_id: @project.id }
 
           expect(response).to be_success
-          expect(response.body).to have_selector('.main-menu--children a.selected', count: 1)
 
           assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item"
           assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item.selected", false
@@ -301,7 +300,7 @@ describe WikiController, type: :controller do
           get 'show', params: { id: @other_wiki_menu_item.name, project_id: @project.id }
 
           expect(response).to be_success
-          expect(response.body).to have_selector('.main-menu--children a.selected', count: 1)
+          expect(response.body).to have_selector('.main-menu--children a.selected', count: 0)
 
           assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item"
           assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item.selected", false
@@ -311,7 +310,6 @@ describe WikiController, type: :controller do
           get 'show', params: { id: @wiki_menu_item.name, project_id: @project.id }
 
           expect(response).to be_success
-          expect(response.body).to have_selector('.main-menu--children a.selected', count: 1)
 
           assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item.selected"
         end
@@ -323,7 +321,6 @@ describe WikiController, type: :controller do
           get 'new_child', params: { id: @wiki_menu_item.name, project_id: @project.identifier }
 
           expect(response).to be_success
-          expect(response.body).to have_selector('.main-menu--children a.selected', count: 1)
 
           assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item.selected"
         end
@@ -332,10 +329,8 @@ describe WikiController, type: :controller do
           get 'index', params: { id: @wiki_menu_item.name, project_id: @project.id }
 
           expect(response).to be_success
-          assert_select '#content h2', text: 'Index by title'
+          assert_select '#content h2', text: 'Table of Contents'
           assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item.selected"
-
-          expect(response.body).to have_selector('.main-menu--children a.selected', count: 1)
         end
       end
 
@@ -506,28 +501,6 @@ describe WikiController, type: :controller do
             end
           end
         end
-      end
-    end
-
-    describe 'preview' do
-      let(:project) { FactoryBot.create(:project) }
-      let(:text) { 'Wiki content' }
-
-      it_behaves_like 'valid preview' do
-        let(:preview_texts) { [text] }
-        let(:preview_params) {
-          { project_id: project.id,
-            content: { text: text } }
-        }
-      end
-
-      it_behaves_like 'authorizes object access' do
-        let(:wiki_page) { FactoryBot.create(:wiki_page) }
-        let(:preview_params) {
-          { project_id: wiki_page.wiki.project.id,
-            id: wiki_page.id,
-            content: {} }
-        }
       end
     end
   end

@@ -192,7 +192,7 @@ module Type::AttributeGroups
     contract = contract_class.new(query, User.current)
 
     unless contract.validate
-      errors.add(:attribute_groups, :query_invalid)
+      errors.add(:attribute_groups, :query_invalid, group: group.key, details: contract.errors.full_messages.join)
     end
   end
 

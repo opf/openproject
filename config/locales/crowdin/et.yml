@@ -3,7 +3,8 @@ et:
   no_results_title_text: There is currently nothing to display.
   activities:
     index:
-      no_results_title_text: There has not been any activity for the project.
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: There are currently no plugins available.
@@ -85,6 +86,8 @@ et:
     tab:
       no_results_title_text: There are currently no custom fields.
       no_results_content_text: Create a new custom field
+  concatenation:
+    single: or
   deprecations:
     old_timeline:
       replacement: This timelines module is being replaced by the interactive timeline
@@ -128,10 +131,6 @@ et:
       versions:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: Create a new version
-  project_types:
-    index:
-      no_results_title_text: There are currently no project types.
-      no_results_content_text: Create a new project type
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -186,7 +185,12 @@ et:
     index:
       no_results_title_text: There are currently no workflows.
   work_packages:
+    x_descendants:
+      one: One descendant work package
+      other: "%{count} work package descendants"
     move:
+      no_common_statuses_exists: There is no status available for all selected work
+        packages. Their status cannot be changed.
       unsupported_for_multiple_projects: Bulk move/copy is not supported for work
         packages from multiple projects
     list_simple:
@@ -195,7 +199,7 @@ et:
       reported:
         no_results_title_text: There are currently no work packages that I have reported.
       responsible:
-        no_results_title_text: There are currently no work packages that I am responsible
+        no_results_title_text: There are currently no work packages that I am accountable
           for.
       watched:
         no_results_title_text: There are currently no work packages that I am watching.
@@ -249,9 +253,9 @@ et:
           rakenduse kasutajaks.
       login_verification:
         other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+          will be asked to confirm your password.
         self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'Sinu konto ei ole veel aktiivne. Sulle saadetud
       e-kirjas on link, millega saad oma konto aktiveerida.
 
@@ -297,6 +301,8 @@ et:
         repository: Hoidla
       comment:
         commented: Kommenteeritud
+      custom_action:
+        actions: Actions
       custom_field:
         default_value: Vaikeväärtus
         editable: Muudetav
@@ -317,6 +323,7 @@ et:
         expires_at: Expires at
         subscriber: Subscriber
         encoded_token: Enterprise support token
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Viivitus
         from: Teema
@@ -331,9 +338,7 @@ et:
         identifier: Identifikaator
         latest_activity_at: Latest activity at
         parent: Ülemprojekt
-        project_type: Projekti tüüp
         queries: Päringuid
-        responsible: Vastutaja
         types: Tüübid
         versions: Versioonid
         work_packages: Teemad
@@ -355,8 +360,9 @@ et:
         spent_on: Kuupäev
         type: Liik
       type:
-        is_in_roadmap: In roadmap
-        in_aggregation: In aggregation
+        attribute_groups: ''
+        is_in_roadmap: Displayed in roadmap by default
+        is_default: Activated for new projects by default
         is_milestone: Is milestone
         color: Värv
       user:
@@ -388,8 +394,6 @@ et:
         redirect_existing_links: Suuna olemasolevad lingid ümber
       planning_element_type_color:
         hexcode: Hex kood
-      project_type:
-        position: Positsioon
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
@@ -403,7 +407,6 @@ et:
         parent_work_package: Pärineb teemast
         priority: Prioriteet
         progress: Progress (%)
-        responsible: Vastutaja
         spent_hours: Kulutatud aeg
         spent_time: Kulutatud aeg
         subproject: Alamprojekt
@@ -413,11 +416,16 @@ et:
     errors:
       messages:
         accepted: must be accepted.
+        after: must be after %{date}.
+        after_or_equal_to: must be after or equal to %{date}.
+        before: must be before %{date}.
+        before_or_equal_to: must be before or equal to %{date}.
         blank: ei tohi olla tühi.
         cant_link_a_work_package_with_a_descendant: A work package cannot be linked
           to one of its subtasks.
         circular_dependency: This relation would create a circular dependency.
         confirmation: doesn't match %{attribute}.
+        could_not_be_copied: could not be (fully) copied.
         does_not_exist: does not exist.
         empty: ei tohi olla tühi.
         even: peab olema paarisarv.
@@ -425,11 +433,9 @@ et:
         file_too_large: is too large (maximum size is %{count} Bytes).
         greater_than: must be greater than %{count}.
         greater_than_or_equal_to: must be greater than or equal to %{count}.
-        smaller_than_or_equal_to_max_length: must be smaller than or equal to maximum
-          length.
-        greater_than_start_date: must be greater than the start date.
         greater_than_or_equal_to_start_date: must be greater than or equal to the
           start date.
+        greater_than_start_date: must be greater than the start date.
         inclusion: is not set to one of the allowed values.
         invalid: on vigane.
         invalid_url: is not a valid URL.
@@ -437,22 +443,20 @@ et:
         less_than_or_equal_to: must be less than or equal to %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
-        not_an_iso_date: 'is not a valid date. Required format: YYYY-MM-DD.'
         not_a_number: pole arv.
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: pole täisarv.
+        not_an_iso_date: 'is not a valid date. Required format: YYYY-MM-DD.'
         not_same_project: doesn't belong to the same project.
         odd: peab olema paaritu arv.
+        regex_invalid: could not be validated with the associated regular expression.
+        smaller_than_or_equal_to_max_length: must be smaller than or equal to maximum
+          length.
         taken: on juba kasutusel.
         too_long: is too long (maximum is %{count} characters).
         too_short: is too short (minimum is %{count} characters).
-        wrong_length: is the wrong length (should be %{count} characters).
-        after: must be after %{date}.
-        after_or_equal_to: must be after or equal to %{date}.
-        before: must be before %{date}.
-        before_or_equal_to: must be before or equal to %{date}.
-        could_not_be_copied: could not be (fully) copied.
-        regex_invalid: could not be validated with the associated regular expression.
         unchangeable: cannot be changed.
+        wrong_length: is the wrong length (should be %{count} characters).
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
@@ -480,7 +484,7 @@ et:
             project:
               error_not_found: not found
             public:
-              error_unauthorized: "- The user has no permission to create public queries."
+              error_unauthorized: "- The user has no permission to create public views."
           group_by_hierarchies_exclusive: is mutually exclusive with group by '%{group_by}'.
             You cannot activate both.
           filters:
@@ -533,10 +537,11 @@ et:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Unnamed groups are not allowed.
-              duplicate_group: The group name %{group} is used more than once. Group
-                names must be unique.
               attribute_unknown: Invalid work package attribute used.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Unnamed groups are not allowed.
         user:
           attributes:
             password:
@@ -585,7 +590,6 @@ et:
         one: Roll
         other: Roles
       type: Liik
-      project_type: Projekti tüüp
       user: Kasutaja
       version: Versioon
       wiki: Viki
@@ -639,7 +643,7 @@ et:
     password: Parool
     priority: Prioriteet
     project: Projekt
-    responsible: Vastutaja
+    responsible: Accountable
     role: Role
     roles: Rollid
     start_date: Alguskuupäev
@@ -710,6 +714,7 @@ et:
   button_unlock: Ava lukust
   button_unwatch: Ära jälgi
   button_update: Uuenda
+  button_upgrade: Upgrade
   button_upload: Upload
   button_view: Kuva
   button_watch: Vaata
@@ -878,11 +883,6 @@ et:
   default_priority_normal: Tavaline
   default_priority_high: Pakiline
   default_priority_immediate: Kohe vaja
-  default_project_type_scrum: Scrum team
-  default_project_type_standard: Standard project
-  default_reported_project_status_green: Green
-  default_reported_project_status_amber: Amber
-  default_reported_project_status_red: Punane
   default_role_anonymous: Anonüümne
   default_role_developer: Arendaja
   default_role_project_admin: Project admin
@@ -947,7 +947,8 @@ et:
   enumeration_system_activity: Süsteemi tegevus
   enumeration_reported_project_statuses: Esitatud projekti olek
   error_auth_source_sso_failed: Single Sign-On (SSO) for user '%{value}' failed
-  error_can_not_archive_project: Seda projekti ei saa arhiveerida
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Unable to delete entry
   error_can_not_delete_custom_field: Lisavälja ei saa kustutada
   error_can_not_delete_type: Tüüp on mõnes teemas kasutusel ja seda ei saa kustutada.
@@ -962,12 +963,16 @@ et:
   error_custom_option_not_found: Option does not exist.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
+  error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
   error_invalid_sort_criterion: 'Can''t sort by column: %{value}'
   error_pdf_export_too_many_columns: Too many columns selected for the PDF export.
     Please reduce the number of columns.
+  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
   error_token_authenticity: Unable to verify Cross-Site Request Forgery token.
   error_work_package_done_ratios_not_updated: Teema edenemise astmed jäid uuendamata.
   error_work_package_not_found_in_project: Teemat ei leitud või see ei kuulu siia
@@ -1019,6 +1024,8 @@ et:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF koos kirjeldustega
+      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
+      pdf_with_attachments: PDF with attachments
   extraction:
     available:
       pdftotext: Pdftotext available (optional)
@@ -1042,6 +1049,7 @@ et:
   homescreen:
     additional:
       projects: Newest visible projects in this instance.
+      no_visible_projects: There are no visible projects in this instance.
       users: Newest registered users in this instance.
     blocks:
       community: OpenProject community
@@ -1229,7 +1237,6 @@ et:
   label_edit: Muuda
   label_enable_multi_select: Võimalda mitmene valik
   label_enabled_project_custom_fields: Enabled custom fields
-  label_enabled_project_types: Enabled types
   label_enabled_project_modules: Enabled modules
   label_enabled_project_activities: Enabled time tracking activities
   label_end_to_end: otsast lõpuni
@@ -1238,8 +1245,8 @@ et:
   label_enumeration_value: Enumeration value
   label_enumerations: Loendid
   label_enterprise: Enterprise
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
-  label_entry_page: Entry page
   label_environment: Keskkond
   label_estimates_and_time: Estimates and time
   label_equals: võrdub
@@ -1263,6 +1270,8 @@ et:
   label_force_user_language_to_default: Sea keel kasutajatele, kellel on vaikimisi
     keeleks valitud mittelubatud keel
   label_form_configuration: Form configuration
+  label_gantt: Gantt
+  label_gantt_chart: Gantt chart
   label_general: Üldine
   label_generate_key: Genereeri võti
   label_git_path: Tee .git kataloog
@@ -1366,6 +1375,7 @@ et:
   label_next_week: Järgmine nädal
   label_no_change_option: "(Ei muutu)"
   label_no_data: Pole
+  label_no_parent_page: No parent page
   label_nothing_display: Pole midagi näidata
   label_nobody: eikeegi
   label_none: pole
@@ -1384,6 +1394,7 @@ et:
   label_overall_activity: Üldine tegevuste ajalugu
   label_overall_spent_time: Kokku kulutatud aeg
   label_overview: Ülevaade
+  label_page_title: Page title
   label_part_of: part of
   label_password_lost: Unustasid parooli
   label_password_rule_lowercase: Väiketäheline
@@ -1454,7 +1465,7 @@ et:
   label_repository_plural: Hoidlad
   label_required: required
   label_requires: requires
-  label_responsible_for_work_packages: Teemad minu vastutuses
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Tulemused
   label_reverse_chronological_order: Pööratud ajalises järjestuses
   label_revision: Sissekanne
@@ -1503,7 +1514,7 @@ et:
   label_summary: Kokkuvõte
   label_system: Süsteem
   label_system_storage: Storage information
-  label_table_of_contents: Sisukord
+  label_table_of_contents: Table of contents
   label_tag: Silt
   label_text: Pikk tekst
   label_this_month: sel kuul
@@ -1518,7 +1529,6 @@ et:
   label_total: Kokku
   label_type_new: Uus tüüp
   label_type_plural: Tüübid
-  label_type_default_new_projects: Type activated for new projects by default
   label_ui: Kasutajaliides
   label_update_work_package_done_ratios: Uuenda edenemise astmeid
   label_updated_time: Uuendatud %{value} tagasi
@@ -1589,7 +1599,7 @@ et:
   label_work_package_view_all: Kuva kõiki teemasid
   label_work_package_view_all_assigned_to_me: Kuva kõik minule kuuluvad teemad
   label_work_package_view_all_reported_by_me: Kuva kõik minu poolt lisatud teemad
-  label_work_package_view_all_responsible_for: View all work packages that I am responsible
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
     for
   label_work_package_view_all_watched: Kuva kõik jälgimisel olevad teemad
   label_work_package_watchers: Jälgijad
@@ -1653,6 +1663,16 @@ et:
   macro_execution_error: Error executing the macro %{macro_name}
   macro_unavailable: Macro %{macro_name} cannot be displayed.
   macros:
+    placeholder: "[Placeholder] Macro %{macro_name}"
+    errors:
+      missing_or_invalid_parameter: Missing or invalid macro parameter.
+    legacy_warning:
+      timeline: This legacy timeline macro has been removed and is no longer available.
+        You can replace the functionality with an embedded table macro.
+    include_wiki_page:
+      errors:
+        page_not_found: Cannot find the wiki page '%{name}'.
+        circular_inclusion: Circular inclusion of pages detected.
     create_work_package_link:
       errors:
         no_project_context: Calling create_work_package_link macro from outside project
@@ -1680,6 +1700,15 @@ et:
     jooksul"
   mail_subject_wiki_content_added: Lisatud vikileht "%{id}"
   mail_subject_wiki_content_updated: Uuendatud vikileht "%{id}"
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: Rohkem tegevusi
   noscript_description: OpenProject vajab JavaScripti sisselülitamist su veebilehitsejas!
   noscript_heading: JavaScript ei ole sisselülitatud
@@ -1793,6 +1822,7 @@ et:
       team collaboration with OpenProject.
     text_show_again: You can restart this video from the help menu
     welcome: Welcome to OpenProject
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Märkusi lisada
   permission_add_work_packages: Teemasid lisada
   permission_add_messages: Postitusi lisada
@@ -1833,7 +1863,7 @@ et:
   permission_manage_members: Halda liikmeid
   permission_manage_news: Halda uudiseid
   permission_manage_project_activities: Halda projekti tegevusi
-  permission_manage_public_queries: Halda avalikke päringuid
+  permission_manage_public_queries: Manage public views
   permission_manage_repository: Halda hoidlat
   permission_manage_subtasks: Halda alamülesandeid
   permission_manage_versions: Halda versioone
@@ -1842,7 +1872,7 @@ et:
   permission_move_work_packages: Teemasid liigutada
   permission_protect_wiki_pages: Kaitse viki lehekülgi
   permission_rename_wiki_pages: Nimeta viki lehekülgi ümber
-  permission_save_queries: Salvesta päringuid
+  permission_save_queries: Save views
   permission_select_project_modules: Vali projekti mooduleid
   permission_manage_types: Muuta tüüpe
   permission_view_calendar: Kuva kalendrit
@@ -2036,9 +2066,9 @@ et:
   setting_smtp_address: SMTP server
   setting_smtp_port: SMTP port
   setting_smtp_authentication: SMTP authentication
-  setting_smtp_domain: SMTP HELLO domain
   setting_smtp_user_name: SMTP username
   setting_smtp_password: SMTP password
+  setting_smtp_domain: SMTP HELLO domain
   setting_activity_days_default: Projektide ajalugu näidatakse
   setting_app_subtitle: Rakenduse alamnimetus
   setting_app_title: Rakenduse nimetus
@@ -2051,7 +2081,6 @@ et:
     login attempts
   setting_brute_force_block_minutes: Time the user is blocked for
   setting_cache_formatted_text: Vormindatud teksti jaoks kasutatakse vahemälu
-  setting_use_wysiwyg: WYSIWYG editor
   setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
     users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Teemade nimekirja vaikimisi veerud
@@ -2137,7 +2166,6 @@ et:
   setting_sys_api_enabled: Enable repository management web service
   setting_sys_api_description: The repository management web service provides integration
     and user authorization for accessing repositories.
-  setting_text_formatting: Tekstivormindamise abi
   setting_time_format: Aja esitusviis
   setting_accessibility_mode_for_anonymous: Võimalda külalistel kasutada hõlbustus-
     ja juurdepääsetavusrežiimi
@@ -2149,7 +2177,6 @@ et:
   setting_welcome_text: Welcome block text
   setting_welcome_title: Welcome block title
   setting_welcome_on_homescreen: Display welcome block on homescreen
-  setting_welcome_on_projects_page: Display welcome block on project overview
   setting_wiki_compression: Viki ajaloo tihendamine
   setting_work_package_group_assignment: Luba teemade andmine gruppidele
   settings:
@@ -2158,8 +2185,10 @@ et:
     passwords: Paroolid
     session: Seanss
     brute_force_prevention: Automatiseeritud kasutajate blokeerimine
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Plain text
   status_active: aktiivne
@@ -2256,7 +2285,8 @@ et:
   text_journal_aggregation_time_explanation: Combine journals for display if their
     age difference is less than the specified timespan. This will also delay mail
     notifications by the same amount of time.
-  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} uuendatud"
   text_journal_changed_with_diff: "%{label} uuendatud (%{link})"
   text_journal_deleted: "%{label} kustutatud (%{old})"
@@ -2303,6 +2333,8 @@ et:
   text_user_wrote: "%{value} kirjutas:"
   text_warn_on_leaving_unsaved: The work package contains unsaved text that will be
     lost if you leave this page.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Oled Sa kindel oma soovis kustutada see Viki koos
     kogu sisuga?
   text_wiki_page_destroy_children: Kustuta järglaslehed ja kõik nende järglased
@@ -2330,8 +2362,6 @@ et:
     admin_menu:
       color: Värv
       colors: Värvid
-      project_type: Projekti tüüp
-      project_types: Projekti tüübid
     associations: Projekti sõltuvused
     board_could_not_be_saved: "(?) ei saa salvestada"
     button_delete_all: Kustuta kõik
@@ -2349,7 +2379,6 @@ et:
       one: 1 päev
       other: "%{count} päeva"
     edit_color: Muuda värvi
-    edit_project_type: Muuda projekti tüüpi
     edit_thing: Muuda
     edit_timeline: Muuda ajakulu sissekannet %{timeline}
     delete_timeline: Kustuta ajakulu aruanne %{timeline}
@@ -2387,7 +2416,6 @@ et:
         due_date: Lõppkuupäev
         name: Nimi
         status: Olek
-        responsible: Vastutaja
         start_date: Alguskuupäev
       columns: Väljad
       comparisons: Võrdlused
@@ -2416,7 +2444,7 @@ et:
       outline: Esmase kontuuri laiendamine
       parent: Näita alamprojekte
       work_package_filters: Filtreeri teemasid
-      work_package_responsible: Kuva teemad nende vastutajatega
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: Kuva teemad nende tegijatega
       types: Kuva tüübid
       status: Kuva olek
@@ -2428,9 +2456,8 @@ et:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} tagasi,
         %{end_label} %{endspan}%{endspanunit} praegusest"
       project_filters: Filtreeri projektid
-      project_responsible: Näita projektid mis kuuluvad
+      project_responsible: Show projects with accountable
       project_status: Kuva projekti olek
-      project_types: Kuva projekti tüüp
       timeframe: Kuva ajakava
       timeframe_end: kuni
       timeframe_start: alates
@@ -2440,7 +2467,6 @@ et:
     new_color: Uus värv
     new_association: Uus sõltuvus
     new_work_package: Uus teema
-    new_project_type: Uus projekti tüüp
     new_reporting: Uus aruandlus
     new_timeline: Uus aruanne ajakava kohta
     no_projects_for_reporting_available: Pole ühtki projekti mille juurde võiks lisada
@@ -2466,21 +2492,11 @@ et:
       edit: 'Muuda olekut: %{comment}'
       show: 'Olek: %{comment}'
     planning_element_update: 'Muudatus: %{title}'
-    work_packages_are_displayed_in_aggregations: Teemad näidetakse koondatuna
-    project_type_could_not_be_saved: Projekti tüüpi ei saa salvestada
     type_could_not_be_saved: Tüüpi ei saa salvestada
     reporting_could_not_be_saved: Aruandlust ei saa salvestada
     properties: Atribuudid
     really_delete_color: 'Kas oled kindel, et tahad seda värvi kustutada? Tüübid,
       mis seda värvi kasutavad, jäävad alles.
-
-'
-    really_delete_project_type: 'Kas sa oled kindel, et tahad kustutada selle projektitüübi?
-      Projektid, mis kasutavad seda tüüpi, jäävad alles.
-
-'
-    really_delete_timeline: 'Kas sa oled kindel, et tahad kustutada seda aruannet?
-      Aruandes näidatud teemad jäävad alles.
 
 '
     really_delete_reporting: 'Kas sa oled kindel, et tahad seda aruannet kustutada?
@@ -2492,7 +2508,6 @@ et:
     timelines: Ajakavade aruandlused
     settings: Ajakavad
     vertical_work_package: Vertikaalsed teemad
-    without_project_type: Ilma projektitüübita
     you_are_viewing_the_selected_timeline: Sa näed valitud perioodi aruannet
     zoom:
       in: Vaata lähemalt
@@ -2504,6 +2519,7 @@ et:
       years: Aastad
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
     in a user''s settings.
 
@@ -2575,9 +2591,25 @@ et:
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Hoiatus
   warning_attachments_not_saved: "%{count} faili ei saa salvestada."
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
   warning_registration_token_expired: |
     The activation email has expired. We sent you a new one to %{email}.
     Please click the link inside of it to activate your account.
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: Menüüvalik
   menu_item_setting: Nähtavus
   wiki_menu_item_for: Menüüvalik vikilehele "%{title}"

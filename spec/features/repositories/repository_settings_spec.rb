@@ -180,7 +180,7 @@ describe 'Repository Settings', type: :feature, js: true do
 
     it 'can set login and password' do
       fill_in('repository[login]', with: 'foobar')
-      fill_in('repository_password', with: 'password')
+      fill_in('repository-password-placeholder', with: 'password')
 
       click_button(I18n.t(:button_save))
       expect(page).to have_selector('[name="repository[login]"][value="foobar"]')

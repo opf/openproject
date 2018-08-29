@@ -3,7 +3,8 @@ fil:
   no_results_title_text: Sa kasalukuyan ay walang maipakita.
   activities:
     index:
-      no_results_title_text: Hindi nagkaroon ng anumang mga aktibidad para sa proyekto.
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: Sa kasalukuyan ay walang mga plugin na available.
@@ -90,6 +91,8 @@ fil:
     tab:
       no_results_title_text: Sa kasalukuyan ay walang mga custom field.
       no_results_content_text: Gumawa ng bagong patlang na custom
+  concatenation:
+    single: or
   deprecations:
     old_timeline:
       replacement: Itong timeline modyul ay pinalitan ng interactive timeline na naka-embededd
@@ -135,10 +138,6 @@ fil:
       versions:
         no_results_title_text: Sa kasalukuyan ay walang mga bersyon para sa proyekto.
         no_results_content_text: Gumawa ng bagong bersyon
-  project_types:
-    index:
-      no_results_title_text: Sa kasalukuyan ay walang mga uri ng proyekto.
-      no_results_content_text: Gumuwa ng bagong uri ng proyekto
   members:
     index:
       no_results_title_text: Sa kasalukuyan ay walang parte ng mga myembro sa proyektong
@@ -194,7 +193,12 @@ fil:
     index:
       no_results_title_text: Sa kasalukuyan ay walang mga workflows.
   work_packages:
+    x_descendants:
+      one: One descendant work package
+      other: "%{count} work package descendants"
     move:
+      no_common_statuses_exists: There is no status available for all selected work
+        packages. Their status cannot be changed.
       unsupported_for_multiple_projects: Ang bulk na paglipat/kopya ay hindi suportado
         sa mga work packages mula sa iba't ibang mga proyekto
     list_simple:
@@ -205,8 +209,8 @@ fil:
         no_results_title_text: Sa kasalukuyan ay walang mga work packages na aking
           na-ireport.
       responsible:
-        no_results_title_text: Sa kasalukuyan ay walang mga work packages na ako ang
-          responsable.
+        no_results_title_text: There are currently no work packages that I am accountable
+          for.
       watched:
         no_results_title_text: Sa kasalukuyan ay walang mga work packages na aking
           tinatanaw.
@@ -266,10 +270,10 @@ fil:
           ito sa pamamagitan ng paggamit ng mga ibig sabihin ng mga pamigay ng aplikasyon
           na ito.
       login_verification:
-        other: Ipasok ang login %{name} upang matiyak ang pagtanggal. Kapag naisumite
-          na, tatanungin ka upang kumpirmahin ang iyong password.
-        self: Ipasok ang iyong login %{name} upang matiyak ang pagbubura. Kapag maisumite,
-          tatanungin ka upang kumpirmahin ang iyong password.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'Ang iyong akawnt ay hindi ba aktibo. Upang
       gawing aktibo ang iyong akawnt, pindutin sa link na na-email sa iyo.
 
@@ -318,6 +322,8 @@ fil:
         repository: Repositoryo
       comment:
         commented: Ang komento
+      custom_action:
+        actions: Mga aksyon
       custom_field:
         default_value: Ang default na halaga
         editable: Pwedeng mabago
@@ -338,6 +344,7 @@ fil:
         expires_at: Matapos sa
         subscriber: Taga -subaybay
         encoded_token: Enterprise support token
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Antala
         from: Work package
@@ -352,9 +359,7 @@ fil:
         identifier: Ang pagkakakilanlan
         latest_activity_at: Pinakamabagong aktibidad sa
         parent: Ang kahaliling proyekto ng
-        project_type: Uri ng proyekto
         queries: Mga query
-        responsible: Responsable
         types: Mga uri
         versions: Mga bersyon
         work_packages: Ang mga pakete na ginawa
@@ -376,8 +381,9 @@ fil:
         spent_on: Petsa
         type: Uri
       type:
-        is_in_roadmap: Sa roadmap
-        in_aggregation: Sa pagsama-sama
+        attribute_groups: ''
+        is_in_roadmap: Displayed in roadmap by default
+        is_default: Activated for new projects by default
         is_milestone: Ay milestone
         color: Kulay
       user:
@@ -409,8 +415,6 @@ fil:
         redirect_existing_links: Pag-redirect sa umiiral ng mga link
       planning_element_type_color:
         hexcode: Hex code
-      project_type:
-        position: Posisyon
       work_package:
         begin_insertion: Nagsimula na ang pagpasok
         begin_deletion: Nagsimula na ang pagbubura
@@ -424,7 +428,6 @@ fil:
         parent_work_package: Magulang
         priority: Ang prayoridad
         progress: Isinasagawa (%)
-        responsible: Responsable
         spent_hours: Nauubos na oras
         spent_time: Nauubos na oras
         subproject: Kahaliling proyekto
@@ -434,11 +437,16 @@ fil:
     errors:
       messages:
         accepted: kailangang tanggapin.
+        after: dapat ay matapos %{date}.
+        after_or_equal_to: dapat ay matapos o katumbas sa %{date}.
+        before: dapat ay bago ang %{date}.
+        before_or_equal_to: dapat ay bago o katumbas sa %{date}.
         blank: hindi pwedeng blanko.
         cant_link_a_work_package_with_a_descendant: Ang isang package ng pagawaan
           ay hindi maaring mai-ugnay sa isa sa mga substak.
         circular_dependency: Itong pakikipag-ugnayan ay lilikha ng kabilugang dependecia.
         confirmation: hindi tugma %{attribute}.
+        could_not_be_copied: dapat hindi masyado kinopya ang lahat.
         does_not_exist: hindi umiiral.
         empty: hindi pwedeng blanko.
         even: dapat ay kapareho.
@@ -446,11 +454,9 @@ fil:
         file_too_large: ay masyadong malaki (pinakamataas na laki ay %{count} Bytes).
         greater_than: dapat ay mas malaki kaysa %{count}.
         greater_than_or_equal_to: dapat ay mas malaki o kapareho sa %{count}.
-        smaller_than_or_equal_to_max_length: dapat ay mas maliit kaysa o katumbas
-          sa pinakamataas na haba.
-        greater_than_start_date: dapat ay mas malaki kaysa sa petsa ng pagsisiimula.
         greater_than_or_equal_to_start_date: dapat ay mas malaki kaysa o katumbas
           sa petsa ng pagsisimula.
+        greater_than_start_date: dapat ay mas malaki kaysa sa petsa ng pagsisiimula.
         inclusion: ay hindi nakatakda sa isa ng mga pinahintulutan halaga.
         invalid: ay hindi balido.
         invalid_url: ay hindi balidong URL.
@@ -458,22 +464,20 @@ fil:
         less_than_or_equal_to: dapat ay hindi baba o katumbas sa %{count}.
         not_a_date: ay hindi balido ang petsa.
         not_a_datetime: ay hindi balido ang petsa ng oras.
-        not_an_iso_date: 'ay hindi balido ang petsa. Ang kinakailangan format: YYYY-MM-DD.'
         not_a_number: ay hindi numero.
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: ay hindi integer.
+        not_an_iso_date: 'ay hindi balido ang petsa. Ang kinakailangan format: YYYY-MM-DD.'
         not_same_project: ay hindi nabibilang sa parehong proyekto.
         odd: dapat ay kakaiba.
+        regex_invalid: hindi pwedeng mapatunayan sa nauugnay na mga regular na ekspresyon.
+        smaller_than_or_equal_to_max_length: dapat ay mas maliit kaysa o katumbas
+          sa pinakamataas na haba.
         taken: ay nakuha na.
         too_long: ay masyadong mahaba (pinakamataas ay ang mga %{count} karakter).
         too_short: ay masyadong mababa (pinakamaliit ay ang mga %{count} karakter.
-        wrong_length: ay ang maling haba (dapat ay %{count} ang mga karakter).
-        after: dapat ay matapos %{date}.
-        after_or_equal_to: dapat ay matapos o katumbas sa %{date}.
-        before: dapat ay bago ang %{date}.
-        before_or_equal_to: dapat ay bago o katumbas sa %{date}.
-        could_not_be_copied: dapat hindi masyado kinopya ang lahat.
-        regex_invalid: hindi pwedeng mapatunayan sa nauugnay na mga regular na ekspresyon.
         unchangeable: cannot be changed.
+        wrong_length: ay ang maling haba (dapat ay %{count} ang mga karakter).
       models:
         custom_field:
           at_least_one_custom_option: Kahit isang opsyon lang ang kinakailangan na
@@ -504,8 +508,7 @@ fil:
             project:
               error_not_found: hindi nakita
             public:
-              error_unauthorized: "- Ang gumagamit ay walang permiso para lumikha
-                ng mga bagong query."
+              error_unauthorized: "- The user has no permission to create public views."
           group_by_hierarchies_exclusive: ay mutually wxclusive sa grupo ng '%{group_by}'.
             Hindi mo maaring i-aktibi ang dalawa.
           filters:
@@ -562,10 +565,11 @@ fil:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Wala pangalan ng grupo ay hindi pinapayagan.
-              duplicate_group: Ang pangalan ng grupo %{group} ay ginamit mahigit pa
-                sa isa. Ang mga pangalan ng grulo ay dapat nakakatangi.
               attribute_unknown: Hindi balido ang work package attribute ang nagamit.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Wala pangalan ng grupo ay hindi pinapayagan.
         user:
           attributes:
             password:
@@ -615,7 +619,6 @@ fil:
         one: Tungkulin
         other: Mga tungkulin
       type: Uri
-      project_type: Uri ng proyekto
       user: Gumagamit
       version: Bersyon
       wiki: Wiki
@@ -669,7 +672,7 @@ fil:
     password: Password
     priority: Ang prayoridad
     project: Proyekto
-    responsible: Responsable
+    responsible: Accountable
     role: Tungkulin
     roles: Ang mga tungkulin
     start_date: Petsa ng pagsimula
@@ -740,6 +743,7 @@ fil:
   button_unlock: I-unlock
   button_unwatch: I-unwatch
   button_update: I-update
+  button_upgrade: Upgrade
   button_upload: I-upload
   button_view: Tingnan
   button_watch: Tumingin
@@ -908,11 +912,6 @@ fil:
   default_priority_normal: Katamtaman
   default_priority_high: Mataas
   default_priority_immediate: Agarang
-  default_project_type_scrum: Scrum na koponan
-  default_project_type_standard: Pamantayang proyekto
-  default_reported_project_status_green: Green
-  default_reported_project_status_amber: Amber
-  default_reported_project_status_red: Pula
   default_role_anonymous: Hindi kilala
   default_role_developer: Bumubuo
   default_role_project_admin: Namuno ng proyekto
@@ -981,7 +980,8 @@ fil:
   enumeration_reported_project_statuses: Estado ng inuulat na proyekto
   error_auth_source_sso_failed: Single Sign-On (SSO) para sa gumagamit ng '%{value}'
     ay nabigo
-  error_can_not_archive_project: Ito proyekto ay hinde pwede ma-archive
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Hindi mabura na entry
   error_can_not_delete_custom_field: Hindi mabura ang custom field
   error_can_not_delete_type: Itong uri ay naglalaman ng mga work package at hindi
@@ -998,12 +998,16 @@ fil:
   error_custom_option_not_found: Ang opsyon ay hindi umiiral.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Nabigong burahin ang entry na ito.
+  error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Hindi ma grupo sa pamamagitan ng: %{value}'
   error_invalid_query_column: Hindi balido ang hanay ng query:%{value}
   error_invalid_sort_criterion: 'Hindi masunod sa pamamagitan ng hanay: %{value}'
   error_pdf_export_too_many_columns: Masyadong maraming hanay ang napili para sa PDF
     export. Mangyaring bawasan ang mga bilang ng hanay.
+  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
   error_token_authenticity: Hindi mapagana upang papatunayan ang Cross-Site Request
     Forgery token.
   error_work_package_done_ratios_not_updated: Hindi naka-update ang mga work package
@@ -1057,6 +1061,8 @@ fil:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF na may mga paglalarawan
+      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
+      pdf_with_attachments: PDF with attachments
   extraction:
     available:
       pdftotext: Pdftotext ay magagamit (opsyonal)
@@ -1080,6 +1086,7 @@ fil:
   homescreen:
     additional:
       projects: Pinakamabagong makikitang proyekto sa pagkakataong ito.
+      no_visible_projects: There are no visible projects in this instance.
       users: Pinakamabagong rehistrong gumagamit sa panahong ito.
     blocks:
       community: Komunidad ng OpenProject
@@ -1270,7 +1277,6 @@ fil:
   label_edit: I-edit
   label_enable_multi_select: Toggle multi select
   label_enabled_project_custom_fields: Pinagana ang mga custom na patlang
-  label_enabled_project_types: Pinagana ang mga uri
   label_enabled_project_modules: Pinagana ang mga modyul
   label_enabled_project_activities: Pinagana ang mga aktibidad ng time tracking
   label_end_to_end: katapusan hanggang sa katapusan
@@ -1279,8 +1285,8 @@ fil:
   label_enumeration_value: Pag-enumerate ng halaga
   label_enumerations: Mga enumerasyon
   label_enterprise: Enterprise
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
-  label_entry_page: Entry page
   label_environment: Kalikasan
   label_estimates_and_time: Mga pagtatantya at oras
   label_equals: ay
@@ -1304,6 +1310,8 @@ fil:
   label_force_user_language_to_default: Magtakda ng linggwahe ng mga gumagamit na
     mayroon pinayagang linggwahe sa default
   label_form_configuration: Form kompigurasyon
+  label_gantt: Gantt
+  label_gantt_chart: Gantt tsart
   label_general: Pangkalahatan
   label_generate_key: Bumuo ng susi
   label_git_path: Landas sa .git direktoryo
@@ -1407,6 +1415,7 @@ fil:
   label_next_week: Susunod na linggo
   label_no_change_option: "( Walang pagbago)"
   label_no_data: Walang data upang ipakita
+  label_no_parent_page: No parent page
   label_nothing_display: Walang maipakita
   label_nobody: walang sinuman
   label_none: wala
@@ -1425,6 +1434,7 @@ fil:
   label_overall_activity: Pangkalahatang gawain
   label_overall_spent_time: Pangkalahatang tinipid ang oras
   label_overview: Buod
+  label_page_title: Page title
   label_part_of: bahagi ng
   label_password_lost: Nakalimutan ang iyong password?
   label_password_rule_lowercase: Lowercase
@@ -1498,7 +1508,7 @@ fil:
   label_repository_plural: Mga repositoryo
   label_required: kailangan
   label_requires: kinakailangan
-  label_responsible_for_work_packages: Ang work package ako ay responsable para sa
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Mga resulta
   label_reverse_chronological_order: Sa kabaligtaran ng chronological order
   label_revision: Rebisyon
@@ -1547,7 +1557,7 @@ fil:
   label_summary: Buod
   label_system: Sistema
   label_system_storage: Impormasyon ng storage
-  label_table_of_contents: Talaan ng Nilalamn
+  label_table_of_contents: Table of contents
   label_tag: Tag
   label_text: Mahaba na teksto
   label_this_month: ngayong buwan
@@ -1562,8 +1572,6 @@ fil:
   label_total: Kabuuan
   label_type_new: Bagong uri
   label_type_plural: Mga uri
-  label_type_default_new_projects: Naka-aktibo uri para sa mga bagong proyekto sa
-    pamamagitan ng default
   label_ui: User Interface
   label_update_work_package_done_ratios: I-update ang mga work package done ratio
   label_updated_time: I-update ang nakalipas na %{value}
@@ -1637,8 +1645,8 @@ fil:
     sa akin
   label_work_package_view_all_reported_by_me: Tanawin lahat ang mga work package inuulat
     sa akin
-  label_work_package_view_all_responsible_for: Tanawin ang lahat ng mga work package
-    na ako ang may pananagutan
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
+    for
   label_work_package_view_all_watched: Tanawin lahat ang mga binabantayang work package
   label_work_package_watchers: Manonood
   label_workflow: Daloy ng trabaho
@@ -1705,6 +1713,16 @@ fil:
   macro_execution_error: May mali habang isinasagawa ang macro %{macro_name}
   macro_unavailable: Macro %{macro_name} hindi naka-display.
   macros:
+    placeholder: "[Placeholder] Macro %{macro_name}"
+    errors:
+      missing_or_invalid_parameter: Missing or invalid macro parameter.
+    legacy_warning:
+      timeline: This legacy timeline macro has been removed and is no longer available.
+        You can replace the functionality with an embedded table macro.
+    include_wiki_page:
+      errors:
+        page_not_found: Cannot find the wiki page '%{name}'.
+        circular_inclusion: Circular inclusion of pages detected.
     create_work_package_link:
       errors:
         no_project_context: Pagtawag ng create_work_package macro mula sa labas ng
@@ -1734,6 +1752,15 @@ fil:
   mail_subject_reminder: "%{count} work package dahil sa susunod na mga %{days} araw"
   mail_subject_wiki_content_added: Ang '%{id}' wikin pahina ay naidagdag
   mail_subject_wiki_content_updated: "'%{id}' wiking pahina ay naka-update na"
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: Karagdagang functio
   noscript_description: Kailangan mong i-aktibo ang JavaScript upang gamitin sa OpenProject!
   noscript_heading: Ang JavaScript ay hindi pinagana
@@ -1857,6 +1884,7 @@ fil:
       at pakikipagtulungan ng koponan sa OpenProject.
     text_show_again: Maari mong i-restart amg video na ito mula sa tulong ng pagpipilian
     welcome: Maligayang pagdating sa OpenProject
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Magdagdag ng mga talaan
   permission_add_work_packages: Magdagdag ng mga work package
   permission_add_messages: Mga post na mensahe
@@ -1898,7 +1926,7 @@ fil:
   permission_manage_members: Pamahalain ang mga miyembro
   permission_manage_news: Pamahalain ang mga balita
   permission_manage_project_activities: Ang mga aktibidad ng pamahalaing proyekto
-  permission_manage_public_queries: Pamahalain ang mga publikong query
+  permission_manage_public_queries: Manage public views
   permission_manage_repository: Pamahalain ang repositoryo
   permission_manage_subtasks: Pamahalain ang mga subtask
   permission_manage_versions: Pamahalain ang mga bersyon
@@ -1907,7 +1935,7 @@ fil:
   permission_move_work_packages: Ilipat ang work package
   permission_protect_wiki_pages: Protektahan ang mga wiki package
   permission_rename_wiki_pages: Baguhin ang pangalan ng mga wiki na pahina
-  permission_save_queries: I-save ang mga query
+  permission_save_queries: Save views
   permission_select_project_modules: Piliin ang mga proyektong modyul
   permission_manage_types: Pumili ng mga uri
   permission_view_calendar: Tanawin ang kalendaryo
@@ -2114,9 +2142,9 @@ fil:
   setting_smtp_address: Server g SMTP
   setting_smtp_port: Port ng SMTP
   setting_smtp_authentication: Pagpapatunay ng SMTP
-  setting_smtp_domain: HELLO domain ng SMTP
   setting_smtp_user_name: Username ng SMTP
   setting_smtp_password: Password ng SMTP
+  setting_smtp_domain: HELLO domain ng SMTP
   setting_activity_days_default: Ang mga araw na naka-display sa aktibidad ng proyekto
   setting_app_subtitle: Aplikasyong subtitle
   setting_app_title: Aplikasyong pamagat
@@ -2129,7 +2157,6 @@ fil:
     ang numero na ito ay nabigo sa pagtatangkang pag-login
   setting_brute_force_block_minutes: Oras ng user na na-block sa
   setting_cache_formatted_text: Tesktong naka-format na cache
-  setting_use_wysiwyg: WYSIWYG editor
   setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
     users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: I-customize ang hitsura ng mga listahan ng work package
@@ -2226,7 +2253,6 @@ fil:
   setting_sys_api_enabled: Paganahin ang serbisyo ng repository management web
   setting_sys_api_description: Ang serbisyo ng repositoryo management web ay nagbibigay
     ng intregrasyon at user awtorisasyon para sa pag-access ng mga repositoryo.
-  setting_text_formatting: Pag-format ng teksto
   setting_time_format: Format ng oras
   setting_accessibility_mode_for_anonymous: Paganahin ang aksebilidad mode para sa
     mga gumagamit ng anonymous
@@ -2239,8 +2265,6 @@ fil:
   setting_welcome_text: Teskstong welcome block
   setting_welcome_title: Titulo ng welcome back
   setting_welcome_on_homescreen: I-display ang welcome block sa homescreen
-  setting_welcome_on_projects_page: I-display ang welcome block sa pangkalahatang
-    ideya ng proyekto
   setting_wiki_compression: Pag-compress ng wiki na kasaysayan
   setting_work_package_group_assignment: Pinayagan ang gawain sa mga grupo
   settings:
@@ -2249,8 +2273,10 @@ fil:
     passwords: Ang mga password
     session: Sesyon
     brute_force_prevention: Naka-automate na user block
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Plain text
   status_active: aktibo
@@ -2352,7 +2378,8 @@ fil:
   text_journal_aggregation_time_explanation: Pagsamahhin ang mga journak para ipakita
     kung ang kanilang edad ay pagkakaiba ay mas mababa ng tinukoy na timespan. Ito
     rin ay ipagpaliban ang mga abiso ng email sa kaparehong halaga ng oras.
-  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} ay naka-update"
   text_journal_changed_with_diff: "%{label} binagko (%{link})"
   text_journal_deleted: "%{label} binura (%{old})"
@@ -2404,6 +2431,8 @@ fil:
   text_user_wrote: "%{value} isinulat:"
   text_warn_on_leaving_unsaved: Ang work package ay naglalaman ng hindi naka-save
     na mawala ito kapag ikaw ay aalisa sa pahinang ito.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Sigurado ka ba na gusto mong burahin ang wiki na
     ito at lahat ng nilalaman nito?
   text_wiki_page_destroy_children: Burahin ang mga batang oahina at lahat ng mga kanyang
@@ -2434,8 +2463,6 @@ fil:
     admin_menu:
       color: Kulay
       colors: Mga kulay
-      project_type: Uri ng proyekto
-      project_types: Ang mga uri ng proyekto
     associations: Dependencia
     board_could_not_be_saved: Ang board ay hindi ma i-save
     button_delete_all: Burahin ang lahat
@@ -2453,7 +2480,6 @@ fil:
       one: Isang araw
       other: mga Isang %{count} araw
     edit_color: I-edit ang kulay
-    edit_project_type: I-edit ang uri ng proyekto
     edit_thing: I-edit
     edit_timeline: I-edit ang timeline ng ulat %{timeline}
     delete_timeline: Burahin ang timeline ng proyekto %{timeline}
@@ -2497,7 +2523,6 @@ fil:
         due_date: Ang pagtatapos ng petsa
         name: Pangalan
         status: Estado
-        responsible: Responsable
         start_date: Petsa ng pagsimula
       columns: Mga hanay
       comparisons: Mga kahalintulad
@@ -2527,7 +2552,7 @@ fil:
       outline: Paunang pagpapalawak ng balangkas
       parent: Ipakita ang mga subproject sa
       work_package_filters: I-filter ang mga package na gawain
-      work_package_responsible: Ipakita ang mga responsabling package na gawain
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: Ipakita ang mga itinalagang package na gawain
       types: Ipakita ang mga uri
       status: Ipakita ang estado
@@ -2540,9 +2565,8 @@ fil:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} na
         ang nakakaraan, %{end_label} %{endspan}%{endspanunit} mula sa ngayon"
       project_filters: I-filter ang mga proyekto
-      project_responsible: Ipakita ang mga responsabling proyekto
+      project_responsible: Show projects with accountable
       project_status: Ipakita ang estado ng proyekto
-      project_types: Ipakita ang mga uri ng proyekto
       timeframe: Magpakita ng timeframe
       timeframe_end: sa
       timeframe_start: mula sa
@@ -2552,7 +2576,6 @@ fil:
     new_color: Bagong kulay
     new_association: Bagong dependencia
     new_work_package: Bagong work package
-    new_project_type: Bagong uri na proyekto
     new_reporting: Bagong pag-uulat
     new_timeline: Bagong timeline na ulat
     no_projects_for_reporting_available: Walang mga proyekto upang piliin kung alin
@@ -2579,23 +2602,11 @@ fil:
       edit: 'I-edit ang estado: %{comment}'
       show: 'Estado: %{comment}'
     planning_element_update: 'I-update: %{title}'
-    work_packages_are_displayed_in_aggregations: Ang mga work package ay ipinapakita
-      sa agregasyon
-    project_type_could_not_be_saved: Ang uri ng proyekto ay hindi mai-save
     type_could_not_be_saved: Ang mga uri ay hindi mai-save
     reporting_could_not_be_saved: Ang paguulat ay hindi mai-save
     properties: Mga property
     really_delete_color: 'Sigurado ka ba, na gusto mong burahin ang sumusunod na kulay?
       Ang mga uri gamit ang kulay ay hindi mabubura.
-
-'
-    really_delete_project_type: 'Sigurado ka na, na gusto mong burahin anh sumusunod
-      na uri ng proyekto? Ang mga proyekto gumagamit ng uri na ito ay hindi mabubura.
-
-'
-    really_delete_timeline: 'Sigurado ka ba, na gusto mong burahin ang sumusunod na
-      timeline na ulat? Ang mga work package ay nagpapakita ng timeline report na
-      ito ay mabubura.
 
 '
     really_delete_reporting: 'Sigurado ka ba gusto mong burahin ang sumusunod ng mga
@@ -2607,7 +2618,6 @@ fil:
     timelines: Ang mga ulat ng timeline
     settings: Ang mga timeline
     vertical_work_package: Pataas na work package
-    without_project_type: Walng uri na proyekto
     you_are_viewing_the_selected_timeline: Ikaw at tumatanaw sa napiling timeline
       na ulat
     zoom:
@@ -2620,6 +2630,7 @@ fil:
       years: Mga taon
   title_remove_and_delete_user: Alisin ang inimbitahan na user mula proyekto at tanggalin
     siya.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_user_default_timezone: 'Ang default time zone para sa mga bagong gumagamit.
     Maaring baguhin sa mga user setting.
 
@@ -2696,9 +2707,25 @@ fil:
     %{configuration}.
   warning: Babala
   warning_attachments_not_saved: "%{count} na(mga) file ay hindi mai-save."
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
   warning_registration_token_expired: |
     Ang pagaaktibo ng email ay nag-expire na. Nagpadala kami ng isang bagi sa %{email}.
     Mangyaring pindutin ang link sa loob nito.
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: Pagpipilian sa mga aytem
   menu_item_setting: Nakikita
   wiki_menu_item_for: Aytem na pagpipilian sa wikipage na "%{title}"

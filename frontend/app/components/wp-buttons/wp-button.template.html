@@ -1,9 +1,0 @@
-<button class="button {{ buttonClass }}"
-        [ngClass]="{ '-active': isActive() }"
-        [disabled]="disabled || (!isToggle() && isActive())"
-        [attr.id]="buttonId"
-        [attr.title]="label"
-        [attr.accesskey]="accessKey"
-        (click)="performAction()">
-  <op-icon icon-classes="{{ iconClass }} button--icon"></op-icon>
-</button>

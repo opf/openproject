@@ -33,11 +33,11 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <h3 class="widget-box--header">
   <%= op_icon('icon-context icon-assigned-to-me') %>
-  <span class="widget-box--header-title"><%=l(:label_assigned_to_me_work_packages)%> (<%= wps_assigned_to_me_count %>)</span>
+  <span class="widget-box--header-title"><%=l(:label_assigned_to_me_work_packages)%></span>
 </h3>
 
-<%= render partial: 'work_packages/me_list_simple',
-           locals: { user_filter: :assignee } %>
+<%= render partial: 'my/blocks/embedded_work_package_table',
+    locals: { edit: edit, user_filter: :assignee } %>
 
 <% content_for :header_tags do %>
   <%= auto_discovery_link_tag(:atom,

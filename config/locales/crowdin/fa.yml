@@ -3,7 +3,8 @@ fa:
   no_results_title_text: There is currently nothing to display.
   activities:
     index:
-      no_results_title_text: There has not been any activity for the project.
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: There are currently no plugins available.
@@ -85,6 +86,8 @@ fa:
     tab:
       no_results_title_text: There are currently no custom fields.
       no_results_content_text: Create a new custom field
+  concatenation:
+    single: or
   deprecations:
     old_timeline:
       replacement: This timelines module is being replaced by the interactive timeline
@@ -128,10 +131,6 @@ fa:
       versions:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: Create a new version
-  project_types:
-    index:
-      no_results_title_text: There are currently no project types.
-      no_results_content_text: Create a new project type
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -186,7 +185,12 @@ fa:
     index:
       no_results_title_text: There are currently no workflows.
   work_packages:
+    x_descendants:
+      one: One descendant work package
+      other: "%{count} work package descendants"
     move:
+      no_common_statuses_exists: There is no status available for all selected work
+        packages. Their status cannot be changed.
       unsupported_for_multiple_projects: Bulk move/copy is not supported for work
         packages from multiple projects
     list_simple:
@@ -195,7 +199,7 @@ fa:
       reported:
         no_results_title_text: There are currently no work packages that I have reported.
       responsible:
-        no_results_title_text: There are currently no work packages that I am responsible
+        no_results_title_text: There are currently no work packages that I am accountable
           for.
       watched:
         no_results_title_text: There are currently no work packages that I am watching.
@@ -248,10 +252,10 @@ fa:
           با اعتبار فعلی خود نخواهد بود. شما می توانید دوباره به وسیله امکاناتی که
           نرم ازار در اختیار او قرار می دهد به عضویت این نرم افزار در آیید.
       login_verification:
-        other: نام کاربری '%{name}' را جهت تایید حذف وارد کنید، در مرحله بعد باید
-          رمز عبور خود را وارد کنید.
-        self: نام کاربری '%{name}' را جهت تایید حذف وارد کنید، در مرحله بعد باید رمز
-          عبور خود را وارد کنید.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'حساب شما هنوز فعال نشده است. برای فعال سازی
       حساب خود ، بر روی لینکی که به شما ایمیل شده کلیک کنید.
 
@@ -297,6 +301,8 @@ fa:
         repository: Repository
       comment:
         commented: دارای اظهار نظر
+      custom_action:
+        actions: اقدامات
       custom_field:
         default_value: مقدار پیش فرض
         editable: قابل ویرایش
@@ -317,6 +323,7 @@ fa:
         expires_at: Expires at
         subscriber: Subscriber
         encoded_token: Enterprise support token
+        active_user_count_restriction: Maximum active users
       relation:
         delay: تأخیر
         from: Work package
@@ -331,9 +338,7 @@ fa:
         identifier: شناسه
         latest_activity_at: Latest activity at
         parent: 'زیر پروژه ای از '
-        project_type: نوع پروژه
         queries: پرس و جو ها
-        responsible: مسئول
         types: انواع
         versions: نسخه ها
         work_packages: بسته های کاری
@@ -355,8 +360,9 @@ fa:
         spent_on: تاریخ
         type: نوع
       type:
-        is_in_roadmap: In roadmap
-        in_aggregation: In aggregation
+        attribute_groups: ''
+        is_in_roadmap: Displayed in roadmap by default
+        is_default: Activated for new projects by default
         is_milestone: Is milestone
         color: رنگ
       user:
@@ -388,8 +394,6 @@ fa:
         redirect_existing_links: تغییر مسیر آدرس های فعلی
       planning_element_type_color:
         hexcode: کد هگزا
-      project_type:
-        position: جایگاه
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
@@ -403,7 +407,6 @@ fa:
         parent_work_package: بالادستی
         priority: اولويت
         progress: Progress (%)
-        responsible: مسئول
         spent_hours: زمان صرف شده
         spent_time: زمان صرف شده
         subproject: زیر پروژه
@@ -413,11 +416,16 @@ fa:
     errors:
       messages:
         accepted: must be accepted.
+        after: must be after %{date}.
+        after_or_equal_to: must be after or equal to %{date}.
+        before: must be before %{date}.
+        before_or_equal_to: must be before or equal to %{date}.
         blank: can't be blank.
         cant_link_a_work_package_with_a_descendant: A work package cannot be linked
           to one of its subtasks.
         circular_dependency: This relation would create a circular dependency.
         confirmation: doesn't match %{attribute}.
+        could_not_be_copied: could not be (fully) copied.
         does_not_exist: does not exist.
         empty: can't be empty.
         even: must be even.
@@ -425,11 +433,9 @@ fa:
         file_too_large: is too large (maximum size is %{count} Bytes).
         greater_than: must be greater than %{count}.
         greater_than_or_equal_to: must be greater than or equal to %{count}.
-        smaller_than_or_equal_to_max_length: must be smaller than or equal to maximum
-          length.
-        greater_than_start_date: must be greater than the start date.
         greater_than_or_equal_to_start_date: must be greater than or equal to the
           start date.
+        greater_than_start_date: must be greater than the start date.
         inclusion: is not set to one of the allowed values.
         invalid: is invalid.
         invalid_url: ساختار آدرس صحیح نیست.
@@ -437,22 +443,20 @@ fa:
         less_than_or_equal_to: must be less than or equal to %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
-        not_an_iso_date: 'is not a valid date. Required format: YYYY-MM-DD.'
         not_a_number: is not a number.
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: is not an integer.
+        not_an_iso_date: 'is not a valid date. Required format: YYYY-MM-DD.'
         not_same_project: doesn't belong to the same project.
         odd: must be odd.
+        regex_invalid: could not be validated with the associated regular expression.
+        smaller_than_or_equal_to_max_length: must be smaller than or equal to maximum
+          length.
         taken: has already been taken.
         too_long: is too long (maximum is %{count} characters).
         too_short: is too short (minimum is %{count} characters).
-        wrong_length: is the wrong length (should be %{count} characters).
-        after: must be after %{date}.
-        after_or_equal_to: must be after or equal to %{date}.
-        before: must be before %{date}.
-        before_or_equal_to: must be before or equal to %{date}.
-        could_not_be_copied: could not be (fully) copied.
-        regex_invalid: could not be validated with the associated regular expression.
         unchangeable: cannot be changed.
+        wrong_length: is the wrong length (should be %{count} characters).
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
@@ -480,7 +484,7 @@ fa:
             project:
               error_not_found: not found
             public:
-              error_unauthorized: "- The user has no permission to create public queries."
+              error_unauthorized: "- The user has no permission to create public views."
           group_by_hierarchies_exclusive: is mutually exclusive with group by '%{group_by}'.
             You cannot activate both.
           filters:
@@ -533,10 +537,11 @@ fa:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Unnamed groups are not allowed.
-              duplicate_group: The group name %{group} is used more than once. Group
-                names must be unique.
               attribute_unknown: Invalid work package attribute used.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Unnamed groups are not allowed.
         user:
           attributes:
             password:
@@ -585,7 +590,6 @@ fa:
         one: Role
         other: Roles
       type: نوع
-      project_type: نوع پروژه
       user: User
       version: نسخه
       wiki: Wiki
@@ -639,7 +643,7 @@ fa:
     password: Password
     priority: اولويت
     project: Project
-    responsible: مسئول
+    responsible: Accountable
     role: Role
     roles: نقش ها
     start_date: Start date
@@ -710,6 +714,7 @@ fa:
   button_unlock: Unlock
   button_unwatch: Unwatch
   button_update: به روز رسانی
+  button_upgrade: Upgrade
   button_upload: Upload
   button_view: مشاهده
   button_watch: نگاه کردن
@@ -877,11 +882,6 @@ fa:
   default_priority_normal: Normal
   default_priority_high: High
   default_priority_immediate: Immediate
-  default_project_type_scrum: Scrum team
-  default_project_type_standard: Standard project
-  default_reported_project_status_green: سبز
-  default_reported_project_status_amber: کهربا
-  default_reported_project_status_red: قرمز
   default_role_anonymous: Anonymous
   default_role_developer: Developer
   default_role_project_admin: Project admin
@@ -947,7 +947,8 @@ fa:
   enumeration_reported_project_statuses: Reported project status
   error_auth_source_sso_failed: مشکل در سامانه ورود مرکزی (SSO) برای کاربر '%{value}'
     به وجود آمد
-  error_can_not_archive_project: This project cannot be archived
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Unable to delete entry
   error_can_not_delete_custom_field: Unable to delete custom field
   error_can_not_delete_type: This type contains work packages and cannot be deleted.
@@ -962,12 +963,16 @@ fa:
   error_custom_option_not_found: Option does not exist.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
+  error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
   error_invalid_sort_criterion: 'Can''t sort by column: %{value}'
   error_pdf_export_too_many_columns: Too many columns selected for the PDF export.
     Please reduce the number of columns.
+  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
   error_token_authenticity: Unable to verify Cross-Site Request Forgery token.
   error_work_package_done_ratios_not_updated: Work package done ratios not updated.
   error_work_package_not_found_in_project: The work package was not found or does
@@ -1018,6 +1023,8 @@ fa:
       csv: CSV
       pdf: پی دی اف
       pdf_with_descriptions: PDF همراه توضيح
+      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
+      pdf_with_attachments: PDF with attachments
   extraction:
     available:
       pdftotext: Pdftotext available (optional)
@@ -1041,6 +1048,7 @@ fa:
   homescreen:
     additional:
       projects: Newest visible projects in this instance.
+      no_visible_projects: There are no visible projects in this instance.
       users: Newest registered users in this instance.
     blocks:
       community: OpenProject community
@@ -1227,7 +1235,6 @@ fa:
   label_edit: Edit
   label_enable_multi_select: Toggle multiselect
   label_enabled_project_custom_fields: Enabled custom fields
-  label_enabled_project_types: Enabled types
   label_enabled_project_modules: Enabled modules
   label_enabled_project_activities: Enabled time tracking activities
   label_end_to_end: end to end
@@ -1236,8 +1243,8 @@ fa:
   label_enumeration_value: Enumeration value
   label_enumerations: Enumerations
   label_enterprise: Enterprise
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
-  label_entry_page: Entry page
   label_environment: Environment
   label_estimates_and_time: Estimates and time
   label_equals: is
@@ -1261,6 +1268,8 @@ fa:
   label_force_user_language_to_default: Set language of users having a non allowed
     language to default
   label_form_configuration: Form configuration
+  label_gantt: Gantt
+  label_gantt_chart: نمودار گانت
   label_general: General
   label_generate_key: Generate a key
   label_git_path: Path to .git directory
@@ -1364,6 +1373,7 @@ fa:
   label_next_week: Next week
   label_no_change_option: "(No change)"
   label_no_data: No data to display
+  label_no_parent_page: No parent page
   label_nothing_display: Nothing to display
   label_nobody: nobody
   label_none: none
@@ -1382,6 +1392,7 @@ fa:
   label_overall_activity: Overall activity
   label_overall_spent_time: Overall spent time
   label_overview: Overview
+  label_page_title: Page title
   label_part_of: part of
   label_password_lost: Forgot your password?
   label_password_rule_lowercase: Lowercase
@@ -1452,7 +1463,7 @@ fa:
   label_repository_plural: Repositories
   label_required: required
   label_requires: requires
-  label_responsible_for_work_packages: Work packages I am responsible for
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Results
   label_reverse_chronological_order: In reverse chronological order
   label_revision: Revision
@@ -1501,7 +1512,7 @@ fa:
   label_summary: Summary
   label_system: System
   label_system_storage: Storage information
-  label_table_of_contents: Table of Contents
+  label_table_of_contents: Table of contents
   label_tag: Tag
   label_text: Long text
   label_this_month: this month
@@ -1516,7 +1527,6 @@ fa:
   label_total: Total
   label_type_new: New type
   label_type_plural: انواع
-  label_type_default_new_projects: Type activated for new projects by default
   label_ui: User Interface
   label_update_work_package_done_ratios: Update work package done ratios
   label_updated_time: Updated %{value} ago
@@ -1586,7 +1596,7 @@ fa:
   label_work_package_view_all: View all work packages
   label_work_package_view_all_assigned_to_me: View all work packages assigned to me
   label_work_package_view_all_reported_by_me: View all work packages reported by me
-  label_work_package_view_all_responsible_for: View all work packages that I am responsible
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
     for
   label_work_package_view_all_watched: View all watched work packages
   label_work_package_watchers: Watchers
@@ -1651,6 +1661,16 @@ fa:
   macro_execution_error: Error executing the macro %{macro_name}
   macro_unavailable: Macro %{macro_name} cannot be displayed.
   macros:
+    placeholder: "[Placeholder] Macro %{macro_name}"
+    errors:
+      missing_or_invalid_parameter: Missing or invalid macro parameter.
+    legacy_warning:
+      timeline: This legacy timeline macro has been removed and is no longer available.
+        You can replace the functionality with an embedded table macro.
+    include_wiki_page:
+      errors:
+        page_not_found: Cannot find the wiki page '%{name}'.
+        circular_inclusion: Circular inclusion of pages detected.
     create_work_package_link:
       errors:
         no_project_context: فراخوانی ماکرو create_work_package_link خارج از فضای کاری
@@ -1677,6 +1697,15 @@ fa:
   mail_subject_reminder: "%{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: More functions
   noscript_description: You need to activate JavaScript in order to use OpenProject!
   noscript_heading: JavaScript disabled
@@ -1797,6 +1826,7 @@ fa:
       team collaboration with OpenProject.
     text_show_again: You can restart this video from the help menu
     welcome: Welcome to OpenProject
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Add notes
   permission_add_work_packages: Add work packages
   permission_add_messages: Post messages
@@ -1837,7 +1867,7 @@ fa:
   permission_manage_members: Manage members
   permission_manage_news: Manage news
   permission_manage_project_activities: Manage project activities
-  permission_manage_public_queries: Manage public queries
+  permission_manage_public_queries: Manage public views
   permission_manage_repository: Manage repository
   permission_manage_subtasks: Manage subtasks
   permission_manage_versions: Manage versions
@@ -1846,7 +1876,7 @@ fa:
   permission_move_work_packages: Move work packages
   permission_protect_wiki_pages: Protect wiki pages
   permission_rename_wiki_pages: Rename wiki pages
-  permission_save_queries: Save queries
+  permission_save_queries: Save views
   permission_select_project_modules: Select project modules
   permission_manage_types: Select types
   permission_view_calendar: View calendar
@@ -2039,9 +2069,9 @@ fa:
   setting_smtp_address: SMTP server
   setting_smtp_port: SMTP port
   setting_smtp_authentication: SMTP authentication
-  setting_smtp_domain: SMTP HELLO domain
   setting_smtp_user_name: SMTP username
   setting_smtp_password: SMTP password
+  setting_smtp_domain: SMTP HELLO domain
   setting_activity_days_default: Days displayed on project activity
   setting_app_subtitle: Application subtitle
   setting_app_title: Application title
@@ -2054,7 +2084,6 @@ fa:
     login attempts
   setting_brute_force_block_minutes: Time the user is blocked for
   setting_cache_formatted_text: Cache formatted text
-  setting_use_wysiwyg: WYSIWYG editor
   setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
     users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Customize the appearance of the work package lists
@@ -2139,7 +2168,6 @@ fa:
   setting_sys_api_enabled: Enable repository management web service
   setting_sys_api_description: The repository management web service provides integration
     and user authorization for accessing repositories.
-  setting_text_formatting: Text formatting
   setting_time_format: Time format
   setting_accessibility_mode_for_anonymous: Enable accessibility mode for anonymous
     users
@@ -2150,7 +2178,6 @@ fa:
   setting_welcome_text: Welcome block text
   setting_welcome_title: Welcome block title
   setting_welcome_on_homescreen: Display welcome block on homescreen
-  setting_welcome_on_projects_page: Display welcome block on project overview
   setting_wiki_compression: Wiki history compression
   setting_work_package_group_assignment: Allow assignment to groups
   settings:
@@ -2159,8 +2186,10 @@ fa:
     passwords: Passwords
     session: Session
     brute_force_prevention: Automated user blocking
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Plain text
   status_active: active
@@ -2254,7 +2283,8 @@ fa:
   text_journal_aggregation_time_explanation: Combine journals for display if their
     age difference is less than the specified timespan. This will also delay mail
     notifications by the same amount of time.
-  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
   text_journal_deleted: "%{label} deleted (%{old})"
@@ -2304,6 +2334,8 @@ fa:
   text_user_wrote: "%{value} wrote:"
   text_warn_on_leaving_unsaved: The work package contains unsaved text that will be
     lost if you leave this page.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all
     its content?
   text_wiki_page_destroy_children: Delete child pages and all their descendants
@@ -2331,8 +2363,6 @@ fa:
     admin_menu:
       color: رنگ
       colors: Colors
-      project_type: نوع پروژه
-      project_types: Project types
     associations: Dependencies
     board_could_not_be_saved: Board could not be saved
     button_delete_all: Delete all
@@ -2350,7 +2380,6 @@ fa:
       one: 1 day
       other: "%{count} days"
     edit_color: Edit color
-    edit_project_type: Edit project type
     edit_thing: Edit
     edit_timeline: Edit timeline report %{timeline}
     delete_timeline: Delete timeline report %{timeline}
@@ -2392,7 +2421,6 @@ fa:
         due_date: End date
         name: نام
         status: Status
-        responsible: مسئول
         start_date: Start date
       columns: ستون‌ها
       comparisons: Comparisons
@@ -2421,7 +2449,7 @@ fa:
       outline: Initial outline expansion
       parent: Show subprojects of
       work_package_filters: Filter work packages
-      work_package_responsible: Show work packages with responsible
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: Show work packages with assignee
       types: Show types
       status: Show status
@@ -2434,9 +2462,8 @@ fa:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago,
         %{end_label} %{endspan}%{endspanunit} from now"
       project_filters: Filter projects
-      project_responsible: Show projects with responsible
+      project_responsible: Show projects with accountable
       project_status: Show project status
-      project_types: Show project types
       timeframe: Show timeframe
       timeframe_end: to
       timeframe_start: from
@@ -2446,7 +2473,6 @@ fa:
     new_color: New color
     new_association: New dependency
     new_work_package: New work package
-    new_project_type: New project type
     new_reporting: New reporting
     new_timeline: New timeline report
     no_projects_for_reporting_available: There are no projects to which a reporting
@@ -2473,21 +2499,11 @@ fa:
       edit: 'Edit status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Update: %{title}'
-    work_packages_are_displayed_in_aggregations: Work packages are displayed in aggregations
-    project_type_could_not_be_saved: Project type could not be saved
     type_could_not_be_saved: Type could not be saved
     reporting_could_not_be_saved: Reporting could not be saved
     properties: Properties
     really_delete_color: 'Are you sure, you want to delete the following color? Types
       using this color will not be deleted.
-
-'
-    really_delete_project_type: 'Are you sure, you want to delete the following project
-      type? Projects using this type will not be deleted.
-
-'
-    really_delete_timeline: 'Are you sure, you want to delete the following timeline
-      report? Work packages shown in this timeline report will not be deleted.
 
 '
     really_delete_reporting: 'Are you sure, you want to delete the following reporting?
@@ -2499,7 +2515,6 @@ fa:
     timelines: Timeline reports
     settings: Timelines
     vertical_work_package: Vertical work packages
-    without_project_type: Without project type
     you_are_viewing_the_selected_timeline: You are viewing the selected timeline report
     zoom:
       in: Zoom in
@@ -2511,6 +2526,7 @@ fa:
       years: Years
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
     in a user''s settings.
 
@@ -2582,9 +2598,25 @@ fa:
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Warning
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
   warning_registration_token_expired: |
     The activation email has expired. We sent you a new one to %{email}.
     Please click the link inside of it to activate your account.
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: Menu item
   menu_item_setting: Visibility
   wiki_menu_item_for: Menu item for wikipage "%{title}"

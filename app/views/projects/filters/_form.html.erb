@@ -40,7 +40,7 @@
 
           <div class="advanced-filters--remove-filter">
             <a href="#" class="filter_rem">
-              <op-icon icon-classes="icon-close advanced-filters--remove-filter-icon" icon-title="{{I18n.t('js.button_delete')}}"></op-icon>
+              <%= op_icon("icon-close advanced-filters--remove-filter-icon", title: I18n.t('js.button_delete')) %>
             </a>
           </div>
         </li>
@@ -52,9 +52,7 @@
       <li class="advanced-filters--add-filter">
         <!-- Add filters -->
         <label for="add_filter_select" aria-hidden="true" class="advanced-filters--add-filter-label ng-binding">
-          <op-icon icon-classes="icon-add icon4" class="op-icon--wrapper">
-            <i class="icon-add icon4" aria-hidden="true"></i>
-          </op-icon>
+          <%= op_icon("icon-add icon4") %>
           <%= t(:label_filter_add) %>:
         </label>
         <label for="add_filter_select" class="hidden-for-sighted ng-binding">
@@ -80,7 +78,10 @@
           <div class="advanced-filters--add-filter-info">
             <div class="notification-box">
               <div class="notification-box--content">
-                <%= t('ee.upsale.project_filters.description_html', link: link_to(t(:label_enterprise_edition), "#{OpenProject::Static::Links.links[:upsale][:href]}/?utm_source=unknown&utm_medium=community-edition&utm_campaign=project-list-filter")) %>
+                <%= t('ee.upsale.project_filters.description_html',
+                      link: link_to(t(:label_enterprise_edition),
+                                    "#{OpenProject::Static::Links.links[:upsale][:href]}/?utm_source=unknown&utm_medium=community-edition&utm_campaign=project-list-filter",
+                                    target: '_blank')) %>
               </div>
             </div>
           </div>

@@ -5,10 +5,9 @@
     "postinstall": "cd frontend && npm install",
     "test": "cd frontend && npm test && cd ..",
     "tslint_typechecks": "cd frontend && npm run tslint_typechecks && cd ..",
-    "karma": "cd frontend && npm run karma && cd ..",
-    "webpack": "cd frontend && npm run webpack && cd ..",
-    "webpack-watch": "cd frontend && npm run webpack-watch",
-    "webpack-watch-with-test": "cd frontend && npm run webpack-watch-with-test"
+    "serve": "cd frontend && npm run serve",
+    "legacy-webpack": "cd frontend && npm run legacy-webpack && cd ..",
+    "legacy-webpack-watch": "cd frontend && npm run legacy-webpack-watch"
   },
   "private": true,
   "engines": {

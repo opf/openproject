@@ -13,11 +13,10 @@ OpenProject::Application.configure do
     copy_issue_actions.js
     date-de-DE.js
     date-en-US.js
-    jstoolbar/textile.js
-    jstoolbar/markdown.js
     locales/*.js
     members_form.js
     members_select_boxes.js
+    my_page.js
     new_user.js
     project/responsible_attribute.js
     project/description_handling.js
@@ -28,5 +27,6 @@ OpenProject::Application.configure do
     types_checkboxes.js
     work_packages.js
     vendor/ckeditor/ckeditor.*js
+    bundles/openproject-legacy-app.js
   )
 end

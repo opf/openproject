@@ -72,10 +72,6 @@ describe CustomFieldFormBuilder do
 
     context 'for a date custom field' do
       before do
-        expect(helper)
-          .to receive(:calendar_for)
-          .with("user#{resource.custom_field_id}")
-
         resource.custom_field.field_format = 'date'
       end
 
@@ -85,7 +81,7 @@ describe CustomFieldFormBuilder do
 
       it 'should output element' do
         expect(output).to be_html_eql(%{
-          <input class="custom-class form--text-field"
+          <input class="custom-class -augmented-datepicker form--text-field"
                  id="user#{resource.custom_field_id}"
                  name="user[#{resource.custom_field_id}]"
                  type="text" />

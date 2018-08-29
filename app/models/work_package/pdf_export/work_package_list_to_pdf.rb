@@ -30,6 +30,7 @@
 
 class WorkPackage::PdfExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
   include WorkPackage::PdfExport::Common
+  include WorkPackage::PdfExport::Attachments
 
   attr_accessor :pdf,
                 :options
@@ -54,6 +55,9 @@ class WorkPackage::PdfExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
     success(pdf.render)
   rescue Prawn::Errors::CannotFit
     error(I18n.t(:error_pdf_export_too_many_columns))
+  rescue StandardError => e
+    Rails.logger.error { "Failed to generated PDF export: #{e} #{e.message}." }
+    error(I18n.t(:error_pdf_failed_to_export, error: e.message))
   end
 
   def project
@@ -141,6 +145,16 @@ class WorkPackage::PdfExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
       if options[:show_descriptions]
         make_description(work_package.description.to_s).each do |segment|
           result << [segment]
+        end
+      end
+
+      if options[:show_attachments] && work_package.attachments.exists?
+        attachments = make_attachments_cells(work_package.attachments)
+
+        if attachments.any?
+          result << [
+            { content: pdf.make_table([attachments]), colspan: description_colspan }
+          ]
         end
       end
 

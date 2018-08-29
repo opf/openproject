@@ -5,7 +5,6 @@ describe 'Work package relations tab', js: true, selenium: true do
 
   let(:user) { FactoryBot.create :admin }
 
-
   let(:project) { FactoryBot.create(:project) }
   let(:work_package) { FactoryBot.create(:work_package, project: project) }
   let(:work_packages_page) { ::Pages::SplitWorkPackage.new(work_package) }
@@ -27,7 +26,6 @@ describe 'Work package relations tab', js: true, selenium: true do
     work_packages_page.expect_subject
     loading_indicator_saveguard
   end
-
 
   describe 'as admin' do
     let!(:parent) { FactoryBot.create(:work_package, project: project) }
@@ -87,15 +85,15 @@ describe 'Work package relations tab', js: true, selenium: true do
 
     let!(:relation_1) do
       FactoryBot.create :relation,
-                         from: work_package,
-                         to: to_1,
-                         relation_type: Relation::TYPE_FOLLOWS
+                        from: work_package,
+                        to: to_1,
+                        relation_type: Relation::TYPE_FOLLOWS
     end
     let!(:relation_2) do
       FactoryBot.create :relation,
-                         from: work_package,
-                         to: to_2,
-                         relation_type: Relation::TYPE_RELATES
+                        from: work_package,
+                        to: to_2,
+                        relation_type: Relation::TYPE_RELATES
     end
 
     let(:toggle_btn_selector) { '#wp-relation-group-by-toggle' }
@@ -117,8 +115,8 @@ describe 'Work package relations tab', js: true, selenium: true do
 
       let(:user) do
         FactoryBot.create :user,
-                           member_in_project: project,
-                           member_through_role: user_role
+                          member_in_project: project,
+                          member_through_role: user_role
       end
 
       context 'as view-only user, with parent set' do

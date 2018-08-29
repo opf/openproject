@@ -36,7 +36,7 @@ $hamburger-width: 50px
   left: calc(50% - 230px / 2)
 
   .home-link
-    margin-top: 14px
+    margin-top: 15px
     display: block
     background: $header-home-link-bg
     background-size: 140px
@@ -93,15 +93,14 @@ $hamburger-width: 50px
     > ul
       min-width: 270px
       padding: 6px 0
-      border: 2px solid $header-drop-down-border-color
+      border: 1px solid $header-drop-down-border-color
       border-top: 0
       background-color: $header-drop-down-bg-color
       li
         float: none
     > ul.drop-down--projects
       width: 400px
-      left: -2px
-      box-shadow: none
+      left: 0px
 
   li.drop-down
     &:hover
@@ -125,7 +124,7 @@ $hamburger-width: 50px
     li
       > a
         color: $header-drop-down-item-font-color
-        &:hover
+        &:hover, &:focus
           @include varprop(background, drop-down-hover-bg-color)
           @include varprop(color, drop-down-hover-font-color)
 
@@ -178,8 +177,8 @@ $hamburger-width: 50px
 
 .top-menu-search
   display: inline-block
+  position: relative
   &:not(.-collapsed) > div
-    position: relative
     padding-top: 9px
 
 .top-menu-search--wrapper
@@ -218,7 +217,7 @@ input.top-menu-search--input
   margin: 0
   padding: 0 20px 0 10px
   display: inline-block
-  border: $header-search-field-border
+  border: none !important
   border-radius: 25px
   width: 180px
   outline: 0
@@ -228,9 +227,6 @@ input.top-menu-search--input
     width: 20px
   .top-menu-search.-collapsed &
     display: none
-
-  &:hover, &:focus
-    border: $header-search-field-border
 
 #quick-search
   float: right
@@ -306,7 +302,7 @@ input.top-menu-search--input
 input.top-menu-search--input
   margin: 0
   position: absolute
-  right: 170px
+  right: 0
   bottom: 10px
   z-index: 10
 
@@ -333,6 +329,10 @@ input.top-menu-search--input
 
   .nosidebar &
     display: none
+    
+  &:hover
+    @include varprop(background, header-item-bg-hover-color)
+    @include varprop(color, header-item-font-hover-color)
 
 @media only screen and (max-width: 18.75rem)
   #logo

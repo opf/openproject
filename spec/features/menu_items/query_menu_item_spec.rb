@@ -31,10 +31,11 @@ require 'features/page_objects/notification'
 require 'features/work_packages/shared_contexts'
 require 'features/work_packages/work_packages_page'
 
-feature 'Query menu items' do
+RSpec.feature 'Query menu items', js: true do
   let(:user) { FactoryBot.create :admin }
   let(:project) { FactoryBot.create :project }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
+  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:notification) { PageObjects::Notifications.new(page) }
   let(:status) { FactoryBot.create :status }
 
@@ -58,7 +59,8 @@ feature 'Query menu items' do
     it 'can be shown' do
       visit_index_page(query_a)
 
-      expect(page).to have_selector('a', text: query_a.name, count: 2)
+      wp_table.visit_query query_a
+      wp_table.expect_title query_a.name
     end
   end
 
@@ -69,12 +71,12 @@ feature 'Query menu items' do
       visit_index_page(query)
 
       click_on 'Settings'
-      click_on 'Publish ...'
-      check 'Show page in menu'
+      click_on I18n.t('js.toolbar.settings.visibility_settings')
+      check 'Favored'
       click_on 'Save'
 
       notification.expect_success('Successful update')
-      expect(page).to have_selector('a', text: query.name)
+      expect(page).to have_selector('.wp-query-menu--item[data-category=starred]', text: query.name)
     end
 
     after do
@@ -93,21 +95,21 @@ feature 'Query menu items' do
     before do
       visit_index_page(query_b)
 
-      click_on I18n.t('js.button_settings')
-      click_on I18n.t('js.toolbar.settings.page_settings')
-      fill_in I18n.t('js.modals.label_name'), with: new_name
-      click_on I18n.t('js.modals.button_submit')
+      expect(page).to have_field('wp-query-selectable-title', with: 'zzzz')
+      input = find('.wp-query--selectable-title')
+      input.set new_name
+      input.send_keys :return
     end
 
     after do
       ensure_wp_table_loaded
     end
 
-    it 'displaying a success message', js: true do
+    it 'displaying a success message' do
       notification.expect_success('Successful update')
     end
 
-    it 'is renaming and reordering the list', js: true do
+    it 'is renaming and reordering the list' do
       # Renaming the query should also reorder the queries.  As it is renamed
       # from zzzz to aaaa, it should now be the first query menu item.
       expect(page).to have_selector('li:nth-child(3) a', text: new_name)

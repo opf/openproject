@@ -73,6 +73,18 @@ class Activity::BaseActivityProvider
     activity_journals_table(activity)
   end
 
+  def filter_for_event_datetime(query, journals_table, typed_journals_table, from, to)
+    if from
+      query = query.where(journals_table[:created_at].gteq(from))
+    end
+
+    if to
+      query = query.where(journals_table[:created_at].lteq(to))
+    end
+
+    query
+  end
+
   def activity_journals_table(_activity)
     @activity_journals_table ||= JournalManager.journal_class(activitied_type).arel_table
   end

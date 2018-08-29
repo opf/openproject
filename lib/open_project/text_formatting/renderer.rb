@@ -34,13 +34,16 @@ module OpenProject::TextFormatting
       def format_text(text, options = {})
         return '' if text.blank?
 
-        # offer 'plain' as readable version for 'no formatting' to callers
-        format = options.fetch(:format, Setting.text_formatting)
+        formatter = if options.delete(:plain)
+                      OpenProject::TextFormatting::Formats.plain_formatter
+                    else
+                      OpenProject::TextFormatting::Formats.rich_formatter
+                    end
 
-        formatter = OpenProject::TextFormatting::Formatters.formatter_for(format).new(options)
-        formatter.to_html(text)
+        formatter
+          .new(options)
+          .to_html(text)
       end
     end
   end
 end
-

@@ -62,7 +62,7 @@ class ::Type < ActiveRecord::Base
                       maximum: 255,
                       unless: lambda { |e| e.name.blank? }
 
-  validates_inclusion_of :in_aggregation, :is_default, :is_milestone, in: [true, false]
+  validates_inclusion_of :is_default, :is_milestone, in: [true, false]
 
   default_scope { order('position ASC') }
 

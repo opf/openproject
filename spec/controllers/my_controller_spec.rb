@@ -165,7 +165,7 @@ describe MyController, type: :controller do
       end
 
       it 'redirects to settings' do
-        expect(response).to redirect_to my_settings_path
+        expect(request.path).to eq(my_settings_path)
       end
 
       it 'has a successful flash' do
@@ -211,21 +211,6 @@ describe MyController, type: :controller do
 
     it "does not render 'Change password' menu entry" do
       expect(response.body).not_to have_selector('#menu-sidebar li a', text: 'Change password')
-    end
-  end
-
-  describe 'page' do
-    render_views
-
-    before do
-      allow_any_instance_of(User).to receive(:reported_work_package_count).and_return(42)
-      get :page
-    end
-
-    it 'should show the number of reported packages' do
-      label = Regexp.escape(I18n.t(:label_reported_work_packages))
-
-      expect(response.body).to have_selector('h3', text: /#{label}.*42/)
     end
   end
 

@@ -60,7 +60,10 @@ describe 'Watcher tab', js: true, selenium: true do
     it 'modifying the watcher list modifies the watch button' do
       # Add user as watcher
       autocomplete = find('.wp-watcher--autocomplete')
-      select_autocomplete(autocomplete, query: user.firstname, select_text: user.name)
+      select_autocomplete autocomplete,
+                          query: user.firstname,
+                          results_selector: '.wp-watchers-autocomplete--results',
+                          select_text: user.name
 
       # Expect the addition of the user to toggle WP watch button
       expect(page).to have_selector('.work-package--watcher-name', count: 1, text: user.name)
@@ -85,7 +88,9 @@ describe 'Watcher tab', js: true, selenium: true do
 
       it 'escapes the user name' do
         autocomplete = find('.wp-watcher--autocomplete')
-        target_dropdown = search_autocomplete(autocomplete, query: 'foo')
+        target_dropdown = search_autocomplete autocomplete,
+                                              results_selector: '.wp-watchers-autocomplete--results',
+                                              query: 'foo'
 
         expect(target_dropdown).to have_selector(".ui-menu-item", text: html_user.firstname)
         expect(target_dropdown).to have_no_selector(".ui-menu-item em")

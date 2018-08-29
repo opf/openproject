@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -34,24 +35,48 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   include Redmine::I18n
   include ActionView::Helpers::AssetTagHelper
   include ERB::Util
+  include TextFormattingHelper
 
-  (field_helpers - %i(radio_button hidden_field fields_for label) + %i(date_select)).each do |selector|
-    define_method selector do |field, options = {}, *args|
+  def self.tag_with_label_method(selector, &block)
+    ->(field, options = {}, *args) do
       options[:class] = Array(options[:class]) + [field_css_class(selector)]
       merge_required_attributes(options[:required], options)
 
       input_options, label_options = extract_from options
 
+      if field_has_errors?(field)
+        input_options[:class] << ' -error'
+      end
+
       label = label_for_field(field, label_options)
       input = super(field, input_options, *args)
 
-      if options[:with_text_formatting]
-        input.concat text_formatting_wrapper options[:id]
-      end
+      input = instance_exec(input, options, &block) if block_given?
 
       (label + container_wrap_field(input, selector, options))
     end
   end
+  private_class_method :tag_with_label_method
+
+  def self.with_text_formatting
+    ->(input, options) {
+      if options[:with_text_formatting]
+        # use either the provided id or fetch the one created by rails
+        id = options[:id] || input.match(/<[^>]* id="(\w+)"[^>]*>/)[1]
+        options[:preview_context] ||= preview_context(object)
+        input.concat text_formatting_wrapper id, options
+      end
+
+      input
+    }
+  end
+  private_class_method :with_text_formatting
+
+  (field_helpers - %i(radio_button hidden_field fields_for label text_area) + %i(date_select)).each do |selector|
+    define_method selector, &tag_with_label_method(selector)
+  end
+
+  define_method(:text_area, &tag_with_label_method(:text_area, &with_text_formatting))
 
   def label(method, text = nil, options = {}, &block)
     options[:class] = Array(options[:class]) + %w(form--label)
@@ -65,6 +90,10 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     input_options, label_options = extract_from options
     label_options[:for] = "#{sanitized_object_name}_#{field}_#{value.downcase}"
 
+    if field_has_errors?(field)
+      input_options[:class] << ' -error'
+    end
+
     label = label_for_field(field, label_options)
     input = super(field, value, input_options, *args)
 
@@ -76,6 +105,11 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     if html_options[:container_class].present?
       options[:container_class] = html_options[:container_class]
     end
+
+    if field_has_errors?(field)
+      html_options[:class] << ' -error'
+    end
+
     merge_required_attributes(options[:required], html_options)
     label_for_field(field, options) + container_wrap_field(super, 'select', options)
   end
@@ -132,7 +166,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
                               prefix.html_safe,
                               class: 'form--field-affix',
                               id: options[:prefix_id],
-                              :'aria-hidden' => true)
+                              'aria-hidden': true)
     end
 
     if suffix
@@ -140,7 +174,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
                              suffix.html_safe,
                              class: 'form--field-affix',
                              id: options[:suffix_id],
-                             :'aria-hidden' => true)
+                             'aria-hidden': true)
     end
 
     field_container_wrap_field(ret, options)
@@ -148,7 +182,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
   def merge_required_attributes(required, options = nil)
     if required
-      options.merge!(required: true, :'aria-required' => 'true')
+      options.merge!(required: true, 'aria-required': 'true')
     end
   end
 
@@ -174,12 +208,11 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
   ##
   # Create a wrapper for the text formatting toolbar for this field
-  def text_formatting_wrapper(target_id)
+  def text_formatting_wrapper(target_id, options)
     return ''.html_safe unless target_id.present?
 
-    format = Setting.text_formatting
-    helper = ::OpenProject::TextFormatting::Formatters.helper_for(format).new(@template)
-    helper.wikitoolbar_for target_id
+    helper = ::OpenProject::TextFormatting::Formats.rich_helper.new
+    helper.wikitoolbar_for target_id, options
   end
 
   def field_css_class(selector)
@@ -218,7 +251,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def label_for_field_errors(content, options, field)
-    if @object.try(:errors) && @object.errors.include?(field)
+    if field_has_errors?(field)
       options[:class] << ' -error'
       error_label = I18n.t('errors.field_erroneous_label',
                            full_errors: @object.errors.full_messages_for(field).join(' '))
@@ -232,7 +265,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
       content << content_tag('span',
                              '*',
                              class: 'form--label-required',
-                             :'aria-hidden' => true)
+                             'aria-hidden': true)
     end
   end
 
@@ -258,9 +291,13 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
+  def field_has_errors?(field)
+    @object&.errors&.include?(field)
+  end
+
   def extract_from(options)
     label_options = options.dup.except(:class)
-    input_options = options.dup.except(:for, :label, :no_label, :prefix, :suffix)
+    input_options = options.dup.except(:for, :label, :no_label, :prefix, :suffix, :label_options)
 
     label_options.merge!(options.delete(:label_options) || {})
 

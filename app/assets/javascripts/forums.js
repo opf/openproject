@@ -32,16 +32,20 @@
     function quoteResult(result) {
       var reply = $("#reply"),
         subject = $("#reply_subject"),
-        content = $("#reply_content");
+        focusElement = jQuery("#reply #message-form");
 
       subject.val(result.subject);
-      content.val(result.content);
+
+      $('op-ckeditor-form')
+        .data('editor')
+        .then(function(editor) {
+          editor.setData(result.content);
+        });
 
       reply.slideDown();
-      content.focus();
 
       $('html, body').animate({
-        scrollTop: content.offset().top
+        scrollTop: focusElement.offset().top
       }, 1000);
     }
 

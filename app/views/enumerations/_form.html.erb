@@ -42,8 +42,9 @@ See docs/COPYRIGHT.rdoc for more details.
   <% if @enumeration.class.colored? %>
     <%= render partial: '/colors/color_autocomplete_field',
                locals: {
-                 object: @enumeration,
-                 label: @enumeration.color_label
+                   form: f,
+                   object: @enumeration,
+                   label: @enumeration.color_label
                }  %>
   <% end %>
 

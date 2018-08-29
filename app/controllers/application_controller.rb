@@ -68,7 +68,6 @@ class ApplicationController < ActionController::Base
   # Thus, we show an error message unless the request probably is an API
   # request.
   def handle_unverified_request
-    super
     cookies.delete(OpenProject::Configuration['autologin_cookie_name'])
     self.logged_user = nil
 
@@ -513,7 +512,7 @@ class ApplicationController < ActionController::Base
   #
   # @return [boolean, string] name of the layout to use or false for no layout
   def use_layout
-    request.xhr? ? false : 'base'
+    request.xhr? ? false : 'no_menu'
   end
 
   def render_feed(items, options = {})

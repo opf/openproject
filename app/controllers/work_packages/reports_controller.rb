@@ -28,7 +28,7 @@
 #++
 
 class WorkPackages::ReportsController < ApplicationController
-  menu_item :summary_field, only: [:report, :report_details]
+  menu_item :work_packages
   before_action :find_project_by_project_id, :authorize
 
   def report
@@ -55,7 +55,7 @@ class WorkPackages::ReportsController < ApplicationController
       if @report
         format.html
       else
-        format.html do redirect_to report_project_work_packages_path(@project) end
+        format.html { redirect_to report_project_work_packages_path(@project) }
       end
     end
   end

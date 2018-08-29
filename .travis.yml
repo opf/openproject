@@ -91,20 +91,25 @@ env:
 
 before_install:
 
-  # Install Node LTS Boron (6.9.1)
-  - "nvm install 6.9.1"
+  # Install pandoc for testing textile migration
+  - travis_retry sudo apt-get update -qq
+  - travis_retry sudo apt-get install -qq pandoc
+
+  # Install Node latest LTS
+  - "nvm install --lts"
   # work around https://github.com/travis-ci/travis-ci/issues/8969
   - travis_retry gem update --system
-  - gem install bundler
+  # Don't install 1.16.3
+  - gem install bundler -v 1.16.2
 
 
 bundler_args: --binstubs --without development production docker
 
 before_script:
-  - sh script/ci_setup.sh $TEST_SUITE $DB
+  - bash script/ci_setup.sh $TEST_SUITE $DB
 
 script:
-  - sh script/ci_runner.sh
+  - bash script/ci_runner.sh
 
 
 addons:

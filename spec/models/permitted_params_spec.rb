@@ -83,12 +83,6 @@ describe PermittedParams, type: :model do
 
       params = ActionController::Parameters.new(project_type: { 'blubs1' => 'blubs' })
 
-      expect(PermittedParams.new(params, user).project_type.to_h).to eq({})
-
-      PermittedParams.permit(:project_type, :blubs1)
-
-      expect(PermittedParams.new(params, user).project_type.to_h).to eq('blubs1' => 'blubs')
-
       PermittedParams.instance_variable_set(:@whitelisted_params, original_whitelisted)
     end
 
@@ -105,7 +99,6 @@ describe PermittedParams, type: :model do
 
       { name: 'blubs',
         is_in_roadmap: 'true',
-        in_aggregation: 'true',
         is_milestone: 'true',
         color_id: '1',
         project_ids: %w(2 3 4),
@@ -119,27 +112,6 @@ describe PermittedParams, type: :model do
     end
 
     it_behaves_like 'allows params'
-  end
-
-  describe '#project_type' do
-    let(:attribute) { :project_type }
-
-    describe 'name' do
-      let(:hash) { { 'name' => 'blubs' } }
-
-      it_behaves_like 'allows params'
-    end
-  end
-
-  describe '#project_type_move' do
-    let(:attribute) { :project_type_move }
-    let(:hash_key) { :project_type }
-
-    describe 'move_to' do
-      let(:hash) { { 'move_to' => '1' } }
-
-      it_behaves_like 'allows params'
-    end
   end
 
   describe '#pref' do

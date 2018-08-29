@@ -41,6 +41,7 @@ Redmine::MenuManager.map :top_menu do |menu|
               (User.current.logged? || !Setting.login_required?) &&
                 User.current.allowed_to?(:view_work_packages, nil, global: true)
             }
+
   menu.push :news,
             { controller: '/news', project_id: nil, action: 'index' },
             context: :modules,
@@ -80,8 +81,12 @@ Redmine::MenuManager.map :account_menu do |menu|
             if: Proc.new { User.current.logged? }
 end
 
-Redmine::MenuManager.map :application_menu do |_menu|
-  # Empty
+Redmine::MenuManager.map :application_menu do |menu|
+  menu.push :work_packages_query_select,
+            { controller: '/work_packages', action: 'index' },
+            parent: :work_packages,
+            partial: 'work_packages/menu_query_select',
+            last: true
 end
 
 Redmine::MenuManager.map :my_menu do |menu|
@@ -207,11 +212,6 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption:    :'timelines.admin_menu.colors',
             icon: 'icon2 icon-status'
 
-  menu.push :project_types,
-            { controller: '/project_types', action: 'index' },
-            caption:    :'timelines.admin_menu.project_types',
-            icon: 'icon2 icon-project-types'
-
   menu.push :enterprise,
             { controller: '/enterprises', action: 'show' },
             caption:    :label_enterprise_edition,
@@ -240,23 +240,19 @@ Redmine::MenuManager.map :project_menu do |menu|
             { controller: '/work_packages', action: 'index' },
             param: :project_id,
             caption: :label_work_package_plural,
-            icon: 'icon2 icon-work-packages',
+            icon: 'icon2 icon-view-timeline',
             html: {
               id: 'main-menu-work-packages',
               :'wp-query-menu' => 'wp-query-menu'
             }
 
-  menu.push :all_open_wps,
+  menu.push :work_packages_query_select,
             { controller: '/work_packages', action: 'index' },
             param: :project_id,
-            caption: :label_all_open_wps,
-            parent: :work_packages
-
-  menu.push :summary_field,
-            { controller: '/work_packages/reports', action: 'report' },
-            param: :project_id,
-            caption: :label_workflow_summary,
-            parent: :work_packages
+            parent: :work_packages,
+            partial: 'work_packages/menu_query_select',
+            last: true,
+            caption: :label_all_open_wps
 
   menu.push :calendar,
             { controller: '/work_packages/calendars', action: 'index' },

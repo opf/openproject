@@ -43,6 +43,7 @@ describe 'new work package', js: true do
     wp_page.click_create_wp_button(type)
 
     loading_indicator_saveguard
+    expect(page).to have_focus_on('#wp-new-inline-edit--field-subject')
     wp_page.subject_field.set(subject)
 
     sleep 1
@@ -58,7 +59,7 @@ describe 'new work package', js: true do
 
     project_field.set_value project
 
-    expect(page).to have_selector("#wp-new-inline-edit--field-type option[label=#{type}", wait: 10)
+    expect(page).to have_selector("#wp-new-inline-edit--field-type option[label=#{type}]", wait: 10)
     type_field.set_value type
     sleep 1
   end
@@ -96,7 +97,7 @@ describe 'new work package', js: true do
     it 'saves the work package with enter' do
       subject_field = wp_page.subject_field
       subject_field.set(subject)
-      subject_field.send_keys(:return)
+      subject_field.send_keys(:enter)
 
       # safegurards
       wp_page.dismiss_notification!
@@ -109,8 +110,14 @@ describe 'new work package', js: true do
 
     context 'with missing values' do
       it 'shows an error when subject is missing' do
-        wp_page.description_field.set(description)
-        wp_page.subject_field.set('')
+        description_field.set_value(description)
+
+        # Need to send keys to emulate change
+        subject_field = wp_page.subject_field
+        subject_field.set('')
+        subject_field.send_keys('a')
+        subject_field.send_keys(:backspace)
+
         save_work_package!(false)
         notification.expect_error("Subject can't be blank.")
       end
@@ -118,12 +125,15 @@ describe 'new work package', js: true do
 
     context 'with subject set' do
       it 'creates a basic work package' do
-        wp_page.description_field.set(description)
+        description_field = wp_page.edit_field :description
+        description_field.set_value description
 
         save_work_package!
         expect(page).to have_selector('#tabs')
 
+
         subject_field.expect_state_text(subject)
+        description_field = wp_page.edit_field :description
         description_field.expect_state_text(description)
       end
 

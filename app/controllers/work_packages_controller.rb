@@ -32,6 +32,7 @@ class WorkPackagesController < ApplicationController
   include QueriesHelper
   include PaginationHelper
   include OpenProject::ClientPreferenceExtractor
+  include Concerns::Layout
 
   accept_key_auth :index, :show
 
@@ -47,7 +48,7 @@ class WorkPackagesController < ApplicationController
   def show
     respond_to do |format|
       format.html do
-        render :show, locals: { work_package: work_package }, layout: 'angular'
+        render :show, locals: { work_package: work_package, menu_name: project_or_wp_query_menu }, layout: 'angular'
       end
 
       format.any(*WorkPackage::Exporter.single_formats) do
@@ -63,7 +64,7 @@ class WorkPackagesController < ApplicationController
   def index
     respond_to do |format|
       format.html do
-        render :index, locals: { query: @query, project: @project },
+        render :index, locals: { query: @query, project: @project, menu_name: project_or_wp_query_menu },
                        layout: 'angular'
       end
 
@@ -75,10 +76,6 @@ class WorkPackagesController < ApplicationController
         atom_list
       end
     end
-  end
-
-  current_menu_item :index do
-    :all_open_wps
   end
 
   protected
@@ -170,13 +167,20 @@ class WorkPackagesController < ApplicationController
   end
 
   def journals
-    @journals ||= work_package
-                  .journals
-                  .changing
-                  .includes(:user)
-                  .order("#{Journal.table_name}.created_at ASC").to_a
-    @journals.reverse_order if current_user.wants_comments_in_reverse_order?
-    @journals
+    @journals ||= begin
+      order =
+        if current_user.wants_comments_in_reverse_order?
+          Journal.arel_table['created_at'].desc
+        else
+          Journal.arel_table['created_at'].asc
+        end
+
+      work_package
+        .journals
+        .changing
+        .includes(:user)
+        .order(order).to_a
+      end
   end
 
   def index_redirect_path

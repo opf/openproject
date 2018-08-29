@@ -31,23 +31,10 @@ module API
     module Posts
       class PostRepresenter < ::API::Decorators::Single
         include API::Decorators::LinkedResource
+        include API::Caching::CachedRepresenter
+        include ::API::V3::Attachments::AttachableRepresenterMixin
 
         self_link title_getter: ->(*) { nil }
-
-        link :attachments do
-          {
-            href: api_v3_paths.attachments_by_post(represented.id)
-          }
-        end
-
-        link :addAttachment do
-          next unless current_user_allowed_to(:edit_messages, context: represented.project)
-
-          {
-            href: api_v3_paths.attachments_by_post(represented.id),
-            method: :post
-          }
-        end
 
         property :id
 

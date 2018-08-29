@@ -109,8 +109,7 @@ module Redmine
             query = journals_table.join(activity_journals_table).on(journals_table[:id].eq(activity_journals_table[:journal_id]))
             query = query.where(journals_table[:journable_type].eq(provider.activitied_type(activity).name))
 
-            query = query.where(journals_table[:created_at].gteq(from)) if from
-            query = query.where(journals_table[:created_at].lteq(to)) if to
+            provider.filter_for_event_datetime query, journals_table, activity_journals_table, from, to
 
             query = query.where(journals_table[:user_id].eq(options[:author].id)) if options[:author]
 
@@ -140,8 +139,7 @@ module Redmine
           end
 
           def join_with_projects_table(query, project_ref_table)
-            query = query.join(projects_table).on(projects_table[:id].eq(project_ref_table['project_id']))
-            query
+            query.join(projects_table).on(projects_table[:id].eq(project_ref_table['project_id']))
           end
 
           def restrict_projects_by_selection(options, query)
@@ -177,7 +175,6 @@ module Redmine
             stmt = nil
             perm = Redmine::AccessControl.permission(options[:permission])
             is_member = options[:member]
-            original_query = query.dup
 
             if user.logged?
               allowed_projects = []

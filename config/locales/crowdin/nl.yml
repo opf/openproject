@@ -3,8 +3,8 @@ nl:
   no_results_title_text: Er is op dit moment niets om weer te geven.
   activities:
     index:
-      no_results_title_text: Er heeft nog geen activiteit plaatsgevonden voor het
-        project.
+      no_results_title_text: Er is geen activiteit voor deze projecten binnen deze
+        periode.
   admin:
     plugins:
       no_results_title_text: Er zijn momenteel geen plugins beschikbaar.
@@ -86,6 +86,8 @@ nl:
     tab:
       no_results_title_text: Momenteel zijn er geen aangepaste velden.
       no_results_content_text: Maak een nieuw aangepast veld
+  concatenation:
+    single: or
   deprecations:
     old_timeline:
       replacement: Deze tijdlijn module is vervangen door de interactieve tijdlijn
@@ -129,10 +131,6 @@ nl:
       versions:
         no_results_title_text: Momenteel zijn er geen versies voor het project.
         no_results_content_text: Maak een nieuwe versie
-  project_types:
-    index:
-      no_results_title_text: Er zijn momenteel geen projecttypes.
-      no_results_content_text: Maak een nieuw projecttype
   members:
     index:
       no_results_title_text: Er zijn momenteel geen leden onderdeel van dit project.
@@ -171,9 +169,9 @@ nl:
       form_configuration: Formulierconfiguratie
       projects: Projecten
       enabled_projects: Ingeschakelde projecten
-      add_group: Add attribute group
-      add_subelements: Add subelements group
-      edit_query: Edit embedded query
+      add_group: Toevoegen van nieuwe attribuutgroepen
+      add_subelements: Subelementen groep toevoegen
+      edit_query: Bewerken van ingesloten zoekopdracht
       reset: Standaardinstellingen herstellen
   versions:
     overview:
@@ -187,7 +185,12 @@ nl:
     index:
       no_results_title_text: Er zijn momenteel geen workflows.
   work_packages:
+    x_descendants:
+      one: One descendant work package
+      other: "%{count} work package descendants"
     move:
+      no_common_statuses_exists: Er is geen status beschikbaar voor alle geselecteerde
+        werkpakketten. Hun status kan niet worden gewijzigd.
       unsupported_for_multiple_projects: Bulk verplaatsen/kopiëren wordt niet ondersteund
         voor werkpakketten uit meerdere projecten
     list_simple:
@@ -197,7 +200,7 @@ nl:
       reported:
         no_results_title_text: Er zijn momenteel geen werkpakketten die ik heb gerapporteerd.
       responsible:
-        no_results_title_text: Er zijn momenteel geen werkpakketten waar ik verantwoordelijk
+        no_results_title_text: Er zijn momenteel geen werkpakketten waar ik aansprakelijk
           voor ben.
       watched:
         no_results_title_text: Er zijn momenteel geen werkpakketten die ik volg.
@@ -305,6 +308,8 @@ nl:
         repository: Repository
       comment:
         commented: Becommentarieerd
+      custom_action:
+        actions: Acties
       custom_field:
         default_value: Standaardwaarde
         editable: Bewerkbaar
@@ -325,6 +330,7 @@ nl:
         expires_at: Verloopt op
         subscriber: Abonnee
         encoded_token: Enterprise ondersteuningstoken
+        active_user_count_restriction: Maximum aantal actieve gebruikers
       relation:
         delay: Vertraging
         from: Werkpakket
@@ -339,9 +345,7 @@ nl:
         identifier: Identifier
         latest_activity_at: Laatste activiteit om
         parent: Subproject van
-        project_type: Projecttype
         queries: Query 's
-        responsible: Verantwoordelijk
         types: Typen
         versions: Versies
         work_packages: Werkpakketten
@@ -363,8 +367,9 @@ nl:
         spent_on: Datum
         type: Type
       type:
-        is_in_roadmap: In de roadmap
-        in_aggregation: In aggregatie
+        attribute_groups: ''
+        is_in_roadmap: Displayed in roadmap by default
+        is_default: Activated for new projects by default
         is_milestone: Is mijlpaal
         color: Kleur
       user:
@@ -377,7 +382,7 @@ nl:
         mail_notification: E-mailnotificaties
         new_password: Nieuw wachtwoord
         password_confirmation: Bevestiging
-        consented_at: Consented at
+        consented_at: Ingestemd op
       user_preference:
         comments_sorting: Toon reacties
         hide_mail: Verberg mijn e-mailadres
@@ -396,12 +401,10 @@ nl:
         redirect_existing_links: Bestaande koppelingen omleiden
       planning_element_type_color:
         hexcode: Hexadecimale code
-      project_type:
-        position: Positie
       work_package:
         begin_insertion: Begin van het invoegen
         begin_deletion: Begin van de verwijdering
-        children: Subelements
+        children: Subelementen
         done_ratio: Voortgang (%)
         end_insertion: Einde van het invoegen
         end_deletion: Einde van de verwijdering
@@ -411,7 +414,6 @@ nl:
         parent_work_package: Bovenliggende
         priority: Prioriteit
         progress: Voortgang (%)
-        responsible: Verantwoordelijk
         spent_hours: Bestede tijd
         spent_time: Bestede tijd
         subproject: Subproject
@@ -421,11 +423,16 @@ nl:
     errors:
       messages:
         accepted: moet geaccepteerd worden.
+        after: moet na %{date} zijn.
+        after_or_equal_to: moet gelijk aan of na %{date} zijn.
+        before: moet voor %{date} zijn.
+        before_or_equal_to: moet voor of gelijk zijn aan %{date}.
         blank: mag niet leeg zijn.
         cant_link_a_work_package_with_a_descendant: Een werkpakket kan niet worden
           gekoppeld aan een van de bijbehorende subtaken.
         circular_dependency: Deze relatie zou een circulaire afhankelijkheid creëren.
         confirmation: komt niet overeen met %{attribute}.
+        could_not_be_copied: kon niet (volledig) worden gekopieerd.
         does_not_exist: bestaat niet.
         empty: mag niet leeg zijn.
         even: moet gelijk zijn.
@@ -433,10 +440,8 @@ nl:
         file_too_large: is te groot (maximum grootte is %{count} Bytes).
         greater_than: moet groter zijn dan %{count}.
         greater_than_or_equal_to: moet groter dan of gelijk zijn aan %{count}.
-        smaller_than_or_equal_to_max_length: moet kleiner zijn dan of even groot zijn
-          als de maximale lengte.
-        greater_than_start_date: moet groter zijn dan startdatum.
         greater_than_or_equal_to_start_date: moet groter of gelijk zijn aan startdatum.
+        greater_than_start_date: moet groter zijn dan startdatum.
         inclusion: is niet ingesteld op één van de toegestane waarden.
         invalid: is ongeldig.
         invalid_url: is geen geldige URL.
@@ -444,22 +449,20 @@ nl:
         less_than_or_equal_to: moet kleiner zijn dan of gelijk aan %{count}.
         not_a_date: is geen geldige datum.
         not_a_datetime: is geen geldige datum tijd.
-        not_an_iso_date: 'is geen geldige datum. Vereist formaat: JJJJ-MM-DD.'
         not_a_number: is geen getal.
+        not_allowed: is ongeldig vanwege ontbrekende machtigingen.
         not_an_integer: is niet een geheel getal.
+        not_an_iso_date: 'is geen geldige datum. Vereist formaat: JJJJ-MM-DD.'
         not_same_project: hoort niet bij hetzelfde project.
         odd: moet oneven zijn.
+        regex_invalid: kon niet worden gevalideerd met de bijbehorende reguliere expressie.
+        smaller_than_or_equal_to_max_length: moet kleiner zijn dan of even groot zijn
+          als de maximale lengte.
         taken: is al in gebruik.
         too_long: is te lang (maximaal %{count} karakters).
         too_short: is te kort (minimum is %{count} karakters).
+        unchangeable: kan niet worden gewijzigd.
         wrong_length: is de verkeerde lengte (dient %{count} karakters te zijn).
-        after: moet na %{date} zijn.
-        after_or_equal_to: moet gelijk aan of na %{date} zijn.
-        before: moet voor %{date} zijn.
-        before_or_equal_to: moet voor of gelijk zijn aan %{date}.
-        could_not_be_copied: kon niet (volledig) worden gekopieerd.
-        regex_invalid: kon niet worden gevalideerd met de bijbehorende reguliere expressie.
-        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: Ten minste één optie moet beschikbaar zijn.
@@ -492,8 +495,7 @@ nl:
             project:
               error_not_found: niet gevonden
             public:
-              error_unauthorized: "-De gebruiker heeft geen toestemming om openbare
-                query's maken."
+              error_unauthorized: "- The user has no permission to create public views."
           group_by_hierarchies_exclusive: is uitsluiten door samenvoeging, '%{group_by}'.
             U kunt beide niet activeren.
           filters:
@@ -534,8 +536,8 @@ nl:
             status_id:
               status_transition_invalid: is ongeldig omdat geen geldige overgang van
                 de oude naar de nieuwe status voor de huidige gebruikersrollen bestaat.
-              status_invalid_in_type: is invalid because the current status does not
-                exist in this type.
+              status_invalid_in_type: is ongeldig omdat de huidige status niet in
+                dit type bestaat.
             priority_id:
               only_active_priorities_allowed: moet actief zijn.
             category:
@@ -547,10 +549,12 @@ nl:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Groepen zonder namen zijn niet toegestaan.
-              duplicate_group: De groep naam %{group} word meer dan één keer gebruikt.
-                Groep namen moeten uniek zijn.
               attribute_unknown: Ongeldig werk pakket attribuut wordt gebruikt.
+              duplicate_group: De groep naam ‘%{group}’ word meer dan één keer gebruikt.
+                Groep namen moeten uniek zijn.
+              query_invalid: 'De ingesloten zoekopdracht ''%{group}'' is ongeldig:
+                %{details}'
+              group_without_name: Groepen zonder namen zijn niet toegestaan.
         user:
           attributes:
             password:
@@ -599,7 +603,6 @@ nl:
         one: Rol
         other: Rol
       type: Type
-      project_type: Projecttype
       user: Gebruiker
       version: Versie
       wiki: Wiki
@@ -652,7 +655,7 @@ nl:
     password: Wachtwoord
     priority: Prioriteit
     project: Project
-    responsible: Verantwoordelijk
+    responsible: Verantwoording afleggen
     role: Rol
     roles: Rollen
     start_date: Startdatum
@@ -723,6 +726,7 @@ nl:
   button_unlock: Ontgrendelen
   button_unwatch: Niet meer volgen
   button_update: Bijwerken
+  button_upgrade: Upgrade
   button_upload: Upload
   button_view: Toon
   button_watch: Volgen
@@ -731,22 +735,24 @@ nl:
   button_configure_menu_entry: Menu-item configureren
   button_delete_menu_entry: Menu-item verwijderen
   consent:
-    checkbox_label: I have noted and do consent to the above.
+    checkbox_label: Ik heb kennis genomen van en stemt in met het bovenstaande.
     failure_message: Toestemming mislukt, kan niet doorgaan.
     title: Gebruikers toestemming
     decline_warning_message: U heeft de toestemming geweigerd en bent uitgelogd.
-    user_has_consented: User has consented to your configured statement at the given
-      time.
-    not_yet_consented: User has not consented yet, will be requested upon next login.
-    contact_mail_instructions: Define the mail address that users can reach a data
-      controller to perform data change or removal requests.
-    contact_your_administrator: Please contact your administrator if you want to have
-      your account deleted.
-    contact_this_mail_address: Please contact %{mail_address} if you want to have
-      your account deleted.
-    text_update_consent_time: Check this box to force users to consent again. Enable
-      when you have changed the legal aspect of the consent information above.
-    update_consent_last_time: 'Last update of consent: %{update_time}'
+    user_has_consented: Gebruiker heeft ingestemd met de geconfigureerde instructie
+      op het gegeven moment.
+    not_yet_consented: Gebruiker nog niet heeft toegestemd en zal worden herinnert
+      bij de volgende login.
+    contact_mail_instructions: Definieer het mail-adres waar gebruikers een gegevensbeheerder
+      op kunnen bereiken voor verzoeken om gegevens te wijzigen of te verwijderen.
+    contact_your_administrator: Neem contact op met uw beheerder als u wilt dat uw
+      account wordt verwijderd.
+    contact_this_mail_address: Neem contact op met %{mail_address} als u wilt dat
+      uw account wordt verwijderd.
+    text_update_consent_time: Schakel dit selectievakje in als u wilt afdwingen dat
+      gebruikers opnieuw toestemmen. Schakel deze in als u het juridische aspect van
+      de toestemming van bovenstaande informatie hebt gewijzigd.
+    update_consent_last_time: 'Laatste update van toestemming: %{update_time}'
   copy_project:
     started: Begonnen met project "%{source_project_name}" te kopiëren naar "%{target_project_name}".
       U wordt zo spoedig mogelijk per email op de hoogte gesteld wanneer "%{target_project_name}"
@@ -892,11 +898,6 @@ nl:
   default_priority_normal: Normaal
   default_priority_high: Hoog
   default_priority_immediate: Onmiddellijk
-  default_project_type_scrum: Scrum team
-  default_project_type_standard: Standaard project
-  default_reported_project_status_green: Groen
-  default_reported_project_status_amber: Amber
-  default_reported_project_status_red: Rood
   default_role_anonymous: Anoniem
   default_role_developer: Ontwikkelaar
   default_role_project_admin: Project admin
@@ -964,7 +965,8 @@ nl:
   enumeration_reported_project_statuses: Gerapporteerde projectstatus
   error_auth_source_sso_failed: Single Sign-On (SSO) voor gebruiker '%{value}' is
     mislukt
-  error_can_not_archive_project: Dit project kan niet worden gearchiveerd
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Niet in staat om ingave te verwijderen
   error_can_not_delete_custom_field: Aangepast veld kan niet verwijderd worden
   error_can_not_delete_type: Dit type bevat werkpakketten en kan niet worden verwijderd.
@@ -978,14 +980,18 @@ nl:
   error_cookie_missing: De cookie voor OpenProject ontbreekt. Zorg ervoor dat cookies
     zijn ingeschakeld aangezien deze toepassing anders niet goed zal functioneren.
   error_custom_option_not_found: Optie bestaat niet.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+  error_dependent_work_package: 'Fout in afhankelijke werkpakket #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Uw account kon niet worden geactiveerd (gebruikerslimiet
+    bereikt). Neem contact op met uw beheerder om toegang te krijgen.
   error_failed_to_delete_entry: Fout bij het verwijderen van deze ingave.
+  error_invalid_selected_value: De geselecteerde waarde is ongeldig.
   error_invalid_group_by: 'Kan niet groeperen op: %{value}'
   error_invalid_query_column: 'Ongeldige zoekopdracht kolom: %{value}'
   error_invalid_sort_criterion: 'Kan niet sorteren op kolom: %{value}'
   error_pdf_export_too_many_columns: Te veel kolommen geselecteerd voor het exporteren
     naar PDF. Beperk het aantal kolommen.
+  error_pdf_failed_to_export: De pdf export kan niet worden opgeslagen:%{error}
   error_token_authenticity: Niet mogelijk om Cross-Site Request Forgery-token te verifiëren.
   error_work_package_done_ratios_not_updated: Werkpakket gedaan ratio's niet bijgewerkt.
   error_work_package_not_found_in_project: Het werkpakket werd niet gevonden of maakt
@@ -1036,6 +1042,8 @@ nl:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF met beschrijvingen
+      pdf_with_descriptions_and_attachments: PDF met beschrijvingen en bijlagen
+      pdf_with_attachments: PDF met bijlagen
   extraction:
     available:
       pdftotext: Pdftotext beschikbaar (optioneel)
@@ -1059,6 +1067,7 @@ nl:
   homescreen:
     additional:
       projects: Nieuwste zichtbare projecten in deze instantie.
+      no_visible_projects: Er zijn geen zichtbare projecten binnen deze instantie.
       users: Nieuwste geregistreerde gebruikers in deze instantie.
     blocks:
       community: OpenProject gemeenschap
@@ -1124,7 +1133,7 @@ nl:
   label_all: alle
   label_all_time: aller tijden
   label_all_words: Alle woorden
-  label_all_open_wps: All open
+  label_all_open_wps: Alles open
   label_always_visible: Altijd weergegeven
   label_announcement: Mededeling
   label_and_its_subprojects: "%{value} en zijn subprojecten"
@@ -1188,7 +1197,7 @@ nl:
   label_close_versions: Voltooide versies sluiten
   label_closed_work_packages: gesloten
   label_collapse: Samenvouwen
-  label_collapsed_click_to_show: Collapsed. Click to show
+  label_collapsed_click_to_show: Samengevouwen. Klik om te tonen
   label_configuration: configuratie
   label_comment_add: Een opmerking toevoegen
   label_comment_added: Opmerking toegevoegd
@@ -1246,7 +1255,6 @@ nl:
   label_edit: Wijzig
   label_enable_multi_select: Omschakelen multiselect
   label_enabled_project_custom_fields: Ingeschakelde aangepaste velden
-  label_enabled_project_types: Ingeschakelde typen
   label_enabled_project_modules: Ingeschakelde modules
   label_enabled_project_activities: Ingeschakelde activiteiten voor tijdregistratie
   label_end_to_end: einde tot einde
@@ -1255,14 +1263,14 @@ nl:
   label_enumeration_value: Opsommingswaarde
   label_enumerations: Opsommingen
   label_enterprise: Enterprise
+  label_enterprise_active_users: "%{current}/%{limit} gereserveerd actieve gebruikers"
   label_enterprise_edition: Enterprise Edition
-  label_entry_page: Entry page
   label_environment: Omgeving
   label_estimates_and_time: Schattingen en tijden
   label_equals: is
   label_example: Voorbeeld
   label_export_to: 'Ook verkrijgbaar in:'
-  label_expanded_click_to_collapse: Expanded. Click to collapse
+  label_expanded_click_to_collapse: Uitgebreid. Klik op samenvouwen
   label_f_hour: "%{value} uur"
   label_f_hour_plural: "%{value} uren"
   label_feed_plural: Feeds
@@ -1280,6 +1288,8 @@ nl:
   label_force_user_language_to_default: Taal van gebruikers met een niet toegestane
     taal op standaard instellen
   label_form_configuration: Formulierconfiguratie
+  label_gantt: Gantt
+  label_gantt_chart: Gantt-grafiek
   label_general: Algemeen
   label_generate_key: Genereren van een sleutel
   label_git_path: Pad naar .git map
@@ -1292,7 +1302,7 @@ nl:
   label_here: hier
   label_hide: Verbergen
   label_history: Geschiedenis
-  label_hierarchy_leaf: Hierarchy leaf
+  label_hierarchy_leaf: Hiërarchie blad
   label_home: Home
   label_in: in
   label_in_less_than: in minder dan
@@ -1306,7 +1316,7 @@ nl:
   label_information_plural: Informatie
   label_integer: Integer
   label_internal: Intern
-  label_introduction_video: Introduction video
+  label_introduction_video: Introductie video
   label_invite_user: Gebruiker uitnodigen
   label_show_hide: Weergeven/verbergen
   label_show_all_registered_users: Toon alle geregistreerde gebruikers
@@ -1383,6 +1393,7 @@ nl:
   label_next_week: Volgende week
   label_no_change_option: "(Niet wijzigen)"
   label_no_data: Geen gegevens om weer te geven
+  label_no_parent_page: Geen bovenliggende pagina
   label_nothing_display: Niets om weer te geven
   label_nobody: niemand
   label_none: geen
@@ -1401,6 +1412,7 @@ nl:
   label_overall_activity: Totale activiteit
   label_overall_spent_time: Totale verbruikte tijd
   label_overview: Overzicht
+  label_page_title: Pagina titel
   label_part_of: onderdeel van
   label_password_lost: Wachtwoord vergeten
   label_password_rule_lowercase: Kleine letters
@@ -1538,7 +1550,6 @@ nl:
   label_total: Totaal
   label_type_new: Nieuw type
   label_type_plural: Typen
-  label_type_default_new_projects: Type standaard ingeschakeld voor nieuwe projecten
   label_ui: Gebruiksinterface
   label_update_work_package_done_ratios: Werk pakket gedaan ratio's bijwerken
   label_updated_time: Bijgewerkt %{value} geleden
@@ -1569,7 +1580,7 @@ nl:
   label_version_sharing_none: Niet gedeeld
   label_version_sharing_system: Met alle projecten
   label_version_sharing_tree: Met projectstructuur
-  label_videos: Videos
+  label_videos: Video 's
   label_view_all_revisions: Alle herzieningen bekijken
   label_view_diff: Bekijk verschillen
   label_view_revisions: Bekijk revisies
@@ -1680,6 +1691,16 @@ nl:
   macro_execution_error: Fout bij het uitvoeren van de macro %{macro_name}
   macro_unavailable: Macro %{macro_name} kan niet worden weergegeven.
   macros:
+    placeholder: "[Placeholder] macro %{macro_name}"
+    errors:
+      missing_or_invalid_parameter: Ontbrekende of ongeldige parameter van de macro.
+    legacy_warning:
+      timeline: Deze oudere tijdlijn macro is verwijderd en is niet langer beschikbaar.
+        U kunt de functionaliteit vervangen door een ingesloten tabel macro.
+    include_wiki_page:
+      errors:
+        page_not_found: Kan de wiki-pagina '%{name} ' niet vinden.
+        circular_inclusion: Er zijn circulaire opnemingen van pagina's gedetecteerd.
     create_work_package_link:
       errors:
         no_project_context: Create_work_package_link macro aanroepen buitenom de project
@@ -1709,6 +1730,17 @@ nl:
     dagen"
   mail_subject_wiki_content_added: "'%{id}' wikipagina is toegevoegd"
   mail_subject_wiki_content_updated: "'%{id}' wikipagina is bijgewerkt"
+  mail_user_activation_limit_reached:
+    subject: Activering gebruikerslimiet bereikt
+    message: 'Een nieuwe gebruiker (%{email}) heeft geprobeerd om een account in een
+      OpenProject omgeving dat u beheerd (%{host}) te maken. De gebruiker kan het
+      account niet activeren omdat het maximum aantal gebruikers is bereikt.
+
+'
+    steps:
+      label: 'Als u wilt dat de gebruiker ja inloggen kunt in u: '
+      a: Upgrade uw abbonement ([here](upgrade_url))
+      b: Vergrendelen of verwijderen van een bestaande gebruiker ([here](users_url))
   more_actions: Meer functies
   noscript_description: U moet JavaScript activeren om OpenProject te kunnen gebruiken!
   noscript_heading: JavaScript uitgeschakeld
@@ -1827,6 +1859,7 @@ nl:
       team samenwerking met OpenProject.
     text_show_again: U kunt deze video van het helpmenu opnieuw starten
     welcome: Welkom bij OpenProject
+    select_language: Selecteer uw taal voor OpenProject
   permission_add_work_package_notes: Notities toevoegen
   permission_add_work_packages: Werkpakketten toevoegen
   permission_add_messages: Berichten posten
@@ -1868,7 +1901,7 @@ nl:
   permission_manage_members: Beheer gebruikers
   permission_manage_news: Beheren van nieuws
   permission_manage_project_activities: Projectactiviteiten beheren
-  permission_manage_public_queries: Openbare query's beheren
+  permission_manage_public_queries: Manage public views
   permission_manage_repository: Repository beheren
   permission_manage_subtasks: Beheren van subtaken
   permission_manage_versions: Versies beheren
@@ -1877,7 +1910,7 @@ nl:
   permission_move_work_packages: Werkpakketten verplaatsen
   permission_protect_wiki_pages: Wiki-pagina's beveiligen
   permission_rename_wiki_pages: Wiki-pagina's wijzigen
-  permission_save_queries: Query's opslaan
+  permission_save_queries: Save views
   permission_select_project_modules: Selecteer project modules
   permission_manage_types: Selecteer typen
   permission_view_calendar: Weergave agenda
@@ -2078,9 +2111,9 @@ nl:
   setting_smtp_address: SMTP server
   setting_smtp_port: SMTP-port
   setting_smtp_authentication: SMTP-authenticatie
-  setting_smtp_domain: SMTP-Hallo afzender domein
   setting_smtp_user_name: SMTP gebruikersnaam
   setting_smtp_password: SMTP wachtwoord
+  setting_smtp_domain: SMTP-Hallo afzender domein
   setting_activity_days_default: Dagen weergegeven op projectactiviteit
   setting_app_subtitle: Applicatie ondertitel
   setting_app_title: Toepassingsnaam
@@ -2093,19 +2126,18 @@ nl:
     mislukte inlogpogingen
   setting_brute_force_block_minutes: De gebruiker is geblokkeerd voor tijd
   setting_cache_formatted_text: Cache opgemaakte tekst
-  setting_use_wysiwyg: WYSIWYG editor
-  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
-    users by default. CKEditor has limited functionality for GFM Markdown.
+  setting_use_wysiwyg_description: Wilt u CKEditor5 WYSIWYG editor voor alle gebruikers
+    standaard ingeschakeld. CKEditor heeft een beperkte functionaliteit voor GFM Markdown.
   setting_column_options: Het uiterlijk van de werkpakketten lijsten aanpassen
   setting_commit_fix_keywords: Vaststelling van trefwoorden
   setting_commit_logs_encoding: Commit berichten coderen
   setting_commit_logtime_activity_id: Activiteit voor geregistreerde tijd
   setting_commit_logtime_enabled: Tijd-logboekregistratie inschakelen
   setting_commit_ref_keywords: Refererende trefwoorden
-  setting_consent_time: Consent time
-  setting_consent_info: Consent information text
-  setting_consent_required: Consent required
-  setting_consent_decline_mail: Consent contact mail address
+  setting_consent_time: Toestemming tijd
+  setting_consent_info: Toestemming informatie tekst
+  setting_consent_required: Toestemming vereist
+  setting_consent_decline_mail: Toestemming contact e-mailadres
   setting_cross_project_work_package_relations: Sta werkpakketten over meerdere projecten
     toe
   setting_date_format: Datumnotatie
@@ -2183,7 +2215,6 @@ nl:
   setting_sys_api_enabled: Repository beheer web-service inschakelen
   setting_sys_api_description: De repository beheer web-service biedt integratie en
     autorisatie van gebruikers voor toegang tot de archieven.
-  setting_text_formatting: Opmaak van tekst
   setting_time_format: Tijdnotatie
   setting_accessibility_mode_for_anonymous: Toegankelijkheid modus voor anonieme gebruikers
     inschakelen
@@ -2194,7 +2225,6 @@ nl:
   setting_welcome_text: Welkom blok tekst
   setting_welcome_title: Welkom blok titel
   setting_welcome_on_homescreen: Toon het Welkom blok op thuisscherm
-  setting_welcome_on_projects_page: Welkom blok op projectoverzicht weergeven
   setting_wiki_compression: Compressie van wiki geschiedenis
   setting_work_package_group_assignment: Sta toewijzingen een groepen toe
   settings:
@@ -2203,10 +2233,12 @@ nl:
     passwords: Wachtwoorden
     session: Sessie
     brute_force_prevention: Automatische gebruiker blokkering
+    user:
+      default_preferences: Standaardvoorkeuren
+      deletion: Verwijdering
   text_formatting:
-    textile: Textile
     markdown: Markdown
-    plain: Plain text
+    plain: Onopgemaakte tekst
   status_active: actief
   status_archived: gearchiveerd
   status_invited: uitgenodigd
@@ -2299,7 +2331,9 @@ nl:
   text_journal_aggregation_time_explanation: Tijdschriften voor weergave combineren
     als leeftijdsverschil kleiner dan de opgegeven timespan is. Dit zal ook e-mail
     kennisgevingen door de dezelfde hoeveelheid tijd vertragen.
-  text_journal_changed: "%{label} gewijzigd van %{old} </br><strong></strong> %{new}"
+  text_journal_changed: "%{label} gewijzigd van %{old} <br/><strong>naar</strong>
+    %{new}"
+  text_journal_changed_plain: "%{label} gewijzigd van %{old} naar %{new}"
   text_journal_changed_no_detail: "%{label} bijgewerkt"
   text_journal_changed_with_diff: "%{label} gewijzigd (%{link})"
   text_journal_deleted: "%{label} verwijderd (%{old})"
@@ -2352,6 +2386,8 @@ nl:
   text_user_wrote: "%{value} schreef:"
   text_warn_on_leaving_unsaved: Het werkpakket bevat niet-opgeslagen tekst die verloren
     gaat als u deze pagina verlaat.
+  text_what_did_you_change_click_to_add_comment: Wat heb je te veranderen? Klik op
+    Opmerking toevoegen
   text_wiki_destroy_confirmation: Weet u zeker dat u deze wiki en alle inhoud wilt
     verwijderen?
   text_wiki_page_destroy_children: Verwijder alle subpagina's en onderliggende pagina's
@@ -2379,8 +2415,6 @@ nl:
     admin_menu:
       color: Kleur
       colors: Kleuren
-      project_type: Projecttype
-      project_types: Projecttypes
     associations: Afhankelijkheden
     board_could_not_be_saved: Bord kon niet opgeslagen worden
     button_delete_all: Alles verwijderen
@@ -2398,7 +2432,6 @@ nl:
       one: "%{count} dag"
       other: "%{count} dagen"
     edit_color: Bewerk kleur
-    edit_project_type: Projecttype bewerken
     edit_thing: Wijzig
     edit_timeline: Bewerk tijdlijn verslag %{timeline}
     delete_timeline: Verwijder tijdlijn verslag %{timeline}
@@ -2442,7 +2475,6 @@ nl:
         due_date: Einddatum
         name: Naam
         status: Status
-        responsible: Verantwoordelijk
         start_date: Startdatum
       columns: Kolommen
       comparisons: Vergelijkingen
@@ -2486,7 +2518,6 @@ nl:
       project_filters: Filter projecten
       project_responsible: Toon projecten met verantwoordelijk
       project_status: Toon project status
-      project_types: Toon projecttypes
       timeframe: Toon tijdschema
       timeframe_end: naar
       timeframe_start: van
@@ -2496,7 +2527,6 @@ nl:
     new_color: Nieuwe kleur
     new_association: Nieuwe afhankelijkheid
     new_work_package: Nieuw werkpakket
-    new_project_type: Nieuw projecttype
     new_reporting: Nieuwe rapportage
     new_timeline: Nieuw rapport van de tijdlijn
     no_projects_for_reporting_available: Er zijn geen projecten waarnaar een rapportage
@@ -2523,23 +2553,11 @@ nl:
       edit: 'Bewerk status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Bijgewerkt: %{title}'
-    work_packages_are_displayed_in_aggregations: Werkpakketten worden weergegeven
-      in samenvoegingen
-    project_type_could_not_be_saved: Projecttype kan niet worden opgeslagen
     type_could_not_be_saved: Type kan niet worden opgeslagen
     reporting_could_not_be_saved: Rapportage kan niet worden opgeslagen
     properties: Eigenschappen
     really_delete_color: 'Weet u zeker, dat u wilt de volgende kleur verwijderen?
       Typen van deze kleur zullen niet worden verwijderd.
-
-'
-    really_delete_project_type: 'Weet u zeker, dat u de volgende projecttype wilt
-      verwijderen? Projecten van dit type zullen niet worden verwijderd.
-
-'
-    really_delete_timeline: 'Weet u zeker, dat u het volgende rapport van de tijdlijn
-      wilt verwijderen? Werkpakketten die in dit rapport van deze tijdlijn weergegeven
-      worden, worden niet verwijderd.
 
 '
     really_delete_reporting: 'Weet u zeker, dat u de volgende rapportage wilt verwijderen?
@@ -2551,7 +2569,6 @@ nl:
     timelines: Tijdlijn rapporten
     settings: Tijdlijnen
     vertical_work_package: Verticale werkpakketten
-    without_project_type: Zonder projecttype
     you_are_viewing_the_selected_timeline: U bekijkt het geselecteerde tijdlijn Rapport
     zoom:
       in: Inzoomen
@@ -2563,6 +2580,7 @@ nl:
       years: Jaren
   title_remove_and_delete_user: De uitgenodigde gebruiker uit het project verwijderen
     en verwijder hem/haar.
+  title_enterprise_upgrade: Upgrade om meer gebruikers te ontgrendelen.
   tooltip_user_default_timezone: 'De standaardtijdzone voor nieuwe gebruikers. Deze
     kan worden gewijzigd in de instellingen van de gebruiker.
 
@@ -2638,9 +2656,26 @@ nl:
   note_password_login_disabled: Wachtwoord is uitgeschakeld door %{configuration}.
   warning: Waarschuwing
   warning_attachments_not_saved: "%{count} bestanden kunnen niet worden opgeslagen."
+  warning_imminent_user_limit: 'U heeft meer gebruikers uitgenodigd dan wordt ondersteund
+    in uw huidig abbonement. Uitgenodigde gebruikers kunnen mogelijk niet kunnen inloggen
+    in uw OpenProject omgeving. Voer een <a href="%{upgrade_url}">verhoging van het
+    abbonement uit</a> of blokkeer bestaande gebruikers zodat nieuwe gebruikers kunnen
+    inloggen.
+
+'
   warning_registration_token_expired: 'De activatie e-mail is verlopen. Wij sturen
     u een nieuwe activatie e-mail naar %{email} gestuurd. Klik op de link in de activatie
     e-mail om uw account te activeren.
+
+'
+  warning_user_limit_reached: 'Gebruikerslimiet bereikt. U kunt geen gebruikers meer
+    activeren. <a href="%{upgrade_url}">upgrade uw abbonement</a> of blokkeer gebruikers
+    om extra gebruikers toegang te geven.
+
+'
+  warning_user_limit_reached_instructions: 'U bereikt uw gebruikerslimiet (%{current}/%{max}
+    actieve gebruikers). Neem contact op met sales@openproject.com om te upgraden
+    van uw Enterprise Edition-abonnement en extra gebruikers toevoegen.
 
 '
   menu_item: Menu-item

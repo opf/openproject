@@ -47,12 +47,12 @@ begin
 
   namespace :spec do
     desc 'Run core and plugin specs'
-    RSpec::Core::RakeTask.new(all: [:environment, 'assets:prepare_op']) do |t|
+    RSpec::Core::RakeTask.new(all: [:environment]) do |t|
       t.pattern = [Rails.root.join('spec').to_s] + Plugins::LoadPathHelper.spec_load_paths
     end
 
     desc 'Run plugin specs'
-    RSpec::Core::RakeTask.new(plugins: [:environment, 'assets:prepare_op']) do |t|
+    RSpec::Core::RakeTask.new(plugins: [:environment]) do |t|
       t.pattern = Plugins::LoadPathHelper.spec_load_paths
 
       # in case we want to run plugins' specs and there are none

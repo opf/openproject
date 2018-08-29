@@ -44,20 +44,12 @@ describe WikiController, type: :routing do
                                                                 id: 'blubs.blubs')
     end
 
-    it 'should connect GET /projects/:project_id/wiki/:name.txt to wiki/show' do
-      expect(get('/projects/abc/wiki/blubs.txt')).to route_to(controller: 'wiki',
-                                                              action: 'show',
-                                                              project_id: 'abc',
-                                                              id: 'blubs',
-                                                              format: 'txt')
-    end
-
     it 'should connect GET /projects/:project_id/wiki/:name.html to wiki/show' do
-      expect(get('/projects/abc/wiki/blubs.html')).to route_to(controller: 'wiki',
+      expect(get('/projects/abc/wiki/blubs.markdown')).to route_to(controller: 'wiki',
                                                                action: 'show',
                                                                project_id: 'abc',
                                                                id: 'blubs',
-                                                               format: 'html')
+                                                               format: 'markdown')
     end
 
     it 'should connect GET /projects/:project_id/wiki/new to wiki/new' do
@@ -111,12 +103,6 @@ describe WikiController, type: :routing do
                                                               action: 'index',
                                                               project_id: 'abc',
                                                               id: 'blubs')
-    end
-
-    it 'should connect POST /projects/:project_id/wiki/preview to wiki#preview' do
-      expect(post('/projects/abc/wiki/preview')).to route_to(controller: 'wiki',
-                                                             action: 'preview',
-                                                             project_id: 'abc')
     end
   end
 end

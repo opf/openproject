@@ -34,8 +34,6 @@ See docs/COPYRIGHT.rdoc for more details.
 
     <div class="form--field" id="setting_available_languages"><%= setting_multiselect :available_languages, all_lang_options_for_select(false) %></div>
 
-    <div class="form--field" id="setting_default_language"><%= setting_select :default_language, all_lang_options_for_select(false), container_class: '-slim' %></div>
-
     <div class="form--field"><%= setting_select :start_of_week, [[day_name(1),'1'], [day_name(6),'6'], [day_name(7),'7']], blank: :label_language_based, container_class: '-slim' %></div>
 
     <div class="form--field"><%= setting_select :date_format, Setting::DATE_FORMATS.collect {|f| [Date.today.strftime(f), f]}, blank: :label_language_based, container_class: '-slim' %></div>
@@ -43,15 +41,6 @@ See docs/COPYRIGHT.rdoc for more details.
     <div class="form--field"><%= setting_select :time_format, Setting::TIME_FORMATS.collect {|f| [Time.now.strftime(f), f]}, blank: :label_language_based, container_class: '-slim' %></div>
 
     <div class="form--field"><%= setting_select :user_format, @options[:user_format], container_class: '-slim' %></div>
-
-    <%=
-      cell(
-        Settings::TimeZoneSettingCell,
-        "user_default_timezone",
-        container_class: "-slim",
-        title: I18n.t("tooltip_user_default_timezone")
-      )
-    %>
 
     <div class="form--field"><%= setting_text_field :journal_aggregation_time_minutes, unit: t(:label_minute_plural), container_class: '-xslim' %>
       <span class="form--field-instructions">

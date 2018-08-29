@@ -4,6 +4,11 @@ cs:
     ajax:
       hide: Skrýt
       loading: Načítání ...
+    attachments:
+      draggable_hint: 'Drag on editor field to inline image or reference attachment.
+        Closed editor fields will be opened while you keep dragging.
+
+'
     autocomplete_select:
       placeholder:
         multi: Přidat "%{name}"
@@ -53,9 +58,57 @@ cs:
     description_select_work_package: 'Vyberte pracovní balíček #%{id}'
     description_selected_columns: Vybrané sloupce
     description_subwork_package: 'Potomek pracovního balíčku #%{id}'
+    editor:
+      preview: Toggle preview mode
+      error_saving_failed: 'Saving the document failed with the following error: %{e}'
+      macro:
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Stránka wiki
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
+        code_block:
+          button: Insert code snippet
+          title: Insert / edit Code snippet
+          language: Formatting language
+          language_hint: Enter the formatting language that will be used for highlighting
+            (if supported).
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
+        toc: Obsah
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
+        wiki_page_include:
+          button: Include content of another wiki page
+          text: "[Placeholder] Included wiki page of"
+          page: Stránka wiki
+          not_set: "(Page not yet set)"
+          hint: |
+            Include the content of another wiki page by specifying its title or slug.
+            You can include the wiki page of another project by separating them with a colon like the following example.
+        work_package_button:
+          button: Insert create work package button
+          type: Work package type
+          button_style: Use button style
+          button_style_hint: 'Optional: Check to make macro appear as a button, not
+            as a link.'
+          without_type: Create work package
+          with_type: 'Create work package (Type: %{typename})'
+        embedded_table:
+          button: Vložit tabulku pracovního balíčku
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: Došlo k vnitřní chybě.
-      query_saving: Dotaz nelze uložit.
+      cannot_save_changes_with_message: 'Nelze uložit změny kvůli následující chybě:
+        %{error}'
+      query_saving: The view could not be saved.
+      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
     filter:
       description:
         text_open_filter: Otevřete tento filtr "ALT" a šipkami.
@@ -121,6 +174,7 @@ cs:
     label_expand: Rozbalit
     label_expanded: expanded
     label_expand_all: Rozbalit vše
+    label_expand_project_menu: Rozbalit nabídku projektu
     label_export: Export
     label_filename: Soubor
     label_filesize: Velikost
@@ -128,10 +182,11 @@ cs:
     label_group_by: Seskupit podle
     label_hide_attributes: Zobrazit méně
     label_hide_column: Skrýt sloupec
+    label_hide_project_menu: Sbalit nabídku projektu
     label_in: v
     label_in_less_than: za méně než
     label_in_more_than: za více než
-    label_latest_activity: Poslední aktivita
+    label_latest_activity: Latest activity
     label_last_updated_on: Naposled aktualizováno
     label_less_or_equal: "<="
     label_less_than_ago: před méně jak (dny)
@@ -163,12 +218,15 @@ cs:
     label_select_watcher: Zvolte sledujícího...
     label_selected_filter_list: Vybrané filtry
     label_show_attributes: Show all attributes
-    label_show_in_menu: Zobrazit stránku v menu
+    label_show_in_menu: Zobrazit pohled v menu
     label_sort_by: Seřadit podle
     label_sorted_by: řazeno podle
     label_sort_higher: Move up
     label_sort_lower: Move down
     label_sorting: Řazení
+    label_star_query: Favored
+    label_press_enter_to_save: Press enter to save.
+    label_public_query: Veřejné
     label_sum_for: Součet pro
     label_subject: Předmět
     label_this_week: tento týden
@@ -177,7 +235,6 @@ cs:
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% Total progress"
-    label_visible_for_others: Stránka viditelná pro ostatní
     label_updated_on: aktualizováno
     label_warning: Varování
     label_work_package: Pracovní balíček
@@ -191,8 +248,10 @@ cs:
     label_unwatch: Přestat sledovat
     label_unwatch_work_package: Přestat sledovat pracovní balíček
     label_uploaded_by: Nahrál
-    label_global_queries: Sdílené dotazy
-    label_custom_queries: Sourkomé dotazy
+    label_default_queries: Default views
+    label_starred_queries: Favorite views
+    label_global_queries: Public views
+    label_custom_queries: Private views
     label_columns: Sloupce
     label_attachments: Soubory
     label_drop_files: Sem přetáhněte soubory
@@ -204,7 +263,9 @@ cs:
     label_remove_watcher: Remove watcher %{name}
     label_remove_all_files: Odstranit všechny soubory
     label_add_description: Add a description for %{file}
-    label_upload_notification: 'Uploading files for Work package #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Uploading files for Work package #%{id}:
+      %{subject}'
     label_files_to_upload: 'These files will be uploaded:'
     label_rejected_files: 'These files cannot be uploaded:'
     label_rejected_files_reason: These files cannot be uploaded as their size is greater
@@ -243,8 +304,8 @@ cs:
           být jedinečná.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group, unset the visibility
-          checkboxes, and disable ALL custom fields.
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Upgrade to Enterprise Edition
@@ -318,7 +379,6 @@ cs:
         zero: You cannot select any items
         few: You can only select {{limit}} items
         many: You can only select {{limit}} items
-    show_hide_project_menu: Rozbalit/sbalit nabídku projektu
     project_menu_details: Podrobnosti
     sort:
       sorted_asc: 'Ascending sort applied, '
@@ -331,7 +391,7 @@ cs:
     text_work_packages_destroy_confirmation: Are you sure you want to delete the selected
       work package(s)?
     text_query_destroy_confirmation: Are you sure you want to delete the selected
-      query?
+      view?
     text_attachment_destroy_confirmation: Are you sure you want to delete the attachment?
     timelines:
       gantt_chart: Gantt chart
@@ -347,8 +407,8 @@ cs:
           its date labels will be shown instead of these attributes.
 
 '
-      button_activate: Activate timeline mode
-      button_deactivate: Deactivate timeline mode
+      button_activate: Show Gantt chart
+      button_deactivate: Hide Gantt chart
       cancel: Zrušit
       change: Změna v plánování
       due_date: Uzavřít do
@@ -364,14 +424,6 @@ cs:
         report_timeout: The timeline could not be loaded in a reasonable amount of
           time.
       filter:
-        column:
-          assigned_to: Řešitel
-          type: Typ
-          due_date: Datum ukončení
-          name: Jméno
-          status: Stav
-          responsible: Zodpovědný
-          start_date: Datum zahájení
         grouping_other: Ostatní
         noneSelection: "(žádný)"
       name: Jméno
@@ -385,7 +437,6 @@ cs:
         level5: Expand level 5
         all: Zobrazit vše
       project_status: Stav projektu
-      project_type: Typ projektu
       really_close_dialog: Opravdu chcete zavřít dialogové okno a ztratit zadaná data?
       responsible: Zodpovědný
       save: Uložit
@@ -404,6 +455,10 @@ cs:
         quarters: Čtvrtletí
         years: Roky
         slider: Zoom slider
+        description: 'Select the initial zoom level that should be shown when autozoom
+          is not available.
+
+'
     tl_toolbar:
       zooms: Zoom level
       outlines: Hierarchy level
@@ -491,7 +546,7 @@ cs:
           filtered children
       faulty_query:
         title: Pracovní balíčky nelze načíst.
-        description: Váš dotaz je chybný a nelze jej zpracovat.
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: Žádné pracovní balíčky k zobrazení.
         description: Either none have been created or all work packages are filtered
@@ -523,6 +578,13 @@ cs:
         updatedAt: Aktualizováno
         versionName: Verze
         version: Verze
+      default_queries:
+        latest_activity: Latest activity
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: Všechny otevřené
+        summary: Souhrn
       jump_marks:
         pagination: Jump to table pagination
         label_pagination: Click here to skip over the work packages table and go to
@@ -548,10 +610,15 @@ cs:
         insert_columns: Insert columns ...
         filters: Filtry
         display_sums: Zobrazit součty
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
         errors:
-          unretrievable_query: Unable to retrieve query from URL
-          not_found: Neexistuje žádný takový dotaz
-        text_no_results: No matching queries were found.
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
       table:
         configure_button: Konfigurovat tabulku pracovních balíčků
         summary: Table with rows of work package and columns of work package attributes.
@@ -564,8 +631,8 @@ cs:
       table_configuration:
         button: Konfigurovat tabulku tohoto pracovního balíčku
         modal_title: Konfigurace tabulky pracovních balíčků
-        embedded_tab_disabled: Tato karta konfigurace není k dispozici pro vložený
-          dotaz, který upravujete.
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          view you're editing.
         display_settings: Zobrazit nastavení
         grouped_mode: Režim seskupení
         grouped_hint: Výsledky budou seskupeny podle daného atributu.
@@ -577,6 +644,8 @@ cs:
           tabulkou výsledků.
         show_timeline_hint: Zobrazit interaktivní Ganttův graf na pravé straně tabulky.
           Šířku můžete změnit přetažením dělící příčky mezi tabulkou a Ganttovým diagramem.
+        columns_help_text: Použijte vstup výše pro přidání nebo odebrání sloupců do
+          tabulkového pohledu. Přetažením sloupců změníte jejich pořadí.
       tabs:
         overview: Přehled
         activity: Aktivita
@@ -589,6 +658,7 @@ cs:
         months: mesice
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Columns ...
         sort_by: Sort by ...
         group_by: Group by ...
@@ -599,15 +669,16 @@ cs:
         save: Uložit
         save_as: Uložit jako...
         export: Exportovat ...
-        publish: Publish ...
-        page_settings: Rename query ...
+        visibility_settings: Visibility settings ...
+        page_settings: Rename view ...
         delete: Odstranit
       filter: Filtr
       unselected_title: Pracovní balíček
-      search_query_label: Search saved filter queries
-      search_query_title: Click to search saved filter queries
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
     modals:
-      label_settings: Rename query
+      label_settings: Rename view
       label_name: Jméno
       label_delete_page: Delete current page
       button_apply: Použít
@@ -623,7 +694,8 @@ cs:
         title: Confirm deletion of %{label}
         text: Opravdu chcete odstranit %{label}?
         has_children: 'The work package has %{childUnits}:'
-        deletes_children: All child work packages will also be deleted.
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: Úspěšné vytvoření.
     notice_successful_delete: Úspěšné odstranění.
     notice_successful_update: Úspěšná aktualizace.
@@ -650,6 +722,9 @@ cs:
         messages_on_field: 'This field is invalid: %{messages}'
     error_could_not_resolve_version_name: Couldn't resolve version name
     error_could_not_resolve_user_name: Couldn't resolve user name
+    error_attachment_upload: 'Nepodařilo se uložit soubor "%{name}": %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: pracovní balíček

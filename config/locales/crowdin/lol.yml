@@ -3,7 +3,7 @@ lol:
   no_results_title_text: crwdns96368:0crwdne96368:0
   activities:
     index:
-      no_results_title_text: crwdns96369:0crwdne96369:0
+      no_results_title_text: crwdns99113:0crwdne99113:0
   admin:
     plugins:
       no_results_title_text: crwdns96370:0crwdne96370:0
@@ -71,6 +71,8 @@ lol:
     tab:
       no_results_title_text: crwdns96408:0crwdne96408:0
       no_results_content_text: crwdns96409:0crwdne96409:0
+  concatenation:
+    single: crwdns99119:0crwdne99119:0
   deprecations:
     old_timeline:
       replacement: crwdns96410:0crwdne96410:0
@@ -112,10 +114,6 @@ lol:
       versions:
         no_results_title_text: crwdns96431:0crwdne96431:0
         no_results_content_text: crwdns96432:0crwdne96432:0
-  project_types:
-    index:
-      no_results_title_text: crwdns96433:0crwdne96433:0
-      no_results_content_text: crwdns96434:0crwdne96434:0
   members:
     index:
       no_results_title_text: crwdns96435:0crwdne96435:0
@@ -167,7 +165,11 @@ lol:
     index:
       no_results_title_text: crwdns96460:0crwdne96460:0
   work_packages:
+    x_descendants:
+      one: crwdns99125:1crwdne99125:1
+      other: crwdns99125:5%{count}crwdne99125:5
     move:
+      no_common_statuses_exists: crwdns99037:0crwdne99037:0
       unsupported_for_multiple_projects: crwdns96461:0crwdne96461:0
     list_simple:
       assigned:
@@ -175,7 +177,7 @@ lol:
       reported:
         no_results_title_text: crwdns96463:0crwdne96463:0
       responsible:
-        no_results_title_text: crwdns96464:0crwdne96464:0
+        no_results_title_text: crwdns99072:0crwdne99072:0
       watched:
         no_results_title_text: crwdns96465:0crwdne96465:0
     summary:
@@ -211,8 +213,8 @@ lol:
         other: crwdns96482:0crwdne96482:0
         self: crwdns96483:0crwdne96483:0
       login_verification:
-        other: crwdns96484:0%{name}crwdne96484:0
-        self: crwdns96485:0%{name}crwdne96485:0
+        other: crwdns98986:0%{name}crwdne98986:0
+        self: crwdns98987:0%{name}crwdne98987:0
     error_inactive_activation_by_mail: 'crwdns96486:0crwdne96486:0
 
 '
@@ -255,6 +257,8 @@ lol:
         repository: crwdns96510:0crwdne96510:0
       comment:
         commented: crwdns96511:0crwdne96511:0
+      custom_action:
+        actions: crwdns99126:0crwdne99126:0
       custom_field:
         default_value: crwdns96512:0crwdne96512:0
         editable: crwdns96513:0crwdne96513:0
@@ -275,6 +279,7 @@ lol:
         expires_at: crwdns96526:0crwdne96526:0
         subscriber: crwdns96527:0crwdne96527:0
         encoded_token: crwdns96528:0crwdne96528:0
+        active_user_count_restriction: crwdns98980:0crwdne98980:0
       relation:
         delay: crwdns96529:0crwdne96529:0
         from: crwdns96530:0crwdne96530:0
@@ -289,9 +294,7 @@ lol:
         identifier: crwdns96535:0crwdne96535:0
         latest_activity_at: crwdns96536:0crwdne96536:0
         parent: crwdns96537:0crwdne96537:0
-        project_type: crwdns96538:0crwdne96538:0
         queries: crwdns96539:0crwdne96539:0
-        responsible: crwdns96540:0crwdne96540:0
         types: crwdns96541:0crwdne96541:0
         versions: crwdns96542:0crwdne96542:0
         work_packages: crwdns96543:0crwdne96543:0
@@ -312,8 +315,9 @@ lol:
         spent_on: crwdns96554:0crwdne96554:0
         type: crwdns96555:0crwdne96555:0
       type:
-        is_in_roadmap: crwdns96556:0crwdne96556:0
-        in_aggregation: crwdns96557:0crwdne96557:0
+        attribute_groups: crwdns99049:0crwdne99049:0
+        is_in_roadmap: crwdns99131:0crwdne99131:0
+        is_default: crwdns99132:0crwdne99132:0
         is_milestone: crwdns96558:0crwdne96558:0
         color: crwdns96559:0crwdne96559:0
       user:
@@ -344,8 +348,6 @@ lol:
         redirect_existing_links: crwdns96580:0crwdne96580:0
       planning_element_type_color:
         hexcode: crwdns96581:0crwdne96581:0
-      project_type:
-        position: crwdns96582:0crwdne96582:0
       work_package:
         begin_insertion: crwdns96583:0crwdne96583:0
         begin_deletion: crwdns96584:0crwdne96584:0
@@ -359,7 +361,6 @@ lol:
         parent_work_package: crwdns96591:0crwdne96591:0
         priority: crwdns96592:0crwdne96592:0
         progress: crwdns96593:0crwdne96593:0
-        responsible: crwdns96594:0crwdne96594:0
         spent_hours: crwdns96595:0crwdne96595:0
         spent_time: crwdns96596:0crwdne96596:0
         subproject: crwdns96597:0crwdne96597:0
@@ -369,10 +370,15 @@ lol:
     errors:
       messages:
         accepted: crwdns96601:0crwdne96601:0
+        after: crwdns96632:0%{date}crwdne96632:0
+        after_or_equal_to: crwdns96633:0%{date}crwdne96633:0
+        before: crwdns96634:0%{date}crwdne96634:0
+        before_or_equal_to: crwdns96635:0%{date}crwdne96635:0
         blank: crwdns96602:0crwdne96602:0
         cant_link_a_work_package_with_a_descendant: crwdns96603:0crwdne96603:0
         circular_dependency: crwdns96604:0crwdne96604:0
         confirmation: crwdns96605:0%{attribute}crwdne96605:0
+        could_not_be_copied: crwdns96636:0crwdne96636:0
         does_not_exist: crwdns96606:0crwdne96606:0
         empty: crwdns96607:0crwdne96607:0
         even: crwdns96608:0crwdne96608:0
@@ -380,9 +386,8 @@ lol:
         file_too_large: crwdns96610:0%{count}crwdne96610:0
         greater_than: crwdns96611:0%{count}crwdne96611:0
         greater_than_or_equal_to: crwdns96612:0%{count}crwdne96612:0
-        smaller_than_or_equal_to_max_length: crwdns96613:0crwdne96613:0
-        greater_than_start_date: crwdns96614:0crwdne96614:0
         greater_than_or_equal_to_start_date: crwdns96615:0crwdne96615:0
+        greater_than_start_date: crwdns96614:0crwdne96614:0
         inclusion: crwdns96616:0crwdne96616:0
         invalid: crwdns96617:0crwdne96617:0
         invalid_url: crwdns96618:0crwdne96618:0
@@ -390,22 +395,19 @@ lol:
         less_than_or_equal_to: crwdns96620:0%{count}crwdne96620:0
         not_a_date: crwdns96621:0crwdne96621:0
         not_a_datetime: crwdns96622:0crwdne96622:0
-        not_an_iso_date: crwdns96623:0crwdne96623:0
         not_a_number: crwdns96624:0crwdne96624:0
+        not_allowed: crwdns99073:0crwdne99073:0
         not_an_integer: crwdns96625:0crwdne96625:0
+        not_an_iso_date: crwdns96623:0crwdne96623:0
         not_same_project: crwdns96626:0crwdne96626:0
         odd: crwdns96627:0crwdne96627:0
+        regex_invalid: crwdns96637:0crwdne96637:0
+        smaller_than_or_equal_to_max_length: crwdns96613:0crwdne96613:0
         taken: crwdns96628:0crwdne96628:0
         too_long: crwdns96629:0%{count}crwdne96629:0
         too_short: crwdns96630:0%{count}crwdne96630:0
-        wrong_length: crwdns96631:0%{count}crwdne96631:0
-        after: crwdns96632:0%{date}crwdne96632:0
-        after_or_equal_to: crwdns96633:0%{date}crwdne96633:0
-        before: crwdns96634:0%{date}crwdne96634:0
-        before_or_equal_to: crwdns96635:0%{date}crwdne96635:0
-        could_not_be_copied: crwdns96636:0crwdne96636:0
-        regex_invalid: crwdns96637:0crwdne96637:0
         unchangeable: crwdns98978:0crwdne98978:0
+        wrong_length: crwdns96631:0%{count}crwdne96631:0
       models:
         custom_field:
           at_least_one_custom_option: crwdns96638:0crwdne96638:0
@@ -433,7 +435,7 @@ lol:
             project:
               error_not_found: crwdns96644:0crwdne96644:0
             public:
-              error_unauthorized: crwdns96645:0crwdne96645:0
+              error_unauthorized: crwdns99120:0crwdne99120:0
           group_by_hierarchies_exclusive: crwdns96646:0%{group_by}crwdne96646:0
           filters:
             custom_fields:
@@ -479,9 +481,10 @@ lol:
         type:
           attributes:
             attribute_groups:
-              group_without_name: crwdns96670:0crwdne96670:0
-              duplicate_group: crwdns96671:0%{group}crwdne96671:0
               attribute_unknown: crwdns96672:0crwdne96672:0
+              duplicate_group: crwdns99050:0%{group}crwdne99050:0
+              query_invalid: crwdns99051:0%{group}crwdnd99051:0%{details}crwdne99051:0
+              group_without_name: crwdns96670:0crwdne96670:0
         user:
           attributes:
             password:
@@ -526,7 +529,6 @@ lol:
         one: crwdns96699:1crwdne96699:1
         other: crwdns96699:5crwdne96699:5
       type: crwdns96700:0crwdne96700:0
-      project_type: crwdns96701:0crwdne96701:0
       user: crwdns96702:0crwdne96702:0
       version: crwdns96703:0crwdne96703:0
       wiki: crwdns96704:0crwdne96704:0
@@ -578,7 +580,7 @@ lol:
     password: crwdns96747:0crwdne96747:0
     priority: crwdns96748:0crwdne96748:0
     project: crwdns96749:0crwdne96749:0
-    responsible: crwdns96750:0crwdne96750:0
+    responsible: crwdns99074:0crwdne99074:0
     role: crwdns96751:0crwdne96751:0
     roles: crwdns96752:0crwdne96752:0
     start_date: crwdns96753:0crwdne96753:0
@@ -649,6 +651,7 @@ lol:
   button_unlock: crwdns96816:0crwdne96816:0
   button_unwatch: crwdns96817:0crwdne96817:0
   button_update: crwdns96818:0crwdne96818:0
+  button_upgrade: crwdns98981:0crwdne98981:0
   button_upload: crwdns96819:0crwdne96819:0
   button_view: crwdns96820:0crwdne96820:0
   button_watch: crwdns96821:0crwdne96821:0
@@ -810,11 +813,6 @@ lol:
   default_priority_normal: crwdns96927:0crwdne96927:0
   default_priority_high: crwdns96928:0crwdne96928:0
   default_priority_immediate: crwdns96929:0crwdne96929:0
-  default_project_type_scrum: crwdns96930:0crwdne96930:0
-  default_project_type_standard: crwdns96931:0crwdne96931:0
-  default_reported_project_status_green: crwdns96932:0crwdne96932:0
-  default_reported_project_status_amber: crwdns96933:0crwdne96933:0
-  default_reported_project_status_red: crwdns96934:0crwdne96934:0
   default_role_anonymous: crwdns96935:0crwdne96935:0
   default_role_developer: crwdns96936:0crwdne96936:0
   default_role_project_admin: crwdns96937:0crwdne96937:0
@@ -876,7 +874,7 @@ lol:
   enumeration_system_activity: crwdns96987:0crwdne96987:0
   enumeration_reported_project_statuses: crwdns96988:0crwdne96988:0
   error_auth_source_sso_failed: crwdns96989:0%{value}crwdne96989:0
-  error_can_not_archive_project: crwdns96990:0crwdne96990:0
+  error_can_not_archive_project: crwdns99127:0crwdne99127:0
   error_can_not_delete_entry: crwdns96991:0crwdne96991:0
   error_can_not_delete_custom_field: crwdns96992:0crwdne96992:0
   error_can_not_delete_type: crwdns96993:0crwdne96993:0
@@ -888,11 +886,14 @@ lol:
   error_cookie_missing: crwdns96999:0crwdne96999:0
   error_custom_option_not_found: crwdns97000:0crwdne97000:0
   error_dependent_work_package: crwdns98962:0%{related_id}crwdnd98962:0%{related_subject}crwdnd98962:0%{error}crwdne98962:0
+  error_enterprise_activation_user_limit: crwdns98982:0crwdne98982:0
   error_failed_to_delete_entry: crwdns97001:0crwdne97001:0
+  error_invalid_selected_value: crwdns99082:0crwdne99082:0
   error_invalid_group_by: crwdns97002:0%{value}crwdne97002:0
   error_invalid_query_column: crwdns97003:0%{value}crwdne97003:0
   error_invalid_sort_criterion: crwdns97004:0%{value}crwdne97004:0
   error_pdf_export_too_many_columns: crwdns97005:0crwdne97005:0
+  error_pdf_failed_to_export: crwdns99041:0%{error}crwdne99041:0
   error_token_authenticity: crwdns97006:0crwdne97006:0
   error_work_package_done_ratios_not_updated: crwdns97007:0crwdne97007:0
   error_work_package_not_found_in_project: crwdns97008:0crwdne97008:0
@@ -932,6 +933,8 @@ lol:
       csv: crwdns97037:0crwdne97037:0
       pdf: crwdns97038:0crwdne97038:0
       pdf_with_descriptions: crwdns97039:0crwdne97039:0
+      pdf_with_descriptions_and_attachments: crwdns99042:0crwdne99042:0
+      pdf_with_attachments: crwdns99043:0crwdne99043:0
   extraction:
     available:
       pdftotext: crwdns98859:0crwdne98859:0
@@ -955,6 +958,7 @@ lol:
   homescreen:
     additional:
       projects: crwdns97052:0crwdne97052:0
+      no_visible_projects: crwdns99116:0crwdne99116:0
       users: crwdns97053:0crwdne97053:0
     blocks:
       community: crwdns97054:0crwdne97054:0
@@ -1135,7 +1139,6 @@ lol:
   label_edit: crwdns97219:0crwdne97219:0
   label_enable_multi_select: crwdns97220:0crwdne97220:0
   label_enabled_project_custom_fields: crwdns97221:0crwdne97221:0
-  label_enabled_project_types: crwdns97222:0crwdne97222:0
   label_enabled_project_modules: crwdns97223:0crwdne97223:0
   label_enabled_project_activities: crwdns97224:0crwdne97224:0
   label_end_to_end: crwdns97225:0crwdne97225:0
@@ -1144,8 +1147,8 @@ lol:
   label_enumeration_value: crwdns97228:0crwdne97228:0
   label_enumerations: crwdns97229:0crwdne97229:0
   label_enterprise: crwdns97230:0crwdne97230:0
+  label_enterprise_active_users: crwdns98983:0%{current}crwdnd98983:0%{limit}crwdne98983:0
   label_enterprise_edition: crwdns97231:0crwdne97231:0
-  label_entry_page: crwdns98942:0crwdne98942:0
   label_environment: crwdns97232:0crwdne97232:0
   label_estimates_and_time: crwdns97233:0crwdne97233:0
   label_equals: crwdns97234:0crwdne97234:0
@@ -1168,6 +1171,8 @@ lol:
   label_follows: crwdns97250:0crwdne97250:0
   label_force_user_language_to_default: crwdns97251:0crwdne97251:0
   label_form_configuration: crwdns97252:0crwdne97252:0
+  label_gantt: crwdns98997:0crwdne98997:0
+  label_gantt_chart: crwdns98998:0crwdne98998:0
   label_general: crwdns97253:0crwdne97253:0
   label_generate_key: crwdns97254:0crwdne97254:0
   label_git_path: crwdns97255:0crwdne97255:0
@@ -1271,6 +1276,7 @@ lol:
   label_next_week: crwdns97350:0crwdne97350:0
   label_no_change_option: crwdns97351:0crwdne97351:0
   label_no_data: crwdns97352:0crwdne97352:0
+  label_no_parent_page: crwdns99002:0crwdne99002:0
   label_nothing_display: crwdns97353:0crwdne97353:0
   label_nobody: crwdns97354:0crwdne97354:0
   label_none: crwdns97355:0crwdne97355:0
@@ -1289,6 +1295,7 @@ lol:
   label_overall_activity: crwdns97367:0crwdne97367:0
   label_overall_spent_time: crwdns97368:0crwdne97368:0
   label_overview: crwdns97369:0crwdne97369:0
+  label_page_title: crwdns99005:0crwdne99005:0
   label_part_of: crwdns97370:0crwdne97370:0
   label_password_lost: crwdns97371:0crwdne97371:0
   label_password_rule_lowercase: crwdns97372:0crwdne97372:0
@@ -1359,7 +1366,7 @@ lol:
   label_repository_plural: crwdns97437:0crwdne97437:0
   label_required: crwdns97438:0crwdne97438:0
   label_requires: crwdns97439:0crwdne97439:0
-  label_responsible_for_work_packages: crwdns97440:0crwdne97440:0
+  label_responsible_for_work_packages: crwdns99075:0crwdne99075:0
   label_result_plural: crwdns97441:0crwdne97441:0
   label_reverse_chronological_order: crwdns97442:0crwdne97442:0
   label_revision: crwdns97443:0crwdne97443:0
@@ -1408,7 +1415,7 @@ lol:
   label_summary: crwdns97486:0crwdne97486:0
   label_system: crwdns97487:0crwdne97487:0
   label_system_storage: crwdns97488:0crwdne97488:0
-  label_table_of_contents: crwdns97489:0crwdne97489:0
+  label_table_of_contents: crwdns99006:0crwdne99006:0
   label_tag: crwdns97490:0crwdne97490:0
   label_text: crwdns97491:0crwdne97491:0
   label_this_month: crwdns97492:0crwdne97492:0
@@ -1423,7 +1430,6 @@ lol:
   label_total: crwdns97501:0crwdne97501:0
   label_type_new: crwdns97502:0crwdne97502:0
   label_type_plural: crwdns97503:0crwdne97503:0
-  label_type_default_new_projects: crwdns97504:0crwdne97504:0
   label_ui: crwdns97505:0crwdne97505:0
   label_update_work_package_done_ratios: crwdns97506:0crwdne97506:0
   label_updated_time: crwdns97507:0%{value}crwdne97507:0
@@ -1493,7 +1499,7 @@ lol:
   label_work_package_view_all: crwdns97570:0crwdne97570:0
   label_work_package_view_all_assigned_to_me: crwdns97571:0crwdne97571:0
   label_work_package_view_all_reported_by_me: crwdns97572:0crwdne97572:0
-  label_work_package_view_all_responsible_for: crwdns97573:0crwdne97573:0
+  label_work_package_view_all_responsible_for: crwdns99076:0crwdne99076:0
   label_work_package_view_all_watched: crwdns97574:0crwdne97574:0
   label_work_package_watchers: crwdns97575:0crwdne97575:0
   label_workflow: crwdns97576:0crwdne97576:0
@@ -1554,6 +1560,15 @@ lol:
   macro_execution_error: crwdns97615:0%{macro_name}crwdne97615:0
   macro_unavailable: crwdns97616:0%{macro_name}crwdne97616:0
   macros:
+    placeholder: crwdns99112:0[Placeholder]crwdnd99112:0%{macro_name}crwdne99112:0
+    errors:
+      missing_or_invalid_parameter: crwdns99015:0crwdne99015:0
+    legacy_warning:
+      timeline: crwdns99012:0crwdne99012:0
+    include_wiki_page:
+      errors:
+        page_not_found: crwdns99016:0%{name}crwdne99016:0
+        circular_inclusion: crwdns99017:0crwdne99017:0
     create_work_package_link:
       errors:
         no_project_context: crwdns97617:0crwdne97617:0
@@ -1576,6 +1591,15 @@ lol:
   mail_subject_reminder: crwdns97633:0%{count}crwdnd97633:0%{days}crwdne97633:0
   mail_subject_wiki_content_added: crwdns97634:0%{id}crwdne97634:0
   mail_subject_wiki_content_updated: crwdns97635:0%{id}crwdne97635:0
+  mail_user_activation_limit_reached:
+    subject: crwdns99029:0crwdne99029:0
+    message: 'crwdns99030:0%{email}crwdnd99030:0%{host}crwdne99030:0
+
+'
+    steps:
+      label: crwdns99031:0crwdne99031:0
+      a: crwdns99032:0[here]crwdne99032:0
+      b: crwdns99033:0[here]crwdne99033:0
   more_actions: crwdns97636:0crwdne97636:0
   noscript_description: crwdns97637:0crwdne97637:0
   noscript_heading: crwdns97638:0crwdne97638:0
@@ -1667,6 +1691,7 @@ lol:
     text_getting_started_description: crwdns97713:0crwdne97713:0
     text_show_again: crwdns97714:0crwdne97714:0
     welcome: crwdns97715:0crwdne97715:0
+    select_language: crwdns99028:0crwdne99028:0
   permission_add_work_package_notes: crwdns97716:0crwdne97716:0
   permission_add_work_packages: crwdns98979:0crwdne98979:0
   permission_add_messages: crwdns97718:0crwdne97718:0
@@ -1707,7 +1732,7 @@ lol:
   permission_manage_members: crwdns97753:0crwdne97753:0
   permission_manage_news: crwdns97754:0crwdne97754:0
   permission_manage_project_activities: crwdns97755:0crwdne97755:0
-  permission_manage_public_queries: crwdns97756:0crwdne97756:0
+  permission_manage_public_queries: crwdns99121:0crwdne99121:0
   permission_manage_repository: crwdns97757:0crwdne97757:0
   permission_manage_subtasks: crwdns97758:0crwdne97758:0
   permission_manage_versions: crwdns97759:0crwdne97759:0
@@ -1716,7 +1741,7 @@ lol:
   permission_move_work_packages: crwdns97762:0crwdne97762:0
   permission_protect_wiki_pages: crwdns97763:0crwdne97763:0
   permission_rename_wiki_pages: crwdns97764:0crwdne97764:0
-  permission_save_queries: crwdns97765:0crwdne97765:0
+  permission_save_queries: crwdns99122:0crwdne99122:0
   permission_select_project_modules: crwdns97766:0crwdne97766:0
   permission_manage_types: crwdns97767:0crwdne97767:0
   permission_view_calendar: crwdns97768:0crwdne97768:0
@@ -1869,9 +1894,9 @@ lol:
   setting_smtp_address: crwdns97894:0crwdne97894:0
   setting_smtp_port: crwdns97895:0crwdne97895:0
   setting_smtp_authentication: crwdns97896:0crwdne97896:0
-  setting_smtp_domain: crwdns97897:0crwdne97897:0
   setting_smtp_user_name: crwdns97898:0crwdne97898:0
   setting_smtp_password: crwdns97899:0crwdne97899:0
+  setting_smtp_domain: crwdns97897:0crwdne97897:0
   setting_activity_days_default: crwdns97900:0crwdne97900:0
   setting_app_subtitle: crwdns97901:0crwdne97901:0
   setting_app_title: crwdns97902:0crwdne97902:0
@@ -1883,7 +1908,6 @@ lol:
   setting_brute_force_block_after_failed_logins: crwdns97908:0crwdne97908:0
   setting_brute_force_block_minutes: crwdns97909:0crwdne97909:0
   setting_cache_formatted_text: crwdns97910:0crwdne97910:0
-  setting_use_wysiwyg: crwdns98895:0crwdne98895:0
   setting_use_wysiwyg_description: crwdns98896:0crwdne98896:0
   setting_column_options: crwdns97911:0crwdne97911:0
   setting_commit_fix_keywords: crwdns97912:0crwdne97912:0
@@ -1958,7 +1982,6 @@ lol:
   setting_start_of_week: crwdns97976:0crwdne97976:0
   setting_sys_api_enabled: crwdns97977:0crwdne97977:0
   setting_sys_api_description: crwdns97978:0crwdne97978:0
-  setting_text_formatting: crwdns97979:0crwdne97979:0
   setting_time_format: crwdns97980:0crwdne97980:0
   setting_accessibility_mode_for_anonymous: crwdns97981:0crwdne97981:0
   setting_user_format: crwdns97982:0crwdne97982:0
@@ -1968,7 +1991,6 @@ lol:
   setting_welcome_text: crwdns97985:0crwdne97985:0
   setting_welcome_title: crwdns97986:0crwdne97986:0
   setting_welcome_on_homescreen: crwdns97987:0crwdne97987:0
-  setting_welcome_on_projects_page: crwdns97988:0crwdne97988:0
   setting_wiki_compression: crwdns97989:0crwdne97989:0
   setting_work_package_group_assignment: crwdns97990:0crwdne97990:0
   settings:
@@ -1977,8 +1999,10 @@ lol:
     passwords: crwdns97993:0crwdne97993:0
     session: crwdns97994:0crwdne97994:0
     brute_force_prevention: crwdns97995:0crwdne97995:0
+    user:
+      default_preferences: crwdns98999:0crwdne98999:0
+      deletion: crwdns99000:0crwdne99000:0
   text_formatting:
-    textile: crwdns98897:0crwdne98897:0
     markdown: crwdns98898:0crwdne98898:0
     plain: crwdns98899:0crwdne98899:0
   status_active: crwdns97997:0crwdne97997:0
@@ -2046,7 +2070,8 @@ lol:
   text_work_packages_ref_in_commit_messages: crwdns98044:0crwdne98044:0
   text_journal_added: crwdns98045:0%{label}crwdnd98045:0%{value}crwdne98045:0
   text_journal_aggregation_time_explanation: crwdns98046:0crwdne98046:0
-  text_journal_changed: crwdns98886:0%{label}crwdnd98886:0%{old}crwdnd98886:0%{new}crwdne98886:0
+  text_journal_changed: crwdns99114:0%{label}crwdnd99114:0%{old}crwdnd99114:0%{new}crwdne99114:0
+  text_journal_changed_plain: crwdns99115:0%{label}crwdnd99115:0%{old}crwdnd99115:0%{new}crwdne99115:0
   text_journal_changed_no_detail: crwdns98048:0%{label}crwdne98048:0
   text_journal_changed_with_diff: crwdns98049:0%{label}crwdnd98049:0%{link}crwdne98049:0
   text_journal_deleted: crwdns98050:0%{label}crwdnd98050:0%{old}crwdne98050:0
@@ -2083,6 +2108,7 @@ lol:
   text_user_invited: crwdns98081:0crwdne98081:0
   text_user_wrote: crwdns98082:0%{value}crwdne98082:0
   text_warn_on_leaving_unsaved: crwdns98083:0crwdne98083:0
+  text_what_did_you_change_click_to_add_comment: crwdns99080:0crwdne99080:0
   text_wiki_destroy_confirmation: crwdns98084:0crwdne98084:0
   text_wiki_page_destroy_children: crwdns98085:0crwdne98085:0
   text_wiki_page_destroy_question: crwdns98086:0%{descendants}crwdne98086:0
@@ -2108,8 +2134,6 @@ lol:
     admin_menu:
       color: crwdns98102:0crwdne98102:0
       colors: crwdns98103:0crwdne98103:0
-      project_type: crwdns98104:0crwdne98104:0
-      project_types: crwdns98105:0crwdne98105:0
     associations: crwdns98109:0crwdne98109:0
     board_could_not_be_saved: crwdns98110:0crwdne98110:0
     button_delete_all: crwdns98111:0crwdne98111:0
@@ -2126,7 +2150,6 @@ lol:
       one: crwdns98121:1crwdne98121:1
       other: crwdns98121:5%{count}crwdne98121:5
     edit_color: crwdns98122:0crwdne98122:0
-    edit_project_type: crwdns98123:0crwdne98123:0
     edit_thing: crwdns98124:0crwdne98124:0
     edit_timeline: crwdns98125:0%{timeline}crwdne98125:0
     delete_timeline: crwdns98126:0%{timeline}crwdne98126:0
@@ -2161,7 +2184,6 @@ lol:
         due_date: crwdns98150:0crwdne98150:0
         name: crwdns98151:0crwdne98151:0
         status: crwdns98152:0crwdne98152:0
-        responsible: crwdns98153:0crwdne98153:0
         start_date: crwdns98154:0crwdne98154:0
       columns: crwdns98155:0crwdne98155:0
       comparisons: crwdns98156:0crwdne98156:0
@@ -2190,7 +2212,7 @@ lol:
       outline: crwdns98177:0crwdne98177:0
       parent: crwdns98178:0crwdne98178:0
       work_package_filters: crwdns98179:0crwdne98179:0
-      work_package_responsible: crwdns98180:0crwdne98180:0
+      work_package_responsible: crwdns99077:0crwdne99077:0
       work_package_assignee: crwdns98181:0crwdne98181:0
       types: crwdns98182:0crwdne98182:0
       status: crwdns98183:0crwdne98183:0
@@ -2201,9 +2223,8 @@ lol:
       project_time_filter_historical: crwdns98188:0%{start_label}crwdnd98188:0%{startdate}crwdnd98188:0%{end_label}crwdnd98188:0%{enddate}crwdne98188:0
       project_time_filter_relative: crwdns98189:0%{start_label}crwdnd98189:0%{startspan}crwdnd98189:0%{startspanunit}crwdnd98189:0%{end_label}crwdnd98189:0%{endspan}crwdnd98189:0%{endspanunit}crwdne98189:0
       project_filters: crwdns98190:0crwdne98190:0
-      project_responsible: crwdns98191:0crwdne98191:0
+      project_responsible: crwdns99078:0crwdne99078:0
       project_status: crwdns98192:0crwdne98192:0
-      project_types: crwdns98193:0crwdne98193:0
       timeframe: crwdns98194:0crwdne98194:0
       timeframe_end: crwdns98195:0crwdne98195:0
       timeframe_start: crwdns98196:0crwdne98196:0
@@ -2213,7 +2234,6 @@ lol:
     new_color: crwdns98200:0crwdne98200:0
     new_association: crwdns98201:0crwdne98201:0
     new_work_package: crwdns98202:0crwdne98202:0
-    new_project_type: crwdns98203:0crwdne98203:0
     new_reporting: crwdns98204:0crwdne98204:0
     new_timeline: crwdns98205:0crwdne98205:0
     no_projects_for_reporting_available: crwdns98206:0crwdne98206:0
@@ -2238,18 +2258,10 @@ lol:
       edit: crwdns98222:0%{comment}crwdne98222:0
       show: crwdns98223:0%{comment}crwdne98223:0
     planning_element_update: crwdns98224:0%{title}crwdne98224:0
-    work_packages_are_displayed_in_aggregations: crwdns98225:0crwdne98225:0
-    project_type_could_not_be_saved: crwdns98226:0crwdne98226:0
     type_could_not_be_saved: crwdns98227:0crwdne98227:0
     reporting_could_not_be_saved: crwdns98228:0crwdne98228:0
     properties: crwdns98229:0crwdne98229:0
     really_delete_color: 'crwdns98230:0crwdne98230:0
-
-'
-    really_delete_project_type: 'crwdns98231:0crwdne98231:0
-
-'
-    really_delete_timeline: 'crwdns98232:0crwdne98232:0
 
 '
     really_delete_reporting: 'crwdns98233:0crwdne98233:0
@@ -2260,7 +2272,6 @@ lol:
     timelines: crwdns98236:0crwdne98236:0
     settings: crwdns98237:0crwdne98237:0
     vertical_work_package: crwdns98238:0crwdne98238:0
-    without_project_type: crwdns98239:0crwdne98239:0
     you_are_viewing_the_selected_timeline: crwdns98240:0crwdne98240:0
     zoom:
       in: crwdns98241:0crwdne98241:0
@@ -2271,6 +2282,7 @@ lol:
       quarters: crwdns98246:0crwdne98246:0
       years: crwdns98247:0crwdne98247:0
   title_remove_and_delete_user: crwdns98248:0crwdne98248:0
+  title_enterprise_upgrade: crwdns98984:0crwdne98984:0
   tooltip_user_default_timezone: 'crwdns98867:0crwdne98867:0
 
 '
@@ -2329,7 +2341,16 @@ lol:
   note_password_login_disabled: crwdns98288:0%{configuration}crwdne98288:0
   warning: crwdns98289:0crwdne98289:0
   warning_attachments_not_saved: crwdns98290:0%{count}crwdne98290:0
+  warning_imminent_user_limit: 'crwdns99034:0%{upgrade_url}crwdne99034:0
+
+'
   warning_registration_token_expired: 'crwdns98856:0%{email}crwdne98856:0
+
+'
+  warning_user_limit_reached: 'crwdns99035:0%{upgrade_url}crwdne99035:0
+
+'
+  warning_user_limit_reached_instructions: 'crwdns99036:0%{current}crwdnd99036:0%{max}crwdne99036:0
 
 '
   menu_item: crwdns98291:0crwdne98291:0

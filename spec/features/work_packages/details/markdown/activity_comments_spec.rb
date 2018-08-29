@@ -3,22 +3,20 @@ require 'spec_helper'
 require 'features/work_packages/shared_contexts'
 require 'features/work_packages/details/inplace_editor/shared_examples'
 
-describe 'activity comments',
-         with_settings: { text_formatting: 'markdown' },
-         js: true do
+describe 'activity comments', js: true do
   let(:project) { FactoryBot.create :project, is_public: true }
-  let!(:work_package) {
+  let!(:work_package) do
     FactoryBot.create(:work_package,
-                       project: project,
-                       journal_notes: initial_comment)
-  }
+                      project: project,
+                      journal_notes: initial_comment)
+  end
   let(:wp_page) { Pages::SplitWorkPackage.new(work_package, project) }
   let(:selector) { '.work-packages--activity--add-comment' }
-  let(:comment_field) {
+  let(:comment_field) do
     WorkPackageEditorField.new wp_page,
                                'comment',
                                selector: selector
-  }
+  end
   let(:initial_comment) { 'the first comment in this WP' }
 
   before do
@@ -94,10 +92,7 @@ describe 'activity comments',
         end
       end
 
-      describe 'autocomplete (at.js/autocompleter does not work (yet) in CKEditor)', skip: true do
-        before do
-        end
-
+      describe 'autocomplete' do
         describe 'work packages' do
           let!(:wp2) { FactoryBot.create(:work_package, project: project, subject: 'AutoFoo') }
           it 'autocompletes the other work package' do
@@ -135,7 +130,6 @@ describe 'activity comments',
           edit = WorkPackageEditorField.new wp_page,
                                             'comment',
                                             selector: '.user-comment--form'
-
 
           # Insert new text, need to do this separately.
           edit.input_element.click

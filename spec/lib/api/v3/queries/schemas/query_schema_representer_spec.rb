@@ -50,7 +50,14 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
     query
   end
 
-  let(:instance) { described_class.new(query, self_link, form_embedded: form_embedded) }
+  let(:instance) { described_class.new(query, self_link, current_user: user, form_embedded: form_embedded) }
+  let(:user) do
+    FactoryBot.build_stubbed(:user).tap do |user|
+      allow(user)
+        .to receive(:allowed_to?)
+        .and_return(false)
+    end
+  end
   let(:form_embedded) { false }
   let(:self_link) { 'bogus_self_path' }
   let(:project) { nil }
@@ -171,11 +178,26 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
           let(:type) { 'Boolean' }
           let(:name) { Query.human_attribute_name('public') }
           let(:required) { false }
-          let(:writable) { true }
+          let(:writable) { false }
           let(:has_default) { true }
         end
 
         it_behaves_like 'has no visibility property'
+
+        context 'when having the :manage_public_queries permission' do
+          before do
+            allow(user)
+              .to receive(:allowed_to?)
+              .with(:manage_public_queries, project, global: project.nil?)
+              .and_return(true)
+          end
+
+          it 'marks public as writable' do
+            expect(subject)
+              .to be_json_eql(true)
+              .at_path('public/writable')
+          end
+        end
       end
 
       describe 'sums' do

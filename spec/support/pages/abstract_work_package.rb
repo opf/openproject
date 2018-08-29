@@ -49,7 +49,7 @@ module Pages
     end
 
     def edit_field(attribute)
-      WorkPackageField.new(container, attribute)
+      work_package_field(attribute)
     end
 
     def custom_edit_field(custom_field)
@@ -103,9 +103,9 @@ module Pages
       attribute_expectations.each do |label_name, value|
         label = label_name.to_s
         if label == 'status'
-          expect(page).to have_selector(".wp-status-button .button", text: value)
+          expect(page).to have_selector(".wp-status-button .button", text: value, wait: 10)
         else
-          expect(page).to have_selector(".wp-edit-field.#{label.camelize(:lower)}", text: value)
+          expect(page).to have_selector(".wp-edit-field.#{label.camelize(:lower)}", text: value, wait: 10)
         end
       end
     end
@@ -185,16 +185,16 @@ module Pages
         cf = CustomField.find $1
 
         if cf.field_format == 'text'
-          WorkPackageEditorField.new page, key
+          WorkPackageEditorField.new container, key
         else
-          WorkPackageField.new page, key
+          WorkPackageField.new container, key
         end
       elsif key == :description
-        WorkPackageEditorField.new page, key
+        WorkPackageEditorField.new container, key
       elsif key == :status
-        WorkPackageStatusField.new page
+        WorkPackageStatusField.new container
       else
-        WorkPackageField.new page, key
+        WorkPackageField.new container, key
       end
     end
 
@@ -214,10 +214,16 @@ module Pages
       page
     end
 
-    def click_custom_action(name)
-      within('.custom-actions') do
+    def click_custom_action(name, expect_success: true)
+      page.within('.custom-actions') do
         click_button(name)
       end
+
+      if expect_success
+        expect_and_dismiss_notification message: 'Successful update'
+        sleep 1
+      end
+
     end
 
     def trigger_edit_mode
@@ -229,14 +235,8 @@ module Pages
     end
 
     def update_comment(comment)
-      add_comment_container.fill_in 'value', with: comment
-    end
-
-    def preview_comment
-      label = I18n.t('js.inplace.btn_preview_enable')
-      add_comment_container
-        .find(:xpath, "//button[@title='#{label}']")
-        .click
+      editor = ::Components::WysiwygEditor.new '.work-packages--activity--add-comment'
+      editor.click_and_type_slowly comment
     end
 
     def save_comment
@@ -269,10 +269,6 @@ module Pages
     def subject_field
       expect(page).to have_selector(@subject_field_selector + ' input', wait: 10)
       find(@subject_field_selector + ' input')
-    end
-
-    def description_field
-      find('.wp-edit-field.description textarea')
     end
 
     private

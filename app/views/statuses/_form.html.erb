@@ -44,8 +44,9 @@ See docs/COPYRIGHT.rdoc for more details.
 
   <%= render partial: '/colors/color_autocomplete_field',
              locals: {
-              object: @status,
-              label: t('statuses.edit.status_color_text')
+               form: f,
+               object: @status,
+               label: t('statuses.edit.status_color_text')
             } %>
 
   <%= call_hook(:view_statuses_form, status: @status) %>

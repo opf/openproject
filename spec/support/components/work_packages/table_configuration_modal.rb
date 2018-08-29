@@ -71,6 +71,10 @@ module Components
         find("#{selector} .button.-highlight").click
       end
 
+      def cancel
+        find("#{selector} .button", text: 'Cancel').click
+      end
+
       def expect_open
         expect(page).to have_selector(selector)
       end

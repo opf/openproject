@@ -52,6 +52,10 @@ class UsersController < ApplicationController
   include Concerns::PasswordConfirmation
   before_action :check_password_confirmation, only: [:destroy]
 
+  include Concerns::UserLimits
+  before_action :enforce_user_limit, only: [:create]
+  before_action -> { enforce_user_limit flash_now: true }, only: [:new]
+
   accept_key_auth :index, :show, :create, :update, :destroy
 
   include SortHelper
@@ -88,7 +92,7 @@ class UsersController < ApplicationController
     end
 
     respond_to do |format|
-      format.html do render layout: 'base' end
+      format.html { render layout: 'no_menu' }
     end
   end
 
@@ -117,7 +121,7 @@ class UsersController < ApplicationController
       @auth_sources = AuthSource.all
 
       respond_to do |format|
-        format.html do render action: 'new' end
+        format.html { render action: 'new' }
       end
     end
   end
@@ -161,7 +165,13 @@ class UsersController < ApplicationController
 
         if @user.invited?
           # setting a password for an invited user activates them implicitly
-          @user.activate!
+          if OpenProject::Enterprise.user_limit_reached?
+            @user.register!
+            show_user_limit_warning!
+          else
+            @user.activate!
+          end
+
           send_information = true
         end
 
@@ -204,6 +214,13 @@ class UsersController < ApplicationController
       redirect_back_or_default(action: 'edit', id: @user)
       return
     end
+
+    if (params[:unlock] || params[:activate]) && user_limit_reached?
+      show_user_limit_error!
+
+      return redirect_back_or_default(action: 'edit', id: @user)
+    end
+
     if params[:unlock]
       @user.failed_login_count = 0
       @user.activate
@@ -287,10 +304,10 @@ class UsersController < ApplicationController
        !User.current.admin?
 
       respond_to do |format|
-        format.html do render_403 end
-        format.xml  do head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' end
-        format.js   do head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' end
-        format.json do head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' end
+        format.html { render_403 }
+        format.xml  { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
+        format.js   { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
+        format.json { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
       end
 
       false
@@ -326,6 +343,6 @@ class UsersController < ApplicationController
   end
 
   def show_local_breadcrumb
-    true
+    current_user.admin?
   end
 end

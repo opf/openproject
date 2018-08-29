@@ -27,6 +27,7 @@
 //++
 
 $toggler-width: 40px
+$menu-item-line-height: 30px
 
 .main-menu
   bottom: auto
@@ -35,7 +36,9 @@ $toggler-width: 40px
   float: left
   overflow-x: hidden
   left: 0
-  border-right: $main-menu-border-width solid $main-menu-border-color
+  border-right-style: solid
+  @include varprop(border-right-width, main-menu-border-width)
+  @include varprop(border-right-color, main-menu-border-color)
 
   // min-height is full height minus header and footer.
   min-height: calc(100vh - 55px)
@@ -44,13 +47,23 @@ $toggler-width: 40px
 
   #menu-sidebar
     height: 100%
-    
+    overflow: auto
+
   %absolute-layout-mode &
     position: relative
 
-    #menu-sidebar
-      +allow-vertical-scrolling
-      -ms-overflow-style: -ms-autohiding-scrollbar
+    // Fixed heights to allow inner scrolling
+    .menu_root,
+    .menu_root > li.open,
+    .main-menu--children > li.partial,
+    wp-query-select,
+    .wp-query-menu--container,
+    .wp-query-menu--search-container
+      height: 100%
+
+    .main-menu--children
+      height: calc(100% - (#{$main-menu-item-height} + 20px))
+
   ul
     margin: 0
     padding: 0
@@ -133,7 +146,7 @@ $arrow-left-width: 40px
       &:hover
         @include varprop(background, main-menu-bg-hover-background)
 
-    &:hover
+    &:hover, &:focus , &:active
       @include varprop(background, main-menu-bg-hover-background)
       @include varprop(color, main-menu-hover-font-color)
 
@@ -176,15 +189,13 @@ $arrow-left-width: 40px
       &.selected, &.selected
         @include varprop(background, main-menu-bg-selected-background)
         @include varprop(color, main-menu-selected-font-color)
-      &:hover
+      &:hover, &:focus , &:active
         @include varprop(color, main-menu-hover-font-color)
-        @include varprop(background, main-menu-child-bg-hover-color)
+        @include varprop(background, main-menu-bg-hover-color)
 
 .main-menu--children-menu-header
-  padding: 10px
-  border-bottom: 1px solid
-  border-bottom: $main-menu-border-width solid $main-menu-border-color
-  height: calc(#{$main-menu-item-height} + (2 * 10px))
+  padding: 10px 10px 0 10px
+  height: calc(#{$main-menu-item-height} + 10px)
 
 .main-menu--arrow-left-to-project
   display: inline-block
@@ -194,15 +205,23 @@ $arrow-left-width: 40px
   padding-left: 14px
   padding-right: 14px
   width: 40px
-  margin-right: 10px
-  &:hover
+  &:hover, &:focus, &:active
     @include varprop(background, main-menu-bg-hover-background)
+    @include varprop(color, main-menu-hover-font-color)
 
-.main-menu--parent-node
+a.main-menu--parent-node
   display: inline-block
+  padding: 0px 11px 0 11px
+  font-size: $main-menu-font-size
+  font-weight: 700
   width: calc(100% - #{$arrow-left-width})
   height: $main-menu-item-height
   line-height: $main-menu-item-height
+  border-radius: 3px
+  @include varprop(color, main-menu-font-color)
+  &:hover, &:focus, &:active
+    @include varprop(background, main-menu-bg-hover-background)
+    @include varprop(color, main-menu-hover-font-color)
 
 // logic for showing either parent or child menu
 .main-menu
@@ -295,6 +314,9 @@ $arrow-left-width: 40px
   &.-hidden
     display: none
 
+  %absolute-layout-mode &
+    display: none
+
 .menu-wiki-pages-tree
   border-top: $main-menu-border-width solid $main-menu-border-color
   padding-top: 7px
@@ -302,10 +324,10 @@ $arrow-left-width: 40px
   padding-right: 7px
 
 .main-menu--segment-header
-  color: $gray-dark
+  @include varprop(color, main-menu-fieldset-header-color)
   text-transform: uppercase
   padding-left: $hierarchy-span-width
-  font-size: 0.8rem
+  font-size: 0.7rem
 
 .main-menu--resizer
   background: none
@@ -327,7 +349,6 @@ $arrow-left-width: 40px
     @include varprop(border-left-color, main-menu-resizer-color)
     .main-menu--navigation-toggler
       opacity: 1
-      font-size: 11px
       i:before
         @include varprop(color, main-menu-navigation-toggler-font-hover-color)
 
@@ -353,7 +374,6 @@ $arrow-left-width: 40px
   margin-top: 50vh
   margin-left: -14px
   padding: 0
-  font-size: 14px
   // Center toggle icon vertically. The element is higher than it looks like.
   line-height: 38px
   i

@@ -15,7 +15,8 @@ RUN apt-get update -qq && \
 		postfix \
 		postgresql \
 		apache2 \
-		supervisor && \
+		supervisor \
+		pandoc && \
 	apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN a2enmod proxy proxy_http && rm -f /etc/apache2/sites-enabled/000-default.conf

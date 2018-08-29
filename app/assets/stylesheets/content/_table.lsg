@@ -107,6 +107,89 @@
 
 ```
 
+## Text overflow / ellipse styles
+
+Use `-no-ellipse` class to a TD element to disable the text-overflow applied usually.
+
+```
+<div class="generic-table--container">
+  <div class="generic-table--results-container" style="max-height: 340px;">
+    <table class="generic-table" interactive-table>
+      <colgroup>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span class="sort asc">
+                  Content wraps in new lines
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span class="sort asc">
+                clipped
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span class="sort desc">
+                  Third
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span class="sort desc">
+                  Fourth
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span class="sort desc">
+                  Fifth
+                </span>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="-no-ellipsis">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus porta lorem congue lacus euismod egestas. Mauris odio orci, semper sed molestie viverra, vestibulum et nisi.
+          </td>
+          <td>Nullam a sem et metus congue placerat. Text will overflow once max-width is exceeded</td>
+          <td>Mauris ut augue viverra, consequat eros eu, maximus quam.</td>
+          <td>Maecenas elementum orci a varius suscipit.</td>
+          <td>Nunc molestie neque sit amet eros semper dapibus.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+```
+
+
 ## with footer
 
 ```

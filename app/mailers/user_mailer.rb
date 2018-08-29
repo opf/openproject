@@ -307,6 +307,19 @@ class UserMailer < BaseMailer
     end
   end
 
+  ##
+  # E-Mail to inform admin about a failed account activation due to the user limit.
+  #
+  # @param [String] user_email E-Mail of user who could not activate their account.
+  # @param [User] admin Admin to be notified of this issue.
+  def activation_limit_reached(user_email, admin)
+    @email = user_email
+
+    with_locale_for(admin) do
+      mail to: admin.mail, subject: t("mail_user_activation_limit_reached.subject")
+    end
+  end
+
   # Activates/deactivates email deliveries during +block+
   def self.with_deliveries(temporary_state = true, &_block)
     old_state = ActionMailer::Base.perform_deliveries

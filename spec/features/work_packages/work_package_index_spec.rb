@@ -31,6 +31,7 @@ require 'spec_helper'
 RSpec.feature 'Work package index view' do
   let(:user) { FactoryBot.create(:admin) }
   let(:project) { FactoryBot.create(:project) }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
   before do
     login_as(user)
@@ -49,7 +50,7 @@ RSpec.feature 'Work package index view' do
 
     expect(current_path).to eql("/projects/#{project.identifier}/work_packages")
     within('#content') do
-      expect(page).to have_content('Work packages')
+      wp_table.expect_title('All open', editable: false)
       expect(page).to have_content('No work packages to display')
     end
   end

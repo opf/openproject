@@ -46,30 +46,34 @@ describe 'OpenProject work package button macros' do
 
   before do
     login_as user
-    allow(Setting).to receive(:text_formatting).and_return('textile')
   end
 
   def error_html(exception_msg)
-    "<p><span class=\"flash error macro-unavailable permanent\"> " \
+    "<p><macro class=\"macro-unavailable\" data-macro-name=\"create_work_package_link\"> " \
           "Error executing the macro create_work_package_link (#{exception_msg}) </span></p>"
   end
 
-  context 'when nothing passed' do
+  context 'old macro syntax no longer works' do
     let(:input) { '{{create_work_package_link}}' }
+    it { is_expected.to be_html_eql("<p>#{input}</p>") }
+  end
+
+  context 'when nothing passed' do
+    let(:input) { '<macro class="create_work_package_link"></macro>' }
     it { is_expected.to be_html_eql("<p><a href=\"/projects/my-project/work_packages/new\">New work package</a></p>") }
   end
 
   context 'with invalid type' do
-    let(:input) { '{{create_work_package_link(InvalidType)}}' }
+    let(:input) { '<macro class="create_work_package_link" data-type="InvalidType"></macro>' }
     it { is_expected.to be_html_eql(error_html("No type found with name 'InvalidType' in project 'My project name'.")) }
   end
 
   context 'with valid type' do
-    let(:input) { '{{create_work_package_link(MyTaskName)}}' }
+    let(:input) { '<macro class="create_work_package_link" data-type="MyTaskName"></macro>' }
     it { is_expected.to be_html_eql("<p><a href=\"/projects/my-project/work_packages/new?type=#{type.id}\">New MyTaskName</a></p>") }
 
     context 'with button style' do
-      let(:input) { '{{create_work_package_link(MyTaskName, button)}}' }
+      let(:input) { '<macro class="create_work_package_link" data-type="MyTaskName" data-classes="button"></macro>' }
       it { is_expected.to be_html_eql("<p><a class=\"button\" href=\"/projects/my-project/work_packages/new?type=#{type.id}\">New MyTaskName</a></p>") }
     end
 

@@ -4,6 +4,11 @@ ru:
     ajax:
       hide: Скрыть
       loading: Загрузка ...
+    attachments:
+      draggable_hint: 'Для встраивания изображения или ссылки перетащите их в поле
+        редактора. Закрытые поля редактора будут открыты, пока вы перетаскиваете.
+
+'
     autocomplete_select:
       placeholder:
         multi: Добавить «%{name}»
@@ -53,9 +58,60 @@ ru:
     description_select_work_package: 'Выберите пакет работ #%{id}'
     description_selected_columns: Выбранные столбцы
     description_subwork_package: 'Потомок пакета работ #%{id}'
+    editor:
+      preview: Переключить режим предпросмотра
+      error_saving_failed: 'Сохранить документ не удалось по следующей ошибке: %{e}'
+      macro:
+        child_pages:
+          button: Ссылки на дочерние страницы
+          include_parent: Включить родителей
+          text: "[Placeholder] Ссылки на дочернюю страницу"
+          page: Wiki-страница
+          this_page: эта страница
+          hint: 'Оставьте это поле пустым, чтобы перечислить все дочерние страницы
+            текущей страницы. Если вы хотите описать другую страницу, предоставьте
+            ее заголовок или иденцифицирующую строку.
+
+'
+        code_block:
+          button: Вставить фрагмент кода
+          title: Вставить / Редактировать фрагмент кода
+          language: Язык форматирования
+          language_hint: Введите язык форматирования, который будет использоваться
+            для выделения (если поддерживается).
+        dropdown:
+          macros: Макрос
+          chose_macro: Выбрать макрос
+        toc: Содержание
+        toolbar_help: Кликните для выбора виджета и показа панели инструментов. Кликните
+          дважды для редактирования виджета
+        wiki_page_include:
+          button: Включить содержание другой вики страницы
+          text: "[Placeholder] включая вики страницы"
+          page: Wiki-страница
+          not_set: "(Страница пока не установлена)"
+          hint: 'Включите содержание другой вики-страницы, указав её название или
+            строку. Вы можете включить вики-страницы из другого проекта, разделив
+            их двоеточием, как в следующем примере.
+
+'
+        work_package_button:
+          button: Вставить кнопку создания пакета работ
+          type: Тип пакета работ
+          button_style: Стиль используемой кнопки
+          button_style_hint: 'Дополнительно: Проверьте, чтобы макрос выглядел как
+            кнопка, а не как ссылка.'
+          without_type: Создать пакет работ
+          with_type: 'Создать пакет работ (Тип: %{typename})'
+        embedded_table:
+          button: Вложить таблицу пакетов работ
+          text: "[Placeholder] Таблица внедренных пакетов работ"
     error:
       internal: Произошла внутренняя ошибка.
-      query_saving: Запрос не может быть сохранен.
+      cannot_save_changes_with_message: 'Не удается сохранить изменения из-за следующей
+        ошибки: %{error}'
+      query_saving: Представление не может быть сохранено.
+      embedded_table_loading: 'Встроенное представление не может быть загружено: %{message}'
     filter:
       description:
         text_open_filter: Откройте этот фильтр с «ALT» и клавишей со стрелкой.
@@ -121,6 +177,7 @@ ru:
     label_expand: Развернуть
     label_expanded: развернуто
     label_expand_all: Развернуть все
+    label_expand_project_menu: Развернуть меню проекта
     label_export: Экспорт
     label_filename: Файл
     label_filesize: Размер
@@ -128,10 +185,11 @@ ru:
     label_group_by: Группировать по
     label_hide_attributes: Показывать меньше
     label_hide_column: Скрыть столбец
+    label_hide_project_menu: Свернуть меню проекта
     label_in: в
     label_in_less_than: менее чем
     label_in_more_than: более чем
-    label_latest_activity: Последняя активность
+    label_latest_activity: Последние действия
     label_last_updated_on: Последний раз обновлено
     label_less_or_equal: "<="
     label_less_than_ago: меньше чем день назад
@@ -163,12 +221,15 @@ ru:
     label_select_watcher: Выберите наблюдателя...
     label_selected_filter_list: Выбранные фильтры
     label_show_attributes: Показать все атрибуты
-    label_show_in_menu: Показать страницу в меню
+    label_show_in_menu: Показать представление в меню
     label_sort_by: Сортировать по
     label_sorted_by: отсортировано по
     label_sort_higher: Переместить вверх
     label_sort_lower: Переместить вниз
     label_sorting: Сортировка
+    label_star_query: Добавлено в избранное
+    label_press_enter_to_save: Нажмите ввод для сохранения.
+    label_public_query: Общий
     label_sum_for: Сумма для
     label_subject: Тема
     label_this_week: на этой неделе
@@ -177,7 +238,6 @@ ru:
     label_activity_show_only_comments: Показать только деятельности с комментариями
     label_activity_show_all: Показать все активности
     label_total_progress: "%{percent}% общего прогресса"
-    label_visible_for_others: Страница видна для других
     label_updated_on: Обновлено
     label_warning: Предупреждение
     label_work_package: Пакет работ
@@ -190,8 +250,10 @@ ru:
     label_unwatch: Прекратить наблюдение
     label_unwatch_work_package: Прекратить наблюдение за пакетом работ
     label_uploaded_by: Загружено
-    label_global_queries: Общие запросы
-    label_custom_queries: Частные запросы
+    label_default_queries: Представления по умолчанию
+    label_starred_queries: Избранные представления
+    label_global_queries: Публичные представления
+    label_custom_queries: Приватные представления
     label_columns: Столбцы
     label_attachments: Файлы
     label_drop_files: Перетащите файлы сюда
@@ -203,7 +265,9 @@ ru:
     label_remove_watcher: Удалить наблюдателя %{name}
     label_remove_all_files: Удалить все файлы
     label_add_description: Добавить описание для %{file}
-    label_upload_notification: 'Загрузка файлов для пакета работ #%{id}: %{subject}'
+    label_upload_notification: Загрузка файлов...
+    label_work_package_upload_notification: 'Загрузка файлов для пакета работ #%{id}:
+      %{subject}'
     label_files_to_upload: 'Эти файлы будут загружены:'
     label_rejected_files: 'Эти файлы не могут быть загружены:'
     label_rejected_files_reason: Эти файлы не могут быть загружены, как их размер
@@ -240,9 +304,8 @@ ru:
         error_duplicate_group_name: Имя %{group} используется более одного раза. Имена
           групп должны быть уникальными.
         reset_title: Сбросить настройки формы
-        confirm_reset: 'Предупреждение: вы действительно хотите сбросить настройки
-          формы? При этом атрибуты получат значения из группы по умолчанию, флажки
-          видимости будут сброшены, а все настраиваемые поля – отключены.
+        confirm_reset: 'Предупреждение: хотите сбросить форму? Это сбросит атрибуты
+          к первоначальным значениям группы и запретит правку настраиваемых полей.
 
 '
         upgrade_to_ee: Обновите до корпоративной версии
@@ -316,7 +379,6 @@ ru:
         zero: You cannot select any items
         few: Вы можете выбрать только {{limit}} элемента
         many: You can only select {{limit}} items
-    show_hide_project_menu: Развернуть или свернуть меню проекта
     project_menu_details: Детали
     sort:
       sorted_asc: 'Применяется сортировка по возрастанию, '
@@ -328,7 +390,7 @@ ru:
       activate_no: активировать для удаления сортировки
     text_work_packages_destroy_confirmation: Вы уверены, что хотите удалить выбранные
       пакет(-ы) работ?
-    text_query_destroy_confirmation: Вы уверены, что хотите удалить выбранный запрос?
+    text_query_destroy_confirmation: Уверены, что хотите удалить выбранное представление?
     text_attachment_destroy_confirmation: Вы уверены, что вы хотите удалить вложение?
     timelines:
       gantt_chart: Диаграмма Гантта
@@ -344,8 +406,8 @@ ru:
           атрибутов будет показана их даты.
 
 '
-      button_activate: Активировать режим временной шкалы
-      button_deactivate: Отключить режим временной шкалы
+      button_activate: Показать диаграмму Ганта
+      button_deactivate: Скрыть диаграмму Ганта
       cancel: Отмена
       change: Изменения в планировании
       due_date: Дата завершения
@@ -360,14 +422,6 @@ ru:
         report_epicfail: График не может быть загружен из-за неожиданной ошибки.
         report_timeout: График не может быть загружен в разумный период времени.
       filter:
-        column:
-          assigned_to: Назначенный
-          type: Тип
-          due_date: Дате окончания
-          name: Имя
-          status: Состояние
-          responsible: Ответственный
-          start_date: Дата начала
         grouping_other: Другие
         noneSelection: "(нет)"
       name: Имя
@@ -381,7 +435,6 @@ ru:
         level5: Развернуть уровень 5
         all: Показывать всё
       project_status: Состояние проекта
-      project_type: Тип проекта
       really_close_dialog: Вы действительно хотите закрыть диалоговое окно и потерять
         введенные данные?
       responsible: Ответственный
@@ -402,6 +455,9 @@ ru:
         quarters: Кварталы
         years: Годы
         slider: Ползунок масштаба
+        description: 'Выберите первоначальный масштаб, при отсутствии доступа к автомасштабированию.
+
+'
     tl_toolbar:
       zooms: Степень масштабирования
       outlines: Уровень иерархии
@@ -491,7 +547,7 @@ ru:
           отфильтрованные дочерние элементы
       faulty_query:
         title: Не удалось загрузить рабочие пакеты.
-        description: Ваш запрос ошибочен и не может быть обработан.
+        description: Ваше представление ошибочно и не может быть обработано.
       no_results:
         title: Нет пакетов работ для показа.
         description: Ничего не найдено.
@@ -522,6 +578,13 @@ ru:
         updatedAt: Обновлено
         versionName: Этап
         version: Этап
+      default_queries:
+        latest_activity: Последние действия
+        created_by_me: Создано мной
+        assigned_to_me: Предназначено для меня
+        recently_created: Недавно созданное
+        all_open: Все открытые
+        summary: Сводка
       jump_marks:
         pagination: Перейти вёрстке таблицы
         label_pagination: Кликните здесь чтобы пропустить таблицу рабочих пакетов
@@ -546,10 +609,16 @@ ru:
         insert_columns: Вставьте столбцы...
         filters: Фильтры
         display_sums: Отображение суммы
+        confirm_edit_cancel: Уверены, что хотите отменить редактирование названия
+          этого представления? Заголовку будет присвоено прежнее название.
+        click_to_edit_query_name: Кликните, чтобы изменить название этого представления.
+        rename_query_placeholder: Название этого представления
         errors:
-          unretrievable_query: Не удается получить запрос из URL-адреса
-          not_found: Нет такого запроса
-        text_no_results: Подходящие запросы не найдены.
+          unretrievable_query: Не удается получить представление из URL-адреса
+          not_found: Нет такого представления
+          duplicate_query_title: Представление с таким именем уже существует. Менять
+            в любом случае?
+        text_no_results: Подходящие представления не найдены.
       table:
         configure_button: Настроить таблицу пакетов работ
         summary: Таблица с названиями пакетов работ в строках и атрибутами пакетов
@@ -564,7 +633,7 @@ ru:
         button: Настроить эту таблицу пакетов работ
         modal_title: Настройка таблицы пакетов работ
         embedded_tab_disabled: Эта вкладка конфигурации не доступна для редактируемого
-          вами встроенного запроса.
+          вами встроенного представления.
         display_settings: Настройки экрана
         grouped_mode: Режим группировки
         grouped_hint: Результаты таблицы будет сгруппированы по заданным атрибутом.
@@ -576,6 +645,9 @@ ru:
           таблицей результатов.
         show_timeline_hint: Показать интерактивную диаграмму Гантта справа от таблицы.
           Ширина диаграммы изменяется с помощью разделяющей ее и таблицу линии.
+        columns_help_text: Используйте ввод выше для добавления или удаления столбцов
+          в табличном представлении. Вы можете перетаскивать столбцы для изменения
+          их порядка.
       tabs:
         overview: Обзор
         activity: Деятельность
@@ -588,6 +660,7 @@ ru:
         months: месяцев
     toolbar:
       settings:
+        configure_view: Настроить вид ...
         columns: Столбцы...
         sort_by: Сортировать по ...
         group_by: Группировать по...
@@ -598,15 +671,16 @@ ru:
         save: Сохранить
         save_as: Сохранить как ...
         export: Экспортировать ...
-        publish: Опубликовать...
-        page_settings: Переименовать запрос...
+        visibility_settings: Параметры видимости ...
+        page_settings: Переименовать представления...
         delete: Удалить
       filter: Фильтр
       unselected_title: Пакет работ
-      search_query_label: Поиск сохраненого фильтра запросов
-      search_query_title: Кликните для поиска сохраненного фильтра запросов
+      search_query_label: Найти сохраненные представления
+      search_query_title: Кликните для поиска сохраненных представлений
+      placeholder_query_title: Задать заголовок для этого представления
     modals:
-      label_settings: Переименовать запрос
+      label_settings: Переименовать представления
       label_name: Имя
       label_delete_page: Удалить текущую страницу
       button_apply: Применить
@@ -622,7 +696,8 @@ ru:
         title: Подтвердите удаление %{label}
         text: Вы уверены, что хотите удалить следующую %{label} ?
         has_children: 'Пакет работ имеет %{childUnits}:'
-        deletes_children: Также будут удалены все дочерние пакеты работ.
+        deletes_children: Все дочерние пакеты работ и их потомки будут также рекурсивно
+          удалены.
     notice_successful_create: Создание выполнено.
     notice_successful_delete: Удаление выполнено.
     notice_successful_update: Обновление выполнено.
@@ -649,6 +724,9 @@ ru:
         messages_on_field: 'Это поле является недопустимым: %{messages}'
     error_could_not_resolve_version_name: Не удалось определить название этапа
     error_could_not_resolve_user_name: Не удалось найти такое имя пользователя
+    error_attachment_upload: 'Файл «%{name}» загрузить не удалось: %{error}'
+    error_attachment_upload_permission: У вас нет прав для загрузки файлов на этом
+      ресурсе.
     units:
       workPackage:
         one: пакет работ

@@ -36,7 +36,6 @@ gem 'activerecord-session_store', '~> 1.1.0'
 gem 'rails', '~> 5.1.5'
 gem 'responders', '~> 2.4'
 
-gem 'coderay', '~> 1.1.2'
 gem 'rubytree', git: 'https://github.com/dr0verride/RubyTree.git', ref: '06f53ee'
 gem 'rdoc', '>= 2.4.2'
 
@@ -55,7 +54,9 @@ gem 'acts_as_tree', '~> 2.7.0'
 gem 'awesome_nested_set', '~> 3.1.3'
 gem 'typed_dag', '~> 2.0.2'
 
-gem 'ruby-progressbar'
+gem 'color-tools', '~> 1.3.0', require: 'color'
+
+gem 'addressable', '~> 2.5.2'
 
 # Provide timezone info for TZInfo used by AR
 gem 'tzinfo-data', '~> 1.2018.4'
@@ -67,10 +68,15 @@ gem 'htmldiff'
 gem 'stringex', '~> 2.7.1'
 
 # CommonMark markdown parser with GFM extension
-gem 'commonmarker', '~> 0.17.8'
+gem 'commonmarker', '~> 0.17.9'
+
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features
-gem 'html-pipeline', '~> 2.7.1'
+gem 'html-pipeline', '~> 2.8.0'
+# Requires escape-utils for faster escaping
+gem 'escape_utils', '~> 1.0'
+# Syntax highlighting used in html-pipeline with rouge
+gem 'rouge', '~> 3.1.1'
 # HTML sanitization used for html-pipeline
 gem 'sanitize', '~> 4.6.0'
 # HTML autolinking for mails and urls (replaces autolink)
@@ -86,6 +92,9 @@ gem 'ruby-duration', '~> 3.2.0'
 
 # provide compatible filesystem information for available storage
 gem 'sys-filesystem', '~> 1.1.4', require: false
+
+# Faster posix-compliant spawns for 8.0. conversions with pandoc
+gem 'posix-spawn', '~> 0.3.13', require: false
 
 gem 'bcrypt', '~> 3.1.6'
 
@@ -113,9 +122,6 @@ gem 'secure_headers', '~> 5.0.5'
 
 # Providing health checks
 gem 'okcomputer', '~> 1.16.0'
-
-# Patch Rails HTML whitelisting for Angular curly braces
-gem 'rails-angular-xss', git: 'https://github.com/opf/rails-angular-xss', ref: '00b588b8b8b18c0f53fcb5232be1a2c34dbd1fac'
 
 gem 'gon', '~> 6.2.0'
 
@@ -170,6 +176,10 @@ gem 'aws-sdk-s3', '~> 1.9.1'
 gem 'openproject-token', '~> 1.0.1'
 
 gem 'plaintext', '0.1.0'
+
+gem 'rest-client', '~> 2.0'
+
+gem 'ruby-progressbar', '~> 1.9.0', require: false
 
 group :test do
   gem 'rack-test', '~> 1.0.0'
@@ -249,7 +259,7 @@ group :development, :test do
 end
 
 # API gems
-gem 'grape', '~> 1.0'
+gem 'grape', '~> 1.1'
 
 gem 'reform', '~> 2.2.0'
 gem 'reform-rails', '~> 0.1.7'
@@ -270,7 +280,8 @@ group :opf_plugins do
 end
 
 group :docker, optional: true do
-  gem 'passenger', '~> 5.2'
+  gem 'passenger', '~> 5.3.3'
+
   # Used to easily precompile assets
   gem 'sqlite3', require: false
   gem 'rails_12factor', require: !!ENV['HEROKU']

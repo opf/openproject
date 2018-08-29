@@ -33,7 +33,11 @@ module API
     module CachedRepresenter
       extend ::ActiveSupport::Concern
 
-      DEFAULT_CONFIGURATION = { disabled: false, key_parts: [] }.freeze
+      DEFAULT_CONFIGURATION = {
+        disabled: false,
+        # Associations to include
+        key_parts: []
+      }.freeze
 
       included do
         def to_json(*args)
@@ -66,7 +70,7 @@ module API
           self.class.name.to_s.split('::') + [
             'json',
             I18n.locale,
-            json_key_model_parts
+            json_key_representer_parts
           ]
         end
 
@@ -173,14 +177,20 @@ module API
           ret
         end
 
-        def json_key_model_parts
-          models = [represented]
+        def json_key_representer_parts
+          cacheable = [represented]
 
           self.class.cached_representer_configuration[:key_parts].each do |association|
-            models << represented.send(association)
+            cacheable << represented.send(association)
           end
 
-          OpenProject::Cache::CacheKey.expand(models)
+          # Concat additional dependencies that may either be additional strings
+          # or cachable objects
+          if callable_dependencies = self.class.cached_representer_configuration[:dependencies]
+            cacheable.concat callable_dependencies.call
+          end
+
+          OpenProject::Cache::CacheKey.expand(cacheable)
         end
 
         def no_caching?

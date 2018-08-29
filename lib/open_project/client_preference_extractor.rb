@@ -33,8 +33,6 @@ module OpenProject
       gon.settings = {
         user_preferences: user_preferences,
         display: {
-          use_wysiwyg: Setting.use_wysiwyg?,
-          text_format: Setting.text_formatting,
           date_format: momentjstify_date_format(Setting.date_format),
           time_format: momentjstify_time_format(Setting.time_format),
           start_of_week: Setting.start_of_week

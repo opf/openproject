@@ -4,6 +4,11 @@ ko:
     ajax:
       hide: 숨기기
       loading: 불러오는 중 ...
+    attachments:
+      draggable_hint: 'Drag on editor field to inline image or reference attachment.
+        Closed editor fields will be opened while you keep dragging.
+
+'
     autocomplete_select:
       placeholder:
         multi: '"%{name}"을 추가'
@@ -52,9 +57,57 @@ ko:
     description_select_work_package: '작업 패키지 #%{id} 선택'
     description_selected_columns: 선택된 열
     description_subwork_package: '작업 패키지 #%{id}의 자식'
+    editor:
+      preview: Toggle preview mode
+      error_saving_failed: 'Saving the document failed with the following error: %{e}'
+      macro:
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: 위키 페이지
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
+        code_block:
+          button: Insert code snippet
+          title: Insert / edit Code snippet
+          language: Formatting language
+          language_hint: Enter the formatting language that will be used for highlighting
+            (if supported).
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
+        toc: Table of contents
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
+        wiki_page_include:
+          button: Include content of another wiki page
+          text: "[Placeholder] Included wiki page of"
+          page: 위키 페이지
+          not_set: "(Page not yet set)"
+          hint: |
+            Include the content of another wiki page by specifying its title or slug.
+            You can include the wiki page of another project by separating them with a colon like the following example.
+        work_package_button:
+          button: Insert create work package button
+          type: Work package type
+          button_style: Use button style
+          button_style_hint: 'Optional: Check to make macro appear as a button, not
+            as a link.'
+          without_type: Create work package
+          with_type: 'Create work package (Type: %{typename})'
+        embedded_table:
+          button: Embed work package table
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: 내부 오류가 발생하였습니다.
-      query_saving: The query could not be saved.
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
+      query_saving: The view could not be saved.
+      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
     filter:
       description:
         text_open_filter: "'ALT'와 화살표 키로 이 필터를 여세요."
@@ -118,6 +171,7 @@ ko:
     label_expand: 확장
     label_expanded: 확장됨
     label_expand_all: 모두 확장
+    label_expand_project_menu: Expand project menu
     label_export: 내보내기
     label_filename: 파일
     label_filesize: 크기
@@ -125,10 +179,11 @@ ko:
     label_group_by: 그룹화 기준
     label_hide_attributes: 간단히 표시
     label_hide_column: 열 숨기기
+    label_hide_project_menu: Collapse project menu
     label_in: "-"
     label_in_less_than: 보다 작음
     label_in_more_than: 보다 큼
-    label_latest_activity: 최근 활동
+    label_latest_activity: Latest activity
     label_last_updated_on: 마지막 업데이트 날짜
     label_less_or_equal: "<="
     label_less_than_ago: 일 미만 전
@@ -160,12 +215,15 @@ ko:
     label_select_watcher: 주시하는 사람을 선택
     label_selected_filter_list: 선택된 필터
     label_show_attributes: 모든 특성 표시
-    label_show_in_menu: 메뉴에서 페이지 보기
+    label_show_in_menu: Show view in menu
     label_sort_by: 정렬 기준
     label_sorted_by: '정렬 :'
     label_sort_higher: 위로 이동
     label_sort_lower: 아래로 이동
     label_sorting: 정렬
+    label_star_query: Favored
+    label_press_enter_to_save: Press enter to save.
+    label_public_query: 공용
     label_sum_for: '합계 '
     label_subject: 제목
     label_this_week: 이번 주
@@ -174,7 +232,6 @@ ko:
     label_activity_show_only_comments: 코멘트가 있는 활동만 표시
     label_activity_show_all: 모든 활동 표시
     label_total_progress: "%{percent}% 진행"
-    label_visible_for_others: 다른사람에게 보이기
     label_updated_on: '업데이트 :'
     label_warning: 경고
     label_work_package: 작업 패키지
@@ -187,8 +244,10 @@ ko:
     label_unwatch: 주시 안 함
     label_unwatch_work_package: 작업 패키지 주시 해제
     label_uploaded_by: '업로드 : '
-    label_global_queries: 공유된 쿼리
-    label_custom_queries: 비공개 쿼리
+    label_default_queries: Default views
+    label_starred_queries: Favorite views
+    label_global_queries: Public views
+    label_custom_queries: Private views
     label_columns: 컬럼
     label_attachments: 파일
     label_drop_files: 여기에 파일을 놓으세요
@@ -199,7 +258,8 @@ ko:
     label_remove_watcher: 관찰자 %{name} 제거
     label_remove_all_files: 모든 파일을 삭제
     label_add_description: "%{file} 의 설명 추가"
-    label_upload_notification: '작업 패키지 #%{id}: %{subject} 를 위한 파일 업로딩'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: '작업 패키지 #%{id}: %{subject} 를 위한 파일 업로딩'
     label_files_to_upload: 이 파일들이 업로드 됩니다.
     label_rejected_files: 파일들이 업로드 할 수 없습니다.
     label_rejected_files_reason: 파일 사이즈가 %{maximumFilesize} 보다 크기 때문에 업로드할 수 없습니다.
@@ -235,8 +295,9 @@ ko:
         error_duplicate_group_name: "%{group} 이라는 그룹 이름은 한 번 이상 사용되었습니다. 그룹 이름은 중복될
           수 없습니다."
         reset_title: 구성 양식 초기화
-        confirm_reset: '경고: 양식 구성을 재설정하시겠습니까? 그러면 특성이 기본 그룹으로 재설정되고, 표시 여부 확인란이 설정
-          해제되고, 모든 사용자 지정 필드가 비활성화됩니다.
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Enterprise Edition으로 업그레이드 하세요.
@@ -305,7 +366,6 @@ ko:
         one: You can only select one item
         other: "{{limit}}개만 선택하실 수 있습니다."
         zero: You cannot select any items
-    show_hide_project_menu: 프로젝트 메뉴 확장/축소
     project_menu_details: 세부 정보
     sort:
       sorted_asc: '오름차순 정렬이 적용됨, '
@@ -316,7 +376,8 @@ ko:
       activate_dsc: 내림차순 정렬 적용을 위해 활성화합니다
       activate_no: 정렬을 제거하기 위해 활성화합니다
     text_work_packages_destroy_confirmation: 선택한 작업 패키지를 삭제하시겠습니까?
-    text_query_destroy_confirmation: 선택한 쿼리를 삭제하시겠습니까?
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      view?
     text_attachment_destroy_confirmation: 정말 이 첨부 파일을 삭제 하시겠습니까?
     timelines:
       gantt_chart: Gantt 차트
@@ -331,8 +392,8 @@ ko:
           표시됩니다.
 
 '
-      button_activate: 타임라인 모드 활성화
-      button_deactivate: 타임라인 모드 비활성화
+      button_activate: Show Gantt chart
+      button_deactivate: Hide Gantt chart
       cancel: 취소
       change: 계획에서 변경
       due_date: 기한
@@ -345,14 +406,6 @@ ko:
         report_epicfail: 예기치 않은 오류로 인해 타임라인을 로드할 수 없습니다.
         report_timeout: 적절한 시간에 타임라인을 로드할 수 없습니다.
       filter:
-        column:
-          assigned_to: 담당자
-          type: 타입
-          due_date: 종료 날짜
-          name: 이름
-          status: 상태
-          responsible: 책임
-          start_date: 시작 날짜
         grouping_other: 기타
         noneSelection: "(없음)"
       name: 이름
@@ -366,7 +419,6 @@ ko:
         level5: 확장 수준 5
         all: 모두 표시
       project_status: 프로젝트 상태
-      project_type: 프로젝트 형식
       really_close_dialog: 입력된 자료를 저장하지 않고 대화상자를 닫으시겠습니까?
       responsible: 책임
       save: 저장
@@ -384,6 +436,10 @@ ko:
         quarters: 분기
         years: 년
         slider: 줌 슬라이더
+        description: 'Select the initial zoom level that should be shown when autozoom
+          is not available.
+
+'
     tl_toolbar:
       zooms: 확대 수준
       outlines: 계층 수준
@@ -464,7 +520,7 @@ ko:
         children_expanded: "%{level} 의 계층 레벨은 확장되었습니다. 필터링된 것을 붕괴하려면 클릭하세요."
       faulty_query:
         title: 작업 패키지를 로드할 수 없습니다.
-        description: 쿼리가 잘못되어 처리할 수 없습니다.
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: 표시할 작업 패키지가 없습니다.
         description: 만든 작업 패키지가 없거나 모든 작업 패키지가 필터링에서 제외되었습니다.
@@ -495,6 +551,13 @@ ko:
         updatedAt: 업데이트 날짜
         versionName: 버전
         version: 버전
+      default_queries:
+        latest_activity: Latest activity
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: All open
+        summary: 요약
       jump_marks:
         pagination: 테이블 페이지 매김으로 이동
         label_pagination: 여기를 클릭하여 작업 패키지 테이블로 건너뛰고 페이지 매김으로 이동
@@ -517,10 +580,15 @@ ko:
         insert_columns: 열 삽입...
         filters: 필터
         display_sums: 합계 표시
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
         errors:
-          unretrievable_query: URL에서 쿼리를 검색할 수 없음
-          not_found: 해당 쿼리는 없습니다
-        text_no_results: 일치하는 쿼리가 없습니다.
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
       table:
         configure_button: Configure work package table
         summary: 작업 패키지의 행 및 작업 패키지 특성의 열이 있는 테이블.
@@ -531,7 +599,7 @@ ko:
         button: Configure this work package table
         modal_title: Work package table configuration
         embedded_tab_disabled: This configuration tab is not available for the embedded
-          query you're editing.
+          view you're editing.
         display_settings: Display settings
         grouped_mode: Grouped mode
         grouped_hint: Table results will be grouped by the given attribute.
@@ -544,6 +612,8 @@ ko:
         show_timeline_hint: Show an interactive gantt chart on the right side of the
           table. You can change its width by dragging the divider between table and
           gantt chart.
+        columns_help_text: Use the input above to add or remove columns to your table
+          view. You can drag and drop the columns to reorder them.
       tabs:
         overview: 요약
         activity: 활동
@@ -556,6 +626,7 @@ ko:
         months: 개월
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: 열...
         sort_by: 정렬 기준...
         group_by: 그룹화 기준...
@@ -566,15 +637,16 @@ ko:
         save: 저장
         save_as: 다른 이름으로 저장...
         export: 내보내기...
-        publish: 게시...
-        page_settings: 쿼리 이름 바꾸기...
+        visibility_settings: Visibility settings ...
+        page_settings: Rename view ...
         delete: 삭제
       filter: 필터
       unselected_title: 작업 패키지
-      search_query_label: 저장된 필터 쿼리 검색
-      search_query_title: 저장된 필터 쿼리를 검색하려면 클릭하세요.
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
     modals:
-      label_settings: 쿼리 이름 바꾸기
+      label_settings: Rename view
       label_name: 이름
       label_delete_page: 현재 페이지 삭제
       button_apply: 적용
@@ -590,7 +662,8 @@ ko:
         title: "%{label} 삭제 확인"
         text: 다음 %{label}을(를) 삭제하시겠습니까?
         has_children: 작업 패키지에 %{childUnits}이(가) 있습니다.
-        deletes_children: 모든 자식 작업 패키지도 삭제됩니다.
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: 생성에 성공했습니다.
     notice_successful_delete: 삭제에 성공했습니다.
     notice_successful_update: 업데이트에 성공했습니다.
@@ -617,6 +690,9 @@ ko:
         messages_on_field: "%{messages} 는 유효하지 않습니다."
     error_could_not_resolve_version_name: 버전 이름을 확인할 수 없습니다.
     error_could_not_resolve_user_name: 사용자 이름을 확인할 수 없습니다.
+    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: work package

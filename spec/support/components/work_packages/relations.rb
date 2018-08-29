@@ -97,7 +97,10 @@ module Components
 
         # Enter the query and select the child
         autocomplete = container.find(".wp-relations--autocomplete")
-        select_autocomplete(autocomplete, query: to.subject, select_text: to.subject)
+        select_autocomplete autocomplete,
+                            results_selector: '.wp-relations-autocomplete--results',
+                            query: to.subject,
+                            select_text: to.subject
 
         container.find('.wp-create-relation--save').click
 
@@ -126,7 +129,10 @@ module Components
 
         # Enter the query and select the child
         autocomplete = container.find(".wp-relations--autocomplete")
-        select_autocomplete(autocomplete, query: query, select_text: expected_text)
+        select_autocomplete autocomplete,
+                            query: query,
+                            results_selector: '.wp-relations-autocomplete--results',
+                            select_text: expected_text
 
         container.find('.wp-create-relation--save').click
 
@@ -159,7 +165,10 @@ module Components
 
         # Enter the query and select the child
         autocomplete = container.find(".wp-relations--autocomplete")
-        select_autocomplete(autocomplete, query: work_package.id, select_text: work_package.subject)
+        select_autocomplete autocomplete,
+                            query: work_package.id,
+                            results_selector: '.wp-relations-autocomplete--results',
+                            select_text: work_package.subject
 
         container.find('.wp-create-relation--save').click
       end

@@ -28,8 +28,21 @@
 
 .custom-actions
   display: flex
-  flex-grow: 2
+  flex-wrap: wrap
   justify-content: flex-end
+  flex-grow: 1
+  // Cancel out the margin of the last button
+  margin-right: -10px
 
-.custom-action
-  margin-left: 0.625em
+  .custom-action
+    display: flex
+    justify-content: flex-end
+    flex: 1 1 auto
+    margin-bottom: 0.5rem
+    @include text-shortener
+
+    .button
+      @include text-shortener
+      width: 100%
+      // The margin is necessary for all buttons so that the alignment is correct on small screens
+      margin-right: 10px

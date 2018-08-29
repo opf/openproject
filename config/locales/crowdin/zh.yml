@@ -3,7 +3,8 @@ zh:
   no_results_title_text: 目前没有什么可显示。
   activities:
     index:
-      no_results_title_text: 项目中没有任何活动。
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: 目前没有插件可用。
@@ -71,6 +72,8 @@ zh:
     tab:
       no_results_title_text: 目前没有自定义字段。
       no_results_content_text: 创建新的自定义字段
+  concatenation:
+    single: or
   deprecations:
     old_timeline:
       replacement: 此时间线模块已由嵌入工作包模块中的交互式时间线模块取代。
@@ -112,10 +115,6 @@ zh:
       versions:
         no_results_title_text: 目前这个项目没有版本。
         no_results_content_text: 创建一个新的版本
-  project_types:
-    index:
-      no_results_title_text: 目前没有项目类型。
-      no_results_content_text: 创建一个新的项目类型
   members:
     index:
       no_results_title_text: 目前这个项目没有成员。
@@ -152,9 +151,9 @@ zh:
       form_configuration: 表格配置
       projects: 项目
       enabled_projects: 已启用的项目
-      add_group: Add attribute group
-      add_subelements: Add subelements group
-      edit_query: Edit embedded query
+      add_group: 增加属性组
+      add_subelements: 增加子元素组
+      edit_query: 编辑嵌入式查询
       reset: 重置为默认值
   versions:
     overview:
@@ -167,7 +166,12 @@ zh:
     index:
       no_results_title_text: 目前没有工作流。
   work_packages:
+    x_descendants:
+      one: One descendant work package
+      other: "%{count} work package descendants"
     move:
+      no_common_statuses_exists: There is no status available for all selected work
+        packages. Their status cannot be changed.
       unsupported_for_multiple_projects: 不支持多个项目工作包的大批量移动/复制
     list_simple:
       assigned:
@@ -175,7 +179,8 @@ zh:
       reported:
         no_results_title_text: 目前没有我已报告的工作包。
       responsible:
-        no_results_title_text: 目前没有我负责的工作包。
+        no_results_title_text: There are currently no work packages that I am accountable
+          for.
       watched:
         no_results_title_text: 目前没有我关注的工作包。
     summary:
@@ -255,6 +260,8 @@ zh:
         repository: 代码库
       comment:
         commented: 评论
+      custom_action:
+        actions: 操作
       custom_field:
         default_value: 默认值
         editable: 可编辑
@@ -275,6 +282,7 @@ zh:
         expires_at: 到期时间
         subscriber: 订阅者
         encoded_token: 企业版支持令牌
+        active_user_count_restriction: 最大活动用户数
       relation:
         delay: 延迟
         from: 工作包
@@ -289,9 +297,7 @@ zh:
         identifier: 标识符
         latest_activity_at: 最近一次活动
         parent: 父项目
-        project_type: 项目类型
         queries: 查询
-        responsible: 责任人
         types: 类型
         versions: 版本
         work_packages: 工作包
@@ -312,8 +318,9 @@ zh:
         spent_on: 日期
         type: 类型
       type:
-        is_in_roadmap: 在Roadmap
-        in_aggregation: 在聚合中
+        attribute_groups: ''
+        is_in_roadmap: Displayed in roadmap by default
+        is_default: Activated for new projects by default
         is_milestone: 是里程碑
         color: 颜色
       user:
@@ -326,7 +333,7 @@ zh:
         mail_notification: 电子邮件通知
         new_password: 新密码
         password_confirmation: 确认
-        consented_at: Consented at
+        consented_at: 同意在
       user_preference:
         comments_sorting: 显示评论
         hide_mail: 隐藏我的电子邮件地址
@@ -344,12 +351,10 @@ zh:
         redirect_existing_links: 将现有的链接重定向
       planning_element_type_color:
         hexcode: 十六进制代码
-      project_type:
-        position: 位置
       work_package:
         begin_insertion: 开始插入
         begin_deletion: 开始删除
-        children: Subelements
+        children: 子元素
         done_ratio: 进度 (%)
         end_insertion: 结束插入
         end_deletion: 结束删除
@@ -359,7 +364,6 @@ zh:
         parent_work_package: 父
         priority: 优先级
         progress: 进度 (%)
-        responsible: 责任人
         spent_hours: 已耗时间
         spent_time: 已耗时间
         subproject: 子项目
@@ -369,10 +373,15 @@ zh:
     errors:
       messages:
         accepted: 必须接受。
+        after: 必须在 %{date} 之后。
+        after_or_equal_to: 必须后或等于 %{date}。
+        before: 必须在 %{date} 之前。
+        before_or_equal_to: 必须在早于或等于 %{date}
         blank: 不能为空。
         cant_link_a_work_package_with_a_descendant: 工作包无法链接到它的子任务之一。
         circular_dependency: 这种关系将创建循环依赖项。
         confirmation: 不匹配 %{attribute}。
+        could_not_be_copied: 不能 (完全) 复制。
         does_not_exist: 不存在。
         empty: 不能为空。
         even: 必须是偶数。
@@ -380,9 +389,8 @@ zh:
         file_too_large: 太大 (最大大小为 %{count} 字节)。
         greater_than: 必须大于 %{count}。
         greater_than_or_equal_to: 必须大于或等于 %{count}。
-        smaller_than_or_equal_to_max_length: 必须小于或等于最大长度。
-        greater_than_start_date: 必须晚于开始日期。
         greater_than_or_equal_to_start_date: 必须晚于或等于开始日期。
+        greater_than_start_date: 必须晚于开始日期。
         inclusion: 未设置为允许的值之一。
         invalid: 是无效的。
         invalid_url: 不是有效的 URL。
@@ -390,22 +398,19 @@ zh:
         less_than_or_equal_to: 必须小于或等于 %{count}。
         not_a_date: 不是有效的日期。
         not_a_datetime: 不是有效的日期时间。
-        not_an_iso_date: 不是有效日期。所需格式：YYYY-MM-DD。
         not_a_number: 不是一个数字。
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: 不是一个整数。
+        not_an_iso_date: 不是有效日期。所需格式：YYYY-MM-DD。
         not_same_project: 不属于同一个项目。
         odd: 必须是奇数。
+        regex_invalid: 无法与关联的正则表达式进行验证。
+        smaller_than_or_equal_to_max_length: 必须小于或等于最大长度。
         taken: 已经采取。
         too_long: 太长 (最多 %{count} 个字符)。
         too_short: 太短 (最低是 %{count} 个字符)。
+        unchangeable: 不能更改。
         wrong_length: 长度不正确 (应该是 %{count} 个字符)。
-        after: 必须在 %{date} 之后。
-        after_or_equal_to: 必须后或等于 %{date}。
-        before: 必须在 %{date} 之前。
-        before_or_equal_to: 必须在早于或等于 %{date}
-        could_not_be_copied: 不能 (完全) 复制。
-        regex_invalid: 无法与关联的正则表达式进行验证。
-        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: 至少有需要一个可用选项。
@@ -414,8 +419,8 @@ zh:
           empty: "(%{name}) 值不能为空。"
           inclusion: "(%{name}) 的值未设置为允许的值之一。"
           not_an_integer: "(%{name}) 不是整数。"
-          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
-          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          smaller_than_or_equal_to: "（%{name}）必须小于或等于 %{count}。"
+          greater_than_or_equal_to: "（%{name}）必须大于或等于 %{count}。"
         enterprise_token:
           unreadable: 无法读取。是否确定为支持令牌？
         parse_schema_filter_params_service:
@@ -433,7 +438,7 @@ zh:
             project:
               error_not_found: 未找到
             public:
-              error_unauthorized: "- 此用户没有创建公共查询的权限。"
+              error_unauthorized: "- The user has no permission to create public views."
           group_by_hierarchies_exclusive: 与按照“%{group_by}”分组的群组互相排斥。您无法将它们都激活。
           filters:
             custom_fields:
@@ -468,8 +473,7 @@ zh:
               violates_relationships: 仅可以设置为 %{soonest_start} 或之后，以免违反工作包的关系。
             status_id:
               status_transition_invalid: 是无效的，因为在当前用户的角色下，没有从旧到新的状态有效的过渡存在。
-              status_invalid_in_type: is invalid because the current status does not
-                exist in this type.
+              status_invalid_in_type: 无效，因为此类型中不存在当前状态。
             priority_id:
               only_active_priorities_allowed: 需要被激活。
             category:
@@ -480,9 +484,11 @@ zh:
         type:
           attributes:
             attribute_groups:
-              group_without_name: 不允许未命名的群组。
-              duplicate_group: 组名 %{group} 已多次使用。组名不能重复。
               attribute_unknown: 已使用无效的工作包属性。
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: 不允许未命名的群组。
         user:
           attributes:
             password:
@@ -528,7 +534,6 @@ zh:
         one: Role
         other: 角色
       type: 类型
-      project_type: 项目类型
       user: 用户
       version: 版本
       wiki: 维基
@@ -582,7 +587,7 @@ zh:
     password: 密码
     priority: 优先级
     project: 项目
-    responsible: 责任人
+    responsible: Accountable
     role: 角色
     roles: 角色
     start_date: 开始日期
@@ -618,7 +623,7 @@ zh:
   button_create: 创建
   button_create_and_continue: 创建并继续
   button_delete: 删除
-  button_decline: Decline
+  button_decline: 拒绝
   button_delete_watcher: 删除关注者 %{name}
   button_download: 下载
   button_duplicate: 复制
@@ -653,6 +658,7 @@ zh:
   button_unlock: 解锁​​​​
   button_unwatch: 取消关注
   button_update: 更新
+  button_upgrade: 升级
   button_upload: 上传
   button_view: 查看
   button_watch: 关注
@@ -661,22 +667,17 @@ zh:
   button_configure_menu_entry: 配置菜单项
   button_delete_menu_entry: 删除菜单项
   consent:
-    checkbox_label: I have noted and do consent to the above.
-    failure_message: Consent failed, cannot proceed.
-    title: User Consent
-    decline_warning_message: You have declined to consent and have been logged out.
-    user_has_consented: User has consented to your configured statement at the given
-      time.
-    not_yet_consented: User has not consented yet, will be requested upon next login.
-    contact_mail_instructions: Define the mail address that users can reach a data
-      controller to perform data change or removal requests.
-    contact_your_administrator: Please contact your administrator if you want to have
-      your account deleted.
-    contact_this_mail_address: Please contact %{mail_address} if you want to have
-      your account deleted.
-    text_update_consent_time: Check this box to force users to consent again. Enable
-      when you have changed the legal aspect of the consent information above.
-    update_consent_last_time: 'Last update of consent: %{update_time}'
+    checkbox_label: 我已注意到并同意上述情况。
+    failure_message: 同意失败, 无法继续。
+    title: 用户同意
+    decline_warning_message: 您已拒绝同意并已注销。
+    user_has_consented: 用户已同意您在给定时间配置的语句。
+    not_yet_consented: 用户尚未同意, 将在下次登录时请求。
+    contact_mail_instructions: 定义用户可以访问数据控制器以执行数据更改或删除请求的邮件地址。
+    contact_your_administrator: 如果您想删除您的帐户, 请与您的管理员联系。
+    contact_this_mail_address: 如果您想删除您的帐户, 请联系%{mail_address}。
+    text_update_consent_time: 选中此框可强制用户再次同意。在更改上述同意信息的法律方面时启用。
+    update_consent_last_time: '同意的最后更新: %{update_time}'
   copy_project:
     started: 开始将项目“%{source_project_name}”复制到“%{target_project_name}“。“%{target_project_name}”可用后您将会立即收到电子邮件通知。
     failed: 无法复制项目 %{source_project_name}
@@ -819,11 +820,6 @@ zh:
   default_priority_normal: 普通
   default_priority_high: 高
   default_priority_immediate: 立即
-  default_project_type_scrum: Scrum 团队
-  default_project_type_standard: 标准项目
-  default_reported_project_status_green: 绿色
-  default_reported_project_status_amber: 琥珀色
-  default_reported_project_status_red: 红色
   default_role_anonymous: 匿名
   default_role_developer: 开发者
   default_role_project_admin: 项目管理员
@@ -885,7 +881,8 @@ zh:
   enumeration_system_activity: 系统活动
   enumeration_reported_project_statuses: 报告的项目状态
   error_auth_source_sso_failed: 用户 "%{value}" 的单次登录 (SSO) 失败
-  error_can_not_archive_project: 此项目不能存档
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: 无法删除条目
   error_can_not_delete_custom_field: 无法删除自定义字段
   error_can_not_delete_type: 这种类型包含工作包，不能被删除。
@@ -896,13 +893,15 @@ zh:
   error_check_user_and_role: 请选择用户和角色。
   error_cookie_missing: OpenProject cookie 丢失。请确保已启用 cookie，因为如果不启用，此应用程序将无法正常运行。
   error_custom_option_not_found: 选项不存在。
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
+  error_dependent_work_package: '相关工作包中的错误%{related_id} %{related_subject}: %{error}'
+  error_enterprise_activation_user_limit: 无法激活您的帐户 (已达到用户限制)。请与管理员联系以获取访问权限。
   error_failed_to_delete_entry: 无法删除此条目。
+  error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 无法按照 %{value} 分组
   error_invalid_query_column: 无效的查询列：%{value}
   error_invalid_sort_criterion: 无法按照列 %{value} 排序
   error_pdf_export_too_many_columns: 选择 PDF 导出的列太多。请减少列数。
+  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
   error_token_authenticity: 无法验证跨站域请求伪造令牌。
   error_work_package_done_ratios_not_updated: 工作包完成比率不更新。
   error_work_package_not_found_in_project: 工作包找不到或不属于此项目
@@ -943,6 +942,8 @@ zh:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: 带描述的PDF
+      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
+      pdf_with_attachments: PDF with attachments
   extraction:
     available:
       pdftotext: Pdftotext 可用 (可选)
@@ -966,6 +967,7 @@ zh:
   homescreen:
     additional:
       projects: 这个实例中的最新可见项目。
+      no_visible_projects: There are no visible projects in this instance.
       users: 这个实例中的最新注册用户。
     blocks:
       community: OpenProject 社区
@@ -1025,7 +1027,7 @@ zh:
   label_all: 所有
   label_all_time: 所有的时间
   label_all_words: 所有的词
-  label_all_open_wps: All open
+  label_all_open_wps: 全部打开
   label_always_visible: 总是显示
   label_announcement: 公告
   label_and_its_subprojects: "%{value} 及其子项目"
@@ -1066,7 +1068,7 @@ zh:
   label_calendar: 日历
   label_calendar_show: 显示日历
   label_category: 类别
-  label_consent_settings: User Consent
+  label_consent_settings: 用户同意
   label_wiki_menu_item: Wiki 的菜单项
   label_select_main_menu_item: 选择新的主菜单项
   label_select_project: 选择项目
@@ -1089,7 +1091,7 @@ zh:
   label_close_versions: 关闭已完成版本
   label_closed_work_packages: 关闭
   label_collapse: 折叠
-  label_collapsed_click_to_show: Collapsed. Click to show
+  label_collapsed_click_to_show: 折叠。点击显示
   label_configuration: 配置
   label_comment_add: 添加评论
   label_comment_added: 添加备注
@@ -1146,7 +1148,6 @@ zh:
   label_edit: 编辑
   label_enable_multi_select: 切换多选
   label_enabled_project_custom_fields: 启用自定义字段
-  label_enabled_project_types: 启用的类型
   label_enabled_project_modules: 启用的模块
   label_enabled_project_activities: 启用的时间跟踪活动
   label_end_to_end: 结束结束
@@ -1155,14 +1156,14 @@ zh:
   label_enumeration_value: 枚举值
   label_enumerations: 枚举
   label_enterprise: 企业
+  label_enterprise_active_users: "%{current}/%{limit} 已预订的活动用户"
   label_enterprise_edition: 企业版
-  label_entry_page: Entry page
   label_environment: 环境
   label_estimates_and_time: 预估成本和时间
   label_equals: 是
   label_example: 示例
   label_export_to: 在其中也可用：
-  label_expanded_click_to_collapse: Expanded. Click to collapse
+  label_expanded_click_to_collapse: 展开。点击折叠
   label_f_hour: "%{value} 小时"
   label_f_hour_plural: "%{value} 小时"
   label_feed_plural: 订阅源
@@ -1179,6 +1180,8 @@ zh:
   label_follows: 跟踪
   label_force_user_language_to_default: 设置拥有非允许语言的用户的默认语言
   label_form_configuration: 表格配置
+  label_gantt: 甘特图
+  label_gantt_chart: 甘特图
   label_general: 通用
   label_generate_key: 生成密钥
   label_git_path: ".git 目录的路径"
@@ -1191,7 +1194,7 @@ zh:
   label_here: 这里
   label_hide: 隐藏
   label_history: 历史
-  label_hierarchy_leaf: Hierarchy leaf
+  label_hierarchy_leaf: 层次结构叶
   label_home: 首页
   label_in: 在
   label_in_less_than: 在小于
@@ -1205,7 +1208,7 @@ zh:
   label_information_plural: 信息
   label_integer: 整数
   label_internal: 内部
-  label_introduction_video: Introduction video
+  label_introduction_video: 自我介绍视频
   label_invite_user: 邀请用户
   label_show_hide: 显示/隐藏
   label_show_all_registered_users: 显示所有注册用户
@@ -1282,6 +1285,7 @@ zh:
   label_next_week: 下周
   label_no_change_option: "（不变）"
   label_no_data: 没有要显示的数据
+  label_no_parent_page: 无上级页面
   label_nothing_display: 不显示
   label_nobody: 没人
   label_none: 无
@@ -1293,13 +1297,14 @@ zh:
   label_open_menu: 打开菜单
   label_open_work_packages: 打开
   label_open_work_packages_plural: 打开
-  label_openproject_website: OpenProject website
+  label_openproject_website: OpenProject 网站
   label_optional_description: 描述
   label_options: 选项
   label_other: 其他
   label_overall_activity: 总体活动
   label_overall_spent_time: 花的总时间
   label_overview: 概述
+  label_page_title: 页面标题
   label_part_of: 一部分
   label_password_lost: 丢失的密码
   label_password_rule_lowercase: 小写
@@ -1370,7 +1375,7 @@ zh:
   label_repository_plural: 代码库
   label_required: 必填
   label_requires: 要求
-  label_responsible_for_work_packages: 我负责的工作包
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: 结果
   label_reverse_chronological_order: 在相反的顺序
   label_revision: 修订
@@ -1434,7 +1439,6 @@ zh:
   label_total: 共
   label_type_new: 新类型
   label_type_plural: 类型
-  label_type_default_new_projects: 默认情况下为新项目激活的类型
   label_ui: 用户界面
   label_update_work_package_done_ratios: 更新工作包完成比率
   label_updated_time: "%{value} 前更新"
@@ -1462,7 +1466,7 @@ zh:
   label_version_sharing_none: 不共享
   label_version_sharing_system: 与所有项目
   label_version_sharing_tree: 与项目树
-  label_videos: Videos
+  label_videos: 视频
   label_view_all_revisions: 查看所有修订版本
   label_view_diff: 查看差异
   label_view_revisions: 查看修订版本
@@ -1504,7 +1508,8 @@ zh:
   label_work_package_view_all: 查看所有工作包
   label_work_package_view_all_assigned_to_me: 查看分配给我的所有工作包
   label_work_package_view_all_reported_by_me: 查看所有由我报告的工作包
-  label_work_package_view_all_responsible_for: 查看所有我负责的工作包
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
+    for
   label_work_package_view_all_watched: 查看所有被关注的工作包
   label_work_package_watchers: 关注人
   label_workflow: 工作流
@@ -1565,6 +1570,15 @@ zh:
   macro_execution_error: 执行宏 %{macro_name} 出错
   macro_unavailable: 无法显示宏 %{macro_name} 。
   macros:
+    placeholder: "[Placeholder] Macro %{macro_name}"
+    errors:
+      missing_or_invalid_parameter: 缺少或无效的宏参数。
+    legacy_warning:
+      timeline: 此旧版时间轴宏已被删除，不再可用。 您可以使用嵌入式表格宏替换该功能。
+    include_wiki_page:
+      errors:
+        page_not_found: 无法找到Wiki页“%{name}”。
+        circular_inclusion: 检测到页面的循环包含。
     create_work_package_link:
       errors:
         no_project_context: 从外部项目上下文调用 create_work_package_link 宏。
@@ -1587,6 +1601,15 @@ zh:
   mail_subject_reminder: "%{count} 个工作包在 %{days} 天内到期"
   mail_subject_wiki_content_added: "'%{id}' wiki页面已添加"
   mail_subject_wiki_content_updated: "'%{id}' wiki页面已更新"
+  mail_user_activation_limit_reached:
+    subject: 已达到用户激活限制
+    message: '新用户 (%{email}) 试图在您管理的 OpenProject 环境 (%{host}) 上创建帐户。用户无法激活其帐户, 因为已达到用户限制。
+
+'
+    steps:
+      label: '要允许用户登录, 您可以: '
+      a: "([在这里](upgrade_url)) 升级付款计划"
+      b: "([在这里](users_url)) 锁定或删除现有用户"
   more_actions: 更多功能
   noscript_description: 您需要激活JavaScript才能使用 OpenProject！
   noscript_heading: JavaScript 被禁用
@@ -1683,6 +1706,7 @@ zh:
     text_getting_started_description: 开放项目的项目部门和合作团队概览
     text_show_again: 您可以从帮助菜单重新启动此视频
     welcome: 欢迎来到 OpenProject
+    select_language: 请选择您的 OpenProject 语言
   permission_add_work_package_notes: 添加注释
   permission_add_work_packages: 添加工作包
   permission_add_messages: 发布消息
@@ -1723,7 +1747,7 @@ zh:
   permission_manage_members: 管理成员
   permission_manage_news: 管理新闻
   permission_manage_project_activities: 管理项目活动
-  permission_manage_public_queries: 管理公共查询
+  permission_manage_public_queries: Manage public views
   permission_manage_repository: 管理代码库
   permission_manage_subtasks: 管理子任务
   permission_manage_versions: 管理版本
@@ -1732,7 +1756,7 @@ zh:
   permission_move_work_packages: 移动工作包
   permission_protect_wiki_pages: 保护维基页面
   permission_rename_wiki_pages: 重命名 wiki 网页
-  permission_save_queries: 保存查询
+  permission_save_queries: Save views
   permission_select_project_modules: 选择项目模块
   permission_manage_types: 选择类型
   permission_view_calendar: 查看日历
@@ -1887,9 +1911,9 @@ zh:
   setting_smtp_address: SMTP 服务器
   setting_smtp_port: SMTP 端口
   setting_smtp_authentication: SMTP 身份验证
-  setting_smtp_domain: SMTP HELLO 域
   setting_smtp_user_name: SMTP 用户名
   setting_smtp_password: SMTP 密码
+  setting_smtp_domain: SMTP HELLO 域
   setting_activity_days_default: 显示在项目活动上的天
   setting_app_subtitle: 应用副标题
   setting_app_title: 应用程序标题
@@ -1901,19 +1925,18 @@ zh:
   setting_brute_force_block_after_failed_logins: 登录失败的尝试次数多于该数字将用户阻止
   setting_brute_force_block_minutes: 用户被阻止的时长
   setting_cache_formatted_text: 缓存带格式的文本
-  setting_use_wysiwyg: WYSIWYG editor
-  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
-    users by default. CKEditor has limited functionality for GFM Markdown.
+  setting_use_wysiwyg_description: 选择为默认情况下为所有用户启用CKEditor5 所见即所得编辑器。 CKEditor对GFM
+    Markdown的功能有限。
   setting_column_options: 自定义工作包列表的外观
   setting_commit_fix_keywords: 固定的关键字
   setting_commit_logs_encoding: 提交消息编码
   setting_commit_logtime_activity_id: 记录时间的活动
   setting_commit_logtime_enabled: 启用时间记录
   setting_commit_ref_keywords: 引用关键字
-  setting_consent_time: Consent time
-  setting_consent_info: Consent information text
-  setting_consent_required: Consent required
-  setting_consent_decline_mail: Consent contact mail address
+  setting_consent_time: 同意时间
+  setting_consent_info: 同意信息文本
+  setting_consent_required: 需要征得同意
+  setting_consent_decline_mail: 同意联系邮件地址
   setting_cross_project_work_package_relations: 允许跨项目工作包关系
   setting_date_format: 日期格式
   setting_default_language: 默认语言
@@ -1978,7 +2001,6 @@ zh:
   setting_start_of_week: 一周起始日
   setting_sys_api_enabled: 启用版本库管理 web 服务
   setting_sys_api_description: 版本库管理 web 服务提供了一体化的，以及用户授权来访问版本库。
-  setting_text_formatting: 文本格式
   setting_time_format: 时间格式
   setting_accessibility_mode_for_anonymous: 为匿名用户启用辅助功能模式
   setting_user_format: 用户显示格式
@@ -1988,7 +2010,6 @@ zh:
   setting_welcome_text: 欢迎块文本
   setting_welcome_title: 欢迎区块标题
   setting_welcome_on_homescreen: 在主屏幕上显示欢迎信息
-  setting_welcome_on_projects_page: 在项目概述里显示欢迎内容
   setting_wiki_compression: Wiki 历史压缩
   setting_work_package_group_assignment: 允许分配到组
   settings:
@@ -1997,10 +2018,12 @@ zh:
     passwords: 密码
     session: 会话
     brute_force_prevention: 自动化的用户阻止
+    user:
+      default_preferences: 默认偏好设置
+      deletion: 删除
   text_formatting:
-    textile: Textile
     markdown: Markdown
-    plain: Plain text
+    plain: 纯文本
   status_active: 激活
   status_archived: 已存档
   status_invited: 已邀请
@@ -2067,7 +2090,8 @@ zh:
   text_work_packages_ref_in_commit_messages: 引用和修复工作包中提交消息
   text_journal_added: "%{label} %{value} 已添加"
   text_journal_aggregation_time_explanation: 如果两篇日志的时间差小于指定的时间区间，将它们组合显示。这也将邮件通知延迟同样的时间。
-  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} 已更新"
   text_journal_changed_with_diff: "%{label} 已变更 (%{link})"
   text_journal_deleted: "%{label} 已删除 (%{old})"
@@ -2104,6 +2128,8 @@ zh:
   text_user_invited: 用户已被邀请，正在等待注册。
   text_user_wrote: "%{value} 写道："
   text_warn_on_leaving_unsaved: 此工作包包含未保存的文本，如果您离开此页面未保存的文本将会丢失。
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: 确实要删除此 wiki 和它的所有内容吗?
   text_wiki_page_destroy_children: 删除子页面和所有他们的派生页面
   text_wiki_page_destroy_question: 此页有 %{descendants} 子页面和派生页面。你想做什么？
@@ -2129,8 +2155,6 @@ zh:
     admin_menu:
       color: 颜色
       colors: 颜色
-      project_type: 项目类型
-      project_types: 项目类型
     associations: 依赖项
     board_could_not_be_saved: 面板不能被保存
     button_delete_all: 删除所有
@@ -2147,7 +2171,6 @@ zh:
       one: 1 day
       other: "%{count} 天"
     edit_color: 编辑颜色
-    edit_project_type: 编辑项目类型
     edit_thing: 编辑
     edit_timeline: 编辑时间线报告
     delete_timeline: 删除时间线报告
@@ -2182,7 +2205,6 @@ zh:
         due_date: 结束日期
         name: 名称
         status: 状态
-        responsible: 责任人
         start_date: 开始日期
       columns: 列
       comparisons: 比较
@@ -2211,7 +2233,7 @@ zh:
       outline: 初始大纲扩展
       parent: 显示子项目属于
       work_package_filters: 筛选工作包
-      work_package_responsible: 显示工作包与责任人
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: 显示工作包指定人
       types: 显示类型
       status: 显示状态
@@ -2223,9 +2245,8 @@ zh:
       project_time_filter_relative: "%{start_label} %{startspan} %{startspanunit}
         前，从现在起的 %{end_label} %{endspan} %{endspanunit}"
       project_filters: 筛选项目
-      project_responsible: 显示项目与责任人
+      project_responsible: Show projects with accountable
       project_status: 显示项目的状态
-      project_types: 显示项目类型
       timeframe: 显示时间段
       timeframe_end: 到
       timeframe_start: 从
@@ -2235,7 +2256,6 @@ zh:
     new_color: 新的颜色
     new_association: 新依赖项
     new_work_package: 新工作包
-    new_project_type: 新项目类型
     new_reporting: 新的报表
     new_timeline: 新的时间线报表
     no_projects_for_reporting_available: 没有任何项目可以创建报告关联。
@@ -2260,18 +2280,10 @@ zh:
       edit: 编辑状态：%{comment}
       show: 状态：%{comment}
     planning_element_update: 更新：%{title}
-    work_packages_are_displayed_in_aggregations: 项目包显示为聚合
-    project_type_could_not_be_saved: 项目类型不能保存
     type_could_not_be_saved: 无法保存类型
     reporting_could_not_be_saved: 不能保存报告
     properties: 属性
     really_delete_color: '您确定您要删除以下颜色？使用这种颜色的类型不会被删除。
-
-'
-    really_delete_project_type: '您确定你要删除以下项目类型？使用这种类型的项目不会被删除。
-
-'
-    really_delete_timeline: '您确定您要删除以下时间线报告？在该时间线报告中的工作包不会被删除。
 
 '
     really_delete_reporting: '您确定您要删除以下报告吗？之前的报告状态也会被删除。
@@ -2282,7 +2294,6 @@ zh:
     timelines: 时间线报表
     settings: 时间线
     vertical_work_package: 垂直工作包
-    without_project_type: 没有项目类型
     you_are_viewing_the_selected_timeline: 您正在查看所选时间线报表
     zoom:
       in: 放大
@@ -2293,6 +2304,7 @@ zh:
       quarters: 季度
       years: 年
   title_remove_and_delete_user: 从项目中移除所邀请的用户并删除他/她。
+  title_enterprise_upgrade: 升级以解锁更多用户。
   tooltip_user_default_timezone: '新用户的默认时区。可以在用户设置中更改。
 
 '
@@ -2352,7 +2364,18 @@ zh:
   note_password_login_disabled: 密码登录已被 %{configuration} 禁用。
   warning: 警告
   warning_attachments_not_saved: "%{count} 文件不能被保存。"
+  warning_imminent_user_limit: '您邀请的用户数超过了当前计划支持的用户数。 受邀用户可能无法加入您的OpenProject环境。 请<a
+    href="%{upgrade_url}">升级您的计划</a>或阻止现有用户，以允许受邀和注册用户加入。
+
+'
   warning_registration_token_expired: '激活邮件已过期，我们给您发送了一封新邮件到%{email}。请单击内部的链接以激活您的帐户。
+
+'
+  warning_user_limit_reached: '达到用户限制。 您无法再激活任何用户。 请<a href="%{upgrade_url}">升级您的计划</a>或阻止会员以允许其他用户。
+
+'
+  warning_user_limit_reached_instructions: '您达到了用户限制（%{current}/%{max}活跃用户）。 请联系sales@openproject.com以升级您的Enterprise
+    Edition计划并添加其他用户。
 
 '
   menu_item: 菜单项

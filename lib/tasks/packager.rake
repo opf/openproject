@@ -57,6 +57,9 @@ namespace :packager do
       shell_setup(['config:set', 'REBUILD_ASSETS=""'])
     end
 
+    # Clear any caches
+    OpenProject::Cache.clear
+
     # Persist configuration
     Setting.sys_api_enabled = 1
     Setting.sys_api_key = ENV['SYS_API_KEY']

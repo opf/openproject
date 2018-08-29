@@ -40,6 +40,10 @@ module OpenProject
           OpenProject::Configuration.force_help_link.presence || links[:user_guides]
         end
 
+        def [](name)
+          links[name]
+        end
+
         def links
           {
             upsale: {
@@ -67,7 +71,7 @@ module OpenProject
               label: 'homescreen.links.boards'
             },
             professional_support: {
-              href: 'https://www.openproject.org/enterprise-edition/',
+              href: 'https://www.openproject.org/project-collaboration-products/#support',
               label: :label_professional_support
             },
             website: {
@@ -102,6 +106,10 @@ module OpenProject
               href: 'https://www.openproject.org/api',
               label: :label_api_documentation
             },
+            text_formatting: {
+              href: 'https://www.openproject.org/help/text-formatting',
+              label: :setting_text_formatting
+            }
           }
         end
       end

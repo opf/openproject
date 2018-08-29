@@ -37,13 +37,13 @@ describe 'description inplace editor', js: true, selenium: true do
   let(:property_name) { :description }
   let(:property_title) { 'Description' }
   let(:description_text) { 'Ima description' }
-  let!(:work_package) {
+  let!(:work_package) do
     FactoryBot.create(
       :work_package,
       project: project,
       description: description_text
     )
-  }
+  end
   let(:user) { FactoryBot.create :admin }
   let(:field) { WorkPackageEditorField.new wp_page, 'description' }
   let(:wp_page) { Pages::SplitWorkPackage.new(work_package, project) }

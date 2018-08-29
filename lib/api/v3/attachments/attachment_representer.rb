@@ -72,7 +72,7 @@ module API
 
         link :downloadLocation do
           location = if represented.external_storage?
-                       represented.remote_url
+                       represented.external_url
                      else
                        api_v3_paths.attachment_content(represented.id)
                      end
@@ -96,7 +96,7 @@ module API
                  getter: ->(*) { filesize }
         property :description,
                  getter: ->(*) {
-                   ::API::Decorators::Formattable.new(description, format: 'plain')
+                   ::API::Decorators::Formattable.new(description, plain: true)
                  },
                  render_nil: true
         property :content_type

@@ -4,6 +4,11 @@ zh-TW:
     ajax:
       hide: 隱藏
       loading: 載入中…
+    attachments:
+      draggable_hint: 'Drag on editor field to inline image or reference attachment.
+        Closed editor fields will be opened while you keep dragging.
+
+'
     autocomplete_select:
       placeholder:
         multi: 新增 "%{name}"
@@ -52,9 +57,56 @@ zh-TW:
     description_select_work_package: '選取工作項目 #%{id}'
     description_selected_columns: 所選的欄
     description_subwork_package: '子工作項目 #%{id}'
+    editor:
+      preview: Toggle preview mode
+      error_saving_failed: 'Saving the document failed with the following error: %{e}'
+      macro:
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: 維基頁面
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
+        code_block:
+          button: Insert code snippet
+          title: Insert / edit Code snippet
+          language: Formatting language
+          language_hint: Enter the formatting language that will be used for highlighting
+            (if supported).
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
+        toc: 目錄
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
+        wiki_page_include:
+          button: 包含另一個 Wiki 頁面的內容
+          text: "[Placeholder] Included wiki page of"
+          page: 維基頁面
+          not_set: "(Page not yet set)"
+          hint: '通過指定其標題或Slug, 包括另一個 Wiki 頁面的內容。您可以通過將另一個專案的 Wiki 頁與下面的示例類似的冒號進行分隔,
+            從而包括該頁面。
+
+'
+        work_package_button:
+          button: 插入創建工作包按鈕
+          type: 工作項目類型
+          button_style: 使用按鈕樣式
+          button_style_hint: '可選: 檢查以使宏顯示為按鈕, 而不是連結。'
+          without_type: 建立工作項目
+          with_type: '創建工作包 (類型: %{typename})'
+        embedded_table:
+          button: 嵌入工作包表
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: 發生內部錯誤。
-      query_saving: The query could not be saved.
+      cannot_save_changes_with_message: '由於以下錯誤, 無法保存所做的更改: %{error}'
+      query_saving: The view could not be saved.
+      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
     filter:
       description:
         text_open_filter: 使用 ALT 和方向鍵打開此篩選器。
@@ -117,6 +169,7 @@ zh-TW:
     label_expand: 展開
     label_expanded: 已展開
     label_expand_all: 全部展開
+    label_expand_project_menu: 展開專案選單
     label_export: 匯出
     label_filename: 檔案
     label_filesize: 檔案大小
@@ -124,10 +177,11 @@ zh-TW:
     label_group_by: 分組依據
     label_hide_attributes: 簡略
     label_hide_column: 隱藏欄
+    label_hide_project_menu: 折疊專案選單
     label_in: 在
     label_in_less_than: 少於
     label_in_more_than: 多於
-    label_latest_activity: 最新活動
+    label_latest_activity: Latest activity
     label_last_updated_on: 最後更新於
     label_less_or_equal: "<="
     label_less_than_ago: 少於幾天前
@@ -145,7 +199,7 @@ zh-TW:
     label_not_equals: 不是
     label_on: 開啟
     label_open_menu: 開啟選單
-    label_open_context_menu: Open context menu
+    label_open_context_menu: 打開選單
     label_open_work_packages: 打開
     label_password: 密碼
     label_previous: 上一個
@@ -159,21 +213,23 @@ zh-TW:
     label_select_watcher: 選擇一位關注者
     label_selected_filter_list: 所選的篩選器
     label_show_attributes: 顯示所有屬性
-    label_show_in_menu: 在功能表中顯示頁面
+    label_show_in_menu: 在選單中顯示視圖
     label_sort_by: 排序方式
     label_sorted_by: 排序條件
     label_sort_higher: 往上移動
     label_sort_lower: 往下移動
     label_sorting: 排序
+    label_star_query: Favored
+    label_press_enter_to_save: Press enter to save.
+    label_public_query: 公開
     label_sum_for: 總和
     label_subject: 主題
     label_this_week: 本週
     label_today: 今天
-    label_up: Up
+    label_up: 向上
     label_activity_show_only_comments: 只顯示活動和其評論
     label_activity_show_all: 顯示所有的活動
     label_total_progress: "%{percent}%總進度"
-    label_visible_for_others: 頁面可被他人訪問
     label_updated_on: 更新於
     label_warning: 警告
     label_work_package: 工作項目
@@ -186,8 +242,10 @@ zh-TW:
     label_unwatch: 取消監看
     label_unwatch_work_package: 取消關注工作項目
     label_uploaded_by: 上傳者
-    label_global_queries: 共用的查詢
-    label_custom_queries: 私人查詢
+    label_default_queries: Default views
+    label_starred_queries: Favorite views
+    label_global_queries: Public views
+    label_custom_queries: Private views
     label_columns: 欄
     label_attachments: 檔案
     label_drop_files: 將檔案拖曳至此處
@@ -198,7 +256,8 @@ zh-TW:
     label_remove_watcher: 刪除關注者 %{name}
     label_remove_all_files: 刪除所有檔案
     label_add_description: 添加 %{file} 的說明
-    label_upload_notification: '上傳檔案到工作包 #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: '上傳檔案到工作包 #%{id}: %{subject}'
     label_files_to_upload: '將上傳這些檔案:'
     label_rejected_files: '不能上傳這些檔案:'
     label_rejected_files_reason: 這些檔案不能上傳，因為它們的大小大於 %{maximumFilesize}
@@ -232,7 +291,9 @@ zh-TW:
       attribute_groups:
         error_duplicate_group_name: 名稱 %{group} 已被使用，群組名稱不可重複。
         reset_title: 重設表單配置
-        confirm_reset: '警告：您確定要重設表單設定嗎？這將會重新設定所有屬性至它們的預設群組，取消所有可見度勾選和停用所有的自訂欄位。
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: 升級到企業版
@@ -300,7 +361,6 @@ zh-TW:
         one: You can only select one item
         other: 您只能選擇 {{limit}} 個項目
         zero: You cannot select any items
-    show_hide_project_menu: 展開/折疊專案選單
     project_menu_details: 詳細資料
     sort:
       sorted_asc: '已套用升冪排序， '
@@ -311,12 +371,13 @@ zh-TW:
       activate_dsc: 啟動以套用降冪排序
       activate_no: 啟動以移除排序
     text_work_packages_destroy_confirmation: 你確定要刪除選定的工作項目嗎？
-    text_query_destroy_confirmation: 確定要刪除已選擇的查詢項目嗎?
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      view?
     text_attachment_destroy_confirmation: 你確定你想要刪除附件?
     timelines:
       gantt_chart: 甘特圖
       labels:
-        title: Label configuration
+        title: 標籤配置
         bar: 列標籤
         left: 左
         right: 右
@@ -325,8 +386,8 @@ zh-TW:
         description: '選擇要在甘特圖的對應位置上始終顯示的屬性。請注意, 在游標停在元素上時, 將顯示其日期標籤, 而不是這些屬性。
 
 '
-      button_activate: 啟動 timeline 模式
-      button_deactivate: 停用 timeline 模式
+      button_activate: Show Gantt chart
+      button_deactivate: Hide Gantt chart
       cancel: 取消
       change: 更改計劃
       due_date: 截止日期
@@ -334,21 +395,10 @@ zh-TW:
       error: 發生錯誤。
       errors:
         not_implemented: 不會呈現時間軸，因為它使用了一種尚未實現的功能。
-        report_comparison: The timeline could not render the configured comparisons.
-          Please check the appropriate section in the configuration, resetting it
-          can help solve this problem.
-        report_epicfail: The timeline could not be loaded due to an unexpected error.
-        report_timeout: The timeline could not be loaded in a reasonable amount of
-          time.
+        report_comparison: 時間表無法呈現配置的比較。請檢查配置中的相應部分, 重置它可以協助解決此問題。
+        report_epicfail: 由於出現意外錯誤, 無法載入時間表。
+        report_timeout: 無法在合理的時間內載入時間表。
       filter:
-        column:
-          assigned_to: 負責執行者
-          type: 類型
-          due_date: 結束日期
-          name: 名稱
-          status: 狀態
-          responsible: 責任歸屬者
-          start_date: 起始日期
         grouping_other: 其他
         noneSelection: "（無）"
       name: 名稱
@@ -362,7 +412,6 @@ zh-TW:
         level5: 展開第5層
         all: 顯示全部
       project_status: 專案狀態
-      project_type: 專案類型
       really_close_dialog: 您真的要關閉對話視窗並放棄輸入的資料嗎？
       responsible: 責任歸屬者
       save: 儲存
@@ -380,6 +429,10 @@ zh-TW:
         quarters: 季
         years: 年
         slider: 縮放滑動器
+        description: 'Select the initial zoom level that should be shown when autozoom
+          is not available.
+
+'
     tl_toolbar:
       zooms: 縮放等級
       outlines: 層次結構級別
@@ -449,7 +502,7 @@ zh-TW:
         header_with_parent: 新 %{type} (%{parent_type}＃%{id} 子元素)
         button: 建立
       copy:
-        title: Copy work package
+        title: 複製工作包
       hierarchy:
         show: 顯示層次結構模式
         hide: 隱藏層次結構模式
@@ -459,7 +512,7 @@ zh-TW:
         children_expanded: 層次級別 %{level} 已展開。點擊以收合篩選的子任務
       faulty_query:
         title: 無法載入工作包。
-        description: 您的查詢不正確, 無法處理。
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: 無工作項目可顯示
         description: 無工作項目或是被篩選器把工作項目隱藏了
@@ -490,6 +543,13 @@ zh-TW:
         updatedAt: 更新於
         versionName: 版本
         version: 版本
+      default_queries:
+        latest_activity: Latest activity
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: 全部打開
+        summary: 大綱
       jump_marks:
         pagination: 跳轉至表格分頁
         label_pagination: 點擊此處跳過工作包表格並轉到分頁
@@ -512,33 +572,35 @@ zh-TW:
         insert_columns: 插入欄...
         filters: 篩選器
         display_sums: 顯示加總
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
         errors:
-          unretrievable_query: 無法從 URL 取得查詢結果
-          not_found: 無此查詢
-        text_no_results: 未找到匹配的查詢。
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
       table:
-        configure_button: Configure work package table
+        configure_button: 配置工作包表
         summary: 由工作項目和工作項目屬性列組成的表格。
         text_inline_edit: 該表中的大多數單元格都內嵌可以編輯屬性的按鈕。
         text_sort_hint: 通過表格標題中的鏈接，您可以排序，分組，重新排序，刪除和添加表格列。
         text_select_hint: 請使用Alt+方向鍵打開選擇框。
       table_configuration:
-        button: Configure this work package table
-        modal_title: Work package table configuration
+        button: 配置此工作包表
+        modal_title: 工作包表配置
         embedded_tab_disabled: This configuration tab is not available for the embedded
-          query you're editing.
-        display_settings: Display settings
-        grouped_mode: Grouped mode
-        grouped_hint: Table results will be grouped by the given attribute.
-        default_mode: Default mode
+          view you're editing.
+        display_settings: 顯示設定
+        grouped_mode: 組合模式
+        grouped_hint: 表格結果將按給定的屬性進行分組。
+        default_mode: 預設模式
         hierarchy_mode: 層次結構模式
-        hierarchy_hint: All filtered table results will be augmented with their ancestors.
-          Hierarchies can be expanded and collapsed.
-        display_sums_hint: Display sums of all summable attributes in a row below
-          the table results.
-        show_timeline_hint: Show an interactive gantt chart on the right side of the
-          table. You can change its width by dragging the divider between table and
-          gantt chart.
+        hierarchy_hint: 所有已篩選的表結果都將隨其來源一起增強。層次結構可以展開和折疊。
+        display_sums_hint: 顯示表結果下一行中所有 "可加總" 屬性的總和。
+        show_timeline_hint: 在表格的右側顯示互動式甘特圖。可以通過在表和甘特圖之間拖動分隔線來更改其寬度。
+        columns_help_text: 使用上面的輸入在表視圖中添加或移除列。可以拖放列以對其進行重新排序。
       tabs:
         overview: 概要
         activity: 活動
@@ -551,6 +613,7 @@ zh-TW:
         months: 月
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: 欄
         sort_by: 排序條件...
         group_by: 分組條件...
@@ -561,15 +624,16 @@ zh-TW:
         save: 儲存
         save_as: 另存為…
         export: 匯出...
-        publish: 發佈 ...
-        page_settings: 重新命名查詢...
+        visibility_settings: Visibility settings ...
+        page_settings: Rename view ...
         delete: 删除
       filter: 篩選器
       unselected_title: 工作項目
-      search_query_label: 查詢儲存的搜索篩選器
-      search_query_title: 按一下此處，搜索儲存的篩選器查詢
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
     modals:
-      label_settings: 重新命名查詢
+      label_settings: Rename view
       label_name: 名稱
       label_delete_page: 刪除目前的頁面
       button_apply: 套用
@@ -585,7 +649,8 @@ zh-TW:
         title: 確認刪除 %{label}
         text: 您確定要刪除以下 %{label}？
         has_children: '此工作項目包含 %{childUnits}:'
-        deletes_children: 所有的子工作項目將會被一併刪除。
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: 建立成功
     notice_successful_delete: 刪除成功
     notice_successful_update: 更新成功
@@ -612,6 +677,9 @@ zh-TW:
         messages_on_field: '此欄位無效: %{messages}'
     error_could_not_resolve_version_name: 無法解析版本名稱
     error_could_not_resolve_user_name: 無法解析使用者名稱
+    error_attachment_upload: '檔 "%{name}" 無法上載: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: work package

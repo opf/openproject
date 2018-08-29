@@ -1,0 +1,17 @@
+<div id="activity-{{ activityNo }}">
+  <div [ngSwitch]="activityType">
+    <revision-activity *ngSwitchCase="'Revision'"
+                       [workPackage]="workPackage"
+                       [activity]="activity"
+                       [activityNo]="activityNo"
+                       [activityLabel]="activityLabel">
+    </revision-activity>
+    <user-activity *ngSwitchDefault
+                   [workPackage]="workPackage"
+                   [activity]="activity"
+                   [activityNo]="activityNo"
+                   [activityLabel]="activityLabel"
+                   [isInitial]="isInitial">
+    </user-activity>
+  </div>
+</div>

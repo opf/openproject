@@ -36,8 +36,8 @@ module API
 
         resources :render do
           helpers do
-            SUPPORTED_CONTEXT_NAMESPACES = %w(work_packages projects).freeze
-            SUPPORTED_MEDIA_TYPE = 'text/plain'
+            SUPPORTED_CONTEXT_NAMESPACES = %w(work_packages projects news posts wiki_pages).freeze
+            SUPPORTED_MEDIA_TYPE = 'text/plain'.freeze
 
             def allowed_content_types
               [SUPPORTED_MEDIA_TYPE]
@@ -46,7 +46,7 @@ module API
             def check_content_type
               actual = request.content_type
 
-              unless actual && actual.starts_with?(SUPPORTED_MEDIA_TYPE)
+              unless actual&.starts_with?(SUPPORTED_MEDIA_TYPE)
                 bad_type = actual || I18n.t('api_v3.errors.missing_content_type')
                 message = I18n.t('api_v3.errors.invalid_content_type',
                                  content_type: SUPPORTED_MEDIA_TYPE,
@@ -57,8 +57,7 @@ module API
             end
 
             def check_format(format)
-              supported_formats = ::OpenProject::TextFormatting::Formatters.format_names.map(&:to_s)
-              unless supported_formats.include?(format)
+              unless ::OpenProject::TextFormatting::Formats.supported?(format)
                 fail ::API::Errors::NotFound, I18n.t('api_v3.errors.code_404')
               end
             end
@@ -83,11 +82,17 @@ module API
             def try_context_object
               if params[:context]
                 context = parse_context
+                namespace = context[:namespace]
 
-                case context[:namespace]
-                when 'work_packages'
-                  WorkPackage.visible(current_user).find(context[:id])
-                end
+                klass = if namespace == 'posts'
+                          Message
+                        elsif SUPPORTED_CONTEXT_NAMESPACES.without('posts').include?(namespace)
+                          namespace.camelcase.singularize.constantize
+                        end
+
+                return unless klass
+
+                klass.visible(current_user).find(context[:id])
               end
             end
 

@@ -270,6 +270,49 @@ describe AccountController, type: :controller do
         expect(response.status).to eq 404
       end
     end
+
+    context 'with an auth source' do
+      let(:auth_source_id) { 42 }
+
+      let(:user_attributes) do
+        {
+          login: 's.scallywag',
+          firstname: 'Scarlet',
+          lastname: 'Scallywag',
+          mail: 's.scallywag@openproject.com',
+          auth_source_id: auth_source_id
+        }
+      end
+
+      let(:authenticate) { true }
+
+      before do
+        allow(Setting).to receive(:self_registration).and_return('0')
+        allow(Setting).to receive(:self_registration?).and_return(false)
+        allow(AuthSource).to receive(:authenticate).and_return(authenticate ? user_attributes : nil)
+
+        # required so that the register view can be rendered
+        allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false)
+      end
+
+      context 'with user limit reached' do
+        render_views
+
+        before do
+          allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(true)
+
+          post :login, params: { username: 'foo', password: 'bar' }
+        end
+
+        it 'shows the user limit error' do
+          expect(response.body).to have_text "user limit reached"
+        end
+
+        it 'renders the register form' do
+          expect(response.body).to include "/account/register"
+        end
+      end
+    end
   end
 
   describe '#login with omniauth_direct_login enabled',
@@ -443,6 +486,43 @@ describe AccountController, type: :controller do
             user = User.where(login: 'register').last
             expect(user).not_to be_nil
             expect(user.status).to eq(User::STATUSES[:active])
+          end
+        end
+
+        context "with user limit reached" do
+          let!(:admin) { FactoryBot.create :admin }
+
+          let(:params) do
+            {
+              user: {
+                login: 'register',
+                password: 'adminADMIN!',
+                password_confirmation: 'adminADMIN!',
+                firstname: 'John',
+                lastname: 'Doe',
+                mail: 'register@example.com'
+              }
+            }
+          end
+
+          before do
+            allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(true)
+
+            post :register, params: params
+          end
+
+          it "fails" do
+            is_expected.to redirect_to(signin_path)
+
+            expect(flash[:error]).to match /user limit reached/
+          end
+
+          it "notifies the admins about the issue" do
+            mail = ActionMailer::Base.deliveries.last
+
+            expect(mail.subject).to match /limit reached/
+            expect(mail.to.first).to eq admin.mail
+            expect(mail.body.parts.first.to_s).to match /new user \(#{params[:user][:mail]}\)/
           end
         end
       end
@@ -642,8 +722,52 @@ describe AccountController, type: :controller do
     end
   end
 
+  context 'POST activate' do
+    let!(:admin) { FactoryBot.create :admin }
+    let(:user) { FactoryBot.create :user, status: status }
+    let(:status) { -1 }
+
+    let(:token) { Token::Invitation.create!(user_id: user.id) }
+
+    before do
+      allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(true)
+
+      post :activate, params: { token: token.value }
+    end
+
+    shared_examples "activation is blocked due to user limit" do
+      it "does not activate the user" do
+        expect(user.reload).not_to be_active
+      end
+
+      it "redirects back to the login page and shows the user limit error" do
+        expect(response).to redirect_to(signin_path)
+        expect(flash[:error]).to match /user limit reached.*contact.*admin/i
+      end
+
+      it "notifies the admins about the issue" do
+        mail = ActionMailer::Base.deliveries.last
+
+        expect(mail.subject).to match /limit reached/
+        expect(mail.to.first).to eq admin.mail
+      end
+    end
+
+    context 'registered user' do
+      let(:status) { User::STATUSES[:registered] }
+
+      it_behaves_like "activation is blocked due to user limit"
+    end
+
+    context 'invited user' do
+      let(:status) { User::STATUSES[:invited] }
+
+      it_behaves_like "activation is blocked due to user limit"
+    end
+  end
+
   describe 'GET #auth_source_sso_failed (/sso)' do
-   render_views
+    render_views
 
     let(:failure) do
       {

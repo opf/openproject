@@ -229,7 +229,7 @@ class WikiPage < ActiveRecord::Base
 
   def breadcrumb_title
     if item = menu_item
-      item.name
+      item.title
     else
       title
     end
@@ -239,7 +239,17 @@ class WikiPage < ActiveRecord::Base
     slug || title.to_url
   end
 
-  def is_only_wiki_page?
+  def save_with_content
+    if valid? && content.valid?
+      ActiveRecord::Base.transaction do
+        save!
+        content.save!
+      end
+      true
+    end
+  end
+
+  def only_wiki_page?
     wiki.pages == [self]
   end
 
@@ -274,19 +284,19 @@ class WikiAnnotate
   def initialize(content)
     @content = content
     current = content
-    current_lines = current.journable.text.split(/\r?\n/)
+    current_lines = current.data.text.split(/\r?\n/)
     @lines = current_lines.map { |t| [nil, nil, t] }
     positions = []
     current_lines.size.times do |i| positions << i end
     while current.previous
-      d = current.previous.journable.text.split(/\r?\n/).diff(current.journable.text.split(/\r?\n/)).diffs.flatten
+      d = current.previous.data.text.split(/\r?\n/).diff(current.data.text.split(/\r?\n/)).diffs.flatten
       d.each_slice(3) do |s|
         sign = s[0]
         line = s[1]
         if sign == '+' && positions[line] && positions[line] != -1
           if @lines[positions[line]][0].nil?
             @lines[positions[line]][0] = current.version
-            @lines[positions[line]][1] = current.journable.author
+            @lines[positions[line]][1] = current.data.author
           end
         end
       end

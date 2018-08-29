@@ -3,7 +3,8 @@ fi:
   no_results_title_text: Ei ole tällä hetkellä näytettävää.
   activities:
     index:
-      no_results_title_text: Projektissa ei ole ollut yhtään tapahtumaa.
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: Tällä hetkellä ei ole liitännäisiä saatavilla.
@@ -84,6 +85,8 @@ fi:
     tab:
       no_results_title_text: Tällä hetkellä ei ole mukautettuja kenttiä.
       no_results_content_text: Luo uusi mukautettu kenttä
+  concatenation:
+    single: or
   deprecations:
     old_timeline:
       replacement: Tämä aikajana-moduuli tullaan korvaamaan työpaketti-moduuliin upotettavalla
@@ -127,10 +130,6 @@ fi:
       versions:
         no_results_title_text: Projektille ei ole versioita.
         no_results_content_text: Luo uusi versio
-  project_types:
-    index:
-      no_results_title_text: Projekteille ei ole määriteltyjä tyyppejä.
-      no_results_content_text: Luo uusi projektityyppi
   members:
     index:
       no_results_title_text: Tähän projektiin ei kuulu yhtään henkilöä.
@@ -184,7 +183,12 @@ fi:
     index:
       no_results_title_text: Tällä hetkellä ei ole olemassa työnkulkuja.
   work_packages:
+    x_descendants:
+      one: One descendant work package
+      other: "%{count} work package descendants"
     move:
+      no_common_statuses_exists: There is no status available for all selected work
+        packages. Their status cannot be changed.
       unsupported_for_multiple_projects: Massasiirto tai -kopiointi ei ole sallittu
         eri projektien työpaketeille
     list_simple:
@@ -194,8 +198,8 @@ fi:
         no_results_title_text: Tällä hetkellä ei ole työpaketteja jotka olisi olisin
           raportoinut.
       responsible:
-        no_results_title_text: Tällä hetkellä ei ole sellaisia työpaketteja joista
-          olisin vastuussa.
+        no_results_title_text: There are currently no work packages that I am accountable
+          for.
       watched:
         no_results_title_text: En ole tällä hetkellä seuraajana työpaketeissa.
     summary:
@@ -249,9 +253,9 @@ fi:
           käyttäjäksi kuten kuka tahansa joka ei ole vielä sovelluksen käyttäjä.
       login_verification:
         other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+          will be asked to confirm your password.
         self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'Tilisi ei ole vielä aktivoitu. Aktivoidaksesi
       tilin, klikkaa linkkiä joka välitettiin sähköpostiisi.
 
@@ -298,6 +302,8 @@ fi:
         repository: Tietovarasto
       comment:
         commented: Kommentoitu
+      custom_action:
+        actions: Actions
       custom_field:
         default_value: Oletusarvo
         editable: Muokattava
@@ -318,6 +324,7 @@ fi:
         expires_at: Vanhenee
         subscriber: Tilaaja
         encoded_token: Enterprise support token
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Viive
         from: Työpaketti
@@ -332,9 +339,7 @@ fi:
         identifier: Tunniste
         latest_activity_at: Viimeisin toiminta
         parent: Aliprojekti
-        project_type: Projektityyppi
         queries: Kyselyt
-        responsible: Vastuullinen
         types: Tyypit
         versions: Versiot
         work_packages: Työpaketit
@@ -356,8 +361,9 @@ fi:
         spent_on: Päivä
         type: Tyyppi
       type:
-        is_in_roadmap: Suunnitelmassa
-        in_aggregation: Mukana kertymässä
+        attribute_groups: ''
+        is_in_roadmap: Displayed in roadmap by default
+        is_default: Activated for new projects by default
         is_milestone: On virstanpylväs
         color: Väri
       user:
@@ -390,8 +396,6 @@ fi:
         redirect_existing_links: Uudelleenohjaa olemassa olevat linkit
       planning_element_type_color:
         hexcode: Hex koodi
-      project_type:
-        position: Sijainti
       work_package:
         begin_insertion: Lisäyksen alku
         begin_deletion: Poistokohdan alku
@@ -405,7 +409,6 @@ fi:
         parent_work_package: Ylätaso
         priority: Tärkeys
         progress: Edistyminen (%)
-        responsible: Vastuullinen
         spent_hours: Käytetty aika
         spent_time: Käytetty aika
         subproject: Aliprojekti
@@ -415,11 +418,16 @@ fi:
     errors:
       messages:
         accepted: täytyy olla hyväksytty.
+        after: on oltava myöhemmin kuin %{date}.
+        after_or_equal_to: on oltava %{date} tai myöhempi.
+        before: on oltava ennen %{date}.
+        before_or_equal_to: on oltava %{date} tai sitä ennen.
         blank: ei voi olla sisällötön.
         cant_link_a_work_package_with_a_descendant: Työpakettia ei voida yhdistää
           ko. työpaketin alitehtäviin.
         circular_dependency: Tämä suhde loisi kehän.
         confirmation: ei vastaa %{attribute}.
+        could_not_be_copied: kopioiminen ei onnistunut (täysimääräisesti).
         does_not_exist: ei ole olemassa.
         empty: ei voi olla tyhjä.
         even: täytyy olla parillinen.
@@ -427,11 +435,9 @@ fi:
         file_too_large: on liian suuri (suurin sallittu koko on %{count} tavua).
         greater_than: täytyy olla suurempi kuin %{count}.
         greater_than_or_equal_to: täytyy olla suurempi tai yhtä suuri kuin%{count}.
-        smaller_than_or_equal_to_max_length: on oltava pienempi tai yhtä suuri kuin
-          suurin sallittu pituus.
-        greater_than_start_date: tulee olla aloituspäivän jälkeinen.
         greater_than_or_equal_to_start_date: on oltava suurempi tai yhtä suuri kuin
           alkamispäivä.
+        greater_than_start_date: tulee olla aloituspäivän jälkeinen.
         inclusion: ei löydy listauksesta.
         invalid: ei kelpaa.
         invalid_url: is not a valid URL.
@@ -439,22 +445,20 @@ fi:
         less_than_or_equal_to: täytyy olla pienempi tai yhtä suuri kuin %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
-        not_an_iso_date: 'ei ole kelvollinen päivämäärä. Vaadittava muoto: VVVV-KK-PP.'
         not_a_number: ei ole numero.
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: ei ole kokonaisluku.
+        not_an_iso_date: 'ei ole kelvollinen päivämäärä. Vaadittava muoto: VVVV-KK-PP.'
         not_same_project: ei kuulu samaan projektiin.
         odd: täytyy olla pariton.
+        regex_invalid: could not be validated with the associated regular expression.
+        smaller_than_or_equal_to_max_length: on oltava pienempi tai yhtä suuri kuin
+          suurin sallittu pituus.
         taken: on jo käytössä.
         too_long: on liian pitkä (maksimi on %{count} merkkiä).
         too_short: on liian lyhyt (minimi on %{count} merkkiä).
-        wrong_length: on väärän pituinen (täytyy olla täsmälleen %{count} merkkiä).
-        after: on oltava myöhemmin kuin %{date}.
-        after_or_equal_to: on oltava %{date} tai myöhempi.
-        before: on oltava ennen %{date}.
-        before_or_equal_to: on oltava %{date} tai sitä ennen.
-        could_not_be_copied: kopioiminen ei onnistunut (täysimääräisesti).
-        regex_invalid: could not be validated with the associated regular expression.
         unchangeable: cannot be changed.
+        wrong_length: on väärän pituinen (täytyy olla täsmälleen %{count} merkkiä).
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
@@ -482,7 +486,7 @@ fi:
             project:
               error_not_found: ei löydetty
             public:
-              error_unauthorized: "- The user has no permission to create public queries."
+              error_unauthorized: "- The user has no permission to create public views."
           group_by_hierarchies_exclusive: is mutually exclusive with group by '%{group_by}'.
             You cannot activate both.
           filters:
@@ -535,10 +539,11 @@ fi:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Nimeämätön ryhmät eivät ole sallittuja.
-              duplicate_group: The group name %{group} is used more than once. Group
-                names must be unique.
               attribute_unknown: Invalid work package attribute used.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Nimeämätön ryhmät eivät ole sallittuja.
         user:
           attributes:
             password:
@@ -586,7 +591,6 @@ fi:
         one: Rooli
         other: Roolit
       type: Tyyppi
-      project_type: Projektityyppi
       user: Käyttäjä
       version: Versio
       wiki: Wiki
@@ -639,7 +643,7 @@ fi:
     password: Salasana
     priority: Tärkeys
     project: Projekti
-    responsible: Vastuullinen
+    responsible: Accountable
     role: Rooli
     roles: Roolit
     start_date: Aloituspäivä
@@ -710,6 +714,7 @@ fi:
   button_unlock: Vapauta
   button_unwatch: Älä seuraa
   button_update: Päivitä
+  button_upgrade: Upgrade
   button_upload: Lähetä
   button_view: Näytä
   button_watch: Seuraa
@@ -877,11 +882,6 @@ fi:
   default_priority_normal: Normaali
   default_priority_high: Korkea
   default_priority_immediate: Valitön
-  default_project_type_scrum: Scrum-tiimi
-  default_project_type_standard: Normaali projekti
-  default_reported_project_status_green: Vihreä
-  default_reported_project_status_amber: Kkellanruskea (meripihka)
-  default_reported_project_status_red: Punainen
   default_role_anonymous: Anonyymi
   default_role_developer: Kehittäjä
   default_role_project_admin: Projektin hallinnoija
@@ -946,7 +946,8 @@ fi:
   enumeration_system_activity: Järjestelmän toiminta
   enumeration_reported_project_statuses: Reported project status
   error_auth_source_sso_failed: Single Sign-On (SSO) for user '%{value}' failed
-  error_can_not_archive_project: Tätä projektia ei voida arkistoida
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Unable to delete entry
   error_can_not_delete_custom_field: Mukautettua kenttää ei voi poistaa
   error_can_not_delete_type: Tämä tyyppinen työ sisältää pakettia ja ei voi poistaa.
@@ -961,12 +962,16 @@ fi:
   error_custom_option_not_found: Vaihtoehtoa ei ole olemassa.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Tämän merkinnän poisto ei onnistunut.
+  error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
   error_invalid_sort_criterion: 'Can''t sort by column: %{value}'
   error_pdf_export_too_many_columns: Liikaa sarakkeita valittuina PDF-vientiin. Pienennä
     sarakkeiden määrää.
+  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
   error_token_authenticity: Unable to verify Cross-Site Request Forgery token.
   error_work_package_done_ratios_not_updated: Toimi paketti tehnyt suhdelukuja ei
     päivitetä.
@@ -1017,6 +1022,8 @@ fi:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF kuvauksilla
+      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
+      pdf_with_attachments: PDF with attachments
   extraction:
     available:
       pdftotext: Pdftotext available (optional)
@@ -1040,6 +1047,7 @@ fi:
   homescreen:
     additional:
       projects: Uusimmat näkyvissä olevat projektit.
+      no_visible_projects: There are no visible projects in this instance.
       users: Uusimmat rekisteröityneet käyttäjät.
     blocks:
       community: OpenProject yhteisö
@@ -1226,7 +1234,6 @@ fi:
   label_edit: Muokkaa
   label_enable_multi_select: Vaihda monivalinta
   label_enabled_project_custom_fields: Käytössä olevat mukautetut kentät
-  label_enabled_project_types: Käytössä olevat tyypit
   label_enabled_project_modules: Käytössä olevat moduulit
   label_enabled_project_activities: Käytössä olevat ajanseurannan aktiviteetit
   label_end_to_end: lopusta loppuun
@@ -1235,8 +1242,8 @@ fi:
   label_enumeration_value: Luettelointiarvo
   label_enumerations: Lista
   label_enterprise: Yritys
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Yritysversio
-  label_entry_page: Entry page
   label_environment: Ympäristö
   label_estimates_and_time: Estimates and time
   label_equals: sama kuin
@@ -1260,6 +1267,8 @@ fi:
   label_force_user_language_to_default: Määritä oletuskieli jos käytössä on kieli
     joka ei ole sallittu
   label_form_configuration: Lomakkeen muokkaus
+  label_gantt: Gantt
+  label_gantt_chart: Gantt chart
   label_general: Yleinen
   label_generate_key: Luo avain
   label_git_path: Polku .git hakemistoon
@@ -1363,6 +1372,7 @@ fi:
   label_next_week: Seuraava viikko
   label_no_change_option: "(Ei muutosta)"
   label_no_data: Ei tietoa näytettäväksi
+  label_no_parent_page: No parent page
   label_nothing_display: Ei näytettävää
   label_nobody: ei kukaan
   label_none: ei mitään
@@ -1381,6 +1391,7 @@ fi:
   label_overall_activity: Kokonaishistoria
   label_overall_spent_time: Käytetty kokonaisaika
   label_overview: Yleiskatsaus
+  label_page_title: Page title
   label_part_of: osana
   label_password_lost: Unohditko salasanasi?
   label_password_rule_lowercase: Pienet kirjaimet
@@ -1452,7 +1463,7 @@ fi:
   label_repository_plural: Tietovarastot
   label_required: Required
   label_requires: edellyttää
-  label_responsible_for_work_packages: Kaikki työpaketit joista olen vastuussa
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Tulokset
   label_reverse_chronological_order: Käänteisessä aikajärjestyksessä
   label_revision: Revisio
@@ -1501,7 +1512,7 @@ fi:
   label_summary: Yhteenveto
   label_system: System
   label_system_storage: Storage information
-  label_table_of_contents: Sisällysluettelo
+  label_table_of_contents: Table of contents
   label_tag: Tunniste
   label_text: Pitkä merkkijono
   label_this_month: tässä kuussa
@@ -1516,7 +1527,6 @@ fi:
   label_total: Yhteensä
   label_type_new: Uusi tyyppi
   label_type_plural: Tyypit
-  label_type_default_new_projects: Tyyppi aktivoitu uusia hankkeita oletuksena
   label_ui: Käyttöliittymä
   label_update_work_package_done_ratios: Päivitä työpaketin valmiusasteet
   label_updated_time: Päivitetty %{value} sitten
@@ -1588,8 +1598,8 @@ fi:
   label_work_package_view_all_assigned_to_me: Näytä kaikki minulle määritetyt työpaketit
   label_work_package_view_all_reported_by_me: Näytä kaikki työpaketit jotka minä olen
     raportoinut
-  label_work_package_view_all_responsible_for: Näytä kaikki työpaketit joista olen
-    vastuussa
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
+    for
   label_work_package_view_all_watched: Näytä kaikki seuratut työpaketit
   label_work_package_watchers: Seuraajat
   label_workflow: Työnkulku
@@ -1653,6 +1663,16 @@ fi:
   macro_execution_error: Error executing the macro %{macro_name}
   macro_unavailable: Macro %{macro_name} cannot be displayed.
   macros:
+    placeholder: "[Placeholder] Macro %{macro_name}"
+    errors:
+      missing_or_invalid_parameter: Missing or invalid macro parameter.
+    legacy_warning:
+      timeline: This legacy timeline macro has been removed and is no longer available.
+        You can replace the functionality with an embedded table macro.
+    include_wiki_page:
+      errors:
+        page_not_found: Cannot find the wiki page '%{name}'.
+        circular_inclusion: Circular inclusion of pages detected.
     create_work_package_link:
       errors:
         no_project_context: Calling create_work_package_link macro from outside project
@@ -1679,6 +1699,15 @@ fi:
   mail_subject_reminder: "%{count} tapahtuma(a) erääntyy %{days} lähipäivinä"
   mail_subject_wiki_content_added: "'%{id}' wiki-sivu on poistettu"
   mail_subject_wiki_content_updated: "'%{id}' Wiki-sivu on päivitetty"
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: Enemmän toimintoja
   noscript_description: You need to activate JavaScript in order to use OpenProject!
   noscript_heading: JavaScript disabled
@@ -1795,6 +1824,7 @@ fi:
       team collaboration with OpenProject.
     text_show_again: Voit käynnistää tämä videon uudelleen ohjeet-valikosta
     welcome: Tervetuloa OpenProjectiin
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Lisää muistiinpanoja
   permission_add_work_packages: Lisää työpaketteja
   permission_add_messages: Jätä viesti
@@ -1835,7 +1865,7 @@ fi:
   permission_manage_members: Hallinnoi jäseniä
   permission_manage_news: Hallinnoi uutisia
   permission_manage_project_activities: Hallinnoi projektin tehtäviä
-  permission_manage_public_queries: Hallinnoi julkisia hakuja
+  permission_manage_public_queries: Manage public views
   permission_manage_repository: Hallinnoi tietovarastoa
   permission_manage_subtasks: Hallinnoi alitehtäviä
   permission_manage_versions: Hallinnoi versioita
@@ -1844,7 +1874,7 @@ fi:
   permission_move_work_packages: Siirrä työpaketteja
   permission_protect_wiki_pages: Suojaa wiki sivut
   permission_rename_wiki_pages: Uudelleennimeä wiki sivuja
-  permission_save_queries: Tallenna hakuja
+  permission_save_queries: Save views
   permission_select_project_modules: Valitse projektin modulit
   permission_manage_types: Valitse tyypit
   permission_view_calendar: Näytä kalenteri
@@ -2035,9 +2065,9 @@ fi:
   setting_smtp_address: SMTP server
   setting_smtp_port: SMTP port
   setting_smtp_authentication: SMTP authentication
-  setting_smtp_domain: SMTP HELLO domain
   setting_smtp_user_name: SMTP username
   setting_smtp_password: SMTP password
+  setting_smtp_domain: SMTP HELLO domain
   setting_activity_days_default: Päivien esittäminen projektien historiassa
   setting_app_subtitle: Ohjelman alaotsikko
   setting_app_title: Ohjelman otsikko
@@ -2050,7 +2080,6 @@ fi:
     kirjautumisyrityksiä on tätä arvoa enemmän
   setting_brute_force_block_minutes: Aika jonka käyttäjä on estettynä
   setting_cache_formatted_text: Käytä välimuistia muotoillulle tekstille
-  setting_use_wysiwyg: WYSIWYG editor
   setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
     users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Mukauta työpakettilistan ulkoasua
@@ -2137,7 +2166,6 @@ fi:
   setting_sys_api_enabled: Salli WS tietovaraston hallintaan
   setting_sys_api_description: The repository management web service provides integration
     and user authorization for accessing repositories.
-  setting_text_formatting: Tekstin muotoilu
   setting_time_format: Aikakormaatti
   setting_accessibility_mode_for_anonymous: Ota helppokäyttötila anonyymeille käyttäjille
   setting_user_format: Käyttäjien esitysmuoto
@@ -2147,7 +2175,6 @@ fi:
   setting_welcome_text: Tervehdysteksti
   setting_welcome_title: Tervehdyspalkki
   setting_welcome_on_homescreen: Näytä tervehdyspalkki kotinäkymässä
-  setting_welcome_on_projects_page: Näytä tervehdyspalkki projektin yleisnäkymässä
   setting_wiki_compression: Wiki historian tiivistys
   setting_work_package_group_assignment: Allow assignment to groups
   settings:
@@ -2156,8 +2183,10 @@ fi:
     passwords: Passwords
     session: Session
     brute_force_prevention: Automated user blocking
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
   text_formatting:
-    textile: Textile
     markdown: Markdown
     plain: Plain text
   status_active: aktiivinen
@@ -2251,7 +2280,8 @@ fi:
   text_journal_aggregation_time_explanation: Yhdistele aktiviteettiuutiset jos niiden
     julkaisuajan ero on pienempi kuin syötetty aika. Tämä viivästyttää myös aktiviteettiuutisten
     sähköposti-ilmoituksia samalla aikamäärällä.
-  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} päivitetty"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
   text_journal_deleted: "%{label} poistettu (%{old})"
@@ -2300,6 +2330,8 @@ fi:
   text_user_wrote: "%{value} kirjoitti:"
   text_warn_on_leaving_unsaved: The work package contains unsaved text that will be
     lost if you leave this page.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Oletko varma että haluat poistaa tämän wiki:n ja
     kaikki sen sisältämän tiedon?
   text_wiki_page_destroy_children: Poista alisivut ja kaikki niiden jälkeläiset
@@ -2327,8 +2359,6 @@ fi:
     admin_menu:
       color: Väri
       colors: Colors
-      project_type: Projektityyppi
-      project_types: Projektityypit
     associations: Riippuvuudet
     board_could_not_be_saved: Taulua ei voitu tallentaa
     button_delete_all: Poista kaikki
@@ -2345,7 +2375,6 @@ fi:
       one: päivä
       other: "%{count} päivää"
     edit_color: Muokkaa väriä
-    edit_project_type: Muokkaa projektin tyyppiä
     edit_thing: Muokkaa
     edit_timeline: Muokkaa aikajanaraporttia %{timeline}
     delete_timeline: Poista aikajanaraportti %{timeline}
@@ -2386,7 +2415,6 @@ fi:
         due_date: End date
         name: Nimi
         status: Tila
-        responsible: Vastuullinen
         start_date: Aloituspäivä
       columns: Sarakkeet
       comparisons: Comparisons
@@ -2415,7 +2443,7 @@ fi:
       outline: Initial outline expansion
       parent: Show subprojects of
       work_package_filters: Filter work packages
-      work_package_responsible: Show work packages with responsible
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: Show work packages with assignee
       types: Näytä tyypit
       status: Näytä tila
@@ -2428,9 +2456,8 @@ fi:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago,
         %{end_label} %{endspan}%{endspanunit} from now"
       project_filters: Filter projects
-      project_responsible: Näytä hankkeita joiden tehtävänä
+      project_responsible: Show projects with accountable
       project_status: Näytä projekti tila
-      project_types: Näytä projekti tyypit
       timeframe: Näytä aikataulu
       timeframe_end: to
       timeframe_start: from
@@ -2440,7 +2467,6 @@ fi:
     new_color: New color
     new_association: New dependency
     new_work_package: Uusi työpaketti
-    new_project_type: Uusi projektityyppi
     new_reporting: New reporting
     new_timeline: Uusi aikajana-raportti
     no_projects_for_reporting_available: Ei ole hankkeita joihin raportointi yhdistys
@@ -2467,21 +2493,11 @@ fi:
       edit: 'Edit status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Update: %{title}'
-    work_packages_are_displayed_in_aggregations: Work packages are displayed in aggregations
-    project_type_could_not_be_saved: Project type could not be saved
     type_could_not_be_saved: Type could not be saved
     reporting_could_not_be_saved: Raportointi ei voitu tallenneta
     properties: Ominaisuudet
     really_delete_color: 'Oletko varma, että haluat poistaa seuraava väri? Tyypit
       käyttää tätä väri ei poisteta.
-
-'
-    really_delete_project_type: 'Oletko varma, että haluat poistaa seuraavat projekti
-      tyyppi? Projekti avulla tämä tyyppi ei poisteta.
-
-'
-    really_delete_timeline: 'Oletko varma, että haluat poistaa seuraavat aikajana
-      raportti? toimia paketti näkyy tämä aikajana raportti ei poisteta.
 
 '
     really_delete_reporting: 'Oletko varma, että haluat poistaa seuraavat raportointia?
@@ -2493,7 +2509,6 @@ fi:
     timelines: Aikajanaraportit
     settings: Aikataulut
     vertical_work_package: Vertical work packages
-    without_project_type: Without project type
     you_are_viewing_the_selected_timeline: Sinä olet katselu valittu aikajana raportti
     zoom:
       in: Lähennä
@@ -2505,6 +2520,7 @@ fi:
       years: Years
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
     in a user''s settings.
 
@@ -2576,9 +2592,25 @@ fi:
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Warning
   warning_attachments_not_saved: "%{count} tiedostoa ei voitu tallentaa."
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
   warning_registration_token_expired: |
     The activation email has expired. We sent you a new one to %{email}.
     Please click the link inside of it to activate your account.
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: Menu item
   menu_item_setting: Visibility
   wiki_menu_item_for: Menu item for wikipage "%{title}"

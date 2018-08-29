@@ -7,15 +7,15 @@ describe 'custom field inplace editor', js: true do
   let(:type) { FactoryBot.create(:type_standard, custom_fields: custom_fields) }
   let(:project) do
     FactoryBot.create :project,
-                       types: [type],
-                       work_package_custom_fields: custom_fields
+                      types: [type],
+                      work_package_custom_fields: custom_fields
   end
   let(:custom_fields) { [custom_field] }
   let(:work_package) do
     FactoryBot.create :work_package,
-                       type: type,
-                       project: project,
-                       custom_values: initial_custom_values
+                      type: type,
+                      project: project,
+                      custom_values: initial_custom_values
   end
   let(:wp_page) { Pages::SplitWorkPackage.new(work_package) }
 
@@ -58,20 +58,19 @@ describe 'custom field inplace editor', js: true do
       field.expect_inactive!
     end
 
-    it_behaves_like 'a previewable field'
     it_behaves_like 'a workpackage autocomplete field'
   end
 
   describe 'custom field lists' do
     let(:custom_field1) do
       FactoryBot.create(:list_wp_custom_field,
-                         is_required: false,
-                         possible_values: %w(foo bar baz))
+                        is_required: false,
+                        possible_values: %w(foo bar baz))
     end
     let(:custom_field2) do
       FactoryBot.create(:list_wp_custom_field,
-                         is_required: false,
-                         possible_values: %w(X Y Z))
+                        is_required: false,
+                        possible_values: %w(X Y Z))
     end
 
     let(:custom_fields) { [custom_field1, custom_field2] }
@@ -106,11 +105,11 @@ describe 'custom field inplace editor', js: true do
                                 :"customField#{custom_field2.id}" => 'Y'
 
       field1.activate!
-      field1.expect_value("/api/v3/custom_options/#{custom_value('bar')}")
+      expect(field1.input_element.text).to include('bar')
       field1.cancel_by_escape
 
       field2.activate!
-      field2.expect_value("/api/v3/custom_options/#{custom_value('Y')}")
+      expect(field2.input_element.text).to include('Y')
       expect_update 'X',
                     message: I18n.t('js.notice_successful_update'),
                     field: field2

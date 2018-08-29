@@ -27,14 +27,13 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Based on a Snippet by Tom Dooner. See:
-# http://www.tomdooner.com/2014/05/26/webpack.html
+require 'open_project/assets'
 
-# The webpack task must run before assets:environment task.
+# The ng build task must run before assets:environment task.
 # Otherwise Sprockets cannot find the files that webpack produces.
 Rake::Task['assets:precompile']
   .clear_prerequisites
-  .enhance(['assets:compile_environment', 'assets:prepare_op'])
+  .enhance(%w[ assets:compile_environment assets:prepare_op])
 
 namespace :assets do
   # In this task, set prerequisites for the assets:precompile task
@@ -42,14 +41,22 @@ namespace :assets do
     Rake::Task['assets:environment'].invoke
   end
 
-  desc 'Prepare locales and webpack assets'
-  task prepare_op: [:webpack, :export_locales]
+  desc 'Prepare locales and angular assets'
+  task prepare_op: ['openproject:plugins:register_frontend', :angular, :export_locales]
 
   desc 'Compile assets with webpack'
-  task :webpack do
+  task :angular do
+    OpenProject::Assets.clear!
+
+    puts "Building angular frontend"
     Dir.chdir Rails.root.join('frontend') do
-      sh '$(npm bin)/webpack --config webpack.production.config.js'
+      sh 'npm run build' do |ok, res|
+        raise "Failed to compile angular frontend: #{res.exitstatus}" if !ok
+      end
     end
+
+    puts "Writing angular assets manifest"
+    OpenProject::Assets.rebuild_manifest!
   end
 
   desc 'Export frontend locale files'

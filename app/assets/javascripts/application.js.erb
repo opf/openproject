@@ -26,27 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-//= require i18n
-
-//= require ./bundles/openproject-vendors
-//= require ./bundles/openproject-common
-//= require ./bundles/openproject-core-app
-//= require_tree ./bundles
-
 //= require lib/jquery.colorcontrast
 //= require lib/jquery.trap
 //= require lib/jquery.is_visible_within
 
 //= require top_menu
 //= require action_menu
-//= require tree_menu
 //= require breadcrumb
 //= require findDomElement
-//= require jstoolbar
 //= require settings
-//= require modal
 //= require tab_handling
-//= require autocomplete_textareas
 //= require openproject_plugins
 //= require versions
 //= require forums
@@ -59,22 +48,6 @@
 //= require tooltips
 //= require danger_zone_validation
 //= require flash_messages
-
-jQuery(document).ready(function ($) {
-  //remove modal layout=false if we ctrl-click!
-  jQuery(document.body).on("click", "a", function (e) {
-    if (top != self && e.ctrlKey) {
-      if (e.target && e.target.href) {
-        var url = e.target.href;
-        if (url.match(/(&)?layout=false/)) {
-          url = url.replace(/(&)?layout=false/g, "").replace(/\?$/, "");
-          window.open(url);
-          e.preventDefault();
-        }
-      }
-    }
-  });
-});
 
 function checkAll(selector, checked) {
   jQuery('#' + selector + ' input:checkbox').not(':disabled').each(function() {
@@ -266,29 +239,6 @@ jQuery(document).ready(function($) {
       $('#ajax-indicator').hide();
     }
     addClickEventToAllErrorMessages();
-  });
-
-  // TODO remove after select2
-  $.extend($.fn.select2.defaults, {
-    formatNoMatches: function () {
-      return I18n.t("js.select2.no_matches");
-    },
-    formatInputTooShort: function (input, min) {
-      return I18n.t("js.select2.input_too_short", {count: min - input.length});
-    },
-    formatSelectionTooBig: function (limit) {
-      return I18n.t("js.select2.selection_too_big", {limit: limit});
-    },
-    formatLoadMore: function (pageNumber) {
-      return I18n.t("js.select2.load_more");
-    },
-    formatSearching: function () {
-      return I18n.t("js.select2.searching");
-    },
-    containerCssClass: 'form--select2',
-    adaptContainerCssClass: function(clazz) {
-      return null;
-    }
   });
 
   // file table thumbnails

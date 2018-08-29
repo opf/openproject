@@ -56,6 +56,7 @@ npm-debug.log*
 /config/database.yml
 /config/email.yml
 /config/secret_token.yml
+/config/frontend_assets.manifest.json
 /coverage
 /db/*.db
 /db/*.sqlite3
@@ -91,5 +92,7 @@ npm-debug.log*
 /frontend/dist/
 /frontend/tests/*.gif
 node_modules/
+# Ignore global package-lock.json that generates
+/package-lock.json
 plaintext.yml
 structure.sql

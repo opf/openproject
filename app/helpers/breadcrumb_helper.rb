@@ -29,9 +29,13 @@
 
 module BreadcrumbHelper
   def full_breadcrumb
-    breadcrumb_list(link_to(icon_wrapper('icon2 icon-home', I18n.t(:label_home)), home_path),
-                    link_to_project_ancestors(@project),
-                    *breadcrumb_paths)
+    if show_defaults
+      breadcrumb_list(link_to(icon_wrapper('icon2 icon-home', I18n.t(:label_home)), home_path),
+                      link_to_project_ancestors(@project),
+                      *breadcrumb_paths)
+    else
+      breadcrumb_list(*breadcrumb_paths)
+    end
   end
 
   def breadcrumb(*args)
@@ -41,9 +45,12 @@ module BreadcrumbHelper
 
   def breadcrumb_list(*args)
     elements = args.flatten
-    breadcrumb_elements = [content_tag(:li, elements.shift.to_s, class: 'first-breadcrumb-element', style: 'list-style-image:none;')]
+    breadcrumb_elements = [content_tag(:li,
+                                       elements.shift.to_s,
+                                       class: 'first-breadcrumb-element',
+                                       style: 'list-style-image:none;')]
 
-    breadcrumb_elements += elements.map { |element|
+    breadcrumb_elements += elements.map do |element|
       if element
         css_class = if element.try(:include?, 'breadcrumb-project-title')
                       'breadcrumb-project-element '
@@ -52,7 +59,7 @@ module BreadcrumbHelper
                     h(element.to_s),
                     class: "#{css_class} icon4 icon-small icon-arrow-right5")
       end
-    }
+    end
 
     content_tag(:ul, breadcrumb_elements.join.html_safe, class: 'breadcrumb')
   end
@@ -71,6 +78,14 @@ module BreadcrumbHelper
   def show_breadcrumb
     if !!(defined? show_local_breadcrumb)
       show_local_breadcrumb
+    else
+      false
+    end
+  end
+
+  def show_defaults
+    if !!(defined? show_local_breadcrumb_defaults)
+      show_local_breadcrumb_defaults
     else
       false
     end

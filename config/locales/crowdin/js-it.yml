@@ -4,6 +4,11 @@ it:
     ajax:
       hide: Nascondi
       loading: Caricamento ...
+    attachments:
+      draggable_hint: 'Drag on editor field to inline image or reference attachment.
+        Closed editor fields will be opened while you keep dragging.
+
+'
     autocomplete_select:
       placeholder:
         multi: Aggiungi "%{name}"
@@ -53,9 +58,57 @@ it:
     description_select_work_package: 'Seleziona la macro-attività #%{id}'
     description_selected_columns: Colonne selezionate
     description_subwork_package: 'Subordinata alla macro-attività #%{id}'
+    editor:
+      preview: Toggle preview mode
+      error_saving_failed: 'Saving the document failed with the following error: %{e}'
+      macro:
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Pagina wiki
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
+        code_block:
+          button: Insert code snippet
+          title: Insert / edit Code snippet
+          language: Formatting language
+          language_hint: Enter the formatting language that will be used for highlighting
+            (if supported).
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
+        toc: Table of contents
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
+        wiki_page_include:
+          button: Include content of another wiki page
+          text: "[Placeholder] Included wiki page of"
+          page: Pagina wiki
+          not_set: "(Page not yet set)"
+          hint: |
+            Include the content of another wiki page by specifying its title or slug.
+            You can include the wiki page of another project by separating them with a colon like the following example.
+        work_package_button:
+          button: Insert create work package button
+          type: Work package type
+          button_style: Use button style
+          button_style_hint: 'Optional: Check to make macro appear as a button, not
+            as a link.'
+          without_type: Create work package
+          with_type: 'Create work package (Type: %{typename})'
+        embedded_table:
+          button: Embed work package table
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: Si è verificato un errore interno.
-      query_saving: The query could not be saved.
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
+      query_saving: The view could not be saved.
+      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
     filter:
       description:
         text_open_filter: Apri questo filtro con i tasti 'ALT' e le frecce.
@@ -122,6 +175,7 @@ it:
     label_expand: Espandi
     label_expanded: espanso
     label_expand_all: Espandi tutto
+    label_expand_project_menu: Expand project menu
     label_export: Esporta
     label_filename: File
     label_filesize: Dimensione
@@ -129,10 +183,11 @@ it:
     label_group_by: Raggruppa per
     label_hide_attributes: Meno suggerimenti
     label_hide_column: Nascondi la colonna
+    label_hide_project_menu: Collapse project menu
     label_in: in
     label_in_less_than: in meno di
     label_in_more_than: in più di
-    label_latest_activity: Ultime attività
+    label_latest_activity: Latest activity
     label_last_updated_on: Ultimo aggiornamento il
     label_less_or_equal: "<="
     label_less_than_ago: meno di qualche giorno fa
@@ -164,12 +219,15 @@ it:
     label_select_watcher: Seleziona un osservatore...
     label_selected_filter_list: Filtri selezionati
     label_show_attributes: Mostra tutti gli attributi
-    label_show_in_menu: Visualizza la pagina nel menu
+    label_show_in_menu: Show view in menu
     label_sort_by: Ordina per
     label_sorted_by: ordinati per
     label_sort_higher: Sposta su
     label_sort_lower: Sposta giu
     label_sorting: Ordinamento
+    label_star_query: Favored
+    label_press_enter_to_save: Press enter to save.
+    label_public_query: Pubblico
     label_sum_for: Somma per
     label_subject: Soggetto
     label_this_week: questa settimana
@@ -178,7 +236,6 @@ it:
     label_activity_show_only_comments: Mostra solo le attività con commenti
     label_activity_show_all: Mostra tutte le attività
     label_total_progress: "%{percent}% Progresso totale"
-    label_visible_for_others: Pagina visibile per gli altri
     label_updated_on: aggiornato il
     label_warning: Attenzione
     label_work_package: Macro-attività
@@ -191,8 +248,10 @@ it:
     label_unwatch: Smetti di Osservare
     label_unwatch_work_package: Smetti di osservare macro-attività (work-package)
     label_uploaded_by: Caricato da
-    label_global_queries: Query condivise
-    label_custom_queries: Query private
+    label_default_queries: Default views
+    label_starred_queries: Favorite views
+    label_global_queries: Public views
+    label_custom_queries: Private views
     label_columns: Colonne
     label_attachments: File
     label_drop_files: Trascina i file qui
@@ -204,8 +263,9 @@ it:
     label_remove_watcher: Rimuovi watcher %{name}
     label_remove_all_files: Elimina tutti i file
     label_add_description: Aggiunge una descrizione per %{file}
-    label_upload_notification: 'Caricamento dei file per la macro-attività #%{id}:
-      %{subject} in corso'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Caricamento dei file per la macro-attività
+      #%{id}: %{subject} in corso'
     label_files_to_upload: 'Verranno caricati questi files:'
     label_rejected_files: 'Questi file non possono essere caricati:'
     label_rejected_files_reason: Questi file non possono essere caricati perchè la
@@ -244,9 +304,9 @@ it:
         error_duplicate_group_name: Il nome %{group} è usato più di una volta. I nomi
           dei gruppi devono essere univoci.
         reset_title: Reimposta la configurazione del modulo
-        confirm_reset: 'Attenzione: voi reimpostare la configurazione del modulo?
-          Tutti gli attributi torneranno al loro gruppo predefinito e le caselle di
-          controllo e TUTTI i campi personalizzati verranno disattivati.
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Aggiorna ad Enterprise Edition
@@ -316,7 +376,6 @@ it:
         one: Puoi selezionare solo un elemento
         other: Puoi selezionare solo {{limit}} elementi
         zero: You cannot select any items
-    show_hide_project_menu: Espandi/Comprimi il menù di progetto
     project_menu_details: Dettagli
     sort:
       sorted_asc: 'Ordinamento crescente applicato, '
@@ -328,7 +387,8 @@ it:
       activate_no: attivalo per rimuovere l'ordinamento
     text_work_packages_destroy_confirmation: Sei sicuro di che voler eliminare le/le
       macro-attività (work package) selezionata/e?
-    text_query_destroy_confirmation: Sei sicuro di voler eliminare le query selezionate?
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      view?
     text_attachment_destroy_confirmation: Sei sicuro di che voler eliminare l'allegato?
     timelines:
       gantt_chart: Diagramma di Gantt
@@ -345,8 +405,8 @@ it:
           anziché questi attributi.
 
 '
-      button_activate: Attiva modalità sequenza temporale
-      button_deactivate: Disattiva modalità sequenza temporale
+      button_activate: Show Gantt chart
+      button_deactivate: Hide Gantt chart
       cancel: Cancella
       change: Cambiare nella pianificazione
       due_date: Data di consegna
@@ -363,14 +423,6 @@ it:
         report_timeout: Non è stato possibile caricare la cronologia in un lasso ti
           tempo ragionevole.
       filter:
-        column:
-          assigned_to: Assegnatario
-          type: Tipo
-          due_date: Data di scadenza
-          name: Nome
-          status: Stato
-          responsible: Responsabile
-          start_date: Data di inizio
         grouping_other: Altro
         noneSelection: "(nessuno)"
       name: Nome
@@ -384,7 +436,6 @@ it:
         level5: Espandi livello 5
         all: Mostra tutti
       project_status: Stato del progetto
-      project_type: Tipo di progetto
       really_close_dialog: Vuoi davvero chiudere la finestra di dialogo e perdere
         i dati inseriti?
       responsible: Responsabile
@@ -405,6 +456,10 @@ it:
         quarters: Trimestri
         years: Anni
         slider: cursore di zoom
+        description: 'Select the initial zoom level that should be shown when autozoom
+          is not available.
+
+'
     tl_toolbar:
       zooms: Livello di zoom
       outlines: Livello della gerarchia
@@ -493,7 +548,7 @@ it:
           i dipendenti filtrati
       faulty_query:
         title: Le macro-attività non possono essere caricate.
-        description: La query è errata e non può essere elaborata.
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: Nessuna macro-attività da visualizzare.
         description: E' possibile che non ne sia stata creata alcuna o che tutte le
@@ -525,6 +580,13 @@ it:
         updatedAt: Aggiornato il
         versionName: Versione
         version: Versione
+      default_queries:
+        latest_activity: Latest activity
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: All open
+        summary: Sommario
       jump_marks:
         pagination: Salta alla impaginazione tabella
         label_pagination: Clicca qui per saltare la tabella macro-attività e passare
@@ -550,10 +612,15 @@ it:
         insert_columns: Inserire colonne...
         filters: Filtri
         display_sums: Visualizza somme
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
         errors:
-          unretrievable_query: Impossibile recuperare la query dall'URL
-          not_found: La query non esiste
-        text_no_results: Nessuna query corrispondente trovata.
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
       table:
         configure_button: Configure work package table
         summary: Tabella con righe di macro-attività e colonne dei loro attributi.
@@ -567,7 +634,7 @@ it:
         button: Configure this work package table
         modal_title: Work package table configuration
         embedded_tab_disabled: This configuration tab is not available for the embedded
-          query you're editing.
+          view you're editing.
         display_settings: Display settings
         grouped_mode: Grouped mode
         grouped_hint: Table results will be grouped by the given attribute.
@@ -580,6 +647,8 @@ it:
         show_timeline_hint: Show an interactive gantt chart on the right side of the
           table. You can change its width by dragging the divider between table and
           gantt chart.
+        columns_help_text: Use the input above to add or remove columns to your table
+          view. You can drag and drop the columns to reorder them.
       tabs:
         overview: Panoramica
         activity: Attività
@@ -592,6 +661,7 @@ it:
         months: mesi
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Colonne ...
         sort_by: Ordina per ...
         group_by: Raggruppa per...
@@ -602,15 +672,16 @@ it:
         save: Salva
         save_as: Salva come …
         export: Esporta ...
-        publish: Pubblica...
-        page_settings: Rinomina query...
+        visibility_settings: Visibility settings ...
+        page_settings: Rename view ...
         delete: Cancella
       filter: Filtro
       unselected_title: Macro-attività
-      search_query_label: Ricerca tra le query di filtro salvate
-      search_query_title: Fare click per ricercare tra le query di filtro salvate
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
     modals:
-      label_settings: Rinomina query
+      label_settings: Rename view
       label_name: Nome
       label_delete_page: Elimina pagina corrente
       button_apply: Applica
@@ -626,7 +697,8 @@ it:
         title: Conferma l'eliminazione di %{label}
         text: Eliminare i seguenti %{label} ?
         has_children: 'Questa macro-attività ha %{childUnits}:'
-        deletes_children: Verranno eliminate anche tutte le macro-attività subordinate.
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: Creato con successo.
     notice_successful_delete: Cancellato con successo.
     notice_successful_update: Aggiornato con successo.
@@ -653,6 +725,9 @@ it:
         messages_on_field: 'Questo campo non è valido: %{messages}'
     error_could_not_resolve_version_name: Impossibile determinare il nome della versione
     error_could_not_resolve_user_name: Impossibile determinare il nome utente
+    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: macro-attività

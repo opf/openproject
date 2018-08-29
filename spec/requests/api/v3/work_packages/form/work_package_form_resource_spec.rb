@@ -95,7 +95,7 @@ describe 'API v3 Work package form resource', type: :request do
           it { is_expected.to have_json_path('_embedded/payload/subject') }
 
           it_behaves_like 'API V3 formattable', '_embedded/payload/description' do
-            let(:format) { 'textile' }
+            let(:format) { 'markdown' }
             let(:raw) { defined?(raw_value) ? raw_value : work_package.description.to_s }
             let(:html) do
               defined?(html_value) ? html_value : ('<p>' + work_package.description.to_s + '</p>')
@@ -236,7 +236,7 @@ describe 'API v3 Work package form resource', type: :request do
 
             describe 'description' do
               let(:path) { '_embedded/payload/description/raw' }
-              let(:description) { '*Some text* _describing_ *something*...' }
+              let(:description) { '**Some text** *describing* **something**...' }
               let(:params) { valid_params.merge(description: { raw: description }) }
 
               include_context 'post request'
@@ -443,7 +443,7 @@ describe 'API v3 Work package form resource', type: :request do
                   end
 
                   context 'existing group' do
-                    let(:user_link) { api_v3_paths.user group.id }
+                    let(:user_link) { api_v3_paths.group group.id }
 
                     include_context 'setup group membership', true
 
@@ -473,32 +473,25 @@ describe 'API v3 Work package form resource', type: :request do
                       let(:message) do
                         I18n.t('api_v3.errors.invalid_resource',
                                property: property,
-                               expected: '/api/v3/users/:id',
+                               expected: "/api/v3/groups/:id' or '/api/v3/users/:id",
                                actual: user_link)
                       end
                     end
                   end
 
                   context 'group assignement disabled' do
-                    let(:user_link) { api_v3_paths.user group.id }
-                    let(:error_message_path) { "_embedded/validationErrors/#{property}/message" }
-                    let(:error_message) do
-                      I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
-                             property: "#{property.capitalize}").to_json
-                    end
+                    let(:user_link) { api_v3_paths.group group.id }
 
                     include_context 'setup group membership', false
                     include_context 'post request'
 
-                    it_behaves_like 'valid payload'
-
-                    it_behaves_like 'having an error', property
-
-                    it_behaves_like 'having updated work package principal'
-
-                    it 'returns correct error message' do
-                      expect(subject.body).to be_json_eql(error_message)
-                        .at_path(error_message_path)
+                    it_behaves_like 'invalid resource link' do
+                      let(:message) do
+                        I18n.t('api_v3.errors.invalid_resource',
+                               property: property,
+                               expected: "/api/v3/users/:id",
+                               actual: user_link)
+                      end
                     end
                   end
                 end

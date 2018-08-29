@@ -28,10 +28,13 @@
 module DemoData
   class WorkPackageSeeder < Seeder
     attr_accessor :project, :user, :statuses, :repository,
-                  :time_entry_activities, :types
+                  :time_entry_activities, :types, :key
 
-    def initialize(project)
+    include ::DemoData::References
+
+    def initialize(project, key)
       self.project = project
+      self.key = key
       self.user = User.admin.first
       self.statuses = Status.all
       self.repository = Repository.first
@@ -51,71 +54,122 @@ module DemoData
     private
 
     def seed_demo_work_packages
-      work_packages_data = I18n.t('seeders.demo_data.work_packages')
+      work_packages_data = I18n.t("seeders.demo_data.projects.#{key}.work_packages")
 
       work_packages_data.each do |attributes|
-        start_date = calculate_start_date(attributes[:start])
-        version    = Version.find_by(name: attributes[:version])
-
         print '.'
-        work_package = WorkPackage.create!(
-          project:       project,
-          author:        user,
-          assigned_to:   user,
-          subject:       attributes[:subject],
-          status:        Status.find_by!(name: I18n.t(attributes[:status_name])),
-          type:          Type.find_by!(name: I18n.t(attributes[:type_name])),
-          start_date:    start_date,
-          due_date:      calculate_due_date(start_date, attributes[:duration]),
-          fixed_version: version,
-          priority:      IssuePriority.default
-        )
+        create_work_package attributes
+      end
+    end
 
-        attributes[:children].each do |child_attributes|
-          start_date = calculate_start_date(child_attributes[:start])
-          version    = Version.find_by(name: child_attributes[:version])
+    def create_work_package(attributes)
+      wp_attr = base_work_package_attributes attributes
 
-          print '.'
-          child = WorkPackage.new(
-            project:       project,
-            author:        user,
-            assigned_to:   user,
-            subject:       child_attributes[:subject],
-            status:        Status.find_by!(name: I18n.t(child_attributes[:status_name])),
-            type:          Type.find_by!(name: I18n.t(child_attributes[:type_name])),
-            start_date:    start_date,
-            due_date:      calculate_due_date(start_date, child_attributes[:duration]),
-            fixed_version: version,
-            priority:      IssuePriority.default
-          )
+      set_version! wp_attr, attributes
+      set_time_tracking_attributes! wp_attr, attributes
+      set_backlogs_attributes! wp_attr, attributes
 
-          child.parent = work_package
-          child.save!
-        end
+      work_package = WorkPackage.create wp_attr
+
+      create_children! work_package, attributes
+      create_attachments! work_package, attributes
+
+      description = work_package.description
+      description = link_attachments description, work_package.attachments
+      description = link_children description, work_package
+      description = with_references description, project
+
+      work_package.update description: description
+
+      work_package
+    end
+
+    def create_children!(work_package, attributes)
+      Array(attributes[:children]).each do |child_attributes|
+        print '.'
+        child = create_work_package child_attributes
+
+        child.parent = work_package
+        child.save!
+      end
+    end
+
+    def base_work_package_attributes(attributes)
+      {
+        project:       project,
+        author:        user,
+        assigned_to:   user,
+        subject:       attributes[:subject],
+        description:   attributes[:description],
+        status:        find_status(attributes),
+        type:          find_type(attributes),
+        priority:      find_priority(attributes) || IssuePriority.default
+      }
+    end
+
+    def find_priority(attributes)
+      IssuePriority.find_by(name: I18n.t(attributes[:priority]))
+    end
+
+    def find_status(attributes)
+      Status.find_by!(name: I18n.t(attributes[:status]))
+    end
+
+    def find_type(attributes)
+      Type.find_by!(name: I18n.t(attributes[:type]))
+    end
+
+    def set_version!(wp_attr, attributes)
+      if attributes[:version]
+        wp_attr[:fixed_version] = Version.find_by!(name: attributes[:version])
+      end
+    end
+
+    def set_time_tracking_attributes!(wp_attr, attributes)
+      start_date = attributes[:start] && calculate_start_date(attributes[:start])
+
+      wp_attr[:start_date] = start_date
+      wp_attr[:due_date] = calculate_due_date(start_date, attributes[:duration]) if start_date && attributes[:duration]
+      wp_attr[:done_ratio] = attributes[:done_ratio].to_i if attributes[:done_ratio]
+      wp_attr[:estimated_hours] = attributes[:estimated_hours].to_i if attributes[:estimated_hours]
+    end
+
+    def set_backlogs_attributes!(wp_attr, attributes)
+      if defined? OpenProject::Backlogs
+        wp_attr[:position] = attributes[:position].to_i if attributes[:position].present?
+        wp_attr[:story_points] = attributes[:story_points].to_i if attributes[:story_points].present?
+      end
+    end
+
+    def create_attachments!(work_package, attributes)
+      Array(attributes[:attachments]).each do |file_name|
+        attachment = work_package.attachments.build
+        attachment.author = work_package.author
+        attachment.file = File.new("config/locales/media/#{I18n.locale}/#{file_name}")
+
+        attachment.save!
       end
     end
 
     def set_workpackage_relations
-      work_packages_data = I18n.t('seeders.demo_data.work_packages')
+      work_packages_data = I18n.t("seeders.demo_data.projects.#{key}.work_packages")
 
       work_packages_data.each do |attributes|
-        attributes[:relations].each do |relation|
-          create_relation(
-            to:   WorkPackage.find_by!(subject: relation[:to]),
-            from: WorkPackage.find_by!(subject: attributes[:subject]),
-            type: relation[:type]
-          )
-        end
+        create_relations attributes
+      end
+    end
 
-        attributes[:children].each do |child_attributes|
-          child_attributes[:relations].each do |relation|
-            create_relation(
-              to:   WorkPackage.find_by!(subject: relation[:to]),
-              from: WorkPackage.find_by!(subject: child_attributes[:subject]),
-              type: relation[:type]
-            )
-          end
-        end
+    def create_relations(attributes)
+      Array(attributes[:relations]).each do |relation|
+        create_relation(
+          to:   WorkPackage.find_by!(subject: relation[:to]),
+          from: WorkPackage.find_by!(subject: attributes[:subject]),
+          type: relation[:type]
+        )
+      end
+
+      Array(attributes[:children]).each do |child_attributes|
+        create_relations child_attributes
       end
     end
 
@@ -133,7 +187,7 @@ module DemoData
     end
 
     def calculate_due_date(date, duration)
-      duration > 1 ? date + duration : date
+      duration && duration > 1 ? date + duration : date
     end
   end
 end

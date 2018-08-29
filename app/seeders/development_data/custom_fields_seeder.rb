@@ -32,7 +32,7 @@ module DevelopmentData
         print '    ↳ Creating custom fields...'
         cfs = create_cfs!
 
-        print '    ↳ Creating types for linking CFs'
+        print "\n    ↳ Creating types for linking CFs"
         create_types!(cfs)
       end
 

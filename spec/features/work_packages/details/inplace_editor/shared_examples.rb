@@ -35,7 +35,7 @@ shared_examples 'an auth aware field' do
   end
 
   context 'when user is not authorized' do
-    let(:user) {
+    let(:user) do
       FactoryBot.create(
         :user,
         member_in_project: project,
@@ -44,7 +44,7 @@ shared_examples 'an auth aware field' do
           permissions: [:view_work_packages]
         )
       )
-    }
+    end
 
     it 'is not editable' do
       expect(field).not_to be_editable
@@ -101,37 +101,13 @@ shared_examples 'a cancellable field' do
   end
 end
 
-shared_examples 'a previewable field' do
-  before do
-    skip('Markdown mode does not provide previewing') if Setting.text_formatting == 'markdown'
-  end
-
-  it 'can preview the field' do
-    field.activate!
-
-    field.input_element.set '*Highlight*'
-    preview = field.field_container.find('.jstb_preview')
-
-    # Enable preview
-    preview.click
-    expect(field.field_container).to have_selector('strong', text: 'Highlight')
-
-    # Disable preview
-    preview.click
-    expect(field.field_container).to have_no_selector('strong')
-  end
-end
-
 shared_examples 'a workpackage autocomplete field' do
   let!(:wp2) { FactoryBot.create(:work_package, project: project, subject: 'AutoFoo') }
 
-  before do
-    skip('Markdown mode does not provide autocompleting') if Setting.text_formatting == 'markdown'
-  end
-
   it 'autocompletes the other work package' do
     field.activate!
-    field.input_element.send_keys(" ##{wp2.id}")
+    field.clear
+    field.type(" ##{wp2.id}")
     expect(page).to have_selector('.atwho-view-ul li.cur', text: wp2.to_s.strip)
   end
 end
@@ -140,23 +116,23 @@ shared_examples 'a principal autocomplete field' do
   let(:role) { FactoryBot.create(:role, permissions: %i[view_work_packages edit_work_packages]) }
   let!(:user) do
     FactoryBot.create :user,
-                       member_in_project: project,
-                       member_through_role: role,
-                       firstname: 'John'
+                      member_in_project: project,
+                      member_through_role: role,
+                      firstname: 'John'
   end
   let!(:mentioned_user) do
     FactoryBot.create :user,
-                       member_in_project: project,
-                       member_through_role: role,
-                       firstname: 'Laura',
-                       lastname: 'Foobar'
+                      member_in_project: project,
+                      member_through_role: role,
+                      firstname: 'Laura',
+                      lastname: 'Foobar'
   end
   let!(:mentioned_group) do
     FactoryBot.create(:group, lastname: 'Laudators').tap do |group|
       FactoryBot.create :member,
-                         principal: group,
-                         project: project,
-                         roles: [role]
+                        principal: group,
+                        project: project,
+                        roles: [role]
     end
   end
 

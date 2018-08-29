@@ -3,7 +3,8 @@ pt-BR:
   no_results_title_text: Atualmente, não há o que exibir.
   activities:
     index:
-      no_results_title_text: Não houve qualquer atividade para o projeto.
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: Atualmente, não existem plugins disponíveis.
@@ -85,6 +86,8 @@ pt-BR:
     tab:
       no_results_title_text: Atualmente, não há campos personalizados.
       no_results_content_text: Criar um novo campo personalizado
+  concatenation:
+    single: or
   deprecations:
     old_timeline:
       replacement: Este módulo de cronogramas está sendo substituído por um cronograma
@@ -128,10 +131,6 @@ pt-BR:
       versions:
         no_results_title_text: Atualmente, não há versões para o projeto.
         no_results_content_text: Criar uma nova versão
-  project_types:
-    index:
-      no_results_title_text: Atualmente, não há nenhum tipo de projeto.
-      no_results_content_text: Criar um novo tipo de projeto
   members:
     index:
       no_results_title_text: Atualmente, não há membros deste projeto.
@@ -185,7 +184,12 @@ pt-BR:
     index:
       no_results_title_text: Atualmente, não há fluxos de trabalho.
   work_packages:
+    x_descendants:
+      one: One descendant work package
+      other: "%{count} work package descendants"
     move:
+      no_common_statuses_exists: Não há situação disponível para todos os pacotes
+        de trabalho selecionados. Sua situação não pode ser alterada.
       unsupported_for_multiple_projects: Movimentação/cópia em massa não é suportada
         para pacotes de trabalho de vários projetos
     list_simple:
@@ -195,7 +199,8 @@ pt-BR:
       reported:
         no_results_title_text: Atualmente, não há pacotes de trabalho que eu relatei.
       responsible:
-        no_results_title_text: Atualmente, não há pacotes de trabalho sob minha responsabilidade.
+        no_results_title_text: There are currently no work packages that I am accountable
+          for.
       watched:
         no_results_title_text: Atualmente, não há pacotes de trabalho que eu estou
           observando.
@@ -248,10 +253,10 @@ pt-BR:
           de entrar com suas credenciais atuais. Se quiser, poderá cadastrar-se novamente
           pelos meios que este aplicativo permite.
       login_verification:
-        other: Digite o nome de usuário %{name} para verificar a exclusão. Depois
-          de enviado, você receberá uma solicitação de confirmação da sua senha.
-        self: Digite seu nome de usuário %{name} para verificar a exclusão. Depois
-          de enviado, você receberá uma solicitação de confirmação da sua senha.
+        other: Digite o nome de usuário %{name} para validar a exclusão. Depois de
+          enviado, você receberá uma solicitação de confirmação da sua senha.
+        self: Digite seu nome de usuário %{name} para validar a exclusão. Depois de
+          enviado, você receberá uma solicitação de confirmação da sua senha.
     error_inactive_activation_by_mail: 'Sua conta ainda não foi ativada. Para ativar
       sua conta, clique no link que foi enviado por e-mail à você.
 
@@ -297,6 +302,8 @@ pt-BR:
         repository: Repositório
       comment:
         commented: Comentado
+      custom_action:
+        actions: Ações
       custom_field:
         default_value: Valor padrão
         editable: Editável
@@ -317,6 +324,7 @@ pt-BR:
         expires_at: Expira em
         subscriber: Assinante
         encoded_token: Token de suporte Enterprise
+        active_user_count_restriction: Máximo de usuários ativos
       relation:
         delay: Atraso
         from: Pacote de trabalho
@@ -331,9 +339,7 @@ pt-BR:
         identifier: Identificador
         latest_activity_at: Últimas atividades em
         parent: Subprojeto de
-        project_type: Tipo de projeto
         queries: Consultas
-        responsible: Responsável
         types: Tipos
         versions: Versões
         work_packages: Pacotes de Trabalho
@@ -355,8 +361,9 @@ pt-BR:
         spent_on: Data
         type: Tipo
       type:
-        is_in_roadmap: No planejamento
-        in_aggregation: Na agregação
+        attribute_groups: ''
+        is_in_roadmap: Displayed in roadmap by default
+        is_default: Activated for new projects by default
         is_milestone: É marco
         color: Cor
       user:
@@ -388,8 +395,6 @@ pt-BR:
         redirect_existing_links: Redireciona links existentes
       planning_element_type_color:
         hexcode: Código hexadecimal
-      project_type:
-        position: Posição
       work_package:
         begin_insertion: Início da inserção
         begin_deletion: Início da exclusão
@@ -403,7 +408,6 @@ pt-BR:
         parent_work_package: Ascendente
         priority: Prioridade
         progress: Progresso (%)
-        responsible: Responsável
         spent_hours: Tempo gasto
         spent_time: Tempo gasto
         subproject: Subprojeto
@@ -413,11 +417,16 @@ pt-BR:
     errors:
       messages:
         accepted: deve ser aceito.
+        after: deve ser depois de %{date}.
+        after_or_equal_to: deve ser depois ou igual a %{date}.
+        before: deve ser antes de %{date}.
+        before_or_equal_to: deve ser antes ou igual a %{date}.
         blank: não pode ficar em branco.
         cant_link_a_work_package_with_a_descendant: Um pacote de trabalho não pode
           ser vinculado a uma das suas subtarefas.
         circular_dependency: Esta relação vai criar uma dependência circular.
         confirmation: não coincide com %{attribute}.
+        could_not_be_copied: não pode ser copiado (totalmente).
         does_not_exist: não existe.
         empty: não pode ser vazio.
         even: deve ser par.
@@ -425,9 +434,8 @@ pt-BR:
         file_too_large: é muito grande (tamanho máximo é %{count} Bytes).
         greater_than: deve ser maior que %{count}.
         greater_than_or_equal_to: deve ser maior ou igual a %{count}.
-        smaller_than_or_equal_to_max_length: deve ser menor ou igual ao tamanho máximo.
-        greater_than_start_date: deve ser maior que a data de início.
         greater_than_or_equal_to_start_date: deve ser maior ou igual a data de início.
+        greater_than_start_date: deve ser maior que a data de início.
         inclusion: Não está definido como um dos valores permitidos.
         invalid: é inválido.
         invalid_url: não é uma URL válida.
@@ -435,22 +443,19 @@ pt-BR:
         less_than_or_equal_to: deve ser menor ou igual a %{count}.
         not_a_date: não é uma data válida.
         not_a_datetime: não é uma data/hora válida.
-        not_an_iso_date: 'não é uma data válida. Formato exigido: AAAA-MM-DD.'
         not_a_number: não é um número.
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: não é um número inteiro.
+        not_an_iso_date: 'não é uma data válida. Formato exigido: AAAA-MM-DD.'
         not_same_project: não pertence ao mesmo projeto.
         odd: deve ser ímpar.
+        regex_invalid: não pode ser validado com a expressão regular associada.
+        smaller_than_or_equal_to_max_length: deve ser menor ou igual ao tamanho máximo.
         taken: já está sendo utilizado.
         too_long: é muito longo (o máximo é %{count} caracteres).
         too_short: é muito curto (mínimo é %{count} caracteres).
+        unchangeable: não pode ser alterado.
         wrong_length: é o tamanho errado (deve ser %{count} caracteres).
-        after: deve ser depois de %{date}.
-        after_or_equal_to: deve ser depois ou igual a %{date}.
-        before: deve ser antes de %{date}.
-        before_or_equal_to: deve ser antes ou igual a %{date}.
-        could_not_be_copied: não pode ser copiado (totalmente).
-        regex_invalid: não pode ser validado com a expressão regular associada.
-        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: Pelo menos uma opção precisa estar disponível.
@@ -478,8 +483,7 @@ pt-BR:
             project:
               error_not_found: não encontrado
             public:
-              error_unauthorized: "-O usuário não tem permissão para criar consultas
-                públicas."
+              error_unauthorized: "- The user has no permission to create public views."
           group_by_hierarchies_exclusive: é mutuamente exclusivo com o agrupamento
             por '%{group_by}'. Você não pode ativar os dois.
           filters:
@@ -534,10 +538,11 @@ pt-BR:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Grupos sem nome não são permitidos.
+              attribute_unknown: Atributo de pacote de trabalho inválido usado.
               duplicate_group: O nome de grupo %{group} foi usado mais de uma vez.
                 Nomes de grupos devem ser únicos.
-              attribute_unknown: Atributo de pacote de trabalho inválido usado.
+              query_invalid: 'A consulta embutida ''%{group}'' é inválida: %{details}'
+              group_without_name: Grupos sem nome não são permitidos.
         user:
           attributes:
             password:
@@ -586,7 +591,6 @@ pt-BR:
         one: Papel
         other: Papéis
       type: Tipo
-      project_type: Tipo de projeto
       user: Usuário
       version: Versão
       wiki: Wiki
@@ -640,7 +644,7 @@ pt-BR:
     password: Senha
     priority: Prioridade
     project: Projeto
-    responsible: Responsável
+    responsible: Accountable
     role: Papel
     roles: Papéis
     start_date: Data de início
@@ -711,6 +715,7 @@ pt-BR:
   button_unlock: Desbloquear
   button_unwatch: Não observar
   button_update: Atualizar
+  button_upgrade: Atualizar
   button_upload: Carregar
   button_view: Ver
   button_watch: Observar
@@ -719,7 +724,7 @@ pt-BR:
   button_configure_menu_entry: Configurar item de menu
   button_delete_menu_entry: Excluir item de menu
   consent:
-    checkbox_label: Eu observei e concordo com o exposto acima.
+    checkbox_label: Eu li e concordo com o exposto acima.
     failure_message: Consentimento falhou, não pode continuar.
     title: Consentimento do usuário
     decline_warning_message: Você se recusou a consentir e foi desconectado.
@@ -880,11 +885,6 @@ pt-BR:
   default_priority_normal: Normal
   default_priority_high: Alta
   default_priority_immediate: Imediata
-  default_project_type_scrum: Equipe Scrum
-  default_project_type_standard: Projeto padrão
-  default_reported_project_status_green: Verde
-  default_reported_project_status_amber: Âmbar
-  default_reported_project_status_red: Vermelho
   default_role_anonymous: Anônimo
   default_role_developer: Desenvolvedor
   default_role_project_admin: Administrador do projeto
@@ -952,7 +952,8 @@ pt-BR:
   enumeration_system_activity: Atividade do Sistema
   enumeration_reported_project_statuses: Situação relatada do projeto
   error_auth_source_sso_failed: Single Sign-On (SSO) para o usuário '%{value}' falhou
-  error_can_not_archive_project: Este projeto não pode ser arquivado
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Não é possível excluir a entrada
   error_can_not_delete_custom_field: Não é possível excluir o campo personalizado
   error_can_not_delete_type: Este tipo contém pacotes de trabalho e não pode ser excluído.
@@ -967,12 +968,16 @@ pt-BR:
   error_custom_option_not_found: A opção não existe.
   error_dependent_work_package: 'Erro no pacote de trabalho dependente #%{related_id}
     %{related_subject}: %{error}'
+  error_enterprise_activation_user_limit: Sua conta não pôde ser ativada (limite de
+    usuários atingido). Por favor, contate o administrador para obter acesso.
   error_failed_to_delete_entry: Falha ao excluir esta entrada.
+  error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Não é possível agrupar por: %{value}'
   error_invalid_query_column: 'Coluna de consulta inválida: %{value}'
   error_invalid_sort_criterion: 'Não é possível ordenar por coluna: %{value}'
   error_pdf_export_too_many_columns: Muitas colunas selecionadas para a exportação
     para PDF. Reduza o número de colunas.
+  error_pdf_failed_to_export: 'Não foi possível salvar a exportação do PDF: %{error}'
   error_token_authenticity: Não foi possível verificar o símbolo de Falsificação de
     Solicitação Entre Sites.
   error_work_package_done_ratios_not_updated: Percentual concluído do pacote de trabalho
@@ -1025,6 +1030,8 @@ pt-BR:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF com descrições
+      pdf_with_descriptions_and_attachments: PDF com descrições e anexos
+      pdf_with_attachments: PDF com anexos
   extraction:
     available:
       pdftotext: Pdftotext disponível (opcional)
@@ -1048,6 +1055,7 @@ pt-BR:
   homescreen:
     additional:
       projects: Projetos mais recentes visíveis nesta instância.
+      no_visible_projects: There are no visible projects in this instance.
       users: Usuários mais recentes registrados nesta instância.
     blocks:
       community: Comunidade do OpenProject
@@ -1235,7 +1243,6 @@ pt-BR:
   label_edit: Editar
   label_enable_multi_select: Alternar para seleção múltipla
   label_enabled_project_custom_fields: Campos personalizados habilitados
-  label_enabled_project_types: Tipos habilitados
   label_enabled_project_modules: Módulos habilitados
   label_enabled_project_activities: Atividades de controle de tempo habilitadas
   label_end_to_end: fim a fim
@@ -1244,8 +1251,8 @@ pt-BR:
   label_enumeration_value: Valor de enumeração
   label_enumerations: Enumerações
   label_enterprise: Enterprise
+  label_enterprise_active_users: "%{current}/%{limit} usuários ativos reservados"
   label_enterprise_edition: Enterprise Edition
-  label_entry_page: Página de entrada
   label_environment: Ambiente
   label_estimates_and_time: Estimativas e tempo
   label_equals: é
@@ -1269,6 +1276,8 @@ pt-BR:
   label_force_user_language_to_default: Idioma de usuário definido com uma linguagem
     não permitida como padrão
   label_form_configuration: Configuração do formulário
+  label_gantt: Gantt
+  label_gantt_chart: Gráfico de Gantt
   label_general: Geral
   label_generate_key: Gerar uma chave
   label_git_path: Caminho para o diretório .git
@@ -1372,6 +1381,7 @@ pt-BR:
   label_next_week: Próxima semana
   label_no_change_option: "(Sem mudança)"
   label_no_data: Sem dados para exibir
+  label_no_parent_page: Nenhuma página pai
   label_nothing_display: Nada para exibir
   label_nobody: ninguém
   label_none: nenhum
@@ -1390,6 +1400,7 @@ pt-BR:
   label_overall_activity: Atividade global
   label_overall_spent_time: Tempo total gasto
   label_overview: Visão geral
+  label_page_title: Título da página
   label_part_of: parte de
   label_password_lost: Esqueceu a senha?
   label_password_rule_lowercase: Letras minúsculas
@@ -1462,7 +1473,7 @@ pt-BR:
   label_repository_plural: Repositórios
   label_required: requerido
   label_requires: requer
-  label_responsible_for_work_packages: Pacotes de trabalho sob minha responsabilidade
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Resultados
   label_reverse_chronological_order: Em ordem cronológica inversa
   label_revision: Revisão
@@ -1526,7 +1537,6 @@ pt-BR:
   label_total: Total
   label_type_new: Novo tipo
   label_type_plural: Tipos
-  label_type_default_new_projects: Tipo ativado para novos projetos por padrão
   label_ui: Interface de usuário
   label_update_work_package_done_ratios: Atualizar % Terminado do pacote de trabalho
   label_updated_time: Atualizado há %{value} atrás
@@ -1599,8 +1609,8 @@ pt-BR:
     atribuídos a mim
   label_work_package_view_all_reported_by_me: Exibir todos os pacotes de trabalho
     criados por mim
-  label_work_package_view_all_responsible_for: Exibir todos os pacotes de trabalho
-    que estão sob a minha responsabilidade
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
+    for
   label_work_package_view_all_watched: Exibir todos os pacotes de trabalho observados
   label_work_package_watchers: Observadores
   label_workflow: Fluxo de trabalho
@@ -1667,6 +1677,16 @@ pt-BR:
   macro_execution_error: Erro de execução da macro %{macro_name}
   macro_unavailable: Macro %{macro_name} não pode ser exibida.
   macros:
+    placeholder: "[Placeholder] Macro %{macro_name}"
+    errors:
+      missing_or_invalid_parameter: Parâmetro de macro ausente ou inválido.
+    legacy_warning:
+      timeline: Essa macro de cronograma legada foi removida e não está mais disponível.
+        Você pode substituir a funcionalidade com uma macro da tabela embutida.
+    include_wiki_page:
+      errors:
+        page_not_found: Não é possível encontrar a página wiki '%{name} '.
+        circular_inclusion: Detectada inclusão circular de páginas.
     create_work_package_link:
       errors:
         no_project_context: Chamando macro create_work_package_link fora do contexto
@@ -1693,6 +1713,15 @@ pt-BR:
     dias:"
   mail_subject_wiki_content_added: página de wiki '%{id}' foi adicionada
   mail_subject_wiki_content_updated: página de wiki '%{id}' foi atualizada
+  mail_user_activation_limit_reached:
+    subject: Limite de ativação de usuários atingido
+    message: "Um novo usuário (%{email}) tentou criar uma conta em um ambiente do
+      OpenProject que você gerencia (%{host}). \nO usuário não conseguiu ativar sua
+      conta pois o limite máximo de usuários foi atingido.\n"
+    steps:
+      label: 'Para permitir que o usuário entre você pode: '
+      a: Atualizar seu plano de pagamento ([here](upgrade_url))
+      b: Bloquear ou excluir um usuário existente ([here](users_url))
   more_actions: Mais funções
   noscript_description: Você precisa ativar o JavaScript para usar o OpenProject!
   noscript_heading: JavaScript desativado
@@ -1815,6 +1844,7 @@ pt-BR:
       e colaboração de equipe com o OpenProject.
     text_show_again: Você pode reiniciar este vídeo através do menu ajuda
     welcome: Bem-vindo ao OpenProject
+    select_language: Por favor, selecione seu idioma para o OpenProject
   permission_add_work_package_notes: Adicionar anotações
   permission_add_work_packages: Adicionar pacotes de trabalho
   permission_add_messages: Postar mensagens
@@ -1855,7 +1885,7 @@ pt-BR:
   permission_manage_members: Gerenciar membros
   permission_manage_news: Administrar notícias
   permission_manage_project_activities: Gerenciar atividades do projeto
-  permission_manage_public_queries: Gerenciar consultas públicas
+  permission_manage_public_queries: Manage public views
   permission_manage_repository: Gerenciar repositório
   permission_manage_subtasks: Gerenciar as subtarefas
   permission_manage_versions: Gerenciar versões
@@ -1864,7 +1894,7 @@ pt-BR:
   permission_move_work_packages: Mover pacotes de trabalho
   permission_protect_wiki_pages: Proteger páginas wiki
   permission_rename_wiki_pages: Renomear páginas wiki
-  permission_save_queries: Salvar consultas
+  permission_save_queries: Save views
   permission_select_project_modules: Selecione os módulos do projeto
   permission_manage_types: Selecione tipos
   permission_view_calendar: Exibir o calendário
@@ -2062,9 +2092,9 @@ pt-BR:
   setting_smtp_address: Servidor SMTP
   setting_smtp_port: Porta SMTP
   setting_smtp_authentication: Autenticação SMTP
-  setting_smtp_domain: Domínio SMTP
   setting_smtp_user_name: Usuário SMTP
   setting_smtp_password: Senha SMTP
+  setting_smtp_domain: Domínio SMTP
   setting_activity_days_default: Dias exibidos na atividade de projeto
   setting_app_subtitle: Subtítulo do aplicativo
   setting_app_title: Título da aplicação
@@ -2077,7 +2107,6 @@ pt-BR:
     de tentativas de login
   setting_brute_force_block_minutes: Tempo que o usuário está bloqueado para
   setting_cache_formatted_text: Texto formatado em cache
-  setting_use_wysiwyg: Editor WYSIWYG
   setting_use_wysiwyg_description: Selecione para habilitar o CKEditor5 para todos
     os usuários por padrão. O CKEditor tem funcionalidades limitadas para o GFM Markdown.
   setting_column_options: Personalizar a aparência das listas de pacotes de trabalho
@@ -2169,7 +2198,6 @@ pt-BR:
   setting_sys_api_enabled: Habilitar o serviço web de gerenciamento de repositório
   setting_sys_api_description: O serviço de web de gerenciamento de repositório fornece
     integração e autorização de usuário para acessar repositórios.
-  setting_text_formatting: Formatação de texto
   setting_time_format: Formato de hora
   setting_accessibility_mode_for_anonymous: Ativar o modo de acessibilidade para usuários
     anônimos
@@ -2180,8 +2208,6 @@ pt-BR:
   setting_welcome_text: Texto do bloco de boas-vindas
   setting_welcome_title: Título do bloco de boas-vindas
   setting_welcome_on_homescreen: Exibir bloco de boas-vindas na tela inicial
-  setting_welcome_on_projects_page: Exibir bloco de boas-vindas na visão geral do
-    projeto
   setting_wiki_compression: Compactação de histórico do wiki
   setting_work_package_group_assignment: Permitir a atribuição de grupos
   settings:
@@ -2190,10 +2216,12 @@ pt-BR:
     passwords: Senhas
     session: Sessão
     brute_force_prevention: Bloqueio de usuário automatizado
+    user:
+      default_preferences: Preferências padrão
+      deletion: Exclusão
   text_formatting:
-    textile: Textile
     markdown: Markdown
-    plain: Texto sem formatação
+    plain: Texto simples
   status_active: ativo
   status_archived: arquivado
   status_invited: convidado
@@ -2267,7 +2295,7 @@ pt-BR:
   text_enumeration_destroy_question: "% {count} objetos estão atribuídos a esse valor."
   text_file_repository_writable: Diretório de anexos graváveis
   text_git_repo_example: um repositório e local (por exemplo, /gitrepo, c:\gitrepo)
-  text_hint_date_format: Insira uma data no formato YYYY-MM-DD. Outros formatos podem
+  text_hint_date_format: Digite uma data no formato YYYY-MM-DD. Outros formatos podem
     ser alterados para uma data não desejada.
   text_hint_disable_with_0: 'Nota: Desabilitar com 0'
   text_hours_between: Entre %{min} e %{max} horas.
@@ -2288,7 +2316,8 @@ pt-BR:
   text_journal_aggregation_time_explanation: Combine diários para exibir se a diferença
     de tempo for menor que o intervalo de tempo especificado. Isso também vai atrasar
     as notificações de email pela mesma quantidade de tempo.
-  text_journal_changed: "%{label} alterado de %{old} </br><strong>para</strong> %{new}"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} atualizado"
   text_journal_changed_with_diff: "%{label} alterado %{link}"
   text_journal_deleted: "%{label} excluído %{old} "
@@ -2340,6 +2369,8 @@ pt-BR:
   text_user_wrote: "%{value} escreveu:"
   text_warn_on_leaving_unsaved: O pacote de trabalho contém texto que não foi salvo
     e será perdido se você sair desta página.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Tem certeza que deseja excluir este wiki e todo
     o seu conteúdo?
   text_wiki_page_destroy_children: Excluir páginas filhas e todos os seus descendentes
@@ -2367,8 +2398,6 @@ pt-BR:
     admin_menu:
       color: Cor
       colors: Cores
-      project_type: Tipo de projeto
-      project_types: Tipo de projeto
     associations: Dependências
     board_could_not_be_saved: Painel não pôde ser salvo
     button_delete_all: Apagar tudo
@@ -2386,7 +2415,6 @@ pt-BR:
       one: 1 dia
       other: "%{count} dias"
     edit_color: Editar cores
-    edit_project_type: Editar o tipo de projeto
     edit_thing: Editar
     edit_timeline: Editar relatório de cronograma
     delete_timeline: Excluir relatório de cronograma
@@ -2429,7 +2457,6 @@ pt-BR:
         due_date: Data de término
         name: Nome
         status: Situação
-        responsible: Responsável
         start_date: Data de início
       columns: Colunas
       comparisons: Comparações
@@ -2458,7 +2485,7 @@ pt-BR:
       outline: Expansão do esboço inicial
       parent: Visualizar subprojetos de
       work_package_filters: Filtro de pacotes de trabalho
-      work_package_responsible: Mostrar os pacotes de trabalho com o responsável
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: Mostrar os pacotes de trabalho com seus responsáveis
       types: Mostrar tipos
       status: Mostrar status
@@ -2471,9 +2498,8 @@ pt-BR:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} atrás,
         %{end_label} %{endspan}%{endspanunit} agora"
       project_filters: Filtrar projetos
-      project_responsible: Mostrar projetos com responsável
+      project_responsible: Show projects with accountable
       project_status: Mostrar o status do projeto
-      project_types: Mostrar tipos de projeto
       timeframe: Mostrar calendário
       timeframe_end: para
       timeframe_start: de
@@ -2483,7 +2509,6 @@ pt-BR:
     new_color: Nova cor
     new_association: Nova dependência
     new_work_package: Novo pacote de trabalho
-    new_project_type: Novo tipo de projeto
     new_reporting: Novo relatório
     new_timeline: Novo relatório de cronograma
     no_projects_for_reporting_available: Não existem projetos para que uma associação
@@ -2510,23 +2535,11 @@ pt-BR:
       edit: 'Editar situação: %{comment}'
       show: 'Situação: %{comment}'
     planning_element_update: 'Atualização: %{title}'
-    work_packages_are_displayed_in_aggregations: Pacotes de trabalho são exibidos
-      em agregações
-    project_type_could_not_be_saved: Tipo de projeto não pôde ser salvo.
     type_could_not_be_saved: Tipo não pôde ser salvo
     reporting_could_not_be_saved: Relatórios não podem ser salvos
     properties: Propriedades
     really_delete_color: 'Tem certeza que deseja excluir a seguinte cor? Tipos usando
       essa cor não serão excluídos.
-
-'
-    really_delete_project_type: 'Tem certeza que deseja excluir o seguinte tipo de
-      projeto? Projetos usando este tipo não serão excluídos.
-
-'
-    really_delete_timeline: 'Tem certeza que deseja excluir o seguinte relatório de
-      cronograma? Pacotes de trabalho mostrados neste relatório de cronograma não
-      serão excluídos.
 
 '
     really_delete_reporting: 'Tem certeza que deseja excluir o seguinte relatório?
@@ -2538,7 +2551,6 @@ pt-BR:
     timelines: Relatórios de cronograma
     settings: Cronogramas
     vertical_work_package: Pacotes de trabalho verticais
-    without_project_type: Sem o tipo de projeto
     you_are_viewing_the_selected_timeline: Você está visualizando o relatório do cronograma
       selecionado
     zoom:
@@ -2550,6 +2562,7 @@ pt-BR:
       quarters: Trimestres
       years: Anos
   title_remove_and_delete_user: Remover o usuário convidado do projeto e excluí-lo.
+  title_enterprise_upgrade: Atualizar para desbloquear mais usuários.
   tooltip_user_default_timezone: 'Fuso horário padrão para novos usuários. Pode ser
     alterado nas configurações do usuário.
 
@@ -2621,8 +2634,24 @@ pt-BR:
   note_password_login_disabled: Login senha foi desativado pelo %{configuration}.
   warning: Aviso
   warning_attachments_not_saved: "%{count} arquivo(s) não pôde(m) ser salvo(s)."
+  warning_imminent_user_limit: 'Você convidou usuários além do que é suportado pelo
+    seu plano atual. Usuários convidados podem não ser capazes de participar de seu
+    ambiente OpenProject. Por favor, <a href="%{upgrade_url}">atualize seu plano</a>
+    ou bloqueie usuários existentes a fim de permitir que convidados possam registrar-se.
+
+'
   warning_registration_token_expired: 'O e-mail de ativação expirou. Enviamos um novo
     para %{email}. Por favor, clique no link dentro dele para ativar sua conta.
+
+'
+  warning_user_limit_reached: 'Atingido o limite de usuários. Você não pode ativar
+    mais nenhum usuário. <a href="%{upgrade_url}">Atualize seus plano</a> ou bloqueie
+    a adição de novos usuários.
+
+'
+  warning_user_limit_reached_instructions: 'Você atingiu seu limite de usuários (%{current}/%{max}
+    usuários ativos). Entre em contato com sales@openproject.com para atualizar seu
+    plano Enterprise Edition e adicionar novos usuários.
 
 '
   menu_item: Item de menu

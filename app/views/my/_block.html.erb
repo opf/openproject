@@ -31,14 +31,16 @@ See docs/COPYRIGHT.rdoc for more details.
 
   <% content_for "#{block_name}-remove-block" do %>
     <div class="box-actions">
-      <%= link_to '', { action: "remove_block", block: block_name },
-          class: "icon icon-close close-icon", title: l(:button_remove_widget),
-          remote: true
+      <%= link_to '',
+                  { action: "remove_block", block: block_name },
+                  class: "icon icon-close close-icon my-page--remove-block",
+                  data: { name: block_name, dasherized: block_name.dasherize },
+                  title: l(:button_remove_widget)
       %>
     </div>
   <% end %>
 
   <div class='handle'>
-    <%= render partial: "my/blocks/#{block_name}", locals: { user: user, block_name: block_name } %>
+    <%= render partial: "my/blocks/#{block_name}", locals: { user: user, edit: true, block_name: block_name } %>
   </div>
 </div>

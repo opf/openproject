@@ -42,6 +42,8 @@ describe 'Query selection', type: :feature do
   let(:i18n_filter_1_name) { WorkPackage.human_attribute_name(:assigned_to) }
   let(:i18n_filter_2_name) { WorkPackage.human_attribute_name(:done_ratio) }
   let(:default_status) { FactoryBot.create(:default_status) }
+  let(:wp_page) { ::Pages::WorkPackagesTable.new project }
+
 
   let(:query) do
     FactoryBot.build(:query, project: project, is_public: true).tap do |query|
@@ -111,9 +113,9 @@ describe 'Query selection', type: :feature do
     end
 
     it 'updates the page upon query switching', js: true do
-      work_packages_page.expect_query(query)
-      work_packages_page.select_query_from_dropdown(query2)
-      work_packages_page.expect_query(query2)
+      wp_page.expect_title query.name, editable: false
+
+      find('.wp-query-menu--item-link', text: query2.name).click
     end
   end
 end

@@ -28,6 +28,8 @@
 #++
 
 class SearchController < ApplicationController
+  include Concerns::Layout
+
   before_action :find_optional_project
 
   def index
@@ -109,7 +111,7 @@ class SearchController < ApplicationController
     else
       @question = ''
     end
-    render layout: false if request.xhr?
+    render layout: layout_non_or_no_menu
   end
 
   private

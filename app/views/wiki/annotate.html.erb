@@ -28,6 +28,7 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% html_title t(:project_module_wiki), t(:label_history), t(:text_comment_wiki_page, page: @page.title)  %>
+<% breadcrumb_paths(*(@page.ancestors.reverse.collect { |parent| link_to h(parent.breadcrumb_title), {id: parent, project_id: parent.project}} + [h(@page.breadcrumb_title)] )) %>
 
 <%= toolbar title: h(@page.title) do %>
   <li class="toolbar-item">

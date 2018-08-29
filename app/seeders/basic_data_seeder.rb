@@ -36,7 +36,6 @@ class BasicDataSeeder < CompositeSeeder
       BasicData::ColorSchemeSeeder,
       BasicData::WorkflowSeeder,
       BasicData::PrioritySeeder,
-      BasicData::ProjectTypeSeeder,
       BasicData::SettingSeeder
     ]
   end

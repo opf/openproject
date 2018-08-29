@@ -143,7 +143,8 @@ class WorkPackage < ActiveRecord::Base
   ###################################################
   acts_as_attachable after_remove: :attachments_changed,
                      order: "#{Attachment.table_name}.filename",
-                     add_permission: %i[add_work_packages edit_work_packages]
+                     add_on_new_permission: :add_work_packages,
+                     add_on_persisted_permission: :edit_work_packages
 
   after_validation :set_attachments_error_details,
                    if: lambda { |work_package| work_package.errors.messages.has_key? :attachments }

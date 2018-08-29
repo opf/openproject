@@ -40,12 +40,11 @@ See docs/COPYRIGHT.rdoc for more details.
   </div>
 
   <div class="form--field -required">
-    <%= f.text_field :spent_on, size: 10, required: true, container_class: '-xslim' %>
-    <%= calendar_for('time_entry_spent_on') %>
+    <%= f.text_field :spent_on, size: 10, required: true, container_class: '-xslim', class: '-augmented-datepicker' %>
   </div>
 
   <div class="form--field -required">
-    <%= f.text_field :hours, size: 6, required: true, container_class: '-xslim' %>
+    <%= f.text_field :hours, size: 6, required: true, container_class: '-xslim', class: '-augmented-datepicker' %>
   </div>
 
   <div class="form--field">

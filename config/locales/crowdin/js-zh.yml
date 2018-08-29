@@ -4,12 +4,17 @@ zh:
     ajax:
       hide: 隐藏
       loading: 加载中...
+    attachments:
+      draggable_hint: 'Drag on editor field to inline image or reference attachment.
+        Closed editor fields will be opened while you keep dragging.
+
+'
     autocomplete_select:
       placeholder:
-        multi: Add "%{name}"
-        single: Select "%{name}"
-      remove: Remove %{name}
-      active: Active %{label} %{name}
+        multi: 添加“%{name}”
+        single: 选择“%{name}”
+      remove: 移除%{name}
+      active: 活跃的%{label} %{name}
     close_popup_title: 关闭弹出窗口
     close_filter_title: 关闭过滤器
     close_form_title: 关闭表单
@@ -52,9 +57,55 @@ zh:
     description_select_work_package: '选择工作包 #%{id}'
     description_selected_columns: 选定的列
     description_subwork_package: '子工作包 #%{id}'
+    editor:
+      preview: Toggle preview mode
+      error_saving_failed: 'Saving the document failed with the following error: %{e}'
+      macro:
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: 维基页面
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
+        code_block:
+          button: Insert code snippet
+          title: Insert / edit Code snippet
+          language: Formatting language
+          language_hint: Enter the formatting language that will be used for highlighting
+            (if supported).
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
+        toc: 目录
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
+        wiki_page_include:
+          button: 包括另一个Wiki页的内容
+          text: "[Placeholder] Included wiki page of"
+          page: 维基页面
+          not_set: "(Page not yet set)"
+          hint: |
+            通过指定其标题或Slug来包含其他Wiki页面的内容。
+            您可以通过使用冒号分隔另一个项目的Wiki页面，如下例所示。
+        work_package_button:
+          button: 插入创建工作包按钮
+          type: 工作包类型
+          button_style: 使用按键风格
+          button_style_hint: 可选：选中以使宏显示为按钮，而不是链接。
+          without_type: 创建工作包
+          with_type: 创建工作包（种类：%{typename}）
+        embedded_table:
+          button: 嵌入工作包表
+          text: "[Placeholder] Embedded work package table"
     error:
       internal: 发生了内部错误。
-      query_saving: The query could not be saved.
+      cannot_save_changes_with_message: 由于%{error} 原因，无法保存您的更改。
+      query_saving: The view could not be saved.
+      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
     filter:
       description:
         text_open_filter: 使用 ALT 和方向键打开筛选器。
@@ -117,6 +168,7 @@ zh:
     label_expand: 展开
     label_expanded: 展开
     label_expand_all: 全部展开
+    label_expand_project_menu: 展开项目菜单
     label_export: 导出
     label_filename: 文件
     label_filesize: 大小
@@ -124,10 +176,11 @@ zh:
     label_group_by: 分组按照
     label_hide_attributes: 隐藏显示
     label_hide_column: 隐藏列
+    label_hide_project_menu: 折叠项目菜单
     label_in: 在
     label_in_less_than: 在小于
     label_in_more_than: 在多于
-    label_latest_activity: 最新活动
+    label_latest_activity: Latest activity
     label_last_updated_on: 最后更新日期
     label_less_or_equal: "<="
     label_less_than_ago: 小于数日前
@@ -145,7 +198,7 @@ zh:
     label_not_equals: 不是
     label_on: 于
     label_open_menu: 打开菜单
-    label_open_context_menu: Open context menu
+    label_open_context_menu: 打开菜单目录
     label_open_work_packages: 打开
     label_password: 密码
     label_previous: 上一个
@@ -159,21 +212,23 @@ zh:
     label_select_watcher: 选择一位关注者...
     label_selected_filter_list: 所选的筛选器
     label_show_attributes: 显示所有属性
-    label_show_in_menu: 在菜单中显示页面
+    label_show_in_menu: 在菜单中显示视图
     label_sort_by: 排序按
     label_sorted_by: 排序按照
     label_sort_higher: 向上移动
     label_sort_lower: 向下移动
     label_sorting: 排序
+    label_star_query: Favored
+    label_press_enter_to_save: Press enter to save.
+    label_public_query: 公开
     label_sum_for: 总和
     label_subject: 主题
     label_this_week: 这一周
     label_today: 今天
-    label_up: Up
+    label_up: 向上
     label_activity_show_only_comments: 仅显示批注的活动
     label_activity_show_all: 显示所有项目
     label_total_progress: "%{percent} %总进度"
-    label_visible_for_others: 页面可被他人访问
     label_updated_on: 更新于
     label_warning: 警告
     label_work_package: 工作包
@@ -186,8 +241,10 @@ zh:
     label_unwatch: 取消关注
     label_unwatch_work_package: 取消工作包关注
     label_uploaded_by: 上传者
-    label_global_queries: 共享的查询
-    label_custom_queries: 私人查询
+    label_default_queries: Default views
+    label_starred_queries: Favorite views
+    label_global_queries: Public views
+    label_custom_queries: Private views
     label_columns: 列
     label_attachments: 文件
     label_drop_files: 将文件拖至此处
@@ -198,7 +255,8 @@ zh:
     label_remove_watcher: 删除关注者 %{name}
     label_remove_all_files: 删除所有文件
     label_add_description: 为%{file} 添加说明
-    label_upload_notification: '正在为 #%{id}: %{subject} 工作列表上传文件'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: '正在为 #%{id}: %{subject} 工作列表上传文件'
     label_files_to_upload: '这些文件将被上传:'
     label_rejected_files: '这些文件无法上传:'
     label_rejected_files_reason: 这些文件不能上传，因为它们大于 %{maximumFilesize}
@@ -232,7 +290,9 @@ zh:
       attribute_groups:
         error_duplicate_group_name: 名称 %{group} 已多次使用。组名不能重复。
         reset_title: 重置表单配置
-        confirm_reset: '警告：是否确定想要重置表单配置？这会将属性重置为它们的默认组，取消设置可见性复选框并禁用所有自定义字段。
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: 升级到企业版
@@ -300,7 +360,6 @@ zh:
         one: You can only select one item
         other: 您可以只选择 {{limit}} 个条目
         zero: You cannot select any items
-    show_hide_project_menu: 展开/折叠项目菜单
     project_menu_details: 详细信息
     sort:
       sorted_asc: '升序排列已应用， '
@@ -311,12 +370,13 @@ zh:
       activate_dsc: 激活以进行降序排序
       activate_no: 激活以移除排序
     text_work_packages_destroy_confirmation: 确实要删除所选的工作包吗?
-    text_query_destroy_confirmation: 是否确实要删除所选的查询?
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      view?
     text_attachment_destroy_confirmation: 你确定要删除这个附件?
     timelines:
       gantt_chart: 甘特图
       labels:
-        title: Label configuration
+        title: 标签配置
         bar: 条形标签
         left: 左
         right: 右
@@ -325,8 +385,8 @@ zh:
         description: '选择要在甘特图的各个位置显示的属性。请注意, 在元素上悬停时, 将显示其日期标签而不是这些属性。
 
 '
-      button_activate: 激活时间线模式
-      button_deactivate: 取消激活时间线模式
+      button_activate: Show Gantt chart
+      button_deactivate: Hide Gantt chart
       cancel: 取消
       change: 更改计划
       due_date: 截止日期
@@ -338,14 +398,6 @@ zh:
         report_epicfail: 发生意外错误，无法加载时间线。
         report_timeout: 不能在合理的时间内加载时间线。
       filter:
-        column:
-          assigned_to: 指定人
-          type: 类型
-          due_date: 结束日期
-          name: 名称
-          status: 状态
-          responsible: 责任人
-          start_date: 开始日期
         grouping_other: 其他
         noneSelection: "(无)"
       name: 名称
@@ -359,7 +411,6 @@ zh:
         level5: 展开 5 级
         all: 全部显示
       project_status: 项目状态
-      project_type: 项目类型
       really_close_dialog: 你真的想要关闭对话框并丢失输入的数据吗？
       responsible: 责任人
       save: 保存
@@ -377,6 +428,10 @@ zh:
         quarters: 季度
         years: 年
         slider: 缩放滑块
+        description: 'Select the initial zoom level that should be shown when autozoom
+          is not available.
+
+'
     tl_toolbar:
       zooms: 缩放级别
       outlines: 层次结构级别
@@ -446,7 +501,7 @@ zh:
         header_with_parent: '新的 %{type} （%{parent_type} #%{id} 子）'
         button: 创建
       copy:
-        title: Copy work package
+        title: 复制工作包
       hierarchy:
         show: 显示层次结构模式
         hide: 隐藏层次结构模式
@@ -456,7 +511,7 @@ zh:
         children_expanded: 层次结构级别 %{level} 已展开。单击以折叠筛选的子任务
       faulty_query:
         title: 无法加载工作包。
-        description: 您的查询不正确，无法处理。
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: 没有要显示的工作包。
         description: 没有已创建的工作包或所有工作包都被筛选排除。
@@ -487,6 +542,13 @@ zh:
         updatedAt: 更新于
         versionName: 版本
         version: 版本
+      default_queries:
+        latest_activity: Latest activity
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: 全部打开
+        summary: 摘要
       jump_marks:
         pagination: 跳转到表格分页
         label_pagination: 单击此处跳过工作包表格并转到分页
@@ -509,33 +571,35 @@ zh:
         insert_columns: 插入列...
         filters: 筛选器
         display_sums: 显示汇总
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
         errors:
-          unretrievable_query: 无法从 URL 检索查询
-          not_found: 无此查询
-        text_no_results: 未找到匹配的查询。
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
       table:
-        configure_button: Configure work package table
+        configure_button: 配置工作包表
         summary: 行为工作包且列为工作包属性的表格。
         text_inline_edit: 大多数此表格的单元格为激活工作包属性的直接编辑功能的按钮。
         text_sort_hint: 使用表格标题中的链接，您可以对表格中的列排序、分组、重排序、删除和添加。
         text_select_hint: 请使用Alt+方向键打开选择框。
       table_configuration:
-        button: Configure this work package table
-        modal_title: Work package table configuration
+        button: 配置当前工作包表
+        modal_title: 工作包表配置
         embedded_tab_disabled: This configuration tab is not available for the embedded
-          query you're editing.
-        display_settings: Display settings
-        grouped_mode: Grouped mode
-        grouped_hint: Table results will be grouped by the given attribute.
-        default_mode: Default mode
+          view you're editing.
+        display_settings: 显示设置
+        grouped_mode: 分组模式
+        grouped_hint: 表结果将按给定属性分组。
+        default_mode: 默认模式
         hierarchy_mode: 层次结构模式
-        hierarchy_hint: All filtered table results will be augmented with their ancestors.
-          Hierarchies can be expanded and collapsed.
-        display_sums_hint: Display sums of all summable attributes in a row below
-          the table results.
-        show_timeline_hint: Show an interactive gantt chart on the right side of the
-          table. You can change its width by dragging the divider between table and
-          gantt chart.
+        hierarchy_hint: 所有过滤的表结果都将使用其上级进行扩充。 可以展开和折叠层次结构。
+        display_sums_hint: 在表结果下方一行中显示所有可累加属性的总和。
+        show_timeline_hint: 在表格的右侧显示交互式甘特图。 您可以通过拖动表格和甘特图之间的分隔线来更改其宽度。
+        columns_help_text: 使用上面的输入向表视图添加或删除列。 您可以拖放列以重新排序它们。
       tabs:
         overview: 概述
         activity: 活动
@@ -548,6 +612,7 @@ zh:
         months: 月
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: 列...
         sort_by: 排序...
         group_by: 分组...
@@ -558,15 +623,16 @@ zh:
         save: 保存
         save_as: 另存为...
         export: 导出...
-        publish: 发布...
-        page_settings: 重命名查询...
+        visibility_settings: Visibility settings ...
+        page_settings: Rename view ...
         delete: 删除
       filter: 筛选器
       unselected_title: 工作包
-      search_query_label: 搜索保存的筛选器查询
-      search_query_title: 单击搜索保存的筛选器查询
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
     modals:
-      label_settings: 重命名查询
+      label_settings: Rename view
       label_name: 名称
       label_delete_page: 删除当前页面
       button_apply: 应用
@@ -582,7 +648,8 @@ zh:
         title: 确认删除%{label}
         text: 是否确实要删除以下%{label}？
         has_children: '工作包有 %{childUnits}:'
-        deletes_children: 所有子工作包也将被删除。
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: 成功创建。
     notice_successful_delete: 成功删除。
     notice_successful_update: 成功更新。
@@ -609,6 +676,9 @@ zh:
         messages_on_field: 此字段无效：%{messages}
     error_could_not_resolve_version_name: 无法解析版本名称
     error_could_not_resolve_user_name: 不能确定用户名
+    error_attachment_upload: 文件“%{name}”传输失败：%{error}
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: work package

@@ -39,12 +39,6 @@
       padding: 0
       line-height: 20px
 
-.add-file
-  float: left
-  padding: 8px 0 0 10px
-  i
-    padding: 0 2px 0 0
-
 .upload-file
   display: block
   width: 100%
@@ -53,9 +47,42 @@
   padding: 20px 0 0 0
   border-top: 1px solid #ddd
 
-tr.is-droppable
-  background: $nm-color-success-background !important
+.work-package--attachments--drop-box
+  border: 2px dashed $light-gray
+  border-radius: 2px
+  text-align: center
+  padding: 20px
+  cursor: pointer
 
-.is-droppable
-  border: 1px dotted $nm-color-success-border
+  &.-dragging
+    background: #f4f4f4
 
+
+.work-package--attachments--label
+  color: $light-gray
+  text-align: center
+
+  i, label
+    display: inline-block
+    vertical-align: middle
+
+  .icon-attachment:before
+    color: $light-gray
+    font-size: 3rem
+
+  label
+    cursor: pointer
+    color: $gray-dark
+    font-size: 0.9rem
+    font-weight: bold
+    line-height: 1.4
+    margin: 0 0 0 10px
+    text-align: left
+
+
+.add-another-file
+  .button
+    margin-bottom: 0
+
+.work-package--attachments--draggable-item
+  cursor: pointer
