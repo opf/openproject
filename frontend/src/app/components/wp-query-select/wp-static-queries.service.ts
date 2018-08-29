@@ -65,19 +65,19 @@ export class WorkPackageStaticQueriesService {
   public get all():IAutocompleteItem[] {
     let items = [
       {
-        identifier: 'latest_ctivity',
+        identifier: 'latest_activity',
         label: this.text.latest_activity,
-        query_props: '{%22c%22:[%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22,%22updatedAt%22],%22t%22:%22updatedAt:desc,parent:asc%22,%22f%22:[{%22n%22:%22status%22,%22o%22:%22o%22,%22v%22:[]},{%22n%22:%22updatedAt%22,%22o%22:%22w%22,%22v%22:[]}]}'
+        query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc","f":[{"n":"status","o":"o","v":[]}]}'
       },
       {
       identifier: 'gantt',
       label: this.text.gantt,
-      query_props: '{%22c%22:[%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22,%22project%22],%22tv%22:true,%22tzl%22:%22quarters%22,%22hi%22:false,%22g%22:%22%22,%22t%22:%22parent:asc%22,%22f%22:[{%22n%22:%22status%22,%22o%22:%22o%22,%22v%22:[]}],%22pa%22:1,%22pp%22:20}'
+      query_props: '{"c":["id","subject"], "tv":true,"hi":true}'
     },
     {
       identifier: 'recently_created',
       label: this.text.recently_created,
-      query_props: '{%22c%22:[%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22,%22createdAt%22],%22t%22:%22createdAt:desc,parent:asc%22,%22f%22:[{%22n%22:%22status%22,%22o%22:%22o%22,%22v%22:[]},{%22n%22:%22createdAt%22,%22o%22:%22w%22,%22v%22:[]}]}'
+      query_props: '{"c":["id","subject","type","status","assignee","createdAt"],"hi":false,"g":"","t":"createdAt:desc,","f":[{"n":"status","o":"o","v":[]}]}'
     },
     {
       identifier: 'all_open',
@@ -115,11 +115,11 @@ export class WorkPackageStaticQueriesService {
 
   public getStaticName(query:QueryResource) {
     const matched = _.find(this.all, item =>
-      item.query_props && item.query_props === this.$state.params.query_props
+      item.query_props && item.query_props === decodeURIComponent(this.$state.params.query_props)
     );
 
     if (matched) {
-      return matched.label
+      return matched.label;
     }
 
     // Try to detect the all open filter
@@ -130,6 +130,6 @@ export class WorkPackageStaticQueriesService {
     }
 
     // Otherwise, fall back to work packages
-    return this.text.work_packages
+    return this.text.work_packages;
   }
 }
