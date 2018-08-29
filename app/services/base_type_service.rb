@@ -88,7 +88,6 @@ class BaseTypeService
   def transform_params_to_query(groups)
     groups.each_with_index do |(name, attributes), index|
       next unless attributes.is_a? Hash
-      next if attributes.values.compact.empty?
 
       query = Query.new_default(name: "Embedded subelements: #{name}")
 
