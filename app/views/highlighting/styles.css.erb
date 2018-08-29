@@ -1,0 +1,14 @@
+<%
+  inline_style = Proc.new { |color| "color: #{color.hexcode}; background-color: #{color.contrasting_color};" }
+  row_style = Proc.new { |color| "background-color: #{color.hexcode};" }
+ %>
+
+<% Status.includes(:color).find_each do |status| %>
+.__hl_inl_status_<%= status.id %> { <%= inline_style.call(status.color) %>}
+.__hl_row_status_<%= status.id %> { <%= row_style.call(status.color) %>}
+<% end %>
+
+<% IssuePriority.includes(:color).find_each do |priority| %>
+.__hl_inl_priority_<%= priority.id %> { <%= inline_style.call(priority.color) %>}
+.__hl_row_priority_<%= priority.id %> { <%= row_style.call(priority.color) %>}
+<% end %>

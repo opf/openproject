@@ -122,6 +122,9 @@ OpenProject::Application.routes.draw do
       as: 'custom_style_touch_icon',
       constraints: { filename: /[^\/]*/ }
 
+  get 'highlighting/styles' => 'highlighting#styles',
+      as: 'highlighting_css_styles'
+
   resources :custom_fields, except: :show do
     member do
       match "options/:option_id",

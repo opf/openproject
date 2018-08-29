@@ -55,6 +55,10 @@ export class PathHelperService {
     }
   }
 
+  public highlightingCssPath() {
+    return this.staticBase + '/highlighting/styles';
+  }
+
   public boardPath(projectIdentifier:string, boardIdentifier:string) {
     return this.projectBoardsPath(projectIdentifier) + '/' + boardIdentifier;
   }
