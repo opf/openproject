@@ -48,13 +48,14 @@ export class ColorsAutocompleter implements OnInit {
     this.$element = jQuery(this.elementRef.nativeElement);
     this.$select = jQuery(this.$element.parent().find('select.colors-autocomplete'));
 
+    this.$select.removeClass('form--select');
     this.setupSelect2();
   }
 
   protected formatter(state:any) {
     const item:JQuery = jQuery(state.element);
     const color = item.data('color')
-    const patch = ColorContrast.getColorPatch(color);
+    const patch = ColorContrast.getColorPatch(color, 'transparent');
 
     const colorSquare = jQuery('<span>')
       .addClass('color--preview')

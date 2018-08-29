@@ -49,11 +49,11 @@ export namespace ColorContrast {
     }
   }
 
-  export function getColorPatch(hexcolor:string):{ bg:string, fg:string } {
+  export function getColorPatch(hexcolor:string, bright:string = '#FFFFFF', dark = '#333333'):{ bg:string, fg:string } {
     if (tooBrightForWhite(hexcolor)) {
-      return { fg: '#333333', bg: hexcolor };
+      return { fg: dark, bg: hexcolor };
     } else {
-      return { bg: '#FFFFFF', fg: hexcolor };
+      return { bg: bright, fg: hexcolor };
     }
   }
 
