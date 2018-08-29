@@ -104,7 +104,7 @@ module OpenProject::TextFormatting::Formats
       end
 
       def pandoc_timeout
-        ENV.fetch('OPENPROJECT_PANDOC_TIMEOUT_SECONDS', 10).to_i
+        ENV.fetch('OPENPROJECT_PANDOC_TIMEOUT_SECONDS', 30).to_i
       end
 
       private
