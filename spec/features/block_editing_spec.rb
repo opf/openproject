@@ -39,7 +39,9 @@ describe 'My project page editing', type: :feature, js: true do
                                   member_in_project: project,
                                   member_through_role: role }
   let(:role) { FactoryBot.create :role, permissions: [:view_project,
-                                                       :edit_project] }
+                                                      :view_work_packages,
+                                                      :edit_work_packages,
+                                                      :edit_project] }
 
   # Add block select
   let(:select) { find('#block-select') }
@@ -191,6 +193,78 @@ describe 'My project page editing', type: :feature, js: true do
 
     expect(page).to have_selector('.flash.notice', text: I18n.t('js.notice_successful_update'))
     expect(page).to have_no_selector('#block_a')
+  end
+
+  describe 'macro elements' do
+    let!(:work_package) { FactoryBot.create(:work_package, project: project) }
+
+    let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
+    let(:filters) { ::Components::WorkPackages::TableConfiguration::Filters.new }
+    let(:columns) { ::Components::WorkPackages::Columns.new }
+
+    it 'should allow to add and edit macros (Regression test #28399)' do
+      select.find('option[value=custom_element]').select_option
+
+      expect(page).to have_selector('.op-ckeditor--wrapper')
+      expect(page).to have_selector('.ck-content')
+
+      editor.in_editor do |_container, editable|
+        editor.insert_macro 'Embed work package table'
+
+        editor.set_markdown 'test'
+
+        modal.expect_open
+        modal.switch_to 'Filters'
+        filters.expect_filter_count 1
+        filters.add_filter_by('Type', 'is', work_package.type.name)
+
+        modal.switch_to 'Columns'
+        columns.assume_opened
+        columns.uncheck_all save_changes: false
+        columns.add 'ID', save_changes: false
+        columns.add 'Subject', save_changes: false
+        columns.add 'Type', save_changes: false
+        columns.expect_checked 'ID'
+        columns.expect_checked 'Subject'
+        columns.expect_checked 'Type'
+
+        # Save widget
+        modal.save
+
+        # Find widget, click to show toolbar
+        expect(editable).to have_selector('.ck-widget.macro.-embedded-table')
+      end
+
+      # Save textile block
+      find('#a-form-submit').click
+      save_changes.click
+
+      # Revisit page
+      visit my_projects_overview_path(project)
+      expect(page).to have_selector('#block_a')
+      find('.edit-textilizable').click
+
+      editor.in_editor do |_container, editable|
+        # Find widget, click to show toolbar
+        macro = editable.find('.ck-widget.macro.-embedded-table')
+        macro.click
+
+        # Edit widget again
+        page.find('.ck-balloon-panel .ck-button', visible: :all, text: 'Edit').click
+
+        modal.expect_open
+        modal.switch_to 'Filters'
+        filters.expect_filter_count 2
+        modal.switch_to 'Columns'
+        columns.assume_opened
+        columns.expect_checked 'ID'
+        columns.expect_checked 'Subject'
+        columns.expect_checked 'Type'
+        modal.cancel
+      end
+
+      find('#block_a .textile-form .reset-textilizable').click
+    end
   end
 
   context 'as regular user' do

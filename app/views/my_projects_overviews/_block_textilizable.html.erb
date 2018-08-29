@@ -56,7 +56,7 @@ See doc/COPYRIGHT.md for more details.
             <div class="form--field-container" ng-non-bindable>
 
               <%= styled_text_area_tag "textile_#{block_name}",
-                                       textile.html_safe,
+                                       textile,
                                        class: 'wiki-edit',
                                        with_text_formatting: true,
                                        resource: resource %>
