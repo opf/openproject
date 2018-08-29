@@ -37,10 +37,10 @@ describe 'form configuration', type: :feature, js: true do
   let(:category) { FactoryBot.create :category, project: project }
   let(:work_package) do
     FactoryBot.create :work_package,
-                       project: project,
-                       type: type,
-                       done_ratio: 10,
-                       category: category
+                      project: project,
+                      type: type,
+                      done_ratio: 10,
+                      category: category
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
@@ -311,8 +311,8 @@ describe 'form configuration', type: :feature, js: true do
       context 'active in project' do
         let(:project) do
           FactoryBot.create :project,
-                             types: [type],
-                             work_package_custom_fields: custom_fields
+                            types: [type],
+                            work_package_custom_fields: custom_fields
         end
 
         it 'can be added to type and is visible' do
