@@ -218,7 +218,8 @@ module OpenProject::TextFormatting::Formats
         if raise_on_timeout
           raise e
         else
-          ''
+          "# Warning: This document could not be converted, probably due to syntax errors. " \
+          "The below content is textile.\n\n<pre>\n\n#{textile}\n\n</pre>"
         end
       rescue StandardError => e
         logger.error "Execution of pandoc failed: #{e}"
