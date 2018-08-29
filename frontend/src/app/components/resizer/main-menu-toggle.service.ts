@@ -165,7 +165,7 @@ export class MainMenuToggleService {
             // activeElement is outside of main menu.
             that.closeMenu();
           }
-        }, 100);
+        }, 0);
       }
     });
   }
