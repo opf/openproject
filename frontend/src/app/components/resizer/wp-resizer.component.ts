@@ -26,10 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectorRef, Component, ElementRef, HostListener, Injector, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, HostListener, Injector, Input, OnDestroy, OnInit} from '@angular/core';
 import {distinctUntilChanged} from 'rxjs/operators';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {MainMenuToggleService} from "core-components/resizer/main-menu-toggle.service";
+import {TransitionService} from '@uirouter/core';
 
 @Component({
   selector: 'wp-resizer',
@@ -49,8 +50,11 @@ export class WpResizerDirective implements OnInit, OnDestroy {
 
   public moving:boolean = false;
 
+  private unregisterTransitionListener:Function;
+
   constructor(readonly toggleService:MainMenuToggleService,
-              private elementRef:ElementRef) {
+              private elementRef:ElementRef,
+              readonly $transitions:TransitionService) {
   }
 
   ngOnInit() {
@@ -93,11 +97,19 @@ export class WpResizerDirective implements OnInit, OnDestroy {
       jQuery('.-can-have-columns').toggleClass('-columns-2', jQuery('.work-packages-full-view--split-left').width() > 750);
       that.applyInfoRowLayout();
     });
+
+    // Listen to changes from a non overview state to the overview state
+    // which requires us to reevaluate the wrapping of the info row.
+    this.unregisterTransitionListener = this.$transitions.onSuccess({ to: 'work-packages.list.details.overview' }, (transition) => {
+      setTimeout(() => this.applyInfoRowLayout());
+    });
   }
 
   ngOnDestroy() {
     // Reset the style when killing this directive, otherwise the style remains
     this.resizingElement.style.flexBasis = null;
+
+    this.unregisterTransitionListener();
   }
 
   @HostListener('mousedown', ['$event'])

@@ -30,7 +30,6 @@ require 'support/pages/abstract_work_package'
 
 module Pages
   class FullWorkPackage < Pages::AbstractWorkPackage
-
     private
 
     def container

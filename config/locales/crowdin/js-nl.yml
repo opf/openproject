@@ -90,7 +90,7 @@ nl:
           button: Inhoud van een andere wikipagina opnemen
           text: "[Placeholder] opgenomen wikipagina van"
           page: Wikipagina
-          not_set: "(Page not yet set)"
+          not_set: "(Pagina nog niet ingesteld)"
           hint: |
             Neem de inhoud van een andere wikipagina op door de de titel of de witruimte rond de pagina in te geven.
             U kunt de wikipagina van een ander project opnemen door deze te scheiden met een dubbele punt zoals in het volgende voorbeeld.
@@ -110,7 +110,7 @@ nl:
       cannot_save_changes_with_message: 'Uw wijzigingen vanwege de volgende fout niet
         opslaan: %{error}'
       query_saving: Het overzicht kon niet bewaard worden.
-      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
+      embedded_table_loading: 'De ingesloten weergave kon niet worden geladen: %{message}'
     filter:
       description:
         text_open_filter: Open dit filter met de 'ALT'-knop en toetsenbord pijlen.
@@ -410,7 +410,7 @@ nl:
 
 '
       button_activate: Toon Gantt-diagram
-      button_deactivate: Hide Gantt chart
+      button_deactivate: Verberg Gantt-diagram
       cancel: Annuleren
       change: In de planning wijzigen
       due_date: Vervaldatum
@@ -459,8 +459,8 @@ nl:
         quarters: Kwartalen
         years: Jaren
         slider: Zoom-schuifregelaar
-        description: 'Select the initial zoom level that should be shown when autozoom
-          is not available.
+        description: 'Selecteer het oorspronkelijke zoomniveau dat moet worden weergegeven
+          wanneer autozoom niet beschikbaar is.
 
 '
     tl_toolbar:
@@ -703,8 +703,8 @@ nl:
         title: Bevestig verwijdering van %{label}
         text: Weet u zeker dat u werkpakket %{label} wilt verwijderen?
         has_children: 'Het werkpakket heeft %{childUnits}:'
-        deletes_children: All child work packages and their descendants will also
-          be recursively deleted.
+        deletes_children: Alle onderliggende werkpakketten en hun nakomelingen ook
+          worden verwijderd.
     notice_successful_create: Aanmaak geslaagd.
     notice_successful_delete: Verwijdering geslaagd.
     notice_successful_update: Succesvolle wijziging.

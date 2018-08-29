@@ -27,41 +27,42 @@
 #++
 
 require 'spec_helper'
+require 'support/pages/custom_fields'
 
-describe 'Lost password', type: :feature do
-  let!(:user) { FactoryBot.create :user }
-  let(:new_password) { "new_PassW0rd!" }
+describe 'custom fields', js: true do
+  let(:user) { FactoryBot.create :admin }
+  let(:cf_page) { Pages::CustomFields.new }
+  let(:for_all_cf) { FactoryBot.create :list_wp_custom_field, is_for_all: true }
+  let(:project_specific_cf) { FactoryBot.create :int_wp_custom_field }
+  let(:work_package) do
+    wp = FactoryBot.build(:work_package).tap do |wp|
+      wp.type.custom_fields = [for_all_cf, project_specific_cf]
+    end
+    wp.save!
+    wp
+  end
+  let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
+  let(:project_settings_page) { Pages::ProjectSettings.new(work_package.project) }
 
-  it 'allows logging in after having lost the password' do
-    visit account_lost_password_path
+  before do
+    login_as(user)
+  end
 
-    # shows same flash for invalid and existing users
-    fill_in 'mail', with: 'invalid mail'
-    click_on 'Submit'
+  it 'is only visible in the project if it has been activated' do
+    wp_page.visit!
 
-    expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_account_lost_email_sent))
+    wp_page.expect_attributes "customField#{for_all_cf.id}": '-'
+    wp_page.expect_no_attribute "customField#{project_specific_cf.id}"
 
-    expect(ActionMailer::Base.deliveries.size).to eql 0
+    project_settings_page.visit_tab!('custom_fields')
 
-    fill_in 'mail', with: user.mail
-    click_on 'Submit'
-    expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_account_lost_email_sent))
-    expect(ActionMailer::Base.deliveries.size).to eql 1
+    project_settings_page.activate_wp_custom_field(project_specific_cf)
 
-    # mimick the user clicking on the link in the mail
-    token = Token::Recovery.first
-    visit account_lost_password_path(token: token.value)
+    project_settings_page.save!
 
-    fill_in 'New password', with: new_password
-    fill_in 'Confirmation', with: new_password
+    wp_page.visit!
 
-    click_button 'Save'
-
-    expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_account_password_updated))
-
-    login_with user.login, new_password
-
-    expect(page)
-      .to have_current_path(my_page_path)
+    wp_page.expect_attributes "customField#{for_all_cf.id}": '-'
+    wp_page.expect_attributes "customField#{project_specific_cf.id}": '-'
   end
 end

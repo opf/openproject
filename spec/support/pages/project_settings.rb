@@ -68,6 +68,14 @@ module Pages
       expect_wp_custom_field(custom_field, false)
     end
 
+    def activate_wp_custom_field(custom_field)
+      check custom_field.name
+    end
+
+    def save!
+      click_button 'Save'
+    end
+
     def expect_wp_custom_field(custom_field, active = true)
       expect(page)
         .to have_field(custom_field.name, checked: active)

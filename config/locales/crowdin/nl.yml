@@ -87,7 +87,7 @@ nl:
       no_results_title_text: Momenteel zijn er geen aangepaste velden.
       no_results_content_text: Maak een nieuw aangepast veld
   concatenation:
-    single: or
+    single: of
   deprecations:
     old_timeline:
       replacement: Deze tijdlijn module is vervangen door de interactieve tijdlijn
@@ -187,7 +187,7 @@ nl:
   work_packages:
     x_descendants:
       one: One descendant work package
-      other: "%{count} work package descendants"
+      other: "%{count} werk pakket afstammelingen"
     move:
       no_common_statuses_exists: Er is geen status beschikbaar voor alle geselecteerde
         werkpakketten. Hun status kan niet worden gewijzigd.
@@ -368,8 +368,8 @@ nl:
         type: Type
       type:
         attribute_groups: ''
-        is_in_roadmap: Displayed in roadmap by default
-        is_default: Activated for new projects by default
+        is_in_roadmap: Standaard weergegeven in roadmap
+        is_default: Standaart ingesteld voor nieuwe projecten
         is_milestone: Is mijlpaal
         color: Kleur
       user:
@@ -495,7 +495,8 @@ nl:
             project:
               error_not_found: niet gevonden
             public:
-              error_unauthorized: "- The user has no permission to create public views."
+              error_unauthorized: "-De gebruiker heeft geen toestemming om openbare
+                overzichten te maken."
           group_by_hierarchies_exclusive: is uitsluiten door samenvoeging, '%{group_by}'.
             U kunt beide niet activeren.
           filters:
@@ -965,8 +966,9 @@ nl:
   enumeration_reported_project_statuses: Gerapporteerde projectstatus
   error_auth_source_sso_failed: Single Sign-On (SSO) voor gebruiker '%{value}' is
     mislukt
-  error_can_not_archive_project: 'This project cannot be archived: There is at least
-    one work package assigned to a version defined in this project.'
+  error_can_not_archive_project: 'Dit project kan niet worden gearchiveerd: er is
+    minstens één werkpakket toegewezen naar een versie die is gedefinieerd in dit
+    project.'
   error_can_not_delete_entry: Niet in staat om ingave te verwijderen
   error_can_not_delete_custom_field: Aangepast veld kan niet verwijderd worden
   error_can_not_delete_type: Dit type bevat werkpakketten en kan niet worden verwijderd.
@@ -1901,7 +1903,7 @@ nl:
   permission_manage_members: Beheer gebruikers
   permission_manage_news: Beheren van nieuws
   permission_manage_project_activities: Projectactiviteiten beheren
-  permission_manage_public_queries: Manage public views
+  permission_manage_public_queries: Openbare overzichten beheren
   permission_manage_repository: Repository beheren
   permission_manage_subtasks: Beheren van subtaken
   permission_manage_versions: Versies beheren
@@ -1910,7 +1912,7 @@ nl:
   permission_move_work_packages: Werkpakketten verplaatsen
   permission_protect_wiki_pages: Wiki-pagina's beveiligen
   permission_rename_wiki_pages: Wiki-pagina's wijzigen
-  permission_save_queries: Save views
+  permission_save_queries: Weergaves opslaan
   permission_select_project_modules: Selecteer project modules
   permission_manage_types: Selecteer typen
   permission_view_calendar: Weergave agenda

@@ -33,7 +33,12 @@ require 'posix-spawn'
 module OpenProject::TextFormatting::Formats
   module Markdown
     class PandocWrapper
-      def initialize; end
+
+      attr_reader :logger
+
+      def initialize(logger = ::Logger.new(STDOUT))
+        @logger = logger
+      end
 
       def execute!(stdin)
         PandocDownloader.check_or_download!
@@ -83,7 +88,9 @@ module OpenProject::TextFormatting::Formats
           elsif usage.include? '--no-wrap'
             '--no-wrap'
           else
-            raise 'Your pandoc version has neither --no-wrap nor --wrap=preserve. Please install a recent version of pandoc.'
+            err = 'Your pandoc version has neither --no-wrap nor --wrap=preserve. Please install a recent version of pandoc.'
+            logger.error err
+            raise err
           end
         end
       end
@@ -93,6 +100,10 @@ module OpenProject::TextFormatting::Formats
       # so we don't have to use the legacy github_markdown format.
       def gfm_supported?
         read_output_formats.match? /^gfm$/
+      end
+
+      def pandoc_timeout
+        ENV.fetch('OPENPROJECT_PANDOC_TIMEOUT_SECONDS', 10).to_i
       end
 
       private
@@ -112,16 +123,12 @@ module OpenProject::TextFormatting::Formats
         run_pandoc! %w[--help]
       end
 
-      def pandoc_timeout
-        ENV.fetch('OPENPROJECT_PANDOC_TIMEOUT_SECONDS', 10).to_i
-      end
-
       def read_output_formats
         @output_formats ||= begin
           begin
             run_pandoc! %w[--list-output-formats]
           rescue StandardError => e
-            warn "Failed to detect output format (Error was: #{e}). Falling back to github_markdown"
+            logger.warn "Failed to detect output format (Error was: #{e}). Falling back to github_markdown"
             ''
           end
         end

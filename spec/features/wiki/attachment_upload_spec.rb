@@ -41,6 +41,7 @@ describe 'Upload attachment to wiki page', js: true do
   let(:attachments) { ::Components::Attachments.new }
   let(:image_fixture) { Rails.root.join('spec/fixtures/files/image.png') }
   let(:editor) { ::Components::WysiwygEditor.new }
+  let(:wiki_page_content) { project.wiki.pages.first.content.text }
 
   before do
     login_as(user)
@@ -70,7 +71,14 @@ describe 'Upload attachment to wiki page', js: true do
       click_on "Edit"
     end
 
+    # Replace one image with a named attachment URL (Regression #28381)
+    editor.set_markdown "![my-first-image](image.png)"
+
     editor.in_editor do |container, editable|
+      # Expect URL is mapped to the correct URL
+      expect(container).to have_selector('img[src^="/api/v3/attachments/"')
+      expect(container).to have_no_selector('img[src="image.png"]')
+
       attachments.drag_and_drop_file(editable, image_fixture)
 
       # Besides testing caption functionality this also slows down clicking on the submit button
@@ -80,12 +88,20 @@ describe 'Upload attachment to wiki page', js: true do
 
     expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
 
-  click_on 'Save'
+    click_on 'Save'
 
     expect(page).to have_selector('#content img', count: 2)
-    expect(page).to have_content('Image uploaded the first time')
     expect(page).to have_content('Image uploaded the second time')
     expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
+
+    # Rendered once through the name in the backend
+    expect(page).to have_selector('img[src^="/attachments', count: 1)
+
+    # And once with the full url
+    expect(page).to have_selector('img[src^="/api/v3/attachments/"', count: 1)
+
+    expect(wiki_page_content).to include '![my-first-image](image.png)'
+    expect(wiki_page_content).to include '![](/api/v3/attachments'
   end
 
   it 'can upload an image on the new wiki page and recover from an error without losing the attachment (Regression #28171)' do
