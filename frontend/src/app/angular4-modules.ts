@@ -216,6 +216,7 @@ import {AttachmentsUploadComponent} from 'core-components/attachments/attachment
 import {AttachmentsComponent} from 'core-components/attachments/attachments.component';
 import {CurrentUserService} from 'core-components/user/current-user.service';
 import {WpTableConfigurationHighlightingTab} from "core-components/wp-table/configuration-modal/tabs/highlighting-tab.component";
+import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
 
 @NgModule({
   imports: [
@@ -280,6 +281,7 @@ import {WpTableConfigurationHighlightingTab} from "core-components/wp-table/conf
     WorkPackageTableFiltersService,
     WorkPackageTableTimelineService,
     WorkPackageTableSumService,
+    WorkPackageTableHighlightingService,
     WorkPackageStatesInitializationService,
     WorkPackagesListService,
     WorkPackageStaticQueriesService,
