@@ -54,8 +54,9 @@ export class ColorsAutocompleter implements OnInit {
 
   protected formatter(state:any) {
     const item:JQuery = jQuery(state.element);
-    const color = item.data('color')
-    const patch = ColorContrast.getColorPatch(color, 'transparent');
+    const color = item.data('color');
+    const contrastingColor = item.data('background');
+    const bright = item.data('bright');
 
     const colorSquare = jQuery('<span>')
       .addClass('color--preview')
@@ -63,8 +64,8 @@ export class ColorsAutocompleter implements OnInit {
 
     const colorText = jQuery('<span>')
       .addClass('color--text-preview')
-      .css('color', patch.fg)
-      .css('background-color', patch.bg)
+      .css('color', bright ? '#333333' : color)
+      .css('background-color', bright ? color : contrastingColor)
       .text(item.text());
 
     const div = jQuery('<div>')

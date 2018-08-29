@@ -34,10 +34,12 @@ module ColorsHelper
     Color.find_each do |c|
       options = {}
       options[:value] = c.id
-      options[:data] = { color: c.hexcode, bright: c.bright? }
+      options[:data] = {
+        color: c.hexcode,
+        bright: c.bright?,
+        background: c.contrasting_color(light_color: 'transparent')
+      }
       options[:selected] = true if c.id == colored_thing.color_id
-
-      options[:style] = "appearance: none; background-color: #{c.hexcode}; color: #{c.contrasting_color}"
 
       s << content_tag(:option, c.name, options)
     end
