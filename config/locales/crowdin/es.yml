@@ -1935,7 +1935,7 @@ es:
   permission_manage_types: Seleccionar Tipos
   permission_view_calendar: Ver calendario
   permission_view_changesets: Ver las revisiones del repositorio en OpenProject
-  permission_view_commit_author_statistics: Ver estadísticas de compromisos del autor
+  permission_view_commit_author_statistics: Ver estadísticas del commit del autor
   permission_view_work_package_watchers: Ver lista de observadores
   permission_view_work_packages: Ver paquetes de trabajo
   permission_view_messages: Ver mensajes
@@ -2363,7 +2363,7 @@ es:
   text_work_packages_destroy_confirmation: "¿Esta usted seguro que desea eliminar
     paquete(s) de trabajo seleccionado(s)?"
   text_work_packages_ref_in_commit_messages: Referenciando y reparando paquetes de
-    trabajo en mensajes de compromiso
+    trabajo en mensajes de commit
   text_journal_added: "%{label} %{value} añadido"
   text_journal_aggregation_time_explanation: Combinar revistas para mostrar sí su
     diferencia de edad es menor que el intervalo de tiempo especificado. Esto también
