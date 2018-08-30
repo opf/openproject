@@ -47,7 +47,13 @@ class BaseTypeService
   def update(params, options)
     success = Type.transaction do
       set_scalar_params(params)
-      set_attribute_groups(params)
+
+      # Only set attribute groups when it exists
+      # (Regression #28400)
+      unless params[:attribute_groups].nil?
+        set_attribute_groups(params)
+      end
+
       set_active_custom_fields
 
       if type.save
@@ -68,10 +74,10 @@ class BaseTypeService
   end
 
   def set_attribute_groups(params)
-    if params[:attribute_groups].present?
-      type.attribute_groups = parse_attribute_groups_params(params)
-    else
+    if params[:attribute_groups].empty?
       type.reset_attribute_groups
+    else
+      type.attribute_groups = parse_attribute_groups_params(params)
     end
   end
 
