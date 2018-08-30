@@ -57,7 +57,7 @@ export class MainMenuToggleService {
               protected injector:Injector) {
   }
 
-  public initializeMenu() : void {
+  public initializeMenu():void {
     if (!this.mainMenu) return;
 
     this.elementWidth = parseInt(window.OpenProject.guardedLocalStorage(this.localStorageKey) as string);
@@ -74,7 +74,9 @@ export class MainMenuToggleService {
     }
 
     // mobile version default: hide menu on initialization
-    if (window.innerWidth < 680) this.closeMenu();
+    if (this.isMobile()) {
+      this.closeMenu();
+    }
   }
 
   // click on arrow or hamburger icon
@@ -85,7 +87,7 @@ export class MainMenuToggleService {
     }
 
     if (!this.showNavigation()) { // sidebar is hidden -> show menu
-      if (window.innerWidth < 680) { // mobile version
+      if (this.isMobile()) { // mobile version
         this.setWidth(window.innerWidth);
         // On mobile the main menu shall close whenever you click outside the menu.
         this.setupAutocloseMainMenu();
@@ -106,12 +108,18 @@ export class MainMenuToggleService {
     }, 500);
   }
 
-  public closeMenu() : void {
+  public closeMenu():void {
     this.saveWidth(0);
     this.hideElements.addClass('hidden-navigation');
   }
 
-  private setToggleTitle() : void {
+  public closeWhenOnMobile():void {
+    if (this.isMobile()) {
+      this.closeMenu()
+    };
+  }
+
+  private setToggleTitle():void {
     if (this.showNavigation()) {
       this.toggleTitle = this.I18n.t('js.label_hide_project_menu');
     } else {
@@ -120,11 +128,11 @@ export class MainMenuToggleService {
     this.titleData.next(this.toggleTitle);
   }
 
-  private addRemoveClassHidden() : void {
+  private addRemoveClassHidden():void {
     this.hideElements.toggleClass('hidden-navigation', !this.showNavigation());
   }
 
-  public saveWidth(width?:number) : void {
+  public saveWidth(width?:number):void {
     this.setWidth(width);
     window.OpenProject.guardedLocalStorage(this.localStorageKey, String(this.elementWidth));
     this.setToggleTitle();
@@ -136,7 +144,7 @@ export class MainMenuToggleService {
     });
   }
 
-  public setWidth(width?:any) : void {
+  public setWidth(width?:any):void {
     if (width != undefined) {
       this.elementWidth = width as number;
     }
@@ -148,7 +156,7 @@ export class MainMenuToggleService {
     this.htmlNode.style.setProperty("--main-menu-width", this.elementWidth + 'px');
   }
 
-  private setupAutocloseMainMenu() : void {
+  private setupAutocloseMainMenu():void {
     let that = this;
     jQuery('#main-menu').off('focusout.main_menu');
     jQuery('#main-menu').on('focusout.main_menu', function (event) {
@@ -170,20 +178,24 @@ export class MainMenuToggleService {
     });
   }
 
-  private snapBack() : void {
+  private snapBack():void {
     if (this.elementWidth <= 10) {
       this.elementWidth = 0;
     }
   }
 
-  private ensureContentVisibility() : void {
+  private ensureContentVisibility():void {
     let viewportWidth = document.documentElement.clientWidth;
     if (this.elementWidth >= viewportWidth - 150) {
       this.elementWidth = viewportWidth - 150;
     }
   }
 
-  public showNavigation() : boolean {
+  private isMobile():boolean {
+    return (window.innerWidth < 680);
+  }
+
+  public showNavigation():boolean {
     return (this.elementWidth > 10);
   }
 }
