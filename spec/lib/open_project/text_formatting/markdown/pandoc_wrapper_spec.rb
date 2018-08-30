@@ -31,41 +31,9 @@ require 'spec_helper'
 
 describe OpenProject::TextFormatting::Formats::Markdown::PandocWrapper do
   let(:subject) { described_class.new }
-  let(:output_formats) { "gfm\n foo\n" }
 
   before do
     allow(subject).to receive(:read_usage_string).and_return(usage_string)
-    allow(subject).to receive(:read_output_formats).and_return(output_formats)
-  end
-
-  describe 'gfm mode' do
-    let(:usage_string) { 'does not matter' }
-    context 'when gfm exists' do
-      it 'uses gfm format' do
-        expect(subject.output_format).to eq 'gfm'
-      end
-    end
-
-    context 'when gfm does not exist' do
-      let(:output_formats) { "bar\n foo\n" }
-
-      it 'uses the legacy format' do
-        expect(subject.output_format).to eq 'markdown_github'
-      end
-    end
-
-    context 'list-output-formats does not exist' do
-      let(:usage_string) { 'does not matter' }
-
-      before do
-        allow(subject).to receive(:run_pandoc!).and_raise 'unrecognized option `--list-output-formats`'
-        allow(subject).to receive(:read_output_formats).and_call_original
-      end
-
-      it 'still falls back to markdown_github' do
-        expect(subject.output_format).to eq 'markdown_github'
-      end
-    end
   end
 
   describe 'wrap mode' do
