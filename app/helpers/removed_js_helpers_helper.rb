@@ -34,7 +34,6 @@
 module RemovedJsHelpersHelper
   # removed in rails 4.1
   def link_to_function(content, function, html_options = {})
-
     id = html_options.delete(:id) { "link-to-function-#{SecureRandom.uuid}" }
     csp_onclick(function, "##{id}")
 
