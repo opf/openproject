@@ -94,7 +94,29 @@ module OpenProject::TextFormatting::Formats
       # Run pandoc through posix-spawn and raise if an exception occurred
       def run_pandoc!(command, stdin_data: nil, timeout: pandoc_timeout)
         child = POSIX::Spawn::Child.new(PandocDownloader.pandoc_path, *command, input: stdin_data, timeout: timeout)
-        raise child.err unless child.status.success?
+        status = child.status
+
+        unless status.success?
+          code = status.exitstatus || 'unknown status (killed?)'
+          termsig = status.termsig || 'none'
+          stopsig = status.stopsig || 'none'
+          signal_msg =
+            if status.signaled?
+              "Process received signal (term #{termsig}, stop #{stopsig})"
+            else
+              "Process did not receive signal"
+            end
+
+          out = (child.out || '').force_encoding('UTF-8').truncate(100)
+          err = (child.err || '').force_encoding('UTF-8')
+          raise <<-ERRORSTR
+            Pandoc failed  with code [#{code}] [Stopped=#{status.stopped?}]
+            #{signal_msg}
+    
+            #{out}
+            #{err}
+          ERRORSTR
+        end
 
         # posix-spawn forces binary output, however pandoc
         # only works with UTF-8

@@ -113,7 +113,7 @@ module OpenProject::TextFormatting::Formats
 
           # Iterate in batches to avoid plucking too much
           with_original_values_in_batches(klass, attributes) do |orig_values|
-            markdowns_in_groups = bulk_convert_textile_with_fallback(orig_values, attributes)
+            markdowns_in_groups = bulk_convert_textile_with_fallback(klass, orig_values, attributes)
             new_values = new_values_for(attributes, orig_values, markdowns_in_groups)
 
             next if new_values.empty?
@@ -149,7 +149,7 @@ module OpenProject::TextFormatting::Formats
         end
       end
 
-      def bulk_convert_textile_with_fallback(orig_values, attributes)
+      def bulk_convert_textile_with_fallback(klass, orig_values, attributes)
         old_values = orig_values.inject([]) do |former_values, values|
           former_values + values.drop(1)
         end
@@ -161,7 +161,7 @@ module OpenProject::TextFormatting::Formats
         begin
           markdown = convert_textile_to_markdown(joined_textile,  raise_on_timeout: true)
           markdowns_in_groups = split_markdown(markdown).each_slice(attributes.length).to_a
-        rescue StandardError
+        rescue StandardError => e
           # Don't do anything. Let the subsequent code try to handle it again
         end
 
@@ -169,10 +169,13 @@ module OpenProject::TextFormatting::Formats
           # Error handling: Some textile seems to be misformed e.g. <pre>something</pre (without closing >).
           # In such cases, handle texts individually to avoid the error affecting other texts
           progress = ProgressBar.create(title: "Converting items individually due to pandoc mismatch", total: orig_values.length)
-          markdowns = old_values.map do |old_value|
-            res = convert_textile_to_markdown(old_value, raise_on_timeout: false)
+          markdowns = old_values.each_with_index.map do |old_value, index|
+            convert_textile_to_markdown(old_value, raise_on_timeout: false)
+          rescue StandardError
+            logger.error "Failing to convert single document #{klass.name} ##{orig_values[index].first}. "
+            non_convertible_textile_doc(old_value)
+          ensure
             progress.increment
-            res
           end
 
           markdowns_in_groups = markdowns.each_slice(attributes.length).to_a
@@ -232,12 +235,25 @@ module OpenProject::TextFormatting::Formats
             In this case, you will have to manually fix the textile and increasing the timeout will achieve nothing.
           TIMEOUT_WARN
 
-          "# Warning: This document could not be converted, probably due to syntax errors. " \
-          "The below content is textile.\n\n<pre>\n\n#{textile}\n\n</pre>"
+          non_convertible_textile_doc(textile)
         end
       rescue StandardError => e
         logger.error "Execution of pandoc failed: #{e}"
-        raise "Execution of pandoc failed: #{e}"
+        raise e
+      end
+
+      def non_convertible_textile_doc(textile)
+        <<~DOC
+          # Warning: This document could not be converted, probably due to syntax errors.
+          The below content is textile.
+
+
+          <pre>
+
+          #{textile}
+
+          </pre>
+        DOC
       end
 
       def models_to_convert
