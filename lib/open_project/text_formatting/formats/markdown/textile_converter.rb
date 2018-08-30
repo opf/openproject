@@ -324,6 +324,7 @@ module OpenProject::TextFormatting::Formats
         replace_numbered_headings(textile)
         add_newline_to_avoid_lazy_blocks(textile)
         remove_spaces_before_table(textile)
+        hard_breaks_within_multiline_tables(textile)
         wrap_blockquotes(textile)
       end
 
@@ -463,7 +464,24 @@ module OpenProject::TextFormatting::Formats
       # Remove spaces before a table as that would lead to the table
       # not being identified
       def remove_spaces_before_table(textile)
-        textile.gsub!(/(^|\n)\s+(\|.+\|)\s*/, "\n\n\\2\n")
+        textile.gsub!(/^\s+(\|.+?\|)/, "\n\n\\1")
+      end
+
+      ##
+      # Redmine introduced hard breaks to support multiline tables that are not official
+      # textile. We detect tables with line breaks and replace them with <br/>
+      # https://www.redmine.org/projects/redmine/repository/revisions/2824/diff/
+      def hard_breaks_within_multiline_tables(textile)
+        content_regexp = %r{
+          (?<=\|) # Assert beginning table pipe lookbehind
+          ([^\|]{5,}) # Non-empty content
+          (?=\|) # Assert ending table pipe lookahead
+        }mx
+
+        # Match all textile tables
+        textile.gsub!(/^(\|.+?\|)$/m) do |table|
+          table.gsub(content_regexp) { |table_content| table_content.gsub("\n", " <br/> ") }
+        end
       end
 
       # Wrap all blockquote blocks into boundaries as `>` is not valid blockquote syntax and would thus be
