@@ -168,7 +168,6 @@ module OpenProject::TextFormatting::Formats
         if markdowns_in_groups.length != orig_values.length
           # Error handling: Some textile seems to be misformed e.g. <pre>something</pre (without closing >).
           # In such cases, handle texts individually to avoid the error affecting other texts
-          logger.warn "Mismatch detected in conversion result. Retrying all items individually one time."
           progress = ProgressBar.create(title: "Converting items individually due to pandoc mismatch", total: orig_values.length)
           markdowns = old_values.map do |old_value|
             res = convert_textile_to_markdown(old_value, raise_on_timeout: false)
@@ -219,7 +218,8 @@ module OpenProject::TextFormatting::Formats
         if raise_on_timeout
           raise e
         else
-          ''
+          "# Warning: This document could not be converted, probably due to syntax errors. " \
+          "The below content is textile.\n\n<pre>\n\n#{textile}\n\n</pre>"
         end
       rescue StandardError => e
         logger.error "Execution of pandoc failed: #{e}"

@@ -46,6 +46,7 @@ module OpenProject::TextFormatting::Formats
       end
 
       def check_arguments!
+        PandocDownloader.check_or_download!
         wrap_mode
         read_output_formats
       end
@@ -103,7 +104,7 @@ module OpenProject::TextFormatting::Formats
       end
 
       def pandoc_timeout
-        ENV.fetch('OPENPROJECT_PANDOC_TIMEOUT_SECONDS', 10).to_i
+        ENV.fetch('OPENPROJECT_PANDOC_TIMEOUT_SECONDS', 30).to_i
       end
 
       private
@@ -114,7 +115,9 @@ module OpenProject::TextFormatting::Formats
         child = POSIX::Spawn::Child.new(PandocDownloader.pandoc_path, *command, input: stdin_data, timeout: timeout)
         raise child.err unless child.status.success?
 
-        child.out
+        # posix-spawn forces binary output, however pandoc
+        # only works with UTF-8
+        child.out.force_encoding('UTF-8')
       rescue POSIX::Spawn::TimeoutExceeded => e
         raise Timeout::Error, "Timeout occurred while running pandoc: #{e.message}"
       end
