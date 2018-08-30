@@ -17,6 +17,9 @@
 #
 # See doc/COPYRIGHT.md for more details.
 #++
+#
+
+require_dependency 'wiki_page'
 
 # Because of the WikiDiff class defined therein
 require 'wiki_page'
