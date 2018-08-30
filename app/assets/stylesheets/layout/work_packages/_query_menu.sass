@@ -63,7 +63,7 @@ $wp-query-menu-search-container-height: 35px
 
     .ui-autocomplete--category
       width: 100%
-      padding-left: 25px
+      padding-left: 33px
       line-height: $menu-item-line-height
       height: $menu-item-line-height
       font-weight: normal
@@ -91,7 +91,7 @@ $wp-query-menu-search-container-height: 35px
     font-size: 0.6rem
     line-height: $menu-item-line-height
     height: $menu-item-line-height
-    margin: 0px 8px
+    margin: 0px 12px
     position: absolute
     color: $main-menu-fieldset-header-color
     z-index: 1
@@ -110,7 +110,6 @@ $wp-query-menu-search-container-height: 35px
   .wp-query-menu--item
     display: block !important
     height: 30px !important
-    margin-left: 18px !important
     border-radius: 3px
 
     &.-hidden
@@ -128,13 +127,14 @@ $wp-query-menu-search-container-height: 35px
   .wp-query-menu--item-link
     @include text-shortener
     @include varprop(color, main-menu-font-color)
-    padding: 0px 2px 0px 5px !important
+    padding: 0px 2px 0px 33px !important
     margin: 0
     line-height: 30px
     height: 30px !important
 
     &:hover, &:focus, &:active
       @include varprop(background, main-menu-bg-hover-background)
+      @include varprop(color, main-menu-hover-font-color)
 
   // Rule complexed for specificity issues
   input[type="text"].wp-query-menu--search-input
