@@ -74,7 +74,7 @@ module OpenProject::TextFormatting::Formats
       end
 
       def run!
-        logger.info 'Starting conversion of Textile fields to CommonMark+GFM.'
+        logger.info 'Starting conversion of Textile fields to CommonMark.'
 
         logger.info 'Checking compatibility of your installed pandoc version.'
         pandoc.check_arguments!
@@ -208,16 +208,30 @@ module OpenProject::TextFormatting::Formats
       def execute_pandoc_with_stdin!(textile, raise_on_timeout)
         pandoc.execute! textile
       rescue Timeout::Error => e
-        logger.error <<~TIMEOUT
-          Execution of pandoc timed out: #{e}.
-
-          You may want to increase the timeout
-          (OPENPROJECT_PANDOC_TIMEOUT_SECONDS, currently at #{pandoc.pandoc_timeout} seconds)
-        TIMEOUT
 
         if raise_on_timeout
+          logger.error <<~TIMEOUT_WARN
+            Execution of pandoc timed out: #{e}.
+
+            You may want to increase the timeout
+            (OPENPROJECT_PANDOC_TIMEOUT_SECONDS, currently at #{pandoc.pandoc_timeout} seconds)
+          TIMEOUT_WARN
+
           raise e
         else
+          logger.error <<~TIMEOUT_WARN
+            Execution of pandoc timed out: #{e}.
+
+            The document will not be replaced (probably due to syntax errors) because pandoc did not finish.
+            If you're running PostgreSQL: You can try to cancel this run and retry the migration and with an increased timeout
+            (OPENPROJECT_PANDOC_TIMEOUT_SECONDS, currently at #{pandoc.pandoc_timeout} seconds).
+
+            If you're running MySQL: You need to restore your pre-upgrade backup first since it does not have transactional DDL.
+
+            However, please note that pandoc sometimes trip up over specific textile parts that cause it to run indefinitely.
+            In this case, you will have to manually fix the textile and increasing the timeout will achieve nothing.
+          TIMEOUT_WARN
+
           "# Warning: This document could not be converted, probably due to syntax errors. " \
           "The below content is textile.\n\n<pre>\n\n#{textile}\n\n</pre>"
         end
