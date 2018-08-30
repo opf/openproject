@@ -58,20 +58,8 @@ module OpenProject::TextFormatting::Formats
           '-f',
           'textile',
           '-t',
-          output_format
+          'commonmark'
         ]
-      end
-
-      ##
-      # Detect available output markdown format
-      # pandoc recommends format 'gfm' but that isnt available in current LTS
-      # markdown_github, which is deprecated, is however available.
-      def output_format
-        if gfm_supported?
-          'gfm'
-        else
-          'markdown_github'
-        end
       end
 
       ##
@@ -94,13 +82,6 @@ module OpenProject::TextFormatting::Formats
             raise err
           end
         end
-      end
-
-      ##
-      # Detect whether an output format for gfm exists
-      # so we don't have to use the legacy github_markdown format.
-      def gfm_supported?
-        read_output_formats.match? /^gfm$/
       end
 
       def pandoc_timeout
