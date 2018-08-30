@@ -357,6 +357,11 @@ module OpenProject::TextFormatting::Formats
         markdown.gsub! /(?<image>\!\[[^\]]*\]\([^\)]+\)):(?<link>https?:\S+)/,
                        '[\k<image>](\k<link>)'
 
+        # remove the escaping from links within parenthesis having a trailing slash
+        # ([description](https://some/url/\))
+        markdown.gsub! /\(\[(?<description>.*?)\]\((?<link>.*?)\\\)\)/,
+                       '([\k<description>](\k<link>))'
+
         convert_macro_syntax(markdown)
 
         markdown
