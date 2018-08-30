@@ -57,7 +57,7 @@ jQuery(document).ready(function($) {
         $(".menu_root li").removeClass('open')
         $(".menu_root").removeClass('open').addClass('closed');
         target.closest('li').addClass('open');
-        target.closest('li').find('li > a:first').focus();
+        target.closest('li').find('li > a:first, .tree-menu--title:first').first().focus();
       }
       return false;
     });

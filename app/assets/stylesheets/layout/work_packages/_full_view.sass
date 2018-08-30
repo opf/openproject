@@ -158,6 +158,11 @@ body.controller-work_packages.full-create
     &::before
       left: 0
 
+  // Height fix for FF showing vertical scrollbar
+  // WP#28389
+  html.-browser-firefox &
+    height: calc(100% - 5px)
+
 .nosidebar
   ul.subject-header
     width: 67%

@@ -6,6 +6,7 @@
     "test": "cd frontend && npm test && cd ..",
     "tslint_typechecks": "cd frontend && npm run tslint_typechecks && cd ..",
     "serve": "cd frontend && npm run serve",
+    "serve-public": "cd frontend && ./node_modules/.bin/ng serve --host 0.0.0.0",
     "legacy-webpack": "cd frontend && npm run legacy-webpack && cd ..",
     "legacy-webpack-watch": "cd frontend && npm run legacy-webpack-watch"
   },

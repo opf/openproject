@@ -32,7 +32,11 @@ describe 'work package reports', type: :feature, js: true do
   let(:project) { FactoryBot.create :project_with_types, types: [type_a] }
   let(:user) { FactoryBot.create :user, member_in_project: project, member_with_permissions: %i(view_work_packages) }
 
-  let(:type_a) { FactoryBot.create :type_with_workflow, name: 'Type A' }
+  let(:type_a) do
+    FactoryBot.create(:type_with_workflow, name: 'Type A').tap do |t|
+      t.statuses.last.update_attribute(:is_closed, true)
+    end
+  end
 
   let!(:wp_1) { FactoryBot.create :work_package, project: project, type: type_a, status: type_a.statuses.first }
   let!(:wp_2) { FactoryBot.create :work_package, project: project, type: type_a, status: type_a.statuses.last }
@@ -71,9 +75,9 @@ describe 'work package reports', type: :feature, js: true do
     expect(page)
       .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(3)', text: 1
     expect(page)
-      .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(4)', text: 2
+      .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(4)', text: 1
     expect(page)
-      .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(5)', text: "-"
+      .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(5)', text: 1
     expect(page)
       .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(6)', text: 2
 
@@ -101,9 +105,9 @@ describe 'work package reports', type: :feature, js: true do
     expect(page)
       .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(3)', text: 1
     expect(page)
-      .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(4)', text: 2
+      .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(4)', text: 1
     expect(page)
-      .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(5)', text: "-"
+      .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(5)', text: 1
     expect(page)
       .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(6)', text: 2
 

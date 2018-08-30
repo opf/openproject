@@ -251,6 +251,7 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
    *
    */
   protected addClickHandler() {
+    var touchMoved:boolean = false;
     this.$element
       .find('.project-menu-autocomplete--results')
       .on('click', '.ui-menu-item a', (evt:JQueryEventObject) => {
@@ -260,9 +261,17 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
 
         return true;
       })
-      // Needed for iOS to ensure that the link is executed on the first click (touch)
-      .on('touchstart', '.ui-menu-item a', (evt:JQueryEventObject) => {
-        window.location.href =  (evt.target as HTMLAnchorElement).href;
+
+      // On iOS the click event doesn't get fired. So we need to listen to touch events and discard them if they they
+      // are the beginning of some scrolling.
+      .on('touchend', '.ui-menu-item a',function(evt){
+        if(!touchMoved){
+          window.location.href =  (evt.target as HTMLAnchorElement).href;
+        }
+      }).on('touchmove', '.ui-menu-item a',function(){
+        touchMoved = true;
+      }).on('touchstart', '.ui-menu-item a',function(){
+        touchMoved = false;
       });
   }
 

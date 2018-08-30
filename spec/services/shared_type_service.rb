@@ -56,6 +56,43 @@ shared_examples_for 'type service' do
       end
     end
 
+    describe 'attribute groups' do
+      context 'when not given' do
+        let(:params) { { name: 'blubs blubs' } }
+
+        it 'set the values provided on the call' do
+          expect(type).not_to receive(:reset_attribute_groups)
+          expect(type).not_to receive(:attribute_groups=)
+
+          service_call
+
+          expect(type.name).to eql params[:name]
+        end
+      end
+
+      context 'when empty' do
+        let(:params) { { attribute_groups: [] } }
+
+        it 'set the values provided on the call' do
+          expect(type).to receive(:reset_attribute_groups)
+          expect(type).not_to receive(:attribute_groups=)
+
+          service_call
+        end
+      end
+
+      context 'when other' do
+        let(:params) { { attribute_groups: ['mocked'] } }
+
+        it 'set the values provided on the call' do
+          expect(type).not_to receive(:reset_attribute_groups)
+          expect(type).to receive(:attribute_groups=)
+
+          service_call
+        end
+      end
+    end
+
     describe 'custom fields' do
       let(:cf1) { FactoryBot.create :work_package_custom_field, field_format: 'text' }
       let(:cf2) { FactoryBot.create :work_package_custom_field, field_format: 'text' }
