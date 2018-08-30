@@ -440,7 +440,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
 
     // On mobile, close the main menu after selecting a view.
     if (window.innerWidth < 680) {
-      this.toggleService.toggleNavigation()
+      this.toggleService.toggleNavigation();
     }
   }
 
