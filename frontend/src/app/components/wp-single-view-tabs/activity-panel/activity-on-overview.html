@@ -1,14 +1,14 @@
 <work-package-comment [workPackage]="workPackage">
   <ng-template>
-    <ul class='work-package-details-activities-list'>
-      <li *ngFor="let inf of latestActivityInfo; trackBy:trackByHref"
+    <div class='work-package-details-activities-list'>
+      <div *ngFor="let inf of latestActivityInfo; trackBy:trackByHref"
           class="work-package-details-activities-activity">
         <activity-entry [workPackage]="workPackage"
                         [activity]="inf.activity"
                         [activityNo]="inf.number(inf.isReversed)"
                         [isInitial]="inf.isInitial()">
         </activity-entry>
-      </li>
-    </ul>
+      </div>
+    </div>
   </ng-template>
 </work-package-comment>
