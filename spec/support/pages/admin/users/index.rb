@@ -29,74 +29,76 @@
 require 'support/pages/page'
 
 module Pages
-  module Admin::Users
-    class Index < ::Pages::Page
-      def path
-        "/users"
-      end
-
-      def expect_listed(*users)
-        rows = page.all 'td.username'
-        expect(rows.map(&:text)).to eq(users.map(&:login))
-      end
-
-      def expect_non_listed
-        expect(page)
-          .to have_no_selector('tr.user')
-
-        expect(page)
-          .to have_selector('tr.generic-table--empty-row', text: 'There is currently nothing to display.')
-      end
-
-      def expect_user_locked(user)
-        expect(page)
-          .to have_selector('tr.user.locked td.username', text: user.login)
-      end
-
-      def filter_by_status(value)
-        select value, from: 'Status:'
-        click_button 'Apply'
-      end
-
-      def filter_by_name(value)
-        fill_in 'Name', with: value
-        click_button 'Apply'
-      end
-
-      def clear_filters
-        click_link 'Clear'
-      end
-
-      def order_by(key)
-        within 'thead' do
-          click_link key
+  module Admin
+    module Users
+      class Index < ::Pages::Page
+        def path
+          "/users"
         end
-      end
 
-      def lock_user(user)
-        within_user_row(user) do
-          click_link 'Lock permanently'
+        def expect_listed(*users)
+          rows = page.all 'td.username'
+          expect(rows.map(&:text)).to eq(users.map(&:login))
         end
-      end
 
-      def reset_failed_logins(user)
-        within_user_row(user) do
-          click_link 'Reset failed logins'
+        def expect_non_listed
+          expect(page)
+            .to have_no_selector('tr.user')
+
+          expect(page)
+            .to have_selector('tr.generic-table--empty-row', text: 'There is currently nothing to display.')
         end
-      end
 
-      def unlock_user(user)
-        within_user_row(user) do
-          click_link 'Unlock'
+        def expect_user_locked(user)
+          expect(page)
+            .to have_selector('tr.user.locked td.username', text: user.login)
         end
-      end
 
-      private
+        def filter_by_status(value)
+          select value, from: 'Status:'
+          click_button 'Apply'
+        end
 
-      def within_user_row(user)
-        row = find('tr.user', text: user.login)
-        within row do
-          yield
+        def filter_by_name(value)
+          fill_in 'Name', with: value
+          click_button 'Apply'
+        end
+
+        def clear_filters
+          click_link 'Clear'
+        end
+
+        def order_by(key)
+          within 'thead' do
+            click_link key
+          end
+        end
+
+        def lock_user(user)
+          within_user_row(user) do
+            click_link 'Lock permanently'
+          end
+        end
+
+        def reset_failed_logins(user)
+          within_user_row(user) do
+            click_link 'Reset failed logins'
+          end
+        end
+
+        def unlock_user(user)
+          within_user_row(user) do
+            click_link 'Unlock'
+          end
+        end
+
+        private
+
+        def within_user_row(user)
+          row = find('tr.user', text: user.login)
+          within row do
+            yield
+          end
         end
       end
     end
