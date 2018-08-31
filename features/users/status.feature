@@ -39,12 +39,6 @@ Feature: User Status
     When I try to log in with user "bobby"
     Then I should see "Bob Bobbit" as being logged in
 
-  Scenario: An active user gets locked
-    When I edit the user "bobby"
-    And I click "Lock permanently"
-    When I try to log in with user "bobby"
-    Then I should not see "Bob Bobbit" as being logged in
-
   Scenario: A registered user gets activated
     Given the user "bobby" is registered and not activated
     When I try to log in with user "bobby"
