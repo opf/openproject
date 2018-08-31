@@ -401,8 +401,8 @@ module OpenProject::TextFormatting::Formats
 
         # remove the escaping from links within parenthesis having a trailing slash
         # ([description](https://some/url/\))
-        markdown.gsub! /\(\[(?<description>.*?)\]\((?<link>.*?)\\\)\)/,
-                       '([\k<description>](\k<link>))'
+        markdown.gsub! /\((?<pretext>.*?)\[(?<description>.*?)\]\((?<link>.*?)\\\)\)/,
+                       '(\k<pretext>[\k<description>](\k<link>))'
 
         convert_macro_syntax(markdown)
 
