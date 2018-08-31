@@ -112,3 +112,18 @@
 @mixin form--field-affix-mixin--transparent
   background: none
   border: none
+
+@mixin styled-scroll-bar
+  &::-webkit-scrollbar
+    width: 8px
+    height: 12px
+
+  &::-webkit-scrollbar-track
+    background: transparent
+
+  &::-webkit-scrollbar-thumb
+    background: #ddd
+    visibility: hidden
+
+  &:hover::-webkit-scrollbar-thumb
+    visibility: visible
