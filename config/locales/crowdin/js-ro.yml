@@ -11,9 +11,9 @@ ro:
 '
     autocomplete_select:
       placeholder:
-        multi: Add "%{name}"
-        single: Select "%{name}"
-      remove: Remove %{name}
+        multi: Adăugaţi "%{name}"
+        single: Selectaţi "%{name}"
+      remove: Elminaţi "%{name}"
       active: Active %{label} %{name}
     close_popup_title: Închidere pop-up
     close_filter_title: Închide filtrul
@@ -59,56 +59,59 @@ ro:
     description_selected_columns: Coloane selectate
     description_subwork_package: 'Fiu al pachetului de lucru #%{id}'
     editor:
-      preview: Toggle preview mode
-      error_saving_failed: 'Saving the document failed with the following error: %{e}'
+      preview: Activaţi/Dezactivați previzualizarea
+      error_saving_failed: 'Documentul nu a putut fi salvat datorită acestei erori:
+        %{e}'
       macro:
         child_pages:
           button: Links to child pages
           include_parent: Include parent
           text: "[Placeholder] Links to child pages of"
           page: Pagină wiki
-          this_page: this page
+          this_page: această pagină
           hint: 'Leave this field empty to list all child pages of the current page.
             If you want to reference a different page, provide its title or slug.
 
 '
         code_block:
-          button: Insert code snippet
-          title: Insert / edit Code snippet
-          language: Formatting language
-          language_hint: Enter the formatting language that will be used for highlighting
-            (if supported).
+          button: Inserați fragmentul de cod
+          title: Inserați/Editați fragmentul de cod
+          language: Limbaj de formatare
+          language_hint: Introduceți limbajul de formatare care va fi utilizat pentru
+            evidențiere (dacă există suport pentru acesta).
         dropdown:
-          macros: Macros
-          chose_macro: Chose macro
+          macros: Macro
+          chose_macro: Alegeți macro
         toc: Table of contents
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget
         wiki_page_include:
-          button: Include content of another wiki page
-          text: "[Placeholder] Included wiki page of"
+          button: Includeți conținul altei pagini wiki
+          text: "[Placeholder] Pagină wiki inclusă"
           page: Pagină wiki
-          not_set: "(Page not yet set)"
-          hint: |
-            Include the content of another wiki page by specifying its title or slug.
-            You can include the wiki page of another project by separating them with a colon like the following example.
+          not_set: "(Pagina nu a fost încă stabilită)"
+          hint: 'Includeți conținutul altei pagini wiki specificând titul sau adresa(slug).
+            Puteți include pagina wiki din cadrul altui proiect separându-le prin
+            simbolul ”:” ca și în exemplul următor.
+
+'
         work_package_button:
           button: Insert create work package button
-          type: Work package type
+          type: Tip pachet de lucru
           button_style: Use button style
-          button_style_hint: 'Optional: Check to make macro appear as a button, not
-            as a link.'
-          without_type: Create work package
-          with_type: 'Create work package (Type: %{typename})'
+          button_style_hint: 'Optional: Bifați pentru a vedea comenzile macro sub
+            formă de butoane, nu sub formă de link.'
+          without_type: Creați pachet de lucru
+          with_type: 'Creați pachet de lucru (Tip: %{typename})'
         embedded_table:
-          button: Embed work package table
-          text: "[Placeholder] Embedded work package table"
+          button: Inserați tabel pachet de lucru
+          text: "[Placeholder] Tabelul pachetului de lucru inserat"
     error:
       internal: A apărut o eroare internă.
-      cannot_save_changes_with_message: 'Cannot save your changes due to the following
-        error: %{error}'
-      query_saving: The view could not be saved.
-      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
+      cannot_save_changes_with_message: 'Schimbările nu pot fi salvate datorită acestei
+        erori: %{error}'
+      query_saving: Configurația nu poate salvată.
+      embedded_table_loading: 'Configurația inserată nu poate fi încarcată: %{message}'
     filter:
       description:
         text_open_filter: Deschideți acest filtru cu 'ALT' și tastele săgeată.
@@ -125,8 +128,8 @@ ro:
           one: Primul criteriu de sortare
           two: Al doilea criteriu de sortare
           three: Al treilea criteriu de sortare
-      upsale_for_more: For more advanced filters, check out the
-      upsale_link: Enterprise Edition.
+      upsale_for_more: Pentru filtre mai avansate, accesați
+      upsale_link: Versiunea Enterprise.
     general_text_no: nu
     general_text_yes: da
     general_text_No: Nu
@@ -174,7 +177,7 @@ ro:
     label_expand: Extindere
     label_expanded: extins
     label_expand_all: Extindere totală
-    label_expand_project_menu: Expand project menu
+    label_expand_project_menu: Deschideți meniul proiectului
     label_export: Exportare
     label_filename: Fișier
     label_filesize: Dimensiune
@@ -182,11 +185,11 @@ ro:
     label_group_by: Grupare după
     label_hide_attributes: Arată mai puţin
     label_hide_column: Ascundere coloana
-    label_hide_project_menu: Collapse project menu
+    label_hide_project_menu: Închideți meniul proiectului
     label_in: în
     label_in_less_than: în mai puțin de
     label_in_more_than: în mai mult de
-    label_latest_activity: Latest activity
+    label_latest_activity: Activitate recentă
     label_last_updated_on: Ultima actualizare la data de
     label_less_or_equal: "<="
     label_less_than_ago: acum mai puțin de zile
@@ -204,7 +207,7 @@ ro:
     label_not_equals: nu este
     label_on: pe
     label_open_menu: Deschidere meniu
-    label_open_context_menu: Open context menu
+    label_open_context_menu: Deschideți meniul contextual
     label_open_work_packages: deschise
     label_password: Parolă
     label_previous: Înapoi
@@ -218,20 +221,20 @@ ro:
     label_select_watcher: Selectaţi un observator...
     label_selected_filter_list: Filtre selectate
     label_show_attributes: Afișați toate câmpurile
-    label_show_in_menu: Show view in menu
+    label_show_in_menu: Vizualizați configurația în meniu
     label_sort_by: Sortare după
     label_sorted_by: sortare după
     label_sort_higher: Mută în sus
     label_sort_lower: Mută în jos
     label_sorting: Sortare
-    label_star_query: Favored
-    label_press_enter_to_save: Press enter to save.
+    label_star_query: Favorite
+    label_press_enter_to_save: Apăsați tasta ”Enter” pentru a salva.
     label_public_query: Public
     label_sum_for: Suma pentru
     label_subject: Subiect
     label_this_week: săptămâna curentă
     label_today: astăzi
-    label_up: Up
+    label_up: Sus
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent} % Progres total"
@@ -248,10 +251,10 @@ ro:
     label_unwatch: Stop monitorizare
     label_unwatch_work_package: Opriți urmărirea pachetului de lucru
     label_uploaded_by: Încărcat de
-    label_default_queries: Default views
-    label_starred_queries: Favorite views
-    label_global_queries: Public views
-    label_custom_queries: Private views
+    label_default_queries: Configurații implicite
+    label_starred_queries: Configurații favorite
+    label_global_queries: Configurații publice
+    label_custom_queries: Configurații private
     label_columns: Coloane
     label_attachments: Fişiere
     label_drop_files: Trageți fișierele aici
@@ -263,7 +266,7 @@ ro:
     label_remove_watcher: Eliminare observator %{name}
     label_remove_all_files: Ştergeţi toate fişierele
     label_add_description: Adăugați o descriere pentru %{file}
-    label_upload_notification: Uploading files...
+    label_upload_notification: Se încarcă fișierele...
     label_work_package_upload_notification: 'Fişierele pentru pachetul de lucru #%{id}:
       %{subject} sunt în curs de încărcare'
     label_files_to_upload: 'Următoarele fişiere vor fi încărcate:'
@@ -304,9 +307,9 @@ ro:
         error_duplicate_group_name: The name %{group} is used more than once. Group
           names must be unique.
         reset_title: Reset form configuration
-        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group and disable ALL custom
-          fields.
+        confirm_reset: 'Antenție: Sunteți sigur că doriți să resetați congurația formularului?
+          Această acțiune va reseta toate atributele înapoi la grupul implicit și
+          va dezactiva TOATE câmpurile personalizate.
 
 '
         upgrade_to_ee: Upgrade to Enterprise Edition
@@ -582,7 +585,7 @@ ro:
         versionName: Versiune
         version: Versiune
       default_queries:
-        latest_activity: Latest activity
+        latest_activity: Activitate recentă
         created_by_me: Created by me
         assigned_to_me: Assigned to me
         recently_created: Recently created

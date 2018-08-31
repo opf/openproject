@@ -72,7 +72,7 @@ ja:
       no_results_title_text: 現在、カスタム フィールドはありません。
       no_results_content_text: 新しいカスタム フィールドを作成
   concatenation:
-    single: or
+    single: または
   deprecations:
     old_timeline:
       replacement: ワークパッケージ モジュールに埋め込まれたインタラクティブなタイムラインで、このタイムライン モジュールを交換します。
@@ -167,7 +167,7 @@ ja:
   work_packages:
     x_descendants:
       one: One descendant work package
-      other: "%{count} work package descendants"
+      other: "%{count} つの作業項目の子孫"
     move:
       no_common_statuses_exists: 選択されたすべての項目に利用可能なステータスはありません。 それらの状態は変更できません。
       unsupported_for_multiple_projects: 複数のプロジェクトから、作業項目の一括移動/コピーはサポートされていません
@@ -318,8 +318,8 @@ ja:
         type: 種別
       type:
         attribute_groups: ''
-        is_in_roadmap: Displayed in roadmap by default
-        is_default: Activated for new projects by default
+        is_in_roadmap: デフォルトでロードマップに表示されます
+        is_default: デフォルトで新規プロジェクト用に有効化
         is_milestone: マイルストーン
         color: 色
       user:
@@ -437,7 +437,7 @@ ja:
             project:
               error_not_found: 存在しません
             public:
-              error_unauthorized: "- The user has no permission to create public views."
+              error_unauthorized: "- ユーザーにはパブリックビューを作成する権限がありません。"
           group_by_hierarchies_exclusive: "'%{group_by}' でのグループ化は相互に排他的です。両方を有効にはできません。"
           filters:
             custom_fields:
@@ -879,8 +879,7 @@ ja:
   enumeration_system_activity: システム作業分類
   enumeration_reported_project_statuses: 報告されるプロジェクト進捗状況
   error_auth_source_sso_failed: ユーザー '%{value}' のシングルサインオン (SSO) に失敗しました
-  error_can_not_archive_project: 'This project cannot be archived: There is at least
-    one work package assigned to a version defined in this project.'
+  error_can_not_archive_project: 'このプロジェクトはアーカイブできません: このプロジェクトで定義されているバージョンに少なくとも1つの作業項目が割り当てられています。'
   error_can_not_delete_entry: エントリを削除できません
   error_can_not_delete_custom_field: カスタムフィールドを削除できません。
   error_can_not_delete_type: この型の作業項目が存在しています。削除できません。
@@ -1743,7 +1742,7 @@ ja:
   permission_manage_members: メンバーの管理
   permission_manage_news: ニュースの管理
   permission_manage_project_activities: プロジェクト活動の管理
-  permission_manage_public_queries: Manage public views
+  permission_manage_public_queries: 公開ビューの管理
   permission_manage_repository: リポジトリの管理
   permission_manage_subtasks: 子タスクの管理
   permission_manage_versions: バージョンの管理
@@ -1752,7 +1751,7 @@ ja:
   permission_move_work_packages: 作業項目の移動
   permission_protect_wiki_pages: Wikiページの凍結
   permission_rename_wiki_pages: Wikiページ名の変更
-  permission_save_queries: Save views
+  permission_save_queries: ビューを保存
   permission_select_project_modules: プロジェクトでモジュールの選択
   permission_manage_types: 作業項目の型の選択
   permission_view_calendar: カレンダーの閲覧
