@@ -29,8 +29,8 @@
 require 'support/pages/page'
 
 module Pages
-  module Admin
-    class User < ::Pages::Page
+  module Admin::Users
+    class Edit < ::Pages::Page
       attr_reader :id
 
       def initialize(id)

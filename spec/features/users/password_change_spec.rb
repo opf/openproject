@@ -34,7 +34,7 @@ describe 'random password generation', type: :feature do
   let(:old_password) { 'old_Password!123' }
   let(:new_password) { 'new_Password!123' }
   let(:user) { FactoryBot.create :user, password: old_password, password_confirmation: old_password }
-  let(:user_page) { ::Pages::Admin::User.new(user.id) }
+  let(:user_page) { ::Pages::Admin::Users::Edit.new(user.id) }
 
   describe 'as admin user' do
     before do
