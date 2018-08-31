@@ -62,6 +62,8 @@ See docs/COPYRIGHT.rdoc for more details.
             <td width="240px">
               <%= progress_bar((count[:closed].to_f / count[:total])*100,
                       legend: "#{count[:closed]}/#{count[:total]}",
+                      hide_total_progress: true,
+                      hide_percent_sign: true,
                       width: "#{(count[:total].to_f / max * 200).floor}px;") %>
             </td>
           </tr>
