@@ -65,8 +65,10 @@ class TimelogController < ApplicationController
       cond << @project.project_condition(Setting.display_subprojects_work_packages?)
     end
 
-    retrieve_date_range
-    cond << ['spent_on BETWEEN ? AND ?', @from, @to]
+    retrieve_date_range allow_nil: true
+    if @from && @to
+      cond << ['spent_on BETWEEN ? AND ?', @from, @to]
+    end
 
     respond_to do |format|
       format.html do

@@ -184,8 +184,8 @@ describe TimelogController, type: :controller do
     refute_nil assigns(:total_hours)
     assert_equal '162.90', '%.2f' % assigns(:total_hours)
     # display all time by default
-    assert_equal '2007-03-12'.to_date, assigns(:from)
-    assert_equal '2007-04-22'.to_date, assigns(:to)
+    assert_equal nil, assigns(:from)
+    assert_equal nil, assigns(:to)
     assert_select 'form',
                attributes: { action: '/projects/ecookbook/time_entries', id: 'query_form' }
   end
@@ -235,8 +235,8 @@ describe TimelogController, type: :controller do
     refute_nil assigns(:total_hours)
     assert_equal 154.25, assigns(:total_hours)
     # display all time based on what's been logged
-    assert_equal '2007-03-12'.to_date, assigns(:from)
-    assert_equal '2007-04-22'.to_date, assigns(:to)
+    assert_equal nil, assigns(:from)
+    assert_equal nil, assigns(:to)
     assert_select 'form',
                attributes: { action: work_package_time_entries_path(1), id: 'query_form' }
   end
