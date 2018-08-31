@@ -199,7 +199,7 @@ module TimelogHelper
   end
 
   # Retrieves the date range based on predefined ranges or specific from/to param dates
-  def retrieve_date_range
+  def retrieve_date_range(allow_nil: false)
     @free_period = false
     @from = nil
     @to = nil
@@ -240,8 +240,11 @@ module TimelogHelper
     end
 
     @from, @to = @to, @from if @from && @to && @from > @to
-    @from ||= (TimeEntry.earliest_date_for_project(@project) || Date.today)
-    @to ||= (TimeEntry.latest_date_for_project(@project) || Date.today)
+
+    unless allow_nil
+      @from ||= (TimeEntry.earliest_date_for_project(@project) || Date.today)
+      @to ||= (TimeEntry.latest_date_for_project(@project) || Date.today)
+    end
   end
 
   def find_optional_project
