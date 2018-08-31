@@ -27,7 +27,6 @@
 // ++
 
 import {Component, ElementRef, OnInit} from '@angular/core';
-import {ColorContrast} from "core-app/modules/a11y/color-contrast.functions";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
 export const selector = 'colors-autocompleter';

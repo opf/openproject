@@ -26,35 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageEditingService} from 'core-components/wp-edit-form/work-package-editing-service';
-import {Component, Inject, Input} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {IWorkPackageEditingServiceToken} from "../../wp-edit-form/work-package-editing.service.interface";
+import {ResourceDisplayField} from "core-app/modules/fields/display/field-types/wp-display-resource-field.module";
 
-@Component({
-  selector: 'wp-status-button',
-  templateUrl: './wp-status-button.html'
-})
-export class WorkPackageStatusButtonComponent {
-  @Input('workPackage') public workPackage:WorkPackageResource;
-  @Input('allowed') public allowed:boolean;
-
-  public text = {
-    explanation: this.I18n.t('js.label_edit_status')
-  };
-
-  constructor(readonly I18n:I18nService,
-              @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService) {
-  }
-
-  public isDisabled() {
-    let changeset = this.wpEditing.changesetFor(this.workPackage);
-    return !this.allowed || changeset.inFlight;
-  }
-
-  public get status() {
-    let changeset = this.wpEditing.changesetFor(this.workPackage);
-    return changeset.value('status');
+export class HighlightedResourceDisplayField extends ResourceDisplayField {
+  public render(element:HTMLElement, displayText:string):void {
+    super.render(element, displayText);
   }
 }

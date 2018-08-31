@@ -6,9 +6,9 @@
           wpStatusDropdown
           [wpStatusDropdown-workPackage]="workPackage">
 
-    <span class="button--text"
+    <span class="button--text __hl_inl_status_{{ status.getId() }}"
           aria-hidden="true"
-          [textContent]="getStatus().name"></span>
+          [textContent]="status.name"></span>
     <op-icon icon-classes="button--icon icon-small icon-pulldown"></op-icon>
   </button>
 </div>
