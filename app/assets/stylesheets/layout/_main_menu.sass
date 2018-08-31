@@ -392,3 +392,17 @@ a.main-menu--parent-node
       @include icon-mixin-arrow-left2
   %absolute-layout-mode &
     z-index: 100
+
+#main-menu ul ul.main-menu--children ul.pages-hierarchy
+  .tree-menu--hierarchy-indicator
+    @include varprop(color, main-menu-font-color)
+  .tree-menu--item
+    &.-selected
+      @include varprop(background, main-menu-bg-selected-background)
+      .tree-menu--title
+        @include varprop(color, main-menu-selected-font-color)
+    &:hover
+      @include varprop(background, main-menu-bg-hover-background)
+      .tree-menu--title
+        @include varprop(color, main-menu-hover-font-color)
+        text-decoration: none
