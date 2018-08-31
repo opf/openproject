@@ -82,7 +82,7 @@ See docs/COPYRIGHT.rdoc for more details.
           <tr>
             <td class="-no-ellipsis">
               <%= link_to h(board.name), { action: 'show', id: board }, class: "board"  %><br />
-              <%=h board.description %>
+              <%= format_text(board.description) %>
             </td>
             <td><%= board.topics_count %></td>
             <td><%= board.messages_count %></td>
