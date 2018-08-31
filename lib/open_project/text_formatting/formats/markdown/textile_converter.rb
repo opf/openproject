@@ -74,7 +74,7 @@ module OpenProject::TextFormatting::Formats
       end
 
       def run!
-        logger.info 'Starting conversion of Textile fields to CommonMark+GFM.'
+        logger.info 'Starting conversion of Textile fields to CommonMark.'
 
         logger.info 'Checking compatibility of your installed pandoc version.'
         pandoc.check_arguments!
@@ -113,7 +113,7 @@ module OpenProject::TextFormatting::Formats
 
           # Iterate in batches to avoid plucking too much
           with_original_values_in_batches(klass, attributes) do |orig_values|
-            markdowns_in_groups = bulk_convert_textile_with_fallback(orig_values, attributes)
+            markdowns_in_groups = bulk_convert_textile_with_fallback(klass, orig_values, attributes)
             new_values = new_values_for(attributes, orig_values, markdowns_in_groups)
 
             next if new_values.empty?
@@ -149,7 +149,7 @@ module OpenProject::TextFormatting::Formats
         end
       end
 
-      def bulk_convert_textile_with_fallback(orig_values, attributes)
+      def bulk_convert_textile_with_fallback(klass, orig_values, attributes)
         old_values = orig_values.inject([]) do |former_values, values|
           former_values + values.drop(1)
         end
@@ -161,7 +161,7 @@ module OpenProject::TextFormatting::Formats
         begin
           markdown = convert_textile_to_markdown(joined_textile,  raise_on_timeout: true)
           markdowns_in_groups = split_markdown(markdown).each_slice(attributes.length).to_a
-        rescue StandardError
+        rescue StandardError => e
           # Don't do anything. Let the subsequent code try to handle it again
         end
 
@@ -169,10 +169,13 @@ module OpenProject::TextFormatting::Formats
           # Error handling: Some textile seems to be misformed e.g. <pre>something</pre (without closing >).
           # In such cases, handle texts individually to avoid the error affecting other texts
           progress = ProgressBar.create(title: "Converting items individually due to pandoc mismatch", total: orig_values.length)
-          markdowns = old_values.map do |old_value|
-            res = convert_textile_to_markdown(old_value, raise_on_timeout: false)
+          markdowns = old_values.each_with_index.map do |old_value, index|
+            convert_textile_to_markdown(old_value, raise_on_timeout: false)
+          rescue StandardError
+            logger.error "Failing to convert single document #{klass.name} ##{orig_values[index].first}. "
+            non_convertible_textile_doc(old_value)
+          ensure
             progress.increment
-            res
           end
 
           markdowns_in_groups = markdowns.each_slice(attributes.length).to_a
@@ -208,22 +211,49 @@ module OpenProject::TextFormatting::Formats
       def execute_pandoc_with_stdin!(textile, raise_on_timeout)
         pandoc.execute! textile
       rescue Timeout::Error => e
-        logger.error <<~TIMEOUT
-          Execution of pandoc timed out: #{e}.
-
-          You may want to increase the timeout
-          (OPENPROJECT_PANDOC_TIMEOUT_SECONDS, currently at #{pandoc.pandoc_timeout} seconds)
-        TIMEOUT
 
         if raise_on_timeout
+          logger.error <<~TIMEOUT_WARN
+            Execution of pandoc timed out: #{e}.
+
+            You may want to increase the timeout
+            (OPENPROJECT_PANDOC_TIMEOUT_SECONDS, currently at #{pandoc.pandoc_timeout} seconds)
+          TIMEOUT_WARN
+
           raise e
         else
-          "# Warning: This document could not be converted, probably due to syntax errors. " \
-          "The below content is textile.\n\n<pre>\n\n#{textile}\n\n</pre>"
+          logger.error <<~TIMEOUT_WARN
+            Execution of pandoc timed out: #{e}.
+
+            The document will not be replaced (probably due to syntax errors) because pandoc did not finish.
+            If you're running PostgreSQL: You can try to cancel this run and retry the migration and with an increased timeout
+            (OPENPROJECT_PANDOC_TIMEOUT_SECONDS, currently at #{pandoc.pandoc_timeout} seconds).
+
+            If you're running MySQL: You need to restore your pre-upgrade backup first since it does not have transactional DDL.
+
+            However, please note that pandoc sometimes trip up over specific textile parts that cause it to run indefinitely.
+            In this case, you will have to manually fix the textile and increasing the timeout will achieve nothing.
+          TIMEOUT_WARN
+
+          non_convertible_textile_doc(textile)
         end
       rescue StandardError => e
         logger.error "Execution of pandoc failed: #{e}"
-        raise "Execution of pandoc failed: #{e}"
+        raise e
+      end
+
+      def non_convertible_textile_doc(textile)
+        <<~DOC
+          # Warning: This document could not be converted, probably due to syntax errors.
+          The below content is textile.
+
+
+          <pre>
+
+          #{textile}
+
+          </pre>
+        DOC
       end
 
       def models_to_convert
@@ -324,6 +354,7 @@ module OpenProject::TextFormatting::Formats
         replace_numbered_headings(textile)
         add_newline_to_avoid_lazy_blocks(textile)
         remove_spaces_before_table(textile)
+        hard_breaks_within_multiline_tables(textile)
         wrap_blockquotes(textile)
       end
 
@@ -356,6 +387,11 @@ module OpenProject::TextFormatting::Formats
         # ![alt](image])
         markdown.gsub! /(?<image>\!\[[^\]]*\]\([^\)]+\)):(?<link>https?:\S+)/,
                        '[\k<image>](\k<link>)'
+
+        # remove the escaping from links within parenthesis having a trailing slash
+        # ([description](https://some/url/\))
+        markdown.gsub! /\(\[(?<description>.*?)\]\((?<link>.*?)\\\)\)/,
+                       '([\k<description>](\k<link>))'
 
         convert_macro_syntax(markdown)
 
@@ -463,7 +499,24 @@ module OpenProject::TextFormatting::Formats
       # Remove spaces before a table as that would lead to the table
       # not being identified
       def remove_spaces_before_table(textile)
-        textile.gsub!(/(^|\n)\s+(\|.+\|)\s*/, "\n\n\\2\n")
+        textile.gsub!(/^\s+(\|.+?\|)/, "\n\n\\1")
+      end
+
+      ##
+      # Redmine introduced hard breaks to support multiline tables that are not official
+      # textile. We detect tables with line breaks and replace them with <br/>
+      # https://www.redmine.org/projects/redmine/repository/revisions/2824/diff/
+      def hard_breaks_within_multiline_tables(textile)
+        content_regexp = %r{
+          (?<=\|) # Assert beginning table pipe lookbehind
+          ([^\|]{5,}) # Non-empty content
+          (?=\|) # Assert ending table pipe lookahead
+        }mx
+
+        # Match all textile tables
+        textile.gsub!(/^(\|.+?\|)$/m) do |table|
+          table.gsub(content_regexp) { |table_content| table_content.gsub("\n", " <br/> ") }
+        end
       end
 
       # Wrap all blockquote blocks into boundaries as `>` is not valid blockquote syntax and would thus be

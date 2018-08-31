@@ -147,9 +147,8 @@ body.controller-work_packages.full-create
 
 .work-packages-full-view--resizer
   position: sticky
-  top: 0
-  bottom: 0
-  height: 100%
+  top: 50%
+  bottom: 50%
   width: 18px
   display: inline-block
   .work-packages--resizer
@@ -158,10 +157,6 @@ body.controller-work_packages.full-create
     &::before
       left: 0
 
-  // Height fix for FF showing vertical scrollbar
-  // WP#28389
-  html.-browser-firefox &
-    height: calc(100% - 5px)
 
 .nosidebar
   ul.subject-header

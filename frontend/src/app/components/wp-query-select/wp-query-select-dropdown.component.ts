@@ -44,6 +44,7 @@ import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {keyCodes} from "../../../../legacy/app/components/keyCodes.enum";
+import {MainMenuToggleService} from "core-components/resizer/main-menu-toggle.service";
 
 export type QueryCategory = 'starred' | 'public' | 'private' | 'default';
 
@@ -117,7 +118,8 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
               readonly wpListChecksumService:WorkPackagesListChecksumService,
               readonly loadingIndicator:LoadingIndicatorService,
               readonly pathHelper:PathHelperService,
-              readonly wpStaticQueries:WorkPackageStaticQueriesService) {
+              readonly wpStaticQueries:WorkPackageStaticQueriesService,
+              readonly toggleService:MainMenuToggleService) {
   }
 
   public ngOnInit() {
@@ -435,6 +437,8 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
       params,
       opts
     );
+
+    this.toggleService.closeWhenOnMobile();
   }
 
   private getQueryParams(item:IAutocompleteItem) {

@@ -138,7 +138,6 @@ See docs/COPYRIGHT.rdoc for more details.
                 <% unless project.description.blank? %>
                   <a class="icon collapse icon-arrow-up1 projects-table--description-toggle" href title="<%= t('label_project_hide_details') %>"></a>
                   <a class="icon expand icon-arrow-down1 projects-table--description-toggle" href title="<%= t('label_project_show_details') %>"></a>
-                  <% csp_onclick('toggleDescription(this)', '.projects-table--description-toggle') %>
                 <% end %>
               </td>
             </tr>

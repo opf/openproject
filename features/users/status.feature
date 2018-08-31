@@ -31,43 +31,6 @@ Feature: User Status
     Given I am already admin
     Given there is a user named "bobby"
 
-  @javascript
-  Scenario: Users can be filtered by status
-    # had to append the 'within ".list tbody"' in order to avoid the "I should
-    # (not) see "admin"' step to find the "OpenProject Admin" string for the
-    # logged in user as well as the "Administrator" string in the table header.
-    Given the user "bobby" had too many recently failed logins
-    And I filter the users list by status "active (1)"
-    Then I should not see "bobby" within ".generic-table tbody"
-    And I should see "admin" within ".generic-table tbody"
-    And I should not see "Anonymous" within ".generic-table tbody"
-    And I filter the users list by status "locked temporarily (1)"
-    Then I should see "bobby" within ".generic-table tbody"
-    And I should not see "admin" within ".generic-table tbody"
-    And I should not see "Anonymous" within ".generic-table tbody"
-    When the user "bobby" is locked
-    And I filter the users list by status "locked permanently (1)"
-    Then I should see "bobby" within ".generic-table tbody"
-    And I should not see "admin" within ".generic-table tbody"
-    And I should not see "Anonymous" within ".generic-table tbody"
-    And I filter the users list by status "locked temporarily (1)"
-    Then I should see "bobby" within ".generic-table tbody"
-    And I should not see "admin" within ".generic-table tbody"
-    And I should not see "Anonymous" within ".generic-table tbody"
-    And I filter the users list by status "all (2)"
-    Then I should see "bobby" within ".generic-table tbody"
-    And I should see "admin" within ".generic-table tbody"
-    And I should not see "Anonymous" within ".generic-table tbody"
-
-  @javascript
-  Scenario: User can be unlocked on the index page
-    Given the user "bobby" is locked
-    When I filter the users list by status "locked permanently (1)"
-    And I click "Unlock"
-    Then I should not see "bobby"
-    And I try to log in with user "bobby"
-    Then I should see "Bob Bobbit" as being logged in
-
   Scenario: A locked and blocked user gets unlocked and unblocked
     Given the user "bobby" is locked
     And the user "bobby" had too many recently failed logins
@@ -75,12 +38,6 @@ Feature: User Status
     And I click "Unlock and reset failed logins"
     When I try to log in with user "bobby"
     Then I should see "Bob Bobbit" as being logged in
-
-  Scenario: An active user gets locked
-    When I edit the user "bobby"
-    And I click "Lock permanently"
-    When I try to log in with user "bobby"
-    Then I should not see "Bob Bobbit" as being logged in
 
   Scenario: A registered user gets activated
     Given the user "bobby" is registered and not activated
