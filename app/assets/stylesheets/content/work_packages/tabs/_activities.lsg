@@ -1,8 +1,8 @@
 # Work Packages - [Details Pane] - Activities
 
 ```
-<ul class='work-package-details-activities-list'>
-  <li class='work-package-details-activities-activity'>
+<div class='work-package-details-activities-list'>
+  <div class='work-package-details-activities-activity'>
     <h3 class='activity-date'>March 19, 2014</h3>
     <div class='work-package-details-activities-activity-contents'>
       <div class='comments-number'>
@@ -40,8 +40,8 @@
         </li>
       </ul>
     </div>
-  </li>
-  <li class='work-package-details-activities-activity'>
+  </div>
+  <div class='work-package-details-activities-activity'>
     <h3 class='activity-date'>April 30, 2014</h3>
     <div class='work-package-details-activities-activity-contents'>
       <div class='comments-number'>
@@ -79,8 +79,8 @@
         </li>
       </ul>
     </div>
-  </li>
-  <li class='work-package-details-activities-activity'>
+  </div>
+  <div class='work-package-details-activities-activity'>
     <h3 class='activity-date'>July 11, 2014</h3>
     <div class='work-package-details-activities-activity-contents'>
       <div class='comments-number'>
@@ -108,8 +108,8 @@
           </span>
         </span>
       </span>
-  </li>
-  <li class='work-package-details-activities-activity'>
+  </div>
+  <div class='work-package-details-activities-activity'>
     <div class='work-package-details-activities-activity-contents'>
       <div class='comments-number'>
         <span>
@@ -143,8 +143,8 @@
         </li>
       </ul>
     </div>
-  </li>
-  <li class='work-package-details-activities-activity'>
+  </div>
+  <div class='work-package-details-activities-activity'>
     <h3 class='activity-date'>August 21, 2014</h3>
     <div class='work-package-details-activities-activity-contents'>
       <div class='comments-number'>
@@ -180,8 +180,8 @@
         </li>
       </ul>
     </div>
-  </li>
-  <li class='work-package-details-activities-activity'>
+  </div>
+  <div class='work-package-details-activities-activity'>
     <div class='work-package-details-activities-activity-contents'>
       <div class='comments-number'>
         <span>
@@ -217,8 +217,8 @@
         </li>
       </ul>
     </div>
-  </li>
-  <li class='work-package-details-activities-activity'>
+  </div>
+  <div class='work-package-details-activities-activity'>
     <h3 class='activity-date'>September 2, 2014</h3>
     <div class='work-package-details-activities-activity-contents'>
       <div class='comments-number'>
@@ -256,8 +256,8 @@
         </li>
       </ul>
     </div>
-  </li>
-  <li class='work-package-details-activities-activity'>
+  </div>
+  <div class='work-package-details-activities-activity'>
     <div class='work-package-details-activities-activity-contents'>
       <div class='comments-number'>
         <span>
@@ -301,8 +301,8 @@
         </li>
       </ul>
     </div>
-  </li>
-  <li class='work-package-details-activities-activity'>
+  </div>
+  <div class='work-package-details-activities-activity'>
     <h3 class='activity-date'>September 12, 2014</h3>
     <div class='work-package-details-activities-activity-contents'>
       <div class='comments-number'>
@@ -351,6 +351,7 @@
         </li>
       </ul>
     </div>
-  </li>
-</ul>
+  </div>
+</div>
+</div>
 ```

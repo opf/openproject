@@ -15,19 +15,7 @@ $wp-query-menu-search-container-height: 35px
     background: none
     z-index: 0 // Prevent overlapping with project select dropdown (https://community.openproject.com/wp/28175)
 
-    &::-webkit-scrollbar
-      width: 8px
-      height: 12px
-
-    &::-webkit-scrollbar-track
-      background: transparent
-
-    &::-webkit-scrollbar-thumb
-      background: #ddd
-      visibility:hidden
-
-    &:hover::-webkit-scrollbar-thumb
-      visibility:visible
+    @include styled-scroll-bar
 
 
   .wp-query-menu--results-container
@@ -105,6 +93,11 @@ $wp-query-menu-search-container-height: 35px
       &::before
         @include icon-mixin-arrow-down1
 
+  // Add space above the category headings
+  .wp-query-menu--category-toggle
+    margin-top: 10px
+    &:nth-child(1), &:nth-child(2)
+      margin-top: 0px
 
   // Single result element wrapper
   .wp-query-menu--item

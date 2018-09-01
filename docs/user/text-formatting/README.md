@@ -36,12 +36,6 @@ CKEditor5 allows certain CommonMark-like [autoformatting keyboard strokes](https
 - Create a bulleted list by starting the line with `* ` or `-` and a space  
 - Create a numbered list by starting the line with `1.` or `1)`  and a space
 
-
-
-## Inline (Balloon) editor
-
-In some resources such as work packages, the editor is shown using an inline / balloon style toolbar. To enable the toolbar, either select text in the editor, or double click on an empty area in the editor pane.
-
  
 
 ## Image handling
@@ -92,6 +86,10 @@ The rendered page will then fetch the work package table results dynamically, re
 
 Use it to embed views in other pages, create reporting of multiple results, or to embed a Gantt chart view.
 
+
+## Full vs constrained editor
+
+In some resources such as work packages or comments, the editor does not exhibit all functionality such as macros or image upload.
 
 
 ## Links to OpenProject resources

@@ -83,7 +83,7 @@ ja:
           button: 別のwikiページの内容を含める
           text: "[Placeholder] のwikiページが含まれています"
           page: Wiki ページ
-          not_set: "(Page not yet set)"
+          not_set: "(まだ設定されていないページ)"
           hint: |
             タイトルやスラッグを指定して別のwikiページの内容を含める。
             次の例のように、別のプロジェクトのwikiページをコロンで区切って含めることができます。
@@ -101,7 +101,7 @@ ja:
       internal: 内部エラーが発生しました。
       cannot_save_changes_with_message: '次のエラーのために変更を保存できません: %{error}'
       query_saving: ビューを保存できませんでした。
-      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
+      embedded_table_loading: '埋め込みビューを読み込めませんでした: %{message}'
     filter:
       description:
         text_open_filter: "'ALT' と矢印キーでこのフィルタを開きます。"
@@ -382,7 +382,7 @@ ja:
 
 '
       button_activate: ガントチャートの表示
-      button_deactivate: Hide Gantt chart
+      button_deactivate: ガントチャートを隠す
       cancel: キャンセル
       change: 計画の変更する
       due_date: 期限
@@ -424,8 +424,7 @@ ja:
         quarters: 四半期ごと
         years: " 年"
         slider: ズームスライダー
-        description: 'Select the initial zoom level that should be shown when autozoom
-          is not available.
+        description: 'オートズームが使用できない場合に表示される初期ズームレベルを選択します。
 
 '
     tl_toolbar:
@@ -643,8 +642,7 @@ ja:
         title: "%{label} の削除を確認"
         text: 次の %{label} を削除してもよろしいですか?
         has_children: ワークパッケージは %{childUnits} あります。
-        deletes_children: All child work packages and their descendants will also
-          be recursively deleted.
+        deletes_children: すべての子作業項目とその子孫も再帰的に削除されます。
     notice_successful_create: 正常に作成しました。
     notice_successful_delete: 正常に削除しました。
     notice_successful_update: 正常に更新しました。

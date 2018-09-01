@@ -97,7 +97,7 @@ class CustomStylesController < ApplicationController
           design_color.save
         end
       else
-        # craete that design_color
+        # create that design_color
         design_color = DesignColor.new variable: param_variable, hexcode: param_hexcode
         design_color.save
       end

@@ -74,16 +74,27 @@ module OpenProject::TextFormatting::Formats
       end
 
       def run!
-        logger.info 'Starting conversion of Textile fields to CommonMark.'
+        # We're going to decrease the AR logger to avoid dumping all SQL inserts
+        # in the output logs
+        current_ar_log_level = ActiveRecord::Base.logger.level
 
-        logger.info 'Checking compatibility of your installed pandoc version.'
-        pandoc.check_arguments!
+        begin
+          logger.info 'Starting conversion of Textile fields to CommonMark.'
 
-        ActiveRecord::Base.transaction do
-          converters.each(&:call)
+          logger.info 'Decreasing ActiveRecord logger to avoid flooding your logs.'
+          ActiveRecord::Base.logger.level = :error
+
+          logger.info 'Checking compatibility of your installed pandoc version.'
+          pandoc.check_arguments!
+
+          ActiveRecord::Base.transaction do
+            converters.each(&:call)
+          end
+
+          logger.info "\n-- Completed --"
+        ensure
+          ActiveRecord::Base.logger.level = current_ar_log_level
         end
-
-        logger.info "\n-- Completed --"
       end
 
       private
@@ -390,8 +401,8 @@ module OpenProject::TextFormatting::Formats
 
         # remove the escaping from links within parenthesis having a trailing slash
         # ([description](https://some/url/\))
-        markdown.gsub! /\(\[(?<description>.*?)\]\((?<link>.*?)\\\)\)/,
-                       '([\k<description>](\k<link>))'
+        markdown.gsub! /\((?<pretext>.*?)\[(?<description>.*?)\]\((?<link>.*?)\\\)\)/,
+                       '(\k<pretext>[\k<description>](\k<link>))'
 
         convert_macro_syntax(markdown)
 

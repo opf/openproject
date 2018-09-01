@@ -53,7 +53,7 @@ $menu-item-line-height: 30px
     position: relative
 
     // Fixed heights to allow inner scrolling
-    .menu_root,
+    .menu_root.closed,
     .menu_root > li.open,
     .main-menu--children > li.partial,
     wp-query-select,
@@ -318,10 +318,14 @@ a.main-menu--parent-node
     display: none
 
 .menu-wiki-pages-tree
+  height: 100%
+  overflow: auto
   border-top: $main-menu-border-width solid $main-menu-border-color
   padding-top: 7px
   padding-left: 7px
   padding-right: 7px
+
+  @include styled-scroll-bar
 
 .main-menu--segment-header
   @include varprop(color, main-menu-fieldset-header-color)
@@ -393,3 +397,17 @@ a.main-menu--parent-node
       @include icon-mixin-arrow-left2
   %absolute-layout-mode &
     z-index: 100
+
+#main-menu ul ul.main-menu--children ul.pages-hierarchy
+  .tree-menu--hierarchy-indicator
+    @include varprop(color, main-menu-font-color)
+  .tree-menu--item
+    &.-selected
+      @include varprop(background, main-menu-bg-selected-background)
+      .tree-menu--title
+        @include varprop(color, main-menu-selected-font-color)
+    &:hover
+      @include varprop(background, main-menu-bg-hover-background)
+      .tree-menu--title
+        @include varprop(color, main-menu-hover-font-color)
+        text-decoration: none

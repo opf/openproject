@@ -76,6 +76,12 @@ module OpenProject::TextFormatting::Formats
           end
 
           status.success? && stdout.match(/^pandoc [23]\./i)
+        rescue StandardError => e
+          if raise_msg.present?
+            raise raise_msg
+          end
+
+          false
         end
 
         def forced_pandoc_path
