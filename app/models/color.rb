@@ -53,6 +53,18 @@ class Color < ActiveRecord::Base
   end
 
   ##
+  # Get the fill style for this color
+  # If the color is bright, use itself for filling
+  # Otherwise, use a transparent background with the color itself
+  def color_styles(light_color: '#FFFFFF', dark_color: '#333333')
+    if bright?
+      { color: dark_color, 'background-color': hexcode }
+    else
+      { color: light_color, 'background-color': hexcode }
+    end
+  end
+
+  ##
   # Returns whether the color is bright according to
   # YIQ lightness.
   def bright?

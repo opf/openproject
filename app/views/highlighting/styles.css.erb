@@ -1,6 +1,6 @@
 <%
-  inline_style = Proc.new { |color| "color: #{color.hexcode}; background-color: #{color.contrasting_color};" }
-  row_style = Proc.new { |color| "background-color: #{color.hexcode};" }
+  inline_style = Proc.new { |color| color.color_styles.map{|k,v| "#{k}:#{v} !important"}.join(';') }
+  row_style = Proc.new { |color| "background-color: #{color.hexcode} !important;" }
  %>
 
 <% Status.where.not(color_id: nil).includes(:color).find_each do |status| %>

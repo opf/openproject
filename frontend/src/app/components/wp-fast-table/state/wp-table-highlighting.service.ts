@@ -4,7 +4,7 @@ import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Injectable} from '@angular/core';
 import {States} from 'core-components/states.service';
 
-export type HighlightingMode = 'status'|'priority'|'default'|'disabled';
+export type HighlightingMode = 'status'|'priority'|'inline'|'none';
 
 @Injectable()
 export class WorkPackageTableHighlightingService extends WorkPackageTableBaseService<HighlightingMode> implements WorkPackageQueryStateService {
@@ -17,16 +17,16 @@ export class WorkPackageTableHighlightingService extends WorkPackageTableBaseSer
     return this.tableState.highlighting;
   }
 
-  public get current() {
-    return this.state.getValueOr('default');
+  public get current():HighlightingMode {
+    return this.state.getValueOr('inline');
   }
 
   public get isDefault() {
-    return this.current === 'default';
+    return this.current === 'inline';
   }
 
   public get isDisabled() {
-    return this.current === 'disabled';
+    return this.current === 'inline';
   }
 
   public update(value:HighlightingMode) {
@@ -34,7 +34,7 @@ export class WorkPackageTableHighlightingService extends WorkPackageTableBaseSer
   }
 
   public valueFromQuery(query:QueryResource):HighlightingMode|undefined {
-    return 'default';
+    return 'inline';
   }
 
   public hasChanged(query:QueryResource) {

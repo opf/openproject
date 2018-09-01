@@ -1,12 +1,12 @@
 <div class="wp-status-button" *ngIf="status">
-  <button class="button"
+  <button class="button __hl_inl_status_{{ status.getId() }}"
           [disabled]="isDisabled()"
           [attr.aria-label]="text.explanation"
 
           wpStatusDropdown
           [wpStatusDropdown-workPackage]="workPackage">
 
-    <span class="button--text __hl_inl_status_{{ status.getId() }}"
+    <span class="button--text "
           aria-hidden="true"
           [textContent]="status.name"></span>
     <op-icon icon-classes="button--icon icon-small icon-pulldown"></op-icon>

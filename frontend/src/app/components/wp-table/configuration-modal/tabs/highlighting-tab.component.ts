@@ -12,7 +12,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 export class WpTableConfigurationHighlightingTab implements TabComponent {
 
   // Display mode
-  public highlightingMode:HighlightingMode = 'default';
+  public highlightingMode:HighlightingMode = 'inline';
 
   public text = {
     title: this.I18n.t('js.work_packages.table_configuration.highlighting'),
