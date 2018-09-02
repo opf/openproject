@@ -87,7 +87,7 @@ vi:
       no_results_title_text: Không có hiện tại không có trường tùy chỉnh.
       no_results_content_text: Tạo trường tùy chỉnh mới
   concatenation:
-    single: or
+    single: hoặc
   deprecations:
     old_timeline:
       replacement: This timelines module is being replaced by the interactive timeline
@@ -187,7 +187,7 @@ vi:
   work_packages:
     x_descendants:
       one: One descendant work package
-      other: "%{count} work package descendants"
+      other: "%{count} gói sản phẩm phụ thuộc"
     move:
       no_common_statuses_exists: Có là tình trạng không có sẵn cho tất cả các gói
         đã chọn công việc. Tình trạng của họ không thể thay đổi.
@@ -324,7 +324,7 @@ vi:
         expires_at: Expires at
         subscriber: Subscriber
         encoded_token: Enterprise support token
-        active_user_count_restriction: Maximum active users
+        active_user_count_restriction: Số người dùng hoạt động tối đa
       relation:
         delay: Trì hoãn
         from: Work Package
@@ -362,8 +362,8 @@ vi:
         type: Kiểu
       type:
         attribute_groups: ''
-        is_in_roadmap: Displayed in roadmap by default
-        is_default: Activated for new projects by default
+        is_in_roadmap: Hiển thị trong lộ trình mặc định
+        is_default: Kích hoạt cho các dự án mới theo mặc định
         is_milestone: Is milestone
         color: Màu sắc
       user:
@@ -486,7 +486,8 @@ vi:
             project:
               error_not_found: not found
             public:
-              error_unauthorized: "- The user has no permission to create public views."
+              error_unauthorized: "-Người dùng không có quyền tạo ra khu vực xem công
+                cộng."
           group_by_hierarchies_exclusive: is mutually exclusive with group by '%{group_by}'.
             You cannot activate both.
           filters:
@@ -949,8 +950,8 @@ vi:
   enumeration_system_activity: Hoạt động hệ thống
   enumeration_reported_project_statuses: Tình trạng dự án đã báo cáo
   error_auth_source_sso_failed: Single Sign-On (SSO) for user '%{value}' failed
-  error_can_not_archive_project: 'This project cannot be archived: There is at least
-    one work package assigned to a version defined in this project.'
+  error_can_not_archive_project: 'Dự án này không thể được lưu trữ: có ít nhất một
+    gói công việc được chỉ định cho một phiên bản được xác định trong dự án này.'
   error_can_not_delete_entry: Không thể xoá
   error_can_not_delete_custom_field: Không thể xóa mục tùy biến
   error_can_not_delete_type: Kiểu này chứa các work package và không thể bị xóa.
@@ -1356,7 +1357,7 @@ vi:
   label_more: Xem thêm
   label_more_than_ago: nhiều hơn mấy ngày trước
   label_move_work_package: Di chuyển work package
-  label_my_account: Tài khoảng của tôi
+  label_my_account: Tài khoản của tôi
   label_my_account_data: Dữ liệu tài khoản của tôi
   label_my_page: Trang của tôi
   label_my_page_block: Block trang của tôi
@@ -1467,7 +1468,7 @@ vi:
   label_repository_plural: Repositories
   label_required: required
   label_requires: requires
-  label_responsible_for_work_packages: Work packages I am accountable for
+  label_responsible_for_work_packages: Gói công việc mà tôi có trách nhiệm
   label_result_plural: Results
   label_reverse_chronological_order: In reverse chronological order
   label_revision: Revision
@@ -1516,7 +1517,7 @@ vi:
   label_summary: Tóm tắt
   label_system: Hệ thống
   label_system_storage: Storage information
-  label_table_of_contents: Table of contents
+  label_table_of_contents: Mục lục
   label_tag: Từ khóa
   label_text: Văn bản dài
   label_this_month: tháng này
@@ -1558,7 +1559,7 @@ vi:
   label_version_sharing_none: Không được chia sẻ
   label_version_sharing_system: Với tất cả dự án
   label_version_sharing_tree: Với cây dự án
-  label_videos: Videos
+  label_videos: Các đoạn phim
   label_view_all_revisions: Xem tất cả các phiên bản
   label_view_diff: View differences
   label_view_revisions: View revisions
@@ -1602,8 +1603,8 @@ vi:
     định cho tôi
   label_work_package_view_all_reported_by_me: Xem tất cả các work package được báo
     cáo bởi tôi
-  label_work_package_view_all_responsible_for: View all work packages that I am accountable
-    for
+  label_work_package_view_all_responsible_for: Xem tất cả các gói công việc mà tôi
+    có trách nhiệm
   label_work_package_view_all_watched: View all watched work packages
   label_work_package_watchers: Watchers
   label_workflow: Quy trình làm việc
@@ -1669,14 +1670,14 @@ vi:
   macros:
     placeholder: "[Placeholder] Macro %{macro_name}"
     errors:
-      missing_or_invalid_parameter: Missing or invalid macro parameter.
+      missing_or_invalid_parameter: Các tham số macro thiếu hoặc không hợp lệ.
     legacy_warning:
-      timeline: This legacy timeline macro has been removed and is no longer available.
-        You can replace the functionality with an embedded table macro.
+      timeline: Macro này đã bị xóa. Bạn có thể thay thế các chức năng với một table
+        macro.
     include_wiki_page:
       errors:
-        page_not_found: Cannot find the wiki page '%{name}'.
-        circular_inclusion: Circular inclusion of pages detected.
+        page_not_found: Không tim thấy trang wiki %{name}.
+        circular_inclusion: Phát hiện có tham chiếu vòng tròn giữa các trang.
     create_work_package_link:
       errors:
         no_project_context: Calling create_work_package_link macro from outside project
@@ -1832,7 +1833,7 @@ vi:
       team collaboration with OpenProject.
     text_show_again: Bạn có thể khởi động lại video này từ trình đơn trợ giúp
     welcome: Welcome to OpenProject
-    select_language: Please select your language for OpenProject
+    select_language: Vui lòng lựa chọn ngôn ngữ của OpenProject
   permission_add_work_package_notes: Add notes
   permission_add_work_packages: Thêm mới Gói công việc
   permission_add_messages: Đăng tin nhắn
@@ -1873,7 +1874,7 @@ vi:
   permission_manage_members: Manage members
   permission_manage_news: Manage news
   permission_manage_project_activities: Manage project activities
-  permission_manage_public_queries: Manage public views
+  permission_manage_public_queries: Quản lý truy vấn công cộng
   permission_manage_repository: Manage repository
   permission_manage_subtasks: Manage subtasks
   permission_manage_versions: Manage versions
@@ -1882,7 +1883,7 @@ vi:
   permission_move_work_packages: Move work packages
   permission_protect_wiki_pages: Protect wiki pages
   permission_rename_wiki_pages: Rename wiki pages
-  permission_save_queries: Save views
+  permission_save_queries: Lưu các chế độ xem
   permission_select_project_modules: Select project modules
   permission_manage_types: Select types
   permission_view_calendar: View calendar
@@ -2091,8 +2092,8 @@ vi:
     login attempts
   setting_brute_force_block_minutes: Time the user is blocked for
   setting_cache_formatted_text: Cache formatted text
-  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
-    users by default. CKEditor has limited functionality for GFM Markdown.
+  setting_use_wysiwyg_description: Chọn để cho phép bộ soạn thảo CKEditor đối với
+    tất cả người dùng mặc định. CKEditor đã được hạn chế bởi GFM Markdown.
   setting_column_options: Customize the appearance of the work package lists
   setting_commit_fix_keywords: Fixing keywords
   setting_commit_logs_encoding: Commit messages encoding
@@ -2120,7 +2121,7 @@ vi:
   setting_feeds_limit: Feed content limit
   setting_file_max_size_displayed: Max size of text files displayed inline
   setting_host_name: Host name
-  setting_invitation_expiration_days: Activation E-Mail expires after
+  setting_invitation_expiration_days: Mail kích hoạt sẽ hết hạn sau
   setting_work_package_done_ratio: Calculate the work package done ratio with
   setting_work_package_done_ratio_field: Use the work package field
   setting_work_package_done_ratio_status: Use the work package status
@@ -2179,7 +2180,7 @@ vi:
   setting_accessibility_mode_for_anonymous: Enable accessibility mode for anonymous
     users
   setting_user_format: Users display format
-  setting_user_default_timezone: Users default time zone
+  setting_user_default_timezone: Time zone mặc định
   setting_users_deletable_by_admins: User accounts deletable by admins
   setting_users_deletable_by_self: Users allowed to delete their accounts
   setting_welcome_text: Welcome block text
@@ -2194,11 +2195,11 @@ vi:
     session: Session
     brute_force_prevention: Automated user blocking
     user:
-      default_preferences: Default preferences
-      deletion: Deletion
+      default_preferences: Cấu hình mặc định
+      deletion: Xóa
   text_formatting:
-    markdown: Markdown
-    plain: Plain text
+    markdown: Gạch dưới
+    plain: Văn bản thuần
   status_active: active
   status_archived: archived
   status_invited: invited
@@ -2255,7 +2256,7 @@ vi:
     nền không phải là trong suốt nếu không nó sẽ ảnh hưởng khi xem trên iOS.
 
 '
-  text_database_allows_tsv: Database allows TSVector (optional)
+  text_database_allows_tsv: Tùy chọn cho phép TSVector của Database
   text_default_administrator_account_changed: Default administrator account changed
   text_default_encoding: 'Default: UTF-8'
   text_destroy: Xoá
@@ -2291,8 +2292,8 @@ vi:
   text_journal_aggregation_time_explanation: Combine journals for display if their
     age difference is less than the specified timespan. This will also delay mail
     notifications by the same amount of time.
-  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
-  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
+  text_journal_changed: "%{label} được sửa từ %{old} <br/><strong>thành</strong> %{new}"
+  text_journal_changed_plain: "%{label} thay đổi %{old} thành %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
   text_journal_deleted: "%{label} deleted (%{old})"
@@ -2342,8 +2343,8 @@ vi:
   text_user_wrote: "%{value} wrote:"
   text_warn_on_leaving_unsaved: The work package contains unsaved text that will be
     lost if you leave this page.
-  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
-    comment
+  text_what_did_you_change_click_to_add_comment: Bạn đã thay đổi gì? Kích để thêm
+    ghi chú
   text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all
     its content?
   text_wiki_page_destroy_children: Delete child pages and all their descendants
@@ -2457,7 +2458,7 @@ vi:
       outline: Initial outline expansion
       parent: Show subprojects of
       work_package_filters: Filter work packages
-      work_package_responsible: Show work packages with accountable
+      work_package_responsible: Hiện gói công việc
       work_package_assignee: Show work packages with assignee
       types: Show types
       status: Show status
@@ -2470,7 +2471,7 @@ vi:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago,
         %{end_label} %{endspan}%{endspanunit} from now"
       project_filters: Filter projects
-      project_responsible: Show projects with accountable
+      project_responsible: Hiện gói công việc
       project_status: Show project status
       timeframe: Show timeframe
       timeframe_end: to
@@ -2535,8 +2536,8 @@ vi:
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   title_enterprise_upgrade: Upgrade to unlock more users.
-  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
-    in a user''s settings.
+  tooltip_user_default_timezone: 'Time zone mặc định, không thể thay bởi thiết lapạ
+    Nsd.
 
 '
   tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
@@ -2612,9 +2613,10 @@ vi:
     in order to allow invited and registered users to join.
 
 '
-  warning_registration_token_expired: |
-    The activation email has expired. We sent you a new one to %{email}.
-    Please click the link inside of it to activate your account.
+  warning_registration_token_expired: 'Mail kích hoạt đã hết hạn. Sẽ gửi mail mới
+    tới %{email}.
+
+'
   warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
     Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
     for additional users.
