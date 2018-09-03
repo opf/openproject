@@ -50,12 +50,14 @@ class JournalNotificationMailer
           job = DeliverWorkPackageNotificationJob.new(aggregated.predecessor.id,
                                                       recipient.id,
                                                       User.current.id)
-          Delayed::Job.enqueue job
+          Delayed::Job.enqueue job, priority: ::ApplicationJob.priority_number(:notification)
         end
       end
 
       job = EnqueueWorkPackageNotificationJob.new(journal.id, User.current.id)
-      Delayed::Job.enqueue job, run_at: delivery_time
+      Delayed::Job.enqueue job,
+                           run_at: delivery_time,
+                           priority: ::ApplicationJob.priority_number(:notification)
     end
 
     def send_notification?(journal)

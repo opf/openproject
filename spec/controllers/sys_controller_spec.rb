@@ -650,7 +650,7 @@ describe SysController, type: :controller do
             let(:last_updated) { 2.days.ago }
             it 'updates the storage' do
               expect(Delayed::Job)
-                .to receive(:enqueue).with(instance_of(::Scm::StorageUpdaterJob))
+                .to receive(:enqueue).with(instance_of(::Scm::StorageUpdaterJob), any_args)
 
               request_storage
             end
@@ -661,7 +661,7 @@ describe SysController, type: :controller do
 
             it 'does not update to storage' do
               expect(Delayed::Job)
-                .not_to receive(:enqueue).with(instance_of(::Scm::StorageUpdaterJob))
+                .not_to receive(:enqueue).with(instance_of(::Scm::StorageUpdaterJob), any_args)
 
               request_storage
             end
@@ -673,7 +673,7 @@ describe SysController, type: :controller do
 
             it 'does update to storage' do
               expect(Delayed::Job)
-                .to receive(:enqueue).with(instance_of(::Scm::StorageUpdaterJob))
+                .to receive(:enqueue).with(instance_of(::Scm::StorageUpdaterJob), any_args)
 
               request_storage
             end

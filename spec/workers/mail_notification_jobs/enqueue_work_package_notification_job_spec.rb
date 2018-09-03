@@ -51,7 +51,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
   end
 
   it 'sends a mail' do
-    expect(Delayed::Job).to receive(:enqueue).with(an_instance_of(DeliverWorkPackageNotificationJob))
+    expect(Delayed::Job).to receive(:enqueue).with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
     subject.perform
   end
 
@@ -74,7 +74,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
     it 'sends a mail' do
       expect(Delayed::Job)
         .to receive(:enqueue)
-        .with(an_instance_of(DeliverWorkPackageNotificationJob))
+        .with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
       subject.perform
     end
   end
@@ -136,7 +136,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
       it 'Job 1 sends one mail for journal 1' do
         expect(Delayed::Job)
           .to receive(:enqueue)
-          .with(an_instance_of(DeliverWorkPackageNotificationJob))
+          .with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
           .once
         described_class.new(journal_1.id, author.id).perform
       end
@@ -149,7 +149,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
       it 'Job 3 sends one mail for journal (2,3)' do
         expect(Delayed::Job)
           .to receive(:enqueue)
-          .with(an_instance_of DeliverWorkPackageNotificationJob)
+          .with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
           .once
         described_class.new(journal_3.id, author.id).perform
       end
@@ -182,7 +182,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
       it 'Job 3 sends one mail for (2,3)' do
         expect(Delayed::Job)
           .to receive(:enqueue)
-          .with(an_instance_of DeliverWorkPackageNotificationJob)
+          .with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
           .once
         described_class.new(journal_3.id, author.id).perform
       end
@@ -205,14 +205,14 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
 
       it 'Job 2 sends one mail for journal (1, 2)' do
         expect(Delayed::Job).to receive(:enqueue)
-                                  .with(an_instance_of DeliverWorkPackageNotificationJob)
+                                  .with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
                                   .once
         described_class.new(journal_2.id, author.id).perform
       end
 
       it 'Job 3 sends one mail for journal 3' do
         expect(Delayed::Job).to receive(:enqueue)
-                                  .with(an_instance_of DeliverWorkPackageNotificationJob)
+                                  .with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
                                   .once
         described_class.new(journal_3.id, author.id).perform
       end

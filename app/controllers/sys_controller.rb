@@ -105,7 +105,7 @@ class SysController < ActionController::Base
 
   def update_storage_information(repository, force = false)
     if force
-      Delayed::Job.enqueue ::Scm::StorageUpdaterJob.new(repository)
+      Delayed::Job.enqueue ::Scm::StorageUpdaterJob.new(repository), priority: ::ApplicationJob.priority_number(:low)
       true
     else
       repository.update_required_storage

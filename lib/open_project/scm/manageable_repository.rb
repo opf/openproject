@@ -39,7 +39,8 @@ module OpenProject
           repository = payload[:project].repository
 
           if repository && repository.managed?
-            Delayed::Job.enqueue ::Scm::RelocateRepositoryJob.new(repository)
+            Delayed::Job.enqueue ::Scm::RelocateRepositoryJob.new(repository),
+                                 priority: ::ApplicationJob.priority_number(:low)
           end
         end
       end

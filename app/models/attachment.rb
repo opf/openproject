@@ -164,7 +164,7 @@ class Attachment < ActiveRecord::Base
   def extract_fulltext
     return unless OpenProject::Database.allows_tsv?
     job = ExtractFulltextJob.new(id)
-    Delayed::Job::enqueue job
+    Delayed::Job.enqueue job, priority: ::ApplicationJob.priority_number(:low)
   end
 
   # Extract the fulltext of any attachments where fulltext is still nil.
@@ -188,7 +188,8 @@ class Attachment < ActiveRecord::Base
   private
 
   def schedule_cleanup_uncontainered_job
-    Delayed::Job::enqueue Attachments::CleanupUncontaineredJob.new
+    Delayed::Job.enqueue Attachments::CleanupUncontaineredJob.new,
+                         priority: ::ApplicationJob.priority_number(:low)
   end
 
   def filesize_below_allowed_maximum
