@@ -28,6 +28,7 @@
 
 import {ResourceDisplayField} from "core-app/modules/fields/display/field-types/wp-display-resource-field.module";
 import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
+import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 
 export class HighlightedResourceDisplayField extends ResourceDisplayField {
   readonly wpTableHighlighting:WorkPackageTableHighlightingService = this.$injector.get(WorkPackageTableHighlightingService);
@@ -35,14 +36,14 @@ export class HighlightedResourceDisplayField extends ResourceDisplayField {
   public render(element:HTMLElement, displayText:string):void {
     super.render(element, displayText);
 
-    if (this.wpTableHighlighting.isDefault) {
+    if (this.wpTableHighlighting.isInline) {
       element.classList.add(this.inlineClass);
     }
   }
 
   private get inlineClass():string {
     if (this.attribute) {
-      return `__hl_inl_${this.name}_${this.attribute.getId()}`;
+      return Highlighting.inlineClass(this.name, this.attribute.getId());
     } else {
       return '';
     }

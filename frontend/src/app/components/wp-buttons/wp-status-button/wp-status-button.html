@@ -1,5 +1,6 @@
 <div class="wp-status-button" *ngIf="status">
-  <button class="button __hl_inl_status_{{ status.getId() }}"
+  <button class="button"
+          [ngClass]="statusHighlightClass"
           [disabled]="isDisabled()"
           [attr.aria-label]="text.explanation"
 

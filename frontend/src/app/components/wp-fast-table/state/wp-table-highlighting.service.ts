@@ -21,7 +21,7 @@ export class WorkPackageTableHighlightingService extends WorkPackageTableBaseSer
     return this.state.getValueOr('inline');
   }
 
-  public get isDefault() {
+  public get isInline() {
     return this.current === 'inline';
   }
 

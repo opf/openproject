@@ -1,14 +1,23 @@
 <%
-  inline_style = Proc.new { |color| color.color_styles.map{|k,v| "#{k}:#{v} !important"}.join(';') }
-  row_style = Proc.new { |color| "background-color: #{color.hexcode} !important;" }
+  colored_resource = Proc.new do |name, scope|
+    scope.where.not(color_id: nil).includes(:color).find_each do |entry|
+      color = entry.color
+      styles = color.color_styles
+
+      inline_style = styles.map{|k,v| "#{k}:#{v} !important"}.join(';')
+      row_style = "background-color: #{color.hexcode} !important;"
+
+      concat ".__hl_inl_#{name}_#{entry.id} { #{inline_style} }\n"
+      concat ".__hl_row_#{name}_#{entry.id} { #{row_style} }\n"
+
+      # Mark color as bright through CSS variable
+      # so it can be used to add a separate -bright class
+      unless color.bright?
+        concat ":root { --hl-#{name}-#{entry.id}-dark: #{styles[:color]} }\n"
+      end
+    end
+  end
  %>
 
-<% Status.where.not(color_id: nil).includes(:color).find_each do |status| %>
-.__hl_inl_status_<%= status.id %> { <%= inline_style.call(status.color) %>}
-.__hl_row_status_<%= status.id %> { <%= row_style.call(status.color) %>}
-<% end %>
-
-<% IssuePriority.where.not(color_id: nil).includes(:color).find_each do |priority| %>
-.__hl_inl_priority_<%= priority.id %> { <%= inline_style.call(priority.color) %>}
-.__hl_row_priority_<%= priority.id %> { <%= row_style.call(priority.color) %>}
-<% end %>
+<%= colored_resource.call('status', ::Status) %>
+<%= colored_resource.call('priority', ::IssuePriority) %>
