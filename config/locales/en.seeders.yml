@@ -44,22 +44,15 @@ en:
                   We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
                   *Try the following steps:*
-                  [![1](##attachment:"icon-1.png")](/projects/demo-project/members) *Invite new members to your project*: -> Go to [Members](/projects/demo-project/members) in the project navigation.
-                  [![2](##attachment:"icon-2.png")](/projects/demo-project/work_packages) *View the work in your project*: -> Go to [Work packages](/projects/demo-project/work_packages) in the project navigation.
-                  [![3](##attachment:"icon-3.png")](/projects/demo-project/work_packages/new) *Create a new work package*: -> Go to [Work packages -> Create](/projects/demo-project/work_packages/new).
-                  [![4](##attachment:"icon-4.png")](/projects/demo-project/work_packages?query_id=##query.id:"Gantt chart") *Create and update a project plan*: -> Go to [Gantt charts](/projects/demo-project/work_packages?query_id=##query.id:"Gantt chart") in the project navigation.
-                  [![5](##attachment:"icon-5.png")](/projects/demo-project/settings/modules) *Activate further modules*: -> Go to [Project settings -> Modules](/projects/demo-project/settings/modules).
-                  [![6](##attachment:"icon-6.png")](/projects/demo-project/work_packages/details/##wp.id:"Edit a work package"/overview?query_id=##query.id:"Tasks") *Complete your tasks in the project*: -> Go to [Work packages -> Tasks](/projects/demo-project/work_packages/details/##wp.id:"Edit a work package"/overview?query_id=##query.id:"Tasks").
+                  1. *Invite new members to your project*: -> Go to [Members](/projects/demo-project/members) in the project navigation.
+                  2. *View the work in your project*: -> Go to [Work packages](/projects/demo-project/work_packages) in the project navigation.
+                  3. *Create a new work package*: -> Go to [Work packages -> Create](/projects/demo-project/work_packages/new).
+                  4. *Create and update a project plan*: -> Go to [Gantt charts](/projects/demo-project/work_packages?query_id=##query.id:"Gantt chart") in the project navigation.
+                  5. *Activate further modules*: -> Go to [Project settings -> Modules](/projects/demo-project/settings/modules).
+                  6. *Complete your tasks in the project*: -> Go to [Work packages -> Tasks](/projects/demo-project/work_packages/details/##wp.id:"Edit a work package"/overview?query_id=##query.id:"Tasks").
 
                   Here you will find our [User Guides](https://www.openproject.org/help/).
                   Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
-                attachments:
-                  - icon-1.png
-                  - icon-2.png
-                  - icon-3.png
-                  - icon-4.png
-                  - icon-5.png
-                  - icon-6.png
         scrum-project:
           project-overview:
             left:
@@ -75,21 +68,13 @@ en:
                   We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
                   *Try the following steps:*
-                  [![1](##attachment:"icon-1.png")](/projects/your-scrum-project/members) *Invite new members to your project*: -> Go to [Members](/projects/your-scrum-project/members) in the project navigation.
-                  [![2](##attachment:"icon-2.png")](/projects/your-scrum-project/backlogs) *View your Product backlog and Sprint backlogs*: -> Go to [Backlogs](/projects/your-scrum-project/backlogs) in the project navigation.
-                  [![3](##attachment:"icon-3.png")](##sprint:"Sprint 1") *View your Task board*: -> Go to [Backlogs](/projects/your-scrum-project/backlogs) -> Click on right arrow on Sprint -> Select [Task Board](##sprint:"Sprint 1").
-                  [![4](##attachment:"icon-4.png")](/projects/your-scrum-project/work_packages/new) *Create a new work package*: -> Go to [Work packages -> Create](/projects/your-scrum-project/work_packages/new).
-                  [![5](##attachment:"icon-5.png")](##query:"Gantt chart") *Create and update a project plan*: -> Go to [Gantt charts](##query:"Gantt chart") in the project navigation.
-                  [![6](##attachment:"icon-6.png")](/projects/your-scrum-project/wiki/wiki) *Create a Sprint wiki*: -> Go to [Backlogs](/projects/your-scrum-project/backlogs) and open the sprint wiki from the right drop down menu in a sprint. You can edit the [wiki template](/projects/your-scrum-project/wiki/) based on your needs.
-                  [![7](##attachment:"icon-7.png")](/projects/your-scrum-project/settings/modules) *Activate further modules*: -> Go to [Project settings -> Modules](/projects/your-scrum-project/settings/modules).
+                  1. *Invite new members to your project*: -> Go to [Members](/projects/your-scrum-project/members) in the project navigation.
+                  2. *View your Product backlog and Sprint backlogs*: -> Go to [Backlogs](/projects/your-scrum-project/backlogs) in the project navigation.
+                  3. *View your Task board*: -> Go to [Backlogs](/projects/your-scrum-project/backlogs) -> Click on right arrow on Sprint -> Select [Task Board](##sprint:"Sprint 1").
+                  4. *Create a new work package*: -> Go to [Work packages -> Create](/projects/your-scrum-project/work_packages/new).
+                  5. *Create and update a project plan*: -> Go to [Gantt charts](##query:"Gantt chart") in the project navigation.
+                  6. *Create a Sprint wiki*: -> Go to [Backlogs](/projects/your-scrum-project/backlogs) and open the sprint wiki from the right drop down menu in a sprint. You can edit the [wiki template](/projects/your-scrum-project/wiki/) based on your needs.
+                  7. *Activate further modules*: -> Go to [Project settings -> Modules](/projects/your-scrum-project/settings/modules).
 
                   Here you will find our [User Guides](https://www.openproject.org/help/).
                   Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
-                attachments:
-                  - icon-1.png
-                  - icon-2.png
-                  - icon-3.png
-                  - icon-4.png
-                  - icon-5.png
-                  - icon-6.png
-                  - icon-7.png
