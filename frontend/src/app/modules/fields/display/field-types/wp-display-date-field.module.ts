@@ -28,9 +28,26 @@
 
 import {TimezoneService} from 'core-components/datetime/timezone.service';
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
+import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
+import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 
 export class DateDisplayField extends DisplayField {
   private timezoneService = this.$injector.get(TimezoneService);
+  private readonly wpTableHighlighting:WorkPackageTableHighlightingService = this.$injector.get(WorkPackageTableHighlightingService);
+
+  public render(element:HTMLElement, displayText:string):void {
+    super.render(element, displayText);
+
+    // Highlight overdue tasks
+    if (this.wpTableHighlighting.isInline && this.canOverdue) {
+      const diff = this.timezoneService.daysFromToday(this.value);
+      element.classList.add(Highlighting.overdueDate(diff));
+    }
+  }
+
+  public get canOverdue():boolean {
+    return ['dueDate', 'date'].indexOf(this.name) !== -1;
+  }
 
   public get valueString() {
     if (this.value) {
