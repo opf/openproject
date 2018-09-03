@@ -55,6 +55,7 @@
 
     $.ajax({ url: url,
              headers: { Accept: 'text/javascript' },
+             dataType: 'html',
              data: data,
              complete: function (jqXHR) {
                           form.replaceWith(jqXHR.responseText);

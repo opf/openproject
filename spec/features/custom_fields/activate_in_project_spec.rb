@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,36 +26,43 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Reports::ReportsService
-  class_attribute :report_types
+require 'spec_helper'
+require 'support/pages/custom_fields'
 
-  def self.add_report(report)
-    self.report_types ||= {}
-    self.report_types[report.report_type] = report
+describe 'custom fields', js: true do
+  let(:user) { FactoryBot.create :admin }
+  let(:cf_page) { Pages::CustomFields.new }
+  let(:for_all_cf) { FactoryBot.create :list_wp_custom_field, is_for_all: true }
+  let(:project_specific_cf) { FactoryBot.create :int_wp_custom_field }
+  let(:work_package) do
+    wp = FactoryBot.build(:work_package).tap do |wp|
+      wp.type.custom_fields = [for_all_cf, project_specific_cf]
+    end
+    wp.save!
+    wp
+  end
+  let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
+  let(:project_settings_page) { Pages::ProjectSettings.new(work_package.project) }
+
+  before do
+    login_as(user)
   end
 
-  def self.has_report_for?(report_type)
-    self.report_types.has_key? report_type
-  end
+  it 'is only visible in the project if it has been activated' do
+    wp_page.visit!
 
-  # automate this? by cycling through each instance of Reports::Report? or is this to automagically?
-  # and there is no reason, why plugins shouldn't be able to use this to add their own customized reports...
-  add_report Reports::SubprojectReport
-  add_report Reports::AuthorReport
-  add_report Reports::AssigneeReport
-  add_report Reports::ResponsibleReport
-  add_report Reports::TypeReport
-  add_report Reports::PriorityReport
-  add_report Reports::CategoryReport
-  add_report Reports::VersionReport
+    wp_page.expect_attributes "customField#{for_all_cf.id}": '-'
+    wp_page.expect_no_attribute "customField#{project_specific_cf.id}"
 
-  def initialize(project)
-    raise 'You must provide a project to report upon' unless project&.is_a?(Project)
-    @project = project
-  end
+    project_settings_page.visit_tab!('custom_fields')
 
-  def report_for(report_type)
-    report_klass = self.class.report_types[report_type]
-    report_klass&.new(@project)
+    project_settings_page.activate_wp_custom_field(project_specific_cf)
+
+    project_settings_page.save!
+
+    wp_page.visit!
+
+    wp_page.expect_attributes "customField#{for_all_cf.id}": '-'
+    wp_page.expect_attributes "customField#{project_specific_cf.id}": '-'
   end
 end

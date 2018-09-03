@@ -31,12 +31,12 @@ require 'spec_helper'
 RSpec.feature 'Work package show page', selenium: true do
   let(:user) { FactoryBot.create(:admin) }
   let(:project) { FactoryBot.create(:project) }
-  let(:work_package) {
+  let(:work_package) do
     FactoryBot.build(:work_package,
                       project: project,
                       assigned_to: user,
                       responsible: user)
-  }
+  end
 
   before do
     login_as(user)

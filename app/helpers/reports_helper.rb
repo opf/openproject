@@ -31,19 +31,17 @@ module ReportsHelper
   include WorkPackagesFilterHelper
 
   def aggregate(data, criteria)
-    a = 0
-    data.each { |row|
-      match = 1
-      criteria.each { |k, v|
-        match = 0 unless (row[k].to_s == v.to_s) || (k == 'closed' && row[k] == (v == 0 ? 'f' : 't'))
-      } unless criteria.nil?
-      a = a + row['total'].to_i if match == 1
-    } unless data.nil?
-    a
+    data&.inject(0) do |sum, row|
+      match = criteria&.all? { |k, v| row[k].to_s == v.to_s || (k == 'closed' && row[k] == ActiveRecord::Type::Boolean.new.cast(v)) }
+
+      sum += row['total'].to_i if match
+
+      sum
+    end || 0
   end
 
   def aggregate_link(data, criteria, *args)
     a = aggregate data, criteria
-    a > 0 ? link_to(h(a), *args) : '-'
+    a.positive? ? link_to(h(a), *args) : '-'
   end
 end

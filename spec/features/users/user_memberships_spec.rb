@@ -36,7 +36,7 @@ feature 'user memberships through user page', type: :feature, js: true do
   let!(:manager)   { FactoryBot.create :role, name: 'Manager' }
   let!(:developer) { FactoryBot.create :role, name: 'Developer' }
 
-  let(:user_page) { Pages::Admin::User.new(admin.id) }
+  let(:user_page) { Pages::Admin::Users::Edit.new(admin.id) }
 
   before do
     login_as(admin)

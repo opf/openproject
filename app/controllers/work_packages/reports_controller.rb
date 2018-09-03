@@ -48,7 +48,8 @@ class WorkPackages::ReportsController < ApplicationController
   end
 
   def report_details
-    @report = Reports::ReportsService.new(@project)
+    @report = Reports::ReportsService
+              .new(@project)
               .report_for(params[:detail])
 
     respond_to do |format|

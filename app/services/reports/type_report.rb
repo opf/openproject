@@ -42,7 +42,7 @@ class Reports::TypeReport < Reports::Report
 
   def data
     @data ||= WorkPackage.by_type(@project)
-    end
+  end
 
   def title
     @title = WorkPackage.human_attribute_name(:type)

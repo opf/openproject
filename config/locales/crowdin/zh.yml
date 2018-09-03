@@ -3,8 +3,7 @@ zh:
   no_results_title_text: 目前没有什么可显示。
   activities:
     index:
-      no_results_title_text: There has not been any activity for the project within
-        this time frame.
+      no_results_title_text: 在这个时间范围内没有任何项目的活动。
   admin:
     plugins:
       no_results_title_text: 目前没有插件可用。
@@ -73,7 +72,7 @@ zh:
       no_results_title_text: 目前没有自定义字段。
       no_results_content_text: 创建新的自定义字段
   concatenation:
-    single: or
+    single: 或
   deprecations:
     old_timeline:
       replacement: 此时间线模块已由嵌入工作包模块中的交互式时间线模块取代。
@@ -168,10 +167,9 @@ zh:
   work_packages:
     x_descendants:
       one: One descendant work package
-      other: "%{count} work package descendants"
+      other: "%{count} 个子工作包"
     move:
-      no_common_statuses_exists: There is no status available for all selected work
-        packages. Their status cannot be changed.
+      no_common_statuses_exists: 所有选中的工作包都没有可用的状态，因此无法更改其状态。
       unsupported_for_multiple_projects: 不支持多个项目工作包的大批量移动/复制
     list_simple:
       assigned:
@@ -179,8 +177,7 @@ zh:
       reported:
         no_results_title_text: 目前没有我已报告的工作包。
       responsible:
-        no_results_title_text: There are currently no work packages that I am accountable
-          for.
+        no_results_title_text: 目前没有我负责的工作包。
       watched:
         no_results_title_text: 目前没有我关注的工作包。
     summary:
@@ -319,8 +316,8 @@ zh:
         type: 类型
       type:
         attribute_groups: ''
-        is_in_roadmap: Displayed in roadmap by default
-        is_default: Activated for new projects by default
+        is_in_roadmap: 默认在版本蓝图中显示
+        is_default: 默认激活新项目
         is_milestone: 是里程碑
         color: 颜色
       user:
@@ -399,7 +396,7 @@ zh:
         not_a_date: 不是有效的日期。
         not_a_datetime: 不是有效的日期时间。
         not_a_number: 不是一个数字。
-        not_allowed: is invalid because of missing permissions.
+        not_allowed: 没有权限使用。
         not_an_integer: 不是一个整数。
         not_an_iso_date: 不是有效日期。所需格式：YYYY-MM-DD。
         not_same_project: 不属于同一个项目。
@@ -438,7 +435,7 @@ zh:
             project:
               error_not_found: 未找到
             public:
-              error_unauthorized: "- The user has no permission to create public views."
+              error_unauthorized: "- 用户没有创建公公查询的权限。"
           group_by_hierarchies_exclusive: 与按照“%{group_by}”分组的群组互相排斥。您无法将它们都激活。
           filters:
             custom_fields:
@@ -485,9 +482,8 @@ zh:
           attributes:
             attribute_groups:
               attribute_unknown: 已使用无效的工作包属性。
-              duplicate_group: The group name '%{group}' is used more than once. Group
-                names must be unique.
-              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              duplicate_group: 组名 %{group} 已多次使用。组名不能重复。
+              query_invalid: '嵌入式查询 "%{group}" 无效: %{details}'
               group_without_name: 不允许未命名的群组。
         user:
           attributes:
@@ -587,7 +583,7 @@ zh:
     password: 密码
     priority: 优先级
     project: 项目
-    responsible: Accountable
+    responsible: 负责
     role: 角色
     roles: 角色
     start_date: 开始日期
@@ -881,8 +877,7 @@ zh:
   enumeration_system_activity: 系统活动
   enumeration_reported_project_statuses: 报告的项目状态
   error_auth_source_sso_failed: 用户 "%{value}" 的单次登录 (SSO) 失败
-  error_can_not_archive_project: 'This project cannot be archived: There is at least
-    one work package assigned to a version defined in this project.'
+  error_can_not_archive_project: '无法归档这个项目: 有至少一个工作包被分配到了这个项目中定义的版本。'
   error_can_not_delete_entry: 无法删除条目
   error_can_not_delete_custom_field: 无法删除自定义字段
   error_can_not_delete_type: 这种类型包含工作包，不能被删除。
@@ -896,12 +891,12 @@ zh:
   error_dependent_work_package: '相关工作包中的错误%{related_id} %{related_subject}: %{error}'
   error_enterprise_activation_user_limit: 无法激活您的帐户 (已达到用户限制)。请与管理员联系以获取访问权限。
   error_failed_to_delete_entry: 无法删除此条目。
-  error_invalid_selected_value: Invalid selected value.
+  error_invalid_selected_value: 选中的值无效。
   error_invalid_group_by: 无法按照 %{value} 分组
   error_invalid_query_column: 无效的查询列：%{value}
   error_invalid_sort_criterion: 无法按照列 %{value} 排序
   error_pdf_export_too_many_columns: 选择 PDF 导出的列太多。请减少列数。
-  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
+  error_pdf_failed_to_export: 无法保存被导出的 PDF 文件：%{error}
   error_token_authenticity: 无法验证跨站域请求伪造令牌。
   error_work_package_done_ratios_not_updated: 工作包完成比率不更新。
   error_work_package_not_found_in_project: 工作包找不到或不属于此项目
@@ -942,8 +937,8 @@ zh:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: 带描述的PDF
-      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
-      pdf_with_attachments: PDF with attachments
+      pdf_with_descriptions_and_attachments: 带有描述和附件的 PDF 文件
+      pdf_with_attachments: 带有附件的 PDF 文件
   extraction:
     available:
       pdftotext: Pdftotext 可用 (可选)
@@ -966,9 +961,9 @@ zh:
   gui_validation_error_plural: "%{count} 错误"
   homescreen:
     additional:
-      projects: 这个实例中的最新可见项目。
-      no_visible_projects: There are no visible projects in this instance.
-      users: 这个实例中的最新注册用户。
+      projects: 这个 OpenProject 中的最新可见项目。
+      no_visible_projects: 这个 OpenProject 中没有可见的项目。
+      users: 这个 OpenProject 中的最新注册用户。
     blocks:
       community: OpenProject 社区
       upsale:
@@ -1131,7 +1126,7 @@ zh:
   label_deleted_custom_field: "（删除自定义字段）"
   label_descending: 降序
   label_details: 详细信息
-  label_development_roadmap: 开发路线图
+  label_development_roadmap: 发展蓝图
   label_diff: 比较
   label_diff_inline: 内联
   label_diff_side_by_side: 并排
@@ -1306,7 +1301,7 @@ zh:
   label_overview: 概述
   label_page_title: 页面标题
   label_part_of: 一部分
-  label_password_lost: 丢失的密码
+  label_password_lost: 忘记密码了吗？
   label_password_rule_lowercase: 小写
   label_password_rule_numeric: 数字字符
   label_password_rule_special: 特殊字符
@@ -1375,14 +1370,14 @@ zh:
   label_repository_plural: 代码库
   label_required: 必填
   label_requires: 要求
-  label_responsible_for_work_packages: Work packages I am accountable for
+  label_responsible_for_work_packages: 我负责的工作包
   label_result_plural: 结果
   label_reverse_chronological_order: 在相反的顺序
   label_revision: 修订
   label_revision_id: 修订版本 %{value}
   label_revision_plural: 修订
-  label_roadmap: 路线图
-  label_roadmap_edit: 编辑路线图 %{name}
+  label_roadmap: 版本蓝图
+  label_roadmap_edit: 编辑版本蓝图 %{name}
   label_roadmap_due_in: "%{value} 到期"
   label_roadmap_no_work_packages: 没有此版本的工作包
   label_roadmap_overdue: "%{value} 超时"
@@ -1508,8 +1503,7 @@ zh:
   label_work_package_view_all: 查看所有工作包
   label_work_package_view_all_assigned_to_me: 查看分配给我的所有工作包
   label_work_package_view_all_reported_by_me: 查看所有由我报告的工作包
-  label_work_package_view_all_responsible_for: View all work packages that I am accountable
-    for
+  label_work_package_view_all_responsible_for: 查看所有我负责的工作包
   label_work_package_view_all_watched: 查看所有被关注的工作包
   label_work_package_watchers: 关注人
   label_workflow: 工作流
@@ -1570,7 +1564,7 @@ zh:
   macro_execution_error: 执行宏 %{macro_name} 出错
   macro_unavailable: 无法显示宏 %{macro_name} 。
   macros:
-    placeholder: "[Placeholder] Macro %{macro_name}"
+    placeholder: "[Placeholder] 宏 %{macro_name}"
     errors:
       missing_or_invalid_parameter: 缺少或无效的宏参数。
     legacy_warning:
@@ -1590,13 +1584,13 @@ zh:
   mail_body_account_activation_request: 一个新的用户 (%{value}) 注册。该帐户正在等待您的批准：
   mail_body_account_information: 您的帐户信息
   mail_body_account_information_external: 你可以使用 %{value} 帐号登录。
-  mail_body_lost_password: 若要更改您的密码，请单击下面的链接：
+  mail_body_lost_password: 若要更改你的密码，请单击下面的链接：
   mail_body_register: 若要激活您的帐户，请单击下面的链接：
   mail_body_reminder: "%{count} 个分配给您的工作包将在 %{days} 天后到期："
   mail_body_wiki_content_added: "'%{id}' wiki页面已经由%{author} 添加。"
   mail_body_wiki_content_updated: "'%{id}' wiki页面已经由%{author} 更新。"
   mail_subject_account_activation_request: "%{value} 帐户激活请求"
-  mail_subject_lost_password: 您的 %{value} 密码
+  mail_subject_lost_password: 你的 %{value} 密码
   mail_subject_register: 您的%{value}帐户激活
   mail_subject_reminder: "%{count} 个工作包在 %{days} 天内到期"
   mail_subject_wiki_content_added: "'%{id}' wiki页面已添加"
@@ -1620,7 +1614,7 @@ zh:
   notice_account_invalid_token: 无效的激活标记
   notice_account_invalid_credentials: 无效的用户名或密码
   notice_account_invalid_credentials_or_blocked: 无效的用户或密码或帐户由于多个失败的登录尝试被阻止。如果是这样，它将自动在短时间内解除。
-  notice_account_lost_email_sent: 一个说明选择新密码的电子邮件已经发送给你。
+  notice_account_lost_email_sent: 一个用来重置密码的电子邮件已经发送给你。
   notice_account_new_password_forced: 需要新的密码。
   notice_account_password_expired: 您的密码将在 %{days} 天后过期。请设置新的密码。
   notice_account_password_updated: 成功更新密码。
@@ -1747,7 +1741,7 @@ zh:
   permission_manage_members: 管理成员
   permission_manage_news: 管理新闻
   permission_manage_project_activities: 管理项目活动
-  permission_manage_public_queries: Manage public views
+  permission_manage_public_queries: 管理公共查询
   permission_manage_repository: 管理代码库
   permission_manage_subtasks: 管理子任务
   permission_manage_versions: 管理版本
@@ -1756,7 +1750,7 @@ zh:
   permission_move_work_packages: 移动工作包
   permission_protect_wiki_pages: 保护维基页面
   permission_rename_wiki_pages: 重命名 wiki 网页
-  permission_save_queries: Save views
+  permission_save_queries: 保存查询
   permission_select_project_modules: 选择项目模块
   permission_manage_types: 选择类型
   permission_view_calendar: 查看日历
@@ -2090,8 +2084,8 @@ zh:
   text_work_packages_ref_in_commit_messages: 引用和修复工作包中提交消息
   text_journal_added: "%{label} %{value} 已添加"
   text_journal_aggregation_time_explanation: 如果两篇日志的时间差小于指定的时间区间，将它们组合显示。这也将邮件通知延迟同样的时间。
-  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
-  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
+  text_journal_changed: "%{label} 已从 %{old} <br/><strong>更改为</strong> %{new}"
+  text_journal_changed_plain: "%{label} 已从 %{old} 更改为 %{new}"
   text_journal_changed_no_detail: "%{label} 已更新"
   text_journal_changed_with_diff: "%{label} 已变更 (%{link})"
   text_journal_deleted: "%{label} 已删除 (%{old})"
@@ -2128,8 +2122,7 @@ zh:
   text_user_invited: 用户已被邀请，正在等待注册。
   text_user_wrote: "%{value} 写道："
   text_warn_on_leaving_unsaved: 此工作包包含未保存的文本，如果您离开此页面未保存的文本将会丢失。
-  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
-    comment
+  text_what_did_you_change_click_to_add_comment: 你做出了什么更改？点击添加注释
   text_wiki_destroy_confirmation: 确实要删除此 wiki 和它的所有内容吗?
   text_wiki_page_destroy_children: 删除子页面和所有他们的派生页面
   text_wiki_page_destroy_question: 此页有 %{descendants} 子页面和派生页面。你想做什么？
@@ -2233,7 +2226,7 @@ zh:
       outline: 初始大纲扩展
       parent: 显示子项目属于
       work_package_filters: 筛选工作包
-      work_package_responsible: Show work packages with accountable
+      work_package_responsible: 与负责的人员一起显示工作包
       work_package_assignee: 显示工作包指定人
       types: 显示类型
       status: 显示状态
@@ -2245,7 +2238,7 @@ zh:
       project_time_filter_relative: "%{start_label} %{startspan} %{startspanunit}
         前，从现在起的 %{end_label} %{endspan} %{endspanunit}"
       project_filters: 筛选项目
-      project_responsible: Show projects with accountable
+      project_responsible: 与负责的人员一起显示项目
       project_status: 显示项目的状态
       timeframe: 显示时间段
       timeframe_end: 到

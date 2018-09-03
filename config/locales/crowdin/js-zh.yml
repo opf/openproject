@@ -5,8 +5,7 @@ zh:
       hide: 隐藏
       loading: 加载中...
     attachments:
-      draggable_hint: 'Drag on editor field to inline image or reference attachment.
-        Closed editor fields will be opened while you keep dragging.
+      draggable_hint: '将图片或附件拖到编辑区内即可添加。鼠标在关闭的编辑区上停留将打开这个编辑区。
 
 '
     autocomplete_select:
@@ -58,15 +57,15 @@ zh:
     description_selected_columns: 选定的列
     description_subwork_package: '子工作包 #%{id}'
     editor:
-      preview: Toggle preview mode
-      error_saving_failed: 'Saving the document failed with the following error: %{e}'
+      preview: 切换预览模式
+      error_saving_failed: '保存文档失败，出现以下错误: %{e}'
       macro:
         child_pages:
-          button: Links to child pages
-          include_parent: Include parent
+          button: 链接至子页面
+          include_parent: 包括上级
           text: "[Placeholder] Links to child pages of"
           page: 维基页面
-          this_page: this page
+          this_page: 本页
           hint: 'Leave this field empty to list all child pages of the current page.
             If you want to reference a different page, provide its title or slug.
 
@@ -78,8 +77,8 @@ zh:
           language_hint: Enter the formatting language that will be used for highlighting
             (if supported).
         dropdown:
-          macros: Macros
-          chose_macro: Chose macro
+          macros: 宏
+          chose_macro: 选择宏
         toc: 目录
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget

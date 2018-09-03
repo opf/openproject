@@ -223,7 +223,6 @@ module Pages
         expect_and_dismiss_notification message: 'Successful update'
         sleep 1
       end
-
     end
 
     def trigger_edit_mode

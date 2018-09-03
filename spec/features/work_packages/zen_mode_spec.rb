@@ -3,15 +3,15 @@ require 'spec_helper'
 describe 'Zen mode', js: true do
   let(:dev_role) do
     FactoryBot.create :role,
-                       permissions: [:view_work_packages,
-                                     :edit_work_packages]
+                      permissions: [:view_work_packages,
+                                    :edit_work_packages]
   end
   let(:dev) do
     FactoryBot.create :user,
-                       firstname: 'Dev',
-                       lastname: 'Guy',
-                       member_in_project: project,
-                       member_through_role: dev_role
+                      firstname: 'Dev',
+                      lastname: 'Guy',
+                      member_in_project: project,
+                      member_through_role: dev_role
   end
 
   let(:type) { FactoryBot.create :type }

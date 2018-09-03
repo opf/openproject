@@ -46,6 +46,7 @@ module OpenProject::TextFormatting::Formats
       end
 
       def check_arguments!
+        PandocDownloader.check_or_download!
         wrap_mode
         read_output_formats
       end
@@ -57,20 +58,8 @@ module OpenProject::TextFormatting::Formats
           '-f',
           'textile',
           '-t',
-          output_format
+          'commonmark'
         ]
-      end
-
-      ##
-      # Detect available output markdown format
-      # pandoc recommends format 'gfm' but that isnt available in current LTS
-      # markdown_github, which is deprecated, is however available.
-      def output_format
-        if gfm_supported?
-          'gfm'
-        else
-          'markdown_github'
-        end
       end
 
       ##
@@ -95,15 +84,8 @@ module OpenProject::TextFormatting::Formats
         end
       end
 
-      ##
-      # Detect whether an output format for gfm exists
-      # so we don't have to use the legacy github_markdown format.
-      def gfm_supported?
-        read_output_formats.match? /^gfm$/
-      end
-
       def pandoc_timeout
-        ENV.fetch('OPENPROJECT_PANDOC_TIMEOUT_SECONDS', 10).to_i
+        ENV.fetch('OPENPROJECT_PANDOC_TIMEOUT_SECONDS', 30).to_i
       end
 
       private
@@ -112,9 +94,33 @@ module OpenProject::TextFormatting::Formats
       # Run pandoc through posix-spawn and raise if an exception occurred
       def run_pandoc!(command, stdin_data: nil, timeout: pandoc_timeout)
         child = POSIX::Spawn::Child.new(PandocDownloader.pandoc_path, *command, input: stdin_data, timeout: timeout)
-        raise child.err unless child.status.success?
+        status = child.status
 
-        child.out
+        unless status.success?
+          code = status.exitstatus || 'unknown status (killed?)'
+          termsig = status.termsig || 'none'
+          stopsig = status.stopsig || 'none'
+          signal_msg =
+            if status.signaled?
+              "Process received signal (term #{termsig}, stop #{stopsig})"
+            else
+              "Process did not receive signal"
+            end
+
+          out = (child.out || '').force_encoding('UTF-8').truncate(100)
+          err = (child.err || '').force_encoding('UTF-8')
+          raise <<-ERRORSTR
+            Pandoc failed  with code [#{code}] [Stopped=#{status.stopped?}]
+            #{signal_msg}
+    
+            #{out}
+            #{err}
+          ERRORSTR
+        end
+
+        # posix-spawn forces binary output, however pandoc
+        # only works with UTF-8
+        child.out.force_encoding('UTF-8')
       rescue POSIX::Spawn::TimeoutExceeded => e
         raise Timeout::Error, "Timeout occurred while running pandoc: #{e.message}"
       end

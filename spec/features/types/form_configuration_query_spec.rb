@@ -73,6 +73,17 @@ describe 'form subelements configuration', type: :feature, js: true do
       visit edit_type_tab_path(id: type_bug.id, tab: "form_configuration")
     end
 
+    it 'can save an empty query group' do
+      form.add_query_group('Empty test')
+      form.save_changes
+      expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
+      type_bug.reload
+
+      query_group = type_bug.attribute_groups.detect{ |x| x.is_a?(Type::QueryGroup) }
+      expect(query_group.attributes).to be_kind_of(::Query)
+      expect(query_group.key).to eq('Empty test')
+    end
+
     it 'can modify and keep changed columns (Regression #27604)' do
       form.add_query_group('Columns Test')
       form.edit_query_group('Columns Test')

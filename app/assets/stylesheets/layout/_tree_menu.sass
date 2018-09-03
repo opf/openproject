@@ -5,6 +5,8 @@ $tree-menu-item-height: 30px
 div.wiki ul.pages-hierarchy,
 .pages-hierarchy
   line-height: $tree-menu-item-height
+  margin-left: 0
+  padding-left: 0
 
   .tree-menu--title
     display: inline-block
@@ -28,7 +30,7 @@ div.wiki ul.pages-hierarchy,
   // default: open arrow down
   // collapsed: right arrow
   .tree-menu--hierarchy-indicator
-    @include varprop(color, main-menu-font-color)
+    @include varprop(color, content-link-color)
     height: $tree-menu-item-height
     line-height: $tree-menu-item-height
 
@@ -76,14 +78,13 @@ div.wiki ul.pages-hierarchy,
     line-height: $tree-menu-item-height
     height: $tree-menu-item-height
     &.-selected
-      @include varprop(background, main-menu-bg-selected-background)
+      @include varprop(background, drop-down-selected-bg-color)
       .tree-menu--title
-        @include varprop(color, main-menu-selected-font-color)
+        @include varprop(color, drop-down-selected-font-color)
     &:hover
-      @include varprop(background, main-menu-bg-hover-background)
+      @include varprop(background, drop-down-hover-bg-color)
       .tree-menu--title
-        @include varprop(color, main-menu-hover-font-color)
-        text-decoration: none
+        @include varprop(color, drop-down-hover-font-color)
 
 
 

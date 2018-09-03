@@ -506,7 +506,7 @@ fa:
         format:
           date: "%{attribute} is no valid date - YYYY-MM-DD expected."
         general: An error has occurred.
-      edit_attribute: "%{attribute} - Edit"
+      edit_attribute: "%{attribute} - ویرایش"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: Enable multiselect
       label_disable_multi_select: Disable multiselect

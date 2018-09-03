@@ -111,7 +111,7 @@ describe 'user self registration', type: :feature, js: true do
       # activation as admin
       login_with admin.login, admin.password
 
-      user_page = Pages::Admin::User.new(registered_user.id)
+      user_page = Pages::Admin::Users::Edit.new(registered_user.id)
 
       user_page.visit!
 
