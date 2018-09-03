@@ -76,6 +76,12 @@ describe 'Work Package highlighting fields', js: true do
     expect(wp1_row.native.css_value('background-color')).to eq('rgba(255, 0, 0, 1)')
     expect(wp2_row.native.css_value('background-color')).to eq('rgba(240, 240, 240, 1)')
 
+    # Save query
+    wp_table.save
+    wp_table.expect_and_dismiss_notification message: 'Successful update.'
+    query.reload
+    expect(query.highlighting_mode).to eq(:status)
+
     ## This disables any inline styles
     expect(page).to have_no_selector('[class*="__hl_inl_status"]')
     expect(page).to have_no_selector('[class*="__hl_inl_priority"]')
@@ -91,12 +97,31 @@ describe 'Work Package highlighting fields', js: true do
     expect(wp1_row.native.css_value('background-color')).to eq('rgba(18, 52, 86, 1)')
     expect(wp2_row.native.css_value('background-color')).to eq('rgba(0, 0, 0, 0)')
 
+    # Save query
+    wp_table.save
+    wp_table.expect_and_dismiss_notification message: 'Successful update.'
+    query.reload
+    expect(query.highlighting_mode).to eq(:priority)
+
     ## This disables any inline styles
     expect(page).to have_no_selector('[class*="__hl_inl_status"]')
     expect(page).to have_no_selector('[class*="__hl_inl_priority"]')
     expect(page).to have_no_selector('[class*="__hl_date"]')
 
-    # Expect highlighted fields in single view
+    # Highlight none
+    highlighting.switch_highlight 'None'
+    expect(page).to have_no_selector('[class*="__hl_row"]')
+    expect(page).to have_no_selector('[class*="__hl_inl_status"]')
+    expect(page).to have_no_selector('[class*="__hl_inl_priority"]')
+    expect(page).to have_no_selector('[class*="__hl_date"]')
+
+    # Save query
+    wp_table.save
+    wp_table.expect_and_dismiss_notification message: 'Successful update.'
+    query.reload
+    expect(query.highlighting_mode).to eq(:none)
+
+    # Expect highlighted fields in single view even when table disabled
     wp_table.open_full_screen_by_doubleclick wp_1
     expect(page).to have_selector(".wp-status-button .__hl_inl_status_#{status1.id}")
     expect(page).to have_selector(".__hl_inl_priority_#{priority1.id}")

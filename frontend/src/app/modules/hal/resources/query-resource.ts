@@ -33,6 +33,7 @@ import {QuerySortByResource} from 'core-app/modules/hal/resources/query-sort-by-
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
+import {HighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 
 export interface QueryResourceEmbedded {
   results:WorkPackageCollectionResource;
@@ -64,6 +65,7 @@ export class QueryResource extends HalResource {
   public hasError:boolean;
   public timelineVisible:boolean;
   public timelineZoomLevel:TimelineZoomLevel;
+  public highlightingMode:HighlightingMode;
   public timelineLabels:TimelineLabels;
   public showHierarchies:boolean;
   public public:boolean;

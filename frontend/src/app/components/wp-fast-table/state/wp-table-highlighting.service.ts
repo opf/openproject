@@ -3,8 +3,7 @@ import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-ta
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Injectable} from '@angular/core';
 import {States} from 'core-components/states.service';
-
-export type HighlightingMode = 'status'|'priority'|'inline'|'none';
+import {HighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 
 @Injectable()
 export class WorkPackageTableHighlightingService extends WorkPackageTableBaseService<HighlightingMode> implements WorkPackageQueryStateService {
@@ -26,22 +25,24 @@ export class WorkPackageTableHighlightingService extends WorkPackageTableBaseSer
   }
 
   public get isDisabled() {
-    return this.current === 'inline';
+    return this.current === 'none';
   }
 
   public update(value:HighlightingMode) {
     this.state.putValue(value);
   }
 
-  public valueFromQuery(query:QueryResource):HighlightingMode|undefined {
-    return 'inline';
+  public valueFromQuery(query:QueryResource):HighlightingMode {
+    return query.highlightingMode || 'inline';
   }
 
   public hasChanged(query:QueryResource) {
-    return false;
+    return query.highlightingMode !== this.current;
   }
 
-  public applyToQuery(query:QueryResource) {
+  public applyToQuery(query:QueryResource):boolean {
+    query.highlightingMode = this.current;
+
     return false;
   }
 }

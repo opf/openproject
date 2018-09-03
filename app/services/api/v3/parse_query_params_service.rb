@@ -52,6 +52,8 @@ module API
 
         parsed_params[:timeline_zoom_level] = params[:timelineZoomLevel]
 
+        parsed_params[:highlighting_mode] = params[:highlightingMode]
+
         parsed_params[:show_hierarchies] = boolearize(params[:showHierarchies])
 
         allow_empty = params.keys + skip_empty

@@ -8,7 +8,7 @@
                  [(ngModel)]="highlightingMode"
                  value="inline"
                  name="highlighting_mode_switch">
-          {{ text.highlighting_mode.default }}
+          {{ text.highlighting_mode.inline }}
         </label>
         <label class="option-label">
           <input type="radio"
@@ -27,9 +27,9 @@
         <label class="option-label">
           <input type="radio"
                  [(ngModel)]="highlightingMode"
-                 value="disabled"
+                 value="none"
                  name="highlighting_mode_switch">
-          {{ text.highlighting_mode.disabled }}
+          {{ text.highlighting_mode.none }}
         </label>
       </div>
     </div>

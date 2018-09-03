@@ -1,10 +1,10 @@
 import {Component, Injector} from '@angular/core';
 import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 import {
-  HighlightingMode,
   WorkPackageTableHighlightingService
 } from 'core-components/wp-fast-table/state/wp-table-highlighting.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {HighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 
 @Component({
   templateUrl: './highlighting-tab.component.html'
@@ -18,10 +18,10 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
     title: this.I18n.t('js.work_packages.table_configuration.highlighting'),
     highlighting_mode: {
       description: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.description'),
-      disabled: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.disabled'),
-      disabled_text: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.disabled_text'),
-      default: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.default'),
-      default_text: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.default_text'),
+      none: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.none'),
+      none_text: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.none_text'),
+      inline: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.inline'),
+      inline_text: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.inline_text'),
       status: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.status'),
       status_text: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.status_text'),
       priority: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.priority'),

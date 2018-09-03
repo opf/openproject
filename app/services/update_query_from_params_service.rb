@@ -47,6 +47,8 @@ class UpdateQueryFromParamsService
 
     apply_hierarchy(params)
 
+    apply_highlighting(params)
+
     disable_hierarchy_when_only_grouped_by(params)
 
     if query.valid?
@@ -92,6 +94,10 @@ class UpdateQueryFromParamsService
 
   def apply_hierarchy(params)
     query.show_hierarchies = params[:show_hierarchies] if params.key?(:show_hierarchies)
+  end
+
+  def apply_highlighting(params)
+    query.highlighting_mode = params[:highlighting_mode] if params.key?(:highlighting_mode)
   end
 
   def disable_hierarchy_when_only_grouped_by(params)

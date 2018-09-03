@@ -82,6 +82,7 @@ export class UrlParamsHelperService {
       paramsData.tzl = query.timelineZoomLevel;
     }
 
+    paramsData.hl = query.highlightingMode;
     paramsData.hi = !!query.showHierarchies;
     paramsData.g = _.get(query.groupBy, 'id', '');
     if (query.sortBy) {
@@ -145,6 +146,10 @@ export class UrlParamsHelperService {
       }
     }
 
+    if (properties.hl) {
+      queryData.highlightingMode = properties.hl;
+    }
+
     if (properties.hi === false || properties.hi === true) {
       queryData.showHierarchies = properties.hi;
     }
@@ -200,6 +205,7 @@ export class UrlParamsHelperService {
       queryData.timelineLabels = JSON.stringify(query.timelineLabels);
     }
 
+    queryData.highlightingMode = query.highlightingMode;
     queryData.showHierarchies = !!query.showHierarchies;
     queryData.groupBy = _.get(query.groupBy, 'id', '');
 

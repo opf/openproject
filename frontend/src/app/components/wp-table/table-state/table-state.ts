@@ -20,7 +20,7 @@ import {
   WorkPackageCollectionResource
 } from 'core-app/modules/hal/resources/wp-collection-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {HighlightingMode} from 'app/components/wp-fast-table/state/wp-table-highlighting.service';
+import {HighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 
 @Injectable()
 export class TableState extends StatesGroup {

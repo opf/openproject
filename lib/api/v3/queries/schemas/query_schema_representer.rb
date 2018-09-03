@@ -123,6 +123,13 @@ module API
                  has_default: true,
                  visibility: false
 
+          schema :highlighting_mode,
+                 type: 'String',
+                 required: false,
+                 writable: true,
+                 has_default: true,
+                 visibility: false
+
           schema :show_hierarchies,
                  type: 'Boolean',
                  required: false,

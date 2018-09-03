@@ -30,6 +30,7 @@
 
 class Query < ActiveRecord::Base
   include Timelines
+  include Highlighting
   include Queries::AvailableFilters
 
   belongs_to :project
