@@ -69,7 +69,7 @@ class FogFileUploader < CarrierWave::Uploader::Base
   #
   #   Excon::Errors::Forbidden: Expected(200) <=> Actual(403 Forbidden)
   def readable?
-    remote_file.exists?
+    remote_file&.exists?
   rescue Excon::Errors::Forbidden
     false
   end
