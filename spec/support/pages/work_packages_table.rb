@@ -177,7 +177,11 @@ module Pages
     end
 
     def row(work_package)
-      table_container.find(".wp-row-#{work_package.id}-table")
+      table_container.find(row_selector(work_package))
+    end
+
+    def row_selector(work_package)
+      ".wp-row-#{work_package.id}-table"
     end
 
     def edit_field(work_package, attribute)
