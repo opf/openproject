@@ -49,17 +49,19 @@ class ExtractFulltextJob < ApplicationJob
   private
 
   def init
-    carrierwave_uploader = @attachment.file
-    @file = carrierwave_uploader.local_file
-    @filename = carrierwave_uploader.file.filename
-
     begin
+      carrierwave_uploader = @attachment.file
+      @file = carrierwave_uploader.local_file
+      @filename = carrierwave_uploader.file.filename
+
       if @attachment.readable?
         resolver = Plaintext::Resolver.new(@file, @attachment.content_type)
         @text = resolver.text
       end
     rescue => e
-      Rails.logger.error e.message
+      Rails.logger.error {
+        "Failed to extract plaintext from file #{@attachment.id} (On domain #{Setting.host_name}): #{e}: #{e.message}"
+      }
     end
   end
 
