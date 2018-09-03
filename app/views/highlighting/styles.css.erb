@@ -22,6 +22,7 @@
 <%# Highlightable resources %>
 <%= colored_resource.call('status', ::Status) %>
 <%= colored_resource.call('priority', ::IssuePriority) %>
+<%= colored_resource.call('type', ::Type) %>
 
 <%# Overdue tasks %>
 .__hl_date_due_today { color: #F76707 !important; }

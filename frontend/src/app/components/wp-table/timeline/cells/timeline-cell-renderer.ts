@@ -32,6 +32,7 @@ import {DisplayFieldRenderer} from '../../../wp-edit-form/display-field-renderer
 import Moment = moment.Moment;
 import {Injector} from '@angular/core';
 import {TimezoneService} from 'core-components/datetime/timezone.service';
+import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 
 export interface CellDateMovement {
   // Target values to move work package to
@@ -210,9 +211,6 @@ export class TimelineCellRenderer {
   public update(bar:HTMLDivElement, labels:WorkPackageCellLabels|null, renderInfo:RenderInfo):boolean {
     const changeset = renderInfo.changeset;
 
-    // general settings - bar
-    bar.style.backgroundColor = this.typeColor(renderInfo.workPackage);
-
     const viewParams = renderInfo.viewParams;
     let start = moment(changeset.value('startDate'));
     let due = moment(changeset.value('dueDate'));
@@ -226,17 +224,13 @@ export class TimelineCellRenderer {
     // only start date, fade out bar to the right
     if (_.isNaN(due.valueOf()) && !_.isNaN(start.valueOf())) {
       due = start.clone();
-      bar.style.backgroundColor = 'inherit';
-      const color = this.typeColor(renderInfo.workPackage);
-      bar.style.backgroundImage = `linear-gradient(90deg, ${color} 0%, rgba(255,255,255,0) 80%)`;
+      bar.style.backgroundImage = `linear-gradient(90deg, #F1F1F1 0%, rgba(255,255,255,0) 80%)`;
     }
 
     // only due date, fade out bar to the left
     if (_.isNaN(start.valueOf()) && !_.isNaN(due.valueOf())) {
       start = due.clone();
-      bar.style.backgroundColor = 'inherit';
-      const color = this.typeColor(renderInfo.workPackage);
-      bar.style.backgroundImage = `linear-gradient(90deg, rgba(255,255,255,0) 0%, ${color} 100%)`;
+      bar.style.backgroundImage = `linear-gradient(90deg, rgba(255,255,255,0) 0%, #F1F1F1 100%)`;
     }
 
     // offset left
@@ -332,8 +326,7 @@ export class TimelineCellRenderer {
     // create center label
     const labelCenter = document.createElement('div');
     labelCenter.classList.add(classNameBarLabel);
-    const backgroundColor = this.typeColor(renderInfo.workPackage);
-    labelCenter.style.color = calculateForegroundColor(backgroundColor);
+    this.applyTypeColor(renderInfo.workPackage, labelCenter);
     element.appendChild(labelCenter);
 
     // create left label
@@ -372,13 +365,15 @@ export class TimelineCellRenderer {
     return labels;
   }
 
-  protected typeColor(wp:WorkPackageResource):string {
-    let type = wp.type && wp.type.state.value;
-    if (type && type.color) {
-      return type.color;
+  protected applyTypeColor(wp:WorkPackageResource, element:HTMLElement):void {
+    let type = wp.type;
+
+    if (!type) {
+      element.style.backgroundColor = this.fallbackColor;
     }
 
-    return this.fallbackColor;
+    const id = type.getId();
+    element.classList.add(Highlighting.rowClass('type', id));
   }
 
   protected assignDate(changeset:WorkPackageChangeset, attributeName:string, value:moment.Moment) {
@@ -404,12 +399,15 @@ export class TimelineCellRenderer {
     // Display the parent as clamp-style when it has children in the table
     if (this.workPackageTimeline.inHierarchyMode &&
       hasChildrenInTable(wp, this.workPackageTimeline.workPackageTable)) {
+      // this.applyTypeColor(wp, bar);
       bar.classList.add('-clamp-style');
       bar.style.borderStyle = 'solid';
       bar.style.borderWidth = '2px';
-      bar.style.borderColor = this.typeColor(wp);
       bar.style.borderBottom = 'none';
       bar.style.background = 'none';
+    } else {
+      // Apply the background color
+      this.applyTypeColor(renderInfo.workPackage, bar);
     }
   }
 
@@ -459,6 +457,7 @@ export class TimelineCellRenderer {
     let [field, span] = this.fieldRenderer.renderFieldValue(changeset.workPackage, attribute, changeset);
 
     if (label && field && span) {
+      span.classList.add('label-content');
       label.appendChild(span);
       label.classList.add('not-empty');
     } else if (label) {
