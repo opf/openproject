@@ -5,11 +5,11 @@ describe 'Work Package highlighting fields', js: true do
 
   let(:project) { FactoryBot.create(:project) }
 
-  let(:status1) { FactoryBot.create :status, color: FactoryBot.create(:color, hexcode: '#FF0000') }
-  let(:status2) { FactoryBot.create :status, color: FactoryBot.create(:color, hexcode: '#F0F0F0') }
+  let(:status1) { FactoryBot.create :status, color: FactoryBot.create(:color, hexcode: '#FF0000') } # rgba(255, 0, 0, 1)
+  let(:status2) { FactoryBot.create :status, color: FactoryBot.create(:color, hexcode: '#F0F0F0') } # rgba(240, 240, 240, 1)
 
-  let(:priority1) { FactoryBot.create :status, color: FactoryBot.create(:color, hexcode: '#123456') }
-  let(:priority_no_color) { FactoryBot.create :status, color: nil }
+  let(:priority1) { FactoryBot.create :issue_priority, color: FactoryBot.create(:color, hexcode: '#123456') } #rgba(18, 52, 86, 1)
+  let(:priority_no_color) { FactoryBot.create :issue_priority, color: nil }
 
   let!(:wp_1) do
     FactoryBot.create :work_package,
@@ -28,7 +28,7 @@ describe 'Work Package highlighting fields', js: true do
   end
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:highlighting) { ::Components::WorkPackages::Highlighting.new impaired: user.impaired }
+  let(:highlighting) { ::Components::WorkPackages::Highlighting.new }
   let!(:work_package) { FactoryBot.create :work_package, project: project }
 
   let!(:query) do
@@ -52,16 +52,16 @@ describe 'Work Package highlighting fields', js: true do
 
     ## Status
     status1_field = wp1_row.find(".__hl_inl_status_#{status1.id}")
-    expect(status1_field.native.css_value('background-color')).to eq('#FF0000')
+    expect(status1_field.native.css_value('background-color')).to eq('rgba(255, 0, 0, 1)')
     status2_field = wp2_row.find(".__hl_inl_status_#{status2.id}")
-    expect(status2_field.native.css_value('background-color')).to eq('#FOFOFO')
+    expect(status2_field.native.css_value('background-color')).to eq('rgba(240, 240, 240, 1)')
 
     ## Priority
     prio1_field = wp1_row.find(".__hl_inl_priority_#{priority1.id}")
-    expect(prio1_field.native.css_value('background-color')).to eq('#123456')
+    expect(prio1_field.native.css_value('background-color')).to eq('rgba(18, 52, 86, 1)')
     ## Priority has no color assigned
-    prio2_field = wp1_row.find(".__hl_inl_priority_#{priority1.id}")
-    expect(prio2_field.native.css_value('background-color')).not_to be_present
+    prio2_field = wp2_row.find(".__hl_inl_priority_#{priority_no_color.id}")
+    expect(prio2_field.native.css_value('background-color')).to eq('rgba(0, 0, 0, 0)')
 
     ## Overdue
     expect(wp1_row).to have_selector('.__hl_date_overdue')
@@ -73,8 +73,8 @@ describe 'Work Package highlighting fields', js: true do
     expect(page).to have_selector("#{wp_table.row_selector(wp_2)}.__hl_row_status_#{status2.id}")
     wp1_row = wp_table.row(wp_1)
     wp2_row = wp_table.row(wp_2)
-    expect(wp1_row.native.css_value('background-color')).to eq('#FF0000')
-    expect(wp2_row.native.css_value('background-color')).to eq('#F0F0F0')
+    expect(wp1_row.native.css_value('background-color')).to eq('rgba(255, 0, 0, 1)')
+    expect(wp2_row.native.css_value('background-color')).to eq('rgba(240, 240, 240, 1)')
 
     ## This disables any inline styles
     expect(page).to have_no_selector('[class*="__hl_inl_status"]')
@@ -88,8 +88,8 @@ describe 'Work Package highlighting fields', js: true do
 
     wp1_row = wp_table.row(wp_1)
     wp2_row = wp_table.row(wp_2)
-    expect(wp1_row.native.css_value('background-color')).to eq('#1234566')
-    expect(wp2_row.native.css_value('background-color')).not_to be_present
+    expect(wp1_row.native.css_value('background-color')).to eq('rgba(18, 52, 86, 1)')
+    expect(wp2_row.native.css_value('background-color')).to eq('rgba(0, 0, 0, 0)')
 
     ## This disables any inline styles
     expect(page).to have_no_selector('[class*="__hl_inl_status"]')
@@ -99,6 +99,6 @@ describe 'Work Package highlighting fields', js: true do
     # Expect highlighted fields in single view
     wp_table.open_full_screen_by_doubleclick wp_1
     expect(page).to have_selector(".wp-status-button .__hl_inl_status_#{status1.id}")
-    expect(page).to have_selector(".__hl_inl_priority#{priority1.id}")
+    expect(page).to have_selector(".__hl_inl_priority_#{priority1.id}")
   end
 end
