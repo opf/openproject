@@ -122,9 +122,9 @@ export class TimezoneService {
    */
   public daysFromToday(dateString:string):number {
     const date = this.parseDate(dateString);
-    const today = moment();
+    const today = moment().startOf('day');
 
-    return date.diff(today, 'days')
+    return date.diff(today, 'days');
   }
 
   public formattedTime(datetimeString:string) {
