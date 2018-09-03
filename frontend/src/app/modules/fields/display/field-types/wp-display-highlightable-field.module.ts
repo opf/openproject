@@ -27,14 +27,12 @@
 // ++
 
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
+import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
 
-export class ResourceDisplayField extends DisplayField {
-  public get value() {
-    if (this.schema) {
-      return this.attribute && this.attribute.name;
-    }
-    else {
-      return null;
-    }
+export class HighlightableDisplayField extends DisplayField {
+  protected readonly wpTableHighlighting:WorkPackageTableHighlightingService = this.$injector.get(WorkPackageTableHighlightingService);
+
+  public get shouldHighlight() {
+    return this.context !== 'table' || this.wpTableHighlighting.isInline;
   }
 }
