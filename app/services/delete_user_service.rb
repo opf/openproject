@@ -45,7 +45,7 @@ class DeleteUserService
       # as destroying users is a lengthy process we handle it in the background
       # and lock the account now so that no action can be performed with it
       user.lock!
-      Delayed::Job.enqueue DeleteUserJob.new(user.id)
+      Delayed::Job.enqueue DeleteUserJob.new(user.id), priority: ::ApplicationJob.priority_number(:low)
 
       logout! if self_delete?
 

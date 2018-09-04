@@ -205,7 +205,7 @@ class Repository < ActiveRecord::Base
       if storage_updated_at.nil? ||
          storage_updated_at < oldest_cachable_time
 
-        Delayed::Job.enqueue ::Scm::StorageUpdaterJob.new(self)
+        Delayed::Job.enqueue ::Scm::StorageUpdaterJob.new(self), priority: ::ApplicationJob.priority_number(:low)
         return true
       end
     end
