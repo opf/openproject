@@ -42,7 +42,7 @@ module OpenProject::TextFormatting
       # Get initial CommonMarker AST for further processing
       #
       def parse
-        parse_options = %i[LIBERAL_HTML_TAG]
+        parse_options = %i[LIBERAL_HTML_TAG STRIKETHROUGH_DOUBLE_TILDE]
 
         # We need liberal html tags thus parsing and rendering are several steps
         # Check: We may be able to reuse the ast instead of rendering to html and then parsing with nokogiri again.
