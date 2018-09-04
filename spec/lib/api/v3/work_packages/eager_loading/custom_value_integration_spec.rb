@@ -127,4 +127,25 @@ describe ::API::V3::WorkPackages::EagerLoading::CustomValue do
       end
     end
   end
+
+  describe '#usages returning an is_for_all custom field within a project (Regression #28435)' do
+    let(:other_project) { FactoryBot.create :project }
+    subject { described_class.new [work_package] }
+
+    before do
+      # Assume that one custom field has an entry in project_custom_fields
+      for_all_type_cf.projects << other_project
+    end
+
+    it 'still allows looking up the global custom field in a different project' do
+      # Exhibits the same behavior as in regression, usage returns a hash with project_id set for a global
+      # custom field
+      expect(for_all_type_cf.is_for_all).to eq(true)
+      expect(subject.send(:usages))
+        .to include("project_id" => other_project.id, "type_id" => type.id, "custom_field_id" => for_all_type_cf.id)
+
+      wrapped = EagerLoadingMockWrapper.wrap(described_class, [work_package])
+      expect(wrapped.first.available_custom_fields).to include(for_all_type_cf)
+    end
+  end
 end

@@ -153,7 +153,17 @@ module API
           def usage_map
             @usage_map ||= begin
               usages.inject(usage_hash) do |hash, by|
-                hash[by['project_id']][by['type_id']] << custom_field(by['custom_field_id'])
+                cf = custom_field(by['custom_field_id'])
+                target_project_id = by['project_id']
+
+                # If the project_id is NOT nil, and the custom_field is `is_for_all`
+                # Ensure that it gets added to hash[nil] (Regression #28435)
+                if by['project_id'].present? && cf.is_for_all
+                  target_project_id = nil
+                end
+
+                hash[target_project_id][by['type_id']] << cf
+
                 hash
               end
             end
