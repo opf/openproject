@@ -465,6 +465,9 @@ fieldset.form--fieldset
   font-style: italic
   max-width: 500px // improve readability
 
+  &.-no-margin
+    margin: 0
+
   &.-no-italic
     font-style: normal
 
@@ -836,22 +839,6 @@ input[readonly].-clickable
 // Foundation applies following rule to paragraphs
 textarea
   text-rendering: optimizeLegibility
-
-.color-preview
-  margin-top: auto
-  margin-right: 5px
-  margin-left: -34px
-  margin-bottom: auto
-  border: 1px solid #000
-  border-radius: 4px
-  display: inline-block
-  height: 12px
-  width: 12px
-  &.standalone
-    margin-left: initial
-    vertical-align: middle
-
-
 
 // Overwriting Foundation color variables.
 // Unfortunatel I do not know how to get it DRY.

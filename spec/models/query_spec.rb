@@ -75,6 +75,29 @@ describe Query, type: :model do
     end
   end
 
+  describe 'highlighting' do
+    it 'accepts valid values' do
+      %w(inline none status priority).each do |val|
+        query.highlighting_mode = val
+        expect(query).to be_valid
+        expect(query.highlighting_mode).to eq(val.to_sym)
+      end
+    end
+
+    it 'accepts non-present values' do
+      query.highlighting_mode = nil
+      expect(query).to be_valid
+
+      query.highlighting_mode = ''
+      expect(query).to be_valid
+    end
+
+    it 'rejects invalid values' do
+      query.highlighting_mode = 'bogus'
+      expect(query).not_to be_valid
+    end
+  end
+
   describe 'hierarchies' do
     it 'is enabled in default queries' do
       query = Query.new_default

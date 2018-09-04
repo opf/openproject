@@ -19,6 +19,7 @@ import {AuthorisationService} from 'core-app/modules/common/model-auth/model-aut
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Injectable} from '@angular/core';
 import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
+import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
 
 @Injectable()
 export class WorkPackageStatesInitializationService {
@@ -31,6 +32,7 @@ export class WorkPackageStatesInitializationService {
               protected wpTableSum:WorkPackageTableSumService,
               protected wpTableTimeline:WorkPackageTableTimelineService,
               protected wpTableHierarchies:WorkPackageTableHierarchiesService,
+              protected wpTableHighlighting:WorkPackageTableHighlightingService,
               protected wpTableRelationColumns:WorkPackageTableRelationColumnsService,
               protected wpTablePagination:WorkPackageTablePaginationService,
               protected wpTableAdditionalElements:WorkPackageTableAdditionalElementsService,
@@ -121,6 +123,7 @@ export class WorkPackageStatesInitializationService {
     this.wpTableGroupBy.initialize(query, results);
     this.wpTableTimeline.initialize(query, results);
     this.wpTableHierarchies.initialize(query, results);
+    this.wpTableHighlighting.initialize(query, results);
 
     this.authorisationService.initModelAuth('query', query.$links);
     this.authorisationService.initModelAuth('work_packages', results.$links);
@@ -133,6 +136,7 @@ export class WorkPackageStatesInitializationService {
     this.wpTableSortBy.applyToQuery(query);
     this.wpTableGroupBy.applyToQuery(query);
     this.wpTableTimeline.applyToQuery(query);
+    this.wpTableHighlighting.applyToQuery(query);
     this.wpTableHierarchies.applyToQuery(query);
   }
 

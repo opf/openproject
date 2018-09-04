@@ -58,6 +58,7 @@ import {CopyToClipboardDirective} from "core-app/modules/common/copy-to-clipboar
 import {highlightColBootstrap} from "./highlight-col/highlight-col.directive";
 import {HookService} from "../plugins/hook-service";
 import {HTMLSanitizeService} from "./html-sanitize/html-sanitize.service";
+import {ColorsAutocompleter} from "core-app/modules/common/colors/colors-autocompleter.component";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -125,13 +126,15 @@ export function bootstrapModule(injector:Injector) {
     HighlightColDirective,
 
     // Add functionality to rails rendered templates
-    CopyToClipboardDirective
+    CopyToClipboardDirective,
+    ColorsAutocompleter,
   ],
   entryComponents: [
     OpDateTimeComponent,
     CopyToClipboardDirective,
     NotificationsContainerComponent,
-    HighlightColDirective
+    HighlightColDirective,
+    ColorsAutocompleter,
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: bootstrapModule, deps: [Injector], multi: true },

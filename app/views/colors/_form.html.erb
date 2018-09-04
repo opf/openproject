@@ -39,7 +39,7 @@ See docs/COPYRIGHT.rdoc for more details.
   </div>
   <div class="form--field">
     <label class="form--label -required">
-      <%= t('activerecord.attributes.planning_element_type_color.hexcode') %>
+      <%= t('activerecord.attributes.color.hexcode') %>
       <span class="form--label-required" aria-hidden="true">*</span>
     </label>
     <span class="form--field-container">
@@ -50,7 +50,7 @@ See docs/COPYRIGHT.rdoc for more details.
                            name: "color[hexcode]",
                            maxlength: 7 %>
       </span>
-      <%= icon_for_color(color, class: 'color-preview', data: { target: '#color_hexcode' }) %>
+      <%= icon_for_color(color, class: 'color--preview', data: { target: '#color_hexcode' }) %>
     </span>
   </div>
 </fieldset>

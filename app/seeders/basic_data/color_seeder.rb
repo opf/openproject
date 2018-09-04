@@ -29,15 +29,15 @@
 module BasicData
   class ColorSeeder < Seeder
     def seed_data!
-      PlanningElementTypeColor.transaction do
+      Color.transaction do
         data.each do |attributes|
-          PlanningElementTypeColor.create(attributes)
+          Color.create(attributes)
         end
       end
     end
 
     def applicable?
-      PlanningElementTypeColor.all.empty?
+      Color.all.empty?
     end
 
     def not_applicable_message

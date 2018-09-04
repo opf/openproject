@@ -42,6 +42,8 @@ import {DisplayFieldService} from "core-app/modules/fields/display/display-field
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {IWorkPackageEditingServiceToken} from "../../wp-edit-form/work-package-editing.service.interface";
+import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
+import {WorkPackageInlineHighlightingService} from "core-components/wp-fast-table/state/wp-table-inline-highlighting.service";
 
 export interface FieldDescriptor {
   name:string;

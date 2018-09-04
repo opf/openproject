@@ -37,6 +37,7 @@ Please note, that all the properties listed above will also be embedded when ind
 | timelineVisible  | Should the timeline mode be shown?                                                                        | Boolean               |                                      | READ                 |
 | timelineLabels   | Which labels are shown in the timeline, empty when default                                                | QueryTimelineLabels   |                                      | READ                 |
 | timelineZoomLevel| Which zoom level should the timeline be rendered in?                                                      | String                | days, weeks, months, quarters, years | READ                 |
+| highlightingMode | Which highlighting mode should the table have?                                                            | String                | none, inline, status, priority       | READ                 |
 | showHierarchies  | Should the hierarchy mode be enabled?                                                                     | Boolean               |                                      | READ                 |
 | public           | Can users besides the owner see the query?                                                                | Boolean               |                                      | READ                 |
 | starred          | Should the query be highlighted to the user?                                                              | Boolean               |                                      | READ                 |
@@ -103,7 +104,7 @@ If the values are nonprimitive (e.g. User, Project), they will be listed as obje
 
 ```
 
-## Query [/api/v3/queries/{id}{?offset,pageSize,filters,sortBy,groupBy,showSums,timelineVisible,timelineLabels,timelineZoomLevel,showHierarchies}]
+## Query [/api/v3/queries/{id}{?offset,pageSize,filters,sortBy,groupBy,showSums,timelineVisible,timelineLabels,timelineZoomLevel,highlightingMode,showHierarchies}]
 
 + Model
     + Body
@@ -263,6 +264,7 @@ Retreive an individual query as identified by the id parameter. Then end point a
     + showSums = `false` (optional, boolean, `true`) ... Indicates whether properties should be summed up if they support it. The showSums parameter is applied to the to the querie's result collection of work packages overriding the query's persisted sums property.
     + timelineVisible = `false` (optional, boolean, `true`) ... Indicates whether the timeline should be shown.
     + timelineLabels = `{}` (optional, object, `{}`) ... Overridden labels in the timeline view
+    + highlightingMode = `inline` (optional, object, `inline`) ... Highlighting mode for the table view.
     + showHierarchies = `true` (optional, boolean, `true`) ... Indicates whether the hierarchy mode should be enabled.
 
 + Response 200 (application/hal+json)
@@ -438,6 +440,7 @@ Delete the query identified by the id parameter
               "timelineVisible": false,
               "timelineZoomLevel": "days",
               "timelineLabels": {},
+              "highlightingMode": "inline",
               "showHierarchies": true,
               "starred": false,
               "_embedded": {
@@ -1458,6 +1461,13 @@ For more details and all possible responses see the general specification of [Fo
               "timelineLabels": {
                 "type": "QueryTimelineLabels",
                 "name": "Timeline labels",
+                "required": false,
+                "hasDefault": true,
+                "writable": true
+              },
+              "highlightingMode": {
+                "type": "String",
+                "name": "Highlighting mode",
                 "required": false,
                 "hasDefault": true,
                 "writable": true

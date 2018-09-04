@@ -246,6 +246,10 @@ module API
 
         property :timeline_labels
 
+        # Highlighting properties
+        property :highlighting_mode,
+                 render_nil: false
+
         attr_accessor :results,
                       :params
 

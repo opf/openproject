@@ -59,13 +59,14 @@ export abstract class AbstractFieldService<T extends Field, C extends IFieldType
    * @param resource
    * @param {string} fieldName
    * @param {IFieldSchema} schema
+   * @param {string} context
    * @returns {T}
    */
-  public getField(resource:any, fieldName:string, schema:IFieldSchema):T {
+  public getField(resource:any, fieldName:string, schema:IFieldSchema, context:string = ''):T {
     let type = this.fieldType(fieldName) || this.fieldType(schema.type) || this.defaultFieldType;
     let fieldClass:C = this.classes[type];
 
-    return new fieldClass(resource, fieldName, schema);
+    return new fieldClass(resource, fieldName, schema, context);
   }
 
   /**

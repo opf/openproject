@@ -208,7 +208,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: 'icon2 icon-design'
 
   menu.push :colors,
-            { controller: '/planning_element_type_colors', action: 'index' },
+            { controller: '/colors', action: 'index' },
             caption:    :'timelines.admin_menu.colors',
             icon: 'icon2 icon-status'
 

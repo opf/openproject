@@ -107,6 +107,26 @@ export class TimezoneService {
     return d.format(this.getDateFormat());
   }
 
+  /**
+   * Return whether the date is in the past
+   * @param dateString
+   */
+  public inThePast(dateString:string):boolean {
+    return this.daysFromToday(dateString) <= -1;
+  }
+
+  /**
+   * Returns the number of days from today the given dateString is apart.
+   * Negative means the date lies in the past.
+   * @param dateString
+   */
+  public daysFromToday(dateString:string):number {
+    const date = this.parseDate(dateString);
+    const today = moment().startOf('day');
+
+    return date.diff(today, 'days');
+  }
+
   public formattedTime(datetimeString:string) {
     return this.parseDatetime(datetimeString).format(this.getTimeFormat());
   }

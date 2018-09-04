@@ -31,6 +31,8 @@ import {WorkPackageEditingService} from 'core-components/wp-edit-form/work-packa
 import {Component, Inject, Input} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {IWorkPackageEditingServiceToken} from "../../wp-edit-form/work-package-editing.service.interface";
+import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 @Component({
   selector: 'wp-status-button',
@@ -53,7 +55,11 @@ export class WorkPackageStatusButtonComponent {
     return !this.allowed || changeset.inFlight;
   }
 
-  public get getStatus() {
+  public get statusHighlightClass() {
+    return Highlighting.inlineClass('status', this.status.getId());
+  }
+
+  public get status():HalResource {
     let changeset = this.wpEditing.changesetFor(this.workPackage);
     return changeset.value('status');
   }

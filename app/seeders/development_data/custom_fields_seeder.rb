@@ -46,14 +46,14 @@ module DevelopmentData
     def create_types!(cfs)
       # Create ALL CFs types
       non_req_cfs = cfs.reject(&:is_required).map { |cf| "custom_field_#{cf.id}" }
-      type = FactoryBot.build :type_with_workflow, name: 'All CFS'
+      type = FactoryBot.build :type, name: 'All CFS'
       extend_group(type, ['Custom fields', non_req_cfs])
       type.save!
       print '.'
 
       # Create type
       req_cfs = cfs.select(&:is_required).map { |cf| "custom_field_#{cf.id}" }
-      type_req = FactoryBot.build :type_with_workflow, name: 'Required CF'
+      type_req = FactoryBot.build :type, name: 'Required CF'
       extend_group(type_req, ['Custom fields', req_cfs])
       type_req.save!
       print '.'
