@@ -40,6 +40,11 @@ describe 'Work Package highlighting fields', js: true do
   end
 
   before do
+
+    # Ensure Rails and Capybara caches are cleared
+    Rails.cache.clear
+    Capybara.reset!
+
     login_as(user)
     wp_table.visit_query query
     wp_table.expect_work_package_listed wp_1, wp_2

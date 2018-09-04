@@ -80,18 +80,6 @@ describe ColorsController, type: :controller do
     it_should_behave_like 'a controller action with require_admin'
   end
 
-  describe 'move.html' do
-    def fetch
-      @available_color = FactoryBot.create(:color, id: '1337')
-      post 'move', params: { id: '1337', color: { move_to: 'highest' } }
-    end
-
-    def expect_redirect_to
-      colors_path
-    end
-    it_should_behave_like 'a controller action with require_admin'
-  end
-
   describe 'confirm_destroy.html' do
     def fetch
       @available_color = FactoryBot.create(:color, id: '1337')

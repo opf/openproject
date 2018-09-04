@@ -83,6 +83,9 @@ en:
       no_results_title_text: There are currently no posts for the board.
 
   colors:
+    index:
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: Create a new color
     label_no_color: 'No color'
 
   custom_actions:
@@ -131,11 +134,6 @@ en:
       no_results_title_text: There are currently no users part of this group.
     memberships:
       no_results_title_text: There are currently no projects part of this group.
-
-  planning_element_type_colors:
-    index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
 
   projects:
     index:

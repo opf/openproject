@@ -31,10 +31,10 @@ class HighlightingController < ApplicationController
   before_action :determine_freshness
 
   def styles
-    expires_in 5.minutes, public: true
-
-    if stale?(last_modified: @last_modified_times.min, etag: cache_key, public: true)
-      render template: 'highlighting/styles', formats: [:css]
+    if stale?(last_modified: @last_modified_times.max, etag: cache_key, public: true)
+      OpenProject::Cache.fetch(@last_modified_times.max) do
+        render template: 'highlighting/styles', formats: [:css]
+      end
     end
   end
 
@@ -49,6 +49,6 @@ class HighlightingController < ApplicationController
       Status.maximum(:updated_at),
       IssuePriority.maximum(:updated_at),
       Type.maximum(:updated_at)
-    ]
+    ].compact
   end
 end

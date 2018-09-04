@@ -82,7 +82,10 @@ export class UrlParamsHelperService {
       paramsData.tzl = query.timelineZoomLevel;
     }
 
-    paramsData.hl = query.highlightingMode;
+    if (query.highlightingMode && query.highlightingMode !== 'inline') {
+      paramsData.hl = query.highlightingMode;
+    }
+
     paramsData.hi = !!query.showHierarchies;
     paramsData.g = _.get(query.groupBy, 'id', '');
     if (query.sortBy) {
@@ -205,7 +208,10 @@ export class UrlParamsHelperService {
       queryData.timelineLabels = JSON.stringify(query.timelineLabels);
     }
 
-    queryData.highlightingMode = query.highlightingMode;
+    if (query.highlightingMode) {
+      queryData.highlightingMode = query.highlightingMode;
+    }
+
     queryData.showHierarchies = !!query.showHierarchies;
     queryData.groupBy = _.get(query.groupBy, 'id', '');
 

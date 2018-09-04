@@ -41,8 +41,8 @@ feature 'color administration', type: :feature do
     visit colors_path
 
     expect(page)
-      .to have_content(I18n.t(:'planning_element_type_colors.index.no_results_title_text'))
+      .to have_content(I18n.t(:'colors.index.no_results_title_text'))
 
-    click_link I18n.t(:'planning_element_type_colors.index.no_results_content_text')
+    click_link I18n.t(:'colors.index.no_results_content_text')
   end
 end

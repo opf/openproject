@@ -28,6 +28,7 @@
 
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import {HighlightableDisplayField} from "core-app/modules/fields/display/field-types/wp-display-highlightable-field.module";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 export class HighlightedResourceDisplayField extends HighlightableDisplayField {
 
@@ -35,7 +36,7 @@ export class HighlightedResourceDisplayField extends HighlightableDisplayField {
     super.render(element, displayText);
 
     if (this.shouldHighlight) {
-      element.classList.add(this.inlineClass);
+      this.addHighlight(element);
     }
   }
 
@@ -48,11 +49,10 @@ export class HighlightedResourceDisplayField extends HighlightableDisplayField {
     }
   }
 
-  private get inlineClass():string {
-    if (this.attribute) {
-      return Highlighting.inlineClass(this.name, this.attribute.getId());
-    } else {
-      return '';
+  private addHighlight(element:HTMLElement):void {
+    if (this.attribute instanceof HalResource) {
+      const hlClass = Highlighting.inlineClass(this.name, this.attribute.getId());
+      element.classList.add(hlClass);
     }
   }
 }
