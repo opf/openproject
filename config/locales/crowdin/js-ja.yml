@@ -593,6 +593,19 @@ ja:
         hierarchy_hint: フィルタリングされたテーブルのすべての結果はその祖先で拡張されます。階層を展開したり折りたたんだりすることができます。
         display_sums_hint: 表の下にすべての集計可能な属性の合計を表示します。
         show_timeline_hint: テーブルの右側にインタラクティブなガントチャートを表示します。テーブルとガントチャートの間の区切り線をドラッグすることで幅を変更することができます。
+        highlighting: Highlighting
+        highlighting_mode:
+          description: Control highlighting of rows through a color defined by a work
+            package attribute, such as priority or status.
+          none: なし
+          none_text: Disables highlighted output of attributes in the table altogether.
+          inline: Inline
+          inline_text: No highlighting of work package rows. Display colors of overdue
+            dates, status, and priority attributes in their respective columns.
+          status: ステータス
+          status_text: Highlight work package rows based on the color of its status.
+          priority: 優先度
+          priority_text: Highlight work package rows based on the color of its priority.
         columns_help_text: テーブルビューに列を追加または削除するには上記の入力を使用します。列をドラッグ＆ドロップして並べ替えることができます。
       tabs:
         overview: 概要

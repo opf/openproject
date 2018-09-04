@@ -59,6 +59,11 @@ lt:
   boards:
     show:
       no_results_title_text: Nėra jokių įrašų pranešimų lentoje.
+  colors:
+    index:
+      no_results_title_text: Nėra nurodytų spalvų.
+      no_results_content_text: Sukurti naują spalvą
+    label_no_color: No color
   custom_actions:
     actions:
       name: Veiksmai
@@ -108,10 +113,6 @@ lt:
       no_results_title_text: Nėra šios grupės vartotojų.
     memberships:
       no_results_title_text: Nėra projektų šiai grupei.
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Nėra nurodytų spalvų.
-      no_results_content_text: Sukurti naują spalvą
   projects:
     index:
       no_results_title_text: Nėra jokių projektų
@@ -153,11 +154,20 @@ lt:
   users:
     memberships:
       no_results_title_text: Šis vartotojas šiuo metu nėra projekto narys.
+  prioritiies:
+    edit:
+      priority_color_text: |
+        Click to assign or change the color of this priority.
+        It can be used for highlighting work packages in the table.
   reportings:
     index:
       no_results_title_text: Šiuo metu nėra jokių būklės ataskaitų.
       no_results_content_text: Pridėti būklės ataskaitą
   statuses:
+    edit:
+      status_color_text: |
+        Click to assign or change the color of this status.
+        It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: Nėra jokių darbų paketo būsenų.
       no_results_content_text: Pridėti naują būseną
@@ -625,6 +635,7 @@ lt:
     comment: Komentaras
     comments: Komentaras
     content: Turinys
+    color: Spalva
     created_at: Sukurta
     created_on: Sukurta
     custom_options: Galimos reikšmės

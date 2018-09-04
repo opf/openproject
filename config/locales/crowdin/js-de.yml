@@ -657,6 +657,19 @@ de:
         show_timeline_hint: Zeigt ein interaktives Gantt-Diagramm auf der rechten
           Seite der Tabelle an. Sie können die Aufteilung der beiden Elemente über
           Ziehen des Trennstrichs zwischen Tabelle und Gantt-Diagramm konfigurieren.
+        highlighting: Highlighting
+        highlighting_mode:
+          description: Control highlighting of rows through a color defined by a work
+            package attribute, such as priority or status.
+          none: Kein Planungsvergleich
+          none_text: Disables highlighted output of attributes in the table altogether.
+          inline: Inline
+          inline_text: No highlighting of work package rows. Display colors of overdue
+            dates, status, and priority attributes in their respective columns.
+          status: Status
+          status_text: Highlight work package rows based on the color of its status.
+          priority: Priorität
+          priority_text: Highlight work package rows based on the color of its priority.
         columns_help_text: Verwenden Sie die Eingabe oben um Spalten zur Tabellenansicht
           hinzuzufügen oder zu entfernen. Sie können die Reihenfolge der Spalten über
           Drag & Drop verändern.

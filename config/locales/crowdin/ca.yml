@@ -60,6 +60,11 @@ ca:
   boards:
     show:
       no_results_title_text: Actualment no hi ha cap entrada al tauler.
+  colors:
+    index:
+      no_results_title_text: Actualment no hi ha cap color.
+      no_results_content_text: Crear un nou color
+    label_no_color: No color
   custom_actions:
     actions:
       name: Actions
@@ -108,10 +113,6 @@ ca:
     memberships:
       no_results_title_text: Actualment no hi ha projectes que formin part d'aquest
         grup.
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Actualment no hi ha cap color.
-      no_results_content_text: Crear un nou color
   projects:
     index:
       no_results_title_text: Actualment no hi ha projectes
@@ -154,11 +155,20 @@ ca:
   users:
     memberships:
       no_results_title_text: Aquest usuari no és actualment membre de cap projecte.
+  prioritiies:
+    edit:
+      priority_color_text: |
+        Click to assign or change the color of this priority.
+        It can be used for highlighting work packages in the table.
   reportings:
     index:
       no_results_title_text: Actualment no hi ha cap informe d'estat.
       no_results_content_text: Afegir un informe d'estat
   statuses:
+    edit:
+      status_color_text: |
+        Click to assign or change the color of this status.
+        It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: Actualment no hi ha cap estat de paquet de treball.
       no_results_content_text: Afegir un nou estat
@@ -626,6 +636,7 @@ ca:
     comment: Comentari
     comments: Comentari
     content: Contingut
+    color: Color
     created_at: Creat el
     created_on: Creat el
     custom_options: Valors possibles

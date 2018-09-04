@@ -51,6 +51,11 @@ ko:
   boards:
     show:
       no_results_title_text: 게시판에 포스트가 없습니다.
+  colors:
+    index:
+      no_results_title_text: 색깔이 없습니다.
+      no_results_content_text: 새 색깔 생성
+    label_no_color: No color
   custom_actions:
     actions:
       name: 작업
@@ -96,10 +101,6 @@ ko:
       no_results_title_text: 이 그룹에 사용자 파트가 없습니다.
     memberships:
       no_results_title_text: 이 그룹에 프로젝트 파트가 없습니다.
-  planning_element_type_colors:
-    index:
-      no_results_title_text: 색깔이 없습니다.
-      no_results_content_text: 새 색깔 생성
   projects:
     index:
       no_results_title_text: 프로젝트가 없습니다.
@@ -139,11 +140,20 @@ ko:
   users:
     memberships:
       no_results_title_text: 이 사용자는 프로젝트의 멤버가 아닙니다.
+  prioritiies:
+    edit:
+      priority_color_text: |
+        Click to assign or change the color of this priority.
+        It can be used for highlighting work packages in the table.
   reportings:
     index:
       no_results_title_text: 상태 보고가 없습니다.
       no_results_content_text: 상태 보고 추가
   statuses:
+    edit:
+      status_color_text: |
+        Click to assign or change the color of this status.
+        It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: 작업 패키지 상태가 없습니다.
       no_results_content_text: 새 상태 추가
@@ -580,6 +590,7 @@ ko:
     comment: 코멘트
     comments: 코멘트
     content: 내용
+    color: 색상
     created_at: 작성일
     created_on: 작성일
     custom_options: 가능한 값

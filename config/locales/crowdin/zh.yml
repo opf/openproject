@@ -48,6 +48,11 @@ zh:
   boards:
     show:
       no_results_title_text: 目前没有发布内容。
+  colors:
+    index:
+      no_results_title_text: 目前没有颜色。
+      no_results_content_text: 创建新的颜色
+    label_no_color: No color
   custom_actions:
     actions:
       name: 操作
@@ -90,10 +95,6 @@ zh:
       no_results_title_text: 这个组目前没有用户。
     memberships:
       no_results_title_text: 这个组目前没有项目。
-  planning_element_type_colors:
-    index:
-      no_results_title_text: 目前没有颜色。
-      no_results_content_text: 创建新的颜色
   projects:
     index:
       no_results_title_text: 目前没有项目。
@@ -133,11 +134,20 @@ zh:
   users:
     memberships:
       no_results_title_text: 该用户当前不是项目的成员。
+  prioritiies:
+    edit:
+      priority_color_text: |
+        Click to assign or change the color of this priority.
+        It can be used for highlighting work packages in the table.
   reportings:
     index:
       no_results_title_text: 目前没有状态报告。
       no_results_content_text: 添加状态报告
   statuses:
+    edit:
+      status_color_text: |
+        Click to assign or change the color of this status.
+        It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: 目前没有工作包状态。
       no_results_content_text: 添加新的状态
@@ -556,6 +566,7 @@ zh:
     comment: 评论
     comments: 评论
     content: 内容
+    color: 颜色
     created_at: 创建
     created_on: 创建
     custom_options: 可能的值

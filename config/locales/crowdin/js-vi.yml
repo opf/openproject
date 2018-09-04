@@ -639,6 +639,19 @@ vi:
           kết quả.
         show_timeline_hint: Hiển thị biểu đồ grantt ở bên phải của bảng. Bạn có thể
           thay đổi độ rộng của nó bằng cách kéo thanh chia giữa bảng và biểu đồ grantt.
+        highlighting: Highlighting
+        highlighting_mode:
+          description: Control highlighting of rows through a color defined by a work
+            package attribute, such as priority or status.
+          none: None
+          none_text: Disables highlighted output of attributes in the table altogether.
+          inline: Inline
+          inline_text: No highlighting of work package rows. Display colors of overdue
+            dates, status, and priority attributes in their respective columns.
+          status: Trạng thái
+          status_text: Highlight work package rows based on the color of its status.
+          priority: Độ ưu tiên
+          priority_text: Highlight work package rows based on the color of its priority.
         columns_help_text: Sử dụng ô nhập liệu trên đây để thêm hoặc bớt cột vào bảng
           của bạn. Bạn có thể kéo thả cột để thay đổi trật tự của nó.
       tabs:

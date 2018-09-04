@@ -58,6 +58,11 @@ hu:
   boards:
     show:
       no_results_title_text: Jelenleg nincs hozzászólás a fórumon.
+  colors:
+    index:
+      no_results_title_text: Jelenleg nincsenek színek.
+      no_results_content_text: Új szín létrehozása
+    label_no_color: No color
   custom_actions:
     actions:
       name: Műveletek
@@ -105,10 +110,6 @@ hu:
       no_results_title_text: Jelenleg egy felhasználó sem tagja a csoportnak.
     memberships:
       no_results_title_text: Jelenleg egy projekt sem tagja a csoportnak.
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Jelenleg nincsenek színek.
-      no_results_content_text: Új szín létrehozása
   projects:
     index:
       no_results_title_text: Jelenleg nincsenek projektek
@@ -149,11 +150,20 @@ hu:
   users:
     memberships:
       no_results_title_text: Ez a felhasználó jelenleg nem tagja egy projektnek sem.
+  prioritiies:
+    edit:
+      priority_color_text: |
+        Click to assign or change the color of this priority.
+        It can be used for highlighting work packages in the table.
   reportings:
     index:
       no_results_title_text: Jelenleg nincsenek állapot jelentések.
       no_results_content_text: Állapot jelentés hozzáadása
   statuses:
+    edit:
+      status_color_text: |
+        Click to assign or change the color of this status.
+        It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: Jelenleg nincsenek munkacsomag státuszok.
       no_results_content_text: Új státusz hozzáadása
@@ -615,6 +625,7 @@ hu:
     comment: Vélemény
     comments: Vélemény
     content: Tartalom
+    color: Szín
     created_at: Létrehozva
     created_on: Létrehozva
     custom_options: Lehetséges értékek

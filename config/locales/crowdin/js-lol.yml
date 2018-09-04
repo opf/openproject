@@ -589,6 +589,17 @@ lol:
         hierarchy_hint: crwdns98916:0crwdne98916:0
         display_sums_hint: crwdns98917:0crwdne98917:0
         show_timeline_hint: crwdns98918:0crwdne98918:0
+        highlighting: crwdns99140:0crwdne99140:0
+        highlighting_mode:
+          description: crwdns99141:0crwdne99141:0
+          none: crwdns99142:0crwdne99142:0
+          none_text: crwdns99143:0crwdne99143:0
+          inline: crwdns99144:0crwdne99144:0
+          inline_text: crwdns99145:0crwdne99145:0
+          status: crwdns99146:0crwdne99146:0
+          status_text: crwdns99147:0crwdne99147:0
+          priority: crwdns99148:0crwdne99148:0
+          priority_text: crwdns99149:0crwdne99149:0
         columns_help_text: crwdns99008:0crwdne99008:0
       tabs:
         overview: crwdns98772:0crwdne98772:0

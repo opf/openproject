@@ -60,6 +60,11 @@ pl:
   boards:
     show:
       no_results_title_text: Nie ma jeszcze żadnych wiadomości.
+  colors:
+    index:
+      no_results_title_text: Nie przypisano jeszcze żadnego koloru.
+      no_results_content_text: Utwórz nowy kolor
+    label_no_color: No color
   custom_actions:
     actions:
       name: Akcje
@@ -107,10 +112,6 @@ pl:
       no_results_title_text: Nie ma jeszcze użytkowników w tej grupie.
     memberships:
       no_results_title_text: Nie ma jeszcze żadnego projektu dla tej grupy.
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Nie przypisano jeszcze żadnego koloru.
-      no_results_content_text: Utwórz nowy kolor
   projects:
     index:
       no_results_title_text: Nie ma jeszcze żadnego projektu
@@ -152,11 +153,20 @@ pl:
   users:
     memberships:
       no_results_title_text: Użytkownik jeszcze nie jest członkiem projektu.
+  prioritiies:
+    edit:
+      priority_color_text: |
+        Click to assign or change the color of this priority.
+        It can be used for highlighting work packages in the table.
   reportings:
     index:
       no_results_title_text: Nie ma aktualnie żadnego statusu żądania.
       no_results_content_text: Dodaj status zgłoszenia
   statuses:
+    edit:
+      status_color_text: |
+        Click to assign or change the color of this status.
+        It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: Nie ma aktualnie żadnych statusów Zestawu zadań.
       no_results_content_text: Dodaj nowy status
@@ -622,6 +632,7 @@ pl:
     comment: Komentarz
     comments: Komentarz
     content: Zawartość
+    color: Kolor
     created_at: Utworzone
     created_on: Utworzone
     custom_options: Możliwe wartości

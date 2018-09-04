@@ -60,6 +60,11 @@ pt:
   boards:
     show:
       no_results_title_text: Atualmente, não existem publicações para o quadro.
+  colors:
+    index:
+      no_results_title_text: Atualmente, não existem cores.
+      no_results_content_text: Crie uma nova cor
+    label_no_color: No color
   custom_actions:
     actions:
       name: Ações
@@ -109,10 +114,6 @@ pt:
     memberships:
       no_results_title_text: Atualmente, não existem projetos pertencentes a este
         grupo.
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Atualmente, não existem cores.
-      no_results_content_text: Crie uma nova cor
   projects:
     index:
       no_results_title_text: Atualmente, não existem projetos
@@ -154,11 +155,20 @@ pt:
   users:
     memberships:
       no_results_title_text: Este utilizador atualmente não é um membro de um projeto.
+  prioritiies:
+    edit:
+      priority_color_text: |
+        Click to assign or change the color of this priority.
+        It can be used for highlighting work packages in the table.
   reportings:
     index:
       no_results_title_text: Atualmente, não existem comunicações de estado.
       no_results_content_text: Adicionar um relatório de estado
   statuses:
+    edit:
+      status_color_text: |
+        Click to assign or change the color of this status.
+        It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: Atualmente, não existem estados de pacote de trabalho.
       no_results_content_text: Adicione um novo estado
@@ -628,6 +638,7 @@ pt:
     comment: Comentario
     comments: Comentario
     content: Conteúdo
+    color: Cor
     created_at: Criado em
     created_on: Criado em
     custom_options: Valores possíveis

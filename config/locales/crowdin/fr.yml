@@ -60,6 +60,11 @@ fr:
   boards:
     show:
       no_results_title_text: Il n'y a actuellement aucun message pour le forum.
+  colors:
+    index:
+      no_results_title_text: Aucune couleur pour le moment.
+      no_results_content_text: Créer une nouvelle couleur
+    label_no_color: No color
   custom_actions:
     actions:
       name: Actions
@@ -107,10 +112,6 @@ fr:
       no_results_title_text: Aucun utilisateur dans ce groupe pour le moment.
     memberships:
       no_results_title_text: Aucun projet dans ce groupe pour le moment.
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Aucune couleur pour le moment.
-      no_results_content_text: Créer une nouvelle couleur
   projects:
     index:
       no_results_title_text: Aucun projet pour le moment
@@ -152,11 +153,20 @@ fr:
   users:
     memberships:
       no_results_title_text: Cet utilisateur n'est membre d'aucun projet pour le moment.
+  prioritiies:
+    edit:
+      priority_color_text: |
+        Click to assign or change the color of this priority.
+        It can be used for highlighting work packages in the table.
   reportings:
     index:
       no_results_title_text: Il n'y a actuellement aucun rapport d'état.
       no_results_content_text: Ajouter un rapport d'état
   statuses:
+    edit:
+      status_color_text: |
+        Click to assign or change the color of this status.
+        It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: Aucun statut de lots de travaux pour le moment.
       no_results_content_text: Ajouter un nouveau statut
@@ -633,6 +643,7 @@ fr:
     comment: Commentaire
     comments: Commentaire
     content: Contenu
+    color: Couleur
     created_at: Créé le
     created_on: Créé le
     custom_options: Valeurs possibles

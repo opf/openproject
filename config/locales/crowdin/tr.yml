@@ -59,6 +59,11 @@ tr:
   boards:
     show:
       no_results_title_text: Şu anda panoda gösterilebilecek gönderi bulunmamakta.
+  colors:
+    index:
+      no_results_title_text: Şu anda hiç renk bulunmamakta.
+      no_results_content_text: Yeni bir renk oluştur
+    label_no_color: No color
   custom_actions:
     actions:
       name: Eylemler
@@ -106,10 +111,6 @@ tr:
       no_results_title_text: Şu anda bu gruba kayıtlı kullanıcı bulunmamakta.
     memberships:
       no_results_title_text: Şu anda bu grubun bir parçası olan, bir proje bulunmamakta.
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Şu anda hiç renk bulunmamakta.
-      no_results_content_text: Yeni bir renk oluştur
   projects:
     index:
       no_results_title_text: Şu anda hiç proje bulunmamakta
@@ -150,11 +151,20 @@ tr:
   users:
     memberships:
       no_results_title_text: Bu kullanıcı şuan için bir proje üyesi değil.
+  prioritiies:
+    edit:
+      priority_color_text: |
+        Click to assign or change the color of this priority.
+        It can be used for highlighting work packages in the table.
   reportings:
     index:
       no_results_title_text: Halen durum bildirimleri yok.
       no_results_content_text: Durum bildirme ekleme
   statuses:
+    edit:
+      status_color_text: |
+        Click to assign or change the color of this status.
+        It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: Şu anda çalışma paketi durumu yok.
       no_results_content_text: Yeni durum ekle
@@ -616,6 +626,7 @@ tr:
     comment: Yorum
     comments: Yorum
     content: İçerik
+    color: Renk
     created_at: Oluşturma tarihi
     created_on: Oluşturma tarihi
     custom_options: Olası değerler

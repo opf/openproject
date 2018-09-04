@@ -60,6 +60,11 @@ de:
   boards:
     show:
       no_results_title_text: Zur Zeit existieren keine Forumseinträge für dieses Forum.
+  colors:
+    index:
+      no_results_title_text: Derzeit gibt es keine Farben.
+      no_results_content_text: Neue Farbe anlegen
+    label_no_color: No color
   custom_actions:
     actions:
       name: Aktionen
@@ -109,10 +114,6 @@ de:
       no_results_title_text: Diese Gruppe hat zur Zeit keine Mitglieder.
     memberships:
       no_results_title_text: Diese Gruppe ist zur Zeit keinem Projekt zugewiesen.
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Derzeit gibt es keine Farben.
-      no_results_content_text: Neue Farbe anlegen
   projects:
     index:
       no_results_title_text: Es gibt aktuell keine Projekte
@@ -155,11 +156,20 @@ de:
   users:
     memberships:
       no_results_title_text: Dieser Nutzer ist derzeit in keinem Projekt Mitglied.
+  prioritiies:
+    edit:
+      priority_color_text: |
+        Click to assign or change the color of this priority.
+        It can be used for highlighting work packages in the table.
   reportings:
     index:
       no_results_title_text: Derzeit gibt es keine Statusberichte.
       no_results_content_text: Statusbericht hinzufügen
   statuses:
+    edit:
+      status_color_text: |
+        Click to assign or change the color of this status.
+        It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: Derzeit gibt es keine Arbeitspaket-Status.
       no_results_content_text: Neuen Status hinzufügen
@@ -636,6 +646,7 @@ de:
     comment: Kommentar
     comments: Kommentar
     content: Inhalt
+    color: Farbe
     created_at: Angelegt am
     created_on: Angelegt am
     custom_options: Mögliche Werte
