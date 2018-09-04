@@ -84,3 +84,14 @@
 
   a.-dark
     color: white
+
+span[class^='__hl_inl_'],
+span[class*=' __hl_inl_']
+  &::before
+    content: ''
+    display: inline-block
+    width: 12px
+    height: 12px
+    vertical-align: -1px
+    margin-right: 4px
+    border-radius: 50%
