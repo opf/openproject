@@ -95,14 +95,14 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
         this.wpTableRefresh.request('Altered work package status via button');
       });
     }
-  };
+  }
 
   private buildItems(statuses:CollectionResource<HalResource>) {
     this.items = statuses.map((status:HalResource) => {
       return {
         disabled: false,
         linkText: status.name,
-        class: Highlighting.dotClass('status', status.getId());
+        class: Highlighting.dotClass('status', status.getId()),
         onClick: () => {
           this.updateStatus(status);
           return true;
