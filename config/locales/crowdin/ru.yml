@@ -58,6 +58,11 @@ ru:
   boards:
     show:
       no_results_title_text: На данный момент сообщений для форума нет.
+  colors:
+    index:
+      no_results_title_text: На данный момент цветов нет.
+      no_results_content_text: Создать новый цвет
+    label_no_color: No color
   custom_actions:
     actions:
       name: Действия
@@ -106,10 +111,6 @@ ru:
       no_results_title_text: На данный момент пользователи этой группы отсутствуют.
     memberships:
       no_results_title_text: На данный момент проектов этой группы нет.
-  planning_element_type_colors:
-    index:
-      no_results_title_text: На данный момент цветов нет.
-      no_results_content_text: Создать новый цвет
   projects:
     index:
       no_results_title_text: На данный момент проектов нет
@@ -150,11 +151,20 @@ ru:
   users:
     memberships:
       no_results_title_text: Этот пользователь в данный момент в проекте не участвует.
+  prioritiies:
+    edit:
+      priority_color_text: |
+        Click to assign or change the color of this priority.
+        It can be used for highlighting work packages in the table.
   reportings:
     index:
       no_results_title_text: В данный момент статусы отчётов отсутствуют.
       no_results_content_text: Добавить статус отчёта
   statuses:
+    edit:
+      status_color_text: |
+        Click to assign or change the color of this status.
+        It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: В данный момент статусы пакетов работ отсутствуют.
       no_results_content_text: Добавить новый статус
@@ -631,6 +641,7 @@ ru:
     comment: Комментарий
     comments: Комментарий
     content: Содержание
+    color: Цвет
     created_at: Создано
     created_on: Создано
     custom_options: Возможные значения

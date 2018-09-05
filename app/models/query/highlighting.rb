@@ -26,47 +26,21 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
+#
+module Query::Highlighting
+  extend ActiveSupport::Concern
 
-class PlanningElementTypeColor < ActiveRecord::Base
-  self.table_name = 'planning_element_type_colors'
+  included do
+    QUERY_HIGHLIGHTING_MODES = %i[inline none status priority].freeze
+    validates_inclusion_of :highlighting_mode,
+                           in: QUERY_HIGHLIGHTING_MODES,
+                           allow_nil: true,
+                           allow_blank: true
 
-  acts_as_list
-  default_scope { order('position ASC') }
-
-  has_many :planning_element_types, class_name:  'Type',
-                                    foreign_key: 'color_id',
-                                    dependent:   :nullify
-
-  before_validation :normalize_hexcode
-
-  validates_presence_of :name, :hexcode
-
-  validates_length_of :name, maximum: 255, unless: lambda { |e| e.name.blank? }
-  validates_format_of :hexcode, with: /\A#[0-9A-F]{6}\z/, unless: lambda { |e| e.hexcode.blank? }
-
-  def text_hexcode
-    # 0.63 - Optimal threshold to switch between white and black text color
-    #        determined by intensive user tests and expensive research
-    #        activities.
-    if Color::RGB::from_html(hexcode).to_hsl.brightness <= 0.63
-      '#fff'
-    else
-      '#000'
-    end
-  end
-
-  protected
-
-  def normalize_hexcode
-    if hexcode.present? and hexcode_changed?
-      self.hexcode = hexcode.strip.upcase
-
-      unless hexcode.starts_with? '#'
-        self.hexcode = '#' + hexcode
-      end
-
-      if hexcode.size == 4  # =~ /#.../
-        self.hexcode = hexcode.gsub(/([^#])/, '\1\1')
+    def highlighting_mode
+      val = super
+      if val.present?
+        val.to_sym
       end
     end
   end

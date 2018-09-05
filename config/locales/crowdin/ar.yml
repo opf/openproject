@@ -60,6 +60,11 @@ ar:
   boards:
     show:
       no_results_title_text: لا يوجد حالياً منشورات على اللوحة.
+  colors:
+    index:
+      no_results_title_text: لا يوجد حالياً ألوان.
+      no_results_content_text: إنشاء لون جديد
+    label_no_color: No color
   custom_actions:
     actions:
       name: Actions
@@ -107,10 +112,6 @@ ar:
       no_results_title_text: لا يوجد حالياً قسم للمستخدمين في هذه المجموعة.
     memberships:
       no_results_title_text: لا يوجد حالياً قسم للمشاريع في هذه المجموعة.
-  planning_element_type_colors:
-    index:
-      no_results_title_text: لا يوجد حالياً ألوان.
-      no_results_content_text: إنشاء لون جديد
   projects:
     index:
       no_results_title_text: لا يوجد حالياً مشاريع
@@ -152,11 +153,20 @@ ar:
   users:
     memberships:
       no_results_title_text: هذا المستخدم حالياً ليس عضواً في المشروع.
+  prioritiies:
+    edit:
+      priority_color_text: |
+        Click to assign or change the color of this priority.
+        It can be used for highlighting work packages in the table.
   reportings:
     index:
       no_results_title_text: لا يوجد حالياً تقارير حالة.
       no_results_content_text: إضافة تقرير حالة
   statuses:
+    edit:
+      status_color_text: |
+        Click to assign or change the color of this status.
+        It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: لا يوجد حالياً حالات لحزمة العمل.
       no_results_content_text: إضافة حالة جديدة
@@ -632,6 +642,7 @@ ar:
     comment: تعليق
     comments: تعليق
     content: المحتوى
+    color: اللون
     created_at: تم الإنشاء في
     created_on: تم الإنشاء في
     custom_options: القيم المحتملة

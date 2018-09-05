@@ -74,7 +74,7 @@ class DesignColor < ActiveRecord::Base
 
   protected
 
-  # This could be DRY! This method is taken from model PlanningElementTypeColor.
+  # This could be DRY! This method is taken from model Color.
   def normalize_hexcode
     if hexcode.present? and hexcode_changed?
       self.hexcode = hexcode.strip.upcase

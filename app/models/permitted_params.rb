@@ -578,6 +578,7 @@ class PermittedParams
         ),
         status: %i(
           name
+          color_id
           default_done_ratio
           is_closed
           is_default

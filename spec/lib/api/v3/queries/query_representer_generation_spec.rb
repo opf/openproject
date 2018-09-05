@@ -507,6 +507,20 @@ describe ::API::V3::Queries::QueryRepresenter do
         is_expected.to be_json_eql(query.is_public.to_json).at_path('public')
       end
 
+      describe 'highlighting' do
+        it 'renders when the value is set' do
+          query.highlighting_mode = 'status'
+
+          is_expected.to be_json_eql('status'.to_json).at_path('highlightingMode')
+        end
+
+        it 'does not render nil' do
+          query.highlighting_mode = nil
+
+          is_expected.not_to have_json_path('highlightingMode')
+        end
+      end
+
       context 'showHierarchies' do
         it 'is true if query.show_hierarchies is true' do
           query.show_hierarchies = true

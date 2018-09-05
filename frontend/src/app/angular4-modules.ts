@@ -215,6 +215,8 @@ import {AttachmentListItemComponent} from 'core-components/attachments/attachmen
 import {AttachmentsUploadComponent} from 'core-components/attachments/attachments-upload/attachments-upload.component';
 import {AttachmentsComponent} from 'core-components/attachments/attachments.component';
 import {CurrentUserService} from 'core-components/user/current-user.service';
+import {WpTableConfigurationHighlightingTab} from "core-components/wp-table/configuration-modal/tabs/highlighting-tab.component";
+import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
 
 @NgModule({
   imports: [
@@ -279,6 +281,7 @@ import {CurrentUserService} from 'core-components/user/current-user.service';
     WorkPackageTableFiltersService,
     WorkPackageTableTimelineService,
     WorkPackageTableSumService,
+    WorkPackageTableHighlightingService,
     WorkPackageStatesInitializationService,
     WorkPackagesListService,
     WorkPackageStaticQueriesService,
@@ -447,6 +450,7 @@ import {CurrentUserService} from 'core-components/user/current-user.service';
     WpTableConfigurationFiltersTab,
     WpTableConfigurationSortByTab,
     WpTableConfigurationTimelinesTab,
+    WpTableConfigurationHighlightingTab,
     WpTableExportModal,
     ConfirmDialogModal,
     DynamicContentModal,
@@ -537,6 +541,7 @@ import {CurrentUserService} from 'core-components/user/current-user.service';
     WpTableConfigurationFiltersTab,
     WpTableConfigurationSortByTab,
     WpTableConfigurationTimelinesTab,
+    WpTableConfigurationHighlightingTab,
     WpTableExportModal,
     DynamicContentModal,
     ConfirmDialogModal,

@@ -32,9 +32,9 @@ module ::TypesHelper
     return unless type
 
     css_class = if type.is_milestone?
-                  'timelines-milestone'
+                  'color--milestone-icon'
                 else
-                  'timelines-phase'
+                  'color--phase-icon'
                 end
 
     color = if type.color.present?

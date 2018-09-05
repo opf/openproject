@@ -60,6 +60,7 @@ See docs/COPYRIGHT.rdoc for more details.
           <col highlight-col>
           <col highlight-col>
           <col highlight-col>
+          <col highlight-col>
           <col>
         </colgroup>
         <thead>
@@ -69,6 +70,15 @@ See docs/COPYRIGHT.rdoc for more details.
                 <div class="generic-table--sort-header">
                   <span>
                     <%= Status.model_name.human %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Status.human_attribute_name :color %>
                   </span>
                 </div>
               </div>
@@ -118,6 +128,7 @@ See docs/COPYRIGHT.rdoc for more details.
           <% for status in @statuses %>
             <tr>
               <td><%= link_to h(status.name), edit_status_path(status) %></td>
+              <td><%= icon_for_color status.color %></td>
               <% if WorkPackage.use_status_for_done_ratio? %>
                 <td><%= h status.default_done_ratio %></td>
               <% end %>

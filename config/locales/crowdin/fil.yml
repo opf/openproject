@@ -63,6 +63,11 @@ fil:
   boards:
     show:
       no_results_title_text: Sa kasalukuyan ay walang mga post para sa board.
+  colors:
+    index:
+      no_results_title_text: Walang mga kasulukuyan kulay.
+      no_results_content_text: Gumawa ng bagong kulay
+    label_no_color: No color
   custom_actions:
     actions:
       name: Mga aksyon
@@ -114,10 +119,6 @@ fil:
     memberships:
       no_results_title_text: Sa kasalukuyan ay walang parte ng mga proyekto sa grupong
         ito.
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Walang mga kasulukuyan kulay.
-      no_results_content_text: Gumawa ng bagong kulay
   projects:
     index:
       no_results_title_text: Sa kasalukuyan ay walang mga proyekto
@@ -160,11 +161,20 @@ fil:
   users:
     memberships:
       no_results_title_text: Ang user na ito ay kasalukuyang hindi myembro ng proyekto.
+  prioritiies:
+    edit:
+      priority_color_text: |
+        Click to assign or change the color of this priority.
+        It can be used for highlighting work packages in the table.
   reportings:
     index:
       no_results_title_text: Sa kasalukuyan ay walang mga status reportings.
       no_results_content_text: Magdagdag ng status reporting
   statuses:
+    edit:
+      status_color_text: |
+        Click to assign or change the color of this status.
+        It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: Sa kasalukuyan ay walang mga estado ng work package.
       no_results_content_text: Magdagdag ng bagong estado
@@ -645,6 +655,7 @@ fil:
     comment: Komento
     comments: Komento
     content: Nilalaman
+    color: Kulay
     created_at: Nilikha sa
     created_on: Nilikha sa
     custom_options: Ang mga posibleng halaga

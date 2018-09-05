@@ -89,7 +89,7 @@ export class DisplayFieldRenderer {
       return new ProgressTextDisplayField(workPackage, name, fieldSchema);
     }
 
-    return this.displayFieldService.getField(workPackage, name, fieldSchema);
+    return this.displayFieldService.getField(workPackage, name, fieldSchema, this.context);
   }
 
   private getText(field:DisplayField, placeholder:string):string {

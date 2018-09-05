@@ -1,0 +1,86 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See docs/COPYRIGHT.rdoc for more details.
+//++
+
+.color--preview
+  margin-top: auto
+  margin-right: 5px
+  margin-bottom: auto
+  border: 1px solid #000
+  border-radius: 4px
+  display: inline-block
+  height: 12px
+  width: 12px
+  &.standalone
+    margin-left: initial
+    vertical-align: middle
+.color--text-preview
+  padding: 2px 4px
+
+
+.color--milestone-icon,
+.color--phase-icon
+  border: 1px solid #000
+  display: inline-block
+  height: 12px
+  width: 12px
+  margin-right: 5px
+
+.color--milestone-icon
+  transform: rotate(45deg)
+
+.color--phase-icon
+  border-radius: 4px
+
+.color--preview-patch-field
+  display: flex
+  flex-wrap: wrap
+
+.color--preview-patch
+  // Square items
+  flex: 0 0 150px
+  height: 150px
+  border: 1px solid #CCCCCC
+  margin: 10px
+
+
+  a
+    // Align text centered
+    display: flex
+    width: 100%
+    height: 100%
+    align-items: center
+    justify-content: center
+    font-weight: bold
+    text-align: center
+    word-break: break-all
+
+  a.-bright
+    color: #333333
+
+  a.-dark
+    color: white

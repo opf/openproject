@@ -60,6 +60,11 @@ ro:
   boards:
     show:
       no_results_title_text: În acest moment nu există mesaje pentru acest forum.
+  colors:
+    index:
+      no_results_title_text: În acest moment nu există culori.
+      no_results_content_text: Creare culoare nouă
+    label_no_color: No color
   custom_actions:
     actions:
       name: Actions
@@ -109,10 +114,6 @@ ro:
     memberships:
       no_results_title_text: În acest moment nu există proiecte care să facă parte
         din acest grup.
-  planning_element_type_colors:
-    index:
-      no_results_title_text: În acest moment nu există culori.
-      no_results_content_text: Creare culoare nouă
   projects:
     index:
       no_results_title_text: În acest moment nu există proiecte
@@ -156,11 +157,20 @@ ro:
     memberships:
       no_results_title_text: Acest utilizator nu este în acest moment participant
         în vreun proiect.
+  prioritiies:
+    edit:
+      priority_color_text: |
+        Click to assign or change the color of this priority.
+        It can be used for highlighting work packages in the table.
   reportings:
     index:
       no_results_title_text: În acest moment nu există rapoarte de stare.
       no_results_content_text: Adăugare raport de stare
   statuses:
+    edit:
+      status_color_text: |
+        Click to assign or change the color of this status.
+        It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: În acest moment nu există stări pentru pachetele de lucru.
       no_results_content_text: Adăugare stare nouă
@@ -630,6 +640,7 @@ ro:
     comment: Comentariu
     comments: Comentariu
     content: Conținut
+    color: Culoare
     created_at: Creat pe
     created_on: Creat pe
     custom_options: Valori posibile

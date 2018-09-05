@@ -26,7 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectorRef, Component, ElementRef, Inject, Injector, Input, OnDestroy, OnInit} from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Inject,
+  Injector,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewEncapsulation
+} from '@angular/core';
 import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
@@ -54,6 +64,8 @@ import {WpTableConfigurationModalComponent} from 'core-components/wp-table/confi
 
 @Component({
   templateUrl: './wp-table.directive.html',
+  styleUrls: ['./wp-table.styles.sass'],
+  encapsulation: ViewEncapsulation.None,
   selector: 'wp-table',
 })
 export class WorkPackagesTableController implements OnInit, OnDestroy {

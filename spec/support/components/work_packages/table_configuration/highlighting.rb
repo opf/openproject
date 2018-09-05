@@ -26,35 +26,54 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryBot.define do
-  factory(:color, class: PlanningElementTypeColor) do
-    sequence(:name) do |n| "Color No. #{n}" end
-    hexcode do ('#%0.6x' % rand(0xFFFFFF)).upcase end
-    sequence(:position) { |n| n }
-  end
-end
+module Components
+  module WorkPackages
+    class Highlighting
+      include Capybara::DSL
+      include RSpec::Matchers
 
-{ 'maroon'  => '#800000',
-  'red'     => '#FF0000',
-  'orange'  => '#FFA500',
-  'yellow'  => '#FFFF00',
-  'olive'   => '#808000',
-  'purple'  => '#800080',
-  'fuchsia' => '#FF00FF',
-  'white'   => '#FFFFFF',
-  'lime'    => '#00FF00',
-  'green'   => '#008000',
-  'navy'    => '#000080',
-  'blue'    => '#0000FF',
-  'aqua'    => '#00FFFF',
-  'teal'    => '#008080',
-  'black'   => '#000000',
-  'silver'  => '#C0C0C0',
-  'gray'    => '#808080' }.each do |name, code|
-  FactoryBot.define do
-    factory(:"color_#{name}", parent: :color) do
-      name name
-      hexcode code
+      def initialize; end
+
+      def disable_highlight
+        switch_highlight 'Disabled'
+      end
+
+      def inline_highlight
+        switch_highlight 'Default (inline)'
+      end
+
+      def switch_highlight(label)
+        modal_open? or open_modal
+        choose label
+        apply
+      end
+
+      def apply
+        @opened = false
+
+        click_button('Apply')
+      end
+
+      def open_modal
+        @opened = true
+        ::Components::WorkPackages::TableConfigurationModal.new.open_and_switch_to 'Highlighting'
+      end
+
+      def assume_opened
+        @opened = true
+      end
+
+      private
+
+      def within_modal
+        page.within('.wp-table--configuration-modal') do
+          yield
+        end
+      end
+
+      def modal_open?
+        !!@opened
+      end
     end
   end
 end

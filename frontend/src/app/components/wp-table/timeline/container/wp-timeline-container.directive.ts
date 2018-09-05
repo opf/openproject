@@ -29,13 +29,12 @@
 import {AfterViewInit, Component, ElementRef, Injector, OnDestroy} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {INotification, NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
-import {TypeDmService} from 'core-app/modules/hal/dm-services/type-dm.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import * as moment from 'moment';
 import {Moment} from 'moment';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {filter, map, take, takeUntil, withLatestFrom} from 'rxjs/operators';
+import {filter, map, takeUntil, withLatestFrom} from 'rxjs/operators';
 import {debugLog, timeOutput} from '../../../../helpers/debug_output';
 import {States} from '../../../states.service';
 import {WorkPackageNotificationService} from '../../../wp-edit/wp-notification.service';
@@ -51,7 +50,8 @@ import {WorkPackageTimelineCell} from '../cells/wp-timeline-cell';
 import {WorkPackageTimelineCellsRenderer} from '../cells/wp-timeline-cells-renderer';
 import {
   calculateDaySpan,
-  getPixelPerDayForZoomLevel, requiredPixelMarginLeft,
+  getPixelPerDayForZoomLevel,
+  requiredPixelMarginLeft,
   timelineElementCssClass,
   timelineMarkerSelectionStartClass,
   TimelineViewParameters,
@@ -96,7 +96,6 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
               private elementRef:ElementRef,
               private states:States,
               public wpTableDirective:WorkPackagesTableController,
-              public typeDmService:TypeDmService,
               private NotificationsService:NotificationsService,
               private wpTableTimeline:WorkPackageTableTimelineService,
               private wpNotificationsService:WorkPackageNotificationService,
@@ -167,19 +166,6 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       .subscribe((timelineState:WorkPackageTableTimelineState) => {
         this.viewParameters.settings.zoomLevel = timelineState.zoomLevel;
         this.debouncedRefresh();
-      });
-
-    // Load the types whenever the timeline is first visible
-    // TODO: Load only necessary types from API
-    this.tableState.timelineVisible.values$()
-      .pipe(
-        filter((timelineState) => timelineState.isVisible),
-        take(1)
-      )
-      .subscribe(() => {
-        this.typeDmService
-          .loadAll()
-          .then(() => this.debouncedRefresh());
       });
   }
 

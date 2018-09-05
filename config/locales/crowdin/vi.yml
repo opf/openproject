@@ -60,6 +60,11 @@ vi:
   boards:
     show:
       no_results_title_text: Hiện có không có bài viết ở bảng điều khiển.
+  colors:
+    index:
+      no_results_title_text: Hiện có không có màu sắc.
+      no_results_content_text: Tạo một màu mới
+    label_no_color: No color
   custom_actions:
     actions:
       name: Actions
@@ -107,10 +112,6 @@ vi:
       no_results_title_text: Hiện có không có người sử dụng thuộc nhóm này.
     memberships:
       no_results_title_text: Hiện có không có dự án thuộc nhóm này.
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Hiện có không có màu sắc.
-      no_results_content_text: Tạo một màu mới
   projects:
     index:
       no_results_title_text: Không có dự án nào
@@ -152,11 +153,20 @@ vi:
   users:
     memberships:
       no_results_title_text: Người dùng này không phải là thành viên của dự án.
+  prioritiies:
+    edit:
+      priority_color_text: |
+        Click to assign or change the color of this priority.
+        It can be used for highlighting work packages in the table.
   reportings:
     index:
       no_results_title_text: There are currently no status reportings.
       no_results_content_text: Add a status reporting
   statuses:
+    edit:
+      status_color_text: |
+        Click to assign or change the color of this status.
+        It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: There are currently no work package statuses.
       no_results_content_text: Thêm trạng thái mới
@@ -619,6 +629,7 @@ vi:
     comment: Nhận xét
     comments: Nhận xét
     content: Nội dung
+    color: Màu sắc
     created_at: Tạo ngày
     created_on: Tạo ngày
     custom_options: Giá trị có thể

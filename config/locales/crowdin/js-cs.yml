@@ -644,6 +644,19 @@ cs:
           tabulkou výsledků.
         show_timeline_hint: Zobrazit interaktivní Ganttův graf na pravé straně tabulky.
           Šířku můžete změnit přetažením dělící příčky mezi tabulkou a Ganttovým diagramem.
+        highlighting: Highlighting
+        highlighting_mode:
+          description: Control highlighting of rows through a color defined by a work
+            package attribute, such as priority or status.
+          none: Žádný
+          none_text: Disables highlighted output of attributes in the table altogether.
+          inline: Inline
+          inline_text: No highlighting of work package rows. Display colors of overdue
+            dates, status, and priority attributes in their respective columns.
+          status: Stav
+          status_text: Highlight work package rows based on the color of its status.
+          priority: Priorita
+          priority_text: Highlight work package rows based on the color of its priority.
         columns_help_text: Použijte vstup výše pro přidání nebo odebrání sloupců do
           tabulkového pohledu. Přetažením sloupců změníte jejich pořadí.
       tabs:

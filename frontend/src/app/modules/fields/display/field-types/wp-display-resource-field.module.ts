@@ -30,8 +30,8 @@ import {DisplayField} from "core-app/modules/fields/display/display-field.module
 
 export class ResourceDisplayField extends DisplayField {
   public get value() {
-    if(this.schema) {
-      return this.resource[this.name] && this.resource[this.name].name;
+    if (this.schema) {
+      return this.attribute && this.attribute.name;
     }
     else {
       return null;

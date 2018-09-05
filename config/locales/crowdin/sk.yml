@@ -60,6 +60,11 @@ sk:
   boards:
     show:
       no_results_title_text: Panel v súčasnosti nemá žiadne príspevky.
+  colors:
+    index:
+      no_results_title_text: Momentálne nie sú k dispozícií žiadne farby.
+      no_results_content_text: Vytvoriť novú farbu
+    label_no_color: No color
   custom_actions:
     actions:
       name: Akcie
@@ -107,10 +112,6 @@ sk:
       no_results_title_text: Momentálne nie sú členmi tejto skupiny žiadni používatelia.
     memberships:
       no_results_title_text: Pre túto skupinu nie sú momentálne vytvorené žiadne projekty.
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Momentálne nie sú k dispozícií žiadne farby.
-      no_results_content_text: Vytvoriť novú farbu
   projects:
     index:
       no_results_title_text: V súčasnosti neexistujú žiadne projekty
@@ -152,11 +153,20 @@ sk:
   users:
     memberships:
       no_results_title_text: Tento používateľ nie je v súčasnosti členom projektu.
+  prioritiies:
+    edit:
+      priority_color_text: |
+        Click to assign or change the color of this priority.
+        It can be used for highlighting work packages in the table.
   reportings:
     index:
       no_results_title_text: Momentálne nie sú žiadne nahlásené stavy.
       no_results_content_text: Pridať hlásenie o stave
   statuses:
+    edit:
+      status_color_text: |
+        Click to assign or change the color of this status.
+        It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: Momentálne nie sú žiadne stavy pracovného balíka.
       no_results_content_text: Pridať nový stav
@@ -635,6 +645,7 @@ sk:
     comment: Komentár
     comments: Komentár
     content: Obsah
+    color: Farba
     created_at: Vytvorené
     created_on: Vytvorené
     custom_options: Možné hodnoty

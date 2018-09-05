@@ -58,6 +58,11 @@ hr:
   boards:
     show:
       no_results_title_text: Trenutno nema novih novih postova.
+  colors:
+    index:
+      no_results_title_text: Trenutno nema boja.
+      no_results_content_text: Nova boja
+    label_no_color: No color
   custom_actions:
     actions:
       name: Actions
@@ -105,10 +110,6 @@ hr:
       no_results_title_text: Trenutno nema korisnika koji su dio ove grupe.
     memberships:
       no_results_title_text: Trenutno nema projekata koji su dio ove grupe.
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Trenutno nema boja.
-      no_results_content_text: Nova boja
   projects:
     index:
       no_results_title_text: Trenutno nema projekata
@@ -149,11 +150,20 @@ hr:
   users:
     memberships:
       no_results_title_text: Korisnik trenutno nije član projekta.
+  prioritiies:
+    edit:
+      priority_color_text: |
+        Click to assign or change the color of this priority.
+        It can be used for highlighting work packages in the table.
   reportings:
     index:
       no_results_title_text: Trenutno ne postoje izvješća statusa projekta.
       no_results_content_text: Novo izvješće stanja
   statuses:
+    edit:
+      status_color_text: |
+        Click to assign or change the color of this status.
+        It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: Trenutačno ne postoje izvješća o statusu radnih paketa.
       no_results_content_text: Novi status
@@ -624,6 +634,7 @@ hr:
     comment: Komentar
     comments: Komentar
     content: Sadržaj
+    color: Boja
     created_at: Izrađeno
     created_on: Izrađeno
     custom_options: Moguće vrijednosti

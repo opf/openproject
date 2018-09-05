@@ -59,6 +59,11 @@ fi:
   boards:
     show:
       no_results_title_text: Tällä hetkellä taululla ei ole viestejä.
+  colors:
+    index:
+      no_results_title_text: Tällä hetkellä ei ole värejä.
+      no_results_content_text: Luo uusi väri
+    label_no_color: No color
   custom_actions:
     actions:
       name: Actions
@@ -106,10 +111,6 @@ fi:
       no_results_title_text: Tällä hetkellä tähän ryhmään ei kuulu yhtään käyttäjää.
     memberships:
       no_results_title_text: Tällä hetkellä tähän ryhmään ei kuulu projekteja.
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Tällä hetkellä ei ole värejä.
-      no_results_content_text: Luo uusi väri
   projects:
     index:
       no_results_title_text: Tällä hetkellä ei ole projekteja
@@ -151,11 +152,20 @@ fi:
   users:
     memberships:
       no_results_title_text: Tämä käyttäjä ei ole projektin jäsen.
+  prioritiies:
+    edit:
+      priority_color_text: |
+        Click to assign or change the color of this priority.
+        It can be used for highlighting work packages in the table.
   reportings:
     index:
       no_results_title_text: Ei tilanneraportteja.
       no_results_content_text: Lisää tilanneraportti
   statuses:
+    edit:
+      status_color_text: |
+        Click to assign or change the color of this status.
+        It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: Ei työpaketin tiloja.
       no_results_content_text: Lisää uusi tila
@@ -616,6 +626,7 @@ fi:
     comment: Kommentti
     comments: Kommentti
     content: Sisältö
+    color: Väri
     created_at: Luontipäivä
     created_on: Luontipäivä
     custom_options: Mahdolliset arvot

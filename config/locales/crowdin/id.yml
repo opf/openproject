@@ -60,6 +60,11 @@ id:
   boards:
     show:
       no_results_title_text: Tidak ada pos untuk papan saat ini.
+  colors:
+    index:
+      no_results_title_text: Tidak ada warna saat ini.
+      no_results_content_text: Buat warna baru
+    label_no_color: No color
   custom_actions:
     actions:
       name: Tindakan
@@ -108,10 +113,6 @@ id:
       no_results_title_text: Tidak ada pengguna yang menjadi anggota grup ini.
     memberships:
       no_results_title_text: Saat ini tidak ada proyek yang menjadi bagian grup.
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Tidak ada warna saat ini.
-      no_results_content_text: Buat warna baru
   projects:
     index:
       no_results_title_text: Tidak ada proyek saat ini
@@ -153,11 +154,20 @@ id:
   users:
     memberships:
       no_results_title_text: This user is currently not a member of a project.
+  prioritiies:
+    edit:
+      priority_color_text: |
+        Click to assign or change the color of this priority.
+        It can be used for highlighting work packages in the table.
   reportings:
     index:
       no_results_title_text: There are currently no status reportings.
       no_results_content_text: Add a status reporting
   statuses:
+    edit:
+      status_color_text: |
+        Click to assign or change the color of this status.
+        It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: There are currently no work package statuses.
       no_results_content_text: Add a new status
@@ -613,6 +623,7 @@ id:
     comment: Komentar
     comments: Komentar
     content: Konten
+    color: Warna
     created_at: Dibuat
     created_on: Dibuat
     custom_options: Nilai yang mungkin

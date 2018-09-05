@@ -51,7 +51,7 @@ class ::Type < ActiveRecord::Base
                           join_table: "#{table_name_prefix}custom_fields_types#{table_name_suffix}",
                           association_foreign_key: 'custom_field_id'
 
-  belongs_to :color, class_name:  'PlanningElementTypeColor',
+  belongs_to :color, class_name:  'Color',
                      foreign_key: 'color_id'
 
   acts_as_list
@@ -111,10 +111,6 @@ class ::Type < ActiveRecord::Base
 
   def enabled_in?(object)
     object.types.include?(self)
-  end
-
-  def available_colors
-    PlanningElementTypeColor.all
   end
 
   def valid_transition?(status_id_a, status_id_b, roles)

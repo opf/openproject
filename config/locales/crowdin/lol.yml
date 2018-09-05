@@ -48,6 +48,11 @@ lol:
   boards:
     show:
       no_results_title_text: crwdns96402:0crwdne96402:0
+  colors:
+    index:
+      no_results_title_text: crwdns99134:0crwdne99134:0
+      no_results_content_text: crwdns99135:0crwdne99135:0
+    label_no_color: crwdns99136:0crwdne99136:0
   custom_actions:
     actions:
       name: crwdns98840:0crwdne98840:0
@@ -90,10 +95,6 @@ lol:
       no_results_title_text: crwdns96418:0crwdne96418:0
     memberships:
       no_results_title_text: crwdns96419:0crwdne96419:0
-  planning_element_type_colors:
-    index:
-      no_results_title_text: crwdns96420:0crwdne96420:0
-      no_results_content_text: crwdns96421:0crwdne96421:0
   projects:
     index:
       no_results_title_text: crwdns96422:0crwdne96422:0
@@ -133,11 +134,20 @@ lol:
   users:
     memberships:
       no_results_title_text: crwdns96444:0crwdne96444:0
+  prioritiies:
+    edit:
+      priority_color_text: 'crwdns99137:0crwdne99137:0
+
+'
   reportings:
     index:
       no_results_title_text: crwdns96445:0crwdne96445:0
       no_results_content_text: crwdns96446:0crwdne96446:0
   statuses:
+    edit:
+      status_color_text: 'crwdns99138:0crwdne99138:0
+
+'
     index:
       no_results_title_text: crwdns96447:0crwdne96447:0
       no_results_content_text: crwdns96448:0crwdne96448:0
@@ -553,6 +563,7 @@ lol:
     comment: crwdns96720:0crwdne96720:0
     comments: crwdns96721:0crwdne96721:0
     content: crwdns96722:0crwdne96722:0
+    color: crwdns99139:0crwdne99139:0
     created_at: crwdns96723:0crwdne96723:0
     created_on: crwdns96724:0crwdne96724:0
     custom_options: crwdns96725:0crwdne96725:0
