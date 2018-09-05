@@ -998,6 +998,7 @@ es:
   error_invalid_group_by: 'No se puede agrupar por: %{value}'
   error_invalid_query_column: 'Columna no válida en la solicitud: %{value}'
   error_invalid_sort_criterion: 'No se puede ordenar por la columna: %{value}'
+  error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
   error_pdf_export_too_many_columns: Demasiadas columnas seleccionadas para la exportación
     de PDF. Reduzca el número de columnas.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'

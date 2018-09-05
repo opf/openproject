@@ -895,6 +895,7 @@ zh:
   error_invalid_group_by: 无法按照 %{value} 分组
   error_invalid_query_column: 无效的查询列：%{value}
   error_invalid_sort_criterion: 无法按照列 %{value} 排序
+  error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
   error_pdf_export_too_many_columns: 选择 PDF 导出的列太多。请减少列数。
   error_pdf_failed_to_export: 无法保存被导出的 PDF 文件：%{error}
   error_token_authenticity: 无法验证跨站域请求伪造令牌。

@@ -992,6 +992,7 @@ fr:
   error_invalid_group_by: 'Impossible de grouper par : %{value}'
   error_invalid_query_column: 'Colonne de requête invalide : %{value}'
   error_invalid_sort_criterion: 'Impossible de trier par colonne : %{value}'
+  error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
   error_pdf_export_too_many_columns: Trop de colonnes sélectionnées pour l’exportation
     PDF. Veuillez réduire le nombre de colonnes.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'

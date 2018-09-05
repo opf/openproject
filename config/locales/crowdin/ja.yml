@@ -898,6 +898,7 @@ ja:
   error_invalid_group_by: 'グループ化できません: %{value}'
   error_invalid_query_column: '無効なクエリ列: %{value}'
   error_invalid_sort_criterion: '列を並べ替えできません: %{value}'
+  error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
   error_pdf_export_too_many_columns: PDF エクスポート用に選択された列が多すぎます。 列の数を減らしてください。
   error_pdf_failed_to_export: PDFエクスポートを保存できませんでした： %{error}
   error_token_authenticity: クロスサイトリクエストフォージェリのトークンを検証できません。

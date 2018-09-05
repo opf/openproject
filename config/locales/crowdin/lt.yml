@@ -1007,6 +1007,7 @@ lt:
   error_invalid_group_by: 'Negalima grupuoti naudojant: %{value}'
   error_invalid_query_column: 'Netinkamas užklausos stulpelis: %{value}'
   error_invalid_sort_criterion: 'Negalima rūšiuoti pagal stulpelį: %{value}'
+  error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
   error_pdf_export_too_many_columns: PDF eksportavimui pasirinkta per daug stulpelių.
     Prašome sumažinti stulpelių skaičių.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'

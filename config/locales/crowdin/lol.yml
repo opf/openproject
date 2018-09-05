@@ -892,6 +892,7 @@ lol:
   error_invalid_group_by: crwdns97002:0%{value}crwdne97002:0
   error_invalid_query_column: crwdns97003:0%{value}crwdne97003:0
   error_invalid_sort_criterion: crwdns97004:0%{value}crwdne97004:0
+  error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
   error_pdf_export_too_many_columns: crwdns97005:0crwdne97005:0
   error_pdf_failed_to_export: crwdns99041:0%{error}crwdne99041:0
   error_token_authenticity: crwdns97006:0crwdne97006:0
