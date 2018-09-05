@@ -39,7 +39,7 @@ describe AddWorkPackageNoteService, type: :model do
 
   describe '.contract' do
     it 'uses the CreateNoteContract contract' do
-      expect(described_class.contract).to eql WorkPackages::CreateNoteContract
+      expect(instance.contract_class).to eql WorkPackages::CreateNoteContract
     end
   end
 
@@ -61,7 +61,7 @@ describe AddWorkPackageNoteService, type: :model do
         .with(send_notifications)
         .and_yield
 
-      allow(described_class).to receive(:contract).and_return(mock_contract)
+      allow(instance).to receive(:contract_class).and_return(mock_contract)
       allow(work_package).to receive(:save_journals).and_return true
       allow(mock_contract_instance).to receive(:validate).and_return valid_contract
     end

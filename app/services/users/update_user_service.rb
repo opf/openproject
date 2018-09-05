@@ -33,20 +33,17 @@ module Users
 
     attr_accessor :current_user, :user
 
-    self.contract = Users::UpdateContract
-
     def initialize(current_user:, user:)
       self.current_user = current_user
       self.user = user
-
-      self.contract = self.class.contract.new(user, current_user)
+      self.contract_class = Users::UpdateContract
     end
 
     def call(attributes: {})
       User.execute_as current_user do
         set_attributes(attributes)
 
-        success, errors = validate_and_save(user)
+        success, errors = validate_and_save(user, current_user)
         ServiceResult.new(success: success, errors: errors, result: user)
       end
     end

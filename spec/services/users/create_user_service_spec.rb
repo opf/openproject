@@ -35,7 +35,7 @@ describe Users::CreateUserService do
 
   describe '.contract' do
     it 'uses the CreateContract contract' do
-      expect(described_class.contract).to eql Users::CreateContract
+      expect(instance.contract_class).to eql Users::CreateContract
     end
   end
 

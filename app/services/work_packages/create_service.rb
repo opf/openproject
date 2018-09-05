@@ -34,11 +34,11 @@ class WorkPackages::CreateService
 
   attr_accessor :user,
                 :work_package,
-                :contract
+                :contract_class
 
-  def initialize(user:, contract: WorkPackages::CreateContract)
+  def initialize(user:, contract_class: WorkPackages::CreateContract)
     self.user = user
-    self.contract = contract
+    self.contract_class = contract_class
   end
 
   def call(attributes: {},
@@ -78,7 +78,7 @@ class WorkPackages::CreateService
     WorkPackages::SetAttributesService
       .new(user: user,
            work_package: wp,
-           contract: contract)
+           contract_class: contract_class)
       .call(attributes)
   end
 

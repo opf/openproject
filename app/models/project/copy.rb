@@ -164,7 +164,7 @@ module Project::Copy
         service_call = WorkPackages::CopyService
                        .new(user: User.current,
                             work_package: issue,
-                            contract: WorkPackages::CopyProjectContract)
+                            contract_class: WorkPackages::CopyProjectContract)
                        .call(attributes: overrides)
 
         if service_call.success?

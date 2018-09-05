@@ -38,7 +38,7 @@ module API
           parameters = parse_body
 
           result = ::WorkPackages::SetAttributesService
-                   .new(user: current_user, work_package: work_package, contract: contract_class)
+                   .new(user: current_user, work_package: work_package, contract_class: contract_class)
                    .call(parameters)
 
           api_errors = ::API::Errors::ErrorBase.create_errors(result.errors)

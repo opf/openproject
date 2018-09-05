@@ -49,7 +49,7 @@ module Users
     end
 
     def initialize(user, current_user)
-      super(user)
+      super(user, current_user)
 
       @current_user = current_user
     end

@@ -31,7 +31,11 @@
 require_relative 'query_service'
 
 class CreateQueryService < QueryService
-  self.contract = Queries::CreateContract
+
+  def initialize(**args)
+    super(**args)
+    self.contract_class = Queries::CreateContract
+  end
 
   private
 
