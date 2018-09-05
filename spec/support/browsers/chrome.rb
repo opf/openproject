@@ -1,5 +1,5 @@
 # Force the latest version of chromedriver using the chromedriver-helper gem
-Chromedriver.set_version "2.37"
+Chromedriver.set_version "2.41"
 
 def register_chrome_headless(language)
   name = :"chrome_headless_#{language}"

@@ -65,22 +65,26 @@ class JournalsController < ApplicationController
 
   def diff
     journal = Journal::AggregatedJournal.for_journal(@journal)
+    field = params[:field].parameterize.underscore.to_sym
 
-    if valid_diff?
-      field = params[:field].parameterize.underscore.to_sym
-      from = journal.details[field][0]
-      to = journal.details[field][1]
+    unless valid_diff?
+      return render_404
+    end
 
-      @diff = Redmine::Helpers::Diff.new(to, from)
-      @journable = journal.journable
-      respond_to do |format|
-        format.html
-        format.js do
-          render partial: 'diff', locals: { diff: @diff }
-        end
+    unless journal.details[field].is_a?(Array)
+      return render_400 message: I18n.t(:error_journal_attribute_not_present, attribute: field)
+    end
+
+    from = journal.details[field][0]
+    to = journal.details[field][1]
+
+    @diff = Redmine::Helpers::Diff.new(to, from)
+    @journable = journal.journable
+    respond_to do |format|
+      format.html
+      format.js do
+        render partial: 'diff', locals: { diff: @diff }
       end
-    else
-      render_404
     end
   end
 
