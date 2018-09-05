@@ -59,9 +59,9 @@ class ExtractFulltextJob < ApplicationJob
         @text = resolver.text
       end
     rescue => e
-      Rails.logger.error {
+      Rails.logger.error(
         "Failed to extract plaintext from file #{@attachment.id} (On domain #{Setting.host_name}): #{e}: #{e.message}"
-      }
+      )
     end
   end
 
