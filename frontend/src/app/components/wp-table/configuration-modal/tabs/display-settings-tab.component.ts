@@ -26,14 +26,14 @@ export class WpTableConfigurationDisplaySettingsTab implements TabComponent {
     title: this.I18n.t('js.label_group_by'),
     placeholder: this.I18n.t('js.placeholders.default'),
     please_select: this.I18n.t('js.placeholders.selection'),
+    default: '— ' + this.I18n.t('js.work_packages.table_configuration.default'),
     display_sums: this.I18n.t('js.work_packages.query.display_sums'),
-    display_sums_hint: this.I18n.t('js.work_packages.table_configuration.display_sums_hint'),
+    display_sums_hint: '- ' + this.I18n.t('js.work_packages.table_configuration.display_sums_hint'),
     display_mode: {
       default: this.I18n.t('js.work_packages.table_configuration.default_mode'),
       grouped: this.I18n.t('js.work_packages.table_configuration.grouped_mode'),
-      grouped_hint: this.I18n.t('js.work_packages.table_configuration.grouped_hint'),
       hierarchy: this.I18n.t('js.work_packages.table_configuration.hierarchy_mode'),
-      hierarchy_hint: this.I18n.t('js.work_packages.table_configuration.hierarchy_hint')
+      hierarchy_hint: '— ' + this.I18n.t('js.work_packages.table_configuration.hierarchy_hint')
     }
   };
 

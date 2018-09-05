@@ -471,6 +471,9 @@ fieldset.form--fieldset
   &.-no-italic
     font-style: normal
 
+.form--inline-instructions
+  font-style: italic
+
 .form--field-extra-actions
   @extend %form--field-after-container
   @include grid-visible-overflow
@@ -599,6 +602,10 @@ input[readonly].-clickable
     // styles adapted to input fields to align them
     .select2-choice
       height: 2.15rem
+
+.form--inline-select
+  display: inline-block
+  width: initial
 
 .form--text-field,
 .form--select
