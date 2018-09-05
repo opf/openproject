@@ -212,6 +212,9 @@ en:
       add_subelements: "Add subelements group"
       edit_query: "Edit embedded query"
       reset: "Reset to defaults"
+      type_color_text: |
+        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        in Gantt charts.
 
   versions:
     overview:
