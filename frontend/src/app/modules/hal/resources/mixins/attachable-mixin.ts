@@ -71,7 +71,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
       }
 
       const match = _.find(this.attachments.elements, (res:HalResource) => res.name === file);
-      return _.get(match, 'downloadLocation.href', null);
+      return _.get(match, 'staticDownloadLocation.href', null);
     }
 
     /**

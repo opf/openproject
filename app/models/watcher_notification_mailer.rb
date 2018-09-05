@@ -36,7 +36,7 @@ class WatcherNotificationMailer
 
       unless other_jobs_queued?(watcher.watchable)
         job = DeliverWatcherNotificationJob.new(watcher.id, watcher.user.id, watcher_setter.id)
-        Delayed::Job.enqueue job
+        Delayed::Job.enqueue job, priority: ::ApplicationJob.priority_number(:notification)
       end
     end
 

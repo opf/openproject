@@ -77,7 +77,7 @@ module API
             namespace :content do
               get do
                 if @attachment.external_storage?
-                  redirect @attachment.external_url
+                  redirect @attachment.external_url.to_s
                 else
                   content_type @attachment.content_type
                   header['Content-Disposition'] = "attachment; filename=#{@attachment.filename}"

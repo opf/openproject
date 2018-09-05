@@ -65,7 +65,7 @@ class EnqueueWorkPackageNotificationJob < ApplicationJob
   def deliver_notifications_for(journal)
     notification_receivers(work_package).each do |recipient|
       job = DeliverWorkPackageNotificationJob.new(journal.id, recipient.id, @author_id)
-      Delayed::Job.enqueue job
+      Delayed::Job.enqueue job, priority: ::ApplicationJob.priority_number(:notification)
     end
 
     OpenProject::Notifications.send(

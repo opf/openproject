@@ -192,7 +192,7 @@ describe Attachment, type: :model do
 
         expect(Delayed::Job)
           .to receive(:enqueue)
-          .with an_instance_of(Attachments::CleanupUncontaineredJob)
+          .with(an_instance_of(Attachments::CleanupUncontaineredJob), any_args)
 
         attachment.save!
       end

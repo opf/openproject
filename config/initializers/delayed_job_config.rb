@@ -32,3 +32,10 @@ Delayed::Worker.logger = Rails.logger
 
 # By default bypass worker queue and execute asynchronous tasks at once
 Delayed::Worker.delay_jobs = !Rails.env.test?
+
+# Set default priority (lower = higher priority)
+# Example ordering, see ApplicationJob.priority_number
+Delayed::Worker.default_priority = ::ApplicationJob.priority_number(:default)
+
+# By default, retry each job 3 times (instead of 25!)
+Delayed::Worker.max_attempts = 3

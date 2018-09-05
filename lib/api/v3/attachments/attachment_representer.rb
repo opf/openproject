@@ -70,6 +70,12 @@ module API
                             getter: associated_container_getter,
                             link: associated_container_link
 
+        link :staticDownloadLocation do
+          {
+            href: api_v3_paths.attachment_content(represented.id)
+          }
+        end
+
         link :downloadLocation do
           location = if represented.external_storage?
                        represented.external_url

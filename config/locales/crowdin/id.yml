@@ -980,6 +980,7 @@ id:
   error_invalid_group_by: 'Tidak dapat dikelompokkan dengan: %{value}'
   error_invalid_query_column: 'Permintaan tidak valid kolom: %{value}'
   error_invalid_sort_criterion: 'Tidak dapat diurutkan dengan kolom: %{value}'
+  error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
   error_pdf_export_too_many_columns: Kolom yang dipilih utnuk ekspor PDF terlalu banyak.
     Mohon kurangi jumlah kolom.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'

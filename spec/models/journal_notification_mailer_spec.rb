@@ -64,11 +64,11 @@ describe JournalNotificationMailer do
       expect(Delayed::Job).to receive(:enqueue)
                                 .with(
                                   an_instance_of(EnqueueWorkPackageNotificationJob),
-                                  run_at: anything)
+                                  run_at: anything, priority: anything)
 
       # immediate delivery is not part of regular notfications, it only covers an edge-case
       expect(Delayed::Job).not_to receive(:enqueue)
-                                    .with(an_instance_of DeliverWorkPackageNotificationJob)
+                                    .with(an_instance_of(DeliverWorkPackageNotificationJob), anything)
       call_listener
     end
   end
@@ -275,7 +275,7 @@ describe JournalNotificationMailer do
         it 'immediately delivers a mail on behalf of Journal 1' do
           expect(Delayed::Job).to receive(:enqueue)
                                     .with(
-                                      an_instance_of(DeliverWorkPackageNotificationJob))
+                                      an_instance_of(DeliverWorkPackageNotificationJob), priority: anything)
           call_listener
         end
 
@@ -283,6 +283,7 @@ describe JournalNotificationMailer do
           expect(Delayed::Job).to receive(:enqueue)
                                     .with(
                                       an_instance_of(EnqueueWorkPackageNotificationJob),
+                                      priority: anything,
                                       run_at: anything)
           call_listener
         end

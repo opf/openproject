@@ -142,6 +142,11 @@ describe ::API::V3::Attachments::AttachmentRepresenter do
           let(:link) { 'downloadLocation' }
           let(:href) { external_url }
         end
+
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'staticDownloadLocation' }
+          let(:href) { api_v3_paths.attachment_content(attachment.id) }
+        end
       end
     end
 

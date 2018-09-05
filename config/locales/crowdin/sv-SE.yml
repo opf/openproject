@@ -983,6 +983,7 @@ sv-SE:
   error_invalid_group_by: 'Kan inte gruppera efter: %{value}'
   error_invalid_query_column: 'Ogiltig frågekolumn: %{value}'
   error_invalid_sort_criterion: 'Kan inte sortera på kolumn: %{value}'
+  error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
   error_pdf_export_too_many_columns: För många kolumner har markerats för PDF-export.
     Vänlogen minska antalet kolumner.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
