@@ -5,8 +5,8 @@ vi:
       hide: Ẩn
       loading: Đang tải...
     attachments:
-      draggable_hint: 'Drag on editor field to inline image or reference attachment.
-        Closed editor fields will be opened while you keep dragging.
+      draggable_hint: 'Kéo trên trường được soạn thảo để chèn ảnh hoặc file đính kèm.
+        Trường soạn thảo đang được đóng sẽ được mở lại khi bạn kéo thả.
 
 '
     autocomplete_select:
@@ -59,56 +59,59 @@ vi:
     description_selected_columns: Các cột được lựa chọn
     description_subwork_package: 'Con của work package #%{id}'
     editor:
-      preview: Toggle preview mode
-      error_saving_failed: 'Saving the document failed with the following error: %{e}'
+      preview: Bật tắt chế độ xem trước
+      error_saving_failed: 'Lưu tài liệu lỗi vì: %{e}'
       macro:
         child_pages:
-          button: Links to child pages
-          include_parent: Include parent
-          text: "[Placeholder] Links to child pages of"
+          button: Liên kết đến trang con
+          include_parent: Bao gồm trang trước
+          text: "[Placeholder] Liên kết tới trang con của"
           page: Trang wiki
-          this_page: this page
-          hint: 'Leave this field empty to list all child pages of the current page.
-            If you want to reference a different page, provide its title or slug.
+          this_page: trang này
+          hint: 'Để trường này rỗng đẻ liệt kêtất cả các trang con của trang hiện
+            tại. Nếu bạn muốn tham chiếu đến một trang khác, hãy cung cấp tiêu đề
+            hoặc lời bình của trang.
 
 '
         code_block:
-          button: Insert code snippet
-          title: Insert / edit Code snippet
-          language: Formatting language
-          language_hint: Enter the formatting language that will be used for highlighting
-            (if supported).
+          button: Chèn đoạn mã
+          title: Insert / sửa đoạn mã
+          language: Định dạng ngôn ngữ
+          language_hint: Nhập ngôn ngữ định dạng sẽ được sử dụng để làm nổi bật (nếu
+            được hỗ trợ).
         dropdown:
-          macros: Macros
-          chose_macro: Chose macro
-        toc: Table of contents
-        toolbar_help: Click to select widget and show the toolbar. Double-click to
-          edit widget
+          macros: Macro
+          chose_macro: Chọn macro
+        toc: Mục lục
+        toolbar_help: Bấm vào để chọn tiện ích và hiển thị thanh công cụ. Bấm đúp
+          để chỉnh sửa tiện ích
         wiki_page_include:
-          button: Include content of another wiki page
-          text: "[Placeholder] Included wiki page of"
+          button: Bao gồm các nội dung của một trang wiki khác
+          text: "[Placeholder] bao gồm trang wiki của"
           page: Trang wiki
-          not_set: "(Page not yet set)"
-          hint: |
-            Include the content of another wiki page by specifying its title or slug.
-            You can include the wiki page of another project by separating them with a colon like the following example.
+          not_set: "(Trang chưa được thiết lập)"
+          hint: 'Bao gồm các nội dung của các trang wiki khác bằng cách xác định các
+            tiêu đề hoặc bình luận. Bạn có thể bao gồm các trang wiki của dự án khác
+            bằng cách tách chúng với một dấu phẩy như ví dụ sau.
+
+'
         work_package_button:
-          button: Insert create work package button
-          type: Work package type
-          button_style: Use button style
-          button_style_hint: 'Optional: Check to make macro appear as a button, not
-            as a link.'
-          without_type: Create work package
-          with_type: 'Create work package (Type: %{typename})'
+          button: Chèn nút tạo gói
+          type: Kiểu của gói công việc
+          button_style: Sử dụng kiểu nút
+          button_style_hint: 'Tùy chọn: Kiểm tra xem macro xuất hiện như là một nút,
+            chứ không phải là một liên kết.'
+          without_type: Work package liên quan
+          with_type: 'Tạo gói công việc (loại: %{typename})'
         embedded_table:
-          button: Embed work package table
-          text: "[Placeholder] Embedded work package table"
+          button: Nhúng danh sách gói công việc dưới dạng bảng
+          text: "[Placeholder] gói công việc nhúng"
     error:
       internal: Lỗi nội bộ đã xảy ra.
-      cannot_save_changes_with_message: 'Cannot save your changes due to the following
-        error: %{error}'
-      query_saving: The view could not be saved.
-      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
+      cannot_save_changes_with_message: 'Không thể lưu thay đổi của bạn do lỗi sau:
+        %{error}'
+      query_saving: Các tiêu chí không thể được lưu.
+      embedded_table_loading: 'Không thể nạp được vùng nhìn nhúng: %{message}'
     filter:
       description:
         text_open_filter: Mở bộ lọc này với 'ALT' và phím mũi tên.
@@ -125,8 +128,8 @@ vi:
           one: Tiêu chí phân loại đầu tiên
           two: Tiêu chí phân loại thứ hai
           three: Tiêu chí phân loại thứ ba
-      upsale_for_more: For more advanced filters, check out the
-      upsale_link: Enterprise Edition.
+      upsale_for_more: Để xem thêm các lọc nâng cao, hãy kiểm tra các
+      upsale_link: Phiên bản doanh nghiệp.
     general_text_no: không
     general_text_yes: có
     general_text_No: Không
@@ -174,7 +177,7 @@ vi:
     label_expand: Mở rộng
     label_expanded: expanded
     label_expand_all: Mở rộng tất cả
-    label_expand_project_menu: Expand project menu
+    label_expand_project_menu: Mở rộng menu dự án
     label_export: Xuất
     label_filename: Tệp
     label_filesize: Kích cỡ
@@ -182,11 +185,11 @@ vi:
     label_group_by: Nhóm theo
     label_hide_attributes: Hiện ít hơn
     label_hide_column: Ẩn cột
-    label_hide_project_menu: Collapse project menu
+    label_hide_project_menu: Thu gọn menu dự án
     label_in: trong
     label_in_less_than: ít hơn
     label_in_more_than: nhiều hơn
-    label_latest_activity: Latest activity
+    label_latest_activity: Hoạt động mới nhất
     label_last_updated_on: Last updated on
     label_less_or_equal: "<="
     label_less_than_ago: less than days ago
@@ -204,7 +207,7 @@ vi:
     label_not_equals: không là
     label_on: 'on'
     label_open_menu: Mở trình đơn
-    label_open_context_menu: Open context menu
+    label_open_context_menu: Mở menu ngữ cảnh
     label_open_work_packages: mở
     label_password: Mật khẩu
     label_previous: Trước đó
@@ -218,20 +221,20 @@ vi:
     label_select_watcher: Select a watcher...
     label_selected_filter_list: Selected filters
     label_show_attributes: Hiển thị tất cả các thuộc tính
-    label_show_in_menu: Show view in menu
+    label_show_in_menu: Hiển thị chế độ xem trong menu
     label_sort_by: Sort by
     label_sorted_by: sorted by
     label_sort_higher: Move up
     label_sort_lower: Dịch xuống
     label_sorting: Sorting
-    label_star_query: Favored
-    label_press_enter_to_save: Press enter to save.
+    label_star_query: Ưa thích
+    label_press_enter_to_save: Nhấn enter để lưu.
     label_public_query: Công cộng
     label_sum_for: Sum for
     label_subject: Chủ đề
     label_this_week: tuần này
     label_today: hôm nay
-    label_up: Up
+    label_up: Lên
     label_activity_show_only_comments: Hiển thị các hoạt động với các bình luận
     label_activity_show_all: Hiển thị các hoạt động
     label_total_progress: "%{percent}% Total progress"
@@ -248,10 +251,10 @@ vi:
     label_unwatch: Ngừng theo dõi
     label_unwatch_work_package: Unwatch work package
     label_uploaded_by: Uploaded by
-    label_default_queries: Default views
-    label_starred_queries: Favorite views
-    label_global_queries: Public views
-    label_custom_queries: Private views
+    label_default_queries: Giao diện Mặc định
+    label_starred_queries: Mục xem ưa thích
+    label_global_queries: Mục xem công khai
+    label_custom_queries: Mục xem riêng
     label_columns: Cột
     label_attachments: Tập tin
     label_drop_files: Thả các tập tin ở đây
@@ -263,7 +266,7 @@ vi:
     label_remove_watcher: Loại bỏ người theo dõi %{name}
     label_remove_all_files: Xóa tất cả các tập tin
     label_add_description: Thêm mô tả cho %{file}
-    label_upload_notification: Uploading files...
+    label_upload_notification: Tải lên tệp tin...
     label_work_package_upload_notification: 'Tải file cho một công việc #%{id}: %{subject}'
     label_files_to_upload: 'Những tập tin này sẽ được tải lên:'
     label_rejected_files: 'Các tệp này không thể được tải lên:'
@@ -301,9 +304,9 @@ vi:
         error_duplicate_group_name: The name %{group} is used more than once. Group
           names must be unique.
         reset_title: Reset form configuration
-        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group and disable ALL custom
-          fields.
+        confirm_reset: 'Chú ý: Bạn có chắc bạn muốn đặt lại cấu hình dạng? Điều này
+          sẽ thiết lập lại các thuộc tính của nhóm mặc định và vô hiệu hóa tất cả
+          các trường tùy chỉnh.
 
 '
         upgrade_to_ee: Upgrade to Enterprise Edition
@@ -384,13 +387,12 @@ vi:
       activate_no: activate to remove the sort
     text_work_packages_destroy_confirmation: Are you sure you want to delete the selected
       work package(s)?
-    text_query_destroy_confirmation: Are you sure you want to delete the selected
-      view?
+    text_query_destroy_confirmation: Bạn muốn xóa các mục đã chọn?
     text_attachment_destroy_confirmation: Bạn có chắc bạn muốn xóa tập tin đính kèm?
     timelines:
       gantt_chart: Gantt chart
       labels:
-        title: Label configuration
+        title: Cấu hình nhãn
         bar: Bar labels
         left: Left
         right: Right
@@ -401,8 +403,8 @@ vi:
           its date labels will be shown instead of these attributes.
 
 '
-      button_activate: Show Gantt chart
-      button_deactivate: Hide Gantt chart
+      button_activate: Xem biểu đồ sự kiện
+      button_deactivate: Ân biểu đồ sự kiện
       cancel: Hủy
       change: Change in planning
       due_date: Ngày hết hạn
@@ -450,8 +452,8 @@ vi:
         quarters: Quarters
         years: Years
         slider: Zoom slider
-        description: 'Select the initial zoom level that should be shown when autozoom
-          is not available.
+        description: 'Chọn mức phóng to ban đầu sẽ được hiển thị khi phóng tự động
+          không có sẵn.
 
 '
     tl_toolbar:
@@ -529,7 +531,7 @@ vi:
         header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
         button: Tạo mới
       copy:
-        title: Copy work package
+        title: Sao chép gói công việc
       hierarchy:
         show: Show hierarchy mode
         hide: Hide hierarchy mode
@@ -541,7 +543,7 @@ vi:
           filtered children
       faulty_query:
         title: Work packages could not be loaded.
-        description: Your view is erroneous and could not be processed.
+        description: Trình bày của bạn là sai và không thể được xử lý.
       no_results:
         title: Không có gói công việc để hiển thị.
         description: Không có gì được tạo ra hoặc tất cả các gói công việc đã được
@@ -574,10 +576,10 @@ vi:
         versionName: Phiên bản
         version: Phiên bản
       default_queries:
-        latest_activity: Latest activity
-        created_by_me: Created by me
-        assigned_to_me: Assigned to me
-        recently_created: Recently created
+        latest_activity: Hoạt động mới nhất
+        created_by_me: Do tôi tạo ra
+        assigned_to_me: Được phân công cho tôi
+        recently_created: Đã được tạo gần đây
         all_open: Mở tất cả
         summary: Tóm tắt
       jump_marks:
@@ -604,17 +606,17 @@ vi:
         insert_columns: Insert columns ...
         filters: Bộ lọc
         display_sums: Hiển thị tổng
-        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
-          view? Title will be set back to previous value.
-        click_to_edit_query_name: Click to edit title of this view.
-        rename_query_placeholder: Name of this view
+        confirm_edit_cancel: Bạn có chắc bạn muốn hủy bỏ chỉnh sửa tên của trình bày
+          này? Tiêu đề sẽ được đặt trở về giá trị trước đó.
+        click_to_edit_query_name: Nhấp vào chỉnh sửa tiêu đề của trình bày này.
+        rename_query_placeholder: Tên của trình bày
         errors:
-          unretrievable_query: Unable to retrieve view from URL
-          not_found: There is no such view
-          duplicate_query_title: Name of this view already exists. Change anyway?
-        text_no_results: No matching views were found.
+          unretrievable_query: Không thể đọc trình bày từ URL
+          not_found: Không có trình bày nào đã được tạo ra
+          duplicate_query_title: Tên trình bày đã có, Bạn có muốn thay đổi không?
+        text_no_results: Không chuyên mục nào được tìm thấy.
       table:
-        configure_button: Configure work package table
+        configure_button: Cấu hình bảng gói công việc
         summary: Bảng với hàng work package và cột của các thuộc tính work package.
         text_inline_edit: Hầu hết các ô của bảng này là các nút kích hoạt chức năng
           chỉnh sửa nội tuyến của thuộc tính đó.
@@ -622,24 +624,23 @@ vi:
           nhóm, sắp xếp lại, loại bỏ và thêm bảng cột.
         text_select_hint: Select boxes should be opened with 'ALT' and arrow keys.
       table_configuration:
-        button: Configure this work package table
-        modal_title: Work package table configuration
-        embedded_tab_disabled: This configuration tab is not available for the embedded
-          view you're editing.
-        display_settings: Display settings
-        grouped_mode: Grouped mode
-        grouped_hint: Table results will be grouped by the given attribute.
-        default_mode: Default mode
+        button: Cấu hình bảng gói công việc này
+        modal_title: Bảng cấu hình gói công việc
+        embedded_tab_disabled: Trang cấu hình này không tồn tại đối với chế độ xem
+          mà bạn đang soạn thảo.
+        display_settings: Cài đặt hiển thị
+        grouped_mode: Chế độ nhóm
+        grouped_hint: Kết quả của bảng sẽ được nhóm với các thuộc tính đã cho.
+        default_mode: Chế độ Mặc định
         hierarchy_mode: Hierarchy mode
-        hierarchy_hint: All filtered table results will be augmented with their ancestors.
-          Hierarchies can be expanded and collapsed.
-        display_sums_hint: Display sums of all summable attributes in a row below
-          the table results.
-        show_timeline_hint: Show an interactive gantt chart on the right side of the
-          table. You can change its width by dragging the divider between table and
-          gantt chart.
-        columns_help_text: Use the input above to add or remove columns to your table
-          view. You can drag and drop the columns to reorder them.
+        hierarchy_hint: Tất cả các bảng được lọc sẽ được gắn với tiền bối của nó.
+          Cây công việc có thể đươc mở ra hoặc thu lại.
+        display_sums_hint: Hiển thị tổng của các cột số trong một hàng phía dưới bảng
+          kết quả.
+        show_timeline_hint: Hiển thị biểu đồ grantt ở bên phải của bảng. Bạn có thể
+          thay đổi độ rộng của nó bằng cách kéo thanh chia giữa bảng và biểu đồ grantt.
+        columns_help_text: Sử dụng ô nhập liệu trên đây để thêm hoặc bớt cột vào bảng
+          của bạn. Bạn có thể kéo thả cột để thay đổi trật tự của nó.
       tabs:
         overview: Tổng quan
         activity: Hoạt động
@@ -652,7 +653,7 @@ vi:
         months: months
     toolbar:
       settings:
-        configure_view: Configure view ...
+        configure_view: Định cấu hình chế độ xem...
         columns: Columns ...
         sort_by: Sort by ...
         group_by: Group by ...
@@ -663,16 +664,16 @@ vi:
         save: Lưu
         save_as: Save as ...
         export: Export ...
-        visibility_settings: Visibility settings ...
-        page_settings: Rename view ...
+        visibility_settings: Cài đặt hiển thị...
+        page_settings: Đổi tên chế độ hiển thị...
         delete: Xoá
       filter: Bộ lọc
       unselected_title: Work Package
-      search_query_label: Search saved views
-      search_query_title: Click to search saved views
-      placeholder_query_title: Set a title for this view
+      search_query_label: Tìm trang đã lưu
+      search_query_title: Nhấn vào đây để tìm kiếm trang đã lưu
+      placeholder_query_title: Thiết lập một tiêu đề cho trang này
     modals:
-      label_settings: Rename view
+      label_settings: Đổi tên trang
       label_name: Tên
       label_delete_page: Delete current page
       button_apply: Áp dụng
@@ -688,8 +689,7 @@ vi:
         title: Confirm deletion of %{label}
         text: Are you sure you want to delete the following %{label} ?
         has_children: 'The work package has %{childUnits}:'
-        deletes_children: All child work packages and their descendants will also
-          be recursively deleted.
+        deletes_children: Các gói công việc con cũng sẽ bị xóa theo.
     notice_successful_create: Successful creation.
     notice_successful_delete: Successful deletion.
     notice_successful_update: Successful update.
@@ -716,9 +716,9 @@ vi:
         messages_on_field: 'Mục này không hợp lệ: %{messages}'
     error_could_not_resolve_version_name: Couldn't resolve version name
     error_could_not_resolve_user_name: Couldn't resolve user name
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
-    error_attachment_upload_permission: You don't have the permission to upload files
-      on this resource.
+    error_attachment_upload: 'Tập tin ''%{name}'' tải lên thất bại: %{error}'
+    error_attachment_upload_permission: Bạn không có quyền tải lên tập tin vào tài
+      nguyên này.
     units:
       workPackage:
         one: work package

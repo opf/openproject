@@ -23,13 +23,13 @@ ro:
         copiaţi textul selectat manual.
       copied_successful: Copiere în ecranul tampon reușită!
     button_add_watcher: Adăugare observator
-    button_back_to_list_view: Back to list view
+    button_back_to_list_view: Înapoi la listă
     button_cancel: Anulare
-    button_close: Close
+    button_close: Închide
     button_check_all: Selectează tot
     button_configure-form: Configure form
     button_confirm: Confirmă
-    button_continue: Continue
+    button_continue: Continuaţi
     button_copy: Copiere
     button_custom-fields: Câmpuri personalizate
     button_delete: Ștergere
@@ -44,7 +44,7 @@ ro:
     button_more: Mai mult
     button_move: Mutare
     button_open_details: Deschidere vizualizare detaliată
-    button_close_details: Close details view
+    button_close_details: Închideţi fereastra cu detalii
     button_open_fullscreen: Afișare pe tot ecranul
     button_quote: Citare
     button_save: Salvare
@@ -119,9 +119,9 @@ ro:
           apasand Enter). Pentru a ieși fără filtrare selectați prima poziție (goală).
       noneElement: "(nimic)"
       time_zone_converted:
-        two_values: "%{from} - %{to} in your local time."
-        only_start: From %{from} in your local time.
-        only_end: Till %{to} in your local time.
+        two_values: "%{from} - %{to} ora locală."
+        only_start: Începând cu %{from} ora locală.
+        only_end: Până la %{to} ora locală.
       value_spacer: "-"
       sorting:
         criteria:
@@ -138,7 +138,7 @@ ro:
     label_activity_no: Acțiunea cu numărul %{activityNo}
     label_activity_with_comment_no: Acțiunea cu numărul %{activityNo}. Are un comentariu
       de utilizator.
-    label_add_columns: Add columns
+    label_add_columns: Adaugați coloane
     label_add_comment: Adăugare comentariu
     label_add_comment_title: Comment and type @ to notify other people
     label_add_selected_columns: Adăugați coloanele selectate
@@ -213,7 +213,7 @@ ro:
     label_previous: Înapoi
     label_per_page: 'Pe pagină:'
     label_please_wait: Așteptați
-    label_visibility_settings: Visibility settings
+    label_visibility_settings: Setări de vizibilitate
     label_quote_comment: Citare comentariu
     label_reset: Resetare
     label_remove_columns: Eliminare coloane selectate
@@ -235,8 +235,8 @@ ro:
     label_this_week: săptămâna curentă
     label_today: astăzi
     label_up: Sus
-    label_activity_show_only_comments: Show activities with comments only
-    label_activity_show_all: Show all activities
+    label_activity_show_only_comments: Afișați doar activitățile ce conțin comentarii
+    label_activity_show_all: Afișează toate activitățile
     label_total_progress: "%{percent} % Progres total"
     label_updated_on: actualizat la data de
     label_warning: Avertizare
@@ -297,27 +297,27 @@ ro:
       required_outside_context: You are not within a project context. Please choose
         the project context first in order to select type and status
       context: Project context
-      work_package_belongs_to: This work package belongs to project %{projectname}.
-      click_to_switch_context: Open this work package in that project.
+      work_package_belongs_to: Acest pachet de lucru face parte din proiectul %{projectname}.
+      click_to_switch_context: Deschide pachetul de lucru din acel proiect.
       autocompleter:
         label: Project autocompletion
     text_are_you_sure: Sunteți sigur?
     types:
       attribute_groups:
-        error_duplicate_group_name: The name %{group} is used more than once. Group
-          names must be unique.
+        error_duplicate_group_name: Numele %{group} este utilizat de mai multe ori.
+          Fiecare grup trebuie să aibă un nume unic.
         reset_title: Reset form configuration
         confirm_reset: 'Antenție: Sunteți sigur că doriți să resetați congurația formularului?
           Această acțiune va reseta toate atributele înapoi la grupul implicit și
           va dezactiva TOATE câmpurile personalizate.
 
 '
-        upgrade_to_ee: Upgrade to Enterprise Edition
-        upgrade_to_ee_text: Wow! If you need this feature you are a super pro! Would
-          you mind supporting us OpenSource developers by becoming an Enterprise Edition
-          client?
+        upgrade_to_ee: Achiziționați versiunea Enterprise
+        upgrade_to_ee_text: Hopa! Dacă aveți nevoie de această opțiune înseamnă că
+          sunteți un profesionist! Dacă doriți, puteți susține acest produs achiziționând
+          Versiunea Enterprise.
         more_information: More information
-        nevermind: Nevermind
+        nevermind: Asta e...
     watchers:
       label_loading: se încarcă observatorii...
       label_error_loading: A apărut o eroare în timpul încărcării observatorilor
@@ -354,8 +354,8 @@ ro:
       remove_child: Elimină copil
       add_new_relation: Crează o nouă relație
       update_description: Setează sau actualizează descrierea acestei relații
-      toggle_description: Toggle relation description
-      update_relation: Click to change the relation type
+      toggle_description: Activați/Dezactivați descrierea legăturilor
+      update_relation: Faceți click pentru a schimba tipul de legătură
       add_follower: Add follower
       add_predecessor: Add predecessor
       remove: Eliminare relaţie
@@ -383,27 +383,27 @@ ro:
         few: Puteți selecta doar {{limit}} elemente
     project_menu_details: Detalii
     sort:
-      sorted_asc: 'Ascending sort applied, '
-      sorted_dsc: 'Descending sort applied, '
-      sorted_no: 'No sort applied, '
-      sorting_disabled: sorting is disabled
-      activate_asc: activate to apply an ascending sort
-      activate_dsc: activate to apply a descending sort
-      activate_no: activate to remove the sort
+      sorted_asc: 'Sortare ascendentă aplicată '
+      sorted_dsc: 'Sortare descendentă aplicată '
+      sorted_no: 'Nu a fost selectată nicio sortare '
+      sorting_disabled: sortarea este dezactivată
+      activate_asc: activați pentru a sorta ascendent
+      activate_dsc: activați pentru a sorta descendent
+      activate_no: activați pentru a înlătura sortarea
     text_work_packages_destroy_confirmation: Sunteți sigur că doriți ștergerea pachetelor
       de lucru selectate?
     text_query_destroy_confirmation: Are you sure you want to delete the selected
       view?
     text_attachment_destroy_confirmation: Sunteţi sigur că doriţi să ştergeţi atașamentul?
     timelines:
-      gantt_chart: Gantt chart
+      gantt_chart: Grafic Gantt
       labels:
         title: Label configuration
         bar: Bar labels
-        left: Left
-        right: Right
+        left: Stânga
+        right: Dreapta
         farRight: Far right
-        showNone: "-- No label --"
+        showNone: "-- Fără etichetă --"
         description: 'Select the attributes you want to be shown in the respective
           positions of the Gantt chart at all times. Note that when hovering an element,
           its date labels will be shown instead of these attributes.
@@ -448,8 +448,8 @@ ro:
       tooManyProjects: Mai mult de %{count} proiecte. Vă rugăm să folosiţi un filtru
         potrivit!
       selection_mode:
-        notification: Click on any highlighted work package to create the relation.
-          Press escape to cancel.
+        notification: Faceți click pe oricare dintre pachetele de lucru pentru a crea
+          o legătură. Apăsați Escape pentru a anula.
       zoom:
         in: Mărire
         out: Micșorare
@@ -493,10 +493,10 @@ ro:
       image: Imagine
     work_packages:
       bulk_actions:
-        move: Bulk move
-        edit: Bulk edit
-        copy: Bulk copy
-        delete: Bulk delete
+        move: Mută mai multe elemente
+        edit: Editează mai multe elemente
+        copy: Copiază mai multe elemente
+        delete: Șterge mai multe element
       button_clear: Inițializare
       comment_added: Comentariul a fost adăugat cu succes.
       comment_send_failed: A apărut o eroare. Comentariul nu a putut fi salvat.
@@ -522,8 +522,8 @@ ro:
       label_options: Opțiuni
       label_column_multiselect: 'Câmp desfășurat combinat: selectaţi cu săgețile,
         confirmați alegerea cu enter, ştergeţi cu backspace'
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
+      label_switch_to_single_select: Activați selecție independentă
+      label_switch_to_multi_select: Activați selecție multiplă
       message_error_during_bulk_delete: A apărut o eroare la ștergerea pachetelor
         de lucru.
       message_successful_bulk_delete: Pachetele de lucru au fost șterse cu succes.
@@ -542,16 +542,16 @@ ro:
       copy:
         title: Copy work package
       hierarchy:
-        show: Show hierarchy mode
-        hide: Hide hierarchy mode
-        toggle_button: Click to toggle hierarchy mode.
+        show: Afișați modul ierarhic
+        hide: Ascundeți modul ierarhic
+        toggle_button: Faceți click pentru a activa/dezactiva modul ierarhic.
         leaf: Work package leaf at level %{level}.
         children_collapsed: Hierarchy level %{level}, collapsed. Click to show the
           filtered children
         children_expanded: Hierarchy level %{level}, expanded. Click to collapse the
           filtered children
       faulty_query:
-        title: Work packages could not be loaded.
+        title: Pachetele de lucru nu au putut fi încărcate.
         description: Your view is erroneous and could not be processed.
       no_results:
         title: Nu sunt pachete de lucru de afișat.
@@ -595,7 +595,7 @@ ro:
         pagination: Salt la paginarea tabelului
         label_pagination: Click aici pentru a sări peste tabelul cu pachete de lucru
           și a ajunge la paginare
-        content: Jump to content
+        content: Săriți la conținut
         label_content: Click here to skip over the menu and go to the content
       placeholders:
         default: "-"
@@ -604,10 +604,10 @@ ro:
         column_names: Coloane
         group_by: Grupare rezultate
         group: Grupare după
-        group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy
-          mode being active.
-        hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
-          being grouped by %{column}.
+        group_by_disabled_by_hierarchy: Gruparea este dezactivată deoarece modul ierarhic
+          este activ.
+        hierarchy_disabled_by_group_by: Modul ierarhic este dezactivat deoarece rezultatele
+          sunt grupate în %{column}.
         sort_ascending: Ordonare ascendentă
         sort_descending: Ordonare descendentă
         move_column_left: Mutați coloana la stânga
@@ -643,7 +643,7 @@ ro:
         grouped_mode: Grouped mode
         grouped_hint: Table results will be grouped by the given attribute.
         default_mode: Default mode
-        hierarchy_mode: Hierarchy mode
+        hierarchy_mode: Modul ierarhic
         hierarchy_hint: All filtered table results will be augmented with their ancestors.
           Hierarchies can be expanded and collapsed.
         display_sums_hint: Display sums of all summable attributes in a row below
@@ -670,8 +670,8 @@ ro:
         sort_by: Sortare după...
         group_by: Grupare după...
         display_sums: Afişare totaluri
-        display_hierarchy: Display hierarchy
-        hide_hierarchy: Hide hierarchy
+        display_hierarchy: Afișați ierarhia
+        hide_hierarchy: Ascundeți ierarhia
         hide_sums: Ascundere totaluri
         save: Salvare
         save_as: Salvare ca ...
@@ -693,14 +693,14 @@ ro:
       button_submit: Trimitere
       button_cancel: Anulare
       form_submit:
-        title: Confirm to continue
-        text: Are you sure you want to perform this action?
+        title: Confirmați pentru a continua
+        text: Sunteți sigur/ă că doriți să realizați această acțiune?
       upsale_relation_columns: Need to see relations in the work package list?
       upsale_relation_columns_link: Check out the Enterprise Edition.
       destroy_work_package:
-        title: Confirm deletion of %{label}
-        text: Are you sure you want to delete the following %{label} ?
-        has_children: 'The work package has %{childUnits}:'
+        title: Confirmați ștergerea %{label}
+        text: Sunteți sigur/ă că doriți să ștergeți %{label}?
+        has_children: 'Pachetul de lucru conține %{childUnits}:'
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
     notice_successful_create: Creare reuşită.
@@ -734,9 +734,9 @@ ro:
       on this resource.
     units:
       workPackage:
-        one: work package
-        other: work packages
-        few: work packages
+        one: pachet de lucru
+        other: pachete de lucru
+        few: pachete de lucru
       child_work_packages:
         one: one child work package
         other: "%{count} work package children"
@@ -747,5 +747,5 @@ ro:
         zero: 0 hours
         few: "%{count} ore"
     zen_mode:
-      button_activate: Activate zen mode
-      button_deactivate: Deactivate zen mode
+      button_activate: Activați modul zen
+      button_deactivate: Dezactivați modul zen
