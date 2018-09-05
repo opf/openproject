@@ -41,13 +41,13 @@ describe 'Upload attachment to work package', js: true do
         target = find('.ck-content')
         attachments.drag_and_drop_file(target, image_fixture)
 
-        # Besides testing caption functionality this also slows down clicking on the submit button
-        # so that the image is properly embedded
-        page.find('figure.image figcaption').base.send_keys('Some image caption')
-
         editor.in_editor do |container, editable|
           expect(editable).to have_selector('img[src*="/api/v3/attachments/"]', wait: 20)
         end
+
+        # Besides testing caption functionality this also slows down clicking on the submit button
+        # so that the image is properly embedded
+        page.find('figure.image figcaption').base.send_keys('Some image caption')
 
         field.submit_by_click
 
