@@ -523,7 +523,7 @@ GEM
     ruby-enum (0.7.2)
       i18n
     ruby-progressbar (1.9.0)
-    rubyzip (1.2.1)
+    rubyzip (1.2.2)
     safe_yaml (1.0.4)
     sanitize (4.6.4)
       crass (~> 1.0.2)
