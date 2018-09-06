@@ -58,12 +58,7 @@ describe 'Login', type: :feature do
     it 'redirects to homescreen after forced password change
        (with validation error) and first login' do
       # first login
-      visit signin_path
-      within('#login-form') do
-        fill_in('username', with: user.login)
-        fill_in('password', with: user_password)
-        click_link_or_button I18n.t(:button_login)
-      end
+      login_with(user.login, user.password)
       expect(current_path).to eql signin_path
 
       # change password page (giving an invalid password)
@@ -85,6 +80,16 @@ describe 'Login', type: :feature do
 
       # on the my page
       expect(current_path).to eql '/'
+    end
+
+    it 'prevents login for a blocked user' do
+      user.lock!
+
+      login_with(user.login, user.password)
+
+      expect(current_path).to eql signin_path
+      expect(page)
+        .to have_content "Invalid user or password"
     end
   end
 end
