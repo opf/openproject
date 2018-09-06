@@ -263,7 +263,7 @@ GEM
       railties (>= 3.0.0)
     faker (1.8.4)
       i18n (~> 0.5)
-    ffi (1.9.23)
+    ffi (1.9.25)
     fog-aws (0.11.0)
       fog-core (~> 1.38)
       fog-json (~> 1.0)
@@ -523,7 +523,7 @@ GEM
     ruby-enum (0.7.2)
       i18n
     ruby-progressbar (1.9.0)
-    rubyzip (1.2.1)
+    rubyzip (1.2.2)
     safe_yaml (1.0.4)
     sanitize (4.6.4)
       crass (~> 1.0.2)
