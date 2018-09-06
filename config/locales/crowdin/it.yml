@@ -65,6 +65,8 @@ it:
     actions:
       name: Azioni
       add: Aggiungi un'azione
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
     conditions: Condizioni
     plural: Azioni personalizzate
     new: Nuova azione personalizzata
@@ -471,6 +473,8 @@ it:
           only_one_allowed: "(%{name}) solo un valore è permesso."
           empty: "(%{name}) valore non può essere vuoto."
           inclusion: "(%{name}) valore non è impostato ad uno dei valori permessi."
+          not_logged_in: "(%{name}) value cannot be set because you are not logged
+            in."
           not_an_integer: "(%{name}) non è un intero."
           smaller_than_or_equal_to: "(%{name}) deve essere più piccolo o uguale a
             %{count}."
@@ -540,6 +544,9 @@ it:
                 attuale.
               status_invalid_in_type: is invalid because the current status does not
                 exist in this type.
+            type:
+              cannot_be_milestone_due_to_children: cannot be a milestone because this
+                work package has children.
             priority_id:
               only_active_priorities_allowed: deve essere attivo.
             category:
@@ -994,8 +1001,9 @@ it:
   error_pdf_export_too_many_columns: Troppe colonne selezionate per l'esportazione
     in PDF. Ridurre il numero di colonne.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
-  error_token_authenticity: Impossibile verificare il token di Cross-Site Request
-    Forgery.
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: Percentuale di completamento della macro-attività
     (work package) non aggiornata.
   error_work_package_not_found_in_project: La macro-attività (work package) non è

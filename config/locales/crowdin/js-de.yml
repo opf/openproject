@@ -461,8 +461,8 @@ de:
         quarters: Quartale
         years: Jahre
         slider: Zoom-Regler
-        description: 'Select the initial zoom level that should be shown when autozoom
-          is not available.
+        description: 'Wählen Sie die Zoomstufe für das Gantt-Diagramm aus, wenn kein
+          Autozoom aktiviert ist.
 
 '
     tl_toolbar:

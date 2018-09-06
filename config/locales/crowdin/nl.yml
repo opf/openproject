@@ -64,6 +64,8 @@ nl:
     actions:
       name: Acties
       add: Actie toevoegen
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
     conditions: Voorwaarden
     plural: Aangepaste acties
     new: Nieuwe aangepaste actie
@@ -471,6 +473,8 @@ nl:
           empty: "(%{name}) waarde kan niet leeg zijn."
           inclusion: "(%{name}) waarde is niet ingesteld op een van de toegestane
             waarden."
+          not_logged_in: "(%{name}) value cannot be set because you are not logged
+            in."
           not_an_integer: "(%{name}) is geen geheel getal."
           smaller_than_or_equal_to: "(%{name}) moet kleiner zijn dan of gelijk aan
             %{count}."
@@ -539,6 +543,9 @@ nl:
                 de oude naar de nieuwe status voor de huidige gebruikersrollen bestaat.
               status_invalid_in_type: is ongeldig omdat de huidige status niet in
                 dit type bestaat.
+            type:
+              cannot_be_milestone_due_to_children: cannot be a milestone because this
+                work package has children.
             priority_id:
               only_active_priorities_allowed: moet actief zijn.
             category:
@@ -995,7 +1002,9 @@ nl:
   error_pdf_export_too_many_columns: Te veel kolommen geselecteerd voor het exporteren
     naar PDF. Beperk het aantal kolommen.
   error_pdf_failed_to_export: De pdf export kan niet worden opgeslagen:%{error}
-  error_token_authenticity: Niet mogelijk om Cross-Site Request Forgery-token te verifiëren.
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: Werkpakket gedaan ratio's niet bijgewerkt.
   error_work_package_not_found_in_project: Het werkpakket werd niet gevonden of maakt
     geen deel uit van dit project

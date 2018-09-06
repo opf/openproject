@@ -64,6 +64,8 @@ pt:
     actions:
       name: Ações
       add: Adicionar ação
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
     conditions: Condições
     plural: Ações personalizadas
     new: Nova ação personalizada
@@ -474,6 +476,8 @@ pt:
           only_one_allowed: "(%{name}) only one value is allowed."
           empty: "(%{name}) value can't be empty."
           inclusion: "(%{name}) value is not set to one of the allowed values."
+          not_logged_in: "(%{name}) value cannot be set because you are not logged
+            in."
           not_an_integer: "(%{name}) is not an integer."
           smaller_than_or_equal_to: "(%{name}) deve ser menor ou igual a %{count}."
           greater_than_or_equal_to: "(%{name}) deve ser maior ou igual a %{count}."
@@ -538,6 +542,9 @@ pt:
                 da antiga para a nova situação do utilizador actual.
               status_invalid_in_type: is invalid because the current status does not
                 exist in this type.
+            type:
+              cannot_be_milestone_due_to_children: cannot be a milestone because this
+                work package has children.
             priority_id:
               only_active_priorities_allowed: tem que estar ativo.
             category:
@@ -992,8 +999,9 @@ pt:
   error_pdf_export_too_many_columns: Demasiadas colunas selecionadas para a exportação
     PDF. Reduza o número de colunas.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
-  error_token_authenticity: Não é possível verificar o token de Cross-Site Request
-    Forgery.
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: Percentagens de progresso do pacote
     de trabalho não foram atualizadas.
   error_work_package_not_found_in_project: A tarefa não foi encontrada ou não pertence

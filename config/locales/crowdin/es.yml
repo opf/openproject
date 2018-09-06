@@ -65,6 +65,8 @@ es:
     actions:
       name: Acciones
       add: Añadir Acción
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
     conditions: Condiciones
     plural: Acciones personalizadas
     new: Nueva Acción personalizada
@@ -481,6 +483,8 @@ es:
           empty: El valor (%{name}) no puede estar vacío.
           inclusion: El valor (%{name}) no se ha establecido en uno de los valores
             permitidos.
+          not_logged_in: "(%{name}) value cannot be set because you are not logged
+            in."
           not_an_integer: "(%{name}) no es un número entero."
           smaller_than_or_equal_to: "(%{name}) debe ser menor o igual que %{count}."
           greater_than_or_equal_to: "(%{name}) debe ser mayor o igual que %{count}."
@@ -549,6 +553,9 @@ es:
                 desde el estado antiguo al nuevo para los roles del usuario actual.
               status_invalid_in_type: is invalid because the current status does not
                 exist in this type.
+            type:
+              cannot_be_milestone_due_to_children: cannot be a milestone because this
+                work package has children.
             priority_id:
               only_active_priorities_allowed: debe estar activo.
             category:
@@ -1002,8 +1009,9 @@ es:
   error_pdf_export_too_many_columns: Demasiadas columnas seleccionadas para la exportación
     de PDF. Reduzca el número de columnas.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
-  error_token_authenticity: No se ha podido comprobar el token de falsificación de
-    petición de Cross-Site.
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: Ejecución de paquete de trabajos no
     actualizado.
   error_work_package_not_found_in_project: El paquete de trabajo no se ha encontrado

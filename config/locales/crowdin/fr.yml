@@ -64,6 +64,8 @@ fr:
     actions:
       name: Actions
       add: Ajouter une action
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
     conditions: Conditions
     plural: Actions personnalisées
     new: Nouvelle action personnalisée
@@ -472,6 +474,8 @@ fr:
           only_one_allowed: "(%{name}) seule valeur est autorisée."
           empty: La zone (%{name}) ne peut pas être vide.
           inclusion: "(%{name}) n'est pas une valeur autorisé."
+          not_logged_in: "(%{name}) value cannot be set because you are not logged
+            in."
           not_an_integer: "(%{name}) n’est pas un nombre entier."
           smaller_than_or_equal_to: "(%{name}) doit être inférieure ou égale à %{count}."
           greater_than_or_equal_to: "(%{name}) doit être supérieur ou égal à %{count}."
@@ -542,6 +546,9 @@ fr:
                 actuel.
               status_invalid_in_type: is invalid because the current status does not
                 exist in this type.
+            type:
+              cannot_be_milestone_due_to_children: cannot be a milestone because this
+                work package has children.
             priority_id:
               only_active_priorities_allowed: doit être active.
             category:
@@ -996,8 +1003,9 @@ fr:
   error_pdf_export_too_many_columns: Trop de colonnes sélectionnées pour l’exportation
     PDF. Veuillez réduire le nombre de colonnes.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
-  error_token_authenticity: Impossible de vérifier le jeton de Cross-Site Request
-    Forgery.
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: Les ratios de Lots de Travaux achevés
     n'ont pas été mis à jour.
   error_work_package_not_found_in_project: Le Lot de Travaux n'a pas été trouvé ou

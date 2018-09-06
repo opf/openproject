@@ -64,6 +64,8 @@ vi:
     actions:
       name: Actions
       add: Thêm hành động
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
     conditions: Điều kiện
     plural: Tác vụ tùy chỉnh
     new: Hành động tùy chỉnh mới
@@ -466,6 +468,8 @@ vi:
           empty: giá trị (%{name}) không thể để trống.
           inclusion: giá trị (%{name}) không được đặt vào một trong các giá trị được
             cho phép.
+          not_logged_in: "(%{name}) value cannot be set because you are not logged
+            in."
           not_an_integer: "(%{name}) không phải là một số nguyên."
           smaller_than_or_equal_to: "(%{name}) phải nhỏ hơn hoặc bằng %{count}."
           greater_than_or_equal_to: "(%{name}) phải nhỏ hơn hoặc bằng %{count}."
@@ -529,6 +533,9 @@ vi:
                 from old to new status for the current user's roles.
               status_invalid_in_type: không hợp lệ vì tình trạng hiện tại không tồn
                 tại loại này.
+            type:
+              cannot_be_milestone_due_to_children: cannot be a milestone because this
+                work package has children.
             priority_id:
               only_active_priorities_allowed: needs to be active.
             category:
@@ -977,7 +984,9 @@ vi:
   error_pdf_export_too_many_columns: Too many columns selected for the PDF export.
     Please reduce the number of columns.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
-  error_token_authenticity: Không thể xác minh mã Cross-Site Request Forgery.
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: Tỉ lệ hoàn thành Work package không
     được cập nhật.
   error_work_package_not_found_in_project: Work package không được tìm thấy hoặc không

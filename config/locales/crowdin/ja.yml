@@ -52,6 +52,8 @@ ja:
     actions:
       name: 操作
       add: アクションを追加
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
     conditions: 条件
     plural: カスタムアクション
     new: 新しいカスタムアクション
@@ -417,6 +419,8 @@ ja:
           only_one_allowed: "(%{name}) 1 つの値のみ可能です。"
           empty: "(%{name}) 値を空にすることはできません。"
           inclusion: "(%{name}) は、許可されている値ではありません。"
+          not_logged_in: "(%{name}) value cannot be set because you are not logged
+            in."
           not_an_integer: "(%{name}) が整数ではありません。"
           smaller_than_or_equal_to: "(%{name}) は %{count} 以下にする必要があります。"
           greater_than_or_equal_to: "(%{name}) は %{count} 以上にする必要があります。"
@@ -473,6 +477,9 @@ ja:
             status_id:
               status_transition_invalid: ユーザの現在のロールでは旧ステータスから新ステータスへの有効な遷移がないため無効
               status_invalid_in_type: 現在のステータスがこのタイプに存在しないため無効です。
+            type:
+              cannot_be_milestone_due_to_children: cannot be a milestone because this
+                work package has children.
             priority_id:
               only_active_priorities_allowed: は有効である必要があります。
             category:
@@ -901,7 +908,9 @@ ja:
   error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
   error_pdf_export_too_many_columns: PDF エクスポート用に選択された列が多すぎます。 列の数を減らしてください。
   error_pdf_failed_to_export: PDFエクスポートを保存できませんでした： %{error}
-  error_token_authenticity: クロスサイトリクエストフォージェリのトークンを検証できません。
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: 作業項目の進捗率が更新できません。
   error_work_package_not_found_in_project: 作業項目が見つからないか、このプロジェクトに属してないかです。
   error_must_be_project_member: プロジェクトのメンバーである必要があります。

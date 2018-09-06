@@ -62,6 +62,8 @@ ru:
     actions:
       name: Действия
       add: Добавить действие
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
     conditions: Условия
     plural: Пользовательские действия
     new: Новое пользовательское действие
@@ -467,6 +469,8 @@ ru:
           only_one_allowed: "(%{name}) разрешено только одно значение."
           empty: "(%{name}) не может быть пустым."
           inclusion: "(%{name}) не задано ни одно из допустимых значений."
+          not_logged_in: "(%{name}) value cannot be set because you are not logged
+            in."
           not_an_integer: "(%{name}) не является целым числом."
           smaller_than_or_equal_to: "(%{name}) должен быть меньше или равен %{count}."
           greater_than_or_equal_to: "(%{name}) должен быть больше или равен %{count}."
@@ -529,6 +533,9 @@ ru:
                 нет правильного перехода от старого этапа к новому.
               status_invalid_in_type: недопустимо, так как текущего статуса в этом
                 типе нет.
+            type:
+              cannot_be_milestone_due_to_children: cannot be a milestone because this
+                work package has children.
             priority_id:
               only_active_priorities_allowed: требуется быть активным.
             category:
@@ -1015,7 +1022,9 @@ ru:
   error_pdf_export_too_many_columns: Для экспорта в PDF-файл выбрано слишком много
     столбцов. Пожалуйста, сократите количество столбцов.
   error_pdf_failed_to_export: 'Не удалось сохранить экспорт в PDF: %{error}'
-  error_token_authenticity: Не удается проверить CSRF-токен.
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: Сделанные соотношения пакета работ не
     обновляются.
   error_work_package_not_found_in_project: Пакет работ не найден или не принадлежит

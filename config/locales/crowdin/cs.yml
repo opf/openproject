@@ -64,6 +64,8 @@ cs:
     actions:
       name: Akce
       add: Přidat akci
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
     conditions: Podmínky
     plural: Vlastní akce
     new: Nová vlastní akce
@@ -469,6 +471,8 @@ cs:
           only_one_allowed: "(%{name}) je povolena pouze jedna hodnota."
           empty: "(%{name}) hodnota nemůže být prázdná."
           inclusion: "(%{name}) hodnota není nastavena na jednu z povolených hodnot."
+          not_logged_in: "(%{name}) value cannot be set because you are not logged
+            in."
           not_an_integer: "(%{name}) není celé číslo."
           smaller_than_or_equal_to: "(%{name}) musí být menší než nebo rovno %{count}."
           greater_than_or_equal_to: "(%{name}) musí být větší než nebo rovno %{count}."
@@ -531,6 +535,9 @@ cs:
                 from old to new status for the current user's roles.
               status_invalid_in_type: je neplatná, protože aktuální stav neexistuje
                 v tomto typu.
+            type:
+              cannot_be_milestone_due_to_children: cannot be a milestone because this
+                work package has children.
             priority_id:
               only_active_priorities_allowed: musí být aktivní.
             category:
@@ -1010,7 +1017,9 @@ cs:
   error_pdf_export_too_many_columns: Příliš mnoho sloupců vybraných pro PDF export.
     Snižte počet sloupců.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
-  error_token_authenticity: Unable to verify Cross-Site Request Forgery token.
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: Work package done ratios not updated.
   error_work_package_not_found_in_project: The work package was not found or does
     not belong to this project

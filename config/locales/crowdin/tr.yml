@@ -63,6 +63,8 @@ tr:
     actions:
       name: Eylemler
       add: Eylem ekle
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
     conditions: Koşullar
     plural: Özel eylemler
     new: Özel eylem ekle
@@ -463,6 +465,8 @@ tr:
           only_one_allowed: "(%{name}) yalnızca bir değer verilir."
           empty: "(%{name}) değeri boş olamaz."
           inclusion: "(%{name}) değer izin verilen değerlerden birine ayarlı değil."
+          not_logged_in: "(%{name}) value cannot be set because you are not logged
+            in."
           not_an_integer: "(%{name}) bir tamsayı değil."
           smaller_than_or_equal_to: "(%{name}) %{count} ' e eşit veya daha küçük olmalıdır."
           greater_than_or_equal_to: "(%{name}) sıfırdan büyük veya %{count} ' e eşit
@@ -528,6 +532,9 @@ tr:
                 yeni duruma geçerli bir geçiş mevcut olmadığından geçersiz.
               status_invalid_in_type: is invalid because the current status does not
                 exist in this type.
+            type:
+              cannot_be_milestone_due_to_children: cannot be a milestone because this
+                work package has children.
             priority_id:
               only_active_priorities_allowed: etkin olması gerekir.
             category:
@@ -978,7 +985,9 @@ tr:
   error_pdf_export_too_many_columns: PDF Dışa Aktarma için çok fazla sütun seçili.
     Sütun sayısını azaltın.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
-  error_token_authenticity: Siteler arası sahte istek belirteci doğrulaması yapılamadı.
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: İş tamamlanma oranları güncellenmedi.
   error_work_package_not_found_in_project: Iş paketi bulunamadı veya bu projeye ait
     değil

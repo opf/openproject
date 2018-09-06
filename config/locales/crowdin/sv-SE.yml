@@ -64,6 +64,8 @@ sv-SE:
     actions:
       name: Actions
       add: Lägg till åtgärd
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
     conditions: Villkor
     plural: Anpassade åtgärder
     new: Lägg till ny anpassad åtgärd
@@ -464,6 +466,8 @@ sv-SE:
           only_one_allowed: "(%{name}) endast ett värde är tillåtet."
           empty: "(%{name}) värdet kan inte vara tomt."
           inclusion: "(%{name}) värdet är inte inställt på ett av de tillåtna värdena."
+          not_logged_in: "(%{name}) value cannot be set because you are not logged
+            in."
           not_an_integer: "(%{name}) är inte ett heltal."
           smaller_than_or_equal_to: "(%{name}) måste vara mindre än eller lika med
             %{count}."
@@ -530,6 +534,9 @@ sv-SE:
                 roller.
               status_invalid_in_type: är ogiltig eftersom aktuell status inte existerar
                 i den här typen.
+            type:
+              cannot_be_milestone_due_to_children: cannot be a milestone because this
+                work package has children.
             priority_id:
               only_active_priorities_allowed: måste vara aktiv.
             category:
@@ -976,7 +983,9 @@ sv-SE:
   error_pdf_export_too_many_columns: För många kolumner har markerats för PDF-export.
     Vänlogen minska antalet kolumner.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
-  error_token_authenticity: Kunde inte verifiera Cross-Site Request Forgery token.
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: Arbetspaketets andel avklarat är inte
     uppdaterat.
   error_work_package_not_found_in_project: Arbetspaketet hittades inte eller hör inte

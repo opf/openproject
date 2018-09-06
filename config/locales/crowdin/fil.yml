@@ -67,6 +67,8 @@ fil:
     actions:
       name: Mga aksyon
       add: Magdagdag ng aksyon
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
     conditions: Mga kondisyon
     plural: Mga custom aksyon
     new: Bagong custom aksyon
@@ -487,6 +489,8 @@ fil:
           empty: "(%{name}) ang hakaga ay hindi maaring walang laman."
           inclusion: "(%{name}) ang halaga ay hindi nakatakda sa isa mga pinahintulutan
             halaga."
+          not_logged_in: "(%{name}) value cannot be set because you are not logged
+            in."
           not_an_integer: "(%{name}) ay hindi isang numero."
           smaller_than_or_equal_to: "(%{name}) dapat ay mas maliit kaysa o katumbas
             sa %{count}."
@@ -554,6 +558,9 @@ fil:
                 ng kasalukuyang user.
               status_invalid_in_type: is invalid because the current status does not
                 exist in this type.
+            type:
+              cannot_be_milestone_due_to_children: cannot be a milestone because this
+                work package has children.
             priority_id:
               only_active_priorities_allowed: ay kinakailangang maging aktibo.
             category:
@@ -1009,8 +1016,9 @@ fil:
   error_pdf_export_too_many_columns: Masyadong maraming hanay ang napili para sa PDF
     export. Mangyaring bawasan ang mga bilang ng hanay.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
-  error_token_authenticity: Hindi mapagana upang papatunayan ang Cross-Site Request
-    Forgery token.
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: Hindi naka-update ang mga work package
     done ratio.
   error_work_package_not_found_in_project: Ang work package ay hindi natagpuan o hindi
