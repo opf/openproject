@@ -141,6 +141,22 @@ describe WorkPackages::UpdateContract do
     end
   end
 
+  describe 'with children' do
+    context 'changing to milestone' do
+      let(:milestone) { FactoryBot.build_stubbed :type, is_milestone: true }
+
+      before do
+        work_package.type = milestone
+        allow(work_package).to receive_message_chain(:children, :any?).and_return true
+        contract.validate
+      end
+
+      it 'adds an error because cannot change to milestone with children' do
+        expect(contract.errors.symbols_for(:type)).to include(:cannot_be_milestone_due_to_children)
+      end
+    end
+  end
+
   describe 'parent_id' do
     let(:parent) { FactoryBot.create(:work_package) }
 
