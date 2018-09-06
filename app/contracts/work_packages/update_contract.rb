@@ -37,11 +37,14 @@ module WorkPackages
       end
     end
 
+
     validate :user_allowed_to_access
 
     validate :user_allowed_to_edit
 
     validate :user_allowed_to_move
+
+    validate :can_move_to_milestone
 
     private
 
@@ -72,7 +75,7 @@ module WorkPackages
 
     def user_allowed_to_move
       if model.project_id_changed? &&
-         !@can.allowed?(model, :move)
+        !@can.allowed?(model, :move)
 
         errors.add :project, :error_unauthorized
       end
@@ -94,6 +97,14 @@ module WorkPackages
 
     def allowed_journal_addition?
       model.changes.empty? && model.journal_notes && can.allowed?(model, :comment)
+    end
+
+    def can_move_to_milestone
+      return unless model.type_id_changed? && model.milestone?
+
+      if model.children.any?
+        errors.add :type, :cannot_be_milestone_due_to_children
+      end
     end
   end
 end
