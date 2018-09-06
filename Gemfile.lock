@@ -263,7 +263,7 @@ GEM
       railties (>= 3.0.0)
     faker (1.8.4)
       i18n (~> 0.5)
-    ffi (1.9.23)
+    ffi (1.9.25)
     fog-aws (0.11.0)
       fog-core (~> 1.38)
       fog-json (~> 1.0)
