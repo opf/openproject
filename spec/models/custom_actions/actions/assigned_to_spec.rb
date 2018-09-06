@@ -49,6 +49,7 @@ describe CustomActions::Actions::AssignedTo, type: :model do
     end
 
     [{ value: nil, label: '-' },
+     { value: 'current_user', label: '(Assign to executing user)' },
      { value: users.first.id, label: users.first.name },
      { value: users.last.id, label: users.last.name }]
   end
@@ -71,6 +72,55 @@ describe CustomActions::Actions::AssignedTo, type: :model do
           expect(instance.allowed_values)
             .to eql(allowed_values)
         end
+      end
+    end
+  end
+
+  describe 'current_user special value' do
+    let(:work_package) { FactoryBot.build_stubbed(:work_package) }
+    let(:user) { FactoryBot.build_stubbed(:user) }
+    subject { described_class.new }
+
+    before do
+      subject.values = ['current_user']
+    end
+
+    it 'can set the value' do
+      expect(subject).to have_me_value
+    end
+
+    it 'includes the value in available_values' do
+      expect(subject.associated)
+        .to include([subject.current_user_value_key, I18n.t('custom_actions.actions.assigned_to.executing_user_value')])
+    end
+
+    context 'when logged in' do
+      before do
+        login_as user
+      end
+
+      it 'returns nil for the current user id' do
+        subject.apply work_package
+        expect(work_package.assigned_to_id).to eq(user.id)
+      end
+
+      it 'validates the me value when executing' do
+        errors = ActiveModel::Errors.new(work_package)
+        subject.validate errors
+        expect(errors.symbols_for(:actions)).to be_empty
+      end
+    end
+
+    context 'when not logged in' do
+      it 'returns nil for the current user id' do
+        subject.apply work_package
+        expect(work_package.assigned_to_id).to be_nil
+      end
+
+      it 'validates the me value when executing' do
+        errors = ActiveModel::Errors.new(work_package)
+        subject.validate errors
+        expect(errors.symbols_for(:actions)).to include :not_logged_in
       end
     end
   end
