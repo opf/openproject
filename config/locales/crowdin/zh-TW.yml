@@ -913,6 +913,7 @@ zh-TW:
   error_invalid_group_by: 無法按照 %{value} 分組
   error_invalid_query_column: 無效的查詢欄：%{value}
   error_invalid_sort_criterion: 無法按照 %{value} 排序
+  error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
   error_pdf_export_too_many_columns: 為 PDF 匯出選擇的列太多。請減少列數。
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
   error_token_authenticity: 無法確認跨網域請求權杖

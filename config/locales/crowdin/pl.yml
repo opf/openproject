@@ -1016,6 +1016,7 @@ pl:
   error_invalid_group_by: 'Nie można grupować przez: %{value}'
   error_invalid_query_column: 'Nieprawidłowa kolumna zapytań: %{value}'
   error_invalid_sort_criterion: 'Nie można sortować według kolumny: %{value}'
+  error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
   error_pdf_export_too_many_columns: Wybrano zbyt dużo kolumn do eksportu PDF. Zmniejsz
     liczbę kolumn.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'

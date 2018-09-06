@@ -3,44 +3,44 @@ ro:
   no_results_title_text: În acest moment nu este nimic de afișat.
   activities:
     index:
-      no_results_title_text: There has not been any activity for the project within
-        this time frame.
+      no_results_title_text: Nu s-a înregistrat nicio activitate pentru acest proiect
+        în această perioadă de timp.
   admin:
     plugins:
       no_results_title_text: În acest moment nu există plugin-uri disponibile.
     custom_styles:
-      custom_colors: Custom colors
-      customize: 'Customize your OpenProject installation with your own logo. Note:
-        This logo will be publicly accessible.'
-      enterprise_notice: As a special 'Thank you!' for their financial contribution
-        to develop OpenProject, this tiny feature is only available for Enterprise
-        Edition support subscribers.
-      manage_colors: Edit color select options
+      custom_colors: Culori personalizate
+      customize: 'Poersonalizați instalarea dumneavoastră folosind propriul logo.
+        Notă: Acest logo va fi accesibil publicului.'
+      enterprise_notice: Ca și un semn al reconoștinței noastre, această opțiune este
+        disponiblă doar utlizatorilor care dețin versiunea Enterprise.
+      manage_colors: Modificați opțiunile de selecție ale culorilor
       instructions:
         alternative_color: Strong accent color, typically used for most the important
           button on a screen.
-        content_link_color: Font color of most of the links.
-        primary_color: Main color.
+        content_link_color: Culoarea fontului pentru majoritatea link-urilor.
+        primary_color: Culoarea principală.
         primary_color_dark: Typically a darker version of the main color used for
           hover effects.
-        header_bg_color: Background color of the header.
-        header_item_bg_hover_color: Background color of clickable header items when
-          hovered with the mouse.
-        header_item_font_color: Font color of clickable header items.
-        header_item_font_hover_color: Font color of clickable header items when hovered
-          with the mouse.
-        header_border_bottom_color: Thin line under the header. Leave this field empty
-          if you don't want any line.
-        main_menu_bg_color: Left side menu's background color.
+        header_bg_color: Culoarea de fundal a antetului.
+        header_item_bg_hover_color: Culoarea de fundal a obiectelor care pot fi selectate
+          când cursorului se află deasupra lor.
+        header_item_font_color: Culoare fontului pentru elementele selectabile din
+          antet.
+        header_item_font_hover_color: Culoarea fontului pentru elementele selectabile
+          din antet când cursorul se află deasupra lor.
+        header_border_bottom_color: Linia de sub antet. Lăsați acest câmp gol dacă
+          nu doriți această linie.
+        main_menu_bg_color: Culoarea de fundal pentru meniul din partea stângă.
     enterprise:
-      upgrade_to_ee: Upgrade to Enterprise Edition
+      upgrade_to_ee: Achiziționați versiunea Enterprise
       add_token: Upload an Enterprise Edition support token
       replace_token: Replace your current support token
-      order: Order Enterprise Edition
+      order: Comandați versiunea Enterprise
       paste: Paste your Enterprise Edition support token
       required_for_feature: This feature is only available with an active Enterprise
         Edition support token.
-      enterprise_link: For more information, click here.
+      enterprise_link: Pentru mai multe informații, faceți click aici.
   announcements:
     show_until: Afişare până la
     is_active: afișat acum
@@ -76,31 +76,32 @@ ro:
     execute: Execută %{name}
     upsale:
       title: Acţiunile particularizate sunt o caracteristică a Ediţiei Enterprise
-      description: Custom actions streamline everyday work by combining a set of individual
-        steps into one button.
+      description: Comenzile personalizate îmbunătățesc munca zilnică prin combinarea
+        mai multor pași într-un macro accesibil printr-un singur buton.
   custom_fields:
-    text_add_new_custom_field: 'To add new custom fields to a project you first need
-      to create them before you can add them to this project.
+    text_add_new_custom_field: 'Dacă doriți să adăugați noi câmpuri personalizate
+      în cadrul unui proiect va trebui, mai întâi, să le creați.
 
 '
-    is_enabled_globally: Is enabled globally
-    enabled_in_project: Enabled in project
-    contained_in_type: Contained in type
+    is_enabled_globally: Este activat/ă la nivel global
+    enabled_in_project: Activat/ă în proiect
+    contained_in_type: Înclusă în tipul
     confirm_destroy_option: Deleting an option will delete all of its occurrences
       (e.g. in work packages). Are you sure you want to delete it?
     tab:
       no_results_title_text: În acest moment nu există câmpuri personalizate.
       no_results_content_text: Creare câmp personalizat nou
   concatenation:
-    single: or
+    single: sau
   deprecations:
     old_timeline:
-      replacement: This timelines module is being replaced by the interactive timeline
-        embedded into the work packages module.
-      removal: This module is going to be removed with OpenProject 8.0. The configuration
-        for this view will NOT be migrated to the work package view.
-      further_information_before: Please take a look at
-      link_name: how to migrate to the new timeline.
+      replacement: Acest modul cronologic va fi înlocuit de către cronologia interactivă
+        inclusă în modulul pachetului de lucru.
+      removal: Acest modul va fi exclus începând cu OpenProject 8.0. Setările pentru
+        această configurație NU vor transferate în cadrul configurației pachetului
+        de lucru.
+      further_information_before: Vă rugăm să accesați
+      link_name: cum să realizați transferul la noua cronologie.
       further_information_after: ''
     calendar:
       removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
@@ -695,10 +696,10 @@ ro:
   button_change_password: Modificare parolă
   button_check_all: Selectează tot
   button_clear: Inițializare
-  button_close: Close
+  button_close: Închide
   button_collapse_all: Restrângere totală
   button_configure: Configurare
-  button_continue: Continue
+  button_continue: Continuaţi
   button_copy: Copiere
   button_copy_and_follow: Copiere și continuare
   button_create: Creare
@@ -1008,6 +1009,7 @@ ro:
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
   error_invalid_sort_criterion: 'Can''t sort by column: %{value}'
+  error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
   error_pdf_export_too_many_columns: Too many columns selected for the PDF export.
     Please reduce the number of columns.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
@@ -1037,8 +1039,8 @@ ro:
   error_workflow_copy_target: Selectați tipurile și rolurile țintă
   error_menu_item_not_created: Meniu nu a putut fi adăugat
   error_menu_item_not_saved: Meniul nu a putut fi salvat
-  error_wiki_root_menu_item_conflict: 'Can''t rename "%{old_name}" to "%{new_name}"
-    due to a conflict in the resulting menu item with the existing menu item "%{existing_caption}"
+  error_wiki_root_menu_item_conflict: 'Nu se poate redenumi %{old_name} în %{new_name}
+    datorită unui conflict între noul meniu și meniul deja existent "%{existing_caption}"
     (%{existing_identifier}).
 
 '
@@ -1092,7 +1094,7 @@ ro:
       community: Comunitatea OpenProject
       upsale:
         become_hero: Become a hero!
-        title: Upgrade to Enterprise Edition
+        title: Achiziționați versiunea Enterprise
         description: Boost your productivity with the Enterprise Edition
         more_info: More information
         additional_features: Additional powerful premium features
@@ -1100,7 +1102,7 @@ ro:
         you_contribute: Developers need to pay their bills, too. With Enterprise Edition
           you substantially contribute to this Open-Source community effort.
     links:
-      upgrade_enterprise_edition: Upgrade to Enterprise Edition
+      upgrade_enterprise_edition: Achiziționați versiunea Enterprise
       user_guides: Ghiduri utilizator
       faq: Întrebări Frecvente
       glossary: Glosar
@@ -1236,7 +1238,7 @@ ro:
   label_core_version: Versiune de bază
   label_current_status: Stare actuală
   label_current_version: Versiune actuală
-  label_custom_field_add_no_type: Add this field to a work package type
+  label_custom_field_add_no_type: Adaugați acest câmp la un pachet de lucru
   label_custom_field_new: Câmp personalizat nou
   label_custom_field_plural: Câmpuri personalizate
   label_custom_field_default_type: Golire tip
@@ -1267,7 +1269,7 @@ ro:
   label_download_plural: "%{count} Descărcări"
   label_downloads_abbr: D/L
   label_duplicated_by: dublat de
-  label_duplicate: duplicate
+  label_duplicate: duplicat
   label_duplicates: dublează
   label_edit: Editare
   label_enable_multi_select: Comutare selecție multiplă
@@ -1306,7 +1308,7 @@ ro:
     limbă implicită nepermisă
   label_form_configuration: Configurarea formularului
   label_gantt: Gantt
-  label_gantt_chart: Gantt chart
+  label_gantt_chart: Grafic Gantt
   label_general: General
   label_generate_key: Generare cheie
   label_git_path: Calea catre directorul .git
@@ -1337,7 +1339,7 @@ ro:
   label_invite_user: Invitare utilizator
   label_show_hide: Afișare/ascundere
   label_show_all_registered_users: Show all registered users
-  label_journal: Journal
+  label_journal: Jurnal
   label_journal_diff: Comparare descriere
   label_language: Limbă
   label_jump_to_a_project: Salt la un proiect...
@@ -1360,8 +1362,8 @@ ro:
   label_logged_as: Autentificat ca
   label_login: Autentificare
   label_custom_logo: Custom logo
-  label_custom_favicon: Custom favicon
-  label_custom_touch_icon: Custom touch icon
+  label_custom_favicon: Pictogramă personalizată
+  label_custom_touch_icon: Pictogramă touch personalizată
   label_logout: Deconectare
   label_main_menu: Meniu lateral
   label_manage_groups: Gestionare grupuri
@@ -1372,7 +1374,7 @@ ro:
   label_member_plural: Membri
   label_view_all_members: Vizualizare toți participanții
   label_menu_item_name: Numele meniului
-  label_message: Message
+  label_message: Mesaj
   label_message_last: Ultimul mesaj
   label_message_new: Mesaj nou
   label_message_plural: Mesaje
@@ -1573,8 +1575,8 @@ ro:
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Actualizat de către %{author} acum %{age}
   label_used_by: Folosit de
-  label_used_by_types: Used by types
-  label_used_in_projects: Used in projects
+  label_used_by_types: Folosit/ă/e de tipurile
+  label_used_in_projects: Folosit/ă/e în proiectele
   label_user: Utilizator
   label_user_activity: Activitatea lui %{value}
   label_user_anonymous: Anonim
@@ -1869,9 +1871,9 @@ ro:
           mb: MB
           tb: TB
   onboarding:
-    heading_getting_started: Get an overview
-    text_getting_started_description: Get a quick overview of project management and
-      team collaboration with OpenProject.
+    heading_getting_started: Obțineți o prezentare generală
+    text_getting_started_description: Obțineți o viziune de ansamblu asupra administrării
+      unui proiect și a activității echipelor folosind OpenProject.
     text_show_again: Poate reporni acest videoclip din meniul de ajutor
     welcome: Welcome to OpenProject
     select_language: Please select your language for OpenProject
@@ -2111,8 +2113,8 @@ ro:
       managed_url: URL gestionat
       password: Parola repo
       username: Utilizatorul repo
-    truncated: Sorry, we had to truncate this directory to %{limit} files. %{truncated}
-      entries were omitted from the list.
+    truncated: Ne pare rău, am fost nevoiți să fragmentăm acest director în %{limit}
+      fișiere. Intrările %{truncated} au fost omise din listă.
     named_repository: Repo %{vendor_name}
     update_settings_successful: Setările au fost salvate cu succes.
     url: Adresa URL a repo-ului
@@ -2221,8 +2223,8 @@ ro:
   setting_repository_checkout_text: Text instrucțiuni de descărcare
   setting_repository_log_display_limit: Numărul maxim de revizii afisate în istoricul
     de fișiere
-  setting_repository_truncate_at: Maximum number of files displayed in the repository
-    browser
+  setting_repository_truncate_at: Număr maxim de fișiere este afișat în exploratorul
+    de repozitoriu
   setting_rest_api_enabled: Activare serviciu web REST
   setting_self_registration: Înregistrare individuală
   setting_sequential_project_identifiers: Generare identificatori secvențiali pentru
@@ -2282,36 +2284,39 @@ ro:
     package forms. You can freely group the fields to reflect the needs for your domain.
 
 '
-  text_form_configuration_drag_to_activate: Drag fields from here to activate them
-  text_form_configuration_required_attribute: Attribute is marked required and thus
-    always shown
+  text_form_configuration_drag_to_activate: Mutați câmpuri de aici pentru a le activa
+  text_form_configuration_required_attribute: Atributul este marcat drept necesar,
+    acesta va fi vizibil permanent
   text_caracters_maximum: maximum %{count} caractere.
   text_caracters_minimum: Trebuie să aibă cel putin %{count} caractere.
   text_comma_separated: Sunt permise valori multiple (separate prin virgulă).
   text_comment_wiki_page: 'Comentează la pagina wiki: %{page}'
   text_custom_field_possible_values_info: O linie pentru fiecare valoare
-  text_custom_field_hint_activate_per_project: 'When using custom fields: Keep in
-    mind that custom fields need to be activated per project, too.
+  text_custom_field_hint_activate_per_project: 'Când utilizați câmpuri personalizate:
+    Rețineți că fiecare câmp personalizat trebuie activat individual în cadrul fiecărui
+    proiect.
 
 '
-  text_custom_field_hint_activate_per_project_and_type: 'Custom fields need to be
-    activated per work package type and per project.
+  text_custom_field_hint_activate_per_project_and_type: 'Câmpurile personalizate trebuie
+    să fie activate pentru fiecare pachet de lucru și pentru fiecare proiect.
 
 '
-  text_custom_logo_instructions: 'A white logo on transparent background is recommended.
-    For best results on both, conventional and retina displays, make sure your image''s
-    dimensions are 460px by 60px.
+  text_custom_logo_instructions: 'Este recomandată utilizarea unui logo cu fundal
+    transparent. Pentru a obține rezultate satisfăcătoare pe afișajele convenționale
+    dar și pe cele de tipe retina, asigurați-vă că dimensiunea imaginii este de 460px
+    pe 110px.
 
 '
-  text_custom_favicon_instructions: 'This is the tiny icon that appears in your browser
-    window/tab next to the page''s title. It''s needs to be a squared 32 by 32 pixels
-    sized PNG image file with a transparent background.
+  text_custom_favicon_instructions: 'Această pictogramă este afișată în fereastra/fila
+    browserului lângă titlul site-ului. Aceasta trebuie să aibă dimensiunea de 32px
+    pe 32px, să fie în format PNG și fundalul să fie transparent.
 
 '
-  text_custom_touch_icon_instructions: 'This is the icon that appears in your mobile
-    or tablet when you place a bookmark on your homescreen. It''s needs to be a squared
-    180 by 180 pixels sized PNG image file. Please make sure the image''s background
-    is not transparent otherwise it will look bad on iOS.
+  text_custom_touch_icon_instructions: 'Această pictogramă apare pe telefon sau tabletă
+    în momentul în care se scurtătura către site este salvată pe ecranul principal.
+    Această trebuie să aibă dimensiunea de 180px pe 180 px, să fie în format PNG și
+    este NEAPĂRAT necesar ca fundalul să fie transparent. În caz contrar, această
+    imagine va arăta inestetic pe iOS.
 
 '
   text_database_allows_tsv: Database allows TSVector (optional)

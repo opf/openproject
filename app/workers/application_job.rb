@@ -27,6 +27,22 @@
 #++
 
 class ApplicationJob
+
+  ##
+  # Return a priority number on the given payload
+  def self.priority_number(prio = :default)
+    case prio
+    when :high
+      0
+    when :notification
+      5
+    when :low
+      20
+    else
+      10
+    end
+  end
+
   def self.inherited(child)
     child.prepend Setup
   end

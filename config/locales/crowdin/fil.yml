@@ -1016,6 +1016,7 @@ fil:
   error_invalid_group_by: 'Hindi ma grupo sa pamamagitan ng: %{value}'
   error_invalid_query_column: Hindi balido ang hanay ng query:%{value}
   error_invalid_sort_criterion: 'Hindi masunod sa pamamagitan ng hanay: %{value}'
+  error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
   error_pdf_export_too_many_columns: Masyadong maraming hanay ang napili para sa PDF
     export. Mangyaring bawasan ang mga bilang ng hanay.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'

@@ -1002,6 +1002,7 @@ nl:
   error_invalid_group_by: 'Kan niet groeperen op: %{value}'
   error_invalid_query_column: 'Ongeldige zoekopdracht kolom: %{value}'
   error_invalid_sort_criterion: 'Kan niet sorteren op kolom: %{value}'
+  error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
   error_pdf_export_too_many_columns: Te veel kolommen geselecteerd voor het exporteren
     naar PDF. Beperk het aantal kolommen.
   error_pdf_failed_to_export: De pdf export kan niet worden opgeslagen:%{error}

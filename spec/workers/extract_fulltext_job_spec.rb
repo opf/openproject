@@ -87,14 +87,14 @@ describe ExtractFulltextJob, type: :job do
     end
 
     context 'with exception in extraction' do
-      let(:exception_message) { 'boom' }
+      let(:exception_message) { 'boom-internal-error' }
       let(:logger) { Rails.logger }
 
       before do
         allow_any_instance_of(Plaintext::Resolver).to receive(:text).and_raise(exception_message)
 
         # This line is actually part of the test. `expect` call needs to go so far up here, as we want to verify that a message gets logged.
-        expect(logger).to receive(:error).with(exception_message)
+        expect(logger).to receive(:error).with(/boom-internal-error/)
 
         allow(attachment).to receive(:readable?).and_return(true)
         attachment.reload

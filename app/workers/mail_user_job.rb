@@ -73,7 +73,8 @@ class MailUserJob < ApplicationJob
 
     job = MailUserJob.new method, *args
 
-    Delayed::Job.enqueue job
+    Delayed::Job.enqueue job,
+                         priority: ::ApplicationJob.priority_number(:notification)
   end
 
   private

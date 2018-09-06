@@ -91,7 +91,7 @@ class CopyProjectsController < ApplicationController
                                           associations_to_copy: params[:only],
                                           send_mails: params[:notifications] == '1')
 
-    Delayed::Job.enqueue copy_project_job
+    Delayed::Job.enqueue copy_project_job, priority: ::ApplicationJob.priority_number(:low)
   end
 
   def target_project_params
