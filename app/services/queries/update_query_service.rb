@@ -31,11 +31,14 @@
 require_relative 'query_service'
 
 class UpdateQueryService < QueryService
-  self.contract = Queries::UpdateContract
+
+  def initialize(**args)
+    super(**args)
+
+    self.contract_class = Queries::UpdateContract
+  end
 
   def call(query)
-    initialize_contract! query
-
     result, errors = update query
 
     service_result result, errors, query
@@ -50,7 +53,7 @@ class UpdateQueryService < QueryService
     errors = nil
 
     query.transaction do
-      result, errors = validate_and_save query
+      result, errors = validate_and_save(query, user)
 
       if !result
         raise ActiveRecord::Rollback

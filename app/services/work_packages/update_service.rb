@@ -34,12 +34,12 @@ class WorkPackages::UpdateService
 
   attr_accessor :user,
                 :work_package,
-                :contract
+                :contract_class
 
-  def initialize(user:, work_package:, contract: WorkPackages::UpdateContract)
+  def initialize(user:, work_package:, contract_class: WorkPackages::UpdateContract)
     self.user = user
     self.work_package = work_package
-    self.contract = contract
+    self.contract_class = contract_class
   end
 
   def call(attributes: {}, send_notifications: true)
@@ -92,7 +92,7 @@ class WorkPackages::UpdateService
     WorkPackages::SetAttributesService
       .new(user: user,
            work_package: wp,
-           contract: contract)
+           contract_class: contract_class)
       .call(attributes)
   end
 

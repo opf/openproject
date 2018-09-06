@@ -72,6 +72,14 @@ class ModelContract < Reform::Contract
     end
   end
 
+  attr_reader :user
+
+  def initialize(model, user)
+    super(model)
+
+    @user = user
+  end
+
   # we want to add a validation error whenever someone sets a property that we don't know.
   # However AR will cleverly try to resolve the value for errorneous properties. Thus we need
   # to hook into this method and return nil for unknown properties to avoid NoMethod errors...

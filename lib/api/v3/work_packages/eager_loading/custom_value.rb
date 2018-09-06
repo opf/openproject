@@ -68,7 +68,7 @@ module API
           end
 
           def load_available_custom_fields(work_package)
-            work_package.available_custom_fields = custom_fields_of(work_package)
+            work_package.available_custom_fields = custom_fields_of(work_package).to_a
           end
 
           def grouped_custom_values
@@ -192,7 +192,8 @@ module API
           def usage_hash
             Hash.new do |by_project_hash, project_id|
               by_project_hash[project_id] = Hash.new do |by_type_hash, type_id|
-                by_type_hash[type_id] = []
+                # Use a set to ensure CFs are only available once
+                by_type_hash[type_id] = Set.new
               end
             end
           end

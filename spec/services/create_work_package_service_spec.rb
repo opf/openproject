@@ -37,7 +37,7 @@ describe CreateWorkPackageService do
 
   describe '.contract' do
     it 'uses the CreateContract contract' do
-      expect(described_class.contract).to eql WorkPackages::CreateContract
+      expect(instance.contract_class).to eql WorkPackages::CreateContract
     end
   end
 
@@ -62,8 +62,8 @@ describe CreateWorkPackageService do
     end
 
     before do
-      allow(described_class)
-        .to receive(:contract)
+      allow(instance)
+        .to receive(:contract_class)
         .and_return(mock_contract)
 
       allow(WorkPackage)

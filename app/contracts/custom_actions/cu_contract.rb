@@ -37,6 +37,10 @@ module CustomActions
       CustomAction
     end
 
+    def initialize(model, user = nil)
+      super(model, user)
+    end
+
     attribute :name
     attribute :description
 
