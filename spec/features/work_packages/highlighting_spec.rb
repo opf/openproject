@@ -56,17 +56,24 @@ describe 'Work Package highlighting fields', js: true do
     wp2_row = wp_table.row(wp_2)
 
     ## Status
-    status1_field = wp1_row.find(".__hl_inl_status_#{status1.id}")
-    expect(status1_field.native.css_value('background-color')).to eq('rgba(255, 0, 0, 1)')
-    status2_field = wp2_row.find(".__hl_inl_status_#{status2.id}")
-    expect(status2_field.native.css_value('background-color')).to eq('rgba(240, 240, 240, 1)')
+    expect(SelectorHelpers.get_pseudo_class_property(page,
+                                                     wp1_row.find('[class^="__hl_dot_status_"]'),
+                                                     ':before',
+                                                     "background-color")).to eq('rgb(255, 0, 0)')
+    expect(SelectorHelpers.get_pseudo_class_property(page,
+                                                     wp2_row.find('[class^="__hl_dot_status_"]'),
+                                                     ':before',
+                                                     "background-color")).to eq('rgb(240, 240, 240)')
 
     ## Priority
-    prio1_field = wp1_row.find(".__hl_inl_priority_#{priority1.id}")
-    expect(prio1_field.native.css_value('background-color')).to eq('rgba(18, 52, 86, 1)')
-    ## Priority has no color assigned
-    prio2_field = wp2_row.find(".__hl_inl_priority_#{priority_no_color.id}")
-    expect(prio2_field.native.css_value('background-color')).to eq('rgba(0, 0, 0, 0)')
+    expect(SelectorHelpers.get_pseudo_class_property(page,
+                                                     wp1_row.find('[class^="__hl_dot_priority_"]'),
+                                                     ':before',
+                                                     "background-color")).to eq('rgb(18, 52, 86)')
+    expect(SelectorHelpers.get_pseudo_class_property(page,
+                                                     wp2_row.find('[class^="__hl_dot_priority_"]'),
+                                                     ':before',
+                                                     "background-color")).to eq('rgba(0, 0, 0, 0)')
 
     ## Overdue
     expect(wp1_row).to have_selector('.__hl_date_overdue')
@@ -129,6 +136,6 @@ describe 'Work Package highlighting fields', js: true do
     # Expect highlighted fields in single view even when table disabled
     wp_table.open_full_screen_by_doubleclick wp_1
     expect(page).to have_selector(".wp-status-button .__hl_inl_status_#{status1.id}")
-    expect(page).to have_selector(".__hl_inl_priority_#{priority1.id}")
+    expect(page).to have_selector(".__hl_dot_priority_#{priority1.id}")
   end
 end
