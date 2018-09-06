@@ -82,7 +82,7 @@ class Queries::WorkPackages::Filter::SubprojectFilter <
       # include the selected subprojects
       ids += values.each(&:to_i)
     when '*'
-      ids += project.descendants.pluck(:id)
+      ids += visible_subprojects.pluck(:id)
     end
 
     "#{Project.table_name}.id IN (%s)" % ids.join(',')
@@ -91,7 +91,14 @@ class Queries::WorkPackages::Filter::SubprojectFilter <
   private
 
   def visible_subprojects
-    @visible_subprojects ||= project.descendants.visible
+    # This can be accessed even when `available?` is false
+    @visible_subprojects ||= begin
+      if project.nil?
+        Project.none
+      else
+        project.descendants.visible
+      end
+    end
   end
 
   def operator_strategy
