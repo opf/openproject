@@ -32,12 +32,11 @@ require 'work_packages/create_contract'
 class CreateWorkPackageService
   include Concerns::Contracted
 
-  self.contract = WorkPackages::CreateContract
-
   attr_reader :user
 
   def initialize(user:)
     @user = user
+    self.contract_class = WorkPackages::CreateContract
   end
 
   def call(work_package, send_notifications: true)
@@ -51,10 +50,9 @@ class CreateWorkPackageService
   private
 
   def create(work_package)
-    initialize_contract(work_package)
     assign_defaults(work_package)
 
-    result, errors = validate_and_save(work_package)
+    result, errors = validate_and_save(work_package, user)
 
     ServiceResult.new(success: result,
                       errors: errors,
@@ -63,9 +61,5 @@ class CreateWorkPackageService
 
   def assign_defaults(work_package)
     work_package.author ||= user
-  end
-
-  def initialize_contract(work_package)
-    self.contract = self.class.contract.new(work_package, user)
   end
 end

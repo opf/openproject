@@ -55,7 +55,7 @@ module Queries
     attr_reader :user
 
     def initialize(query, user)
-      super query
+      super(query, user)
 
       @user = user
     end

@@ -43,7 +43,7 @@ class Relations::BaseService
   def update_relation(relation, attributes)
     relation.attributes = relation.attributes.merge attributes
 
-    success, errors = validate_and_save relation
+    success, errors = validate_and_save(relation, user)
 
     result = ServiceResult.new success: success, errors: errors, result: relation
 
@@ -61,10 +61,6 @@ class Relations::BaseService
     else
       relation.delay = nil
     end
-  end
-
-  def initialize_contract!(relation)
-    self.contract = self.class.contract.new relation, user
   end
 
   def reschedule(relation)

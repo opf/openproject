@@ -122,9 +122,8 @@ module WorkPackages
     validate :validate_estimated_hours
 
     def initialize(work_package, user)
-      super(work_package)
+      super(work_package, user)
 
-      @user = user
       @can = WorkPackagePolicy.new(user)
     end
 
@@ -134,8 +133,7 @@ module WorkPackages
 
     private
 
-    attr_reader :user,
-                :can
+    attr_reader :can
 
     def validate_estimated_hours
       if !model.estimated_hours.nil? && model.estimated_hours < 0

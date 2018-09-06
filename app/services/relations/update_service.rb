@@ -31,13 +31,10 @@
 class Relations::UpdateService < Relations::BaseService
   attr_accessor :relation
 
-  self.contract = Relations::UpdateContract
-
   def initialize(user:, relation:)
     super(user: user)
     self.relation = relation
-
-    initialize_contract! relation
+    self.contract_class = Relations::UpdateContract
   end
 
   def call(attributes: {}, send_notifications: true)

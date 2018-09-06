@@ -34,12 +34,11 @@ module Users
   class CreateUserService
     include Concerns::Contracted
 
-    self.contract = Users::CreateContract
-
     attr_reader :current_user
 
     def initialize(current_user:)
       @current_user = current_user
+      self.contract_class = Users::CreateContract
     end
 
     def call(new_user)
@@ -51,13 +50,12 @@ module Users
     private
 
     def create(new_user)
-      initialize_contract(new_user)
-
       return create_regular(new_user) unless new_user.invited?
 
       # As we're basing on the user's mail, this parameter is required
       # before we're able to validate the contract or user
       if new_user.mail.blank?
+        contract = instantiate_contract(new_user, current_user)
         contract.errors.add :mail, :blank
         build_result(new_user, contract.errors)
       else
@@ -73,7 +71,7 @@ module Users
     ##
     # Create regular user
     def create_regular(new_user)
-      result, errors = validate_and_save(new_user)
+      result, errors = validate_and_save(new_user, current_user)
       ServiceResult.new(success: result, errors: errors, result: new_user)
     end
 
@@ -85,7 +83,7 @@ module Users
       ::UserInvitation.assign_user_attributes new_user
 
       # Check contract validity before moving to UserInvitation
-      if !contract.validate
+      if !validate(new_user, current_user)
         build_result(new_user, contract.errors)
       end
 
@@ -97,10 +95,6 @@ module Users
       new_user.errors.add :base, I18n.t(:error_can_not_invite_user) unless invited.is_a? User
 
       build_result(invited, new_user.errors)
-    end
-
-    def initialize_contract(new_user)
-      self.contract = self.class.contract.new(new_user, current_user)
     end
   end
 end

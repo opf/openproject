@@ -76,7 +76,7 @@ describe WorkPackages::SetAttributesService, type: :model do
   let(:instance) do
     described_class.new(user: user,
                         work_package: work_package,
-                        contract: mock_contract)
+                        contract_class: mock_contract)
   end
 
   describe 'call' do
@@ -292,6 +292,36 @@ describe WorkPackages::SetAttributesService, type: :model do
         let(:attributes) { { author: other_user } }
 
         it_behaves_like 'service call'
+      end
+    end
+
+    context 'with the actual contract' do
+      let(:invalid_wp) do
+        wp = FactoryBot.create(:work_package)
+        wp.start_date = Date.today + 5.days
+        wp.due_date = Date.today
+        wp.save!(validate: false)
+
+        wp
+      end
+      let(:user) { FactoryBot.build_stubbed(:admin) }
+      let(:instance) do
+        described_class.new(user: user,
+                            work_package: invalid_wp,
+                            contract_class: contract_class)
+      end
+
+      context 'with a current invalid start date' do
+        let(:call_attributes) { attributes }
+        let(:attributes) { { start_date: Date.today - 5.days } }
+        let(:contract_valid) { true }
+        let(:work_package_valid) { true }
+        subject { instance.call(call_attributes) }
+
+        it 'is successful' do
+          expect(subject.success?).to be_truthy
+          expect(subject.errors).to be_empty
+        end
       end
     end
 

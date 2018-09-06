@@ -37,9 +37,7 @@ class QueryService
   end
 
   def call(query)
-    initialize_contract! query
-
-    result, errors = validate_and_save query
+    result, errors = validate_and_save(query, user)
 
     service_result result, errors, query
   end
@@ -48,9 +46,5 @@ class QueryService
 
   def service_result(result, errors, query)
     ServiceResult.new success: result, errors: errors, result: query
-  end
-
-  def initialize_contract!(query)
-    self.contract = self.class.contract.new query, user
   end
 end

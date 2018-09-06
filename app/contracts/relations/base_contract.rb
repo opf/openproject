@@ -44,16 +44,8 @@ module Relations
     validate :validate_only_one_follow_direction_between_hierarchies
     validate :validate_accepted_type
 
-    attr_reader :user
-
     def self.model
       Relation
-    end
-
-    def initialize(relation, user)
-      super relation
-
-      @user = user
     end
 
     def validate!(*args)

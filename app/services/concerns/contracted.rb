@@ -32,31 +32,46 @@ module Concerns::Contracted
   extend ActiveSupport::Concern
 
   included do
-    class << self
-      attr_accessor :contract
+    attr_reader :contract_class
+
+    def contract_class=(cls)
+      unless cls <= ::ModelContract
+        raise ArgumentError "#{cls.name} is not an instance of ModelContract."
+      end
+
+      @contract_class = cls
     end
 
     private
 
-    attr_accessor :contract
+    def instantiate_contract(object, user)
+      contract_class.new(object, user)
+    end
 
-    def validate_and_save(object)
+    def validate_and_save(object, user)
+      validate_and_yield(object, user) do
+        object.save
+      end
+    end
+
+    ##
+    # Call the given block and assume object is erroneous if
+    # it does not return truthy
+    def validate_and_yield(object, user)
+      contract = instantiate_contract(object, user)
+
       if !contract.validate
         [false, contract.errors]
-      elsif !object.save
+      elsif !yield
         [false, object.errors]
       else
         [true, object.errors]
       end
     end
 
-    def validate(object)
-      if !contract.validate
-        [false, contract.errors]
-      elsif !object.valid?
-        [false, object.errors]
-      else
-        [true, object.errors]
+    def validate(object, user)
+      validate_and_yield(object, user) do
+        object.valid?
       end
     end
   end

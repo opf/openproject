@@ -448,7 +448,7 @@ class MailHandler < ActionMailer::Base
 
     service_call = WorkPackages::CreateService
                    .new(user: user,
-                        contract: work_package_create_contract_class)
+                        contract_class: work_package_create_contract_class)
                    .call(attributes: attributes, work_package: work_package)
 
     if service_call.success?
@@ -476,7 +476,7 @@ class MailHandler < ActionMailer::Base
     service_call = WorkPackages::UpdateService
                    .new(user: user,
                         work_package: work_package,
-                        contract: work_package_update_contract_class)
+                        contract_class: work_package_update_contract_class)
                    .call(attributes: attributes)
 
     if service_call.success?

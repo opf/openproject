@@ -33,17 +33,15 @@ module WorkPackages
       WorkPackage
     end
 
-    attr_accessor :policy,
-                  :user
+    attr_accessor :policy
 
     attribute :journal_notes do
       errors.add(:journal_notes, :error_unauthorized) unless can?(:comment)
     end
 
     def initialize(work_package, user)
-      super(work_package)
+      super(work_package, user)
 
-      self.user = user
       self.policy = WorkPackagePolicy.new(user)
     end
 
