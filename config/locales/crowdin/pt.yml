@@ -69,6 +69,8 @@ pt:
     actions:
       name: Ações
       add: Adicionar ação
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
     conditions: Condições
     plural: Ações personalizadas
     new: Nova ação personalizada
@@ -185,6 +187,9 @@ pt:
       add_subelements: Add subelements group
       edit_query: Edit embedded query
       reset: Repor predefinições
+      type_color_text: |
+        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        in Gantt charts.
   versions:
     overview:
       no_results_title_text: Atualmente não existem pacotes de trabalho atribuídos
@@ -484,6 +489,8 @@ pt:
           only_one_allowed: "(%{name}) only one value is allowed."
           empty: "(%{name}) value can't be empty."
           inclusion: "(%{name}) value is not set to one of the allowed values."
+          not_logged_in: "(%{name}) value cannot be set because you are not logged
+            in."
           not_an_integer: "(%{name}) is not an integer."
           smaller_than_or_equal_to: "(%{name}) deve ser menor ou igual a %{count}."
           greater_than_or_equal_to: "(%{name}) deve ser maior ou igual a %{count}."
@@ -548,6 +555,9 @@ pt:
                 da antiga para a nova situação do utilizador actual.
               status_invalid_in_type: is invalid because the current status does not
                 exist in this type.
+            type:
+              cannot_be_milestone_due_to_children: cannot be a milestone because this
+                work package has children.
             priority_id:
               only_active_priorities_allowed: tem que estar ativo.
             category:

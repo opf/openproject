@@ -69,6 +69,8 @@ de:
     actions:
       name: Aktionen
       add: Aktion hinzufügen
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
     conditions: Bedingungen
     plural: Benutzerdefinierte Aktionen
     new: Benutzerdefinierte Aktion hinzufügen
@@ -186,6 +188,9 @@ de:
       add_subelements: Kindelemente-Gruppe hinzufügen
       edit_query: Eingebettete Abfrage bearbeiten
       reset: Auf Standardwerte zurücksetzen
+      type_color_text: |
+        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        in Gantt charts.
   versions:
     overview:
       no_results_title_text: Derzeit sind keine Arbeitspakete dieser Version zugewiesen.
@@ -485,6 +490,8 @@ de:
           only_one_allowed: "(%{name}) nur ein Wert ist zulässig."
           empty: "(%{name}) Wert darf nicht leer sein."
           inclusion: "(%{name}) ist nicht auf einen erlaubten Wert gesetzt."
+          not_logged_in: "(%{name}) value cannot be set because you are not logged
+            in."
           not_an_integer: "(%{name}) ist keine Ganzzahl."
           smaller_than_or_equal_to: "(%{name}) muss kleiner als oder gleich %{count}
             sein."
@@ -556,6 +563,9 @@ de:
                 alten zum neuen Status für die aktuelle Rolle des Nutzers existiert.
               status_invalid_in_type: ist ungültig, da der aktuelle Status nicht in
                 diesem Typ vorhanden ist.
+            type:
+              cannot_be_milestone_due_to_children: cannot be a milestone because this
+                work package has children.
             priority_id:
               only_active_priorities_allowed: muss aktiv sein.
             category:

@@ -60,6 +60,8 @@ ko:
     actions:
       name: 작업
       add: Add action
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
     conditions: Conditions
     plural: Custom actions
     new: New custom action
@@ -170,6 +172,9 @@ ko:
       add_subelements: Add subelements group
       edit_query: Edit embedded query
       reset: 기본값으로 초기화
+      type_color_text: |
+        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        in Gantt charts.
   versions:
     overview:
       no_results_title_text: 이 버전에 할당된 작업 패키지가 없습니다.
@@ -445,6 +450,8 @@ ko:
           only_one_allowed: "(%{name}) only one value is allowed."
           empty: "(%{name}) value can't be empty."
           inclusion: "(%{name}) value is not set to one of the allowed values."
+          not_logged_in: "(%{name}) value cannot be set because you are not logged
+            in."
           not_an_integer: "(%{name}) is not an integer."
           smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
           greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
@@ -505,6 +512,9 @@ ko:
               status_transition_invalid: 현재 사용자 역할이 새 상태로 바르게 전환될 수 없으므로 유효 하지 않음
               status_invalid_in_type: is invalid because the current status does not
                 exist in this type.
+            type:
+              cannot_be_milestone_due_to_children: cannot be a milestone because this
+                work package has children.
             priority_id:
               only_active_priorities_allowed: 활성화가 요구됨
             category:

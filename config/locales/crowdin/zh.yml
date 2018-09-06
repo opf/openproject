@@ -57,6 +57,8 @@ zh:
     actions:
       name: 操作
       add: 添加操作
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
     conditions: 条件
     plural: 自定义操作
     new: 添加自定义操作
@@ -164,6 +166,9 @@ zh:
       add_subelements: 增加子元素组
       edit_query: 编辑嵌入式查询
       reset: 重置为默认值
+      type_color_text: |
+        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        in Gantt charts.
   versions:
     overview:
       no_results_title_text: 目前没有工作包分配给此版本。
@@ -425,6 +430,8 @@ zh:
           only_one_allowed: "(%{name}) 只允许一个值。"
           empty: "(%{name}) 值不能为空。"
           inclusion: "(%{name}) 的值未设置为允许的值之一。"
+          not_logged_in: "(%{name}) value cannot be set because you are not logged
+            in."
           not_an_integer: "(%{name}) 不是整数。"
           smaller_than_or_equal_to: "（%{name}）必须小于或等于 %{count}。"
           greater_than_or_equal_to: "（%{name}）必须大于或等于 %{count}。"
@@ -481,6 +488,9 @@ zh:
             status_id:
               status_transition_invalid: 是无效的，因为在当前用户的角色下，没有从旧到新的状态有效的过渡存在。
               status_invalid_in_type: 无效，因为此类型中不存在当前状态。
+            type:
+              cannot_be_milestone_due_to_children: cannot be a milestone because this
+                work package has children.
             priority_id:
               only_active_priorities_allowed: 需要被激活。
             category:
