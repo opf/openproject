@@ -26,25 +26,37 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: User session
-  Background:
-    Given there is 1 user with the following:
-      | login    | bob        |
+require 'spec_helper'
 
-  Scenario: Autologin works if enabled
-    Given the "autologin" setting is set to 1
-    Given the "session_ttl_enabled" setting is set to true
-    And the "session_ttl" setting is set to 5
-    When I login with autologin enabled as "bob"
-    And I wait for "10" minutes
-    And I go to the home page
-    Then I should be logged in as "bob"
+describe 'Logout', type: :feature, js: true do
+  let(:user_password) { 'b0B' * 4 }
+  let(:user) do
+    FactoryBot.create(:user,
+                      password: user_password,
+                      password_confirmation: user_password)
+  end
 
-  Scenario: Autologin does not work if disabled
-    Given the "autologin" setting is set to 0
-    Given the "session_ttl_enabled" setting is set to true
-    And the "session_ttl" setting is set to 5
-    When I login with autologin enabled as "bob"
-    And I wait for "10" minutes
-    And I go to the home page
-    Then I should be logged out
+  before do
+    login_with(user.login, user_password)
+  end
+
+  it 'prevents the user from making any more changes' do
+    visit my_page_path
+
+    within '.top-menu-items-right' do
+      page.find("a[title='#{user.name}']").click
+
+      click_link I18n.t(:label_logout)
+    end
+
+    expect(page)
+      .to have_current_path home_path
+
+    # Can not access the my page but is redirected
+    # to login instead.
+    visit my_page_path
+
+    expect(page)
+      .to have_field('Login')
+  end
+end
