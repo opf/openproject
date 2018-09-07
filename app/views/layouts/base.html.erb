@@ -63,6 +63,9 @@ See docs/COPYRIGHT.rdoc for more details.
 
   <%# Include CLI assets (development) or prod build assets %>
   <%= include_frontend_assets %>
+  <link href="assets/vendor/enjoyhint.css" rel="stylesheet">
+  <link href="assets/vendor/introjs.css" rel="stylesheet">
+  <link href="assets/vendor/hopscotch.css" rel="stylesheet">
 
   <%= javascript_include_tag 'application' %>
   <%= javascript_include_tag "locales/#{I18n.locale}" %>
@@ -84,6 +87,9 @@ See docs/COPYRIGHT.rdoc for more details.
     <% end %>
   <% end %>
   <%= crowdin_in_context_translation %>
+  <script src="assets/vendor/enjoyhint.min.js"></script>
+  <script src="assets/vendor/intro.min.js"></script>
+  <script src="assets/vendor/hopscotch.min.js"></script>
 </head>
 <body class="<%= body_css_classes %>" data-relative_url_root="<%= root_path %>">
 <noscript>

@@ -2928,6 +2928,11 @@
       "resolved": "https://registry.npmjs.org/bourbon/-/bourbon-4.2.7.tgz",
       "integrity": "sha1-SKgF3/R1+/YeACpk4eTbaNL4L7o="
     },
+    "bower": {
+      "version": "1.8.4",
+      "resolved": "https://registry.npmjs.org/bower/-/bower-1.8.4.tgz",
+      "integrity": "sha1-54dqB23rgTf30GUl3F6MZtuC8oo="
+    },
     "bowser": {
       "version": "1.9.2",
       "resolved": "https://registry.npmjs.org/bowser/-/bowser-1.9.2.tgz",

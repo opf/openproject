@@ -26,6 +26,9 @@ OpenProject::Application.configure do
     select_list_move.js
     types_checkboxes.js
     work_packages.js
+    vendor/enjoyhint.min.js
+    vendor/intro.*js
+    vendor/hopscotch.*js
     vendor/ckeditor/ckeditor.*js
     bundles/openproject-legacy-app.js
   )
