@@ -30,8 +30,8 @@ FactoryBot.define do
   factory :user, parent: :principal, class: User do
     firstname 'Bob'
     lastname 'Bobbit'
-    sequence(:login) do |n| "bob#{n}" end
-    sequence(:mail) do |n| "bob#{n}.bobbit@bob.com" end
+    sequence(:login) { |n| "bob#{n}" }
+    sequence(:mail) { |n| "bobmail#{n}.bobbit@bob.com" }
     password 'adminADMIN!'
     password_confirmation 'adminADMIN!'
 
