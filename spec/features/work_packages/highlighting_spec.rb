@@ -120,8 +120,8 @@ describe 'Work Package highlighting fields', js: true do
     expect(page).to have_no_selector('[class*="__hl_inl_priority"]')
     expect(page).to have_no_selector('[class*="__hl_date"]')
 
-    # Highlight none
-    highlighting.switch_highlight 'None'
+    # No highlighting
+    highlighting.switch_highlight 'No highlighting'
     expect(page).to have_no_selector('[class*="__hl_row"]')
     expect(page).to have_no_selector('[class*="__hl_inl_status"]')
     expect(page).to have_no_selector('[class*="__hl_inl_priority"]')
