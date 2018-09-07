@@ -113,5 +113,43 @@ describe 'Login', type: :feature do
       expect(page)
         .to have_current_path my_page_path
     end
+
+    context 'autologin',
+            with_settings: {
+              autologin: 1
+            } do
+
+      def fake_browser_closed
+        page.driver.browser.set_cookie(OpenProject::Configuration['session_cookie_name'])
+      end
+
+      before do
+        allow(Setting)
+          .to receive(:autologin?)
+          .and_return(true)
+      end
+
+      it 'logs in the user automatically if enabled' do
+        login_with(user.login, user_password, autologin: true)
+
+        fake_browser_closed
+        visit home_path
+
+        # expect being logged in automatically
+        expect(page)
+          .to have_selector("a[title='#{user.name}']")
+
+        fake_browser_closed
+        # faking having changed the autologin setting
+        allow(Setting)
+          .to receive(:autologin?)
+          .and_return(false)
+        visit my_page_path
+
+        # expect not being logged in automatically
+        expect(page)
+          .to have_field('Login')
+      end
+    end
   end
 end
