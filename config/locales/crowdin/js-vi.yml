@@ -648,9 +648,9 @@ vi:
           inline: Inline
           inline_text: No highlighting of work package rows. Display colors of overdue
             dates, status, and priority attributes in their respective columns.
-          status: Trạng thái
+          status: Status
           status_text: Highlight work package rows based on the color of its status.
-          priority: Độ ưu tiên
+          priority: Priority
           priority_text: Highlight work package rows based on the color of its priority.
         columns_help_text: Sử dụng ô nhập liệu trên đây để thêm hoặc bớt cột vào bảng
           của bạn. Bạn có thể kéo thả cột để thay đổi trật tự của nó.

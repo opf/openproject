@@ -62,7 +62,7 @@ th:
       no_results_title_text: There are currently no posts for the board.
   colors:
     index:
-      no_results_title_text: ขณะนี้ยังไม่มีสีใดๆ
+      no_results_title_text: There are currently no colors.
       no_results_content_text: Create a new color
     label_no_color: No color
   custom_actions:
@@ -631,7 +631,7 @@ th:
     comment: ความคิดเห็น
     comments: ความคิดเห็น
     content: เนื้อหา
-    color: สี
+    color: Color
     created_at: สร้างเมื่อ
     created_on: สร้างเมื่อ
     custom_options: ค่าที่เป็นไปได้
@@ -2655,3 +2655,7 @@ th:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Schema
+  planning_element_type_colors:
+    index:
+      no_results_title_text: ขณะนี้ยังไม่มีสีใดๆ
+      no_results_content_text: Create a new color

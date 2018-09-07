@@ -648,7 +648,7 @@ uk:
     comment: Comment
     comments: Comment
     content: Content
-    color: Колір
+    color: Color
     created_at: Created on
     created_on: Created on
     custom_options: Можливі значення
@@ -2763,3 +2763,7 @@ uk:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Схема
+  planning_element_type_colors:
+    index:
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: Create a new color

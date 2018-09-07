@@ -50,15 +50,15 @@ lol:
       no_results_title_text: crwdns96402:0crwdne96402:0
   colors:
     index:
-      no_results_title_text: crwdns99153:0crwdne99153:0
-      no_results_content_text: crwdns99154:0crwdne99154:0
-    label_no_color: crwdns99155:0crwdne99155:0
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: Create a new color
+    label_no_color: No color
   custom_actions:
     actions:
       name: crwdns98840:0crwdne98840:0
       add: crwdns98841:0crwdne98841:0
       assigned_to:
-        executing_user_value: "(Assign to executing user)"
+        executing_user_value: crwdns99169:0crwdne99169:0
     conditions: crwdns98842:0crwdne98842:0
     plural: crwdns98843:0crwdne98843:0
     new: crwdns98844:0crwdne98844:0
@@ -138,18 +138,18 @@ lol:
       no_results_title_text: crwdns96444:0crwdne96444:0
   prioritiies:
     edit:
-      priority_color_text: 'crwdns99156:0crwdne99156:0
-
-'
+      priority_color_text: |
+        Click to assign or change the color of this priority.
+        It can be used for highlighting work packages in the table.
   reportings:
     index:
       no_results_title_text: crwdns96445:0crwdne96445:0
       no_results_content_text: crwdns96446:0crwdne96446:0
   statuses:
     edit:
-      status_color_text: 'crwdns99157:0crwdne99157:0
-
-'
+      status_color_text: |
+        Click to assign or change the color of this status.
+        It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: crwdns96447:0crwdne96447:0
       no_results_content_text: crwdns96448:0crwdne96448:0
@@ -430,8 +430,7 @@ lol:
           only_one_allowed: crwdns98848:0%{name}crwdne98848:0
           empty: crwdns98849:0%{name}crwdne98849:0
           inclusion: crwdns98850:0%{name}crwdne98850:0
-          not_logged_in: "(%{name}) value cannot be set because you are not logged
-            in."
+          not_logged_in: crwdns99171:0%{name}crwdne99171:0
           not_an_integer: crwdns98851:0%{name}crwdne98851:0
           smaller_than_or_equal_to: crwdns98871:0%{name}crwdnd98871:0%{count}crwdne98871:0
           greater_than_or_equal_to: crwdns98872:0%{name}crwdnd98872:0%{count}crwdne98872:0
@@ -489,8 +488,7 @@ lol:
               status_transition_invalid: crwdns96665:0crwdne96665:0
               status_invalid_in_type: crwdns98891:0crwdne98891:0
             type:
-              cannot_be_milestone_due_to_children: cannot be a milestone because this
-                work package has children.
+              cannot_be_milestone_due_to_children: crwdns99172:0crwdne99172:0
             priority_id:
               only_active_priorities_allowed: crwdns96666:0crwdne96666:0
             category:
@@ -573,7 +571,7 @@ lol:
     comment: crwdns96720:0crwdne96720:0
     comments: crwdns96721:0crwdne96721:0
     content: crwdns96722:0crwdne96722:0
-    color: crwdns99158:0crwdne99158:0
+    color: Color
     created_at: crwdns96723:0crwdne96723:0
     created_on: crwdns96724:0crwdne96724:0
     custom_options: crwdns96725:0crwdne96725:0
@@ -913,10 +911,10 @@ lol:
   error_invalid_group_by: crwdns97002:0%{value}crwdne97002:0
   error_invalid_query_column: crwdns97003:0%{value}crwdne97003:0
   error_invalid_sort_criterion: crwdns97004:0%{value}crwdne97004:0
-  error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
+  error_journal_attribute_not_present: crwdns99173:0%{attribute}crwdne99173:0
   error_pdf_export_too_many_columns: crwdns97005:0crwdne97005:0
   error_pdf_failed_to_export: crwdns99041:0%{error}crwdne99041:0
-  error_token_authenticity: crwdns97006:0crwdne97006:0
+  error_token_authenticity: crwdns99174:0crwdne99174:0
   error_work_package_done_ratios_not_updated: crwdns97007:0crwdne97007:0
   error_work_package_not_found_in_project: crwdns97008:0crwdne97008:0
   error_must_be_project_member: crwdns97009:0crwdne97009:0
@@ -2430,3 +2428,7 @@ lol:
       writing_read_only_attributes: crwdns98331:0crwdne98331:0
     resources:
       schema: crwdns98332:0crwdne98332:0
+  planning_element_type_colors:
+    index:
+      no_results_title_text: crwdns99175:0crwdne99175:0
+      no_results_content_text: crwdns99176:0crwdne99176:0

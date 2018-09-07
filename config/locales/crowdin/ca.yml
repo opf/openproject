@@ -62,8 +62,8 @@ ca:
       no_results_title_text: Actualment no hi ha cap entrada al tauler.
   colors:
     index:
-      no_results_title_text: Actualment no hi ha cap color.
-      no_results_content_text: Crear un nou color
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: Create a new color
     label_no_color: No color
   custom_actions:
     actions:
@@ -2779,3 +2779,7 @@ ca:
       writing_read_only_attributes: No s'ha d'escriure en un atribut de només de lectura.
     resources:
       schema: Esquema
+  planning_element_type_colors:
+    index:
+      no_results_title_text: Actualment no hi ha cap color.
+      no_results_content_text: Crear un nou color
