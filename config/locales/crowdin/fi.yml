@@ -994,7 +994,9 @@ fi:
   error_pdf_export_too_many_columns: Liikaa sarakkeita valittuina PDF-vientiin. Pienennä
     sarakkeiden määrää.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
-  error_token_authenticity: Unable to verify Cross-Site Request Forgery token.
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: Toimi paketti tehnyt suhdelukuja ei
     päivitetä.
   error_work_package_not_found_in_project: Toimia paketti ei löydy tai ei kuulu tähän

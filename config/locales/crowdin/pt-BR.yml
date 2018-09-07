@@ -1000,8 +1000,9 @@ pt-BR:
   error_pdf_export_too_many_columns: Muitas colunas selecionadas para a exportação
     para PDF. Reduza o número de colunas.
   error_pdf_failed_to_export: 'Não foi possível salvar a exportação do PDF: %{error}'
-  error_token_authenticity: Não foi possível verificar o símbolo de Falsificação de
-    Solicitação Entre Sites.
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: Percentual concluído do pacote de trabalho
     não foi atualizado.
   error_work_package_not_found_in_project: O pacote de trabalho não foi encontrado

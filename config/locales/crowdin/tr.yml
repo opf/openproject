@@ -999,7 +999,9 @@ tr:
   error_pdf_export_too_many_columns: PDF Dışa Aktarma için çok fazla sütun seçili.
     Sütun sayısını azaltın.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
-  error_token_authenticity: Siteler arası sahte istek belirteci doğrulaması yapılamadı.
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: İş tamamlanma oranları güncellenmedi.
   error_work_package_not_found_in_project: Iş paketi bulunamadı veya bu projeye ait
     değil

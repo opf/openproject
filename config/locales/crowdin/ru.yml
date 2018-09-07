@@ -1036,7 +1036,9 @@ ru:
   error_pdf_export_too_many_columns: Для экспорта в PDF-файл выбрано слишком много
     столбцов. Пожалуйста, сократите количество столбцов.
   error_pdf_failed_to_export: 'Не удалось сохранить экспорт в PDF: %{error}'
-  error_token_authenticity: Не удается проверить CSRF-токен.
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: Сделанные соотношения пакета работ не
     обновляются.
   error_work_package_not_found_in_project: Пакет работ не найден или не принадлежит

@@ -386,8 +386,8 @@ de:
         type: Typ
       type:
         attribute_groups: ''
-        is_in_roadmap: Displayed in roadmap by default
-        is_default: Activated for new projects by default
+        is_in_roadmap: In Roadmap standardmäßig angezeigt
+        is_default: Typ für neue Projekte standardmäßig aktiviert
         is_milestone: Ist ein Meilenstein
         color: Farbe
       user:
@@ -1028,8 +1028,9 @@ de:
   error_pdf_export_too_many_columns: Zu viele Spalten für PDF-Export ausgewählt. Bitte
     reduzieren Sie die Anzahl der ausgewählten Spalten.
   error_pdf_failed_to_export: 'Der PDF-Export konnte nicht gespeichert werden: %{error}'
-  error_token_authenticity: Cross-Site-Request-Forgery Token kann nicht verifiziert
-    werden.
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: Der Arbeitspaket-Fortschritt wurde nicht
     aktualisiert.
   error_work_package_not_found_in_project: Das Arbeitspaket wurde nicht gefunden oder

@@ -1017,8 +1017,9 @@ fr:
   error_pdf_export_too_many_columns: Trop de colonnes sélectionnées pour l’exportation
     PDF. Veuillez réduire le nombre de colonnes.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
-  error_token_authenticity: Impossible de vérifier le jeton de Cross-Site Request
-    Forgery.
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: Les ratios de Lots de Travaux achevés
     n'ont pas été mis à jour.
   error_work_package_not_found_in_project: Le Lot de Travaux n'a pas été trouvé ou

@@ -1016,7 +1016,9 @@ nl:
   error_pdf_export_too_many_columns: Te veel kolommen geselecteerd voor het exporteren
     naar PDF. Beperk het aantal kolommen.
   error_pdf_failed_to_export: De pdf export kan niet worden opgeslagen:%{error}
-  error_token_authenticity: Niet mogelijk om Cross-Site Request Forgery-token te verifiëren.
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: Werkpakket gedaan ratio's niet bijgewerkt.
   error_work_package_not_found_in_project: Het werkpakket werd niet gevonden of maakt
     geen deel uit van dit project

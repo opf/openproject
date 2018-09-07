@@ -922,7 +922,9 @@ ja:
   error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
   error_pdf_export_too_many_columns: PDF エクスポート用に選択された列が多すぎます。 列の数を減らしてください。
   error_pdf_failed_to_export: PDFエクスポートを保存できませんでした： %{error}
-  error_token_authenticity: クロスサイトリクエストフォージェリのトークンを検証できません。
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: 作業項目の進捗率が更新できません。
   error_work_package_not_found_in_project: 作業項目が見つからないか、このプロジェクトに属してないかです。
   error_must_be_project_member: プロジェクトのメンバーである必要があります。

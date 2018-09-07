@@ -926,7 +926,9 @@ zh-TW:
   error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
   error_pdf_export_too_many_columns: 為 PDF 匯出選擇的列太多。請減少列數。
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
-  error_token_authenticity: 無法確認跨網域請求權杖
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: 工作項目完成比例未更新
   error_work_package_not_found_in_project: 工作項目找不到或是不屬於這個專案
   error_must_be_project_member: 必須是專案的成員

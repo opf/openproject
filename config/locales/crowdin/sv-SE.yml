@@ -997,7 +997,9 @@ sv-SE:
   error_pdf_export_too_many_columns: För många kolumner har markerats för PDF-export.
     Vänlogen minska antalet kolumner.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
-  error_token_authenticity: Kunde inte verifiera Cross-Site Request Forgery token.
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: Arbetspaketets andel avklarat är inte
     uppdaterat.
   error_work_package_not_found_in_project: Arbetspaketet hittades inte eller hör inte

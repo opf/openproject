@@ -1015,8 +1015,9 @@ it:
   error_pdf_export_too_many_columns: Troppe colonne selezionate per l'esportazione
     in PDF. Ridurre il numero di colonne.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
-  error_token_authenticity: Impossibile verificare il token di Cross-Site Request
-    Forgery.
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: Percentuale di completamento della macro-attività
     (work package) non aggiornata.
   error_work_package_not_found_in_project: La macro-attività (work package) non è

@@ -1013,8 +1013,9 @@ pt:
   error_pdf_export_too_many_columns: Demasiadas colunas selecionadas para a exportação
     PDF. Reduza o número de colunas.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
-  error_token_authenticity: Não é possível verificar o token de Cross-Site Request
-    Forgery.
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: Percentagens de progresso do pacote
     de trabalho não foram atualizadas.
   error_work_package_not_found_in_project: A tarefa não foi encontrada ou não pertence

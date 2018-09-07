@@ -990,7 +990,9 @@ th:
   error_pdf_export_too_many_columns: Too many columns selected for the PDF export.
     Please reduce the number of columns.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
-  error_token_authenticity: Unable to verify Cross-Site Request Forgery token.
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: ชุดภารกิจที่เสร็จแล้ว ไม่สามารถปรับปรุงอัตราส่วนได้
   error_work_package_not_found_in_project: ไม่พบชุดภารกิจ หรือชุดภารกิจไม่ได้เป็นของโครงการนี้
   error_must_be_project_member: ต้องเป็นสมาชิกโครงการ
