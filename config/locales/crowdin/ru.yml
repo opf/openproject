@@ -469,8 +469,8 @@ ru:
           only_one_allowed: "(%{name}) разрешено только одно значение."
           empty: "(%{name}) не может быть пустым."
           inclusion: "(%{name}) не задано ни одно из допустимых значений."
-          not_logged_in: "(%{name}) value cannot be set because you are not logged
-            in."
+          not_logged_in: "(%{name}) значение не может быть установлено, пока вы не
+            вошли в систему."
           not_an_integer: "(%{name}) не является целым числом."
           smaller_than_or_equal_to: "(%{name}) должен быть меньше или равен %{count}."
           greater_than_or_equal_to: "(%{name}) должен быть больше или равен %{count}."
@@ -534,8 +534,8 @@ ru:
               status_invalid_in_type: недопустимо, так как текущего статуса в этом
                 типе нет.
             type:
-              cannot_be_milestone_due_to_children: cannot be a milestone because this
-                work package has children.
+              cannot_be_milestone_due_to_children: не может быть вехой, поскольку
+                этот пакет работ имеет потомков.
             priority_id:
               only_active_priorities_allowed: требуется быть активным.
             category:
@@ -1018,7 +1018,7 @@ ru:
   error_invalid_group_by: 'Невозможно группировать по: %{value}'
   error_invalid_query_column: 'Недопустимый столбец в запросе: %{value}'
   error_invalid_sort_criterion: 'Невозможно сортировать по столбцу: %{value}'
-  error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
+  error_journal_attribute_not_present: Журнал не содержит атрибут %{attribute}.
   error_pdf_export_too_many_columns: Для экспорта в PDF-файл выбрано слишком много
     столбцов. Пожалуйста, сократите количество столбцов.
   error_pdf_failed_to_export: 'Не удалось сохранить экспорт в PDF: %{error}'
