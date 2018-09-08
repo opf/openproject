@@ -33,25 +33,23 @@ class WorkPackages::SetAttributesService
 
   attr_accessor :user,
                 :work_package,
-                :contract
+                :contract_class
 
-  def initialize(user:, work_package:, contract:)
+  def initialize(user:, work_package:, contract_class:)
     self.user = user
     self.work_package = work_package
-
-    self.contract = contract.new(work_package, user)
+    self.contract_class = contract_class
   end
 
   def call(attributes)
     set_attributes(attributes)
-
     validate_and_result
   end
 
   private
 
   def validate_and_result
-    success, errors = validate(work_package)
+    success, errors = validate(work_package, user)
 
     ServiceResult.new(success: success,
                       errors: errors,

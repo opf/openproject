@@ -62,13 +62,15 @@ pt-BR:
       no_results_title_text: Atualmente, não há mensagens para o quadro.
   colors:
     index:
-      no_results_title_text: Atualmente, não existem cores.
-      no_results_content_text: Criar uma nova cor
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: Create a new color
     label_no_color: No color
   custom_actions:
     actions:
       name: Ações
       add: Adicionar ação
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
     conditions: Condições
     plural: Ações personalizadas
     new: Nova ação personalizada
@@ -183,6 +185,9 @@ pt-BR:
       add_subelements: Adicionar grupo de subelementos
       edit_query: Editar consulta embutida
       reset: Redefinir para os padrões
+      type_color_text: |
+        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        in Gantt charts.
   versions:
     overview:
       no_results_title_text: Não há pacote de trabalho atribuído a esta versão.
@@ -473,6 +478,8 @@ pt-BR:
           only_one_allowed: "(%{name}) apenas um valor é permitido."
           empty: "(%{name}) valor não pode ser vazio."
           inclusion: "(%{name}) valor não está definido como um dos valores permitidos."
+          not_logged_in: "(%{name}) value cannot be set because you are not logged
+            in."
           not_an_integer: "(%{name}) não é um número inteiro."
           smaller_than_or_equal_to: "(%{name}) deve ser menor ou igual a %{count}."
           greater_than_or_equal_to: "(%{name}) deve ser maior ou igual a %{count}."
@@ -537,6 +544,9 @@ pt-BR:
                 da antiga para a nova situação para o papel do usuário atual.
               status_invalid_in_type: é inválido porque não existe a situação atual
                 neste tipo.
+            type:
+              cannot_be_milestone_due_to_children: cannot be a milestone because this
+                work package has children.
             priority_id:
               only_active_priorities_allowed: precisa ser ativo.
             category:
@@ -627,7 +637,7 @@ pt-BR:
     comment: Comentário
     comments: Comentário
     content: Conteúdo
-    color: Cor
+    color: Color
     created_at: Criado em
     created_on: Criado em
     custom_options: Valores possíveis
@@ -990,8 +1000,9 @@ pt-BR:
   error_pdf_export_too_many_columns: Muitas colunas selecionadas para a exportação
     para PDF. Reduza o número de colunas.
   error_pdf_failed_to_export: 'Não foi possível salvar a exportação do PDF: %{error}'
-  error_token_authenticity: Não foi possível verificar o símbolo de Falsificação de
-    Solicitação Entre Sites.
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: Percentual concluído do pacote de trabalho
     não foi atualizado.
   error_work_package_not_found_in_project: O pacote de trabalho não foi encontrado
@@ -2735,3 +2746,7 @@ pt-BR:
       writing_read_only_attributes: Você não pode escrever um atributo somente leitura.
     resources:
       schema: Esquema
+  planning_element_type_colors:
+    index:
+      no_results_title_text: Atualmente, não existem cores.
+      no_results_content_text: Criar uma nova cor

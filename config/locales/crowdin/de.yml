@@ -62,13 +62,15 @@ de:
       no_results_title_text: Zur Zeit existieren keine Forumseinträge für dieses Forum.
   colors:
     index:
-      no_results_title_text: Derzeit gibt es keine Farben.
-      no_results_content_text: Neue Farbe anlegen
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: Create a new color
     label_no_color: No color
   custom_actions:
     actions:
       name: Aktionen
       add: Aktion hinzufügen
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
     conditions: Bedingungen
     plural: Benutzerdefinierte Aktionen
     new: Benutzerdefinierte Aktion hinzufügen
@@ -186,6 +188,9 @@ de:
       add_subelements: Kindelemente-Gruppe hinzufügen
       edit_query: Eingebettete Abfrage bearbeiten
       reset: Auf Standardwerte zurücksetzen
+      type_color_text: |
+        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        in Gantt charts.
   versions:
     overview:
       no_results_title_text: Derzeit sind keine Arbeitspakete dieser Version zugewiesen.
@@ -381,8 +386,8 @@ de:
         type: Typ
       type:
         attribute_groups: ''
-        is_in_roadmap: Displayed in roadmap by default
-        is_default: Activated for new projects by default
+        is_in_roadmap: In Roadmap standardmäßig angezeigt
+        is_default: Typ für neue Projekte standardmäßig aktiviert
         is_milestone: Ist ein Meilenstein
         color: Farbe
       user:
@@ -485,6 +490,8 @@ de:
           only_one_allowed: "(%{name}) nur ein Wert ist zulässig."
           empty: "(%{name}) Wert darf nicht leer sein."
           inclusion: "(%{name}) ist nicht auf einen erlaubten Wert gesetzt."
+          not_logged_in: "(%{name}) value cannot be set because you are not logged
+            in."
           not_an_integer: "(%{name}) ist keine Ganzzahl."
           smaller_than_or_equal_to: "(%{name}) muss kleiner als oder gleich %{count}
             sein."
@@ -556,6 +563,9 @@ de:
                 alten zum neuen Status für die aktuelle Rolle des Nutzers existiert.
               status_invalid_in_type: ist ungültig, da der aktuelle Status nicht in
                 diesem Typ vorhanden ist.
+            type:
+              cannot_be_milestone_due_to_children: cannot be a milestone because this
+                work package has children.
             priority_id:
               only_active_priorities_allowed: muss aktiv sein.
             category:
@@ -646,7 +656,7 @@ de:
     comment: Kommentar
     comments: Kommentar
     content: Inhalt
-    color: Farbe
+    color: Color
     created_at: Angelegt am
     created_on: Angelegt am
     custom_options: Mögliche Werte
@@ -1018,8 +1028,9 @@ de:
   error_pdf_export_too_many_columns: Zu viele Spalten für PDF-Export ausgewählt. Bitte
     reduzieren Sie die Anzahl der ausgewählten Spalten.
   error_pdf_failed_to_export: 'Der PDF-Export konnte nicht gespeichert werden: %{error}'
-  error_token_authenticity: Cross-Site-Request-Forgery Token kann nicht verifiziert
-    werden.
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: Der Arbeitspaket-Fortschritt wurde nicht
     aktualisiert.
   error_work_package_not_found_in_project: Das Arbeitspaket wurde nicht gefunden oder
@@ -2792,3 +2803,7 @@ de:
         werden.
     resources:
       schema: Schema
+  planning_element_type_colors:
+    index:
+      no_results_title_text: Derzeit gibt es keine Farben.
+      no_results_content_text: Neue Farbe anlegen

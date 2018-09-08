@@ -51,13 +51,15 @@ zh-TW:
       no_results_title_text: 目前沒有任何貼文在板上
   colors:
     index:
-      no_results_title_text: 目前沒有顏色
-      no_results_content_text: 建立一個新顏色
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: Create a new color
     label_no_color: No color
   custom_actions:
     actions:
       name: 操作
       add: 新增動作
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
     conditions: 條件
     plural: 自訂動作
     new: 新增自訂操作
@@ -165,6 +167,9 @@ zh-TW:
       add_subelements: 添加子項目組
       edit_query: 編輯嵌入式查詢
       reset: 重設為預設值
+      type_color_text: |
+        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        in Gantt charts.
   versions:
     overview:
       no_results_title_text: 目前沒有工作包分配給此版本。
@@ -428,6 +433,8 @@ zh-TW:
           only_one_allowed: "(%{name}) 只允許一個值。"
           empty: "(%{name}) 不可以為空值。"
           inclusion: "(%{name}) 沒有被設定為一個允許的值。"
+          not_logged_in: "(%{name}) value cannot be set because you are not logged
+            in."
           not_an_integer: "(%{name}) 不是一個整數。"
           smaller_than_or_equal_to: "(%{name}) 必須小於等於 %{count}。"
           greater_than_or_equal_to: "(%{name}) 必須大於等於 %{count}。"
@@ -484,6 +491,9 @@ zh-TW:
             status_id:
               status_transition_invalid: 無效，因為目前使用者的角色沒有從舊狀態到新狀態的有效過度狀態
               status_invalid_in_type: 無效, 因為此類型中不存在目前狀態。
+            type:
+              cannot_be_milestone_due_to_children: cannot be a milestone because this
+                work package has children.
             priority_id:
               only_active_priorities_allowed: 需要被啟用
             category:
@@ -570,7 +580,7 @@ zh-TW:
     comment: 評論
     comments: 評論
     content: 內容
-    color: 顏色
+    color: Color
     created_at: 建立於
     created_on: 建立於
     custom_options: 可能的值
@@ -916,7 +926,9 @@ zh-TW:
   error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
   error_pdf_export_too_many_columns: 為 PDF 匯出選擇的列太多。請減少列數。
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
-  error_token_authenticity: 無法確認跨網域請求權杖
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: 工作項目完成比例未更新
   error_work_package_not_found_in_project: 工作項目找不到或是不屬於這個專案
   error_must_be_project_member: 必須是專案的成員
@@ -2476,3 +2488,7 @@ zh-TW:
         您不可寫入唯讀的屬性。
     resources:
       schema: 架構
+  planning_element_type_colors:
+    index:
+      no_results_title_text: 目前沒有顏色
+      no_results_content_text: 建立一個新顏色

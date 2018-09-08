@@ -40,9 +40,18 @@ module Concerns
         _define_virtual_attribute_setter(attribute)
         _define_virtual_attribute_getter(attribute, &block)
         _define_virtual_attribute_reload(attribute)
+        _define_virtual_attributes_hook(attribute)
       end
 
       private
+
+      def _define_virtual_attributes_hook(attribute)
+        define_method :attributes do |*args|
+          # Ensure attribute has been read
+          send(attribute)
+          super(*args)
+        end
+      end
 
       def _define_virtual_attribute_setter(attribute)
         define_method "#{attribute}=" do |value|

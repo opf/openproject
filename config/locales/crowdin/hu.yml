@@ -60,13 +60,15 @@ hu:
       no_results_title_text: Jelenleg nincs hozzászólás a fórumon.
   colors:
     index:
-      no_results_title_text: Jelenleg nincsenek színek.
-      no_results_content_text: Új szín létrehozása
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: Create a new color
     label_no_color: No color
   custom_actions:
     actions:
       name: Műveletek
       add: Művelet hozzáadása
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
     conditions: Körülmények
     plural: Egyéni műveletek
     new: Új egyedi művelet
@@ -180,6 +182,9 @@ hu:
       add_subelements: Add subelements group
       edit_query: Edit embedded query
       reset: Alapbeállítások visszaállítása
+      type_color_text: |
+        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        in Gantt charts.
   versions:
     overview:
       no_results_title_text: Jelenleg nincsenek ehhez a verzióhoz hozzárendelt munkacsomagok.
@@ -472,6 +477,8 @@ hu:
           only_one_allowed: "(%{name}) csak egy érték megengedett."
           empty: "(%{name}) az érték nem lehet üres."
           inclusion: "(%{name}) érték nincs beállítva az engedélyezett értékek egyikére."
+          not_logged_in: "(%{name}) value cannot be set because you are not logged
+            in."
           not_an_integer: "(%{name}) nem egész szám."
           smaller_than_or_equal_to: "(%{name}) kisebb vagy egyenlő, mint %{count}."
           greater_than_or_equal_to: "(%{name}) nagyobbnak vagy egyenlőnek kell lennie
@@ -536,6 +543,9 @@ hu:
                 a régi és új felhasználói szerepkör állapota között.
               status_invalid_in_type: is invalid because the current status does not
                 exist in this type.
+            type:
+              cannot_be_milestone_due_to_children: cannot be a milestone because this
+                work package has children.
             priority_id:
               only_active_priorities_allowed: aktívnak kell lenni.
             category:
@@ -625,7 +635,7 @@ hu:
     comment: Vélemény
     comments: Vélemény
     content: Tartalom
-    color: Szín
+    color: Color
     created_at: Létrehozva
     created_on: Létrehozva
     custom_options: Lehetséges értékek
@@ -988,7 +998,9 @@ hu:
   error_pdf_export_too_many_columns: Túl sok oszlop lett kiválasztva a PDF exportáláshoz.
     Kérlek csökkentsd a sorok számát.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
-  error_token_authenticity: A CSRF token nem ellenőrizhető.
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: A munkacsomag a megtett arányokat nem
     frissítette.
   error_work_package_not_found_in_project: A munkacsomag nem található, vagy nem tartozik
@@ -2718,3 +2730,7 @@ hu:
       writing_read_only_attributes: Nem írhat egy csak olvasható tulajdonságot.
     resources:
       schema: Séma
+  planning_element_type_colors:
+    index:
+      no_results_title_text: Jelenleg nincsenek színek.
+      no_results_content_text: Új szín létrehozása

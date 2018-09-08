@@ -38,8 +38,9 @@ See docs/COPYRIGHT.rdoc for more details.
         <%= styled_label_tag 'copy_workflow_from', t(:label_copy_workflow_from) %>
         <div class="form--field-container">
           <%= styled_select_tag(:copy_workflow_from,
-                content_tag("option") + options_from_collection_for_select(@roles, :id, :name),
-                container_class: '-middle') %>
+                                options_from_collection_for_select(@roles, :id, :name, params[:copy_workflow_from]),
+                                include_blank: true,
+                                container_class: '-middle') %>
         </div>
       </div>
     </div>

@@ -26,15 +26,17 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Locking a user
 
-  Scenario: a user can be locked and is unable to login
-    Given there is 1 user with the following:
-      | login | bob |
-    And I am already admin
-    And I go to the edit page of the user "bob"
-    And I click on "Lock permanently"
-    Then I should see "locked permanently"
-    When I logout
-    And I login as "bob"
-    Then I should see "Invalid user or password"
+module SelectorHelpers
+  module_function
+
+  def get_pseudo_class_property(page, node, pseudo_class, property)
+    page.evaluate_script('window.getComputedStyle(' + element_by_node(node) + ', "' +
+                                                  pseudo_class +
+                         '").getPropertyValue("' + property + '")')
+  end
+
+  def element_by_node(node)
+    'document.evaluate("' + node.path + '", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue'
+  end
+end

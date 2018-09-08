@@ -65,13 +65,15 @@ fil:
       no_results_title_text: Sa kasalukuyan ay walang mga post para sa board.
   colors:
     index:
-      no_results_title_text: Walang mga kasulukuyan kulay.
-      no_results_content_text: Gumawa ng bagong kulay
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: Create a new color
     label_no_color: No color
   custom_actions:
     actions:
       name: Mga aksyon
       add: Magdagdag ng aksyon
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
     conditions: Mga kondisyon
     plural: Mga custom aksyon
     new: Bagong custom aksyon
@@ -191,6 +193,9 @@ fil:
       add_subelements: Add subelements group
       edit_query: Edit embedded query
       reset: I-reset sa mga default
+      type_color_text: |
+        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        in Gantt charts.
   versions:
     overview:
       no_results_title_text: Sa kasalukuyan ay walang mga work packages na nakatala
@@ -497,6 +502,8 @@ fil:
           empty: "(%{name}) ang hakaga ay hindi maaring walang laman."
           inclusion: "(%{name}) ang halaga ay hindi nakatakda sa isa mga pinahintulutan
             halaga."
+          not_logged_in: "(%{name}) value cannot be set because you are not logged
+            in."
           not_an_integer: "(%{name}) ay hindi isang numero."
           smaller_than_or_equal_to: "(%{name}) dapat ay mas maliit kaysa o katumbas
             sa %{count}."
@@ -564,6 +571,9 @@ fil:
                 ng kasalukuyang user.
               status_invalid_in_type: is invalid because the current status does not
                 exist in this type.
+            type:
+              cannot_be_milestone_due_to_children: cannot be a milestone because this
+                work package has children.
             priority_id:
               only_active_priorities_allowed: ay kinakailangang maging aktibo.
             category:
@@ -655,7 +665,7 @@ fil:
     comment: Komento
     comments: Komento
     content: Nilalaman
-    color: Kulay
+    color: Color
     created_at: Nilikha sa
     created_on: Nilikha sa
     custom_options: Ang mga posibleng halaga
@@ -1020,8 +1030,9 @@ fil:
   error_pdf_export_too_many_columns: Masyadong maraming hanay ang napili para sa PDF
     export. Mangyaring bawasan ang mga bilang ng hanay.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
-  error_token_authenticity: Hindi mapagana upang papatunayan ang Cross-Site Request
-    Forgery token.
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: Hindi naka-update ang mga work package
     done ratio.
   error_work_package_not_found_in_project: Ang work package ay hindi natagpuan o hindi
@@ -2814,3 +2825,7 @@ fil:
         basa-lang.
     resources:
       schema: Iskema
+  planning_element_type_colors:
+    index:
+      no_results_title_text: Walang mga kasulukuyan kulay.
+      no_results_content_text: Gumawa ng bagong kulay

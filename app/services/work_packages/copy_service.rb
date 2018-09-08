@@ -30,15 +30,16 @@
 
 class WorkPackages::CopyService
   include ::Shared::ServiceContext
+  include ::Concerns::Contracted
 
   attr_accessor :user,
                 :work_package,
-                :contract
+                :contract_class
 
-  def initialize(user:, work_package:, contract: WorkPackages::CreateContract)
+  def initialize(user:, work_package:, contract_class: WorkPackages::CreateContract)
     self.user = user
     self.work_package = work_package
-    self.contract = contract
+    self.contract_class = contract_class
   end
 
   def call(attributes: {}, send_notifications: true)
@@ -64,7 +65,7 @@ class WorkPackages::CopyService
   def create(attributes, send_notifications)
     WorkPackages::CreateService
       .new(user: user,
-           contract: contract)
+           contract_class: contract_class)
       .call(attributes: attributes,
             send_notifications: send_notifications)
   end
@@ -80,7 +81,7 @@ class WorkPackages::CopyService
   end
 
   def writable_work_package_attributes(wp)
-    contract.new(wp, user).writable_attributes
+    instantiate_contract(wp, user).writable_attributes
   end
 
   def copy_watchers(copied)

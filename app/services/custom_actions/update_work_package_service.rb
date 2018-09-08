@@ -30,6 +30,7 @@
 
 class CustomActions::UpdateWorkPackageService
   include Shared::BlockService
+  include Concerns::Contracted
 
   attr_accessor :user,
                 :action
@@ -37,6 +38,7 @@ class CustomActions::UpdateWorkPackageService
   def initialize(action:, user:)
     self.action = action
     self.user = user
+    self.contract_class = ::WorkPackages::UpdateContract
   end
 
   def call(work_package:, &block)
@@ -57,10 +59,9 @@ class CustomActions::UpdateWorkPackageService
 
     apply_actions_sorted(work_package, actions)
 
-    contract = WorkPackages::UpdateContract.new(work_package, user)
-
-    unless contract.validate
-      retry_apply_actions(work_package, actions, contract.errors, changes_before)
+    success, errors = validate(work_package, user)
+    unless success
+      retry_apply_actions(work_package, actions, errors, changes_before)
     end
   end
 

@@ -62,13 +62,15 @@ id:
       no_results_title_text: Tidak ada pos untuk papan saat ini.
   colors:
     index:
-      no_results_title_text: Tidak ada warna saat ini.
-      no_results_content_text: Buat warna baru
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: Create a new color
     label_no_color: No color
   custom_actions:
     actions:
       name: Tindakan
       add: Tambahkan tindakan
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
     conditions: Kondisi
     plural: Custom actions
     new: New custom action
@@ -184,6 +186,9 @@ id:
       add_subelements: Add subelements group
       edit_query: Edit embedded query
       reset: Disetel ulang ke kondisi bawaan
+      type_color_text: |
+        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        in Gantt charts.
   versions:
     overview:
       no_results_title_text: There are currently no work packages assigned to this
@@ -473,6 +478,8 @@ id:
           only_one_allowed: "(%{name}) only one value is allowed."
           empty: "(%{name}) value can't be empty."
           inclusion: "(%{name}) value is not set to one of the allowed values."
+          not_logged_in: "(%{name}) value cannot be set because you are not logged
+            in."
           not_an_integer: "(%{name}) is not an integer."
           smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
           greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
@@ -535,6 +542,9 @@ id:
                 ke status baru untuk role ini.
               status_invalid_in_type: is invalid because the current status does not
                 exist in this type.
+            type:
+              cannot_be_milestone_due_to_children: cannot be a milestone because this
+                work package has children.
             priority_id:
               only_active_priorities_allowed: prioritas harus aktif.
             category:
@@ -623,7 +633,7 @@ id:
     comment: Komentar
     comments: Komentar
     content: Konten
-    color: Warna
+    color: Color
     created_at: Dibuat
     created_on: Dibuat
     custom_options: Nilai yang mungkin
@@ -984,7 +994,9 @@ id:
   error_pdf_export_too_many_columns: Kolom yang dipilih utnuk ekspor PDF terlalu banyak.
     Mohon kurangi jumlah kolom.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
-  error_token_authenticity: Unable to verify Cross-Site Request Forgery token.
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: Paket-Penugasan selesai, rasio tidak
     diupdate.
   error_work_package_not_found_in_project: Paket-Penugasan tidak ditemukan atau tidak
@@ -2691,3 +2703,7 @@ id:
       writing_read_only_attributes: Anda tidak harus menulis hanya-baca atribut.
     resources:
       schema: Schema
+  planning_element_type_colors:
+    index:
+      no_results_title_text: Tidak ada warna saat ini.
+      no_results_content_text: Buat warna baru

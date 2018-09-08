@@ -26,25 +26,37 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: As an admin
-         I want to administrate roles with permissions
-         So that I can modify permissions of roles
+require 'spec_helper'
 
-  @javascript
-  Scenario: Normal Role creation with existing role with same name
-    And I am already admin
-    When I go to the new page of "Role"
-    Then I should see "Work packages can be assigned to users and groups in possession of this role in the respective project"
-    When I fill in "Name" with "Manager"
-    And I click on "Create"
-    Then I should see "Successful creation."
+describe 'Logout', type: :feature, js: true do
+  let(:user_password) { 'b0B' * 4 }
+  let(:user) do
+    FactoryBot.create(:user,
+                      password: user_password,
+                      password_confirmation: user_password)
+  end
 
-  @javascript
-  Scenario: Normal Role creation with existing role with same name
-    And there is a role "Manager"
-    And I am already admin
-    When I go to the new page of "Role"
-    Then I should see "Work packages can be assigned to users and groups in possession of this role in the respective project"
-    When I fill in "Name" with "Manager"
-    And I click on "Create"
-    Then I should see "Name has already been taken"
+  before do
+    login_with(user.login, user_password)
+  end
+
+  it 'prevents the user from making any more changes' do
+    visit my_page_path
+
+    within '.top-menu-items-right' do
+      page.find("a[title='#{user.name}']").click
+
+      click_link I18n.t(:label_logout)
+    end
+
+    expect(page)
+      .to have_current_path home_path
+
+    # Can not access the my page but is redirected
+    # to login instead.
+    visit my_page_path
+
+    expect(page)
+      .to have_field('Login')
+  end
+end

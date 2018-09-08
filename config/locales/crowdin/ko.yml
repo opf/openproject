@@ -53,13 +53,15 @@ ko:
       no_results_title_text: 게시판에 포스트가 없습니다.
   colors:
     index:
-      no_results_title_text: 색깔이 없습니다.
-      no_results_content_text: 새 색깔 생성
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: Create a new color
     label_no_color: No color
   custom_actions:
     actions:
       name: 작업
       add: Add action
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
     conditions: Conditions
     plural: Custom actions
     new: New custom action
@@ -170,6 +172,9 @@ ko:
       add_subelements: Add subelements group
       edit_query: Edit embedded query
       reset: 기본값으로 초기화
+      type_color_text: |
+        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        in Gantt charts.
   versions:
     overview:
       no_results_title_text: 이 버전에 할당된 작업 패키지가 없습니다.
@@ -445,6 +450,8 @@ ko:
           only_one_allowed: "(%{name}) only one value is allowed."
           empty: "(%{name}) value can't be empty."
           inclusion: "(%{name}) value is not set to one of the allowed values."
+          not_logged_in: "(%{name}) value cannot be set because you are not logged
+            in."
           not_an_integer: "(%{name}) is not an integer."
           smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
           greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
@@ -505,6 +512,9 @@ ko:
               status_transition_invalid: 현재 사용자 역할이 새 상태로 바르게 전환될 수 없으므로 유효 하지 않음
               status_invalid_in_type: is invalid because the current status does not
                 exist in this type.
+            type:
+              cannot_be_milestone_due_to_children: cannot be a milestone because this
+                work package has children.
             priority_id:
               only_active_priorities_allowed: 활성화가 요구됨
             category:
@@ -590,7 +600,7 @@ ko:
     comment: 코멘트
     comments: 코멘트
     content: 내용
-    color: 색상
+    color: Color
     created_at: 작성일
     created_on: 작성일
     custom_options: 가능한 값
@@ -967,7 +977,9 @@ ko:
   error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
   error_pdf_export_too_many_columns: PDF 내보내기에 대해 너무 많은 열을 선택했습니다. 열 수를 줄이십시오.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
-  error_token_authenticity: 교차 사이트 요청 위조 토큰을 확인할 수 없습니다.
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: 작업 패키지 완료 비율이 업데이트되지 않았습니다.
   error_work_package_not_found_in_project: 작업 패키지가 없거나 이 프로젝트에 속하지 않습니다.
   error_must_be_project_member: 은(는) 프로젝트 멤버여야 합니다.
@@ -2577,3 +2589,7 @@ ko:
       writing_read_only_attributes: 읽기 전용 특성은 변경할 수 없습니다.
     resources:
       schema: 스키마
+  planning_element_type_colors:
+    index:
+      no_results_title_text: 색깔이 없습니다.
+      no_results_content_text: 새 색깔 생성

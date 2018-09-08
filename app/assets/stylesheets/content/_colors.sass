@@ -84,3 +84,14 @@
 
   a.-dark
     color: white
+
+[class^='__hl_dot_'],
+[class*=' __hl_dot_']
+  &::before
+    content: ''
+    display: inline-block
+    width: 12px
+    height: 12px
+    vertical-align: -1px
+    margin-right: 4px
+    border-radius: 50%

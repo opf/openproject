@@ -126,7 +126,7 @@ export class AutocompleteSelectDecorationComponent {
 
   private setupAutocompleter() {
     let autocompleteOptions = {
-      delay: 100,
+      delay: 250,
       minLength: 0,
       position: { my: 'left top', at: 'left bottom', collision: 'flip' },
       classes: {
@@ -134,11 +134,16 @@ export class AutocompleteSelectDecorationComponent {
       },
       source: (request:{ term:string }, response:Function) => {
         let available = _.difference(this.allItems, this.selectedItems);
-        let withTerm = _.filter(available, (item) =>
-          item.value.toLowerCase().indexOf(request.term.toLowerCase()) !== -1
-        );
+        let matches = available;
 
-        response(withTerm);
+        // Filter only for non-empty terms
+        if (request.term !== '') {
+          matches = available.filter((item) =>
+            item.value.toLowerCase().indexOf(request.term.toLowerCase()) !== -1
+          );
+        }
+
+        return response(_.take(matches, 100));
       },
       select: (evt:JQueryEventObject, ui:any) => {
         this.setValue(ui.item);

@@ -53,9 +53,9 @@ class Color < ActiveRecord::Base
   end
 
   ##
-  # Get the fill style for this color
-  # If the color is bright, use itself for filling
-  # Otherwise, use a transparent background with the color itself
+  # Get the fill style for this color.
+  # If the color is light, use a dark font.
+  # Otherwise, use a white font.
   def color_styles(light_color: '#FFFFFF', dark_color: '#333333')
     if bright?
       { color: dark_color, 'background-color': hexcode }

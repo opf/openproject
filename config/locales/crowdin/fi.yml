@@ -61,13 +61,15 @@ fi:
       no_results_title_text: Tällä hetkellä taululla ei ole viestejä.
   colors:
     index:
-      no_results_title_text: Tällä hetkellä ei ole värejä.
-      no_results_content_text: Luo uusi väri
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: Create a new color
     label_no_color: No color
   custom_actions:
     actions:
       name: Actions
       add: Lisää toiminto
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
     conditions: Olosuhteet
     plural: Custom actions
     new: New custom action
@@ -182,6 +184,9 @@ fi:
       add_subelements: Add subelements group
       edit_query: Edit embedded query
       reset: Reset to defaults
+      type_color_text: |
+        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        in Gantt charts.
   versions:
     overview:
       no_results_title_text: Tähän versioon ei ole liitetty yhtään työpakettia.
@@ -476,6 +481,8 @@ fi:
           only_one_allowed: "(%{name}) only one value is allowed."
           empty: "(%{name}) value can't be empty."
           inclusion: "(%{name}) value is not set to one of the allowed values."
+          not_logged_in: "(%{name}) value cannot be set because you are not logged
+            in."
           not_an_integer: "(%{name}) is not an integer."
           smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
           greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
@@ -538,6 +545,9 @@ fi:
                 vanhan ja uuden tilan välille nykyisen käyttäjän rooleissa.
               status_invalid_in_type: is invalid because the current status does not
                 exist in this type.
+            type:
+              cannot_be_milestone_due_to_children: cannot be a milestone because this
+                work package has children.
             priority_id:
               only_active_priorities_allowed: täytyy olla aktiivinen.
             category:
@@ -626,7 +636,7 @@ fi:
     comment: Kommentti
     comments: Kommentti
     content: Sisältö
-    color: Väri
+    color: Color
     created_at: Luontipäivä
     created_on: Luontipäivä
     custom_options: Mahdolliset arvot
@@ -984,7 +994,9 @@ fi:
   error_pdf_export_too_many_columns: Liikaa sarakkeita valittuina PDF-vientiin. Pienennä
     sarakkeiden määrää.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
-  error_token_authenticity: Unable to verify Cross-Site Request Forgery token.
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: Toimi paketti tehnyt suhdelukuja ei
     päivitetä.
   error_work_package_not_found_in_project: Toimia paketti ei löydy tai ei kuulu tähän
@@ -2688,3 +2700,7 @@ fi:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Schema
+  planning_element_type_colors:
+    index:
+      no_results_title_text: Tällä hetkellä ei ole värejä.
+      no_results_content_text: Luo uusi väri

@@ -108,7 +108,7 @@ class WorkPackages::RescheduleService
     WorkPackages::SetAttributesService
       .new(user: user,
            work_package: scheduled,
-           contract: WorkPackages::UpdateContract)
+           contract_class: WorkPackages::UpdateContract)
       .call(attributes)
   end
 

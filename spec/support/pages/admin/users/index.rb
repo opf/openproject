@@ -38,7 +38,7 @@ module Pages
 
         def expect_listed(*users)
           rows = page.all 'td.username'
-          expect(rows.map(&:text)).to eq(users.map(&:login))
+          expect(rows.map(&:text)).to match_array(users.map(&:login))
         end
 
         def expect_non_listed
