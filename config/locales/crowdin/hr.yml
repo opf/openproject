@@ -60,8 +60,8 @@ hr:
       no_results_title_text: Trenutno nema novih novih postova.
   colors:
     index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
+      no_results_title_text: Trenutno nema boja.
+      no_results_content_text: Nova boja
     label_no_color: No color
   custom_actions:
     actions:
@@ -644,7 +644,7 @@ hr:
     comment: Komentar
     comments: Komentar
     content: Sadržaj
-    color: Color
+    color: Boja
     created_at: Izrađeno
     created_on: Izrađeno
     custom_options: Moguće vrijednosti
@@ -2755,7 +2755,3 @@ hr:
         je dopušteno samo čitanje.
     resources:
       schema: Shema
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Trenutno nema boja.
-      no_results_content_text: Nova boja

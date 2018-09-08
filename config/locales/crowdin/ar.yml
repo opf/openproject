@@ -62,8 +62,8 @@ ar:
       no_results_title_text: لا يوجد حالياً منشورات على اللوحة.
   colors:
     index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
+      no_results_title_text: لا يوجد حالياً ألوان.
+      no_results_content_text: إنشاء لون جديد
     label_no_color: No color
   custom_actions:
     actions:
@@ -652,7 +652,7 @@ ar:
     comment: تعليق
     comments: تعليق
     content: المحتوى
-    color: Color
+    color: اللون
     created_at: تم الإنشاء في
     created_on: تم الإنشاء في
     custom_options: القيم المحتملة
@@ -2785,7 +2785,3 @@ ar:
       writing_read_only_attributes: لا يجب أن تكتب على سمة للقراءة فقط.
     resources:
       schema: مخطّط
-  planning_element_type_colors:
-    index:
-      no_results_title_text: لا يوجد حالياً ألوان.
-      no_results_content_text: إنشاء لون جديد

@@ -50,8 +50,8 @@ ja:
       no_results_title_text: 現在、掲示板の投稿はありません。
   colors:
     index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
+      no_results_title_text: 現在、色はありません。
+      no_results_content_text: 新しい色を作成
     label_no_color: No color
   custom_actions:
     actions:
@@ -578,7 +578,7 @@ ja:
     comment: コメント
     comments: コメント
     content: 内容
-    color: Color
+    color: 色
     created_at: 作成日時
     created_on: 作成日時
     custom_options: 選択肢
@@ -2478,7 +2478,3 @@ ja:
       writing_read_only_attributes: 読み取り専用の属性を書き込みできません。
     resources:
       schema: スキーマ
-  planning_element_type_colors:
-    index:
-      no_results_title_text: 現在、色はありません。
-      no_results_content_text: 新しい色を作成

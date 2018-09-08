@@ -644,9 +644,9 @@ fi:
           inline: Inline
           inline_text: No highlighting of work package rows. Display colors of overdue
             dates, status, and priority attributes in their respective columns.
-          status: Status
+          status: Tila
           status_text: Highlight work package rows based on the color of its status.
-          priority: Priority
+          priority: Tärkeys
           priority_text: Highlight work package rows based on the color of its priority.
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
