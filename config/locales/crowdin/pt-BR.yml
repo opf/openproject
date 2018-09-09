@@ -89,7 +89,7 @@ pt-BR:
       no_results_title_text: Atualmente, não há campos personalizados.
       no_results_content_text: Criar um novo campo personalizado
   concatenation:
-    single: or
+    single: ou
   deprecations:
     old_timeline:
       replacement: Este módulo de cronogramas está sendo substituído por um cronograma
