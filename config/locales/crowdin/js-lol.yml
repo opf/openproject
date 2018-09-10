@@ -589,17 +589,17 @@ lol:
         hierarchy_hint: crwdns98916:0crwdne98916:0
         display_sums_hint: crwdns98917:0crwdne98917:0
         show_timeline_hint: crwdns98918:0crwdne98918:0
-        highlighting: crwdns99203:0crwdne99203:0
+        highlighting: crwdns99222:0crwdne99222:0
         highlighting_mode:
-          description: crwdns99204:0crwdne99204:0
-          none: crwdns99205:0crwdne99205:0
-          none_text: crwdns99206:0crwdne99206:0
-          inline: crwdns99207:0crwdne99207:0
-          inline_text: crwdns99208:0crwdne99208:0
-          status: crwdns99209:0crwdne99209:0
-          status_text: crwdns99210:0crwdne99210:0
-          priority: crwdns99211:0crwdne99211:0
-          priority_text: crwdns99212:0crwdne99212:0
+          description: crwdns99223:0crwdne99223:0
+          none: crwdns99224:0crwdne99224:0
+          none_text: crwdns99225:0crwdne99225:0
+          inline: crwdns99226:0crwdne99226:0
+          inline_text: crwdns99227:0crwdne99227:0
+          status: crwdns99228:0crwdne99228:0
+          status_text: crwdns99229:0crwdne99229:0
+          priority: crwdns99230:0crwdne99230:0
+          priority_text: crwdns99231:0crwdne99231:0
         columns_help_text: crwdns99008:0crwdne99008:0
       tabs:
         overview: crwdns98772:0crwdne98772:0
