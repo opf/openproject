@@ -53,6 +53,9 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
   public singleWorkPackageChildren:WorkPackageResource[];
   public busy = false;
 
+  // Need to confirm deletion when children are involved
+  public childrenDeletionConfirmed = false;
+
   public text:any = {
     label_visibility_settings: this.I18n.t('js.label_visibility_settings'),
     button_save: this.I18n.t('js.modals.button_save'),
@@ -60,6 +63,7 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
     warning: this.I18n.t('js.label_warning'),
     cancel: this.I18n.t('js.button_cancel'),
     close: this.I18n.t('js.close_popup_title'),
+    label_confirm_children_deletion: this.I18n.t('js.modals.destroy_work_package.confirm_deletion_children'),
   };
 
   constructor(readonly elementRef:ElementRef,
@@ -105,9 +109,23 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
       this.text.deletesChildren = this.I18n.t('js.modals.destroy_work_package.deletes_children');
   }
 
+  public get blockedDueToUnconfirmedChildren() {
+    return this.mustConfirmChildren && !this.childrenDeletionConfirmed;
+  }
+
+  public get mustConfirmChildren() {
+    let result = false;
+
+    if (this.singleWorkPackage && this.singleWorkPackageChildren) {
+      let result = this.singleWorkPackageChildren.length > 0;
+    }
+
+    return result || !!_.find(this.workPackages, wp =>
+      wp.children && wp.children.length > 0);
+  }
 
   public confirmDeletion($event:JQueryEventObject) {
-    if (this.busy) {
+    if (this.busy || this.blockedDueToUnconfirmedChildren) {
       return false;
     }
 
