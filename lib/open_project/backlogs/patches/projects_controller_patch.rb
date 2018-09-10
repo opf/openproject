@@ -53,14 +53,14 @@ module OpenProject::Backlogs::Patches::ProjectsControllerPatch
 
       flash[:notice] = l(:notice_successful_update)
 
-      redirect_to controller: '/project_settings', action: 'show', id: @project, tab: 'backlogs_settings'
+      redirect_to_backlogs_settings
     end
 
     def rebuild_positions
       @project.rebuild_positions
       flash[:notice] = l('backlogs.positions_rebuilt_successfully')
 
-      redirect_to action: 'settings', id: @project, tab: 'backlogs_settings'
+      redirect_to_backlogs_settings
     rescue ActiveRecord::ActiveRecordError
       flash[:error] = l('backlogs.positions_could_not_be_rebuilt')
 
@@ -68,6 +68,10 @@ module OpenProject::Backlogs::Patches::ProjectsControllerPatch
       logger.error($!)
       logger.error($@)
 
+      redirect_to_backlogs_settings
+    end
+
+    def redirect_to_backlogs_settings
       redirect_to controller: '/project_settings', action: 'show', id: @project, tab: 'backlogs_settings'
     end
   end
