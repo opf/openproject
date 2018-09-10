@@ -48,22 +48,24 @@ Note that this still takes previous values into consideration. Values that shoul
 
 # Upgrading between major releases (DEB/RPM packages)
 
-Since OpenProject 7.0.0 is a major upgrade, you will need to perform some basic manual steps to upgrade your package.
+Since OpenProject 8.0.0 is a major upgrade, you will need to perform some basic manual steps to upgrade your package.
 
-If you have currently installed the stable 6.0.x release of OpenProject by using the `stable/6` package source,
+
+
+If you have currently installed the stable 7.x release of OpenProject by using the `stable/7` package source,
 you will need to adjust that package source.
 
 ### APT-based systems (Debian, Ubuntu)
 
- - Update the reference to `stable/6` in `/etc/apt/sources.list.d/openproject.list` to `stable/7`.
+ - Update the reference to `stable/7` in `/etc/apt/sources.list.d/openproject.list` to `stable/8`.
  - Perform the Upgrade steps as mentioned above in *Upgrading your OpenProject installation*
 
 ### YUM-based systems (CentOS, RHEL)
 
- - Update the reference to `stable/6` in `/etc/yum.repos.d/openproject.repo` to `stable/7`.
+ - Update the reference to `stable/7` in `/etc/yum.repos.d/openproject.repo` to `stable/8`.
  - Perform the Upgrade steps as mentioned above in *Upgrading your OpenProject installation*
 
 ### SUSE Linux Enterprise Server 12
 
- - Update the reference to `stable/6` in `/etc/zypp/repos.d/openproject.repo` to `stable/7`.
+ - Update the reference to `stable/7` in `/etc/zypp/repos.d/openproject.repo` to `stable/8`.
  - Perform the Upgrade steps as mentioned above in *Upgrading your OpenProject installation*
