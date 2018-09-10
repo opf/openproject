@@ -365,4 +365,33 @@ describe 'filter work packages', js: true do
       expect(page).to_not have_select 'add_filter_select', with_options: ['Attachment content', 'Attachment file name']
     end
   end
+
+  describe 'specific filters' do
+    describe 'filters on date by created_at (Regression #28459)' do
+      let!(:wp_updated_today) do
+        FactoryBot.create :work_package, subject: 'Created today', project: project, created_at: (Date.today + 12.hours)
+      end
+      let!(:wp_updated_5d_ago) do
+        FactoryBot.create :work_package, subject: 'Created 5d ago', project: project, created_at: (Date.today - 5.days)
+      end
+
+      it do
+        wp_table.visit!
+        loading_indicator_saveguard
+        wp_table.expect_work_package_listed wp_updated_today, wp_updated_5d_ago
+
+        filters.open
+
+        filters.add_filter_by 'Created on',
+                              'on',
+                              [Date.today.iso8601],
+                              'createdAt'
+
+        loading_indicator_saveguard
+
+        wp_table.expect_work_package_listed wp_updated_today
+        wp_table.expect_work_package_not_listed wp_updated_5d_ago
+      end
+    end
+  end
 end

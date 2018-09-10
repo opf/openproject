@@ -35,12 +35,13 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {DebouncedEventEmitter} from 'core-components/angular/debounced-event-emitter';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {TimezoneService} from 'core-components/datetime/timezone.service';
+import {OnInit} from '@angular/core';
 
 @Component({
   selector: 'filter-date-times-value',
   templateUrl: './filter-date-times-value.component.html'
 })
-export class FilterDateTimesValueComponent extends AbstractDateTimeValueController implements OnDestroy {
+export class FilterDateTimesValueComponent extends AbstractDateTimeValueController implements OnInit, OnDestroy {
   @Input() public filter:QueryFilterInstanceResource;
   @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this));
 

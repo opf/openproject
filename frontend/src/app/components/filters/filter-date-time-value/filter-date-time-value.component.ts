@@ -35,12 +35,13 @@ import {TimezoneService} from 'core-components/datetime/timezone.service';
 import {Moment} from 'moment';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {AbstractDateTimeValueController} from '../abstract-filter-date-time-value/abstract-filter-date-time-value.controller';
+import {OnInit} from '@angular/core';
 
 @Component({
   selector: 'filter-date-time-value',
   templateUrl: './filter-date-time-value.component.html'
 })
-export class FilterDateTimeValueComponent extends AbstractDateTimeValueController implements OnDestroy {
+export class FilterDateTimeValueComponent extends AbstractDateTimeValueController implements OnInit, OnDestroy {
   @Input() public filter:QueryFilterInstanceResource;
   @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this));
 
