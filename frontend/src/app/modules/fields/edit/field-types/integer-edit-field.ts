@@ -37,12 +37,14 @@ import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.compon
            [attr.aria-required]="field.required"
            [attr.required]="field.required"
            [disabled]="field.inFlight"
+           [attr.lang]="locale"
            [(ngModel)]="field.value"
            (keydown)="handler.handleUserKeydown($event)"
            [id]="handler.htmlId" />
   `
 })
 export class IntegerEditFieldComponent extends EditFieldComponent {
+  public locale = I18n.locale;
   public field:DurationEditField;
 }
 
