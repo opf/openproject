@@ -32,7 +32,7 @@ class Queries::WorkPackages::Filter::SubprojectFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
   def allowed_values
     @allowed_values ||= begin
-      visible_subprojects.map { |id, name| [name, id.to_s] }
+      visible_subproject_array.map { |id, name| [name, id.to_s] }
     end
   end
 
@@ -71,7 +71,7 @@ class Queries::WorkPackages::Filter::SubprojectFilter <
   def value_objects
     value_ints = values.map(&:to_i)
 
-    visible_subprojects.select { |id,_| value_ints.include?(id) }
+    visible_subprojects.where(id: value_ints)
   end
 
   def where
@@ -82,7 +82,7 @@ class Queries::WorkPackages::Filter::SubprojectFilter <
       # include the selected subprojects
       ids += values.each(&:to_i)
     when '*'
-      ids += visible_subprojects.map(&:first)
+      ids += visible_subproject_array.map(&:first)
     end
 
     "#{Project.table_name}.id IN (%s)" % ids.join(',')
@@ -90,13 +90,17 @@ class Queries::WorkPackages::Filter::SubprojectFilter <
 
   private
 
+  def visible_subproject_array
+    visible_subprojects.pluck(:id, :name)
+  end
+
   def visible_subprojects
     # This can be accessed even when `available?` is false
     @visible_subprojects ||= begin
       if project.nil?
         []
       else
-        project.descendants.visible.pluck(:id, :name)
+        project.descendants.visible
       end
     end
   end

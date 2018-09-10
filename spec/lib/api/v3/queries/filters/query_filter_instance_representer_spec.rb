@@ -141,6 +141,45 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
       end
     end
 
+    context 'with a subproject filter value_objects' do
+      let(:user) { FactoryBot.create :admin }
+      let(:project) { FactoryBot.create :project }
+      let(:subproject) { FactoryBot.create :project, parent: project }
+      let(:filter) do
+        subproject
+        project.reload
+
+
+        f = Queries::WorkPackages::Filter::SubprojectFilter.create!(context: project)
+        f.operator = '='
+        f.values = [subproject.id]
+
+        f
+      end
+
+      before do
+        login_as user
+
+        allow(filter)
+        .to receive(:value_objects)
+        .and_call_original
+      end
+
+      it "has a 'values' collection" do
+        expect(filter.value_objects.count).to eq 1
+        expect(filter.value_objects.first).to eq subproject
+
+        expected = {
+          href: api_v3_paths.project(subproject.id.to_s),
+          title: subproject.name
+        }
+
+        is_expected
+          .to be_json_eql([expected].to_json)
+                .at_path('_links/values')
+      end
+    end
+
     context 'with a non ar object filter' do
       let(:values) { ['lorem ipsum'] }
       let(:filter) do
