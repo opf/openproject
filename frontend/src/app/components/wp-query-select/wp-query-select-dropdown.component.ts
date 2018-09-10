@@ -79,7 +79,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   @ViewChild('wpQueryMenuSearchInput') _wpQueryMenuSearchInput:ElementRef;
   @ViewChild('queryResultsContainer') _queryResultsContainerElement:ElementRef;
 
-  public loaded = false;
+  public loading = false;
   public noResults = false;
 
   public text = {
@@ -231,7 +231,16 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   }
 
   private loadQueries() {
-    return this.QueryDm.all(this.CurrentProject.identifier);
+    return this.loadingPromise = this.QueryDm
+      .all(this.CurrentProject.identifier);
+
+  }
+
+  private set loadingPromise(promise:Promise<any>) {
+    this.loading = true;
+    promise
+      .then(() => this.loading = false)
+      .catch(() => this.loading = false);
   }
 
   private setupAutoCompletion(input:IQueryAutocompleteJQuery) {
