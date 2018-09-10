@@ -17,8 +17,8 @@
       <section class="form--section -inner-scrolling">
         <h3 class="form--section-title" [textContent]="text.title"></h3>
 
-        <div *ngIf="singleWorkPackage"
-             class="modal-inner-scrolling-container">
+      <div class="modal-inner-scrolling-container">
+        <ng-container *ngIf="singleWorkPackage">
           <p>
             <span [textContent]="text.text"></span>
             <br/>
@@ -44,9 +44,8 @@
               <span [textContent]="text.deletesChildren"></span>
             </p>
           </div>
-        </div>
-
-        <div class="modal-inner-scrolling-container" *ngIf="workPackages.length > 1">
+        </ng-container>
+        <ng-container *ngIf="workPackages.length > 1">
           <p class="danger-zone--warning">
             <span class="icon icon-error"></span>
             <strong [textContent]="text.text"></strong>
@@ -54,19 +53,33 @@
           <ul>
             <li *ngFor="let wp of workPackages">
               #<span [textContent]="wp.id"></span>
+              &ngsp;
               <span [textContent]="wp.subject"></span>
               <strong *ngIf="children(wp).length > 0">
                 (+ {{ text.childCount(wp) }})
               </strong>
             </li>
           </ul>
+        </ng-container>
+        <div *ngIf="mustConfirmChildren">
+            <label class="form--label-with-check-box">
+                <div class="form--check-box-container">
+                  <input type="checkbox"
+                          name="confirm-children-deletion"
+                          id="confirm-children-deletion"
+                          [(ngModel)]="childrenDeletionConfirmed"
+                          class="form--check-box" />
+                </div>
+                {{ text.label_confirm_children_deletion }}
+              </label>
+          </div>
         </div>
       </section>
 
       <div class="form--space -left-spacing">
         <button class="button -danger"
                 [textContent]="text.confirm"
-                [attr.disabled]="busy || undefined"
+                [attr.disabled]="busy || blockedDueToUnconfirmedChildren || undefined"
                 (click)="confirmDeletion($event)">
         </button>
         <button class="button"

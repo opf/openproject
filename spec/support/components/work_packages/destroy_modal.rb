@@ -50,6 +50,12 @@ module Components
         end
       end
 
+      def confirm_children_deletion
+        page.within(container) do
+          check 'confirm-children-deletion'
+        end
+      end
+
       def confirm_deletion
         page.within(container) do
           click_button 'Confirm'
