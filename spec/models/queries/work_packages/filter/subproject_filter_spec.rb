@@ -34,17 +34,34 @@ describe Queries::WorkPackages::Filter::SubprojectFilter, type: :model do
     let(:type) { :list }
     let(:class_key) { :subproject_id }
     let(:name) { I18n.t('query_fields.subproject_id') }
+    let(:relation) { double(ActiveRecord::Relation) }
+    let(:projects) { [] }
+    let(:plucked) { projects.map { |p| [p.id, p.name] } }
+
+    before do
+      allow(project)
+      .to receive_message_chain(:descendants, :visible)
+      .and_return relation
+
+      allow(relation)
+        .to receive(:pluck)
+        .with(:id, :name)
+        .and_return plucked
+    end
 
     describe '#available?' do
       context 'with a project and that project not being a leaf
                and the project having visible descendants' do
+        let(:subproject) { FactoryBot.build_stubbed(:project) }
+        let(:projects) { [subproject] }
+
         before do
+          allow(relation).to receive(:any?)
+          .and_return true
+
           allow(project)
             .to receive(:leaf?)
             .and_return false
-          allow(project)
-            .to receive_message_chain(:descendants, :visible, :exists?)
-            .and_return true
         end
 
         it 'is available' do
@@ -78,8 +95,8 @@ describe Queries::WorkPackages::Filter::SubprojectFilter, type: :model do
           allow(project)
             .to receive(:leaf?)
             .and_return false
-          allow(project)
-            .to receive_message_chain(:descendants, :visible, :exists?)
+
+          allow(relation).to receive(:any?)
             .and_return false
         end
 
@@ -92,12 +109,7 @@ describe Queries::WorkPackages::Filter::SubprojectFilter, type: :model do
     describe '#allowed_values' do
       let(:subproject1) { FactoryBot.build_stubbed(:project) }
       let(:subproject2) { FactoryBot.build_stubbed(:project) }
-
-      before do
-        allow(project)
-          .to receive_message_chain(:descendants, :visible)
-          .and_return [subproject1, subproject2]
-      end
+      let(:projects) { [subproject1, subproject2] }
 
       it 'returns a list of all visible descendants' do
         expect(instance.allowed_values).to match_array [[subproject1.name, subproject1.id.to_s],
@@ -115,18 +127,15 @@ describe Queries::WorkPackages::Filter::SubprojectFilter, type: :model do
     describe '#value_objects' do
       let(:subproject1) { FactoryBot.build_stubbed(:project) }
       let(:subproject2) { FactoryBot.build_stubbed(:project) }
+      let(:projects) { [subproject1, subproject2] }
 
       before do
-        allow(project)
-          .to receive_message_chain(:descendants, :visible)
-          .and_return([subproject1, subproject2])
-
         instance.values = [subproject1.id.to_s, subproject2.id.to_s]
       end
 
       it 'returns an array of projects' do
         expect(instance.value_objects)
-          .to match_array([subproject1, subproject2])
+          .to match_array(plucked)
       end
     end
   end
