@@ -1,5 +1,6 @@
 <div>
   <form>
+    <p [textContent]="text.choose_mode"></p>
     <div class="form--field -full-width">
       <div class="form--field-container">
         <label class="option-label">
@@ -7,56 +8,47 @@
                  [(ngModel)]="displayMode"
                  value="default"
                  name="display_mode_switch">
+          <op-icon icon-classes="icon-no-hierarchy" [attr.icon-title]="text.display_mode.default"></op-icon>
           {{ text.display_mode.default }}
+          <span class="form--inline-instructions" [textContent]="text.default"></span>
         </label>
-        <label class="option-label">
-          <input type="radio"
-                 [(ngModel)]="displayMode"
-                 value="grouped"
-                 name="display_mode_switch">
-          {{ text.display_mode.grouped }}
-        </label>
+      </div>
+    </div>
+    <div class="form--field -full-width">
+      <div class="form--field-container">
         <label class="option-label">
           <input type="radio"
                  [(ngModel)]="displayMode"
                  value="hierarchy"
                  name="display_mode_switch">
+          <op-icon icon-classes="icon-hierarchy" [attr.icon-title]="text.display_mode.hierarchy"></op-icon>
           {{ text.display_mode.hierarchy }}
+          <span *ngIf="displayMode === 'hierarchy'"
+                class="form--inline-instructions"
+                [textContent]="text.display_mode.hierarchy_hint"></span>
         </label>
       </div>
     </div>
-    <div *ngIf="displayMode === 'grouped'">
-      <h4 [textContent]="text.label_group_by"></h4>
-      <p [textContent]="text.display_mode.grouped_hint"></p>
-      <div class="form--field -full-width">
-        <label
-          for="selected_grouping"
-          [textContent]="text.label_group_by"
-          class="form--label hidden-for-sighted">
+    <div class="form--field -full-width">
+      <div class="form--field-container">
+        <label class="option-label">
+          <input type="radio"
+                 [(ngModel)]="displayMode"
+                 value="grouped"
+                 name="display_mode_switch">
+          <op-icon icon-classes="icon-group-by" [attr.icon-title]="text.label_group_by"></op-icon>
+          {{ text.label_group_by }}
+          <select (change)="updateGroup($event.target.value)"
+                  id="selected_grouping"
+                  name="selected_grouping"
+                  class="form--select form--inline-select">
+            <option *ngFor="let group of availableGroups"
+                    [textContent]="group.name"
+                    [selected]="currentGroup && currentGroup!.href === group.href"
+                    [value]="group.href"></option>
+          </select>
         </label>
-        <div class="form--field-container">
-          <div class="form--select-container">
-            <select
-              (change)="updateGroup($event.target.value)"
-              id="selected_grouping"
-              name="selected_grouping"
-              class="form--select">
-              <option [textContent]="text.please_select"
-                      [selected]="!currentGroup"
-                      disabled
-                      [value]="''"></option>
-              <option *ngFor="let group of availableGroups"
-                      [textContent]="group.name"
-                      [selected]="currentGroup && currentGroup!.href === group.href"
-                      [value]="group.href"></option>
-            </select>
-          </div>
-        </div>
       </div>
-    </div>
-    <div *ngIf="displayMode === 'hierarchy'">
-      <h4 [textContent]="text.display_mode.hierarchy"></h4>
-      <p [textContent]="text.display_mode.hierarchy_hint"></p>
     </div>
 
     <hr/>
@@ -70,10 +62,11 @@
                    [checked]="displaySums"
                    name="display_sums_switch">
             {{ text.display_sums }}
+            <span class="form--inline-instructions" [textContent]="text.display_sums_hint"></span>
           </label>
         </div>
       </div>
-      <p [textContent]="text.display_sums_hint"></p>
+
     </div>
   </form>
 </div>
