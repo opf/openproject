@@ -29,7 +29,7 @@
 module BasicData
   class WorkflowSeeder < Seeder
     def seed_data!
-      colors = PlanningElementTypeColor.all
+      colors = Color.all
       colors = colors.map { |c| { c.name =>  c.id } }.reduce({}, :merge)
 
       if WorkPackage.where(type_id: nil).any? || Journal::WorkPackageJournal.where(type_id: nil).any?

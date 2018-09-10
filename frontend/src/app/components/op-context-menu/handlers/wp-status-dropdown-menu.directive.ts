@@ -37,6 +37,7 @@ import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-r
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {IWorkPackageEditingServiceToken} from "../../wp-edit-form/work-package-editing.service.interface";
+import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 
 @Directive({
   selector: '[wpStatusDropdown]'
@@ -94,13 +95,14 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
         this.wpTableRefresh.request('Altered work package status via button');
       });
     }
-  };
+  }
 
   private buildItems(statuses:CollectionResource<HalResource>) {
     this.items = statuses.map((status:HalResource) => {
       return {
         disabled: false,
         linkText: status.name,
+        class: Highlighting.dotClass('status', status.getId()),
         onClick: () => {
           this.updateStatus(status);
           return true;

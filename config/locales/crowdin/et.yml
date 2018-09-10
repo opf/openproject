@@ -60,6 +60,11 @@ et:
   boards:
     show:
       no_results_title_text: There are currently no posts for the board.
+  colors:
+    index:
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: Create a new color
+    label_no_color: No color
   custom_actions:
     actions:
       name: Actions
@@ -109,10 +114,6 @@ et:
       no_results_title_text: There are currently no users part of this group.
     memberships:
       no_results_title_text: There are currently no projects part of this group.
-  planning_element_type_colors:
-    index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
   projects:
     index:
       no_results_title_text: There are currently no projects
@@ -154,11 +155,20 @@ et:
   users:
     memberships:
       no_results_title_text: This user is currently not a member of a project.
+  prioritiies:
+    edit:
+      priority_color_text: |
+        Click to assign or change the color of this priority.
+        It can be used for highlighting work packages in the table.
   reportings:
     index:
       no_results_title_text: There are currently no status reportings.
       no_results_content_text: Add a status reporting
   statuses:
+    edit:
+      status_color_text: |
+        Click to assign or change the color of this status.
+        It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: There are currently no work package statuses.
       no_results_content_text: Add a new status
@@ -175,6 +185,9 @@ et:
       add_subelements: Add subelements group
       edit_query: Edit embedded query
       reset: Reset to defaults
+      type_color_text: |
+        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        in Gantt charts.
   versions:
     overview:
       no_results_title_text: There are currently no work packages assigned to this
@@ -623,6 +636,7 @@ et:
     comment: Kommentaar
     comments: Kommentaar
     content: Sisu
+    color: Värv
     created_at: Loodud
     created_on: Loodud
     custom_options: Võimalikud väärtused

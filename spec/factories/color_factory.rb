@@ -26,15 +26,34 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Locking a user
+FactoryBot.define do
+  factory(:color, class: Color) do
+    sequence(:name) do |n| "Color No. #{n}" end
+    hexcode do ('#%0.6x' % rand(0xFFFFFF)).upcase end
+  end
+end
 
-  Scenario: a user can be locked and is unable to login
-    Given there is 1 user with the following:
-      | login | bob |
-    And I am already admin
-    And I go to the edit page of the user "bob"
-    And I click on "Lock permanently"
-    Then I should see "locked permanently"
-    When I logout
-    And I login as "bob"
-    Then I should see "Invalid user or password"
+{ 'maroon'  => '#800000',
+  'red'     => '#FF0000',
+  'orange'  => '#FFA500',
+  'yellow'  => '#FFFF00',
+  'olive'   => '#808000',
+  'purple'  => '#800080',
+  'fuchsia' => '#FF00FF',
+  'white'   => '#FFFFFF',
+  'lime'    => '#00FF00',
+  'green'   => '#008000',
+  'navy'    => '#000080',
+  'blue'    => '#0000FF',
+  'aqua'    => '#00FFFF',
+  'teal'    => '#008080',
+  'black'   => '#000000',
+  'silver'  => '#C0C0C0',
+  'gray'    => '#808080' }.each do |name, code|
+  FactoryBot.define do
+    factory(:"color_#{name}", parent: :color) do
+      name name
+      hexcode code
+    end
+  end
+end

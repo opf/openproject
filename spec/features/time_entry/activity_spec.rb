@@ -38,7 +38,7 @@ describe 'Time entry activity', type: :feature do
   it 'supports CRUD' do
     visit enumerations_path
 
-    page.all('a.button', text: 'Enumeration value').first.click
+    page.all('.wp-inline-create--add-link[title="New enumeration value"]').first.click
 
     fill_in 'Name', with: 'A new activity'
     click_on('Create')

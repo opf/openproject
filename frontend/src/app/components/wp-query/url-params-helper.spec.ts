@@ -93,6 +93,7 @@ describe('UrlParamsHelper', function() {
         timelineVisible: true,
         timelineZoomLevel: 'days',
         showHierarchies: true,
+        highlightingMode: 'disabled',
         columns: [{ id: 'type' }, { id: 'status' }, { id: 'soße' }],
         groupBy: {
           id: 'status'
@@ -111,7 +112,7 @@ describe('UrlParamsHelper', function() {
 
     it('should encode query to params JSON', function() {
       let encodedJSON = UrlParamsHelper.encodeQueryJsonParams(query, additional);
-      let expectedJSON = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"tv\":true,\"tzl\":\"days\",\"hi\":true,\"g\":\"status\",\"t\":\"type:desc\",\"f\":[{\"n\":\"soße\",\"o\":\"=\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"<t-\",\"v\":[\"5\"]}],\"pa\":10,\"pp\":100}";
+      let expectedJSON = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"tv\":true,\"tzl\":\"days\",\"hl\":\"disabled\",\"hi\":true,\"g\":\"status\",\"t\":\"type:desc\",\"f\":[{\"n\":\"soße\",\"o\":\"=\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"<t-\",\"v\":[\"5\"]}],\"pa\":10,\"pp\":100}";
 
       expect(encodedJSON).toEqual(expectedJSON);
     });
@@ -121,7 +122,7 @@ describe('UrlParamsHelper', function() {
     let params:string;
 
     beforeEach(function() {
-      params = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"tv\":true,\"tzl\":\"days\",\"hi\":true,\"g\":\"status\",\"t\":\"type:desc,status:asc\",\"f\":[{\"n\":\"soße\",\"o\":\"=\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"<t-\",\"v\":[\"5\"]}],\"pa\":10,\"pp\":100}";
+      params = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"tv\":true,\"tzl\":\"days\",\"hl\":\"inline\",\"hi\":true,\"g\":\"status\",\"t\":\"type:desc,status:asc\",\"f\":[{\"n\":\"soße\",\"o\":\"=\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"<t-\",\"v\":[\"5\"]}],\"pa\":10,\"pp\":100}";
     });
 
     it('should decode query params to object', function() {
@@ -133,6 +134,7 @@ describe('UrlParamsHelper', function() {
         timelineVisible: true,
         showHierarchies: true,
         timelineZoomLevel: 'days',
+        highlightingMode: 'inline',
         groupBy: 'status',
         filters: JSON.stringify([
           {
@@ -190,6 +192,7 @@ describe('UrlParamsHelper', function() {
         name: 'knoblauch soße',
         timelineZoomLevel: 0,
         timelineLabels: { left: 'foo', right: 'bar', farRight: 'asdf' },
+        highlightingMode: 'inline',
         sums: true,
         columns: [{ id: 'type' }, { id: 'status' }, { id: 'soße' }],
         groupBy: {
@@ -234,6 +237,7 @@ describe('UrlParamsHelper', function() {
         sortBy: JSON.stringify([['type', 'desc'], ['status', 'asc']]),
         timelineVisible: false,
         showHierarchies: false,
+        highlightingMode: 'inline',
         offset: 10,
         pageSize: 100
       };
@@ -269,6 +273,7 @@ describe('UrlParamsHelper', function() {
         columns: [],
         groupBy: '',
         timelineZoomLevel: 0,
+        highlightingMode: 'inline',
         sums: false
       };
 
@@ -290,6 +295,7 @@ describe('UrlParamsHelper', function() {
         showSums: false,
         timelineVisible: false,
         showHierarchies: false,
+        highlightingMode: 'inline',
 
         sortBy: '[]'
       };

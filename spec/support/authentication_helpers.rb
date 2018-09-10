@@ -41,11 +41,12 @@ module AuthenticationHelpers
     allow(User).to receive(:current).and_return(user)
   end
 
-  def login_with(login, password)
+  def login_with(login, password, autologin: false)
     visit signin_path
     within('#login-form') do
       fill_in 'username', with: login
       fill_in 'password', with: password
+      check I18n.t(:label_stay_logged_in) if autologin
       click_button I18n.t(:button_login)
     end
   end

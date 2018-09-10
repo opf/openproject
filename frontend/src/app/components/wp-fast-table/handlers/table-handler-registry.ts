@@ -1,5 +1,4 @@
 import {Injector} from '@angular/core';
-import {State} from 'reactivestates';
 import {WorkPackageTable} from '../wp-fast-table';
 import {EditCellHandler} from './cell/edit-cell-handler';
 import {RelationsCellHandler} from './cell/relations-cell-handler';
@@ -17,6 +16,7 @@ import {RelationsTransformer} from './state/relations-transformer';
 import {RowsTransformer} from './state/rows-transformer';
 import {SelectionTransformer} from './state/selection-transformer';
 import {TimelineTransformer} from './state/timeline-transformer';
+import {HighlightingTransformer} from "core-components/wp-fast-table/handlers/state/highlighting-transformer";
 
 export interface TableEventHandler {
   EVENT:string;
@@ -66,7 +66,8 @@ export class TableHandlerRegistry {
     ColumnsTransformer,
     TimelineTransformer,
     HierarchyTransformer,
-    RelationsTransformer
+    RelationsTransformer,
+    HighlightingTransformer
   ];
 
   attachTo(table:WorkPackageTable) {

@@ -47,8 +47,12 @@ export class DisplayField extends Field {
       return this.changeset.value(this.name);
     }
     else {
-      return this.resource[this.name];
+      return this.attribute;
     }
+  }
+
+  protected get attribute() {
+    return this.resource[this.name];
   }
 
   public get type():string {

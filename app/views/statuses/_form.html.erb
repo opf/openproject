@@ -42,5 +42,12 @@ See docs/COPYRIGHT.rdoc for more details.
     <div class="form--field"><%= f.check_box 'is_default' %></div>
   <% end %>
 
+  <%= render partial: '/colors/color_autocomplete_field',
+             locals: {
+               form: f,
+               object: @status,
+               label: t('statuses.edit.status_color_text')
+            } %>
+
   <%= call_hook(:view_statuses_form, status: @status) %>
 </section>

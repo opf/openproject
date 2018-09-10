@@ -637,6 +637,19 @@ th:
         show_timeline_hint: Show an interactive gantt chart on the right side of the
           table. You can change its width by dragging the divider between table and
           gantt chart.
+        highlighting: Highlighting
+        highlighting_mode:
+          description: Control highlighting of rows through a color defined by a work
+            package attribute, such as priority or status.
+          none: ไม่มี
+          none_text: Disables highlighted output of attributes in the table altogether.
+          inline: Inline
+          inline_text: No highlighting of work package rows. Display colors of overdue
+            dates, status, and priority attributes in their respective columns.
+          status: สถานะ
+          status_text: Highlight work package rows based on the color of its status.
+          priority: ระดับความสำคัญ
+          priority_text: Highlight work package rows based on the color of its priority.
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
       tabs:

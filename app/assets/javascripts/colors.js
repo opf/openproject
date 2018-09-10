@@ -28,7 +28,7 @@
 
 (function ($) {
   $(function() {
-    $('.color-preview').each(function() {
+    $('.color--preview').each(function() {
       var preview, input, func, target;
 
       preview = $(this);

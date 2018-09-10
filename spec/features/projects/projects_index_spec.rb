@@ -62,66 +62,12 @@ describe 'Projects index page',
                       identifier: 'development-project')
   end
   let(:news) { FactoryBot.create(:news, project: project) }
+  let(:projects_page) { Pages::Projects::Index.new }
 
   def load_and_open_filters(user)
     login_as(user)
-    visit projects_path
-    click_button('Show/hide filters')
-  end
-
-  def set_filter(name, human_name, human_operator = nil, values = [])
-    select human_name, from: 'add_filter_select'
-    selected_filter = page.find("li[filter-name='#{name}']")
-
-    within(selected_filter) do
-      select human_operator, from: 'operator'
-
-      return unless values.any?
-
-      case name
-      when 'name_and_identifier'
-        set_name_and_identifier_filter(values)
-      when 'status'
-        set_status_filter(values)
-      when 'created_on'
-        set_created_on_filter(human_operator, values)
-      when /cf_[\d]+/
-        set_custom_field_filter(selected_filter, human_operator, values)
-      end
-    end
-  end
-
-  def set_name_and_identifier_filter(values)
-    fill_in 'value', with: values.first
-  end
-
-  def set_status_filter(values)
-    if values.size == 1
-      select values.first, from: 'value'
-    end
-  end
-
-  def set_created_on_filter(human_operator, values)
-    case human_operator
-    when 'on', 'less than days ago', 'more than days ago', 'days ago'
-      fill_in 'value', with: values.first
-    when 'between'
-      fill_in 'from_value', with: values.first
-      fill_in 'to_value', with: values.second
-    end
-  end
-
-  def set_custom_field_filter(selected_filter, human_operator, values)
-    if selected_filter[:'filter-type'] == 'list_optional'
-      if values.size == 1
-        value_select = find('.single-select select[name="value"]')
-        value_select.select values.first
-      end
-    elsif selected_filter[:'filter-type'] == 'date'
-      if human_operator == 'on'
-        fill_in 'value', with: values.first
-      end
-    end
+    projects_page.visit!
+    projects_page.open_filters
   end
 
   def allow_enterprise_edition
@@ -252,10 +198,10 @@ describe 'Projects index page',
     scenario 'it should only show the matching projects and filters' do
       load_and_open_filters admin
 
-      set_filter('name_and_identifier',
-                 'Name or identifier',
-                 'contains',
-                 ['Plain'])
+      projects_page.set_filter('name_and_identifier',
+                               'Name or identifier',
+                               'contains',
+                               ['Plain'])
 
       click_on 'Apply'
       # Filter is applied: Only the project that contains the the word "Plain" gets listed
@@ -274,10 +220,10 @@ describe 'Projects index page',
     scenario 'it keeps applying filters and order' do
       load_and_open_filters admin
 
-      set_filter('name_and_identifier',
-                 'Name or identifier',
-                 'doesn\'t contain',
-                 ['Plain'])
+      projects_page.set_filter('name_and_identifier',
+                               'Name or identifier',
+                               'doesn\'t contain',
+                               ['Plain'])
 
       click_on 'Apply'
 
@@ -328,10 +274,10 @@ describe 'Projects index page',
       load_and_open_filters admin
 
       # Filter on model attribute 'name'
-      set_filter('name_and_identifier',
-                 'Name or identifier',
-                 'doesn\'t contain',
-                 ['Plain'])
+      projects_page.set_filter('name_and_identifier',
+                               'Name or identifier',
+                               'doesn\'t contain',
+                               ['Plain'])
 
       click_on 'Apply'
 
@@ -342,10 +288,10 @@ describe 'Projects index page',
       # Filter on model attribute 'identifier'
       remove_filter('name_and_identifier')
 
-      set_filter('name_and_identifier',
-                 'Name or identifier',
-                 'is',
-                 ['plain-project'])
+      projects_page.set_filter('name_and_identifier',
+                               'Name or identifier',
+                               'is',
+                               ['plain-project'])
 
       click_on 'Apply'
 
@@ -355,14 +301,19 @@ describe 'Projects index page',
     end
 
     feature 'Active or archived' do
-      let!(:archived_project) do
+      let!(:parent_project) do
         FactoryBot.create(:project,
-                          name: 'Archived project',
-                          identifier: 'archived-project',
-                          status: Project::STATUS_ARCHIVED)
+                          name: 'Parent project',
+                          identifier: 'parent-project')
+      end
+      let!(:child_project) do
+        FactoryBot.create(:project,
+                          name: 'Child project',
+                          identifier: 'child-project',
+                          parent: parent_project)
       end
 
-      scenario 'filter on "status"' do
+      scenario 'filter on "status", archive and unarchive' do
         load_and_open_filters admin
 
         # value selection defaults to "active"'
@@ -373,29 +324,64 @@ describe 'Projects index page',
         expect(page.find('li[filter-name="status"] select[name="operator"] option[value="="]')).to have_text('is')
         expect(page.find('li[filter-name="status"] select[name="operator"] option[value="!"]')).to have_text('is not')
 
-        expect(page).to_not have_text('Archived project')
+        expect(page).to have_text(parent_project.name)
+        expect(page).to have_text(child_project.name)
         expect(page).to have_text('Plain project')
         expect(page).to have_text('Development project')
         expect(page).to have_text('Public project')
 
-        # Filter on model attribute 'status'
-        set_filter('status',
-                   'Active or archived',
-                   'is',
-                   ['archived'])
+        projects_page.click_menu_item_of('Archive', parent_project)
+        projects_page.accept_alert_dialog!
 
-        click_on 'Apply'
+        expect(page).to have_no_text(parent_project.name)
+        # The child project gets archived automatically
+        expect(page).to have_no_text(child_project.name)
+        expect(page).to have_text('Plain project')
+        expect(page).to have_text('Development project')
+        expect(page).to have_text('Public project')
+
+        visit project_path(parent_project)
+        expect(page).to have_text("The project you're trying to access has been archived.")
+
+        # The child project gets archived automatically
+        visit project_path(child_project)
+        expect(page).to have_text("The project you're trying to access has been archived.")
+
+        load_and_open_filters admin
+
+        projects_page.filter_by_status('archived')
+
+        expect(page).to have_text("ARCHIVED #{parent_project.name}")
+        expect(page).to have_text("ARCHIVED #{child_project.name}")
 
         # Test visiblity of 'more' menu list items
-        page.find('tbody tr').hover
-        page.find('tbody tr .icon-show-more-horizontal').click
-        menu = page.find('tbody tr .project-actions')
-        expect(menu).to have_text('Unarchive')
-        expect(menu).to have_text('Delete')
-        expect(menu).to_not have_text('Archive')
-        expect(menu).to_not have_text('Copy')
-        expect(menu).to_not have_text('Settings')
-        expect(menu).to_not have_text('New subproject')
+        projects_page.activate_menu_of(parent_project) do |menu|
+          expect(menu).to have_text('Unarchive')
+          expect(menu).to have_text('Delete')
+          expect(menu).to_not have_text('Archive')
+          expect(menu).to_not have_text('Copy')
+          expect(menu).to_not have_text('Settings')
+          expect(menu).to_not have_text('New subproject')
+
+          click_link('Unarchive')
+        end
+
+        # The child project does not get unarchived automatically
+        visit project_path(child_project)
+        expect(page).to have_text("The project you're trying to access has been archived.")
+
+        visit project_path(parent_project)
+        expect(page).to have_text(parent_project.name)
+
+        load_and_open_filters admin
+
+        projects_page.filter_by_status('active')
+
+        expect(page).to have_text(parent_project.name)
+        expect(page).to have_no_text(child_project.name)
+        expect(page).to have_text('Plain project')
+        expect(page).to have_text('Development project')
+        expect(page).to have_text('Public project')
       end
     end
 
@@ -449,9 +435,9 @@ describe 'Projects index page',
 
       scenario 'selecting operator' do
         # created on 'today' shows projects that were created today
-        set_filter('created_on',
-                   'Created on',
-                   'today')
+        projects_page.set_filter('created_on',
+                                 'Created on',
+                                 'today')
 
         click_on 'Apply'
 
@@ -462,9 +448,9 @@ describe 'Projects index page',
         # created on 'this week' shows projects that were created within the last seven days
         remove_filter('created_on')
 
-        set_filter('created_on',
-                   'Created on',
-                   'this week')
+        projects_page.set_filter('created_on',
+                                 'Created on',
+                                 'this week')
 
         click_on 'Apply'
 
@@ -475,10 +461,10 @@ describe 'Projects index page',
         # created on 'on' shows projects that were created within the last seven days
         remove_filter('created_on')
 
-        set_filter('created_on',
-                   'Created on',
-                   'on',
-                   ['2017-11-11'])
+        projects_page.set_filter('created_on',
+                                 'Created on',
+                                 'on',
+                                 ['2017-11-11'])
 
         click_on 'Apply'
 
@@ -489,10 +475,10 @@ describe 'Projects index page',
         # created on 'less than days ago'
         remove_filter('created_on')
 
-        set_filter('created_on',
-                   'Created on',
-                   'less than days ago',
-                   ['1'])
+        projects_page.set_filter('created_on',
+                                 'Created on',
+                                 'less than days ago',
+                                 ['1'])
 
         click_on 'Apply'
 
@@ -502,10 +488,10 @@ describe 'Projects index page',
         # created on 'more than days ago'
         remove_filter('created_on')
 
-        set_filter('created_on',
-                   'Created on',
-                   'more than days ago',
-                   ['1'])
+        projects_page.set_filter('created_on',
+                                 'Created on',
+                                 'more than days ago',
+                                 ['1'])
 
         click_on 'Apply'
 
@@ -515,10 +501,10 @@ describe 'Projects index page',
         # created on 'between'
         remove_filter('created_on')
 
-        set_filter('created_on',
-                   'Created on',
-                   'between',
-                   ['2017-11-10', '2017-11-12'])
+        projects_page.set_filter('created_on',
+                                 'Created on',
+                                 'between',
+                                 ['2017-11-10', '2017-11-12'])
 
         click_on 'Apply'
 
@@ -528,9 +514,9 @@ describe 'Projects index page',
         # Latest activity at 'today'. This spot check would fail if the data does not get collected from multiple tables
         remove_filter('created_on')
 
-        set_filter('latest_activity_at',
-                   'Latest activity at',
-                   'today')
+        projects_page.set_filter('latest_activity_at',
+                                 'Latest activity at',
+                                 'today')
 
         click_on 'Apply'
 
@@ -540,10 +526,10 @@ describe 'Projects index page',
         # CF List
         remove_filter('latest_activity_at')
 
-        set_filter("cf_#{list_custom_field.id}",
-                   list_custom_field.name,
-                   'is',
-                   [list_custom_field.possible_values[2].value])
+        projects_page.set_filter("cf_#{list_custom_field.id}",
+                                 list_custom_field.name,
+                                 'is',
+                                 [list_custom_field.possible_values[2].value])
 
         click_on 'Apply'
 
@@ -595,10 +581,10 @@ describe 'Projects index page',
         # CF date filter work (at least for one operator)
         remove_filter("cf_#{list_custom_field.id}")
 
-        set_filter("cf_#{date_custom_field.id}",
-                   date_custom_field.name,
-                   'on',
-                   ['2011-11-11'])
+        projects_page.set_filter("cf_#{date_custom_field.id}",
+                                 date_custom_field.name,
+                                 'on',
+                                 ['2011-11-11'])
 
         click_on 'Apply'
 

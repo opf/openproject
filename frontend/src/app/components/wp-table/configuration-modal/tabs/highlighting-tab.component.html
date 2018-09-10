@@ -1,0 +1,39 @@
+<div>
+  <form>
+    <p [textContent]="text.highlighting_mode.description"></p>
+    <div class="form--field -full-width">
+      <div class="form--field-container">
+        <label class="option-label">
+          <input type="radio"
+                 [(ngModel)]="highlightingMode"
+                 value="inline"
+                 name="highlighting_mode_switch">
+          {{ text.highlighting_mode.inline }}
+        </label>
+        <label class="option-label">
+          <input type="radio"
+                 [(ngModel)]="highlightingMode"
+                 value="status"
+                 name="highlighting_mode_switch">
+          {{ text.highlighting_mode.status }}
+        </label>
+        <label class="option-label">
+          <input type="radio"
+                 [(ngModel)]="highlightingMode"
+                 value="priority"
+                 name="highlighting_mode_switch">
+          {{ text.highlighting_mode.priority }}
+        </label>
+        <label class="option-label">
+          <input type="radio"
+                 [(ngModel)]="highlightingMode"
+                 value="none"
+                 name="highlighting_mode_switch">
+          {{ text.highlighting_mode.none }}
+        </label>
+      </div>
+    </div>
+    <p class="form--field-instructions -no-margin"
+       [textContent]="selectedModeDescription"></p>
+  </form>
+</div>

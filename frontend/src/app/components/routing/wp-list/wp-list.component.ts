@@ -52,6 +52,7 @@ import {WorkPackageTableHierarchiesService} from './../../wp-fast-table/state/wp
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageStaticQueriesService} from 'core-components/wp-query-select/wp-static-queries.service';
+import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
 
 @Component({
   selector: 'wp-list',
@@ -80,13 +81,13 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
               readonly authorisationService:AuthorisationService,
               readonly wpTableRefresh:WorkPackageTableRefreshService,
               readonly wpTableColumns:WorkPackageTableColumnsService,
+              readonly wpTableHighlighting:WorkPackageTableHighlightingService,
               readonly wpTableSortBy:WorkPackageTableSortByService,
               readonly wpTableGroupBy:WorkPackageTableGroupByService,
               readonly wpTableFilters:WorkPackageTableFiltersService,
               readonly wpTableSum:WorkPackageTableSumService,
               readonly wpTableTimeline:WorkPackageTableTimelineService,
               readonly wpTableHierarchies:WorkPackageTableHierarchiesService,
-              readonly wpTableRelationColumns:WorkPackageTableRelationColumnsService,
               readonly wpTablePagination:WorkPackageTablePaginationService,
               readonly wpListService:WorkPackagesListService,
               readonly wpListChecksumService:WorkPackagesListChecksumService,
@@ -186,6 +187,7 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
     this.setupChangeObserver(this.wpTableTimeline);
     this.setupChangeObserver(this.wpTableHierarchies);
     this.setupChangeObserver(this.wpTableColumns);
+    this.setupChangeObserver(this.wpTableHighlighting);
   }
 
   setupChangeObserver(service:WorkPackageQueryStateService, firstPage:boolean = false) {

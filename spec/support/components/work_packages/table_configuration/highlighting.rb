@@ -26,25 +26,54 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: As an admin
-         I want to administrate roles with permissions
-         So that I can modify permissions of roles
+module Components
+  module WorkPackages
+    class Highlighting
+      include Capybara::DSL
+      include RSpec::Matchers
 
-  @javascript
-  Scenario: Normal Role creation with existing role with same name
-    And I am already admin
-    When I go to the new page of "Role"
-    Then I should see "Work packages can be assigned to users and groups in possession of this role in the respective project"
-    When I fill in "Name" with "Manager"
-    And I click on "Create"
-    Then I should see "Successful creation."
+      def initialize; end
 
-  @javascript
-  Scenario: Normal Role creation with existing role with same name
-    And there is a role "Manager"
-    And I am already admin
-    When I go to the new page of "Role"
-    Then I should see "Work packages can be assigned to users and groups in possession of this role in the respective project"
-    When I fill in "Name" with "Manager"
-    And I click on "Create"
-    Then I should see "Name has already been taken"
+      def disable_highlight
+        switch_highlight 'Disabled'
+      end
+
+      def inline_highlight
+        switch_highlight 'Default (inline)'
+      end
+
+      def switch_highlight(label)
+        modal_open? or open_modal
+        choose label
+        apply
+      end
+
+      def apply
+        @opened = false
+
+        click_button('Apply')
+      end
+
+      def open_modal
+        @opened = true
+        ::Components::WorkPackages::TableConfigurationModal.new.open_and_switch_to 'Highlighting'
+      end
+
+      def assume_opened
+        @opened = true
+      end
+
+      private
+
+      def within_modal
+        page.within('.wp-table--configuration-modal') do
+          yield
+        end
+      end
+
+      def modal_open?
+        !!@opened
+      end
+    end
+  end
+end

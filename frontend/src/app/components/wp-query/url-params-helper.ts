@@ -82,6 +82,10 @@ export class UrlParamsHelperService {
       paramsData.tzl = query.timelineZoomLevel;
     }
 
+    if (query.highlightingMode && query.highlightingMode !== 'inline') {
+      paramsData.hl = query.highlightingMode;
+    }
+
     paramsData.hi = !!query.showHierarchies;
     paramsData.g = _.get(query.groupBy, 'id', '');
     if (query.sortBy) {
@@ -145,6 +149,10 @@ export class UrlParamsHelperService {
       }
     }
 
+    if (properties.hl) {
+      queryData.highlightingMode = properties.hl;
+    }
+
     if (properties.hi === false || properties.hi === true) {
       queryData.showHierarchies = properties.hi;
     }
@@ -198,6 +206,10 @@ export class UrlParamsHelperService {
     if (!!query.timelineVisible) {
       queryData.timelineZoomLevel = query.timelineZoomLevel;
       queryData.timelineLabels = JSON.stringify(query.timelineLabels);
+    }
+
+    if (query.highlightingMode) {
+      queryData.highlightingMode = query.highlightingMode;
     }
 
     queryData.showHierarchies = !!query.showHierarchies;

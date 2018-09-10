@@ -29,25 +29,45 @@
 #++
 
 module ColorsHelper
-  def options_for_colors(colored_thing)
-    s = content_tag(:option, '')
-    colored_thing.available_colors.each do |c|
+  def options_for_colors(colored_thing, default_label: I18n.t('colors.label_no_color'), default_color: nil)
+    s = content_tag(:option, default_label, value: default_color)
+    Color.find_each do |c|
       options = {}
       options[:value] = c.id
-      options[:selected] = 'selected' if c.id == colored_thing.color_id
+      options[:data] = {
+        color: c.hexcode,
+        bright: c.bright?,
+        background: c.contrasting_color(light_color: 'transparent')
+      }
+      options[:selected] = true if c.id == colored_thing.color_id
 
-      options[:style] = "background-color: #{c.hexcode}; color: #{c.text_hexcode}"
-
-      s << content_tag(:option, h(c.name), options)
+      s << content_tag(:option, c.name, options)
     end
     s
   end
 
+  def darken_color(hex_color, amount = 0.4)
+    hex_color = hex_color.delete('#')
+    rgb = hex_color.scan(/../).map(&:hex)
+    rgb[0] = (rgb[0].to_i * amount).round
+    rgb[1] = (rgb[1].to_i * amount).round
+    rgb[2] = (rgb[2].to_i * amount).round
+    "#%02x%02x%02x" % rgb
+  end
+
+  def colored_text(color)
+    background = color.contrasting_color(dark_color: '#333', light_color: 'transparent')
+    style = "background-color: #{background}; color: #{color.hexcode}"
+    content_tag(:span, color.hexcode, class: 'color--text-preview', style: style)
+  end
+
+
   def icon_for_color(color, options = {})
     return unless color
 
-    options = options.merge(class: 'color-preview ' + options[:class].to_s,
-                            style: "background-color: #{color.hexcode};" + options[:style].to_s)
+    options.merge! class: 'color--preview ' + options[:class].to_s,
+                   title: color.name,
+                   style: "background-color: #{color.hexcode};" + options[:style].to_s
 
     content_tag(:span, ' ', options)
   end

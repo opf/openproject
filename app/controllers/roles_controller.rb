@@ -35,7 +35,8 @@ class RolesController < ApplicationController
   before_action :require_admin, except: [:autocomplete_for_role]
 
   def index
-    @roles = Role.order('builtin, position')
+    @roles = Role
+             .order('builtin, position')
              .page(page_param)
              .per_page(per_page_param)
 

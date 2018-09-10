@@ -85,7 +85,8 @@ export class Field {
   protected I18n:I18nService
   constructor(public resource:any,
               public name:string,
-              public schema:IFieldSchema) {
+              public schema:IFieldSchema,
+              public context:string = '') {
     this.I18n = this.$injector.get(I18nService);
     this.initializer();
   }

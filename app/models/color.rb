@@ -27,11 +27,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class PlanningElementTypeColor < ActiveRecord::Base
-  self.table_name = 'planning_element_type_colors'
-
-  acts_as_list
-  default_scope { order('position ASC') }
+class Color < ActiveRecord::Base
+  self.table_name = 'colors'
 
   has_many :planning_element_types, class_name:  'Type',
                                     foreign_key: 'color_id',
@@ -44,15 +41,51 @@ class PlanningElementTypeColor < ActiveRecord::Base
   validates_length_of :name, maximum: 255, unless: lambda { |e| e.name.blank? }
   validates_format_of :hexcode, with: /\A#[0-9A-F]{6}\z/, unless: lambda { |e| e.hexcode.blank? }
 
-  def text_hexcode
-    # 0.63 - Optimal threshold to switch between white and black text color
-    #        determined by intensive user tests and expensive research
-    #        activities.
-    if Color::RGB::from_html(hexcode).to_hsl.brightness <= 0.63
-      '#fff'
+  ##
+  # Returns the best contrasting color, either white or black
+  # depending on the overall brightness.
+  def contrasting_color(light_color: '#FFFFFF', dark_color: '#333333')
+    if bright?
+      dark_color
     else
-      '#000'
+      light_color
     end
+  end
+
+  ##
+  # Get the fill style for this color.
+  # If the color is light, use a dark font.
+  # Otherwise, use a white font.
+  def color_styles(light_color: '#FFFFFF', dark_color: '#333333')
+    if bright?
+      { color: dark_color, 'background-color': hexcode }
+    else
+      { color: light_color, 'background-color': hexcode }
+    end
+  end
+
+  ##
+  # Returns whether the color is bright according to
+  # YIQ lightness.
+  def bright?
+    brightness_yiq >= 128
+  end
+
+  ##
+  # Sum the color values of each channel
+  # Same as in frontend color-contrast.functions.ts
+  def brightness_yiq
+    r, g, b = rgb_colors
+    ((r * 299) + (g * 587) + (b * 114)) / 1000;
+  end
+
+  ##
+  # Splits the hexcode into rbg color array
+  def rgb_colors
+    hexcode
+      .gsub('#', '') # Remove trailing #
+      .scan(/../) # Pair hex chars
+      .map { |c| c.hex } # to int
   end
 
   protected

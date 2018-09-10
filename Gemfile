@@ -54,8 +54,6 @@ gem 'acts_as_tree', '~> 2.7.0'
 gem 'awesome_nested_set', '~> 3.1.3'
 gem 'typed_dag', '~> 2.0.2'
 
-gem 'color-tools', '~> 1.3.0', require: 'color'
-
 gem 'addressable', '~> 2.5.2'
 
 # Provide timezone info for TZInfo used by AR

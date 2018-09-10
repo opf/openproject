@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -25,36 +26,22 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
+#
+module Query::Highlighting
+  extend ActiveSupport::Concern
 
-FactoryBot.define do
-  factory(:color, class: PlanningElementTypeColor) do
-    sequence(:name) do |n| "Color No. #{n}" end
-    hexcode do ('#%0.6x' % rand(0xFFFFFF)).upcase end
-    sequence(:position) { |n| n }
-  end
-end
+  included do
+    QUERY_HIGHLIGHTING_MODES = %i[inline none status priority].freeze
+    validates_inclusion_of :highlighting_mode,
+                           in: QUERY_HIGHLIGHTING_MODES,
+                           allow_nil: true,
+                           allow_blank: true
 
-{ 'maroon'  => '#800000',
-  'red'     => '#FF0000',
-  'orange'  => '#FFA500',
-  'yellow'  => '#FFFF00',
-  'olive'   => '#808000',
-  'purple'  => '#800080',
-  'fuchsia' => '#FF00FF',
-  'white'   => '#FFFFFF',
-  'lime'    => '#00FF00',
-  'green'   => '#008000',
-  'navy'    => '#000080',
-  'blue'    => '#0000FF',
-  'aqua'    => '#00FFFF',
-  'teal'    => '#008080',
-  'black'   => '#000000',
-  'silver'  => '#C0C0C0',
-  'gray'    => '#808080' }.each do |name, code|
-  FactoryBot.define do
-    factory(:"color_#{name}", parent: :color) do
-      name name
-      hexcode code
+    def highlighting_mode
+      val = super
+      if val.present?
+        val.to_sym
+      end
     end
   end
 end

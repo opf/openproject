@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe PlanningElementTypeColorsController, type: :controller do
+describe ColorsController, type: :controller do
   let(:current_user) { FactoryBot.create(:admin) }
 
   before do
@@ -72,18 +72,6 @@ describe PlanningElementTypeColorsController, type: :controller do
     def fetch
       @available_color = FactoryBot.create(:color, id: '1337')
       put 'update', params: { id: '1337', color: { 'name' => 'blubs' } }
-    end
-
-    def expect_redirect_to
-      colors_path
-    end
-    it_should_behave_like 'a controller action with require_admin'
-  end
-
-  describe 'move.html' do
-    def fetch
-      @available_color = FactoryBot.create(:color, id: '1337')
-      post 'move', params: { id: '1337', color: { move_to: 'highest' } }
     end
 
     def expect_redirect_to

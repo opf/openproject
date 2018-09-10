@@ -1,0 +1,29 @@
+<%
+  colored_resource = Proc.new do |name, scope|
+    scope.where.not(color_id: nil).includes(:color).find_each do |entry|
+      color = entry.color
+      styles = color.color_styles
+
+      inline_style = styles.map{|k,v| "#{k}:#{v} !important"}.join(';')
+      row_style = "background-color: #{color.hexcode} !important;"
+
+      concat ".__hl_inl_#{name}_#{entry.id}, .__hl_dot_#{name}_#{entry.id}::before { #{inline_style} }\n"
+      concat ".__hl_row_#{name}_#{entry.id} { #{row_style} }\n"
+
+      # Mark color as bright through CSS variable
+      # so it can be used to add a separate -bright class
+      unless color.bright?
+        concat ":root { --hl-#{name}-#{entry.id}-dark: #{styles[:color]} }\n"
+      end
+    end
+  end
+ %>
+
+<%# Highlightable resources %>
+<%= colored_resource.call('status', ::Status) %>
+<%= colored_resource.call('priority', ::IssuePriority) %>
+<%= colored_resource.call('type', ::Type) %>
+
+<%# Overdue tasks %>
+.__hl_date_due_today { color: #F76707 !important; }
+.__hl_date_overdue { color: #C92A2A !important; font-weight: bold; }

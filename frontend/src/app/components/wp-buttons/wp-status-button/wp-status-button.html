@@ -1,14 +1,15 @@
-<div class="wp-status-button">
+<div class="wp-status-button" *ngIf="status">
   <button class="button"
+          [ngClass]="statusHighlightClass"
           [disabled]="isDisabled()"
           [attr.aria-label]="text.explanation"
 
           wpStatusDropdown
           [wpStatusDropdown-workPackage]="workPackage">
 
-    <span class="button--text"
+    <span class="button--text "
           aria-hidden="true"
-          [textContent]="getStatus.name"></span>
+          [textContent]="status.name"></span>
     <op-icon icon-classes="button--icon icon-small icon-pulldown"></op-icon>
   </button>
 </div>

@@ -159,6 +159,10 @@ export class HalResource {
     return null;
   }
 
+  public getId():string {
+    return this.id || this.idFromLink;
+  }
+
   public $load(force = false):Promise<this> {
     if (!this.state) {
       return this.$loadResource(force);

@@ -9,9 +9,9 @@ import {RelationRenderInfo, RelationsRenderPass} from './relations/relations-ren
 import {SingleRowBuilder} from './rows/single-row-builder';
 import {TimelineRenderPass} from './timeline/timeline-render-pass';
 import {
-  IWorkPackageEditingService,
   IWorkPackageEditingServiceToken
 } from "../../wp-edit-form/work-package-editing.service.interface";
+import {HighlightingRenderPass} from "core-components/wp-fast-table/builders/highlighting/row-highlight-render-pass";
 
 export type RenderedRowType = 'primary' | 'relations';
 
@@ -53,6 +53,9 @@ export abstract class PrimaryRenderPass {
   /** Additional render pass that handles table relation rendering */
   public relations:RelationsRenderPass;
 
+  /** Additional render pass that handles highlighting of rows */
+  public highlighting:HighlightingRenderPass;
+
   constructor(public readonly injector:Injector,
               public workPackageTable:WorkPackageTable,
               public rowBuilder:SingleRowBuilder) {
@@ -76,6 +79,8 @@ export abstract class PrimaryRenderPass {
 
     // Render subsequent passes
     // that may modify the structure of the table
+    this.highlighting.render();
+
     timeOutput('Relations render pass', () => {
       this.relations.render();
     });
@@ -143,6 +148,7 @@ export abstract class PrimaryRenderPass {
   protected prepare() {
     this.timeline = new TimelineRenderPass(this.injector, this.workPackageTable, this);
     this.relations = new RelationsRenderPass(this.injector, this.workPackageTable, this);
+    this.highlighting = new HighlightingRenderPass(this.injector, this.workPackageTable, this);
     this.tableBody = document.createDocumentFragment();
     this.renderedOrder = [];
   }

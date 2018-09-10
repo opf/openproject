@@ -598,6 +598,19 @@ zh:
         hierarchy_hint: 所有过滤的表结果都将使用其上级进行扩充。 可以展开和折叠层次结构。
         display_sums_hint: 在表结果下方一行中显示所有可累加属性的总和。
         show_timeline_hint: 在表格的右侧显示交互式甘特图。 您可以通过拖动表格和甘特图之间的分隔线来更改其宽度。
+        highlighting: Highlighting
+        highlighting_mode:
+          description: Control highlighting of rows through a color defined by a work
+            package attribute, such as priority or status.
+          none: 无
+          none_text: Disables highlighted output of attributes in the table altogether.
+          inline: Inline
+          inline_text: No highlighting of work package rows. Display colors of overdue
+            dates, status, and priority attributes in their respective columns.
+          status: 状态
+          status_text: Highlight work package rows based on the color of its status.
+          priority: 优先级
+          priority_text: Highlight work package rows based on the color of its priority.
         columns_help_text: 使用上面的输入向表视图添加或删除列。 您可以拖放列以重新排序它们。
       tabs:
         overview: 概述
