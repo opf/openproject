@@ -43,6 +43,7 @@ import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.s
 export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
   @Input('projectIdentifier') public projectIdentifier:string;
   @Input('stateName') public stateName:string;
+  @Input('dropdownActive') active:boolean;
 
   private loadingPromise:Promise<any>;
 
@@ -56,6 +57,10 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
 
   ngAfterViewInit():void {
     super.ngAfterViewInit();
+
+    if (!this.active) {
+        return;
+    }
 
     // Force full-view create if in mobile view
     if (bowser.mobile) {
