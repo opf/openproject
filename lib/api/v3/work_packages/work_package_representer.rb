@@ -592,9 +592,11 @@ module API
           represented.custom_actions(current_user).to_a.sort_by(&:position)
         end
 
+        # Attachments need to be eager loaded for the description
         self.to_eager_load = %i[parent
                                 type
-                                watchers]
+                                watchers
+                                attachments]
 
         # The dynamic class generation introduced because of the custom fields interferes with
         # the class naming as well as prevents calls to super
