@@ -136,6 +136,8 @@ export class WorkPackageCommentComponent implements IEditFieldHandler, OnInit, O
     this.editing = true;
 
     this.reset(withText);
+
+    this.scrollToBottom();
   }
 
   public get project() {
@@ -153,7 +155,6 @@ export class WorkPackageCommentComponent implements IEditFieldHandler, OnInit, O
   }
 
   public handleUserSubmit() {
-    this.field.onSubmit();
     if (this.field.isBusy || this.field.isEmpty()) {
       return Promise.resolve();
     }
@@ -200,5 +201,12 @@ export class WorkPackageCommentComponent implements IEditFieldHandler, OnInit, O
 
   stopPropagation(evt:JQueryEventObject):boolean {
     return false;
+  }
+
+  scrollToBottom():void {
+    const scrollableContainer = jQuery(this.elementRef.nativeElement).scrollParent()[0];
+    if (scrollableContainer) {
+      setTimeout(() => { scrollableContainer.scrollTop = scrollableContainer.scrollHeight; }, 400);
+    }
   }
 }
