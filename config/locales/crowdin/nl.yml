@@ -62,15 +62,15 @@ nl:
       no_results_title_text: Er zijn momenteel geen berichten voor het bord.
   colors:
     index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
+      no_results_title_text: Er zijn momenteel geen kleuren.
+      no_results_content_text: Maak een nieuwe kleur
     label_no_color: No color
   custom_actions:
     actions:
       name: Acties
       add: Actie toevoegen
       assigned_to:
-        executing_user_value: "(Assign to executing user)"
+        executing_user_value: "(Toewijzen aan de uitvoerende gebruiker)"
     conditions: Voorwaarden
     plural: Aangepaste acties
     new: Nieuwe aangepaste actie
@@ -486,8 +486,8 @@ nl:
           empty: "(%{name}) waarde kan niet leeg zijn."
           inclusion: "(%{name}) waarde is niet ingesteld op een van de toegestane
             waarden."
-          not_logged_in: "(%{name}) value cannot be set because you are not logged
-            in."
+          not_logged_in: "(%{name}) waarde kan niet worden ingesteld omdat u niet
+            bent ingelogd."
           not_an_integer: "(%{name}) is geen geheel getal."
           smaller_than_or_equal_to: "(%{name}) moet kleiner zijn dan of gelijk aan
             %{count}."
@@ -557,8 +557,8 @@ nl:
               status_invalid_in_type: is ongeldig omdat de huidige status niet in
                 dit type bestaat.
             type:
-              cannot_be_milestone_due_to_children: cannot be a milestone because this
-                work package has children.
+              cannot_be_milestone_due_to_children: kan geen mijlpaal zijn, want dit
+                werkpakket heeft onderliggende werkpakketten.
             priority_id:
               only_active_priorities_allowed: moet actief zijn.
             category:
@@ -649,7 +649,7 @@ nl:
     comment: Commentaar
     comments: Commentaar
     content: Inhoud
-    color: Color
+    color: Kleur
     created_at: Gemaakt op
     created_on: Gemaakt op
     custom_options: Mogelijke waarden
@@ -1012,7 +1012,7 @@ nl:
   error_invalid_group_by: 'Kan niet groeperen op: %{value}'
   error_invalid_query_column: 'Ongeldige zoekopdracht kolom: %{value}'
   error_invalid_sort_criterion: 'Kan niet sorteren op kolom: %{value}'
-  error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
+  error_journal_attribute_not_present: Dagboek bevat geen kenmerk %{attribute}.
   error_pdf_export_too_many_columns: Te veel kolommen geselecteerd voor het exporteren
     naar PDF. Beperk het aantal kolommen.
   error_pdf_failed_to_export: De pdf export kan niet worden opgeslagen:%{error}
@@ -2773,7 +2773,3 @@ nl:
       writing_read_only_attributes: U mag geen read-only attribuut schrijven.
     resources:
       schema: Schema
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Er zijn momenteel geen kleuren.
-      no_results_content_text: Maak een nieuwe kleur

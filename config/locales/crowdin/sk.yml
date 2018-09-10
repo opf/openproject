@@ -62,8 +62,8 @@ sk:
       no_results_title_text: Panel v súčasnosti nemá žiadne príspevky.
   colors:
     index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
+      no_results_title_text: Momentálne nie sú k dispozícií žiadne farby.
+      no_results_content_text: Vytvoriť novú farbu
     label_no_color: No color
   custom_actions:
     actions:
@@ -655,7 +655,7 @@ sk:
     comment: Komentár
     comments: Komentár
     content: Obsah
-    color: Color
+    color: Farba
     created_at: Vytvorené
     created_on: Vytvorené
     custom_options: Možné hodnoty
@@ -2782,7 +2782,3 @@ sk:
         na čítanie.
     resources:
       schema: Schéma
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Momentálne nie sú k dispozícií žiadne farby.
-      no_results_content_text: Vytvoriť novú farbu

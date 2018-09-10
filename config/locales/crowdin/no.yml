@@ -636,7 +636,7 @@
     comment: Kommentar
     comments: Kommentar
     content: Innhold
-    color: Color
+    color: Farge
     created_at: Opprettet
     created_on: Opprettet
     custom_options: Mulige verdier
@@ -2710,7 +2710,3 @@
       writing_read_only_attributes: Du kan ikke skrive til et skrivebeskyttet attributt.
     resources:
       schema: Skjema
-  planning_element_type_colors:
-    index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color

@@ -65,8 +65,8 @@ fil:
       no_results_title_text: Sa kasalukuyan ay walang mga post para sa board.
   colors:
     index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
+      no_results_title_text: Walang mga kasulukuyan kulay.
+      no_results_content_text: Gumawa ng bagong kulay
     label_no_color: No color
   custom_actions:
     actions:
@@ -665,7 +665,7 @@ fil:
     comment: Komento
     comments: Komento
     content: Nilalaman
-    color: Color
+    color: Kulay
     created_at: Nilikha sa
     created_on: Nilikha sa
     custom_options: Ang mga posibleng halaga
@@ -2825,7 +2825,3 @@ fil:
         basa-lang.
     resources:
       schema: Iskema
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Walang mga kasulukuyan kulay.
-      no_results_content_text: Gumawa ng bagong kulay

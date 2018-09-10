@@ -61,8 +61,8 @@ lt:
       no_results_title_text: Nėra jokių įrašų pranešimų lentoje.
   colors:
     index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
+      no_results_title_text: Nėra nurodytų spalvų.
+      no_results_content_text: Sukurti naują spalvą
     label_no_color: No color
   custom_actions:
     actions:
@@ -645,7 +645,7 @@ lt:
     comment: Komentaras
     comments: Komentaras
     content: Turinys
-    color: Color
+    color: Spalva
     created_at: Sukurta
     created_on: Sukurta
     custom_options: Galimos reikšmės
@@ -2792,7 +2792,3 @@ lt:
       writing_read_only_attributes: Jūs neturėtumėte įrašyti atributą „tik skaitomas“.
     resources:
       schema: Schema
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Nėra nurodytų spalvų.
-      no_results_content_text: Sukurti naują spalvą
