@@ -630,6 +630,7 @@ en:
         text_select_hint: "Select boxes should be opened with 'ALT' and arrow keys."
       table_configuration:
         button: 'Configure this work package table'
+        choose_display_mode: 'Display work packages as'
         modal_title: 'Work package table configuration'
         embedded_tab_disabled: "This configuration tab is not available for the embedded view you're editing."
         default: "default"

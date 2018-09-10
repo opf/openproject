@@ -1,6 +1,6 @@
 <div>
   <form>
-    <p>Display work packages as</p>
+    <p [textContent]="text.choose_mode"></p>
     <div class="form--field -full-width">
       <div class="form--field-container">
         <label class="option-label">
@@ -8,8 +8,7 @@
                  [(ngModel)]="displayMode"
                  value="default"
                  name="display_mode_switch">
-          <op-icon icon-classes="icon-no-hierarchy"
-                   icon-title="{{ text.display_mode.default }}"></op-icon>
+          <op-icon icon-classes="icon-no-hierarchy" [attr.icon-title]="text.display_mode.default"></op-icon>
           {{ text.display_mode.default }}
           <span class="form--inline-instructions" [textContent]="text.default"></span>
         </label>
@@ -22,8 +21,7 @@
                  [(ngModel)]="displayMode"
                  value="hierarchy"
                  name="display_mode_switch">
-          <op-icon icon-classes="icon-hierarchy"
-                   icon-title="{{ text.display_mode.hierarchy }}"></op-icon>
+          <op-icon icon-classes="icon-hierarchy" [attr.icon-title]="text.display_mode.hierarchy"></op-icon>
           {{ text.display_mode.hierarchy }}
           <span *ngIf="displayMode === 'hierarchy'"
                 class="form--inline-instructions"
@@ -38,8 +36,7 @@
                  [(ngModel)]="displayMode"
                  value="grouped"
                  name="display_mode_switch">
-          <op-icon icon-classes="icon-group-by"
-                   icon-title="{{ text.label_group_by }}"></op-icon>
+          <op-icon icon-classes="icon-group-by" [attr.icon-title]="text.label_group_by"></op-icon>
           {{ text.label_group_by }}
           <select *ngIf="displayMode === 'grouped'"
                   (change)="updateGroup($event.target.value)"
