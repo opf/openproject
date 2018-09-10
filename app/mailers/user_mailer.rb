@@ -218,7 +218,7 @@ class UserMailer < BaseMailer
     @wiki_diff_url = url_for(controller: '/wiki',
                              action:     :diff,
                              project_id: wiki_content.project,
-                             id:         wiki_content.page.title,
+                             id:         wiki_content.page.slug,
                              # using wiki_content.version + 1 because at this point the journal is not saved yet
                              version:    wiki_content.version + 1)
 
