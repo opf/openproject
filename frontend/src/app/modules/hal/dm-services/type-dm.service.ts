@@ -41,8 +41,8 @@ export class TypeDmService {
               protected pathHelper:PathHelperService) {
   }
 
-  public loadAll():Promise<TypeResource[]> {
-    const typeUrl = this.pathHelper.api.v3.types.toString();
+  public loadAll(projectIdentifier:string|undefined):Promise<TypeResource[]> {
+    const typeUrl = this.pathHelper.api.v3.withOptionalProject(projectIdentifier).types.toString();
 
     return this.halResourceService
       .get<CollectionResource<TypeResource>>(typeUrl)
