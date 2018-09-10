@@ -127,7 +127,7 @@ Other available keys for the email are:
 | Type | sets the type | type:Milestone |
 | Version | sets the version | version:v4.1.0 |
 | Start date | sets the start date | start date:2015-02-28 |
-| Due date | sets the due date |  |
+| Due date | sets the finish date |  |
 | Done ratio | sets the done ratio. Use a number | Done ratio:40 |
 | Status | sets the status | Status:closed |
 | priority | sets the priority | priority:High |

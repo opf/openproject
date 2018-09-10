@@ -2710,7 +2710,7 @@ bg:
       validation:
         done_ratio: Done ratio cannot be set on parent work packages, when it is inferred
           by status or when it is disabled.
-        due_date: Due date cannot be set on parent work packages.
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: Estimated hours cannot be set on parent work packages.
         invalid_user_assigned_to_work_package: The chosen user is not allowed to be
           '%{property}' for this work package.

@@ -434,7 +434,7 @@ en:
       button_deactivate: 'Hide Gantt chart'
       cancel: Cancel
       change: "Change in planning"
-      due_date: "Due date"
+      due_date: "Finish date"
       empty: "(empty)"
       error: "An error has occurred."
       errors:
@@ -569,7 +569,7 @@ en:
         createdAt: "Created on"
         description: "Description"
         date: "Date"
-        dueDate: "Due date"
+        dueDate: "Finish date"
         estimatedTime: "Estimated time"
         spentTime: "Spent time"
         category: "Category"

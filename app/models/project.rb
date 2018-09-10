@@ -563,7 +563,7 @@ class Project < ActiveRecord::Base
     ].flatten.compact.min
   end
 
-  # The latest due date of an issue or version
+  # The latest finish date of an issue or version
   def due_date
     [
       work_packages.maximum('due_date'),

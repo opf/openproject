@@ -30,7 +30,7 @@ class AttributeHelpText::WorkPackage < AttributeHelpText
   def self.available_attributes
     attributes = ::Type.translated_work_package_form_attributes
 
-    # Start and due dates are joined into a single field for non-milestones
+    # Start and finish dates are joined into a single field for non-milestones
     attributes.delete 'start_date'
     attributes.delete 'due_date'
 

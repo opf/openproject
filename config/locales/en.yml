@@ -413,7 +413,7 @@ en:
         auto_hide_popups: "Auto-hide success notifications"
         warn_on_leaving_unsaved: "Warn me when leaving a work package with unsaved changes"
       version:
-        effective_date: "Due date"
+        effective_date: "Finish date"
         sharing: "Sharing"
       wiki_content:
         text: "Text"
@@ -645,7 +645,7 @@ en:
     default_columns: "Default columns"
     description: "Description"
     display_sums: "Display Sums"
-    due_date: "Due date"
+    due_date: "Finish date"
     estimated_hours: "Estimated time"
     estimated_time: "Estimated time"
     firstname: "First name"
@@ -2542,7 +2542,7 @@ en:
         context_object_not_found: "Cannot find the resource given as the context."
       validation:
         done_ratio: "Done ratio cannot be set on parent work packages, when it is inferred by status or when it is disabled."
-        due_date: "Due date cannot be set on parent work packages."
+        due_date: "Finish date cannot be set on parent work packages."
         estimated_hours: "Estimated hours cannot be set on parent work packages."
         invalid_user_assigned_to_work_package: "The chosen user is not allowed to be '%{property}' for this work package."
         start_date: "Start date cannot be set on parent work packages."

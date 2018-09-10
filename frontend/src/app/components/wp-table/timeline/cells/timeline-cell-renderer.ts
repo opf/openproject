@@ -95,7 +95,7 @@ export class TimelineCellRenderer {
 
   /**
    * Assign changed dates to the work package.
-   * For generic work packages, assigns start and due date.
+   * For generic work packages, assigns start and finish date.
    *
    */
   public assignDateValues(changeset:WorkPackageChangeset,
@@ -227,7 +227,7 @@ export class TimelineCellRenderer {
       bar.style.backgroundImage = `linear-gradient(90deg, #F1F1F1 0%, rgba(255,255,255,0) 80%)`;
     }
 
-    // only due date, fade out bar to the left
+    // only finish date, fade out bar to the left
     if (_.isNaN(start.valueOf()) && !_.isNaN(due.valueOf())) {
       start = due.clone();
       bar.style.backgroundImage = `linear-gradient(90deg, rgba(255,255,255,0) 0%, #F1F1F1 100%)`;
@@ -306,7 +306,7 @@ export class TimelineCellRenderer {
 
   /**
    * Render the generic cell element, a bar spanning from
-   * start to due date.
+   * start to finish date.
    */
   public render(renderInfo:RenderInfo):HTMLDivElement {
     const bar = document.createElement('div');

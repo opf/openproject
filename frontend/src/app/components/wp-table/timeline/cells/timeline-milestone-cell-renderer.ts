@@ -58,7 +58,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
 
   /**
    * Assign changed dates to the work package.
-   * For generic work packages, assigns start and due date.
+   * For generic work packages, assigns start and finish date .
    *
    */
   public assignDateValues(changeset:WorkPackageChangeset,

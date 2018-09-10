@@ -85,7 +85,7 @@ export class DateEditField extends EditField {
 
   /**
    * Return the default date for the datepicker instance.
-   * If this field is the due date, we select the start date + 1 as the default.
+   * If this field is the finish date, we select the start date + 1 as the default.
    */
   public get defaultDate():String {
     const isDueDate = this.name === 'dueDate';

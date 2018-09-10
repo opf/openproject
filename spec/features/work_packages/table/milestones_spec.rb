@@ -30,7 +30,7 @@ describe 'Inline editing milestones', js: true do
     wp_table.expect_work_package_listed work_package
   end
 
-  it 'mapping for start and due date in the table (regression #26044)' do
+  it 'mapping for start and finish date in the table (regression #26044)' do
     start_date = wp_table.edit_field(work_package, :startDate)
     due_date = wp_table.edit_field(work_package, :dueDate)
 
