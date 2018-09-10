@@ -123,20 +123,5 @@ describe Queries::WorkPackages::Filter::SubprojectFilter, type: :model do
           .to be_ar_object_filter
       end
     end
-
-    describe '#value_objects' do
-      let(:subproject1) { FactoryBot.build_stubbed(:project) }
-      let(:subproject2) { FactoryBot.build_stubbed(:project) }
-      let(:projects) { [subproject1, subproject2] }
-
-      before do
-        instance.values = [subproject1.id.to_s, subproject2.id.to_s]
-      end
-
-      it 'returns an array of projects' do
-        expect(instance.value_objects)
-          .to match_array(plucked)
-      end
-    end
   end
 end
