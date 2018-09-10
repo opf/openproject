@@ -12,20 +12,19 @@ import {HighlightingMode} from "core-components/wp-fast-table/builders/highlight
 export class WpTableConfigurationHighlightingTab implements TabComponent {
 
   // Display mode
-  public highlightingMode:HighlightingMode = 'inline';
+  public highlightingMode:HighlightingMode|'entire-row' = 'inline';
+  public entireRowMode:boolean = false;
+  public lastEntireRowAttribute:HighlightingMode = 'status';
 
   public text = {
     title: this.I18n.t('js.work_packages.table_configuration.highlighting'),
     highlighting_mode: {
       description: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.description'),
       none: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.none'),
-      none_text: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.none_text'),
       inline: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.inline'),
-      inline_text: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.inline_text'),
       status: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.status'),
-      status_text: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.status_text'),
       priority: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.priority'),
-      priority_text: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.priority_text')
+      entire_row_by: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.entire_row_by'),
     }
   };
 
@@ -35,14 +34,25 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
   }
 
   public onSave() {
-    this.wpTableHighlight.update(this.highlightingMode);
+    this.wpTableHighlight.update(this.highlightingMode as HighlightingMode);
   }
 
-  public get selectedModeDescription() {
-    return (this.text.highlighting_mode as any)[`${this.highlightingMode}_text`];
+  public updateMode(mode:HighlightingMode|'entire-row') {
+    if (mode === 'entire-row') {
+      this.highlightingMode = this.lastEntireRowAttribute;
+    } else {
+      this.highlightingMode = mode;
+    }
+
+    if (this.highlightingMode === 'status' || this.highlightingMode === 'priority') {
+      this.lastEntireRowAttribute = this.highlightingMode;
+      this.entireRowMode = true;
+    } else {
+      this.entireRowMode = false;
+    }
   }
 
   ngOnInit() {
-    this.highlightingMode = this.wpTableHighlight.current;
+    this.updateMode(this.wpTableHighlight.current);
   }
 }

@@ -649,14 +649,14 @@ ru:
         highlighting_mode:
           description: Control highlighting of rows through a color defined by a work
             package attribute, such as priority or status.
-          none: Ничего
+          none: None
           none_text: Disables highlighted output of attributes in the table altogether.
           inline: Inline
           inline_text: No highlighting of work package rows. Display colors of overdue
             dates, status, and priority attributes in their respective columns.
-          status: Состояние
+          status: Status
           status_text: Highlight work package rows based on the color of its status.
-          priority: Приоритет
+          priority: Priority
           priority_text: Highlight work package rows based on the color of its priority.
         columns_help_text: Используйте ввод выше для добавления или удаления столбцов
           в табличном представлении. Вы можете перетаскивать столбцы для изменения

@@ -50,8 +50,8 @@ zh:
       no_results_title_text: 目前没有发布内容。
   colors:
     index:
-      no_results_title_text: 目前没有颜色。
-      no_results_content_text: 创建新的颜色
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: Create a new color
     label_no_color: No color
   custom_actions:
     actions:
@@ -576,7 +576,7 @@ zh:
     comment: 评论
     comments: 评论
     content: 内容
-    color: 颜色
+    color: Color
     created_at: 创建
     created_on: 创建
     custom_options: 可能的值
@@ -2450,3 +2450,7 @@ zh:
       writing_read_only_attributes: 你不能写入只读属性。
     resources:
       schema: 方案
+  planning_element_type_colors:
+    index:
+      no_results_title_text: 目前没有颜色。
+      no_results_content_text: 创建新的颜色

@@ -62,8 +62,8 @@ vi:
       no_results_title_text: Hiện có không có bài viết ở bảng điều khiển.
   colors:
     index:
-      no_results_title_text: Hiện có không có màu sắc.
-      no_results_content_text: Tạo một màu mới
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: Create a new color
     label_no_color: No color
   custom_actions:
     actions:
@@ -639,7 +639,7 @@ vi:
     comment: Nhận xét
     comments: Nhận xét
     content: Nội dung
-    color: Màu sắc
+    color: Color
     created_at: Tạo ngày
     created_on: Tạo ngày
     custom_options: Giá trị có thể
@@ -2718,3 +2718,7 @@ vi:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Schema
+  planning_element_type_colors:
+    index:
+      no_results_title_text: Hiện có không có màu sắc.
+      no_results_content_text: Tạo một màu mới

@@ -62,8 +62,8 @@ bg:
       no_results_title_text: Понастоящем няма съобщения на дъската.
   colors:
     index:
-      no_results_title_text: В момента има няма цветове.
-      no_results_content_text: Създайте нов цвят
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: Create a new color
     label_no_color: No color
   custom_actions:
     actions:
@@ -639,7 +639,7 @@ bg:
     comment: Коментар
     comments: Коментар
     content: Съдържание
-    color: Цвят
+    color: Color
     created_at: Създаден на
     created_on: Създаден на
     custom_options: Възможните стойности
@@ -2718,3 +2718,7 @@ bg:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Схема
+  planning_element_type_colors:
+    index:
+      no_results_title_text: В момента има няма цветове.
+      no_results_content_text: Създайте нов цвят

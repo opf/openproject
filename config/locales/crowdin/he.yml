@@ -63,7 +63,7 @@ he:
   colors:
     index:
       no_results_title_text: There are currently no colors.
-      no_results_content_text: ליצור צבע חדש
+      no_results_content_text: Create a new color
     label_no_color: No color
   custom_actions:
     actions:
@@ -640,7 +640,7 @@ he:
     comment: תגובה
     comments: תגובה
     content: תוכן
-    color: צבע
+    color: Color
     created_at: נוצר ב-
     created_on: נוצר ב-
     custom_options: הערכים האפשריים
@@ -2745,3 +2745,7 @@ he:
       writing_read_only_attributes: אתה חייב שלא לכתוב תכונה לקריאה בלבד.
     resources:
       schema: סכימה
+  planning_element_type_colors:
+    index:
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: ליצור צבע חדש

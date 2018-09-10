@@ -62,8 +62,8 @@ pt-BR:
       no_results_title_text: Atualmente, não há mensagens para o quadro.
   colors:
     index:
-      no_results_title_text: Atualmente, não existem cores.
-      no_results_content_text: Criar uma nova cor
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: Create a new color
     label_no_color: No color
   custom_actions:
     actions:
@@ -637,7 +637,7 @@ pt-BR:
     comment: Comentário
     comments: Comentário
     content: Conteúdo
-    color: Cor
+    color: Color
     created_at: Criado em
     created_on: Criado em
     custom_options: Valores possíveis
@@ -2746,3 +2746,7 @@ pt-BR:
       writing_read_only_attributes: Você não pode escrever um atributo somente leitura.
     resources:
       schema: Esquema
+  planning_element_type_colors:
+    index:
+      no_results_title_text: Atualmente, não existem cores.
+      no_results_content_text: Criar uma nova cor

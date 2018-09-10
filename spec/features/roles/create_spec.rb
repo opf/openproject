@@ -59,6 +59,7 @@ describe 'Role creation', type: :feature, js: true do
       .to have_selector('.errorExplanation', text: 'Name has already been taken')
 
     fill_in 'Name', with: 'New role name'
+    select existing_role.name, from: 'Copy workflow from'
 
     click_button 'Create'
 
@@ -97,6 +98,7 @@ describe 'Role creation', type: :feature, js: true do
 
     from_id = existing_workflow.old_status_id
     to_id = existing_workflow.new_status_id
+
     checkbox = page.find("input.old-status-#{from_id}.new-status-#{to_id}[value=always]")
 
     expect(checkbox)

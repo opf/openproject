@@ -40,6 +40,16 @@ describe 'Login', type: :feature do
     User.current = nil
   end
 
+  def expect_being_logged_in(user)
+    expect(page)
+      .to have_selector("a[title='#{user.name}']")
+  end
+
+  def expect_not_being_logged_in
+    expect(page)
+      .to have_field('Login')
+  end
+
   context 'sign in user' do
     let(:user_password) { 'bob' * 4 }
     let(:new_user_password) { 'obb' * 4 }
@@ -136,8 +146,7 @@ describe 'Login', type: :feature do
         visit home_path
 
         # expect being logged in automatically
-        expect(page)
-          .to have_selector("a[title='#{user.name}']")
+        expect_being_logged_in(user)
 
         fake_browser_closed
         # faking having changed the autologin setting
@@ -147,8 +156,40 @@ describe 'Login', type: :feature do
         visit my_page_path
 
         # expect not being logged in automatically
-        expect(page)
-          .to have_field('Login')
+        expect_not_being_logged_in
+      end
+    end
+
+    context 'with password expiry' do
+      before do
+        user.passwords.update_all(created_at: 31.days.ago,
+                                  updated_at: 31.days.ago)
+      end
+
+      it 'does not allow login if the password is expired but the user can provide a new one' do
+        login_with(user.login, user_password)
+
+        expect_being_logged_in(user)
+        visit signout_path
+
+        allow(Setting)
+          .to receive(:password_days_valid)
+          .and_return(30)
+
+        login_with(user.login, user_password)
+
+        fill_in 'Current password', with: user_password
+        fill_in 'New password', with: new_user_password
+        fill_in 'Confirmation', with: new_user_password
+
+        click_button 'Save'
+
+        expect_being_logged_in(user)
+
+        visit signout_path
+        login_with(user.login, new_user_password)
+
+        expect_being_logged_in(user)
       end
     end
   end
