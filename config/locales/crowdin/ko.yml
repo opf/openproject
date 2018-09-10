@@ -53,8 +53,8 @@ ko:
       no_results_title_text: 게시판에 포스트가 없습니다.
   colors:
     index:
-      no_results_title_text: 색깔이 없습니다.
-      no_results_content_text: 새 색깔 생성
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: Create a new color
     label_no_color: No color
   custom_actions:
     actions:
@@ -600,7 +600,7 @@ ko:
     comment: 코멘트
     comments: 코멘트
     content: 내용
-    color: 색상
+    color: Color
     created_at: 작성일
     created_on: 작성일
     custom_options: 가능한 값
@@ -2589,3 +2589,7 @@ ko:
       writing_read_only_attributes: 읽기 전용 특성은 변경할 수 없습니다.
     resources:
       schema: 스키마
+  planning_element_type_colors:
+    index:
+      no_results_title_text: 색깔이 없습니다.
+      no_results_content_text: 새 색깔 생성

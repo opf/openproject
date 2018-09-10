@@ -638,7 +638,7 @@ af:
     comment: Opmerking
     comments: Opmerking
     content: Inhoud
-    color: Kleur
+    color: Color
     created_at: Geskep op
     created_on: Geskep op
     custom_options: Moontlike waardes
@@ -2722,3 +2722,7 @@ af:
       writing_read_only_attributes: Jy mag nie 'n leesalleen kenmerk skryf nie.
     resources:
       schema: Skema
+  planning_element_type_colors:
+    index:
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: Create a new color

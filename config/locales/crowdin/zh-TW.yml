@@ -51,8 +51,8 @@ zh-TW:
       no_results_title_text: 目前沒有任何貼文在板上
   colors:
     index:
-      no_results_title_text: 目前沒有顏色
-      no_results_content_text: 建立一個新顏色
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: Create a new color
     label_no_color: No color
   custom_actions:
     actions:
@@ -580,7 +580,7 @@ zh-TW:
     comment: 評論
     comments: 評論
     content: 內容
-    color: 顏色
+    color: Color
     created_at: 建立於
     created_on: 建立於
     custom_options: 可能的值
@@ -2488,3 +2488,7 @@ zh-TW:
         您不可寫入唯讀的屬性。
     resources:
       schema: 架構
+  planning_element_type_colors:
+    index:
+      no_results_title_text: 目前沒有顏色
+      no_results_content_text: 建立一個新顏色

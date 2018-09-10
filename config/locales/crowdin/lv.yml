@@ -62,8 +62,8 @@ lv:
       no_results_title_text: Pašlaik nav nevienu raksta.
   colors:
     index:
-      no_results_title_text: Pašlaik nav nevienas krāsas.
-      no_results_content_text: Izveidot jaunu krāsu
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: Create a new color
     label_no_color: No color
   custom_actions:
     actions:
@@ -638,7 +638,7 @@ lv:
     comment: Comment
     comments: Comment
     content: Content
-    color: Krāsa
+    color: Color
     created_at: Created on
     created_on: Created on
     custom_options: Iespējamās vērtības
@@ -2726,3 +2726,7 @@ lv:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Schema
+  planning_element_type_colors:
+    index:
+      no_results_title_text: Pašlaik nav nevienas krāsas.
+      no_results_content_text: Izveidot jaunu krāsu

@@ -62,8 +62,8 @@ ro:
       no_results_title_text: În acest moment nu există mesaje pentru acest forum.
   colors:
     index:
-      no_results_title_text: În acest moment nu există culori.
-      no_results_content_text: Creare culoare nouă
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: Create a new color
     label_no_color: No color
   custom_actions:
     actions:
@@ -651,7 +651,7 @@ ro:
     comment: Comentariu
     comments: Comentariu
     content: Conținut
-    color: Culoare
+    color: Color
     created_at: Creat pe
     created_on: Creat pe
     custom_options: Valori posibile
@@ -2776,3 +2776,7 @@ ro:
       writing_read_only_attributes: Nu puteți scrie într-un câmp restricționat.
     resources:
       schema: Schemă
+  planning_element_type_colors:
+    index:
+      no_results_title_text: În acest moment nu există culori.
+      no_results_content_text: Creare culoare nouă

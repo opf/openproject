@@ -62,8 +62,8 @@ fr:
       no_results_title_text: Il n'y a actuellement aucun message pour le forum.
   colors:
     index:
-      no_results_title_text: Aucune couleur pour le moment.
-      no_results_content_text: Créer une nouvelle couleur
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: Create a new color
     label_no_color: No color
   custom_actions:
     actions:
@@ -653,7 +653,7 @@ fr:
     comment: Commentaire
     comments: Commentaire
     content: Contenu
-    color: Couleur
+    color: Color
     created_at: Créé le
     created_on: Créé le
     custom_options: Valeurs possibles
@@ -2792,3 +2792,7 @@ fr:
         seule.
     resources:
       schema: Schéma
+  planning_element_type_colors:
+    index:
+      no_results_title_text: Aucune couleur pour le moment.
+      no_results_content_text: Créer une nouvelle couleur

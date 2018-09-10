@@ -60,8 +60,8 @@ ru:
       no_results_title_text: На данный момент сообщений для форума нет.
   colors:
     index:
-      no_results_title_text: На данный момент цветов нет.
-      no_results_content_text: Создать новый цвет
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: Create a new color
     label_no_color: No color
   custom_actions:
     actions:
@@ -651,7 +651,7 @@ ru:
     comment: Комментарий
     comments: Комментарий
     content: Содержание
-    color: Цвет
+    color: Color
     created_at: Создано
     created_on: Создано
     custom_options: Возможные значения
@@ -2799,3 +2799,7 @@ ru:
         только для чтения.
     resources:
       schema: Схема
+  planning_element_type_colors:
+    index:
+      no_results_title_text: На данный момент цветов нет.
+      no_results_content_text: Создать новый цвет
