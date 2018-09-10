@@ -58,6 +58,7 @@ export class WpTableConfigurationDisplaySettingsTab implements TabComponent {
   }
 
   public updateGroup(href:string) {
+    this.displayMode = 'grouped';
     this.currentGroup = _.find(this.availableGroups, group => group.href === href);
   }
 
