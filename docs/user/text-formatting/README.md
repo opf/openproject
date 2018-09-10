@@ -5,6 +5,10 @@ Starting with version 8.0.0, OpenProject features a quasi-WYSIWYG editor, powere
 The CKEditor5 build in OpenProject supports basic text styles, such as bold and italic formatting, headings,
 strikethrough, inline code, and quotes as well as inline image handling. Pasting content such as images or rich text is also supported, while unsupported styling will be stripped by the editor.
 
+### Linebreaks
+
+Instead of creating a new paragraph with Enter, you can also press `SHIFT+Enter` to create a line break without creating a new paragraph.
+
 ### Links
 
 Create hyperlinks by pressing the toolbar (optionally with some selected text), or by pressing `CTRL+k` to open a popup to enter the link href.
