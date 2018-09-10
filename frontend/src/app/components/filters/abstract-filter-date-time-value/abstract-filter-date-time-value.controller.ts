@@ -30,12 +30,16 @@ import {Moment} from 'moment';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {TimezoneService} from 'core-components/datetime/timezone.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {OnInit} from '@angular/core';
 
-export abstract class AbstractDateTimeValueController {
+export abstract class AbstractDateTimeValueController implements OnInit {
   public filter:QueryFilterInstanceResource;
 
   constructor(protected I18n:I18nService,
               protected timezoneService:TimezoneService) {
+  }
+
+  ngOnInit() {
     _.remove(this.filter.values as string[], value => !this.timezoneService.isValidISODateTime(value));
   }
 
@@ -46,7 +50,7 @@ export abstract class AbstractDateTimeValueController {
     if (!this.timezoneService.isValidISODate(data)) {
       return '';
     }
-    var d = this.timezoneService.parseLocalDateTime(data);
+    var d = this.timezoneService.parseISODatetime(data);
     return this.timezoneService.formattedISODateTime(d);
   }
 
