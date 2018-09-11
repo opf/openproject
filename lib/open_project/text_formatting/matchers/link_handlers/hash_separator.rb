@@ -91,7 +91,10 @@ module OpenProject::TextFormatting::Matchers
 
       def render_group
         if group = Group.find_by(id: oid)
-          content_tag(:span, group.name, class: 'user-mention')
+          content_tag :span,
+                      group.name,
+                      title: I18n.t(:label_group_named, name: group.name),
+                      class: 'user-mention'
         end
       end
     end

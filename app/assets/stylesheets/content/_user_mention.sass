@@ -26,6 +26,16 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-.user-mention:before
-  content: '@'
-  color: $gray-dark
+.user-mention
+  @include varprop(color, content-link-color)
+
+  &:hover
+    text-decoration: underline
+
+  &:before
+    content: '@'
+    color: $gray-dark
+
+span.user-mention
+  // Remove text selection cursor for group
+  cursor: default
