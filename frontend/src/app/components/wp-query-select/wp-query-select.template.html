@@ -14,8 +14,15 @@
     </div>
     <div #queryResultsContainer class="wp-query-menu--results-container">
       <p class="wp-query-menu--no-results-container"
-         [hidden]="!noResults"
+         [hidden]="!noResults || loading"
          [textContent]="text.no_results"></p>
+      <div class="loading-indicator -compact" *ngIf="loading">
+        <div class="block-1"></div>
+        <div class="block-2"></div>
+        <div class="block-3"></div>
+        <div class="block-4"></div>
+        <div class="block-5"></div>
+      </div>
     </div>
   </div>
 </div>

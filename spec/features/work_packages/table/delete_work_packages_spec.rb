@@ -72,7 +72,7 @@ describe 'Delete work package', js: true do
       wp_table.visit!
 
       wp_table.expect_work_package_listed wp1, wp2, wp_child
-      wp_table.table_container.send_keys [:control, 'a']
+      find('body').send_keys [:control, 'a']
 
       context_menu.open_for(wp1)
       context_menu.choose('Bulk delete')
@@ -83,6 +83,7 @@ describe 'Delete work package', js: true do
 
       context_menu.open_for(wp1)
       context_menu.choose('Bulk delete')
+      destroy_modal.confirm_children_deletion
       destroy_modal.confirm_deletion
 
       loading_indicator_saveguard
