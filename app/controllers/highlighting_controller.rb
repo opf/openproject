@@ -29,6 +29,7 @@
 
 class HighlightingController < ApplicationController
   before_action :determine_freshness
+  skip_before_action :check_if_login_required, only: [:styles]
 
   def styles
     if stale?(last_modified: @last_modified_times.max, etag: cache_key, public: true)
