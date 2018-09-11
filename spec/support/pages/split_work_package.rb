@@ -48,7 +48,7 @@ module Pages
     end
 
     def closed?
-      expect(page).not_to have_selector(@selector)
+      expect(page).to have_no_selector(@selector)
     end
 
     def container

@@ -7,7 +7,7 @@
   <ng-container *ngIf="!impaired">
     <input #select2Columns
            type="hidden" />
-    <p class="columns-modal--help-text" [textContent]="text.columnsHelp"></p>
+    <p class="form--inline-instructions" [textContent]="text.columnsHelp"></p>
   </ng-container>
   <ng-container *ngIf="impaired">
   <div *ngFor="let column of availableColumns; let first = first;">

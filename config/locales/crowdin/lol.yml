@@ -50,9 +50,9 @@ lol:
       no_results_title_text: crwdns96402:0crwdne96402:0
   colors:
     index:
-      no_results_title_text: crwdns99196:0crwdne99196:0
-      no_results_content_text: crwdns99197:0crwdne99197:0
-    label_no_color: crwdns99198:0crwdne99198:0
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: Create a new color
+    label_no_color: No color
   custom_actions:
     actions:
       name: crwdns98840:0crwdne98840:0
@@ -138,18 +138,18 @@ lol:
       no_results_title_text: crwdns96444:0crwdne96444:0
   prioritiies:
     edit:
-      priority_color_text: 'crwdns99199:0crwdne99199:0
-
-'
+      priority_color_text: |
+        Click to assign or change the color of this priority.
+        It can be used for highlighting work packages in the table.
   reportings:
     index:
       no_results_title_text: crwdns96445:0crwdne96445:0
       no_results_content_text: crwdns96446:0crwdne96446:0
   statuses:
     edit:
-      status_color_text: 'crwdns99200:0crwdne99200:0
-
-'
+      status_color_text: |
+        Click to assign or change the color of this status.
+        It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: crwdns96447:0crwdne96447:0
       no_results_content_text: crwdns96448:0crwdne96448:0
@@ -166,9 +166,9 @@ lol:
       add_subelements: crwdns98888:0crwdne98888:0
       edit_query: crwdns98889:0crwdne98889:0
       reset: crwdns96456:0crwdne96456:0
-      type_color_text: 'crwdns99201:0crwdne99201:0
-
-'
+      type_color_text: |
+        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        in Gantt charts.
   versions:
     overview:
       no_results_title_text: crwdns96457:0crwdne96457:0
@@ -571,7 +571,7 @@ lol:
     comment: crwdns96720:0crwdne96720:0
     comments: crwdns96721:0crwdne96721:0
     content: crwdns96722:0crwdne96722:0
-    color: crwdns99202:0crwdne99202:0
+    color: Color
     created_at: crwdns96723:0crwdne96723:0
     created_on: crwdns96724:0crwdne96724:0
     custom_options: crwdns96725:0crwdne96725:0
@@ -2428,3 +2428,7 @@ lol:
       writing_read_only_attributes: crwdns98331:0crwdne98331:0
     resources:
       schema: crwdns98332:0crwdne98332:0
+  planning_element_type_colors:
+    index:
+      no_results_title_text: crwdns99213:0crwdne99213:0
+      no_results_content_text: crwdns99214:0crwdne99214:0

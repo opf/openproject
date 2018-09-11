@@ -651,9 +651,9 @@ bg:
           inline: Inline
           inline_text: No highlighting of work package rows. Display colors of overdue
             dates, status, and priority attributes in their respective columns.
-          status: Състояние
+          status: Status
           status_text: Highlight work package rows based on the color of its status.
-          priority: Приоритет
+          priority: Priority
           priority_text: Highlight work package rows based on the color of its priority.
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.

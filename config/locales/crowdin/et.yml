@@ -636,7 +636,7 @@ et:
     comment: Kommentaar
     comments: Kommentaar
     content: Sisu
-    color: Värv
+    color: Color
     created_at: Loodud
     created_on: Loodud
     custom_options: Võimalikud väärtused
@@ -2701,3 +2701,7 @@ et:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Schema
+  planning_element_type_colors:
+    index:
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: Create a new color

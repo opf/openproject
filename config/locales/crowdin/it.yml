@@ -63,8 +63,8 @@ it:
       no_results_title_text: Al momento non vi sono messaggi in bacheca.
   colors:
     index:
-      no_results_title_text: Al momento non vi sono colori.
-      no_results_content_text: Crea un nuovo colore
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: Create a new color
     label_no_color: No color
   custom_actions:
     actions:
@@ -651,7 +651,7 @@ it:
     comment: Commento
     comments: Commento
     content: Contenuto
-    color: Colore
+    color: Color
     created_at: Creato il
     created_on: Creato il
     custom_options: Valori possibili
@@ -2802,3 +2802,7 @@ it:
       writing_read_only_attributes: Non puoi scrivere un attributo di sola lettura.
     resources:
       schema: Schema
+  planning_element_type_colors:
+    index:
+      no_results_title_text: Al momento non vi sono colori.
+      no_results_content_text: Crea un nuovo colore

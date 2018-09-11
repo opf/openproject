@@ -44,7 +44,7 @@ import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.compon
   `
 })
 export class FloatEditFieldComponent extends EditFieldComponent {
-  public locale = I18n.locale
+  public locale = I18n.locale;
   public field:FloatEditField;
 }
 

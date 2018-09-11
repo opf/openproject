@@ -75,20 +75,28 @@ module Pages
         end
 
         def lock_user(user)
-          within_user_row(user) do
-            click_link 'Lock permanently'
-          end
+          click_user_button(user, 'Lock permanently')
+        end
+
+        def activate_user(user)
+          click_user_button(user, 'Activate')
         end
 
         def reset_failed_logins(user)
-          within_user_row(user) do
-            click_link 'Reset failed logins'
-          end
+          click_user_button(user, 'Reset failed logins')
         end
 
         def unlock_user(user)
+          click_user_button(user, 'Unlock')
+        end
+
+        def unlock_and_reset_user(user)
+          click_user_button(user, 'Unlock and reset failed logins')
+        end
+
+        def click_user_button(user, text)
           within_user_row(user) do
-            click_link 'Unlock'
+            click_link text
           end
         end
 

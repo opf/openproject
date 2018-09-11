@@ -34,17 +34,14 @@ module Components
 
       def initialize; end
 
-      def disable_highlight
-        switch_highlight 'Disabled'
-      end
-
-      def inline_highlight
-        switch_highlight 'Default (inline)'
-      end
-
       def switch_highlight(label)
         modal_open? or open_modal
-        choose label
+        if %w(Status Priority).include? label
+          choose "Entire row by"
+          select label
+        else
+          choose label
+        end
         apply
       end
 

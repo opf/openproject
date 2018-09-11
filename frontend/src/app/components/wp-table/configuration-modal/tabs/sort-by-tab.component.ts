@@ -65,7 +65,11 @@ export class WpTableConfigurationSortByTab implements TabComponent {
       .pipe(take(1))
       .toPromise()
       .then(() => {
-        let allColumns:SortColumn[] = this.wpTableSortBy.available.map(
+        let allColumns:SortColumn[] = this.wpTableSortBy.available.filter(
+          (sort:QuerySortByResource) => {
+            return !sort.column.$href!.endsWith('/parent');
+          }
+        ).map(
           (sort:QuerySortByResource) => {
             return {name: sort.column.name, href: sort.column.$href};
           }
@@ -76,10 +80,12 @@ export class WpTableConfigurationSortByTab implements TabComponent {
         this.allColumns = _.uniqBy(allColumns, 'href');
 
         _.each(this.wpTableSortBy.currentSortBys, sort => {
-          this.sortationObjects.push(
-            new SortModalObject({name: sort.column.name, href: sort.column.$href},
-              sort.direction.$href!)
-          );
+          if (!sort.column.$href!.endsWith('/parent')) {
+            this.sortationObjects.push(
+              new SortModalObject({name: sort.column.name, href: sort.column.$href},
+                sort.direction.$href!)
+            );
+          }
         });
 
         this.updateUsedColumns();

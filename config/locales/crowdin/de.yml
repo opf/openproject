@@ -62,8 +62,8 @@ de:
       no_results_title_text: Zur Zeit existieren keine Forumseinträge für dieses Forum.
   colors:
     index:
-      no_results_title_text: Derzeit gibt es keine Farben.
-      no_results_content_text: Neue Farbe anlegen
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: Create a new color
     label_no_color: No color
   custom_actions:
     actions:
@@ -656,7 +656,7 @@ de:
     comment: Kommentar
     comments: Kommentar
     content: Inhalt
-    color: Farbe
+    color: Color
     created_at: Angelegt am
     created_on: Angelegt am
     custom_options: Mögliche Werte
@@ -2803,3 +2803,7 @@ de:
         werden.
     resources:
       schema: Schema
+  planning_element_type_colors:
+    index:
+      no_results_title_text: Derzeit gibt es keine Farben.
+      no_results_content_text: Neue Farbe anlegen

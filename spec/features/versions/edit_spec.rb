@@ -26,25 +26,36 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: User Status
-  Background:
-    Given I am already admin
-    Given there is a user named "bobby"
+require 'spec_helper'
 
-  Scenario: A locked and blocked user gets unlocked and unblocked
-    Given the user "bobby" is locked
-    And the user "bobby" had too many recently failed logins
-    When I edit the user "bobby"
-    And I click "Unlock and reset failed logins"
-    When I try to log in with user "bobby"
-    Then I should see "Bob Bobbit" as being logged in
+feature 'version edit', type: :feature do
+  let(:user) do
+    FactoryBot.create(:user,
+                      member_in_project: version.project,
+                      member_with_permissions: %i[manage_versions view_work_packages])
+  end
+  let(:version) { FactoryBot.create(:version) }
+  let(:new_version_name) { 'A new version name' }
 
-  Scenario: A registered user gets activated
-    Given the user "bobby" is registered and not activated
-    When I try to log in with user "bobby"
-    Then I should not see "Bob Bobbit"
-    When I am already admin
-    And I edit the user "bobby"
-    And I click "Activate"
-    When I try to log in with user "bobby"
-    Then I should see "Bob Bobbit" as being logged in
+  before do
+    login_as(user)
+  end
+
+  scenario 'edit a version' do
+    # from the version show page
+    visit version_path(version)
+
+    within '.toolbar' do
+      click_link 'Edit'
+    end
+
+    fill_in 'Name', with: new_version_name
+
+    click_button 'Save'
+
+    expect(page)
+      .to have_current_path(version_path(version))
+    expect(page)
+      .to have_content new_version_name
+  end
+end
