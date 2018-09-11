@@ -61,7 +61,11 @@ export abstract class WorkPackageTableBaseService<T> {
    * @param {QuerySchemaResource} schema
    */
   public initialize(query:QueryResource, results:WorkPackageCollectionResource, schema?:QuerySchemaResource) {
-    this.state.putValue(this.valueFromQuery(query, results)!);
+    this.update(this.valueFromQuery(query, results)!);
+  }
+
+  public update(value:T) {
+    this.state.putValue(value);
   }
 
   public clear(reason:string) {
