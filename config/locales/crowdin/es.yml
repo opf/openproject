@@ -63,8 +63,8 @@ es:
       no_results_title_text: Actualmente no hay entradas para el tablero.
   colors:
     index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
+      no_results_title_text: No existen colores por el momento.
+      no_results_content_text: Crear un nuevo color
     label_no_color: No color
   custom_actions:
     actions:
@@ -2803,7 +2803,3 @@ es:
       writing_read_only_attributes: No debería escribir un atributo de solo lectura.
     resources:
       schema: Esquema
-  planning_element_type_colors:
-    index:
-      no_results_title_text: No existen colores por el momento.
-      no_results_content_text: Crear un nuevo color

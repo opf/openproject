@@ -635,13 +635,12 @@ nl:
           pijl.
       table_configuration:
         button: Configureer deze werkpakkettabel
+        choose_display_mode: Display work packages as
         modal_title: Werk pakket tabel configuratie
         embedded_tab_disabled: Het configuratie tabblad is niet beschikbaar voor het
           overzicht dat u probeert te bewerken.
+        default: default
         display_settings: Weergave-instellingen
-        grouped_mode: Gegroepeerde modus
-        grouped_hint: Tabel resultaten zullen worden gegroepeerd op het opgegeven
-          kenmerk.
         default_mode: Standaardmodus
         hierarchy_mode: Hiërarchie-modus
         hierarchy_hint: Alle gefilterde tabel resultaten zal worden uitgebreid met
@@ -655,18 +654,22 @@ nl:
         highlighting_mode:
           description: Control highlighting of rows through a color defined by a work
             package attribute, such as priority or status.
-          none: None
-          none_text: Disables highlighted output of attributes in the table altogether.
+          none: Geen
           inline: Inline
+          entire_row_by: Entire row by
+          status: Status
+          priority: Prioriteit
+          none_text: Disables highlighted output of attributes in the table altogether.
           inline_text: No highlighting of work package rows. Display colors of overdue
             dates, status, and priority attributes in their respective columns.
-          status: Status
           status_text: Highlight work package rows based on the color of its status.
-          priority: Priority
           priority_text: Highlight work package rows based on the color of its priority.
         columns_help_text: Gebruik de bovenstaande toegang voor het toevoegen of verwijderen
           van kolommen aan uw tabelweergave. U kunt de kolommen slepen en neerzetten
           om deze te rangschikken.
+        grouped_mode: Gegroepeerde modus
+        grouped_hint: Tabel resultaten zullen worden gegroepeerd op het opgegeven
+          kenmerk.
       tabs:
         overview: Overzicht
         activity: Activiteit
@@ -716,6 +719,8 @@ nl:
         title: Bevestig verwijdering van %{label}
         text: Weet u zeker dat u werkpakket %{label} wilt verwijderen?
         has_children: 'Het werkpakket heeft %{childUnits}:'
+        confirm_deletion_children: I acknowledge that ALL descendants of the listet
+          work packages will be recursively removed.
         deletes_children: Alle onderliggende werkpakketten en hun nakomelingen ook
           worden verwijderd.
     notice_successful_create: Aanmaak geslaagd.

@@ -60,8 +60,8 @@ hu:
       no_results_title_text: Jelenleg nincs hozzászólás a fórumon.
   colors:
     index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
+      no_results_title_text: Jelenleg nincsenek színek.
+      no_results_content_text: Új szín létrehozása
     label_no_color: No color
   custom_actions:
     actions:
@@ -635,7 +635,7 @@ hu:
     comment: Vélemény
     comments: Vélemény
     content: Tartalom
-    color: Color
+    color: Szín
     created_at: Létrehozva
     created_on: Létrehozva
     custom_options: Lehetséges értékek
@@ -2730,7 +2730,3 @@ hu:
       writing_read_only_attributes: Nem írhat egy csak olvasható tulajdonságot.
     resources:
       schema: Séma
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Jelenleg nincsenek színek.
-      no_results_content_text: Új szín létrehozása
