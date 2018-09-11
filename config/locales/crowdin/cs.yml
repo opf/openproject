@@ -62,8 +62,8 @@ cs:
       no_results_title_text: V současné době neexistují žádné příspěvky pro nástěnku.
   colors:
     index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
+      no_results_title_text: Momentálně zde nejsou žádné barvy.
+      no_results_content_text: Vytvořit novou barvu
     label_no_color: No color
   custom_actions:
     actions:
@@ -187,7 +187,7 @@ cs:
       edit_query: Upravit vložený dotaz
       reset: Obnovit výchozí nastavení
       type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
   versions:
     overview:
@@ -405,7 +405,7 @@ cs:
         warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved
           changes
       version:
-        effective_date: Uzavřít do
+        effective_date: Finish date
         sharing: Sdílení
       wiki_content:
         text: Text
@@ -649,7 +649,7 @@ cs:
     comment: Komentář
     comments: Komentář
     content: Obsah
-    color: Color
+    color: Barva
     created_at: Vytvořeno
     created_on: Vytvořeno
     custom_options: Možné hodnoty
@@ -658,7 +658,7 @@ cs:
     default_columns: Výchozí sloupce
     description: Popis
     display_sums: Zobrazit součty
-    due_date: Uzavřít do
+    due_date: Finish date
     estimated_hours: Odhadovaný čas
     estimated_time: Odhadovaný čas
     firstname: Křestní jméno
@@ -1336,6 +1336,7 @@ cs:
   label_group_by: Seskupit podle
   label_group_new: Nová skupina
   label_group: Skupina
+  label_group_named: Group %{name}
   label_group_plural: Skupiny
   label_help: Nápověda
   label_here: zde
@@ -1595,6 +1596,7 @@ cs:
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
   label_user: Uživatel
+  label_user_named: User %{name}
   label_user_activity: Aktivita %{value}
   label_user_anonymous: Anonymní
   label_user_mail_option_all: Pro všechny události všech mých projektů
@@ -2757,7 +2759,7 @@ cs:
       validation:
         done_ratio: Done ratio cannot be set on parent work packages, when it is inferred
           by status or when it is disabled.
-        due_date: Due date cannot be set on parent work packages.
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: Estimated hours cannot be set on parent work packages.
         invalid_user_assigned_to_work_package: The chosen user is not allowed to be
           '%{property}' for this work package.
@@ -2765,7 +2767,3 @@ cs:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Schema
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Momentálně zde nejsou žádné barvy.
-      no_results_content_text: Vytvořit novou barvu

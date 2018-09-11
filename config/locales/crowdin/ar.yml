@@ -62,8 +62,8 @@ ar:
       no_results_title_text: لا يوجد حالياً منشورات على اللوحة.
   colors:
     index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
+      no_results_title_text: لا يوجد حالياً ألوان.
+      no_results_content_text: إنشاء لون جديد
     label_no_color: No color
   custom_actions:
     actions:
@@ -186,7 +186,7 @@ ar:
       edit_query: Edit embedded query
       reset: Reset to defaults
       type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
   versions:
     overview:
@@ -401,7 +401,7 @@ ar:
         warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved
           changes
       version:
-        effective_date: تاريخ الاستحقاق
+        effective_date: Finish date
         sharing: مشاركة
       wiki_content:
         text: النص
@@ -652,7 +652,7 @@ ar:
     comment: تعليق
     comments: تعليق
     content: المحتوى
-    color: Color
+    color: اللون
     created_at: تم الإنشاء في
     created_on: تم الإنشاء في
     custom_options: القيم المحتملة
@@ -661,7 +661,7 @@ ar:
     default_columns: الأعمدة الافتراضية
     description: الوصف
     display_sums: عرض المبالغ
-    due_date: تاريخ الاستحقاق
+    due_date: Finish date
     estimated_hours: الوقت المُقّدَّر
     estimated_time: الوقت المُقّدَّر
     firstname: الاسم الأول
@@ -1369,6 +1369,7 @@ ar:
   label_group_by: تصنيف حسب
   label_group_new: مجموعة جديدة
   label_group: مجموعة
+  label_group_named: Group %{name}
   label_group_plural: المجموعات
   label_help: مساعدة
   label_here: هنا
@@ -1629,6 +1630,7 @@ ar:
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
   label_user: المستخدم
+  label_user_named: User %{name}
   label_user_activity: نشاط %{value}'s
   label_user_anonymous: مجهول
   label_user_mail_option_all: من أجل أي حدث في كافة المشاريع
@@ -2777,7 +2779,7 @@ ar:
       validation:
         done_ratio: لا يمكن تعيين نسبة القيام به في مجموعات العمل الأصلية، عندما يتم
           الاستدلال بحالة أو تعطيله.
-        due_date: الوقت لإتمام المشروع لا يمكن تعيينه في حزم العمل الحالية.
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: لا يمكن تعيين الساعات المقدرة على حزم العمل.
         invalid_user_assigned_to_work_package: غير مسموح للمستخدم الذي تم اختياره
           أن يكون '%{property}' لمجموعة العمل هذه.
@@ -2785,7 +2787,3 @@ ar:
       writing_read_only_attributes: لا يجب أن تكتب على سمة للقراءة فقط.
     resources:
       schema: مخطّط
-  planning_element_type_colors:
-    index:
-      no_results_title_text: لا يوجد حالياً ألوان.
-      no_results_content_text: إنشاء لون جديد

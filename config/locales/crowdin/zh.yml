@@ -50,8 +50,8 @@ zh:
       no_results_title_text: 目前没有发布内容。
   colors:
     index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
+      no_results_title_text: 目前没有颜色。
+      no_results_content_text: 创建新的颜色
     label_no_color: No color
   custom_actions:
     actions:
@@ -167,7 +167,7 @@ zh:
       edit_query: 编辑嵌入式查询
       reset: 重置为默认值
       type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
   versions:
     overview:
@@ -354,7 +354,7 @@ zh:
         auto_hide_popups: 自动隐藏成功通知
         warn_on_leaving_unsaved: 离开未保存更改的工作包时提示我
       version:
-        effective_date: 截止日期
+        effective_date: Finish date
         sharing: 分享
       wiki_content:
         text: 文本
@@ -576,7 +576,7 @@ zh:
     comment: 评论
     comments: 评论
     content: 内容
-    color: Color
+    color: 颜色
     created_at: 创建
     created_on: 创建
     custom_options: 可能的值
@@ -585,7 +585,7 @@ zh:
     default_columns: 默认的列
     description: 描述
     display_sums: 显示汇总
-    due_date: 截止日期
+    due_date: Finish date
     estimated_hours: 估计的时间
     estimated_time: 估计的时间
     firstname: 名字
@@ -1208,6 +1208,7 @@ zh:
   label_group_by: 分组按照
   label_group_new: 新的组
   label_group: 组
+  label_group_named: Group %{name}
   label_group_plural: 组
   label_help: 帮助
   label_here: 这里
@@ -1467,6 +1468,7 @@ zh:
   label_used_by_types: 用于类型
   label_used_in_projects: 用于项目
   label_user: 用户
+  label_user_named: User %{name}
   label_user_activity: "%{value} 的活动"
   label_user_anonymous: 匿名
   label_user_mail_option_all: 对于我所有项目的任何事件
@@ -2443,14 +2445,10 @@ zh:
         context_object_not_found: 找不到可作为上下文环境的资源。
       validation:
         done_ratio: 当完成比例牵扯“状态”时，或被禁用时，不能在父工作列表中对其进行设置。
-        due_date: 不能在父工作列表中设置纳期。
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: 不能在父工作列表中设置预估的小时数。
         invalid_user_assigned_to_work_package: 所选的用户不允许为此工作包的 '%{property}'。
         start_date: 不能在父工作列表中设置开始日期。
       writing_read_only_attributes: 你不能写入只读属性。
     resources:
       schema: 方案
-  planning_element_type_colors:
-    index:
-      no_results_title_text: 目前没有颜色。
-      no_results_content_text: 创建新的颜色

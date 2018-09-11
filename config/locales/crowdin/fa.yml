@@ -186,7 +186,7 @@ fa:
       edit_query: Edit embedded query
       reset: Reset to defaults
       type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
   versions:
     overview:
@@ -400,7 +400,7 @@ fa:
         warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved
           changes
       version:
-        effective_date: موعد مقرر
+        effective_date: Finish date
         sharing: اشتراک گذاری
       wiki_content:
         text: متن
@@ -636,7 +636,7 @@ fa:
     comment: نظر
     comments: نظر
     content: محتوا
-    color: Color
+    color: رنگ
     created_at: Created on
     created_on: Created on
     custom_options: مقادیر ممکن
@@ -645,7 +645,7 @@ fa:
     default_columns: Default columns
     description: توضیحات
     display_sums: Display Sums
-    due_date: موعد مقرر
+    due_date: Finish date
     estimated_hours: Estimated time
     estimated_time: Estimated time
     firstname: نام
@@ -1301,6 +1301,7 @@ fa:
   label_group_by: Group by
   label_group_new: New group
   label_group: Group
+  label_group_named: Group %{name}
   label_group_plural: Groups
   label_help: Help
   label_here: here
@@ -1560,6 +1561,7 @@ fa:
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
   label_user: User
+  label_user_named: User %{name}
   label_user_activity: "%{value}'s activity"
   label_user_anonymous: Anonymous
   label_user_mail_option_all: For any event on all my projects
@@ -2699,7 +2701,7 @@ fa:
       validation:
         done_ratio: Done ratio cannot be set on parent work packages, when it is inferred
           by status or when it is disabled.
-        due_date: Due date cannot be set on parent work packages.
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: Estimated hours cannot be set on parent work packages.
         invalid_user_assigned_to_work_package: The chosen user is not allowed to be
           '%{property}' for this work package.
@@ -2707,7 +2709,3 @@ fa:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Schema
-  planning_element_type_colors:
-    index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color

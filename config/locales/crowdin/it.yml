@@ -63,8 +63,8 @@ it:
       no_results_title_text: Al momento non vi sono messaggi in bacheca.
   colors:
     index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
+      no_results_title_text: Al momento non vi sono colori.
+      no_results_content_text: Crea un nuovo colore
     label_no_color: No color
   custom_actions:
     actions:
@@ -187,7 +187,7 @@ it:
       edit_query: Edit embedded query
       reset: Ripristino predefinite
       type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
   versions:
     overview:
@@ -407,7 +407,7 @@ it:
         warn_on_leaving_unsaved: Avvisami quando sto lasciando una macro-attività
           non salvata
       version:
-        effective_date: Data di consegna
+        effective_date: Finish date
         sharing: Condivisione
       wiki_content:
         text: Testo
@@ -651,7 +651,7 @@ it:
     comment: Commento
     comments: Commento
     content: Contenuto
-    color: Color
+    color: Colore
     created_at: Creato il
     created_on: Creato il
     custom_options: Valori possibili
@@ -660,7 +660,7 @@ it:
     default_columns: Colonne predefinite
     description: Descrizione
     display_sums: Visualizza somme
-    due_date: Data di consegna
+    due_date: Finish date
     estimated_hours: Tempo stimato
     estimated_time: Tempo stimato
     firstname: Nome
@@ -1326,6 +1326,7 @@ it:
   label_group_by: Raggruppa per
   label_group_new: Nuovo gruppo
   label_group: Gruppo
+  label_group_named: Group %{name}
   label_group_plural: Gruppi
   label_help: Aiuto
   label_here: qui
@@ -1589,6 +1590,7 @@ it:
   label_used_by_types: Utilizzato dai tipi
   label_used_in_projects: Utilizzato nei progetti
   label_user: Utente
+  label_user_named: User %{name}
   label_user_activity: attività di %{value}
   label_user_anonymous: Anonimo
   label_user_mail_option_all: Per qualsiasi evento su tutti i miei progetti
@@ -2791,8 +2793,7 @@ it:
         done_ratio: La percentuale di completamento non può essere impostata sulla
           macro-attività (work package) principale, quando viene dedotta dallo stato
           o quando è disabilitata.
-        due_date: La data di scadenza non può essere impostata sulla macro-attività
-          (work package) principale.
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: Le ore stimate non può essere impostate sulla macro-attività
           (work package) principale.
         invalid_user_assigned_to_work_package: All'utente scelto non è consentito
@@ -2802,7 +2803,3 @@ it:
       writing_read_only_attributes: Non puoi scrivere un attributo di sola lettura.
     resources:
       schema: Schema
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Al momento non vi sono colori.
-      no_results_content_text: Crea un nuovo colore

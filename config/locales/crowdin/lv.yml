@@ -62,8 +62,8 @@ lv:
       no_results_title_text: Pašlaik nav nevienu raksta.
   colors:
     index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
+      no_results_title_text: Pašlaik nav nevienas krāsas.
+      no_results_content_text: Izveidot jaunu krāsu
     label_no_color: No color
   custom_actions:
     actions:
@@ -186,7 +186,7 @@ lv:
       edit_query: Edit embedded query
       reset: Reset to defaults
       type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
   versions:
     overview:
@@ -398,7 +398,7 @@ lv:
         warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved
           changes
       version:
-        effective_date: Izpildes datums
+        effective_date: Finish date
         sharing: Sharing
       wiki_content:
         text: Teksts
@@ -638,7 +638,7 @@ lv:
     comment: Comment
     comments: Comment
     content: Content
-    color: Color
+    color: Krāsa
     created_at: Created on
     created_on: Created on
     custom_options: Iespējamās vērtības
@@ -647,7 +647,7 @@ lv:
     default_columns: Default columns
     description: Description
     display_sums: Display Sums
-    due_date: Izpildes datums
+    due_date: Finish date
     estimated_hours: Estimated time
     estimated_time: Estimated time
     firstname: Vārds
@@ -1314,6 +1314,7 @@ lv:
   label_group_by: Group by
   label_group_new: New group
   label_group: Group
+  label_group_named: Group %{name}
   label_group_plural: Groups
   label_help: Palīdzība
   label_here: here
@@ -1573,6 +1574,7 @@ lv:
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
   label_user: User
+  label_user_named: User %{name}
   label_user_activity: "%{value}'s activity"
   label_user_anonymous: Anonymous
   label_user_mail_option_all: Par jebkuru notikumu, visos manos projektos
@@ -2718,7 +2720,7 @@ lv:
       validation:
         done_ratio: Done ratio cannot be set on parent work packages, when it is inferred
           by status or when it is disabled.
-        due_date: Due date cannot be set on parent work packages.
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: Estimated hours cannot be set on parent work packages.
         invalid_user_assigned_to_work_package: The chosen user is not allowed to be
           '%{property}' for this work package.
@@ -2726,7 +2728,3 @@ lv:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Schema
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Pašlaik nav nevienas krāsas.
-      no_results_content_text: Izveidot jaunu krāsu

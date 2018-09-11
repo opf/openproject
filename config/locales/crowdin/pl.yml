@@ -62,8 +62,8 @@ pl:
       no_results_title_text: Nie ma jeszcze żadnych wiadomości.
   colors:
     index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
+      no_results_title_text: Nie przypisano jeszcze żadnego koloru.
+      no_results_content_text: Utwórz nowy kolor
     label_no_color: No color
   custom_actions:
     actions:
@@ -186,7 +186,7 @@ pl:
       edit_query: Edit embedded query
       reset: Resetuj do ustawień domyślnych
       type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
   versions:
     overview:
@@ -400,7 +400,7 @@ pl:
         warn_on_leaving_unsaved: Ostrzegaj mnie, gdy opuszczam zadanie z niezapisanymi
           zmianami
       version:
-        effective_date: Termin
+        effective_date: Finish date
         sharing: Udostępnianie
       wiki_content:
         text: Tekst
@@ -642,7 +642,7 @@ pl:
     comment: Komentarz
     comments: Komentarz
     content: Zawartość
-    color: Color
+    color: Kolor
     created_at: Utworzone
     created_on: Utworzone
     custom_options: Możliwe wartości
@@ -651,7 +651,7 @@ pl:
     default_columns: Domyślne kolumny
     description: Opis
     display_sums: Wyświetlanie sumy
-    due_date: Termin
+    due_date: Finish date
     estimated_hours: Szacowany czas
     estimated_time: Szacowany czas
     firstname: Imię
@@ -1338,6 +1338,7 @@ pl:
   label_group_by: Grupuj według
   label_group_new: Nowa Grupa
   label_group: Grupa
+  label_group_named: Group %{name}
   label_group_plural: Grupy
   label_help: Pomoc
   label_here: tutaj
@@ -1599,6 +1600,7 @@ pl:
   label_used_by_types: Używane wg typów
   label_used_in_projects: Używane w projektach
   label_user: Użytkownik
+  label_user_named: User %{name}
   label_user_activity: 'Aktywność użytkownika: %{value}'
   label_user_anonymous: Anonimowy
   label_user_mail_option_all: Dla każdego zdarzenia we wszystkich moich projektach
@@ -2774,7 +2776,7 @@ pl:
       validation:
         done_ratio: Procent wykonania nie może być ustawiony na źródłowych pakietach
           roboczych, jeśli zostało wywnioskowane ze statusu lub jeśli zostało wyłączone.
-        due_date: Daty zakończenia nie można ustawić na źródłowym pakiecie roboczym.
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: Nie można ustawić szacunku godzinowego dla źródłowych pakietów
           roboczych.
         invalid_user_assigned_to_work_package: Wybrany użytkownik nie może być „%{property}”
@@ -2783,7 +2785,3 @@ pl:
       writing_read_only_attributes: Nie możesz zapisać atrybutu tylko do odczytu.
     resources:
       schema: Schemat
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Nie przypisano jeszcze żadnego koloru.
-      no_results_content_text: Utwórz nowy kolor

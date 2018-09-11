@@ -62,8 +62,8 @@ ro:
       no_results_title_text: În acest moment nu există mesaje pentru acest forum.
   colors:
     index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
+      no_results_title_text: În acest moment nu există culori.
+      no_results_content_text: Creare culoare nouă
     label_no_color: No color
   custom_actions:
     actions:
@@ -191,7 +191,7 @@ ro:
       edit_query: Edit embedded query
       reset: Reset to defaults
       type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
   versions:
     overview:
@@ -412,7 +412,7 @@ ro:
         warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved
           changes
       version:
-        effective_date: Dată scadentă
+        effective_date: Finish date
         sharing: Distribuire
       wiki_content:
         text: Text
@@ -651,7 +651,7 @@ ro:
     comment: Comentariu
     comments: Comentariu
     content: Conținut
-    color: Color
+    color: Culoare
     created_at: Creat pe
     created_on: Creat pe
     custom_options: Valori posibile
@@ -660,7 +660,7 @@ ro:
     default_columns: Coloane implicite
     description: Descriere
     display_sums: Afişare totaluri
-    due_date: Dată scadentă
+    due_date: Finish date
     estimated_hours: Durata estimată
     estimated_time: Durata estimată
     firstname: Prenume
@@ -1328,6 +1328,7 @@ ro:
   label_group_by: Grupare după
   label_group_new: Grupare nouă
   label_group: Grup
+  label_group_named: Group %{name}
   label_group_plural: Grupuri
   label_help: Asistenţă
   label_here: aici
@@ -1590,6 +1591,7 @@ ro:
   label_used_by_types: Folosit/ă/e de tipurile
   label_used_in_projects: Folosit/ă/e în proiectele
   label_user: Utilizator
+  label_user_named: User %{name}
   label_user_activity: Activitatea lui %{value}
   label_user_anonymous: Anonim
   label_user_mail_option_all: Pentru orice eveniment în toate proiectele mele
@@ -2768,7 +2770,7 @@ ro:
       validation:
         done_ratio: Rația de finalizare nu poate fi setată pe pachetele de lucru părinte
           atunci când e calculată din stare sau când e dezactivată.
-        due_date: Data scadentă nu poate fi setată pe pachete de lucru părinte.
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: Efortul estimat nu poate fi setat pe pachetele de lucru părinte.
         invalid_user_assigned_to_work_package: Utilizatorul selectat nu poate fi '%{property}'
           pentru acest pachet de lucru.
@@ -2776,7 +2778,3 @@ ro:
       writing_read_only_attributes: Nu puteți scrie într-un câmp restricționat.
     resources:
       schema: Schemă
-  planning_element_type_colors:
-    index:
-      no_results_title_text: În acest moment nu există culori.
-      no_results_content_text: Creare culoare nouă

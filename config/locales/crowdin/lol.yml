@@ -50,9 +50,9 @@ lol:
       no_results_title_text: crwdns96402:0crwdne96402:0
   colors:
     index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
-    label_no_color: No color
+      no_results_title_text: crwdns99215:0crwdne99215:0
+      no_results_content_text: crwdns99216:0crwdne99216:0
+    label_no_color: crwdns99217:0crwdne99217:0
   custom_actions:
     actions:
       name: crwdns98840:0crwdne98840:0
@@ -138,18 +138,18 @@ lol:
       no_results_title_text: crwdns96444:0crwdne96444:0
   prioritiies:
     edit:
-      priority_color_text: |
-        Click to assign or change the color of this priority.
-        It can be used for highlighting work packages in the table.
+      priority_color_text: 'crwdns99218:0crwdne99218:0
+
+'
   reportings:
     index:
       no_results_title_text: crwdns96445:0crwdne96445:0
       no_results_content_text: crwdns96446:0crwdne96446:0
   statuses:
     edit:
-      status_color_text: |
-        Click to assign or change the color of this status.
-        It is shown in the status button and can be used for highlighting work packages in the table.
+      status_color_text: 'crwdns99219:0crwdne99219:0
+
+'
     index:
       no_results_title_text: crwdns96447:0crwdne96447:0
       no_results_content_text: crwdns96448:0crwdne96448:0
@@ -166,9 +166,9 @@ lol:
       add_subelements: crwdns98888:0crwdne98888:0
       edit_query: crwdns98889:0crwdne98889:0
       reset: crwdns96456:0crwdne96456:0
-      type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
-        in Gantt charts.
+      type_color_text: 'crwdns99241:0crwdne99241:0
+
+'
   versions:
     overview:
       no_results_title_text: crwdns96457:0crwdne96457:0
@@ -354,7 +354,7 @@ lol:
         auto_hide_popups: crwdns96573:0crwdne96573:0
         warn_on_leaving_unsaved: crwdns96574:0crwdne96574:0
       version:
-        effective_date: crwdns96575:0crwdne96575:0
+        effective_date: crwdns99242:0crwdne99242:0
         sharing: crwdns96576:0crwdne96576:0
       wiki_content:
         text: crwdns96578:0crwdne96578:0
@@ -571,7 +571,7 @@ lol:
     comment: crwdns96720:0crwdne96720:0
     comments: crwdns96721:0crwdne96721:0
     content: crwdns96722:0crwdne96722:0
-    color: Color
+    color: crwdns99221:0crwdne99221:0
     created_at: crwdns96723:0crwdne96723:0
     created_on: crwdns96724:0crwdne96724:0
     custom_options: crwdns96725:0crwdne96725:0
@@ -580,7 +580,7 @@ lol:
     default_columns: crwdns96728:0crwdne96728:0
     description: crwdns96729:0crwdne96729:0
     display_sums: crwdns96730:0crwdne96730:0
-    due_date: crwdns96731:0crwdne96731:0
+    due_date: crwdns99243:0crwdne99243:0
     estimated_hours: crwdns96732:0crwdne96732:0
     estimated_time: crwdns96733:0crwdne96733:0
     firstname: crwdns96734:0crwdne96734:0
@@ -1200,6 +1200,7 @@ lol:
   label_group_by: crwdns97257:0crwdne97257:0
   label_group_new: crwdns97258:0crwdne97258:0
   label_group: crwdns97259:0crwdne97259:0
+  label_group_named: crwdns99244:0%{name}crwdne99244:0
   label_group_plural: crwdns97260:0crwdne97260:0
   label_help: crwdns97261:0crwdne97261:0
   label_here: crwdns97262:0crwdne97262:0
@@ -1459,6 +1460,7 @@ lol:
   label_used_by_types: crwdns97511:0crwdne97511:0
   label_used_in_projects: crwdns97512:0crwdne97512:0
   label_user: crwdns97513:0crwdne97513:0
+  label_user_named: crwdns99245:0%{name}crwdne99245:0
   label_user_activity: crwdns97514:0%{value}crwdne97514:0
   label_user_anonymous: crwdns97515:0crwdne97515:0
   label_user_mail_option_all: crwdns97516:0crwdne97516:0
@@ -2421,14 +2423,10 @@ lol:
         context_object_not_found: crwdns98325:0crwdne98325:0
       validation:
         done_ratio: crwdns98326:0crwdne98326:0
-        due_date: crwdns98327:0crwdne98327:0
+        due_date: crwdns99246:0crwdne99246:0
         estimated_hours: crwdns98328:0crwdne98328:0
         invalid_user_assigned_to_work_package: crwdns98329:0%{property}crwdne98329:0
         start_date: crwdns98330:0crwdne98330:0
       writing_read_only_attributes: crwdns98331:0crwdne98331:0
     resources:
       schema: crwdns98332:0crwdne98332:0
-  planning_element_type_colors:
-    index:
-      no_results_title_text: crwdns99213:0crwdne99213:0
-      no_results_content_text: crwdns99214:0crwdne99214:0

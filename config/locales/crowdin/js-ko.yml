@@ -396,7 +396,7 @@ ko:
       button_deactivate: Hide Gantt chart
       cancel: 취소
       change: 계획에서 변경
-      due_date: 기한
+      due_date: Finish date
       empty: "(비어 있음)"
       error: 오류가 발생했습니다.
       errors:
@@ -535,7 +535,7 @@ ko:
         createdAt: 작성일
         description: 설명
         date: 날짜
-        dueDate: 기한
+        dueDate: Finish date
         estimatedTime: 예상된 시간
         spentTime: 소비한 시간
         category: 카테고리
@@ -597,14 +597,14 @@ ko:
         text_select_hint: 선택 상자는 'ALT'와 화살표 키로 열어야 합니다.
       table_configuration:
         button: Configure this work package table
+        choose_display_mode: Display work packages as
         modal_title: Work package table configuration
         embedded_tab_disabled: This configuration tab is not available for the embedded
           view you're editing.
+        default: 기본값
         display_settings: Display settings
-        grouped_mode: Grouped mode
-        grouped_hint: Table results will be grouped by the given attribute.
-        default_mode: Default mode
-        hierarchy_mode: 계층 모드
+        default_mode: Flat list
+        hierarchy_mode: Hierarchy
         hierarchy_hint: All filtered table results will be augmented with their ancestors.
           Hierarchies can be expanded and collapsed.
         display_sums_hint: Display sums of all summable attributes in a row below
@@ -614,17 +614,12 @@ ko:
           gantt chart.
         highlighting: Highlighting
         highlighting_mode:
-          description: Control highlighting of rows through a color defined by a work
-            package attribute, such as priority or status.
-          none: None
-          none_text: Disables highlighted output of attributes in the table altogether.
-          inline: Inline
-          inline_text: No highlighting of work package rows. Display colors of overdue
-            dates, status, and priority attributes in their respective columns.
-          status: Status
-          status_text: Highlight work package rows based on the color of its status.
-          priority: Priority
-          priority_text: Highlight work package rows based on the color of its priority.
+          description: Highlight with color
+          none: No highlighting
+          inline: Overdue dates, "Status", and "Priority" attributes
+          entire_row_by: Entire row by
+          status: 상태
+          priority: 우선 순위
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
       tabs:
@@ -675,6 +670,8 @@ ko:
         title: "%{label} 삭제 확인"
         text: 다음 %{label}을(를) 삭제하시겠습니까?
         has_children: 작업 패키지에 %{childUnits}이(가) 있습니다.
+        confirm_deletion_children: I acknowledge that ALL descendants of the listet
+          work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
     notice_successful_create: 생성에 성공했습니다.

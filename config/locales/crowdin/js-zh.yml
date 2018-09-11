@@ -388,7 +388,7 @@ zh:
       button_deactivate: Hide Gantt chart
       cancel: 取消
       change: 更改计划
-      due_date: 截止日期
+      due_date: Finish date
       empty: "(空)"
       error: 发生错误。
       errors:
@@ -525,7 +525,7 @@ zh:
         createdAt: 创建
         description: 描述
         date: 日期
-        dueDate: 截止日期
+        dueDate: Finish date
         estimatedTime: 估计的时间
         spentTime: 已耗时间
         category: 类别
@@ -587,30 +587,25 @@ zh:
         text_select_hint: 请使用Alt+方向键打开选择框。
       table_configuration:
         button: 配置当前工作包表
+        choose_display_mode: Display work packages as
         modal_title: 工作包表配置
         embedded_tab_disabled: This configuration tab is not available for the embedded
           view you're editing.
+        default: 默认
         display_settings: 显示设置
-        grouped_mode: 分组模式
-        grouped_hint: 表结果将按给定属性分组。
-        default_mode: 默认模式
-        hierarchy_mode: 层次结构模式
+        default_mode: Flat list
+        hierarchy_mode: Hierarchy
         hierarchy_hint: 所有过滤的表结果都将使用其上级进行扩充。 可以展开和折叠层次结构。
         display_sums_hint: 在表结果下方一行中显示所有可累加属性的总和。
         show_timeline_hint: 在表格的右侧显示交互式甘特图。 您可以通过拖动表格和甘特图之间的分隔线来更改其宽度。
         highlighting: Highlighting
         highlighting_mode:
-          description: Control highlighting of rows through a color defined by a work
-            package attribute, such as priority or status.
-          none: None
-          none_text: Disables highlighted output of attributes in the table altogether.
-          inline: Inline
-          inline_text: No highlighting of work package rows. Display colors of overdue
-            dates, status, and priority attributes in their respective columns.
-          status: Status
-          status_text: Highlight work package rows based on the color of its status.
-          priority: Priority
-          priority_text: Highlight work package rows based on the color of its priority.
+          description: Highlight with color
+          none: No highlighting
+          inline: Overdue dates, "Status", and "Priority" attributes
+          entire_row_by: Entire row by
+          status: 状态
+          priority: 优先级
         columns_help_text: 使用上面的输入向表视图添加或删除列。 您可以拖放列以重新排序它们。
       tabs:
         overview: 概述
@@ -660,6 +655,8 @@ zh:
         title: 确认删除%{label}
         text: 是否确实要删除以下%{label}？
         has_children: '工作包有 %{childUnits}:'
+        confirm_deletion_children: I acknowledge that ALL descendants of the listet
+          work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
     notice_successful_create: 成功创建。

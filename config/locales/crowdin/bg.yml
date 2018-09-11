@@ -62,8 +62,8 @@ bg:
       no_results_title_text: Понастоящем няма съобщения на дъската.
   colors:
     index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
+      no_results_title_text: В момента има няма цветове.
+      no_results_content_text: Създайте нов цвят
     label_no_color: No color
   custom_actions:
     actions:
@@ -186,7 +186,7 @@ bg:
       edit_query: Edit embedded query
       reset: Reset to defaults
       type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
   versions:
     overview:
@@ -404,7 +404,7 @@ bg:
         warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved
           changes
       version:
-        effective_date: Дата на падеж
+        effective_date: Finish date
         sharing: Споделяне
       wiki_content:
         text: Текст
@@ -639,7 +639,7 @@ bg:
     comment: Коментар
     comments: Коментар
     content: Съдържание
-    color: Color
+    color: Цвят
     created_at: Създаден на
     created_on: Създаден на
     custom_options: Възможните стойности
@@ -648,7 +648,7 @@ bg:
     default_columns: Колони по подразбиране
     description: Описание
     display_sums: Показване на суми
-    due_date: Дата на падеж
+    due_date: Finish date
     estimated_hours: Очаквано време
     estimated_time: Очаквано време
     firstname: Собствено име
@@ -1308,6 +1308,7 @@ bg:
   label_group_by: Групиране по
   label_group_new: Нова група
   label_group: Група
+  label_group_named: Group %{name}
   label_group_plural: Групи
   label_help: Помощ
   label_here: тук
@@ -1569,6 +1570,7 @@ bg:
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
   label_user: Потребител
+  label_user_named: User %{name}
   label_user_activity: дейност на %{value}
   label_user_anonymous: Анонимен
   label_user_mail_option_all: За всяко събитие на всичките ми проекти
@@ -2718,7 +2720,3 @@ bg:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Схема
-  planning_element_type_colors:
-    index:
-      no_results_title_text: В момента има няма цветове.
-      no_results_content_text: Създайте нов цвят

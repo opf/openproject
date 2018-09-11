@@ -61,8 +61,8 @@ lt:
       no_results_title_text: Nėra jokių įrašų pranešimų lentoje.
   colors:
     index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
+      no_results_title_text: Nėra nurodytų spalvų.
+      no_results_content_text: Sukurti naują spalvą
     label_no_color: No color
   custom_actions:
     actions:
@@ -187,7 +187,7 @@ lt:
       edit_query: Edit embedded query
       reset: Atkurti į numatytuosius
       type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
   versions:
     overview:
@@ -402,7 +402,7 @@ lt:
         warn_on_leaving_unsaved: Įspėti mane, kai palieku darbų paketą su neišsaugotais
           pakeitimais
       version:
-        effective_date: Užbaigimo data
+        effective_date: Finish date
         sharing: Pasidalijimas
       wiki_content:
         text: Tekstas
@@ -645,7 +645,7 @@ lt:
     comment: Komentaras
     comments: Komentaras
     content: Turinys
-    color: Color
+    color: Spalva
     created_at: Sukurta
     created_on: Sukurta
     custom_options: Galimos reikšmės
@@ -654,7 +654,7 @@ lt:
     default_columns: Numatytieji stulpeliai
     description: Aprašymas
     display_sums: Rodyti suvestines
-    due_date: Užbaigimo data
+    due_date: Finish date
     estimated_hours: Numatyta trukmė
     estimated_time: Numatyta trukmė
     firstname: Vardas
@@ -1336,6 +1336,7 @@ lt:
   label_group_by: Grupuoti pagal
   label_group_new: Nauja grupė
   label_group: Grupė
+  label_group_named: Group %{name}
   label_group_plural: Grupės
   label_help: Pagalba
   label_here: čia
@@ -1598,6 +1599,7 @@ lt:
   label_used_by_types: Naudojama šių tipų
   label_used_in_projects: Naudojama šių projektų
   label_user: Vartotojas
+  label_user_named: User %{name}
   label_user_activity: "%{value} veikla"
   label_user_anonymous: Anonimas
   label_user_mail_option_all: Bet kokiam įvykiui visuose mano projektuose
@@ -2783,7 +2785,7 @@ lt:
       validation:
         done_ratio: Atlikimo santykis negali būti nurodytas tėviniams darbų paketams,
           kai paketas apibrėžtas pagal būseną arba kai jis dezaktyvuotas.
-        due_date: Iki atlikimo datos negali būti nustatyta tėviniams darbų paketams.
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: Tikėtinos valandos negali būti nustatomos tėviniams darbų
           paketams.
         invalid_user_assigned_to_work_package: Pasirinktas vartotojas negali būti
@@ -2792,7 +2794,3 @@ lt:
       writing_read_only_attributes: Jūs neturėtumėte įrašyti atributą „tik skaitomas“.
     resources:
       schema: Schema
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Nėra nurodytų spalvų.
-      no_results_content_text: Sukurti naują spalvą

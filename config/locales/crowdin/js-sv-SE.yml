@@ -408,7 +408,7 @@ sv-SE:
       button_deactivate: Hide Gantt chart
       cancel: Avbryt
       change: Ändra i planeringen
-      due_date: Förfallodatum
+      due_date: Finish date
       empty: "(tom)"
       error: Ett fel har inträffat.
       errors:
@@ -557,7 +557,7 @@ sv-SE:
         createdAt: Skapat den
         description: Beskrivning
         date: Datum
-        dueDate: Förfallodatum
+        dueDate: Finish date
         estimatedTime: Beräknad tid
         spentTime: Förbrukad tid
         category: Kategori
@@ -624,14 +624,14 @@ sv-SE:
         text_select_hint: Valda celler öppnas med 'ALT' och piltangenterna.
       table_configuration:
         button: Konfigurera detta arbetspaket-tabell
+        choose_display_mode: Display work packages as
         modal_title: Inställningar för arbetspaket-tabell
         embedded_tab_disabled: This configuration tab is not available for the embedded
           view you're editing.
+        default: standard
         display_settings: Skärminställningar
-        grouped_mode: Grupperat läge
-        grouped_hint: Tabellresultatet kommer grupperas av det angivna attributet.
-        default_mode: Standardläge
-        hierarchy_mode: Hierarkiläge
+        default_mode: Flat list
+        hierarchy_mode: Hierarchy
         hierarchy_hint: Alla filtrerade tabellresultat kommer att kompletteras med
           sina förfäder. Hierarkier kan utökas och kollapsas.
         display_sums_hint: Visa summor av alla sammanlagda attribut i en rad under
@@ -640,17 +640,12 @@ sv-SE:
           Du kan ändra dess bredd genom att dra delaren mellan tabellen och gantt-diagrammet.
         highlighting: Highlighting
         highlighting_mode:
-          description: Control highlighting of rows through a color defined by a work
-            package attribute, such as priority or status.
-          none: None
-          none_text: Disables highlighted output of attributes in the table altogether.
-          inline: Inline
-          inline_text: No highlighting of work package rows. Display colors of overdue
-            dates, status, and priority attributes in their respective columns.
+          description: Highlight with color
+          none: No highlighting
+          inline: Overdue dates, "Status", and "Priority" attributes
+          entire_row_by: Entire row by
           status: Status
-          status_text: Highlight work package rows based on the color of its status.
-          priority: Priority
-          priority_text: Highlight work package rows based on the color of its priority.
+          priority: Prioritet
         columns_help_text: Använd inmatningen ovan för att lägga till eller ta bort
           kolumner i din tabellvy. Du kan dra och släppa kolumnerna för att omordna
           dem.
@@ -702,6 +697,8 @@ sv-SE:
         title: Confirm deletion of %{label}
         text: Are you sure you want to delete the following %{label} ?
         has_children: 'The work package has %{childUnits}:'
+        confirm_deletion_children: I acknowledge that ALL descendants of the listet
+          work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
     notice_successful_create: Skapades utan problem.

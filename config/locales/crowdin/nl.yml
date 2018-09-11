@@ -62,8 +62,8 @@ nl:
       no_results_title_text: Er zijn momenteel geen berichten voor het bord.
   colors:
     index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
+      no_results_title_text: Er zijn momenteel geen kleuren.
+      no_results_content_text: Maak een nieuwe kleur
     label_no_color: No color
   custom_actions:
     actions:
@@ -186,7 +186,7 @@ nl:
       edit_query: Bewerken van ingesloten zoekopdracht
       reset: Standaardinstellingen herstellen
       type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
   versions:
     overview:
@@ -407,7 +407,7 @@ nl:
         warn_on_leaving_unsaved: Mij waarschuwen bij het verlaten van een werkpakket
           met niet-opgeslagen wijzigingen
       version:
-        effective_date: Vervaldatum
+        effective_date: Finish date
         sharing: Delen
       wiki_content:
         text: Tekst
@@ -649,7 +649,7 @@ nl:
     comment: Commentaar
     comments: Commentaar
     content: Inhoud
-    color: Color
+    color: Kleur
     created_at: Gemaakt op
     created_on: Gemaakt op
     custom_options: Mogelijke waarden
@@ -658,7 +658,7 @@ nl:
     default_columns: Standaardkolommen
     description: Omschrijving
     display_sums: Bedragen weergeven
-    due_date: Vervaldatum
+    due_date: Finish date
     estimated_hours: Geschatte tijd
     estimated_time: Geschatte tijd
     firstname: Voornaam
@@ -1323,6 +1323,7 @@ nl:
   label_group_by: Groeperen op
   label_group_new: Nieuwe groep
   label_group: Groep
+  label_group_named: Group %{name}
   label_group_plural: Groepen
   label_help: Help
   label_here: hier
@@ -1585,6 +1586,7 @@ nl:
   label_used_by_types: Wordt gebruikt door types
   label_used_in_projects: Wordt gebruikt in projecten
   label_user: Gebruiker
+  label_user_named: User %{name}
   label_user_activity: "%{value} activiteit"
   label_user_anonymous: Anoniem
   label_user_mail_option_all: Voor een evenement op al mijn projecten
@@ -2764,7 +2766,7 @@ nl:
       validation:
         done_ratio: De vooruitgangsratio kan niet op een ouderwerkpakket worden gezet
           wanneer die uit de status wordt afgeleid of is uitgeschakeld.
-        due_date: De vervaldatum kan niet worden ingesteld op bovenliggende werkpakketten.
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: Geschatte uren uren kunnen niet op ouderwerkpaketten worden
           gezet.
         invalid_user_assigned_to_work_package: De gekozen gebruiker kan geen '%{property}'
@@ -2773,7 +2775,3 @@ nl:
       writing_read_only_attributes: U mag geen read-only attribuut schrijven.
     resources:
       schema: Schema
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Er zijn momenteel geen kleuren.
-      no_results_content_text: Maak een nieuwe kleur

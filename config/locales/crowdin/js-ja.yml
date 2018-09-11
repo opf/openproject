@@ -385,7 +385,7 @@ ja:
       button_deactivate: ガントチャートを隠す
       cancel: キャンセル
       change: 計画の変更する
-      due_date: 期限
+      due_date: Finish date
       empty: "（空）"
       error: エラーが発生しました。
       errors:
@@ -522,7 +522,7 @@ ja:
         createdAt: 作成日時
         description: 説明
         date: 日付
-        dueDate: 期限
+        dueDate: Finish date
         estimatedTime: 予定工数
         spentTime: 作業時間の記録
         category: カテゴリ
@@ -583,29 +583,24 @@ ja:
         text_select_hint: 選択ボックスは 'ALT'と矢印キーで開きます。
       table_configuration:
         button: このワークパッケージテーブルを設定する
+        choose_display_mode: Display work packages as
         modal_title: 作業項目表の設定
         embedded_tab_disabled: この設定タブは編集中の埋め込みビューでは使用できません。
+        default: 既定
         display_settings: 表示設定
-        grouped_mode: グループ化されたモード
-        grouped_hint: テーブルの結果は指定された属性でグループ化されます。
-        default_mode: デフォルトモード
-        hierarchy_mode: 階層モード
+        default_mode: Flat list
+        hierarchy_mode: Hierarchy
         hierarchy_hint: フィルタリングされたテーブルのすべての結果はその祖先で拡張されます。階層を展開したり折りたたんだりすることができます。
         display_sums_hint: 表の下にすべての集計可能な属性の合計を表示します。
         show_timeline_hint: テーブルの右側にインタラクティブなガントチャートを表示します。テーブルとガントチャートの間の区切り線をドラッグすることで幅を変更することができます。
         highlighting: Highlighting
         highlighting_mode:
-          description: Control highlighting of rows through a color defined by a work
-            package attribute, such as priority or status.
-          none: None
-          none_text: Disables highlighted output of attributes in the table altogether.
-          inline: Inline
-          inline_text: No highlighting of work package rows. Display colors of overdue
-            dates, status, and priority attributes in their respective columns.
-          status: Status
-          status_text: Highlight work package rows based on the color of its status.
-          priority: Priority
-          priority_text: Highlight work package rows based on the color of its priority.
+          description: Highlight with color
+          none: No highlighting
+          inline: Overdue dates, "Status", and "Priority" attributes
+          entire_row_by: Entire row by
+          status: ステータス
+          priority: 優先度
         columns_help_text: テーブルビューに列を追加または削除するには上記の入力を使用します。列をドラッグ＆ドロップして並べ替えることができます。
       tabs:
         overview: 概要
@@ -655,6 +650,8 @@ ja:
         title: "%{label} の削除を確認"
         text: 次の %{label} を削除してもよろしいですか?
         has_children: ワークパッケージは %{childUnits} あります。
+        confirm_deletion_children: I acknowledge that ALL descendants of the listet
+          work packages will be recursively removed.
         deletes_children: すべての子作業項目とその子孫も再帰的に削除されます。
     notice_successful_create: 正常に作成しました。
     notice_successful_delete: 正常に削除しました。

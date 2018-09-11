@@ -51,8 +51,8 @@ zh-TW:
       no_results_title_text: 目前沒有任何貼文在板上
   colors:
     index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
+      no_results_title_text: 目前沒有顏色
+      no_results_content_text: 建立一個新顏色
     label_no_color: No color
   custom_actions:
     actions:
@@ -168,7 +168,7 @@ zh-TW:
       edit_query: 編輯嵌入式查詢
       reset: 重設為預設值
       type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
   versions:
     overview:
@@ -357,7 +357,7 @@ zh-TW:
         auto_hide_popups: 自動隱藏成功通知
         warn_on_leaving_unsaved: 離開尚未儲存的工作包時提示我
       version:
-        effective_date: 截止日期
+        effective_date: Finish date
         sharing: 分享
       wiki_content:
         text: 文字
@@ -580,7 +580,7 @@ zh-TW:
     comment: 評論
     comments: 評論
     content: 內容
-    color: Color
+    color: 顏色
     created_at: 建立於
     created_on: 建立於
     custom_options: 可能的值
@@ -589,7 +589,7 @@ zh-TW:
     default_columns: 預設欄
     description: 說明
     display_sums: 顯示加總
-    due_date: 截止日期
+    due_date: Finish date
     estimated_hours: 預估時間
     estimated_time: 預估時間
     firstname: 名字
@@ -1215,6 +1215,7 @@ zh-TW:
   label_group_by: 分組依據
   label_group_new: 新增群組
   label_group: 群組
+  label_group_named: Group %{name}
   label_group_plural: 群組
   label_help: 説明
   label_here: 這裡
@@ -1474,6 +1475,7 @@ zh-TW:
   label_used_by_types: 被類別使用中
   label_used_in_projects: 被專案使用中
   label_user: 使用者
+  label_user_named: User %{name}
   label_user_activity: "%{value} 的活動"
   label_user_anonymous: 匿名者
   label_user_mail_option_all: 對於我所有的專案的任何事件
@@ -2479,7 +2481,7 @@ zh-TW:
           無法找到本文對應的資源。
       validation:
         done_ratio: 在所屬工作包中, 當按狀態或禁用時, 無法設置完成比率。
-        due_date: 無法在所屬工作包上設置截止日期。
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: 無法在所屬工作包上設置估計小時數。
         invalid_user_assigned_to_work_package: 所指定的使用者不允許成為工作項目的 '%{property}' 。
         start_date: 無法在所屬工作包上設置開始日期。
@@ -2488,7 +2490,3 @@ zh-TW:
         您不可寫入唯讀的屬性。
     resources:
       schema: 架構
-  planning_element_type_colors:
-    index:
-      no_results_title_text: 目前沒有顏色
-      no_results_content_text: 建立一個新顏色

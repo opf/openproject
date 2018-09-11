@@ -60,8 +60,8 @@ hr:
       no_results_title_text: Trenutno nema novih novih postova.
   colors:
     index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
+      no_results_title_text: Trenutno nema boja.
+      no_results_content_text: Nova boja
     label_no_color: No color
   custom_actions:
     actions:
@@ -183,7 +183,7 @@ hr:
       edit_query: Edit embedded query
       reset: Reset to defaults
       type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
   versions:
     overview:
@@ -404,7 +404,7 @@ hr:
         warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved
           changes
       version:
-        effective_date: Krajnji rok
+        effective_date: Finish date
         sharing: Dijeljenje
       wiki_content:
         text: Tekst
@@ -644,7 +644,7 @@ hr:
     comment: Komentar
     comments: Komentar
     content: Sadržaj
-    color: Color
+    color: Boja
     created_at: Izrađeno
     created_on: Izrađeno
     custom_options: Moguće vrijednosti
@@ -653,7 +653,7 @@ hr:
     default_columns: Zadani stupci
     description: Opis
     display_sums: Prikaži iznose
-    due_date: Krajnji rok
+    due_date: Finish date
     estimated_hours: Predviđeno vrijeme
     estimated_time: Predviđeno vrijeme
     firstname: Ime
@@ -1322,6 +1322,7 @@ hr:
   label_group_by: Grupiraj po
   label_group_new: Nova grupa
   label_group: Grupa
+  label_group_named: Group %{name}
   label_group_plural: Grupe
   label_help: Pomoć
   label_here: ovdje
@@ -1582,6 +1583,7 @@ hr:
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
   label_user: Korisnik
+  label_user_named: User %{name}
   label_user_activity: "%{value}-a aktivnost"
   label_user_anonymous: Anonimno
   label_user_mail_option_all: Za bilo koji događaj na svim mojim projektima
@@ -2745,7 +2747,7 @@ hr:
       validation:
         done_ratio: Omjer učinjenoga radnog paketa ne može biti zadan nadređenom radnom
           paketu, kada je zaključen statusom ili kada je onemogućen.
-        due_date: Krajnji rok ne može biti postavljen nadređenim radnim paketima.
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: Predviđeni sati ne mogu biti postavljeni na nadređeni radni
           paket.
         invalid_user_assigned_to_work_package: Izabranom korisniku nije dopušteno
@@ -2755,7 +2757,3 @@ hr:
         je dopušteno samo čitanje.
     resources:
       schema: Shema
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Trenutno nema boja.
-      no_results_content_text: Nova boja

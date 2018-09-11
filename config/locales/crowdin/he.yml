@@ -63,7 +63,7 @@ he:
   colors:
     index:
       no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
+      no_results_content_text: ליצור צבע חדש
     label_no_color: No color
   custom_actions:
     actions:
@@ -186,7 +186,7 @@ he:
       edit_query: Edit embedded query
       reset: Reset to defaults
       type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
   versions:
     overview:
@@ -401,7 +401,7 @@ he:
         warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved
           changes
       version:
-        effective_date: תאריך יעד
+        effective_date: Finish date
         sharing: שיתוף
       wiki_content:
         text: טקסט
@@ -640,7 +640,7 @@ he:
     comment: תגובה
     comments: תגובה
     content: תוכן
-    color: Color
+    color: צבע
     created_at: נוצר ב-
     created_on: נוצר ב-
     custom_options: הערכים האפשריים
@@ -649,7 +649,7 @@ he:
     default_columns: עמודות ברירת המחדל
     description: תיאור
     display_sums: הצג סכומים
-    due_date: תאריך יעד
+    due_date: Finish date
     estimated_hours: זמן משוער
     estimated_time: זמן משוער
     firstname: שם פרטי
@@ -1323,6 +1323,7 @@ he:
   label_group_by: קבץ לפי
   label_group_new: קבוצה חדשה
   label_group: קבוצה
+  label_group_named: Group %{name}
   label_group_plural: קבוצות
   label_help: עזרה
   label_here: here
@@ -1582,6 +1583,7 @@ he:
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
   label_user: משתמש
+  label_user_named: User %{name}
   label_user_activity: "%{value}'s activity"
   label_user_anonymous: אנונימי
   label_user_mail_option_all: For any event on all my projects
@@ -2737,7 +2739,7 @@ he:
       validation:
         done_ratio: Done ratio cannot be set on parent work packages, when it is inferred
           by status or when it is disabled.
-        due_date: Due date cannot be set on parent work packages.
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: Estimated hours cannot be set on parent work packages.
         invalid_user_assigned_to_work_package: לא ניתן לבחור  '%{property}' עבור המשתמש
           בחבילת עבודה זו.
@@ -2745,7 +2747,3 @@ he:
       writing_read_only_attributes: אתה חייב שלא לכתוב תכונה לקריאה בלבד.
     resources:
       schema: סכימה
-  planning_element_type_colors:
-    index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: ליצור צבע חדש

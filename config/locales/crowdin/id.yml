@@ -62,8 +62,8 @@ id:
       no_results_title_text: Tidak ada pos untuk papan saat ini.
   colors:
     index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
+      no_results_title_text: Tidak ada warna saat ini.
+      no_results_content_text: Buat warna baru
     label_no_color: No color
   custom_actions:
     actions:
@@ -187,7 +187,7 @@ id:
       edit_query: Edit embedded query
       reset: Disetel ulang ke kondisi bawaan
       type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
   versions:
     overview:
@@ -397,7 +397,7 @@ id:
         warn_on_leaving_unsaved: Ingatkan saya ketika meninggalkan sebuah paket kerja
           dengan perubahan yang belum disimpan
       version:
-        effective_date: Tenggat waktu
+        effective_date: Finish date
         sharing: Sharing
       wiki_content:
         text: Teks
@@ -633,7 +633,7 @@ id:
     comment: Komentar
     comments: Komentar
     content: Konten
-    color: Color
+    color: Warna
     created_at: Dibuat
     created_on: Dibuat
     custom_options: Nilai yang mungkin
@@ -642,7 +642,7 @@ id:
     default_columns: Kolom default
     description: Deskripsi
     display_sums: Tampilkan jumlah
-    due_date: Tenggat waktu
+    due_date: Finish date
     estimated_hours: Estimasi Waktu
     estimated_time: Estimasi Waktu
     firstname: Nama depan
@@ -1299,6 +1299,7 @@ id:
   label_group_by: Grup oleh
   label_group_new: Grup baru
   label_group: Grup
+  label_group_named: Group %{name}
   label_group_plural: Grup
   label_help: Support
   label_here: disini
@@ -1559,6 +1560,7 @@ id:
   label_used_by_types: Digunakan oleh jenis
   label_used_in_projects: Digunakan dalam proyek-proyek
   label_user: User
+  label_user_named: User %{name}
   label_user_activity: "%{value} aktivitas"
   label_user_anonymous: Anonimus
   label_user_mail_option_all: Untuk semua Event pada semua proyek saya
@@ -2695,7 +2697,7 @@ id:
       validation:
         done_ratio: Done ratio cannot be set on parent work packages, when it is inferred
           by status or when it is disabled.
-        due_date: Due date cannot be set on parent work packages.
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: Estimated hours cannot be set on parent work packages.
         invalid_user_assigned_to_work_package: Pilihan pengguna tidak diperbolehkan
           untuk menjadi '%{property}' untuk paket pekerjaan ini.
@@ -2703,7 +2705,3 @@ id:
       writing_read_only_attributes: Anda tidak harus menulis hanya-baca atribut.
     resources:
       schema: Schema
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Tidak ada warna saat ini.
-      no_results_content_text: Buat warna baru

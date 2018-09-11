@@ -411,7 +411,7 @@ fil:
       button_deactivate: Hide Gantt chart
       cancel: Kanselahin
       change: Baguhin ang pagpaplano
-      due_date: Takdang petsa
+      due_date: Finish date
       empty: "(walang laman)"
       error: Isang mali ang naganap.
       errors:
@@ -568,7 +568,7 @@ fil:
         createdAt: Nilikha sa
         description: Deskripsyon
         date: Petsa
-        dueDate: Takdang petsa
+        dueDate: Finish date
         estimatedTime: Tinantyang oras
         spentTime: Nauubos na oras
         category: Kategorya
@@ -638,14 +638,14 @@ fil:
           arrow key.
       table_configuration:
         button: Configure this work package table
+        choose_display_mode: Display work packages as
         modal_title: Work package table configuration
         embedded_tab_disabled: This configuration tab is not available for the embedded
           view you're editing.
+        default: pasadya
         display_settings: Display settings
-        grouped_mode: Grouped mode
-        grouped_hint: Table results will be grouped by the given attribute.
-        default_mode: Default mode
-        hierarchy_mode: Hierarchy mode
+        default_mode: Flat list
+        hierarchy_mode: Hierarchy
         hierarchy_hint: All filtered table results will be augmented with their ancestors.
           Hierarchies can be expanded and collapsed.
         display_sums_hint: Display sums of all summable attributes in a row below
@@ -655,17 +655,12 @@ fil:
           gantt chart.
         highlighting: Highlighting
         highlighting_mode:
-          description: Control highlighting of rows through a color defined by a work
-            package attribute, such as priority or status.
-          none: None
-          none_text: Disables highlighted output of attributes in the table altogether.
-          inline: Inline
-          inline_text: No highlighting of work package rows. Display colors of overdue
-            dates, status, and priority attributes in their respective columns.
-          status: Status
-          status_text: Highlight work package rows based on the color of its status.
-          priority: Priority
-          priority_text: Highlight work package rows based on the color of its priority.
+          description: Highlight with color
+          none: No highlighting
+          inline: Overdue dates, "Status", and "Priority" attributes
+          entire_row_by: Entire row by
+          status: Estado
+          priority: Ang prayoridad
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
       tabs:
@@ -717,6 +712,8 @@ fil:
         title: Kumpirmahin ang pagbubura ng %{label}
         text: Sigurado ka ba na gusto mong burahin ang sumusunod na %{label}?
         has_children: 'Ang work package ay mayroong %{childUnits}:'
+        confirm_deletion_children: I acknowledge that ALL descendants of the listet
+          work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
     notice_successful_create: Matagumpay pagkalikha.

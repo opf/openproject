@@ -62,8 +62,8 @@ sk:
       no_results_title_text: Panel v súčasnosti nemá žiadne príspevky.
   colors:
     index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
+      no_results_title_text: Momentálne nie sú k dispozícií žiadne farby.
+      no_results_content_text: Vytvoriť novú farbu
     label_no_color: No color
   custom_actions:
     actions:
@@ -186,7 +186,7 @@ sk:
       edit_query: Edit embedded query
       reset: Reset to defaults
       type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
   versions:
     overview:
@@ -408,7 +408,7 @@ sk:
         warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved
           changes
       version:
-        effective_date: Do dátumu
+        effective_date: Finish date
         sharing: Zdieľanie
       wiki_content:
         text: Text
@@ -655,7 +655,7 @@ sk:
     comment: Komentár
     comments: Komentár
     content: Obsah
-    color: Color
+    color: Farba
     created_at: Vytvorené
     created_on: Vytvorené
     custom_options: Možné hodnoty
@@ -664,7 +664,7 @@ sk:
     default_columns: Predvolené stĺpce
     description: Popis
     display_sums: Zobraziť súčty
-    due_date: Do dátumu
+    due_date: Finish date
     estimated_hours: Predpokladaný čas
     estimated_time: Predpokladaný čas
     firstname: Krstné meno
@@ -1347,6 +1347,7 @@ sk:
   label_group_by: Zoskupiť podľa
   label_group_new: Nová skupina
   label_group: Skupina
+  label_group_named: Group %{name}
   label_group_plural: Skupiny
   label_help: Nápoveda
   label_here: tu
@@ -1606,6 +1607,7 @@ sk:
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
   label_user: Užívateľ(ka)
+  label_user_named: User %{name}
   label_user_activity: Aktivita používateľa %{value}
   label_user_anonymous: Anonymný
   label_user_mail_option_all: Pre všetky udalosti všetkých mojich projektov
@@ -2770,8 +2772,7 @@ sk:
       validation:
         done_ratio: Percento ukončenia nemôže by nastavené na rodičovskom pracovnom
           balíčku, ak sa odvodzuje od stavu bolo deaktivované.
-        due_date: Dátum "Do" nie je možné nastaviť na pracovnom balíčku obsahujúcom
-          podriadené pracovné balíčky.
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: Odhad hodín nie je možné nastaviť na pracovnom balíčku obsahujúcom
           podriadené pracovné balíčky.
         invalid_user_assigned_to_work_package: Zvolený používateľ nemôže byť "%{property}"
@@ -2782,7 +2783,3 @@ sk:
         na čítanie.
     resources:
       schema: Schéma
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Momentálne nie sú k dispozícií žiadne farby.
-      no_results_content_text: Vytvoriť novú farbu

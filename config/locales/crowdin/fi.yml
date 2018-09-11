@@ -61,8 +61,8 @@ fi:
       no_results_title_text: Tällä hetkellä taululla ei ole viestejä.
   colors:
     index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
+      no_results_title_text: Tällä hetkellä ei ole värejä.
+      no_results_content_text: Luo uusi väri
     label_no_color: No color
   custom_actions:
     actions:
@@ -185,7 +185,7 @@ fi:
       edit_query: Edit embedded query
       reset: Reset to defaults
       type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
   versions:
     overview:
@@ -402,7 +402,7 @@ fi:
         warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved
           changes
       version:
-        effective_date: Määräpäivä
+        effective_date: Finish date
         sharing: Jakaminen
       wiki_content:
         text: Teksti
@@ -636,7 +636,7 @@ fi:
     comment: Kommentti
     comments: Kommentti
     content: Sisältö
-    color: Color
+    color: Väri
     created_at: Luontipäivä
     created_on: Luontipäivä
     custom_options: Mahdolliset arvot
@@ -645,7 +645,7 @@ fi:
     default_columns: Oletussarakkeet
     description: Kuvaus
     display_sums: Näytä summat
-    due_date: Määräpäivä
+    due_date: Finish date
     estimated_hours: Arvioitu aika
     estimated_time: Arvioitu aika
     firstname: Etunimi
@@ -1300,6 +1300,7 @@ fi:
   label_group_by: Ryhmittely
   label_group_new: Uusi ryhmä
   label_group: Ryhmä
+  label_group_named: Group %{name}
   label_group_plural: Ryhmät
   label_help: Ohjeet
   label_here: tässä
@@ -1560,6 +1561,7 @@ fi:
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
   label_user: Käyttäjä
+  label_user_named: User %{name}
   label_user_activity: Käyttäjän %{value} historia
   label_user_anonymous: Anonyymi
   label_user_mail_option_all: Kaikista tapahtumista kaikissa projekteistani
@@ -2692,7 +2694,7 @@ fi:
       validation:
         done_ratio: Done ratio cannot be set on parent work packages, when it is inferred
           by status or when it is disabled.
-        due_date: Due date cannot be set on parent work packages.
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: Arvioitu tuntia ei voi asettaa vanhemman toimia paketti.
         invalid_user_assigned_to_work_package: The chosen user is not allowed to be
           '%{property}' for this work package.
@@ -2700,7 +2702,3 @@ fi:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Schema
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Tällä hetkellä ei ole värejä.
-      no_results_content_text: Luo uusi väri
