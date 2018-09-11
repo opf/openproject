@@ -249,6 +249,22 @@ describe OpenProject::TextFormatting,
         it { is_expected.to be_html_eql("<p>##{issue.id}</p>") }
       end
 
+      context 'WP subject with escapable chars' do
+        let(:work_package) do
+          FactoryBot.create :work_package, subject: "Title with \"quote\" and 'sòme 'chárs."
+        end
+
+        let(:issue_link) do
+          link_to("##{issue.id}",
+                  work_package_path(issue),
+                  class: 'issue work_package status-3 priority-1 created-by-me',
+                  title: "#{issue.subject} (#{issue.status})")
+        end
+
+        subject { format_text("##{issue.id}") }
+        it { is_expected.to be_html_eql("<p>#{issue_link}</p>") }
+      end
+
       context 'Cyclic Description Links' do
         let(:issue2) do
           FactoryBot.create :work_package,
