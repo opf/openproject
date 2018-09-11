@@ -36,6 +36,7 @@ import {
 import {Apiv3QueriesPaths} from 'core-app/modules/common/path-helper/apiv3/queries/apiv3-queries-paths';
 import {Apiv3ProjectPaths} from 'core-app/modules/common/path-helper/apiv3/projects/apiv3-project-paths';
 import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
+import {Apiv3TypesPaths} from "core-app/modules/common/path-helper/apiv3/types/apiv3-types-paths";
 
 export class ApiV3Paths {
   // Base path
@@ -60,7 +61,7 @@ export class ApiV3Paths {
   public readonly priorities = new SimpleResourceCollection(this.apiV3Base, 'priorities');
 
   // /api/v3/types
-  public readonly types = new SimpleResourceCollection(this.apiV3Base, 'types');
+  public readonly types = new Apiv3TypesPaths(this.apiV3Base);
 
   // /api/v3/work_packages
   public readonly work_packages = new ApiV3WorkPackagesPaths(this.apiV3Base);

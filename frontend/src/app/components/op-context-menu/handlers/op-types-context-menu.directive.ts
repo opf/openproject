@@ -36,6 +36,7 @@ import {OpContextMenuTrigger} from "core-components/op-context-menu/handlers/op-
 import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
+import {TypeDmService} from "core-app/modules/hal/dm-services/type-dm.service";
 
 @Directive({
   selector: '[opTypesCreateDropdown]'
@@ -50,8 +51,7 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
   constructor(readonly elementRef:ElementRef,
               readonly opContextMenu:OPContextMenuService,
               readonly $state:StateService,
-              @Inject(IWorkPackageCreateServiceToken) protected wpCreate:WorkPackageCreateService) {
-
+              readonly typeDmService:TypeDmService) {
     super(elementRef, opContextMenu);
   }
 
@@ -67,10 +67,9 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
       this.stateName = 'work-packages.new';
     }
 
-    this.loadingPromise = this.wpCreate.getEmptyForm(this.projectIdentifier)
-      .then((form:any) => {
-        return this.buildItems(form.schema.type.allowedValues);
-      });
+    this.loadingPromise = this.typeDmService
+      .loadAll(this.projectIdentifier)
+      .then(types => this.buildItems(types));
   }
 
   protected open(evt:Event) {
@@ -100,7 +99,7 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
     };
   }
 
-  private buildItems(types:CollectionResource<TypeResource>) {
+  private buildItems(types:TypeResource[]) {
     this.items = types.map((type:TypeResource) => {
       return {
         disabled: false,
