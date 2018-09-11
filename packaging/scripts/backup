@@ -10,11 +10,20 @@ timestamp=$(date +"%Y%m%d%H%M%S")
 
 echo -n "* Generating database backup..." >&2
 
-tmpfile=$(mktemp)
+dump_postgresql() {
+  dst="${TARGET}/postgresql-dump-${timestamp}.pgdump"
+  touch "$dst" && chmod 0640 "$dst"
+  pg_dump -Fc $DATABASE_URL > $dst
 
-database=$(ruby -ruri -e 'puts URI(ENV["DATABASE_URL"]).path[1..-1]')
+  echo " done" >&2
+  echo "$dst"
+}
 
-ruby -ruri -rcgi -e '
+dump_mysql() {
+  tmpfile=$(mktemp)
+  database=$(ruby -ruri -e 'puts URI(ENV["DATABASE_URL"]).path[1..-1]')
+
+  ruby -ruri -rcgi -e '
   uri = URI(ENV["DATABASE_URL"])
   params = CGI.parse(uri.query || "")
   config=<<CONFIG
@@ -29,12 +38,21 @@ CONFIG
   config += %{ssl-ca="#{params["sslca"].first}"\n} if params.has_key?("sslca")
   puts config' > ${tmpfile}
 
-dst="${TARGET}/mysql-dump-${timestamp}.sql.gz"
-touch "$dst" && chmod 0640 "$dst"
-mysqldump --defaults-file=${tmpfile} --single-transaction "${database}" | gzip > "$dst"
-echo " done" >&2
-echo "$dst"
-rm -f ${tmpfile}
+  dst="${TARGET}/mysql-dump-${timestamp}.sql.gz"
+  touch "$dst" && chmod 0640 "$dst"
+  mysqldump --defaults-file=${tmpfile} --single-transaction "${database}" | gzip > "$dst"
+  echo " done" >&2
+  echo "$dst"
+  rm -f ${tmpfile}
+}
+
+if [[ $DATABASE_URL == postgres* ]] ;
+then
+  dump_postgresql
+else
+  dump_mysql
+fi
+
 
 if [ -d "$SVN_REPOSITORIES" ]; then
   dst="${TARGET}/svn-repositories-${timestamp}.tar.gz"
