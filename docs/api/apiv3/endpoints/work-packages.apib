@@ -71,11 +71,11 @@ the human readable name of custom fields.
 Properties that cannot be set directly on parent work packages are inferred from their children instead:
 
 * `startDate` is the earliest start date from its children
-* `dueDate` is the latest due date from its children
+* `dueDate` is the latest finish date from its children
 * `estimatedTime` is the sum of estimated times from its children
 * `percentageDone` is the weighted average of the sum of its children percentages done. The weight is given by the average of its children estimatedHours. However, if the percentage done is given by a work package's status, then only the status matters and no value is inferred.
 
-Start date can also not be earlier than a due date of any predecessor.
+Start date can also not be earlier than a finish date of any predecessor.
 
 While attachments are returned as a link which's content is to be fetched separately, clients can choose to
 replace the work package's attachments by providing an array of already uploaded [Attachment resources](#attachments) on [create](#work-packages-work-packages-post)

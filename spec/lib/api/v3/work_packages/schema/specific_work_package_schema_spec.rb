@@ -220,7 +220,7 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
       end
     end
 
-    context 'due date' do
+    context 'finish date' do
       it 'is not writable when the work package is a parent' do
         allow(work_package).to receive(:leaf?).and_return(false)
         expect(subject.writable?(:due_date)).to be false

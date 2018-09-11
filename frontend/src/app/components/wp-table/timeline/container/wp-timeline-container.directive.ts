@@ -372,7 +372,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
         startDate,
         date);
 
-      // due date
+      // finish date
       newParams.dateDisplayEnd = moment.max(
         newParams.dateDisplayEnd,
         currentParams.now,

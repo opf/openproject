@@ -224,7 +224,7 @@ en:
                     **You can:**
                     * create new phases and milestones by simply clicking in the project plan,
                     * change phases and milestones with drag and drop,
-                    * add labels, such as start and due date, title, or assignee,
+                    * add labels, such as start and finish date, title, or assignee,
                     * add dependencies by right clicking on a phase or milestone and choose pre-decessor or follower,
                     * custom columns, group, filter and save timeline reports to have them at your fingertips.
 
@@ -248,7 +248,7 @@ en:
                     * change title or description,
                     * assign it to a team member,
                     * comment on topics or notify team members with @-notifications,
-                    * set status, priority, due dates or other custom fields,
+                    * set status, priority, finish dates or other custom fields,
                     * include documents or screenshots with copy & paste,
                     * add relations to other work packages,
                     * change forms in the Administration settings.

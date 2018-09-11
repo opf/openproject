@@ -369,7 +369,7 @@ class WorkPackage < ActiveRecord::Base
     end
   end
 
-  # Is the amount of work done less than it should for the due date
+  # Is the amount of work done less than it should for the finish date
   def behind_schedule?
     return false if start_date.nil? || due_date.nil?
     done_date = start_date + (duration * done_ratio / 100).floor

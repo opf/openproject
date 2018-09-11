@@ -51,7 +51,7 @@ describe WorkPackage, '#reschedule_after', type: :model do
     login_as(user)
   end
 
-  describe 'for a single node having start and due date' do
+  describe 'for a single node having start and finish date' do
     before do
       instance.start_date = Date.today
       instance.due_date = Date.today + 7.days
@@ -63,12 +63,12 @@ describe WorkPackage, '#reschedule_after', type: :model do
       expect(instance.start_date).to eq(Date.today + 3.days)
     end
 
-    it 'should set the set the due date plus the duration' do
+    it 'should set the set the finish date plus the duration' do
       expect(instance.due_date).to eq(Date.today + 10.days)
     end
   end
 
-  describe 'for a single node having neither start nor due date' do
+  describe 'for a single node having neither start nor finish date' do
     before do
       instance.start_date = nil
       instance.due_date = nil
@@ -80,12 +80,12 @@ describe WorkPackage, '#reschedule_after', type: :model do
       expect(instance.start_date).to eq(Date.today + 3.days)
     end
 
-    it 'should set the set the due date plus the duration' do
+    it 'should set the set the finish date plus the duration' do
       expect(instance.due_date).to eq(Date.today + 3.days)
     end
   end
 
-  describe 'for a single node having only a due date' do
+  describe 'for a single node having only a finish date' do
     before do
       instance.start_date = nil
       instance.due_date = Date.today + 7.days
@@ -97,7 +97,7 @@ describe WorkPackage, '#reschedule_after', type: :model do
       expect(instance.start_date).to eq(Date.today + 3.days)
     end
 
-    it 'should set the set the due date plus the duration' do
+    it 'should set the set the finish date plus the duration' do
       expect(instance.due_date).to eq(Date.today + 3.days)
     end
   end
@@ -117,7 +117,7 @@ describe WorkPackage, '#reschedule_after', type: :model do
       expect(instance.start_date).to eq(Date.today + 3.days)
     end
 
-    it "should set the set the due date to the provided date plus the child's duration" do
+    it "should set the set the finish date to the provided date plus the child's duration" do
       instance.reload
       expect(instance.due_date).to eq(Date.today + 10.days)
     end
@@ -127,14 +127,14 @@ describe WorkPackage, '#reschedule_after', type: :model do
       expect(child.start_date).to eq(Date.today + 3.days)
     end
 
-    it "should set the set child's due date to the provided date plus the child's duration" do
+    it "should set the set child's finish date to the provided date plus the child's duration" do
       child.reload
       expect(child.due_date).to eq(Date.today + 10.days)
     end
   end
 
   describe "with a child
-            while the new date is set to be between the child's start and due date" do
+            while the new date is set to be between the child's start and finish date" do
     before do
       child.start_date = Date.today + 1.day
       child.due_date = Date.today + 7.days
@@ -153,7 +153,7 @@ describe WorkPackage, '#reschedule_after', type: :model do
       expect(instance.start_date).to eq(Date.today + 3.days)
     end
 
-    it "should set the set the due date to the provided date plus the child's duration" do
+    it "should set the set the finish date to the provided date plus the child's duration" do
       instance.reload
       expect(instance.due_date).to eq(Date.today + 9.days)
     end
@@ -163,7 +163,7 @@ describe WorkPackage, '#reschedule_after', type: :model do
       expect(child.start_date).to eq(Date.today + 3.days)
     end
 
-    it "should set the set child's due date to the provided date plus the child's duration" do
+    it "should set the set child's finish date to the provided date plus the child's duration" do
       child.reload
       expect(child.due_date).to eq(Date.today + 9.days)
     end
@@ -186,7 +186,7 @@ describe WorkPackage, '#reschedule_after', type: :model do
       expect(instance.start_date).to eq(Date.today + 3.days)
     end
 
-    it "should set the set the due date to the provided date plus the child's duration" do
+    it "should set the set the finish date to the provided date plus the child's duration" do
       instance.reload
       expect(instance.due_date).to eq(Date.today + 10.days)
     end
@@ -196,7 +196,7 @@ describe WorkPackage, '#reschedule_after', type: :model do
       expect(child.start_date).to eq(Date.today + 3.days)
     end
 
-    it "should set the set child's due date to the provided date plus the grandchild's duration" do
+    it "should set the set child's finish date to the provided date plus the grandchild's duration" do
       child.reload
       expect(child.due_date).to eq(Date.today + 10.days)
     end
@@ -206,7 +206,7 @@ describe WorkPackage, '#reschedule_after', type: :model do
       expect(grandchild.start_date).to eq(Date.today + 3.days)
     end
 
-    it "should set the set grandchild's due date to the provided date plus the grandchild's duration" do
+    it "should set the set grandchild's finish date to the provided date plus the grandchild's duration" do
       grandchild.reload
       expect(grandchild.due_date).to eq(Date.today + 10.days)
     end

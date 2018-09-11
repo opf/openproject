@@ -119,7 +119,7 @@ describe 'filter work packages', js: true do
     end
   end
 
-  context 'by due date outside of a project' do
+  context 'by finish date outside of a project' do
     let(:work_package_with_due_date) { FactoryBot.create :work_package, project: project, due_date: Date.today }
     let(:work_package_without_due_date) { FactoryBot.create :work_package, project: project, due_date: Date.today + 5.days }
     let(:wp_table) { ::Pages::WorkPackagesTable.new }
@@ -134,7 +134,7 @@ describe 'filter work packages', js: true do
     it 'allows filtering, saving and retrieving and altering the saved filter' do
       filters.open
 
-      filters.add_filter_by('Due date',
+      filters.add_filter_by('Finish date',
                             'between',
                             [(Date.today - 1.day).strftime('%Y-%m-%d'), Date.today.strftime('%Y-%m-%d')],
                             'dueDate')
@@ -160,12 +160,12 @@ describe 'filter work packages', js: true do
 
       filters.open
 
-      filters.expect_filter_by('Due date',
+      filters.expect_filter_by('Finish date',
                                'between',
                                [(Date.today - 1.day).strftime('%Y-%m-%d'), Date.today.strftime('%Y-%m-%d')],
                                'dueDate')
 
-      filters.set_filter 'Due date', 'in more than', '1', 'dueDate'
+      filters.set_filter 'Finish date', 'in more than', '1', 'dueDate'
 
       loading_indicator_saveguard
       wp_table.expect_work_package_listed work_package_without_due_date

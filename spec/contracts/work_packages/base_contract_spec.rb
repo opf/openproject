@@ -257,7 +257,7 @@ describe WorkPackages::BaseContract do
     end
   end
 
-  describe 'due date' do
+  describe 'finish date' do
     it_behaves_like 'a parent unwritable property', :due_date
     it_behaves_like 'a date attribute', :due_date
 

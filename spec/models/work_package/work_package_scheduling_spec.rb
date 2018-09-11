@@ -65,7 +65,7 @@ describe WorkPackage, type: :model do
       it_behaves_like 'on time'
     end
 
-    context 'no due date' do
+    context 'no finish date' do
       let(:due_date) { nil }
 
       it_behaves_like 'on time'

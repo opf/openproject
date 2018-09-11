@@ -64,7 +64,7 @@ describe ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
       expect(subject.writable?(:start_date)).to be true
     end
 
-    it 'due date is writable' do
+    it 'finish date is writable' do
       expect(subject.writable?(:due_date)).to be true
     end
   end

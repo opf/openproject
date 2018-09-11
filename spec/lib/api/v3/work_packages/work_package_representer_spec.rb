@@ -136,7 +136,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           let(:json_path) { 'dueDate' }
         end
 
-        context 'no due date' do
+        context 'no finish date' do
           let(:work_package) { FactoryBot.build(:work_package, id: 42, due_date: nil) }
 
           it 'renders as null' do
@@ -175,7 +175,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           let(:json_path) { 'date' }
         end
 
-        context 'no due date' do
+        context 'no finish date' do
           before do
             work_package.due_date = nil
           end
