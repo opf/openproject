@@ -57,14 +57,23 @@ export class ColorsAutocompleter implements OnInit {
     const contrastingColor = item.data('background');
     const bright = item.data('bright');
 
+    // Special case, no color
+    if (!color) {
+      const div = jQuery('<div>')
+      .append(item.text())
+      .addClass('ui-menu-item-wrapper');
+
+      return div;
+    }
+
     const colorSquare = jQuery('<span>')
       .addClass('color--preview')
       .css('background-color', color);
 
     const colorText = jQuery('<span>')
       .addClass('color--text-preview')
-      .css('color', bright ? '#333333' : color)
-      .css('background-color', bright ? color : contrastingColor)
+      .css('color', bright ? '#333333' : '#FFFFFF')
+      .css('background-color', color)
       .text(item.text());
 
     const div = jQuery('<div>')
