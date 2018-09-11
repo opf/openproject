@@ -321,7 +321,7 @@ describe OpenProject::TextFormatting,
           subject { format_text("user##{linked_project_member.id}") }
 
           it {
-            is_expected.to be_html_eql("<p>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, class: 'user-mention')}</p>")
+            is_expected.to be_html_eql("<p>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, title: "User #{linked_project_member.name}", class: 'user-mention')}</p>")
           }
         end
 
@@ -341,7 +341,7 @@ describe OpenProject::TextFormatting,
           context 'with a common login name' do
             subject { format_text("user:\"#{linked_project_member.login}\"") }
 
-            it { is_expected.to be_html_eql("<p>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, class: 'user-mention')}</p>") }
+            it { is_expected.to be_html_eql("<p>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, title: "User #{linked_project_member.name}", class: 'user-mention')}</p>") }
           end
 
           context "with an email address as login name" do
@@ -353,7 +353,7 @@ describe OpenProject::TextFormatting,
             end
             subject { format_text("user:\"#{linked_project_member.login}\"") }
 
-            it { is_expected.to be_html_eql("<p>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, class: 'user-mention')}</p>") }
+            it { is_expected.to be_html_eql("<p>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, title: "User #{linked_project_member.name}", class: 'user-mention')}</p>") }
           end
         end
 
@@ -388,7 +388,9 @@ describe OpenProject::TextFormatting,
         subject { format_text("group##{linked_project_member_group.id}") }
 
         it 'produces the expected html' do
-          is_expected.to be_html_eql("<p><span class='user-mention'>#{linked_project_member_group.name}</span></p>")
+          is_expected.to be_html_eql(
+            "<p><span class='user-mention' title='Group #{linked_project_member_group.name}'>#{linked_project_member_group.name}</span></p>"
+            )
         end
       end
 

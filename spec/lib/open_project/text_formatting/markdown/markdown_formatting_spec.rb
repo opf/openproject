@@ -121,7 +121,7 @@ describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
       context 'with path only' do
         it 'outputs the reference' do
           assert_html_output(
-            'Link to user:"foo@bar.com"' => %(Link to <a class="user-mention" href="/users/#{user.id}">Foo Barrit</a>)
+            'Link to user:"foo@bar.com"' => %(Link to <a class="user-mention" href="/users/#{user.id}" title="User Foo Barrit">Foo Barrit</a>)
           )
         end
       end
@@ -131,7 +131,7 @@ describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
           assert_html_output(
             {
               'Link to user:"foo@bar.com"' =>
-                %(Link to <a class="user-mention" href="http://openproject.org/users/#{user.id}">Foo Barrit</a>)
+                %(Link to <a class="user-mention" href="http://openproject.org/users/#{user.id}" title="User Foo Barrit">Foo Barrit</a>)
             },
             only_path: false
           )
