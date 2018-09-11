@@ -198,8 +198,6 @@ class UsersController < ApplicationController
         end
       end
     end
-  rescue ::ActionController::RedirectBackError
-    redirect_to controller: '/users', action: 'edit', id: @user
   end
 
   def change_status_info
