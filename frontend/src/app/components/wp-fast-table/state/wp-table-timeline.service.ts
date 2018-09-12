@@ -44,7 +44,7 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
 
 
   public get state():InputState<WorkPackageTableTimelineState> {
-    return this.tableState.timelineVisible;
+    return this.tableState.timeline;
   }
 
   public valueFromQuery(query:QueryResource) {
@@ -139,12 +139,14 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
     }
   }
 
-  public toggleAutoZoom(value = !this.tableState.timelineAutoZoom.value) {
-    this.tableState.timelineAutoZoom.putValue(value);
+  public toggleAutoZoom(value = !this.current.autoZoom) {
+    let currentState = this.current;
+    currentState.autoZoom = value;
+    this.state.putValue(currentState);
   }
 
   public isAutoZoomEnabled():boolean {
-    return this.tableState.timelineAutoZoom.value!;
+    return this.current.autoZoom;
   }
 
   public get current():WorkPackageTableTimelineState {

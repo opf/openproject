@@ -11,7 +11,7 @@ export class TimelineTransformer {
   constructor(private readonly injector:Injector,
               private readonly table:WorkPackageTable) {
 
-   this.tableState.timelineVisible.values$()
+   this.tableState.timeline.values$()
       .pipe(
         takeUntil(this.tableState.stopAllSubscriptions)
       )

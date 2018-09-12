@@ -33,6 +33,7 @@ import {
 } from 'core-app/modules/hal/resources/query-resource';
 
 export class WorkPackageTableTimelineState extends WorkPackageTableBaseState<boolean> {
+  public autoZoom:boolean = true;
   public visible:boolean;
   public zoomLevel:TimelineZoomLevel;
   public labels:TimelineLabels;
