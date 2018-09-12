@@ -49,6 +49,7 @@ module OpenProject
 
         if user.active? || user.registered? || user.invited?
           href = only_path ? user_path(user) : user_url(user)
+          options[:title] ||= I18n.t(:label_user_named, name: name)
 
           link_to(name, href, options)
         else

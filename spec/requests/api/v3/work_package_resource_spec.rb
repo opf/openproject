@@ -366,7 +366,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
         it_behaves_like 'lock version updated'
       end
 
-      context 'due date' do
+      context 'finish date' do
         let(:dateString) { Date.today.to_date.iso8601 }
         let(:params) { valid_params.merge(dueDate: dateString) }
 
@@ -374,7 +374,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
 
         it { expect(response.status).to eq(200) }
 
-        it 'should respond with updated due date' do
+        it 'should respond with updated finish date' do
           expect(subject.body).to be_json_eql(dateString.to_json).at_path('dueDate')
         end
 

@@ -33,7 +33,7 @@ describe Version, type: :model do
 
   it { is_expected.to be_valid }
 
-  it 'rejects a due date that is smaller than the start date' do
+  it 'rejects a finish date that is smaller than the start date' do
     version.start_date = '2013-05-01'
     version.effective_date = '2012-01-01'
 

@@ -1,6 +1,6 @@
 <%
   colored_resource = Proc.new do |name, scope|
-    scope.where.not(color_id: nil).includes(:color).find_each do |entry|
+    scope.where.not(colors: { id: nil }).includes(:color).find_each do |entry|
       color = entry.color
       styles = color.color_styles
 

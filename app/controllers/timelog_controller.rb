@@ -191,8 +191,6 @@ class TimelogController < ApplicationController
         end
       end
     end
-  rescue ::ActionController::RedirectBackError
-    redirect_to action: 'index', project_id: @time_entry.project
   end
 
   private

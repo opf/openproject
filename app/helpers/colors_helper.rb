@@ -29,7 +29,7 @@
 #++
 
 module ColorsHelper
-  def options_for_colors(colored_thing, default_label: I18n.t('colors.label_no_color'), default_color: nil)
+  def options_for_colors(colored_thing, default_label: I18n.t('colors.label_no_color'), default_color: '')
     s = content_tag(:option, default_label, value: default_color)
     Color.find_each do |c|
       options = {}

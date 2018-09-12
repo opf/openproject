@@ -29,8 +29,10 @@
 
 class HighlightingController < ApplicationController
   before_action :determine_freshness
+  skip_before_action :check_if_login_required, only: [:styles]
 
   def styles
+    expires_in 5.minute, public: false, must_revalidate: true
     if stale?(last_modified: @last_modified_times.max, etag: cache_key, public: true)
       OpenProject::Cache.fetch(@last_modified_times.max) do
         render template: 'highlighting/styles', formats: [:css]

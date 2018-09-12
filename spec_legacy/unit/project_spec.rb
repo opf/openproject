@@ -1027,7 +1027,7 @@ describe Project, type: :model do
       assert_nil @project.due_date
     end
 
-    it "should be the latest due date of it's issues" do
+    it "should be the latest finish date of it's issues" do
       future = 7.days.from_now.to_date
       FactoryBot.create(:work_package, project: @project, due_date: future)
       FactoryBot.create(:work_package, project: @project, due_date: Date.today)
@@ -1035,7 +1035,7 @@ describe Project, type: :model do
       assert_equal future, @project.due_date
     end
 
-    it "should be the latest due date of it's versions" do
+    it "should be the latest finish date of it's versions" do
       future = 7.days.from_now.to_date
       @project.versions << FactoryBot.create(:version, effective_date: future)
       @project.versions << FactoryBot.create(:version, effective_date: Date.today)

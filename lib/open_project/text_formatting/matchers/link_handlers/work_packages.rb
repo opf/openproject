@@ -75,7 +75,7 @@ module OpenProject::TextFormatting::Matchers
           link_to("#{matcher.sep}#{work_package.id}",
                   work_package_path_or_url(id: work_package.id, only_path: context[:only_path]),
                   class: work_package_css_classes(work_package),
-                  title: "#{truncate(work_package.subject, length: 100)} (#{work_package.status.try(:name)})")
+                  title: "#{truncate(work_package.subject, escape: false, length: 100)} (#{work_package.status.try(:name)})")
         end
       end
 
