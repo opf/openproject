@@ -28,72 +28,49 @@
 
 require 'spec_helper'
 
-describe 'Role creation', type: :feature, js: true do
-  let!(:admin) { FactoryBot.create(:admin) }
+feature 'Types', type: :feature do
+  let(:admin) { FactoryBot.create(:admin) }
   let!(:existing_role) { FactoryBot.create(:role) }
-  let!(:existing_workflow) { FactoryBot.create(:workflow_with_default_status, role: existing_role, type: type) }
-  let!(:type) { FactoryBot.create(:type) }
-  let!(:non_member) do
-    FactoryBot.create(:non_member, permissions: %i[view_work_packages view_wiki_pages])
-  end
+  let!(:existing_workflow) { FactoryBot.create(:workflow_with_default_status, role: existing_role, type: existing_type) }
+  let!(:existing_type) { FactoryBot.create(:type) }
+  let(:index_page) { Pages::Types::Index.new }
 
   before do
     login_as(admin)
   end
 
-  it 'allows creating roles and handles errors' do
-    visit roles_path
+  scenario 'crud' do
+    index_page.visit!
 
-    within '.toolbar-item' do
-      click_link 'Role'
-    end
+    index_page.click_new
 
-    fill_in 'Name', with: existing_role.name
-    select existing_role.name, from: 'Copy workflow from'
-    check 'Edit work packages'
-    check 'Edit project'
+    # Error messages if something was wrong
+    fill_in 'Name', with: existing_type.name
+    select existing_type.name, from: 'Copy workflow from'
 
     click_button 'Create'
 
     expect(page)
-      .to have_selector('.errorExplanation', text: 'Name has already been taken')
+      .to have_selector('.errorExplanation', text: "Name has already been taken.")
 
-    fill_in 'Name', with: 'New role name'
-    select existing_role.name, from: 'Copy workflow from'
+    # Values are retained
+    expect(page)
+      .to have_field('Name', with: existing_type.name)
+
+    # Successful creation
+    fill_in 'Name', with: 'A new type'
 
     click_button 'Create'
 
     expect(page)
-      .to have_selector('.notice', text: 'Successful creation.')
-
-    expect(page)
-      .to have_current_path(roles_path)
-
-    expect(page)
-      .to have_selector('table td', text: 'New role name')
-
-    click_link 'New role name'
-
-    expect(page)
-      .to have_checked_field('Edit work packages')
-    expect(page)
-      .to have_checked_field('Edit project')
-
-    # By default as Non Member has that permissions
-    expect(page)
-      .to have_checked_field('View work packages')
-    expect(page)
-      .to have_checked_field('View wiki')
-
-    expect(page)
-      .to have_unchecked_field('Manage versions')
+      .to have_content I18n.t(:notice_successful_create)
 
     # Workflow should be copied over.
     # Workflow routes are not resource-oriented.
     visit(url_for(controller: :workflows, action: :edit, only_path: true))
 
-    select 'New role name', from: 'Role'
-    select type.name, from: 'Type'
+    select existing_role.name, from: 'Role'
+    select 'A new type', from: 'Type'
     click_button 'Edit'
 
     from_id = existing_workflow.old_status_id
@@ -103,5 +80,26 @@ describe 'Role creation', type: :feature, js: true do
 
     expect(checkbox)
       .to be_checked
+
+    index_page.visit!
+
+    index_page.expect_listed(existing_type, 'A new type')
+
+    index_page.click_edit('A new type')
+
+    fill_in 'Name', with: 'Renamed type'
+
+    click_button 'Save'
+
+    expect(page)
+      .to have_content I18n.t(:notice_successful_update)
+
+    index_page.visit!
+
+    index_page.expect_listed(existing_type, 'Renamed type')
+
+    index_page.delete 'Renamed type'
+
+    index_page.expect_listed(existing_type)
   end
 end
