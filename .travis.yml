@@ -49,6 +49,8 @@ cache:
   directories:
     - frontend/node_modules
     - public/assets
+    - app/assets/javascripts/bundles
+    - app/assets/javascripts/locales
 
 branches:
   only:
@@ -61,37 +63,7 @@ env:
     - CI=true
     - RAILS_ENV=test
 
-  matrix:
-    - "TEST_SUITE=npm"
-
-
-    - "TEST_SUITE=spec_legacy       DB=mysql     GROUP_SIZE=1 GROUP=1"
-    - "TEST_SUITE=spec_legacy       DB=postgres  GROUP_SIZE=1 GROUP=1"
-
-    - "TEST_SUITE=cucumber       DB=mysql     GROUP_SIZE=1 GROUP=1"
-    - "TEST_SUITE=cucumber       DB=postgres  GROUP_SIZE=1 GROUP=1"
-
-    - "TEST_SUITE=specs       DB=mysql     GROUP_SIZE=4 GROUP=1"
-    - "TEST_SUITE=specs       DB=postgres  GROUP_SIZE=4 GROUP=1"
-    - "TEST_SUITE=specs       DB=mysql     GROUP_SIZE=4 GROUP=2"
-    - "TEST_SUITE=specs       DB=postgres  GROUP_SIZE=4 GROUP=2"
-    - "TEST_SUITE=specs       DB=mysql     GROUP_SIZE=4 GROUP=3"
-    - "TEST_SUITE=specs       DB=postgres  GROUP_SIZE=4 GROUP=3"
-    - "TEST_SUITE=specs       DB=mysql     GROUP_SIZE=4 GROUP=4"
-    - "TEST_SUITE=specs       DB=postgres  GROUP_SIZE=4 GROUP=4"
-
-    - "TEST_SUITE=features       DB=mysql     GROUP_SIZE=4 GROUP=1"
-    - "TEST_SUITE=features       DB=postgres  GROUP_SIZE=4 GROUP=1"
-    - "TEST_SUITE=features       DB=mysql     GROUP_SIZE=4 GROUP=2"
-    - "TEST_SUITE=features       DB=postgres  GROUP_SIZE=4 GROUP=2"
-    - "TEST_SUITE=features       DB=mysql     GROUP_SIZE=4 GROUP=3"
-    - "TEST_SUITE=features       DB=postgres  GROUP_SIZE=4 GROUP=3"
-    - "TEST_SUITE=features       DB=mysql     GROUP_SIZE=4 GROUP=4"
-    - "TEST_SUITE=features       DB=postgres  GROUP_SIZE=4 GROUP=4"
-
-
 before_install:
-
   # Install pandoc for testing textile migration
   - travis_retry sudo apt-get update -qq
   - travis_retry sudo apt-get install -qq pandoc
@@ -106,11 +78,101 @@ before_install:
 
 bundler_args: --binstubs --without development production docker
 
-before_script:
-  - bash script/ci_setup.sh $TEST_SUITE $DB
+stages:
+  - prepare cache
+  - test
 
-script:
-  - bash script/ci_runner.sh
+jobs:
+  include:
+    - stage: prepare cache
+      name: 'Prepare cache'
+      script:
+        - bash script/ci_cache_prepare.sh
+    - stage: test
+      name: 'npm'
+      script:
+        - bash script/ci_setup.sh npm
+        - bash script/ci_runner.sh npm
+    - name: 'spec_legacy (1/1) - mysql'
+      script:
+      - bash script/ci_setup.sh spec_legacy mysql
+      - bash script/ci_runner.sh spec_legacy 1 1
+    - name: 'spec_legacy (1/1) - postgresql'
+      script:
+      - bash script/ci_setup.sh spec_legacy postgres
+      - bash script/ci_runner.sh spec_legacy 1 1
+    - name: 'cucumber (1/1) - mysql'
+      script:
+      - bash script/ci_setup.sh cucumber mysql
+      - bash script/ci_runner.sh cucumber 1 1
+    - name: 'cucumber (1/1) - postgresql'
+      script:
+      - bash script/ci_setup.sh cucumber postgres
+      - bash script/ci_runner.sh cucumber 1 1
+    - name: 'unit specs (1/4) - mysql'
+      script:
+      - bash script/ci_setup.sh specs mysql
+      - bash script/ci_runner.sh specs 4 1
+    - name: 'unit specs (1/4) - postgresql'
+      script:
+      - bash script/ci_setup.sh specs postgres
+      - bash script/ci_runner.sh specs 4 1
+    - name: 'unit specs (2/4) - mysql'
+      script:
+      - bash script/ci_setup.sh specs mysql
+      - bash script/ci_runner.sh specs 4 2
+    - name: 'unit specs (2/4) - postgresql'
+      script:
+      - bash script/ci_setup.sh spec postgres
+      - bash script/ci_runner.sh specs 4 2
+    - name: 'unit specs (3/4) - mysql'
+      script:
+      - bash script/ci_setup.sh specs mysql
+      - bash script/ci_runner.sh specs 4 3
+    - name: 'unit specs (3/4) - postgresql'
+      script:
+      - bash script/ci_setup.sh specs postgres
+      - bash script/ci_runner.sh specs 4 3
+    - name: 'unit specs (4/4) - mysql'
+      script:
+      - bash script/ci_setup.sh specs mysql
+      - bash script/ci_runner.sh specs 4 4
+    - name: 'unit specs (4/4) - postgresql'
+      script:
+      - bash script/ci_setup.sh specs postgres
+      - bash script/ci_runner.sh specs 4 4
+    - name: 'feature specs (1/4) - mysql'
+      script:
+      - bash script/ci_setup.sh features mysql
+      - bash script/ci_runner.sh features 4 1
+    - name: 'feature specs (1/4) - postgresql'
+      script:
+      - bash script/ci_setup.sh features postgres
+      - bash script/ci_runner.sh features 4 1
+    - name: 'feature specs (2/4) - mysql'
+      script:
+      - bash script/ci_setup.sh features mysql
+      - bash script/ci_runner.sh features 4 2
+    - name: 'feature specs (2/4) - postgresql'
+      script:
+      - bash script/ci_setup.sh features postgres
+      - bash script/ci_runner.sh features 4 2
+    - name: 'feature specs (3/4) - mysql'
+      script:
+      - bash script/ci_setup.sh features mysql
+      - bash script/ci_runner.sh features 4 3
+    - name: 'feature specs (3/4) - postgresql'
+      script:
+      - bash script/ci_setup.sh features postgres
+      - bash script/ci_runner.sh features 4 3
+    - name: 'feature specs (4/4) - mysql'
+      script:
+      - bash script/ci_setup.sh features mysql
+      - bash script/ci_runner.sh features 4 4
+    - name: 'feature specs (4/4) - postgresql'
+      script:
+      - bash script/ci_setup.sh features postgres
+      - bash script/ci_runner.sh features 4 4
 
 
 addons:
