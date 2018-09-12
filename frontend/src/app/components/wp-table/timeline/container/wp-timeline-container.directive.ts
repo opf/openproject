@@ -154,7 +154,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
         filter((enabled:boolean) => enabled)
       )
       .subscribe(() => {
-        this.refreshView();
+        this.debouncedRefresh();
       });
 
     // Refresh timeline view when becoming visible
