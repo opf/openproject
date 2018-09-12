@@ -48,6 +48,7 @@ cache:
   bundler: true
   directories:
     - frontend/node_modules
+    - public/assets
 
 branches:
   only:
