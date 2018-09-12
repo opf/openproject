@@ -33,7 +33,7 @@ module API
     module Queries
       module Schemas
         class AssigneeOrGroupFilterDependencyRepresenter <
-          AssignedToFilterDependencyRepresenter
+          AllPrincipalsFilterDependencyRepresenter
         end
       end
     end

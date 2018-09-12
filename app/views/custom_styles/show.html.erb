@@ -40,7 +40,8 @@ See docs/COPYRIGHT.rdoc for more details.
 
       <% if @custom_style.id && @custom_style.logo.present? %>
         <div>
-          <%= image_tag(custom_style_logo_path(digest: @custom_style.digest, filename: @custom_style.logo_identifier), class: 'custom-logo-preview') %>
+          <%# Don't use image_tag here due to asset host %>
+          <%= tag('img', src: custom_style_logo_path(digest: @custom_style.digest, filename: @custom_style.logo_identifier), class: 'custom-logo-preview') %>
           <%= link_to l(:button_delete),
           custom_style_logo_delete_path,
           method: :delete,

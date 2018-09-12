@@ -32,7 +32,7 @@ module API
   module V3
     module Queries
       module Schemas
-        class AssignedToFilterDependencyRepresenter <
+        class AllPrincipalsFilterDependencyRepresenter <
           PrincipalFilterDependencyRepresenter
 
           def json_cache_key
