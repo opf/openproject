@@ -87,7 +87,7 @@ export class WorkPackageChildrenQueryComponent implements OnInit {
   }
 
   private get contextualizedQuery() {
-    let duppedQuery = _.clone(this.query);
+    let duppedQuery = _.cloneDeep(this.query);
 
     _.each(duppedQuery.filters, (filter) => {
       if (filter._links.values[0] && filter._links.values[0].templated) {
