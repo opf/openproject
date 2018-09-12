@@ -1,6 +1,7 @@
 // This file is required by karma.conf.js and loads recursively all the .spec and framework files
 
 // Require the reflect ES7 polyfill for JIT
+import 'zone.js/dist/zone';  // Included with Angular CLI.
 import 'core-js/es7/reflect';
 
 import 'zone.js/dist/zone-testing';
