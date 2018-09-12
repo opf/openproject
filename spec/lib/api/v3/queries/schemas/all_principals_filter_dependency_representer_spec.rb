@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::Schemas::AssignedToFilterDependencyRepresenter, clear_cache: true do
+describe ::API::V3::Queries::Schemas::AllPrincipalsFilterDependencyRepresenter, clear_cache: true do
   include ::API::V3::Utilities::PathHelper
 
   let(:project) { FactoryBot.build_stubbed(:project) }
