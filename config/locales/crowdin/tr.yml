@@ -61,8 +61,8 @@ tr:
       no_results_title_text: Şu anda panoda gösterilebilecek gönderi bulunmamakta.
   colors:
     index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
+      no_results_title_text: Şu anda hiç renk bulunmamakta.
+      no_results_content_text: Yeni bir renk oluştur
     label_no_color: No color
   custom_actions:
     actions:
@@ -636,7 +636,7 @@ tr:
     comment: Yorum
     comments: Yorum
     content: İçerik
-    color: Color
+    color: Renk
     created_at: Oluşturma tarihi
     created_on: Oluşturma tarihi
     custom_options: Olası değerler
@@ -2717,7 +2717,3 @@ tr:
       writing_read_only_attributes: Salt okunur bir nitelik yazmamalısınız.
     resources:
       schema: Şema
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Şu anda hiç renk bulunmamakta.
-      no_results_content_text: Yeni bir renk oluştur

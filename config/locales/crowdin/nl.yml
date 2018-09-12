@@ -62,8 +62,8 @@ nl:
       no_results_title_text: Er zijn momenteel geen berichten voor het bord.
   colors:
     index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
+      no_results_title_text: Er zijn momenteel geen kleuren.
+      no_results_content_text: Maak een nieuwe kleur
     label_no_color: No color
   custom_actions:
     actions:
@@ -649,7 +649,7 @@ nl:
     comment: Commentaar
     comments: Commentaar
     content: Inhoud
-    color: Color
+    color: Kleur
     created_at: Gemaakt op
     created_on: Gemaakt op
     custom_options: Mogelijke waarden
@@ -2773,7 +2773,3 @@ nl:
       writing_read_only_attributes: U mag geen read-only attribuut schrijven.
     resources:
       schema: Schema
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Er zijn momenteel geen kleuren.
-      no_results_content_text: Maak een nieuwe kleur

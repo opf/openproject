@@ -107,7 +107,7 @@ class Version < ActiveRecord::Base
     status == 'open'
   end
 
-  # Returns true if the version is completed: due date reached and no open issues
+  # Returns true if the version is completed: finish date reached and no open issues
   def completed?
     effective_date && (effective_date <= Date.today) && open_issues_count.zero?
   end
@@ -146,7 +146,7 @@ class Version < ActiveRecord::Base
   end
   deprecated_alias :closed_pourcent, :closed_percent
 
-  # Returns true if the version is overdue: due date reached and some open issues
+  # Returns true if the version is overdue: finish date reached and some open issues
   def overdue?
     effective_date && (effective_date < Date.today) && (open_issues_count > 0)
   end

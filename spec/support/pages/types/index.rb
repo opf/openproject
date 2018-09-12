@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -27,30 +26,68 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class HighlightingController < ApplicationController
-  before_action :determine_freshness
-  skip_before_action :check_if_login_required, only: [:styles]
+require 'support/pages/page'
 
-  def styles
-    expires_in 5.minute, public: false, must_revalidate: true
-    if stale?(last_modified: @last_modified_times.max, etag: cache_key, public: true)
-      OpenProject::Cache.fetch(@last_modified_times.max) do
-        render template: 'highlighting/styles', formats: [:css]
+module Pages
+  module Types
+    class Index < ::Pages::Page
+      def path
+        "/types"
+      end
+
+      def expect_listed(*types)
+        rows = page.all 'td.timelines-pet-name'
+
+        expected = types.map { |t| canonical_name(t) }
+
+        expect(rows.map(&:text)).to eq(expected)
+      end
+
+      def expect_successful_create
+        expect_notification message: I18n.t(:notice_successful_create)
+      end
+
+      def expect_successful_update
+        expect_notification message: I18n.t(:notice_successful_update)
+      end
+
+      def click_new
+        within '.toolbar-items' do
+          click_link 'Type'
+        end
+      end
+
+      def click_edit(type)
+        within_row(type) do
+          click_link canonical_name(type)
+        end
+      end
+
+      def delete(type)
+        within_row(type) do
+          click_link 'Delete'
+        end
+
+        accept_alert_dialog!
+      end
+
+      private
+
+      def within_row(type)
+        row = page.find('table tr', text: canonical_name(type))
+
+        within row do
+          yield row
+        end
+      end
+
+      def canonical_name(type)
+        type.respond_to?(:name) ? type.name : type
+      end
+
+      def notification_type
+        :rails
       end
     end
-  end
-
-  private
-
-  def cache_key
-    OpenProject::Cache::CacheKey.expand @last_modified_times
-  end
-
-  def determine_freshness
-    @last_modified_times = [
-      Status.maximum(:updated_at),
-      IssuePriority.maximum(:updated_at),
-      Type.maximum(:updated_at)
-    ].compact
   end
 end

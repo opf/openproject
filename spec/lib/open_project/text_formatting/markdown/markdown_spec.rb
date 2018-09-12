@@ -249,6 +249,22 @@ describe OpenProject::TextFormatting,
         it { is_expected.to be_html_eql("<p>##{issue.id}</p>") }
       end
 
+      context 'WP subject with escapable chars' do
+        let(:work_package) do
+          FactoryBot.create :work_package, subject: "Title with \"quote\" and 'sòme 'chárs."
+        end
+
+        let(:issue_link) do
+          link_to("##{issue.id}",
+                  work_package_path(issue),
+                  class: 'issue work_package status-3 priority-1 created-by-me',
+                  title: "#{issue.subject} (#{issue.status})")
+        end
+
+        subject { format_text("##{issue.id}") }
+        it { is_expected.to be_html_eql("<p>#{issue_link}</p>") }
+      end
+
       context 'Cyclic Description Links' do
         let(:issue2) do
           FactoryBot.create :work_package,
@@ -321,7 +337,7 @@ describe OpenProject::TextFormatting,
           subject { format_text("user##{linked_project_member.id}") }
 
           it {
-            is_expected.to be_html_eql("<p>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, class: 'user-mention')}</p>")
+            is_expected.to be_html_eql("<p>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, title: "User #{linked_project_member.name}", class: 'user-mention')}</p>")
           }
         end
 
@@ -341,7 +357,7 @@ describe OpenProject::TextFormatting,
           context 'with a common login name' do
             subject { format_text("user:\"#{linked_project_member.login}\"") }
 
-            it { is_expected.to be_html_eql("<p>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, class: 'user-mention')}</p>") }
+            it { is_expected.to be_html_eql("<p>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, title: "User #{linked_project_member.name}", class: 'user-mention')}</p>") }
           end
 
           context "with an email address as login name" do
@@ -353,7 +369,7 @@ describe OpenProject::TextFormatting,
             end
             subject { format_text("user:\"#{linked_project_member.login}\"") }
 
-            it { is_expected.to be_html_eql("<p>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, class: 'user-mention')}</p>") }
+            it { is_expected.to be_html_eql("<p>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, title: "User #{linked_project_member.name}", class: 'user-mention')}</p>") }
           end
         end
 
@@ -388,7 +404,9 @@ describe OpenProject::TextFormatting,
         subject { format_text("group##{linked_project_member_group.id}") }
 
         it 'produces the expected html' do
-          is_expected.to be_html_eql("<p><span class='user-mention'>#{linked_project_member_group.name}</span></p>")
+          is_expected.to be_html_eql(
+            "<p><span class='user-mention' title='Group #{linked_project_member_group.name}'>#{linked_project_member_group.name}</span></p>"
+            )
         end
       end
 

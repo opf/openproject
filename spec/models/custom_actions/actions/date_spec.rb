@@ -38,7 +38,7 @@ describe CustomActions::Actions::Date, type: :model do
     describe '#apply' do
       let(:work_package) { FactoryBot.build_stubbed(:stubbed_work_package) }
 
-      it 'sets both start and due date to the action\'s value' do
+      it 'sets both start and finish date to the action\'s value' do
         instance.values = [Date.today]
 
         instance.apply(work_package)

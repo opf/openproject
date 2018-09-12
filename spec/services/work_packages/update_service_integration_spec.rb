@@ -361,13 +361,13 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
         expect(subject)
           .to be_success
 
-        # receives the provided start/due date
+        # receives the provided start/finish date
         expect(work_package.start_date)
           .to eql(attributes[:start_date])
         expect(work_package.due_date)
           .to eql(attributes[:due_date])
 
-        # receives the min/max of the children's start/due date
+        # receives the min/max of the children's start/finish date
         [parent_work_package,
          grandparent_work_package].each do |wp|
           wp.reload
@@ -651,7 +651,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
           due_date: Date.today + 10.days }
       end
 
-      it 'propagates the changes to start/due date along' do
+      it 'propagates the changes to start/finish date along' do
         expect(subject)
           .to be_success
 
@@ -821,7 +821,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
           due_date: Date.today }
       end
 
-      it 'propagates the changes to start/due date along' do
+      it 'propagates the changes to start/finish date along' do
         expect(subject)
           .to be_success
 

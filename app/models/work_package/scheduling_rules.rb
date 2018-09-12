@@ -39,7 +39,7 @@ module WorkPackage::SchedulingRules
   end
 
   # Calculates the minimum date that
-  # will not violate the precedes relations (max(due date, start date) + delay)
+  # will not violate the precedes relations (max(finish date, start date) + delay)
   # of this work package or its ancestors
   # e.g.
   # AP(due_date: 2017/07/24, delay: 1)-precedes-A
@@ -74,10 +74,10 @@ module WorkPackage::SchedulingRules
   # Returns the time scheduled for this work package.
   #
   # Example:
-  #   Start Date: 2/26/09, Due Date: 3/04/09,  duration => 7
-  #   Start Date: 2/26/09, Due Date: 2/26/09,  duration => 1
-  #   Start Date: 2/26/09, Due Date: -      ,  duration => 1
-  #   Start Date: -      , Due Date: 2/26/09,  duration => 1
+  #   Start Date: 2/26/09, Finish Date: 3/04/09,  duration => 7
+  #   Start Date: 2/26/09, Finish Date: 2/26/09,  duration => 1
+  #   Start Date: 2/26/09, Finish Date: -      ,  duration => 1
+  #   Start Date: -      , Finish Date: 2/26/09,  duration => 1
   def duration
     if start_date && due_date
       due_date - start_date + 1

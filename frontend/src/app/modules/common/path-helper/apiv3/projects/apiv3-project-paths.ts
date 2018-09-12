@@ -28,6 +28,7 @@
 
 import {SimpleResource} from 'core-app/modules/common/path-helper/apiv3/path-resources';
 import {Apiv3QueriesPaths} from 'core-app/modules/common/path-helper/apiv3/queries/apiv3-queries-paths';
+import {Apiv3TypesPaths} from "core-app/modules/common/path-helper/apiv3/types/apiv3-types-paths";
 
 export class Apiv3ProjectPaths extends SimpleResource {
   // Base path
@@ -38,6 +39,8 @@ export class Apiv3ProjectPaths extends SimpleResource {
   }
 
   public readonly queries = new Apiv3QueriesPaths(this.path);
+
+  public readonly types = new Apiv3TypesPaths(this.path);
 
   public readonly work_packages = {
     form: new SimpleResource(this.path, 'work_packages/form')

@@ -62,8 +62,8 @@ id:
       no_results_title_text: Tidak ada pos untuk papan saat ini.
   colors:
     index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
+      no_results_title_text: Tidak ada warna saat ini.
+      no_results_content_text: Buat warna baru
     label_no_color: No color
   custom_actions:
     actions:
@@ -633,7 +633,7 @@ id:
     comment: Komentar
     comments: Komentar
     content: Konten
-    color: Color
+    color: Warna
     created_at: Dibuat
     created_on: Dibuat
     custom_options: Nilai yang mungkin
@@ -2703,7 +2703,3 @@ id:
       writing_read_only_attributes: Anda tidak harus menulis hanya-baca atribut.
     resources:
       schema: Schema
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Tidak ada warna saat ini.
-      no_results_content_text: Buat warna baru

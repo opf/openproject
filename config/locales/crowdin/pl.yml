@@ -62,8 +62,8 @@ pl:
       no_results_title_text: Nie ma jeszcze żadnych wiadomości.
   colors:
     index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
+      no_results_title_text: Nie przypisano jeszcze żadnego koloru.
+      no_results_content_text: Utwórz nowy kolor
     label_no_color: No color
   custom_actions:
     actions:
@@ -642,7 +642,7 @@ pl:
     comment: Komentarz
     comments: Komentarz
     content: Zawartość
-    color: Color
+    color: Kolor
     created_at: Utworzone
     created_on: Utworzone
     custom_options: Możliwe wartości
@@ -2783,7 +2783,3 @@ pl:
       writing_read_only_attributes: Nie możesz zapisać atrybutu tylko do odczytu.
     resources:
       schema: Schemat
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Nie przypisano jeszcze żadnego koloru.
-      no_results_content_text: Utwórz nowy kolor

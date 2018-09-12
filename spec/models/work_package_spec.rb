@@ -820,7 +820,7 @@ describe WorkPackage, type: :model do
     let(:instance) { send(subclass) }
 
     describe "w/ today as start date
-              w/ tomorrow as due date" do
+              w/ tomorrow as finish date" do
       before do
         work_package.start_date = Date.today
         work_package.due_date = Date.today + 1.day
@@ -832,7 +832,7 @@ describe WorkPackage, type: :model do
     end
 
     describe "w/ today as start date
-              w/ today as due date" do
+              w/ today as finish date" do
       before do
         work_package.start_date = Date.today
         work_package.due_date = Date.today
@@ -844,7 +844,7 @@ describe WorkPackage, type: :model do
     end
 
     describe "w/ today as start date
-              w/o a due date" do
+              w/o a finish date" do
       before do
         work_package.start_date = Date.today
         work_package.due_date = nil
@@ -856,7 +856,7 @@ describe WorkPackage, type: :model do
     end
 
     describe "w/o a start date
-              w today as due date" do
+              w today as finish date" do
       before do
         work_package.start_date = nil
         work_package.due_date = Date.today

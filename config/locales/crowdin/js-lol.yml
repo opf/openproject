@@ -579,30 +579,31 @@ lol:
         text_select_hint: crwdns98771:0crwdne98771:0
       table_configuration:
         button: crwdns98908:0crwdne98908:0
+        choose_display_mode: Display work packages as
         modal_title: crwdns98909:0crwdne98909:0
         embedded_tab_disabled: crwdns99107:0crwdne99107:0
+        default: default
         display_settings: crwdns98911:0crwdne98911:0
-        grouped_mode: crwdns98912:0crwdne98912:0
-        grouped_hint: crwdns98913:0crwdne98913:0
         default_mode: crwdns98914:0crwdne98914:0
         hierarchy_mode: crwdns98915:0crwdne98915:0
         hierarchy_hint: crwdns98916:0crwdne98916:0
         display_sums_hint: crwdns98917:0crwdne98917:0
         show_timeline_hint: crwdns98918:0crwdne98918:0
-        highlighting: Highlighting
+        highlighting: crwdns99222:0crwdne99222:0
         highlighting_mode:
-          description: Control highlighting of rows through a color defined by a work
-            package attribute, such as priority or status.
-          none: None
-          none_text: Disables highlighted output of attributes in the table altogether.
-          inline: Inline
-          inline_text: No highlighting of work package rows. Display colors of overdue
-            dates, status, and priority attributes in their respective columns.
-          status: Status
-          status_text: Highlight work package rows based on the color of its status.
-          priority: Priority
-          priority_text: Highlight work package rows based on the color of its priority.
+          description: crwdns99223:0crwdne99223:0
+          none: crwdns99224:0crwdne99224:0
+          inline: crwdns99226:0crwdne99226:0
+          entire_row_by: Entire row by
+          status: crwdns99228:0crwdne99228:0
+          priority: crwdns99230:0crwdne99230:0
+          none_text: crwdns99225:0crwdne99225:0
+          inline_text: crwdns99227:0crwdne99227:0
+          status_text: crwdns99229:0crwdne99229:0
+          priority_text: crwdns99231:0crwdne99231:0
         columns_help_text: crwdns99008:0crwdne99008:0
+        grouped_mode: crwdns98912:0crwdne98912:0
+        grouped_hint: crwdns98913:0crwdne98913:0
       tabs:
         overview: crwdns98772:0crwdne98772:0
         activity: crwdns98773:0crwdne98773:0
@@ -651,6 +652,8 @@ lol:
         title: crwdns98808:0%{label}crwdne98808:0
         text: crwdns98809:0%{label}crwdne98809:0
         has_children: crwdns98810:0%{childUnits}crwdne98810:0
+        confirm_deletion_children: I acknowledge that ALL descendants of the listet
+          work packages will be recursively removed.
         deletes_children: crwdns99130:0crwdne99130:0
     notice_successful_create: crwdns98812:0crwdne98812:0
     notice_successful_delete: crwdns98813:0crwdne98813:0

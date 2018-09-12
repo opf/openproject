@@ -279,7 +279,7 @@ describe 'API v3 Work package form resource', type: :request do
               end
             end
 
-            describe 'due date' do
+            describe 'finish date' do
               include_context 'post request'
 
               context 'valid date' do

@@ -46,7 +46,10 @@ See docs/COPYRIGHT.rdoc for more details.
     <% if @type.new_record? && @types.any? %>
       <div class="form--field -wide-label">
         <%= styled_label_tag 'copy_workflow_from', t(:label_copy_workflow_from) %>
-        <%= styled_select_tag(:copy_workflow_from, content_tag("option") + options_from_collection_for_select(@types, :id, :name), container_class: '-slim') %>
+        <%= styled_select_tag(:copy_workflow_from,
+                              options_from_collection_for_select(@types, :id, :name, params[:copy_workflow_from]),
+                              include_blank: true,
+                              container_class: '-slim') %>
       </div>
     <% end %>
     <!--[eoform:type]-->
