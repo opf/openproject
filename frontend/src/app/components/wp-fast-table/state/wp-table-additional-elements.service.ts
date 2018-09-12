@@ -36,8 +36,6 @@ import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notific
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Injectable} from '@angular/core';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {WorkPackageTableHighlightingService} from "./wp-table-highlighting.service";
-import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css.service";
 
 @Injectable()
 export class WorkPackageTableAdditionalElementsService {
