@@ -124,7 +124,7 @@ module RepositoriesHelper
     output = '<ul>'
     tree.keys.sort.each do |file|
       style = 'change'
-      text = File.basename(h(file))
+      text = File.basename(file)
       if s = tree[file][:s]
         style << ' folder'
         path_param = without_leading_slash(to_path_param(@repository.relative_path(file)))
