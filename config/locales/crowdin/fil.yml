@@ -194,7 +194,7 @@ fil:
       edit_query: Edit embedded query
       reset: I-reset sa mga default
       type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
   versions:
     overview:
@@ -421,7 +421,7 @@ fil:
         warn_on_leaving_unsaved: Balaan mo ako kung aalais ng worj package na walang
           pag-save ng pagbabago
       version:
-        effective_date: Takdang petsa
+        effective_date: Finish date
         sharing: Pagbababahagi
       wiki_content:
         text: Teksto
@@ -674,7 +674,7 @@ fil:
     default_columns: I-default ang mga hanay
     description: Deskripsyon
     display_sums: Ipakita ang mga sum
-    due_date: Takdang petsa
+    due_date: Finish date
     estimated_hours: Tinantyang oras
     estimated_time: Tinantyang oras
     firstname: Unang pangalan
@@ -1342,6 +1342,7 @@ fil:
   label_group_by: Pangkat sa
   label_group_new: Bagong grupo
   label_group: Grupo
+  label_group_named: Group %{name}
   label_group_plural: Mga grupo
   label_help: Tulong
   label_here: dito
@@ -1604,6 +1605,7 @@ fil:
   label_used_by_types: Ginamit sa mga uri
   label_used_in_projects: Ginamit sa mga proyekto
   label_user: Gumagamit
+  label_user_named: User %{name}
   label_user_activity: "%{value} aktibidad"
   label_user_anonymous: Hindi kilala
   label_user_mail_option_all: Sa kahit anong kaganapan sa lahat ng aking proyekto
@@ -2814,8 +2816,7 @@ fil:
         done_ratio: Hindi mai-set ang natapos na ratio sa gawain ng mga magulang na
           package, kapag ito ay inferred sa pamamagitan ng estado o kapag ito ay hindi
           mapagana.
-        due_date: Itinakdang petsa ay hindi mai-set sa mga trabaho ng magulang na
-          package.
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: Itinayang mga oras ay hindi mai-set sa mga package ng gawain
           ng magulang.
         invalid_user_assigned_to_work_package: Ang piniling gumagamit ay hindi pinahihintulan

@@ -186,7 +186,7 @@
       edit_query: Edit embedded query
       reset: Reset to defaults
       type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
   versions:
     overview:
@@ -401,7 +401,7 @@
         warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved
           changes
       version:
-        effective_date: Forfallsdato
+        effective_date: Finish date
         sharing: Deling
       wiki_content:
         text: Tekst
@@ -645,7 +645,7 @@
     default_columns: Standardkolonner
     description: Beskrivelse
     display_sums: Vis summer
-    due_date: Forfallsdato
+    due_date: Finish date
     estimated_hours: Tidsestimat
     estimated_time: Tidsestimat
     firstname: Fornavn
@@ -1301,6 +1301,7 @@
   label_group_by: Grupper etter
   label_group_new: Ny gruppe
   label_group: Gruppe
+  label_group_named: Group %{name}
   label_group_plural: Grupper
   label_help: Hjelp
   label_here: her
@@ -1560,6 +1561,7 @@
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
   label_user: Bruker
+  label_user_named: User %{name}
   label_user_activity: "%{value}s aktivitet"
   label_user_anonymous: Anonym
   label_user_mail_option_all: For enhver hendelse i alle mine prosjekter
@@ -2702,7 +2704,7 @@
       validation:
         done_ratio: Ferdiggraden kan ikke angis på overordnede arbeidspakker, de har
           feil status eller er avslått.
-        due_date: Ferdigdato kan ikke settes på overordnede arbeidspakker.
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: Anslåtte timer kan ikke angis på overordnede arbeidspakker.
         invalid_user_assigned_to_work_package: Valgt bruker har ikke de nødvendige
           rettighetene til å være '%{property}' for denne arbeidspakken.

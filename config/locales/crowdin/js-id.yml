@@ -407,7 +407,7 @@ id:
       button_deactivate: Hide Gantt chart
       cancel: Batal
       change: Perubahan dalam perencanaan
-      due_date: Tenggat waktu
+      due_date: Finish date
       empty: "(kosong)"
       error: An error has occurred.
       errors:
@@ -557,7 +557,7 @@ id:
         createdAt: Dibuat
         description: Deskripsi
         date: Tanggal
-        dueDate: Tenggat waktu
+        dueDate: Finish date
         estimatedTime: Estimasi Waktu
         spentTime: Durasi
         category: Kategori
@@ -631,8 +631,8 @@ id:
           view you're editing.
         default: default
         display_settings: Display settings
-        default_mode: Default mode
-        hierarchy_mode: Modus hirarki
+        default_mode: Flat list
+        hierarchy_mode: Hierarchy
         hierarchy_hint: All filtered table results will be augmented with their ancestors.
           Hierarchies can be expanded and collapsed.
         display_sums_hint: Display sums of all summable attributes in a row below
@@ -642,22 +642,14 @@ id:
           gantt chart.
         highlighting: Highlighting
         highlighting_mode:
-          description: Control highlighting of rows through a color defined by a work
-            package attribute, such as priority or status.
-          none: Kosong
-          inline: Inline
+          description: Highlight with color
+          none: No highlighting
+          inline: Overdue dates, "Status", and "Priority" attributes
           entire_row_by: Entire row by
           status: Status
           priority: Prioritas
-          none_text: Disables highlighted output of attributes in the table altogether.
-          inline_text: No highlighting of work package rows. Display colors of overdue
-            dates, status, and priority attributes in their respective columns.
-          status_text: Highlight work package rows based on the color of its status.
-          priority_text: Highlight work package rows based on the color of its priority.
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
-        grouped_mode: Grouped mode
-        grouped_hint: Table results will be grouped by the given attribute.
       tabs:
         overview: Tinjauan
         activity: Activity

@@ -190,7 +190,7 @@ es:
       edit_query: Edit embedded query
       reset: Restablecer valores predeterminados
       type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
   versions:
     overview:
@@ -415,7 +415,7 @@ es:
         warn_on_leaving_unsaved: Avisarme cuando salga de un paquete de trabajo con
           cambios sin guardar
       version:
-        effective_date: Fecha de vencimiento
+        effective_date: Finish date
         sharing: Compartiendo
       wiki_content:
         text: Texto
@@ -668,7 +668,7 @@ es:
     default_columns: Columnas predeterminadas
     description: Descripción
     display_sums: Mostrar sumas
-    due_date: Fecha de vencimiento
+    due_date: Finish date
     estimated_hours: Tiempo estimado
     estimated_time: Tiempo estimado
     firstname: Nombre
@@ -1333,6 +1333,7 @@ es:
   label_group_by: Agrupar por
   label_group_new: Nuevo grupo
   label_group: Grupo
+  label_group_named: Group %{name}
   label_group_plural: Grupos
   label_help: Ayuda
   label_here: aqui
@@ -1595,6 +1596,7 @@ es:
   label_used_by_types: Utilizado por tipos
   label_used_in_projects: Utilizado en proyectos
   label_user: Usuario
+  label_user_named: User %{name}
   label_user_activity: 'Actividad de %{value} '
   label_user_anonymous: Anónimo
   label_user_mail_option_all: Para cualquier evento en todos mis proyectos
@@ -2792,8 +2794,7 @@ es:
       validation:
         done_ratio: La proporción de Realizado no puede ser establecida en paquetes
           de trabajo padres, cuando está controlada por el estado o cuando está deshabilitada.
-        due_date: La fecha de vencimiento no puede ser establecida en paquetes de
-          trabajo padre.
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: Las horas estimadas no pueden ser establecidas en paquetes
           de trabajo padres.
         invalid_user_assigned_to_work_package: El usuario elegido no tiene permiso

@@ -167,7 +167,7 @@ ja:
       edit_query: 埋め込まれたクエリの編集
       reset: デフォルトに戻す
       type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
   versions:
     overview:
@@ -356,7 +356,7 @@ ja:
         auto_hide_popups: 成功通知を自動的に隠す
         warn_on_leaving_unsaved: 変更を保存せずにワークパッケージから移動するときに警告
       version:
-        effective_date: 期限
+        effective_date: Finish date
         sharing: 共有
       wiki_content:
         text: テキスト（本文）
@@ -587,7 +587,7 @@ ja:
     default_columns: 既定の列
     description: 説明
     display_sums: 合計を表示
-    due_date: 期限
+    due_date: Finish date
     estimated_hours: 予定工数
     estimated_time: 予定工数
     firstname: 名前
@@ -1211,6 +1211,7 @@ ja:
   label_group_by: グループ化
   label_group_new: 新規グループ
   label_group: グループ
+  label_group_named: Group %{name}
   label_group_plural: グループ
   label_help: ヘルプ
   label_here: こちら
@@ -1471,6 +1472,7 @@ ja:
   label_used_by_types: タイプで使用
   label_used_in_projects: プロジェクトで使用
   label_user: ユーザ
+  label_user_named: User %{name}
   label_user_activity: "%{value}の活動"
   label_user_anonymous: 匿名ユーザ
   label_user_mail_option_all: 参加しているプロジェクトの全イベント
@@ -2471,7 +2473,7 @@ ja:
         context_object_not_found: コンテキストで指定されたリソースが見つかりません。
       validation:
         done_ratio: 完了率はそのステータスにより推定または無効にされている場合、親ワークパッケージにセットすることはできません。
-        due_date: 締切日は親ワークパッケージに設定することはできません。
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: 推定時間は、親ワークパッケージに設定できません。
         invalid_user_assigned_to_work_package: 選択されたユーザは、この作業項目の'%{property}' にすることはできません。
         start_date: 開始日は、親ワークパッケージに設定できません。

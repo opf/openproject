@@ -186,7 +186,7 @@ bg:
       edit_query: Edit embedded query
       reset: Reset to defaults
       type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
   versions:
     overview:
@@ -404,7 +404,7 @@ bg:
         warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved
           changes
       version:
-        effective_date: Дата на падеж
+        effective_date: Finish date
         sharing: Споделяне
       wiki_content:
         text: Текст
@@ -648,7 +648,7 @@ bg:
     default_columns: Колони по подразбиране
     description: Описание
     display_sums: Показване на суми
-    due_date: Дата на падеж
+    due_date: Finish date
     estimated_hours: Очаквано време
     estimated_time: Очаквано време
     firstname: Собствено име
@@ -1308,6 +1308,7 @@ bg:
   label_group_by: Групиране по
   label_group_new: Нова група
   label_group: Група
+  label_group_named: Group %{name}
   label_group_plural: Групи
   label_help: Помощ
   label_here: тук
@@ -1569,6 +1570,7 @@ bg:
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
   label_user: Потребител
+  label_user_named: User %{name}
   label_user_activity: дейност на %{value}
   label_user_anonymous: Анонимен
   label_user_mail_option_all: За всяко събитие на всичките ми проекти
@@ -2710,7 +2712,7 @@ bg:
       validation:
         done_ratio: Done ratio cannot be set on parent work packages, when it is inferred
           by status or when it is disabled.
-        due_date: Due date cannot be set on parent work packages.
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: Estimated hours cannot be set on parent work packages.
         invalid_user_assigned_to_work_package: The chosen user is not allowed to be
           '%{property}' for this work package.

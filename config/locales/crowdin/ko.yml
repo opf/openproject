@@ -173,7 +173,7 @@ ko:
       edit_query: Edit embedded query
       reset: 기본값으로 초기화
       type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
   versions:
     overview:
@@ -373,7 +373,7 @@ ko:
         auto_hide_popups: 자동 숨김 성공 알림
         warn_on_leaving_unsaved: 저장하지 않고 작업 패키지를 벗어날 때 알려주세요.
       version:
-        effective_date: 기한
+        effective_date: Finish date
         sharing: 공유
       wiki_content:
         text: 텍스트
@@ -609,7 +609,7 @@ ko:
     default_columns: 기본 칼럼
     description: 설명
     display_sums: 합계 표시
-    due_date: 기한
+    due_date: Finish date
     estimated_hours: 예상된 시간
     estimated_time: 예상된 시간
     firstname: 이름
@@ -1270,6 +1270,7 @@ ko:
   label_group_by: 그룹화 기준
   label_group_new: 새 그룹
   label_group: 그룹
+  label_group_named: Group %{name}
   label_group_plural: 그룹
   label_help: 도움말
   label_here: 여기
@@ -1529,6 +1530,7 @@ ko:
   label_used_by_types: 유형별로 사용됨
   label_used_in_projects: 프로젝트에서 사용됨
   label_user: 사용자
+  label_user_named: User %{name}
   label_user_activity: "%{value}의 작업"
   label_user_anonymous: 익명
   label_user_mail_option_all: 모든 내 프로젝트의 이벤트에 대해
@@ -2581,7 +2583,7 @@ ko:
         context_object_not_found: 컨텍스트로 지정된 리소스를 찾을 수 없습니다.
       validation:
         done_ratio: 완료 비율은 상태에 의해 유추되는 경우 또는 비활성화된 경우 부모 작업 패키지에서 설정할 수 없습니다.
-        due_date: 기한은 부모 작업 패키지에서 설정할 수 없습니다.
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: 예상 시간은 부모 작업 패키지에서 설정할 수 없습니다.
         invalid_user_assigned_to_work_package: 선택한 사용자는 이 작업 패키지에 대해 '%{property}'
           허가되지 않았습니다.
