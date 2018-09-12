@@ -61,6 +61,7 @@ describe 'form subelements configuration', type: :feature, js: true do
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:form) { ::Components::Admin::TypeConfigurationForm.new }
   let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
   let(:filters) { ::Components::WorkPackages::TableConfiguration::Filters.new }
@@ -82,6 +83,30 @@ describe 'form subelements configuration', type: :feature, js: true do
       query_group = type_bug.attribute_groups.detect{ |x| x.is_a?(Type::QueryGroup) }
       expect(query_group.attributes).to be_kind_of(::Query)
       expect(query_group.key).to eq('Empty test')
+    end
+
+    it 'loads the subelements from the table split view (Regression #28490)' do
+      form.add_query_group('Subtasks')
+      # Save changed query
+      form.save_changes
+      expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
+
+
+      # Visit wp_table
+      wp_table.visit!
+      wp_table.expect_work_package_listed work_package, subtask, subbug
+
+      # Open another ticket
+      wp_table.open_split_view subtask
+
+      # Open the parent ticket
+      wp_split = wp_table.open_split_view work_package
+      wp_split.ensure_page_loaded
+
+      wp_split.expect_group('Subtasks') do
+        embedded_table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
+        embedded_table.expect_work_package_listed subtask, subbug
+      end
     end
 
     it 'can modify and keep changed columns (Regression #27604)' do
