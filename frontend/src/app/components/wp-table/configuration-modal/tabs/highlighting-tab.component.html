@@ -5,11 +5,23 @@
       <div class="form--field-container">
         <label class="option-label">
           <input type="radio"
-                 [(ngModel)]="highlightingMode"
-                 (change)="updateMode($event.target.value)"
-                 value="inline"
-                 name="highlighting_mode_switch">
-          {{ text.highlighting_mode.inline }}
+                 [(ngModel)]="inCellMode"
+                 (change)="updateMode('in-cell')"
+                 [value]="true"
+                 name="in_cell_switch">
+          {{ text.highlighting_mode.as_inline_or_cell }}
+          &ngsp;
+          <select (change)="updateMode($event.target.value)"
+                  id="inline_or_cell"
+                  name="inline_or_cell"
+                  class="form--select form--inline-select">
+            <option [textContent]="text.highlighting_mode.inline"
+                    [selected]="lastInCellAttribute === 'inline'"
+                    value="inline"></option>
+            <option [textContent]="text.highlighting_mode.cell"
+                    [selected]="lastInCellAttribute === 'cell'"
+                    value="cell"></option>
+          </select>
         </label>
       </div>
     </div>

@@ -26,6 +26,10 @@ export class WorkPackageTableHighlightingService extends WorkPackageTableBaseSer
     return this.current === 'inline';
   }
 
+  public get isCell() {
+    return this.current === 'cell';
+  }
+
   public get isDisabled() {
     return this.current === 'none';
   }

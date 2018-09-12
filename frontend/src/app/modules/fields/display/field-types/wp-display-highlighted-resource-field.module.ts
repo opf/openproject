@@ -51,7 +51,12 @@ export class HighlightedResourceDisplayField extends HighlightableDisplayField {
 
   private addHighlight(element:HTMLElement):void {
     if (this.attribute instanceof HalResource) {
-      const hlClass = Highlighting.dotClass(this.name, this.attribute.getId());
+      const hlClass;
+      if (this.isInline) {
+        hlClass = Highlighting.dotClass(this.name, this.attribute.getId());
+      } else {
+        hlClass = Highlighting.inlineClass(this.name, this.attribute.getId());
+      }
       element.classList.add(hlClass);
     }
   }

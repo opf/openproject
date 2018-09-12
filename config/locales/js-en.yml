@@ -643,8 +643,10 @@ en:
         highlighting: 'Highlighting'
         highlighting_mode:
           description: "Highlight with color"
+          cell: 'Cells'
+          inline: 'Dots'
           none: "No highlighting"
-          inline: 'Overdue dates, "Status", and "Priority" attributes'
+          as_inline_or_cell: 'Overdue dates, "Status", and "Priority" attributes as'
           entire_row_by: 'Entire row by'
           status: 'Status'
           priority: 'Priority'
