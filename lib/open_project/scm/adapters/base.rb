@@ -28,6 +28,7 @@
 #++
 
 require 'open_project/scm/adapters'
+require 'pathname'
 
 module OpenProject
   module Scm
@@ -81,8 +82,16 @@ module OpenProject
         # Returns the entry identified by path and revision identifier
         # or nil if entry doesn't exist in the repository
         def entry(path = nil, identifier = nil)
-          parts = path.to_s.split(%r{[\/\\]}).select { |n| !n.blank? }
+          parts = split_path(path)
           search_entries(parts, identifier)
+        end
+
+        ##
+        # Split path according to the local filesystem
+        def split_path(path)
+          Pathname(path.to_s)
+            .each_filename
+            .select { |n| !n.blank? }
         end
 
         def search_entries(parts, identifier)
