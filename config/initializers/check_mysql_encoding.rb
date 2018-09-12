@@ -28,7 +28,7 @@
 #++
 
 if OpenProject::Database.mysql?
-  return if ActiveRecord::Type::Boolean.new.cast(ENV['OPENPROJECT_TESTING_NO_HEADLESS'])
+  return if ActiveRecord::Type::Boolean.new.cast(ENV['OPENPROJECT_SKIP_MYSQL_ENCODING_CHECK'])
 
   mysql_version = OpenProject::Database.semantic_version
   utf8mb4_version = OpenProject::Database.semantic_version '5.7.0'
