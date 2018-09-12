@@ -31,8 +31,6 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= include_gon(nonce: content_security_policy_script_nonce) %>
   <!-- plug-in specific tags -->
   <%= call_hook :view_work_package_overview_attributes %>
-
-  <%= stylesheet_link_tag '/highlighting/styles', media: "all" %>
 <% end -%>
 
 <%= content_for :content_body do %>
