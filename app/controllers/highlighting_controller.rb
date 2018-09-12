@@ -32,6 +32,9 @@ class HighlightingController < ApplicationController
   skip_before_action :check_if_login_required, only: [:styles]
 
   def styles
+    response.content_type = Mime[:css]
+    request.format = :css
+
     if stale?(last_modified: @last_modified_times.max, etag: cache_key, public: true)
       OpenProject::Cache.fetch(@last_modified_times.max) do
         render template: 'highlighting/styles', formats: [:css]
