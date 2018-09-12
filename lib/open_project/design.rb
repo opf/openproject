@@ -175,6 +175,7 @@ module OpenProject
       'relations-save-button--disabled-color'                => "$gray-dark",
       'table-row-border-color'                               => "#E7E7E7",
       'table-row-highlighting-color'                         => "#CCE6F7",
+      'table-row-highlighting-outline-color'                 => "#00A6FF",
       'table-row-relations-row-background-color'             => "rgba(220,235,244, 0.6)",
       'table-row-hierarchies-row-font-color'                 => "#6C7A89",
       'table-header-border-color'                            => "#D7D7D7",

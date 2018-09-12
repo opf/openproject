@@ -37,7 +37,7 @@
                  value="grouped"
                  name="display_mode_switch">
           <op-icon icon-classes="icon-group-by" [attr.icon-title]="text.label_group_by"></op-icon>
-          {{ text.label_group_by }}
+          {{ text.label_group_by }}&nbsp;
           <select (change)="updateGroup($event.target.value)"
                   id="selected_grouping"
                   name="selected_grouping"

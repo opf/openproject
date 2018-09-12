@@ -158,8 +158,17 @@ th.hidden
   display: none
 
 tr.context-menu-selection,
-tr.-checked
-  background-color: $table-row-highlighting-color
+tr.-checked,
+tr.-checked.-bright-row
+  background-color: $table-row-highlighting-color !important
+  outline: $table-row-highlighting-outline-color auto 4px
+
+  td
+    border-top: 1px solid $table-row-highlighting-color !important
+    border-bottom: 1px solid $table-row-highlighting-color !important
+    color: $body-font-color !important
+    a
+      color: $body-font-color !important
 
 #custom-options-table
   .custom-option-value
