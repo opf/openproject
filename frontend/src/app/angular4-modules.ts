@@ -217,6 +217,7 @@ import {AttachmentsComponent} from 'core-components/attachments/attachments.comp
 import {CurrentUserService} from 'core-components/user/current-user.service';
 import {WpTableConfigurationHighlightingTab} from "core-components/wp-table/configuration-modal/tabs/highlighting-tab.component";
 import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
+import {WorkPackageCommentFieldComponent} from "core-components/work-packages/work-package-comment/wp-comment-field.component";
 
 @NgModule({
   imports: [
@@ -390,6 +391,7 @@ import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table
     // Activity Tab
     NewestActivityOnOverviewComponent,
     WorkPackageCommentComponent,
+    WorkPackageCommentFieldComponent,
     ActivityEntryComponent,
     UserActivityComponent,
     RevisionActivityComponent,
@@ -509,6 +511,7 @@ import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table
     // Single view
     WorkPackageOverviewTabComponent,
     WorkPackageEditFieldGroupComponent,
+    WorkPackageCommentFieldComponent,
 
     // Searchbar
     ExpandableSearchComponent,

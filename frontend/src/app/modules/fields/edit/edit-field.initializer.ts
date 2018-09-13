@@ -27,26 +27,27 @@
 // ++
 
 import {EditFieldService} from "core-app/modules/fields/edit/edit-field.service";
-import {TextEditField} from "core-app/modules/fields/edit/field-types/text-edit-field";
-import {IntegerEditField} from "core-app/modules/fields/edit/field-types/integer-edit-field";
-import {DurationEditField} from "core-app/modules/fields/edit/field-types/duration-edit-field";
-import {SelectEditField} from "core-app/modules/fields/edit/field-types/select-edit-field";
-import {MultiSelectEditField} from "core-app/modules/fields/edit/field-types/multi-select-edit-field";
-import {FloatEditField} from "core-app/modules/fields/edit/field-types/float-edit-field";
-import {WorkPackageEditField} from "core-app/modules/fields/edit/field-types/work-package-edit-field.module";
-import {BooleanEditField} from "core-app/modules/fields/edit/field-types/boolean-edit-field";
-import {DateEditField} from "core-app/modules/fields/edit/field-types/date-edit-field";
-import {FormattableEditField} from "core-app/modules/fields/edit/field-types/formattable-edit-field";
+import {TextEditFieldComponent} from "core-app/modules/fields/edit/field-types/text-edit-field.component";
+import {IntegerEditFieldComponent} from "core-app/modules/fields/edit/field-types/integer-edit-field.component";
+import {DurationEditFieldComponent} from "core-app/modules/fields/edit/field-types/duration-edit-field.component";
+import {SelectEditFieldComponent} from "core-app/modules/fields/edit/field-types/select-edit-field.component";
+import {MultiSelectEditFieldComponent} from "core-app/modules/fields/edit/field-types/multi-select-edit-field.component";
+import {FloatEditFieldComponent} from "core-app/modules/fields/edit/field-types/float-edit-field.component";
+import {BooleanEditFieldComponent} from "core-app/modules/fields/edit/field-types/boolean-edit-field.component";
+import {WorkPackageEditFieldComponent} from "core-app/modules/fields/edit/field-types/work-package-edit-field.component";
+import {DateEditFieldComponent} from "core-app/modules/fields/edit/field-types/date-edit-field.component";
+import {FormattableEditFieldComponent} from "core-app/modules/fields/edit/field-types/formattable-edit-field.component";
+import {WorkPackageCommentFieldComponent} from "core-components/work-packages/work-package-comment/wp-comment-field.component";
 
 
 export function initializeCoreEditFields(editFieldService:EditFieldService) {
   return () => {
     editFieldService.defaultFieldType = 'text';
     editFieldService
-      .addFieldType(TextEditField, 'text', ['String'])
-      .addFieldType(IntegerEditField, 'integer', ['Integer'])
-      .addFieldType(DurationEditField, 'duration', ['Duration'])
-      .addFieldType(SelectEditField, 'select', ['Priority',
+      .addFieldType(TextEditFieldComponent, 'text', ['String'])
+      .addFieldType(IntegerEditFieldComponent, 'integer', ['Integer'])
+      .addFieldType(DurationEditFieldComponent, 'duration', ['Duration'])
+      .addFieldType(SelectEditFieldComponent, 'select', ['Priority',
         'Status',
         'Type',
         'User',
@@ -54,14 +55,15 @@ export function initializeCoreEditFields(editFieldService:EditFieldService) {
         'Category',
         'CustomOption',
         'Project'])
-      .addFieldType(MultiSelectEditField, 'multi-select', [
+      .addFieldType(MultiSelectEditFieldComponent, 'multi-select', [
         '[]CustomOption',
         '[]User'
       ])
-      .addFieldType(FloatEditField, 'float', ['Float'])
-      .addFieldType(WorkPackageEditField, 'workPackage', ['WorkPackage'])
-      .addFieldType(BooleanEditField, 'boolean', ['Boolean'])
-      .addFieldType(DateEditField, 'date', ['Date'])
-      .addFieldType(FormattableEditField, 'wiki-textarea', ['Formattable']);
+      .addFieldType(FloatEditFieldComponent, 'float', ['Float'])
+      .addFieldType(WorkPackageEditFieldComponent, 'workPackage', ['WorkPackage'])
+      .addFieldType(BooleanEditFieldComponent, 'boolean', ['Boolean'])
+      .addFieldType(DateEditFieldComponent, 'date', ['Date'])
+      .addFieldType(FormattableEditFieldComponent, 'wiki-textarea', ['Formattable'])
+      .addFieldType(WorkPackageCommentFieldComponent, '_comment', ['comment']);
   };
 }

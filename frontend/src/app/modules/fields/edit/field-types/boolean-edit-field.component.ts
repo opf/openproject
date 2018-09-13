@@ -1,3 +1,4 @@
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -25,29 +26,25 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {DurationEditField} from "core-app/modules/fields/edit/field-types/duration-edit-field";
 import {Component} from "@angular/core";
-import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
+
 
 @Component({
   template: `
-    <input type="number"
-           class="wp-inline-edit--field"
-           [attr.aria-required]="field.required"
-           [attr.required]="field.required"
-           [disabled]="field.inFlight"
-           [attr.lang]="locale"
-           [(ngModel)]="field.value"
+    <input type="checkbox"
+           class="wp-inline-edit--field wp-inline-edit--boolean-field"
+           [attr.aria-required]="required"
+           [checked]="value"
+           (change)="updateValue(!value)"
            (keydown)="handler.handleUserKeydown($event)"
+           [disabled]="inFlight"
            [id]="handler.htmlId" />
   `
 })
-export class IntegerEditFieldComponent extends EditFieldComponent {
-  public locale = I18n.locale;
-  public field:DurationEditField;
-}
-
-export class IntegerEditField extends EditField {
-  public component = IntegerEditFieldComponent;
+export class BooleanEditFieldComponent extends EditFieldComponent {
+  public updateValue(newValue:boolean) {
+    this.value = newValue;
+    this.handler.handleUserSubmit();
+  }
 }

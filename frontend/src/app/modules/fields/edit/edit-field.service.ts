@@ -27,17 +27,15 @@
 // ++
 
 import {Injectable, Injector} from '@angular/core';
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {AbstractFieldService, IFieldType} from "core-app/modules/fields/field.service";
-import {IFieldSchema} from "core-app/modules/fields/field.base";
-import {EditField} from "core-app/modules/fields/edit/edit.field.module";
+import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 
-export interface IEditFieldType extends IFieldType<EditField> {
-  new(resource:WorkPackageResource, attributeType:string, schema:IFieldSchema):EditField;
+export interface IEditFieldType extends IFieldType<EditFieldComponent> {
+  new():EditFieldComponent;
 }
 
 @Injectable()
-export class EditFieldService extends AbstractFieldService<EditField, IEditFieldType> {
+export class EditFieldService extends AbstractFieldService<EditFieldComponent, IEditFieldType> {
 
   constructor(injector:Injector) {
     super(injector);

@@ -38,10 +38,19 @@ export interface IEditFieldHandler {
   /** Whether the field is currently active */
   active:boolean;
 
+  /** Whether the field is being saved */
+  inFlight:boolean;
+
   /**
    * Return a unique ID for this edit field
    */
   htmlId:string;
+
+  /**
+   * The name of the attribute
+   */
+  fieldName:string;
+
 
   /**
    * Accessibility label for the field
@@ -52,11 +61,6 @@ export interface IEditFieldHandler {
    * Error messages on the field, if any.
    */
   errorMessageOnLabel?:string;
-
-  /**
-   * Project resource
-   */
-  project:ProjectResource;
 
   /**
    * Stop event propagation

@@ -1,3 +1,4 @@
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -26,28 +27,21 @@
 // ++
 
 import {Component} from "@angular/core";
-import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 
 @Component({
   template: `
-    <input type="number"
-           step="any"
+    <input type="text"
            class="wp-inline-edit--field"
-           [attr.aria-required]="field.required"
-           [attr.required]="field.required"
-           [disabled]="field.inFlight"
-           [(ngModel)]="field.value"
+           [focus]="shouldFocus"
+           [attr.aria-required]="required"
+           [attr.required]="required"
+           [disabled]="inFlight"
+           [(ngModel)]="value"
            (keydown)="handler.handleUserKeydown($event)"
-           [attr.lang]="locale"
            [id]="handler.htmlId" />
   `
 })
-export class FloatEditFieldComponent extends EditFieldComponent {
-  public locale = I18n.locale;
-  public field:FloatEditField;
-}
-
-export class FloatEditField extends EditField {
-  public component = FloatEditFieldComponent;
+export class TextEditFieldComponent extends EditFieldComponent {
+  public shouldFocus = this.name === 'subject';
 }

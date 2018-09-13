@@ -30,29 +30,25 @@ import {UserResource} from 'core-app/modules/hal/resources/user-resource';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {WorkPackageCommentField} from 'core-components/work-packages/work-package-comment/wp-comment-field.module';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
-import {AfterViewInit, Component, ElementRef, Inject, Input, OnInit} from "@angular/core";
+import {AfterViewInit, Component, ElementRef, Injector, Input, OnInit} from "@angular/core";
 import {UserCacheService} from "core-components/user/user-cache.service";
-import {IEditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler.interface";
 import {CommentService} from "core-components/wp-activity/comment-service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {WorkPackageCommentFieldHandler} from "core-components/work-packages/work-package-comment/work-package-comment-field-handler";
 
 @Component({
   selector: 'user-activity',
   templateUrl: './user-activity.component.html'
 })
-export class UserActivityComponent implements IEditFieldHandler, OnInit, AfterViewInit {
+export class UserActivityComponent extends WorkPackageCommentFieldHandler implements OnInit, AfterViewInit {
   @Input() public workPackage:WorkPackageResource;
   @Input() public activity:any;
   @Input() public activityNo:number;
   @Input() public activityLabel:string;
   @Input() public isInitial:boolean;
 
-  public handler = this;
-  public inEdit = false;
-  public inEditMode = false;
   public userCanEdit = false;
   public userCanQuote = false;
 
@@ -66,7 +62,6 @@ export class UserActivityComponent implements IEditFieldHandler, OnInit, AfterVi
   public details:any[] = [];
   public isComment:boolean;
 
-  public field:WorkPackageCommentField;
   public focused = false;
 
   public text = {
@@ -80,6 +75,7 @@ export class UserActivityComponent implements IEditFieldHandler, OnInit, AfterVi
   private $element:JQuery;
 
   constructor(readonly elementRef:ElementRef,
+              readonly injector:Injector,
               readonly PathHelper:PathHelperService,
               readonly wpLinkedActivities:WorkPackagesActivityService,
               readonly commentService:CommentService,
@@ -87,9 +83,12 @@ export class UserActivityComponent implements IEditFieldHandler, OnInit, AfterVi
               readonly ConfigurationService:ConfigurationService,
               readonly userCacheService:UserCacheService,
               readonly I18n:I18nService) {
+    super(elementRef, injector);
   }
 
   public ngOnInit() {
+    super.ngOnInit();
+
     this.isComment = this.activity._type === 'Activity::Comment';
     this.$element = jQuery(this.elementRef.nativeElement);
     this.reset();
@@ -137,30 +136,15 @@ export class UserActivityComponent implements IEditFieldHandler, OnInit, AfterVi
     }
   }
 
-  public reset(withText?:string) {
-    this.field = new WorkPackageCommentField(this.workPackage);
-    this.field.initializeFieldValue(withText);
+  public activate() {
+    super.activate(this.activity.comment);
   }
 
   public handleUserSubmit() {
-    this.field.onSubmit();
-    if (this.field.isBusy || this.field.isEmpty()) {
+    if (this.changeset.inFlight || !this.commentValue) {
       return Promise.resolve();
     }
     return this.updateComment();
-  }
-
-  public handleUserCancel() {
-    this.deactivate(true);
-  }
-
-  public get active() {
-    return this.inEdit;
-  }
-
-  public editComment() {
-    this.inEdit = true;
-    this.reset(this.activity.comment.raw);
   }
 
   public quoteComment() {
@@ -168,7 +152,7 @@ export class UserActivityComponent implements IEditFieldHandler, OnInit, AfterVi
   }
 
   public updateComment() {
-    return this.commentService.updateComment(this.activity, this.field.rawValue || '')
+    return this.commentService.updateComment(this.activity, this.commentValue|| '')
       .then(() => {
         this.wpLinkedActivities.require(this.workPackage, true);
         this.wpCacheService.updateWorkPackage(this.workPackage);
@@ -206,27 +190,11 @@ export class UserActivityComponent implements IEditFieldHandler, OnInit, AfterVi
     return `user_activity_edit_field_${this.activityNo}`;
   }
 
-  public get project() {
-    return this.workPackage.project;
-  }
-
   deactivate(focus:boolean):void {
-    this.inEdit = false;
+    super.deactivate(focus);
 
     if (focus) {
-
       this.focusEditIcon();
     }
-  }
-
-  handleUserKeydown(event:JQueryEventObject, onlyCancel?:boolean):void {
-  }
-
-  isChanged():boolean {
-    return false;
-  }
-
-  stopPropagation(evt:JQueryEventObject):boolean {
-    return false;
   }
 }

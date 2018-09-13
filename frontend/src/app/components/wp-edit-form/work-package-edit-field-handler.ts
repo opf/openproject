@@ -34,11 +34,11 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {ComponentRef, Injector} from '@angular/core';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
-import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 import {IEditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler.interface";
 import {ClickPositionMapper} from "core-app/modules/common/set-click-position/set-click-position";
 import {debugLog} from "core-app/helpers/debug_output";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
+import {IFieldSchema} from "core-app/modules/fields/field.base";
 
 export class WorkPackageEditFieldHandler implements IEditFieldHandler {
   // Injections
@@ -48,7 +48,6 @@ export class WorkPackageEditFieldHandler implements IEditFieldHandler {
 
   // Other fields
   public editContext:WorkPackageEditContext;
-  public schemaName:string;
 
   // Reference to the active component, if any
   public componentInstance:ComponentRef<EditFieldComponent>;
@@ -59,13 +58,12 @@ export class WorkPackageEditFieldHandler implements IEditFieldHandler {
   constructor(public injector:Injector,
               public form:WorkPackageEditForm,
               public fieldName:string,
-              public field:EditField,
+              public schema:IFieldSchema,
               public element:HTMLElement,
               protected onDestroy:() => void,
               protected withErrors?:string[]) {
 
     this.editContext = form.editContext;
-    this.schemaName = field.name;
 
     if (withErrors !== undefined) {
       this.setErrors(withErrors);
@@ -82,6 +80,10 @@ export class WorkPackageEditFieldHandler implements IEditFieldHandler {
 
   public get inEditMode() {
     return this.form.editMode;
+  }
+
+  public get inFlight() {
+    return this.form.changeset.inFlight;
   }
 
   public get active() {
@@ -114,11 +116,10 @@ export class WorkPackageEditFieldHandler implements IEditFieldHandler {
    * Handle a user submitting the field (e.g, ng-change)
    */
   public handleUserSubmit():Promise<any> {
-    if (this.field.inFlight || this.form.editMode) {
+    if (this.form.changeset.inFlight || this.form.editMode) {
       return Promise.resolve();
     }
 
-    this.field.onSubmit();
     return this.form.submit();
   }
 
@@ -184,7 +185,7 @@ export class WorkPackageEditFieldHandler implements IEditFieldHandler {
    * Returns whether the field has been changed
    */
   public isChanged():boolean {
-    return this.form.changeset.isOverridden(this.schemaName);
+    return this.form.changeset.isOverridden(this.fieldName);
   }
 
   /**
@@ -213,7 +214,7 @@ export class WorkPackageEditFieldHandler implements IEditFieldHandler {
    * Return the field label
    */
   public get fieldLabel() {
-    return this.field.displayName;
+    return this.schema.name || this.fieldName;
   }
 
   public get errorMessageOnLabel() {

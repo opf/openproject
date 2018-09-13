@@ -34,10 +34,10 @@ export class WorkPackageRelationRowComponent implements OnInit {
 
   // Create a quasi-field object
   public fieldController = {
-    active: true,
-    field: {
-      required: false
-    }
+    handler: {
+      active: true
+    },
+    required: false
   };
 
   public relation:RelationResource;

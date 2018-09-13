@@ -1,52 +1,64 @@
 import {
   AfterViewInit,
-  EventEmitter,
   Component,
   ElementRef,
+  EventEmitter,
   Injector,
   Input,
   OnDestroy,
   OnInit,
   Output
 } from "@angular/core";
-import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 import {IEditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler.interface";
 import {
-  OpEditingPortalFieldToken,
-  OpEditingPortalHandlerToken
+  EditFieldComponent,
+  OpEditingPortalChangesetToken,
+  OpEditingPortalHandlerToken,
+  OpEditingPortalSchemaToken
 } from "core-app/modules/fields/edit/edit-field.component";
 import {createLocalInjector} from "core-app/modules/fields/edit/editing-portal/edit-form-portal.injector";
+import {IFieldSchema} from "core-app/modules/fields/field.base";
+import {WorkPackageChangeset} from "core-components/wp-edit-form/work-package-changeset";
+import {EditFieldService, IEditFieldType} from "core-app/modules/fields/edit/edit-field.service";
 
 @Component({
   selector: 'edit-form-portal',
   templateUrl: './edit-form-portal.component.html'
 })
 export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit {
-  @Input() editFieldInput:EditField;
+  @Input() schemaInput:IFieldSchema;
+  @Input() changesetInput:WorkPackageChangeset;
   @Input() editFieldHandler:IEditFieldHandler;
   @Output() public onEditFieldReady = new EventEmitter<void>();
 
   public handler:IEditFieldHandler;
-  public editField:EditField;
+  public schema:IFieldSchema;
+  public changeset:WorkPackageChangeset;
   public fieldInjector:Injector;
 
+  public componentClass:IEditFieldType;
   public htmlId:string;
   public label:string;
 
   constructor(readonly injector:Injector,
+              readonly editField:EditFieldService,
               readonly elementRef:ElementRef) {
   }
 
   ngOnInit() {
-    if (this.editFieldHandler && this.editFieldInput) {
+    if (this.editFieldHandler && this.schemaInput) {
       this.handler = this.editFieldHandler;
-      this.editField = this.editFieldInput;
+      this.schema = this.schemaInput;
+      this.changeset = this.changesetInput;
+
     } else {
       this.handler = this.injector.get<IEditFieldHandler>(OpEditingPortalHandlerToken);
-      this.editField = this.injector.get<EditField>(OpEditingPortalFieldToken);
+      this.schema = this.injector.get<IFieldSchema>(OpEditingPortalSchemaToken);
+      this.changeset = this.injector.get<WorkPackageChangeset>(OpEditingPortalChangesetToken);
     }
 
-    this.fieldInjector = createLocalInjector(this.injector, this.handler, this.editField);
+    this.componentClass = this.editField.getClassFor(this.handler.fieldName, this.schema.type);
+    this.fieldInjector = createLocalInjector(this.injector, this.changeset, this.handler, this.schema);
   }
 
   ngOnDestroy() {
@@ -56,8 +68,6 @@ export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit
   ngAfterViewInit() {
     // Fire in a timeout to avoid same execution context in AfterViewInit
     setTimeout(() => {
-      // Call $onInit once the field is ready
-      this.editField.$onInit(this.elementRef.nativeElement);
       this.onEditFieldReady.emit();
     });
   }

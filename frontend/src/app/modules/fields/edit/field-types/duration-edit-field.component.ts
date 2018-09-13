@@ -26,50 +26,43 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageChangeset} from '../../wp-edit-form/work-package-changeset';
-import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {FormattableEditField} from "core-app/modules/fields/edit/field-types/formattable-edit-field";
+import {TimezoneService} from 'core-components/datetime/timezone.service';
+import * as moment from 'moment';
+import {Component} from "@angular/core";
+import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 
-export class WorkPackageCommentField extends FormattableEditField {
-  public _value:any;
-  public isBusy:boolean = false;
+@Component({
+  template: `
+    <input type="number"
+           step="0.01"
+           class="wp-inline-edit--field"
+           [attr.aria-required]="required"
+           [ngModel]="formatter(value)"
+           (ngModelChange)="value = parser($event)"
+           [attr.required]="required"
+           (keydown)="handler.handleUserKeydown($event)"
+           [disabled]="inFlight"
+           [id]="handler.htmlId" />
+  `
+})
+export class DurationEditFieldComponent extends EditFieldComponent {
+  readonly TimezoneService:TimezoneService = this.$injector.get(TimezoneService);
 
-  public ConfigurationService:ConfigurationService = this.$injector.get(ConfigurationService);
-
-  constructor(public workPackage:WorkPackageResource) {
-    super(
-      new WorkPackageChangeset(WorkPackageCommentField.$injector, workPackage),
-      'comment',
-      {name: I18n.t('js.label_comment')} as any
-    );
-
-    this.initializeFieldValue();
-  }
-
-  public get value() {
-    return this._value;
-  }
-
-  public set value(val:any) {
-    this._value = val;
-  }
-
-  public get required() {
-    return true;
-  }
-
-  public initializeFieldValue(withText?:string):void {
-    if (!withText) {
-      this.rawValue = '';
-      return;
+  public parser(value:any) {
+    if (!isNaN(value)) {
+      let floatValue = parseFloat(value);
+      return moment.duration(floatValue, 'hours');
     }
 
-    if (this.rawValue.length > 0) {
-      this.rawValue += '\n';
-    }
-
-    this.rawValue += withText;
+    return value;
   }
 
+  public formatter(value:any) {
+    return Number(moment.duration(value).asHours().toFixed(2));
+  }
+
+  protected parseValue(val:moment.Moment | null) {
+    return val === null ? null : val.toISOString();
+  }
 }
+

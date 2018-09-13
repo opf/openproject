@@ -1,4 +1,3 @@
-// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -26,11 +25,22 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {TextEditField} from "core-app/modules/fields/edit/field-types/text-edit-field";
+import {Component} from "@angular/core";
+import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 
-export class WorkPackageEditField extends TextEditField {
-
-  public get writable() {
-    return false;
-  }
+@Component({
+  template: `
+    <input type="number"
+           class="wp-inline-edit--field"
+           [attr.aria-required]="required"
+           [attr.required]="required"
+           [disabled]="inFlight"
+           [attr.lang]="locale"
+           [(ngModel)]="value"
+           (keydown)="handler.handleUserKeydown($event)"
+           [id]="handler.htmlId" />
+  `
+})
+export class IntegerEditFieldComponent extends EditFieldComponent {
+  public locale = I18n.locale;
 }

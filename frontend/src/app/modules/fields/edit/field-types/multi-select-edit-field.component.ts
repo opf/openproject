@@ -31,8 +31,7 @@ import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {Component, OnInit} from "@angular/core";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
-import {ValueOption} from "core-app/modules/fields/edit/field-types/select-edit-field";
-import {EditField} from "core-app/modules/fields/edit/edit.field.module";
+import {ValueOption} from "core-app/modules/fields/edit/field-types/select-edit-field.component";
 
 @Component({
   templateUrl: './multi-select-edit-field.component.html'
@@ -214,8 +213,4 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
       this.options.unshift(this.nullOption);
     }
   }
-}
-
-export class MultiSelectEditField extends EditField {
-  component = MultiSelectEditFieldComponent;
 }

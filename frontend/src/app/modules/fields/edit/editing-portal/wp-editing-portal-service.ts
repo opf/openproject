@@ -5,10 +5,10 @@ import {WorkPackageEditFieldHandler} from "core-components/wp-edit-form/work-pac
 import {WorkPackageEditForm} from "core-components/wp-edit-form/work-package-edit-form";
 import {ApplicationRef, ComponentFactoryResolver, Injectable, Injector} from "@angular/core";
 import {ComponentPortal, DomPortalOutlet} from "@angular/cdk/portal";
-import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 import {EditFormPortalComponent} from "core-app/modules/fields/edit/editing-portal/edit-form-portal.component";
 import {createLocalInjector} from "core-app/modules/fields/edit/editing-portal/edit-form-portal.injector";
 import {take} from "rxjs/operators";
+import {IFieldSchema} from "core-app/modules/fields/field.base";
 
 @Injectable()
 export class WorkPackageEditingPortalService {
@@ -21,7 +21,7 @@ export class WorkPackageEditingPortalService {
 
   public create(container:HTMLElement,
                 form:WorkPackageEditForm,
-                field:EditField,
+                schema:IFieldSchema,
                 fieldName:string,
                 errors:string[]):Promise<WorkPackageEditFieldHandler> {
 
@@ -33,14 +33,14 @@ export class WorkPackageEditingPortalService {
       this.injector,
       form,
       fieldName,
-      field,
+      schema,
       container,
       () => outlet.detach(), // Don't call .dispose() on the outlet, it destroys the DOM element
       errors
     );
 
     // Create an injector that contains injectable reference to the edit field and handler
-    const injector = createLocalInjector(this.injector, fieldHandler, field);
+    const injector = createLocalInjector(this.injector, form.changeset, fieldHandler, schema);
 
     // Create a portal for the edit-form/field
     const portal = new ComponentPortal(EditFormPortalComponent, null, injector);

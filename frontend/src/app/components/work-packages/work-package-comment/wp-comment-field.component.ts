@@ -26,32 +26,30 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component} from "@angular/core";
-import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
-import {EditField} from "core-app/modules/fields/edit/edit.field.module";
-
+import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
+import {Component, OnInit} from "@angular/core";
+import {
+  FormattableEditFieldComponent,
+  formattableFieldTemplate
+} from "core-app/modules/fields/edit/field-types/formattable-edit-field.component";
 
 @Component({
-  template: `
-    <input type="checkbox"
-           class="wp-inline-edit--field wp-inline-edit--boolean-field"
-           [attr.aria-required]="field.required"
-           [checked]="field.value"
-           (change)="updateValue(!field.value)"
-           (keydown)="handler.handleUserKeydown($event)"
-           [disabled]="field.inFlight"
-           [id]="handler.htmlId" />
-  `
+  template: formattableFieldTemplate
 })
-export class BooleanEditFieldComponent extends EditFieldComponent {
-  public field:BooleanEditField;
+export class WorkPackageCommentFieldComponent extends FormattableEditFieldComponent implements OnInit {
+  public isBusy:boolean = false;
 
-  public updateValue(newValue:boolean) {
-    this.field.value = newValue;
-    this.handler.handleUserSubmit();
+  public ConfigurationService:ConfigurationService = this.$injector.get(ConfigurationService);
+
+  public get name() {
+    return 'comment';
   }
-}
 
-export class BooleanEditField extends EditField {
-  public component = BooleanEditFieldComponent;
+  public get required() {
+    return true;
+  }
+
+  ngOnInit() {
+    this.rawValue = this.rawValue || '';
+  }
 }

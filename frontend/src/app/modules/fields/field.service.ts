@@ -49,27 +49,6 @@ export abstract class AbstractFieldService<T extends Field, C extends IFieldType
   }
 
   /**
-   * Create an instance of the field type T given the required arguments
-   * with either in descending order:
-   *
-   *  1. The registered field name (most specific)
-   *  2. The registered field for the schema attribute type
-   *  3. The default field type
-   *
-   * @param resource
-   * @param {string} fieldName
-   * @param {IFieldSchema} schema
-   * @param {string} context
-   * @returns {T}
-   */
-  public getField(resource:any, fieldName:string, schema:IFieldSchema, context:string = ''):T {
-    let type = this.fieldType(fieldName) || this.fieldType(schema.type) || this.defaultFieldType;
-    let fieldClass:C = this.classes[type];
-
-    return new fieldClass(resource, fieldName, schema, context);
-  }
-
-  /**
    * Get the field type for the given attribute type.
    * If no registered type exists for the field, returns the default type.
    *
@@ -86,8 +65,9 @@ export abstract class AbstractFieldService<T extends Field, C extends IFieldType
    * @param {string} fieldName
    * @returns {C}
    */
-  public getClassFor(fieldName:string):C {
-    return this.classes[fieldName] || this.classes[this.defaultFieldType];
+  public getClassFor(fieldName:string, type:string = 'unknown'):C {
+    let key = this.fieldType(fieldName) || this.fieldType(type) || this.defaultFieldType;
+    return this.classes[key];
   }
 
   /**

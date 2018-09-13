@@ -30,23 +30,22 @@ import {Component} from "@angular/core";
 import * as moment from "moment";
 import {TimezoneService} from "core-components/datetime/timezone.service";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
-import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 
 @Component({
   template: `
     <op-date-picker
       tabindex="-1"
       (onChange)="onValueSelected($event)"
-      [initialDate]="field.defaultDate">
+      [initialDate]="defaultDate">
 
-      <input [ngModel]="formatter(field.value)"
-             (ngModelChange)="field.value = parser($event);"
+      <input [ngModel]="formatter(value)"
+             (ngModelChange)="value = parser($event);"
              type="text"
              class="wp-inline-edit--field"
              (keydown)="handler.handleUserKeydown($event)"
-             [attr.required]="field.required"
-             [disabled]="field.inFlight"
-             [attr.placeholder]="field.placeholder"
+             [attr.required]="required"
+             [disabled]="inFlight"
+             [attr.placeholder]="placeholder"
              [id]="handler.htmlId" />
 
     </op-date-picker>
@@ -54,11 +53,10 @@ import {EditField} from "core-app/modules/fields/edit/edit.field.module";
   `
 })
 export class DateEditFieldComponent extends EditFieldComponent {
-  public field:DateEditField;
   readonly timezoneService = this.injector.get(TimezoneService);
 
   public onValueSelected(data:string) {
-    this.field.value = this.parser(data);
+    this.value = this.parser(data);
     this.handler.handleUserSubmit();
   }
 
@@ -78,10 +76,6 @@ export class DateEditFieldComponent extends EditFieldComponent {
       return null;
     }
   }
-}
-
-export class DateEditField extends EditField {
-  public component = DateEditFieldComponent;
 
   /**
    * Return the default date for the datepicker instance.

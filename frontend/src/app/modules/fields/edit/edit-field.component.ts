@@ -26,46 +26,49 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectorRef, Component, Inject, InjectionToken, Injector, OnDestroy, OnInit} from "@angular/core";
-import {WorkPackageEditFieldHandler} from "core-components/wp-edit-form/work-package-edit-field-handler";
-import {EditField} from "core-app/modules/fields/edit/edit.field.module";
-import {IFieldSchema} from "core-app/modules/fields/field.base";
+import {ChangeDetectorRef, Component, ElementRef, Inject, InjectionToken, Injector, OnDestroy} from "@angular/core";
 import {IEditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler.interface";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {Field, IFieldSchema} from "core-app/modules/fields/field.base";
+import {WorkPackageChangeset} from "core-components/wp-edit-form/work-package-changeset";
 
-export const OpEditingPortalFieldToken = new InjectionToken('wp-editing-portal--field');
+export const OpEditingPortalSchemaToken = new InjectionToken('wp-editing-portal--schema');
 export const OpEditingPortalHandlerToken = new InjectionToken('wp-editing-portal--handler');
+export const OpEditingPortalChangesetToken = new InjectionToken('wp-editing-portal--changeset');
 
 @Component({
   template: ''
 })
-export class EditFieldComponent implements OnDestroy {
+export class EditFieldComponent extends Field implements OnDestroy {
   constructor(readonly I18n:I18nService,
+              readonly elementRef:ElementRef,
               @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService,
-              @Inject(OpEditingPortalFieldToken) readonly field:EditField,
+              @Inject(OpEditingPortalChangesetToken) protected changeset:WorkPackageChangeset,
+              @Inject(OpEditingPortalSchemaToken) public schema:IFieldSchema,
               @Inject(OpEditingPortalHandlerToken) readonly handler:IEditFieldHandler,
               readonly cdRef:ChangeDetectorRef,
               readonly injector:Injector) {
+    super();
     this.initialize();
 
-    this.wpEditing.state(this.field.resource.id)
+    this.wpEditing.state(this.changeset.workPackage.id)
       .values$()
       .pipe(
         untilComponentDestroyed(this)
       )
       .subscribe((changeset) => {
         if (!this.changeset.empty && this.changeset.wpForm.hasValue()) {
-          const fieldSchema = changeset.wpForm.value!.schema[this.field.name];
+          const fieldSchema = changeset.wpForm.value!.schema[this.name];
 
           if (!fieldSchema) {
             return handler.deactivate(false);
           }
 
-          this.field.schema = fieldSchema;
-          this.field.resource = changeset.workPackage;
+          this.changeset = changeset;
+          this.schema = fieldSchema;
           this.initialize();
           this.cdRef.markForCheck();
         }
@@ -76,27 +79,44 @@ export class EditFieldComponent implements OnDestroy {
     // Nothing to do
   }
 
-  protected initialize() {
-    // Allow subclasses to create post-constructor initialization
+  public get inFlight() {
+    return this.handler.inFlight;
   }
 
   public get value() {
-    return this.field.value;
-  }
-
-  public set value(val:any) {
-    this.field.value = val;
+    return this.changeset.value(this.name);
   }
 
   public get name() {
-    return this.field.name;
+    return this.handler.fieldName;
   }
 
-  public get schema():IFieldSchema {
-    return this.field.schema;
+  public set value(value:any) {
+    this.changeset.setValue(this.name, this.parseValue(value));
   }
 
-  public get changeset() {
-    return this.field.changeset;
+  public get placeholder() {
+    if (this.name === 'subject') {
+      return this.I18n.t('js.placeholders.subject');
+    }
+
+    return '';
+  }
+
+  public get resource() {
+    return this.changeset.workPackage;
+  }
+
+  /**
+   * Initialize the field after constructor was called.
+   */
+  protected initialize() {
+  }
+
+  /**
+   * Parse the value from the model for setting
+   */
+  protected parseValue(val:any) {
+    return val;
   }
 }

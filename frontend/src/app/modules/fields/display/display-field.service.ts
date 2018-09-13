@@ -42,4 +42,23 @@ export class DisplayFieldService extends AbstractFieldService<DisplayField, IDis
   constructor(injector:Injector) {
     super(injector);
   }
+
+  /**
+   * Create an instance of the field type T given the required arguments
+   * with either in descending order:
+   *
+   *  1. The registered field name (most specific)
+   *  2. The registered field for the schema attribute type
+   *  3. The default field type
+   *
+   * @param resource
+   * @param {string} fieldName
+   * @param {IFieldSchema} schema
+   * @param {string} context
+   * @returns {T}
+   */
+  public getField(resource:any, fieldName:string, schema:IFieldSchema, context:string = ''):DisplayField {
+    const fieldClass = this.getClassFor(fieldName, schema.type);
+    return new fieldClass(resource, fieldName, schema, context);
+  }
 }
