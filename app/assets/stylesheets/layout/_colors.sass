@@ -97,3 +97,10 @@
     vertical-align: -1px
     margin-right: 4px
     border-radius: 50%
+
+@mixin dot_border_width_style
+  [class^='__hl_dot_'],
+  [class*=' __hl_dot_']
+    &::before
+      border-width: 1px
+      border-style: solid
