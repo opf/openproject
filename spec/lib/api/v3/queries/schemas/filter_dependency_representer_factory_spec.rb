@@ -40,8 +40,16 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
     context 'assigned to filter' do
       let(:filter) { Queries::WorkPackages::Filter::AssignedToFilter.create! }
 
-      it 'is a assigned_to dependency' do
-        is_expected.to be_a(::API::V3::Queries::Schemas::AssignedToFilterDependencyRepresenter)
+      it 'is a all principals dependency' do
+        is_expected.to be_a(::API::V3::Queries::Schemas::AllPrincipalsFilterDependencyRepresenter)
+      end
+    end
+
+    context 'responsible filter' do
+      let(:filter) { Queries::WorkPackages::Filter::ResponsibleFilter.create! }
+
+      it 'is a all principals dependency' do
+        is_expected.to be_a(::API::V3::Queries::Schemas::AllPrincipalsFilterDependencyRepresenter)
       end
     end
 
@@ -200,14 +208,6 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
 
       it 'is the project dependency' do
         is_expected.to be_a(::API::V3::Queries::Schemas::ProjectFilterDependencyRepresenter)
-      end
-    end
-
-    context 'responsible filter' do
-      let(:filter) { Queries::WorkPackages::Filter::ResponsibleFilter.create! }
-
-      it 'is the author dependency' do
-        is_expected.to be_a(::API::V3::Queries::Schemas::UserFilterDependencyRepresenter)
       end
     end
 

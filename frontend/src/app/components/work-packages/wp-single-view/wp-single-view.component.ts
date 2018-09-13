@@ -44,6 +44,7 @@ import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {IWorkPackageEditingServiceToken} from "../../wp-edit-form/work-package-editing.service.interface";
 import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
 import {WorkPackageInlineHighlightingService} from "core-components/wp-fast-table/state/wp-table-inline-highlighting.service";
+import {DynamicCssService} from "../../../modules/common/dynamic-css/dynamic-css.service";
 
 export interface FieldDescriptor {
   name:string;
@@ -116,6 +117,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
               protected currentProject:CurrentProjectService,
               protected PathHelper:PathHelperService,
               protected states:States,
+              protected dynamicCssService:DynamicCssService,
               @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService,
               protected displayFieldService:DisplayFieldService,
               protected wpCacheService:WorkPackageCacheService) {
@@ -125,6 +127,10 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
     if (this.workPackage.attachments) {
       this.workPackage.attachments.updateElements();
     }
+
+    // Dynamically load highlighting at this point,
+    // if it isn't available yet
+    this.dynamicCssService.requireHighlighting();
 
     // Whenever the resource context changes in any way,
     // update the visible fields.

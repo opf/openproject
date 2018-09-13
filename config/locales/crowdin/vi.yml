@@ -186,7 +186,7 @@ vi:
       edit_query: Chỉnh sửa nhúng truy vấn
       reset: Reset to defaults
       type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
   versions:
     overview:
@@ -401,7 +401,7 @@ vi:
         warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved
           changes
       version:
-        effective_date: Ngày hết hạn
+        effective_date: Finish date
         sharing: Chia sẻ
       wiki_content:
         text: Văn bản
@@ -648,7 +648,7 @@ vi:
     default_columns: Cột mặc định
     description: Mô tả
     display_sums: Hiển thị tổng
-    due_date: Ngày hết hạn
+    due_date: Finish date
     estimated_hours: Thời gian dự kiến
     estimated_time: Thời gian dự kiến
     firstname: Tên
@@ -1305,6 +1305,7 @@ vi:
   label_group_by: Nhóm theo
   label_group_new: Nhóm mới
   label_group: Nhóm
+  label_group_named: Group %{name}
   label_group_plural: Các Nhóm
   label_help: Trợ giúp
   label_here: đây
@@ -1565,6 +1566,7 @@ vi:
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
   label_user: Người dùng
+  label_user_named: User %{name}
   label_user_activity: "%{value} hoạt động"
   label_user_anonymous: Ẩn danh
   label_user_mail_option_all: Bất kỳ sự kiện trên tất cả dự án của tôi
@@ -2710,7 +2712,7 @@ vi:
       validation:
         done_ratio: Done ratio cannot be set on parent work packages, when it is inferred
           by status or when it is disabled.
-        due_date: Due date cannot be set on parent work packages.
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: Estimated hours cannot be set on parent work packages.
         invalid_user_assigned_to_work_package: The chosen user is not allowed to be
           '%{property}' for this work package.

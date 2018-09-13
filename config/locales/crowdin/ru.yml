@@ -184,7 +184,7 @@ ru:
       edit_query: Редактировать вложенный запрос
       reset: Восстановить значения по умолчанию
       type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
   versions:
     overview:
@@ -402,7 +402,7 @@ ru:
         warn_on_leaving_unsaved: При покидании рабочего пакета предупреждать о не
           сохраненных изменениях
       version:
-        effective_date: Дата завершения
+        effective_date: Finish date
         sharing: Совместное использование
       wiki_content:
         text: Текст
@@ -660,7 +660,7 @@ ru:
     default_columns: Столбцы по умолчанию
     description: Описание
     display_sums: Отображение суммы
-    due_date: Дата завершения
+    due_date: Finish date
     estimated_hours: Предполагаемое время
     estimated_time: Предполагаемое время
     firstname: Имя
@@ -1343,6 +1343,7 @@ ru:
   label_group_by: Группировать по
   label_group_new: Новая группа
   label_group: Группа
+  label_group_named: Group %{name}
   label_group_plural: Группы
   label_help: Справка
   label_here: здесь
@@ -1606,6 +1607,7 @@ ru:
   label_used_by_types: Используемые типы
   label_used_in_projects: Используется в проектах
   label_user: Пользователь
+  label_user_named: User %{name}
   label_user_activity: "%{value} деятельности"
   label_user_anonymous: Анонимно
   label_user_mail_option_all: Для любого события на моих проектах
@@ -2788,8 +2790,7 @@ ru:
       validation:
         done_ratio: Установленное соотношение нельзя задать для родительских пакетов
           работ, когда оно задается статусом или  отключено.
-        due_date: Ожидаемую дату окончания нельзя задать для родительских пакетов
-          работ.
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: Предполагаемое количество часов не может быть задано для
           родительских пакетов.
         invalid_user_assigned_to_work_package: Выбранный пользователь не может быть

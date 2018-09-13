@@ -189,7 +189,7 @@ de:
       edit_query: Eingebettete Abfrage bearbeiten
       reset: Auf Standardwerte zurücksetzen
       type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
   versions:
     overview:
@@ -410,7 +410,7 @@ de:
         warn_on_leaving_unsaved: Beim Verlassen einer Arbeitspaket-Seite mit ungespeichertem
           Text warnen
       version:
-        effective_date: Abgabedatum
+        effective_date: Endtermin
         sharing: Gemeinsame Verwendung
       wiki_content:
         text: Text
@@ -434,7 +434,7 @@ de:
         progress: Fortschritt (%)
         spent_hours: Aufgewendete Zeit
         spent_time: Aufgewendete Zeit
-        subproject: Unterprojekt von
+        subproject: Unterprojekt
         time_entries: Zeit buchen
         type: Typ
         watcher: Beobachter
@@ -665,7 +665,7 @@ de:
     default_columns: Standard-Spalten
     description: Beschreibung
     display_sums: Summen anzeigen
-    due_date: Abgabedatum
+    due_date: Endtermin
     estimated_hours: Geschätzter Aufwand
     estimated_time: Geschätzter Aufwand
     firstname: Vorname
@@ -687,7 +687,7 @@ de:
     responsible: Verantwortlich
     role: Rolle
     roles: Rollen
-    start_date: Beginn
+    start_date: Anfangstermin
     status: Status
     subject: Thema
     summary: Zusammenfassung
@@ -1338,6 +1338,7 @@ de:
   label_group_by: Gruppieren nach
   label_group_new: Neue Gruppe
   label_group: Gruppe
+  label_group_named: Group %{name}
   label_group_plural: Gruppen
   label_help: Hilfe
   label_here: hier
@@ -1568,7 +1569,7 @@ de:
   label_storage_group: Speicher-Dateisystem %{identifier}
   label_storage_for: Umfasst Speicher für
   label_string: Text
-  label_subproject: Unterprojekt von
+  label_subproject: Unterprojekt
   label_subproject_new: Neues Unterprojekt
   label_subproject_plural: Unterprojekte
   label_subtask_plural: Unteraufgaben
@@ -1599,6 +1600,7 @@ de:
   label_used_by_types: Verwendet von Typen
   label_used_in_projects: Verwendet in Projekten
   label_user: Benutzer
+  label_user_named: User %{name}
   label_user_activity: Aktivität von %{value}
   label_user_anonymous: Anonymus
   label_user_mail_option_all: Für alle Ereignisse in all meinen Projekten
@@ -2002,7 +2004,7 @@ de:
     assigned_to_role: Rolle der zugewiesenen Person
     member_of_group: Gruppe der zugewiesenen Person
     assignee_or_group: Zugewiesen an Nutzer oder dessen Gruppe
-    subproject_id: Unterprojekt von
+    subproject_id: Unterprojekt
     name_or_identifier: Name oder Kennung
   repositories:
     at_identifier: auf %{identifier}
@@ -2793,7 +2795,7 @@ de:
         done_ratio: Der Fortschritt kann nicht gesetzt werden falls es sich um ein
           Eltern-Arbeitspaket handelt, er durch den Status definiert wird oder wenn
           er komplett deaktiviert wurde.
-        due_date: Das Enddatum kann für Eltern-Arbeitspakete nicht gesetzt werden.
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: Der geschätzte Aufwand kann für Eltern-Arbeitspakete nicht
           gesetzt werden.
         invalid_user_assigned_to_work_package: Der gewählte Nutzer darf dem Arbeitspaket

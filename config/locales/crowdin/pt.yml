@@ -188,7 +188,7 @@ pt:
       edit_query: Edit embedded query
       reset: Repor predefinições
       type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
   versions:
     overview:
@@ -411,7 +411,7 @@ pt:
         warn_on_leaving_unsaved: Alertar-me quando sair de um pacote de trabalho sem
           guardar as alterações
       version:
-        effective_date: Prazo
+        effective_date: Finish date
         sharing: Compartilhar
       wiki_content:
         text: Conteúdo
@@ -657,7 +657,7 @@ pt:
     default_columns: Colunas padrão
     description: Descrição
     display_sums: Exibir somas
-    due_date: Prazo
+    due_date: Finish date
     estimated_hours: Tempo estimado
     estimated_time: Tempo estimado
     firstname: Primeiro nome
@@ -1322,6 +1322,7 @@ pt:
   label_group_by: Agrupar por
   label_group_new: Novo Grupo
   label_group: Grupo
+  label_group_named: Group %{name}
   label_group_plural: Groupos
   label_help: Ajuda
   label_here: aqui
@@ -1584,6 +1585,7 @@ pt:
   label_used_by_types: Utilizado por tipos
   label_used_in_projects: Utilizado em projetos
   label_user: Usuário
+  label_user_named: User %{name}
   label_user_activity: Atividade de %{value}
   label_user_anonymous: Anónimo
   label_user_mail_option_all: Para qualquer evento em todos os meus projetos
@@ -2759,7 +2761,7 @@ pt:
       validation:
         done_ratio: A percentagem completa não pode ser definida em pacotes de trabalho
           parentes quando é inferida pelo estado ou quando está desativada.
-        due_date: Data de entrega não pode ser definida em tarefas pai.
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: Número estimado de horas não pode ser definido em tarefas
           pai.
         invalid_user_assigned_to_work_package: O utilizador escolhido não pode ser

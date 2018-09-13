@@ -415,7 +415,7 @@ de:
       button_deactivate: Gantt-Diagramm ausblenden
       cancel: Abbrechen
       change: Planungsänderung
-      due_date: Abgabedatum
+      due_date: Endtermin
       empty: "(leer)"
       error: Ein Fehler ist aufgetreten.
       errors:
@@ -569,7 +569,7 @@ de:
         createdAt: Angelegt am
         description: Beschreibung
         date: Datum
-        dueDate: Abgabedatum
+        dueDate: Endtermin
         estimatedTime: Geschätzter Aufwand
         spentTime: Aufgewendete Zeit
         category: Kategorie
@@ -644,10 +644,10 @@ de:
         modal_title: Konfiguration der Arbeitspaket-Tabelle
         embedded_tab_disabled: Dieser Tab ist nicht verfübar für diese eingebettete
           Ansicht.
-        default: default
+        default: Standard
         display_settings: Anzeige-Einstellungen
-        default_mode: Standardmodus
-        hierarchy_mode: Hierarchie-Modus
+        default_mode: Flat list
+        hierarchy_mode: Hierarchy
         hierarchy_hint: Zusätzlich zu den Ergebnissen der Tabelle werden die Eltern
           der Elemente angezeigt. Hierarchien können in der Tabelle ein- und ausgeklappt
           werden.
@@ -658,24 +658,15 @@ de:
           Ziehen des Trennstrichs zwischen Tabelle und Gantt-Diagramm konfigurieren.
         highlighting: Highlighting
         highlighting_mode:
-          description: Control highlighting of rows through a color defined by a work
-            package attribute, such as priority or status.
-          none: Kein Planungsvergleich
-          inline: Inline
+          description: Highlight with color
+          none: No highlighting
+          inline: Overdue dates, "Status", and "Priority" attributes
           entire_row_by: Entire row by
           status: Status
           priority: Priorität
-          none_text: Disables highlighted output of attributes in the table altogether.
-          inline_text: No highlighting of work package rows. Display colors of overdue
-            dates, status, and priority attributes in their respective columns.
-          status_text: Highlight work package rows based on the color of its status.
-          priority_text: Highlight work package rows based on the color of its priority.
         columns_help_text: Verwenden Sie die Eingabe oben um Spalten zur Tabellenansicht
           hinzuzufügen oder zu entfernen. Sie können die Reihenfolge der Spalten über
           Drag & Drop verändern.
-        grouped_mode: Gruppierte Ansicht
-        grouped_hint: Ergebnisse der Tabelle werden anhand des angegebenen Attributs
-          gruppiert.
       tabs:
         overview: Übersicht
         activity: Aktivität

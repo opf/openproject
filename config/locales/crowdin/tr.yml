@@ -184,7 +184,7 @@ tr:
       edit_query: Edit embedded query
       reset: Varsayılanlara geri yükle
       type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
   versions:
     overview:
@@ -399,7 +399,7 @@ tr:
         warn_on_leaving_unsaved: İş paketlerinden ayrılırken kaydedilmemiş değişiklik
           olduğunda beni uyar
       version:
-        effective_date: Teslim tarihi
+        effective_date: Finish date
         sharing: Paylaşım
       wiki_content:
         text: Metin
@@ -645,7 +645,7 @@ tr:
     default_columns: Varsayılan sütunlar
     description: Açıklama
     display_sums: Toplamları görüntüle
-    due_date: Teslim tarihi
+    due_date: Finish date
     estimated_hours: Tahmini süre
     estimated_time: Tahmini süre
     firstname: İsim
@@ -1303,6 +1303,7 @@ tr:
   label_group_by: Grupla
   label_group_new: Yeni grup
   label_group: Grup
+  label_group_named: Group %{name}
   label_group_plural: Gruplar
   label_help: Yardım
   label_here: buraya
@@ -1563,6 +1564,7 @@ tr:
   label_used_by_types: Türleri tarafından kullanılan
   label_used_in_projects: Projede kullanılan
   label_user: Kullanıcı
+  label_user_named: User %{name}
   label_user_activity: "%{value}'ın faaliyet"
   label_user_anonymous: Anonim
   label_user_mail_option_all: Tüm projelerimdeki herhangi bir olay için
@@ -2709,7 +2711,7 @@ tr:
       validation:
         done_ratio: Bitirme oranı, ebeveyn çalışma paketleri durumunda durumuyla veya
           devre dışı olduğunda belirlenemez.
-        due_date: Vade tarihi, ebeveyn çalışma paketlerinde ayarlanamaz.
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: Tahmini saatler, ebeveyn çalışma paketlerinde ayarlanamaz.
         invalid_user_assigned_to_work_package: Seçilen kullanıcının bu çalışma paketi
           için ' %{property} ' olması için izin verilmiyor.

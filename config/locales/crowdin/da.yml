@@ -186,7 +186,7 @@ da:
       edit_query: Edit embedded query
       reset: Reset to defaults
       type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
   versions:
     overview:
@@ -401,7 +401,7 @@ da:
         warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved
           changes
       version:
-        effective_date: Forfaldsdato
+        effective_date: Finish date
         sharing: Deler
       wiki_content:
         text: Tekst
@@ -645,7 +645,7 @@ da:
     default_columns: Forudvalgte kolonner
     description: Beskrivelse
     display_sums: Vis totaler
-    due_date: Forfaldsdato
+    due_date: Finish date
     estimated_hours: Anslået tid
     estimated_time: Anslået tid
     firstname: Fornavn
@@ -1301,6 +1301,7 @@ da:
   label_group_by: Gruppér efter
   label_group_new: Ny gruppe
   label_group: Gruppe
+  label_group_named: Group %{name}
   label_group_plural: Grupper
   label_help: Hjælp
   label_here: her
@@ -1560,6 +1561,7 @@ da:
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
   label_user: Bruger
+  label_user_named: User %{name}
   label_user_activity: "%{value}s aktivitet"
   label_user_anonymous: Anonymt
   label_user_mail_option_all: For enhver hændelse i alle mine projekter
@@ -2704,7 +2706,7 @@ da:
       validation:
         done_ratio: Andel for udført kan ikke angives for orverordnede arbejdspakker
           når den er udledt af status, eller når den er slået fra.
-        due_date: Forfaldsdato kan ikke angives for overordnede arbejdspakker.
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: Det skønnede timetal kan ikke angives på overordnede arbejdspakker.
         invalid_user_assigned_to_work_package: Den valgte bruger er ikke tilladt at
           være '%{property}' for denne arbejdspakke.

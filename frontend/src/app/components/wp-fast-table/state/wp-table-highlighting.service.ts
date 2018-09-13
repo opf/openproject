@@ -4,10 +4,12 @@ import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Injectable} from '@angular/core';
 import {States} from 'core-components/states.service';
 import {HighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
+import {DynamicCssService} from "../../../modules/common/dynamic-css/dynamic-css.service";
 
 @Injectable()
 export class WorkPackageTableHighlightingService extends WorkPackageTableBaseService<HighlightingMode> implements WorkPackageQueryStateService {
   public constructor(readonly states:States,
+                     readonly dynamicCssService:DynamicCssService,
                      readonly tableState:TableState) {
     super(tableState);
   }
@@ -29,7 +31,12 @@ export class WorkPackageTableHighlightingService extends WorkPackageTableBaseSer
   }
 
   public update(value:HighlightingMode) {
-    this.state.putValue(value);
+    super.update(value);
+
+    // Load dynamic highlighting CSS if enabled
+    if (!this.isDisabled) {
+      this.dynamicCssService.requireHighlighting();
+    }
   }
 
   public valueFromQuery(query:QueryResource):HighlightingMode {

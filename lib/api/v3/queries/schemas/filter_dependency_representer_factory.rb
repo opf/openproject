@@ -48,7 +48,8 @@ module API
             'CreatedAtFilter': 'DateTimeFilter',
             'UpdatedAtFilter': 'DateTimeFilter',
             'AuthorFilter': 'UserFilter',
-            'ResponsibleFilter': 'UserFilter',
+            'ResponsibleFilter': 'AllPrincipalsFilter',
+            'AssignedToFilter': 'AllPrincipalsFilter',
             'WatcherFilter': 'UserFilter'
           }
 

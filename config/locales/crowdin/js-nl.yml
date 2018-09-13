@@ -413,7 +413,7 @@ nl:
       button_deactivate: Verberg Gantt-diagram
       cancel: Annuleren
       change: In de planning wijzigen
-      due_date: Vervaldatum
+      due_date: Finish date
       empty: "(leeg)"
       error: Er is een fout opgetreden.
       errors:
@@ -566,7 +566,7 @@ nl:
         createdAt: Gemaakt op
         description: Omschrijving
         date: Datum
-        dueDate: Vervaldatum
+        dueDate: Finish date
         estimatedTime: Geschatte tijd
         spentTime: Bestede tijd
         category: Categorie
@@ -639,10 +639,10 @@ nl:
         modal_title: Werk pakket tabel configuratie
         embedded_tab_disabled: Het configuratie tabblad is niet beschikbaar voor het
           overzicht dat u probeert te bewerken.
-        default: default
+        default: standaard
         display_settings: Weergave-instellingen
-        default_mode: Standaardmodus
-        hierarchy_mode: Hiërarchie-modus
+        default_mode: Flat list
+        hierarchy_mode: Hierarchy
         hierarchy_hint: Alle gefilterde tabel resultaten zal worden uitgebreid met
           hun voorouders. Hiërarchieën kunnen worden uitgevouwen en samengevouwen.
         display_sums_hint: Waarden van alle optelbare attributen in een rij onder
@@ -652,24 +652,15 @@ nl:
           tabel en Gantt-diagram te slepen.
         highlighting: Highlighting
         highlighting_mode:
-          description: Control highlighting of rows through a color defined by a work
-            package attribute, such as priority or status.
-          none: Geen
-          inline: Inline
+          description: Highlight with color
+          none: No highlighting
+          inline: Overdue dates, "Status", and "Priority" attributes
           entire_row_by: Entire row by
           status: Status
           priority: Prioriteit
-          none_text: Disables highlighted output of attributes in the table altogether.
-          inline_text: No highlighting of work package rows. Display colors of overdue
-            dates, status, and priority attributes in their respective columns.
-          status_text: Highlight work package rows based on the color of its status.
-          priority_text: Highlight work package rows based on the color of its priority.
         columns_help_text: Gebruik de bovenstaande toegang voor het toevoegen of verwijderen
           van kolommen aan uw tabelweergave. U kunt de kolommen slepen en neerzetten
           om deze te rangschikken.
-        grouped_mode: Gegroepeerde modus
-        grouped_hint: Tabel resultaten zullen worden gegroepeerd op het opgegeven
-          kenmerk.
       tabs:
         overview: Overzicht
         activity: Activiteit

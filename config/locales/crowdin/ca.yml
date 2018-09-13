@@ -188,7 +188,7 @@ ca:
       edit_query: Edit embedded query
       reset: Reset to defaults
       type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
   versions:
     overview:
@@ -412,7 +412,7 @@ ca:
         warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved
           changes
       version:
-        effective_date: Data de venciment
+        effective_date: Finish date
         sharing: Compartint
       wiki_content:
         text: Text
@@ -655,7 +655,7 @@ ca:
     default_columns: Columnes predeterminades
     description: Descripció
     display_sums: Mostra les sumes
-    due_date: Data de venciment
+    due_date: Finish date
     estimated_hours: Temps estimat
     estimated_time: Temps estimat
     firstname: Nom
@@ -1318,6 +1318,7 @@ ca:
   label_group_by: Agrupa per
   label_group_new: Nou grup
   label_group: Grup
+  label_group_named: Group %{name}
   label_group_plural: Grups
   label_help: Ajuda
   label_here: aquí
@@ -1580,6 +1581,7 @@ ca:
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
   label_user: Usuari
+  label_user_named: User %{name}
   label_user_activity: Activitat de %{value}
   label_user_anonymous: Anònim
   label_user_mail_option_all: Per qualsevol esdeveniment en tots els meus projectes
@@ -2769,8 +2771,7 @@ ca:
       validation:
         done_ratio: El ràtio de compleció no es pot definir per paquets de treball
           del pare, quan s'infereix de l'estat o quan està deshabilitat.
-        due_date: La data de venciment no es pot definir per paquets de treball del
-          pare.
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: Les hores estimades no es poden definir per paquets de treball
           del pare.
         invalid_user_assigned_to_work_package: L'usuari escollit no pot ser "%{property}"

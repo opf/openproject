@@ -407,7 +407,7 @@ vi:
       button_deactivate: Ân biểu đồ sự kiện
       cancel: Hủy
       change: Change in planning
-      due_date: Ngày hết hạn
+      due_date: Finish date
       empty: "(empty)"
       error: Lỗi đã xảy ra.
       errors:
@@ -559,7 +559,7 @@ vi:
         createdAt: Tạo ngày
         description: Mô tả
         date: Ngày
-        dueDate: Ngày hết hạn
+        dueDate: Finish date
         estimatedTime: Thời gian dự kiến
         spentTime: Thời gian
         category: Thể loại
@@ -631,8 +631,8 @@ vi:
           mà bạn đang soạn thảo.
         default: default
         display_settings: Cài đặt hiển thị
-        default_mode: Chế độ Mặc định
-        hierarchy_mode: Hierarchy mode
+        default_mode: Flat list
+        hierarchy_mode: Hierarchy
         hierarchy_hint: Tất cả các bảng được lọc sẽ được gắn với tiền bối của nó.
           Cây công việc có thể đươc mở ra hoặc thu lại.
         display_sums_hint: Hiển thị tổng của các cột số trong một hàng phía dưới bảng
@@ -641,22 +641,14 @@ vi:
           thay đổi độ rộng của nó bằng cách kéo thanh chia giữa bảng và biểu đồ grantt.
         highlighting: Highlighting
         highlighting_mode:
-          description: Control highlighting of rows through a color defined by a work
-            package attribute, such as priority or status.
-          none: None
-          inline: Inline
+          description: Highlight with color
+          none: No highlighting
+          inline: Overdue dates, "Status", and "Priority" attributes
           entire_row_by: Entire row by
           status: Trạng thái
           priority: Độ ưu tiên
-          none_text: Disables highlighted output of attributes in the table altogether.
-          inline_text: No highlighting of work package rows. Display colors of overdue
-            dates, status, and priority attributes in their respective columns.
-          status_text: Highlight work package rows based on the color of its status.
-          priority_text: Highlight work package rows based on the color of its priority.
         columns_help_text: Sử dụng ô nhập liệu trên đây để thêm hoặc bớt cột vào bảng
           của bạn. Bạn có thể kéo thả cột để thay đổi trật tự của nó.
-        grouped_mode: Chế độ nhóm
-        grouped_hint: Kết quả của bảng sẽ được nhóm với các thuộc tính đã cho.
       tabs:
         overview: Tổng quan
         activity: Hoạt động

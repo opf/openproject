@@ -186,7 +186,7 @@ fr:
       edit_query: Edit embedded query
       reset: Rétablir les valeurs par défaut
       type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
   versions:
     overview:
@@ -408,7 +408,7 @@ fr:
         warn_on_leaving_unsaved: M'avertir lorsque je quitte un lot de travaux contenant
           des modifications non enregistrées
       version:
-        effective_date: Échéance
+        effective_date: Finish date
         sharing: Partage
       wiki_content:
         text: Texte
@@ -662,7 +662,7 @@ fr:
     default_columns: Colonnes par défaut
     description: Description
     display_sums: Afficher les sommes
-    due_date: Échéance
+    due_date: Finish date
     estimated_hours: Durée estimée
     estimated_time: Durée estimée
     firstname: Prénom
@@ -1327,6 +1327,7 @@ fr:
   label_group_by: Grouper par
   label_group_new: Nouveau groupe
   label_group: Groupe
+  label_group_named: Group %{name}
   label_group_plural: Groupes
   label_help: Aide
   label_here: ici
@@ -1588,6 +1589,7 @@ fr:
   label_used_by_types: Utilisé par types
   label_used_in_projects: Utilisé dans les projets
   label_user: Utilisateur
+  label_user_named: User %{name}
   label_user_activity: Activité de %{value}
   label_user_anonymous: Anonyme
   label_user_mail_option_all: Pour tout évènement sur tous mes projets
@@ -2780,8 +2782,7 @@ fr:
       validation:
         done_ratio: Le taux d'avancement ne peut être défini sur les lots de travaux
           parents lorsqu'il est déduit en fonction du statut, ou lorsqu'il est désactivé.
-        due_date: La date d'échéance ne peut pas être définie dans les lots de travaux
-          parents.
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: Les heures estimées ne peuvent être définies sur les lots
           de travaux parents.
         invalid_user_assigned_to_work_package: L’utilisateur choisi n'est pas autorisé

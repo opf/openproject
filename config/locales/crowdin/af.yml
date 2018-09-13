@@ -186,7 +186,7 @@ af:
       edit_query: Edit embedded query
       reset: Reset to defaults
       type_color_text: |
-        Click to assign or change the color of this type. The selected color will is used to distinguish work packages
+        Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
   versions:
     overview:
@@ -402,7 +402,7 @@ af:
         warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved
           changes
       version:
-        effective_date: Sperdatum
+        effective_date: Finish date
         sharing: Meedeling
       wiki_content:
         text: Teks
@@ -647,7 +647,7 @@ af:
     default_columns: Verstekkolomme
     description: Beskrywing
     display_sums: Vertoon totale
-    due_date: Sperdatum
+    due_date: Finish date
     estimated_hours: Geraamde tyd
     estimated_time: Geraamde tyd
     firstname: Voornaam
@@ -1309,6 +1309,7 @@ af:
   label_group_by: Groepeer volgens
   label_group_new: Nuwe groep
   label_group: Groep
+  label_group_named: Group %{name}
   label_group_plural: Groepe
   label_help: Help
   label_here: hier
@@ -1569,6 +1570,7 @@ af:
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
   label_user: Gebruiker
+  label_user_named: User %{name}
   label_user_activity: "%{value}'s activity"
   label_user_anonymous: Anoniem
   label_user_mail_option_all: For any event on all my projects
@@ -2714,7 +2716,7 @@ af:
       validation:
         done_ratio: Klaar verhouding kan nie gestel word op ouerwerkspakkette wanneer
           dit vanuit status afgelei is of wanneer onaktief is.
-        due_date: Sperdatum kan nie gestel word op ouerwerkspakkette nie.
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: Beraamde ure kan nie gestel word op ouerwerkspakkette nie.
         invalid_user_assigned_to_work_package: Die gekose gebruiker is nie toegelaat
           om '%{property}' vir hierdie werkspakket te wees nie.

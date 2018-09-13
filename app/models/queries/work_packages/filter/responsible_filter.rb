@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -29,12 +30,6 @@
 
 class Queries::WorkPackages::Filter::ResponsibleFilter <
   Queries::WorkPackages::Filter::PrincipalBaseFilter
-  def allowed_values
-    @allowed_values ||= begin
-      values = principal_loader.user_values
-      me_allowed_value + values
-    end
-  end
 
   def type
     :list_optional
