@@ -647,6 +647,8 @@ en:
           inline: 'Dots'
           none: "No highlighting"
           as_inline_or_cell: 'Overdue dates, "Status", and "Priority" attributes as'
+          inline: 'Overdue dates, and dots before "Status" and "Priority" attributes'
+          cell: 'Overdue dates, and cell for "Status" and "Priority" attributes'
           entire_row_by: 'Entire row by'
           status: 'Status'
           priority: 'Priority'
