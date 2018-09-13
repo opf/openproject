@@ -29,40 +29,52 @@
 require 'spec_helper'
 require 'support/pages/custom_fields'
 
-describe 'custom fields', js: true do
-  let(:user) { FactoryBot.create :admin }
-  let(:cf_page) { Pages::CustomFields.new }
-  let(:for_all_cf) { FactoryBot.create :list_wp_custom_field, is_for_all: true }
-  let(:project_specific_cf) { FactoryBot.create :int_wp_custom_field }
-  let(:work_package) do
-    wp = FactoryBot.build(:work_package).tap do |wp|
-      wp.type.custom_fields = [for_all_cf, project_specific_cf]
-    end
-    wp.save!
-    wp
+describe 'types', js: true do
+  let(:user) do
+    FactoryBot.create :user,
+                      member_in_project: project,
+                      member_with_permissions: %i(edit_project manage_types add_work_packages view_work_packages)
   end
-  let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
-  let(:project_settings_page) { Pages::Projects::Settings.new(work_package.project) }
+  let!(:active_type) { FactoryBot.create(:type) }
+  let!(:type) { FactoryBot.create(:type) }
+  let!(:project) { FactoryBot.create(:project, types: [active_type]) }
+  let(:project_settings_page) { Pages::Projects::Settings.new(project) }
+  let(:work_packages_page) { Pages::WorkPackagesTable.new(project) }
 
   before do
     login_as(user)
   end
 
   it 'is only visible in the project if it has been activated' do
-    wp_page.visit!
+    # the currently active types are available for work package creation
+    work_packages_page.visit!
 
-    wp_page.expect_attributes "customField#{for_all_cf.id}": '-'
-    wp_page.expect_no_attribute "customField#{project_specific_cf.id}"
+    work_packages_page.expect_type_available_for_create(active_type)
+    work_packages_page.expect_type_not_available_for_create(type)
 
-    project_settings_page.visit_tab!('custom_fields')
+    project_settings_page.visit_tab!('types')
 
-    project_settings_page.activate_wp_custom_field(project_specific_cf)
+    expect(page)
+      .to have_unchecked_field(type.name)
+    expect(page)
+      .to have_checked_field(active_type.name)
+
+    # switch enabled types
+    check(type.name)
+    uncheck(active_type.name)
 
     project_settings_page.save!
 
-    wp_page.visit!
+    expect(page)
+      .to have_checked_field(type.name)
+    expect(page)
+      .to have_unchecked_field(active_type.name)
 
-    wp_page.expect_attributes "customField#{for_all_cf.id}": '-'
-    wp_page.expect_attributes "customField#{project_specific_cf.id}": '-'
+    # the newly activated types are available for work package creation
+    # disabled ones are not
+    work_packages_page.visit!
+
+    work_packages_page.expect_type_available_for_create(type)
+    work_packages_page.expect_type_not_available_for_create(active_type)
   end
 end
