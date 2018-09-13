@@ -27,7 +27,6 @@
 #++
 
 require 'spec_helper'
-require 'features/projects/projects_page'
 
 describe 'Projects custom fields', type: :feature do
   let(:current_user) { FactoryBot.create(:admin) }

@@ -27,7 +27,6 @@
 #++
 
 require 'spec_helper'
-require 'features/projects/projects_page'
 
 describe 'edit users', type: :feature, js: true do
   let(:current_user) { FactoryBot.create :admin }

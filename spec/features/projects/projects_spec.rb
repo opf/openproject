@@ -116,7 +116,7 @@ describe 'Projects', type: :feature do
 
   describe 'deletion', js: true do
     let(:project) { FactoryBot.create(:project) }
-    let(:projects_page) { Pages::Project::Destroy.new(project) }
+    let(:projects_page) { Pages::Projects::Destroy.new(project) }
 
     before do
       projects_page.visit!
