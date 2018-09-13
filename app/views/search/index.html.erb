@@ -91,6 +91,7 @@ See docs/COPYRIGHT.rdoc for more details.
         <%= icon_wrapper("icon-context icon-#{event_type}", e.event_name) %>
         <% if e.project != @project %>
           <span class="project"><%= e.project %></span>
+          <span> - </span>
         <% end %>
         <%= link_to highlight_tokens(truncate(e.event_title, escape: false, length: 255), @tokens), with_notes_anchor(e, @tokens) %>
       </dt>

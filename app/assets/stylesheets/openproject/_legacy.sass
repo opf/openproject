@@ -35,170 +35,23 @@
 
 $version-summary-width: 380px
 
-#watchers
-  ul
-    margin: 0
-    padding: 0
-
-  a.delete
-    opacity: 0.4
-    &:hover
-      opacity: 1
-
-.contextual
-  float: right
-  white-space: nowrap
-  line-height: 1.4em
-  margin-top: 8px
-  padding-left: 10px
-  input, select
-    font-size: 0.9em
-
-.message .contextual
-  margin-top: 0
-
 .message.reply h4
   min-height: 42px
   line-height: 2
 
-form
-  display: inline
+#roadmap
+  @media only screen and (min-width: 680px)
+    .generic-table--no-results-container
+      max-width: calc(100% - #{$version-summary-width})
 
-hr
-  width: 100%
-  height: 1px
-  background: #ccc
-  border: 0
-
-blockquote
-  font-style: italic
-  border-left: 3px solid #e0e0e0
-  padding-left: 0.6em
-  margin-left: 2.4em
-  blockquote
-    margin-left: 0
-
-li p
-  margin-top: 0
-
-p
-  &.breadcrumb
-    font-size: 0.9em
-    margin: 4px 0 4px 0
-  &.footnote
-    font-size: 0.9em
-    margin-top: 0
-    margin-bottom: 0
-
-div.issue div.subject
-  div div
-    padding-left: 16px
-  p
-    margin: 0
-    margin-bottom: 0.1em
-    font-size: 90%
-    color: #999
-  > div > p
-    margin-top: 0.5em
-
-.buttons
-  margin-top: 1em
-
-div
-  &#work_package-changesets
-    float: right
-    width: 45%
-    margin: 1em 0 1em 1em
-    background: #fff
-    padding-left: 1em
-    h3
-      margin-top: 0
-    div.changeset
-      padding: 4px
-      border-bottom: 1px solid #ddd
-    p
-      margin-top: 0
-      margin-bottom: 1em
-
-div#activity span.project:after, #search-results span.project:after
-  content: " -"
-
-#search-results
-  margin-left: 2em
-
-  dd
-    margin-bottom: 1em
-    padding-left: 30px
-    margin-left: 0
-    font-size: 0.9em
-
-    span.description
-      display: block
-      color: #808080
-      font-style: italic
-
-div#search-results-counts
+#version-summary
   float: right
-  ul
-    margin-top: 0.5em
-  li
-    list-style-type: none
-    float: left
-    margin-left: 1em
-
-.search-pagination
-  text-align: center
-  a
-    padding: 0 5px
-
-#project-search-container .select2-container
-  display: block
-
-div
-  &#roadmap
-    .related-issues
-      border: 0
-      margin-bottom: 1em
-      td.checkbox
-        display: none
-
-    @media only screen and (min-width: 680px)
-      .generic-table--no-results-container
-        max-width: calc(100% - #{$version-summary-width})
-
-  &#version-summary
-    float: right
-    width: $version-summary-width
-    margin-left: 16px
-    margin-bottom: 16px
-    background-color: #fff
-    .total-hours
-      text-align: right
-
-.top-page
-  width: 100%
-  border-bottom: 1px solid #bbbbbb
-  margin: 0 0 10px
-  h2
-    padding-right: 0 !important
-    border: none
-    margin: 0
-    text-align: left
-    display: block
-    @include text-shortener
-
-    &.message-title
-      padding-top: 12px
-      padding-bottom: 19px
-      white-space: normal
-      overflow: visible
-      float: left
-
-  ul
-    margin: 0
+  width: $version-summary-width
+  margin-left: 16px
+  margin-bottom: 16px
+  background-color: #fff
+  .total-hours
     text-align: right
-    white-space: nowrap
-
 
 #type_project_ids
   ul
@@ -207,43 +60,9 @@ div
   li
     list-style-type: none
 
-ul.properties
-  padding: 0
-  font-size: 0.9em
-  color: #333
-  li
-    list-style-type: none
-    span
-      font-style: italic
-
 .total-hours
-  font-size: 110%
   font-weight: bold
-  span.hours-int
-    font-size: 120%
 
-.autoscroll
-  overflow-x: auto
-  padding: 1px
-  margin-bottom: 1.2em
-
-#workflow_copy_form select
-  width: 200px
-
-textarea#custom_field_possible_values
-  width: 99%
-
-
-div.attachments
-  margin-top: 12px
-  margin-bottom: 12px
-  p
-    margin: 4px 0 2px 0
-  img
-    vertical-align: middle
-  span.author
-    font-size: 0.9em
-    color: #888
 
 p.other-formats
   font-size: 0.9em
@@ -291,19 +110,11 @@ div.issue hr
   margin-top: -6px
   margin-bottom: 0
 
-#content blockquote
-  padding-left: 22px
 
 #project-links
   right: 30px
   color: #ccc
   font-weight: bold
-
-.nosidebar
-  blockquote
-    margin: 1em 0
-  p
-    margin-bottom: 1em
 
 li
   &.root

@@ -31,46 +31,37 @@ See docs/COPYRIGHT.rdoc for more details.
   link_to(t(:label_board_plural), project_boards_path(@project)),
   link_to(h(@board.name), project_board_path(@project, @board)))
 %>
-
-
-<div class="top-page messages-wrapper">
-  <div class="toolbar-container">
-    <div class="toolbar">
-      <div class="title-container">
-        <h2 class="message-title" title="<%= h @topic.subject %>"><%= avatar(@topic.author) %><%=h @topic.subject %></h2>
-      </div>
-      <ul class="toolbar-items">
-        <li class="toolbar-item">
-          <%= watcher_link(@topic, User.current) %>
-        </li>
-        <li class="toolbar-item">
-          <% if !@topic.locked? && authorize_for('messages', 'reply') %>
-            <%= link_to({ action: 'quote', id: @topic }, class: 'boards--quote-button button') do %>
+<% title avatar(@topic.author) + h(@topic.subject) %>
+<%= toolbar title: title do %>
+    <li class="toolbar-item">
+      <%= watcher_link(@topic, User.current) %>
+    </li>
+    <li class="toolbar-item">
+      <% if !@topic.locked? && authorize_for('messages', 'reply') %>
+          <%= link_to({ action: 'quote', id: @topic }, class: 'boards--quote-button button') do %>
               <%= op_icon('button--icon icon-quote') %>
               <span class="button--text"><%= t(:button_quote) %></span>
-            <% end %>
           <% end %>
-        </li>
-        <li class="toolbar-item">
-          <% if @message.editable_by?(User.current) %>
-            <%= link_to(edit_topic_path(@topic), accesskey: accesskey(:edit), class: 'button') do %>
+      <% end %>
+    </li>
+    <li class="toolbar-item">
+      <% if @message.editable_by?(User.current) %>
+          <%= link_to(edit_topic_path(@topic), accesskey: accesskey(:edit), class: 'button') do %>
               <%= op_icon('button--icon icon-edit') %>
               <span class="button--text"><%= t(:button_edit) %></span>
-            <% end %>
           <% end %>
-        </li>
-        <li class="toolbar-item">
-          <% if @message.destroyable_by?(User.current) %>
-            <%= link_to(topic_path(@topic), method: :delete, data: { confirm: t(:text_are_you_sure) }, class: 'button') do %>
+      <% end %>
+    </li>
+    <li class="toolbar-item">
+      <% if @message.destroyable_by?(User.current) %>
+          <%= link_to(topic_path(@topic), method: :delete, data: { confirm: t(:text_are_you_sure) }, class: 'button') do %>
               <%= op_icon('button--icon icon-delete') %>
               <span class="button--text"><%= t(:button_delete) %></span>
-            <% end %>
           <% end %>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
+      <% end %>
+    </li>
+<% end %>
+
 <div class="message">
   <p><span class="author"><%= authoring @topic.created_on, @topic.author %></span></p>
   <div class="wiki">
