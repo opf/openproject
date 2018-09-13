@@ -12,8 +12,11 @@
       inline_style = styles.map{|k,v| "#{k}:#{v} !important"}.join(';')
       row_style = "background-color: #{color.hexcode} !important;"
 
-      concat ".__hl_inl_#{name}_#{entry.id}, .__hl_dot_#{name}_#{entry.id}::before { #{inline_style} }\n"
-      concat ".__hl_row_#{name}_#{entry.id} { #{row_style} }\n"
+      border_color = color.bright? ? '#333333' : color.hexcode
+
+      concat ".__hl_inl_#{name}_#{entry.id} { #{inline_style}; }\n"
+      concat ".__hl_dot_#{name}_#{entry.id}::before { #{inline_style}; border-color: #{border_color}; }\n"
+      concat ".__hl_row_#{name}_#{entry.id} { #{row_style}; }\n"
 
       # Mark color as bright through CSS variable
       # so it can be used to add a separate -bright class
