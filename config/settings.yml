@@ -259,6 +259,8 @@ work_package_list_default_columns:
   - status
   - assigned_to
   - updated_on
+work_package_list_default_highlighting_mode:
+  default: 'inline'
 work_package_list_summable_columns:
   serialized: true
   default:

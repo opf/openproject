@@ -34,6 +34,14 @@ See docs/COPYRIGHT.rdoc for more details.
     <div class="form--field"><%= setting_check_box :work_package_startdate_is_adddate %></div>
     <div class="form--field"><%= setting_select :work_package_done_ratio, WorkPackage::DONE_RATIO_OPTIONS.collect {|i| [t("setting_work_package_done_ratio_#{i}"), i]}, container_class: '-middle' %></div>
     <div class="form--field"><%= setting_text_field :work_packages_export_limit, size: 6, container_class: '-xslim' %></div>
+    <div class="form--field">
+      <%= setting_select :work_package_list_default_highlighting_mode,
+                         Query::Highlighting::QUERY_HIGHLIGHTING_MODES.map { |mode|
+                           [t("js.work_packages.table_configuration.highlighting_mode.#{mode}"), mode]
+                         },
+                         container_class: '-middle'
+      %>
+    </div>
   </section>
   <fieldset class="form--fieldset"><legend class="form--fieldset-legend"><%= t(:setting_column_options) %></legend>
     <%
