@@ -48,6 +48,8 @@ A closer look at the available branches:
 * [stable/6](https://packager.io/gh/opf/openproject-ce/refs/stable/6): Previous stable release, will receive critical updates and bug fixes while enterprise support depends on it.
 * [dev](https://packager.io/gh/opf/openproject-ce/refs/dev): Daily builds of the current development build of OpenProject. While we try to keep this operable, this may result in broken code and/or migrations from time to time. Use when you're interested what the next release of OpenProject will look like. **Do not use in production!**
 
+For more information, please visit our dedicated [page regarding release candidates and channels](https://www.openproject.org/download-and-installation/release-candidate/).
+
 ### How to upgrade my OpenProject installation?
 
 Please refer to the documentation at https://www.openproject.org/operations/upgrading/

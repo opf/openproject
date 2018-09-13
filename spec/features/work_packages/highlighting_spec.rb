@@ -83,6 +83,10 @@ describe 'Work Package highlighting fields', js: true do
     highlighting.switch_highlight 'Status'
     expect(page).to have_selector("#{wp_table.row_selector(wp_1)}.__hl_row_status_#{status1.id}")
     expect(page).to have_selector("#{wp_table.row_selector(wp_2)}.__hl_row_status_#{status2.id}")
+
+    # Unselect all rows to ensure we get the correct background
+    find('body').send_keys [:control, 'd']
+
     wp1_row = wp_table.row(wp_1)
     wp2_row = wp_table.row(wp_2)
     expect(wp1_row.native.css_value('background-color')).to eq('rgba(255, 0, 0, 1)')
@@ -104,6 +108,8 @@ describe 'Work Package highlighting fields', js: true do
     expect(page).to have_selector("#{wp_table.row_selector(wp_1)}.__hl_row_priority_#{priority1.id}")
     expect(page).to have_selector("#{wp_table.row_selector(wp_2)}.__hl_row_priority_#{priority_no_color.id}")
 
+    find('body').send_keys [:control, 'd']
+    
     wp1_row = wp_table.row(wp_1)
     wp2_row = wp_table.row(wp_2)
     expect(wp1_row.native.css_value('background-color')).to eq('rgba(18, 52, 86, 1)')
