@@ -31,7 +31,7 @@ module Query::Highlighting
   extend ActiveSupport::Concern
 
   included do
-    QUERY_HIGHLIGHTING_MODES = %i[inline none status priority].freeze
+    QUERY_HIGHLIGHTING_MODES = %i[inline cell none status priority].freeze
     validates_inclusion_of :highlighting_mode,
                            in: QUERY_HIGHLIGHTING_MODES,
                            allow_nil: true,
@@ -39,8 +39,11 @@ module Query::Highlighting
 
     def highlighting_mode
       val = super
+
       if val.present?
         val.to_sym
+      else
+        Setting.work_package_list_default_highlighting_mode
       end
     end
   end
