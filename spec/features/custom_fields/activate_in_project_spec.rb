@@ -42,7 +42,7 @@ describe 'custom fields', js: true do
     wp
   end
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
-  let(:project_settings_page) { Pages::ProjectSettings.new(work_package.project) }
+  let(:project_settings_page) { Pages::Projects::Settings.new(work_package.project) }
 
   before do
     login_as(user)
