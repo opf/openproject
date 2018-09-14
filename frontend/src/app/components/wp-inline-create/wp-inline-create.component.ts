@@ -63,6 +63,7 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 import {IWorkPackageEditingServiceToken} from "../wp-edit-form/work-package-editing.service.interface";
 import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
+import {CurrentUserService} from "core-components/user/current-user.service";
 
 @Component({
   selector: '[wpInlineCreate]',
@@ -99,6 +100,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
               readonly I18n:I18nService,
               readonly tableState:TableState,
               readonly wpCacheService:WorkPackageCacheService,
+              readonly currentUser:CurrentUserService,
               @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService,
               @Inject(IWorkPackageCreateServiceToken) protected wpCreate:WorkPackageCreateService,
               readonly wpTableColumns:WorkPackageTableColumnsService,
@@ -188,7 +190,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
       const wp = this.currentWorkPackage = changeset.workPackage;
 
       // Apply filter values
-      const filter = new WorkPackageFilterValues(changeset, this.tableState.query.value!.filters);
+      const filter = new WorkPackageFilterValues(this.currentUser, changeset, this.tableState.query.value!.filters);
       filter.applyDefaultsFromFilters().then(() => {
         this.wpEditing.updateValue('new', changeset);
         this.wpCacheService.updateWorkPackage(this.currentWorkPackage!);

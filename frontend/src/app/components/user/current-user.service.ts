@@ -33,4 +33,8 @@ export class CurrentUserService {
   public get isLoggedIn() {
     return jQuery('meta[name=current_user]').length;
   }
+
+  public get userId() {
+    return jQuery('meta[name=current_user]').data('id');
+  }
 }
