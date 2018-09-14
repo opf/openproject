@@ -29,6 +29,15 @@
 #++
 
 class Queries::WorkPackages::Columns::WorkPackageColumn < Queries::Columns::Base
+
+  attr_accessor :highlightable
+  alias_method :highlightable?, :highlightable
+
+  def initialize(name, options = {})
+    super(name, options)
+    self.highlightable = !!options.fetch(:highlightable, false)
+  end
+
   def caption
     WorkPackage.human_attribute_name(name)
   end

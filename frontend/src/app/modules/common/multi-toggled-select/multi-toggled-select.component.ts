@@ -31,6 +31,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 export interface MultiToggledSelectOption {
   name:string;
+  singleOnly:true|undefined;
   value:any;
 }
 
@@ -40,7 +41,7 @@ export interface MultiToggledSelectOption {
 })
 export class MultiToggledSelectComponent<T extends MultiToggledSelectOption> implements OnInit {
   @Input() availableOptions:T[];
-  @Input() initialSelection:T[];
+  @Input() initialSelection:T|T[];
   @Input() selectHtmlId:string|undefined;
   @Input() isRequired:boolean = false;
   @Input() isDisabled:boolean = false;
@@ -93,6 +94,10 @@ export class MultiToggledSelectComponent<T extends MultiToggledSelectOption> imp
     } else {
       this._selectedOption = this.selectedOption;
     }
+  }
+
+  public get availableMultiOptions() {
+    return this.availableOptions.filter(el => el.singleOnly !== true);
   }
 
   public get selectedOption():T|T[]|undefined {

@@ -24,7 +24,7 @@
           {{ text.highlighting_mode.inline }}
           &nbsp;
           <multi-toggled-select [isDisabled]="highlightingMode !== 'inline'"
-                                [availableOptions]="availableInlineOptions"
+                                [availableOptions]="availableHighlightedAttributes"
                                 [initialSelection]="selectedInlineOption"
                                 (onValueChange)="selectedInlineOption = $event">
           </multi-toggled-select>

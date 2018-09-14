@@ -22,7 +22,7 @@
     "noFallthroughCasesInSwitch": true,
     "strictNullChecks": true,
     "skipLibCheck": true,
-    "baseUrl": "./",
+    "baseUrl": "./src/",
     "typeRoots": [
       "node_modules/@types"
     ],

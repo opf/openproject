@@ -35,7 +35,6 @@
             [disabled]="isDisabled"
             [attr.id]="selectHtmlId || undefined"
             (keydown)="onValueKeydown.emit($event)"
-            (change)="submitOnSingleSelect()"
             multiple
             size=5>
         <option
@@ -47,7 +46,7 @@
                 disabled>
         </option>
         <option
-                *ngFor="let value of availableOptions"
+                *ngFor="let value of availableMultiOptions"
                 [ngValue]="value"
                 [attr.label]="value.name"
                 [textContent]="value.name">

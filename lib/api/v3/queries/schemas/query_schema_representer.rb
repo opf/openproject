@@ -186,6 +186,25 @@ module API
                                            }
                                          }
 
+          schema_with_allowed_collection :highlighted_attributes,
+                                         type: '[]QueryColumn',
+                                         required: false,
+                                         writable: true,
+                                         has_default: true,
+                                         visibility: false,
+                                         values_callback: -> { represented.available_highlighting_columns },
+                                         value_representer: ->(column) {
+                                           Columns::QueryColumnsFactory.representer(column)
+                                         },
+                                         link_factory: ->(column) {
+                                           converted_name = convert_attribute(column.name)
+
+                                           {
+                                             href: api_v3_paths.query_column(converted_name),
+                                             title: column.caption
+                                           }
+                                         }
+
           schema_with_allowed_collection :sort_by,
                                          type: '[]QuerySortBy',
                                          required: false,

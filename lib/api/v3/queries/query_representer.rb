@@ -217,6 +217,30 @@ module API
                     end
                   }
 
+        resources :highlighted_attributes,
+                  getter: ->(*) {
+                    represented.highlighted_columns.map do |column|
+                      ::API::V3::Queries::Columns::QueryColumnsFactory.create(column)
+                    end
+                  },
+                  setter: ->(fragment:, **) {
+                    columns = Array(fragment).map do |column|
+                      name = id_from_href "queries/columns", column['href']
+
+                      ::API::Utilities::PropertyNameConverter.to_ar_name(name, context: WorkPackage.new) if name
+                    end
+
+                    represented.highlighted_columns = columns.map(&:to_sym).compact if fragment
+                  },
+                  link: ->(*) {
+                    represented.highlighted_columns.map do |column|
+                      {
+                        href: api_v3_paths.query_column(convert_attribute(column.name)),
+                        title: column.caption
+                      }
+                    end
+                  }
+
         property :starred,
                  writeable: true
 

@@ -32,10 +32,32 @@ module Query::Highlighting
 
   included do
     QUERY_HIGHLIGHTING_MODES = %i[inline none status type priority].freeze
+
+    serialize :highlighted_attributes, Array
+
+
     validates_inclusion_of :highlighting_mode,
                            in: QUERY_HIGHLIGHTING_MODES,
                            allow_nil: true,
                            allow_blank: true
+
+    validates_inclusion_of :highlighted_attributes,
+                           in: ->(*) { self.available_highlighting_columns.map{ |col| col.name.to_sym } },
+                           allow_nil: true,
+                           allow_blank: true
+
+
+    def available_highlighting_columns
+      @available_highlighting_columns ||= available_columns.select(&:highlightable?)
+    end
+
+    def highlighted_columns
+      columns = available_highlighting_columns.group_by(&:name)
+
+      highlighted_attributes
+        .map { |name| columns[name.to_sym] }
+        .uniq
+    end
 
     def highlighting_mode
       return :none unless EnterpriseToken.allows_to?(:conditional_highlighting)
