@@ -54,7 +54,7 @@ if OpenProject::Database.mysql?
 
      *   in config/database.yml.                                             *
          Otherwise, you WILL run into encoding issue when using 4 byte
-     *   UTF-8 characters since utf8 encoding in MySQL does not support them *
+     *   UTF-8 characters since utf8 encoding in MySQL doesn't support them. *
 
      *   If you have been running utf8 in the past, please see this guide    *
          on how to convert your database:
