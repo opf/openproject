@@ -143,7 +143,6 @@ export class UserActivityComponent implements IEditFieldHandler, OnInit, AfterVi
   }
 
   public handleUserSubmit() {
-    this.field.onSubmit();
     if (this.field.isBusy || this.field.isEmpty()) {
       return Promise.resolve();
     }
