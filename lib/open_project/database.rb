@@ -139,6 +139,9 @@ module OpenProject
 
     def self.semantic_version(version_string = self.version)
       Semantic::Version.new version_string
+    rescue ArgumentError
+      # Cut anything behind the -
+      Semantic::Version.new version_string.gsub(/\-.+$/, '')
     end
 
     def self.numeric_version

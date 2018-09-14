@@ -44,6 +44,11 @@ describe OpenProject::Database do
 
     version3 = OpenProject::Database.semantic_version '10.1.26-MariaDB-0+deb9u1'
     expect(version3.major).to eq 10
+
+    version4 = OpenProject::Database.semantic_version '5.7.23-0ubuntu0.16.04.1'
+    expect(version4.major).to eq 5
+    # Cuts the build if its invalid semver
+    expect(version4.build).to be_nil
   end
 
   it 'should be able to use the helper methods' do
