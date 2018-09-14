@@ -178,7 +178,8 @@ class Journal::AggregatedJournal
       "SELECT predecessor.*, #{sql_group_counter(uid)} AS group_number
       FROM #{sql_rough_group_from_clause(uid)}
       #{sql_rough_group_join(conditions[:join_conditions])}
-      #{sql_rough_group_where(conditions[:where_conditions])}"
+      #{sql_rough_group_where(conditions[:where_conditions])}
+      #{sql_rough_group_order}"
     end
 
     def additional_conditions(journable, until_version, journal_id)
@@ -222,6 +223,10 @@ class Journal::AggregatedJournal
              #{sql_beyond_aggregation_time?('predecessor', 'successor')} OR
              successor.id IS NULL)
              #{additional_conditions}"
+    end
+
+    def sql_rough_group_order
+      "ORDER BY predecessor.created_at"
     end
 
     # The "group_number" required in :sql_rough_group has to be generated differently depending on
