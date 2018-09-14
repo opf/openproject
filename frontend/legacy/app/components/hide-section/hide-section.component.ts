@@ -30,6 +30,7 @@ import {Subscription} from 'rxjs';
 import {distinctUntilChanged, map, take} from 'rxjs/operators';
 import {openprojectLegacyModule} from "../../openproject-legacy-app";
 import {HideSectionService} from "./hide-section.service";
+import {ITimeoutService} from "angular";
 
 export class HideSectionComponent {
   public displayed:boolean = false;
@@ -43,6 +44,7 @@ export class HideSectionComponent {
   public innerHtml:any;
 
   constructor(protected HideSectionService:HideSectionService,
+              protected $timeout:ITimeoutService,
               private $element:ng.IAugmentedJQuery) {
 
   }
@@ -68,11 +70,7 @@ export class HideSectionComponent {
         distinctUntilChanged()
       )
       .subscribe(show => {
-        this.displayed = show;
-
-        if (this.displayed && this.onDisplayed !== undefined) {
-          setTimeout(this.onDisplayed());
-        }
+        this.$timeout(() => this.displayed = show);
       });
   }
 
@@ -86,8 +84,7 @@ openprojectLegacyModule.component('hideSection', {
   template: '<span ng-if="$ctrl.displayed"><ng-transclude></ng-transclude></span>',
   controller: HideSectionComponent,
   bindings: {
-    onDisplayed: "@",
-    sectionName: "="
+    sectionName: "@"
   },
   transclude: true
 });

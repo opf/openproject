@@ -443,7 +443,7 @@ class User < Principal
 
   # Return an array of project ids for which the user has explicitly turned mail notifications on
   def notified_projects_ids
-    @notified_projects_ids ||= memberships.select(&:mail_notification?).map(&:project_id)
+    @notified_projects_ids ||= memberships.reload.select(&:mail_notification?).map(&:project_id)
   end
 
   def notified_project_ids=(ids)

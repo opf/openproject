@@ -53,9 +53,10 @@ export class ShowSectionDropdownComponent {
 
 openprojectLegacyModule.component('showSectionDropdown', {
   template: '<ng-transclude></ng-transclude>',
+  transclude: true,
   controller: ShowSectionDropdownComponent,
   bindings: {
-    optValue: "<",
-    hideSecWithName: "<"
+    optValue: "@",
+    hideSecWithName: "@"
   }
 });

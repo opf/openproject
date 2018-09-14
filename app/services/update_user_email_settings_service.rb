@@ -57,6 +57,10 @@ UpdateUserEmailSettingsService = Struct.new(:user) do
   end
 
   def set_notified_project_ids(notified_project_ids)
-    user.notified_project_ids = notified_project_ids if user.mail_notification == 'selected'
+    if user.mail_notification == 'selected'
+      user.notified_project_ids = notified_project_ids
+    else
+      user.notified_project_ids = []
+    end
   end
 end
