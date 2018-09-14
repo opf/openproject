@@ -42,8 +42,8 @@ export class ResourcesDisplayField extends DisplayField {
   }
 
   public get value() {
-    if (this.schema) {
-      var cf = this.resource[this.name];
+    let cf = this.resource[this.name];
+    if (this.schema && cf) {
 
       if (cf.elements) {
         return cf.elements.map((e:any) => e.name);
@@ -54,9 +54,9 @@ export class ResourcesDisplayField extends DisplayField {
       } else {
         return ["error: " + JSON.stringify(cf)];
       }
-    } else {
-      return null;
     }
+
+    return [];
   }
 
   public render(element:HTMLElement, displayText:string):void {
