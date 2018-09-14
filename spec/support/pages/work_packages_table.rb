@@ -117,11 +117,29 @@ module Pages
     end
 
     def create_wp_split_screen(type)
-      find('.add-work-package:not([disabled])', text: 'Create').click
+      click_wp_create_button
 
       find('#types-context-menu .menu-item', text: type, wait: 10).click
 
       SplitWorkPackageCreate.new(project: project)
+    end
+
+    def click_wp_create_button
+      find('.add-work-package:not([disabled])', text: 'Create').click
+    end
+
+    def expect_type_available_for_create(type)
+      click_wp_create_button
+
+      expect(page)
+        .to have_selector('#types-context-menu .menu-item', text: type.name)
+    end
+
+    def expect_type_not_available_for_create(type)
+      click_wp_create_button
+
+      expect(page)
+        .to have_no_selector('#types-context-menu .menu-item', text: type.name)
     end
 
     def open_split_view(work_package)

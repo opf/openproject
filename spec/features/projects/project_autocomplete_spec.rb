@@ -27,7 +27,6 @@
 #++
 
 require 'spec_helper'
-require 'features/projects/projects_page'
 
 describe 'Projects autocomplete page', type: :feature, js: true do
   let!(:admin) { FactoryBot.create :admin }

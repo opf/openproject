@@ -26,29 +26,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class ProjectSettingsPage
-  include Rails.application.routes.url_helpers
-  include Capybara::DSL
+module Pages
+  module Projects
+    class Destroy < ::Pages::Page
+      def initialize(project)
+        @project = project
+      end
 
-  def initialize(project)
-    @project = project
-  end
+      private
 
-  def visit_settings
-    visit settings_path
-  end
-
-  def visit_settings_tab(tab)
-    visit settings_path(tab: tab)
-  end
-
-  def fieldset_label
-    find 'fieldset#project_issue_custom_fields label'
-  end
-
-  private
-
-  def settings_path(options = {})
-    settings_project_path(@project, options)
+      def path
+        confirm_destroy_project_path(@project)
+      end
+    end
   end
 end

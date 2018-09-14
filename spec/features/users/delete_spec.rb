@@ -27,7 +27,6 @@
 #++
 
 require 'spec_helper'
-require 'features/projects/projects_page'
 
 describe 'user deletion: ', type: :feature, js: true do
   let(:dialog) { ::Components::PasswordConfirmationDialog.new }

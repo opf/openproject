@@ -27,7 +27,6 @@
 #++
 
 require 'spec_helper'
-require 'features/projects/projects_page'
 
 describe 'Projects', type: :feature do
   let(:current_user) { FactoryBot.create(:admin) }
@@ -117,10 +116,10 @@ describe 'Projects', type: :feature do
 
   describe 'deletion', js: true do
     let(:project) { FactoryBot.create(:project) }
-    let(:projects_page) { ProjectsPage.new(project) }
+    let(:projects_page) { Pages::Projects::Destroy.new(project) }
 
     before do
-      projects_page.visit_confirm_destroy
+      projects_page.visit!
     end
 
     describe 'disable delete w/o confirm' do

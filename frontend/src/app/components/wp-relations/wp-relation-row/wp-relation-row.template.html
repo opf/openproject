@@ -3,7 +3,7 @@
      focus-within="'.wp-relations-controls-section accessible-by-keyboard'">
   <div class="grid-block hierarchy-item">
 
-    <div class="grid-content medium-3 collapse">
+    <div class="grid-content medium-2 collapse">
             <span class="relation-row--type"
                   (accessibleClick)="activateRelationTypeEdit()"
                   tabindex="0"
@@ -41,7 +41,7 @@
       </a>
     </div>
 
-    <div class="grid-content medium-2 collapse wp-relations-status-field">
+    <div class="grid-content medium-3 collapse wp-relations-status-field">
       <wp-edit-field-group *ngIf="relatedWorkPackage" [workPackage]="relatedWorkPackage">
         <wp-edit-field [workPackageId]="relatedWorkPackage.id" fieldName="status"></wp-edit-field>
       </wp-edit-field-group>

@@ -27,7 +27,6 @@
 #++
 
 require 'spec_helper'
-require 'features/projects/project_settings_page'
 
 describe 'Reset form configuration', type: :feature, js: true do
   let(:admin) { FactoryBot.create :admin }

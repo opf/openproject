@@ -147,23 +147,14 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
         this.refreshView();
       });
 
-    this.tableState.timelineAutoZoom.values$()
-      .pipe(
-        takeUntil(this.tableState.stopAllSubscriptions),
-        filter(() => this.initialized),
-        filter((enabled:boolean) => enabled)
-      )
-      .subscribe(() => {
-        this.refreshView();
-      });
-
     // Refresh timeline view when becoming visible
-    this.tableState.timelineVisible.values$()
+    this.tableState.timeline.values$()
       .pipe(
         filter((timelineState:WorkPackageTableTimelineState) => timelineState.isVisible),
         takeUntil(componentDestroyed(this))
       )
       .subscribe((timelineState:WorkPackageTableTimelineState) => {
+        this.viewParameters.settings.autoZoom = timelineState.autoZoom;
         this.viewParameters.settings.zoomLevel = timelineState.zoomLevel;
         this.debouncedRefresh();
       });
@@ -222,7 +213,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       // Reset the width of the outer container if its content shrinks
       this.outerContainer.css('width', 'auto');
 
-      if (!this.workPackageTable.configuration.isEmbedded && this.tableState.timelineAutoZoom.value) {
+      if (!this.workPackageTable.configuration.isEmbedded && this.viewParameters.settings.autoZoom) {
         this.applyAutoZoomLevel();
       }
 
@@ -246,7 +237,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
   updateOnWorkPackageChanges() {
     this.states.workPackages.observeChange()
       .pipe(
-        withLatestFrom(this.tableState.timelineVisible.values$()),
+        withLatestFrom(this.tableState.timeline.values$()),
         takeUntil(componentDestroyed(this)),
         filter(([, timelineState]) => this.initialized && timelineState.isVisible),
         map(([[wpId]]) => wpId),

@@ -123,7 +123,7 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
     // for all visible WorkPackage rows...
     combineLatest(
       this.tableState.renderedWorkPackages.values$(),
-      this.tableState.timelineVisible.values$()
+      this.tableState.timeline.values$()
     )
       .pipe(
         filter(([rendered, timeline]) => timeline.isVisible),
@@ -154,7 +154,7 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
     this.states.workPackages.observeChange()
       .pipe(
         takeUntil(componentDestroyed(this)),
-        filter(() => this.tableState.timelineVisible.mapOr(v => v.visible, false))
+        filter(() => this.tableState.timeline.mapOr(v => v.visible, false))
       )
       .subscribe(([workPackageId]) => {
         this.renderWorkPackagesRelations([workPackageId]);
