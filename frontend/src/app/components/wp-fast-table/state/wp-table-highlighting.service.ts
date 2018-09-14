@@ -8,10 +8,13 @@ import {DynamicCssService} from "../../../modules/common/dynamic-css/dynamic-css
 
 @Injectable()
 export class WorkPackageTableHighlightingService extends WorkPackageTableBaseService<HighlightingMode> implements WorkPackageQueryStateService {
+  public eeShowBanners:boolean = false;
+
   public constructor(readonly states:States,
                      readonly dynamicCssService:DynamicCssService,
                      readonly tableState:TableState) {
     super(tableState);
+    this.eeShowBanners = jQuery('body').hasClass('ee-banners-visible');
   }
 
   public get state() {
@@ -19,7 +22,7 @@ export class WorkPackageTableHighlightingService extends WorkPackageTableBaseSer
   }
 
   public get current():HighlightingMode {
-    return this.state.getValueOr('inline');
+    return this.filteredMode(this.state.getValueOr('inline'));
   }
 
   public get isInline() {
@@ -31,7 +34,7 @@ export class WorkPackageTableHighlightingService extends WorkPackageTableBaseSer
   }
 
   public update(value:HighlightingMode) {
-    super.update(value);
+    super.update(this.filteredMode(value));
 
     // Load dynamic highlighting CSS if enabled
     if (!this.isDisabled) {
@@ -40,7 +43,7 @@ export class WorkPackageTableHighlightingService extends WorkPackageTableBaseSer
   }
 
   public valueFromQuery(query:QueryResource):HighlightingMode {
-    return query.highlightingMode || 'inline';
+    return query.highlightingMode || this.filteredMode('inline');
   }
 
   public hasChanged(query:QueryResource) {
@@ -51,5 +54,13 @@ export class WorkPackageTableHighlightingService extends WorkPackageTableBaseSer
     query.highlightingMode = this.current;
 
     return false;
+  }
+
+  private filteredMode(mode:HighlightingMode):HighlightingMode {
+    if (this.eeShowBanners) {
+      return 'none';
+    } else {
+      return mode;
+    }
   }
 }
