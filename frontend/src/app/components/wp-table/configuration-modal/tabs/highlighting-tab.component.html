@@ -21,7 +21,7 @@
                  (change)="updateMode($event.target.value)"
                  value="inline"
                  name="highlighting_mode_switch">
-          {{ text.highlighting_mode.inline }}
+          <span [textContent]="text.highlighting_mode.inline"></span>
         </label>
       </div>
     </div>
@@ -34,8 +34,8 @@
                  (change)="updateMode('entire-row')"
                  [value]="true"
                  name="entire_row_switch">
-          {{ text.highlighting_mode.entire_row_by }}
-          &nbsp;
+          <span [textContent]="text.highlighting_mode.entire_row_by"></span>
+          &ngsp;
           <select (change)="updateMode($event.target.value)"
                   [attr.disabled]="disabledValue(eeShowBanners)"
                   id="selected_attribute"
@@ -60,7 +60,7 @@
                  (change)="updateMode($event.target.value)"
                  value="none"
                  name="highlighting_mode_switch">
-          {{ text.highlighting_mode.none }}
+          <span [textContent]="text.highlighting_mode.none"></span>
         </label>
       </div>
     </div>
