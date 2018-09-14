@@ -112,10 +112,10 @@ export class HalResource {
    * @param {HalResource} other
    * @returns A HalResource with the identitical copied source of other.
    */
-  public $copy<T extends HalResource = HalResource>():T {
+  public $copy<T extends HalResource = HalResource>(source:Object = {}):T {
     let clone:HalResourceClass<T>  = this.constructor as any;
 
-    return new clone(this.injector, this.$plain(), this.$loaded, this.halInitializer, this.$halType);
+    return new clone(this.injector, _.merge(this.$plain(), source), this.$loaded, this.halInitializer, this.$halType);
   }
 
   public $plain():any {

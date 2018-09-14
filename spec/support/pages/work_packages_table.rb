@@ -112,8 +112,8 @@ module Pages
       # there is a delay on travis where inline create can be clicked.
       sleep 3
 
-      find('.wp-inline-create--add-link').click
-      expect(page).to have_selector('.wp-inline-create-row', wait: 10)
+      container.find('.wp-inline-create--add-link').click
+      expect(container).to have_selector('.wp-inline-create-row', wait: 10)
     end
 
     def create_wp_split_screen(type)
@@ -227,6 +227,12 @@ module Pages
 
     def work_package_row_selector(work_package)
       ".wp-row-#{work_package.id}"
+    end
+
+    protected
+
+    def container
+      page
     end
 
     private

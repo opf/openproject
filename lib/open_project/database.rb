@@ -26,6 +26,7 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
+require 'semantic'
 
 module OpenProject
   # This module provides some information about the currently used database
@@ -137,7 +138,10 @@ module OpenProject
     end
 
     def self.semantic_version(version_string = self.version)
-      Gem::Version.new version_string
+      Semantic::Version.new version_string
+    rescue ArgumentError
+      # Cut anything behind the -
+      Semantic::Version.new version_string.gsub(/\-.+$/, '')
     end
 
     def self.numeric_version

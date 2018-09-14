@@ -64,7 +64,7 @@ nl:
     index:
       no_results_title_text: Er zijn momenteel geen kleuren.
       no_results_content_text: Maak een nieuwe kleur
-    label_no_color: No color
+    label_no_color: Geen kleur
   custom_actions:
     actions:
       name: Acties
@@ -158,8 +158,8 @@ nl:
   prioritiies:
     edit:
       priority_color_text: |
-        Click to assign or change the color of this priority.
-        It can be used for highlighting work packages in the table.
+        Klik op toewijzen of wijzigen van de kleur van deze prioriteit.
+        het kan worden gebruikt voor het benadrukken van de werkpakketten in de tabel.
   reportings:
     index:
       no_results_title_text: Er zijn momenteel geen status rapporten.
@@ -167,8 +167,8 @@ nl:
   statuses:
     edit:
       status_color_text: |
-        Click to assign or change the color of this status.
-        It is shown in the status button and can be used for highlighting work packages in the table.
+        Klik op toewijzen of wijzigen van de kleur van deze status.
+        het wordt weergegeven in de statusknop en kan worden gebruikt voor het benadrukken van de werkpakketten in de tabel.
     index:
       no_results_title_text: Er zijn momenteel geen werkpakket statussen.
       no_results_content_text: Voeg een nieuwe status toe
@@ -186,8 +186,8 @@ nl:
       edit_query: Bewerken van ingesloten zoekopdracht
       reset: Standaardinstellingen herstellen
       type_color_text: |
-        Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts.
+        Klik op toewijzen of wijzigen van de kleur van dit type. De geselecteerde kleur onderscheidt werk pakketten
+        in Gantt-diagrammen.
   versions:
     overview:
       no_results_title_text: Er zijn momenteel geen werkpakketten toegewezen aan deze
@@ -407,7 +407,7 @@ nl:
         warn_on_leaving_unsaved: Mij waarschuwen bij het verlaten van een werkpakket
           met niet-opgeslagen wijzigingen
       version:
-        effective_date: Finish date
+        effective_date: Einddatum
         sharing: Delen
       wiki_content:
         text: Tekst
@@ -658,7 +658,7 @@ nl:
     default_columns: Standaardkolommen
     description: Omschrijving
     display_sums: Bedragen weergeven
-    due_date: Finish date
+    due_date: Einddatum
     estimated_hours: Geschatte tijd
     estimated_time: Geschatte tijd
     firstname: Voornaam
@@ -1016,9 +1016,9 @@ nl:
   error_pdf_export_too_many_columns: Te veel kolommen geselecteerd voor het exporteren
     naar PDF. Beperk het aantal kolommen.
   error_pdf_failed_to_export: De pdf export kan niet worden opgeslagen:%{error}
-  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
-    you try to submit data on multiple browsers or tabs? Please close all tabs and
-    try again.
+  error_token_authenticity: Niet in staat om de Cross-Site Request Forgery token te
+    valideren. Heeft u geprobeert gegevens op meerdere browsers of tabbladen wilt
+    indienen? Sluit alle tabbladen en probeer het opnieuw.
   error_work_package_done_ratios_not_updated: Werkpakket gedaan ratio's niet bijgewerkt.
   error_work_package_not_found_in_project: Het werkpakket werd niet gevonden of maakt
     geen deel uit van dit project
@@ -1323,7 +1323,7 @@ nl:
   label_group_by: Groeperen op
   label_group_new: Nieuwe groep
   label_group: Groep
-  label_group_named: Group %{name}
+  label_group_named: Groep %{name}
   label_group_plural: Groepen
   label_help: Help
   label_here: hier
@@ -1586,7 +1586,7 @@ nl:
   label_used_by_types: Wordt gebruikt door types
   label_used_in_projects: Wordt gebruikt in projecten
   label_user: Gebruiker
-  label_user_named: User %{name}
+  label_user_named: Gebruiker %{name}
   label_user_activity: "%{value} activiteit"
   label_user_anonymous: Anoniem
   label_user_mail_option_all: Voor een evenement op al mijn projecten
@@ -2766,7 +2766,7 @@ nl:
       validation:
         done_ratio: De vooruitgangsratio kan niet op een ouderwerkpakket worden gezet
           wanneer die uit de status wordt afgeleid of is uitgeschakeld.
-        due_date: Finish date cannot be set on parent work packages.
+        due_date: Einddatum kan niet worden ingesteld op bovenliggende werkpakketten.
         estimated_hours: Geschatte uren uren kunnen niet op ouderwerkpaketten worden
           gezet.
         invalid_user_assigned_to_work_package: De gekozen gebruiker kan geen '%{property}'

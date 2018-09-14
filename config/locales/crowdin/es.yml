@@ -773,16 +773,17 @@ es:
     decline_warning_message: Han disminuido dar su consentimmiento y han sido registrados.
     user_has_consented: Usuario haya consentido en su estado de cuento configurada
       en el momento dado.
-    not_yet_consented: User has not consented yet, will be requested upon next login.
+    not_yet_consented: El usuario no ha validado todavía, se le solicitará en el próximo
+      login.
     contact_mail_instructions: Define the mail address that users can reach a data
       controller to perform data change or removal requests.
-    contact_your_administrator: Please contact your administrator if you want to have
-      your account deleted.
-    contact_this_mail_address: Please contact %{mail_address} if you want to have
-      your account deleted.
+    contact_your_administrator: Por favor, contacte con su administrador para eliminar
+      su cuenta.
+    contact_this_mail_address: Por favor, contacte con %{mail_address} para eliminar
+      su cuenta.
     text_update_consent_time: Check this box to force users to consent again. Enable
       when you have changed the legal aspect of the consent information above.
-    update_consent_last_time: 'Last update of consent: %{update_time}'
+    update_consent_last_time: 'Última actualización de consentimiento: %{update_time}'
   copy_project:
     started: Comenzó la copia del proyecto '%{source_project_name}' a "%{target_project_name}".
       Se le informará por correo tan pronto como esté disponible el proyecto "%{target_project_name}".
@@ -1022,7 +1023,7 @@ es:
   error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
   error_pdf_export_too_many_columns: Demasiadas columnas seleccionadas para la exportación
     de PDF. Reduzca el número de columnas.
-  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
+  error_pdf_failed_to_export: 'No se ha podido guardar la exportación PDF: %{error}'
   error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
     you try to submit data on multiple browsers or tabs? Please close all tabs and
     try again.
@@ -1077,8 +1078,8 @@ es:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF con descripciones
-      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
-      pdf_with_attachments: PDF with attachments
+      pdf_with_descriptions_and_attachments: PDF con Descripción y archivos adjuntos
+      pdf_with_attachments: PDF con adjuntos
   extraction:
     available:
       pdftotext: Pdftotext disponible (opcional)
@@ -1771,14 +1772,14 @@ es:
   mail_subject_wiki_content_added: "'%{id}' wiki página ha sido agregada"
   mail_subject_wiki_content_updated: "'%{id}' wiki página ha sido actualizada"
   mail_user_activation_limit_reached:
-    subject: User activation limit reached
+    subject: Se ha alcanzado el límite de activaciones para el usuario
     message: |
       A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
       The user cannot activate their account since the user limit has been reached.
     steps:
       label: 'To allow the user to sign in you can either: '
       a: Upgrade your payment plan ([here](upgrade_url))
-      b: Lock or delete an existing user ([here](users_url))
+      b: Bloquear o eliminar usuario existente ([here](users_url))
   more_actions: Más funciones
   noscript_description: Necesita activar JavaScript para poder usar OpenProject!
   noscript_heading: JavaScript desactivado
@@ -2183,9 +2184,9 @@ es:
   setting_commit_logtime_enabled: Activar registro de tiempo
   setting_commit_ref_keywords: Referenciando palabras clave
   setting_consent_time: Tiempo de consentimiento
-  setting_consent_info: Consent information text
+  setting_consent_info: Texto de información de consentimiento
   setting_consent_required: Se requiere consentimiento
-  setting_consent_decline_mail: Consent contact mail address
+  setting_consent_decline_mail: Consentimiento de la dirección de correo electrónico
   setting_cross_project_work_package_relations: Permitir relaciones cruzadas en paquetes
     de trabajo de proyecto
   setting_date_format: Formato de fecha
@@ -2636,7 +2637,7 @@ es:
       quarters: Cuatrimestres
       years: Años
   title_remove_and_delete_user: Eliminar al usurio invitado del proyecto y eliminarlo.
-  title_enterprise_upgrade: Upgrade to unlock more users.
+  title_enterprise_upgrade: Mejora para desbloquear más usuarios.
   tooltip_user_default_timezone: 'La zona horaria por defecto para los nuevos usuarios.
     Puede ser modificada en la configuración del usuario.
 
@@ -2723,14 +2724,14 @@ es:
     activar su cuenta.
 
 '
-  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
-    for additional users.
+  warning_user_limit_reached: 'Alcanzado el límite de usuarios. No se puede activar
+    ningún usuario más. <a href="%{upgrade_url}">actualice su plan</a> o bloquee miembros
+    para permitir usuarios adicionales.
 
 '
-  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
-    active users). Please contact sales@openproject.com to upgrade your Enterprise
-    Edition plan and add additional users.
+  warning_user_limit_reached_instructions: 'Has alcanzado el límite de usuarios (%{current}/%{max}
+    usuarios activos). Por favor, contacta con sales@openproject.com para mejorar
+    tu plan a la edición Enterprise y añadir usuarios adicionales.
 
 '
   menu_item: Elemento de menú
