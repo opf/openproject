@@ -79,6 +79,8 @@ gem 'rouge', '~> 3.1.1'
 gem 'sanitize', '~> 4.6.0'
 # HTML autolinking for mails and urls (replaces autolink)
 gem 'rinku', '~> 2.0.4'
+# Version parsing with semver
+gem 'semantic', '~> 1.6.1'
 
 
 # generates SVG Graphs
