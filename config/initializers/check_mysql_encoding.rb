@@ -52,12 +52,18 @@ if OpenProject::Database.mysql?
              #{Rails.env}:
      *         encoding: #{expected}                                         *
 
-     *   in config/database.yml                                              *
+     *   in config/database.yml.                                             *
+         Otherwise, you WILL run into encoding issue when using 4 byte
+     *   UTF-8 characters since utf8 encoding in MySQL does not support them *
+
+     *   If you have been running utf8 in the past, please see this guide    *
+         on how to convert your database:
+     *   https://mathiasbynens.be/notes/mysql-utf8mb4                        *
 
      *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
 
     MESSAGE
 
-    raise message
+    warn message
   end
 end
