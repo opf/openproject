@@ -1,0 +1,67 @@
+<div class="inline-label">
+    <select
+            *ngIf="!isMultiselect"
+            class="focus-input wp-inline-edit--field inplace-edit--field form--select"
+            [(ngModel)]="selectedOption"
+            [attr.aria-required]="isRequired"
+            [required]="isRequired"
+            [disabled]="isDisabled"
+            [attr.id]="selectHtmlId || undefined"
+            (keydown)="onValueKeydown.emit($event)"
+            (change)="emitValueChange($event)">
+        <option
+                value=""
+                [textContent]="text.requiredPlaceholder"
+                [attr.label]="text.requiredPlaceholder"
+                *ngIf="currentValueInvalid || availableOptions.length == 0"
+                [selected]="currentValueInvalid || availableOptions.length == 0"
+                [attr.selected]="currentValueInvalid || availableOptions.length == 0 || undefined"
+                disabled>
+        </option>
+        <option
+                *ngFor="let value of availableOptions"
+                [ngValue]="value"
+                [attr.label]="value.name"
+                [textContent]="value.name">
+        </option>
+    </select>
+
+    <select
+            *ngIf="isMultiselect"
+            [(ngModel)]="selectedOption"
+            class="focus-input wp-inline-edit--field inplace-edit--textarea -animated form--select"
+            [attr.aria-required]="isRequired"
+            [required]="isRequired"
+            [disabled]="isDisabled"
+            [attr.id]="selectHtmlId || undefined"
+            (keydown)="onValueKeydown.emit($event)"
+            (change)="submitOnSingleSelect()"
+            multiple
+            size=5>
+        <option
+                value=""
+                [textContent]="text.requiredPlaceholder"
+                *ngIf="currentValueInvalid || availableOptions.length == 0"
+                [attr.label]="text.requiredPlaceholder"
+                [selected]="currentValueInvalid || availableOptions.length == 0"
+                disabled>
+        </option>
+        <option
+                *ngFor="let value of availableOptions"
+                [ngValue]="value"
+                [attr.label]="value.name"
+                [textContent]="value.name">
+        </option>
+    </select>
+
+    <a href
+       class="wp-inline-edit--toggle-multiselect form-label no-decoration-on-hover -transparent"
+       (click)="toggleMultiselect()">
+        <op-icon *ngIf="isMultiselect"
+                 icon-classes="icon-minus2 icon4"
+                 [icon-title]="text.switch_to_single_select"></op-icon>
+        <op-icon *ngIf="!isMultiselect"
+                 icon-classes="icon-add icon4"
+                 [icon-title]="text.switch_to_multi_select"></op-icon>
+    </a>
+</div>

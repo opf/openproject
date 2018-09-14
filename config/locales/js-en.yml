@@ -648,7 +648,7 @@ en:
         highlighting_mode:
           description: "Highlight with color"
           none: "No highlighting"
-          inline: 'Overdue dates, "Status", "Type", and "Priority" attribute'
+          inline: 'Highlighted attributes'
           entire_row_by: 'Entire row by'
           status: 'Status'
           priority: 'Priority'

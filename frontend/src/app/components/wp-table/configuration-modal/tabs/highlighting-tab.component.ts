@@ -17,6 +17,15 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
   public lastEntireRowAttribute:HighlightingMode = 'status';
   public eeShowBanners:boolean = false;
 
+  public availableInlineOptions = [
+    { name: 'Status', value: 'status' },
+    { name: 'Priority', value: 'priority' },
+    { name: 'Type', value: 'type' },
+    { name: 'Overdue date', value: 'dueDate' }
+  ];
+
+  public selectedInlineOption = this.availableInlineOptions;
+
   public text = {
     title: this.I18n.t('js.work_packages.table_configuration.highlighting'),
     highlighting_mode: {

@@ -21,7 +21,13 @@
                  (change)="updateMode($event.target.value)"
                  value="inline"
                  name="highlighting_mode_switch">
-          <span [textContent]="text.highlighting_mode.inline"></span>
+          {{ text.highlighting_mode.inline }}
+          &nbsp;
+          <multi-toggled-select [isDisabled]="highlightingMode !== 'inline'"
+                                [availableOptions]="availableInlineOptions"
+                                [initialSelection]="selectedInlineOption"
+                                (onValueChange)="selectedInlineOption = $event">
+          </multi-toggled-select>
         </label>
       </div>
     </div>
