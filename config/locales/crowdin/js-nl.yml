@@ -413,7 +413,7 @@ nl:
       button_deactivate: Verberg Gantt-diagram
       cancel: Annuleren
       change: In de planning wijzigen
-      due_date: Finish date
+      due_date: Einddatum
       empty: "(leeg)"
       error: Er is een fout opgetreden.
       errors:
@@ -566,7 +566,7 @@ nl:
         createdAt: Gemaakt op
         description: Omschrijving
         date: Datum
-        dueDate: Finish date
+        dueDate: Einddatum
         estimatedTime: Geschatte tijd
         spentTime: Bestede tijd
         category: Categorie
@@ -635,14 +635,14 @@ nl:
           pijl.
       table_configuration:
         button: Configureer deze werkpakkettabel
-        choose_display_mode: Display work packages as
+        choose_display_mode: Werkpakketten weergeven als
         modal_title: Werk pakket tabel configuratie
         embedded_tab_disabled: Het configuratie tabblad is niet beschikbaar voor het
           overzicht dat u probeert te bewerken.
         default: standaard
         display_settings: Weergave-instellingen
-        default_mode: Flat list
-        hierarchy_mode: Hierarchy
+        default_mode: Platte lijst
+        hierarchy_mode: Hiërarchie
         hierarchy_hint: Alle gefilterde tabel resultaten zal worden uitgebreid met
           hun voorouders. Hiërarchieën kunnen worden uitgevouwen en samengevouwen.
         display_sums_hint: Waarden van alle optelbare attributen in een rij onder
@@ -650,12 +650,12 @@ nl:
         show_timeline_hint: Toon een interactieve Gantt-diagram aan de rechterkant
           van de tabel. U kunt de breedte wijzigen door de scheidingslijn tussen de
           tabel en Gantt-diagram te slepen.
-        highlighting: Highlighting
+        highlighting: Markering
         highlighting_mode:
-          description: Highlight with color
-          none: No highlighting
-          inline: Overdue dates, "Status", and "Priority" attributes
-          entire_row_by: Entire row by
+          description: Markeren met kleur
+          none: Geen markering
+          inline: Achterstallige datums, 'Status' en 'Prioriteit' kenmerken
+          entire_row_by: Hele rij door
           status: Status
           priority: Prioriteit
         columns_help_text: Gebruik de bovenstaande toegang voor het toevoegen of verwijderen
@@ -710,8 +710,8 @@ nl:
         title: Bevestig verwijdering van %{label}
         text: Weet u zeker dat u werkpakket %{label} wilt verwijderen?
         has_children: 'Het werkpakket heeft %{childUnits}:'
-        confirm_deletion_children: I acknowledge that ALL descendants of the listet
-          work packages will be recursively removed.
+        confirm_deletion_children: Ik erken dat alle onderliggende werkpakketten van
+          de weergegeven werkpakketten verwijderd worden.
         deletes_children: Alle onderliggende werkpakketten en hun nakomelingen ook
           worden verwijderd.
     notice_successful_create: Aanmaak geslaagd.
