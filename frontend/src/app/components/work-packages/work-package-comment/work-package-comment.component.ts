@@ -125,13 +125,18 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
     return 'wp-comment-field';
   }
 
+  public activate(withText?:string) {
+    super.activate(withText);
+    this.scrollToBottom();
+  }
+
   public deactivate(focus:boolean) {
     focus && this.focus();
     this.inEdit = false;
   }
 
   public handleUserSubmit() {
-    if (this.inFlight || !this.commentValue) {
+    if (this.inFlight || !this.rawComment) {
       return Promise.resolve();
     }
 
@@ -156,5 +161,12 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
           this.NotificationsService.addError(this.I18n.t('js.work_packages.comment_send_failed'));
         }
       });
+  }
+
+  scrollToBottom():void {
+    const scrollableContainer = jQuery(this.elementRef.nativeElement).scrollParent()[0];
+    if (scrollableContainer) {
+      setTimeout(() => { scrollableContainer.scrollTop = scrollableContainer.scrollHeight; }, 400);
+    }
   }
 }

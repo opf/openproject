@@ -27,7 +27,6 @@
 #++
 
 require 'spec_helper'
-require 'features/projects/project_settings_page'
 
 describe 'form configuration', type: :feature, js: true do
   let(:admin) { FactoryBot.create :admin }
@@ -248,7 +247,7 @@ describe 'form configuration', type: :feature, js: true do
     end
 
     describe 'custom fields' do
-      let(:project_settings_page) { ProjectSettingsPage.new(project) }
+      let(:project_settings_page) { Pages::Projects::Settings.new(project) }
 
       let(:custom_fields) { [custom_field] }
       let(:custom_field) { FactoryBot.create(:integer_issue_custom_field, name: 'MyNumber') }
@@ -287,7 +286,7 @@ describe 'form configuration', type: :feature, js: true do
           wp_page.expect_attribute_hidden(cf_identifier_api)
 
           # Enable in project, should then be visible
-          project_settings_page.visit_settings_tab('custom_fields')
+          project_settings_page.visit_tab!('custom_fields')
           expect(page).to have_selector(".custom-field-#{custom_field.id} td", text: 'MyNumber')
           expect(page).to have_selector(".custom-field-#{custom_field.id} td", text: type.name)
 
@@ -326,7 +325,7 @@ describe 'form configuration', type: :feature, js: true do
           end
 
           # Ensure CF is checked
-          project_settings_page.visit_settings_tab('custom_fields')
+          project_settings_page.visit_tab!('custom_fields')
           expect(page).to have_selector(".custom-field-#{custom_field.id} td", text: 'MyNumber')
           expect(page).to have_selector(".custom-field-#{custom_field.id} td", text: type.name)
           expect(page).to have_selector("#project_work_package_custom_field_ids_#{custom_field.id}[checked]")

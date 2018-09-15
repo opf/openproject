@@ -115,7 +115,7 @@ describe 'Projects copy',
   end
 
   it 'copies projects and the associated objects' do
-    original_settings_page = Pages::ProjectSettings.new(project)
+    original_settings_page = Pages::Projects::Settings.new(project)
     original_settings_page.visit!
 
     click_link 'Copy'
@@ -137,7 +137,7 @@ describe 'Projects copy',
     expect(copied_project)
       .to be_present
 
-    copied_settings_page = Pages::ProjectSettings.new(copied_project)
+    copied_settings_page = Pages::Projects::Settings.new(copied_project)
     copied_settings_page.visit!
 
     # has the parent of the original project

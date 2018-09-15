@@ -137,11 +137,11 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   }
 
   public activate() {
-    super.activate(this.activity.comment);
+    super.activate(this.activity.comment.raw);
   }
 
   public handleUserSubmit() {
-    if (this.changeset.inFlight || !this.commentValue) {
+    if (this.changeset.inFlight || !this.rawComment) {
       return Promise.resolve();
     }
     return this.updateComment();
@@ -152,7 +152,7 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   }
 
   public updateComment() {
-    return this.commentService.updateComment(this.activity, this.commentValue|| '')
+    return this.commentService.updateComment(this.activity, this.rawComment|| '')
       .then(() => {
         this.wpLinkedActivities.require(this.workPackage, true);
         this.wpCacheService.updateWorkPackage(this.workPackage);

@@ -68,7 +68,7 @@
     </a>
   </div>
 
-  <edit-field-controls [fieldController]="handler"
+  <edit-field-controls [fieldController]="self"
                        *ngIf="isMultiselect && !handler.inEditMode"
                        (onSave)="handler.handleUserSubmit()"
                        (onCancel)="handler.handleUserCancel()"

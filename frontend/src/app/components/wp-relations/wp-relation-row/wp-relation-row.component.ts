@@ -35,7 +35,7 @@ export class WorkPackageRelationRowComponent implements OnInit {
   // Create a quasi-field object
   public fieldController = {
     handler: {
-      active: true
+      active: true,
     },
     required: false
   };

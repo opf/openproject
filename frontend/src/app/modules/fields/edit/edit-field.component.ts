@@ -43,6 +43,10 @@ export const OpEditingPortalChangesetToken = new InjectionToken('wp-editing-port
   template: ''
 })
 export class EditFieldComponent extends Field implements OnDestroy {
+
+  /** Self reference */
+  public self = this;
+
   constructor(readonly I18n:I18nService,
               readonly elementRef:ElementRef,
               @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService,
@@ -60,6 +64,7 @@ export class EditFieldComponent extends Field implements OnDestroy {
         untilComponentDestroyed(this)
       )
       .subscribe((changeset) => {
+
         if (!this.changeset.empty && this.changeset.wpForm.hasValue()) {
           const fieldSchema = changeset.wpForm.value!.schema[this.name];
 
@@ -88,7 +93,9 @@ export class EditFieldComponent extends Field implements OnDestroy {
   }
 
   public get name() {
-    return this.handler.fieldName;
+    // Get the mapped schema name, as this is not always the attribute
+    // e.g., startDate in table for milestone => date attribute
+    return this.changeset.getSchemaName(this.handler.fieldName);
   }
 
   public set value(value:any) {

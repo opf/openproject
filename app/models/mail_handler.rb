@@ -301,14 +301,16 @@ class MailHandler < ActionMailer::Base
   # Returns a Hash of issue attributes extracted from keywords in the email body
   def issue_attributes_from_keywords(issue)
     assigned_to = (k = get_keyword(:assigned_to, override: true)) && find_assignee_from_keyword(k, issue)
+    project = issue.project
 
     attrs = {
-      'type_id' => (k = get_keyword(:type)) && issue.project.types.find_by(name: k).try(:id),
+      'type_id' => (k = get_keyword(:type)) && project.types.find_by(name: k).try(:id),
       'status_id' =>  (k = get_keyword(:status)) && Status.find_by(name: k).try(:id),
+      'parent_id' => (k = get_keyword(:parent)),
       'priority_id' => (k = get_keyword(:priority)) && IssuePriority.find_by(name: k).try(:id),
-      'category_id' => (k = get_keyword(:category)) && issue.project.categories.find_by(name: k).try(:id),
+      'category_id' => (k = get_keyword(:category)) && project.categories.find_by(name: k).try(:id),
       'assigned_to_id' => assigned_to.try(:id),
-      'fixed_version_id' => (k = get_keyword(:fixed_version)) && issue.project.shared_versions.find_by(name: k).try(:id),
+      'fixed_version_id' => (k = get_keyword(:fixed_version)) && project.shared_versions.find_by(name: k).try(:id),
       'start_date' => get_keyword(:start_date, override: true, format: '\d{4}-\d{2}-\d{2}'),
       'due_date' => get_keyword(:due_date, override: true, format: '\d{4}-\d{2}-\d{2}'),
       'estimated_hours' => get_keyword(:estimated_hours, override: true),

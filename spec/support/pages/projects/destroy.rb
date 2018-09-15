@@ -26,20 +26,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Project Visibility
-  Background:
-    Given there is 1 project with the following:
-      | name            | Bob's Accounting     |
-      | identifier      | bobs-accounting      |
-    Then the project "Bob's Accounting" is public
+module Pages
+  module Projects
+    class Destroy < ::Pages::Page
+      def initialize(project)
+        @project = project
+      end
 
-  Scenario: A Project is visible on the landing page if it is set to public
-    Given I am on the login page
-    Then I should see "Select a project" within "#top-menu-items"
-    When I go to the overall Projects page
-    Then I should see "Bob's Accounting" within "#content"
+      private
 
-  Scenario: Project is not visible on the landing page if it is not set to public
-    Given the project "Bob's Accounting" is not public
-    And I am on the login page
-    Then I should not see "Select a project" within "#top-menu-items"
+      def path
+        confirm_destroy_project_path(@project)
+      end
+    end
+  end
+end

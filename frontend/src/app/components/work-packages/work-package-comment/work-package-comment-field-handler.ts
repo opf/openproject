@@ -43,7 +43,7 @@ export abstract class WorkPackageCommentFieldHandler implements IEditFieldHandle
       withText += '\n';
     }
 
-    this.changeset.setValue('comment', withText);
+    this.changeset.setValue('comment', { raw: withText });
   }
 
   public get schema():IFieldSchema {
@@ -56,8 +56,12 @@ export abstract class WorkPackageCommentFieldHandler implements IEditFieldHandle
     }
   }
 
+  public get rawComment() {
+    return _.get(this.commentValue, 'raw', '');
+  }
+
   public get commentValue() {
-    return _.get(this.changeset.value('comment'), 'raw', '');
+    return this.changeset.value('comment');
   }
 
   public handleUserCancel() {

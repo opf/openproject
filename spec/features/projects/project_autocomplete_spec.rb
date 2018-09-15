@@ -27,10 +27,9 @@
 #++
 
 require 'spec_helper'
-require 'features/projects/projects_page'
 
 describe 'Projects autocomplete page', type: :feature, js: true do
-  let!(:admin) { FactoryBot.create :admin }
+  let!(:user) { FactoryBot.create :user }
 
   let!(:project) do
     FactoryBot.create(:project,
@@ -65,17 +64,41 @@ describe 'Projects autocomplete page', type: :feature, js: true do
       FactoryBot.create :project, name: name, identifier: identifier
     end
   end
+  let!(:non_member_project) do
+    FactoryBot.create :project
+  end
+  let!(:public_project) do
+    FactoryBot.create :public_project
+  end
+  # necessary to be able to see public projects
+  let!(:non_member_role) { FactoryBot.create :non_member }
+  # we only need the public permissions: view_project, :view_news
+  let(:role) { FactoryBot.create(:role, permissions: []) }
+
+  include BecomeMember
 
   let(:top_menu) { ::Components::Projects::TopMenu.new }
 
   before do
-    login_as admin
+    ([project, project2, project3] + other_projects).each do |p|
+      add_user_to_project! user: user, project: p, role: role
+    end
+    login_as user
     visit root_path
   end
 
   it 'allows to filter and select projects' do
     top_menu.toggle
     top_menu.expect_open
+
+    # projects are displayed initially
+    within(top_menu.search_results) do
+      expect(page).to have_selector('.ui-menu-item-wrapper', text: project.name)
+      # public project is displayed as it is public
+      expect(page).to have_selector('.ui-menu-item-wrapper', text: public_project.name)
+      # only projects the user is member in are displayed
+      expect(page).to have_no_selector('.ui-menu-item-wrapper', text: non_member_project.name)
+    end
 
     # Filter for projects
     top_menu.search '<strong'
@@ -132,14 +155,14 @@ describe 'Projects autocomplete page', type: :feature, js: true do
     top_menu.expect_current_project project2.name
 
     # Keeps the current module
-    visit project_work_packages_path(project2)
-    expect(page).to have_selector('.ui-menu-item.selected', text: 'All open')
+    visit project_news_index_path(project2)
+    expect(page).to have_selector('.news-menu-item.selected')
 
     top_menu.toggle
     top_menu.expect_open
     top_menu.search_and_select 'Plain project'
 
-    expect(current_path).to eq(project_work_packages_path(project))
-    expect(page).to have_selector('.ui-menu-item.selected', text: 'All open')
+    expect(current_path).to eq(project_news_index_path(project))
+    expect(page).to have_selector('.news-menu-item.selected')
   end
 end
