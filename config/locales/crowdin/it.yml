@@ -35,8 +35,8 @@ it:
     label_one_time_password: 'Password monouso'
     label_2fa_enabled: 'Two-factor authentication è attivo'
     label_2fa_disabled: 'Two-factor authentication non attivo'
-    text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
-    text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
+    text_otp_delivery_message_sms: "La tua password monouso per %{app_title} è %{token}"
+    text_otp_delivery_message_voice: "La tua password monouso per %{app_title} è: %{pause} %{token}. %{pause} Ripeto: %{pause} %{token}"
     text_enter_2fa: 'Si prega di inserire la password monouso dal suo dispositivo.'
     text_2fa_enabled: 'All''ogni accesso, sarà richiesto di inserire un token OTP dal dispositivo di 2FA predefinito.'
     text_2fa_disabled: 'Per abilitare two-factor authentication, è possibile utilizzare il pulsante sopra per registrare un nuovo dispositivo di 2FA. Se si dispone già di un dispositivo, è necessario renderlo predefinito.'
@@ -45,20 +45,20 @@ it:
       enter_backup_code_text: Inserisci un codice valido di backup dall'elenco dei codici nel caso in cui non è possibile accedere i dispositivi registrati 2FA.
       other_device: 'Usi un altro dispositivo o backup codice'
     settings:
-      title: '2FA settings'
-      current_configuration: 'Current configuration'
-      label_active_strategies: 'Active 2FA strategies'
-      label_enforced: 'Enforce 2FA'
-      label_remember: 'Remember 2FA login'
+      title: 'Impostazioni 2FA'
+      current_configuration: 'Configurazione attuale'
+      label_active_strategies: 'Strategie 2FA attive'
+      label_enforced: 'Applica 2FA'
+      label_remember: 'Ricorda l’accesso 2FA'
       text_configuration: |
-        Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
-      text_configuration_guide: For more information, check the configuration guide.
-      text_enforced: 'Enable this setting to force all users to register a 2FA device on their next login. Can only be disabled when not enforced by configuration.'
+        Nota: Questi valori rappresentano l'attuale configurazione a livello applicativo. Non è possibile disabilitare le impostazioni forzate dalla configurazione o modificare le attuali strategie attive, poiché richiederebbero un riavvio del server.
+      text_configuration_guide: Per ulteriori informazioni, consulta la guida alla configurazione.
+      text_enforced: 'Abilita questa impostazione per forzare tutti gli utenti a registrare un dispositivo 2FA al loro prossimo login. L’impostazione può essere disattivata solo se non forzata dalla configurazione.'
       text_remember: |
-        Set this to greater than zero to allow users to remember their 2FA authentication for the given number of days.
-        They will not be requested to re-enter it during that period. Can only be set when not enforced by configuration.
-      error_invalid_settings: 'The 2FA strategies you selected are invalid'
-      failed_to_save_settings: 'Failed to update 2FA settings: %{message}'
+        Imposta questo valore maggiore di zero per consentire agli utenti di ricordare la loro autenticazione 2FA per il numero specificato di giorni.
+        Non gli sarà richiesto di autenticarsi nuovamente in quel periodo. L’impostazione può essere modificata solo quando non forzata dalla configurazione.
+      error_invalid_settings: 'Le strategie di 2FA selezionate non sono valide'
+      failed_to_save_settings: 'Impossibile aggiornare le impostazioni 2FA: %{message}'
     admin:
       self_edit_path: 'Per aggiungere o modificare i propri dispositivi di 2FA, visitare il sito %{self_edit_link}'
       self_edit_link_name: 'Two-factor authentication sulla pagina del suo account'
@@ -71,8 +71,8 @@ it:
       text_2fa_enabled: 'All''ogni accesso, l''utente sarà richiesto di inserire un token OTP dal suo dispositivo di 2FA predefinito.'
       text_2fa_disabled: "L'utente non imposta dispositivo 2FA attraverso i suoi 'Pagina il mio account'"
     upsale:
-      title: 'Two-factor authentication is an enterprise feature'
-      description: 'Strenghten your internal or external authentication mechanisms with a second factor.'
+      title: 'L’autenticazione a due fattori è una funzionalità enterprise'
+      description: 'Rafforza i meccanismi di autenticazione interni o esterni con un secondo fattore.'
     backup_codes:
       none_found: Nessun codici di backup esistano per questo account.
       singular: Codice di backup
@@ -100,7 +100,7 @@ it:
       registration_failed_update: '2FA registrazione dispositivo non riuscita, il token è valido, ma il dispositivo potrebbe non essere aggiornato.'
       confirm_send_failed: 'Conferma del dispositivo 2FA non riuscita.'
       button_complete_registration: 'Completa la registrazione 2FA'
-      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
+      text_confirm_to_complete_html: "Completa la registrazione del tuo dispositivo <strong>%{identifier}</strong> inserendo una password monouso dal tuo dispositivo predefinito."
       text_confirm_to_change_default_html: "Si prega di confermare cambiando dispositivo predefinito a <strong>%{new_identifier}</strong> inserendo una password monouso dal dispositivo predefinito corrente."
       text_identifier: 'Puoi dare al dispositivo un identificativo personalizzato usando questo campo.'
       failed_to_delete: 'Impossibile eliminare 2FA dispositivo.'
@@ -110,7 +110,7 @@ it:
       totp:
         title: 'Usa il suo autenticatore basato su app'
         provisioning_uri: 'URI di provisioning'
-        secret_key: 'Secret key'
+        secret_key: 'Chiave segreta'
         time_based: 'Basato sul tempo'
         account: 'Nome account / emittente'
         setup: |
@@ -130,8 +130,8 @@ it:
     sns:
       delivery_failed: 'SNS non recapitato:'
     message_bird:
-      sms_delivery_failed: 'MessageBird SMS delivery failed.'
-      voice_delivery_failed: 'MessageBird voice call failed.'
+      sms_delivery_failed: 'SMS MessageBird non recapitato.'
+      voice_delivery_failed: 'Chiamata vocale MessageBird non riuscita.'
     restdt:
       delivery_failed_with_code: 'Token non recapitato. (Errore codice %{code})'
     strategies:
@@ -144,11 +144,11 @@ it:
       required_to_add_device: 'Una politica di sicurezza attiva richiede l''abilitazione di two-factor authentication. Si prega di utilizzare il seguente modulo per registrare un dispositivo.'
     remember:
       active_session_notice: >
-        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
-      label: 'Remember'
-      clear_cookie: 'Click here to remove this cookie'
-      cookie_removed: 'The remember cookie has been removed.'
-      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
+        Il tuo account ha un cookie di memoria dell’accesso fino al %{expires_on}. Questo cookie consente all'utente di accedere all’account senza un secondo fattore fino a quel momento.
+      label: 'Ricorda'
+      clear_cookie: 'Clicca qui per rimuovere questo cookie'
+      cookie_removed: 'Il cookie di memoria è stato rimosso.'
+      dont_ask_again: "Crea i cookie per memorizzare l'autenticazione 2FA su questo client per %{days} giorni."
   field_phone: "Telefono cellulare"
   field_otp: "Password monouso"
   notice_account_otp_invalid: "One-Time Password non valido."
@@ -161,7 +161,7 @@ it:
   label_confirmed: 'Confermato'
   button_continue: 'Avanti'
   button_make_default: 'Segna come predefinito'
-  label_unverified_phone: "Cell phone not yet verified"
+  label_unverified_phone: "Cellulare non ancora verificato"
   notice_phone_number_format: "Inserisci il numero nel formato seguente: + XX XXXXXXXX."
   text_otp_not_receive: "Altri metodi di verifica"
   text_send_otp_again: "Reinvia di nuovo una password di:"

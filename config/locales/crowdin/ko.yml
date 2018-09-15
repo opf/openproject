@@ -35,7 +35,7 @@ ko:
     label_one_time_password: '일회용 암호'
     label_2fa_enabled: '2단계 인증이 활성화되었습니다.'
     label_2fa_disabled: '2단계 인증이 활성화되지 않았습니다.'
-    text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
+    text_otp_delivery_message_sms: "%{app_title}의 일회용 암호는 %{token}입니다."
     text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
     text_enter_2fa: '장치에서 일회용 암호를 입력하세요.'
     text_2fa_enabled: '로그인할 때마다 기본 2FA 장치에서 OTP 토큰을 입력하라는 메시지가 표시됩니다.'

@@ -35,8 +35,8 @@ pl:
     label_one_time_password: 'Jednorazowe hasło'
     label_2fa_enabled: 'Uwierzytelnianie dwuskładnikowe jest aktywne'
     label_2fa_disabled: 'Uwierzytelnianie dwuskładnikowe nie jest aktywne'
-    text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
-    text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
+    text_otp_delivery_message_sms: "Hasło jednorazowe %{app_title} to %{token}"
+    text_otp_delivery_message_voice: "Hasło jednorazowe %{app_title} to: %{pause} %{token}. %{pause} I powtórz: %{pause} %{token}"
     text_enter_2fa: 'Wprowadź jednorazowe hasło z urządzenia.'
     text_2fa_enabled: 'Po każdym logowaniu zostaniesz poproszony o wprowadzenie tokena OTP z domyślnego urządzenia 2FA.'
     text_2fa_disabled: 'Aby włączyć uwierzytelnianie dwuskładnikowe, użyj przycisku powyżej, aby zarejestrować nowe urządzenie 2FA. Jeśli masz już urządzenie, musisz ustawić je jako domyślne.'
@@ -45,20 +45,20 @@ pl:
       enter_backup_code_text: Wprowadź prawidłowy kod zapasowy z listy kodów, na wypadek, gdyby nie było już dostępu do zarejestrowanych urządzeń 2FA.
       other_device: 'Użyj innego urządzenia lub kodu zapasowego'
     settings:
-      title: '2FA settings'
-      current_configuration: 'Current configuration'
-      label_active_strategies: 'Active 2FA strategies'
-      label_enforced: 'Enforce 2FA'
-      label_remember: 'Remember 2FA login'
+      title: 'Ustawienia uwierzytelniania 2FA'
+      current_configuration: 'Bieżąca konfiguracja'
+      label_active_strategies: 'Aktywne strategie uwierzytelniania 2FA'
+      label_enforced: 'Wymuszaj uwierzytelnianie 2FA'
+      label_remember: 'Pamiętaj login uwierzyteniania 2FA'
       text_configuration: |
-        Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
-      text_configuration_guide: For more information, check the configuration guide.
-      text_enforced: 'Enable this setting to force all users to register a 2FA device on their next login. Can only be disabled when not enforced by configuration.'
+        Uwaga: te wartości reprezentują bieżącą konfigurację całej aplikacji. Nie można wyłączyć ustawień wymuszonych przez konfigurację ani zmienić bieżących aktywnych strategii, ponieważ wymagają one ponownego uruchomienia serwera.
+      text_configuration_guide: Aby uzyskać dodatkowe informacje, sprawdź przewodnik po konfiguracji.
+      text_enforced: 'Włącz to ustawienie, aby wymuszać na wszystkich użytkownikach zarejestrowanie urządzenia 2FA przy następnym logowaniu. Wyłączenie ustawienia możliwe tylko wtedy, gdy nie jest wymuszane przez konfigurację.'
       text_remember: |
-        Set this to greater than zero to allow users to remember their 2FA authentication for the given number of days.
-        They will not be requested to re-enter it during that period. Can only be set when not enforced by configuration.
-      error_invalid_settings: 'The 2FA strategies you selected are invalid'
-      failed_to_save_settings: 'Failed to update 2FA settings: %{message}'
+        Ustaw tu wartość większą od zera, aby umożliwić użytkownikom zapamiętywanie ich uwierzytelnienia 2FA przez określoną liczbę dni.
+        W tym okresie nie będzie od nich żądane jego ponowne wprowadzenie. Ustawienie możliwe tylko wtedy, gdy nie jest wymuszane przez konfigurację.
+      error_invalid_settings: 'Wybrane strategie uwierzytelniania 2FA są nieprawidłowe'
+      failed_to_save_settings: 'Nie można zaktualizować ustawień uwierzytelniania 2FA: %{message}'
     admin:
       self_edit_path: 'Aby dodać lub zmodyfikować własne urządzenia 2FA, przejdź do %{self_edit_link}'
       self_edit_link_name: 'Uwierzytelnianie dwuskładnikowe na stronie konta'
@@ -71,8 +71,8 @@ pl:
       text_2fa_enabled: 'Po każdym logowaniu ten użytkownik zostanie poproszony o wprowadzenie tokena OTP z jego domyślnego urządzenia 2FA.'
       text_2fa_disabled: "Użytkownik nie ustawił urządzenia 2FA na swojej stronie \"Moje konto\""
     upsale:
-      title: 'Two-factor authentication is an enterprise feature'
-      description: 'Strenghten your internal or external authentication mechanisms with a second factor.'
+      title: 'Uwierzytelnianie dwuskładnikowe to funkcja wersji Enterprise'
+      description: 'Wzmocnij swoje mechanizmy uwierzytelniania wewnętrznego lub zewnętrznego za pomocą drugiego składnika.'
     backup_codes:
       none_found: Na tym koncie nie ma kodów zapasowych.
       singular: Kod zapasowy
@@ -101,7 +101,7 @@ pl:
       registration_failed_update: 'Rejestracja urządzenia 2FA nie powiodła się, token był ważny, ale urządzenie nie mogło zostać zaktualizowane.'
       confirm_send_failed: 'Potwierdzenie twojego urządzenia 2FA nie powiodło się.'
       button_complete_registration: 'Ukończ rejestrację 2FA'
-      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
+      text_confirm_to_complete_html: "Ukończ rejestrację urządzenia <strong>%{identifier}</strong>, wprowadzając jednorazowe hasło z urządzenia domyślnego."
       text_confirm_to_change_default_html: "Proszę potwierdzić, zmiana domyślnego urządzenia do <strong>%{new_identifier}</strong> poprzez wpisanie hasła jednorazowego z bieżącego urządzenia domyślnego."
       text_identifier: 'Możesz nadać urządzeniu niestandardowy identyfikator za pomocą tego pola.'
       failed_to_delete: 'Nie można usunąć urządzenia 2FA.'
@@ -111,7 +111,7 @@ pl:
       totp:
         title: 'Użyj uwierzytelniacza opartego na aplikacji'
         provisioning_uri: 'Inicjowanie obsługi URI'
-        secret_key: 'Secret key'
+        secret_key: 'Tajny klucz'
         time_based: 'Oparte na czasie'
         account: 'Nazwa rachunku / wystawcy'
         setup: |
@@ -133,25 +133,25 @@ pl:
     sns:
       delivery_failed: 'Nie udało się dostarczyć SNS:'
     message_bird:
-      sms_delivery_failed: 'MessageBird SMS delivery failed.'
-      voice_delivery_failed: 'MessageBird voice call failed.'
+      sms_delivery_failed: 'MessageBird – dostarczenie wiadomości SMS nie powiodło się.'
+      voice_delivery_failed: 'MessageBird – połączenie głosowe nie powiodło się.'
     restdt:
       delivery_failed_with_code: 'Błąd dostarczania tokenu. (Kod błędu %{code})'
     strategies:
       totp: 'Aplikacja Authenticator'
       sns: 'Amazon SNS'
-      resdt: 'SMS Rest API'
+      resdt: 'Interfejs API SMS Rest'
     mobile_transmit_notification: "Hasło jednorazowe zostało wysłane na Twój telefon komórkowy."
     label_two_factor_authentication: 'Uwierzytelnianie dwuskładnikowe'
     forced_registration:
       required_to_add_device: 'Aktywna polityka bezpieczeństwa wymaga włączenia uwierzytelniania dwuskładnikowego. Użyj poniższego formularza, aby zarejestrować urządzenie.'
     remember:
       active_session_notice: >
-        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
-      label: 'Remember'
-      clear_cookie: 'Click here to remove this cookie'
-      cookie_removed: 'The remember cookie has been removed.'
-      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
+        Na tym koncie aktywny jest plik cookie pamiętania, ważny do %{expires_on}. Do tego czasu plik cookie będzie umożliwiać logowanie się do konta bez drugiego składnika.
+      label: 'Zapamiętaj'
+      clear_cookie: 'Kliknij tutaj, aby usunąć ten plik cookie'
+      cookie_removed: 'Plik cookie pamiętania został usunięty.'
+      dont_ask_again: "Utwórz pliki cookie w celu zapamiętania uwierzytelnienia 2FA na tym kliencie na %{days} dni."
   field_phone: "Komórka"
   field_otp: "Jednorazowe hasło"
   notice_account_otp_invalid: "Nieprawidłowe hasło jednorazowe."
@@ -164,7 +164,7 @@ pl:
   label_confirmed: 'Zatwardziały'
   button_continue: 'Dalej'
   button_make_default: 'Oznacz jako domyślny'
-  label_unverified_phone: "Cell phone not yet verified"
+  label_unverified_phone: "Telefon komórkowy jeszcze niezweryfikowany"
   notice_phone_number_format: "Wprowadź numer w następującym formacie: + XX XXXXXXXX."
   text_otp_not_receive: "Inne metody weryfikacji"
   text_send_otp_again: "Ponownie wyślij hasło jednorazowe:"

@@ -35,8 +35,8 @@ pt-BR:
     label_one_time_password: 'Senha de uso único'
     label_2fa_enabled: 'O segundo fator de autenticação está ativo'
     label_2fa_disabled: 'O segundo fator de autenticação não está ativo'
-    text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
-    text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
+    text_otp_delivery_message_sms: "Sua senha de uso único de %{app_title} é %{token}"
+    text_otp_delivery_message_voice: "Sua senha de uso único de %{app_title} é: %{pause} %{token}. %{pause} repito: %{pause} %{token}"
     text_enter_2fa: 'Por favor digite a senha de uso único do seu dispositivo.'
     text_2fa_enabled: 'Em cada acesso, será requisitado a você para entrar com seu token OTP do seu dispositivo de 2FA padrão.'
     text_2fa_disabled: 'Para habilitar o segundo fator de autenticação, use o botão acima para registrar seu novo dispositivo 2FA. Se você já tem um dispositivo cadastrado, você precisa deixá-lo como sendo padrão.'
@@ -133,8 +133,8 @@ pt-BR:
     sns:
       delivery_failed: 'Falha ao entregar o SNS:'
     message_bird:
-      sms_delivery_failed: 'MessageBird SMS delivery failed.'
-      voice_delivery_failed: 'MessageBird voice call failed.'
+      sms_delivery_failed: 'Falha ao enviar o SMS MessageBird.'
+      voice_delivery_failed: 'Falha ao realizar a chamada de voz MessageBird SMS.'
     restdt:
       delivery_failed_with_code: 'Falha ao entregar o token. (Código do erro %{code})'
     strategies:
