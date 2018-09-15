@@ -38,6 +38,8 @@ module Query::Highlighting
                            allow_blank: true
 
     def highlighting_mode
+      return :none unless EnterpriseToken.allows_to?(:conditional_highlighting)
+
       val = super
       if val.present?
         val.to_sym

@@ -1,6 +1,8 @@
 require 'spec_helper'
 
-describe 'Work Package highlighting fields', js: true do
+describe 'Work Package highlighting fields',
+         with_ee: %i[conditional_highlighting],
+         js: true do
   let(:user) { FactoryBot.create :admin }
 
   let(:project) { FactoryBot.create(:project) }
@@ -44,7 +46,7 @@ describe 'Work Package highlighting fields', js: true do
     # Ensure Rails and Capybara caches are cleared
     Rails.cache.clear
     Capybara.reset!
-
+    allow(EnterpriseToken).to receive(:show_banners?).and_return(false)
     login_as(user)
     wp_table.visit_query query
     wp_table.expect_work_package_listed wp_1, wp_2
