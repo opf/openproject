@@ -73,6 +73,23 @@ describe MailHandler, type: :model do
     }.to change(User, :count).by(1)
   end
 
+  describe '#category' do
+    let!(:category) { FactoryBot.create :category, project: project, name: 'Foobar' }
+
+    it 'should add a work_package with category' do
+      allow(Setting).to receive(:default_language).and_return('en')
+      Role.non_member.update_attribute :permissions, [:add_work_packages]
+      project.update_attribute :is_public, true
+
+      work_package = submit_email 'ticket_with_category.eml',
+                                  issue: { project: 'onlinestore' },
+                                  allow_override: ['category'],
+                                  unknown_user: 'create'
+      work_package_created(work_package)
+      expect(work_package.category).to eq(category)
+    end
+  end
+
   describe '#cleanup_body' do
     let(:input) { "Subject:foo\nDescription:bar\n" \
                   ">>> myserver.example.org 2016-01-27 15:56 >>>\n... (Email-Body) ..." }
