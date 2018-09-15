@@ -36,6 +36,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= initialize_hide_sections_with [{key: 'notified_projects'}],  active_sections %>
 
 
+<%= activate_angular_js do %>
 <div class="form--field">
   <%= styled_label_tag "user_mail_notification", t(:'user.settings.mail_notifications') %>
   <div class="form--field-container">
@@ -55,7 +56,10 @@ See docs/COPYRIGHT.rdoc for more details.
       <div class="form--field-container -vertical">
         <% @user.projects.each do |project| %>
           <label class="form--label-with-check-box">
-            <%= styled_check_box_tag 'notified_project_ids[]', project.id, @user.notified_projects_ids.include?(project.id) %>
+            <%= styled_check_box_tag 'notified_project_ids[]',
+                                     project.id,
+                                     @user.notified_projects_ids.include?(project.id),
+                                     id: "notified_project_ids_#{project.id}" %>
             <%= project.name %>
           </label>
         <% end %>
@@ -74,3 +78,4 @@ See docs/COPYRIGHT.rdoc for more details.
     </div>
   </div>
 </div>
+<% end %>
