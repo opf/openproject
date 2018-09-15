@@ -8,4 +8,4 @@ pl:
   label_no_assignable_role: Brak dostępnej roli do przydzielenia
   label_global: Globalna
   seeders:
-    default_role_project_creator: 'Project creator'
+    default_role_project_creator: 'Twórca projektu'
