@@ -3,8 +3,7 @@ pl:
   no_results_title_text: Obecnie nie ma nic do wyświetlenia.
   activities:
     index:
-      no_results_title_text: There has not been any activity for the project within
-        this time frame.
+      no_results_title_text: W tym okresie nie było żadnych działań związanych z projektem.
   admin:
     plugins:
       no_results_title_text: Aktualnie nie ma dostępnych żadnych dodatków.
@@ -64,22 +63,22 @@ pl:
     index:
       no_results_title_text: Nie przypisano jeszcze żadnego koloru.
       no_results_content_text: Utwórz nowy kolor
-    label_no_color: No color
+    label_no_color: Bez koloru
   custom_actions:
     actions:
       name: Akcje
-      add: Add action
+      add: Dodaj działanie
       assigned_to:
-        executing_user_value: "(Assign to executing user)"
-    conditions: Conditions
-    plural: Custom actions
-    new: New custom action
-    edit: Edit custom action %{name}
-    execute: Execute %{name}
+        executing_user_value: "(Przypisz wykonującemu użytkownikowi)"
+    conditions: Warunki
+    plural: Działania niestandardowe
+    new: Nowe działanie niestandardowe
+    edit: Edytuj działanie niestandardowe %{name}
+    execute: Wykonaj %{name}
     upsale:
-      title: Custom actions is an Enterprise Edition feature
-      description: Custom actions streamline everyday work by combining a set of individual
-        steps into one button.
+      title: Działania niestandardowe to funkcja wersji Enterprise
+      description: Działania niestandardowe usprawniają codzienną pracę, łącząc zestaw
+        oddzielnych kroków w jeden przycisk.
   custom_fields:
     text_add_new_custom_field: 'Aby dodać do projektu nowe pola niestandardowe, najpierw
       należy je utworzyć.
@@ -94,7 +93,7 @@ pl:
       no_results_title_text: Nie ma jeszcze żadnych pól użytkownika.
       no_results_content_text: Utwórz pole użytkownika
   concatenation:
-    single: or
+    single: lub
   deprecations:
     old_timeline:
       replacement: Ten moduł osi czasu jest zastępowany przez interaktywny widok osi
@@ -158,8 +157,8 @@ pl:
   prioritiies:
     edit:
       priority_color_text: |
-        Click to assign or change the color of this priority.
-        It can be used for highlighting work packages in the table.
+        Kliknij, aby przypisać lub zmienić kolor tego priorytetu.
+        Można go używać do wyróżniania pakietów roboczych w tabeli.
   reportings:
     index:
       no_results_title_text: Nie ma aktualnie żadnego statusu żądania.
@@ -167,8 +166,8 @@ pl:
   statuses:
     edit:
       status_color_text: |
-        Click to assign or change the color of this status.
-        It is shown in the status button and can be used for highlighting work packages in the table.
+        Kliknij, aby przypisać lub zmienić kolor tego stanu.
+        Jest on wyświetlany w przycisku stanu i można go używać do wyróżniania pakietów roboczych w tabeli.
     index:
       no_results_title_text: Nie ma aktualnie żadnych statusów Zestawu zadań.
       no_results_content_text: Dodaj nowy status
@@ -181,13 +180,14 @@ pl:
       form_configuration: Konfiguracja formularza
       projects: Projekty
       enabled_projects: Aktywne projekty
-      add_group: Add attribute group
-      add_subelements: Add subelements group
-      edit_query: Edit embedded query
+      add_group: Dodaj grupę atrybutów
+      add_subelements: Dodaj grupę elementeów składowych
+      edit_query: Edytuj osadzoną kwerendę
       reset: Resetuj do ustawień domyślnych
-      type_color_text: |
-        Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts.
+      type_color_text: 'Kliknij, aby przypisać lub zmienić kolor tego typu. Wybrany
+        kolor odróżnia pakiety robocze na wykresach Gantta.
+
+'
   versions:
     overview:
       no_results_title_text: Nie ma jeszcze żadnego Zestawu zadań przypisanego do
@@ -201,13 +201,13 @@ pl:
       no_results_title_text: Nie ma jeszcze żadnego obiegu pracy.
   work_packages:
     x_descendants:
-      one: One descendant work package
-      other: "%{count} work package descendants"
-      few: "%{count} work package descendants"
-      many: "%{count} work package descendants"
+      one: Jeden potomny pakiet roboczy
+      other: Wiele potomnych pakietów roboczych (%{count})
+      few: Wiele potomnych pakietów roboczych (%{count})
+      many: Wiele potomnych pakietów roboczych (%{count})
     move:
-      no_common_statuses_exists: There is no status available for all selected work
-        packages. Their status cannot be changed.
+      no_common_statuses_exists: Brak stanu dostępnego dla wszystkich wybranych pakietów
+        roboczych. Ich stanu nie można zmienić.
       unsupported_for_multiple_projects: Hurtowe przenoszenie / kopiowanie nie jest
         obsługiwane dla Zestawu zadań z różnych projektów
     list_simple:
@@ -216,8 +216,8 @@ pl:
       reported:
         no_results_title_text: Obecnie nie ma Zestawów zadań, które zostały zgłoszone.
       responsible:
-        no_results_title_text: There are currently no work packages that I am accountable
-          for.
+        no_results_title_text: Nie ma aktualnie żadnych pakietów roboczych, za które
+          odpowiadam.
       watched:
         no_results_title_text: Obecnie nie ma Zestawów zadań, które możesz przeglądać.
     summary:
@@ -267,10 +267,10 @@ pl:
           już mógł zalogować się przy użyciu bieżących poświadczeń. Będziesz natomiast
           mógł stać się użytkownikiem tej aplikacji ponownie.
       login_verification:
-        other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be asked to confirm your password.
-        self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be asked to confirm your password.
+        other: Wprowadź login %{name}, aby potwierdzić usunięcie. Następnie trzeba
+          będzie podać hasło.
+        self: Wprowadź login %{name}, aby potwierdzić usunięcie. Następnie trzeba
+          będzie podać hasło.
     error_inactive_activation_by_mail: 'Twoje konto nie zostało jeszcze aktywowane.
       Aby aktywować swoje konto, kliknij na link, który został do Ciebie wysłany mailem.
 
@@ -293,8 +293,8 @@ pl:
       announcements:
         show_until: Wyświetlaj do
       attachment:
-        attachment_content: Attachment content
-        attachment_file_name: Attachment file name
+        attachment_content: Zawartość załącznika
+        attachment_file_name: Nazwa pliku załącznika
         downloads: Pliki do pobrania
         file: Plik
         filename: Plik
@@ -376,8 +376,8 @@ pl:
         type: Typ
       type:
         attribute_groups: ''
-        is_in_roadmap: Displayed in roadmap by default
-        is_default: Activated for new projects by default
+        is_in_roadmap: Domyślnie wyświetlany w planie działania
+        is_default: Domyślnie aktywny dla nowych projektów
         is_milestone: Jest Kamieniem Milowym
         color: Kolor
       user:
@@ -400,7 +400,7 @@ pl:
         warn_on_leaving_unsaved: Ostrzegaj mnie, gdy opuszczam zadanie z niezapisanymi
           zmianami
       version:
-        effective_date: Finish date
+        effective_date: Data zakończenia
         sharing: Udostępnianie
       wiki_content:
         text: Tekst
@@ -412,7 +412,7 @@ pl:
       work_package:
         begin_insertion: Początek wstawiania
         begin_deletion: Początek usuwania
-        children: Subelements
+        children: Elementy składowe
         done_ratio: Postęp (%)
         end_insertion: Koniec wstawiania
         end_deletion: Koniec usuwania
@@ -459,7 +459,7 @@ pl:
         not_a_date: nie jest poprawną datą.
         not_a_datetime: nie jest poprawną datą i czasem.
         not_a_number: nie jest liczbą.
-        not_allowed: is invalid because of missing permissions.
+        not_allowed: jest nieprawidłowy ze względu na brak uprawnień.
         not_an_integer: nie jest liczbą całkowitą.
         not_an_iso_date: 'wprowadzono nieprawidłową datę. Wymagany format: RRRR-MM-DD.'
         not_same_project: nie należy do tego samego projektu.
@@ -470,20 +470,22 @@ pl:
         taken: zostały już podjęte.
         too_long: jest zbyt długi (maksymalnie %{count} znaków).
         too_short: jest zbyt krótkie (min. %{count} znaków).
-        unchangeable: cannot be changed.
+        unchangeable: nie można zmienić.
         wrong_length: ma nieprawidłową długość (powinno mieć %{count} znaków).
       models:
         custom_field:
           at_least_one_custom_option: Przynajmniej jedna opcja musi być dostępna.
         custom_actions:
-          only_one_allowed: "(%{name}) only one value is allowed."
-          empty: "(%{name}) value can't be empty."
-          inclusion: "(%{name}) value is not set to one of the allowed values."
-          not_logged_in: "(%{name}) value cannot be set because you are not logged
-            in."
-          not_an_integer: "(%{name}) is not an integer."
-          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
-          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          only_one_allowed: "(%{name}) – dozwolona jest tylko jedna wartość."
+          empty: "(%{name}) – wartość nie może być pusta."
+          inclusion: "(%{name}) – nie ustawiono jednej z dozwolonych wartości."
+          not_logged_in: "(%{name}) – nie można ustawić wartości, ponieważ użytkownik
+            nie jest zalogowany."
+          not_an_integer: "(%{name}) – wartość nie jest liczbą całkowitą."
+          smaller_than_or_equal_to: "(%{name}) – wartość musi być mniejsza lub równa
+            %{count}."
+          greater_than_or_equal_to: "(%{name}) – wartość musi być większa lub równa
+            %{count}."
         enterprise_token:
           unreadable: nie można odczytać. Czy na pewno jest to token wsparcia?
         parse_schema_filter_params_service:
@@ -501,7 +503,8 @@ pl:
             project:
               error_not_found: nie znaleziono
             public:
-              error_unauthorized: "- The user has no permission to create public views."
+              error_unauthorized: "– Użytkownik nie ma uprawnień do tworzenia widoków
+                publicznych."
           group_by_hierarchies_exclusive: wzajemnie się wykluczają w ramach grupowania
             wg "%{group_by}". Nie można aktywować równocześnie.
           filters:
@@ -543,11 +546,11 @@ pl:
             status_id:
               status_transition_invalid: jest niewłaściwy z powodu braku prawidłowego
                 przekształcenia ze starego do nowego statusu dla aktualnej roli użytkownika.
-              status_invalid_in_type: is invalid because the current status does not
-                exist in this type.
+              status_invalid_in_type: jest nieprawidłowy, ponieważ bieżący stan nie
+                istnieje w tym typie.
             type:
-              cannot_be_milestone_due_to_children: cannot be a milestone because this
-                work package has children.
+              cannot_be_milestone_due_to_children: nie może być kamieniem milowym,
+                ponieważ ten pakiet roboczy ma elementy podrzędne.
             priority_id:
               only_active_priorities_allowed: musi być aktywny.
             category:
@@ -560,9 +563,9 @@ pl:
           attributes:
             attribute_groups:
               attribute_unknown: Użyto nieprawidłowego atrybutu zadania.
-              duplicate_group: The group name '%{group}' is used more than once. Group
-                names must be unique.
-              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              duplicate_group: Nazwy grupy %{group} użyto więcej niż raz. Nazwy grup
+                muszą być niepowtarzalne.
+              query_invalid: 'Osadzona kwerenda %{group} jest nieprawidłowowa: %{details}'
               group_without_name: Grupy nienazwane nie są dozwolone.
         user:
           attributes:
@@ -602,7 +605,7 @@ pl:
       attribute_help_text: Tekst pomocy atrybutu
       board: Forum
       comment: Komentarz
-      custom_action: Custom action
+      custom_action: Działanie niestandardowe
       custom_field: Pola niestandardowe
       group: Grupa
       category: Kategoria
@@ -651,7 +654,7 @@ pl:
     default_columns: Domyślne kolumny
     description: Opis
     display_sums: Wyświetlanie sumy
-    due_date: Finish date
+    due_date: Data zakończenia
     estimated_hours: Szacowany czas
     estimated_time: Szacowany czas
     firstname: Imię
@@ -670,7 +673,7 @@ pl:
     password: Hasło
     priority: Priorytet
     project: Projekt
-    responsible: Accountable
+    responsible: Osoba odpowiedzialna
     role: Rola
     roles: Role
     start_date: Data rozpoczęcia
@@ -1001,8 +1004,8 @@ pl:
   enumeration_reported_project_statuses: Status zgłoszonego projektu
   error_auth_source_sso_failed: Pojedyncze logowanie (SSO) dla użytkownika '%{value}'
     nie powiodło się
-  error_can_not_archive_project: 'This project cannot be archived: There is at least
-    one work package assigned to a version defined in this project.'
+  error_can_not_archive_project: 'Tego projektu nie można zarchiwizować: do wersji
+    zdefiniowanej w tym projekcie jest przypisany co najmniej jeden pakiet roboczy.'
   error_can_not_delete_entry: Nie można usunąć wpisu
   error_can_not_delete_custom_field: Nie można usunąć pola niestandardowego
   error_can_not_delete_type: Ten typ zawiera pakiety robocze i nie może zostać usunięty.
@@ -1022,17 +1025,17 @@ pl:
     (osiągnięty limit użytkownika). Skontaktuj się z administratorem, aby uzyskać
     dostęp.
   error_failed_to_delete_entry: Nie udało się usunąć tego wpisu.
-  error_invalid_selected_value: Invalid selected value.
+  error_invalid_selected_value: Nieprawidłowa wybrana wartość.
   error_invalid_group_by: 'Nie można grupować przez: %{value}'
   error_invalid_query_column: 'Nieprawidłowa kolumna zapytań: %{value}'
   error_invalid_sort_criterion: 'Nie można sortować według kolumny: %{value}'
-  error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
+  error_journal_attribute_not_present: Dziennik nie zawiera atrybutu %{attribute}.
   error_pdf_export_too_many_columns: Wybrano zbyt dużo kolumn do eksportu PDF. Zmniejsz
     liczbę kolumn.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
-  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
-    you try to submit data on multiple browsers or tabs? Please close all tabs and
-    try again.
+  error_token_authenticity: Nie można zweryfikować tokenu Cross-Site Request Forgery.
+    Czy podjęto próbę przesłania danych w wielu przeglądarkach lub z wielu kart? Zamknij
+    wszystkie karty i spróbuj ponownie.
   error_work_package_done_ratios_not_updated: Nie zaktualizowane wskaźniki wykonania
     pakietu roboczego.
   error_work_package_not_found_in_project: Pakiet roboczy nie został znaleziony lub
@@ -1087,12 +1090,12 @@ pl:
       pdf_with_attachments: PDF with attachments
   extraction:
     available:
-      pdftotext: Pdftotext available (optional)
-      unrtf: Unrtf available (optional)
-      catdoc: Catdoc available (optional)
-      xls2csv: Xls2csv available (optional)
-      catppt: Catppt available (optional)
-      tesseract: Tesseract available (optional)
+      pdftotext: Dostępny konwerter Pdftotext (opcjonalny)
+      unrtf: Dostępny konwerter Unrtf (opcjonalny)
+      catdoc: Dostępny konwerter Catdoc (opcjonalny)
+      xls2csv: Dostępny konwerter Xls2csv (opcjonalny)
+      catppt: Dostępny konwerter Catppt (opcjonalny)
+      tesseract: Dostępne narzędzie Tesseract (opcjonalne)
   general_csv_decimal_separator: ","
   general_csv_encoding: UTF-8
   general_csv_separator: "."
@@ -1108,7 +1111,7 @@ pl:
   homescreen:
     additional:
       projects: Najnowsze projekty
-      no_visible_projects: There are no visible projects in this instance.
+      no_visible_projects: W tym wystąpieniu nie ma żadnych widocznych projektów.
       users: Nowi użytkownicy
     blocks:
       community: Społeczność OpenProject
@@ -1174,7 +1177,7 @@ pl:
   label_all: wszystkie
   label_all_time: cały czas
   label_all_words: Wszystkie słowa
-  label_all_open_wps: All open
+  label_all_open_wps: Wszystkie otwarte
   label_always_visible: Zawsze wyświetlana
   label_announcement: Ogłoszenie
   label_and_its_subprojects: "%{value} oraz jego projekty podrzędne"
@@ -1238,7 +1241,7 @@ pl:
   label_close_versions: Zamknij zakończone wersje
   label_closed_work_packages: Zamknięte
   label_collapse: Zwiń
-  label_collapsed_click_to_show: Collapsed. Click to show
+  label_collapsed_click_to_show: Zwinięto. Kliknij, aby pokazać
   label_configuration: konfiguracja
   label_comment_add: Dodaj komentarz
   label_comment_added: Komentarz dodany
@@ -1311,7 +1314,7 @@ pl:
   label_equals: jest
   label_example: Przykład
   label_export_to: 'Dostępne również w:'
-  label_expanded_click_to_collapse: Expanded. Click to collapse
+  label_expanded_click_to_collapse: Rozwinięto. Kliknij, aby zwinąć
   label_f_hour: "%{value} godzin"
   label_f_hour_plural: "%{value} godzin"
   label_feed_plural: Kanały
@@ -1329,7 +1332,7 @@ pl:
   label_force_user_language_to_default: Ustaw język domyślny dla użytkowników o innych
     ustawieniach językowych niż dozwolone
   label_form_configuration: Konfiguracja formularza
-  label_gantt: Gantt
+  label_gantt: Wykres Gantta
   label_gantt_chart: Wykres Gantta
   label_general: Ogólne
   label_generate_key: Generuj klucz
@@ -1338,13 +1341,13 @@ pl:
   label_group_by: Grupuj według
   label_group_new: Nowa Grupa
   label_group: Grupa
-  label_group_named: Group %{name}
+  label_group_named: Grupa %{name}
   label_group_plural: Grupy
   label_help: Pomoc
   label_here: tutaj
   label_hide: Ukryj
   label_history: Historia
-  label_hierarchy_leaf: Hierarchy leaf
+  label_hierarchy_leaf: Liść hierarchii
   label_home: Strona główna
   label_in: w
   label_in_less_than: w mniej niż
@@ -1358,7 +1361,7 @@ pl:
   label_information_plural: Informacje
   label_integer: Liczba całkowita
   label_internal: Wewnętrzne
-  label_introduction_video: Introduction video
+  label_introduction_video: Film wprowadzający
   label_invite_user: Zaproś użytkownika
   label_show_hide: Pokaż/Ukryj
   label_show_all_registered_users: Pokaż wszystkich zarejestrowanych użytkowników
@@ -1435,7 +1438,7 @@ pl:
   label_next_week: Następny tydzień
   label_no_change_option: "(Bez zmian)"
   label_no_data: Brak danych do pokazania
-  label_no_parent_page: No parent page
+  label_no_parent_page: Bez strony nadrzędnej
   label_nothing_display: Brak danych do pokazania
   label_nobody: nikt
   label_none: Brak
@@ -1447,14 +1450,14 @@ pl:
   label_open_menu: Otwórz menu
   label_open_work_packages: Otwarte
   label_open_work_packages_plural: Otwarte
-  label_openproject_website: OpenProject website
+  label_openproject_website: Witryna internetowa OpenProject
   label_optional_description: Opis
   label_options: Opcje
   label_other: Inne
   label_overall_activity: Ogólna aktywność
   label_overall_spent_time: Całkowity spędzony czas
   label_overview: Przegląd
-  label_page_title: Page title
+  label_page_title: Tytuł strony
   label_part_of: część
   label_password_lost: Resetuj hasło
   label_password_rule_lowercase: Małe litery
@@ -1527,7 +1530,7 @@ pl:
   label_repository_plural: Repozytoria
   label_required: wymagane
   label_requires: wymaga
-  label_responsible_for_work_packages: Work packages I am accountable for
+  label_responsible_for_work_packages: Pakiety robocze, za które odpowiadam
   label_result_plural: Wyniki
   label_reverse_chronological_order: W odwrotnej kolejności chronologicznej
   label_revision: Rewizja
@@ -1576,7 +1579,7 @@ pl:
   label_summary: Podsumowanie
   label_system: System
   label_system_storage: Informacje o pamięci
-  label_table_of_contents: Table of contents
+  label_table_of_contents: Spis treści
   label_tag: Znacznik
   label_text: Długi tekst
   label_this_month: ten miesiąc
@@ -1600,7 +1603,7 @@ pl:
   label_used_by_types: Używane wg typów
   label_used_in_projects: Używane w projektach
   label_user: Użytkownik
-  label_user_named: User %{name}
+  label_user_named: Użytkownik %{name}
   label_user_activity: 'Aktywność użytkownika: %{value}'
   label_user_anonymous: Anonimowy
   label_user_mail_option_all: Dla każdego zdarzenia we wszystkich moich projektach
@@ -1619,7 +1622,7 @@ pl:
   label_version_sharing_none: Nie udostępnione
   label_version_sharing_system: Z wszystkich projektów
   label_version_sharing_tree: Z drzewa projektu
-  label_videos: Videos
+  label_videos: Filmy
   label_view_all_revisions: Zobacz wszystkie rewizje
   label_view_diff: Widok różnic
   label_view_revisions: Widok rewizji
@@ -1663,8 +1666,8 @@ pl:
     do mnie
   label_work_package_view_all_reported_by_me: Pokaż wszystkie pakiety robocze zgłoszone
     przeze mnie
-  label_work_package_view_all_responsible_for: View all work packages that I am accountable
-    for
+  label_work_package_view_all_responsible_for: Wyswietl wszystkie pakiety robocze,
+    za które odpowiadam
   label_work_package_view_all_watched: Pokaż wszystkie obserwowane pakiety robocze
   label_work_package_watchers: Obserwatorzy
   label_workflow: Przepływ pracy
@@ -1739,16 +1742,16 @@ pl:
   macro_execution_error: Błąd podczas wykonywania makra %{macro_name}
   macro_unavailable: Makro %{macro_name} nie może zostać wyświetlone.
   macros:
-    placeholder: "[Placeholder] Macro %{macro_name}"
+    placeholder: "[Placeholder] Makro %{macro_name}"
     errors:
-      missing_or_invalid_parameter: Missing or invalid macro parameter.
+      missing_or_invalid_parameter: Brakujący lub błędny parametr makra.
     legacy_warning:
-      timeline: This legacy timeline macro has been removed and is no longer available.
-        You can replace the functionality with an embedded table macro.
+      timeline: To starsze makro osi czasu zostało usunięte i nie jest już dostępne.
+        Funkcję tę można zastąpić makrem tabeli osadzonej.
     include_wiki_page:
       errors:
-        page_not_found: Cannot find the wiki page '%{name}'.
-        circular_inclusion: Circular inclusion of pages detected.
+        page_not_found: Nie można znaleźć strony wiki %{name}.
+        circular_inclusion: Wykryto cykliczne uwzględnienie stron.
     create_work_package_link:
       errors:
         no_project_context: Wywołanie makra create_work_package_link spoza kontekstu
@@ -1913,7 +1916,7 @@ pl:
       i pracą zespołową w OpenProject.
     text_show_again: Możesz zresetować to wideo w menu pomocy
     welcome: Witamy w OpenProject
-    select_language: Please select your language for OpenProject
+    select_language: Wybierz żądany język OpenProject
   permission_add_work_package_notes: Dodawanie notatek
   permission_add_work_packages: Dodawanie pakietów roboczych
   permission_add_messages: Wysyłanie wiadomości
@@ -1955,7 +1958,7 @@ pl:
   permission_manage_members: Zarządzanie użytkownikami
   permission_manage_news: Zarządzanie wiadomościami
   permission_manage_project_activities: Zarządzanie działaniami projektu
-  permission_manage_public_queries: Manage public views
+  permission_manage_public_queries: Zarządzaj widokami publicznymi
   permission_manage_repository: Zarządzanie repozytorium
   permission_manage_subtasks: Zarządzanie podzadaniami
   permission_manage_versions: Zarządzanie wersjami
@@ -1964,7 +1967,7 @@ pl:
   permission_move_work_packages: Przenoszenie pakietów roboczych
   permission_protect_wiki_pages: Blokowanie stron wiki
   permission_rename_wiki_pages: Zmiana nazw strony wiki
-  permission_save_queries: Save views
+  permission_save_queries: Zapisz widoki
   permission_select_project_modules: Wybieranie modułów projektu
   permission_manage_types: Select types
   permission_view_calendar: Widok kalendarza
@@ -2174,8 +2177,9 @@ pl:
     nieudanych prób zalogowania
   setting_brute_force_block_minutes: Czas, kiedy użytkownik jest zablokowany
   setting_cache_formatted_text: Tekst sformatowany w pamięci podręcznej
-  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
-    users by default. CKEditor has limited functionality for GFM Markdown.
+  setting_use_wysiwyg_description: Wybierz, aby włączyć edytor WYSIWYG CKEditor5 domyślnie
+    dla wszystkich użytkowników. CKEditor ma ograniczną funkcjonalność w przypadku
+    dialektu GFM Markdown.
   setting_column_options: Dostosuj wygląd list pakietów roboczych
   setting_commit_fix_keywords: Stałe słowa kluczowe
   setting_commit_logs_encoding: Commit messages encoding
@@ -2205,7 +2209,8 @@ pl:
   setting_file_max_size_displayed: Maksymalny rozmiar plików tekstowych wyświetlanych
     w treści
   setting_host_name: Nazwa hosta
-  setting_invitation_expiration_days: Activation E-Mail expires after
+  setting_invitation_expiration_days: Ważność aktywacyjnej waidomości e-mail wygasa
+    po
   setting_work_package_done_ratio: Oblicz status realizacji pakietu roboczego z
   setting_work_package_done_ratio_field: Użyj pola pakietu roboczego
   setting_work_package_done_ratio_status: Użyj statusu pakietu roboczego
@@ -2267,7 +2272,7 @@ pl:
   setting_time_format: Format czasu
   setting_accessibility_mode_for_anonymous: Włącz tryb dostępu dla użytkowników anonimowych
   setting_user_format: Format wyświetlania nazwy użytkownika
-  setting_user_default_timezone: Users default time zone
+  setting_user_default_timezone: Domyślna strefa czasowa użytkowników
   setting_users_deletable_by_admins: Konta użytkowników mogą być usuwane przez administratorów
   setting_users_deletable_by_self: Użytkownicy mogą usuwać swoje konta
   setting_welcome_text: Tekst bloku powitalnego
@@ -2282,11 +2287,11 @@ pl:
     session: Sesja
     brute_force_prevention: Automatyczne blokowanie użytkowników
     user:
-      default_preferences: Default preferences
-      deletion: Deletion
+      default_preferences: Ustawienia domyślne
+      deletion: Usunięcie
   text_formatting:
     markdown: Markdown
-    plain: Plain text
+    plain: Zwykły tekst
   status_active: aktywne
   status_archived: w archiwum
   status_invited: zaproszony
@@ -2341,7 +2346,7 @@ pl:
     się, że obrazek nie ma przeźroczystego tła - inaczej źle będzie wyglądał na iOS''ach.
 
 '
-  text_database_allows_tsv: Database allows TSVector (optional)
+  text_database_allows_tsv: Baza danych umożliwia TSVector (opcjonalnie)
   text_default_administrator_account_changed: Domyślne konto administratora zostało
     zmienione
   text_default_encoding: 'Domyślnie: UTF-8'
@@ -2378,8 +2383,8 @@ pl:
   text_journal_aggregation_time_explanation: Połącz dzienniki dla wyświetlania, jeśli
     ich różnica wiekowa jest poniżej wskazanej wartości. To opóźni dostawę powiadomień
     mailowych o ten sam czas.
-  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
-  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
+  text_journal_changed: "%{label} zmieniono z %{old} <br/><strong>na</strong> %{new}"
+  text_journal_changed_plain: "%{label} zmieniono z %{old} \nna %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
   text_journal_deleted: "%{label} deleted (%{old})"
@@ -2430,8 +2435,8 @@ pl:
   text_user_wrote: "%{value} napisał:"
   text_warn_on_leaving_unsaved: Zadanie zawiera niezapisany tekst, który zostanie
     utracony, jeśli opuścisz tę stronę.
-  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
-    comment
+  text_what_did_you_change_click_to_add_comment: Co zostało przez ciebie zmienione?
+    Kliknij, aby dodać komentarz
   text_wiki_destroy_confirmation: Czy na pewno chcesz usunąć to wiki i całą jego zawartość?
   text_wiki_page_destroy_children: Usuń stronę i wszystkie podrzędne
   text_wiki_page_destroy_question: This page has %{descendants} child page(s) and
@@ -2546,7 +2551,7 @@ pl:
       outline: Initial outline expansion
       parent: Pokaż projekty podrzędne z
       work_package_filters: Filtruj pakiety robocze
-      work_package_responsible: Show work packages with accountable
+      work_package_responsible: Pokaż pakiety robocze z osobą odpowiedzialną
       work_package_assignee: Pokaż pakiety robocze z przypisanym
       types: Pokaż typy
       status: Pokaż status
@@ -2559,7 +2564,7 @@ pl:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago,
         %{end_label} %{endspan}%{endspanunit} from now"
       project_filters: Filtr projektów
-      project_responsible: Show projects with accountable
+      project_responsible: Pokaż projekty z osobą odpowiedzialną
       project_status: Pokaż status projektu
       timeframe: Pokaż ramy czasowe
       timeframe_end: do
@@ -2624,8 +2629,8 @@ pl:
   title_remove_and_delete_user: Usuń dotychczasowego użytkownika z projektu i usuń
     go.
   title_enterprise_upgrade: Uaktualnij, aby odblokować więcej użytkowników.
-  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
-    in a user''s settings.
+  tooltip_user_default_timezone: 'Domyślna strefa czasowa nowych użytkowników. Można
+    ją zmienić w ustawieniach użytkownika.
 
 '
   tooltip_resend_invitation: 'Wysyła kolejne zaproszenie mailowe ze świeżym tokenem
@@ -2704,8 +2709,8 @@ pl:
 
 '
   warning_registration_token_expired: |
-    The activation email has expired. We sent you a new one to %{email}.
-    Please click the link inside of it to activate your account.
+    Ważność aktywacyjnej wiadomości e-mail wygasła. Wysłaliśmy nową wiadomość na adres %{email}.
+    Kliknij zawarte w niej łącze, aby aktywować konto.
   warning_user_limit_reached: 'Osiągnięto limit użytkowników. Nie możesz aktywować
     kolejnych użytkowników. <a href="%{upgrade_url}"> uaktualnij swój plan </a> lub
     zablokuj członków, aby umożliwić korzystanie z dodatkowych użytkowników.
@@ -2776,7 +2781,7 @@ pl:
       validation:
         done_ratio: Procent wykonania nie może być ustawiony na źródłowych pakietach
           roboczych, jeśli zostało wywnioskowane ze statusu lub jeśli zostało wyłączone.
-        due_date: Finish date cannot be set on parent work packages.
+        due_date: Nie można ustawić daty zakończenia w nadrzędnych pakietach roboczych.
         estimated_hours: Nie można ustawić szacunku godzinowego dla źródłowych pakietów
           roboczych.
         invalid_user_assigned_to_work_package: Wybrany użytkownik nie może być „%{property}”
