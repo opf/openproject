@@ -1,6 +1,8 @@
 require 'spec_helper'
 
-describe 'Work Package highlighting fields', js: true do
+describe 'Work Package highlighting fields',
+         with_ee: %i[conditional_highlighting],
+         js: true do
   let(:user) { FactoryBot.create :admin }
 
   let(:project) { FactoryBot.create(:project) }

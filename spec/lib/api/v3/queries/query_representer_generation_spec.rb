@@ -508,16 +508,32 @@ describe ::API::V3::Queries::QueryRepresenter do
       end
 
       describe 'highlighting' do
-        it 'renders when the value is set' do
-          query.highlighting_mode = 'status'
+        context 'with EE', with_ee: %i[conditional_highlighting] do
+          it 'renders when the value is set' do
+            query.highlighting_mode = 'status'
 
-          is_expected.to be_json_eql('status'.to_json).at_path('highlightingMode')
+            is_expected.to be_json_eql('status'.to_json).at_path('highlightingMode')
+          end
+
+          it 'does not render nil' do
+            query.highlighting_mode = nil
+
+            is_expected.not_to have_json_path('highlightingMode')
+          end
         end
 
-        it 'does not render nil' do
-          query.highlighting_mode = nil
+        context 'without EE' do
+          it 'renders when the value is set' do
+            query.highlighting_mode = 'status'
 
-          is_expected.not_to have_json_path('highlightingMode')
+            is_expected.to be_json_eql('none'.to_json).at_path('highlightingMode')
+          end
+
+          it 'does not render nil' do
+            query.highlighting_mode = nil
+
+            is_expected.to be_json_eql('none'.to_json).at_path('highlightingMode')
+          end
         end
       end
 
