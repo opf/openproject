@@ -3,8 +3,7 @@ ko:
   no_results_title_text: 표시할 내용이 없습니다.
   activities:
     index:
-      no_results_title_text: There has not been any activity for the project within
-        this time frame.
+      no_results_title_text: 이 시간 프레임 내에서 프로젝트에 대한 활동이 없습니다.
   admin:
     plugins:
       no_results_title_text: 사용 가능한 플러그인이 없습니다.
