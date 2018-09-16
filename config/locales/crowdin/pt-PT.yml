@@ -36,7 +36,7 @@ pt:
     label_2fa_enabled: 'Autenticação de dois fatores está ativo'
     label_2fa_disabled: 'Autenticação de dois fatores não ativa'
     text_otp_delivery_message_sms: "Sua senha de uso único de %{app_title} é %{token}"
-    text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
+    text_otp_delivery_message_voice: "A sua senha de utilização única de %{app_title} é: %{pause} %{token}. %{pause} Repito: %{pause} %{token}"
     text_enter_2fa: 'Digite a palavra-passe de utilização única de seu dispositivo.'
     text_2fa_enabled: 'Em cada login, você será solicitado a inserir um token OTP do seu dispositivo 2FA padrão.'
     text_2fa_disabled: 'Para habilitar a autenticação de dois fatores, use o botão acima para registrar um novo dispositivo 2FA. Se você já possui um dispositivo, é necessário que seja um padrão.'
@@ -51,14 +51,14 @@ pt:
       label_enforced: 'Forçar 2FA'
       label_remember: 'Lembrar login 2FA'
       text_configuration: |
-        Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
-      text_configuration_guide: For more information, check the configuration guide.
-      text_enforced: 'Enable this setting to force all users to register a 2FA device on their next login. Can only be disabled when not enforced by configuration.'
+        Nota: Estes valores representam a configuração atual em toda a aplicação. Não pode desativar definições forçadas pela configuração, nem alterar as atuais estratégias ativas, uma vez que requerem um reinício do servidor.
+      text_configuration_guide: Para mais informações, consulte o guia de configuração.
+      text_enforced: 'Ative esta definição para forçar todos os utilizadores a registarem um dispositivo 2FA no seu próximo início de sessão. Só pode ser desativado quando não forçado pela configuração.'
       text_remember: |
-        Set this to greater than zero to allow users to remember their 2FA authentication for the given number of days.
-        They will not be requested to re-enter it during that period. Can only be set when not enforced by configuration.
-      error_invalid_settings: 'The 2FA strategies you selected are invalid'
-      failed_to_save_settings: 'Failed to update 2FA settings: %{message}'
+        Defina este valor para superior a zero para permitir que os utilizadores relembrem a sua autenticação 2FA durante o número de dias especificado.
+        Não lhes será pedido que a reintroduzam durante este periodo. Só pode ser definido quando não forçado pela configuração.
+      error_invalid_settings: 'As estratégias 2FA que selecionou são inválidas'
+      failed_to_save_settings: 'Erro ao atualizar as definições 2FA: %{message}'
     admin:
       self_edit_path: 'Para adicionar ou modificar seus próprios dispositivos 2FA, vá para %{self_edit_link}'
       self_edit_link_name: 'Autenticação de dois fatores na página da sua conta'
@@ -71,8 +71,8 @@ pt:
       text_2fa_enabled: 'Em cada login, este usuário será solicitado a inserir um token OTP do seu dispositivo padrão 2FA.'
       text_2fa_disabled: "O usuário não configurou um dispositivo 2FA através da sua página 'Minha conta'"
     upsale:
-      title: 'Two-factor authentication is an enterprise feature'
-      description: 'Strenghten your internal or external authentication mechanisms with a second factor.'
+      title: 'A autenticação de dois fatores é um recurso empresarial'
+      description: 'Reforce os mecanismos de autenticação internos ou externos com um segundo factor.'
     backup_codes:
       none_found: Não existem códigos de backup para esta conta.
       singular: Código de backup
@@ -101,7 +101,7 @@ pt:
       registration_failed_update: 'O registro do dispositivo 2FA falhou, o token foi válido, mas o dispositivo não pôde ser atualizado.'
       confirm_send_failed: 'A confirmação do seu dispositivo 2FA falhou.'
       button_complete_registration: 'Registo 2FA Completo'
-      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
+      text_confirm_to_complete_html: "Complete o registo do seu dispositivo <strong>%{identifier}</strong> ao introduzir uma senha única a partir do seu dispositivo padrão."
       text_confirm_to_change_default_html: "Confirme a alteração do seu dispositivo padrão para <strong>%{new_identifier}</strong> inserindo uma senha única de seu dispositivo padrão atual."
       text_identifier: 'Você pode fornecer ao dispositivo um identificador personalizado usando este campo.'
       failed_to_delete: 'Falha ao excluir o dispositivo 2FA.'
@@ -133,8 +133,8 @@ pt:
     sns:
       delivery_failed: 'Falha na entrega do SNS:'
     message_bird:
-      sms_delivery_failed: 'MessageBird SMS delivery failed.'
-      voice_delivery_failed: 'MessageBird voice call failed.'
+      sms_delivery_failed: 'Envio de MessageBird SMS falhou.'
+      voice_delivery_failed: 'Chamada de voz MessageBird falhou.'
     restdt:
       delivery_failed_with_code: 'A entrega de token falhou. (Código de erro %{code})'
     strategies:
@@ -147,11 +147,11 @@ pt:
       required_to_add_device: 'Uma política de segurança ativa exige que você habilite a autenticação de dois fatores. Use o seguinte formulário para registrar um dispositivo.'
     remember:
       active_session_notice: >
-        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
+        A sua conta tem um cookie de lembrança válido até %{expires_on}. Este cookie permite que inicie a sessão sem um segundo factor na sua conta até essa altura.
       label: 'Lembrar'
       clear_cookie: 'Clique aqui para remover esta cookie'
-      cookie_removed: 'The remember cookie has been removed.'
-      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
+      cookie_removed: 'O cookie de lembrança foi removido.'
+      dont_ask_again: "Criar cookie para lembrar a autenticação 2FA neste cliente durante %{days} dias."
   field_phone: "Telemóvel"
   field_otp: "Palavra-passe de utilização única"
   notice_account_otp_invalid: "Palavra-passe de utilização única inválida."
