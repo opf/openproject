@@ -593,11 +593,17 @@ lol:
         highlighting_mode:
           description: crwdns99236:0crwdne99236:0
           none: crwdns99237:0crwdne99237:0
-          inline: crwdns99238:0crwdne99238:0
+          inline: crwdns99249:0crwdne99249:0
           entire_row_by: crwdns99239:0crwdne99239:0
           status: crwdns99228:0crwdne99228:0
           priority: crwdns99230:0crwdne99230:0
         columns_help_text: crwdns99008:0crwdne99008:0
+        upsale:
+          ee_only: Enterprise Edition only feature
+          attribute_highlighting: Need certain work packages to stand out from the
+            mass?
+          relation_columns: Need to see relations in the work package list?
+          check_out_link: Check out the Enterprise Edition.
       tabs:
         overview: crwdns98772:0crwdne98772:0
         activity: crwdns98773:0crwdne98773:0
@@ -640,14 +646,14 @@ lol:
       form_submit:
         title: crwdns98804:0crwdne98804:0
         text: crwdns98805:0crwdne98805:0
-      upsale_relation_columns: crwdns98806:0crwdne98806:0
-      upsale_relation_columns_link: crwdns98807:0crwdne98807:0
       destroy_work_package:
         title: crwdns98808:0%{label}crwdne98808:0
         text: crwdns98809:0%{label}crwdne98809:0
         has_children: crwdns98810:0%{childUnits}crwdne98810:0
         confirm_deletion_children: crwdns99240:0crwdne99240:0
         deletes_children: crwdns99130:0crwdne99130:0
+      upsale_relation_columns: crwdns99255:0crwdne99255:0
+      upsale_relation_columns_link: crwdns99256:0crwdne99256:0
     notice_successful_create: crwdns98812:0crwdne98812:0
     notice_successful_delete: crwdns98813:0crwdne98813:0
     notice_successful_update: crwdns98814:0crwdne98814:0

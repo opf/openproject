@@ -641,12 +641,18 @@ th:
         highlighting_mode:
           description: Highlight with color
           none: No highlighting
-          inline: Overdue dates, "Status", and "Priority" attributes
+          inline: Overdue dates, "Status", and "Priority" attribute
           entire_row_by: Entire row by
           status: สถานะ
           priority: ระดับความสำคัญ
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
+        upsale:
+          ee_only: Enterprise Edition only feature
+          attribute_highlighting: Need certain work packages to stand out from the
+            mass?
+          relation_columns: Need to see relations in the work package list?
+          check_out_link: Check out the Enterprise Edition.
       tabs:
         overview: ภาพรวม
         activity: กิจกรรม
@@ -689,8 +695,6 @@ th:
       form_submit:
         title: Confirm to continue
         text: Are you sure you want to perform this action?
-      upsale_relation_columns: Need to see relations in the work package list?
-      upsale_relation_columns_link: Check out the Enterprise Edition.
       destroy_work_package:
         title: Confirm deletion of %{label}
         text: Are you sure you want to delete the following %{label} ?
@@ -699,6 +703,8 @@ th:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
+      upsale_relation_columns: Need to see relations in the work package list?
+      upsale_relation_columns_link: Check out the Enterprise Edition.
     notice_successful_create: สร้างเรียบร้อยแล้ว
     notice_successful_delete: ลบเรียบร้อยแล้ว
     notice_successful_update: ปรับปรุงข้อมูลเรียบร้อยแล้ว

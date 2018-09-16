@@ -654,13 +654,19 @@ nl:
         highlighting_mode:
           description: Markeren met kleur
           none: Geen markering
-          inline: Achterstallige datums, 'Status' en 'Prioriteit' kenmerken
+          inline: Overdue dates, "Status", and "Priority" attribute
           entire_row_by: Hele rij door
           status: Status
           priority: Prioriteit
         columns_help_text: Gebruik de bovenstaande toegang voor het toevoegen of verwijderen
           van kolommen aan uw tabelweergave. U kunt de kolommen slepen en neerzetten
           om deze te rangschikken.
+        upsale:
+          ee_only: Enterprise Edition only feature
+          attribute_highlighting: Need certain work packages to stand out from the
+            mass?
+          relation_columns: Need to see relations in the work package list?
+          check_out_link: Check out the Enterprise Edition.
       tabs:
         overview: Overzicht
         activity: Activiteit
@@ -703,9 +709,6 @@ nl:
       form_submit:
         title: Bevestigen om verder te gaan
         text: Weet u zeker dat u deze actie wilt uitvoeren?
-      upsale_relation_columns: Nodig om te zien van betrekkingen in de pakketlijst
-        werk?
-      upsale_relation_columns_link: Bekijk de Enterprise Edition.
       destroy_work_package:
         title: Bevestig verwijdering van %{label}
         text: Weet u zeker dat u werkpakket %{label} wilt verwijderen?
@@ -714,6 +717,9 @@ nl:
           de weergegeven werkpakketten verwijderd worden.
         deletes_children: Alle onderliggende werkpakketten en hun nakomelingen ook
           worden verwijderd.
+      upsale_relation_columns: Nodig om te zien van betrekkingen in de pakketlijst
+        werk?
+      upsale_relation_columns_link: Bekijk de Enterprise Edition.
     notice_successful_create: Aanmaak geslaagd.
     notice_successful_delete: Verwijdering geslaagd.
     notice_successful_update: Succesvolle wijziging.

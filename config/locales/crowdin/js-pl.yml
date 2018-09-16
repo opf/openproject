@@ -644,13 +644,19 @@ pl:
         highlighting_mode:
           description: Wyróżniaj kolorem
           none: Bez wyróżniania
-          inline: Zaległe daty, atrybuty Stan i Priorytet
+          inline: Overdue dates, "Status", and "Priority" attribute
           entire_row_by: Cały wiersz wg
           status: Status
           priority: Priorytet
         columns_help_text: Użyj powyższych danych wejściowych, aby dodać lub usunąć
           kolumny w widoku tabeli. Możesz przeciągać i upuszczać kolumny, aby zmienić
           ich kolejność.
+        upsale:
+          ee_only: Enterprise Edition only feature
+          attribute_highlighting: Need certain work packages to stand out from the
+            mass?
+          relation_columns: Need to see relations in the work package list?
+          check_out_link: Check out the Enterprise Edition.
       tabs:
         overview: Przegląd
         activity: Działanie
@@ -693,8 +699,6 @@ pl:
       form_submit:
         title: Potwierdź, aby kontynuować
         text: Czy na pewno chcesz wykonać tę akcję?
-      upsale_relation_columns: Chcesz zobaczyć relacje w tej liście pakietów roboczych?
-      upsale_relation_columns_link: Sprawdź wersję Enterprise.
       destroy_work_package:
         title: Potwierdź usunięcie %{label}
         text: Czy na pewno chcesz usunąć następujący %{label}?
@@ -703,6 +707,8 @@ pl:
           roboczych z listy będą rekurencyjnie usuwane.
         deletes_children: Wszystkie pakiety podrzędne i ich elementy potomne również
           będą rekursywnie usuwane.
+      upsale_relation_columns: Chcesz zobaczyć relacje w tej liście pakietów roboczych?
+      upsale_relation_columns_link: Sprawdź wersję Enterprise.
     notice_successful_create: Tworzenie zakończone sukcesem.
     notice_successful_delete: Usuwanie zakończone sukcesem.
     notice_successful_update: Aktualizacja zakończona sukcesem.

@@ -648,12 +648,18 @@ cs:
         highlighting_mode:
           description: Highlight with color
           none: No highlighting
-          inline: Overdue dates, "Status", and "Priority" attributes
+          inline: Overdue dates, "Status", and "Priority" attribute
           entire_row_by: Entire row by
           status: Stav
           priority: Priorita
         columns_help_text: Použijte vstup výše pro přidání nebo odebrání sloupců do
           tabulkového pohledu. Přetažením sloupců změníte jejich pořadí.
+        upsale:
+          ee_only: Enterprise Edition only feature
+          attribute_highlighting: Need certain work packages to stand out from the
+            mass?
+          relation_columns: Need to see relations in the work package list?
+          check_out_link: Check out the Enterprise Edition.
       tabs:
         overview: Přehled
         activity: Aktivita
@@ -696,8 +702,6 @@ cs:
       form_submit:
         title: Potvrdit a pokračovat
         text: Opravdu chcete provést tuto akci?
-      upsale_relation_columns: Need to see relations in the work package list?
-      upsale_relation_columns_link: Check out the Enterprise Edition.
       destroy_work_package:
         title: Confirm deletion of %{label}
         text: Opravdu chcete odstranit %{label}?
@@ -706,6 +710,8 @@ cs:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
+      upsale_relation_columns: Need to see relations in the work package list?
+      upsale_relation_columns_link: Check out the Enterprise Edition.
     notice_successful_create: Úspěšné vytvoření.
     notice_successful_delete: Úspěšné odstranění.
     notice_successful_update: Úspěšná aktualizace.

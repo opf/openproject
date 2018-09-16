@@ -597,11 +597,17 @@ ja:
         highlighting_mode:
           description: 色付きでハイライト
           none: ハイライトなし
-          inline: 期限切れ日付、「状態」、「優先度」の属性
+          inline: Overdue dates, "Status", and "Priority" attribute
           entire_row_by: 全体の行
           status: ステータス
           priority: 優先度
         columns_help_text: テーブルビューに列を追加または削除するには上記の入力を使用します。列をドラッグ＆ドロップして並べ替えることができます。
+        upsale:
+          ee_only: Enterprise Edition only feature
+          attribute_highlighting: Need certain work packages to stand out from the
+            mass?
+          relation_columns: Need to see relations in the work package list?
+          check_out_link: Check out the Enterprise Edition.
       tabs:
         overview: 概要
         activity: 活動
@@ -644,14 +650,14 @@ ja:
       form_submit:
         title: 続行の確認
         text: この操作を実行してもよろしいですか？
-      upsale_relation_columns: ワークパッケージリストに関係を表示する必要がありますか?
-      upsale_relation_columns_link: エンタープライズ版をチェックしてください。
       destroy_work_package:
         title: "%{label} の削除を確認"
         text: 次の %{label} を削除してもよろしいですか?
         has_children: ワークパッケージは %{childUnits} あります。
         confirm_deletion_children: 私は作業項目のすべての子孫リストが再帰的に削除されることを認めます。
         deletes_children: すべての子作業項目とその子孫も再帰的に削除されます。
+      upsale_relation_columns: ワークパッケージリストに関係を表示する必要がありますか?
+      upsale_relation_columns_link: エンタープライズ版をチェックしてください。
     notice_successful_create: 正常に作成しました。
     notice_successful_delete: 正常に削除しました。
     notice_successful_update: 正常に更新しました。

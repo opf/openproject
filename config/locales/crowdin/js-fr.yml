@@ -656,12 +656,18 @@ fr:
         highlighting_mode:
           description: Highlight with color
           none: No highlighting
-          inline: Overdue dates, "Status", and "Priority" attributes
+          inline: Overdue dates, "Status", and "Priority" attribute
           entire_row_by: Entire row by
           status: Statut
           priority: Priorité
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
+        upsale:
+          ee_only: Enterprise Edition only feature
+          attribute_highlighting: Need certain work packages to stand out from the
+            mass?
+          relation_columns: Need to see relations in the work package list?
+          check_out_link: Check out the Enterprise Edition.
       tabs:
         overview: Vue globale
         activity: Activité
@@ -704,9 +710,6 @@ fr:
       form_submit:
         title: Confirmez pour continuer
         text: Êtes-vous sûr de vouloir effectuer cette action ?
-      upsale_relation_columns: Besoin de voir les relations sur la liste des lots
-        de travaux ?
-      upsale_relation_columns_link: Découvrez l’édition entreprise.
       destroy_work_package:
         title: Confirmer la suppression de %{label}
         text: Voulez-vous vraiment supprimer le %{label} suivant ?
@@ -715,6 +718,9 @@ fr:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
+      upsale_relation_columns: Besoin de voir les relations sur la liste des lots
+        de travaux ?
+      upsale_relation_columns_link: Découvrez l’édition entreprise.
     notice_successful_create: Création réussie.
     notice_successful_delete: Suppression réussie.
     notice_successful_update: Mise à jour réussie.

@@ -657,12 +657,18 @@ fil:
         highlighting_mode:
           description: Highlight with color
           none: No highlighting
-          inline: Overdue dates, "Status", and "Priority" attributes
+          inline: Overdue dates, "Status", and "Priority" attribute
           entire_row_by: Entire row by
           status: Estado
           priority: Ang prayoridad
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
+        upsale:
+          ee_only: Enterprise Edition only feature
+          attribute_highlighting: Need certain work packages to stand out from the
+            mass?
+          relation_columns: Need to see relations in the work package list?
+          check_out_link: Check out the Enterprise Edition.
       tabs:
         overview: Buod
         activity: Aktibidad
@@ -705,9 +711,6 @@ fil:
       form_submit:
         title: Kumpirmahin upang magpatuloy
         text: Sigurado ka bang na gusto mong magtanghal ng aksyon ito?
-      upsale_relation_columns: Kailangan tingnan ang mga relasyon sa listahan ng work
-        package?
-      upsale_relation_columns_link: Suriin ang Enterprise Edition.
       destroy_work_package:
         title: Kumpirmahin ang pagbubura ng %{label}
         text: Sigurado ka ba na gusto mong burahin ang sumusunod na %{label}?
@@ -716,6 +719,9 @@ fil:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
+      upsale_relation_columns: Kailangan tingnan ang mga relasyon sa listahan ng work
+        package?
+      upsale_relation_columns_link: Suriin ang Enterprise Edition.
     notice_successful_create: Matagumpay pagkalikha.
     notice_successful_delete: Matagumpay ang pagtanggal.
     notice_successful_update: Matagumpay nai-update.
