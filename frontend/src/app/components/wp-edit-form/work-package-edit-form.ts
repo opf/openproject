@@ -189,7 +189,7 @@ export class WorkPackageEditForm {
           this.wpNotificationsService.handleRawError(error, this.workPackage);
 
           if (error instanceof ErrorResource) {
-            this.handleSubmissionErrors(error, reject);
+            this.handleSubmissionErrors(error);
           }
         });
     });
@@ -226,10 +226,9 @@ export class WorkPackageEditForm {
     });
   }
 
-  protected handleSubmissionErrors(error:any, reject:Function) {
+  protected handleSubmissionErrors(error:any) {
     // Process single API errors
     this.handleErroneousAttributes(error);
-    return reject();
   }
 
   protected handleErroneousAttributes(error:any) {
