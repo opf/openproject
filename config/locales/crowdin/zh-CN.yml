@@ -8,4 +8,4 @@ zh-CN:
   label_no_assignable_role: 无可用于分配的全局角色
   label_global: 全局
   seeders:
-    default_role_project_creator: 'Project creator'
+    default_role_project_creator: '项目创建人'
