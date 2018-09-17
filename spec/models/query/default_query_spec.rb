@@ -32,7 +32,7 @@ describe "default query", type: :model do
   let(:query) { Query.new_default }
 
   describe "highlighting mode" do
-    context " with highlighting mode setting" do
+    context " with highlighting mode setting", with_ee: %i[conditional_highlighting] do
       describe "not set" do
         it "is inline" do
           expect(query.highlighting_mode).to eq :inline
