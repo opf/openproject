@@ -3,11 +3,12 @@ import {CollectionResource} from 'core-app/modules/hal/resources/collection-reso
 import {FormResource} from 'core-app/modules/hal/resources/form-resource';
 import {WorkPackageChangeset} from './work-package-changeset';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
-import {all} from "@uirouter/core";
+import {CurrentUserService} from "core-components/user/current-user.service";
 
 export class WorkPackageFilterValues {
 
-  constructor(private changeset:WorkPackageChangeset,
+  constructor(private currentUser:CurrentUserService,
+              private changeset:WorkPackageChangeset,
               private filters:QueryFilterInstanceResource[],
               private excluded:string[] = []) {
 
@@ -61,6 +62,10 @@ export class WorkPackageFilterValues {
   private findSpecialValue(value:string|HalResource, field:string):string|HalResource|undefined {
     if (field === 'parent') {
       return value;
+    }
+
+    if (value instanceof HalResource && value.$href === '/api/v3/users/me' && this.currentUser.isLoggedIn) {
+      return value.$copy({ href: `/api/v3/users/${this.currentUser.userId}` });
     }
 
     return undefined;

@@ -12,7 +12,7 @@
       inline_style = styles.map{|k,v| "#{k}:#{v} !important"}.join(';')
       row_style = "background-color: #{color.hexcode} !important;"
 
-      border_color = color.bright? ? '#333333' : color.hexcode
+      border_color = color.bright? ? '#555555' : color.hexcode
 
       concat ".__hl_inl_#{name}_#{entry.id} { #{inline_style}; }\n"
       concat ".__hl_dot_#{name}_#{entry.id}::before { #{inline_style}; border-color: #{border_color}; }\n"

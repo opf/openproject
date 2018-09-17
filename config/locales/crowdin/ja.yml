@@ -52,13 +52,13 @@ ja:
     index:
       no_results_title_text: 現在、色はありません。
       no_results_content_text: 新しい色を作成
-    label_no_color: No color
+    label_no_color: 色なし
   custom_actions:
     actions:
       name: 操作
       add: アクションを追加
       assigned_to:
-        executing_user_value: "(Assign to executing user)"
+        executing_user_value: "（実行ユーザに割り当てる）"
     conditions: 条件
     plural: カスタムアクション
     new: 新しいカスタムアクション
@@ -139,8 +139,8 @@ ja:
   prioritiies:
     edit:
       priority_color_text: |
-        Click to assign or change the color of this priority.
-        It can be used for highlighting work packages in the table.
+        この優先順位の色を割り当てたり変更する場合にクリックします。
+        テーブル内の作業パッケージを強調表示するために使用できます。
   reportings:
     index:
       no_results_title_text: 現在、ステータス報告はありません。
@@ -148,8 +148,8 @@ ja:
   statuses:
     edit:
       status_color_text: |
-        Click to assign or change the color of this status.
-        It is shown in the status button and can be used for highlighting work packages in the table.
+        このステータスの色を割り当てたり変更する場合にクリックします。
+        ステータスボタンに表示され、テーブル内の作業パッケージを強調表示するために使用できます。
     index:
       no_results_title_text: 現在、作業項目のステータスはありません。
       no_results_content_text: 新しいステータスを追加
@@ -166,9 +166,9 @@ ja:
       add_subelements: サブ要素を追加するグループ
       edit_query: 埋め込まれたクエリの編集
       reset: デフォルトに戻す
-      type_color_text: |
-        Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts.
+      type_color_text: 'このタイプの色を割り当てたり変更する場合にクリックします。 選択された色は、ガントチャートの作業項目を区別します。
+
+'
   versions:
     overview:
       no_results_title_text: このバージョンに割り当てられている作業項目はありません。
@@ -356,7 +356,7 @@ ja:
         auto_hide_popups: 成功通知を自動的に隠す
         warn_on_leaving_unsaved: 変更を保存せずにワークパッケージから移動するときに警告
       version:
-        effective_date: Finish date
+        effective_date: 終了日
         sharing: 共有
       wiki_content:
         text: テキスト（本文）
@@ -432,8 +432,7 @@ ja:
           only_one_allowed: "(%{name}) 1 つの値のみ可能です。"
           empty: "(%{name}) 値を空にすることはできません。"
           inclusion: "(%{name}) は、許可されている値ではありません。"
-          not_logged_in: "(%{name}) value cannot be set because you are not logged
-            in."
+          not_logged_in: ログインしていないため(%{name})の値を設定できません。
           not_an_integer: "(%{name}) が整数ではありません。"
           smaller_than_or_equal_to: "(%{name}) は %{count} 以下にする必要があります。"
           greater_than_or_equal_to: "(%{name}) は %{count} 以上にする必要があります。"
@@ -491,8 +490,7 @@ ja:
               status_transition_invalid: ユーザの現在のロールでは旧ステータスから新ステータスへの有効な遷移がないため無効
               status_invalid_in_type: 現在のステータスがこのタイプに存在しないため無効です。
             type:
-              cannot_be_milestone_due_to_children: cannot be a milestone because this
-                work package has children.
+              cannot_be_milestone_due_to_children: この作業項目には子供がいるためマイルストーンになることはできません。
             priority_id:
               only_active_priorities_allowed: は有効である必要があります。
             category:
@@ -587,7 +585,7 @@ ja:
     default_columns: 既定の列
     description: 説明
     display_sums: 合計を表示
-    due_date: Finish date
+    due_date: 終了日
     estimated_hours: 予定工数
     estimated_time: 予定工数
     firstname: 名前
@@ -919,12 +917,11 @@ ja:
   error_invalid_group_by: 'グループ化できません: %{value}'
   error_invalid_query_column: '無効なクエリ列: %{value}'
   error_invalid_sort_criterion: '列を並べ替えできません: %{value}'
-  error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
+  error_journal_attribute_not_present: ジャーナルには属性%{attribute}は含まれていません。
   error_pdf_export_too_many_columns: PDF エクスポート用に選択された列が多すぎます。 列の数を減らしてください。
   error_pdf_failed_to_export: PDFエクスポートを保存できませんでした： %{error}
-  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
-    you try to submit data on multiple browsers or tabs? Please close all tabs and
-    try again.
+  error_token_authenticity: クロスサイトリクエスト偽造トークンを確認できません。 複数のブラウザやタブでデータを送信しようとしましたか？
+    すべてのタブを閉じてもう一度やり直してください。
   error_work_package_done_ratios_not_updated: 作業項目の進捗率が更新できません。
   error_work_package_not_found_in_project: 作業項目が見つからないか、このプロジェクトに属してないかです。
   error_must_be_project_member: プロジェクトのメンバーである必要があります。
@@ -1211,7 +1208,7 @@ ja:
   label_group_by: グループ化
   label_group_new: 新規グループ
   label_group: グループ
-  label_group_named: Group %{name}
+  label_group_named: グループ名 %{name}
   label_group_plural: グループ
   label_help: ヘルプ
   label_here: こちら
@@ -1472,7 +1469,7 @@ ja:
   label_used_by_types: タイプで使用
   label_used_in_projects: プロジェクトで使用
   label_user: ユーザ
-  label_user_named: User %{name}
+  label_user_named: ユーザー名 %{name}
   label_user_activity: "%{value}の活動"
   label_user_anonymous: 匿名ユーザ
   label_user_mail_option_all: 参加しているプロジェクトの全イベント
@@ -2473,7 +2470,7 @@ ja:
         context_object_not_found: コンテキストで指定されたリソースが見つかりません。
       validation:
         done_ratio: 完了率はそのステータスにより推定または無効にされている場合、親ワークパッケージにセットすることはできません。
-        due_date: Finish date cannot be set on parent work packages.
+        due_date: 終了日は親作業項目には設定できません。
         estimated_hours: 推定時間は、親ワークパッケージに設定できません。
         invalid_user_assigned_to_work_package: 選択されたユーザは、この作業項目の'%{property}' にすることはできません。
         start_date: 開始日は、親ワークパッケージに設定できません。

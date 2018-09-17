@@ -385,7 +385,7 @@ ja:
       button_deactivate: ガントチャートを隠す
       cancel: キャンセル
       change: 計画の変更する
-      due_date: Finish date
+      due_date: 終了日
       empty: "（空）"
       error: エラーが発生しました。
       errors:
@@ -522,7 +522,7 @@ ja:
         createdAt: 作成日時
         description: 説明
         date: 日付
-        dueDate: Finish date
+        dueDate: 終了日
         estimatedTime: 予定工数
         spentTime: 作業時間の記録
         category: カテゴリ
@@ -583,22 +583,22 @@ ja:
         text_select_hint: 選択ボックスは 'ALT'と矢印キーで開きます。
       table_configuration:
         button: このワークパッケージテーブルを設定する
-        choose_display_mode: Display work packages as
+        choose_display_mode: 作業項目を次のように表示する
         modal_title: 作業項目表の設定
         embedded_tab_disabled: この設定タブは編集中の埋め込みビューでは使用できません。
         default: 既定
         display_settings: 表示設定
-        default_mode: Flat list
-        hierarchy_mode: Hierarchy
+        default_mode: フラットリスト
+        hierarchy_mode: 階層
         hierarchy_hint: フィルタリングされたテーブルのすべての結果はその祖先で拡張されます。階層を展開したり折りたたんだりすることができます。
         display_sums_hint: 表の下にすべての集計可能な属性の合計を表示します。
         show_timeline_hint: テーブルの右側にインタラクティブなガントチャートを表示します。テーブルとガントチャートの間の区切り線をドラッグすることで幅を変更することができます。
-        highlighting: Highlighting
+        highlighting: ハイライト
         highlighting_mode:
-          description: Highlight with color
-          none: No highlighting
-          inline: Overdue dates, "Status", and "Priority" attributes
-          entire_row_by: Entire row by
+          description: 色付きでハイライト
+          none: ハイライトなし
+          inline: 期限切れ日付、「状態」、「優先度」の属性
+          entire_row_by: 全体の行
           status: ステータス
           priority: 優先度
         columns_help_text: テーブルビューに列を追加または削除するには上記の入力を使用します。列をドラッグ＆ドロップして並べ替えることができます。
@@ -650,8 +650,7 @@ ja:
         title: "%{label} の削除を確認"
         text: 次の %{label} を削除してもよろしいですか?
         has_children: ワークパッケージは %{childUnits} あります。
-        confirm_deletion_children: I acknowledge that ALL descendants of the listet
-          work packages will be recursively removed.
+        confirm_deletion_children: 私は作業項目のすべての子孫リストが再帰的に削除されることを認めます。
         deletes_children: すべての子作業項目とその子孫も再帰的に削除されます。
     notice_successful_create: 正常に作成しました。
     notice_successful_delete: 正常に削除しました。
