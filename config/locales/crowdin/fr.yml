@@ -10,7 +10,7 @@ fr:
   info_custom_text: "Texte personnalisé"
   label_confirm_delete: "Êtes-vous sûr de vouloir supprimer cet élément ?"
   label_work_packages_reported_by_me: "Lots de travaux que j'ai consignés"
-  label_work_packages_responsible_for: "Work packages I am accountable for"
+  label_work_packages_responsible_for: "Lots de Travaux dont je suis responsable"
   label_work_packages_assigned_to_me: "Lots de travaux qui me sont assignés"
   label_work_packages_watched: "Lots de travaux surveillés"
   label_work_package_tracking: " Suivi des lots de travaux"
