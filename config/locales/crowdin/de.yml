@@ -2278,6 +2278,8 @@ de:
   setting_welcome_on_homescreen: Willkommens-Block auf Startseite anzeigen
   setting_wiki_compression: Wiki-Historie komprimieren
   setting_work_package_group_assignment: Zuweisung zu Gruppen erlauben
+  setting_work_package_list_default_highlighting_mode: Default work package highlighting
+    mode
   settings:
     general: Allgemein
     other: Sonstiges

@@ -515,10 +515,10 @@ describe ::API::V3::Queries::QueryRepresenter do
             is_expected.to be_json_eql('status'.to_json).at_path('highlightingMode')
           end
 
-          it 'does not render nil' do
+          it 'renders the default' do
             query.highlighting_mode = nil
 
-            is_expected.not_to have_json_path('highlightingMode')
+            is_expected.to be_json_eql('inline'.to_json).at_path('highlightingMode')
           end
         end
 
@@ -529,7 +529,7 @@ describe ::API::V3::Queries::QueryRepresenter do
             is_expected.to be_json_eql('none'.to_json).at_path('highlightingMode')
           end
 
-          it 'does not render nil' do
+          it 'renders none when not set' do
             query.highlighting_mode = nil
 
             is_expected.to be_json_eql('none'.to_json).at_path('highlightingMode')

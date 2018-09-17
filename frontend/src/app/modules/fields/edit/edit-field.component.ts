@@ -96,6 +96,10 @@ export class EditFieldComponent implements OnDestroy {
     return this.field.schema;
   }
 
+  public get resource() {
+    return this.field.resource;
+  }
+
   public get changeset() {
     return this.field.changeset;
   }

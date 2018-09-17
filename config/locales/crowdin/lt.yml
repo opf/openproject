@@ -2278,6 +2278,8 @@ lt:
   setting_welcome_on_homescreen: Rodyti pasisveikinimo bloką namų lange
   setting_wiki_compression: Wiki istorijos suspaudimas
   setting_work_package_group_assignment: Leisti priskyrimus grupėms
+  setting_work_package_list_default_highlighting_mode: Default work package highlighting
+    mode
   settings:
     general: Bendra
     other: Kita

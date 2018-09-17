@@ -3,8 +3,8 @@ it:
   no_results_title_text: Al momento non c'è niente da visualizzare.
   activities:
     index:
-      no_results_title_text: There has not been any activity for the project within
-        this time frame.
+      no_results_title_text: Non c'è stata alcuna attività per il progetto in questo
+        lasso di tempo.
   admin:
     plugins:
       no_results_title_text: Al momento non vi sono plugin disponibili.
@@ -65,13 +65,13 @@ it:
     index:
       no_results_title_text: Al momento non vi sono colori.
       no_results_content_text: Crea un nuovo colore
-    label_no_color: No color
+    label_no_color: Nessun colore
   custom_actions:
     actions:
       name: Azioni
       add: Aggiungi un'azione
       assigned_to:
-        executing_user_value: "(Assign to executing user)"
+        executing_user_value: "(Assegna all'utente esecutore)"
     conditions: Condizioni
     plural: Azioni personalizzate
     new: Nuova azione personalizzata
@@ -95,7 +95,7 @@ it:
       no_results_title_text: Al momento non esistono campi personalizzati.
       no_results_content_text: Crea un nuovo campo personalizzato
   concatenation:
-    single: or
+    single: oppure
   deprecations:
     old_timeline:
       replacement: Questo modulo sulle sequenze temporali è stato sostituito dalle
@@ -159,8 +159,8 @@ it:
   prioritiies:
     edit:
       priority_color_text: |
-        Click to assign or change the color of this priority.
-        It can be used for highlighting work packages in the table.
+        Clicca per assegnare o modificare il colore di questa priorità.
+        Può essere utilizzato per evidenziare le macro-attività nella tabella.
   reportings:
     index:
       no_results_title_text: Al momento non vi sono relazioni sullo stato.
@@ -168,8 +168,8 @@ it:
   statuses:
     edit:
       status_color_text: |
-        Click to assign or change the color of this status.
-        It is shown in the status button and can be used for highlighting work packages in the table.
+        Clicca per assegnare o modificare il colore di questo stato.
+        Viene mostrato come tasto di stato e può essere utilizzato per evidenziare le macro-attività nella tabella.
     index:
       no_results_title_text: Al momento non vi sono relazioni sullo stato delle macro-attività.
       no_results_content_text: Aggiungi un nuovo stato
@@ -182,9 +182,9 @@ it:
       form_configuration: Configurazione del modulo
       projects: Progetti
       enabled_projects: Progetti abilitati
-      add_group: Add attribute group
-      add_subelements: Add subelements group
-      edit_query: Edit embedded query
+      add_group: Aggiungi gruppo di attributi
+      add_subelements: Aggiungi gruppo di sottoelementi
+      edit_query: Modifica la query incorporata
       reset: Ripristino predefinite
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
@@ -2277,6 +2277,8 @@ it:
     home
   setting_wiki_compression: Compressione del registro della wiki
   setting_work_package_group_assignment: Consentire l'assegnazione ai gruppi
+  setting_work_package_list_default_highlighting_mode: Default work package highlighting
+    mode
   settings:
     general: Generale
     other: Altro
@@ -2284,11 +2286,11 @@ it:
     session: Sessione
     brute_force_prevention: Blocco automatico degli utenti
     user:
-      default_preferences: Default preferences
+      default_preferences: Preferenze predefinite
       deletion: Deletion
   text_formatting:
     markdown: Markdown
-    plain: Plain text
+    plain: Testo semplice
   status_active: attivo
   status_archived: archiviato
   status_invited: invitato
@@ -2387,8 +2389,8 @@ it:
   text_journal_aggregation_time_explanation: Aggrega i rapporti se la loro distanza
     temporale è inferiore all'intervallo di tempo specificato. Questo ritarderà inoltre
     della stessa quantità di tempo anche le notifiche via posta elettronica.
-  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
-  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
+  text_journal_changed: modificato da %{old} <br/><strong>a</strong> %{new} %{label}
+  text_journal_changed_plain: "%{label} cambiato da %{old} \na %{new}"
   text_journal_changed_no_detail: "%{label} aggiornata"
   text_journal_changed_with_diff: "%{label} cambiato (%{link})"
   text_journal_deleted: "%{label} cancellato (%{old})"
@@ -2561,7 +2563,8 @@ it:
       outline: Impostazione del dettaglio iniziale
       parent: Mostra i sottoprogetti di
       work_package_filters: Filtra le macro-attività (work package)
-      work_package_responsible: Show work packages with accountable
+      work_package_responsible: Mostra le macro-attività che hanno un responsabile
+        di risultato
       work_package_assignee: Mostra le macro-attività (work package) che hanno un
         assegnatario
       types: Mostra tipi
@@ -2575,7 +2578,7 @@ it:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} fa,
         %{end_label} %{endspan}%{endspanunit} da oggi"
       project_filters: Filtro progetti
-      project_responsible: Show projects with accountable
+      project_responsible: Visualizza progetti che hanno un responsabile di risultato
       project_status: Visualizza lo stato del progetto
       timeframe: Visualizza arco di tempo
       timeframe_end: a
@@ -2793,7 +2796,7 @@ it:
         done_ratio: La percentuale di completamento non può essere impostata sulla
           macro-attività (work package) principale, quando viene dedotta dallo stato
           o quando è disabilitata.
-        due_date: Finish date cannot be set on parent work packages.
+        due_date: La data di fine non può essere impostata sulla macro-attività principale.
         estimated_hours: Le ore stimate non può essere impostate sulla macro-attività
           (work package) principale.
         invalid_user_assigned_to_work_package: All'utente scelto non è consentito

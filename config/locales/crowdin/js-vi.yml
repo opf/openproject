@@ -632,14 +632,14 @@ vi:
         default: default
         display_settings: Cài đặt hiển thị
         default_mode: Flat list
-        hierarchy_mode: Hierarchy
+        hierarchy_mode: Hệ thống phân cấp
         hierarchy_hint: Tất cả các bảng được lọc sẽ được gắn với tiền bối của nó.
           Cây công việc có thể đươc mở ra hoặc thu lại.
         display_sums_hint: Hiển thị tổng của các cột số trong một hàng phía dưới bảng
           kết quả.
         show_timeline_hint: Hiển thị biểu đồ grantt ở bên phải của bảng. Bạn có thể
           thay đổi độ rộng của nó bằng cách kéo thanh chia giữa bảng và biểu đồ grantt.
-        highlighting: Highlighting
+        highlighting: Tô sáng
         highlighting_mode:
           description: Highlight with color
           none: No highlighting
@@ -704,8 +704,6 @@ vi:
         confirm_deletion_children: I acknowledge that ALL descendants of the listet
           work packages will be recursively removed.
         deletes_children: Các gói công việc con cũng sẽ bị xóa theo.
-      upsale_relation_columns: Need to see relations in the work package list?
-      upsale_relation_columns_link: Check out the Enterprise Edition.
     notice_successful_create: Successful creation.
     notice_successful_delete: Successful deletion.
     notice_successful_update: Successful update.

@@ -27,26 +27,11 @@
 // ++
 
 import {EditField} from "core-app/modules/fields/edit/edit.field.module";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {FormattableEditFieldComponent} from "core-app/modules/fields/edit/field-types/formattable-edit-field.component";
-import {
-  CKEditorSetupService,
-  ICKEditorInstance,
-  ICKEditorStatic
-} from "core-components/ckeditor/ckeditor-setup.service";
-
-declare global {
-  interface Window {
-    OPBalloonEditor:ICKEditorStatic;
-    OPClassicEditor:ICKEditorStatic;
-  }
-}
 
 export class FormattableEditField extends EditField {
-  readonly pathHelper:PathHelperService = this.$injector.get(PathHelperService);
-  readonly ckEditorSetup:CKEditorSetupService = this.$injector.get(CKEditorSetupService);
-
   // Values used in template
+  public instance:FormattableEditFieldComponent;
   public isBusy:boolean = false;
   public isPreview:boolean = false;
   public previewHtml:string = '';
@@ -56,62 +41,16 @@ export class FormattableEditField extends EditField {
     cancel: this.I18n.t('js.inplace.button_cancel', { attribute: this.schema.name })
   };
 
-  // CKEditor instance
-  public ckeditor:any;
-
   public get component() {
     return FormattableEditFieldComponent;
   }
 
-  public $onInit(container:HTMLElement) {
-    this.setupMarkdownEditor(container);
-  }
-
-  public setupMarkdownEditor(container:HTMLElement) {
-    const element = container.querySelector('.op-ckeditor-source-element') as HTMLElement;
-
-    const context = { resource: this.resource,
-                      macros: 'none' as 'none',
-                      previewContext: this.previewContext };
-
-    this.ckEditorSetup
-      .create(this.editorType,
-              element,
-              context)
-      .then((editor:ICKEditorInstance) => {
-        this.ckeditor = editor;
-        if (!this.resource.isNew) {
-          setTimeout(() => editor.editing.view.focus());
-        }
-
-        this.updateValueOnEditorChange(editor);
+  public onSubmit() {
+    this.instance
+      .getCurrentValue()
+      .then((value:string) => {
+        this.rawValue = value;
       });
-  }
-
-  private updateValueOnEditorChange(editor:any) {
-    editor.model.document.on('change', () => {
-      this.rawValue = this.ckeditor.getData();
-    } );
-  }
-
-  private get editorType() {
-    if (this.name === 'description') {
-      return 'full';
-    } else {
-      return 'constrained';
-    }
-  }
-
-  private get previewContext() {
-    if (this.resource.isNew && this.resource.project) {
-      return this.resource.project.href;
-    } else if (!this.resource.isNew) {
-      return this.pathHelper.api.v3.work_packages.id(this.resource.id).path;
-    }
-  }
-
-  public reset() {
-    this.ckeditor.setData(this.rawValue);
   }
 
   public get rawValue() {
@@ -131,11 +70,7 @@ export class FormattableEditField extends EditField {
   }
 
   public isEmpty():boolean {
-    if (this.ckeditor) {
-      return this.ckeditor.getData() === '';
-    } else {
-      return !(this.value && this.value.raw);
-    }
+    return !(this.value && this.value.raw);
   }
 
   public submitUnlessInPreview(form:any) {

@@ -2262,6 +2262,8 @@ ro:
   setting_welcome_on_homescreen: Afişare bloc "bun venit" pe ecranul de start
   setting_wiki_compression: Comprimare istoric wiki
   setting_work_package_group_assignment: Atribuire la grupuri permisă
+  setting_work_package_list_default_highlighting_mode: Default work package highlighting
+    mode
   settings:
     general: General
     other: Altele

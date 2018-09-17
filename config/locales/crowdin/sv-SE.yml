@@ -2210,6 +2210,8 @@ sv-SE:
   setting_welcome_on_homescreen: Visa välkomstblocket på hemsidan
   setting_wiki_compression: Wiki komprimera historia
   setting_work_package_group_assignment: Tillåt tilldelning till grupper
+  setting_work_package_list_default_highlighting_mode: Default work package highlighting
+    mode
   settings:
     general: Allmänt
     other: Andra

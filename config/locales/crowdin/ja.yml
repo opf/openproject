@@ -2042,6 +2042,8 @@ ja:
   setting_welcome_on_homescreen: ホーム画面にようこそブロックを表示
   setting_wiki_compression: Wiki履歴を圧縮する
   setting_work_package_group_assignment: グループへの割り当てを許可する
+  setting_work_package_list_default_highlighting_mode: Default work package highlighting
+    mode
   settings:
     general: 概要
     other: その他

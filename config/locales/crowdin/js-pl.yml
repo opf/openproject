@@ -655,8 +655,8 @@ pl:
           ee_only: Enterprise Edition only feature
           attribute_highlighting: Need certain work packages to stand out from the
             mass?
-          relation_columns: Need to see relations in the work package list?
-          check_out_link: Check out the Enterprise Edition.
+          relation_columns: Chcesz zobaczyć relacje w tej liście pakietów roboczych?
+          check_out_link: Sprawdź wersję Enterprise.
       tabs:
         overview: Przegląd
         activity: Działanie
@@ -707,8 +707,6 @@ pl:
           roboczych z listy będą rekurencyjnie usuwane.
         deletes_children: Wszystkie pakiety podrzędne i ich elementy potomne również
           będą rekursywnie usuwane.
-      upsale_relation_columns: Chcesz zobaczyć relacje w tej liście pakietów roboczych?
-      upsale_relation_columns_link: Sprawdź wersję Enterprise.
     notice_successful_create: Tworzenie zakończone sukcesem.
     notice_successful_delete: Usuwanie zakończone sukcesem.
     notice_successful_update: Aktualizacja zakończona sukcesem.

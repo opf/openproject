@@ -2209,6 +2209,8 @@ da:
   setting_welcome_on_homescreen: Vis velkomstblok på hjemmeskærm
   setting_wiki_compression: Sammendrag af wiki-historie
   setting_work_package_group_assignment: Tillad tilknytning til grupper
+  setting_work_package_list_default_highlighting_mode: Default work package highlighting
+    mode
   settings:
     general: Generelle
     other: Andet

@@ -606,8 +606,8 @@ ja:
           ee_only: Enterprise Edition only feature
           attribute_highlighting: Need certain work packages to stand out from the
             mass?
-          relation_columns: Need to see relations in the work package list?
-          check_out_link: Check out the Enterprise Edition.
+          relation_columns: ワークパッケージリストに関係を表示する必要がありますか?
+          check_out_link: エンタープライズ版をチェックしてください。
       tabs:
         overview: 概要
         activity: 活動
@@ -656,8 +656,6 @@ ja:
         has_children: ワークパッケージは %{childUnits} あります。
         confirm_deletion_children: 私は作業項目のすべての子孫リストが再帰的に削除されることを認めます。
         deletes_children: すべての子作業項目とその子孫も再帰的に削除されます。
-      upsale_relation_columns: ワークパッケージリストに関係を表示する必要がありますか?
-      upsale_relation_columns_link: エンタープライズ版をチェックしてください。
     notice_successful_create: 正常に作成しました。
     notice_successful_delete: 正常に削除しました。
     notice_successful_update: 正常に更新しました。

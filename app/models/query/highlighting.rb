@@ -41,9 +41,26 @@ module Query::Highlighting
       return :none unless EnterpriseToken.allows_to?(:conditional_highlighting)
 
       val = super
+
       if val.present?
         val.to_sym
+      else
+        highlighting_mode_from_setting
       end
+    end
+
+    def highlighting_mode_from_setting
+      value = Setting.work_package_list_default_highlighting_mode.to_sym
+
+      if QUERY_HIGHLIGHTING_MODES.include? value
+        value
+      else
+        default_highlighting_mode
+      end
+    end
+
+    def default_highlighting_mode
+      QUERY_HIGHLIGHTING_MODES.first
     end
   end
 end

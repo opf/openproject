@@ -2222,6 +2222,8 @@ lv:
   setting_welcome_on_homescreen: Display welcome block on homescreen
   setting_wiki_compression: Wiki history compression
   setting_work_package_group_assignment: Allow assignment to groups
+  setting_work_package_list_default_highlighting_mode: Default work package highlighting
+    mode
   settings:
     general: General
     other: Other
