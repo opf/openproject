@@ -1,12 +1,13 @@
 <%
   colored_resource = Proc.new do |name, scope|
     scope.includes(:color).find_each do |entry|
-      if entry.color_id.nil?
+      color = entry.color
+
+      if color.nil?
         concat ".__hl_dot_#{name}_#{entry.id}::before { display: none }\n"
         next
       end
 
-      color = entry.color
       styles = color.color_styles
 
       inline_style = styles.map{|k,v| "#{k}:#{v} !important"}.join(';')
