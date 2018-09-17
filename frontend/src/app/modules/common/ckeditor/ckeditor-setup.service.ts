@@ -4,18 +4,19 @@ import {Injectable} from "@angular/core";
 
 export interface ICKEditorInstance {
   getData():string;
-
   setData(content:string):void;
+  on(event:string, callback:Function):void;
 
   model:any;
   editing:any;
   config:any;
+  element:HTMLElement;
 }
 
 export interface ICKEditorStatic {
   create(el:HTMLElement, config?:any):Promise<ICKEditorInstance>;
 
-  createCustomized(el:HTMLElement, config?:any):Promise<ICKEditorInstance>;
+  createCustomized(el:string|HTMLElement, config?:any):Promise<ICKEditorInstance>;
 }
 
 export interface ICKEditorContext {
@@ -50,15 +51,23 @@ export class CKEditorSetupService {
    * @param {ICKEditorContext} context
    * @returns {Promise<ICKEditorInstance>}
    */
-  public create(type:'full' | 'constrained', wrapper:HTMLElement, context:ICKEditorContext) {
+  public create(type:'full' | 'constrained', wrapper:HTMLElement, context:ICKEditorContext, initialData:string|null = null) {
     const editor = type === 'constrained' ? window.OPConstrainedEditor : window.OPClassicEditor;
     wrapper.classList.add(`ckeditor-type-${type}`);
 
+    let initialDataSet = initialData !== null;
+    let param = initialDataSet ? initialData! : wrapper;
+
     return editor
-      .createCustomized(wrapper, {
+      .createCustomized(param, {
         openProject: this.createConfig(context)
       })
       .then((editor) => {
+        // If initial data was passed, add to wrapper element
+        if (initialDataSet) {
+          wrapper.appendChild(editor.element);
+        }
+
         // Allow custom events on wrapper to set/get data for debugging
         jQuery(wrapper)
           .on('op:ckeditor:setData', (event:any, data:string) => editor.setData(data))

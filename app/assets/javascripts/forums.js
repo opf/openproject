@@ -36,7 +36,7 @@
 
       subject.val(result.subject);
 
-      $('op-ckeditor-form')
+      $('ckeditor-augmented-textarea')
         .data('editor')
         .then(function(editor) {
           editor.setData(result.content);
