@@ -179,6 +179,7 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
         editor.on('op:source-code-disabled', () => this.disableManualMode());
 
         this.onInitialized.emit(editor);
+        return editor;
       });
 
     this.$element.data('editor', editorPromise);
