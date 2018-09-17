@@ -31,6 +31,7 @@ import {FormattableEditFieldComponent} from "core-app/modules/fields/edit/field-
 
 export class FormattableEditField extends EditField {
   // Values used in template
+  public instance:FormattableEditFieldComponent;
   public isBusy:boolean = false;
   public isPreview:boolean = false;
   public previewHtml:string = '';
@@ -42,6 +43,14 @@ export class FormattableEditField extends EditField {
 
   public get component() {
     return FormattableEditFieldComponent;
+  }
+
+  public onSubmit() {
+    this.instance
+      .getCurrentValue()
+      .then((value:string) => {
+        this.rawValue = value;
+      });
   }
 
   public get rawValue() {

@@ -61,6 +61,11 @@ export class FormattableEditFieldComponent extends EditFieldComponent {
 
   @ViewChild(OpCkeditorComponent) instance:OpCkeditorComponent;
 
+  public initialize() {
+    super.initialize();
+    this.field.instance = this;
+  }
+
   public onContentChange(value:string) {
     this.field.rawValue = value;
   }
@@ -71,9 +76,12 @@ export class FormattableEditFieldComponent extends EditFieldComponent {
     }
   }
 
+  public getCurrentValue() {
+    return this.instance.getTransformedContent();
+  }
+
   public handleUserSubmit() {
-    this.instance
-      .getTransformedContent()
+    this.getCurrentValue()
       .then((value:string) => {
         this.field.rawValue = value;
         this.handler.handleUserSubmit();
