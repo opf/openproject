@@ -10,7 +10,7 @@ pt:
   info_custom_text: "Texto personalizado"
   label_confirm_delete: "Quer realmente apagar este elemento?"
   label_work_packages_reported_by_me: "Pacotes de trabalho reportados por mim"
-  label_work_packages_responsible_for: "Work packages I am accountable for"
+  label_work_packages_responsible_for: "Pacotes de trabalho pelos quais sou responsável"
   label_work_packages_assigned_to_me: "Pacotes de trabalho atribuídos a mim"
   label_work_packages_watched: "Pacotes de trabalho observados"
   label_work_package_tracking: " Rastreamento de pacote de trabalho"
