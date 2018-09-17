@@ -11,4 +11,13 @@ module CellsHelper
 
     render render_options.merge(text: rendered)
   end
+
+  def rails_cell(name, model, **args)
+    args[:context] = {
+      controller: try(:controller),
+      action_view: self
+    }
+
+    cell name, model, args
+  end
 end
