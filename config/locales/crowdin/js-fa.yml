@@ -656,8 +656,8 @@ fa:
           ee_only: Enterprise Edition only feature
           attribute_highlighting: Need certain work packages to stand out from the
             mass?
-          relation_columns: Need to see relations in the work package list?
-          check_out_link: Check out the Enterprise Edition.
+          relation_columns: آیا نیاز به مشاهده روابط در بسته کاری را دارید؟
+          check_out_link: نسخه سازمانی را بررسی کنید.
       tabs:
         overview: Overview
         activity: فعالیت
@@ -708,8 +708,6 @@ fa:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
-      upsale_relation_columns: آیا نیاز به مشاهده روابط در بسته کاری را دارید؟
-      upsale_relation_columns_link: نسخه سازمانی را بررسی کنید.
     notice_successful_create: Successful creation.
     notice_successful_delete: Successful deletion.
     notice_successful_update: Successful update.

@@ -2280,6 +2280,8 @@ ru:
   setting_welcome_on_homescreen: Показывать приветствие на домашней странице
   setting_wiki_compression: Сжатие истории  изменений wiki
   setting_work_package_group_assignment: Разрешить назначения группам
+  setting_work_package_list_default_highlighting_mode: Default work package highlighting
+    mode
   settings:
     general: Общие
     other: Другие

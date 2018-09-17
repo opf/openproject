@@ -649,7 +649,7 @@ fi:
           ee_only: Enterprise Edition only feature
           attribute_highlighting: Need certain work packages to stand out from the
             mass?
-          relation_columns: Need to see relations in the work package list?
+          relation_columns: Täytyy nähdä suhteet toimia paketti lista?
           check_out_link: Check out the Enterprise Edition.
       tabs:
         overview: Yleiskatsaus
@@ -701,8 +701,6 @@ fi:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
-      upsale_relation_columns: Täytyy nähdä suhteet toimia paketti lista?
-      upsale_relation_columns_link: Check out the Enterprise Edition.
     notice_successful_create: Luonti onnistui.
     notice_successful_delete: Poisto onnistui.
     notice_successful_update: Päivitys onnistui.

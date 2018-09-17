@@ -410,7 +410,7 @@ es:
       button_deactivate: Hide Gantt chart
       cancel: Cancelar
       change: Cambio en la planificación
-      due_date: Finish date
+      due_date: Fecha de finalización
       empty: "(vacío)"
       error: Ha ocurrido un error.
       errors:
@@ -563,7 +563,7 @@ es:
         createdAt: Creado en
         description: Descripción
         date: Fecha
-        dueDate: Finish date
+        dueDate: Fecha de finalización
         estimatedTime: Tiempo estimado
         spentTime: Tiempo empleado
         category: Categoría
@@ -584,7 +584,7 @@ es:
         created_by_me: Created by me
         assigned_to_me: Assigned to me
         recently_created: Recently created
-        all_open: All open
+        all_open: Todos abiertos
         summary: Resumen
       jump_marks:
         pagination: Saltar a la paginación de la tabla
@@ -660,8 +660,9 @@ es:
           ee_only: Enterprise Edition only feature
           attribute_highlighting: Need certain work packages to stand out from the
             mass?
-          relation_columns: Need to see relations in the work package list?
-          check_out_link: Check out the Enterprise Edition.
+          relation_columns: "¿Necesita ver las relaciones en la lista del paquete
+            de trabajo?"
+          check_out_link: Vea la versión Enterprise Edition.
       tabs:
         overview: Resumen
         activity: Actividad
@@ -712,9 +713,6 @@ es:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
-      upsale_relation_columns: "¿Necesita ver las relaciones en la lista del paquete
-        de trabajo?"
-      upsale_relation_columns_link: Vea la versión Enterprise Edition.
     notice_successful_create: Creación exitosa.
     notice_successful_delete: Eliminado con éxito.
     notice_successful_update: Actualización correcta.

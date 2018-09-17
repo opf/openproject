@@ -54,22 +54,21 @@ ko:
     index:
       no_results_title_text: 색깔이 없습니다.
       no_results_content_text: 새 색깔 생성
-    label_no_color: No color
+    label_no_color: 색상 없음
   custom_actions:
     actions:
       name: 작업
-      add: Add action
+      add: 작업 추가
       assigned_to:
-        executing_user_value: "(Assign to executing user)"
-    conditions: Conditions
-    plural: Custom actions
-    new: New custom action
-    edit: Edit custom action %{name}
-    execute: Execute %{name}
+        executing_user_value: "(실행 사용자에게 할당)"
+    conditions: 조건
+    plural: 사용자 지정 작업
+    new: 새로운 사용자 지정 작업
+    edit: 사용자 지정 작업 %{name} 편집
+    execute: "%{name} 실행"
     upsale:
-      title: Custom actions is an Enterprise Edition feature
-      description: Custom actions streamline everyday work by combining a set of individual
-        steps into one button.
+      title: 사용자 지정 작업은 Enterprise Edition 기능입니다.
+      description: 사용자 지정 작업은 하나의 버튼으로 일련의 개별 단계를 결합하여 일상 업무를 간소화합니다.
   custom_fields:
     text_add_new_custom_field: '프로젝트에 새 사용자 지정 필드를 추가하려면 먼저 해당 필드를 만들어야 합니다. 그래야 이
       프로젝트에 해당 필드를 추가할 수 있습니다.
@@ -83,7 +82,7 @@ ko:
       no_results_title_text: 사용자 필드가 없습니다.
       no_results_content_text: 새 사용자 필드 생성
   concatenation:
-    single: or
+    single: 또는
   deprecations:
     old_timeline:
       replacement: 이 타임라인 모듈은 작업 패키지 모듈에 포함된 대화형 타임라인에 의해 대체됩니다.
@@ -144,8 +143,8 @@ ko:
   prioritiies:
     edit:
       priority_color_text: |
-        Click to assign or change the color of this priority.
-        It can be used for highlighting work packages in the table.
+        이 우선 순위 색상을 할당하거나 변경하려면 클릭하세요.
+        테이블의 작업 패키지를 강조 표시하는 데 사용할 수 있습니다.
   reportings:
     index:
       no_results_title_text: 상태 보고가 없습니다.
@@ -153,8 +152,8 @@ ko:
   statuses:
     edit:
       status_color_text: |
-        Click to assign or change the color of this status.
-        It is shown in the status button and can be used for highlighting work packages in the table.
+        이 상태 색상을 할당하거나 변경하려면 클릭하세요.
+        상태 버튼에 표시되고 테이블의 작업 패키지를 강조 표시하는 데 사용할 수 있습니다.
     index:
       no_results_title_text: 작업 패키지 상태가 없습니다.
       no_results_content_text: 새 상태 추가
@@ -167,13 +166,13 @@ ko:
       form_configuration: 양식 구성
       projects: 프로젝트
       enabled_projects: 활성화 된 프로젝트
-      add_group: Add attribute group
-      add_subelements: Add subelements group
-      edit_query: Edit embedded query
+      add_group: 특성 그룹 추가
+      add_subelements: 하위 요소 그룹 추가
+      edit_query: 포함된 쿼리 편집
       reset: 기본값으로 초기화
       type_color_text: |
-        Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts.
+        이 유형의 색상을 할당하거나 변경하려면 클릭하세요. 선택된 색상은 Gantt 차트에서 작업 패키지를
+        구분합니다.
   versions:
     overview:
       no_results_title_text: 이 버전에 할당된 작업 패키지가 없습니다.
@@ -187,10 +186,9 @@ ko:
   work_packages:
     x_descendants:
       one: One descendant work package
-      other: "%{count} work package descendants"
+      other: "%{count}개 작업 패키지 하위 항목"
     move:
-      no_common_statuses_exists: There is no status available for all selected work
-        packages. Their status cannot be changed.
+      no_common_statuses_exists: 선택한 모든 작업 패키지에 사용 가능한 상태가 없습니다. 해당 상태를 변경할 수 없습니다.
       unsupported_for_multiple_projects: 여러 프로젝트에서 작업 패키지 일괄 이동/복사는 지원되지 않습니다.
     list_simple:
       assigned:
@@ -198,8 +196,7 @@ ko:
       reported:
         no_results_title_text: 내가 보고한 작업 패키지가 없습니다.
       responsible:
-        no_results_title_text: There are currently no work packages that I am accountable
-          for.
+        no_results_title_text: 내가 담당하는 작업 패키지가 현재 없습니다.
       watched:
         no_results_title_text: 내가 관찰하는 작업 패키지가 없습니다.
     summary:
@@ -241,10 +238,8 @@ ko:
         self: 당신의 계정이 시스템에서 삭제됩니다. 따라서 당신은 지금의 인증 정보로 더 이상 로그인할 수 없습니다. 원한다면 이 애플리케이션이
           허용하는 방법을 따라서 다시 사용자가 될 수 있습니다.
       login_verification:
-        other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be asked to confirm your password.
-        self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be asked to confirm your password.
+        other: 삭제를 확인하려면 로그인 %{name}을(를) 입력하세요. 제출하면 암호를 확인하라는 메시지가 표시됩니다.
+        self: 삭제를 확인하려면 로그인 %{name}을(를) 입력하세요. 제출하면 암호를 확인하라는 메시지가 표시됩니다.
     error_inactive_activation_by_mail: '당신의 계정이 아직 활성화되지 않았습니다. 계정을 활성화하기 위해, 이메일로
       전송된 링크를 클릭하십시오.
 
@@ -267,8 +262,8 @@ ko:
       announcements:
         show_until: 표시 기한
       attachment:
-        attachment_content: Attachment content
-        attachment_file_name: Attachment file name
+        attachment_content: 첨부 파일 콘텐츠
+        attachment_file_name: 첨부 파일 이름
         downloads: 다운로드
         file: 파일
         filename: 파일
@@ -349,8 +344,8 @@ ko:
         type: 타입
       type:
         attribute_groups: ''
-        is_in_roadmap: Displayed in roadmap by default
-        is_default: Activated for new projects by default
+        is_in_roadmap: 기본적으로 로드맵에 표시됨
+        is_default: 새 프로젝트에 대해 기본적으로 활성화됨
         is_milestone: 마일스톤
         color: 색상
       user:
@@ -372,7 +367,7 @@ ko:
         auto_hide_popups: 자동 숨김 성공 알림
         warn_on_leaving_unsaved: 저장하지 않고 작업 패키지를 벗어날 때 알려주세요.
       version:
-        effective_date: Finish date
+        effective_date: 완료 날짜
         sharing: 공유
       wiki_content:
         text: 텍스트
@@ -384,7 +379,7 @@ ko:
       work_package:
         begin_insertion: 삽입 시작
         begin_deletion: 삭제 시작
-        children: Subelements
+        children: 하위 요소
         done_ratio: 진행률 (%)
         end_insertion: 삽입 끝
         end_deletion: 삭제 끝
@@ -430,7 +425,7 @@ ko:
         not_a_date: 은(는) 유효한 날짜가 아닙니다.
         not_a_datetime: 은(는) 유효한 날짜가 아닙니다.
         not_a_number: 은(는) 숫자가 아닙니다.
-        not_allowed: is invalid because of missing permissions.
+        not_allowed: "- 사용 권한이 없어 유효하지 않습니다."
         not_an_integer: 은(는) 정수가 아닙니다.
         not_an_iso_date: '은(는) 유효한 날짜가 아닙니다. 필요한 형식: YYYY-MM-DD.'
         not_same_project: 은(는) 동일한 프로젝트에 속하지 않습니다.
@@ -440,20 +435,19 @@ ko:
         taken: 은(는) 이미 존재합니다.
         too_long: 은(는) 너무 깁니다 (최대 %{count}자까지 가능합니다)
         too_short: 은(는) 너무 짧습니다. (최소 %{count} 자 이상이어야 합니다)
-        unchangeable: cannot be changed.
+        unchangeable: "- 변경할 수 없습니다."
         wrong_length: 너무 짧습니다 (최소 %{count} 자 이상이어야 합니다).
       models:
         custom_field:
           at_least_one_custom_option: 하나 이상의 옵션을 사용할 수 있어야 합니다.
         custom_actions:
-          only_one_allowed: "(%{name}) only one value is allowed."
-          empty: "(%{name}) value can't be empty."
-          inclusion: "(%{name}) value is not set to one of the allowed values."
-          not_logged_in: "(%{name}) value cannot be set because you are not logged
-            in."
-          not_an_integer: "(%{name}) is not an integer."
-          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
-          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          only_one_allowed: "(%{name}) 하나의 값만 허용됩니다."
+          empty: "(%{name}) 값은 비워둘 수 없습니다."
+          inclusion: "(%{name}) 값이 허용되는 값 중 하나로 설정되지 않았습니다."
+          not_logged_in: "(%{name}) 값을 설정할 수 없습니다. 로그인하지 않았기 때문입니다."
+          not_an_integer: "(%{name})은(는) 정수가 아닙니다."
+          smaller_than_or_equal_to: "(%{name})은(는) %{count}보다 작거나 같아야 합니다."
+          greater_than_or_equal_to: "(%{name})은(는) %{count}보다 크거나 같아야 합니다."
         enterprise_token:
           unreadable: 읽을 수 없습니다. 지원하는 토큰이 확실한가요?
         parse_schema_filter_params_service:
@@ -471,7 +465,7 @@ ko:
             project:
               error_not_found: 찾을 수 없음
             public:
-              error_unauthorized: "- The user has no permission to create public views."
+              error_unauthorized: "- 해당 사용자는 공용 보기를 만들 권한이 없습니다."
           group_by_hierarchies_exclusive: 은(는) %{group_by} 에 의해 그룹과 상호배타적입니다. 당신은
             둘 다 활성화할 수 없습니다.
           filters:
@@ -509,11 +503,10 @@ ko:
                 관계를 위반하지 않도록 하기 위해서입니다.
             status_id:
               status_transition_invalid: 현재 사용자 역할이 새 상태로 바르게 전환될 수 없으므로 유효 하지 않음
-              status_invalid_in_type: is invalid because the current status does not
-                exist in this type.
+              status_invalid_in_type: "- 유효하지 않습니다. 현재 상태가 이 유형에서 존재하지 않기 때문입니다."
             type:
-              cannot_be_milestone_due_to_children: cannot be a milestone because this
-                work package has children.
+              cannot_be_milestone_due_to_children: "- 마일스톤일 수 없습니다. 이 작업 패키지에는 자식
+                항목이 있기 때문입니다."
             priority_id:
               only_active_priorities_allowed: 활성화가 요구됨
             category:
@@ -526,9 +519,9 @@ ko:
           attributes:
             attribute_groups:
               attribute_unknown: 잘못된 작업 패키지 특성이 사용되었습니다.
-              duplicate_group: The group name '%{group}' is used more than once. Group
-                names must be unique.
-              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              duplicate_group: "'%{group}'(이)라는 그룹 이름이 두 번 이상 사용되었습니다. 그룹 이름은 중복될
+                수 없습니다."
+              query_invalid: 포함된 쿼리 '%{group}'이(가) 잘못되었습니다. %{details}
               group_without_name: 명명되지 않은 그룹은 허용되지 않습니다.
         user:
           attributes:
@@ -562,7 +555,7 @@ ko:
       attribute_help_text: 특성 도움말 텍스트
       board: 포럼
       comment: 코멘트
-      custom_action: Custom action
+      custom_action: 사용자 지정 작업
       custom_field: 사용자 정의 필드
       group: 그룹
       category: 카테고리
@@ -608,7 +601,7 @@ ko:
     default_columns: 기본 칼럼
     description: 설명
     display_sums: 합계 표시
-    due_date: Finish date
+    due_date: 완료 날짜
     estimated_hours: 예상된 시간
     estimated_time: 예상된 시간
     firstname: 이름
@@ -627,7 +620,7 @@ ko:
     password: 암호
     priority: 우선 순위
     project: 프로젝트
-    responsible: Accountable
+    responsible: 담당
     role: 역할
     roles: 역할
     start_date: 시작 날짜
@@ -951,8 +944,8 @@ ko:
   enumeration_system_activity: 시스템 작업
   enumeration_reported_project_statuses: 보고된 프로젝트 상태
   error_auth_source_sso_failed: 사용자 '%{value}'에 대한 Single Sign-On(SSO) 실패
-  error_can_not_archive_project: 'This project cannot be archived: There is at least
-    one work package assigned to a version defined in this project.'
+  error_can_not_archive_project: 이 프로젝트는 보관할 수 없습니다. 이 프로젝트에 정의된 버전에 할당된 작업 패키지가 하나
+    이상 있습니다.
   error_can_not_delete_entry: 항목을 삭제할 수 없습니다.
   error_can_not_delete_custom_field: 사용자 지정 필드를 삭제할 수 없습니다.
   error_can_not_delete_type: 이 유형에는 작업 패키지가 포함되어 있으며 삭제할 수 없습니다.
@@ -969,16 +962,15 @@ ko:
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: 항목 삭제에 실패하였습니다.
-  error_invalid_selected_value: Invalid selected value.
+  error_invalid_selected_value: 선택된 값이 유효하지 않습니다.
   error_invalid_group_by: '그룹화할 수 없습니다: %{value}'
   error_invalid_query_column: '잘못 된 쿼리 열: %{value}'
   error_invalid_sort_criterion: '열로 정렬할 수 없습니다: %{value}'
-  error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
+  error_journal_attribute_not_present: 저널에 %{attribute} 특성이 없습니다.
   error_pdf_export_too_many_columns: PDF 내보내기에 대해 너무 많은 열을 선택했습니다. 열 수를 줄이십시오.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
-  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
-    you try to submit data on multiple browsers or tabs? Please close all tabs and
-    try again.
+  error_token_authenticity: 교차 사이트 요청 위조 토큰을 확인할 수 없습니다. 여러 브라우저나 탭에서 데이터 제출을 시도하셨습니까?
+    모든 탭을 닫고 다시 시도하세요.
   error_work_package_done_ratios_not_updated: 작업 패키지 완료 비율이 업데이트되지 않았습니다.
   error_work_package_not_found_in_project: 작업 패키지가 없거나 이 프로젝트에 속하지 않습니다.
   error_must_be_project_member: 은(는) 프로젝트 멤버여야 합니다.
@@ -1024,12 +1016,12 @@ ko:
       pdf_with_attachments: PDF with attachments
   extraction:
     available:
-      pdftotext: Pdftotext available (optional)
-      unrtf: Unrtf available (optional)
-      catdoc: Catdoc available (optional)
-      xls2csv: Xls2csv available (optional)
-      catppt: Catppt available (optional)
-      tesseract: Tesseract available (optional)
+      pdftotext: Pdftotext 사용 가능(선택적)
+      unrtf: Unrtf 사용 가능(선택적)
+      catdoc: Catdoc 사용 가능(선택적)
+      xls2csv: Xls2csv 사용 가능(선택적)
+      catppt: Catppt 사용 가능(선택적)
+      tesseract: Tesseract 사용 가능(선택적)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -1045,7 +1037,7 @@ ko:
   homescreen:
     additional:
       projects: 이 경우 최신 표시 프로젝트입니다.
-      no_visible_projects: There are no visible projects in this instance.
+      no_visible_projects: 이 경우 표시되는 프로젝트가 없습니다.
       users: 이 경우 최신 등록 된 사용자입니다.
     blocks:
       community: OpenProject 커뮤니티
@@ -1107,7 +1099,7 @@ ko:
   label_all: 모두
   label_all_time: 모든 시간
   label_all_words: 모든 단어
-  label_all_open_wps: All open
+  label_all_open_wps: 모두 열림
   label_always_visible: 항상 표시
   label_announcement: 공지 사항
   label_and_its_subprojects: "%{value} 및 하위 프로젝트"
@@ -1171,7 +1163,7 @@ ko:
   label_close_versions: 완료된 버전 닫기
   label_closed_work_packages: 닫음
   label_collapse: 축소
-  label_collapsed_click_to_show: Collapsed. Click to show
+  label_collapsed_click_to_show: 축소되었습니다. 표시하려면 클릭하세요.
   label_configuration: 구성
   label_comment_add: 코멘트 추가
   label_comment_added: 코멘트 추가됨
@@ -1243,7 +1235,7 @@ ko:
   label_equals: 일치함
   label_example: 예
   label_export_to: '다음에서도 사용 가능:'
-  label_expanded_click_to_collapse: Expanded. Click to collapse
+  label_expanded_click_to_collapse: 확장되었습니다. 축소하려면 클릭하세요.
   label_f_hour: "%{value}시간"
   label_f_hour_plural: "%{value}시간"
   label_feed_plural: 피드
@@ -1269,13 +1261,13 @@ ko:
   label_group_by: 그룹화 기준
   label_group_new: 새 그룹
   label_group: 그룹
-  label_group_named: Group %{name}
+  label_group_named: 그룹 %{name}
   label_group_plural: 그룹
   label_help: 도움말
   label_here: 여기
   label_hide: 숨기기
   label_history: 기록
-  label_hierarchy_leaf: Hierarchy leaf
+  label_hierarchy_leaf: 계층 구조 리프
   label_home: 홈
   label_in: "-"
   label_in_less_than: 보다 작음
@@ -1289,7 +1281,7 @@ ko:
   label_information_plural: 정보
   label_integer: 정수
   label_internal: 내부
-  label_introduction_video: Introduction video
+  label_introduction_video: 소개 동영상
   label_invite_user: 사용자 초대
   label_show_hide: 표시/숨기기
   label_show_all_registered_users: 등록된 사용자 모두 표시
@@ -1366,7 +1358,7 @@ ko:
   label_next_week: 다음 주
   label_no_change_option: "(변경 없음)"
   label_no_data: 표시할 데이터가 없습니다.
-  label_no_parent_page: No parent page
+  label_no_parent_page: 부모 페이지 없음
   label_nothing_display: 표시할 것이 없음
   label_nobody: 아무도 없음
   label_none: 없음
@@ -1378,14 +1370,14 @@ ko:
   label_open_menu: 메뉴 열기
   label_open_work_packages: 열기
   label_open_work_packages_plural: 열기
-  label_openproject_website: OpenProject website
+  label_openproject_website: OpenProject 웹사이트
   label_optional_description: 설명
   label_options: 옵션
   label_other: 기타
   label_overall_activity: 전체 작업
   label_overall_spent_time: 총 소요 시간
   label_overview: 요약
-  label_page_title: Page title
+  label_page_title: 페이지 제목
   label_part_of: 부분의
   label_password_lost: 암호를 잊으셨습니까?
   label_password_rule_lowercase: 소문자
@@ -1456,7 +1448,7 @@ ko:
   label_repository_plural: 리포지토리
   label_required: 필수
   label_requires: 필수
-  label_responsible_for_work_packages: Work packages I am accountable for
+  label_responsible_for_work_packages: 내가 담당하는 작업 패키지
   label_result_plural: 결과
   label_reverse_chronological_order: 시간 역순으로
   label_revision: 수정
@@ -1505,7 +1497,7 @@ ko:
   label_summary: 요약
   label_system: 시스템
   label_system_storage: 저장 공간 정보
-  label_table_of_contents: Table of contents
+  label_table_of_contents: 목차
   label_tag: 태그
   label_text: 긴 텍스트
   label_this_month: 이번 달
@@ -1529,7 +1521,7 @@ ko:
   label_used_by_types: 유형별로 사용됨
   label_used_in_projects: 프로젝트에서 사용됨
   label_user: 사용자
-  label_user_named: User %{name}
+  label_user_named: 사용자 %{name}
   label_user_activity: "%{value}의 작업"
   label_user_anonymous: 익명
   label_user_mail_option_all: 모든 내 프로젝트의 이벤트에 대해
@@ -1548,7 +1540,7 @@ ko:
   label_version_sharing_none: 공유 안 됨
   label_version_sharing_system: 모든 프로젝트 포함
   label_version_sharing_tree: 프로젝트 트리 포함
-  label_videos: Videos
+  label_videos: 동영상
   label_view_all_revisions: 모든 수정 보기
   label_view_diff: 차이점 보기
   label_view_revisions: 수정 보기
@@ -1590,8 +1582,7 @@ ko:
   label_work_package_view_all: 모든 작업 패키지 보기
   label_work_package_view_all_assigned_to_me: 내게 할당된 모든 작업 패키지 보기
   label_work_package_view_all_reported_by_me: 내가 보고한 모든 작업 패키지 보기
-  label_work_package_view_all_responsible_for: View all work packages that I am accountable
-    for
+  label_work_package_view_all_responsible_for: 내가 담당하는 모든 작업 패키지 보기
   label_work_package_view_all_watched: 주시하는 모든 작업 패키지 보기
   label_work_package_watchers: 주시자
   label_workflow: 워크플로
@@ -1660,16 +1651,15 @@ ko:
   macro_execution_error: 매크로 %{macro_name} 실행 중에 오류 발생
   macro_unavailable: 매크로 %{macro_name}은(는) 표시할 수 없습니다.
   macros:
-    placeholder: "[Placeholder] Macro %{macro_name}"
+    placeholder: "[Placeholder] 매크로 %{macro_name}"
     errors:
-      missing_or_invalid_parameter: Missing or invalid macro parameter.
+      missing_or_invalid_parameter: 누락되거나 잘못된 매크로 매개 변수입니다.
     legacy_warning:
-      timeline: This legacy timeline macro has been removed and is no longer available.
-        You can replace the functionality with an embedded table macro.
+      timeline: 이 레거시 타임라인 매크로가 제거되었으며 더 이상 사용할 수 없습니다. 포함된 테이블 매크로로 이 기능을 바꿀 수 있습니다.
     include_wiki_page:
       errors:
-        page_not_found: Cannot find the wiki page '%{name}'.
-        circular_inclusion: Circular inclusion of pages detected.
+        page_not_found: 위키 페이지 '%{name}'을(를) 찾을 수 없습니다.
+        circular_inclusion: 페이지의 순환 포함 관계가 발견되었습니다.
     create_work_package_link:
       errors:
         no_project_context: Calling create_work_package_link macro from outside project
@@ -1807,7 +1797,7 @@ ko:
       수 있습니다.
     text_show_again: 도움말 메뉴에서 이 비디오를 다시 시작할 수 있습니다.
     welcome: OpenProject에 오신 것을 환영합니다.
-    select_language: Please select your language for OpenProject
+    select_language: OpenProject에 대한 해당 언어를 선택하세요.
   permission_add_work_package_notes: 메모 추가
   permission_add_work_packages: 작업 패키지 추가
   permission_add_messages: 메시지 게시
@@ -1848,7 +1838,7 @@ ko:
   permission_manage_members: 멤버 관리
   permission_manage_news: 뉴스 관리
   permission_manage_project_activities: 프로젝트 작업 관리
-  permission_manage_public_queries: Manage public views
+  permission_manage_public_queries: 공용 보기 관리
   permission_manage_repository: 리포지토리 관리
   permission_manage_subtasks: 하위 작업 관리
   permission_manage_versions: 버전 관리
@@ -1857,7 +1847,7 @@ ko:
   permission_move_work_packages: 작업 패키지 이동
   permission_protect_wiki_pages: 위키 페이지 보호
   permission_rename_wiki_pages: 위키 페이지 이름 바꾸기
-  permission_save_queries: Save views
+  permission_save_queries: 보기 저장
   permission_select_project_modules: 프로젝트 모듈 선택
   permission_manage_types: 유형 선택
   permission_view_calendar: 달력 보기
@@ -2043,8 +2033,8 @@ ko:
   setting_brute_force_block_after_failed_logins: 이 로그인 시도 실패 횟수를 넘으면 사용자 차단
   setting_brute_force_block_minutes: 사용자가 다음 시간 동안 차단되었습니다.
   setting_cache_formatted_text: 캐시 서식 있는 텍스트
-  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
-    users by default. CKEditor has limited functionality for GFM Markdown.
+  setting_use_wysiwyg_description: 기본적으로 모든 사용자에 대한 CKEditor5 WYSIWYG 편집기를 활성화하려면
+    선택하세요. CKEditor는 GFM Markdown용 기능을 제한했습니다.
   setting_column_options: 작업 패키지 목록의 모양 사용자 지정
   setting_commit_fix_keywords: 키워드 수정
   setting_commit_logs_encoding: 커밋 메시지 인코딩
@@ -2071,7 +2061,7 @@ ko:
   setting_feeds_limit: 피드 콘텐츠 제한
   setting_file_max_size_displayed: 인라인에 표시되는 텍스트 파일의 최대 크기
   setting_host_name: 호스트 이름
-  setting_invitation_expiration_days: Activation E-Mail expires after
+  setting_invitation_expiration_days: '활성화 이메일 만료 기간:'
   setting_work_package_done_ratio: 다음으로 작업 패키지 완료 비율 계산
   setting_work_package_done_ratio_field: 작업 패키지 필드 사용
   setting_work_package_done_ratio_status: 작업 패키지 상태 사용
@@ -2122,7 +2112,7 @@ ko:
   setting_time_format: 시간 형식
   setting_accessibility_mode_for_anonymous: 익명 사용자에 대해 접근성 모드 사용
   setting_user_format: 사용자 표시 형식
-  setting_user_default_timezone: Users default time zone
+  setting_user_default_timezone: 사용자의 기본 표준 시간대
   setting_users_deletable_by_admins: 관리자가 삭제 가능한 사용자 계정
   setting_users_deletable_by_self: 자신의 계정을 삭제하도록 허용된 사용자
   setting_welcome_text: 환영 블록 텍스트
@@ -2130,6 +2120,8 @@ ko:
   setting_welcome_on_homescreen: 홈 화면에 환영 블록 표시
   setting_wiki_compression: 위키 기록 압축
   setting_work_package_group_assignment: 그룹에 할당 허용
+  setting_work_package_list_default_highlighting_mode: Default work package highlighting
+    mode
   settings:
     general: 일반
     other: 기타
@@ -2137,11 +2129,11 @@ ko:
     session: 세션
     brute_force_prevention: 자동화된 사용자 차단
     user:
-      default_preferences: Default preferences
-      deletion: Deletion
+      default_preferences: 기본 설정
+      deletion: 삭제
   text_formatting:
     markdown: Markdown
-    plain: Plain text
+    plain: 일반 텍스트
   status_active: 활성
   status_archived: 보관됨
   status_invited: 초대됨
@@ -2190,7 +2182,7 @@ ko:
     제곱 픽셀 크기의 PNG 이미지 파일이어야 합니다. 이미지의 배경이 투명하지 않은지 확인하세요. 그렇지 않으면 iOS에서 제대로 표시되지 않습니다.
 
 '
-  text_database_allows_tsv: Database allows TSVector (optional)
+  text_database_allows_tsv: 데이터베이스에서 TSVector 허용(옵션)
   text_default_administrator_account_changed: 기본 관리자 계정 변경됨
   text_default_encoding: '기본: UTF-8'
   text_destroy: 삭제
@@ -2219,8 +2211,8 @@ ko:
   text_journal_added: "%{label} %{value} 추가됨"
   text_journal_aggregation_time_explanation: 해당 기간 차이가 지정된 시간 간격보다 적은 경우 표시를 위해 저널을
     결합합니다. 또한 이렇게 하면 동일한 시간까지 메일 알림이 지연됩니다.
-  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
-  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
+  text_journal_changed: "%{label}이(가) %{old}에서 <br/>%{new}<strong>(으)로</strong> 변경되었습니다."
+  text_journal_changed_plain: "%{label}이(가) %{old}에서 \n%{new}(으)로 변경되었습니다."
   text_journal_changed_no_detail: "%{label} 업데이트됨"
   text_journal_changed_with_diff: "%{label} 변경됨(%{link})"
   text_journal_deleted: "%{label} 삭제됨(%{old})"
@@ -2265,8 +2257,7 @@ ko:
   text_user_invited: 사용자가 초대되었으며 등록 보류 중입니다.
   text_user_wrote: "%{value}이(가) 작성함:"
   text_warn_on_leaving_unsaved: 현재 페이지에는 저장되지 않은 텍스트가 있습니다. 이 페이지를 나가면 텍스트가 손실됩니다.
-  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
-    comment
+  text_what_did_you_change_click_to_add_comment: 무엇을 변경하셨습니까? 댓글을 추가하려면 클릭하세요.
   text_wiki_destroy_confirmation: 이 위키와 모든 해당 콘텐츠를 삭제하시겠습니까?
   text_wiki_page_destroy_children: 자식 페이지 및 모든 하위 페이지 삭제
   text_wiki_page_destroy_question: 이 페이지에는 %{descendants}개의 자식 페이지와 하위 항목이 있습니다. 어떻게
@@ -2374,7 +2365,7 @@ ko:
       outline: 초기 윤곽 확장
       parent: 다음의 하위 프로젝트 표시
       work_package_filters: 작업 패키지 필터링
-      work_package_responsible: Show work packages with accountable
+      work_package_responsible: 담당하는 작업 패키지 표시
       work_package_assignee: 작업 패키지와 담당자 표시
       types: 유형 표시
       status: 상태 표시
@@ -2386,7 +2377,7 @@ ko:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} 전,
         앞으로 %{end_label} %{endspan}%{endspanunit} 후"
       project_filters: 프로젝트 필터링
-      project_responsible: Show projects with accountable
+      project_responsible: 담당하는 프로젝트 표시
       project_status: 프로젝트 상태 표시
       timeframe: 시간 범위 표시
       timeframe_end: 끝
@@ -2446,8 +2437,7 @@ ko:
       years: 년
   title_remove_and_delete_user: 초대받은 사용자를 프로젝트에서 제거하고 해당 사용자를 삭제하세요.
   title_enterprise_upgrade: Upgrade to unlock more users.
-  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
-    in a user''s settings.
+  tooltip_user_default_timezone: '새 사용자에 대한 기본 표준 시간대입니다. 사용자의 설정에서 변경할 수 있습니다.
 
 '
   tooltip_resend_invitation: '이전의 토큰이 만료되거나 사용자가 기존 메일을 받지 않았을 수 있기 때문에 새로운 토큰으로 다른
@@ -2517,8 +2507,8 @@ ko:
 
 '
   warning_registration_token_expired: |
-    The activation email has expired. We sent you a new one to %{email}.
-    Please click the link inside of it to activate your account.
+    활성화 이메일이 만료되었습니다. %{email}(으)로 새로운 이메일이 전송되었습니다.
+    이메일 내 링크를 클릭하여 계정을 활성화하세요.
   warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
     Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
     for additional users.
@@ -2582,7 +2572,7 @@ ko:
         context_object_not_found: 컨텍스트로 지정된 리소스를 찾을 수 없습니다.
       validation:
         done_ratio: 완료 비율은 상태에 의해 유추되는 경우 또는 비활성화된 경우 부모 작업 패키지에서 설정할 수 없습니다.
-        due_date: Finish date cannot be set on parent work packages.
+        due_date: 완료 날짜는 부모 작업 패키지에서 설정할 수 없습니다.
         estimated_hours: 예상 시간은 부모 작업 패키지에서 설정할 수 없습니다.
         invalid_user_assigned_to_work_package: 선택한 사용자는 이 작업 패키지에 대해 '%{property}'
           허가되지 않았습니다.

@@ -2258,6 +2258,8 @@ uk:
   setting_welcome_on_homescreen: Display welcome block on homescreen
   setting_wiki_compression: Вікі історії cтиснення
   setting_work_package_group_assignment: Дозволити віднесення до груп
+  setting_work_package_list_default_highlighting_mode: Default work package highlighting
+    mode
   settings:
     general: General
     other: Other

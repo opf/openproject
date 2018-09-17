@@ -2176,6 +2176,8 @@ th:
   setting_welcome_on_homescreen: Display welcome block on homescreen
   setting_wiki_compression: การบีบอัดไฟล์ประวัติของวิกิ
   setting_work_package_group_assignment: อนุญาตให้มอบหมายไปยังกลุ่ม
+  setting_work_package_list_default_highlighting_mode: Default work package highlighting
+    mode
   settings:
     general: ทั่วไป
     other: อื่น ๆ

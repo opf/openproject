@@ -708,8 +708,6 @@ bg:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
-      upsale_relation_columns: Need to see relations in the work package list?
-      upsale_relation_columns_link: Check out the Enterprise Edition.
     notice_successful_create: Успешно създаване.
     notice_successful_delete: Успешно изтриване.
     notice_successful_update: Успешно обновяване.

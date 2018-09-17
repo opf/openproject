@@ -665,8 +665,8 @@ nl:
           ee_only: Enterprise Edition only feature
           attribute_highlighting: Need certain work packages to stand out from the
             mass?
-          relation_columns: Need to see relations in the work package list?
-          check_out_link: Check out the Enterprise Edition.
+          relation_columns: Nodig om te zien van betrekkingen in de pakketlijst werk?
+          check_out_link: Bekijk de Enterprise Edition.
       tabs:
         overview: Overzicht
         activity: Activiteit
@@ -717,9 +717,6 @@ nl:
           de weergegeven werkpakketten verwijderd worden.
         deletes_children: Alle onderliggende werkpakketten en hun nakomelingen ook
           worden verwijderd.
-      upsale_relation_columns: Nodig om te zien van betrekkingen in de pakketlijst
-        werk?
-      upsale_relation_columns_link: Bekijk de Enterprise Edition.
     notice_successful_create: Aanmaak geslaagd.
     notice_successful_delete: Verwijdering geslaagd.
     notice_successful_update: Succesvolle wijziging.

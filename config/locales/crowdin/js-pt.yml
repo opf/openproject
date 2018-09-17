@@ -5,8 +5,9 @@ pt:
       hide: Ocultar
       loading: A carregar...
     attachments:
-      draggable_hint: 'Drag on editor field to inline image or reference attachment.
-        Closed editor fields will be opened while you keep dragging.
+      draggable_hint: 'Arraste o campo do editor para fixar de imagem ou referência
+        inline. Os campos fechados do editor ficarão abertos enquanto continuar a
+        arrastar.
 
 '
     autocomplete_select:
@@ -83,33 +84,33 @@ pt:
           macros: Macros
           chose_macro: Escolher macro
         toc: Índice
-        toolbar_help: Click to select widget and show the toolbar. Double-click to
-          edit widget
+        toolbar_help: Clique para selecionar o widget e mostrar a barra de ferramentas.
+          Clique duas vezes para editar o widget
         wiki_page_include:
-          button: Include content of another wiki page
-          text: "[Placeholder] Included wiki page of"
+          button: Incluir o conteúdo de outra página wiki
+          text: "[Placeholder] incluída a página wiki de"
           page: Página wiki
           not_set: "(Página ainda não definida)"
           hint: |
-            Include the content of another wiki page by specifying its title or slug.
-            You can include the wiki page of another project by separating them with a colon like the following example.
+            Inclua o conteúdo de outra página wiki, especificando o seu título ou slug.
+            Pode incluir a página wiki de outro projeto, separando-as com uma vírgula como no exemplo seguinte.
         work_package_button:
-          button: Insert create work package button
+          button: Inserir botão de criar pacote de trabalho
           type: Tipo de tarefa
           button_style: Utilizar estilo de botão
-          button_style_hint: 'Optional: Check to make macro appear as a button, not
-            as a link.'
+          button_style_hint: 'Opcional: Verifique para que a macro apareça como um
+            botão, não como um link.'
           without_type: Criar tarefa
-          with_type: 'Create work package (Type: %{typename})'
+          with_type: 'Criar o pacote de trabalho (tipo: %{typename})'
         embedded_table:
-          button: Embed work package table
-          text: "[Placeholder] Embedded work package table"
+          button: Incorporar a tabela de pacote de trabalho
+          text: "[Placeholder] Tabela de pacote de trabalho incorporada"
     error:
       internal: Ocorreu um erro interno.
-      cannot_save_changes_with_message: 'Cannot save your changes due to the following
-        error: %{error}'
-      query_saving: The view could not be saved.
-      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
+      cannot_save_changes_with_message: 'Não é possível guardar as alterações devido
+        ao seguinte erro: %{error}'
+      query_saving: Não foi possível guardar a vista.
+      embedded_table_loading: 'Não foi possível carregar a vista incorporada: %{message}'
     filter:
       description:
         text_open_filter: Abra este filtro com 'ALT' e teclas de seta.
@@ -126,7 +127,7 @@ pt:
           one: Primeiro critério de classificação
           two: Segundo critério de classificação
           three: Terceiro critério de classificação
-      upsale_for_more: For more advanced filters, check out the
+      upsale_for_more: Para os filtros mais avançados, confira o
       upsale_link: Edição Empresarial.
     general_text_no: não
     general_text_yes: sim
@@ -450,8 +451,8 @@ pt:
         quarters: Trimestres
         years: Anos
         slider: Zoom slider
-        description: 'Select the initial zoom level that should be shown when autozoom
-          is not available.
+        description: 'Selecione o nível de zoom inicial que deve ser mostrado quando
+          o zoom automático não está disponível.
 
 '
     tl_toolbar:
@@ -602,9 +603,9 @@ pt:
         insert_columns: Inserir colunas...
         filters: Filtros
         display_sums: Exibir somas
-        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
-          view? Title will be set back to previous value.
-        click_to_edit_query_name: Click to edit title of this view.
+        confirm_edit_cancel: Tem a certeza que deseja cancelar a edição do nome desta
+          vista? O título voltará ao valor anterior.
+        click_to_edit_query_name: Clique para editar o título desta vista.
         rename_query_placeholder: Nome desta visualização
         errors:
           unretrievable_query: Não é possível recuperar a visualização do URL
@@ -631,29 +632,30 @@ pt:
         display_settings: Definições de visualização
         default_mode: Lista plana
         hierarchy_mode: Hierarquia
-        hierarchy_hint: All filtered table results will be augmented with their ancestors.
-          Hierarchies can be expanded and collapsed.
-        display_sums_hint: Display sums of all summable attributes in a row below
-          the table results.
-        show_timeline_hint: Show an interactive gantt chart on the right side of the
-          table. You can change its width by dragging the divider between table and
-          gantt chart.
-        highlighting: Highlighting
+        hierarchy_hint: Todos os resultados da tabela filtrada serão aumentados com
+          os seus ancestrais. As hierarquias podem ser expandidas e recolhidas.
+        display_sums_hint: Exibe as somas de todos os atributos somáveis numa linha
+          abaixo dos resultados da tabela.
+        show_timeline_hint: Mostra um gráfico de gantt interactivo no lado direito
+          da tabela. Pode alterar a sua largura, arrastando a linha divisória entre
+          a tabela e o gráfico de gantt.
+        highlighting: Destacar
         highlighting_mode:
-          description: Highlight with color
-          none: No highlighting
-          inline: Overdue dates, "Status", and "Priority" attribute
-          entire_row_by: Entire row by
+          description: Destaque com cor
+          none: Sem destaque
+          inline: Datas em atraso, atributo "Status" e "Prioridade"
+          entire_row_by: Toda a linha por
           status: Situação
           priority: Prioridade
-        columns_help_text: Use the input above to add or remove columns to your table
-          view. You can drag and drop the columns to reorder them.
+        columns_help_text: Utilize a entrada acima para adicionar ou remover colunas
+          ao seu modo de vista de tabela. Pode arrastar e soltar as colunas para as
+          reordenar.
         upsale:
-          ee_only: Enterprise Edition only feature
-          attribute_highlighting: Need certain work packages to stand out from the
-            mass?
-          relation_columns: Need to see relations in the work package list?
-          check_out_link: Check out the Enterprise Edition.
+          ee_only: Recurso exclusivo da Edição Empresarial
+          attribute_highlighting: Precisa de certos pacotes de trabalho para se destacar
+            do resto?
+          relation_columns: Precisa de ver as relações na lista do pacote de trabalho?
+          check_out_link: Experimente a versão Enterprise Edition.
       tabs:
         overview: Sinopse
         activity: Atividade
@@ -666,7 +668,7 @@ pt:
         months: meses
     toolbar:
       settings:
-        configure_view: Configure view ...
+        configure_view: Configurar a visualização...
         columns: Colunas...
         sort_by: Ordenar por...
         group_by: Agrupar por...
@@ -677,14 +679,14 @@ pt:
         save: Guardar
         save_as: Guardar Como ...
         export: Exportar ...
-        visibility_settings: Visibility settings ...
-        page_settings: Rename view ...
+        visibility_settings: Definições de visibilidade...
+        page_settings: Renomear a vista...
         delete: Eliminar
       filter: Filtro
       unselected_title: Pacote de trabalho
-      search_query_label: Search saved views
-      search_query_title: Click to search saved views
-      placeholder_query_title: Set a title for this view
+      search_query_label: Pesquisar vistas guardas
+      search_query_title: Clique para pesquisar as vistas gravadas
+      placeholder_query_title: Defina um título para esta vista
     modals:
       label_settings: Renomear vista
       label_name: Nome
@@ -700,12 +702,10 @@ pt:
         title: Confirmar exclusão do %{label}
         text: Tem certeza que deseja apagar o seguinte %{label}?
         has_children: 'O pacote de trabalho tem %{childUnits}:'
-        confirm_deletion_children: I acknowledge that ALL descendants of the listet
-          work packages will be recursively removed.
-        deletes_children: All child work packages and their descendants will also
-          be recursively deleted.
-      upsale_relation_columns: Precisa de ver as relações na lista do pacote de trabalho?
-      upsale_relation_columns_link: Experimente a versão Enterprise Edition.
+        confirm_deletion_children: Reconheço que todos os descendentes dos pacotes
+          de trabalho listados serão recursivamente removidos.
+        deletes_children: Todos os pacotes de trabalho filhos e seus descendentes
+          serão também recursivamente apagados.
     notice_successful_create: Criado com sucesso.
     notice_successful_delete: Eliminado com sucesso.
     notice_successful_update: Actualizado com sucesso.
@@ -732,9 +732,10 @@ pt:
         messages_on_field: 'Este campo é inválido: %{messages}'
     error_could_not_resolve_version_name: Não consegui resolver o nome da versão
     error_could_not_resolve_user_name: Não consegui resolver o nome do utilizador
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
-    error_attachment_upload_permission: You don't have the permission to upload files
-      on this resource.
+    error_attachment_upload: 'Ocorreu um erro ao carregar o ficheiro ''%{name}'':
+      %{error}'
+    error_attachment_upload_permission: Não tem permissão para carregar ficheiros
+      para este recurso.
     units:
       workPackage:
         one: pacote de trabalho

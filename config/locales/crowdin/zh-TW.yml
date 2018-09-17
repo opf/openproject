@@ -2048,6 +2048,8 @@ zh-TW:
   setting_welcome_on_homescreen: 在主頁面上顯示歡迎區塊
   setting_wiki_compression: 維基歷史壓縮
   setting_work_package_group_assignment: 允許分配給群組
+  setting_work_package_list_default_highlighting_mode: Default work package highlighting
+    mode
   settings:
     general: 一般
     other: 其他
