@@ -30,6 +30,7 @@ import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import { Chart } from 'chart.js';
 
 @Component({
   selector: 'wp-embedded-table',
@@ -67,6 +68,11 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit,
   public configuration:WorkPackageTableConfiguration;
   public error:string|null = null;
 
+  public doughnutChartLabels:string[] = [];
+  public doughnutChartData:number[] = [];
+  public doughnutChartType:string = 'doughnut';
+
+
   constructor(readonly QueryDm:QueryDmService,
               readonly tableState:TableState,
               readonly injector:Injector,
@@ -79,7 +85,6 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit,
               readonly wpTablePagination:WorkPackageTablePaginationService,
               readonly wpStatesInitialization:WorkPackageStatesInitializationService,
               readonly currentProject:CurrentProjectService) {
-
   }
 
   ngOnInit() {
@@ -95,8 +100,17 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit,
       this.tableActionsService.setActions(...this.tableActions);
     }
 
-    // Load initial query
-    this.loadQuery(this.initialLoadingIndicator);
+    if (this.configuration.display === 'table') {
+      // Load initial query
+      this.loadQuery(this.initialLoadingIndicator);
+    } else {
+      this.loadQuery(this.initialLoadingIndicator)
+        .then(query => {
+          let groups = _.zip(..._.map(query.results.groups, function(group) { return [group.value, group.count] }));
+          this.doughnutChartLabels = groups[0];
+          this.doughnutChartData = groups[1];
+        });
+    }
 
     // Reload results on refresh requests
     this.tableState.refreshRequired
@@ -195,7 +209,10 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit,
         this.queryId,
         this.queryProjectScope
       )
-      .then((query:QueryResource) => this.initializeStates(query, query.results))
+      .then((query:QueryResource) => {
+        this.initializeStates(query, query.results);
+        return query;
+      })
       .catch((error) => {
         this.error = this.I18n.t(
           'js.error.embedded_table_loading',

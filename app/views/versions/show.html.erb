@@ -80,6 +80,30 @@ See docs/COPYRIGHT.rdoc for more details.
       </div>
   <% end %>
 
+  <div id="status_by">
+    <%
+      query_properties = {
+          'columns[]': %w(id project type subject),
+          filters:
+              JSON.dump([{ version: { operator: '=', values: [@version.id] }, subprojectId: { operator: '*', values: []} }]).to_s,
+          group_by: 'status',
+          pageSize: 0
+      }
+
+      configuration = {
+          actionsColumnEnabled: false,
+          columnMenuEnabled: false,
+          contextMenuEnabled: false,
+          display: 'graph'
+      }
+    %>
+
+    <wp-embedded-table-entry query-props="<%= query_properties.to_json %>"
+                             configuration="<%= configuration.to_json %>">
+    </wp-embedded-table-entry>
+  </div>
+</div>
+
   <% if @version.wiki_page || @issues.present? %>
     <div class="widget-box -thin -wider">
       <%= render(partial: "wiki/content", locals: {content: @version.wiki_page.content}) if @version.wiki_page %>
