@@ -31,15 +31,15 @@ require 'support/pages/work_packages_table'
 
 module Pages
   class EmbeddedWorkPackagesTable < WorkPackagesTable
-    attr_reader :context
+    attr_reader :container
 
-    def initialize(context, project = nil)
+    def initialize(container, project = nil)
       super(project)
-      @context = context
+      @container = container
     end
 
     def table_container
-      context.find('.work-package-table')
+      container.find('.work-package-table')
     end
   end
 end

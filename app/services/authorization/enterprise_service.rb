@@ -40,6 +40,7 @@ class Authorization::EnterpriseService
                        ldap_groups
                        custom_fields_in_projects_list
                        custom_actions
+                       conditional_highlighting
                        attachment_filters).freeze
 
   def initialize(token)

@@ -15,6 +15,7 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
   public highlightingMode:HighlightingMode|'entire-row' = 'inline';
   public entireRowMode:boolean = false;
   public lastEntireRowAttribute:HighlightingMode = 'status';
+  public eeShowBanners:boolean = false;
 
   public text = {
     title: this.I18n.t('js.work_packages.table_configuration.highlighting'),
@@ -25,7 +26,10 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
       status: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.status'),
       priority: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.priority'),
       entire_row_by: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.entire_row_by'),
-    }
+    },
+    upsaleEnterpriseOnly: this.I18n.t('js.work_packages.table_configuration.upsale.ee_only'),
+    upsaleAttributeHighlighting: this.I18n.t('js.work_packages.table_configuration.upsale.attribute_highlighting'),
+    upsaleCheckOutLink: this.I18n.t('js.work_packages.table_configuration.upsale.check_out_link')
   };
 
   constructor(readonly injector:Injector,
@@ -52,7 +56,15 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
     }
   }
 
+  public disabledValue(value:boolean):string|null {
+    return value ? 'disabled' : null;
+  }
+
   ngOnInit() {
+    this.eeShowBanners = jQuery('body').hasClass('ee-banners-visible');
     this.updateMode(this.wpTableHighlight.current);
+    if (this.eeShowBanners) {
+      this.updateMode('none');
+    }
   }
 }

@@ -29,8 +29,8 @@ export class WpTableConfigurationColumnsTab implements TabComponent, AfterViewIn
     selectedColumns: this.I18n.t('js.description_selected_columns'),
     multiSelectLabel: this.I18n.t('js.work_packages.label_column_multiselect'),
 
-    upsaleRelationColumns: this.I18n.t('js.modals.upsale_relation_columns'),
-    upsaleRelationColumnsLink: this.I18n.t('js.modals.upsale_relation_columns_link')
+    upsaleRelationColumns: this.I18n.t('js.work_packages.table_configuration.upsale.relation_columns'),
+    upsaleCheckOutLink: this.I18n.t('js.work_packages.table_configuration.upsale.check_out_link')
   };
 
   // In non-impaired mode, we use select2 for usability

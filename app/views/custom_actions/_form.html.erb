@@ -41,7 +41,7 @@
 
   <div id="custom-actions-form--active-actions">
     <% @custom_action.all_actions.each do |action| %>
-      <hide-section section-name="'<%= action.key %>'">
+      <hide-section section-name="<%= action.key %>">
         <div class="form--field">
           <%= styled_label_tag("custom_action_actions_#{action.key}", action.human_name, class: '-top') %>
 
