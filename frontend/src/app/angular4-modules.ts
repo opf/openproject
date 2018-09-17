@@ -182,7 +182,6 @@ import {ActivityLinkComponent} from "core-components/wp-activity/activity-link.c
 import {RevisionActivityComponent} from "core-components/wp-activity/revision/revision-activity.component";
 import {CommentService} from "core-components/wp-activity/comment-service";
 import {WorkPackageCommentComponent} from "core-components/work-packages/work-package-comment/work-package-comment.component";
-import {OpCkeditorFormComponent} from "core-components/ckeditor/op-ckeditor-form.component";
 import {OpDragScrollDirective} from "core-app/modules/common/ui/op-drag-scroll.directive";
 import {UIRouterModule} from "@uirouter/angular";
 import {initializeUiRouterConfiguration} from "core-components/routing/ui-router.config";
@@ -206,15 +205,14 @@ import {WpButtonMacroModal} from "core-components/modals/editor/macro-wp-button-
 import {EditorMacrosService} from "core-components/modals/editor/editor-macros.service";
 import {WikiIncludePageMacroModal} from "core-components/modals/editor/macro-wiki-include-page-modal/wiki-include-page-macro.modal";
 import {CodeBlockMacroModal} from "core-components/modals/editor/macro-code-block-modal/code-block-macro.modal";
-import {CKEditorSetupService} from "core-components/ckeditor/ckeditor-setup.service";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
-import {CKEditorPreviewService} from "core-components/ckeditor/ckeditor-preview.service";
 import {ChildPagesMacroModal} from "core-components/modals/editor/macro-child-pages-modal/child-pages-macro.modal";
 import {AttachmentListComponent} from 'core-components/attachments/attachment-list/attachment-list.component';
 import {AttachmentListItemComponent} from 'core-components/attachments/attachment-list/attachment-list-item.component';
 import {AttachmentsUploadComponent} from 'core-components/attachments/attachments-upload/attachments-upload.component';
 import {AttachmentsComponent} from 'core-components/attachments/attachments.component';
 import {CurrentUserService} from 'core-components/user/current-user.service';
+import {CkeditorAugmentedTextareaComponent} from "core-app/ckeditor/ckeditor-augmented-textarea.component";
 import {WpTableConfigurationHighlightingTab} from "core-components/wp-table/configuration-modal/tabs/highlighting-tab.component";
 import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
 
@@ -313,9 +311,7 @@ import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table
     ConfirmDialogService,
 
     // CKEditor
-    CKEditorSetupService,
     EditorMacrosService,
-    CKEditorPreviewService,
 
     // Main Menu
     MainMenuToggleService,
@@ -477,9 +473,9 @@ import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table
     // Form configuration
     OpDragScrollDirective,
 
-    // CkEditor and Macros
-    OpCkeditorFormComponent,
+    // CKEditor and Macros
     EmbeddedTablesMacroComponent,
+    CkeditorAugmentedTextareaComponent,
 
     // Attachments
     AttachmentsComponent,
@@ -563,7 +559,7 @@ import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table
     MainMenuToggleComponent,
 
     // CKEditor and macros
-    OpCkeditorFormComponent,
+    CkeditorAugmentedTextareaComponent,
     EmbeddedTablesMacroComponent,
 
     // Attachments

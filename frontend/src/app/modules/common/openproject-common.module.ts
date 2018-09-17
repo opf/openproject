@@ -58,6 +58,9 @@ import {CopyToClipboardDirective} from "core-app/modules/common/copy-to-clipboar
 import {highlightColBootstrap} from "./highlight-col/highlight-col.directive";
 import {HookService} from "../plugins/hook-service";
 import {HTMLSanitizeService} from "./html-sanitize/html-sanitize.service";
+import {OpCkeditorComponent} from "core-app/modules/common/ckeditor/op-ckeditor.component";
+import {CKEditorSetupService} from "core-app/modules/common/ckeditor/ckeditor-setup.service";
+import {CKEditorPreviewService} from "core-app/modules/common/ckeditor/ckeditor-preview.service";
 import {ColorsAutocompleter} from "core-app/modules/common/colors/colors-autocompleter.component";
 import {DynamicCssService} from "./dynamic-css/dynamic-css.service";
 
@@ -101,6 +104,9 @@ export function bootstrapModule(injector:Injector) {
 
     // Table highlight
     HighlightColDirective,
+
+    // CKEditor
+    OpCkeditorComponent,
   ],
   declarations: [
     OpDatePickerComponent,
@@ -128,12 +134,18 @@ export function bootstrapModule(injector:Injector) {
 
     // Add functionality to rails rendered templates
     CopyToClipboardDirective,
+
+    // CKEditor
+    OpCkeditorComponent,
+
+    CopyToClipboardDirective,
     ColorsAutocompleter,
   ],
   entryComponents: [
     OpDateTimeComponent,
     CopyToClipboardDirective,
     NotificationsContainerComponent,
+    HighlightColDirective,
     HighlightColDirective,
     ColorsAutocompleter,
   ],
@@ -148,7 +160,9 @@ export function bootstrapModule(injector:Injector) {
     AttributeHelpTextsService,
     ConfigurationService,
     PathHelperService,
-    HTMLSanitizeService
+    HTMLSanitizeService,
+    CKEditorSetupService,
+    CKEditorPreviewService
   ]
 })
 export class OpenprojectCommonModule { }

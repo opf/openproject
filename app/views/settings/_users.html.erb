@@ -68,7 +68,7 @@ See docs/COPYRIGHT.rdoc for more details.
       <%= setting_check_box :consent_required %>
     </div>
 
-    <%= cell Settings::TextSettingCell, I18n.locale, name: "consent_info" %>
+    <%= rails_cell Settings::TextSettingCell, I18n.locale, name: "consent_info" %>
 
     <div class="form--field">
       <%= setting_block("consent_time") do %>
