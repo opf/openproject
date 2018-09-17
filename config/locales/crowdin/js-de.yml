@@ -660,13 +660,19 @@ de:
         highlighting_mode:
           description: Highlight with color
           none: No highlighting
-          inline: Overdue dates, "Status", and "Priority" attributes
+          inline: Overdue dates, "Status", and "Priority" attribute
           entire_row_by: Entire row by
           status: Status
           priority: Priorität
         columns_help_text: Verwenden Sie die Eingabe oben um Spalten zur Tabellenansicht
           hinzuzufügen oder zu entfernen. Sie können die Reihenfolge der Spalten über
           Drag & Drop verändern.
+        upsale:
+          ee_only: Enterprise Edition only feature
+          attribute_highlighting: Need certain work packages to stand out from the
+            mass?
+          relation_columns: Need to see relations in the work package list?
+          check_out_link: Check out the Enterprise Edition.
       tabs:
         overview: Übersicht
         activity: Aktivität
@@ -709,9 +715,6 @@ de:
       form_submit:
         title: Bestätigen, um fortzufahren
         text: Sind Sie sicher, dass Sie diese Aktion durchführen möchten?
-      upsale_relation_columns: Möchten Sie Zusammenhänge in der Arbeitspaketliste
-        anzeigen?
-      upsale_relation_columns_link: Testen Sie die Enterprise Edition.
       destroy_work_package:
         title: Löschen von %{label} bestätigen
         text: Sind Sie sicher, dass Sie %{label} löschen möchten?
@@ -720,6 +723,9 @@ de:
           work packages will be recursively removed.
         deletes_children: Alle untergeordneten Arbeitspaketen und deren Nachkommen
           werden auch rekursiv gelöscht.
+      upsale_relation_columns: Möchten Sie Zusammenhänge in der Arbeitspaketliste
+        anzeigen?
+      upsale_relation_columns_link: Testen Sie die Enterprise Edition.
     notice_successful_create: Erfolgreich angelegt.
     notice_successful_delete: Erfolgreich gelöscht.
     notice_successful_update: Erfolgreich aktualisiert.

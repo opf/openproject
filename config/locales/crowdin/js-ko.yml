@@ -616,12 +616,18 @@ ko:
         highlighting_mode:
           description: Highlight with color
           none: No highlighting
-          inline: Overdue dates, "Status", and "Priority" attributes
+          inline: Overdue dates, "Status", and "Priority" attribute
           entire_row_by: Entire row by
           status: 상태
           priority: 우선 순위
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
+        upsale:
+          ee_only: Enterprise Edition only feature
+          attribute_highlighting: Need certain work packages to stand out from the
+            mass?
+          relation_columns: Need to see relations in the work package list?
+          check_out_link: Check out the Enterprise Edition.
       tabs:
         overview: 요약
         activity: 활동
@@ -664,8 +670,6 @@ ko:
       form_submit:
         title: 계속하려면 확인하세요
         text: 정말로 이 작업을 수행하기를 원하시나요?
-      upsale_relation_columns: 작업 패키지 목록에서 관계를 표시해야 합니까?
-      upsale_relation_columns_link: Enterprise Edition을 체크아웃하세요.
       destroy_work_package:
         title: "%{label} 삭제 확인"
         text: 다음 %{label}을(를) 삭제하시겠습니까?
@@ -674,6 +678,8 @@ ko:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
+      upsale_relation_columns: 작업 패키지 목록에서 관계를 표시해야 합니까?
+      upsale_relation_columns_link: Enterprise Edition을 체크아웃하세요.
     notice_successful_create: 생성에 성공했습니다.
     notice_successful_delete: 삭제에 성공했습니다.
     notice_successful_update: 업데이트에 성공했습니다.

@@ -456,7 +456,7 @@ pt-BR:
         quarters: Trimestres
         years: Anos
         slider: Controle deslizante de zoom
-        description: 'Selecionar o nível de zoom inicial que deve ser exibido quando
+        description: 'Selecione o nível de zoom inicial que deve ser exibido quando
           o zoom automático não estiver disponível.
 
 '
@@ -615,9 +615,9 @@ pt-BR:
         click_to_edit_query_name: Clique para editar o título desta visão.
         rename_query_placeholder: Nome desta visão
         errors:
-          unretrievable_query: Não foi possível recuperar a visão da URL
+          unretrievable_query: Não foi possível recuperar a visualização da URL
           not_found: Esta visão não existe
-          duplicate_query_title: O nome deste vídeo já existe. Modificar assim mesmo?
+          duplicate_query_title: O nome desta visão já existe. Modificar assim mesmo?
         text_no_results: Nenhuma visão correspondente foi encontrada.
       table:
         configure_button: Configurar a tabela de pacote de trabalho
@@ -650,12 +650,18 @@ pt-BR:
         highlighting_mode:
           description: Destacar com cor
           none: Sem destaque
-          inline: Datas atrasadas "Estado" e atributos de "Prioridade"
+          inline: Overdue dates, "Status", and "Priority" attribute
           entire_row_by: Toda linha por
           status: Situação
           priority: Prioridade
         columns_help_text: Use a entrada acima para adicionar ou remover colunas à
           sua exibição de tabela. Você pode arrastar e soltar as colunas para reordená-las.
+        upsale:
+          ee_only: Enterprise Edition only feature
+          attribute_highlighting: Need certain work packages to stand out from the
+            mass?
+          relation_columns: Need to see relations in the work package list?
+          check_out_link: Check out the Enterprise Edition.
       tabs:
         overview: Visão geral
         activity: Atividade
@@ -698,8 +704,6 @@ pt-BR:
       form_submit:
         title: Confirme para continuar
         text: Tem certeza de que deseja executar esta ação?
-      upsale_relation_columns: Necessário ver as relações na lista de pacote de trabalho?
-      upsale_relation_columns_link: Confira a versão Enterprise Edition.
       destroy_work_package:
         title: Confirmar exclusão do %{label}
         text: Você tem certeza que deseja excluir o seguinte %{label}?
@@ -708,6 +712,8 @@ pt-BR:
           dos pacotes de trabalho listados serão removidos recursivamente.
         deletes_children: Todos os pacotes de trabalho filhos e seus descendentes
           também serão excluídos recursivamente.
+      upsale_relation_columns: Necessário ver as relações na lista de pacote de trabalho?
+      upsale_relation_columns_link: Confira a versão Enterprise Edition.
     notice_successful_create: Criado com sucesso.
     notice_successful_delete: Excluído com sucesso.
     notice_successful_update: Atualizado com sucesso.

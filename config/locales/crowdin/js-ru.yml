@@ -649,13 +649,19 @@ ru:
         highlighting_mode:
           description: Highlight with color
           none: No highlighting
-          inline: Overdue dates, "Status", and "Priority" attributes
+          inline: Overdue dates, "Status", and "Priority" attribute
           entire_row_by: Entire row by
           status: Состояние
           priority: Приоритет
         columns_help_text: Используйте ввод выше для добавления или удаления столбцов
           в табличном представлении. Вы можете перетаскивать столбцы для изменения
           их порядка.
+        upsale:
+          ee_only: Enterprise Edition only feature
+          attribute_highlighting: Need certain work packages to stand out from the
+            mass?
+          relation_columns: Need to see relations in the work package list?
+          check_out_link: Check out the Enterprise Edition.
       tabs:
         overview: Обзор
         activity: Деятельность
@@ -698,8 +704,6 @@ ru:
       form_submit:
         title: Подтвердите продолжение
         text: Вы действительно хотите выполнить это действие?
-      upsale_relation_columns: Нужно видеть отношения в списке пакетов работ?
-      upsale_relation_columns_link: Проверьте корпоративную версию.
       destroy_work_package:
         title: Подтвердите удаление %{label}
         text: Вы уверены, что хотите удалить следующую %{label} ?
@@ -708,6 +712,8 @@ ru:
           work packages will be recursively removed.
         deletes_children: Все дочерние пакеты работ и их потомки будут также рекурсивно
           удалены.
+      upsale_relation_columns: Нужно видеть отношения в списке пакетов работ?
+      upsale_relation_columns_link: Проверьте корпоративную версию.
     notice_successful_create: Создание выполнено.
     notice_successful_delete: Удаление выполнено.
     notice_successful_update: Обновление выполнено.

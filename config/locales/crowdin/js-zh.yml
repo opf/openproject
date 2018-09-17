@@ -602,11 +602,17 @@ zh:
         highlighting_mode:
           description: Highlight with color
           none: No highlighting
-          inline: Overdue dates, "Status", and "Priority" attributes
+          inline: Overdue dates, "Status", and "Priority" attribute
           entire_row_by: Entire row by
           status: 状态
           priority: 优先级
         columns_help_text: 使用上面的输入向表视图添加或删除列。 您可以拖放列以重新排序它们。
+        upsale:
+          ee_only: Enterprise Edition only feature
+          attribute_highlighting: Need certain work packages to stand out from the
+            mass?
+          relation_columns: Need to see relations in the work package list?
+          check_out_link: Check out the Enterprise Edition.
       tabs:
         overview: 概述
         activity: 活动
@@ -649,8 +655,6 @@ zh:
       form_submit:
         title: 确认已继续
         text: 是否确定想要执行此操作？
-      upsale_relation_columns: 需要查看工作包列表中的关系吗？
-      upsale_relation_columns_link: 签出企业版。
       destroy_work_package:
         title: 确认删除%{label}
         text: 是否确实要删除以下%{label}？
@@ -659,6 +663,8 @@ zh:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
+      upsale_relation_columns: 需要查看工作包列表中的关系吗？
+      upsale_relation_columns_link: 签出企业版。
     notice_successful_create: 成功创建。
     notice_successful_delete: 成功删除。
     notice_successful_update: 成功更新。

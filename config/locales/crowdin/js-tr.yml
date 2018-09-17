@@ -645,12 +645,18 @@ tr:
         highlighting_mode:
           description: Highlight with color
           none: No highlighting
-          inline: Overdue dates, "Status", and "Priority" attributes
+          inline: Overdue dates, "Status", and "Priority" attribute
           entire_row_by: Entire row by
           status: Durum
           priority: Öncelik
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
+        upsale:
+          ee_only: Enterprise Edition only feature
+          attribute_highlighting: Need certain work packages to stand out from the
+            mass?
+          relation_columns: Need to see relations in the work package list?
+          check_out_link: Check out the Enterprise Edition.
       tabs:
         overview: Genel Bakış
         activity: Etkinlik
@@ -693,8 +699,6 @@ tr:
       form_submit:
         title: Devam etmek için onaylayın
         text: Bu işlemi gerçekleştirmek istediğinizden emin misiniz?
-      upsale_relation_columns: İş paketleri listesindeki ilişkileri görmek ister misiniz?
-      upsale_relation_columns_link: Enterprise sürüme bakın.
       destroy_work_package:
         title: "%{label} için silme işlimini onaylayın"
         text: "%{label} silinecek. Emin misiniz?"
@@ -703,6 +707,8 @@ tr:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
+      upsale_relation_columns: İş paketleri listesindeki ilişkileri görmek ister misiniz?
+      upsale_relation_columns_link: Enterprise sürüme bakın.
     notice_successful_create: Oluşturma başarılı.
     notice_successful_delete: Silme başarılı.
     notice_successful_update: Güncelleme başarılı.
