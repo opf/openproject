@@ -58,6 +58,14 @@ fi
 if [ $1 = 'npm' ]; then
   run "for i in {1..3}; do npm install && break || sleep 15; done"
   echo "No asset compilation required"
+  # Install Node latest LTS
+  run "nvm install --lts"
+fi
+
+if [ $1 = 'specs' ]; then
+  # Install pandoc for testing textile migration
+  run "travis_retry sudo apt-get update -qq"
+  run "travis_retry sudo apt-get install -qq pandoc"
 fi
 
 run "cp -rp public/assets/frontend_assets.manifest.json config/frontend_assets.manifest.json"

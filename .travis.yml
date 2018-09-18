@@ -64,17 +64,10 @@ env:
     - RAILS_ENV=test
 
 before_install:
-  # Install pandoc for testing textile migration
-  - travis_retry sudo apt-get update -qq
-  - travis_retry sudo apt-get install -qq pandoc
-
-  # Install Node latest LTS
-  - "nvm install --lts"
   # work around https://github.com/travis-ci/travis-ci/issues/8969
   - travis_retry gem update --system
   # Don't install 1.16.3
   - gem install bundler -v 1.16.2
-
 
 bundler_args: --binstubs --without development production docker
 
