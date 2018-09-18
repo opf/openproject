@@ -61,8 +61,11 @@ it:
     description_subwork_package: 'Subordinata alla macro-attività #%{id}'
     editor:
       preview: Attiva/disattiva modalità anteprima
-      error_saving_failed: 'Salvataggio del documento non riuscito con il seguente
-        errore: %{e}'
+      source_code: Toggle Markdown source mode
+      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      mode:
+        manual: Switch to Markdown source
+        wysiwyg: Switch to WYSIWYG editor
       macro:
         child_pages:
           button: Collegamenti alle pagine discendenti
@@ -84,7 +87,7 @@ it:
         dropdown:
           macros: Macro
           chose_macro: Scegli macro
-        toc: Table of contents
+        toc: Indice
         toolbar_help: Clicca per selezionare widget e visualizzare la barra degli
           strumenti. Fai doppio clic per modificare i widget
         wiki_page_include:
@@ -411,7 +414,7 @@ it:
       button_deactivate: Nascondi Diagramma di Gantt
       cancel: Cancella
       change: Cambiare nella pianificazione
-      due_date: Finish date
+      due_date: Data di fine
       empty: "(vuoto)"
       error: Si è verificato un errore.
       errors:
@@ -566,7 +569,7 @@ it:
         createdAt: Creato il
         description: Descrizione
         date: Data
-        dueDate: Finish date
+        dueDate: Data di fine
         estimatedTime: Tempo stimato
         spentTime: Tempo speso
         category: Categoria
@@ -587,7 +590,7 @@ it:
         created_by_me: Creato da me
         assigned_to_me: Assegnato a me
         recently_created: Creato di recente
-        all_open: All open
+        all_open: Apri tutto
         summary: Sommario
       jump_marks:
         pagination: Salta alla impaginazione tabella

@@ -1016,8 +1016,7 @@ fr:
   error_invalid_group_by: 'Impossible de grouper par : %{value}'
   error_invalid_query_column: 'Colonne de requête invalide : %{value}'
   error_invalid_sort_criterion: 'Impossible de trier par colonne : %{value}'
-  error_journal_attribute_not_present: Le journal ne contient-elle pas l’attribut
-    %{attribute}.
+  error_journal_attribute_not_present: Le journal ne contient pas l’attribut %{attribute}.
   error_pdf_export_too_many_columns: Trop de colonnes sélectionnées pour l’exportation
     PDF. Veuillez réduire le nombre de colonnes.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
@@ -1331,7 +1330,7 @@ fr:
   label_group_by: Grouper par
   label_group_new: Nouveau groupe
   label_group: Groupe
-  label_group_named: Group %{name}
+  label_group_named: Groupe %{name}
   label_group_plural: Groupes
   label_help: Aide
   label_here: ici
@@ -2269,8 +2268,8 @@ fr:
   setting_welcome_on_homescreen: Afficher le bloc de bienvenue sur l'écran d'accueil
   setting_wiki_compression: Compression de l'historique du wiki
   setting_work_package_group_assignment: Autoriser l'assignation à des groupes
-  setting_work_package_list_default_highlighting_mode: Default work package highlighting
-    mode
+  setting_work_package_list_default_highlighting_mode: Mode de surlignement des lots
+    de travaux par défaut
   settings:
     general: Général
     other: Autre

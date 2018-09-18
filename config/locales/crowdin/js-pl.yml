@@ -60,7 +60,11 @@ pl:
     description_subwork_package: 'Otwórz zadanie-dziecko #%{id}'
     editor:
       preview: Przełącz tryb podglądu
-      error_saving_failed: 'Zapisywanie dokumentu nie powiodło się, błąd: %{e}'
+      source_code: Toggle Markdown source mode
+      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      mode:
+        manual: Switch to Markdown source
+        wysiwyg: Switch to WYSIWYG editor
       macro:
         child_pages:
           button: Łącza do stron podrzędnych
@@ -644,7 +648,7 @@ pl:
         highlighting_mode:
           description: Wyróżniaj kolorem
           none: Bez wyróżniania
-          inline: Overdue dates, "Status", and "Priority" attribute
+          inline: Zaległe daty, atrybuty Stan i Priorytet
           entire_row_by: Cały wiersz wg
           status: Status
           priority: Priorytet
@@ -652,9 +656,8 @@ pl:
           kolumny w widoku tabeli. Możesz przeciągać i upuszczać kolumny, aby zmienić
           ich kolejność.
         upsale:
-          ee_only: Enterprise Edition only feature
-          attribute_highlighting: Need certain work packages to stand out from the
-            mass?
+          ee_only: Funkcja dostępna tylko w wersji Enterprise
+          attribute_highlighting: Czy określone pakiety robocze trzeba wyróżnić?
           relation_columns: Chcesz zobaczyć relacje w tej liście pakietów roboczych?
           check_out_link: Sprawdź wersję Enterprise.
       tabs:

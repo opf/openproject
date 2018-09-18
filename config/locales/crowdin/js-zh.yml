@@ -58,7 +58,11 @@ zh:
     description_subwork_package: '子工作包 #%{id}'
     editor:
       preview: 切换预览模式
-      error_saving_failed: '保存文档失败，出现以下错误: %{e}'
+      source_code: Toggle Markdown source mode
+      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      mode:
+        manual: Switch to Markdown source
+        wysiwyg: Switch to WYSIWYG editor
       macro:
         child_pages:
           button: 链接至子页面

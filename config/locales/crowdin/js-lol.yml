@@ -58,7 +58,11 @@ lol:
     description_subwork_package: crwdns98375:0%{id}crwdne98375:0
     editor:
       preview: crwdns99062:0crwdne99062:0
-      error_saving_failed: crwdns99118:0%{e}crwdne99118:0
+      source_code: crwdns102025:0crwdne102025:0
+      error_saving_failed: crwdns102026:0%{error}crwdne102026:0
+      mode:
+        manual: crwdns102027:0crwdne102027:0
+        wysiwyg: crwdns102028:0crwdne102028:0
       macro:
         child_pages:
           button: crwdns99052:0crwdne99052:0
@@ -649,7 +653,7 @@ lol:
         title: crwdns98808:0%{label}crwdne98808:0
         text: crwdns98809:0%{label}crwdne98809:0
         has_children: crwdns98810:0%{childUnits}crwdne98810:0
-        confirm_deletion_children: crwdns99240:0crwdne99240:0
+        confirm_deletion_children: crwdns102029:0crwdne102029:0
         deletes_children: crwdns99130:0crwdne99130:0
     notice_successful_create: crwdns98812:0crwdne98812:0
     notice_successful_delete: crwdns98813:0crwdne98813:0

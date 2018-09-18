@@ -61,8 +61,11 @@ pt-BR:
     description_subwork_package: 'Filho do pacote de trabalho #%{id}'
     editor:
       preview: Alternar modo de visualização
-      error_saving_failed: 'Não foi possível salvar o documento pelo seguinte erro:
-        %{e}'
+      source_code: Toggle Markdown source mode
+      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      mode:
+        manual: Switch to Markdown source
+        wysiwyg: Switch to WYSIWYG editor
       macro:
         child_pages:
           button: Links para páginas filhas
@@ -650,16 +653,16 @@ pt-BR:
         highlighting_mode:
           description: Destacar com cor
           none: Sem destaque
-          inline: Datas em atraso, atributo "Status" e "Prioridade"
+          inline: Datas em atraso, "Estado" e atributo de "Prioridade"
           entire_row_by: Toda linha por
           status: Situação
           priority: Prioridade
         columns_help_text: Use a entrada acima para adicionar ou remover colunas à
           sua exibição de tabela. Você pode arrastar e soltar as colunas para reordená-las.
         upsale:
-          ee_only: Recurso exclusivo da Edição Empresarial
+          ee_only: Recurso exclusivo da Enterprise Edition
           attribute_highlighting: Precisa de certos pacotes de trabalho para se destacar
-            do resto?
+            da massa?
           relation_columns: Necessário ver as relações na lista de pacote de trabalho?
           check_out_link: Confira a versão Enterprise Edition.
       tabs:
@@ -708,8 +711,8 @@ pt-BR:
         title: Confirmar exclusão do %{label}
         text: Você tem certeza que deseja excluir o seguinte %{label}?
         has_children: 'O pacote de trabalho tem %{childUnits}:'
-        confirm_deletion_children: Tenho conhecimento de que TODOS os descendentes
-          dos pacotes de trabalho listados serão removidos recursivamente.
+        confirm_deletion_children: Eu compreendo que todos os descendentes dos pacotes
+          de trabalho listados serão recursivamente removidos.
         deletes_children: Todos os pacotes de trabalho filhos e seus descendentes
           também serão excluídos recursivamente.
     notice_successful_create: Criado com sucesso.
