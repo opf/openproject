@@ -1,6 +1,7 @@
 module Components
   class WysiwygEditor
     include Capybara::DSL
+    include RSpec::Matchers
     attr_reader :context_selector
 
     def initialize(context = '#content')
@@ -38,6 +39,14 @@ module Components
         'jQuery(arguments[0]).trigger("op:ckeditor:clear")',
         textarea.native
       )
+    end
+
+    def expect_button(label)
+      expect(container).to have_selector('.ck-button', visible: :all, text: label)
+    end
+
+    def expect_no_button(label)
+      expect(container).to have_no_selector('.ck-button', visible: :all, text: label)
     end
 
     def expect_value(value)
