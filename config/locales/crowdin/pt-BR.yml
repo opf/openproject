@@ -2,173 +2,173 @@ pt-BR:
   activerecord:
     attributes:
       two_factor_authentication/device:
-        identifier: 'Identificador'
-        default: 'Usar como padrão'
+        identifier: 'Identifier'
+        default: 'Use as default'
       two_factor_authentication/device/sms:
-        phone_number: "Número de telefone"
+        phone_number: "Phone number"
     errors:
       models:
         two_factor_authentication/device:
-          default_already_exists: 'já está definido em outro dispositivo OTP.'
+          default_already_exists: 'is already set for another OTP device.'
         two_factor_authentication/device/sms:
           attributes:
             phone_number:
-              error_phone_number_format: "o fato deve ser +XX XXXXXXXXX"
+              error_phone_number_format: "must be of format +XX XXXXXXXXX"
     models:
-      two_factor_authentication/device: "Dispositivo 2FA"
-      two_factor_authentication/device/sms: "Telefone Celular"
-      two_factor_authentication/device/totp: "Aplicativo de autenticação"
+      two_factor_authentication/device: "2FA device"
+      two_factor_authentication/device/sms: "Mobile phone"
+      two_factor_authentication/device/totp: "Authenticator application"
   two_factor_authentication:
-    error_2fa_disabled: "A entrega 2FA foi desativada."
-    error_no_device: "Nenhum dispositivo 2FA registrado foi encontrado para este usuário, apesar de ser necessário para esta instância."
-    error_no_matching_strategy: "Nenhuma estratégia de 2FA disponível para este usuário. Entre em contato com o administrador."
-    error_is_enforced_not_active: 'Erro de configuração: a autenticação de dois fatores foi implementada, mas não existe nenhuma estratégia ativa.'
-    error_invalid_backup_code: 'Código de backup do 2FA inválido'
-    channel_unavailable: "O canal de entrega %{channel} não está disponível."
-    no_valid_phone_number: "Nenhum número de telefone válido."
-    label_pwd_confirmation: "Senha"
-    notice_pwd_confirmation: "Você precisa confirmar sua senha para conseguir fazer alterações nestas configurações."
-    label_device_type: "Tipo de dispositivo"
-    label_default_device: "Dispositivo 2FA padrão"
-    label_device: "Dispositivo 2FA"
-    label_devices: "Dispositivos 2FA"
-    label_one_time_password: 'Senha de uso único'
-    label_2fa_enabled: 'O segundo fator de autenticação está ativo'
-    label_2fa_disabled: 'O segundo fator de autenticação não está ativo'
-    text_otp_delivery_message_sms: "Sua senha de uso único de %{app_title} é %{token}"
-    text_otp_delivery_message_voice: "Sua senha de uso único de %{app_title} é: %{pause} %{token}. %{pause} repito: %{pause} %{token}"
-    text_enter_2fa: 'Por favor digite a senha de uso único do seu dispositivo.'
-    text_2fa_enabled: 'Em cada acesso, será requisitado a você para entrar com seu token OTP do seu dispositivo de 2FA padrão.'
-    text_2fa_disabled: 'Para habilitar o segundo fator de autenticação, use o botão acima para registrar seu novo dispositivo 2FA. Se você já tem um dispositivo cadastrado, você precisa deixá-lo como sendo padrão.'
+    error_2fa_disabled: "2FA delivery has been disabled."
+    error_no_device: "No registered 2FA device found for this user, despite being required for this instance."
+    error_no_matching_strategy: "No matching 2FA strategy available for this user. Please contact your administratior."
+    error_is_enforced_not_active: 'Configuration error: Two-factor authentication has been enforced, but no active strategies exist.'
+    error_invalid_backup_code: 'Invalid 2FA backup code'
+    channel_unavailable: "The delivery channel %{channel} is unavailable."
+    no_valid_phone_number: "No valid phone number exists."
+    label_pwd_confirmation: "Password"
+    notice_pwd_confirmation: "You need to confirm your password upon making changes to these settings."
+    label_device_type: "Device type"
+    label_default_device: "Default 2FA device"
+    label_device: "2FA device"
+    label_devices: "2FA devices"
+    label_one_time_password: 'One-time password'
+    label_2fa_enabled: 'Two-factor authentication is active'
+    label_2fa_disabled: 'Two-factor authentication not active'
+    text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
+    text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
+    text_enter_2fa: 'Please enter the one-time password from your device.'
+    text_2fa_enabled: 'Upon every login, you will be requested to enter a OTP token from your default 2FA device.'
+    text_2fa_disabled: 'To enable two-factor authentication, use the button above to register a new 2FA device. If you already have a device, you need to make it a default.'
     login:
-      enter_backup_code_title: Digite o código de backup
-      enter_backup_code_text: Por favor entre com um código de backup válido da sua lista de códigos caso de você não conseguir mais acessar seus dispositivos com 2FA.
-      other_device: 'Use outro dispositivo ou código de backup'
+      enter_backup_code_title: Enter backup code
+      enter_backup_code_text: Please enter a valid backup code from your list of codes in case you can no longer access your registered 2FA devices.
+      other_device: 'Use another device or backup code'
     settings:
-      title: 'Configuração do 2FA'
-      current_configuration: 'Configuração atual'
-      label_active_strategies: 'Estratégias de 2FA ativas'
-      label_enforced: 'Forçar 2FA'
-      label_remember: 'Lembrar-me do acesso no 2FA'
+      title: '2FA settings'
+      current_configuration: 'Current configuration'
+      label_active_strategies: 'Active 2FA strategies'
+      label_enforced: 'Enforce 2FA'
+      label_remember: 'Remember 2FA login'
       text_configuration: |
-        Nota: Estes valores representam a sua configuração geral atual. Você não pode desabilitar a configuração forçada com uma configuração ou mudar a estratégia ativa atual, já que é necessário você reiniciar o servidor.
-      text_configuration_guide: Para mais informações, verifique o guia de configuração.
-      text_enforced: 'Habilite esta configuração para forçar todos os seus usuários registrados a usar um dispositivo com 2FA no próximo login. Só poderá ser desabilitado quando a configuração de obrigação de utilização do 2FA estiver desabilitada.'
+        Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
+      text_configuration_guide: For more information, check the configuration guide.
+      text_enforced: 'Enable this setting to force all users to register a 2FA device on their next login. Can only be disabled when not enforced by configuration.'
       text_remember: |
-        Defina este valor como sendo maior do que zero para permitir que os usuários possam se lembrar do 2FA pelo número de dias definido.
-        Não será solicitado a eles para digitar novamente o 2FA durante este período. Só pode ser definido quando a imposição não estiver configurada.
-      error_invalid_settings: 'As estratégias de 2FA que você selecionou são inválidas'
-      failed_to_save_settings: 'Falha ao atualizar as configurações de 2FA: %{message}'
+        Set this to greater than zero to allow users to remember their 2FA authentication for the given number of days.
+        They will not be requested to re-enter it during that period. Can only be set when not enforced by configuration.
+      error_invalid_settings: 'The 2FA strategies you selected are invalid'
+      failed_to_save_settings: 'Failed to update 2FA settings: %{message}'
     admin:
-      self_edit_path: 'Para adicionar ou modificar seu próprio dispositivo de 2FA, por favor acesse %{self_edit_link}'
-      self_edit_link_name: 'Autenticação de dois fatores na página da sua conta'
-      self_edit_forbidden: 'Talvez você não tenha editado o seu dispositivo 2FA para este caminho. Vá para Minha Conta > Segundo Favor de Autenticação.'
-      no_devices_for_user: 'Nenhum dispositivo 2FA foi registrado para este usuário.'
-      all_devices_deleted: 'Todos os dispositivos 2FA deste usuário foram excluídos'
-      delete_all_are_you_sure: 'Você tem certeza de que deseja excluir todos os dispositivos 2FA para este usuário?'
-      button_delete_all_devices: 'Excluir dispositivos 2FA registrados'
-      button_register_mobile_phone_for_user: 'Registrar celular'
-      text_2fa_enabled: 'Em cada login, será solicitado a você entrar com seu token OTP do seu dispositivo padrão do seu dispositivo padrão do 2FA.'
-      text_2fa_disabled: "O usuário não configurou o dispositivo de 2FA através da página \"Minha conta\""
+      self_edit_path: 'To add or modify your own 2FA devices, please go to %{self_edit_link}'
+      self_edit_link_name: 'Two-factor authentication on your account page'
+      self_edit_forbidden: 'You may not edit your own 2FA devices on this path. Go to My Account > Two factor authentication instead.'
+      no_devices_for_user: 'No 2FA device has been registered for this user.'
+      all_devices_deleted: 'All 2FA devices of this user have been deleted'
+      delete_all_are_you_sure: 'Are you sure you want to delete all 2FA devices for this user?'
+      button_delete_all_devices: 'Delete registered 2FA devices'
+      button_register_mobile_phone_for_user: 'Register mobile phone'
+      text_2fa_enabled: 'Upon every login, this user will be requested to enter a OTP token from his default 2FA device.'
+      text_2fa_disabled: "The user did not set up a 2FA device through his 'My account page'"
     upsale:
-      title: 'A autenticação de dois fatores é uma característica empresarial'
-      description: 'Reforce seus mecanismos de autenticação interno e externo com o segundo fator.'
+      title: 'Two-factor authentication is an enterprise feature'
+      description: 'Strenghten your internal or external authentication mechanisms with a second factor.'
     backup_codes:
-      none_found: Não existem códigos de backup para esta conta.
-      singular: Código de backup
-      plural: Códigos de backup
-      your_codes: para a sua conta %{login} do %{app_name}
+      none_found: No backup codes exist for this account.
+      singular: Backup code
+      plural: Backup codes
+      your_codes: for your %{app_name} account %{login}
       overview_description: |
-        Se você estiver impossibilitado de acessar seu dispositivo com segundo fator, você pode usar o código de backup para recuperar o acesso da sua conta.
-        Use o seguindo botão para gerar um novo conjunto de códigos de backup.
+        If you are unable to access your two factor devices, you can use a backup code to regain access to your account.
+        Use the following button to generate a new set of backup codes.
       generate:
-        title: Gerar códigos de backup
-        keep_safe_as_password: 'Importante! Trate esses códigos como senhas.'
-        keep_safe_warning: 'Você pode guardá-los tanto no seu gerenciador de senhas, quanto imprimir esta página e colocar em um local seguro.'
-        regenerate_warning: 'Atenção: se você já criou códigos de backup anteriormente, eles serão invalidados e não poderão ser mais utilizados.'
+        title: Generate backup codes
+        keep_safe_as_password: 'Important! Treat these codes as passwords.'
+        keep_safe_warning: 'Either save them in your password manager, or print this page and put in a safe place.'
+        regenerate_warning: 'Warning: If you have created backup codes before, they will be invalidated and will no longer work.'
     devices:
-      add_new: 'Adicionar novo dispositivo 2FA'
-      register: 'Registar dispositivo'
-      confirm_default: 'Confirmar a alteração do dispositivo padrão'
-      confirm_device: 'Confirmar dispositivo'
-      confirm_now: 'Não confirmado, clique aqui para ativar'
-      cannot_delete_default: 'Não foi possível excluir o dispositivo padrão'
-      make_default_are_you_sure: 'Você tem certeza de que deseja tornar este dispositivo de 2FA padrão?'
-      make_default_failed: 'Falha ao atualizar o dispositivo padrão de 2FA.'
-      deletion_are_you_sure: 'Você tem certeza que você gostaria de delegar este dispositivo com 2FA?'
-      registration_complete: 'Dispositivo de 2FA registrado com sucesso!'
-      registration_failed_token_invalid: 'Falha ao registrar o dispositivo com 2FA, token digitado inválido.'
-      registration_failed_update: 'Falha ao registrar dispositivo com 2FA, token válido mas o dispositivo não pode ser atualizado.'
-      confirm_send_failed: 'Falha ao confirmar o seu dispositivo com 2FA.'
-      button_complete_registration: 'Registro de 2FA concluído'
-      text_confirm_to_complete_html: "Por favor, complete o registro do seu dispositivo <strong>%{identifier}</strong> inserindo uma senha única para o seu dispositivo padrão."
-      text_confirm_to_change_default_html: "Por favor, confirme a mudança do seu dispositivo padrão para <strong>%{new_identifier}</strong> inserindo a sua senha de uso único no se dispositivo padrão atual."
-      text_identifier: 'Você pode fornecer ao dispositivo um identificador customizado utilizando este campo.'
-      failed_to_delete: 'Falha ao excluir o dispositivo com 2FA.'
-      is_default_cannot_delete: 'O arquivo está marcado como padrão e não pode ser deletado devido a política de segurança estar ativa. Marque outro dispositivo como padrão antes de excluí-lo.'
-      not_existing: 'Nenhum dispositivo com 2FA foi registrado na sua conta.'
-      request_2fa: Por favor digite o código do seu %{device_name} para verificar sua identidade.
+      add_new: 'Add new 2FA device'
+      register: 'Register device'
+      confirm_default: 'Confirm changing default device'
+      confirm_device: 'Confirm device'
+      confirm_now: 'Not confirmed, click here to activate'
+      cannot_delete_default: 'Cannot delete default device'
+      make_default_are_you_sure: 'Are you sure you want to make this 2FA device your default?'
+      make_default_failed: 'Failed to update the default 2FA device.'
+      deletion_are_you_sure: 'Are you sure you want to delete this 2FA device?'
+      registration_complete: '2FA device registration complete!'
+      registration_failed_token_invalid: '2FA device registration failed, the token was invalid.'
+      registration_failed_update: '2FA device registration failed, the token was valid but the device could not be updated.'
+      confirm_send_failed: 'Confirmation of your 2FA device failed.'
+      button_complete_registration: 'Complete 2FA registration'
+      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
+      text_confirm_to_change_default_html: "Please confirm changing your default device to <strong>%{new_identifier}</strong> by entering a one-time password from your current default device."
+      text_identifier: 'You can give the device a custom identifier using this field.'
+      failed_to_delete: 'Failed to delete 2FA device.'
+      is_default_cannot_delete: 'The device is marked as default and cannot be deleted due to an active security policy. Mark another device as default before deleting.'
+      not_existing: 'No 2FA device has been registered for your account.'
+      request_2fa: Please enter the code from your %{device_name} to verify your identity.
       totp:
-        title: 'Use seu aplicativo de autenticação base'
-        provisioning_uri: 'Posicione o URI'
-        secret_key: 'Chave secreta'
-        time_based: 'Base de tempo'
-        account: 'Nome da conta/Emissor'
+        title: 'Use your app-based authenticator'
+        provisioning_uri: 'Provisioning URI'
+        secret_key: 'Secret key'
+        time_based: 'Time based'
+        account: 'Account name / Issuer'
         setup: |
-          Para configurar a autenticação de dois fatores com o Autenticador do Google, baixe a aplicação na Apple Store ou no Google Play.
-          Após abrir o dispositivo, você pode escanear o seguinte QR Code para registar o seu dispositivo.
+          For setting up two-factor authentication with Google Authenticator, download the application from the Apple App store or Google Play Store.
+          After opening the app, you can scan the following QR code to register the device.
         question_cannot_scan: |
-          Não foi possível verificar o código usando seu aplicativo?
+          Unable to scan the code using your application?
         text_cannot_scan: |
-          Se você não puder escanear o código, você pode digitar a manualmente usando os seguintes detalhes:
+          If you can't scan the code, you can enter the entry manually using the following details:
         description: |
-          Registre uma aplicação de autenticação para usar o OpenProject usando o padrão de autenticação de senha de uso único.
-          Exemplos cotidianos são o Autenticador do Google ou Authy.
+          Register an application authenticator for use with OpenProject using the time-based one-time password authentication standard.
+          Common examples are Google Authenticator or Authy.
       sms:
-        title: 'Use seu celular'
-        redacted_identifier: 'Celular (%{redacted_number})'
-        request_2fa_identifier: '%{redacted_identifier}, nós enviamos a você um código de autenticação através do %{delivery_channel}'
+        title: 'Use your mobile phone'
+        redacted_identifier: 'Mobile device (%{redacted_number})'
+        request_2fa_identifier: '%{redacted_identifier}, we sent you an authentication code via %{delivery_channel}'
         description: |
-          Registre seu número de celular pra enviar a senha de uso único do OpenProject.
+          Register your mobile phone number for delivery of OpenProject one-time passwords.
     sns:
-      delivery_failed: 'Falha ao entregar o SNS:'
+      delivery_failed: 'SNS delivery failed:'
     message_bird:
-      sms_delivery_failed: 'Falha ao enviar o SMS MessageBird.'
-      voice_delivery_failed: 'Falha ao realizar a chamada de voz MessageBird SMS.'
+      sms_delivery_failed: 'MessageBird SMS delivery failed.'
+      voice_delivery_failed: 'MessageBird voice call failed.'
     restdt:
-      delivery_failed_with_code: 'Falha ao entregar o token. (Código do erro %{code})'
+      delivery_failed_with_code: 'Token delivery failed. (Error code %{code})'
     strategies:
-      totp: 'Aplicação autenticada'
-      sns: 'SNS da Amazon'
-      resdt: 'API Rest do SMS'
-    mobile_transmit_notification: "Uma senha de uso único foi enviada para o seu celular."
-    label_two_factor_authentication: 'Autenticação de dois fatores'
+      totp: 'Authenticator application'
+      sns: 'Amazon SNS'
+      resdt: 'SMS Rest API'
+    mobile_transmit_notification: "A one-time password has been sent to your cell phone."
+    label_two_factor_authentication: 'Two-factor authentication'
     forced_registration:
-      required_to_add_device: 'Uma política de segurança ativa requer que você habilite a autenticação de dois fatores. Por favor use o seguinte formulário para registrar o dispositivo.'
+      required_to_add_device: 'An active security policy requires you to enable two-factor authentication. Please use the following form to register a device.'
     remember:
       active_session_notice: >
-        Sua conta tem um cookie ativo válido até %{expires_on}. Este cookie permite que você entre sem o segundo fator de segurança na sua conta até este dado momento.
-      label: 'Lembrar-me'
-      clear_cookie: 'Clique aqui para remover este cookir'
-      cookie_removed: 'O cookie gravado foi removido.'
-      dont_ask_again: "Crie um cookie para lembrar a autenticação 2FA para este cliente por %{days} dias."
-  field_phone: "Celular"
-  field_otp: "Senha de uso único"
-  notice_account_otp_invalid: "Senha de uso único inválida."
-  notice_account_otp_expired: "A senha de acesso único que você digitou espirou."
-  notice_developer_strategy_otp: "Estratégia de desenvolvimento gerada para a seguinte senha única: %{token} (Canal: %{channel})"
-  notice_account_otp_send_failed: "Não foi possível enviar sua senha de uso único."
-  notice_account_has_no_phone: "Nenhum número de celular foi associado com esta conta."
-  label_expiration_hint: "%{date} ou sair"
-  label_actions: 'Ações'
-  label_confirmed: 'Confirmado'
-  button_continue: 'Continuar'
-  button_make_default: 'Marque como padrão'
-  label_unverified_phone: "Telefone celular ainda não foi verificado"
-  notice_phone_number_format: "Digite o número no seguinte formato: +XX XXXXXXXX."
-  text_otp_not_receive: "Outros métodos de verificação"
-  text_send_otp_again: "Reenviar a senha de uso único para:"
-  button_resend_otp_form: "Reenviar"
-  button_otp_by_voice: "Mensagem de voz"
+        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
+      label: 'Remember'
+      clear_cookie: 'Click here to remove this cookie'
+      cookie_removed: 'The remember cookie has been removed.'
+      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
+  field_phone: "Cell phone"
+  field_otp: "One-time password"
+  notice_account_otp_invalid: "Invalid one-time password."
+  notice_account_otp_expired: "The one-time password you entered expired."
+  notice_developer_strategy_otp: "Developer strategy generated the following one-time password: %{token} (Channel: %{channel})"
+  notice_account_otp_send_failed: "Your one-time password could not be sent."
+  notice_account_has_no_phone: "No cell phone number is associated with your account."
+  label_expiration_hint: "%{date} or on logout"
+  label_actions: 'Actions'
+  label_confirmed: 'Confirmed'
+  button_continue: 'Continue'
+  button_make_default: 'Mark as default'
+  label_unverified_phone: "Cell phone not yet verified"
+  notice_phone_number_format: "Please enter the number in the following format: +XX XXXXXXXX."
+  text_otp_not_receive: "Other verification methods"
+  text_send_otp_again: "Resend one-time password by:"
+  button_resend_otp_form: "Resend"
+  button_otp_by_voice: "Voice call"
   button_otp_by_sms: "SMS"
-  label_otp_channel: "Canal de entrega"
+  label_otp_channel: "Delivery channel"
