@@ -44,10 +44,6 @@ export interface CellDateMovement {
 
 export type LabelPosition = 'left' | 'right' | 'farRight';
 
-function calculateForegroundColor(backgroundColor:string):string {
-  return 'red';
-}
-
 export class TimelineCellRenderer {
   readonly TimezoneService = this.injector.get(TimezoneService);
   readonly wpTableTimeline:WorkPackageTableTimelineService = this.injector.get(WorkPackageTableTimelineService);
@@ -224,13 +220,13 @@ export class TimelineCellRenderer {
     // only start date, fade out bar to the right
     if (_.isNaN(due.valueOf()) && !_.isNaN(start.valueOf())) {
       due = start.clone();
-      bar.style.backgroundImage = `linear-gradient(90deg, #F1F1F1 0%, rgba(255,255,255,0) 80%)`;
+      bar.style.backgroundImage = `linear-gradient(90deg, rgba(255,255,255,0) 0%, #F1F1F1 100%)`;
     }
 
     // only finish date, fade out bar to the left
     if (_.isNaN(start.valueOf()) && !_.isNaN(due.valueOf())) {
       start = due.clone();
-      bar.style.backgroundImage = `linear-gradient(90deg, rgba(255,255,255,0) 0%, #F1F1F1 100%)`;
+      bar.style.backgroundImage = `linear-gradient(90deg, #F1F1F1 0%, rgba(255,255,255,0) 80%)`;
     }
 
     // offset left
