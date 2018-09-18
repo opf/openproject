@@ -52,7 +52,7 @@ See docs/COPYRIGHT.rdoc for more details.
       <fieldset class="form--fieldset">
         <fieldset id="registration_footer" class="form--fieldset">
           <legend class="form--fieldset-legend"><%= I18n.t(:setting_registration_footer) %></legend>
-          <%= cell Settings::TextSettingCell, I18n.locale, name: "registration_footer" %>
+          <%= rails_cell Settings::TextSettingCell, I18n.locale, name: "registration_footer" %>
         </fieldset>
       </fieldset>
     <% end %>

@@ -46,8 +46,8 @@ See docs/COPYRIGHT.rdoc for more details.
       <div class="form--field"><%= check_all_links('notified_events') %></div>
     </fieldset>
     <fieldset id="emails_decorators" class="form--fieldset"><legend class="form--fieldset-legend"><%= t(:setting_emails_header) %> & <%= t(:setting_emails_footer) %></legend>
-      <%= cell Settings::TextSettingCell, I18n.locale, name: "emails_header" %>
-      <%= cell Settings::TextSettingCell, I18n.locale, name: "emails_footer" %>
+      <%= rails_cell Settings::TextSettingCell, I18n.locale, name: "emails_header" %>
+      <%= rails_cell Settings::TextSettingCell, I18n.locale, name: "emails_footer" %>
     </fieldset>
     <%= content_tag :fieldset, id: "mail_configuration", class: "form--fieldset" do %>
       <legend class="form--fieldset-legend"><%=t(:text_setup_mail_configuration)%></legend>

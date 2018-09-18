@@ -40,5 +40,4 @@ test:
       strict_all_tables,\
       no_zero_in_date,\
       error_for_division_by_zero,\
-      no_auto_create_user,\
       no_engine_substitution"

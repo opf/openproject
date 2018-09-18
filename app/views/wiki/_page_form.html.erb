@@ -10,12 +10,7 @@
   <% end %>
 <% end %>
 
-<div class="attributes-group">
-  <div class="attributes-group--header">
-    <div class="attributes-group--header-container">
-      <h3 class="attributes-group--header-text"><%= WikiPage.human_attribute_name(:text) %></h3>
-    </div>
-  </div>
+<div class="attributes-group wiki--content--attribute">
   <%= f.text_area :text,
                   cols: 100,
                   rows: 25,
@@ -23,6 +18,7 @@
                   accesskey: accesskey(:edit),
                   with_text_formatting: true,
                   resource: resource,
+                  label_options: { class: 'hidden-for-sighted' },
                   preview_context: preview_context(@page, @project) %>
 </div>
 

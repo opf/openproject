@@ -38,7 +38,6 @@ if defined?(ActiveRecord::ConnectionAdapters::Mysql2Adapter) &&
                       no_zero_in_date
                       no_zero_date
                       error_for_division_by_zero
-                      no_auto_create_user
                       no_engine_substitution}
 
   unless expected_flags & db_flags.downcase.split(',') == expected_flags
@@ -59,11 +58,10 @@ if defined?(ActiveRecord::ConnectionAdapters::Mysql2Adapter) &&
                 no_zero_in_date,\
       *         no_zero_date,\                                                   *
                 error_for_division_by_zero,\
-      *         no_auto_create_user,\                                            *
-                no_engine_substitution"
-      *                                                                          *
-         for the #{Rails.env} environment in config/database.yml
-      *                                                                          *
+      *         no_engine_substitution"                                          *
+
+      *  for the #{Rails.env} environment in config/database.yml                 *
+
       *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
 
     MESSAGE
