@@ -1,0 +1,30 @@
+db:
+  image: mysql
+  volumes:
+    - ~/.docker-volumes/openproject/db:/var/lib/mysql
+  expose:
+    - "3306"
+  environment:
+    - MYSQL_ALLOW_EMPTY_PASSWORD=true
+
+worker: &ruby
+  build: .
+  volumes:
+    - .:/usr/src/app
+  links:
+    - db
+  environment:
+    - "RAILS_CACHE_STORE=file_store"
+  command: "./docker/worker"
+
+web:
+  <<: *ruby
+  ports:
+    - "8080:8080"
+  command: "./docker/web"
+
+frontend:
+  build: .
+  volumes:
+    - .:/usr/src/app
+  command: "./docker/webpack-watch"

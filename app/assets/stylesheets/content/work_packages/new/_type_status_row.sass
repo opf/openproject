@@ -1,0 +1,21 @@
+.wp-new-top-row
+  @include varprop(color, content-link-color)
+  display: flex
+  font-size: 24px
+
+  // Set the correct height when editing these fields
+  .wp-inline-edit--field
+    height: 40px
+
+  // Add some minor margin between active status and type field
+  #wp-new-inline-edit--field-type,
+  .work-packages--type-selector
+    margin-left: 5px
+
+  // Fix display left padding of tpye
+  .wp-edit-field--display-field
+    padding-left: 0 !important
+
+  // Disable text decoration from toolbar span
+  .wp-edit-field--display-field:hover
+    text-decoration: none

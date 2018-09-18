@@ -1,0 +1,95 @@
+.timeline-element
+
+  // Minimal padding within label
+  .label-content
+    padding: 2px
+
+  // Label style
+  .-label-style.not-empty
+    background-color: white
+    border: 1px solid #d4d4d4
+    border-radius: 5px
+    height: 16px
+    font-size: 12px
+    padding: 2px 5px
+    // Ensure line-height is normal
+    line-height: 1
+
+  .labelLeft.not-empty,
+  .labelHoverLeft.not-empty
+    pointer-events: none
+    white-space: nowrap
+    // Position container left of bar
+    position: absolute
+    left: 0px
+    // Then translate by its own width + some margin
+    transform: translateX(calc(-100% - 10px))
+    font-size: 12px
+    // Ensure line-height is normal
+    line-height: 1
+
+  // Add some top padding to the text (NOT the hover labels!)
+  .labelLeft
+    top: 2px
+
+  .containerRight
+    pointer-events: none
+    display: inline-block
+    position: absolute
+    margin: 0 0 0 0
+    padding: 0 0 0 0
+    top: -2px
+    left: 100%
+    white-space: nowrap
+    line-height: 10px
+    font-size: 12px
+    height: 16px
+
+  .labelRight.not-empty
+    display: inline-block
+    pointer-events: none
+    margin-left: 20px
+    font-size: 12px
+    // Ensure line-height is normal
+    line-height: 1
+
+  .labelFarRight
+    height: 16px
+    display: inline-block
+    white-space: nowrap
+    font-style: italic
+    margin-left: 15px
+    padding: 5px 5px 2px 5px
+    font-size: 13px
+    // Ensure line-height is normal
+    line-height: 1
+
+  // label hover right needs different position
+  // since its not part of containerRight
+  .labelHoverRight
+    pointer-events: none
+    display: none
+    top: 0
+    white-space: nowrap
+    // Position container right of bar
+    position: absolute
+    right: 0px
+    // Then translate by its own width + some margin
+    transform: translateX(calc(100% + 10px))
+    font-size: 12px
+
+  &.-editable
+    cursor: ew-resize
+
+  .show-on-hover
+    display: none
+
+// Hide or show elements on hover
+.wp-timeline-cell.row-hovered
+  .show-on-hover
+    display: inline-block
+
+  .hide-on-hover
+    display: none
+
+

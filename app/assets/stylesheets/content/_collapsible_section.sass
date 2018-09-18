@@ -1,0 +1,27 @@
+.collapsible-section
+  margin: 2rem 0
+
+.collapsible-section--legend
+  &:before
+    @include icon-mixin-arrow-down1
+    @include icon-common
+    font-size: 0.75rem
+    padding:   0.625rem 0.25rem 0 0.25rem
+
+    .collapsible-section.-expanded &
+      @include icon-mixin-arrow-up1
+
+.collapsible-section--toggle-link
+  @include without-link-styling
+  display: block
+  cursor: pointer
+  color: $body-font-color
+  font-size: 1rem
+  font-weight: bold
+  line-height: 1.8
+  text-transform: uppercase
+  border-bottom: 1px solid $gray
+
+  &:hover, &:focus
+    color: $body-font-color
+    text-decoration: none

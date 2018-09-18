@@ -1,0 +1,11 @@
+Color Variables
+===============
+
+## Global Color Variables
+
+@colors {
+- $body-font-color - -
+- $gray-lighter $gray-light $gray $gray-dark
+- $primary-color $primary-color-dark $alternative-color
+- $secondary-color
+}

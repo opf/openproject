@@ -1,0 +1,19 @@
+<%# The javscript for this cell is included in `settings.js.erb`. %>
+
+<div class="on-off-status-cell">
+  <% if enabled? %>
+  <span class="on-off-status -enabled">
+    <%= op_icon 'icon-yes' %>
+    <%= model[:on_text] %>
+  </span>
+      <p>
+        <%= model[:on_description] %>
+      </p>
+  <% else %>
+  <span class="on-off-status -disabled">
+    <%= op_icon 'icon-not-supported' %>
+    <%= model[:off_text] %>
+  </span>
+      <p><%= model[:off_description] %></p>
+  <% end %>
+</div>

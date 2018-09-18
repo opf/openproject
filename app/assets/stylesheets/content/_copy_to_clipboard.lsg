@@ -1,0 +1,25 @@
+# Copy to clipboard
+
+```
+<div class="toolbar-container">
+  <div class="toolbar">
+  <div class="title-container">
+  <h2 title="Toolbar">Toolbar</h2></div>
+    <ul class="toolbar-items">
+      <li class="toolbar-item toolbar-input-group">
+        <div class="toolbar-input-group--affix -prepend">
+          <span>git clone</span>
+        </div>
+        <input id="repository-checkout-url" type="text" class="-clickable" value="https://localhost/git/asdf.git"
+        copy-to-clipboard
+        clipboard-target="#repository-checkout-url">
+        <div class="toolbar-input-group--affix -append"
+        copy-to-clipboard
+        clipboard-target="#repository-checkout-url">
+          <span class="icon-copy"></span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+```

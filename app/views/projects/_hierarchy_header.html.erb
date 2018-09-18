@@ -1,0 +1,11 @@
+<th id="project-table--hierarchy-header">
+  <div class="generic-table--sort-header-outer">
+    <div class="generic-table--sort-header">
+      <a title="<%= t(:label_sort_by, value: "\"#{t(:label_project_hierarchy)}\"") %>"
+         <%= href_only_when_not_sort_lft %>
+         class="<%= deactivate_class_on_lft_sort %>">
+        <%= op_icon("icon-hierarchy") %>
+      </a>
+    </div>
+  </div>
+</th>

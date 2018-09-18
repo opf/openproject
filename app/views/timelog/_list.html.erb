@@ -1,0 +1,90 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table class="generic-table">
+      <colgroup>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col>
+      </colgroup>
+      <thead>
+      <tr>
+        <%= sort_header_tag("spent_on", caption: TimeEntry.human_attribute_name(:spent_on)) %>
+        <%= sort_header_tag("user", caption: TimeEntry.human_attribute_name(:user)) %>
+        <%= sort_header_tag("activity", caption: TimeEntry.human_attribute_name(:activity)) %>
+        <%= sort_header_tag("project", caption: TimeEntry.human_attribute_name(:project)) %>
+        <%= sort_header_tag("work_package", caption: TimeEntry.human_attribute_name(:issue)) %>
+        <%= sort_header_tag("comments", caption: TimeEntry.human_attribute_name(:comments)) %>
+        <%= sort_header_tag("hours", caption: TimeEntry.human_attribute_name(:hours)) %>
+        <th>
+          <div class="generic-table--empty-header"></div>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <% entries.each do |entry| -%>
+        <tr class="time-entry">
+          <td class="spent_on"><%= format_date(entry.spent_on) %></td>
+          <td class="user"><%= link_to_user(entry.user) %></td>
+          <td class="activity"><%= h entry.activity %></td>
+          <td class="project"><%= link_to_project(entry.project) %></td>
+          <td class="subject">
+            <% if entry.work_package -%>
+              <%= entry.work_package.visible? ? link_to_work_package(entry.work_package, truncate: 50) : "##{entry.work_package.id}" -%>
+            <% end -%>
+          </td>
+          <td class="comments"><%= h entry.comments %></td>
+          <td class="hours"><%= html_hours("%.2f" % entry.hours) %></td>
+          <td align="center">
+            <% if entry.editable_by?(current_user) -%>
+              <%= link_to icon_wrapper('icon-context icon-edit', t(:button_edit)),
+                          edit_time_entry_path(entry),
+                          class: 'no-decoration-on-hover',
+                          title: t(:button_edit) %>
+              <%= link_to icon_wrapper('icon-context icon-delete', t(:button_delete)),
+                          time_entry_path(entry),
+                          confirm: t(:text_are_you_sure),
+                          class: 'no-decoration-on-hover',
+                          method: :delete,
+                          title: t(:button_delete) %>
+            <% end -%>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

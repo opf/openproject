@@ -1,0 +1,18 @@
+<div [ngClass]="[
+      editFieldContainerClass,
+      fieldName,
+      active && '-active' || '',
+      wrapperClasses || '-small'
+     ]"
+     (dragover)="startDragOverActivation($event)">
+
+  <div #editContainer
+       [hidden]="!active">
+  </div>
+
+  <div (accessibleClick)="activateIfEditable($event)"
+       [accessibleClickStopEvent]="false"
+       [hidden]="active"
+       tabindex="-1"
+       #displayContainer></div>
+</div>

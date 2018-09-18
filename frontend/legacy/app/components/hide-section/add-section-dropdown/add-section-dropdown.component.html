@@ -1,0 +1,4 @@
+<select id="{{$ctrl.htmlId}}" class="form--select" ng-model="$ctrl.turnedActive" ng-change="$ctrl.show()"
+        ng-options="n.label for n in $ctrl.selectable track by n.key">
+</select>
+

@@ -1,0 +1,42 @@
+<%# The javscript for this cell is included in `settings.js.erb`. %>
+
+<div class="form--field">
+  <%# Empty label for styling only %>
+  <%= styled_label_tag "lang", '' %>
+  <div class="form--field-container">
+    <%=
+      styled_select_tag(
+        "lang",
+        options_for_select(lang_options_for_select(false), current_language.to_s),
+        id: "lang-for-#{name}",
+        class: "lang-select-switch",
+        container_class: '-slim'
+      )
+    %>
+  </div>
+</div>
+
+<% Setting.available_languages.each do |lang| %>
+  <div id="lang-for-<%= name %>-<%= lang %>"
+       <%= "style=\"display:none\"" unless lang == current_language.to_s %>
+       class="lang-select lang-for-<%= name %>"
+  >
+    <div class="form--field">
+      <%= styled_label_tag "settings[#{name}][#{lang}]", t("setting_#{name}") %>
+      <div class="form--field-container">
+        <%=
+          styled_text_area_tag(
+            "settings[#{name}][#{lang}]",
+            Setting.send(name)[lang],
+            label: false,
+            id: "settings-#{name}-#{lang}",
+            class: 'wiki-edit',
+            with_text_formatting: true,
+            rows: 5,
+            container_class: '-xxwide'
+          )
+        %>
+      </div>
+    </div>
+  </div>
+<% end %>

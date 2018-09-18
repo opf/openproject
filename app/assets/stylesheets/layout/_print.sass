@@ -1,0 +1,51 @@
+// -------------------- Media print specific styles --------------------
+@media print
+  // -------------------- ALL pages --------------------
+  .hide-when-print,
+  #top-menu,
+  #header,
+  #main-menu,
+  #sidebar,
+  #footer,
+  #breadcrumb,
+  .contextual,
+  .other-formats,
+  .toolbar-items,
+  #wiki_add_attachment
+    display: none !important
+
+  .notification-box:not(.show-when-print)
+    display: none !important
+
+  #main
+    background: #fff
+
+  #content-wrapper
+    width: 99%
+    margin: 0
+    padding: 0
+    border: 0
+    background: #fff
+    overflow: visible !important
+
+  #content-wrapper.hidden-navigation,
+  #content.hidden-navigation
+    width: 99% !important
+    margin-left: 0 !important
+
+  .autoscroll
+    overflow-x: visible
+
+  table.list
+    margin-top: 0.5em
+
+    th, td
+      border: 1px solid #aaa
+
+  // Sizes from user agent stylesheet
+  h1
+    font-size: 2em
+  h2
+    font-size: 1.5em
+  h3
+    font-size: 1.17em

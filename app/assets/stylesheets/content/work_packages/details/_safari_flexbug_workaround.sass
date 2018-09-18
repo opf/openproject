@@ -1,0 +1,16 @@
+html.-browser-safari
+  // The details view doesn't receive the correct height due to Safari's flexbugs
+  .work-packages-split-view--details-side
+    flex: 0 0 auto
+
+  .action-details .work-packages-split-view--details-side,
+  .action-create .work-packages-split-view--details-side
+    @media only screen and (max-width: 1280px)
+      flex-basis: 480px
+    @media only screen and (min-width: 1440px)
+      flex-basis: 580px
+
+  .work-packages--details
+    position: absolute
+    top: 0
+

@@ -1,0 +1,50 @@
+<h3 class="widget-box--header">
+  <%= op_icon('icon-context icon-openproject') %>
+  <span class="widget-box--header-title"><%= l('homescreen.blocks.community') %></span>
+</h3>
+
+<ul class="widget-box--arrow-links">
+  <li>
+    <%= static_link_to :user_guides %>
+  </li>
+  <li>
+    <a class="help-link-shortcuts-link" title="<%= l('homescreen.links.shortcuts') %>">
+      <%= l('homescreen.links.shortcuts') %>
+    </a>
+  </li>
+  <li>
+    <%= static_link_to :boards %></li>
+  <li>
+    <%= static_link_to :professional_support %>
+  </li>
+  <li>
+    <%= link_to(t('label_openproject_website'), "#{OpenProject::Static::Links.links[:website][:href]}/?utm_source=unknown&utm_medium=op-instance&utm_campaign=website-home-screen",
+                { aria: {label: t('label_openproject_website')},
+                  target: '_blank',
+                  title: t('label_openproject_website')}) %>
+  </li>
+  <li>
+    <%= link_to(t('homescreen.links.newsletter'), "#{OpenProject::Static::Links.links[:newsletter][:href]}/?utm_source=unknown&utm_medium=op-instance&utm_campaign=newsletter-home-screen",
+          { aria: {label: t('homescreen.links.newsletter')},
+            target: '_blank',
+            title: t('homescreen.links.newsletter')}) %>
+  </li>
+  <li>
+    <%= static_link_to :blog %>
+  </li>
+  <li>
+    <%= static_link_to :release_notes %>
+  </li>
+  <li>
+    <%= static_link_to :report_bug %>
+  </li>
+  <li>
+    <%= static_link_to :roadmap %>
+  </li>
+  <li>
+    <%= static_link_to :crowdin %>
+  </li>
+  <li>
+    <%= static_link_to :api_docs %>
+  </li>
+</ul>

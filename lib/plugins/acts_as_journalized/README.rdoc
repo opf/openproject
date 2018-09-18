@@ -1,0 +1,3 @@
+acts as journalized
+
+A redmine core plugin for unification of journals, events and activities in redmine

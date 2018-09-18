@@ -1,0 +1,23 @@
+#!/bin/bash -e
+
+BIND="${BIND:=0.0.0.0}"
+PORT="${PORT:=8080}"
+RAILS_ENV="${RAILS_ENV:="development"}"
+MIGRATE="${MIGRATE:="false"}"
+MIN_INSTANCES="${PASSENGER_MIN_INSTANCES:=1}"
+MAX_INSTANCES="${PASSENGER_MAX_INSTANCES:=3}"
+SPAWN_METHOD="${PASSENGER_SPAWN_METHOD:=smart}"
+
+if [ "$MIGRATE" = "true" ]; then
+	echo "Migrating database..."
+	bundle exec rake db:migrate
+fi
+
+exec bundle exec passenger start \
+	-p $PORT \
+	-a "${BIND}" \
+	--min-instances "$MIN_INSTANCES" \
+	--max-pool-size "$MAX_INSTANCES" \
+	--spawn-method "$SPAWN_METHOD" \
+	--nginx-config-template "docker/nginx.conf.erb" \
+	--max-preloader-idle-time 0

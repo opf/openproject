@@ -1,0 +1,263 @@
+# Group Versions
+
+Work Packages can be assigned to a version. As such, versions serve to group Work Packages into logical units where each group comprises all the work packages that needs to be finished in order for the version to be finished.
+
+## Linked Properties
+|  Link               | Description                              | Type          | Constraints                                                    | Supported operations |
+|:-------------------:|----------------------------------------- | ------------- | -------------------------------------------------------------- | -------------------- |
+| self                | This version                             | Version       | not null                                                       | READ                 |
+| definingProject     | The project to which the version belongs | Project       | only present if the project is visible for the current user    | READ                 |
+| availableInProjects | Projects where this version can be used  | Projects      | not null                                                       | READ                 |
+
+## Local Properties
+| Property    | Description                                   | Type        | Constraints | Supported operations |
+| :---------: | --------------------------------------------- | ----------- | ----------- | -------------------- |
+| id          | Version id                                    | Integer     | x > 0       | READ                 |
+| name        | Version name                                  | String      | not null    | READ                 |
+| description |                                               | Formattable | not null    | READ                 |
+| startDate   |                                               | Date        |             | READ                 |
+| endDate     |                                               | Date        |             | READ                 |
+| status      | The current status of the version             | String      | not null    | READ                 |
+| createdAt   | Time of creation                              | DateTime    | not null    | READ                 |
+| updatedAt   | Time of the most recent change to the version | DateTime    | not null    | READ                 |
+
+## Version [/api/v3/versions/{id}]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/versions/11" },
+                    "definingProject": { "href": "/api/v3/projects/11" },
+                    "availableInProjects": { "href": "/api/v3/versions/11/projects" }
+                },
+                "_type": "Version",
+                "id": 11,
+                "name": "v3.0 Alpha",
+                "description": {
+                    "format": "plain",
+                    "raw": "This version has a description",
+                    "html": "This version has a description"
+                },
+                "startDate": "2014-11-20",
+                "endDate": null,
+                "status": "Open"
+            }
+
+## View version [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... version id
+
++ Response 200 (application/hal+json)
+
+    [Version][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the version does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view work packages **or** manage versions (any project where the version is available)
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of
+    a version. That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified version does not exist."
+            }
+
+## Versions [/api/v3/versions{?filters}]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/versions" }
+                },
+                "total": 3,
+                "count": 3,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_links": {
+                                "self": { "href": "/api/v3/versions/11" },
+                                "definingProject": { "href": "/api/v3/projects/12" },
+                                "availableInProjects": { "href": "/api/v3/versions/11/projects" }
+                            },
+                            "_type": "Version",
+                            "id": 11,
+                            "name": "v3.0 Alpha",
+                            "description": {
+                                "format": "plain",
+                                "raw": "This version has a description",
+                                "html": "This version has a description"
+                            },
+                            "startDate": "2014-11-20",
+                            "endDate": null,
+                            "status": "Open"
+                        },
+                        {
+                            "_links": {
+                                "self": { "href": "/api/v3/versions/12" },
+                                "definingProject": { "href": "/api/v3/projects/11" },
+                                "availableInProjects": { "href": "/api/v3/versions/12/projects" }
+                            },
+                            "_type": "Version",
+                            "id": 12,
+                            "name": "v2.0",
+                            "description": {
+                                "format": "plain",
+                                "raw": "",
+                                "html": ""
+                            },
+                            "startDate": null,
+                            "endDate": null,
+                            "status": "Closed"
+                        },
+                        {
+                            "_links": {
+                                "self": { "href": "/api/v3/versions/10" },
+                                "definingProject": { "href": "/api/v3/projects/13" },
+                                "availableInProjects": { "href": "/api/v3/versions/13/projects" }
+                            },
+                            "_type": "Version",
+                            "id": 10,
+                            "name": "v1.0",
+                            "description": {
+                                "format": "plain",
+                                "raw": "",
+                                "html": ""
+                            },
+                            "startDate": null,
+                            "endDate": null,
+                            "status": "Open"
+                        }
+                    ]
+                }
+            }
+
+## List versions [GET]
+
+Returns a collection of versions. The client can choose to filter the versions similar to how work packages are filtered. In addition to the provided filters, the server will reduce the result set to only contain versions, for which the requesting client has sufficient permissions (*view_work_packages*).
+
++ Parameters
+    + filters (optional, string, `[{ "sharing": { "operator": "*", "values": ["system"] }" }]`) ... JSON specifying filter conditions.
+    Accepts the same format as returned by the [queries](#queries) endpoint.
+    Currently supported filters are:
+      + sharing: filters versions by how they are shared within the server (*none*, *descendants*, *hierarchy*, *tree*, *system*).
+
++ Response 200 (application/hal+json)
+
+    [Versions][]
+
+## Versions by Project [/api/v3/projects/{project_id}/versions]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/projects/11/versions" }
+                },
+                "total": 3,
+                "count": 3,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_links": {
+                                "self": { "href": "/api/v3/versions/11" },
+                                "definingProject": { "href": "/api/v3/projects/11" },
+                                "availableInProjects": { "href": "/api/v3/versions/11/projects" }
+                            },
+                            "_type": "Version",
+                            "id": 11,
+                            "name": "v3.0 Alpha",
+                            "description": {
+                                "format": "plain",
+                                "raw": "This version has a description",
+                                "html": "This version has a description"
+                            },
+                            "startDate": "2014-11-20",
+                            "endDate": null,
+                            "status": "Open"
+                        },
+                        {
+                            "_links": {
+                                "self": { "href": "/api/v3/versions/12" },
+                                "definingProject": { "href": "/api/v3/projects/11" },
+                                "availableInProjects": { "href": "/api/v3/versions/12/projects" }
+                            },
+                            "_type": "Version",
+                            "id": 12,
+                            "name": "v2.0",
+                            "description": {
+                                "format": "plain",
+                                "raw": "",
+                                "html": ""
+                            },
+                            "startDate": null,
+                            "endDate": null,
+                            "status": "Closed"
+                        },
+                        {
+                            "_links": {
+                                "self": { "href": "/api/v3/versions/10" },
+                                "definingProject": { "href": "/api/v3/projects/11" },
+                                "availableInProjects": { "href": "/api/v3/versions/10/projects" }
+                            },
+                            "_type": "Version",
+                            "id": 10,
+                            "name": "v1.0",
+                            "description": {
+                                "format": "plain",
+                                "raw": "",
+                                "html": ""
+                            },
+                            "startDate": null,
+                            "endDate": null,
+                            "status": "Open"
+                        }
+                    ]
+                }
+            }
+
+## List versions available in a project [GET]
+
+This endpoint lists the versions that are *available* in a given project.
+Note that due to sharing this might be more than the versions *defined* by that project.
+
++ Parameters
+    + project_id (required, integer, `1`) ... ID of the project whoose versions will be listed
+
++ Response 200 (application/hal+json)
+
+    [Versions by Project][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the project does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view work packages **or** manage versions (on given project)
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified project does not exist."
+            }

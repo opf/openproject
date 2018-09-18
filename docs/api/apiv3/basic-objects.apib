@@ -1,0 +1,214 @@
+
+# Group Basic Objects
+
+# Links
+
+Links to other resources in the API are represented uniformly by so called link objects.
+
+## Local Properties
+
+| Property  | Description                                                              | Type    | Required | Nullable | Default     |
+|:---------:| ------------------------------------------------------------------------ | ------- |:--------:|:--------:| ----------- |
+| href      | URL to the referenced resource (might be relative)                       | String  |    ✓     |    ✓     |             |
+| title     | Representative label for the resource                                    | String  |          |          |             |
+| templated | If true the `href` contains parts that need to be replaced by the client | Boolean |          |          | false       |
+| method    | The HTTP verb to use when requesting the resource                        | String  |          |          | GET         |
+| payload   | The payload to send in the request to achieve the desired result         | String  |          |          | unspecified |
+| identifier| An optional unique identifier to the link object                         | String  |          |          | unspecified |
+
+All link objects *must* contain the `href` property, though it might be `null`. Thus the following is a valid
+link object:
+
+    {
+        "href": null
+    }
+
+whereas `{ }` is not a valid link object. The meaning of `"href": null` is that **no** resource is referenced.
+For example a work package without an assignee will still have an assignee link, but its `href` will be `null`.
+
+If a `title` is present, the client can display the title to the user when referring to the resource.
+
+Templated links are links that contain client replaceable parts. Replaceable parts are enclosed in braces. For example
+the link `api/v3/example/{id}` is not complete in itself, but the client needs to replace the string `{id}` itself.
+As of now the API does not indicate the valid replacement values.
+
+The `method` indicates which HTTP verb the client *must* use when following the link for the intended purpose.
+
+If a `payload` is specified, it needs to be sent as the body of the request to achieve the desired result (e.g. perform the
+action represented by the link). If no `payload` is specified, there is either no payload to send or a valid payload is not specified
+by the link object. A payload might also be templated slightly. If the `templated` property is true, a payload might contain replaceable parts
+in its strings (e.g. `{ "href": "/api/v3/examples/{example_id}" }`).
+
+Note: When writing links (e.g. during a `PATCH` operation) only changes to `href` are accepted.
+Changes to all other properties will be **silently ignored**.
+
+# Errors
+
+In case of an error, the API will respond with an apropriate HTTP status code.
+For responses with an HTTP status of `4xx` and `5xx` the body will always contain a single error object.
+Error objects shall give the client additional details about the cause of an errorneous response.
+
+## General errors
+
+* Error objects have their `_type` set to `Error`
+* The `errorIdentifier` serves as a unique (and machine readable) identifier for a specific error cause
+    * There *may* be multiple possible error identifiers per HTTP status code
+    * There *may* be multiple possible HTTP status codes per error identifier
+    * The "List of Error Identifiers" defines the possible mappings between HTTP status and error identifier
+* The `message` contains a human readable concise message describing the error
+    * It *optionally* includes specific information, for example which permission would have been needed to perform an action
+    * It is localized depending on the users preferences
+    * It *must not* include HTML or other kind of markup
+    * Error messages form complete sentences including punctuation
+
+### Example
+
+    {
+        "_type": "Error",
+        "errorIdentifier": "urn:openproject-org:api:v3:errors:InternalServerError",
+        "message": "An internal server error occured. This is not your fault."
+    }
+
+## Embedded error information
+
+Errors might optionally contain embedded objects that contain further information.
+
+### Error details
+
+Under the embedded key `details` there might be an object describing the error more verbosely. For example if the
+error affects a specific field, this field could be defined there.
+
+#### Example
+
+    {
+        "_type": "Error",
+        "errorIdentifier": "urn:openproject-org:api:v3:examples:ExampleError",
+        "message": "This is an example error.",
+        "_embedded": {
+            "details": {
+                "_type": "ExampleErrorDetailInformation",
+                "errorneousField": "subject"
+            }
+        }
+    }
+
+### Multiple error objects
+
+To ease implementation of basic clients it is guaranteed that the response body always only contains a single error object.
+However it is allowed that an error object *embeds* other error objects under the key `errors`, thereby aggregating them.
+
+The `errorIdentifier` of such an object is always `urn:openproject-org:api:v3:errors:MultipleErrors`. The message can either describe one of the
+embedded errors or simply state that multiple errors occured.
+
+#### Example
+
+    {
+        "_type": "Error",
+        "errorIdentifier": "urn:openproject-org:api:v3:errors:MultipleErrors",
+        "message": "Multiple fields violated their constraints.",
+        "_embedded": {
+            "errors": [
+                {
+                    "_type": "Error",
+                    "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                    "...": "..."
+                },
+                {
+                    "_type": "Error",
+                    "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                    "...": "..."
+                }
+            ]
+        }
+    }
+
+## List of Error Identifiers
+
+* `urn:openproject-org:api:v3:errors:InvalidQuery` (**HTTP 400**) - The query contained a value that did not match the servers expectation
+* `urn:openproject-org:api:v3:errors:InvalidRequestBody` (**HTTP 400**) - The format of the request body did not match the servers expectation
+* `urn:openproject-org:api:v3:errors:InvalidRenderContext` (**HTTP 400**) - The client specified a rendering context that does not exist
+* `urn:openproject-org:api:v3:errors:InvalidUserStatusTransition` (**HTTP 400**) - The client used an invalid transition in the attempt to change the status of a user account.
+* `urn:openproject-org:api:v3:errors:Unauthenticated` (**HTTP 401**) - The client has to authenticate to access the requested resource.
+* `urn:openproject-org:api:v3:errors:MissingPermission` (**HTTP 403**) - The client does not have the needed permissions to perform the requested action
+* `urn:openproject-org:api:v3:errors:NotFound` (**HTTP 404**) - Default for HTTP 404 when no further information is available
+* `urn:openproject-org:api:v3:errors:UpdateConflict` (**HTTP 409**) - The resource changed between GET-ing it and performing an update on it
+* `urn:openproject-org:api:v3:errors:TypeNotSupported` (**HTTP 415**) - The request contained data in an unsupported media type (Content-Type)
+* `urn:openproject-org:api:v3:errors:PropertyIsReadOnly` (**HTTP 422**) - The client tried to set or change a property that is not writable
+* `urn:openproject-org:api:v3:errors:PropertyConstraintViolation` (**HTTP 422**) - The client tried to set a property to an invalid value
+* `urn:openproject-org:api:v3:errors:PropertyValueNotAvailableAnymore` (**HTTP 422**) - An unchanged property needs to be changed, because other changes to the resource make it unavailable
+* `urn:openproject-org:api:v3:errors:ResourceTypeMismatch` (**HTTP 422**) - A link to a resource of a specific type was expected, but the link to another type of resource was provided
+* `urn:openproject-org:api:v3:errors:PropertyFormatError` (**HTTP 422**) - A property value was provided in a format that the server does not understand or accept
+* `urn:openproject-org:api:v3:errors:InternalServerError` (**HTTP 500**) - Default for HTTP 500 when no further information is available
+* `urn:openproject-org:api:v3:errors:MultipleErrors` - Multiple errors occured. See the embedded `errors` array for more details.
+
+# Formattable Text
+
+OpenProject supports text formatting in Markdown. Properties that contain formattable text have a special representation in this API. In this specification their
+type is indicated as `Formattable`. Their representation contains the following properties:
+
+| Property | Description                                        | Type   | Example                            | Supported operations |
+|:--------:| -------------------------------------------------- | ------ | ---------------------------------- | -------------------- |
+| format   | Indicates the formatting language of the raw text  | String | markdown                           | READ                 |
+| raw      | The raw text, as entered by the user               | String | `I **am** formatted!`              | READ / WRITE         |
+| html     | The text converted to HTML according to the format | String | `I <strong>am</strong> formatted!` | READ                 |
+
+`format` can as of today have one of the following values:
+
+* `plain` - only basic formatting, e.g. inserting paragraphs and line breaks into HTML
+* `markdown` - formatting using Markdown
+* `custom` - There is no apparent formatting rule that transforms the raw version to HTML (only used for read only properties)
+
+Note that `raw` is the only property supporting the **write** operation. A property of type *Formattable* that
+is marked as **read and write**, will only accept changes to the `raw` property. Changes to `format` and `html` will be **silently ignored**.
+It is thus sufficient to solely provide the `raw` property for changes.
+
+If the *Formattable* is marked as **read only**, the `raw` attribute also becomes **read only**.
+
+#### Example
+
+    {
+        "format": "markdown",
+        "raw": "I **am** formatted!",
+        "html": "I <strong>am</strong> formatted!"
+    }
+
+# Dates, Times and Durations
+
+Representation of time related values in this API is done according to [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601).
+In this specification the following terms will be used as type specifiers (e.g. in tables):
+
+* `Date` - refers to an ISO 8601 date, e.g. "2014-05-21"
+* `DateTime` - refers to an ISO 8601 combined date and time, e.g. "2014-05-21T13:37:00Z"
+* `Duration` - refers to an ISO 8601 duration, e.g. "P1DT18H"
+
+# Colors
+
+Colors are represented in RGB using hexadecimal notation as specified in [CSS Color Module Level 3](http://www.w3.org/TR/css3-color/).
+That is a `#` followed by either three or six hexadecimal digits.
+
+#### Examples
+
+    red:   #ff0000 or #f00
+    green: #00ff00 or #0f0
+    black: #000000 or #000
+    white: #ffffff or #fff
+
+# Digests
+
+Digests (or Hashes) are one way functions that map data of arbitrary size to data of a fixed size.
+In OpenProject they are for example used to calculate checksums for (attachment) files.
+The checksum calculated depends on the hashed data and the algorithm used as hash function.
+
+Therefore all digests are represented in the following form:
+
+| Property  | Description                                        | Type   | Example                            |
+|:---------:| -------------------------------------------------- | ------ | ---------------------------------- |
+| algorithm | The algorithm used to compute the digest           | String | md5                                |
+| hash      | The calculated digest in hexadecimal notation      | String | 64c26a8403cd796ea4cf913cda2ee4a9   |
+
+#### Example
+
+    {
+        "algorithm": "md5",
+        "hash": "64c26a8403cd796ea4cf913cda2ee4a9"
+    }

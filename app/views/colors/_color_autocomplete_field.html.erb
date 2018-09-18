@@ -1,0 +1,12 @@
+<% form_field_class = form_field_class || '' %>
+<% container_class  = container_class  || '' %>
+<div class="form--field <%= form_field_class %>">
+  <%= form.select :color_id,
+                  options_for_colors(object),
+                  {},
+                  container_class: container_class.present? ? container_class : '-middle',
+                  class: 'colors-autocomplete' %>
+
+  <div class="form--field-instructions"><%= label %></div>
+  <colors-autocompleter></colors-autocompleter>
+</div>

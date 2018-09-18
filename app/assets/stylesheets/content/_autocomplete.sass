@@ -1,0 +1,133 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See docs/COPYRIGHT.rdoc for more details.
+//++
+
+/***** Auto-complete ****
+
+div.autocomplete
+  position: absolute
+  width: 400px
+  margin: 0
+  padding: 0
+  z-index: 500
+  ul
+    list-style-type: none
+    margin: 0
+    padding: 0
+    li
+      list-style-type: none
+      display: block
+      margin: -1px 0 0 0
+      padding: 2px
+      cursor: pointer
+      font-size: 90%
+      border: 1px solid #ccc
+      border-left: 1px solid #ccc
+      border-right: 1px solid #ccc
+      background-color: white
+      &.selected
+        background-color: #ffb
+      span.informal
+        font-size: 80%
+        color: #aaa
+
+#parent_issue_candidates ul li, #related_issue_candidates ul li
+  width: 500px
+
+
+/** jquery-ui autocomplete */
+
+.ui-autocomplete
+  position: absolute
+  top: 0
+  left: 0
+  cursor: default
+  margin: 0
+  list-style: none
+  z-index: 10000
+
+  .ui-menu-item
+    border-bottom: 1px solid $content-default-border-color
+
+  a
+    color: $body-font-color
+    padding-left: 5px
+
+  .ui-menu-item-wrapper
+    word-break: break-word
+    padding: 10px 5px
+
+    // Necessary for iOS to recognize as clickable
+    cursor: pointer
+
+    &.ui-state-active
+      border: none
+      @include varprop(background, drop-down-selected-bg-color)
+      a
+        @include varprop(color, drop-down-selected-font-color)
+
+  &.-inplace
+    position: relative
+    border: none
+    padding-top: 15px
+    line-height: 1.6
+    font-size: 1rem
+
+    .ui-menu-item
+      border-bottom: none
+
+    .ui-menu-item-wrapper
+      padding: 4px 10px
+
+.ui-autocomplete--input
+  // Error highlighting
+  &.-error, &.-error:hover, &.-error:focus
+    background: $nm-color-error-background
+    border-color: $nm-color-error-border
+
+mark.ui-autocomplete-match
+  background: none
+  @include varprop(color, primary-color)
+  text-decoration: underline
+  font-weight: bold !important
+
+// Loading indicator
+.ui-autocomplete--loading
+  background: white
+  z-index: 200
+  border: 1px solid #ccc
+  border-top: none
+  padding: 5px
+  // Position bottom of input
+  position: absolute
+  // With same width as input
+  width: 100%
+
+.ui-autocomplete--category
+  padding: 0
+  font-weight: bold
+  text-transform: uppercase

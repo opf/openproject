@@ -1,0 +1,41 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+<%= styled_form_tag({ action: 'edit', tab: 'projects' }) do %>
+  <section class="form--section">
+    <div class="form--field"><%= setting_check_box :default_projects_public %></div>
+    <div class="form--field"><%= setting_multiselect(:default_projects_modules,
+        Redmine::AccessControl.available_project_modules.collect {|m| [l_or_humanize(m, prefix: "project_module_"), m.to_s]}) %></div>
+    <div class="form--field"><%= setting_check_box :sequential_project_identifiers %></div>
+    <div class="form--field"><%= setting_select :new_project_user_role_id,
+                      Role.find_all_givable.collect {|r| [r.name, r.id.to_s]},
+                      blank: "--- #{t(:actionview_instancetag_blank_option)} ---",
+                      container_class: '-middle' %></div>
+  </section>
+  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>

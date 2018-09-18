@@ -1,0 +1,27 @@
+<div class="wp-create-button">
+  <button class="button -alt-highlight add-work-package"
+          *ngIf="projectIdentifier"
+          [disabled]="isDisabled()"
+          [attr.aria-label]="text.explanation"
+          opTypesCreateDropdown
+          [projectIdentifier]="projectIdentifier"
+          [stateName]="stateName"
+          [dropdownActive]="allowed">
+    <op-icon icon-classes="button--icon icon-add"></op-icon>
+    <span class="button--text"
+          [textContent]="text.createWithDropdown"
+          aria-hidden="true"></span>
+    <op-icon icon-classes="button--icon icon-small icon-pulldown"></op-icon>
+  </button>
+  <button class="button -alt-highlight add-work-package"
+          *ngIf="!projectIdentifier"
+          (click)="createWorkPackage()"
+          [disabled]="isDisabled()"
+          [attr.aria-label]="text.explanation">
+
+    <op-icon icon-classes="button--icon icon-add"></op-icon>
+    <span class="button--text"
+          [textContent]="text.createButton"
+          aria-hidden="true"></span>
+  </button>
+</div>

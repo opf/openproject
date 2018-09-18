@@ -1,0 +1,95 @@
+
+# Group General
+
+This is the current **DRAFT** of the specification for OpenProject APIv3.
+
+Please note that everything in this document might be **subject to change** in a future version of OpenProject. We intend to keep this specification
+as accurate as possible, however as long as the APIv3 is not in a stable state it is possible that there are intermediary differences between
+this specification and the real implementation. While we try to only specify what we want to keep, it might also happen that parts of this
+specification will be replaced **incompatibly** until the APIv3 is considered *stable*.
+
+# Hypermedia
+TODO: Description & Resources
+
+# Formats
+TODO: Description and why only JSON
+
+# HAL+JSON
+
+HAL is a simple format that gives a consistent and easy way to hyperlink between resources in your API.
+Read more: http://stateless.co/hal_specification.html
+
+**OpenProject API implementation of HAL+JSON format** enriches JSON and introduces a few meta properties:
+
+    - `_type` - specifies the type of the resource (e.g.: WorkPackage, Project)
+    - `_links` - contains all links available for the resource
+    - `_embedded` - contains all embedded objects
+
+HAL does not guarantee that embedded resources are embedded in their full representation, they might as well be
+partially represented (e.g. some properties can be left out).
+However in this API you have the guarantee that whenever a resource is **embedded**, it is embedded in its **full representation**.
+
+# API response structure
+
+All API responses contain a single HAL+JSON object, even collections of objects are technically represented by
+a single HAL+JSON object that itself contains its members. More details on collections can be found
+in the [Collections Section](#collections).
+
+# Authentication
+
+For now the API only supports two authentication schemes: session based authentication and basic auth.
+Depending on the settings of the OpenProject instance many resources can be accessed without being authenticated.
+In case the instance requires authentication on all requests the client will receive an **HTTP 401** status code
+in response to any request.
+Otherwise unauthenticated clients have all the permissions of the anonymous user.
+
+## Session-based Authentication
+
+This means you have to login to OpenProject via the Web-Interface to be authenticated in the API.
+This method is well-suited for clients acting within the browser, like the Angular-Client built into OpenProject.
+
+## API Key through Basic Auth
+
+Users can authenticate towards the API v3 using basic auth with 'apikey' as the user name and their API key as the password. Users can find their API key on their account page.
+
+Example:
+
+```bash
+API_KEY=2519132cdf62dcf5a66fd96394672079f9e9cad1
+curl -u apikey:$API_KEY https://community.openproject.com/api/v3/users/42
+```
+
+### Why not username and password?
+
+The simplest way to do basic auth would be to use a user's username and password naturally.
+However, OpenProject already has supported API keys in the past for the API v2, though not through basic auth.
+
+Using **username and password** directly would have some advantages:
+
+* It is intuitive for the user who then just has to provide those just as they would when logging into OpenProject.
+* No extra logic for token managment necessary.
+
+On the other hand using **API keys** has some advantages too, which is why we went for that:
+
+* If compromised while saved on an insecure client the user only has to regenerate the API key instead of changing their password, too.
+* They are naturally long and random which makes them invulnerable to dictionary attacks and harder to crack in general.
+
+Most importantly users may not actually have a password to begin with. Specifically when they have registered
+through an OpenID Connect provider.
+
+## Future Work
+
+For the future we plan to add authentication modes based on OAuth2 and OpenID Connect.
+
+# Allowed HTTP methods
+
+- `GET` - Get a single resource or collection of resources
+- `POST` - Create a new resource or perform
+- `PATCH` - Update a resource
+- `DELETE` - Delete a resource
+
+# Compression
+
+Responses are compressed if requested by the client. Currently [gzip](http://www.gzip.org/) and [deflate](https://tools.ietf.org/html/rfc1951)
+are supported. The client signals the desired compression by setting the [`Accept-Encoding` header](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.3).
+If no `Accept-Encoding` header is send, `Accept-Encoding: identity` is assumed which will result in the API responding uncompressed.

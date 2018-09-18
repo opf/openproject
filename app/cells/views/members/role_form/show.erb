@@ -1,0 +1,27 @@
+<%# We're not using the rails form helper here on purpose.
+  # It simply doesn't mix at all with cells views.
+  #%>
+<form action="<%= form_url %>"
+      method="post"
+      id="<%= row.roles_css_id %>-form"
+      class="hol <%= row.toggle_item_class_name %>"
+      style="display:none"
+      accept-charset="UTF-8"
+>
+  <input name="utf8" type="hidden" value="✓">
+  <input type="hidden" name="_method" value="put">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <p>
+    <% roles.each do |role| %>
+      <label><%= role_checkbox(role) %> <%= h role %></label>
+    <% end %>
+  </p>
+  <%= hidden_field_tag "member[role_ids][]", "" %>
+  <p>
+    <%= submit_tag t(:button_change), class: "button -highlight -small" %>
+    <%= link_to t(:button_cancel),
+                '#',
+                data: { 'toggle-target': ".#{row.toggle_item_class_name}" },
+                class: 'button -small toggle-membership-button' %>
+  </p>
+</form>

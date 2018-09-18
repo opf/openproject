@@ -1,0 +1,25 @@
+<h3 class="widget-box--header">
+  <%= op_icon('icon-context icon-group') %>
+  <span class="widget-box--header-title"><%= l(:label_user_plural) %></span>
+</h3>
+<p class="widget-box--additional-info"><%= l('homescreen.additional.users') %></p>
+
+<% unless @newest_users.empty? %>
+<ul class="widget-box--arrow-links">
+  <% @newest_users.each do |user| %>
+    <li>
+      <%= link_to user, user_path(user), title: user.name %>
+      <small>(<%= format_date(user.created_on) %>)</small>
+    </li>
+  <% end %>
+</ul>
+<% end %>
+
+<div class="widget-box--buttons">
+  <% if User.current.admin? %>
+    <%= link_to new_user_path, class: 'button -alt-highlight' do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= l(:label_invite_user) %></span>
+    <% end %>
+  <% end %>
+</div>

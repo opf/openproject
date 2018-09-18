@@ -1,0 +1,94 @@
+$hierarchy-span-width: 25px
+$tree-menu-item-height: 30px
+
+#main-menu ul ul.main-menu--children ul.pages-hierarchy,
+div.wiki ul.pages-hierarchy,
+.pages-hierarchy
+  line-height: $tree-menu-item-height
+  margin-left: 0
+  padding-left: 0
+
+  .tree-menu--title
+    display: inline-block
+    width: calc(100% - #{$hierarchy-span-width})
+    vertical-align: bottom
+    height: $tree-menu-item-height
+    line-height: $tree-menu-item-height
+
+  .tree-menu--hierarchy-span
+    display: inline-block
+    width: $hierarchy-span-width
+    padding-left: 8px
+    line-height: $tree-menu-item-height
+
+  .tree-menu--hierarchy-indicator-icon,
+  .tree-menu--leaf-indicator
+    line-height: $tree-menu-item-height
+
+
+  // Style the hierarchy group indicator arrow
+  // default: open arrow down
+  // collapsed: right arrow
+  .tree-menu--hierarchy-indicator
+    @include varprop(color, content-link-color)
+    height: $tree-menu-item-height
+    line-height: $tree-menu-item-height
+
+    &:hover
+      text-decoration: none
+
+  // Toggle the indicator accessibility texts
+  // accordingly
+  .tree-menu--hierarchy-indicator-collapsed
+    display: none
+
+  .-hierarchy-collapsed
+    .tree-menu--hierarchy-indicator-expanded
+      display: none
+    .tree-menu--hierarchy-indicator-collapsed
+      display: inline-block
+  // END accessibility rules
+
+  .tree-menu--hierarchy-indicator-icon
+    @include icon-common
+    @extend .icon-arrow-down1
+    font-size: 0.6rem
+
+  &.-with-hierarchy
+    .-with-hierarchy
+      padding-left: 18px
+
+  .-hierarchy-collapsed
+    > .tree-menu--item > .tree-menu--hierarchy-span > .tree-menu--hierarchy-indicator > .tree-menu--hierarchy-indicator-icon
+      @include icon-common
+      @extend .icon-arrow-right2
+      font-size: 0.6rem
+    > ul.-with-hierarchy
+      display: none
+
+  > li,
+  > li:hover
+    background: transparent
+    list-style-type: none
+
+  .tree-menu--item
+    display: inline-block
+    width: 100%
+    border-radius: 3px
+    line-height: $tree-menu-item-height
+    height: $tree-menu-item-height
+    &.-selected
+      @include varprop(background, drop-down-selected-bg-color)
+      .tree-menu--title
+        @include varprop(color, drop-down-selected-font-color)
+    &:hover
+      @include varprop(background, drop-down-hover-bg-color)
+      .tree-menu--title
+        @include varprop(color, drop-down-hover-font-color)
+
+
+
+
+
+
+

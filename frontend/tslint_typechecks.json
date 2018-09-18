@@ -1,0 +1,17 @@
+{
+    "rules": {
+        "await-promise": [true, "IPromise"],
+        "no-unnecessary-type-assertion": false,
+        "promise-function-async": false,
+        "no-for-in-array": true,
+        "no-unbound-method": [true, "ignore-static"],
+        "no-unsafe-any": false,
+        "no-void-expression": [false, "ignore-arrow-function-shorthand"],
+        "restrict-plus-operands": false,
+        "strict-type-predicates": false,
+        "prefer-readonly": false,
+        "no-boolean-literal-compare": true,
+        "no-unnecessary-qualifier": true,
+        "return-undefined": true
+    }
+}

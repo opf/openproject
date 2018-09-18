@@ -1,0 +1,79 @@
+﻿Index: app/views/settings/_general.rhtml
+===================================================================
+--- app/views/settings/_general.rhtml	(revision 2094)
++++ app/views/settings/_general.rhtml	(working copy)
+@@ -48,6 +48,9 @@
+ <p><label><%= l(:setting_feeds_limit) %></label>
+ <%= text_field_tag 'settings[feeds_limit]', Setting.feeds_limit, :size => 6 %></p>
+ 
++<p><label><%= l(:setting_diff_max_lines_displayed) %></label>
++<%= text_field_tag 'settings[diff_max_lines_displayed]', Setting.diff_max_lines_displayed, :size => 6 %></p>
++
+ <p><label><%= l(:setting_gravatar_enabled) %></label>
+ <%= check_box_tag 'settings[gravatar_enabled]', 1, Setting.gravatar_enabled? %><%= hidden_field_tag 'settings[gravatar_enabled]', 0 %></p>
+ </div>
+Index: app/views/common/_diff.rhtml
+===================================================================
+--- app/views/common/_diff.rhtml	(revision 2111)
++++ app/views/common/_diff.rhtml	(working copy)
+@@ -1,4 +1,5 @@
+-<% Redmine::UnifiedDiff.new(diff, :type => diff_type).each do |table_file| -%>
++<% diff = Redmine::UnifiedDiff.new(diff, :type => diff_type, :max_lines => Setting.diff_max_lines_displayed.to_i) -%>
++<% diff.each do |table_file| -%>
+ <div class="autoscroll">
+ <% if diff_type == 'sbs' -%>
+ <table class="filecontent CodeRay">
+@@ -62,3 +63,5 @@
+ 
+ </div>
+ <% end -%>
++
++<%= l(:text_diff_truncated) if diff.truncated? %>
+Index: lang/lt.yml
+===================================================================
+--- config/settings.yml	(revision 2094)
++++ config/settings.yml	(working copy)
+@@ -61,6 +61,9 @@
+ feeds_limit:
+   format: int
+   default: 15
++diff_max_lines_displayed:
++  format: int
++  default: 1500
+ enabled_scm:
+   serialized: true
+   default: 
+Index: lib/redmine/unified_diff.rb
+===================================================================
+--- lib/redmine/unified_diff.rb	(revision 2110)
++++ lib/redmine/unified_diff.rb	(working copy)
+@@ -19,8 +19,11 @@
+   # Class used to parse unified diffs
+   class UnifiedDiff < Array  
+     def initialize(diff, options={})
++      options.assert_valid_keys(:type, :max_lines)
+       diff_type = options[:type] || 'inline'
+       
++      lines = 0
++      @truncated = false
+       diff_table = DiffTable.new(diff_type)
+       diff.each do |line|
+         if line =~ /^(---|\+\+\+) (.*)$/
+@@ -28,10 +31,17 @@
+           diff_table = DiffTable.new(diff_type)
+         end
+         diff_table.add_line line
++        lines += 1
++        if options[:max_lines] && lines > options[:max_lines]
++          @truncated = true
++          break
++        end
+       end
+       self << diff_table unless diff_table.empty?
+       self
+     end
++    
++    def truncated?; @truncated; end
+   end
+ 
+   # Class that represents a file diff

@@ -1,0 +1,9 @@
+## OpenProject Icon Font
+
+*OpenProject Icon Font* for icons:
+
+<ul class="icon-list">
+{{#each names}}
+<li><span class="icon icon-{{this}}"></span>{{this}}</li>
+{{/each}}
+</ul>

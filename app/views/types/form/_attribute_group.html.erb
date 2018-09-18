@@ -1,0 +1,28 @@
+<div class="type-form-conf-group" data-original-key="<%= group.key.to_s %>" data-key="<%= group.key %>" data-key-is-symbol="<%= group.key.is_a? Symbol %>">
+  <div class="group-head">
+    <span class="group-handle icon-toggle"></span>
+    <group-edit-in-place
+      name="<%= group.translated_key %>"
+      key="<%= group.key %>"
+      onvaluechange="groupNameChange"
+      onupsale="<%= EnterpriseToken.allows_to?(:edit_attribute_groups) ? '' : 'showEEOnlyHint' %>"
+      class="group-name">
+      <%= group.translated_key %>
+    </group-edit-in-place>
+    <span class="delete-group icon-small icon-close" ng-click="deleteGroup($event)"></span>
+  </div>
+  <div class="attributes" dragula='"attributes"'>
+    <% attributes.each do |attribute| %>
+      <div class="type-form-conf-attribute" data-key="<%= attribute[:key] %>">
+        <span class="attribute-handle icon-toggle"></span>
+        <span class="attribute-name">
+                      <%= attribute[:translation] %>
+          <% if attribute[:is_cf] %>
+                        <span class="attribute-cf-label"><%= CustomField.model_name.human %></span>
+                      <% end %>
+                    </span>
+        <span class="delete-attribute icon-small icon-close" ng-click="deactivateAttribute($event)"></span>
+      </div>
+    <% end %>
+  </div>
+</div> <!-- END attribute group -->

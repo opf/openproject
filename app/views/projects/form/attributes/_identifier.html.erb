@@ -1,0 +1,70 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%
+  project = form.object
+  id = project.identifier
+  id_max_length = Project::IDENTIFIER_MAX_LENGTH
+  identifier_editable = project.new_record?
+%>
+
+<div class="form--field <%= identifier_editable ? '-required' : '' %>">
+  <% if identifier_editable %>
+    <%= form.text_field :identifier, container_class: '-middle'%>
+
+    <%= nonced_javascript_tag do %>
+      projectIdentifierMaxLength = <%= id_max_length %>;
+      projectIdentifierDefault = '<%= id %>';
+      projectIdentifierLocked = false;
+      observeProjectIdentifier();
+      observeProjectName();
+    <% end %>
+
+    <div class="form--field-instructions">
+      <%= l(:text_length_between, min: 1,
+                                  max: Project::IDENTIFIER_MAX_LENGTH) %>
+      <%= l(:text_project_identifier_info).html_safe %>
+    </div>
+  <% else %>
+    <label class="form--label" title="<%= Project.human_attribute_name(:identifier) %>">
+      <%= Project.human_attribute_name(:identifier) %>
+    </label>
+    <span class="form--field-container">
+      <span id="identifier">
+        <%= project.identifier %>
+      </span>
+      <%= link_to identifier_project_path, title: l(:button_edit), class: "icon" do %>
+        <%= op_icon('icon icon-edit') %>
+        <span class="hidden-for-sighted">
+          <%= l(:button_edit) %>
+        </span>
+      <% end %>
+    </span>
+  <% end %>
+</div>

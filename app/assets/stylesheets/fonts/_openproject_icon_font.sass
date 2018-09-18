@@ -1,0 +1,247 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See docs/COPYRIGHT.rdoc for more details.
+//++
+
+@mixin icon-font-common
+  font-family: "openproject-icon-font" !important
+  font-style: normal !important
+  font-weight: normal !important
+  font-variant: normal !important
+  text-transform: none !important
+  text-decoration: none !important
+  speak: none
+  line-height: 1
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+
+@mixin icon-common
+  @include icon-font-common
+
+@mixin icon-rules
+  padding: 10px 5px 0 10px
+  @include varprop(color, content-icon-color)
+
+@mixin icon2-rules
+  padding: 0 20px 0 7px
+
+@mixin icon3-rules
+  padding: 0 8px 0 0
+
+@mixin icon4-rules
+  padding: 0 8px 0 3px
+  font-size: 11px
+
+@mixin icon5-rules
+  padding: 0 7px 0 9px
+
+@mixin icon6-rules
+  padding: 0 7px 0 9px
+  font-size: 12px
+
+@mixin icon-dropdown-menu-rules
+  padding: 0 8px 0 0
+  font-size: 14px
+
+@mixin icon-context-rules
+  @include icon-context-padding
+  @include varprop(color, content-icon-color)
+
+@mixin icon-table-rules
+  padding: 0
+
+@mixin icon-action-menu-rules
+  padding: 0 10px 0 0
+  font-size: 14px
+  line-height: 5px
+
+@mixin icon-sub-menu-rules
+  padding: 0
+  float: right
+  font-size: 14px
+  line-height: 5px
+  vertical-align: -40%
+
+@mixin icon-big-rules
+  padding: 0
+  font-size: 50px
+
+@mixin icon-small-rules
+  font-size: 10px
+  vertical-align: middle
+
+@mixin icon-correct-high-postioning-rules
+  vertical-align: -1px
+
+@mixin icon-context-padding
+  padding: 10px 10px 0 0
+
+[data-icon]:before
+  @include icon-common
+  content: attr(data-icon)
+  @include icon-rules
+
+[data-icon2]:before
+  @include icon-common
+  content: attr(data-icon2)
+  @include icon2-rules
+
+[data-icon3]:before
+  @include icon-common
+  content: attr(data-icon3)
+  @include icon3-rules
+
+[data-icon4]:before
+  @include icon-common
+  content: attr(data-icon4)
+  @include icon4-rules
+
+[data-icon5]:before
+  @include icon-common
+  content: attr(data-icon5)
+  @include icon5-rules
+
+[data-icon-dropdown-menu]:before
+  @include icon-common
+  content: attr(data-icon-dropdown-menu)
+  @include icon-dropdown-menu-rules
+
+[data-icon-table]:before
+  @include icon-common
+  content: attr(data-icon-table)
+  @include icon-table-rules
+
+[data-icon-action-menu]:before
+  content: attr(data-icon-action-menu)
+  @include icon-action-menu-rules
+
+[data-icon-sub-menu]:before
+  content: attr(data-icon-sub-menu)
+  @include icon-sub-menu-rules
+
+[data-icon-big]:before
+  content: attr(data-icon-big)
+  @include icon-big-rules
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before
+  @include icon-common
+
+// used for icons in the content area
+.icon:before
+  @include icon-rules
+
+// used for icons in the project menu
+.icon2:before
+  @include icon2-rules
+
+.icon3:before
+  @include icon3-rules
+
+// used for icons in the project drop down
+.icon4:before
+  @include icon4-rules
+
+// used for icons in the top menu
+.icon5:before
+  @include icon5-rules
+
+// used for toggler icons in the project menu
+.icon6:before
+  @include icon6-rules
+
+// used for icons dropdown-menus
+.icon-dropdown-menu:before
+  @include icon-dropdown-menu-rules
+
+// used for icons in workpackage table
+.icon-table:before
+  @include icon-table-rules
+
+// used for very big icons
+.icon-big:before
+  @include icon-big-rules
+
+// used for smaller icons
+.icon-small:before
+  @include icon-small-rules
+
+
+#errorExplanation:before
+  @include icon-common
+  @include icon-rules
+  float: left
+
+/* remove once all menu items have an icon */
+.no-icon
+  margin-left: 15px
+
+[class^=icon].-padded
+  padding: 0 5px
+
+// used for icons in the content area, which appear in context (menus)
+.action-menu .icon:before,
+.icon-context:before
+  padding: 10px 10px 0 0
+
+// Import definitions from font style
+@import openproject_icon_definitions
+
+// Overrides / extensions to icon names
+#errorExplanation
+  @extend .icon-error
+
+.icon-project
+  @extend .icon-projects
+
+.icon-message
+  @extend .icon-quote
+
+.icon-work_package
+  @extend .icon-ticket
+
+.icon-work_package-closed
+  @extend .icon-ticket-checked
+
+.icon-work_package-edit
+  @extend .icon-ticket-edit
+
+.icon-work_package-note
+  @extend .icon-ticket-note
+
+.icon-time-entry,
+.icon-log_time
+  @extend .icon-time
+
+.icon-notice
+  @extend .icon-yes
+
+.icon-wiki-page
+  @extend .icon-wiki-edit
+
+// Icon required for documents activity
+.icon-document
+  @extend .icon-notes

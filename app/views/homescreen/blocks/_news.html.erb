@@ -1,0 +1,20 @@
+<h3 class="widget-box--header">
+  <%= op_icon('icon-context icon-news') %>
+  <span class="widget-box--header-title"><%= l(:label_news_latest) %></span>
+</h3>
+
+<% unless @news.empty? %>
+  <ul class="widget-box--arrow-links">
+  <% @news.each do |news| %>
+    <li class="-widget-box--arrow-multiline">
+      <div>
+        <%= avatar(news.author, {class: 'avatar-mini'}) %>
+        <%= link_to_project(news.project) + ': ' %>
+        <%= link_to h(news.title), news_path(news) %>
+        <br/>
+        <p class="widget-box--additional-info"><%= authoring news.created_on, news.author %></p>
+      </div>
+    </li>
+  <% end %>
+  </ul>
+<% end %>

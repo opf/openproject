@@ -1,0 +1,23 @@
+# Collapsible section
+
+```
+<collapsible-section initially-expanded="true"
+                   id="my-expanded-section"
+                   section-title="My section title">
+
+<div>
+<p><strong>Initially expanded</strong></p>
+</div>
+</collapsible-section>
+```
+
+
+```
+<collapsible-section id="my-closed-section"
+                   	 section-title="My closed section title">
+
+<div>
+<p><strong>Initially closed</strong></p>
+</div>
+</collapsible-section>
+```

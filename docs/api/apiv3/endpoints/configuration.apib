@@ -1,0 +1,36 @@
+# Group Configuration
+
+The configuration endpoint allows to read certain configuration parameters of the OpenProject instance.
+Note that there is no 1:1 relationship between this endpoint and the settings you can find in your settings.yml.
+
+For now this endpoint will only allow access to settings deemed useful for a client to know in general.
+
+| Link                | Description                                      | Type          | Nullable | Supported operations |
+|:-------------------:| ------------------------------------------------ | ------------- | -------- | -------------------- |
+| self                | The configuration                                | Configuration |          | READ                 |
+
+## Local Properties
+| Property                  | Description                                        | Type       | Condition                         | Supported operations |
+| :-----------------------: | -------------------------------------------------- | ---------- | --------------------------------- | -------------------- |
+| maximumAttachmentFileSize | The maximum allowed size of an attachment in Bytes | Integer    |                                   | READ                 |
+| perPageOptions            | Page size steps to be offered in paginated list UI | Integer[]  |                                   | READ                 |
+
+## Configuration [/api/v3/configuration]
+
++ Model
+    + Body
+
+            {
+                "_type": "Configuration",
+                "_links": {
+                    "href": "/api/v3/configuration"
+                },
+                "maximumAttachmentFileSize": 5242880,
+                "perPageOptions": [1, 10, 100]
+            }
+
+## View configuration [GET]
+
++ Response 200 (application/hal+json)
+
+    [Configuration][]

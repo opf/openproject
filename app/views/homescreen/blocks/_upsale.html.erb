@@ -1,0 +1,31 @@
+<h3 class="widget-box--header">
+  <%= op_icon('icon-context icon-cart') %>
+  <span class="widget-box--header-title"><%= t('homescreen.blocks.upsale.title') %></span>
+</h3>
+
+<%= image_tag "enterprise_edition.png", class: "widget-box--teaser-image" %>
+
+<p><%= t('homescreen.blocks.upsale.description') %></p>
+
+<ul class="widget-box--feature-list">
+  <li>
+    <%= t('homescreen.blocks.upsale.additional_features') %>
+  </li>
+  <li>
+    <%= t('homescreen.blocks.upsale.professional_support') %>
+  </li>
+</ul>
+<p>
+  <b><%= t('homescreen.blocks.upsale.become_hero') %></b> <%= t('homescreen.blocks.upsale.you_contribute') %>
+</p>
+
+<div class="widget-box--blocks--buttons">
+  <%= link_to "#{OpenProject::Static::Links.links[:upsale][:href]}/?utm_source=unknown&utm_medium=community-edition&utm_campaign=home-screen",
+        { class: 'button -alt-highlight',
+          aria: {label: t('homescreen.blocks.upsale.more_info')},
+          target: '_blank',
+          title: t('homescreen.blocks.upsale.more_info')} do %>
+    <%= op_icon('button--icon icon-info2') %>
+    <span class="button--text"><%= t('homescreen.blocks.upsale.more_info') %></span>
+  <% end %>
+</div>

@@ -1,0 +1,64 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+<% all_fields = (render_advanced) ? false :  true %>
+
+<%= render partial: "projects/form/attributes/name",
+           locals: { form: form } %>
+<%= render partial: "customizable/form",
+           locals: { form: form, all_fields: all_fields, only_required: render_advanced } %>
+<% if render_advanced %>
+<fieldset id="advanced-settings" class="form--fieldset -collapsible collapsed">
+  <legend class="form--fieldset-legend" title="<%=t(:label_show_hide)%>" >
+    <a href="#"><%= t(:label_advanced_settings) %></a>
+  </legend>
+
+  <div style="display:none;" class="advanced-settings-inner">
+<% end %>
+    <%= render partial: "projects/form/attributes/parent_id",
+               locals: { form: form } %>
+    <%= render partial: "projects/form/attributes/description",
+               locals: { form: form } %>
+    <%= render partial: "projects/form/attributes/identifier",
+               locals: { form: form } %>
+    <%= render partial: "projects/form/attributes/is_public",
+               locals: { form: form } %>
+    <% unless all_fields %>
+      <%= render partial: "customizable/form",
+                 locals: { form: form, all_fields: false, only_required: false } %>
+    <% end %>
+<% if render_advanced %>
+  </div>
+</fieldset>
+<% end %>
+
+<% unless form.object.errors[:identifier].blank? %>
+  <%= nonced_javascript_tag do %>
+    jQuery('#advanced-settings > .advanced-settings-inner').show();
+  <% end %>
+<% end %>

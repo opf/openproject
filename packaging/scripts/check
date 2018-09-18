@@ -1,0 +1,46 @@
+#!/bin/bash
+
+set -e
+
+log_ok() {
+  echo -e "\e[32m[ok]\e[0m $1"
+}
+
+log_ko() {
+  echo -e "\e[31m[ko]\e[0m $1"
+}
+
+# try to get a setting to make sure database connection works
+if rake setting:get[protocol] &>/dev/null; then
+  log_ok "MySQL configuration is working"
+else
+  log_ko "MySQL connection is NOT working"
+fi
+
+if ps -u "$SERVER_USER" &>/dev/null ; then
+  log_ok "Web server is running"
+else
+  log_ko "Web server is NOT running"
+fi
+
+if ps -u "$APP_USER" -f | grep -q "unicorn worker" ; then
+  log_ok "openproject server is running"
+else
+  log_ko "openproject server is NOT running"
+fi
+
+if ps -u "$APP_USER" -f | grep -q "rake jobs:work" ; then
+  log_ok "openproject background job worker is running"
+else
+  log_ko "openproject background job worker is NOT running"
+fi
+
+if [ -z "$ADMIN_EMAIL" ]; then
+  log_ko "no ADMIN_EMAIL set. Can't test email settings."
+else
+  if $(pwd)/packaging/scripts/send-test-email ; then
+    log_ok "test email sent to ${ADMIN_EMAIL}"
+  else
+    log_ko "unable to send test email to ${ADMIN_EMAIL}"
+  fi
+fi

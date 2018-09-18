@@ -1,0 +1,45 @@
+db:
+  image: postgres:9.6.3
+  environment:
+    POSTGRES_USER: app
+    POSTGRES_PASSWORD: p4ssw0rd
+    POSTGRES_DB: app
+  volumes:
+    - ./export/db:/var/lib/postgresql/data
+  memory: 64
+  expose:
+    - '5432'
+
+web:
+  build: .
+  links:
+    - db
+  environment:
+    - "RAILS_CACHE_STORE=file_store"
+    - "DATABASE_URL=postgresql://app:p4ssw0rd@db:5432/app?encoding=utf8&pool=5&timeout=5000&reconnect=true"
+    - "SECRET_KEY_BASE=d4e74f017910ac56c6ebad01165b7e1b37f4c9c02e9716836f8670cdc8d65a231e64e4f6416b19c8"
+    - "RAILS_ENV=production"
+    - "HEROKU=true"
+    - "OP_ADMIN_USER_SEEDER_FORCE_PASSWORD_CHANGE=off"
+  ports:
+    - "80:8080"
+  command: "./docker/web"
+  memory: 1024
+  volumes:
+    - "/var/db/openproject"
+
+worker:
+  build: .
+  links:
+    - db
+  environment:
+    - "RAILS_CACHE_STORE=file_store"
+    - "DATABASE_URL=postgresql://app:p4ssw0rd@db:5432/app?encoding=utf8&pool=5&timeout=5000&reconnect=true"
+    - "SECRET_KEY_BASE=d4e74f017910ac56c6ebad01165b7e1b37f4c9c02e9716836f8670cdc8d65a231e64e4f6416b19c8"
+    - "RAILS_ENV=production"
+    - "HEROKU=true"
+    - "OP_ADMIN_USER_SEEDER_FORCE_PASSWORD_CHANGE=off"
+  command: "./docker/worker --seed"
+  memory: 384
+  volumes_from:
+    - web

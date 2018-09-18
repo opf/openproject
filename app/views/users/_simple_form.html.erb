@@ -1,0 +1,60 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= error_messages_for 'user' %>
+
+<%= javascript_include_tag 'admin_users' %>
+
+<!--[form:user]-->
+<section class="form--section">
+  <div class="form--field"><%= f.text_field :mail, required: true, autofocus: true, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field :firstname, required: true, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field :lastname, required: true, container_class: '-middle' %></div>
+
+  <%= render partial:     'customizable/field',
+             collection:  @user.custom_field_values,
+             as:          :value,
+             locals:      { form: f, input_size: "middle" } %>
+
+  <% unless @auth_sources.empty? || OpenProject::Configuration.disable_password_login? %>
+      <div class="form--field">
+        <% sources = ([[t(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }) %>
+        <%= f.select :auth_source_id, sources, label: :'activerecord.attributes.user.auth_source'  %>
+      </div>
+
+      <div class="form--field" id="new_user_login" style="display: none;">
+        <%= f.text_field :login, required: true, size: 25, disabled: true %>
+      </div>
+  <% end %>
+
+  <div class="form--field"><%= f.check_box :admin, disabled: (@user == User.current) %></div>
+  <%= call_hook(:view_users_form, user: @user, form: f) %>
+</section>
+
+<!--[eoform:user]-->
