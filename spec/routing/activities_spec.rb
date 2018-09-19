@@ -28,37 +28,30 @@
 
 require 'spec_helper'
 
-describe 'my routes', type: :routing do
-  it '/my/add_block POST routes to my#add_block' do
-    expect(post('/my/add_block')).to route_to('my#add_block')
-  end
-
-  it '/my/page_layout GET routes to my#page_layout' do
-    expect(get('/my/page_layout')).to route_to('my#page_layout')
-  end
-
-  it '/my/remove_block POST routes to my#remove_block' do
-    expect(post('/my/remove_block')).to route_to('my#remove_block')
-  end
-
-  it '/my/account GET routes to my#account' do
-    expect(get('/my/account')).to route_to('my#account')
-  end
-
-  it '/my/account PATCH routes to my#account' do
-    expect(patch('/my/account')).to route_to('my#account')
-  end
-
-  it '/my/generate_rss_key POST routes to my#generate_rss_key' do
-    expect(post('/my/generate_rss_key')).to route_to('my#generate_rss_key')
-  end
-
-  it '/my/generate_api_key POST routes to my#generate_api_key' do
-    expect(post('/my/generate_api_key')).to route_to('my#generate_api_key')
-  end
+describe ActivitiesController, 'routing', type: :routing do
+  it {
+    expect(get('/activity')).to route_to(controller: 'activities',
+                                         action: 'index')
+  }
 
   it {
-    expect(get('/my/deletion_info')).to route_to(controller: 'users',
-                                                 action: 'deletion_info')
+    expect(get('/activity.atom')).to route_to(controller: 'activities',
+                                              action: 'index',
+                                              format: 'atom')
   }
+
+  context 'project scoped' do
+    it {
+      expect(get('/projects/abc/activity')).to route_to(controller: 'activities',
+                                                        action: 'index',
+                                                        project_id: 'abc')
+    }
+
+    it {
+      expect(get('/projects/abc/activity.atom')).to route_to(controller: 'activities',
+                                                             action: 'index',
+                                                             project_id: 'abc',
+                                                             format: 'atom')
+    }
+  end
 end
