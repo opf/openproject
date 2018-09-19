@@ -30,6 +30,12 @@ require 'spec_helper'
 
 describe WikiController, type: :routing do
   describe 'routing' do
+    it {
+      is_expected.to route(:get, '/projects/567/wiki').to(controller: 'wiki',
+                                                          action: 'show',
+                                                          project_id: '567')
+    }
+
     it 'should connect GET /projects/:project_id/wiki/:name (without format) to wiki/show' do
       expect(get('/projects/abc/wiki/blubs')).to route_to(controller: 'wiki',
                                                           action: 'show',
@@ -46,10 +52,10 @@ describe WikiController, type: :routing do
 
     it 'should connect GET /projects/:project_id/wiki/:name.html to wiki/show' do
       expect(get('/projects/abc/wiki/blubs.markdown')).to route_to(controller: 'wiki',
-                                                               action: 'show',
-                                                               project_id: 'abc',
-                                                               id: 'blubs',
-                                                               format: 'markdown')
+                                                                   action: 'show',
+                                                                   project_id: 'abc',
+                                                                   id: 'blubs',
+                                                                   format: 'markdown')
     end
 
     it 'should connect GET /projects/:project_id/wiki/new to wiki/new' do
@@ -71,31 +77,35 @@ describe WikiController, type: :routing do
                                                          project_id: 'abc')
     end
 
+    it {
+      is_expected.to route(:get, '/projects/567/wiki/my_page/edit').to(controller: 'wiki',
+                                                                       action: 'edit',
+                                                                       project_id: '567',
+                                                                       id: 'my_page')
+    }
+
     it do
-      expect(get('/projects/abc/wiki/abc_wiki?version=3')).to route_to(
-        controller: 'wiki',
-        action: 'show',
-        project_id: 'abc',
-        id: 'abc_wiki',
-        version: '3')
+      expect(get('/projects/abc/wiki/abc_wiki?version=3')).to route_to(controller: 'wiki',
+                                                                       action: 'show',
+                                                                       project_id: 'abc',
+                                                                       id: 'abc_wiki',
+                                                                       version: '3')
     end
 
     it 'should connect GET /projects/:project_id/wiki/:id/parent_page to wiki/edit_parent_page' do
       expect(get('/projects/abc/wiki/abc_wiki/parent_page'))
-        .to route_to(
-          controller: 'wiki',
-          action: 'edit_parent_page',
-          project_id: 'abc',
-          id: 'abc_wiki')
+        .to route_to(controller: 'wiki',
+                     action: 'edit_parent_page',
+                     project_id: 'abc',
+                     id: 'abc_wiki')
     end
 
     it 'should connect PATCH /projects/:project_id/wiki/:id/parent_page to wiki/update_parent_page' do
       expect(patch('/projects/abc/wiki/abc_wiki/parent_page'))
-        .to route_to(
-          controller: 'wiki',
-          action: 'update_parent_page',
-          project_id: 'abc',
-          id: 'abc_wiki')
+        .to route_to(controller: 'wiki',
+                     action: 'update_parent_page',
+                     project_id: 'abc',
+                     id: 'abc_wiki')
     end
 
     it 'should connect GET /projects/:project_id/wiki/:id/toc to wiki#index' do
@@ -104,5 +114,103 @@ describe WikiController, type: :routing do
                                                               project_id: 'abc',
                                                               id: 'blubs')
     end
+
+    it {
+      is_expected.to route(:get, '/projects/1/wiki/CookBook_documentation/history').to(controller: 'wiki',
+                                                                                       action: 'history',
+                                                                                       project_id: '1',
+                                                                                       id: 'CookBook_documentation')
+    }
+    it {
+      is_expected.to route(:get, '/projects/1/wiki/CookBook_documentation/diff').to(controller: 'wiki',
+                                                                                    action: 'diff',
+                                                                                    project_id: '1',
+                                                                                    id: 'CookBook_documentation')
+    }
+
+    it {
+      is_expected.to route(:get, '/projects/1/wiki/CookBook_documentation/diff/2').to(controller: 'wiki',
+                                                                                      action: 'diff',
+                                                                                      project_id: '1',
+                                                                                      id: 'CookBook_documentation',
+                                                                                      version: '2')
+    }
+
+    it {
+      is_expected.to route(:get, '/projects/1/wiki/CookBook_documentation/diff/2/vs/1').to(controller: 'wiki',
+                                                                                           action: 'diff',
+                                                                                           project_id: '1',
+                                                                                           id: 'CookBook_documentation',
+                                                                                           version: '2',
+                                                                                           version_from: '1')
+    }
+
+    it {
+      is_expected.to route(:get, '/projects/1/wiki/CookBook_documentation/annotate/2').to(controller: 'wiki',
+                                                                                          action: 'annotate',
+                                                                                          project_id: '1',
+                                                                                          id: 'CookBook_documentation',
+                                                                                          version: '2')
+    }
+
+    it {
+      is_expected.to route(:get, '/projects/22/wiki/ladida/rename').to(controller: 'wiki',
+                                                                       action: 'rename',
+                                                                       project_id: '22',
+                                                                       id: 'ladida')
+    }
+
+    it {
+      is_expected.to route(:get, '/projects/567/wiki/index').to(controller: 'wiki',
+                                                                action: 'index',
+                                                                project_id: '567')
+    }
+
+    it {
+      is_expected.to route(:get, '/projects/567/wiki/date_index').to(controller: 'wiki',
+                                                                     action: 'date_index',
+                                                                     project_id: '567')
+    }
+
+    it {
+      is_expected.to route(:get, '/projects/567/wiki/export').to(controller: 'wiki',
+                                                                 action: 'export',
+                                                                 project_id: '567')
+    }
+
+    it {
+      is_expected.to route(:patch, '/projects/22/wiki/ladida/rename').to(controller: 'wiki',
+                                                                         action: 'rename',
+                                                                         project_id: '22',
+                                                                         id: 'ladida')
+    }
+
+    it {
+      is_expected.to route(:post, '/projects/22/wiki/ladida/protect').to(controller: 'wiki',
+                                                                         action: 'protect',
+                                                                         project_id: '22',
+                                                                         id: 'ladida')
+    }
+
+    it {
+      is_expected.to route(:post, '/projects/22/wiki/ladida/add_attachment').to(controller: 'wiki',
+                                                                                action: 'add_attachment',
+                                                                                project_id: '22',
+                                                                                id: 'ladida')
+    }
+
+    it {
+      is_expected.to route(:put, '/projects/567/wiki/my_page').to(controller: 'wiki',
+                                                                  action: 'update',
+                                                                  project_id: '567',
+                                                                  id: 'my_page')
+    }
+
+    it {
+      is_expected.to route(:delete, '/projects/22/wiki/ladida').to(controller: 'wiki',
+                                                                   action: 'destroy',
+                                                                   project_id: '22',
+                                                                   id: 'ladida')
+    }
   end
 end

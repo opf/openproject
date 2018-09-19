@@ -1,3 +1,56 @@
+# OpenProject 7.x to OpenProject 8.x Debian/Ubuntu Upgrade Guide (Manual installation)
+
+OpenProject 8.x is being released under the branch `stable/8`. Follow the following steps to perform the upgrade:
+
+First, perform a backup for your current environment
+
+```bash
+[openproject@debian]# cd /home/openproject/openproject
+[openproject@debian]# RAILS_ENV="production" bundle exec rake backup:database:create
+# Backup will be created under backup/
+```
+
+Then, check out the stable version of OpenProject 8.0.
+
+```bash
+[openproject@debian]# cd /home/openproject/openproject
+[openproject@debian]# git fetch && git checkout stable/8
+```
+
+After upgrading the installation files, you need to migrate the installation to OpenProject 8.0 with the following steps:
+
+```bash
+[openproject@debian]# cd /home/openproject/openproject
+[openproject@debian]# rm -rf frontend/node_modules && npm install
+[openproject@debian]# RAILS_ENV="production" bundle exec rake db:migrate
+[openproject@debian]# RAILS_ENV="production" bundle exec rake db:seed
+[openproject@debian]# RAILS_ENV="production" bundle exec rake assets:precompile
+[openproject@debian]# touch tmp/restart.txt
+```
+
+After performing these steps, the server should be running OpenProject 8.0.x.
+
+
+## Upgrade notes
+
+These following points are some known issues around the update to 8.0. It does not contain the entire list of changes. To see all changes, [please browse the release notes](https://www.openproject.org/release-notes/openproject-8-0/).
+
+### Migration from Textile to Markdown
+
+OpenProject 8.0. has removed Textile, all previous content is migrated to GFM Markdown using [pandoc](https://pandoc.org). This will happen automatically during the migration run. A recent pandoc version will be downloaded by OpenProject.
+
+For more information, please visit this separate guide: https://github.com/opf/openproject/tree/dev/docs/user/textile-to-markdown-migration
+
+### Frontend changes, Angular is now in production
+
+OpenProject 8.0. uses Angular for the majority of the frontend application. The `npm install` step should automatically take care of the installation, however in some cases there were leftover `node_modules` entries that resulted in an incomplete frontend application. To ensure the correct versions are installed, we thus recommend you remove `frontend/node_modules` entirely before running `npm install` again.
+
+### SQL mode changes for MySQL 8.0.
+
+MySQL 8.0. removes the deprecated SQL mode `no_auto_create_user` that we enforced up until 7.4. You will need to remove this mode from your `config/database.yml` should you have used it. For more information, see https://community.openproject.com/wp/28524
+
+
+
 # OpenProject 6.x to OpenProject 7.x Debian/Ubuntu Upgrade Guide (Manual installation)
 
 Please look at the steps in the section about the upgrade to OpenProject 6.0. OpenProject 7.x is being released under the branch `stable/7`. The other steps are identical.

@@ -29,6 +29,54 @@
 require 'spec_helper'
 
 describe BoardsController, type: :routing do
+  it {
+    is_expected.to route(:get, '/projects/world_domination/boards').to(controller: 'boards',
+                                                                       action: 'index',
+                                                                       project_id: 'world_domination')
+  }
+  it {
+    is_expected.to route(:get, '/projects/world_domination/boards/new').to(controller: 'boards',
+                                                                           action: 'new',
+                                                                           project_id: 'world_domination')
+  }
+  it {
+    is_expected.to route(:post, '/projects/world_domination/boards').to(controller: 'boards',
+                                                                        action: 'create',
+                                                                        project_id: 'world_domination')
+  }
+  it {
+    is_expected.to route(:get, '/projects/world_domination/boards/44').to(controller: 'boards',
+                                                                          action: 'show',
+                                                                          project_id: 'world_domination',
+                                                                          id: '44')
+  }
+  it {
+    expect(get('/projects/abc/boards/1.atom'))
+      .to route_to(controller: 'boards',
+                   action: 'show',
+                   project_id: 'abc',
+                   id: '1',
+                   format: 'atom')
+  }
+  it {
+    is_expected.to route(:get, '/projects/world_domination/boards/44/edit').to(controller: 'boards',
+                                                                               action: 'edit',
+                                                                               project_id: 'world_domination',
+                                                                               id: '44')
+  }
+  it {
+    is_expected.to route(:put, '/projects/world_domination/boards/44').to(controller: 'boards',
+                                                                          action: 'update',
+                                                                          project_id: 'world_domination',
+                                                                          id: '44')
+  }
+  it {
+    is_expected.to route(:delete, '/projects/world_domination/boards/44').to(controller: 'boards',
+                                                                             action: 'destroy',
+                                                                             project_id: 'world_domination',
+                                                                             id: '44')
+  }
+
   it 'should connect GET /projects/:project/boards/:board/move to boards#move' do
     expect(get('/projects/1/boards/1/move')).to route_to(controller: 'boards',
                                                          action: 'move',
