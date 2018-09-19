@@ -256,10 +256,12 @@ Retreive an individual query as identified by the id parameter. Then end point a
 
 + Parameters
     + id (required, integer, `1`) ... Query id
-    + filters (optional, string, `[{ "assignee": { "operator": "=", "values": ["1", "5"] }" }]`) ... JSON specifying filter conditions. The filters provided as parameters are not applied to the query but are instead used to override the query's persisted filters. All filters also accepted by the work packages endpoint are accepted.
+    + filters = `[{ "status_id": { "operator": "o", "values": null }}]` (optional, string, `[{ "assignee": { "operator": "=", "values": ["1", "5"] }" }]`) ... JSON specifying filter conditions.
+    The filters provided as parameters are not applied to the query but are instead used to override the query's persisted filters.
+    All filters also accepted by the work packages endpoint are accepted. If no filter is to be applied, the client should send an empty array (`[]`).
     + offset = `1` (optional, integer, `25`) ... Page number inside the queries' result collection of work packages.
-    + pageSize (optional, integer, `25`) ... Number of elements to display per page for the queries' result collection of work packages.
-    + sortBy (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria. The sort criteria is applied to the querie's result collection of work packages overriding the query's persisted sort criteria.
+    + pageSize = `DEPENDING ON CONFIGURATION` (optional, integer, `25`) ... Number of elements to display per page for the queries' result collection of work packages.
+    + sortBy = ["parent", "asc"] (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria. The sort criteria is applied to the querie's result collection of work packages overriding the query's persisted sort criteria.
     + groupBy (optional, string, `status`) ... The column to group by. The grouping criteria is applied to the to the querie's result collection of work packages overriding the query's persisted group criteria.
     + showSums = `false` (optional, boolean, `true`) ... Indicates whether properties should be summed up if they support it. The showSums parameter is applied to the to the querie's result collection of work packages overriding the query's persisted sums property.
     + timelineVisible = `false` (optional, boolean, `true`) ... Indicates whether the timeline should be shown.
@@ -541,10 +543,12 @@ Delete the query identified by the id parameter
 Same as [viewing an existing, persisted Query](#queries-query-get) in its response, this resource returns an unpersisted query and by that allows to get the default query configuration. The client may also provide additional parameters which will modify the default query.
 
 + Parameters
-    + filters (optional, string, `[{ "assignee": { "operator": "=", "values": ["1", "5"] }" }]`) ... JSON specifying filter conditions. The filters provided as parameters are not applied to the query but are instead used to override the query's persisted filters. All filters also accepted by the work packages endpoint are accepted.
+    + filters = `[{ "status_id": { "operator": "o", "values": null }}]` (optional, string, `[{ "assignee": { "operator": "=", "values": ["1", "5"] }" }]`) ... JSON specifying filter conditions.
+    The filters provided as parameters are not applied to the query but are instead used to override the query's persisted filters.
+    All filters also accepted by the work packages endpoint are accepted. If no filter is to be applied, the client should send an empty array (`[]`).
     + offset = `1` (optional, integer, `25`) ... Page number inside the queries' result collection of work packages.
-    + pageSize (optional, integer, `25`) ... Number of elements to display per page for the queries' result collection of work packages.
-    + sortBy (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria. The sort criteria is applied to the querie's result collection of work packages overriding the query's persisted sort criteria.
+    + pageSize = `DEPENDING ON CONFIGURATION` (optional, integer, `25`) ... Number of elements to display per page for the queries' result collection of work packages.
+    + sortBy = ["parent", "asc"] (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria. The sort criteria is applied to the querie's result collection of work packages overriding the query's persisted sort criteria.
     + groupBy (optional, string, `status`) ... The column to group by. The grouping criteria is applied to the to the querie's result collection of work packages overriding the query's persisted group criteria.
     + showSums = `false` (optional, boolean, `true`) ... Indicates whether properties should be summed up if they support it. The showSums parameter is applied to the to the querie's result collection of work packages overriding the query's persisted sums property.
     + timelineVisible = `false` (optional, boolean, `true`) ... Indicates whether the timeline should be shown.
@@ -704,10 +708,12 @@ Same as [viewing an existing, persisted Query](#queries-query-get) in its respon
 
 + Parameters
     + id (required, integer, `1`) ... Id of the project the default query is requested for
-    + filters (optional, string, `[{ "assignee": { "operator": "=", "values": ["1", "5"] }" }]`) ... JSON specifying filter conditions. The filters provided as parameters are not applied to the query but are instead used to override the query's persisted filters. All filters also accepted by the work packages endpoint are accepted.
+    + filters = `[{ "status_id": { "operator": "o", "values": null }}]` (optional, string, `[{ "assignee": { "operator": "=", "values": ["1", "5"] }" }]`) ... JSON specifying filter conditions.
+    The filters provided as parameters are not applied to the query but are instead used to override the query's persisted filters.
+    All filters also accepted by the work packages endpoint are accepted. If no filter is to be applied, the client should send an empty array (`[]`).
     + offset = `1` (optional, integer, `25`) ... Page number inside the queries' result collection of work packages.
-    + pageSize (optional, integer, `25`) ... Number of elements to display per page for the queries' result collection of work packages.
-    + sortBy (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria. The sort criteria is applied to the querie's result collection of work packages overriding the query's persisted sort criteria.
+    + pageSize = `DEPENDING ON CONFIGURATION` (optional, integer, `25`) ... Number of elements to display per page for the queries' result collection of work packages.
+    + sortBy = ["parent", "asc"] (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria. The sort criteria is applied to the querie's result collection of work packages overriding the query's persisted sort criteria.
     + groupBy (optional, string, `status`) ... The column to group by. The grouping criteria is applied to the to the querie's result collection of work packages overriding the query's persisted group criteria.
     + showSums = `false` (optional, boolean, `true`) ... Indicates whether properties should be summed up if they support it. The showSums parameter is applied to the to the querie's result collection of work packages overriding the query's persisted sums property.
     + timelineVisible = `false` (optional, boolean, `true`) ... Indicates whether the timeline should be shown.
