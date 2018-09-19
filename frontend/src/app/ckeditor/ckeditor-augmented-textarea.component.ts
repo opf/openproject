@@ -110,7 +110,7 @@ export class CkeditorAugmentedTextareaComponent implements OnInit, OnDestroy {
     }
 
     // Listen for form submission to set textarea content
-    this.formElement.on('submit.ckeditor', () => {
+    this.formElement.on('submit.ckeditor change.ckeditor', () => {
       try {
         this.wrappedTextArea.val(this.ckEditorInstance.getRawData());
       } catch (e) {

@@ -1,5 +1,11 @@
 class RenamePlanningElemntTypeColorsToColors < ActiveRecord::Migration[5.1]
   def up
+
+    # Fix existing indexes due to old migration away from timeline_colors
+    if table_exists? :timelines_colors_pkey
+      rename_table :timelines_colors_pkey, :planning_element_type_colors_pkey
+    end
+
     rename_table :planning_element_type_colors, :colors
     remove_column :colors, :position
   end
