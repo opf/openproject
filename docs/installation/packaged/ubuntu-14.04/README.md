@@ -18,7 +18,7 @@ Our repository requires apt to have https support. Install this transport method
 
 ```
 sudo wget -O /etc/apt/sources.list.d/openproject-ce.list \
-  https://dl.packager.io/srv/opf/openproject-ce/stable/7/installer/ubuntu/14.04.repo
+  https://dl.packager.io/srv/opf/openproject-ce/stable/8/installer/ubuntu/14.04.repo
 ```
 
 **4. Install the OpenProject Community Edition package**

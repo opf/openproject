@@ -49,8 +49,6 @@ OpenProject 8.0. uses Angular for the majority of the frontend application. The 
 
 MySQL 8.0. removes the deprecated SQL mode `no_auto_create_user` that we enforced up until 7.4. You will need to remove this mode from your `config/database.yml` should you have used it. For more information, see https://community.openproject.com/wp/28524
 
-
-
 # OpenProject 6.x to OpenProject 7.x Debian/Ubuntu Upgrade Guide (Manual installation)
 
 Please look at the steps in the section about the upgrade to OpenProject 6.0. OpenProject 7.x is being released under the branch `stable/7`. The other steps are identical.
@@ -302,4 +300,3 @@ run:
 If you have any further questions, comments, feedback, or an idea to enhance this guide, please tell us at the appropriate forum.
 
 Also, please take a look at the Frequently [Asked Questions](https://www.openproject.org/help/faq/).
-
