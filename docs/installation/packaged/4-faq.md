@@ -75,7 +75,7 @@ Here is how you do it using [certbot](https://github.com/certbot/certbot):
 
     curl https://dl.eff.org/certbot-auto > /usr/local/bin/certbot-auto
     chmod a+x /usr/local/bin/certbot-auto
-    
+
     certbot-auto certonly --webroot --webroot-path /opt/openproject/public -d openprojecct.mydomain.com
 
 This requires your OpenProject server to be available from the Internet on port 443 or 80.
