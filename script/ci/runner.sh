@@ -28,7 +28,7 @@
 #++
 
 
-# script/ci_runner.sh
+# script/ci/runner.sh
 # $1 = TEST_SUITE
 # $2 = GROUP_SIZE
 # $3 = GROUP
