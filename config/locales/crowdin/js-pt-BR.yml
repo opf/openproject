@@ -61,11 +61,12 @@ pt-BR:
     description_subwork_package: 'Filho do pacote de trabalho #%{id}'
     editor:
       preview: Alternar modo de visualização
-      source_code: Toggle Markdown source mode
-      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      source_code: Alternar modo de fonte Markdown
+      error_saving_failed: 'Não foi possível salvar o documento pelo seguinte erro:
+        %{error}'
       mode:
-        manual: Switch to Markdown source
-        wysiwyg: Switch to WYSIWYG editor
+        manual: Troque para a fonte Markdown
+        wysiwyg: Troque para o editor de WYSIWYG
       macro:
         child_pages:
           button: Links para páginas filhas

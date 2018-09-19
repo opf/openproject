@@ -2382,7 +2382,7 @@ fr:
   text_journal_changed: "%{label} a changé de %{old} <br/><strong>à</strong> %{new}"
   text_journal_changed_plain: "%{label} changé de %{old} à %{new}"
   text_journal_changed_no_detail: "%{label} mis à jour"
-  text_journal_changed_with_diff: "%{label} changè (%{link})"
+  text_journal_changed_with_diff: "%{label} changé (%{link})"
   text_journal_deleted: "%{label} supprimé (%{old})"
   text_journal_deleted_with_diff: "%{label} supprimé (%{link})"
   text_journal_set_to: "%{label} mis à %{value}"
