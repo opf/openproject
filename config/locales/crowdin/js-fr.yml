@@ -6,8 +6,8 @@ fr:
       loading: Chargement…
     attachments:
       draggable_hint: 'Faites glisser le champ de l''éditeur pour incorporer une image
-        ou une pièce jointe de référence. Les champs fermés de l''éditeurs seront
-        ouverts tant que vous continuer à faire glisser.
+        ou une pièce jointe de référence. Les champs fermés de l''éditeur seront ouverts
+        tant que vous continuer à faire glisser.
 
 '
     autocomplete_select:
@@ -68,12 +68,12 @@ fr:
         wysiwyg: Switch to WYSIWYG editor
       macro:
         child_pages:
-          button: Liens vers les pages enfant
+          button: Liens vers les pages enfants
           include_parent: Inclure un parent
-          text: "[Placeholder] Liens vers les pages enfant de"
+          text: "[Placeholder] Liens vers les pages enfants de"
           page: Page wiki
           this_page: cette page
-          hint: 'Laissez ce champ vide pour répertorier toutes les pages enfant de
+          hint: 'Laissez ce champ vide pour répertorier toutes les pages enfants de
             la page actuelle. Si vous souhaitez référencer une page différente, indiquez
             son titre ou slug.
 
@@ -92,7 +92,7 @@ fr:
           Double-cliquez pour modifier le widget
         wiki_page_include:
           button: Inclure le contenu d’une autre page wiki
-          text: "[Placeholder] Incluant page wiki de"
+          text: "[Placeholder] Page wiki inclue de"
           page: Page wiki
           not_set: "(page pas encore définie)"
           hint: |
@@ -107,14 +107,14 @@ fr:
           without_type: Créer un lot de travaux
           with_type: 'Créer un lot de travaux (Type : %{typename})'
         embedded_table:
-          button: Incorporer le tableau du lot de travaux
-          text: "[Placeholder] Tableau du lot de travaux incorporé"
+          button: Intégrer le tableau du lot de travaux
+          text: "[Placeholder] Tableau du lot de travaux intégré"
     error:
       internal: Une erreur interne s'est produite.
       cannot_save_changes_with_message: 'Impossible d’enregistrer vos modifications
         en raison de l’erreur suivante : %{error}'
       query_saving: La vue n'a pas pu être enregistrée.
-      embedded_table_loading: 'La vue incorporée n’a pas pu être chargée : %{message}'
+      embedded_table_loading: 'La vue intégrée n’a pas pu être chargée : %{message}'
     filter:
       description:
         text_open_filter: Ouvrir ce filtre avec les touches « ALT » et fléchées.
@@ -646,13 +646,13 @@ fr:
         choose_display_mode: Afficher les lots de travaux comme
         modal_title: Configuration du tableau du lot de travaux
         embedded_tab_disabled: Cet onglet de configuration n’est pas disponible pour
-          la vue embarquée que vous êtes en train de modifier.
+          la vue intégrée que vous êtes en train de modifier.
         default: défaut
         display_settings: Paramètres d'affichage
         default_mode: Liste ombrée
         hierarchy_mode: Hiérarchie
-        hierarchy_hint: Tous les résultats de tu tableau filtré seront augmentés de
-          leurs ancêtres . Les hiérarchies peuvent être dépliées et réduites.
+        hierarchy_hint: Tous les résultats du tableau filtrés seront augmentés de
+          leurs ancêtres . Les hiérarchies peuvent être dépliées et repliées.
         display_sums_hint: Afficher les sommes de tous les attributs sommables dans
           une ligne sous les résultats du tableau.
         show_timeline_hint: Afficher un diagramme de Gantt interactif sur le côté
@@ -724,7 +724,7 @@ fr:
         has_children: 'Le lot de travaux a %{childUnits} :'
         confirm_deletion_children: Je reconnais que TOUS les descendants des lots
           de travaux de la liste seront supprimés récursivement.
-        deletes_children: Tous les lots de travaux enfant et leurs descendants seront
+        deletes_children: Tous les lots de travaux enfants et leurs descendants seront
           également supprimés récursivement.
     notice_successful_create: Création réussie.
     notice_successful_delete: Suppression réussie.

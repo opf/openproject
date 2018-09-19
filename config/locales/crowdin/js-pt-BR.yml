@@ -653,16 +653,16 @@ pt-BR:
         highlighting_mode:
           description: Destacar com cor
           none: Sem destaque
-          inline: Datas em atraso, atributo "Status" e "Prioridade"
+          inline: Datas em atraso, "Estado" e atributo de "Prioridade"
           entire_row_by: Toda linha por
           status: Situação
           priority: Prioridade
         columns_help_text: Use a entrada acima para adicionar ou remover colunas à
           sua exibição de tabela. Você pode arrastar e soltar as colunas para reordená-las.
         upsale:
-          ee_only: Recurso exclusivo da Edição Empresarial
+          ee_only: Recurso exclusivo da Enterprise Edition
           attribute_highlighting: Precisa de certos pacotes de trabalho para se destacar
-            do resto?
+            da massa?
           relation_columns: Necessário ver as relações na lista de pacote de trabalho?
           check_out_link: Confira a versão Enterprise Edition.
       tabs:
