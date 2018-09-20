@@ -437,7 +437,7 @@ de:
         progress: Fortschritt (%)
         spent_hours: Aufgewendete Zeit
         spent_time: Aufgewendete Zeit
-        subproject: Unterprojekt von
+        subproject: Unterprojekt
         time_entries: Zeit buchen
         type: Typ
         watcher: Beobachter
@@ -1572,7 +1572,7 @@ de:
   label_storage_group: Speicher-Dateisystem %{identifier}
   label_storage_for: Umfasst Speicher für
   label_string: Text
-  label_subproject: Unterprojekt von
+  label_subproject: Unterprojekt
   label_subproject_new: Neues Unterprojekt
   label_subproject_plural: Unterprojekte
   label_subtask_plural: Unteraufgaben
@@ -2007,7 +2007,7 @@ de:
     assigned_to_role: Rolle der zugewiesenen Person
     member_of_group: Gruppe der zugewiesenen Person
     assignee_or_group: Zugewiesen an Nutzer oder dessen Gruppe
-    subproject_id: Unterprojekt von
+    subproject_id: Unterprojekt
     name_or_identifier: Name oder Kennung
   repositories:
     at_identifier: auf %{identifier}
