@@ -48,6 +48,7 @@ import {
   IWorkPackageEditingServiceToken
 } from "../wp-edit-form/work-package-editing.service.interface";
 import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
+import {CurrentUserService} from "core-app/components/user/current-user.service";
 
 
 @Injectable()
@@ -68,6 +69,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
               readonly I18n:I18nService,
               readonly titleService:OpTitleService,
               readonly injector:Injector,
+              readonly currentUser:CurrentUserService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected states:States,
               @Inject(IWorkPackageCreateServiceToken) protected wpCreate:WorkPackageCreateService,
@@ -153,7 +155,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
     }
 
     return this.wpCreate.createNewTypedWorkPackage(stateParams.projectPath, type).then(changeset => {
-      const filter = new WorkPackageFilterValues(changeset, this.wpTableFilters.current, ['type']);
+      const filter = new WorkPackageFilterValues(this.currentUser, changeset, this.wpTableFilters.current, ['type']);
       return filter.applyDefaultsFromFilters().then(() => changeset);
     });
   }

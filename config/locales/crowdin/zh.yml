@@ -52,13 +52,13 @@ zh:
     index:
       no_results_title_text: 目前没有颜色。
       no_results_content_text: 创建新的颜色
-    label_no_color: No color
+    label_no_color: 无颜色
   custom_actions:
     actions:
       name: 操作
       add: 添加操作
       assigned_to:
-        executing_user_value: "(Assign to executing user)"
+        executing_user_value: "（分配给执行用户）"
     conditions: 条件
     plural: 自定义操作
     new: 添加自定义操作
@@ -139,8 +139,8 @@ zh:
   prioritiies:
     edit:
       priority_color_text: |
-        Click to assign or change the color of this priority.
-        It can be used for highlighting work packages in the table.
+        单击可以分配或更改此优先级的颜色。
+        颜色可用于突出显示表中的工作包。
   reportings:
     index:
       no_results_title_text: 目前没有状态报告。
@@ -148,8 +148,8 @@ zh:
   statuses:
     edit:
       status_color_text: |
-        Click to assign or change the color of this status.
-        It is shown in the status button and can be used for highlighting work packages in the table.
+        单击可以分配或更改此状态的颜色。
+        颜色显示在状态按钮中，可用于突出显示表中的工作包。
     index:
       no_results_title_text: 目前没有工作包状态。
       no_results_content_text: 添加新的状态
@@ -166,9 +166,9 @@ zh:
       add_subelements: 增加子元素组
       edit_query: 编辑嵌入式查询
       reset: 重置为默认值
-      type_color_text: |
-        Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts.
+      type_color_text: '单击可以分配或更改此类型的颜色。选定颜色可区分甘特图中的工作包。
+
+'
   versions:
     overview:
       no_results_title_text: 目前没有工作包分配给此版本。
@@ -354,7 +354,7 @@ zh:
         auto_hide_popups: 自动隐藏成功通知
         warn_on_leaving_unsaved: 离开未保存更改的工作包时提示我
       version:
-        effective_date: Finish date
+        effective_date: 完成日期
         sharing: 分享
       wiki_content:
         text: 文本
@@ -430,8 +430,7 @@ zh:
           only_one_allowed: "(%{name}) 只允许一个值。"
           empty: "(%{name}) 值不能为空。"
           inclusion: "(%{name}) 的值未设置为允许的值之一。"
-          not_logged_in: "(%{name}) value cannot be set because you are not logged
-            in."
+          not_logged_in: "(%{name}) 无法设置值，因为您未登录。"
           not_an_integer: "(%{name}) 不是整数。"
           smaller_than_or_equal_to: "（%{name}）必须小于或等于 %{count}。"
           greater_than_or_equal_to: "（%{name}）必须大于或等于 %{count}。"
@@ -489,12 +488,11 @@ zh:
               status_transition_invalid: 是无效的，因为在当前用户的角色下，没有从旧到新的状态有效的过渡存在。
               status_invalid_in_type: 无效，因为此类型中不存在当前状态。
             type:
-              cannot_be_milestone_due_to_children: cannot be a milestone because this
-                work package has children.
+              cannot_be_milestone_due_to_children: 无法成为里程碑，因为此工作包具有子级。
             priority_id:
               only_active_priorities_allowed: 需要被激活。
             category:
-              only_same_project_categories_allowed: 工作列表的类别必须包含在相同的项目工作列表中。
+              only_same_project_categories_allowed: 工作包的类别必须包含在相同的项目工作包中。
               does_not_exist: 指定的类别不存在。
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: 必须 > = 0。
@@ -571,7 +569,7 @@ zh:
     attachments: 附件
     author: 作者
     base: 一般错误：
-    blocks_ids: 被工作列表屏蔽的IDs
+    blocks_ids: 被工作包屏蔽的IDs
     category: 类别
     comment: 评论
     comments: 评论
@@ -585,7 +583,7 @@ zh:
     default_columns: 默认的列
     description: 描述
     display_sums: 显示汇总
-    due_date: Finish date
+    due_date: 完成日期
     estimated_hours: 估计的时间
     estimated_time: 估计的时间
     firstname: 名字
@@ -916,12 +914,10 @@ zh:
   error_invalid_group_by: 无法按照 %{value} 分组
   error_invalid_query_column: 无效的查询列：%{value}
   error_invalid_sort_criterion: 无法按照列 %{value} 排序
-  error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
+  error_journal_attribute_not_present: 日志不包含 %{attribute} 属性。
   error_pdf_export_too_many_columns: 选择 PDF 导出的列太多。请减少列数。
   error_pdf_failed_to_export: 无法保存被导出的 PDF 文件：%{error}
-  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
-    you try to submit data on multiple browsers or tabs? Please close all tabs and
-    try again.
+  error_token_authenticity: 无法验证跨站请求伪造令牌。您是否曾尝试在多个浏览器或选项卡上提交数据？请关闭所有选项卡并重试。
   error_work_package_done_ratios_not_updated: 工作包完成比率不更新。
   error_work_package_not_found_in_project: 工作包找不到或不属于此项目
   error_must_be_project_member: 必须是项目成员
@@ -1208,7 +1204,7 @@ zh:
   label_group_by: 分组按照
   label_group_new: 新的组
   label_group: 组
-  label_group_named: Group %{name}
+  label_group_named: 组 %{name}
   label_group_plural: 组
   label_help: 帮助
   label_here: 这里
@@ -1468,7 +1464,7 @@ zh:
   label_used_by_types: 用于类型
   label_used_in_projects: 用于项目
   label_user: 用户
-  label_user_named: User %{name}
+  label_user_named: 用户 %{name}
   label_user_activity: "%{value} 的活动"
   label_user_anonymous: 匿名
   label_user_mail_option_all: 对于我所有项目的任何事件
@@ -1576,7 +1572,7 @@ zh:
   label_keyboard_shortcut_go_news: 转到项目新闻
   label_keyboard_shortcut_go_timelines: 转到时间线
   label_keyboard_shortcut_new_work_package: 创建新的工作包
-  label_keyboard_shortcut_details_package: 显示工作列表的详细信息窗口
+  label_keyboard_shortcut_details_package: 显示工作包的详细信息窗口
   label_keyboard_shortcut_go_edit: 转到要编辑当前项 （仅在详细信息页)
   label_keyboard_shortcut_open_more_menu: 打开更多菜单 （在详细信息页)
   label_keyboard_shortcut_go_preview: 转到预览当前编辑 （仅在编辑页)
@@ -1989,7 +1985,7 @@ zh:
   setting_mail_from: 发出的电子邮件地址
   setting_mail_handler_api_enabled: 启用接收电子邮件 web 服务
   setting_mail_handler_api_description: 电子邮件 web 处理程序启用 OpenProject来接收包含特定命令的电子邮件作为一种工作机制
-    (例如，可以创建和更新工作列表)。
+    (例如，可以创建和更新工作包)。
   setting_mail_handler_api_key: API 密钥
   setting_mail_handler_body_delimiters: 在这些行之后截断电子邮件
   setting_mail_handler_body_delimiter_regex: 清空符合此正则表达式的电子邮件
@@ -2032,6 +2028,7 @@ zh:
   setting_welcome_on_homescreen: 在主屏幕上显示欢迎信息
   setting_wiki_compression: Wiki 历史压缩
   setting_work_package_group_assignment: 允许分配到组
+  setting_work_package_list_default_highlighting_mode: 默认工作包突出显示模式
   settings:
     general: 通用
     other: 其他
@@ -2444,11 +2441,11 @@ zh:
         unsupported_context: 所提供的资源不被上下文环境所支持。
         context_object_not_found: 找不到可作为上下文环境的资源。
       validation:
-        done_ratio: 当完成比例牵扯“状态”时，或被禁用时，不能在父工作列表中对其进行设置。
-        due_date: Finish date cannot be set on parent work packages.
-        estimated_hours: 不能在父工作列表中设置预估的小时数。
+        done_ratio: 当完成比例牵扯“状态”时，或被禁用时，不能在父工作包中对其进行设置。
+        due_date: 不能在父工作包中设置完成日期。
+        estimated_hours: 不能在父工作包中设置预估的小时数。
         invalid_user_assigned_to_work_package: 所选的用户不允许为此工作包的 '%{property}'。
-        start_date: 不能在父工作列表中设置开始日期。
+        start_date: 不能在父工作包中设置开始日期。
       writing_read_only_attributes: 你不能写入只读属性。
     resources:
       schema: 方案

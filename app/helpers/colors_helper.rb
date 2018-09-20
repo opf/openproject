@@ -61,6 +61,33 @@ module ColorsHelper
     content_tag(:span, color.hexcode, class: 'color--text-preview', style: style)
   end
 
+  def resource_color_css(name, scope)
+    scope.includes(:color).find_each do |entry|
+      color = entry.color
+
+      if color.nil?
+        concat ".__hl_dot_#{name}_#{entry.id}::before { display: none }\n"
+        next
+      end
+
+      styles = color.color_styles
+
+      inline_style = styles.map { |k,v| "#{k}:#{v} !important"}.join(';')
+      row_style = "background-color: #{color.hexcode} !important;"
+
+      border_color = color.bright? ? '#555555' : color.hexcode
+
+      concat ".__hl_inl_#{name}_#{entry.id} { #{inline_style}; }\n"
+      concat ".__hl_dot_#{name}_#{entry.id}::before { #{inline_style}; border-color: #{border_color}; }\n"
+      concat ".__hl_row_#{name}_#{entry.id} { #{row_style}; }\n"
+
+      # Mark color as bright through CSS variable
+      # so it can be used to add a separate -bright class
+      unless color.bright?
+        concat ":root { --hl-#{name}-#{entry.id}-dark: #{styles[:color]} }\n"
+      end
+    end
+  end
 
   def icon_for_color(color, options = {})
     return unless color

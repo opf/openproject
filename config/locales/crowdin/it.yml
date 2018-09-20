@@ -3,8 +3,8 @@ it:
   no_results_title_text: Al momento non c'è niente da visualizzare.
   activities:
     index:
-      no_results_title_text: There has not been any activity for the project within
-        this time frame.
+      no_results_title_text: Non c'è stata alcuna attività per il progetto in questo
+        lasso di tempo.
   admin:
     plugins:
       no_results_title_text: Al momento non vi sono plugin disponibili.
@@ -65,13 +65,13 @@ it:
     index:
       no_results_title_text: Al momento non vi sono colori.
       no_results_content_text: Crea un nuovo colore
-    label_no_color: No color
+    label_no_color: Nessun colore
   custom_actions:
     actions:
       name: Azioni
       add: Aggiungi un'azione
       assigned_to:
-        executing_user_value: "(Assign to executing user)"
+        executing_user_value: "(Assegna all'utente esecutore)"
     conditions: Condizioni
     plural: Azioni personalizzate
     new: Nuova azione personalizzata
@@ -95,7 +95,7 @@ it:
       no_results_title_text: Al momento non esistono campi personalizzati.
       no_results_content_text: Crea un nuovo campo personalizzato
   concatenation:
-    single: or
+    single: oppure
   deprecations:
     old_timeline:
       replacement: Questo modulo sulle sequenze temporali è stato sostituito dalle
@@ -159,8 +159,8 @@ it:
   prioritiies:
     edit:
       priority_color_text: |
-        Click to assign or change the color of this priority.
-        It can be used for highlighting work packages in the table.
+        Clicca per assegnare o modificare il colore di questa priorità.
+        Può essere utilizzato per evidenziare le macro-attività nella tabella.
   reportings:
     index:
       no_results_title_text: Al momento non vi sono relazioni sullo stato.
@@ -168,8 +168,8 @@ it:
   statuses:
     edit:
       status_color_text: |
-        Click to assign or change the color of this status.
-        It is shown in the status button and can be used for highlighting work packages in the table.
+        Clicca per assegnare o modificare il colore di questo stato.
+        Viene mostrato come tasto di stato e può essere utilizzato per evidenziare le macro-attività nella tabella.
     index:
       no_results_title_text: Al momento non vi sono relazioni sullo stato delle macro-attività.
       no_results_content_text: Aggiungi un nuovo stato
@@ -182,13 +182,13 @@ it:
       form_configuration: Configurazione del modulo
       projects: Progetti
       enabled_projects: Progetti abilitati
-      add_group: Add attribute group
-      add_subelements: Add subelements group
-      edit_query: Edit embedded query
+      add_group: Aggiungi gruppo di attributi
+      add_subelements: Aggiungi gruppo di sottoelementi
+      edit_query: Modifica la query incorporata
       reset: Ripristino predefinite
       type_color_text: |
-        Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts.
+        Clicca per assegnare o modificare il colore di questo tipo. Il colore selezionato distingue le macro-attività
+        nei Diagrammi di Gantt.
   versions:
     overview:
       no_results_title_text: Al momento non vi è alcuna macro-attività assegnata a
@@ -202,11 +202,11 @@ it:
       no_results_title_text: Al momento non vi sono flussi di lavoro.
   work_packages:
     x_descendants:
-      one: One descendant work package
-      other: "%{count} work package descendants"
+      one: Una macro-attività discendente
+      other: "%{count} macro-attività discendenti"
     move:
-      no_common_statuses_exists: There is no status available for all selected work
-        packages. Their status cannot be changed.
+      no_common_statuses_exists: Nessuno stato disponibile per tutte le macro-attività
+        selezionate. Non è possibile cambiare lo stato.
       unsupported_for_multiple_projects: Il comando sposta/copia multiplo non è supportato
         per macroattività da più progetti
     list_simple:
@@ -215,8 +215,8 @@ it:
       reported:
         no_results_title_text: Al momento non vi sono macro-attività che ho segnalato.
       responsible:
-        no_results_title_text: There are currently no work packages that I am accountable
-          for.
+        no_results_title_text: Al momento non vi sono macro-attività che delle quali
+          sono responsabile.
       watched:
         no_results_title_text: Al momento non vi sono macro-attività che sto guardando.
     summary:
@@ -273,10 +273,10 @@ it:
           di diventare nuovamente utente di quest'applicazione, potrai farlo ripercorrendo
           le normali procedure.
       login_verification:
-        other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be asked to confirm your password.
-        self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be asked to confirm your password.
+        other: Immetti le credenziali di accesso di %{name} per verificare l'eliminazione.
+          Una volta inviato, ti verrà richiesto di confermare la password.
+        self: Immetti le tue credenziali di accesso %{name} per verificare l'eliminazione.
+          Una volta inviato, ti verrà richiesto di confermare la password.
     error_inactive_activation_by_mail: 'Il tuo account non è stato ancora attivato.
       Per attivare il tuo account, clicca sul link che ti è stato inviato via email.
 
@@ -383,8 +383,8 @@ it:
         type: Tipo
       type:
         attribute_groups: ''
-        is_in_roadmap: Displayed in roadmap by default
-        is_default: Activated for new projects by default
+        is_in_roadmap: Visualizzato nella tabella di marcia per impostazione predefinita
+        is_default: Attivato nei nuovi progetti per impostazione predefinita
         is_milestone: È un traguardo
         color: Colore
       user:
@@ -407,7 +407,7 @@ it:
         warn_on_leaving_unsaved: Avvisami quando sto lasciando una macro-attività
           non salvata
       version:
-        effective_date: Finish date
+        effective_date: Data di fine
         sharing: Condivisione
       wiki_content:
         text: Testo
@@ -419,7 +419,7 @@ it:
       work_package:
         begin_insertion: Inizio inserimento
         begin_deletion: Inizio cancellazione
-        children: Subelements
+        children: Sottoelementi
         done_ratio: Avanzamento (%)
         end_insertion: Fine inserimento
         end_deletion: Fine cancellazione
@@ -466,7 +466,7 @@ it:
         not_a_date: non è una data valida.
         not_a_datetime: non è un'orario valido.
         not_a_number: non è un numero.
-        not_allowed: is invalid because of missing permissions.
+        not_allowed: non è valido a causa di autorizzazioni assenti.
         not_an_integer: non è un numero intero.
         not_an_iso_date: 'non è una data valida. Formato richiesto: AAAA-MM-GG.'
         not_same_project: non appartiene allo stesso progetto.
@@ -477,7 +477,7 @@ it:
         taken: è già stato usato.
         too_long: è troppo lungo (il massimo è %{count} caratteri).
         too_short: è troppo breve (il minimo è %{count} caratteri).
-        unchangeable: cannot be changed.
+        unchangeable: non può essere modificato.
         wrong_length: è della lunghezza sbagliata (dovrebbe essere %{count} caratteri).
       models:
         custom_field:
@@ -486,8 +486,8 @@ it:
           only_one_allowed: "(%{name}) solo un valore è permesso."
           empty: "(%{name}) valore non può essere vuoto."
           inclusion: "(%{name}) valore non è impostato ad uno dei valori permessi."
-          not_logged_in: "(%{name}) value cannot be set because you are not logged
-            in."
+          not_logged_in: Il valore (%{name}) non può essere impostato perché non hai
+            effettuato l'accesso.
           not_an_integer: "(%{name}) non è un intero."
           smaller_than_or_equal_to: "(%{name}) deve essere più piccolo o uguale a
             %{count}."
@@ -510,7 +510,7 @@ it:
             project:
               error_not_found: non trovato
             public:
-              error_unauthorized: "- The user has no permission to create public views."
+              error_unauthorized: "- L'utente non è autorizzato a creare viste pubbliche."
           group_by_hierarchies_exclusive: è mutuamente esclusivo con il raggruppamento
             per '%{group_by}'. Non puoi attivare entrambi.
           filters:
@@ -555,11 +555,11 @@ it:
               status_transition_invalid: non è valido perché non esiste alcuna transizione
                 valida dal vecchio al nuovo status sulla base del ruolo dell'utente
                 attuale.
-              status_invalid_in_type: is invalid because the current status does not
-                exist in this type.
+              status_invalid_in_type: non è valido perché lo stato attuale non esiste
+                per questo tipo.
             type:
-              cannot_be_milestone_due_to_children: cannot be a milestone because this
-                work package has children.
+              cannot_be_milestone_due_to_children: non può essere un traguardo, perché
+                questa macro-attività ha figli.
             priority_id:
               only_active_priorities_allowed: deve essere attivo.
             category:
@@ -572,9 +572,9 @@ it:
           attributes:
             attribute_groups:
               attribute_unknown: Attributo di macro-attività non valido utilizzato.
-              duplicate_group: The group name '%{group}' is used more than once. Group
-                names must be unique.
-              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              duplicate_group: Il nome di gruppo "%{group}" è usato più di una volta.
+                I nomi dei gruppi devono essere univoci.
+              query_invalid: 'La query incorporata "%{group}" non è valida: %{details}'
               group_without_name: Non sono ammessi gruppi senza nome.
         user:
           attributes:
@@ -660,7 +660,7 @@ it:
     default_columns: Colonne predefinite
     description: Descrizione
     display_sums: Visualizza somme
-    due_date: Finish date
+    due_date: Data di fine
     estimated_hours: Tempo stimato
     estimated_time: Tempo stimato
     firstname: Nome
@@ -679,7 +679,7 @@ it:
     password: Password
     priority: Priorità
     project: Progetto
-    responsible: Accountable
+    responsible: Responsabile
     role: Ruolo
     roles: Ruoli
     start_date: Data di inizio
@@ -987,8 +987,8 @@ it:
   enumeration_system_activity: Attività del sistema
   enumeration_reported_project_statuses: Stato di progetto segnalato
   error_auth_source_sso_failed: Single Sign-On (SSO) per l'utente '%{value}' non riuscita
-  error_can_not_archive_project: 'This project cannot be archived: There is at least
-    one work package assigned to a version defined in this project.'
+  error_can_not_archive_project: 'Questo progetto non può essere archiviato: non c''è
+    nemmeno una macro-attività assegnata a una versione definita in questo progetto.'
   error_can_not_delete_entry: Impossibile eliminare la voce
   error_can_not_delete_custom_field: Impossibile eliminare il campo personalizzato
   error_can_not_delete_type: Questo tipo risulta contenere macro-attività e non può
@@ -1007,17 +1007,16 @@ it:
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Cancellazione voce non riuscita.
-  error_invalid_selected_value: Invalid selected value.
+  error_invalid_selected_value: Valore selezionato non valido.
   error_invalid_group_by: 'Impossibile raggruppare per: %{value}'
   error_invalid_query_column: 'Colonna di query non valida: %{value}'
   error_invalid_sort_criterion: 'Impossibile ordinare per la colonna: %{value}'
-  error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
+  error_journal_attribute_not_present: Il diario non contiene l'attributo %{attribute}.
   error_pdf_export_too_many_columns: Troppe colonne selezionate per l'esportazione
     in PDF. Ridurre il numero di colonne.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
-  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
-    you try to submit data on multiple browsers or tabs? Please close all tabs and
-    try again.
+  error_token_authenticity: Impossibile verificare il token di richiesta. Forse hai
+    provato a inviare i dati da più browser o schede? Chiudi tutte le schede e riprova.
   error_work_package_done_ratios_not_updated: Percentuale di completamento della macro-attività
     (work package) non aggiornata.
   error_work_package_not_found_in_project: La macro-attività (work package) non è
@@ -1095,7 +1094,7 @@ it:
   homescreen:
     additional:
       projects: Progetti visibili più recenti in questa istanza.
-      no_visible_projects: There are no visible projects in this instance.
+      no_visible_projects: Non ci sono progetti visibili in questa istanza.
       users: Utenti registrati più recenti in questa istanza.
     blocks:
       community: Comunità di OpenProject
@@ -1162,7 +1161,7 @@ it:
   label_all: tutti
   label_all_time: tutto il tempo
   label_all_words: Tutte le parole
-  label_all_open_wps: All open
+  label_all_open_wps: Apri tutto
   label_always_visible: Sempre visibile
   label_announcement: Annuncio
   label_and_its_subprojects: "%{value} e i suoi sotto-progetti"
@@ -1227,7 +1226,7 @@ it:
   label_close_versions: Chiudi le versioni complete
   label_closed_work_packages: chiuso
   label_collapse: Comprimi
-  label_collapsed_click_to_show: Collapsed. Click to show
+  label_collapsed_click_to_show: Compresso. Clicca per visualizzare
   label_configuration: configurazione
   label_comment_add: Inserisci un commento
   label_comment_added: Commento aggiunto
@@ -1299,7 +1298,7 @@ it:
   label_equals: è
   label_example: Esempio
   label_export_to: 'Disponibile anche in:'
-  label_expanded_click_to_collapse: Expanded. Click to collapse
+  label_expanded_click_to_collapse: Espanso. Clicca per comprimere
   label_f_hour: "%{value} ora"
   label_f_hour_plural: "%{value} ore"
   label_feed_plural: Feed
@@ -1326,13 +1325,13 @@ it:
   label_group_by: Raggruppa per
   label_group_new: Nuovo gruppo
   label_group: Gruppo
-  label_group_named: Group %{name}
+  label_group_named: Gruppo %{name}
   label_group_plural: Gruppi
   label_help: Aiuto
   label_here: qui
   label_hide: Nascondi
   label_history: Registro cronologico
-  label_hierarchy_leaf: Hierarchy leaf
+  label_hierarchy_leaf: Foglia della gerarchia
   label_home: Radice (home)
   label_in: in
   label_in_less_than: in meno di
@@ -1346,7 +1345,7 @@ it:
   label_information_plural: Informazioni
   label_integer: Intero
   label_internal: Interno
-  label_introduction_video: Introduction video
+  label_introduction_video: Video introduttivo
   label_invite_user: Invita utente
   label_show_hide: Mostra/Nascondi
   label_show_all_registered_users: Mostra tutti gli utenti registrati
@@ -1423,7 +1422,7 @@ it:
   label_next_week: Prossima settimana
   label_no_change_option: "(Nessuna modifica)"
   label_no_data: Nessun dato da visualizzare
-  label_no_parent_page: No parent page
+  label_no_parent_page: Nessuna pagina genitore
   label_nothing_display: Niente da visualizzare
   label_nobody: nessuno
   label_none: nessuno
@@ -1435,14 +1434,14 @@ it:
   label_open_menu: Apri menu
   label_open_work_packages: aperte
   label_open_work_packages_plural: aperte
-  label_openproject_website: OpenProject website
+  label_openproject_website: Sito web OpenProject
   label_optional_description: Descrizione
   label_options: Opzioni
   label_other: Altro
   label_overall_activity: Totale attività
   label_overall_spent_time: Totale tempo impiegato
   label_overview: Panoramica
-  label_page_title: Page title
+  label_page_title: Titolo della Pagina
   label_part_of: parte di
   label_password_lost: Password dimenticata?
   label_password_rule_lowercase: Minuscolo
@@ -1515,7 +1514,8 @@ it:
   label_repository_plural: Archivi
   label_required: obbligatorio
   label_requires: richiede
-  label_responsible_for_work_packages: Work packages I am accountable for
+  label_responsible_for_work_packages: Macro-attività di cui sono responsabile del
+    risultato
   label_result_plural: Risultati
   label_reverse_chronological_order: In ordine cronologico inverso
   label_revision: Revisione
@@ -1565,7 +1565,7 @@ it:
   label_summary: Sommario
   label_system: Sistema
   label_system_storage: Informazioni sullo spazio di archiviazione
-  label_table_of_contents: Table of contents
+  label_table_of_contents: Indice
   label_tag: Tag
   label_text: Testo lungo
   label_this_month: questo mese
@@ -1590,7 +1590,7 @@ it:
   label_used_by_types: Utilizzato dai tipi
   label_used_in_projects: Utilizzato nei progetti
   label_user: Utente
-  label_user_named: User %{name}
+  label_user_named: Utente %{name}
   label_user_activity: attività di %{value}
   label_user_anonymous: Anonimo
   label_user_mail_option_all: Per qualsiasi evento su tutti i miei progetti
@@ -1610,7 +1610,7 @@ it:
   label_version_sharing_none: Non condivisi
   label_version_sharing_system: Con tutti i progetti
   label_version_sharing_tree: Con albero di progetto
-  label_videos: Videos
+  label_videos: Video
   label_view_all_revisions: Mostra tutte le revisioni
   label_view_diff: Mostra le differenze
   label_view_revisions: Vedi revisioni
@@ -1656,8 +1656,8 @@ it:
     assegnate a me
   label_work_package_view_all_reported_by_me: Mostra tutte le macro-attività (work-package)
     delle quali sono referente
-  label_work_package_view_all_responsible_for: View all work packages that I am accountable
-    for
+  label_work_package_view_all_responsible_for: Visualizza tutte le macro-attività
+    delle quali sono responsabile
   label_work_package_view_all_watched: Mostra tutte le macro-attività (work-package)
     osservate
   label_work_package_watchers: Osservatori
@@ -1729,14 +1729,15 @@ it:
   macros:
     placeholder: "[Placeholder] Macro %{macro_name}"
     errors:
-      missing_or_invalid_parameter: Missing or invalid macro parameter.
+      missing_or_invalid_parameter: Parametri macro assenti o non validi.
     legacy_warning:
-      timeline: This legacy timeline macro has been removed and is no longer available.
-        You can replace the functionality with an embedded table macro.
+      timeline: Questa macro legacy di sequenza temporale è stata rimossa e non è
+        più disponibile. È possibile sostituire la funzionalità con una macro di tabella
+        incorporata.
     include_wiki_page:
       errors:
-        page_not_found: Cannot find the wiki page '%{name}'.
-        circular_inclusion: Circular inclusion of pages detected.
+        page_not_found: Impossibile trovare la pagina del wiki "%{name}".
+        circular_inclusion: Rilevata inclusione circolare di pagine.
     create_work_package_link:
       errors:
         no_project_context: Chiamando dal contesto progettuale esterno la macro crea_lavoro_pacchetto_link.
@@ -1893,7 +1894,7 @@ it:
       e il lavoro di squadra in OpenProject.
     text_show_again: È possibile riavviare questo video dal menu Guida
     welcome: Benvenuto in OpenProject
-    select_language: Please select your language for OpenProject
+    select_language: Seleziona la lingua di OpenProject
   permission_add_work_package_notes: Aggiungi nota
   permission_add_work_packages: Aggiungere macro-attività (work package)
   permission_add_messages: Postare messaggi
@@ -1936,7 +1937,7 @@ it:
   permission_manage_members: Gestire i membri dei team
   permission_manage_news: Gestire le notizie
   permission_manage_project_activities: Gestire le attività del progetto
-  permission_manage_public_queries: Manage public views
+  permission_manage_public_queries: Gestisci viste pubbliche
   permission_manage_repository: Gestire gli archivi
   permission_manage_subtasks: Gestire sotto-attività
   permission_manage_versions: Gestire le versioni
@@ -1945,7 +1946,7 @@ it:
   permission_move_work_packages: Spostare le macro-attività (work package)
   permission_protect_wiki_pages: Proteggere l'accesso a pagine wiki
   permission_rename_wiki_pages: Rinominare pagine wiki
-  permission_save_queries: Save views
+  permission_save_queries: Salva viste
   permission_select_project_modules: Seleziona moduli del progetto
   permission_manage_types: Seleziona i tipi
   permission_view_calendar: Vedi calendario
@@ -2165,8 +2166,9 @@ it:
     di tentativi di login
   setting_brute_force_block_minutes: Durata del blocco utente
   setting_cache_formatted_text: Cache del testo formattato
-  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
-    users by default. CKEditor has limited functionality for GFM Markdown.
+  setting_use_wysiwyg_description: Seleziona questa opzione per abilitare l'editor
+    CKEditor5 WYSIWYG per tutti gli utenti come impostazione predefinita. CKEditor
+    ha funzionalità limitate per il GFM Markdown.
   setting_column_options: Personalizza l'aspetto degli elenchi di macro-attività (work
     package)
   setting_commit_fix_keywords: Parole chiave di ripristino
@@ -2277,6 +2279,8 @@ it:
     home
   setting_wiki_compression: Compressione del registro della wiki
   setting_work_package_group_assignment: Consentire l'assegnazione ai gruppi
+  setting_work_package_list_default_highlighting_mode: Modalità di evidenziazione
+    predefinita per le macro-attività
   settings:
     general: Generale
     other: Altro
@@ -2284,11 +2288,11 @@ it:
     session: Sessione
     brute_force_prevention: Blocco automatico degli utenti
     user:
-      default_preferences: Default preferences
-      deletion: Deletion
+      default_preferences: Preferenze predefinite
+      deletion: Eliminazione
   text_formatting:
     markdown: Markdown
-    plain: Plain text
+    plain: Testo semplice
   status_active: attivo
   status_archived: archiviato
   status_invited: invitato
@@ -2387,8 +2391,8 @@ it:
   text_journal_aggregation_time_explanation: Aggrega i rapporti se la loro distanza
     temporale è inferiore all'intervallo di tempo specificato. Questo ritarderà inoltre
     della stessa quantità di tempo anche le notifiche via posta elettronica.
-  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
-  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
+  text_journal_changed: modificato da %{old} <br/><strong>a</strong> %{new} %{label}
+  text_journal_changed_plain: "%{label} cambiato da %{old} \na %{new}"
   text_journal_changed_no_detail: "%{label} aggiornata"
   text_journal_changed_with_diff: "%{label} cambiato (%{link})"
   text_journal_deleted: "%{label} cancellato (%{old})"
@@ -2443,8 +2447,8 @@ it:
   text_user_wrote: "%{value} ha scritto:"
   text_warn_on_leaving_unsaved: La macro-attività corrente contiene testo non salvato
     che andrà perso se abbandoni questa pagina.
-  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
-    comment
+  text_what_did_you_change_click_to_add_comment: Cosa hai modificato? Clicca per aggiungere
+    un commento
   text_wiki_destroy_confirmation: Sei sicuro di che voler cancellare questo wiki e
     tutti i suoi contenuti?
   text_wiki_page_destroy_children: Cancella le sotto-pagine e le loro pagine discendenti
@@ -2561,7 +2565,8 @@ it:
       outline: Impostazione del dettaglio iniziale
       parent: Mostra i sottoprogetti di
       work_package_filters: Filtra le macro-attività (work package)
-      work_package_responsible: Show work packages with accountable
+      work_package_responsible: Mostra le macro-attività che hanno un responsabile
+        di risultato
       work_package_assignee: Mostra le macro-attività (work package) che hanno un
         assegnatario
       types: Mostra tipi
@@ -2575,7 +2580,7 @@ it:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} fa,
         %{end_label} %{endspan}%{endspanunit} da oggi"
       project_filters: Filtro progetti
-      project_responsible: Show projects with accountable
+      project_responsible: Visualizza progetti che hanno un responsabile di risultato
       project_status: Visualizza lo stato del progetto
       timeframe: Visualizza arco di tempo
       timeframe_end: a
@@ -2793,7 +2798,7 @@ it:
         done_ratio: La percentuale di completamento non può essere impostata sulla
           macro-attività (work package) principale, quando viene dedotta dallo stato
           o quando è disabilitata.
-        due_date: Finish date cannot be set on parent work packages.
+        due_date: La data di fine non può essere impostata sulla macro-attività principale.
         estimated_hours: Le ore stimate non può essere impostate sulla macro-attività
           (work package) principale.
         invalid_user_assigned_to_work_package: All'utente scelto non è consentito

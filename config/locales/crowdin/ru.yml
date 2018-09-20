@@ -62,13 +62,13 @@ ru:
     index:
       no_results_title_text: На данный момент цветов нет.
       no_results_content_text: Создать новый цвет
-    label_no_color: No color
+    label_no_color: Нет цвета
   custom_actions:
     actions:
       name: Действия
       add: Добавить действие
       assigned_to:
-        executing_user_value: "(Assign to executing user)"
+        executing_user_value: "(назначить пользователю-исполнителю)"
     conditions: Условия
     plural: Пользовательские действия
     new: Новое пользовательское действие
@@ -156,8 +156,8 @@ ru:
   prioritiies:
     edit:
       priority_color_text: |
-        Click to assign or change the color of this priority.
-        It can be used for highlighting work packages in the table.
+        Щелкните, чтобы задать или изменить цвет этого приоритета.
+        Этот цвет может использоваться для выделения пакетов работ в таблице.
   reportings:
     index:
       no_results_title_text: В данный момент статусы отчётов отсутствуют.
@@ -165,8 +165,8 @@ ru:
   statuses:
     edit:
       status_color_text: |
-        Click to assign or change the color of this status.
-        It is shown in the status button and can be used for highlighting work packages in the table.
+        Щелкните, чтобы задать или изменить цвет этого статуса.
+        Этот цвет отображается на кнопке статуса и может использоваться для выделения пакетов работ в таблице.
     index:
       no_results_title_text: В данный момент статусы пакетов работ отсутствуют.
       no_results_content_text: Добавить новый статус
@@ -183,9 +183,10 @@ ru:
       add_subelements: Добавить группа вложенных элементов
       edit_query: Редактировать вложенный запрос
       reset: Восстановить значения по умолчанию
-      type_color_text: |
-        Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts.
+      type_color_text: 'Щелкните, чтобы задать или изменить цвет этого типа. Выбранный
+        цвет позволяет различать пакеты работ на диаграммах Ганта.
+
+'
   versions:
     overview:
       no_results_title_text: В настоящее время пакетов работ для этой версии нет.
@@ -402,7 +403,7 @@ ru:
         warn_on_leaving_unsaved: При покидании рабочего пакета предупреждать о не
           сохраненных изменениях
       version:
-        effective_date: Finish date
+        effective_date: Дата окончания
         sharing: Совместное использование
       wiki_content:
         text: Текст
@@ -660,7 +661,7 @@ ru:
     default_columns: Столбцы по умолчанию
     description: Описание
     display_sums: Отображение суммы
-    due_date: Finish date
+    due_date: Дата окончания
     estimated_hours: Предполагаемое время
     estimated_time: Предполагаемое время
     firstname: Имя
@@ -1036,9 +1037,9 @@ ru:
   error_pdf_export_too_many_columns: Для экспорта в PDF-файл выбрано слишком много
     столбцов. Пожалуйста, сократите количество столбцов.
   error_pdf_failed_to_export: 'Не удалось сохранить экспорт в PDF: %{error}'
-  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
-    you try to submit data on multiple browsers or tabs? Please close all tabs and
-    try again.
+  error_token_authenticity: Не удалось проверить CSRF-токен. Возможно, вы попытались
+    отправить данные сразу из нескольких браузеров или вкладок. Закройте все вкладки
+    и попробуйте снова.
   error_work_package_done_ratios_not_updated: Сделанные соотношения пакета работ не
     обновляются.
   error_work_package_not_found_in_project: Пакет работ не найден или не принадлежит
@@ -1343,7 +1344,7 @@ ru:
   label_group_by: Группировать по
   label_group_new: Новая группа
   label_group: Группа
-  label_group_named: Group %{name}
+  label_group_named: Группа %{name}
   label_group_plural: Группы
   label_help: Справка
   label_here: здесь
@@ -1607,7 +1608,7 @@ ru:
   label_used_by_types: Используемые типы
   label_used_in_projects: Используется в проектах
   label_user: Пользователь
-  label_user_named: User %{name}
+  label_user_named: Пользователь %{name}
   label_user_activity: "%{value} деятельности"
   label_user_anonymous: Анонимно
   label_user_mail_option_all: Для любого события на моих проектах
@@ -2280,6 +2281,8 @@ ru:
   setting_welcome_on_homescreen: Показывать приветствие на домашней странице
   setting_wiki_compression: Сжатие истории  изменений wiki
   setting_work_package_group_assignment: Разрешить назначения группам
+  setting_work_package_list_default_highlighting_mode: Режим подсветки пакетов работ
+    по умолчанию
   settings:
     general: Общие
     other: Другие
@@ -2790,7 +2793,7 @@ ru:
       validation:
         done_ratio: Установленное соотношение нельзя задать для родительских пакетов
           работ, когда оно задается статусом или  отключено.
-        due_date: Finish date cannot be set on parent work packages.
+        due_date: Дату окончания нельзя задать на родительских пакетах работ.
         estimated_hours: Предполагаемое количество часов не может быть задано для
           родительских пакетов.
         invalid_user_assigned_to_work_package: Выбранный пользователь не может быть

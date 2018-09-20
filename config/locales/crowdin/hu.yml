@@ -2220,6 +2220,8 @@ hu:
   setting_welcome_on_homescreen: Üdvözlő blokk megjelenítése a kezdőképernyőn
   setting_wiki_compression: Wiki előzmények tömörítése
   setting_work_package_group_assignment: Hozzárendelés engedélyezése csoportokhoz
+  setting_work_package_list_default_highlighting_mode: Default work package highlighting
+    mode
   settings:
     general: Általános
     other: Egyéb

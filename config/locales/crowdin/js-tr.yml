@@ -60,7 +60,11 @@ tr:
     description_subwork_package: "#%{id} nolu iş paketinin alt parçası"
     editor:
       preview: Toggle preview mode
-      error_saving_failed: 'Saving the document failed with the following error: %{e}'
+      source_code: Toggle Markdown source mode
+      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      mode:
+        manual: Switch to Markdown source
+        wysiwyg: Switch to WYSIWYG editor
       macro:
         child_pages:
           button: Links to child pages
@@ -645,12 +649,18 @@ tr:
         highlighting_mode:
           description: Highlight with color
           none: No highlighting
-          inline: Overdue dates, "Status", and "Priority" attributes
+          inline: Overdue dates, "Status", and "Priority" attribute
           entire_row_by: Entire row by
           status: Durum
           priority: Öncelik
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
+        upsale:
+          ee_only: Enterprise Edition only feature
+          attribute_highlighting: Need certain work packages to stand out from the
+            mass?
+          relation_columns: İş paketleri listesindeki ilişkileri görmek ister misiniz?
+          check_out_link: Enterprise sürüme bakın.
       tabs:
         overview: Genel Bakış
         activity: Etkinlik
@@ -693,8 +703,6 @@ tr:
       form_submit:
         title: Devam etmek için onaylayın
         text: Bu işlemi gerçekleştirmek istediğinizden emin misiniz?
-      upsale_relation_columns: İş paketleri listesindeki ilişkileri görmek ister misiniz?
-      upsale_relation_columns_link: Enterprise sürüme bakın.
       destroy_work_package:
         title: "%{label} için silme işlimini onaylayın"
         text: "%{label} silinecek. Emin misiniz?"

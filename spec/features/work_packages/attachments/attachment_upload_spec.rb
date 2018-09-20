@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'features/page_objects/notification'
 
 describe 'Upload attachment to work package', js: true do
-  let(:dev_role) do
+  let(:role) do
     FactoryBot.create :role,
                       permissions: %i[view_work_packages add_work_packages edit_work_packages]
   end
@@ -11,7 +11,7 @@ describe 'Upload attachment to work package', js: true do
                       firstname: 'Dev',
                       lastname: 'Guy',
                       member_in_project: project,
-                      member_through_role: dev_role
+                      member_through_role: role
   end
   let(:project) { FactoryBot.create(:project) }
   let(:work_package) { FactoryBot.create(:work_package, project: project, description: 'Initial description') }
@@ -39,6 +39,9 @@ describe 'Upload attachment to work package', js: true do
         # Activate the edit field
         field.activate!
         target = find('.ck-content')
+
+        editor.expect_button 'Insert image'
+
         attachments.drag_and_drop_file(target, image_fixture)
 
         editor.in_editor do |container, editable|
@@ -53,6 +56,34 @@ describe 'Upload attachment to work package', js: true do
 
         expect(field.display_element).to have_selector('img')
         expect(field.display_element).to have_content('Some image caption')
+      end
+
+      context 'with a user that is not allowed to add images (Regression #28541)' do
+        let(:role) do
+          FactoryBot.create :role,
+                            permissions: %i[view_work_packages add_work_packages add_work_package_notes]
+        end
+        let(:selector) { '.work-packages--activity--add-comment' }
+        let(:comment_field) do
+          WorkPackageEditorField.new wp_page,
+                                     'comment',
+                                     selector: selector
+        end
+        let(:editor) { Components::WysiwygEditor.new '.work-packages--activity--add-comment' }
+
+        it 'can open the editor to add an image, but image upload is not shown' do
+
+          # Add comment
+          comment_field.activate!
+
+          # Button should be hidden
+          editor.expect_no_button 'Insert image'
+
+          editor.click_and_type_slowly 'this is a comment!1'
+          comment_field.submit_by_click
+
+          expect(page).to have_selector('.user-comment .message', text: 'this is a comment!1')
+        end
       end
     end
 
@@ -76,13 +107,15 @@ describe 'Upload attachment to work package', js: true do
         target = find('.ck-content')
         attachments.drag_and_drop_file(target, image_fixture)
 
-        # Besides testing caption functionality this also slows down clicking on the submit button
-        # so that the image is properly embedded
-        page.find('figure.image figcaption').base.send_keys('Some image caption')
-
         editor.in_editor do |container, editable|
           expect(editable).to have_selector('img[src*="/api/v3/attachments/"]', wait: 20)
         end
+
+        # Besides testing caption functionality this also slows down clicking on the submit button
+        # so that the image is properly embedded
+        caption = page.find('figure.image figcaption')
+        caption.click
+        caption.base.send_keys('Some image caption')
 
         click_on 'Save'
 

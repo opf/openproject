@@ -162,7 +162,8 @@ tr.context-menu-selection,
 tr.-checked,
 tr.-checked.-bright-row
   background-color: $table-row-highlighting-color !important
-  outline: $table-row-highlighting-outline-color auto 4px
+  &[class*=__hl_row]
+    outline: $table-row-highlighting-outline-color solid 2px
 
   td
     border-top: 1px solid $table-row-highlighting-color !important

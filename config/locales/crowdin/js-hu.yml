@@ -60,7 +60,11 @@ hu:
     description_subwork_package: 'Munkacsomag gyermeke #%{id}'
     editor:
       preview: Toggle preview mode
-      error_saving_failed: 'Saving the document failed with the following error: %{e}'
+      source_code: Toggle Markdown source mode
+      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      mode:
+        manual: Switch to Markdown source
+        wysiwyg: Switch to WYSIWYG editor
       macro:
         child_pages:
           button: Links to child pages
@@ -644,12 +648,18 @@ hu:
         highlighting_mode:
           description: Highlight with color
           none: No highlighting
-          inline: Overdue dates, "Status", and "Priority" attributes
+          inline: Overdue dates, "Status", and "Priority" attribute
           entire_row_by: Entire row by
           status: Állapot
           priority: Fontosság
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
+        upsale:
+          ee_only: Enterprise Edition only feature
+          attribute_highlighting: Need certain work packages to stand out from the
+            mass?
+          relation_columns: Szeretné látni a munkacsomag kapcsolatait?
+          check_out_link: Tekintse meg az Enterprise Edition-t!
       tabs:
         overview: Áttekintő
         activity: Tevékenység
@@ -692,8 +702,6 @@ hu:
       form_submit:
         title: Megerősítés a folytatáshoz
         text: Biztosan végre szeretné hajtani ezt a műveletet?
-      upsale_relation_columns: Szeretné látni a munkacsomag kapcsolatait?
-      upsale_relation_columns_link: Tekintse meg az Enterprise Edition-t!
       destroy_work_package:
         title: Jóváhagyja %{label} törlését
         text: Biztosan törölni akarja %{label}-t?

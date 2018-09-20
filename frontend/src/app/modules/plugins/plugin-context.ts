@@ -21,9 +21,9 @@ import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/o
 import {EditorMacrosService} from "core-components/modals/editor/editor-macros.service";
 import {HTMLSanitizeService} from "../common/html-sanitize/html-sanitize.service";
 import {PathHelperService} from "../common/path-helper/path-helper.service";
-import {CKEditorPreviewService} from "core-components/ckeditor/ckeditor-preview.service";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {States} from 'core-components/states.service';
+import {CKEditorPreviewService} from "core-app/modules/common/ckeditor/ckeditor-preview.service";
 
 /**
  * Plugin context bridge for plugins outside the CLI compiler context

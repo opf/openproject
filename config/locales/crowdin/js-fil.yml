@@ -60,7 +60,11 @@ fil:
     description_subwork_package: 'Bata ng work package #%{id}'
     editor:
       preview: Toggle preview mode
-      error_saving_failed: 'Saving the document failed with the following error: %{e}'
+      source_code: Toggle Markdown source mode
+      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      mode:
+        manual: Switch to Markdown source
+        wysiwyg: Switch to WYSIWYG editor
       macro:
         child_pages:
           button: Links to child pages
@@ -657,12 +661,19 @@ fil:
         highlighting_mode:
           description: Highlight with color
           none: No highlighting
-          inline: Overdue dates, "Status", and "Priority" attributes
+          inline: Overdue dates, "Status", and "Priority" attribute
           entire_row_by: Entire row by
           status: Estado
           priority: Ang prayoridad
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
+        upsale:
+          ee_only: Enterprise Edition only feature
+          attribute_highlighting: Need certain work packages to stand out from the
+            mass?
+          relation_columns: Kailangan tingnan ang mga relasyon sa listahan ng work
+            package?
+          check_out_link: Suriin ang Enterprise Edition.
       tabs:
         overview: Buod
         activity: Aktibidad
@@ -705,9 +716,6 @@ fil:
       form_submit:
         title: Kumpirmahin upang magpatuloy
         text: Sigurado ka bang na gusto mong magtanghal ng aksyon ito?
-      upsale_relation_columns: Kailangan tingnan ang mga relasyon sa listahan ng work
-        package?
-      upsale_relation_columns_link: Suriin ang Enterprise Edition.
       destroy_work_package:
         title: Kumpirmahin ang pagbubura ng %{label}
         text: Sigurado ka ba na gusto mong burahin ang sumusunod na %{label}?

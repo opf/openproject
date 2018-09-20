@@ -64,13 +64,13 @@ de:
     index:
       no_results_title_text: Derzeit gibt es keine Farben.
       no_results_content_text: Neue Farbe anlegen
-    label_no_color: No color
+    label_no_color: Keine Farbe
   custom_actions:
     actions:
       name: Aktionen
       add: Aktion hinzufügen
       assigned_to:
-        executing_user_value: "(Assign to executing user)"
+        executing_user_value: "(An ausführenden Nutzer zuweisen)"
     conditions: Bedingungen
     plural: Benutzerdefinierte Aktionen
     new: Benutzerdefinierte Aktion hinzufügen
@@ -160,18 +160,20 @@ de:
       no_results_title_text: Dieser Nutzer ist derzeit in keinem Projekt Mitglied.
   prioritiies:
     edit:
-      priority_color_text: |
-        Click to assign or change the color of this priority.
-        It can be used for highlighting work packages in the table.
+      priority_color_text: 'Klicken zum Zuweisen einer Farbe für diesen Prioritätswert.
+        Diese wird für die Hervorhebung von Arbeitspaketen in Tabellen verwendet.
+
+'
   reportings:
     index:
       no_results_title_text: Derzeit gibt es keine Statusberichte.
       no_results_content_text: Statusbericht hinzufügen
   statuses:
     edit:
-      status_color_text: |
-        Click to assign or change the color of this status.
-        It is shown in the status button and can be used for highlighting work packages in the table.
+      status_color_text: 'Klicken zum Zuweisen einer Farbe für diesen Status. Diese
+        wird für die Hervorhebung von Arbeitspaketen in Tabellen verwendet.
+
+'
     index:
       no_results_title_text: Derzeit gibt es keine Arbeitspaket-Status.
       no_results_content_text: Neuen Status hinzufügen
@@ -188,9 +190,10 @@ de:
       add_subelements: Kindelemente-Gruppe hinzufügen
       edit_query: Eingebettete Abfrage bearbeiten
       reset: Auf Standardwerte zurücksetzen
-      type_color_text: |
-        Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts.
+      type_color_text: 'Klicken zum Zuweisen einer Farbe für diesen Typ. Diese wird
+        für die Hervorhebung von Arbeitspaketen in Tabellen und Gantt-Diagrammen verwendet.
+
+'
   versions:
     overview:
       no_results_title_text: Derzeit sind keine Arbeitspakete dieser Version zugewiesen.
@@ -490,8 +493,8 @@ de:
           only_one_allowed: "(%{name}) nur ein Wert ist zulässig."
           empty: "(%{name}) Wert darf nicht leer sein."
           inclusion: "(%{name}) ist nicht auf einen erlaubten Wert gesetzt."
-          not_logged_in: "(%{name}) value cannot be set because you are not logged
-            in."
+          not_logged_in: "(%{name}) Wert kann nicht gesetzt werden, da Sie nicht eingeloggt
+            sind."
           not_an_integer: "(%{name}) ist keine Ganzzahl."
           smaller_than_or_equal_to: "(%{name}) muss kleiner als oder gleich %{count}
             sein."
@@ -564,8 +567,8 @@ de:
               status_invalid_in_type: ist ungültig, da der aktuelle Status nicht in
                 diesem Typ vorhanden ist.
             type:
-              cannot_be_milestone_due_to_children: cannot be a milestone because this
-                work package has children.
+              cannot_be_milestone_due_to_children: kann kein Meilenstein werden, da
+                dieses Arbeitspaket Unterelemente besitzt.
             priority_id:
               only_active_priorities_allowed: muss aktiv sein.
             category:
@@ -687,7 +690,7 @@ de:
     responsible: Verantwortlich
     role: Rolle
     roles: Rollen
-    start_date: Anfangstermin
+    start_date: Beginn
     status: Status
     subject: Thema
     summary: Zusammenfassung
@@ -1024,13 +1027,13 @@ de:
   error_invalid_group_by: 'Kann nicht gruppieren nach: %{value}'
   error_invalid_query_column: 'Ungültige Filter-Spalte: %{value}'
   error_invalid_sort_criterion: 'Kann nicht nach Spalte sortieren: %{value}'
-  error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
+  error_journal_attribute_not_present: Journal enthält Attribut %{attribute} nicht.
   error_pdf_export_too_many_columns: Zu viele Spalten für PDF-Export ausgewählt. Bitte
     reduzieren Sie die Anzahl der ausgewählten Spalten.
   error_pdf_failed_to_export: 'Der PDF-Export konnte nicht gespeichert werden: %{error}'
-  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
-    you try to submit data on multiple browsers or tabs? Please close all tabs and
-    try again.
+  error_token_authenticity: Das Cross-Site Request Forgery Token konnte nicht verfiziert
+    werden. Wenn Sie versucht haben, Daten auf mehreren Tabs oder Browsern abzuspeichern,
+    schließen sie diese und laden diese Seite erneut um den Vorgang zu wiederholen.
   error_work_package_done_ratios_not_updated: Der Arbeitspaket-Fortschritt wurde nicht
     aktualisiert.
   error_work_package_not_found_in_project: Das Arbeitspaket wurde nicht gefunden oder
@@ -1338,7 +1341,7 @@ de:
   label_group_by: Gruppieren nach
   label_group_new: Neue Gruppe
   label_group: Gruppe
-  label_group_named: Group %{name}
+  label_group_named: Gruppe %{name}
   label_group_plural: Gruppen
   label_help: Hilfe
   label_here: hier
@@ -1600,7 +1603,7 @@ de:
   label_used_by_types: Verwendet von Typen
   label_used_in_projects: Verwendet in Projekten
   label_user: Benutzer
-  label_user_named: User %{name}
+  label_user_named: Benutzer %{name}
   label_user_activity: Aktivität von %{value}
   label_user_anonymous: Anonymus
   label_user_mail_option_all: Für alle Ereignisse in all meinen Projekten
@@ -2278,6 +2281,7 @@ de:
   setting_welcome_on_homescreen: Willkommens-Block auf Startseite anzeigen
   setting_wiki_compression: Wiki-Historie komprimieren
   setting_work_package_group_assignment: Zuweisung zu Gruppen erlauben
+  setting_work_package_list_default_highlighting_mode: Standardwert für Arbeitspaket-Hervorherbung
   settings:
     general: Allgemein
     other: Sonstiges
@@ -2795,7 +2799,7 @@ de:
         done_ratio: Der Fortschritt kann nicht gesetzt werden falls es sich um ein
           Eltern-Arbeitspaket handelt, er durch den Status definiert wird oder wenn
           er komplett deaktiviert wurde.
-        due_date: Finish date cannot be set on parent work packages.
+        due_date: Der Endtermin kann für Eltern-Arbeitspakete nicht gesetzt werden.
         estimated_hours: Der geschätzte Aufwand kann für Eltern-Arbeitspakete nicht
           gesetzt werden.
         invalid_user_assigned_to_work_package: Der gewählte Nutzer darf dem Arbeitspaket

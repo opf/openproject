@@ -60,7 +60,11 @@ ru:
     description_subwork_package: 'Потомок пакета работ #%{id}'
     editor:
       preview: Переключить режим предпросмотра
-      error_saving_failed: 'Сохранить документ не удалось по следующей ошибке: %{e}'
+      source_code: Toggle Markdown source mode
+      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      mode:
+        manual: Switch to Markdown source
+        wysiwyg: Switch to WYSIWYG editor
       macro:
         child_pages:
           button: Ссылки на дочерние страницы
@@ -410,7 +414,7 @@ ru:
       button_deactivate: Скрыть диаграмму Ганта
       cancel: Отмена
       change: Изменения в планировании
-      due_date: Finish date
+      due_date: Дата окончания
       empty: "(пусто)"
       error: Произошла ошибка.
       errors:
@@ -562,7 +566,7 @@ ru:
         createdAt: Создано
         description: Описание
         date: Дата
-        dueDate: Finish date
+        dueDate: Дата окончания
         estimatedTime: Предполагаемое время
         spentTime: Затраченное время
         category: Категория
@@ -631,31 +635,37 @@ ru:
           со стрелками.
       table_configuration:
         button: Настроить эту таблицу пакетов работ
-        choose_display_mode: Display work packages as
+        choose_display_mode: Показывать пакеты работ в виде
         modal_title: Настройка таблицы пакетов работ
         embedded_tab_disabled: Эта вкладка конфигурации не доступна для редактируемого
           вами встроенного представления.
         default: по умолчанию
         display_settings: Настройки экрана
-        default_mode: Flat list
-        hierarchy_mode: Hierarchy
+        default_mode: Простого списка
+        hierarchy_mode: Иерархии
         hierarchy_hint: Все отфильтрованные результаты таблицы будут дополнены их
           предками. Иерархии можно разворачивать и сворачивать.
         display_sums_hint: Отображать сумму всех суммируемых атрибутов в строке под
           таблицей результатов.
         show_timeline_hint: Показать интерактивную диаграмму Гантта справа от таблицы.
           Ширина диаграммы изменяется с помощью разделяющей ее и таблицу линии.
-        highlighting: Highlighting
+        highlighting: Подсветки
         highlighting_mode:
-          description: Highlight with color
-          none: No highlighting
-          inline: Overdue dates, "Status", and "Priority" attributes
-          entire_row_by: Entire row by
+          description: Цветной подсветки
+          none: Без подсветки
+          inline: Просроченные даты, атрибуты "Статус" и "Приоритет"
+          entire_row_by: Вся строка по
           status: Состояние
           priority: Приоритет
         columns_help_text: Используйте ввод выше для добавления или удаления столбцов
           в табличном представлении. Вы можете перетаскивать столбцы для изменения
           их порядка.
+        upsale:
+          ee_only: Эта функция есть только в корпоративной версии
+          attribute_highlighting: Хотите выделить некоторые пакеты работ из общей
+            массы?
+          relation_columns: Нужно видеть отношения в списке пакетов работ?
+          check_out_link: Проверьте корпоративную версию.
       tabs:
         overview: Обзор
         activity: Деятельность
@@ -698,14 +708,12 @@ ru:
       form_submit:
         title: Подтвердите продолжение
         text: Вы действительно хотите выполнить это действие?
-      upsale_relation_columns: Нужно видеть отношения в списке пакетов работ?
-      upsale_relation_columns_link: Проверьте корпоративную версию.
       destroy_work_package:
         title: Подтвердите удаление %{label}
         text: Вы уверены, что хотите удалить следующую %{label} ?
         has_children: 'Пакет работ имеет %{childUnits}:'
-        confirm_deletion_children: I acknowledge that ALL descendants of the listet
-          work packages will be recursively removed.
+        confirm_deletion_children: Я понимаю, что ВСЕ производные элементы указанных
+          пакетов работ будут рекурсивно удалены.
         deletes_children: Все дочерние пакеты работ и их потомки будут также рекурсивно
           удалены.
     notice_successful_create: Создание выполнено.

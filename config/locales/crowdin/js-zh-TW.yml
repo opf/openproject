@@ -59,7 +59,11 @@ zh-TW:
     description_subwork_package: '子工作項目 #%{id}'
     editor:
       preview: Toggle preview mode
-      error_saving_failed: 'Saving the document failed with the following error: %{e}'
+      source_code: Toggle Markdown source mode
+      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      mode:
+        manual: Switch to Markdown source
+        wysiwyg: Switch to WYSIWYG editor
       macro:
         child_pages:
           button: Links to child pages
@@ -604,11 +608,17 @@ zh-TW:
         highlighting_mode:
           description: Highlight with color
           none: No highlighting
-          inline: Overdue dates, "Status", and "Priority" attributes
+          inline: Overdue dates, "Status", and "Priority" attribute
           entire_row_by: Entire row by
           status: 狀態
           priority: 優先等級
         columns_help_text: 使用上面的輸入在表視圖中添加或移除列。可以拖放列以對其進行重新排序。
+        upsale:
+          ee_only: Enterprise Edition only feature
+          attribute_highlighting: Need certain work packages to stand out from the
+            mass?
+          relation_columns: 需要檢視工作項目清單的關係嗎
+          check_out_link: 請查閱企業版
       tabs:
         overview: 概要
         activity: 活動
@@ -651,8 +661,6 @@ zh-TW:
       form_submit:
         title: 確認以繼續
         text: 確定要執行此操作嗎？
-      upsale_relation_columns: 需要檢視工作項目清單的關係嗎
-      upsale_relation_columns_link: 請查閱企業版
       destroy_work_package:
         title: 確認刪除 %{label}
         text: 您確定要刪除以下 %{label}？

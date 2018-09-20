@@ -5,6 +5,9 @@ class RailsCell < Cell::ViewModel
   include ActionView::Helpers::TranslationHelper
   include SecureHeaders::ViewHelpers
 
+  # Delegate to action_view
+  delegates :action_view, :content_for
+
   self.view_paths = ['app/cells/views']
 
   # We don't include ActionView::Helpers wholesale because
@@ -44,6 +47,10 @@ class RailsCell < Cell::ViewModel
 
   def controller
     context[:controller]
+  end
+
+  def action_view
+    context[:action_view]
   end
 
   def protect_against_forgery?

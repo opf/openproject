@@ -32,12 +32,18 @@ describe Query, type: :model do
   let(:query) { FactoryBot.build(:query) }
   let(:project) { FactoryBot.build_stubbed(:project) }
   let(:relation_columns_allowed) { true }
+  let(:conditional_highlighting_allowed) { true }
 
   before do
     allow(EnterpriseToken)
       .to receive(:allows_to?)
       .with(:work_package_query_relation_columns)
       .and_return(relation_columns_allowed)
+
+    allow(EnterpriseToken)
+      .to receive(:allows_to?)
+      .with(:conditional_highlighting)
+      .and_return(conditional_highlighting_allowed)
   end
 
   describe '.new_default' do

@@ -5,8 +5,9 @@ fr:
       hide: Masquer
       loading: Chargement…
     attachments:
-      draggable_hint: 'Drag on editor field to inline image or reference attachment.
-        Closed editor fields will be opened while you keep dragging.
+      draggable_hint: 'Faites glisser le champ de l''éditeur pour incorporer une image
+        ou une pièce jointe de référence. Les champs fermés de l''éditeur seront ouverts
+        tant que vous continuer à faire glisser.
 
 '
     autocomplete_select:
@@ -14,7 +15,7 @@ fr:
         multi: Ajouter «%{name} »
         single: Sélectionner «%{name} »
       remove: Supprimer %{name}
-      active: Active %{label} %{name}
+      active: Activer %{label} %{name}
     close_popup_title: Fermer popup
     close_filter_title: Fermer le filtre
     close_form_title: Fermer le formulaire
@@ -59,56 +60,61 @@ fr:
     description_selected_columns: Colonnes Sélectionnées
     description_subwork_package: 'Enfant du lot de travaux #%{id}'
     editor:
-      preview: Toggle preview mode
-      error_saving_failed: 'Saving the document failed with the following error: %{e}'
+      preview: Basculer en mode aperçu
+      source_code: Toggle Markdown source mode
+      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      mode:
+        manual: Switch to Markdown source
+        wysiwyg: Switch to WYSIWYG editor
       macro:
         child_pages:
-          button: Links to child pages
-          include_parent: Include parent
-          text: "[Placeholder] Links to child pages of"
+          button: Liens vers les pages enfants
+          include_parent: Inclure un parent
+          text: "[Placeholder] Liens vers les pages enfants de"
           page: Page wiki
-          this_page: this page
-          hint: 'Leave this field empty to list all child pages of the current page.
-            If you want to reference a different page, provide its title or slug.
+          this_page: cette page
+          hint: 'Laissez ce champ vide pour répertorier toutes les pages enfants de
+            la page actuelle. Si vous souhaitez référencer une page différente, indiquez
+            son titre ou slug.
 
 '
         code_block:
-          button: Insert code snippet
-          title: Insert / edit Code snippet
-          language: Formatting language
-          language_hint: Enter the formatting language that will be used for highlighting
-            (if supported).
+          button: Insérer le fragment de code
+          title: Insérer/modifier le fragment de code
+          language: Langage de formatage
+          language_hint: Entrez le langage de formatage qui sera utilisé pour mettre
+            en évidence (si pris en charge).
         dropdown:
           macros: Macros
-          chose_macro: Chose macro
-        toc: Table of contents
-        toolbar_help: Click to select widget and show the toolbar. Double-click to
-          edit widget
+          chose_macro: Choisir une macro
+        toc: Table des matières
+        toolbar_help: Cliquez pour sélectionner le widget et afficher la barre d’outils.
+          Double-cliquez pour modifier le widget
         wiki_page_include:
-          button: Include content of another wiki page
-          text: "[Placeholder] Included wiki page of"
+          button: Inclure le contenu d’une autre page wiki
+          text: "[Placeholder] Page wiki inclue de"
           page: Page wiki
-          not_set: "(Page not yet set)"
+          not_set: "(page pas encore définie)"
           hint: |
-            Include the content of another wiki page by specifying its title or slug.
-            You can include the wiki page of another project by separating them with a colon like the following example.
+            Incluez le contenu d’une autre page du wiki en indiquant son titre ou slug.
+            Vous pouvez inclure la page wiki d'un autre projet en les séparant par un point-virgule comme dans l’exemple suivant.
         work_package_button:
-          button: Insert create work package button
-          type: Work package type
-          button_style: Use button style
-          button_style_hint: 'Optional: Check to make macro appear as a button, not
-            as a link.'
-          without_type: Create work package
-          with_type: 'Create work package (Type: %{typename})'
+          button: Insérer un bouton pour créer un lot de travaux
+          type: Type de lot de travaux
+          button_style: Utiliser un style de bouton
+          button_style_hint: 'Facultatif : Cocher pour que la macro apparaisse sous
+            forme de bouton et non de lien.'
+          without_type: Créer un lot de travaux
+          with_type: 'Créer un lot de travaux (Type : %{typename})'
         embedded_table:
-          button: Embed work package table
-          text: "[Placeholder] Embedded work package table"
+          button: Intégrer le tableau du lot de travaux
+          text: "[Placeholder] Tableau du lot de travaux intégré"
     error:
       internal: Une erreur interne s'est produite.
-      cannot_save_changes_with_message: 'Cannot save your changes due to the following
-        error: %{error}'
-      query_saving: The view could not be saved.
-      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
+      cannot_save_changes_with_message: 'Impossible d’enregistrer vos modifications
+        en raison de l’erreur suivante : %{error}'
+      query_saving: La vue n'a pas pu être enregistrée.
+      embedded_table_loading: 'La vue intégrée n’a pas pu être chargée : %{message}'
     filter:
       description:
         text_open_filter: Ouvrir ce filtre avec les touches « ALT » et fléchées.
@@ -175,7 +181,7 @@ fr:
     label_expand: Étendre
     label_expanded: étendu
     label_expand_all: Tout déplier
-    label_expand_project_menu: Expand project menu
+    label_expand_project_menu: Déplier le menu du projet
     label_export: Exporter
     label_filename: Fichier
     label_filesize: Taille
@@ -183,11 +189,11 @@ fr:
     label_group_by: Grouper par
     label_hide_attributes: Afficher moins
     label_hide_column: Masquer la colonne
-    label_hide_project_menu: Collapse project menu
+    label_hide_project_menu: Replier le menu du projet
     label_in: dans
     label_in_less_than: en moins de
     label_in_more_than: en plus de
-    label_latest_activity: Latest activity
+    label_latest_activity: Dernière activité
     label_last_updated_on: Dernière modification le
     label_less_or_equal: "<="
     label_less_than_ago: il y a moins de quelques jours
@@ -205,7 +211,7 @@ fr:
     label_not_equals: n'est pas
     label_on: le
     label_open_menu: Ouvrir le menu
-    label_open_context_menu: Open context menu
+    label_open_context_menu: Ouvrir le menu contextuel
     label_open_work_packages: ouvert
     label_password: Mot de passe
     label_previous: Précédent
@@ -219,20 +225,20 @@ fr:
     label_select_watcher: Sélectionner un observateur…
     label_selected_filter_list: Filtres sélectionnés
     label_show_attributes: Afficher tous les attributs
-    label_show_in_menu: Show view in menu
+    label_show_in_menu: Afficher la vue dans le menu
     label_sort_by: Trier par
     label_sorted_by: trié par
     label_sort_higher: Déplacer vers le haut
     label_sort_lower: Déplacer vers le bas
     label_sorting: Tri
-    label_star_query: Favored
-    label_press_enter_to_save: Press enter to save.
+    label_star_query: Préféré
+    label_press_enter_to_save: Appuyer sur "entrée" pour enregistrer.
     label_public_query: Public
     label_sum_for: somme pour
     label_subject: Objet
     label_this_week: cette semaine
     label_today: aujourd'hui
-    label_up: Up
+    label_up: Haut
     label_activity_show_only_comments: Afficher les activités avec les commentaires
       seulement
     label_activity_show_all: Afficher toutes les activités
@@ -250,10 +256,10 @@ fr:
     label_unwatch: Ne plus suivre
     label_unwatch_work_package: Ne plus suivre le lot de travaux
     label_uploaded_by: Téléversé par
-    label_default_queries: Default views
-    label_starred_queries: Favorite views
-    label_global_queries: Public views
-    label_custom_queries: Private views
+    label_default_queries: Vues par défaut
+    label_starred_queries: Vue préférées
+    label_global_queries: Vues publiques
+    label_custom_queries: Vues privées
     label_columns: Colonnes
     label_attachments: Fichiers
     label_drop_files: Déposez des fichiers ici
@@ -265,7 +271,7 @@ fr:
     label_remove_watcher: Retirer l'observateur %{name}
     label_remove_all_files: Supprimer tous les fichiers
     label_add_description: Ajouter une description pour %{file}
-    label_upload_notification: Uploading files...
+    label_upload_notification: Chargement des fichiers...
     label_work_package_upload_notification: 'Transfert en cours des fichiers pour
       le lot de travaux #%{id}: %{subject}'
     label_files_to_upload: 'Ces fichiers vont être transférés:'
@@ -306,9 +312,9 @@ fr:
         error_duplicate_group_name: Le nom %{group} est utilisé plus d’une fois. Les
           noms de groupe doivent être uniques.
         reset_title: Réinitialiser la configuration du formulaire
-        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group and disable ALL custom
-          fields.
+        confirm_reset: 'Avertissement : êtes-vous sûr de vouloir réinitialiser la
+          configuration du formulaire ? Ceci va réinitialiser les attributs à leur
+          groupe par défaut et désactiver TOUS les champs personnalisés.
 
 '
         upgrade_to_ee: Passer à la version Entreprise
@@ -389,14 +395,13 @@ fr:
       activate_no: activer pour supprimer le tri
     text_work_packages_destroy_confirmation: Voulez-vous vraiment supprimer le(s)
       Lot(s) de Travaux sélectionnés?
-    text_query_destroy_confirmation: Are you sure you want to delete the selected
-      view?
+    text_query_destroy_confirmation: Êtes-vous sûr de vouloir supprimer la vue sélectionnée ?
     text_attachment_destroy_confirmation: Êtes-vous sûr de vouloir supprimer la pièce
       jointe ?
     timelines:
       gantt_chart: Diagramme de Gantt
       labels:
-        title: Label configuration
+        title: Configuration du label
         bar: Libellés des barres
         left: Gauche
         right: Droite
@@ -408,11 +413,11 @@ fr:
           la place de ces attributs.
 
 '
-      button_activate: Show Gantt chart
-      button_deactivate: Hide Gantt chart
+      button_activate: Afficher le diagramme de Gantt
+      button_deactivate: Masquer le diagramme de Gantt
       cancel: Annuler
       change: Changement dans la planification
-      due_date: Finish date
+      due_date: Date de fin
       empty: "(vide)"
       error: Une erreur s'est produite.
       errors:
@@ -459,8 +464,8 @@ fr:
         quarters: Trimestres
         years: Années
         slider: Curseur de zoom
-        description: 'Select the initial zoom level that should be shown when autozoom
-          is not available.
+        description: 'Sélectionnez le niveau de zoom initial qui doit être indiqué
+          lorsque le zoom automatique n’est pas disponible.
 
 '
     tl_toolbar:
@@ -541,7 +546,7 @@ fr:
         header_with_parent: 'Nouveau %{type} (enfant de %{parent_type} #%{id})'
         button: Créer
       copy:
-        title: Copy work package
+        title: Copier le lot de travaux
       hierarchy:
         show: Afficher le mode hiérarchie
         hide: Masquer le mode hiérarchie
@@ -553,7 +558,7 @@ fr:
           les enfants filtrés
       faulty_query:
         title: Les lots de travaux n'ont pas pu être chargés.
-        description: Your view is erroneous and could not be processed.
+        description: Votre vue est erronée et n'a pas pu être traitée.
       no_results:
         title: Aucun lot de travaux à afficher.
         description: Soit aucun n'a été créé, soit tous les lots de travaux sont filtrés.
@@ -568,7 +573,7 @@ fr:
         createdAt: Créé le
         description: Description
         date: Date
-        dueDate: Finish date
+        dueDate: Date de fin
         estimatedTime: Durée estimée
         spentTime: Temps passé
         category: Catégorie
@@ -585,10 +590,10 @@ fr:
         versionName: Version
         version: Version
       default_queries:
-        latest_activity: Latest activity
-        created_by_me: Created by me
-        assigned_to_me: Assigned to me
-        recently_created: Recently created
+        latest_activity: Dernière activité
+        created_by_me: Créé par moi
+        assigned_to_me: Assigné à moi
+        recently_created: Créé récemment
         all_open: Tous les ouverts
         summary: Résumé
       jump_marks:
@@ -616,17 +621,18 @@ fr:
         insert_columns: Insérer des colonnes…
         filters: Filtres
         display_sums: Afficher les sommes
-        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
-          view? Title will be set back to previous value.
-        click_to_edit_query_name: Click to edit title of this view.
-        rename_query_placeholder: Name of this view
+        confirm_edit_cancel: Êtes-vous sûr de vouloir annuler la modification du nom
+          de cette vue ? Le titre sera redéfini selon la valeur précédente.
+        click_to_edit_query_name: Cliquez ici pour modifier le titre de cette présentation.
+        rename_query_placeholder: Nom de cette vue
         errors:
-          unretrievable_query: Unable to retrieve view from URL
-          not_found: There is no such view
-          duplicate_query_title: Name of this view already exists. Change anyway?
-        text_no_results: No matching views were found.
+          unretrievable_query: Impossible de récupérer la vue par l'URL
+          not_found: Cette vue n'existe pas
+          duplicate_query_title: Le nom de cette vue existe déjà. Changer quand même
+            ?
+        text_no_results: Aucune vue correspondante n'a été trouvée.
       table:
-        configure_button: Configure work package table
+        configure_button: Configurer le tableau du lot de travaux
         summary: Tableau avec lignes de lots de travaux et colonnes d’attributs de
           lots de travaux.
         text_inline_edit: La plupart des cellules de ce tableau sont des boutons qui
@@ -636,32 +642,40 @@ fr:
         text_select_hint: Les boîtes de sélection doivent être ouvertes avec la touche
           « ALT » et les flèches directionelles.
       table_configuration:
-        button: Configure this work package table
-        choose_display_mode: Display work packages as
-        modal_title: Work package table configuration
-        embedded_tab_disabled: This configuration tab is not available for the embedded
-          view you're editing.
+        button: Configurer ce tableau du lot de travaux
+        choose_display_mode: Afficher les lots de travaux comme
+        modal_title: Configuration du tableau du lot de travaux
+        embedded_tab_disabled: Cet onglet de configuration n’est pas disponible pour
+          la vue intégrée que vous êtes en train de modifier.
         default: défaut
-        display_settings: Display settings
-        default_mode: Flat list
-        hierarchy_mode: Hierarchy
-        hierarchy_hint: All filtered table results will be augmented with their ancestors.
-          Hierarchies can be expanded and collapsed.
-        display_sums_hint: Display sums of all summable attributes in a row below
-          the table results.
-        show_timeline_hint: Show an interactive gantt chart on the right side of the
-          table. You can change its width by dragging the divider between table and
-          gantt chart.
-        highlighting: Highlighting
+        display_settings: Paramètres d'affichage
+        default_mode: Liste ombrée
+        hierarchy_mode: Hiérarchie
+        hierarchy_hint: Tous les résultats du tableau filtrés seront augmentés de
+          leurs ancêtres . Les hiérarchies peuvent être dépliées et repliées.
+        display_sums_hint: Afficher les sommes de tous les attributs sommables dans
+          une ligne sous les résultats du tableau.
+        show_timeline_hint: Afficher un diagramme de Gantt interactif sur le côté
+          droit du tableau. Vous pouvez modifier sa largeur en faisant glisser le
+          séparateur entre le tableau et le diagramme de Gantt.
+        highlighting: Surlignement
         highlighting_mode:
-          description: Highlight with color
-          none: No highlighting
-          inline: Overdue dates, "Status", and "Priority" attributes
-          entire_row_by: Entire row by
+          description: Surligner avec de la couleur
+          none: Pas de surlignement
+          inline: Dates en retard, attribut "Statut" et "Priorité"
+          entire_row_by: Ligne entière par
           status: Statut
           priority: Priorité
-        columns_help_text: Use the input above to add or remove columns to your table
-          view. You can drag and drop the columns to reorder them.
+        columns_help_text: Utilisez l’entrée ci-dessus pour ajouter ou supprimer des
+          colonnes à votre vue du tableau. Vous pouvez déplacer les colonnes par glisser/déposer
+          pour les réorganiser.
+        upsale:
+          ee_only: Fonctionnalité exclusive Version Entreprise
+          attribute_highlighting: Vous avez besoin de lots de travaux qui sortent
+            du lot ?
+          relation_columns: Besoin de voir les relations sur la liste des lots de
+            travaux ?
+          check_out_link: Découvrez l’édition entreprise.
       tabs:
         overview: Vue globale
         activity: Activité
@@ -674,7 +688,7 @@ fr:
         months: mois
     toolbar:
       settings:
-        configure_view: Configure view ...
+        configure_view: Configurer la vue...
         columns: Colonnes…
         sort_by: Trier par…
         group_by: Grouper par…
@@ -685,16 +699,16 @@ fr:
         save: Enregistrer
         save_as: Enregistrer sous…
         export: Exporter…
-        visibility_settings: Visibility settings ...
-        page_settings: Rename view ...
+        visibility_settings: Paramètres de visibilité...
+        page_settings: Renommer la vue...
         delete: Supprimer
       filter: Filtre
       unselected_title: Lot de travaux
-      search_query_label: Search saved views
-      search_query_title: Click to search saved views
-      placeholder_query_title: Set a title for this view
+      search_query_label: Rechercher les vues enregistrées
+      search_query_title: Cliquez pour chercher les vues enregistrées
+      placeholder_query_title: Définir un titre pour cette vue
     modals:
-      label_settings: Rename view
+      label_settings: Renommer la vue
       label_name: Nom
       label_delete_page: Effacer la page en cours
       button_apply: Appliquer
@@ -704,17 +718,14 @@ fr:
       form_submit:
         title: Confirmez pour continuer
         text: Êtes-vous sûr de vouloir effectuer cette action ?
-      upsale_relation_columns: Besoin de voir les relations sur la liste des lots
-        de travaux ?
-      upsale_relation_columns_link: Découvrez l’édition entreprise.
       destroy_work_package:
         title: Confirmer la suppression de %{label}
         text: Voulez-vous vraiment supprimer le %{label} suivant ?
         has_children: 'Le lot de travaux a %{childUnits} :'
-        confirm_deletion_children: I acknowledge that ALL descendants of the listet
-          work packages will be recursively removed.
-        deletes_children: All child work packages and their descendants will also
-          be recursively deleted.
+        confirm_deletion_children: Je reconnais que TOUS les descendants des lots
+          de travaux de la liste seront supprimés récursivement.
+        deletes_children: Tous les lots de travaux enfants et leurs descendants seront
+          également supprimés récursivement.
     notice_successful_create: Création réussie.
     notice_successful_delete: Suppression réussie.
     notice_successful_update: Mise à jour réussie.
@@ -741,9 +752,9 @@ fr:
         messages_on_field: 'Ce champ n’est pas valide : %{messages}'
     error_could_not_resolve_version_name: Ne peut résoudre le nom de version
     error_could_not_resolve_user_name: Impossible de trouver l'utilisateur
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
-    error_attachment_upload_permission: You don't have the permission to upload files
-      on this resource.
+    error_attachment_upload: 'Erreur de chargement du fichier "%{name}" : %{error}'
+    error_attachment_upload_permission: Vous n’avez pas l'autorisation de charger
+      des fichiers sur cette ressource.
     units:
       workPackage:
         one: lot de travaux

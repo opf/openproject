@@ -28,23 +28,18 @@
 
 require 'spec_helper'
 
-describe 'attachments routes', type: :request do
-  let(:user) { FactoryBot.create :admin }
-  let(:attachment) { FactoryBot.create :attachment }
-
-  describe 'for backwards compatibility' do
-    it 'redirects /attachments/download with filename to attachments#download' do
-      get '/attachments/download/42/foo.png'
-
-      expect(last_response).to be_redirect
-      expect(last_response.location).to end_with '/attachments/42/foo.png'
-    end
-
-    it 'redirects /attachments/download without filename to attachments#download' do
-      get '/attachments/download/42'
-
-      expect(last_response).to be_redirect
-      expect(last_response.location).to end_with '/attachments/42'
-    end
+describe News::CommentsController, 'routing', type: :routing do
+  context 'news scoped' do
+    it {
+      is_expected.to route(:post, '/news/567/comments').to(controller: 'news/comments',
+                                                           action: 'create',
+                                                           news_id: '567')
+    }
   end
+
+  it {
+    is_expected.to route(:delete, '/comments/15').to(controller: 'news/comments',
+                                                     action: 'destroy',
+                                                     id: '15')
+  }
 end

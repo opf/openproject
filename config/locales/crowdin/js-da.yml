@@ -60,7 +60,11 @@ da:
     description_subwork_package: 'Child of work package #%{id}'
     editor:
       preview: Toggle preview mode
-      error_saving_failed: 'Saving the document failed with the following error: %{e}'
+      source_code: Toggle Markdown source mode
+      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      mode:
+        manual: Switch to Markdown source
+        wysiwyg: Switch to WYSIWYG editor
       macro:
         child_pages:
           button: Links to child pages
@@ -641,12 +645,18 @@ da:
         highlighting_mode:
           description: Highlight with color
           none: No highlighting
-          inline: Overdue dates, "Status", and "Priority" attributes
+          inline: Overdue dates, "Status", and "Priority" attribute
           entire_row_by: Entire row by
           status: Status
           priority: Prioritet
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
+        upsale:
+          ee_only: Enterprise Edition only feature
+          attribute_highlighting: Need certain work packages to stand out from the
+            mass?
+          relation_columns: Need to see relations in the work package list?
+          check_out_link: Check out the Enterprise Edition.
       tabs:
         overview: Overblik
         activity: Aktivitet
@@ -689,8 +699,6 @@ da:
       form_submit:
         title: Confirm to continue
         text: Are you sure you want to perform this action?
-      upsale_relation_columns: Need to see relations in the work package list?
-      upsale_relation_columns_link: Check out the Enterprise Edition.
       destroy_work_package:
         title: Confirm deletion of %{label}
         text: Are you sure you want to delete the following %{label} ?

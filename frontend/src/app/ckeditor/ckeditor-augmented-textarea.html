@@ -1,6 +1,10 @@
 <ng-container>
   <div class="op-ckeditor--wrapper">
-    <div class="op-ckeditor-source-element __op_ckeditor_replacement_container"></div>
+    <op-ckeditor [context]="context"
+                 [content]="initialContent"
+                 (onInitialized)="setup($event)"
+                 ckEditorType="full">
+    </op-ckeditor>
   </div>
 
   <ng-container *ngIf="resource && resource.attachments">

@@ -2207,6 +2207,8 @@
   setting_welcome_on_homescreen: Display welcome block on homescreen
   setting_wiki_compression: Komprimering av wiki-historikk
   setting_work_package_group_assignment: Tillat tildeling til grupper
+  setting_work_package_list_default_highlighting_mode: Default work package highlighting
+    mode
   settings:
     general: Generell
     other: Øvrig

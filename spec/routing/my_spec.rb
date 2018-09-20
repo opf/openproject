@@ -56,4 +56,9 @@ describe 'my routes', type: :routing do
   it '/my/generate_api_key POST routes to my#generate_api_key' do
     expect(post('/my/generate_api_key')).to route_to('my#generate_api_key')
   end
+
+  it {
+    expect(get('/my/deletion_info')).to route_to(controller: 'users',
+                                                 action: 'deletion_info')
+  }
 end

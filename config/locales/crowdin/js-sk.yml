@@ -60,7 +60,11 @@ sk:
     description_subwork_package: 'Podradený pracovný balík #%{id}'
     editor:
       preview: Toggle preview mode
-      error_saving_failed: 'Saving the document failed with the following error: %{e}'
+      source_code: Toggle Markdown source mode
+      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      mode:
+        manual: Switch to Markdown source
+        wysiwyg: Switch to WYSIWYG editor
       macro:
         child_pages:
           button: Links to child pages
@@ -648,12 +652,18 @@ sk:
         highlighting_mode:
           description: Highlight with color
           none: No highlighting
-          inline: Overdue dates, "Status", and "Priority" attributes
+          inline: Overdue dates, "Status", and "Priority" attribute
           entire_row_by: Entire row by
           status: Stav
           priority: Priorita
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
+        upsale:
+          ee_only: Enterprise Edition only feature
+          attribute_highlighting: Need certain work packages to stand out from the
+            mass?
+          relation_columns: Potrebujete vidieť vzťahy v zozname pracovných balíčkov?
+          check_out_link: Pozrite si verziu Enterprise.
       tabs:
         overview: Prehľad
         activity: Činnosť
@@ -696,8 +706,6 @@ sk:
       form_submit:
         title: Confirm to continue
         text: Are you sure you want to perform this action?
-      upsale_relation_columns: Potrebujete vidieť vzťahy v zozname pracovných balíčkov?
-      upsale_relation_columns_link: Pozrite si verziu Enterprise.
       destroy_work_package:
         title: Potvrďte zmazanie %{label}
         text: Ste si istí, že chcete zmazať %{label}?

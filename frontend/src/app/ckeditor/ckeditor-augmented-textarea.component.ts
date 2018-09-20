@@ -26,10 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, OnInit, OnDestroy} from '@angular/core';
+import {Component, ElementRef, OnInit, OnDestroy, ViewChild, AfterContentInit} from '@angular/core';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {CKEditorSetupService, ICKEditorInstance} from 'core-components/ckeditor/ckeditor-setup.service';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {DynamicBootstrapper} from 'core-app/globals/dynamic-bootstrapper';
@@ -38,18 +37,19 @@ import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil, filter} from 'rxjs/operators';
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {ICKEditorContext, ICKEditorInstance} from "core-app/modules/common/ckeditor/ckeditor-setup.service";
+import {OpCkeditorComponent} from "core-app/modules/common/ckeditor/op-ckeditor.component";
 
 
 @Component({
-  selector: 'op-ckeditor-form',
-  templateUrl: './op-ckeditor-form.html'
+  selector: 'ckeditor-augmented-textarea',
+  templateUrl: './ckeditor-augmented-textarea.html'
 })
-export class OpCkeditorFormComponent implements OnInit, OnDestroy {
+export class CkeditorAugmentedTextareaComponent implements OnInit, OnDestroy {
   public textareaSelector:string;
   public previewContext:string;
 
   // Which template to include
-  public ckeditor:any;
   public $element:JQuery;
   public formElement:JQuery;
   public wrappedTextArea:JQuery;
@@ -59,22 +59,25 @@ export class OpCkeditorFormComponent implements OnInit, OnDestroy {
   public changed:boolean = false;
   public inFlight:boolean = false;
 
-  public text:any;
+  public initialContent:string;
   public resource?:HalResource;
+  public context:ICKEditorContext;
+
+  // Reference to the actual ckeditor instance component
+  @ViewChild(OpCkeditorComponent) private ckEditorInstance:OpCkeditorComponent;
 
   private attachments:HalResource[];
 
   constructor(protected elementRef:ElementRef,
               protected pathHelper:PathHelperService,
               protected halResourceService:HalResourceService,
-              protected ckEditorSetup:CKEditorSetupService,
               protected Notifications:NotificationsService,
               protected I18n:I18nService,
               protected states:States,
               protected ConfigurationService:ConfigurationService) {
   }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
 
     // Parse the attribute explicitly since this is likely a bootstrapped element
@@ -87,44 +90,29 @@ export class OpCkeditorFormComponent implements OnInit, OnDestroy {
 
     this.formElement = this.$element.closest('form');
     this.wrappedTextArea = this.formElement.find(this.textareaSelector);
-    this.wrappedTextArea.hide();
+    this.wrappedTextArea
+      .removeAttr('required')
+      .hide();
+    this.initialContent = this.wrappedTextArea.val();
+
     this.$attachmentsElement = this.formElement.find('#attachments_fields');
-    const wrapper = this.$element.find(`.__op_ckeditor_replacement_container`);
-    const context = { resource: this.resource,
-                      previewContext: this.previewContext };
-
-    const editorPromise = this.ckEditorSetup
-      .create('full',
-              wrapper[0],
-              context)
-      .then(this.setup.bind(this));
-
-    this.$element.data('editor', editorPromise);
+    this.context = { resource: this.resource, previewContext: this.previewContext };
   }
 
-  public ngOnDestroy() {
+  ngOnDestroy() {
     this.formElement.off('submit.ckeditor');
   }
 
   public setup(editor:ICKEditorInstance) {
-    this.ckeditor = editor;
-    (window as any).ckeditor = editor;
-    const rawValue = this.wrappedTextArea.val();
-
-    if (rawValue) {
-      editor.setData(rawValue);
-    }
-
     if (this.resource && this.resource.attachments) {
-      this.setupAttachmentAddedCallback();
-      this.setupAttachmentRemovalSignal();
+      this.setupAttachmentAddedCallback(editor);
+      this.setupAttachmentRemovalSignal(editor);
     }
 
     // Listen for form submission to set textarea content
     this.formElement.on('submit.ckeditor change.ckeditor', () => {
       try {
-        const value = this.ckeditor.getData();
-        this.wrappedTextArea.val(value);
+        this.wrappedTextArea.val(this.ckEditorInstance.getRawData());
       } catch (e) {
         console.error(`Failed to save CKEditor body to textarea: ${e}.`)
         this.Notifications.addError(e || this.I18n.t('js.errors.internal'));
@@ -144,13 +132,13 @@ export class OpCkeditorFormComponent implements OnInit, OnDestroy {
     return editor;
   }
 
-  private setupAttachmentAddedCallback() {
-    this.ckeditor.model.on('op:attachment-added', () => {
+  private setupAttachmentAddedCallback(editor:ICKEditorInstance) {
+    editor.model.on('op:attachment-added', () => {
       this.states.forResource(this.resource!).putValue(this.resource!);
     });
   }
 
-  private setupAttachmentRemovalSignal() {
+  private setupAttachmentRemovalSignal(editor:ICKEditorInstance) {
     this.attachments = _.clone(this.resource!.attachments.elements);
 
     this.states.forResource(this.resource!).changes$()
@@ -165,7 +153,7 @@ export class OpCkeditorFormComponent implements OnInit, OnDestroy {
       let removedUrls = missingAttachments.map(attachment => attachment.downloadLocation.$href);
 
       if (removedUrls.length) {
-        this.ckeditor.model.fire('op:attachment-removed', removedUrls);
+        editor.model.fire('op:attachment-removed', removedUrls);
       }
 
       this.attachments = _.clone(resource!.attachments.elements);
@@ -212,7 +200,7 @@ export class OpCkeditorFormComponent implements OnInit, OnDestroy {
 }
 
 DynamicBootstrapper.register({
-  selector: 'op-ckeditor-form',
-  cls: OpCkeditorFormComponent,
+  selector: 'ckeditor-augmented-textarea',
+  cls: CkeditorAugmentedTextareaComponent,
   embeddable: true
 });

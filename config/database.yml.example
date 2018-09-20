@@ -47,7 +47,6 @@ production:
       strict_all_tables,\
       no_zero_in_date,\
       error_for_division_by_zero,\
-      no_auto_create_user,\
       no_engine_substitution"
 
 development:
@@ -69,7 +68,6 @@ development:
       strict_all_tables,\
       no_zero_in_date,\
       error_for_division_by_zero,\
-      no_auto_create_user,\
       no_engine_substitution"
 
 # Warning: The database defined as "test" will be erased and
@@ -95,7 +93,6 @@ test:
       strict_all_tables,\
       no_zero_in_date,\
       error_for_division_by_zero,\
-      no_auto_create_user,\
       no_engine_substitution"
 
 #test_pgsql:

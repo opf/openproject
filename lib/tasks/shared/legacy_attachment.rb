@@ -35,7 +35,7 @@ module Tasks
         end
 
         if file_name && File.readable?(file)
-          FileUtils.move file, new_file
+          FileUtils.move file, new_file unless file == new_file
           attachment.file = File.open(new_file)
           attachment.filename = ''
           attachment.save!

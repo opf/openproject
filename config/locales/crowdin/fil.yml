@@ -2292,6 +2292,8 @@ fil:
   setting_welcome_on_homescreen: I-display ang welcome block sa homescreen
   setting_wiki_compression: Pag-compress ng wiki na kasaysayan
   setting_work_package_group_assignment: Pinayagan ang gawain sa mga grupo
+  setting_work_package_list_default_highlighting_mode: Default work package highlighting
+    mode
   settings:
     general: Pangkalahatan
     other: Iba pa

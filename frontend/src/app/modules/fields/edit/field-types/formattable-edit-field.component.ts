@@ -25,15 +25,21 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {AfterViewInit, Component} from "@angular/core";
+import {Component, ViewChild} from "@angular/core";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {CKEditorSetupService, ICKEditorInstance} from "core-components/ckeditor/ckeditor-setup.service";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
+import {OpCkeditorComponent} from "core-app/modules/common/ckeditor/op-ckeditor.component";
+import {ICKEditorContext, ICKEditorInstance} from "core-app/modules/common/ckeditor/ckeditor-setup.service";
 
 export const formattableFieldTemplate = `
     <div class="textarea-wrapper">
       <div class="op-ckeditor--wrapper op-ckeditor-element">
-        <textarea class="op-ckeditor-source-element" hidden [value]="rawValue"></textarea>
+        <op-ckeditor [context]="ckEditorContext"
+                     [content]="rawValue"
+                     (onContentChange)="onContentChange($event)"
+                     (onInitialized)="onCkeditorSetup($event)"
+                     [ckEditorType]="editorType">
+        </op-ckeditor>
       </div>
       <edit-field-controls *ngIf="!handler.inEditMode"
                            [fieldController]="field"
@@ -48,56 +54,55 @@ export const formattableFieldTemplate = `
 @Component({
   template: formattableFieldTemplate
 })
-export class FormattableEditFieldComponent extends EditFieldComponent implements AfterViewInit {
+export class FormattableEditFieldComponent extends EditFieldComponent {
   readonly pathHelper:PathHelperService = this.$injector.get(PathHelperService);
-  readonly ckEditorSetup:CKEditorSetupService = this.$injector.get(CKEditorSetupService);
 
   public readonly field = this;
+
+  @ViewChild(OpCkeditorComponent) instance:OpCkeditorComponent;
 
   // Values used in template
   public isPreview:boolean = false;
   public previewHtml:string = '';
   public text = {
     attachmentLabel: this.I18n.t('js.label_formattable_attachment_hint'),
-    save: this.I18n.t('js.inplace.button_save', { attribute: this.schema.name }),
-    cancel: this.I18n.t('js.inplace.button_cancel', { attribute: this.schema.name })
+    save: this.I18n.t('js.inplace.button_save', {attribute: this.schema.name}),
+    cancel: this.I18n.t('js.inplace.button_cancel', {attribute: this.schema.name})
   };
 
-  // CKEditor instance
-  public ckeditor:any;
-
-  public ngAfterViewInit() {
-    this.setupMarkdownEditor(this.elementRef.nativeElement);
+  public onCkeditorSetup(editor:ICKEditorInstance) {
+    if (!this.resource.isNew) {
+      setTimeout(() => editor.editing.view.focus());
+    }
   }
 
-  public setupMarkdownEditor(container:HTMLElement) {
-    const element = container.querySelector('.op-ckeditor-source-element') as HTMLElement;
+  public getCurrentValue() {
+    return this.instance.getTransformedContent();
+  }
 
-    const context = { resource: this.resource,
-      macros: 'none' as 'none',
-      previewContext: this.previewContext };
+  public onContentChange(value:string) {
+    this.rawValue = value;
+  }
 
-    this.ckEditorSetup
-      .create(this.editorType,
-        element,
-        context)
-      .then((editor:ICKEditorInstance) => {
-        this.ckeditor = editor;
-        if (!this.resource.isNew) {
-          setTimeout(() => editor.editing.view.focus());
-        }
-
-        this.updateValueOnEditorChange(editor);
+  public handleUserSubmit() {
+    this.getCurrentValue()
+      .then((value:string) => {
+        this.field.rawValue = value;
+        this.handler.handleUserSubmit();
       });
+
+    return false;
   }
 
-  private updateValueOnEditorChange(editor:any) {
-    editor.model.document.on('change', () => {
-      this.rawValue = this.ckeditor.getData();
-    } );
+  public get ckEditorContext():ICKEditorContext {
+    return {
+      resource: this.resource,
+      macros: 'none' as 'none',
+      previewContext: this.previewContext
+    };
   }
 
-  private get editorType() {
+  public get editorType() {
     if (this.name === 'description') {
       return 'full';
     } else {
@@ -114,7 +119,17 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   }
 
   public reset() {
-    this.ckeditor.setData(this.rawValue);
+    if (this.instance) {
+      this.instance.content = this.rawValue;
+    }
+  }
+
+  public onSubmit() {
+    this
+      .getCurrentValue()
+      .then((value:string) => {
+        this.rawValue = value;
+      });
   }
 
   public get rawValue() {
@@ -126,18 +141,14 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   }
 
   public set rawValue(val:string) {
-    this.value = { raw: val };
+    this.value = {raw: val};
+  }
+
+  public isEmpty():boolean {
+    return !(this.value && this.value.raw);
   }
 
   public get isFormattable() {
     return true;
-  }
-
-  public isEmpty():boolean {
-    if (this.ckeditor) {
-      return this.ckeditor.getData() === '';
-    } else {
-      return !(this.value && this.value.raw);
-    }
   }
 }

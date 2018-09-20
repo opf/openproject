@@ -23,7 +23,7 @@ apt-get install apt-transport-https
 
 ```
 wget -O /etc/apt/sources.list.d/openproject-ce.list \
-  https://dl.packager.io/srv/opf/openproject-ce/stable/7/installer/debian/9.repo
+  https://dl.packager.io/srv/opf/openproject-ce/stable/8/installer/debian/9.repo
 ```
 
 

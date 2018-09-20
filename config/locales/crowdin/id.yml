@@ -2202,6 +2202,8 @@ id:
   setting_welcome_on_homescreen: Display welcome block on homescreen
   setting_wiki_compression: Kompresi Wiki histori
   setting_work_package_group_assignment: Mungkinkan penugasan ke Grup
+  setting_work_package_list_default_highlighting_mode: Default work package highlighting
+    mode
   settings:
     general: Umum
     other: Lainnya

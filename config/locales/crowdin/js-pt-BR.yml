@@ -5,8 +5,9 @@ pt-BR:
       hide: Ocultar
       loading: Carregando ...
     attachments:
-      draggable_hint: 'Drag on editor field to inline image or reference attachment.
-        Closed editor fields will be opened while you keep dragging.
+      draggable_hint: 'Arraste sobre o campo do editor para incorporar uma imagem
+        ou anexo de referência. Campos do editor fechados serão abertos enquanto você
+        continuar arrastando.
 
 '
     autocomplete_select:
@@ -60,7 +61,11 @@ pt-BR:
     description_subwork_package: 'Filho do pacote de trabalho #%{id}'
     editor:
       preview: Alternar modo de visualização
-      error_saving_failed: 'Saving the document failed with the following error: %{e}'
+      source_code: Toggle Markdown source mode
+      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      mode:
+        manual: Switch to Markdown source
+        wysiwyg: Switch to WYSIWYG editor
       macro:
         child_pages:
           button: Links para páginas filhas
@@ -89,7 +94,7 @@ pt-BR:
           button: Incluir o conteúdo de outra página wiki
           text: "[Placeholder] Incluída a página wiki de"
           page: Página wiki
-          not_set: "(Page not yet set)"
+          not_set: "(Página ainda não definida)"
           hint: 'Inclua o conteúdo de outra página wiki, especificando seu título
             ou slug. Você pode incluir a página wiki de um outro projeto, separando-a
             com dois pontos como exemplo a seguir.
@@ -110,8 +115,8 @@ pt-BR:
       internal: Ocorreu um erro interno.
       cannot_save_changes_with_message: 'Não foi possível salvar as alterações devido
         ao seguinte erro: %{error}'
-      query_saving: The view could not be saved.
-      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
+      query_saving: A visão não pode ser salva.
+      embedded_table_loading: 'A visão incorporada não pôde ser carregada: %{message}'
     filter:
       description:
         text_open_filter: Abra este filtro com a tecla 'ALT' e as teclas de seta.
@@ -189,7 +194,7 @@ pt-BR:
     label_in: em
     label_in_less_than: em menos de
     label_in_more_than: em mais de
-    label_latest_activity: Latest activity
+    label_latest_activity: Última atividade
     label_last_updated_on: Última atualização em
     label_less_or_equal: "<="
     label_less_than_ago: menos dias atrás
@@ -227,8 +232,8 @@ pt-BR:
     label_sort_higher: Mover para cima
     label_sort_lower: Mover para baixo
     label_sorting: Ordenação
-    label_star_query: Favored
-    label_press_enter_to_save: Press enter to save.
+    label_star_query: Favorecido
+    label_press_enter_to_save: Pressione enter para salvar.
     label_public_query: Público
     label_sum_for: Soma para
     label_subject: Assunto
@@ -251,10 +256,10 @@ pt-BR:
     label_unwatch: Não observar
     label_unwatch_work_package: Não mais observar pacote de trabalho
     label_uploaded_by: Enviado por
-    label_default_queries: Default views
-    label_starred_queries: Favorite views
-    label_global_queries: Public views
-    label_custom_queries: Private views
+    label_default_queries: Visões padrão
+    label_starred_queries: Visões favoritas
+    label_global_queries: Visões públicas
+    label_custom_queries: Visões privadas
     label_columns: Colunas
     label_attachments: Arquivos
     label_drop_files: Solte os arquivos aqui
@@ -389,8 +394,7 @@ pt-BR:
       activate_no: ative para remover a classificação
     text_work_packages_destroy_confirmation: Tem certeza que deseja excluir o(s) pacote(s)
       de trabalho selecionado(s)?
-    text_query_destroy_confirmation: Are you sure you want to delete the selected
-      view?
+    text_query_destroy_confirmation: Tem certeza que deseja excluir a visão selecionada?
     text_attachment_destroy_confirmation: Tem certeza de que deseja excluir o anexo?
     timelines:
       gantt_chart: Gráfico de Gantt
@@ -407,10 +411,10 @@ pt-BR:
 
 '
       button_activate: Exibir gráfico de Gantt
-      button_deactivate: Hide Gantt chart
+      button_deactivate: Ocultar gráfico de Gantt
       cancel: Cancelar
       change: Mudar no planejamento
-      due_date: Finish date
+      due_date: Data de conclusão
       empty: "(vazio)"
       error: Ocorreu um erro.
       errors:
@@ -455,8 +459,8 @@ pt-BR:
         quarters: Trimestres
         years: Anos
         slider: Controle deslizante de zoom
-        description: 'Select the initial zoom level that should be shown when autozoom
-          is not available.
+        description: 'Selecione o nível de zoom inicial que deve ser exibido quando
+          o zoom automático não estiver disponível.
 
 '
     tl_toolbar:
@@ -546,7 +550,7 @@ pt-BR:
           os filhos filtrados
       faulty_query:
         title: Pacotes de trabalho não podem ser carregados.
-        description: Your view is erroneous and could not be processed.
+        description: Sua visão está incorreta e não pôde ser processada.
       no_results:
         title: Não há pacotes de trabalho para exibir.
         description: Nenhum pacote criado ou todos os pacotes de trabalho foram filtrados.
@@ -561,7 +565,7 @@ pt-BR:
         createdAt: Criado em
         description: Descrição
         date: Data
-        dueDate: Finish date
+        dueDate: Data de conclusão
         estimatedTime: Tempo estimado
         spentTime: Tempo gasto
         category: Categoria
@@ -578,10 +582,10 @@ pt-BR:
         versionName: Versão
         version: Versão
       default_queries:
-        latest_activity: Latest activity
-        created_by_me: Created by me
-        assigned_to_me: Assigned to me
-        recently_created: Recently created
+        latest_activity: Última atividade
+        created_by_me: Criado por mim
+        assigned_to_me: Atribuído a mim
+        recently_created: Criado recentemente
         all_open: Tudo aberto
         summary: Resumo
       jump_marks:
@@ -609,15 +613,15 @@ pt-BR:
         insert_columns: Inserir colunas...
         filters: Filtros
         display_sums: Exibir somas
-        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
-          view? Title will be set back to previous value.
-        click_to_edit_query_name: Click to edit title of this view.
-        rename_query_placeholder: Name of this view
+        confirm_edit_cancel: Tem certeza que deseja cancelar a edição do nome desta
+          visão? O título será definido novamente com o valor anterior.
+        click_to_edit_query_name: Clique para editar o título desta visão.
+        rename_query_placeholder: Nome desta visão
         errors:
-          unretrievable_query: Unable to retrieve view from URL
-          not_found: There is no such view
-          duplicate_query_title: Name of this view already exists. Change anyway?
-        text_no_results: No matching views were found.
+          unretrievable_query: Não foi possível recuperar a visualização da URL
+          not_found: Esta visão não existe
+          duplicate_query_title: O nome desta visão já existe. Modificar assim mesmo?
+        text_no_results: Nenhuma visão correspondente foi encontrada.
       table:
         configure_button: Configurar a tabela de pacote de trabalho
         summary: Tabela com linhas de pacote de trabalho e colunas com atributos do
@@ -630,14 +634,14 @@ pt-BR:
           seta.
       table_configuration:
         button: Configurar esta tabela de pacote de trabalho
-        choose_display_mode: Display work packages as
+        choose_display_mode: Exibir pacotes de trabalho como
         modal_title: Configuração de tabela de pacote de trabalho
-        embedded_tab_disabled: This configuration tab is not available for the embedded
-          view you're editing.
+        embedded_tab_disabled: Esta aba de configuração não está disponível para a
+          visão incorporada que você está editando.
         default: padrão
         display_settings: Configurações de exibição
-        default_mode: Flat list
-        hierarchy_mode: Hierarchy
+        default_mode: Lista plana
+        hierarchy_mode: Hierarquia
         hierarchy_hint: Todos os resultados da tabela filtrada serão aumentados com
           seus ancestrais. As hierarquias podem ser expandidas e recolhidas.
         display_sums_hint: Exiba as somas de todos os atributos somáveis na linha
@@ -645,16 +649,22 @@ pt-BR:
         show_timeline_hint: Exiba um gráfico de gantt interativo no lado direito da
           tela. Você pode alterar a largura arrastando a linha divisória entre a tabela
           e o gráfico.
-        highlighting: Highlighting
+        highlighting: Destacando
         highlighting_mode:
-          description: Highlight with color
-          none: No highlighting
-          inline: Overdue dates, "Status", and "Priority" attributes
-          entire_row_by: Entire row by
+          description: Destacar com cor
+          none: Sem destaque
+          inline: Datas em atraso, "Estado" e atributo de "Prioridade"
+          entire_row_by: Toda linha por
           status: Situação
           priority: Prioridade
         columns_help_text: Use a entrada acima para adicionar ou remover colunas à
           sua exibição de tabela. Você pode arrastar e soltar as colunas para reordená-las.
+        upsale:
+          ee_only: Recurso exclusivo da Enterprise Edition
+          attribute_highlighting: Precisa de certos pacotes de trabalho para se destacar
+            da massa?
+          relation_columns: Necessário ver as relações na lista de pacote de trabalho?
+          check_out_link: Confira a versão Enterprise Edition.
       tabs:
         overview: Visão geral
         activity: Atividade
@@ -678,14 +688,14 @@ pt-BR:
         save: Salvar
         save_as: Salvar como ...
         export: Exportar ...
-        visibility_settings: Visibility settings ...
+        visibility_settings: Configurações de visibilidade ...
         page_settings: Renomear visualização...
         delete: Excluir
       filter: Filtro
       unselected_title: Pacote de trabalho
-      search_query_label: Search saved views
-      search_query_title: Click to search saved views
-      placeholder_query_title: Set a title for this view
+      search_query_label: Buscar visões salvas
+      search_query_title: Clique para procurar visões salvas
+      placeholder_query_title: Definir um título para esta visão
     modals:
       label_settings: Renomear visualização
       label_name: Nome
@@ -697,16 +707,14 @@ pt-BR:
       form_submit:
         title: Confirme para continuar
         text: Tem certeza de que deseja executar esta ação?
-      upsale_relation_columns: Necessário ver as relações na lista de pacote de trabalho?
-      upsale_relation_columns_link: Confira a versão Enterprise Edition.
       destroy_work_package:
         title: Confirmar exclusão do %{label}
         text: Você tem certeza que deseja excluir o seguinte %{label}?
         has_children: 'O pacote de trabalho tem %{childUnits}:'
-        confirm_deletion_children: I acknowledge that ALL descendants of the listet
-          work packages will be recursively removed.
-        deletes_children: All child work packages and their descendants will also
-          be recursively deleted.
+        confirm_deletion_children: Tenho conhecimento de que TODOS os descendentes
+          dos pacotes de trabalho listados serão removidos recursivamente.
+        deletes_children: Todos os pacotes de trabalho filhos e seus descendentes
+          também serão excluídos recursivamente.
     notice_successful_create: Criado com sucesso.
     notice_successful_delete: Excluído com sucesso.
     notice_successful_update: Atualizado com sucesso.
