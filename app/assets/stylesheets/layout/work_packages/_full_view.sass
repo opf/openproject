@@ -130,10 +130,7 @@ body.controller-work_packages.full-create
   position: relative
 
   .work-packages--panel-inner
-    position: absolute
-    display: inline-block
-    padding: 15px 15px 0px 0px
-    width: calc(100% - 18px)
+    padding: 15px 15px 0px 15px
 
   .work-package-details-activities-activity-contents ul.work-package-details-activities-messages
     padding-left: 0
@@ -176,6 +173,9 @@ body.controller-work_packages.full-create
   .work-packages--show-view
     // Important for Safari
     height: initial
+  .work-packages-full-view--split-right
+    overflow: visible
+    flex-basis: initial !important
 
 @media only screen and (max-width: 679px)
   #toolbar

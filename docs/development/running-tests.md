@@ -269,7 +269,7 @@ you can access both from inside a VM with nat/bridged networking as follows:
 npm run serve-public
 
 # Start your openproject server with the CLI proxy configuration set
-OPENPROJECT_CLI_PROXY='<your local ip>:4200' ./bin/rails s -b 0.0.0.0 -p 3000
+OPENPROJECT_CLI_PROXY='http://<your local ip>:4200' ./bin/rails s -b 0.0.0.0 -p 3000
 
 # Now access your server from http://<your local ip>:3000 with code reloading
 ```
