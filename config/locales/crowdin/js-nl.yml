@@ -716,8 +716,8 @@ nl:
         title: Bevestig verwijdering van %{label}
         text: Weet u zeker dat u werkpakket %{label} wilt verwijderen?
         has_children: 'Het werkpakket heeft %{childUnits}:'
-        confirm_deletion_children: Ik erken dat alle onderliggende werkpakketten van
-          de weergegeven werkpakketten verwijderd worden.
+        confirm_deletion_children: I acknowledge that ALL descendants of the listed
+          work packages will be recursively removed.
         deletes_children: Alle onderliggende werkpakketten en hun nakomelingen ook
           worden verwijderd.
     notice_successful_create: Aanmaak geslaagd.
