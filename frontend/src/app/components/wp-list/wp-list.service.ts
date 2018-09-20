@@ -47,7 +47,7 @@ import {NotificationsService} from 'core-app/modules/common/notifications/notifi
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {input} from "reactivestates";
-import {catchError, distinctUntilChanged, map, share, switchMap, take} from "rxjs/operators";
+import {catchError, distinctUntilChanged, map, share, shareReplay, switchMap, take} from "rxjs/operators";
 import {from, Observable} from "rxjs";
 
 export interface QueryDefinition {
@@ -66,8 +66,7 @@ export class WorkPackagesListService {
     .values$()
     .pipe(
       switchMap((q:QueryDefinition) => this.handleQueryRequest(q.queryParams, q.projectIdentifier)),
-      distinctUntilChanged(),
-      share(),
+      shareReplay(1)
     );
 
   private queryChanges = new BehaviorSubject<string>('');
@@ -90,7 +89,6 @@ export class WorkPackagesListService {
   }
 
   private handleQueryRequest(queryParams:{ query_id?:number, query_props?:string }, projectIdentifier ?:string):Observable<QueryResource> {
-    console.trace(`HANDLING REQUEST ${queryParams.query_id} ${queryParams.query_props}`);
     const decodedProps = this.getCurrentQueryProps(queryParams);
     const queryData = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(decodedProps);
     const stream = this.QueryDm.stream(queryData, queryParams.query_id, projectIdentifier);
