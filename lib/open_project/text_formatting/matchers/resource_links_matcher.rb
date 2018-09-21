@@ -98,6 +98,7 @@ module OpenProject::TextFormatting
             )
             |\.\z # Allow matching when string ends with .
             |, # or with ,
+            |\) # or with )
             |[[:space:]]
             |\]
             |<
