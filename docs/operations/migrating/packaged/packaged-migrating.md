@@ -10,10 +10,10 @@ To create a dump of all your data in the old installation, please follow our [ba
 
 This guide should leave you with a set of archives that you should manually move to your new environment:
 
-- **Database**: mysql-dump-<timestamp>.sql.gz or postgresql-dump<timestamp>.pgdump
-- **Attachments**: attachments-<timestamp>.tar.gz
-- **Custom env configuration**: conf-<timestamp>.tar.gz
-- **Repositories**: svn- and git-<timestamp>.tar.gz
+- **Database**: mysql-dump-\<timestamp>.sql.gz or postgresql-dump\<timestamp>.pgdump
+- **Attachments**: attachments-\<timestamp>.tar.gz
+- **Custom env configuration**: conf-\<timestamp>.tar.gz
+- **Repositories**: svn- and git-\<timestamp>.tar.gz
 
 
 
