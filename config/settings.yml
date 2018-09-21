@@ -41,6 +41,9 @@ smtp_openssl_verify_mode:
 smtp_enable_starttls_auto:
   default: 0
   format: boolean
+smtp_ssl:
+  default: 0
+  format: boolean
 smtp_address:
   default: ""
 smtp_port:

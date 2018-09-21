@@ -91,6 +91,18 @@
 #   smtp_user_name: "your_email@gmail.com"
 #   smtp_password: "your_password"
 #
+# ==== SMTP server at using SSL
+#
+# production:
+#   email_delivery_method: "smtp"
+#   smtp_enable_starttls_auto: false
+#   smtp_ssl: true
+#   smtp_address: "smtp.gmail.com"
+#   smtp_port: 587
+#   smtp_domain: "smtp.gmail.com" # 'your.domain.com' for GoogleApps
+#   smtp_authentication: :plain
+#   smtp_user_name: "your_email@gmail.com"
+#   smtp_password: "your_password"
 #
 # === More configuration options
 #
