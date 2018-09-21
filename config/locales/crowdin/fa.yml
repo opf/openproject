@@ -671,78 +671,78 @@ fa:
     status: Status
     subject: Subject
     summary: Summary
-    title: Title
+    title: عنوان
     type: نوع
-    updated_at: Updated on
-    updated_on: Updated on
+    updated_at: به روز شده
+    updated_on: به روز شده
     user: User
     version: نسخه
     work_package: Work package
-  button_add: Add
+  button_add: ﺍﻓﺰﻭﺩﻥ
   button_add_member: Add member
   button_add_watcher: Add watcher
   button_annotate: Annotate
-  button_apply: Apply
-  button_archive: Archive
-  button_back: Back
-  button_cancel: Cancel
-  button_change: Change
-  button_change_parent_page: Change parent page
-  button_change_password: Change password
-  button_check_all: Check all
-  button_clear: Clear
+  button_apply: درخواست
+  button_archive: آرشیو
+  button_back: برگشت
+  button_cancel: لغو
+  button_change: تغییر
+  button_change_parent_page: تغییر صفحه والدین
+  button_change_password: تغییر رمز عبور
+  button_check_all: بررسی همه
+  button_clear: پاکسازی
   button_close: Close
-  button_collapse_all: Collapse all
-  button_configure: Configure
+  button_collapse_all: بستن همه
+  button_configure: ویرایش
   button_continue: Continue
   button_copy: کپی
-  button_copy_and_follow: Copy and follow
-  button_create: Create
-  button_create_and_continue: Create and continue
-  button_delete: Delete
+  button_copy_and_follow: کپی کنید و دنبال کردن
+  button_create: ایجاد
+  button_create_and_continue: ذخیره و ادامه
+  button_delete: حذف
   button_decline: Decline
   button_delete_watcher: Delete watcher %{name}
   button_download: Download
-  button_duplicate: Duplicate
-  button_edit: Edit
-  button_edit_associated_wikipage: 'Edit associated Wiki page: %{page_title}'
-  button_expand_all: Expand all
+  button_duplicate: نسخه برداری
+  button_edit: ویرایش
+  button_edit_associated_wikipage: 'ویرایش صفحه ویکی مرتبط: %{page_title}'
+  button_expand_all: باز کردن همه
   button_filter: Filter
   button_generate: Generate
-  button_list: List
+  button_list: لیست
   button_lock: قفل کردن
   button_log_time: پیگیری زمان
   button_login: ورود
   button_move: انتقال
-  button_move_and_follow: Move and follow
+  button_move_and_follow: کپی و دنبال کردن
   button_print: چاپ کردن
   button_quote: نقل قول
   button_remove: Remove
-  button_remove_widget: Remove widget
-  button_rename: Rename
+  button_remove_widget: حذف ویجت
+  button_rename: تغییر نام
   button_replace: Replace
-  button_reply: Reply
-  button_reset: Reset
-  button_rollback: Rollback to this version
-  button_save: Save
+  button_reply: پاسخ دادن
+  button_reset: تنظیم مجدد
+  button_rollback: برگرداندن به این نسخه
+  button_save: ذخیره
   button_save_back: Save and back
-  button_show: Show
-  button_sort: Sort
-  button_submit: Submit
-  button_test: Test
-  button_unarchive: Unarchive
-  button_uncheck_all: Uncheck all
-  button_unlock: Unlock
-  button_unwatch: Unwatch
+  button_show: نمایش
+  button_sort: مرتب‌سازی
+  button_submit: ثبت کردن
+  button_test: بررسی
+  button_unarchive: خروج از آرشیو
+  button_uncheck_all: لغو انتخاب همه
+  button_unlock: باز کردن
+  button_unwatch: عدم دنبال
   button_update: به روز رسانی
   button_upgrade: Upgrade
   button_upload: Upload
   button_view: مشاهده
   button_watch: نگاه کردن
-  button_manage_menu_entry: Configure menu item
-  button_add_menu_entry: Add menu item
-  button_configure_menu_entry: Configure menu item
-  button_delete_menu_entry: Delete menu item
+  button_manage_menu_entry: پیکربندی وسایل منو
+  button_add_menu_entry: افزودن آیتم منو
+  button_configure_menu_entry: پیکربندی وسایل منو
+  button_delete_menu_entry: حذف آیتم های منو
   consent:
     checkbox_label: I have noted and do consent to the above.
     failure_message: Consent failed, cannot proceed.
@@ -1256,7 +1256,7 @@ fa:
   label_duplicated_by: duplicated by
   label_duplicate: duplicate
   label_duplicates: duplicates
-  label_edit: Edit
+  label_edit: ویرایش
   label_enable_multi_select: Toggle multiselect
   label_enabled_project_custom_fields: Enabled custom fields
   label_enabled_project_modules: Enabled modules
@@ -1342,7 +1342,7 @@ fa:
   label_ldap_authentication: LDAP authentication
   label_less_or_equal: "<="
   label_less_than_ago: less than days ago
-  label_list: List
+  label_list: لیست
   label_loading: Loading...
   label_lock_user: کاربر قفل شده
   label_logged_as: Logged in as
@@ -1511,7 +1511,7 @@ fa:
   label_settings: Settings
   label_system_settings: System settings
   label_show_completed_versions: Show completed versions
-  label_sort: Sort
+  label_sort: مرتب‌سازی
   label_sort_by: Sort by %{value}
   label_sorted_by: sorted by %{value}
   label_sort_higher: Move up
@@ -2278,7 +2278,7 @@ fa:
   text_database_allows_tsv: Database allows TSVector (optional)
   text_default_administrator_account_changed: Default administrator account changed
   text_default_encoding: 'Default: UTF-8'
-  text_destroy: Delete
+  text_destroy: حذف
   text_destroy_with_associated: 'There are additional objects assossociated with the
     work package(s) that are to be deleted. Those objects are of the following types:'
   text_destroy_what_to_do: What do you want to do?
@@ -2402,13 +2402,13 @@ fa:
     dates_are_calculated_based_on_sub_elements: Dates are calculated based on sub
       elements.
     delete_all: Delete all
-    delete_thing: Delete
+    delete_thing: حذف
     duration: Duration
     duration_days:
       one: 1 day
       other: "%{count} days"
     edit_color: Edit color
-    edit_thing: Edit
+    edit_thing: ویرایش
     edit_timeline: Edit timeline report %{timeline}
     delete_timeline: Delete timeline report %{timeline}
     empty: "(empty)"
@@ -2617,7 +2617,7 @@ fa:
       mail_self_notified: I want to be notified of changes that I make myself
     status_user_and_brute_force: "%{user} and %{brute_force}"
     status_change: تغییر وضعیت
-    unlock: Unlock
+    unlock: باز کردن
     unlock_and_reset_failed_logins: Unlock and reset failed logins
   version_status_closed: closed
   version_status_locked: locked

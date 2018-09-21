@@ -74,6 +74,7 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
   titleEditingEnabled:boolean;
 
   currentQuery:QueryResource;
+  private removeTransitionSubscription:Function;
 
 
   constructor(readonly states:States,
@@ -115,7 +116,7 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
     this.setupRefreshObserver();
 
     // Listen for param changes
-    this.$transitions.onSuccess({}, (transition):any => {
+    this.removeTransitionSubscription = this.$transitions.onSuccess({}, (transition):any => {
       let options = transition.options();
 
       // Avoid performing any changes when we're going to reload
@@ -135,6 +136,7 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy():void {
+    this.removeTransitionSubscription();
     this.wpTableRefresh.clear('Table controller scope destroyed.');
   }
 
