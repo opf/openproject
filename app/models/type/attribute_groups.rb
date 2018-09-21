@@ -35,9 +35,9 @@ module Type::AttributeGroups
     before_save :write_attribute_groups_objects
     after_save :unset_attribute_groups_objects
     after_destroy :remove_attribute_groups_queries
-    validate :validate_attribute_group_names
-    validate :validate_attribute_groups
+
     serialize :attribute_groups, Array
+    attr_accessor :attribute_groups_objects
 
     # Mapping from AR attribute name to a default group
     # May be extended by plugins
@@ -135,9 +135,6 @@ module Type::AttributeGroups
     self.attribute_groups_objects = nil
   end
 
-  protected
-
-  attr_accessor :attribute_groups_objects
 
   private
 
@@ -167,44 +164,6 @@ module Type::AttributeGroups
     end
   end
 
-  def validate_attribute_group_names
-    seen = Set.new
-    attribute_groups.each do |group|
-      errors.add(:attribute_groups, :group_without_name) unless group.key.present?
-      errors.add(:attribute_groups, :duplicate_group, group: group.key) if seen.add?(group.key).nil?
-    end
-  end
-
-  def validate_attribute_groups
-    attribute_groups_objects.each do |group|
-      if group.is_a?(Type::QueryGroup)
-        validate_query_group(group)
-      else
-        validate_attribute_group(group)
-      end
-    end
-  end
-
-  def validate_query_group(group)
-    query = group.query
-
-    contract_class = query.persisted? ? Queries::UpdateContract : Queries::CreateContract
-    contract = contract_class.new(query, User.current)
-
-    unless contract.validate
-      errors.add(:attribute_groups, :query_invalid, group: group.key, details: contract.errors.full_messages.join)
-    end
-  end
-
-  def validate_attribute_group(group)
-    valid_attributes = work_package_attributes.keys
-
-    group.attributes.each do |key|
-      if key.is_a?(String) && valid_attributes.exclude?(key)
-        errors.add(:attribute_groups, :attribute_unknown)
-      end
-    end
-  end
 
   ##
   # Get the default attribute groups for this type.
