@@ -653,7 +653,7 @@ lol:
         title: crwdns101990:0%{label}crwdne101990:0
         text: crwdns101991:0%{label}crwdne101991:0
         has_children: crwdns101992:0%{childUnits}crwdne101992:0
-        confirm_deletion_children: crwdns101993:0crwdne101993:0
+        confirm_deletion_children: crwdns102528:0crwdne102528:0
         deletes_children: crwdns101994:0crwdne101994:0
     notice_successful_create: crwdns101995:0crwdne101995:0
     notice_successful_delete: crwdns101996:0crwdne101996:0
