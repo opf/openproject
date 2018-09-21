@@ -50,12 +50,6 @@ describe WikiPage, type: :model do
     assert @wiki.pages.include?(page)
   end
 
-  it 'should sidebar should be protected by default' do
-    page = @wiki.find_or_new_page('sidebar')
-    assert page.new_record?
-    assert page.protected?
-  end
-
   it 'should find or new page' do
     page = @wiki.find_or_new_page('CookBook documentation')
     assert_kind_of WikiPage, page
