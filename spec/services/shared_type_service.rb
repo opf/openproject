@@ -33,7 +33,7 @@ shared_examples_for 'type service' do
 
   describe '#call' do
     before do
-      expect(type)
+      allow(type)
         .to receive(:save)
         .and_return(success)
     end
@@ -127,7 +127,7 @@ shared_examples_for 'type service' do
         ['group1', query_params]
       end
       let(:params) { { attribute_groups: [query_group_params] } }
-      let(:query) { FactoryBot.build_stubbed(:query) }
+      let(:query) { FactoryBot.create(:query) }
       let(:service_result) { ServiceResult.new(success: true, result: query) }
 
       before do
@@ -155,13 +155,15 @@ shared_examples_for 'type service' do
           .to eql query
 
         expect(query.filters.length)
-          .to eql 1
+          .to eql 2
 
         expect(query.filters[0].name)
+          .to eql :status_id
+        expect(query.filters[1].name)
           .to eql :parent
-        expect(query.filters[0].operator)
+        expect(query.filters[1].operator)
           .to eql '='
-        expect(query.filters[0].values)
+        expect(query.filters[1].values)
           .to eql [::Queries::Filters::TemplatedValue::KEY]
       end
 
@@ -180,6 +182,7 @@ shared_examples_for 'type service' do
 
     context 'on failure' do
       let(:success) { false }
+      let(:params) { { name: nil } }
 
       subject { service_call }
 
@@ -188,12 +191,8 @@ shared_examples_for 'type service' do
       end
 
       it 'returns the errors of the type' do
-        type_errors = 'all the errors'
-        allow(type)
-          .to receive(:errors)
-          .and_return(type_errors)
-
-        expect(subject.errors).to eql type_errors
+        type.name = nil
+        expect(subject.errors.symbols_for(:name)).to include :blank
       end
     end
   end
