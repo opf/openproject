@@ -100,12 +100,12 @@ export class WorkPackageStaticQueriesService {
         {
           identifier: 'created_by_me',
           label: this.text.created_by_me,
-          query_props: "{%22c%22:[%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22,%22updatedAt%22],%22tzl%22:%22days%22,%22hi%22:false,%22g%22:%22%22,%22t%22:%22updatedAt:desc,parent:asc%22,%22f%22:[{%22n%22:%22status%22,%22o%22:%22o%22,%22v%22:[]},{%22n%22:%22author%22,%22o%22:%22=%22,%22v%22:[%22me%22]}],%22pa%22:1,%22pp%22:20}"
+          query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"tzl":"days","hi":false,"g":"","t":"updatedAt:desc,parent:asc","f":[{"n":"status","o":"o","v":[]},{"n":"author","o":"=","v":["me"]}],"pa":1,"pp":20}'
         },
         {
           identifier: 'assigned_to_me',
           label: this.text.assigned_to_me,
-          query_props: '{%22c%22:[%22id%22,%22subject%22,%22type%22,%22status%22,%20%22author%22,%20%22updatedAt%22],%22t%22:%22updatedAt:desc,parent:asc%22,%22f%22:[{%22n%22:%22status%22,%22o%22:%22o%22,%22v%22:[]},{%22n%22:%22assignee%22,%22o%22:%22=%22,%22v%22:[%22me%22]}]}'
+          query_props: '{"c":["id","subject","type","status", "author", "updatedAt"],"t":"updatedAt:desc,parent:asc","f":[{"n":"status","o":"o","v":[]},{"n":"assignee","o":"=","v":["me"]}]}'
         }
       ]);
     }
