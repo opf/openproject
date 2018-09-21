@@ -57,6 +57,7 @@ import {
   TimelineViewParameters,
   zoomLevelOrder
 } from '../wp-timeline';
+import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css.service";
 
 @Component({
   selector: 'wp-timeline-container',
@@ -96,6 +97,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
               private elementRef:ElementRef,
               private states:States,
               public wpTableDirective:WorkPackagesTableController,
+              private dynamicCssService:DynamicCssService,
               private NotificationsService:NotificationsService,
               private wpTableTimeline:WorkPackageTableTimelineService,
               private wpNotificationsService:WorkPackageNotificationService,
@@ -208,6 +210,9 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       debugLog('refreshView() requested, but TL is invisible.');
       return;
     }
+
+    // Require dynamic CSS to be visible
+    this.dynamicCssService.requireHighlighting();
 
     timeOutput('refreshView() in timeline container', () => {
       // Reset the width of the outer container if its content shrinks

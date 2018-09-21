@@ -137,7 +137,9 @@ export class WorkPackageCommentComponent implements IEditFieldHandler, OnInit, O
 
     this.reset(withText);
 
-    this.scrollToBottom();
+    if (!this.showAbove) {
+      this.scrollToBottom();
+    }
   }
 
   public get project() {
