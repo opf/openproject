@@ -27,6 +27,7 @@
 // ++
 
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
+import {Subject} from 'rxjs';
 
 export interface IEditFieldHandler {
   /**
@@ -61,6 +62,16 @@ export interface IEditFieldHandler {
    * Error messages on the field, if any.
    */
   errorMessageOnLabel?:string;
+
+  /**
+   * On destroy observable
+   */
+  onDestroy:Subject<void>;
+
+  /**
+   * On field submission observable
+   */
+  onSubmit:Subject<void>;
 
   /**
    * Stop event propagation

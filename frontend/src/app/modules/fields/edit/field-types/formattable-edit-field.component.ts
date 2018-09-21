@@ -25,11 +25,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ViewChild} from "@angular/core";
+import {Component, OnInit, ViewChild} from "@angular/core";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 import {OpCkeditorComponent} from "core-app/modules/common/ckeditor/op-ckeditor.component";
 import {ICKEditorContext, ICKEditorInstance} from "core-app/modules/common/ckeditor/ckeditor-setup.service";
+import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 
 export const formattableFieldTemplate = `
     <div class="textarea-wrapper">
@@ -54,7 +55,7 @@ export const formattableFieldTemplate = `
 @Component({
   template: formattableFieldTemplate
 })
-export class FormattableEditFieldComponent extends EditFieldComponent {
+export class FormattableEditFieldComponent extends EditFieldComponent implements OnInit {
   readonly pathHelper:PathHelperService = this.$injector.get(PathHelperService);
 
   public readonly field = this;
@@ -70,14 +71,26 @@ export class FormattableEditFieldComponent extends EditFieldComponent {
     cancel: this.I18n.t('js.inplace.button_cancel', {attribute: this.schema.name})
   };
 
+  ngOnInit() {
+    this.handler
+      .onSubmit
+      .pipe(
+        untilComponentDestroyed(this)
+      )
+      .subscribe(() => {
+        this.getCurrentValue();
+        return;
+      });
+  }
+
   public onCkeditorSetup(editor:ICKEditorInstance) {
     if (!this.resource.isNew) {
       setTimeout(() => editor.editing.view.focus());
     }
   }
 
-  public getCurrentValue() {
-    return this.instance.getTransformedContent();
+  public async getCurrentValue() {
+    return this.rawValue = await this.instance.getTransformedContent();
   }
 
   public onContentChange(value:string) {
@@ -122,14 +135,6 @@ export class FormattableEditFieldComponent extends EditFieldComponent {
     if (this.instance) {
       this.instance.content = this.rawValue;
     }
-  }
-
-  public onSubmit() {
-    this
-      .getCurrentValue()
-      .then((value:string) => {
-        this.rawValue = value;
-      });
   }
 
   public get rawValue() {

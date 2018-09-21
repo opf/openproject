@@ -26,7 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectorRef, Component, ElementRef, Inject, InjectionToken, Injector, OnDestroy} from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Inject,
+  InjectionToken,
+  Injector,
+  OnDestroy,
+  OnInit
+} from "@angular/core";
 import {IEditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler.interface";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
