@@ -42,7 +42,7 @@ You can simply look through the installer.dat and change those values you need.
 
 **The conf.d folder**
 
-Additional environment, either generated from the wizard or entered by you through `openproject conifg:set` is written to  `/etc/openproject/conf.d/{server,database,other}`. Also look through those and check which contain relevant values for your new installation. 
+Additional environment, either generated from the wizard or entered by you through `openproject config:set` is written to  `/etc/openproject/conf.d/{server,database,other}`. Also look through those and check which contain relevant values for your new installation. 
 
 ### Database
 
@@ -86,7 +86,7 @@ openproject config:get ATTACHMENTS_STORAGE_PATH
 #=> e.g., /var/db/openproject/files
 ```
 
-Simply extract your attachments dump into that folder, creating it beforehand if needed.
+Simply extract your attachments dump into that folder with `tar -vxfz <dump>.tar.gz`, creating it beforehand if needed.
 
 
 
