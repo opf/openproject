@@ -63,7 +63,7 @@ cs:
       source_code: Toggle Markdown source mode
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
       mode:
-        manual: Switch to Markdown source
+        manual: Přepněte do Markdown zdroje
         wysiwyg: Switch to WYSIWYG editor
       macro:
         child_pages:
@@ -415,7 +415,7 @@ cs:
       button_deactivate: Hide Gantt chart
       cancel: Zrušit
       change: Změna v plánování
-      due_date: Finish date
+      due_date: Datum dokončení
       empty: "(prázdný)"
       error: An error has occurred.
       errors:
@@ -566,7 +566,7 @@ cs:
         createdAt: Vytvořeno
         description: Popis
         date: Datum
-        dueDate: Finish date
+        dueDate: Datum dokončení
         estimatedTime: Odhadovaný čas
         spentTime: Strávený čas
         category: Kategorie

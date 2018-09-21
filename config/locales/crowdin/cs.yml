@@ -64,7 +64,7 @@ cs:
     index:
       no_results_title_text: Momentálně zde nejsou žádné barvy.
       no_results_content_text: Vytvořit novou barvu
-    label_no_color: No color
+    label_no_color: Bez barvy
   custom_actions:
     actions:
       name: Akce
@@ -94,7 +94,7 @@ cs:
       no_results_title_text: V současné době nejsou žádná vlastní pole.
       no_results_content_text: Vytvořit nové vlastní pole
   concatenation:
-    single: or
+    single: nebo
   deprecations:
     old_timeline:
       replacement: This timelines module is being replaced by the interactive timeline
@@ -159,8 +159,8 @@ cs:
   prioritiies:
     edit:
       priority_color_text: |
-        Click to assign or change the color of this priority.
-        It can be used for highlighting work packages in the table.
+        Klikněte na přiřadit nebo změnit barvu této priority.
+        lze použít ke zvýraznění pracovních balíčků v tabulce.
   reportings:
     index:
       no_results_title_text: There are currently no status reportings.
@@ -168,8 +168,8 @@ cs:
   statuses:
     edit:
       status_color_text: |
-        Click to assign or change the color of this status.
-        It is shown in the status button and can be used for highlighting work packages in the table.
+        Klikněte na přiřadit nebo změnit barvu této priority.
+        lze použít ke zvýraznění pracovních balíčků v tabulce.
     index:
       no_results_title_text: Momentálně zde nejsou žádné stavy pracovního balíčku.
       no_results_content_text: Přidat nový stav
@@ -405,7 +405,7 @@ cs:
         warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved
           changes
       version:
-        effective_date: Finish date
+        effective_date: Datum dokončení
         sharing: Sdílení
       wiki_content:
         text: Text
@@ -658,7 +658,7 @@ cs:
     default_columns: Výchozí sloupce
     description: Popis
     display_sums: Zobrazit součty
-    due_date: Finish date
+    due_date: Datum dokončení
     estimated_hours: Odhadovaný čas
     estimated_time: Odhadovaný čas
     firstname: Křestní jméno
@@ -677,7 +677,7 @@ cs:
     password: Heslo
     priority: Priorita
     project: Projekt
-    responsible: Accountable
+    responsible: Odpovědný
     role: Role
     roles: Role
     start_date: Datum zahájení
@@ -1336,7 +1336,7 @@ cs:
   label_group_by: Seskupit podle
   label_group_new: Nová skupina
   label_group: Skupina
-  label_group_named: Group %{name}
+  label_group_named: Skupina %{name}
   label_group_plural: Skupiny
   label_help: Nápověda
   label_here: zde
@@ -1596,7 +1596,7 @@ cs:
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
   label_user: Uživatel
-  label_user_named: User %{name}
+  label_user_named: Uživatel %{name}
   label_user_activity: Aktivita %{value}
   label_user_anonymous: Anonymní
   label_user_mail_option_all: Pro všechny události všech mých projektů
@@ -1660,8 +1660,8 @@ cs:
     mně
   label_work_package_view_all_reported_by_me: Zobrazit všechny pracovní balíčky mnou
     nahlášené
-  label_work_package_view_all_responsible_for: View all work packages that I am accountable
-    for
+  label_work_package_view_all_responsible_for: Zobrazit všechny pracovní balíčky,
+    za které jsem zodpovědný
   label_work_package_view_all_watched: Zobrazit všechny sledované balíčky
   label_work_package_watchers: Sledující
   label_workflow: Pracovní postup
@@ -1943,7 +1943,7 @@ cs:
   permission_manage_members: Správa členů
   permission_manage_news: Spravovat novinky
   permission_manage_project_activities: Spravovat projektové aktivity
-  permission_manage_public_queries: Manage public views
+  permission_manage_public_queries: Spravovat veřejné dotazy
   permission_manage_repository: Správa repozitáře
   permission_manage_subtasks: Spravovat dílčí úkoly
   permission_manage_versions: Správovat verze
@@ -1952,7 +1952,7 @@ cs:
   permission_move_work_packages: Přesun pracovních balíčků
   permission_protect_wiki_pages: Ochrana stránky wiki
   permission_rename_wiki_pages: Přejmenovat stránky wiki
-  permission_save_queries: Save views
+  permission_save_queries: Uložit pohled
   permission_select_project_modules: Vyberte moduly projektu
   permission_manage_types: Vyberte typy
   permission_view_calendar: Zobrazit kalendář
@@ -2363,8 +2363,8 @@ cs:
   text_journal_aggregation_time_explanation: Combine journals for display if their
     age difference is less than the specified timespan. This will also delay mail
     notifications by the same amount of time.
-  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
-  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
+  text_journal_changed: "%{label} změněn z %{old} <br/><strong>na</strong> %{new}"
+  text_journal_changed_plain: "%{label} změněn z %{old} \nna %{new}"
   text_journal_changed_no_detail: "%{label} aktualizován"
   text_journal_changed_with_diff: "%{label} změněn (%{link})"
   text_journal_deleted: "%{label} smazán (%{old})"
@@ -2545,7 +2545,7 @@ cs:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago,
         %{end_label} %{endspan}%{endspanunit} from now"
       project_filters: Filtrovat projekty
-      project_responsible: Show projects with accountable
+      project_responsible: Zobrazit projekty s odpovědností
       project_status: Zobrazit stav projektu
       timeframe: Zobrazit časový rámec
       timeframe_end: do
