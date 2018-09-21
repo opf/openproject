@@ -273,6 +273,7 @@ describe OpenProject::Configuration do
       OpenProject::Configuration['smtp_port'] = 587
       OpenProject::Configuration['smtp_user_name'] = 'username'
       OpenProject::Configuration['smtp_enable_starttls_auto'] = true
+      OpenProject::Configuration['smtp_ssl'] = true
 
       expect(OpenProject::Configuration.migrate_mailer_configuration!).to eq(true)
       expect(Setting.email_delivery_method).to eq(:smtp)
@@ -281,6 +282,7 @@ describe OpenProject::Configuration do
       expect(Setting.smtp_port).to eq(587)
       expect(Setting.smtp_user_name).to eq('username')
       expect(Setting.smtp_enable_starttls_auto?).to eq(true)
+      expect(Setting.smtp_ssl?).to eq(true)
     end
   end
 
@@ -313,6 +315,7 @@ describe OpenProject::Configuration do
       Setting.smtp_port = 25
       Setting.smtp_user_name = 'username'
       Setting.smtp_enable_starttls_auto = 1
+      Setting.smtp_ssl = 0
 
       expect(action_mailer).to receive(:perform_deliveries=).with(true)
       expect(action_mailer).to receive(:delivery_method=).with(:smtp)
@@ -321,7 +324,28 @@ describe OpenProject::Configuration do
       expect(action_mailer.smtp_settings).to eq(address: 'smtp.example.com',
                                                 port: 25,
                                                 domain: 'example.com',
-                                                enable_starttls_auto: true)
+                                                enable_starttls_auto: true,
+                                                ssl: false)
+
+      Setting.email_delivery_method = :smtp
+      Setting.smtp_authentication = :none
+      Setting.smtp_password = 'old'
+      Setting.smtp_address = 'smtp.example.com'
+      Setting.smtp_domain = 'example.com'
+      Setting.smtp_port = 25
+      Setting.smtp_user_name = 'username'
+      Setting.smtp_enable_starttls_auto = 0
+      Setting.smtp_ssl = 1
+
+      expect(action_mailer).to receive(:perform_deliveries=).with(true)
+      expect(action_mailer).to receive(:delivery_method=).with(:smtp)
+      OpenProject::Configuration.reload_mailer_configuration!
+      expect(action_mailer.smtp_settings[:smtp_authentication]).to be_nil
+      expect(action_mailer.smtp_settings).to eq(address: 'smtp.example.com',
+                                                port: 25,
+                                                domain: 'example.com',
+                                                enable_starttls_auto: false,
+                                                ssl: true)
     end
 
     it 'correctly sets the action mailer configuration based on the settings' do
@@ -332,6 +356,7 @@ describe OpenProject::Configuration do
       Setting.smtp_port = 587
       Setting.smtp_user_name = 'username'
       Setting.smtp_enable_starttls_auto = 1
+      Setting.smtp_ssl = 0
 
       expect(action_mailer).to receive(:perform_deliveries=).with(true)
       expect(action_mailer).to receive(:delivery_method=).with(:smtp)
@@ -342,7 +367,29 @@ describe OpenProject::Configuration do
                                                 authentication: 'plain',
                                                 user_name: 'username',
                                                 password: 'p4ssw0rd',
-                                                enable_starttls_auto: true)
+                                                enable_starttls_auto: true,
+                                                ssl: false)
+
+      Setting.email_delivery_method = :smtp
+      Setting.smtp_password = 'p4ssw0rd'
+      Setting.smtp_address = 'smtp.example.com'
+      Setting.smtp_domain = 'example.com'
+      Setting.smtp_port = 587
+      Setting.smtp_user_name = 'username'
+      Setting.smtp_enable_starttls_auto = 0
+      Setting.smtp_ssl = 1
+
+      expect(action_mailer).to receive(:perform_deliveries=).with(true)
+      expect(action_mailer).to receive(:delivery_method=).with(:smtp)
+      OpenProject::Configuration.reload_mailer_configuration!
+      expect(action_mailer.smtp_settings).to eq(address: 'smtp.example.com',
+                                                port: 587,
+                                                domain: 'example.com',
+                                                authentication: 'plain',
+                                                user_name: 'username',
+                                                password: 'p4ssw0rd',
+                                                enable_starttls_auto: false,
+                                                ssl: true)
     end
   end
 
