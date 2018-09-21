@@ -50,6 +50,7 @@ Note that this still takes previous values into consideration. Values that shoul
 
 Since OpenProject 8.0.0 is a major upgrade, you will need to perform some basic manual steps to upgrade your package.
 
+First, please check that the package repository is correct. Compare your local package repository with the one printed on your matching distribution on [our Download and Installation page](https://www.openproject.org/download-and-installation/)
 
 ## Upgrade notes for OpenProject 8.0.
 
@@ -71,6 +72,7 @@ rm -rf /opt/openproject/frontend/node_modules
 OpenProject 8.0. has removed Textile, all previous content is migrated to GFM Markdown using [pandoc](https://pandoc.org). This will happen automatically during the migration run. A recent pandoc version will be downloaded by OpenProject.
 
 For more information, please visit this separate guide: https://github.com/opf/openproject/tree/dev/docs/user/textile-to-markdown-migration
+
 
 ## Upgrade steps
 
