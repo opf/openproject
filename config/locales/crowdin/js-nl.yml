@@ -60,11 +60,12 @@ nl:
     description_subwork_package: 'Kind van werkpakket #%{id}'
     editor:
       preview: Voorbeeld modus wijzigen
-      source_code: Toggle Markdown source mode
-      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      source_code: Wissel Markdown bronmodus
+      error_saving_failed: Het opslaan van het document is mislukt met de volgende
+        foutmelding:%{error}
       mode:
-        manual: Switch to Markdown source
-        wysiwyg: Switch to WYSIWYG editor
+        manual: Schakel naar de bron van het Markdown
+        wysiwyg: Schakel over naar de WYSIWYG-Editor
       macro:
         child_pages:
           button: Links naar onderliggende pagina 's
@@ -657,7 +658,7 @@ nl:
         highlighting_mode:
           description: Markeren met kleur
           none: Geen markering
-          inline: Overdue dates, "Status", and "Priority" attribute
+          inline: Achterstallige datums, 'Status' en 'Prioriteit' kenmerk
           entire_row_by: Hele rij door
           status: Status
           priority: Prioriteit
@@ -665,9 +666,9 @@ nl:
           van kolommen aan uw tabelweergave. U kunt de kolommen slepen en neerzetten
           om deze te rangschikken.
         upsale:
-          ee_only: Enterprise Edition only feature
-          attribute_highlighting: Need certain work packages to stand out from the
-            mass?
+          ee_only: Functie alleen voor de Enterprise Editie
+          attribute_highlighting: Moeten bepaalde werkpakketten te onderscheiden zijn
+            van de massa?
           relation_columns: Nodig om te zien van betrekkingen in de pakketlijst werk?
           check_out_link: Bekijk de Enterprise Edition.
       tabs:

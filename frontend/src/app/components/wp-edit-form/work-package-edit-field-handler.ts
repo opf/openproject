@@ -34,14 +34,14 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {Injector} from '@angular/core';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
-import {IEditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler.interface";
+import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 import {ClickPositionMapper} from "core-app/modules/common/set-click-position/set-click-position";
 import {debugLog} from "core-app/helpers/debug_output";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {Subject} from 'rxjs';
 
-export class WorkPackageEditFieldHandler implements IEditFieldHandler {
+export class WorkPackageEditFieldHandler extends EditFieldHandler {
   // Injections
   readonly FocusHelper:FocusHelperService = this.injector.get(FocusHelperService)
   readonly ConfigurationService = this.injector.get(ConfigurationService);
@@ -56,19 +56,13 @@ export class WorkPackageEditFieldHandler implements IEditFieldHandler {
   // Current errors of the field
   public errors:string[];
 
-  // Destroy events
-  public onDestroy = new Subject<void>();
-
-  // Submit events
-  public onSubmit = new Subject<void>();
-
   constructor(public injector:Injector,
               public form:WorkPackageEditForm,
               public fieldName:string,
               public schema:IFieldSchema,
               public element:HTMLElement,
               protected withErrors?:string[]) {
-
+    super();
     this.editContext = form.editContext;
 
     if (withErrors !== undefined) {
@@ -118,6 +112,8 @@ export class WorkPackageEditFieldHandler implements IEditFieldHandler {
     this.element.classList.toggle('-error', this.isErrorenous);
   }
 
+
+
   /**
    * Handle a user submitting the field (e.g, ng-change)
    */
@@ -126,8 +122,9 @@ export class WorkPackageEditFieldHandler implements IEditFieldHandler {
       return Promise.resolve();
     }
 
-    this.onSubmit.next();
-    return this.form.submit();
+    return this
+      .onSubmit()
+      .then(() => this.form.submit());
   }
 
   /**

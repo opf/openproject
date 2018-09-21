@@ -72,15 +72,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   };
 
   ngOnInit() {
-    this.handler
-      .onSubmit
-      .pipe(
-        untilComponentDestroyed(this)
-      )
-      .subscribe(() => {
-        this.getCurrentValue();
-        return;
-      });
+    this.handler.registerOnSubmit(() => this.getCurrentValue());
   }
 
   public onCkeditorSetup(editor:ICKEditorInstance) {
@@ -89,8 +81,12 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
     }
   }
 
-  public async getCurrentValue() {
-    return this.rawValue = await this.instance.getTransformedContent();
+  public getCurrentValue():Promise<void> {
+    return this.instance
+      .getTransformedContent()
+      .then((val) => {
+        this.rawValue = val;
+      });
   }
 
   public onContentChange(value:string) {
@@ -99,8 +95,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
 
   public handleUserSubmit() {
     this.getCurrentValue()
-      .then((value:string) => {
-        this.field.rawValue = value;
+      .then(() => {
         this.handler.handleUserSubmit();
       });
 

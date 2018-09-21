@@ -29,7 +29,7 @@
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 import {Subject} from 'rxjs';
 
-export interface IEditFieldHandler {
+export abstract class EditFieldHandler {
   /**
    * Whether the handler belongs to a larger edit mode form
    * e.g., WP-create
@@ -66,28 +66,37 @@ export interface IEditFieldHandler {
   /**
    * On destroy observable
    */
-  onDestroy:Subject<void>;
+  public onDestroy = new Subject<void>();
+
+  // OnSubmit callbacks that may register from fields
+  protected _onSubmitHandlers:Array<() => Promise<void>> = [];
 
   /**
-   * On field submission observable
+   * Call field submission callback handlers
    */
-  onSubmit:Subject<void>;
+  public onSubmit():Promise<any> {
+    return Promise.all(this._onSubmitHandlers.map((cb) => cb()));
+  }
+
+  public registerOnSubmit(callback:() => Promise<void>) {
+    this._onSubmitHandlers.push(callback);
+  }
 
   /**
    * Stop event propagation
    */
-  stopPropagation(evt:JQueryEventObject):boolean;
+  public abstract stopPropagation(evt:JQueryEventObject):boolean;
 
   /**
    * Focus on the active field.
    * Optionally, try to set the click position to the given offset if the field is an input element.
    */
-  focus(setClickOffset?:number):void;
+  public abstract focus(setClickOffset?:number):void;
 
   /**
    * Handle a user submitting the field (e.g, ng-change)
    */
-  handleUserSubmit():Promise<any>;
+  public abstract handleUserSubmit():Promise<any>;
 
   /**
    * Handle users pressing enter inside an edit mode.
@@ -95,25 +104,25 @@ export interface IEditFieldHandler {
    * In an edit mode, we can't derive from a submit event wheteher the user pressed enter
    * (and on what field he did that).
    */
-  handleUserKeydown(event:JQueryEventObject, onlyCancel?:boolean):void;
+  public abstract handleUserKeydown(event:JQueryEventObject, onlyCancel?:boolean):void;
 
   /**
    * Cancel edit
    */
-  handleUserCancel():void;
+  public abstract handleUserCancel():void;
 
   /**
    * Cancel any pending changes
    */
-  reset():void;
+  public abstract reset():void;
 
   /**
    * Close the field, resetting it with its display value.
    */
-  deactivate(focus:boolean):void;
+  public abstract deactivate(focus:boolean):void;
 
   /**
    * Returns whether the field has been changed
    */
-  isChanged():boolean;
+  public abstract isChanged():boolean;
 }

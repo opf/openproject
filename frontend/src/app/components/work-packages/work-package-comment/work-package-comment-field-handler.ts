@@ -1,10 +1,11 @@
-import {IEditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler.interface";
+import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 import {ElementRef, Injector, OnInit} from "@angular/core";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {WorkPackageChangeset} from "core-components/wp-edit-form/work-package-changeset";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
+import {Subject} from "rxjs";
 
-export abstract class WorkPackageCommentFieldHandler implements IEditFieldHandler, OnInit {
+export abstract class WorkPackageCommentFieldHandler extends EditFieldHandler implements OnInit {
   public fieldName = 'comment';
   public handler = this;
   public inEdit = false;
@@ -13,8 +14,12 @@ export abstract class WorkPackageCommentFieldHandler implements IEditFieldHandle
 
   public changeset:WorkPackageChangeset;
 
+  // Destroy events
+  public onDestroy = new Subject<void>();
+
   constructor(protected elementRef:ElementRef,
               protected injector:Injector) {
+    super();
   }
 
   /**
@@ -79,6 +84,8 @@ export abstract class WorkPackageCommentFieldHandler implements IEditFieldHandle
 
   deactivate(focus:boolean):void {
     this.inEdit = false;
+    this.onDestroy.next();
+    this.onDestroy.complete();
   }
 
   focus():void {

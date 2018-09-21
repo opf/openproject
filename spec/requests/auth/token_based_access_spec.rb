@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -27,48 +28,31 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_relative '../legacy_spec_helper'
+require 'spec_helper'
 
-describe 'Layout' do
-  fixtures :all
-
-  def document_root_element
-    html_document.root
+describe 'Token based access', type: :rails_request, with_settings: { login_required?: false } do
+  let(:work_package) { FactoryBot.create(:work_package) }
+  let(:user) do
+    FactoryBot.create(:user,
+                      member_in_project: work_package.project,
+                      member_with_permissions: %i[view_work_packages])
   end
+  let(:rss_key) { user.rss_key }
 
-  context 'with login required', with_settings: { login_required?: true } do
-    it 'should top menu navigation not visible when login required' do
-      get '/'
-      assert_select '#account-nav-left', 0
-    end
-  end
+  it 'grants access but does not login the user' do
+    # work_packages of a private project
+    get "/work_packages/#{work_package.id}.atom"
+    expect(response)
+      .to redirect_to(signin_path(back_url: "http://www.example.com/work_packages/#{work_package.id}"))
 
-  context 'with login required', with_settings: { login_required?: false } do
-    it 'should top menu navigation visible when login not required' do
-      get '/'
-      assert_select '#account-nav-left'
-    end
-  end
+    # access is possible with a token
+    get "/work_packages/#{work_package.id}.atom?key=#{rss_key}"
+    expect(response.body)
+      .to include("<title>OpenProject - #{work_package.to_s}</title>")
 
-  specify 'browsing to a missing page should render the base layout' do
-    get '/users/100000000'
-
-    assert_response :not_found
-
-    # UsersController uses the admin layout by default
-    assert_select '#main-menu', count: 0
-  end
-
-  specify 'page titles should be properly escaped',
-          with_settings: { app_title: '<3' } do
-    project = FactoryBot.create(:project, name: 'C&A', is_public: true)
-    get "/projects/#{project.to_param}"
-
-    def title_html
-      title = document_root_element.at('//title') and title.inner_html
-    end
-
-    expect(title_html).to match /C&amp;A/
-    expect(title_html).to match /&lt;3/
+    # but for the next request, the user is not logged in
+    get "/work_packages/#{work_package.id}"
+    expect(response)
+      .to redirect_to(signin_path(back_url: "http://www.example.com/work_packages/#{work_package.id}"))
   end
 end

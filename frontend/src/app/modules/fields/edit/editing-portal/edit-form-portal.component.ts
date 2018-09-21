@@ -9,7 +9,7 @@ import {
   OnInit,
   Output
 } from "@angular/core";
-import {IEditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler.interface";
+import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 import {
   EditFieldComponent,
   OpEditingPortalChangesetToken,
@@ -28,10 +28,10 @@ import {EditFieldService, IEditFieldType} from "core-app/modules/fields/edit/edi
 export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() schemaInput:IFieldSchema;
   @Input() changesetInput:WorkPackageChangeset;
-  @Input() editFieldHandler:IEditFieldHandler;
+  @Input() editFieldHandler:EditFieldHandler;
   @Output() public onEditFieldReady = new EventEmitter<void>();
 
-  public handler:IEditFieldHandler;
+  public handler:EditFieldHandler;
   public schema:IFieldSchema;
   public changeset:WorkPackageChangeset;
   public fieldInjector:Injector;
@@ -52,7 +52,7 @@ export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit
       this.changeset = this.changesetInput;
 
     } else {
-      this.handler = this.injector.get<IEditFieldHandler>(OpEditingPortalHandlerToken);
+      this.handler = this.injector.get<EditFieldHandler>(OpEditingPortalHandlerToken);
       this.schema = this.injector.get<IFieldSchema>(OpEditingPortalSchemaToken);
       this.changeset = this.injector.get<WorkPackageChangeset>(OpEditingPortalChangesetToken);
     }

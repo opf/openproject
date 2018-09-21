@@ -127,7 +127,10 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
 
   public activate(withText?:string) {
     super.activate(withText);
-    this.scrollToBottom();
+
+    if (!this.showAbove) {
+      this.scrollToBottom();
+    }
   }
 
   public deactivate(focus:boolean) {
@@ -135,12 +138,13 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
     this.inEdit = false;
   }
 
-  public handleUserSubmit() {
+  public async handleUserSubmit() {
     if (this.inFlight || !this.rawComment) {
       return Promise.resolve();
     }
 
     this.inFlight = true;
+    await this.onSubmit();
     let indicator = this.loadingIndicator.wpDetails;
     return indicator.promise = this.commentService.createComment(this.workPackage, this.commentValue)
       .then(() => {

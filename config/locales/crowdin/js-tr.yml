@@ -27,7 +27,7 @@ tr:
     button_cancel: İptal
     button_close: Kapat
     button_check_all: Tümünü işaretle
-    button_configure-form: Formu yapılandırın
+    button_configure-form: Formu yapılandır
     button_confirm: Doğrula
     button_continue: Devam et
     button_copy: Kopyala
@@ -40,7 +40,7 @@ tr:
     button_filter: Filtre
     button_list_view: Liste görünümü
     button_show_view: Tam Ekran görünümü
-    button_log_time: Günlük süresi
+    button_log_time: Zaman kaydet
     button_more: Fazlası
     button_move: Taşı
     button_open_details: Detay görünümünü aç
@@ -51,27 +51,27 @@ tr:
     button_settings: Ayarlar
     button_uncheck_all: Tüm işaretleri kaldır
     button_update: Güncelle
-    button_export-pdf: PDF İndir
-    button_export-atom: Atım İndir
+    button_export-pdf: PDF indir
+    button_export-atom: Atom indir
     description_available_columns: Kullanılabilir sütunlar
     description_current_position: 'Buradasınız:'
     description_select_work_package: "#%{id} nolu iş paketini seçin"
     description_selected_columns: Seçili Sütunlar
     description_subwork_package: "#%{id} nolu iş paketinin alt parçası"
     editor:
-      preview: Toggle preview mode
+      preview: Önizleme modunu aç/kapat
       source_code: Toggle Markdown source mode
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
       mode:
-        manual: Switch to Markdown source
-        wysiwyg: Switch to WYSIWYG editor
+        manual: Markdown kaynağına geç
+        wysiwyg: WYSIWYG düzenleyiciye geç
       macro:
         child_pages:
           button: Links to child pages
           include_parent: Include parent
           text: "[Placeholder] Links to child pages of"
           page: Viki sayfası
-          this_page: this page
+          this_page: bu sayfa
           hint: 'Leave this field empty to list all child pages of the current page.
             If you want to reference a different page, provide its title or slug.
 
@@ -79,7 +79,7 @@ tr:
         code_block:
           button: Insert code snippet
           title: Insert / edit Code snippet
-          language: Formatting language
+          language: Biçimlendirme dili
           language_hint: Enter the formatting language that will be used for highlighting
             (if supported).
         dropdown:
@@ -179,7 +179,7 @@ tr:
     label_expand: Genişlet
     label_expanded: genişletilmiş
     label_expand_all: Tümünü genişlet
-    label_expand_project_menu: Expand project menu
+    label_expand_project_menu: Proje menüsünü genişlet
     label_export: Dışarı aktar
     label_filename: Dosya
     label_filesize: Boyutu
@@ -191,7 +191,7 @@ tr:
     label_in: şurada
     label_in_less_than: daha azdır
     label_in_more_than: daha fazla
-    label_latest_activity: Latest activity
+    label_latest_activity: En son etkinlik
     label_last_updated_on: Son güncelleme
     label_less_or_equal: "<="
     label_less_than_ago: bir haftadan kısa bir süre önce
@@ -209,7 +209,7 @@ tr:
     label_not_equals: değildir
     label_on: açık
     label_open_menu: Menüyü Aç
-    label_open_context_menu: Open context menu
+    label_open_context_menu: Bağlam menüsünü aç
     label_open_work_packages: açık
     label_password: Parola
     label_previous: Önceki
@@ -223,14 +223,14 @@ tr:
     label_select_watcher: Takipçi seç...
     label_selected_filter_list: Seçilen filtreler
     label_show_attributes: Tüm öznitelikleri göster
-    label_show_in_menu: Show view in menu
+    label_show_in_menu: Görünümü menüde göster
     label_sort_by: Sıralama şekli
     label_sorted_by: sıralayan
     label_sort_higher: Yukarı taşı
     label_sort_lower: Aşağı taşı
     label_sorting: Sıralama
     label_star_query: Favored
-    label_press_enter_to_save: Press enter to save.
+    label_press_enter_to_save: Kaydetmek için enter tuşuna basın.
     label_public_query: Herkese Açık
     label_sum_for: Toplam
     label_subject: Konu
@@ -252,10 +252,10 @@ tr:
     label_unwatch: İzleme
     label_unwatch_work_package: İş pakaketini izlemeyi bırak
     label_uploaded_by: Yükleyen
-    label_default_queries: Default views
-    label_starred_queries: Favorite views
-    label_global_queries: Public views
-    label_custom_queries: Private views
+    label_default_queries: Varsayılan görünümler
+    label_starred_queries: Gözde görünümler
+    label_global_queries: Herkese açık görünümler
+    label_custom_queries: Gizli görünümler
     label_columns: Sütunlar
     label_attachments: Dosyalar
     label_drop_files: Dosyaları buraya bırakın
@@ -267,7 +267,7 @@ tr:
     label_remove_watcher: "%{name} isimli takipçi sil"
     label_remove_all_files: Tüm dosyaları temizle
     label_add_description: "%{file} için açıklama ekle"
-    label_upload_notification: Uploading files...
+    label_upload_notification: Dosyalar yükleniyor...
     label_work_package_upload_notification: "#%{id}: %{subject} iş paketi için dosyalar
       yükleniyor"
     label_files_to_upload: 'Bu dosyalar yüklenecek:'
@@ -390,8 +390,7 @@ tr:
       activate_no: sıralamayı kaldırmak için etkinleştir
     text_work_packages_destroy_confirmation: Seçilen çalışma paket(ler) ini silmek
       istediğinizden emin misiniz?
-    text_query_destroy_confirmation: Are you sure you want to delete the selected
-      view?
+    text_query_destroy_confirmation: Seçilen görünümü silmek istediğinizden emin misiniz?
     text_attachment_destroy_confirmation: Eki silmek istediğinizden emin misiniz?
     timelines:
       gantt_chart: Gantt görünümü
@@ -411,7 +410,7 @@ tr:
       button_deactivate: Hide Gantt chart
       cancel: İptal
       change: Planlama değişikliği
-      due_date: Finish date
+      due_date: Bitiş tarihi
       empty: "(boş)"
       error: Bir hata oluştu.
       errors:
@@ -563,7 +562,7 @@ tr:
         createdAt: Oluşturma tarihi
         description: Açıklama
         date: Tarih
-        dueDate: Finish date
+        dueDate: Bitiş tarihi
         estimatedTime: Tahmini süre
         spentTime: Harcanan zaman
         category: Kategori
@@ -580,11 +579,11 @@ tr:
         versionName: Sürüm
         version: Sürüm
       default_queries:
-        latest_activity: Latest activity
-        created_by_me: Created by me
-        assigned_to_me: Assigned to me
-        recently_created: Recently created
-        all_open: All open
+        latest_activity: En son etkinlik
+        created_by_me: Benim oluşturduklarım
+        assigned_to_me: Bana atananlar
+        recently_created: Son oluşturulanlar
+        all_open: Tüm açık
         summary: Özet
       jump_marks:
         pagination: Tablo numaralandırmaya yönlendir
@@ -613,13 +612,13 @@ tr:
         display_sums: Toplamları görüntüle
         confirm_edit_cancel: Are you sure you want to cancel editing the name of this
           view? Title will be set back to previous value.
-        click_to_edit_query_name: Click to edit title of this view.
-        rename_query_placeholder: Name of this view
+        click_to_edit_query_name: Bu görünümün başlığını düzenlemek için tıklayın.
+        rename_query_placeholder: Bu görünümüm adı
         errors:
           unretrievable_query: Unable to retrieve view from URL
-          not_found: There is no such view
-          duplicate_query_title: Name of this view already exists. Change anyway?
-        text_no_results: No matching views were found.
+          not_found: Böyle bir görünüm bulunmamakta
+          duplicate_query_title: Bu isimde bir görünüm var. Yinede devam edilsin mi?
+        text_no_results: Eşleşen görünüm bulunamadı.
       table:
         configure_button: İş paketi tablosunu kopyala
         summary: İş paketi satır tabloları ve iş paketi nitelik sütunları.
@@ -635,9 +634,9 @@ tr:
         embedded_tab_disabled: This configuration tab is not available for the embedded
           view you're editing.
         default: varsayılan
-        display_settings: Display settings
-        default_mode: Flat list
-        hierarchy_mode: Hierarchy
+        display_settings: Görünüm ayarları
+        default_mode: Düz liste
+        hierarchy_mode: Hiyerarşi
         hierarchy_hint: All filtered table results will be augmented with their ancestors.
           Hierarchies can be expanded and collapsed.
         display_sums_hint: Display sums of all summable attributes in a row below
@@ -647,16 +646,16 @@ tr:
           gantt chart.
         highlighting: Highlighting
         highlighting_mode:
-          description: Highlight with color
-          none: No highlighting
-          inline: Overdue dates, "Status", and "Priority" attribute
+          description: Rekle vurgula
+          none: Vurgulama
+          inline: Gecikmiş zamanları, "Durum" ve "Öncelik" öznitelikleri
           entire_row_by: Entire row by
           status: Durum
           priority: Öncelik
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
         upsale:
-          ee_only: Enterprise Edition only feature
+          ee_only: Enterprise Edition özelliği
           attribute_highlighting: Need certain work packages to stand out from the
             mass?
           relation_columns: İş paketleri listesindeki ilişkileri görmek ister misiniz?
@@ -673,7 +672,7 @@ tr:
         months: ay
     toolbar:
       settings:
-        configure_view: Configure view ...
+        configure_view: Görünümü yapılandır ...
         columns: Sütunlar ...
         sort_by: Şuna göre sırala ...
         group_by: Gruplandır...
@@ -684,16 +683,16 @@ tr:
         save: Kaydet
         save_as: Farklı kaydet ...
         export: Dışa aktar ...
-        visibility_settings: Visibility settings ...
-        page_settings: Rename view ...
+        visibility_settings: Görünürlük ayarları ...
+        page_settings: Görünümü yeniden adlandır ...
         delete: Sil
       filter: Filtre
       unselected_title: İş paketi
-      search_query_label: Search saved views
-      search_query_title: Click to search saved views
-      placeholder_query_title: Set a title for this view
+      search_query_label: Kayıtlı görünümleri ara
+      search_query_title: Kayıtlı görünümleri aramak için tıklayın
+      placeholder_query_title: Bu görünüm için bir başlık belirleyin
     modals:
-      label_settings: Rename view
+      label_settings: Görünümü yeniden isimlendir
       label_name: İsim
       label_delete_page: Şu anki sayfayı sil
       button_apply: Uygula
@@ -707,7 +706,7 @@ tr:
         title: "%{label} için silme işlimini onaylayın"
         text: "%{label} silinecek. Emin misiniz?"
         has_children: 'İş paketi %{childUnits} alt paketlerine sahip:'
-        confirm_deletion_children: I acknowledge that ALL descendants of the listet
+        confirm_deletion_children: I acknowledge that ALL descendants of the listed
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
@@ -737,9 +736,8 @@ tr:
         messages_on_field: 'Bu alan geçersiz: %{messages}'
     error_could_not_resolve_version_name: Sürüm adı çözümlenemedi
     error_could_not_resolve_user_name: Kullanıcı adı çözümlenemedi
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
-    error_attachment_upload_permission: You don't have the permission to upload files
-      on this resource.
+    error_attachment_upload: "'%{name}' dosyası yüklenemedi: %{error}"
+    error_attachment_upload_permission: Bu kaynakta dosya yüklemek için izniniz bulunmamaktadır.
     units:
       workPackage:
         one: iş paketleri

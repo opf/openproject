@@ -50,6 +50,7 @@ export class WorkPackageCommentFieldComponent extends FormattableEditFieldCompon
   }
 
   ngOnInit() {
+    super.ngOnInit();
     this.rawValue = this.rawValue || '';
   }
 }

@@ -62,7 +62,6 @@ class WikiPage < ActiveRecord::Base
   validate :validate_non_circular_dependency
   validate :validate_same_project
 
-  after_initialize :check_and_mark_as_protected
   before_save :update_redirects
   before_destroy :remove_redirects
 
@@ -82,16 +81,7 @@ class WikiPage < ActiveRecord::Base
       .merge(Project.allowed_to(user, :view_wiki_pages))
   }
 
-  # Wiki pages that are protected by default
-  DEFAULT_PROTECTED_PAGES = %w(sidebar)
-
   after_destroy :delete_wiki_menu_item
-
-  def check_and_mark_as_protected
-    if new_record? && DEFAULT_PROTECTED_PAGES.include?(title.to_s.downcase)
-      self.protected = true
-    end
-  end
 
   def slug
     read_attribute(:slug).presence || title.try(:to_url)

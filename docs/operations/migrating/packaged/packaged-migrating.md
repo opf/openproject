@@ -1,26 +1,21 @@
 # Migrating your packaged OpenProject installation to another environment
 
-**Note:** this guide only applies if you've installed OpenProject using our DEB/RPM
-packages.
+**Note:** this guide only applies if you've installed OpenProject using our DEB/RPM packages.
 
 Migrating your OpenProject packaged installation to another host or environment is trivial and may be combined with, e.g., minor or major package upgrades due to our migration system.
 
 ## Backing up
 
-To move and migrate your database, please follow our [backup and restore documentation](https://www.openproject.org/operations/backup/backup-guide-packaged-installation/) for our packaged installation.
+To create a dump of all your data in the old installation, please follow our [backup and restore documentation](https://www.openproject.org/operations/backup/backup-guide-packaged-installation/) for our packaged installation.
 
 This guide should leave you with a set of archives that you should manually move to your new environment:
 
-- **Database**: mysql-dump-<timestamp>.sql.gz
-- **Attachments**: attachments-<timestamp>.tar.gz
-- **Custom env configuration**: conf-<timestamp>.tar.gz
-- **Repositories**: svn- and git-<timestamp>.tar.gz
+- **Database**: mysql-dump-\<timestamp>.sql.gz or postgresql-dump\<timestamp>.pgdump
+- **Attachments**: attachments-\<timestamp>.tar.gz
+- **Custom env configuration**: conf-\<timestamp>.tar.gz
+- **Repositories**: svn- and git-\<timestamp>.tar.gz
 
-Each of these archives can be extracted with 
 
-```bash
-tar -vxfz <dump>.tar.gz
-```
 
 ## Migration
 
@@ -47,7 +42,7 @@ You can simply look through the installer.dat and change those values you need.
 
 **The conf.d folder**
 
-Additional environment, either generated from the wizard or entered by you through `openproject conifg:set` is written to  `/etc/openproject/conf.d/{server,database,other}`. Also look through those and check which contain relevant values for your new installation. 
+Additional environment, either generated from the wizard or entered by you through `openproject config:set` is written to  `/etc/openproject/conf.d/{server,database,other}`. Also look through those and check which contain relevant values for your new installation. 
 
 ### Database
 
@@ -57,19 +52,30 @@ In the following, the values `<dbuser>`, `<dbhost>` and `<dbname>` variables hav
 To read the values from the old installation, you can execute the following command:
 
 ```bash
-
 openproject config:get DATABASE_URL
 #=> e.g.: mysql2://dbusername:dbpassword@dbhost:dbport/dbname
 ```
 
 First the dump has to be extracted (unzipped) and then restored. The command used should look very similar to this:
 
-```bash
+**PostgreSQL**
 
+```
+# Restore the PostgreSQL dump
+pg_restore -h <dbhost> -u <dbuser> -W <dbname> postgresql-dump-20180408095521.pgdump
+```
+
+
+
+**MySQL**
+
+```bash
 # Extract the mysql dump
-zcat mysql-dump-20150408095521.sql.gz | mysql -u <dbuser> -h <dbhost> -p 
+zcat mysql-dump-20180408095521.sql.gz | mysql -u <dbuser> -h <dbhost> -p 
 <dbname>
 ```
+
+
 
 ### Attachments
 
@@ -80,8 +86,9 @@ openproject config:get ATTACHMENTS_STORAGE_PATH
 #=> e.g., /var/db/openproject/files
 ```
 
+Simply extract your attachments dump into that folder with `tar -vxfz <dump>.tar.gz`, creating it beforehand if needed.
 
-Simply extract your attachments dump into that folder, creating it beforehand if needed.
+
 
 ### Repositories
 
@@ -99,8 +106,9 @@ openproject config:get GIT_REPOSITORIES
 #=> e.g., /var/db/openproject/git
 ```
 
-
 Simply extract your respective repository dumps into ech folder, creating it beforehand if needed. The dumps will only be created if you use that feature in your old installation.
+
+
 
 ## Running openproject configure
 

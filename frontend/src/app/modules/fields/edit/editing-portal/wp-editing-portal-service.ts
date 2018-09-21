@@ -35,9 +35,14 @@ export class WorkPackageEditingPortalService {
       fieldName,
       schema,
       container,
-      () => outlet.detach(), // Don't call .dispose() on the outlet, it destroys the DOM element
       errors
     );
+
+    fieldHandler
+      .onDestroy
+      .pipe(take(1))
+      // Don't call .dispose() on the outlet, it destroys the DOM element
+      .subscribe(() => outlet.detach());
 
     // Create an injector that contains injectable reference to the edit field and handler
     const injector = createLocalInjector(this.injector, form.changeset, fieldHandler, schema);

@@ -27,41 +27,27 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-require_relative '../legacy_spec_helper'
 
-describe 'Application', with_settings: { login_required?: false } do
-  include Redmine::I18n
+require 'spec_helper'
 
-  def document_root_element
-    html_document.root
-  end
-
-  fixtures :all
+describe 'Localization', type: :feature, with_settings: { login_required?: false,
+                                                          available_languages: %i[de en],
+                                                          default_language: 'en' } do
 
   it 'set localization' do
-    allow(Setting).to receive(:available_languages).and_return [:de, :en]
-    allow(Setting).to receive(:default_language).and_return 'en'
+    Capybara.current_session.driver.header('Accept-Language', 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3')
 
     # a french user
-    get '/projects', params: {}, headers: { 'HTTP_ACCEPT_LANGUAGE' => 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3' }
-    assert_response :success
-    assert_select 'h2', content: 'Projekte'
-    assert_equal :de, current_language
+    visit projects_path
+
+    expect(page)
+      .to have_content('Projekte')
 
     # not a supported language: default language should be used
-    get '/projects', params: {}, headers: { 'HTTP_ACCEPT_LANGUAGE' => 'zz' }
-    assert_response :success
-    assert_select 'h2', content: 'Projects'
-  end
+    Capybara.current_session.driver.header('Accept-Language', 'zz')
+    visit projects_path
 
-  it 'token based access should not start session' do
-    # work_packages of a private project
-    get '/work_packages/4.atom'
-    assert_response 302
-
-    rss_key = User.find(2).rss_key
-    get "/work_packages/4.atom?key=#{rss_key}"
-    assert_response 200
-    assert_nil session[:user_id]
+    expect(page)
+      .to have_content('Projects')
   end
 end

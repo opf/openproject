@@ -151,8 +151,9 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
     this.commentService.quoteEvents.next(this.quotedText(this.activity.comment.raw));
   }
 
-  public updateComment() {
-    return this.commentService.updateComment(this.activity, this.rawComment|| '')
+  public async updateComment() {
+    await this.onSubmit();
+    return this.commentService.updateComment(this.activity, this.rawComment || '')
       .then(() => {
         this.wpLinkedActivities.require(this.workPackage, true);
         this.wpCacheService.updateWorkPackage(this.workPackage);

@@ -5,7 +5,7 @@ import {
   OpEditingPortalSchemaToken
 } from "core-app/modules/fields/edit/edit-field.component";
 import {PortalInjector} from "@angular/cdk/portal";
-import {IEditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler.interface";
+import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {WorkPackageChangeset} from "core-components/wp-edit-form/work-package-changeset";
 
@@ -14,7 +14,7 @@ import {WorkPackageChangeset} from "core-components/wp-edit-form/work-package-ch
  *
  * @returns {PortalInjector}
  */
-export function createLocalInjector(injector:Injector, changeset:WorkPackageChangeset, fieldHandler:IEditFieldHandler, schema:IFieldSchema):Injector {
+export function createLocalInjector(injector:Injector, changeset:WorkPackageChangeset, fieldHandler:EditFieldHandler, schema:IFieldSchema):Injector {
   const injectorTokens = new WeakMap();
 
   injectorTokens.set(OpEditingPortalChangesetToken, changeset);
