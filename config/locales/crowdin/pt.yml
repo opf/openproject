@@ -2133,6 +2133,7 @@ pt:
   setting_email_delivery_method: Método de entrega de email
   setting_sendmail_location: Localização do executável do sendmail
   setting_smtp_enable_starttls_auto: Automaticamente usar STARTTLS se disponível
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: Servidor SMTP
   setting_smtp_port: Porta SMTP
   setting_smtp_authentication: Autenticação SMTP

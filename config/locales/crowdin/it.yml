@@ -2146,6 +2146,7 @@ it:
   setting_sendmail_location: Percorso dell'eseguibile del programma di invio della
     posta
   setting_smtp_enable_starttls_auto: Usa automaticamente, se disponibile, STARTTLS
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: Server SMTP
   setting_smtp_port: Porta SMTP
   setting_smtp_authentication: Autenticazione SMTP

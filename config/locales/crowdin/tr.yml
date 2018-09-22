@@ -2091,6 +2091,7 @@ tr:
   setting_email_delivery_method: E-posta teslim yöntemi
   setting_sendmail_location: Çalıştırılabilir sendmail aracının yolu
   setting_smtp_enable_starttls_auto: STARTTLS varsa otomatik olarak kullan
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: SMTP Sunucusu
   setting_smtp_port: SMTP port
   setting_smtp_authentication: SMTP kimlik doğrulaması

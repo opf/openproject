@@ -2164,6 +2164,7 @@ fil:
   setting_email_delivery_method: Pamaraan ng paghahatid ng email
   setting_sendmail_location: Lokasyon ng sendmail na pagpapatupad
   setting_smtp_enable_starttls_auto: Automatikong gagamitin ang STARTTLS kung magagamit
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: Server g SMTP
   setting_smtp_port: Port ng SMTP
   setting_smtp_authentication: Pagpapatunay ng SMTP

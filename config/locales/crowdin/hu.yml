@@ -2102,6 +2102,7 @@ hu:
   setting_email_delivery_method: E-mail küldés módja
   setting_sendmail_location: A sendmail program elérési útja
   setting_smtp_enable_starttls_auto: Automatikus STARTTLS, ha rendelkezésre áll
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: SMTP-kiszolgáló
   setting_smtp_port: SMTP-port
   setting_smtp_authentication: SMTP-hitelesítés

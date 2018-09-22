@@ -2132,6 +2132,7 @@ hr:
   setting_email_delivery_method: Email delivery method
   setting_sendmail_location: Location of the sendmail executable
   setting_smtp_enable_starttls_auto: Automatically use STARTTLS if available
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: SMTP server
   setting_smtp_port: SMTP port
   setting_smtp_authentication: SMTP authentication
