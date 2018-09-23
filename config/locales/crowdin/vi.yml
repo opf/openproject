@@ -2100,6 +2100,7 @@ vi:
   setting_email_delivery_method: Cách gửi email
   setting_sendmail_location: Vị trí của tệp thực thi sendmail (đường dẫn)
   setting_smtp_enable_starttls_auto: Tự động sử dụng STARTTLS nếu hiện hữu
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: Máy chủ SMTP
   setting_smtp_port: Cổng SMTP
   setting_smtp_authentication: Xác thực SMTP

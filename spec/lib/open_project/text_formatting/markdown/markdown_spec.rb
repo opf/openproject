@@ -231,6 +231,12 @@ describe OpenProject::TextFormatting,
         it { is_expected.to be_html_eql("<p>#{issue_link}, [#{issue_link}], (#{issue_link}) and #{issue_link}.</p>") }
       end
 
+      context 'Plain issue link with braces' do
+        subject { format_text("foo (bar ##{issue.id})") }
+
+        it { is_expected.to be_html_eql("<p>foo (bar #{issue_link})</p>") }
+      end
+
       context 'Plain issue link to non-existing element' do
         subject { format_text('#0123456789') }
 

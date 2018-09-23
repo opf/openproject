@@ -2091,6 +2091,7 @@
   setting_email_delivery_method: Leveringsmetode for e-post
   setting_sendmail_location: Plasseringen av sendmail kjørbar
   setting_smtp_enable_starttls_auto: Bruk STARTTLS automatisk hvis tilgjengelig
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: SMTP-server
   setting_smtp_port: SMTP-port
   setting_smtp_authentication: SMTP-Autentisering

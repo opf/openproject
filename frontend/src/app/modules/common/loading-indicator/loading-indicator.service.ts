@@ -49,6 +49,8 @@ export class LoadingIndicator {
   }
 
   public start() {
+    // If we're currently having an active indicator, remove that one
+    this.stop();
     this.indicator.prepend(this.template);
   }
 

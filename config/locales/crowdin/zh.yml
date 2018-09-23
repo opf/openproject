@@ -1924,6 +1924,7 @@ zh:
   setting_email_delivery_method: 电子邮件发送方法
   setting_sendmail_location: Sendmail 的执行位置
   setting_smtp_enable_starttls_auto: 如果可用，自动使用 STARTTLS
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: SMTP 服务器
   setting_smtp_port: SMTP 端口
   setting_smtp_authentication: SMTP 身份验证

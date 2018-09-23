@@ -352,6 +352,7 @@ module OpenProject
         end
 
         ActionMailer::Base.smtp_settings[:enable_starttls_auto] = Setting.smtp_enable_starttls_auto?
+        ActionMailer::Base.smtp_settings[:ssl] = Setting.smtp_ssl?
       end
 
       ##

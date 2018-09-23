@@ -46,9 +46,29 @@ import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {input} from "reactivestates";
+import {catchError, distinctUntilChanged, map, share, shareReplay, switchMap, take} from "rxjs/operators";
+import {from, Observable} from "rxjs";
+
+export interface QueryDefinition {
+  queryParams:{ query_id?:number, query_props?:string };
+  projectIdentifier?:string;
+}
 
 @Injectable()
 export class WorkPackagesListService {
+
+  // We remember the query requests coming in so we can ensure only the latest request is being tended to
+  private queryRequests = input<QueryDefinition>();
+
+  // This mapped observable requests the latest query automatically.
+  private queryLoading = this.queryRequests
+    .values$()
+    .pipe(
+      switchMap((q:QueryDefinition) => this.handleQueryRequest(q.queryParams, q.projectIdentifier)),
+      shareReplay(1)
+    );
+
   private queryChanges = new BehaviorSubject<string>('');
   public queryChanges$ = this.queryChanges.asObservable();
 
@@ -68,24 +88,46 @@ export class WorkPackagesListService {
               protected wpListInvalidQueryService:WorkPackagesListInvalidQueryService) {
   }
 
+  private handleQueryRequest(queryParams:{ query_id?:number, query_props?:string }, projectIdentifier ?:string):Observable<QueryResource> {
+    const decodedProps = this.getCurrentQueryProps(queryParams);
+    const queryData = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(decodedProps);
+    const stream = this.QueryDm.stream(queryData, queryParams.query_id, projectIdentifier);
+
+    return stream.pipe(
+      map((query:QueryResource) => {
+
+        // Project the loaded query into the table states and confirm the query is fully loaded
+        this.tableState.ready.doAndTransition('Query loaded', () => {
+          this.wpStatesInitialization.initialize(query, query.results);
+          return this.tableState.tableRendering.onQueryUpdated.valuesPromise();
+        });
+
+        // load the form if needed
+        this.conditionallyLoadForm(query);
+
+        return query;
+      }),
+      catchError((error) => {
+        // Load a default query
+        const queryProps = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(decodedProps);
+        return from(this.handleQueryLoadingError(error, queryProps, queryParams.query_id, projectIdentifier));
+      })
+    )
+  }
+
   /**
    * Load a query.
    * The query is either a persisted query, identified by the query_id parameter, or the default query. Both will be modified by the parameters in the query_props parameter.
    */
-  public fromQueryParams(queryParams:{ query_id?:number, query_props?:string }, projectIdentifier ?:string):Promise<QueryResource> {
-    const decodedProps = this.getCurrentQueryProps(queryParams);
-    const queryData = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(decodedProps);
-    const wpListPromise = this.QueryDm.find(queryData, queryParams.query_id, projectIdentifier);
-    const promise = this.updateStatesFromQueryOnPromise(wpListPromise);
+  public fromQueryParams(queryParams:{ query_id?:number, query_props?:string }, projectIdentifier ?:string):Observable<QueryResource> {
+    this.queryRequests.clear();
+    this.queryRequests.putValue({ queryParams: queryParams, projectIdentifier: projectIdentifier });
 
-    promise
-      .catch((error) => {
-        const queryProps = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(decodedProps);
-
-        return this.handleQueryLoadingError(error, queryProps, queryParams.query_id, projectIdentifier);
-      });
-
-    return this.conditionallyLoadForm(promise);
+    return this
+      .queryLoading
+      .pipe(
+        take(1)
+      );
   }
 
   /**
@@ -103,7 +145,7 @@ export class WorkPackagesListService {
    * Load the default query.
    */
   public loadDefaultQuery(projectIdentifier ?:string):Promise<QueryResource> {
-    return this.fromQueryParams({}, projectIdentifier);
+    return this.fromQueryParams({}, projectIdentifier).toPromise();
   }
 
   /**
@@ -115,16 +157,17 @@ export class WorkPackagesListService {
 
     let wpListPromise = this.QueryDm.reload(query, pagination);
 
-    let promise = this.updateStatesFromQueryOnPromise(wpListPromise);
-
-    promise
+    return this.updateStatesFromQueryOnPromise(wpListPromise)
+      .then((query:QueryResource) => {
+        this.conditionallyLoadForm(query);
+        return query;
+      })
       .catch((error) => {
         let projectIdentifier = query.project && query.project.id;
 
         return this.handleQueryLoadingError(error, {}, query.id, projectIdentifier);
       });
 
-    return this.conditionallyLoadForm(promise);
   }
 
   /**
@@ -164,8 +207,10 @@ export class WorkPackagesListService {
   public loadCurrentQueryFromParams(projectIdentifier?:string) {
     this.wpListChecksumService.clear();
     this.loadingIndicator.table.promise =
-      this.fromQueryParams(this.$state.params as any, projectIdentifier).then(() => {
-        return this.tableState.rendered.valuesPromise();
+      this.fromQueryParams(this.$state.params as any, projectIdentifier)
+        .toPromise()
+        .then(() => {
+          return this.tableState.rendered.valuesPromise();
       });
   }
 
@@ -269,19 +314,12 @@ export class WorkPackagesListService {
     return this.wpTablePagination.paginationObject;
   }
 
-  private conditionallyLoadForm(promise:Promise<QueryResource>):Promise<QueryResource> {
-    promise.then(query => {
+  private conditionallyLoadForm(query:QueryResource):void {
+    let currentForm = this.states.query.form.value;
 
-      let currentForm = this.states.query.form.value;
-
-      if (!currentForm || query.$links.update.$href !== currentForm.$href) {
-        setTimeout(() => this.loadForm(query), 0);
-      }
-
-      return query;
-    });
-
-    return promise;
+    if (!currentForm || query.$links.update.$href !== currentForm.$href) {
+      setTimeout(() => this.loadForm(query), 0);
+    }
   }
 
   private updateStatesFromQueryOnPromise(promise:Promise<QueryResource>):Promise<QueryResource> {
@@ -314,7 +352,7 @@ export class WorkPackagesListService {
     return this.states.query.resource.value!;
   }
 
-  private handleQueryLoadingError(error:ErrorResource, queryProps:any, queryId?:number, projectIdentifier?:string) {
+  private handleQueryLoadingError(error:ErrorResource, queryProps:any, queryId?:number, projectIdentifier?:string):Promise<QueryResource> {
     this.NotificationsService.addError(this.I18n.t('js.work_packages.faulty_query.description'), error.message);
 
     return new Promise((resolve, reject) => {

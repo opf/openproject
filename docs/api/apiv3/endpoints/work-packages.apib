@@ -635,12 +635,12 @@ For more details and all possible responses see the general specification of [Fo
 + Parameters
     + offset = `1` (optional, integer, `25`) ... Page number inside the requested collection.
 
-    + pageSize (optional, integer, `25`) ... Number of elements to display per page.
+    + pageSize = DEPENDING ON CONFIGURATION (optional, integer, `25`) ... Number of elements to display per page.
 
-    + filters (optional, string, `[{ "status_id": { "operator": "o", "values": null }" }]`) ... JSON specifying filter conditions.
-    Accepts the same format as returned by the [queries](#queries) endpoint.
+    + filters = `[{ "status_id": { "operator": "o", "values": null }}]` (optional, string, `[{ "type_id": { "operator": "=", "values": ['1', '2'] }" }]`) ... JSON specifying filter conditions.
+    Accepts the same format as returned by the [queries](#queries) endpoint. If no filter is to be applied, the client should send an empty array (`[]`).
 
-    + sortBy (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria.
+    + sortBy = ["parent", "asc"] (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria.
     Accepts the same format as returned by the [queries](#queries) endpoint.
 
     + groupBy (optional, string, `status`) ... The column to group by.
@@ -821,12 +821,12 @@ A project link must be set when creating work packages through this route.
 
     + offset = `1` (optional, integer, `25`) ... Page number inside the requested collection.
 
-    + pageSize (optional, integer, `25`) ... Number of elements to display per page.
+    + pageSize = DEPENDING ON CONFIGURATION (optional, integer, `25`) ... Number of elements to display per page.
 
-    + filters (optional, string, `[{ "status_id": { "operator": "o", "values": null }" }]`) ... JSON specifying filter conditions.
-    Accepts the same format as returned by the [queries](#queries) endpoint.
+    + filters = `[{ "status_id": { "operator": "o", "values": null }}]` (optional, string, `[{ "type_id": { "operator": "=", "values": ['1', '2'] }" }]`) ... JSON specifying filter conditions.
+    Accepts the same format as returned by the [queries](#queries) endpoint. If no filter is to be applied, the client should send an empty array (`[]`).
 
-    + sortBy (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria.
+    + sortBy = ["parent", "asc"] (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria.
     Accepts the same format as returned by the [queries](#queries) endpoint.
 
     + groupBy (optional, string, `status`) ... The column to group by.

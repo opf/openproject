@@ -2103,6 +2103,7 @@ af:
   setting_email_delivery_method: E-pos aflewering metode
   setting_sendmail_location: Ligging van die sendmail uitvoerbare
   setting_smtp_enable_starttls_auto: Gebruik STARTTLS outomaties indien beskikbaar
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: SMTP-bediener
   setting_smtp_port: SMTP-poort
   setting_smtp_authentication: SMTP-waarmerking
