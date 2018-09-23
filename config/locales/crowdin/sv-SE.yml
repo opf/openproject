@@ -2093,6 +2093,7 @@ sv-SE:
   setting_email_delivery_method: Leveransmetod för e-post
   setting_sendmail_location: Sökväg till sendmail
   setting_smtp_enable_starttls_auto: Använd STARTTLS om det går
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: SMTP-server
   setting_smtp_port: SMTP-port
   setting_smtp_authentication: SMTP-autentisering

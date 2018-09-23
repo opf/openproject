@@ -2142,6 +2142,7 @@ cs:
   setting_email_delivery_method: Způsob zasílání emailu
   setting_sendmail_location: Umístění spustitelného souboru sendmail
   setting_smtp_enable_starttls_auto: Automaticky použít STARTTLS, pokud je dostupné
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: Server SMTP
   setting_smtp_port: Port SMTP
   setting_smtp_authentication: Ověřování SMTP

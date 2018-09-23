@@ -2102,6 +2102,7 @@ bg:
   setting_email_delivery_method: Метод за доставка на имейл
   setting_sendmail_location: Местоположение на sendmail програма
   setting_smtp_enable_starttls_auto: Автоматично използвай STARTTLS ако е налично
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: SMTP сървър
   setting_smtp_port: SMTP порт
   setting_smtp_authentication: SMTP Удостоверяване

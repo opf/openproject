@@ -61,12 +61,12 @@ pt-BR:
     description_subwork_package: 'Filho do pacote de trabalho #%{id}'
     editor:
       preview: Alternar modo de visualização
-      source_code: Alternar modo de fonte Markdown
+      source_code: Alternar para código Markdown
       error_saving_failed: 'Não foi possível salvar o documento pelo seguinte erro:
         %{error}'
       mode:
-        manual: Troque para a fonte Markdown
-        wysiwyg: Troque para o editor de WYSIWYG
+        manual: Alternar para fonte Markdown
+        wysiwyg: Alternar para editor WYSIWYG
       macro:
         child_pages:
           button: Links para páginas filhas
@@ -654,7 +654,7 @@ pt-BR:
         highlighting_mode:
           description: Destacar com cor
           none: Sem destaque
-          inline: Datas em atraso, "Estado" e atributo de "Prioridade"
+          inline: Datas atrasadas, "Situação" e atributo de "Prioridade"
           entire_row_by: Toda linha por
           status: Situação
           priority: Prioridade
@@ -712,8 +712,8 @@ pt-BR:
         title: Confirmar exclusão do %{label}
         text: Você tem certeza que deseja excluir o seguinte %{label}?
         has_children: 'O pacote de trabalho tem %{childUnits}:'
-        confirm_deletion_children: Eu compreendo que todos os descendentes dos pacotes
-          de trabalho listados serão recursivamente removidos.
+        confirm_deletion_children: Tenho conhecimento que TODOS os descendentes dos
+          pacotes de trabalho listados serão removidos recursivamente.
         deletes_children: Todos os pacotes de trabalho filhos e seus descendentes
           também serão excluídos recursivamente.
     notice_successful_create: Criado com sucesso.

@@ -1938,6 +1938,7 @@ ja:
   setting_email_delivery_method: メールの配信方法
   setting_sendmail_location: Sendmail の実行可能ファイルの場所
   setting_smtp_enable_starttls_auto: 利用可能な場合、STARTTLS を自動的に使用する
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: SMTPサーバ
   setting_smtp_port: SMTPポート
   setting_smtp_authentication: SMTP認証

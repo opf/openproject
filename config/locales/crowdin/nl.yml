@@ -2136,6 +2136,7 @@ nl:
   setting_sendmail_location: Locatie van het uitvoerbare sendmail
   setting_smtp_enable_starttls_auto: Gebruik STARTTLS automatisch wanneer deze beschikbaar
     is
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: SMTP server
   setting_smtp_port: SMTP-port
   setting_smtp_authentication: SMTP-authenticatie
