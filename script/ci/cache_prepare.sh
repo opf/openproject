@@ -42,9 +42,6 @@ run "cp script/templates/database.travis.mysql.yml config/database.yml"
 
 run "bundle exec rake db:migrate"
 
-# Install Node latest LTS
-run "nvm install --lts"
-
 run "for i in {1..3}; do npm install && break || sleep 15; done"
 
 run "bundle exec rails assets:precompile assets:clean"

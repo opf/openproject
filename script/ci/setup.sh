@@ -56,9 +56,6 @@ if [ $1 != 'npm' ]; then
 fi
 
 if [ $1 = 'npm' ]; then
-  # Install Node latest LTS
-  run "nvm install --lts"
-
   run "for i in {1..3}; do npm install && break || sleep 15; done"
   echo "No asset compilation required"
 fi

@@ -47,7 +47,7 @@ dist: trusty
 cache:
   bundler: true
   directories:
-    - frontend/node_modules
+    - frontend/node_modules/foundation-apps
     - public/assets
     - app/assets/javascripts/bundles
     - app/assets/javascripts/locales
@@ -68,6 +68,11 @@ before_install:
   - travis_retry gem update --system
   # Don't install 1.16.3
   - gem install bundler -v 1.16.2
+
+  # Install Node latest LTS
+  # This should only be necessary when preparing the cache or for npm test runs
+  # but installing later fails for unknown reasons.
+  - nvm install --lts
 
 bundler_args: --binstubs --without development production docker
 
