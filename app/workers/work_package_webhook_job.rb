@@ -42,13 +42,14 @@ class WorkPackageWebhookJob < WebhookJob
 
   def perform
     body = request_body
+    headers = request_headers
     exception = nil
 
     if signature = request_signature(body)
-      request_headers['HTTP_X_OP_SIGNATURE'] = signature
+      headers['X-OP-Signature'] = signature
     end
 
-    response = RestClient.post webhook.url, request_body, request_headers
+    response = RestClient.post webhook.url, request_body, headers
   rescue RestClient::Exception => e
     response = e.response
 
@@ -62,7 +63,7 @@ class WorkPackageWebhookJob < WebhookJob
       webhook: webhook,
       event_name: event_name,
       url: webhook.url,
-      request_headers: request_headers,
+      request_headers: headers,
       request_body: body,
       response_code: response.try(:code).to_i,
       response_headers: response.try(:headers),
