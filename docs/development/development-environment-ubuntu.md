@@ -131,11 +131,11 @@ We will install the latest LTS version of Node.js via [nodenv](https://github.co
 **Install latest LTS node version**
 
 You can find the latest LTS version here: https://nodejs.org/en/download/
-Currently, this is v8.11.4. Install and activate it with:
+Currently, this is v8.12.0 Install and activate it with:
 
 ```bash
-[dev@ubuntu]# nodenv install 8.11.4
-[dev@ubuntu]# nodenv global 8.11.4
+[dev@ubuntu]# nodenv install 8.12.0
+[dev@ubuntu]# nodenv global 8.12.0
 ```
 
 ## Verify your installation
@@ -150,7 +150,7 @@ ruby 2.5.1p57 (2017-12-25 revision 61468) [x86_64-darwin16]
 Bundler version 1.16.1
 
 [dev@ubuntu]# npm --version
-6.2.0
+6.4.1
 ```
 
 # Install OpenProject
