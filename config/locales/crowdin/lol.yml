@@ -1913,7 +1913,7 @@ lol:
   setting_email_delivery_method: crwdns100988:0crwdne100988:0
   setting_sendmail_location: crwdns100989:0crwdne100989:0
   setting_smtp_enable_starttls_auto: crwdns100990:0crwdne100990:0
-  setting_smtp_ssl: Use SSL connection
+  setting_smtp_ssl: crwdns102531:0crwdne102531:0
   setting_smtp_address: crwdns100991:0crwdne100991:0
   setting_smtp_port: crwdns100992:0crwdne100992:0
   setting_smtp_authentication: crwdns100993:0crwdne100993:0
