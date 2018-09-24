@@ -42,10 +42,9 @@ module Query::Highlighting
                            allow_blank: true
 
     validates_inclusion_of :highlighted_attributes,
-                           in: ->(*) { self.available_highlighting_columns.map{ |col| col.name.to_sym } },
+                           in: ->(*) { available_highlighting_columns.map { |col| col.name.to_sym } },
                            allow_nil: true,
                            allow_blank: true
-
 
     def available_highlighting_columns
       @available_highlighting_columns ||= available_columns.select(&:highlightable?)
@@ -57,6 +56,10 @@ module Query::Highlighting
       highlighted_attributes
         .map { |name| columns[name.to_sym] }
         .uniq
+    end
+
+    def highlighted_attributes
+      super.presence || []
     end
 
     def highlighting_mode

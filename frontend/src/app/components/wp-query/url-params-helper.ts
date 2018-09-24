@@ -86,6 +86,10 @@ export class UrlParamsHelperService {
       paramsData.hl = query.highlightingMode;
     }
 
+    if (query.highlightingMode === 'inline' && query.highlightedAttributes) {
+      paramsData.hla = query.highlightedAttributes.map(el => el.href);
+    }
+
     paramsData.hi = !!query.showHierarchies;
     paramsData.g = _.get(query.groupBy, 'id', '');
     if (query.sortBy) {
@@ -153,6 +157,10 @@ export class UrlParamsHelperService {
       queryData.highlightingMode = properties.hl;
     }
 
+    if (properties.hla) {
+      queryData.highlightedAttributes = properties.hla;
+    }
+
     if (properties.hi === false || properties.hi === true) {
       queryData.showHierarchies = properties.hi;
     }
@@ -210,6 +218,10 @@ export class UrlParamsHelperService {
 
     if (query.highlightingMode) {
       queryData.highlightingMode = query.highlightingMode;
+    }
+
+    if (query.highlightedAttributes && query.highlightingMode === 'inline') {
+      queryData.highlightedAttributes = query.highlightedAttributes.map(el => el.href);
     }
 
     queryData.showHierarchies = !!query.showHierarchies;

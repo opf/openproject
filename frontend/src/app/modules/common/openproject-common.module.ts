@@ -64,6 +64,7 @@ import {CKEditorPreviewService} from "core-app/modules/common/ckeditor/ckeditor-
 import {ColorsAutocompleter} from "core-app/modules/common/colors/colors-autocompleter.component";
 import {DynamicCssService} from "./dynamic-css/dynamic-css.service";
 import {MultiToggledSelectComponent} from "core-app/modules/common/multi-toggled-select/multi-toggled-select.component";
+import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -159,6 +160,7 @@ export function bootstrapModule(injector:Injector) {
     { provide: APP_INITIALIZER, useFactory: bootstrapModule, deps: [Injector], multi: true },
     I18nService,
     DynamicCssService,
+    BannersService,
     NotificationsService,
     FocusHelperService,
     LoadingIndicatorService,

@@ -29,7 +29,6 @@
 #++
 
 class Queries::WorkPackages::Columns::WorkPackageColumn < Queries::Columns::Base
-
   attr_accessor :highlightable
   alias_method :highlightable?, :highlightable
 

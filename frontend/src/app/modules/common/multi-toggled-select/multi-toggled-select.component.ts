@@ -31,7 +31,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 export interface MultiToggledSelectOption {
   name:string;
-  singleOnly:true|undefined;
+  singleOnly?:true;
   value:any;
 }
 
