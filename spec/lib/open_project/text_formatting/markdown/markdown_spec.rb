@@ -231,6 +231,55 @@ describe OpenProject::TextFormatting,
         it { is_expected.to be_html_eql("<p>#{issue_link}, [#{issue_link}], (#{issue_link}) and #{issue_link}.</p>") }
       end
 
+      describe 'quickinfo' do
+        subject { format_text("###{issue.id}") }
+
+        let(:issue) do
+          FactoryBot.create :work_package,
+                            project: project,
+                            author: project_member,
+                            type: project.types.first,
+                            start_date: start_date,
+                            due_date: due_date
+        end
+
+        context 'no dates' do
+          let(:start_date) { nil }
+          let(:due_date) { nil }
+
+          it 'prints no quickinfo with dates' do
+            puts subject
+          end
+        end
+
+        context 'start date' do
+          let(:start_date) { Date.today }
+          let(:due_date) { nil }
+
+          it 'prints no quickinfo with dates' do
+            expect(subject).to include "(#{start_date.to_s} -)"
+          end
+        end
+
+        context 'due date' do
+          let(:start_date) { nil }
+          let(:due_date) { Date.today }
+
+          it 'prints quickinfo with start date' do
+            expect(subject).to include "(- #{due_date.to_s})"
+          end
+        end
+
+        context 'both date' do
+          let(:start_date) { Date.today }
+          let(:due_date) { Date.today + 1.day }
+
+          it 'prints quickinfo with dates' do
+            expect(subject).to include "(#{start_date.to_s} - #{due_date.to_s})"
+          end
+        end
+      end
+
       context 'Plain issue link with braces' do
         subject { format_text("foo (bar ##{issue.id})") }
 
