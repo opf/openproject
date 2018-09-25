@@ -37,6 +37,7 @@ import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 import {TypeDmService} from "core-app/modules/hal/dm-services/type-dm.service";
+import {Highlighting} from 'core-app/components/wp-fast-table/builders/highlighting/highlighting.functions';
 
 @Directive({
   selector: '[opTypesCreateDropdown]'
@@ -106,6 +107,7 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
         linkText: type.name,
         href: this.$state.href(this.stateName, { type: type.id }),
         ariaLabel: type.name,
+        class: Highlighting.dotClass('type', type.id),
         onClick: ($event:JQueryEventObject) => {
           if (LinkHandling.isClickedWithModifier($event)) {
             return false;
