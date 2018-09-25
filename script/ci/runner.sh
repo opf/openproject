@@ -27,7 +27,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# script/ci_runner.sh
+
+# script/ci/runner.sh
+# $1 = TEST_SUITE
+# $2 = GROUP_SIZE
+# $3 = GROUP
+
 #!/bin/sh
 
 set -e
@@ -38,7 +43,7 @@ export CI_SEED=$(git rev-parse HEAD | tr -d 'a-z' | cut -b 1-5 | tr -d '0')
 # by rails assets:precompile
 export OPENPROJECT_CLI_PROXY=''
 
-case "$TEST_SUITE" in
+case "$1" in
         npm)
             npm test
             ;;
@@ -48,11 +53,14 @@ case "$TEST_SUITE" in
             exec bundle exec rspec -I spec_legacy -o "--seed $CI_SEED" spec_legacy
             ;;
         specs)
-            bin/parallel_test --type rspec -o "--seed $CI_SEED" -n $GROUP_SIZE --only-group $GROUP --pattern '^spec/(?!features\/)' spec
+            bin/parallel_test --type rspec -o "--seed $CI_SEED" -n $2 --only-group $3 --pattern '^spec/(?!features\/)' spec
             ;;
         features)
-            bin/parallel_test --type rspec -o "--seed $CI_SEED" -n $GROUP_SIZE --only-group $GROUP --pattern '^spec\/features\/' spec
+            bin/parallel_test --type rspec -o "--seed $CI_SEED" -n $2 --only-group $3 --pattern '^spec\/features\/' spec
+            ;;
+        cucumber)
+            bin/parallel_test --type cucumber -n $2 --only-group $3 features
             ;;
         *)
-            bundle exec rake parallel:$TEST_SUITE
+            bundle exec rake parallel:$1
 esac
