@@ -374,7 +374,7 @@ tr:
       type:
         attribute_groups: ''
         is_in_roadmap: Displayed in roadmap by default
-        is_default: Activated for new projects by default
+        is_default: Yeni projelerde varsayılan olarak aktif
         is_milestone: Kilometre taşı
         color: Renk
       user:
@@ -1126,10 +1126,10 @@ tr:
   label_add_subtask: Alt görev ekle
   label_added: eklendi
   label_added_time_by: "%{author} tarafından %{age} önce eklendi"
-  label_additional_workflow_transitions_for_assignee: Kullanıcı yaratan olduğu zaman
+  label_additional_workflow_transitions_for_assignee: Kullanıcı atanan olduğu zaman
     tanınacak ek yetkiler
-  label_additional_workflow_transitions_for_author: Kullanıcı yazar olduğunda izin
-    verilen ek geçişler
+  label_additional_workflow_transitions_for_author: Kullanıcı oluşturan olduğunda
+    izin verilen ek geçişler
   label_administration: Yönetim
   label_advanced_settings: Gelişmiş ayarlar
   label_age: Yaş
@@ -1387,7 +1387,7 @@ tr:
   label_my_queries: Özel sorgularım
   label_never: Hiçbir zaman
   label_new: Yeni
-  label_new_statuses_allowed: Yeni durumlara izin verildi
+  label_new_statuses_allowed: İzin verilen yeni durumlar
   label_news_added: Haberler eklendi
   label_news_comment_added: Yorum bir haberlere eklendi
   label_news_latest: En son haberler
