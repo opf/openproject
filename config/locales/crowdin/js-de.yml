@@ -105,7 +105,7 @@ de:
           button: '"Arbeitspaket anlegen"-Schaltfläche einfügen'
           type: Arbeitspaket-Typ
           button_style: Als Schaltfläche anzeigen
-          button_style_hint: 'Optinoal: Haken setzen, um das Makro nicht als Link,
+          button_style_hint: 'Optional: Haken setzen, um das Makro nicht als Link,
             sondern als Schaltfläche erscheinen zu lassen.'
           without_type: Arbeitspaket erstellen
           with_type: 'Arbeitspaket erstellen (Typ: %{typename})'
