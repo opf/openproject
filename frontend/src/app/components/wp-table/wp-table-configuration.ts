@@ -57,8 +57,6 @@ export class WorkPackageTableConfiguration {
   /** Whether this table is in an embedded context*/
   public isEmbedded:boolean = false;
 
-  public display:string = 'table';
-
   constructor(private providedConfig:WorkPackageTableConfigurationObject) {
     _.each(providedConfig, (value, k) => {
       let key = (k as keyof WorkPackageTableConfiguration);

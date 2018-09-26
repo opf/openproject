@@ -1,7 +1,7 @@
 <div class="work-packages-embedded-view--container loading-indicator--location"
      [ngClass]="{ '-hierarchy-disabled': !configuration.hierarchyToggleEnabled,  '-compact-tables': compactTableStyle }"
      [attr.data-indicator-name]="uniqueEmbeddedTableName">
-  <ng-container *ngIf="tableInformationLoaded && configuration.display === 'table'">
+  <ng-container *ngIf="tableInformationLoaded">
     <!-- TABLE + TIMELINE horizontal split -->
     <wp-table [projectIdentifier]="projectIdentifier"
               [configuration]="configuration"
@@ -11,12 +11,6 @@
     <div class="work-packages-split-view--tabletimeline-footer hide-when-print">
       <wp-table-pagination [hideForSinglePageResults]="true"></wp-table-pagination>
     </div>
-  </ng-container>
-  <ng-container *ngIf="tableInformationLoaded && configuration.display === 'graph'">
-    <canvas baseChart
-            [data]="doughnutChartData"
-            [labels]="doughnutChartLabels"
-            [chartType]="doughnutChartType"></canvas>
   </ng-container>
   <div class="notification-box -error" *ngIf="error">
     <span [textContent]="error.message || error"></span>

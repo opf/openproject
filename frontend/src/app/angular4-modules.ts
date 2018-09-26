@@ -216,6 +216,8 @@ import {CkeditorAugmentedTextareaComponent} from "core-app/ckeditor/ckeditor-aug
 import {WpTableConfigurationHighlightingTab} from "core-components/wp-table/configuration-modal/tabs/highlighting-tab.component";
 import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
 import {ChartsModule} from "ng2-charts";
+import {WorkPackageEmbeddedGraphComponent} from "core-components/wp-table/embedded/wp-embedded-graph.component";
+import {WorkPackageByVersionGraphComponent} from "core-components/wp-by-version-graph/wp-by-version-graph.component";
 
 @NgModule({
   imports: [
@@ -441,6 +443,9 @@ import {ChartsModule} from "ng2-charts";
     // Embedded table
     WorkPackageEmbeddedTableComponent,
     WorkPackageEmbeddedTableEntryComponent,
+    // Embedded graphs
+    WorkPackageEmbeddedGraphComponent,
+
     // Modals
     WpTableConfigurationModalComponent,
     WpTableConfigurationColumnsTab,
@@ -484,6 +489,9 @@ import {ChartsModule} from "ng2-charts";
     AttachmentListComponent,
     AttachmentListItemComponent,
     AttachmentsUploadComponent,
+
+    // Work package graphs on version page
+    WorkPackageByVersionGraphComponent,
   ],
   entryComponents: [
     WorkPackagesBaseComponent,
@@ -569,6 +577,9 @@ import {ChartsModule} from "ng2-charts";
 
     // Zen mode button
     ZenModeButtonComponent,
+
+    // Work package graphs on version page
+    WorkPackageByVersionGraphComponent,
   ]
 })
 export class OpenProjectModule {
