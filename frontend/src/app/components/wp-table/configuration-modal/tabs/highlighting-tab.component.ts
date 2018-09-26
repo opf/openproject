@@ -51,7 +51,7 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
 
     if (this.selectedAttributes !== undefined && _.get(this.selectedAttributes, 'value') !== 'all') {
       selectedAttributes = _.castArray(this.selectedAttributes)
-        .map(el => _.find(this.availableHighlightedAttributes, 'href', el.value)!);
+        .map(el => _.find(this.availableHighlightedAttributes, (column) => column.href === el.value)!);
     }
 
     const newValue = new WorkPackageTableHighlight(mode, selectedAttributes);
@@ -81,7 +81,15 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
   ngOnInit() {
     this.availableMappedHighlightedAttributes =
       [this.allAttributesOption].concat(this.getAvailableAttributes());
-    this.selectedAttributes = this.availableMappedHighlightedAttributes[0];
+
+    // Either, selectedAttributes already exist, then map them to multi value options
+    const currentValues = this.wpTableHighlight.current.selectedAttributes;
+    if (currentValues !== undefined) {
+      this.selectedAttributes = this.mapAttributes(currentValues);
+    } else {
+      this.selectedAttributes = this.allAttributesOption;
+    }
+
     this.eeShowBanners = jQuery('body').hasClass('ee-banners-visible');
     this.updateMode(this.wpTableHighlight.current.mode);
 
@@ -96,7 +104,11 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
   }
 
   public getAvailableAttributes():MultiToggledSelectOption[] {
-    return this.availableHighlightedAttributes.map((el:HalResource) => ({ name: el.name, value: el.href! }));
+    return this.mapAttributes(this.availableHighlightedAttributes);
+  }
+
+  private mapAttributes(input:HalResource[]):MultiToggledSelectOption[] {
+    return input.map((el:HalResource) => ({ name: el.name, value: el.$href! }));
   }
 
   private get allAttributesOption():MultiToggledSelectOption {

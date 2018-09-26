@@ -33,6 +33,13 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 export class WorkPackageTableHighlight {
   constructor(public mode:HighlightingMode = 'inline',
               public selectedAttributes:HalResource[]|undefined = undefined) {
+
+    // TODO why is this an empty array? It should be undefined when empty
+    // or all is selected
+    if (this.selectedAttributes === []) {
+      this.selectedAttributes = undefined;
+    }
+
   }
 
   public update(query:QueryResource|null) {
@@ -41,7 +48,6 @@ export class WorkPackageTableHighlight {
       this.selectedAttributes = undefined;
       return;
     }
-
 
     this.mode = query.highlightingMode;
     this.selectedAttributes = query.selectedAttributes;

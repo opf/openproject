@@ -201,6 +201,7 @@ module API
 
                                            {
                                              href: api_v3_paths.query_column(converted_name),
+                                             id: converted_name,
                                              title: column.caption
                                            }
                                          }

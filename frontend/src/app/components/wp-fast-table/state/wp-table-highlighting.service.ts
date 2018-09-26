@@ -7,6 +7,7 @@ import {HighlightingMode} from "core-components/wp-fast-table/builders/highlight
 import {DynamicCssService} from "../../../modules/common/dynamic-css/dynamic-css.service";
 import {WorkPackageTableHighlight} from "core-components/wp-fast-table/wp-table-highlight";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 @Injectable()
 export class WorkPackageTableHighlightingService extends WorkPackageTableBaseService<WorkPackageTableHighlight> implements WorkPackageQueryStateService {
@@ -17,12 +18,32 @@ export class WorkPackageTableHighlightingService extends WorkPackageTableBaseSer
     super(tableState);
   }
 
+  /**
+   * Decides whether we want to inline highlight the given field name.
+   *
+   * @param name A display field name such as 'status', 'priority'.
+   */
+  public shouldHighlightInline(name:string):boolean {
+    // 1. Are we in inline mode or unable to render?
+    if (!this.isInline || this.Banners.eeShowBanners) {
+      return false;
+    }
+
+    // 2. Is selected attributes === undefined ?
+    if (this.current.selectedAttributes === undefined) {
+      return true;
+    }
+
+    // 3. Is name in selected attributes ?
+    return !!_.find(this.current.selectedAttributes, (attr:HalResource) => attr.id === name);
+  }
+
   public get state() {
     return this.tableState.highlighting;
   }
 
   public get current():WorkPackageTableHighlight {
-    let value =  this.state.getValueOr(new WorkPackageTableHighlight('inline'));
+    let value = this.state.getValueOr(new WorkPackageTableHighlight('inline'));
     return this.filteredValue(value);
   }
 

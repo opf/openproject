@@ -6,8 +6,14 @@ export namespace AngularTrackingHelpers {
   }
 
   export function compareByName<T extends HalResource>(a:T|undefined|null, b:T|undefined|null):boolean {
-    const bothNil = !a && !b;
-    return bothNil || (!!a && !!b && a.name === b.name);
+    return compareByAttribute('name')(a, b);
+  }
+
+  export function compareByAttribute(attribute:string) {
+    return (a:any, b:any) => {
+      const bothNil = !a && !b;
+      return bothNil || (!!a && !!b && a[attribute] === b[attribute]);
+    };
   }
 
   export function trackByName(i:number, item:any) {

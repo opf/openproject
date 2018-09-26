@@ -8,6 +8,7 @@
             [disabled]="isDisabled"
             [attr.id]="selectHtmlId || undefined"
             (keydown)="onValueKeydown.emit($event)"
+            [compareWith]="compareByValue"
             (change)="emitValueChange($event)">
         <option
                 value=""
@@ -35,6 +36,8 @@
             [disabled]="isDisabled"
             [attr.id]="selectHtmlId || undefined"
             (keydown)="onValueKeydown.emit($event)"
+            [compareWith]="compareByValue"
+            (change)="emitValueChange($event)"
             multiple
             size=5>
         <option

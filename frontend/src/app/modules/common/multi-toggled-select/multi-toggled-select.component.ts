@@ -28,6 +28,7 @@
 
 import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 
 export interface MultiToggledSelectOption {
   name:string;
@@ -61,6 +62,9 @@ export class MultiToggledSelectComponent<T extends MultiToggledSelectOption> imp
   /** Whether we're currently multi-selecting */
   public isMultiselect = false;
 
+  /** Comparer function for values */
+  public compareByValue = AngularTrackingHelpers.compareByAttribute('value');
+
   /** Current selected option */
   private _selectedOption:T|T[]|undefined;
 
@@ -92,7 +96,7 @@ export class MultiToggledSelectComponent<T extends MultiToggledSelectOption> imp
     if (this.isValueMulti()) {
       this._selectedOption = (this.selectedOption as T[])[0];
     } else {
-      this._selectedOption = this.selectedOption;
+      this._selectedOption = _.castArray(this.selectedOption);
     }
   }
 
