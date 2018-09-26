@@ -59,7 +59,8 @@ class TypesController < ApplicationController
         redirect_to_type_tab_path(@type, t(:notice_successful_create))
       end
 
-      call.on_failure do
+      call.on_failure do |result|
+        flash[:error] = result.errors.full_messages.join("\n")
         load_projects_and_types
         render action: 'new'
       end
