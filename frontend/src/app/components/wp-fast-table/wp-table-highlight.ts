@@ -31,15 +31,25 @@ import {HighlightingMode} from "core-components/wp-fast-table/builders/highlight
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 export class WorkPackageTableHighlight {
-  constructor(public mode:HighlightingMode = 'inline',
-              public selectedAttributes:HalResource[]|undefined = undefined) {
+  private _selectedAttributes:HalResource[]|undefined;
 
+  constructor(public mode:HighlightingMode = 'inline',
+              selected:HalResource[]|undefined = undefined) {
+    this.selectedAttributes = selected;
+  }
+
+  public get selectedAttributes() {
+    return this._selectedAttributes;
+  }
+
+  public set selectedAttributes(val:HalResource[]|undefined) {
     // TODO why is this an empty array? It should be undefined when empty
     // or all is selected
-    if (this.selectedAttributes === []) {
-      this.selectedAttributes = undefined;
+    if (_.isEmpty(val)) {
+      this._selectedAttributes = undefined;
+    } else {
+      this._selectedAttributes = val;
     }
-
   }
 
   public update(query:QueryResource|null) {
