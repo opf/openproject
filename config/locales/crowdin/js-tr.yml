@@ -328,7 +328,7 @@ tr:
     relation_labels:
       parent: Kaynak
       children: Çocuk
-      relates: İlişkili Oldukları
+      relates: İle İlişkili
       duplicates: Çoğalt
       duplicated: Yineleyen
       blocks: Şunu Engelliyor

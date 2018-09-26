@@ -373,8 +373,8 @@ tr:
         type: Tür
       type:
         attribute_groups: ''
-        is_in_roadmap: Displayed in roadmap by default
-        is_default: Activated for new projects by default
+        is_in_roadmap: Yol haritasında varsayılan olarak gösterilsin
+        is_default: Yeni projelerde varsayılan olarak aktif
         is_milestone: Kilometre taşı
         color: Renk
       user:
@@ -559,8 +559,8 @@ tr:
           attributes:
             attribute_groups:
               attribute_unknown: Geçersiz iş paketi özniteliği kullanıldı.
-              duplicate_group: The group name '%{group}' is used more than once. Group
-                names must be unique.
+              duplicate_group: "'%{group}' grup adı, birden fazla kez kullanıldı.
+                Grup isimleri benzersiz olmalıdır."
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
               group_without_name: Adsız gruplara izin verilmez.
         user:
@@ -745,7 +745,7 @@ tr:
   consent:
     checkbox_label: I have noted and do consent to the above.
     failure_message: Consent failed, cannot proceed.
-    title: User Consent
+    title: Kullanıcı Rızası
     decline_warning_message: You have declined to consent and have been logged out.
     user_has_consented: User has consented to your configured statement at the given
       time.
@@ -985,8 +985,8 @@ tr:
   error_cookie_missing: OpenProject çerezi yok. Lütfen uygulamanın düzgün çalışabilmesi
     için, tarayıcınızda çerezlere izin verildiğine emin olun.
   error_custom_option_not_found: Seçenek yok.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
+  error_dependent_work_package: 'Bağımlı #%{related_id} %{related_subject} iş paketinde
+    hata: %{error}'
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Girdi silinemedi.
@@ -997,7 +997,7 @@ tr:
   error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
   error_pdf_export_too_many_columns: PDF Dışa Aktarma için çok fazla sütun seçili.
     Sütun sayısını azaltın.
-  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
+  error_pdf_failed_to_export: 'PDF çıktısı kaydedilemedi: %{error}'
   error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
     you try to submit data on multiple browsers or tabs? Please close all tabs and
     try again.
@@ -1126,10 +1126,10 @@ tr:
   label_add_subtask: Alt görev ekle
   label_added: eklendi
   label_added_time_by: "%{author} tarafından %{age} önce eklendi"
-  label_additional_workflow_transitions_for_assignee: Kullanıcı yaratan olduğu zaman
+  label_additional_workflow_transitions_for_assignee: Kullanıcı atanan olduğu zaman
     tanınacak ek yetkiler
-  label_additional_workflow_transitions_for_author: Kullanıcı yazar olduğunda izin
-    verilen ek geçişler
+  label_additional_workflow_transitions_for_author: Kullanıcı oluşturan olduğunda
+    izin verilen ek geçişler
   label_administration: Yönetim
   label_advanced_settings: Gelişmiş ayarlar
   label_age: Yaş
@@ -1179,7 +1179,7 @@ tr:
   label_calendar: Takvim
   label_calendar_show: Takvimi Göster
   label_category: Kategori
-  label_consent_settings: User Consent
+  label_consent_settings: Kullanıcı Rızası
   label_wiki_menu_item: Viki menü öğesi
   label_select_main_menu_item: Yeni ana menü öğesi seç
   label_select_project: Bir proje seçin
@@ -1387,7 +1387,7 @@ tr:
   label_my_queries: Özel sorgularım
   label_never: Hiçbir zaman
   label_new: Yeni
-  label_new_statuses_allowed: Yeni durumlara izin verildi
+  label_new_statuses_allowed: İzin verilen yeni durumlar
   label_news_added: Haberler eklendi
   label_news_comment_added: Yorum bir haberlere eklendi
   label_news_latest: En son haberler
@@ -1470,7 +1470,7 @@ tr:
   label_registration_activation_by_email: e-posta ile hesap etkinleştirme
   label_registration_automatic_activation: otomatik hesap etkinleştirme
   label_registration_manual_activation: elle hesap etkinleştirme
-  label_related_work_packages: İlgili iş paketi
+  label_related_work_packages: İlişkili iş paketleri
   label_relates: ile ilişkili
   label_relates_to: ile ilişkili
   label_relation_delete: İlişkiyi sil
@@ -1727,7 +1727,7 @@ tr:
   mail_subject_wiki_content_added: "'%{id}' viki sayfası eklendi"
   mail_subject_wiki_content_updated: "'%{id}' viki sayfası güncellendi"
   mail_user_activation_limit_reached:
-    subject: User activation limit reached
+    subject: Kullanıcı etkinleştirme sınırına ulaşıldı
     message: |
       A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
       The user cannot activate their account since the user limit has been reached.

@@ -1772,7 +1772,7 @@ zh:
   permission_move_work_packages: 移动工作包
   permission_protect_wiki_pages: 保护维基页面
   permission_rename_wiki_pages: 重命名 wiki 网页
-  permission_save_queries: 保存查询
+  permission_save_queries: 保存界面设置
   permission_select_project_modules: 选择项目模块
   permission_manage_types: 选择类型
   permission_view_calendar: 查看日历
