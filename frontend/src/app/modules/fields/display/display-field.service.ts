@@ -33,7 +33,15 @@ import {DisplayField} from "core-app/modules/fields/display/display-field.module
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 
 export interface IDisplayFieldType extends IFieldType<DisplayField> {
-  new(resource:HalResource, attributeType:string, schema:IFieldSchema):DisplayField;
+  new(resource:HalResource, attributeType:string, schema:IFieldSchema, context:DisplayFieldContext):DisplayField;
+}
+
+export interface DisplayFieldContext {
+  /** Where will the field be rendered? This may result in different styles (Multi select field, e.g.,) */
+  container: 'table'|'single-view'|'timeline';
+
+  /** Options passed to the display field */
+  options:{ [key:string]:any };
 }
 
 @Injectable()
@@ -41,5 +49,26 @@ export class DisplayFieldService extends AbstractFieldService<DisplayField, IDis
 
   constructor(injector:Injector) {
     super(injector);
+  }
+
+  /**
+   * Create an instance of the field type T given the required arguments
+   * with either in descending order:
+   *
+   *  1. The registered field name (most specific)
+   *  2. The registered field for the schema attribute type
+   *  3. The default field type
+   *
+   * @param resource
+   * @param {string} fieldName
+   * @param {IFieldSchema} schema
+   * @param {string} context
+   * @returns {T}
+   */
+  public getField(resource:any, fieldName:string, schema:IFieldSchema, context:DisplayFieldContext):DisplayField {
+    let type = this.fieldType(fieldName) || this.fieldType(schema.type) || this.defaultFieldType;
+    let fieldClass:IDisplayFieldType = this.classes[type];
+
+    return new fieldClass(resource, fieldName, schema, context);
   }
 }

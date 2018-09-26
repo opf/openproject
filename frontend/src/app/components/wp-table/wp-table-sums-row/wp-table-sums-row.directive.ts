@@ -121,7 +121,7 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
       return div;
     }
 
-    const field = this.displayFieldService.getField(sums, name, fieldSchema);
+    const field = this.displayFieldService.getField(sums, name, fieldSchema, { container: 'table', options: {} });
 
     if (!field.isEmpty()) {
       field.render(div, field.valueString);
