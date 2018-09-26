@@ -84,10 +84,12 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
 
     // Either, selectedAttributes already exist, then map them to multi value options
     const currentValues = this.wpTableHighlight.current.selectedAttributes;
-    if (currentValues !== undefined) {
-      this.selectedAttributes = this.mapAttributes(currentValues);
-    } else {
+    if (currentValues === undefined) {
       this.selectedAttributes = this.allAttributesOption;
+    } else if (currentValues.length === 1) {
+      this.selectedAttributes = this.mapAttributes(currentValues)[0];
+    } else {
+      this.selectedAttributes = this.mapAttributes(currentValues);
     }
 
     this.eeShowBanners = jQuery('body').hasClass('ee-banners-visible');
