@@ -53,7 +53,7 @@ See docs/COPYRIGHT.rdoc for more details.
            aria-label="<%= I18n.t('js.label_expand') %>"
            data-url="<%= url_for(action: 'show',
                                   project_id: @project,
-                                  path: to_path_param(ent_path),
+                                  repo_path: to_path_param(ent_path),
                                   rev: @rev,
                                   depth: (depth + 1),
                                   parent_id: tr_id) %>">
