@@ -418,7 +418,10 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   }
 
   private expandCollapseCategory(category:string) {
-    jQuery(`[data-category="${category}"]`).toggleClass('-hidden');
+    jQuery(`[data-category="${category}"]`)
+      // Don't hide the categories themselves (Regression #28584)
+      .not('.ui-autocomplete--category')
+      .toggleClass('-hidden');
     jQuery(`.wp-query-menu--category-icon[data-category="${category}"]`).toggleClass('-collapsed');
   }
 
