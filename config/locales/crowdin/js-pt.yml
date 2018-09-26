@@ -61,7 +61,11 @@ pt:
     description_subwork_package: 'Filho de pacote de trabalho #%{id}'
     editor:
       preview: Alternar modo de pré-visualização
-      error_saving_failed: 'Ao guardar o documento ocorreu o seguinte erro: %{e}'
+      source_code: Toggle Markdown source mode
+      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      mode:
+        manual: Switch to Markdown source
+        wysiwyg: Switch to WYSIWYG editor
       macro:
         child_pages:
           button: Links para páginas filho

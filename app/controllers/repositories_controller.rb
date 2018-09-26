@@ -281,6 +281,9 @@ class RepositoriesController < ApplicationController
   end
 
   def stats
+    # allow object_src self to be able to load dynamic stats SVGs from ./graph
+    override_content_security_policy_directives object_src: %w('self')
+
     @show_commits_per_author = current_user.allowed_to_in_project?(:view_commit_author_statistics,
                                                                    @project)
   end

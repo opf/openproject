@@ -1938,6 +1938,7 @@ ja:
   setting_email_delivery_method: メールの配信方法
   setting_sendmail_location: Sendmail の実行可能ファイルの場所
   setting_smtp_enable_starttls_auto: 利用可能な場合、STARTTLS を自動的に使用する
+  setting_smtp_ssl: SSL接続を使用する
   setting_smtp_address: SMTPサーバ
   setting_smtp_port: SMTPポート
   setting_smtp_authentication: SMTP認証
@@ -2042,8 +2043,7 @@ ja:
   setting_welcome_on_homescreen: ホーム画面にようこそブロックを表示
   setting_wiki_compression: Wiki履歴を圧縮する
   setting_work_package_group_assignment: グループへの割り当てを許可する
-  setting_work_package_list_default_highlighting_mode: Default work package highlighting
-    mode
+  setting_work_package_list_default_highlighting_mode: デフォルト作業項目のハイライトモード
   settings:
     general: 概要
     other: その他

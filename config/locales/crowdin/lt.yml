@@ -2158,6 +2158,7 @@ lt:
   setting_email_delivery_method: El. pašto pristatymo metodas
   setting_sendmail_location: Sendmail vykdomojo failo lokacija
   setting_smtp_enable_starttls_auto: Automatiškai naudoti STARTTLS, jei galima
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: SMTP serveris
   setting_smtp_port: SMTP prievadas
   setting_smtp_authentication: SMTP autentifikacija

@@ -1945,6 +1945,7 @@ zh-TW:
   setting_email_delivery_method: 電子郵件傳遞方法
   setting_sendmail_location: Sendmail 的執行位置
   setting_smtp_enable_starttls_auto: 如果可用將自動使用 STARTTLS
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: SMTP 伺服器
   setting_smtp_port: SMTP 埠
   setting_smtp_authentication: SMTP 驗證

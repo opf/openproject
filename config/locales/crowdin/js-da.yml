@@ -60,7 +60,11 @@ da:
     description_subwork_package: 'Child of work package #%{id}'
     editor:
       preview: Toggle preview mode
-      error_saving_failed: 'Saving the document failed with the following error: %{e}'
+      source_code: Toggle Markdown source mode
+      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      mode:
+        manual: Switch to Markdown source
+        wysiwyg: Switch to WYSIWYG editor
       macro:
         child_pages:
           button: Links to child pages
@@ -699,7 +703,7 @@ da:
         title: Confirm deletion of %{label}
         text: Are you sure you want to delete the following %{label} ?
         has_children: 'The work package has %{childUnits}:'
-        confirm_deletion_children: I acknowledge that ALL descendants of the listet
+        confirm_deletion_children: I acknowledge that ALL descendants of the listed
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.

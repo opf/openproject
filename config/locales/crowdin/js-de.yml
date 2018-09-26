@@ -61,7 +61,11 @@ de:
     description_subwork_package: 'Kind von Arbeitspaket #%{id}'
     editor:
       preview: Vorschau-Modus ein/aus
-      error_saving_failed: 'Fehler beim Speichern des Dokuments: %{e}'
+      source_code: Wechseln zwischen Markdown-Source und WYSIWYG
+      error_saving_failed: 'Fehler beim Speichern des Dokuments: %{error}'
+      mode:
+        manual: Wechseln zu reinem Markdown-Text
+        wysiwyg: Wechseln zu WYSIWYG-Editor
       macro:
         child_pages:
           button: Auflistung untergeordneter Seiten
@@ -101,7 +105,7 @@ de:
           button: '"Arbeitspaket anlegen"-Schaltfläche einfügen'
           type: Arbeitspaket-Typ
           button_style: Als Schaltfläche anzeigen
-          button_style_hint: 'Optinoal: Haken setzen, um das Makro nicht als Link,
+          button_style_hint: 'Optional: Haken setzen, um das Makro nicht als Link,
             sondern als Schaltfläche erscheinen zu lassen.'
           without_type: Arbeitspaket erstellen
           with_type: 'Arbeitspaket erstellen (Typ: %{typename})'
@@ -640,14 +644,14 @@ de:
           werden.
       table_configuration:
         button: Konfigurieren Sie diese Arbeitspaket-Tabelle
-        choose_display_mode: Display work packages as
+        choose_display_mode: Arbeitspakete anzeigen als
         modal_title: Konfiguration der Arbeitspaket-Tabelle
         embedded_tab_disabled: Dieser Tab ist nicht verfübar für diese eingebettete
           Ansicht.
         default: Standard
         display_settings: Anzeige-Einstellungen
-        default_mode: Flat list
-        hierarchy_mode: Hierarchy
+        default_mode: Flache Liste
+        hierarchy_mode: Hierarchie
         hierarchy_hint: Zusätzlich zu den Ergebnissen der Tabelle werden die Eltern
           der Elemente angezeigt. Hierarchien können in der Tabelle ein- und ausgeklappt
           werden.
@@ -656,21 +660,20 @@ de:
         show_timeline_hint: Zeigt ein interaktives Gantt-Diagramm auf der rechten
           Seite der Tabelle an. Sie können die Aufteilung der beiden Elemente über
           Ziehen des Trennstrichs zwischen Tabelle und Gantt-Diagramm konfigurieren.
-        highlighting: Highlighting
+        highlighting: Hervorhebung
         highlighting_mode:
-          description: Highlight with color
-          none: No highlighting
-          inline: Overdue dates, "Status", and "Priority" attribute
-          entire_row_by: Entire row by
+          description: Farbliche Hervorherbung
+          none: Keine Hervorhebung
+          inline: Überfällige Termine, Attribute "Status" und "Priorität"
+          entire_row_by: Gesamte Zeile durch
           status: Status
           priority: Priorität
         columns_help_text: Verwenden Sie die Eingabe oben um Spalten zur Tabellenansicht
           hinzuzufügen oder zu entfernen. Sie können die Reihenfolge der Spalten über
           Drag & Drop verändern.
         upsale:
-          ee_only: Enterprise Edition only feature
-          attribute_highlighting: Need certain work packages to stand out from the
-            mass?
+          ee_only: Enterprise-Edition Feature
+          attribute_highlighting: Sollen bestimmte Arbeitspakete aus der Menge herausstechen?
           relation_columns: Möchten Sie Zusammenhänge in der Arbeitspaketliste anzeigen?
           check_out_link: Testen Sie die Enterprise Edition.
       tabs:
@@ -719,8 +722,8 @@ de:
         title: Löschen von %{label} bestätigen
         text: Sind Sie sicher, dass Sie %{label} löschen möchten?
         has_children: 'Dieses Arbeitspaket hat %{childUnits}:'
-        confirm_deletion_children: I acknowledge that ALL descendants of the listet
-          work packages will be recursively removed.
+        confirm_deletion_children: Ich bestätige, dass alle untergordneten Elemente
+          der hier aufgeführten Arbeitspakete rekursiv entfernt werden.
         deletes_children: Alle untergeordneten Arbeitspaketen und deren Nachkommen
           werden auch rekursiv gelöscht.
     notice_successful_create: Erfolgreich angelegt.

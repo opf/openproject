@@ -296,6 +296,29 @@ describe 'new work package', js: true do
     end
   end
 
+  context 'as a user with add_work_packages permission, but not edit_work_packages permission (Regression 28580)' do
+    let(:user) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
+    let(:role) { FactoryBot.create :role, permissions: %i(view_work_packages add_work_packages) }
+    let(:wp_page) { Pages::FullWorkPackageCreate.new }
+
+    before do
+      visit new_project_work_packages_path(project)
+    end
+
+    it 'can create the work package, but not update it after saving' do
+      type_field.set_value type_bug.name
+      subject_field.update('new work package')
+
+      wp_page.expect_and_dismiss_notification(
+        message: 'Successful creation.'
+      )
+
+      subject_field.expect_read_only
+      subject_field.display_element.click
+      subject_field.expect_inactive!
+    end
+  end
+
   context 'a anonymous user is prompted to login' do
     let(:user) { FactoryBot.create(:anonymous) }
     let(:wp_page) { ::Pages::Page.new }

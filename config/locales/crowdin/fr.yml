@@ -1016,8 +1016,7 @@ fr:
   error_invalid_group_by: 'Impossible de grouper par : %{value}'
   error_invalid_query_column: 'Colonne de requête invalide : %{value}'
   error_invalid_sort_criterion: 'Impossible de trier par colonne : %{value}'
-  error_journal_attribute_not_present: Le journal ne contient-elle pas l’attribut
-    %{attribute}.
+  error_journal_attribute_not_present: Le journal ne contient pas l’attribut %{attribute}.
   error_pdf_export_too_many_columns: Trop de colonnes sélectionnées pour l’exportation
     PDF. Veuillez réduire le nombre de colonnes.
   error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
@@ -1331,7 +1330,7 @@ fr:
   label_group_by: Grouper par
   label_group_new: Nouveau groupe
   label_group: Groupe
-  label_group_named: Group %{name}
+  label_group_named: Groupe %{name}
   label_group_plural: Groupes
   label_help: Aide
   label_here: ici
@@ -2147,6 +2146,7 @@ fr:
   setting_email_delivery_method: Méthode de livraison d'e-mail
   setting_sendmail_location: Emplacement de l’exécutable sendmail
   setting_smtp_enable_starttls_auto: Utiliser automatiquement STARTTLS si disponible
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: Serveur SMTP
   setting_smtp_port: Port SMTP
   setting_smtp_authentication: Authentification SMTP
@@ -2269,8 +2269,8 @@ fr:
   setting_welcome_on_homescreen: Afficher le bloc de bienvenue sur l'écran d'accueil
   setting_wiki_compression: Compression de l'historique du wiki
   setting_work_package_group_assignment: Autoriser l'assignation à des groupes
-  setting_work_package_list_default_highlighting_mode: Default work package highlighting
-    mode
+  setting_work_package_list_default_highlighting_mode: Mode de surlignement des lots
+    de travaux par défaut
   settings:
     general: Général
     other: Autre
@@ -2383,7 +2383,7 @@ fr:
   text_journal_changed: "%{label} a changé de %{old} <br/><strong>à</strong> %{new}"
   text_journal_changed_plain: "%{label} changé de %{old} à %{new}"
   text_journal_changed_no_detail: "%{label} mis à jour"
-  text_journal_changed_with_diff: "%{label} changè (%{link})"
+  text_journal_changed_with_diff: "%{label} changé (%{link})"
   text_journal_deleted: "%{label} supprimé (%{old})"
   text_journal_deleted_with_diff: "%{label} supprimé (%{link})"
   text_journal_set_to: "%{label} mis à %{value}"

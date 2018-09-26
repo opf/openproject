@@ -2167,6 +2167,7 @@ ar:
   setting_email_delivery_method: طريقة تسليم البريد الإلكتروني
   setting_sendmail_location: موقع إرسال بريد إلكتروني قابل للتنفيذ
   setting_smtp_enable_starttls_auto: استخدم STARTTLS تلقائيًّا إذا كان متوفرًا
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: خادم SMTP
   setting_smtp_port: منفذ SMTP
   setting_smtp_authentication: مصادقة SMTP

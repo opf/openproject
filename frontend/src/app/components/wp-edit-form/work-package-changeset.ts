@@ -184,11 +184,11 @@ export class WorkPackageChangeset {
 
           this.workPackage.$links.updateImmediately(payload)
             .then((savedWp:WorkPackageResource) => {
-              // Initialize any potentially new HAL values
-              this.workPackage.$initialize(savedWp.$source);
-
               // Ensure the schema is loaded before updating
-              this.schemaCacheService.ensureLoaded(this.workPackage).then(() => {
+              this.schemaCacheService.ensureLoaded(savedWp).then(() => {
+
+                // Initialize any potentially new HAL values
+                this.workPackage = savedWp;
 
                 if (wasNew) {
                   this.workPackage.overriddenSchema = undefined;

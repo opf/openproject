@@ -51,7 +51,7 @@ With the migration of Markdown, we have introduced a quasi-WYSIWYG powerd by CKE
 
 
 
-For information regarding the features of Markdown and the capabilities of the CKEditor WYSIWYG editor built upon it, please see https://www.openproject.org/help/text-formatting/.
+For information regarding the features of Markdown and the capabilities of the CKEditor WYSIWYG editor built upon it, please see https://www.openproject.org/help/wiki/.
 
 
 

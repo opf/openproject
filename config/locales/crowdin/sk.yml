@@ -2156,6 +2156,7 @@ sk:
   setting_email_delivery_method: Spôsob doručenia e-mailu
   setting_sendmail_location: Umiestnenie sendmail spustiteľného programu
   setting_smtp_enable_starttls_auto: Automaticky použiť STARTTLS, ak je k dispozícii
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: SMTP server
   setting_smtp_port: SMTP port
   setting_smtp_authentication: Overenie serverom SMTP

@@ -58,7 +58,11 @@ ja:
     description_subwork_package: '作業項目の子 #%{id}'
     editor:
       preview: プレビューモードの切り替え
-      error_saving_failed: '次のエラーで文書を保存するのに失敗しました: %{e}'
+      source_code: Markdown ソースモードの切り替え
+      error_saving_failed: '次のエラーで文書を保存するのに失敗しました: %{error}'
+      mode:
+        manual: Markdownソースに切り替える
+        wysiwyg: WYSIWYGエディタに切り替えます
       macro:
         child_pages:
           button: 子ページへのリンク
@@ -597,15 +601,14 @@ ja:
         highlighting_mode:
           description: 色付きでハイライト
           none: ハイライトなし
-          inline: Overdue dates, "Status", and "Priority" attribute
+          inline: 期限切れ日付、「状態」、「優先度」の属性
           entire_row_by: 全体の行
           status: ステータス
           priority: 優先度
         columns_help_text: テーブルビューに列を追加または削除するには上記の入力を使用します。列をドラッグ＆ドロップして並べ替えることができます。
         upsale:
-          ee_only: Enterprise Edition only feature
-          attribute_highlighting: Need certain work packages to stand out from the
-            mass?
+          ee_only: Enterprise Editionのみの機能
+          attribute_highlighting: 全体から目立つように特定の作業項目が必要ですか？
           relation_columns: ワークパッケージリストに関係を表示する必要がありますか?
           check_out_link: エンタープライズ版をチェックしてください。
       tabs:
@@ -654,7 +657,7 @@ ja:
         title: "%{label} の削除を確認"
         text: 次の %{label} を削除してもよろしいですか?
         has_children: ワークパッケージは %{childUnits} あります。
-        confirm_deletion_children: 私は作業項目のすべての子孫リストが再帰的に削除されることを認めます。
+        confirm_deletion_children: 列挙された作業項目のすべての子孫が再帰的に削除されることを承認します。
         deletes_children: すべての子作業項目とその子孫も再帰的に削除されます。
     notice_successful_create: 正常に作成しました。
     notice_successful_delete: 正常に削除しました。

@@ -59,7 +59,11 @@ ko:
     description_subwork_package: '작업 패키지 #%{id}의 자식'
     editor:
       preview: 미리 보기 모드 토글
-      error_saving_failed: '문서를 저장하지 못하고 다음 오류가 발생했습니다: %{e}'
+      source_code: Toggle Markdown source mode
+      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      mode:
+        manual: Switch to Markdown source
+        wysiwyg: Switch to WYSIWYG editor
       macro:
         child_pages:
           button: 자식 페이지의 링크
@@ -660,7 +664,7 @@ ko:
         title: "%{label} 삭제 확인"
         text: 다음 %{label}을(를) 삭제하시겠습니까?
         has_children: 작업 패키지에 %{childUnits}이(가) 있습니다.
-        confirm_deletion_children: "나는 작업 패키지의 모든 하위 목록이 \t재귀적으로 제거되는 것을 인정합니다."
+        confirm_deletion_children: 나는 작업 패키지의 모든 하위 목록이 재귀적으로 제거되는 것을 인정합니다.
         deletes_children: 모든 하위 작업 패키지 및 그 하위 항목도 재귀적으로 삭제됩니다.
     notice_successful_create: 생성에 성공했습니다.
     notice_successful_delete: 삭제에 성공했습니다.

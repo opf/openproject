@@ -2016,6 +2016,7 @@ ko:
   setting_email_delivery_method: 이메일 배달 방법
   setting_sendmail_location: sendmail 실행 파일의 위치
   setting_smtp_enable_starttls_auto: 사용 가능한 경우 자동으로 STARTTLS 사용
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: SMTP 서버
   setting_smtp_port: SMTP 포트
   setting_smtp_authentication: SMTP 인증
@@ -2120,8 +2121,7 @@ ko:
   setting_welcome_on_homescreen: 홈 화면에 환영 블록 표시
   setting_wiki_compression: 위키 기록 압축
   setting_work_package_group_assignment: 그룹에 할당 허용
-  setting_work_package_list_default_highlighting_mode: Default work package highlighting
-    mode
+  setting_work_package_list_default_highlighting_mode: 기본 작업 패키지 강조 표시 모드
   settings:
     general: 일반
     other: 기타

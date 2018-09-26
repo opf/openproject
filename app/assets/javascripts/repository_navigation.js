@@ -46,10 +46,12 @@
     Enable select2
     */
     branch.select2({
+      dropdownCssClass: '-large-dropdown',
       placeholder: I18n.t('js.repositories.select_branch')
     }
     );
     tag.select2({
+      dropdownCssClass: '-large-dropdown',
       placeholder: I18n.t('js.repositories.select_tag'),
     });
 

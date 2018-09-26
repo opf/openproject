@@ -1924,6 +1924,7 @@ zh:
   setting_email_delivery_method: 电子邮件发送方法
   setting_sendmail_location: Sendmail 的执行位置
   setting_smtp_enable_starttls_auto: 如果可用，自动使用 STARTTLS
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: SMTP 服务器
   setting_smtp_port: SMTP 端口
   setting_smtp_authentication: SMTP 身份验证
@@ -2028,8 +2029,7 @@ zh:
   setting_welcome_on_homescreen: 在主屏幕上显示欢迎信息
   setting_wiki_compression: Wiki 历史压缩
   setting_work_package_group_assignment: 允许分配到组
-  setting_work_package_list_default_highlighting_mode: Default work package highlighting
-    mode
+  setting_work_package_list_default_highlighting_mode: 默认工作包突出显示模式
   settings:
     general: 通用
     other: 其他

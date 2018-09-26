@@ -2138,6 +2138,7 @@ ro:
   setting_email_delivery_method: Metoda de livrare e-mail
   setting_sendmail_location: Locația executabilului "sendmail"
   setting_smtp_enable_starttls_auto: Utilizează automat STARTTLS dacă este disponibil
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: Server SMTP
   setting_smtp_port: Port SMTP
   setting_smtp_authentication: Autentificare SMTP

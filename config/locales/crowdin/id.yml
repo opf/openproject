@@ -387,7 +387,7 @@ id:
         mail_notification: Notifikasi email
         new_password: Password baru
         password_confirmation: Konfirmasi
-        consented_at: Consented at
+        consented_at: Setuju pada
       user_preference:
         comments_sorting: Tampilan komentar
         hide_mail: Sembunyikan email saya
@@ -741,9 +741,9 @@ id:
   button_configure_menu_entry: Mengkonfigurasi menu item
   button_delete_menu_entry: Hapus menu item
   consent:
-    checkbox_label: I have noted and do consent to the above.
-    failure_message: Consent failed, cannot proceed.
-    title: User Consent
+    checkbox_label: Saya telah memperhatikan dan menyetujui hal di atas.
+    failure_message: Persetujuan gagal, tidak bisa dilanjutkan.
+    title: Persetujuan Pengguna
     decline_warning_message: You have declined to consent and have been logged out.
     user_has_consented: User has consented to your configured statement at the given
       time.
@@ -1177,7 +1177,7 @@ id:
   label_calendar: Kalender
   label_calendar_show: Tampilkan kalender
   label_category: Kategori
-  label_consent_settings: User Consent
+  label_consent_settings: Persetujuan Pengguna
   label_wiki_menu_item: Wiki menu item
   label_select_main_menu_item: Pilih item main menu baru
   label_select_project: Memilih sebuah proyek
@@ -2088,6 +2088,7 @@ id:
   setting_email_delivery_method: Email delivery method
   setting_sendmail_location: Location of the sendmail executable
   setting_smtp_enable_starttls_auto: Automatically use STARTTLS if available
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: SMTP server
   setting_smtp_port: SMTP port
   setting_smtp_authentication: SMTP authentication
