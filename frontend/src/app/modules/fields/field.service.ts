@@ -27,7 +27,7 @@
 // ++
 
 import {Injector} from '@angular/core';
-import {Field, IFieldSchema} from "core-app/modules/fields/field.base";
+import {Field} from "core-app/modules/fields/field.base";
 
 export interface IFieldType<T extends Field> {
   fieldType:string;
@@ -46,27 +46,6 @@ export abstract class AbstractFieldService<T extends Field, C extends IFieldType
   protected classes:{[type:string]:C} = {};
 
   protected constructor(protected injector:Injector) {
-  }
-
-  /**
-   * Create an instance of the field type T given the required arguments
-   * with either in descending order:
-   *
-   *  1. The registered field name (most specific)
-   *  2. The registered field for the schema attribute type
-   *  3. The default field type
-   *
-   * @param resource
-   * @param {string} fieldName
-   * @param {IFieldSchema} schema
-   * @param {string} context
-   * @returns {T}
-   */
-  public getField(resource:any, fieldName:string, schema:IFieldSchema, context:string = ''):T {
-    let type = this.fieldType(fieldName) || this.fieldType(schema.type) || this.defaultFieldType;
-    let fieldClass:C = this.classes[type];
-
-    return new fieldClass(resource, fieldName, schema, context);
   }
 
   /**
