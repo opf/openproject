@@ -99,46 +99,38 @@ jobs:
       script:
       - bash script/ci/setup.sh spec_legacy postgres
       - bash script/ci/runner.sh spec_legacy 1 1
-    - name: 'cucumber (1/1) - mysql'
-      script:
-      - bash script/ci/setup.sh cucumber mysql
-      - bash script/ci/runner.sh cucumber 1 1
-    - name: 'cucumber (1/1) - postgresql'
-      script:
-      - bash script/ci/setup.sh cucumber postgres
-      - bash script/ci/runner.sh cucumber 1 1
     - name: 'unit specs (1/4) - mysql'
       script:
-      - bash script/ci/setup.sh specs mysql
-      - bash script/ci/runner.sh specs 4 1
+      - bash script/ci/setup.sh units mysql
+      - bash script/ci/runner.sh units 4 1
     - name: 'unit specs (1/4) - postgresql'
       script:
-      - bash script/ci/setup.sh specs postgres
-      - bash script/ci/runner.sh specs 4 1
+      - bash script/ci/setup.sh units postgres
+      - bash script/ci/runner.sh units 4 1
     - name: 'unit specs (2/4) - mysql'
       script:
-      - bash script/ci/setup.sh specs mysql
-      - bash script/ci/runner.sh specs 4 2
+      - bash script/ci/setup.sh units mysql
+      - bash script/ci/runner.sh units 4 2
     - name: 'unit specs (2/4) - postgresql'
       script:
-      - bash script/ci/setup.sh spec postgres
-      - bash script/ci/runner.sh specs 4 2
+      - bash script/ci/setup.sh units postgres
+      - bash script/ci/runner.sh units 4 2
     - name: 'unit specs (3/4) - mysql'
       script:
-      - bash script/ci/setup.sh specs mysql
-      - bash script/ci/runner.sh specs 4 3
+      - bash script/ci/setup.sh units mysql
+      - bash script/ci/runner.sh units 4 3
     - name: 'unit specs (3/4) - postgresql'
       script:
-      - bash script/ci/setup.sh specs postgres
-      - bash script/ci/runner.sh specs 4 3
+      - bash script/ci/setup.sh units postgres
+      - bash script/ci/runner.sh units 4 3
     - name: 'unit specs (4/4) - mysql'
       script:
-      - bash script/ci/setup.sh specs mysql
-      - bash script/ci/runner.sh specs 4 4
+      - bash script/ci/setup.sh units mysql
+      - bash script/ci/runner.sh units 4 4
     - name: 'unit specs (4/4) - postgresql'
       script:
-      - bash script/ci/setup.sh specs postgres
-      - bash script/ci/runner.sh specs 4 4
+      - bash script/ci/setup.sh units postgres
+      - bash script/ci/runner.sh units 4 4
     - name: 'feature specs (1/4) - mysql'
       script:
       - bash script/ci/setup.sh features mysql
