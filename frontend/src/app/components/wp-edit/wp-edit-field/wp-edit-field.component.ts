@@ -56,6 +56,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
   @Input('fieldName') public fieldName:string;
   @Input('workPackageId') public workPackageId:string;
   @Input('wrapperClasses') public wrapperClasses?:string;
+  @Input('displayFieldOptions') public displayFieldOptions:any = {};
   @Input('displayPlaceholder') public displayPlaceholder?:string;
   @Input('isDropTarget') public isDropTarget?:boolean = false;
 
@@ -63,7 +64,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
   @ViewChild('editContainer') readonly editContainer:ElementRef;
 
   public workPackage:WorkPackageResource;
-  public fieldRenderer = new DisplayFieldRenderer(this.injector, 'single-view');
+  public fieldRenderer:DisplayFieldRenderer;
   public editFieldContainerClass = editFieldContainerClass;
   public active = false;
   public rendered = false;
@@ -85,6 +86,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.fieldRenderer = new DisplayFieldRenderer(this.injector, 'single-view', this.displayFieldOptions);
     this.$element = jQuery(this.elementRef.nativeElement);
     this.wpEditFieldGroup.register(this);
   }

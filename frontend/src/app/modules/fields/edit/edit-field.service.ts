@@ -31,6 +31,8 @@ import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-r
 import {AbstractFieldService, IFieldType} from "core-app/modules/fields/field.service";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {EditField} from "core-app/modules/fields/edit/edit.field.module";
+import {DisplayField} from "core-app/modules/fields/display/display-field.module";
+import {DisplayFieldContext, IDisplayFieldType} from "core-app/modules/fields/display/display-field.service";
 
 export interface IEditFieldType extends IFieldType<EditField> {
   new(resource:WorkPackageResource, attributeType:string, schema:IFieldSchema):EditField;
@@ -41,5 +43,25 @@ export class EditFieldService extends AbstractFieldService<EditField, IEditField
 
   constructor(injector:Injector) {
     super(injector);
+  }
+
+  /**
+   * Create an instance of the field type given the required arguments
+   * with either in descending order:
+   *
+   *  1. The registered field name (most specific)
+   *  2. The registered field for the schema attribute type
+   *  3. The default field type
+   *
+   * @param resource
+   * @param {string} fieldName
+   * @param {IFieldSchema} schema
+   * @returns {T}
+   */
+  public getField(resource:any, fieldName:string, schema:IFieldSchema):EditField {
+    let type = this.fieldType(fieldName) || this.fieldType(schema.type) || this.defaultFieldType;
+    let fieldClass:IEditFieldType = this.classes[type];
+
+    return new fieldClass(resource, fieldName, schema);
   }
 }

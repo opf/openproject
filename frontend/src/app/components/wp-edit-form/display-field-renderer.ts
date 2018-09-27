@@ -3,7 +3,7 @@ import {WorkPackageChangeset} from './work-package-changeset';
 import {Injector} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {IFieldSchema} from "core-app/modules/fields/field.base";
-import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
+import {DisplayFieldContext, DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
 import {MultipleLinesStringObjectsDisplayField} from "core-app/modules/fields/display/field-types/wp-display-multiple-lines-string-objects-field.module";
 import {ProgressTextDisplayField} from "core-app/modules/fields/display/field-types/wp-display-progress-text-field.module";
@@ -22,7 +22,9 @@ export class DisplayFieldRenderer {
   readonly displayFieldService:DisplayFieldService = this.injector.get(DisplayFieldService);
   readonly I18n:I18nService = this.injector.get(I18nService);
 
-  constructor(readonly injector:Injector, public context:'table' | 'single-view' | 'timeline') {
+  constructor(public readonly injector:Injector,
+              public readonly container:'table' | 'single-view' | 'timeline',
+              public readonly options:{ [key:string]: any } = {}) {
   }
 
   public render(workPackage:WorkPackageResource,
@@ -77,19 +79,20 @@ export class DisplayFieldRenderer {
   }
 
   private getFieldForCurrentContext(workPackage:WorkPackageResource, fieldSchema:IFieldSchema, name:string):DisplayField {
+    const context:DisplayFieldContext = { container: this.container, options: this.options };
 
     // We handle multi value fields differently in the single view context
     const isMultiLinesField = ['[]CustomOption', '[]User'].indexOf(fieldSchema.type) >= 0;
-    if (this.context === 'single-view' && isMultiLinesField) {
-      return new MultipleLinesStringObjectsDisplayField(workPackage, name, fieldSchema) as DisplayField;
+    if (this.container === 'single-view' && isMultiLinesField) {
+      return new MultipleLinesStringObjectsDisplayField(workPackage, name, fieldSchema, context) as DisplayField;
     }
 
     // We handle progress differently in the timeline
-    if (this.context === 'timeline' && name === 'percentageDone') {
-      return new ProgressTextDisplayField(workPackage, name, fieldSchema);
+    if (this.container === 'timeline' && name === 'percentageDone') {
+      return new ProgressTextDisplayField(workPackage, name, fieldSchema, context);
     }
 
-    return this.displayFieldService.getField(workPackage, name, fieldSchema, this.context);
+    return this.displayFieldService.getField(workPackage, name, fieldSchema, context);
   }
 
   private getText(field:DisplayField, placeholder:string):string {

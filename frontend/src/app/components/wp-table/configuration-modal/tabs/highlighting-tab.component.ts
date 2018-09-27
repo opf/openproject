@@ -24,6 +24,7 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
       none: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.none'),
       inline: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.inline'),
       status: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.status'),
+      type: this.I18n.t('js.work_packages.properties.type'),
       priority: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.priority'),
       entire_row_by: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.entire_row_by'),
     },
@@ -48,7 +49,7 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
       this.highlightingMode = mode;
     }
 
-    if (this.highlightingMode === 'status' || this.highlightingMode === 'priority') {
+    if (['status', 'priority', 'type'].indexOf(this.highlightingMode) !== -1) {
       this.lastEntireRowAttribute = this.highlightingMode;
       this.entireRowMode = true;
     } else {
