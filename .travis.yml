@@ -63,7 +63,9 @@ env:
     - CI=true
     - RAILS_ENV=test
 
+
 before_install:
+
   # work around https://github.com/travis-ci/travis-ci/issues/8969
   - travis_retry gem update --system
   # Don't install 1.16.3
@@ -91,75 +93,94 @@ jobs:
       script:
         - bash script/ci/setup.sh npm
         - bash script/ci/runner.sh npm
-    - name: 'spec_legacy (1/1) - mysql'
+
+    - stage: test
+      name: 'spec_legacy (1/1) - mysql'
       script:
       - bash script/ci/setup.sh spec_legacy mysql
       - bash script/ci/runner.sh spec_legacy 1 1
-    - name: 'spec_legacy (1/1) - postgresql'
+    - stage: test
+      name: 'spec_legacy (1/1) - postgres'
       script:
       - bash script/ci/setup.sh spec_legacy postgres
       - bash script/ci/runner.sh spec_legacy 1 1
-    - name: 'unit specs (1/4) - mysql'
+    - stage: test
+      name: 'units (1/4) - mysql'
       script:
       - bash script/ci/setup.sh units mysql
       - bash script/ci/runner.sh units 4 1
-    - name: 'unit specs (1/4) - postgresql'
+    - stage: test
+      name: 'units (1/4) - postgres'
       script:
       - bash script/ci/setup.sh units postgres
       - bash script/ci/runner.sh units 4 1
-    - name: 'unit specs (2/4) - mysql'
+    - stage: test
+      name: 'units (2/4) - mysql'
       script:
       - bash script/ci/setup.sh units mysql
       - bash script/ci/runner.sh units 4 2
-    - name: 'unit specs (2/4) - postgresql'
+    - stage: test
+      name: 'units (2/4) - postgres'
       script:
       - bash script/ci/setup.sh units postgres
       - bash script/ci/runner.sh units 4 2
-    - name: 'unit specs (3/4) - mysql'
+    - stage: test
+      name: 'units (3/4) - mysql'
       script:
       - bash script/ci/setup.sh units mysql
       - bash script/ci/runner.sh units 4 3
-    - name: 'unit specs (3/4) - postgresql'
+    - stage: test
+      name: 'units (3/4) - postgres'
       script:
       - bash script/ci/setup.sh units postgres
       - bash script/ci/runner.sh units 4 3
-    - name: 'unit specs (4/4) - mysql'
+    - stage: test
+      name: 'units (4/4) - mysql'
       script:
       - bash script/ci/setup.sh units mysql
       - bash script/ci/runner.sh units 4 4
-    - name: 'unit specs (4/4) - postgresql'
+    - stage: test
+      name: 'units (4/4) - postgres'
       script:
       - bash script/ci/setup.sh units postgres
       - bash script/ci/runner.sh units 4 4
-    - name: 'feature specs (1/4) - mysql'
+    - stage: test
+      name: 'features (1/4) - mysql'
       script:
       - bash script/ci/setup.sh features mysql
       - bash script/ci/runner.sh features 4 1
-    - name: 'feature specs (1/4) - postgresql'
+    - stage: test
+      name: 'features (1/4) - postgres'
       script:
       - bash script/ci/setup.sh features postgres
       - bash script/ci/runner.sh features 4 1
-    - name: 'feature specs (2/4) - mysql'
+    - stage: test
+      name: 'features (2/4) - mysql'
       script:
       - bash script/ci/setup.sh features mysql
       - bash script/ci/runner.sh features 4 2
-    - name: 'feature specs (2/4) - postgresql'
+    - stage: test
+      name: 'features (2/4) - postgres'
       script:
       - bash script/ci/setup.sh features postgres
       - bash script/ci/runner.sh features 4 2
-    - name: 'feature specs (3/4) - mysql'
+    - stage: test
+      name: 'features (3/4) - mysql'
       script:
       - bash script/ci/setup.sh features mysql
       - bash script/ci/runner.sh features 4 3
-    - name: 'feature specs (3/4) - postgresql'
+    - stage: test
+      name: 'features (3/4) - postgres'
       script:
       - bash script/ci/setup.sh features postgres
       - bash script/ci/runner.sh features 4 3
-    - name: 'feature specs (4/4) - mysql'
+    - stage: test
+      name: 'features (4/4) - mysql'
       script:
       - bash script/ci/setup.sh features mysql
       - bash script/ci/runner.sh features 4 4
-    - name: 'feature specs (4/4) - postgresql'
+    - stage: test
+      name: 'features (4/4) - postgres'
       script:
       - bash script/ci/setup.sh features postgres
       - bash script/ci/runner.sh features 4 4
