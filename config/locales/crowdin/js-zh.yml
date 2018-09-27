@@ -597,7 +597,7 @@ zh:
         highlighting_mode:
           description: 使用颜色突出显示
           none: 无突出显示
-          inline: 过期日期，“状态”和“优先级”属性
+          inline: Overdue dates, "Status", "Type", and "Priority" attribute
           entire_row_by: 整行
           status: 状态
           priority: 优先级

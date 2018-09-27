@@ -658,7 +658,7 @@ nl:
         highlighting_mode:
           description: Markeren met kleur
           none: Geen markering
-          inline: Achterstallige datums, 'Status' en 'Prioriteit' kenmerk
+          inline: Overdue dates, "Status", "Type", and "Priority" attribute
           entire_row_by: Hele rij door
           status: Status
           priority: Prioriteit

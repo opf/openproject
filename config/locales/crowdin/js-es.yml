@@ -657,7 +657,7 @@ es:
         highlighting_mode:
           description: Resaltar con color
           none: Sin resaltado
-          inline: Fechas de vencimiento, “Estado” y atributo de “Prioridad”
+          inline: Overdue dates, "Status", "Type", and "Priority" attribute
           entire_row_by: Toda la fila por
           status: Estado
           priority: Prioridad
