@@ -27,12 +27,66 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
+require 'optparse'
+require 'plugins/load_path_helper'
+
 def check_for_pending_migrations
   require 'parallel_tests/tasks'
   ParallelTests::Tasks.check_for_pending_migrations
 end
 
 namespace :parallel do
+  class ParallelParser
+    def self.with_args(args, allow_seed = true)
+      options = {}
+      OptionParser.new do |opts|
+        opts.banner = "Usage: rails #{args[0]} -- [options]"
+        opts.on("-n ARG", "--group-number ARG", Integer) { |num_cpus| options[:num_cpus] = num_cpus || ENV['GROUP'] }
+        opts.on("-o ARG", "--only-group ARG", Integer) { |group_number| options[:group] = group_number || ENV['GROUP_SIZE'] }
+        opts.on("-s ARG", "--seed ARG", Integer) { |seed| options[:seed] = seed || ENV['CI_SEED'] } if allow_seed
+      end.parse!(args[2..-1])
+
+      yield options
+    end
+  end
+
+  def group_option_string(parsed_options)
+    group_options  = parsed_options ? "-n #{parsed_options[:num_cpus]}" : ''
+    group_options += " --only-group #{parsed_options[:group]}" if parsed_options[:group]
+
+    group_options
+  end
+
+  def run_specs(parsed_options, folders, pattern = '', additional_options: nil)
+    check_for_pending_migrations
+
+    group_options = group_option_string(parsed_options)
+
+    rspec_options = ''
+    if parsed_options[:seed]
+      rspec_options += "--seed #{parsed_options[:seed]}"
+    end
+    if additional_options
+      rspec_options += " #{additional_options}"
+    end
+    group_options += " -o '#{rspec_options}'" if rspec_options.length.positive?
+
+    sh "bundle exec parallel_test --type rspec #{group_options} #{folders} #{pattern}"
+  end
+
+  def run_cukes(parsed_options, folders)
+    exit 'No feature folders to run cucumber on' if folders.blank?
+
+    group_options = group_option_string(parsed_options)
+
+    support_files = ([Rails.root.join('features').to_s] + Plugins::LoadPathHelper.cucumber_load_paths)
+                    .map { |path| ['-r', Shellwords.escape(path)] }.flatten.join(' ')
+
+    cucumber_options = "-o ' -p rerun #{support_files}'"
+
+    sh "bundle exec parallel_test --type cucumber #{cucumber_options} #{group_options} #{folders}"
+  end
+
   desc 'Run all suites in parallel (one after another)'
   task all: ['parallel:plugins:specs',
              'parallel:plugins:features',
@@ -47,103 +101,90 @@ namespace :parallel do
                'parallel:plugins:features',
                'parallel:plugins:cucumber']
 
-    def run_specs(pattern)
-      check_for_pending_migrations
+    desc 'Run plugin specs in parallel'
+    task specs: [:environment] do
+      spec_folders = Plugins::LoadPathHelper.spec_load_paths.join(' ')
 
-      num_cpus       = ENV['GROUP_SIZE']
-      group          = ENV['GROUP']
+      ParallelParser.with_args(ARGV) do |options|
+        ARGV.each { |a| task(a.to_sym) {} }
 
-      group_options  = num_cpus ? "-n #{num_cpus}" : ''
-      group_options += " --only-group #{group}" if group
+        run_specs options, spec_folders
+      end
+    end
+
+    desc 'Run plugin unit specs in parallel'
+    task units: [:environment] do
+      pattern = "--pattern '^spec/(?!features\/)'"
 
       spec_folders = Plugins::LoadPathHelper.spec_load_paths.join(' ')
 
-      sh "bundle exec parallel_test --type rspec #{group_options} #{spec_folders} #{pattern}"
-    end
+      ParallelParser.with_args(ARGV) do |options|
+        ARGV.each { |a| task(a.to_sym) {} }
 
-    desc 'Run plugin specs (non features) in parallel'
-    task specs: [:environment] do
-      pattern = "--pattern '.+/spec/(?!features\/)'"
-
-      run_specs pattern
+        run_specs options, spec_folders, pattern
+      end
     end
 
     desc 'Run plugin feature specs in parallel'
     task features: [:environment] do
-      pattern = "--pattern '.+/spec/features/'"
+      pattern = "--pattern '^spec\/features\/'"
 
-      run_specs pattern
+      spec_folders = Plugins::LoadPathHelper.spec_load_paths.join(' ')
+
+      ParallelParser.with_args(ARGV) do |options|
+        ARGV.each { |a| task(a.to_sym) {} }
+
+        run_specs options, spec_folders, pattern
+      end
     end
 
     desc 'Run plugin cucumber features in parallel'
     task cucumber: [:environment] do
-      check_for_pending_migrations
+      ParallelParser.with_args(ARGV) do |options|
+        ARGV.each { |a| task(a.to_sym) {} }
 
-      num_cpus       = ENV['GROUP_SIZE']
-      group          = ENV['GROUP']
-
-      group_options  = num_cpus ? "-n #{num_cpus}" : ''
-      group_options += " --only-group #{group}" if group
-
-      support_files = [Rails.root.join('features').to_s] + Plugins::LoadPathHelper.cucumber_load_paths
-      support_files = support_files.map { |path|
-        ['-r', Shellwords.escape(path)]
-      }.flatten.join(' ')
-
-      feature_folders  = Plugins::LoadPathHelper.cucumber_load_paths.join(' ')
-      cucumber_options = "-o ' -p rerun #{support_files}'"
-
-      sh "bundle exec parallel_test --type cucumber #{cucumber_options} #{group_options} #{feature_folders}"
+        run_cukes(options, feature_folders)
+      end
     end
   end
 
   desc 'Run legacy specs in parallel'
   task :spec_legacy do
-    check_for_pending_migrations
+    ParallelParser.with_args(ARGV) do |options|
+      ARGV.each { |a| task(a.to_sym) {} }
 
-    num_cpus       = ENV['GROUP_SIZE']
-    group          = ENV['GROUP']
-    seed           = ENV['CI_SEED']
-
-    spec_options  = num_cpus ? "-n #{num_cpus}" : ''
-    spec_options += " --only-group #{group}" if group
-    spec_options += " -o '--seed #{seed}'" if seed
-
-    sh "bundle exec parallel_test --type rspec -o '-I spec_legacy' #{spec_options} spec_legacy"
+      run_specs options, 'spec_legacy', '', additional_options: '-I spec_legacy'
+    end
   end
 
-  desc 'Run cucumber features in parallel (custom task)'
-  task :cucumber do
-    check_for_pending_migrations
+  desc 'Run spec in parallel (custom task)'
+  task :specs do
+    ParallelParser.with_args(ARGV) do |options|
+      ARGV.each { |a| task(a.to_sym) {} }
 
-    num_cpus       = ENV['GROUP_SIZE']
-    group          = ENV['GROUP']
-
-    group_options  = num_cpus ? "-n #{num_cpus}" : ''
-    group_options += " --only-group #{group}" if group
-
-    support_files = [Rails.root.join('features').to_s] + Plugins::LoadPathHelper.cucumber_load_paths
-    support_files = support_files.map { |path|
-      ['-r', Shellwords.escape(path)]
-    }.flatten.join(' ')
-
-    cucumber_options = "-o ' -p rerun #{support_files}'"
-
-    sh "bundle exec parallel_test --type cucumber #{cucumber_options} #{group_options} features"
+      run_specs options, 'spec'
+    end
   end
 
-  desc 'Run rspec in parallel (custom task)'
-  task :rspec do
-    check_for_pending_migrations
+  desc 'Run feature specs in parallel'
+  task features: [:environment] do
+    pattern = "--pattern '^spec\/features\/'"
 
-    num_cpus       = ENV['GROUP_SIZE']
-    group          = ENV['GROUP']
-    seed           = ENV['CI_SEED']
+    ParallelParser.with_args(ARGV) do |options|
+      ARGV.each { |a| task(a.to_sym) {} }
 
-    spec_options  = num_cpus ? "-n #{num_cpus}" : ''
-    spec_options += " --only-group #{group}" if group
-    spec_options += " -o '--seed #{seed}'" if seed
+      run_specs options, 'spec', pattern
+    end
+  end
 
-    sh "bundle exec parallel_test --type rspec #{spec_options} spec"
+  desc 'Run unit specs in parallel'
+  task units: [:environment] do
+    pattern = "--pattern '^spec/(?!features\/)'"
+
+    ParallelParser.with_args(ARGV) do |options|
+      ARGV.each { |a| task(a.to_sym) {} }
+
+      run_specs options, 'spec', pattern
+    end
   end
 end
