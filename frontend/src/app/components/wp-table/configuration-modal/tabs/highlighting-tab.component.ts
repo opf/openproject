@@ -56,7 +56,6 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
 
     const newValue = new WorkPackageTableHighlight(mode, selectedAttributes);
     this.wpTableHighlight.update(newValue);
-
   }
 
   public updateMode(mode:HighlightingMode|'entire-row') {
