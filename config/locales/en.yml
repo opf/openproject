@@ -983,6 +983,7 @@ en:
     with the existing menu item "%{existing_caption}" (%{existing_identifier}).
 
   error_external_authentication_failed: "An error occured during external authentication. Please try again."
+  error_attribute_not_highlightable: "At least one selected attribute is not highlightable."
 
   events:
     project: 'Project edited'

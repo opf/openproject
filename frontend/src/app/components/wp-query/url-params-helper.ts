@@ -87,7 +87,7 @@ export class UrlParamsHelperService {
     }
 
     if (query.highlightingMode === 'inline' && query.highlightedAttributes) {
-      paramsData.hla = query.highlightedAttributes.map(el => el.href);
+      paramsData.hla = query.highlightedAttributes.map(el => el.id);
     }
 
     paramsData.hi = !!query.showHierarchies;
@@ -158,7 +158,7 @@ export class UrlParamsHelperService {
     }
 
     if (properties.hla) {
-      queryData.highlightedAttributes = properties.hla;
+      queryData["highlightedAttributes[]"] = properties.hla.map((column:any) => column);
     }
 
     if (properties.hi === false || properties.hi === true) {

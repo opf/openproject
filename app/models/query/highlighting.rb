@@ -35,16 +35,12 @@ module Query::Highlighting
 
     serialize :highlighted_attributes, Array
 
-
     validates_inclusion_of :highlighting_mode,
                            in: QUERY_HIGHLIGHTING_MODES,
                            allow_nil: true,
                            allow_blank: true
 
-    validates_inclusion_of :highlighted_attributes,
-                           in: ->(*) { available_highlighting_columns.map { |col| col.name.to_sym } },
-                           allow_nil: true,
-                           allow_blank: true
+    validate :attributes_highlightable?
 
     def available_highlighting_columns
       @available_highlighting_columns ||= available_columns.select(&:highlightable?)
@@ -55,6 +51,7 @@ module Query::Highlighting
 
       highlighted_attributes
         .map { |name| columns[name.to_sym] }
+        .flatten
         .uniq
     end
 
@@ -86,6 +83,13 @@ module Query::Highlighting
 
     def default_highlighting_mode
       QUERY_HIGHLIGHTING_MODES.first
+    end
+
+    def attributes_highlightable?
+      # Test that chosen attributes intersect with allowed columns
+      unless highlighted_attributes & available_highlighting_columns.map { |col| col.name.to_sym }
+        errors.add(:highlighted_attributes, I18n.t(:error_attribute_not_highlightable))
+      end
     end
   end
 end
