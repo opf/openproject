@@ -650,7 +650,7 @@ he:
         highlighting_mode:
           description: Highlight with color
           none: No highlighting
-          inline: Overdue dates, "Status", and "Priority" attribute
+          inline: Overdue dates, "Status", "Type", and "Priority" attribute
           entire_row_by: Entire row by
           status: מצב
           priority: עדיפות
