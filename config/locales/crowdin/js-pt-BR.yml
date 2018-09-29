@@ -497,7 +497,7 @@ pt-BR:
         move: Mover vários
         edit: Editar vários
         copy: Copiar vários
-        delete: Remover vários
+        delete: Excluir vários
       button_clear: Limpar
       comment_added: O comentário foi adicionado com sucesso.
       comment_send_failed: Ocorreu um erro. Não foi possível enviar o comentário.
@@ -654,7 +654,7 @@ pt-BR:
         highlighting_mode:
           description: Destacar com cor
           none: Sem destaque
-          inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline: Datas atrasadas, "Situação", "Tipo" e atributo "Prioridade"
           entire_row_by: Toda linha por
           status: Situação
           priority: Prioridade
