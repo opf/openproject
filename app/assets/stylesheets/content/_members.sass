@@ -26,43 +26,52 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-.no-padding-bottom
-  padding-bottom: 0 !important
 
-.display-inline
-  display: inline !important
+#members_add_form
+  display: none
+  margin-bottom: 1rem
+  .-flex
+    display: flex
+    align-items: flex-end
 
-.-no-border
-  border: none !important
+    // Neccassary to avoid the appearance of a scroll bar
+    .select2-search-field
+      margin: 0
 
-// Table borders
-.-table-border-top
-  border-top: 1px solid $table-row-border-color
-.-table-border-bottom
-  border-bottom: 1px solid $table-row-border-color
-.-table-border-left
-  border-left: 1px solid $table-row-border-color
-.-table-border-right
-  border-right: 1px solid $table-row-border-color
+    .form--field,
+    #member-add-submit-button--container
+      margin-bottom: 1px
+      flex-basis: 50%
 
-.autoscroll
-  overflow-x: auto
-  padding: 1px
-  margin-bottom: 1.2em
+    &:not(.-with-button)
+      .form--field
+        overflow: hidden
 
-.indent
-  padding-left: 10px
+  // Override default margin to allow correct vertical alignment
+  #add-member--submit-button
+    margin-bottom: 0
+    margin-left: 1rem
+    // Neccessary so that button and select box have the same height
+    line-height: 0.6rem
 
-.total-hours
-  font-weight: bold
+@include breakpoint(680px down)
+  #members_add_form .-flex
+    align-items: flex-start
 
-.ellipsis,
-.form--field.ellipsis .form--label
-  @include text-shortener
+    &.-with-button
+      flex-direction: column
+      // Workaround for safari and IE
+      // They are not able to get the correct height with flex-direction: column
+      height: 120px
 
-.other-formats
-  font-size: 0.9em
-  color: $gray-dark
+    #add-member--submit-button
+      margin-left: 0
+    .form--field
+      margin-bottom: 1rem
 
-  span + span:before
-    content: "| "
+@media screen and (max-width: 87rem) and (min-width: 681px)
+  #members_add_form .-flex.-with-button
+    .form--field
+      max-width: 60%
+      select
+        max-width: 60%

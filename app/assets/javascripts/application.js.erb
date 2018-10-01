@@ -241,20 +241,6 @@ jQuery(document).ready(function($) {
     addClickEventToAllErrorMessages();
   });
 
-  // file table thumbnails
-  jQuery("table a.has-thumb").hover(function() {
-    jQuery(this).removeAttr("title").toggleClass("active");
-
-    // grab the image dimensions to position it properly
-    var thumbImg = $(this).find("img");
-    var thumbImgLeft = -(thumbImg.outerWidth() );
-    var thumbImgTop = -(thumbImg.height() / 2 );
-    thumbImg.css({top: thumbImgTop, left: thumbImgLeft}).show();
-
-  }, function() {
-    jQuery(this).toggleClass("active").find("img").hide();
-  });
-
   // show/hide the files table
   jQuery(".attachments h4").click(function() {
     jQuery(this).toggleClass("closed").next().slideToggle(animationRate);

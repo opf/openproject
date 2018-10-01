@@ -31,7 +31,8 @@ See docs/COPYRIGHT.rdoc for more details.
   <% if version.start_date %>
     <%= Version.human_attribute_name(:start_date) %> <%= h(format_date(version.start_date)) %>
   <% end %>
-  <% if version.start_date %>
+  <% if version.due_date %>
+      <br>
     <%= Version.human_attribute_name(:due_date) %> <%= h(format_date(version.due_date)) %>
   <% end %>
 </p>

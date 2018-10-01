@@ -77,14 +77,14 @@ See docs/COPYRIGHT.rdoc for more details.
   <h3 class="icon-context icon-quote"><%= t(:label_reply_plural) %> (<%= @replies.count %>)</h3>
   <% @replies.each do |message| %>
     <div class="message reply" id="<%= "message-#{message.id}" %>">
-      <h4>
+      <h3>
         <%= avatar(message.author) %>
         <%= link_to h(message.subject), topic_path(@topic,
                                                  r: message,
                                                  anchor: "message-#{message.id}") %>
         -
       <%= authoring message.created_on, message.author %>
-      </h4>
+      </h3>
       <div class="message-reply-menu">
         <%= link_to(icon_wrapper('icon-quote', t(:button_quote)),
                   { action: 'quote', id: message },
