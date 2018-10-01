@@ -34,23 +34,35 @@ module Components
 
       def initialize; end
 
-      def switch_entire_row_highlight(label)
-        modal_open? or open_modal
-        choose "Entire row by"
-        within(:css, ".entire-row-switch") do
-          if %w(Status Priority Type).include? label
-            select label
-          else
-            choose label
-          end
-        end
-        apply
-      end
-
       def switch_highlighting_mode(label)
         modal_open? or open_modal
         choose label
 
+        apply
+      end
+
+      def switch_entire_row_highlight(label)
+        modal_open? or open_modal
+        choose "Entire row by"
+        within(:css, ".entire-row-switch") do
+          select label
+        end
+        apply
+      end
+
+      def switch_inline_attribute_highlight(*labels)
+        modal_open? or open_modal
+        choose "Highlighted attribute(s)"
+        within(:css, ".inline-attribute-select") do
+          if labels.size == 1
+            select labels.first
+          elsif labels.size > 1
+            find('[class*="--toggle-multiselect"]').click
+            labels.each do |label|
+              select label
+            end
+          end
+        end
         apply
       end
 
