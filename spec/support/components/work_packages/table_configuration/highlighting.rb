@@ -34,14 +34,23 @@ module Components
 
       def initialize; end
 
-      def switch_highlight(label)
+      def switch_entire_row_highlight(label)
         modal_open? or open_modal
-        if %w(Status Priority).include? label
-          choose "Entire row by"
-          select label
-        else
-          choose label
+        choose "Entire row by"
+        within(:css, ".entire-row-switch") do
+          if %w(Status Priority Type).include? label
+            select label
+          else
+            choose label
+          end
         end
+        apply
+      end
+
+      def switch_highlighting_mode(label)
+        modal_open? or open_modal
+        choose label
+
         apply
       end
 

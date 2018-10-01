@@ -82,7 +82,7 @@ describe 'Work Package highlighting fields',
     expect(wp2_row).to have_selector('.__hl_date_due_today')
 
     # Highlight by status
-    highlighting.switch_highlight 'Status'
+    highlighting.switch_entire_row_highlight 'Status'
     expect(page).to have_selector("#{wp_table.row_selector(wp_1)}.__hl_row_status_#{status1.id}")
     expect(page).to have_selector("#{wp_table.row_selector(wp_2)}.__hl_row_status_#{status2.id}")
 
@@ -106,12 +106,12 @@ describe 'Work Package highlighting fields',
     expect(page).to have_no_selector('[class*="__hl_date"]')
 
     # Highlight by priority
-    highlighting.switch_highlight 'Priority'
+    highlighting.switch_entire_row_highlight 'Priority'
     expect(page).to have_selector("#{wp_table.row_selector(wp_1)}.__hl_row_priority_#{priority1.id}")
     expect(page).to have_selector("#{wp_table.row_selector(wp_2)}.__hl_row_priority_#{priority_no_color.id}")
 
     find('body').send_keys [:control, 'd']
-    
+
     wp1_row = wp_table.row(wp_1)
     wp2_row = wp_table.row(wp_2)
     expect(wp1_row.native.css_value('background-color')).to eq('rgba(18, 52, 86, 1)')
@@ -129,7 +129,7 @@ describe 'Work Package highlighting fields',
     expect(page).to have_no_selector('[class*="__hl_date"]')
 
     # No highlighting
-    highlighting.switch_highlight 'No highlighting'
+    highlighting.switch_highlighting_mode 'No highlighting'
     expect(page).to have_no_selector('[class*="__hl_row"]')
     expect(page).to have_no_selector('[class*="__hl_inl_status"]')
     expect(page).to have_no_selector('[class*="__hl_inl_priority"]')
