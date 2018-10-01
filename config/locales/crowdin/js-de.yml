@@ -664,7 +664,7 @@ de:
         highlighting_mode:
           description: Farbliche Hervorherbung
           none: Keine Hervorhebung
-          inline: Überfällige Termine, Attribute "Status" und "Priorität"
+          inline: Overdue dates, "Status", "Type", and "Priority" attribute
           entire_row_by: Gesamte Zeile durch
           status: Status
           priority: Priorität

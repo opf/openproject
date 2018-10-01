@@ -26,13 +26,22 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Field} from "core-app/modules/fields/field.base";
+import {Field, IFieldSchema} from "core-app/modules/fields/field.base";
 import {WorkPackageChangeset} from "core-components/wp-edit-form/work-package-changeset";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {DisplayFieldContext} from "core-app/modules/fields/display/display-field.service";
 
 export class DisplayField extends Field {
   public static type:string;
   public mode:string | null = null;
   public changeset:WorkPackageChangeset|null = null;
+
+  constructor(public resource:any,
+              public name:string,
+              public schema:IFieldSchema,
+              public context:DisplayFieldContext) {
+    super(resource, name, schema);
+  }
 
   public get isFormattable():boolean {
     return false;

@@ -654,7 +654,7 @@ pt-BR:
         highlighting_mode:
           description: Destacar com cor
           none: Sem destaque
-          inline: Datas atrasadas, "Situação" e atributo de "Prioridade"
+          inline: Datas atrasadas, "Situação", "Tipo" e atributo "Prioridade"
           entire_row_by: Toda linha por
           status: Situação
           priority: Prioridade

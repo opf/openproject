@@ -608,7 +608,7 @@ ko:
         highlighting_mode:
           description: 색상으로 강조 표시
           none: 강조 표시 없음
-          inline: 기한 날짜, "상태" 및 "우선 순위" 특성
+          inline: Overdue dates, "Status", "Type", and "Priority" attribute
           entire_row_by: 전체 행 기준
           status: 상태
           priority: 우선 순위

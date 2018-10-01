@@ -653,7 +653,7 @@ ru:
         highlighting_mode:
           description: Цветной подсветки
           none: Без подсветки
-          inline: Просроченные даты, атрибуты "Статус" и "Приоритет"
+          inline: Overdue dates, "Status", "Type", and "Priority" attribute
           entire_row_by: Вся строка по
           status: Состояние
           priority: Приоритет

@@ -1,1 +1,1 @@
-export type HighlightingMode = 'status'|'priority'|'inline'|'none';
+export type HighlightingMode = 'status'|'priority'|'type'|'inline'|'none';

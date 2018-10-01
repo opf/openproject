@@ -648,7 +648,7 @@ pl:
         highlighting_mode:
           description: Wyróżniaj kolorem
           none: Bez wyróżniania
-          inline: Zaległe daty, atrybuty Stan i Priorytet
+          inline: Overdue dates, "Status", "Type", and "Priority" attribute
           entire_row_by: Cały wiersz wg
           status: Status
           priority: Priorytet

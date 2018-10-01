@@ -328,13 +328,13 @@ tr:
     relation_labels:
       parent: Kaynak
       children: Çocuk
-      relates: İlişkili Oldukları
+      relates: Alakalı
       duplicates: Çoğalt
       duplicated: Yineleyen
       blocks: Şunu Engelliyor
       blocked: Şuna Bağlı
       precedes: Ilerlettiği
-      follows: Takipçiler
+      follows: Takip eden
       includes: İçerir
       partof: Bölümü
       requires: Gerektirir
@@ -648,7 +648,7 @@ tr:
         highlighting_mode:
           description: Rekle vurgula
           none: Vurgulama
-          inline: Gecikmiş zamanları, "Durum" ve "Öncelik" öznitelikleri
+          inline: Overdue dates, "Status", "Type", and "Priority" attribute
           entire_row_by: Entire row by
           status: Durum
           priority: Öncelik

@@ -647,7 +647,7 @@ pt:
         highlighting_mode:
           description: Destaque com cor
           none: Sem destaque
-          inline: Datas em atraso, atributo "Status" e "Prioridade"
+          inline: Overdue dates, "Status", "Type", and "Priority" attribute
           entire_row_by: Toda a linha por
           status: Situação
           priority: Prioridade
