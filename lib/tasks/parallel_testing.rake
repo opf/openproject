@@ -114,7 +114,7 @@ namespace :parallel do
 
     desc 'Run plugin unit specs in parallel'
     task units: [:environment] do
-      pattern = "--pattern '^spec/(?!features\/)'"
+      pattern = "--pattern 'spec/(?!features\/)'"
 
       spec_folders = Plugins::LoadPathHelper.spec_load_paths.join(' ')
 
@@ -127,7 +127,7 @@ namespace :parallel do
 
     desc 'Run plugin feature specs in parallel'
     task features: [:environment] do
-      pattern = "--pattern '^spec\/features\/'"
+      pattern = "--pattern 'spec\/features'"
 
       spec_folders = Plugins::LoadPathHelper.spec_load_paths.join(' ')
 
