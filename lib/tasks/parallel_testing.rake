@@ -143,6 +143,8 @@ namespace :parallel do
       ParallelParser.with_args(ARGV) do |options|
         ARGV.each { |a| task(a.to_sym) {} }
 
+        feature_folders  = Plugins::LoadPathHelper.cucumber_load_paths.join(' ')
+
         run_cukes(options, feature_folders)
       end
     end
