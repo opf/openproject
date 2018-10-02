@@ -28,6 +28,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+set -e
+
 # script/ci/setup.sh
 
 # $1 = TEST_SUITE
