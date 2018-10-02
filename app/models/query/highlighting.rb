@@ -30,7 +30,16 @@
 module Query::Highlighting
   extend ActiveSupport::Concern
 
+  module PrependValidHighlightingSubset
+    def valid_subset!
+      super
+      valid_highlighting_subset!
+    end
+  end
+
   included do
+    prepend PrependValidHighlightingSubset
+
     QUERY_HIGHLIGHTING_MODES = %i[inline none status type priority].freeze
 
     serialize :highlighted_attributes, Array
@@ -46,17 +55,28 @@ module Query::Highlighting
       @available_highlighting_columns ||= available_columns.select(&:highlightable?)
     end
 
+    def valid_highlighting_subset!
+      self.highlighted_attributes = valid_highlighting_subset
+    end
+
+    def valid_highlighting_subset
+      available_names = available_highlighting_columns.map(&:name)
+
+      self.highlighted_attributes & available_names
+    end
+
     def highlighted_columns
       columns = available_highlighting_columns.group_by(&:name)
 
-      highlighted_attributes
+      valid_highlighting_subset
         .map { |name| columns[name.to_sym] }
         .flatten
         .uniq
     end
 
     def highlighted_attributes
-      super.presence || []
+      val = super.presence || []
+      val.map(&:to_sym)
     end
 
     def highlighting_mode
@@ -87,8 +107,9 @@ module Query::Highlighting
 
     def attributes_highlightable?
       # Test that chosen attributes intersect with allowed columns
-      unless highlighted_attributes & available_highlighting_columns.map { |col| col.name.to_sym }
-        errors.add(:highlighted_attributes, I18n.t(:error_attribute_not_highlightable))
+      difference = highlighted_attributes - available_highlighting_columns.map { |col| col.name.to_sym }
+      if difference.any?
+        errors.add(:highlighted_attributes, I18n.t(:error_attribute_not_highlightable, attributes: difference.map(&:to_s).map(&:capitalize).join(', ')))
       end
     end
   end
