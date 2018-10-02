@@ -39,16 +39,16 @@ $menu-item-line-height: 30px
   border-right-style: solid
   @include varprop(border-right-width, main-menu-border-width)
   @include varprop(border-right-color, main-menu-border-color)
-
+  @include varprop(background-color, main-menu-bg-color)
   // min-height is full height minus header and footer.
   min-height: calc(100vh - #{$header-height})
 
-  @include varprop(background-color, main-menu-bg-color)
-
   #menu-sidebar
+    +allow-vertical-scrolling
+    -ms-overflow-style: -ms-autohiding-scrollbar
     height: calc(100vh - #{$header-height})
-    overflow: auto
     position: relative
+    @include styled-scroll-bar
 
     // Fixed heights to allow inner scrolling
     .menu_root.closed,
@@ -59,7 +59,7 @@ $menu-item-line-height: 30px
       height: 100%
 
     .main-menu--children > li.partial
-      height: inherit
+      height: 100%
 
     .main-menu--children
       height: calc(100% - (#{$main-menu-item-height} + 10px)) // 10px spacing
