@@ -29,6 +29,7 @@
 
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
+import {DisplayFieldContext} from 'core-app/modules/fields/display/display-field.service';
 
 interface ICostsByType {
     costObjectId:string;
@@ -47,8 +48,9 @@ export class CostsByTypeDisplayField extends DisplayField {
 
     constructor(public resource:any,
                 public name:string,
-                public schema:any) {
-        super(resource, name, schema);
+                public schema:any,
+                public context:DisplayFieldContext) {
+        super(resource, name, schema, context);
 
         this.wpCacheService = this.$injector.get(WorkPackageCacheService);
 
