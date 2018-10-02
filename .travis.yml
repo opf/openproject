@@ -47,7 +47,10 @@ dist: trusty
 cache:
   bundler: true
   directories:
-    - frontend/node_modules
+    - frontend/node_modules/foundation-apps
+    - public/assets
+    - app/assets/javascripts/bundles
+    - app/assets/javascripts/locales
 
 branches:
   only:
@@ -59,11 +62,6 @@ env:
   global:
     - CI=true
     - RAILS_ENV=test
-
-  matrix:
-    - "TEST_SUITE=plugins:specs     DB=mysql    GROUP_SIZE=1 GROUP=1"
-    - "TEST_SUITE=plugins:features  DB=mysql    GROUP_SIZE=1 GROUP=1"
-
 
 
 before_install:
@@ -80,25 +78,59 @@ before_install:
   - git fetch --depth=1 openproject
   - git checkout openproject/$TRAVIS_BRANCH
 
-  # Install pandoc for testing textile migration
-  - travis_retry sudo apt-get update -qq
-  - travis_retry sudo apt-get install -qq pandoc
-
-  # Install Node latest LTS
-  - "nvm install --lts"
   # work around https://github.com/travis-ci/travis-ci/issues/8969
   - travis_retry gem update --system
   # Don't install 1.16.3
   - gem install bundler -v 1.16.2
 
+  # Install Node latest LTS
+  # This should only be necessary when preparing the cache or for npm test runs
+  # but installing later fails for unknown reasons.
+  - nvm install --lts
 
 bundler_args: --binstubs --without development production docker
 
-before_script:
-  - bash script/ci_setup.sh $TEST_SUITE $DB
+stages:
+  - prepare cache
+  - test
 
-script:
-  - bash script/ci_runner.sh
+jobs:
+  include:
+    - stage: prepare cache
+      name: 'Prepare cache'
+      script:
+        - bash script/ci/cache_prepare.sh
+
+    - stage: test
+      name: 'plugins:units (1/1) - mysql'
+      script:
+      - bash script/ci/setup.sh plugins:units mysql
+      - bash script/ci/runner.sh plugins:units 1 1
+    - stage: test
+      name: 'plugins:units (1/1) - postgres'
+      script:
+      - bash script/ci/setup.sh plugins:units postgres
+      - bash script/ci/runner.sh plugins:units 1 1
+    - stage: test
+      name: 'plugins:features (1/1) - mysql'
+      script:
+      - bash script/ci/setup.sh plugins:features mysql
+      - bash script/ci/runner.sh plugins:features 1 1
+    - stage: test
+      name: 'plugins:features (1/1) - postgres'
+      script:
+      - bash script/ci/setup.sh plugins:features postgres
+      - bash script/ci/runner.sh plugins:features 1 1
+    - stage: test
+      name: 'plugins:cucumber (1/1) - mysql'
+      script:
+      - bash script/ci/setup.sh plugins:cucumber mysql
+      - bash script/ci/runner.sh plugins:cucumber 1 1
+    - stage: test
+      name: 'plugins:cucumber (1/1) - postgres'
+      script:
+      - bash script/ci/setup.sh plugins:cucumber postgres
+      - bash script/ci/runner.sh plugins:cucumber 1 1
 
 
 addons:
