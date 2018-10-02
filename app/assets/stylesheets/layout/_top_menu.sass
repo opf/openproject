@@ -49,13 +49,14 @@ $hamburger-width: 50px
   width: 100%
   padding: 0
   z-index: 22
-  position: relative
+  position: sticky
+  top: 0
   border-bottom-style: solid
   @include varprop(border-bottom-width, header-border-bottom-width)
   @include varprop(border-bottom-color, header-border-bottom-color)
 
   %absolute-layout-mode &
-    position: absolute
+    position: fixed
 
   ::-webkit-input-placeholder
     color: $header-search-field-font-color
@@ -331,7 +332,7 @@ input.top-menu-search--input
 
   .nosidebar &
     display: none
-    
+
   &:hover
     @include varprop(background, header-item-bg-hover-color)
     @include varprop(color, header-item-font-hover-color)

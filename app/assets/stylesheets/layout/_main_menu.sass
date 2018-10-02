@@ -39,15 +39,19 @@ $menu-item-line-height: 30px
   border-right-style: solid
   @include varprop(border-right-width, main-menu-border-width)
   @include varprop(border-right-color, main-menu-border-color)
-
-  // min-height is full height minus header and footer.
+  @include varprop(background-color, main-menu-bg-color)
+  // min-height is full height minus header
   min-height: calc(100vh - 55px)
 
-  @include varprop(background-color, main-menu-bg-color)
-
   #menu-sidebar
-    height: 100%
+    height: calc(100vh - 55px)
     overflow: auto
+    // sidebar is fixed, so that it always has same height and position
+    position: fixed
+    top: 55px
+    @include varprop(width, main-menu-width)
+
+    @include styled-scroll-bar
 
   %absolute-layout-mode &
     position: relative
@@ -194,8 +198,13 @@ $arrow-left-width: 40px
         @include varprop(background, main-menu-bg-hover-color)
 
 .main-menu--children-menu-header
-  padding: 10px 10px 0 10px
-  height: calc(#{$main-menu-item-height} + 10px)
+  padding: 10px
+  height: calc(#{$main-menu-item-height} + 20px)  // Header and spacing
+  // submenu header is fixed at the top
+  position: sticky
+  top: 0
+  z-index: 22
+  @include varprop(background, main-menu-bg-color)
 
 .main-menu--arrow-left-to-project
   display: inline-block

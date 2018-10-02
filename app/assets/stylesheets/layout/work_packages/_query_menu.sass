@@ -17,10 +17,6 @@ $wp-query-menu-search-container-height: 35px
 
     @include styled-scroll-bar
 
-
-  .wp-query-menu--results-container
-    padding-top: 5px
-
     %absolute-layout-mode &
       height: calc(100% - #{$wp-query-menu-search-container-height})
 
@@ -37,8 +33,7 @@ $wp-query-menu-search-container-height: 35px
     font-size: $main-menu-font-size
 
   .wp-query-menu--search-container
-    padding-top: 10px
-    overflow: hidden
+    // overflow: hidden
     @include varprop(color, main-menu-font-color)
 
     // Specific fix for Firefox
@@ -66,10 +61,13 @@ $wp-query-menu-search-container-height: 35px
 
   // The actual search input
   .wp-query-menu--search-bar
-    height: $wp-query-menu-search-container-height
-    position: relative
-    margin: 0 10px
+    height: calc(#{$wp-query-menu-search-container-height} + 10px) // 10px for spacing
+    padding: 0 10px
     min-width: 55px
+    position: sticky
+    top: calc(#{$main-menu-item-height} + 20px) // Height of main menu header and padding (search bar should stick under header)
+    z-index: 22
+    @include varprop(background, main-menu-bg-color)
 
   // Category collapsible links
   .wp-query-menu--category-icon
@@ -150,6 +148,6 @@ $wp-query-menu-search-container-height: 35px
   .wp-query-menu--search-icon
     position: absolute
     top:   5px
-    right: 10px
+    right: 20px
     @include varprop(color, main-menu-font-color)
     opacity: 0.5
