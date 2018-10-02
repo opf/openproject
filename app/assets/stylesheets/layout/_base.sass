@@ -81,7 +81,8 @@ body
   margin: 0 0 0 0
   padding: 10px 20px
   width: auto
-  height: auto
+  height: calc(100vh - #{$header-height})
+  overflow: hidden
   background-color: #fff
   width: 100%
   // As this is a flex item we need to set min-width to 0 so that its children's
@@ -113,7 +114,8 @@ body
 #content
   padding: 0
   margin: 0 0 0 0
-  overflow: hidden
+  height: 100%
+  overflow: auto
   width: 100%
   z-index: 10
   background-color: $body-background

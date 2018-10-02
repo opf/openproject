@@ -41,28 +41,28 @@ $menu-item-line-height: 30px
   @include varprop(border-right-color, main-menu-border-color)
 
   // min-height is full height minus header and footer.
-  min-height: calc(100vh - 55px)
+  min-height: calc(100vh - #{$header-height})
 
   @include varprop(background-color, main-menu-bg-color)
 
   #menu-sidebar
-    height: 100%
+    height: calc(100vh - #{$header-height})
     overflow: auto
-
-  %absolute-layout-mode &
     position: relative
 
     // Fixed heights to allow inner scrolling
     .menu_root.closed,
     .menu_root > li.open,
-    .main-menu--children > li.partial,
     wp-query-select,
     .wp-query-menu--container,
     .wp-query-menu--search-container
       height: 100%
 
+    .main-menu--children > li.partial
+      height: inherit
+
     .main-menu--children
-      height: calc(100% - (#{$main-menu-item-height} + 20px))
+      height: calc(100% - (#{$main-menu-item-height} + 10px)) // 10px spacing
 
   ul
     margin: 0
