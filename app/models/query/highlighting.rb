@@ -75,8 +75,13 @@ module Query::Highlighting
     end
 
     def highlighted_attributes
-      val = super.presence || []
-      val.map(&:to_sym)
+      val = super
+
+      if val.present?
+        val.map(&:to_sym)
+      else
+        highlighted_attributes_from_setting
+      end
     end
 
     def highlighting_mode
@@ -89,6 +94,13 @@ module Query::Highlighting
       else
         highlighting_mode_from_setting
       end
+    end
+
+    def highlighted_attributes_from_setting
+      settings = Setting.work_package_list_default_highlighted_attributes || []
+      values = settings.map(&:to_sym)
+      available_names = available_highlighting_columns.map(&:name)
+      values & available_names
     end
 
     def highlighting_mode_from_setting

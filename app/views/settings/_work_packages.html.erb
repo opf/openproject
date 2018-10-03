@@ -42,6 +42,13 @@ See docs/COPYRIGHT.rdoc for more details.
                          container_class: '-middle'
       %>
     </div>
+    <div class="form--field settings--highlighted-attributes">
+      <%= setting_multiselect :work_package_list_default_highlighted_attributes,
+                              Query.available_columns(nil).select(&:highlightable).map { |column|
+                                [column.caption, column.name.to_s]
+                              }
+      %>
+    </div>
   </section>
   <fieldset class="form--fieldset"><legend class="form--fieldset-legend"><%= t(:setting_column_options) %></legend>
     <%
