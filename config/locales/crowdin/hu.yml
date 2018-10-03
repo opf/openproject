@@ -3,8 +3,8 @@ hu:
   no_results_title_text: Nincs megjeleníthető adat.
   activities:
     index:
-      no_results_title_text: There has not been any activity for the project within
-        this time frame.
+      no_results_title_text: Nem volt semmilyen tevékenység a projektben ebben az
+        időszakban.
   admin:
     plugins:
       no_results_title_text: Nem állnak rendelkezésre pluginek.
@@ -62,13 +62,13 @@ hu:
     index:
       no_results_title_text: Jelenleg nincsenek színek.
       no_results_content_text: Új szín létrehozása
-    label_no_color: No color
+    label_no_color: Nincs szín
   custom_actions:
     actions:
       name: Műveletek
       add: Művelet hozzáadása
       assigned_to:
-        executing_user_value: "(Assign to executing user)"
+        executing_user_value: "(A megbízott felhasználó hozzárendelése)"
     conditions: Körülmények
     plural: Egyéni műveletek
     new: Új egyedi művelet
@@ -92,7 +92,7 @@ hu:
       no_results_title_text: Jelenleg nincsenek egyéni mezők.
       no_results_content_text: Új egyéni mező létrehozása
   concatenation:
-    single: or
+    single: vagy
   deprecations:
     old_timeline:
       replacement: Ezt az idővonalak modult egy munkacsomagok modulba ágyazott interaktív
@@ -164,8 +164,8 @@ hu:
   statuses:
     edit:
       status_color_text: |
-        Click to assign or change the color of this status.
-        It is shown in the status button and can be used for highlighting work packages in the table.
+        Ide kattintva rendelhet vagy változtathatja meg a színét az állapotnak.
+        Az állapot gomb látható és kiemelhető a munkacsomag táblázatban.
     index:
       no_results_title_text: Jelenleg nincsenek munkacsomag státuszok.
       no_results_content_text: Új státusz hozzáadása
@@ -336,7 +336,7 @@ hu:
         expires_at: Lejárat ekkor
         subscriber: Előfizető
         encoded_token: Vállalati támogatás kulcs
-        active_user_count_restriction: Maximum active users
+        active_user_count_restriction: Maximális aktív felhasználók
       relation:
         delay: Késés
         from: Munkacsomag
@@ -388,7 +388,7 @@ hu:
         mail_notification: Email értesítés
         new_password: Új jelszó
         password_confirmation: Új jelszó újra
-        consented_at: Consented at
+        consented_at: Ehhez hozzájárult a
       user_preference:
         comments_sorting: Hozzászólások megjelenítése
         hide_mail: E-mail címem elrejtése
@@ -699,7 +699,7 @@ hu:
   button_create: Létrehoz
   button_create_and_continue: Létrehoz és folytat
   button_delete: Törlés
-  button_decline: Decline
+  button_decline: Elutasít
   button_delete_watcher: Megfigyelő törlése %{name}
   button_download: Letöltés
   button_duplicate: Másolás ide
@@ -734,7 +734,7 @@ hu:
   button_unlock: A zárolás feloldása
   button_unwatch: Megfigyelés leállítása
   button_update: Frissítés
-  button_upgrade: Upgrade
+  button_upgrade: Frissítés
   button_upload: Feltöltés
   button_view: Nézet
   button_watch: Megfigyelés
@@ -743,9 +743,9 @@ hu:
   button_configure_menu_entry: Menüpont beállitása
   button_delete_menu_entry: Menüpont törlése
   consent:
-    checkbox_label: I have noted and do consent to the above.
-    failure_message: Consent failed, cannot proceed.
-    title: User Consent
+    checkbox_label: Tudomásul vettem és hozzájárulok a fentiekhez.
+    failure_message: A hozzájárulás sikertelen a művelet nem folytatható.
+    title: Felhasználói jóváhagyás
     decline_warning_message: You have declined to consent and have been logged out.
     user_has_consented: User has consented to your configured statement at the given
       time.
@@ -1184,7 +1184,7 @@ hu:
   label_calendar: Naptár
   label_calendar_show: Kalendárium mutatása
   label_category: Kategória
-  label_consent_settings: User Consent
+  label_consent_settings: Felhasználói jóváhagyás
   label_wiki_menu_item: Wiki menüpont
   label_select_main_menu_item: Válasszon ki új fő menüpontot
   label_select_project: Válasszon projektet
