@@ -37,7 +37,7 @@ See docs/COPYRIGHT.rdoc for more details.
     <div class="form--field">
       <%= setting_select :work_package_list_default_highlighting_mode,
                          Query::Highlighting::QUERY_HIGHLIGHTING_MODES.map { |mode|
-                           [t("js.work_packages.table_configuration.highlighting_mode.#{mode}"), mode]
+                           [t("settings.highlighting.mode_long.#{mode}"), mode]
                          },
                          container_class: '-middle'
       %>
@@ -48,6 +48,10 @@ See docs/COPYRIGHT.rdoc for more details.
                                 [column.caption, column.name.to_s]
                               }
       %>
+      <span class="form--field-instructions">
+        <%= t('settings.highlighting.instructions.inline.choose_inline') %><br/>
+        <%= t('settings.highlighting.instructions.inline.unselect_all') %>
+      </span>
     </div>
   </section>
   <fieldset class="form--fieldset"><legend class="form--fieldset-legend"><%= t(:setting_column_options) %></legend>

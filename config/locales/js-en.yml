@@ -653,6 +653,7 @@ en:
           entire_row_by: 'Entire row by'
           status: 'Status'
           priority: 'Priority'
+          type: 'Type'
         columns_help_text: "Use the input above to add or remove columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           ee_only: 'Enterprise Edition only feature'
