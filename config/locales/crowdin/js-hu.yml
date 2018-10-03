@@ -59,7 +59,7 @@ hu:
     description_selected_columns: Oszlopok kiválasztása
     description_subwork_package: 'Munkacsomag gyermeke #%{id}'
     editor:
-      preview: Toggle preview mode
+      preview: Váltás az előnézeti mód
       source_code: Toggle Markdown source mode
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
       mode:
@@ -67,7 +67,7 @@ hu:
         wysiwyg: Switch to WYSIWYG editor
       macro:
         child_pages:
-          button: Links to child pages
+          button: Gyermek kapcsolatok
           include_parent: Include parent
           text: "[Placeholder] Links to child pages of"
           page: Wiki oldal

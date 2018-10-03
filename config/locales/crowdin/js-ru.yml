@@ -60,11 +60,11 @@ ru:
     description_subwork_package: 'Потомок пакета работ #%{id}'
     editor:
       preview: Переключить режим предпросмотра
-      source_code: Toggle Markdown source mode
-      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      source_code: Переключить режим источника уценок
+      error_saving_failed: 'Сохранение документа завершилась следующей ошибкой: %{error}'
       mode:
-        manual: Switch to Markdown source
-        wysiwyg: Switch to WYSIWYG editor
+        manual: Перейти к источнику уценок
+        wysiwyg: Перейти к WYSIWYG-редактору
       macro:
         child_pages:
           button: Ссылки на дочерние страницы
@@ -653,7 +653,7 @@ ru:
         highlighting_mode:
           description: Цветной подсветки
           none: Без подсветки
-          inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline: Просроченные даты, атрибуты «Статус», «Тип» и «Приоритет»
           entire_row_by: Вся строка по
           status: Состояние
           priority: Приоритет
