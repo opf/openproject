@@ -2159,7 +2159,7 @@ ru:
   setting_sendmail_location: Расположение исполняемого файла sendmail
   setting_smtp_enable_starttls_auto: Автоматически использовать STARTTLS, если таковые
     имеются
-  setting_smtp_ssl: Use SSL connection
+  setting_smtp_ssl: Использовать SSL-подключение
   setting_smtp_address: SMTP сервер
   setting_smtp_port: SMTP порт
   setting_smtp_authentication: SMTP аутентификация

@@ -50,45 +50,52 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= call_hook(:view_versions_show_contextual, { version: @version, project: @project }) %>
 <% end %>
 
+<%= render partial: 'versions/overview', locals: {version: @version} %>
 
-<div id="version-summary">
+<div class="widget-boxes -flex">
   <% if @version.estimated_hours > 0 || User.current.allowed_to?(:view_time_entries, @project) %>
-    <fieldset class="form--fieldset"><legend class="form--fieldset-legend"><%= l(:label_time_tracking) %></legend>
-      <table>
-        <tr>
-          <td width="130px" align="right"><%= Version.human_attribute_name(:estimated_hours) %></td>
-          <td width="240px" class="total-hours"width="130px" align="right"><%= html_hours(l_hours(@version.estimated_hours)) %></td>
-        </tr>
-        <% if User.current.allowed_to?(:view_time_entries, @project) %>
+    <div class="widget-box -small">
+      <fieldset class="form--fieldset"><legend class="form--fieldset-legend"><%= l(:label_time_tracking) %></legend>
+        <table>
           <tr>
-            <td width="130px" align="right"><%= l(:label_spent_time) %></td>
-            <td width="240px" class="total-hours"><%= html_hours(l_hours(@version.spent_hours)) %></td>
+            <td width="130px" align="right"><%= Version.human_attribute_name(:estimated_hours) %></td>
+            <td width="240px" class="total-hours" align="right"><%= html_hours(l_hours(@version.estimated_hours)) %></td>
           </tr>
-        <% end %>
-      </table>
-    </fieldset>
+          <% if User.current.allowed_to?(:view_time_entries, @project) %>
+            <tr>
+              <td width="130px" align="right"><%= l(:label_spent_time) %></td>
+              <td width="240px" class="total-hours" align="right"><%= html_hours(l_hours(@version.spent_hours)) %></td>
+            </tr>
+          <% end %>
+        </table>
+      </fieldset>
+    </div>
   <% end %>
 
-  <div id="status_by">
-    <%= render_status_by(@version, params[:status_by]) if @version.fixed_issues.count > 0 %>
-  </div>
-</div>
+  <% if @version.fixed_issues.count > 0 %>
+    <div class="widget-box -small">
+      <div id="status_by">
+        <%= render_status_by(@version, params[:status_by])  %>
+      </div>
+    </div>
+  <% end %>
 
-<div id="roadmap">
-  <%= render partial: 'versions/overview', locals: {version: @version} %>
-  <%= render(partial: "wiki/content", locals: {content: @version.wiki_page.content}) if @version.wiki_page %>
+  <% if @version.wiki_page || @issues.present? %>
+    <div class="widget-box -small">
+      <%= render(partial: "wiki/content", locals: {content: @version.wiki_page.content}) if @version.wiki_page %>
 
-  <% if @issues.present? %>
-    <fieldset class="form--fieldset related_issues"><legend class="form--fieldset-legend"><%= l(:label_related_work_packages) %></legend>
-      <ul>
-        <% @issues.each do |issue| -%>
-          <li><%= link_to_work_package(issue, project: issue.project != @version.project) %></li>
-        <% end -%>
-      </ul>
-    </fieldset>
+      <% if @issues.present? %>
+        <fieldset class="form--fieldset related_issues"><legend class="form--fieldset-legend"><%= l(:label_related_work_packages) %></legend>
+          <ul>
+            <% @issues.each do |issue| -%>
+              <li><%= link_to_work_package(issue, project: issue.project != @version.project) %></li>
+            <% end -%>
+          </ul>
+        </fieldset>
+      <% end %>
+    </div>
   <% end %>
 </div>
-
 <%= call_hook :view_versions_show_bottom, version: @version %>
 
 <% html_title h(@version.name) %>

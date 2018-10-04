@@ -91,9 +91,20 @@ module API
             yield
           rescue ActiveRecord::RecordInvalid => error
             raise ::API::Errors::ErrorBase.create_and_merge_errors(error.record.errors)
-          rescue StandardError => e
-            Rails.logger.error "Failed to save attachment on #{container.id}: #{e.class} - #{e.message}"
+          rescue StandardError => error
+            log_attachment_saving_error(error)
             raise ::API::Errors::InternalError.new(I18n.t('api_v3.errors.unable_to_create_attachment'))
+          end
+
+          def log_attachment_saving_error(error)
+            container_message = if container
+                                  "on #{container.class} with ID #{container.id}"
+                                else
+                                  "without container"
+                                end
+            message "Failed to save attachment #{container_message}: #{error.class} - #{error.message}"
+
+            Rails.logger.error message
           end
         end
 

@@ -9,7 +9,6 @@ OpenProject::Application.configure do
     admin_users.js
     autocompleter.js
     calendar/lang/*.js
-    contextual_fieldset.js
     copy_issue_actions.js
     date-de-DE.js
     date-en-US.js

@@ -26,70 +26,52 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-#content #history
-  padding-bottom: 11px
 
-#history
-  width: 700px
-  margin:
-    top: 1em
-    bottom: 0
-  h3
-    margin-bottom: 20px
-  .journal
-    min-height: 40px
-    margin:
-      bottom: 20px
-      left: 3px
-    clear: left
+#members_add_form
+  display: none
+  margin-bottom: 1rem
+  .-flex
+    display: flex
+    align-items: flex-end
 
-.journal
-  width: 700px
-  clear: left
-  position: relative
-  z-index: 11
-  top: -8px
-  padding-top: 8px
-  margin-bottom: 8px
-  .profile-wrap
-    float: left
-    position: relative
-    left: 0
-    top: 0
-    padding:
-      left: 4px
-      right: 4px
-  h4
-    padding-right: 5px
-    font-size: 1rem
-    font-weight: normal
-    position: relative
-    z-index: 5
-    border: 0
+    // Neccassary to avoid the appearance of a scroll bar
+    .select2-search-field
+      margin: 0
+
+    .form--field,
+    #member-add-submit-button--container
+      margin-bottom: 1px
+      flex-basis: 50%
+
+    &:not(.-with-button)
+      .form--field
+        overflow: hidden
+
+  // Override default margin to allow correct vertical alignment
+  #add-member--submit-button
     margin-bottom: 0
-    .history-id
-      float: right
-      color: #999
-  .wiki
-    padding: 0
-    overflow: visible
-    margin-left: 50px
-  .contextual a
-    float: left
-    display: block
-    margin-left: 5px
-    height: 16px
-    width: 16px
-    background:
-      repeat: no-repeat
-      position: center center
+    margin-left: 1rem
+    // Neccessary so that button and select box have the same height
+    line-height: 0.6rem
 
-.journal-attributes
-  color: #333333
-  font-size: $journal-attribute-font-size
+@include breakpoint(680px down)
+  #members_add_form .-flex
+    align-items: flex-start
 
-ul.journal-attributes
-  list-style-type: disc
-  margin:
-    bottom: 10px
-    left: 75px
+    &.-with-button
+      flex-direction: column
+      // Workaround for safari and IE
+      // They are not able to get the correct height with flex-direction: column
+      height: 120px
+
+    #add-member--submit-button
+      margin-left: 0
+    .form--field
+      margin-bottom: 1rem
+
+@media screen and (max-width: 87rem) and (min-width: 681px)
+  #members_add_form .-flex.-with-button
+    .form--field
+      max-width: 60%
+      select
+        max-width: 60%
