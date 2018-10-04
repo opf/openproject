@@ -73,10 +73,10 @@ export class MultiToggledSelectComponent<T extends MultiToggledSelectOption> imp
 
   ngOnInit() {
     this.selectedOption = this.initialSelection;
-    this.isMultiselect = this.isValueMulti();
+    this.isMultiselect = this.hasMultipleSelectedOptions();
   }
 
-  public isValueMulti() {
+  public hasMultipleSelectedOptions() {
     return (this.selectedOption instanceof Array) && this.selectedOption.length > 1;
   }
 
@@ -93,7 +93,7 @@ export class MultiToggledSelectComponent<T extends MultiToggledSelectOption> imp
   public toggleMultiselect() {
     this.isMultiselect = !this.isMultiselect;
 
-    if (this.isValueMulti()) {
+    if (this.hasMultipleSelectedOptions()) {
       this._selectedOption = (this.selectedOption as T[])[0];
     } else {
       this._selectedOption = _.castArray(this.selectedOption);

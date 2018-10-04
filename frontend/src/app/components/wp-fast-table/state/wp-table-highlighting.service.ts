@@ -85,7 +85,10 @@ export class WorkPackageTableHighlightingService extends WorkPackageTableBaseSer
   }
 
   private filteredValue(value:WorkPackageTableHighlight):WorkPackageTableHighlight {
-    this.Banners.conditional(() => value.mode = 'none');
+    this.Banners.conditional(() => {
+      value.mode = 'none';
+      value.selectedAttributes = undefined;
+    });
     return value;
   }
 }

@@ -105,7 +105,7 @@ describe('FilterToggledMultiselectValueComponent', () => {
       fixture.detectChanges();
     });
 
-    describe('app.isValueMulti()', function () {
+    describe('app.hasMultipleSelectedOptions()', function () {
       it('is true', () => {
         expect(app.isValueMulti()).toBeTruthy();
       });
@@ -177,7 +177,7 @@ describe('FilterToggledMultiselectValueComponent', () => {
       fixture.detectChanges();
     });
 
-    describe('app.isValueMulti()', function () {
+    describe('app.hasMultipleSelectedOptions()', function () {
       it('is false', () => {
         expect(app.isValueMulti()).toBeFalsy();
       });
@@ -209,7 +209,7 @@ describe('FilterToggledMultiselectValueComponent', () => {
       fixture.detectChanges();
     });
 
-    describe('app.isValueMulti()', function () {
+    describe('app.hasMultipleSelectedOptions()', function () {
       it('is false', () => {
         expect(app.isValueMulti()).toBeFalsy();
       });

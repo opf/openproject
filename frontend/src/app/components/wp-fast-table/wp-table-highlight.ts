@@ -43,8 +43,6 @@ export class WorkPackageTableHighlight {
   }
 
   public set selectedAttributes(val:HalResource[]|undefined) {
-    // TODO why is this an empty array? It should be undefined when empty
-    // or all is selected
     if (_.isEmpty(val)) {
       this._selectedAttributes = undefined;
     } else {

@@ -49,6 +49,10 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
     let mode = this.highlightingMode;
     let selectedAttributes:HalResource[]|undefined = undefined;
 
+    if (this.selectedAttributes === [] || _.get(this.selectedAttributes, 'value') === 'all') {
+      this.selectedAttributes = undefined;
+    }
+
     if (this.selectedAttributes !== undefined && _.get(this.selectedAttributes, 'value') !== 'all') {
       selectedAttributes = _.castArray(this.selectedAttributes)
         .map(el => _.find(this.availableHighlightedAttributes, (column) => column.href === el.value)!);
@@ -113,6 +117,10 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
   }
 
   private get allAttributesOption():MultiToggledSelectOption {
-    return { name: this.text.highlighting_mode.inline_all_attributes, singleOnly: true, value: 'all' };
+    return {
+      name: this.text.highlighting_mode.inline_all_attributes,
+      singleOnly: true,
+      value: 'all'
+    };
   }
 }
