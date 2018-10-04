@@ -1116,7 +1116,7 @@ de:
       upsale:
         become_hero: Werde zum Held!
         title: Auf Enterprise-Edition upgraden
-        description: Steigern Sie Ihre Produktivität mit der Enterprise-Edition
+        description: Was sind die Vorteile?
         more_info: Weitere Informationen
         additional_features: Zusätzliche mächtige Premium-Funktionen
         professional_support: Professioneller Support durch OpenProject Experten

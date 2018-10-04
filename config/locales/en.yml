@@ -1038,7 +1038,7 @@ en:
       upsale:
         become_hero: "Become a hero!"
         title: "Upgrade to Enterprise Edition"
-        description: "Boost your productivity with the Enterprise Edition"
+        description: "What are the benefits?"
         more_info: "More information"
         additional_features: "Additional powerful premium features"
         professional_support: "Professional support from the OpenProject experts"
