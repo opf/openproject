@@ -59,7 +59,7 @@ $menu-item-line-height: 30px
       height: 100%
 
     .main-menu--children > li.partial
-      height: 100%
+      height: inherit
 
     .main-menu--children
       height: calc(100% - (#{$main-menu-item-height} + 10px)) // 10px spacing
@@ -314,9 +314,6 @@ a.main-menu--parent-node
   &.-hidden
     display: none
 
-  %absolute-layout-mode &
-    display: none
-
 .menu-wiki-pages-tree
   height: 100%
   overflow: auto
@@ -347,8 +344,6 @@ a.main-menu--parent-node
   vertical-align: middle
   z-index: 1
   cursor: col-resize
-  %absolute-layout-mode &
-    z-index: 100
   &:hover
     @include varprop(border-left-color, main-menu-resizer-color)
     .main-menu--navigation-toggler
@@ -395,8 +390,6 @@ a.main-menu--parent-node
     i:before
       padding-left: 0
       @include icon-mixin-arrow-left2
-  %absolute-layout-mode &
-    z-index: 100
 
 #main-menu ul ul.main-menu--children ul.pages-hierarchy
   .tree-menu--hierarchy-indicator
