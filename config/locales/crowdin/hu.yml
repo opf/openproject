@@ -138,7 +138,7 @@ hu:
       no_results_content_text: Tag hozzáadása a projekthez
   my:
     access_token:
-      failed_to_reset_token: Nem sikerült a hozzáférési tokent ( %{error} ) visszaállítani
+      failed_to_reset_token: 'Hozzáférési token helyreállítása sikertelen: %{error}'
       notice_reset_token: 'Egy új %{type} token létrehozva. A hozzáférési token:'
       token_value_warning: 'Megjegyzés: Ez az egyetlen alkalom, mikor ezt a tokent
         láthatja, győződjön meg arról, hogy most átmásolta.'
@@ -746,19 +746,21 @@ hu:
     checkbox_label: Tudomásul vettem és hozzájárulok a fentiekhez.
     failure_message: A hozzájárulás sikertelen a művelet nem folytatható.
     title: Felhasználói jóváhagyás
-    decline_warning_message: You have declined to consent and have been logged out.
-    user_has_consented: User has consented to your configured statement at the given
-      time.
-    not_yet_consented: User has not consented yet, will be requested upon next login.
-    contact_mail_instructions: Define the mail address that users can reach a data
-      controller to perform data change or removal requests.
-    contact_your_administrator: Please contact your administrator if you want to have
-      your account deleted.
-    contact_this_mail_address: Please contact %{mail_address} if you want to have
-      your account deleted.
-    text_update_consent_time: Check this box to force users to consent again. Enable
-      when you have changed the legal aspect of the consent information above.
-    update_consent_last_time: 'Last update of consent: %{update_time}'
+    decline_warning_message: Elutasította a beleegyezést ezért ki lett léptetve.
+    user_has_consented: A felhasználó beleegyezett a beállított nyilatkozathoz az
+      adott időpontban.
+    not_yet_consented: A felhasználó még nem járult hozzá, a következő bejelentkezéskor
+      ismét kérni fogjuk.
+    contact_mail_instructions: Határozza meg az e-mail címet, amellyel a felhasználók
+      elérhetik az adatkezelőt adatcserére vagy eltávolítási kérelmekre.
+    contact_your_administrator: Kérjük lépjen kapcsolatba a rendszergazdával, ha fiókját
+      törölni szeretné.
+    contact_this_mail_address: Kérjük, lépjen kapcsolatba %{mail_address}, ha fiókját
+      törölni szeretné.
+    text_update_consent_time: Jelölje be ezt a négyzetet, ha újra kérni szeretné a
+      felhasználók beleegyezését. Engedélyezem, ha megváltoztatta a fenti jóváhagyási
+      jogi információt.
+    update_consent_last_time: 'Utolsó hozzájárulás frissítése: %{update_time}'
   copy_project:
     started: Projekt másolása elindult a "%{source_project_name}" nevű projektből
       a "%{target_project_name}" projektbe. E-mailben értesítjük, amint "%{target_project_name}"
@@ -985,10 +987,10 @@ hu:
     a cookie-k használata engedélyezve van, mert anélkül ez az alkalmazás nem tud
     megfelelően működni.
   error_custom_option_not_found: A beállítás nem létezik.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+  error_dependent_work_package: 'Hiba a függő munkacsomagban #%{related_id} %{related_subject}:
     %{error}'
-  error_enterprise_activation_user_limit: Your account could not be activated (user
-    limit reached). Please contact your administrator to gain access.
+  error_enterprise_activation_user_limit: Fiókját nem lehet aktiválni (elérte a felhasználói
+    korlátot). Kérjük, lépjen kapcsolatba rendszergazdájával a hozzáféréshez.
   error_failed_to_delete_entry: Nem sikerült törölni ezt a bejegyzést.
   error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Nem csoportosítható e szerint: %{value}'
@@ -997,7 +999,7 @@ hu:
   error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
   error_pdf_export_too_many_columns: Túl sok oszlop lett kiválasztva a PDF exportáláshoz.
     Kérlek csökkentsd a sorok számát.
-  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
+  error_pdf_failed_to_export: 'A PDF-Exportálás mentése nem sikerült: %{error}'
   error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
     you try to submit data on multiple browsers or tabs? Please close all tabs and
     try again.
@@ -1051,8 +1053,8 @@ hu:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF leírásokkal
-      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
-      pdf_with_attachments: PDF with attachments
+      pdf_with_descriptions_and_attachments: PDF leírásokkal és mellékletekkel
+      pdf_with_attachments: PDF mellékletekkel
   extraction:
     available:
       pdftotext: Pdftotext elérhető (opcionális)
@@ -1273,7 +1275,7 @@ hu:
   label_enumeration_value: Új felsorolási érték
   label_enumerations: Elnevezések
   label_enterprise: Vállalati
-  label_enterprise_active_users: "%{current}/%{limit} booked active users"
+  label_enterprise_active_users: "%{current}/%{limit} foglalt aktív felhasználók"
   label_enterprise_edition: Enterprise Edition
   label_environment: Környezet
   label_estimates_and_time: Becslések & időpontok
@@ -1737,14 +1739,16 @@ hu:
   mail_subject_wiki_content_added: "'%{id}' wiki oldal hozzáadva"
   mail_subject_wiki_content_updated: "'%{id}' wiki oldal frissítve"
   mail_user_activation_limit_reached:
-    subject: User activation limit reached
-    message: |
-      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
-      The user cannot activate their account since the user limit has been reached.
+    subject: A felhasználó aktiválási korlátját elérte
+    message: 'Egy új felhasználó (%{email}) megpróbált létrehozni egy fiókot az Ön
+      által kezelt OpenProject környezetben (%{host}). A felhasználó nem tudja aktiválni
+      fiókját, mivel elérte a felhasználói korlátot.
+
+'
     steps:
-      label: 'To allow the user to sign in you can either: '
-      a: Upgrade your payment plan ([here](upgrade_url))
-      b: Lock or delete an existing user ([here](users_url))
+      label: 'A felhasználó bejelentkezéséhez a következőket teheti: '
+      a: Fizetés módjának frissítése ([here](upgrade_url))
+      b: Felhasználó zárolása vagy törlése ([here](users_url))
   more_actions: További funkciók
   noscript_description: Engedélyezze a JavaScriptet, hogy használni tudja az OpenProjectet
     !
@@ -2129,10 +2133,10 @@ hu:
   setting_commit_logtime_activity_id: Tevékenységek a naplózott időben
   setting_commit_logtime_enabled: Bejelentkezési idő naplózásának engedélyezése
   setting_commit_ref_keywords: Viszonyítási kulcsszavak
-  setting_consent_time: Consent time
-  setting_consent_info: Consent information text
-  setting_consent_required: Consent required
-  setting_consent_decline_mail: Consent contact mail address
+  setting_consent_time: Engedélyezési idő
+  setting_consent_info: Hozzájárulás tájékoztató szöveg
+  setting_consent_required: Beleegyezés szükséges
+  setting_consent_decline_mail: Hozzájárulás a kapcsolattartói e-mail címhez
   setting_cross_project_work_package_relations: Projektek közötti munkacsomagok kapcsolatainak
     engedélyezése
   setting_date_format: Dátum formátum
@@ -2574,7 +2578,7 @@ hu:
       years: Évek
   title_remove_and_delete_user: Távolítsa el a meghívott felhasználót a projektből,
     és törölje őt.
-  title_enterprise_upgrade: Upgrade to unlock more users.
+  title_enterprise_upgrade: Frissítés további felhasználók feloldásához.
   tooltip_user_default_timezone: 'Az új felhasználók alapértelmezett időzónája. A
     felhasználó beállításai megváltoztathatók.
 
@@ -2651,23 +2655,24 @@ hu:
   note_password_login_disabled: Bejelentkezési jelszót a %{configuration} letiltotta.
   warning: Figyelem
   warning_attachments_not_saved: "%{count} fájl nem menthető."
-  warning_imminent_user_limit: 'You invited more users than are supported by your
-    current plan. Invited users may not be able to join your OpenProject environment.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
-    in order to allow invited and registered users to join.
+  warning_imminent_user_limit: 'Több olyan felhasználót hívott meg, akiket a jelenlegi
+    beállítás támogat. A meghívott felhasználók nem tudnak csatlakozni az OpenProject
+    környezetéhez. Kérjük, <a href="%{upgrade_url}"> frissítse a beállítást </a>,
+    vagy blokkolja a meglévő felhasználókat, hogy engedélyezhesse a meghívott és regisztrált
+    felhasználók csatlakozását.
 
 '
   warning_registration_token_expired: |
     Az aktiváló e-mail lejárt. Új levelet küldtünk Önnek %{email} részére.
     Kérjük, kattintson a belsejében lévő linkre a fiók aktiválásához.
-  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
-    for additional users.
+  warning_user_limit_reached: 'Elérte a felhasználói korlátot. Nem aktiválhat további
+    felhasználókat. Kérjük, <a href="%{upgrade_url}"> frissítse a licencét </a>, vagy
+    blokkolja a további tagokat a felhasználók engedélyezéséhez.
 
 '
-  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
-    active users). Please contact sales@openproject.com to upgrade your Enterprise
-    Edition plan and add additional users.
+  warning_user_limit_reached_instructions: 'Elérte a felhasználói limitet (%{current}/%{max}
+    aktív felhasználók). Kérjük, forduljon a sales@openproject.com címhez az Enterprise
+    Edition licenc frissítésért és további felhasználók hozzáadásához.
 
 '
   menu_item: Menüpont
