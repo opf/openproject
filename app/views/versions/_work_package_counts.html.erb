@@ -26,11 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<% tag_for_selection = select_tag('status_by',
-                                  status_by_options_for_select(criteria),
-                                  id: 'status_by_select',
-                                  class: 'form--select -narrow') %>
-
 <%= form_tag status_by_version_path(version),
              id: "status_by_form" do %>
 
@@ -41,10 +36,12 @@ See docs/COPYRIGHT.rdoc for more details.
     </legend>
 
     <span class="inline-label">
-      <span class="form-label -transparent">
+      <span class="form-label -transparent" style="width: 130px">
         <%= l(:label_group_by) %>
       </span>
-      <%= tag_for_selection %>
+      <%= styled_select_tag('status_by', status_by_options_for_select(criteria),
+                                             id: 'status_by_select',
+                                             container_class: '-slim') %>
     </span>
     <% if counts.empty? %>
 
@@ -55,16 +52,16 @@ See docs/COPYRIGHT.rdoc for more details.
       <table>
         <% counts.each do |count| %>
           <tr>
-            <td width="130px" align="right" >
+            <td style="width: 130px" align="left" >
               <%= link_to h(count[:group]),
                             project_version_property_path(version, "#{criteria}_id", count[:group].id) %>
             </td>
-            <td width="240px">
+            <td style="width: 240px">
               <%= progress_bar((count[:closed].to_f / count[:total])*100,
                       legend: "#{count[:closed]}/#{count[:total]}",
                       hide_total_progress: true,
                       hide_percent_sign: true,
-                      width: "#{(count[:total].to_f / max * 200).floor}px;") %>
+                      width: "#{(count[:total].to_f / max * 190).floor}px;") %>
             </td>
           </tr>
 
