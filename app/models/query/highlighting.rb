@@ -62,7 +62,7 @@ module Query::Highlighting
     def valid_highlighting_subset
       available_names = available_highlighting_columns.map(&:name)
 
-      self.highlighted_attributes & available_names
+      highlighted_attributes & available_names
     end
 
     def highlighted_columns
@@ -121,7 +121,9 @@ module Query::Highlighting
       # Test that chosen attributes intersect with allowed columns
       difference = highlighted_attributes - available_highlighting_columns.map { |col| col.name.to_sym }
       if difference.any?
-        errors.add(:highlighted_attributes, I18n.t(:error_attribute_not_highlightable, attributes: difference.map(&:to_s).map(&:capitalize).join(', ')))
+        errors.add(:highlighted_attributes,
+                   I18n.t(:error_attribute_not_highlightable,
+                          attributes: difference.map(&:to_s).map(&:capitalize).join(', ')))
       end
     end
   end
