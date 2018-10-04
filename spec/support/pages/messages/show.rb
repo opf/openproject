@@ -37,7 +37,7 @@ module Pages::Messages
     end
 
     def expect_subject(subject)
-      expect(page).to have_selector('.message-title', text: subject)
+      expect(page).to have_selector('.title-container', text: subject)
     end
 
     def expect_content(content)
