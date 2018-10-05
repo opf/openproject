@@ -17,6 +17,7 @@ OpenProject::Application.configure do
     members_select_boxes.js
     my_page.js
     new_user.js
+    onboarding_tour.js
     project/responsible_attribute.js
     project/description_handling.js
     project/filters.js
@@ -26,6 +27,7 @@ OpenProject::Application.configure do
     types_checkboxes.js
     work_packages.js
     vendor/ckeditor/ckeditor.*js
+    vendor/enjoyhint.js
     bundles/openproject-legacy-app.js
   )
 end
