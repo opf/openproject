@@ -29,8 +29,8 @@ export class WorkPackageTableHighlightingService extends WorkPackageTableBaseSer
       return false;
     }
 
-    // 2. Is selected attributes === undefined ?
-    if (this.current.selectedAttributes === undefined) {
+    // 2. Is selected attributes === undefined or empty Array?
+    if (this.current.selectedAttributes === undefined || this.current.selectedAttributes === []) {
       return true;
     }
 

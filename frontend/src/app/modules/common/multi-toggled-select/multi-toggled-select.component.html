@@ -9,7 +9,7 @@
             [attr.id]="selectHtmlId || undefined"
             (keydown)="onValueKeydown.emit($event)"
             [compareWith]="compareByValue"
-            (change)="emitValueChange($event)">
+            (change)="emitValueChange()">
         <option
                 value=""
                 [textContent]="text.requiredPlaceholder"
@@ -37,7 +37,7 @@
             [attr.id]="selectHtmlId || undefined"
             (keydown)="onValueKeydown.emit($event)"
             [compareWith]="compareByValue"
-            (change)="emitValueChange($event)"
+            (change)="emitValueChange()"
             multiple
             size=5>
         <option

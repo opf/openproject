@@ -3,7 +3,10 @@ import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-por
 import {WorkPackageTableHighlightingService} from 'core-components/wp-fast-table/state/wp-table-highlighting.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
-import {MultiToggledSelectOption} from "core-app/modules/common/multi-toggled-select/multi-toggled-select.component";
+import {
+  MultiToggledSelectComponent,
+  MultiToggledSelectOption
+} from "core-app/modules/common/multi-toggled-select/multi-toggled-select.component";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {States} from "core-app/components/states.service";
 import {WorkPackageTableHighlight} from "core-components/wp-fast-table/wp-table-highlight";
@@ -20,7 +23,8 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
   public eeShowBanners:boolean = false;
 
   public availableMappedHighlightedAttributes:MultiToggledSelectOption[] = [];
-  public selectedAttributes:undefined|MultiToggledSelectOption|MultiToggledSelectOption[] = [];
+
+  public selectedAttributes:MultiToggledSelectOption[] = [];
 
   public text = {
     title: this.I18n.t('js.work_packages.table_configuration.highlighting'),
@@ -47,18 +51,16 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
 
   public onSave() {
     let mode = this.highlightingMode;
-    let selectedAttributes:HalResource[]|undefined = undefined;
+    let highlightedAttributes:HalResource[] = [];
 
-    if (this.selectedAttributes === [] || _.get(this.selectedAttributes, 'value') === 'all') {
-      this.selectedAttributes = undefined;
-    }
-
-    if (this.selectedAttributes !== undefined && _.get(this.selectedAttributes, 'value') !== 'all') {
-      selectedAttributes = _.castArray(this.selectedAttributes)
+    if (this.selectedAttributes.length === 1 &&_.get(this.selectedAttributes[0], 'value') === 'all') {
+      highlightedAttributes = [];
+    } else {
+      highlightedAttributes = this.selectedAttributes
         .map(el => _.find(this.availableHighlightedAttributes, (column) => column.href === el.value)!);
     }
 
-    const newValue = new WorkPackageTableHighlight(mode, selectedAttributes);
+    const newValue = new WorkPackageTableHighlight(mode, highlightedAttributes);
     this.wpTableHighlight.update(newValue);
   }
 
@@ -85,12 +87,10 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
     this.availableMappedHighlightedAttributes =
       [this.allAttributesOption].concat(this.getAvailableAttributes());
 
-    // Either, selectedAttributes already exist, then map them to multi value options
+    /** Either, selectedAttributes already exist, then map them to multi value options **/
     const currentValues = this.wpTableHighlight.current.selectedAttributes;
     if (currentValues === undefined) {
-      this.selectedAttributes = this.allAttributesOption;
-    } else if (currentValues.length === 1) {
-      this.selectedAttributes = this.mapAttributes(currentValues)[0];
+      this.selectedAttributes = [this.allAttributesOption];
     } else {
       this.selectedAttributes = this.mapAttributes(currentValues);
     }
@@ -120,6 +120,7 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
     return {
       name: this.text.highlighting_mode.inline_all_attributes,
       singleOnly: true,
+      selectWhenEmptySelection: true,
       value: 'all'
     };
   }

@@ -33,6 +33,7 @@ import {AngularTrackingHelpers} from "core-components/angular/tracking-functions
 export interface MultiToggledSelectOption {
   name:string;
   singleOnly?:true;
+  selectWhenEmptySelection?:true;
   value:any;
 }
 
@@ -42,7 +43,7 @@ export interface MultiToggledSelectOption {
 })
 export class MultiToggledSelectComponent<T extends MultiToggledSelectOption> implements OnInit {
   @Input() availableOptions:T[];
-  @Input() initialSelection:T|T[];
+  @Input() initialSelection:T[]|undefined;
   @Input() selectHtmlId:string|undefined;
   @Input() isRequired:boolean = false;
   @Input() isDisabled:boolean = false;
@@ -72,7 +73,7 @@ export class MultiToggledSelectComponent<T extends MultiToggledSelectOption> imp
   }
 
   ngOnInit() {
-    this.selectedOption = this.initialSelection;
+    this.ensureSingleInitialSelectionIsNotArray();
     this.isMultiselect = this.hasMultipleSelectedOptions();
   }
 
@@ -80,23 +81,28 @@ export class MultiToggledSelectComponent<T extends MultiToggledSelectOption> imp
     return (this.selectedOption instanceof Array) && this.selectedOption.length > 1;
   }
 
-  public triggerChangeOnSingleSelect() {
-    if (!this.isMultiselect) {
-      this.onValueChange.emit(this.selectedOption);
-    }
-  }
-
   public emitValueChange() {
-    this.onValueChange.emit(this.selectedOption);
+    this.onValueChange.emit(_.castArray(this.selectedOption || []));
   }
 
   public toggleMultiselect() {
     this.isMultiselect = !this.isMultiselect;
 
-    if (this.hasMultipleSelectedOptions()) {
-      this._selectedOption = (this.selectedOption as T[])[0];
+    if (this.isMultiselect ) {
+      /** Switching to multi select.
+       * Ensure selectedOption is either an empty Array or the selectedOption,
+       * Preventing cases such as `[undefined]`. **/
+      this._selectedOption = _.castArray(this.selectedOption || []);
     } else {
-      this._selectedOption = _.castArray(this.selectedOption);
+      /** Switching to single select. **/
+      if (Array.isArray(this.selectedOption)) {
+        if (this.selectedOption.length === 0) {
+          this.onEmptySelection();
+        } else {
+          this._selectedOption = (this.selectedOption as T[])[0];
+        }
+        this.emitValueChange();
+      }
     }
   }
 
@@ -108,15 +114,30 @@ export class MultiToggledSelectComponent<T extends MultiToggledSelectOption> imp
     return this._selectedOption;
   }
 
-  /**
-   * Map the ValueOption to the actual HalResource option
-   * @param val
-   */
   public set selectedOption(val:T|T[]|undefined) {
     this._selectedOption = val;
   }
 
   public get nullOption():T {
     return { name: this.text.placeholder, value: '' } as T;
+  }
+
+  /** Ensure that the initialSelection becomes an Array.
+   * `undefined` becomes an empty Array. **/
+  private ensureSingleInitialSelectionIsNotArray():void {
+    if (Array.isArray(this.initialSelection)) {
+      if (this.initialSelection.length === 1) {
+        this.selectedOption = this.initialSelection[0];
+      } else {
+        this.selectedOption = this.initialSelection;
+      }
+    }
+  }
+
+  private onEmptySelection():void {
+    const newSelection = _.find(this.availableOptions, option => option.selectWhenEmptySelection === true);
+    if (newSelection) {
+      this.selectedOption = newSelection;
+    }
   }
 }
