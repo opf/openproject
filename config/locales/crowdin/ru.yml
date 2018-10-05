@@ -1122,7 +1122,7 @@ ru:
       upsale:
         become_hero: Станьте героем!
         title: Обновите до корпоративной версии
-        description: Повысьте эффективность работы с корпоративной версией
+        description: What are the benefits?
         more_info: Больше информации
         additional_features: Дополнительные мощные возможности
         professional_support: Помощь от экспертов OpenProject
@@ -2765,7 +2765,7 @@ ru:
       code_401_wrong_credentials: Вы не ввели правильные учетные данные.
       code_403: Вы не авторизованы для доступа к этому ресурсу.
       code_404: Не удалось найти запрошенный ресурс.
-      code_409: Не удалось обновить ресурс из-за конфликтующих изменений.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: Произошла внутренняя ошибка.
       expected:
         date: ГГГГ-мм-дд (только для даты ISO 8601)

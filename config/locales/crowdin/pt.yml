@@ -1099,7 +1099,7 @@ pt:
       upsale:
         become_hero: Torne-se um herói!
         title: Atualizar para a versão Enterprise
-        description: Aumente sua produtividade com a versão Enterprise
+        description: What are the benefits?
         more_info: Mais informação
         additional_features: Poderosas funcionalidades Premium adicionais
         professional_support: Apoio profissional dos especialistas da OpenProject
@@ -2738,7 +2738,7 @@ pt:
       code_401_wrong_credentials: Não forneceu credenciais válidas.
       code_403: Você não está autorizado a acessar a este recurso.
       code_404: O recurso solicitado não pôde ser encontrado.
-      code_409: Não consegui atualizar o recurso devido a modificações conflitantes.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: Ocorreu um erro interno.
       expected:
         date: AAAA-MM-DD (Data ISO 8601 apenas)

@@ -1076,7 +1076,7 @@ id:
       upsale:
         become_hero: Menjadi seorang pahlawan!
         title: Tingkatkan ke edisi enterprise
-        description: Tingkatkan produktivitas Anda dengan Edisi Perusahaan
+        description: What are the benefits?
         more_info: Informasi lebih lanjut
         additional_features: Tambahan fitur premium yang sangat berdaya guna
         professional_support: Dukungan profesional dari para ahli OpenProject
@@ -2670,7 +2670,7 @@ id:
       code_401_wrong_credentials: You did not provide the correct credentials.
       code_403: Anda tidak diizinkan untuk mengakses sumber ini.
       code_404: The requested resource could not be found.
-      code_409: Tidak dapat memperbarui sumber karena bertentangan modifikasi.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: An internal error has occured.
       expected:
         date: YYYY-MM-DD (ISO 8601 date only)

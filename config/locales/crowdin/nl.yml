@@ -1100,7 +1100,7 @@ nl:
       upsale:
         become_hero: Word een held!
         title: Upgrade naar Enterprise Edition
-        description: Uw productiviteit met de Enterprise Edition verbeteren
+        description: What are the benefits?
         more_info: Meer informatie
         additional_features: Extra krachtige premium functies
         professional_support: Professionele ondersteuning van de OpenProject experts
@@ -2738,7 +2738,7 @@ nl:
       code_401_wrong_credentials: U heeft niet de juiste referenties opgeven.
       code_403: U bent niet gemachtigd om toegang te hebben tot deze resource.
       code_404: De gevraagde resource kan niet worden gevonden.
-      code_409: Door conflicterende wijzigingen kan deze resource niet worden bijgewerkt.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: Een interne fout is opgetreden.
       expected:
         date: JJJJ-MM-DD (alleen ISO 8601 datum)

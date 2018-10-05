@@ -70,7 +70,7 @@ zh-TW:
           include_parent: Include parent
           text: "[Placeholder] Links to child pages of"
           page: 維基頁面
-          this_page: this page
+          this_page: " 本頁"
           hint: 'Leave this field empty to list all child pages of the current page.
             If you want to reference a different page, provide its title or slug.
 
@@ -82,7 +82,7 @@ zh-TW:
           language_hint: Enter the formatting language that will be used for highlighting
             (if supported).
         dropdown:
-          macros: Macros
+          macros: 巨集
           chose_macro: Chose macro
         toc: 目錄
         toolbar_help: Click to select widget and show the toolbar. Double-click to
@@ -185,7 +185,7 @@ zh-TW:
     label_in: 在
     label_in_less_than: 少於
     label_in_more_than: 多於
-    label_latest_activity: Latest activity
+    label_latest_activity: 最新活動
     label_last_updated_on: 最後更新於
     label_less_or_equal: "<="
     label_less_than_ago: 少於幾天前
@@ -390,8 +390,8 @@ zh-TW:
         description: '選擇要在甘特圖的對應位置上始終顯示的屬性。請注意, 在游標停在元素上時, 將顯示其日期標籤, 而不是這些屬性。
 
 '
-      button_activate: Show Gantt chart
-      button_deactivate: Hide Gantt chart
+      button_activate: 檢視甘特圖
+      button_deactivate: 隱藏甘特圖
       cancel: 取消
       change: 更改計劃
       due_date: Finish date
@@ -548,7 +548,7 @@ zh-TW:
         versionName: 版本
         version: 版本
       default_queries:
-        latest_activity: Latest activity
+        latest_activity: 最新活動
         created_by_me: Created by me
         assigned_to_me: Assigned to me
         recently_created: Recently created

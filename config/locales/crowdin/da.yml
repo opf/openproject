@@ -1080,7 +1080,7 @@ da:
       upsale:
         become_hero: Become a hero!
         title: Opgradér til Enterprise Edition
-        description: Boost your productivity with the Enterprise Edition
+        description: What are the benefits?
         more_info: More information
         additional_features: Additional powerful premium features
         professional_support: Professional support from the OpenProject experts
@@ -2680,7 +2680,7 @@ da:
       code_401_wrong_credentials: Du har ikke givet korrekte loginoplysninger.
       code_403: Du har ikke tilladelse til at få adgang til denne ressource.
       code_404: Den forespurgte ressource kunne ikke findes.
-      code_409: Kunne ikke opdatere ressourcen på grund af modstridende ændringer.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: En intern fejl opstod.
       expected:
         date: YYYY-MM-DD (ISO 8601 date only)

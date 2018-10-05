@@ -985,7 +985,7 @@ lol:
       upsale:
         become_hero: crwdns100127:0crwdne100127:0
         title: crwdns100128:0crwdne100128:0
-        description: crwdns100129:0crwdne100129:0
+        description: crwdns102536:0crwdne102536:0
         more_info: crwdns100130:0crwdne100130:0
         additional_features: crwdns100131:0crwdne100131:0
         professional_support: crwdns100132:0crwdne100132:0
@@ -2402,7 +2402,7 @@ lol:
       code_401_wrong_credentials: crwdns101405:0crwdne101405:0
       code_403: crwdns101406:0crwdne101406:0
       code_404: crwdns101407:0crwdne101407:0
-      code_409: crwdns101408:0crwdne101408:0
+      code_409: crwdns102537:0crwdne102537:0
       code_500: crwdns101409:0crwdne101409:0
       expected:
         date: crwdns101410:0crwdne101410:0

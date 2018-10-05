@@ -1100,7 +1100,7 @@ hr:
       upsale:
         become_hero: Postati heroj!
         title: Nadogradnja na izdanje Enterprise
-        description: Boost your productivity with the Enterprise Edition
+        description: What are the benefits?
         more_info: Više informacija
         additional_features: Additional powerful premium features
         professional_support: Stručna podrška OpenProject stručnjaka
@@ -2721,7 +2721,7 @@ hr:
       code_401_wrong_credentials: Niste naveli ispravnu akreditaciju.
       code_403: Niste autorizirani za pristup ovom resursu.
       code_404: The requested resource could not be found.
-      code_409: Couldn't update the resource because of conflicting modifications.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: Dogodila se interna pogreška.
       expected:
         date: YYYY-MM-DD (ISO 8601 date only)
