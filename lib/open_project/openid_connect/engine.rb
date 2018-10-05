@@ -50,6 +50,19 @@ module OpenProject::OpenIDConnect
       end
     end
 
+    #config.to_prepare do
+    initializer 'openid_connect.form_post_method' do
+      # If response_mode 'form_post' is chosen,
+      # the IP sends a POST to the callback. Only if
+      # the sameSite flag is not set on the session cookie, is the cookie send along with the request.
+      if OpenProject::Configuration.openid_connect.any? { |_, v| v['response_mode']&.to_s == 'form_post' }
+        SecureHeaders::Configuration.default.cookies[:samesite][:lax] = false
+        # Need to reload the secure_headers config to
+        # avoid having set defaults (e.g. https) when changing the cookie values
+        load Rails.root + 'config/initializers/secure_headers.rb'
+      end
+    end
+
     config.to_prepare do
       # set a secure cookie in production
       secure_cookie = !!Rails.configuration.force_ssl
