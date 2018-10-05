@@ -77,9 +77,7 @@ export class WorkPackageTableHighlightingService extends WorkPackageTableBaseSer
     const current = this.current;
     query.highlightingMode = current.mode;
 
-    if (current.selectedAttributes) {
-      query.highlightedAttributes = current.selectedAttributes;
-    }
+    query.highlightedAttributes = current.selectedAttributes;
 
     return false;
   }

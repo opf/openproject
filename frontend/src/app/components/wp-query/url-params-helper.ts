@@ -86,10 +86,8 @@ export class UrlParamsHelperService {
       paramsData.hl = query.highlightingMode;
     }
     if (query.highlightingMode === 'inline') {
-      if (query.highlightedAttributes) {
+      if (Array.isArray(query.highlightedAttributes) && query.highlightedAttributes.length > 0) {
         paramsData.hla = query.highlightedAttributes.map(el => el.id);
-      } else {
-        paramsData.hla = [];
       }
     }
 
