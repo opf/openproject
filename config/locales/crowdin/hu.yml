@@ -155,8 +155,8 @@ hu:
   prioritiies:
     edit:
       priority_color_text: |
-        Click to assign or change the color of this priority.
-        It can be used for highlighting work packages in the table.
+        Ide kattintva rendelhet vagy változtathatja meg a színét az állapotnak.
+        Az állapot gomb látható és kiemelhető a munkacsomag táblázatban.
   reportings:
     index:
       no_results_title_text: Jelenleg nincsenek állapot jelentések.
@@ -178,13 +178,15 @@ hu:
       form_configuration: Űrlap konfiguráció
       projects: Projektek
       enabled_projects: Engedélyezett projektek
-      add_group: Add attribute group
-      add_subelements: Add subelements group
-      edit_query: Edit embedded query
+      add_group: Tulajdonságcsoport
+      add_subelements: Alelem csoport hozzáadása
+      edit_query: Beágyazott lekérdezés szerkesztése
       reset: Alapbeállítások visszaállítása
-      type_color_text: |
-        Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts.
+      type_color_text: 'Kattintson az adott típus színének hozzárendeléséhez vagy
+        megváltoztatásához. A kiválasztott szín különbözteti meg a munkacsomagokat
+        a Gantt-diagramokban.
+
+'
   versions:
     overview:
       no_results_title_text: Jelenleg nincsenek ehhez a verzióhoz hozzárendelt munkacsomagok.
@@ -197,11 +199,11 @@ hu:
       no_results_title_text: Jelenleg nincsenek munkafolyamatok.
   work_packages:
     x_descendants:
-      one: One descendant work package
-      other: "%{count} work package descendants"
+      one: Egy leszármazott munkacsomag
+      other: "%{count} munkacsomag leszármazottai"
     move:
-      no_common_statuses_exists: There is no status available for all selected work
-        packages. Their status cannot be changed.
+      no_common_statuses_exists: Az összes kiválasztott munkacsomaghoz nincs elérhető
+        állapot. Státuszuk nem változtatható meg.
       unsupported_for_multiple_projects: Tömeges mozgatás/másolás nem támogatott a
         különböző projektekből származó munkacsomagokhoz
     list_simple:
@@ -210,8 +212,7 @@ hu:
       reported:
         no_results_title_text: Nincs általam beszámolt munkacsomag.
       responsible:
-        no_results_title_text: There are currently no work packages that I am accountable
-          for.
+        no_results_title_text: Nincs munkacsomag, amelyért én vagyok a felelős.
       watched:
         no_results_title_text: Nincs általam megfigyelt munkacsomag.
     summary:
@@ -263,10 +264,10 @@ hu:
           nem tud bejelentkezni a jelenlegi hozzáférésével. Ha úgy dönt, hogy a felhasználó
           az alkalmazást újra hasznáhatja, akkor azt újra megteheti.
       login_verification:
-        other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be asked to confirm your password.
-        self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be asked to confirm your password.
+        other: Adja meg a felhasználó nevet %{name}, hogy megerősítse a törlést. Amikor
+          elküldi, meg kell erősíteni a jelszavát.
+        self: Adja meg a felhasználó nevét %{name}, hogy megerősítse a törlést. Amikor
+          elküldi, meg kell erősíteni a jelszavát.
     error_inactive_activation_by_mail: 'A felhasználói hozzáférésed még nem aktív.
       Felhasználói fiókjának aktiválásához kattintson az e-mailben kapott linkre.
 
@@ -374,8 +375,8 @@ hu:
         type: Típus
       type:
         attribute_groups: ''
-        is_in_roadmap: Displayed in roadmap by default
-        is_default: Activated for new projects by default
+        is_in_roadmap: Alapértelmezés szerint az ütemterv jelenik meg
+        is_default: Alapértelmezetten aktiválva az új projekteknél
         is_milestone: Mérföldkő
         color: Szín
       user:
@@ -398,7 +399,7 @@ hu:
         warn_on_leaving_unsaved: Figyelmeztess, ha úgy hagyom el a munkacsomagot,
           hogy nem mentett változások vannak rajta
       version:
-        effective_date: Finish date
+        effective_date: Befejezési dátum
         sharing: Megosztás
       wiki_content:
         text: Szöveg
@@ -410,7 +411,7 @@ hu:
       work_package:
         begin_insertion: Beillesztés kezdete
         begin_deletion: Törlés kezdete
-        children: Subelements
+        children: Alelemek
         done_ratio: Folyamat állapot (%)
         end_insertion: Beillesztés vége
         end_deletion: Törlés vége
@@ -457,7 +458,7 @@ hu:
         not_a_date: nem érvényes dátum.
         not_a_datetime: ez nem érvényes dátum.
         not_a_number: ez nem egy szám.
-        not_allowed: is invalid because of missing permissions.
+        not_allowed: hiányzó engedélyek miatt érvénytelen.
         not_an_integer: ez nem egy szám.
         not_an_iso_date: nem érvényes dátum. A szükséges formátum ÉÉÉÉ-HH-NN.
         not_same_project: nem azonos projekthez tartozik.
@@ -468,7 +469,7 @@ hu:
         taken: már foglalt.
         too_long: túl hosszú (nem lehet több %{count} karakternél).
         too_short: túl rövid (legalább %{count} karakter kell legyen).
-        unchangeable: cannot be changed.
+        unchangeable: nem módosítható.
         wrong_length: nem megfelelő hosszúságú (%{count} karakter szükséges).
       models:
         custom_field:
@@ -477,8 +478,7 @@ hu:
           only_one_allowed: "(%{name}) csak egy érték megengedett."
           empty: "(%{name}) az érték nem lehet üres."
           inclusion: "(%{name}) érték nincs beállítva az engedélyezett értékek egyikére."
-          not_logged_in: "(%{name}) value cannot be set because you are not logged
-            in."
+          not_logged_in: "(%{name}) érték nem állítható be, mert nincs bejelentkezve."
           not_an_integer: "(%{name}) nem egész szám."
           smaller_than_or_equal_to: "(%{name}) kisebb vagy egyenlő, mint %{count}."
           greater_than_or_equal_to: "(%{name}) nagyobbnak vagy egyenlőnek kell lennie
@@ -500,7 +500,8 @@ hu:
             project:
               error_not_found: nem található
             public:
-              error_unauthorized: "- The user has no permission to create public views."
+              error_unauthorized: "- A felhasználó nem jogosult nyilvános nézeteket
+                létrehozni."
           group_by_hierarchies_exclusive: kölcsönösen kizárja a csoportot a '%{group_by}'
             csoporttal. Nem aktiválhatja mindkettőt.
           filters:
@@ -541,11 +542,11 @@ hu:
             status_id:
               status_transition_invalid: érvénytelen, mert nincs érvényes átmenet
                 a régi és új felhasználói szerepkör állapota között.
-              status_invalid_in_type: is invalid because the current status does not
-                exist in this type.
+              status_invalid_in_type: érvénytelen, mert az aktuális állapot nem létezik
+                ebben a típusban.
             type:
-              cannot_be_milestone_due_to_children: cannot be a milestone because this
-                work package has children.
+              cannot_be_milestone_due_to_children: nem lehet mérföldkő, mert ez a
+                munkacsomag gyermekekkel rendelkezik.
             priority_id:
               only_active_priorities_allowed: aktívnak kell lenni.
             category:
@@ -558,9 +559,9 @@ hu:
           attributes:
             attribute_groups:
               attribute_unknown: Érvénytelen munkacsomag attribútumot használt.
-              duplicate_group: The group name '%{group}' is used more than once. Group
-                names must be unique.
-              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              duplicate_group: A %{group} név már használatban van. A csoport névnek
+                egyedinek kell lennie.
+              query_invalid: 'A beágyazott lekérdezés ''%{group}'' érvénytelen: %{details}'
               group_without_name: Névtelen csoport nem engedélyezett.
         user:
           attributes:
@@ -644,7 +645,7 @@ hu:
     default_columns: Alapértelmezett oszlopok
     description: Leírás
     display_sums: Megjelenitendő összegek
-    due_date: Finish date
+    due_date: Befejezési dátum
     estimated_hours: Becsült idő (óra)
     estimated_time: Becsült idő (óra)
     firstname: Keresztnév
@@ -663,7 +664,7 @@ hu:
     password: Jelszó
     priority: Fontosság
     project: Projekt
-    responsible: Accountable
+    responsible: Felelős
     role: Szerepkör
     roles: Szerepkörök
     start_date: Indulási dátum
@@ -972,8 +973,8 @@ hu:
   enumeration_system_activity: Rendszer tevékenység
   enumeration_reported_project_statuses: Projekt állapot beszámoló
   error_auth_source_sso_failed: Single Sign-On (SSO) a '%{value}' felhasználóval sikertelen
-  error_can_not_archive_project: 'This project cannot be archived: There is at least
-    one work package assigned to a version defined in this project.'
+  error_can_not_archive_project: 'Ez a projekt nem archiválható: Legalább egy munkacsomag
+    van hozzárendelve a projektben definiált változathoz.'
   error_can_not_delete_entry: Bejegyzését nem lehet törölni
   error_can_not_delete_custom_field: Nem törölhető az egyéni mező
   error_can_not_delete_type: Ez a típus munkcsomagot  tartalmaz, és nem lehet törölni.
@@ -992,17 +993,17 @@ hu:
   error_enterprise_activation_user_limit: Fiókját nem lehet aktiválni (elérte a felhasználói
     korlátot). Kérjük, lépjen kapcsolatba rendszergazdájával a hozzáféréshez.
   error_failed_to_delete_entry: Nem sikerült törölni ezt a bejegyzést.
-  error_invalid_selected_value: Invalid selected value.
+  error_invalid_selected_value: Kijelölt érték érvénytelen.
   error_invalid_group_by: 'Nem csoportosítható e szerint: %{value}'
   error_invalid_query_column: 'Érvénytelen lekérdezési oszlop: %{value}'
   error_invalid_sort_criterion: 'Nem lehet rendezni ezen oszlop szerint: %{value}'
-  error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
+  error_journal_attribute_not_present: A lap nem tartalmaz attribútumot %{attribute}.
   error_pdf_export_too_many_columns: Túl sok oszlop lett kiválasztva a PDF exportáláshoz.
     Kérlek csökkentsd a sorok számát.
   error_pdf_failed_to_export: 'A PDF-Exportálás mentése nem sikerült: %{error}'
-  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
-    you try to submit data on multiple browsers or tabs? Please close all tabs and
-    try again.
+  error_token_authenticity: Nem sikerült ellenőrizni a Cross-Site Request Forgery
+    token-t. Megpróbált adatokat küldeni több böngészőn vagy lapon keresztül? Kérjük,
+    zárja be az összes lapot, és próbálkozzon újra.
   error_work_package_done_ratios_not_updated: A munkacsomag a megtett arányokat nem
     frissítette.
   error_work_package_not_found_in_project: A munkacsomag nem található, vagy nem tartozik
@@ -1078,7 +1079,7 @@ hu:
   homescreen:
     additional:
       projects: Legújabb projektek ebben az esetben.
-      no_visible_projects: There are no visible projects in this instance.
+      no_visible_projects: Ebben a példányban nincsenek látható projektek.
       users: Legújabb regisztrált felhasználók ebben az esetben.
     blocks:
       community: OpenProject Közösség
@@ -1144,7 +1145,7 @@ hu:
   label_all: mind
   label_all_time: minden alkalommal
   label_all_words: Minden szó
-  label_all_open_wps: All open
+  label_all_open_wps: Nyitottak
   label_always_visible: Mindig látható
   label_announcement: Hirdetmény
   label_and_its_subprojects: "%{value} és az alprojektjei"
@@ -1209,7 +1210,7 @@ hu:
   label_close_versions: Lezárja a befejezett változatokat
   label_closed_work_packages: Lezárva
   label_collapse: Collapse
-  label_collapsed_click_to_show: Collapsed. Click to show
+  label_collapsed_click_to_show: Összecsukot. Kattintson a megjelenítéshez
   label_configuration: Konfiguráció
   label_comment_add: Vélemény hozzáadása
   label_comment_added: Vélemény hozzáadása
@@ -1282,7 +1283,7 @@ hu:
   label_equals: van
   label_example: Példa
   label_export_to: 'Is elérhető:'
-  label_expanded_click_to_collapse: Expanded. Click to collapse
+  label_expanded_click_to_collapse: Kinyitva. Kattintson az összecsukáshoz
   label_f_hour: "%{value} óra"
   label_f_hour_plural: "%{value} óra"
   label_feed_plural: Hírek
@@ -1309,13 +1310,13 @@ hu:
   label_group_by: Csoportosítás a következők szerint
   label_group_new: Új csoport
   label_group: Csoport
-  label_group_named: Group %{name}
+  label_group_named: Csoport %{name}
   label_group_plural: Csoportok
   label_help: Segítség
   label_here: itt
   label_hide: Elrejt
   label_history: Előzmény
-  label_hierarchy_leaf: Hierarchy leaf
+  label_hierarchy_leaf: Hierarchia szint
   label_home: Home
   label_in: in
   label_in_less_than: kevesebb, mint
@@ -1329,7 +1330,7 @@ hu:
   label_information_plural: Információk
   label_integer: Egész szám
   label_internal: Belső
-  label_introduction_video: Introduction video
+  label_introduction_video: Bemutató videó
   label_invite_user: Felhasználó meghívása
   label_show_hide: Megjelenítés/Elrejtés
   label_show_all_registered_users: Minden regisztrált felhasználó megjelenítése
@@ -1406,7 +1407,7 @@ hu:
   label_next_week: A jövő héten
   label_no_change_option: "(Nincs változás)"
   label_no_data: Nincs megjelenítendő adat
-  label_no_parent_page: No parent page
+  label_no_parent_page: Nincs szülő oldal
   label_nothing_display: Nincs megjeleníthető
   label_nobody: senki sem
   label_none: Nincs
@@ -1418,14 +1419,14 @@ hu:
   label_open_menu: Menü megnyitása
   label_open_work_packages: nyitott
   label_open_work_packages_plural: nyitott
-  label_openproject_website: OpenProject website
+  label_openproject_website: OpenProject honlap
   label_optional_description: Leírás
   label_options: Beállítások
   label_other: Egyéb
   label_overall_activity: Általános tevékenység
   label_overall_spent_time: Teljes eltöltött idő
   label_overview: Áttekintő
-  label_page_title: Page title
+  label_page_title: Oldalcím
   label_part_of: része
   label_password_lost: Elfelejtetted a jelszavad?
   label_password_rule_lowercase: Kisbetűk
@@ -1497,7 +1498,7 @@ hu:
   label_repository_plural: Csomagtárolók
   label_required: kötelező
   label_requires: igényel
-  label_responsible_for_work_packages: Work packages I am accountable for
+  label_responsible_for_work_packages: Munkacsomagok, amelyért én vagyok a felelős
   label_result_plural: Eredmények
   label_reverse_chronological_order: Fordított időrendi sorrendben
   label_revision: Felülvizsgálat
@@ -1546,7 +1547,7 @@ hu:
   label_summary: Összegzés
   label_system: Rendszer
   label_system_storage: Tároló információ
-  label_table_of_contents: Table of contents
+  label_table_of_contents: Tartalomjegyzék
   label_tag: Cimke
   label_text: Hosszú szöveg
   label_this_month: Ebben a hónapban
@@ -1570,7 +1571,7 @@ hu:
   label_used_by_types: Használt típusok szerint
   label_used_in_projects: Használt projektek szerint
   label_user: Felhasználó
-  label_user_named: User %{name}
+  label_user_named: 'Felhasználó: %{name}'
   label_user_activity: "%{value} tevékenység"
   label_user_anonymous: Anonymous
   label_user_mail_option_all: Minden saját projektet érintő esetben
@@ -1591,7 +1592,7 @@ hu:
   label_version_sharing_none: Nem megosztott
   label_version_sharing_system: Az összes projekt
   label_version_sharing_tree: A projekt fában
-  label_videos: Videos
+  label_videos: Videók
   label_view_all_revisions: Az összes módosítás megtekintése
   label_view_diff: A különbségek megtekintése
   label_view_revisions: A változtatások megtekintése
@@ -1636,8 +1637,8 @@ hu:
     megtekintése
   label_work_package_view_all_reported_by_me: Az összes magamhoz rendelt munkacsomag
     módosításainak listája
-  label_work_package_view_all_responsible_for: View all work packages that I am accountable
-    for
+  label_work_package_view_all_responsible_for: Az összes munkacsomag megtekintése,
+    amelyért én vagyok a felelős
   label_work_package_view_all_watched: Az összes megfigyelt munkacsomag megtekintése
   label_work_package_watchers: Megfigyelők
   label_workflow: Munkafolyamat
@@ -1702,16 +1703,16 @@ hu:
   macro_execution_error: Hiba a makro %{macro_name} végrehajtásában
   macro_unavailable: A %{macro_name} makró nem jeleníthető meg.
   macros:
-    placeholder: "[Placeholder] Macro %{macro_name}"
+    placeholder: "[Placeholder] Makró %{macro_name}"
     errors:
-      missing_or_invalid_parameter: Missing or invalid macro parameter.
+      missing_or_invalid_parameter: Hiányzó vagy érvénytelen makró paraméter.
     legacy_warning:
-      timeline: This legacy timeline macro has been removed and is no longer available.
-        You can replace the functionality with an embedded table macro.
+      timeline: Ez az örökölt idővonal makró eltávolításra került, és már nem áll
+        rendelkezésre. A funkcionalitást beágyazott táblázat makróval helyettesítheti.
     include_wiki_page:
       errors:
-        page_not_found: Cannot find the wiki page '%{name}'.
-        circular_inclusion: Circular inclusion of pages detected.
+        page_not_found: Nem található a wiki oldal "%{name}".
+        circular_inclusion: A talált oldalak körkörös bevonása.
     create_work_package_link:
       errors:
         no_project_context: A create_work_package_link makró hívása külső projektek
@@ -1869,7 +1870,7 @@ hu:
       csapatmunkáról az OpenProjecttel.
     text_show_again: Újra tudod indítani ezt a videót a segítség menüből
     welcome: Üdvözöl az OpenProject
-    select_language: Please select your language for OpenProject
+    select_language: Kérjük, válassza ki az OpenProject nyelvét
   permission_add_work_package_notes: Megjegyzések hozzáadása
   permission_add_work_packages: Munkacsomag hozzáadása
   permission_add_messages: Elküldött üzenetek
@@ -1911,7 +1912,7 @@ hu:
   permission_manage_members: Tagok kezelése
   permission_manage_news: Hírek kezelése
   permission_manage_project_activities: Projekt tevékenységek kezelése
-  permission_manage_public_queries: Manage public views
+  permission_manage_public_queries: Nyilvános nézetek kezelése
   permission_manage_repository: Csomagtároló kezelése
   permission_manage_subtasks: Altevékenységek kezelése
   permission_manage_versions: Verziók kezelése
