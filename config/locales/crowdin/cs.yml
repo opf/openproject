@@ -1115,7 +1115,7 @@ cs:
       upsale:
         become_hero: Staň se hrdinou!
         title: Upgrade to Enterprise Edition
-        description: Boost your productivity with the Enterprise Edition
+        description: What are the benefits?
         more_info: Více informací
         additional_features: Additional powerful premium features
         professional_support: Professional support from the OpenProject experts
@@ -2732,7 +2732,7 @@ cs:
       code_401_wrong_credentials: Neposkytli jste správné přihlašovací údaje.
       code_403: Nemáte oprávnění k přístupu k tomuto zdroji.
       code_404: Požadovaný zdroj nebyl nalezen.
-      code_409: Couldn't update the resource because of conflicting modifications.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: Došlo k vnitřní chybě.
       expected:
         date: RRRR-MM-DD (pouze ISO 8601 datum)

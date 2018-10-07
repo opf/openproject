@@ -28,14 +28,13 @@
 
 $widget-box--enumeration-width: 20px
 
-.widget-boxes--screen-header
-  margin-left: 10px
-
 .widget-boxes
 
   &.-flex
     display: flex
     flex-flow: row wrap
+    // cancel the margin of the outer elements to align with the rest of the page
+    margin: 0 -10px
 
     .widget-box
       flex: 1
@@ -67,8 +66,10 @@ $widget-box--enumeration-width: 20px
     word-wrap: break-word
     overflow: hidden
 
-    &.-small
+    &.-thin
       min-height: 100px
+    &.-wider
+      flex-grow: 3
 
     .widget-box--header
       font-weight: bold

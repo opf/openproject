@@ -5,8 +5,8 @@ hu:
       hide: Elrejt
       loading: Betöltés folyamatban… ...
     attachments:
-      draggable_hint: 'Drag on editor field to inline image or reference attachment.
-        Closed editor fields will be opened while you keep dragging.
+      draggable_hint: 'Húzza át a szerkesztőmezőt a beillesztett képre vagy hivatkozási
+        mellékletre. Zárt szerkesztőmezők nyílnak meg, amíg húzza.
 
 '
     autocomplete_select:
@@ -68,31 +68,31 @@ hu:
       macro:
         child_pages:
           button: Gyermek kapcsolatok
-          include_parent: Include parent
-          text: "[Placeholder] Links to child pages of"
+          include_parent: Tartalmazza a szülőt
+          text: "[Placeholder] Linkek a gyermek oldalra"
           page: Wiki oldal
-          this_page: this page
-          hint: 'Leave this field empty to list all child pages of the current page.
-            If you want to reference a different page, provide its title or slug.
+          this_page: ez az oldal
+          hint: 'Hagyja üresen ezt a mezőt az aktuális oldal összes gyermekoldalának
+            felsorolásához. Ha másik oldalra szeretne hivatkozni, adja meg a címét
+            vagy a csíkot.
 
 '
         code_block:
-          button: Insert code snippet
-          title: Insert / edit Code snippet
-          language: Formatting language
-          language_hint: Enter the formatting language that will be used for highlighting
-            (if supported).
+          button: Kódrészlet beszúrása
+          title: Kódrészlet beszúrás / szerkesztés
+          language: Formázási nyelvek
+          language_hint: Adja meg a kiemeléshez használt formázási nyelvet (ha támogatott).
         dropdown:
-          macros: Macros
-          chose_macro: Chose macro
-        toc: Table of contents
-        toolbar_help: Click to select widget and show the toolbar. Double-click to
-          edit widget
+          macros: Makrók
+          chose_macro: Makró választás
+        toc: Tartalomjegyzék
+        toolbar_help: Kattintson a widget kiválasztásához és az eszköztár megjelenítéséhez.
+          Kattintson duplán a widget szerkesztéséhez
         wiki_page_include:
-          button: Include content of another wiki page
-          text: "[Placeholder] Included wiki page of"
+          button: Tartalmaz egy másik wiki oldal tartalmát
+          text: "[Placeholder] tartalmazza a wiki oldalt"
           page: Wiki oldal
-          not_set: "(Page not yet set)"
+          not_set: "(Nincs beállítva oldal)"
           hint: |
             Include the content of another wiki page by specifying its title or slug.
             You can include the wiki page of another project by separating them with a colon like the following example.
@@ -409,7 +409,7 @@ hu:
       button_deactivate: Hide Gantt chart
       cancel: Mégsem
       change: A tervezés módosítása
-      due_date: Finish date
+      due_date: Befejezési dátum
       empty: "(üres)"
       error: Hiba történt.
       errors:
@@ -561,7 +561,7 @@ hu:
         createdAt: Létrehozva
         description: Leírás
         date: Dátum
-        dueDate: Finish date
+        dueDate: Befejezési dátum
         estimatedTime: Becsült idő (óra)
         spentTime: Eltöltött idő
         category: Kategória
@@ -582,7 +582,7 @@ hu:
         created_by_me: Created by me
         assigned_to_me: Assigned to me
         recently_created: Recently created
-        all_open: All open
+        all_open: Nyitottak
         summary: Összegzés
       jump_marks:
         pagination: Ugrás a táblázat lapszámozásához

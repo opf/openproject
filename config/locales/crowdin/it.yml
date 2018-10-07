@@ -1101,7 +1101,7 @@ it:
       upsale:
         become_hero: Diventa un eroe!
         title: Aggiorna ad Enterprise Edition
-        description: Incrementa la tua produttività con l'Enterprise Edition
+        description: What are the benefits?
         more_info: Altre informazioni
         additional_features: Funzionalità aggiuntive speciali
         professional_support: Assistenza professionale da parte degli esperti OpenProject
@@ -2769,7 +2769,7 @@ it:
       code_401_wrong_credentials: Non hai fornito le credenziali corrette.
       code_403: Non sei autorizzato ad accedere a questa risorsa.
       code_404: La risorsa richiesta non è stata trovata.
-      code_409: Non ho potuto aggiornare la risorsa a causa di modifiche in conflitto.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: Si è verificato un errore interno.
       expected:
         date: AAAA-MM-GG (solo date ISO 8601)

@@ -1122,7 +1122,7 @@ ru:
       upsale:
         become_hero: Станьте героем!
         title: Обновите до корпоративной версии
-        description: Повысьте эффективность работы с корпоративной версией
+        description: Каковы преимущества?
         more_info: Больше информации
         additional_features: Дополнительные мощные возможности
         professional_support: Помощь от экспертов OpenProject

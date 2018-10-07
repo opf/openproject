@@ -361,7 +361,7 @@ GEM
     netrc (0.11.0)
     newrelic_rpm (4.5.0.337)
     nio4r (2.3.0)
-    nokogiri (1.8.4)
+    nokogiri (1.8.5)
       mini_portile2 (~> 2.3.0)
     nokogumbo (1.5.0)
       nokogiri
@@ -670,7 +670,7 @@ DEPENDENCIES
   mysql2 (~> 0.5.0)
   net-ldap (~> 0.16.0)
   newrelic_rpm
-  nokogiri (~> 1.8.4)
+  nokogiri (~> 1.8.5)
   oj (~> 3.5.0)
   okcomputer (~> 1.16.0)
   omniauth!

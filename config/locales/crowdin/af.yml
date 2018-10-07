@@ -1086,7 +1086,7 @@ af:
       upsale:
         become_hero: Become a hero!
         title: Upgrade to Enterprise Edition
-        description: Boost your productivity with the Enterprise Edition
+        description: What are the benefits?
         more_info: More information
         additional_features: Additional powerful premium features
         professional_support: Professional support from the OpenProject experts
@@ -2688,7 +2688,7 @@ af:
       code_401_wrong_credentials: Jy het nie die korrekte verwysings voorsien nie.
       code_403: Jy is nie gemagtig om toegang tot hierdie hulpbron verkry nie.
       code_404: Die versoekte hulpbron kon nie gevind word nie.
-      code_409: Kon nie die hulpbron bywerk nie weens botsende modifikasies.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: An internal error has occured.
       expected:
         date: YYYY-MM-DD (ISO 8601 date only)

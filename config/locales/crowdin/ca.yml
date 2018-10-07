@@ -1095,7 +1095,7 @@ ca:
       upsale:
         become_hero: Become a hero!
         title: Upgrade to Enterprise Edition
-        description: Boost your productivity with the Enterprise Edition
+        description: What are the benefits?
         more_info: More information
         additional_features: Additional powerful premium features
         professional_support: Professional support from the OpenProject experts
@@ -2744,7 +2744,7 @@ ca:
       code_401_wrong_credentials: No heu proporcionat les credencials correctes.
       code_403: No està autoritzat a accedir a aquest recurs.
       code_404: El recurs sol·licitat no s'ha trobat.
-      code_409: No s'ha pogut actualitzar el recurs a causa de modificacions en conflicte.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: S'ha produït un error intern.
       expected:
         date: AAAA-MM-DD ( només dates ISO 8601)
