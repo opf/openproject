@@ -4,7 +4,8 @@ module OpenIDConnectSpecHelpers
     get "/auth/#{name}/callback",
         params: {
           code: 'foobar',
-          redirect_uri: "http://localhost:3000/auth/#{name}/callack"
+          redirect_uri: "http://localhost:3000/auth/#{name}/callback",
+          state: session['omniauth.state']
         }
   end
 
