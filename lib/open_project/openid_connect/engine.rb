@@ -55,7 +55,8 @@ module OpenProject::OpenIDConnect
       # If response_mode 'form_post' is chosen,
       # the IP sends a POST to the callback. Only if
       # the sameSite flag is not set on the session cookie, is the cookie send along with the request.
-      if OpenProject::Configuration.openid_connect.any? { |_, v| v['response_mode']&.to_s == 'form_post' }
+      if OpenProject::Configuration['openid_connect'] &&
+        OpenProject::Configuration['openid_connect'].any? { |_, v| v['response_mode']&.to_s == 'form_post' }
         SecureHeaders::Configuration.default.cookies[:samesite][:lax] = false
         # Need to reload the secure_headers config to
         # avoid having set defaults (e.g. https) when changing the cookie values
