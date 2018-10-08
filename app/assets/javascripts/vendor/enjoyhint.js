@@ -41,6 +41,7 @@ var EnjoyHint;
             }
 
             $body.css({'overflow':'hidden'});
+            $body.addClass('enjoyhint-tutorial');
 
             $(document).on("touchmove",lockTouch);
 
@@ -68,6 +69,7 @@ var EnjoyHint;
 
             $('.enjoyhint').remove();
             $body.css({'overflow':'auto'});
+            $body.removeClass('enjoyhint-tutorial');
             $(document).off("touchmove", lockTouch);
         };
 
@@ -95,12 +97,13 @@ var EnjoyHint;
             options.onNext();
 
             var $enjoyhint = $('.enjoyhint');
-
-            $enjoyhint.removeClass("enjoyhint-step-" + current_step);
-            $enjoyhint.removeClass("enjoyhint-step-" + (current_step + 1));
-            $enjoyhint.addClass("enjoyhint-step-" + (current_step + 1));
-
             var step_data = data[current_step];
+
+            // Remove all classes
+            $enjoyhint.removeClass();
+            $enjoyhint.addClass("enjoyhint enjoyhint-step-" + (current_step + 1));
+            if (step_data.containerClass) $enjoyhint.addClass(step_data.containerClass);
+
 
             if (step_data.onBeforeStart && typeof step_data.onBeforeStart === 'function') {
 
@@ -273,8 +276,7 @@ var EnjoyHint;
                         left: step_data.left,
                         right: step_data.right,
                         margin: step_data.margin,
-                        scroll: step_data.scroll,
-                        labelClass: step_data.labelClass
+                        scroll: step_data.scroll
                     };
 
                     if (step_data.shape && step_data.shape == 'circle') {
@@ -961,8 +963,7 @@ var EnjoyHint;
                         var label = that.getLabelElement({
                             x: x,
                             y: y,
-                            text: data.text,
-                            class: data.labelClass
+                            text: data.text
                         });
 
                         var label_w = label.width();
@@ -1071,7 +1072,7 @@ var EnjoyHint;
 
                     that.getLabelElement = function (data) {
 
-                        return $('<div>', {"class": 'enjoy_hint_label ' + data.class, id: 'enjoyhint_label'})
+                        return $('<div>', {"class": 'enjoy_hint_label', id: 'enjoyhint_label'})
                             .css({
                                 'top': data.y + 'px',
                                 'left': data.x + 'px'
@@ -1237,8 +1238,7 @@ var EnjoyHint;
                         var label = that.getLabelElement({
                             x: 0,
                             y: 0,
-                            text: data.text,
-                            class: data.labelClass
+                            text: data.text
                         });
 
                         var label_width = label.outerWidth();
@@ -1274,16 +1274,16 @@ var EnjoyHint;
                         var label_data = that.renderLabel({
                             x: label_x,
                             y: label_y,
-                            text: data.text,
-                            labelClass: data.labelClass
+                            text: data.text
                         });
 
+                        var next_btn_x = window.innerWidth / 2 -  that.$next_btn.width() / 2;
                         that.$next_btn.css({
-                            left: label_x,
+                            left: next_btn_x,
                             top: label_y + label_height + 20
                         });
 
-                        var left_skip = label_x + that.$next_btn.width() + 10;
+                        var left_skip = next_btn_x + that.$next_btn.width() + 10;
 
                         if (that.nextBtn == "hide"){
 

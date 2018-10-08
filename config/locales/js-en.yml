@@ -303,6 +303,23 @@ en:
     help_texts:
       show_modal: 'Show attribute help text entry'
 
+    onboarding:
+      steps:
+        welcome: 'Welcome to our short introduction tour to show you the important features in OpenProject. We recommend to complete the steps till the end. This will only take a few minutes.'
+        project_overview: 'This is the project’s Overview page. A dashboard with important information. You can customize it with the settings icon on the right.'
+        sidebar: 'From the project menu you can access all modules within a project or collapse it with the icon on the top.'
+        settings: 'In the Project settings you can configure your project’s modules.'
+        members: 'Invite new Members to join your project.'
+        wp_toggler: 'Here is the Work package section. Have a look and click on the arrow.'
+        wp_query: "Let's have a look at currently opened work packages. Click on the link to see them."
+        wp_list: 'This is the work package list. Double click on a work package to see its details.'
+        wp_full_view: 'Within the work package details you find all relevant information, such as description, status and priority, activities or comments.'
+        wp_back_button: 'With the arrow you can navigate back to the work package list.'
+        wp_create_button: 'The Create button will add a new work package to your project.'
+        wp_timeline_button: 'On the top, you can also activate the Gantt chart. Try it out!'
+        wp_timeline: 'Here you can create and visualize a project plan and share it with your team.'
+        help_menu: 'In the Help menu you will find a user guide and additional help resources. Enjoy your work with OpenProject!'
+
     password_confirmation:
       field_description: 'You need to enter your account password to confirm this change.'
       title: 'Confirm your password to continue'

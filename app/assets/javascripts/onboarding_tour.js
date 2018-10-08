@@ -1,90 +1,156 @@
 (function ($) {
     $(function() {
-        var tutorial_instance;
-        var onboardng_tour_steps_1 = [
-            {
-                'next #logo' : 'Welcome to our short introduction tour to show you the important features in OpenProject. We recommend to complete the steps till the end.',
-                'showSkip' : false
-            },
-            {
-                'next #content' : 'This is the project’s Overview page. A dashboard with important information. You can customize it with the settings icon on the right.',
-                'showSkip' : false,
-                'labelClass' : '-dark'
-            },
-            {
-                'next #menu-sidebar' : 'From the project menu you can access all modules within a project or collapse it with the icon on the top.',
-                'showSkip' : false
-            },
-            {
-                'next .settings-menu-item' : 'In the Project settings you can configure your project’s modules.',
-                'showSkip' : false
-            },
-            {
-                'next .members-menu-item' : 'Invite new Members to join your project.',
-                'showSkip' : false
-            },
-            {
-                'click .toggler' : 'Here is the Work package section. Have a look and click on the arrow.',
-                'showSkip' : false,
-                'shape' : 'circle'
-            },
-            {
-                'click .wp-query-menu--item-link': "Let's have a look at currently opened work packages. Click on the link to see them.",
-                'showSkip' : false,
-                'timeout' : 200
-            }
-        ];
+        var preventClickHandler = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        };
+        var localStorageKey = 'openProject-onboardingTour';
 
-        var onboardng_tour_steps_2 = [
+        var OverviewOnboardingTourSteps = [
             {
-                'click .wp-table--row' : 'Double click on a work package row or click the info icon to open the details.',
-                'showSkip' : false,
-                'timeout' : 800
+                'next #logo' : I18n.t('js.onboarding.steps.welcome'),
+                'showSkip' : false
             },
             {
-                'next .work-packages--details' : 'Within the work package details you find all relevant information, such as description, status and priority, activities or comments.',
+                'next #content' : I18n.t('js.onboarding.steps.project_overview'),
                 'showSkip' : false,
-                'labelClass' : '-dark'
+                'containerClass' : '-dark'
             },
             {
-                'next .add-work-package' : 'The Create button will add a new work package to your project.',
-                'showSkip' : false,
-                'shape' : 'circle'
+                'next #menu-sidebar' : I18n.t('js.onboarding.steps.sidebar'),
+                'showSkip' : false
             },
             {
-                'click .timeline-toolbar--button' : 'On the top, you can also activate the Gantt chart. Try it out!',
-                'showSkip' : false,
-                'shape' : 'circle'
+                'next .settings-menu-item' : I18n.t('js.onboarding.steps.settings'),
+                'showSkip' : false
             },
             {
-                'next .work-packages-tabletimeline--timeline-side' : 'Here you can create and visualize a project plan and share it with your team.',
-                'showSkip' : false,
-                'labelClass' : '-dark'
+                'next .members-menu-item' : I18n.t('js.onboarding.steps.members'),
+                'showSkip' : false
             },
             {
-                'next .menu-item--help' : 'In the Help menu you will find a user guide and additional help resources. Enjoy your work with OpenProject!',
+                'click .toggler' : I18n.t('js.onboarding.steps.wp_toggler'),
+                'showSkip' : false,
                 'shape' : 'circle',
-                "nextButton" : {className: "myNext", text: "Got it"},
+                'radius' : 20,
+                onBeforeStart: function () {
+                    $('.enjoyhint').toggleClass('-clickable', true);
+                }
+            },
+            {
+                "click .wp-query-menu--item[data-category='default']": I18n.t('js.onboarding.steps.wp_query'),
+                'showSkip' : false,
+                'timeout' : 200,
+                'margin' : 0,
+                onBeforeStart: function () {
+                    $('.enjoyhint').toggleClass('-clickable', true);
+                }
+            }
+        ];
+
+        var WpOnboardingTourSteps = [
+            {
+                'custom .wp-table--row' : I18n.t('js.onboarding.steps.wp_list'),
+                'showSkip' : false,
+                'margin' : 5,
+                onBeforeStart: function(){
+                    $('.enjoyhint').toggleClass('-clickable', true);
+                    // Handle next step
+                    $('.wp-table--row').dblclick(function() {
+                        tutorialInstance.trigger('next');
+                    });
+                    $('.wp-table--cell-td.id a').click(function() {
+                        tutorialInstance.trigger('next');
+                    });
+
+                    // Disable clicks on the wp context menu links
+                    $('.wp-table--details-link, .wp-table-context-menu-link').addClass('-disabled').bind('click', preventClickHandler);
+                }
+            },
+            {
+                'next .work-packages-full-view--split-left' : I18n.t('js.onboarding.steps.wp_full_view'),
+                'showSkip' : false,
+                'containerClass' : '-dark'
+            },
+            {
+                'click .work-packages-list-view-button' : I18n.t('js.onboarding.steps.wp_back_button'),
+                'showSkip' : false,
+                onBeforeStart: function () {
+                    $('.enjoyhint').toggleClass('-clickable', true);
+                }
+            },
+            {
+                'next .add-work-package' : I18n.t('js.onboarding.steps.wp_create_button'),
+                'showSkip' : false,
+                'shape' : 'circle'
+            },
+            {
+                'click .timeline-toolbar--button' : I18n.t('js.onboarding.steps.wp_timeline_button'),
+                'showSkip' : false,
+                'shape' : 'circle',
+                onBeforeStart: function () {
+                    $('.enjoyhint').toggleClass('-clickable', true);
+                }
+            },
+            {
+                'next .work-packages-tabletimeline--timeline-side' : I18n.t('js.onboarding.steps.wp_timeline'),
+                'showSkip' : false,
+                'containerClass' : '-dark'
+            },
+            {
+                'next .menu-item--help' : I18n.t('js.onboarding.steps.help_menu'),
+                'shape' : 'circle',
+                "nextButton" : {text: "Got it"},
                 'showSkip' : false
             }
         ];
 
 
-        $('#onboarding_tour_enjoyhint').click(function () {
-            tutorial_instance = new EnjoyHint();
-            tutorial_instance.set(onboardng_tour_steps_1);
-            startOnboardingTutorial();
-        });
+        // ------------------------------- Tutorial Overview page -------------------------------
 
-        if (top.location.pathname === '/projects/project-with-no-members/work_packages')
-        {
-            tutorial_instance = new EnjoyHint();
-            tutorial_instance.set(onboardng_tour_steps_2);
-            startOnboardingTutorial();
-        }
+        if (window.OpenProject.guardedLocalStorage("openProject-onboardingTour") === "homescreenFinished") {
+            var tutorialInstance = new EnjoyHint({
+                onEnd: function () {
+                    window.OpenProject.guardedLocalStorage(localStorageKey, 'overviewFinished');
+                },
+                onSkip: function () {
+                    window.OpenProject.guardedLocalStorage(localStorageKey, 'skipped');
+                }
+            });
 
-        function startOnboardingTutorial() {
-            tutorial_instance.run();
+            tutorialInstance.set(OverviewOnboardingTourSteps);
+            tutorialInstance.run();
+        };
+
+
+        // ------------------------------- Tutorial WP page -------------------------------
+
+        if (window.OpenProject.guardedLocalStorage("openProject-onboardingTour") === "overviewFinished") {
+            var tutorialInstance = new EnjoyHint({
+                onEnd: function () {
+                    window.OpenProject.guardedLocalStorage(localStorageKey, 'wpFinished');
+                },
+                onSkip: function () {
+                    window.OpenProject.guardedLocalStorage(localStorageKey, 'skipped');
+                    $('.wp-table--details-link, .wp-table-context-menu-link').removeClass('-disabled').unbind('click', preventClickHandler);
+                }
+            });
+
+            // Wait for the WP table to be ready
+            var observer = new MutationObserver(function (mutations, observerInstance) {
+                if ($('.work-package--results-tbody')) {
+                    observerInstance.disconnect(); // stop observing
+
+                    tutorialInstance.set(WpOnboardingTourSteps);
+                    tutorialInstance.run();
+                    return;
+                }
+            });
+            observer.observe($('.work-packages-split-view--tabletimeline-side')[0], {
+                childList: true,
+                subtree: true
+            });
+
         }
     });
 }(jQuery));
