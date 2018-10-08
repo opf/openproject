@@ -134,7 +134,7 @@ module API
           }
         end
 
-        link :available_relation_candidates do
+        link :availableRelationCandidates do
           next if represented.new_record?
 
           {
