@@ -95,32 +95,6 @@ Feature: Edit story on backlogs view
     And I am already logged in as "mathias"
 
   @javascript
-  Scenario: Create a new story in the backlog
-    Given I am on the master backlog
-     When I open the "Product Backlog" backlogs menu
-      And I follow "New Story" of the "Product Backlog" backlogs menu
-      And I close the "Product Backlog" backlogs menu
-      And I fill in "Alice in Wonderland" for "subject"
-      And I confirm the story form
-     Then the 1st story in the "Product Backlog" should be "Alice in Wonderland"
-      And the 1st story in the "Product Backlog" should have the ID of "Alice in Wonderland"
-      And I should see 5 stories in "Product Backlog"
-
-  @javascript
-  Scenario: Create a new story in a sprint
-    Given I am on the master backlog
-     When I open the "Sprint 001" backlogs menu
-      And I follow "New Story" of the "Sprint 001" backlogs menu
-      And I close the "Sprint 001" backlogs menu
-      And I fill in "The Wizard of Oz" for "subject"
-      And I fill in "3" for "story_points"
-      And I confirm the story form
-     Then the 1st story in the "Sprint 001" should be "The Wizard of Oz"
-      And the 1st story in the "Sprint 001" should have the ID of "The Wizard of Oz"
-      And I should see 3 stories in "Sprint 001"
-      And the velocity of "Sprint 001" should be "33"
-
-  @javascript
   Scenario: Edit story in the backlog
     Given I am on the master backlog
      When I click on the text "Story 2"
@@ -139,23 +113,3 @@ Feature: Edit story on backlogs view
      Then the 1st story in the "Sprint 001" should be "Story A revisited"
       And I should see 2 stories in "Sprint 001"
       And the velocity of "Sprint 001" should be "31"
-
-  @javascript
-  Scenario: Setting types of a story
-    Given I am on the master backlog
-     When I open the "Sprint 001" backlogs menu
-      And I follow "New Story" of the "Sprint 001" backlogs menu
-      And I close the "Sprint 001" backlogs menu
-      And I fill in "The Wizard of Oz" for "subject"
-      And I select "Bug" from "type_id"
-      And I confirm the story form
-     Then the 1st story in "Sprint 001" should be "The Wizard of Oz"
-      And the 1st story in "Sprint 001" should be in the "Bug" type
-
-  @javascript
-  Scenario: Hiding types, that are not active in the project
-    Given I am on the master backlog
-     When I open the "Sprint 001" backlogs menu
-      And I follow "New Story" of the "Sprint 001" backlogs menu
-      And I close the "Sprint 001" backlogs menu
-     Then I should not see "Epic" within_hidden ".type_id.helper"
