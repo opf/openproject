@@ -104,11 +104,7 @@ See docs/COPYRIGHT.rdoc for more details.
     /** Toggle highlighted attributes visibility depending on if the highlighting mode 'inline' was selected*/
     $('.settings--highlighting-mode select').change(function() {
       var highlightingMode = $(this).val();
-      if (highlightingMode === "inline") {
-        $(".settings--highlighted-attributes").show();
-      } else {
-        $(".settings--highlighted-attributes").hide();
-      }
+      $(".settings--highlighted-attributes").toggle(highlightingMode === "inline")
     })
 
     /** Initialize hightlighted attributes checkboxes. If none is selected, it means we want them all. So let's
