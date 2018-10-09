@@ -229,6 +229,7 @@ user_format:
   format: symbol
 cross_project_work_package_relations:
   default: 1
+  format: boolean
 work_package_group_assignment:
   default: 1
 notified_events:
