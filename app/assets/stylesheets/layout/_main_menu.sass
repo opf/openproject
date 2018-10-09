@@ -39,30 +39,33 @@ $menu-item-line-height: 30px
   border-right-style: solid
   @include varprop(border-right-width, main-menu-border-width)
   @include varprop(border-right-color, main-menu-border-color)
-
-  // min-height is full height minus header and footer.
-  min-height: calc(100vh - 55px)
-
   @include varprop(background-color, main-menu-bg-color)
+  // min-height is full height minus header and footer.
+  min-height: calc(100vh - #{$header-height})
 
   #menu-sidebar
-    height: 100%
-    overflow: auto
-
-  %absolute-layout-mode &
+    +allow-vertical-scrolling
+    -ms-overflow-style: -ms-autohiding-scrollbar
+    height: calc(100vh - #{$header-height})
     position: relative
+    @include styled-scroll-bar
 
     // Fixed heights to allow inner scrolling
     .menu_root.closed,
     .menu_root > li.open,
-    .main-menu--children > li.partial,
     wp-query-select,
     .wp-query-menu--container,
-    .wp-query-menu--search-container
+    .wp-query-menu--search-container,
+    .main-menu--children > li.partial:only-child
       height: 100%
 
+    .main-menu--children > li.partial
+      height: initial
+
     .main-menu--children
-      height: calc(100% - (#{$main-menu-item-height} + 20px))
+      height: calc(100% - (#{$main-menu-item-height} + 10px)) // 10px spacing
+      overflow: auto
+      @include styled-scroll-bar
 
   ul
     margin: 0
@@ -314,9 +317,6 @@ a.main-menu--parent-node
   &.-hidden
     display: none
 
-  %absolute-layout-mode &
-    display: none
-
 .menu-wiki-pages-tree
   height: 100%
   overflow: auto
@@ -347,8 +347,6 @@ a.main-menu--parent-node
   vertical-align: middle
   z-index: 1
   cursor: col-resize
-  %absolute-layout-mode &
-    z-index: 100
   &:hover
     @include varprop(border-left-color, main-menu-resizer-color)
     .main-menu--navigation-toggler
@@ -395,8 +393,6 @@ a.main-menu--parent-node
     i:before
       padding-left: 0
       @include icon-mixin-arrow-left2
-  %absolute-layout-mode &
-    z-index: 100
 
 #main-menu ul ul.main-menu--children ul.pages-hierarchy
   .tree-menu--hierarchy-indicator
