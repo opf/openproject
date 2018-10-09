@@ -3,10 +3,7 @@ import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-por
 import {WorkPackageTableHighlightingService} from 'core-components/wp-fast-table/state/wp-table-highlighting.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
-import {
-  MultiToggledSelectComponent,
-  MultiToggledSelectOption
-} from "core-app/modules/common/multi-toggled-select/multi-toggled-select.component";
+import {MultiToggledSelectOption} from "core-app/modules/common/multi-toggled-select/multi-toggled-select.component";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {States} from "core-app/components/states.service";
 import {WorkPackageTableHighlight} from "core-components/wp-fast-table/wp-table-highlight";
@@ -51,17 +48,28 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
 
   public onSave() {
     let mode = this.highlightingMode;
-    let highlightedAttributes:HalResource[] = [];
-
-    if (this.selectedAttributes.length === 1 &&_.get(this.selectedAttributes[0], 'value') === 'all') {
-      highlightedAttributes = [];
-    } else {
-      highlightedAttributes = this.selectedAttributes
-        .map(el => _.find(this.availableHighlightedAttributes, (column) => column.href === el.value)!);
-    }
+    let highlightedAttributes:HalResource[] = this.selectedAttributesAsHal();
 
     const newValue = new WorkPackageTableHighlight(mode, highlightedAttributes);
     this.wpTableHighlight.update(newValue);
+  }
+
+  private selectedAttributesAsHal() {
+    if (this.isAllOptionSelected()) {
+      return [];
+    } else {
+      return this.multiToggleValuesToHal(this.selectedAttributes);
+    }
+  }
+
+  private multiToggleValuesToHal(values:MultiToggledSelectOption[]) {
+    return values.map(el => {
+      return _.find(this.availableHighlightedAttributes, (column) => column.href === el.value)!;
+    });
+  }
+
+  private isAllOptionSelected() {
+    return this.selectedAttributes.length === 1 && _.get(this.selectedAttributes[0], 'value') === 'all';
   }
 
   public updateMode(mode:HighlightingMode|'entire-row') {
@@ -87,19 +95,22 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
     this.availableMappedHighlightedAttributes =
       [this.allAttributesOption].concat(this.getAvailableAttributes());
 
-    /** Either, selectedAttributes already exist, then map them to multi value options **/
-    const currentValues = this.wpTableHighlight.current.selectedAttributes;
-    if (currentValues === undefined) {
-      this.selectedAttributes = [this.allAttributesOption];
-    } else {
-      this.selectedAttributes = this.mapAttributes(currentValues);
-    }
+    this.setSelectedValues();
 
     this.eeShowBanners = jQuery('body').hasClass('ee-banners-visible');
     this.updateMode(this.wpTableHighlight.current.mode);
 
     if (this.eeShowBanners) {
       this.updateMode('none');
+    }
+  }
+
+  private setSelectedValues() {
+    const currentValues = this.wpTableHighlight.current.selectedAttributes;
+    if (currentValues === undefined) {
+      this.selectedAttributes = [this.allAttributesOption];
+    } else {
+      this.selectedAttributes = this.mapAttributes(currentValues);
     }
   }
 
