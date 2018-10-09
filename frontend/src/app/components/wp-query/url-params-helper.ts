@@ -63,36 +63,54 @@ export class UrlParamsHelperService {
   }
 
   public encodeQueryJsonParams(query:QueryResource, additional:any = {}) {
-    var paramsData:any = {
-      c: query.columns.map(function (column) {
-        return column.id;
-      })
-    };
+    let paramsData:any = {};
+
+    paramsData = this.encodeColumns(paramsData, query);
+    paramsData = this.encodeSums(paramsData, query);
+    paramsData = this.encodeTimelineVisible(paramsData, query);
+    paramsData = this.encodeHighlightingMode(paramsData, query);
+    paramsData = this.encodeHighlightedAttributes(paramsData, query);
+    paramsData.hi = !!query.showHierarchies;
+    paramsData.g = _.get(query.groupBy, 'id', '');
+    paramsData = this.encodeSortBy(paramsData, query);
+    paramsData = this.encodeFilters(paramsData, query);
+    paramsData.pa = additional.page;
+    paramsData.pp = additional.perPage;
+
+    return JSON.stringify(paramsData);
+  }
+
+  private encodeColumns(paramsData:any, query:QueryResource) {
+    paramsData.c = query.columns.map(function (column) {
+      return column.id;
+    })
+    return paramsData;
+  }
+
+  private encodeSums(paramsData:any, query:QueryResource) {
     if (!!query.sums) {
       paramsData.s = query.sums;
     }
+    return paramsData;
+  }
 
-    if (!!query.timelineVisible) {
-      paramsData.tv = query.timelineVisible;
-
-      if (!_.isEmpty(query.timelineLabels)) {
-        paramsData.tll = JSON.stringify(query.timelineLabels);
-      }
-
-      paramsData.tzl = query.timelineZoomLevel;
-    }
-
+  private encodeHighlightingMode(paramsData:any, query:QueryResource) {
     if (query.highlightingMode && query.highlightingMode !== 'inline') {
       paramsData.hl = query.highlightingMode;
     }
+    return paramsData;
+  }
+
+  private encodeHighlightedAttributes(paramsData:any, query:QueryResource) {
     if (query.highlightingMode === 'inline') {
       if (Array.isArray(query.highlightedAttributes) && query.highlightedAttributes.length > 0) {
         paramsData.hla = query.highlightedAttributes.map(el => el.id);
       }
     }
+    return paramsData;
+  }
 
-    paramsData.hi = !!query.showHierarchies;
-    paramsData.g = _.get(query.groupBy, 'id', '');
+  private encodeSortBy(paramsData:any, query:QueryResource) {
     if (query.sortBy) {
       paramsData.t = query
         .sortBy
@@ -101,6 +119,10 @@ export class UrlParamsHelperService {
         })
         .join();
     }
+    return paramsData;
+  }
+
+  private encodeFilters(paramsData:any, query:QueryResource) {
     if (query.filters && query.filters.length) {
       paramsData.f = query
         .filters
@@ -118,12 +140,27 @@ export class UrlParamsHelperService {
     } else {
       paramsData.f = [];
     }
-
-    paramsData.pa = additional.page;
-    paramsData.pp = additional.perPage;
-
-    return JSON.stringify(paramsData);
+    return paramsData;
   }
+
+  private encode(paramsData:any, query:QueryResource) {
+
+    return paramsData;
+  }
+
+  private encodeTimelineVisible(paramsData:any, query:QueryResource) {
+    if (!!query.timelineVisible) {
+      paramsData.tv = query.timelineVisible;
+
+      if (!_.isEmpty(query.timelineLabels)) {
+        paramsData.tll = JSON.stringify(query.timelineLabels);
+      }
+
+      paramsData.tzl = query.timelineZoomLevel;
+    }
+    return paramsData;
+  }
+
 
   public buildV3GetQueryFromJsonParams(updateJson:string|null) {
     var queryData:any = {
