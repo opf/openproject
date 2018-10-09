@@ -489,6 +489,8 @@ en:
       update_ie_user: "Please switch to Mozilla Firefox or Google Chrome, or upgrade to Microsoft Edge."
       learn_more: "Learn more"
       close_warning: "Ignore this warning."
+    upsale:
+      ee_only: 'Enterprise Edition only feature'
     wiki_formatting:
       strong: "Strong"
       italic: "Italic"
@@ -656,7 +658,6 @@ en:
           type: 'Type'
         columns_help_text: "Use the input above to add or remove columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
-          ee_only: 'Enterprise Edition only feature'
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Need to see relations in the work package list?'
           check_out_link: 'Check out the Enterprise Edition.'

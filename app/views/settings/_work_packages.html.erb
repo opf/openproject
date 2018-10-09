@@ -44,20 +44,15 @@ See docs/COPYRIGHT.rdoc for more details.
                             options[:disabled] = 'disabled' unless EnterpriseToken.allows_to?(:conditional_highlighting)
                          }
       %>
-      <span class="form--field-instructions">
-        <% unless EnterpriseToken.allows_to?(:conditional_highlighting) %>
-        <div class="ee-attribute-highlighting-upsale notification-box -ee-upsale">
-          <div class="notification-box--content">
-            <p><strong><%= t('js.work_packages.table_configuration.upsale.ee_only') %></strong></p>
-            <p><%= t('js.work_packages.table_configuration.upsale.attribute_highlighting') %></p>
-            <p>
-              <a href="https://www.openproject.org/enterprise-edition/?op_edtion=community-edition&op_referrer=settings-wp-attribute-highlighting#attribute-highlighting"
-                 target='blank'><%= t('js.work_packages.table_configuration.upsale.check_out_link') %></a>
-            </p>
-          </div>
-        </div>
-        <% end %>
-      </span>
+      <%= render partial: 'enterprise_feature_hint',
+                 locals: {
+                   ee_feature: :conditional_highlighting,
+                   explanation: t('js.work_packages.table_configuration.upsale.attribute_highlighting'),
+                   link_out: {
+                     href: "https://www.openproject.org/enterprise-edition/?op_edtion=community-edition&op_referrer=settings-wp-attribute-highlighting#attribute-highlighting",
+                     caption: t('js.work_packages.table_configuration.upsale.check_out_link')
+                   }
+                 } %>
     </div>
     <div class="form--field settings--highlighted-attributes" style="<%= 'display: none' unless Setting[:work_package_list_default_highlighting_mode] == 'inline' %>">
       <%= setting_multiselect :work_package_list_default_highlighted_attributes,

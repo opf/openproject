@@ -7,6 +7,7 @@ import {MultiToggledSelectOption} from "core-app/modules/common/multi-toggled-se
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {States} from "core-app/components/states.service";
 import {WorkPackageTableHighlight} from "core-components/wp-fast-table/wp-table-highlight";
+import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 
 @Component({
   templateUrl: './highlighting-tab.component.html'
@@ -35,7 +36,7 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
       priority: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.priority'),
       entire_row_by: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.entire_row_by'),
     },
-    upsaleEnterpriseOnly: this.I18n.t('js.work_packages.table_configuration.upsale.ee_only'),
+    upsaleEnterpriseOnly: this.I18n.t('js.upsale.ee_only'),
     upsaleAttributeHighlighting: this.I18n.t('js.work_packages.table_configuration.upsale.attribute_highlighting'),
     upsaleCheckOutLink: this.I18n.t('js.work_packages.table_configuration.upsale.check_out_link')
   };
@@ -43,6 +44,7 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
   constructor(readonly injector:Injector,
               readonly I18n:I18nService,
               readonly states:States,
+              readonly Banners:BannersService,
               readonly wpTableHighlight:WorkPackageTableHighlightingService) {
   }
 
@@ -97,7 +99,7 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
 
     this.setSelectedValues();
 
-    this.eeShowBanners = jQuery('body').hasClass('ee-banners-visible');
+    this.eeShowBanners = this.Banners.eeShowBanners;
     this.updateMode(this.wpTableHighlight.current.mode);
 
     if (this.eeShowBanners) {
