@@ -35,84 +35,84 @@ ja:
     label_one_time_password: 'ワンタイムパスワード'
     label_2fa_enabled: '2要素認証が有効です'
     label_2fa_disabled: '2要素認証が有効ではありません'
-    text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
-    text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
-    text_enter_2fa: 'Please enter the one-time password from your device.'
-    text_2fa_enabled: 'Upon every login, you will be requested to enter a OTP token from your default 2FA device.'
-    text_2fa_disabled: 'To enable two-factor authentication, use the button above to register a new 2FA device. If you already have a device, you need to make it a default.'
+    text_otp_delivery_message_sms: "あなたの %{app_title} ワンタイムパスワードは %{token} です"
+    text_otp_delivery_message_voice: "あなたの %{app_title} ワンタイムパスワード: %{pause} %{token}。 %{pause} 繰り返します: %{pause} %{token}"
+    text_enter_2fa: 'あなたのデバイスからワンタイムパスワードを入力してください。'
+    text_2fa_enabled: 'ログインごとに、デフォルトの2FAデバイスからOTPトークンを入力するよう要求されます。'
+    text_2fa_disabled: '2要素証を有効にするには、上記のボタンを使用して新しい2FAデバイスを登録します。既にデバイスがある場合は、デフォルトにする必要があります。'
     login:
-      enter_backup_code_title: Enter backup code
-      enter_backup_code_text: Please enter a valid backup code from your list of codes in case you can no longer access your registered 2FA devices.
-      other_device: 'Use another device or backup code'
+      enter_backup_code_title: バックアップコードを入力
+      enter_backup_code_text: 登録された2FAデバイスにアクセスできない場合は、コードのリストから有効なバックアップコードを入力してください。
+      other_device: '別のデバイスまたはバックアップコードを使用する'
     settings:
-      title: '2FA settings'
-      current_configuration: 'Current configuration'
-      label_active_strategies: 'Active 2FA strategies'
+      title: '2FA設定'
+      current_configuration: '現在の設定'
+      label_active_strategies: '有効な2FA方法'
       label_enforced: '2FAを強制'
       label_remember: '2FAログインを保持'
       text_configuration: |
-        Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
-      text_configuration_guide: For more information, check the configuration guide.
-      text_enforced: 'Enable this setting to force all users to register a 2FA device on their next login. Can only be disabled when not enforced by configuration.'
+        注意: これらの値は現在のアプリケーション全体の構成を表します。構成によって強制される設定を無効にすることも、現在のアクティブな戦略を変更することもできません。サーバーの再起動が必要なためです。
+      text_configuration_guide: 詳細については、設定ガイドを参照してください。
+      text_enforced: 'この設定を有効にすると、すべてのユーザーが次回のログイン時に2FAデバイスを強制的に登録します。設定によって強制されない場合にのみ無効にすることができます。'
       text_remember: |
-        Set this to greater than zero to allow users to remember their 2FA authentication for the given number of days.
-        They will not be requested to re-enter it during that period. Can only be set when not enforced by configuration.
-      error_invalid_settings: 'The 2FA strategies you selected are invalid'
-      failed_to_save_settings: 'Failed to update 2FA settings: %{message}'
+        0より大きい値に設定すると、ユーザーは指定した日数の2FA認証を記憶させておくことができます。
+        その期間中に再入金を要求されることはありません。構成によって強制されない場合にのみ設定できます。
+      error_invalid_settings: '選択した2FA方法は無効です'
+      failed_to_save_settings: '2FA設定の更新に失敗しました: %{message}'
     admin:
-      self_edit_path: 'To add or modify your own 2FA devices, please go to %{self_edit_link}'
-      self_edit_link_name: 'Two-factor authentication on your account page'
-      self_edit_forbidden: 'You may not edit your own 2FA devices on this path. Go to My Account > Two factor authentication instead.'
-      no_devices_for_user: 'No 2FA device has been registered for this user.'
-      all_devices_deleted: 'All 2FA devices of this user have been deleted'
-      delete_all_are_you_sure: 'Are you sure you want to delete all 2FA devices for this user?'
+      self_edit_path: '独自の2FAデバイスを追加または変更するには、こちら %{self_edit_link} をご覧ください。'
+      self_edit_link_name: 'アカウントページの2要素認証'
+      self_edit_forbidden: 'このパスで自分の2FAデバイスを編集することはできません。 マイアカウント > 2要素認証 の順に選択します。'
+      no_devices_for_user: 'このユーザーには2FAデバイスが登録されていません。'
+      all_devices_deleted: 'このユーザーの2FAデバイスはすべて削除されています'
+      delete_all_are_you_sure: 'このユーザーの2FAデバイスをすべて削除してもよろしいですか？'
       button_delete_all_devices: '登録された2FAデバイスを削除します'
-      button_register_mobile_phone_for_user: 'Register mobile phone'
-      text_2fa_enabled: 'Upon every login, this user will be requested to enter a OTP token from his default 2FA device.'
-      text_2fa_disabled: "The user did not set up a 2FA device through his 'My account page'"
+      button_register_mobile_phone_for_user: '携帯電話番号で登録する'
+      text_2fa_enabled: 'ログインごとに、このユーザはデフォルトの2FAデバイスからOTPトークンを入力するよう要求されます。'
+      text_2fa_disabled: "ユーザーは2FAデバイスを「マイアカウントページ」から設定していません"
     upsale:
-      title: 'Two-factor authentication is an enterprise feature'
-      description: 'Strenghten your internal or external authentication mechanisms with a second factor.'
+      title: '2要素認証はエンタープライズ版の機能です'
+      description: '第2の要因で内部または外部の認証メカニズムを強化します。'
     backup_codes:
-      none_found: No backup codes exist for this account.
-      singular: Backup code
-      plural: Backup codes
-      your_codes: for your %{app_name} account %{login}
+      none_found: このアカウントのバックアップコードはありません。
+      singular: バックアップコード
+      plural: バックアップコード
+      your_codes: あなたの %{app_name} アカウント %{login}
       overview_description: |
-        If you are unable to access your two factor devices, you can use a backup code to regain access to your account.
-        Use the following button to generate a new set of backup codes.
+        2要素認証のデバイスにアクセスできない場合は、バックアップコードを使用してアカウントへのアクセスを回復することができます。
+        新しいバックアップコードセットを生成するには次のボタンを使用します。
       generate:
-        title: Generate backup codes
-        keep_safe_as_password: 'Important! Treat these codes as passwords.'
-        keep_safe_warning: 'Either save them in your password manager, or print this page and put in a safe place.'
-        regenerate_warning: 'Warning: If you have created backup codes before, they will be invalidated and will no longer work.'
+        title: バックアップ コードを生成します
+        keep_safe_as_password: '重要！これらのコードをパスワードとして扱います。'
+        keep_safe_warning: 'パスワードマネージャーに保存するか、このページを印刷して安全な場所に保管してください。'
+        regenerate_warning: '警告: 以前に作成したバックアップコードは無効になり、もはや機能しなくなります。'
     devices:
-      add_new: 'Add new 2FA device'
-      register: 'Register device'
-      confirm_default: 'Confirm changing default device'
-      confirm_device: 'Confirm device'
-      confirm_now: 'Not confirmed, click here to activate'
-      cannot_delete_default: 'Cannot delete default device'
-      make_default_are_you_sure: 'Are you sure you want to make this 2FA device your default?'
-      make_default_failed: 'Failed to update the default 2FA device.'
-      deletion_are_you_sure: 'Are you sure you want to delete this 2FA device?'
-      registration_complete: '2FA device registration complete!'
-      registration_failed_token_invalid: '2FA device registration failed, the token was invalid.'
-      registration_failed_update: '2FA device registration failed, the token was valid but the device could not be updated.'
-      confirm_send_failed: 'Confirmation of your 2FA device failed.'
-      button_complete_registration: 'Complete 2FA registration'
-      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
-      text_confirm_to_change_default_html: "Please confirm changing your default device to <strong>%{new_identifier}</strong> by entering a one-time password from your current default device."
-      text_identifier: 'You can give the device a custom identifier using this field.'
-      failed_to_delete: 'Failed to delete 2FA device.'
-      is_default_cannot_delete: 'The device is marked as default and cannot be deleted due to an active security policy. Mark another device as default before deleting.'
-      not_existing: 'No 2FA device has been registered for your account.'
-      request_2fa: Please enter the code from your %{device_name} to verify your identity.
+      add_new: '新しい2FAデバイスを追加します'
+      register: 'デバイスを登録する'
+      confirm_default: 'デフォルトデバイスの変更を確認する'
+      confirm_device: 'デバイスを確認'
+      confirm_now: '確認されていません、ここをクリックして有効にする'
+      cannot_delete_default: '既定のデバイスを削除できません。'
+      make_default_are_you_sure: 'この2FAデバイスをデフォルトにしてもよろしいですか？'
+      make_default_failed: 'デフォルトの2FAデバイスの更新に失敗しました。'
+      deletion_are_you_sure: 'この2FAデバイスを削除してもよろしいですか？'
+      registration_complete: '2FAデバイスの登録が完了しました！'
+      registration_failed_token_invalid: '2FAデバイスの登録に失敗しました。トークンが無効でした。'
+      registration_failed_update: '2FAデバイスの登録に失敗しました。トークンは有効でしたがデバイスを更新できませんでした。'
+      confirm_send_failed: '2FAデバイスの確認に失敗しました。'
+      button_complete_registration: '2FA登録を完了する'
+      text_confirm_to_complete_html: "規定のデバイスからワンタイムパスワードを入力して、デバイス <strong>%{identifier}</strong> の登録を完了してください。"
+      text_confirm_to_change_default_html: "現在の規定のデバイスからワンタイムパスワードを入力して、規定のデバイスを <strong>%{new_identifier}</strong> に変更してください。"
+      text_identifier: 'このフィールドを使用してデバイスにカスタムIDを与えることができます。'
+      failed_to_delete: '2FAデバイスの削除に失敗しました。'
+      is_default_cannot_delete: 'デバイスは規定になっているため、アクティブなセキュリティポリシーのため削除できません。削除する前に別のデバイスを規定にしてください。'
+      not_existing: 'アカウントに2FAデバイスが登録されていません。'
+      request_2fa: あなたの身元を確認するには %{device_name} からコードを入力してください。
       totp:
-        title: 'Use your app-based authenticator'
-        provisioning_uri: 'Provisioning URI'
-        secret_key: 'Secret key'
-        time_based: 'Time based'
+        title: 'アプリベースの認証ツールを使用する'
+        provisioning_uri: 'プロビジョニングURI'
+        secret_key: '秘密鍵'
+        time_based: '時間ベース'
         account: 'Account name / Issuer'
         setup: |
           For setting up two-factor authentication with Google Authenticator, download the application from the Apple App store or Google Play Store.
