@@ -55,14 +55,17 @@ $menu-item-line-height: 30px
     .menu_root > li.open,
     wp-query-select,
     .wp-query-menu--container,
-    .wp-query-menu--search-container
+    .wp-query-menu--search-container,
+    .main-menu--children > li.partial:only-child
       height: 100%
 
     .main-menu--children > li.partial
-      height: inherit
+      height: initial
 
     .main-menu--children
       height: calc(100% - (#{$main-menu-item-height} + 10px)) // 10px spacing
+      overflow: auto
+      @include styled-scroll-bar
 
   ul
     margin: 0
