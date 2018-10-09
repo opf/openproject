@@ -601,7 +601,7 @@ ja:
         highlighting_mode:
           description: 色付きでハイライト
           none: ハイライトなし
-          inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline: 期限切れ日付、「状態」、「タイプ」、「優先度」の属性
           entire_row_by: 全体の行
           status: ステータス
           priority: 優先度

@@ -993,7 +993,7 @@ ja:
       upsale:
         become_hero: ヒーローになる!
         title: エンタープライズ版にアップグレード
-        description: What are the benefits?
+        description: メリットは何ですか？
         more_info: 詳細情報
         additional_features: 強力なプレミアム機能
         professional_support: OpenProject のエキスパートからのプロフェッショナル サポート
@@ -2447,7 +2447,7 @@ ja:
       code_401_wrong_credentials: 正しい認証情報が提供されていません。
       code_403: このリソースにアクセスする権限がありません。
       code_404: 要求したリソースが見つかりません。
-      code_409: Could not update the resource because of conflicting modifications.
+      code_409: 競合する変更のためにリソースを更新できませんでした。
       code_500: 内部エラーが発生しました。
       expected:
         date: YYYY-MM-DD (ISO 8601 日付のみ)
