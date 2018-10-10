@@ -119,6 +119,8 @@ RSpec.feature 'Work package create children', js: true, selenium: true do
     expect(page).to have_selector('.notification-box--content',
                                   text: I18n.t('js.notice_successful_create'))
 
+    expect(page).to have_selector('.wp-tabs-count', text: '1')
+
     child_work_package = WorkPackage.order(created_at: 'desc').first
 
     expect(child_work_package).to_not eql original_work_package
@@ -149,6 +151,8 @@ RSpec.feature 'Work package create children', js: true, selenium: true do
 
     expect(page).to have_selector('.notification-box--content',
                                   text: I18n.t('js.notice_successful_create'))
+
+    expect(page).to have_selector('.wp-tabs-count', text: '1')
 
     child_work_package = WorkPackage.order(created_at: 'desc').first
 

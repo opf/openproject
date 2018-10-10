@@ -55,6 +55,10 @@ module Pages
       find(@selector)
     end
 
+    def relations_count
+      find('ul.tabrow > li:nth-child(3) .wp-tabs-count')
+    end
+
     private
 
     def path(tab = 'overview')

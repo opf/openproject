@@ -55,6 +55,7 @@ describe 'Work package relations tab', js: true, selenium: true do
            text: I18n.t('js.relation_buttons.add_existing_child')).click
 
       relations.add_existing_child(child2)
+      expect(work_packages_page.relations_count).to have_content('3')
     end
 
     describe 'inline create' do
