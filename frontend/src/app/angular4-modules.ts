@@ -73,6 +73,7 @@ import {UserLinkComponent} from 'core-components/user/user-link/user-link.compon
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {WorkPackageBreadcrumbComponent} from 'core-components/work-packages/wp-breadcrumb/wp-breadcrumb.component';
 import {WorkPackageRelationsCountComponent} from 'core-components/work-packages/wp-relations-count/wp-relations-count.component';
+import {WorkPackageWatchersCountComponent} from 'core-components/work-packages/wp-relations-count/wp-watchers-count.component';
 import {WorkPackageSingleViewComponent} from 'core-components/work-packages/wp-single-view/wp-single-view.component';
 import {WorkPackageSubjectComponent} from 'core-components/work-packages/wp-subject/wp-subject.component';
 import {WorkPackageTypeStatusComponent} from 'core-components/work-packages/wp-type-status/wp-type-status.component';
@@ -365,6 +366,7 @@ import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table
     // Split view
     WorkPackageSplitViewComponent,
     WorkPackageRelationsCountComponent,
+    WorkPackageWatchersCountComponent,
     WorkPackageBreadcrumbComponent,
     WorkPackageEditFieldGroupComponent,
     WorkPackageSplitViewToolbarComponent,
