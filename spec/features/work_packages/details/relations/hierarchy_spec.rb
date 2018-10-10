@@ -39,7 +39,8 @@ describe 'Work package relations tab', js: true, selenium: true do
            text: I18n.t('js.relation_buttons.add_parent')).click
 
       # Add parent
-      relations.add_parent(parent.id, parent.subject)
+      relations.add_parent(parent.id, parent)
+      relations.expect_parent(parent)
 
       ##
       # Add child #1
@@ -154,7 +155,9 @@ describe 'Work package relations tab', js: true, selenium: true do
                text: I18n.t('js.relation_buttons.add_parent')).click
 
           # Add parent
-          relations.add_parent(parent.id, parent.subject)
+          relations.add_parent(parent.id, parent)
+          work_packages_page.expect_and_dismiss_notification(message: 'Successful update.')
+          relations.expect_parent(parent)
 
           ##
           # Add child
@@ -162,12 +165,18 @@ describe 'Work package relations tab', js: true, selenium: true do
                text: I18n.t('js.relation_buttons.add_existing_child')).click
 
           relations.add_existing_child(child)
+          work_packages_page.expect_and_dismiss_notification(message: 'Successful update.')
+          relations.expect_child(child)
 
           # Remove parent
-          relations.remove_parent(parent.subject)
+          relations.remove_parent(parent)
+          work_packages_page.expect_and_dismiss_notification(message: 'Successful update.')
+          relations.expect_not_parent(parent)
 
           # Remove child
           relations.remove_child(child)
+          # Should also check for successful update but no message is shown, yet.
+          relations.expect_not_child(child)
         end
       end
     end

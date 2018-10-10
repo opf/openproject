@@ -134,11 +134,11 @@ module API
           }
         end
 
-        link :available_relation_candidates do
+        link :availableRelationCandidates do
           next if represented.new_record?
 
           {
-            href: "/api/v3/work_packages/#{represented.id}/available_relation_candidates",
+            href: api_v3_paths.work_package_available_relation_candidates(represented.id),
             title: "Potential work packages to relate to"
           }
         end
