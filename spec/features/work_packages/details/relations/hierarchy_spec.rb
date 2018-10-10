@@ -28,9 +28,9 @@ describe 'Work package relations tab', js: true, selenium: true do
   end
 
   describe 'as admin' do
-    let!(:parent) { FactoryBot.create(:work_package, project: project) }
-    let!(:child) { FactoryBot.create(:work_package, project: project) }
-    let!(:child2) { FactoryBot.create(:work_package, project: project, subject: 'Something new') }
+    let!(:parent) { FactoryBot.create(:work_package, project: project, subject: 'Parent WP') }
+    let!(:child) { FactoryBot.create(:work_package, project: project, subject: 'Child WP') }
+    let!(:child2) { FactoryBot.create(:work_package, project: project, subject: 'Another child WP') }
 
     it 'allows to manage hierarchy' do
       # Shows link parent link
@@ -121,8 +121,8 @@ describe 'Work package relations tab', js: true, selenium: true do
       end
 
       context 'as view-only user, with parent set' do
-        let(:parent) { FactoryBot.create(:work_package, project: project) }
-        let(:work_package) { FactoryBot.create(:work_package, parent: parent, project: project) }
+        let(:parent) { FactoryBot.create(:work_package, project: project, subject: 'Parent WP') }
+        let(:work_package) { FactoryBot.create(:work_package, parent: parent, project: project, subject: 'Child WP') }
 
         it 'shows no links to create relations' do
           # No create buttons should exist
@@ -145,8 +145,8 @@ describe 'Work package relations tab', js: true, selenium: true do
 
       context 'with manage_subtasks permissions' do
         let(:permissions) { %i(view_work_packages manage_subtasks) }
-        let!(:parent) { FactoryBot.create(:work_package, project: project) }
-        let!(:child) { FactoryBot.create(:work_package, project: project) }
+        let!(:parent) { FactoryBot.create(:work_package, project: project, subject: 'Parent WP') }
+        let!(:child) { FactoryBot.create(:work_package, project: project, subject: 'Child WP') }
 
         it 'should be able to link parent and children' do
           # Shows link parent link

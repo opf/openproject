@@ -83,9 +83,7 @@ describe 'subject inplace editor', js: true, selenium: true do
 
       field.display_element.click
 
-      notification.expect_error(
-        I18n.t('api_v3.errors.code_409')
-      )
+      notification.expect_error(I18n.t('api_v3.errors.code_409'))
     end
   end
 end
