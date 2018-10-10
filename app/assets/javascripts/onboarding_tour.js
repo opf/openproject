@@ -4,13 +4,28 @@
             e.preventDefault();
             e.stopPropagation();
         };
-        var localStorageKey = 'openProject-onboardingTour';
+        var storageKey = 'openProject-onboardingTour';
+        var currentTourPart = sessionStorage.getItem(storageKey);
+        var url = new URL(window.location.href);
 
-        var OverviewOnboardingTourSteps = [
+        var homescreenOnboardingTourSteps = [
             {
                 'next #logo' : I18n.t('js.onboarding.steps.welcome'),
                 'showSkip' : false
             },
+            {
+                "description" : I18n.t('js.onboarding.steps.project_selection'),
+                'selector' : '.widget-box.projects .widget-box--arrow-links',
+                'event' : 'click',
+                'showSkip' : false,
+                'containerClass' : '-dark',
+                onBeforeStart: function () {
+                    $('.enjoyhint').toggleClass('-clickable', true);
+                }
+            }
+        ];
+
+        var overviewOnboardingTourSteps = [
             {
                 'next #content' : I18n.t('js.onboarding.steps.project_overview'),
                 'showSkip' : false,
@@ -48,7 +63,7 @@
             }
         ];
 
-        var WpOnboardingTourSteps = [
+        var wpOnboardingTourSteps = [
             {
                 'custom .wp-table--row' : I18n.t('js.onboarding.steps.wp_list'),
                 'showSkip' : false,
@@ -105,33 +120,35 @@
             }
         ];
 
+        // Start after the intro modal (language selection)
+        // This has to be changed once the project selection is implemented
+        if(url.searchParams.get("first_time_user")) {
+            sessionStorage.setItem(storageKey, 'readyToStart');
 
-        // ------------------------------- Tutorial Overview page -------------------------------
-
-        if (window.OpenProject.guardedLocalStorage("openProject-onboardingTour") === "homescreenFinished") {
-            var tutorialInstance = new EnjoyHint({
-                onEnd: function () {
-                    window.OpenProject.guardedLocalStorage(localStorageKey, 'overviewFinished');
-                },
-                onSkip: function () {
-                    window.OpenProject.guardedLocalStorage(localStorageKey, 'skipped');
-                }
+            // Start automatically when the language selection is closed
+            $('.op-modal--modal-close-button').click(function() {
+                startTour(homescreenOnboardingTourSteps, 'homescreenFinished')
             });
+        }
 
-            tutorialInstance.set(OverviewOnboardingTourSteps);
-            tutorialInstance.run();
+        // ------------------------------- Tutorial Homescreen page -------------------------------
+        if (currentTourPart === "readyToStart") {
+            startTour(homescreenOnboardingTourSteps, 'homescreenFinished');
         };
 
+        // ------------------------------- Tutorial Overview page -------------------------------
+        if (currentTourPart === "homescreenFinished") {
+            startTour(overviewOnboardingTourSteps, 'overviewFinished');
+        };
 
         // ------------------------------- Tutorial WP page -------------------------------
-
-        if (window.OpenProject.guardedLocalStorage("openProject-onboardingTour") === "overviewFinished") {
+        if (currentTourPart === "overviewFinished") {
             var tutorialInstance = new EnjoyHint({
                 onEnd: function () {
-                    window.OpenProject.guardedLocalStorage(localStorageKey, 'wpFinished');
+                    sessionStorage.setItem(storageKey, 'wpFinished');
                 },
                 onSkip: function () {
-                    window.OpenProject.guardedLocalStorage(localStorageKey, 'skipped');
+                    sessionStorage.setItem(storageKey, 'skipped');
                     $('.wp-table--details-link, .wp-table-context-menu-link').removeClass('-disabled').unbind('click', preventClickHandler);
                 }
             });
@@ -141,7 +158,7 @@
                 if ($('.work-package--results-tbody')) {
                     observerInstance.disconnect(); // stop observing
 
-                    tutorialInstance.set(WpOnboardingTourSteps);
+                    tutorialInstance.set(wpOnboardingTourSteps);
                     tutorialInstance.run();
                     return;
                 }
@@ -151,6 +168,20 @@
                 subtree: true
             });
 
+        }
+
+        function startTour(steps, storageValue) {
+            var tutorialInstance = new EnjoyHint({
+                onEnd: function () {
+                    sessionStorage.setItem(storageKey, storageValue);
+                },
+                onSkip: function () {
+                    sessionStorage.setItem(storageKey, 'skipped');
+                }
+            });
+
+            tutorialInstance.set(steps);
+            tutorialInstance.run();
         }
     });
 }(jQuery));

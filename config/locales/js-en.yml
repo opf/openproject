@@ -306,6 +306,7 @@ en:
     onboarding:
       steps:
         welcome: 'Welcome to our short introduction tour to show you the important features in OpenProject. We recommend to complete the steps till the end. This will only take a few minutes.'
+        project_selection: 'Please select one of the projects with useful demo data to get started. The Demo project suits best for classical project management, while the Scrum project is better for Agile project management'
         project_overview: 'This is the project’s Overview page. A dashboard with important information. You can customize it with the settings icon on the right.'
         sidebar: 'From the project menu you can access all modules within a project or collapse it with the icon on the top.'
         settings: 'In the Project settings you can configure your project’s modules.'
