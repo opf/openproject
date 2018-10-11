@@ -198,7 +198,13 @@ class ::Query::Results
 
   def custom_options_for_keys(custom_field, groups)
     keys = groups.keys.map { |k| k.split('.') }
-    custom_field.custom_options.find(keys.flatten).group_by { |o| o.id.to_s }
+    # Because of multi select cfs we might end up having overlapping groups
+    # (e.g group "1" and group "1.3" and group "3" which represent concatenated ids).
+    # This can result in us having ids in the keys array multiple times (e.g. ["1", "1", "3", "3"]).
+    # If we where to use the keys array with duplicates to find the actual custom options
+    # AR would throw an error as the number of records returned does not match the number
+    # of ids searched for.
+    custom_field.custom_options.find(keys.flatten.uniq).group_by { |o| o.id.to_s }
   end
 
   def transform_custom_field_keys(custom_field, groups)

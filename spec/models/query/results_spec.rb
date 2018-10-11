@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::Query::Results, type: :model do
   let(:query) do
     FactoryBot.build :query,
-                      show_hierarchies: false
+                     show_hierarchies: false
   end
   let(:query_results) do
     ::Query::Results.new query,
@@ -47,37 +47,37 @@ describe ::Query::Results, type: :model do
   let(:project_1) { FactoryBot.create :project }
   let(:role_pm) do
     FactoryBot.create(:role,
-                       permissions: %i(
-                         view_work_packages
-                         edit_work_packages
-                         create_work_packages
-                         delete_work_packages
-                       ))
+                      permissions: %i(
+                        view_work_packages
+                        edit_work_packages
+                        create_work_packages
+                        delete_work_packages
+                      ))
   end
   let(:role_dev) do
     FactoryBot.create(:role,
-                       permissions: [:view_work_packages])
+                      permissions: [:view_work_packages])
   end
   let(:user_1) do
     FactoryBot.create(:user,
-                       firstname: 'user',
-                       lastname: '1',
-                       member_in_project: project_1,
-                       member_through_role: [role_dev, role_pm])
+                      firstname: 'user',
+                      lastname: '1',
+                      member_in_project: project_1,
+                      member_through_role: [role_dev, role_pm])
   end
   let(:wp_p1) do
     (1..3).map do
       FactoryBot.create(:work_package,
-                         project: project_1,
-                         assigned_to_id: user_1.id)
+                        project: project_1,
+                        assigned_to_id: user_1.id)
     end
   end
 
   describe '#work_package_count_by_group' do
     let(:query) do
       FactoryBot.build :query,
-                        show_hierarchies: false,
-                        group_by: group_by
+                       show_hierarchies: false,
+                       group_by: group_by
     end
 
     context 'when grouping by responsible' do
@@ -94,27 +94,27 @@ describe ::Query::Results, type: :model do
     let!(:project_2) { FactoryBot.create :project }
     let!(:member) do
       FactoryBot.create(:member,
-                         project: project_2,
-                         principal: user_1,
-                         roles: [role_pm])
+                        project: project_2,
+                        principal: user_1,
+                        roles: [role_pm])
     end
     let!(:user_2) do
       FactoryBot.create(:user,
-                         firstname: 'user',
-                         lastname: '2',
-                         member_in_project: project_2,
-                         member_through_role: role_dev)
+                        firstname: 'user',
+                        lastname: '2',
+                        member_in_project: project_2,
+                        member_through_role: role_dev)
     end
 
     let!(:wp_p2) do
       FactoryBot.create(:work_package,
-                         project: project_2,
-                         assigned_to_id: user_2.id)
+                        project: project_2,
+                        assigned_to_id: user_2.id)
     end
     let!(:wp2_p2) do
       FactoryBot.create(:work_package,
-                         project: project_2,
-                         assigned_to_id: user_1.id)
+                        project: project_2,
+                        assigned_to_id: user_1.id)
     end
 
     before do
@@ -152,9 +152,9 @@ describe ::Query::Results, type: :model do
       let(:group_by) { nil }
       let(:query) do
         FactoryBot.build_stubbed :query,
-                                  show_hierarchies: false,
-                                  group_by: group_by,
-                                  project: project_2
+                                 show_hierarchies: false,
+                                 group_by: group_by,
+                                 project: project_2
       end
 
       let!(:custom_field) { FactoryBot.create(:work_package_custom_field, is_for_all: true) }
@@ -206,9 +206,9 @@ describe ::Query::Results, type: :model do
     context 'when grouping by responsible' do
       let(:query) do
         FactoryBot.build :query,
-                          show_hierarchies: false,
-                          group_by: group_by,
-                          project: project_1
+                         show_hierarchies: false,
+                         group_by: group_by,
+                         project: project_1
       end
       let(:group_by) { 'responsible' }
 
@@ -236,11 +236,11 @@ describe ::Query::Results, type: :model do
 
     let(:query) do
       FactoryBot.build_stubbed :query,
-                                show_hierarchies: false,
-                                group_by: group_by,
-                                sort_criteria: sort_by,
-                                project: project_1,
-                                column_names: columns
+                               show_hierarchies: false,
+                               group_by: group_by,
+                               sort_criteria: sort_by,
+                               project: project_1,
+                               column_names: columns
     end
 
     let(:query_results) do
@@ -434,9 +434,9 @@ describe ::Query::Results, type: :model do
       let(:bool_cf) { FactoryBot.create(:bool_wp_custom_field, is_filter: true) }
       let(:custom_value) do
         FactoryBot.create(:custom_value,
-                           custom_field: bool_cf,
-                           customized: work_package1,
-                           value: value)
+                          custom_field: bool_cf,
+                          customized: work_package1,
+                          value: value)
       end
       let(:value) { 't' }
       let(:filter_value) { 't' }
@@ -554,8 +554,8 @@ describe ::Query::Results, type: :model do
         let(:filter_value) { 'f' }
         let(:bool_cf) do
           FactoryBot.create(:bool_wp_custom_field,
-                             is_filter: true,
-                             is_for_all: true)
+                            is_filter: true,
+                            is_for_all: true)
         end
 
         let(:activate_cf) do
@@ -601,6 +601,60 @@ describe ::Query::Results, type: :model do
     describe '#work_package_count_by_group' do
       it 'returns a hash of counts by value' do
         expect(query.results.work_package_count_by_group).to eql(42 => 2, nil => 1)
+      end
+    end
+  end
+
+  context 'when grouping by list custom field and filtering for it at the same time' do
+    let!(:custom_field) do
+      FactoryBot.create(:list_wp_custom_field,
+                        is_for_all: true,
+                        is_filter: true,
+                        multi_value: true).tap do |cf|
+        work_package1.type.custom_fields << cf
+      end
+    end
+    let(:first_value) do
+      custom_field.custom_options.first
+    end
+    let(:last_value) do
+      custom_field.custom_options.last
+    end
+
+    let(:work_package1) do
+      FactoryBot.create(:work_package,
+                        project: project_1)
+    end
+    let(:work_package2) do
+      FactoryBot.create(:work_package,
+                        type: work_package1.type,
+                        project: project_1)
+    end
+
+    before do
+      allow(User).to receive(:current).and_return(user_1)
+
+      query.group_by = "cf_#{custom_field.id}"
+      query.project = project_1
+
+      work_package1.send(:"custom_field_#{custom_field.id}=", first_value)
+      work_package1.save!
+      work_package2.send(:"custom_field_#{custom_field.id}=", [first_value,
+                                                               last_value])
+      work_package2.save!
+    end
+
+    describe '#work_package_count_by_group' do
+      it 'yields no error but rather returns the result' do
+        expect { query.results.work_package_count_by_group }.not_to raise_error
+
+        group_count = query.results.work_package_count_by_group
+        expected_groups = [[first_value], [first_value, last_value]]
+
+        group_count.each do |key, count|
+          expect(count).to eql 1
+          expect(expected_groups.any? { |group| group & key == key & group }).to be_truthy
+        end
       end
     end
   end
