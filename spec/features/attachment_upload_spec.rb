@@ -56,6 +56,7 @@ describe 'Upload attachment to overview page', js: true do
 
     within '.textile-form' do
       expect(page).to have_selector('attachment-list-item', text: 'image.png')
+      expect(page).not_to have_selector('notification-upload-progress')
 
       click_on 'Save'
     end
@@ -77,6 +78,7 @@ describe 'Upload attachment to overview page', js: true do
 
     within '.textile-form' do
       expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
+      expect(page).not_to have_selector('notification-upload-progress')
 
       click_on 'Save'
     end
