@@ -70,17 +70,6 @@ See docs/COPYRIGHT.rdoc for more details.
                   </div>
                 </div>
               </th>
-              <% TimeEntryActivity.new.available_custom_fields.each do |value| %>
-                <th>
-                  <div class="generic-table--sort-header-outer">
-                    <div class="generic-table--sort-header">
-                      <span <% if value.is_required? %> class="-required" <%end%>>
-                        <%= h value.name %>
-                      </span>
-                    </div>
-                  </div>
-                </th>
-              <% end %>
             </tr>
           </thead>
           <% @project.activities(true).each do |enumeration| %>
@@ -95,12 +84,6 @@ See docs/COPYRIGHT.rdoc for more details.
                   <%= h(enumeration) %>
                 </td>
                 <td><%= checked_image !enumeration.project %></td>
-                <% enumeration.custom_field_values.each do |value| %>
-                  <td>
-                    <%= hidden_custom_field_label_tag "enumerations[#{enumeration.id}]", value %>
-                    <%= custom_field_tag "enumerations[#{enumeration.id}]", value %>
-                  </td>
-                <% end %>
               </tr>
             <% end %>
           <% end %>
