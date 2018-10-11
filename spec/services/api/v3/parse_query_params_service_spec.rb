@@ -127,6 +127,21 @@ describe ::API::V3::ParseQueryParamsService,
       end
     end
 
+    context 'with highlighted_attributes' do
+      it_behaves_like 'transforms' do
+        let(:params) { { highlightedAttributes: %w(status type priority dueDate) } }
+        # Please note, that dueDate is expected to get translated to due_date.
+        let(:expected) { { highlighted_attributes: %w(status type priority due_date) } }
+      end
+    end
+
+    context 'without highlighted_attributes' do
+      it_behaves_like 'transforms' do
+        let(:params) { { highlightedAttributes: nil } }
+        let(:expected) { {} }
+      end
+    end
+
     context 'with sort' do
       context 'as sortBy in comma separated value' do
         it_behaves_like 'transforms' do
