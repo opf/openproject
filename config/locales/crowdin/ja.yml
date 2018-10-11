@@ -113,30 +113,30 @@ ja:
         provisioning_uri: 'プロビジョニングURI'
         secret_key: '秘密鍵'
         time_based: '時間ベース'
-        account: 'Account name / Issuer'
+        account: 'アカウント名 / 発行者'
         setup: |
-          For setting up two-factor authentication with Google Authenticator, download the application from the Apple App store or Google Play Store.
-          After opening the app, you can scan the following QR code to register the device.
+          Google Authenticator で2要素認証を設定するには、Apple App StoreまたはGoogle Playストアからアプリケーションをダウンロードしてください。
+          アプリを開いた後、次のQRコードをスキャンしてデバイスを登録することができます。
         question_cannot_scan: |
-          Unable to scan the code using your application?
+          アプリケーションを使用してコードをスキャンできませんか？
         text_cannot_scan: |
-          If you can't scan the code, you can enter the entry manually using the following details:
+          コードをスキャンできない場合は、次の詳細を使用して手動で入力することができます:
         description: |
-          Register an application authenticator for use with OpenProject using the time-based one-time password authentication standard.
-          Common examples are Google Authenticator or Authy.
+          OpenProjectで使用する認証プログラムに時間ベースのワンタイムパスワード認証方式を使用して登録します。
+          一般的な例は Google Authenticator または Authy です。
       sms:
-        title: 'Use your mobile phone'
-        redacted_identifier: 'Mobile device (%{redacted_number})'
-        request_2fa_identifier: '%{redacted_identifier}, we sent you an authentication code via %{delivery_channel}'
+        title: 'あなたの携帯電話を使用してください'
+        redacted_identifier: 'モバイルデバイス (%{redacted_number})'
+        request_2fa_identifier: '%{redacted_identifier}、%{delivery_channel} 経由で認証コードを送信しました。'
         description: |
-          Register your mobile phone number for delivery of OpenProject one-time passwords.
+          OpenProjectワンタイムパスワードの配信用に携帯電話番号を登録してください。
     sns:
-      delivery_failed: 'SNS delivery failed:'
+      delivery_failed: 'SNSの配信に失敗しました:'
     message_bird:
-      sms_delivery_failed: 'MessageBird SMS delivery failed.'
-      voice_delivery_failed: 'MessageBird voice call failed.'
+      sms_delivery_failed: 'MessageBird SMSの配信に失敗しました。'
+      voice_delivery_failed: 'MessageBird音声通話に失敗しました。'
     restdt:
-      delivery_failed_with_code: 'Token delivery failed. (Error code %{code})'
+      delivery_failed_with_code: 'トークンの配信に失敗しました。 (エラーコード %{code})'
     strategies:
       totp: 'Authenticator application'
       sns: 'Amazon SNS'
@@ -168,7 +168,7 @@ ja:
   notice_phone_number_format: "次の形式で番号を入力してください: +XX XXXXXXXX."
   text_otp_not_receive: "Other verification methods"
   text_send_otp_again: "Resend one-time password by:"
-  button_resend_otp_form: "Resend"
+  button_resend_otp_form: "再送信"
   button_otp_by_voice: "音声通話"
   button_otp_by_sms: "SMS"
   label_otp_channel: "配信チャネル"
