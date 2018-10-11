@@ -2759,7 +2759,7 @@ lt:
       code_401_wrong_credentials: Jūs nepateikėte teisingų prisijungimo duomenų.
       code_403: Jūs nesate autorizuotas šiam resursui pasiekti.
       code_404: Reikalaujamas resursas nerastas.
-      code_409: Nepavyko atnaujinti resurso dėl konfliktuojančių pakeitimų.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: Įvyko vidinė klaida.
       expected:
         date: YYYY-MM-DD (ISO 8601 date only)

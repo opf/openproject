@@ -2757,8 +2757,7 @@ fr:
         correctes.
       code_403: Vous n'êtes pas autorisé à accéder à cette ressource.
       code_404: La ressource demandée est introuvable.
-      code_409: Ne pouvait pas mettre à jour la ressource en raison de modifications
-        conflictuelles.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: Une erreur interne s'est produite.
       expected:
         date: AAAA-MM-JJ (date ISO 8601 uniquement)

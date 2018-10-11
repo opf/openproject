@@ -2767,8 +2767,7 @@ de:
         korrekt.
       code_403: Sie sind nicht berechtigt auf diese Ressource zuzugreifen.
       code_404: Die angeforderte Ressource konnte nicht gefunden werden.
-      code_409: Die Ressource konnte wegen parallelen Zugriffs nicht aktualisiert
-        werden.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: Ein interner Fehler ist aufgetreten.
       expected:
         date: YYYY-MM-DD (Datum nach ISO 8601)

@@ -60,11 +60,12 @@ hu:
     description_subwork_package: 'Munkacsomag gyermeke #%{id}'
     editor:
       preview: Váltás az előnézeti mód
-      source_code: Toggle Markdown source mode
-      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      source_code: Markdown forrás mód kapcsolás
+      error_saving_failed: 'A dokumentum mentése a következő hiba miatt nem sikerült:
+        %{error}'
       mode:
-        manual: Switch to Markdown source
-        wysiwyg: Switch to WYSIWYG editor
+        manual: Váltás Markdown forrásra
+        wysiwyg: Váltás a WYSIWYG szerkesztőre
       macro:
         child_pages:
           button: Gyermek kapcsolatok
@@ -97,12 +98,12 @@ hu:
             Include the content of another wiki page by specifying its title or slug.
             You can include the wiki page of another project by separating them with a colon like the following example.
         work_package_button:
-          button: Insert create work package button
-          type: Work package type
+          button: Munka csomag létrehozása gomb beszúrása
+          type: Munkacsomag típusok
           button_style: Use button style
           button_style_hint: 'Optional: Check to make macro appear as a button, not
             as a link.'
-          without_type: Create work package
+          without_type: Új munkacsomag létrehozása
           with_type: 'Create work package (Type: %{typename})'
         embedded_table:
           button: Embed work package table
@@ -178,7 +179,7 @@ hu:
     label_expand: Kibont
     label_expanded: kibontott
     label_expand_all: Az összes kibontása
-    label_expand_project_menu: Expand project menu
+    label_expand_project_menu: Project menü kibontása
     label_export: Exportálás
     label_filename: Fájl
     label_filesize: Méret
@@ -190,7 +191,7 @@ hu:
     label_in: in
     label_in_less_than: kevesebb, mint
     label_in_more_than: több mint
-    label_latest_activity: Latest activity
+    label_latest_activity: Utolsó aktivitás
     label_last_updated_on: Utolsó frissítés
     label_less_or_equal: "<="
     label_less_than_ago: kevesebb, nappal ezelött
@@ -229,13 +230,13 @@ hu:
     label_sort_lower: Mozgás lefelé
     label_sorting: Rendezés
     label_star_query: Favored
-    label_press_enter_to_save: Press enter to save.
+    label_press_enter_to_save: Nyomjon Entert a mentéshez
     label_public_query: Nyilvános
     label_sum_for: Összeg
     label_subject: Tárgy
     label_this_week: ezen a héten
     label_today: Ma
-    label_up: Up
+    label_up: Fel
     label_activity_show_only_comments: Hozzászólással rendelkező tevékenységek mutatása
     label_activity_show_all: Minden tevékenység mutatása
     label_total_progress: "%{percent}% a teljes folyamatban"
@@ -251,10 +252,10 @@ hu:
     label_unwatch: Megfigyelés leállítása
     label_unwatch_work_package: Nem megfigyelt munkacsomag
     label_uploaded_by: Által feltöltött
-    label_default_queries: Default views
-    label_starred_queries: Favorite views
-    label_global_queries: Public views
-    label_custom_queries: Private views
+    label_default_queries: Alapértelmezett nézetek
+    label_starred_queries: Kedvenc nézetek
+    label_global_queries: Publikus nézetek
+    label_custom_queries: Privát nézetek
     label_columns: Oszlopok
     label_attachments: Fájlok
     label_drop_files: Húzza a fájlokat ide
@@ -266,7 +267,7 @@ hu:
     label_remove_watcher: 'Megfigyelő törlése: %{name}'
     label_remove_all_files: Összes fájl törlése
     label_add_description: Adjon meg leírást a %{file} fájlhoz
-    label_upload_notification: Uploading files...
+    label_upload_notification: Fájl feltöltése folyamatban
     label_work_package_upload_notification: 'Fájlok feltöltése a #%{id}: %{subject}
       munkacsomaghoz'
     label_files_to_upload: 'Ezek a fájlok kerülnek feltöltésre:'
@@ -394,7 +395,7 @@ hu:
     timelines:
       gantt_chart: Gantt-diagram
       labels:
-        title: Label configuration
+        title: Címke konfiguráció
         bar: Oszlop címkék
         left: Bal
         right: Jobb
@@ -405,8 +406,8 @@ hu:
           a dátumcímkék jelennek meg ezen attribútumok helyén.
 
 '
-      button_activate: Show Gantt chart
-      button_deactivate: Hide Gantt chart
+      button_activate: Gannt diagramm megtekintése
+      button_deactivate: Gannt diagramm elrejtése
       cancel: Mégsem
       change: A tervezés módosítása
       due_date: Befejezési dátum
@@ -578,9 +579,9 @@ hu:
         versionName: Verzió
         version: Verzió
       default_queries:
-        latest_activity: Latest activity
+        latest_activity: Utolsó aktivitás
         created_by_me: Created by me
-        assigned_to_me: Assigned to me
+        assigned_to_me: Hozzám rendelt
         recently_created: Recently created
         all_open: Nyitottak
         summary: Összegzés
@@ -634,9 +635,9 @@ hu:
         embedded_tab_disabled: This configuration tab is not available for the embedded
           view you're editing.
         default: alapértelmezett
-        display_settings: Display settings
-        default_mode: Flat list
-        hierarchy_mode: Hierarchy
+        display_settings: Megjelenítési beállítások
+        default_mode: Sima lista
+        hierarchy_mode: Hierarchia
         hierarchy_hint: All filtered table results will be augmented with their ancestors.
           Hierarchies can be expanded and collapsed.
         display_sums_hint: Display sums of all summable attributes in a row below
@@ -644,18 +645,18 @@ hu:
         show_timeline_hint: Show an interactive gantt chart on the right side of the
           table. You can change its width by dragging the divider between table and
           gantt chart.
-        highlighting: Highlighting
+        highlighting: Kiemelés
         highlighting_mode:
-          description: Highlight with color
-          none: No highlighting
-          inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          description: Kiemelés szinnel
+          none: Kiemelés nélkül
+          inline: Lejárt dátumok, a "Státusz", "Típus" és "Prioritás" attribútummal
           entire_row_by: Entire row by
           status: Állapot
           priority: Fontosság
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
         upsale:
-          ee_only: Enterprise Edition only feature
+          ee_only: Ez csak az Enterprise Edition-ban elérhető
           attribute_highlighting: Need certain work packages to stand out from the
             mass?
           relation_columns: Szeretné látni a munkacsomag kapcsolatait?
@@ -683,8 +684,8 @@ hu:
         save: Mentés
         save_as: Mentés másként ...
         export: Exportálás...
-        visibility_settings: Visibility settings ...
-        page_settings: Rename view ...
+        visibility_settings: Láthatóság beállítások ...
+        page_settings: Nézet átnevezése ...
         delete: Törlés
       filter: Szűrő
       unselected_title: Munkacsomag
@@ -692,7 +693,7 @@ hu:
       search_query_title: Click to search saved views
       placeholder_query_title: Set a title for this view
     modals:
-      label_settings: Rename view
+      label_settings: Nézet átnevezése
       label_name: Név
       label_delete_page: Aktuális oldal törlése
       button_apply: Alkalmaz

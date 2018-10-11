@@ -2420,7 +2420,7 @@ zh:
       code_401_wrong_credentials: 你没有提供正确的凭据。
       code_403: 您无权访问此资源。
       code_404: 找不到所请求的资源。
-      code_409: 无法更新资源，因为发生冲突的修改。
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: 发生了内部错误。
       expected:
         date: YYYY-MM-DD（仅适用于 ISO 8601 日期）

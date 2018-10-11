@@ -2744,7 +2744,7 @@ ro:
       code_401_wrong_credentials: Nu ați furnizat credențialele corecte.
       code_403: Nu sunteți autorizat să accesați această resursă.
       code_404: Resursa solicitată nu a fost găsită.
-      code_409: Resursa nu a putut fi actualizată deoarece există modificări conflictuale.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: A apărut o eroare internă.
       expected:
         date: AAAA-MM-ZZ (doar formate ISO 8601)

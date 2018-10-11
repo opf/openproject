@@ -2456,9 +2456,7 @@ zh-TW:
         You are not authorized to access this resource.
         您未被授權使用這個資源。
       code_404: 找不到請求的資源。
-      code_409: |-
-        Couldn't update the resource because of conflicting modifications.
-        因為修改的衝突，所以無法更新這個資源。
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: 發生內部錯誤
       expected:
         date: YYYY-MM-DD (僅適用於 ISO 8601 日期)

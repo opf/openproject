@@ -2731,7 +2731,7 @@ uk:
       code_401_wrong_credentials: Ви не надати правильні облікові дані.
       code_403: You are not authorized to access this resource.
       code_404: The requested resource could not be found.
-      code_409: Couldn't update the resource because of conflicting modifications.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: An internal error has occured.
       expected:
         date: YYYY-MM-DD (ISO 8601 date only)

@@ -2677,7 +2677,7 @@ sv-SE:
       code_401_wrong_credentials: Du har inte lämnat korrekta autentiseringsuppgifter.
       code_403: Du har inte behörighet att få tillgång till denna resurs.
       code_404: Den begärda resursen kunde inte hittas.
-      code_409: Kunde inte uppdatera resursen på grund av motstridiga ändringar.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: Ett internt fel har inträffat.
       expected:
         date: ÅÅÅÅ-MM-DD (endast datum enligt ISO 8601)

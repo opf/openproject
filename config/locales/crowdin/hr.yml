@@ -2721,7 +2721,7 @@ hr:
       code_401_wrong_credentials: Niste naveli ispravnu akreditaciju.
       code_403: Niste autorizirani za pristup ovom resursu.
       code_404: The requested resource could not be found.
-      code_409: Couldn't update the resource because of conflicting modifications.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: Dogodila se interna pogreška.
       expected:
         date: YYYY-MM-DD (ISO 8601 date only)

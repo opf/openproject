@@ -292,7 +292,7 @@ hu:
       announcements:
         show_until: Megjelenít eddig
       attachment:
-        attachment_content: Melléklettartalom
+        attachment_content: Melléklet tartalma
         attachment_file_name: Melléklet fájl neve
         downloads: Letöltés
         file: Fájl
@@ -1921,7 +1921,7 @@ hu:
   permission_move_work_packages: Munkacsomagok áthelyezése
   permission_protect_wiki_pages: Védett wiki oldalak
   permission_rename_wiki_pages: Wiki oldalak átnevezése
-  permission_save_queries: Save views
+  permission_save_queries: Nézet mentése
   permission_select_project_modules: Projekt modulok kiválasztása
   permission_manage_types: Jelölje ki a típust
   permission_view_calendar: A naptár megtekintése
@@ -2107,7 +2107,7 @@ hu:
   setting_email_delivery_method: E-mail küldés módja
   setting_sendmail_location: A sendmail program elérési útja
   setting_smtp_enable_starttls_auto: Automatikus STARTTLS, ha rendelkezésre áll
-  setting_smtp_ssl: Use SSL connection
+  setting_smtp_ssl: SSL-kapcsolat használata
   setting_smtp_address: SMTP-kiszolgáló
   setting_smtp_port: SMTP-port
   setting_smtp_authentication: SMTP-hitelesítés
@@ -2126,8 +2126,8 @@ hu:
     után tiltsa a felhasználót
   setting_brute_force_block_minutes: Mennyi időre tiltsa ki
   setting_cache_formatted_text: Gyorsítótárazott formázott szöveg
-  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
-    users by default. CKEditor has limited functionality for GFM Markdown.
+  setting_use_wysiwyg_description: Összes felhasználó CKEditor5 WYSIWYG szerkesztő
+    alapértelmezés szerint. CKEditor tegye a GFM Markdown korlátozott funkcionalitással.
   setting_column_options: A munkacsomag listák megjelenésének testreszabása
   setting_commit_fix_keywords: Kulcsszavak rögzítése
   setting_commit_logs_encoding: Üzenetek kódolása
@@ -2226,8 +2226,8 @@ hu:
   setting_welcome_on_homescreen: Üdvözlő blokk megjelenítése a kezdőképernyőn
   setting_wiki_compression: Wiki előzmények tömörítése
   setting_work_package_group_assignment: Hozzárendelés engedélyezése csoportokhoz
-  setting_work_package_list_default_highlighting_mode: Default work package highlighting
-    mode
+  setting_work_package_list_default_highlighting_mode: Alapértelmezett munkacsomag
+    kiemelés mód
   settings:
     general: Általános
     other: Egyéb
@@ -2235,11 +2235,11 @@ hu:
     session: Munkamenet
     brute_force_prevention: Felhasználó automatikus blokkolása
     user:
-      default_preferences: Default preferences
-      deletion: Deletion
+      default_preferences: Alapértelmezett preferenciák
+      deletion: Törlés
   text_formatting:
     markdown: Markdown
-    plain: Plain text
+    plain: Egyszerű szöveg
   status_active: aktív
   status_archived: archivált
   status_invited: meghívott
@@ -2333,8 +2333,8 @@ hu:
   text_journal_aggregation_time_explanation: Fűzze össze a tartalmat az értesítésekben,
     amennyiben az idő kisebb, mint a megadott érték. Ez ugyanúgy késleltetheti az
     e-mail kiküldését.
-  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
-  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
+  text_journal_changed: "%{label} megváltoztatva %{old} </br><strong></strong> %{new}"
+  text_journal_changed_plain: "%{label} megváltozott %{old} -tól %{new} -ig"
   text_journal_changed_no_detail: "%{label} frissítve"
   text_journal_changed_with_diff: "%{label} megváltozott (%{link})"
   text_journal_deleted: "%{label} törölve (%{old})"
@@ -2386,8 +2386,8 @@ hu:
   text_user_wrote: "%{value} írta:"
   text_warn_on_leaving_unsaved: A munkacsomag nem mentett szöveget tartalmaz, ami
     elveszik ha elhagyod ezt az oldalt.
-  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
-    comment
+  text_what_did_you_change_click_to_add_comment: Mit változtattál? Klikkelj egy megjegyzés
+    hozzáadásához.
   text_wiki_destroy_confirmation: Biztosan törli ezt a wikit és annak tartalmát?
   text_wiki_page_destroy_children: A gyermek oldalak és azok aloldalainak törlése
   text_wiki_page_destroy_question: Ez az oldal  %{descendants} gyermek oldalakkal
@@ -2501,7 +2501,7 @@ hu:
       outline: Első vázlat bővítése
       parent: Az alprojektek megjelenítése
       work_package_filters: A munkacsomagok szűrése
-      work_package_responsible: Show work packages with accountable
+      work_package_responsible: Munkacsomagok megjelenítése a felelősökkel
       work_package_assignee: A munkacsomagok megjelenítése a hozzárendelésekkel
       types: Típusok megjelenítése
       status: Állapot megjelenítése
@@ -2514,7 +2514,7 @@ hu:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago,
         %{end_label} %{endspan}%{endspanunit} ból most"
       project_filters: Projekt szűrés
-      project_responsible: Show projects with accountable
+      project_responsible: Projektek megjelenítése a felelősökkel
       project_status: Projekt állapotának megjelenítése
       timeframe: Mutasd az időkeretet
       timeframe_end: címzett
@@ -2705,7 +2705,7 @@ hu:
       code_401_wrong_credentials: Nem megfelelő hitelesítési adatok kerültek megadásra.
       code_403: Ön nem jogosult az erőforrás eléréséhez.
       code_404: A kért erőforrás nem található.
-      code_409: Nem sikerült frissíteni a forrást az ütköző módosítások miatt.
+      code_409: Nem sikerült frissíteni az erőforrást ütköző módosítások miatt.
       code_500: Belső hiba történt.
       expected:
         date: ÉÉÉÉ-HH-NN (ISO 8601 dátum kötelező)
@@ -2733,7 +2733,7 @@ hu:
       validation:
         done_ratio: Az arány nem megadható a szülő munkacsomagokon, amikor az a státuszból
           következtethető vagy alapból ki van kapcsolva.
-        due_date: Finish date cannot be set on parent work packages.
+        due_date: Befejezési dátumot nem lehet beállítani a szülő munkacsomagnak.
         estimated_hours: Becsült óra nem állítható a szülő munkacsomagokon.
         invalid_user_assigned_to_work_package: A kiválasztott felhasználó '%{property}'-ként
           való beállítása nem engedélyezett ehhez a munkacsomaghoz.

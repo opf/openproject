@@ -2754,7 +2754,7 @@ ar:
       code_401_wrong_credentials: لم تقدم بيانات الاعتماد الصحيحة.
       code_403: غير مسموح لك بدخول هذا المورد.
       code_404: تعذر العثور على المورد المطلوب.
-      code_409: لا يمكن تحديث الموارد  بسبب تضارب في التعديلات
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: حدث خطأ داخلي.
       expected:
         date: YYYY-MM-DD (ISO 8601 التاريخ فقط)

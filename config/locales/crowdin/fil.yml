@@ -2785,7 +2785,7 @@ fil:
       code_401_wrong_credentials: Hindi mo na naibigay ang tamang mga kredensyal.
       code_403: Ikaw ay hindi pwedeng magpatunay na mag-akses sa mapagkukunan na ito.
       code_404: Ang hinihiling na mapagkukunan ay hindi nakita.
-      code_409: Hindi mai-updatr ang mapagkukunan dahil sa magkasalungat na mga pagbabago.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: Isang internal error ang naganap.
       expected:
         date: YYYY-MM-DD (ISO 8601 date only)
