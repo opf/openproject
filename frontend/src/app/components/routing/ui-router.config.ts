@@ -44,6 +44,7 @@ import {CurrentProjectService} from "core-components/projects/current-project.se
 import {Injector} from "@angular/core";
 import {WorkPackagesBaseComponent} from "core-components/routing/main/work-packages-base.component";
 import {wpBaseAppSelector} from "./main/work-packages-base.component";
+import {WorkPackagesCalendarComponent} from "core-components/routing/wp-calendar/wp.calendar.component";
 
 const panels = {
   get overview() {
@@ -185,6 +186,14 @@ export const OPENPROJECT_ROUTES:StateDeclaration[] = [
     },
     onEnter: () => jQuery('body').addClass('action-details'),
     onExit: () => jQuery('body').removeClass('action-details')
+  },
+  {
+    name: 'work-packages.calendar',
+    url: '/calendar',
+    component: WorkPackagesCalendarComponent,
+    reloadOnSearch: false,
+    onEnter: () => jQuery('body').addClass('action-index'),
+    onExit: () => jQuery('body').removeClass('action-index')
   },
   _.extend(panels.overview, {name: 'work-packages.list.details.overview'}),
   _.extend(panels.activity, {name: 'work-packages.list.details.activity'}),

@@ -247,8 +247,8 @@ OpenProject::Application.routes.draw do
     # work as a catchall for everything under /wiki
     get 'wiki' => 'wiki#show'
 
-    namespace :work_packages do
-      resources :calendar, controller: 'calendars', only: [:index]
+    scope 'work_packages' do
+      resources :calendar, controller: 'work_packages', only: [:index]
     end
 
     resources :work_packages, only: [] do

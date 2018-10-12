@@ -222,6 +222,7 @@ import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/w
 import {WorkPackageCommentFieldComponent} from "core-components/work-packages/work-package-comment/wp-comment-field.component";
 import {WorkPackageInlineAddExistingChildService} from "core-components/wp-relations/wp-relation-add-child/wp-inline-add-existing-child.service";
 import {WorkPackageInlineAddExistingChildComponent} from "core-components/wp-relations/wp-relation-add-child/wp-inline-add-existing-child.component";
+import {WorkPackagesCalendarComponent} from './components/routing/wp-calendar/wp.calendar.component';
 
 @NgModule({
   imports: [
@@ -341,6 +342,7 @@ import {WorkPackageInlineAddExistingChildComponent} from "core-components/wp-rel
     ConfirmFormSubmitController,
     WorkPackagesBaseComponent,
     WorkPackagesListComponent,
+    WorkPackagesCalendarComponent,
     OpContextMenuTrigger,
     TablePaginationComponent,
     WorkPackageTablePaginationComponent,
@@ -510,6 +512,7 @@ import {WorkPackageInlineAddExistingChildComponent} from "core-components/wp-rel
   entryComponents: [
     WorkPackagesBaseComponent,
     WorkPackagesListComponent,
+    WorkPackagesCalendarComponent,
     WorkPackageTablePaginationComponent,
     WorkPackagesTableController,
     TablePaginationComponent,

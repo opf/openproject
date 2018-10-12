@@ -1,0 +1,31 @@
+<div class="work-packages-list-view--container">
+    <div class="toolbar-container -editable">
+        <div class="toolbar">
+            <wp-query-selectable-title [currentQuery]="currentQuery"
+                                       [selectedTitle]="selectedTitle"
+                                       [queryEditable]="titleEditingEnabled">
+            </wp-query-selectable-title>
+
+            <ul class="toolbar-items hide-when-print"
+                *ngIf="tableInformationLoaded">
+                <li class="toolbar-item hidden-for-mobile">
+                    <wp-filter-button>
+                    </wp-filter-button>
+                </li>
+                <li class="toolbar-item hidden-for-mobile">
+                    <zen-mode-toggle-button>
+                    </zen-mode-toggle-button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <filter-container></filter-container>
+
+    <accessible-by-keyboard
+            linkClass="hidden-for-sighted skip-navigation-link"
+            [linkAriaLabel]="text.text_jump_to_pagination"
+            (execute)="setAnchorToNextElement()">
+        <span [textContent]="text.jump_to_pagination"></span>
+    </accessible-by-keyboard>
+</div>
