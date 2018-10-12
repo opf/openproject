@@ -60,6 +60,7 @@ describe 'Upload attachment to wiki page', js: true do
     end
 
     expect(page).to have_selector('attachment-list-item', text: 'image.png')
+    expect(page).not_to have_selector('notification-upload-progress')
 
     click_on 'Save'
 
@@ -87,6 +88,7 @@ describe 'Upload attachment to wiki page', js: true do
     end
 
     expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
+    expect(page).not_to have_selector('notification-upload-progress')
 
     click_on 'Save'
 
@@ -113,6 +115,7 @@ describe 'Upload attachment to wiki page', js: true do
     # Upload image to dropzone
     expect(page).to have_no_selector('.work-package--attachments--filename')
     attachments.attach_file_on_input(image_fixture)
+    expect(page).not_to have_selector('notification-upload-progress')
     expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png')
 
     # Assume we could still save the page with an empty title
