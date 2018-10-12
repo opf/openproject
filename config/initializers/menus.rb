@@ -255,7 +255,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             caption: :label_all_open_wps
 
   menu.push :calendar,
-            { controller: '/work_packages/calendars', action: 'index' },
+            { controller: '/work_packages', action: 'index' },
             param: :project_id,
             caption: :label_calendar,
             icon: 'icon2 icon-calendar'

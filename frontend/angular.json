@@ -27,7 +27,8 @@
               "node_modules/codemirror/lib/codemirror.css",
               "node_modules/jquery-ui/themes/base/core.css",
               "node_modules/jquery-ui/themes/base/datepicker.css",
-              "node_modules/jquery-ui/themes/base/dialog.css"
+              "node_modules/jquery-ui/themes/base/dialog.css",
+              "node_modules/fullcalendar/dist/fullcalendar.css"
             ],
             "scripts": []
           },
