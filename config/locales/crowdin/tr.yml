@@ -1080,7 +1080,7 @@ tr:
       upsale:
         become_hero: Kahraman olun!
         title: Enterprise Edition sürümüne yükseltme
-        description: What are the benefits?
+        description: Avantajı nedir?
         more_info: Daha fazla bilgi
         additional_features: Ek güçlü premium özellikler
         professional_support: OpenProject uzmanlarından profesyonel destek
@@ -2683,7 +2683,7 @@ tr:
       code_401_wrong_credentials: Doğru kimlik bilgilerini sağlamadınız.
       code_403: Bu kaynağa erişim için yetkiniz yoktur.
       code_404: İstenen kaynak bulunamadı.
-      code_409: Could not update the resource because of conflicting modifications.
+      code_409: Çakışan geliştirmeler sebebiyle kaynak güncellenememiştir.
       code_500: İç hata oluştur.
       expected:
         date: YYYY-AA-GG (ISO 8601 sadece tarih)
