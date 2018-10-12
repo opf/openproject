@@ -44,8 +44,6 @@ class ExtractFulltextJob < ApplicationJob
 
     init
     update
-  ensure
-    FileUtils.rm @file.path if @file
   end
 
   private
