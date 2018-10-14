@@ -138,36 +138,36 @@ ja:
     restdt:
       delivery_failed_with_code: 'トークンの配信に失敗しました。 (エラーコード %{code})'
     strategies:
-      totp: 'Authenticator application'
+      totp: '認証システム アプリケーション'
       sns: 'Amazon SNS'
       resdt: 'SMS Rest API'
-    mobile_transmit_notification: "A one-time password has been sent to your cell phone."
-    label_two_factor_authentication: 'Two-factor authentication'
+    mobile_transmit_notification: "ワンタイムパスワードが携帯電話に送信されました。"
+    label_two_factor_authentication: '2要素認証'
     forced_registration:
-      required_to_add_device: 'An active security policy requires you to enable two-factor authentication. Please use the following form to register a device.'
+      required_to_add_device: 'アクティブなセキュリティポリシーでは2要素認証を有効にする必要があります。デバイスを登録するには、次のフォームを使用してください。'
     remember:
       active_session_notice: >
-        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
+        あなたのアカウントには %{expires_on} まで有効なクッキーが記録されています。このクッキーを使用すると2要素認証なしでアカウントにログインすることができます。
       label: '記憶する'
       clear_cookie: 'このクッキーを削除するにはここをクリックしてください'
       cookie_removed: '記憶させたクッキーは削除されました。'
-      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
+      dont_ask_again: "%{days} 日間このクライアントの2FA認証を記憶するためのクッキーを作成します。"
   field_phone: "携帯電話"
   field_otp: "ワンタイムパスワード"
-  notice_account_otp_invalid: "Invalid one-time password."
-  notice_account_otp_expired: "The one-time password you entered expired."
-  notice_developer_strategy_otp: "Developer strategy generated the following one-time password: %{token} (Channel: %{channel})"
-  notice_account_otp_send_failed: "Your one-time password could not be sent."
-  notice_account_has_no_phone: "No cell phone number is associated with your account."
-  label_expiration_hint: "%{date} or on logout"
+  notice_account_otp_invalid: "無効なワンタイムパスワードです。"
+  notice_account_otp_expired: "入力したワンタイムパスワードは期限切れです。"
+  notice_developer_strategy_otp: "開発者方式では、次のワンタイムパスワードが生成されました: %{token} (チャネル: %{channel})"
+  notice_account_otp_send_failed: "ワンタイムパスワードを送信できませんでした。"
+  notice_account_has_no_phone: "あなたのアカウントには携帯電話番号は関連付けられていません。"
+  label_expiration_hint: "%{date} またはログアウト時"
   label_actions: '操作'
   label_confirmed: '確認済み'
   button_continue: '続行'
   button_make_default: 'デフォルトとしてマークする'
   label_unverified_phone: "携帯電話がまだ検証されていません"
   notice_phone_number_format: "次の形式で番号を入力してください: +XX XXXXXXXX."
-  text_otp_not_receive: "Other verification methods"
-  text_send_otp_again: "Resend one-time password by:"
+  text_otp_not_receive: "その他の確認方法"
+  text_send_otp_again: "ワンタイムパスワードを再送信:"
   button_resend_otp_form: "再送信"
   button_otp_by_voice: "音声通話"
   button_otp_by_sms: "SMS"
