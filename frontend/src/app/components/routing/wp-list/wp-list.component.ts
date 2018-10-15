@@ -106,37 +106,18 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
     // Listen to changes on the query state objects
     this.setupQueryObservers();
 
-    //  Require initial loading of the list if not yet done
-    if (loadingRequired) {
-      this.wpTableRefresh.clear('Impending query loading.');
-      this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier);
-    }
+    this.initialQueryLoading(loadingRequired);
 
     // Listen for refresh changes
     this.setupRefreshObserver();
 
-    // Listen for param changes
-    this.removeTransitionSubscription = this.$transitions.onSuccess({}, (transition):any => {
-      let options = transition.options();
-
-      // Avoid performing any changes when we're going to reload
-      if (options.reload || (options.custom && options.custom.notify === false)) {
-        return true;
-      }
-
-      const params = transition.params('to');
-      let newChecksum = this.wpListService.getCurrentQueryProps(params);
-      let newId = params.query_id && parseInt(params.query_id);
-
-      this.wpListChecksumService
-        .executeIfOutdated(newId,
-          newChecksum,
-          () => this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier));
-    });
+    this.updateQueryOnParamsChanges();
   }
 
   ngOnDestroy():void {
-    this.removeTransitionSubscription();
+    if (this.removeTransitionSubscription) {
+      this.removeTransitionSubscription();
+    }
     this.wpTableRefresh.clear('Table controller scope destroyed.');
   }
 
@@ -255,6 +236,34 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
     } else {
       this.selectedTitle =  this.wpStaticQueries.getStaticName(query);
       this.titleEditingEnabled = false;
+    }
+  }
+
+  private updateQueryOnParamsChanges() {
+    // Listen for param changes
+    this.removeTransitionSubscription = this.$transitions.onSuccess({}, (transition):any => {
+      let options = transition.options();
+
+      // Avoid performing any changes when we're going to reload
+      if (options.reload || (options.custom && options.custom.notify === false)) {
+        return true;
+      }
+
+      const params = transition.params('to');
+      let newChecksum = this.wpListService.getCurrentQueryProps(params);
+      let newId = params.query_id && parseInt(params.query_id);
+
+      this.wpListChecksumService
+        .executeIfOutdated(newId,
+          newChecksum,
+          () => this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier));
+    });
+  }
+
+  private initialQueryLoading(loadingRequired:boolean) {
+    if (loadingRequired) {
+      this.wpTableRefresh.clear('Impending query loading.');
+      this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier);
     }
   }
 }

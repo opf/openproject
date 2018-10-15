@@ -66,13 +66,12 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
 
     let filtersState = this.wpTableFilters.currentState;
 
-    let startDateFilter = _.find(filtersState.current, { 'id': 'startDate' })!;
-    let dueDateFilter = _.find(filtersState.current, { 'id': 'dueDate' })!;
+    let datesIntervalFilter = _.find(filtersState.current, { 'id': 'datesInterval' })!;
 
     let calendarView = jQuery($event.currentTarget).fullCalendar('getView')!;
 
-    startDateFilter.values[0] = (calendarView.start as Moment).format('YYYY-MM-DD');
-    dueDateFilter.values[1] = (calendarView.end as Moment).format('YYYY-MM-DD');
+    datesIntervalFilter.values[0] = (calendarView.start as Moment).format('YYYY-MM-DD');
+    datesIntervalFilter.values[1] = (calendarView.end as Moment).format('YYYY-MM-DD');
 
     this.wpTableFilters.replace(filtersState);
   }
