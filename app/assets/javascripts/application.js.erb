@@ -49,7 +49,12 @@
 //= require danger_zone_validation
 //= require flash_messages
 
-//= require onboarding_tour
+//= require onboarding/homescreen_tour
+//= require onboarding/overview_tour
+//= require onboarding/backlogs_tour
+//= require onboarding/work_package_tour
+//= require onboarding/onboarding_tour
+
 
 function checkAll(selector, checked) {
   jQuery('#' + selector + ' input:checkbox').not(':disabled').each(function() {

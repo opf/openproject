@@ -1065,7 +1065,7 @@ var EnjoyHint;
                             $('#enjoyhint_arrpw_line').remove();
 
                             var d = 'M' + x_from + ',' + y_from + ' Q' + control_point_x + ',' + control_point_y + ' ' + x_to + ',' + y_to;
-                            that.$svg.append(makeSVG('path', {style: "fill:none; stroke:rgb(255,255,255); stroke-width:3", 'marker-end': "url(#arrowMarker)", d: d, id: 'enjoyhint_arrpw_line'}));
+                            that.$svg.append(makeSVG('path', {style: "fill:none; stroke:rgb(255,255,255); stroke-width:3", 'marker-end': "url(" + location.href + "#arrowMarker)", d: d, id: 'enjoyhint_arrpw_line'}));
                             that.enjoyhint.removeClass(that.cl.svg_transparent);
 
                         }, that.options.animation_time / 2);

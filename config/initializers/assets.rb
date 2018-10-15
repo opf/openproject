@@ -17,7 +17,6 @@ OpenProject::Application.configure do
     members_select_boxes.js
     my_page.js
     new_user.js
-    onboarding_tour.js
     project/responsible_attribute.js
     project/description_handling.js
     project/filters.js
