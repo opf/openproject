@@ -54,13 +54,15 @@ See docs/COPYRIGHT.rdoc for more details.
                    }
                  } %>
     </div>
-    <div class="form--field settings--highlighted-attributes" style="<%= 'display: none' unless Setting[:work_package_list_default_highlighting_mode] == 'inline' %>">
-      <%= setting_multiselect :work_package_list_default_highlighted_attributes,
+    <% if EnterpriseToken.allows_to? :conditional_highlighting %>
+      <div class="form--field -indented -vertical settings--highlighted-attributes" style="<%= 'display: none' unless Setting[:work_package_list_default_highlighting_mode] == 'inline' %>">
+        <%= setting_multiselect :work_package_list_default_highlighted_attributes,
                               Query.available_columns(nil).select(&:highlightable).map { |column|
                                 [column.caption, column.name.to_s]
                               }
-      %>
-    </div>
+        %>
+      </div>
+    <% end %>
   </section>
   <fieldset class="form--fieldset"><legend class="form--fieldset-legend"><%= t(:setting_column_options) %></legend>
     <%
