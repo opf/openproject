@@ -191,9 +191,7 @@ export const OPENPROJECT_ROUTES:StateDeclaration[] = [
     name: 'work-packages.calendar',
     url: '/calendar',
     component: WorkPackagesCalendarComponent,
-    reloadOnSearch: false,
-    onEnter: () => jQuery('body').addClass('action-index'),
-    onExit: () => jQuery('body').removeClass('action-index')
+    reloadOnSearch: false
   },
   _.extend(panels.overview, {name: 'work-packages.list.details.overview'}),
   _.extend(panels.activity, {name: 'work-packages.list.details.activity'}),

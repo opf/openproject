@@ -155,10 +155,6 @@ OpenProject::Application.routes.draw do
     match '/unwatch' => 'watchers#unwatch', via: :delete
   end
 
-  scope 'projects/:project_id/work_packages' do
-    resources :calendar, controller: 'work_packages', only: [:index]
-  end
-
   resources :projects, except: [:edit] do
     member do
       # this route let's you access the project specific settings (by tab)
@@ -250,6 +246,10 @@ OpenProject::Application.routes.draw do
     # than any other route as it otherwise would
     # work as a catchall for everything under /wiki
     get 'wiki' => 'wiki#show'
+
+    namespace :work_packages do
+      resources :calendar, controller: 'calendars', only: [:index]
+    end
 
     resources :work_packages, only: [] do
       collection do
@@ -395,15 +395,12 @@ OpenProject::Application.routes.draw do
 
   namespace :work_packages do
     match 'auto_complete' => 'auto_completes#index', via: %i[get post]
+    resources :calendar, controller: 'calendars', only: [:index]
     resource :bulk, controller: 'bulk', only: %i[edit update destroy]
     # FIXME: this is kind of evil!! We need to remove this soonest and
     # cover the functionality. Route is being used in work-package-service.js:331
     get '/bulk' => 'bulk#destroy'
   end
-
-  #scope 'work_packages' do
-  #  resources :calendar, controller: 'work_packages', only: [:index]
-  #end
 
   resources :work_packages, only: [:index] do
     get :column_data, on: :collection # TODO move to API

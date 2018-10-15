@@ -30,8 +30,8 @@ import {Component} from '@angular/core';
 import {WorkPackagesListComponent} from "core-components/routing/wp-list/wp-list.component";
 
 @Component({
-  //selector: 'wp-calendar',
   templateUrl: './wp.calendar.component.html'
 })
+
 export class WorkPackagesCalendarComponent extends WorkPackagesListComponent {
 }
