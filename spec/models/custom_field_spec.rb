@@ -244,6 +244,49 @@ describe CustomField, type: :model do
                            [option2.value, option2.id.to_s]]
       end
     end
+
+    context 'for a version custom field' do
+      let(:versions) { [FactoryBot.build_stubbed(:version), FactoryBot.build_stubbed(:version)] }
+
+      before do
+        field.field_format = 'version'
+      end
+
+      context 'with a project provided' do
+        it 'returns the project\'s shared_versions' do
+          allow(project)
+            .to receive(:shared_versions)
+            .and_return(versions)
+
+          expect(field.possible_values_options(project))
+            .to eql(versions.sort.map { |u| [u.name, u.id.to_s] })
+        end
+      end
+
+      context 'with a time entry provided' do
+        let(:time_entry) { FactoryBot.build_stubbed(:time_entry, project: project) }
+
+        it 'returns the project\'s shared_versions' do
+          allow(project)
+            .to receive(:shared_versions)
+            .and_return(versions)
+
+          expect(field.possible_values_options(project))
+            .to eql(versions.sort.map { |u| [u.name, u.id.to_s] })
+        end
+      end
+
+      context 'with nothing provided' do
+        it 'returns the systemwide versions' do
+          allow(Version)
+            .to receive(:systemwide)
+            .and_return(versions)
+
+          expect(field.possible_values_options)
+            .to eql(versions.sort.map { |u| [u.name, u.id.to_s] })
+        end
+      end
+    end
   end
 
   describe '#possible_values' do
