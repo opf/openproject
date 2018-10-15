@@ -85,6 +85,25 @@ describe Setting, type: :model do
     end
   end
 
+  # Check that when reading certain setting values that they get overwritten if needed.
+  describe "filter saved settings" do
+    before do
+      Setting.work_package_list_default_highlighting_mode = "inline"
+    end
+
+    describe "with EE token", with_ee: [:conditional_highlighting] do
+      it "returns the value for 'work_package_list_default_highlighting_mode' without changing it" do
+        expect(Setting.work_package_list_default_highlighting_mode).to eq("inline")
+      end
+    end
+
+    describe "without EE" do
+      it "return 'none' as 'work_package_list_default_highlighting_mode'" do
+        expect(Setting.work_package_list_default_highlighting_mode).to eq("none")
+      end
+    end
+  end
+
   # tests the serialization feature to store complex data types like arrays in settings
   describe 'serialized settings' do
     before do
