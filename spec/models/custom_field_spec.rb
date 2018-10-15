@@ -246,6 +246,45 @@ describe CustomField, type: :model do
     end
   end
 
+  describe '#possible_values' do
+    context 'on a list custom field' do
+      let(:field) { CustomField.new field_format: "list" }
+
+      context 'on providing an array' do
+        before do
+          field.possible_values = ['One value', 'Two values', '']
+        end
+
+        it 'accepts the values' do
+          expect(field.possible_values.map(&:value))
+            .to match_array(['One value', 'Two values'])
+        end
+      end
+
+      context 'on providing a string' do
+        before do
+          field.possible_values = 'One value'
+        end
+
+        it 'accepts the values' do
+          expect(field.possible_values.map(&:value))
+            .to match_array(['One value'])
+        end
+      end
+
+      context 'on providing a multiline string' do
+        before do
+          field.possible_values = "One value\nTwo values  \r\n \n"
+        end
+
+        it 'accepts the values' do
+          expect(field.possible_values.map(&:value))
+            .to match_array(['One value', 'Two values'])
+        end
+      end
+    end
+  end
+
   describe 'nested attributes for custom options' do
     let(:option) { FactoryBot.build(:custom_option) }
     let(:options) { [option] }
@@ -282,6 +321,17 @@ describe CustomField, type: :model do
       end
 
       it_behaves_like 'saving updates field\'s updated_at'
+    end
+  end
+
+  describe '#destroy' do
+    it 'removes the cf' do
+      field.save!
+
+      field.destroy
+
+      expect(CustomField.where(id: field.id).exists?)
+        .to be_falsey
     end
   end
 end
