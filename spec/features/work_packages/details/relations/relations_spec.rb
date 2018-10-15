@@ -10,6 +10,7 @@ describe 'Work package relations tab', js: true, selenium: true do
   let(:work_packages_page) { ::Pages::SplitWorkPackage.new(work_package) }
   let(:full_wp) { ::Pages::FullWorkPackage.new(work_package) }
   let(:relations) { ::Components::WorkPackages::Relations.new(work_package) }
+  let(:tabs) { ::Components::WorkPackages::Tabs.new(work_package) }
 
   let(:visit) { true }
 
@@ -147,8 +148,14 @@ describe 'Work package relations tab', js: true, selenium: true do
       it 'should allow to manage relations' do
         relations.add_relation(type: 'follows', to: relatable)
 
+        # Relations counter badge should increase number of relations
+        tabs.expect_counter(3, 1)
+
         relations.remove_relation(relatable)
         expect(page).to have_no_selector('.relation-group--header', text: 'FOLLOWS')
+
+        # If there are no relations, the counter badge should not be displayed
+        tabs.expect_no_counter()
 
         work_package.reload
         expect(work_package.relations.direct).to be_empty
@@ -156,6 +163,8 @@ describe 'Work package relations tab', js: true, selenium: true do
 
       it 'should allow to move between split and full view (Regression #24194)' do
         relations.add_relation(type: 'follows', to: relatable)
+        # Relations counter should increase
+        tabs.expect_counter(3, 1)
 
         # Switch to full view
         find('.work-packages--details-fullscreen-icon').click

@@ -29,6 +29,7 @@
 require 'spec_helper'
 
 RSpec.feature 'Work package create children', js: true, selenium: true do
+  let(:tabs) { ::Components::WorkPackages::Tabs.new(original_work_package) }
   let(:user) do
     FactoryBot.create(:user,
                        member_in_project: project,
@@ -41,7 +42,6 @@ RSpec.feature 'Work package create children', js: true, selenium: true do
                        old_status: original_work_package.status,
                        new_status: FactoryBot.create(:status))
   end
-
   let(:create_role) do
     FactoryBot.create(:role,
                        permissions: [:view_work_packages,
@@ -119,7 +119,8 @@ RSpec.feature 'Work package create children', js: true, selenium: true do
     expect(page).to have_selector('.notification-box--content',
                                   text: I18n.t('js.notice_successful_create'))
 
-    expect(page).to have_selector('.wp-tabs-count', text: '1')
+    # Relations counter in full view (with index 2) should equal 1
+    tabs.expect_counter(2, 1)
 
     child_work_package = WorkPackage.order(created_at: 'desc').first
 
@@ -152,7 +153,8 @@ RSpec.feature 'Work package create children', js: true, selenium: true do
     expect(page).to have_selector('.notification-box--content',
                                   text: I18n.t('js.notice_successful_create'))
 
-    expect(page).to have_selector('.wp-tabs-count', text: '1')
+    # # Relations counter in split view (with index 3) should equal 1
+    tabs.expect_counter(3, 1)
 
     child_work_package = WorkPackage.order(created_at: 'desc').first
 

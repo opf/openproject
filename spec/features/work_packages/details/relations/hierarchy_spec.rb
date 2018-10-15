@@ -10,6 +10,7 @@ describe 'Work package relations tab', js: true, selenium: true do
   let(:work_packages_page) { ::Pages::SplitWorkPackage.new(work_package) }
   let(:full_wp) { ::Pages::FullWorkPackage.new(work_package) }
   let(:relations) { ::Components::WorkPackages::Relations.new(work_package) }
+  let(:tabs) { ::Components::WorkPackages::Tabs.new(work_package) }
 
   let(:visit) { true }
 
@@ -55,7 +56,9 @@ describe 'Work package relations tab', js: true, selenium: true do
            text: I18n.t('js.relation_buttons.add_existing_child')).click
 
       relations.add_existing_child(child2)
-      expect(work_packages_page.relations_count).to have_content('3')
+
+      # Count parent and child relations in split view
+      tabs.expect_counter(3, 3)
     end
 
     describe 'inline create' do
@@ -73,6 +76,9 @@ describe 'Work package relations tab', js: true, selenium: true do
         table.expect_work_package_subject 'my new child'
         work_package.reload
         expect(work_package.children.count).to eq(1)
+
+        # If new child is inline created, counter should increase
+        tabs.expect_counter(3, 1)
       end
     end
   end
@@ -141,6 +147,9 @@ describe 'Work package relations tab', js: true, selenium: true do
 
           # But it should show the linked parent
           expect(page).to have_selector('.wp-relations-hierarchy-subject', text: parent.subject)
+
+          # And it should count parent and the two relations
+          tabs.expect_counter(3, 3)
         end
       end
 
@@ -169,6 +178,9 @@ describe 'Work package relations tab', js: true, selenium: true do
           work_packages_page.expect_and_dismiss_notification(message: 'Successful update.')
           relations.expect_child(child)
 
+          # Expect counter to add up new parent and child to the existing relations
+          tabs.expect_counter(3, 4)
+
           # Remove parent
           relations.remove_parent(parent)
           work_packages_page.expect_and_dismiss_notification(message: 'Successful update.')
@@ -178,6 +190,9 @@ describe 'Work package relations tab', js: true, selenium: true do
           relations.remove_child(child)
           # Should also check for successful update but no message is shown, yet.
           relations.expect_not_child(child)
+
+          # Expect counter to only count the two existing relations
+          tabs.expect_counter(3, 2)
         end
       end
     end
