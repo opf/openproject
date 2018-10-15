@@ -44,16 +44,14 @@ module Components
       def switch_entire_row_highlight(label)
         modal_open? or open_modal
         choose "Entire row by"
-        within(:css, ".entire-row-switch") do
-          select label
-        end
+        page.all(".form--field")[1].select label
         apply
       end
 
       def switch_inline_attribute_highlight(*labels)
         modal_open? or open_modal
         choose "Highlighted attribute(s)"
-        within(:css, ".inline-attribute-select") do
+        within(page.all(".form--field")[0]) do
           if labels.size == 1
             select labels.first
           elsif labels.size > 1
