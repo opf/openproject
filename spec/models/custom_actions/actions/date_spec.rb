@@ -39,7 +39,18 @@ describe CustomActions::Actions::Date, type: :model do
       let(:work_package) { FactoryBot.build_stubbed(:stubbed_work_package) }
 
       it 'sets both start and finish date to the action\'s value' do
-        instance.values = [Date.today]
+        instance.values = [Date.today + 5]
+
+        instance.apply(work_package)
+
+        expect(work_package.start_date)
+          .to eql Date.today + 5
+        expect(work_package.due_date)
+          .to eql Date.today + 5
+      end
+
+      it 'sets both start and finish date to the current date if so specified' do
+        instance.values = ['%CURRENT_DATE%']
 
         instance.apply(work_package)
 

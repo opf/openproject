@@ -36,7 +36,7 @@ class CustomActions::Actions::Date < CustomActions::Actions::Base
   end
 
   def apply(work_package)
-    work_package.start_date = values.first
-    work_package.due_date = values.first
+    work_package.start_date = date_to_apply
+    work_package.due_date = date_to_apply
   end
 end
