@@ -83,12 +83,14 @@ describe Query, type: :model do
 
   describe 'highlighting' do
     context 'with EE' do
-      it '#hightlighting_mode accepts valid values' do
-        %w(inline none status type priority).each do |val|
-          query.highlighting_mode = val
-          expect(query).to be_valid
-          expect(query.highlighting_mode).to eq(val.to_sym)
-        end
+      it '#hightlighted_attrirbutes accepts valid values' do
+        query.highlighted_attributes = %w(status type priority due_date)
+        expect(query).to be_valid
+      end
+
+      it '#hightlighted_attributes rejects invalid values' do
+        query.highlighted_attributes = %w(status bogus)
+        expect(query).not_to be_valid
       end
 
       it '#hightlighting_mode accepts non-present values' do
@@ -104,7 +106,7 @@ describe Query, type: :model do
         expect(query).not_to be_valid
       end
 
-      it '#available_highlighting_columns returns highlightable Columns' do
+      it '#available_highlighting_columns returns highlightable columns' do
         available_columns = {
           highlightable1: {
             highlightable: true
