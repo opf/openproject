@@ -122,7 +122,7 @@ describe Query, type: :model do
       end
 
       describe '#highlighted_columns returns a valid subset of Columns' do
-        let(:highlighted_attributes) = { %i{status type priority due_date foo} }
+        let(:highlighted_attributes) { %i{status type priority due_date foo} }
 
         before do
           query.highlighted_attributes = highlighted_attributes
@@ -131,7 +131,7 @@ describe Query, type: :model do
         it 'removes the offending values' do
           query.valid_subset!
 
-          expect(query.highlighted_columns)
+          expect(query.highlighted_columns.map(&:name))
             .to match_array %i{status type priority due_date}
         end
       end
