@@ -26,6 +26,7 @@ describe 'Work package relations tab', js: true, selenium: true do
 
   def visit_relations
     work_packages_page.visit_tab!('relations')
+    expect_angular_frontend_initialized
     work_packages_page.expect_subject
     loading_indicator_saveguard
   end

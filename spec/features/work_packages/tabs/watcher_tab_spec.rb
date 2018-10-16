@@ -56,6 +56,7 @@ describe 'Watcher tab', js: true, selenium: true do
     before do
       login_as(user)
       wp_page.visit_tab! :watchers
+      expect_angular_frontend_initialized
       expect(page).to have_selector('.tabrow li.selected', text: 'WATCHERS')
     end
 
