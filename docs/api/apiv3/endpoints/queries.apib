@@ -13,17 +13,18 @@ A query defines how work packages can be filtered and displayed. Clients can def
 
 ## Linked Properties
 
-| Property         | Description                                                                                                                       | Type                  | Constraints                      | Supported operations |
-| :--------------: | ------------------------------------------------------                                                                            | -----------           | -------------------------------- | -------------------- |
-| self             | This query                                                                                                                        | Query                 | not null                         | READ                 |
-| user             | The user that owns this query                                                                                                     | User                  | not null                         | READ                 |
-| project          | The project on which this query operates                                                                                          | Project               |                                  | READ                 |
-| columns          | Ordered list of QueryColumns. The columns, when maped to WorkPackage properties determine which WorkPackage properties to display | []QueryColumn         |                                  | READ                 |
-| sortBy           | Ordered list of QuerySortBys. Indicates the WorkPackage property the results will be ordered by as well as the direction          | []QuerySortBy         |                                  | READ                 |
-| groupBy          | The WorkPackage property results of this query are grouped by                                                                     | String                |                                  | READ                 |
-| results          | The list of work packages returned by applying the filters, sorting and grouping defined in the query                             | WorkPackageCollection |                                  | READ                 |
-| schema           | This query's schema                                                                                                               | Schema                |                                  | READ                 |
-
+| Property               | Description                                                                                                                       | Type                  | Constraints                                 | Supported operations |
+| :--------------------: | ------------------------------------------------------                                                                            | --------------------- | ------------------------------------------- | -------------------- |
+| self                   | This query                                                                                                                        | Query                 | not null                                    | READ                 |
+| user                   | The user that owns this query                                                                                                     | User                  | not null                                    | READ                 |
+| project                | The project on which this query operates                                                                                          | Project               |                                             | READ                 |
+| columns                | Ordered list of QueryColumns. The columns, when maped to WorkPackage properties determine which WorkPackage properties to display | []QueryColumn         |                                             | READ                 |
+| highlightedAttributes  | List of QueryColumns that should get highlighted when `highlightingMode` is set to `inline`                                       | []QueryColumn         | Only with valid Enterprise Token available  | READ                 |
+| sortBy                 | Ordered list of QuerySortBys. Indicates the WorkPackage property the results will be ordered by as well as the direction          | []QuerySortBy         |                                             | READ                 |
+| groupBy                | The WorkPackage property results of this query are grouped by                                                                     | String                |                                             | READ                 |
+| results                | The list of work packages returned by applying the filters, sorting and grouping defined in the query                             | WorkPackageCollection |                                             | READ                 |
+| schema                 | This query's schema                                                                                                               | Schema                |                                             | READ                 |
+ 
 Please note, that all the properties listed above will also be embedded when individual queries are returned but will not be embedded when a list of queries is returned. Whether the properties are embedded or not may be subject to change in the future.
 
 ## Local Properties
@@ -37,7 +38,7 @@ Please note, that all the properties listed above will also be embedded when ind
 | timelineVisible  | Should the timeline mode be shown?                                                                        | Boolean               |                                      | READ                 |
 | timelineLabels   | Which labels are shown in the timeline, empty when default                                                | QueryTimelineLabels   |                                      | READ                 |
 | timelineZoomLevel| Which zoom level should the timeline be rendered in?                                                      | String                | days, weeks, months, quarters, years | READ                 |
-| highlightingMode | Which highlighting mode should the table have?                                                            | String                | none, inline, status, priority       | READ                 |
+| highlightingMode | Which highlighting mode should the table have?                                                            | String                | none, inline, status, priority, type | READ                 |
 | showHierarchies  | Should the hierarchy mode be enabled?                                                                     | Boolean               |                                      | READ                 |
 | public           | Can users besides the owner see the query?                                                                | Boolean               |                                      | READ                 |
 | starred          | Should the query be highlighted to the user?                                                              | Boolean               |                                      | READ                 |
@@ -104,7 +105,7 @@ If the values are nonprimitive (e.g. User, Project), they will be listed as obje
 
 ```
 
-## Query [/api/v3/queries/{id}{?offset,pageSize,filters,sortBy,groupBy,showSums,timelineVisible,timelineLabels,timelineZoomLevel,highlightingMode,showHierarchies}]
+## Query [/api/v3/queries/{id}{?offset,pageSize,filters,sortBy,groupBy,showSums,timelineVisible,timelineLabels,timelineZoomLevel,highlightingMode,highlightedAttributes,showHierarchies}]
 
 + Model
     + Body
@@ -229,6 +230,7 @@ If the values are nonprimitive (e.g. User, Project), they will be listed as obje
                     "title": "Updated on"
                   }
                 ],
+                highlightedAttributes: [],
                 "groupBy": {
                   "href": null,
                   "title": null
@@ -267,6 +269,7 @@ Retreive an individual query as identified by the id parameter. Then end point a
     + timelineVisible = `false` (optional, boolean, `true`) ... Indicates whether the timeline should be shown.
     + timelineLabels = `{}` (optional, object, `{}`) ... Overridden labels in the timeline view
     + highlightingMode = `inline` (optional, object, `inline`) ... Highlighting mode for the table view.
+    + highlightedAttributes = `['type', 'priority']` (optional, object, `[]`) ... Highlighted attributes mode for the table view when `highlightingMode` is `inline`. When set to `[]` all highlightable attributes will be returned as `highlightedAttributes`.
     + showHierarchies = `true` (optional, boolean, `true`) ... Indicates whether the hierarchy mode should be enabled.
 
 + Response 200 (application/hal+json)
@@ -409,7 +412,7 @@ Delete the query identified by the id parameter
                 "message": "The requested resource could not be found."
             }
 
-## Default Query [/api/v3/queries/default{?offset,pageSize,filters,sortBy,groupBy,showSums,timelineVisible,timelineZoomLevel,showHierarchies}]
+## Default Query [/api/v3/queries/default{?offset,pageSize,filters,sortBy,groupBy,showSums,timelineVisible,timelineZoomLevel,showHierarchies,highlightingMode,highlightedAttributes}]
 
 + Model
     + Body
@@ -518,6 +521,7 @@ Delete the query identified by the id parameter
                     "title": "Updated on"
                   }
                 ],
+                highlightedAttributes: [],
                 "groupBy": {
                   "href": null,
                   "title": null
@@ -1474,6 +1478,13 @@ For more details and all possible responses see the general specification of [Fo
               "highlightingMode": {
                 "type": "String",
                 "name": "Highlighting mode",
+                "required": false,
+                "hasDefault": true,
+                "writable": true
+              },
+              "highlightedAttributes": {
+                "type": "[]QueryColumn",
+                "name": "Highlighted attributes",
                 "required": false,
                 "hasDefault": true,
                 "writable": true
