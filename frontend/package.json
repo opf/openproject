@@ -83,7 +83,6 @@
     "expose-loader": "^0.6.0",
     "file-loader": "^0.8.5",
     "foundation-apps": "git://github.com/opf/foundation-apps.git#1bc8c3ab51e757d19a636747e45e519cde00e902",
-    "fullcalendar": "^3.6.1",
     "fuse.js": "^3.2.0",
     "glob": "^7.1.2",
     "happypack": "^4.0.0",

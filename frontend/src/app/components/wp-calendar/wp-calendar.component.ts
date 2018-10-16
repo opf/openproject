@@ -36,7 +36,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
       header: {
         left: 'prev,next today',
         center: 'title',
-        right: ''
+        right: 'month,basicWeek'
       },
       events: []
     };
@@ -45,10 +45,19 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
       untilComponentDestroyed(this)
     ).subscribe((results:WorkPackageCollectionResource) => {
       this.events = results.elements.map((result:WorkPackageResource) => {
+        let startDate = result.startDate;
+        let endDate = result.dueDate;
+
+        if (result.isMilestone) {
+          startDate = result.date;
+          endDate = result.date;
+        }
+
         return {
           title: result.subject,
-          start: result.startDate,
-          end: result.dueDate
+          start: startDate,
+          end: endDate,
+          className: `__hl_row_type_${result.type.getId()}`
         };
       });
 
