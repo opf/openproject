@@ -12,6 +12,8 @@ describe 'Work package relations tab', js: true, selenium: true do
   let(:relations) { ::Components::WorkPackages::Relations.new(work_package) }
   let(:tabs) { ::Components::WorkPackages::Tabs.new(work_package) }
 
+  let(:relations_tab) { find('.tabrow li.selected', text: 'RELATIONS') }
+
   let(:visit) { true }
 
   before do
@@ -58,7 +60,7 @@ describe 'Work package relations tab', js: true, selenium: true do
       relations.add_existing_child(child2)
 
       # Count parent and child relations in split view
-      tabs.expect_counter(3, 3)
+      tabs.expect_counter(relations_tab, 3)
     end
 
     describe 'inline create' do
@@ -78,7 +80,7 @@ describe 'Work package relations tab', js: true, selenium: true do
         expect(work_package.children.count).to eq(1)
 
         # If new child is inline created, counter should increase
-        tabs.expect_counter(3, 1)
+        tabs.expect_counter(relations_tab, 1)
       end
     end
   end
@@ -149,7 +151,7 @@ describe 'Work package relations tab', js: true, selenium: true do
           expect(page).to have_selector('.wp-relations-hierarchy-subject', text: parent.subject)
 
           # And it should count parent and the two relations
-          tabs.expect_counter(3, 3)
+          tabs.expect_counter(relations_tab, 3)
         end
       end
 
@@ -179,7 +181,7 @@ describe 'Work package relations tab', js: true, selenium: true do
           relations.expect_child(child)
 
           # Expect counter to add up new parent and child to the existing relations
-          tabs.expect_counter(3, 4)
+          tabs.expect_counter(relations_tab, 4)
 
           # Remove parent
           relations.remove_parent(parent)
@@ -192,7 +194,7 @@ describe 'Work package relations tab', js: true, selenium: true do
           relations.expect_not_child(child)
 
           # Expect counter to only count the two existing relations
-          tabs.expect_counter(3, 2)
+          tabs.expect_counter(relations_tab, 2)
         end
       end
     end

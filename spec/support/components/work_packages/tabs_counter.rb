@@ -13,22 +13,14 @@ module Components
         @work_package = work_package
       end
 
-      # Counter elements
-        # 2: Relation tab in split view
-        # 3: Relation tab in full view and watchers tab in split view
-        # 4: Watchers tab in full view
-      def counter_for(tabindex)
-        find('ul.tabrow > li:nth-child(' + tabindex.to_s + ') .wp-tabs-count')
+      # Check value of counter for the given tab
+      def expect_counter(tab, content)
+        expect(tab).to have_selector('.wp-tabs-count', text: "#{content}")
       end
 
-      # Check number of relations or watchers for tab with given index
-      def expect_counter(tabindex, content)
-        expect(counter_for(tabindex)).to have_content(content.to_s)
-      end
-
-      # There are no relations or watchers
-      def expect_no_counter()
-        expect(page).to have_no_selector('.wp-tabs-count')
+      # Counter should not be displayed, if there are no relations or watchers
+      def expect_no_counter(tab)
+        expect(tab).to have_no_selector('.wp-tabs-count')
       end
     end
   end
