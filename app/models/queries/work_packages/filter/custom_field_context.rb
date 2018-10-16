@@ -39,14 +39,14 @@ module Queries::WorkPackages::Filter::CustomFieldContext
     end
 
     def custom_fields(context)
-      if context && context.project
+      if context&.project
         context.project.all_work_package_custom_fields
       else
         custom_field_class
           .filter
           .for_all
           .where
-          .not(field_format: ['user', 'version'])
+          .not(field_format: %w(user version))
       end
     end
 
@@ -64,7 +64,7 @@ module Queries::WorkPackages::Filter::CustomFieldContext
                  ON #{cf_types_db_table}.type_id =  #{work_package_db_table}.type_id
                  AND #{cf_types_db_table}.custom_field_id = #{custom_field.id}"
 
-      if !custom_field.is_for_all
+      unless custom_field.is_for_all
         joins += " JOIN #{cf_projects_db_table}
                      ON #{cf_projects_db_table}.project_id = #{work_package_db_table}.project_id
                      AND #{cf_projects_db_table}.custom_field_id = #{custom_field.id}"
