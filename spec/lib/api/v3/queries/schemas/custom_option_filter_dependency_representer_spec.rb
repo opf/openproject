@@ -98,6 +98,7 @@ describe ::API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresenter, c
 
       before do
         # fill the cache
+        instance.extend(API::V3::Queries::Schemas::CustomFieldJsonCacheKeyMixin)
         instance.to_json
       end
 
