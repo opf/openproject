@@ -26,13 +26,38 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {DisplayField} from "core-app/modules/fields/display/display-field.module";
-import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
+import {HighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
-export class HighlightableDisplayField extends DisplayField {
-  protected readonly wpTableHighlighting:WorkPackageTableHighlightingService = this.$injector.get(WorkPackageTableHighlightingService);
+export class WorkPackageTableHighlight {
+  private _selectedAttributes:HalResource[]|undefined;
 
-  public get shouldHighlight() {
-    return this.context.options.colorize !== false && (this.context.container !== 'table' || this.wpTableHighlighting.shouldHighlightInline(this.name));
+  constructor(public mode:HighlightingMode = 'inline',
+              selected:HalResource[]|undefined = undefined) {
+    this.selectedAttributes = selected;
+  }
+
+  public get selectedAttributes() {
+    return this._selectedAttributes;
+  }
+
+  public set selectedAttributes(val:HalResource[]|undefined) {
+    if (_.isEmpty(val)) {
+      this._selectedAttributes = undefined;
+    } else {
+      this._selectedAttributes = val;
+    }
+  }
+
+  public update(query:QueryResource|null) {
+    if (!query) {
+      this.mode = 'inline';
+      this.selectedAttributes = undefined;
+      return;
+    }
+
+    this.mode = query.highlightingMode;
+    this.selectedAttributes = query.selectedAttributes;
   }
 }

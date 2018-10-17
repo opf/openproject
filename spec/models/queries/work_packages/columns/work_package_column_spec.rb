@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,26 +26,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Columns::WorkPackageColumn < Queries::Columns::Base
-  attr_accessor :highlightable
-  alias_method :highlightable?, :highlightable
+require 'spec_helper'
 
-  def initialize(name, options = {})
-    super(name, options)
-    self.highlightable = !!options.fetch(:highlightable, false)
+describe Queries::WorkPackages::Columns::WorkPackageColumn, type: :model do
+  it "allows to be constructed with attribute highlightable" do
+    expect(described_class.new('foo', highlightable: true).highlightable?).to eq(true)
   end
 
-  def caption
-    WorkPackage.human_attribute_name(name)
-  end
-
-  def sum_of(work_packages)
-    if work_packages.is_a?(Array)
-      # TODO: Sums::grouped_sums might call through here without an AR::Relation
-      # Ensure that this also calls using a Relation and drop this (slow!) implementation
-      work_packages.map { |wp| value(wp) }.compact.reduce(:+)
-    else
-      work_packages.sum(name)
-    end
+  it "allows to be constructed without attribute highlightable" do
+    expect(described_class.new('foo').highlightable?).to eq(false)
   end
 end

@@ -21,6 +21,7 @@ import {
 } from 'core-app/modules/hal/resources/wp-collection-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {HighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
+import {WorkPackageTableHighlight} from "core-components/wp-fast-table/wp-table-highlight";
 
 @Injectable()
 export class TableState extends StatesGroup {
@@ -60,7 +61,7 @@ export class TableState extends StatesGroup {
   // Hierarchies of table
   hierarchies = input<WorkPackageTableHierarchies>();
   // Highlighting mode
-  highlighting = input<HighlightingMode>();
+  highlighting = input<WorkPackageTableHighlight>();
   // State to be updated when the table is up to date
   rendered = input<RenderedRow[]>();
 

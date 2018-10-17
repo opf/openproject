@@ -26,13 +26,28 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {DisplayField} from "core-app/modules/fields/display/display-field.module";
-import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
+import {Inject, Injectable} from '@angular/core';
+import {DOCUMENT} from "@angular/common";
+import {PathHelperService} from "../path-helper/path-helper.service";
 
-export class HighlightableDisplayField extends DisplayField {
-  protected readonly wpTableHighlighting:WorkPackageTableHighlightingService = this.$injector.get(WorkPackageTableHighlightingService);
+@Injectable()
+export class BannersService {
 
-  public get shouldHighlight() {
-    return this.context.options.colorize !== false && (this.context.container !== 'table' || this.wpTableHighlighting.shouldHighlightInline(this.name));
+  private readonly _banners:boolean = true;
+
+  constructor(@Inject(DOCUMENT) protected documentElement:Document) {
+    this._banners = documentElement.body.classList.contains('ee-banners-visible');
+  }
+
+  public get eeShowBanners():boolean {
+    return this._banners;
+  }
+
+  public conditional(bannersVisible?:() => void, bannersNotVisible?:() => void) {
+    this._banners ? this.callMaybe(bannersVisible) : this.callMaybe(bannersNotVisible);
+  }
+
+  private callMaybe(func?:Function) {
+    func && func();
   }
 }
