@@ -191,7 +191,7 @@ export class MainMenuToggleService {
     }
   }
 
-  private isMobile():boolean {
+  public isMobile():boolean {
     return (window.innerWidth < 680);
   }
 
