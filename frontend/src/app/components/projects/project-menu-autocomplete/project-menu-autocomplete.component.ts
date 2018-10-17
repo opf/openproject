@@ -37,6 +37,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HttpClient} from "@angular/common/http";
 import {ChangeDetectorRef, Component, ElementRef, OnInit} from "@angular/core";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import {CurrentProjectService} from "core-components/projects/current-project.service";
 
 export interface IProjectMenuEntry {
   id:number;
@@ -73,7 +74,8 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
               protected elementRef:ElementRef,
               protected http:HttpClient,
               protected cdRef:ChangeDetectorRef,
-              protected I18n:I18nService) {
+              protected I18n:I18nService,
+              protected currentProject:CurrentProjectService) {
     super('projectMenuAutocomplete');
 
     this.text = {
@@ -139,6 +141,11 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
       link
         .text(`» ${item.label}`)
         .css('padding-left', (4 + item.object.level * 16) + 'px');
+    }
+
+    // Highlight selected project
+    if (item.object.identifier === this.currentProject.identifier) {
+      div.addClass('selected');
     }
   }
 
