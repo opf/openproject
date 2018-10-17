@@ -32,33 +32,15 @@ module API
   module V3
     module Queries
       module Schemas
-        class CustomOptionFilterDependencyRepresenter <
-          FilterDependencyRepresenter
+        module CustomFieldJsonCacheKeyMixin
+          def self.extended(base)
+            base.instance_eval do
+              alias :orig_json_cache_key :json_cache_key
 
-          schema_with_allowed_collection :values,
-                                         type: ->(*) { type },
-                                         writable: true,
-                                         has_default: false,
-                                         required: true,
-                                         visibility: false,
-                                         values_callback: ->(*) {
-                                           represented.custom_field.custom_options
-                                         },
-                                         value_representer: CustomOptions::CustomOptionRepresenter,
-                                         link_factory: ->(value) {
-                                           {
-                                             href: api_v3_paths.custom_option(value.id),
-                                             title: value.to_s
-                                           }
-                                         },
-                                         show_if: ->(*) {
-                                           value_required?
-                                         }
-
-          private
-
-          def type
-            '[]CustomOption'
+              def json_cache_key
+                orig_json_cache_key + [filter.custom_field.cache_key]
+              end
+            end
           end
         end
       end
