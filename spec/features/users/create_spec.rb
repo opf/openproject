@@ -96,15 +96,21 @@ describe 'create users', type: :feature, selenium: true do
   context 'with external authentication', js: true do
     before do
       auth_source.save!
-
       new_user_page.visit!
+
       new_user_page.fill_in! first_name: 'bobfirst',
                              last_name: 'boblast',
                              email: 'bob@mail.com',
                              login: 'bob',
                              auth_source: auth_source.name
 
+
       new_user_page.submit!
+    end
+
+    after do
+      # Clear session to avoid that the onboarding tour starts
+      page.execute_script("window.sessionStorage.clear();")
     end
 
     it_behaves_like 'successful user creation' do

@@ -48,7 +48,7 @@
             {
                 'next .menu-item--help': I18n.t('js.onboarding.steps.help_menu'),
                 'shape': 'circle',
-                "nextButton": {text: I18n.t('js.onboarding.steps.got_it')},
+                'nextButton': {text: I18n.t('js.onboarding.steps.got_it')},
                 'showSkip': false
             }
         ];

@@ -84,12 +84,17 @@
 
         function initializeTour(storageValue, disabledElements) {
             tutorialInstance = new EnjoyHint({
+                onStart: function () {
+                    $('#content-wrapper, #menu-sidebar').addClass('-hidden-overflow');
+                },
                 onEnd: function () {
                     sessionStorage.setItem(storageKey, storageValue);
+                    $('#content-wrapper, #menu-sidebar').removeClass('-hidden-overflow');
                 },
                 onSkip: function () {
                     sessionStorage.setItem(storageKey, 'skipped');
                     if (disabledElements) jQuery(disabledElements).removeClass('-disabled').unbind('click', preventClickHandler);
+                    $('#content-wrapper, #menu-sidebar').removeClass('-hidden-overflow');
                 }
             });
         }
@@ -98,6 +103,5 @@
             tutorialInstance.set(steps);
             tutorialInstance.run();
         }
-
     });
 }(jQuery));

@@ -2,7 +2,8 @@
     $(function() {
         window.homescreenOnboardingTourSteps = [
             {
-                'next #top-menu': I18n.t('js.onboarding.steps.welcome')
+                'next #top-menu': I18n.t('js.onboarding.steps.welcome'),
+                'skipButton': {className: 'enjoyhint_btn-transparent'}
             },
             {
                 'description': I18n.t('js.onboarding.steps.project_selection'),
