@@ -476,6 +476,8 @@ it:
         a Microsoft Edge.
       learn_more: Scopri di più
       close_warning: Ignora questo avviso.
+    upsale:
+      ee_only: Enterprise Edition only feature
     wiki_formatting:
       strong: Grassetto
       italic: Corsivo
@@ -658,18 +660,20 @@ it:
           description: Evidenzia con colore
           none: Non evidenziare
           inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline_all: All attributes
           entire_row_by: Tutta la riga per
           status: Stato
           priority: Priorità
+          type: Type
         columns_help_text: Utilizza l'input sopra per aggiungere o rimuovere colonne
           alla visualizzazione della tabella. È possibile trascinare e rilasciare
           le colonne per riordinarle.
         upsale:
-          ee_only: Funzionalità esclusiva della Versione Enterprise
           attribute_highlighting: Vuoi che alcune macro-attività si distinguano dalla
             massa?
           relation_columns: Vuoi visualizzare le relazioni nell'elenco di macro-attività?
           check_out_link: Scopri Enterprise Edition.
+          ee_only: Funzionalità esclusiva della Versione Enterprise
       tabs:
         overview: Panoramica
         activity: Attività

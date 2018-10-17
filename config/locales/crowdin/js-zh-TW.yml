@@ -447,6 +447,8 @@ zh-TW:
       update_ie_user: 請改用Mozilla Firefox或Google Chrome，或者升級到Microsoft Edge。
       learn_more: 了解更多
       close_warning: 忽略此警告。
+    upsale:
+      ee_only: Enterprise Edition only feature
     wiki_formatting:
       strong: 粗體
       italic: 斜體
@@ -609,16 +611,18 @@ zh-TW:
           description: Highlight with color
           none: No highlighting
           inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline_all: All attributes
           entire_row_by: Entire row by
           status: 狀態
           priority: 優先等級
+          type: Type
         columns_help_text: 使用上面的輸入在表視圖中添加或移除列。可以拖放列以對其進行重新排序。
         upsale:
-          ee_only: Enterprise Edition only feature
           attribute_highlighting: Need certain work packages to stand out from the
             mass?
           relation_columns: 需要檢視工作項目清單的關係嗎
           check_out_link: 請查閱企業版
+          ee_only: Enterprise Edition only feature
       tabs:
         overview: 概要
         activity: 活動

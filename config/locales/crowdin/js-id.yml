@@ -470,6 +470,8 @@ id:
         Edge.
       learn_more: Pelajari lebih lanjut
       close_warning: Abaikan peringatan ini.
+    upsale:
+      ee_only: Enterprise Edition only feature
     wiki_formatting:
       strong: Tebal
       italic: Miring
@@ -649,18 +651,20 @@ id:
           description: Highlight with color
           none: No highlighting
           inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline_all: All attributes
           entire_row_by: Entire row by
           status: Status
           priority: Prioritas
+          type: Type
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
         upsale:
-          ee_only: Enterprise Edition only feature
           attribute_highlighting: Need certain work packages to stand out from the
             mass?
           relation_columns: Apakah perlu untuk melihat hubungan dalam daftar paker
             kerja?
           check_out_link: Periksa edisi Perusahaan.
+          ee_only: Enterprise Edition only feature
       tabs:
         overview: Tinjauan
         activity: Activity

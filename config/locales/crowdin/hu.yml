@@ -1037,6 +1037,7 @@ hu:
 '
   error_external_authentication_failed: Hiba történt a külső hitelesítés során. Kérjük,
     próbálja meg újra.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Projekt szerkesztve
     changeset: Commit szerkesztve
@@ -2229,6 +2230,8 @@ hu:
   setting_work_package_group_assignment: Hozzárendelés engedélyezése csoportokhoz
   setting_work_package_list_default_highlighting_mode: Alapértelmezett feladatcsoport
     kiemelés mód
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: Általános
     other: Egyéb
@@ -2238,6 +2241,13 @@ hu:
     user:
       default_preferences: Alapértelmezett preferenciák
       deletion: Törlés
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: No highlighting
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: Egyszerű szöveg

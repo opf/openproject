@@ -471,6 +471,8 @@ sv-SE:
         uppgradera till Microsoft Edge.
       learn_more: Lär dig mer
       close_warning: Bortse från denna varning.
+    upsale:
+      ee_only: Enterprise Edition only feature
     wiki_formatting:
       strong: Fetstil
       italic: Kursiv
@@ -647,18 +649,20 @@ sv-SE:
           description: Highlight with color
           none: No highlighting
           inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline_all: All attributes
           entire_row_by: Entire row by
           status: Status
           priority: Prioritet
+          type: Type
         columns_help_text: Använd inmatningen ovan för att lägga till eller ta bort
           kolumner i din tabellvy. Du kan dra och släppa kolumnerna för att omordna
           dem.
         upsale:
-          ee_only: Enterprise Edition only feature
           attribute_highlighting: Need certain work packages to stand out from the
             mass?
           relation_columns: Need to see relations in the work package list?
           check_out_link: Check out the Enterprise Edition.
+          ee_only: Enterprise Edition only feature
       tabs:
         overview: Översikt
         activity: Aktivitet

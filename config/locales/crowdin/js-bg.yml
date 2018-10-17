@@ -472,6 +472,8 @@ bg:
         to Microsoft Edge.
       learn_more: Научете повече
       close_warning: Ignore this warning.
+    upsale:
+      ee_only: Enterprise Edition only feature
     wiki_formatting:
       strong: Главни букви
       italic: Наклонени букви
@@ -651,17 +653,19 @@ bg:
           description: Highlight with color
           none: No highlighting
           inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline_all: All attributes
           entire_row_by: Entire row by
           status: Състояние
           priority: Приоритет
+          type: Type
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
         upsale:
-          ee_only: Enterprise Edition only feature
           attribute_highlighting: Need certain work packages to stand out from the
             mass?
           relation_columns: Need to see relations in the work package list?
           check_out_link: Check out the Enterprise Edition.
+          ee_only: Enterprise Edition only feature
       tabs:
         overview: Общ преглед
         activity: Активност

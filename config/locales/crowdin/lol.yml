@@ -936,6 +936,7 @@ lol:
 
 '
   error_external_authentication_failed: crwdns100088:0crwdne100088:0
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: crwdns100089:0crwdne100089:0
     changeset: crwdns100090:0crwdne100090:0
@@ -2017,6 +2018,8 @@ lol:
   setting_wiki_compression: crwdns101091:0crwdne101091:0
   setting_work_package_group_assignment: crwdns101092:0crwdne101092:0
   setting_work_package_list_default_highlighting_mode: crwdns101093:0crwdne101093:0
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: crwdns101094:0crwdne101094:0
     other: crwdns101095:0crwdne101095:0
@@ -2026,6 +2029,13 @@ lol:
     user:
       default_preferences: crwdns101099:0crwdne101099:0
       deletion: crwdns101100:0crwdne101100:0
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: No highlighting
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: crwdns101101:0crwdne101101:0
     plain: crwdns101102:0crwdne101102:0

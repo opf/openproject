@@ -438,6 +438,8 @@ lol:
       update_ie_user: crwdns101804:0crwdne101804:0
       learn_more: crwdns101805:0crwdne101805:0
       close_warning: crwdns101806:0crwdne101806:0
+    upsale:
+      ee_only: Enterprise Edition only feature
     wiki_formatting:
       strong: crwdns101807:0crwdne101807:0
       italic: crwdns101808:0crwdne101808:0
@@ -598,15 +600,17 @@ lol:
           description: crwdns101943:0crwdne101943:0
           none: crwdns101944:0crwdne101944:0
           inline: crwdns102535:0crwdne102535:0
+          inline_all: All attributes
           entire_row_by: crwdns101946:0crwdne101946:0
           status: crwdns101947:0crwdne101947:0
           priority: crwdns101948:0crwdne101948:0
+          type: Type
         columns_help_text: crwdns101949:0crwdne101949:0
         upsale:
-          ee_only: crwdns101950:0crwdne101950:0
           attribute_highlighting: crwdns101951:0crwdne101951:0
           relation_columns: crwdns101952:0crwdne101952:0
           check_out_link: crwdns101953:0crwdne101953:0
+          ee_only: crwdns101950:0crwdne101950:0
       tabs:
         overview: crwdns101954:0crwdne101954:0
         activity: crwdns101955:0crwdne101955:0

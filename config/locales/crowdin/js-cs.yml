@@ -474,6 +474,8 @@ cs:
         upgradujte na Microsoft Edge.
       learn_more: Více informací
       close_warning: Ignorovat toto upozornění.
+    upsale:
+      ee_only: Enterprise Edition only feature
     wiki_formatting:
       strong: Strong
       italic: Italic
@@ -653,17 +655,19 @@ cs:
           description: Highlight with color
           none: No highlighting
           inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline_all: All attributes
           entire_row_by: Entire row by
           status: Stav
           priority: Priorita
+          type: Type
         columns_help_text: Použijte vstup výše pro přidání nebo odebrání sloupců do
           tabulkového pohledu. Přetažením sloupců změníte jejich pořadí.
         upsale:
-          ee_only: Enterprise Edition only feature
           attribute_highlighting: Need certain work packages to stand out from the
             mass?
           relation_columns: Need to see relations in the work package list?
           check_out_link: Check out the Enterprise Edition.
+          ee_only: Enterprise Edition only feature
       tabs:
         overview: Přehled
         activity: Aktivita

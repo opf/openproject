@@ -447,6 +447,8 @@ ko:
       update_ie_user: Mozilla Firefox 또는 Google Chrome으로 전환하거나, Microsoft Edge로 업그레이드하십시오.
       learn_more: 자세히 알아보기
       close_warning: 이 경고를 무시하십시오.
+    upsale:
+      ee_only: Enterprise Edition only feature
     wiki_formatting:
       strong: 굵게
       italic: 기울임꼴
@@ -609,15 +611,17 @@ ko:
           description: 색상으로 강조 표시
           none: 강조 표시 없음
           inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline_all: All attributes
           entire_row_by: 전체 행 기준
           status: 상태
           priority: 우선 순위
+          type: Type
         columns_help_text: 위 입력을 사용하여 테이블 보기에 열을 추가하거나 제거하세요. 열을 끌어다 놓아 순서를 바꿀 수 있습니다.
         upsale:
-          ee_only: Enterprise Edition 전용 기능
           attribute_highlighting: 나머지 작업 중에 확연히 두드러지는 특정 작업 패키지가 필요합니까?
           relation_columns: 작업 패키지 목록에서 관계를 표시해야 합니까?
           check_out_link: Enterprise Edition을 체크아웃하세요.
+          ee_only: Enterprise Edition 전용 기능
       tabs:
         overview: 요약
         activity: 활동

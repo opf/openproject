@@ -1038,6 +1038,7 @@ pt-BR:
 '
   error_external_authentication_failed: Ocorreu um erro durante a autenticação externa.
     Por favor, tente novamente.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Projeto editado
     changeset: Conjunto de alterações editadas
@@ -2240,6 +2241,8 @@ pt-BR:
   setting_work_package_group_assignment: Permitir a atribuição de grupos
   setting_work_package_list_default_highlighting_mode: Modo padrão de destaque do
     pacote de trabalho
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: Geral
     other: Outro
@@ -2249,6 +2252,13 @@ pt-BR:
     user:
       default_preferences: Preferências padrão
       deletion: Exclusão
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: No highlighting
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: Texto simples

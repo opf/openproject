@@ -481,6 +481,8 @@ de:
         führen ein Upgrade auf Microsoft Edge durch.
       learn_more: Weitere Informationen
       close_warning: Diese Warnung ignorieren.
+    upsale:
+      ee_only: Enterprise Edition only feature
     wiki_formatting:
       strong: Fett
       italic: Kursiv
@@ -665,17 +667,19 @@ de:
           description: Farbliche Hervorherbung
           none: Keine Hervorhebung
           inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline_all: All attributes
           entire_row_by: Gesamte Zeile durch
           status: Status
           priority: Priorität
+          type: Type
         columns_help_text: Verwenden Sie die Eingabe oben um Spalten zur Tabellenansicht
           hinzuzufügen oder zu entfernen. Sie können die Reihenfolge der Spalten über
           Drag & Drop verändern.
         upsale:
-          ee_only: Enterprise-Edition Feature
           attribute_highlighting: Sollen bestimmte Arbeitspakete aus der Menge herausstechen?
           relation_columns: Möchten Sie Zusammenhänge in der Arbeitspaketliste anzeigen?
           check_out_link: Testen Sie die Enterprise Edition.
+          ee_only: Enterprise-Edition Feature
       tabs:
         overview: Übersicht
         activity: Aktivität

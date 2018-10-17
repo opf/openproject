@@ -1031,6 +1031,7 @@ tr:
 '
   error_external_authentication_failed: Harici doğrulama sırasında bir hata oluştu.
     Lütfen tekrar deneyin.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Proje düzenlendi
     changeset: Değişiklikler düzenlendi
@@ -2215,6 +2216,8 @@ tr:
   setting_work_package_group_assignment: Gruplara iş atanmasına izin ver
   setting_work_package_list_default_highlighting_mode: Varsayılan iş paketi vurgulama
     modu
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: Genel
     other: Diğer
@@ -2224,6 +2227,13 @@ tr:
     user:
       default_preferences: Varsayılan Tercihler
       deletion: Silme
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: No highlighting
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: Düz yazı

@@ -1073,6 +1073,7 @@ ru:
 '
   error_external_authentication_failed: Ошибка внешней аутентификации. Пожалуйста,
     попробуйте еще раз.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Проект отредактирован
     changeset: Набор изменений отредактирован
@@ -2284,6 +2285,8 @@ ru:
   setting_work_package_group_assignment: Разрешить назначения группам
   setting_work_package_list_default_highlighting_mode: Режим подсветки пакетов работ
     по умолчанию
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: Общие
     other: Другие
@@ -2293,6 +2296,13 @@ ru:
     user:
       default_preferences: Предпочтения по умолчанию
       deletion: Удаление
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: No highlighting
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: Обычный текст

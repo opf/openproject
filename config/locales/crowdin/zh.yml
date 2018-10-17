@@ -940,6 +940,7 @@ zh:
 
 '
   error_external_authentication_failed: 在外部身份验证期间出错。请再试一次。
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: 编辑项目
     changeset: 编辑变更集
@@ -2030,6 +2031,8 @@ zh:
   setting_wiki_compression: Wiki 历史压缩
   setting_work_package_group_assignment: 允许分配到组
   setting_work_package_list_default_highlighting_mode: 默认工作包突出显示模式
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: 通用
     other: 其他
@@ -2039,6 +2042,13 @@ zh:
     user:
       default_preferences: 默认偏好设置
       deletion: 删除
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: No highlighting
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: 纯文本

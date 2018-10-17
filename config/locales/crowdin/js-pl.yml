@@ -471,6 +471,8 @@ pl:
         lub zaistalować przeglądarkę Microsoft Edge.
       learn_more: Dowiedz się więcej
       close_warning: Zignoruj to ostrzeżenie.
+    upsale:
+      ee_only: Enterprise Edition only feature
     wiki_formatting:
       strong: Pogrubienie
       italic: Kursywa
@@ -649,17 +651,19 @@ pl:
           description: Wyróżniaj kolorem
           none: Bez wyróżniania
           inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline_all: All attributes
           entire_row_by: Cały wiersz wg
           status: Status
           priority: Priorytet
+          type: Type
         columns_help_text: Użyj powyższych danych wejściowych, aby dodać lub usunąć
           kolumny w widoku tabeli. Możesz przeciągać i upuszczać kolumny, aby zmienić
           ich kolejność.
         upsale:
-          ee_only: Funkcja dostępna tylko w wersji Enterprise
           attribute_highlighting: Czy określone pakiety robocze trzeba wyróżnić?
           relation_columns: Chcesz zobaczyć relacje w tej liście pakietów roboczych?
           check_out_link: Sprawdź wersję Enterprise.
+          ee_only: Funkcja dostępna tylko w wersji Enterprise
       tabs:
         overview: Przegląd
         activity: Działanie

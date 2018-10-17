@@ -1027,6 +1027,7 @@ id:
 '
   error_external_authentication_failed: Error selama otentikasi eksternal. Silakan
     coba lagi.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Project edited
     changeset: Set-Perubahan telah diedit
@@ -2205,6 +2206,8 @@ id:
   setting_work_package_group_assignment: Mungkinkan penugasan ke Grup
   setting_work_package_list_default_highlighting_mode: Default work package highlighting
     mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: Umum
     other: Lainnya
@@ -2214,6 +2217,13 @@ id:
     user:
       default_preferences: Default preferences
       deletion: Deletion
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: No highlighting
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: Plain text

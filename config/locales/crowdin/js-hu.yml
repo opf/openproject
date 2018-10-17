@@ -470,6 +470,8 @@ hu:
         vagy Microsoft Edge-re.
       learn_more: További információ
       close_warning: Figyelmeztetés figyelmen kívül hagyása.
+    upsale:
+      ee_only: Enterprise Edition only feature
     wiki_formatting:
       strong: Erős
       italic: Dőlt betű
@@ -649,17 +651,19 @@ hu:
           description: Kiemelés szinnel
           none: Kiemelés nélkül
           inline: Lejárt dátumok, a "Státusz", "Típus" és "Prioritás" attribútummal
+          inline_all: All attributes
           entire_row_by: Egész sor alapján
           status: Állapot
           priority: Fontosság
+          type: Type
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
         upsale:
-          ee_only: Ez csak az Enterprise Edition-ban elérhető
           attribute_highlighting: Need certain work packages to stand out from the
             mass?
           relation_columns: Szeretné látni a munkacsomag kapcsolatait?
           check_out_link: Tekintse meg az Enterprise Edition-t!
+          ee_only: Ez csak az Enterprise Edition-ban elérhető
       tabs:
         overview: Áttekintő
         activity: Tevékenység

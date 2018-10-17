@@ -480,6 +480,8 @@ fr:
         à niveau vers Microsoft Edge.
       learn_more: En savoir plus
       close_warning: Ignorer cet avertissement.
+    upsale:
+      ee_only: Enterprise Edition only feature
     wiki_formatting:
       strong: Gras
       italic: Italique
@@ -663,19 +665,21 @@ fr:
           description: Surligner avec de la couleur
           none: Pas de surlignement
           inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline_all: All attributes
           entire_row_by: Ligne entière par
           status: Statut
           priority: Priorité
+          type: Type
         columns_help_text: Utilisez l’entrée ci-dessus pour ajouter ou supprimer des
           colonnes à votre vue du tableau. Vous pouvez déplacer les colonnes par glisser/déposer
           pour les réorganiser.
         upsale:
-          ee_only: Fonctionnalité exclusive Version Entreprise
           attribute_highlighting: Vous avez besoin de lots de travaux qui sortent
             du lot ?
           relation_columns: Besoin de voir les relations sur la liste des lots de
             travaux ?
           check_out_link: Découvrez l’édition entreprise.
+          ee_only: Fonctionnalité exclusive Version Entreprise
       tabs:
         overview: Vue globale
         activity: Activité

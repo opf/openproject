@@ -476,6 +476,8 @@ pt-BR:
         para o Microsoft Edge.
       learn_more: Saiba mais
       close_warning: Ignorar este aviso.
+    upsale:
+      ee_only: Enterprise Edition only feature
     wiki_formatting:
       strong: Negrito
       italic: Itálico
@@ -655,17 +657,19 @@ pt-BR:
           description: Destacar com cor
           none: Sem destaque
           inline: Datas atrasadas, "Situação", "Tipo" e atributo "Prioridade"
+          inline_all: All attributes
           entire_row_by: Toda linha por
           status: Situação
           priority: Prioridade
+          type: Type
         columns_help_text: Use a entrada acima para adicionar ou remover colunas à
           sua exibição de tabela. Você pode arrastar e soltar as colunas para reordená-las.
         upsale:
-          ee_only: Recurso exclusivo da Enterprise Edition
           attribute_highlighting: Precisa de certos pacotes de trabalho para se destacar
             da massa?
           relation_columns: Necessário ver as relações na lista de pacote de trabalho?
           check_out_link: Confira a versão Enterprise Edition.
+          ee_only: Recurso exclusivo da Enterprise Edition
       tabs:
         overview: Visão geral
         activity: Atividade

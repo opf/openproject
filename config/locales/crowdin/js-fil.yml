@@ -477,6 +477,8 @@ fil:
         sa Microsoft Edge.
       learn_more: Matuto ng higit pa
       close_warning: Huwag pansinin ang babala ito.
+    upsale:
+      ee_only: Enterprise Edition only feature
     wiki_formatting:
       strong: Malakas
       italic: Italic
@@ -662,18 +664,20 @@ fil:
           description: Highlight with color
           none: No highlighting
           inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline_all: All attributes
           entire_row_by: Entire row by
           status: Estado
           priority: Ang prayoridad
+          type: Type
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
         upsale:
-          ee_only: Enterprise Edition only feature
           attribute_highlighting: Need certain work packages to stand out from the
             mass?
           relation_columns: Kailangan tingnan ang mga relasyon sa listahan ng work
             package?
           check_out_link: Suriin ang Enterprise Edition.
+          ee_only: Enterprise Edition only feature
       tabs:
         overview: Buod
         activity: Aktibidad

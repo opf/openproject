@@ -471,6 +471,8 @@ tr:
         da Microsoft Edge'e yükseltin.
       learn_more: Daha fazla bilgi edin
       close_warning: Bu uyarıyı yoksay.
+    upsale:
+      ee_only: Enterprise Edition only feature
     wiki_formatting:
       strong: Kalın
       italic: İtalik
@@ -649,17 +651,19 @@ tr:
           description: Rekle vurgula
           none: Vurgulama
           inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline_all: All attributes
           entire_row_by: Entire row by
           status: Durum
           priority: Öncelik
+          type: Type
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
         upsale:
-          ee_only: Enterprise Edition özelliği
           attribute_highlighting: Need certain work packages to stand out from the
             mass?
           relation_columns: İş paketleri listesindeki ilişkileri görmek ister misiniz?
           check_out_link: Enterprise sürüme bakın.
+          ee_only: Enterprise Edition özelliği
       tabs:
         overview: Genel Bakış
         activity: Etkinlik
