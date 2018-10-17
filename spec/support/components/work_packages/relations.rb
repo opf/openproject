@@ -131,7 +131,7 @@ module Components
         autocomplete = container.find(".wp-relations--autocomplete")
         select_autocomplete autocomplete,
                             query: query,
-                            results_selector: '.wp-relations-autocomplete--results',
+                            results_selector: '.detail-panel--relations .wp-relations-autocomplete--results',
                             select_text: work_package.id
 
         container.find('.wp-create-relation--save').click

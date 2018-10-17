@@ -1,14 +1,12 @@
 require 'spec_helper'
 
-describe 'Work package relations tab', js: true, selenium: true do
+shared_examples 'work package relations tab', js: true, selenium: true do
   include_context 'ui-autocomplete helpers'
 
   let(:user) { FactoryBot.create :admin }
 
   let(:project) { FactoryBot.create(:project) }
   let(:work_package) { FactoryBot.create(:work_package, project: project) }
-  let(:work_packages_page) { ::Pages::SplitWorkPackage.new(work_package) }
-  let(:full_wp) { ::Pages::FullWorkPackage.new(work_package) }
   let(:relations) { ::Components::WorkPackages::Relations.new(work_package) }
   let(:tabs) { ::Components::WorkPackages::Tabs.new(work_package) }
 
@@ -25,9 +23,9 @@ describe 'Work package relations tab', js: true, selenium: true do
   end
 
   def visit_relations
-    work_packages_page.visit_tab!('relations')
+    wp_page.visit_tab!('relations')
     expect_angular_frontend_initialized
-    work_packages_page.expect_subject
+    wp_page.expect_subject
     loading_indicator_saveguard
   end
 
@@ -39,7 +37,7 @@ describe 'Work package relations tab', js: true, selenium: true do
     it 'allows to manage hierarchy' do
       # Shows link parent link
       expect(page).to have_selector('#hierarchy--add-parent')
-      find('.work-packages--details .wp-inline-create--add-link',
+      find('.wp-inline-create--add-link',
            text: I18n.t('js.relation_buttons.add_parent')).click
 
       # Add parent
@@ -48,14 +46,14 @@ describe 'Work package relations tab', js: true, selenium: true do
 
       ##
       # Add child #1
-      find('.work-packages--details .wp-inline-create--add-link',
+      find('.wp-inline-create--add-link',
            text: I18n.t('js.relation_buttons.add_existing_child')).click
 
       relations.add_existing_child(child)
 
       ##
       # Add child #2
-      find('.work-packages--details .wp-inline-create--add-link',
+      find('.wp-inline-create--add-link',
            text: I18n.t('js.relation_buttons.add_existing_child')).click
 
       relations.add_existing_child(child2)
@@ -113,8 +111,8 @@ describe 'Work package relations tab', js: true, selenium: true do
     before do
       visit_relations
 
-      work_packages_page.visit_tab!('relations')
-      work_packages_page.expect_subject
+      wp_page.visit_tab!('relations')
+      wp_page.expect_subject
       loading_indicator_saveguard
     end
 
@@ -164,21 +162,21 @@ describe 'Work package relations tab', js: true, selenium: true do
         it 'should be able to link parent and children' do
           # Shows link parent link
           expect(page).to have_selector('#hierarchy--add-parent')
-          find('.work-packages--details .wp-inline-create--add-link',
+          find('.wp-inline-create--add-link',
                text: I18n.t('js.relation_buttons.add_parent')).click
 
           # Add parent
           relations.add_parent(parent.id, parent)
-          work_packages_page.expect_and_dismiss_notification(message: 'Successful update.')
+          wp_page.expect_and_dismiss_notification(message: 'Successful update.')
           relations.expect_parent(parent)
 
           ##
           # Add child
-          find('.work-packages--details .wp-inline-create--add-link',
+          find('.wp-inline-create--add-link',
                text: I18n.t('js.relation_buttons.add_existing_child')).click
 
           relations.add_existing_child(child)
-          work_packages_page.expect_and_dismiss_notification(message: 'Successful update.')
+          wp_page.expect_and_dismiss_notification(message: 'Successful update.')
           relations.expect_child(child)
 
           # Expect counter to add up new parent and child to the existing relations
@@ -186,7 +184,7 @@ describe 'Work package relations tab', js: true, selenium: true do
 
           # Remove parent
           relations.remove_parent(parent)
-          work_packages_page.expect_and_dismiss_notification(message: 'Successful update.')
+          wp_page.expect_and_dismiss_notification(message: 'Successful update.')
           relations.expect_not_parent(parent)
 
           # Remove child
@@ -200,4 +198,14 @@ describe 'Work package relations tab', js: true, selenium: true do
       end
     end
   end
+end
+
+context 'Split screen' do
+  let(:wp_page) { Pages::SplitWorkPackage.new(work_package) }
+  it_behaves_like 'work package relations tab'
+end
+
+context 'Full screen' do
+  let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
+  it_behaves_like 'work package relations tab'
 end
