@@ -11,9 +11,6 @@
                     $('.wp-table--row ').dblclick(function (e) {
                         if (!$(e.target).hasClass('wp-edit-field--display-field')) tutorialInstance.trigger('next');
                     });
-                    $('.wp-table--cell-td.id a').click(function () {
-                        tutorialInstance.trigger('next');
-                    });
 
                     // Disable clicks on the wp context menu links
                     $('.wp-table--details-link, .wp-table-context-menu-link, .wp-table--cell-span').addClass('-disabled').bind('click', preventClickHandler);
