@@ -189,7 +189,7 @@ export const OPENPROJECT_ROUTES:StateDeclaration[] = [
   },
   {
     name: 'work-packages.calendar',
-    url: '/calendar',
+    url: '/calendar?{month:[0-9]+}&{year:[0-9]+}',
     component: WorkPackagesCalendarComponent,
     reloadOnSearch: false
   },

@@ -5,11 +5,8 @@
      style="position: relative">
     <ng-fullcalendar #ucCalendar
                      [options]="calendarOptions"
-                     (eventClick)="eventClick($event.detail)"
-                     (eventDrop)="updateEvent($event.detail)"
                      [(eventsModel)]="events"
-                     (viewRender)="updateTimeframe($event)"
-                     (eventResize)="updateEvent($event.detail)">
+                     (viewRender)="updateTimeframe($event)">
 
     </ng-fullcalendar>
 </div>

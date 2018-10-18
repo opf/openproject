@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {CalendarComponent} from 'ng-fullcalendar';
 import {Options} from 'fullcalendar';
 import {States} from "core-components/states.service";
@@ -14,11 +14,10 @@ import {Moment} from "moment";
   selector: 'wp-calendar',
 })
 
-export class WorkPackagesCalendarController implements OnInit, OnDestroy {
+export class WorkPackagesCalendarController implements OnInit, OnDestroy, AfterViewInit {
   calendarOptions:Options;
   events:any;
   @ViewChild(CalendarComponent) ucCalendar:CalendarComponent;
-
 
   constructor(readonly states:States,
               readonly wpTableFilters:WorkPackageTableFiltersService,
@@ -62,6 +61,10 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
       });
 
     });
+  }
+
+  ngAfterViewInit() {
+    //setTimeout(() => this.ucCalendar.fullCalendar('gotoDate', '2018-09-01'));
   }
 
   ngOnDestroy() {
