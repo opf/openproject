@@ -89,6 +89,10 @@
   LI > A.inactive
     color: #999999
 
+  LI > A.selected
+    @include varprop(background, drop-down-selected-bg-color)
+    @include varprop(color, drop-down-selected-font-color)
+
 .dropdown
   @include dot_border_width_style
 
