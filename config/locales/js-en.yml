@@ -132,6 +132,11 @@ en:
           button: 'Embed work package table'
           text: '[Placeholder] Embedded work package table'
 
+    custom_actions:
+      date:
+        specific: 'on'
+        current_date: 'Current date'
+
     error:
       internal: "An internal error has occurred."
       cannot_save_changes_with_message: "Cannot save your changes due to the following error: %{error}"
