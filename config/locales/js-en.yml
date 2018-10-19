@@ -311,18 +311,18 @@ en:
         sidebar: 'From the <b>Project menu</b> you can access all modules within a project. You can resize it with the handlebars on the right.'
         settings: 'In the <b>Project settings</b> you can configure your project’s modules.'
         members: 'Invite new <b>Members</b> to join your project.'
-        backlogs: "Manage your work in the <b>Backlogs</b> view. Let's have a look together and click on the menu entry."
+        backlogs: "Manage your work in the <b>Backlogs</b> view."
         backlogs_overview: "Here you can create <b>epics, user stories and bugs</b>, and prioritize via drag'n'drop and add them to a sprint."
         backlogs_task_board_arrow: 'To open your <b>Task board</b>, click on the Sprint drop-down...'
         backlogs_task_board_select: '... and select the Task board entry.'
         backlogs_task_board: 'The <b>Task board</b> visualizes the progress for each sprint. Add new tasks or impediments with the + next to a user story.'
-        wp_toggler: 'Here is the <b>Work package</b> section. Have a look and click on the arrow.'
-        wp_query: "Let's have a look at all open <b>Work packages</b>. Click on the link to see them."
-        wp_list: 'This is the <b>Work package list</b>. You can create or edit a work package directly inline. <br> Double click on a row to see its details.'
+        wp_toggler: 'Here is the <b>Work package</b> section.'
+        wp_query: "Let's have a look at all open <b>Work packages</b>."
+        wp_list: 'This is the <b>Work package list</b>. You can create or edit a work package directly inline.'
         wp_full_view: 'Within the <b>Work package details</b> you find all relevant information, such as description, status and priority, activities or comments.'
         wp_back_button: 'With the arrow you can navigate back to the work package list.'
         wp_create_button: 'The <b>Create</b> button will add a new work package to your project.'
-        wp_timeline_button: 'On the top, you can activate the <b>Gantt chart</b>. Try it out!'
+        wp_timeline_button: 'On the top, you can activate the <b>Gantt chart</b>.'
         wp_timeline: 'Here you can create and visualize a project plan and share it with your team.'
         help_menu: 'In the <b>Help</b> menu you will find a user guide and additional help resources. <br> Enjoy your work with OpenProject!'
         got_it: 'Got it'

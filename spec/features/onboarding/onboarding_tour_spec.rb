@@ -30,8 +30,10 @@ require 'spec_helper'
 
 describe 'onboarding tour for new users', js: true do
   let(:user) { FactoryBot.create :admin }
-  let(:project) { FactoryBot.create :project, name: 'My Project', identifier: 'project1', is_public: true, enabled_module_names: %w[work_package_tracking] }
+  let(:project) { FactoryBot.create :project, name: 'My Project', identifier: 'demo-project', is_public: true, enabled_module_names: %w[work_package_tracking] }
+  let(:scrum_project) { FactoryBot.create :project, name: 'Your Scrum Project', identifier: 'your-scrum-project', is_public: true, enabled_module_names: %w[work_package_tracking] }
   let!(:wp_1) { FactoryBot.create(:work_package, project: project) }
+  let(:next_button) { find('.enjoyhint_next_btn') }
 
   context 'as a new user' do
     before do
@@ -76,53 +78,53 @@ describe 'onboarding tour for new users', js: true do
       end
 
       it 'and I continue the tutorial' do
-        find('.enjoyhint_next_btn').click
+        next_button.click
         expect(page).to have_text 'Please select one of the projects with useful demo data to get started.'
 
         click_link 'My Project'
         expect(page).to have_current_path project_path('project1')
         expect(page).to have_text 'This is the project’s Overview page.'
 
-        find('.enjoyhint_next_btn').click
+        next_button.click
         expect(page).to have_text 'From the Project menu you can access all modules within a project.'
 
-        find('.enjoyhint_next_btn').click
+        next_button.click
         expect(page).to have_text 'In the Project settings you can configure your project’s modules.'
 
-        find('.enjoyhint_next_btn').click
+        next_button.click
         expect(page).to have_text 'Invite new Members to join your project.'
 
-        find('.enjoyhint_next_btn').click
+        next_button.click
         expect(page).to have_text 'Here is the Work package section'
 
-        find('#main-menu-work-packages-wrapper .toggler').click
+        next_button.click
         expect(page).to have_text  "Let's have a look at all open Work packages"
 
-        find('.wp-query-menu--item-link', text: 'All open').click
-        expect(page).to have_current_path project_work_packages_path('project1')
+        next_button.click
+        expect(page).to have_current_path project_work_packages_path(project.identifier)
         expect(page).not_to have_selector('.loading-indicator')
         expect(page).to have_text  'This is the Work package list.'
 
-        find('.wp-table--row').double_click
+        next_button.click
         expect(page).to have_current_path project_work_package_path(project, wp_1.id, 'activity')
         expect(page).to have_text  'Within the Work package details you find all relevant information'
 
-        find('.enjoyhint_next_btn').click
+        next_button.click
         expect(page).to have_text 'With the arrow you can navigate back to the work package list.'
 
-        find('.work-packages-list-view-button').click
+        next_button.click
         expect(page).to have_text 'The Create button will add a new work package to your project'
 
-        find('.enjoyhint_next_btn').click
+        next_button.click
         expect(page).to have_text 'On the top, you can activate the Gantt chart.'
 
-        find('#work-packages-timeline-toggle-button').click
+        next_button.click
         expect(page).to have_text 'Here you can create and visualize a project plan and share it with your team.'
 
-        find('.enjoyhint_next_btn').click
+        next_button.click
         expect(page).to have_text 'In the Help menu you will find a user guide and additional help resources.'
 
-        find('.enjoyhint_next_btn').click
+        next_button.click
         expect(page).not_to have_selector '.enjoy_hint_label'
       end
     end

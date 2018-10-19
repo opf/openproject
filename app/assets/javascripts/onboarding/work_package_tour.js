@@ -2,18 +2,10 @@
     $(function() {
         window.wpOnboardingTourSteps = [
             {
-                'custom .wp-table--row': I18n.t('js.onboarding.steps.wp_list'),
+                'next .wp-table--row': I18n.t('js.onboarding.steps.wp_list'),
                 'showSkip': false,
-                'margin': 5,
-                'clickable': true,
-                onBeforeStart: function () {
-                    // Handle next step
-                    $('.wp-table--row ').dblclick(function (e) {
-                        if (!$(e.target).hasClass('wp-edit-field--display-field')) tutorialInstance.trigger('next');
-                    });
-
-                    // Disable clicks on the wp context menu links
-                    $('.wp-table--details-link, .wp-table-context-menu-link, .wp-table--cell-span').addClass('-disabled').bind('click', preventClickHandler);
+                onNext: function () {
+                    $(".wp-table--cell-span.id a ")[0].click();
                 }
             },
             {
@@ -22,9 +14,11 @@
                 'containerClass': '-dark -hidden-arrow'
             },
             {
-                'click .work-packages-list-view-button': I18n.t('js.onboarding.steps.wp_back_button'),
+                'next .work-packages-list-view-button': I18n.t('js.onboarding.steps.wp_back_button'),
                 'showSkip': false,
-                'clickable': true
+                onNext: function () {
+                    $('.work-packages-list-view-button')[0].click();
+                }
             },
             {
                 'next .add-work-package': I18n.t('js.onboarding.steps.wp_create_button'),
@@ -32,10 +26,12 @@
                 'shape': 'circle'
             },
             {
-                'click .timeline-toolbar--button': I18n.t('js.onboarding.steps.wp_timeline_button'),
+                'next .timeline-toolbar--button': I18n.t('js.onboarding.steps.wp_timeline_button'),
                 'showSkip': false,
                 'shape': 'circle',
-                'clickable': true
+                onNext: function () {
+                    $('.timeline-toolbar--button')[0].click();
+                }
             },
             {
                 'next .work-packages-tabletimeline--timeline-side': I18n.t('js.onboarding.steps.wp_timeline'),

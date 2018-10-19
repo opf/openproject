@@ -49,6 +49,10 @@ var EnjoyHint;
 
                 onNextClick: function () {
 
+                    if (data[current_step].onNext && typeof data[current_step].onNext === 'function') {
+                        data[current_step].onNext();
+                    }
+
                     nextStep();
                 },
 
