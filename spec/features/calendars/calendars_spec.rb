@@ -70,11 +70,13 @@ describe 'Work package calendars', type: :feature, js: true do
     expect(page)
       .to have_selector '.fc-event-container', text: another_current_work_package.subject
 
+    filters.open
     # The filter for the time frame added implicitly should not be visible
+    filters.expect_no_filter_by('Dates interval', 'datesInterval')
     filters.expect_filter_count 1
 
-    filters.open
-    filters.add_filter_by 'Subject', 'contains', 'Another'
+    # The user can filter by e.g. the subject filter
+    filters.add_filter_by 'Subject', 'contains', ['Another']
 
     # non matching work packages are no longer displayed
     expect(page)
