@@ -49,12 +49,14 @@
 //= require danger_zone_validation
 //= require flash_messages
 
-//= require onboarding/homescreen_tour
-//= require onboarding/overview_tour
-//= require onboarding/backlogs_tour
-//= require onboarding/work_package_tour
-//= require onboarding/onboarding_tour
-
+// Make sure the demo data still exists  
+<% if Project.find_by(identifier: 'demo-project') && Project.find_by(identifier: 'your-scrum-project') %>
+  <% require_asset "onboarding/homescreen_tour" %>
+  <% require_asset "onboarding/overview_tour" %>
+  <% require_asset "onboarding/backlogs_tour" %>
+  <% require_asset "onboarding/work_package_tour" %>
+  <% require_asset "onboarding/onboarding_tour" %>
+<% end %>
 
 function checkAll(selector, checked) {
   jQuery('#' + selector + ' input:checkbox').not(':disabled').each(function() {

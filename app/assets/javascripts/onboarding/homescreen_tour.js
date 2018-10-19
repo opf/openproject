@@ -3,7 +3,8 @@
         window.homescreenOnboardingTourSteps = [
             {
                 'next #top-menu': I18n.t('js.onboarding.steps.welcome'),
-                'skipButton': {className: 'enjoyhint_btn-transparent'}
+                'skipButton': {className: 'enjoyhint_btn-transparent'},
+                'containerClass': '-hidden-arrow'
             },
             {
                 'description': I18n.t('js.onboarding.steps.project_selection'),

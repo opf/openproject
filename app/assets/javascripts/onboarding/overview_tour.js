@@ -4,7 +4,7 @@
             {
                 'next #content-wrapper': I18n.t('js.onboarding.steps.project_overview'),
                 'showSkip': false,
-                'containerClass': '-dark'
+                'containerClass': '-dark -hidden-arrow'
             },
             {
                 'next #menu-sidebar': I18n.t('js.onboarding.steps.sidebar'),

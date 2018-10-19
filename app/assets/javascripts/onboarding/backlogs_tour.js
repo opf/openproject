@@ -4,11 +4,11 @@
             {
                 'next #content-wrapper': I18n.t('js.onboarding.steps.backlogs_overview'),
                 'showSkip': false,
-                'containerClass': '-dark'
+                'containerClass': '-dark -hidden-arrow'
             },
             {
                 'event': 'click',
-                'selector': '.backlog .menu-trigger',
+                'selector': '#sprint_backlogs_container .backlog .menu-trigger',
                 'description': I18n.t('js.onboarding.steps.backlogs_task_board_arrow'),
                 'showSkip': false,
                 'clickable': true,
@@ -36,7 +36,7 @@
             {
                 'next #content-wrapper': I18n.t('js.onboarding.steps.backlogs_task_board'),
                 'showSkip': false,
-                'containerClass': '-dark'
+                'containerClass': '-dark -hidden-arrow'
             },
             {
                 'custom .toggler': I18n.t('js.onboarding.steps.wp_toggler'),

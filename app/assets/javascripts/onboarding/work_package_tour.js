@@ -19,7 +19,7 @@
             {
                 'next .work-packages-full-view--split-left': I18n.t('js.onboarding.steps.wp_full_view'),
                 'showSkip': false,
-                'containerClass': '-dark'
+                'containerClass': '-dark -hidden-arrow'
             },
             {
                 'click .work-packages-list-view-button': I18n.t('js.onboarding.steps.wp_back_button'),
