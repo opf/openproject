@@ -36,6 +36,7 @@ module DemoData
 
       def area(config, project)
         return config if config.is_a? String
+        return config[:block] if config[:block].present?
 
         [config[:id], config[:title], with_references(config[:content], project)]
       end
@@ -49,8 +50,14 @@ module DemoData
           attachment.save!
         end
 
-        area_with_references = Array(my_project_overview.send(area)).map do |tag, title, content|
-          [tag, title, link_attachments(content, my_project_overview.attachments)]
+        area_with_references = Array(my_project_overview.send(area)).map do |data|
+          if data.is_a? String # single string referring to a block
+            data
+          else
+            tag, title, content = data
+
+            [tag, title, link_attachments(content, my_project_overview.attachments)]
+          end
         end
 
         my_project_overview.update area => area_with_references
