@@ -1,10 +1,11 @@
 <div class="work-packages-list-view--container">
     <div class="toolbar-container -editable">
         <div class="toolbar">
-            <wp-query-selectable-title [currentQuery]="currentQuery"
-                                       [selectedTitle]="selectedTitle"
-                                       [queryEditable]="titleEditingEnabled">
-            </wp-query-selectable-title>
+            <div class="title-container">
+                <h2>
+                   {{ I18n.t('js.calendar.title') }}
+                </h2>
+            </div>
 
             <ul class="toolbar-items hide-when-print"
                 *ngIf="tableInformationLoaded">
