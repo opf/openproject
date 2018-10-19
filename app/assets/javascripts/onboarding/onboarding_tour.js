@@ -50,7 +50,7 @@
             }
 
             // ------------------------------- Tutorial Overview page -------------------------------
-            if (currentTourPart === "startOverviewTour") {
+            if (currentTourPart === "startOverviewTour" || url.searchParams.get("start_onboarding_tour")) {
                 if ($('.backlogs-menu-item').length > 0) {
                     initializeTour('startBacklogsTour');
                     startTour(scrumOverviewOnboardingTourSteps);
