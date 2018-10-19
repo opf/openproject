@@ -2228,8 +2228,7 @@ hu:
   setting_welcome_on_homescreen: Üdvözlő blokk megjelenítése a kezdőképernyőn
   setting_wiki_compression: Wiki előzmények tömörítése
   setting_work_package_group_assignment: Hozzárendelés engedélyezése csoportokhoz
-  setting_work_package_list_default_highlighting_mode: Alapértelmezett feladatcsoport
-    kiemelés mód
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
   setting_work_package_list_default_highlighted_attributes: Default inline highlighted
     attributes
   settings:
@@ -2244,7 +2243,7 @@ hu:
     highlighting:
       mode_long:
         inline: Highlight attribute(s) inline
-        none: No highlighting
+        none: Kiemelés nélkül
         status: Entire row by Status
         type: Entire row by Type
         priority: Entire row by Priority

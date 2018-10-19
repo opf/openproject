@@ -109,6 +109,10 @@ nl:
         embedded_table:
           button: Werk pakket tabel insluiten
           text: "[Placeholder] ingesloten werkpakket tabel"
+    custom_actions:
+      date:
+        specific: 'on'
+        current_date: Current date
     error:
       internal: Een interne fout is opgetreden.
       cannot_save_changes_with_message: 'Uw wijzigingen vanwege de volgende fout niet
@@ -479,7 +483,7 @@ nl:
       learn_more: Leer meer
       close_warning: Negeer deze waarschuwing.
     upsale:
-      ee_only: Enterprise Edition only feature
+      ee_only: Functie alleen voor de Enterprise Editie
     wiki_formatting:
       strong: Vet
       italic: Schuingedrukt
@@ -660,7 +664,7 @@ nl:
         highlighting_mode:
           description: Markeren met kleur
           none: Geen markering
-          inline: Achterstallige datums, 'Status',”Type” en 'Prioriteit' kenmerk
+          inline: Highlighted attribute(s)
           inline_all: All attributes
           entire_row_by: Hele rij door
           status: Status
@@ -674,7 +678,6 @@ nl:
             van de massa?
           relation_columns: Nodig om te zien van betrekkingen in de pakketlijst werk?
           check_out_link: Bekijk de Enterprise Edition.
-          ee_only: Functie alleen voor de Enterprise Editie
       tabs:
         overview: Overzicht
         activity: Activiteit

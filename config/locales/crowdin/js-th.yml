@@ -106,6 +106,10 @@ th:
         embedded_table:
           button: Embed work package table
           text: "[Placeholder] Embedded work package table"
+    custom_actions:
+      date:
+        specific: 'on'
+        current_date: Current date
     error:
       internal: An internal error has occurred.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -647,12 +651,12 @@ th:
         highlighting_mode:
           description: Highlight with color
           none: No highlighting
-          inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline: Highlighted attribute(s)
           inline_all: All attributes
           entire_row_by: Entire row by
           status: สถานะ
           priority: ระดับความสำคัญ
-          type: Type
+          type: ประเภท
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
         upsale:
@@ -660,7 +664,6 @@ th:
             mass?
           relation_columns: Need to see relations in the work package list?
           check_out_link: Check out the Enterprise Edition.
-          ee_only: Enterprise Edition only feature
       tabs:
         overview: ภาพรวม
         activity: กิจกรรม

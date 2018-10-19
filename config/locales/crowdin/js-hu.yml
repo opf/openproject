@@ -108,6 +108,10 @@ hu:
         embedded_table:
           button: Feladatcsoport táblázat beágyazása
           text: "[Placeholder] Beágyazott feladatcsoport táblázat"
+    custom_actions:
+      date:
+        specific: 'on'
+        current_date: Current date
     error:
       internal: Belső hiba történt.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -471,7 +475,7 @@ hu:
       learn_more: További információ
       close_warning: Figyelmeztetés figyelmen kívül hagyása.
     upsale:
-      ee_only: Enterprise Edition only feature
+      ee_only: Ez csak az Enterprise Edition-ban elérhető
     wiki_formatting:
       strong: Erős
       italic: Dőlt betű
@@ -650,12 +654,12 @@ hu:
         highlighting_mode:
           description: Kiemelés szinnel
           none: Kiemelés nélkül
-          inline: Lejárt dátumok, a "Státusz", "Típus" és "Prioritás" attribútummal
+          inline: Highlighted attribute(s)
           inline_all: All attributes
           entire_row_by: Egész sor alapján
           status: Állapot
           priority: Fontosság
-          type: Type
+          type: Típus
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
         upsale:
@@ -663,7 +667,6 @@ hu:
             mass?
           relation_columns: Szeretné látni a munkacsomag kapcsolatait?
           check_out_link: Tekintse meg az Enterprise Edition-t!
-          ee_only: Ez csak az Enterprise Edition-ban elérhető
       tabs:
         overview: Áttekintő
         activity: Tevékenység

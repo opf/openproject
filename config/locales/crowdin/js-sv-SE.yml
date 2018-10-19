@@ -110,6 +110,10 @@ sv-SE:
         embedded_table:
           button: Bädda in arbetspaket-tabell
           text: "[Placeholder] Embedded work package table"
+    custom_actions:
+      date:
+        specific: 'on'
+        current_date: Current date
     error:
       internal: Ett internt fel har inträffat.
       cannot_save_changes_with_message: 'Kan inte spara dina ändringar på grund av
@@ -648,12 +652,12 @@ sv-SE:
         highlighting_mode:
           description: Highlight with color
           none: No highlighting
-          inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline: Highlighted attribute(s)
           inline_all: All attributes
           entire_row_by: Entire row by
           status: Status
           priority: Prioritet
-          type: Type
+          type: Typ
         columns_help_text: Använd inmatningen ovan för att lägga till eller ta bort
           kolumner i din tabellvy. Du kan dra och släppa kolumnerna för att omordna
           dem.
@@ -662,7 +666,6 @@ sv-SE:
             mass?
           relation_columns: Need to see relations in the work package list?
           check_out_link: Check out the Enterprise Edition.
-          ee_only: Enterprise Edition only feature
       tabs:
         overview: Översikt
         activity: Aktivitet

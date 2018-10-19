@@ -107,6 +107,10 @@ tr:
         embedded_table:
           button: Gömülü iş paketi tablosu
           text: "[Placeholder] Embedded work package table"
+    custom_actions:
+      date:
+        specific: 'on'
+        current_date: Current date
     error:
       internal: İç hata oluştu.
       cannot_save_changes_with_message: 'Değişikliklerinizin kaydedilememesine sebep
@@ -472,7 +476,7 @@ tr:
       learn_more: Daha fazla bilgi edin
       close_warning: Bu uyarıyı yoksay.
     upsale:
-      ee_only: Enterprise Edition only feature
+      ee_only: Enterprise Edition özelliği
     wiki_formatting:
       strong: Kalın
       italic: İtalik
@@ -650,12 +654,12 @@ tr:
         highlighting_mode:
           description: Rekle vurgula
           none: Vurgulama
-          inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline: Highlighted attribute(s)
           inline_all: All attributes
           entire_row_by: Entire row by
           status: Durum
           priority: Öncelik
-          type: Type
+          type: Tür
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
         upsale:
@@ -663,7 +667,6 @@ tr:
             mass?
           relation_columns: İş paketleri listesindeki ilişkileri görmek ister misiniz?
           check_out_link: Enterprise sürüme bakın.
-          ee_only: Enterprise Edition özelliği
       tabs:
         overview: Genel Bakış
         activity: Etkinlik

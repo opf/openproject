@@ -2044,7 +2044,7 @@ ja:
   setting_welcome_on_homescreen: ホーム画面にようこそブロックを表示
   setting_wiki_compression: Wiki履歴を圧縮する
   setting_work_package_group_assignment: グループへの割り当てを許可する
-  setting_work_package_list_default_highlighting_mode: デフォルト作業項目のハイライトモード
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
   setting_work_package_list_default_highlighted_attributes: Default inline highlighted
     attributes
   settings:
@@ -2059,7 +2059,7 @@ ja:
     highlighting:
       mode_long:
         inline: Highlight attribute(s) inline
-        none: No highlighting
+        none: ハイライトなし
         status: Entire row by Status
         type: Entire row by Type
         priority: Entire row by Priority

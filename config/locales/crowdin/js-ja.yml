@@ -101,6 +101,10 @@ ja:
         embedded_table:
           button: 作業項目表を埋め込む
           text: "[Placeholder] 埋め込まれた作業項目表"
+    custom_actions:
+      date:
+        specific: 'on'
+        current_date: Current date
     error:
       internal: 内部エラーが発生しました。
       cannot_save_changes_with_message: '次のエラーのために変更を保存できません: %{error}'
@@ -442,7 +446,7 @@ ja:
       learn_more: もっと詳しく
       close_warning: この警告を無視する。
     upsale:
-      ee_only: Enterprise Edition only feature
+      ee_only: Enterprise Editionのみの機能
     wiki_formatting:
       strong: 強調
       italic: 斜体字
@@ -603,18 +607,17 @@ ja:
         highlighting_mode:
           description: 色付きでハイライト
           none: ハイライトなし
-          inline: 期限切れ日付、「状態」、「タイプ」、「優先度」の属性
+          inline: Highlighted attribute(s)
           inline_all: All attributes
           entire_row_by: 全体の行
           status: ステータス
           priority: 優先度
-          type: Type
+          type: 種別
         columns_help_text: テーブルビューに列を追加または削除するには上記の入力を使用します。列をドラッグ＆ドロップして並べ替えることができます。
         upsale:
           attribute_highlighting: 全体から目立つように特定の作業項目が必要ですか？
           relation_columns: ワークパッケージリストに関係を表示する必要がありますか?
           check_out_link: エンタープライズ版をチェックしてください。
-          ee_only: Enterprise Editionのみの機能
       tabs:
         overview: 概要
         activity: 活動

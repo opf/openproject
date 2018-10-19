@@ -110,6 +110,10 @@ vi:
         embedded_table:
           button: Nhúng danh sách gói công việc dưới dạng bảng
           text: "[Placeholder] gói công việc nhúng"
+    custom_actions:
+      date:
+        specific: 'on'
+        current_date: Current date
     error:
       internal: Lỗi nội bộ đã xảy ra.
       cannot_save_changes_with_message: 'Không thể lưu thay đổi của bạn do lỗi sau:
@@ -649,12 +653,12 @@ vi:
         highlighting_mode:
           description: Highlight with color
           none: No highlighting
-          inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline: Highlighted attribute(s)
           inline_all: All attributes
           entire_row_by: Entire row by
           status: Trạng thái
           priority: Độ ưu tiên
-          type: Type
+          type: Kiểu
         columns_help_text: Sử dụng ô nhập liệu trên đây để thêm hoặc bớt cột vào bảng
           của bạn. Bạn có thể kéo thả cột để thay đổi trật tự của nó.
         upsale:
@@ -662,7 +666,6 @@ vi:
             mass?
           relation_columns: Need to see relations in the work package list?
           check_out_link: Check out the Enterprise Edition.
-          ee_only: Enterprise Edition only feature
       tabs:
         overview: Tổng quan
         activity: Hoạt động

@@ -2030,7 +2030,7 @@ zh:
   setting_welcome_on_homescreen: 在主屏幕上显示欢迎信息
   setting_wiki_compression: Wiki 历史压缩
   setting_work_package_group_assignment: 允许分配到组
-  setting_work_package_list_default_highlighting_mode: 默认工作包突出显示模式
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
   setting_work_package_list_default_highlighted_attributes: Default inline highlighted
     attributes
   settings:
@@ -2045,7 +2045,7 @@ zh:
     highlighting:
       mode_long:
         inline: Highlight attribute(s) inline
-        none: No highlighting
+        none: 无突出显示
         status: Entire row by Status
         type: Entire row by Type
         priority: Entire row by Priority

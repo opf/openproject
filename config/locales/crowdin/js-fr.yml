@@ -109,6 +109,10 @@ fr:
         embedded_table:
           button: Intégrer le tableau du lot de travaux
           text: "[Placeholder] Tableau du lot de travaux intégré"
+    custom_actions:
+      date:
+        specific: 'on'
+        current_date: Current date
     error:
       internal: Une erreur interne s'est produite.
       cannot_save_changes_with_message: 'Impossible d’enregistrer vos modifications
@@ -481,7 +485,7 @@ fr:
       learn_more: En savoir plus
       close_warning: Ignorer cet avertissement.
     upsale:
-      ee_only: Enterprise Edition only feature
+      ee_only: Fonctionnalité exclusive Version Entreprise
     wiki_formatting:
       strong: Gras
       italic: Italique
@@ -664,7 +668,7 @@ fr:
         highlighting_mode:
           description: Surligner avec de la couleur
           none: Pas de surlignement
-          inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline: Highlighted attribute(s)
           inline_all: All attributes
           entire_row_by: Ligne entière par
           status: Statut
@@ -679,7 +683,6 @@ fr:
           relation_columns: Besoin de voir les relations sur la liste des lots de
             travaux ?
           check_out_link: Découvrez l’édition entreprise.
-          ee_only: Fonctionnalité exclusive Version Entreprise
       tabs:
         overview: Vue globale
         activity: Activité

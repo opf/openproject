@@ -2122,7 +2122,7 @@ ko:
   setting_welcome_on_homescreen: 홈 화면에 환영 블록 표시
   setting_wiki_compression: 위키 기록 압축
   setting_work_package_group_assignment: 그룹에 할당 허용
-  setting_work_package_list_default_highlighting_mode: 기본 작업 패키지 강조 표시 모드
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
   setting_work_package_list_default_highlighted_attributes: Default inline highlighted
     attributes
   settings:
@@ -2137,7 +2137,7 @@ ko:
     highlighting:
       mode_long:
         inline: Highlight attribute(s) inline
-        none: No highlighting
+        none: 강조 표시 없음
         status: Entire row by Status
         type: Entire row by Type
         priority: Entire row by Priority

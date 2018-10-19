@@ -2257,7 +2257,7 @@ nl:
   setting_welcome_on_homescreen: Toon het Welkom blok op thuisscherm
   setting_wiki_compression: Compressie van wiki geschiedenis
   setting_work_package_group_assignment: Sta toewijzingen een groepen toe
-  setting_work_package_list_default_highlighting_mode: Standaart werkpakket markeringsmode
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
   setting_work_package_list_default_highlighted_attributes: Default inline highlighted
     attributes
   settings:
@@ -2272,7 +2272,7 @@ nl:
     highlighting:
       mode_long:
         inline: Highlight attribute(s) inline
-        none: No highlighting
+        none: Geen markering
         status: Entire row by Status
         type: Entire row by Type
         priority: Entire row by Priority

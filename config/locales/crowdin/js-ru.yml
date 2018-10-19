@@ -110,6 +110,10 @@ ru:
         embedded_table:
           button: Вложить таблицу пакетов работ
           text: "[Placeholder] Таблица внедренных пакетов работ"
+    custom_actions:
+      date:
+        specific: 'on'
+        current_date: Current date
     error:
       internal: Произошла внутренняя ошибка.
       cannot_save_changes_with_message: 'Не удается сохранить изменения из-за следующей
@@ -474,7 +478,7 @@ ru:
       learn_more: Узнать больше
       close_warning: Игнорировать это предупреждение.
     upsale:
-      ee_only: Enterprise Edition only feature
+      ee_only: Эта функция есть только в корпоративной версии
     wiki_formatting:
       strong: Выделение жирным
       italic: Курсив
@@ -655,12 +659,12 @@ ru:
         highlighting_mode:
           description: Цветной подсветки
           none: Без подсветки
-          inline: Просроченные даты, атрибуты «Статус», «Тип» и «Приоритет»
-          inline_all: All attributes
+          inline: Выделенные атрибуты
+          inline_all: Все атрибуты
           entire_row_by: Вся строка по
           status: Состояние
           priority: Приоритет
-          type: Type
+          type: Тип
         columns_help_text: Используйте ввод выше для добавления или удаления столбцов
           в табличном представлении. Вы можете перетаскивать столбцы для изменения
           их порядка.
@@ -669,7 +673,6 @@ ru:
             массы?
           relation_columns: Нужно видеть отношения в списке пакетов работ?
           check_out_link: Проверьте корпоративную версию.
-          ee_only: Эта функция есть только в корпоративной версии
       tabs:
         overview: Обзор
         activity: Деятельность

@@ -106,6 +106,10 @@ zh-TW:
         embedded_table:
           button: 嵌入工作包表
           text: "[Placeholder] Embedded work package table"
+    custom_actions:
+      date:
+        specific: 'on'
+        current_date: Current date
     error:
       internal: 發生內部錯誤。
       cannot_save_changes_with_message: '由於以下錯誤, 無法保存所做的更改: %{error}'
@@ -610,19 +614,18 @@ zh-TW:
         highlighting_mode:
           description: Highlight with color
           none: No highlighting
-          inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline: Highlighted attribute(s)
           inline_all: All attributes
           entire_row_by: Entire row by
           status: 狀態
           priority: 優先等級
-          type: Type
+          type: 類型
         columns_help_text: 使用上面的輸入在表視圖中添加或移除列。可以拖放列以對其進行重新排序。
         upsale:
           attribute_highlighting: Need certain work packages to stand out from the
             mass?
           relation_columns: 需要檢視工作項目清單的關係嗎
           check_out_link: 請查閱企業版
-          ee_only: Enterprise Edition only feature
       tabs:
         overview: 概要
         activity: 活動

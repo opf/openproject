@@ -109,6 +109,10 @@ ro:
         embedded_table:
           button: Inserați tabel pachet de lucru
           text: "[Placeholder] Tabelul pachetului de lucru inserat"
+    custom_actions:
+      date:
+        specific: 'on'
+        current_date: Current date
     error:
       internal: A apărut o eroare internă.
       cannot_save_changes_with_message: 'Schimbările nu pot fi salvate datorită acestei
@@ -660,12 +664,12 @@ ro:
         highlighting_mode:
           description: Highlight with color
           none: No highlighting
-          inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline: Highlighted attribute(s)
           inline_all: All attributes
           entire_row_by: Entire row by
           status: Stare
           priority: Prioritate
-          type: Type
+          type: Tip
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
         upsale:
@@ -673,7 +677,6 @@ ro:
             mass?
           relation_columns: Need to see relations in the work package list?
           check_out_link: Check out the Enterprise Edition.
-          ee_only: Enterprise Edition only feature
       tabs:
         overview: Vedere de ansamblu
         activity: Activitate

@@ -2281,8 +2281,7 @@ it:
     home
   setting_wiki_compression: Compressione del registro della wiki
   setting_work_package_group_assignment: Consentire l'assegnazione ai gruppi
-  setting_work_package_list_default_highlighting_mode: Modalità di evidenziazione
-    predefinita per le macro-attività
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
   setting_work_package_list_default_highlighted_attributes: Default inline highlighted
     attributes
   settings:
@@ -2297,7 +2296,7 @@ it:
     highlighting:
       mode_long:
         inline: Highlight attribute(s) inline
-        none: No highlighting
+        none: Non evidenziare
         status: Entire row by Status
         type: Entire row by Type
         priority: Entire row by Priority

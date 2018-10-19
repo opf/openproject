@@ -107,6 +107,10 @@ fil:
         embedded_table:
           button: Embed work package table
           text: "[Placeholder] Embedded work package table"
+    custom_actions:
+      date:
+        specific: 'on'
+        current_date: Current date
     error:
       internal: Isang internal error ang naganap.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -663,12 +667,12 @@ fil:
         highlighting_mode:
           description: Highlight with color
           none: No highlighting
-          inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline: Highlighted attribute(s)
           inline_all: All attributes
           entire_row_by: Entire row by
           status: Estado
           priority: Ang prayoridad
-          type: Type
+          type: Uri
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
         upsale:
@@ -677,7 +681,6 @@ fil:
           relation_columns: Kailangan tingnan ang mga relasyon sa listahan ng work
             package?
           check_out_link: Suriin ang Enterprise Edition.
-          ee_only: Enterprise Edition only feature
       tabs:
         overview: Buod
         activity: Aktibidad

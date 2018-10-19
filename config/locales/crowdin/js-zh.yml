@@ -101,6 +101,10 @@ zh:
         embedded_table:
           button: 嵌入工作包表
           text: "[Placeholder] 嵌入式工作包表"
+    custom_actions:
+      date:
+        specific: 'on'
+        current_date: Current date
     error:
       internal: 发生了内部错误。
       cannot_save_changes_with_message: 由于%{error} 原因，无法保存您的更改。
@@ -439,7 +443,7 @@ zh:
       learn_more: 了解更多信息
       close_warning: 请忽略这个警告。
     upsale:
-      ee_only: Enterprise Edition only feature
+      ee_only: 企业版特定功能
     wiki_formatting:
       strong: 加强
       italic: 斜体
@@ -599,18 +603,17 @@ zh:
         highlighting_mode:
           description: 使用颜色突出显示
           none: 无突出显示
-          inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline: Highlighted attribute(s)
           inline_all: All attributes
           entire_row_by: 整行
           status: 状态
           priority: 优先级
-          type: Type
+          type: 类型
         columns_help_text: 使用上面的输入向表视图添加或删除列。 您可以拖放列以重新排序它们。
         upsale:
           attribute_highlighting: 需要特定的工作包以脱颖而出？
           relation_columns: 需要查看工作包列表中的关系吗？
           check_out_link: 签出企业版。
-          ee_only: 企业版特定功能
       tabs:
         overview: 概述
         activity: 活动

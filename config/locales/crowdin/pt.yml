@@ -2258,8 +2258,7 @@ pt:
   setting_welcome_on_homescreen: Exibir o bloco de boas-vindas no ecrã inicial
   setting_wiki_compression: Compressão do histórico da wiki
   setting_work_package_group_assignment: Permitir atribuição de grupos
-  setting_work_package_list_default_highlighting_mode: Modo de destaque padrão do
-    pacote de trabalho
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
   setting_work_package_list_default_highlighted_attributes: Default inline highlighted
     attributes
   settings:
@@ -2274,7 +2273,7 @@ pt:
     highlighting:
       mode_long:
         inline: Highlight attribute(s) inline
-        none: No highlighting
+        none: Sem destaque
         status: Entire row by Status
         type: Entire row by Type
         priority: Entire row by Priority
