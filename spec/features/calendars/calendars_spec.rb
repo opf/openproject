@@ -51,6 +51,20 @@ describe 'Work package calendars', type: :feature, js: true do
                       start_date: Date.today - 3.days,
                       due_date: Date.today + 3.days)
   end
+  let!(:future_work_package) do
+    FactoryBot.create(:work_package,
+                      subject: 'Future work package',
+                      project: project,
+                      start_date: Date.today.at_beginning_of_month.next_month + 12.days,
+                      due_date: Date.today.at_beginning_of_month.next_month + 18.days)
+  end
+  let!(:another_future_work_package) do
+    FactoryBot.create(:work_package,
+                      subject: 'Another future work package',
+                      project: project,
+                      start_date: Date.today.at_beginning_of_month.next_month + 12.days,
+                      due_date: Date.today.at_beginning_of_month.next_month + 18.days)
+  end
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
   before do
@@ -69,6 +83,10 @@ describe 'Work package calendars', type: :feature, js: true do
       .to have_selector '.fc-event-container', text: current_work_package.subject
     expect(page)
       .to have_selector '.fc-event-container', text: another_current_work_package.subject
+    expect(page)
+      .to have_no_selector '.fc-event-container', text: future_work_package.subject
+    expect(page)
+      .to have_no_selector '.fc-event-container', text: another_future_work_package.subject
 
     filters.open
     # The filter for the time frame added implicitly should not be visible
@@ -86,5 +104,29 @@ describe 'Work package calendars', type: :feature, js: true do
 
     # The filter for the time frame added implicitly should not be visible
     filters.expect_filter_count 2
+
+    # navigate to the next
+    find('.fc-left button.fc-next-button').click
+
+    expect(page)
+      .to have_no_selector '.fc-event-container', text: current_work_package.subject
+    expect(page)
+      .to have_no_selector '.fc-event-container', text: another_current_work_package.subject
+    expect(page)
+      .to have_no_selector '.fc-event-container', text: future_work_package.subject
+    expect(page)
+      .to have_selector '.fc-event-container', text: another_future_work_package.subject
+
+    # removing the filter will show the event again
+    filters.remove_filter 'subject'
+
+    expect(page)
+      .to have_no_selector '.fc-event-container', text: current_work_package.subject
+    expect(page)
+      .to have_no_selector '.fc-event-container', text: another_current_work_package.subject
+    expect(page)
+      .to have_selector '.fc-event-container', text: future_work_package.subject
+    expect(page)
+      .to have_selector '.fc-event-container', text: another_future_work_package.subject
   end
 end
