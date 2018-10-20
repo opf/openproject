@@ -11,6 +11,8 @@ The guides for [manual](./installation/manual/README.md), [packaged](./installat
 
 The detailed upgrade instructions for our packaged installer are located on the [official website](https://www.openproject.org/download/upgrade-guides/).
 
+The guides for [manual](./operations/upgrading/manual/upgrading.md), [packaged](./operations/upgrading/packaged/upgrading.md) and [Docker-based](./operations/upgrading/docker/upgrading.md) upgrading are provided.
+
 ## Operation
 
 * Backup guides for [manual](./operations/backup/manual/backup.md), [packaged](./operations/backup/packaged/backup.md) and [Docker-based](./operations/backup/docker/backup.md) installations
