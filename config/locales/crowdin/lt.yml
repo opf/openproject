@@ -3,7 +3,8 @@ lt:
   no_results_title_text: Nėra nieko rodytino.
   activities:
     index:
-      no_results_title_text: Projekte nėra jokios veiklos.
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: Nėra jokių pasiekiamų plėtinių.
@@ -58,6 +59,26 @@ lt:
   boards:
     show:
       no_results_title_text: Nėra jokių įrašų pranešimų lentoje.
+  colors:
+    index:
+      no_results_title_text: Nėra nurodytų spalvų.
+      no_results_content_text: Sukurti naują spalvą
+    label_no_color: No color
+  custom_actions:
+    actions:
+      name: Veiksmai
+      add: Pridėti veiksmą
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
+    conditions: Sąlygos
+    plural: Pasirinktiniai veiksmai
+    new: Naujas pasirinktinis veiksmas
+    edit: Redaguoti pasirinktinį veiksmą %{name}
+    execute: Vykdyti %{name}
+    upsale:
+      title: Pasirinktiniai veiksmai yra „Enterprise Edition“ funkcija
+      description: Pasirinktiniai veiksmai supaprastina kasdienį darbą suderindami
+        atskirus žingsnius į vieną mygtuką.
   custom_fields:
     text_add_new_custom_field: 'Norėdami pridėti naujus pritaikytus laukelius prie
       projekto, pirmiausia reikia juos sukurti. Tik tada yra galimybė juos pridėti
@@ -72,6 +93,8 @@ lt:
     tab:
       no_results_title_text: Nėra jokių pasirinktinų laukų.
       no_results_content_text: Sukurti naują pasirinktinį lauką
+  concatenation:
+    single: or
   deprecations:
     old_timeline:
       replacement: Šis laiko juostos modulis buvo pakeistas nauju, kuris integruotas
@@ -92,10 +115,6 @@ lt:
       no_results_title_text: Nėra šios grupės vartotojų.
     memberships:
       no_results_title_text: Nėra projektų šiai grupei.
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Nėra nurodytų spalvų.
-      no_results_content_text: Sukurti naują spalvą
   projects:
     index:
       no_results_title_text: Nėra jokių projektų
@@ -116,10 +135,6 @@ lt:
       versions:
         no_results_title_text: Projektas neturi jokių laidų.
         no_results_content_text: Sukurti naują versiją
-  project_types:
-    index:
-      no_results_title_text: Nėra jokių projektų rūšių.
-      no_results_content_text: Sukurti naują projektų rūšį
   members:
     index:
       no_results_title_text: Nėra nė vieno šio projekto dalyvio.
@@ -141,11 +156,20 @@ lt:
   users:
     memberships:
       no_results_title_text: Šis vartotojas šiuo metu nėra projekto narys.
+  prioritiies:
+    edit:
+      priority_color_text: |
+        Click to assign or change the color of this priority.
+        It can be used for highlighting work packages in the table.
   reportings:
     index:
       no_results_title_text: Šiuo metu nėra jokių būklės ataskaitų.
       no_results_content_text: Pridėti būklės ataskaitą
   statuses:
+    edit:
+      status_color_text: |
+        Click to assign or change the color of this status.
+        It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: Nėra jokių darbų paketo būsenų.
       no_results_content_text: Pridėti naują būseną
@@ -158,8 +182,13 @@ lt:
       form_configuration: Formos konfigūracija
       projects: Projektai
       enabled_projects: Įgalinti projektai
-      add_group: Pridėti grupę
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: Atkurti į numatytuosius
+      type_color_text: |
+        Click to assign or change the color of this type. The selected color distinguishes work packages
+        in Gantt charts.
   versions:
     overview:
       no_results_title_text: Šiuo metu nėra šiai versijai priskirtų darbų paketų.
@@ -171,7 +200,14 @@ lt:
     index:
       no_results_title_text: Šiuo metu darbo sekų.
   work_packages:
+    x_descendants:
+      one: One descendant work package
+      other: "%{count} work package descendants"
+      few: "%{count} work package descendants"
+      many: "%{count} work package descendants"
     move:
+      no_common_statuses_exists: There is no status available for all selected work
+        packages. Their status cannot be changed.
       unsupported_for_multiple_projects: Masinis darbų paketų perkėlimas/kopijavimas
         nėra palaikomas darbui iškart su keliais projektais
     list_simple:
@@ -181,7 +217,8 @@ lt:
         no_results_title_text: Šiuo metu nėra darbų paketo, apie kurio vykdymą turėčiau
           atsiskaityti.
       responsible:
-        no_results_title_text: Šiuo metu nėra darbų paketų, už kuriuos būčiau atsakingas.
+        no_results_title_text: There are currently no work packages that I am accountable
+          for.
       watched:
         no_results_title_text: Nėra mano stebimų darbų paketų.
     summary:
@@ -231,10 +268,10 @@ lt:
           su savo prisijungimo duomenimis. Jei panorėsite vėl tapti šios sistemos
           vartotoju, galite pasinaudoti suteikta galimybe.
       login_verification:
-        other: Įveskite prisijungimo vardą %{name}, jei norite patvirtinti naikinimą.
-          Tada Jūsų paprašys patvirtinti savo slaptažodį.
-        self: Įveskite savo prisijungimo vardą %{name}, jei norite patvirtinti naikinimą.
-          Tada Jūsų paprašys patvirtinti savo slaptažodį.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'Jūsų paskyra dar neaktyvuota. Norėdami aktyvuoti,
       paspauskite nuorodą, kuri buvo nusiųsta į Jūsų nurodytą el. pašto dėžutę.
 
@@ -258,6 +295,8 @@ lt:
       announcements:
         show_until: Rodyti iki
       attachment:
+        attachment_content: Prisegto failo turinys
+        attachment_file_name: Prisegto failo vardas
         downloads: Atsisiuntimai
         file: Failas
         filename: Failas
@@ -279,6 +318,8 @@ lt:
         repository: Repozitorija
       comment:
         commented: Komentavo
+      custom_action:
+        actions: Veiksmai
       custom_field:
         default_value: Numatytoji vertė
         editable: Galimas redaguoti
@@ -299,6 +340,7 @@ lt:
         expires_at: Nustoja galioti
         subscriber: Prenumeruotojas
         encoded_token: "„Enterprise“ paramos raktas"
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Vėlavimas
         from: Darbų paketas
@@ -313,9 +355,7 @@ lt:
         identifier: Identifikatorius
         latest_activity_at: Naujausia veikla
         parent: Priklauso projektui
-        project_type: Projekto tipas
         queries: Užklausos
-        responsible: Atsakingas asmuo/grupė
         types: Tipai
         versions: Versijos
         work_packages: Darbų paketai
@@ -337,8 +377,9 @@ lt:
         spent_on: Data
         type: Tipas
       type:
-        is_in_roadmap: Veiksmų plane
-        in_aggregation: Apibendrintai
+        attribute_groups: ''
+        is_in_roadmap: Displayed in roadmap by default
+        is_default: Activated for new projects by default
         is_milestone: Yra svarbus etapas
         color: Spalva
       user:
@@ -351,6 +392,7 @@ lt:
         mail_notification: El. pašto priminimai
         new_password: Naujas slaptažodis
         password_confirmation: Patvirtinimas
+        consented_at: Consented at
       user_preference:
         comments_sorting: Rodyti komentarus
         hide_mail: Slėpti mano el. pašto adresą
@@ -360,10 +402,8 @@ lt:
         warn_on_leaving_unsaved: Įspėti mane, kai palieku darbų paketą su neišsaugotais
           pakeitimais
       version:
-        effective_date: Užbaigimo data
+        effective_date: Finish date
         sharing: Pasidalijimas
-      wiki:
-        start_page: Pradžios puslapis
       wiki_content:
         text: Tekstas
       wiki_page:
@@ -371,23 +411,10 @@ lt:
         redirect_existing_links: Peradresuoti egzistuojančias nuorodas
       planning_element_type_color:
         hexcode: Šešioliktainis kodas
-      project_association:
-        description: Priežastis
-        project_b: Priklausomas projektas
-      project_type:
-        allows_association: Leidžia asociacijas
-        reported_project_statuses: Praneštos projekto būsenos
-        position: Vieta
-      timeline:
-        options: ''
-      reporting:
-        reported_project_status_comment: Būsenos komentaras
-        reporting_to_project: Ataskaitos projektui
-        reported_project_status: Projekto būsena
-        created_at: Sukurta
       work_package:
         begin_insertion: Įterpimo pradžioje
         begin_deletion: Ištrynimo pradžioje
+        children: Subelements
         done_ratio: Progresas (%)
         end_insertion: Įterpimo pabaigoje
         end_deletion: Ištrynimo pabaigoje
@@ -397,7 +424,6 @@ lt:
         parent_work_package: Tėvas
         priority: Pirmenybė
         progress: Progresas (%)
-        responsible: Atsakingas asmuo/grupė
         spent_hours: Praleista laiko
         spent_time: Praleista laiko
         subproject: Sub-projektas
@@ -407,11 +433,16 @@ lt:
     errors:
       messages:
         accepted: turi būti patvirtinta.
+        after: turi būti po %{date}.
+        after_or_equal_to: turi eiti po arba būti lygu %{date}.
+        before: turi eiti prieš %{date}.
+        before_or_equal_to: turi eiti prieš arba būti lygu %{date}.
         blank: negali būti tuščia.
         cant_link_a_work_package_with_a_descendant: Darbų paketas negali būti susietas
           su viena iš savo vidinių užduočių.
         circular_dependency: Šis ryšys sukurtų ciklinę priklausomybę.
         confirmation: nesutampa su %{attribute}.
+        could_not_be_copied: negalima (pilnai) nukopijuoti.
         does_not_exist: neegzistuoja.
         empty: negali būti tuščia.
         even: turi būti lyginis.
@@ -419,11 +450,9 @@ lt:
         file_too_large: per didelis (didžiausias leistinas dydis yra %{count} baitų).
         greater_than: turi būti didesnis už %{count}.
         greater_than_or_equal_to: turi būti didesnis arba lygus %{count}.
-        smaller_than_or_equal_to_max_length: turi būti mažesnis arba lygus didžiausiam
-          ilgiui.
-        greater_than_start_date: turi būti didesnis už pradžios datą.
         greater_than_or_equal_to_start_date: turi būti didesnis arba lygus už pradžios
           datą.
+        greater_than_start_date: turi būti didesnis už pradžios datą.
         inclusion: nenustatyta kaip viena iš leidžiamų reikšmių.
         invalid: " neteisingas."
         invalid_url: nėra tinkamas URL.
@@ -431,24 +460,32 @@ lt:
         less_than_or_equal_to: turi būti mažesnis arba lygus %{count}.
         not_a_date: nėra tinkama data.
         not_a_datetime: nėra tinkama data ir laikas.
-        not_an_iso_date: 'nėra tinkama data. Reikalingas formatas: YYYY-MM-DD.'
         not_a_number: nėra skaičius.
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: nėra sveikasis skaičius.
+        not_an_iso_date: 'nėra tinkama data. Reikalingas formatas: YYYY-MM-DD.'
         not_same_project: nepriklauso tam pačiam projektui.
         odd: turi būti nelyginis.
+        regex_invalid: negalėjo būti patvirtintas su susieta reguliaria išraiška.
+        smaller_than_or_equal_to_max_length: turi būti mažesnis arba lygus didžiausiam
+          ilgiui.
         taken: jau užimtas.
         too_long: yra per ilgas (daugiausiai galima %{count} simbolių).
         too_short: yra per trumpas (mažiausiai %{count} simbolių).
+        unchangeable: cannot be changed.
         wrong_length: yra neteisingo ilgio (turi būti %{count} simbolių).
-        after: turi būti po %{date}.
-        after_or_equal_to: turi eiti po arba būti lygu %{date}.
-        before: turi eiti prieš %{date}.
-        before_or_equal_to: turi eiti prieš arba būti lygu %{date}.
-        could_not_be_copied: negalima (pilnai) nukopijuoti.
-        regex_invalid: negalėjo būti patvirtintas su susieta reguliaria išraiška.
       models:
         custom_field:
           at_least_one_custom_option: Turi būti prieinama bent viena savybė.
+        custom_actions:
+          only_one_allowed: leidžiama (%{name}) tik viena reikšmė.
+          empty: "(%{name}) reikšmė negali būti tuščia."
+          inclusion: "(%{name}) nenustatyta kaip viena iš leidžiamų reikšmių."
+          not_logged_in: "(%{name}) value cannot be set because you are not logged
+            in."
+          not_an_integer: "(%{name}) nėra sveikasis skaičius."
+          smaller_than_or_equal_to: "(%{name}) turi būti mažesnis arba lygus %{count}."
+          greater_than_or_equal_to: "(%{name}) turi būti didesnis arba lygus %{count}."
         enterprise_token:
           unreadable: neįmanoma perskaityti. Ar tai tikrai yra paramos raktas?
         parse_schema_filter_params_service:
@@ -461,16 +498,12 @@ lt:
           attributes:
             types:
               in_use_by_work_packages: 'vis dar naudojama darbų paketuose: %{types}'
-        project_association:
-          identical_projects: Negali sukurti priklausomybės ryšio tarp projekto ir
-            jo paties.
-          project_association_not_allowed: neleidžia sąsajų.
         query:
           attributes:
             project:
               error_not_found: nerasta
             public:
-              error_unauthorized: "- Vartotojas neturi teisių viešoms užklausoms kurti."
+              error_unauthorized: "- The user has no permission to create public views."
           group_by_hierarchies_exclusive: yra nesuderinamas su grupavimu pagal '%{group_by}'.
             Jūs negalite įjungti abiejų.
           filters:
@@ -509,6 +542,11 @@ lt:
             status_id:
               status_transition_invalid: netinkamas, nes nėra tinkamo perėjimo iš
                 senos į naują būseną esamoms vartotojų rolėms.
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
+            type:
+              cannot_be_milestone_due_to_children: cannot be a milestone because this
+                work package has children.
             priority_id:
               only_active_priorities_allowed: turi būti aktyvus.
             category:
@@ -520,10 +558,11 @@ lt:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Bevardės grupės nėra leidžiamos.
-              duplicate_group: Grupės pavadinimas %{group} jau yra naudojamas. Grupių
-                vardai turi būti unikalūs.
               attribute_unknown: Netinkamas darbų paketo atributas naudotas.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Bevardės grupės nėra leidžiamos.
         user:
           attributes:
             password:
@@ -540,6 +579,8 @@ lt:
                   nuo paskutinių %{count}.
                 few: jau buvo naudotas. Prašome pasirinkti tokį, kuris skiriasi nuo
                   paskutinių %{count}.
+                many: has been used before. Please choose one that is different from
+                  your last %{count}.
               match:
                 confirm: Patvirtinkite naują slaptažodį.
                 description: "„Slaptažodžio patvirtinimas“ turi sutapti su įvestu
@@ -557,11 +598,13 @@ lt:
           one: 1 klaida neleido, kad šis %{model} būtų išsaugotas
           other: "%{count} klaidos (-a, -ų) neleido, kad šis %{model} būtų išsaugotas"
           few: "%{count} klaidos (-a, -ų) neleido, kad šis %{model} būtų išsaugotas"
+          many: "%{count} errors prohibited this %{model} from being saved"
     models:
       attachment: Failas
       attribute_help_text: Atributo pagalbos tekstas
       board: Forumas
       comment: Komentaras
+      custom_action: Pasirinktinis veiksmas
       custom_field: Kliento laukelis
       group: Grupė
       category: Kategorija
@@ -574,8 +617,8 @@ lt:
         one: Rolė
         other: Rolės (-ė, -ių)
         few: Rolės (-ė, -ių)
+        many: Roles
       type: Tipas
-      project_type: Projekto tipas
       user: Vartotojas
       version: Versija
       wiki: Wiki
@@ -602,6 +645,7 @@ lt:
     comment: Komentaras
     comments: Komentaras
     content: Turinys
+    color: Spalva
     created_at: Sukurta
     created_on: Sukurta
     custom_options: Galimos reikšmės
@@ -610,7 +654,7 @@ lt:
     default_columns: Numatytieji stulpeliai
     description: Aprašymas
     display_sums: Rodyti suvestines
-    due_date: Užbaigimo data
+    due_date: Finish date
     estimated_hours: Numatyta trukmė
     estimated_time: Numatyta trukmė
     firstname: Vardas
@@ -629,7 +673,7 @@ lt:
     password: Slaptažodis
     priority: Pirmenybė
     project: Projektas
-    responsible: Atsakingas asmuo/grupė
+    responsible: Accountable
     role: Rolė
     roles: Rolės
     start_date: Pradžios data
@@ -659,11 +703,13 @@ lt:
   button_close: Uždaryti
   button_collapse_all: Sutraukti visus
   button_configure: Konfigūruoti
+  button_continue: Tęsti
   button_copy: Kopijuoti
   button_copy_and_follow: Kopijuoti ir sekti
   button_create: Sukurti
   button_create_and_continue: Sukurti ir tęsti
   button_delete: Ištrinti
+  button_decline: Decline
   button_delete_watcher: Pašalinti stebėtoją vardu %{name}
   button_download: Atsiųsti
   button_duplicate: Dublikuoti
@@ -698,6 +744,7 @@ lt:
   button_unlock: Atrakinti
   button_unwatch: Nestebėti
   button_update: Atnaujinti
+  button_upgrade: Upgrade
   button_upload: Įkelti
   button_view: Peržiūrėti
   button_watch: Stebėti
@@ -705,6 +752,23 @@ lt:
   button_add_menu_entry: Pridėti meniu punktą
   button_configure_menu_entry: Konfigūruoti meniu punktą
   button_delete_menu_entry: Panaikinti meniu punktą
+  consent:
+    checkbox_label: I have noted and do consent to the above.
+    failure_message: Consent failed, cannot proceed.
+    title: User Consent
+    decline_warning_message: You have declined to consent and have been logged out.
+    user_has_consented: User has consented to your configured statement at the given
+      time.
+    not_yet_consented: User has not consented yet, will be requested upon next login.
+    contact_mail_instructions: Define the mail address that users can reach a data
+      controller to perform data change or removal requests.
+    contact_your_administrator: Please contact your administrator if you want to have
+      your account deleted.
+    contact_this_mail_address: Please contact %{mail_address} if you want to have
+      your account deleted.
+    text_update_consent_time: Check this box to force users to consent again. Enable
+      when you have changed the legal aspect of the consent information above.
+    update_consent_last_time: 'Last update of consent: %{update_time}'
   copy_project:
     started: Pradėtas kopijuoti „%{source_project_name}“ projektas į „%{target_project_name}“.
       Jums bus pranešta laišku, kai tik „%{target_project_name}“ projektas taps pasiekiamas.
@@ -776,52 +840,64 @@ lt:
         one: apie 1 valandą
         other: apie %{count} valandos (-a, -ų)
         few: apie %{count} valandos (-a, -ų)
+        many: about %{count} hours
       about_x_months:
         one: apie 1 mėnesį
         other: apie %{count} mėnesius (-į, -ių)
         few: apie %{count} mėnesius (-į, -ių)
+        many: about %{count} months
       about_x_years:
         one: apie 1 metus
         other: apie %{count} metus (-ų)
         few: apie %{count} metus (-ų)
+        many: about %{count} years
       almost_x_years:
         one: beveik 1 metus
         other: beveik %{count} metus (-ų)
         few: beveik %{count} metus (-ų)
+        many: almost %{count} years
       half_a_minute: pusę minutės
       less_than_x_minutes:
         one: mažiau nei 1 minutę
         other: mažiau nei %{count} minutes (-ę, -ių)
         few: mažiau nei %{count} minutes (-ę, -ių)
+        many: less than %{count} minutes
       less_than_x_seconds:
         one: mažiau nei 1 sekundę
         other: mažiau nei %{count} sekundžių (-ę, -es)
         few: mažiau nei %{count} sekundžių (-ę, -es)
+        many: less than %{count} seconds
       over_x_years:
         one: daugiau nei 1 metus
         other: daugiau nei %{count} metus (-ų)
         few: daugiau nei %{count} metus (-ų)
+        many: over %{count} years
       x_days:
         one: 1 dieną
         other: "%{count} dienas (-ą, -ų)"
         few: "%{count} dienas (-ą, -ų)"
+        many: "%{count} days"
       x_minutes:
         one: 1 minutę
         other: "%{count} minutes (-ę, -ių)"
         few: "%{count} minutes (-ę, -ių)"
+        many: "%{count} minutes"
       x_months:
         one: 1 mėnesį
         other: "%{count} mėnesius (-į, -ių)"
         few: "%{count} mėnesius (-į, -ių)"
+        many: "%{count} months"
       x_seconds:
         one: 1 sekundę
         other: "%{count} sekundes (-ę, -ių)"
         few: "%{count} sekundes (-ę, -ių)"
+        many: "%{count} seconds"
     units:
       hour:
         one: valanda
         other: valandos (-a, -ų)
         few: valandos (-a, -ų)
+        many: hours
   default_activity_development: Kūrimas
   default_activity_management: Valdymas
   default_activity_other: Kita
@@ -861,11 +937,6 @@ lt:
   default_priority_normal: Normalus
   default_priority_high: Aukštis
   default_priority_immediate: Neatidėliotinas
-  default_project_type_scrum: Scrum komanda
-  default_project_type_standard: Standartinis projektas
-  default_reported_project_status_green: Žalia
-  default_reported_project_status_amber: Gintarinė
-  default_reported_project_status_red: Raudona
   default_role_anonymous: Anonimas
   default_role_developer: Kūrėjas
   default_role_project_admin: Projekto administratorius
@@ -933,7 +1004,8 @@ lt:
   enumeration_reported_project_statuses: Pranešta projekto būsena
   error_auth_source_sso_failed: Bendroji autentifikacija (SSO) vartotojui „%{value}“
     nepavyko
-  error_can_not_archive_project: Šio projekto negalima archyvuoti
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Nepavyko ištrinti įrašo
   error_can_not_delete_custom_field: Neįmanoma ištrinti kliento laukelio
   error_can_not_delete_type: Šis tipas turi priklausomų darbų paketų ir todėl negali
@@ -947,13 +1019,22 @@ lt:
   error_cookie_missing: OpenProject sausainėlis nerastas. Prašome patikrinti, ar sausainėliai
     yra įgalinti, nes kitaip aplikacija tinkamai neveiks.
   error_custom_option_not_found: Galimybė neegzistuoja.
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Šio įrašo nepavyko panaikinti.
+  error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Negalima grupuoti naudojant: %{value}'
   error_invalid_query_column: 'Netinkamas užklausos stulpelis: %{value}'
   error_invalid_sort_criterion: 'Negalima rūšiuoti pagal stulpelį: %{value}'
+  error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
   error_pdf_export_too_many_columns: PDF eksportavimui pasirinkta per daug stulpelių.
     Prašome sumažinti stulpelių skaičių.
-  error_token_authenticity: Nepavyko patvirtinti Cross-Site Request Forgery rakto.
+  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: Darbų paketo atlikimo rodikliai neatnaujinti.
   error_work_package_not_found_in_project: Darbų paketas nerastas arba nepriklauso
     šiam projektui
@@ -984,6 +1065,7 @@ lt:
 '
   error_external_authentication_failed: Įvyko klaida vykstant išorinei autentikacijai.
     Bandykite dar kartą.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Projektas redaguotas
     changeset: Pakeitimų paketas redaguotas
@@ -1001,6 +1083,16 @@ lt:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF su aprašymu
+      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
+      pdf_with_attachments: PDF with attachments
+  extraction:
+    available:
+      pdftotext: Pdf-į-tekstą pasiekiamas (pasirinktinai)
+      unrtf: Unrtf pasiekiamas (pasirinktinai)
+      catdoc: Catdoc pasiekiamas (pasirinktinai)
+      xls2csv: Xls2csv pasiekiamas (pasirinktinai)
+      catppt: Catppt pasiekiamas (pasirinktinai)
+      tesseract: Tesseract pasiekiamas (pasirinktinai)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -1016,13 +1108,14 @@ lt:
   homescreen:
     additional:
       projects: Naujausi matomi projektai.
+      no_visible_projects: There are no visible projects in this instance.
       users: Naujausi registruoti vartotojai.
     blocks:
       community: OpenProject community
       upsale:
         become_hero: Tapti didvyriu!
         title: Patobulinti į „Enterprise Edition“ versiją
-        description: Padidinkite savo produktyvumą su „Enterprise Edition“
+        description: What are the benefits?
         more_info: Daugiau informacijos
         additional_features: Papildomos galingos premium funkcijos
         professional_support: Profesionali parama iš OpenProject expertų
@@ -1038,6 +1131,8 @@ lt:
       blog: OpenProject blogas
       boards: Bendruomenės forumas
       newsletter: Saugos įspėjimai / Naujienos
+  links:
+    configuration_guide: Konfigūravimo vadovas
   instructions_after_registration: Galėsite prisijungti, kai tik jūsų paskyra bus
     aktyvuota paspaudžiant %{signin}.
   instructions_after_logout: Galite vėl prisijungti paspausdami %{signin}.
@@ -1079,6 +1174,7 @@ lt:
   label_all: visi
   label_all_time: visas laikas
   label_all_words: Visi žodžiai
+  label_all_open_wps: All open
   label_always_visible: Visada rodomas
   label_announcement: Skelbimas
   label_and_its_subprojects: "%{value} ir jo sub-projektai"
@@ -1119,6 +1215,7 @@ lt:
   label_calendar: Kalendorius
   label_calendar_show: Rodyti kalendorių
   label_category: Kategorija
+  label_consent_settings: User Consent
   label_wiki_menu_item: Wiki meniu punktas
   label_select_main_menu_item: Pasirinkti naują pagrindinio meniu punktą
   label_select_project: Pasirinkti projektą
@@ -1141,6 +1238,7 @@ lt:
   label_close_versions: Uždaryti užbaigtas versijas
   label_closed_work_packages: uždarytas
   label_collapse: Sutraukti
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: konfigūracija
   label_comment_add: Pridėkite komentarą
   label_comment_added: Komentaras pridėtas
@@ -1197,7 +1295,6 @@ lt:
   label_edit: Redaguoti
   label_enable_multi_select: Perjungti daugybinį pažymėjimą
   label_enabled_project_custom_fields: Įgalinti papildomi laukai
-  label_enabled_project_types: Įgalinti tipai
   label_enabled_project_modules: Įgalinti moduliai
   label_enabled_project_activities: Įgalintos laiko sekimo veiklos
   label_end_to_end: pabaiga į pabaigą
@@ -1206,12 +1303,14 @@ lt:
   label_enumeration_value: Enumeracijos reikšmė
   label_enumerations: Enumeratoriai
   label_enterprise: Enterprise
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: "„Enterprise Edition“"
   label_environment: Aplinka
   label_estimates_and_time: Sąmatos ir laikas
   label_equals: yra
   label_example: Pavyzdys
   label_export_to: 'Taip pat galima rasti:'
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} valanda"
   label_f_hour_plural: "%{value} valandų(-os)"
   label_feed_plural: Naujienų srautai
@@ -1229,17 +1328,22 @@ lt:
   label_force_user_language_to_default: Nustatyti numatytąją kalbą vartotojams, kurie
     nurodo, sistemoje nežinomą kalbą
   label_form_configuration: Formos konfigūracija
+  label_gantt: Gantt
+  label_gantt_chart: Ganto grafikas
   label_general: Bendra
   label_generate_key: Generuoti raktą
   label_git_path: Kelias į .git aplanką
   label_greater_or_equal: ">="
   label_group_by: Grupuoti pagal
   label_group_new: Nauja grupė
+  label_group: Grupė
+  label_group_named: Group %{name}
   label_group_plural: Grupės
   label_help: Pagalba
   label_here: čia
   label_hide: Paslėpti
   label_history: Istorija
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: Namai
   label_in: " "
   label_in_less_than: mažiau nei
@@ -1253,6 +1357,7 @@ lt:
   label_information_plural: Informacija
   label_integer: Sveikasis skaičius
   label_internal: Vidinis
+  label_introduction_video: Introduction video
   label_invite_user: Pakviesti vartotoją
   label_show_hide: Rodyti/slėpti
   label_show_all_registered_users: Rodyti visus registruotus vartotojus
@@ -1315,6 +1420,7 @@ lt:
   label_my_page_block: Mano puslapio blokas
   label_my_projects: Mano projektai
   label_my_queries: Mano sukurtos užklausos
+  label_never: Niekada
   label_new: Naujas
   label_new_statuses_allowed: Naujos galimos būsenos
   label_news_added: Pridėta naujiena
@@ -1328,6 +1434,7 @@ lt:
   label_next_week: Sekanti savaitė
   label_no_change_option: "(Jokio pakeitimo)"
   label_no_data: Nėra rodytinų duomenų
+  label_no_parent_page: No parent page
   label_nothing_display: Nėra ką rodyti
   label_nobody: niekas
   label_none: joks
@@ -1339,12 +1446,14 @@ lt:
   label_open_menu: Atidaryti meniu
   label_open_work_packages: atidarytas
   label_open_work_packages_plural: atidarytas
+  label_openproject_website: OpenProject website
   label_optional_description: Aprašymas
   label_options: Nustatymai
   label_other: Kita
   label_overall_activity: Visa veikla
   label_overall_spent_time: Visas praleistas laikas
   label_overview: Peržiūra
+  label_page_title: Page title
   label_part_of: dalis
   label_password_lost: Pamiršote slaptažodį?
   label_password_rule_lowercase: Mažosios raidės
@@ -1418,7 +1527,7 @@ lt:
   label_repository_plural: Repozitorijos
   label_required: reikalingas
   label_requires: turi turėti
-  label_responsible_for_work_packages: Darbų paketai, už kuriuos atsakau aš
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Rezultatai
   label_reverse_chronological_order: Atbuline chronologine tvarka
   label_revision: Revizija
@@ -1467,7 +1576,7 @@ lt:
   label_summary: Santrauka
   label_system: Sistema
   label_system_storage: Talpyklos informacija
-  label_table_of_contents: Turinys
+  label_table_of_contents: Table of contents
   label_tag: Žymė
   label_text: Ilgas tekstas
   label_this_month: šis mėnuo
@@ -1482,7 +1591,6 @@ lt:
   label_total: Iš viso
   label_type_new: Naujas tipas
   label_type_plural: Tipai
-  label_type_default_new_projects: Pagal nutylėjimą aktyvuotas naujų projektų tipas
   label_ui: Vartotojo sąsaja
   label_update_work_package_done_ratios: Atnaujinti darbų paketo atlikimo santykius
   label_updated_time: Atnaujinta prieš %{value}
@@ -1492,6 +1600,7 @@ lt:
   label_used_by_types: Naudojama šių tipų
   label_used_in_projects: Naudojama šių projektų
   label_user: Vartotojas
+  label_user_named: User %{name}
   label_user_activity: "%{value} veikla"
   label_user_anonymous: Anonimas
   label_user_mail_option_all: Bet kokiam įvykiui visuose mano projektuose
@@ -1511,7 +1620,7 @@ lt:
   label_version_sharing_none: Nesidalinama
   label_version_sharing_system: Su visais projektais
   label_version_sharing_tree: Su projekto medžiu
-  label_video: Video
+  label_videos: Videos
   label_view_all_revisions: Peržiūrėti visas revizijas
   label_view_diff: Peržiūrėti skirtumus
   label_view_revisions: Peržiūrėti revizijas
@@ -1532,6 +1641,7 @@ lt:
   label_wiki_show_menu_item: Rodyti kaip meniu punktą projekto navigacijoje
   label_wiki_show_new_page_link: Rodyti submeniu punktą „Sukurti naują vaiko puslapį“
   label_wiki_show_submenu_item: 'Rodyti kaip submeniu punktą '
+  label_wiki_start: Pradžios puslapis
   label_work_package: Darbų paketas
   label_work_package_added: Darbų paketas pridėtas
   label_work_package_attachments: Darbų paketo prisegti failai
@@ -1554,8 +1664,8 @@ lt:
     man
   label_work_package_view_all_reported_by_me: Peržiūrėti visus darbų paketus, kuriuos
     užregistravau aš
-  label_work_package_view_all_responsible_for: Peržiūrėti visus darbų paketus, už
-    kuriuos esu atsakingas
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
+    for
   label_work_package_view_all_watched: Peržiūrėti visus stebimus darbų paketus
   label_work_package_watchers: Stebėtojai
   label_workflow: Darbų eiga
@@ -1566,26 +1676,31 @@ lt:
     other: "%{count} uždaryti (-as, -ų)"
     zero: 0 closed
     few: "%{count} uždaryti (-as, -ų)"
+    many: "%{count} closed"
   label_x_comments:
     one: 1 komentatas
     other: "%{count} komentarai (-as, -ų)"
     zero: no comments
     few: "%{count} komentarai (-as, -ų)"
+    many: "%{count} comments"
   label_x_open_work_packages_abbr:
     one: 1 atidarytas
     other: "%{count} atidaryti (-as, -ų)"
     zero: 0 open
     few: "%{count} atidaryti (-as, -ų)"
+    many: "%{count} open"
   label_x_open_work_packages_abbr_on_total:
     one: 1 atidarytas / %{total}
     other: "%{count} atidaryti (-as, -ų) / %{total}"
     zero: 0 open / %{total}
     few: "%{count} atidaryti (-as, -ų) / %{total}"
+    many: "%{count} open / %{total}"
   label_x_projects:
     one: 1 projektas
     other: "%{count} projektai (-as, -ų)"
     zero: no projects
     few: "%{count} projektai (-as, -ų)"
+    many: "%{count} projects"
   label_year: Metai
   label_yesterday: vakar
   label_keyboard_function: Funkcija
@@ -1626,6 +1741,24 @@ lt:
     ldap_auth_failed: LDAP serveryje autentifikacija nepavyko.
   macro_execution_error: Klaida vykdant makrokomandą %{macro_name}
   macro_unavailable: Makrokomanda %{macro_name} negali būti rodoma.
+  macros:
+    placeholder: "[Placeholder] Macro %{macro_name}"
+    errors:
+      missing_or_invalid_parameter: Missing or invalid macro parameter.
+    legacy_warning:
+      timeline: This legacy timeline macro has been removed and is no longer available.
+        You can replace the functionality with an embedded table macro.
+    include_wiki_page:
+      errors:
+        page_not_found: Cannot find the wiki page '%{name}'.
+        circular_inclusion: Circular inclusion of pages detected.
+    create_work_package_link:
+      errors:
+        no_project_context: Kviesti create_work_package_link makrokomandą projekto
+          konteksto išorėje.
+        invalid_type: Tipas „%{type}“ nerastas projekte „%{project}“.
+      link_name: Naujas darbų paketas
+      link_name_type: Naujas %{type_name}
   mail:
     actions: Veiksmai
   mail_body_account_activation_request: 'Užsiregistravo naujas vartotojas (%{value}).
@@ -1646,6 +1779,15 @@ lt:
     %{days} dienas(-ai, -ų)"
   mail_subject_wiki_content_added: Wiki puslapis '%{id}' buvo pridėtas
   mail_subject_wiki_content_updated: Wiki puslapis '%{id}' buvo atnaujintas
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: Daugiau funkcijų
   noscript_description: Jums reikia įjungti JavaScript, kad galėtumėte naudoti OpenProject!
   noscript_heading: JavaScript išjungta
@@ -1758,6 +1900,7 @@ lt:
             one: Baitas
             other: Baitai (-as, -ų)
             few: Baitai (-as, -ų)
+            many: Bytes
           gb: GB
           kb: kB
           mb: MB
@@ -1768,9 +1911,9 @@ lt:
       ir komandos bendradarbiavimą naudojant OpenProject.
     text_show_again: Jūs galite paleisti šį video iš naujo iš pagalbos meniu
     welcome: Sveiki atvykę į OpenProject
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Pridėti pastabų
-  permission_add_work_packages: Pridėti darbų paketų (taip pat leidžia prisegti priedus
-    prie visų darbų paketų)
+  permission_add_work_packages: Pridėti darbų paketų
   permission_add_messages: Skelbti pranešimus
   permission_add_project: Sukurti projektą
   permission_add_subprojects: Sukurti sub-projektus
@@ -1785,7 +1928,6 @@ lt:
   permission_delete_work_packages: Pašalinti darbų paketus
   permission_delete_messages: Pašalinti pranešimus
   permission_delete_own_messages: Pašalinti savo pranešimus
-  permission_delete_project_associations: Pašalinti projekto priklausomybes
   permission_delete_reportings: Šalinti ataskaitas
   permission_delete_timelines: Šalinti laiko juostas
   permission_delete_wiki_pages: Pašalinti wiki puslapius
@@ -1797,7 +1939,6 @@ lt:
   permission_edit_own_messages: Redaguoti savo pranešimus
   permission_edit_own_time_entries: Redaguoti savo laiko įrašus
   permission_edit_project: Redaguoti projektą
-  permission_edit_project_associations: Redaguoti projekto priklausomybes
   permission_edit_reportings: Redaguoti ataskaitas
   permission_edit_time_entries: Redaguoti laiko įrašus
   permission_edit_timelines: Redaguoti tvarkaraščius
@@ -1812,7 +1953,7 @@ lt:
   permission_manage_members: Valdyti narius
   permission_manage_news: Valdyti naujienas
   permission_manage_project_activities: Valdyti projekto veiklas
-  permission_manage_public_queries: Valdyti viešas užklausas
+  permission_manage_public_queries: Manage public views
   permission_manage_repository: Valdyti repozitoriją
   permission_manage_subtasks: Valdyti darbų dalis
   permission_manage_versions: Valdyti versijas
@@ -1821,7 +1962,7 @@ lt:
   permission_move_work_packages: Perkelti darbų paketus
   permission_protect_wiki_pages: Apsaugoti wiki puslapius
   permission_rename_wiki_pages: Pervadinti wiki puslapius
-  permission_save_queries: Išsaugoti užklausas
+  permission_save_queries: Save views
   permission_select_project_modules: Parinkti projekto modulius
   permission_manage_types: Pasirinkti tipus
   permission_view_calendar: Peržiūrėti kalendorių
@@ -1832,7 +1973,6 @@ lt:
   permission_view_work_packages: Rodyti darbų paketus
   permission_view_messages: Peržiūrėti žinutes
   permission_view_members: Rodyti narius
-  permission_view_project_associations: Peržiūrėti projekto priklausomybes
   permission_view_reportings: Peržiūrėti ataskaitas
   permission_view_time_entries: Peržiūrėti dirbtą laiką
   permission_view_timelines: Peržiūrėti laiko juostas
@@ -2019,12 +2159,13 @@ lt:
   setting_email_delivery_method: El. pašto pristatymo metodas
   setting_sendmail_location: Sendmail vykdomojo failo lokacija
   setting_smtp_enable_starttls_auto: Automatiškai naudoti STARTTLS, jei galima
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: SMTP serveris
   setting_smtp_port: SMTP prievadas
   setting_smtp_authentication: SMTP autentifikacija
-  setting_smtp_domain: SMTP HELLO domenas
   setting_smtp_user_name: SMTP vartotojo vardas
   setting_smtp_password: SMTP slaptažodis
+  setting_smtp_domain: SMTP HELLO domenas
   setting_activity_days_default: Projekto veiklos atvaizduojamų dienų skaičius
   setting_app_subtitle: Programos paantraštė
   setting_app_title: Programos pavadinimas
@@ -2037,12 +2178,18 @@ lt:
     nesėkmingų prisijungimo bandymų
   setting_brute_force_block_minutes: Laikas, kuriam vartotojas yra blokuojamas
   setting_cache_formatted_text: Atmintyje laikyti formatuotą tekstą
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Pritaikyti sau darbų paketų sąrašų atvaizdavimą
   setting_commit_fix_keywords: Reikšminių žodžių fiksavimas
   setting_commit_logs_encoding: Patvirtinti žinučių koduotę
   setting_commit_logtime_activity_id: Veiklos įrašai prisijungus
   setting_commit_logtime_enabled: Įjungti laiko registravimą
   setting_commit_ref_keywords: Nuoroda į reikšminius žodžius
+  setting_consent_time: Consent time
+  setting_consent_info: Consent information text
+  setting_consent_required: Consent required
+  setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: Leisti tarp-projektinius darbų paketo
     ryšius
   setting_date_format: Datos formatas
@@ -2062,6 +2209,7 @@ lt:
   setting_file_max_size_displayed: Maksimalus tekstinių failų dydis rodomas vienoje
     eilutėje
   setting_host_name: Šeimininko vardas
+  setting_invitation_expiration_days: Aktyvavimo laiškas baigia galioti po
   setting_work_package_done_ratio: Skaičiuoti darbų paketo atlikimo santykį su
   setting_work_package_done_ratio_field: Naudoti darbų paketo laukelį
   setting_work_package_done_ratio_status: Naudoti darbų paketo būseną
@@ -2120,27 +2268,40 @@ lt:
   setting_sys_api_enabled: Įgalinti repozitorijos valdymo web tarnybą
   setting_sys_api_description: Repozitorijos valdymo web tarnyba teikia integraciją
     ir vartotojų autorizaciją bandant pasiekti repozitorijas.
-  setting_text_formatting: Teksto formatavimas
   setting_time_format: Laiko formatas
   setting_accessibility_mode_for_anonymous: Leisti lengvos prieigos režimą anoniminiams
     vartotojams
   setting_user_format: Vartotojo atvaizdavimo formatas
+  setting_user_default_timezone: Numatytoji vartotojo laiko juosta
   setting_users_deletable_by_admins: Administratoriai gali ištrinti vartotojų paskyras
   setting_users_deletable_by_self: Vartotojai gali ištrinti savo paskyras
   setting_welcome_text: Pasisveikinimo bloko tekstas
   setting_welcome_title: Pasisveikinimo bloko pavadinimas
   setting_welcome_on_homescreen: Rodyti pasisveikinimo bloką namų lange
-  setting_welcome_on_projects_page: Rodyti pasisveikinimo bloką projekto peržiūros
-    lange
   setting_wiki_compression: Wiki istorijos suspaudimas
   setting_work_package_group_assignment: Leisti priskyrimus grupėms
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: Bendra
     other: Kita
     passwords: Slaptažodžiai
     session: Sesija
     brute_force_prevention: Automatinis vartotojų blokavimas
-  show_hide_project_menu: Išplėsti/sutraukti projekto meniu
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: No highlighting
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
+  text_formatting:
+    markdown: Markdown
+    plain: Plain text
   status_active: aktyvus
   status_archived: suarchyvuotas
   status_invited: pakviestas
@@ -2196,6 +2357,7 @@ lt:
     naudojant iOS.
 
 '
+  text_database_allows_tsv: Duomenų bazė leidžia TSVector (pasirinktinai)
   text_default_administrator_account_changed: Administratoriaus numatytoji paskyra
     pakeista
   text_default_encoding: 'Numatytasis: UTF-8'
@@ -2233,7 +2395,8 @@ lt:
   text_journal_aggregation_time_explanation: Kombinuoti žurnalus rodymui, ar jų amžius
     skiriasi mažiau nei nustatyta trukmė. Tai taip pat vėlins įspėjimo el. laiškų
     atsiuntimą tokia pat laiko trukme.
-  text_journal_changed: "%{label} pasikeitė iš %{old} į %{new}"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} atnaujintas"
   text_journal_changed_with_diff: "%{label} pasikeitė (%{link})"
   text_journal_deleted: "%{label} ištrintas (%{old})"
@@ -2285,6 +2448,8 @@ lt:
   text_user_wrote: "%{value} parašė:"
   text_warn_on_leaving_unsaved: Darbų paketas turi neišsaugoto teksto, kuris bus prarastas,
     jei išeisite iš šio puslapio.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Ar esate įsitikinęs, jog norite pašalinti šį wiki
     puslapį ir visą jo turinį?
   text_wiki_page_destroy_children: Pašalinti vaikų puslapius ir jų palikuonis
@@ -2313,14 +2478,6 @@ lt:
     admin_menu:
       color: Spalva
       colors: Spalvos
-      project_type: Projekto tipas
-      project_types: Projekto tipai
-    project_menu:
-      project_associations: Priklausomybės
-      reportings: Būsenos ataskaitos
-      reports: Laiko juostos ataskaitos
-      timelines: Laiko juostos
-    add_project_association: Pridėti priklausomybę
     associations: Priklausomybės
     board_could_not_be_saved: Skelbimų lenta negalėjo būti išsaugota
     button_delete_all: Ištrinti viską
@@ -2338,8 +2495,8 @@ lt:
       one: 1 dieną
       other: "%{count} dienas (-ą, -ų)"
       few: "%{count} dienas (-ą, -ų)"
+      many: "%{count} days"
     edit_color: Redaguoti spalvą
-    edit_project_type: Redaguoti projekto tipą
     edit_thing: Redaguoti
     edit_timeline: Redaguoti laiko juostos ataskaitą %{timeline}
     delete_timeline: Ištrinti laiko juostos ataskaitą %{timeline}
@@ -2377,7 +2534,6 @@ lt:
         due_date: Pabaigos data
         name: Vardas
         status: Būsena
-        responsible: Atsakingas asmuo/grupė
         start_date: Pradžios data
       columns: Stulpeliai
       comparisons: Palyginimai
@@ -2406,7 +2562,7 @@ lt:
       outline: Pirminio plano plėtra
       parent: Rodyti sub-projektus
       work_package_filters: Filtruoti darbų paketus
-      work_package_responsible: Rodyti darbų paketus su atsakingu
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: Rodyti darbų paketus su vykdančiuoju asmeniu
       types: Rodyti tipus
       status: Rodyti būsenas
@@ -2418,9 +2574,8 @@ lt:
       project_time_filter_relative: "%{start_label} %{startspan} %{startspanunit}
         prieš, %{end_label} %{endspan} %{endspanunit} nuo dabar"
       project_filters: Filtruoti projektus
-      project_responsible: Rodyti projektus su atsakingu
+      project_responsible: Show projects with accountable
       project_status: Rodyti projekto būseną
-      project_types: Rodyti projekto tipus
       timeframe: Rodyti trukmę
       timeframe_end: iki
       timeframe_start: nuo
@@ -2430,7 +2585,6 @@ lt:
     new_color: Nauja spalva
     new_association: Nauja priklausomybė
     new_work_package: Naujas darbų paketas
-    new_project_type: Naujas projekto tipas
     new_reporting: Nauja ataskaita
     new_timeline: Nauja laiko juostos ataskaita
     no_projects_for_reporting_available: Čia nėra galimų projektų, kuriems gali būti
@@ -2457,30 +2611,11 @@ lt:
       edit: Redaguoti būseną %{comment}
       show: 'Būsena: %{comment}'
     planning_element_update: 'Atnaujinimas: %{title}'
-    work_packages_are_displayed_in_aggregations: Darbų paketai rodomi masėse
-    project_association_new: Pridėti projekto priklausomybę
-    project_association_new_for_with: Nustatysi priklausomybę „%{project_a}“ su
-    project_association_with_other: Projekto priklausomybė tarp „%{project_a}“ ir
-      „%{project_b}“
-    project_association_of_type: Priklausomybė tipo „%{type}“ projektui
-    project_type_could_not_be_saved: Projekto tipas negalėjo būti išsaugotas
     type_could_not_be_saved: Tipas negalėjo būti išsaugotas
     reporting_could_not_be_saved: Ataskaita negalėjo būti išsaugota
     properties: Ypatybės
     really_delete_color: 'Ar tikrai norite ištrinti šią spalvą? Ją naudojantys tipai
       nebus ištrinti.
-
-'
-    really_delete_project_association_between_project_a_and_project_b: 'Ar Jūs tikrai
-      norite ištrinti priklausomybę tarp „%{project_a}“ ir „%{project_b}“?
-
-'
-    really_delete_project_type: 'Ar tikrai norite ištrinti šį projekto tipą? Jį naudojantys
-      projektai nebus ištrinti.
-
-'
-    really_delete_timeline: 'Ar tikrai norite ištrinti šią laiko ataskaita? Joje pavaizduoti
-      darbų paketai nebus ištrinti.
 
 '
     really_delete_reporting: 'Ar tikrai norite ištrinti šias ataskaitas? Ankstesnės
@@ -2492,7 +2627,6 @@ lt:
     timelines: Laiko juostos ataskaitos
     settings: Laiko juostos
     vertical_work_package: Vertikalūs darbų paketai
-    without_project_type: Be projekto tipo
     you_are_viewing_the_selected_timeline: Jūs peržiūrite pasirinktos laiko juostos
       atskaitą
     zoom:
@@ -2505,6 +2639,11 @@ lt:
       years: Metai(-ų)
   title_remove_and_delete_user: Pašalinti pakviestą vartotoją iš projekto ir ištrinti
     jį/ją.
+  title_enterprise_upgrade: Upgrade to unlock more users.
+  tooltip_user_default_timezone: 'Numatytoji laiko juosta naujiems vartotojams. Gali
+    būti pakeista vartotojo nustatymuose.
+
+'
   tooltip_resend_invitation: 'Siunčia naują pakvietimo laišką su nauju atpažinimo
     ženklu su mintimi, kad seno ženklo atpažinimo laikas baigėsi arba vartotojas negavo
     originalaus laiško. Taip pat gali būti naudojamas aktyviems vartotojams, kad jie
@@ -2546,6 +2685,7 @@ lt:
       other: laikinai užrakintas (%{count} nesėkmingi(-as, -ų) prisijungimai(-as,
         -ų))
       few: laikinai užrakintas (%{count} nesėkmingi(-as, -ų) prisijungimai(-as, -ų))
+      many: locked temporarily (%{count} failed login attempts)
     confirm_status_change: Jūs pakeisti „%{name}“ būseną. Ar tikrai norite tęsti?
     deleted: Ištrintas vartotojas
     error_status_change_failed: 'Vartotojo būsenos keitimas nepavyko dėl šių klaidų:
@@ -2577,6 +2717,27 @@ lt:
   warning: Įspėjimas
   warning_attachments_not_saved: "%{count} failas (-ai, -ų) negali būti išsaugotas
     (-i)."
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
+  warning_registration_token_expired: 'Aktyvavimo el. laiško galiojimas pasibaigė.
+    Išsiuntėme jums naują %{email}. Paspauskite laiške duotą nuorodą, kad aktyvuotumėte
+    savo paskyrą.
+
+'
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: Meniu punktas
   menu_item_setting: Matomumas
   wiki_menu_item_for: Meniu punktas wiki puslapiui „%{title}“
@@ -2607,7 +2768,7 @@ lt:
       code_401_wrong_credentials: Jūs nepateikėte teisingų prisijungimo duomenų.
       code_403: Jūs nesate autorizuotas šiam resursui pasiekti.
       code_404: Reikalaujamas resursas nerastas.
-      code_409: Nepavyko atnaujinti resurso dėl konfliktuojančių pakeitimų.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: Įvyko vidinė klaida.
       expected:
         date: YYYY-MM-DD (ISO 8601 date only)
@@ -2628,6 +2789,7 @@ lt:
         arba yra neteisingai suformuluotas.
       multipart_body_error: Užklausos turinys neturi laukiamų dalių.
       multiple_errors: Buvo pažeista daug laukelio apribojimų.
+      unable_to_create_attachment: Nepavyko sukurti priedo
       render:
         context_not_parsable: Duotas kontekstas nėra nuoroda į resursą.
         unsupported_context: Duotas resursas nėra palaikomas kaip kontekstas.
@@ -2635,7 +2797,7 @@ lt:
       validation:
         done_ratio: Atlikimo santykis negali būti nurodytas tėviniams darbų paketams,
           kai paketas apibrėžtas pagal būseną arba kai jis dezaktyvuotas.
-        due_date: Iki atlikimo datos negali būti nustatyta tėviniams darbų paketams.
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: Tikėtinos valandos negali būti nustatomos tėviniams darbų
           paketams.
         invalid_user_assigned_to_work_package: Pasirinktas vartotojas negali būti

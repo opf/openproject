@@ -3,7 +3,8 @@ af:
   no_results_title_text: There is currently nothing to display.
   activities:
     index:
-      no_results_title_text: There has not been any activity for the project.
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: There are currently no plugins available.
@@ -59,6 +60,26 @@ af:
   boards:
     show:
       no_results_title_text: There are currently no posts for the board.
+  colors:
+    index:
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: Create a new color
+    label_no_color: No color
+  custom_actions:
+    actions:
+      name: Actions
+      add: Voeg aksie toe
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
+    conditions: Voorwaardes
+    plural: Pasgemaakte aksies
+    new: Nuwe pasgemaakte aksie
+    edit: Wysig pasgemaakte aksie %{name}
+    execute: Voer %{name} uit
+    upsale:
+      title: Custom actions is an Enterprise Edition feature
+      description: Custom actions streamline everyday work by combining a set of individual
+        steps into one button.
   custom_fields:
     text_add_new_custom_field: 'To add new custom fields to a project you first need
       to create them before you can add them to this project.
@@ -72,6 +93,8 @@ af:
     tab:
       no_results_title_text: There are currently no custom fields.
       no_results_content_text: Create a new custom field
+  concatenation:
+    single: or
   deprecations:
     old_timeline:
       replacement: This timelines module is being replaced by the interactive timeline
@@ -91,10 +114,6 @@ af:
       no_results_title_text: There are currently no users part of this group.
     memberships:
       no_results_title_text: There are currently no projects part of this group.
-  planning_element_type_colors:
-    index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
   projects:
     index:
       no_results_title_text: There are currently no projects
@@ -115,10 +134,6 @@ af:
       versions:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: Create a new version
-  project_types:
-    index:
-      no_results_title_text: There are currently no project types.
-      no_results_content_text: Create a new project type
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -140,11 +155,20 @@ af:
   users:
     memberships:
       no_results_title_text: This user is currently not a member of a project.
+  prioritiies:
+    edit:
+      priority_color_text: |
+        Click to assign or change the color of this priority.
+        It can be used for highlighting work packages in the table.
   reportings:
     index:
       no_results_title_text: There are currently no status reportings.
       no_results_content_text: Add a status reporting
   statuses:
+    edit:
+      status_color_text: |
+        Click to assign or change the color of this status.
+        It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: There are currently no work package statuses.
       no_results_content_text: Add a new status
@@ -153,12 +177,17 @@ af:
       no_results_title_text: There are currently no types.
       no_results_content_text: Create a new type
     edit:
-      settings: Settings
+      settings: Instellings
       form_configuration: Vorm konfigurasie
       projects: Projekte
       enabled_projects: Enabled projects
-      add_group: Add group
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: Reset to defaults
+      type_color_text: |
+        Click to assign or change the color of this type. The selected color distinguishes work packages
+        in Gantt charts.
   versions:
     overview:
       no_results_title_text: There are currently no work packages assigned to this
@@ -171,7 +200,12 @@ af:
     index:
       no_results_title_text: There are currently no workflows.
   work_packages:
+    x_descendants:
+      one: One descendant work package
+      other: "%{count} work package descendants"
     move:
+      no_common_statuses_exists: There is no status available for all selected work
+        packages. Their status cannot be changed.
       unsupported_for_multiple_projects: Bulk move/copy is not supported for work
         packages from multiple projects
     list_simple:
@@ -180,7 +214,7 @@ af:
       reported:
         no_results_title_text: There are currently no work packages that I have reported.
       responsible:
-        no_results_title_text: There are currently no work packages that I am responsible
+        no_results_title_text: There are currently no work packages that I am accountable
           for.
       watched:
         no_results_title_text: There are currently no work packages that I am watching.
@@ -236,9 +270,9 @@ af:
           deur middel van die toegewings toegestaan deur hierdie applikasie.
       login_verification:
         other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+          will be asked to confirm your password.
         self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'Jou rekening is nog nie geaktiveer nie. Om
       jou rekening te aktiveer, klik op die skakel wat aan jou per e-pos gestuur is.
 
@@ -261,6 +295,8 @@ af:
       announcements:
         show_until: Vertoon tot
       attachment:
+        attachment_content: Attachment content
+        attachment_file_name: Attachment file name
         downloads: Aflaaie
         file: Lêer
         filename: Lêer
@@ -282,6 +318,8 @@ af:
         repository: Repository
       comment:
         commented: Kommentaar gelewer
+      custom_action:
+        actions: Actions
       custom_field:
         default_value: Standaardwaarde
         editable: Redigeerbaar
@@ -302,6 +340,7 @@ af:
         expires_at: Expires at
         subscriber: Subscriber
         encoded_token: Enterprise support token
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Vertraag
         from: Werkspakket
@@ -316,9 +355,7 @@ af:
         identifier: Identifiseerder
         latest_activity_at: Nuutste aktiwiteit teen
         parent: Subprojek van
-        project_type: Projek soort
         queries: Navrae
-        responsible: Verantwoordelik
         types: Soorte
         versions: Weergawes
         work_packages: Werk Pakkette
@@ -340,8 +377,9 @@ af:
         spent_on: Datum
         type: Soort
       type:
-        is_in_roadmap: In roadmap
-        in_aggregation: In aggregation
+        attribute_groups: ''
+        is_in_roadmap: Displayed in roadmap by default
+        is_default: Activated for new projects by default
         is_milestone: Is milestone
         color: Kleur
       user:
@@ -354,6 +392,7 @@ af:
         mail_notification: E-poskennisgewings
         new_password: Nuwe wagwoord
         password_confirmation: Bevestig
+        consented_at: Consented at
       user_preference:
         comments_sorting: Vertoon kommentaar
         hide_mail: Versteek my e-pos adres
@@ -363,10 +402,8 @@ af:
         warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved
           changes
       version:
-        effective_date: Sperdatum
+        effective_date: Finish date
         sharing: Meedeling
-      wiki:
-        start_page: Begin bladsy
       wiki_content:
         text: Teks
       wiki_page:
@@ -374,23 +411,10 @@ af:
         redirect_existing_links: Herlei bestaande skakels
       planning_element_type_color:
         hexcode: Hex kode
-      project_association:
-        description: Oorsaak
-        project_b: Afhanklike projek
-      project_type:
-        allows_association: Laat assosiasie toe
-        reported_project_statuses: Gerapporteerde projekstatusse
-        position: Posisie
-      timeline:
-        options: ''
-      reporting:
-        reported_project_status_comment: Status kommentaar
-        reporting_to_project: Gee verslag aan projek
-        reported_project_status: Projek status
-        created_at: Geskep
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
+        children: Subelements
         done_ratio: Progress (%)
         end_insertion: End of the insertion
         end_deletion: End of the deletion
@@ -400,7 +424,6 @@ af:
         parent_work_package: Ouer
         priority: Prioriteit
         progress: Progress (%)
-        responsible: Verantwoordelik
         spent_hours: Tyd gespandeer
         spent_time: Tyd gespandeer
         subproject: Sub-projek
@@ -410,11 +433,16 @@ af:
     errors:
       messages:
         accepted: must be accepted.
+        after: must be after %{date}.
+        after_or_equal_to: must be after or equal to %{date}.
+        before: must be before %{date}.
+        before_or_equal_to: must be before or equal to %{date}.
         blank: can't be blank.
         cant_link_a_work_package_with_a_descendant: A work package cannot be linked
           to one of its subtasks.
         circular_dependency: This relation would create a circular dependency.
         confirmation: doesn't match %{attribute}.
+        could_not_be_copied: could not be (fully) copied.
         does_not_exist: does not exist.
         empty: can't be empty.
         even: must be even.
@@ -422,36 +450,42 @@ af:
         file_too_large: is too large (maximum size is %{count} Bytes).
         greater_than: must be greater than %{count}.
         greater_than_or_equal_to: must be greater than or equal to %{count}.
-        smaller_than_or_equal_to_max_length: must be smaller than or equal to maximum
-          length.
-        greater_than_start_date: moet groter wees as die begindatum.
         greater_than_or_equal_to_start_date: moet groter as of gelyk wees aan die
           begindatum.
+        greater_than_start_date: moet groter wees as die begindatum.
         inclusion: is not set to one of the allowed values.
         invalid: is invalid.
-        invalid_url: is not a valid URL.
+        invalid_url: is ’n ongeldige bronadres.
         invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: must be less than or equal to %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
-        not_an_iso_date: 'is not a valid date. Required format: YYYY-MM-DD.'
         not_a_number: is not a number.
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: is not an integer.
+        not_an_iso_date: 'is not a valid date. Required format: YYYY-MM-DD.'
         not_same_project: doesn't belong to the same project.
         odd: must be odd.
+        regex_invalid: could not be validated with the associated regular expression.
+        smaller_than_or_equal_to_max_length: must be smaller than or equal to maximum
+          length.
         taken: has already been taken.
         too_long: is too long (maximum is %{count} characters).
         too_short: is too short (minimum is %{count} characters).
+        unchangeable: cannot be changed.
         wrong_length: is the wrong length (should be %{count} characters).
-        after: must be after %{date}.
-        after_or_equal_to: must be after or equal to %{date}.
-        before: must be before %{date}.
-        before_or_equal_to: must be before or equal to %{date}.
-        could_not_be_copied: could not be (fully) copied.
-        regex_invalid: could not be validated with the associated regular expression.
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
+        custom_actions:
+          only_one_allowed: "(%{name}) only one value is allowed."
+          empty: "(%{name}) value can't be empty."
+          inclusion: "(%{name}) value is not set to one of the allowed values."
+          not_logged_in: "(%{name}) value cannot be set because you are not logged
+            in."
+          not_an_integer: "(%{name}) is not an integer."
+          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
+          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
         parse_schema_filter_params_service:
@@ -464,16 +498,12 @@ af:
           attributes:
             types:
               in_use_by_work_packages: 'still in use by work packages: %{types}'
-        project_association:
-          identical_projects: Afhanklikheid kan nie tussen een projek en ditself geskep
-            word nie.
-          project_association_not_allowed: does not allow associations.
         query:
           attributes:
             project:
               error_not_found: not found
             public:
-              error_unauthorized: "- The user has no permission to create public queries."
+              error_unauthorized: "- The user has no permission to create public views."
           group_by_hierarchies_exclusive: is mutually exclusive with group by '%{group_by}'.
             You cannot activate both.
           filters:
@@ -513,6 +543,11 @@ af:
             status_id:
               status_transition_invalid: is invalid because no valid transition exists
                 from old to new status for the current user's roles.
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
+            type:
+              cannot_be_milestone_due_to_children: cannot be a milestone because this
+                work package has children.
             priority_id:
               only_active_priorities_allowed: needs to be active.
             category:
@@ -524,10 +559,11 @@ af:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Unnamed groups are not allowed.
-              duplicate_group: The group name %{group} is used more than once. Group
-                names must be unique.
               attribute_unknown: Invalid work package attribute used.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Unnamed groups are not allowed.
         user:
           attributes:
             password:
@@ -563,6 +599,7 @@ af:
       attribute_help_text: Attribute help text
       board: Forum
       comment: Opmerking
+      custom_action: Custom action
       custom_field: Pasgemaakte veld
       group: Groep
       category: Kategorie
@@ -575,7 +612,6 @@ af:
         one: Rol
         other: Rolle
       type: Soort
-      project_type: Projek soort
       user: Gebruiker
       version: Weergawe
       wiki: Wiki
@@ -602,6 +638,7 @@ af:
     comment: Opmerking
     comments: Opmerking
     content: Inhoud
+    color: Kleur
     created_at: Geskep op
     created_on: Geskep op
     custom_options: Moontlike waardes
@@ -610,7 +647,7 @@ af:
     default_columns: Verstekkolomme
     description: Beskrywing
     display_sums: Vertoon totale
-    due_date: Sperdatum
+    due_date: Finish date
     estimated_hours: Geraamde tyd
     estimated_time: Geraamde tyd
     firstname: Voornaam
@@ -629,7 +666,7 @@ af:
     password: Wagwoord
     priority: Prioriteit
     project: Projek
-    responsible: Verantwoordelik
+    responsible: Accountable
     role: Rol
     roles: Rolle
     start_date: Begindatum
@@ -659,11 +696,13 @@ af:
   button_close: Close
   button_collapse_all: Vou almal op
   button_configure: Stel op
+  button_continue: Continue
   button_copy: Kopieer
   button_copy_and_follow: Kopieer en volg
   button_create: Skep
   button_create_and_continue: Skep en gaan voort
   button_delete: Skrap
+  button_decline: Decline
   button_delete_watcher: Verwyder kyker %{name}
   button_download: Laai af
   button_duplicate: Dupliseer
@@ -698,6 +737,7 @@ af:
   button_unlock: Ontsluit
   button_unwatch: Hou op dophou
   button_update: Opdateer
+  button_upgrade: Upgrade
   button_upload: Upload
   button_view: Bekyk
   button_watch: Hou dop
@@ -705,6 +745,23 @@ af:
   button_add_menu_entry: Voeg kieslysitem by
   button_configure_menu_entry: Konfigureer kieslysitem
   button_delete_menu_entry: Skrap kieslysitem
+  consent:
+    checkbox_label: I have noted and do consent to the above.
+    failure_message: Consent failed, cannot proceed.
+    title: User Consent
+    decline_warning_message: You have declined to consent and have been logged out.
+    user_has_consented: User has consented to your configured statement at the given
+      time.
+    not_yet_consented: User has not consented yet, will be requested upon next login.
+    contact_mail_instructions: Define the mail address that users can reach a data
+      controller to perform data change or removal requests.
+    contact_your_administrator: Please contact your administrator if you want to have
+      your account deleted.
+    contact_this_mail_address: Please contact %{mail_address} if you want to have
+      your account deleted.
+    text_update_consent_time: Check this box to force users to consent again. Enable
+      when you have changed the legal aspect of the consent information above.
+    update_consent_last_time: 'Last update of consent: %{update_time}'
   copy_project:
     started: Kopiëring van "%{source_project_name}" na "%{target_project_name}" het
       begin. Jy sal deur epos in kennis gestel word sodra "%{target_project_name}"
@@ -849,11 +906,6 @@ af:
   default_priority_normal: Normaal
   default_priority_high: Hoog
   default_priority_immediate: Onmiddellik
-  default_project_type_scrum: Span scrum
-  default_project_type_standard: Standaard projek
-  default_reported_project_status_green: Groen
-  default_reported_project_status_amber: Amber
-  default_reported_project_status_red: Rooi
   default_role_anonymous: Anoniem
   default_role_developer: Ontwikkelaar
   default_role_project_admin: Projek admin
@@ -918,7 +970,8 @@ af:
   enumeration_system_activity: Stelsel Aktiwiteit
   enumeration_reported_project_statuses: Gerapporteerde projekstatus
   error_auth_source_sso_failed: Single Sign-On (SSO) for user '%{value}' failed
-  error_can_not_archive_project: Hierdie projek kan nie geargiveer word nie
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Unable to delete entry
   error_can_not_delete_custom_field: Kan nie pasgemaakte veld skrap nie
   error_can_not_delete_type: Hierdie tipe bevat werkspakkette en kan nie geskrap word
@@ -933,14 +986,22 @@ af:
     koekies geaktiveer is, aangesien hierdie toepassing nie behoorlik sal funksioneer
     daarsonder nie.
   error_custom_option_not_found: Option does not exist.
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
+  error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
   error_invalid_sort_criterion: 'Can''t sort by column: %{value}'
+  error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
   error_pdf_export_too_many_columns: Too many columns selected for the PDF export.
     Please reduce the number of columns.
-  error_token_authenticity: Nie in staat om "Cross-Site Request Forgery" bewys te
-    verifieer nie.
+  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: Werkspakket klaar-verhoudings nie bygewerk
     nie.
   error_work_package_not_found_in_project: Die werkspakket is nie gekry nie of behoort
@@ -976,6 +1037,7 @@ af:
 '
   error_external_authentication_failed: Daar was 'n probleem tydens eksterne waarmerking.
     Probeer asseblief weer.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Projek geredigeer
     changeset: Veranderingstel geredigeer
@@ -993,6 +1055,16 @@ af:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF with descriptions
+      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
+      pdf_with_attachments: PDF with attachments
+  extraction:
+    available:
+      pdftotext: Pdftotext available (optional)
+      unrtf: Unrtf available (optional)
+      catdoc: Catdoc beskikbaar (opsioneel)
+      xls2csv: Xls2csv beskikbaar (opsioneel)
+      catppt: Catppt beskikbaar (opsioneel)
+      tesseract: Tesseract beskikbaar (opsioneel)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -1008,13 +1080,14 @@ af:
   homescreen:
     additional:
       projects: Newest visible projects in this instance.
+      no_visible_projects: There are no visible projects in this instance.
       users: Newest registered users in this instance.
     blocks:
       community: OpenProject gemeenskap
       upsale:
         become_hero: Become a hero!
         title: Upgrade to Enterprise Edition
-        description: Boost your productivity with the Enterprise Edition
+        description: What are the benefits?
         more_info: More information
         additional_features: Additional powerful premium features
         professional_support: Professional support from the OpenProject experts
@@ -1030,6 +1103,8 @@ af:
       blog: OpenProject blog
       boards: Gemeenskap forum
       newsletter: Security alerts / Newsletter
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: Jy kan inteken sodra jou rekening geaktiveer is
     deur %{signin} te kliek.
   instructions_after_logout: Jy kan weer inteken deur %{signin} te kliek.
@@ -1071,6 +1146,7 @@ af:
   label_all: alle
   label_all_time: alle tye
   label_all_words: Alle woorde
+  label_all_open_wps: All open
   label_always_visible: Altyd vertoon
   label_announcement: Aankondiging
   label_and_its_subprojects: "%{value} en sy subprojekte"
@@ -1111,11 +1187,12 @@ af:
   label_calendar: Kalender
   label_calendar_show: Wys Kalender
   label_category: Kategorie
+  label_consent_settings: User Consent
   label_wiki_menu_item: Wiki kieslysitem
   label_select_main_menu_item: Kies nuwe hoofkieslysitem
   label_select_project: Select a project
   label_required_disk_storage: Required disk storage
-  label_send_invitation: Send invitation
+  label_send_invitation: Stuur uitnodiging
   label_change_plural: Veranderinge
   label_change_properties: Verander eienskappe
   label_change_status: Verander status
@@ -1133,6 +1210,7 @@ af:
   label_close_versions: Maak voltooide weergawes toe
   label_closed_work_packages: gesluit
   label_collapse: Vou in
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: konfigurasie
   label_comment_add: Voeg 'n opmerking by
   label_comment_added: Kommentaar bygevoeg
@@ -1190,7 +1268,6 @@ af:
   label_edit: Redigeer
   label_enable_multi_select: Wissel multikies
   label_enabled_project_custom_fields: Enabled custom fields
-  label_enabled_project_types: Enabled types
   label_enabled_project_modules: Enabled modules
   label_enabled_project_activities: Enabled time tracking activities
   label_end_to_end: einde tot einde
@@ -1199,12 +1276,14 @@ af:
   label_enumeration_value: Enumeration value
   label_enumerations: Lyste
   label_enterprise: Enterprise
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
   label_environment: Omgewing
   label_estimates_and_time: Estimates and time
   label_equals: is
   label_example: Voorbeeld
   label_export_to: 'Ook beskikbaar in:'
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} uur"
   label_f_hour_plural: "%{value} ure"
   label_feed_plural: Toevoere
@@ -1222,17 +1301,22 @@ af:
   label_force_user_language_to_default: Stel taal van gebruikers wat 'n nie-toegelate
     taal gebruik na verstektaal
   label_form_configuration: Vorm konfigurasie
+  label_gantt: Gantt
+  label_gantt_chart: Gantt chart
   label_general: Algemeen
   label_generate_key: Genereer 'n sleutel
   label_git_path: Pad na .git gids
   label_greater_or_equal: ">="
   label_group_by: Groepeer volgens
   label_group_new: Nuwe groep
+  label_group: Groep
+  label_group_named: Group %{name}
   label_group_plural: Groepe
   label_help: Help
   label_here: hier
   label_hide: Versteek
   label_history: Geskiedenis
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: Tuis
   label_in: in
   label_in_less_than: in minder as
@@ -1246,6 +1330,7 @@ af:
   label_information_plural: Inligting
   label_integer: Heelgetal
   label_internal: Interne
+  label_introduction_video: Introduction video
   label_invite_user: Invite user
   label_show_hide: Show/hide
   label_show_all_registered_users: Show all registered users
@@ -1308,6 +1393,7 @@ af:
   label_my_page_block: My bladsyblok
   label_my_projects: My projekte
   label_my_queries: My pasgemaakte navrae
+  label_never: Never
   label_new: Nuut
   label_new_statuses_allowed: Nuwe statusse toegelaat
   label_news_added: Nuus bygevoeg
@@ -1317,10 +1403,11 @@ af:
   label_news_edit: Edit news
   label_news_plural: Nuus
   label_news_view_all: View all news
-  label_next: Next
+  label_next: Volgende
   label_next_week: Volgende week
   label_no_change_option: "(Geen verandering)"
   label_no_data: Geen data om te wys
+  label_no_parent_page: No parent page
   label_nothing_display: Nothing to display
   label_nobody: niemand
   label_none: geen
@@ -1332,12 +1419,14 @@ af:
   label_open_menu: Maak kieslys oop
   label_open_work_packages: maak oop
   label_open_work_packages_plural: maak oop
+  label_openproject_website: OpenProject website
   label_optional_description: Beskrywing
   label_options: Opsies
   label_other: Ander
   label_overall_activity: Algehele aktiwiteit
   label_overall_spent_time: Algehele tyd spandeer
   label_overview: Oorsig
+  label_page_title: Page title
   label_part_of: part of
   label_password_lost: Jou wagwoord vergeet?
   label_password_rule_lowercase: Kleinletters
@@ -1376,16 +1465,16 @@ af:
   label_project_settings: Projek-instellings
   label_projects_storage_information: "%{count} projects using %{storage} disk storage"
   label_project_view_all: Bekyk alle projekte
-  label_project_show_details: Show project details
-  label_project_hide_details: Hide project details
+  label_project_show_details: Toon projekdetails
+  label_project_hide_details: Versteek projekdetails
   label_public_projects: Openbare projekte
   label_query_new: New query
   label_query_plural: Custom queries
   label_query_menu_item: Query menu item
   label_read: Read...
-  label_register: Create a new account
-  label_register_with_developer: Register as developer
-  label_registered_on: Registered on
+  label_register: Skep ’n nuwe rekening
+  label_register_with_developer: Registreer as ontwikkelaar
+  label_registered_on: Geregistreer op
   label_registration_activation_by_email: account activation by email
   label_registration_automatic_activation: automatic account activation
   label_registration_manual_activation: manual account activation
@@ -1409,7 +1498,7 @@ af:
   label_repository_plural: Repositories
   label_required: required
   label_requires: requires
-  label_responsible_for_work_packages: Work packages I am responsible for
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Results
   label_reverse_chronological_order: In reverse chronological order
   label_revision: Revision
@@ -1429,7 +1518,7 @@ af:
   label_search_titles_only: Search titles only
   label_send_information: Send account information to the user
   label_send_test_email: Send a test email
-  label_settings: Settings
+  label_settings: Instellings
   label_system_settings: System settings
   label_show_completed_versions: Show completed versions
   label_sort: Rangskik
@@ -1437,12 +1526,12 @@ af:
   label_sorted_by: sorted by %{value}
   label_sort_higher: Move up
   label_sort_highest: Move to top
-  label_sort_lower: Move down
-  label_sort_lowest: Move to bottom
+  label_sort_lower: Skuif af
+  label_sort_lowest: Skuif na onder
   label_spent_time: Tyd gespandeer
   label_start_to_end: start to end
   label_start_to_start: start to start
-  label_statistics: Statistics
+  label_statistics: Statistiek
   label_status: Status
   label_status_updated: Work package status updated
   label_stay_logged_in: Stay logged in
@@ -1453,27 +1542,26 @@ af:
   label_string: Teks
   label_subproject: Sub-projek
   label_subproject_new: New subproject
-  label_subproject_plural: Subprojects
-  label_subtask_plural: Subtasks
+  label_subproject_plural: Subprojekte
+  label_subtask_plural: Subtake
   label_summary: Opsomming
-  label_system: System
+  label_system: Stelsel
   label_system_storage: Storage information
-  label_table_of_contents: Table of Contents
+  label_table_of_contents: Table of contents
   label_tag: Tag
   label_text: Long text
-  label_this_month: this month
-  label_this_week: this week
-  label_this_year: this year
+  label_this_month: vandeesmaand
+  label_this_week: vandeesweek
+  label_this_year: vandeesjaar
   label_time_entry_plural: Tyd gespandeer
   label_time_sheet_menu: Time sheet
   label_time_tracking: Time tracking
-  label_today: today
+  label_today: vandag
   label_top_menu: Top Menu
-  label_topic_plural: Topics
-  label_total: Total
+  label_topic_plural: Onderwerpe
+  label_total: Totaal
   label_type_new: New type
   label_type_plural: Soorte
-  label_type_default_new_projects: Type activated for new projects by default
   label_ui: User Interface
   label_update_work_package_done_ratios: Update work package done ratios
   label_updated_time: Updated %{value} ago
@@ -1483,6 +1571,7 @@ af:
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
   label_user: Gebruiker
+  label_user_named: User %{name}
   label_user_activity: "%{value}'s activity"
   label_user_anonymous: Anoniem
   label_user_mail_option_all: For any event on all my projects
@@ -1502,7 +1591,7 @@ af:
   label_version_sharing_none: Not shared
   label_version_sharing_system: With all projects
   label_version_sharing_tree: With project tree
-  label_video: Video
+  label_videos: Videos
   label_view_all_revisions: View all revisions
   label_view_diff: View differences
   label_view_revisions: View revisions
@@ -1510,7 +1599,7 @@ af:
   label_week: Week
   label_wiki_content_added: Wiki page added
   label_wiki_content_updated: Wiki page updated
-  label_wiki_toc: Table of Contents
+  label_wiki_toc: Inhoudsopgawe
   label_wiki_dont_show_menu_item: Do not show this wikipage in project navigation
   label_wiki_edit: Wiki edit
   label_wiki_edit_plural: Wiki edits
@@ -1523,6 +1612,7 @@ af:
   label_wiki_show_menu_item: Show as menu item in project navigation
   label_wiki_show_new_page_link: Show submenu item 'Create new child page'
   label_wiki_show_submenu_item: 'Show as submenu item of '
+  label_wiki_start: Begin bladsy
   label_work_package: Werkspakket
   label_work_package_added: Werkspakket bygevoeg
   label_work_package_attachments: Work package attachments
@@ -1544,7 +1634,7 @@ af:
   label_work_package_view_all_assigned_to_me: Bekyk alle werkspakkette aan my toegeken
   label_work_package_view_all_reported_by_me: Bekyk alle werkspakkette gerapporteer
     deur my
-  label_work_package_view_all_responsible_for: View all work packages that I am responsible
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
     for
   label_work_package_view_all_watched: Bekyk alle werkspakette wat dopgehou word
   label_work_package_watchers: Dophouers
@@ -1569,10 +1659,10 @@ af:
     zero: 0 open / %{total}
   label_x_projects:
     one: 1 project
-    other: "%{count} projects"
+    other: "%{count} projekte"
     zero: no projects
-  label_year: Year
-  label_yesterday: yesterday
+  label_year: Jaar
+  label_yesterday: gister
   label_keyboard_function: Function
   label_keyboard_shortcut: Shortcut
   label_keyboard_accesskey: Accesskey
@@ -1608,6 +1698,24 @@ af:
     ldap_auth_failed: Could not authenticate at the LDAP-Server.
   macro_execution_error: Error executing the macro %{macro_name}
   macro_unavailable: Macro %{macro_name} cannot be displayed.
+  macros:
+    placeholder: "[Placeholder] Macro %{macro_name}"
+    errors:
+      missing_or_invalid_parameter: Missing or invalid macro parameter.
+    legacy_warning:
+      timeline: This legacy timeline macro has been removed and is no longer available.
+        You can replace the functionality with an embedded table macro.
+    include_wiki_page:
+      errors:
+        page_not_found: Cannot find the wiki page '%{name}'.
+        circular_inclusion: Circular inclusion of pages detected.
+    create_work_package_link:
+      errors:
+        no_project_context: Calling create_work_package_link macro from outside project
+          context.
+        invalid_type: No type found with name '%{type}' in project '%{project}'.
+      link_name: Nuwe werkspakket
+      link_name_type: Nuwe %{type_name}
   mail:
     actions: Actions
   mail_body_account_activation_request: 'A new user (%{value}) has registered. The
@@ -1627,6 +1735,15 @@ af:
   mail_subject_reminder: "%{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: More functions
   noscript_description: You need to activate JavaScript in order to use OpenProject!
   noscript_heading: JavaScript disabled
@@ -1747,9 +1864,9 @@ af:
       team collaboration with OpenProject.
     text_show_again: You can restart this video from the help menu
     welcome: Welcome to OpenProject
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Add notes
-  permission_add_work_packages: Add work packages (also allows to add attachments
-    to all work packages)
+  permission_add_work_packages: Add work packages
   permission_add_messages: Post messages
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects
@@ -1763,7 +1880,6 @@ af:
   permission_delete_work_packages: Delete work packages
   permission_delete_messages: Delete messages
   permission_delete_own_messages: Delete own messages
-  permission_delete_project_associations: Delete project dependencies
   permission_delete_reportings: Delete reportings
   permission_delete_timelines: Delete timelines
   permission_delete_wiki_pages: Delete wiki pages
@@ -1775,7 +1891,6 @@ af:
   permission_edit_own_messages: Edit own messages
   permission_edit_own_time_entries: Edit own time logs
   permission_edit_project: Edit project
-  permission_edit_project_associations: Edit project dependencies
   permission_edit_reportings: Edit reportings
   permission_edit_time_entries: Edit time logs
   permission_edit_timelines: Edit timelines
@@ -1790,7 +1905,7 @@ af:
   permission_manage_members: Manage members
   permission_manage_news: Manage news
   permission_manage_project_activities: Manage project activities
-  permission_manage_public_queries: Bestuur openbare navrae
+  permission_manage_public_queries: Manage public views
   permission_manage_repository: Manage repository
   permission_manage_subtasks: Manage subtasks
   permission_manage_versions: Manage versions
@@ -1799,7 +1914,7 @@ af:
   permission_move_work_packages: Move work packages
   permission_protect_wiki_pages: Protect wiki pages
   permission_rename_wiki_pages: Rename wiki pages
-  permission_save_queries: Save queries
+  permission_save_queries: Save views
   permission_select_project_modules: Select project modules
   permission_manage_types: Select types
   permission_view_calendar: View calendar
@@ -1809,7 +1924,6 @@ af:
   permission_view_work_packages: View work packages
   permission_view_messages: View messages
   permission_view_members: View members
-  permission_view_project_associations: View project dependencies
   permission_view_reportings: View reportings
   permission_view_time_entries: View spent time
   permission_view_timelines: View timelines
@@ -1843,12 +1957,12 @@ af:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
-    active_or_archived: Active or archived
+    active_or_archived: Aktief of geargiveer
     assigned_to_role: Assignee's role
     member_of_group: Assignee's group
     assignee_or_group: Assignee or belonging group
     subproject_id: Sub-projek
-    name_or_identifier: Name or identifier
+    name_or_identifier: Naam of identifiseerder
   repositories:
     at_identifier: at %{identifier}
     atom_revision_feed: Atom revision feed
@@ -1990,12 +2104,13 @@ af:
   setting_email_delivery_method: E-pos aflewering metode
   setting_sendmail_location: Ligging van die sendmail uitvoerbare
   setting_smtp_enable_starttls_auto: Gebruik STARTTLS outomaties indien beskikbaar
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: SMTP-bediener
   setting_smtp_port: SMTP-poort
   setting_smtp_authentication: SMTP-waarmerking
-  setting_smtp_domain: SMTP HELLO domein
   setting_smtp_user_name: SMTP gebruikersnaam
   setting_smtp_password: SMTP wagwoord
+  setting_smtp_domain: SMTP HELLO domein
   setting_activity_days_default: Days displayed on project activity
   setting_app_subtitle: Application subtitle
   setting_app_title: Application title
@@ -2008,12 +2123,18 @@ af:
     login attempts
   setting_brute_force_block_minutes: Time the user is blocked for
   setting_cache_formatted_text: Cache formatted text
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Customize the appearance of the work package lists
   setting_commit_fix_keywords: Fixing keywords
   setting_commit_logs_encoding: Commit messages encoding
   setting_commit_logtime_activity_id: Activity for logged time
   setting_commit_logtime_enabled: Enable time logging
   setting_commit_ref_keywords: Referencing keywords
+  setting_consent_time: Consent time
+  setting_consent_info: Consent information text
+  setting_consent_required: Consent required
+  setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: Allow cross-project work package relations
   setting_date_format: Date format
   setting_default_language: Default language
@@ -2031,6 +2152,7 @@ af:
   setting_feeds_limit: Feed content limit
   setting_file_max_size_displayed: Max size of text files displayed inline
   setting_host_name: Host name
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: Calculate the work package done ratio with
   setting_work_package_done_ratio_field: Use the work package field
   setting_work_package_done_ratio_status: Use the work package status
@@ -2086,28 +2208,42 @@ af:
   setting_sys_api_enabled: Enable repository management web service
   setting_sys_api_description: The repository management web service provides integration
     and user authorization for accessing repositories.
-  setting_text_formatting: Text formatting
   setting_time_format: Time format
   setting_accessibility_mode_for_anonymous: Enable accessibility mode for anonymous
     users
   setting_user_format: Users display format
+  setting_user_default_timezone: Users default time zone
   setting_users_deletable_by_admins: User accounts deletable by admins
   setting_users_deletable_by_self: Users allowed to delete their accounts
   setting_welcome_text: Welcome block text
   setting_welcome_title: Welcome block title
   setting_welcome_on_homescreen: Display welcome block on homescreen
-  setting_welcome_on_projects_page: Display welcome block on project overview
   setting_wiki_compression: Wiki history compression
   setting_work_package_group_assignment: Allow assignment to groups
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: Algemeen
     other: Ander
     passwords: Passwords
     session: Session
     brute_force_prevention: Automated user blocking
-  show_hide_project_menu: Vergroot/verklein projek kieslys
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: No highlighting
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
+  text_formatting:
+    markdown: Markdown
+    plain: Plain text
   status_active: active
-  status_archived: archived
+  status_archived: geargiveer
   status_invited: invited
   status_locked: locked
   status_registered: registered
@@ -2161,6 +2297,7 @@ af:
     is not transparent otherwise it will look bad on iOS.
 
 '
+  text_database_allows_tsv: Database allows TSVector (optional)
   text_default_administrator_account_changed: Default administrator account changed
   text_default_encoding: 'Default: UTF-8'
   text_destroy: Skrap
@@ -2196,7 +2333,8 @@ af:
   text_journal_aggregation_time_explanation: Combine journals for display if their
     age difference is less than the specified timespan. This will also delay mail
     notifications by the same amount of time.
-  text_journal_changed: "%{label} changed from %{old} to %{new}"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
   text_journal_deleted: "%{label} deleted (%{old})"
@@ -2246,6 +2384,8 @@ af:
   text_user_wrote: "%{value} wrote:"
   text_warn_on_leaving_unsaved: The work package contains unsaved text that will be
     lost if you leave this page.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all
     its content?
   text_wiki_page_destroy_children: Delete child pages and all their descendants
@@ -2273,14 +2413,6 @@ af:
     admin_menu:
       color: Kleur
       colors: Colors
-      project_type: Projek soort
-      project_types: Project types
-    project_menu:
-      project_associations: Dependencies
-      reportings: Status reportings
-      reports: Timeline reports
-      timelines: Timelines
-    add_project_association: Add dependency
     associations: Dependencies
     board_could_not_be_saved: Board could not be saved
     button_delete_all: Delete all
@@ -2298,7 +2430,6 @@ af:
       one: 1 dag
       other: "%{count} dae"
     edit_color: Edit color
-    edit_project_type: Edit project type
     edit_thing: Redigeer
     edit_timeline: Edit timeline report %{timeline}
     delete_timeline: Delete timeline report %{timeline}
@@ -2340,7 +2471,6 @@ af:
         due_date: End date
         name: Naam
         status: Status
-        responsible: Verantwoordelik
         start_date: Begindatum
       columns: Kolomme
       comparisons: Comparisons
@@ -2369,7 +2499,7 @@ af:
       outline: Initial outline expansion
       parent: Show subprojects of
       work_package_filters: Filter work packages
-      work_package_responsible: Show work packages with responsible
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: Show work packages with assignee
       types: Show types
       status: Show status
@@ -2382,9 +2512,8 @@ af:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago,
         %{end_label} %{endspan}%{endspanunit} from now"
       project_filters: Filter projects
-      project_responsible: Show projects with responsible
+      project_responsible: Show projects with accountable
       project_status: Show project status
-      project_types: Show project types
       timeframe: Show timeframe
       timeframe_end: to
       timeframe_start: from
@@ -2394,7 +2523,6 @@ af:
     new_color: New color
     new_association: New dependency
     new_work_package: Nuwe werkspakket
-    new_project_type: New project type
     new_reporting: New reporting
     new_timeline: New timeline report
     no_projects_for_reporting_available: There are no projects to which a reporting
@@ -2421,30 +2549,11 @@ af:
       edit: 'Edit status: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Update: %{title}'
-    work_packages_are_displayed_in_aggregations: Work packages are displayed in aggregations
-    project_association_new: Add project dependency
-    project_association_new_for_with: Set dependency for “%{project_a}” with
-    project_association_with_other: Project dependency between “%{project_a}” and
-      “%{project_b}”
-    project_association_of_type: Dependency to project of type “%{type}”
-    project_type_could_not_be_saved: Project type could not be saved
     type_could_not_be_saved: Type could not be saved
     reporting_could_not_be_saved: Reporting could not be saved
     properties: Properties
     really_delete_color: 'Are you sure, you want to delete the following color? Types
       using this color will not be deleted.
-
-'
-    really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
-      you want to delete the dependency between “%{project_a}” and “%{project_b}”?
-
-'
-    really_delete_project_type: 'Are you sure, you want to delete the following project
-      type? Projects using this type will not be deleted.
-
-'
-    really_delete_timeline: 'Are you sure, you want to delete the following timeline
-      report? Work packages shown in this timeline report will not be deleted.
 
 '
     really_delete_reporting: 'Are you sure, you want to delete the following reporting?
@@ -2456,7 +2565,6 @@ af:
     timelines: Timeline reports
     settings: Timelines
     vertical_work_package: Vertical work packages
-    without_project_type: Without project type
     you_are_viewing_the_selected_timeline: You are viewing the selected timeline report
     zoom:
       in: Zoom in
@@ -2468,6 +2576,11 @@ af:
       years: Years
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
+  title_enterprise_upgrade: Upgrade to unlock more users.
+  tooltip_user_default_timezone: 'Die verstektydsone vir nuwe gebruikers. Kan in ’n
+    gebruiker se instellings verander word.
+
+'
   tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
     case the old one expired or the user did not get the original email. Can also
     be used for active users to choose a new authentication method. When used with
@@ -2535,6 +2648,25 @@ af:
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Warning
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: Menu item
   menu_item_setting: Sigbaarheid
   wiki_menu_item_for: Kieslysitem vir wikibladsy "%{title}"
@@ -2565,7 +2697,7 @@ af:
       code_401_wrong_credentials: Jy het nie die korrekte verwysings voorsien nie.
       code_403: Jy is nie gemagtig om toegang tot hierdie hulpbron verkry nie.
       code_404: Die versoekte hulpbron kon nie gevind word nie.
-      code_409: Kon nie die hulpbron bywerk nie weens botsende modifikasies.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: An internal error has occured.
       expected:
         date: YYYY-MM-DD (ISO 8601 date only)
@@ -2587,6 +2719,7 @@ af:
       multipart_body_error: Die versoekliggaam het nie die verwagte multipartdele
         bevat nie.
       multiple_errors: Verskeie veld beperkinge is oortree.
+      unable_to_create_attachment: Die aanhangsel kon nie geskep word nie
       render:
         context_not_parsable: Die konteks voorsien is nie 'n skakel na 'n hulpbron
           nie.
@@ -2595,7 +2728,7 @@ af:
       validation:
         done_ratio: Klaar verhouding kan nie gestel word op ouerwerkspakkette wanneer
           dit vanuit status afgelei is of wanneer onaktief is.
-        due_date: Sperdatum kan nie gestel word op ouerwerkspakkette nie.
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: Beraamde ure kan nie gestel word op ouerwerkspakkette nie.
         invalid_user_assigned_to_work_package: Die gekose gebruiker is nie toegelaat
           om '%{property}' vir hierdie werkspakket te wees nie.

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,15 +23,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 feature 'invite user via email', type: :feature, js: true do
-  let!(:project) { FactoryGirl.create :project, name: 'Project 1', identifier: 'project1' }
-  let(:admin) { FactoryGirl.create :admin }
-  let!(:developer) { FactoryGirl.create :role, name: 'Developer' }
+  let!(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1' }
+  let(:admin) { FactoryBot.create :admin }
+  let!(:developer) { FactoryBot.create :role, name: 'Developer' }
 
   let(:members_page) { Pages::Members.new project.identifier }
 
@@ -64,7 +64,7 @@ feature 'invite user via email', type: :feature, js: true do
 
   context 'with a registered user' do
     let!(:user) do
-      FactoryGirl.create :user, mail: 'hugo@openproject.com',
+      FactoryBot.create :user, mail: 'hugo@openproject.com',
                          login: 'hugo@openproject.com',
                          firstname: 'Hugo',
                          lastname: 'Hurried'

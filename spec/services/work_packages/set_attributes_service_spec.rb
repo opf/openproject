@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,22 +25,22 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe WorkPackages::SetAttributesService, type: :model do
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
   let(:project) do
-    p = FactoryGirl.build_stubbed(:project)
+    p = FactoryBot.build_stubbed(:project)
     allow(p).to receive(:shared_versions).and_return([])
 
     p
   end
   let(:work_package) do
-    wp = FactoryGirl.build_stubbed(:work_package, project: project)
-    wp.type = FactoryGirl.build_stubbed(:type)
+    wp = FactoryBot.build_stubbed(:work_package, project: project)
+    wp.type = FactoryBot.build_stubbed(:type)
     wp.send(:clear_changes_information)
 
     allow(wp)
@@ -76,7 +76,7 @@ describe WorkPackages::SetAttributesService, type: :model do
   let(:instance) do
     described_class.new(user: user,
                         work_package: work_package,
-                        contract: mock_contract)
+                        contract_class: mock_contract)
   end
 
   describe 'call' do
@@ -166,8 +166,8 @@ describe WorkPackages::SetAttributesService, type: :model do
     end
 
     context 'status' do
-      let(:default_status) { FactoryGirl.build_stubbed(:default_status) }
-      let(:other_status) { FactoryGirl.build_stubbed(:status) }
+      let(:default_status) { FactoryBot.build_stubbed(:default_status) }
+      let(:other_status) { FactoryBot.build_stubbed(:status) }
       let(:new_statuses) { [other_status, default_status] }
 
       before do
@@ -237,7 +237,7 @@ describe WorkPackages::SetAttributesService, type: :model do
     end
 
     context 'author' do
-      let(:other_user) { FactoryGirl.build_stubbed(:user) }
+      let(:other_user) { FactoryBot.build_stubbed(:user) }
 
       context 'no value set before for a new work package' do
         let(:call_attributes) { {} }
@@ -295,9 +295,39 @@ describe WorkPackages::SetAttributesService, type: :model do
       end
     end
 
+    context 'with the actual contract' do
+      let(:invalid_wp) do
+        wp = FactoryBot.create(:work_package)
+        wp.start_date = Date.today + 5.days
+        wp.due_date = Date.today
+        wp.save!(validate: false)
+
+        wp
+      end
+      let(:user) { FactoryBot.build_stubbed(:admin) }
+      let(:instance) do
+        described_class.new(user: user,
+                            work_package: invalid_wp,
+                            contract_class: contract_class)
+      end
+
+      context 'with a current invalid start date' do
+        let(:call_attributes) { attributes }
+        let(:attributes) { { start_date: Date.today - 5.days } }
+        let(:contract_valid) { true }
+        let(:work_package_valid) { true }
+        subject { instance.call(call_attributes) }
+
+        it 'is successful' do
+          expect(subject.success?).to be_truthy
+          expect(subject.errors).to be_empty
+        end
+      end
+    end
+
     context 'priority' do
-      let(:default_priority) { FactoryGirl.build_stubbed(:priority) }
-      let(:other_priority) { FactoryGirl.build_stubbed(:priority) }
+      let(:default_priority) { FactoryBot.build_stubbed(:priority) }
+      let(:other_priority) { FactoryBot.build_stubbed(:priority) }
 
       before do
         allow(IssuePriority)
@@ -362,7 +392,7 @@ describe WorkPackages::SetAttributesService, type: :model do
     end
 
     context 'when switching the type' do
-      let(:target_type) { FactoryGirl.build_stubbed(:type) }
+      let(:target_type) { FactoryBot.build_stubbed(:type) }
 
       context 'with a type that is no milestone' do
         before do
@@ -408,17 +438,17 @@ describe WorkPackages::SetAttributesService, type: :model do
     end
 
     context 'when switching the project' do
-      let(:new_project) { FactoryGirl.build_stubbed(:project) }
-      let(:version) { FactoryGirl.build_stubbed(:version) }
-      let(:category) { FactoryGirl.build_stubbed(:category) }
-      let(:new_category) { FactoryGirl.build_stubbed(:category, name: category.name) }
+      let(:new_project) { FactoryBot.build_stubbed(:project) }
+      let(:version) { FactoryBot.build_stubbed(:version) }
+      let(:category) { FactoryBot.build_stubbed(:category) }
+      let(:new_category) { FactoryBot.build_stubbed(:category, name: category.name) }
       let(:new_statuses) { [work_package.status] }
       let(:new_versions) { [] }
       let(:type) { work_package.type }
       let(:new_types) { [type] }
-      let(:default_type) { FactoryGirl.build_stubbed(:type_standard) }
-      let(:other_type) { FactoryGirl.build_stubbed(:type) }
-      let(:yet_another_type) { FactoryGirl.build_stubbed(:type) }
+      let(:default_type) { FactoryBot.build_stubbed(:type_standard) }
+      let(:other_type) { FactoryBot.build_stubbed(:type) }
+      let(:yet_another_type) { FactoryBot.build_stubbed(:type) }
 
       let(:call_attributes) { {} }
       let(:new_project_categories) do
@@ -573,6 +603,22 @@ describe WorkPackages::SetAttributesService, type: :model do
 
         it_behaves_like 'service call' do
           it_behaves_like 'updating the project'
+        end
+      end
+    end
+
+    context 'custom fields' do
+      subject { instance.call(call_attributes) }
+
+      context 'non existing fields' do
+        let(:call_attributes) { { custom_field_891: '1' } }
+
+        before do
+          subject
+        end
+
+        it 'is successful' do
+          expect(subject).to be_success
         end
       end
     end

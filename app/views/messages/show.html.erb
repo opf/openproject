@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See doc/COPYRIGHT.rdoc for more details.
+See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
@@ -31,73 +31,65 @@ See doc/COPYRIGHT.rdoc for more details.
   link_to(t(:label_board_plural), project_boards_path(@project)),
   link_to(h(@board.name), project_board_path(@project, @board)))
 %>
-
-
-<div class="top-page messages-wrapper">
-  <div class="toolbar-container">
-    <div class="toolbar">
-      <div class="title-container">
-        <h2 class="message-title" title="<%= h @topic.subject %>"><%= avatar(@topic.author) %><%=h @topic.subject %></h2>
-      </div>
-      <ul class="toolbar-items">
-        <li class="toolbar-item">
-          <%= watcher_link(@topic, User.current) %>
-        </li>
-        <li class="toolbar-item">
-          <% if !@topic.locked? && authorize_for('messages', 'reply') %>
-            <%= link_to({ action: 'quote', id: @topic }, remote: true, method: 'get', class: 'button') do %>
+<% title avatar(@topic.author) + h(@topic.subject) %>
+<%= toolbar title: title do %>
+    <li class="toolbar-item">
+      <%= watcher_link(@topic, User.current) %>
+    </li>
+    <li class="toolbar-item">
+      <% if !@topic.locked? && authorize_for('messages', 'reply') %>
+          <%= link_to({ action: 'quote', id: @topic }, class: 'boards--quote-button button') do %>
               <%= op_icon('button--icon icon-quote') %>
               <span class="button--text"><%= t(:button_quote) %></span>
-            <% end %>
           <% end %>
-        </li>
-        <li class="toolbar-item">
-          <% if @message.editable_by?(User.current) %>
-            <%= link_to(edit_topic_path(@topic), accesskey: accesskey(:edit), class: 'button') do %>
+      <% end %>
+    </li>
+    <li class="toolbar-item">
+      <% if @message.editable_by?(User.current) %>
+          <%= link_to(edit_topic_path(@topic), accesskey: accesskey(:edit), class: 'button') do %>
               <%= op_icon('button--icon icon-edit') %>
               <span class="button--text"><%= t(:button_edit) %></span>
-            <% end %>
           <% end %>
-        </li>
-        <li class="toolbar-item">
-          <% if @message.destroyable_by?(User.current) %>
-            <%= link_to(topic_path(@topic), method: :delete, data: { confirm: t(:text_are_you_sure) }, class: 'button') do %>
+      <% end %>
+    </li>
+    <li class="toolbar-item">
+      <% if @message.destroyable_by?(User.current) %>
+          <%= link_to(topic_path(@topic), method: :delete, data: { confirm: t(:text_are_you_sure) }, class: 'button') do %>
               <%= op_icon('button--icon icon-delete') %>
               <span class="button--text"><%= t(:button_delete) %></span>
-            <% end %>
           <% end %>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
+      <% end %>
+    </li>
+<% end %>
+
 <div class="message">
   <p><span class="author"><%= authoring @topic.created_on, @topic.author %></span></p>
   <div class="wiki">
     <%= format_text(@topic.content, object: @topic, attachments: @topic.attachments) %>
   </div>
-  <%= link_to_attachments @topic, author: false %>
+
+  <% resource = message_attachment_representer(@topic) %>
+  <%= list_attachments(resource) %>
+
 </div>
 <br />
 <% unless @replies.empty? %>
   <h3 class="icon-context icon-quote"><%= t(:label_reply_plural) %> (<%= @replies.count %>)</h3>
   <% @replies.each do |message| %>
     <div class="message reply" id="<%= "message-#{message.id}" %>">
-      <h4>
+      <h3>
         <%= avatar(message.author) %>
         <%= link_to h(message.subject), topic_path(@topic,
                                                  r: message,
                                                  anchor: "message-#{message.id}") %>
         -
       <%= authoring message.created_on, message.author %>
-      </h4>
+      </h3>
       <div class="message-reply-menu">
         <%= link_to(icon_wrapper('icon-quote', t(:button_quote)),
                   { action: 'quote', id: message },
-                  remote: true,
-                  method: 'get',
                   title: t(:button_quote),
-                  class: 'button -small',
+                  class: 'button boards--quote-button -small',
                   alt: t(:button_quote)) if !@topic.locked? && authorize_for('messages', 'reply') %>
         <%= link_to(icon_wrapper('icon-edit', t(:button_edit)),
                   { action: 'edit', id: message },
@@ -115,7 +107,8 @@ See doc/COPYRIGHT.rdoc for more details.
       <div class="wiki">
         <%= format_text message, :content, attachments: message.attachments %>
       </div>
-      <%= link_to_attachments message, author: false %>
+      <% resource = message_attachment_representer(message) %>
+      <%= list_attachments(resource) %>
     </div>
   <% end %>
   <%= pagination_links_full @replies, per_page_links: false %>
@@ -141,7 +134,6 @@ See doc/COPYRIGHT.rdoc for more details.
       <hr class="form--separator" />
 
       <%= f.button t(:button_submit), class: 'button -highlight -highlight -with-icon icon-checkmark' %>
-      <%= preview_link preview_topic_path(@message), 'message-form-preview' %>
     <% end %>
     <div id="preview"></div>
   </div>

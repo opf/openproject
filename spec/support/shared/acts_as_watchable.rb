@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 shared_examples_for 'acts_as_watchable included' do
@@ -40,32 +40,38 @@ MESSAGE
     end
   end
 
-  let(:watcher_role) {
+  let(:watcher_role) do
     permissions = is_public_permission ? [] : [watch_permission]
 
-    FactoryGirl.create(:role, permissions: permissions)
-  }
-  let(:non_watcher_role) { FactoryGirl.create(:role, permissions: []) }
-  let(:non_member_user) { FactoryGirl.create(:user) }
+    FactoryBot.create(:role, permissions: permissions)
+  end
+  let(:non_watcher_role) { FactoryBot.create(:role, permissions: []) }
+  let(:non_member_user) { FactoryBot.create(:user) }
   let(:user_with_permission) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
+                       member_in_project: project,
+                       member_through_role: watcher_role)
+  end
+  let(:locked_user_with_permission) do
+    FactoryBot.create(:user,
+                       status: Principal::STATUSES[:locked],
                        member_in_project: project,
                        member_through_role: watcher_role)
   end
 
   let(:user_wo_permission) do
     if is_public_permission
-      FactoryGirl.create(:user)
+      FactoryBot.create(:user)
     else
-      FactoryGirl.create(:user,
+      FactoryBot.create(:user,
                          member_in_project: project,
                          member_through_role: non_watcher_role)
     end
   end
-  let(:admin) { FactoryGirl.build(:admin) }
-  let(:anonymous_user) { FactoryGirl.build(:anonymous) }
+  let(:admin) { FactoryBot.build(:admin) }
+  let(:anonymous_user) { FactoryBot.build(:anonymous) }
   let(:watching_user) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        member_in_project: project,
                        member_through_role: watcher_role).tap do |user|
       Watcher.create(watchable: model_instance, user: user)
@@ -77,13 +83,13 @@ MESSAGE
   end
 
   shared_context 'non member role has the permission to watch' do
-    let(:non_member_role) {
+    let(:non_member_role) do
       unless is_public_permission
         Role.non_member.add_permission! watch_permission
       end
 
       Role.non_member
-    }
+    end
 
     before do
       unless is_public_permission
@@ -93,10 +99,10 @@ MESSAGE
   end
 
   shared_context 'anonymous role has the permission to watch' do
-    let(:anonymous_role) {
+    let(:anonymous_role) do
       permissions = is_public_permission ? [] : [watch_permission]
-      FactoryGirl.build :anonymous_role, permissions: permissions
-    }
+      FactoryBot.build :anonymous_role, permissions: permissions
+    end
 
     before do
       anonymous_role.save!
@@ -118,6 +124,7 @@ MESSAGE
       anonymous_user.save!
       user_with_permission.save!
       user_wo_permission.save!
+      locked_user_with_permission.save!
     end
 
     include_context 'non member role has the permission to watch'

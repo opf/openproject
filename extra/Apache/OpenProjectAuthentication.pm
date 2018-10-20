@@ -110,7 +110,12 @@ sub is_access_allowed {
   my $cfg = Apache2::Module::get_config( __PACKAGE__, $r->server, $r->per_dir_config );
 
   my $key = $cfg->{OpenProjectApiKey};
-  my $openproject_url = $cfg->{OpenProjectUrl} . '/sys/repo_auth';
+
+  # Trim url base if users add trailing slash
+  my $url_base = $cfg->{OpenProjectUrl};
+  $url_base =~ s|/$||;
+
+  my $openproject_url = "$url_base/sys/repo_auth";
   my $openproject_unparsed_uri = $r->unparsed_uri;
   my $openproject_location = $r->location;
   my $openproject_git_smart_http = 0;
@@ -129,6 +134,10 @@ sub is_access_allowed {
 
   my $ua = LWP::UserAgent->new;
   my $response = $ua->request($openproject_req);
+
+  unless($response->is_success()) {
+    $r->log_error("Failed authorization for $login on $openproject_url: " . $response->status_line);
+  }
 
   return $response->is_success();
 }

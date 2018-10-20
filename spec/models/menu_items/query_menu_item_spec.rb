@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,23 +23,23 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe MenuItems::QueryMenuItem, type: :model do
-  let(:project) { FactoryGirl.create :project, enabled_module_names: %w[activity] }
-  let(:query) { FactoryGirl.create :query, project: project }
-  let(:another_query) { FactoryGirl.create :query, project: project }
+  let(:project) { FactoryBot.create :project, enabled_module_names: %w[activity] }
+  let(:query) { FactoryBot.create :query, project: project }
+  let(:another_query) { FactoryBot.create :query, project: project }
 
   describe 'it should destroy all items when destroying' do
     before(:each) do
-      query_item = FactoryGirl.create(:query_menu_item,
+      query_item = FactoryBot.create(:query_menu_item,
                                       query:   query,
                                       name:    'Query Item',
                                       title:   'Query Item')
-      another_query_item = FactoryGirl.create(:query_menu_item,
+      another_query_item = FactoryBot.create(:query_menu_item,
                                               query:   another_query,
                                               name:    'Another Query Item',
                                               title:   'Another Query Item')

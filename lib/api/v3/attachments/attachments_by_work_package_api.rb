@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'api/v3/attachments/attachment_collection_representer'
@@ -33,63 +33,27 @@ module API
     module Attachments
       class AttachmentsByWorkPackageAPI < ::API::OpenProjectAPI
         resources :attachments do
+          helpers API::V3::Attachments::AttachmentsByContainerAPI::Helpers
+
           helpers do
-            # Global helper to set allowed content_types
-            # This may be overriden when multipart is allowed (file uploads)
-            def allowed_content_types
-              %w(multipart/form-data)
+            def container
+              @work_package
             end
 
-            def parse_metadata(json)
-              return nil unless json
-
-              metadata = OpenStruct.new
-              ::API::V3::Attachments::AttachmentMetadataRepresenter.new(metadata).from_json(json)
-
-              unless metadata.file_name
-                raise ::API::Errors::Validation.new(
-                  :file_name,
-                  "fileName #{I18n.t('activerecord.errors.messages.blank')}.")
-              end
-
-              metadata
+            def get_attachment_self_path
+              api_v3_paths.attachments_by_work_package(container.id)
             end
           end
 
-          get do
-            self_path = api_v3_paths.attachments_by_work_package(@work_package.id)
-            attachments = @work_package.attachments
-            AttachmentCollectionRepresenter.new(attachments,
-                                                self_path,
-                                                current_user: current_user)
-          end
+          get &API::V3::Attachments::AttachmentsByContainerAPI.read
 
-          post do
-            authorize_any [:edit_work_packages, :add_work_packages], projects: @work_package.project
-
-            metadata = parse_metadata params[:metadata]
-            file = params[:file]
-
-            unless metadata && file
-              raise ::API::Errors::InvalidRequestBody.new(
-                I18n.t('api_v3.errors.multipart_body_error'))
-            end
-
-            uploaded_file = OpenProject::Files.build_uploaded_file file[:tempfile],
-                                                                   file[:type],
-                                                                   file_name: metadata.file_name
-
-            begin
-              service = AddAttachmentService.new(@work_package, author: current_user)
-              attachment = service.add_attachment uploaded_file: uploaded_file,
-                                                  description: metadata.description
-            rescue ActiveRecord::RecordInvalid => error
-              raise ::API::Errors::ErrorBase.create_and_merge_errors(error.record.errors)
-            end
-
-            ::API::V3::Attachments::AttachmentRepresenter.new(attachment,
-                                                              current_user: current_user)
-          end
+          # while attachments are #addable? when the user has the :add_work_packages permission or
+          # the :edit_work_packages permission, we cannot differentiate here between adding to a newly
+          # created work package (for which :add_work_package would be required) and adding to an older
+          # work package (for which :edit_work_packages would be required). We thus only allow
+          # :edit_work_packages in this endpoint and require clients to upload uncontainered work packages
+          # first and attach them on wp creation.
+          post &API::V3::Attachments::AttachmentsByContainerAPI.create([:edit_work_packages])
         end
       end
     end

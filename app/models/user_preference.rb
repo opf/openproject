@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class UserPreference < ActiveRecord::Base
@@ -64,6 +64,14 @@ class UserPreference < ActiveRecord::Base
     others[:no_self_notified] = !value
   end
 
+  def auto_hide_popups=(value)
+    others[:auto_hide_popups] = to_boolean(value)
+  end
+
+  def auto_hide_popups?
+    others.fetch(:auto_hide_popups) { Setting.default_auto_hide_popups? }
+  end
+
   def warn_on_leaving_unsaved?
     # Need to cast here as previous values were '0' / '1'
     to_boolean(others.fetch(:warn_on_leaving_unsaved) { true })
@@ -73,14 +81,6 @@ class UserPreference < ActiveRecord::Base
     others[:warn_on_leaving_unsaved] = to_boolean(value)
   end
 
-  def auto_hide_popups=(value)
-    others[:auto_hide_popups] = to_boolean(value)
-  end
-
-  def auto_hide_popups?
-    others[:auto_hide_popups] || false
-  end
-
   # Provide an alias to form builders
   alias :comments_in_reverse_order :comments_in_reverse_order?
   alias :warn_on_leaving_unsaved :warn_on_leaving_unsaved?
@@ -88,6 +88,10 @@ class UserPreference < ActiveRecord::Base
 
   def comments_in_reverse_order=(value)
     others[:comments_sorting] = to_boolean(value) ? 'desc' : 'asc'
+  end
+
+  def time_zone
+    self[:time_zone].presence || Setting.user_default_timezone.presence
   end
 
   def canonical_time_zone
@@ -101,19 +105,6 @@ class UserPreference < ActiveRecord::Base
 
   def impaired?
     !!impaired
-  end
-
-  def warn_on_leaving_unsaved?
-    # Need to cast here as previous values were '0' / '1'
-    to_boolean(others.fetch(:warn_on_leaving_unsaved) { true })
-  end
-
-  def warn_on_leaving_unsaved
-    warn_on_leaving_unsaved?
-  end
-
-  def warn_on_leaving_unsaved=(value)
-    others[:warn_on_leaving_unsaved] = to_boolean(value)
   end
 
   private

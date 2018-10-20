@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class CustomField < ActiveRecord::Base
@@ -211,6 +211,10 @@ class CustomField < ActiveRecord::Base
     end
   end
 
+  def self.custom_field_attribute?(attribute_name)
+    attribute_name.to_s =~ /custom_field_\d+/
+  end
+
   # to move in project_custom_field
   def self.for_all(options = {})
     where(is_for_all: true)
@@ -256,7 +260,7 @@ class CustomField < ActiveRecord::Base
   def possible_version_values_options(obj)
     mapped_with_deduced_project(obj) do |project|
       if project
-        project.versions
+        project.shared_versions
       else
         Version.systemwide
       end

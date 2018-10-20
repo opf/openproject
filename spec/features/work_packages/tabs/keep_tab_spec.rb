@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,16 +23,16 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 RSpec.feature 'Keep current details tab', js: true, selenium: true do
-  let(:user) { FactoryGirl.create(:admin) }
-  let(:project) { FactoryGirl.create(:project) }
-  let!(:wp1) { FactoryGirl.create(:work_package, project: project) }
-  let!(:wp2) { FactoryGirl.create(:work_package, project: project) }
+  let(:user) { FactoryBot.create(:admin) }
+  let(:project) { FactoryBot.create(:project) }
+  let!(:wp1) { FactoryBot.create(:work_package, project: project) }
+  let!(:wp2) { FactoryBot.create(:work_package, project: project) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:split) { Pages::WorkPackagesTable.new(project) }
@@ -54,19 +54,18 @@ RSpec.feature 'Keep current details tab', js: true, selenium: true do
     wp_split2 = wp_table.open_split_view(wp2)
     wp_split2.expect_subject
     wp_split2.expect_tab :activity
-    wp_split2.visit_tab! :relations
 
     # Open first WP by click on table
     wp_table.open_split_view(wp1)
     wp_split1.expect_subject
-    wp_split1.expect_tab :relations
+    wp_split1.expect_tab :activity
 
     # open work package full screen by button
     wp_full = wp_split1.switch_to_fullscreen
-    wp_full.expect_tab :relations
+    wp_full.expect_tab :activity
 
     page.execute_script('window.history.back()')
-    wp_split1.expect_tab :relations
+    wp_split1.expect_tab :activity
 
     # Assert that overview tab is mapped to activity in show
     wp_split1.visit_tab! :overview

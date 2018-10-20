@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,15 +25,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 require 'spec_helper'
 
 describe Relation, type: :model do
-  let(:from) { FactoryGirl.create(:work_package) }
-  let(:to) { FactoryGirl.create(:work_package) }
+  let(:from) { FactoryBot.create(:work_package) }
+  let(:to) { FactoryBot.create(:work_package) }
   let(:type) { 'relates' }
-  let(:relation) { FactoryGirl.build(:relation, from: from, to: to, relation_type: type) }
+  let(:relation) { FactoryBot.build(:relation, from: from, to: to, relation_type: type) }
 
   describe 'all relation types' do
     Relation::TYPES.each do |key, type_hash|
@@ -66,7 +66,7 @@ describe Relation, type: :model do
       let(:type) { key }
       let(:reversed) { type_hash[:reverse] }
       let(:relation) do
-        FactoryGirl.build_stubbed(:relation,
+        FactoryBot.build_stubbed(:relation,
                                   relation_type: nil,
                                   column_name => column_count)
       end
@@ -105,7 +105,7 @@ describe Relation, type: :model do
           end
         end
         let(:relation) do
-          FactoryGirl.build_stubbed(:relation,
+          FactoryBot.build_stubbed(:relation,
                                     relation_type: nil,
                                     column_name => 1,
                                     other_column => 1)
@@ -116,6 +116,27 @@ describe Relation, type: :model do
             .to eql 'mixed'
         end
       end
+    end
+  end
+
+  describe '#relation_type=' do
+    let(:column_name) { 'relates' }
+    let(:type) { :relates }
+    let(:relation) do
+      FactoryBot.build(:relation,
+                        relation_type: 'relates')
+    end
+
+    it 'updates the column value' do
+      relation.save!
+      expect(relation.relates).to eq 1
+
+      relation.relation_type = 'duplicates'
+      relation.save!
+      expect(relation.relation_type).to eq('duplicates')
+
+      expect(relation.relates).to eq 0
+      expect(relation.duplicates).to eq 1
     end
   end
 
@@ -158,17 +179,17 @@ describe Relation, type: :model do
   end
 
   describe '.visible' do
-    let(:user) { FactoryGirl.create(:user) }
-    let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
+    let(:user) { FactoryBot.create(:user) }
+    let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
     let(:member_project_to) do
-      FactoryGirl.create(:member,
+      FactoryBot.create(:member,
                          project: to.project,
                          user: user,
                          roles: [role])
     end
 
     let(:member_project_from) do
-      FactoryGirl.create(:member,
+      FactoryBot.create(:member,
                          project: from.project,
                          user: user,
                          roles: [role])
@@ -214,20 +235,20 @@ describe Relation, type: :model do
   end
 
   describe 'it should validate circular dependency' do
-    let(:otherwp) { FactoryGirl.create(:work_package) }
+    let(:otherwp) { FactoryBot.create(:work_package) }
     let(:relation) do
-      FactoryGirl.build(:relation, from: from, to: to, relation_type: Relation::TYPE_PRECEDES)
+      FactoryBot.build(:relation, from: from, to: to, relation_type: Relation::TYPE_PRECEDES)
     end
     let(:relation2) do
-      FactoryGirl.build(:relation, from: to, to: otherwp, relation_type: Relation::TYPE_PRECEDES)
+      FactoryBot.build(:relation, from: to, to: otherwp, relation_type: Relation::TYPE_PRECEDES)
     end
 
     let(:invalid_precedes_relation) do
-      FactoryGirl.build(:relation, from: otherwp, to: from, relation_type: Relation::TYPE_PRECEDES)
+      FactoryBot.build(:relation, from: otherwp, to: from, relation_type: Relation::TYPE_PRECEDES)
     end
 
     let(:invalid_follows_relation) do
-      FactoryGirl.build(:relation, from: from, to: otherwp, relation_type: Relation::TYPE_FOLLOWS)
+      FactoryBot.build(:relation, from: from, to: otherwp, relation_type: Relation::TYPE_FOLLOWS)
     end
 
     it 'prevents invalid precedes relations' do

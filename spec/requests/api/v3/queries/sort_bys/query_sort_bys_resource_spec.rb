@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -37,11 +37,11 @@ describe 'API v3 Query Sort Bys resource', type: :request do
     let(:path) { api_v3_paths.query_sort_by(column_name, direction) }
     let(:column_name) { 'status' }
     let(:direction) { 'desc' }
-    let(:project) { FactoryGirl.create(:project) }
-    let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+    let(:project) { FactoryBot.create(:project) }
+    let(:role) { FactoryBot.create(:role, permissions: permissions) }
     let(:permissions) { [:view_work_packages] }
     let(:user) do
-      FactoryGirl.create(:user,
+      FactoryBot.create(:user,
                          member_in_project: project,
                          member_through_role: role)
     end

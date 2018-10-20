@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -31,12 +31,13 @@ require 'features/page_objects/notification'
 require 'features/work_packages/shared_contexts'
 require 'features/work_packages/work_packages_page'
 
-feature 'Query menu items' do
-  let(:user) { FactoryGirl.create :admin }
-  let(:project) { FactoryGirl.create :project }
+RSpec.feature 'Query menu items', js: true do
+  let(:user) { FactoryBot.create :admin }
+  let(:project) { FactoryBot.create :project }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
+  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:notification) { PageObjects::Notifications.new(page) }
-  let(:status) { FactoryGirl.create :status }
+  let(:status) { FactoryBot.create :status }
 
   def visit_index_page(query)
     work_packages_page.select_query(query)
@@ -49,32 +50,33 @@ feature 'Query menu items' do
   end
 
   context 'with identical names' do
-    let(:query_a) { FactoryGirl.create :public_query, name: 'some query.', project: project }
-    let(:query_b) { FactoryGirl.create :public_query, name: query_a.name, project: project }
+    let(:query_a) { FactoryBot.create :public_query, name: 'some query.', project: project }
+    let(:query_b) { FactoryBot.create :public_query, name: query_a.name, project: project }
 
-    let!(:menu_item_a) { FactoryGirl.create :query_menu_item, query: query_a }
-    let!(:menu_item_b) { FactoryGirl.create :query_menu_item, query: query_b }
+    let!(:menu_item_a) { FactoryBot.create :query_menu_item, query: query_a }
+    let!(:menu_item_b) { FactoryBot.create :query_menu_item, query: query_b }
 
     it 'can be shown' do
       visit_index_page(query_a)
 
-      expect(page).to have_selector('a', text: query_a.name, count: 2)
+      wp_table.visit_query query_a
+      wp_table.expect_title query_a.name
     end
   end
 
   context 'with dots in their name' do
-    let(:query) { FactoryGirl.create :public_query, name: 'OP 3.0', project: project }
+    let(:query) { FactoryBot.create :public_query, name: 'OP 3.0', project: project }
 
     it 'can be added', js: true, selenium: true do
       visit_index_page(query)
 
       click_on 'Settings'
-      click_on 'Publish ...'
-      check 'Show page in menu'
+      click_on I18n.t('js.toolbar.settings.visibility_settings')
+      check 'Favored'
       click_on 'Save'
 
       notification.expect_success('Successful update')
-      expect(page).to have_selector('a', text: query.name)
+      expect(page).to have_selector('.wp-query-menu--item[data-category=starred]', text: query.name)
     end
 
     after do
@@ -83,32 +85,31 @@ feature 'Query menu items' do
   end
 
   describe 'renaming a menu item' do
-    let(:query_a) { FactoryGirl.create :query, name: 'bbbb', project: project, user: user }
-    let(:query_b) { FactoryGirl.create :query, name: 'zzzz', project: project, user: user }
+    let(:query_a) { FactoryBot.create :query, name: 'bbbb', project: project, user: user }
+    let(:query_b) { FactoryBot.create :query, name: 'zzzz', project: project, user: user }
 
-    let!(:menu_item_a) { FactoryGirl.create :query_menu_item, query: query_a }
-    let!(:menu_item_b) { FactoryGirl.create :query_menu_item, query: query_b }
+    let!(:menu_item_a) { FactoryBot.create :query_menu_item, query: query_a }
+    let!(:menu_item_b) { FactoryBot.create :query_menu_item, query: query_b }
     let(:new_name) { 'aaaaa' }
 
     before do
       visit_index_page(query_b)
 
-      click_on I18n.t('js.button_settings')
-      click_on I18n.t('js.toolbar.settings.page_settings')
-      fill_in I18n.t('js.modals.label_name'), with: new_name
-      click_on I18n.t('js.modals.button_submit')
+      expect(page).to have_field('wp-query-selectable-title', with: 'zzzz')
+      input = find('.wp-query--selectable-title')
+      input.set new_name
+      input.send_keys :return
     end
 
     after do
       ensure_wp_table_loaded
     end
 
-    it 'displaying a success message', js: true do
+    it 'displaying a success message' do
       notification.expect_success('Successful update')
     end
 
-    it 'is renaming and reordering the list', js: true do
-      ng_wait
+    it 'is renaming and reordering the list' do
       # Renaming the query should also reorder the queries.  As it is renamed
       # from zzzz to aaaa, it should now be the first query menu item.
       expect(page).to have_selector('li:nth-child(3) a', text: new_name)

@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See doc/COPYRIGHT.rdoc for more details.
+See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
@@ -115,11 +115,25 @@ See doc/COPYRIGHT.rdoc for more details.
               </td>
               <td class="checkbox">
                 <%= label_tag "cb-#{line_num}", t(:description_compare_from) + ' ' + t(:label_changeset), class: 'hidden-for-sighted' %>
-                <%= radio_button_tag('rev', changeset.identifier, (line_num==1), id: "cb-#{line_num}", onclick: "jQuery('#cbto-#{line_num+1}').attr('checked', true);") if show_diff && (line_num < revisions.size) %>
+                <% if show_diff && (line_num < revisions.size) %>
+                <%= radio_button_tag 'rev',
+                                     changeset.identifier,
+                                     (line_num==1),
+                                     id: "cb-#{line_num}" %>
+                <% csp_onclick("jQuery('#cbto-#{line_num+1}').attr('checked', true);",
+                               "cb-#{line_num}") %>
+                <% end %>
               </td>
               <td class="checkbox">
                 <%= label_tag "cbto-#{line_num}", t(:description_compare_to) + ' ' + t(:label_changeset), class: 'hidden-for-sighted' %>
-                <%= radio_button_tag('rev_to', changeset.identifier, (line_num==2), id: "cbto-#{line_num}", onclick: "if (jQuery('#cb-#{line_num}').attr('checked')) {jQuery('#cb-#{line_num-1}').attr('checked', true)}") if show_diff && (line_num > 1) %>
+                <% if show_diff && (line_num > 1) %>
+                <%= radio_button_tag 'rev_to',
+                                     changeset.identifier,
+                                     (line_num==2),
+                                     id: "cbto-#{line_num}" %>
+                  <% csp_onclick("if (jQuery('#cb-#{line_num}').attr('checked')) {jQuery('#cb-#{line_num-1}').attr('checked', true)}",
+                                 "cbto-#{line_num}") %>
+                <% end %>
               </td>
               <td class="committed_on">
                 <%= format_time(changeset.committed_on) %>
@@ -128,7 +142,7 @@ See doc/COPYRIGHT.rdoc for more details.
                 <%=h changeset.author %>
               </td>
               <td class="comments">
-                <%= format_text(truncate_at_line_break(Changeset.to_utf8(changeset.comments, changeset.repository.repo_log_encoding))) %>
+                <%= format_revision_text(truncate_at_line_break(Changeset.to_utf8(changeset.comments, changeset.repository.repo_log_encoding))) %>
               </td>
             </tr>
             <% line_num += 1 %>

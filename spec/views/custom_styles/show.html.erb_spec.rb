@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -23,13 +23,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe 'custom_styles/show', type: :view do
-  let(:user) { FactoryGirl.build(:admin) }
+  let(:user) { FactoryBot.build(:admin) }
 
   before do
     login_as user
@@ -48,7 +48,7 @@ describe 'custom_styles/show', type: :view do
 
   context "with existing custom logo" do
     before do
-      assign(:custom_style, FactoryGirl.build(:custom_style_with_logo))
+      assign(:custom_style, FactoryBot.build(:custom_style_with_logo))
       render
     end
 

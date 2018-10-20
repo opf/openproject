@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 require_relative '../../../legacy_spec_helper'
 
@@ -54,7 +54,7 @@ describe 'Redmine::Hook::Manager' do # FIXME: naming (RSpec-port)
 
   class TestLinkToHook < TestHook
     def view_layouts_base_html_head(_context)
-      link_to('Issues', controller: 'issues')
+      link_to('Issues', controller: '/work_packages')
     end
   end
 
@@ -113,7 +113,7 @@ describe 'Redmine::Hook::Manager' do # FIXME: naming (RSpec-port)
   it 'should call_hook_default_url_options' do
     @hook_module.add_listener(TestLinkToHook)
 
-    assert_equal ['<a href="/issues">Issues</a>'], hook_helper.call_hook(:view_layouts_base_html_head)
+    assert_equal ['<a href="/work_packages">Issues</a>'], hook_helper.call_hook(:view_layouts_base_html_head)
   end
 
   # Context: HookHelper.call_hook
@@ -156,7 +156,7 @@ describe 'Redmine::Hook::Manager' do # FIXME: naming (RSpec-port)
 
   it 'should call_hook_should_not_change_the_default_url_for_email_notifications' do
     user = User.find(1)
-    issue = FactoryGirl.create(:work_package)
+    issue = FactoryBot.create(:work_package)
 
     UserMailer.work_package_added(user, issue.journals.first, user).deliver_now
     mail = ActionMailer::Base.deliveries.last

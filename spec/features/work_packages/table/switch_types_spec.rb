@@ -1,46 +1,47 @@
 require 'spec_helper'
 
 describe 'Switching types in work package table', js: true do
-  let(:user) { FactoryGirl.create :admin }
+  let(:user) { FactoryBot.create :admin }
 
   describe 'switching to required CF' do
-    let(:cf_req_text) {
-      FactoryGirl.create(
+    let(:cf_req_text) do
+      FactoryBot.create(
         :work_package_custom_field,
         field_format: 'string',
+        name: 'Required CF',
         is_required: true,
         is_for_all: false
       )
-    }
-    let(:cf_text) {
-      FactoryGirl.create(
+    end
+    let(:cf_text) do
+      FactoryBot.create(
         :work_package_custom_field,
         field_format: 'string',
         is_required: false,
         is_for_all: false
       )
-    }
+    end
 
-    let(:type_task) { FactoryGirl.create(:type_task, custom_fields: [cf_text]) }
-    let(:type_bug) { FactoryGirl.create(:type_bug, custom_fields: [cf_req_text]) }
+    let(:type_task) { FactoryBot.create(:type_task, custom_fields: [cf_text]) }
+    let(:type_bug) { FactoryBot.create(:type_bug, custom_fields: [cf_req_text]) }
 
-    let(:project) {
-      FactoryGirl.create(
+    let(:project) do
+      FactoryBot.create(
         :project,
         types: [type_task, type_bug],
         work_package_custom_fields: [cf_text, cf_req_text]
       )
-    }
+    end
     let(:work_package) do
-      FactoryGirl.create(:work_package,
-                         subject: 'Foobar',
-                         type: type_task,
-                         project: project)
+      FactoryBot.create(:work_package,
+                        subject: 'Foobar',
+                        type: type_task,
+                        project: project)
     end
     let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
     let(:query) do
-      query = FactoryGirl.build(:query, user: user, project: project)
+      query = FactoryBot.build(:query, user: user, project: project)
       query.column_names = ['id', 'subject', 'type', "cf_#{cf_text.id}"]
 
       query.save!
@@ -48,8 +49,8 @@ describe 'Switching types in work package table', js: true do
     end
 
     let(:type_field) { wp_table.edit_field(work_package, :type) }
-    let(:text_field) { wp_table.edit_field(work_package, :customField1) }
-    let(:req_text_field) { wp_table.edit_field(work_package, :customField2) }
+    let(:text_field) { wp_table.edit_field(work_package, :"customField#{cf_text.id}") }
+    let(:req_text_field) { wp_table.edit_field(work_package, :"customField#{cf_req_text.id}") }
 
     before do
       login_as(user)
@@ -124,11 +125,44 @@ describe 'Switching types in work package table', js: true do
       expect { req_text_field.display_element }.to raise_error(Capybara::ElementNotFound)
     end
 
+    it 'can switch back from an open required CF (Regression test #28099)' do
+      # Switch type
+      type_field.activate!
+      type_field.set_value type_bug.name
+
+      wp_table.expect_notification(
+        type: :error,
+        message: "#{cf_req_text.name} can't be blank."
+      )
+      # safegurards
+      wp_table.dismiss_notification!
+      wp_table.expect_no_notification(
+        type: :error,
+        message: "#{cf_req_text.name} can't be blank."
+      )
+
+      # Required CF requires activation
+      req_text_field.expect_active!
+
+      # Now switch back to a type without the required CF
+      type_field.activate!
+      type_field.set_value type_task.name
+
+      wp_table.expect_notification(
+        message: 'Successful update. Click here to open this work package in fullscreen view.'
+      )
+      # safegurards
+      wp_table.dismiss_notification!
+      wp_table.expect_no_notification(
+        message: 'Successful update. Click here to open this work package in fullscreen view.'
+      )
+    end
+
     context 'switching to single view' do
       let(:wp_split) { wp_table.open_split_view(work_package) }
       let(:type_field) { wp_split.edit_field(:type) }
-      let(:text_field) { wp_split.edit_field(:customField1) }
-      let(:req_text_field) { wp_split.edit_field(:customField2) }
+      let(:text_field) { wp_split.edit_field(:"customField#{cf_text.id}") }
+      let(:req_text_field) { wp_split.edit_field(:"customField#{cf_req_text.id}") }
 
       it 'allows editing and cancelling the new required fields' do
         wp_split
@@ -173,30 +207,30 @@ describe 'Switching types in work package table', js: true do
   end
 
   describe 'switching to required bool CF with default value' do
-    let(:cf_req_bool) {
-      FactoryGirl.create(
+    let(:cf_req_bool) do
+      FactoryBot.create(
         :work_package_custom_field,
         field_format: 'bool',
         is_required: true,
         default_value: false
       )
-    }
+    end
 
-    let(:type_task) { FactoryGirl.create(:type_task) }
-    let(:type_bug) { FactoryGirl.create(:type_bug, custom_fields: [cf_req_bool]) }
+    let(:type_task) { FactoryBot.create(:type_task) }
+    let(:type_bug) { FactoryBot.create(:type_bug, custom_fields: [cf_req_bool]) }
 
-    let(:project) {
-      FactoryGirl.create(
+    let(:project) do
+      FactoryBot.create(
         :project,
         types: [type_task, type_bug],
         work_package_custom_fields: [cf_req_bool]
       )
-    }
+    end
     let(:work_package) do
-      FactoryGirl.create(:work_package,
-                         subject: 'Foobar',
-                         type: type_task,
-                         project: project)
+      FactoryBot.create(:work_package,
+                        subject: 'Foobar',
+                        type: type_task,
+                        project: project)
     end
     let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
     let(:type_field) { wp_page.edit_field :type }
@@ -207,7 +241,7 @@ describe 'Switching types in work package table', js: true do
       wp_page.ensure_page_loaded
     end
 
-    it  'can switch to the bug type without errors' do
+    it 'can switch to the bug type without errors' do
       type_field.expect_state_text type_task.name
       type_field.update type_bug.name
 
@@ -226,14 +260,14 @@ describe 'Switching types in work package table', js: true do
 
   describe 'switching to list CF' do
     let!(:wp_page) { Pages::FullWorkPackageCreate.new }
-    let!(:type_with_cf) { FactoryGirl.create(:type_task, custom_fields: [custom_field]) }
-    let!(:type) { FactoryGirl.create(:type_bug) }
+    let!(:type_with_cf) { FactoryBot.create(:type_task, custom_fields: [custom_field]) }
+    let!(:type) { FactoryBot.create(:type_bug) }
     let(:permissions) { %i(view_work_packages add_work_packages) }
-    let(:role) { FactoryGirl.create :role, permissions: permissions }
+    let(:role) { FactoryBot.create :role, permissions: permissions }
     let(:user) do
-      FactoryGirl.create :user,
-                         member_in_project: project,
-                         member_through_role: role
+      FactoryBot.create :user,
+                        member_in_project: project,
+                        member_through_role: role
     end
 
     before do
@@ -242,7 +276,7 @@ describe 'Switching types in work package table', js: true do
     end
 
     let(:custom_field) do
-      FactoryGirl.create(
+      FactoryBot.create(
         :list_wp_custom_field,
         name: "Ingredients",
         multi_value: true,
@@ -251,22 +285,22 @@ describe 'Switching types in work package table', js: true do
     end
 
     let!(:project) do
-      FactoryGirl.create(
+      FactoryBot.create(
         :project,
         types: [type, type_with_cf],
         work_package_custom_fields: [custom_field]
       )
     end
-    let!(:status) { FactoryGirl.create(:default_status) }
+    let!(:status) { FactoryBot.create(:default_status) }
     let!(:workflow) do
-      FactoryGirl.create :workflow,
-                         type_id: type.id,
-                         old_status: status,
-                         new_status: FactoryGirl.create(:status),
-                         role: role
+      FactoryBot.create :workflow,
+                        type_id: type.id,
+                        old_status: status,
+                        new_status: FactoryBot.create(:status),
+                        role: role
     end
 
-    let!(:priority) { FactoryGirl.create :priority, is_default: true }
+    let!(:priority) { FactoryBot.create :priority, is_default: true }
 
     let(:cf_edit_field) do
       field = wp_page.edit_field "customField#{custom_field.id}"
@@ -278,6 +312,7 @@ describe 'Switching types in work package table', js: true do
       login_as(user)
 
       visit new_project_work_packages_path(project.identifier, type: type.id)
+      expect_angular_frontend_initialized
     end
 
     it 'can switch to the type with CF list' do

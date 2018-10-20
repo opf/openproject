@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require_relative '../legacy_spec_helper'
@@ -37,8 +37,8 @@ describe ActivitiesController, type: :controller do
 
   it 'project index' do
     Journal.delete_all
-    public_project = FactoryGirl.create :public_project
-    issue = FactoryGirl.create :work_package,
+    public_project = FactoryBot.create :public_project
+    issue = FactoryBot.create :work_package,
                                project: public_project,
                                status_id: 2,
                                priority_id: 4,
@@ -46,17 +46,17 @@ describe ActivitiesController, type: :controller do
                                start_date: 1.day.ago.to_date.to_s(:db),
                                due_date: 10.day.from_now.to_date.to_s(:db)
 
-    FactoryGirl.create :work_package_journal,
+    FactoryBot.create :work_package_journal,
                        journable_id: issue.id,
                        created_at: 3.days.ago.to_date.to_s(:db),
-                       data: FactoryGirl.build(:journal_work_package_journal,
+                       data: FactoryBot.build(:journal_work_package_journal,
                                                project_id: issue.project_id,
                                                status_id: 1)
-    FactoryGirl.create :work_package_journal,
+    FactoryBot.create :work_package_journal,
                        journable_id: issue.id,
                        notes: 'Some notes with Redmine links: #2, r2.',
                        created_at: 1.days.ago.to_date.to_s(:db),
-                       data: FactoryGirl.build(:journal_work_package_journal,
+                       data: FactoryBot.build(:journal_work_package_journal,
                                                subject: issue.subject,
                                                status_id: 2,
                                                type_id: issue.type_id,
@@ -84,10 +84,10 @@ describe ActivitiesController, type: :controller do
 
   it 'previous project index' do
     issue = WorkPackage.find(1)
-    FactoryGirl.create :work_package_journal,
+    FactoryBot.create :work_package_journal,
                        journable_id: issue.id,
                        created_at: 3.days.ago.to_date.to_s(:db),
-                       data: FactoryGirl.build(:journal_work_package_journal,
+                       data: FactoryBot.build(:journal_work_package_journal,
                                                subject: issue.subject,
                                                status_id: issue.status_id,
                                                type_id: issue.type_id,
@@ -115,11 +115,11 @@ describe ActivitiesController, type: :controller do
 
   it 'user index' do
     issue = WorkPackage.find(1)
-    FactoryGirl.create :work_package_journal,
+    FactoryBot.create :work_package_journal,
                        journable_id: issue.id,
                        user_id: 2,
                        created_at: 3.days.ago.to_date.to_s(:db),
-                       data: FactoryGirl.build(:journal_work_package_journal,
+                       data: FactoryBot.build(:journal_work_package_journal,
                                                subject: issue.subject,
                                                status_id: issue.status_id,
                                                type_id: issue.type_id,

@@ -1,7 +1,8 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'roar/decorator'
@@ -35,19 +36,14 @@ module API
     module WorkPackages
       module Schema
         class WorkPackageSumsSchemaRepresenter < ::API::Decorators::SchemaRepresenter
+          extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
+
+          custom_field_injector(type: :schema_representer,
+                                injector_class: ::API::V3::Utilities::CustomFieldSumInjector)
+
           class << self
             def represented_class
               WorkPackage
-            end
-
-            def create_class(work_package_schema)
-              injector_class = ::API::V3::Utilities::CustomFieldSumInjector
-              injector_class.create_schema_representer(work_package_schema,
-                                                       WorkPackageSumsSchemaRepresenter)
-            end
-
-            def create(work_package_schema, context)
-              create_class(work_package_schema).new(work_package_schema, context)
             end
           end
 
@@ -59,7 +55,7 @@ module API
                  type: 'Duration',
                  required: false,
                  writable: false,
-                 show_if: -> (*) {
+                 show_if: ->(*) {
                    ::Setting.work_package_list_summable_columns.include?('estimated_hours')
                  }
         end

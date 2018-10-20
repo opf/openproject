@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 //++
 
 .advanced-filters--container
@@ -75,24 +75,26 @@
 // The type="text" is required to be more specific
 .advanced-filters--text-field[type="text"],
 .advanced-filters--date-field[type="text"]
-  @extend .form--text-field, .form--text-field.-small
+  @extend .form--text-field
+  @include form--input-field-mixin--small
 
   &:required
     box-shadow: none
 
 .advanced-filters--select
-  @extend .form--select, .form--select.-small, .form--select.-narrow
+  @extend .form--select
+  @include form--input-field-mixin--small
+  @include form--input-field-mixin--narrow
   margin-bottom: 0
 
 // The type="number" is required to be more specific
 .advanced-filters--number-field[type="number"]
-  @extend .form--text-field, .form--text-field.-small
+  @extend .form--text-field
+  @include form--input-field-mixin--small
 
 .advanced-filters--filter-name
   @include grid-content(2)
-  overflow: hidden
-  white-space: nowrap
-  text-overflow: ellipsis
+  @include text-shortener
   font-size: 0.9rem
   min-width: 156px
   padding-right: 0
@@ -111,7 +113,8 @@
     flex: 1
 
 .advanced-filters--affix
-  @extend .form--field-affix, .form--field-affix.-transparent
+  @extend .form--field-affix
+  @include form--field-affix-mixin--transparent
   font-size: 0.9rem
 
 .advanced-filters--tooltip-trigger[data-tooltip]

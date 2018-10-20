@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module Pages
@@ -60,30 +60,45 @@ module Pages
       if selenium_driver?
         begin
           page.driver.browser.switch_to.alert
-        rescue Selenium::WebDriver::Error::NoAlertPresentError
+        rescue ::Selenium::WebDriver::Error::NoSuchAlertError
           false
         end
       end
     end
 
     def selenium_driver?
-      Capybara.current_driver.to_s.include?('selenium')
+      Capybara.current_driver.to_s.include?('headless')
     end
 
     def set_items_per_page!(n)
       Setting.per_page_options = "#{n}, 50, 100"
     end
 
-    def expect_current_path
+    def expect_current_path(query_params = nil)
       uri = URI.parse(current_url)
-      expected_path = uri.path
-      expected_path += '?' + uri.query if uri.query
+      current_path = uri.path
+      current_path += '?' + uri.query if uri.query
 
-      expect(expected_path).to eql path
+      expected_path = path
+      expected_path += "?#{query_params}" if query_params
+
+      expect(current_path).to eql expected_path
     end
 
     def expect_notification(type: :success, message:)
-      expect(page).to have_selector(".notification-box.-#{type}", text: message, wait: 10)
+      if notification_type == :angular
+        expect(page).to have_selector(".notification-box.-#{type}", text: message, wait: 20)
+      elsif type == :error
+        expect(page).to have_selector(".errorExplanation", text: message)
+      else
+        raise NotImplementedError
+      end
+    end
+
+    def expect_and_dismiss_notification(type: :success, message:)
+      expect_notification(type: type, message: message)
+      dismiss_notification!
+      expect_no_notification(type: type, message: message)
     end
 
     def dismiss_notification!
@@ -96,6 +111,10 @@ module Pages
 
     def path
       nil
+    end
+
+    def notification_type
+      :angular
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -107,38 +107,53 @@ describe ::API::V3::ParseQueryParamsService,
     context 'with columns' do
       context 'as columns' do
         it_behaves_like 'transforms' do
-          let(:params) { { columns: ['status', 'assignee'] } }
-          let(:expected) { { columns: ['status', 'assigned_to'] } }
+          let(:params) { { columns: %w(status assignee) } }
+          let(:expected) { { columns: %w(status assigned_to) } }
         end
       end
 
       context 'as "c"' do
         it_behaves_like 'transforms' do
-          let(:params) { { c: ['status', 'assignee'] } }
-          let(:expected) { { columns: ['status', 'assigned_to'] } }
+          let(:params) { { c: %w(status assignee) } }
+          let(:expected) { { columns: %w(status assigned_to) } }
         end
       end
 
       context 'as column_names' do
         it_behaves_like 'transforms' do
-          let(:params) { { column_names: ['status', 'assignee'] } }
-          let(:expected) { { columns: ['status', 'assigned_to'] } }
+          let(:params) { { column_names: %w(status assignee) } }
+          let(:expected) { { columns: %w(status assigned_to) } }
         end
+      end
+    end
+
+    context 'with highlighted_attributes' do
+      it_behaves_like 'transforms' do
+        let(:params) { { highlightedAttributes: %w(status type priority dueDate) } }
+        # Please note, that dueDate is expected to get translated to due_date.
+        let(:expected) { { highlighted_attributes: %w(status type priority due_date) } }
+      end
+    end
+
+    context 'without highlighted_attributes' do
+      it_behaves_like 'transforms' do
+        let(:params) { { highlightedAttributes: nil } }
+        let(:expected) { {} }
       end
     end
 
     context 'with sort' do
       context 'as sortBy in comma separated value' do
         it_behaves_like 'transforms' do
-          let(:params) { { sortBy: JSON::dump([['status', 'desc']]) } }
-          let(:expected) { { sort_by: [['status', 'desc']] } }
+          let(:params) { { sortBy: JSON::dump([%w(status desc)]) } }
+          let(:expected) { { sort_by: [%w(status desc)] } }
         end
       end
 
       context 'as sortBy in colon concatenated value' do
         it_behaves_like 'transforms' do
           let(:params) { { sortBy: JSON::dump(['status:desc']) } }
-          let(:expected) { { sort_by: [['status', 'desc']] } }
+          let(:expected) { { sort_by: [%w(status desc)] } }
         end
       end
 
@@ -167,10 +182,10 @@ describe ::API::V3::ParseQueryParamsService,
           it_behaves_like 'transforms' do
             let(:params) do
               { filters: JSON::dump([{ 'status_id' => { 'operator' => '=',
-                                                        'values' => ['1', '2'] } }]) }
+                                                        'values' => %w(1 2) } }]) }
             end
             let(:expected) do
-              { filters: [{ field: 'status_id', operator: '=', values: ['1', '2'] }] }
+              { filters: [{ field: 'status_id', operator: '=', values: %w(1 2) }] }
             end
           end
         end
@@ -179,40 +194,40 @@ describe ::API::V3::ParseQueryParamsService,
           it_behaves_like 'transforms' do
             let(:params) do
               { filters: JSON::dump([{ 'status' => { 'operator' => '=',
-                                                     'values' => ['1', '2'] } }]) }
+                                                     'values' => %w(1 2) } }]) }
             end
             let(:expected) do
-              { filters: [{ field: 'status_id', operator: '=', values: ['1', '2'] }] }
+              { filters: [{ field: 'status_id', operator: '=', values: %w(1 2) }] }
             end
           end
 
           it_behaves_like 'transforms' do
             let(:params) do
               { filters: JSON::dump([{ 'subprojectId' => { 'operator' => '=',
-                                                           'values' => ['1', '2'] } }]) }
+                                                           'values' => %w(1 2) } }]) }
             end
             let(:expected) do
-              { filters: [{ field: 'subproject_id', operator: '=', values: ['1', '2'] }] }
+              { filters: [{ field: 'subproject_id', operator: '=', values: %w(1 2) }] }
             end
           end
 
           it_behaves_like 'transforms' do
             let(:params) do
               { filters: JSON::dump([{ 'watcher' => { 'operator' => '=',
-                                                      'values' => ['1', '2'] } }]) }
+                                                      'values' => %w(1 2) } }]) }
             end
             let(:expected) do
-              { filters: [{ field: 'watcher_id', operator: '=', values: ['1', '2'] }] }
+              { filters: [{ field: 'watcher_id', operator: '=', values: %w(1 2) }] }
             end
           end
 
           it_behaves_like 'transforms' do
             let(:params) do
               { filters: JSON::dump([{ 'custom_field_1' => { 'operator' => '=',
-                                                             'values' => ['1', '2'] } }]) }
+                                                             'values' => %w(1 2) } }]) }
             end
             let(:expected) do
-              { filters: [{ field: 'cf_1', operator: '=', values: ['1', '2'] }] }
+              { filters: [{ field: 'cf_1', operator: '=', values: %w(1 2) }] }
             end
           end
         end
@@ -220,7 +235,7 @@ describe ::API::V3::ParseQueryParamsService,
         context 'with an invalid JSON' do
           let(:params) do
             { filters: 'faulty' + JSON::dump([{ 'status' => { 'operator' => '=',
-                                                              'values' => ['1', '2'] } }]) }
+                                                              'values' => %w(1 2) } }]) }
           end
 
           it 'is not success' do

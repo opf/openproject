@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'concerns/omniauth_login'
@@ -49,7 +49,7 @@ module Redmine::MenuManager::TopMenuHelper
 
   private
 
-  def render_user_top_menu_node(items = menu_items_for(:account_menu))
+  def render_user_top_menu_node(items = first_level_menu_items_for(:account_menu))
     if User.current.logged?
       render_user_drop_down items
     elsif omniauth_direct_login?
@@ -83,7 +83,7 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def render_user_drop_down(items)
-    avatar = avatar(User.current)
+    avatar = avatar(User.current, fallbackIcon: 'icon2 icon-user')
     render_menu_dropdown_with_items(
       label: avatar.presence || '',
       label_options: {
@@ -145,7 +145,7 @@ module Redmine::MenuManager::TopMenuHelper
   def split_top_menu_into_main_or_more_menus
     @top_menu_split ||= begin
       items = Hash.new { |h, k| h[k] = [] }
-      menu_items_for(:top_menu) do |item|
+      first_level_menu_items_for(:top_menu) do |item|
         if item.name == :help
           items[:help] = item
         else

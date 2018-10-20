@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -32,18 +32,17 @@ RSpec.feature 'Work package timeline labels',
               with_settings: { date_format: '%Y-%m-%d' },
               js: true,
               selenium: true do
-  let(:user) { FactoryGirl.create(:admin) }
-  let(:type) { FactoryGirl.create(:type_bug) }
-  let(:milestone_type) { FactoryGirl.create(:type, is_milestone: true) }
+  let(:user) { FactoryBot.create(:admin) }
+  let(:type) { FactoryBot.create(:type_bug) }
+  let(:milestone_type) { FactoryBot.create(:type, is_milestone: true) }
 
-  let(:project) { FactoryGirl.create(:project, types: [type, milestone_type]) }
-  let(:query_menu) { Components::WorkPackages::QueryMenu.new }
+  let(:project) { FactoryBot.create(:project, types: [type, milestone_type]) }
   let(:settings_menu) { Components::WorkPackages::SettingsMenu.new }
   let(:config_modal) { Components::Timelines::ConfigurationModal.new }
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(project) }
 
   let(:custom_field) do
-    FactoryGirl.create(
+    FactoryBot.create(
       :list_wp_custom_field,
       name: "Ingredients",
       multi_value: true,
@@ -57,23 +56,27 @@ RSpec.feature 'Work package timeline labels',
     custom_field.custom_options.find { |co| co.value == str }.try(:id)
   end
 
+  let(:today) { Date.today.iso8601 }
+  let(:tomorrow) { Date.tomorrow.iso8601  }
+  let(:future) { (Date.today + 5).iso8601  }
+
   let(:work_package) do
-    FactoryGirl.create :work_package,
+    FactoryBot.create :work_package,
                        project: project,
                        type: type,
                        assigned_to: user,
-                       start_date: '2017-08-21',
-                       due_date: '2017-08-25',
+                       start_date: today,
+                       due_date: tomorrow,
                        subject: 'My subject',
                        custom_field_values: { custom_field.id => custom_value_for('onions') }
   end
 
   let(:milestone_work_package) do
-    FactoryGirl.create :work_package,
+    FactoryBot.create :work_package,
                        project: project,
                        type: milestone_type,
-                       start_date: '2017-08-30',
-                       due_date: '2017-08-30',
+                       start_date: future,
+                       due_date: future,
                        subject: 'My milestone'
   end
 
@@ -95,14 +98,14 @@ RSpec.feature 'Work package timeline labels',
                       right: nil,
                       farRight: 'My subject'
 
-    row.expect_hovered_labels left: '2017-08-21', right: '2017-08-25'
+    row.expect_hovered_labels left: today, right: tomorrow
 
     # Check default labels (milestone)
     row = wp_timeline.timeline_row milestone_work_package.id
     row.expect_labels left: nil,
                       right: nil,
                       farRight: 'My milestone'
-    row.expect_hovered_labels left: nil, right: '2017-08-30'
+    row.expect_hovered_labels left: nil, right: future
 
     # Modify label configuration
     config_modal.open!
@@ -160,19 +163,19 @@ RSpec.feature 'Work package timeline labels',
                                 farRight: 'Status'
 
     config_modal.update_labels left: 'Start date',
-                               right: 'Due date',
+                               right: 'Finish date',
                                farRight: 'Subject'
 
     # Check overriden labels
     row = wp_timeline.timeline_row work_package.id
-    row.expect_labels left: '2017-08-21',
-                      right: '2017-08-25',
+    row.expect_labels left: today,
+                      right: tomorrow,
                       farRight: work_package.subject
 
     # Check default labels (milestone)
     row = wp_timeline.timeline_row milestone_work_package.id
     row.expect_labels left: nil,
-                      right: '2017-08-30',
+                      right: future,
                       farRight: milestone_work_package.subject
 
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -34,22 +34,22 @@ describe 'API v3 Custom Options resource' do
   include API::V3::Utilities::PathHelper
 
   let(:user) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        member_in_project: project,
                        member_through_role: role)
   end
-  let(:project) { FactoryGirl.create(:project) }
-  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:project) { FactoryBot.create(:project) }
+  let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:permissions) { [:view_work_packages] }
   let(:custom_field) do
-    cf = FactoryGirl.create(:list_wp_custom_field)
+    cf = FactoryBot.create(:list_wp_custom_field)
 
     project.work_package_custom_fields << cf
 
     cf
   end
   let(:custom_option) do
-    FactoryGirl.create(:custom_option,
+    FactoryBot.create(:custom_option,
                        custom_field: custom_field)
   end
 
@@ -98,7 +98,7 @@ describe 'API v3 Custom Options resource' do
     context 'when custom option not in project' do
       let(:custom_field) do
         # not added to project
-        FactoryGirl.create(:list_wp_custom_field)
+        FactoryBot.create(:list_wp_custom_field)
       end
 
       it 'is 404' do

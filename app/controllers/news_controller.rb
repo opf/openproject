@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,20 +24,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class NewsController < ApplicationController
   include PaginationHelper
-  include OpenProject::Concerns::Preview
+  include Concerns::Layout
 
   default_search_scope :news
 
   before_action :disable_api
-  before_action :find_news_object, except: [:new, :create, :index, :preview]
-  before_action :find_project_from_association, except: [:new, :create, :index, :preview]
-  before_action :find_project, only: [:new, :create]
-  before_action :authorize, except: [:index, :preview]
+  before_action :find_news_object, except: %i[new create index]
+  before_action :find_project_from_association, except: %i[new create index]
+  before_action :find_project, only: %i[new create]
+  before_action :authorize, except: [:index]
   before_action :find_optional_project, only: [:index]
   accept_key_auth :index
 
@@ -50,7 +50,7 @@ class NewsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        render layout: !request.xhr?
+        render layout: layout_non_or_no_menu
       end
       format.atom do
         render_feed(@newss,
@@ -83,8 +83,7 @@ class NewsController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     @news.attributes = permitted_params.news
@@ -100,16 +99,6 @@ class NewsController < ApplicationController
     @news.destroy
     flash[:notice] = l(:notice_successful_delete)
     redirect_to action: 'index', project_id: @project
-  end
-
-  protected
-
-  def parse_preview_data
-    parse_preview_data_helper :news, :description
-  end
-
-  def parse_preview_id
-    params[:id].to_i
   end
 
   private

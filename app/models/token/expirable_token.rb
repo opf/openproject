@@ -33,7 +33,7 @@ module Token
       end
 
       def expired?
-        Time.now > (created_on + validity_time)
+        expires_on && Time.now > expires_on
       end
 
       def validity_time
@@ -48,9 +48,7 @@ module Token
 
       # Delete all expired tokens
       def delete_expired_tokens
-        if validity_time
-          self.class.where(["expires_on < ?", Time.now]).delete_all
-        end
+        self.class.where(["expires_on < ?", Time.now]).delete_all
       end
     end
   end

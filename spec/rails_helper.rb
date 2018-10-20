@@ -28,7 +28,7 @@
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'spec_helper'
-require 'factory_girl_rails'
+require 'factory_bot_rails'
 require 'rspec/rails'
 require 'shoulda/matchers'
 require 'rspec/example_disabler'
@@ -77,7 +77,5 @@ RSpec.configure do |config|
   # Add helpers to parse json-responses
   config.include JsonSpec::Helpers
 
-  # TODO test if we can remove this
-  config.include ::Angular::DSL
   OpenProject::Configuration['attachments_storage_path'] = 'tmp/files'
 end

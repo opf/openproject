@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'support/pages/page'
@@ -42,25 +42,23 @@ module Pages
     end
 
     def update_attributes(attribute_map)
-      # Only designed for text fields and selects for now
       attribute_map.each do |label, value|
-        select_attribute(label, value) || fill_in(label, with: value)
+        work_package_field(label.downcase).set_value(value)
       end
     end
 
     def select_attribute(property, value)
       element = page.first(".wp-edit-field.#{property.downcase} select")
 
-      if element
-        element.select(value)
-        element
-      else
-        nil
-      end
+      element.select(value)
+      element
+    rescue Capybara::ExpectationNotMet
+      nil
     end
 
     def expect_fully_loaded
-      expect(page).to have_selector '#wp-new-inline-edit--field-subject'
+      expect_angular_frontend_initialized
+      expect(page).to have_selector '#wp-new-inline-edit--field-subject', wait: 20
     end
 
     def save!

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -45,7 +45,7 @@ describe MyController, type: :controller do
   let(:secret) { "42" }
 
   let(:auth_source) { DummyAuthSource.create name: "Dummy LDAP" }
-  let(:user) { FactoryGirl.create :user, login: login, auth_source_id: auth_source.id }
+  let(:user) { FactoryBot.create :user, login: login, auth_source_id: auth_source.id }
   let(:login) { "h.wurst" }
 
   before do
@@ -64,7 +64,7 @@ describe MyController, type: :controller do
   end
 
   it "should log in given user" do
-    expect(response.body).to have_text("Login h.wurst")
+    expect(response.body.squish).to have_content("Login   h.wurst")
   end
 
   shared_examples "auth source sso failure" do
@@ -95,7 +95,7 @@ describe MyController, type: :controller do
   end
 
   context "with a non-active user user" do
-    let(:user) { FactoryGirl.create :user, login: login, auth_source_id: auth_source.id, status: 2 }
+    let(:user) { FactoryBot.create :user, login: login, auth_source_id: auth_source.id, status: 2 }
 
     it_should_behave_like "auth source sso failure"
   end
@@ -103,11 +103,11 @@ describe MyController, type: :controller do
   context "with an invalid user" do
     let(:auth_source) { DummyAuthSource.create name: "Onthefly LDAP", onthefly_register: true }
 
-    let!(:duplicate) { FactoryGirl.create :user, mail: "login@DerpLAP.net" }
+    let!(:duplicate) { FactoryBot.create :user, mail: "login@DerpLAP.net" }
     let(:login) { "dummy_dupuser" }
 
     let(:user) do
-      FactoryGirl.build :user, login: login, mail: duplicate.mail, auth_source_id: auth_source.id
+      FactoryBot.build :user, login: login, mail: duplicate.mail, auth_source_id: auth_source.id
     end
 
     it_should_behave_like "auth source sso failure"

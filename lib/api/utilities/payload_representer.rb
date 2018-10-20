@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module API
@@ -36,17 +36,17 @@ module API
 
         base.representable_attrs.each do |property|
           if property.name == 'links'
-            add_filter(property, link_render_block)
+            add_filter(property, LinkRenderBlock)
           elsif property[:writeable] == false
             property.merge!(readable: false)
           else
-            add_filter(property, unwriteable_property_filter)
+            add_filter(property, UnwriteablePropertyFilter)
           end
         end
       end
 
-      def self.unwriteable_property_filter
-        ->(input, options) do
+      class UnwriteablePropertyFilter
+        def self.call(input, options)
           writeable_attr = options[:decorator].writeable_attributes
 
           as = options[:binding][:as].()
@@ -58,8 +58,8 @@ module API
         end
       end
 
-      def self.link_render_block
-        ->(input, options) do
+      class LinkRenderBlock
+        def self.call(input, options)
           writeable_attr = options[:decorator].writeable_attributes
 
           input.reject do |link|
@@ -69,6 +69,7 @@ module API
       end
 
       def self.add_filter(property, filter)
+        return if property[:render_filter].include?(filter)
         property.merge!(render_filter: filter)
       end
 

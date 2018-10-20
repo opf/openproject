@@ -1,14 +1,15 @@
 require 'spec_helper'
 
-describe 'Refreshing in inline-create row', js: true do
-  let(:user) { FactoryGirl.create :admin }
-  let(:project) { FactoryGirl.create :project }
+describe 'Refreshing in inline-create row', flaky: true, js: true do
+  let(:user) { FactoryBot.create :admin }
+  let(:project) { FactoryBot.create :project }
 
   let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:columns) { ::Components::WorkPackages::Columns.new }
 
   let!(:query) do
-    query              = FactoryGirl.build(:query, user: user, project: project)
+    query              = FactoryBot.build(:query, user: user, project: project)
     query.column_names = ['subject', 'category']
     query.filters.clear
 
@@ -27,11 +28,12 @@ describe 'Refreshing in inline-create row', js: true do
 
     wp_table.click_inline_create
     expect(page).to have_selector('.wp--row', count: 1)
+
     expect(page).to have_selector('.wp-inline-create-row')
     expect(page).to have_selector('.wp-inline-create-row .wp-table--cell-td.subject')
     expect(page).to have_selector('.wp-inline-create-row .wp-table--cell-td.category')
 
-    work_packages_page.add_column! 'Progress (%)'
+    columns.add 'Progress (%)'
     expect(page).to have_selector('.wp-inline-create-row .wp-table--cell-td.wp-table--cell-td.percentageDone')
   end
 end

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'work_packages/base_contract'
@@ -43,12 +43,15 @@ module WorkPackages
 
     validate :user_allowed_to_move
 
+    validate :can_move_to_milestone
+
     private
 
     def user_allowed_to_edit
       with_unchanged_project_id do
         next if @can.allowed?(model, :edit)
         next user_allowed_to_change_parent if @can.allowed?(model, :manage_subtasks)
+        next if allowed_journal_addition?
 
         errors.add :base, :error_unauthorized
       end
@@ -71,7 +74,7 @@ module WorkPackages
 
     def user_allowed_to_move
       if model.project_id_changed? &&
-         !@can.allowed?(model, :move)
+        !@can.allowed?(model, :move)
 
         errors.add :project, :error_unauthorized
       end
@@ -88,6 +91,18 @@ module WorkPackages
         model.project_id = current_project_id
       else
         yield
+      end
+    end
+
+    def allowed_journal_addition?
+      model.changes.empty? && model.journal_notes && can.allowed?(model, :comment)
+    end
+
+    def can_move_to_milestone
+      return unless model.type_id_changed? && model.milestone?
+
+      if model.children.any?
+        errors.add :type, :cannot_be_milestone_due_to_children
       end
     end
   end

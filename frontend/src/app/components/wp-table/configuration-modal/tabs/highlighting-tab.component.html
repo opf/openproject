@@ -1,0 +1,77 @@
+<div>
+  <div *ngIf="eeShowBanners" class="ee-attribute-highlighting-upsale notification-box -ee-upsale">
+    <div class="notification-box--content">
+      <p><strong [textContent]="text.upsaleEnterpriseOnly"></strong></p>
+      <p [textContent]="text.upsaleAttributeHighlighting"></p>
+      <p>
+        <a href="https://www.openproject.org/enterprise-edition/?op_edtion=community-edition&op_referrer=wp-attribute-highlighting#attribute-highlighting"
+           target='blank'
+           [textContent]="text.upsaleCheckOutLink"></a>
+      </p>
+    </div>
+  </div>
+  <form>
+    <p [textContent]="text.highlighting_mode.description"></p>
+    <div class="form--field -full-width">
+      <div class="form--field-container">
+        <label class="option-label">
+          <input type="radio"
+                 [attr.disabled]="disabledValue(eeShowBanners)"
+                 [(ngModel)]="highlightingMode"
+                 (change)="updateMode($event.target.value)"
+                 value="inline"
+                 name="highlighting_mode_switch">
+          {{ text.highlighting_mode.inline }}
+          &nbsp;
+          <multi-toggled-select [isDisabled]="highlightingMode !== 'inline'"
+                                [availableOptions]="availableMappedHighlightedAttributes"
+                                [initialSelection]="selectedAttributes"
+                                (onValueChange)="selectedAttributes = $event">
+          </multi-toggled-select>
+        </label>
+      </div>
+    </div>
+    <div class="form--field -full-width">
+      <div class="form--field-container">
+        <label class="option-label">
+          <input type="radio"
+                 [attr.disabled]="disabledValue(eeShowBanners)"
+                 [(ngModel)]="entireRowMode"
+                 (change)="updateMode('entire-row')"
+                 [value]="true"
+                 name="entire_row_switch">
+          <span [textContent]="text.highlighting_mode.entire_row_by"></span>
+          &ngsp;
+          <select (change)="updateMode($event.target.value)"
+                  [attr.disabled]="disabledValue(eeShowBanners)"
+                  id="selected_attribute"
+                  name="selected_attribute"
+                  class="form--select form--inline-select">
+            <option [textContent]="text.highlighting_mode.status"
+                    [selected]="lastEntireRowAttribute === 'status'"
+                    value="status"></option>
+            <option [textContent]="text.highlighting_mode.type"
+                    [selected]="lastEntireRowAttribute === 'type'"
+                    value="type"></option>
+            <option [textContent]="text.highlighting_mode.priority"
+                    [selected]="lastEntireRowAttribute === 'priority'"
+                    value="priority"></option>
+          </select>
+        </label>
+      </div>
+    </div>
+    <div class="form--field -full-width">
+      <div class="form--field-container">
+        <label class="option-label">
+          <input type="radio"
+                 [attr.disabled]="disabledValue(eeShowBanners)"
+                 [(ngModel)]="highlightingMode"
+                 (change)="updateMode($event.target.value)"
+                 value="none"
+                 name="highlighting_mode_switch">
+          <span [textContent]="text.highlighting_mode.none"></span>
+        </label>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module PermissionSpecHelpers
@@ -75,23 +75,23 @@ module PermissionSpecHelpers
 end
 
 shared_examples_for 'a controller action with unrestricted access' do
-  let(:valid_user) { FactoryGirl.create(:anonymous) }
+  let(:valid_user) { FactoryBot.create(:anonymous) }
 
   extend PermissionSpecHelpers
   spec_permissions(false)
 end
 
 shared_examples_for 'a controller action with require_login' do
-  let(:valid_user)   { FactoryGirl.create(:user) }
-  let(:invalid_user) { FactoryGirl.create(:anonymous) }
+  let(:valid_user)   { FactoryBot.create(:user) }
+  let(:invalid_user) { FactoryBot.create(:anonymous) }
 
   extend PermissionSpecHelpers
   spec_permissions
 end
 
 shared_examples_for 'a controller action with require_admin' do
-  let(:valid_user)   { User.where(admin: true).first || FactoryGirl.create(:admin) }
-  let(:invalid_user) { FactoryGirl.create(:user) }
+  let(:valid_user)   { User.where(admin: true).first || FactoryBot.create(:admin) }
+  let(:invalid_user) { FactoryBot.create(:user) }
 
   extend PermissionSpecHelpers
   spec_permissions
@@ -100,7 +100,7 @@ end
 shared_examples_for 'a controller action which needs project permissions' do
   # Expecting the following environment
   #
-  # let(:project) { FactoryGirl.create(:project) }
+  # let(:project) { FactoryBot.create(:project) }
   #
   # def fetch
   #   get 'action', project_id: project.identifier
@@ -116,12 +116,12 @@ shared_examples_for 'a controller action which needs project permissions' do
   #   # other  - passed to response.should redirect_to(other)
   #   true
   # end
-  let(:valid_user) { FactoryGirl.create(:user) }
-  let(:invalid_user) { FactoryGirl.create(:user) }
+  let(:valid_user) { FactoryBot.create(:user) }
+  let(:invalid_user) { FactoryBot.create(:user) }
 
   def add_membership(user, permissions)
-    role   = FactoryGirl.create(:role, permissions: Array(permissions))
-    member = FactoryGirl.build(:member, user: user, project: project)
+    role   = FactoryBot.create(:role, permissions: Array(permissions))
+    member = FactoryBot.build(:member, user: user, project: project)
     member.roles = [role]
     member.save!
   end

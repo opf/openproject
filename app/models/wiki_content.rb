@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'zlib'
@@ -32,14 +32,13 @@ require 'zlib'
 class WikiContent < ActiveRecord::Base
   belongs_to :page, class_name: 'WikiPage', foreign_key: 'page_id'
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
-  validates_presence_of :text
   validates_length_of :comments, maximum: 255, allow_nil: true
 
   attr_accessor :comments
 
   before_save :comments_to_journal_notes
   after_create :send_content_added_mail
-  after_update :send_content_updated_mail
+  after_update :send_content_updated_mail, if: :saved_change_to_text?
 
   acts_as_journalized
 
@@ -61,6 +60,10 @@ class WikiContent < ActiveRecord::Base
 
   def attachments
     page.nil? ? [] : page.attachments
+  end
+
+  def text=(value)
+    super value.presence || ''
   end
 
   # Returns the mail adresses of users that should be notified
@@ -94,8 +97,7 @@ class WikiContent < ActiveRecord::Base
   end
 
   def send_content_updated_mail
-    return unless text_changed? &&
-                  Setting.notified_events.include?('wiki_content_updated')
+    return unless Setting.notified_events.include?('wiki_content_updated')
 
     update_recipients.uniq.each do |user|
       UserMailer.wiki_content_updated(user, self, User.current).deliver_now

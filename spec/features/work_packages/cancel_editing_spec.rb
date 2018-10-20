@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe 'Cancel editing work package', js: true do
-  let(:user) { FactoryGirl.create(:admin) }
-  let(:project) { FactoryGirl.create(:project) }
-  let(:work_package) { FactoryGirl.create(:work_package, project: project) }
-  let(:work_package2) { FactoryGirl.create(:work_package, project: project) }
+  let(:user) { FactoryBot.create(:admin) }
+  let(:project) { FactoryBot.create(:project) }
+  let(:work_package) { FactoryBot.create(:work_package, project: project) }
+  let(:work_package2) { FactoryBot.create(:work_package, project: project) }
   let(:wp_page) { ::Pages::AbstractWorkPackage.new(work_package) }
   let(:wp_table) { ::Pages::WorkPackagesTable.new }
   let(:paths) {
@@ -52,9 +52,8 @@ describe 'Cancel editing work package', js: true do
 
   def expect_active_edit(path)
     visit path
-    loading_indicator_saveguard
-
-    expect(page).to have_selector('#wp-new-inline-edit--field-subject')
+    expect_angular_frontend_initialized
+    expect(page).to have_selector('#wp-new-inline-edit--field-subject', wait: 10)
   end
 
   def expect_subject(val)
@@ -97,6 +96,29 @@ describe 'Cancel editing work package', js: true do
     expect(wp_page).not_to have_alert_dialog
   end
 
+  it 'shows an alert when moving to other states while editing a single attribute (Regression #25135)' do
+    wp_table.visit!
+    wp_table.expect_work_package_listed(work_package, work_package2)
+
+    # Edit subject in split page
+    split_page = wp_table.open_split_view(work_package)
+    subject = split_page.edit_field :subject
+    subject.activate!
+
+    # Decline move, expect field still active
+    wp_table.open_split_view(work_package2)
+    page.driver.browser.switch_to.alert.dismiss
+    subject.expect_active!
+
+    sleep 1
+
+    # Now accept to move to the second page
+    split_page = wp_table.open_split_view(work_package2)
+    page.driver.browser.switch_to.alert.accept
+    subject = split_page.edit_field :subject
+    subject.expect_inactive!
+  end
+
   it 'cancels the editing when clicking the button' do
     paths.each do |path|
       expect_active_edit(path)
@@ -137,7 +159,7 @@ describe 'Cancel editing work package', js: true do
 
   context 'when user does not want to be warned' do
     before do
-      FactoryGirl.create(:user_preference, user: user, others: { warn_on_leaving_unsaved: false })
+      FactoryBot.create(:user_preference, user: user, others: { warn_on_leaving_unsaved: false })
     end
 
     it 'does not alert when moving anywhere' do

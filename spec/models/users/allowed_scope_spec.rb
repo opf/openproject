@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,21 +23,21 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe User, 'allowed scope' do
   let(:user) { member.principal }
-  let(:anonymous) { FactoryGirl.build(:anonymous) }
-  let(:project) { FactoryGirl.build(:project, is_public: false) }
-  let(:project2) { FactoryGirl.build(:project, is_public: false) }
-  let(:role) { FactoryGirl.build(:role) }
-  let(:role2) { FactoryGirl.build(:role) }
-  let(:anonymous_role) { FactoryGirl.build(:anonymous_role) }
+  let(:anonymous) { FactoryBot.build(:anonymous) }
+  let(:project) { FactoryBot.build(:project, is_public: false) }
+  let(:project2) { FactoryBot.build(:project, is_public: false) }
+  let(:role) { FactoryBot.build(:role) }
+  let(:role2) { FactoryBot.build(:role) }
+  let(:anonymous_role) { FactoryBot.build(:anonymous_role) }
   let(:member) do
-    FactoryGirl.build(:member, project: project,
+    FactoryBot.build(:member, project: project,
                                roles: [role])
   end
 

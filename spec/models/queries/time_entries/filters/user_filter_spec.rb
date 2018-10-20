@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,14 +25,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe Queries::TimeEntries::Filters::UserFilter, type: :model do
-  let(:user1) { FactoryGirl.build_stubbed(:user) }
-  let(:user2) { FactoryGirl.build_stubbed(:user) }
+  let(:user1) { FactoryBot.build_stubbed(:user) }
+  let(:user2) { FactoryBot.build_stubbed(:user) }
 
   before do
     allow(Principal)
@@ -58,6 +58,7 @@ describe Queries::TimeEntries::Filters::UserFilter, type: :model do
   it_behaves_like 'list_optional query filter' do
     let(:attribute) { :user_id }
     let(:model) { TimeEntry }
+    let(:instance_key) { :user_id }
     let(:valid_values) { [user1.id.to_s] }
   end
 end

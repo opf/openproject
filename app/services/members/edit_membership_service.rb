@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module Members
@@ -78,7 +78,8 @@ module Members
     def validate_attributes!(attributes)
       # We need to check for empty roles here because that _implicitly_
       # deletes the membership and causes failures
-      new_roles_are_empty = attributes[:role_ids].empty?
+      new_roles = attributes[:role_ids]
+      new_roles_are_empty = new_roles.nil? || new_roles.empty?
 
       if new_roles_are_empty && !has_inherited_roles?
         member.errors.add :roles, :role_blank

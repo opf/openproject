@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class Message < ActiveRecord::Base
@@ -35,7 +35,9 @@ class Message < ActiveRecord::Base
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
   acts_as_tree counter_cache: :replies_count, order: "#{Message.table_name}.created_on ASC"
   acts_as_attachable after_add: :attachments_changed,
-                     after_remove: :attachments_changed
+                     after_remove: :attachments_changed,
+                     add_on_new_permission: :add_messages,
+                     add_on_persisted_permission: :edit_messages
   belongs_to :last_reply, class_name: 'Message', foreign_key: 'last_reply_id'
 
   acts_as_journalized
@@ -67,10 +69,10 @@ class Message < ActiveRecord::Base
   after_create :add_author_as_watcher,
                :update_last_reply_in_parent,
                :send_message_posted_mail
-  after_update :update_ancestors
+  after_update :update_ancestors, if: :saved_change_to_board_id?
   after_destroy :reset_counters
 
-  scope :visible, -> (*args) {
+  scope :visible, ->(*args) {
     includes(board: :project)
       .references(:projects)
       .merge(Project.allowed_to(args.first || User.current, :view_messages))
@@ -90,11 +92,9 @@ class Message < ActiveRecord::Base
   end
 
   def set_sticked_on_date
-    if sticky?
-      self.sticked_on = sticked_on.nil? ? Time.now : sticked_on
-    else
-      self.sticked_on = nil
-    end
+    self.sticked_on = if sticky?
+                        sticked_on.nil? ? Time.now : sticked_on
+                      end
   end
 
   def update_last_reply_in_parent
@@ -102,15 +102,6 @@ class Message < ActiveRecord::Base
       parent.reload.update_attribute(:last_reply_id, id)
     end
     board.reset_counters!
-  end
-
-  def update_ancestors
-    if board_id_changed?
-      Message.where(['id = ? OR parent_id = ?', root.id, root.id])
-        .update_all("board_id = #{board_id}")
-      Board.reset_counters!(board_id_was)
-      Board.reset_counters!(board_id)
-    end
   end
 
   def reset_counters
@@ -134,6 +125,18 @@ class Message < ActiveRecord::Base
   end
 
   private
+
+  def update_ancestors
+    with_id = Message.where(id: root.id)
+    with_parent_id = Message.where(parent_id: root.id)
+
+    with_id
+      .or(with_parent_id)
+      .update_all("board_id = #{board_id}")
+
+    Board.reset_counters!(board_id_before_last_save)
+    Board.reset_counters!(board_id)
+  end
 
   def add_author_as_watcher
     Watcher.create(watchable: root, user: author)

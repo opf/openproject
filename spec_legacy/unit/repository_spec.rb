@@ -1,7 +1,8 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,9 +25,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+require_relative '../legacy_spec_helper'
 
 describe Repository, type: :model do
   fixtures :all
@@ -107,7 +108,9 @@ describe Repository, type: :model do
     mail = ActionMailer::Base.deliveries.first
     assert_kind_of Mail::Message, mail
     assert mail.subject.starts_with?("[#{fixed_work_package.project.name} - #{fixed_work_package.type.name} ##{fixed_work_package.id}]")
-    assert mail.body.encoded.include?("Status changed from #{old_status} to #{fixed_work_package.status}")
+    assert mail.body.encoded.include?(
+      "<strong>Status</strong> changed from <i title=\"#{old_status}\">#{old_status}</i> <br/><strong>to</strong> <i title=\"#{fixed_work_package.status}\">#{fixed_work_package.status}</i>"
+    )
 
     # ignoring commits referencing an issue of another project
     assert_equal [], WorkPackage.find(4).changesets

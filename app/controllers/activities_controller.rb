@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class ActivitiesController < ApplicationController
@@ -36,10 +36,10 @@ class ActivitiesController < ApplicationController
     @days = Setting.activity_days_default.to_i
 
     if params[:from]
-      begin; @date_to = params[:from].to_date + 1; rescue; end
+      begin; @date_to = params[:from].to_date + 1.day; rescue; end
     end
 
-    @date_to ||= User.current.today + 1
+    @date_to ||= User.current.today + 1.day
     @date_from = @date_to - @days
     @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_work_packages? : (params[:with_subprojects] == '1')
     @author = (params[:user_id].blank? ? nil : User.active.find(params[:user_id]))
@@ -53,7 +53,15 @@ class ActivitiesController < ApplicationController
     events = @activity.events(@date_from, @date_to)
     censor_events_from_projects_with_disabled_activity!(events) unless @project
 
-    if events.empty? || stale?(etag: [@activity.scope, @date_to, @date_from, @with_subprojects, @author, events.first, User.current, current_language])
+    if events.empty? || stale?(etag: [@activity.scope,
+                                      @date_to,
+                                      @date_from,
+                                      @with_subprojects,
+                                      @author,
+                                      events.first,
+                                      User.current,
+                                      current_language,
+                                      DesignColor.overwritten])
       respond_to do |format|
         format.html do
           @events_by_day = events.group_by { |e| e.event_datetime.in_time_zone(User.current.time_zone).to_date }

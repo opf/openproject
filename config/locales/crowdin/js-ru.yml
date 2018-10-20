@@ -4,6 +4,17 @@ ru:
     ajax:
       hide: Скрыть
       loading: Загрузка ...
+    attachments:
+      draggable_hint: 'Для встраивания изображения или ссылки перетащите их в поле
+        редактора. Закрытые поля редактора будут открыты, пока вы перетаскиваете.
+
+'
+    autocomplete_select:
+      placeholder:
+        multi: Добавить «%{name}»
+        single: Выбрать «%{name}»
+      remove: Удалить %{name}
+      active: Активировать %{label} %{name}
     close_popup_title: Закрыть всплывающее
     close_filter_title: Закрыть фильтр
     close_form_title: Закрыть форму
@@ -47,8 +58,68 @@ ru:
     description_select_work_package: 'Выберите пакет работ #%{id}'
     description_selected_columns: Выбранные столбцы
     description_subwork_package: 'Потомок пакета работ #%{id}'
+    editor:
+      preview: Переключить режим предпросмотра
+      source_code: Переключить режим источника уценок
+      error_saving_failed: 'Сохранение документа завершилась следующей ошибкой: %{error}'
+      mode:
+        manual: Перейти к источнику уценок
+        wysiwyg: Перейти к WYSIWYG-редактору
+      macro:
+        child_pages:
+          button: Ссылки на дочерние страницы
+          include_parent: Включить родителей
+          text: "[Placeholder] Ссылки на дочернюю страницу"
+          page: Wiki-страница
+          this_page: эта страница
+          hint: 'Оставьте это поле пустым, чтобы перечислить все дочерние страницы
+            текущей страницы. Если вы хотите описать другую страницу, предоставьте
+            ее заголовок или иденцифицирующую строку.
+
+'
+        code_block:
+          button: Вставить фрагмент кода
+          title: Вставить / Редактировать фрагмент кода
+          language: Язык форматирования
+          language_hint: Введите язык форматирования, который будет использоваться
+            для выделения (если поддерживается).
+        dropdown:
+          macros: Макрос
+          chose_macro: Выбрать макрос
+        toc: Содержание
+        toolbar_help: Кликните для выбора виджета и показа панели инструментов. Кликните
+          дважды для редактирования виджета
+        wiki_page_include:
+          button: Включить содержание другой вики страницы
+          text: "[Placeholder] включая вики страницы"
+          page: Wiki-страница
+          not_set: "(Страница пока не установлена)"
+          hint: 'Включите содержание другой вики-страницы, указав её название или
+            строку. Вы можете включить вики-страницы из другого проекта, разделив
+            их двоеточием, как в следующем примере.
+
+'
+        work_package_button:
+          button: Вставить кнопку создания пакета работ
+          type: Тип пакета работ
+          button_style: Стиль используемой кнопки
+          button_style_hint: 'Дополнительно: Проверьте, чтобы макрос выглядел как
+            кнопка, а не как ссылка.'
+          without_type: Создать пакет работ
+          with_type: 'Создать пакет работ (Тип: %{typename})'
+        embedded_table:
+          button: Вложить таблицу пакетов работ
+          text: "[Placeholder] Таблица внедренных пакетов работ"
+    custom_actions:
+      date:
+        specific: 'on'
+        current_date: Current date
     error:
       internal: Произошла внутренняя ошибка.
+      cannot_save_changes_with_message: 'Не удается сохранить изменения из-за следующей
+        ошибки: %{error}'
+      query_saving: Представление не может быть сохранено.
+      embedded_table_loading: 'Встроенное представление не может быть загружено: %{message}'
     filter:
       description:
         text_open_filter: Откройте этот фильтр с «ALT» и клавишей со стрелкой.
@@ -65,6 +136,8 @@ ru:
           one: Первый критерий сортировки
           two: Второй критерий сортировки
           three: Третий критерий сортировки
+      upsale_for_more: Для более сложных фильтров, проверить
+      upsale_link: Корпоративная версия.
     general_text_no: нет
     general_text_yes: да
     general_text_No: Нет
@@ -75,7 +148,7 @@ ru:
       пользователя.
     label_add_columns: Добавить столбец
     label_add_comment: Добавить комментарий
-    label_add_comment_title: Кликните, чтобы добавить комментарий
+    label_add_comment_title: Комментарий и тип @ для уведомления других людей
     label_add_selected_columns: Добавить выбранные столбцы
     label_added_by: Добавил(-а)
     label_added_time_by: Добавил(-а) %{author} %{age}
@@ -112,6 +185,7 @@ ru:
     label_expand: Развернуть
     label_expanded: развернуто
     label_expand_all: Развернуть все
+    label_expand_project_menu: Развернуть меню проекта
     label_export: Экспорт
     label_filename: Файл
     label_filesize: Размер
@@ -119,10 +193,11 @@ ru:
     label_group_by: Группировать по
     label_hide_attributes: Показывать меньше
     label_hide_column: Скрыть столбец
+    label_hide_project_menu: Свернуть меню проекта
     label_in: в
     label_in_less_than: менее чем
     label_in_more_than: более чем
-    label_latest_activity: Последняя активность
+    label_latest_activity: Последние действия
     label_last_updated_on: Последний раз обновлено
     label_less_or_equal: "<="
     label_less_than_ago: меньше чем день назад
@@ -140,6 +215,7 @@ ru:
     label_not_equals: не
     label_on: на
     label_open_menu: Открыть меню
+    label_open_context_menu: Открыть контекстное меню
     label_open_work_packages: открыто
     label_password: Пароль
     label_previous: Предыдущие
@@ -153,20 +229,23 @@ ru:
     label_select_watcher: Выберите наблюдателя...
     label_selected_filter_list: Выбранные фильтры
     label_show_attributes: Показать все атрибуты
-    label_show_in_menu: Показать страницу в меню
+    label_show_in_menu: Показать представление в меню
     label_sort_by: Сортировать по
     label_sorted_by: отсортировано по
     label_sort_higher: Переместить вверх
     label_sort_lower: Переместить вниз
     label_sorting: Сортировка
+    label_star_query: Добавлено в избранное
+    label_press_enter_to_save: Нажмите ввод для сохранения.
+    label_public_query: Общий
     label_sum_for: Сумма для
     label_subject: Тема
     label_this_week: на этой неделе
     label_today: Сегодня
+    label_up: Вверх
     label_activity_show_only_comments: Показать только деятельности с комментариями
     label_activity_show_all: Показать все активности
     label_total_progress: "%{percent}% общего прогресса"
-    label_visible_for_others: Страница видна для других
     label_updated_on: Обновлено
     label_warning: Предупреждение
     label_work_package: Пакет работ
@@ -179,8 +258,10 @@ ru:
     label_unwatch: Прекратить наблюдение
     label_unwatch_work_package: Прекратить наблюдение за пакетом работ
     label_uploaded_by: Загружено
-    label_global_queries: Общие запросы
-    label_custom_queries: Частные запросы
+    label_default_queries: Представления по умолчанию
+    label_starred_queries: Избранные представления
+    label_global_queries: Публичные представления
+    label_custom_queries: Приватные представления
     label_columns: Столбцы
     label_attachments: Файлы
     label_drop_files: Перетащите файлы сюда
@@ -192,7 +273,9 @@ ru:
     label_remove_watcher: Удалить наблюдателя %{name}
     label_remove_all_files: Удалить все файлы
     label_add_description: Добавить описание для %{file}
-    label_upload_notification: 'Загрузка файлов для пакета работ #%{id}: %{subject}'
+    label_upload_notification: Загрузка файлов...
+    label_work_package_upload_notification: 'Загрузка файлов для пакета работ #%{id}:
+      %{subject}'
     label_files_to_upload: 'Эти файлы будут загружены:'
     label_rejected_files: 'Эти файлы не могут быть загружены:'
     label_rejected_files_reason: Эти файлы не могут быть загружены, как их размер
@@ -221,15 +304,16 @@ ru:
       context: Контекст проекта
       work_package_belongs_to: Этот пакет работ относится к проекту %{projectname}.
       click_to_switch_context: Открыть пакет работ в этом проекте.
+      autocompleter:
+        label: Автоматическое завершение проекта
     text_are_you_sure: Вы уверены?
     types:
       attribute_groups:
         error_duplicate_group_name: Имя %{group} используется более одного раза. Имена
           групп должны быть уникальными.
         reset_title: Сбросить настройки формы
-        confirm_reset: 'Предупреждение: вы действительно хотите сбросить настройки
-          формы? При этом атрибуты получат значения из группы по умолчанию, флажки
-          видимости будут сброшены, а все настраиваемые поля – отключены.
+        confirm_reset: 'Предупреждение: хотите сбросить форму? Это сбросит атрибуты
+          к первоначальным значениям группы и запретит правку настраиваемых полей.
 
 '
         upgrade_to_ee: Обновите до корпоративной версии
@@ -261,7 +345,8 @@ ru:
       required: Требуется
       relation_type: тип отношения
     relations_hierarchy:
-      hierarchy_headline: иерархия
+      parent_headline: Родитель
+      children_headline: Дочерние элементы
     relation_buttons:
       change_parent: Сменить родителя
       remove_parent: Удалить родителя
@@ -292,6 +377,7 @@ ru:
         other: Пожалуйста, введите более {{count}} символов
         zero: Please enter more characters
         few: Пожалуйста, введите более {{count}} символов
+        many: Please enter {{count}} more characters
       load_more: Загрузка дополнительных результатов ...
       no_matches: Совпадения не найдены
       searching: Поиск ...
@@ -300,6 +386,8 @@ ru:
         other: Вы можете выбрать только {{limit}} элементов
         zero: You cannot select any items
         few: Вы можете выбрать только {{limit}} элемента
+        many: You can only select {{limit}} items
+    project_menu_details: Детали
     sort:
       sorted_asc: 'Применяется сортировка по возрастанию, '
       sorted_dsc: 'Применяется сортировка по убыванию, '
@@ -310,11 +398,12 @@ ru:
       activate_no: активировать для удаления сортировки
     text_work_packages_destroy_confirmation: Вы уверены, что хотите удалить выбранные
       пакет(-ы) работ?
-    text_query_destroy_confirmation: Вы уверены, что хотите удалить выбранный запрос?
+    text_query_destroy_confirmation: Уверены, что хотите удалить выбранное представление?
     text_attachment_destroy_confirmation: Вы уверены, что вы хотите удалить вложение?
     timelines:
       gantt_chart: Диаграмма Гантта
       labels:
+        title: Настройка меток
         bar: Полоса меток
         left: Влево
         right: Вправо
@@ -325,11 +414,11 @@ ru:
           атрибутов будет показана их даты.
 
 '
-      button_activate: Активировать режим временной шкалы
-      button_deactivate: Отключить режим временной шкалы
+      button_activate: Показать диаграмму Ганта
+      button_deactivate: Скрыть диаграмму Ганта
       cancel: Отмена
       change: Изменения в планировании
-      due_date: Дата завершения
+      due_date: Дата окончания
       empty: "(пусто)"
       error: Произошла ошибка.
       errors:
@@ -341,18 +430,9 @@ ru:
         report_epicfail: График не может быть загружен из-за неожиданной ошибки.
         report_timeout: График не может быть загружен в разумный период времени.
       filter:
-        column:
-          assigned_to: Назначенный
-          type: Тип
-          due_date: Дате окончания
-          name: Имя
-          status: Состояние
-          responsible: Ответственный
-          start_date: Дата начала
         grouping_other: Другие
         noneSelection: "(нет)"
       name: Имя
-      new_work_package: Новый пакет работ
       outline: Сбросить схему
       outlines:
         aggregation: Показать только агрегации
@@ -363,7 +443,6 @@ ru:
         level5: Развернуть уровень 5
         all: Показывать всё
       project_status: Состояние проекта
-      project_type: Тип проекта
       really_close_dialog: Вы действительно хотите закрыть диалоговое окно и потерять
         введенные данные?
       responsible: Ответственный
@@ -384,6 +463,9 @@ ru:
         quarters: Кварталы
         years: Годы
         slider: Ползунок масштаба
+        description: 'Выберите первоначальный масштаб, при отсутствии доступа к автомасштабированию.
+
+'
     tl_toolbar:
       zooms: Степень масштабирования
       outlines: Уровень иерархии
@@ -395,6 +477,8 @@ ru:
         обновитесь до Microsoft Edge.
       learn_more: Узнать больше
       close_warning: Игнорировать это предупреждение.
+    upsale:
+      ee_only: Эта функция есть только в корпоративной версии
     wiki_formatting:
       strong: Выделение жирным
       italic: Курсив
@@ -455,10 +539,13 @@ ru:
       inline_create:
         title: Кликните здесь, чтобы добавить новый пакет работ в этот список
       create:
+        title: Новый пакет работ
         header: Новый %{type}
         header_no_type: Новый пакет работ (Тип не установлен)
         header_with_parent: Новый %{type} (дочерний элемент %{parent_type} № %{id})
         button: Создать
+      copy:
+        title: Копировать пакет работ
       hierarchy:
         show: Скрыть режим иерархии
         hide: Скрыть режим иерархии
@@ -470,7 +557,7 @@ ru:
           отфильтрованные дочерние элементы
       faulty_query:
         title: Не удалось загрузить рабочие пакеты.
-        description: Ваш запрос ошибочен и не может быть обработан.
+        description: Ваше представление ошибочно и не может быть обработано.
       no_results:
         title: Нет пакетов работ для показа.
         description: Ничего не найдено.
@@ -485,7 +572,7 @@ ru:
         createdAt: Создано
         description: Описание
         date: Дата
-        dueDate: Дата завершения
+        dueDate: Дата окончания
         estimatedTime: Предполагаемое время
         spentTime: Затраченное время
         category: Категория
@@ -501,6 +588,13 @@ ru:
         updatedAt: Обновлено
         versionName: Этап
         version: Этап
+      default_queries:
+        latest_activity: Последние действия
+        created_by_me: Создано мной
+        assigned_to_me: Предназначено для меня
+        recently_created: Недавно созданное
+        all_open: Все открытые
+        summary: Сводка
       jump_marks:
         pagination: Перейти вёрстке таблицы
         label_pagination: Кликните здесь чтобы пропустить таблицу рабочих пакетов
@@ -517,7 +611,6 @@ ru:
         group_by_disabled_by_hierarchy: В режиме иерархии группировка отключена.
         hierarchy_disabled_by_group_by: Режим иерархии отключен из-за группировки
           результатов по %{column}.
-        hierarchy_mode: Режим иерархии
         sort_ascending: Сортировка по возрастанию
         sort_descending: Сортировка по убыванию
         move_column_left: Переместить столбец влево
@@ -526,11 +619,18 @@ ru:
         insert_columns: Вставьте столбцы...
         filters: Фильтры
         display_sums: Отображение суммы
+        confirm_edit_cancel: Уверены, что хотите отменить редактирование названия
+          этого представления? Заголовку будет присвоено прежнее название.
+        click_to_edit_query_name: Кликните, чтобы изменить название этого представления.
+        rename_query_placeholder: Название этого представления
         errors:
-          unretrievable_query: Не удается получить запрос из URL-адреса
-          not_found: Нет такого запроса
-        text_no_results: Подходящие запросы не найдены.
+          unretrievable_query: Не удается получить представление из URL-адреса
+          not_found: Нет такого представления
+          duplicate_query_title: Представление с таким именем уже существует. Менять
+            в любом случае?
+        text_no_results: Подходящие представления не найдены.
       table:
+        configure_button: Настроить таблицу пакетов работ
         summary: Таблица с названиями пакетов работ в строках и атрибутами пакетов
           работ в столбцах.
         text_inline_edit: Большинство клеток этой таблицы – кнопки для активирования
@@ -539,6 +639,40 @@ ru:
           реорганизовывать, удалять и добавлять столбцы.
         text_select_hint: Чек-боксы могут быть открыты с использованием «ALT» и клавиш
           со стрелками.
+      table_configuration:
+        button: Настроить эту таблицу пакетов работ
+        choose_display_mode: Показывать пакеты работ в виде
+        modal_title: Настройка таблицы пакетов работ
+        embedded_tab_disabled: Эта вкладка конфигурации не доступна для редактируемого
+          вами встроенного представления.
+        default: по умолчанию
+        display_settings: Настройки экрана
+        default_mode: Простого списка
+        hierarchy_mode: Иерархии
+        hierarchy_hint: Все отфильтрованные результаты таблицы будут дополнены их
+          предками. Иерархии можно разворачивать и сворачивать.
+        display_sums_hint: Отображать сумму всех суммируемых атрибутов в строке под
+          таблицей результатов.
+        show_timeline_hint: Показать интерактивную диаграмму Гантта справа от таблицы.
+          Ширина диаграммы изменяется с помощью разделяющей ее и таблицу линии.
+        highlighting: Подсветки
+        highlighting_mode:
+          description: Цветной подсветки
+          none: Без подсветки
+          inline: Выделенные атрибуты
+          inline_all: Все атрибуты
+          entire_row_by: Вся строка по
+          status: Состояние
+          priority: Приоритет
+          type: Тип
+        columns_help_text: Используйте ввод выше для добавления или удаления столбцов
+          в табличном представлении. Вы можете перетаскивать столбцы для изменения
+          их порядка.
+        upsale:
+          attribute_highlighting: Хотите выделить некоторые пакеты работ из общей
+            массы?
+          relation_columns: Нужно видеть отношения в списке пакетов работ?
+          check_out_link: Проверьте корпоративную версию.
       tabs:
         overview: Обзор
         activity: Деятельность
@@ -551,6 +685,7 @@ ru:
         months: месяцев
     toolbar:
       settings:
+        configure_view: Настроить вид ...
         columns: Столбцы...
         sort_by: Сортировать по ...
         group_by: Группировать по...
@@ -561,15 +696,16 @@ ru:
         save: Сохранить
         save_as: Сохранить как ...
         export: Экспортировать ...
-        publish: Опубликовать...
-        page_settings: Переименовать запрос...
+        visibility_settings: Параметры видимости ...
+        page_settings: Переименовать представления...
         delete: Удалить
       filter: Фильтр
       unselected_title: Пакет работ
-      search_query_label: Поиск сохраненого фильтра запросов
-      search_query_title: Кликните для поиска сохраненного фильтра запросов
+      search_query_label: Найти сохраненные представления
+      search_query_title: Кликните для поиска сохраненных представлений
+      placeholder_query_title: Задать заголовок для этого представления
     modals:
-      label_settings: Переименовать запрос
+      label_settings: Переименовать представления
       label_name: Имя
       label_delete_page: Удалить текущую страницу
       button_apply: Применить
@@ -579,13 +715,14 @@ ru:
       form_submit:
         title: Подтвердите продолжение
         text: Вы действительно хотите выполнить это действие?
-      upsale_relation_columns: Нужно видеть отношения в списке пакетов работ?
-      upsale_relation_columns_link: Проверьте корпоративную версию.
       destroy_work_package:
         title: Подтвердите удаление %{label}
         text: Вы уверены, что хотите удалить следующую %{label} ?
         has_children: 'Пакет работ имеет %{childUnits}:'
-        deletes_children: Также будут удалены все дочерние пакеты работ.
+        confirm_deletion_children: Я понимаю, что ВСЕ производные элементы указанных
+          пакетов работ будут рекурсивно удалены.
+        deletes_children: Все дочерние пакеты работ и их потомки будут также рекурсивно
+          удалены.
     notice_successful_create: Создание выполнено.
     notice_successful_delete: Удаление выполнено.
     notice_successful_update: Обновление выполнено.
@@ -612,20 +749,26 @@ ru:
         messages_on_field: 'Это поле является недопустимым: %{messages}'
     error_could_not_resolve_version_name: Не удалось определить название этапа
     error_could_not_resolve_user_name: Не удалось найти такое имя пользователя
+    error_attachment_upload: 'Файл «%{name}» загрузить не удалось: %{error}'
+    error_attachment_upload_permission: У вас нет прав для загрузки файлов на этом
+      ресурсе.
     units:
       workPackage:
         one: пакет работ
         other: пакеты работ
         few: пакеты работ
+        many: work packages
       child_work_packages:
         one: пакет работ с одним дочерним
         other: пакет работ с %{count} дочерними
         few: пакет работ с %{count} дочерними
+        many: "%{count} work package children"
       hour:
         one: 1 час
         other: "%{count} часов"
         zero: 0 hours
         few: "%{count} часа"
+        many: "%{count} hours"
     zen_mode:
       button_activate: Включить дзен-режим
       button_deactivate: Отключить дзен-режим

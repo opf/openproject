@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -32,22 +32,28 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:work_package) do
-    FactoryGirl.build_stubbed(:work_package,
-                              start_date: Date.today.to_datetime,
-                              due_date: Date.today.to_datetime,
-                              created_at: DateTime.now,
-                              updated_at: DateTime.now,
-                              type: FactoryGirl.build_stubbed(:type))
+    FactoryBot.build_stubbed(:stubbed_work_package,
+                             start_date: Date.today.to_datetime,
+                             due_date: Date.today.to_datetime,
+                             created_at: DateTime.now,
+                             updated_at: DateTime.now,
+                             type: FactoryBot.build_stubbed(:type)) do |wp|
+      allow(wp)
+        .to receive(:available_custom_fields)
+        .and_return(available_custom_fields)
+    end
   end
 
   let(:user) do
-    FactoryGirl.build_stubbed(:user)
+    FactoryBot.build_stubbed(:user)
   end
 
   let(:representer) do
     ::API::V3::WorkPackages::WorkPackagePayloadRepresenter
       .create(work_package, current_user: user)
   end
+
+  let(:available_custom_fields) { [] }
 
   before do
     allow(work_package).to receive(:lock_version).and_return(1)
@@ -60,7 +66,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       it { is_expected.to have_json_path('subject') }
 
       it_behaves_like 'API V3 formattable', 'description' do
-        let(:format) { 'textile' }
+        let(:format) { 'markdown' }
         let(:raw) { work_package.description }
         let(:html) { '<p>' + work_package.description + '</p>' }
       end
@@ -105,7 +111,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         end
 
         context 'set' do
-          let(:work_package) { FactoryGirl.build(:work_package, estimated_hours: 0) }
+          let(:work_package) { FactoryBot.build(:work_package, estimated_hours: 0) }
 
           it { is_expected.to have_json_type(String).at_path('estimatedTime') }
         end
@@ -156,7 +162,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         end
 
         context 'no start date' do
-          let(:work_package) { FactoryGirl.build(:work_package, start_date: nil) }
+          let(:work_package) { FactoryBot.build(:work_package, start_date: nil) }
 
           it 'renders as null' do
             is_expected.to be_json_eql(nil.to_json).at_path('startDate')
@@ -192,8 +198,8 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           let(:json_path) { 'dueDate' }
         end
 
-        context 'no due date' do
-          let(:work_package) { FactoryGirl.build(:work_package, due_date: nil) }
+        context 'no finish date' do
+          let(:work_package) { FactoryBot.build(:work_package, due_date: nil) }
 
           it 'renders as null' do
             is_expected.to be_json_eql(nil.to_json).at_path('dueDate')
@@ -229,11 +235,11 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           let(:json_path) { 'date' }
         end
 
-        context 'no due date' do
+        context 'no finish date' do
           let(:work_package) do
-            FactoryGirl.build_stubbed(:work_package,
-                                      type: FactoryGirl.build_stubbed(:type),
-                                      due_date: nil)
+            FactoryBot.build_stubbed(:work_package,
+                                     type: FactoryBot.build_stubbed(:type),
+                                     due_date: nil)
           end
 
           it 'renders as null' do
@@ -284,7 +290,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       end
 
       describe 'status' do
-        let(:status) { FactoryGirl.build_stubbed(:status) }
+        let(:status) { FactoryBot.build_stubbed(:status) }
 
         before do
           work_package.status = status
@@ -299,7 +305,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       end
 
       describe 'assignee and responsible' do
-        let(:user) { FactoryGirl.build_stubbed(:user) }
+        let(:user) { FactoryBot.build_stubbed(:user) }
         let(:link) { "/api/v3/users/#{user.id}" }
 
         describe 'assignee' do
@@ -328,7 +334,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       end
 
       describe 'version' do
-        let(:version) { FactoryGirl.build_stubbed(:version) }
+        let(:version) { FactoryBot.build_stubbed(:version) }
 
         before do
           work_package.fixed_version = version
@@ -343,7 +349,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       end
 
       describe 'category' do
-        let(:category) { FactoryGirl.build_stubbed(:category) }
+        let(:category) { FactoryBot.build_stubbed(:category) }
 
         before do
           work_package.category = category
@@ -358,7 +364,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       end
 
       describe 'priority' do
-        let(:priority) { FactoryGirl.build_stubbed(:priority) }
+        let(:priority) { FactoryBot.build_stubbed(:priority) }
 
         before do
           work_package.priority = priority
@@ -374,7 +380,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
 
       describe 'parent' do
         context 'with a parent' do
-          let(:parent) { FactoryGirl.build_stubbed(:work_package) }
+          let(:parent) { FactoryBot.build_stubbed(:work_package) }
 
           before do
             work_package.parent = parent
@@ -399,10 +405,19 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
     end
 
     describe 'custom fields' do
+      let(:available_custom_fields) { [FactoryBot.build_stubbed(:int_wp_custom_field)] }
       it 'uses a CustomFieldInjector' do
-        expected_method = :create_value_representer
-        expect(::API::V3::Utilities::CustomFieldInjector).to receive(expected_method)
+        expect(::API::V3::Utilities::CustomFieldInjector).to receive(:create_value_representer)
           .and_call_original
+        representer.to_json
+      end
+    end
+
+    describe 'caching' do
+      it 'does not cache' do
+        expect(Rails.cache)
+          .not_to receive(:fetch)
+
         representer.to_json
       end
     end
@@ -560,25 +575,44 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
     end
 
     describe 'assignee' do
+      let(:attribute_name) { 'assignee' }
+
       before do
         work_package.assigned_to_id = 1
       end
 
-      it_behaves_like 'linked resource' do
-        let(:path) { api_v3_paths.user(id) }
-        let(:attribute_name) { 'assignee' }
-        let(:association_name) { 'assigned_to_id' }
+      context 'with a user' do
+        it_behaves_like 'linked resource' do
+          let(:path) { api_v3_paths.user(id) }
+          let(:association_name) { 'assigned_to_id' }
+        end
+      end
+
+      context 'with a group' do
+        it_behaves_like 'linked resource' do
+          let(:path) { api_v3_paths.group(id) }
+          let(:association_name) { 'assigned_to_id' }
+        end
       end
     end
 
     describe 'responsible' do
+      let(:attribute_name) { 'responsible' }
+
       before do
         work_package.responsible_id = 1
       end
 
-      it_behaves_like 'linked resource' do
-        let(:path) { api_v3_paths.user(id) }
-        let(:attribute_name) { 'responsible' }
+      context 'with a user' do
+        it_behaves_like 'linked resource' do
+          let(:path) { api_v3_paths.user(id) }
+        end
+      end
+
+      context 'with a group' do
+        it_behaves_like 'linked resource' do
+          let(:path) { api_v3_paths.group(id) }
+        end
       end
     end
 
@@ -593,9 +627,9 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
     end
 
     describe 'parent' do
-      let(:parent) { FactoryGirl.build_stubbed :work_package }
+      let(:parent) { FactoryBot.build_stubbed :work_package }
       let(:new_parent) do
-        wp = FactoryGirl.build_stubbed :work_package
+        wp = FactoryBot.build_stubbed :work_package
         allow(WorkPackage)
           .to receive(:find_by)
           .with(id: wp.id.to_s)

@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 //++
 
 // *** NOTE ***
@@ -95,9 +95,6 @@ a.inplace-editing--trigger-link,
 
 
 .wp-edit-field
-  padding-left: 0
-  line-height: 1
-
   &.-error,
   .wp-table--cell-td.-error &
     .wp-table--cell-span,
@@ -158,8 +155,6 @@ a.inplace-editing--trigger-link,
   .inplace-edit--read-value--value-span
     width: 100%
     white-space: nowrap
-    .error.macro-unavailable
-      display: inline-block
 
     &.-multiline
       white-space: inherit
@@ -186,10 +181,6 @@ a.inplace-editing--trigger-link,
     color: $inplace-edit--color--disabled
     background: $inplace-edit--bg-color--disabled
   cursor: not-allowed
-
-// Default cursor on non-editable and id fields
-.wp-table--cell-span
-  padding: 0 5px 0 5px
 
 // Animations on leaving work packages
 .wp--row.-animated-leave

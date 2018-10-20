@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,20 +23,21 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
-  let(:user) { FactoryGirl.create(:admin) }
-  let(:project) { FactoryGirl.create(:project) }
+  let(:user) { FactoryBot.create(:admin) }
+  let(:project) { FactoryBot.create(:project) }
   let(:query_menu) { Components::WorkPackages::QueryMenu.new }
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(project) }
   let(:settings_menu) { Components::WorkPackages::SettingsMenu.new }
+  let(:group_by) { Components::WorkPackages::GroupBy.new }
 
   let(:work_package) do
-    FactoryGirl.create :work_package,
+    FactoryBot.create :work_package,
                        project: project,
                        start_date: Date.today,
                        due_date: (Date.today + 5.days)
@@ -48,25 +49,24 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
   end
 
   describe 'with multiple queries' do
-    let(:type) { FactoryGirl.create :type }
-    let(:type2) { FactoryGirl.create :type }
-    let(:project) { FactoryGirl.create(:project, types: [type, type2]) }
+    let(:type) { FactoryBot.create :type }
+    let(:type2) { FactoryBot.create :type }
+    let(:project) { FactoryBot.create(:project, types: [type, type2]) }
 
     let!(:work_package) do
-      FactoryGirl.create :work_package,
+      FactoryBot.create :work_package,
                          project: project,
                          type: type
     end
 
     let!(:work_package2) do
-      FactoryGirl.create :work_package,
+      FactoryBot.create :work_package,
                          project: project,
                          type: type2
     end
 
-
     let!(:query) do
-      query              = FactoryGirl.build(:query, user: user, project: project)
+      query              = FactoryBot.build(:query, user: user, project: project)
       query.column_names = ['id', 'type', 'subject']
       query.filters.clear
       query.timeline_visible = false
@@ -78,7 +78,7 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
     end
 
     let!(:query_tl) do
-      query              = FactoryGirl.build(:query, user: user, project: project)
+      query              = FactoryBot.build(:query, user: user, project: project)
       query.column_names = ['id', 'type', 'subject']
       query.filters.clear
       query.add_filter('type_id', '=', [type2.id])
@@ -151,7 +151,7 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
 
   describe 'with a hierarchy being shown' do
     let!(:child_work_package) do
-      FactoryGirl.create :work_package,
+      FactoryBot.create :work_package,
                          project: project,
                          parent: work_package,
                          start_date: Date.today,
@@ -186,40 +186,40 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
   end
 
   describe 'when table is grouped' do
-    let(:project) { FactoryGirl.create(:project) }
-    let(:category) { FactoryGirl.create :category, project: project, name: 'Foo' }
-    let(:category2) { FactoryGirl.create :category, project: project, name: 'Bar' }
+    let(:project) { FactoryBot.create(:project) }
+    let(:category) { FactoryBot.create :category, project: project, name: 'Foo' }
+    let(:category2) { FactoryBot.create :category, project: project, name: 'Bar' }
     let(:wp_table) { Pages::WorkPackagesTable.new(project) }
     let(:relations) { ::Components::WorkPackages::Relations.new(wp_cat1) }
 
     let!(:wp_cat1) do
-      FactoryGirl.create :work_package,
+      FactoryBot.create :work_package,
                          project: project,
                          category: category,
                          start_date: Date.today,
                          due_date: (Date.today + 5.days)
     end
     let!(:wp_cat2) do
-      FactoryGirl.create :work_package,
+      FactoryBot.create :work_package,
                          project: project,
                          category: category2,
                          start_date: Date.today + 5.days,
                          due_date: (Date.today + 10.days)
     end
     let!(:wp_none) do
-      FactoryGirl.create :work_package,
+      FactoryBot.create :work_package,
                          project: project
     end
 
     let!(:relation) do
-      FactoryGirl.create(:relation,
+      FactoryBot.create(:relation,
                          from: wp_cat1,
                          to: wp_cat2,
                          relation_type: Relation::TYPE_FOLLOWS)
     end
 
     let!(:query) do
-      query              = FactoryGirl.build(:query, user: user, project: project)
+      query              = FactoryBot.build(:query, user: user, project: project)
       query.column_names = ['id', 'subject', 'category']
       query.show_hierarchies = false
       query.timeline_visible = true
@@ -232,9 +232,7 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
       wp_table.visit_query(query)
       wp_table.expect_work_package_listed(wp_cat1, wp_cat2, wp_none)
 
-      wp_table.click_setting_item 'Group by ...'
-      select 'Category', from: 'selected_columns_new'
-      click_button 'Apply'
+      group_by.enable_via_menu 'Category'
 
       # Expect table to be grouped as WP created above
       expect(page).to have_selector('.group--value .count', count: 3)
@@ -256,9 +254,11 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
       wp_table.expect_work_package_listed(wp_cat1, wp_cat2, wp_none)
 
       # Expect timeline to have relation between first and second group
-      wp_timeline.expect_timeline_relation(wp_cat1, wp_cat2)
-      wp_timeline.expect_timeline_element(wp_cat1)
-      wp_timeline.expect_timeline_element(wp_cat2)
+      within('.work-packages-split-view--tabletimeline-side') do
+        wp_timeline.expect_timeline_relation(wp_cat1, wp_cat2)
+        wp_timeline.expect_timeline_element(wp_cat1)
+        wp_timeline.expect_timeline_element(wp_cat2)
+      end
 
       split_view = wp_table.open_split_view(wp_cat1)
       split_view.switch_to_tab tab: :relations
@@ -266,9 +266,11 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
       relations.remove_relation(wp_cat2)
 
       # Relation should be removed in TL
-      wp_timeline.expect_timeline_element(wp_cat1)
-      wp_timeline.expect_timeline_element(wp_cat2)
-      wp_timeline.expect_no_timeline_relation(wp_cat1, wp_cat2)
+      within('.work-packages-split-view--tabletimeline-side') do
+        wp_timeline.expect_timeline_element(wp_cat1)
+        wp_timeline.expect_timeline_element(wp_cat2)
+        wp_timeline.expect_no_timeline_relation(wp_cat1, wp_cat2)
+      end
     end
   end
 end

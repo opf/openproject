@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,14 +24,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe AddWorkPackageNoteService, type: :model do
-  let(:user) { FactoryGirl.build_stubbed(:user) }
-  let(:work_package) { FactoryGirl.build_stubbed(:work_package) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:work_package) { FactoryBot.build_stubbed(:work_package) }
   let(:instance) do
     described_class.new(user: user,
                         work_package: work_package)
@@ -39,7 +39,7 @@ describe AddWorkPackageNoteService, type: :model do
 
   describe '.contract' do
     it 'uses the CreateNoteContract contract' do
-      expect(described_class.contract).to eql WorkPackages::CreateNoteContract
+      expect(instance.contract_class).to eql WorkPackages::CreateNoteContract
     end
   end
 
@@ -61,7 +61,7 @@ describe AddWorkPackageNoteService, type: :model do
         .with(send_notifications)
         .and_yield
 
-      allow(described_class).to receive(:contract).and_return(mock_contract)
+      allow(instance).to receive(:contract_class).and_return(mock_contract)
       allow(work_package).to receive(:save_journals).and_return true
       allow(mock_contract_instance).to receive(:validate).and_return valid_contract
     end

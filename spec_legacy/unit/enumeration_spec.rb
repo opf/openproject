@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,26 +24,21 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 require 'legacy_spec_helper'
 
 describe Enumeration, type: :model do
   before do
     WorkPackage.delete_all
-    @low_priority = FactoryGirl.create :priority_low
-    @issues = FactoryGirl.create_list :work_package, 6, priority: @low_priority
-    @default_enumeration = FactoryGirl.create :default_enumeration
-  end
-
-  it 'should objects count' do
-    assert_equal @issues.size, @low_priority.objects_count
-    assert_equal 0, FactoryGirl.create(:priority).objects_count
+    @low_priority = FactoryBot.create :priority_low
+    @issues = FactoryBot.create_list :work_package, 6, priority: @low_priority
+    @default_enumeration = FactoryBot.create :default_enumeration
   end
 
   it 'should in use' do
     assert @low_priority.in_use?
-    assert !FactoryGirl.create(:priority).in_use?
+    assert !FactoryBot.create(:priority).in_use?
   end
 
   it 'should default' do
@@ -84,7 +79,7 @@ describe Enumeration, type: :model do
   end
 
   it 'should destroy with reassign' do
-    new_priority = FactoryGirl.create :priority
+    new_priority = FactoryBot.create :priority
     Enumeration.find(@low_priority.id).destroy(new_priority)
     assert_nil WorkPackage.find_by(priority_id: @low_priority.id)
     assert_equal @issues.size, new_priority.objects_count

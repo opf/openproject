@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,10 +23,32 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :principal do
+    transient do
+      member_in_project nil
+      member_in_projects nil
+      member_through_role nil
+      member_with_permissions nil
+    end
+
+    # necessary as we have created_on instead of created_at for which factory girl would
+    # provide values automatically
+    created_on { Time.now }
+    updated_on { Time.now }
+
+    callback(:after_build) do |user, evaluator| # this is also done after :create
+      (projects = evaluator.member_in_projects || [])
+      projects << evaluator.member_in_project if evaluator.member_in_project
+      if !projects.empty?
+        role = evaluator.member_through_role || FactoryBot.build(:role, permissions: evaluator.member_with_permissions || [:view_work_packages, :edit_work_packages])
+        projects.each do |project|
+          project.add_member! user, role if project
+        end
+      end
+    end
   end
 end

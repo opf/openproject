@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,16 +23,20 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 //++
 
 @include breakpoint(680px down)
+  $hamburger-right: -3px
+  $hamburger-width: 50px
   #logo
     background-color: transparent
 
   #top-menu
-    position: relative !important
+    position: fixed !important
     height: $header-height-mobile
+    top: 0px
+    left: 0px
 
     #nav-login-content
       float: none
@@ -57,8 +61,13 @@
     li > a:before
       font-size: 1.25rem !important
       vertical-align: text-bottom
-    li > ul.drop-down--projects
-      min-width: 0
+    li.drop-down > ul.drop-down--projects
+      width: 100vw
+      border-right: none
+      border-left: none
+      left: -1 * ($hamburger-width + $hamburger-right)
+      .nosidebar &
+        left: 0px
 
   #account-nav-right
     > li
@@ -96,22 +105,32 @@
 
   #account-nav-left
     #projects-menu
-      font-size: 15px
       .button--dropdown-text
-        // Viewport minus #account-nav-right when logged out minus padding
-        // (french: Connexion).
-        max-width: calc(100vW - 150px - 49px)
+        // Viewport minus #account-nav-right when logged out, which is
+        // 165px, as this is the space for the long login text label: "Connexion" (French).
+        // 36px is the padding around the project name.
+        max-width: calc(100vW - 165px - 36px - #{$hamburger-width + $hamburger-right})
+        .nosidebar &
+          max-width: calc(100vW - 165px - 36px)
     .drop-down
-      // Viewport minus #account-nav-right when logged out (french: Connexion)
-      max-width: calc(100vW - 150px)
+      // Viewport minus #account-nav-right when logged out
+      // 165px as this is the space for the long login text label: "Connexion" (French)
+      max-width: calc(100vW - 165px - #{$hamburger-width + $hamburger-right})
+      .nosidebar &
+        max-width: calc(100vW - 165px)
       ul
-        width: 100vw
+        width: 100vw !important
         border: none
         top: $header-height-mobile
 
-  #select2-drop.project-search-results
+  .project-search-results
     width: 100vw !important
     left: 0 !important
     border-right: 0
-    .select2-search:before
-      right: 44px
+
+    .project-menu-autocomplete--input-container
+      border-right: none !important
+      border-left: none !important
+    .project-menu-autocomplete--results
+      border-bottom: 2px solid $header-drop-down-border-color !important
+

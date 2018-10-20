@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -50,7 +50,14 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
     query
   end
 
-  let(:instance) { described_class.new(query, self_link, form_embedded: form_embedded) }
+  let(:instance) { described_class.new(query, self_link, current_user: user, form_embedded: form_embedded) }
+  let(:user) do
+    FactoryBot.build_stubbed(:user).tap do |user|
+      allow(user)
+        .to receive(:allowed_to?)
+        .and_return(false)
+    end
+  end
   let(:form_embedded) { false }
   let(:self_link) { 'bogus_self_path' }
   let(:project) { nil }
@@ -171,11 +178,26 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
           let(:type) { 'Boolean' }
           let(:name) { Query.human_attribute_name('public') }
           let(:required) { false }
-          let(:writable) { true }
+          let(:writable) { false }
           let(:has_default) { true }
         end
 
         it_behaves_like 'has no visibility property'
+
+        context 'when having the :manage_public_queries permission' do
+          before do
+            allow(user)
+              .to receive(:allowed_to?)
+              .with(:manage_public_queries, project, global: project.nil?)
+              .and_return(true)
+          end
+
+          it 'marks public as writable' do
+            expect(subject)
+              .to be_json_eql(true)
+              .at_path('public/writable')
+          end
+        end
       end
 
       describe 'sums' do
@@ -262,6 +284,20 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
         it_behaves_like 'has no visibility property'
       end
 
+      describe 'highlighting_mode' do
+        let(:path) { 'highlightingMode' }
+
+        it_behaves_like 'has basic schema properties' do
+          let(:type) { 'String' }
+          let(:name) { Query.human_attribute_name('highlighting_mode') }
+          let(:required) { false }
+          let(:writable) { true }
+          let(:has_default) { true }
+        end
+
+        it_behaves_like 'has no visibility property'
+      end
+
       describe 'columns' do
         let(:path) { 'columns' }
 
@@ -279,7 +315,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
 
         context 'when embedding' do
           let(:form_embedded) { true }
-          let(:type) { FactoryGirl.build_stubbed(:type) }
+          let(:type) { FactoryBot.build_stubbed(:type) }
           let(:available_values) do
             [Queries::WorkPackages::Columns::PropertyColumn.new(:bogus1),
              Queries::WorkPackages::Columns::PropertyColumn.new(:bogus2),
@@ -305,6 +341,38 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
                           .uniq
 
               expect(types).to match_array(%w(QueryColumn::Property QueryColumn::RelationToType QueryColumn::RelationOfType))
+            end
+          end
+        end
+      end
+
+      describe 'show highlighted_attributes' do
+        let(:path) { 'highlightedAttributes' }
+
+        it_behaves_like 'has basic schema properties' do
+          let(:type) { '[]QueryColumn' }
+          let(:name) { Query.human_attribute_name('highlighted_attributes') }
+          let(:required) { false }
+          let(:writable) { true }
+          let(:has_default) { true }
+        end
+
+        it_behaves_like 'does not link to allowed values'
+
+        context 'when embedding' do
+          let(:form_embedded) { true }
+          let(:type) { FactoryBot.build_stubbed(:type) }
+          let(:available_values) do
+            [Queries::WorkPackages::Columns::PropertyColumn.new(:bogus1, highlightable: true),
+             Queries::WorkPackages::Columns::PropertyColumn.new(:bogus2, highlightable: true)]
+          end
+          let(:available_values_method) { :available_columns }
+
+          it_behaves_like 'has a collection of allowed values' do
+            let(:expected_hrefs) do
+              available_values.map do |value|
+                api_v3_paths.query_column(value.name.to_s.camelcase(:lower))
+              end
             end
           end
         end
@@ -336,7 +404,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
         end
 
         context 'when project query' do
-          let(:project) { FactoryGirl.build_stubbed(:project) }
+          let(:project) { FactoryBot.build_stubbed(:project) }
           let(:href) { api_v3_paths.query_project_filter_instance_schemas(project.id) }
 
           it 'contains the link to the filter schemas' do
@@ -453,7 +521,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
         end
 
         context 'when project query' do
-          let(:project) { FactoryGirl.build_stubbed(:project) }
+          let(:project) { FactoryBot.build_stubbed(:project) }
           let(:href) { api_v3_paths.query_project_filter_instance_schemas(project.id) }
 
           it 'contains a collection of filter schemas' do

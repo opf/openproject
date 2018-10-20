@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,18 +24,23 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module API
   module V3
     module Statuses
       class StatusRepresenter < ::API::Decorators::Single
+        include API::Caching::CachedRepresenter
+
         self_link
 
         property :id, render_nil: true
         property :name
         property :is_closed, render_nil: true
+        property :color,
+                 getter: -> (*) { color.hexcode if color },
+                 render_nil: true
         property :is_default, render_nil: true
         property :default_done_ratio, render_nil: true
         property :position, render_nil: true

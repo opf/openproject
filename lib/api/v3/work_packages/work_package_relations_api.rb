@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module API
@@ -37,11 +37,13 @@ module API
           # @todo Redirect to relations endpoint as soon as `list relations` API endpoint
           #       including filters is complete.
           get do
-            relations = @work_package
-                        .relations
-                        .direct
+            query = ::Queries::Relations::RelationQuery.new(user: current_user)
+
+            relations = query
+                        .where(:involved, '=', @work_package.id)
+                        .results
                         .non_hierarchy
-                        .visible(current_user)
+                        .includes(::API::V3::Relations::RelationCollectionRepresenter.to_eager_load)
 
             ::API::V3::Relations::RelationCollectionRepresenter.new(
               relations,

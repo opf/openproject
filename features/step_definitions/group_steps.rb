@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,11 +24,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 Given /^there is 1 group with the following:$/ do |table|
-  group = FactoryGirl.build(:group)
+  group = FactoryBot.build(:group)
 
   send_table_to_object group, table,  name: Proc.new { |group, name| group.lastname = name }
 end
@@ -63,11 +63,11 @@ When /^I add the user "(.+)" to the group$/ do |user_login|
 end
 
 Given /^We have the group "(.*?)"/ do |name|
-  group = FactoryGirl.create(:group, lastname: name)
+  group = FactoryBot.create(:group, lastname: name)
 end
 
 Given /^there is a group named "(.*?)" with the following members:$/ do |name, table|
-  group = FactoryGirl.create(:group, lastname: name)
+  group = FactoryBot.create(:group, lastname: name)
 
   table.raw.flatten.each do |login|
     group.users << User.find_by!(login: login)

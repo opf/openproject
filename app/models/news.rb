@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class News < ActiveRecord::Base
@@ -34,7 +34,7 @@ class News < ActiveRecord::Base
     order('created_on')
   }, as: :commented, dependent: :delete_all
 
-  validates_presence_of :title, :description
+  validates_presence_of :title
   validates_length_of :title, maximum: 60
   validates_length_of :summary, maximum: 255
 
@@ -60,6 +60,10 @@ class News < ActiveRecord::Base
 
   def visible?(user = User.current)
     !user.nil? && user.allowed_to?(:view_news, project)
+  end
+
+  def description=(val)
+    super val.presence || ''
   end
 
   # returns latest news for projects visible by user

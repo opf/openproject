@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,14 +23,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 require_relative 'shared_query_column_specs'
 
 describe Queries::WorkPackages::Columns::CustomFieldColumn, type: :model do
-  let(:project) { FactoryGirl.build_stubbed(:project) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
   let(:custom_field) do
     mock_model(CustomField, field_format: 'string',
                             order_statements: nil)
@@ -41,11 +41,11 @@ describe Queries::WorkPackages::Columns::CustomFieldColumn, type: :model do
 
   describe 'instances' do
     let(:text_custom_field) do
-      FactoryGirl.create(:text_wp_custom_field)
+      FactoryBot.create(:text_wp_custom_field)
     end
 
     let(:list_custom_field) do
-      FactoryGirl.create(:list_wp_custom_field)
+      FactoryBot.create(:list_wp_custom_field)
     end
 
     context 'within project' do

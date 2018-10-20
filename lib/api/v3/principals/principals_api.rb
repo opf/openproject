@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module API
@@ -37,14 +37,13 @@ module API
             query = ParamsToQueryService.new(Principal, current_user).call(params)
 
             if query.valid?
-              users = query
-                      .results
-                      .where(id: Principal.in_visible_project(current_user)
-                                          .or(Principal.me))
-                      .includes(:preference)
+              principals = query
+                           .results
+                           .where(id: Principal.in_visible_project_or_me(current_user))
+                           .includes(:preference)
 
-              ::API::V3::Users::PaginatedUserCollectionRepresenter.new(users,
-                                                                       api_v3_paths.users,
+              ::API::V3::Users::PaginatedUserCollectionRepresenter.new(principals,
+                                                                       api_v3_paths.principals,
                                                                        page: to_i_or_nil(params[:offset]),
                                                                        per_page: resolve_page_size(params[:pageSize]),
                                                                        current_user: current_user)

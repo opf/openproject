@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,14 +23,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 RSpec.feature 'Work package index view' do
-  let(:user) { FactoryGirl.create(:admin) }
-  let(:project) { FactoryGirl.create(:project) }
+  let(:user) { FactoryBot.create(:admin) }
+  let(:project) { FactoryBot.create(:project) }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
   before do
     login_as(user)
@@ -49,7 +50,7 @@ RSpec.feature 'Work package index view' do
 
     expect(current_path).to eql("/projects/#{project.identifier}/work_packages")
     within('#content') do
-      expect(page).to have_content('Work packages')
+      wp_table.expect_title('All open', editable: false)
       expect(page).to have_content('No work packages to display')
     end
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -36,10 +36,10 @@ describe 'API localization', type: :request do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryGirl.create(:project) }
-  let(:type) { FactoryGirl.create(:type) }
+  let(:project) { FactoryBot.create(:project) }
+  let(:type) { FactoryBot.create(:type) }
   let(:schema_path) { api_v3_paths.work_package_schema project.id, type.id }
-  let(:current_user) { FactoryGirl.build(:user, member_in_project: project, language: :fr) }
+  let(:current_user) { FactoryBot.build(:user, member_in_project: project, language: :fr) }
 
   describe 'GET /api/v3/work_packages/schemas/:id' do
     before do

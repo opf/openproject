@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,20 +23,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe CategoriesController, type: :controller do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:project) { FactoryGirl.create(:project) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:project) { FactoryBot.create(:project) }
   let(:role) {
-    FactoryGirl.create(:role,
+    FactoryBot.create(:role,
                        permissions: [:manage_categories])
   }
   let(:member) {
-    FactoryGirl.create(:member,
+    FactoryBot.create(:member,
                        project: project,
                        principal: user,
                        roles: [role])
@@ -93,7 +93,7 @@ describe CategoriesController, type: :controller do
 
   describe '#edit' do
     let(:category) {
-      FactoryGirl.create(:category,
+      FactoryBot.create(:category,
                          project: project)
     }
 
@@ -120,7 +120,7 @@ describe CategoriesController, type: :controller do
 
     context 'valid category' do
       let(:category) {
-        FactoryGirl.create(:category,
+        FactoryBot.create(:category,
                            project: project)
       }
 
@@ -162,11 +162,11 @@ describe CategoriesController, type: :controller do
 
   describe '#destroy' do
     let(:category) {
-      FactoryGirl.create(:category,
+      FactoryBot.create(:category,
                          project: project)
     }
     let(:work_package) {
-      FactoryGirl.create(:work_package,
+      FactoryBot.create(:work_package,
                          project: project,
                          category: category)
     }
@@ -211,7 +211,7 @@ describe CategoriesController, type: :controller do
 
     describe '#reassign' do
       let(:target) {
-        FactoryGirl.create(:category,
+        FactoryBot.create(:category,
                            project: project)
       }
       before do

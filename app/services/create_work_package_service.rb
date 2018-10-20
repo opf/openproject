@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'work_packages/create_contract'
@@ -32,12 +32,11 @@ require 'work_packages/create_contract'
 class CreateWorkPackageService
   include Concerns::Contracted
 
-  self.contract = WorkPackages::CreateContract
-
   attr_reader :user
 
   def initialize(user:)
     @user = user
+    self.contract_class = WorkPackages::CreateContract
   end
 
   def call(work_package, send_notifications: true)
@@ -51,10 +50,9 @@ class CreateWorkPackageService
   private
 
   def create(work_package)
-    initialize_contract(work_package)
     assign_defaults(work_package)
 
-    result, errors = validate_and_save(work_package)
+    result, errors = validate_and_save(work_package, user)
 
     ServiceResult.new(success: result,
                       errors: errors,
@@ -63,9 +61,5 @@ class CreateWorkPackageService
 
   def assign_defaults(work_package)
     work_package.author ||= user
-  end
-
-  def initialize_contract(work_package)
-    self.contract = self.class.contract.new(work_package, user)
   end
 end

@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,11 +25,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class Query < ActiveRecord::Base
-  include ::Query::Timelines
+  include Timelines
+  include Highlighting
   include Queries::AvailableFilters
 
   belongs_to :project
@@ -93,7 +94,7 @@ class Query < ActiveRecord::Base
   def set_default_sort
     return if sort_criteria.any?
 
-    self.sort_criteria = [['parent', 'asc'], ['id', 'asc']]
+    self.sort_criteria = [['parent', 'asc']]
   end
 
   def context
@@ -392,7 +393,7 @@ class Query < ActiveRecord::Base
   end
 
   def project_limiting_filter
-    subproject_filter = Queries::WorkPackages::Filter::SubprojectFilter.new
+    subproject_filter = Queries::WorkPackages::Filter::SubprojectFilter.create!
     subproject_filter.context = self
 
     subproject_filter.operator = if Setting.display_subprojects_work_packages?

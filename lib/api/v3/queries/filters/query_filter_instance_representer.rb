@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module API
@@ -77,18 +77,26 @@ module API
                     link: ->(*) {
                       next unless represented.ar_object_filter?
 
-                      represented.value_objects_hash.map do |value_object|
-                        value_object[:href] ||= begin
-                          api_v3_paths.send(value_object[:identifier], value_object[:id])
+                      represented.value_objects.map do |value_object|
+                        href = begin
+                          path_name = value_object.class.name.demodulize.underscore
+
+                          api_v3_paths.send(path_name, value_object.id)
                         rescue => e
                           Rails.logger.error "Failed to get href for value_object #{value_object}: #{e}"
                           nil
                         end
 
-                        {
-                          href: value_object[:href],
-                          title: value_object[:name]
+                        link_object = {
+                          href: href,
+                          title: value_object.name
                         }
+
+                        if value_object.is_a?(::Queries::Filters::TemplatedValue)
+                          link_object[:templated] = true
+                        end
+
+                        link_object
                       end
                     },
                     setter: ->(fragment:, **) {
@@ -104,11 +112,7 @@ module API
                       if represented.respond_to?(:custom_field) &&
                          represented.custom_field.field_format == 'bool'
                         represented.values.map do |value|
-                          if value == CustomValue::BoolStrategy::DB_VALUE_TRUE
-                            true
-                          else
-                            false
-                          end
+                          value == OpenProject::Database::DB_VALUE_TRUE
                         end
                       else
                         represented.values
@@ -140,9 +144,9 @@ module API
                                     represented.custom_field.field_format == 'bool'
                                    vals.map do |value|
                                      if value
-                                       CustomValue::BoolStrategy::DB_VALUE_TRUE
+                                       OpenProject::Database::DB_VALUE_TRUE
                                      else
-                                       CustomValue::BoolStrategy::DB_VALUE_FALSE
+                                       OpenProject::Database::DB_VALUE_FALSE
                                      end
                                    end
                                  else

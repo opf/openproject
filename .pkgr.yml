@@ -10,19 +10,20 @@ targets:
     <<: *debian8
   ubuntu-16.04:
     <<: *debian8
+  ubuntu-18.04:
+    <<: *debian8
   centos-7:
    dependencies:
       - epel-release
-  sles-11:
-    build_dependencies:
-      - sqlite3-devel
   sles-12:
     build_dependencies:
       - sqlite3-devel
 before_precompile: "packaging/setup"
 crons:
+  - packaging/cron/openproject-hourly-tasks
   - packaging/cron/openproject-clear-old-sessions
   - packaging/cron/openproject-clear-uploaded-files
+  - packaging/cron/openproject-clear-tmp-cache
 services:
   - postgres
 installer: https://github.com/pkgr/installer.git

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -31,13 +31,25 @@ require 'spec_helper'
 describe ::API::V3::Projects::ProjectRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryGirl.create(:project) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
   let(:representer) { described_class.new(project, current_user: user) }
   let(:user) do
-    FactoryGirl.build(:user, member_in_project: project, member_through_role: role)
+    FactoryBot.build_stubbed(:user)
   end
-  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
   let(:permissions) { [:add_work_packages] }
+
+  before do
+    allow(user)
+      .to receive(:allowed_to?)
+      .and_return(false)
+
+    permissions.each do |permission|
+      allow(user)
+        .to receive(:allowed_to?)
+        .with(permission, project)
+        .and_return(true)
+    end
+  end
 
   context 'generation' do
     subject(:generated) { representer.to_json }
@@ -59,8 +71,6 @@ describe ::API::V3::Projects::ProjectRepresenter do
         let(:date) { project.updated_on }
         let(:json_path) { 'updatedAt' }
       end
-
-      it { is_expected.to have_json_path('type') }
     end
 
     describe '_links' do
@@ -106,6 +116,68 @@ describe ::API::V3::Projects::ProjectRepresenter do
         it 'has the correct link to its versions' do
           is_expected.to be_json_eql(api_v3_paths.versions_by_project(project.id).to_json)
             .at_path('_links/versions/href')
+        end
+      end
+
+      describe 'types' do
+        context 'for a user having the view_work_packages permission' do
+          let(:permissions) { [:view_work_packages] }
+
+          it 'links to the types active in the project' do
+            is_expected.to be_json_eql(api_v3_paths.types_by_project(project.id).to_json)
+              .at_path('_links/types/href')
+          end
+        end
+
+        context 'for a user having the manage_types permission' do
+          let(:permissions) { [:manage_types] }
+
+          it 'links to the types active in the project' do
+            is_expected.to be_json_eql(api_v3_paths.types_by_project(project.id).to_json)
+                             .at_path('_links/types/href')
+          end
+        end
+
+        context 'for a user not having the necessary permissions' do
+          let(:permission) { [] }
+
+          it 'has no types link' do
+            is_expected.to_not have_json_path('_links/types/href')
+          end
+        end
+      end
+    end
+
+    describe 'caching' do
+      it 'is based on the representer\'s cache_key' do
+        expect(OpenProject::Cache)
+          .to receive(:fetch)
+          .with(representer.json_cache_key)
+          .and_call_original
+
+        representer.to_json
+      end
+
+      describe '#json_cache_key' do
+        let!(:former_cache_key) { representer.json_cache_key }
+
+        it 'includes the name of the representer class' do
+          expect(representer.json_cache_key)
+            .to include('API', 'V3', 'Projects', 'ProjectRepresenter')
+        end
+
+        it 'changes when the locale changes' do
+          I18n.with_locale(:fr) do
+            expect(representer.json_cache_key)
+              .not_to eql former_cache_key
+          end
+        end
+
+        it 'changes when the project is updated' do
+          project.updated_on = Time.now + 20.seconds
+
+          expect(representer.json_cache_key)
+            .not_to eql former_cache_key
         end
       end
     end

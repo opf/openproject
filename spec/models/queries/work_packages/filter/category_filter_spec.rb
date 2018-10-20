@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -65,7 +65,7 @@ describe Queries::WorkPackages::Filter::CategoryFilter, type: :model do
     end
 
     describe '#allowed_values' do
-      let(:category) { FactoryGirl.build_stubbed(:category) }
+      let(:category) { FactoryBot.build_stubbed(:category) }
 
       before do
         allow(project)
@@ -80,8 +80,8 @@ describe Queries::WorkPackages::Filter::CategoryFilter, type: :model do
     end
 
     describe '#value_objects' do
-      let(:category1) { FactoryGirl.build_stubbed(:category) }
-      let(:category2) { FactoryGirl.build_stubbed(:category) }
+      let(:category1) { FactoryBot.build_stubbed(:category) }
+      let(:category2) { FactoryBot.build_stubbed(:category) }
 
       before do
         allow(project)

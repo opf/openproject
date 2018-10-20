@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,17 +23,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :wiki_page do
     wiki
-    sequence(:title) do |n| "Wiki Page No. #{n}" end
+    sequence(:title) { |n| "Wiki Page No. #{n}" }
 
     factory :wiki_page_with_content do
       callback(:after_build) do |wiki_page|
-        wiki_page.content = FactoryGirl.build :wiki_content, page: wiki_page
+        wiki_page.content = FactoryBot.build :wiki_content, page: wiki_page
       end
     end
   end

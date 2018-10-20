@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class AccountController < ApplicationController
@@ -33,6 +33,8 @@ class AccountController < ApplicationController
   include Concerns::OmniauthLogin
   include Concerns::RedirectAfterLogin
   include Concerns::AuthenticationStages
+  include Concerns::UserConsent
+  include Concerns::UserLimits
 
   # prevents login action to be filtered by check_if_login_required application scope filter
   skip_before_action :check_if_login_required
@@ -43,12 +45,14 @@ class AccountController < ApplicationController
 
   before_action :check_auth_source_sso_failure, only: :auth_source_sso_failed
 
+  layout 'no_menu'
+
   # Login request and validation
   def login
     user = User.current
 
     if user.logged?
-      redirect_to home_url
+      redirect_after_login(user)
     elsif omniauth_direct_login?
       direct_login(user)
     elsif request.post?
@@ -87,36 +91,33 @@ class AccountController < ApplicationController
         end
       end
       render template: 'account/password_recovery'
-      return
-    else
-      if request.post?
-        mail = params[:mail]
-        user = User.find_by_mail(mail)
+    elsif request.post?
+      mail = params[:mail]
+      user = User.find_by_mail(mail)
 
-        # Ensure the same request is sent regardless of which email is entered
-        # to avoid detecability of mails
+      # Ensure the same request is sent regardless of which email is entered
+      # to avoid detecability of mails
+      flash[:notice] = l(:notice_account_lost_email_sent)
+
+      unless user
+        # user not found in db
+        Rails.logger.error "Lost password unknown email input: #{mail}"
+        return
+      end
+
+      unless user.change_password_allowed?
+        # user uses an external authentification
+        Rails.logger.error "Password cannot be changed for user: #{mail}"
+        return
+      end
+
+      # create a new token for password recovery
+      token = Token::Recovery.new(user_id: user.id)
+      if token.save
+        UserMailer.password_lost(token).deliver_now
         flash[:notice] = l(:notice_account_lost_email_sent)
-
-        unless user
-          # user not found in db
-          Rails.logger.error "Lost password unknown email input: #{mail}"
-          return
-        end
-
-        unless user.change_password_allowed?
-          # user uses an external authentification
-          Rails.logger.error "Password cannot be changed for user: #{mail}"
-          return
-        end
-
-        # create a new token for password recovery
-        token = Token::Recovery.new(user_id: user.id)
-        if token.save
-          UserMailer.password_lost(token).deliver_now
-          flash[:notice] = l(:notice_account_lost_email_sent)
-          redirect_to action: 'login', back_url: home_url
-          return
-        end
+        redirect_to action: 'login', back_url: home_url
+        return
       end
     end
   end
@@ -157,22 +158,33 @@ class AccountController < ApplicationController
     token = ::Token::Invitation.find_by_plaintext_value(params[:token])
 
     if token.nil? || token.expired?
-      flash[:error] = I18n.t(:notice_account_invalid_token)
-      redirect_to home_url
-      return
-    end
-
-    if token.user.invited?
+      handle_expired_token token
+    elsif token.user.invited?
       activate_by_invite_token token
     elsif Setting.self_registration?
       activate_self_registered token
     else
       flash[:error] = I18n.t(:notice_account_invalid_token)
+
       redirect_to home_url
     end
   end
 
+  def handle_expired_token(token)
+    if token.nil?
+      flash[:error] = I18n.t :notice_account_invalid_token
+    elsif token.expired?
+      send_activation_email! Token::Invitation.create!(user: token.user)
+
+      flash[:warning] = I18n.t :warning_registration_token_expired, email: token.user.mail
+    end
+
+    redirect_to home_url
+  end
+
   def activate_self_registered(token)
+    return if enforce_activation_user_limit(user: token.user)
+
     user = token.user
 
     if not user.registered?
@@ -204,6 +216,8 @@ class AccountController < ApplicationController
 
       redirect_to home_url
     else
+      return if enforce_activation_user_limit(user: token.user)
+
       activate_invited token
     end
   end
@@ -321,6 +335,13 @@ class AccountController < ApplicationController
       @user = User.new
       @user.admin = false
       @user.register
+    end
+
+    return if enforce_activation_user_limit(user: user_with_email(@user))
+
+    # Set consent if received from registration form
+    if consent_param?
+      @user.consented_at = DateTime.now
     end
 
     if session[:auth_source_registration]
@@ -471,6 +492,10 @@ class AccountController < ApplicationController
     end
   end
 
+  def send_activation_email!(token)
+    UserMailer.user_signed_up(token).deliver_now
+  end
+
   def pending_auth_source_registration?
     session[:auth_source_registration] && !pending_omniauth_registration?
   end
@@ -539,9 +564,11 @@ class AccountController < ApplicationController
   # Pass a block for behavior when a user fails to save
   def register_by_email_activation(user, _opts = {})
     token = Token::Invitation.new(user: user)
+
     if user.save and token.save
-      UserMailer.user_signed_up(token).deliver_now
-      flash[:notice] = l(:notice_account_register_done)
+      send_activation_email! token
+      flash[:notice] = I18n.t(:notice_account_register_done)
+
       redirect_to action: 'login'
     else
       yield if block_given?
@@ -552,6 +579,13 @@ class AccountController < ApplicationController
   #
   # Pass a block for behavior when a user fails to save
   def register_automatically(user, opts = {})
+    if user_limit_reached?
+      show_user_limit_activation_error!
+      send_activation_limit_notification_about user
+
+      return redirect_back fallback_location: signin_path
+    end
+
     # Automatic activation
     user.activate
 
@@ -622,38 +656,42 @@ class AccountController < ApplicationController
 
   # Log an attempt to log in to an account in "registered" state and show a flash message.
   def account_not_activated(flash_now: true)
-    flash_hash = flash_now ? flash.now : flash
-
-    logger.warn "Failed login for '#{params[:username]}' from #{request.remote_ip}" \
-                " at #{Time.now.utc} (NOT ACTIVATED)"
-
-    if Setting.self_registration == '1'
-      flash_hash[:error] = I18n.t('account.error_inactive_activation_by_mail')
-    else
-      flash_hash[:error] = I18n.t('account.error_inactive_manual_activation')
+    flash_error_message(log_reason: 'NOT ACTIVATED', flash_now: flash_now) do
+      if Setting.self_registration == '1'
+        'account.error_inactive_activation_by_mail'
+      else
+        'account.error_inactive_manual_activation'
+      end
     end
   end
 
   def invited_account_not_activated(user)
-    logger.warn "Failed login for '#{params[:username]}' from #{request.remote_ip}" \
-                " at #{Time.now.utc} (invited, NOT ACTIVATED)"
-
-    flash[:error] = I18n.t('account.error_inactive_activation_by_mail')
+    flash_error_message(log_reason: 'invited, NOT ACTIVATED', flash_now: false) do
+      'account.error_inactive_activation_by_mail'
+    end
   end
 
   # Log an attempt to log in to a locked account or with invalid credentials
   # and show a flash message.
   def invalid_credentials(flash_now: true)
+    flash_error_message(log_reason: 'invalid credentials', flash_now: flash_now) do
+      if Setting.brute_force_block_after_failed_logins?
+        :notice_account_invalid_credentials_or_blocked
+      else
+        :notice_account_invalid_credentials
+      end
+    end
+  end
+
+  def flash_error_message(log_reason: '', flash_now: true)
     flash_hash = flash_now ? flash.now : flash
 
     logger.warn "Failed login for '#{params[:username]}' from #{request.remote_ip}" \
-                " at #{Time.now.utc}"
+                " at #{Time.now.utc}: #{log_reason}"
 
-    if Setting.brute_force_block_after_failed_logins.to_i == 0
-      flash_hash[:error] = I18n.t(:notice_account_invalid_credentials)
-    else
-      flash_hash[:error] = I18n.t(:notice_account_invalid_credentials_or_blocked)
-    end
+    flash_message = yield
+
+    flash_hash[:error] = I18n.t(flash_message)
   end
 
   def account_pending

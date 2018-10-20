@@ -4,7 +4,7 @@ This file describes a part of the OpenProject configuration. You can find genera
 
 OpenProject can be configured either via a `configuration.yml` file, environment variables or a mix of both. While the latter is probably a bad idea, the environment variable option is often helpful for automatically deploying production systems. Using the configuration file is probably the simplest way of configuration.
 
-You can find a list of options below and an example file in [`config/configuration.yml.example`](../config/configuration.yml.example).
+You can find a list of options below and an example file in [`config/configuration.yml.example`](../../config/configuration.yml.example).
 
 ## Environment variables
 
@@ -64,6 +64,7 @@ storage config above like this:
 * [`blacklisted_routes`](#blacklisted-routes) (default: [])
 * [`global_basic_auth`](#global-basic-auth)
 * [`apiv3_enable_basic_auth`](#apiv3_enable_basic_auth)
+* [`enterprise_limits`](#enterprise-limits)
 
 ## Setting session options
 
@@ -337,4 +338,30 @@ default:
 
 ## Onboarding variables:
 
-* 'onboarding_video_url': An URL for the video displayed on the onboarding modal. This is only shown when the user logs in for the first time.
+* `onboarding_video_url`: An URL for the video displayed on the onboarding modal. This is only shown when the user logs in for the first time.
+
+### Enterprise Limits
+
+If using an Enterprise token there are certain limits that apply.
+You can configure how these limits are enforced.
+
+#### `fail_fast`
+
+*default: false*
+
+If you set `fail_fast` to true, new users cannot be invited or registered if the user limit has been reached.
+If it is false then you can still invite and register new users but their activation will fail until the
+user limit has been increased (or the number of active users decreased).
+
+Configured in the `configuration.yml` like this:
+
+```
+enterprise:
+  fail_fast: true
+```
+
+Or through the environment like this:
+
+```
+OPENPROJECT_ENTERPRISE_FAIL__FAST=true
+```

@@ -87,12 +87,10 @@ A toolbar that can and should be used for actions on the current view. Initially
         <div class="toolbar-input-group--affix -prepend">
           <span>git clone</span>
         </div>
-        <input type="text" class="-clickable" size="40" onclick="this.focus(); this.select()"
-               readonly="readonly" value="https://zerberus.example.org/git/asdf.git">
+        <input type="text" class="-clickable" size="40" readonly="readonly" value="https://zerberus.example.org/git/asdf.git">
       </li>
       <li class="toolbar-item toolbar-input-group">
-        <input type="text" class="-clickable" size="40" onclick="this.focus(); this.select()"
-               readonly="readonly" value="https://zerberus.example.org/git/asdf.git">
+        <input type="text" class="-clickable" size="40" readonly="readonly" value="https://zerberus.example.org/git/asdf.git">
         <div class="toolbar-input-group--affix -append">
           <span>Read + Write</span>
         </div>

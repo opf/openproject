@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,21 +23,15 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 //++
 
 .user-comment
   display: block
-  margin: 5px 0 0 0
+  margin: 12px 0 0 0
   padding: 0 25px 0 0
 
-  li
-    span
-      word-wrap: break-word
-      // important for IE
-      display: block
-      max-width: 100%
-  p
+  li, p
     word-wrap: break-word
 
   &.wiki
@@ -76,6 +70,10 @@
   li
     padding: 0 !important
     margin: 0 !important
+
+h4.comment
+  margin-bottom: 8px
+  margin-top: 18px
 
 .work-package-details-activities-list
   list-style-type: none
@@ -118,10 +116,12 @@
     display: block
     font-weight: bold
     line-height: 16px
+    margin-bottom: 3px
 
   .date
     display: block
-    font-size: 0.875rem
+    font-size: 0.8rem
+    color: #777777
 
   .comments-icons
     a:hover
@@ -130,13 +130,6 @@
     color: $content-icon-link-color
     &::before
       padding: 0 0 0 0.3em
-
-  ul
-    li
-      // this also hides the list icons
-      // overflow: hidden
-      text-overflow: ellipsis
-      list-style-type: disc
 
 ul.work-package-details-activities-messages
   li

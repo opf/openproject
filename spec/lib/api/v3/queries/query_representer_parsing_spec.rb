@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -31,8 +31,8 @@ require 'spec_helper'
 describe ::API::V3::Queries::QueryRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:query) { FactoryGirl.build_stubbed(:query, project: project) }
-  let(:project) { FactoryGirl.build_stubbed(:project) }
+  let(:query) { FactoryBot.build_stubbed(:query, project: project) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
   let(:user) { double('current_user') }
   let(:representer) do
     described_class.new(query, current_user: user, embed_links: true)
@@ -71,19 +71,33 @@ describe ::API::V3::Queries::QueryRepresenter do
       query.group_by = 'project'
     end
 
-    let(:request_body) {
+    let(:request_body) do
       {
         '_links' => {
           'groupBy' => { 'href' => nil }
         }
       }
-    }
+    end
 
     it 'should unset group_by' do
       expect(query).to be_grouped
       expect(query.group_by).to eq('project')
 
       expect(subject).not_to be_grouped
+    end
+  end
+
+  describe 'parsing highlighted_attributes', with_ee: [:conditional_highlighting] do
+    let(:request_body) do
+      {
+        '_links' => {
+          'highlightedAttributes' => [{ 'href' => "/api/v3/queries/columns/type" }]
+        }
+      }
+    end
+
+    it 'should set highlighted_attributes' do
+      expect(subject.highlighted_attributes).to eq(%i{type})
     end
   end
 end

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'open3'
@@ -57,6 +57,9 @@ namespace :packager do
       shell_setup(['config:set', 'REBUILD_ASSETS=""'])
     end
 
+    # Clear any caches
+    OpenProject::Cache.clear
+
     # Persist configuration
     Setting.sys_api_enabled = 1
     Setting.sys_api_key = ENV['SYS_API_KEY']
@@ -70,6 +73,11 @@ namespace :packager do
       else
         ENV.fetch('SERVER_PROTOCOL', Setting.protocol)
       end
+
+    # Set https configured, set Rails force_ssl to true
+    if Setting.https?
+      shell_setup(['config:set', "OPENPROJECT_RAILS__FORCE__SSL=true"])
+    end
 
     # Run customization step, if it is defined.
     # Use to define custom postinstall steps required after each configure,

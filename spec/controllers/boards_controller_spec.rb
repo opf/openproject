@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,16 +23,16 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe BoardsController, type: :controller do
-  let(:user) { FactoryGirl.build(:user) }
-  let(:project) { FactoryGirl.build(:project) }
+  let(:user) { FactoryBot.build(:user) }
+  let(:project) { FactoryBot.create(:project) }
   let!(:board) {
-    FactoryGirl.build(:board,
+    FactoryBot.build(:board,
                       project: project)
   }
 
@@ -41,7 +41,7 @@ describe BoardsController, type: :controller do
   end
 
   describe '#create' do
-    let(:params) { { board: board_params } }
+    let(:params) { { project_id: project.id, board: board_params } }
     let(:board_params) { { name: 'my board', description: 'awesome board' } }
 
     before do
@@ -68,8 +68,8 @@ describe BoardsController, type: :controller do
 
       it 'should redirect to the settings page if successful' do
         expect(response)
-          .to redirect_to controller: '/projects',
-                          action: 'settings',
+          .to redirect_to controller: '/project_settings',
+                          action: 'show',
                           id: project,
                           tab: 'boards'
       end
@@ -95,14 +95,14 @@ describe BoardsController, type: :controller do
   end
 
   describe '#move' do
-    let(:project) { FactoryGirl.create(:project) }
+    let(:project) { FactoryBot.create(:project) }
     let!(:board_1) {
-      FactoryGirl.create(:board,
+      FactoryBot.create(:board,
                          project: project,
                          position: 1)
     }
     let!(:board_2) {
-      FactoryGirl.create(:board,
+      FactoryBot.create(:board,
                          project: project,
                          position: 2)
     }
@@ -129,7 +129,7 @@ describe BoardsController, type: :controller do
 
   describe '#update' do
     let!(:board) {
-      FactoryGirl.create(:board, name: 'Board name',
+      FactoryBot.create(:board, name: 'Board name',
                                  description: 'Board description')
     }
 
@@ -147,8 +147,8 @@ describe BoardsController, type: :controller do
       end
 
       it 'should redirect to the settings page if successful' do
-        expect(response).to redirect_to controller: '/projects',
-                                        action: 'settings',
+        expect(response).to redirect_to controller: '/project_settings',
+                                        action: 'show',
                                         id: board.project,
                                         tab: 'boards'
       end
@@ -186,10 +186,10 @@ describe BoardsController, type: :controller do
   end
 
   describe '#sticky' do
-    let!(:message1) { FactoryGirl.create(:message, board: board) }
-    let!(:message2) { FactoryGirl.create(:message, board: board) }
+    let!(:message1) { FactoryBot.create(:message, board: board) }
+    let!(:message2) { FactoryBot.create(:message, board: board) }
     let!(:sticked_message1) {
-      FactoryGirl.create(:message, board_id: board.id,
+      FactoryBot.create(:message, board_id: board.id,
                                    subject: 'How to',
                                    content: 'How to install this cool app',
                                    sticky: '1',
@@ -197,7 +197,7 @@ describe BoardsController, type: :controller do
     }
 
     let!(:sticked_message2) {
-      FactoryGirl.create(:message, board_id: board.id,
+      FactoryBot.create(:message, board_id: board.id,
                                    subject: 'FAQ',
                                    content: 'Frequestly asked question',
                                    sticky: '1',

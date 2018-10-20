@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,34 +25,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module API
   module V3
     module Queries
       module Schemas
-        class IdFilterDependencyRepresenter <
-          FilterDependencyRepresenter
-
-          def json_cache_key
-            super + (filter.project.present? ? [filter.project.id] : [])
-          end
-
-          def href_callback
-            if filter.project
-              api_v3_paths.work_packages_by_project(filter.project.id)
-            else
-              api_v3_paths.work_packages
-            end
-          end
-
-          private
-
-          def type
-            '[]WorkPackage'
-          end
-        end
+        class IdFilterDependencyRepresenter < ByWorkPackageFilterDependencyRepresenter; end
       end
     end
   end

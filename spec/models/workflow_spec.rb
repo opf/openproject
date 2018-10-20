@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,20 +23,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe Workflow, type: :model do
-  let(:status_0) { FactoryGirl.create(:status) }
-  let(:status_1) { FactoryGirl.create(:status) }
-  let(:role) { FactoryGirl.create(:role) }
-  let(:type) { FactoryGirl.create(:type) }
+  let(:status_0) { FactoryBot.create(:status) }
+  let(:status_1) { FactoryBot.create(:status) }
+  let(:role) { FactoryBot.create(:role) }
+  let(:type) { FactoryBot.create(:type) }
 
   describe '#self.copy' do
-    let(:role_target) { FactoryGirl.create(:role) }
-    let(:type_target) { FactoryGirl.create(:type) }
+    let(:role_target) { FactoryBot.create(:role) }
+    let(:type_target) { FactoryBot.create(:type) }
 
     shared_examples_for 'copied workflow' do
       before do Workflow.copy(type, role, type_target, role_target) end
@@ -58,7 +58,7 @@ describe Workflow, type: :model do
 
     describe 'workflow w/o author or assignee' do
       let!(:workflow_src) {
-        FactoryGirl.create(:workflow,
+        FactoryBot.create(:workflow,
                            old_status: status_0,
                            new_status: status_1,
                            type_id: type.id,
@@ -69,7 +69,7 @@ describe Workflow, type: :model do
 
     describe 'workflow with author' do
       let!(:workflow_src) {
-        FactoryGirl.create(:workflow,
+        FactoryBot.create(:workflow,
                            old_status: status_0,
                            new_status: status_1,
                            type_id: type.id,
@@ -81,7 +81,7 @@ describe Workflow, type: :model do
 
     describe 'workflow with assignee' do
       let!(:workflow_src) {
-        FactoryGirl.create(:workflow,
+        FactoryBot.create(:workflow,
                            old_status: status_0,
                            new_status: status_1,
                            type_id: type.id,

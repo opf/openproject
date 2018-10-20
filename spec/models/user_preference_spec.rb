@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,14 +23,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe UserPreference do
-  let(:user) { FactoryGirl.build_stubbed(:user) }
-  subject { FactoryGirl.build(:user_preference, user: user) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
+  subject { FactoryBot.build(:user_preference, user: user) }
 
   describe 'default settings' do
     it 'hides the email address' do
@@ -45,8 +45,16 @@ describe UserPreference do
       expect(subject.others[:no_self_notified]).to be_truthy
     end
 
-    it 'disables auto hide popups' do
-      expect(subject.auto_hide_popups).to eql(false)
+    context 'with default setting auto_hide_popups to false', with_settings: { default_auto_hide_popups: false } do
+      it 'disables auto hide popups' do
+        expect(subject.auto_hide_popups).to be_falsey
+      end
+    end
+
+    context 'with default setting auto_hide_popups to true', with_settings: { default_auto_hide_popups: true } do
+      it 'disables auto hide popups' do
+        expect(subject.auto_hide_popups).to be_truthy
+      end
     end
   end
 
@@ -136,7 +144,7 @@ describe UserPreference do
   end
 
   describe '[]=' do
-    let(:user) { FactoryGirl.create(:user) }
+    let(:user) { FactoryBot.create(:user) }
 
     context 'for attributes stored in "others"' do
       it 'will save the values on sending "save"' do

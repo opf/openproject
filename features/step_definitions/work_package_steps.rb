@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'rack_session_access/capybara'
@@ -48,7 +48,7 @@ Given /^a relation between "(.*?)" and "(.*?)"$/ do |work_package_from, work_pac
   from = WorkPackage.find_by(subject: work_package_from)
   to = WorkPackage.find_by(subject: work_package_to)
 
-  FactoryGirl.create :relation, from: from, to: to
+  FactoryBot.create :relation, from: from, to: to
 end
 
 Given /^user is already watching "(.*?)"$/  do |work_package_subject|

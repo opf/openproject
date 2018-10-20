@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper.rb')
@@ -38,8 +38,8 @@ describe OpenProject::JournalFormatter::CustomField do
   let(:journal) do
     OpenStruct.new(id: id)
   end
-  let(:user) { FactoryGirl.create(:user) }
-  let(:custom_field) { FactoryGirl.create(:issue_custom_field) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:custom_field) { FactoryBot.create(:issue_custom_field) }
   let(:key) { "custom_fields_#{custom_field.id}" }
 
   describe '#render' do
@@ -102,7 +102,7 @@ describe OpenProject::JournalFormatter::CustomField do
       let(:values) { ['0', '1'] }
 
       let(:expected) do
-        I18n.t(:text_journal_changed,
+        I18n.t(:text_journal_changed_plain,
                label: custom_field.name,
                old: format_value(values.first, custom_field),
                new: format_value(values.last, custom_field))

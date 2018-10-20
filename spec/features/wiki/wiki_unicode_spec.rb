@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,28 +23,28 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe 'Wiki unicode title spec', type: :feature, js: true do
-  let(:user) { FactoryGirl.create :admin }
-  let(:project) { FactoryGirl.create :project }
-  let(:wiki_page_1) {
-    FactoryGirl.build :wiki_page_with_content,
-                       title: '<script>alert("FOO")</script>'
-  }
-  let(:wiki_page_2) {
-    FactoryGirl.build :wiki_page_with_content,
-                       title: 'Base de données'
-  }
-  let(:wiki_page_3) {
-    FactoryGirl.build :wiki_page_with_content,
-                       title: 'Base_de_données'
-  }
+  let(:user) { FactoryBot.create :admin }
+  let(:project) { FactoryBot.create :project }
+  let(:wiki_page_1) do
+    FactoryBot.build :wiki_page_with_content,
+                     title: '<script>alert("FOO")</script>'
+  end
+  let(:wiki_page_2) do
+    FactoryBot.build :wiki_page_with_content,
+                     title: 'Base de données'
+  end
+  let(:wiki_page_3) do
+    FactoryBot.build :wiki_page_with_content,
+                     title: 'Base_de_données'
+  end
 
-  let(:wiki_body) {
+  let(:wiki_body) do
     <<-EOS
     [[Base de données]] should link to wiki_page_2
 
@@ -57,19 +57,13 @@ describe 'Wiki unicode title spec', type: :feature, js: true do
     [[<script>alert("FOO")</script>]]
 
     EOS
-  }
+  end
 
-  let(:expected_slugs) {
-    [
-      'base-de-donnees',
-      'base-de-donnees',
-      'base-de-donnees',
-      'base-de-donnees-1',
-      'alert-foo',
-    ]
-  }
+  let(:expected_slugs) do
+    %w(base-de-donnees base-de-donnees base-de-donnees base-de-donnees-1 alert-foo)
+  end
 
-  let(:expected_titles) {
+  let(:expected_titles) do
     [
       'Base de données',
       'Base de données',
@@ -77,7 +71,7 @@ describe 'Wiki unicode title spec', type: :feature, js: true do
       'Base_de_données',
       '<script>alert("FOO")</script>'
     ]
-  }
+  end
 
   before do
     login_as(user)
@@ -91,10 +85,10 @@ describe 'Wiki unicode title spec', type: :feature, js: true do
     visit project_wiki_path(project, :wiki)
 
     # Set value
-    find('#content_text').set(wiki_body)
+    find('.ck-content').base.send_keys(wiki_body)
     click_button 'Save'
 
-    expect(page).to have_selector('.title-container h2', text: 'wiki')
+    expect(page).to have_selector('.title-container h2', text: 'Wiki')
     expect(page).to have_selector('a.wiki-page', count: 5)
   end
 

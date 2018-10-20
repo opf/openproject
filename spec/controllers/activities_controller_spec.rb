@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -32,7 +32,7 @@ describe ActivitiesController, type: :controller do
   before :each do
     allow(@controller).to receive(:set_localization)
 
-    admin = FactoryGirl.create(:admin)
+    admin = FactoryBot.create(:admin)
     allow(User).to receive(:current).and_return admin
 
     @params = {}
@@ -46,13 +46,13 @@ describe ActivitiesController, type: :controller do
     end
 
     describe 'global' do
-      let(:work_package) { FactoryGirl.create(:work_package) }
+      let(:work_package) { FactoryBot.create(:work_package) }
       let!(:journal) {
-        FactoryGirl.create(:work_package_journal,
+        FactoryBot.create(:work_package_journal,
                            journable_id: work_package.id,
                            created_at: 3.days.ago.to_date.to_s(:db),
                            version: Journal.maximum(:version) + 1,
-                           data: FactoryGirl.build(:journal_work_package_journal,
+                           data: FactoryBot.build(:journal_work_package_journal,
                                                    subject: work_package.subject,
                                                    status_id: work_package.status_id,
                                                    type_id: work_package.type_id,
@@ -92,7 +92,7 @@ describe ActivitiesController, type: :controller do
 
     describe 'with activated activity module' do
       let(:project) {
-        FactoryGirl.create(:project,
+        FactoryBot.create(:project,
                            enabled_module_names: %w[activity wiki])
       }
 
@@ -105,7 +105,7 @@ describe ActivitiesController, type: :controller do
 
     describe 'without activated activity module' do
       let(:project) {
-        FactoryGirl.create(:project,
+        FactoryBot.create(:project,
                            enabled_module_names: %w[wiki])
       }
 
@@ -123,12 +123,12 @@ describe ActivitiesController, type: :controller do
     end
 
     describe '#atom_feed' do
-      let(:user) { FactoryGirl.create(:user) }
-      let(:project) { FactoryGirl.create(:project) }
+      let(:user) { FactoryBot.create(:user) }
+      let(:project) { FactoryBot.create(:project) }
 
       context 'work_package' do
         let!(:wp_1) {
-          FactoryGirl.create(:work_package,
+          FactoryBot.create(:work_package,
                              project: project,
                              author: user)
         }
@@ -147,7 +147,7 @@ describe ActivitiesController, type: :controller do
 
         describe 'list' do
           let!(:wp_2) {
-            FactoryGirl.create(:work_package,
+            FactoryBot.create(:work_package,
                                project: project,
                                author: user)
           }
@@ -167,15 +167,15 @@ describe ActivitiesController, type: :controller do
 
       context 'boards' do
         let(:board) {
-          FactoryGirl.create(:board,
+          FactoryBot.create(:board,
                              project: project)
         }
         let!(:message_1) {
-          FactoryGirl.create(:message,
+          FactoryBot.create(:message,
                              board: board)
         }
         let!(:message_2) {
-          FactoryGirl.create(:message,
+          FactoryBot.create(:message,
                              board: board)
         }
         let(:params) {

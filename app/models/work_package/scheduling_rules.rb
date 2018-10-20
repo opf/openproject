@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module WorkPackage::SchedulingRules
@@ -39,7 +39,7 @@ module WorkPackage::SchedulingRules
   end
 
   # Calculates the minimum date that
-  # will not violate the precedes relations (max(due date, start date) + delay)
+  # will not violate the precedes relations (max(finish date, start date) + delay)
   # of this work package or its ancestors
   # e.g.
   # AP(due_date: 2017/07/24, delay: 1)-precedes-A
@@ -57,9 +57,15 @@ module WorkPackage::SchedulingRules
   #   B is 2017/07/25
   #   A is 2017/07/25
   def soonest_start
+    # Using a hand crafted union here instead of the alternative
+    # Relation.from_work_package_or_ancestors(self).follows
+    # as the performance of the above would be several orders of magnitude worse on MySql
+    sql = Relation.connection.unprepared_statement do
+      "((#{ancestors_follows_relations.to_sql}) UNION (#{own_follows_relations.to_sql})) AS relations"
+    end
+
     @soonest_start ||=
-      Relation.from_work_package_or_ancestors(self)
-              .follows
+      Relation.from(sql)
               .map(&:successor_soonest_start)
               .compact
               .max
@@ -68,15 +74,25 @@ module WorkPackage::SchedulingRules
   # Returns the time scheduled for this work package.
   #
   # Example:
-  #   Start Date: 2/26/09, Due Date: 3/04/09,  duration => 7
-  #   Start Date: 2/26/09, Due Date: 2/26/09,  duration => 1
-  #   Start Date: 2/26/09, Due Date: -      ,  duration => 1
-  #   Start Date: -      , Due Date: 2/26/09,  duration => 1
+  #   Start Date: 2/26/09, Finish Date: 3/04/09,  duration => 7
+  #   Start Date: 2/26/09, Finish Date: 2/26/09,  duration => 1
+  #   Start Date: 2/26/09, Finish Date: -      ,  duration => 1
+  #   Start Date: -      , Finish Date: 2/26/09,  duration => 1
   def duration
     if start_date && due_date
       due_date - start_date + 1
     else
       1
     end
+  end
+
+  private
+
+  def ancestors_follows_relations
+    Relation.where(from_id: self.ancestors_relations.select(:from_id)).follows
+  end
+
+  def own_follows_relations
+    Relation.where(from_id: self.id).follows
   end
 end

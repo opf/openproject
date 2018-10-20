@@ -33,9 +33,9 @@ describe ::API::V3::Users::UsersAPI, type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:path) { api_v3_paths.user(user.id) }
-  let(:current_user) { FactoryGirl.build(:admin) }
+  let(:current_user) { FactoryBot.build(:admin) }
 
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryBot.create(:user) }
   let(:parameters) { {} }
 
   before do
@@ -89,7 +89,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
 
   describe 'attribute collision' do
     let(:parameters) { { email: 'foo@example.org' } }
-    let(:collision) { FactoryGirl.create(:user, mail: 'foo@example.org') }
+    let(:collision) { FactoryBot.create(:user, mail: 'foo@example.org') }
     before do
       collision
     end
@@ -120,7 +120,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
   end
 
   describe 'unauthorized user' do
-    let(:current_user) { FactoryGirl.build(:user) }
+    let(:current_user) { FactoryBot.build(:user) }
     let(:parameters) { { email: 'new@example.org' } }
 
     it 'returns an erroneous response' do

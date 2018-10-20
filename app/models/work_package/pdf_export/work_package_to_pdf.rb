@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,11 +25,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class WorkPackage::PdfExport::WorkPackageToPdf < WorkPackage::Exporter::Base
   include WorkPackage::PdfExport::Common
+  include WorkPackage::PdfExport::Attachments
 
   attr_accessor :pdf
 
@@ -255,7 +256,7 @@ class WorkPackage::PdfExport::WorkPackageToPdf < WorkPackage::Exporter::Base
       newline!
 
       pdf.font style: :italic, size: 8
-      for detail in journal.details
+      journal.details.each do |detail|
         text = journal
           .render_detail(detail, no_html: true, only_path: false)
           .gsub(/\((https?[^\)]+)\)$/, "(<link href='\\1'>\\1</link>)")
@@ -291,7 +292,7 @@ class WorkPackage::PdfExport::WorkPackageToPdf < WorkPackage::Exporter::Base
         [
           attachment.filename,
           number_to_human_size(attachment.filesize, precision: 3),
-          format_date(attachment.created_on),
+          format_date(attachment.created_at),
           attachment.author.name
         ]
       end

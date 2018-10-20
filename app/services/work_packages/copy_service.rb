@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,20 +25,21 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class WorkPackages::CopyService
   include ::Shared::ServiceContext
+  include ::Concerns::Contracted
 
   attr_accessor :user,
                 :work_package,
-                :contract
+                :contract_class
 
-  def initialize(user:, work_package:, contract: WorkPackages::CreateContract)
+  def initialize(user:, work_package:, contract_class: WorkPackages::CreateContract)
     self.user = user
     self.work_package = work_package
-    self.contract = contract
+    self.contract_class = contract_class
   end
 
   def call(attributes: {}, send_notifications: true)
@@ -64,7 +65,7 @@ class WorkPackages::CopyService
   def create(attributes, send_notifications)
     WorkPackages::CreateService
       .new(user: user,
-           contract: contract)
+           contract_class: contract_class)
       .call(attributes: attributes,
             send_notifications: send_notifications)
   end
@@ -80,7 +81,7 @@ class WorkPackages::CopyService
   end
 
   def writable_work_package_attributes(wp)
-    contract.new(wp, user).writable_attributes
+    instantiate_contract(wp, user).writable_attributes
   end
 
   def copy_watchers(copied)

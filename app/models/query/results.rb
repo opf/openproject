@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class ::Query::Results
@@ -85,7 +85,7 @@ class ::Query::Results
   # If there is a reason: This is a somewhat DRY way of using the sort criteria.
   # If there is no reason: The :work_package method can die over time and be replaced by this one.
   def sorted_work_packages
-    work_packages.order(sort_criteria_sql)
+    work_packages.order(sort_criteria_array)
   end
 
   def versions
@@ -198,7 +198,13 @@ class ::Query::Results
 
   def custom_options_for_keys(custom_field, groups)
     keys = groups.keys.map { |k| k.split('.') }
-    custom_field.custom_options.find(keys.flatten).group_by { |o| o.id.to_s }
+    # Because of multi select cfs we might end up having overlapping groups
+    # (e.g group "1" and group "1.3" and group "3" which represent concatenated ids).
+    # This can result in us having ids in the keys array multiple times (e.g. ["1", "1", "3", "3"]).
+    # If we were to use the keys array with duplicates to find the actual custom options,
+    # AR would throw an error as the number of records returned does not match the number
+    # of ids searched for.
+    custom_field.custom_options.find(keys.flatten.uniq).group_by { |o| o.id.to_s }
   end
 
   def transform_custom_field_keys(custom_field, groups)
@@ -216,14 +222,16 @@ class ::Query::Results
       columns << query.group_by_column.association
     end
 
-    columns.compact.uniq.map(&:to_sym)
+    columns << all_filter_includes(query)
+
+    clean_symbol_list(columns)
   end
 
-  def sort_criteria_sql
+  def sort_criteria_array
     criteria = SortHelper::SortCriteria.new
     criteria.available_criteria = aliased_sorting_by_column_name
     criteria.criteria = query.sort_criteria
-    criteria.to_sql
+    criteria.to_a
   end
 
   def aliased_sorting_by_column_name
@@ -296,5 +304,13 @@ class ::Query::Results
     else
       reflection.alias_candidate(WorkPackage.table_name)
     end
+  end
+
+  def all_filter_includes(query)
+    query.filters.map(&:includes)
+  end
+
+  def clean_symbol_list(list)
+    list.flatten.compact.uniq.map(&:to_sym)
   end
 end

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module BecomeMember
@@ -34,14 +34,14 @@ module BecomeMember
 
   module InstanceMethods
     def become_member_with_permissions(project, user, permissions = [])
-      role = FactoryGirl.create :role, permissions: Array(permissions)
+      role = FactoryBot.create :role, permissions: Array(permissions)
 
       add_user_to_project! user: user, project: project, role: role
     end
 
     def add_user_to_project!(user:, project:, role: nil, permissions: nil)
-      role ||= FactoryGirl.create :existing_role, permissions: Array(permissions)
-      FactoryGirl.create :member, principal: user, project: project, roles: [role]
+      role ||= FactoryBot.create :existing_role, permissions: Array(permissions)
+      FactoryBot.create :member, principal: user, project: project, roles: [role]
     end
   end
 end

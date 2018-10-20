@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module OpenProject
@@ -31,11 +31,15 @@ module OpenProject
     module CacheKey
       def self.key(*parts)
         ['openproject',
-         OpenProject::VERSION] + parts
+         OpenProject::VERSION] + parts.flatten(1)
       end
 
-      def self.expand(ar_models)
-        key = ActiveSupport::Cache.expand_cache_key ar_models
+      ##
+      # Expand a cache key.
+      # Shallow wrapper around ActiveSupport::Cache, which supports
+      # anything that responds to #cache_key or #to_param, or strings
+      def self.expand(cachable)
+        key = ActiveSupport::Cache.expand_cache_key cachable
 
         Digest::SHA2.hexdigest(key)
       end

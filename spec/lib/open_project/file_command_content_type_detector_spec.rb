@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 # This file is mostly based on source code of thoughbot's paperclip gem
@@ -69,14 +69,14 @@ describe OpenProject::FileCommandContentTypeDetector do
   end
 
   it 'returns a sensible default when the file command is missing' do
-    allow_any_instance_of(Cocaine::CommandLine).to receive(:run).and_raise(Cocaine::CommandLineError.new)
+    allow(::Open3).to receive(:capture2).and_raise 'o noes!'
     @filename = '/path/to/something'
     assert_equal 'application/binary',
                  OpenProject::FileCommandContentTypeDetector.new(@filename).detect
   end
 
   it 'returns a sensible default on the odd chance that run returns nil' do
-    allow_any_instance_of(Cocaine::CommandLine).to receive(:run).and_return(nil)
+    allow(::Open3).to receive(:capture2).and_return [nil, 0]
     assert_equal 'application/binary',
                  OpenProject::FileCommandContentTypeDetector.new('windows').detect
   end

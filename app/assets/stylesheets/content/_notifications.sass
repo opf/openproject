@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 //++
 
 // NOTE: these are demo ski
@@ -67,19 +67,23 @@ $nm-upload-file-status-icon-size: rem-calc(12)
 $nm-upload-box-padding: rem-calc(15) rem-calc(25)
 
 %nm-icon-error
-  @extend .icon-error:before
+  @include icon-mixin-error
   color: $nm-color-error-icon
 
 %nm-icon-success
-  @extend .icon-checkmark:before
+  @include icon-mixin-checkmark
   color: $nm-color-success-icon
 
 %nm-icon-warning
-  @extend .icon-attention:before
+  @include icon-mixin-attention
   color: $nm-color-warning-icon
 
 %nm-icon-info
-  @extend .icon-info1:before
+  @include icon-mixin-info1
+  color: $nm-color-info-icon
+
+%nm-icon-enterprise
+  @include icon-mixin-enterprise
   color: $nm-color-info-icon
 
 %error-placeholder
@@ -137,6 +141,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   &.-success,
   &.-warning,
   &.-info,
+  &.-ee-upsale
     padding: $nm-box-padding
 
   &.-error
@@ -161,6 +166,11 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
     @extend %info-placeholder
     @include messages-icon
     @extend %nm-icon-info
+
+  &.-ee-upsale::before
+    @extend %info-placeholder
+    @include messages-icon
+    @extend %nm-icon-enterprise
 
   &.-upload
     padding: $nm-upload-box-padding
@@ -343,6 +353,9 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
     &::before
       @extend %nm-icon-warning
       color: $nm-color-warning-icon
+
+.flash + .flash
+  margin-top: 3rem
 
 #errorExplanation
   @extend %error-placeholder

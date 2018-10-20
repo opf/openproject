@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'support/pages/page'
@@ -54,6 +54,20 @@ module Pages
       end
     end
 
+    def expect_work_package_subject(subject)
+      within(table_container) do
+        expect(page).to have_selector("td.subject",
+                                      text: subject,
+                                      wait: 20)
+      end
+    end
+
+    def expect_work_package_count(n)
+      within(table_container) do
+        expect(page).to have_selector(".wp--row", count: n, wait: 20)
+      end
+    end
+
     def expect_work_package_not_listed(*work_packages, wait: 3)
       within(table_container) do
         work_packages.each do |wp|
@@ -69,19 +83,19 @@ module Pages
       expect(rows.map { |el| el['data-work-package-id'] }).to match_array(ids.map(&:to_s))
     end
 
-    def has_work_packages_listed?(work_packages)
-      work_packages.all? { |wp| has_text? wp.subject }
-    end
-
     def expect_no_work_package_listed
       within(table_container) do
         expect(page).to have_selector('#empty-row-notification')
       end
     end
 
-    def expect_title(name)
-      expect(page)
-        .to have_selector('.title-container', text: name, wait: 20)
+    def expect_title(name, editable: true)
+      if editable
+        expect(page).to have_field('wp-query-selectable-title', with: name, wait: 10)
+      else
+        expect(page)
+          .to have_selector('.toolbar-container', text: name, wait: 10)
+      end
     end
 
     def expect_query_in_select_dropdown(name)
@@ -93,16 +107,39 @@ module Pages
     end
 
     def click_inline_create
-      find('.wp-inline-create--add-link').click
-      expect(page).to have_selector('.wp-inline-create-row')
+      ##
+      # When using the inline create on initial page load,
+      # there is a delay on travis where inline create can be clicked.
+      sleep 3
+
+      container.find('.wp-inline-create--add-link').click
+      expect(container).to have_selector('.wp-inline-create-row', wait: 10)
     end
 
     def create_wp_split_screen(type)
-      find('.add-work-package:not([disabled])', text: 'Create').click
+      click_wp_create_button
 
       find('#types-context-menu .menu-item', text: type, wait: 10).click
 
       SplitWorkPackageCreate.new(project: project)
+    end
+
+    def click_wp_create_button
+      find('.add-work-package:not([disabled])', text: 'Create').click
+    end
+
+    def expect_type_available_for_create(type)
+      click_wp_create_button
+
+      expect(page)
+        .to have_selector('#types-context-menu .menu-item', text: type.name)
+    end
+
+    def expect_type_not_available_for_create(type)
+      click_wp_create_button
+
+      expect(page)
+        .to have_no_selector('#types-context-menu .menu-item', text: type.name)
     end
 
     def open_split_view(work_package)
@@ -158,7 +195,11 @@ module Pages
     end
 
     def row(work_package)
-      table_container.find(".wp-row-#{work_package.id}")
+      table_container.find(row_selector(work_package))
+    end
+
+    def row_selector(work_package)
+      ".wp-row-#{work_package.id}-table"
     end
 
     def edit_field(work_package, attribute)
@@ -192,14 +233,6 @@ module Pages
       click_setting_item /Save$/
     end
 
-    def group_by(name)
-      click_setting_item 'Group by ...'
-
-      select name, from: 'Group by'
-
-      click_button 'Apply'
-    end
-
     def open_filter_section
       unless page.has_selector?('#work-packages-filter-toggle-button.-active')
         click_button('work-packages-filter-toggle-button')
@@ -207,11 +240,17 @@ module Pages
     end
 
     def table_container
-      find('#content .work-package-table--container')
+      find('#content .work-packages-split-view--tabletimeline-side')
     end
 
     def work_package_row_selector(work_package)
       ".wp-row-#{work_package.id}"
+    end
+
+    protected
+
+    def container
+      page
     end
 
     private

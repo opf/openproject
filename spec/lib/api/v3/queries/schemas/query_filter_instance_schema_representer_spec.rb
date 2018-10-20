@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -31,21 +31,19 @@ require 'spec_helper'
 describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter, clear_cache: true do
   include ::API::V3::Utilities::PathHelper
 
-  let(:filter) { Queries::WorkPackages::Filter::StatusFilter.new }
-  let(:assigned_to_filter) { Queries::WorkPackages::Filter::AssignedToFilter.new }
+  let(:filter) { Queries::WorkPackages::Filter::StatusFilter.create! }
+  let(:assigned_to_filter) { Queries::WorkPackages::Filter::AssignedToFilter.create! }
   let(:custom_field_filter) do
-    filter = Queries::WorkPackages::Filter::CustomFieldFilter.new
+    filter = Queries::WorkPackages::Filter::CustomFieldFilter.from_custom_field! custom_field: custom_field
 
     allow(WorkPackageCustomField)
-      .to receive(:find_by_id)
-      .with(custom_field.id)
+      .to receive(:find_by)
+      .with(id: custom_field.id)
       .and_return(custom_field)
-
-    filter.name = "cf_#{custom_field.id}"
 
     filter
   end
-  let(:custom_field) { FactoryGirl.build_stubbed(:list_wp_custom_field) }
+  let(:custom_field) { FactoryBot.build_stubbed(:list_wp_custom_field) }
   let(:instance) do
     described_class.new(filter,
                         self_link,
@@ -55,7 +53,7 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter, clea
   let(:form_embedded) { false }
   let(:self_link) { 'bogus_self_path' }
   let(:project) { nil }
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
   let(:json_cacheable) { true }
   let(:json_cache_key) { 'some key' }
   let(:dependency) do
@@ -204,7 +202,7 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter, clea
           end
 
           context 'when filter is a list filter' do
-            let(:filter) { Queries::WorkPackages::Filter::AuthorFilter.new }
+            let(:filter) { Queries::WorkPackages::Filter::AuthorFilter.create! }
 
             it 'is the hash' do
               expected = {

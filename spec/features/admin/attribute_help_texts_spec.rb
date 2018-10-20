@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,29 +23,23 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe 'Attribute help texts' do
-  let(:admin) { FactoryGirl.create(:admin) }
+  let(:admin) { FactoryBot.create(:admin) }
 
   let(:instance) { AttributeHelpText.last }
   let(:modal) { Components::AttributeHelpTextModal.new(instance) }
+  let(:editor) { Components::WysiwygEditor.new }
 
   let(:relation_columns_allowed) { true }
 
   describe 'Work package help texts' do
     before do
-      allow(EnterpriseToken)
-        .to receive(:allows_to?)
-        .and_return(false)
-
-      allow(EnterpriseToken)
-        .to receive(:allows_to?)
-        .with(:attribute_help_texts)
-        .and_return(relation_columns_allowed)
+      with_enterprise_token(relation_columns_allowed ? :attribute_help_texts : nil)
 
       login_as(admin)
       visit attribute_help_texts_path
@@ -62,7 +56,7 @@ describe 'Attribute help texts' do
         # Set attributes
         # -> create
         select 'Status', from: 'attribute_help_text_attribute_name'
-        fill_in 'Help text', with: 'My attribute help text'
+        editor.set_markdown('My attribute help text')
         click_button 'Save'
 
         # Should now show on index for editing
@@ -74,18 +68,18 @@ describe 'Attribute help texts' do
         # -> edit
         page.find('.attribute-help-text--entry td a', text: 'Status').click
         expect(page).to have_selector('#attribute_help_text_attribute_name[disabled]')
-        fill_in 'Help text', with: ''
+        editor.set_markdown(' ')
         click_button 'Save'
 
         # Handle errors
         expect(page).to have_selector('#errorExplanation', text: "Help text can't be blank.")
-        fill_in 'Help text', with: 'New *help* text'
+        editor.set_markdown('New**help**text')
         click_button 'Save'
 
         # On index again
         expect(page).to have_selector('.attribute-help-text--entry td', text: 'Status')
         instance.reload
-        expect(instance.help_text).to eq 'New *help* text'
+        expect(instance.help_text).to eq 'New**help**text'
 
         # Open help text modal
         modal.open!

@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<style>
+<style type="text/css">
   <% if CustomStyle.current.logo.present? %>
     #logo .home-link {
       margin-top: 12px;
@@ -45,6 +45,9 @@ See doc/COPYRIGHT.rdoc for more details.
     --<%= design_color.variable %>: <%= design_color.hexcode %>;
     <% if design_color.variable == "header-border-bottom-color" %>
       --header-border-bottom-width: 1px;
+    <% end %>
+    <% if design_color.variable == "main-menu-border-color" %>
+      --main-menu-border-width: 1px;
     <% end %>
     <% if design_color.variable == "alternative-color" %>
       --button--alt-highlight-background-hover-color: <%= darken_color design_color.hexcode, 0.82 %>;

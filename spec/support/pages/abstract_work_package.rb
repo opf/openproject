@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'support/pages/page'
@@ -48,8 +48,20 @@ module Pages
       expect(page).to have_selector('.tabrow li.selected', text: tab.to_s.upcase)
     end
 
-    def edit_field(attribute, context)
-      WorkPackageField.new(context, attribute)
+    def edit_field(attribute)
+      work_package_field(attribute)
+    end
+
+    def custom_edit_field(custom_field)
+      edit_field("customField#{custom_field.id}").tap do |field|
+        if custom_field.list?
+          field.field_type = :select
+        end
+      end
+    end
+
+    def container
+      raise NotImplementedError
     end
 
     def expect_hidden_field(attribute)
@@ -69,6 +81,7 @@ module Pages
     end
 
     def ensure_page_loaded
+      expect_angular_frontend_initialized
       expect(page).to have_selector('.work-package-details-activities-activity-contents .user',
                                     text: work_package.journals.last.user.name,
                                     minimum: 1,
@@ -90,16 +103,17 @@ module Pages
       attribute_expectations.each do |label_name, value|
         label = label_name.to_s
         if label == 'status'
-          expect(page).to have_selector(".wp-status-button .button", text: value)
+          expect(page).to have_selector(".wp-status-button .button", text: value, wait: 10)
         else
-          expect(page).to have_selector(".wp-edit-field.#{label.camelize(:lower)}", text: value)
+          expect(page).to have_selector(".wp-edit-field.#{label.camelize(:lower)}", text: value, wait: 10)
         end
       end
     end
 
-    def expect_attribute_hidden(label)
+    def expect_no_attribute(label)
       expect(page).not_to have_selector(".wp-edit-field.#{label.downcase}")
     end
+    alias :expect_attribute_hidden :expect_no_attribute
 
     def expect_activity(user, number: nil)
       container = '#work-package-activites-container'
@@ -134,6 +148,24 @@ module Pages
       expect(page).to have_selector('#top-menu', visible: true)
     end
 
+    def expect_custom_action(name)
+      expect(page)
+        .to have_selector('.custom-action', text: name)
+    end
+
+    def expect_no_custom_action(name)
+      expect(page)
+        .to have_no_selector('.custom-action', text: name)
+    end
+
+    def expect_custom_action_order(*names)
+      within('.custom-actions') do
+        names.each_cons(2) do |earlier, later|
+          body.index(earlier) < body.index(later)
+        end
+      end
+    end
+
     def update_attributes(key_value_map, save: true)
       set_attributes(key_value_map, save: save)
     end
@@ -153,16 +185,16 @@ module Pages
         cf = CustomField.find $1
 
         if cf.field_format == 'text'
-          WorkPackageTextAreaField.new page, key
+          WorkPackageEditorField.new container, key
         else
-          WorkPackageField.new page, key
+          WorkPackageField.new container, key
         end
       elsif key == :description
-        WorkPackageTextAreaField.new page, key
+        WorkPackageEditorField.new container, key
       elsif key == :status
-        WorkPackageStatusField.new page
+        WorkPackageStatusField.new container
       else
-        WorkPackageField.new page, key
+        WorkPackageField.new container, key
       end
     end
 
@@ -182,6 +214,17 @@ module Pages
       page
     end
 
+    def click_custom_action(name, expect_success: true)
+      page.within('.custom-actions') do
+        click_button(name)
+      end
+
+      if expect_success
+        expect_and_dismiss_notification message: 'Successful update'
+        sleep 1
+      end
+    end
+
     def trigger_edit_mode
       page.click_button(I18n.t('js.button_edit'))
     end
@@ -191,14 +234,8 @@ module Pages
     end
 
     def update_comment(comment)
-      add_comment_container.fill_in 'value', with: comment
-    end
-
-    def preview_comment
-      label = I18n.t('js.inplace.btn_preview_enable')
-      add_comment_container
-        .find(:xpath, "//button[@title='#{label}']")
-        .click
+      editor = ::Components::WysiwygEditor.new '.work-packages--activity--add-comment'
+      editor.click_and_type_slowly comment
     end
 
     def save_comment
@@ -231,10 +268,6 @@ module Pages
     def subject_field
       expect(page).to have_selector(@subject_field_selector + ' input', wait: 10)
       find(@subject_field_selector + ' input')
-    end
-
-    def description_field
-      find('.wp-edit-field.description textarea')
     end
 
     private

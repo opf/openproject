@@ -3,24 +3,24 @@ require 'features/work_packages/work_packages_page'
 require 'features/work_packages/details/inplace_editor/shared_examples'
 
 describe 'custom field inplace editor', js: true do
-  let(:user) { FactoryGirl.create :admin }
-  let(:type) { FactoryGirl.create(:type_standard, custom_fields: custom_fields) }
-  let(:project) {
-    FactoryGirl.create :project,
-                       types: [type],
-                       work_package_custom_fields: custom_fields
-  }
+  let(:user) { FactoryBot.create :admin }
+  let(:type) { FactoryBot.create(:type_standard, custom_fields: custom_fields) }
+  let(:project) do
+    FactoryBot.create :project,
+                      types: [type],
+                      work_package_custom_fields: custom_fields
+  end
   let(:custom_fields) { [custom_field] }
-  let(:work_package) {
-    FactoryGirl.create :work_package,
-                       type: type,
-                       project: project,
-                       custom_values: initial_custom_values
-  }
+  let(:work_package) do
+    FactoryBot.create :work_package,
+                      type: type,
+                      project: project,
+                      custom_values: initial_custom_values
+  end
   let(:wp_page) { Pages::SplitWorkPackage.new(work_package) }
 
-  let(:property_name) { :custom_field_1 }
-  let(:field) { wp_page.edit_field(:customField1) }
+  let(:property_name) { "customField#{custom_field.id}" }
+  let(:field) { wp_page.edit_field(property_name) }
 
   before do
     login_as(user)
@@ -39,11 +39,11 @@ describe 'custom field inplace editor', js: true do
   end
 
   describe 'long text' do
-    let(:custom_field) {
-      FactoryGirl.create(:text_issue_custom_field, name: 'LongText')
-    }
+    let(:custom_field) do
+      FactoryBot.create(:text_issue_custom_field, name: 'LongText')
+    end
+    let(:field) { WorkPackageEditorField.new wp_page, property_name }
     let(:initial_custom_values) { { custom_field.id => 'foo' } }
-    let(:field) { WorkPackageTextAreaField.new wp_page, :customField1 }
 
     it 'can cancel through the button only' do
       # Activate the field
@@ -58,33 +58,32 @@ describe 'custom field inplace editor', js: true do
       field.expect_inactive!
     end
 
-    it_behaves_like 'a previewable field'
     it_behaves_like 'a workpackage autocomplete field'
   end
 
   describe 'custom field lists' do
-    let(:custom_field1) {
-      FactoryGirl.create(:list_wp_custom_field,
+    let(:custom_field1) do
+      FactoryBot.create(:list_wp_custom_field,
                         is_required: false,
                         possible_values: %w(foo bar baz))
-    }
-    let(:custom_field2) {
-      FactoryGirl.create(:list_wp_custom_field,
+    end
+    let(:custom_field2) do
+      FactoryBot.create(:list_wp_custom_field,
                         is_required: false,
                         possible_values: %w(X Y Z))
-    }
+    end
 
     let(:custom_fields) { [custom_field1, custom_field2] }
-    let(:field1) {
-      f = wp_page.edit_field(:customField1)
+    let(:field1) do
+      f = wp_page.custom_edit_field(custom_field1)
       f.field_type = 'select'
       f
-    }
-    let(:field2) {
-      f = wp_page.edit_field(:customField2)
+    end
+    let(:field2) do
+      f = wp_page.custom_edit_field(custom_field2)
       f.field_type = 'select'
       f
-    }
+    end
     let(:initial_custom_values) { {} }
 
     def custom_value(value)
@@ -102,36 +101,34 @@ describe 'custom field inplace editor', js: true do
                     message: I18n.t('js.notice_successful_update'),
                     field: field2
 
-      wp_page.expect_attributes customField1: 'bar',
-                                customField2: 'Y'
+      wp_page.expect_attributes :"customField#{custom_field1.id}" => 'bar',
+                                :"customField#{custom_field2.id}" => 'Y'
 
       field1.activate!
-      field1.expect_value("/api/v3/custom_options/#{custom_value('bar')}")
+      expect(field1.input_element.text).to include('bar')
       field1.cancel_by_escape
 
       field2.activate!
-      field2.expect_value("/api/v3/custom_options/#{custom_value('Y')}")
+      expect(field2.input_element.text).to include('Y')
       expect_update 'X',
                     message: I18n.t('js.notice_successful_update'),
                     field: field2
 
-      wp_page.expect_attributes customField1: 'bar',
-                                customField2: 'X'
-
+      wp_page.expect_attributes :"customField#{custom_field1.id}" => 'bar',
+                                :"customField#{custom_field2.id}" => 'X'
     end
   end
 
   describe 'integer type' do
-    let(:custom_field) {
-      FactoryGirl.create(:integer_issue_custom_field, args.merge(name: 'MyNumber'))
-    }
+    let(:custom_field) do
+      FactoryBot.create(:integer_issue_custom_field, args.merge(name: 'MyNumber'))
+    end
     let(:initial_custom_values) { { custom_field.id => 123 } }
-    let(:fieldName) { "customField#{custom_field.id}" }
 
     context 'with length restrictions' do
-      let(:args) {
+      let(:args) do
         { min_length: 2, max_length: 5 }
-      }
+      end
 
       it 'renders errors for invalid entries' do
         field.activate!
@@ -148,7 +145,7 @@ describe 'custom field inplace editor', js: true do
         # Correct value
         expect_update '9999',
                       message: I18n.t('js.notice_successful_update')
-        wp_page.expect_attributes fieldName => '9999'
+        wp_page.expect_attributes property_name => '9999'
       end
     end
 
@@ -159,19 +156,19 @@ describe 'custom field inplace editor', js: true do
         field.activate!
         expect_update '9999999999',
                       message: I18n.t('js.notice_successful_update')
-        wp_page.expect_attributes fieldName => '9999999999'
+        wp_page.expect_attributes property_name => '9999999999'
 
         # Remove value
         field.activate!
         expect_update '',
                       message: I18n.t('js.notice_successful_update')
-        wp_page.expect_attributes fieldName => '-'
+        wp_page.expect_attributes property_name => '-'
 
         # Zero value
         field.activate_edition
         expect_update '0',
                       message: I18n.t('js.notice_successful_update')
-        wp_page.expect_attributes fieldName => '0'
+        wp_page.expect_attributes property_name => '0'
       end
     end
 
@@ -190,17 +187,15 @@ describe 'custom field inplace editor', js: true do
     end
   end
 
-
   describe 'float type' do
-    let(:custom_field) {
-      FactoryGirl.create(:float_wp_custom_field, args.merge(name: 'MyFloat'))
-    }
+    let(:custom_field) do
+      FactoryBot.create(:float_wp_custom_field, args.merge(name: 'MyFloat'))
+    end
     let(:args) { {} }
     let(:initial_custom_values) { { custom_field.id => 123.50 } }
-    let(:fieldName) { "customField#{custom_field.id}" }
 
     context 'with english locale' do
-      let(:user) { FactoryGirl.create :admin, language: 'en' }
+      let(:user) { FactoryBot.create :admin, language: 'en' }
 
       it 'displays the float with english locale and allows editing' do
         field.expect_state_text '123.5'
@@ -212,8 +207,9 @@ describe 'custom field inplace editor', js: true do
       end
     end
 
-    context 'with german locale' do
-      let(:user) { FactoryGirl.create :admin, language: 'de' }
+    context 'with german locale',
+            driver: :chrome_headless_de do
+      let(:user) { FactoryBot.create :admin, language: 'de' }
 
       it 'displays the float with german locale and allows editing' do
         field.expect_state_text '123,5'

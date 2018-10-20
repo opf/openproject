@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -33,11 +33,11 @@ require 'spec_helper'
 # Tests that email notifications will be sent upon creating or changing a work package.
 describe WorkPackage, type: :model do
   describe 'email notifications' do
-    let(:user) { FactoryGirl.create :admin }
-    let(:current_user) { FactoryGirl.create :admin }
-    let(:project) { FactoryGirl.create :project }
+    let(:user) { FactoryBot.create :admin }
+    let(:current_user) { FactoryBot.create :admin }
+    let(:project) { FactoryBot.create :project }
     let!(:work_package) do
-      FactoryGirl.create :work_package,
+      FactoryBot.create :work_package,
                          author: user,
                          subject: 'I can see you',
                          project: project
@@ -51,11 +51,11 @@ describe WorkPackage, type: :model do
       end
 
       context 'with email notifications disabled' do
-        let(:user) { FactoryGirl.create :admin, mail_notification: "none" }
+        let(:user) { FactoryBot.create :admin, mail_notification: "none" }
 
         let(:project) do
-          project = FactoryGirl.create :project
-          role = FactoryGirl.create :role
+          project = FactoryBot.create :project
+          role = FactoryBot.create :role
 
           project.members.create principal: user, roles: [role], mail_notification: true
 
@@ -84,7 +84,7 @@ describe WorkPackage, type: :model do
 
     describe 'notification triggered by subtask update' do
       let!(:child) do
-        FactoryGirl.create :work_package, subject: "I'm a child",
+        FactoryBot.create :work_package, subject: "I'm a child",
                                           parent: work_package,
                                           done_ratio: 42
       end

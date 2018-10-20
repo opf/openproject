@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 ##
@@ -32,43 +32,25 @@
 # Does not change the work package itself.
 
 class AddWorkPackageNoteService
+  include Concerns::Contracted
   attr_accessor :user, :work_package
-
-  class << self
-    attr_accessor :contract
-  end
-
-  self.contract = WorkPackages::CreateNoteContract
 
   def initialize(user:, work_package:)
     self.user = user
     self.work_package = work_package
-
-    self.contract = self.class.contract.new(work_package, user)
+    self.contract_class = WorkPackages::CreateNoteContract
   end
 
   def call(notes, send_notifications: true)
     JournalManager.with_send_notifications send_notifications do
       work_package.add_journal(user, notes)
 
-      result, errors = validate_and_save
+      result, errors = validate_and_yield(work_package, user) do
+        work_package.save_journals
+      end
 
       ServiceResult.new(success: result,
                         errors: errors)
-    end
-  end
-
-  private
-
-  attr_accessor :contract
-
-  def validate_and_save
-    if !contract.validate
-      return false, contract.errors
-    elsif !work_package.save_journals
-      return false, work_package.errors
-    else
-      return true, work_package.errors
     end
   end
 end

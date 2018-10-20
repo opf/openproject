@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,10 +23,12 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 //++
 
 div.wiki
+  // ------------------- FONT -------------------
+
   font-size: $wiki-default-font-size
   $wiki-max-heading-font-size: $wiki-default-font-size * 1.5
 
@@ -52,27 +54,18 @@ div.wiki
     text-transform: none
     border-bottom: 1px dotted #bbbbbb
 
-  table
-    border: 1px solid #505050
+
+  // ------------------- TABLES -------------------
+  table:not(.work-package-table)
+    border: 1px solid #bbb
     border-collapse: collapse
     margin-bottom: 1em
 
-  table, td, th
-    border: 1px solid #bbb
-    padding: 4px
+    td, th
+      border: 1px solid #bbb
+      padding: 4px
 
-  .external.icon-context:before
-    padding: 4px 4px 0 0
-
-  pre
-    margin: 1em 1em 1em 1.6em
-    padding: 2px 2px 2px 0
-    background-color: #fafafa
-    border: 1px solid #dadada
-    width: auto
-    overflow-x: auto
-    overflow-y: hidden
-
+  // ------------------- LISTINGS -------------------
   ul.toc
     margin-bottom: 12px
     margin-right: 12px
@@ -98,25 +91,14 @@ div.wiki
     li
       list-style-type: none
 
-  ol, ul
-    padding: 0 0 0 2em
-    margin: 0.3em 0
-    font-size: $wiki-default-font-size
-
-  li
-    list-style-position: outside
-    margin: 0
-
-  ol li
-    list-style-type: decimal
-    list-style-position: inherit
-
   ul li
-    list-style-type: disc
-    list-style-position: inherit
+    word-wrap: break-word
 
-  li li
-    margin-left: 1.5em
+
+  // ------------------- GENERAL -------------------
+  .external.icon-context:before
+    padding: 4px 4px 0 0
+
   fieldset.collapsible legend
     font-weight: bold
     font-size: $wiki-toc-header-font-size
@@ -157,42 +139,19 @@ h1:hover, h2:hover, h3:hover
     font-size: $wiki-default-font-size
 
   .wiki-title
+    @include text-shortener
     max-width: 100%
-    overflow: hidden
-    text-overflow: ellipsis
 
 .wiki.wiki-content
   overflow-wrap: break-word
   word-wrap: break-word
 
-#wiki_form .attributes-group
-  .attributes-group--header-text
-    color: lighten($body-font-color, 10)
-  .form--label
-    display: none
-
+.wiki--content--attribute
   .form--field-container
     max-width: 100%
 
-    .form--text-area-container
-      margin-top: -46px
-
-      .jstElements
-        margin-bottom: 18px
-        position: relative
-        top: -5px
-
 #wiki_page_parent_id
   overflow: auto
-
-blockquote
-  font-style: italic
-  &.icon:before
-    color: #e0e0e0
-    position: relative
-    bottom: 10px
-    right: 15px
-    padding: 0 0 0 0
 
 .toolbar-container ~ .wiki-content
   margin-top: 0
@@ -204,6 +163,16 @@ blockquote
     margin: 0 0 0 1.5rem
   span
     vertical-align: middle
+
+body.controller-wiki
+
+  .ck-content
+    min-height: 25vh
+
+  #breadcrumb ul.breadcrumb li.first-breadcrumb-element a
+    display: inline
+    width: auto
+
 
 @include breakpoint(680px down)
   .toolbar-container ~ .wiki-content

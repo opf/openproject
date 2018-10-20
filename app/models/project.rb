@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class Project < ActiveRecord::Base
@@ -43,7 +43,7 @@ class Project < ActiveRecord::Base
   IDENTIFIER_MAX_LENGTH = 100
 
   # reserved identifiers
-  RESERVED_IDENTIFIERS = %w( new level_list )
+  RESERVED_IDENTIFIERS = %w( new )
 
   # Specific overridden Activities
   has_many :time_entry_activities
@@ -179,98 +179,8 @@ class Project < ActiveRecord::Base
   scope :visible, ->(user = User.current) { Project.visible_by(user) }
   scope :newest, -> { order(created_on: :desc) }
 
-  # timelines stuff
-
-  belongs_to :project_type, class_name: '::ProjectType'
-
-  belongs_to :responsible,  class_name: 'User'
-
-  has_many :timelines,  class_name: '::Timeline',
-                        dependent:  :destroy
-
-  has_many :reportings_via_source, class_name:  '::Reporting',
-                                   foreign_key: 'project_id',
-                                   dependent:   :delete_all
-
-  has_many :reportings_via_target, class_name:  '::Reporting',
-                                   foreign_key: 'reporting_to_project_id',
-                                   dependent:   :delete_all
-
-  has_many :reporting_to_projects, through: :reportings_via_source,
-                                   source:  :reporting_to_project
-
-  has_many :project_a_associations, class_name:  '::ProjectAssociation',
-                                    foreign_key: 'project_a_id',
-                                    dependent:   :delete_all
-
-  has_many :project_b_associations, class_name:  '::ProjectAssociation',
-                                    foreign_key: 'project_b_id',
-                                    dependent:   :delete_all
-
-  has_many :associated_a_projects, through: :project_a_associations,
-                                   source:  :project_b
-
-  has_many :associated_b_projects, through: :project_b_associations,
-                                   source:  :project_a
-
-  include TimelinesCollectionProxy
-
-  collection_proxy :project_associations, for: [:project_a_associations,
-                                                :project_b_associations] do
-    def visible(user = User.current)
-      all.select { |assoc| assoc.visible?(user) }
-    end
-  end
-
-  collection_proxy :associated_projects, for: [:associated_a_projects,
-                                               :associated_b_projects] do
-    def visible(user = User.current)
-      all.select { |other| other.visible?(user) }
-    end
-  end
-
-  collection_proxy :reportings, for: [:reportings_via_source,
-                                      :reportings_via_target],
-                                leave_public: true
-
-  def associated_project_candidates(user = User.current)
-    # TODO: Check if admins shouldn't see all projects here
-    projects = Project.visible(user).to_a
-    projects.delete(self)
-    projects -= associated_projects
-    projects.select(&:allows_association?)
-  end
-
-  def associated_project_candidates_by_type(user = User.current)
-    # TODO: values need sorting by project tree
-    associated_project_candidates(user).group_by(&:project_type)
-  end
-
-  def project_associations_by_type(user = User.current)
-    # TODO: values need sorting by project tree
-    project_associations.visible(user).group_by do |a|
-      a.project(self).project_type
-    end
-  end
-
-  def reporting_to_project_candidates(user = User.current)
-    # TODO: Check if admins shouldn't see all projects here
-    projects = Project.visible(user).to_a
-    projects.delete(self)
-    projects -= reporting_to_projects
-    projects
-  end
-
   def visible?(user = User.current)
     self.active? and (self.is_public? or user.admin? or user.member_of?(self))
-  end
-
-  def allows_association?
-    if project_type.present?
-      project_type.allows_association
-    else
-      true
-    end
   end
 
   def copy_allowed?
@@ -653,7 +563,7 @@ class Project < ActiveRecord::Base
     ].flatten.compact.min
   end
 
-  # The latest due date of an issue or version
+  # The latest finish date of an issue or version
   def due_date
     [
       work_packages.maximum('due_date'),

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 # This file is mostly based on source code of thoughbot's paperclip gem
@@ -70,10 +70,18 @@ describe OpenProject::ContentTypeDetector do
 
   it 'returns content type of file if it is an acceptable type' do
     allow(MIME::Types).to receive(:type_for).and_return([MIME::Type.new('application/mp4'), MIME::Type.new('video/mp4'), MIME::Type.new('audio/mp4')])
-    allow_any_instance_of(Cocaine::CommandLine).to receive(:run).and_return('video/mp4')
+    allow(::Open3).to receive(:capture2).and_return(['video/mp4', 0])
     @filename = 'my_file.mp4'
     assert_equal 'video/mp4', OpenProject::ContentTypeDetector.new(@filename).detect
   end
+
+  it 'returns the default when exitcode > 0' do
+    allow(MIME::Types).to receive(:type_for).and_return([MIME::Type.new('application/mp4'), MIME::Type.new('video/mp4'), MIME::Type.new('audio/mp4')])
+    allow(::Open3).to receive(:capture2).and_return(['', 1])
+    @filename = 'my_file.mp4'
+    assert_equal 'application/binary', OpenProject::ContentTypeDetector.new(@filename).detect
+  end
+
 
   it 'finds the right type in the list via the file command' do
     @filename = "#{Dir.tmpdir}/something.hahalolnotreal"
@@ -91,7 +99,7 @@ describe OpenProject::ContentTypeDetector do
   end
 
   it 'returns a sensible default when the file command is missing' do
-    allow_any_instance_of(Cocaine::CommandLine).to receive(:run).and_raise(Cocaine::CommandLineError.new)
+    allow(::Open3).to receive(:capture2).and_raise 'o noes!'
     @filename = '/path/to/something'
     assert_equal 'application/binary', OpenProject::ContentTypeDetector.new(@filename).detect
   end

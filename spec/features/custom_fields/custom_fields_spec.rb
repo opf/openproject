@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'support/pages/custom_fields'
 
 describe 'custom fields', js: true do
-  let(:user) { FactoryGirl.create :admin }
+  let(:user) { FactoryBot.create :admin }
   let(:cf_page) { Pages::CustomFields.new }
 
   before do
@@ -67,7 +67,7 @@ describe 'custom fields', js: true do
 
   context "with an existing list custom field" do
     let!(:custom_field) do
-      FactoryGirl.create(
+      FactoryBot.create(
         :list_wp_custom_field,
         name: "Platform",
         possible_values: ["Playstation", "Xbox", "Nintendo", "PC"]
@@ -75,11 +75,13 @@ describe 'custom fields', js: true do
     end
 
     before do
-      allow(EnterpriseToken).to receive(:allows_to?).and_return(true)
+      with_enterprise_token(:multiselect_custom_fields)
 
       cf_page.visit!
+      expect_angular_frontend_initialized
 
       click_on custom_field.name
+      expect_angular_frontend_initialized
     end
 
     it "adds new options" do
@@ -156,7 +158,7 @@ describe 'custom fields', js: true do
 
     context "with work packages using the options" do
       before do
-        FactoryGirl.create_list(
+        FactoryBot.create_list(
           :work_package_custom_value,
           3,
           custom_field: custom_field,

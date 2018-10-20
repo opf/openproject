@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,14 +23,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe Project, 'customizable', type: :model do
   let(:project) do
-    FactoryGirl.build_stubbed(:project,
+    FactoryBot.build_stubbed(:project,
                               custom_values: custom_values)
   end
   let(:stub_available_custom_fields) do
@@ -46,9 +46,9 @@ describe Project, 'customizable', type: :model do
       .and_return(available_custom_fields)
   end
   let(:custom_values) { [] }
-  let(:bool_custom_field) { FactoryGirl.build_stubbed(:bool_project_custom_field) }
-  let(:text_custom_field) { FactoryGirl.build_stubbed(:text_project_custom_field) }
-  let(:list_custom_field) { FactoryGirl.build_stubbed(:list_project_custom_field) }
+  let(:bool_custom_field) { FactoryBot.build_stubbed(:bool_project_custom_field) }
+  let(:text_custom_field) { FactoryBot.build_stubbed(:text_project_custom_field) }
+  let(:list_custom_field) { FactoryBot.build_stubbed(:list_project_custom_field) }
 
   before do
     stub_available_custom_fields
@@ -80,7 +80,7 @@ describe Project, 'customizable', type: :model do
 
       context 'with a value set' do
         let(:custom_value) do
-          FactoryGirl.build_stubbed(:custom_value,
+          FactoryBot.build_stubbed(:custom_value,
                                     custom_field: custom_field,
                                     value: true)
         end
@@ -97,12 +97,12 @@ describe Project, 'customizable', type: :model do
   describe '#custom_value_attributes' do
     let(:available_custom_fields) { [bool_custom_field, list_custom_field, text_custom_field] }
     let(:text_custom_value) do
-      FactoryGirl.build_stubbed(:custom_value,
+      FactoryBot.build_stubbed(:custom_value,
                                 custom_field: text_custom_field,
                                 value: 'blubs')
     end
     let(:bool_custom_value) do
-      FactoryGirl.build_stubbed(:custom_value,
+      FactoryBot.build_stubbed(:custom_value,
                                 custom_field: bool_custom_field,
                                 value: true)
     end

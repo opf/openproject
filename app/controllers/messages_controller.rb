@@ -1,7 +1,8 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,16 +25,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class MessagesController < ApplicationController
-  include OpenProject::Concerns::Preview
   menu_item :boards
   default_search_scope :messages
   model_object Message, scope: Board
-  before_action :find_object_and_scope, except: [:preview]
-  before_action :authorize, except: [:preview, :edit, :update, :destroy]
+  before_action :find_object_and_scope
+  before_action :authorize, except: [:edit, :update, :destroy]
 
   include AttachmentsHelper
   include PaginationHelper
@@ -52,11 +52,11 @@ class MessagesController < ApplicationController
     end
 
     @replies = @topic.children.includes(:author, :attachments, board: :project)
-               .order("#{Message.table_name}.created_on ASC")
-               .page(page)
-               .per_page(per_page_param)
+                     .order("#{Message.table_name}.created_on ASC")
+                     .page(page)
+                     .per_page(per_page_param)
 
-    @reply = Message.new(subject: "RE: #{@message.subject}")
+    @reply = Message.new(subject: "RE: #{@message.subject}", parent: @topic)
     render action: 'show', layout: !request.xhr?
   end
 
@@ -76,11 +76,11 @@ class MessagesController < ApplicationController
     end
 
     @message.attributes = permitted_params.message(@message)
-
     @message.attach_files(permitted_params.attachments.to_h)
 
     if @message.save
-      call_hook(:controller_messages_new_after_save,  params: params, message: @message)
+      render_attachment_warning_if_needed(@message)
+      call_hook(:controller_messages_new_after_save, params: params, message: @message)
 
       redirect_to topic_path(@message)
     else
@@ -96,31 +96,31 @@ class MessagesController < ApplicationController
     @reply.author = User.current
     @reply.board = @board
     @reply.attributes = permitted_params.reply
+    @reply.attach_files(permitted_params.attachments.to_h)
 
     @topic.children << @reply
-    if !@reply.new_record?
-      call_hook(:controller_messages_reply_after_save,  params: params, message: @reply)
-      attachments = Attachment.attach_files(@reply, permitted_params.attachments)
+    unless @reply.new_record?
       render_attachment_warning_if_needed(@reply)
+      call_hook(:controller_messages_reply_after_save, params: params, message: @reply)
     end
     redirect_to topic_path(@topic, r: @reply)
   end
 
   # Edit a message
   def edit
-    (render_403; return false) unless @message.editable_by?(User.current)
+    return render_403 unless @message.editable_by?(User.current)
     @message.attributes = permitted_params.message(@message)
   end
 
   # Edit a message
   def update
-    (render_403; return false) unless @message.editable_by?(User.current)
+    return render_403 unless @message.editable_by?(User.current)
 
     @message.attributes = permitted_params.message(@message)
-
     @message.attach_files(permitted_params.attachments.to_h)
 
     if @message.save
+      render_attachment_warning_if_needed(@message)
       flash[:notice] = l(:notice_successful_update)
       @message.reload
       redirect_to topic_path(@message.root, r: (@message.parent_id && @message.id))
@@ -131,12 +131,16 @@ class MessagesController < ApplicationController
 
   # Delete a messages
   def destroy
-    (render_403; return false) unless @message.destroyable_by?(User.current)
+    return render_403 unless @message.destroyable_by?(User.current)
     @message.destroy
     flash[:notice] = l(:notice_successful_delete)
-    redirect_to @message.parent.nil? ?
-      { controller: '/boards', action: 'show', project_id: @project, id: @board } :
-      { action: 'show', id: @message.parent, r: @message }
+    redirect_target = if @message.parent.nil?
+                        { controller: '/boards', action: 'show', project_id: @project, id: @board }
+                      else
+                        { action: 'show', id: @message.parent, r: @message }
+                      end
+
+    redirect_to redirect_target
   end
 
   def quote
@@ -144,23 +148,13 @@ class MessagesController < ApplicationController
     text = @message.content
     subject = @message.subject.gsub('"', '\"')
     subject = "RE: #{subject}" unless subject.starts_with?('RE:')
-    content = "#{ll(Setting.default_language, :text_user_wrote, user)}\\n> "
-    content << text.to_s.strip.gsub(%r{<pre>((.|\s)*?)</pre>}m, '[...]').gsub('"', '\"').gsub(/(\r?\n|\r\n?)/, '\\n> ') + '\\n\\n'
+    content = "#{ll(Setting.default_language, :text_user_wrote, user)}\n> "
+    content << text.to_s.strip.gsub(%r{<pre>((.|\s)*?)</pre>}m, '[...]').gsub('"', '\"').gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n"
 
     respond_to do |format|
-      format.js do
-        render locals: { subject: subject, content: content }
+      format.json do
+        render json: { subject: subject, content: content }
       end
-    end
-  end
-
-  protected
-
-  def parse_preview_data
-    if params.has_key?(:message)
-      parse_preview_data_helper :message, :content
-    else
-      parse_preview_data_helper :reply, :content, Message
     end
   end
 end

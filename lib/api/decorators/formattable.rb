@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module API
@@ -32,11 +32,13 @@ module API
     class Formattable < Single
       include OpenProject::TextFormatting
 
-      def initialize(model, format: nil, object: nil)
-        @format = format || Setting.text_formatting
+      def initialize(model, plain: false, object: nil)
+        @format = if plain
+                    OpenProject::TextFormatting::Formats.plain_format
+                  else
+                    OpenProject::TextFormatting::Formats.rich_format
+                  end
         @object = object
-
-        @format = 'plain' if @format.blank?
 
         # Note: TextFormatting actually makes use of User.current, if it was possible to pass a
         # current_user explicitly, it would make sense to pass one here too.
@@ -45,16 +47,16 @@ module API
 
       property :format,
                exec_context: :decorator,
-               getter: -> (*) { @format },
+               getter: ->(*) { @format },
                writable: false,
                render_nil: true
       property :raw,
                exec_context: :decorator,
-               getter: -> (*) { represented },
+               getter: ->(*) { represented },
                render_nil: true
       property :html,
                exec_context: :decorator,
-               getter: -> (*) { to_html },
+               getter: ->(*) { to_html },
                writable: false,
                render_nil: true
 

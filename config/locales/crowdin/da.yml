@@ -3,7 +3,8 @@ da:
   no_results_title_text: Der er i øjeblikket ikke noget at vise.
   activities:
     index:
-      no_results_title_text: Der har ikke været nogen aktivitet for projektet.
+      no_results_title_text: There has not been any activity for the project within
+        this time frame.
   admin:
     plugins:
       no_results_title_text: Der er i øjeblikket ingen plugins installeret.
@@ -59,6 +60,26 @@ da:
   boards:
     show:
       no_results_title_text: Der er i øjeblikket ingen indlæg.
+  colors:
+    index:
+      no_results_title_text: Der er i øjeblikket ingen farver.
+      no_results_content_text: Opret en ny farve
+    label_no_color: No color
+  custom_actions:
+    actions:
+      name: Actions
+      add: Add action
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
+    conditions: Conditions
+    plural: Custom actions
+    new: New custom action
+    edit: Edit custom action %{name}
+    execute: Execute %{name}
+    upsale:
+      title: Custom actions is an Enterprise Edition feature
+      description: Custom actions streamline everyday work by combining a set of individual
+        steps into one button.
   custom_fields:
     text_add_new_custom_field: 'To add new custom fields to a project you first need
       to create them before you can add them to this project.
@@ -72,6 +93,8 @@ da:
     tab:
       no_results_title_text: Der er i øjeblikket ingen brugerdefinerede felter.
       no_results_content_text: Oprette en ny brugerdefineret felt
+  concatenation:
+    single: or
   deprecations:
     old_timeline:
       replacement: This timelines module is being replaced by the interactive timeline
@@ -91,10 +114,6 @@ da:
       no_results_title_text: Der er i øjeblikket ingen brugere i denne gruppe.
     memberships:
       no_results_title_text: Der er i øjeblikket ingen projekter i denne gruppe.
-  planning_element_type_colors:
-    index:
-      no_results_title_text: Der er i øjeblikket ingen farver.
-      no_results_content_text: Opret en ny farve
   projects:
     index:
       no_results_title_text: Der er i øjeblikket ingen projekter
@@ -115,10 +134,6 @@ da:
       versions:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: Create a new version
-  project_types:
-    index:
-      no_results_title_text: Der er i øjeblikket ingen projekttyper.
-      no_results_content_text: Opret en ny projekttype
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -140,11 +155,20 @@ da:
   users:
     memberships:
       no_results_title_text: This user is currently not a member of a project.
+  prioritiies:
+    edit:
+      priority_color_text: |
+        Click to assign or change the color of this priority.
+        It can be used for highlighting work packages in the table.
   reportings:
     index:
       no_results_title_text: There are currently no status reportings.
       no_results_content_text: Add a status reporting
   statuses:
+    edit:
+      status_color_text: |
+        Click to assign or change the color of this status.
+        It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: There are currently no work package statuses.
       no_results_content_text: Add a new status
@@ -157,8 +181,13 @@ da:
       form_configuration: Form configuration
       projects: Projekter
       enabled_projects: Enabled projects
-      add_group: Add group
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: Reset to defaults
+      type_color_text: |
+        Click to assign or change the color of this type. The selected color distinguishes work packages
+        in Gantt charts.
   versions:
     overview:
       no_results_title_text: There are currently no work packages assigned to this
@@ -171,7 +200,12 @@ da:
     index:
       no_results_title_text: There are currently no workflows.
   work_packages:
+    x_descendants:
+      one: One descendant work package
+      other: "%{count} work package descendants"
     move:
+      no_common_statuses_exists: There is no status available for all selected work
+        packages. Their status cannot be changed.
       unsupported_for_multiple_projects: Bulk move/copy is not supported for work
         packages from multiple projects
     list_simple:
@@ -180,7 +214,7 @@ da:
       reported:
         no_results_title_text: There are currently no work packages that I have reported.
       responsible:
-        no_results_title_text: There are currently no work packages that I am responsible
+        no_results_title_text: There are currently no work packages that I am accountable
           for.
       watched:
         no_results_title_text: There are currently no work packages that I am watching.
@@ -234,9 +268,9 @@ da:
           af denne app igen med en ny registrering.
       login_verification:
         other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+          will be asked to confirm your password.
         self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'Din konto er endnu ikke blevet aktiveret.
       For at aktivere din konto, klik på det link, der blev sendt til dig.
 
@@ -260,6 +294,8 @@ da:
       announcements:
         show_until: Display until
       attachment:
+        attachment_content: Attachment content
+        attachment_file_name: Attachment file name
         downloads: Hentninger
         file: Fil
         filename: Fil
@@ -281,6 +317,8 @@ da:
         repository: Projektarkiv
       comment:
         commented: Kommenterede
+      custom_action:
+        actions: Actions
       custom_field:
         default_value: Forhåndsvalgt værdi
         editable: Redigerbar
@@ -301,6 +339,7 @@ da:
         expires_at: Expires at
         subscriber: Subscriber
         encoded_token: Enterprise support token
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Forsinkelse
         from: Arbejdspakke
@@ -315,9 +354,7 @@ da:
         identifier: ID
         latest_activity_at: Latest activity at
         parent: Delprojekt af
-        project_type: Projekttype
         queries: Forespørgsler
-        responsible: Ansvarlig
         types: Typer
         versions: Versioner
         work_packages: Arbejdspakker
@@ -339,8 +376,9 @@ da:
         spent_on: Dato
         type: Type
       type:
-        is_in_roadmap: In roadmap
-        in_aggregation: In aggregation
+        attribute_groups: ''
+        is_in_roadmap: Displayed in roadmap by default
+        is_default: Activated for new projects by default
         is_milestone: Is milestone
         color: Farve
       user:
@@ -353,6 +391,7 @@ da:
         mail_notification: E-mail-påmindelser
         new_password: Ny adgangskode
         password_confirmation: Bekræftelse
+        consented_at: Consented at
       user_preference:
         comments_sorting: Vis kommentarer
         hide_mail: Skjul min e-mailadresse
@@ -362,10 +401,8 @@ da:
         warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved
           changes
       version:
-        effective_date: Forfaldsdato
+        effective_date: Finish date
         sharing: Deler
-      wiki:
-        start_page: Startside
       wiki_content:
         text: Tekst
       wiki_page:
@@ -373,23 +410,10 @@ da:
         redirect_existing_links: Omdiriger eksisterende links
       planning_element_type_color:
         hexcode: Hex kode
-      project_association:
-        description: Årsag
-        project_b: Afhængigt projekt
-      project_type:
-        allows_association: Tillader sammenknytning
-        reported_project_statuses: Rapporterede statusser for projekt
-        position: Placering
-      timeline:
-        options: ''
-      reporting:
-        reported_project_status_comment: Kommentar til status
-        reporting_to_project: Rapporter til projekt
-        reported_project_status: Projektstatus
-        created_at: Oprettet
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
+        children: Subelements
         done_ratio: Fremskridt (%)
         end_insertion: End of the insertion
         end_deletion: End of the deletion
@@ -399,7 +423,6 @@ da:
         parent_work_package: Overordnet
         priority: Prioritet
         progress: Fremskridt (%)
-        responsible: Ansvarlig
         spent_hours: Anvendt tid
         spent_time: Anvendt tid
         subproject: Underprojekt
@@ -409,11 +432,16 @@ da:
     errors:
       messages:
         accepted: skal accepteres.
+        after: skal være senere end %{date}.
+        after_or_equal_to: skal være tidligst %{date}.
+        before: skal være før %{date}.
+        before_or_equal_to: skal være senest %{date}.
         blank: må ikke være tomt.
         cant_link_a_work_package_with_a_descendant: En arbejdspakke kan ikke knyttes
           til en af dens underopgaver.
         circular_dependency: Denne relation vil skabe en cirkulær afhængighed.
         confirmation: matcher ikke %{attribute}.
+        could_not_be_copied: kunne ikke (fuldt ud) kopieres.
         does_not_exist: findes ikke.
         empty: må ikke være tomt.
         even: skal være lige.
@@ -421,11 +449,9 @@ da:
         file_too_large: er for stor (maks. størrelse er %{count} Bytes).
         greater_than: skal være større end %{count}.
         greater_than_or_equal_to: skal være større end eller lig med %{count}.
-        smaller_than_or_equal_to_max_length: skal være mindre end eller lig den maksimale
-          længde.
-        greater_than_start_date: must be greater than the start date.
         greater_than_or_equal_to_start_date: must be greater than or equal to the
           start date.
+        greater_than_start_date: must be greater than the start date.
         inclusion: er ikke sat til en tilladt værdi.
         invalid: er ugyldig.
         invalid_url: is not a valid URL.
@@ -433,24 +459,32 @@ da:
         less_than_or_equal_to: skal være mindre end eller lig med %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
-        not_an_iso_date: 'is not a valid date. Required format: YYYY-MM-DD.'
         not_a_number: er ikke et tal.
+        not_allowed: is invalid because of missing permissions.
         not_an_integer: er ikke et heltal.
+        not_an_iso_date: 'is not a valid date. Required format: YYYY-MM-DD.'
         not_same_project: hører ikke til samme projekt.
         odd: skal være ulige.
+        regex_invalid: could not be validated with the associated regular expression.
+        smaller_than_or_equal_to_max_length: skal være mindre end eller lig den maksimale
+          længde.
         taken: er allerede taget.
         too_long: 'er for lang (maks.: %{count} tegn).'
         too_short: 'er for kort (min.: %{count} tegn).'
+        unchangeable: cannot be changed.
         wrong_length: har forkert længde (burde være %{count} tegn).
-        after: skal være senere end %{date}.
-        after_or_equal_to: skal være tidligst %{date}.
-        before: skal være før %{date}.
-        before_or_equal_to: skal være senest %{date}.
-        could_not_be_copied: kunne ikke (fuldt ud) kopieres.
-        regex_invalid: could not be validated with the associated regular expression.
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
+        custom_actions:
+          only_one_allowed: "(%{name}) only one value is allowed."
+          empty: "(%{name}) value can't be empty."
+          inclusion: "(%{name}) value is not set to one of the allowed values."
+          not_logged_in: "(%{name}) value cannot be set because you are not logged
+            in."
+          not_an_integer: "(%{name}) is not an integer."
+          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
+          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
         parse_schema_filter_params_service:
@@ -463,16 +497,12 @@ da:
           attributes:
             types:
               in_use_by_work_packages: 'still in use by work packages: %{types}'
-        project_association:
-          identical_projects: Afhængighed kan ikke oprettes mellem ét projekt og sig
-            selv.
-          project_association_not_allowed: tillader ikke forbindelser.
         query:
           attributes:
             project:
               error_not_found: not found
             public:
-              error_unauthorized: "- The user has no permission to create public queries."
+              error_unauthorized: "- The user has no permission to create public views."
           group_by_hierarchies_exclusive: is mutually exclusive with group by '%{group_by}'.
             You cannot activate both.
           filters:
@@ -511,6 +541,11 @@ da:
             status_id:
               status_transition_invalid: er ugyldig, da der mangler gyldig overførsel
                 fra gammel til ny status for den aktuelle brugers roller.
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
+            type:
+              cannot_be_milestone_due_to_children: cannot be a milestone because this
+                work package has children.
             priority_id:
               only_active_priorities_allowed: skal være aktiv.
             category:
@@ -522,10 +557,11 @@ da:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Unnamed groups are not allowed.
-              duplicate_group: The group name %{group} is used more than once. Group
-                names must be unique.
               attribute_unknown: Invalid work package attribute used.
+              duplicate_group: The group name '%{group}' is used more than once. Group
+                names must be unique.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              group_without_name: Unnamed groups are not allowed.
         user:
           attributes:
             password:
@@ -561,6 +597,7 @@ da:
       attribute_help_text: Attribute help text
       board: Forum
       comment: Kommentar
+      custom_action: Custom action
       custom_field: Selvvalgt felt
       group: Gruppe
       category: Kategori
@@ -573,7 +610,6 @@ da:
         one: Rolle
         other: Roller
       type: Type
-      project_type: Projekttype
       user: Bruger
       version: Version
       wiki: Wiki
@@ -600,6 +636,7 @@ da:
     comment: Kommentar
     comments: Kommentar
     content: Indhold
+    color: Farve
     created_at: Oprettet den
     created_on: Oprettet den
     custom_options: Mulige værdier
@@ -608,7 +645,7 @@ da:
     default_columns: Forudvalgte kolonner
     description: Beskrivelse
     display_sums: Vis totaler
-    due_date: Forfaldsdato
+    due_date: Finish date
     estimated_hours: Anslået tid
     estimated_time: Anslået tid
     firstname: Fornavn
@@ -627,7 +664,7 @@ da:
     password: Adgangskode
     priority: Prioritet
     project: Projekt
-    responsible: Ansvarlig
+    responsible: Accountable
     role: Rolle
     roles: Roller
     start_date: Start dato
@@ -657,11 +694,13 @@ da:
   button_close: Close
   button_collapse_all: Fold alle sammen
   button_configure: Opsæt
+  button_continue: Fortsæt
   button_copy: Kopier
   button_copy_and_follow: Kopier og følg
   button_create: Opret
   button_create_and_continue: Opret og fortsæt
   button_delete: Slet
+  button_decline: Decline
   button_delete_watcher: Slet tilsynsførende %{name}
   button_download: Hent
   button_duplicate: Lav dublet
@@ -696,6 +735,7 @@ da:
   button_unlock: Lås op
   button_unwatch: Stands tilsyn
   button_update: Opdater
+  button_upgrade: Upgrade
   button_upload: Upload
   button_view: Se
   button_watch: Før tilsyn
@@ -703,6 +743,23 @@ da:
   button_add_menu_entry: Tilføj menupunkt
   button_configure_menu_entry: Opsæt menupunkt
   button_delete_menu_entry: Slet menupunkt
+  consent:
+    checkbox_label: I have noted and do consent to the above.
+    failure_message: Consent failed, cannot proceed.
+    title: User Consent
+    decline_warning_message: You have declined to consent and have been logged out.
+    user_has_consented: User has consented to your configured statement at the given
+      time.
+    not_yet_consented: User has not consented yet, will be requested upon next login.
+    contact_mail_instructions: Define the mail address that users can reach a data
+      controller to perform data change or removal requests.
+    contact_your_administrator: Please contact your administrator if you want to have
+      your account deleted.
+    contact_this_mail_address: Please contact %{mail_address} if you want to have
+      your account deleted.
+    text_update_consent_time: Check this box to force users to consent again. Enable
+      when you have changed the legal aspect of the consent information above.
+    update_consent_last_time: 'Last update of consent: %{update_time}'
   copy_project:
     started: Started to copy project "%{source_project_name}" to "%{target_project_name}".
       You will be informed by mail as soon as "%{target_project_name}" is available.
@@ -847,11 +904,6 @@ da:
   default_priority_normal: Normal
   default_priority_high: Høj
   default_priority_immediate: Straks
-  default_project_type_scrum: Scrum-team
-  default_project_type_standard: Standardprojekt
-  default_reported_project_status_green: Grøn
-  default_reported_project_status_amber: Gul
-  default_reported_project_status_red: Rød
   default_role_anonymous: Anonymt
   default_role_developer: Udvikler
   default_role_project_admin: Projektadmin
@@ -916,7 +968,8 @@ da:
   enumeration_system_activity: Systemaktivitet
   enumeration_reported_project_statuses: Rapporteret projektstatus
   error_auth_source_sso_failed: Single Sign-On (SSO) for user '%{value}' failed
-  error_can_not_archive_project: Dette projekt kan ikke arkiveres
+  error_can_not_archive_project: 'This project cannot be archived: There is at least
+    one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Unable to delete entry
   error_can_not_delete_custom_field: Kan ikke slette det selvvalgte felt
   error_can_not_delete_type: Denne type indeholder arbejdspakker og kan ikke slettes.
@@ -929,13 +982,22 @@ da:
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.
   error_custom_option_not_found: Option does not exist.
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
+  error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
   error_invalid_sort_criterion: 'Can''t sort by column: %{value}'
+  error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
   error_pdf_export_too_many_columns: Too many columns selected for the PDF export.
     Please reduce the number of columns.
-  error_token_authenticity: Unable to verify Cross-Site Request Forgery token.
+  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
+    you try to submit data on multiple browsers or tabs? Please close all tabs and
+    try again.
   error_work_package_done_ratios_not_updated: Fremgang for arbejdspakken er ikke opdateret.
   error_work_package_not_found_in_project: Arbejdspakken er ikke fundet, eller den
     hører ikke til dette projekt
@@ -969,6 +1031,7 @@ da:
 '
   error_external_authentication_failed: Der opstod en fejl ved den eksterne godkendelse.
     Prøv venligst igen.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Projekt er redigeret
     changeset: Pakke af ændringer er redigeret
@@ -986,6 +1049,16 @@ da:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF med beskrivelse
+      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
+      pdf_with_attachments: PDF with attachments
+  extraction:
+    available:
+      pdftotext: Pdftotext available (optional)
+      unrtf: Unrtf available (optional)
+      catdoc: Catdoc available (optional)
+      xls2csv: Xls2csv available (optional)
+      catppt: Catppt available (optional)
+      tesseract: Tesseract available (optional)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -1001,13 +1074,14 @@ da:
   homescreen:
     additional:
       projects: Nyeste synlige projekter i denne omgang.
+      no_visible_projects: There are no visible projects in this instance.
       users: Nyeste registrerede brugere i denne omgang.
     blocks:
       community: OpenProject community
       upsale:
         become_hero: Become a hero!
         title: Opgradér til Enterprise Edition
-        description: Boost your productivity with the Enterprise Edition
+        description: What are the benefits?
         more_info: More information
         additional_features: Additional powerful premium features
         professional_support: Professional support from the OpenProject experts
@@ -1023,6 +1097,8 @@ da:
       blog: OpenProject blog
       boards: Community forum
       newsletter: Security alerts / Newsletter
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: Du kan logge ind så snart din konto er blevet aktiveret
     ved at klikke %{signin}.
   instructions_after_logout: Du kan logge ind igen ved at klikke %{signin}.
@@ -1063,6 +1139,7 @@ da:
   label_all: alle
   label_all_time: alle tider
   label_all_words: Alle ord
+  label_all_open_wps: All open
   label_always_visible: Always displayed
   label_announcement: Announcement
   label_and_its_subprojects: "%{value} og dets delprojekter"
@@ -1103,6 +1180,7 @@ da:
   label_calendar: Kalender
   label_calendar_show: Vis kalender
   label_category: Kategori
+  label_consent_settings: User Consent
   label_wiki_menu_item: Wiki-menupunkt
   label_select_main_menu_item: Vælg nyt punkt i hovedmenu
   label_select_project: Select a project
@@ -1125,6 +1203,7 @@ da:
   label_close_versions: Luk afsluttede versioner
   label_closed_work_packages: lukket
   label_collapse: Fold sammen
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: opsætning
   label_comment_add: Tilføj kommentar
   label_comment_added: Kommentar tilføjet
@@ -1181,7 +1260,6 @@ da:
   label_edit: Rediger
   label_enable_multi_select: Vælg multivalg
   label_enabled_project_custom_fields: Aktiverede brugerdefinerede felter
-  label_enabled_project_types: Aktiverede typer
   label_enabled_project_modules: Aktiverede moduler
   label_enabled_project_activities: Aktiverede aktivitetstidsregistrering
   label_end_to_end: fra slutning til slutning
@@ -1190,12 +1268,14 @@ da:
   label_enumeration_value: Enumeration value
   label_enumerations: Opremsninger
   label_enterprise: Enterprise
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
   label_environment: Miljø
   label_estimates_and_time: Estimates and time
   label_equals: er
   label_example: Eksempel
   label_export_to: 'Også til rådighed i:'
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} time"
   label_f_hour_plural: "%{value} timer"
   label_feed_plural: Indlæg
@@ -1213,17 +1293,22 @@ da:
   label_force_user_language_to_default: Sæt sprog for brugere, der har forhåndsvalgt
     et ikke gangbart sprog
   label_form_configuration: Form configuration
+  label_gantt: Gantt
+  label_gantt_chart: Gantt chart
   label_general: Generelle
   label_generate_key: Skab nøgle
   label_git_path: Sti til .git-mappe
   label_greater_or_equal: ">="
   label_group_by: Gruppér efter
   label_group_new: Ny gruppe
+  label_group: Gruppe
+  label_group_named: Group %{name}
   label_group_plural: Grupper
   label_help: Hjælp
   label_here: her
   label_hide: Gem
   label_history: Historik
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: Hjem
   label_in: i
   label_in_less_than: på mindre end
@@ -1237,6 +1322,7 @@ da:
   label_information_plural: Information
   label_integer: Heltal
   label_internal: Intern
+  label_introduction_video: Introduction video
   label_invite_user: Invitér bruger
   label_show_hide: Vis/Skjul
   label_show_all_registered_users: Show all registered users
@@ -1299,6 +1385,7 @@ da:
   label_my_page_block: Min sideblok
   label_my_projects: Mine projekter
   label_my_queries: Mine selvvalgte forespørgsler
+  label_never: Aldrig
   label_new: Ny
   label_new_statuses_allowed: Nye statuser tilladt
   label_news_added: Nyheder tilføjet
@@ -1312,6 +1399,7 @@ da:
   label_next_week: Næste uge
   label_no_change_option: "(Ingen ændringer)"
   label_no_data: Ingen data at vise
+  label_no_parent_page: No parent page
   label_nothing_display: Intet at vise
   label_nobody: ingen
   label_none: ingen
@@ -1323,12 +1411,14 @@ da:
   label_open_menu: Åbn menuen
   label_open_work_packages: åbn
   label_open_work_packages_plural: åbn
+  label_openproject_website: OpenProject website
   label_optional_description: Beskrivelse
   label_options: Muligheder
   label_other: Andet
   label_overall_activity: Samlet aktivitet
   label_overall_spent_time: Samlet brugt tid
   label_overview: Overblik
+  label_page_title: Page title
   label_part_of: del af
   label_password_lost: Glemt din adgangskode?
   label_password_rule_lowercase: Små bogstaver
@@ -1399,7 +1489,7 @@ da:
   label_repository_plural: Projektarkiver
   label_required: required
   label_requires: requires
-  label_responsible_for_work_packages: Arbejdspakker jeg er ansvarlig for
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Resultater
   label_reverse_chronological_order: I omvendt kronologisk rækkefølge
   label_revision: Revidering
@@ -1448,7 +1538,7 @@ da:
   label_summary: Opsummering
   label_system: System
   label_system_storage: Lagringsoplysninger
-  label_table_of_contents: Indholdsfortegnelse
+  label_table_of_contents: Table of contents
   label_tag: Etiket
   label_text: Lang tekst
   label_this_month: denne måned
@@ -1463,7 +1553,6 @@ da:
   label_total: Total 
   label_type_new: Ny type
   label_type_plural: Typer
-  label_type_default_new_projects: Type activated for new projects by default
   label_ui: Brugergrænseflade
   label_update_work_package_done_ratios: Opdater fremgang for arbejdspakke
   label_updated_time: Opdateret %{value} siden
@@ -1473,6 +1562,7 @@ da:
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
   label_user: Bruger
+  label_user_named: User %{name}
   label_user_activity: "%{value}s aktivitet"
   label_user_anonymous: Anonymt
   label_user_mail_option_all: For enhver hændelse i alle mine projekter
@@ -1492,7 +1582,7 @@ da:
   label_version_sharing_none: Ikke delt
   label_version_sharing_system: Med alle projekter
   label_version_sharing_tree: Med projekttræ
-  label_video: Video
+  label_videos: Videos
   label_view_all_revisions: Se alle revisioner
   label_view_diff: Se forskelle
   label_view_revisions: Se ændringer
@@ -1513,6 +1603,7 @@ da:
   label_wiki_show_menu_item: Vis som menupunkt i projektnavigeringen
   label_wiki_show_new_page_link: Vis undermenupunktet 'Opret ny underside'
   label_wiki_show_submenu_item: 'Vis som punkt i undermenu til '
+  label_wiki_start: Startside
   label_work_package: Arbejdspakke
   label_work_package_added: Arbejdspakke tilføjet
   label_work_package_attachments: Work package attachments
@@ -1535,7 +1626,7 @@ da:
     mig
   label_work_package_view_all_reported_by_me: Vis alle arbejdspakker, der rapporterer
     til mig
-  label_work_package_view_all_responsible_for: View all work packages that I am responsible
+  label_work_package_view_all_responsible_for: View all work packages that I am accountable
     for
   label_work_package_view_all_watched: Vis alle arbejdspakker, jeg fører tilsyn med
   label_work_package_watchers: Tilsynsførende
@@ -1598,6 +1689,24 @@ da:
     ldap_auth_failed: Kunne ikke godkendes på LDAP-serveren.
   macro_execution_error: Fejl ved udførelse af makroen %{macro_name}
   macro_unavailable: Makro %{macro_name} kan ikke vises.
+  macros:
+    placeholder: "[Placeholder] Macro %{macro_name}"
+    errors:
+      missing_or_invalid_parameter: Missing or invalid macro parameter.
+    legacy_warning:
+      timeline: This legacy timeline macro has been removed and is no longer available.
+        You can replace the functionality with an embedded table macro.
+    include_wiki_page:
+      errors:
+        page_not_found: Cannot find the wiki page '%{name}'.
+        circular_inclusion: Circular inclusion of pages detected.
+    create_work_package_link:
+      errors:
+        no_project_context: Calling create_work_package_link macro from outside project
+          context.
+        invalid_type: No type found with name '%{type}' in project '%{project}'.
+      link_name: Ny arbejdspakke
+      link_name_type: New %{type_name}
   mail:
     actions: Actions
   mail_body_account_activation_request: 'En ny bruger ( %{value}) har registreret
@@ -1618,6 +1727,15 @@ da:
     dage"
   mail_subject_wiki_content_added: "'%{id}' wikisider er blevet tilføjet"
   mail_subject_wiki_content_updated: "'%{id}' wikiside er blevet opdateret"
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: Flere funktioner
   noscript_description: Du skal aktivere JavaScript for at bruge OpenProject!
   noscript_heading: JavaScript deaktiveret
@@ -1737,9 +1855,9 @@ da:
       team collaboration with OpenProject.
     text_show_again: You can restart this video from the help menu
     welcome: Velkommen til OpenProject
+    select_language: Please select your language for OpenProject
   permission_add_work_package_notes: Tilføj noter
-  permission_add_work_packages: Add work packages (also allows to add attachments
-    to all work packages)
+  permission_add_work_packages: Tilføj arbejdspakker
   permission_add_messages: Send beskeder
   permission_add_project: Opret projekt
   permission_add_subprojects: Opret underprojekter
@@ -1753,7 +1871,6 @@ da:
   permission_delete_work_packages: Slet arbejdspakker
   permission_delete_messages: Slet meddelelser
   permission_delete_own_messages: Slet egne meddelelser
-  permission_delete_project_associations: Slet projektets aflæggere
   permission_delete_reportings: Slet rapporteringer
   permission_delete_timelines: Slet tidslinjer
   permission_delete_wiki_pages: Slet wiki-sider
@@ -1765,7 +1882,6 @@ da:
   permission_edit_own_messages: Rediger egne meddelelser
   permission_edit_own_time_entries: Rediger egne tidsregistringer
   permission_edit_project: Rediger projekt
-  permission_edit_project_associations: Rediger projektets aflæggere
   permission_edit_reportings: Rediger rapporteringer
   permission_edit_time_entries: Rediger tidsregistringer
   permission_edit_timelines: Rediger tidslinjer
@@ -1780,7 +1896,7 @@ da:
   permission_manage_members: Administrer medlemmer
   permission_manage_news: Administrer nyheder
   permission_manage_project_activities: Administrer projektets aktiviteter
-  permission_manage_public_queries: Administrer offentlige forespørgsler
+  permission_manage_public_queries: Manage public views
   permission_manage_repository: Administrer projektarkiv
   permission_manage_subtasks: Administrer underopgaver
   permission_manage_versions: Administrer versioner
@@ -1789,7 +1905,7 @@ da:
   permission_move_work_packages: Flyt arbejdspakker
   permission_protect_wiki_pages: Beskyt wiki-sider
   permission_rename_wiki_pages: Omdøb wiki-sider
-  permission_save_queries: Gem forespørgsler
+  permission_save_queries: Save views
   permission_select_project_modules: Vælg projektmoduler
   permission_manage_types: Vælg typer
   permission_view_calendar: Vis kalender
@@ -1799,7 +1915,6 @@ da:
   permission_view_work_packages: View work packages
   permission_view_messages: Vis meddelelser
   permission_view_members: Vis medlemmer
-  permission_view_project_associations: Vis projektets aflæggere
   permission_view_reportings: Vis rapporteringer
   permission_view_time_entries: Vis anvendt tid
   permission_view_timelines: Vis tidslinjer
@@ -1981,12 +2096,13 @@ da:
   setting_email_delivery_method: Email delivery method
   setting_sendmail_location: Location of the sendmail executable
   setting_smtp_enable_starttls_auto: Automatically use STARTTLS if available
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: SMTP server
   setting_smtp_port: SMTP port
   setting_smtp_authentication: SMTP authentication
-  setting_smtp_domain: SMTP HELLO domain
   setting_smtp_user_name: SMTP username
   setting_smtp_password: SMTP password
+  setting_smtp_domain: SMTP HELLO domain
   setting_activity_days_default: Dage, der vises under projektaktivitet
   setting_app_subtitle: Appens undertitel
   setting_app_title: Appens titel
@@ -1999,12 +2115,18 @@ da:
     forsøg på login
   setting_brute_force_block_minutes: Periode, brugeren vil være blokeret
   setting_cache_formatted_text: Gem tekstformat i cache
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Tilpas udseendet af listen over arbejdspakker
   setting_commit_fix_keywords: Tilpasser nøgleord
   setting_commit_logs_encoding: Udfør kodning af meddelelser
   setting_commit_logtime_activity_id: Aktivitet til tidsregistrering
   setting_commit_logtime_enabled: Aktivér tidsregistrering
   setting_commit_ref_keywords: Fastslår forbindelser mellem nøgleord
+  setting_consent_time: Consent time
+  setting_consent_info: Consent information text
+  setting_consent_required: Consent required
+  setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: Tillad forbindelser mellem arbejdspakker
     på tværs af projekter
   setting_date_format: Datoformat
@@ -2023,6 +2145,7 @@ da:
   setting_feeds_limit: Grænse for indhold af feeds
   setting_file_max_size_displayed: Maksimal størrelse af tekstfiler, der vises inline
   setting_host_name: Værtsnavn
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: Beregn fremgang for arbejdspakker med
   setting_work_package_done_ratio_field: Brug arbejdspakkens felt
   setting_work_package_done_ratio_status: Brug arbejdspakkens status
@@ -2076,26 +2199,40 @@ da:
   setting_sys_api_enabled: Aktiver repositorieadministrations-webtjeneste
   setting_sys_api_description: Repositorieadministration-webtjenesten sørger for integration
     og brugertilladelse for adgang til repositorier.
-  setting_text_formatting: Tekstformattering
   setting_time_format: Tidsformat
   setting_accessibility_mode_for_anonymous: Aktivér tilgængelighedstilstand for anonyme
     brugere
   setting_user_format: Brugerens fremvisningsformat
+  setting_user_default_timezone: Users default time zone
   setting_users_deletable_by_admins: Brugerens konti kan slettes af administratorer
   setting_users_deletable_by_self: Brugererne kan selv slette deres konti
   setting_welcome_text: Velkomstblok-tekst
   setting_welcome_title: Velkomstblok-titel
   setting_welcome_on_homescreen: Vis velkomstblok på hjemmeskærm
-  setting_welcome_on_projects_page: Vis velkomstblok på projektoversigt
   setting_wiki_compression: Sammendrag af wiki-historie
   setting_work_package_group_assignment: Tillad tilknytning til grupper
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: Generelle
     other: Andet
     passwords: Adgangskoder
     session: Session
     brute_force_prevention: Automatiseret brugerblokering
-  show_hide_project_menu: Expand/Collapse project menu
+    user:
+      default_preferences: Default preferences
+      deletion: Deletion
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: No highlighting
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
+  text_formatting:
+    markdown: Markdown
+    plain: Plain text
   status_active: aktiv
   status_archived: archived
   status_invited: inviteret
@@ -2151,6 +2288,7 @@ da:
     is not transparent otherwise it will look bad on iOS.
 
 '
+  text_database_allows_tsv: Database allows TSVector (optional)
   text_default_administrator_account_changed: Forhåndsvalgt administratorkonto ændret
   text_default_encoding: 'Forhåndsvalgt: UTF-8'
   text_destroy: Slet
@@ -2186,7 +2324,8 @@ da:
   text_journal_aggregation_time_explanation: Sammenskriv kladder til visning, hvis
     der er mindre tid mellem det end det angivne. Dette vil desuden forsinke påmindelser
     tilsvrende.
-  text_journal_changed: "%{label} ændret fra %{old} til %{new}"
+  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} opdateret"
   text_journal_changed_with_diff: "%{label} ændret (%{link})"
   text_journal_deleted: "%{label} slettet (%{old})"
@@ -2236,6 +2375,8 @@ da:
   text_user_wrote: "%{value} skrev:"
   text_warn_on_leaving_unsaved: The work package contains unsaved text that will be
     lost if you leave this page.
+  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
+    comment
   text_wiki_destroy_confirmation: Er du sikker på du vil slette denne wiki og hele
     dens indhold?
   text_wiki_page_destroy_children: Slet underordnede sider og alle deres afledte
@@ -2263,14 +2404,6 @@ da:
     admin_menu:
       color: Farve
       colors: Farver
-      project_type: Projekttype
-      project_types: Projekttyper
-    project_menu:
-      project_associations: Aflæggere
-      reportings: Statusrapporteringer
-      reports: Tidslinjerapporter
-      timelines: Tidslinjer
-    add_project_association: Tilføj afhængighed
     associations: Aflæggere
     board_could_not_be_saved: Tavle kan ikke gemmes
     button_delete_all: Slet alt
@@ -2287,7 +2420,6 @@ da:
       one: 1 dag
       other: "%{count} dage"
     edit_color: Rediger farve
-    edit_project_type: Rediger projekttype
     edit_thing: Rediger
     edit_timeline: Rediger lidslinjerapport %{timeline}
     delete_timeline: Slet tidslinjerapport %{timeline}
@@ -2329,7 +2461,6 @@ da:
         due_date: Slutdato
         name: Navn
         status: Status
-        responsible: Ansvarlig
         start_date: Start dato
       columns: Kolonner
       comparisons: Sammenligninger
@@ -2358,7 +2489,7 @@ da:
       outline: Udvidet udgave af indledende disposition
       parent: Vis underprojekter til
       work_package_filters: Filtrér arbejdspakker
-      work_package_responsible: Vis arbjedspakker med ansvarlig
+      work_package_responsible: Show work packages with accountable
       work_package_assignee: Vis arbejdspakker med opdragsgiver
       types: Vis typer
       status: Vis status
@@ -2371,9 +2502,8 @@ da:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} siden,
         %{end_label} %{endspan}%{endspanunit} fra nu"
       project_filters: Filtrér projekter
-      project_responsible: Vis projekter med ansvarlige
+      project_responsible: Show projects with accountable
       project_status: Vis projektstatus
-      project_types: Vis projekttyper
       timeframe: Vis tidsrammer
       timeframe_end: til
       timeframe_start: fra
@@ -2383,7 +2513,6 @@ da:
     new_color: Ny farve
     new_association: Ny sammenhæng
     new_work_package: Ny arbejdspakke
-    new_project_type: Ny projekttype
     new_reporting: Ny rapportering
     new_timeline: Ny tidslinjerapport
     no_projects_for_reporting_available: Der er ikke nogen projekter hvortil der kan
@@ -2410,29 +2539,11 @@ da:
       edit: 'Status for redigering: %{comment}'
       show: 'Status: %{comment}'
     planning_element_update: 'Updatering:  %{title}'
-    work_packages_are_displayed_in_aggregations: Arbejdspakker er vist i sammensætninger
-    project_association_new: Tilføj projektafhængighed
-    project_association_new_for_with: Indstil afhængighed for "%{project_a}" med
-    project_association_with_other: Projektafhængighed mellem "%{project_a}" og "%{project_b}"
-    project_association_of_type: Afhængighed til projekt af type "%{type}"
-    project_type_could_not_be_saved: Projekttypen kan ikke gemmes
     type_could_not_be_saved: Typen kan ikke gemmes
     reporting_could_not_be_saved: Rapportering kan ikke gemmes
     properties: Egenskaber
     really_delete_color: 'Er du sikker på, du vil slette den følgende farve? Typer
       med denne farve vil ikke blive slettet.
-
-'
-    really_delete_project_association_between_project_a_and_project_b: 'Er du sikker
-      på, du vil slette afhængigheden mellem "%{project_a}" og "%{project_b}"?
-
-'
-    really_delete_project_type: 'Er du sikker på, du vil slette den følgende projekttype?
-      Projekter der bruger denne type vil ikke blive slettet.
-
-'
-    really_delete_timeline: 'Er du sikker på, du vil slette denne tidslinjerapport?
-      Arbejdspakker vist i denne rapport vil ikke blive slettet.
 
 '
     really_delete_reporting: 'Er du sikker på, du vil slette den følgende rapportering?
@@ -2444,7 +2555,6 @@ da:
     timelines: Tidslinjerapporter
     settings: Tidslinjer
     vertical_work_package: Lodret arbejdspakke
-    without_project_type: Uden projekttype
     you_are_viewing_the_selected_timeline: Du ser den valgte tidslinjerapport
     zoom:
       in: Zoom ind
@@ -2456,6 +2566,11 @@ da:
       years: År
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
+  title_enterprise_upgrade: Upgrade to unlock more users.
+  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
+    in a user''s settings.
+
+'
   tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
     case the old one expired or the user did not get the original email. Can also
     be used for active users to choose a new authentication method. When used with
@@ -2525,6 +2640,25 @@ da:
   note_password_login_disabled: Login med adgangskode er deaktiveret ved %{configuration}.
   warning: Advarsel
   warning_attachments_not_saved: "%{count} file(r) kunne ikke gemmes."
+  warning_imminent_user_limit: 'You invited more users than are supported by your
+    current plan. Invited users may not be able to join your OpenProject environment.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
+    in order to allow invited and registered users to join.
+
+'
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
+  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
+    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
+    for additional users.
+
+'
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: Menupunkt
   menu_item_setting: Synlighed
   wiki_menu_item_for: Menupunkt for wikipage "%{title}"
@@ -2555,7 +2689,7 @@ da:
       code_401_wrong_credentials: Du har ikke givet korrekte loginoplysninger.
       code_403: Du har ikke tilladelse til at få adgang til denne ressource.
       code_404: Den forespurgte ressource kunne ikke findes.
-      code_409: Kunne ikke opdatere ressourcen på grund af modstridende ændringer.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: En intern fejl opstod.
       expected:
         date: YYYY-MM-DD (ISO 8601 date only)
@@ -2576,6 +2710,7 @@ da:
         or malformed.
       multipart_body_error: Forespørgslen indeholdt ikke de forventede opdelte oplysninger.
       multiple_errors: Flere begrænsninger for feltet er overtrådt.
+      unable_to_create_attachment: The attachment could not be created
       render:
         context_not_parsable: Den anviste sammenhæng er ikke et link til en ressource.
         unsupported_context: Den givne ressource understøttes ikke som korrekt sammenhæng.
@@ -2583,7 +2718,7 @@ da:
       validation:
         done_ratio: Andel for udført kan ikke angives for orverordnede arbejdspakker
           når den er udledt af status, eller når den er slået fra.
-        due_date: Forfaldsdato kan ikke angives for overordnede arbejdspakker.
+        due_date: Finish date cannot be set on parent work packages.
         estimated_hours: Det skønnede timetal kan ikke angives på overordnede arbejdspakker.
         invalid_user_assigned_to_work_package: Den valgte bruger er ikke tilladt at
           være '%{property}' for denne arbejdspakke.

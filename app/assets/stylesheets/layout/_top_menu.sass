@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,17 +23,20 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 //++
 
+$hamburger-right: -3px
+$hamburger-width: 50px
+
 #logo
-  @include varprop(width, main-menu-width)
+  width: 230px
   @include varprop(height, header-height)
   position: absolute
-  left: calc(50% - #{$main-menu-width} / 2)
+  left: calc(50% - 230px / 2)
 
   .home-link
-    margin-top: 14px
+    margin-top: 15px
     display: block
     background: $header-home-link-bg
     background-size: 140px
@@ -56,7 +59,7 @@
 
   ::-webkit-input-placeholder
     color: $header-search-field-font-color
-  :-moz-placeholder
+  ::-moz-placeholder
     color: $header-search-field-font-color
   .menu_root
     margin: 0
@@ -65,7 +68,9 @@
     height: $header-height
     border-top: 0
     position: relative
-  li.drop-down
+  li.drop-down,
+  li.help-menu--overridden-link,
+  .accessibility-mode & #account-nav-left li
     float: left
     list-style-type: none
     white-space: nowrap
@@ -88,41 +93,18 @@
     > ul
       min-width: 270px
       padding: 6px 0
-      border: 2px solid $header-drop-down-border-color
+      border: 1px solid $header-drop-down-border-color
       border-top: 0
       background-color: $header-drop-down-bg-color
       li
         float: none
     > ul.drop-down--projects
-      min-width: 400px
-      left: 0
-      box-shadow: none
+      width: 400px
+      left: 0px
 
-  li.drop-down
-    &:hover
-      @include varprop(background-color, header-item-bg-hover-color)
-      > a
-        @include varprop(color, header-item-font-hover-color)
-        i.icon-help:before
-          @include varprop(border-color, header-item-font-hover-color)
-
-    &.open
-      @include varprop(background-color, header-item-bg-hover-color)
-      > a
-        @include varprop(color, header-item-font-hover-color)
-        i.icon-help:before
-          @include varprop(border-color, header-item-font-hover-color)
-
-      .button--dropdown-indicator
-        &:before
-          @extend .icon-pulldown-up:before
-
-    li
-      > a
-        color: $header-drop-down-item-font-color
-        &:hover
-          @include varprop(background, drop-down-hover-bg-color)
-          @include varprop(color, drop-down-hover-font-color)
+  li.drop-down.open
+    .button--dropdown-indicator:before
+      @include icon-mixin-pulldown-up
 
   li.last-child > ul,
   .drop-down--help,
@@ -137,9 +119,12 @@
 
   .drop-down--help
     .form--separator
-      margin-bottom: 5px
+      margin-bottom: 10px
+      &+ li
+        margin-bottom: 5px
     .drop-down--help-headline
-      padding-left: 15px
+      padding-left: 10px
+      font-size: 12px
       color: $gray-dark
       text-transform: uppercase
 
@@ -173,8 +158,8 @@
 
 .top-menu-search
   display: inline-block
+  position: relative
   &:not(.-collapsed) > div
-    position: relative
     padding-top: 9px
 
 .top-menu-search--wrapper
@@ -183,6 +168,8 @@
 .top-menu-search--button
   line-height: $header-height
   height: $header-height
+  width: $header-height
+  padding: 0 12px
   @include varprop(color, header-item-font-color)
   @include varprop(font-size, header-item-font-size)
   font-weight: normal
@@ -211,7 +198,7 @@ input.top-menu-search--input
   margin: 0
   padding: 0 20px 0 10px
   display: inline-block
-  border: $header-search-field-border
+  border: none !important
   border-radius: 25px
   width: 180px
   outline: 0
@@ -222,9 +209,6 @@ input.top-menu-search--input
   .top-menu-search.-collapsed &
     display: none
 
-  &:hover, &:focus
-    border: $header-search-field-border
-
 #quick-search
   float: right
 
@@ -232,51 +216,6 @@ input.top-menu-search--input
   padding-top: 0
   .top-menu-items-right
     float: right
-
-#select2-drop.project-search-results
-  margin: 0 0 0 -2px
-  border: 2px solid $header-drop-down-border-color
-  border-top: 0
-  // Overwrite Selct2's width calculations
-  width: 396px !important
-
-  @include default-font($header-drop-down-projects-search-font-color, 13px)
-  li
-    padding: 0 10px
-    font-size: 15px
-
-  .select2-search
-    margin: 1px 0 0 0
-    color: #b3b3b3
-    border-top: 1px solid #D9D9D9
-    border-bottom: 1px solid #D9D9D9
-
-    &:before
-      color: #b3b3b3
-      top: 21px
-      right: 25px
-      font-size: 14px
-
-  .select2-search input.select2-input
-    margin: 12px 10px
-    padding: 0px 32px 0px 10px
-    border: 1px solid #D9D9D9
-    box-shadow: inset 0px 1px 3px 0px rgba(0,0,0,0.1)
-    width: calc(100% - 20px)
-    background: $header-drop-down-projects-search-input-bg-color
-
-  .select2-results
-    margin: 6px 0
-    padding: 0
-
-    .select2-highlighted
-      @include varprop(background, drop-down-selected-bg-color, !important)
-      border-radius: 0 !important
-      font-weight: normal !important
-      @include varprop(color, drop-down-selected-font-color)
-      &:hover
-        @include varprop(background, drop-down-hover-bg-color, !important)
-        @include varprop(color, drop-down-hover-font-color, !important)
 
 #header
   min-width: 840px
@@ -287,26 +226,30 @@ input.top-menu-search--input
   display: block
   li
     a
+      @include text-shortener
       display: block
       padding: 0 9px 0
-    > ul > li
-      max-width: 350px
 
 #account-nav-left
   .drop-down
     // Half viewport width minus half logo.
-    max-width: calc((100vW/2) - 115px)
-
+    max-width: calc((100vW/2) - 115px - #{$hamburger-width + $hamburger-right})
+    .nosidebar &
+      max-width: calc((100vW/2) - 115px)
   #projects-menu
-    padding-right: 34px
+    padding-right: 30px
     font-weight: bold
+    padding-left: 6px
+    .nosidebar &
+      padding-left: 15px
 
     .button--dropdown-text
+      @include text-shortener
       float: left
       // Half viewport width minus half logo minus margins.
-      max-width: calc((100vW/2) - 115px - 50px)
-      text-overflow: ellipsis
-      overflow: hidden
+      max-width: calc((100vW/2) - 115px - 50px - #{$hamburger-width + $hamburger-right})
+      .nosidebar &
+        max-width: calc((100vW/2) - 115px - 50px)
 
     &:after
       position: absolute
@@ -337,15 +280,39 @@ input.top-menu-search--input
 // Temporary overwrite searchfield styles for mobile view
 // until we have a full responsive layout
 input.top-menu-search--input
-  margin: 0 0 0 20px
+  margin: 0
   position: absolute
   right: 0
-  top: 6px
+  bottom: 10px
   z-index: 10
 
 .top-menu-search:not(.-collapsed) .top-menu-search--button
-  top: -3px
+  position: relative
+  top: 0
   z-index: 10
+
+#main-menu-toggle
+  display: block
+  width: $hamburger-width
+  height: $header-height-mobile
+  float: left
+  text-align: center
+  margin-right: $hamburger-right
+  a
+    height: $header-height-mobile
+    line-height: $header-height-mobile
+    zoom: 1
+    @include varprop(color, header-item-font-color)
+    @include varprop(font-size, header-item-font-size)
+    text-decoration: none
+    padding: 0 15px
+
+  .nosidebar &
+    display: none
+    
+  &:hover
+    @include varprop(background, header-item-bg-hover-color)
+    @include varprop(color, header-item-font-hover-color)
 
 @media only screen and (max-width: 18.75rem)
   #logo

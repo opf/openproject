@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,12 +24,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 module BasicData
   class WorkflowSeeder < Seeder
     def seed_data!
-      colors = PlanningElementTypeColor.all
+      colors = Color.all
       colors = colors.map { |c| { c.name =>  c.id } }.reduce({}, :merge)
 
       if WorkPackage.where(type_id: nil).any? || Journal::WorkPackageJournal.where(type_id: nil).any?
@@ -51,24 +51,7 @@ module BasicData
                                                  color_id: green_color,
                                                  is_default: true,
                                                  is_in_roadmap: true,
-                                                 in_aggregation: true,
                                                  is_milestone: false)
-
-          # Adds the standard type to all existing projects
-          #
-          # As this seed might be executed on an existing database, there might be projects
-          # that do not have the default type yet.
-
-          condition = "NOT EXISTS
-                         (SELECT * from projects_types
-                          WHERE projects.id = projects_types.project_id
-                          AND projects_types.type_id = #{standard_type.id})"
-
-          projects_without_standard_type = Project.where(condition).all
-
-          projects_without_standard_type.each do |project|
-            project.types << standard_type
-          end
 
           [WorkPackage, Journal::WorkPackageJournal].each do |klass|
             klass.where(type_id: nil).update_all(type_id: standard_type.id)

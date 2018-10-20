@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 //++
 
 /*
@@ -33,7 +33,7 @@
       <li><a>Menu item text</a></li>
       <li><a>Menu item text</a></li>
       <li class="drop-down">
-        <a class="icon icon-more" href="javascript:">More functions</a>
+        <a class="icon icon-more" href="#">More functions</a>
         <ul style="display:none;" class="menu-drop-down-container">
           <li><a>Menu item text</a></li>
         </ul>
@@ -48,10 +48,10 @@ jQuery(function ($) {
   function menu_top_position(menu) {
     // if an h2 tag follows the submenu should unfold out at the border
     var menu_start_position;
-    if (menu.next().get(0) != undefined && (menu.next().get(0).tagName == 'H2')){
+    if (menu.next().get(0) != undefined && (menu.next().get(0).tagName == 'H2')) {
       menu_start_position = menu.next().innerHeight() + menu.next().position().top;
     }
-    else if(menu.next().hasClass("wiki-content") && menu.next().children().next().first().get(0) != undefined && menu.next().children().next().first().get(0).tagName == 'H1'){
+    else if (menu.next().hasClass("wiki-content") && menu.next().children().next().first().get(0) != undefined && menu.next().children().next().first().get(0).tagName == 'H1') {
       var wiki_heading = menu.next().children().next().first();
       menu_start_position = wiki_heading.innerHeight() + wiki_heading.position().top;
     }
@@ -61,7 +61,7 @@ jQuery(function ($) {
   function close_menu(event) {
     var menu = $(event.data.menu);
     // do not close the menu, if the user accidentally clicked next to a menu item (but still within the menu)
-    if ( event.target !== menu.find(" > li.drop-down.open > ul").get(0)) {
+    if (event.target !== menu.find(" > li.drop-down.open > ul").get(0)) {
       menu.find(" > li.drop-down.open").removeClass("open").find("> ul").slideUp(animationSpeed);
       // no need to watch for clicks, when the menu is already closed
       $('html').off('click', close_menu);
@@ -71,8 +71,8 @@ jQuery(function ($) {
   function open_menu(menu) {
     var drop_down = menu.find(" > li.drop-down");
     // do not open a menu, which is already open
-    if ( !drop_down.hasClass('open') ) {
-      drop_down.find('> ul').slideDown(animationSpeed, function(){
+    if (!drop_down.hasClass('open')) {
+      drop_down.find('> ul').slideDown(animationSpeed, function () {
         drop_down.find('li > a:first').focus();
         // when clicking on something, which is not the menu, close the menu
         $('html').on('click', {menu: menu.get(0)}, close_menu);
@@ -83,12 +83,18 @@ jQuery(function ($) {
 
   // open the given submenu when clicking on it
   function install_menu_logic(menu) {
-    menu.find(" > li.drop-down").click(function(event) {
+    menu.find(" > li.drop-down").click(function (event) {
       open_menu(menu);
+      // and prevent default action (href) for that element
+      // but not for the menu items.
+      var target = $(event.target);
+      if (target.is('.drop-down') || target.closest('li, ul').is('.drop-down')) {
+        event.preventDefault();
+      }
     });
   }
 
-  $('.project-actions, .legacy-actions-main, .legacy-actions-specific, .toolbar-items').each(function(idx, menu){
+  $('.project-actions, .legacy-actions-main, .legacy-actions-specific, .toolbar-items').each(function (idx, menu) {
     install_menu_logic($(menu));
   });
 });

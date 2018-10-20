@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class MailHandler < ActionMailer::Base
@@ -141,7 +141,7 @@ class MailHandler < ActionMailer::Base
     # TODO: send a email to the user
     logger.error e.message if logger
     false
-  rescue MissingInformation
+  rescue MissingInformation => e
     log "missing information from #{user}: #{e.message}", :error
     false
   rescue UnauthorizedAction
@@ -301,14 +301,16 @@ class MailHandler < ActionMailer::Base
   # Returns a Hash of issue attributes extracted from keywords in the email body
   def issue_attributes_from_keywords(issue)
     assigned_to = (k = get_keyword(:assigned_to, override: true)) && find_assignee_from_keyword(k, issue)
+    project = issue.project
 
     attrs = {
-      'type_id' => (k = get_keyword(:type)) && issue.project.types.find_by(name: k).try(:id),
+      'type_id' => (k = get_keyword(:type)) && project.types.find_by(name: k).try(:id),
       'status_id' =>  (k = get_keyword(:status)) && Status.find_by(name: k).try(:id),
+      'parent_id' => (k = get_keyword(:parent)),
       'priority_id' => (k = get_keyword(:priority)) && IssuePriority.find_by(name: k).try(:id),
-      'category_id' => (k = get_keyword(:category)) && issue.project.categories.find_by(name: k).try(:id),
+      'category_id' => (k = get_keyword(:category)) && project.categories.find_by(name: k).try(:id),
       'assigned_to_id' => assigned_to.try(:id),
-      'fixed_version_id' => (k = get_keyword(:fixed_version)) && issue.project.shared_versions.find_by(name: k).try(:id),
+      'fixed_version_id' => (k = get_keyword(:fixed_version)) && project.shared_versions.find_by(name: k).try(:id),
       'start_date' => get_keyword(:start_date, override: true, format: '\d{4}-\d{2}-\d{2}'),
       'due_date' => get_keyword(:due_date, override: true, format: '\d{4}-\d{2}-\d{2}'),
       'estimated_hours' => get_keyword(:estimated_hours, override: true),
@@ -448,7 +450,7 @@ class MailHandler < ActionMailer::Base
 
     service_call = WorkPackages::CreateService
                    .new(user: user,
-                        contract: work_package_create_contract_class)
+                        contract_class: work_package_create_contract_class)
                    .call(attributes: attributes, work_package: work_package)
 
     if service_call.success?
@@ -476,7 +478,7 @@ class MailHandler < ActionMailer::Base
     service_call = WorkPackages::UpdateService
                    .new(user: user,
                         work_package: work_package,
-                        contract: work_package_update_contract_class)
+                        contract_class: work_package_update_contract_class)
                    .call(attributes: attributes)
 
     if service_call.success?

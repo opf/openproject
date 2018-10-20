@@ -1,0 +1,77 @@
+<div class="work-packages-list-view--container">
+  <div class="toolbar-container -editable">
+    <div class="toolbar">
+      <wp-query-selectable-title [currentQuery]="currentQuery"
+                                 [selectedTitle]="selectedTitle"
+                                 [queryEditable]="titleEditingEnabled">
+      </wp-query-selectable-title>
+
+      <ul class="toolbar-items hide-when-print"
+          *ngIf="tableInformationLoaded">
+        <li class="toolbar-item">
+          <wp-create-button
+            [allowed]="allowed('work_packages', 'createWorkPackage')"
+            stateName="work-packages.list.new">
+          </wp-create-button>
+        </li>
+        <li class="toolbar-item hidden-for-mobile">
+          <wp-filter-button>
+          </wp-filter-button>
+        </li>
+        <li class="toolbar-item hidden-for-mobile">
+          <wp-details-view-button>
+          </wp-details-view-button>
+        </li>
+        <li class="toolbar-item hidden-for-mobile">
+          <wp-timeline-toggle-button>
+          </wp-timeline-toggle-button>
+        </li>
+        <li class="toolbar-item hidden-for-mobile">
+          <zen-mode-toggle-button>
+          </zen-mode-toggle-button>
+        </li>
+        <li class="toolbar-item hidden-for-mobile">
+          <button id="work-packages-settings-button"
+                  title="{{ text.button_settings }}"
+                  class="button last work-packages-settings-button toolbar-icon"
+                  opSettingsContextMenu
+                  opSettingsContextMenu-query="query">
+            <op-icon icon-classes="button--icon icon-show-more"></op-icon>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <filter-container></filter-container>
+
+  <accessible-by-keyboard
+    linkClass="hidden-for-sighted skip-navigation-link"
+    [linkAriaLabel]="text.text_jump_to_pagination"
+    (execute)="setAnchorToNextElement()">
+    <span [textContent]="text.jump_to_pagination"></span>
+  </accessible-by-keyboard>
+
+  <!-- (TABLE + TIMELINE) + DETAILS view -->
+  <div class="work-packages-split-view">
+
+    <!-- (TABLE + TIMELINE) and FOOTER vertical split-->
+    <div class="work-packages-split-view--tabletimeline-side loading-indicator--location"
+         data-indicator-name="table">
+
+      <!-- TABLE + TIMELINE horizontal split -->
+      <wp-table *ngIf="tableInformationLoaded"
+                [projectIdentifier]="projectIdentifier"
+                class="work-packages-split-view--tabletimeline-content"></wp-table>
+
+      <!-- Footer -->
+      <div class="work-packages-split-view--tabletimeline-footer hide-when-print"
+           *ngIf="tableInformationLoaded">
+        <wp-table-pagination></wp-table-pagination>
+      </div>
+    </div>
+
+    <!-- Details view -->
+    <div class="work-packages-split-view--details-side" ui-view></div>
+  </div>
+</div>

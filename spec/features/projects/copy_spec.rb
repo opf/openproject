@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -32,12 +32,12 @@ describe 'Projects copy',
          type: :feature,
          js: true do
   let!(:project) do
-    project = FactoryGirl.create(:project,
+    project = FactoryBot.create(:project,
                                  parent: parent_project,
                                  types: active_types,
                                  custom_field_values: { project_custom_field.id => 'some text cf' })
 
-    FactoryGirl.create(:member,
+    FactoryBot.create(:member,
                        project: project,
                        user: user,
                        roles: [role])
@@ -48,52 +48,52 @@ describe 'Projects copy',
     project
   end
   let!(:parent_project) do
-    project = FactoryGirl.create(:project)
+    project = FactoryBot.create(:project)
 
-    FactoryGirl.create(:member,
+    FactoryBot.create(:member,
                        project: project,
                        user: user,
                        roles: [role])
     project
   end
   let!(:project_custom_field) do
-    FactoryGirl.create(:text_project_custom_field, is_required: true)
+    FactoryBot.create(:text_project_custom_field, is_required: true)
   end
   let!(:wp_custom_field) do
-    FactoryGirl.create(:text_wp_custom_field)
+    FactoryBot.create(:text_wp_custom_field)
   end
   let!(:inactive_wp_custom_field) do
-    FactoryGirl.create(:text_wp_custom_field)
+    FactoryBot.create(:text_wp_custom_field)
   end
   let(:active_types) do
-    [FactoryGirl.create(:type), FactoryGirl.create(:type)]
+    [FactoryBot.create(:type), FactoryBot.create(:type)]
   end
   let!(:inactive_type) do
-    FactoryGirl.create(:type)
+    FactoryBot.create(:type)
   end
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryBot.create(:user) }
   let(:role) do
-    FactoryGirl.create(:role,
+    FactoryBot.create(:role,
                        permissions: permissions)
   end
   let(:permissions) { %i(copy_projects edit_project add_subprojects manage_types view_work_packages) }
   let(:wp_user) do
-    user = FactoryGirl.create(:user)
+    user = FactoryBot.create(:user)
 
-    FactoryGirl.create(:member,
+    FactoryBot.create(:member,
                        project: project,
                        user: user,
                        roles: [role])
     user
   end
   let(:category) do
-    FactoryGirl.create(:category, project: project)
+    FactoryBot.create(:category, project: project)
   end
   let(:version) do
-    FactoryGirl.create(:version, project: project)
+    FactoryBot.create(:version, project: project)
   end
   let!(:work_package) do
-    FactoryGirl.create(:work_package,
+    FactoryBot.create(:work_package,
                        project: project,
                        type: project.types.first,
                        author: wp_user,
@@ -115,7 +115,7 @@ describe 'Projects copy',
   end
 
   it 'copies projects and the associated objects' do
-    original_settings_page = Pages::ProjectSettings.new(project)
+    original_settings_page = Pages::Projects::Settings.new(project)
     original_settings_page.visit!
 
     click_link 'Copy'
@@ -137,7 +137,7 @@ describe 'Projects copy',
     expect(copied_project)
       .to be_present
 
-    copied_settings_page = Pages::ProjectSettings.new(copied_project)
+    copied_settings_page = Pages::Projects::Settings.new(copied_project)
     copied_settings_page.visit!
 
     # has the parent of the original project

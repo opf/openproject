@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module Components
@@ -33,7 +33,9 @@ module Components
       include RSpec::Matchers
 
       def enable_hierarchy
-        SettingsMenu.new.open_and_choose('Display hierarchy')
+        ::Components::WorkPackages::TableConfigurationModal.do_and_save do |modal|
+          modal.open_and_set_display_mode :hierarchy
+        end
       end
 
       alias_method :enable_via_menu, :enable_hierarchy
@@ -43,9 +45,9 @@ module Components
       end
 
       def disable_hierarchy
-        find('#work-packages-settings-button').click
-        expect(page).to have_selector('#settingsDropdown .menu-item')
-        page.find('#settingsDropdown a.menu-item', text: 'Hide hierarchy').click
+        ::Components::WorkPackages::TableConfigurationModal.do_and_save do |modal|
+          modal.open_and_set_display_mode :default
+        end
       end
 
       def expect_no_hierarchies

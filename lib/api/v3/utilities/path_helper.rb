@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module API
@@ -55,12 +55,24 @@ module API
             "#{root}/attachments/#{id}"
           end
 
-          def self.attachment_download(id, filename = nil)
-            download_attachment_path(id, filename)
+          def self.attachments
+            "#{root}/attachments"
+          end
+
+          def self.attachment_content(id)
+            "#{root}/attachments/#{id}/content"
+          end
+
+          def self.attachments_by_post(id)
+            "#{post(id)}/attachments"
           end
 
           def self.attachments_by_work_package(id)
             "#{work_package(id)}/attachments"
+          end
+
+          def self.attachments_by_wiki_page(id)
+            "#{wiki_page(id)}/attachments"
           end
 
           def self.available_assignees(project_id)
@@ -107,6 +119,14 @@ module API
             "#{work_packages_by_project(project_id)}/form"
           end
 
+          def self.custom_action(id)
+            "#{root}/custom_actions/#{id}"
+          end
+
+          def self.custom_action_execute(id)
+            "#{custom_action(id)}/execute"
+          end
+
           def self.custom_option(id)
             "#{root}/custom_options/#{id}"
           end
@@ -119,8 +139,20 @@ module API
             "#{root}/help_texts/#{id}"
           end
 
+          def self.message(id)
+            "#{root}/messages/#{id}"
+          end
+
           def self.my_preferences
             "#{root}/my_preferences"
+          end
+
+          def self.news(id)
+            "#{root}/news/#{id}"
+          end
+
+          def self.post(id)
+            "#{root}/posts/#{id}"
           end
 
           def self.principals
@@ -240,9 +272,12 @@ module API
             "#{root}/revisions/#{id}"
           end
 
-          def self.render_markup(format: nil, link: nil)
-            format = format || Setting.text_formatting
-            format = 'plain' if format == '' # Setting will return '' for plain
+          def self.render_markup(link: nil, plain: false)
+            format = if plain
+                       OpenProject::TextFormatting::Formats.plain_format
+                     else
+                       OpenProject::TextFormatting::Formats.rich_format
+                     end
 
             path = "#{root}/render/#{format}"
             path += "?context=#{link}" if link
@@ -313,11 +348,14 @@ module API
 
           class << self
             alias :groups :users
-            alias :group :user
           end
 
           def self.user_lock(id)
             "#{user(id)}/lock"
+          end
+
+          def self.group(id)
+            "#{root}/groups/#{id}"
           end
 
           def self.version(version_id)
@@ -338,6 +376,10 @@ module API
 
           def self.watcher(id, work_package_id)
             "#{work_package_watchers(work_package_id)}/#{id}"
+          end
+
+          def self.wiki_page(id)
+            "#{root}/wiki_pages/#{id}"
           end
 
           def self.work_packages
@@ -362,6 +404,10 @@ module API
 
           def self.work_package_relation(id, work_package_id)
             "#{work_package_relations(work_package_id)}/#{id}"
+          end
+
+          def self.work_package_available_relation_candidates(id)
+            "#{work_package(id)}/available_relation_candidates"
           end
 
           def self.work_package_revisions(id)

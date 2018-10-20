@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class WorkPackages::CreateService
@@ -34,11 +34,11 @@ class WorkPackages::CreateService
 
   attr_accessor :user,
                 :work_package,
-                :contract
+                :contract_class
 
-  def initialize(user:, contract: WorkPackages::CreateContract)
+  def initialize(user:, contract_class: WorkPackages::CreateContract)
     self.user = user
-    self.contract = contract
+    self.contract_class = contract_class
   end
 
   def call(attributes: {},
@@ -54,7 +54,12 @@ class WorkPackages::CreateService
   def create(attributes, work_package)
     result = set_attributes(attributes, work_package)
 
-    result.success &&= work_package.save
+    result.success = if result.success
+                       work_package.attachments = work_package.attachments_replacements if work_package.attachments_replacements
+                       work_package.save
+                     else
+                       false
+                     end
 
     if result.success?
       result.merge!(reschedule_related(work_package))
@@ -73,7 +78,7 @@ class WorkPackages::CreateService
     WorkPackages::SetAttributesService
       .new(user: user,
            work_package: wp,
-           contract: contract)
+           contract_class: contract_class)
       .call(attributes)
   end
 

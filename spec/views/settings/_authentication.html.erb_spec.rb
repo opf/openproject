@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -56,6 +56,31 @@ describe 'settings/_authentication', type: :view do
 
     it 'does not show automated user blocking options' do
       expect(rendered).not_to have_text I18n.t(:brute_force_prevention, scope: [:settings])
+    end
+  end
+
+  context 'with no registration_footer configured' do
+    before do
+      allow(OpenProject::Configuration).to receive(:registration_footer).and_return({})
+      render
+    end
+
+    it 'shows the registration footer textfield' do
+      expect(rendered).to have_text I18n.t(:setting_registration_footer)
+    end
+  end
+
+  context 'with registration_footer configured' do
+    before do
+      allow(OpenProject::Configuration)
+        .to receive(:registration_footer)
+        .and_return("en" => "You approve.")
+
+      render
+    end
+
+    it 'does not show the registration footer textfield' do
+      expect(rendered).not_to have_text I18n.t(:setting_registration_footer)
     end
   end
 end

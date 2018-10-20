@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -34,7 +34,7 @@ describe 'API v3 Version resource' do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    user = FactoryGirl.create(:user,
+    user = FactoryBot.create(:user,
                               member_in_project: project,
                               member_through_role: role)
 
@@ -42,12 +42,12 @@ describe 'API v3 Version resource' do
 
     user
   end
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
-  let(:project) { FactoryGirl.create(:project, is_public: false) }
-  let(:other_project) { FactoryGirl.create(:project, is_public: false) }
-  let(:version_in_project) { FactoryGirl.build(:version, project: project) }
+  let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
+  let(:project) { FactoryBot.create(:project, is_public: false) }
+  let(:other_project) { FactoryBot.create(:project, is_public: false) }
+  let(:version_in_project) { FactoryBot.build(:version, project: project) }
   let(:version_in_other_project) do
-    FactoryGirl.build(:version, project: other_project,
+    FactoryBot.build(:version, project: other_project,
                                 sharing: 'system')
   end
 
@@ -96,7 +96,7 @@ describe 'API v3 Version resource' do
     end
 
     context 'logged in user without permission' do
-      let(:role) { FactoryGirl.create(:role, permissions: []) }
+      let(:role) { FactoryBot.create(:role, permissions: []) }
 
       before(:each) do
         version_in_project.save!
@@ -136,7 +136,7 @@ describe 'API v3 Version resource' do
 
     context 'filtering for project by sharing' do
       let(:shared_version_in_project) do
-        FactoryGirl.build(:version, project: project, sharing: 'system')
+        FactoryBot.build(:version, project: project, sharing: 'system')
       end
       let(:versions) { [version_in_project, shared_version_in_project] }
 

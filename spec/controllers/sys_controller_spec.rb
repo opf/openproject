@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,21 +23,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe SysController, type: :controller do
   let(:commit_role) {
-    FactoryGirl.create(:role, permissions: [:commit_access,
-                                            :browse_repository])
+    FactoryBot.create(:role, permissions: %i[commit_access browse_repository])
   }
-  let(:browse_role) { FactoryGirl.create(:role, permissions: [:browse_repository]) }
-  let(:guest_role) { FactoryGirl.create(:role, permissions: []) }
+  let(:browse_role) { FactoryBot.create(:role, permissions: [:browse_repository]) }
+  let(:guest_role) { FactoryBot.create(:role, permissions: []) }
   let(:valid_user_password) { 'Top Secret Password' }
   let(:valid_user) {
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        login: 'johndoe',
                        password: valid_user_password,
                        password_confirmation: valid_user_password)
@@ -46,14 +45,14 @@ describe SysController, type: :controller do
   let(:api_key) { '12345678' }
 
   let(:public) { false }
-  let(:project) { FactoryGirl.create(:project, is_public: public) }
+  let(:project) { FactoryBot.create(:project, is_public: public) }
 
   before(:each) do
-    FactoryGirl.create(:non_member, permissions: [:browse_repository])
+    FactoryBot.create(:non_member, permissions: [:browse_repository])
     DeletedUser.first # creating it first in order to avoid problems with should_receive
 
-    random_project = FactoryGirl.create(:project, is_public: false)
-    FactoryGirl.create(:member,
+    random_project = FactoryBot.create(:project, is_public: false)
+    FactoryBot.create(:member,
                        user: valid_user,
                        roles: [browse_role],
                        project: random_project)
@@ -66,7 +65,7 @@ describe SysController, type: :controller do
   end
 
   describe 'svn' do
-    let!(:repository) { FactoryGirl.create(:repository_subversion, project: project) }
+    let!(:repository) { FactoryBot.create(:repository_subversion, project: project) }
 
     describe 'repo_auth' do
       context 'for valid login, but no access to repo_auth' do
@@ -90,7 +89,7 @@ describe SysController, type: :controller do
 
       context 'for valid login and user has read permission (role reporter) for project' do
         before(:each) do
-          FactoryGirl.create(:member,
+          FactoryBot.create(:member,
                              user: valid_user,
                              roles: [browse_role],
                              project: project)
@@ -121,7 +120,7 @@ describe SysController, type: :controller do
 
       context 'for valid login and user has rw permission (role developer) for project' do
         before(:each) do
-          FactoryGirl.create(:member,
+          FactoryBot.create(:member,
                              user: valid_user,
                              roles: [commit_role],
                              project: project)
@@ -152,7 +151,7 @@ describe SysController, type: :controller do
 
       context 'for invalid login and user has role manager for project' do
         before(:each) do
-          FactoryGirl.create(:member,
+          FactoryBot.create(:member,
                              user: valid_user,
                              roles: [commit_role],
                              project: project)
@@ -194,8 +193,8 @@ describe SysController, type: :controller do
         let(:public) { true }
 
         before(:each) do
-          random_project = FactoryGirl.create(:project, is_public: false)
-          FactoryGirl.create(:member,
+          random_project = FactoryBot.create(:project, is_public: false)
+          FactoryBot.create(:member,
                              user: valid_user,
                              roles: [browse_role],
                              project: random_project)
@@ -265,7 +264,7 @@ describe SysController, type: :controller do
   end
 
   describe 'git' do
-    let!(:repository) { FactoryGirl.create(:repository_git, project: project) }
+    let!(:repository) { FactoryBot.create(:repository_git, project: project) }
     describe 'repo_auth' do
       context 'for valid login, but no access to repo_auth' do
         before(:each) do
@@ -291,7 +290,7 @@ describe SysController, type: :controller do
 
       context 'for valid login and user has read permission (role reporter) for project' do
         before(:each) do
-          FactoryGirl.create(:member,
+          FactoryBot.create(:member,
                              user: valid_user,
                              roles: [browse_role],
                              project: project)
@@ -315,13 +314,12 @@ describe SysController, type: :controller do
         end
 
         it 'should respond 403 not allowed for write (push)' do
-          post 'repo_auth',
-               key: api_key,
-               repository: project.identifier,
-               method: 'POST',
-               git_smart_http: '1',
-               uri: "/git/#{project.identifier}/git-receive-pack",
-               location: '/git'
+          post 'repo_auth', params: { key: api_key,
+                                      repository: project.identifier,
+                                      method: 'POST',
+                                      git_smart_http: '1',
+                                      uri: "/git/#{project.identifier}/git-receive-pack",
+                                      location: '/git' }
 
           expect(response.code).to eq('403')
         end
@@ -329,7 +327,7 @@ describe SysController, type: :controller do
 
       context 'for valid login and user has rw permission (role developer) for project' do
         before(:each) do
-          FactoryGirl.create(:member,
+          FactoryBot.create(:member,
                              user: valid_user,
                              roles: [commit_role],
                              project: project)
@@ -367,7 +365,7 @@ describe SysController, type: :controller do
 
       context 'for invalid login and user has role manager for project' do
         before(:each) do
-          FactoryGirl.create(:member,
+          FactoryBot.create(:member,
                              user: valid_user,
                              roles: [commit_role],
                              project: project)
@@ -393,7 +391,7 @@ describe SysController, type: :controller do
 
       context 'for valid login and user is not member for project' do
         before(:each) do
-          project = FactoryGirl.create(:project, is_public: false)
+          project = FactoryBot.create(:project, is_public: false)
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
@@ -416,8 +414,8 @@ describe SysController, type: :controller do
       context 'for valid login and project is public' do
         let(:public) { true }
         before(:each) do
-          random_project = FactoryGirl.create(:project, is_public: false)
-          FactoryGirl.create(:member,
+          random_project = FactoryBot.create(:project, is_public: false)
+          FactoryBot.create(:member,
                              user: valid_user,
                              roles: [browse_role],
                              project: random_project)
@@ -564,7 +562,7 @@ describe SysController, type: :controller do
       end
 
       context 'available project, but missing repository' do
-        let(:project) { FactoryGirl.build_stubbed(:project) }
+        let(:project) { FactoryBot.build_stubbed(:project) }
         let(:id) { project.id }
         before do
           allow(Project).to receive(:find).and_return(project)
@@ -578,10 +576,10 @@ describe SysController, type: :controller do
       end
 
       context 'stubbed repository' do
-        let(:project) { FactoryGirl.build_stubbed(:project) }
+        let(:project) { FactoryBot.build_stubbed(:project) }
         let(:id) { project.id }
         let(:repository) {
-          FactoryGirl.build_stubbed(:repository_subversion, url: url, root_url: url)
+          FactoryBot.build_stubbed(:repository_subversion, url: url, root_url: url)
         }
 
         before do
@@ -619,10 +617,10 @@ describe SysController, type: :controller do
           let(:root_url) { repo_dir }
           let(:url) { "file://#{root_url}" }
 
-          let(:project) { FactoryGirl.create(:project) }
+          let(:project) { FactoryBot.create(:project) }
           let(:id) { project.id }
           let(:repository) {
-            FactoryGirl.create(:repository_subversion, project: project, url: url, root_url: url)
+            FactoryBot.create(:repository_subversion, project: project, url: url, root_url: url)
           }
 
           before do
@@ -652,7 +650,7 @@ describe SysController, type: :controller do
             let(:last_updated) { 2.days.ago }
             it 'updates the storage' do
               expect(Delayed::Job)
-                .to receive(:enqueue).with(instance_of(::Scm::StorageUpdaterJob))
+                .to receive(:enqueue).with(instance_of(::Scm::StorageUpdaterJob), any_args)
 
               request_storage
             end
@@ -663,7 +661,7 @@ describe SysController, type: :controller do
 
             it 'does not update to storage' do
               expect(Delayed::Job)
-                .not_to receive(:enqueue).with(instance_of(::Scm::StorageUpdaterJob))
+                .not_to receive(:enqueue).with(instance_of(::Scm::StorageUpdaterJob), any_args)
 
               request_storage
             end
@@ -675,7 +673,7 @@ describe SysController, type: :controller do
 
             it 'does update to storage' do
               expect(Delayed::Job)
-                .to receive(:enqueue).with(instance_of(::Scm::StorageUpdaterJob))
+                .to receive(:enqueue).with(instance_of(::Scm::StorageUpdaterJob), any_args)
 
               request_storage
             end

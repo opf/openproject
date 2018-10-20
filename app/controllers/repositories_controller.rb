@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'SVG/Graph/Bar'
@@ -52,26 +52,11 @@ class RepositoriesController < ApplicationController
 
   rescue_from OpenProject::Scm::Exceptions::ScmError, with: :show_error_command_failed
 
-  def edit
-    service = Scm::RepositoryFactoryService.new(@project, params)
-    if service.build_temporary
-      @repository = service.repository
-    else
-      logger.error("Cannot create repository for #{params[:scm_vendor]}")
-      flash.now[:error] = service.build_error
-    end
-
-    respond_to do |format|
-      format.js { render 'repositories/settings/repository_form' }
-    end
-  end
-
   def update
     @repository = @project.repository
     update_repository(params.fetch(:repository, {}))
-    respond_to do |format|
-      format.js { render 'repositories/settings/repository_form' }
-    end
+
+    redirect_to helpers.settings_repository_tab_path
   end
 
   def create
@@ -84,9 +69,7 @@ class RepositoriesController < ApplicationController
       flash[:error] = service.build_error
     end
 
-    respond_to do |format|
-      format.js { render js: "window.location = '#{settings_repository_tab_path}'" }
-    end
+    redirect_to helpers.settings_repository_tab_path
   end
 
   def committers
@@ -110,7 +93,7 @@ class RepositoriesController < ApplicationController
 
   def destroy_info
     @repository = @project.repository
-    @back_link = settings_repository_tab_path
+    @back_link = helpers.settings_repository_tab_path
   end
 
   def destroy
@@ -120,7 +103,7 @@ class RepositoriesController < ApplicationController
     else
       flash[:error] = repository.errors.full_messages
     end
-    redirect_to settings_repository_tab_path
+    redirect_to helpers.settings_repository_tab_path
   end
 
   def show
@@ -298,6 +281,9 @@ class RepositoriesController < ApplicationController
   end
 
   def stats
+    # allow object_src self to be able to load dynamic stats SVGs from ./graph
+    override_content_security_policy_directives object_src: %w('self')
+
     @show_commits_per_author = current_user.allowed_to_in_project?(:view_commit_author_statistics,
                                                                    @project)
   end
@@ -330,9 +316,9 @@ class RepositoriesController < ApplicationController
     @repository.attributes = @repository.class.permitted_params(repo_params)
 
     if @repository.save
-      flash.now[:notice] = l('repositories.update_settings_successful')
+      flash[:notice] = l('repositories.update_settings_successful')
     else
-      flash.now[:error] = @repository.errors.full_messages.join('\n')
+      flash[:error] = @repository.errors.full_messages.join('\n')
     end
   end
 
@@ -346,7 +332,7 @@ class RepositoriesController < ApplicationController
 
     # Prepare checkout instructions
     # available on all pages (even empty!)
-    @path = params[:path] || ''
+    @path = params[:repo_path] || ''
     @instructions = ::Scm::CheckoutInstructionsService.new(@repository, path: @path)
 
     # Asserts repository availability, or renders an appropriate error
@@ -480,7 +466,7 @@ class RepositoriesController < ApplicationController
   end
 
   def login_back_url_params
-    params.permit(:path)
+    params.permit(:repo_path)
   end
 
   def raw_or_to_large_or_non_text(content, path)

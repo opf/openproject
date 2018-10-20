@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require_relative '../legacy_spec_helper'
@@ -63,23 +63,11 @@ describe SysController, type: :controller do
       get :fetch_changesets, params: { id: 'unknown' }
       assert_response 404
     end
-
-    describe 'api key', with_settings: { sys_api_key: 'my_secret_key' } do
-      it 'should api key' do
-        get :projects, params: { key: 'my_secret_key' }
-        assert_response :success
-      end
-
-      it 'should wrong key should respond with 403 error' do
-        get :projects, params: { key: 'wrong_key' }
-        assert_response 403
-      end
-    end
   end
 
   describe 'when disabled', with_settings: { sys_api_enabled?: false } do
     it 'should disabled ws should respond with 403 error' do
-      get :projects
+      get :fetch_changesets, params: { id: 'unknown' }
       assert_response 403
     end
   end

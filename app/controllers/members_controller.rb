@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class MembersController < ApplicationController
@@ -235,7 +235,7 @@ class MembersController < ApplicationController
     user_ids.map do |id|
       if id.to_i == 0 && id.present? # we've got an email - invite that user
         # only admins can invite new users
-        if current_user.admin?
+        if current_user.admin? && enterprise_allow_new_users?
           # The invitation can pretty much only fail due to the user already
           # having been invited. So look them up if it does.
           user = UserInvitation.invite_new_user(email: id) ||
@@ -247,6 +247,10 @@ class MembersController < ApplicationController
         id
       end
     end.compact
+  end
+
+  def enterprise_allow_new_users?
+    !OpenProject::Enterprise.user_limit_reached? || !OpenProject::Enterprise.fail_fast?
   end
 
   def each_comma_seperated(array, &block)

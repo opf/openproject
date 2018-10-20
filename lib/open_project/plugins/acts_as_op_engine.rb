@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,8 +23,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
+
+require_dependency 'open_project/ui/extensible_tabs'
 
 module OpenProject::Plugins
   module ActsAsOpEngine
@@ -63,8 +65,8 @@ module OpenProject::Plugins
         end
 
         # adds our factories to factory girl's load path
-        initializer "#{engine_name}.register_factories", after: 'factory_girl.set_factory_paths' do |_app|
-          FactoryGirl.definition_file_paths << File.expand_path(root.to_s + '/spec/factories') if defined?(FactoryGirl)
+        initializer "#{engine_name}.register_factories", after: 'factory_bot.set_factory_paths' do |_app|
+          FactoryBot.definition_file_paths << File.expand_path(root.to_s + '/spec/factories') if defined?(FactoryBot)
         end
 
         initializer "#{engine_name}.append_migrations" do |app|
@@ -186,6 +188,12 @@ module OpenProject::Plugins
         end
       end
 
+      ##
+      # Add a tab entry to an extensible tab
+      def add_tab_entry(key, name:, partial:, label:, only_if: nil)
+        ::OpenProject::Ui::ExtensibleTabs.add(key, name: name, partial: partial, label: label, only_if: only_if)
+      end
+
       def add_api_path(path_name, &block)
         config.to_prepare do
           ::API::V3::Utilities::PathHelper::ApiV3Path.class_eval do
@@ -245,7 +253,7 @@ module OpenProject::Plugins
       def add_api_representer_cache_key(*path,
                                         &keys)
         mod = Module.new
-        mod.send :define_method, :cache_key do
+        mod.send :define_method, :json_cache_key do
           if defined?(super)
             existing = super()
 

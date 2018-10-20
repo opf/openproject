@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 //++
 
 /*
@@ -31,28 +31,6 @@
   which you can observe, for example, in the settings page.
   Used by view/common/_tabs.html.erb in inline javascript.
 */
-
-// Called when a tab was selected.
-// Responsible to hide the old selected tab and show the content
-// of the currently selected tab.
-function showTab(name, url) {
-  jQuery('div#content .tabs .position-label').hide();
-  jQuery('div#content .tabs #tab-' + name + ' .position-label').show();
-  jQuery('div#content .tab-content').hide();
-  jQuery('div.tabs a').removeClass('selected');
-  jQuery('#tab-content-' + name).show();
-  jQuery('#tab-' + name).addClass('selected');
-  //replaces current URL with the "href" attribute of the current link
-  //(only triggered if supported by browser)
-  if ("replaceState" in window.history) {
-    window.history.replaceState(null, document.title, url);
-  }
-
-  window.setTimeout(function() {
-    jQuery('#tab-' + name).focus();
-  }, 100);
-  return false;
-}
 
 /*
   There are hidden buttons in the common/_tabs.html.erb view,
@@ -84,8 +62,9 @@ function displayTabsButtons() {
 }
 
 // scroll the tab caption list right
-function moveTabRight(el) {
-  var lis = jQuery(el).parents('div.tabs').first().find('ul').children();
+function moveTabRight() {
+  var el = jQuery(this);
+  var lis = el.parents('div.tabs').first().find('ul').children();
   var tabsWidth = 0;
   var i = 0;
   lis.each(function() {
@@ -99,11 +78,26 @@ function moveTabRight(el) {
 }
 
 // scroll the tab caption list left
-function moveTabLeft(el) {
-  var lis = jQuery(el).parents('div.tabs').first().find('ul').children();
+function moveTabLeft() {
+  var el = jQuery(this);
+  var lis = el.parents('div.tabs').first().find('ul').children();
   var i = 0;
   while (i < lis.length && !lis.eq(i).is(':visible')) { i++; }
   if (i > 0) {
     lis.eq(i-1).show();
   }
 }
+
+jQuery(function($) {
+  if (jQuery('div.tabs').length === 0) {
+    return;
+  }
+
+  // Show tabs
+  displayTabsButtons();
+  $(window).resize(function() { displayTabsButtons(); });
+
+  $('.tab-left').click(moveTabLeft);
+  $('.tab-right').click(moveTabRight);
+});
+

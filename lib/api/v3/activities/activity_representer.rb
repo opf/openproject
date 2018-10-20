@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 API::V3::Utilities::DateTimeFormatter
@@ -37,7 +37,7 @@ module API
 
         self_link path: :activity,
                   id_attribute: :notes_id,
-                  title_getter: -> (*) { nil }
+                  title_getter: ->(*) { nil }
 
         link :workPackage do
           {
@@ -53,26 +53,28 @@ module API
         end
 
         link :update do
+          next unless current_user_allowed_to_edit?
+
           {
             href: api_v3_paths.activity(represented.notes_id),
             method: :patch
-          } if current_user_allowed_to_edit?
+          }
         end
 
         property :id,
-                 getter: -> (*) { notes_id },
+                 getter: ->(*) { notes_id },
                  render_nil: true
         property :comment,
                  exec_context: :decorator,
-                 getter: -> (*) {
+                 getter: ->(*) {
                    ::API::Decorators::Formattable.new(represented.notes,
                                                       object: represented.journable)
                  },
-                 setter: -> (value, *) { represented.notes = value['raw'] },
+                 setter: ->(value, *) { represented.notes = value['raw'] },
                  render_nil: true
         property :details,
                  exec_context: :decorator,
-                 getter: -> (*) {
+                 getter: ->(*) {
                    details = render_details(represented, no_html: true)
                    html_details = render_details(represented)
                    formattables = details.zip(html_details)
@@ -81,7 +83,7 @@ module API
                  },
                  render_nil: true
         property :version, render_nil: true
-        property :created_at, getter: -> (*) { DateTimeFormatter::format_datetime(created_at) }
+        property :created_at, getter: ->(*) { DateTimeFormatter::format_datetime(created_at) }
 
         def _type
           if represented.notes.blank?

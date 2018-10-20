@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,24 +24,24 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe EnqueueWorkPackageNotificationJob, type: :model do
-  let(:project) { FactoryGirl.create(:project) }
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
-  let(:recipient) {
-    FactoryGirl.create(:user, member_in_project: project, member_through_role: role, login: "johndoe")
-  }
-  let(:author) { FactoryGirl.create(:user, login: "marktwain") }
-  let(:work_package) {
-    FactoryGirl.create(:work_package,
+  let(:project) { FactoryBot.create(:project) }
+  let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
+  let(:recipient) do
+    FactoryBot.create(:user, member_in_project: project, member_through_role: role, login: "johndoe")
+  end
+  let(:author) { FactoryBot.create(:user, login: "marktwain") }
+  let(:work_package) do
+    FactoryBot.create(:work_package,
                        project: project,
                        author: author,
                        assigned_to: recipient)
-  }
+  end
   let(:journal) { work_package.journals.first }
   subject { described_class.new(journal.id, author.id) }
 
@@ -51,7 +51,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
   end
 
   it 'sends a mail' do
-    expect(Delayed::Job).to receive(:enqueue).with(an_instance_of DeliverWorkPackageNotificationJob)
+    expect(Delayed::Job).to receive(:enqueue).with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
     subject.perform
   end
 
@@ -74,7 +74,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
     it 'sends a mail' do
       expect(Delayed::Job)
         .to receive(:enqueue)
-        .with(an_instance_of(DeliverWorkPackageNotificationJob))
+        .with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
       subject.perform
     end
   end
@@ -136,7 +136,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
       it 'Job 1 sends one mail for journal 1' do
         expect(Delayed::Job)
           .to receive(:enqueue)
-          .with(an_instance_of(DeliverWorkPackageNotificationJob))
+          .with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
           .once
         described_class.new(journal_1.id, author.id).perform
       end
@@ -147,9 +147,10 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
       end
 
       it 'Job 3 sends one mail for journal (2,3)' do
-        expect(Delayed::Job).to receive(:enqueue)
-                                  .with(an_instance_of DeliverWorkPackageNotificationJob)
-                                  .once
+        expect(Delayed::Job)
+          .to receive(:enqueue)
+          .with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
+          .once
         described_class.new(journal_3.id, author.id).perform
       end
     end
@@ -179,9 +180,10 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
       end
 
       it 'Job 3 sends one mail for (2,3)' do
-        expect(Delayed::Job).to receive(:enqueue)
-                                  .with(an_instance_of DeliverWorkPackageNotificationJob)
-                                  .once
+        expect(Delayed::Job)
+          .to receive(:enqueue)
+          .with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
+          .once
         described_class.new(journal_3.id, author.id).perform
       end
     end
@@ -203,14 +205,14 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
 
       it 'Job 2 sends one mail for journal (1, 2)' do
         expect(Delayed::Job).to receive(:enqueue)
-                                  .with(an_instance_of DeliverWorkPackageNotificationJob)
+                                  .with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
                                   .once
         described_class.new(journal_2.id, author.id).perform
       end
 
       it 'Job 3 sends one mail for journal 3' do
         expect(Delayed::Job).to receive(:enqueue)
-                                  .with(an_instance_of DeliverWorkPackageNotificationJob)
+                                  .with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
                                   .once
         described_class.new(journal_3.id, author.id).perform
       end
@@ -251,82 +253,145 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
   end
 
   describe "#mentioned" do
-    before do
-      subject.perform
-      allow(subject).to receive(:text_for_mentions).and_return(added_text)
+    subject do
+      instance = described_class.new(journal.id, author.id)
+      instance.perform
+
+      allow(instance)
+        .to receive(:text_for_mentions)
+        .and_return(added_text)
+
+      instance.send(:mentioned)
     end
 
-    context "recipient is allowed to view the work package" do
-      let(:author) do
-        FactoryGirl.create(:user,
-                           member_in_project: project,
-                           member_through_role: role)
-      end
+    context 'for users' do
+      context "mentioned is allowed to view the work package" do
+        context "The added text contains a login name" do
+          let(:added_text) { "Hello user:\"#{recipient.login}\"" }
 
-      context "The added text contains a login name" do
-        let(:added_text) { "Hello user:\"#{recipient.login}\"" }
+          context "that is pretty normal word" do
+            it "detects the user" do
+              is_expected
+                .to match_array [recipient]
+            end
+          end
 
-        context "that is pretty normal word" do
-          it "detects the user" do
-            expect(subject.send(:mentioned)).to be_an Array
-            expect(subject.send(:mentioned).length).to eq 1
-            expect(subject.send(:mentioned).first).to eq recipient
+          context "that is an email address" do
+            let(:recipient) do
+              FactoryBot.create(:user,
+                                 member_in_project: project,
+                                 member_through_role: role,
+                                 login: "foo@bar.com")
+            end
+
+            it "detects the user" do
+              is_expected
+                .to match_array [recipient]
+            end
           end
         end
 
-        context "that is an email address" do
+        context "The added text contains a user ID" do
+          let(:added_text) { "Hello user##{recipient.id}" }
+
+          it "detects the user" do
+            is_expected
+              .to match_array [recipient]
+          end
+        end
+
+        context "the recipient turned off all mail notifications" do
           let(:recipient) do
-            FactoryGirl.create(:user,
+            FactoryBot.create(:user,
                                member_in_project: project,
                                member_through_role: role,
-                               login: "foo@bar.com")
+                               mail_notification: 'none')
           end
 
-          it "detects the user" do
-            expect(subject.send(:mentioned).first).to eq recipient
+          let(:added_text) do
+            "Hello user:\"#{recipient.login}\", hey user##{recipient.id}"
+          end
+
+          it "no user gets detected" do
+            is_expected
+              .to be_empty
           end
         end
       end
 
-      context "The added text contains a user ID" do
-        let(:added_text) { "Hello user##{recipient.id}" }
-
-        it "detects the user" do
-          expect(subject.send(:mentioned).first).to eq recipient
-        end
-      end
-
-      context "the recipient turned off all mail notifications" do
+      context "mentioned user is not allowed to view the work package" do
         let(:recipient) do
-          FactoryGirl.create(:user,
-                             member_in_project: project,
-                             member_through_role: role,
-                             mail_notification: 'none')
+          FactoryBot.create(:user,
+                             login: "foo@bar.com")
         end
-
         let(:added_text) do
-          "Hello user:\"#{recipient.login}\", hey user##{recipient.id}"
+          "Hello user:#{recipient.login}, hey user##{recipient.id}"
         end
 
         it "no user gets detected" do
-          expect(subject.send(:mentioned)).to be_an Array
-          expect(subject.send(:mentioned).length).to eq 0
+          is_expected
+            .to be_empty
         end
       end
     end
 
-    context "mentioned user is not allowed to view the work package" do
-      let(:recipient) do
-        FactoryGirl.create(:user,
-                           login: "foo@bar.com")
-      end
-      let(:added_text) do
-        "Hello user:#{recipient.login}, hey user##{recipient.id}"
+    context 'for groups' do
+      let(:group_member) { FactoryBot.create(:user) }
+
+      let(:group) do
+        FactoryBot.create(:group) do |group|
+          group.users << group_member
+
+          FactoryBot.create(:member,
+                             project: project,
+                             principal: group,
+                             roles: [role])
+        end
       end
 
-      it "no user gets detected" do
-        expect(subject.send(:mentioned)).to be_an Array
-        expect(subject.send(:mentioned).length).to eq 0
+      let(:added_text) do
+        "Hello group##{group.id}"
+      end
+
+      context 'group member is allowed to view the work package' do
+        context 'user wants to receive notifications' do
+          it "group member gets detected" do
+            is_expected
+              .to match_array([group_member])
+          end
+        end
+
+        context 'user disabled notifications' do
+          let(:group_member) { FactoryBot.create(:user, mail_notification: User::USER_MAIL_OPTION_NON.first) }
+
+          it "group member is ignored" do
+            is_expected
+              .to be_empty
+          end
+        end
+      end
+
+      context 'group is not allowed to view the work package' do
+        let(:role) { FactoryBot.create(:role, permissions: []) }
+
+        it "group member is ignored" do
+          is_expected
+            .to be_empty
+        end
+
+        context 'but group member is allowed individually' do
+          before do
+            FactoryBot.create(:member,
+                               project: project,
+                               principal: group_member,
+                               roles: [FactoryBot.create(:role, permissions: [:view_work_packages])])
+          end
+
+          it "group member gets detected" do
+            is_expected
+              .to match_array([group_member])
+          end
+        end
       end
     end
   end

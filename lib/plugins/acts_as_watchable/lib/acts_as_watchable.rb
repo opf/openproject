@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 #-- encoding: UTF-8
@@ -110,7 +110,7 @@ module Redmine
         # them pop up in every project would be weird.
         def possible_watcher_users
           users = User
-                  .not_builtin
+                  .active_or_registered
 
           if project.is_public?
             users.allowed(self.class.acts_as_watchable_permission, project)
@@ -154,9 +154,9 @@ module Redmine
 
         # Returns true if object is watched by +user+
         def watched_by?(user)
-          !!(user &&
-             (watchers.loaded? && watchers.map(&:user_id).any? { |uid| uid == user.id } ||
-              watcher_user_ids.any? { |uid| uid == user.id }))
+          user.present? &&
+            (watchers.loaded? && watchers.map(&:user_id).any? { |uid| uid == user.id } ||
+             watcher_user_ids.any? { |uid| uid == user.id })
         end
 
         # Returns an array of watchers

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -33,13 +33,13 @@ describe ::API::V3::WorkPackages::FormRepresenter do
 
   let(:errors) { [] }
   let(:work_package) {
-    FactoryGirl.build(:work_package,
+    FactoryBot.build(:work_package,
                       id: 42,
                       created_at: DateTime.now,
                       updated_at: DateTime.now)
   }
   let(:current_user) {
-    FactoryGirl.build(:user, member_in_project: work_package.project)
+    FactoryBot.build(:user, member_in_project: work_package.project)
   }
   let(:representer) {
     described_class.new(work_package, current_user: current_user, errors: errors)

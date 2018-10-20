@@ -4,6 +4,17 @@ ro:
     ajax:
       hide: Ascundere
       loading: Se încarcă...
+    attachments:
+      draggable_hint: 'Drag on editor field to inline image or reference attachment.
+        Closed editor fields will be opened while you keep dragging.
+
+'
+    autocomplete_select:
+      placeholder:
+        multi: Adăugaţi "%{name}"
+        single: Selectaţi "%{name}"
+      remove: Elminaţi "%{name}"
+      active: Active %{label} %{name}
     close_popup_title: Închidere pop-up
     close_filter_title: Închide filtrul
     close_form_title: Închide formularul
@@ -12,13 +23,13 @@ ro:
         copiaţi textul selectat manual.
       copied_successful: Copiere în ecranul tampon reușită!
     button_add_watcher: Adăugare observator
-    button_back_to_list_view: Back to list view
+    button_back_to_list_view: Înapoi la listă
     button_cancel: Anulare
-    button_close: Close
+    button_close: Închide
     button_check_all: Selectează tot
     button_configure-form: Configure form
     button_confirm: Confirmă
-    button_continue: Continue
+    button_continue: Continuaţi
     button_copy: Copiere
     button_custom-fields: Câmpuri personalizate
     button_delete: Ștergere
@@ -33,7 +44,7 @@ ro:
     button_more: Mai mult
     button_move: Mutare
     button_open_details: Deschidere vizualizare detaliată
-    button_close_details: Close details view
+    button_close_details: Închideţi fereastra cu detalii
     button_open_fullscreen: Afișare pe tot ecranul
     button_quote: Citare
     button_save: Salvare
@@ -47,8 +58,67 @@ ro:
     description_select_work_package: 'Selectaţi pachetul de lucru #%{id}'
     description_selected_columns: Coloane selectate
     description_subwork_package: 'Fiu al pachetului de lucru #%{id}'
+    editor:
+      preview: Activaţi/Dezactivați previzualizarea
+      source_code: Toggle Markdown source mode
+      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      mode:
+        manual: Switch to Markdown source
+        wysiwyg: Switch to WYSIWYG editor
+      macro:
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Pagină wiki
+          this_page: această pagină
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
+        code_block:
+          button: Inserați fragmentul de cod
+          title: Inserați/Editați fragmentul de cod
+          language: Limbaj de formatare
+          language_hint: Introduceți limbajul de formatare care va fi utilizat pentru
+            evidențiere (dacă există suport pentru acesta).
+        dropdown:
+          macros: Macro
+          chose_macro: Alegeți macro
+        toc: Table of contents
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
+        wiki_page_include:
+          button: Includeți conținul altei pagini wiki
+          text: "[Placeholder] Pagină wiki inclusă"
+          page: Pagină wiki
+          not_set: "(Pagina nu a fost încă stabilită)"
+          hint: 'Includeți conținutul altei pagini wiki specificând titul sau adresa(slug).
+            Puteți include pagina wiki din cadrul altui proiect separându-le prin
+            simbolul ”:” ca și în exemplul următor.
+
+'
+        work_package_button:
+          button: Insert create work package button
+          type: Tip pachet de lucru
+          button_style: Use button style
+          button_style_hint: 'Optional: Bifați pentru a vedea comenzile macro sub
+            formă de butoane, nu sub formă de link.'
+          without_type: Creați pachet de lucru
+          with_type: 'Creați pachet de lucru (Tip: %{typename})'
+        embedded_table:
+          button: Inserați tabel pachet de lucru
+          text: "[Placeholder] Tabelul pachetului de lucru inserat"
+    custom_actions:
+      date:
+        specific: 'on'
+        current_date: Current date
     error:
       internal: A apărut o eroare internă.
+      cannot_save_changes_with_message: 'Schimbările nu pot fi salvate datorită acestei
+        erori: %{error}'
+      query_saving: Configurația nu poate salvată.
+      embedded_table_loading: 'Configurația inserată nu poate fi încarcată: %{message}'
     filter:
       description:
         text_open_filter: Deschideți acest filtru cu 'ALT' și tastele săgeată.
@@ -56,15 +126,17 @@ ro:
           apasand Enter). Pentru a ieși fără filtrare selectați prima poziție (goală).
       noneElement: "(nimic)"
       time_zone_converted:
-        two_values: "%{from} - %{to} in your local time."
-        only_start: From %{from} in your local time.
-        only_end: Till %{to} in your local time.
+        two_values: "%{from} - %{to} ora locală."
+        only_start: Începând cu %{from} ora locală.
+        only_end: Până la %{to} ora locală.
       value_spacer: "-"
       sorting:
         criteria:
           one: Primul criteriu de sortare
           two: Al doilea criteriu de sortare
           three: Al treilea criteriu de sortare
+      upsale_for_more: Pentru filtre mai avansate, accesați
+      upsale_link: Versiunea Enterprise.
     general_text_no: nu
     general_text_yes: da
     general_text_No: Nu
@@ -73,9 +145,9 @@ ro:
     label_activity_no: Acțiunea cu numărul %{activityNo}
     label_activity_with_comment_no: Acțiunea cu numărul %{activityNo}. Are un comentariu
       de utilizator.
-    label_add_columns: Add columns
+    label_add_columns: Adaugați coloane
     label_add_comment: Adăugare comentariu
-    label_add_comment_title: Click pentru a adăuga un comentariu
+    label_add_comment_title: Comentați şi tastaţi @ pentru a notifica alte persoane
     label_add_selected_columns: Adăugați coloanele selectate
     label_added_by: adăugat de
     label_added_time_by: Adăugat de %{author} %{age}
@@ -107,11 +179,12 @@ ro:
     label_contains: conţine
     label_created_on: creat la data de
     label_edit_comment: Editare comentariu
-    label_edit_status: Edit the status of the work package
+    label_edit_status: Editați starea pachetului de lucru
     label_equals: este
     label_expand: Extindere
     label_expanded: extins
     label_expand_all: Extindere totală
+    label_expand_project_menu: Deschideți meniul proiectului
     label_export: Exportare
     label_filename: Fișier
     label_filesize: Dimensiune
@@ -119,10 +192,11 @@ ro:
     label_group_by: Grupare după
     label_hide_attributes: Arată mai puţin
     label_hide_column: Ascundere coloana
+    label_hide_project_menu: Închideți meniul proiectului
     label_in: în
     label_in_less_than: în mai puțin de
     label_in_more_than: în mai mult de
-    label_latest_activity: Ultima acțiune
+    label_latest_activity: Activitate recentă
     label_last_updated_on: Ultima actualizare la data de
     label_less_or_equal: "<="
     label_less_than_ago: acum mai puțin de zile
@@ -140,12 +214,13 @@ ro:
     label_not_equals: nu este
     label_on: pe
     label_open_menu: Deschidere meniu
+    label_open_context_menu: Deschideți meniul contextual
     label_open_work_packages: deschise
     label_password: Parolă
     label_previous: Înapoi
     label_per_page: 'Pe pagină:'
     label_please_wait: Așteptați
-    label_visibility_settings: Visibility settings
+    label_visibility_settings: Setări de vizibilitate
     label_quote_comment: Citare comentariu
     label_reset: Resetare
     label_remove_columns: Eliminare coloane selectate
@@ -153,20 +228,23 @@ ro:
     label_select_watcher: Selectaţi un observator...
     label_selected_filter_list: Filtre selectate
     label_show_attributes: Afișați toate câmpurile
-    label_show_in_menu: Afișați pagina în meniu
+    label_show_in_menu: Vizualizați configurația în meniu
     label_sort_by: Sortare după
     label_sorted_by: sortare după
     label_sort_higher: Mută în sus
     label_sort_lower: Mută în jos
     label_sorting: Sortare
+    label_star_query: Favorite
+    label_press_enter_to_save: Apăsați tasta ”Enter” pentru a salva.
+    label_public_query: Public
     label_sum_for: Suma pentru
     label_subject: Subiect
     label_this_week: săptămâna curentă
     label_today: astăzi
-    label_activity_show_only_comments: Show activities with comments only
-    label_activity_show_all: Show all activities
+    label_up: Sus
+    label_activity_show_only_comments: Afișați doar activitățile ce conțin comentarii
+    label_activity_show_all: Afișează toate activitățile
     label_total_progress: "%{percent} % Progres total"
-    label_visible_for_others: Pagină vizibilă pentru altii
     label_updated_on: actualizat la data de
     label_warning: Avertizare
     label_work_package: Pachet de lucru
@@ -180,21 +258,24 @@ ro:
     label_unwatch: Stop monitorizare
     label_unwatch_work_package: Opriți urmărirea pachetului de lucru
     label_uploaded_by: Încărcat de
-    label_global_queries: Interogări publice
-    label_custom_queries: Interogări private
+    label_default_queries: Configurații implicite
+    label_starred_queries: Configurații favorite
+    label_global_queries: Configurații publice
+    label_custom_queries: Configurații private
     label_columns: Coloane
     label_attachments: Fişiere
     label_drop_files: Trageți fișierele aici
     label_drop_files_hint: sau dați click pentru a adăuga fişiere
-    label_add_attachments: Adaugă atașamente
+    label_add_attachments: Adaugă fișiere
     label_formattable_attachment_hint: Attach and link files by dropping on this field,
       or pasting from the clipboard.
     label_remove_file: Ştergere %{fileName}
     label_remove_watcher: Eliminare observator %{name}
     label_remove_all_files: Ştergeţi toate fişierele
     label_add_description: Adăugați o descriere pentru %{file}
-    label_upload_notification: 'Fişierele pentru pachetul de lucru #%{id}: %{subject}
-      sunt în curs de încărcare'
+    label_upload_notification: Se încarcă fișierele...
+    label_work_package_upload_notification: 'Fişierele pentru pachetul de lucru #%{id}:
+      %{subject} sunt în curs de încărcare'
     label_files_to_upload: 'Următoarele fişiere vor fi încărcate:'
     label_rejected_files: 'Următoarele fişiere nu pot fi încărcate:'
     label_rejected_files_reason: Aceste fişiere nu pot fi încărcate deoarece mărimea
@@ -208,7 +289,7 @@ ro:
     password_confirmation:
       field_description: Trebuie să introduceţi parola contului dumneavoastră pentru
         a confirma această schimbare.
-      title: Reintroduceţi parola pentru a continua
+      title: Vă rugăm să confirmați parola dumneavoastră pentru a continua
     pagination:
       no_other_page: Sunteți pe pagina unică.
       pages:
@@ -223,25 +304,27 @@ ro:
       required_outside_context: You are not within a project context. Please choose
         the project context first in order to select type and status
       context: Project context
-      work_package_belongs_to: This work package belongs to project %{projectname}.
-      click_to_switch_context: Open this work package in that project.
+      work_package_belongs_to: Acest pachet de lucru face parte din proiectul %{projectname}.
+      click_to_switch_context: Deschide pachetul de lucru din acel proiect.
+      autocompleter:
+        label: Completarea automată a proiectului
     text_are_you_sure: Sunteți sigur?
     types:
       attribute_groups:
-        error_duplicate_group_name: The name %{group} is used more than once. Group
-          names must be unique.
+        error_duplicate_group_name: Numele %{group} este utilizat de mai multe ori.
+          Fiecare grup trebuie să aibă un nume unic.
         reset_title: Reset form configuration
-        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group, unset the visibility
-          checkboxes, and disable ALL custom fields.
+        confirm_reset: 'Antenție: Sunteți sigur că doriți să resetați congurația formularului?
+          Această acțiune va reseta toate atributele înapoi la grupul implicit și
+          va dezactiva TOATE câmpurile personalizate.
 
 '
-        upgrade_to_ee: Upgrade to Enterprise Edition
-        upgrade_to_ee_text: Wow! If you need this feature you are a super pro! Would
-          you mind supporting us OpenSource developers by becoming an Enterprise Edition
-          client?
+        upgrade_to_ee: Achiziționați versiunea Enterprise
+        upgrade_to_ee_text: Hopa! Dacă aveți nevoie de această opțiune înseamnă că
+          sunteți un profesionist! Dacă doriți, puteți susține acest produs achiziționând
+          Versiunea Enterprise.
         more_information: More information
-        nevermind: Nevermind
+        nevermind: Asta e...
     watchers:
       label_loading: se încarcă observatorii...
       label_error_loading: A apărut o eroare în timpul încărcării observatorilor
@@ -265,7 +348,8 @@ ro:
       required: Cerut de
       relation_type: tipul de relaţie
     relations_hierarchy:
-      hierarchy_headline: ierarhie
+      parent_headline: Părinte
+      children_headline: Fii
     relation_buttons:
       change_parent: Modificare părinte
       remove_parent: Elimina părinte
@@ -277,8 +361,8 @@ ro:
       remove_child: Elimină copil
       add_new_relation: Crează o nouă relație
       update_description: Setează sau actualizează descrierea acestei relații
-      toggle_description: Toggle relation description
-      update_relation: Click to change the relation type
+      toggle_description: Activați/Dezactivați descrierea legăturilor
+      update_relation: Faceți click pentru a schimba tipul de legătură
       add_follower: Add follower
       add_predecessor: Add predecessor
       remove: Eliminare relaţie
@@ -304,37 +388,39 @@ ro:
         other: Puteți selecta doar {{limit}} elemente
         zero: You cannot select any items
         few: Puteți selecta doar {{limit}} elemente
+    project_menu_details: Detalii
     sort:
-      sorted_asc: 'Ascending sort applied, '
-      sorted_dsc: 'Descending sort applied, '
-      sorted_no: 'No sort applied, '
-      sorting_disabled: sorting is disabled
-      activate_asc: activate to apply an ascending sort
-      activate_dsc: activate to apply a descending sort
-      activate_no: activate to remove the sort
+      sorted_asc: 'Sortare ascendentă aplicată '
+      sorted_dsc: 'Sortare descendentă aplicată '
+      sorted_no: 'Nu a fost selectată nicio sortare '
+      sorting_disabled: sortarea este dezactivată
+      activate_asc: activați pentru a sorta ascendent
+      activate_dsc: activați pentru a sorta descendent
+      activate_no: activați pentru a înlătura sortarea
     text_work_packages_destroy_confirmation: Sunteți sigur că doriți ștergerea pachetelor
       de lucru selectate?
-    text_query_destroy_confirmation: Sunteți sigur că doriți să ștergeți interogarea
-      selectată?
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      view?
     text_attachment_destroy_confirmation: Sunteţi sigur că doriţi să ştergeţi atașamentul?
     timelines:
-      gantt_chart: Gantt chart
+      gantt_chart: Grafic Gantt
       labels:
+        title: Label configuration
         bar: Bar labels
-        left: Left
-        right: Right
+        left: Stânga
+        right: Dreapta
         farRight: Far right
-        showNone: "-- No label --"
+        showNone: "-- Fără etichetă --"
         description: 'Select the attributes you want to be shown in the respective
           positions of the Gantt chart at all times. Note that when hovering an element,
           its date labels will be shown instead of these attributes.
 
 '
-      button_activate: Activate timeline mode
-      button_deactivate: Deactivate timeline mode
+      button_activate: Show Gantt chart
+      button_deactivate: Hide Gantt chart
       cancel: Anulare
       change: Schimbare în planificare
-      due_date: Dată scadentă
+      due_date: Finish date
       empty: "(gol)"
       error: A apărut o eroare.
       errors:
@@ -348,18 +434,9 @@ ro:
         report_timeout: Planificările nu au putut fi încărcate într-un interval de
           timp rezonabil.
       filter:
-        column:
-          assigned_to: Executant
-          type: Tip
-          due_date: Dată de sfârşit
-          name: Nume
-          status: Stare
-          responsible: Responsabil
-          start_date: Data de început
         grouping_other: Altele
         noneSelection: "(nimic)"
       name: Nume
-      new_work_package: Pachet de lucru nou
       outline: Resetare contur
       outlines:
         aggregation: Afișare doar a agregărilor
@@ -370,7 +447,6 @@ ro:
         level5: Afișare level 5
         all: Afișare completă
       project_status: Stare proiect
-      project_type: Tip proiect
       really_close_dialog: Sunteți sigur că doriți să închideți formularul și să pierdeți
         datele introduse?
       responsible: Responsabil
@@ -379,8 +455,8 @@ ro:
       tooManyProjects: Mai mult de %{count} proiecte. Vă rugăm să folosiţi un filtru
         potrivit!
       selection_mode:
-        notification: Click on any highlighted work package to create the relation.
-          Press escape to cancel.
+        notification: Faceți click pe oricare dintre pachetele de lucru pentru a crea
+          o legătură. Apăsați Escape pentru a anula.
       zoom:
         in: Mărire
         out: Micșorare
@@ -391,6 +467,10 @@ ro:
         quarters: Trimestre
         years: Ani
         slider: Selector de orizont de timp
+        description: 'Select the initial zoom level that should be shown when autozoom
+          is not available.
+
+'
     tl_toolbar:
       zooms: Orizont de timp
       outlines: Nivel ierarhic
@@ -402,6 +482,8 @@ ro:
         faceți un upgrade către Microsoft Edge.
       learn_more: Aflați mai multe
       close_warning: Ignoră acest avertisment.
+    upsale:
+      ee_only: Enterprise Edition only feature
     wiki_formatting:
       strong: Aldin
       italic: Italic
@@ -420,10 +502,10 @@ ro:
       image: Imagine
     work_packages:
       bulk_actions:
-        move: Bulk move
-        edit: Bulk edit
-        copy: Bulk copy
-        delete: Bulk delete
+        move: Mută mai multe elemente
+        edit: Editează mai multe elemente
+        copy: Copiază mai multe elemente
+        delete: Șterge mai multe element
       button_clear: Inițializare
       comment_added: Comentariul a fost adăugat cu succes.
       comment_send_failed: A apărut o eroare. Comentariul nu a putut fi salvat.
@@ -449,8 +531,8 @@ ro:
       label_options: Opțiuni
       label_column_multiselect: 'Câmp desfășurat combinat: selectaţi cu săgețile,
         confirmați alegerea cu enter, ştergeţi cu backspace'
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
+      label_switch_to_single_select: Activați selecție independentă
+      label_switch_to_multi_select: Activați selecție multiplă
       message_error_during_bulk_delete: A apărut o eroare la ștergerea pachetelor
         de lucru.
       message_successful_bulk_delete: Pachetele de lucru au fost șterse cu succes.
@@ -461,22 +543,25 @@ ro:
       inline_create:
         title: Click aici pentru a adăuga un nou pachet de lucru în listă
       create:
+        title: Pachet de lucru nou
         header: Nou %{type}
         header_no_type: Nou pachet de lucru (Tipul incă nu a fost stabilit)
         header_with_parent: 'Nou %{type} (copilul %{parent_type} #%{id})'
         button: Creare
+      copy:
+        title: Copy work package
       hierarchy:
-        show: Show hierarchy mode
-        hide: Hide hierarchy mode
-        toggle_button: Click to toggle hierarchy mode.
+        show: Afișați modul ierarhic
+        hide: Ascundeți modul ierarhic
+        toggle_button: Faceți click pentru a activa/dezactiva modul ierarhic.
         leaf: Work package leaf at level %{level}.
         children_collapsed: Hierarchy level %{level}, collapsed. Click to show the
           filtered children
         children_expanded: Hierarchy level %{level}, expanded. Click to collapse the
           filtered children
       faulty_query:
-        title: Work packages could not be loaded.
-        description: Your query is erroneous and could not be processed.
+        title: Pachetele de lucru nu au putut fi încărcate.
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: Nu sunt pachete de lucru de afișat.
         description: Nu a fost creat niciun pachet de lucru, sau toate sunt eliminate
@@ -492,7 +577,7 @@ ro:
         createdAt: Creat pe
         description: Descriere
         date: Dată
-        dueDate: Dată scadentă
+        dueDate: Finish date
         estimatedTime: Durata estimată
         spentTime: Timp consumat
         category: Categorie
@@ -508,11 +593,18 @@ ro:
         updatedAt: Actualizat pe
         versionName: Versiune
         version: Versiune
+      default_queries:
+        latest_activity: Activitate recentă
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: All open
+        summary: Descriere
       jump_marks:
         pagination: Salt la paginarea tabelului
         label_pagination: Click aici pentru a sări peste tabelul cu pachete de lucru
           și a ajunge la paginare
-        content: Jump to content
+        content: Săriți la conținut
         label_content: Click here to skip over the menu and go to the content
       placeholders:
         default: "-"
@@ -521,11 +613,10 @@ ro:
         column_names: Coloane
         group_by: Grupare rezultate
         group: Grupare după
-        group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy
-          mode being active.
-        hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
-          being grouped by %{column}.
-        hierarchy_mode: Hierarchy mode
+        group_by_disabled_by_hierarchy: Gruparea este dezactivată deoarece modul ierarhic
+          este activ.
+        hierarchy_disabled_by_group_by: Modul ierarhic este dezactivat deoarece rezultatele
+          sunt grupate în %{column}.
         sort_ascending: Ordonare ascendentă
         sort_descending: Ordonare descendentă
         move_column_left: Mutați coloana la stânga
@@ -534,11 +625,17 @@ ro:
         insert_columns: Inserare coloane...
         filters: Filtre
         display_sums: Afişare totaluri
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
         errors:
-          unretrievable_query: Interogarea nu a putut fi extrasă din URL
-          not_found: Nu există această interogare
-        text_no_results: No matching queries were found.
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
       table:
+        configure_button: Configure work package table
         summary: Tabel cu pachete de lucru pe rânduri şi câmpurile pachetelor pe coloane.
         text_inline_edit: Majoritatea celulelor din acest tabel sunt butoane care
           activează editarea "inline" a câmpului respectiv.
@@ -546,6 +643,40 @@ ro:
           elimina și adăuga coloane la tabel.
         text_select_hint: Casetele de selectare ar trebui să fie deschise cu 'ALT'
           si tastele săgeată.
+      table_configuration:
+        button: Configure this work package table
+        choose_display_mode: Display work packages as
+        modal_title: Work package table configuration
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          view you're editing.
+        default: implicit
+        display_settings: Display settings
+        default_mode: Flat list
+        hierarchy_mode: Hierarchy
+        hierarchy_hint: All filtered table results will be augmented with their ancestors.
+          Hierarchies can be expanded and collapsed.
+        display_sums_hint: Display sums of all summable attributes in a row below
+          the table results.
+        show_timeline_hint: Show an interactive gantt chart on the right side of the
+          table. You can change its width by dragging the divider between table and
+          gantt chart.
+        highlighting: Highlighting
+        highlighting_mode:
+          description: Highlight with color
+          none: No highlighting
+          inline: Highlighted attribute(s)
+          inline_all: All attributes
+          entire_row_by: Entire row by
+          status: Stare
+          priority: Prioritate
+          type: Tip
+        columns_help_text: Use the input above to add or remove columns to your table
+          view. You can drag and drop the columns to reorder them.
+        upsale:
+          attribute_highlighting: Need certain work packages to stand out from the
+            mass?
+          relation_columns: Need to see relations in the work package list?
+          check_out_link: Check out the Enterprise Edition.
       tabs:
         overview: Vedere de ansamblu
         activity: Activitate
@@ -558,25 +689,27 @@ ro:
         months: luni
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Coloane...
         sort_by: Sortare după...
         group_by: Grupare după...
         display_sums: Afişare totaluri
-        display_hierarchy: Display hierarchy
-        hide_hierarchy: Hide hierarchy
+        display_hierarchy: Afișați ierarhia
+        hide_hierarchy: Ascundeți ierarhia
         hide_sums: Ascundere totaluri
         save: Salvare
         save_as: Salvare ca ...
         export: Exportare ...
-        publish: Publish ...
-        page_settings: Redenumire interogare ...
+        visibility_settings: Visibility settings ...
+        page_settings: Rename view ...
         delete: Ștergere
       filter: Filtrare
       unselected_title: Pachet de lucru
-      search_query_label: Căutare interogare de filtrare salvată
-      search_query_title: Click pentru a căuta o interogare de filtrare salvată
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
     modals:
-      label_settings: Redenumire interogare
+      label_settings: Rename view
       label_name: Nume
       label_delete_page: Ştergeți pagina curentă
       button_apply: Salvare
@@ -584,15 +717,16 @@ ro:
       button_submit: Trimitere
       button_cancel: Anulare
       form_submit:
-        title: Confirm to continue
-        text: Are you sure you want to perform this action?
-      upsale_relation_columns: Need to see relations in the work package list?
-      upsale_relation_columns_link: Check out the Enterprise Edition.
+        title: Confirmați pentru a continua
+        text: Sunteți sigur/ă că doriți să realizați această acțiune?
       destroy_work_package:
-        title: Confirm deletion of %{label}
-        text: Are you sure you want to delete the following %{label} ?
-        has_children: 'The work package has %{childUnits}:'
-        deletes_children: All child work packages will also be deleted.
+        title: Confirmați ștergerea %{label}
+        text: Sunteți sigur/ă că doriți să ștergeți %{label}?
+        has_children: 'Pachetul de lucru conține %{childUnits}:'
+        confirm_deletion_children: I acknowledge that ALL descendants of the listed
+          work packages will be recursively removed.
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: Creare reuşită.
     notice_successful_delete: Ştergere reuşită.
     notice_successful_update: Actualizare reușită.
@@ -619,11 +753,14 @@ ro:
         messages_on_field: 'Acest câmp este invalid: %{messages}'
     error_could_not_resolve_version_name: Nu a putut fi detectat numele versiunii
     error_could_not_resolve_user_name: Nu a putut fi detectat numele utilizatorului
+    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
-        one: work package
-        other: work packages
-        few: work packages
+        one: pachet de lucru
+        other: pachete de lucru
+        few: pachete de lucru
       child_work_packages:
         one: one child work package
         other: "%{count} work package children"
@@ -634,5 +771,5 @@ ro:
         zero: 0 hours
         few: "%{count} ore"
     zen_mode:
-      button_activate: Activate zen mode
-      button_deactivate: Deactivate zen mode
+      button_activate: Activați modul zen
+      button_deactivate: Dezactivați modul zen

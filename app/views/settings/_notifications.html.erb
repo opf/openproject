@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See doc/COPYRIGHT.rdoc for more details.
+See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% if @deliveries %>
@@ -46,8 +46,8 @@ See doc/COPYRIGHT.rdoc for more details.
       <div class="form--field"><%= check_all_links('notified_events') %></div>
     </fieldset>
     <fieldset id="emails_decorators" class="form--fieldset"><legend class="form--fieldset-legend"><%= t(:setting_emails_header) %> & <%= t(:setting_emails_footer) %></legend>
-      <%= cell Settings::TextSettingCell, I18n.locale, name: "emails_header" %>
-      <%= cell Settings::TextSettingCell, I18n.locale, name: "emails_footer" %>
+      <%= rails_cell Settings::TextSettingCell, I18n.locale, name: "emails_header" %>
+      <%= rails_cell Settings::TextSettingCell, I18n.locale, name: "emails_footer" %>
     </fieldset>
     <%= content_tag :fieldset, id: "mail_configuration", class: "form--fieldset" do %>
       <legend class="form--fieldset-legend"><%=t(:text_setup_mail_configuration)%></legend>
@@ -56,10 +56,11 @@ See doc/COPYRIGHT.rdoc for more details.
         <div class="form--field"><%= setting_text_field :smtp_address, container_class: '-middle' %></div>
         <div class="form--field"><%= setting_text_field :smtp_port, size: 6, container_class: '-xslim' %></div>
         <div class="form--field"><%= setting_text_field :smtp_domain, container_class: '-middle' %></div>
-        <div class="form--field"><%= setting_select(:smtp_authentication, [:plain, :login, :cram_md5], container_class: '-slim') %></div>
+        <div class="form--field"><%= setting_select(:smtp_authentication, [:none, :plain, :login, :cram_md5], container_class: '-slim') %></div>
         <div class="form--field"><%= setting_text_field :smtp_user_name, container_class: '-middle' %></div>
         <div class="form--field"><%= setting_password :smtp_password, container_class: '-middle' %></div>
         <div class="form--field"><%= setting_check_box :smtp_enable_starttls_auto %></div>
+        <div class="form--field"><%= setting_check_box :smtp_ssl %></div>
       </div>
       <div id="email_delivery_method_sendmail" class="email_delivery_method_settings">
         <div class="form--field"><%= setting_text_field :sendmail_location %></div>

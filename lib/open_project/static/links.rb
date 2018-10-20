@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module OpenProject
@@ -40,6 +40,10 @@ module OpenProject
           OpenProject::Configuration.force_help_link.presence || links[:user_guides]
         end
 
+        def [](name)
+          links[name]
+        end
+
         def links
           {
             upsale: {
@@ -49,6 +53,10 @@ module OpenProject
             user_guides: {
               href: 'https://www.openproject.org/help/',
               label: 'homescreen.links.user_guides'
+            },
+            configuration_guide: {
+              href: 'https://www.openproject.org/operations/configuration/',
+              label: 'links.configuration_guide'
             },
             glossary: {
               href: 'https://www.openproject.org/help/glossary/',
@@ -63,8 +71,12 @@ module OpenProject
               label: 'homescreen.links.boards'
             },
             professional_support: {
-              href: 'https://www.openproject.org/enterprise-edition/',
+              href: 'https://www.openproject.org/project-collaboration-products/#support',
               label: :label_professional_support
+            },
+            website: {
+              href: 'https://www.openproject.org',
+              label: 'label_openproject_website'
             },
             newsletter: {
               href: 'https://www.openproject.org/newsletter',
@@ -94,6 +106,10 @@ module OpenProject
               href: 'https://www.openproject.org/api',
               label: :label_api_documentation
             },
+            text_formatting: {
+              href: 'https://www.openproject.org/help/wiki/',
+              label: :setting_text_formatting
+            }
           }
         end
       end

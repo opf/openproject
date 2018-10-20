@@ -1,0 +1,15 @@
+<form name="add_relation_form" class="form">
+  <input type="text"
+         class="wp-relations--autocomplete ui-autocomplete--input"
+         [ngClass]="{ '-error': noResults }"
+         [attr.placeholder]="text.placeholder">
+  <div class="ui-autocomplete--loading" style="display: none">
+    <div class="loading-indicator -small">
+      <div class="block-1"></div>
+      <div class="block-2"></div>
+      <div class="block-3"></div>
+      <div class="block-4"></div>
+      <div class="block-5"></div>
+    </div>
+  </div>
+</form>

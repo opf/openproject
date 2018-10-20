@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -31,13 +31,38 @@ require 'spec_helper'
 describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:custom_field) { FactoryGirl.build(:custom_field) }
-  let(:work_package) { FactoryGirl.build(:work_package) }
+  let(:project) { FactoryBot.build_stubbed(:project_with_types) }
+  let(:wp_type) { project.types.first }
+  let(:custom_field) { FactoryBot.build_stubbed(:custom_field) }
+  let(:work_package) do
+    FactoryBot.build_stubbed(:stubbed_work_package, project: project, type: wp_type) do |wp|
+      allow(wp)
+        .to receive(:available_custom_fields)
+        .and_return(available_custom_fields)
+    end
+  end
   let(:current_user) do
-    FactoryGirl.build(:user, member_in_project: work_package.project)
+    FactoryBot.build_stubbed(:user)
+  end
+  let(:attribute_query) { FactoryBot.build_stubbed(:query) }
+  let(:attribute_groups) do
+    [Type::AttributeGroup.new(wp_type, "People", %w(assignee responsible)),
+     Type::AttributeGroup.new(wp_type, "Estimates and time", %w(estimated_time spent_time)),
+     Type::QueryGroup.new(wp_type, "Children", attribute_query)]
   end
   let(:schema) do
-    ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package: work_package)
+    ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package: work_package).tap do |schema|
+      allow(wp_type)
+        .to receive(:attribute_groups)
+        .and_return(attribute_groups)
+      allow(schema)
+        .to receive(:assignable_values)
+        .and_call_original
+      allow(schema)
+        .to receive(:assignable_values)
+        .with(:version, current_user)
+        .and_return([])
+    end
   end
   let(:self_link) { '/a/self/link' }
   let(:base_schema_link) { nil }
@@ -52,6 +77,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
                            current_user: current_user,
                            action: action)
   end
+  let(:available_custom_fields) { [] }
 
   before do
     allow(schema).to receive(:writable?).and_call_original
@@ -79,7 +105,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       context 'when values are allowed' do
-        let(:values) { FactoryGirl.build_stubbed_list(factory, 3) }
+        let(:values) { FactoryBot.build_stubbed_list(factory, 3) }
 
         before do
           allow(schema).to receive(:assignable_values).with(factory, anything).and_return(values)
@@ -130,6 +156,44 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     describe '_type' do
       it 'is indicated as Schema' do
         is_expected.to be_json_eql('Schema'.to_json).at_path('_type')
+      end
+    end
+
+    describe '_attributeGroups' do
+      it 'renders form attribute group elements of the schema' do
+        expect(subject)
+          .to be_json_eql(
+            {
+              _type: "WorkPackageFormAttributeGroup",
+              name: "People",
+              attributes: %w(assignee responsible)
+            }.to_json
+          )
+          .at_path('_attributeGroups/0')
+
+        expect(subject)
+          .to be_json_eql(
+            {
+              _type: "WorkPackageFormAttributeGroup",
+              name: "Estimates and time",
+              attributes: %w(estimatedTime spentTime)
+            }.to_json
+          )
+          .at_path('_attributeGroups/1')
+      end
+
+      it 'renders form query group elements of the schema' do
+        expect(subject)
+          .to be_json_eql("WorkPackageFormQueryGroup".to_json)
+          .at_path('_attributeGroups/2/_type')
+
+        expect(subject)
+          .to be_json_eql(api_v3_paths.query(attribute_query.id).to_json)
+          .at_path('_attributeGroups/2/_links/query/href')
+
+        expect(subject)
+          .to be_json_eql('Query'.to_json)
+          .at_path('_attributeGroups/2/_embedded/query/_type')
       end
     end
 
@@ -368,20 +432,33 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'spentTime' do
-      before do
-        # don't fail the test for other allowed_to calls than the expected ones
-        allow(current_user).to receive(:allowed_to?).and_return false
+      context 'with \'time_tracking\' enabled' do
+        before do
+          allow(project)
+            .to receive(:module_enabled?)
+            .and_return(true)
+        end
 
-        allow(current_user).to receive(:allowed_to?).with(:view_time_entries, work_package.project)
-          .and_return true
+        it_behaves_like 'has basic schema properties' do
+          let(:path) { 'spentTime' }
+          let(:type) { 'Duration' }
+          let(:name) { I18n.t('activerecord.attributes.work_package.spent_time') }
+          let(:required) { false }
+          let(:writable) { false }
+        end
       end
 
-      it_behaves_like 'has basic schema properties' do
-        let(:path) { 'spentTime' }
-        let(:type) { 'Duration' }
-        let(:name) { I18n.t('activerecord.attributes.work_package.spent_time') }
-        let(:required) { false }
-        let(:writable) { false }
+      context 'with \'time_tracking\' disabled' do
+        before do
+          allow(project)
+            .to receive(:module_enabled?) do |name|
+            name != 'time_tracking'
+          end
+        end
+
+        it 'has no date attribute' do
+          is_expected.to_not have_json_path('spentTime')
+        end
       end
     end
 
@@ -638,7 +715,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         it_behaves_like 'has basic schema properties' do
           let(:path) { 'responsible' }
           let(:type) { 'User' }
-          let(:name) { I18n.t('activerecord.attributes.work_package.responsible') }
+          let(:name) { I18n.t('attributes.responsible') }
           let(:required) { false }
           let(:writable) { true }
         end
@@ -669,17 +746,18 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'custom fields' do
+      let(:available_custom_fields) { [FactoryBot.build_stubbed(:int_wp_custom_field)] }
       it 'uses a CustomFieldInjector' do
         expect(::API::V3::Utilities::CustomFieldInjector).to receive(:create_schema_representer)
-          .and_call_original
+          .and_return(described_class)
         representer.to_json
       end
     end
   end
 
-  describe '#cache_key' do
+  describe '#json_cache_key' do
     def joined_cache_key
-      representer.cache_key.join('/')
+      representer.json_cache_key.join('/')
     end
 
     before do
@@ -693,7 +771,13 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     let(:original_cache_key) { joined_cache_key }
 
     it 'changes when the project changes' do
-      work_package.project = FactoryGirl.build_stubbed(:project)
+      work_package.project = FactoryBot.build_stubbed(:project)
+
+      expect(joined_cache_key).to_not eql(original_cache_key)
+    end
+
+    it 'changes when the project updates' do
+      work_package.project.updated_on += 1.hour
 
       expect(joined_cache_key).to_not eql(original_cache_key)
     end
@@ -705,22 +789,22 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     it 'changes when the type changes' do
-      work_package.type = FactoryGirl.build_stubbed(:type)
+      work_package.type = FactoryBot.build_stubbed(:type)
 
       expect(joined_cache_key).to_not eql(original_cache_key)
     end
 
     it 'changes when the locale changes' do
       allow(I18n).to receive(:locale).and_return(:de)
-      work_package.type = FactoryGirl.build_stubbed(:type)
+      work_package.type = FactoryBot.build_stubbed(:type)
 
       expect(joined_cache_key).to_not eql(original_cache_key)
     end
 
     it 'changes when the custom_fields changes' do
-      allow(work_package.project)
-        .to receive(:all_work_package_custom_fields)
-        .and_return [FactoryGirl.build_stubbed(:custom_field)]
+      allow(work_package)
+        .to receive(:available_custom_fields)
+        .and_return [FactoryBot.build_stubbed(:custom_field)]
 
       expect(joined_cache_key).to_not eql(original_cache_key)
     end

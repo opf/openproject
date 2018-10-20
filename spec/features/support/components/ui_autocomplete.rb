@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,12 +23,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module Components
   module UIAutocompleteHelpers
-    def search_autocomplete(element, query:)
+    def search_autocomplete(element, query:, results_selector: nil)
       # Open the element
       element.click
       # Insert the text to find
@@ -37,11 +37,19 @@ module Components
 
       ##
       # Find the open dropdown
-      page.find('.ui-autocomplete', visible: true)
+      list =
+        if results_selector
+          page.find(results_selector)
+        else
+          page.find('.ui-autocomplete')
+        end
+
+      scroll_to_element(list)
+      list
     end
 
-    def select_autocomplete(element, query:, select_text: nil)
-      target_dropdown = search_autocomplete(element, query: query)
+    def select_autocomplete(element, query:, results_selector: nil, select_text: nil)
+      target_dropdown = search_autocomplete(element, results_selector: results_selector, query: query)
 
       ##
       # If a specific select_text is given, use that to locate the match,

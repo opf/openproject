@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class TimelogController < ApplicationController
@@ -43,6 +43,7 @@ class TimelogController < ApplicationController
   include TimelogHelper
   include CustomFieldsHelper
   include PaginationHelper
+  include Concerns::Layout
   include OpenProject::ClientPreferenceExtractor
 
   menu_item :time_entries
@@ -64,8 +65,10 @@ class TimelogController < ApplicationController
       cond << @project.project_condition(Setting.display_subprojects_work_packages?)
     end
 
-    retrieve_date_range
-    cond << ['spent_on BETWEEN ? AND ?', @from, @to]
+    retrieve_date_range allow_nil: true
+    if @from && @to
+      cond << ['spent_on BETWEEN ? AND ?', @from, @to]
+    end
 
     respond_to do |format|
       format.html do
@@ -93,7 +96,7 @@ class TimelogController < ApplicationController
         gon.total_count = total_entry_count(cond)
         gon.settings = client_preferences
 
-        render layout: !request.xhr?
+        render layout: layout_non_or_no_menu
       end
       format.json do
         set_entries(cond)
@@ -188,8 +191,6 @@ class TimelogController < ApplicationController
         end
       end
     end
-  rescue ::ActionController::RedirectBackError
-    redirect_to action: 'index', project_id: @time_entry.project
   end
 
   private

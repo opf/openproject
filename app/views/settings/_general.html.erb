@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See doc/COPYRIGHT.rdoc for more details.
+See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <%= styled_form_tag({action: 'edit'}) do %>
@@ -49,7 +49,6 @@ See doc/COPYRIGHT.rdoc for more details.
       </span>
     </div>
     <div class="form--field"><%= setting_select :protocol, [['HTTP', 'http'], ['HTTPS', 'https']], container_class: '-xslim' %></div>
-    <div class="form--field"><%= setting_select :text_formatting, Redmine::WikiFormatting.format_names.collect{|name| [name, name.to_s]}, blank: :label_none, container_class: '-xslim' %></div>
     <div class="form--field"><%= setting_check_box :cache_formatted_text %></div>
     <div class="form--field"><%= setting_select :wiki_compression, [['Gzip', 'gzip']], blank: :label_none, container_class: '-xslim' %></div>
     <div class="form--field"><%= setting_check_box :feeds_enabled, size: 6 %></div>
@@ -63,11 +62,15 @@ See doc/COPYRIGHT.rdoc for more details.
       <legend class="form--fieldset-legend"><%= t(:setting_welcome_text) %></legend>
       <div class="form--field"><%= setting_text_field :welcome_title, size: 30, container_class: '-wide' %></div>
       <div class="form--field">
-        <%= setting_text_area :welcome_text, cols: 60, rows: 5, class: 'wiki-edit', container_class: '-wide' %>
-        <%= wikitoolbar_for 'settings_welcome_text' %>
+        <%= setting_text_area :welcome_text,
+                              cols: 60,
+                              rows: 5,
+                              class: 'wiki-edit',
+                              id: 'settings_welcome_text',
+                              with_text_formatting: true,
+                              container_class: '-xxwide' %>
       </div>
       <div class="form--field"><%= setting_check_box :welcome_on_homescreen %></div>
-      <div class="form--field"><%= setting_check_box :welcome_on_projects_page %></div>
     </fieldset>
   </section>
   <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 # OpenProject is a project management system.
@@ -62,7 +62,7 @@ describe 'Login', type: :feature do
 
   let(:user_password) { 'bob1!' * 4 }
   let(:user) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        force_password_change: false,
                        first_login: false,
                        login: 'bob',
@@ -74,7 +74,7 @@ describe 'Login', type: :feature do
                       )
   end
 
-  let(:other_user) { FactoryGirl.create(:user) }
+  let(:other_user) { FactoryBot.create(:user) }
 
   it 'enforces the current user to be set correctly on each api request' do
     # login to set the session

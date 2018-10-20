@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 //++
 
 $form--field-types: (text-field, text-area, select, check-box, radio-button, range-field, search, file)
@@ -46,6 +46,9 @@ $form--field-types: (text-field, text-area, select, check-box, radio-button, ran
 %input--sizing
   height: 40px
   line-height: 22px
+
+form
+  display: inline
 
 // A general CSS class to be applied to forms using the above defined form style.
 // We can't define this on form itself as this would break a lot of existing forms.
@@ -151,17 +154,28 @@ $form--field-types: (text-field, text-area, select, check-box, radio-button, ran
     .-columns-2
       column-count: 2
 
-.form--separator
-  border: 0
-  border-bottom: 1px solid $content-form-separator-color
-  margin: 0 0 30px
-  background: none
 
-  &.-invisible
-    border-bottom-width: 0px
+hr
+  width: 100%
+  height: 1px
+  background: #ccc
+  border: 0
+  &.form--separator
+    border-bottom: 1px solid $content-form-separator-color
+    margin: 0 0 30px
+    background: none
+
+    &.-invisible
+      border-bottom-width: 0px
 
 .form--space
-  padding-top: 10px
+  padding-top: 1rem
+
+  &.-left-spacing
+    padding-left: 1rem
+
+  &.-big
+    padding-top: 20px
 
 .form--row
   @include grid-block
@@ -262,16 +276,16 @@ fieldset.form--fieldset
     font-size: 0.75rem
 
     .form--fieldset.-collapsible > &
-      @extend .icon-arrow-up1:before
+      @include icon-mixin-arrow-up1
       padding:   0.625rem 0.25rem 0 0.25rem
 
     .form--fieldset.-collapsible.-collapsed > &,
     .form--fieldset.-collapsible.collapsed  > &
-      @extend .icon-arrow-down1:before
+      @include icon-mixin-arrow-down1
       padding:   0.625rem 0.25rem 0 0.25rem
 
 #sidebar .form--fieldset-legend
-  color: $main-menu-sidebar-font-color
+  @include varprop(color, main-menu-fieldset-header-color)
 
 .form--fieldset-control
   float:          right
@@ -337,8 +351,7 @@ fieldset.form--fieldset
       display: block
 
   &.-break-words > .form--label
-    text-overflow: ellipsis
-    overflow: hidden
+    @include text-shortener
 
   &.-required
     input.form--text-field:invalid
@@ -347,13 +360,20 @@ fieldset.form--fieldset
   &.-reduced-margin
     margin-bottom: 0.5rem
 
+  &.-no-margin
+    margin-bottom: 0
+
+  &.-indented
+    @extend %form--field-after-container
+
 .form--label
   @include grid-content(2)
   @extend %label-style
   overflow-x: hidden
+  white-space: normal
   overflow-y: visible
-  text-overflow: ellipsis
   padding:      0 1rem 0 0
+  margin-bottom: 0
   font-size:    $form-label-fontsize
   line-height:  $base-line-height
   color:        $form-label-color
@@ -376,6 +396,10 @@ fieldset.form--fieldset
       display: inline-block
       line-height:  $base-line-height
       padding-right: 0.325rem
+
+  &.-top
+    align-self: flex-start
+    line-height: 2.15rem
 
 .form--label-required
   @include default-transition
@@ -453,8 +477,15 @@ fieldset.form--fieldset
   font-style: italic
   max-width: 500px // improve readability
 
+  &.-no-margin
+    margin: 0
+
   &.-no-italic
     font-style: normal
+
+.form--inline-instructions,
+  font-style: italic
+  display: inline
 
 .form--field-extra-actions
   @extend %form--field-after-container
@@ -516,6 +547,8 @@ fieldset.form--fieldset
 
 .form--text-field
   @extend %input-style
+  &.-number
+    text-align: right
 
 .form--text-field,
 #{$text-input-selectors},
@@ -527,8 +560,28 @@ select
   &:hover, &:focus, &:active
     border-color: #999
 
+.-hide-placeholder-on-focus
+  &:focus::placeholder
+    opacity: 0
+
+.-border-on-hover-only
+  &:not(.-error)
+    // Reduce padding usually shown
+    padding-left: 1px
+    border-color: transparent
+
+    // Don't show border on focus or active
+    &:focus,
+    &:active
+      border-color: transparent
+
+    // But as an indicator, do show one on hover
+    &:hover
+      border-color: #999
+
 select
-  &[disabled=disabled]
+  &[disabled=disabled],
+  &[disabled]
     background-color: $inplace-edit--bg-color--disabled
     cursor: not-allowed
 
@@ -553,6 +606,7 @@ input[readonly].-clickable
     // TODO: this has to be fixed upstream as select are fixed
     // in height in foundation for apps.
     height: auto
+    min-width: 40px
 
 .form--select2
   border: none
@@ -563,23 +617,76 @@ input[readonly].-clickable
     .select2-choice
       height: 2.15rem
 
+.form--inline-select
+  display: inline-block
+  width: initial
+
 .form--text-field,
 .form--select
   &.-tiny
-    font-size: 0.7rem
+    @include form--input-field-mixin--tiny
 
   &.-small
-    font-size: 0.8rem
+    @include form--input-field-mixin--small
 
   &.-large
-    font-size: 1.3rem
+    @include form--input-field-mixin--large
 
   &.-narrow
-    width: auto
-    max-width: 100%
+    @include form--input-field-mixin--narrow
 
   .form &
     margin-bottom: 0rem
+
+.form--select-autocompleter
+  max-height: 400px
+  overflow-y: auto
+
+.form--selected-value
+  width: calc(100% - 42px)
+  padding: 3px
+  line-height: 2
+
+.form--selected-value--container
+  display: inline-block
+  border: 1px solid transparent
+  border-radius: 2px
+  overflow: visible
+  width: 100%
+  position: relative
+
+  &:last-of-type
+    margin-bottom: 0.5rem
+
+  &:hover,
+  &:focus,
+  &.-focus
+    text-decoration: none
+    color: $body-font-color
+    border-color: $inplace-edit--border-color
+
+    .form--selected-value--remover
+      visibility: visible
+
+    a.form--selected-value--remover
+      text-decoration: none
+      color: $body-font-color
+
+.form--selected-value--remover
+  position: absolute
+  height: 100%
+  right: 0
+  text-align: center
+  width: 32px
+  background: #F8F8F8
+  border-left: 1px solid #ddd
+  color: $body-font-color
+  visibility: hidden
+  line-height: 2rem
+
+.form--selected-value--list
+  margin-left: 0rem
+  margin-bottom: 0rem
 
 .form--text-area
   @extend %input-style
@@ -663,6 +770,7 @@ input[readonly].-clickable
     background: none
     border: none
     line-height: 2
+    margin-right: 5px
 
   > .form-label
     line-height: 2rem
@@ -729,8 +837,7 @@ input[readonly].-clickable
     border-left:  0
 
   &.-transparent
-    background: none
-    border: none
+    @include form--field-affix-mixin--transparent
 
 .form--tooltip-container
   flex: 0 0 auto
@@ -756,12 +863,6 @@ input[readonly].-clickable
 // Foundation applies following rule to paragraphs
 textarea
   text-rendering: optimizeLegibility
-
-.color-preview
-  margin-left: -34px
-  margin-top: auto
-  margin-bottom: auto
-
 
 // Overwriting Foundation color variables.
 // Unfortunatel I do not know how to get it DRY.

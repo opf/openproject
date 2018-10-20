@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,32 +24,16 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
+require 'bundler'
+require 'json'
 
-namespace :redmine do
+namespace :openproject do
   namespace :plugins do
-    namespace :test do
-      desc 'Runs the plugins unit tests.'
-      Rake::TestTask.new units: 'db:test:prepare' do |t|
-        t.libs << 'test'
-        t.verbose = true
-        t.test_files = FileList["plugins/#{ENV['NAME'] || '*'}/test/unit/**/*_test.rb"]
-      end
-
-      desc 'Runs the plugins functional tests.'
-      Rake::TestTask.new functionals: 'db:test:prepare' do |t|
-        t.libs << 'test'
-        t.verbose = true
-        t.test_files = FileList["plugins/#{ENV['NAME'] || '*'}/test/functional/**/*_test.rb"]
-      end
-
-      desc 'Runs the plugins integration tests.'
-      Rake::TestTask.new integration: 'db:test:prepare' do |t|
-        t.libs << 'test'
-        t.verbose = true
-        t.test_files = FileList["plugins/#{ENV['NAME'] || '*'}/test/integration/**/*_test.rb"]
-      end
+    desc 'Register plugins from the :opf_plugins bundle group to the frontend'
+    task register_frontend: [:environment] do
+      ::OpenProject::Plugins::FrontendLinking.regenerate!
     end
   end
 end

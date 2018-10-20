@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -81,6 +81,25 @@ describe Setting, type: :model do
 
       after do
         Setting.find_by(name: 'host_name').destroy
+      end
+    end
+  end
+
+  # Check that when reading certain setting values that they get overwritten if needed.
+  describe "filter saved settings" do
+    before do
+      Setting.work_package_list_default_highlighting_mode = "inline"
+    end
+
+    describe "with EE token", with_ee: [:conditional_highlighting] do
+      it "returns the value for 'work_package_list_default_highlighting_mode' without changing it" do
+        expect(Setting.work_package_list_default_highlighting_mode).to eq("inline")
+      end
+    end
+
+    describe "without EE" do
+      it "return 'none' as 'work_package_list_default_highlighting_mode'" do
+        expect(Setting.work_package_list_default_highlighting_mode).to eq("none")
       end
     end
   end
@@ -172,7 +191,6 @@ describe Setting, type: :model do
       it 'expires the cache when writing a setting' do
         Setting.available_languages = %w(en)
         expect(RequestStore.read(:cached_settings)).to be_nil
-        expect(Rails.cache.read(cache_key)).to be_nil
 
         # Creates a new cache key
         new_cache_key = Setting.send(:cache_key)

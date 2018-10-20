@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class JournalFormatter::Base
@@ -45,7 +45,7 @@ class JournalFormatter::Base
       label, old_value, value = *format_html_details(label, old_value, value)
     end
 
-    render_ternary_detail_text(label, value, old_value)
+    render_ternary_detail_text(label, value, old_value, options)
   end
 
   private
@@ -73,15 +73,14 @@ class JournalFormatter::Base
     @journal.journable.class.human_attribute_name(key)
   end
 
-  def render_ternary_detail_text(label, value, old_value)
-    if value.blank?
-      l(:text_journal_deleted, label: label, old: old_value)
+  def render_ternary_detail_text(label, value, old_value, options)
+    return I18n.t(:text_journal_deleted, label: label, old: old_value) if value.blank?
+    return I18n.t(:text_journal_set_to, label: label, value: value) if old_value.blank?
+
+    if options[:no_html]
+      I18n.t(:text_journal_changed_plain, label: label, old: old_value, new: value).html_safe
     else
-      if old_value.blank?
-        l(:text_journal_set_to, label: label, value: value)
-      else
-        l(:text_journal_changed, label: label, old: old_value, new: value)
-      end
+      I18n.t(:text_journal_changed, label: label, old: old_value, new: value).html_safe
     end
   end
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,14 +23,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe PermittedParams, type: :model do
-  let(:user) { FactoryGirl.build(:user) }
-  let(:admin) { FactoryGirl.build(:admin) }
+  let(:user) { FactoryBot.build(:user) }
+  let(:admin) { FactoryBot.build(:admin) }
 
   shared_context 'prepare params comparison' do
     let(:params_key) { defined?(hash_key) ? hash_key : attribute }
@@ -83,12 +83,6 @@ describe PermittedParams, type: :model do
 
       params = ActionController::Parameters.new(project_type: { 'blubs1' => 'blubs' })
 
-      expect(PermittedParams.new(params, user).project_type.to_h).to eq({})
-
-      PermittedParams.permit(:project_type, :blubs1)
-
-      expect(PermittedParams.new(params, user).project_type.to_h).to eq('blubs1' => 'blubs')
-
       PermittedParams.instance_variable_set(:@whitelisted_params, original_whitelisted)
     end
 
@@ -97,69 +91,27 @@ describe PermittedParams, type: :model do
     end
   end
 
-  describe '#project_type' do
-    let(:attribute) { :project_type }
+  describe '#type' do
+    let(:attribute) { :type }
+    let(:hash) do
+      attribute_groups = JSON.dump([['group1', ['attributes group 1'], false],
+                                    ['group2', ['attributes_group 2'], true]])
 
-    describe 'name' do
-      let(:hash) { { 'name' => 'blubs' } }
+      { name: 'blubs',
+        is_in_roadmap: 'true',
+        is_milestone: 'true',
+        color_id: '1',
+        project_ids: %w(2 3 4),
+        attribute_groups: attribute_groups }.with_indifferent_access
+    end
+    let(:allowed_params) do
+      attribute_groups = [['group1', ['attributes group 1']],
+                          [:group2, ['attributes_group 2']]]
 
-      it_behaves_like 'allows params'
+      hash.merge(attribute_groups: attribute_groups)
     end
 
-    describe 'allows_association' do
-      let(:hash) { { 'allows_association' => '1' } }
-
-      it_behaves_like 'allows params'
-    end
-
-    describe 'allows_association' do
-      let(:hash) { { 'reported_project_status_ids' => ['1'] } }
-
-      it_behaves_like 'allows params'
-    end
-  end
-
-  describe '#project_type_move' do
-    let(:attribute) { :project_type_move }
-    let(:hash_key) { :project_type }
-
-    describe 'move_to' do
-      let(:hash) { { 'move_to' => '1' } }
-
-      it_behaves_like 'allows params'
-    end
-  end
-
-  describe '#timeline' do
-    let(:attribute) { :timeline }
-
-    context 'all acceptable options params and one name params' do
-      let(:hash) do
-        acceptable_options_params = ['exist', 'zoom_factor', 'initial_outline_expansion', 'timeframe_start',
-                                     'timeframe_end', 'columns', 'project_sort', 'compare_to_relative',
-                                     'compare_to_relative_unit', 'compare_to_absolute', 'vertical_planning_elements',
-                                     'exclude_own_planning_elements', 'planning_element_status',
-                                     'planning_element_types', 'planning_element_responsibles',
-                                     'planning_element_assignee', 'exclude_reporters', 'exclude_empty', 'project_types',
-                                     'project_status', 'project_responsibles', 'parents', 'planning_element_time_types',
-                                     'planning_element_time_absolute_one', 'planning_element_time_absolute_two',
-                                     'planning_element_time_relative_one', 'planning_element_time_relative_one_unit',
-                                     'planning_element_time_relative_two', 'planning_element_time_relative_two_unit',
-                                     'grouping_one_enabled', 'grouping_one_selection', 'grouping_one_sort', 'hide_other_group']
-
-        acceptable_options_params_with_data = HashWithIndifferentAccess[acceptable_options_params.map { |x| [x, 'value'] }]
-
-        { 'name' => 'my name', 'options' => acceptable_options_params_with_data }
-      end
-
-      it_behaves_like 'allows params'
-    end
-
-    context 'only name' do
-      let(:hash) { { 'name' => 'my name' } }
-
-      it_behaves_like 'allows params'
-    end
+    it_behaves_like 'allows params'
   end
 
   describe '#pref' do
@@ -243,26 +195,6 @@ describe PermittedParams, type: :model do
     end
 
     it_behaves_like 'allows params'
-  end
-
-  describe '#reporting' do
-    let(:attribute) { :reporting }
-
-    context 'whitelisted params' do
-      let(:hash) do
-        %w(reporting_to_project_id
-           reported_project_status_id
-           reported_project_status_comment).map { |x| [x, 'value'] }.to_h
-      end
-
-      it_behaves_like 'allows params'
-    end
-
-    context 'empty' do
-      let(:hash) { {} }
-
-      it_behaves_like 'allows params'
-    end
   end
 
   describe '#membership' do
@@ -419,49 +351,19 @@ describe PermittedParams, type: :model do
     it_behaves_like 'allows params'
   end
 
-  describe '#planning_element_type' do
-    let(:attribute) { :planning_element_type }
-
-    context 'name' do
-      let(:hash) { { 'name' => 'blubs' } }
-
-      it_behaves_like 'allows params'
+  describe '#custom_action' do
+    let(:attribute) { :custom_action }
+    let(:hash) do
+      {
+        'name' => 'blubs',
+        'description' => 'blubs blubs',
+        'actions' => { 'assigned_to' => '1' },
+        'conditions' => { 'status' => '42' },
+        'move_to' => 'lower'
+      }
     end
 
-    context 'in_aggregation' do
-      let(:hash) { { 'in_aggregation' => '1' } }
-
-      it_behaves_like 'allows params'
-    end
-
-    context 'is_milestone' do
-      let(:hash) { { 'is_milestone' => '1' } }
-
-      it_behaves_like 'allows params'
-    end
-
-    context 'is_default' do
-      let(:hash) { { 'is_default' => '1' } }
-
-      it_behaves_like 'allows params'
-    end
-
-    context 'color_id' do
-      let(:hash) { { 'color_id' => '1' } }
-
-      it_behaves_like 'allows params'
-    end
-  end
-
-  describe '#planning_element_type_move' do
-    let(:attribute) { :planning_element_type_move }
-    let(:hash_key) { 'planning_element_type' }
-
-    context 'move_to' do
-      let(:hash) { { 'move_to' => '1' } }
-
-      it_behaves_like 'allows params'
-    end
+    it_behaves_like 'allows params'
   end
 
   describe "#update_work_package" do
@@ -929,6 +831,48 @@ describe PermittedParams, type: :model do
           'default_projects_modules' => ['value', 'value'],
           'emails_footer' => { 'en' => 'value' }
         }
+      end
+
+      it { expect(subject).to eq(permitted_hash) }
+    end
+
+    describe 'with no registration footer configured' do
+      before do
+        allow(OpenProject::Configuration)
+          .to receive(:registration_footer)
+          .and_return({})
+      end
+
+      let(:hash) do
+        {
+          'registration_footer' => {
+            'en' => 'some footer'
+          }
+        }
+      end
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'with a registration footer configured' do
+      include_context 'prepare params comparison'
+
+      before do
+        allow(OpenProject::Configuration)
+          .to receive(:registration_footer)
+          .and_return("en" => "configured footer")
+      end
+
+      let(:hash) do
+        {
+          'registration_footer' => {
+            'en' => 'some footer'
+          }
+        }
+      end
+
+      let(:permitted_hash) do
+        {}
       end
 
       it { expect(subject).to eq(permitted_hash) }

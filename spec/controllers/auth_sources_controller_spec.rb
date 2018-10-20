@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,13 +23,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe AuthSourcesController, type: :controller do
-  let(:current_user) { FactoryGirl.create(:admin) }
+  let(:current_user) { FactoryBot.create(:admin) }
 
   before do
     allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
@@ -74,7 +74,7 @@ describe AuthSourcesController, type: :controller do
 
   describe 'edit' do
     before do
-      @auth_source = FactoryGirl.create(:auth_source, name: 'TestEdit')
+      @auth_source = FactoryBot.create(:auth_source, name: 'TestEdit')
       get :edit, params: { id: @auth_source.id }
     end
 
@@ -85,7 +85,7 @@ describe AuthSourcesController, type: :controller do
 
   describe 'update' do
     before do
-      @auth_source = FactoryGirl.create(:auth_source, name: 'TestEdit')
+      @auth_source = FactoryBot.create(:auth_source, name: 'TestEdit')
       post :update, params: { id: @auth_source.id, auth_source: { name: 'TestUpdate' } }
     end
 
@@ -96,7 +96,7 @@ describe AuthSourcesController, type: :controller do
 
   describe 'destroy' do
     before do
-      @auth_source = FactoryGirl.create(:auth_source, name: 'TestEdit')
+      @auth_source = FactoryBot.create(:auth_source, name: 'TestEdit')
     end
 
     context 'without users' do
@@ -111,7 +111,7 @@ describe AuthSourcesController, type: :controller do
 
     context 'with users' do
       before do
-        FactoryGirl.create(:user, auth_source: @auth_source)
+        FactoryBot.create(:user, auth_source: @auth_source)
         post :destroy, params: { id: @auth_source.id }
       end
 

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,13 +24,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'redmine/menu_manager'
 
 Redmine::MenuManager.map :top_menu do |menu|
-
   # projects menu will be added by
   # Redmine::MenuManager::TopMenuHelper#render_projects_top_menu_node
 
@@ -42,6 +41,7 @@ Redmine::MenuManager.map :top_menu do |menu|
               (User.current.logged? || !Setting.login_required?) &&
                 User.current.allowed_to?(:view_work_packages, nil, global: true)
             }
+
   menu.push :news,
             { controller: '/news', project_id: nil, action: 'index' },
             context: :modules,
@@ -70,22 +70,23 @@ end
 Redmine::MenuManager.map :account_menu do |menu|
   menu.push :my_page,
             { controller: '/my', action: 'page' },
-            html: { class: 'hidden-for-mobile' },
             if: Proc.new { User.current.logged? }
   menu.push :my_account,
             { controller: '/my', action: 'account' },
-            html: { class: 'hidden-for-mobile' },
             if: Proc.new { User.current.logged? }
   menu.push :administration,
             { controller: '/users', action: 'index' },
-            html: { class: 'hidden-for-mobile' },
             if: Proc.new { User.current.admin? }
   menu.push :logout, :signout_path,
             if: Proc.new { User.current.logged? }
 end
 
-Redmine::MenuManager.map :application_menu do |_menu|
-  # Empty
+Redmine::MenuManager.map :application_menu do |menu|
+  menu.push :work_packages_query_select,
+            { controller: '/work_packages', action: 'index' },
+            parent: :work_packages,
+            partial: 'work_packages/menu_query_select',
+            last: true
 end
 
 Redmine::MenuManager.map :my_menu do |menu|
@@ -157,6 +158,11 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: 'icon2 icon-custom-fields',
             html: { class: 'custom_fields' }
 
+  menu.push :custom_actions,
+            { controller: '/custom_actions' },
+            caption: :'custom_actions.plural',
+            icon: 'icon2 icon-play'
+
   menu.push :attribute_help_texts,
             { controller: '/attribute_help_texts' },
             caption: :'attribute_help_texts.label_plural',
@@ -202,14 +208,9 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: 'icon2 icon-design'
 
   menu.push :colors,
-            { controller: '/planning_element_type_colors', action: 'index' },
+            { controller: '/colors', action: 'index' },
             caption:    :'timelines.admin_menu.colors',
             icon: 'icon2 icon-status'
-
-  menu.push :project_types,
-            { controller: '/project_types', action: 'index' },
-            caption:    :'timelines.admin_menu.project_types',
-            icon: 'icon2 icon-project-types'
 
   menu.push :enterprise,
             { controller: '/enterprises', action: 'show' },
@@ -239,23 +240,19 @@ Redmine::MenuManager.map :project_menu do |menu|
             { controller: '/work_packages', action: 'index' },
             param: :project_id,
             caption: :label_work_package_plural,
-            icon: 'icon2 icon-work-packages',
+            icon: 'icon2 icon-view-timeline',
             html: {
               id: 'main-menu-work-packages',
-              query_menu_item: 'query_menu_item'
+              :'wp-query-menu' => 'wp-query-menu'
             }
 
-  menu.push :summary_field,
-            { controller: '/work_packages/reports', action: 'report' },
+  menu.push :work_packages_query_select,
+            { controller: '/work_packages', action: 'index' },
             param: :project_id,
-            caption: :label_workflow_summary,
-            parent: :work_packages
-
-  menu.push :timelines,
-            { controller: '/timelines', action: 'index' },
-            param: :project_id,
-            caption: :'timelines.project_menu.timelines',
-            icon: 'icon2 icon-view-timeline'
+            parent: :work_packages,
+            partial: 'work_packages/menu_query_select',
+            last: true,
+            caption: :label_all_open_wps
 
   menu.push :calendar,
             { controller: '/work_packages/calendars', action: 'index' },
@@ -282,6 +279,8 @@ Redmine::MenuManager.map :project_menu do |menu|
             if: Proc.new { |p| p.repository && !p.repository.new_record? },
             icon: 'icon2 icon-folder-open'
 
+  # Wiki menu items are added by WikiMenuItemHelper
+
   menu.push :time_entries,
             { controller: '/timelog', action: 'index' },
             param: :project_id,
@@ -296,7 +295,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             icon: 'icon2 icon-group'
 
   menu.push :settings,
-            { controller: '/projects', action: 'settings' },
+            { controller: '/project_settings', action: 'show' },
             caption: :label_project_settings,
             last: true,
             icon: 'icon2 icon-settings2'

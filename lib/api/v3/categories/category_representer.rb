@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'roar/decorator'
@@ -34,10 +34,14 @@ module API
   module V3
     module Categories
       class CategoryRepresenter < ::API::Decorators::Single
+        include ::API::Caching::CachedRepresenter
+
+        cached_representer key_parts: %i(assigned_to project)
+
         link :self do
           {
             href: api_v3_paths.category(represented.id),
-            title: "#{represented.name}"
+            title: represented.name
           }
         end
 
@@ -49,10 +53,12 @@ module API
         end
 
         link :defaultAssignee do
+          next unless represented.assigned_to
+
           {
             href: api_v3_paths.user(represented.assigned_to.id),
             title: represented.assigned_to.name
-          } if represented.assigned_to
+          }
         end
 
         property :id, render_nil: true

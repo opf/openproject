@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,11 +25,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class WorkPackage::PdfExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
   include WorkPackage::PdfExport::Common
+  include WorkPackage::PdfExport::Attachments
 
   attr_accessor :pdf,
                 :options
@@ -54,6 +55,9 @@ class WorkPackage::PdfExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
     success(pdf.render)
   rescue Prawn::Errors::CannotFit
     error(I18n.t(:error_pdf_export_too_many_columns))
+  rescue StandardError => e
+    Rails.logger.error { "Failed to generated PDF export: #{e} #{e.message}." }
+    error(I18n.t(:error_pdf_failed_to_export, error: e.message))
   end
 
   def project
@@ -141,6 +145,16 @@ class WorkPackage::PdfExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
       if options[:show_descriptions]
         make_description(work_package.description.to_s).each do |segment|
           result << [segment]
+        end
+      end
+
+      if options[:show_attachments] && work_package.attachments.exists?
+        attachments = make_attachments_cells(work_package.attachments)
+
+        if attachments.any?
+          result << [
+            { content: pdf.make_table([attachments]), colspan: description_colspan }
+          ]
         end
       end
 

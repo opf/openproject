@@ -1,5 +1,5 @@
 AllCops:
-  TargetRubyVersion: 2.2
+  TargetRubyVersion: 2.5
   Exclude:
     - db/schema.rb
 
@@ -225,6 +225,9 @@ WhileUntilModifier:
 WordArray:
   Enabled: false
 
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
 # Lint
 
 AmbiguousOperator:
@@ -246,9 +249,6 @@ ElseLayout:
   Enabled: false
 
 HandleExceptions:
-  Enabled: false
-
-InvalidCharacterLiteral:
   Enabled: false
 
 LiteralInCondition:

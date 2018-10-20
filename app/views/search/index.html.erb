@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See doc/COPYRIGHT.rdoc for more details.
+See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
@@ -91,6 +91,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= icon_wrapper("icon-context icon-#{event_type}", e.event_name) %>
         <% if e.project != @project %>
           <span class="project"><%= e.project %></span>
+          <span> - </span>
         <% end %>
         <%= link_to highlight_tokens(truncate(e.event_title, escape: false, length: 255), @tokens), with_notes_anchor(e, @tokens) %>
       </dt>

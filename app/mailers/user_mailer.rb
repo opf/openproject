@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,11 +24,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class UserMailer < BaseMailer
-  helper :application,  # for format_text
+  helper :application, # for format_text
          :work_packages, # for css classes
          :custom_fields # for show_value
   helper IssuesHelper
@@ -39,7 +39,7 @@ class UserMailer < BaseMailer
   default from: Proc.new { Setting.mail_from }
 
   def test_mail(user)
-    @welcome_url = url_for(controller: '/welcome')
+    @welcome_url = url_for(controller: '/homescreen')
 
     headers['X-OpenProject-Type'] = 'Test'
 
@@ -218,7 +218,7 @@ class UserMailer < BaseMailer
     @wiki_diff_url = url_for(controller: '/wiki',
                              action:     :diff,
                              project_id: wiki_content.project,
-                             id:         wiki_content.page.title,
+                             id:         wiki_content.page.slug,
                              # using wiki_content.version + 1 because at this point the journal is not saved yet
                              version:    wiki_content.version + 1)
 
@@ -307,6 +307,19 @@ class UserMailer < BaseMailer
     end
   end
 
+  ##
+  # E-Mail to inform admin about a failed account activation due to the user limit.
+  #
+  # @param [String] user_email E-Mail of user who could not activate their account.
+  # @param [User] admin Admin to be notified of this issue.
+  def activation_limit_reached(user_email, admin)
+    @email = user_email
+
+    with_locale_for(admin) do
+      mail to: admin.mail, subject: t("mail_user_activation_limit_reached.subject")
+    end
+  end
+
   # Activates/deactivates email deliveries during +block+
   def self.with_deliveries(temporary_state = true, &_block)
     old_state = ActionMailer::Base.perform_deliveries
@@ -363,9 +376,9 @@ class UserMailer < BaseMailer
 
   def self.mail_timestamp(object)
     if object.respond_to? :created_at
-      timestamp = object.send(object.respond_to?(:created_at) ? :created_at : :updated_at)
+      object.send(object.respond_to?(:created_at) ? :created_at : :updated_at)
     else
-      timestamp = object.send(object.respond_to?(:created_on) ? :created_on : :updated_on)
+      object.send(object.respond_to?(:created_on) ? :created_on : :updated_on)
     end
   end
 

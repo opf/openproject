@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,14 +25,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module API
   module V3
     module WorkPackages
       class WorkPackageCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
-        include ::API::V3::WorkPackages::WorkPackageCollectionEagerLoading
         element_decorator ::API::V3::WorkPackages::WorkPackageRepresenter
 
         def initialize(models,
@@ -70,7 +69,7 @@ module API
           # and set those to be the represented collection.
           # A potential ordering is reapplied to the work package collection in ruby.
 
-          @represented = full_work_packages(represented)
+          @represented = ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper.wrap(represented, current_user)
         end
 
         link :sumsSchema do
@@ -120,17 +119,12 @@ module API
 
         collection :elements,
                    getter: ->(*) {
-                     generated_classes = ::Hash.new do |hash, work_package|
-                       hit = hash.values.find do |klass|
-                         klass.customizable.type_id == work_package.type_id &&
-                           klass.customizable.project_id == work_package.project_id
-                       end
+                     all_fields = represented.map(&:available_custom_fields).flatten.uniq
 
-                       hash[work_package] = hit || element_decorator.create_class(work_package)
-                     end
+                     rep_class = element_decorator.custom_field_class(all_fields)
 
                      represented.map do |model|
-                       generated_classes[model].new(model, current_user: current_user)
+                       rep_class.new(model, current_user: current_user)
                      end
                    },
                    exec_context: :decorator,
@@ -160,8 +154,8 @@ module API
         end
 
         def schemas
-          schemas = schema_pairs.map do |project, type|
-            Schema::TypedWorkPackageSchema.new(project: project, type: type)
+          schemas = schema_pairs.map do |project, type, available_custom_fields|
+            Schema::TypedWorkPackageSchema.new(project: project, type: type, custom_fields: available_custom_fields)
           end
 
           Schema::WorkPackageSchemaCollectionRepresenter.new(schemas,
@@ -179,7 +173,7 @@ module API
 
         def schema_pairs
           represented
-            .map { |work_package| [work_package.project, work_package.type] }
+            .map { |work_package| [work_package.project, work_package.type, work_package.available_custom_fields] }
             .uniq
         end
 
@@ -194,7 +188,9 @@ module API
         def representation_formats
           formats = [
             representation_format_pdf,
+            representation_format_pdf_attachments,
             representation_format_pdf_description,
+            representation_format_pdf_description_attachments,
             representation_format_csv
           ]
 
@@ -227,12 +223,27 @@ module API
                                 mime_type: 'application/pdf'
         end
 
+        def representation_format_pdf_attachments
+          representation_format 'pdf',
+                                i18n_key: 'pdf_with_attachments',
+                                mime_type: 'application/pdf',
+                                url_query_extras: 'show_attachments=true'
+        end
+
         def representation_format_pdf_description
           representation_format 'pdf-with-descriptions',
                                 format: 'pdf',
                                 i18n_key: 'pdf_with_descriptions',
                                 mime_type: 'application/pdf',
                                 url_query_extras: 'show_descriptions=true'
+        end
+
+        def representation_format_pdf_description_attachments
+          representation_format 'pdf-with-descriptions',
+                                format: 'pdf',
+                                i18n_key: 'pdf_with_descriptions_and_attachments',
+                                mime_type: 'application/pdf',
+                                url_query_extras: 'show_descriptions=true&show_attachments=true'
         end
 
         def representation_format_csv

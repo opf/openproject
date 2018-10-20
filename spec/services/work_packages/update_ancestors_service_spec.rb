@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,18 +23,18 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe WorkPackages::UpdateAncestorsService, type: :model do
-  let(:user) { FactoryGirl.create :user }
+  let(:user) { FactoryBot.create :user }
   let(:estimated_hours) { [nil, nil, nil] }
   let(:done_ratios) { [0, 0, 0] }
   let(:statuses) { %i(open open open) }
-  let(:open_status) { FactoryGirl.create :status }
-  let(:closed_status) { FactoryGirl.create :closed_status }
+  let(:open_status) { FactoryBot.create :status }
+  let(:closed_status) { FactoryBot.create :closed_status }
   let(:aggregate_done_ratio) { 0.0 }
 
   context 'for the new ancestor chain' do
@@ -66,14 +66,14 @@ describe WorkPackages::UpdateAncestorsService, type: :model do
 
     let(:children) do
       (statuses.size - 1).downto(0).map do |i|
-        FactoryGirl.create :work_package,
+        FactoryBot.create :work_package,
                            parent: parent,
                            status: statuses[i] == :open ? open_status : closed_status,
                            estimated_hours: estimated_hours[i],
                            done_ratio: done_ratios[i]
       end
     end
-    let(:parent) { FactoryGirl.create :work_package, status: open_status }
+    let(:parent) { FactoryBot.create :work_package, status: open_status }
 
     subject do
       described_class
@@ -113,6 +113,16 @@ describe WorkPackages::UpdateAncestorsService, type: :model do
           let(:aggregate_done_ratio) { 67 } # 66.67 rounded - previous wrong result: 100
           let(:aggregate_estimated_hours) { 2.0 }
         end
+      end
+    end
+
+    context 'with some values same for done ratio' do
+      it_behaves_like 'attributes of parent having children' do
+        let(:done_ratios) { [20, 20, 50] }
+        let(:estimated_hours) { [nil, nil, nil] }
+
+        let(:aggregate_done_ratio) { 30 }
+        let(:aggregate_estimated_hours) { nil }
       end
     end
 
@@ -181,14 +191,14 @@ describe WorkPackages::UpdateAncestorsService, type: :model do
     let(:sibling_estimated_hours) { 7.0 }
 
     let!(:grandparent) do
-      FactoryGirl.create :work_package
+      FactoryBot.create :work_package
     end
     let!(:parent) do
-      FactoryGirl.create :work_package,
+      FactoryBot.create :work_package,
                          parent: grandparent
     end
     let!(:sibling) do
-      FactoryGirl.create :work_package,
+      FactoryBot.create :work_package,
                          parent: parent,
                          status: sibling_status,
                          estimated_hours: sibling_estimated_hours,
@@ -196,7 +206,7 @@ describe WorkPackages::UpdateAncestorsService, type: :model do
     end
 
     let!(:work_package) do
-      FactoryGirl.create :work_package,
+      FactoryBot.create :work_package,
                          parent: parent
     end
 
@@ -251,14 +261,14 @@ describe WorkPackages::UpdateAncestorsService, type: :model do
     let(:estimated_hours) { 7.0 }
 
     let!(:grandparent) do
-      FactoryGirl.create :work_package
+      FactoryBot.create :work_package
     end
     let!(:parent) do
-      FactoryGirl.create :work_package,
+      FactoryBot.create :work_package,
                          parent: grandparent
     end
     let!(:work_package) do
-      FactoryGirl.create :work_package,
+      FactoryBot.create :work_package,
                          status: status,
                          estimated_hours: estimated_hours,
                          done_ratio: done_ratio

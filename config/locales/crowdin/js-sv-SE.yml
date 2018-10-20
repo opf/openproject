@@ -4,6 +4,17 @@ sv-SE:
     ajax:
       hide: Dölj
       loading: Laddar ...
+    attachments:
+      draggable_hint: 'Drag on editor field to inline image or reference attachment.
+        Closed editor fields will be opened while you keep dragging.
+
+'
+    autocomplete_select:
+      placeholder:
+        multi: Lägg till ”%{name}”
+        single: Välj ”%{name}”
+      remove: Ta bort %{name}
+      active: Aktiva %{label} %{name}
     close_popup_title: Stäng popup
     close_filter_title: Stäng filter
     close_form_title: Stäng formulär
@@ -47,8 +58,68 @@ sv-SE:
     description_select_work_package: 'Välj arbetspaket #%{id}'
     description_selected_columns: Markerade kolumner
     description_subwork_package: 'Barn till arbetspaket #%{id}'
+    editor:
+      preview: Växla förhandsgranskningsläge
+      source_code: Toggle Markdown source mode
+      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      mode:
+        manual: Switch to Markdown source
+        wysiwyg: Switch to WYSIWYG editor
+      macro:
+        child_pages:
+          button: Länkar till underordnade sidor
+          include_parent: Inkludera överordnade
+          text: "[Placeholder] länkar till underordnade sidor av"
+          page: Wiki-sida
+          this_page: den här sidan
+          hint: 'Lämna fältet tomt om du vill lista alla underordnade sidor på den
+            aktuella sidan. Om du vill referera till en annan sida, ange dess titel
+            eller slug.
+
+'
+        code_block:
+          button: Infoga kodstycket
+          title: Infoga / redigera kodavsnitt
+          language: Formateringsspråk
+          language_hint: Ange det formateringsspråk som används för att belysa (om
+            det stöds).
+        dropdown:
+          macros: Makron
+          chose_macro: Välj makro
+        toc: Innehållsförteckning
+        toolbar_help: Klicka på välj widget och visa verktygsfältet. Dubbelklicka
+          om du vill redigera widget
+        wiki_page_include:
+          button: Inkludera innehåll från en annan wiki-sida
+          text: "[Placeholder] Inkluderad wiki-sida för"
+          page: Wiki-sida
+          not_set: "(Page not yet set)"
+          hint: 'Inkludera innehåll från en annan wiki-sida genom att ange dess titel
+            eller slug. Du kan inkludera wiki-sidan för ett annat projekt genom att
+            separera dem med ett kolon som följande exempel.
+
+'
+        work_package_button:
+          button: Lägg till skapa arbetspaket-knapp
+          type: Arbetspaketstyper
+          button_style: Använd knappstil
+          button_style_hint: 'Frivilligt: Markera för att makrot ska synas som en
+            knapp istället för en länk.'
+          without_type: Skapa arbetspaket
+          with_type: 'Skapa arbetspaket (Typ: %{typename})'
+        embedded_table:
+          button: Bädda in arbetspaket-tabell
+          text: "[Placeholder] Embedded work package table"
+    custom_actions:
+      date:
+        specific: 'on'
+        current_date: Current date
     error:
       internal: Ett internt fel har inträffat.
+      cannot_save_changes_with_message: 'Kan inte spara dina ändringar på grund av
+        följande error: %{error}'
+      query_saving: The view could not be saved.
+      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
     filter:
       description:
         text_open_filter: Öppna det här filtret med 'ALT' och piltangenterna.
@@ -65,6 +136,8 @@ sv-SE:
           one: Första sorteringskriteriet
           two: Andra sorteringskriteriet
           three: Tredje sorteringskriteriet
+      upsale_for_more: För mer avancerade filter, kolla in
+      upsale_link: Enterprise Edition.
     general_text_no: nej
     general_text_yes: ja
     general_text_No: Nej
@@ -74,7 +147,7 @@ sv-SE:
     label_activity_with_comment_no: Aktivitetspost nummer %{activityNo} har en användarkommentar.
     label_add_columns: Lägg till kolumn
     label_add_comment: Lägg till kommentar
-    label_add_comment_title: Klicka för att kommentera
+    label_add_comment_title: Comment and type @ to notify other people
     label_add_selected_columns: Lägga till markerade kolumner
     label_added_by: lagts till av
     label_added_time_by: Lagts till av %{author} %{age}
@@ -110,6 +183,7 @@ sv-SE:
     label_expand: Expandera
     label_expanded: expanderade
     label_expand_all: Expandera alla
+    label_expand_project_menu: Expandera projektmenyn
     label_export: Exportera
     label_filename: Fil
     label_filesize: Filstorlek
@@ -117,10 +191,11 @@ sv-SE:
     label_group_by: Gruppera efter
     label_hide_attributes: Visa mindre
     label_hide_column: Dölj kolumn
+    label_hide_project_menu: Minimera projektmenyn
     label_in: i
     label_in_less_than: i mindre än
     label_in_more_than: i mer än
-    label_latest_activity: Senaste aktivitet
+    label_latest_activity: Latest activity
     label_last_updated_on: Senast uppdaterad den
     label_less_or_equal: "<="
     label_less_than_ago: mindre än dagar sedan
@@ -138,6 +213,7 @@ sv-SE:
     label_not_equals: är inte
     label_on: på
     label_open_menu: Öppna meny
+    label_open_context_menu: Öppna kontextmenyn
     label_open_work_packages: öppna
     label_password: Lösenord
     label_previous: Föregående
@@ -151,20 +227,23 @@ sv-SE:
     label_select_watcher: Välj en bevakare...
     label_selected_filter_list: Valda filter
     label_show_attributes: Visa alla attribut
-    label_show_in_menu: Visa sidan i menyn
+    label_show_in_menu: Visa vyn i menyn
     label_sort_by: Sortera efter
     label_sorted_by: sorterade efter
     label_sort_higher: Flytta upp
     label_sort_lower: Flytta ned
     label_sorting: Sortering
+    label_star_query: Favored
+    label_press_enter_to_save: Press enter to save.
+    label_public_query: Offentlig
     label_sum_for: Summa för
     label_subject: Ämne
     label_this_week: denna vecka
     label_today: idag
+    label_up: Upp
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% Totalt klart"
-    label_visible_for_others: Sidan synlig för andra
     label_updated_on: uppdaterad den
     label_warning: Varning
     label_work_package: Arbetspaket
@@ -177,8 +256,10 @@ sv-SE:
     label_unwatch: Sluta bevaka
     label_unwatch_work_package: Sluta bevaka arbetspaket
     label_uploaded_by: Uppladdad av
-    label_global_queries: Delade frågor
-    label_custom_queries: Privata frågor
+    label_default_queries: Default views
+    label_starred_queries: Favorite views
+    label_global_queries: Public views
+    label_custom_queries: Private views
     label_columns: Kolumner
     label_attachments: Filer
     label_drop_files: Släpp filer här
@@ -190,7 +271,9 @@ sv-SE:
     label_remove_watcher: Ta bort bevakare %{name}
     label_remove_all_files: Ta bort alla filer
     label_add_description: Lägga till en beskrivning för %{file}
-    label_upload_notification: 'Ladda upp filer för arbetspaket #%{id}: %{subject}'
+    label_upload_notification: Laddar upp fil(er)...
+    label_work_package_upload_notification: 'Ladda upp filer för arbetspaket #%{id}:
+      %{subject}'
     label_files_to_upload: 'Dessa filer kommer att laddas upp:'
     label_rejected_files: 'Dessa filer går inte att ladda upp:'
     label_rejected_files_reason: Dessa filer går inte att ladda upp eftersom deras
@@ -220,6 +303,8 @@ sv-SE:
       context: Project context
       work_package_belongs_to: This work package belongs to project %{projectname}.
       click_to_switch_context: Open this work package in that project.
+      autocompleter:
+        label: Project autocompletion
     text_are_you_sure: Är du säker?
     types:
       attribute_groups:
@@ -260,7 +345,8 @@ sv-SE:
       required: Krävs av
       relation_type: relationstyp
     relations_hierarchy:
-      hierarchy_headline: hierarki
+      parent_headline: Överordnad
+      children_headline: Barn
     relation_buttons:
       change_parent: Ändra överordnad
       remove_parent: Ta bort förälder
@@ -297,6 +383,7 @@ sv-SE:
         one: Du kan bara välja en sak
         other: Du kan bara välja {{limit}} saker
         zero: You cannot select any items
+    project_menu_details: Detaljer
     sort:
       sorted_asc: 'Stigande sortering används, '
       sorted_dsc: 'Fallande sortering används, '
@@ -307,12 +394,14 @@ sv-SE:
       activate_no: aktivera för att ta bort sortering
     text_work_packages_destroy_confirmation: Är du säker du vill ta bort det valda
       arbetspaket(paketen)?
-    text_query_destroy_confirmation: Är du säker du vill ta bort den valda frågan?
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      view?
     text_attachment_destroy_confirmation: Är du säker på att du vill ta bort denna
       bilaga?
     timelines:
       gantt_chart: Gantt chart
       labels:
+        title: Etikettsinställning
         bar: Bar labels
         left: Left
         right: Right
@@ -323,11 +412,11 @@ sv-SE:
           its date labels will be shown instead of these attributes.
 
 '
-      button_activate: Aktivera tidslinjeläge
-      button_deactivate: Inaktivera tidslinjeläge
+      button_activate: Show Gantt chart
+      button_deactivate: Hide Gantt chart
       cancel: Avbryt
       change: Ändra i planeringen
-      due_date: Förfallodatum
+      due_date: Finish date
       empty: "(tom)"
       error: Ett fel har inträffat.
       errors:
@@ -339,18 +428,9 @@ sv-SE:
         report_epicfail: Tidslinjen kunde inte hämtas på grund av ett oväntat fel.
         report_timeout: Tidslinjen kunde inte laddas på en rimlig tid.
       filter:
-        column:
-          assigned_to: Tilldelad till
-          type: Typ
-          due_date: Slutdatum
-          name: Namn
-          status: Status
-          responsible: Ansvarig
-          start_date: Startdatum
         grouping_other: Andra
         noneSelection: "(ingen)"
       name: Namn
-      new_work_package: Nya arbetspaket
       outline: Återställa disposition
       outlines:
         aggregation: Visa endast aggregeringar
@@ -361,7 +441,6 @@ sv-SE:
         level5: Expandera nivå 5
         all: Visa alla
       project_status: Projektstatus
-      project_type: Projekttyp
       really_close_dialog: Vill du verkligen stänga dialogrutan och förlora inmatad
         data?
       responsible: Ansvarig
@@ -381,6 +460,10 @@ sv-SE:
         quarters: Kvartal
         years: År
         slider: Zoomreglaget
+        description: 'Select the initial zoom level that should be shown when autozoom
+          is not available.
+
+'
     tl_toolbar:
       zooms: Zoomnivå
       outlines: Hierarkinivå
@@ -392,6 +475,8 @@ sv-SE:
         uppgradera till Microsoft Edge.
       learn_more: Lär dig mer
       close_warning: Bortse från denna varning.
+    upsale:
+      ee_only: Enterprise Edition only feature
     wiki_formatting:
       strong: Fetstil
       italic: Kursiv
@@ -448,10 +533,13 @@ sv-SE:
       inline_create:
         title: Klicka här för att lägga till ett nytt arbetspaket till listan
       create:
+        title: Nya arbetspaket
         header: Ny %{type}
         header_no_type: Nytt arbetspaket (typ har inte angetts än)
         header_with_parent: 'Ny %{type} (barn till %{parent_type} #%{id})'
         button: Skapa
+      copy:
+        title: Kopiera arbetspaket
       hierarchy:
         show: Visa hierarkiläge
         hide: Dölj hierarkiläge
@@ -463,7 +551,7 @@ sv-SE:
           de filtrerade barnen
       faulty_query:
         title: Arbetspaket kunde inte laddas.
-        description: Din fråga är felaktig och kunde inte behandlas.
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: Inga arbetspaket att visa.
         description: Antingen finns det inga arbetspaket eller så har alla filtrerats
@@ -479,7 +567,7 @@ sv-SE:
         createdAt: Skapat den
         description: Beskrivning
         date: Datum
-        dueDate: Förfallodatum
+        dueDate: Finish date
         estimatedTime: Beräknad tid
         spentTime: Förbrukad tid
         category: Kategori
@@ -495,6 +583,13 @@ sv-SE:
         updatedAt: Uppdaterat den
         versionName: Version
         version: Version
+      default_queries:
+        latest_activity: Latest activity
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: Alla öppna
+        summary: Sammanfattning
       jump_marks:
         pagination: Gå till sidnumrering för tabell
         label_pagination: Klicka här för att hoppa arbetspaketets tabell och gå till
@@ -512,7 +607,6 @@ sv-SE:
           är aktivt.
         hierarchy_disabled_by_group_by: Hierarkiläget är inaktiverat då resultaten
           är grupperade efter %{column}.
-        hierarchy_mode: Hierarkiläge
         sort_ascending: Sortera stigande
         sort_descending: Sortera fallande
         move_column_left: Flytta kolumnen till vänster
@@ -521,17 +615,57 @@ sv-SE:
         insert_columns: Infoga kolumner...
         filters: Filter
         display_sums: Visa summor
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
         errors:
-          unretrievable_query: Det gick inte att hämta fråga från URL
-          not_found: Det finns ingen sådan fråga
-        text_no_results: Inga matchande frågor hittades.
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
       table:
+        configure_button: Konfigurera arbetspakets-tabell
         summary: Tabell med ett arbetspaket för varje rad och kolumner för varje arbetspaketsattribut.
         text_inline_edit: Du kan klicka på de flesta celler i den här tabellen för
           att redigera attributens funktion.
         text_sort_hint: Med hjälp av länkarna i tabellrubrikerna kan du sortera, gruppera,
           ändra ordning, radera och lägga till kolumner.
         text_select_hint: Valda celler öppnas med 'ALT' och piltangenterna.
+      table_configuration:
+        button: Konfigurera detta arbetspaket-tabell
+        choose_display_mode: Display work packages as
+        modal_title: Inställningar för arbetspaket-tabell
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          view you're editing.
+        default: standard
+        display_settings: Skärminställningar
+        default_mode: Flat list
+        hierarchy_mode: Hierarchy
+        hierarchy_hint: Alla filtrerade tabellresultat kommer att kompletteras med
+          sina förfäder. Hierarkier kan utökas och kollapsas.
+        display_sums_hint: Visa summor av alla sammanlagda attribut i en rad under
+          tabellresultatet.
+        show_timeline_hint: Visa ett interaktivt gantt-diagram på höger sida av tabellen.
+          Du kan ändra dess bredd genom att dra delaren mellan tabellen och gantt-diagrammet.
+        highlighting: Highlighting
+        highlighting_mode:
+          description: Highlight with color
+          none: No highlighting
+          inline: Highlighted attribute(s)
+          inline_all: All attributes
+          entire_row_by: Entire row by
+          status: Status
+          priority: Prioritet
+          type: Typ
+        columns_help_text: Använd inmatningen ovan för att lägga till eller ta bort
+          kolumner i din tabellvy. Du kan dra och släppa kolumnerna för att omordna
+          dem.
+        upsale:
+          attribute_highlighting: Need certain work packages to stand out from the
+            mass?
+          relation_columns: Need to see relations in the work package list?
+          check_out_link: Check out the Enterprise Edition.
       tabs:
         overview: Översikt
         activity: Aktivitet
@@ -544,6 +678,7 @@ sv-SE:
         months: månader
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Kolumner ...
         sort_by: Sortera efter ...
         group_by: Gruppera efter ...
@@ -554,15 +689,16 @@ sv-SE:
         save: Spara
         save_as: Spara som ...
         export: Exportera...
-        publish: Publish ...
-        page_settings: Byt namn på fråga...
+        visibility_settings: Visibility settings ...
+        page_settings: Byt namn på vyn ...
         delete: Ta bort
       filter: Filter
       unselected_title: Arbetspaket
-      search_query_label: Sök sparade filtreringsfrågor
-      search_query_title: Klicka för att söka bland sparade filtreringsfrågor
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
     modals:
-      label_settings: Byt namn på fråga
+      label_settings: Byt namn på vyn
       label_name: Namn
       label_delete_page: Ta bort aktuell sida
       button_apply: Använd
@@ -572,13 +708,14 @@ sv-SE:
       form_submit:
         title: Bekräfta för att fortsätta
         text: Är du säker på att du vill utföra den här åtgärden?
-      upsale_relation_columns: Need to see relations in the work package list?
-      upsale_relation_columns_link: Check out the Enterprise Edition.
       destroy_work_package:
         title: Confirm deletion of %{label}
         text: Are you sure you want to delete the following %{label} ?
         has_children: 'The work package has %{childUnits}:'
-        deletes_children: All child work packages will also be deleted.
+        confirm_deletion_children: I acknowledge that ALL descendants of the listed
+          work packages will be recursively removed.
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: Skapades utan problem.
     notice_successful_delete: Raderades utan problem.
     notice_successful_update: Uppdaterades utan problem.
@@ -605,6 +742,9 @@ sv-SE:
         messages_on_field: 'Fältet är ogiltigt: %{messages}'
     error_could_not_resolve_version_name: Kunde inte fastställa versionsnamn
     error_could_not_resolve_user_name: Kunde inte fastställa användarnamn
+    error_attachment_upload: 'Filen ''%{name}'' misslyckades att laddas upp: %{error}'
+    error_attachment_upload_permission: Du har inte rättigheter att ladda upp filer
+      i den här resursen.
     units:
       workPackage:
         one: work package

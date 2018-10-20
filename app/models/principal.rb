@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class Principal < ActiveRecord::Base
@@ -66,16 +66,11 @@ class Principal < ActiveRecord::Base
   scope :active_or_registered_like, ->(query) { active_or_registered.like(query) }
 
   scope :in_project, ->(project) {
-    projects = Array(project)
-    subquery = "SELECT DISTINCT user_id FROM members WHERE project_id IN (?)"
-    condition = ["#{Principal.table_name}.id IN (#{subquery})",
-                 projects.map(&:id)]
-
-    where(condition)
+    where(id: Member.of(project).select(:user_id))
   }
 
   scope :not_in_project, ->(project) {
-    where("id NOT IN (select m.user_id FROM members as m where m.project_id = #{project.id})")
+    where.not(id: Member.of(project).select(:user_id))
   }
 
   # Active non-anonymous principals scope
@@ -163,12 +158,12 @@ class Principal < ActiveRecord::Base
     false
   end
 
-  def <=>(principal)
-    if self.class.name == principal.class.name
-      to_s.downcase <=> principal.to_s.downcase
+  def <=>(other)
+    if self.class.name == other.class.name
+      to_s.downcase <=> other.to_s.downcase
     else
       # groups after users
-      principal.class.name <=> self.class.name
+      other.class.name <=> self.class.name
     end
   end
 
@@ -184,5 +179,4 @@ class Principal < ActiveRecord::Base
   end
 
   extend Pagination::Model
-
 end

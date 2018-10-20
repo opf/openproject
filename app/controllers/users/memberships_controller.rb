@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class Users::MembershipsController < ApplicationController
@@ -35,11 +35,11 @@ class Users::MembershipsController < ApplicationController
   before_action :find_user
 
   def update
-    update_or_create(request.patch?)
+    update_or_create(request.patch?, :notice_successful_update)
   end
 
   def create
-    update_or_create(request.post?)
+    update_or_create(request.post?, :notice_successful_create)
   end
 
   def destroy
@@ -47,30 +47,25 @@ class Users::MembershipsController < ApplicationController
 
     if @membership.deletable? && request.delete?
       @membership.destroy && @membership = nil
+      flash[:notice] = I18n.t(:notice_successful_delete)
     end
 
-    respond_to do |format|
-      format.html do
-        redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships'
-      end
-
-      format.js {}
-    end
+    redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships'
   end
 
   private
 
-  def update_or_create(save_record)
+  def update_or_create(save_record, message)
     @membership = params[:id].present? ? Member.find(params[:id]) : Member.new(principal: @user)
     service = ::Members::EditMembershipService.new(@membership, save: save_record, current_user: current_user)
-    service.call(attributes: permitted_params.membership)
+    result = service.call(attributes: permitted_params.membership)
 
-    respond_to do |format|
-      format.html do
-        redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships'
-      end
-      format.js { render 'update_or_create' }
+    if result.success?
+      flash[:notice] = I18n.t(message)
+    else
+      flash[:error] = result.errors.full_messages.join("\n")
     end
+    redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships'
   end
 
   def find_user

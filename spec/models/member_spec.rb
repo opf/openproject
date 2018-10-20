@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,16 +23,16 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe Member, type: :model do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:role) { FactoryGirl.create(:role) }
-  let(:second_role) { FactoryGirl.create(:role) }
-  let(:member) { FactoryGirl.create(:member, user: user, roles: [role]) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:role) { FactoryBot.create(:role) }
+  let(:second_role) { FactoryBot.create(:role) }
+  let(:member) { FactoryBot.create(:member, user: user, roles: [role]) }
 
   describe '#add_role' do
     before do

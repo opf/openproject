@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -34,14 +34,14 @@ describe NewsController, type: :controller do
   include BecomeMember
 
   let(:user)    {
-    user = FactoryGirl.create(:admin)
+    user = FactoryBot.create(:admin)
 
-    FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
+    FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
 
     user
   }
-  let(:project) { FactoryGirl.create(:project) }
-  let(:news)    { FactoryGirl.create(:news)    }
+  let(:project) { FactoryBot.create(:project) }
+  let(:news)    { FactoryBot.create(:news)    }
 
   before do
     allow(User).to receive(:current).and_return user
@@ -175,19 +175,6 @@ describe NewsController, type: :controller do
 
       expect(response).to redirect_to project_news_index_path(news.project)
       expect { news.reload }.to raise_error ActiveRecord::RecordNotFound
-    end
-  end
-
-  describe 'preview' do
-    let(:description) { 'News description' }
-
-    it_behaves_like 'valid preview' do
-      let(:preview_texts) { [description] }
-      let(:preview_params) { { news: { description: description } } }
-    end
-
-    it_behaves_like 'authorizes object access' do
-      let(:preview_params) { { id: news.id, news: {} } }
     end
   end
 end

@@ -6,7 +6,7 @@ All steps are run with `sudo` to execute as the root user.
 
 ```
 sudo wget -O /etc/yum.repos.d/openproject-ce.repo \
-  https://dl.packager.io/srv/opf/openproject-ce/stable/7/installer/el/7.repo
+  https://dl.packager.io/srv/opf/openproject-ce/stable/8/installer/el/7.repo
 ```
 
 **2. Install the OpenProject Community Edition package**

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,15 +23,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe WorkPackagePolicy, type: :controller do
-  let(:user)         { FactoryGirl.build_stubbed(:user) }
-  let(:project)      { FactoryGirl.build_stubbed(:project) }
-  let(:work_package) { FactoryGirl.build_stubbed(:work_package, project: project) }
+  let(:user)         { FactoryBot.build_stubbed(:user) }
+  let(:project)      { FactoryBot.build_stubbed(:project) }
+  let(:work_package) { FactoryBot.build_stubbed(:work_package, project: project) }
 
   describe '#allowed?' do
     let(:subject) { described_class.new(user) }
@@ -53,10 +53,11 @@ describe WorkPackagePolicy, type: :controller do
         expect(subject).to be_truthy
       end
 
-      it 'is true if the user has the add_work_package_notes permission in the project' do
+      # used to be truthy
+      it 'is false if the user has only the add_work_package_notes permission in the project' do
         allow(user).to receive(:allowed_to?).with(:add_work_package_notes, project)
           .and_return true
-        expect(subject).to be_truthy
+        expect(subject).to be_falsey
       end
 
       it 'is false if the user has the edit_work_package permission in the project' do
@@ -65,7 +66,7 @@ describe WorkPackagePolicy, type: :controller do
         expect(subject).to be_truthy
       end
 
-      it 'is false if the user has the permissions but the work package is unperisted' do
+      it 'is false if the user has the permissions but the work package is unpersisted' do
         allow(user).to receive(:allowed_to?).with(:edit_work_packages, project)
           .and_return true
         allow(user).to receive(:allowed_to?).with(:add_work_package_notes, project)
@@ -78,8 +79,10 @@ describe WorkPackagePolicy, type: :controller do
 
     context 'for manage_subtasks' do
       it 'is true if the user has the manage_subtasks permission in the project' do
-        allow(user).to receive(:allowed_to?).with(:manage_subtasks, project)
+        allow(user)
+          .to receive(:allowed_to?).with(:manage_subtasks, project, global: false)
           .and_return true
+
         expect(subject.allowed?(work_package, :manage_subtasks)).to be_truthy
       end
     end

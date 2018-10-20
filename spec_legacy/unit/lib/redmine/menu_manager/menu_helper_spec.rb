@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 require 'legacy_spec_helper'
 
@@ -94,13 +94,13 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
     User.current = User.find(1)
 
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
-                                                     { controller: 'issues', action: 'index' },
+                                                     { controller: 'work_packages', action: 'index' },
 
                                                      children: Proc.new {|_p|
                                                        children = []
                                                        3.times do |time|
                                                          children << Redmine::MenuManager::MenuItem.new("test_child_#{time}",
-                                                                                                        { controller: 'issues', action: 'index' },
+                                                                                                        { controller: 'work_packages', action: 'index' },
                                                                                                         {})
                                                        end
                                                        children
@@ -123,24 +123,24 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
     User.current = User.find(1)
 
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
-                                                     { controller: 'issues', action: 'index' },
+                                                     { controller: 'work_packages', action: 'index' },
 
                                                      children: Proc.new {|_p|
                                                        children = []
                                                        3.times do |time|
-                                                         children << Redmine::MenuManager::MenuItem.new("test_child_#{time}", { controller: 'issues', action: 'index' }, {})
+                                                         children << Redmine::MenuManager::MenuItem.new("test_child_#{time}", { controller: 'work_packages', action: 'index' }, {})
                                                        end
                                                        children
                                                      }
                                                     )
 
     parent_node << Redmine::MenuManager::MenuItem.new(:child_node,
-                                                      { controller: 'issues', action: 'index' },
+                                                      { controller: 'work_packages', action: 'index' },
 
                                                       children: Proc.new {|_p|
                                                         children = []
                                                         6.times do |time|
-                                                          children << Redmine::MenuManager::MenuItem.new("test_dynamic_child_#{time}", { controller: 'issues', action: 'index' }, {})
+                                                          children << Redmine::MenuManager::MenuItem.new("test_dynamic_child_#{time}", { controller: 'work_packages', action: 'index' }, {})
                                                         end
                                                         children
                                                       }
@@ -170,9 +170,9 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
 
   it 'should render menu node with children without an array' do
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
-                                                     { controller: 'issues', action: 'index' },
+                                                     { controller: 'work_packages', action: 'index' },
 
-                                                     children: Proc.new { |_p| Redmine::MenuManager::MenuItem.new('test_child', { controller: 'issues', action: 'index' }, {}) },
+                                                     children: Proc.new { |_p| Redmine::MenuManager::MenuItem.new('test_child', { controller: 'work_packages', action: 'index' }, {}) },
                                                     )
 
     assert_raises Redmine::MenuManager::MenuError, ':children must be an array of MenuItems' do
@@ -182,7 +182,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
 
   it 'should render menu node with incorrect children' do
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
-                                                     { controller: 'issues', action: 'index' },
+                                                     { controller: 'work_packages', action: 'index' },
 
                                                      children: Proc.new { |_p| ['a string'] }
                                                     )
@@ -192,8 +192,8 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
     end
   end
 
-  it 'should menu items for should yield all items if passed a block' do
-    menu_name = :test_menu_items_for_should_yield_all_items_if_passed_a_block
+  it 'should first level menu items for should yield all items if passed a block' do
+    menu_name = :test_first_level_menu_items_for_should_yield_all_items_if_passed_a_block
     Redmine::MenuManager.map menu_name do |menu|
       menu.push(:a_menu, '/', {})
       menu.push(:a_menu_2, '/', {})
@@ -201,51 +201,51 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
     end
 
     items_yielded = []
-    menu_items_for(menu_name) do |item|
+    first_level_menu_items_for(menu_name) do |item|
       items_yielded << item
     end
 
     assert_equal 3, items_yielded.size
   end
 
-  it 'should menu items for should return all items' do
-    menu_name = :test_menu_items_for_should_return_all_items
+  it 'should first level menu items for should return all items' do
+    menu_name = :test_first_level_menu_items_for_should_return_all_items
     Redmine::MenuManager.map menu_name do |menu|
       menu.push(:a_menu, '/', {})
       menu.push(:a_menu_2, '/', {})
       menu.push(:a_menu_3, '/', {})
     end
 
-    items = menu_items_for(menu_name)
+    items = first_level_menu_items_for(menu_name)
     assert_equal 3, items.size
   end
 
-  it 'should menu items for should skip unallowed items on a project' do
-    menu_name = :test_menu_items_for_should_skip_unallowed_items_on_a_project
+  it 'should first level menu items for should skip unallowed items on a project' do
+    menu_name = :test_first_level_menu_items_for_should_skip_unallowed_items_on_a_project
     Redmine::MenuManager.map menu_name do |menu|
-      menu.push(:a_menu, { controller: 'issues', action: 'index' }, {})
-      menu.push(:a_menu_2, { controller: 'issues', action: 'index' }, {})
-      menu.push(:unallowed, { controller: 'issues', action: 'unallowed' }, {})
+      menu.push(:a_menu, { controller: 'work_packages', action: 'index' }, {})
+      menu.push(:a_menu_2, { controller: 'work_packages', action: 'index' }, {})
+      menu.push(:unallowed, { controller: 'work_packages', action: 'unallowed' }, {})
     end
 
     User.current = User.find(1)
 
-    items = menu_items_for(menu_name, Project.find(1))
+    items = first_level_menu_items_for(menu_name, Project.find(1))
     assert_equal 2, items.size
   end
 
-  it 'should menu items for should skip items that fail the conditions' do
-    menu_name = :test_menu_items_for_should_skip_items_that_fail_the_conditions
+  it 'should first level menu items for should skip items that fail the conditions' do
+    menu_name = :test_first_level_menu_items_for_should_skip_items_that_fail_the_conditions
     Redmine::MenuManager.map menu_name do |menu|
-      menu.push(:a_menu, { controller: 'issues', action: 'index' }, {})
+      menu.push(:a_menu, { controller: 'work_packages', action: 'index' }, {})
       menu.push(:unallowed,
-                { controller: 'issues', action: 'index' },
+                { controller: 'work_packages', action: 'index' },
                 if: Proc.new { false })
     end
 
     User.current = User.find(1)
 
-    items = menu_items_for(menu_name, Project.find(1))
+    items = first_level_menu_items_for(menu_name, Project.find(1))
     assert_equal 1, items.size
   end
 end

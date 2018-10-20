@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,16 +23,16 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
-  let(:project) { FactoryGirl.build_stubbed(:project) }
-  let(:type) { FactoryGirl.build_stubbed(:type) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:type) { FactoryBot.build_stubbed(:type) }
   let(:work_package) {
-    FactoryGirl.build_stubbed(:work_package,
+    FactoryBot.build_stubbed(:work_package,
                               project: project,
                               type: type)
   }
@@ -145,8 +145,8 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
   end
 
   describe '#assignable_priorities' do
-    let(:active_priority) { FactoryGirl.build(:priority, active: true) }
-    let(:inactive_priority) { FactoryGirl.build(:priority, active: false) }
+    let(:active_priority) { FactoryBot.build(:priority, active: true) }
+    let(:inactive_priority) { FactoryBot.build(:priority, active: false) }
 
     before do
       active_priority.save!
@@ -220,7 +220,7 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
       end
     end
 
-    context 'due date' do
+    context 'finish date' do
       it 'is not writable when the work package is a parent' do
         allow(work_package).to receive(:leaf?).and_return(false)
         expect(subject.writable?(:due_date)).to be false
@@ -262,8 +262,8 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
   end
 
   describe '#assignable_custom_field_values' do
-    let(:list_cf) { FactoryGirl.create(:list_wp_custom_field) }
-    let(:version_cf) { FactoryGirl.build_stubbed(:version_wp_custom_field) }
+    let(:list_cf) { FactoryBot.create(:list_wp_custom_field) }
+    let(:version_cf) { FactoryBot.build_stubbed(:version_wp_custom_field) }
 
     it "is a list custom fields' possible values" do
       expect(subject.assignable_custom_field_values(list_cf))

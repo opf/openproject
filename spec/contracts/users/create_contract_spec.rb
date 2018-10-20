@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,13 +24,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe Users::CreateContract do
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
 
   subject(:contract) { described_class.new(user, current_user) }
 
@@ -49,7 +49,7 @@ describe Users::CreateContract do
   end
 
   context 'when admin' do
-    let(:current_user) { FactoryGirl.build_stubbed(:admin) }
+    let(:current_user) { FactoryBot.build_stubbed(:admin) }
 
     it_behaves_like 'is valid'
 
@@ -74,7 +74,7 @@ describe Users::CreateContract do
   end
 
   context 'when not admin' do
-    let(:current_user) { FactoryGirl.build_stubbed(:user) }
+    let(:current_user) { FactoryBot.build_stubbed(:user) }
 
     it 'is invalid' do
       expect_valid(false, base: %i(error_unauthorized))

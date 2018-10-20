@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,14 +23,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe StatusesController, type: :controller do
-  let(:user) { FactoryGirl.create(:admin) }
-  let(:status) { FactoryGirl.create(:status) }
+  let(:user) { FactoryBot.create(:admin) }
+  let(:status) { FactoryBot.create(:status) }
 
   before do allow(User).to receive(:current).and_return user end
 
@@ -90,7 +90,7 @@ describe StatusesController, type: :controller do
 
     context 'default' do
       let!(:status_default) {
-        FactoryGirl.create(:status,
+        FactoryBot.create(:status,
                            is_default: true)
       }
 
@@ -172,7 +172,7 @@ describe StatusesController, type: :controller do
 
     context 'used' do
       let(:work_package) {
-        FactoryGirl.create(:work_package,
+        FactoryBot.create(:work_package,
                            status: status)
       }
 
@@ -189,7 +189,7 @@ describe StatusesController, type: :controller do
 
     context 'default' do
       let!(:status_default) {
-        FactoryGirl.create(:status,
+        FactoryBot.create(:status,
                            is_default: true)
       }
 

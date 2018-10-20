@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -65,17 +65,17 @@ describe SystemUser, type: :model do
   end
 
   describe '#run_given' do
-    let(:project) { FactoryGirl.create(:project_with_types, is_public: false) }
-    let(:user) { FactoryGirl.build(:user) }
-    let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
+    let(:project) { FactoryBot.create(:project_with_types, is_public: false) }
+    let(:user) { FactoryBot.build(:user) }
+    let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
     let(:member) {
-      FactoryGirl.build(:member, project: project,
+      FactoryBot.build(:member, project: project,
                                  roles: [role],
                                  principal: user)
     }
-    let(:status) { FactoryGirl.create(:status) }
+    let(:status) { FactoryBot.create(:status) }
     let(:issue) {
-      FactoryGirl.build(:work_package, type: project.types.first,
+      FactoryBot.build(:work_package, type: project.types.first,
                                        author: user,
                                        project: project,
                                        status: status)

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,20 +23,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 require 'work_package'
 
 describe Users::MembershipsController, type: :controller do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:admin) { FactoryGirl.create(:admin) }
-  let(:anonymous) { FactoryGirl.create(:anonymous) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:admin) { FactoryBot.create(:admin) }
+  let(:anonymous) { FactoryBot.create(:anonymous) }
 
   describe 'update memberships' do
-    let(:project) { FactoryGirl.create(:project) }
-    let(:role) { FactoryGirl.create(:role) }
+    let(:project) { FactoryBot.create(:project) }
+    let(:role) { FactoryBot.create(:role) }
 
     it 'works' do
       # i.e. it should successfully add a user to a project's members
@@ -48,11 +48,10 @@ describe Users::MembershipsController, type: :controller do
                  project_id: project.id,
                  role_ids: [role.id]
                }
-             },
-             format: 'js'
+             }
       end
 
-      expect(response.status).to eql(200)
+      expect(response).to redirect_to(controller: '/users', action: 'edit', id: user.id, tab: 'memberships')
 
       is_member = user.reload.memberships.any? { |m|
         m.project_id == project.id && m.role_ids.include?(role.id)

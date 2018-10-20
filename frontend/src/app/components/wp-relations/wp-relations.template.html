@@ -1,0 +1,29 @@
+<div class="loading-indicator--location"
+     data-indicator-name="relation-groups">
+
+  <div class="wp-relations-hierarchy-section"
+       *ngIf="!relationsPresent">
+    <div class="attributes-group--header">
+      <div class="attributes-group--header-container">
+        <h3 class="attributes-group--header-text"
+            [textContent]="text.relations_header">
+        </h3>
+      </div>
+    </div>
+  </div>
+
+
+  <div *ngFor="let type of relationGroupKeys; let first = first">
+    <wp-relations-group [header]="type"
+                        [groupByWorkPackageType]="groupByWorkPackageType"
+                        (onToggleGroupBy)="toggleGroupBy()"
+                        [firstGroup]="first"
+                        [relatedWorkPackages]="relationGroups[type]"
+                        [workPackage]="workPackage"></wp-relations-group>
+  </div>
+  <wp-relations-create *ngIf="canAddRelation"
+                       [workPackage]="workPackage">
+  </wp-relations-create>
+
+  <wp-relations-hierarchy [workPackage]="workPackage"></wp-relations-hierarchy>
+</div>

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require_relative 'configuration/helpers'
@@ -33,17 +33,20 @@ module OpenProject
   module Configuration
     extend Helpers
 
-    ENV_PREFIX = 'OPENPROJECT_'
+    ENV_PREFIX ||= 'OPENPROJECT_'.freeze
 
     # Configuration default values
     @defaults = {
-      'attachments_storage'     => 'file',
+      'attachments_storage' => 'file',
       'attachments_storage_path' => nil,
+      'attachments_grace_period' => 180,
       'autologin_cookie_name'   => 'autologin',
       'autologin_cookie_path'   => '/',
       'autologin_cookie_secure' => false,
       'database_cipher_key'     => nil,
       'force_help_link'         => nil,
+      'force_formatting_help_link' => nil,
+      'log_level' => 'info',
       'scm_git_command'         => nil,
       'scm_subversion_command'  => nil,
       'scm_local_checkout_path' => 'repositories', # relative to OpenProject directory
@@ -74,12 +77,12 @@ module OpenProject
       'email_delivery_method' => nil,
       'smtp_address' => nil,
       'smtp_port' => nil,
-      'smtp_domain' => nil,  # HELO domain
+      'smtp_domain' => nil, # HELO domain
       'smtp_authentication' => nil,
       'smtp_user_name' => nil,
       'smtp_password' => nil,
       'smtp_enable_starttls_auto' => nil,
-      'smtp_openssl_verify_mode' => nil,  # 'none', 'peer', 'client_once' or 'fail_if_no_peer_cert'
+      'smtp_openssl_verify_mode' => nil, # 'none', 'peer', 'client_once' or 'fail_if_no_peer_cert'
       'sendmail_location' => '/usr/sbin/sendmail',
       'sendmail_arguments' => '-i',
 
@@ -95,11 +98,12 @@ module OpenProject
       'hidden_menu_items' => {},
       'blacklisted_routes' => [],
 
-      'apiv2_enable_basic_auth' => true,
       'apiv3_enable_basic_auth' => true,
 
       'onboarding_video_url' => 'https://player.vimeo.com/video/163426858?autoplay=1',
       'onboarding_enabled' => true,
+
+      'youtube_channel' => 'https://www.youtube.com/c/OpenProjectCommunity',
 
       'ee_manager_visible' => true,
 
@@ -112,7 +116,14 @@ module OpenProject
       'health_checks_jobs_never_ran_minutes_ago' => 5,
 
       'after_login_default_redirect_url' => nil,
-      'after_first_login_redirect_url' => nil
+      'after_first_login_redirect_url' => nil,
+
+      'main_content_language' => 'english',
+
+      # Allow in-context translations to be loaded with CSP
+      'crowdin_in_context_translations' => true,
+
+      'registration_footer' => {}
     }
 
     @config = nil
@@ -143,8 +154,8 @@ module OpenProject
       # exists
       def override_config!(config, source = default_override_source)
         config.keys
-          .select { |key| source.include? key.upcase }
-          .each   do |key| config[key] = extract_value key, source[key.upcase] end
+              .select { |key| source.include? key.upcase }
+              .each   { |key| config[key] = extract_value key, source[key.upcase] }
 
         config.deep_merge! merge_config(config, source)
       end
@@ -285,13 +296,8 @@ module OpenProject
           when :smtp
             ActionMailer::Base.perform_deliveries = true
             ActionMailer::Base.delivery_method = Setting.email_delivery_method
-            %w{address port domain authentication user_name password}.each do |setting|
-              value = Setting["smtp_#{setting}".to_sym]
-              if value.present?
-                ActionMailer::Base.smtp_settings[setting.to_sym] = value
-              end
-            end
-            ActionMailer::Base.smtp_settings[:enable_starttls_auto] = Setting.smtp_enable_starttls_auto?
+
+            reload_smtp_settings!
           when :sendmail
             ActionMailer::Base.perform_deliveries = true
             ActionMailer::Base.delivery_method = Setting.email_delivery_method
@@ -323,6 +329,33 @@ module OpenProject
 
       private
 
+      def reload_smtp_settings!
+        # Correct smtp settings when using authentication :none
+        authentication = Setting.smtp_authentication.try(:to_sym)
+        keys = %i[address port domain authentication user_name password]
+        if authentication == :none
+          # Rails Mailer will croak if passing :none as the authentication.
+          # Instead, it requires to be removed from its settings
+          ActionMailer::Base.smtp_settings.delete :user_name
+          ActionMailer::Base.smtp_settings.delete :password
+          ActionMailer::Base.smtp_settings.delete :authentication
+
+          keys = %i[address port domain]
+        end
+
+        keys.each do |setting|
+          value = Setting["smtp_#{setting}"]
+          if value.present?
+            ActionMailer::Base.smtp_settings[setting] = value
+          else
+            ActionMailer::Base.smtp_settings.delete setting
+          end
+        end
+
+        ActionMailer::Base.smtp_settings[:enable_starttls_auto] = Setting.smtp_enable_starttls_auto?
+        ActionMailer::Base.smtp_settings[:ssl] = Setting.smtp_ssl?
+      end
+
       ##
       # The default source for overriding configuration values
       # is ENV, but may be changed for testing purposes
@@ -339,13 +372,12 @@ module OpenProject
       # @return A ruby object (e.g. Integer, Float, String, Hash, Boolean, etc.)
       # @raise [ArgumentError] If the string could not be parsed.
       def extract_value(key, value)
-
         # YAML parses '' as false, but empty ENV variables will be passed as that.
         # To specify specific values, one can use !!str (-> '') or !!null (-> nil)
         return value if value == ''
 
         YAML.load(value)
-      rescue => e
+      rescue StandardError => e
         raise ArgumentError, "Configuration value for '#{key}' is invalid: #{e.message}"
       end
 
@@ -382,9 +414,9 @@ module OpenProject
         if config['email_delivery']
           unless options[:disable_deprecation_message]
             ActiveSupport::Deprecation.warn 'Deprecated mail delivery settings used. Please ' +
-              'update them in config/configuration.yml or use ' +
-              'environment variables. See doc/CONFIGURATION.md for ' +
-              'more information.'
+                                            'update them in config/configuration.yml or use ' +
+                                            'environment variables. See doc/CONFIGURATION.md for ' +
+                                            'more information.'
           end
 
           config['email_delivery_method'] = config['email_delivery']['delivery_method'] || :smtp
@@ -429,15 +461,15 @@ module OpenProject
 
       def define_config_methods
         @config.keys.each do |setting|
-          (class << self; self; end).class_eval do
-            define_method setting do
-              self[setting]
-            end
+          next if respond_to? setting
 
-            define_method "#{setting}?" do
-              ['true', true, '1'].include? self[setting]
-            end
-          end unless respond_to? setting
+          define_singleton_method setting do
+            self[setting]
+          end
+
+          define_singleton_method "#{setting}?" do
+            ['true', true, '1'].include? self[setting]
+          end
         end
       end
     end

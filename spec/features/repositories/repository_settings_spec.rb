@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -31,8 +31,8 @@ require 'features/repositories/repository_settings_page'
 require 'features/support/components/danger_zone'
 
 describe 'Repository Settings', type: :feature, js: true do
-  let(:current_user) { FactoryGirl.create (:admin) }
-  let(:project) { FactoryGirl.create(:project) }
+  let(:current_user) { FactoryBot.create (:admin) }
+  let(:project) { FactoryBot.create(:project) }
   let(:settings_page) { RepositorySettingsPage.new(project) }
   let(:dangerzone) { DangerZone.new(page) }
 
@@ -99,7 +99,7 @@ describe 'Repository Settings', type: :feature, js: true do
 
   shared_examples 'manages the repository with' do |name, type, repository_type, project_name|
     let(:repository) {
-      FactoryGirl.create("repository_#{name}".to_sym,
+      FactoryBot.create("repository_#{name}".to_sym,
                          scm_type: type,
                          project: project)
     }
@@ -173,14 +173,14 @@ describe 'Repository Settings', type: :feature, js: true do
 
   describe 'update repositories' do
     let(:repository) {
-      FactoryGirl.create(:repository_subversion,
+      FactoryBot.create(:repository_subversion,
                          scm_type: :existing,
                          project: project)
     }
 
     it 'can set login and password' do
       fill_in('repository[login]', with: 'foobar')
-      fill_in('repository_password', with: 'password')
+      fill_in('repository-password-placeholder', with: 'password')
 
       click_button(I18n.t(:button_save))
       expect(page).to have_selector('[name="repository[login]"][value="foobar"]')

@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See doc/COPYRIGHT.rdoc for more details.
+See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
@@ -70,7 +70,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
   <% end %>
   <li class="toolbar-item drop-down">
-    <a href="javascript:" aria-haspopup="true" title="<%= t(:label_more) %>" class="button">
+    <a href="#" aria-haspopup="true" title="<%= t(:label_more) %>" class="button">
       <span class="button--text"><%= t(:label_more) %></span>
       <%= op_icon('button--dropdown-indicator') %>
     </a>
@@ -91,13 +91,24 @@ See doc/COPYRIGHT.rdoc for more details.
       <% end %>
       <%= li_unless_nil(link_to_if_authorized(l(:label_history), {action: 'history', id: @page}, class: 'icon-context icon-wiki')) %>
       <%= li_unless_nil(link_to_if_authorized(l(:button_manage_menu_entry), {controller: '/wiki_menu_items', action: 'edit', project_id: @project.identifier, id: @page}, class: 'icon-context icon-settings')) %>
+      <% if User.current.allowed_to?(:export_wiki_pages, @project) %>
+        <section data-augmented-model-wrapper
+                 data-modal-class-name="wiki-export---modal">
+          <li>
+            <%= link_to I18n.t('js.label_export'),
+                        '',
+                        title: I18n.t('js.label_export'),
+                        class: 'modal-wrapper--activation-link icon-context icon-export' %>
+          </li>
+          <%= render partial: 'wiki/wiki_export_modal' %>
+        </section>
+      <% end %>
       <%= li_unless_nil(link_to_if_authorized(l(:label_table_of_contents), {controller: '/wiki', action: 'index', project_id: @project.identifier, id: @page}, class: 'icon-context icon-view-list')) %>
     </ul>
   </li>
 <% end %>
 
-
-<% breadcrumb_paths(*(@page.ancestors.reverse.collect {|parent| link_to h(parent.breadcrumb_title), {id: parent, project_id: parent.project}} + [h(@page.breadcrumb_title)])) %>
+<% breadcrumb_paths(*(@page.ancestors.reverse.collect { |parent| link_to h(parent.breadcrumb_title), {id: parent, project_id: parent.project}} + [h(@page.breadcrumb_title)])) %>
 
 <% if params[:version] %>
   <hr />
@@ -113,48 +124,8 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <%= render(partial: "wiki/content", locals: {content: @content}) %>
-<%= link_to_attachments @page %>
-<% if @editable && authorize_for('wiki', 'add_attachment') %>
-  <div id="wiki_add_attachment" class="hide-when-print">
-    <p>
-      <%= link_to_function l(:label_attachment_new),
-                           %{
-                             jQuery('#add_attachment_form').show();
-                             jQuery(this).hide();
-                             jQuery('#add_attachment_form')[0].scrollIntoView();
-                           },
-                           id: 'attach_files_link' %>
-    </p>
-    <%= form_tag({ controller: '/wiki', action: 'add_attachment', project_id: @project, id: @page }, multipart: true, id: "add_attachment_form", style: "display:none;") do %>
-      <div class="box">
-        <p><%= render partial: 'attachments/form' %></p>
-      </div>
-      <%= submit_tag l(:button_add), class: 'button -highlight' %>
-      <%= link_to_function l(:button_cancel),
-                           %{
-                             jQuery('#add_attachment_form').hide();
-                             jQuery('#attach_files_link').show()
-                           },
-                           class: 'button' %>
-    <% end %>
-  </div>
-<% end %>
-<%= other_formats_links do |f| %>
-  <%= f.link_to 'Atom', url: { controller: '/activities',
-                                  action: 'index',
-                                  show_wiki_edits: 1,
-                                  key: User.current.rss_key } %>
-  <%= f.link_to 'HTML', url: { version: @content.version, id: @page } %>
-  <%= f.link_to 'TXT', url: { version: @content.version, id: @page } %>
-  <%= call_hook(:view_wiki_show_other_formats, {link_builder: f, url_params: {id: @page, version: @content.version}}) %>
-<% end if User.current.allowed_to?(:export_wiki_pages, @project) %>
 
-<% content_for :header_tags do %>
-  <%= auto_discovery_link_tag(:atom, controller: '/activities', action: 'index', id: @project, show_wiki_edits: 1, format: 'atom', key: User.current.rss_key) %>
-<% end %>
-
-<% content_for :sidebar do %>
-  <%= render partial: 'wiki/sidebar' %>
-<% end %>
+<% resource = ::API::V3::WikiPages::WikiPageRepresenter.new(@page, current_user: current_user, embed_links: true) %>
+<%= list_attachments(resource) %>
 
 <% html_title h(@page.title) %>

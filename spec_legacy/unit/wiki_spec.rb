@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 require 'legacy_spec_helper'
 
@@ -58,26 +58,7 @@ describe Wiki, type: :model do
     page = WikiPage.find(10)
     assert_equal page, wiki.find_page('Этика менеджмента')
 
-    page = FactoryGirl.create(:wiki_page, wiki: wiki, title: '2009\\02\\09')
+    page = FactoryBot.create(:wiki_page, wiki: wiki, title: '2009\\02\\09')
     assert_equal page, wiki.find_page('2009\\02\\09')
-  end
-
-  context '#sidebar' do
-    before do
-      @wiki = Wiki.find(1)
-    end
-
-    it 'should return nil if undefined' do
-      assert_nil @wiki.sidebar
-    end
-
-    it 'should return a WikiPage if defined' do
-      page = @wiki.pages.new(title: 'Sidebar')
-      page.content = WikiContent.new(text: 'Side bar content for test_show_with_sidebar')
-      page.save!
-
-      assert_kind_of WikiPage, @wiki.sidebar
-      assert_equal 'Sidebar', @wiki.sidebar.title
-    end
   end
 end

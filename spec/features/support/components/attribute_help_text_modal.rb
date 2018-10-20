@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module Components
@@ -52,14 +52,14 @@ module Components
 
     def open!
       container.find(".help-text--for-#{help_text.attribute_name}").click
-      expect(page).to have_selector('.attribute-help-text--modal .modal--header', text: help_text.attribute_caption)
+      expect(page).to have_selector('.attribute-help-text--modal h3', text: help_text.attribute_caption)
     end
 
     def close!
       within modal_container do
-        page.find('.ngdialog-close').click
+        page.find('.icon-close').click
       end
-      expect(page).to have_no_selector('.attribute-help-text--modal .modal--header', text: help_text.attribute_caption)
+      expect(page).to have_no_selector('.attribute-help-text--modal h3', text: help_text.attribute_caption)
     end
 
     def expect_edit(admin:)

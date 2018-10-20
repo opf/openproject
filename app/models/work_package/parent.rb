@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,13 +25,16 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module WorkPackage::Parent
   def self.prepended(base)
-    base.after_save :update_parent_relation
-    base.attribute 'parent_id', :integer
+    base.after_save :update_parent_relation, if: :saved_change_to_parent_id?
+    base.include Concerns::VirtualAttribute
+
+    base.virtual_attribute 'parent_id', cast_type: :integer
+
     base.define_attribute_method 'parent'
   end
 
@@ -39,24 +42,15 @@ module WorkPackage::Parent
                 :do_halt
 
   def parent=(work_package)
-    parent_id_will_change! if parent_id != (work_package && work_package.id)
-    @parent_set = true
+    id = work_package && work_package.id
 
-    if work_package
-      @parent_id = work_package.id
-      @parent_object = work_package
-    else
-      @parent_object = nil
-      @parent_id = nil
-    end
-  end
+    self.parent_id = id
 
-  def parent_will_change!
-    parent_id_will_change!
+    @parent_object = work_package
   end
 
   def parent
-    if @parent_set
+    if @parent_id_set
       @parent_object || parent_from_id
     else
       @parent_object || parent_from_relation || parent_from_id
@@ -65,44 +59,26 @@ module WorkPackage::Parent
 
   def reload(*args)
     @parent_object = nil
-    @parent_id = nil
-    @parent_set = nil
-    @parent_id_previous_changes = nil
 
     super
-  end
-
-  def changes_applied
-    @parent_id_previous_changes = changes.slice(:parent_id)
-
-    super
-  end
-
-  def previous_changes
-    super.merge(@parent_id_previous_changes || {})
   end
 
   def parent_id=(id)
     id = id.to_i > 0 ? id.to_i : nil
 
-    parent_id_will_change! if parent_id != id
-    @parent_set = true
-
+    super(id)
     @parent_object = nil if @parent_object && @parent_object.id != id
-    @parent_id = id
+
+    @parent_id
   end
 
   def parent_id
-    return @parent_id if @parent_set
+    return @parent_id if @parent_id_set
 
     @parent_id || parent && parent.id
   end
 
-  private
-
   def update_parent_relation
-    return unless changes[:parent_id]
-
     if parent_relation
       parent_relation.destroy
     end
@@ -114,14 +90,18 @@ module WorkPackage::Parent
     end
   end
 
+  private
+
   def parent_from_relation
     if parent_relation && ((@parent_id && parent_relation.from.id == @parent_id) || !@parent_id)
-      parent_relation.from
+      set_virtual_attribute_was('parent_id', parent_relation.from_id)
+      @parent_object = parent_relation.from
     end
   end
 
   def parent_from_id
     if @parent_id
+      set_virtual_attribute_was('parent_id', @parent_id)
       @parent_object = WorkPackage.find(@parent_id)
     end
   end

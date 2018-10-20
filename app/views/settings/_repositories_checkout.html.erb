@@ -5,8 +5,8 @@
       <% setting_base = "settings[repository_checkout_data][#{vendor}]" %>
       <% enabled = Setting.repository_checkout_data[vendor]['enabled'].to_i > 0 %>
       <fieldset class="form--fieldset -collapsible collapsed">
-        <legend class="form--fieldset-legend" title="<%= klass.vendor_name %>" onclick="toggleFieldset(this);">
-          <a href="javascript:"><%= klass.vendor_name %>
+        <legend class="form--fieldset-legend" title="<%= klass.vendor_name %>" >
+          <a href="#"><%= klass.vendor_name %>
           </a>
         </legend>
         <div class="form--field">

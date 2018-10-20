@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -35,9 +35,9 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSumsSchemaRepresenter do
   let(:schema) { double('wp_schema', available_custom_fields: available_custom_fields) }
   let(:current_user) { double('user') }
 
-  let(:representer) {
+  let(:representer) do
     described_class.create(schema, current_user: current_user)
-  }
+  end
   let(:summable_columns) { [] }
 
   before do
@@ -81,7 +81,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSumsSchemaRepresenter do
   end
 
   context 'custom field x' do
-    let(:custom_field)  { FactoryGirl.build_stubbed(:integer_issue_custom_field) }
+    let(:custom_field)  { FactoryBot.build_stubbed(:integer_issue_custom_field) }
     let(:available_custom_fields) { [custom_field] }
 
     context 'with it being configured to be summable' do

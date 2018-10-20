@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module Project::Copy
@@ -164,7 +164,7 @@ module Project::Copy
         service_call = WorkPackages::CopyService
                        .new(user: User.current,
                             work_package: issue,
-                            contract: WorkPackages::CopyProjectContract)
+                            contract_class: WorkPackages::CopyProjectContract)
                        .call(attributes: overrides)
 
         if service_call.success?
@@ -283,45 +283,6 @@ module Project::Copy
 
         new_board.project = self
         boards << new_board
-      end
-    end
-
-    # Copies project associations from +project+
-    def copy_project_associations(project)
-      %i(project_a project_b).each do |association_type|
-        project.send(:"#{association_type}_associations").each do |association|
-          new_association = ProjectAssociation.new
-          new_association.attributes = association.attributes.dup.except('id', "#{association_type}_id")
-          new_association.send(:"#{association_type}=", self)
-          new_association.save
-        end
-      end
-    end
-
-    # copies timeline associations from +project+
-    def copy_timelines(project, selected_copies = [])
-      project.timelines.each do |timeline|
-        copied_timeline = Timeline.new
-        copied_timeline.attributes = timeline.attributes.dup.except('id', 'project_id', 'options')
-        copied_timeline.options = timeline.options if timeline.options.present?
-        copied_timeline.project = self
-        copied_timeline.save
-      end
-    end
-
-    # copies reporting associations from +project+
-    def copy_reportings(project, selected_copies = [])
-      project.reportings_via_source.each do |reporting|
-        copied_reporting = Reporting.new
-        copied_reporting.attributes = reporting.attributes.dup.except('id', 'project_id')
-        copied_reporting.project = self
-        copied_reporting.save
-      end
-      project.reportings_via_target.each do |reporting|
-        copied_reporting = Reporting.new
-        copied_reporting.attributes = reporting.attributes.dup.except('id', 'reporting_to_project')
-        copied_reporting.reporting_to_project = self
-        copied_reporting.save
       end
     end
 

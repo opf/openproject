@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -23,11 +23,11 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See doc/COPYRIGHT.rdoc for more details.
+See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= include_gon %>
+<%= include_gon(nonce: content_security_policy_script_nonce) %>
 
 <%= toolbar title: l(:label_spent_time) do %>
   <% if User.current.allowed_to?({controller: :timelog, action: :new}, @project) %>
@@ -48,12 +48,11 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="total-hours">
   <p><%= l(:label_total) %>: <%= html_hours(l_hours(@total_hours)) %></p>
 </div>
-<div ng-controller="TimeEntriesController">
-  <% unless @entries.empty? %>
+<div>
+  <% if @entries.empty? %>
+    <%= no_results_box %>
+  <% else %>
     <%= render partial: 'list', locals: { entries: @entries }%>
-
-    <table-pagination total-entries="totalEntryCount" update-results="loadTimeEntries()"></table-pagination>
-    <modal-loading></modal-loading>
 
     <%= other_formats_links do |f| %>
       <%= f.link_to 'Atom', url: permitted_params.timelog.to_h.merge({issue_id: @issue, key: User.current.rss_key}) %>
@@ -61,7 +60,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
   <% end %>
 </div>
-<% html_title l(:label_spent_time), l(:label_details) %>
+<% html_title l(:label_spent_time) %>
 <% content_for :header_tags do %>
   <%= auto_discovery_link_tag(:atom, {issue_id: @issue, format: 'atom', key: User.current.rss_key}, title: l(:label_spent_time)) %>
 <% end %>

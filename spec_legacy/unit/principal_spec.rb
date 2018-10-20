@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,24 +24,24 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 require 'legacy_spec_helper'
 
 describe Principal, type: :model do
   context '#like' do
     before do
-      FactoryGirl.create(:principal, login: 'login')
-      FactoryGirl.create(:principal, login: 'login2')
+      FactoryBot.create(:principal, login: 'login')
+      FactoryBot.create(:principal, login: 'login2')
 
-      FactoryGirl.create(:principal, firstname: 'firstname')
-      FactoryGirl.create(:principal, firstname: 'firstname2')
+      FactoryBot.create(:principal, firstname: 'firstname')
+      FactoryBot.create(:principal, firstname: 'firstname2')
 
-      FactoryGirl.create(:principal, lastname: 'lastname')
-      FactoryGirl.create(:principal, lastname: 'lastname2')
+      FactoryBot.create(:principal, lastname: 'lastname')
+      FactoryBot.create(:principal, lastname: 'lastname2')
 
-      FactoryGirl.create(:principal, mail: 'mail@example.com')
-      FactoryGirl.create(:principal, mail: 'mail2@example.com')
+      FactoryBot.create(:principal, mail: 'mail@example.com')
+      FactoryBot.create(:principal, mail: 'mail2@example.com')
     end
 
     it 'should search login' do

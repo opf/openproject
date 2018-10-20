@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module API
@@ -39,9 +39,18 @@ module API
         # @param query [String] The ID or part of a subject to filter by
         # @param from [WorkPackage] The work package in the `from` position of a relation.
         # @param limit [Integer] Maximum number of results to retrieve.
-        def work_package_queried(query, from, limit)
-          WorkPackage
-            .relateable_to(from)
+        def work_package_queried(query, from, type, limit)
+          canonical_type = Relation.canonical_type(type)
+
+          scope = if type != 'parent' && canonical_type == type
+                    WorkPackage
+                      .relateable_to(from)
+                  else
+                    WorkPackage
+                      .relateable_from(from)
+                  end
+
+          scope
             .where("work_packages.id = ? OR LOWER(work_packages.subject) LIKE ?",
                    query.to_i, "%#{query.downcase}%")
             .limit(limit)

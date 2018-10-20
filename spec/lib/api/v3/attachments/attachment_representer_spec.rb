@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -31,20 +31,34 @@ require 'spec_helper'
 describe ::API::V3::Attachments::AttachmentRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) {
-    FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
-  }
-  let(:project) { FactoryGirl.create(:project) }
-  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
-  let(:all_permissions) { [:view_work_packages, :edit_work_packages] }
+  let(:current_user) do
+    FactoryBot.build_stubbed(:user)
+  end
+  let(:all_permissions) { %i[view_work_packages edit_work_packages] }
   let(:permissions) { all_permissions }
 
-  let(:container) { FactoryGirl.create(:work_package, project: project) }
+  let(:container) { FactoryBot.build_stubbed(:stubbed_work_package) }
+  let(:author) { current_user }
+  let(:attachment) do
+    FactoryBot.build_stubbed(:attachment,
+                             container: container,
+                             author: author) do |attachment|
+      allow(attachment)
+        .to receive(:filename)
+        .and_return('some_file_of_mine.txt')
+    end
+  end
 
-  let(:attachment) { FactoryGirl.create(:attachment, container: container) }
-  let(:representer) {
+  let(:representer) do
     ::API::V3::Attachments::AttachmentRepresenter.new(attachment, current_user: current_user)
-  }
+  end
+
+  before do
+    allow(current_user)
+      .to receive(:allowed_to?) do |permission|
+      permissions.include? permission
+    end
+  end
 
   subject { representer.to_json }
 
@@ -66,7 +80,7 @@ describe ::API::V3::Attachments::AttachmentRepresenter do
   end
 
   it_behaves_like 'has UTC ISO 8601 date and time' do
-    let(:date) { attachment.created_on }
+    let(:date) { attachment.created_at }
     let(:json_path) { 'createdAt' }
   end
 
@@ -77,10 +91,63 @@ describe ::API::V3::Attachments::AttachmentRepresenter do
       let(:title) { attachment.filename }
     end
 
-    it_behaves_like 'has a titled link' do
-      let(:link) { 'container' }
-      let(:href) { api_v3_paths.work_package(attachment.container.id) }
-      let(:title) { attachment.container.subject }
+    context 'for a work package container' do
+      it_behaves_like 'has a titled link' do
+        let(:link) { 'container' }
+        let(:href) { api_v3_paths.work_package(container.id) }
+        let(:title) { container.subject }
+      end
+    end
+
+    context 'for a wiki page container' do
+      let(:container) { FactoryBot.build_stubbed(:wiki_page) }
+
+      it_behaves_like 'has a titled link' do
+        let(:link) { 'container' }
+        let(:href) { api_v3_paths.wiki_page(container.id) }
+        let(:title) { container.title }
+      end
+    end
+
+    context 'without a container' do
+      let(:container) { nil }
+
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'container' }
+        let(:href) { nil }
+      end
+    end
+
+    describe 'downloadLocation link' do
+      context 'for a local attachment' do
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'downloadLocation' }
+          let(:href) { api_v3_paths.attachment_content(attachment.id) }
+        end
+      end
+
+      context 'for a remote attachment' do
+        let(:external_url) { 'https://some.bogus/download/xyz' }
+
+        before do
+          allow(attachment)
+            .to receive(:external_storage?)
+            .and_return(true)
+          allow(attachment)
+            .to receive(:external_url)
+            .and_return(external_url)
+        end
+
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'downloadLocation' }
+          let(:href) { external_url }
+        end
+
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'staticDownloadLocation' }
+          let(:href) { api_v3_paths.attachment_content(attachment.id) }
+        end
+      end
     end
 
     it_behaves_like 'has a titled link' do
@@ -105,6 +172,59 @@ describe ::API::V3::Attachments::AttachmentRepresenter do
         it_behaves_like 'has no link' do
           let(:link) { 'delete' }
         end
+      end
+
+      context 'attachment has no container' do
+        let(:container) { nil }
+
+        context 'user is the author' do
+          it_behaves_like 'has an untitled link' do
+            let(:link) { 'delete' }
+            let(:href) { api_v3_paths.attachment(attachment.id) }
+          end
+        end
+
+        context 'user is not the author' do
+          let(:author) { FactoryBot.build_stubbed(:user) }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'delete' }
+          end
+        end
+      end
+    end
+  end
+
+  describe 'caching' do
+    it 'is based on the representer\'s cache_key' do
+      expect(OpenProject::Cache)
+        .to receive(:fetch)
+        .with(representer.json_cache_key)
+        .and_call_original
+
+      representer.to_json
+    end
+
+    describe '#json_cache_key' do
+      let!(:former_cache_key) { representer.json_cache_key }
+
+      it 'includes the name of the representer class' do
+        expect(representer.json_cache_key)
+          .to include('API', 'V3', 'Attachments', 'AttachmentRepresenter')
+      end
+
+      it 'changes when the locale changes' do
+        I18n.with_locale(:fr) do
+          expect(representer.json_cache_key)
+            .not_to eql former_cache_key
+        end
+      end
+
+      it 'changes when the attachment is changed (has no update)' do
+        attachment.updated_at = Time.now + 10.seconds
+
+        expect(representer.json_cache_key)
+          .not_to eql former_cache_key
       end
     end
   end

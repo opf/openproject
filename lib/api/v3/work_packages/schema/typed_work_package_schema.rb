@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module API
@@ -33,11 +33,12 @@ module API
     module WorkPackages
       module Schema
         class TypedWorkPackageSchema < BaseWorkPackageSchema
-          attr_reader :project, :type
+          attr_reader :project, :type, :custom_fields
 
-          def initialize(project:, type:)
+          def initialize(project:, type:, custom_fields: nil)
             @project = project
             @type = type
+            @custom_fields = custom_fields
           end
 
           def milestone?
@@ -45,7 +46,11 @@ module API
           end
 
           def available_custom_fields
-            project.all_work_package_custom_fields.to_a & type.custom_fields.to_a
+            custom_fields || (project.all_work_package_custom_fields.to_a & type.custom_fields.to_a)
+          end
+
+          def no_caching?
+            false
           end
 
           private

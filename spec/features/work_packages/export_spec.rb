@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,26 +23,29 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
 describe 'work package export', type: :feature do
-  let(:project) { FactoryGirl.create :project_with_types, types: [type_a, type_b] }
-  let(:current_user) { FactoryGirl.create :admin }
+  let(:project) { FactoryBot.create :project_with_types, types: [type_a, type_b] }
+  let(:current_user) { FactoryBot.create :admin }
 
-  let(:type_a) { FactoryGirl.create :type, name: "Type A" }
-  let(:type_b) { FactoryGirl.create :type, name: "Type B" }
+  let(:type_a) { FactoryBot.create :type, name: "Type A" }
+  let(:type_b) { FactoryBot.create :type, name: "Type B" }
 
-  let(:wp_1) { FactoryGirl.create :work_package, project: project, done_ratio: 25, type: type_a }
-  let(:wp_2) { FactoryGirl.create :work_package, project: project, done_ratio: 0, type: type_a }
-  let(:wp_3) { FactoryGirl.create :work_package, project: project, done_ratio: 0, type: type_b }
-  let(:wp_4) { FactoryGirl.create :work_package, project: project, done_ratio: 0, type: type_a }
+  let(:wp_1) { FactoryBot.create :work_package, project: project, done_ratio: 25, type: type_a }
+  let(:wp_2) { FactoryBot.create :work_package, project: project, done_ratio: 0, type: type_a }
+  let(:wp_3) { FactoryBot.create :work_package, project: project, done_ratio: 0, type: type_b }
+  let(:wp_4) { FactoryBot.create :work_package, project: project, done_ratio: 0, type: type_a }
 
   let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:columns) { ::Components::WorkPackages::Columns.new }
+  let(:group_by) { ::Components::WorkPackages::GroupBy.new }
+  let(:hierarchies) { ::Components::WorkPackages::Hierarchies.new }
 
   before do
     wp_1
@@ -93,13 +96,7 @@ describe 'work package export', type: :feature do
   end
 
   it 'shows all work packages grouped by ', js: true, retry: 2 do
-    work_packages_page.open_settings!
-    click_on 'Hide hierarchy'
-
-    work_packages_page.open_settings!
-    click_on 'Group by ...'
-    select 'Type', from: 'selected_columns_new'
-    click_on 'Apply'
+    group_by.enable_via_menu 'Type'
 
     wp_table.expect_work_package_listed(wp_1)
     wp_table.expect_work_package_listed(wp_2)
@@ -149,7 +146,7 @@ describe 'work package export', type: :feature do
   end
 
   it 'exports selected columns', js: true, retry: 2 do
-    work_packages_page.add_column! 'Progress (%)'
+    columns.add 'Progress (%)'
 
     export!
 

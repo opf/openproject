@@ -111,7 +111,7 @@
             <span>Image</span>
           </button>
           <div class="jstb_help">
-            <a href="/help/wiki_syntax" title="Text formatting" class="icon icon-help1" onclick="window.open(&quot;/help/wiki_syntax&quot;, &quot;&quot;, &quot;resizable=yes, location=no, width=600, height=640, menubar=no, status=no, scrollbars=yes&quot;); return false;">
+            <a href="/help/wiki_syntax" title="Text formatting" class="icon icon-help1">
               <span class="hidden-for-sighted">
                 Text formatting
               </span>
@@ -122,7 +122,7 @@
         </div>
 
         <div class="jstEditor">
-          <textarea wiki-toolbar="" class="focus-input inplace-edit--textarea "  preview-toggle="togglePreview()" name="value"   title="Description: Edit" aria-multiline="true" tabindex="0" aria-hidden="false" aria-disabled="false" aria-invalid="false" rows="5">
+          <textarea wiki-toolbar="" class="focus-input inplace-edit--textarea " name="value"   title="Description: Edit" aria-multiline="true" tabindex="0" aria-hidden="false" aria-disabled="false" aria-invalid="false" rows="5">
           </textarea>
         </div>
 

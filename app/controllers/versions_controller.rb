@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class VersionsController < ApplicationController
@@ -34,8 +34,6 @@ class VersionsController < ApplicationController
   before_action :find_project_from_association, except: [:index, :new, :create, :close_completed]
   before_action :find_project, only: [:index, :new, :create, :close_completed]
   before_action :authorize
-
-  include VersionsHelper
 
   def index
     @types = @project.types.order('position')
@@ -86,7 +84,7 @@ class VersionsController < ApplicationController
     if request.post?
       if @version.save
         flash[:notice] = l(:notice_successful_create)
-        redirect_to controller: '/projects', action: 'settings', tab: 'versions', id: @project
+        redirect_to controller: '/project_settings', action: 'show', tab: 'versions', id: @project
       else
         render action: 'new'
       end
@@ -118,23 +116,16 @@ class VersionsController < ApplicationController
     if request.put?
       @project.close_completed_versions
     end
-    redirect_to controller: '/projects', action: 'settings', tab: 'versions', id: @project
+    redirect_to controller: '/project_settings', action: 'show', tab: 'versions', id: @project
   end
 
   def destroy
     if @version.fixed_issues.empty?
       @version.destroy
-      redirect_to controller: '/projects', action: 'settings', tab: 'versions', id: @project
+      redirect_to controller: '/project_settings', action: 'show', tab: 'versions', id: @project
     else
       flash[:error] = l(:notice_unable_delete_version)
-      redirect_to controller: '/projects', action: 'settings', tab: 'versions', id: @project
-    end
-  end
-
-  def status_by
-    respond_to do |format|
-      format.html do render action: 'show' end
-      format.js do render_status_by @version, params[:status_by] end
+      redirect_to controller: '/project_settings', action: 'show', tab: 'versions', id: @project
     end
   end
 

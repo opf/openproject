@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++require 'rspec'
 
 require 'spec_helper'
@@ -63,19 +63,17 @@ RSpec::Matchers.define :be_equivalent_to_journal do |expected|
 end
 
 describe Journal::AggregatedJournal, type: :model do
-  let(:work_package) {
-    FactoryGirl.build(:work_package)
-  }
-  let(:user1) { FactoryGirl.create(:user) }
-  let(:user2) { FactoryGirl.create(:user) }
+  let(:work_package) do
+    FactoryBot.build(:work_package)
+  end
+  let(:user1) { FactoryBot.create(:user) }
+  let(:user2) { FactoryBot.create(:user) }
   let(:initial_author) { user1 }
 
   subject { described_class.aggregated_journals }
 
   before do
     allow(User).to receive(:current).and_return(initial_author)
-    allow(WorkPackages::UpdateContract).to receive(:new).and_return(NoopContract.new)
-    allow(WorkPackages::CreateNoteContract).to receive(:new).and_return(NoopContract.new)
     work_package.save!
   end
 
@@ -100,14 +98,13 @@ describe Journal::AggregatedJournal, type: :model do
     let(:notes) { nil }
 
     before do
-      changes = { status: FactoryGirl.build(:status) }
+      changes = { status: FactoryBot.build(:status) }
       changes[:journal_notes] = notes if notes
 
       allow(User).to receive(:current).and_return(new_author)
 
-      WorkPackages::UpdateService
-        .new(user: new_author, work_package: work_package)
-        .call(attributes: changes)
+      work_package.attributes = changes
+      work_package.save!
     end
 
     context 'by author of last change' do
@@ -146,9 +143,8 @@ describe Journal::AggregatedJournal, type: :model do
           let(:notes) { 'Another comment, unrelated to the first one.' }
 
           before do
-            AddWorkPackageNoteService
-              .new(user: new_author, work_package: work_package)
-              .call(notes)
+            work_package.add_journal(new_author, notes)
+            work_package.save!
           end
 
           it 'returns two journals' do
@@ -189,9 +185,8 @@ describe Journal::AggregatedJournal, type: :model do
             work_package.reload # need to update the lock_version, avoiding StaleObjectError
             changes = { subject: 'foo' }
 
-            WorkPackages::UpdateService
-              .new(user: new_author, work_package: work_package)
-              .call(attributes: changes)
+            work_package.attributes = changes
+            work_package.save!
           end
 
           it 'returns a single journal' do
@@ -243,7 +238,7 @@ describe Journal::AggregatedJournal, type: :model do
     let(:delay) { (Setting.journal_aggregation_time_minutes.to_i + 1).minutes }
 
     before do
-      work_package.status = FactoryGirl.build(:status)
+      work_package.status = FactoryBot.build(:status)
       work_package.save!
       work_package.journals.second.created_at += delay
       work_package.journals.second.save!
@@ -265,7 +260,7 @@ describe Journal::AggregatedJournal, type: :model do
       let(:delay) { 0.001.seconds }
 
       before do
-        work_package.status = FactoryGirl.build(:status)
+        work_package.status = FactoryBot.build(:status)
         work_package.save!
         work_package.journals.second.created_at = work_package.journals.first.created_at + delay
         work_package.journals.second.save!
@@ -280,7 +275,7 @@ describe Journal::AggregatedJournal, type: :model do
   end
 
   context 'different WP updated immediately after change' do
-    let(:other_wp) { FactoryGirl.build(:work_package) }
+    let(:other_wp) { FactoryBot.build(:work_package) }
     before do
       other_wp.save!
     end
@@ -294,7 +289,7 @@ describe Journal::AggregatedJournal, type: :model do
 
   context 'passing a journable as parameter' do
     subject { described_class.aggregated_journals(journable: work_package) }
-    let(:other_wp) { FactoryGirl.build(:work_package) }
+    let(:other_wp) { FactoryBot.build(:work_package) }
     let(:new_author) { initial_author }
 
     before do
@@ -302,9 +297,8 @@ describe Journal::AggregatedJournal, type: :model do
 
       changes = { subject: 'a new subject!' }
 
-      WorkPackages::UpdateService
-        .new(user: new_author, work_package: work_package)
-        .call(attributes: changes)
+      work_package.attributes = changes
+      work_package.save!
     end
 
     it 'only returns the journals for the requested work package' do
@@ -313,9 +307,9 @@ describe Journal::AggregatedJournal, type: :model do
     end
 
     context 'specifying a maximum version' do
-      subject {
+      subject do
         described_class.aggregated_journals(journable: work_package, until_version: version)
-      }
+      end
 
       context 'equal to the latest version' do
         let(:version) { work_package.journals.last.version }

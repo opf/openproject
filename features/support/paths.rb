@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 # TL;DR: YOU SHOULD DELETE THIS FILE
@@ -181,7 +181,7 @@ module NavigationHelpers
     when /^the edit page (?:for |of )(the )?role(?: called)? (.+)$/
       role_identifier = $2.gsub("\"", '')
       role_identifier = Role.find_by(name: role_identifier).id
-      "/roles/edit/#{role_identifier}"
+      "admin/roles/#{role_identifier}/edit"
 
     when /^the new user page$/
       '/users/new'
@@ -219,7 +219,7 @@ module NavigationHelpers
     when /^the edit page (?:for |of )the version(?: called) (.+)$/
       version_name = $1.gsub("\"", '')
       version = Version.find_by(name: version_name)
-      "/versions/edit/#{version.id}"
+      "/versions/#{version.id}/edit"
 
     # this should be handled by the generic "the edit page of ..." path
     # but the path required differs from the standard
@@ -304,7 +304,7 @@ module NavigationHelpers
       '/announcements/1/edit'
 
     when /^the index page of Roles$/
-      '/roles'
+      '/admin/roles'
 
     when /^the search page$/
       '/search'

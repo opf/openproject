@@ -4,6 +4,18 @@ es:
     ajax:
       hide: Ocultar
       loading: Cargando ...
+    attachments:
+      draggable_hint: 'Arrastre el campo del editor a una imagen alineada o un adjunto
+        de referencia. Los campos del editor cerrados se abrirán mientras siga arrastrando
+        elementos.
+
+'
+    autocomplete_select:
+      placeholder:
+        multi: Añadir "%{name}"
+        single: Seleccionar "%{name}"
+      remove: Eliminar "%{name}"
+      active: Activar %{label} %{name}
     close_popup_title: Cerrar ventana emergente
     close_filter_title: Cerrar filtro
     close_form_title: Cerrar formulario
@@ -47,8 +59,66 @@ es:
     description_select_work_package: 'Seleccione el paquete de trabajo #%{id}'
     description_selected_columns: Columnas seleccionadas
     description_subwork_package: 'Hijo del paquete de trabajo #%{id}'
+    editor:
+      preview: Alternar modo de vista previa
+      source_code: Toggle Markdown source mode
+      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      mode:
+        manual: Switch to Markdown source
+        wysiwyg: Switch to WYSIWYG editor
+      macro:
+        child_pages:
+          button: Vínculos a páginas secundarias
+          include_parent: Incluir principal
+          text: "[Placeholder] Vínculos a páginas secundarias de"
+          page: Página wiki
+          this_page: esta página
+          hint: 'Deje este campo en blanco para mostrar todas las páginas secundarias
+            de la página actual. Para hacer referencia a otra página, especifique
+            el título o slug.
+
+'
+        code_block:
+          button: Insertar fragmento de código
+          title: Insertar o editar fragmento de código
+          language: Lenguaje de formato
+          language_hint: Especifique el lenguaje de formato que se usará para resaltar
+            (si se admite).
+        dropdown:
+          macros: Macros
+          chose_macro: Seleccionar macro
+        toc: Índice
+        toolbar_help: Haga clic para seleccionar un widget y mostrar la barra de herramientas.
+          Haga doble clic para editar un widget
+        wiki_page_include:
+          button: Incluir contenido de otra página wiki
+          text: "[Placeholder] Se incluyó la página wiki de"
+          page: Página wiki
+          not_set: "(Página no establecida aún)"
+          hint: |
+            Para incluir el contenido de otra página wiki, especifique el título o slug.
+            Para incluir la página wiki de otro proyecto, sepárelas con un signo de dos puntos, como en el ejemplo siguiente.
+        work_package_button:
+          button: Insertar botón para crear paquete de trabajo
+          type: Tipo de paquete de trabajo
+          button_style: Usar estilo de botón
+          button_style_hint: 'Opcional: active esta opción para que la macro se muestre
+            como un botón, en lugar de mostrarse como un vínculo.'
+          without_type: Crear paquete de trabajo
+          with_type: 'Crear paquete de trabajo (escriba lo siguiente: %{typename})'
+        embedded_table:
+          button: Insertar tabla de paquetes de trabajo
+          text: "[Placeholder] Tabla de paquetes de trabajo insertada"
+    custom_actions:
+      date:
+        specific: 'on'
+        current_date: Current date
     error:
       internal: Ha ocurrido un error interno.
+      cannot_save_changes_with_message: 'No se pueden guardar los cambios debido al
+        siguiente error: %{error}'
+      query_saving: No se pudo guardar la vista.
+      embedded_table_loading: 'No se pudo cargar la vista insertada: %{message}'
     filter:
       description:
         text_open_filter: Abrir este filtro con 'ALT' y las flechas de dirección.
@@ -66,6 +136,8 @@ es:
           one: Primer criterio de ordenación
           two: Segundo criterio de ordenación
           three: Tercer criterio de ordenación
+      upsale_for_more: Para el uso de filtros más avanzados, consulte
+      upsale_link: Enterprise Edition.
     general_text_no: 'no'
     general_text_yes: sí
     general_text_No: 'No'
@@ -76,7 +148,8 @@ es:
       un comentario.
     label_add_columns: Añadir columnas
     label_add_comment: Agregar comentario
-    label_add_comment_title: Haga clic para agregar un comentario
+    label_add_comment_title: Escriba un comentario y agregue @ para notificar a otras
+      personas
     label_add_selected_columns: Agregar columnas seleccionadas
     label_added_by: agregado por
     label_added_time_by: Agregado por %{author} %{age}
@@ -113,6 +186,7 @@ es:
     label_expand: Expandir
     label_expanded: expandido
     label_expand_all: Expandir todos
+    label_expand_project_menu: Expandir menú de proyecto
     label_export: Exportar
     label_filename: Archivo
     label_filesize: Tamaño
@@ -120,10 +194,11 @@ es:
     label_group_by: Agrupar por
     label_hide_attributes: Mostrar menos
     label_hide_column: Esconder Columna
+    label_hide_project_menu: Contraer menú de proyecto
     label_in: en
     label_in_less_than: en menos de
     label_in_more_than: en más de
-    label_latest_activity: Actividad Reciente
+    label_latest_activity: Actividad reciente
     label_last_updated_on: Ultima actualizacion realizada el
     label_less_or_equal: "<="
     label_less_than_ago: menos que hace días
@@ -141,6 +216,7 @@ es:
     label_not_equals: no es
     label_on: en
     label_open_menu: Abrir menú
+    label_open_context_menu: Abrir menú contextual
     label_open_work_packages: abrir
     label_password: Contraseña
     label_previous: Anterior
@@ -154,20 +230,23 @@ es:
     label_select_watcher: Selecciona un observador...
     label_selected_filter_list: Filtros seleccionados
     label_show_attributes: Mostrar todos los atributos
-    label_show_in_menu: Mostrar página en el menú
+    label_show_in_menu: Mostrar vista en menú
     label_sort_by: Ordenar por
     label_sorted_by: ordenados por
     label_sort_higher: Mueva hacia arriba
     label_sort_lower: Mover hacia abajo
     label_sorting: Ordenando
+    label_star_query: Favorecido
+    label_press_enter_to_save: Presione Entrar para guardar los cambios.
+    label_public_query: Público
     label_sum_for: Suma para
     label_subject: Asunto
     label_this_week: esta semana
     label_today: hoy
+    label_up: Arriba
     label_activity_show_only_comments: Solo mostrar las actividades con comentarios
     label_activity_show_all: Mostrar todas las actividades
     label_total_progress: 'Progreso total: %{percent}%'
-    label_visible_for_others: Página visible para los demás
     label_updated_on: actualizado el
     label_warning: Alerta
     label_work_package: Paquete de trabajo
@@ -181,8 +260,10 @@ es:
     label_unwatch: No controlar más
     label_unwatch_work_package: Ocultar paquetes de trabajo
     label_uploaded_by: Subido por
-    label_global_queries: Consultas compartidas
-    label_custom_queries: Consultas privadas
+    label_default_queries: Vistas predeterminadas
+    label_starred_queries: Vistas favoritas
+    label_global_queries: Vistas públicas
+    label_custom_queries: Vistas privadas
     label_columns: Columnas
     label_attachments: Archivos
     label_drop_files: Suelta los archivos aquí
@@ -194,8 +275,9 @@ es:
     label_remove_watcher: Eliminar observador %{name}
     label_remove_all_files: Borrar todos los archivos
     label_add_description: Añadir una descripción para %{file}
-    label_upload_notification: 'Subiendo archivos para el paquete de trabajo #%{id}:
-      %{subject}'
+    label_upload_notification: Cargando archivos…
+    label_work_package_upload_notification: 'Subiendo archivos para el paquete de
+      trabajo #%{id}: %{subject}'
     label_files_to_upload: 'Estos archivos se cargarán:'
     label_rejected_files: 'Estos archivos no pueden ser cargados:'
     label_rejected_files_reason: Estos archivos no pueden cargarse debido a que su
@@ -226,16 +308,17 @@ es:
       context: Contexto de proyecto
       work_package_belongs_to: Este paquete de trabajo pertenece al proyecto %{projectname}.
       click_to_switch_context: Abra este paquete de trabajo en ese proyecto.
+      autocompleter:
+        label: Contexto | Solicitar contexto
     text_are_you_sure: "¿Estás seguro?"
     types:
       attribute_groups:
         error_duplicate_group_name: El nombre %{group} se ha usado más de una vez.
           Los nombres de grupos deben ser únicos.
         reset_title: Restablecer la configuración del formulario
-        confirm_reset: 'Advertencia: ¿Está seguro/a de que desea restablecer la configuración
-          del formulario? Con ello se restablecerán los atributos a su grupo predeterminado,
-          se eliminarán los ajustes de visibilidad y se deshabilitarán TODOS los campos
-          personalizados.
+        confirm_reset: 'Advertencia: ¿Está seguro de que quiere restablecer la configuración
+          del formulario? Se restablecerán los atributos al grupo predeterminado y
+          se deshabilitarán TODOS los campos personalizados.
 
 '
         upgrade_to_ee: Actualizar hasta versión corporativa
@@ -267,7 +350,8 @@ es:
       required: Requerido por
       relation_type: tipo de relación
     relations_hierarchy:
-      hierarchy_headline: jerarquía
+      parent_headline: Padre
+      children_headline: Subordinado
     relation_buttons:
       change_parent: Cambiar padre
       remove_parent: Eliminar padre
@@ -304,6 +388,7 @@ es:
         one: Solo puede seleccionar un objeto
         other: Solo puede seleccionar {{limit}} objetos
         zero: You cannot select any items
+    project_menu_details: Detalles
     sort:
       sorted_asc: 'Orden ascendiente aplicado '
       sorted_dsc: 'Orden descendiente aplicado '
@@ -314,13 +399,14 @@ es:
       activate_no: activar para deshabilitar ordenación
     text_work_packages_destroy_confirmation: "¿Esta usted seguro que desea eliminar
       paquete(s) de trabajo seleccionado(s)?"
-    text_query_destroy_confirmation: "¿Esta seguro que deseas eliminar la sentencia
+    text_query_destroy_confirmation: "¿Estás seguro de que quiere eliminar la vista
       seleccionada?"
     text_attachment_destroy_confirmation: "¿Está seguro que desea eliminar el archivo
       adjunto?"
     timelines:
       gantt_chart: Diagrama de Gantt
       labels:
+        title: Configuración de etiquetas
         bar: Etiquetas de barras
         left: Izquierda
         right: Derecha
@@ -330,11 +416,11 @@ es:
           correspondientes del diagrama de Gantt en todo momento. Tenga en cuenta
           que, al mantener el ratón sobre un elemento, se mostrarán las etiquetas
           de fecha, en lugar de estos atributos. \n"
-      button_activate: Activar modo de línea de tiempo
-      button_deactivate: Desactivar modo de línea de tiempo
+      button_activate: Mostrar diagrama de Gantt
+      button_deactivate: Ocultar diagrama de Gantt
       cancel: Cancelar
       change: Cambio en la planificación
-      due_date: Fecha de vencimiento
+      due_date: Fecha de finalización
       empty: "(vacío)"
       error: Ha ocurrido un error.
       errors:
@@ -347,18 +433,9 @@ es:
         report_timeout: No se pudo cargar la línea de tiempo en una cantidad razonable
           de tiempo.
       filter:
-        column:
-          assigned_to: Asignado a
-          type: Tipo
-          due_date: Fecha de finalización
-          name: Nombre
-          status: Estado
-          responsible: Responsable
-          start_date: Fecha de inicio
         grouping_other: Otros
         noneSelection: "(ninguno)"
       name: Nombre
-      new_work_package: Nuevo paquete de trabajo
       outline: Restablecer marco
       outlines:
         aggregation: Mostrar sólo las agregaciones
@@ -369,7 +446,6 @@ es:
         level5: Ampliar el nivel 5
         all: Mostrar todo
       project_status: Estado del proyecto
-      project_type: Tipo de proyecto
       really_close_dialog: "¿Quieres realmente cerrar el cuadro de diálogo y perder
         los datos introducidos?"
       responsible: Responsable
@@ -389,6 +465,10 @@ es:
         quarters: Cuatrimestres
         years: Años
         slider: Deslizador del Zoom
+        description: 'Seleccione el nivel de zoom inicial que debe mostrarse cuando
+          el zoom automático no esté disponible.
+
+'
     tl_toolbar:
       zooms: nivel de Zoom
       outlines: Nivel de jerarquía
@@ -401,6 +481,8 @@ es:
         a Microsoft Edge.
       learn_more: Saber más
       close_warning: Ignore esta advertencia.
+    upsale:
+      ee_only: Característica exclusiva de Enterprise Edition
     wiki_formatting:
       strong: Negrita
       italic: Cursiva
@@ -460,10 +542,13 @@ es:
       inline_create:
         title: Haga clic aquí para agregar un nuevo paquete de trabajo a esta lista
       create:
+        title: Nuevo paquete de trabajo
         header: Nuevo %{type}
         header_no_type: Nuevo paquete de trabajo (tipo aún no establecido)
         header_with_parent: 'Nuevo %{type} (Hijo de %{parent_type} #%{id})'
         button: Crear
+      copy:
+        title: Copiar paquete de trabajo
       hierarchy:
         show: Mostrar modo de jerarquía
         hide: Ocultar modo de jerarquía
@@ -475,7 +560,7 @@ es:
           para minimizar los elementos secundarios filtrados
       faulty_query:
         title: No se han podido cargar paquetes de trabajo.
-        description: Su consulta es errónea y podría no ser procesada.
+        description: La vista es errónea y no se pudo procesar.
       no_results:
         title: No hay paquetes de trabajo para mostrar.
         description: O bien no se han creado o se filtran todos los paquetes de trabajo.
@@ -490,7 +575,7 @@ es:
         createdAt: Creado en
         description: Descripción
         date: Fecha
-        dueDate: Fecha de vencimiento
+        dueDate: Fecha de finalización
         estimatedTime: Tiempo estimado
         spentTime: Tiempo empleado
         category: Categoría
@@ -506,6 +591,13 @@ es:
         updatedAt: Actualizada el
         versionName: Versión
         version: Versión
+      default_queries:
+        latest_activity: Actividad reciente
+        created_by_me: Creado por mi usuario
+        assigned_to_me: Asignado a mi usuario
+        recently_created: Creado recientemente
+        all_open: Todo abierto
+        summary: Resumen
       jump_marks:
         pagination: Saltar a la paginación de la tabla
         label_pagination: Haga clic aquí para omitir la tabla de paquetes de trabajo
@@ -523,7 +615,6 @@ es:
           está activo el modo de jerarquía.
         hierarchy_disabled_by_group_by: El modo de jerarquía está deshabilitado, puesto
           que los resultados se agrupan por %{column}.
-        hierarchy_mode: Modo de jerarquía
         sort_ascending: Ordenar ascendente
         sort_descending: Ordenar descendente
         move_column_left: Mover columna a la izquierda
@@ -532,12 +623,18 @@ es:
         insert_columns: Insertar columnas...
         filters: Filtros
         display_sums: Mostrar sumas
+        confirm_edit_cancel: "¿Está seguro de que quiere cancelar la edición del nombre
+          de esta vista? El título volverá a establecerse en el valor anterior."
+        click_to_edit_query_name: Haga clic para editar el título de esta vista.
+        rename_query_placeholder: Nombre de la vista
         errors:
-          unretrievable_query: Imposible recuperar la sentencia desde la direccion
-            URL
-          not_found: La consulta no existe
-        text_no_results: No se encontraron coincidencias.
+          unretrievable_query: No se puede recuperar la vista de la URL
+          not_found: No existe la vista
+          duplicate_query_title: El nombre de la vista ya existe. ¿Quiere cambiarlo
+            de todos modos?
+        text_no_results: No se encontraron vistas que coincidan.
       table:
+        configure_button: Configurar tabla de paquetes de trabajo
         summary: Tabla con filas de paquetes de trabajo y columnas con sus atributos.
         text_inline_edit: Mayoría de las celdas de esta tabla son botones que activan
           la funcionalidad de edición de dicho atributo.
@@ -545,6 +642,42 @@ es:
           ordenar, agrupar, reordenar, quitar y añadir columnas de las tablas.
         text_select_hint: Los cuadros de selección deben ser abiertos con 'ALT' y
           las teclas de cursor.
+      table_configuration:
+        button: Configurar esta tabla de paquetes de trabajo
+        choose_display_mode: Mostrar paquetes de trabajo como
+        modal_title: Configuración de tabla de paquetes de trabajo
+        embedded_tab_disabled: Esta pestaña de configuración no está disponible para
+          la vista insertada que está editando.
+        default: por defecto
+        display_settings: Configuración de visualización
+        default_mode: Lista plana
+        hierarchy_mode: Jerarquía
+        hierarchy_hint: Todos los resultados de la tabla filtrada se aumentarán con
+          sus antecesores. Las jerarquías se pueden expandir y contraer.
+        display_sums_hint: Muestra las sumas de todos los atributos que pueden sumarse
+          en una fila debajo de los resultados de la tabla.
+        show_timeline_hint: Muestra un diagrama de Gantt interactivo en la parte derecha
+          de la tabla. Para cambiar el ancho, arrastre la línea divisoria entre la
+          tabla y el diagrama de Gantt.
+        highlighting: Resaltado
+        highlighting_mode:
+          description: Resaltar con color
+          none: Sin resaltado
+          inline: Highlighted attribute(s)
+          inline_all: All attributes
+          entire_row_by: Toda la fila por
+          status: Estado
+          priority: Prioridad
+          type: Tipo
+        columns_help_text: Use los datos anteriores para agregar o quitar columnas
+          de la vista de tabla. Puede arrastrar y colocar las columnas para cambiar
+          el orden.
+        upsale:
+          attribute_highlighting: "¿Necesita que algunos paquetes de trabajo destaquen
+            del resto?"
+          relation_columns: "¿Necesita ver las relaciones en la lista del paquete
+            de trabajo?"
+          check_out_link: Vea la versión Enterprise Edition.
       tabs:
         overview: Resumen
         activity: Actividad
@@ -557,6 +690,7 @@ es:
         months: meses
     toolbar:
       settings:
+        configure_view: Configurar vista…
         columns: Columnas ...
         sort_by: Ordenado por ...
         group_by: Agrupar por ...
@@ -567,15 +701,16 @@ es:
         save: Guardar
         save_as: Guardar como ...
         export: Exportar ...
-        publish: Publicar…
-        page_settings: Renombrar consulta...
+        visibility_settings: Configuración de visibilidad…
+        page_settings: Cambiar nombre de vista…
         delete: Borrar
       filter: Filtro
       unselected_title: Paquete de trabajo
-      search_query_label: Buscar sentencias de búsquedas de filtrado guardadas
-      search_query_title: Haga clic para buscar filtros guardados
+      search_query_label: Buscar vistas guardadas
+      search_query_title: Haga clic para buscar las vistas guardadas
+      placeholder_query_title: Establecer un título para esta vista
     modals:
-      label_settings: Renombrar consulta
+      label_settings: Cambiar nombre de vista
       label_name: Nombre
       label_delete_page: Borrar página actual
       button_apply: Aplicar
@@ -585,14 +720,14 @@ es:
       form_submit:
         title: Confirme para continuar
         text: "¿Estás seguro/a de que desea realizar esta acción?"
-      upsale_relation_columns: "¿Necesita ver las relaciones en la lista del paquete
-        de trabajo?"
-      upsale_relation_columns_link: Vea la versión Enterprise Edition.
       destroy_work_package:
         title: Confirmar la eliminación de %{label}
         text: "¿Está seguro de que quiere eliminar la siguiente %{label} ?"
         has_children: 'El paquete de trabajo tiene %{childUnits}:'
-        deletes_children: También se eliminarán todos los paquetes de trabajo secundarios.
+        confirm_deletion_children: Confirmo que TODOS los descendientes de los paquetes
+          de trabajo de la lista se eliminarán de forma recursiva.
+        deletes_children: También se eliminarán de forma recursiva todos los paquetes
+          de trabajo secundarios y sus descendientes.
     notice_successful_create: Creación exitosa.
     notice_successful_delete: Eliminado con éxito.
     notice_successful_update: Actualización correcta.
@@ -619,6 +754,9 @@ es:
         messages_on_field: 'Este campo no es válido: %{messages}'
     error_could_not_resolve_version_name: No se puede resolver el nombre de la versión
     error_could_not_resolve_user_name: No se pudo identificar el nombre de usuario
+    error_attachment_upload: 'No se pudo cargar el archivo “%{name}”: %{error}'
+    error_attachment_upload_permission: No tiene permiso para cargar archivos en este
+      recurso.
     units:
       workPackage:
         one: paquete de trabajo

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 Dir[File.dirname(__FILE__) + '/*.rb'].each { |file| require_dependency file }
@@ -37,9 +37,15 @@ module API
           def create(filter, operator, form_embedded: false)
             klass = representer_class(filter)
 
-            klass.new(filter,
-                      operator,
-                      form_embedded: form_embedded)
+            instance = klass.new(filter,
+                                 operator,
+                                 form_embedded: form_embedded)
+
+            if filter.is_a?(::Queries::Filters::Shared::CustomFields::Base)
+              instance.extend(::API::V3::Queries::Schemas::CustomFieldJsonCacheKeyMixin)
+            end
+
+            instance
           end
 
           private
@@ -48,7 +54,8 @@ module API
             'CreatedAtFilter': 'DateTimeFilter',
             'UpdatedAtFilter': 'DateTimeFilter',
             'AuthorFilter': 'UserFilter',
-            'ResponsibleFilter': 'UserFilter',
+            'ResponsibleFilter': 'AllPrincipalsFilter',
+            'AssignedToFilter': 'AllPrincipalsFilter',
             'WatcherFilter': 'UserFilter'
           }
 
@@ -78,7 +85,7 @@ module API
           end
 
           def cf_representer_class(filter)
-            return unless filter.is_a?(::Queries::WorkPackages::Filter::CustomFieldFilter)
+            return unless filter.is_a?(::Queries::Filters::Shared::CustomFields::Base)
 
             format = filter.custom_field.field_format
 

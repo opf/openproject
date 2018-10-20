@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module Components
@@ -82,17 +82,18 @@ module Components
       end
 
       def open_modal
-        SettingsMenu.new.open_and_choose('Sort by ...')
+        modal = TableConfigurationModal.new
+        modal.open_and_switch_to 'Sort by'
       end
 
       def cancel_changes
-        page.within('.ng-modal-inner') do
+        page.within('.op-modal--modal-container') do
           click_on 'Cancel'
         end
       end
 
       def apply_changes
-        page.within('.ng-modal-inner') do
+        page.within('.op-modal--modal-container') do
           click_on 'Apply'
         end
       end

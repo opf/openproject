@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,19 +24,19 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 require 'spec_helper'
 
 describe JournalNotificationMailer do
-  let(:project) { FactoryGirl.create(:project_with_types) }
+  let(:project) { FactoryBot.create(:project_with_types) }
   let(:user) do
-    FactoryGirl.build(:user,
+    FactoryBot.build(:user,
                       mail_notification: 'all',
                       member_in_project: project)
   end
   let(:work_package) {
-    FactoryGirl.create(:work_package,
+    FactoryBot.create(:work_package,
                        project: project,
                        author: user,
                        type: project.types.first)
@@ -64,11 +64,11 @@ describe JournalNotificationMailer do
       expect(Delayed::Job).to receive(:enqueue)
                                 .with(
                                   an_instance_of(EnqueueWorkPackageNotificationJob),
-                                  run_at: anything)
+                                  run_at: anything, priority: anything)
 
       # immediate delivery is not part of regular notfications, it only covers an edge-case
       expect(Delayed::Job).not_to receive(:enqueue)
-                                    .with(an_instance_of DeliverWorkPackageNotificationJob)
+                                    .with(an_instance_of(DeliverWorkPackageNotificationJob), anything)
       call_listener
     end
   end
@@ -82,7 +82,7 @@ describe JournalNotificationMailer do
       context 'insufficient work package changes' do
         let(:journal) { another_work_package.journals.last }
         let(:another_work_package) {
-          FactoryGirl.create(:work_package,
+          FactoryBot.create(:work_package,
                              project: project,
                              author: user,
                              type: project.types.first)
@@ -109,7 +109,7 @@ describe JournalNotificationMailer do
   describe 'journal creation' do
     context 'work_package_created' do
       before do
-        FactoryGirl.create(:work_package, project: project)
+        FactoryBot.create(:work_package, project: project)
       end
 
       it_behaves_like 'handles deliveries', 'work_package_added'
@@ -128,7 +128,7 @@ describe JournalNotificationMailer do
         it_behaves_like 'enqueues a regular notification'
 
         context 'WP creation' do
-          let(:journal) { FactoryGirl.create(:work_package).journals.first }
+          let(:journal) { FactoryBot.create(:work_package).journals.first }
 
           it 'sends no notification' do
             expect(Delayed::Job).not_to receive(:enqueue)
@@ -155,7 +155,7 @@ describe JournalNotificationMailer do
     context 'status_updated' do
       before do
         work_package.add_journal(user)
-        work_package.status = FactoryGirl.build(:status)
+        work_package.status = FactoryBot.build(:status)
         work_package.save!(validate: false)
       end
 
@@ -165,7 +165,7 @@ describe JournalNotificationMailer do
     context 'work_package_priority_updated' do
       before do
         work_package.add_journal(user)
-        work_package.priority = FactoryGirl.create(:issue_priority)
+        work_package.priority = FactoryBot.create(:issue_priority)
         work_package.save!(validate: false)
       end
 
@@ -275,7 +275,7 @@ describe JournalNotificationMailer do
         it 'immediately delivers a mail on behalf of Journal 1' do
           expect(Delayed::Job).to receive(:enqueue)
                                     .with(
-                                      an_instance_of(DeliverWorkPackageNotificationJob))
+                                      an_instance_of(DeliverWorkPackageNotificationJob), priority: anything)
           call_listener
         end
 
@@ -283,6 +283,7 @@ describe JournalNotificationMailer do
           expect(Delayed::Job).to receive(:enqueue)
                                     .with(
                                       an_instance_of(EnqueueWorkPackageNotificationJob),
+                                      priority: anything,
                                       run_at: anything)
           call_listener
         end
@@ -325,6 +326,6 @@ end
 describe 'initialization' do
   it 'subscribes the listener' do
     expect(JournalNotificationMailer).to receive(:distinguish_journals)
-    FactoryGirl.create(:work_package)
+    FactoryBot.create(:work_package)
   end
 end

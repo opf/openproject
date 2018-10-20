@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'concerns/omniauth_login'
@@ -37,6 +37,8 @@ module Redmine::MenuManager::TopMenu::HelpMenu
     Rails.cache.fetch(cache_key) do
       if OpenProject::Static::Links.help_link_overridden?
         render_menu_node(item)
+        caption, url, selected = extract_node_details(item)
+        content_tag('li', render_single_menu_node(item, caption, url, selected), class: 'help-menu--overridden-link')
       else
         render_help_dropdown
       end
@@ -92,10 +94,16 @@ module Redmine::MenuManager::TopMenu::HelpMenu
     end
     result << static_link_item(:user_guides)
     result << content_tag(:li) {
+      link_to l('label_videos'),
+              OpenProject::Configuration.youtube_channel,
+              title: l('label_videos'),
+              target: '_blank'
+    }
+    result << content_tag(:li) {
       link_to l('homescreen.links.shortcuts'),
               '',
-              title: l('homescreen.links.shortcuts'),
-              onClick: 'modalHelperInstance.createModal(\'/help/keyboard_shortcuts\');'
+              class: 'help-link-shortcuts-link',
+              title: l('homescreen.links.shortcuts')
     }
     result << static_link_item(:boards)
     result << static_link_item(:professional_support)
@@ -109,7 +117,14 @@ module Redmine::MenuManager::TopMenu::HelpMenu
                   class: 'drop-down--help-headline',
                   title: l('top_menu.additional_resources')
     end
-    result << static_link_item(:newsletter, href_suffix: "/?utm_source=unknown&utm_medium=op-instance&utm_campaign=newsletter-help-menu")
+    result << static_link_item(
+      :website,
+      href_suffix: "/?utm_source=unknown&utm_medium=op-instance&utm_campaign=website-help-menu"
+    )
+    result << static_link_item(
+      :newsletter,
+      href_suffix: "/?utm_source=unknown&utm_medium=op-instance&utm_campaign=newsletter-help-menu"
+    )
     result << static_link_item(:blog)
     result << static_link_item(:release_notes)
     result << static_link_item(:report_bug)
@@ -122,7 +137,7 @@ module Redmine::MenuManager::TopMenu::HelpMenu
     link = OpenProject::Static::Links.links[key]
     label = I18n.t(link[:label])
     content_tag(:li) do
-      link_to label, "#{link[:href]}#{options[:href_suffix]}", title: label
+      link_to label, "#{link[:href]}#{options[:href_suffix]}", title: label, target: '_blank'
     end
   end
 end

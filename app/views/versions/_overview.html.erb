@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See doc/COPYRIGHT.rdoc for more details.
+See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
@@ -31,7 +31,8 @@ See doc/COPYRIGHT.rdoc for more details.
   <% if version.start_date %>
     <%= Version.human_attribute_name(:start_date) %> <%= h(format_date(version.start_date)) %>
   <% end %>
-  <% if version.start_date %>
+  <% if version.due_date %>
+      <br>
     <%= Version.human_attribute_name(:due_date) %> <%= h(format_date(version.due_date)) %>
   <% end %>
 </p>
@@ -50,7 +51,7 @@ See doc/COPYRIGHT.rdoc for more details.
 </ul>
 
 <% if version.fixed_issues.count > 0 %>
-  <%= progress_bar([version.closed_percent, version.completed_percent], width: '40em', legend: ('%0.0f' % version.completed_percent)) %>
+  <%= progress_bar([version.closed_percent, version.completed_percent], width: '40vw', legend: ('%0.0f' % version.completed_percent)) %>
   <p class="progress-info">
     <%= link_to_if(version.closed_issues_count > 0,
                    l(:label_x_closed_work_packages_abbr, count: version.closed_issues_count),

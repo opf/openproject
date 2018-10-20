@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,14 +23,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe ::API::V3::Versions::VersionRepresenter do
-  let(:version) { FactoryGirl.build_stubbed(:version) }
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:version) { FactoryBot.build_stubbed(:version) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
   let(:representer) { described_class.new(version, current_user: user) }
 
   include API::V3::Utilities::PathHelper
@@ -112,6 +112,47 @@ describe ::API::V3::Versions::VersionRepresenter do
       it_behaves_like 'has UTC ISO 8601 date and time' do
         let(:date) { version.updated_on }
         let(:json_path) { 'updatedAt' }
+      end
+    end
+
+    describe 'caching' do
+      it 'is based on the representer\'s cache_key' do
+        expect(OpenProject::Cache)
+          .to receive(:fetch)
+          .with(representer.json_cache_key)
+          .and_call_original
+
+        representer.to_json
+      end
+
+      describe '#json_cache_key' do
+        let!(:former_cache_key) { representer.json_cache_key }
+
+        it 'includes the name of the representer class' do
+          expect(representer.json_cache_key)
+            .to include('API', 'V3', 'Versions', 'VersionRepresenter')
+        end
+
+        it 'changes when the locale changes' do
+          I18n.with_locale(:fr) do
+            expect(representer.json_cache_key)
+              .not_to eql former_cache_key
+          end
+        end
+
+        it 'changes when the version is updated' do
+          version.updated_on = Time.now + 20.seconds
+
+          expect(representer.json_cache_key)
+            .not_to eql former_cache_key
+        end
+
+        it 'changes when the version\'s project is updated' do
+          version.project.updated_on = Time.now + 20.seconds
+
+          expect(representer.json_cache_key)
+            .not_to eql former_cache_key
+        end
       end
     end
   end

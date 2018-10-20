@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,20 +24,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 require 'legacy_spec_helper'
 
 describe Group, type: :model do
   before do
-    @group = FactoryGirl.create :group
-    @member = FactoryGirl.build :member
-    @work_package = FactoryGirl.create :work_package
-    @roles = FactoryGirl.create_list :role, 2
+    @group = FactoryBot.create :group
+    @member = FactoryBot.build :member
+    @work_package = FactoryBot.create :work_package
+    @roles = FactoryBot.create_list :role, 2
     @member.attributes = { principal: @group, role_ids: @roles.map(&:id) }
     @member.save!
     @project = @member.project
-    @user = FactoryGirl.create :user
+    @user = FactoryBot.create :user
     @group.users << @user
     @group.save!
   end
@@ -48,7 +48,7 @@ describe Group, type: :model do
   end
 
   it 'should roles given to new user' do
-    user = FactoryGirl.build :user
+    user = FactoryBot.build :user
     @group.users << user
 
     assert user.member_of? @project
@@ -59,13 +59,13 @@ describe Group, type: :model do
   end
 
   it 'should roles updated' do
-    group = FactoryGirl.create :group
-    member = FactoryGirl.build :member
-    roles = FactoryGirl.create_list :role, 2
+    group = FactoryBot.create :group
+    member = FactoryBot.build :member
+    roles = FactoryBot.create_list :role, 2
     role_ids = roles.map(&:id)
     member.attributes = { principal: group, role_ids: role_ids }
     member.save!
-    user = FactoryGirl.create :user
+    user = FactoryBot.create :user
     group.users << user
     group.save!
 

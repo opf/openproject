@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -90,16 +90,16 @@ describe ApplicationHelper, type: :helper do
   end
 
   describe '.link_to_if_authorized' do
-    let(:project) { FactoryGirl.create :valid_project }
+    let(:project) { FactoryBot.create :valid_project }
     let(:project_member) {
-      FactoryGirl.create :user,
+      FactoryBot.create :user,
                          member_in_project: project,
-                         member_through_role: FactoryGirl.create(:role,
+                         member_through_role: FactoryBot.create(:role,
                                                                  permissions: [:view_work_packages, :edit_work_packages,
                                                                                :browse_repository, :view_changesets, :view_wiki_pages])
     }
     let(:issue) {
-      FactoryGirl.create :work_package,
+      FactoryBot.create :work_package,
                          project: project,
                          author: project_member,
                          type: project.types.first
@@ -109,7 +109,7 @@ describe ApplicationHelper, type: :helper do
       before do
         expect(self).to receive(:authorize_for).and_return(true)
         @response = link_to_if_authorized('link_content', {
-                                            controller: 'issues',
+                                            controller: 'work_packages',
                                             action: 'show',
                                             id: issue },
                                           class: 'fancy_css_class')
@@ -126,7 +126,7 @@ describe ApplicationHelper, type: :helper do
       before do
         expect(self).to receive(:authorize_for).and_return(false)
         @response = link_to_if_authorized('link_content', {
-                                            controller: 'issues',
+                                            controller: 'work_packages',
                                             action: 'show',
                                             id: issue },
                                           class: 'fancy_css_class')
@@ -141,8 +141,8 @@ describe ApplicationHelper, type: :helper do
       before do
         expect(self).to receive(:authorize_for).and_return(true)
         @response = link_to_if_authorized('By controller/action',
-                                          controller: 'issues',
-                                          action: 'edit',
+                                          controller: 'work_packages',
+                                          action: 'show',
                                           id: issue.id)
       end
 
@@ -178,7 +178,7 @@ describe ApplicationHelper, type: :helper do
 
     context 'with project' do
       before do
-        @project = FactoryGirl.build(:project)
+        @project = FactoryBot.build(:project)
       end
 
       context 'right now' do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class WorkPackagesPage
@@ -62,26 +62,6 @@ class WorkPackagesPage
     click_on 'work-packages-settings-button'
   end
 
-  def add_column!(name)
-    open_settings!
-    click_on 'Columns ...'
-
-    search_column! name
-    select_found_column! name
-    click_on 'Apply'
-
-    expect(page).to have_selector('.generic-table--sort-header a', text: name.upcase)
-  end
-
-  def search_column!(column)
-    input = find 'input.select2-input.ui-select-search'
-    input.set column
-  end
-
-  def select_found_column!(value)
-    find('.select2-results div', text: value, match: :first).click
-  end
-
   def click_work_packages_menu_item
     find('#main-menu .work-packages').click
   end
@@ -99,19 +79,6 @@ class WorkPackagesPage
     visit query_path(query)
 
     ensure_index_page_loaded
-  end
-
-  def select_query_from_dropdown(query)
-    within('.title-container') do
-      find('a').click
-      find('li', text: query.name).click
-    end
-  end
-
-  def expect_query(query)
-    within('.title-container') do
-      expect(page).to have_selector('a', text: query.name)
-    end
   end
 
   def find_filter(filter_name)
@@ -144,9 +111,7 @@ class WorkPackagesPage
 
   def ensure_index_page_loaded
     if Capybara.current_driver == Capybara.javascript_driver
-      extend ::Angular::DSL unless singleton_class.included_modules.include?(::Angular::DSL)
-
-      expect(page).to have_selector('.advanced-filters--filter', visible: false, wait: 8)
+      expect(page).to have_selector('.advanced-filters--filter', visible: :all, wait: 20)
     end
   end
 end

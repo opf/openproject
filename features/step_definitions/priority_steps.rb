@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 InstanceFinder.register(IssuePriority, Proc.new { |name| IssuePriority.find_by(name: name) })
@@ -32,7 +32,7 @@ InstanceFinder.register(IssuePriority, Proc.new { |name| IssuePriority.find_by(n
 Given /^there is a(?:n)? (default )?issuepriority with:$/ do |default, table|
   name = table.raw.find { |ary| ary.include? 'name' }[table.raw.first.index('name') + 1].to_s
   project = get_project
-  FactoryGirl.build(:priority).tap do |prio|
+  FactoryBot.build(:priority).tap do |prio|
     prio.name = name
     prio.is_default = !!default
     prio.project = project
@@ -43,7 +43,7 @@ Given /^there are the following priorities:$/ do |table|
   table.hashes.each do |row|
     project = get_project
 
-    FactoryGirl.build(:priority).tap do |prio|
+    FactoryBot.build(:priority).tap do |prio|
       prio.name = row[:name]
       prio.is_default = row[:default] == 'true'
       prio.project = project

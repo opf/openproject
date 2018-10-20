@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,10 +23,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/work_packages/work_packages_shared_helpers'
+require 'api/v3/work_packages/form_helper'
 require 'create_work_package_service'
 require 'work_packages/create_contract'
 
@@ -35,14 +35,14 @@ module API
     module WorkPackages
       class CreateProjectFormAPI < ::API::OpenProjectAPI
         resource :form do
-          helpers ::API::V3::WorkPackages::WorkPackagesSharedHelpers
+          helpers ::API::V3::WorkPackages::FormHelper
 
           post do
             work_package = WorkPackage.new(project: @project)
-            create_work_package_form(work_package,
-                                     contract_class: ::WorkPackages::CreateContract,
-                                     form_class: CreateProjectFormRepresenter,
-                                     action: :create)
+            respond_with_work_package_form(work_package,
+                                           contract_class: ::WorkPackages::CreateContract,
+                                           form_class: CreateProjectFormRepresenter,
+                                           action: :create)
           end
         end
       end

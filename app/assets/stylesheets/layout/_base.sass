@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 //++
 
 html
@@ -48,28 +48,14 @@ body
   width:    100%
   z-index:  20
   overflow: auto
-  padding-bottom: $footer-height
 
   %absolute-layout-mode &
     position: absolute
     top:      55px
     height: calc(100% - 55px)
     overflow: visible
-    padding-bottom: 5px
-    border-bottom-width: 5px
-    border-bottom-style: solid
-    @include varprop(border-bottom-color, footer-bg-color)
 
     #content-wrapper
-      &.hidden-navigation
-        margin-left: $main-menu-folded-width
-        width: calc(100% - #{$main-menu-folded-width})
-
-      &.nosidebar
-        padding: 0
-        width:    100%
-        margin-left: 0
-
       &.nomenus
         top: 0
         padding: 0
@@ -86,7 +72,8 @@ body
   margin: 0 0 0 0
   padding: 10px 20px
   width: auto
-  height: auto
+  height: calc(100vh - #{$header-height})
+  overflow: auto
   background-color: #fff
   width: 100%
   // As this is a flex item we need to set min-width to 0 so that its children's
@@ -97,7 +84,8 @@ body
     position:   absolute
     height:     100%
     width: calc(100% - #{$main-menu-width})
-    margin-left: $main-menu-width
+    width: calc(100% - var(--main-menu-width))
+    @include varprop(margin-left, main-menu-width)
     // Needed for Safari
     left: 0
 
@@ -117,7 +105,6 @@ body
 #content
   padding: 0
   margin: 0 0 0 0
-  overflow: hidden
   width: 100%
   z-index: 10
   background-color: $body-background

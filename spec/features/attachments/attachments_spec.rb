@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,22 +23,22 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe 'attachments', type: :feature do
-  let(:project) { FactoryGirl.create :valid_project }
-  let(:current_user) { FactoryGirl.create :admin }
-  let!(:priority) { FactoryGirl.create :priority_normal }
+  let(:project) { FactoryBot.create :valid_project }
+  let(:current_user) { FactoryBot.create :admin }
+  let!(:priority) { FactoryBot.create :priority_normal }
 
   before do
     allow(User).to receive(:current).and_return current_user
   end
 
   describe 'upload', js: true do
-    let(:file) { FactoryGirl.create :file, name: 'textfile.txt' }
+    let(:file) { FactoryBot.create :file, name: 'textfile.txt' }
 
     # FIXME rework this spec after implementing fullscreen create view
     xit 'uploading a short text file and viewing it inline' do

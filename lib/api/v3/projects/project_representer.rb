@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'roar/decorator'
@@ -34,28 +34,40 @@ module API
   module V3
     module Projects
       class ProjectRepresenter < ::API::Decorators::Single
+        include ::API::Caching::CachedRepresenter
+
         self_link
 
-        link :createWorkPackage do
+        link :createWorkPackage,
+             cache_if: -> { current_user_allowed_to(:add_work_packages, context: represented) } do
           {
             href: api_v3_paths.create_project_work_package_form(represented.id),
             method: :post
-          } if current_user_allowed_to(:add_work_packages, context: represented)
+          }
         end
 
-        link :createWorkPackageImmediate do
+        link :createWorkPackageImmediate,
+             cache_if: -> { current_user_allowed_to(:add_work_packages, context: represented) } do
           {
             href: api_v3_paths.work_packages_by_project(represented.id),
             method: :post
-          } if current_user_allowed_to(:add_work_packages, context: represented)
+          }
         end
 
-        link 'categories' do
+        link :categories do
           { href: api_v3_paths.categories(represented.id) }
         end
 
-        link 'versions' do
+        link :versions do
           { href: api_v3_paths.versions_by_project(represented.id) }
+        end
+
+        link :types,
+             cache_if: -> {
+               current_user_allowed_to(:view_work_packages, context: represented) ||
+                 current_user_allowed_to(:manage_types, context: represented)
+             } do
+          { href: api_v3_paths.types_by_project(represented.id) }
         end
 
         property :id, render_nil: true
@@ -67,19 +79,16 @@ module API
         property :created_on,
                  as: 'createdAt',
                  exec_context: :decorator,
-                 getter: -> (*) { datetime_formatter.format_datetime(represented.created_on) }
+                 getter: ->(*) { datetime_formatter.format_datetime(represented.created_on) }
         property :updated_on,
                  as: 'updatedAt',
                  exec_context: :decorator,
-                 getter: -> (*) { datetime_formatter.format_datetime(represented.updated_on) }
-
-        property :type, getter: -> (*) { project_type.try(:name) }, render_nil: true
+                 getter: ->(*) { datetime_formatter.format_datetime(represented.updated_on) }
 
         def _type
           'Project'
         end
 
-        self.to_eager_load = [:project_type]
         self.checked_permissions = [:add_work_packages]
       end
     end

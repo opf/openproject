@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class Redmine::MenuManager::Mapper
@@ -48,7 +48,9 @@ class Redmine::MenuManager::Mapper
   # * children: a Proc that is called before rendering the item. The Proc should return an array of MenuItems, which will be added as children to this item.
   #   eg. children: Proc.new {|project| [Redmine::MenuManager::MenuItem.new(...)] }
   # * last: menu item will stay at the end (eg. last: true)
+  # * first: menu item will stay at the top (eg. first: true)
   # * html_options: a hash of html options that are passed to link_to
+  # * partial: A partial that shall be rendered at that position
   def push(name, url, options = {})
     options = options.dup
 

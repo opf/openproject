@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 OpenProject::Application.configure do
@@ -51,7 +51,7 @@ OpenProject::Application.configure do
   # For large-scale production use, consider using a caching reverse proxy like nginx, varnish or squid.
   # config.action_dispatch.rack_cache = true
 
-  # Disable Rails's static asset server (Apache or nginx will already do this).
+  # Enable Rails's static asset server when requested
   config.public_file_server.enabled = false
 
   # Compress JavaScripts and CSS.
@@ -73,9 +73,21 @@ OpenProject::Application.configure do
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = OpenProject::Configuration['rails_force_ssl']
+  config.ssl_options = {
+    # Disable redirect on the internal SYS API
+    redirect: {
+      exclude: ->(request) do
+        # Respect the relative URL
+        relative_url = Regexp.escape(OpenProject::Configuration['rails_relative_url_root'])
+        # When we match SYS controller API, allow non-https access
+        request.path =~ /#{relative_url}\/sys\// || request.path =~ /#{relative_url}\/health_checks/
+      end
+    },
+    secure_cookies: true
+  }
 
   # Set to :debug to see everything in the log.
-  config.log_level = :warn
+  config.log_level = OpenProject::Configuration['log_level'].to_sym
 
   # Prepend all log lines with the following tags.
   # config.log_tags = [ :subdomain, :uuid ]
@@ -102,4 +114,6 @@ OpenProject::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  config.active_record.dump_schema_after_migration = false
 end

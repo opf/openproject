@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,18 +23,18 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 feature 'Group memberships through groups page', type: :feature do
-  let!(:project) { FactoryGirl.create :project, name: 'Project 1', identifier: 'project1' }
+  let!(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1' }
 
-  let(:admin)  { FactoryGirl.create :admin }
-  let!(:peter) { FactoryGirl.create :user, firstname: 'Peter', lastname: 'Pan' }
+  let(:admin)  { FactoryBot.create :admin }
+  let!(:peter) { FactoryBot.create :user, firstname: 'Peter', lastname: 'Pan' }
 
-  let!(:manager) { FactoryGirl.create :role, name: 'Manager' }
+  let!(:manager) { FactoryBot.create :role, name: 'Manager' }
 
   let(:members_page) { Pages::Members.new project.identifier }
 
@@ -45,6 +45,7 @@ feature 'Group memberships through groups page', type: :feature do
   shared_examples 'errors when adding members' do
     scenario 'adding a role without a principal, non impaired', js: true do
       members_page.visit!
+      expect_angular_frontend_initialized
       members_page.add_user! nil, as: 'Manager'
 
       expect(page).to have_text 'choose at least one user or group'

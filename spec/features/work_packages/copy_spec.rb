@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,67 +23,67 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 RSpec.feature 'Work package copy', js: true, selenium: true do
   let(:user) do
-    FactoryGirl.create(:user,
-                       member_in_project: project,
-                       member_through_role: create_role)
+    FactoryBot.create(:user,
+                      member_in_project: project,
+                      member_through_role: create_role)
   end
   let(:work_flow) do
-    FactoryGirl.create(:workflow,
-                       role: create_role,
-                       type_id: original_work_package.type_id,
-                       old_status: original_work_package.status,
-                       new_status: FactoryGirl.create(:status))
+    FactoryBot.create(:workflow,
+                      role: create_role,
+                      type_id: original_work_package.type_id,
+                      old_status: original_work_package.status,
+                      new_status: FactoryBot.create(:status))
   end
 
   let(:create_role) do
-    FactoryGirl.create(:role,
-                       permissions: [:view_work_packages,
-                                     :add_work_packages,
-                                     :edit_work_packages])
+    FactoryBot.create(:role,
+                      permissions: [:view_work_packages,
+                                    :add_work_packages,
+                                    :edit_work_packages])
   end
-  let(:type) { FactoryGirl.create(:type) }
-  let(:project) { FactoryGirl.create(:project, types: [type]) }
+  let(:type) { FactoryBot.create(:type) }
+  let(:project) { FactoryBot.create(:project, types: [type]) }
   let(:original_work_package) do
-    FactoryGirl.build(:work_package,
-                      project: project,
-                      assigned_to: assignee,
-                      responsible: responsible,
-                      fixed_version: version,
-                      type: type,
-                      author: author)
+    FactoryBot.build(:work_package,
+                     project: project,
+                     assigned_to: assignee,
+                     responsible: responsible,
+                     fixed_version: version,
+                     type: type,
+                     author: author)
   end
-  let(:role) { FactoryGirl.build(:role, permissions: [:view_work_packages]) }
+  let(:role) { FactoryBot.build(:role, permissions: [:view_work_packages]) }
   let(:assignee) do
-    FactoryGirl.build(:user,
-                      firstname: 'An',
-                      lastname: 'assignee',
-                      member_in_project: project,
-                      member_through_role: role)
+    FactoryBot.build(:user,
+                     firstname: 'An',
+                     lastname: 'assignee',
+                     member_in_project: project,
+                     member_through_role: role)
   end
   let(:responsible) do
-    FactoryGirl.build(:user,
-                      firstname: 'The',
-                      lastname: 'responsible',
-                      member_in_project: project,
-                      member_through_role: role)
+    FactoryBot.build(:user,
+                     firstname: 'The',
+                     lastname: 'responsible',
+                     member_in_project: project,
+                     member_through_role: role)
   end
   let(:author) do
-    FactoryGirl.build(:user,
-                      firstname: 'The',
-                      lastname: 'author',
-                      member_in_project: project,
-                      member_through_role: role)
+    FactoryBot.build(:user,
+                     firstname: 'The',
+                     lastname: 'author',
+                     member_in_project: project,
+                     member_through_role: role)
   end
   let(:version) do
-    FactoryGirl.build(:version,
-                      project: project)
+    FactoryBot.build(:version,
+                     project: project)
   end
 
   before do

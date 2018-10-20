@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module API
@@ -38,13 +38,13 @@ module API
         def inject_basic_schema(custom_field)
           @class.schema property_name(custom_field.id),
                         type: TYPE_MAP[custom_field.field_format],
-                        name_source: -> (*) { custom_field.name },
+                        name_source: ->(*) { custom_field.name },
                         required: false,
                         writable: false,
-                        show_if: -> (*) {
-                          Setting.work_package_list_summable_columns.any? { |column_name|
+                        show_if: ->(*) {
+                          Setting.work_package_list_summable_columns.any? do |column_name|
                             /cf_(\d+)/.match(column_name)
-                          }
+                          end
                         }
         end
 
@@ -53,7 +53,7 @@ module API
                           getter: property_value_getter_for(custom_field),
                           setter: property_value_setter_for(custom_field),
                           render_nil: true,
-                          if: -> (*) {
+                          if: ->(*) {
                             setting = ::Setting.work_package_list_summable_columns
                             setting.include?("cf_#{custom_field.id}")
                           }

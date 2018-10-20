@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module Queries::WorkPackages
@@ -34,6 +34,8 @@ module Queries::WorkPackages
 
   register.filter Query, filters_module::AssignedToFilter
   register.filter Query, filters_module::AssigneeOrGroupFilter
+  register.filter Query, filters_module::AttachmentContentFilter
+  register.filter Query, filters_module::AttachmentFileNameFilter
   register.filter Query, filters_module::AuthorFilter
   register.filter Query, filters_module::CategoryFilter
   register.filter Query, filters_module::CreatedAtFilter
@@ -55,6 +57,7 @@ module Queries::WorkPackages
   register.filter Query, filters_module::UpdatedAtFilter
   register.filter Query, filters_module::VersionFilter
   register.filter Query, filters_module::WatcherFilter
+  register.filter Query, filters_module::ParentFilter
 
   columns_module = Queries::WorkPackages::Columns
 

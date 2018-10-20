@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 TypedDag::Configuration.set node_class_name: 'WorkPackage',
@@ -62,3 +62,22 @@ TypedDag::Configuration.set node_class_name: 'WorkPackage',
                                           all_from: :all_required_by,
                                           all_to: :all_requires }
                             }
+
+# Hacking the after_* callbacks to be positioned after the callbacks
+# for the typed_dag so that the transitive relations are properly adapted before
+# the path is build.
+module RelationHierarchyIncluder
+  def self.prepended(base)
+    included_block = base.instance_variable_get(:@_included_block)
+
+    new_includer = Proc.new do
+      class_eval(&included_block)
+
+      include Relation::HierarchyPaths
+    end
+
+    base.instance_variable_set(:@_included_block, new_includer)
+  end
+end
+
+TypedDag::Edge::ClosureMaintenance.prepend(RelationHierarchyIncluder)

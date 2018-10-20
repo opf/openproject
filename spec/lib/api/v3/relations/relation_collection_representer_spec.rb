@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,26 +23,26 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe ::API::V3::Relations::RelationCollectionRepresenter do
   let(:work_package) do
-    FactoryGirl.build_stubbed(:work_package)
+    FactoryBot.build_stubbed(:work_package)
   end
 
   let(:relations) do
     (1..3).map do
-      FactoryGirl.build_stubbed(:relation,
+      FactoryBot.build_stubbed(:relation,
                                 from: work_package,
-                                to: FactoryGirl.build_stubbed(:work_package))
+                                to: FactoryBot.build_stubbed(:work_package))
     end
   end
 
   let(:user) do
-    FactoryGirl.build_stubbed(:user)
+    FactoryBot.build_stubbed(:user)
   end
 
   def self_link

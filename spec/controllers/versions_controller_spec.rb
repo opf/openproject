@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,17 +23,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe VersionsController, type: :controller do
-  let(:user) { FactoryGirl.create(:admin) }
-  let(:project) { FactoryGirl.create(:public_project) }
-  let(:version1) { FactoryGirl.create(:version, project: project, effective_date: nil) }
-  let(:version2) { FactoryGirl.create(:version, project: project) }
-  let(:version3) { FactoryGirl.create(:version, project: project, effective_date: (Date.today - 14.days)) }
+  let(:user) { FactoryBot.create(:admin) }
+  let(:project) { FactoryBot.create(:public_project) }
+  let(:version1) { FactoryBot.create(:version, project: project, effective_date: nil) }
+  let(:version2) { FactoryBot.create(:version, project: project) }
+  let(:version3) { FactoryBot.create(:version, project: project, effective_date: (Date.today - 14.days)) }
 
   describe '#index' do
     render_views
@@ -87,8 +87,8 @@ describe VersionsController, type: :controller do
     end
 
     context 'with showing subprojects versions' do
-      let(:sub_project) { FactoryGirl.create(:public_project, parent_id: project.id) }
-      let(:version4) { FactoryGirl.create(:version, project: sub_project) }
+      let(:sub_project) { FactoryBot.create(:public_project, parent_id: project.id) }
+      let(:version4) { FactoryBot.create(:version, project: sub_project) }
 
       before do
         login_as(user)
@@ -246,35 +246,6 @@ describe VersionsController, type: :controller do
     it 'redirects to projects versions and the version is deleted' do
       expect(response).to redirect_to(settings_project_path(project, tab: 'versions'))
       expect { Version.find(@deleted) }.to raise_error ActiveRecord::RecordNotFound
-    end
-  end
-
-  describe '#status_by' do
-    before do
-      login_as(user)
-    end
-
-    context 'status by version' do
-      before do
-        get :status_by,
-            xhr: true,
-            params: { id: version2.id }, format: :js
-      end
-
-      it { expect(response).to be_success }
-      it { expect(response).to render_template('versions/_work_package_counts') }
-    end
-
-    context 'status by version with status_by' do
-      before do
-        get :status_by,
-            xhr: true,
-            params: { id: version2.id, status_by: 'status' },
-            format: :js
-      end
-
-      it { expect(response).to be_success }
-      it { expect(response).to render_template('versions/_work_package_counts') }
     end
   end
 end

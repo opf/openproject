@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,21 +23,21 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 RSpec.feature 'Work package pagination', js: true do
 
-  let(:admin) { FactoryGirl.create(:admin) }
+  let(:admin) { FactoryBot.create(:admin) }
   let(:project) {
-    FactoryGirl.create(:project, name: 'project1', identifier: 'project1')
+    FactoryBot.create(:project, name: 'project1', identifier: 'project1')
   }
 
   shared_examples_for 'paginated work package list' do
-    let!(:work_package_1) { FactoryGirl.create(:work_package, project: project) }
-    let!(:work_package_2) { FactoryGirl.create(:work_package, project: project) }
+    let!(:work_package_1) { FactoryBot.create(:work_package, project: project) }
+    let!(:work_package_2) { FactoryBot.create(:work_package, project: project) }
 
     before do
       login_as(admin)
@@ -48,7 +48,7 @@ RSpec.feature 'Work package pagination', js: true do
     end
 
     scenario do
-      expect(page).to have_content('Work packages')
+      expect(page).to have_content('All open')
 
       within('.work-packages-list-view--container') do
         expect(page).to     have_content(work_package_1.subject)
@@ -56,7 +56,7 @@ RSpec.feature 'Work package pagination', js: true do
       end
 
       within('.pagination--pages') do
-        click_link '2'
+        find('.pagination--item a', text: '2').click
       end
 
       within('.work-packages-list-view--container') do
@@ -65,7 +65,7 @@ RSpec.feature 'Work package pagination', js: true do
       end
 
       within('.pagination--options') do
-        click_link '50'
+        find('.pagination--item a', text: '50').click
       end
 
       within('.work-packages-list-view--container') do

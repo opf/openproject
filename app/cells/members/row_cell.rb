@@ -84,16 +84,13 @@ module Members
     end
 
     def edit_link
-      link_to_function(
+      link_to(
         op_icon('icon icon-edit'),
-        toggle_javascript,
-        class: toggle_item_class_name,
+        '#',
+        class: "toggle-membership-button #{toggle_item_class_name}",
+        data: { 'toggle-target': ".#{toggle_item_class_name}" },
         title: t(:button_edit)
       )
-    end
-
-    def toggle_javascript
-      "jQuery('.#{toggle_item_class_name}').toggle();"
     end
 
     def roles_css_id

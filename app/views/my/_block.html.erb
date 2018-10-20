@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See doc/COPYRIGHT.rdoc for more details.
+See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
@@ -31,14 +31,16 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <% content_for "#{block_name}-remove-block" do %>
     <div class="box-actions">
-      <%= link_to '', { action: "remove_block", block: block_name },
-          class: "icon icon-close close-icon", title: l(:button_remove_widget),
-          remote: true
+      <%= link_to '',
+                  { action: "remove_block", block: block_name },
+                  class: "icon icon-close close-icon my-page--remove-block",
+                  data: { name: block_name, dasherized: block_name.dasherize },
+                  title: l(:button_remove_widget)
       %>
     </div>
   <% end %>
 
   <div class='handle'>
-    <%= render partial: "my/blocks/#{block_name}", locals: { user: user, block_name: block_name } %>
+    <%= render partial: "my/blocks/#{block_name}", locals: { user: user, edit: true, block_name: block_name } %>
   </div>
 </div>

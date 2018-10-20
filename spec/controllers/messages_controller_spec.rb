@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,25 +23,25 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe MessagesController, type: :controller do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:project) { FactoryGirl.create(:project) }
-  let(:role) { FactoryGirl.create(:role) }
-  let!(:member) {
-    FactoryGirl.create(:member,
-                       project: project,
-                       principal: user,
-                       roles: [role])
-  }
-  let!(:board) {
-    FactoryGirl.create(:board,
-                       project: project)
-  }
+  let(:user) { FactoryBot.create(:user) }
+  let(:project) { FactoryBot.create(:project) }
+  let(:role) { FactoryBot.create(:role) }
+  let!(:member) do
+    FactoryBot.create(:member,
+                      project: project,
+                      principal: user,
+                      roles: [role])
+  end
+  let!(:board) do
+    FactoryBot.create(:board,
+                      project: project)
+  end
 
   let(:filename) { 'testfile.txt' }
   let(:file) { File.open(Rails.root.join('spec/fixtures/files', filename)) }
@@ -49,7 +49,7 @@ describe MessagesController, type: :controller do
     fixture_file_upload "files/#{filename}", filename
   end
 
-  before do allow(User).to receive(:current).and_return user end
+  before { allow(User).to receive(:current).and_return user }
 
   describe '#create' do
     context 'attachments' do
@@ -81,8 +81,8 @@ describe MessagesController, type: :controller do
   end
 
   describe '#update' do
-    let(:message) { FactoryGirl.create :message, board: board }
-    let(:other_board) { FactoryGirl.create :board, project: project }
+    let(:message) { FactoryBot.create :message, board: board }
+    let(:other_board) { FactoryBot.create :board, project: project }
 
     before do
       role.add_permission!(:edit_messages) and user.reload
@@ -96,13 +96,13 @@ describe MessagesController, type: :controller do
   end
 
   describe '#attachment' do
-    let!(:message) { FactoryGirl.create(:message) }
+    let!(:message) { FactoryBot.create(:message) }
     let(:attachment_id) { "attachments_#{message.attachments.first.id}" }
-    let(:params) {
+    let(:params) do
       { id: message.id,
         attachments: { '1' => { 'file' => uploaded_file,
                                 'description' => '' } } }
-    }
+    end
 
     describe '#add' do
       before do
@@ -157,18 +157,18 @@ describe MessagesController, type: :controller do
     end
 
     describe '#remove' do
-      let!(:attachment) {
-        FactoryGirl.create(:attachment,
-                           container: message,
-                           author: user,
-                           filename: filename)
-      }
-      let!(:attachable_journal) {
-        FactoryGirl.create(:journal_attachable_journal,
-                           journal: message.journals.last,
-                           attachment: attachment,
-                           filename: filename)
-      }
+      let!(:attachment) do
+        FactoryBot.create(:attachment,
+                          container: message,
+                          author: user,
+                          filename: filename)
+      end
+      let!(:attachable_journal) do
+        FactoryBot.create(:journal_attachable_journal,
+                          journal: message.journals.last,
+                          attachment: attachment,
+                          filename: filename)
+      end
 
       before do
         message.reload
@@ -194,22 +194,22 @@ describe MessagesController, type: :controller do
     end
   end
 
-  describe 'preview' do
-    let(:content) { 'Message content' }
+  describe 'quote' do
+    let(:message) { FactoryBot.create :message, content: 'foo', subject: 'subject', board: board }
 
-    it_behaves_like 'valid preview' do
-      let(:preview_texts) { [content] }
-      let(:preview_params) { { message: { content: content } } }
-    end
+    context 'when allowed' do
+      let(:user) { FactoryBot.create(:admin) }
 
-    it_behaves_like 'valid preview' do
-      let(:preview_texts) { [content] }
-      let(:preview_params) { { reply: { content: content } } }
-    end
+      before do
+        login_as user
+      end
 
-    it_behaves_like 'authorizes object access' do
-      let(:message) { FactoryGirl.create :message, board: board }
-      let(:preview_params) { { id: message.id, message: {} } }
+      it 'renders the content as json' do
+        get :quote, params: { board_id: board.id, id: message.id }, format: :json
+
+        expect(response).to be_success
+        expect(response.body).to eq '{"subject":"RE: subject","content":" wrote:\n\u003e foo\n\n"}'
+      end
     end
   end
 end

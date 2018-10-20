@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 //++
 
 /***** Auto-complete ****
@@ -68,6 +68,7 @@ div.autocomplete
   cursor: default
   margin: 0
   list-style: none
+  z-index: 10000
 
   .ui-menu-item
     border-bottom: 1px solid $content-default-border-color
@@ -80,10 +81,19 @@ div.autocomplete
     word-break: break-word
     padding: 10px 5px
 
-    &.ui-state-active, &.ui-state-active a
+    // Necessary for iOS to recognize as clickable
+    cursor: pointer
+
+    &.ui-state-active,
+    &.selected
       border: none
+      a
+        @include varprop(color, drop-down-selected-font-color)
+
+    &.ui-state-active
       @include varprop(background, drop-down-hover-bg-color)
-      @include varprop(color, drop-down-hover-font-color)
+    &.selected:not(.ui-state-active)
+      @include varprop(background, drop-down-selected-bg-color)
 
   &.-inplace
     position: relative
@@ -103,6 +113,12 @@ div.autocomplete
   &.-error, &.-error:hover, &.-error:focus
     background: $nm-color-error-background
     border-color: $nm-color-error-border
+
+mark.ui-autocomplete-match
+  background: none
+  @include varprop(color, primary-color)
+  text-decoration: underline
+  font-weight: bold !important
 
 // Loading indicator
 .ui-autocomplete--loading

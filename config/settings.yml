@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 # DO NOT MODIFY THIS FILE !!!
@@ -39,6 +39,9 @@ sendmail_arguments:
 smtp_openssl_verify_mode:
   default: "none"
 smtp_enable_starttls_auto:
+  default: 0
+  format: boolean
+smtp_ssl:
   default: 0
   format: boolean
 smtp_address:
@@ -69,14 +72,26 @@ brute_force_block_minutes:
 brute_force_block_after_failed_logins:
   default: 20
   format: int
+# Time after which users have to have consented to what ever they need to consent
+# to (depending on other settings) such as a privacy policy.
+consent_time:
+  format: datetime
+# Additional info about what the user is consenting to (optional).
+consent_info:
+  serialized: true
+  default:
+    en: "## Consent\n\nYou need to agree to the [privacy and security policy](https://www.openproject.org/data-privacy-and-security/) of this OpenProject instance."
+# Indicates wether or not users need to consent to something such as privacy policy.
+consent_required:
+  default: 0
+  format: boolean
+consent_decline_mail:
+  default:
 welcome_title:
   default:
 welcome_text:
   default:
 welcome_on_homescreen:
-  default: 0
-  format: boolean
-welcome_on_projects_page:
   default: 0
   format: boolean
 log_requesting_user:
@@ -129,8 +144,6 @@ bcc_recipients:
   default: 1
 plain_text_mail:
   default: 0
-text_formatting:
-  default: textile
 cache_formatted_text:
   default: 0
 wiki_compression:
@@ -150,6 +163,9 @@ available_languages:
   - ru
 default_language:
   default: en
+default_auto_hide_popups:
+  default: 1
+  format: boolean
 email_login: # use email address as login, hide login in registration form
   default: 0
 host_name:
@@ -213,6 +229,7 @@ user_format:
   format: symbol
 cross_project_work_package_relations:
   default: 1
+  format: boolean
 work_package_group_assignment:
   default: 1
 notified_events:
@@ -246,6 +263,11 @@ work_package_list_default_columns:
   - status
   - assigned_to
   - updated_on
+work_package_list_default_highlighting_mode:
+  default: 'inline'
+work_package_list_default_highlighted_attributes:
+  serialized: true
+  default: []
 work_package_list_summable_columns:
   serialized: true
   default:
@@ -305,10 +327,15 @@ emails_header:
     en: ''
 work_package_startdate_is_adddate:
   default: 1
+user_default_timezone:
+  default: ""
 users_deletable_by_admins:
   default: 0
 users_deletable_by_self:
   default: 0
+invitation_expiration_days:
+  default: 7
+  format: int
 journal_aggregation_time_minutes:
   default: 5
   format: int

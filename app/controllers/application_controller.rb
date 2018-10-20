@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'uri'
@@ -68,7 +68,6 @@ class ApplicationController < ActionController::Base
   # Thus, we show an error message unless the request probably is an API
   # request.
   def handle_unverified_request
-    super
     cookies.delete(OpenProject::Configuration['autologin_cookie_name'])
     self.logged_user = nil
 
@@ -118,6 +117,7 @@ class ApplicationController < ActionController::Base
                 :check_session_lifetime,
                 :stop_if_feeds_disabled,
                 :set_cache_buster,
+                :action_hooks,
                 :reload_mailer_configuration!
 
   include Redmine::Search::Controller
@@ -188,11 +188,6 @@ class ApplicationController < ActionController::Base
       if (key = api_key_from_request) && accept_key_auth_actions.include?(params[:action])
         # Use API key
         User.find_by_api_key(key)
-      elsif OpenProject::Configuration.apiv2_enable_basic_auth?
-        # HTTP Basic, either username/password or API key/random
-        authenticate_with_http_basic do |username, password|
-          User.try_to_login(username, password) || User.find_by_api_key(username)
-        end
       end
     end
   end
@@ -250,6 +245,10 @@ class ApplicationController < ActionController::Base
 
   def require_login
     unless User.current.logged?
+
+      # Ensure we reset the session to terminate any old session objects
+      reset_session
+
       respond_to do |format|
         format.any(:html, :atom) do redirect_to signin_path(back_url: login_back_url) end
 
@@ -444,7 +443,7 @@ class ApplicationController < ActionController::Base
       params[:back_url],
       hostname: request.host,
       default: default,
-      return_escaped: use_escaped,
+      return_escaped: use_escaped
     )
 
     redirect_to policy.redirect_url
@@ -517,7 +516,7 @@ class ApplicationController < ActionController::Base
   #
   # @return [boolean, string] name of the layout to use or false for no layout
   def use_layout
-    request.xhr? ? false : 'base'
+    request.xhr? ? false : 'no_menu'
   end
 
   def render_feed(items, options = {})
@@ -561,8 +560,9 @@ class ApplicationController < ActionController::Base
 
   # Renders a warning flash if obj has unsaved attachments
   def render_attachment_warning_if_needed(obj)
-    if obj.unsaved_attachments.present?
-      flash[:warning] = l(:warning_attachments_not_saved, obj.unsaved_attachments.size)
+    unsaved_attachments = obj.attachments.select(&:new_record?)
+    if unsaved_attachments.any?
+      flash[:warning] = l(:warning_attachments_not_saved, unsaved_attachments.size)
     end
   end
 
@@ -702,6 +702,10 @@ class ApplicationController < ActionController::Base
 
       url_for(url_params)
     end
+  end
+
+  def action_hooks
+    call_hook(:application_controller_before_action)
   end
 
   # ActiveSupport load hooks provide plugins with a consistent entry point to patch core classes.

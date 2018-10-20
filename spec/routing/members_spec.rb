@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,12 +23,39 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe MembersController, type: :routing do
+  context 'project scoped' do
+    it {
+      is_expected.to route(:post, '/projects/5234/members').to(controller: 'members',
+                                                               action: 'create',
+                                                               project_id: '5234')
+    }
+
+    it {
+      is_expected.to route(:get, '/projects/5234/members/autocomplete_for_member')
+                       .to(controller: 'members',
+                           action: 'autocomplete_for_member',
+                           project_id: '5234')
+    }
+  end
+
+  it {
+    is_expected.to route(:put, '/members/5234').to(controller: 'members',
+                                                   action: 'update',
+                                                   id: '5234')
+  }
+
+  it {
+    is_expected.to route(:delete, '/members/5234').to(controller: 'members',
+                                                      action: 'destroy',
+                                                      id: '5234')
+  }
+
   it 'connects GET /projects/:project_id/members/paginate_users ' +
      'to members#paginate_users' do
     expect(get('/projects/1/members/paginate_users'))

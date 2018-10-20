@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 require_relative '../legacy_spec_helper'
 require 'messages_controller'
@@ -159,12 +159,5 @@ describe MessagesController, type: :controller do
     delete :destroy, params: { id: 1 }
     assert_redirected_to project_board_path('ecookbook', 1)
     assert_nil Message.find_by(id: 1)
-  end
-
-  it 'should quote' do
-    session[:user_id] = 2
-    get :quote, params: { board_id: 1, id: 3 }, xhr: true
-    assert_response :success
-    assert_template 'quote'
   end
 end

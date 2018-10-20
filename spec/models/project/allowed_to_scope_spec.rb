@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,38 +24,38 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe Project, 'allowed to', type: :model do
-  let(:user) { FactoryGirl.build(:user) }
-  let(:anonymous) { FactoryGirl.build(:anonymous) }
-  let(:admin) { FactoryGirl.build(:admin) }
+  let(:user) { FactoryBot.build(:user) }
+  let(:anonymous) { FactoryBot.build(:anonymous) }
+  let(:admin) { FactoryBot.build(:admin) }
 
   let(:private_project) do
-    FactoryGirl.build(:project,
+    FactoryBot.build(:project,
                       is_public: false,
                       status: project_status)
   end
   let(:public_project) do
-    FactoryGirl.build(:project,
+    FactoryBot.build(:project,
                       is_public: true,
                       status: project_status)
   end
   let(:project_status) { Project::STATUS_ACTIVE }
 
   let(:role) do
-    FactoryGirl.build(:role,
+    FactoryBot.build(:role,
                       permissions: permissions)
   end
   let(:anonymous_role) do
-    FactoryGirl.build(:anonymous_role,
+    FactoryBot.build(:anonymous_role,
                       permissions: anonymous_permissions)
   end
   let(:non_member_role) do
-    FactoryGirl.build(:non_member,
+    FactoryBot.build(:non_member,
                       permissions: non_member_permissions)
   end
   let(:permissions) { [action] }
@@ -65,7 +65,7 @@ describe Project, 'allowed to', type: :model do
   let(:public_action) { :view_news }
   let(:public_non_module_action) { :view_project }
   let(:member) do
-    FactoryGirl.build(:member,
+    FactoryBot.build(:member,
                       user: user,
                       roles: [role],
                       project: project)

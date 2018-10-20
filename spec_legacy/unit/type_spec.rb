@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 require_relative '../legacy_spec_helper'
 require 'type'
@@ -42,20 +42,5 @@ describe ::Type, type: :model do
     target.workflows.copy_from_type(source)
     target.reload
     assert_equal 89, target.workflows.size
-  end
-
-  it 'should statuses' do
-    type = ::Type.find(1)
-    Workflow.delete_all
-    Workflow.create!(role_id: 1, type_id: 1, old_status_id: 2, new_status_id: 3)
-    Workflow.create!(role_id: 2, type_id: 1, old_status_id: 3, new_status_id: 5)
-
-    expect(type.statuses).to all be_kind_of Status
-    assert_equal [2, 3, 5], ::Type.find(1).statuses.map(&:id)
-  end
-
-  it 'should statuses empty' do
-    Workflow.where(type_id: 1).delete_all
-    assert_equal [], ::Type.find(1).statuses
   end
 end

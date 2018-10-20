@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,20 +24,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe DeliverWorkPackageNotificationJob, type: :model do
-  let(:project) { FactoryGirl.create(:project) }
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
+  let(:project) { FactoryBot.create(:project) }
+  let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
   let(:recipient) {
-    FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
   }
-  let(:author) { FactoryGirl.create(:user) }
+  let(:author) { FactoryBot.create(:user) }
   let(:work_package) {
-    FactoryGirl.create(:work_package,
+    FactoryBot.create(:work_package,
                        project: project,
                        author: author)
   }
@@ -103,7 +103,7 @@ describe DeliverWorkPackageNotificationJob, type: :model do
     let(:journal) { work_package.journals.last }
 
     before do
-      work_package.add_journal(FactoryGirl.create(:user), 'a comment')
+      work_package.add_journal(FactoryBot.create(:user), 'a comment')
       work_package.save!
     end
 
@@ -137,7 +137,7 @@ describe DeliverWorkPackageNotificationJob, type: :model do
     end
 
     context 'for a known current user' do
-      let(:current_user) { FactoryGirl.create(:user) }
+      let(:current_user) { FactoryBot.create(:user) }
 
       it 'resets to the previous current user after running' do
         User.current = current_user

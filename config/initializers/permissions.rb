@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'redmine/access_control'
@@ -45,7 +45,8 @@ Redmine::AccessControl.map do |map|
                  require: :loggedin
 
   map.permission :edit_project,
-                 { projects: [:settings, :edit, :update, :custom_fields],
+                 { projects: [:edit, :update, :custom_fields],
+                   project_settings: [:show],
                    members: [:paginate_users] },
                  require: :member
 
@@ -58,11 +59,10 @@ Redmine::AccessControl.map do |map|
                  require: :member
 
   map.permission :view_members,
-                 { members: [:index] },
-                 require: :member
+                 { members: [:index] }
 
   map.permission :manage_versions,
-                 { projects: :settings,
+                 { project_settings: [:show],
                    versions: [:new, :create, :edit, :update,
                               :close_completed, :destroy] },
                  require: :member
@@ -83,7 +83,7 @@ Redmine::AccessControl.map do |map|
   map.project_module :work_package_tracking do |wpt|
     # Issue categories
     wpt.permission :manage_categories,
-                   { projects: :settings,
+                   { project_settings: [:show],
                      categories: [:new, :create, :edit, :update, :destroy] },
                    require: :member
     # Issues
@@ -94,12 +94,7 @@ Redmine::AccessControl.map do |map|
                    journals: [:index, :diff],
                    work_packages: [:show, :index],
                    work_packages_api: [:get],
-                   :'work_packages/reports' => [:report, :report_details],
-                   planning_elements: [:index, :all, :show, :recycle_bin],
-                   planning_element_journals: [:index],
-                   # This is api/v2/planning_element_types
-                   planning_element_types: [:index,
-                                               :show]
+                   :'work_packages/reports' => [:report, :report_details]
 
     wpt.permission :export_work_packages,
                    work_packages: [:index, :all]
@@ -119,9 +114,7 @@ Redmine::AccessControl.map do |map|
                      :'work_packages/bulk' => [:edit, :update],
                      work_packages: [:edit, :update, :new_type,
                                      :preview, :quoted],
-                     journals: :preview,
-                     planning_elements: [:edit, :update],
-                     planning_element_journals: [:create] },
+                     journals: :preview },
                    require: :member
 
     wpt.permission :add_work_package_notes,
@@ -139,11 +132,7 @@ Redmine::AccessControl.map do |map|
     wpt.permission :delete_work_packages,
                    { issues: :destroy,
                      work_packages: :destroy,
-                     :'work_packages/bulk' => :destroy,
-                     planning_elements: [:confirm_destroy,
-                                         :destroy,
-                                         :destroy_all,
-                                         :confirm_destroy_all] },
+                     :'work_packages/bulk' => :destroy },
                    require: :member
 
     wpt.permission :manage_work_package_relations,
@@ -153,11 +142,11 @@ Redmine::AccessControl.map do |map|
                    {}
     # Queries
     wpt.permission :manage_public_queries,
-                   { queries: [:star, :unstar] },
+                   {},
                    require: :member
 
     wpt.permission :save_queries,
-                   { queries: [:star, :unstar] },
+                   {},
                    require: :loggedin
     # Watchers
     wpt.permission :view_work_package_watchers,
@@ -310,42 +299,4 @@ Redmine::AccessControl.map do |map|
   end
 
   map.project_module :activity
-
-  map.project_module :timelines do |timelines|
-    timelines.permission :view_project_associations,
-                         project_associations: [:index, :show]
-
-    timelines.permission :edit_project_associations,
-                         { project_associations: [:edit, :update, :new,
-                                                  :create,
-                                                  :available_projects] },
-                         require: :member
-
-    timelines.permission :delete_project_associations,
-                         { project_associations: [:confirm_destroy, :destroy] },
-                         require: :member
-
-    timelines.permission :view_timelines,
-                         timelines: [:index, :show]
-
-    timelines.permission :edit_timelines,
-                         { timelines: [:edit, :update, :new, :create] },
-                         require: :member
-
-    timelines.permission :delete_timelines,
-                         { timelines: [:confirm_destroy, :destroy] },
-                         require: :member
-
-    timelines.permission :view_reportings,
-                         reportings: [:index, :all, :show]
-
-    timelines.permission :edit_reportings,
-                         { reportings: [:new, :create, :edit,
-                                        :update, :available_projects] },
-                         require: :member
-
-    timelines.permission :delete_reportings,
-                         { reportings: [:confirm_destroy, :destroy] },
-                         require: :member
-  end
 end

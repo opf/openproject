@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,13 +25,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe ::Type, type: :model do
-  let(:type) { FactoryGirl.build(:type) }
+  let(:type) { FactoryBot.build(:type) }
+  let(:admin) { FactoryBot.create(:admin) }
 
   before do
     # Clear up the request store cache for all_work_package_attributes
@@ -39,20 +40,90 @@ describe ::Type, type: :model do
   end
 
   describe "#attribute_groups" do
-    it 'returns #default_attribute_groups if not yet set' do
-      expect(type.read_attribute(:attribute_groups)).to be_empty
-      expect(type.attribute_groups).to_not be_empty
-      expect(type.attribute_groups).to eq type.default_attribute_groups
+    shared_examples_for 'returns default attributes' do
+      it do
+        expect(type.read_attribute(:attribute_groups)).to be_empty
+
+        attribute_groups = type.attribute_groups.select { |g| g.is_a?(Type::AttributeGroup) }.map do |group|
+          [group.key, group.attributes]
+        end
+
+        expect(attribute_groups).to eql type.default_attribute_groups
+      end
     end
 
-    it 'removes unknown attributes from a group' do
-      type.attribute_groups = [['foo', ['bar', 'date']]]
-      expect(type.attribute_groups).to eq [['foo', ['date']]]
+    context 'with attributes provided' do
+      before do
+        type.attribute_groups = [['foo', []], ['bar', %w(blubs date)]]
+      end
+
+      it 'removes unknown attributes from a group' do
+        group = type.attribute_groups[1]
+
+        expect(group.key).to eql 'bar'
+        expect(group.members).to eql ['date']
+      end
+
+      it 'keeps groups without attributes' do
+        group = type.attribute_groups[0]
+
+        expect(group.key).to eql 'foo'
+        expect(group.members).to eql []
+      end
+
+      it 'does not have a children query' do
+        expect(type.attribute_groups.detect { |group| group.key == :children }).to be_nil
+      end
     end
 
-    it 'keeps groups without attributes' do
-      type.attribute_groups = [['foo', []], ['bar', ['date']]]
-      expect(type.attribute_groups).to eq [['foo', []], ['bar', ['date']]]
+    context 'with empty attributes provided' do
+      before do
+        type.attribute_groups = []
+      end
+
+      it 'returns an empty attribute_groups' do
+        expect(type.attribute_groups).to be_empty
+      end
+    end
+
+    context 'with no attributes provided' do
+      it_behaves_like 'returns default attributes'
+    end
+
+    context 'with a query group' do
+      let(:type) { FactoryBot.create(:type) }
+      let(:query) { FactoryBot.build(:global_query, user_id: 0) }
+
+      before do
+        login_as(admin)
+
+        type.attribute_groups = [['some group', [query]]]
+        type.save!
+        type.reload
+      end
+
+      it 'retrieves the query' do
+        expect(type.attribute_groups.length).to eql 1
+
+        expect(type.attribute_groups[0].class).to eql Type::QueryGroup
+        expect(type.attribute_groups[0].key).to eql 'some group'
+        expect(type.attribute_groups[0].query).to eql query
+      end
+
+      it 'removes the former query if a new one is assigned' do
+        new_query = FactoryBot.build(:global_query, user_id: 0)
+        type.attribute_groups[0].attributes = new_query
+        type.save!
+        type.reload
+
+        expect(type.attribute_groups.length).to eql 1
+
+        expect(type.attribute_groups[0].class).to eql Type::QueryGroup
+        expect(type.attribute_groups[0].key).to eql 'some group'
+        expect(type.attribute_groups[0].query).to eql new_query
+
+        expect(Query.count).to eql 1
+      end
     end
   end
 
@@ -85,88 +156,9 @@ describe ::Type, type: :model do
     end
   end
 
-  describe "#validate_attribute_groups" do
-    it 'raises an exception for invalid structure' do
-      # Exampel for invalid structure:
-      type.attribute_groups = ['foo']
-      expect { type.save }.to raise_exception(NoMethodError)
-      # Exampel for invalid structure:
-      type.attribute_groups = [[]]
-      expect { type.save }.to raise_exception(NoMethodError)
-      # Exampel for invalid group name:
-      type.attribute_groups = [['', ['date']]]
-      expect(type).not_to be_valid
-    end
-
-    it 'fails for duplicate group names' do
-      type.attribute_groups = [['foo', ['date']], ['foo', ['date']]]
-      expect(type).not_to be_valid
-    end
-
-    it 'passes validations for known attributes' do
-      type.attribute_groups = [['foo', ['date']]]
-      expect(type.save).to be_truthy
-    end
-
-    it 'passes validation for defaults' do
-      expect(type.save).to be_truthy
-    end
-
-    it 'passes validation for reset' do
-      # A reset is to save an empty Array
-      type.attribute_groups = []
-      expect(type.save).to be_truthy
-      expect(type.attribute_groups).to eq type.default_attribute_groups
-    end
-  end
-
-  describe "#form_configuration_groups" do
-    it "returns a Hash with the keys :actives and :inactives Arrays" do
-      expect(type.form_configuration_groups[:actives]).to be_an Array
-      expect(type.form_configuration_groups[:inactives]).to be_an Array
-    end
-
-    describe ":inactives" do
-      subject { type.form_configuration_groups[:inactives] }
-
-      before do
-        type.attribute_groups = [["group one", ["assignee"]]]
-      end
-
-      it 'contains Hashes ordered by key :translation' do
-        # The first left over attribute should currently be "date"
-        expect(subject.first[:translation]).to be_present
-        expect(subject.first[:translation] <= subject.second[:translation]).to be_truthy
-      end
-
-      # The "assignee" is in "group one". It should not appear in :inactives.
-      it 'does not contain attributes that do not exist anymore' do
-        expect(subject.map { |inactive| inactive[:key] }).to_not include "assignee"
-      end
-    end
-
-    describe ":actives" do
-      subject { type.form_configuration_groups[:actives] }
-
-      before do
-        allow(type).to receive(:attribute_groups).and_return [["group one", ["date"]]]
-      end
-
-      it 'has a proper structure' do
-        # The group's name/key
-        expect(subject.first.first).to eq "group one"
-
-        # The groups attributes
-        expect(subject.first.second).to be_an Array
-        expect(subject.first.second.first[:key]).to eq "date"
-        expect(subject.first.second.first[:translation]).to eq "Date"
-      end
-    end
-  end
-
   describe 'custom fields' do
     let!(:custom_field) do
-      FactoryGirl.create(
+      FactoryBot.create(
         :work_package_custom_field,
         field_format: 'string'
       )
@@ -179,14 +171,80 @@ describe ::Type, type: :model do
       # Enforce fresh lookup of groups
       OpenProject::Cache.clear
 
-      # Is in inactive group
-      form = type.form_configuration_groups
-      expect(form[:inactives][0][:key]).to eq(cf_identifier.to_s)
-
       # Can be enabled
       type.attribute_groups = [['foo', [cf_identifier.to_s]]]
       expect(type.save).to be_truthy
       expect(type.read_attribute(:attribute_groups)).not_to be_empty
+    end
+
+    context 'with multiple CFs' do
+      let!(:custom_field2) do
+        FactoryBot.create(
+          :work_package_custom_field,
+          field_format: 'string'
+        )
+      end
+      let(:cf_identifier2) do
+        :"custom_field_#{custom_field2.id}"
+      end
+
+      it 'they are kept in their respective positions in the group (Regression test #27940)' do
+        # Enforce fresh lookup of groups
+        OpenProject::Cache.clear
+
+        # Can be enabled
+        type.attribute_groups = [['foo', [cf_identifier2.to_s, cf_identifier.to_s]]]
+        expect(type.save).to be_truthy
+        expect(type.read_attribute(:attribute_groups)).not_to be_empty
+
+        cf_group = type.attribute_groups[0]
+        expect(cf_group.members).to eq([cf_identifier2.to_s, cf_identifier.to_s])
+      end
+    end
+  end
+
+  describe 'custom field added implicitly to type' do
+    let(:custom_field) do
+      FactoryBot.create(
+        :work_package_custom_field,
+        field_format: 'string',
+        is_for_all: true
+      )
+    end
+    let!(:type) { FactoryBot.create(:type, custom_fields: [custom_field]) }
+
+    it 'has the custom field in the default group' do
+      OpenProject::Cache.clear
+      type.reload
+
+      expect(type.custom_field_ids).to eq([custom_field.id])
+
+      other_group = type.attribute_groups.detect { |g| g.key == :other }
+      expect(other_group).to be_present
+      expect(other_group.attributes).to eq([custom_field.accessor_name])
+
+      # It is removed again when resetting it
+      type.reset_attribute_groups
+      expect(type.custom_field_ids).to be_empty
+
+      other_group = type.attribute_groups.detect { |g| g.key == :other }
+      expect(other_group).not_to be_present
+    end
+  end
+
+  describe '#destroy' do
+    let(:query) { FactoryBot.build(:global_query, user_id: 0) }
+
+    before do
+      login_as(admin)
+      type.attribute_groups = [['some name', [query]]]
+      type.save!
+      type.reload
+      type.destroy
+    end
+
+    it 'destroys all queries references by query groups' do
+      expect(Query.find_by(id: query.id)).to be_nil
     end
   end
 end

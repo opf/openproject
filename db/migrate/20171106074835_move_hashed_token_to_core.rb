@@ -1,4 +1,4 @@
-class MoveHashedTokenToCore < ActiveRecord::Migration[5.0]
+class MoveHashedTokenToCore < ActiveRecord::Migration[5.1]
   class OldToken < ActiveRecord::Base
     self.table_name = :plaintext_tokens
   end
@@ -17,7 +17,7 @@ class MoveHashedTokenToCore < ActiveRecord::Migration[5.0]
   private
 
   def create_tokens_table
-    create_table :tokens do |t|
+    create_table :tokens, id: :integer do |t|
       t.references :user, index: true
       t.string :type
       t.string :value, default: "", null: false, limit: 128

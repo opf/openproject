@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See doc/COPYRIGHT.rdoc for more details.
+See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
@@ -38,8 +38,9 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= styled_label_tag 'copy_workflow_from', t(:label_copy_workflow_from) %>
         <div class="form--field-container">
           <%= styled_select_tag(:copy_workflow_from,
-                content_tag("option") + options_from_collection_for_select(@roles, :id, :name),
-                container_class: '-middle') %>
+                                options_from_collection_for_select(@roles, :id, :name, params[:copy_workflow_from]),
+                                include_blank: true,
+                                container_class: '-middle') %>
         </div>
       </div>
     </div>
@@ -54,7 +55,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <% module_name = mod.blank? ? "form--" + I18n.t('attributes.project') : "form--" + l_or_humanize(mod, prefix: 'project_module_').gsub(' ','_') %>
       <div class="grid-section">
         <fieldset class="form--fieldset -collapsible" id= "<%= module_name %>">
-          <legend class="form--fieldset-legend" onclick="toggleFieldset(this);"><%= mod.blank? ? Project.model_name.human : l_or_humanize(mod, prefix: 'project_module_') %></legend>
+          <legend class="form--fieldset-legend" ><%= mod.blank? ? Project.model_name.human : l_or_humanize(mod, prefix: 'project_module_') %></legend>
           <div class="form--fieldset-control">
             <span class="form--fieldset-control-container">
               (<%= check_all_links module_name %>)

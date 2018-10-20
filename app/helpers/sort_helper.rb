@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 # Helpers to sort tables using clickable column headers.
@@ -113,12 +113,16 @@ module SortHelper
     end
 
     def to_sql
-      sql = @criteria.map { |k, o|
-        if s = @available_criteria[k]
-          (o ? Array(s) : Array(s).map { |c| append_desc(c) }).join(', ')
-        end
-      }.compact.join(', ')
+      sql = to_a.join(', ')
       sql.blank? ? nil : sql
+    end
+
+    def to_a
+      @criteria
+        .map { |c, o| [@available_criteria[c], o] }
+        .reject { |c, _| c.nil? }
+        .map { |c, o| append_direction(Array(c), o) }
+        .compact
     end
 
     def add!(key, asc)
@@ -160,6 +164,14 @@ module SortHelper
 
       @criteria.slice!(3)
       self
+    end
+
+    def append_direction(criterion, asc = true)
+      if asc
+        criterion
+      else
+        criterion.map { |c| append_desc(c) }
+      end
     end
 
     # Appends DESC to the sort criterion unless it has a fixed order

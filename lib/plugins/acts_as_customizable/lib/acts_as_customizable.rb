@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module Redmine
@@ -66,13 +66,13 @@ module Redmine
         # Sets the values of the object's custom fields
         # values is an array like [{'id' => 1, 'value' => 'foo'}, {'id' => 2, 'value' => 'bar'}]
         def custom_fields=(values)
-          values_to_hash = values.inject({}) { |hash, v|
+          values_to_hash = values.inject({}) do |hash, v|
             v = v.stringify_keys
             if v['id'] && v.has_key?('value')
               hash[v['id']] = v['value']
             end
             hash
-          }
+          end
           self.custom_field_values = values_to_hash
         end
 
@@ -247,15 +247,11 @@ module Redmine
         end
 
         def respond_to_missing?(method, include_private = false)
-          super_value = super
-
-          for_custom_field_accessor(method) do |custom_field|
+          super || for_custom_field_accessor(method) do |custom_field|
             # pro-actively add the accessors, the method will probably be called next
             add_custom_field_accessors(custom_field)
             return true
-          end unless super_value
-
-          super_value
+          end
         end
 
         def define_all_custom_field_accessors

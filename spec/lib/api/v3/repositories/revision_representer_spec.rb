@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -33,10 +33,10 @@ describe ::API::V3::Repositories::RevisionRepresenter do
 
   let(:representer) { described_class.new(revision, current_user: double('current_user')) }
 
-  let(:project) { FactoryGirl.build :project }
-  let(:repository) { FactoryGirl.build :repository_subversion, project: project }
+  let(:project) { FactoryBot.build :project }
+  let(:repository) { FactoryBot.build :repository_subversion, project: project }
   let(:revision) {
-    FactoryGirl.build(:changeset,
+    FactoryBot.build(:changeset,
                       id: 42,
                       revision: '1234',
                       repository: repository,
@@ -89,7 +89,7 @@ describe ::API::V3::Repositories::RevisionRepresenter do
     end
 
     context 'with referencing commit message' do
-      let(:work_package) { FactoryGirl.build_stubbed(:work_package, project: project) }
+      let(:work_package) { FactoryBot.build_stubbed(:work_package, project: project) }
       let(:commit_message) { "Totally references ##{work_package.id}" }
       let(:html_reference) {
         id = work_package.id
@@ -102,7 +102,7 @@ describe ::API::V3::Repositories::RevisionRepresenter do
       }
 
       before do
-        allow(User).to receive(:current).and_return(FactoryGirl.build_stubbed(:admin))
+        allow(User).to receive(:current).and_return(FactoryBot.build_stubbed(:admin))
         allow(WorkPackage)
           .to receive_message_chain('visible.includes.references.find_by')
           .and_return(work_package)
@@ -123,7 +123,7 @@ describe ::API::V3::Repositories::RevisionRepresenter do
       end
 
       context 'with linked user as author' do
-        let(:user) { FactoryGirl.build(:user) }
+        let(:user) { FactoryBot.build(:user) }
         before do
           allow(revision).to receive(:user).and_return(user)
         end

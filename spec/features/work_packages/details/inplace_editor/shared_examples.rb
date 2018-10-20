@@ -1,17 +1,22 @@
 shared_examples 'an accessible inplace editor' do
   it 'triggers edit mode on click' do
+    scroll_to_element(field.display_element)
     field.activate_edition
     expect(field).to be_editing
     field.cancel_by_escape
   end
 
   it 'triggers edit mode on RETURN key' do
+    scroll_to_element(field.display_element)
+
     field.display_element.native.send_keys(:return)
     expect(field).to be_editing
     field.cancel_by_escape
   end
 
   it 'is focusable' do
+    scroll_to_element(field.display_element)
+
     tab_index = field.display_element['tabindex']
     expect(tab_index).to_not be_nil
     expect(tab_index).to_not eq('-1')
@@ -30,16 +35,16 @@ shared_examples 'an auth aware field' do
   end
 
   context 'when user is not authorized' do
-    let(:user) {
-      FactoryGirl.create(
+    let(:user) do
+      FactoryBot.create(
         :user,
         member_in_project: project,
-        member_through_role: FactoryGirl.build(
+        member_through_role: FactoryBot.build(
           :role,
           permissions: [:view_work_packages]
         )
       )
-    }
+    end
 
     it 'is not editable' do
       expect(field).not_to be_editable
@@ -96,43 +101,68 @@ shared_examples 'a cancellable field' do
   end
 end
 
-shared_examples 'a previewable field' do
-  it 'can preview the field' do
-    field.activate!
-
-    field.input_element.set '*Highlight*'
-    preview = field.field_container.find('.jstb_preview')
-
-    # Enable preview
-    preview.click
-    expect(field.field_container).to have_selector('strong', text: 'Highlight')
-
-    # Disable preview
-    preview.click
-    expect(field.field_container).to have_no_selector('strong')
-  end
-end
-
 shared_examples 'a workpackage autocomplete field' do
-  let!(:wp2) { FactoryGirl.create(:work_package, project: project, subject: 'AutoFoo') }
+  let!(:wp2) { FactoryBot.create(:work_package, project: project, subject: 'AutoFoo') }
 
   it 'autocompletes the other work package' do
     field.activate!
-    field.input_element.send_keys(" ##{wp2.id}")
+    field.clear
+    field.type(" ##{wp2.id}")
     expect(page).to have_selector('.atwho-view-ul li.cur', text: wp2.to_s.strip)
   end
 end
 
 shared_examples 'a principal autocomplete field' do
-  let!(:user) { FactoryGirl.create :user, member_in_project: project, firstname: 'John' }
-  let!(:mentioned_user) { FactoryGirl.create :user, member_in_project: project, firstname: 'Laura', lastname: 'Foobar' }
+  let(:role) { FactoryBot.create(:role, permissions: %i[view_work_packages edit_work_packages]) }
+  let!(:user) do
+    FactoryBot.create :user,
+                      member_in_project: project,
+                      member_through_role: role,
+                      firstname: 'John'
+  end
+  let!(:mentioned_user) do
+    FactoryBot.create :user,
+                      member_in_project: project,
+                      member_through_role: role,
+                      firstname: 'Laura',
+                      lastname: 'Foobar'
+  end
+  let!(:mentioned_group) do
+    FactoryBot.create(:group, lastname: 'Laudators').tap do |group|
+      FactoryBot.create :member,
+                        principal: group,
+                        project: project,
+                        roles: [role]
+    end
+  end
 
-  it 'autocompletes links to user profiles' do
-    field.activate!
-    field.input_element.send_keys(" @lau")
-    expect(page).to have_selector('.atwho-view-ul li.cur', text: mentioned_user.name)
+  shared_examples 'principal autocomplete on field' do
+    before do
+      wp_page.visit!
+      wp_page.ensure_page_loaded
+    end
 
-    field.input_element.send_keys(" @Laura Fo")
-    expect(page).to have_selector('.atwho-view-ul li.cur', text: mentioned_user.name)
+    it 'autocompletes links to user profiles' do
+      field.activate!
+      field.input_element.send_keys(" @lau")
+      expect(page).to have_selector('.atwho-view-ul li', text: mentioned_user.name)
+      expect(page).to have_selector('.atwho-view-ul li.cur', text: mentioned_group.name)
+      expect(page).not_to have_selector('.atwho-view-ul li', text: user.name)
+
+      field.input_element.send_keys(" @Laura Fo")
+      expect(page).to have_selector('.atwho-view-ul li.cur', text: mentioned_user.name)
+      expect(page).not_to have_selector('.atwho-view-ul li', text: mentioned_group.name)
+      expect(page).not_to have_selector('.atwho-view-ul li', text: user.name)
+    end
+  end
+
+  context 'in project' do
+    let(:wp_page) { Pages::SplitWorkPackage.new(work_package, project) }
+    it_behaves_like 'principal autocomplete on field'
+  end
+
+  context 'outside project' do
+    let(:wp_page) { Pages::SplitWorkPackage.new(work_package) }
+    it_behaves_like 'principal autocomplete on field'
   end
 end

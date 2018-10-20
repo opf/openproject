@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,20 +24,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe DeliverWatcherNotificationJob, type: :model do
-  let(:project) { FactoryGirl.create(:project) }
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
-  let(:watcher_setter) { FactoryGirl.create(:user) }
+  let(:project) { FactoryBot.create(:project) }
+  let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
+  let(:watcher_setter) { FactoryBot.create(:user) }
   let(:watcher_user) do
-    FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
   end
-  let(:work_package) { FactoryGirl.build(:work_package, project: project) }
-  let(:watcher) { FactoryGirl.create(:watcher, watchable: work_package, user: watcher_user) }
+  let(:work_package) { FactoryBot.build(:work_package, project: project) }
+  let(:watcher) { FactoryBot.create(:watcher, watchable: work_package, user: watcher_user) }
 
   subject { described_class.new(watcher.id, watcher_user.id, watcher_setter.id) }
 

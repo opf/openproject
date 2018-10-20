@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -32,8 +32,8 @@ DEVELOPER_PERMISSIONS = [:view_messages, :delete_own_messages, :edit_own_message
 
 describe MailHandler, type: :model do
   let(:anno_user) { User.anonymous }
-  let(:project) { FactoryGirl.create(:valid_project, identifier: 'onlinestore', name: 'OnlineStore', is_public: false) }
-  let(:priority_low) { FactoryGirl.create(:priority_low, is_default: true) }
+  let(:project) { FactoryBot.create(:valid_project, identifier: 'onlinestore', name: 'OnlineStore', is_public: false) }
+  let(:priority_low) { FactoryBot.create(:priority_low, is_default: true) }
 
   before do
     allow(Setting).to receive(:notified_events).and_return(Redmine::Notifiable.all.map(&:name))
@@ -71,6 +71,23 @@ describe MailHandler, type: :model do
       expect(work_package.author).to eq(found_user)
       expect(found_user.check_password?(password)).to be_truthy
     }.to change(User, :count).by(1)
+  end
+
+  describe '#category' do
+    let!(:category) { FactoryBot.create :category, project: project, name: 'Foobar' }
+
+    it 'should add a work_package with category' do
+      allow(Setting).to receive(:default_language).and_return('en')
+      Role.non_member.update_attribute :permissions, [:add_work_packages]
+      project.update_attribute :is_public, true
+
+      work_package = submit_email 'ticket_with_category.eml',
+                                  issue: { project: 'onlinestore' },
+                                  allow_override: ['category'],
+                                  unknown_user: 'create'
+      work_package_created(work_package)
+      expect(work_package.category).to eq(category)
+    end
   end
 
   describe '#cleanup_body' do

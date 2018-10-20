@@ -4,6 +4,17 @@ hr:
     ajax:
       hide: Sakrij
       loading: Učitavanje ...
+    attachments:
+      draggable_hint: 'Drag on editor field to inline image or reference attachment.
+        Closed editor fields will be opened while you keep dragging.
+
+'
+    autocomplete_select:
+      placeholder:
+        multi: Add "%{name}"
+        single: Select "%{name}"
+      remove: Remove %{name}
+      active: Active %{label} %{name}
     close_popup_title: Popup izbornik
     close_filter_title: Zatvori filtar
     close_form_title: Zatvori obrazac
@@ -47,8 +58,65 @@ hr:
     description_select_work_package: 'Odaberite radni paket #%{id}'
     description_selected_columns: Odabrani stupci
     description_subwork_package: 'Child of work package #%{id}'
+    editor:
+      preview: Toggle preview mode
+      source_code: Toggle Markdown source mode
+      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      mode:
+        manual: Switch to Markdown source
+        wysiwyg: Switch to WYSIWYG editor
+      macro:
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Wiki stranica
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
+        code_block:
+          button: Insert code snippet
+          title: Insert / edit Code snippet
+          language: Formatting language
+          language_hint: Enter the formatting language that will be used for highlighting
+            (if supported).
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
+        toc: Table of contents
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
+        wiki_page_include:
+          button: Include content of another wiki page
+          text: "[Placeholder] Included wiki page of"
+          page: Wiki stranica
+          not_set: "(Page not yet set)"
+          hint: |
+            Include the content of another wiki page by specifying its title or slug.
+            You can include the wiki page of another project by separating them with a colon like the following example.
+        work_package_button:
+          button: Insert create work package button
+          type: Work package type
+          button_style: Use button style
+          button_style_hint: 'Optional: Check to make macro appear as a button, not
+            as a link.'
+          without_type: Create work package
+          with_type: 'Create work package (Type: %{typename})'
+        embedded_table:
+          button: Embed work package table
+          text: "[Placeholder] Embedded work package table"
+    custom_actions:
+      date:
+        specific: 'on'
+        current_date: Current date
     error:
       internal: Dogodila se interna greška.
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
+      query_saving: The view could not be saved.
+      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
     filter:
       description:
         text_open_filter: Otvorite ovaj filtar s 'ALT' i tipke sa strelicama.
@@ -65,6 +133,8 @@ hr:
           one: Prvi kriterijum sortiranja
           two: Drugi kriterijum sortiranja
           three: Treći kriterijum sortiranja
+      upsale_for_more: For more advanced filters, check out the
+      upsale_link: Enterprise Edition.
     general_text_no: ne
     general_text_yes: da
     general_text_No: Ne
@@ -75,7 +145,7 @@ hr:
       korisnika.
     label_add_columns: Add columns
     label_add_comment: Dodaj komentar
-    label_add_comment_title: Odaberite za dodavanje komentara
+    label_add_comment_title: Unesi komentar i upiši @ da obavijestiš druge osobe
     label_add_selected_columns: Dodaj odabrani stupac
     label_added_by: dodao
     label_added_time_by: Dodao %{author} %{age}
@@ -107,11 +177,12 @@ hr:
     label_contains: sadrži
     label_created_on: kreirano
     label_edit_comment: Uredite komentar
-    label_edit_status: Edit the status of the work package
+    label_edit_status: Uredi status radnog paketa
     label_equals: je
     label_expand: Proširiti
     label_expanded: proširen
     label_expand_all: Proširi sve
+    label_expand_project_menu: Expand project menu
     label_export: Izvezi
     label_filename: Datoteka
     label_filesize: Veličina
@@ -119,10 +190,11 @@ hr:
     label_group_by: Grupiraj po
     label_hide_attributes: Prikaži manje
     label_hide_column: Sakriti stupac
+    label_hide_project_menu: Collapse project menu
     label_in: u
     label_in_less_than: u manje od
     label_in_more_than: u više od
-    label_latest_activity: Posljednja aktivnost
+    label_latest_activity: Latest activity
     label_last_updated_on: Zadnje ažuriranje
     label_less_or_equal: "<="
     label_less_than_ago: manje od dana
@@ -140,6 +212,7 @@ hr:
     label_not_equals: nije
     label_on: na
     label_open_menu: Otvori izbornik
+    label_open_context_menu: Open context menu
     label_open_work_packages: otvori
     label_password: Lozinka
     label_previous: Prethodni
@@ -153,20 +226,23 @@ hr:
     label_select_watcher: Odaberite nadglednika...
     label_selected_filter_list: Odabrani filteri
     label_show_attributes: Pokaži sve atribute
-    label_show_in_menu: Prikaži stranicu u izborniku
+    label_show_in_menu: Show view in menu
     label_sort_by: Sortiraj prema
     label_sorted_by: sortirao
     label_sort_higher: Pomakni gore
     label_sort_lower: Pomakni dolje
     label_sorting: Sortiranje
+    label_star_query: Favored
+    label_press_enter_to_save: Press enter to save.
+    label_public_query: Javno
     label_sum_for: Iznos za
     label_subject: Predmet
     label_this_week: ovog tjedna
     label_today: danas
+    label_up: Up
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% ukupnog napretka"
-    label_visible_for_others: Stranice vidljive drugima
     label_updated_on: ažurirano
     label_warning: Upozorenje
     label_work_package: Radni paket
@@ -180,8 +256,10 @@ hr:
     label_unwatch: Ne nadgledaj više
     label_unwatch_work_package: Ne nadgledaj radni paket
     label_uploaded_by: Dodao
-    label_global_queries: Dijeljeni upiti
-    label_custom_queries: Privatni upiti
+    label_default_queries: Default views
+    label_starred_queries: Favorite views
+    label_global_queries: Public views
+    label_custom_queries: Private views
     label_columns: Stupci
     label_attachments: Datoteke
     label_drop_files: Ovdje dodajte datoteke
@@ -193,7 +271,9 @@ hr:
     label_remove_watcher: Uklonite nadglednika %{name}
     label_remove_all_files: Izbrišite sve datoteke
     label_add_description: Dodaj opis za %{file}
-    label_upload_notification: 'Prijenos datoteka za Radni paket #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Prijenos datoteka za Radni paket #%{id}:
+      %{subject}'
     label_files_to_upload: 'Ove datoteke će biti prenešene:'
     label_rejected_files: 'Ove datoteke ne mogu biti prenešene:'
     label_rejected_files_reason: Ove datoteke ne mogu biti prenešeno zato što je njihova
@@ -222,6 +302,8 @@ hr:
       context: Project context
       work_package_belongs_to: This work package belongs to project %{projectname}.
       click_to_switch_context: Open this work package in that project.
+      autocompleter:
+        label: Projekt se automatski završava
     text_are_you_sure: Da li ste sigurni?
     types:
       attribute_groups:
@@ -229,8 +311,8 @@ hr:
           names must be unique.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group, unset the visibility
-          checkboxes, and disable ALL custom fields.
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Nadogradnja na izdanje Enterprise
@@ -262,7 +344,8 @@ hr:
       required: Zahtijeva
       relation_type: tip odnosa
     relations_hierarchy:
-      hierarchy_headline: hijerarhija
+      parent_headline: Matični
+      children_headline: Podređeni
     relation_buttons:
       change_parent: Promijeni nadređenog
       remove_parent: Remove parent
@@ -301,6 +384,7 @@ hr:
         other: Možete odabrati samo {{limit}} stavki
         zero: You cannot select any items
         few: Možete odabrati samo {{limit}} stavke
+    project_menu_details: Pojedinosti
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -311,12 +395,13 @@ hr:
       activate_no: activate to remove the sort
     text_work_packages_destroy_confirmation: Are you sure you want to delete the selected
       work package(s)?
-    text_query_destroy_confirmation: Jeste li sigurni da želite izbrisati odabrane
-      upite?
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      view?
     text_attachment_destroy_confirmation: Da li ste sigurni da želite izbrisati privitke?
     timelines:
       gantt_chart: Gantt chart
       labels:
+        title: Label configuration
         bar: Bar labels
         left: Left
         right: Right
@@ -327,11 +412,11 @@ hr:
           its date labels will be shown instead of these attributes.
 
 '
-      button_activate: Activate timeline mode
-      button_deactivate: Deactivate timeline mode
+      button_activate: Show Gantt chart
+      button_deactivate: Hide Gantt chart
       cancel: Odustani
       change: Promjene u planiranju
-      due_date: Krajnji rok
+      due_date: Finish date
       empty: "(prazno)"
       error: Došlo je do pogreške.
       errors:
@@ -344,18 +429,9 @@ hr:
           pogreška.
         report_timeout: Kronologiju nije moguće učitati u razumnom vremenu.
       filter:
-        column:
-          assigned_to: Dodijeljeno korisniku
-          type: Tip
-          due_date: Datum završteka
-          name: Naziv
-          status: Status
-          responsible: Odgovoran
-          start_date: Datum Početka
         grouping_other: Ostalo
         noneSelection: "(nijedan)"
       name: Naziv
-      new_work_package: Novi radni paket
       outline: Resetirajte skice
       outlines:
         aggregation: Show aggregations only
@@ -366,7 +442,6 @@ hr:
         level5: Proširi nivo 5
         all: Prikaži sve
       project_status: Status projekta
-      project_type: Tip projekta
       really_close_dialog: Da li stvarno želite zatvoriti trenutni dijaloški okvir
         i izgubiti sve unesene podatke?
       responsible: Odgovoran
@@ -386,6 +461,10 @@ hr:
         quarters: Kvartali
         years: Godine
         slider: Slider za zumiranje
+        description: 'Select the initial zoom level that should be shown when autozoom
+          is not available.
+
+'
     tl_toolbar:
       zooms: Razina zumiranja
       outlines: Razina u hijerarhiji
@@ -397,6 +476,8 @@ hr:
         to Microsoft Edge.
       learn_more: Saznaj više
       close_warning: Ignorirati ovo upozorenje.
+    upsale:
+      ee_only: Enterprise Edition only feature
     wiki_formatting:
       strong: Strong
       italic: Italic
@@ -455,10 +536,13 @@ hr:
       inline_create:
         title: Click here to add a new work package to this list
       create:
+        title: Novi radni paket
         header: Novi %{type}
         header_no_type: Novi radni paket (tip još nije postavljen)
         header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
         button: Stvori
+      copy:
+        title: Copy work package
       hierarchy:
         show: Show hierarchy mode
         hide: Hide hierarchy mode
@@ -470,7 +554,7 @@ hr:
           filtered children
       faulty_query:
         title: Work packages could not be loaded.
-        description: Your query is erroneous and could not be processed.
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: Nema radnih paketa za prikaz.
         description: Either none have been created or all work packages are filtered
@@ -486,7 +570,7 @@ hr:
         createdAt: Izrađeno
         description: Opis
         date: Datum
-        dueDate: Krajnji rok
+        dueDate: Finish date
         estimatedTime: Predviđeno vrijeme
         spentTime: Utrošeno vrijeme
         category: Kategorija
@@ -502,6 +586,13 @@ hr:
         updatedAt: Ažurirano
         versionName: Verzija
         version: Verzija
+      default_queries:
+        latest_activity: Latest activity
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: All open
+        summary: Sažetak
       jump_marks:
         pagination: Skok na numeriranje stranica tabele
         label_pagination: Click here to skip over the work packages table and go to
@@ -519,7 +610,6 @@ hr:
           mode being active.
         hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
           being grouped by %{column}.
-        hierarchy_mode: Hierarchy mode
         sort_ascending: Sortiraj uzlazno
         sort_descending: Sortiraj silazno
         move_column_left: Premjesti stupac lijevo
@@ -528,17 +618,57 @@ hr:
         insert_columns: Umetni stupce ...
         filters: Filteri
         display_sums: Prikaži iznose
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
         errors:
-          unretrievable_query: Nije moguće dohvatit upit iz URLa
-          not_found: Nema takvog upita
-        text_no_results: No matching queries were found.
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
       table:
+        configure_button: Configure work package table
         summary: Table with rows of work package and columns of work package attributes.
         text_inline_edit: Most cells of this table are buttons that activate inline-editing
           functionality of that attribute.
         text_sort_hint: S vezama u zaglavljima tablica možete sortirati, grupirati,
           promijeniti redoslijed, ukloniti i dodati stupce tablice.
         text_select_hint: Select boxes should be opened with 'ALT' and arrow keys.
+      table_configuration:
+        button: Configure this work package table
+        choose_display_mode: Display work packages as
+        modal_title: Work package table configuration
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          view you're editing.
+        default: zadana
+        display_settings: Display settings
+        default_mode: Flat list
+        hierarchy_mode: Hierarchy
+        hierarchy_hint: All filtered table results will be augmented with their ancestors.
+          Hierarchies can be expanded and collapsed.
+        display_sums_hint: Display sums of all summable attributes in a row below
+          the table results.
+        show_timeline_hint: Show an interactive gantt chart on the right side of the
+          table. You can change its width by dragging the divider between table and
+          gantt chart.
+        highlighting: Highlighting
+        highlighting_mode:
+          description: Highlight with color
+          none: No highlighting
+          inline: Highlighted attribute(s)
+          inline_all: All attributes
+          entire_row_by: Entire row by
+          status: Status
+          priority: Prioritet
+          type: Tip
+        columns_help_text: Use the input above to add or remove columns to your table
+          view. You can drag and drop the columns to reorder them.
+        upsale:
+          attribute_highlighting: Need certain work packages to stand out from the
+            mass?
+          relation_columns: Need to see relations in the work package list?
+          check_out_link: Check out the Enterprise Edition.
       tabs:
         overview: Pregled
         activity: Aktivnost
@@ -551,6 +681,7 @@ hr:
         months: mjeseci
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: Stupci...
         sort_by: Sortiraj po...
         group_by: Grupiraj po ...
@@ -561,15 +692,16 @@ hr:
         save: Spremi
         save_as: Spremi kao ...
         export: Izvezi ...
-        publish: Publish ...
-        page_settings: Preimenuj upit ...
+        visibility_settings: Visibility settings ...
+        page_settings: Rename view ...
         delete: Obriši
       filter: Filter
       unselected_title: Radni paket
-      search_query_label: Pretraživanje spremljenih filtra upita
-      search_query_title: Kliknite pretraživanje spremljenih filtra upita
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
     modals:
-      label_settings: Preimenuj upit
+      label_settings: Rename view
       label_name: Naziv
       label_delete_page: Izbrišite trenutnu stranicu
       button_apply: Primjeni
@@ -579,13 +711,14 @@ hr:
       form_submit:
         title: Confirm to continue
         text: Are you sure you want to perform this action?
-      upsale_relation_columns: Need to see relations in the work package list?
-      upsale_relation_columns_link: Check out the Enterprise Edition.
       destroy_work_package:
         title: Confirm deletion of %{label}
         text: Are you sure you want to delete the following %{label} ?
         has_children: 'The work package has %{childUnits}:'
-        deletes_children: All child work packages will also be deleted.
+        confirm_deletion_children: I acknowledge that ALL descendants of the listed
+          work packages will be recursively removed.
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: Uspješno kreirano.
     notice_successful_delete: Brisanje uspješno.
     notice_successful_update: Ažuriranje je uspješno završeno.
@@ -613,6 +746,9 @@ hr:
     error_could_not_resolve_version_name: Neuspjeli pokušaj razriješavanja imena verzije
     error_could_not_resolve_user_name: Neuspijeli pokušaj razrješavanja korisničkog
       imena
+    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: work package

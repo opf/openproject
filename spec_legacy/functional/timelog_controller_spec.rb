@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require_relative '../legacy_spec_helper'
@@ -76,49 +76,6 @@ describe TimelogController, type: :controller do
     assert_select 'option', content: '--- Please select ---'
   end
 
-  it 'should post create' do
-    # TODO: should POST to issues’ time log instead of project. change form
-    # and routing
-    session[:user_id] = 3
-    post :create, params: { project_id: 1,
-                            time_entry: { comments: 'Some work on TimelogControllerTest',
-                                          # Not the default activity
-                                          activity_id: '11',
-                                          spent_on: '2008-03-14',
-                                          work_package_id: '1',
-                                          hours: '7.3' } }
-    assert_redirected_to action: 'index', project_id: 'ecookbook'
-
-    i = WorkPackage.find(1)
-    t = TimeEntry.find_by(comments: 'Some work on TimelogControllerTest')
-    refute_nil t
-    assert_equal 11, t.activity_id
-    assert_equal 7.3, t.hours
-    assert_equal 3, t.user_id
-    assert_equal i, t.work_package
-    assert_equal i.project, t.project
-  end
-
-  it 'should post create with blank issue' do
-    # TODO: should POST to issues’ time log instead of project. change form
-    # and routing
-    session[:user_id] = 3
-    post :create, params: { project_id: 1,
-                            time_entry: { comments: 'Some work on TimelogControllerTest',
-                                          # Not the default activity
-                                          activity_id: '11',
-                                          work_package_id: '',
-                                          spent_on: '2008-03-14',
-                                          hours: '7.3' } }
-    assert_redirected_to action: 'index', project_id: 'ecookbook'
-
-    t = TimeEntry.find_by(comments: 'Some work on TimelogControllerTest')
-    refute_nil t
-    assert_equal 11, t.activity_id
-    assert_equal 7.3, t.hours
-    assert_equal 3, t.user_id
-  end
-
   it 'should update' do
     entry = TimeEntry.find(1)
     assert_equal 1, entry.work_package_id
@@ -134,31 +91,6 @@ describe TimelogController, type: :controller do
     assert_equal 8, entry.hours
     assert_equal 2, entry.work_package_id
     assert_equal 2, entry.user_id
-  end
-
-  it 'should destroy' do
-    session[:user_id] = 2
-    delete :destroy, params: { id: 1 }
-    assert_redirected_to action: 'index', project_id: 'ecookbook'
-    assert_equal I18n.t(:notice_successful_delete), flash[:notice]
-    assert_nil TimeEntry.find_by(id: 1)
-  end
-
-  it 'should destroy should fail' do
-    # simulate that this fails (e.g. due to a plugin), see #5700
-    TimeEntry.class_eval do
-      before_destroy :stop_callback_chain
-      def stop_callback_chain; false; end
-    end
-
-    session[:user_id] = 2
-    delete :destroy, params: { id: 1 }
-    assert_redirected_to action: 'index', project_id: 'ecookbook'
-    assert_equal I18n.t(:notice_unable_delete_time_entry), flash[:error]
-    refute_nil TimeEntry.find_by(id: 1)
-
-    # remove the simulation
-    TimeEntry._destroy_callbacks.reject { |callback| callback.filter == :stop_callback_chain }
   end
 
   it 'should index all projects' do
@@ -182,8 +114,8 @@ describe TimelogController, type: :controller do
     refute_nil assigns(:total_hours)
     assert_equal '162.90', '%.2f' % assigns(:total_hours)
     # display all time by default
-    assert_equal '2007-03-12'.to_date, assigns(:from)
-    assert_equal '2007-04-22'.to_date, assigns(:to)
+    assert_equal nil, assigns(:from)
+    assert_equal nil, assigns(:to)
     assert_select 'form',
                attributes: { action: '/projects/ecookbook/time_entries', id: 'query_form' }
   end
@@ -233,8 +165,8 @@ describe TimelogController, type: :controller do
     refute_nil assigns(:total_hours)
     assert_equal 154.25, assigns(:total_hours)
     # display all time based on what's been logged
-    assert_equal '2007-03-12'.to_date, assigns(:from)
-    assert_equal '2007-04-22'.to_date, assigns(:to)
+    assert_equal nil, assigns(:from)
+    assert_equal nil, assigns(:to)
     assert_select 'form',
                attributes: { action: work_package_time_entries_path(1), id: 'query_form' }
   end

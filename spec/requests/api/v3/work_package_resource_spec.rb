@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,52 +23,50 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Work package resource', type: :request, content_type: :json do
+describe 'API v3 Work package resource',
+         type: :request,
+         content_type: :json do
   include Rack::Test::Methods
   include Capybara::RSpecMatchers
   include API::V3::Utilities::PathHelper
 
-  let(:closed_status) { FactoryGirl.create(:closed_status) }
+  let(:closed_status) { FactoryBot.create(:closed_status) }
 
-  let(:work_package) {
-    FactoryGirl.create(:work_package, project_id: project.id,
-                                      description: 'lorem ipsum'
+  let(:work_package) do
+    FactoryBot.create(:work_package, project_id: project.id,
+                                     description: 'lorem ipsum'
                       )
-  }
-  let(:project) do
-    FactoryGirl.create(:project, identifier: 'test_project', is_public: false)
   end
-  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
-  let(:permissions) { [:view_work_packages, :view_timelines, :edit_work_packages] }
+  let(:project) do
+    FactoryBot.create(:project, identifier: 'test_project', is_public: false)
+  end
+  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:permissions) { %i[view_work_packages edit_work_packages] }
   let(:current_user) do
-    user = FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+    user = FactoryBot.create(:user, member_in_project: project, member_through_role: role)
 
-    FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
+    FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
 
     user
   end
   let(:watcher) do
-    FactoryGirl
+    FactoryBot
       .create(:user, member_in_project: project, member_through_role: role)
       .tap do |user|
         work_package.add_watcher(user)
       end
   end
-  let(:unauthorize_user) { FactoryGirl.create(:user) }
-  let(:type) { FactoryGirl.create(:type) }
+  let(:unauthorize_user) { FactoryBot.create(:user) }
+  let(:type) { FactoryBot.create(:type) }
 
   before do
-    allow(User).to receive(:current).and_return current_user
-
-    # some way some of these specs rely on this setting being disabled
-    # so we set it excplicitly as a precondition
-    Setting.cross_project_work_package_relations = 0
+    login_as(current_user)
   end
 
   describe '#get list' do
@@ -84,12 +82,12 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
     end
 
     it 'returns visible work packages' do
-      FactoryGirl.create(:work_package, project: project)
+      FactoryBot.create(:work_package, project: project)
       expect(subject.body).to be_json_eql(1.to_json).at_path('total')
     end
 
     it 'embedds the work package schemas' do
-      FactoryGirl.create(:work_package, project: project)
+      FactoryBot.create(:work_package, project: project)
 
       expect(subject.body)
         .to be_json_eql(api_v3_paths.work_package_schema(project.id, work_package.type.id).to_json)
@@ -98,7 +96,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
 
     context 'user not seeing any work packages' do
       include_context 'with non-member permissions from non_member_permissions'
-      let(:current_user) { FactoryGirl.create(:user) }
+      let(:current_user) { FactoryBot.create(:user) }
       let(:non_member_permissions) { [:view_work_packages] }
 
       it 'succeeds' do
@@ -106,7 +104,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
       end
 
       it 'returns no work packages' do
-        FactoryGirl.create(:work_package, project: project)
+        FactoryBot.create(:work_package, project: project)
         expect(subject.body).to be_json_eql(0.to_json).at_path('total')
       end
 
@@ -133,38 +131,35 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
 
       describe 'response body' do
         subject(:parsed_response) { JSON.parse(last_response.body) }
-        let!(:timeline)    { FactoryGirl.create(:timeline,     project_id: project.id) }
-        let!(:other_wp)    {
-          FactoryGirl.create(:work_package, project_id: project.id,
-                                            status: closed_status)
-        }
-        let(:work_package) {
-          FactoryGirl.create(:work_package, project_id: project.id,
-                                            description: description
-                            )
-        }
-        let(:description) {
-          %{
-      {{>toc}}
+        let!(:other_wp) do
+          FactoryBot.create(:work_package, project_id: project.id,
+                                           status: closed_status)
+        end
+        let(:work_package) do
+          FactoryBot.create(:work_package, project_id: project.id,
+                                           description: description)
+        end
+        let(:description) do
+          <<~DESCRIPTION
+            <macro class="toc"><macro>
 
-      h1. OpenProject Masterplan for 2015
+            # OpenProject Masterplan for 2015
 
-      h2. three point plan
+            ## three point plan
 
-      # One ###{other_wp.id}
-      # Two
-      # Three
+            1) One ###{other_wp.id}
+            2) Two
+            3) Three
 
-      h3. random thoughts
+            ### random thoughts
 
-      h4. things we like
+            ### things we like
 
-      * Pointed
-      * Relaxed
-      * Debonaire
-
-      {{timeline(#{timeline.id})}}
-        }}
+            * Pointed
+            * Relaxed
+            * Debonaire
+          DESCRIPTION
+        end
 
         it 'should respond with work package in HAL+JSON format' do
           expect(parsed_response['id']).to eq(work_package.id)
@@ -186,12 +181,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
         end
 
         it 'should resolve simple macros' do
-          expect(parsed_response['description']).to have_text('Table of Contents')
-        end
-
-        it 'should not resolve/show complex macros' do
-          expect(parsed_response['description'])
-            .to have_text('Macro timeline cannot be displayed.')
+          expect(parsed_response['description']).to have_text('Table of contents')
         end
       end
 
@@ -241,8 +231,8 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
 
     context 'user without needed permissions' do
       context 'no permission to see the work package' do
-        let(:work_package) { FactoryGirl.create(:work_package) }
-        let(:current_user) { FactoryGirl.create :user }
+        let(:work_package) { FactoryBot.create(:work_package) }
+        let(:current_user) { FactoryBot.create :user }
         let(:params) { valid_params }
 
         include_context 'patch request'
@@ -251,12 +241,12 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
       end
 
       context 'no permission to edit the work package' do
-        let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
-        let(:current_user) {
-          FactoryGirl.create(:user,
-                             member_in_project: work_package.project,
-                             member_through_role: role)
-        }
+        let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
+        let(:current_user) do
+          FactoryBot.create(:user,
+                            member_in_project: work_package.project,
+                            member_through_role: role)
+        end
         let(:params) { valid_params }
 
         include_context 'patch request'
@@ -324,7 +314,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
       context 'description' do
         shared_examples_for 'description updated' do
           it_behaves_like 'API V3 formattable', 'description' do
-            let(:format) { 'textile' }
+            let(:format) { 'markdown' }
 
             subject { response.body }
           end
@@ -345,10 +335,10 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
         end
 
         context 'with value' do
-          let(:raw) { '*Some text* _describing_ *something*...' }
-          let(:html) {
+          let(:raw) { '**Some text** *describing* **something**...' }
+          let(:html) do
             '<p><strong>Some text</strong> <em>describing</em> <strong>something</strong>...</p>'
-          }
+          end
           let(:params) { valid_params.merge(description: { raw: raw }) }
 
           include_context 'patch request'
@@ -374,7 +364,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
         it_behaves_like 'lock version updated'
       end
 
-      context 'due date' do
+      context 'finish date' do
         let(:dateString) { Date.today.to_date.iso8601 }
         let(:params) { valid_params.merge(dueDate: dateString) }
 
@@ -382,7 +372,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
 
         it { expect(response.status).to eq(200) }
 
-        it 'should respond with updated due date' do
+        it 'should respond with updated finish date' do
           expect(subject.body).to be_json_eql(dateString.to_json).at_path('dueDate')
         end
 
@@ -390,21 +380,21 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
       end
 
       context 'status' do
-        let(:target_status) { FactoryGirl.create(:status) }
+        let(:target_status) { FactoryBot.create(:status) }
         let(:status_link) { api_v3_paths.status target_status.id }
         let(:status_parameter) { { _links: { status: { href: status_link } } } }
         let(:params) { valid_params.merge(status_parameter) }
 
-        before do allow(User).to receive(:current).and_return current_user end
+        before { allow(User).to receive(:current).and_return current_user }
 
         context 'valid status' do
-          let!(:workflow) {
-            FactoryGirl.create(:workflow,
-                               type_id: work_package.type.id,
-                               old_status: work_package.status,
-                               new_status: target_status,
-                               role: current_user.memberships[0].roles[0])
-          }
+          let!(:workflow) do
+            FactoryBot.create(:workflow,
+                              type_id: work_package.type.id,
+                              old_status: work_package.status,
+                              new_status: target_status,
+                              role: current_user.memberships[0].roles[0])
+          end
 
           include_context 'patch request'
 
@@ -422,10 +412,10 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
           include_context 'patch request'
 
           it_behaves_like 'constraint violation' do
-            let(:message) {
+            let(:message) do
               'Status ' + I18n.t('activerecord.errors.models.' \
                           'work_package.attributes.status_id.status_transition_invalid')
-            }
+            end
           end
         end
 
@@ -435,23 +425,23 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
           include_context 'patch request'
 
           it_behaves_like 'invalid resource link' do
-            let(:message) {
+            let(:message) do
               I18n.t('api_v3.errors.invalid_resource',
                      property: 'status',
                      expected: '/api/v3/statuses/:id',
                      actual: status_link)
-            }
+            end
           end
         end
       end
 
       context 'type' do
-        let(:target_type) { FactoryGirl.create(:type) }
+        let(:target_type) { FactoryBot.create(:type) }
         let(:type_link) { api_v3_paths.type target_type.id }
         let(:type_parameter) { { _links: { type: { href: type_link } } } }
         let(:params) { valid_params.merge(type_parameter) }
 
-        before do allow(User).to receive(:current).and_return current_user end
+        before { allow(User).to receive(:current).and_return current_user }
 
         context 'valid type' do
           before do
@@ -471,7 +461,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
         end
 
         context 'valid type changing custom fields' do
-          let(:custom_field) { FactoryGirl.create(:work_package_custom_field) }
+          let(:custom_field) { FactoryBot.create(:work_package_custom_field) }
           let(:custom_field_parameter) { { :"customField#{custom_field.id}" => true } }
           let(:params) { valid_params.merge(type_parameter).merge(custom_field_parameter) }
 
@@ -504,29 +494,29 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
           include_context 'patch request'
 
           it_behaves_like 'invalid resource link' do
-            let(:message) {
+            let(:message) do
               I18n.t('api_v3.errors.invalid_resource',
                      property: 'type',
                      expected: '/api/v3/types/:id',
                      actual: type_link)
-            }
+            end
           end
         end
       end
 
       context 'project' do
         let(:target_project) do
-          FactoryGirl.create(:project, is_public: false)
+          FactoryBot.create(:project, is_public: false)
         end
         let(:project_link) { api_v3_paths.project target_project.id }
         let(:project_parameter) { { _links: { project: { href: project_link } } } }
         let(:params) { valid_params.merge(project_parameter) }
 
         before do
-          FactoryGirl.create :member,
-                             user: current_user,
-                             project: target_project,
-                             roles: [FactoryGirl.create(:role, permissions: [:move_work_packages])]
+          FactoryBot.create :member,
+                            user: current_user,
+                            project: target_project,
+                            roles: [FactoryBot.create(:role, permissions: [:move_work_packages])]
 
           allow(User).to receive(:current).and_return current_user
         end
@@ -550,7 +540,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
         end
 
         context 'with a custom field defined on the target project' do
-          let(:custom_field) { FactoryGirl.create(:work_package_custom_field) }
+          let(:custom_field) { FactoryBot.create(:work_package_custom_field) }
           let(:custom_field_parameter) { { :"customField#{custom_field.id}" => true } }
           let(:params) { valid_params.merge(project_parameter).merge(custom_field_parameter) }
 
@@ -570,26 +560,26 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
       end
 
       context 'assignee and responsible' do
-        let(:user) { FactoryGirl.create(:user, member_in_project: project) }
+        let(:user) { FactoryBot.create(:user, member_in_project: project) }
         let(:params) { valid_params.merge(user_parameter) }
-        let(:work_package) {
-          FactoryGirl.create(:work_package,
-                             project: project,
-                             assigned_to: current_user,
-                             responsible: current_user)
-        }
+        let(:work_package) do
+          FactoryBot.create(:work_package,
+                            project: project,
+                            assigned_to: current_user,
+                            responsible: current_user)
+        end
 
-        before do allow(User).to receive(:current).and_return current_user end
+        before { allow(User).to receive(:current).and_return current_user }
 
         shared_context 'setup group membership' do |group_assignment|
-          let(:group) { FactoryGirl.create(:group) }
-          let(:group_role) { FactoryGirl.create(:role) }
-          let(:group_member) {
-            FactoryGirl.create(:member,
-                               principal: group,
-                               project: project,
-                               roles: [group_role])
-          }
+          let(:group) { FactoryBot.create(:group) }
+          let(:group_role) { FactoryBot.create(:role) }
+          let(:group_member) do
+            FactoryBot.create(:member,
+                              principal: group,
+                              project: project,
+                              roles: [group_role])
+          end
 
           before do
             allow(Setting).to receive(:work_package_group_assignment?).and_return(group_assignment)
@@ -657,23 +647,23 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
               let(:user_href) { api_v3_paths.user 909090 }
 
               it_behaves_like 'constraint violation' do
-                let(:message) {
+                let(:message) do
                   I18n.t('api_v3.errors.validation.' \
                                      'invalid_user_assigned_to_work_package',
-                         property: property.capitalize)
-                }
+                         property: WorkPackage.human_attribute_name(property))
+                end
               end
             end
 
             context 'user is not visible' do
-              let(:invalid_user) { FactoryGirl.create(:user) }
+              let(:invalid_user) { FactoryBot.create(:user) }
               let(:user_href) { api_v3_paths.user invalid_user.id }
 
               it_behaves_like 'constraint violation' do
-                let(:message) {
+                let(:message) do
                   I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
-                         property: property.capitalize)
-                }
+                         property: WorkPackage.human_attribute_name(property))
+                end
               end
             end
 
@@ -683,12 +673,12 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
               include_context 'patch request'
 
               it_behaves_like 'invalid resource link' do
-                let(:message) {
+                let(:message) do
                   I18n.t('api_v3.errors.invalid_resource',
                          property: property,
-                         expected: '/api/v3/users/:id',
+                         expected: "/api/v3/groups/:id' or '/api/v3/users/:id",
                          actual: user_href)
-                }
+                end
               end
             end
 
@@ -699,10 +689,10 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
               include_context 'patch request'
 
               it_behaves_like 'constraint violation' do
-                let(:message) {
+                let(:message) do
                   I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
-                         property: "#{property.capitalize}")
-                }
+                         property: WorkPackage.human_attribute_name(property))
+                end
               end
             end
           end
@@ -718,12 +708,12 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
       end
 
       context 'version' do
-        let(:target_version) { FactoryGirl.create(:version, project: project) }
+        let(:target_version) { FactoryBot.create(:version, project: project) }
         let(:version_link) { api_v3_paths.version target_version.id }
         let(:version_parameter) { { _links: { version: { href: version_link } } } }
         let(:params) { valid_params.merge(version_parameter) }
 
-        before do allow(User).to receive(:current).and_return current_user end
+        before { allow(User).to receive(:current).and_return current_user }
 
         context 'valid' do
           include_context 'patch request'
@@ -740,12 +730,12 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
       end
 
       context 'category' do
-        let(:target_category) { FactoryGirl.create(:category, project: project) }
+        let(:target_category) { FactoryBot.create(:category, project: project) }
         let(:category_link) { api_v3_paths.category target_category.id }
         let(:category_parameter) { { _links: { category: { href: category_link } } } }
         let(:params) { valid_params.merge(category_parameter) }
 
-        before do allow(User).to receive(:current).and_return current_user end
+        before { allow(User).to receive(:current).and_return current_user }
 
         context 'valid' do
           include_context 'patch request'
@@ -762,12 +752,12 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
       end
 
       context 'priority' do
-        let(:target_priority) { FactoryGirl.create(:priority) }
+        let(:target_priority) { FactoryBot.create(:priority) }
         let(:priority_link) { api_v3_paths.priority target_priority.id }
         let(:priority_parameter) { { _links: { priority: { href: priority_link } } } }
         let(:params) { valid_params.merge(priority_parameter) }
 
-        before do allow(User).to receive(:current).and_return current_user end
+        before { allow(User).to receive(:current).and_return current_user }
 
         context 'valid' do
           include_context 'patch request'
@@ -785,7 +775,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
 
       context 'list custom field' do
         let(:custom_field) do
-          FactoryGirl.create(:list_wp_custom_field)
+          FactoryBot.create(:list_wp_custom_field)
         end
 
         let(:target_value) { custom_field.possible_values.last }
@@ -920,6 +910,34 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
           it_behaves_like 'update conflict'
         end
       end
+
+      context 'claiming attachments' do
+        let(:old_attachment) { FactoryBot.create(:attachment, container: work_package) }
+        let(:attachment) { FactoryBot.create(:attachment, container: nil, author: current_user) }
+        let(:params) do
+          {
+            lockVersion: work_package.lock_version,
+            _links: {
+              attachments: [
+                href: api_v3_paths.attachment(attachment.id)
+              ]
+            }
+          }
+        end
+
+        before do
+          old_attachment
+        end
+
+        include_context 'patch request'
+
+        it 'replaces the current with the provided attachments' do
+          work_package.reload
+
+          expect(work_package.attachments)
+            .to match_array(attachment)
+        end
+      end
     end
   end
 
@@ -933,7 +951,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
     subject { last_response }
 
     context 'with required permissions' do
-      let(:permissions) { [:view_work_packages, :delete_work_packages] }
+      let(:permissions) { %i[view_work_packages delete_work_packages] }
 
       it 'responds with HTTP No Content' do
         expect(subject.status).to eq 204
@@ -972,9 +990,9 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
 
   describe '#post' do
     let(:path) { api_v3_paths.work_packages }
-    let(:permissions) { [:add_work_packages, :view_project] }
-    let(:status) { FactoryGirl.build(:status, is_default: true) }
-    let(:priority) { FactoryGirl.build(:priority, is_default: true) }
+    let(:permissions) { %i[add_work_packages view_project] }
+    let(:status) { FactoryBot.build(:status, is_default: true) }
+    let(:priority) { FactoryBot.build(:priority, is_default: true) }
     let(:type) { project.types.first }
     let(:parameters) do
       {
@@ -994,12 +1012,12 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
       status.save!
       priority.save!
 
-      FactoryGirl.create(:user_preference, user: current_user, others: { no_self_notified: false })
+      FactoryBot.create(:user_preference, user: current_user, others: { no_self_notified: false })
       post path, parameters.to_json, 'CONTENT_TYPE' => 'application/json'
     end
 
     context 'notifications' do
-      let(:permissions) { [:add_work_packages, :view_project, :view_work_packages] }
+      let(:permissions) { %i[add_work_packages view_project view_work_packages] }
 
       it 'sends a mail by default' do
         expect(ActionMailer::Base.deliveries.count).to eq(1)
@@ -1043,7 +1061,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
     end
 
     context 'no permissions' do
-      let(:current_user) { FactoryGirl.create(:user) }
+      let(:current_user) { FactoryBot.create(:user) }
 
       it 'should hide the endpoint' do
         expect(last_response.status).to eq(403)
@@ -1115,6 +1133,35 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
 
       it 'should not create a work package' do
         expect(WorkPackage.all.count).to eq(0)
+      end
+    end
+
+    context 'claiming attachments' do
+      let(:attachment) { FactoryBot.create(:attachment, container: nil, author: current_user) }
+      let(:parameters) do
+        {
+          subject: 'subject',
+          _links: {
+            type: {
+              href: api_v3_paths.type(project.types.first.id)
+            },
+            project: {
+              href: api_v3_paths.project(project.id)
+            },
+            attachments: [
+              href: api_v3_paths.attachment(attachment.id)
+            ]
+          }
+        }
+      end
+
+      it 'creates the work package and assigns the attachments' do
+        expect(WorkPackage.all.count).to eq(1)
+
+        work_package = WorkPackage.last
+
+        expect(work_package.attachments)
+          .to match_array(attachment)
       end
     end
   end

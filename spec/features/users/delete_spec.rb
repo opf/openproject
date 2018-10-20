@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,11 +23,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
-require 'features/projects/projects_page'
 
 describe 'user deletion: ', type: :feature, js: true do
   let(:dialog) { ::Components::PasswordConfirmationDialog.new }
@@ -39,7 +38,7 @@ describe 'user deletion: ', type: :feature, js: true do
   context 'regular user' do
     let(:user_password) {'bob!' * 4}
     let(:current_user) do
-      FactoryGirl.create(:user,
+      FactoryBot.create(:user,
                          password: user_password,
                          password_confirmation: user_password)
     end
@@ -68,10 +67,10 @@ describe 'user deletion: ', type: :feature, js: true do
   end
 
   context 'admin user' do
-    let!(:user) { FactoryGirl.create :user }
+    let!(:user) { FactoryBot.create :user }
     let(:user_password) { 'admin! * 4' }
     let(:current_user) do
-      FactoryGirl.create(:admin,
+      FactoryBot.create(:admin,
                          password: user_password,
                          password_confirmation: user_password)
     end

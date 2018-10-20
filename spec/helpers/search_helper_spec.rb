@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,13 +23,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe 'search/index', type: :helper do
-  let(:project) { FactoryGirl.create(:project) }
+  let(:project) { FactoryBot.create(:project) }
   let(:scope) { 'foobar' }
 
   before do
@@ -59,7 +59,7 @@ describe 'search/index', type: :helper do
     context 'with single token' do
       let(:tokens) { %w(token) }
       let(:title) { 'This is a token.' }
-      let(:expected_title) { 'This is a <span class="highlight token-0">token</span>.' }
+      let(:expected_title) { 'This is a <span class="search-highlight token-0">token</span>.' }
 
       it { is_expected.to eq expected_title }
     end
@@ -67,7 +67,7 @@ describe 'search/index', type: :helper do
     context 'with multiple tokens' do
       let(:tokens) { %w(token another) }
       let(:title) { 'This is a token and another token.' }
-      let(:expected_title) { 'This is a <span class="highlight token-0">token</span> and <span class="highlight token-1">another</span> <span class="highlight token-0">token</span>.' }
+      let(:expected_title) { 'This is a <span class="search-highlight token-0">token</span> and <span class="search-highlight token-1">another</span> <span class="search-highlight token-0">token</span>.' }
 
       it { is_expected.to eq expected_title }
     end
@@ -75,7 +75,7 @@ describe 'search/index', type: :helper do
     context 'with huge content' do
       let(:tokens) { %w(token) }
       let(:title) { (('1234567890' * 100) + ' token ') * 100 }
-      let(:highlighted_token) { '<span class="highlight token-0">token</span>' }
+      let(:highlighted_token) { '<span class="search-highlight token-0">token</span>' }
 
       it { expect(highlighted_title).to include highlighted_token }
 
@@ -87,7 +87,7 @@ describe 'search/index', type: :helper do
     context 'with multibyte title' do
       let(:tokens) { %w(token) }
       let(:title) { ('й' * 200) + ' token ' + ('й' * 200) }
-      let(:expected_title) { ('й' * 45) + ' ... ' + ('й' * 44) + ' <span class="highlight token-0">token</span> ' + ('й' * 44) + ' ... ' + ('й' * 45) }
+      let(:expected_title) { ('й' * 45) + ' ... ' + ('й' * 44) + ' <span class="search-highlight token-0">token</span> ' + ('й' * 44) + ' ... ' + ('й' * 45) }
 
       it { is_expected.to eq expected_title }
     end
@@ -102,7 +102,7 @@ describe 'search/index', type: :helper do
       let(:first) { 'This is a token' }
       let(:second) { 'I have some token for you' }
       let(:titles) { [first, second] }
-      let(:first_highlighted) { 'This is a <span class="highlight token-0">token</span>' }
+      let(:first_highlighted) { 'This is a <span class="search-highlight token-0">token</span>' }
 
       it { is_expected.to eq first_highlighted }
     end
@@ -111,7 +111,7 @@ describe 'search/index', type: :helper do
       let(:first) { 'This is a book' }
       let(:second) { 'I have some token for you' }
       let(:titles) { [first, second] }
-      let(:second_highlighted) { 'I have some <span class="highlight token-0">token</span> for you' }
+      let(:second_highlighted) { 'I have some <span class="search-highlight token-0">token</span> for you' }
 
       it { is_expected.to eq second_highlighted }
     end

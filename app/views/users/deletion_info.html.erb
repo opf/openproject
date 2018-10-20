@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -23,46 +23,48 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See doc/COPYRIGHT.rdoc for more details.
+See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% html_title(l(:label_administration), "#{ l('account.deletion_info.heading', name: @user.name)}") -%>
-<%= labelled_tabular_form_for(
-    :user,
-    url: user_path(@user),
-    html: {
-        method: :delete, class: 'confirm_required form danger-zone',
-        data: { :'request-for-confirmation' => '' }
-    }) do %>
-  <div class='wiki'>
-    <section class="form--section">
-      <h3 class="form--section-title">
-        <%= l('account.deletion_info.heading', name: "<em>#{h(@user.name)}</em>").html_safe %>
-      </h3>
 
-      <p>
-        <%= l("account.deletion_info.login_consequences.#{User.current == @user ? 'self' : 'other'}") %>
-      </p>
+<%= activate_angular_js do %>
+  <%= labelled_tabular_form_for(
+      :user,
+      url: user_path(@user),
+      html: {
+          method: :delete, class: 'confirm_required form danger-zone',
+          data: password_confirmation_data_attribute
+      }) do %>
+    <div class='wiki'>
+      <section class="form--section">
+        <h3 class="form--section-title">
+          <%= l('account.deletion_info.heading', name: "<em>#{h(@user.name)}</em>").html_safe %>
+        </h3>
 
-      <p>
-        <%= l("account.deletion_info.data_consequences.#{User.current == @user ? 'self' : 'other'}") %>
-      </p>
-      <p class="danger-zone--warning">
-        <span class="icon icon-error"></span>
-        <span><%= l("account.deletion_info.info.#{User.current == @user ? 'self' : 'other'}") %></span>
-      </p>
-      <p>
-        <%= l("account.deletion_info.login_verification.#{User.current == @user ? 'self' : 'other'}",
-              name: "<em class=\"danger-zone--expected-value\">#{h(@user.login)}</em>").html_safe %>
-      </p>
-      <div class="danger-zone--verification">
-        <input type="text" name="login_verification"/>
-        <%= styled_button_tag '', class: '-highlight', disabled: true do
-          concat content_tag :i, '', class: 'button--icon icon-delete'
-          concat content_tag :span, l(:button_delete), class: 'button--text'
-          end %>
-      </div>
-    </section>
-  </div>
+        <p>
+          <%= l("account.deletion_info.login_consequences.#{User.current == @user ? 'self' : 'other'}") %>
+        </p>
+
+        <p>
+          <%= l("account.deletion_info.data_consequences.#{User.current == @user ? 'self' : 'other'}") %>
+        </p>
+        <p class="danger-zone--warning">
+          <span class="icon icon-error"></span>
+          <span><%= l("account.deletion_info.info.#{User.current == @user ? 'self' : 'other'}") %></span>
+        </p>
+        <p>
+          <%= l("account.deletion_info.login_verification.#{User.current == @user ? 'self' : 'other'}",
+                name: "<em class=\"danger-zone--expected-value\">#{h(@user.login)}</em>").html_safe %>
+        </p>
+        <div class="danger-zone--verification">
+          <input type="text" name="login_verification"/>
+          <%= styled_button_tag '', class: '-highlight', disabled: true do
+            concat content_tag :i, '', class: 'button--icon icon-delete'
+            concat content_tag :span, l(:button_delete), class: 'button--text'
+            end %>
+        </div>
+      </section>
+    </div>
+  <% end %>
 <% end %>
-

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -66,8 +66,8 @@ describe Queries::WorkPackages::Filter::ProjectFilter, type: :model do
       let(:project) { nil }
 
       it 'is an array of group values' do
-        parent = FactoryGirl.build_stubbed(:project, id: 1)
-        child = FactoryGirl.build_stubbed(:project, parent: parent, id: 2)
+        parent = FactoryBot.build_stubbed(:project, id: 1)
+        child = FactoryBot.build_stubbed(:project, parent: parent, id: 2)
 
         visible_projects = [parent, child]
 
@@ -95,8 +95,8 @@ describe Queries::WorkPackages::Filter::ProjectFilter, type: :model do
     end
 
     describe '#value_objects' do
-      let(:project) { FactoryGirl.build_stubbed(:project) }
-      let(:project2) { FactoryGirl.build_stubbed(:project) }
+      let(:project) { FactoryBot.build_stubbed(:project) }
+      let(:project2) { FactoryBot.build_stubbed(:project) }
 
       before do
         allow(Project)

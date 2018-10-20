@@ -1,7 +1,8 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class TypesController < ApplicationController
@@ -43,28 +44,26 @@ class TypesController < ApplicationController
   end
 
   def new
-    @type = ::Type.new(params[:type])
-    @types = ::Type.order('position')
-    @projects = Project.all
+    @type = Type.new(params[:type])
+    load_projects_and_types
   end
 
   def create
-    service = CreateTypeService.new
-    result = service.call(permitted_params: permitted_params.type)
-    @type = service.type
+    CreateTypeService
+      .new(current_user)
+      .call(permitted_type_params, copy_workflow_from: params[:copy_workflow_from]) do |call|
 
-    if result.success?
-      # workflow copy
-      if !params[:copy_workflow_from].blank? && (copy_from = ::Type.find_by(id: params[:copy_workflow_from]))
-        @type = service.type
-        @type.workflows.copy_from_type(copy_from)
+      @type = call.result
+
+      call.on_success do
+        redirect_to_type_tab_path(@type, t(:notice_successful_create))
       end
-      flash[:notice] = t(:notice_successful_create)
-      redirect_to edit_type_tab_path(id: @type.id, tab: 'settings')
-    else
-      @types = ::Type.order('position')
-      @projects = Project.all
-      render action: 'new'
+
+      call.on_failure do |result|
+        flash[:error] = result.errors.full_messages.join("\n")
+        load_projects_and_types
+        render action: 'new'
+      end
     end
   end
 
@@ -72,30 +71,30 @@ class TypesController < ApplicationController
     if params[:tab].blank?
       redirect_to tab: :settings
     else
-      @tab = params[:tab]
-      @projects = Project.all
-      @type = ::Type.includes(:projects,
-                              :custom_fields)
-                    .find(params[:id])
+      type = ::Type
+             .includes(:projects,
+                       :custom_fields)
+             .find(params[:id])
+
+      render_edit_tab(type)
     end
   end
 
   def update
-    @tab = params["tab"] || "settings"
     @type = ::Type.find(params[:id])
 
-    # forbid renaming if it is a standard type
-    params[:type].delete :name if @type.is_standard?
+    UpdateTypeService
+      .new(@type, current_user)
+      .call(permitted_type_params) do |call|
 
-    service = UpdateTypeService.new(type: @type)
+      call.on_success do
+        redirect_to_type_tab_path(@type, t(:notice_successful_update))
+      end
 
-    result = service.call(permitted_params: permitted_params.type, unsafe_params: params[:type])
-    if result.success?
-      redirect_to(edit_type_tab_path(id: @type.id, tab: @tab),
-                  notice: t(:notice_successful_update))
-    else
-      @projects = Project.all
-      render action: 'edit'
+      call.on_failure do |result|
+        flash[:error] = result.errors.full_messages.join("\n")
+        render_edit_tab(@type)
+      end
     end
   end
 
@@ -105,7 +104,7 @@ class TypesController < ApplicationController
     if @type.update_attributes(permitted_params.type_move)
       flash[:notice] = l(:notice_successful_update)
     else
-      flash.now[:error] = l('type_could_not_be_saved')
+      flash.now[:error] = t('type_could_not_be_saved')
       render action: 'edit'
     end
     redirect_to types_path
@@ -120,16 +119,33 @@ class TypesController < ApplicationController
       @type.destroy
       flash[:notice] = l(:notice_successful_delete)
     else
-      if @type.is_standard?
-        flash[:error] = t(:error_can_not_delete_standard_type)
-      else
-        flash[:error] = t(:error_can_not_delete_type)
-      end
+      flash[:error] = if @type.is_standard?
+                        t(:error_can_not_delete_standard_type)
+                      else
+                        t(:error_can_not_delete_type)
+                      end
     end
     redirect_to action: 'index'
   end
 
   protected
+
+  def permitted_type_params
+    # having to call #to_unsafe_h as a query hash the attribute_groups
+    # parameters would otherwise still be an ActiveSupport::Parameter
+    permitted_params.type.to_unsafe_h
+  end
+
+  def load_projects_and_types
+    @types = ::Type.order('position')
+    @projects = Project.all
+  end
+
+  def redirect_to_type_tab_path(type, notice)
+    tab = params["tab"] || "settings"
+    redirect_to(edit_type_tab_path(type, tab: tab),
+                notice: notice)
+  end
 
   def default_breadcrumb
     if action_name == 'index'
@@ -137,6 +153,14 @@ class TypesController < ApplicationController
     else
       ActionController::Base.helpers.link_to(t(:label_work_package_types), types_path)
     end
+  end
+
+  def render_edit_tab(type)
+    @tab = params[:tab]
+    @projects = Project.all
+    @type = type
+
+    render action: 'edit'
   end
 
   def show_local_breadcrumb

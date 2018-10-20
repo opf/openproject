@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,21 +23,19 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe CopyProjectsController, type: :controller do
-  let(:current_user) { FactoryGirl.create(:admin) }
+  let(:current_user) { FactoryBot.create(:admin) }
   let(:redirect_path) { "/projects/#{project.id}/settings" }
   let(:permission) { :copy_projects }
-  let(:project) { FactoryGirl.create(:project_with_types, is_public: false) }
+  let(:project) { FactoryBot.create(:project_with_types, is_public: false) }
   let(:copy_project_params) {
     {
       'description' => 'Some pretty description',
-      'responsible_id' => current_user.id,
-      'project_type_id' => '',
       'enabled_module_names' => ['work_package_tracking', 'boards', ''],
       'is_public' => project.is_public,
       'type_ids' => project.types.map(&:id)
@@ -66,7 +64,7 @@ describe CopyProjectsController, type: :controller do
   end
 
   describe 'copy_from_settings without valid project' do
-    before { get 'copy_project' }
+    before { get 'copy_project', params: { id: 'invalid' } }
 
     it { expect(response.code).to eq('404') }
   end
@@ -139,7 +137,7 @@ describe CopyProjectsController, type: :controller do
     end
 
     let(:permission) { [:copy_projects, :add_project] }
-    let(:project) { FactoryGirl.create(:project, is_public: false) }
+    let(:project) { FactoryBot.create(:project, is_public: false) }
 
     it_should_behave_like 'a controller action which needs project permissions'
   end

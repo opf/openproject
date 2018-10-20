@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 ##
@@ -35,20 +35,10 @@
 # Caveats: Set +reload: true+ if you plan to modify this value, otherwise Rails may still
 # have cached the local value. This will perform a database update, but is much faster
 # than creating new records (especially, work packages).
-def shared_let(key, reload: false, &block)
-  var = "@#{key}"
+#
+# Since test-prof added `let_it_be` this is only a wrapper for it
+require 'test_prof/recipes/rspec/let_it_be'
 
-  before_all do
-    # Use instance_eval so following blocks may reference earlier ones
-    result = instance_eval &block
-    instance_variable_set(var, result)
-  end
-
-  let(key) do
-    value = instance_variable_get(var)
-    value.reload if reload
-
-    value
-  end
+def shared_let(key, reload: false, refind: false, &block)
+  let_it_be(key, reload: reload, refind: refind, &block)
 end
-

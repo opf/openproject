@@ -4,6 +4,17 @@ tr:
     ajax:
       hide: Gizle
       loading: Yükleniyor ...
+    attachments:
+      draggable_hint: 'Drag on editor field to inline image or reference attachment.
+        Closed editor fields will be opened while you keep dragging.
+
+'
+    autocomplete_select:
+      placeholder:
+        multi: '"%{name}" ekle'
+        single: '"%{name}" Seç'
+      remove: "%{name} kaldır"
+      active: Etkin %{label} %{name}
     close_popup_title: Pencereyi kapat
     close_filter_title: Filtreyi kapat
     close_form_title: Formu kapat
@@ -16,7 +27,7 @@ tr:
     button_cancel: İptal
     button_close: Kapat
     button_check_all: Tümünü işaretle
-    button_configure-form: Formu yapılandırın
+    button_configure-form: Formu yapılandır
     button_confirm: Doğrula
     button_continue: Devam et
     button_copy: Kopyala
@@ -29,7 +40,7 @@ tr:
     button_filter: Filtre
     button_list_view: Liste görünümü
     button_show_view: Tam Ekran görünümü
-    button_log_time: Günlük süresi
+    button_log_time: Zaman kaydet
     button_more: Fazlası
     button_move: Taşı
     button_open_details: Detay görünümünü aç
@@ -40,15 +51,72 @@ tr:
     button_settings: Ayarlar
     button_uncheck_all: Tüm işaretleri kaldır
     button_update: Güncelle
-    button_export-pdf: PDF İndir
-    button_export-atom: Atım İndir
+    button_export-pdf: PDF indir
+    button_export-atom: Atom indir
     description_available_columns: Kullanılabilir sütunlar
     description_current_position: 'Buradasınız:'
     description_select_work_package: "#%{id} nolu iş paketini seçin"
     description_selected_columns: Seçili Sütunlar
     description_subwork_package: "#%{id} nolu iş paketinin alt parçası"
+    editor:
+      preview: Önizleme modunu aç/kapat
+      source_code: İşaretleme kaynak modunu değiştir
+      error_saving_failed: 'Aşağıdaki nedenden dolayı belge kayıt edilemedi: %{error}'
+      mode:
+        manual: Markdown kaynağına geç
+        wysiwyg: WYSIWYG düzenleyiciye geç
+      macro:
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Viki sayfası
+          this_page: bu sayfa
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
+        code_block:
+          button: Insert code snippet
+          title: Insert / edit Code snippet
+          language: Biçimlendirme dili
+          language_hint: Enter the formatting language that will be used for highlighting
+            (if supported).
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
+        toc: İçindekiler
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
+        wiki_page_include:
+          button: Include content of another wiki page
+          text: "[Placeholder] Included wiki page of"
+          page: Viki sayfası
+          not_set: "(Page not yet set)"
+          hint: |
+            Include the content of another wiki page by specifying its title or slug.
+            You can include the wiki page of another project by separating them with a colon like the following example.
+        work_package_button:
+          button: Insert create work package button
+          type: İş paketi tipi
+          button_style: Düğme biçimini kullan
+          button_style_hint: 'Optional: Check to make macro appear as a button, not
+            as a link.'
+          without_type: İş paketini oluştur
+          with_type: İş paketini oluştur (Tür %{typename})
+        embedded_table:
+          button: Gömülü iş paketi tablosu
+          text: "[Placeholder] Embedded work package table"
+    custom_actions:
+      date:
+        specific: 'on'
+        current_date: Current date
     error:
       internal: İç hata oluştu.
+      cannot_save_changes_with_message: 'Değişikliklerinizin kaydedilememesine sebep
+        olan hata: %{error}'
+      query_saving: The view could not be saved.
+      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
     filter:
       description:
         text_open_filter: Bu filtreyi 'ALT' ve ok tuşları ile açın.
@@ -65,6 +133,8 @@ tr:
           one: İlk sıralama ölçütü
           two: İkinci sıralama ölçütü
           three: Üçüncü sıralama ölçütleri
+      upsale_for_more: Daha gelişmiş filtreler için kontrol edin
+      upsale_link: Kurumsal Sürüm.
     general_text_no: hayır
     general_text_yes: evet
     general_text_No: Hayır
@@ -75,7 +145,8 @@ tr:
       yorumu var.
     label_add_columns: Sütunlar ekle
     label_add_comment: Yorum ekle
-    label_add_comment_title: Yorum eklemek için tıklayın
+    label_add_comment_title: Yorum yapmak ve diğer kişilere bunu bildirmek için @
+      yazın
     label_add_selected_columns: Seçilen sütunları ekle
     label_added_by: ekleyen
     label_added_time_by: "%{author} %{age} tarafından eklendi"
@@ -112,6 +183,7 @@ tr:
     label_expand: Genişlet
     label_expanded: genişletilmiş
     label_expand_all: Tümünü genişlet
+    label_expand_project_menu: Proje menüsünü genişlet
     label_export: Dışarı aktar
     label_filename: Dosya
     label_filesize: Boyutu
@@ -119,10 +191,11 @@ tr:
     label_group_by: Grupla
     label_hide_attributes: Daha az göster
     label_hide_column: Sütunu gizle
+    label_hide_project_menu: Collapse project menu
     label_in: şurada
     label_in_less_than: daha azdır
     label_in_more_than: daha fazla
-    label_latest_activity: Son Etkinlik
+    label_latest_activity: En son etkinlik
     label_last_updated_on: Son güncelleme
     label_less_or_equal: "<="
     label_less_than_ago: bir haftadan kısa bir süre önce
@@ -140,6 +213,7 @@ tr:
     label_not_equals: değildir
     label_on: açık
     label_open_menu: Menüyü Aç
+    label_open_context_menu: Bağlam menüsünü aç
     label_open_work_packages: açık
     label_password: Parola
     label_previous: Önceki
@@ -153,20 +227,23 @@ tr:
     label_select_watcher: Takipçi seç...
     label_selected_filter_list: Seçilen filtreler
     label_show_attributes: Tüm öznitelikleri göster
-    label_show_in_menu: Sayfayı menüde göster
+    label_show_in_menu: Görünümü menüde göster
     label_sort_by: Sıralama şekli
     label_sorted_by: sıralayan
     label_sort_higher: Yukarı taşı
     label_sort_lower: Aşağı taşı
     label_sorting: Sıralama
+    label_star_query: Favored
+    label_press_enter_to_save: Kaydetmek için enter tuşuna basın.
+    label_public_query: Herkese Açık
     label_sum_for: Toplam
     label_subject: Konu
     label_this_week: bu hafta
     label_today: bugün
+    label_up: Yukarı
     label_activity_show_only_comments: Sadece yorumların olduğu etkinlikleri göster
     label_activity_show_all: Tüm etkinlikleri göster
     label_total_progress: Toplam ilerleme %{percent}%
-    label_visible_for_others: Sayfa diğerleri için görünsün
     label_updated_on: güncelleme tarihi
     label_warning: Uyarı
     label_work_package: İş paketi
@@ -179,8 +256,10 @@ tr:
     label_unwatch: İzleme
     label_unwatch_work_package: İş pakaketini izlemeyi bırak
     label_uploaded_by: Yükleyen
-    label_global_queries: Paylaşılan sorgular
-    label_custom_queries: Özel Sorgular
+    label_default_queries: Varsayılan görünümler
+    label_starred_queries: Gözde görünümler
+    label_global_queries: Herkese açık görünümler
+    label_custom_queries: Gizli görünümler
     label_columns: Sütunlar
     label_attachments: Dosyalar
     label_drop_files: Dosyaları buraya bırakın
@@ -192,7 +271,9 @@ tr:
     label_remove_watcher: "%{name} isimli takipçi sil"
     label_remove_all_files: Tüm dosyaları temizle
     label_add_description: "%{file} için açıklama ekle"
-    label_upload_notification: "#%{id}: %{subject} iş paketi için dosyalar yükleniyor"
+    label_upload_notification: Dosyalar yükleniyor...
+    label_work_package_upload_notification: "#%{id}: %{subject} iş paketi için dosyalar
+      yükleniyor"
     label_files_to_upload: 'Bu dosyalar yüklenecek:'
     label_rejected_files: 'Bu dosyalar yüklenemiyor:'
     label_rejected_files_reason: Dosyaların boyutu %{maximumFilesize} boyutunu aştığı
@@ -221,15 +302,17 @@ tr:
       context: Proje içeriği
       work_package_belongs_to: Bu iş paketi %{projectname} projesine ait.
       click_to_switch_context: Bu iş paketini o projede aç.
+      autocompleter:
+        label: Proje otomatik tamamlama
     text_are_you_sure: Emin misiniz?
     types:
       attribute_groups:
         error_duplicate_group_name: "%{group} ismi birden fazla kullanıldı. Grup isimleri
           eşsiz olmalıdır."
         reset_title: Form ayarlarlarını sıfırlayın
-        confirm_reset: 'Uyarı: Yapılandırmayı sıfırlamak istiyor musunuz? Bu öznitelikler
-          kendi varsayılan grup, unset görünürlüğü onay kutularını sıfırlayacak ve
-          tüm özel alanları devre dışı bırakacak.
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Enterprise Edition sürümüne yükseltme
@@ -249,20 +332,21 @@ tr:
     relation_labels:
       parent: Kaynak
       children: Çocuk
-      relates: İlişkili Oldukları
+      relates: Alakalı
       duplicates: Çoğalt
       duplicated: Yineleyen
       blocks: Şunu Engelliyor
       blocked: Şuna Bağlı
       precedes: Ilerlettiği
-      follows: Takipçiler
+      follows: Takip eden
       includes: İçerir
       partof: Bölümü
       requires: Gerektirir
       required: Tarafından gerekli
       relation_type: ilişki türü
     relations_hierarchy:
-      hierarchy_headline: hiyerarşi
+      parent_headline: Kaynak
+      children_headline: Çocuk
     relation_buttons:
       change_parent: Üstünü değiştir
       remove_parent: Üstündekini kaldır
@@ -299,6 +383,7 @@ tr:
         one: Yalnızca bir öğe seçebilirsiniz
         other: Sadece {{limit}} tane seçebilirsiniz
         zero: You cannot select any items
+    project_menu_details: Detaylar
     sort:
       sorted_asc: 'Artan sıralama, uygulandı, '
       sorted_dsc: 'Azalan sırılama uygulandı, '
@@ -309,11 +394,12 @@ tr:
       activate_no: sıralamayı kaldırmak için etkinleştir
     text_work_packages_destroy_confirmation: Seçilen çalışma paket(ler) ini silmek
       istediğinizden emin misiniz?
-    text_query_destroy_confirmation: Seçili öğeleri silmek istediğinizden emin misiniz?
+    text_query_destroy_confirmation: Seçilen görünümü silmek istediğinizden emin misiniz?
     text_attachment_destroy_confirmation: Eki silmek istediğinizden emin misiniz?
     timelines:
       gantt_chart: Gantt görünümü
       labels:
+        title: Etiket yapılandırma
         bar: Çubuk etiketleri
         left: Sol
         right: Sağ
@@ -324,11 +410,11 @@ tr:
           özellikleri yerine etiketinin görüneceğini unutmayın.
 
 '
-      button_activate: Zaman çizelgesini etkinleştir
-      button_deactivate: Zaman çizelgesini pasifleştir
+      button_activate: Show Gantt chart
+      button_deactivate: Hide Gantt chart
       cancel: İptal
       change: Planlama değişikliği
-      due_date: Teslim tarihi
+      due_date: Bitiş tarihi
       empty: "(boş)"
       error: Bir hata oluştu.
       errors:
@@ -340,29 +426,19 @@ tr:
         report_epicfail: Beklenmeyen bir hata nedeniyle zaman çizelgesi yüklenemedi.
         report_timeout: Zaman çizelgesi makul bir süre içinde yüklenemedi.
       filter:
-        column:
-          assigned_to: Atanan
-          type: Tür
-          due_date: Bitiş tarihi
-          name: İsim
-          status: Durum
-          responsible: Sorumlu
-          start_date: Başlangıç tarihi
         grouping_other: Diğer
         noneSelection: "(yok)"
       name: İsim
-      new_work_package: Yeni iş paketi
-      outline: Reset Outline
+      outline: Anahat Sıfırla
       outlines:
-        aggregation: Show aggregations only
-        level1: Expand level 1
-        level2: Expand level 2
-        level3: Expand level 3
-        level4: Expand level 4
-        level5: Expand level 5
+        aggregation: Sadece toplu gösterimler
+        level1: Düzey 1 genişletin
+        level2: Düzey 2 genişletin
+        level3: Düzey 3 genişletin
+        level4: Seviye 4 genişletin
+        level5: Seviye 5 genişletin
         all: Tümünü göster
       project_status: Proje Durumu
-      project_type: Proje türü
       really_close_dialog: Pencerenin kapanmasını ve girilen verilerinizin kaybolmasını
         istiyor musunuz?
       responsible: Sorumlu
@@ -383,6 +459,10 @@ tr:
         quarters: Üç aylık
         years: Yıl
         slider: Yakınlaştırma kaydırıcısı
+        description: 'Select the initial zoom level that should be shown when autozoom
+          is not available.
+
+'
     tl_toolbar:
       zooms: Yakınlaştırma düzeyi
       outlines: Hiyerarşi düzeyi
@@ -395,6 +475,8 @@ tr:
         da Microsoft Edge'e yükseltin.
       learn_more: Daha fazla bilgi edin
       close_warning: Bu uyarıyı yoksay.
+    upsale:
+      ee_only: Enterprise Edition özelliği
     wiki_formatting:
       strong: Kalın
       italic: İtalik
@@ -453,10 +535,13 @@ tr:
       inline_create:
         title: Listeden yeni bir iş paketi eklemek için buraya tıklayınız
       create:
+        title: Yeni iş paketi
         header: Yeni %{type}
         header_no_type: Yeni iş paketi (türü henüz ayarlanmadı)
         header_with_parent: 'Yeni %{type} (%{parent_type} #%{id} altında)'
         button: Oluştur
+      copy:
+        title: İş paketini kopyala
       hierarchy:
         show: Hiyerarşiyi göster
         hide: Hiyerarşiyi gizle
@@ -468,7 +553,7 @@ tr:
           bileşenleri gizlemek için tıklayın
       faulty_query:
         title: İş paketleri yüklenemiyor.
-        description: Hatalı olan sorgunuz işlenemedi.
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: Görüntülecek bir iş paketi bulunmuyor.
         description: Ya hiç iş paketi oluşturulmamış, ya da tüm iş paketeri filtrelenmiş.
@@ -483,7 +568,7 @@ tr:
         createdAt: Oluşturma tarihi
         description: Açıklama
         date: Tarih
-        dueDate: Teslim tarihi
+        dueDate: Bitiş tarihi
         estimatedTime: Tahmini süre
         spentTime: Harcanan zaman
         category: Kategori
@@ -499,6 +584,13 @@ tr:
         updatedAt: Güncelleme tarihi
         versionName: Sürüm
         version: Sürüm
+      default_queries:
+        latest_activity: En son etkinlik
+        created_by_me: Benim oluşturduklarım
+        assigned_to_me: Bana atananlar
+        recently_created: Son oluşturulanlar
+        all_open: Tüm açık
+        summary: Özet
       jump_marks:
         pagination: Tablo numaralandırmaya yönlendir
         label_pagination: İş paketleri tablosuna geçiş yapmak ve numaralandırma sayfasına
@@ -516,7 +608,6 @@ tr:
           özelliği devre dışı.
         hierarchy_disabled_by_group_by: Sonuşlar %{column} sütununa göre gruplandığından,
           hiyerarşi modu devre dışı.
-        hierarchy_mode: Hiyerarşi modu
         sort_ascending: Artan sırala
         sort_descending: Azalan sırala
         move_column_left: Sütunu sola taşı
@@ -525,17 +616,57 @@ tr:
         insert_columns: Sütun ekle ...
         filters: Filtreler
         display_sums: Toplamları görüntüle
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Bu görünümün başlığını düzenlemek için tıklayın.
+        rename_query_placeholder: Bu görünümüm adı
         errors:
-          unretrievable_query: URL'den sorgu alınamadı
-          not_found: Böyle bir sorgu bulunmamakta
-        text_no_results: Aranan sorgu maalesef bulunamadı.
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: Böyle bir görünüm bulunmamakta
+          duplicate_query_title: Bu isimde bir görünüm var. Yinede devam edilsin mi?
+        text_no_results: Eşleşen görünüm bulunamadı.
       table:
+        configure_button: İş paketi tablosunu kopyala
         summary: İş paketi satır tabloları ve iş paketi nitelik sütunları.
         text_inline_edit: Bu tablodaki çoğu hücre o öznitelikteki satır içi düzenleme
           işlevselliğini etkinleşirme düğmeleridir.
         text_sort_hint: Tablo başlığındaki bağlantılardan tablo sütunlarını sırayalabilir,
           gruplayabilir, yeniden düzenleyebilir, silebilir ya da ekleyebilirsiniz.
         text_select_hint: Seçim kutuları 'ALT' ve ok tuşları ile açılmalıdır.
+      table_configuration:
+        button: Bu iş paketi tablosunu yapılandır
+        choose_display_mode: Display work packages as
+        modal_title: İş paketi tablosu yapılandırma
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          view you're editing.
+        default: varsayılan
+        display_settings: Görünüm ayarları
+        default_mode: Düz liste
+        hierarchy_mode: Hiyerarşi
+        hierarchy_hint: All filtered table results will be augmented with their ancestors.
+          Hierarchies can be expanded and collapsed.
+        display_sums_hint: Display sums of all summable attributes in a row below
+          the table results.
+        show_timeline_hint: Show an interactive gantt chart on the right side of the
+          table. You can change its width by dragging the divider between table and
+          gantt chart.
+        highlighting: Highlighting
+        highlighting_mode:
+          description: Rekle vurgula
+          none: Vurgulama
+          inline: Highlighted attribute(s)
+          inline_all: All attributes
+          entire_row_by: Entire row by
+          status: Durum
+          priority: Öncelik
+          type: Tür
+        columns_help_text: Use the input above to add or remove columns to your table
+          view. You can drag and drop the columns to reorder them.
+        upsale:
+          attribute_highlighting: Need certain work packages to stand out from the
+            mass?
+          relation_columns: İş paketleri listesindeki ilişkileri görmek ister misiniz?
+          check_out_link: Enterprise sürüme bakın.
       tabs:
         overview: Genel Bakış
         activity: Etkinlik
@@ -548,6 +679,7 @@ tr:
         months: ay
     toolbar:
       settings:
+        configure_view: Görünümü yapılandır ...
         columns: Sütunlar ...
         sort_by: Şuna göre sırala ...
         group_by: Gruplandır...
@@ -558,15 +690,16 @@ tr:
         save: Kaydet
         save_as: Farklı kaydet ...
         export: Dışa aktar ...
-        publish: Yayımla...
-        page_settings: Sorguyu yeniden adlandırın ...
+        visibility_settings: Görünürlük ayarları ...
+        page_settings: Görünümü yeniden adlandır ...
         delete: Sil
       filter: Filtre
       unselected_title: İş paketi
-      search_query_label: Kaydedilmiş arama filtrelerini ara
-      search_query_title: Kaydedilmiş arama filtrelerini aramak için tıkla
+      search_query_label: Kayıtlı görünümleri ara
+      search_query_title: Kayıtlı görünümleri aramak için tıklayın
+      placeholder_query_title: Bu görünüm için bir başlık belirleyin
     modals:
-      label_settings: Sorguyu yeniden adlandırın
+      label_settings: Görünümü yeniden isimlendir
       label_name: İsim
       label_delete_page: Şu anki sayfayı sil
       button_apply: Uygula
@@ -576,13 +709,14 @@ tr:
       form_submit:
         title: Devam etmek için onaylayın
         text: Bu işlemi gerçekleştirmek istediğinizden emin misiniz?
-      upsale_relation_columns: İş paketleri listesindeki ilişkileri görmek ister misiniz?
-      upsale_relation_columns_link: Enterprise sürüme bakın.
       destroy_work_package:
         title: "%{label} için silme işlimini onaylayın"
         text: "%{label} silinecek. Emin misiniz?"
         has_children: 'İş paketi %{childUnits} alt paketlerine sahip:'
-        deletes_children: Tüm alt iş paketeri de silinecek.
+        confirm_deletion_children: I acknowledge that ALL descendants of the listed
+          work packages will be recursively removed.
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: Oluşturma başarılı.
     notice_successful_delete: Silme başarılı.
     notice_successful_update: Güncelleme başarılı.
@@ -609,6 +743,8 @@ tr:
         messages_on_field: 'Bu alan geçersiz: %{messages}'
     error_could_not_resolve_version_name: Sürüm adı çözümlenemedi
     error_could_not_resolve_user_name: Kullanıcı adı çözümlenemedi
+    error_attachment_upload: "'%{name}' dosyası yüklenemedi: %{error}"
+    error_attachment_upload_permission: Bu kaynakta dosya yüklemek için izniniz bulunmamaktadır.
     units:
       workPackage:
         one: iş paketleri

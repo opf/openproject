@@ -30,16 +30,16 @@ require 'spec_helper'
 require 'contracts/work_packages/shared_base_contract'
 
 describe WorkPackages::UpdateContract do
-  let(:project) { FactoryGirl.create(:project, is_public: false) }
-  let(:work_package) { FactoryGirl.create(:work_package, project: project) }
-  let(:user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
-  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
-  let(:permissions) { [:view_work_packages, :edit_work_packages] }
+  let(:project) { FactoryBot.create(:project, is_public: false) }
+  let(:work_package) { FactoryBot.create(:work_package, project: project) }
+  let(:user) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
+  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:permissions) { %i[view_work_packages edit_work_packages] }
 
   subject(:contract) { described_class.new(work_package, user) }
 
   it_behaves_like 'work package contract' do
-    let(:work_package) { FactoryGirl.build_stubbed(:work_package) }
+    let(:work_package) { FactoryBot.build_stubbed(:work_package) }
   end
 
   describe 'lock_version' do
@@ -71,7 +71,9 @@ describe WorkPackages::UpdateContract do
   end
 
   describe 'authorization' do
+    let(:attributes) { {} }
     before do
+      work_package.attributes = attributes
       contract.validate
     end
 
@@ -90,17 +92,37 @@ describe WorkPackages::UpdateContract do
 
       it { expect(contract.errors.symbols_for(:base)).to include(:error_unauthorized) }
     end
+
+    context 'only comment permission' do
+      let(:permissions) { %i[view_work_packages add_work_package_notes] }
+
+      context 'when only adding a journal' do
+        let(:attributes) { { journal_notes: 'some notes' } }
+
+        it 'is valid' do
+          expect(contract.errors).to be_empty
+        end
+      end
+
+      context 'when changing more than a journal' do
+        let(:attributes) { { journal_notes: 'some notes', subject: 'blubs' } }
+
+        it 'is invalid' do
+          expect(contract.errors.symbols_for(:base)).to include(:error_unauthorized)
+        end
+      end
+    end
   end
 
   describe 'project_id' do
-    let(:target_project) { FactoryGirl.create(:project) }
+    let(:target_project) { FactoryBot.create(:project) }
     let(:target_permissions) { [:move_work_packages] }
 
     before do
-      FactoryGirl.create :member,
-                         user: user,
-                         project: target_project,
-                         roles: [FactoryGirl.create(:role, permissions: target_permissions)]
+      FactoryBot.create :member,
+                        user: user,
+                        project: target_project,
+                        roles: [FactoryBot.create(:role, permissions: target_permissions)]
 
       work_package.project = target_project
 
@@ -119,8 +141,24 @@ describe WorkPackages::UpdateContract do
     end
   end
 
+  describe 'with children' do
+    context 'changing to milestone' do
+      let(:milestone) { FactoryBot.build_stubbed :type, is_milestone: true }
+
+      before do
+        work_package.type = milestone
+        allow(work_package).to receive_message_chain(:children, :any?).and_return true
+        contract.validate
+      end
+
+      it 'adds an error because cannot change to milestone with children' do
+        expect(contract.errors.symbols_for(:type)).to include(:cannot_be_milestone_due_to_children)
+      end
+    end
+  end
+
   describe 'parent_id' do
-    let(:parent) { FactoryGirl.create(:work_package) }
+    let(:parent) { FactoryBot.create(:work_package) }
 
     before do
       work_package.parent_id = parent.id
@@ -132,7 +170,7 @@ describe WorkPackages::UpdateContract do
     end
 
     context 'if the user has edit and subtasks permissions' do
-      let(:permissions) { [:edit_work_packages, :view_work_packages, :manage_subtasks] }
+      let(:permissions) { %i[edit_work_packages view_work_packages manage_subtasks] }
 
       it('is valid') do
         expect(contract.errors).to be_empty
@@ -155,7 +193,7 @@ describe WorkPackages::UpdateContract do
     end
 
     context 'with manage_subtasks permission' do
-      let(:permissions) { [:view_work_packages, :manage_subtasks] }
+      let(:permissions) { %i[view_work_packages manage_subtasks] }
 
       it('is valid') do
         expect(contract.errors).to be_empty

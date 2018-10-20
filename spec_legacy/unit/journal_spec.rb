@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 require_relative '../legacy_spec_helper'
 
@@ -59,9 +59,9 @@ describe Journal,
   end
 
   specify 'creating a journal should update the updated_on value of the parent record (touch)' do
-    @user = FactoryGirl.create(:user)
-    @project = FactoryGirl.create(:project)
-    @issue = FactoryGirl.create(:work_package, project: @project)
+    @user = FactoryBot.create(:user)
+    @project = FactoryBot.create(:project)
+    @issue = FactoryBot.create(:work_package, project: @project)
     start = @issue.updated_at
     sleep(1) # TODO: massive hack to make sure the timestamps are different. switch to timecop later
 
@@ -81,7 +81,7 @@ describe Journal,
   end
 
   specify 'setting journal fields through the journaled object for creation' do
-    @issue = FactoryGirl.create(:work_package)
+    @issue = FactoryBot.create(:work_package)
 
     @issue.add_journal @issue.author, 'Test setting fields on Journal from Issue'
     assert_difference('Journal.count') do

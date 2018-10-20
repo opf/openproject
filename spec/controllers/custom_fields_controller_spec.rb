@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,13 +23,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe CustomFieldsController, type: :controller do
-  let(:custom_field) { FactoryGirl.build(:custom_field) }
+  let(:custom_field) { FactoryBot.build_stubbed(:custom_field) }
 
   before do
     allow(@controller).to receive(:authorize)
@@ -40,6 +40,7 @@ describe CustomFieldsController, type: :controller do
   describe 'POST edit' do
     before do
       allow(CustomField).to receive(:find).and_return(custom_field)
+      allow(custom_field).to receive(:save).and_return(true)
     end
 
     describe 'WITH all ok params' do
@@ -50,7 +51,7 @@ describe CustomFieldsController, type: :controller do
       end
 
       before do
-        put :update, params: params
+        put :update, params: params.merge(id: custom_field.id)
       end
 
       it 'works' do

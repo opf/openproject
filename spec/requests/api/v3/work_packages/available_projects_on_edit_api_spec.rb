@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -33,21 +33,21 @@ describe 'API::V3::WorkPackages::AvailableProjectsOnEditAPI', type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:edit_role) do
-    FactoryGirl.create(:role, permissions: [:edit_work_packages,
+    FactoryBot.create(:role, permissions: [:edit_work_packages,
                                             :view_work_packages])
   end
   let(:move_role) do
-    FactoryGirl.create(:role, permissions: [:move_work_packages])
+    FactoryBot.create(:role, permissions: [:move_work_packages])
   end
-  let(:project) { FactoryGirl.create(:project) }
-  let(:target_project) { FactoryGirl.create(:project) }
-  let(:work_package) { FactoryGirl.create(:work_package, project: project) }
+  let(:project) { FactoryBot.create(:project) }
+  let(:target_project) { FactoryBot.create(:project) }
+  let(:work_package) { FactoryBot.create(:work_package, project: project) }
   let(:user) do
-    user = FactoryGirl.create(:user,
+    user = FactoryBot.create(:user,
                               member_in_project: project,
                               member_through_role: edit_role)
 
-    FactoryGirl.create(:member,
+    FactoryBot.create(:member,
                        user: user,
                        project: target_project,
                        roles: [move_role])
@@ -70,7 +70,7 @@ describe 'API::V3::WorkPackages::AvailableProjectsOnEditAPI', type: :request do
 
   context 'w/o the edit_work_packages permission' do
     let(:edit_role) do
-      FactoryGirl.create(:role, permissions: [:view_work_packages])
+      FactoryBot.create(:role, permissions: [:view_work_packages])
     end
 
     it { expect(last_response.status).to eq(403) }
@@ -78,7 +78,7 @@ describe 'API::V3::WorkPackages::AvailableProjectsOnEditAPI', type: :request do
 
   context 'w/o the view_work_packages permission' do
     let(:edit_role) do
-      FactoryGirl.create(:role, permissions: [:edit_work_packages])
+      FactoryBot.create(:role, permissions: [:edit_work_packages])
     end
 
     it { expect(last_response.status).to eq(404) }

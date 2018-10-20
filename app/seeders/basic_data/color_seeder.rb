@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,20 +24,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 module BasicData
   class ColorSeeder < Seeder
     def seed_data!
-      PlanningElementTypeColor.transaction do
+      Color.transaction do
         data.each do |attributes|
-          PlanningElementTypeColor.create(attributes)
+          Color.create(attributes)
         end
       end
     end
 
     def applicable?
-      PlanningElementTypeColor.all.empty?
+      Color.all.empty?
     end
 
     def not_applicable_message
@@ -46,8 +46,8 @@ module BasicData
 
     def data
       [
-        { name: I18n.t(:default_color_blue_dark),   hexcode: '#06799F' },
-        { name: I18n.t(:default_color_blue),        hexcode: '#3493B3' },
+        { name: I18n.t(:default_color_blue_dark),   hexcode: '#175A8E' },
+        { name: I18n.t(:default_color_blue),        hexcode: '#1A67A3' },
         { name: I18n.t(:default_color_blue_light),  hexcode: '#00B0F0' },
         { name: I18n.t(:default_color_green_light), hexcode: '#35C53F' },
         { name: I18n.t(:default_color_green_dark),  hexcode: '#339933' },

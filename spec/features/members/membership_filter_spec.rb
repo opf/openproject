@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,17 +23,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 feature 'group memberships through groups page', type: :feature, js: true do
-  let!(:project) { FactoryGirl.create :project, name: 'Project 1', identifier: 'project1' }
+  let!(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1' }
 
-  let(:admin)     { FactoryGirl.create :admin }
+  let(:admin)     { FactoryBot.create :admin }
   let!(:peter) do
-    FactoryGirl.create :user,
+    FactoryBot.create :user,
                        firstname: 'Peter',
                        lastname: 'Pan',
                        mail: 'foo@example.org',
@@ -43,7 +43,7 @@ feature 'group memberships through groups page', type: :feature, js: true do
   end
 
   let!(:hannibal) do
-    FactoryGirl.create :user,
+    FactoryBot.create :user,
                        firstname: 'Pan',
                        lastname: 'Hannibal',
                        mail: 'foo@example.com',
@@ -51,15 +51,16 @@ feature 'group memberships through groups page', type: :feature, js: true do
                        member_through_role: role
 
   end
-  let(:role) { FactoryGirl.create(:role, permissions: %i(add_work_packages)) }
+  let(:role) { FactoryBot.create(:role, permissions: %i(add_work_packages)) }
   let(:members_page) { Pages::Members.new project.identifier }
 
   before do
     login_as(admin)
+    members_page.visit!
+    expect_angular_frontend_initialized
   end
 
   scenario 'filters users based on some name attribute' do
-    members_page.visit!
     members_page.open_filters!
 
     members_page.search_for_name 'pan'

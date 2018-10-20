@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'features/support/components/ui_autocomplete'
@@ -49,10 +49,18 @@ module Components
         page.find(".relation-row-#{relatable.id} .wp-relations--subject-field").click
       end
 
+      def edit_relation_type(relatable, to_type:)
+        row = find_row(relatable)
+        row.find('.relation-row--type').click
+
+        expect(row).to have_selector('select.wp-inline-edit--field')
+        row.find('.wp-inline-edit--field option', text: to_type).select_option
+      end
+
       def hover_action(relatable, action)
         retry_block do
           # Focus type edit to expose buttons
-          span = page.find(".relation-row-#{relatable.id} .relation-row--type")
+          span = page.find(".relation-row-#{relatable.id} .relation-row--type", wait: 20)
           scroll_to_element(span)
           page.driver.browser.action.move_to(span.native).perform
 
@@ -89,7 +97,10 @@ module Components
 
         # Enter the query and select the child
         autocomplete = container.find(".wp-relations--autocomplete")
-        select_autocomplete(autocomplete, query: to.subject, select_text: to.subject)
+        select_autocomplete autocomplete,
+                            results_selector: '.wp-relations-autocomplete--results',
+                            query: to.subject,
+                            select_text: to.subject
 
         container.find('.wp-create-relation--save').click
 
@@ -110,6 +121,91 @@ module Components
 
       def expect_no_relation(relatable)
         expect(page).to have_no_selector('.wp-relations--subject-field', text: relatable.subject)
+      end
+
+      def add_parent(query, work_package)
+        # Locate the create row container
+        container = find('.wp-relations--parent-form')
+
+        # Enter the query and select the child
+        autocomplete = container.find(".wp-relations--autocomplete")
+        select_autocomplete autocomplete,
+                            query: query,
+                            results_selector: '.wp-relations-autocomplete--results',
+                            select_text: work_package.id
+
+        container.find('.wp-create-relation--save').click
+      end
+
+      def expect_parent(work_package)
+        expect(page).to have_selector('.wp-relations-hierarchy-subject',
+                                      text: work_package.subject,
+                                      wait: 10)
+      end
+
+      def remove_parent(work_package)
+        expect(page).to have_selector('.relation-row--parent', text: work_package.subject)
+        container = find('.relation-row--parent')
+        container.hover
+
+        container.find('.wp-relation--remove').click
+      end
+
+      def expect_not_parent(work_package)
+        expect(page).to have_no_selector('.relation-row--parent', text: work_package.subject, wait: 10)
+      end
+
+      def inline_create_child(subject_text)
+        container = find('.wp-relations--children')
+        scroll_to_and_click(container.find('.wp-inline-create-button-row .wp-inline-create--add-link'))
+
+        subject = ::WorkPackageField.new(container, 'subject')
+        subject.expect_active!
+        subject.update subject_text
+      end
+
+      def add_existing_child(work_package)
+        # Locate the create row container
+        container = find('.wp-relations--child-form')
+
+        # Enter the query and select the child
+        autocomplete = container.find(".wp-relations--autocomplete")
+        select_autocomplete autocomplete,
+                            query: work_package.id,
+                            results_selector: '.wp-relations-autocomplete--results',
+                            select_text: work_package.subject
+
+        container.find('.wp-create-relation--save').click
+      end
+
+      def expect_child(work_package)
+        container = find('wp-relations-hierarchy wp-children-query')
+
+        within container do
+          expect(page)
+            .to have_selector('.wp-table--cell-td.subject', text: work_package.subject)
+        end
+      end
+
+      def expect_not_child(work_package)
+        page.within('.work-packages-embedded-view--container') do
+          row = ".wp-row-#{work_package.id}-table"
+
+          expect(page).to have_no_selector(row)
+        end
+      end
+
+      def children_table
+        ::Pages::EmbeddedWorkPackagesTable.new find('.work-packages-embedded-view--container')
+      end
+
+      def remove_child(work_package)
+        page.within('.work-packages-embedded-view--container') do
+          row = ".wp-row-#{work_package.id}-table"
+
+          find(row).hover
+          find("#{row} .wp-table-action--unlink").click
+        end
       end
     end
   end

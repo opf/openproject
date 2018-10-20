@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -23,23 +23,17 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See doc/COPYRIGHT.rdoc for more details.
+See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <div id="workflow_form_<%= name %>" class="generic-table--container">
   <div class="generic-table--results-container">
     <table class="generic-table workflow-table transitions-<%= name %>">
-      <colgroup>
-        <col>
-        <col>
-        <col span="<%= @statuses.length%>" highlight-col>
-      </colgroup>
       <thead>
         <tr>
           <th></th>
-          <th><div class="generic-table--empty-header"></div></th>
           <th colspan="<%= @statuses.length%>">
-            <div class="generic-table--sort-header-outer -border">
+            <div class="generic-table--sort-header-outer -no-border">
               <div class="generic-table--sort-header workflow-table--header">
                 <span>
                   <%=l(:label_new_statuses_allowed)%>
@@ -51,29 +45,23 @@ See doc/COPYRIGHT.rdoc for more details.
             </div>
           </th>
         </tr>
-      </thead>
-      <tbody>
         <tr>
-          <td class="-no-border">
-            <span class="workflow-table--turned-header">
-              <%=l(:label_current_status)%>
-            </span>
-          </td>
-          <td class="-border-right"></td>
+          <th class="-table-border-bottom  -table-border-right"></th>
           <% for new_status in @statuses %>
-            <td class="workflow-table--current-status">
-              <%= link_to_function(icon_wrapper('icon-context icon-checkmark',"#{l(:label_check_uncheck_all_in_column)}"), "toggleCheckboxesBySelector('table.transitions-#{name} input.new-status-#{new_status.id}')",
-                               class: 'no-decoration-on-hover',
-                               title: "#{l(:label_check_uncheck_all_in_column)}",
-                               alt: "#{l(:label_check_uncheck_all_in_column)}") %>
-              <%=h new_status.name %>
-            </td>
+              <th class="workflow-table--current-status -table-border-top -table-border-bottom">
+                <%= link_to_function(icon_wrapper('icon-context icon-checkmark',"#{l(:label_check_uncheck_all_in_column)}"), "toggleCheckboxesBySelector('table.transitions-#{name} input.new-status-#{new_status.id}')",
+                                     class: 'no-decoration-on-hover',
+                                     title: "#{l(:label_check_uncheck_all_in_column)}",
+                                     alt: "#{l(:label_check_uncheck_all_in_column)}") %>
+                <%=h new_status.name %>
+              </th>
           <% end %>
         </tr>
+      </thead>
+      <tbody>
         <% for old_status in @statuses %>
-          <tr>
-            <td class="-no-border -border-right"></td>
-            <td class="workflow-table--current-status -border-right">
+          <tr class="-table-border-left">
+            <td class="workflow-table--current-status -table-border-right">
               <%= link_to_function(icon_wrapper('icon-context icon-checkmark',"#{l(:label_check_uncheck_all_in_row)}"), "toggleCheckboxesBySelector('table.transitions-#{name} input.old-status-#{old_status.id}')",
                                          class: 'no-decoration-on-hover',
                                          title: "#{l(:label_check_uncheck_all_in_row)}",
@@ -88,6 +76,13 @@ See doc/COPYRIGHT.rdoc for more details.
             <% end -%>
           </tr>
         <% end %>
+        <tr class="-no-highlighting">
+          <td colspan="<%= @statuses.length + 2 %>">
+                        <span class="workflow-table--turned-header">
+              <%=l(:label_current_status)%>
+            </span>
+          </td>
+        </tr>
       </tbody>
     </table>
     <div class="generic-table--header-background -no-border"></div>

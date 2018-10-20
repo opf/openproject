@@ -39,8 +39,8 @@ describe ModelContract do
            valid?: true,
            errors: ActiveModel::Errors.new(nil))
   end
-  let(:child_contract) { ChildContract.new(model) }
-  let(:grand_child_contract) { GrandChildContract.new(model) }
+  let(:child_contract) { ChildContract.new(model, nil) }
+  let(:grand_child_contract) { GrandChildContract.new(model, nil) }
 
   before do
     child_contract.child_value = 0

@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 # Root class of the API v3
@@ -39,8 +39,10 @@ module API
       mount ::API::V3::Attachments::AttachmentsAPI
       mount ::API::V3::Categories::CategoriesAPI
       mount ::API::V3::Configuration::ConfigurationAPI
+      mount ::API::V3::CustomActions::CustomActionsAPI
       mount ::API::V3::CustomOptions::CustomOptionsAPI
       mount ::API::V3::HelpTexts::HelpTextsAPI
+      mount ::API::V3::Posts::PostsAPI
       mount ::API::V3::Principals::PrincipalsAPI
       mount ::API::V3::Priorities::PrioritiesAPI
       mount ::API::V3::Projects::ProjectsAPI
@@ -55,8 +57,10 @@ module API
       mount ::API::V3::Types::TypesAPI
       mount ::API::V3::Users::UsersAPI
       mount ::API::V3::UserPreferences::UserPreferencesAPI
+      mount ::API::V3::Groups::GroupsAPI
       mount ::API::V3::Versions::VersionsAPI
       mount ::API::V3::WorkPackages::WorkPackagesAPI
+      mount ::API::V3::WikiPages::WikiPagesAPI
 
       get '/' do
         RootRepresenter.new({}, current_user: current_user)

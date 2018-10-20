@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 //++
 
 function createFieldsetToggleStateLabel(legend, text) {
@@ -33,7 +33,7 @@ function createFieldsetToggleStateLabel(legend, text) {
 
   if (toggleLabel.length === 0) {
     toggleLabel = jQuery("<span />").addClass(labelClass)
-                                    .addClass("hidden-for-sighted");
+      .addClass("hidden-for-sighted");
 
     legendLink.append(toggleLabel);
   }
@@ -66,7 +66,7 @@ function getFieldset(el) {
 
 function toggleFieldset(el) {
   var fieldset = getFieldset(el);
-  var contentArea = fieldset.find('> div');
+  var contentArea = fieldset.find('> div').not('.form--fieldset-control');
 
   fieldset.toggleClass('collapsed');
   contentArea.slideToggle('fast', null);
@@ -75,14 +75,26 @@ function toggleFieldset(el) {
 }
 
 jQuery(document).ready(function() {
-  jQuery('fieldset.form--fieldset.-collapsible').each(function() {
-    var fieldset = getFieldset(this);
+  const fieldsets = jQuery('fieldset.form--fieldset.-collapsible');
 
-    var contentArea = fieldset.find('> div');
-    if (fieldset.hasClass('collapsed')) {
-      contentArea.hide();
-    }
-
-    setFieldsetToggleState(fieldset);
+  // Toggle on click
+  fieldsets.on('click', '.form--fieldset-legend', function(evt) {
+    toggleFieldset(this);
+    evt.preventDefault();
+    evt.stopPropagation();
+    return false;
   });
+
+  // Set initial state
+  fieldsets
+    .each(function() {
+      var fieldset = getFieldset(this);
+
+      var contentArea = fieldset.find('> div');
+      if (fieldset.hasClass('collapsed')) {
+        contentArea.hide();
+      }
+
+      setFieldsetToggleState(fieldset);
+    });
 });

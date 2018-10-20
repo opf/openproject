@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -31,9 +31,9 @@ require 'spec_helper'
 describe ::API::V3::CustomOptions::CustomOptionRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:custom_option) { FactoryGirl.build_stubbed(:custom_option, custom_field: custom_field) }
-  let(:custom_field) { FactoryGirl.build_stubbed(:list_wp_custom_field) }
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:custom_option) { FactoryBot.build_stubbed(:custom_option, custom_field: custom_field) }
+  let(:custom_field) { FactoryBot.build_stubbed(:list_wp_custom_field) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
   let(:representer) do
     described_class.new(custom_option, current_user: user)
   end

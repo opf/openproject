@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,11 +24,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class UsersController < ApplicationController
   layout 'admin'
+
+  helper_method :gon
 
   before_action :disable_api
   before_action :require_admin, except: [:show, :deletion_info, :destroy]
@@ -49,6 +51,10 @@ class UsersController < ApplicationController
   # Password confirmation helpers and actions
   include Concerns::PasswordConfirmation
   before_action :check_password_confirmation, only: [:destroy]
+
+  include Concerns::UserLimits
+  before_action :enforce_user_limit, only: [:create]
+  before_action -> { enforce_user_limit flash_now: true }, only: [:new]
 
   accept_key_auth :index, :show, :create, :update, :destroy
 
@@ -86,7 +92,7 @@ class UsersController < ApplicationController
     end
 
     respond_to do |format|
-      format.html do render layout: 'base' end
+      format.html { render layout: 'no_menu' }
     end
   end
 
@@ -115,7 +121,7 @@ class UsersController < ApplicationController
       @auth_sources = AuthSource.all
 
       respond_to do |format|
-        format.html do render action: 'new' end
+        format.html { render action: 'new' }
       end
     end
   end
@@ -159,7 +165,13 @@ class UsersController < ApplicationController
 
         if @user.invited?
           # setting a password for an invited user activates them implicitly
-          @user.activate!
+          if OpenProject::Enterprise.user_limit_reached?
+            @user.register!
+            show_user_limit_warning!
+          else
+            @user.activate!
+          end
+
           send_information = true
         end
 
@@ -186,8 +198,6 @@ class UsersController < ApplicationController
         end
       end
     end
-  rescue ::ActionController::RedirectBackError
-    redirect_to controller: '/users', action: 'edit', id: @user
   end
 
   def change_status_info
@@ -202,6 +212,13 @@ class UsersController < ApplicationController
       redirect_back_or_default(action: 'edit', id: @user)
       return
     end
+
+    if (params[:unlock] || params[:activate]) && user_limit_reached?
+      show_user_limit_error!
+
+      return redirect_back_or_default(action: 'edit', id: @user)
+    end
+
     if params[:unlock]
       @user.failed_login_count = 0
       @user.activate
@@ -285,10 +302,10 @@ class UsersController < ApplicationController
        !User.current.admin?
 
       respond_to do |format|
-        format.html do render_403 end
-        format.xml  do head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' end
-        format.js   do head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' end
-        format.json do head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' end
+        format.html { render_403 }
+        format.xml  { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
+        format.js   { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
+        format.json { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
       end
 
       false
@@ -324,6 +341,6 @@ class UsersController < ApplicationController
   end
 
   def show_local_breadcrumb
-    true
+    current_user.admin?
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -32,13 +32,13 @@ require_relative '../support/shared/become_member'
 describe Group, type: :model do
   include BecomeMember
 
-  let(:group) { FactoryGirl.build(:group) }
-  let(:user) { FactoryGirl.build(:user) }
-  let(:status) { FactoryGirl.create(:status) }
-  let(:role) { FactoryGirl.create :role, permissions: [:view_work_packages] }
+  let(:group) { FactoryBot.build(:group) }
+  let(:user) { FactoryBot.build(:user) }
+  let(:status) { FactoryBot.create(:status) }
+  let(:role) { FactoryBot.create :role, permissions: [:view_work_packages] }
 
   let(:projects) do
-    projects = FactoryGirl.create_list :project_with_types, 20
+    projects = FactoryBot.create_list :project_with_types, 20
 
     projects.each do |project|
       add_user_to_project! user: group, project: project, role: role
@@ -49,7 +49,7 @@ describe Group, type: :model do
 
   let!(:work_packages) do
     projects.flat_map do |project|
-      work_packages = FactoryGirl.create_list(
+      work_packages = FactoryBot.create_list(
         :work_package,
         1,
         type: project.types.first,
@@ -64,7 +64,7 @@ describe Group, type: :model do
     end
   end
 
-  let(:users) { FactoryGirl.create_list :user, 100 }
+  let(:users) { FactoryBot.create_list :user, 100 }
 
   before do
     users.each do |user|

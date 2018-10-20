@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module NoResultsHelper
@@ -54,10 +54,10 @@ module NoResultsHelper
     action_text = custom_action_text || t('.no_results_content_text')
 
     render partial: '/common/no_results',
-            locals: {
-                      title_text:  title,
-                      action_text: display_action ? action_text : '',
-                      action_url:  action_url || ''
-                    }
+           locals: {
+             title_text:  title,
+             action_text: display_action ? action_text : '',
+             action_url:  action_url || ''
+           }
   end
 end

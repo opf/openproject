@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -70,7 +70,7 @@ describe HomescreenController, type: :controller do
 
       it 'shows the news when available' do
         expect(News).to receive(:latest).with(any_args)
-          .and_return(FactoryGirl.build_stubbed_list(:news, 5, created_on: Time.now))
+          .and_return(FactoryBot.build_stubbed_list(:news, 5, created_on: Time.now))
 
         get :index
         expect(response).to render_template(partial: 'homescreen/blocks/_news')
@@ -81,7 +81,7 @@ describe HomescreenController, type: :controller do
       end
 
       context 'with enabled announcement' do
-        let!(:announcement) { FactoryGirl.create :active_announcement }
+        let!(:announcement) { FactoryBot.create :active_announcement }
         it 'renders the announcement' do
           expect(response).to render_template(partial: 'announcements/_show')
         end
@@ -109,14 +109,14 @@ describe HomescreenController, type: :controller do
   end
 
   context 'with admin' do
-    let(:user) { FactoryGirl.build(:admin) }
+    let(:user) { FactoryBot.build(:admin) }
     it_behaves_like 'renders blocks' do
       let(:shown) { all_blocks }
     end
   end
 
   context 'regular user' do
-    let(:user) { FactoryGirl.build(:user) }
+    let(:user) { FactoryBot.build(:user) }
     it_behaves_like 'renders blocks' do
       let(:shown) { all_blocks - %w(administration users) }
     end

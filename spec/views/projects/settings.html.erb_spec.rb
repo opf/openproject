@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,13 +23,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
-describe 'projects/settings', type: :view do
-  let(:project) { FactoryGirl.create(:project) }
+describe 'project_settings/show', type: :view do
+  let(:project) { FactoryBot.build_stubbed(:project) }
 
   describe 'project copy permission' do
     before do
@@ -61,7 +61,7 @@ describe 'projects/settings', type: :view do
   end
 
   context 'User.current is admin' do
-    let(:admin) { FactoryGirl.build :admin }
+    let(:admin) { FactoryBot.build_stubbed :admin }
 
     before do
       assign(:project, project)
@@ -78,12 +78,13 @@ describe 'projects/settings', type: :view do
   end
 
   context 'User.current is non-admin' do
-    let(:non_admin) { FactoryGirl.create :user }
+    let(:non_admin) { FactoryBot.build_stubbed :user }
 
     before do
       assign(:project, project)
       allow(project).to receive(:copy_allowed?).and_return(true)
       allow(User).to receive(:current).and_return(non_admin)
+      allow(view).to receive(:render_tabs).and_return('')
       render
     end
 

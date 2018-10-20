@@ -9,10 +9,11 @@ require 'open_project/authentication/strategies/warden/session'
 WS = OpenProject::Authentication::Strategies::Warden
 
 strategies = [
-  [:basic_auth_failure, WS::BasicAuthFailure, 'Basic'],
-  [:global_basic_auth,  WS::GlobalBasicAuth,  'Basic'],
-  [:user_basic_auth,    WS::UserBasicAuth,    'Basic'],
-  [:session,            WS::Session,          'Session']
+  [:basic_auth_failure, WS::BasicAuthFailure,  'Basic'],
+  [:global_basic_auth,  WS::GlobalBasicAuth,   'Basic'],
+  [:user_basic_auth,    WS::UserBasicAuth,     'Basic'],
+  [:anonymous_fallback, WS::AnonymousFallback, 'Basic'],
+  [:session,            WS::Session,           'Session']
 ]
 
 strategies.each do |name, clazz, auth_scheme|
@@ -25,5 +26,5 @@ api_v3_options = {
   store: false
 }
 OpenProject::Authentication.update_strategies(API_V3, api_v3_options) do |_strategies|
-  [:global_basic_auth, :user_basic_auth, :basic_auth_failure, :session]
+  %i[global_basic_auth user_basic_auth basic_auth_failure session anonymous_fallback]
 end

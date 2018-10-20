@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module Components
@@ -41,14 +41,17 @@ module Components
       end
 
       def enable_via_menu(name)
-        SettingsMenu.new.open_and_choose('Group by ...')
+        modal = TableConfigurationModal.new
 
-        select name, from: 'selected_columns_new'
-        click_button 'Apply'
+        modal.open_and_set_display_mode 'grouped'
+        select name, from: 'selected_grouping'
+        modal.save
       end
 
       def disable_via_menu
-        enable_via_menu '-'
+        modal = TableConfigurationModal.new
+        modal.open_and_set_display_mode 'default'
+        modal.save
       end
 
       def expect_not_grouped_by(name)

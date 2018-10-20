@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,28 +23,28 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe WorkPackage, type: :model do
   describe '#journal' do
-    let(:type) { FactoryGirl.create :type }
+    let(:type) { FactoryBot.create :type }
     let(:project) do
-      FactoryGirl.create :project,
-                         types: [type]
+      FactoryBot.create :project,
+                        types: [type]
     end
-    let(:status) { FactoryGirl.create :default_status }
-    let(:priority) { FactoryGirl.create :priority }
+    let(:status) { FactoryBot.create :default_status }
+    let(:priority) { FactoryBot.create :priority }
     let(:work_package) do
-      FactoryGirl.create(:work_package,
-                         project_id: project.id,
-                         type: type,
-                         description: 'Description',
-                         priority: priority)
+      FactoryBot.create(:work_package,
+                        project_id: project.id,
+                        type: type,
+                        description: 'Description',
+                        priority: priority)
     end
-    let(:current_user) { FactoryGirl.create(:user) }
+    let(:current_user) { FactoryBot.create(:user) }
 
     before do
       allow(User).to receive(:current).and_return current_user
@@ -98,11 +98,11 @@ describe WorkPackage, type: :model do
       let(:description) { "Description\n\nwith newlines\n\nembedded" }
       let(:changed_description) { description.gsub("\n", "\r\n") }
       let!(:work_package_1) do
-        FactoryGirl.create(:work_package,
-                           project_id: project.id,
-                           type: type,
-                           description: description,
-                           priority: priority)
+        FactoryBot.create(:work_package,
+                          project_id: project.id,
+                          type: type,
+                          description: description,
+                          priority: priority)
       end
 
       before do
@@ -131,18 +131,18 @@ describe WorkPackage, type: :model do
 
       context 'when there is a legacy journal containing non-escaped newlines' do
         let!(:work_package_journal_1) do
-          FactoryGirl.create(:work_package_journal,
-                             journable_id: work_package_1.id,
-                             version: 2,
-                             data: FactoryGirl.build(:journal_work_package_journal,
-                                                     description: description))
+          FactoryBot.create(:work_package_journal,
+                            journable_id: work_package_1.id,
+                            version: 2,
+                            data: FactoryBot.build(:journal_work_package_journal,
+                                                   description: description))
         end
         let!(:work_package_journal_2) do
-          FactoryGirl.create(:work_package_journal,
-                             journable_id: work_package_1.id,
-                             version: 3,
-                             data: FactoryGirl.build(:journal_work_package_journal,
-                                                     description: changed_description))
+          FactoryBot.create(:work_package_journal,
+                            journable_id: work_package_1.id,
+                            version: 3,
+                            data: FactoryBot.build(:journal_work_package_journal,
+                                                   description: changed_description))
         end
 
         subject { work_package_1.journals.reload.last.details }
@@ -153,14 +153,14 @@ describe WorkPackage, type: :model do
 
     context 'on work package change' do
       let(:parent_work_package) do
-        FactoryGirl.create(:work_package,
-                           project_id: project.id,
-                           type: type,
-                           priority: priority)
+        FactoryBot.create(:work_package,
+                          project_id: project.id,
+                          type: type,
+                          priority: priority)
       end
-      let(:type_2) { FactoryGirl.create :type }
-      let(:status_2) { FactoryGirl.create :status }
-      let(:priority_2) { FactoryGirl.create :priority }
+      let(:type_2) { FactoryBot.create :type }
+      let(:status_2) { FactoryBot.create :status }
+      let(:priority_2) { FactoryBot.create :priority }
 
       before do
         project.types << type_2
@@ -226,13 +226,13 @@ describe WorkPackage, type: :model do
         before do
           allow(WorkPackages::UpdateContract).to receive(:new).and_return(NoopContract.new)
           service = WorkPackages::UpdateService.new(user: current_user, work_package: work_package)
-          service.call(attributes: { journal_notes: 'note to be deleted' })
+          service.call(attributes: { journal_notes: 'note to be deleted' }, send_notifications: false)
           work_package.reload
-          service.call(attributes: { description: 'description v2' })
+          service.call(attributes: { description: 'description v2' }, send_notifications: false)
           work_package.reload
           work_package.journals.reload.find_by(notes: 'note to be deleted').delete
 
-          service.call(attributes: { description: 'description v4' })
+          service.call(attributes: { description: 'description v4' }, send_notifications: false)
         end
 
         it 'should create a journal for the last change' do
@@ -244,7 +244,7 @@ describe WorkPackage, type: :model do
     end
 
     context 'attachments' do
-      let(:attachment) { FactoryGirl.build :attachment }
+      let(:attachment) { FactoryBot.build :attachment }
       let(:attachment_id) { "attachments_#{attachment.id}" }
 
       before do
@@ -286,11 +286,11 @@ describe WorkPackage, type: :model do
     end
 
     context 'custom values' do
-      let(:custom_field) { FactoryGirl.create :work_package_custom_field }
+      let(:custom_field) { FactoryBot.create :work_package_custom_field }
       let(:custom_value) do
-        FactoryGirl.build :custom_value,
-                          value: 'false',
-                          custom_field: custom_field
+        FactoryBot.build :custom_value,
+                         value: 'false',
+                         custom_field: custom_field
       end
 
       let(:custom_field_id) { "custom_fields_#{custom_value.custom_field_id}" }
@@ -319,9 +319,9 @@ describe WorkPackage, type: :model do
         include_context 'work package with custom value'
 
         let(:modified_custom_value) do
-          FactoryGirl.create :custom_value,
-                             value: 'true',
-                             custom_field: custom_field
+          FactoryBot.create :custom_value,
+                            value: 'true',
+                            custom_field: custom_field
         end
         before do
           work_package.custom_values = [modified_custom_value]
@@ -339,9 +339,9 @@ describe WorkPackage, type: :model do
         include_context 'work package with custom value'
 
         let(:unmodified_custom_value) do
-          FactoryGirl.create :custom_value,
-                             value: 'false',
-                             custom_field: custom_field
+          FactoryBot.create :custom_value,
+                            value: 'false',
+                            custom_field: custom_field
         end
         before do
           @original_journal_count = work_package.journals.reload.count
@@ -373,16 +373,16 @@ describe WorkPackage, type: :model do
 
       context 'custom value did not exist before' do
         let(:custom_field) do
-          FactoryGirl.create :work_package_custom_field,
-                             is_required: false,
-                             field_format: 'list',
-                             possible_values: ['', '1', '2', '3', '4', '5', '6', '7']
+          FactoryBot.create :work_package_custom_field,
+                            is_required: false,
+                            field_format: 'list',
+                            possible_values: ['', '1', '2', '3', '4', '5', '6', '7']
         end
         let(:custom_value) do
-          FactoryGirl.create :custom_value,
-                             value: '',
-                             customized: work_package,
-                             custom_field: custom_field
+          FactoryBot.create :custom_value,
+                            value: '',
+                            customized: work_package,
+                            custom_field: custom_field
         end
 
         describe 'empty values are recognized as unchanged' do
@@ -407,39 +407,39 @@ describe WorkPackage, type: :model do
       Status.delete_all
       IssuePriority.delete_all
 
-      @type ||= FactoryGirl.create(:type_feature)
+      @type ||= FactoryBot.create(:type_feature)
 
-      @status_resolved ||= FactoryGirl.create(:status, name: 'Resolved', is_default: false)
-      @status_open ||= FactoryGirl.create(:status, name: 'Open', is_default: true)
-      @status_rejected ||= FactoryGirl.create(:status, name: 'Rejected', is_default: false)
+      @status_resolved ||= FactoryBot.create(:status, name: 'Resolved', is_default: false)
+      @status_open ||= FactoryBot.create(:status, name: 'Open', is_default: true)
+      @status_rejected ||= FactoryBot.create(:status, name: 'Rejected', is_default: false)
 
-      role = FactoryGirl.create(:role)
-      FactoryGirl.create(:workflow,
-                         old_status: @status_open,
-                         new_status: @status_resolved,
-                         role: role,
-                         type_id: @type.id)
-      FactoryGirl.create(:workflow,
-                         old_status: @status_resolved,
-                         new_status: @status_rejected,
-                         role: role,
-                         type_id: @type.id)
+      role = FactoryBot.create(:role)
+      FactoryBot.create(:workflow,
+                        old_status: @status_open,
+                        new_status: @status_resolved,
+                        role: role,
+                        type_id: @type.id)
+      FactoryBot.create(:workflow,
+                        old_status: @status_resolved,
+                        new_status: @status_rejected,
+                        role: role,
+                        type_id: @type.id)
 
-      @priority_low ||= FactoryGirl.create(:priority_low, is_default: true)
-      @priority_high ||= FactoryGirl.create(:priority_high)
-      @project ||= FactoryGirl.create(:project, no_types: true, types: [@type])
+      @priority_low ||= FactoryBot.create(:priority_low, is_default: true)
+      @priority_high ||= FactoryBot.create(:priority_high)
+      @project ||= FactoryBot.create(:project, no_types: true, types: [@type])
 
-      @current = FactoryGirl.create(:user, login: 'user1', mail: 'user1@users.com')
+      @current = FactoryBot.create(:user, login: 'user1', mail: 'user1@users.com')
       allow(User).to receive(:current).and_return(@current)
       @project.add_member!(@current, role)
 
-      @user2 = FactoryGirl.create(:user, login: 'user2', mail: 'user2@users.com')
+      @user2 = FactoryBot.create(:user, login: 'user2', mail: 'user2@users.com')
 
-      @issue ||= FactoryGirl.create(:work_package,
-                                    project: @project,
-                                    status: @status_open,
-                                    type: @type,
-                                    author: @current)
+      @issue ||= FactoryBot.create(:work_package,
+                                   project: @project,
+                                   status: @status_open,
+                                   type: @type,
+                                   author: @current)
     end
 
     describe 'ignore blank to blank transitions' do
@@ -448,6 +448,7 @@ describe WorkPackage, type: :model do
         @issue.save!
 
         @issue.description = ''
+        @issue.save!
         expect(@issue.send(:incremental_journal_changes)).to be_empty
       end
     end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -31,21 +31,20 @@ require 'spec_helper'
 describe ::API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresenter, clear_cache: true do
   include ::API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryGirl.build_stubbed(:project) }
-  let(:query) { FactoryGirl.build_stubbed(:query, project: project) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:query) { FactoryBot.build_stubbed(:query, project: project) }
   let(:custom_field) do
-    cf = FactoryGirl.build_stubbed(:list_wp_custom_field)
+    cf = FactoryBot.build_stubbed(:list_wp_custom_field)
 
     allow(cf)
       .to receive(:custom_options)
-      .and_return([FactoryGirl.build_stubbed(:custom_option),
-                   FactoryGirl.build_stubbed(:custom_option)])
+      .and_return([FactoryBot.build_stubbed(:custom_option),
+                   FactoryBot.build_stubbed(:custom_option)])
     cf
   end
   let(:filter) do
-    filter = Queries::WorkPackages::Filter::CustomFieldFilter.new(context: query)
-    filter.custom_field = custom_field
-    filter
+    Queries::WorkPackages::Filter::CustomFieldFilter.from_custom_field! custom_field: custom_field,
+                                                                        context: query
   end
   let(:form_embedded) { false }
 
@@ -99,6 +98,7 @@ describe ::API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresenter, c
 
       before do
         # fill the cache
+        instance.extend(API::V3::Queries::Schemas::CustomFieldJsonCacheKeyMixin)
         instance.to_json
       end
 
@@ -136,6 +136,16 @@ describe ::API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresenter, c
         I18n.with_locale(:de) do
           instance.to_json
         end
+      end
+
+      it 'busts the cache on different form_embedded' do
+        embedded_instance = described_class.new(filter,
+                                                operator,
+                                                form_embedded: !form_embedded)
+        expect(embedded_instance)
+          .to receive(:to_hash)
+
+        embedded_instance.to_json
       end
     end
   end

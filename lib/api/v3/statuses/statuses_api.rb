@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'api/v3/statuses/status_collection_representer'
@@ -37,24 +37,25 @@ module API
         resources :statuses do
           before do
             authorize(:view_work_packages, global: true)
-
-            @statuses = Status.all
           end
 
           get do
-            StatusCollectionRepresenter.new(@statuses,
+            StatusCollectionRepresenter.new(Status.all,
                                             api_v3_paths.statuses,
                                             current_user: current_user)
           end
 
           route_param :id do
-            before do
-              status = Status.find(params[:id])
-              @representer = StatusRepresenter.new(status, current_user: current_user)
+            helpers do
+              # Note that naming the method #status or having
+              # a variable named @status colides with grape.
+              def work_package_status
+                Status.find(params[:id])
+              end
             end
 
             get do
-              @representer
+              StatusRepresenter.new(work_package_status, current_user: current_user)
             end
           end
         end

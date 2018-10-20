@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require_dependency 'token/base'
@@ -37,7 +37,15 @@ module Token
     ##
     # Invitation tokens are valid for one day.
     def self.validity_time
-      1.day
+      (Setting.invitation_expiration_days || 1).days
     end
+
+    ##
+    # Don't delete expired invitation tokens. Each user can have at most one anyway
+    # and we don't want that one to be deleted. Instead when the user tries to activate
+    # their account using the expired token the activation will fail due to it being
+    # expired. A new invitation token will be generated which deletes the expired one
+    # implicitly.
+    def delete_expired_tokens; end
   end
 end

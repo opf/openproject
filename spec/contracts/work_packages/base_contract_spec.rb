@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,22 +23,22 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe WorkPackages::BaseContract do
   let(:work_package) do
-    FactoryGirl.build_stubbed(:stubbed_work_package,
+    FactoryBot.build_stubbed(:stubbed_work_package,
                               type: type,
                               done_ratio: 50,
                               estimated_hours: 6.0,
                               project: project)
   end
-  let(:type) { FactoryGirl.build_stubbed(:type) }
+  let(:type) { FactoryBot.build_stubbed(:type) }
   let(:member) do
-    u = FactoryGirl.build_stubbed(:user)
+    u = FactoryBot.build_stubbed(:user)
 
     allow(u)
       .to receive(:allowed_to?)
@@ -53,7 +53,7 @@ describe WorkPackages::BaseContract do
 
     u
   end
-  let(:project) { FactoryGirl.build_stubbed(:project) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
   let(:current_user) { member }
   let(:permissions) do
     %i(
@@ -237,7 +237,7 @@ describe WorkPackages::BaseContract do
 
     context 'before soonest start date of parent' do
       before do
-        work_package.parent = FactoryGirl.build_stubbed(:work_package)
+        work_package.parent = FactoryBot.build_stubbed(:work_package)
         allow(work_package)
           .to receive(:soonest_start)
           .and_return(Date.today + 4.days)
@@ -257,9 +257,21 @@ describe WorkPackages::BaseContract do
     end
   end
 
-  describe 'due date' do
+  describe 'finish date' do
     it_behaves_like 'a parent unwritable property', :due_date
     it_behaves_like 'a date attribute', :due_date
+
+    it 'returns an error when trying to set it before the start date' do
+      work_package.start_date = Date.today + 2.days
+      work_package.due_date = Date.today
+
+      contract.validate
+
+      message = I18n.t('activerecord.errors.messages.greater_than_or_equal_to_start_date')
+
+      expect(contract.errors[:due_date])
+        .to include message
+    end
   end
 
   describe 'percentage done' do
@@ -287,8 +299,8 @@ describe WorkPackages::BaseContract do
   describe 'fixed_version' do
     subject(:contract) { described_class.new(work_package, current_user) }
 
-    let(:assignable_version) { FactoryGirl.build_stubbed(:version) }
-    let(:invalid_version) { FactoryGirl.build_stubbed(:version) }
+    let(:assignable_version) { FactoryBot.build_stubbed(:version) }
+    let(:invalid_version) { FactoryBot.build_stubbed(:version) }
 
     before do
       allow(work_package)
@@ -319,7 +331,7 @@ describe WorkPackages::BaseContract do
     end
 
     context 'for a closed version' do
-      let(:assignable_version) { FactoryGirl.build_stubbed(:version, status: 'closed') }
+      let(:assignable_version) { FactoryBot.build_stubbed(:version, status: 'closed') }
 
       context 'when reopening a work package' do
         before do
@@ -350,8 +362,8 @@ describe WorkPackages::BaseContract do
   end
 
   describe 'parent' do
-    let(:child) { FactoryGirl.build_stubbed(:stubbed_work_package) }
-    let(:parent) { FactoryGirl.build_stubbed(:stubbed_work_package) }
+    let(:child) { FactoryBot.build_stubbed(:stubbed_work_package) }
+    let(:parent) { FactoryBot.build_stubbed(:stubbed_work_package) }
 
     before do
       work_package.parent = parent
@@ -387,7 +399,7 @@ describe WorkPackages::BaseContract do
           .and_return(from_parent_stub)
 
         allow(from_parent_stub)
-          .to receive_message_chain(:non_reflexive, :exists?)
+          .to receive_message_chain(:direct, :exists?)
           .and_return(true)
       end
 
@@ -416,7 +428,7 @@ describe WorkPackages::BaseContract do
       end
 
       describe 'changing the type' do
-        let(:other_type) { FactoryGirl.build_stubbed(:type) }
+        let(:other_type) { FactoryBot.build_stubbed(:type) }
 
         it 'is invalid' do
           work_package.type = other_type
@@ -429,7 +441,7 @@ describe WorkPackages::BaseContract do
       end
 
       describe 'changing the project (and that one not having the type)' do
-        let(:other_project) { FactoryGirl.build_stubbed(:project) }
+        let(:other_project) { FactoryBot.build_stubbed(:project) }
 
         it 'is invalid' do
           work_package.project = other_project
@@ -444,7 +456,7 @@ describe WorkPackages::BaseContract do
   end
 
   describe 'category' do
-    let(:category) { FactoryGirl.build_stubbed(:category) }
+    let(:category) { FactoryBot.build_stubbed(:category) }
 
     context "one of the project's categories" do
       before do
@@ -508,8 +520,8 @@ describe WorkPackages::BaseContract do
   end
 
   describe 'priority' do
-    let (:active_priority) { FactoryGirl.build_stubbed(:priority) }
-    let (:inactive_priority) { FactoryGirl.build_stubbed(:priority, active: false) }
+    let (:active_priority) { FactoryBot.build_stubbed(:priority) }
+    let (:inactive_priority) { FactoryBot.build_stubbed(:priority, active: false) }
 
     context 'active priority' do
       before do
@@ -553,9 +565,9 @@ describe WorkPackages::BaseContract do
   end
 
   describe 'status' do
-    let(:roles) { [FactoryGirl.build_stubbed(:role)] }
+    let(:roles) { [FactoryBot.build_stubbed(:role)] }
     let(:valid_transition_result) { true }
-    let(:new_status) { FactoryGirl.build_stubbed(:status) }
+    let(:new_status) { FactoryBot.build_stubbed(:status) }
     let(:from_id) { work_package.status_id }
     let(:to_id) { new_status.id }
     let(:status_change) { work_package.status = new_status }
@@ -607,7 +619,7 @@ describe WorkPackages::BaseContract do
       let(:valid_transition_result) { false }
       let(:status_change) do
         work_package.status = new_status
-        work_package.type = FactoryGirl.build_stubbed(:type)
+        work_package.type = FactoryBot.build_stubbed(:type)
       end
 
       it 'is valid' do

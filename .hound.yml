@@ -1,6 +1,0 @@
-ruby:
-  enabled: true
-  config_file: .rubocop.yml
-java_script:
-  enabled: true
-  config_file: ./frontend/.jshintrc

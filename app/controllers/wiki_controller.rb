@@ -1,7 +1,8 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'diff'
@@ -42,35 +43,37 @@ require 'htmldiff'
 # * destroy - normal
 #
 # Other member and collection methods are also used
-#
-# TODO: still being worked on
 class WikiController < ApplicationController
   default_search_scope :wiki_pages
   before_action :find_wiki, :authorize
-  before_action :find_existing_page, only: [:edit_parent_page,
-                                            :update_parent_page,
-                                            :rename,
-                                            :protect,
-                                            :history,
-                                            :diff,
-                                            :annotate,
-                                            :add_attachment,
-                                            :list_attachments,
-                                            :destroy]
-  before_action :build_wiki_page_and_content, only: [:new, :create]
+  before_action :find_existing_page, only: %i[edit_parent_page
+                                              update_parent_page
+                                              rename
+                                              protect
+                                              history
+                                              diff
+                                              annotate
+                                              add_attachment
+                                              list_attachments
+                                              destroy]
+  before_action :build_wiki_page_and_content, only: %i[new create]
 
   verify method: :post, only: [:protect], redirect_to: { action: :show }
-  verify method: :get,  only: [:new, :new_child], render: { nothing: true, status: :method_not_allowed }
-  verify method: :post, only: :create,            render: { nothing: true, status: :method_not_allowed }
+  verify method: :get,  only: %i[new new_child], render: { nothing: true, status: :method_not_allowed }
+  verify method: :post, only: :create, render: { nothing: true, status: :method_not_allowed }
 
   include AttachmentsHelper
   include PaginationHelper
-  include OpenProject::Concerns::Preview
+  include Redmine::MenuManager::WikiMenuHelper
 
   attr_reader :page, :related_page
 
   current_menu_item :index do |controller|
     controller.current_menu_item_sym :related_page
+  end
+
+  current_menu_item :new_child do |controller|
+    controller.current_menu_item_sym :parent_page
   end
 
   current_menu_item do |controller|
@@ -92,8 +95,7 @@ class WikiController < ApplicationController
     @pages_by_date = @pages.group_by { |p| p.updated_on.to_date }
   end
 
-  def new
-  end
+  def new; end
 
   def new_child
     find_existing_page
@@ -112,9 +114,9 @@ class WikiController < ApplicationController
 
     @content.attributes = permitted_params.wiki_content
     @content.author = User.current
+    @page.attach_files(permitted_params.attachments.to_h)
 
     if @page.save
-      attachments = Attachment.attach_files(@page, permitted_params.attachments.to_h)
       render_attachment_warning_if_needed(@page)
       call_hook(:controller_wiki_edit_after_save, params: params, page: @page)
       flash[:notice] = l(:notice_successful_create)
@@ -126,16 +128,11 @@ class WikiController < ApplicationController
 
   # display a page (in editing mode if it doesn't exist)
   def show
-    # TODO FIXME OMG! this is the ugliest hack I ever performed
-    # We need to hide the clearfix in the wiki to avoid additional spacing in the wiki
-    # THIS HACK NEEDS TO BE REPLACED BY AN ENGINEERS SOLUTION!
-    @no_clearfix = true
-
     @page = @wiki.find_or_new_page(wiki_page_title)
     if @page.new_record?
       if User.current.allowed_to?(:edit_wiki_pages, @project) && editable?
         edit
-        render action: 'edit'
+        render action: 'new'
       else
         render_404
       end
@@ -147,15 +144,9 @@ class WikiController < ApplicationController
       return
     end
     @content = @page.content_for_version(params[:version])
-    if User.current.allowed_to?(:export_wiki_pages, @project)
-      if params[:format] == 'html'
-        export = render_to_string action: 'export', layout: false
-        send_data(export, type: 'text/html', filename: "#{@page.title}.html")
-        return
-      elsif params[:format] == 'txt'
-        send_data(@content.text, type: 'text/plain', filename: "#{@page.title}.txt")
-        return
-      end
+    if params[:format] == 'markdown' && User.current.allowed_to?(:export_wiki_pages, @project)
+      send_data(@content.text, type: 'text/plain', filename: "#{@page.title}.md")
+      return
     end
     @editable = editable?
   end
@@ -167,7 +158,6 @@ class WikiController < ApplicationController
     @page.content = WikiContent.new(page: @page) if @page.new_record?
 
     @content = @page.content_for_version(params[:version])
-    @content.text = initial_page_content(@page) if @content.text.blank?
     # don't keep previous comment
     @content.comments = nil
 
@@ -175,43 +165,30 @@ class WikiController < ApplicationController
     @content.lock_version = @page.content.lock_version
   end
 
-  verify method: :put, only: :update, render: { nothing: true, status: :method_not_allowed }
   # Creates a new page or updates an existing one
   def update
-    @page = @wiki.find_or_new_page(wiki_page_title)
-    unless editable?
-      flash[:error] = l(:error_unable_update_wiki)
-      return render_403
-    end
+    @old_title = params[:id]
+    @page = @wiki.find_page(@old_title)
+    render_404 if @page.nil?
+    @content = @page.content
+    return if locked?
 
-    @page.content = WikiContent.new(page: @page) if @page.new_record?
+    @page.attach_files(permitted_params.attachments.to_h)
 
-    @content = @page.content_for_version(params[:version])
-    @content.text = initial_page_content(@page) if @content.text.blank?
-    # don't keep previous comment
-    @content.comments = nil
-
-    if !@page.new_record? && params[:content].present? && @content.text == params[:content][:text]
-      attachments = Attachment.attach_files(@page, permitted_params.attachments.to_h)
-      render_attachment_warning_if_needed(@page)
-      # don't save if text wasn't changed
-      redirect_to_show
-      return
-    end
+    @page.title = permitted_params.wiki_page[:title]
+    @page.parent_id = permitted_params.wiki_page[:parent_id].presence
     @content.attributes = permitted_params.wiki_content
     @content.author = User.current
     @content.add_journal User.current, params['content']['comments']
-    # if page is new @page.save will also save content, but not if page isn't a new record
-    if @page.new_record? ? @page.save : @content.save
-      attachments = Attachment.attach_files(@page, permitted_params.attachments.to_h)
+
+    if @page.save_with_content
       render_attachment_warning_if_needed(@page)
-      call_hook(:controller_wiki_edit_after_save,  params: params, page: @page)
+      call_hook(:controller_wiki_edit_after_save, params: params, page: @page)
       flash[:notice] = l(:notice_successful_update)
       redirect_to_show
     else
       render action: 'edit'
     end
-
   rescue ActiveRecord::StaleObjectError
     # Optimistic locking exception
     flash.now[:error] = l(:notice_locking_conflict)
@@ -256,7 +233,7 @@ class WikiController < ApplicationController
 
   def wiki_root_menu_items
     MenuItems::WikiMenuItem
-      .where(parent_id: nil)
+      .main_items(@wiki.id)
       .map { |it| OpenStruct.new name: it.name, caption: it.title, item: it }
   end
 
@@ -285,7 +262,10 @@ class WikiController < ApplicationController
   # show page history
   def history
     # don't load text
-    @versions = @page.content.versions.select('id, user_id, notes, created_at, version')
+    @versions = @page
+                .content
+                .versions
+                .select(:id, :user_id, :notes, :created_at, :version)
                 .order('version DESC')
                 .page(params[:page])
                 .per_page(per_page_param)
@@ -294,8 +274,11 @@ class WikiController < ApplicationController
   end
 
   def diff
-    if @diff = @page.diff(params[:version], params[:version_from])
-      @html_diff = HTMLDiff::DiffBuilder.new(@diff.content_from.data.text, @diff.content_to.data.text).build
+    if (@diff = @page.diff(params[:version], params[:version_from]))
+      @html_diff = HTMLDiff::DiffBuilder.new(
+        helpers.format_text(@diff.content_from.data.text, disable_macro_expansion: true),
+        helpers.format_text(@diff.content_to.data.text, disable_macro_expansion: true)
+      ).build
     else
       render_404
     end
@@ -325,7 +308,7 @@ class WikiController < ApplicationController
         @page.descendants.each(&:destroy)
       when 'reassign'
         # Reassign children to another parent page
-        reassign_to = @wiki.pages.find_by(id: params[:reassign_to_id].to_i)
+        reassign_to = @wiki.pages.find_by(id: params[:reassign_to_id].presence)
         return unless reassign_to
         @page.children.each do |child|
           child.update_attribute(:parent, reassign_to)
@@ -359,51 +342,53 @@ class WikiController < ApplicationController
 
   def add_attachment
     return render_403 unless editable?
-    attachments = Attachment.attach_files(@page, permitted_params.attachments.to_h)
-    render_attachment_warning_if_needed(@page)
+    @page.attach_files(permitted_params.attachments.to_h)
+    @page.save
     redirect_to action: 'show', id: @page, project_id: @project
   end
 
   def list_attachments
     respond_to do |format|
-      format.json do render 'common/list_attachments', locals: { attachments: @page.attachments } end
+      format.json { render 'common/list_attachments', locals: { attachments: @page.attachments } }
       format.html
     end
   end
 
   def current_menu_item_sym(page)
-    menu_item = send(page).try(:nearest_menu_item)
+    page = page_for_menu_item(page)
+
+    menu_item = page.try(:menu_item)
 
     if menu_item.present?
       menu_item.menu_identifier
+    elsif page.present?
+      menu_item = default_menu_item(page)
+      "no-menu-item-#{menu_item.menu_identifier}".to_sym
     end
-  end
-
-  protected
-
-  def parse_preview_data
-    page = @wiki.find_page(wiki_page_title)
-    # page is nil when previewing a new page
-    return render_403 unless page.nil? || editable?(page)
-
-    attachments = page && page.attachments
-    previewed =
-      if page
-        page.content
-      else
-        build_wiki_page_and_content
-        @content
-      end
-
-    text = { WikiPage.human_attribute_name(:content) => params[:content][:text] }
-
-    [text, attachments, previewed]
   end
 
   private
 
+  def locked?
+    return false if editable?
+
+    flash[:error] = l(:error_unable_update_wiki)
+    render_403
+    true
+  end
+
+  def page_for_menu_item(page)
+    if page == :parent_page
+      page = send(:page)
+      page = page.parent if page && page.parent
+    else
+      page = send(page)
+    end
+    page
+  end
+
   def wiki_page_title
-    params[:id]
+    params[:title] || action_name == 'new_child' ? '' : params[:id].to_s.capitalize.tr('-', ' ')
   end
 
   def find_wiki
@@ -416,28 +401,20 @@ class WikiController < ApplicationController
 
   # Finds the requested page and returns a 404 error if it doesn't exist
   def find_existing_page
-    @page = @wiki.find_page(wiki_page_title)
+    @page = @wiki.find_page(wiki_page_title.presence || params[:id])
     render_404 if @page.nil?
   end
 
   def build_wiki_page_and_content
-    @page = WikiPage.new wiki: @wiki, title: wiki_page_title.presence || I18n.t(:label_wiki_page)
+    @page = WikiPage.new wiki: @wiki, title: wiki_page_title.presence
     @page.content = WikiContent.new page: @page
 
     @content = @page.content_for_version nil
-    @content.text = initial_page_content @page
   end
 
   # Returns true if the current user is allowed to edit the page, otherwise false
   def editable?(page = @page)
     page.editable_by?(User.current)
-  end
-
-  # Returns the default content of a new wiki page
-  def initial_page_content(page)
-    helper = Redmine::WikiFormatting.helper_for(Setting.text_formatting)
-    extend helper unless self.instance_of?(helper)
-    helper.instance_method(:initial_page_content).bind(self).call(page)
   end
 
   def load_pages_for_index
@@ -449,7 +426,11 @@ class WikiController < ApplicationController
   end
 
   def show_local_breadcrumb
-    true
+    @page&.ancestors&.any?
+  end
+
+  def show_local_breadcrumb_defaults
+    false
   end
 
   def redirect_to_show

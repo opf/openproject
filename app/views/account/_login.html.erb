@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See doc/COPYRIGHT.rdoc for more details.
+See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
@@ -44,10 +44,8 @@ See doc/COPYRIGHT.rdoc for more details.
           <% elsif Setting.self_registration? %>
             <%# show here if autologin is disabled, otherwise below lost_password link %>
               <%= link_to t(:label_register),
-                '',
-                title: t(:label_register),
-                class: 'modal-wrapper--activation-link',
-                id: 'registration-modal--activation-link' %>
+                account_register_path,
+                title: t(:label_register) %>
           <% end %>
         </div>
       </div>
@@ -65,16 +63,14 @@ See doc/COPYRIGHT.rdoc for more details.
             <%# show here if autologin is enabled, otherwise below login field %>
             <%= '<br>'.html_safe if Setting.lost_password? %>
             <%= link_to t(:label_register),
-                  '',
-                  title: t(:label_register),
-                  class: 'modal-wrapper--activation-link',
-                  id: 'autologin-registration-modal--activation-link' %>
+                  account_register_path,
+                  title: t(:label_register) %>
           <% end %>
         </div>
       </div>
 
       <div class="form--field">
-        <label class="form--label" for="login-pulldown">
+        <label class="form--label">
           &nbsp;
         </label>
         <input type="submit" name="login" id="login-pulldown"
@@ -84,13 +80,4 @@ See doc/COPYRIGHT.rdoc for more details.
 
     <%= render partial: 'account/auth_providers' %>
   <% end %>
-
-  <modal-wrapper activation-link-id="'#registration-modal--activation-link'" modal-params="{ appendClassName: 'registration-modal modal-wrapper' }">
-    <% @user ||= User.new %>
-    <%= render partial: '/account/register' %>
-  </modal-wrapper>
-  <modal-wrapper activation-link-id="'#autologin-registration-modal--activation-link'" modal-params="{ appendClassName: 'registration-modal modal-wrapper' }">
-    <% @user ||= User.new %>
-    <%= render partial: '/account/register' %>
-  </modal-wrapper>
 </div>

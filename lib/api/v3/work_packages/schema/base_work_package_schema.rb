@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module API
@@ -69,53 +69,10 @@ module API
             false
           end
 
-          ##
-          # Return of a map of attribute => group name
-          def attribute_group_map(key)
-            return nil if type.nil?
-            @attribute_group_map ||= begin
-              attribute_groups.each_with_object({}) do |(group, attributes), hash|
-                attributes.each { |prop| hash[prop] = group }
-              end
-            end
-
-            @attribute_group_map[key]
-          end
-
-          def attribute_groups
-            return nil if type.nil?
-
-            @attribute_groups ||= begin
-              # It's important to deep_dup the attribute_groups
-              # as the operations would otherwise alter type's
-              # attribute_groups leading to unexpected side effects
-              type
-                .attribute_groups
-                .deep_dup
-                .map do |group|
-                group[1].map! do |prop|
-                  if type.passes_attribute_constraint?(prop, project: project)
-                    convert_property(prop)
-                  end
-                end
-
-                group[1].compact!
-                group[0] = type.translated_attribute_group(group[0])
-                group
-              end
-            end
-
-            @attribute_groups
-          end
-
           private
 
           def contract
             raise NotImplementedError
-          end
-
-          def convert_property(prop)
-            ::API::Utilities::PropertyNameConverter.from_ar_name(prop)
           end
         end
       end

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module WorkPackagesHelper
@@ -169,11 +169,29 @@ module WorkPackagesHelper
       end
     end
 
+
     link = link_to_work_package(work_package, status: true, only_path: only_path)
-    link += " #{work_package.start_date.nil? ? '[?]' : work_package.start_date.to_s}"
-    link += changed_dates['start_date']
-    link += " – #{work_package.due_date.nil? ? '[?]' : work_package.due_date.to_s}"
-    link += changed_dates['due_date']
+
+    # Don't print dates if neither start nor due set
+    start = work_package.start_date&.to_s
+    due = work_package.due_date&.to_s
+
+    if start.nil? && due.nil?
+      return link
+    end
+
+    # Otherwise, print concise
+    # (2018-01-01 -)
+    # (- 2018-01-01)
+    # (2018-01-01 - 2018-01-01)
+    link <<
+      if start.nil?
+        " (- #{due})"
+      elsif due.nil?
+        " (#{start} -)"
+      else
+        " (#{start} - #{due})"
+      end
 
     link
   end
@@ -264,7 +282,12 @@ module WorkPackagesHelper
     if work_package.description.blank?
       empty_element_tag
     else
-      format_text(description_lines.join(''))
+      ::OpenProject::TextFormatting::Renderer.format_text(
+        description_lines.join(''),
+        object: work_package,
+        attribute: :description,
+        no_nesting: true
+      )
     end
   end
 

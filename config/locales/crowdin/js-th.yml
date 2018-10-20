@@ -4,6 +4,17 @@ th:
     ajax:
       hide: ซ่อน
       loading: กำลังโหลด...
+    attachments:
+      draggable_hint: 'Drag on editor field to inline image or reference attachment.
+        Closed editor fields will be opened while you keep dragging.
+
+'
+    autocomplete_select:
+      placeholder:
+        multi: Add "%{name}"
+        single: Select "%{name}"
+      remove: Remove %{name}
+      active: Active %{label} %{name}
     close_popup_title: ปิดป๊อปอัพ
     close_filter_title: ปิดตัวกรอง
     close_form_title: ปิดแบบฟอร์ม
@@ -46,8 +57,65 @@ th:
     description_select_work_package: 'Select work package #%{id}'
     description_selected_columns: คอลัมน์ที่เลือก
     description_subwork_package: 'Child of work package #%{id}'
+    editor:
+      preview: Toggle preview mode
+      source_code: Toggle Markdown source mode
+      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      mode:
+        manual: Switch to Markdown source
+        wysiwyg: Switch to WYSIWYG editor
+      macro:
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: หน้าวิกิ
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
+        code_block:
+          button: Insert code snippet
+          title: Insert / edit Code snippet
+          language: Formatting language
+          language_hint: Enter the formatting language that will be used for highlighting
+            (if supported).
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
+        toc: Table of contents
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
+        wiki_page_include:
+          button: Include content of another wiki page
+          text: "[Placeholder] Included wiki page of"
+          page: หน้าวิกิ
+          not_set: "(Page not yet set)"
+          hint: |
+            Include the content of another wiki page by specifying its title or slug.
+            You can include the wiki page of another project by separating them with a colon like the following example.
+        work_package_button:
+          button: Insert create work package button
+          type: Work package type
+          button_style: Use button style
+          button_style_hint: 'Optional: Check to make macro appear as a button, not
+            as a link.'
+          without_type: Create work package
+          with_type: 'Create work package (Type: %{typename})'
+        embedded_table:
+          button: Embed work package table
+          text: "[Placeholder] Embedded work package table"
+    custom_actions:
+      date:
+        specific: 'on'
+        current_date: Current date
     error:
       internal: An internal error has occurred.
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
+      query_saving: The view could not be saved.
+      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
     filter:
       description:
         text_open_filter: Open this filter with 'ALT' and arrow keys.
@@ -64,6 +132,8 @@ th:
           one: First sorting criteria
           two: Second sorting criteria
           three: Third sorting criteria
+      upsale_for_more: For more advanced filters, check out the
+      upsale_link: Enterprise Edition.
     general_text_no: ไม่ใช่
     general_text_yes: ใช่
     general_text_No: ไม่ใช่
@@ -74,7 +144,7 @@ th:
       comment.
     label_add_columns: Add columns
     label_add_comment: เพิ่มความคิดเห็น
-    label_add_comment_title: คลิกเพื่อเพิ่มความเห็น
+    label_add_comment_title: Comment and type @ to notify other people
     label_add_selected_columns: เพิ่มคอลัมน์ที่เลือก
     label_added_by: เพิ่มโดย
     label_added_time_by: เพิ่มโดย %{author} %{age}
@@ -111,6 +181,7 @@ th:
     label_expand: ขยาย
     label_expanded: expanded
     label_expand_all: ขยายทั้งหมด
+    label_expand_project_menu: Expand project menu
     label_export: Export
     label_filename: ไฟล์
     label_filesize: ขนาด
@@ -118,10 +189,11 @@ th:
     label_group_by: Group by
     label_hide_attributes: Show less
     label_hide_column: ซ่อนคอลัมน์
+    label_hide_project_menu: Collapse project menu
     label_in: ใน
     label_in_less_than: ในไม่เกิน
     label_in_more_than: ในมากกว่า
-    label_latest_activity: Latest Activity
+    label_latest_activity: Latest activity
     label_last_updated_on: แก้ไขล่าสุดเมื่อ
     label_less_or_equal: "<="
     label_less_than_ago: น้อยกว่าสามวันที่ผ่านมา
@@ -139,6 +211,7 @@ th:
     label_not_equals: ไม่
     label_on: 'on'
     label_open_menu: เปิดเมนู
+    label_open_context_menu: Open context menu
     label_open_work_packages: เปิด
     label_password: รหัสผ่าน
     label_previous: ก่อนหน้านี้
@@ -152,20 +225,23 @@ th:
     label_select_watcher: เลือกผู้ดูข้อมูล...
     label_selected_filter_list: ตัวกรองที่เลือก
     label_show_attributes: Show all attributes
-    label_show_in_menu: Show page in menu
+    label_show_in_menu: Show view in menu
     label_sort_by: เรียงลำดับโดย
     label_sorted_by: sorted by
     label_sort_higher: เลื่อนขึ้น
     label_sort_lower: เลื่อนลง
     label_sorting: Sorting
+    label_star_query: Favored
+    label_press_enter_to_save: Press enter to save.
+    label_public_query: สาธารณะ
     label_sum_for: Sum for
     label_subject: หัวข้อ
     label_this_week: สัปดาห์นี้
     label_today: วันนี้
+    label_up: Up
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% Total progress"
-    label_visible_for_others: Page visible for others
     label_updated_on: แก้ไขเมื่อ
     label_warning: Warning
     label_work_package: ชุดภารกิจ
@@ -179,8 +255,10 @@ th:
     label_unwatch: ไม่เข้าชม
     label_unwatch_work_package: Unwatch work package
     label_uploaded_by: Uploaded by
-    label_global_queries: Shared queries
-    label_custom_queries: Private queries
+    label_default_queries: Default views
+    label_starred_queries: Favorite views
+    label_global_queries: Public views
+    label_custom_queries: Private views
     label_columns: คอลัมน์
     label_attachments: ไฟล์
     label_drop_files: วางไฟล์ที่นี่
@@ -192,7 +270,9 @@ th:
     label_remove_watcher: Remove watcher %{name}
     label_remove_all_files: ลบไฟล์ทั้งหมด
     label_add_description: เพิ่มคำอธิบายสำหรับ %{file}
-    label_upload_notification: 'Uploading files for Work package #%{id}: %{subject}'
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Uploading files for Work package #%{id}:
+      %{subject}'
     label_files_to_upload: 'These files will be uploaded:'
     label_rejected_files: 'These files cannot be uploaded:'
     label_rejected_files_reason: These files cannot be uploaded as their size is greater
@@ -222,6 +302,8 @@ th:
       context: Project context
       work_package_belongs_to: This work package belongs to project %{projectname}.
       click_to_switch_context: Open this work package in that project.
+      autocompleter:
+        label: Project autocompletion
     text_are_you_sure: คุณแน่ใจหรือไม่ ?
     types:
       attribute_groups:
@@ -229,8 +311,8 @@ th:
           names must be unique.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group, unset the visibility
-          checkboxes, and disable ALL custom fields.
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
 
 '
         upgrade_to_ee: Upgrade to Enterprise Edition
@@ -262,7 +344,8 @@ th:
       required: Required by
       relation_type: relation type
     relations_hierarchy:
-      hierarchy_headline: hierarchy
+      parent_headline: ค่าหลัก
+      children_headline: Children
     relation_buttons:
       change_parent: Change parent
       remove_parent: Remove parent
@@ -299,6 +382,7 @@ th:
         one: You can only select one item
         other: You can only select {{limit}} items
         zero: You cannot select any items
+    project_menu_details: รายละเอียด
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -310,11 +394,12 @@ th:
     text_work_packages_destroy_confirmation: คุณแน่ใจหรือไม่ว่าจะลบชุดภารกิจที่เลือก
       ?
     text_query_destroy_confirmation: Are you sure you want to delete the selected
-      query?
+      view?
     text_attachment_destroy_confirmation: คุณแน่ใจหรือไม่ว่าจะไฟล์แนบ?
     timelines:
       gantt_chart: Gantt chart
       labels:
+        title: Label configuration
         bar: Bar labels
         left: Left
         right: Right
@@ -325,11 +410,11 @@ th:
           its date labels will be shown instead of these attributes.
 
 '
-      button_activate: Activate timeline mode
-      button_deactivate: Deactivate timeline mode
+      button_activate: Show Gantt chart
+      button_deactivate: Hide Gantt chart
       cancel: ยกเลิก
       change: การเปลี่ยนแปลงในการวางแผน
-      due_date: วันครบกำหนด
+      due_date: Finish date
       empty: "(ว่าง)"
       error: An error has occurred.
       errors:
@@ -339,18 +424,9 @@ th:
         report_epicfail: พบข้อผิดพลาด ไม่สามารถโหลดแผนภูมิเวลา ได้
         report_timeout: ไม่สามารถโหลดแผนภูมิเวลาในระยะเวลาที่เหมาะสมได้
       filter:
-        column:
-          assigned_to: ผู้ได้รับมอบหมาย
-          type: ประเภท
-          due_date: วันสิ้นสุด
-          name: ชื่อ
-          status: สถานะ
-          responsible: รับผิดชอบ
-          start_date: วันเริ่มต้น
         grouping_other: อื่น ๆ
         noneSelection: "(ไม่มี)"
       name: ชื่อ
-      new_work_package: ชุดภารกิจใหม่
       outline: ตั้งค่าโครงร่างใหม่
       outlines:
         aggregation: แสดงรวมเท่านั้น
@@ -361,7 +437,6 @@ th:
         level5: ขยายระดับ 5
         all: แสดงทั้งหมด
       project_status: สถานะของโครงการ
-      project_type: ประเภทของโครงการ
       really_close_dialog: Do you really want to close the dialog and lose the entered
         data?
       responsible: รับผิดชอบ
@@ -381,6 +456,10 @@ th:
         quarters: ไตรมาส
         years: ปี
         slider: Zoom slider
+        description: 'Select the initial zoom level that should be shown when autozoom
+          is not available.
+
+'
     tl_toolbar:
       zooms: Zoom level
       outlines: Hierarchy level
@@ -392,6 +471,8 @@ th:
         Microsoft Edge
       learn_more: เรียนรู้เพิ่มเติม
       close_warning: ไม่สนใจคำเตือนนี้
+    upsale:
+      ee_only: Enterprise Edition only feature
     wiki_formatting:
       strong: Strong
       italic: ตัวเอียง
@@ -450,10 +531,13 @@ th:
       inline_create:
         title: Click here to add a new work package to this list
       create:
+        title: ชุดภารกิจใหม่
         header: New %{type}
         header_no_type: New work package (Type not yet set)
         header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
         button: สร้าง
+      copy:
+        title: Copy work package
       hierarchy:
         show: Show hierarchy mode
         hide: Hide hierarchy mode
@@ -465,7 +549,7 @@ th:
           filtered children
       faulty_query:
         title: ไม่สามารถโหลดชุดภารกิจได้
-        description: Your query is erroneous and could not be processed.
+        description: Your view is erroneous and could not be processed.
       no_results:
         title: No work packages to display.
         description: Either none have been created or all work packages are filtered
@@ -481,7 +565,7 @@ th:
         createdAt: สร้างเมื่อ
         description: คำอธิบาย
         date: วันที่
-        dueDate: วันครบกำหนด
+        dueDate: Finish date
         estimatedTime: ระยะเวลาโดยประมาณ
         spentTime: เวลาที่ใช้
         category: ประเภท
@@ -497,6 +581,13 @@ th:
         updatedAt: แก้ไขเมื่อ
         versionName: เวอร์ชัน
         version: เวอร์ชัน
+      default_queries:
+        latest_activity: Latest activity
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: All open
+        summary: สรุป
       jump_marks:
         pagination: Jump to table pagination
         label_pagination: Click here to skip over the work packages table and go to
@@ -514,7 +605,6 @@ th:
           mode being active.
         hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
           being grouped by %{column}.
-        hierarchy_mode: Hierarchy mode
         sort_ascending: Sort ascending
         sort_descending: Sort descending
         move_column_left: ย้ายคอลัมน์ไปทางซ้าย
@@ -523,17 +613,57 @@ th:
         insert_columns: แทรกคอลัมน์...
         filters: ตัวกรอง
         display_sums: แสดงยอดรวม
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
         errors:
-          unretrievable_query: Unable to retrieve query from URL
-          not_found: There is no such query
-        text_no_results: No matching queries were found.
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
       table:
+        configure_button: Configure work package table
         summary: Table with rows of work package and columns of work package attributes.
         text_inline_edit: Most cells of this table are buttons that activate inline-editing
           functionality of that attribute.
         text_sort_hint: With the links in the table headers you can sort, group, reorder,
           remove and add table columns.
         text_select_hint: Select boxes should be opened with 'ALT' and arrow keys.
+      table_configuration:
+        button: Configure this work package table
+        choose_display_mode: Display work packages as
+        modal_title: Work package table configuration
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          view you're editing.
+        default: ค่าเริ่มต้น
+        display_settings: Display settings
+        default_mode: Flat list
+        hierarchy_mode: Hierarchy
+        hierarchy_hint: All filtered table results will be augmented with their ancestors.
+          Hierarchies can be expanded and collapsed.
+        display_sums_hint: Display sums of all summable attributes in a row below
+          the table results.
+        show_timeline_hint: Show an interactive gantt chart on the right side of the
+          table. You can change its width by dragging the divider between table and
+          gantt chart.
+        highlighting: Highlighting
+        highlighting_mode:
+          description: Highlight with color
+          none: No highlighting
+          inline: Highlighted attribute(s)
+          inline_all: All attributes
+          entire_row_by: Entire row by
+          status: สถานะ
+          priority: ระดับความสำคัญ
+          type: ประเภท
+        columns_help_text: Use the input above to add or remove columns to your table
+          view. You can drag and drop the columns to reorder them.
+        upsale:
+          attribute_highlighting: Need certain work packages to stand out from the
+            mass?
+          relation_columns: Need to see relations in the work package list?
+          check_out_link: Check out the Enterprise Edition.
       tabs:
         overview: ภาพรวม
         activity: กิจกรรม
@@ -546,6 +676,7 @@ th:
         months: เดือน
     toolbar:
       settings:
+        configure_view: Configure view ...
         columns: คอลัมน์...
         sort_by: Sort by ...
         group_by: Group by ...
@@ -556,15 +687,16 @@ th:
         save: บันทึก
         save_as: บันทึกเป็น...
         export: Export ...
-        publish: Publish ...
-        page_settings: Rename query ...
+        visibility_settings: Visibility settings ...
+        page_settings: Rename view ...
         delete: ลบ
       filter: ตัวกรอง
       unselected_title: ชุดภารกิจ
-      search_query_label: Search saved filter queries
-      search_query_title: Click to search saved filter queries
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
     modals:
-      label_settings: Rename query
+      label_settings: Rename view
       label_name: ชื่อ
       label_delete_page: ลบหน้าปัจจุบัน
       button_apply: นำไปใช้
@@ -574,13 +706,14 @@ th:
       form_submit:
         title: Confirm to continue
         text: Are you sure you want to perform this action?
-      upsale_relation_columns: Need to see relations in the work package list?
-      upsale_relation_columns_link: Check out the Enterprise Edition.
       destroy_work_package:
         title: Confirm deletion of %{label}
         text: Are you sure you want to delete the following %{label} ?
         has_children: 'The work package has %{childUnits}:'
-        deletes_children: All child work packages will also be deleted.
+        confirm_deletion_children: I acknowledge that ALL descendants of the listed
+          work packages will be recursively removed.
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
     notice_successful_create: สร้างเรียบร้อยแล้ว
     notice_successful_delete: ลบเรียบร้อยแล้ว
     notice_successful_update: ปรับปรุงข้อมูลเรียบร้อยแล้ว
@@ -607,6 +740,9 @@ th:
         messages_on_field: 'This field is invalid: %{messages}'
     error_could_not_resolve_version_name: Couldn't resolve version name
     error_could_not_resolve_user_name: Couldn't resolve user name
+    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
     units:
       workPackage:
         one: work package

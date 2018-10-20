@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,21 +23,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
-require 'features/projects/projects_page'
 
 describe 'Projects', type: :feature do
-  let(:current_user) { FactoryGirl.create(:admin) }
+  let(:current_user) { FactoryBot.create(:admin) }
 
   before do
     allow(User).to receive(:current).and_return current_user
   end
 
   describe 'creation', js: true do
-    let!(:project) { FactoryGirl.create(:project, name: 'Foo project', identifier: 'foo-project') }
+    let!(:project) { FactoryBot.create(:project, name: 'Foo project', identifier: 'foo-project') }
 
     before do
       visit projects_path
@@ -98,9 +97,9 @@ describe 'Projects', type: :feature do
   end
 
   describe 'project types' do
-    let(:phase_type)     { FactoryGirl.create(:type, name: 'Phase', is_default: true) }
-    let(:milestone_type) { FactoryGirl.create(:type, name: 'Milestone', is_default: false) }
-    let!(:project) { FactoryGirl.create(:project, name: 'Foo project', types: [phase_type, milestone_type]) }
+    let(:phase_type)     { FactoryBot.create(:type, name: 'Phase', is_default: true) }
+    let(:milestone_type) { FactoryBot.create(:type, name: 'Milestone', is_default: false) }
+    let!(:project) { FactoryBot.create(:project, name: 'Foo project', types: [phase_type, milestone_type]) }
 
     it "have the correct types checked for the project's types" do
       visit projects_path
@@ -116,11 +115,11 @@ describe 'Projects', type: :feature do
   end
 
   describe 'deletion', js: true do
-    let(:project) { FactoryGirl.create(:project) }
-    let(:projects_page) { ProjectsPage.new(project) }
+    let(:project) { FactoryBot.create(:project) }
+    let(:projects_page) { Pages::Projects::Destroy.new(project) }
 
     before do
-      projects_page.visit_confirm_destroy
+      projects_page.visit!
     end
 
     describe 'disable delete w/o confirm' do
@@ -145,7 +144,7 @@ describe 'Projects', type: :feature do
   end
 
   describe 'identifier edit', js: true do
-    let!(:project) { FactoryGirl.create(:project, identifier: 'foo') }
+    let!(:project) { FactoryBot.create(:project, identifier: 'foo') }
 
     it 'updates the project identifier' do
       visit projects_path
@@ -176,14 +175,14 @@ describe 'Projects', type: :feature do
   end
 
   describe 'form', js: true do
-    let(:project) { FactoryGirl.build(:project, name: 'Foo project', identifier: 'foo-project') }
+    let(:project) { FactoryBot.build(:project, name: 'Foo project', identifier: 'foo-project') }
     let!(:optional_custom_field) do
-      FactoryGirl.create(:custom_field, name: 'Optional Foo',
+      FactoryBot.create(:custom_field, name: 'Optional Foo',
                                         type: ProjectCustomField,
                                         is_for_all: true)
     end
     let!(:required_custom_field) do
-      FactoryGirl.create(:custom_field, name: 'Required Foo',
+      FactoryBot.create(:custom_field, name: 'Required Foo',
                                         type: ProjectCustomField,
                                         is_for_all: true,
                                         is_required: true)

@@ -5,36 +5,36 @@ require 'support/work_packages/work_package_field'
 
 describe 'Activity tab', js: true, selenium: true do
   def alter_work_package_at(work_package, attributes:, at:, user: User.current)
-    work_package.update_attributes(attributes.merge({ updated_at: at }))
+    work_package.update_attributes(attributes.merge(updated_at: at))
 
     note_journal = work_package.journals.last
     note_journal.update_attributes(created_at: at, user: attributes[:user])
   end
 
-  let(:project) { FactoryGirl.create :project_with_types, is_public: true }
-  let!(:work_package) {
-    work_package = FactoryGirl.create(:work_package,
-                                      project: project,
-                                      created_at: 5.days.ago.to_date.to_s(:db),
-                                      subject: initial_subject,
-                                      journal_notes: initial_comment)
+  let(:project) { FactoryBot.create :project_with_types, is_public: true }
+  let!(:work_package) do
+    work_package = FactoryBot.create(:work_package,
+                                     project: project,
+                                     created_at: 5.days.ago.to_date.to_s(:db),
+                                     subject: initial_subject,
+                                     journal_notes: initial_comment)
 
     note_journal = work_package.journals.last
     note_journal.update_attributes(created_at: 5.days.ago.to_date.to_s)
 
     work_package
-  }
+  end
 
   let(:initial_subject) { 'My Subject' }
   let(:initial_comment) { 'First comment on this wp.' }
   let(:comments_in_reverse) { false }
   let(:activity_tab) { ::Components::WorkPackages::Activities.new(work_package) }
 
-  let(:initial_note) {
+  let(:initial_note) do
     work_package.journals[0]
-  }
+  end
 
-  let!(:note_1) {
+  let!(:note_1) do
     attributes = { subject: 'New subject', description: 'Some not so long description.' }
 
     alter_work_package_at(work_package,
@@ -43,47 +43,54 @@ describe 'Activity tab', js: true, selenium: true do
                           user: user)
 
     work_package.journals.last
-  }
+  end
 
-  let!(:note_2) {
+  let!(:note_2) do
     attributes = { journal_notes: 'Another comment by a different user' }
 
     alter_work_package_at(work_package,
                           attributes: attributes,
                           at: 1.days.ago.to_date.to_s(:db),
-                          user: FactoryGirl.create(:admin))
+                          user: FactoryBot.create(:admin))
 
     work_package.journals.last
-  }
+  end
 
   before do
     login_as(user)
     allow(user.pref).to receive(:warn_on_leaving_unsaved?).and_return(false)
+    allow(user.pref).to receive(:comments_sorting).and_return(comments_in_reverse ? 'desc' : 'asc')
     allow(user.pref).to receive(:comments_in_reverse_order?).and_return(comments_in_reverse)
   end
 
   shared_examples 'shows activities in order' do
-    let(:journals) {
+    let(:journals) do
       journals = [initial_note, note_1, note_2]
 
       journals
-    }
+    end
 
     it 'shows activities in ascending order' do
       journals.each_with_index do |journal, idx|
-        date_selector = ".work-package-details-activities-activity:nth-of-type(#{idx + 1}) " +
+        actual_index =
+          if comments_in_reverse
+            journals.length - idx
+          else
+            idx + 1
+          end
+
+        date_selector = ".work-package-details-activities-activity:nth-of-type(#{actual_index}) " +
                         '.activity-date'
         # Do not use :long format to match the printed date without double spaces
         # on the first 9 days of the month
         expect(page).to have_selector(date_selector,
                                       text: journal.created_at.to_date.strftime("%B %-d, %Y"))
 
-
         activity = page.find("#activity-#{idx + 1}")
 
         if journal.id != note_1.id
           expect(activity).to have_selector('.user', text: journal.user.name)
-          expect(activity).to have_selector('.user-comment > .message', text: journal.notes)
+          expect(activity).to have_selector('.user-comment > .message', text: journal.notes, visible: :all)
         end
 
         if activity == note_1
@@ -106,15 +113,15 @@ describe 'Activity tab', js: true, selenium: true do
     end
 
     context 'with permission' do
-      let(:role) {
-        FactoryGirl.create(:role, permissions: [:view_work_packages,
-                                                :add_work_package_notes])
-      }
-      let(:user) {
-        FactoryGirl.create(:user,
-                           member_in_project: project,
-                           member_through_role: role)
-      }
+      let(:role) do
+        FactoryBot.create(:role, permissions: %i[view_work_packages
+                                                 add_work_package_notes])
+      end
+      let(:user) do
+        FactoryBot.create(:user,
+                          member_in_project: project,
+                          member_through_role: role)
+      end
 
       context 'with ascending comments' do
         let(:comments_in_reverse) { false }
@@ -128,16 +135,15 @@ describe 'Activity tab', js: true, selenium: true do
 
       it 'can toggle between activities and comments-only' do
         expect(page).to have_selector('.work-package-details-activities-activity-contents', count: 3)
+        expect(page).to have_selector('.user-comment > .message', text: note_2.notes)
 
         # Show only comments
         find('.activity-comments--toggler').click
 
         # It should remove the middle
         expect(page).to have_selector('.work-package-details-activities-activity-contents', count: 2)
-
-        expect(page).to have_selector("#activity-#{initial_note.id}")
-        expect(page).to have_selector("#activity-#{note_2.id}")
-        expect(page).to have_no_selector("#activity-#{note_1.id}")
+        expect(page).to have_selector('.user-comment > .message', text: initial_comment)
+        expect(page).to have_selector('.user-comment > .message', text: note_2.notes)
 
         # Show all again
         find('.activity-comments--toggler').click
@@ -147,17 +153,16 @@ describe 'Activity tab', js: true, selenium: true do
       it 'can quote a previous comment' do
         activity_tab.hover_action('1', :quote)
 
-        field = WorkPackageTextAreaField.new work_package_page,
-                                             'comment',
-                                             selector: '.work-packages--activity--add-comment'
+        field = WorkPackageEditorField.new work_package_page,
+                                           'comment',
+                                           selector: '.work-packages--activity--add-comment'
 
         expect(field.editing?).to be true
 
         # Add our comment
-        quote = field.input_element[:value]
-        expect(quote).to include("> #{initial_comment}")
-        quote << "\nthis is some remark under a quote"
-        field.input_element.set(quote)
+        quote = field.input_element.text
+        expect(quote).to include(initial_comment)
+        field.input_element.base.send_keys "\nthis is some remark under a quote"
         field.submit_by_click
 
         expect(page).to have_selector('.user-comment > .message', count: 3)
@@ -166,14 +171,14 @@ describe 'Activity tab', js: true, selenium: true do
     end
 
     context 'with no permission' do
-      let(:role) {
-        FactoryGirl.create(:role, permissions: [:view_work_packages])
-      }
-      let(:user) {
-        FactoryGirl.create(:user,
-                           member_in_project: project,
-                           member_through_role: role)
-      }
+      let(:role) do
+        FactoryBot.create(:role, permissions: [:view_work_packages])
+      end
+      let(:user) do
+        FactoryBot.create(:user,
+                          member_in_project: project,
+                          member_through_role: role)
+      end
 
       it 'shows the activities, but does not allow commenting' do
         expect(page).not_to have_selector('.work-packages--activity--add-comment', visible: true)

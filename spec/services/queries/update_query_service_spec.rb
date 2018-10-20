@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,18 +25,18 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe UpdateQueryService do
-  let(:query) { FactoryGirl.create(:query) }
+  let(:query) { FactoryBot.create(:query) }
   let(:menu_item) do
-    FactoryGirl.create(:query_menu_item,
+    FactoryBot.create(:query_menu_item,
                        query: query)
   end
-  let(:user) { FactoryGirl.create(:admin) }
+  let(:user) { FactoryBot.create(:admin) }
   let(:instance) { UpdateQueryService.new(user: user) }
 
   describe "a query's menu item" do
@@ -64,7 +64,7 @@ describe UpdateQueryService do
     context 'unsuccessful saving of the menu item' do
       before do
         # violating the validations
-        violating_menu_item = FactoryGirl.build(:query_menu_item,
+        violating_menu_item = FactoryBot.build(:query_menu_item,
                                                 name: menu_item.name,
                                                 navigatable_id: menu_item.navigatable_id)
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,20 +23,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe WorkPackages::CreateService, 'integration', type: :model do
   let(:user) do
-    FactoryGirl.create(:user,
-                       member_in_project: project,
-                       member_through_role: role)
+    FactoryBot.create(:user,
+                      member_in_project: project,
+                      member_through_role: role)
   end
   let(:role) do
-    FactoryGirl.create(:role,
-                       permissions: permissions)
+    FactoryBot.create(:role,
+                      permissions: permissions)
   end
 
   let(:permissions) do
@@ -44,24 +44,24 @@ describe WorkPackages::CreateService, 'integration', type: :model do
   end
 
   let(:type) do
-    FactoryGirl.create(:type,
-                       custom_fields: [custom_field])
+    FactoryBot.create(:type,
+                      custom_fields: [custom_field])
   end
   let(:default_type) do
-    FactoryGirl.create(:type_standard)
+    FactoryBot.create(:type_standard)
   end
-  let(:project) { FactoryGirl.create(:project, types: [type, default_type]) }
+  let(:project) { FactoryBot.create(:project, types: [type, default_type]) }
   let(:parent) do
-    FactoryGirl.create(:work_package,
-                       project: project,
-                       type: type)
+    FactoryBot.create(:work_package,
+                      project: project,
+                      type: type)
   end
   let(:instance) { described_class.new(user: user) }
-  let(:custom_field) { FactoryGirl.create(:work_package_custom_field) }
-  let(:other_status) { FactoryGirl.create(:status) }
-  let(:default_status) { FactoryGirl.create(:default_status) }
-  let(:priority) { FactoryGirl.create(:priority) }
-  let(:default_priority) { FactoryGirl.create(:default_priority) }
+  let(:custom_field) { FactoryBot.create(:work_package_custom_field) }
+  let(:other_status) { FactoryBot.create(:status) }
+  let(:default_status) { FactoryBot.create(:default_status) }
+  let(:priority) { FactoryBot.create(:priority) }
+  let(:default_priority) { FactoryBot.create(:default_priority) }
   let(:attributes) { {} }
   let(:new_work_package) do
     service_result
@@ -127,6 +127,43 @@ describe WorkPackages::CreateService, 'integration', type: :model do
         .to eql attributes[:start_date]
       expect(parent.due_date)
         .to eql attributes[:due_date]
+    end
+
+    describe 'setting the attachments' do
+      let!(:other_users_attachment) do
+        FactoryBot.create(:attachment, container: nil, author: FactoryBot.create(:user))
+      end
+      let!(:users_attachment) do
+        FactoryBot.create(:attachment, container: nil, author: user)
+      end
+
+      it 'reports on invalid attachments and sets the new if everything is valid' do
+        result = instance.call(attributes: attributes.merge(attachment_ids: [other_users_attachment.id]))
+
+        expect(result)
+          .to be_failure
+
+        expect(result.errors.symbols_for(:attachments))
+          .to match_array [:does_not_exist]
+
+        # The parent work package
+        expect(WorkPackage.count)
+          .to eql 1
+
+        expect(other_users_attachment.reload.container)
+          .to be_nil
+
+        result = instance.call(attributes: attributes.merge(attachment_ids: [users_attachment.id]))
+
+        expect(result)
+          .to be_success
+
+        expect(result.result.attachments)
+          .to match_array [users_attachment]
+
+        expect(users_attachment.reload.container)
+          .to eql result.result
+      end
     end
   end
 end

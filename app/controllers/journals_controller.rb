@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'diff'
@@ -65,22 +65,26 @@ class JournalsController < ApplicationController
 
   def diff
     journal = Journal::AggregatedJournal.for_journal(@journal)
+    field = params[:field].parameterize.underscore.to_sym
 
-    if valid_diff?
-      field = params[:field].parameterize.underscore.to_sym
-      from = journal.details[field][0]
-      to = journal.details[field][1]
+    unless valid_diff?
+      return render_404
+    end
 
-      @diff = Redmine::Helpers::Diff.new(to, from)
-      @journable = journal.journable
-      respond_to do |format|
-        format.html
-        format.js do
-          render partial: 'diff', locals: { diff: @diff }
-        end
+    unless journal.details[field].is_a?(Array)
+      return render_400 message: I18n.t(:error_journal_attribute_not_present, attribute: field)
+    end
+
+    from = journal.details[field][0]
+    to = journal.details[field][1]
+
+    @diff = Redmine::Helpers::Diff.new(to, from)
+    @journable = journal.journable
+    respond_to do |format|
+      format.html
+      format.js do
+        render partial: 'diff', locals: { diff: @diff }
       end
-    else
-      render_404
     end
   end
 

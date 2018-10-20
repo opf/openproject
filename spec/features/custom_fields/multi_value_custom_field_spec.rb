@@ -2,11 +2,11 @@ require "spec_helper"
 require "support/pages/abstract_work_package"
 
 describe "multi select custom values", js: true do
-  let(:type) { FactoryGirl.create :type }
-  let(:project) { FactoryGirl.create :project, types: [type] }
+  let(:type) { FactoryBot.create :type }
+  let(:project) { FactoryBot.create :project, types: [type] }
 
   let(:custom_field) do
-    FactoryGirl.create(
+    FactoryBot.create(
       :list_wp_custom_field,
       name: "Ingredients",
       multi_value: true,
@@ -24,11 +24,13 @@ describe "multi select custom values", js: true do
   let(:wp_table) { Pages::WorkPackagesTable.new project }
   let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
   let(:columns) { ::Components::WorkPackages::Columns.new }
-  let(:user) { FactoryGirl.create :admin }
+  let(:group_by) { ::Components::WorkPackages::GroupBy.new }
+
+  let(:user) { FactoryBot.create :admin }
 
   context "with existing custom values" do
     let(:work_package) do
-      wp = FactoryGirl.build :work_package, project: project, type: type
+      wp = FactoryBot.build :work_package, project: project, type: type
 
       wp.custom_field_values = {
         custom_field.id => ["ham", "pineapple", "onions"].map { |s| custom_value_for(s) }
@@ -39,7 +41,7 @@ describe "multi select custom values", js: true do
     end
 
     let(:work_package2) do
-      wp = FactoryGirl.build :work_package, project: project, type: type
+      wp = FactoryBot.build :work_package, project: project, type: type
 
       wp.custom_field_values = {
         custom_field.id => ["ham"].map { |s| custom_value_for(s) }
@@ -114,14 +116,11 @@ describe "multi select custom values", js: true do
         hierarchy.expect_no_hierarchies
 
         # Should show truncated values
-        expect(page).to have_text "ham, pineapple, ... 3"
+        expect(page).to have_text "ham, pineapple, ...\n3"
         expect(page).not_to have_text "onions"
 
         # Group by the CF
-        wp_table.click_setting_item 'Group by ...'
-        select 'Ingredients', from: 'selected_columns_new'
-        click_button 'Apply'
-
+        group_by.enable_via_menu 'Ingredients'
         loading_indicator_saveguard
 
         # Expect changed groups
@@ -183,7 +182,7 @@ describe "multi select custom values", js: true do
         expect(field.display_element).to have_text('pineapple')
         expect(field.display_element).to have_text('mushrooms')
 
-        table_edit_field.expect_state_text ', ... 4'
+        table_edit_field.expect_state_text ", ...\n4"
       end
     end
   end

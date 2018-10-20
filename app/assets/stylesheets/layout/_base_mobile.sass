@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 //++
 
 @include breakpoint(680px down)
@@ -39,12 +39,12 @@
   #content-wrapper
     padding-bottom: 0 !important
     position: relative !important
-    top: 0 !important
-    min-height: calc(100vH - #{$header-height-mobile} - #{$footer-height})
+    min-height: calc(100vH - #{$header-height-mobile})
 
   #main
     height: initial !important
     overflow: auto !important
+    top: 55px !important
 
   #header
     min-width: 0 !important
@@ -57,11 +57,11 @@
     margin: 0 !important
     padding: 20px !important
     width: 100% !important
+    top: 0 !important
   #main-menu ~ #content-wrapper
-    padding: 2rem 15px 0 15px !important
+    padding: 5px 15px 0 15px !important
 
   #breadcrumb,
-  #sidebar,
   .hidden-for-mobile
     display: none !important
 

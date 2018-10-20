@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'uri'
@@ -80,7 +80,7 @@ module Concerns::OmniauthLogin
   end
 
   def direct_login_provider_url(params = {})
-    url_for params.merge(controller: '/auth', action: direct_login_provider)
+    omniauth_start_url(direct_login_provider, params)
   end
 
   private
@@ -119,6 +119,10 @@ module Concerns::OmniauthLogin
       omni_auth_hash: auth_hash
     }
 
+    # only enforce here so user has email filled in for the admin notification
+    # about who couldn't register/activate
+    return if enforce_activation_user_limit(user: user)
+
     # Create on the fly
     register_user_according_to_setting(user, opts) do
       # Allow registration form to show provider-specific title
@@ -146,7 +150,7 @@ module Concerns::OmniauthLogin
   end
 
   def fill_user_fields_from_omniauth(user, auth)
-    user.update_attributes omniauth_hash_to_user_attributes(auth)
+    user.assign_attributes omniauth_hash_to_user_attributes(auth)
     user.register unless user.invited?
     user
   end

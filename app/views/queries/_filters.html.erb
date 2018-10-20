@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -23,11 +23,11 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See doc/COPYRIGHT.rdoc for more details.
+See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <%# TODO Remove when not needed any more %>
-<script type="text/javascript">
+<%= nonced_javascript_tag do %>
   //<![CDATA[
   function add_filter() {
     var select = jQuery('#add_filter_select');
@@ -85,6 +85,11 @@ See doc/COPYRIGHT.rdoc for more details.
   }
 
   function apply_filters_observer() {
+    jQuery('body').on('click', '.advanced-filters--filter-toggle', function() {
+      var input = jQuery(this);
+      toggle_filter(input.data('field'));
+    });
+
     jQuery('#query_form input[type=text]').each(function (index, filter) {
       jQuery(filter).on('keypress', function (e) {
         if ((e.keyCode || e.which) == 13) {
@@ -102,7 +107,7 @@ See doc/COPYRIGHT.rdoc for more details.
   jQuery(apply_filters_observer);
 
   //]]>
-</script>
+<% end %>
 <ul class="advanced-filters--filters">
   <% query
       .available_filters
@@ -114,7 +119,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <li <%= 'style="display:none;"'.html_safe unless query.has_filter?(field) %> id="tr_<%= field %>" class="filter advanced-filters--filter">
         <% label_value = filter.human_name || WorkPackage.human_attribute_name(filter.class.key) %>
         <label class="advanced-filters--filter-name" title="<%= label_value %>">
-          <%= check_box_tag 'f[]', field, query.has_filter?(field), onclick: "toggle_filter('#{field}');", id: "cb_#{field}" %>
+          <%= check_box_tag 'f[]', field, query.has_filter?(field), id: "cb_#{field}", data: { field: field }, class: 'advanced-filters--filter-toggle' %>
           <%= label_value %>
         </label>
         <div class="advanced-filters--filter-operator">
@@ -123,8 +128,13 @@ See doc/COPYRIGHT.rdoc for more details.
                          options_for_select(operators_for_select(filter),
                                             query.filter_for(field).try(:operator)),
                          id:       "operators_#{field}",
-                         onchange: "toggle_operator('#{field}');",
                          class:    "advanced-filters--select" %>
+
+          <%=
+            content_for(:additional_js_dom_ready) do
+              "jQuery('#operators_#{field}').change(toggle_operator('#{field}'));".html_safe
+            end
+          %>
 
         </div>
         <div id="div_values_<%= field %>" style="display:none;" class="advanced-filters--filter-value">
@@ -159,9 +169,9 @@ See doc/COPYRIGHT.rdoc for more details.
               <label for='<%= "values_#{field}" %>' class='hidden-for-sighted'><%= l(:description_enter_number) %></label>
           <% end %>
         </div>
-        <script type="text/javascript">
+        <%= nonced_javascript_tag do %>
           toggle_filter('<%= field %>');
-        </script>
+        <% end %>
       </li>
   <% end %>
 
@@ -180,9 +190,14 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="advanced-filters--add-filter-value">
       <%= select_tag 'add_filter_select',
                      options_for_select(entries_for_filter_select_sorted(query)),
-                     onchange: "add_filter();",
                      class:    "advanced-filters--select",
                      name:     nil %>
+
+      <%=
+        content_for(:additional_js_dom_ready) do
+          "jQuery('.advanced-filters--select').change(add_filter);".html_safe
+        end
+      %>
     </div>
   </li>
 </ul>

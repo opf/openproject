@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -34,27 +34,27 @@ describe 'API v3 Attachments by work package resource', type: :request do
   include API::V3::Utilities::PathHelper
   include FileHelpers
 
-  let(:current_user) {
-    FactoryGirl.create(:user,
-                       member_in_project: project,
-                       member_through_role: role)
-  }
-  let(:project) { FactoryGirl.create(:project, is_public: false) }
-  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:current_user) do
+    FactoryBot.create(:user,
+                      member_in_project: project,
+                      member_through_role: role)
+  end
+  let(:project) { FactoryBot.create(:project, is_public: false) }
+  let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:permissions) { [:view_work_packages] }
-  let(:work_package) { FactoryGirl.create(:work_package, author: current_user, project: project) }
+  let(:work_package) { FactoryBot.create(:work_package, author: current_user, project: project) }
 
   subject(:response) { last_response }
 
   before do
     allow(User).to receive(:current).and_return current_user
-    FactoryGirl.create_list(:attachment, 5, container: work_package)
   end
 
   describe '#get' do
     let(:get_path) { api_v3_paths.attachments_by_work_package work_package.id }
 
     before do
+      FactoryBot.create_list(:attachment, 2, container: work_package)
       get get_path
     end
 
@@ -62,11 +62,11 @@ describe 'API v3 Attachments by work package resource', type: :request do
       expect(subject.status).to eq(200)
     end
 
-    it_behaves_like 'API V3 collection response', 5, 5, 'Attachment'
+    it_behaves_like 'API V3 collection response', 2, 2, 'Attachment'
   end
 
   describe '#post' do
-    let(:permissions) { [:view_work_packages, :edit_work_packages] }
+    let(:permissions) { %i[view_work_packages edit_work_packages] }
 
     let(:request_path) { api_v3_paths.attachments_by_work_package work_package.id }
     let(:request_parts) { { metadata: metadata, file: file } }
@@ -121,9 +121,9 @@ describe 'API v3 Attachments by work package resource', type: :request do
 
     context 'file is too large' do
       let(:file) { mock_uploaded_file(content: 'a' * 2.kilobytes) }
-      let(:expanded_localization) {
+      let(:expanded_localization) do
         I18n.t('activerecord.errors.messages.file_too_large', count: max_file_size.kilobytes)
-      }
+      end
 
       it_behaves_like 'constraint violation' do
         let(:message) { "File #{expanded_localization}" }
@@ -131,11 +131,9 @@ describe 'API v3 Attachments by work package resource', type: :request do
     end
 
     context 'only allowed to add work packages, but no edit permission' do
-      let(:permissions) { [:view_work_packages, :add_work_packages] }
+      let(:permissions) { %i[view_work_packages add_work_packages] }
 
-      it 'should respond with HTTP Created' do
-        expect(subject.status).to eq(201)
-      end
+      it_behaves_like 'unauthorized access'
     end
 
     context 'only allowed to view work packages' do

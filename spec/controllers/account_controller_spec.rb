@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,29 +23,64 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe AccountController, type: :controller do
-  render_views
-
   after do
     User.delete_all
     User.current = nil
   end
+  let(:user) { FactoryBot.build_stubbed(:user) }
 
   context 'GET #login' do
+    let(:setup) {}
+    let(:params) { {} }
+
+    before do
+      setup
+
+      get :login, params: params
+    end
+
     it 'renders the view' do
-      get :login
       expect(response).to render_template 'login'
       expect(response).to be_success
+    end
+
+    context 'user already logged in' do
+      let(:setup) { login_as user }
+
+      it 'redirects to home' do
+        expect(response)
+          .to redirect_to my_page_path
+      end
+    end
+
+    context 'user already logged in and back url present' do
+      let(:setup) { login_as user }
+      let(:params) { { back_url: "/projects" } }
+
+      it 'redirects to back_url value' do
+        expect(response)
+          .to redirect_to projects_path
+      end
+    end
+
+    context 'user already logged in and invalid back url present' do
+      let(:setup) { login_as user }
+      let(:params) { { back_url: 'http://test.foo/work_packages/show/1' } }
+
+      it 'redirects to home' do
+        expect(response).to redirect_to my_page_path
+      end
     end
   end
 
   context 'POST #login' do
-    let(:admin) { FactoryGirl.create(:admin) }
+    let(:admin) { FactoryBot.create(:admin) }
 
     describe 'wrong password' do
       it 'redirects back to login' do
@@ -194,7 +229,7 @@ describe AccountController, type: :controller do
     end
 
     context 'GET #logout' do
-      let(:admin) { FactoryGirl.create(:admin) }
+      let(:admin) { FactoryBot.create(:admin) }
 
       it 'calls reset_session' do
         expect(@controller).to receive(:reset_session).once
@@ -235,6 +270,49 @@ describe AccountController, type: :controller do
         expect(response.status).to eq 404
       end
     end
+
+    context 'with an auth source' do
+      let(:auth_source_id) { 42 }
+
+      let(:user_attributes) do
+        {
+          login: 's.scallywag',
+          firstname: 'Scarlet',
+          lastname: 'Scallywag',
+          mail: 's.scallywag@openproject.com',
+          auth_source_id: auth_source_id
+        }
+      end
+
+      let(:authenticate) { true }
+
+      before do
+        allow(Setting).to receive(:self_registration).and_return('0')
+        allow(Setting).to receive(:self_registration?).and_return(false)
+        allow(AuthSource).to receive(:authenticate).and_return(authenticate ? user_attributes : nil)
+
+        # required so that the register view can be rendered
+        allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false)
+      end
+
+      context 'with user limit reached' do
+        render_views
+
+        before do
+          allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(true)
+
+          post :login, params: { username: 'foo', password: 'bar' }
+        end
+
+        it 'shows the user limit error' do
+          expect(response.body).to have_text "user limit reached"
+        end
+
+        it 'renders the register form' do
+          expect(response.body).to include "/account/register"
+        end
+      end
+    end
   end
 
   describe '#login with omniauth_direct_login enabled',
@@ -258,7 +336,7 @@ describe AccountController, type: :controller do
   end
 
   describe 'Login for user with forced password change' do
-    let(:admin) { FactoryGirl.create(:admin, force_password_change: true) }
+    let(:admin) { FactoryBot.create(:admin, force_password_change: true) }
 
     before do
       allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false)
@@ -354,7 +432,7 @@ describe AccountController, type: :controller do
     end
 
     context 'with self registration off but an ongoing invitation activation' do
-      let(:token) { FactoryGirl.create :invitation_token }
+      let(:token) { FactoryBot.create :invitation_token }
 
       before do
         allow(Setting).to receive(:self_registration).and_return('0')
@@ -408,6 +486,43 @@ describe AccountController, type: :controller do
             user = User.where(login: 'register').last
             expect(user).not_to be_nil
             expect(user.status).to eq(User::STATUSES[:active])
+          end
+        end
+
+        context "with user limit reached" do
+          let!(:admin) { FactoryBot.create :admin }
+
+          let(:params) do
+            {
+              user: {
+                login: 'register',
+                password: 'adminADMIN!',
+                password_confirmation: 'adminADMIN!',
+                firstname: 'John',
+                lastname: 'Doe',
+                mail: 'register@example.com'
+              }
+            }
+          end
+
+          before do
+            allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(true)
+
+            post :register, params: params
+          end
+
+          it "fails" do
+            is_expected.to redirect_to(signin_path)
+
+            expect(flash[:error]).to match /user limit reached/
+          end
+
+          it "notifies the admins about the issue" do
+            mail = ActionMailer::Base.deliveries.last
+
+            expect(mail.subject).to match /limit reached/
+            expect(mail.to.first).to eq admin.mail
+            expect(mail.body.parts.first.to_s).to match /new user \(#{params[:user][:mail]}\)/
           end
         end
       end
@@ -607,7 +722,53 @@ describe AccountController, type: :controller do
     end
   end
 
+  context 'POST activate' do
+    let!(:admin) { FactoryBot.create :admin }
+    let(:user) { FactoryBot.create :user, status: status }
+    let(:status) { -1 }
+
+    let(:token) { Token::Invitation.create!(user_id: user.id) }
+
+    before do
+      allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(true)
+
+      post :activate, params: { token: token.value }
+    end
+
+    shared_examples "activation is blocked due to user limit" do
+      it "does not activate the user" do
+        expect(user.reload).not_to be_active
+      end
+
+      it "redirects back to the login page and shows the user limit error" do
+        expect(response).to redirect_to(signin_path)
+        expect(flash[:error]).to match /user limit reached.*contact.*admin/i
+      end
+
+      it "notifies the admins about the issue" do
+        mail = ActionMailer::Base.deliveries.last
+
+        expect(mail.subject).to match /limit reached/
+        expect(mail.to.first).to eq admin.mail
+      end
+    end
+
+    context 'registered user' do
+      let(:status) { User::STATUSES[:registered] }
+
+      it_behaves_like "activation is blocked due to user limit"
+    end
+
+    context 'invited user' do
+      let(:status) { User::STATUSES[:invited] }
+
+      it_behaves_like "activation is blocked due to user limit"
+    end
+  end
+
   describe 'GET #auth_source_sso_failed (/sso)' do
+    render_views
+
     let(:failure) do
       {
         user: user,
@@ -617,7 +778,7 @@ describe AccountController, type: :controller do
       }
     end
 
-    let(:user) { FactoryGirl.create :user, status: 2 }
+    let(:user) { FactoryBot.create :user, status: 2 }
 
     before do
       session[:auth_source_sso_failure] = failure
@@ -637,9 +798,9 @@ describe AccountController, type: :controller do
     end
 
     context "with an invalid user" do
-      let!(:duplicate) { FactoryGirl.create :user, mail: "login@DerpLAP.net" }
+      let!(:duplicate) { FactoryBot.create :user, mail: "login@DerpLAP.net" }
       let(:user) do
-        FactoryGirl.build(:user, mail: duplicate.mail).tap(&:valid?)
+        FactoryBot.build(:user, mail: duplicate.mail).tap(&:valid?)
       end
 
       it "should show the account creation form with an error" do
@@ -649,6 +810,60 @@ describe AccountController, type: :controller do
 
         expect(response.body).to have_text "Create a new account"
         expect(response.body).to have_text "This field is invalid: Email has already been taken."
+      end
+    end
+  end
+
+  describe 'POST #activate' do
+    shared_examples 'account activation' do
+      let(:token) { Token::Invitation.create user: user }
+
+      let(:activation_params) do
+        {
+          token: token.value
+        }
+      end
+
+      context 'with an expired token' do
+        before do
+          token.update_column :expires_on, Date.today - 1.day
+
+          post :activate, params: activation_params
+        end
+
+        it 'fails and shows an expiration warning' do
+          is_expected.to redirect_to('/')
+          expect(flash[:warning]).to include 'expired'
+        end
+
+        it 'deletes the old token and generates a new one' do
+          old_token = Token::Invitation.find_by(id: token.id)
+          new_token = Token::Invitation.find_by(user_id: token.user.id)
+
+          expect(old_token).to be_nil
+          expect(new_token).to be_present
+
+          expect(new_token).not_to be_expired
+        end
+
+        it 'sends out a new activation email' do
+          new_token = Token::Invitation.find_by(user_id: token.user.id)
+          mail = ActionMailer::Base.deliveries.last
+
+          expect(mail.parts.first.body.raw_source).to include "activate?token=#{new_token.value}"
+        end
+      end
+    end
+
+    context 'with an invited user' do
+      it_behaves_like 'account activation' do
+        let(:user) { FactoryBot.create :user, status: 4 }
+      end
+    end
+
+    context 'with an registered user' do
+      it_behaves_like 'account activation' do
+        let(:user) { FactoryBot.create :user, status: 2 }
       end
     end
   end

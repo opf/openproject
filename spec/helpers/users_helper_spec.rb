@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -32,7 +32,7 @@ describe UsersHelper, type: :helper do
   include UsersHelper
 
   def build_user(status, blocked)
-    user = FactoryGirl.build(:user)
+    user = FactoryBot.build(:user)
     allow(user).to receive(:status).and_return(User::STATUSES[status])
     allow(user).to receive(:failed_too_many_recent_login_attempts?).and_return(blocked)
     allow(user).to receive(:failed_login_count).and_return(3)

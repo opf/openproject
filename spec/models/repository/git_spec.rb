@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,14 +23,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe Repository::Git, type: :model do
   let(:encoding) { 'UTF-8' }
-  let(:instance) { FactoryGirl.build(:repository_git, path_encoding: encoding) }
+  let(:instance) { FactoryBot.build(:repository_git, path_encoding: encoding) }
   let(:adapter) { instance.scm }
   let(:config) { {} }
   let(:enabled_scm) { %w[git] }
@@ -79,7 +79,7 @@ describe Repository::Git, type: :model do
 
     context 'with managed config' do
       let(:config) { { manages: managed_path } }
-      let(:project) { FactoryGirl.build :project }
+      let(:project) { FactoryBot.build :project }
       let(:identifier) { project.identifier + '.git' }
 
       it 'is manageable' do
@@ -126,8 +126,8 @@ describe Repository::Git, type: :model do
       end
 
       context 'and associated project with parent' do
-        let(:parent) { FactoryGirl.build :project }
-        let(:project) { FactoryGirl.build :project, parent: parent }
+        let(:parent) { FactoryBot.build :project }
+        let(:project) { FactoryBot.build :project, parent: parent }
 
         before do
           instance.project = project
@@ -142,7 +142,7 @@ describe Repository::Git, type: :model do
   end
 
   describe 'URL validation' do
-    let(:instance) { FactoryGirl.build(:repository_git, url: url) }
+    let(:instance) { FactoryBot.build(:repository_git, url: url) }
 
     shared_examples 'repository url is valid' do
       it 'is valid' do
@@ -179,7 +179,7 @@ describe Repository::Git, type: :model do
     with_git_repository do |repo_dir|
       let(:url) { repo_dir }
       let(:instance) {
-        FactoryGirl.create(:repository_git,
+        FactoryBot.create(:repository_git,
                            path_encoding: encoding,
                            url: url,
                            root_url: url)
@@ -405,8 +405,8 @@ describe Repository::Git, type: :model do
       end
 
       context 'with an admin browsing activity' do
-        let(:user) { FactoryGirl.create(:admin) }
-        let(:project) { FactoryGirl.create(:project) }
+        let(:user) { FactoryBot.create(:admin) }
+        let(:project) { FactoryBot.create(:project) }
 
         def find_events(user, options = {})
           fetcher = Redmine::Activity::Fetcher.new(user, options)

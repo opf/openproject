@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module RepositoriesHelper
@@ -38,6 +38,12 @@ module RepositoriesHelper
     else
       revision.to_s
     end
+  end
+
+  ##
+  # Format revision commits with plain formatter
+  def format_revision_text(commit_message)
+    format_text(commit_message, format: 'plain')
   end
 
   def truncate_at_line_break(text, length = 255)
@@ -118,13 +124,13 @@ module RepositoriesHelper
     output = '<ul>'
     tree.keys.sort.each do |file|
       style = 'change'
-      text = File.basename(h(file))
+      text = File.basename(file)
       if s = tree[file][:s]
         style << ' folder'
         path_param = without_leading_slash(to_path_param(@repository.relative_path(file)))
         text = link_to(h(text),
                        show_revisions_path_project_repository_path(project_id: @project,
-                                                                   path: path_param,
+                                                                   repo_path: path_param,
                                                                    rev: @changeset.identifier),
                        title: l(:label_folder))
 
@@ -139,7 +145,7 @@ module RepositoriesHelper
 
           text = link_to(h(text),
                          entry_revision_project_repository_path(project_id: @project,
-                                                                path: path_param,
+                                                                repo_path: path_param,
                                                                 rev: @changeset.identifier),
                          title: title_text)
         end
@@ -149,7 +155,7 @@ module RepositoriesHelper
         if c.action == 'M'
           text << raw(' (' + link_to(l(:label_diff),
                                      diff_revision_project_repository_path(project_id: @project,
-                                                                           path: path_param,
+                                                                           repo_path: path_param,
                                                                            rev: @changeset.identifier)) + ') ')
         end
 
@@ -243,9 +249,10 @@ module RepositoriesHelper
                scm_options(repository),
                class: 'form--select repositories--remote-select',
                data: {
-                 remote: true,
-                 url: url_for(controller: '/repositories',
-                              action: 'edit', project_id: @project.id),
+                 url: url_for(controller: '/project_settings',
+                              action: 'show',
+                              tab: 'repository',
+                              project_id: @project.id),
                },
                disabled: (repository && !repository.new_record?)
               )

@@ -1,0 +1,13 @@
+<% unless EnterpriseToken.allows_to?(ee_feature) %>
+  <span class="form--field -indented">
+    <div class="ee-attribute-highlighting-upsale notification-box -ee-upsale">
+      <div class="notification-box--content">
+        <p><strong><%= title.present? ? title : t('js.upsale.ee_only') %></strong></p>
+        <p><%= explanation %></p>
+        <p>
+          <%= link_to link_out[:caption], link_out[:href], target: 'blank' %>
+        </p>
+      </div>
+    </div>
+  </span>
+<% end %>

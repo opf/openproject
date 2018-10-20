@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -31,22 +31,22 @@ require 'spec_helper'
 describe Project::Storage, type: :model do
 
   let(:project1) {
-    FactoryGirl.create(:project)
+    FactoryBot.create(:project)
       .reload # Reload required for wiki association to be available
   }
-  let(:project2) { FactoryGirl.create(:project) }
+  let(:project2) { FactoryBot.create(:project) }
 
   before do
     allow(Setting).to receive(:enabled_scm).and_return(['git'])
 
-    wp = FactoryGirl.create(:work_package, project: project1)
-    FactoryGirl.create(:work_package, project: project1)
-    FactoryGirl.create_list(:attachment, 10, filesize: 250, container: wp)
+    wp = FactoryBot.create(:work_package, project: project1)
+    FactoryBot.create(:work_package, project: project1)
+    FactoryBot.create_list(:attachment, 10, filesize: 250, container: wp)
 
-    wikipage = FactoryGirl.create(:wiki_page, wiki: project1.wiki)
-    FactoryGirl.create(:attachment, filesize: 10000, container: wikipage)
+    wikipage = FactoryBot.create(:wiki_page, wiki: project1.wiki)
+    FactoryBot.create(:attachment, filesize: 10000, container: wikipage)
 
-    repo = FactoryGirl.create(:repository_git, project: project2)
+    repo = FactoryBot.create(:repository_git, project: project2)
     repo.update_attributes(required_storage_bytes: 1234)
   end
 
@@ -78,7 +78,7 @@ describe Project::Storage, type: :model do
     end
 
     context 'with a project with all modules' do
-      let(:repository1) { FactoryGirl.create(:repository_git, project: project1) }
+      let(:repository1) { FactoryBot.create(:repository_git, project: project1) }
       before do
         repository1.update_attributes(required_storage_bytes: 543211234)
       end

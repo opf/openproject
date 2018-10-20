@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 //++
 
 // Disable text selection in rows
@@ -61,7 +61,7 @@
   padding: 0 !important
 
 // Shrink column of details / inline-create icons
-.wp-table--context-menu-column
+.wp-table--configuration-modal--trigger
   width: 60px
   // Center the th icon
   text-align: center !important
@@ -101,10 +101,6 @@ html:not(.-browser-mobile)
 .wp-table-context-menu-link
   padding-left: 5px
 
-table.generic-table tbody tr.issue .checkbox
-  overflow: visible
-  padding-left: 5px
-
 .wp-table--cell .ui-datepicker
   margin-left: -38%
 
@@ -121,6 +117,10 @@ table.generic-table tbody tr.issue .checkbox
   .inplace-edit
     display: initial
     pointer-events: all
+
+// Some padding for the inner cells of the display fields
+.wp-table--cell-span
+  padding: 2px 5px 2px 5px
 
 // On edge, pointer-events only work on
 // block or inline-block elements

@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 require_relative '../legacy_spec_helper'
 require 'admin_controller'
@@ -44,15 +44,6 @@ describe AdminController, type: :controller do
     get :index
     assert_select 'div', false,
                   attributes: { class: /nodata/ }
-  end
-
-  it 'should test email' do
-    get :test_email
-    assert_redirected_to '/settings/edit?tab=notifications'
-    mail = ActionMailer::Base.deliveries.last
-    assert_kind_of Mail::Message, mail
-    user = User.find(1)
-    assert_equal [user.mail], mail.to
   end
 
   it 'should no plugins' do
@@ -92,7 +83,7 @@ describe AdminController, type: :controller do
   it 'should admin menu plugin extension' do
     Redmine::MenuManager.map :admin_menu do |menu|
       menu.push :test_admin_menu_plugin_extension,
-                { controller: 'plugins', action: 'index' },
+                { controller: '/admin', action: 'plugins' },
                 caption: 'Test'
     end
 
@@ -101,7 +92,7 @@ describe AdminController, type: :controller do
     get :plugins
     assert_response :success
     assert_select 'a',
-                  attributes: { href: '/plugins' },
+                  attributes: { href: '/admin/plugins' },
                   content: 'Test'
 
     Redmine::MenuManager.map :admin_menu do |menu|

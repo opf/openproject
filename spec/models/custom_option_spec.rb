@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,14 +23,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe CustomOption, type: :model do
   let(:custom_field) do
-    cf = FactoryGirl.build(:wp_custom_field, field_format: 'list')
+    cf = FactoryBot.build(:wp_custom_field, field_format: 'list')
     cf.custom_options.build(value: 'some value')
 
     cf
@@ -54,7 +54,7 @@ describe CustomOption, type: :model do
   describe '.destroy' do
     context 'with more than one option for the cf' do
       before do
-        FactoryGirl.create(:custom_option, custom_field: custom_field)
+        FactoryBot.create(:custom_option, custom_field: custom_field)
       end
 
       it 'removes the option' do

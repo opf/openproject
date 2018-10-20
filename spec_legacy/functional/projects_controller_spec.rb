@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 require_relative '../legacy_spec_helper'
 require 'projects_controller'
@@ -389,13 +389,6 @@ describe ProjectsController, type: :controller do
     assert_select 'a', content: /Private child/
   end
 
-  it 'should settings' do
-    session[:user_id] = 2 # manager
-    get :settings, params: { id: 1 }
-    assert_response :success
-    assert_template 'settings'
-  end
-
   it 'should update' do
     session[:user_id] = 2 # manager
     put :update,
@@ -431,7 +424,7 @@ describe ProjectsController, type: :controller do
   it 'should post destroy' do
     session[:user_id] = 1 # admin
     delete :destroy, params: { id: 1, confirm: 1 }
-    assert_redirected_to '/admin/projects'
+    assert_redirected_to '/projects'
     assert_nil Project.find_by(id: 1)
   end
 

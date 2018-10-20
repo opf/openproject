@@ -27,30 +27,61 @@
 # See doc/COPYRIGHT.rdoc for more details.
 module DemoData
   class WikiSeeder < Seeder
-    attr_reader :project
+    attr_reader :project, :key
 
-    def initialize(project)
+    def initialize(project, key)
       @project = project
+      @key = key
     end
 
     def seed_data!
+      text = I18n.t("seeders.demo_data.projects.#{key}.wiki")
+
+      return if text.is_a?(String) && text.start_with?("translation missing")
+
       user = User.admin.first
 
+      if text.is_a? String
+        text = [{title: "Wiki", content: text}]
+      end
+
       print '    ↳ Creating wikis'
-      print '.'
+
+      Array(text).each do |data|
+        create_wiki_page!(
+          data,
+          project: project,
+          user: user
+        )
+      end
+
+      puts
+    end
+
+    def create_wiki_page!(data, project:, user:, parent: nil)
       wiki_page = WikiPage.create!(
         wiki:  project.wiki,
-        title: 'Wiki'
+        title: data[:title],
+        parent: parent
       )
 
       print '.'
       WikiContent.create!(
         page:   wiki_page,
         author: user,
-        text:   I18n.t('seeders.demo_data.wiki.content')
+        text:   data[:content]
       )
 
-      puts
+      if data[:children]
+        Array(data[:children]).each do |child_data|
+          create_wiki_page!(
+            child_data,
+            project: project,
+            user: user,
+            parent: wiki_page
+          )
+        end
+      end
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -32,13 +32,13 @@ require_relative '../support/shared/become_member'
 describe Group, type: :model do
   include BecomeMember
 
-  let(:group) { FactoryGirl.build(:group) }
-  let(:user) { FactoryGirl.build(:user) }
-  let(:watcher) { FactoryGirl.create :user }
-  let(:project) { FactoryGirl.create(:project_with_types) }
-  let(:status) { FactoryGirl.create(:status) }
+  let(:group) { FactoryBot.build(:group) }
+  let(:user) { FactoryBot.build(:user) }
+  let(:watcher) { FactoryBot.create :user }
+  let(:project) { FactoryBot.create(:project_with_types) }
+  let(:status) { FactoryBot.create(:status) }
   let(:package) {
-    FactoryGirl.build(:work_package, type: project.types.first,
+    FactoryBot.build(:work_package, type: project.types.first,
                                      author: user,
                                      project: project,
                                      status: status)
@@ -92,7 +92,7 @@ describe Group, type: :model do
 
   describe '#create' do
     describe 'group with empty group name' do
-      let(:group) { FactoryGirl.build(:group, lastname: '') }
+      let(:group) { FactoryBot.build(:group, lastname: '') }
 
       it { expect(group.valid?).to be_falsey }
 

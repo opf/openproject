@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module API
@@ -35,6 +35,8 @@ module API
         module LinkValueGetter
           def self.new(custom_field, path_method)
             ->(*) do
+              next unless represented.available_custom_fields.include?(custom_field)
+
               # we can't use the generated accessor (e.g. represented.send :custom_field_1) here,
               # because we need to generate a link even if the id does not belong to an existing
               # object (that behaviour is only required for form payloads)

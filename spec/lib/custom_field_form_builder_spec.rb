@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 require 'spec_helper'
 require 'ostruct'
@@ -38,8 +38,11 @@ describe CustomFieldFormBuilder do
   describe '#custom_field' do
     let(:options) { { class: 'custom-class' } }
 
+    let(:custom_field) do
+      FactoryBot.build_stubbed(:custom_field)
+    end
     let(:resource) do
-      FactoryGirl.build_stubbed(:custom_value)
+      FactoryBot.build_stubbed(:custom_value, custom_field: custom_field)
     end
 
     subject(:output) do
@@ -69,10 +72,6 @@ describe CustomFieldFormBuilder do
 
     context 'for a date custom field' do
       before do
-        expect(helper)
-          .to receive(:calendar_for)
-          .with("user#{resource.custom_field_id}")
-
         resource.custom_field.field_format = 'date'
       end
 
@@ -82,7 +81,7 @@ describe CustomFieldFormBuilder do
 
       it 'should output element' do
         expect(output).to be_html_eql(%{
-          <input class="custom-class form--text-field"
+          <input class="custom-class -augmented-datepicker form--text-field"
                  id="user#{resource.custom_field_id}"
                  name="user[#{resource.custom_field_id}]"
                  type="text" />
@@ -168,12 +167,12 @@ describe CustomFieldFormBuilder do
     end
 
     context 'for a list custom field' do
-      before do
-        custom_field = resource.custom_field
-
-        custom_field.field_format = 'list'
-        custom_field.custom_options.build value: 'my_option', position: 1
-        custom_field.save!
+      let(:custom_field) do
+        FactoryBot.build_stubbed(:list_wp_custom_field,
+                                  custom_options: [custom_option])
+      end
+      let(:custom_option) do
+        FactoryBot.build_stubbed(:custom_option, value: 'my_option')
       end
 
       it_behaves_like 'wrapped in container', 'select-container' do
@@ -181,61 +180,55 @@ describe CustomFieldFormBuilder do
       end
 
       it 'should output element' do
-        value = resource.custom_field.custom_options.first.id
-
         expect(output).to be_html_eql(%{
           <select class="custom-class form--select"
-                  id="user#{resource.custom_field_id}"
-                  name="user[#{resource.custom_field_id}]"
+                  id="user#{custom_field.id}"
+                  name="user[#{custom_field.id}]"
                   no_label="true"><option
                   value=\"\"></option>
-                  <option value=\"#{value}\">my_option</option></select>
+                  <option value=\"#{custom_option.id}\">my_option</option></select>
         }).at_path('select')
       end
 
       context 'which is required and has no default value' do
         before do
-          resource.custom_field.is_required = true
+          custom_field.is_required = true
         end
 
         it 'should output element' do
-          value = resource.custom_field.custom_options.first.id
-
           expect(output).to be_html_eql(%{
             <select class="custom-class form--select"
-                    id="user#{resource.custom_field_id}"
-                    name="user[#{resource.custom_field_id}]"
+                    id="user#{custom_field.id}"
+                    name="user[#{custom_field.id}]"
                     no_label="true"><option value=\"\">---
                     Please select ---</option>
-                    <option value=\"#{value}\">my_option</option></select>
+                    <option value=\"#{custom_option.id}\">my_option</option></select>
           }).at_path('select')
         end
       end
 
       context 'which is required and a default value' do
         before do
-          resource.custom_field.is_required = true
-          resource.custom_field.custom_options.first.update default_value: true
+          custom_field.is_required = true
+          custom_option.default_value = true
         end
 
         it 'should output element' do
-          value = resource.custom_field.custom_options.first.id
-
           expect(output).to be_html_eql(%{
             <select class="custom-class form--select"
-                    id="user#{resource.custom_field_id}"
-                    name="user[#{resource.custom_field_id}]"
+                    id="user#{custom_field.id}"
+                    name="user[#{custom_field.id}]"
                     no_label="true"><option
-                    value=\"#{value}\">my_option</option></select>
+                    value=\"#{custom_option.id}\">my_option</option></select>
           }).at_path('select')
         end
       end
     end
 
     context 'for a user custom field' do
-      let(:project) { FactoryGirl.build_stubbed(:project) }
-      let(:user1) { FactoryGirl.build_stubbed(:user) }
-      let(:user2) { FactoryGirl.build_stubbed(:user) }
+      let(:project) { FactoryBot.build_stubbed(:project) }
+      let(:user1) { FactoryBot.build_stubbed(:user) }
+      let(:user2) { FactoryBot.build_stubbed(:user) }
 
       before do
         resource.custom_field.field_format = 'user'
@@ -283,15 +276,15 @@ describe CustomFieldFormBuilder do
     end
 
     context 'for a version custom field' do
-      let(:project) { FactoryGirl.build_stubbed(:project) }
-      let(:version1) { FactoryGirl.build_stubbed(:version) }
-      let(:version2) { FactoryGirl.build_stubbed(:version) }
+      let(:project) { FactoryBot.build_stubbed(:project) }
+      let(:version1) { FactoryBot.build_stubbed(:version) }
+      let(:version2) { FactoryBot.build_stubbed(:version) }
 
       before do
         resource.custom_field.field_format = 'version'
         resource.customized = project
         allow(project)
-          .to receive(:versions)
+          .to receive(:shared_versions)
           .and_return([version1, version2])
       end
 

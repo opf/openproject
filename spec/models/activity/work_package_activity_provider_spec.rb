@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -33,12 +33,12 @@ describe Activity::WorkPackageActivityProvider, type: :model do
   let(:work_package_edit_event)   { 'work_package-edit' }
   let(:work_package_closed_event) { 'work_package-closed' }
 
-  let(:user)          { FactoryGirl.create :admin }
-  let(:role)          { FactoryGirl.create :role }
-  let(:status_closed) { FactoryGirl.create :closed_status }
-  let(:work_package)  { FactoryGirl.build :work_package }
+  let(:user)          { FactoryBot.create :admin }
+  let(:role)          { FactoryBot.create :role }
+  let(:status_closed) { FactoryBot.create :closed_status }
+  let(:work_package)  { FactoryBot.build :work_package }
   let!(:workflow)     {
-    FactoryGirl.create :workflow,
+    FactoryBot.create :workflow,
                        old_status: work_package.status,
                        new_status: status_closed,
                        type_id: work_package.type_id,
@@ -59,7 +59,7 @@ describe Activity::WorkPackageActivityProvider, type: :model do
       end
 
       context 'should be selected and ordered correctly' do
-        let!(:work_packages) { (1..20).map { (FactoryGirl.create :work_package, author: user).id.to_s } }
+        let!(:work_packages) { (1..20).map { (FactoryBot.create :work_package, author: user).id.to_s } }
         let(:subject) { Activity::WorkPackageActivityProvider.find_events(event_scope, user, Date.yesterday, Date.tomorrow, limit: 10).map { |a| a.journable_id.to_s } }
         it { is_expected.to eq(work_packages.reverse.first(10)) }
       end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -31,17 +31,17 @@ require 'spec_helper'
 describe WorkPackage, type: :model do
   describe ActionMailer::Base do
     let(:user_1) {
-      FactoryGirl.build(:user,
+      FactoryBot.build(:user,
                         mail: 'dlopper@somenet.foo',
                         member_in_project: project)
     }
     let(:user_2) {
-      FactoryGirl.build(:user,
+      FactoryBot.build(:user,
                         mail: 'jsmith@somenet.foo',
                         member_in_project: project)
     }
-    let(:project) { FactoryGirl.create(:project) }
-    let(:work_package) { FactoryGirl.build(:work_package, project: project) }
+    let(:project) { FactoryBot.create(:project) }
+    let(:work_package) { FactoryBot.build(:work_package, project: project) }
 
     before do
       allow(work_package).to receive(:recipients).and_return([user_1])
@@ -83,7 +83,7 @@ describe WorkPackage, type: :model do
     end
 
     context 'group_assigned_work_package' do
-      let(:group) { FactoryGirl.create(:group) }
+      let(:group) { FactoryBot.create(:group) }
 
       before do
         group.users << user_1

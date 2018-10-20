@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'rack/test'
@@ -32,16 +32,16 @@ shared_examples_for 'available principals' do |principals|
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
   end
   let(:other_user) do
-    FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
   end
-  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
-  let(:project) { FactoryGirl.create(:project) }
+  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:project) { FactoryBot.create(:project) }
   let(:group) do
-    group = FactoryGirl.create(:group)
-    project.add_member! group, FactoryGirl.create(:role)
+    group = FactoryBot.create(:group)
+    project.add_member! group, FactoryBot.create(:role)
     group
   end
   let(:permissions) { [:view_work_packages] }
@@ -55,17 +55,17 @@ shared_examples_for 'available principals' do |principals|
   end
 
   describe 'response' do
-    shared_examples_for "returns available #{principals}" do |total, count|
+    shared_examples_for "returns available #{principals}" do |total, count, klass|
       include_context "request available #{principals}"
 
-      it_behaves_like 'API V3 collection response', total, count, 'User'
+      it_behaves_like 'API V3 collection response', total, count, klass
     end
 
     describe 'users' do
       context 'single user' do
         # The current user
 
-        it_behaves_like "returns available #{principals}", 1, 1
+        it_behaves_like "returns available #{principals}", 1, 1, 'User'
       end
 
       context 'multiple users' do
@@ -74,7 +74,7 @@ shared_examples_for 'available principals' do |principals|
           # and the current user
         end
 
-        it_behaves_like "returns available #{principals}", 2, 2
+        it_behaves_like "returns available #{principals}", 2, 2, 'User'
       end
     end
 
@@ -87,7 +87,7 @@ shared_examples_for 'available principals' do |principals|
         end
 
         # current user and group
-        it_behaves_like "returns available #{principals}", 2, 2
+        it_behaves_like "returns available #{principals}", 2, 2, 'Group'
       end
 
       context 'without work_package_group_assignment' do
@@ -96,7 +96,7 @@ shared_examples_for 'available principals' do |principals|
         end
 
         # Only the current user
-        it_behaves_like "returns available #{principals}", 1, 1
+        it_behaves_like "returns available #{principals}", 1, 1, 'User'
       end
     end
   end

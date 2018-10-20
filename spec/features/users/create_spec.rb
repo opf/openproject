@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,14 +23,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe 'create users', type: :feature, selenium: true do
-  let(:current_user) { FactoryGirl.create :admin }
-  let(:auth_source) { FactoryGirl.build :dummy_auth_source }
+  let(:current_user) { FactoryBot.create :admin }
+  let(:auth_source) { FactoryBot.build :dummy_auth_source }
   let(:new_user_page) { Pages::NewUser.new }
 
   before do
@@ -45,7 +45,7 @@ describe 'create users', type: :feature, selenium: true do
     it 'creates the user' do
       expect(page).to have_selector('.flash', text: 'Successful creation.')
 
-      new_user = User.order('created_on DESC').first
+      new_user = User.order('id DESC').first
 
       expect(current_path).to eql(edit_user_path(new_user.id))
     end

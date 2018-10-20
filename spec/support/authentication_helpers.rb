@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'rack_session_access/capybara'
@@ -41,13 +41,18 @@ module AuthenticationHelpers
     allow(User).to receive(:current).and_return(user)
   end
 
-  def login_with(login, password)
-    visit '/login'
+  def login_with(login, password, autologin: false)
+    visit signin_path
     within('#login-form') do
       fill_in 'username', with: login
       fill_in 'password', with: password
+      check I18n.t(:label_stay_logged_in) if autologin
       click_button I18n.t(:button_login)
     end
+  end
+
+  def logout
+    visit signout_path
   end
 end
 

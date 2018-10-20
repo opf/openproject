@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,16 +23,16 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
 describe 'Work package index accessibility', type: :feature, selenium: true do
-  let(:user) { FactoryGirl.create(:admin) }
-  let(:project) { FactoryGirl.create(:project) }
-  let(:work_package) { FactoryGirl.create(:work_package, project: project) }
+  let(:user) { FactoryBot.create(:admin) }
+  let(:project) { FactoryBot.create(:project) }
+  let(:work_package) { FactoryBot.create(:work_package, project: project) }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:sort_ascending_selector) { '.icon-sort-ascending' }
   let(:sort_descending_selector) { '.icon-sort-descending' }
@@ -167,7 +167,7 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
 
   describe 'hotkeys', js: true do
     let!(:another_work_package) {
-      FactoryGirl.create(:work_package,
+      FactoryBot.create(:work_package,
                          project: project)
     }
     before do
@@ -200,8 +200,14 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
 
     context 'help' do
       it 'opens help popup with \'?\'' do
-        find('body').native.send_keys('?')
-        expect(page).to have_selector('.ui-dialog')
+        expect_angular_frontend_initialized
+
+        new_window = window_opened_by { find('body').native.send_keys('?') }
+        within_window new_window do
+          expect(page).to have_selector('h1', text: 'Available Keyboard Shortcuts')
+        end
+
+        new_window.close
       end
     end
   end
@@ -232,83 +238,17 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
 
     describe 'work package context menu', js: true do
       it_behaves_like 'context menu' do
-        let(:target_link) { '#work-package-context-menu li.detailsViewMenuItem a' }
+        let(:target_link) { '#work-package-context-menu a.detailsViewMenuItem' }
         let(:source_link) { '.work-package-table--container tr.issue td.id a' }
         let(:keys) { [:shift, :alt, :f10] }
         let(:sets_focus) { true }
       end
 
       it_behaves_like 'context menu' do
-        let(:target_link) { '#work-package-context-menu li.openFullScreenView a' }
+        let(:target_link) { '#work-package-context-menu a.openFullScreenView' }
         let(:source_link) { '.work-package-table--container tr.issue td.id a' }
         let(:keys) { [:shift, :alt, :f10] }
         let(:sets_focus) { false }
-      end
-    end
-
-    describe 'column header drop down menu', js: true do
-      it_behaves_like 'context menu' do
-        let(:source_link) { '.work-package-table--container th #subject' }
-        let(:target_link) { '#column-context-menu .dropdown-menu li:first-of-type a' }
-        let(:keys) { :enter }
-        let(:sets_focus) { true }
-      end
-    end
-  end
-
-  describe 'settings button', js: true do
-    before do visit_index_page end
-
-    shared_examples_for 'menu setting item' do
-      context 'closable by ESC and remembers focus on gear button' do
-        before do
-          find(:css, '.work-packages-settings-button').click
-          anchor.click
-        end
-        it do
-          # expect the modal to be shown
-          expect(page).to have_selector('.ng-modal-window')
-
-          modal = page.find('.ng-modal-inner')
-          modal.click
-          modal.native.send_keys(:escape)
-          # expect it to disappear
-          expect(page).not_to have_selector('.ng-modal-window')
-          # expect the gear to be focused
-          expect(page).to have_focus_on('#work-packages-settings-button')
-        end
-      end
-    end
-
-    context 'gear button' do
-      context 'columns popup anchor' do
-        it_behaves_like 'menu setting item' do
-          let (:anchor) { find('#settingsDropdown .dropdown-menu li:nth-child(1) a') }
-        end
-      end
-
-      context 'sorting popup anchor' do
-        it_behaves_like 'menu setting item' do
-          let (:anchor) { find('#settingsDropdown .dropdown-menu li:nth-child(2) a') }
-        end
-      end
-
-      context 'grouping popup anchor' do
-        let!(:query) do
-          query = FactoryGirl.build(:query, user: user, project: project)
-          query.show_hierarchies = false
-          query.save!
-          query
-        end
-        let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-
-        before do
-          wp_table.visit_query query
-        end
-
-        it_behaves_like 'menu setting item' do
-          let (:anchor) { find('#settingsDropdown .dropdown-menu li:nth-child(3) a') }
-        end
       end
     end
   end

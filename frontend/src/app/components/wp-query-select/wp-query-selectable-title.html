@@ -1,0 +1,29 @@
+<div *ngIf="editable"
+     (focusout)="resetWhenFocusOutside($event)"
+     class="wp-query-selectable-title--container">
+  <accessible-by-keyboard *ngIf="showSave"
+                          (execute)="save($event, true)"
+                          [linkAriaLabel]="text.query_has_changed_click_to_save"
+                          [linkTitle]="text.query_has_changed_click_to_save"
+                          linkClass="wp-query-selectable-title--save"
+                          spanClass="icon icon-save">
+  </accessible-by-keyboard>
+  <input #editableTitleInput
+         type="text"
+         aria-required="true"
+         [attr.name]="selectableTitleIdentifier"
+         [attr.id]="selectableTitleIdentifier"
+         (keydown.escape)="reset($event)"
+         (keydown.enter)="save($event)"
+         [attr.placeholder]="text.input_placeholder"
+         [attr.title]="text.input_title"
+         [(ngModel)]="selectedTitle"
+         [disabled]="inFlight"
+         [ngClass]="{ '-error': isEmpty, '-changed': showSave }"
+         class="wp-query--selectable-title -border-on-hover-only toolbar--editable-toolbar ellipsis"/>
+</div>
+<h2 *ngIf="!editable"
+    [attr.title]="selectedTitle"
+    [ngClass]="{ '-disabled': disabled }"
+    class="wp-query-selectable-title--fixed"> {{ selectedTitle | slice:0:50 }}
+</h2>

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,23 +23,23 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe 'WorkPackage-Visibility', type: :model do
-  let(:admin) { FactoryGirl.create(:admin) }
-  let(:anonymous) { FactoryGirl.create(:anonymous) }
-  let(:user) { FactoryGirl.create(:user) }
-  let(:public_project) { FactoryGirl.create(:project, is_public: true) }
-  let(:private_project) { FactoryGirl.create(:project, is_public: false) }
-  let(:other_project) { FactoryGirl.create(:project, is_public: true) }
-  let(:view_work_packages) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
-  let(:view_work_packages_role2) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
+  let(:admin) { FactoryBot.create(:admin) }
+  let(:anonymous) { FactoryBot.create(:anonymous) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:public_project) { FactoryBot.create(:project, is_public: true) }
+  let(:private_project) { FactoryBot.create(:project, is_public: false) }
+  let(:other_project) { FactoryBot.create(:project, is_public: true) }
+  let(:view_work_packages) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
+  let(:view_work_packages_role2) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
 
   describe 'of public projects' do
-    subject { FactoryGirl.create(:work_package, project: public_project) }
+    subject { FactoryBot.create(:work_package, project: public_project) }
 
     it 'is viewable by anonymous, with the view_work_packages permissison' do
       # it is not really clear, where these kind of "preconditions" belong to: This setting
@@ -51,7 +51,7 @@ describe 'WorkPackage-Visibility', type: :model do
   end
 
   describe 'of private projects' do
-    subject { FactoryGirl.create(:work_package, project: private_project) }
+    subject { FactoryBot.create(:work_package, project: private_project) }
 
     it 'is visible for the admin, even if the project is private' do
       expect(WorkPackage.visible(admin)).to match_array [subject]
@@ -62,7 +62,7 @@ describe 'WorkPackage-Visibility', type: :model do
     end
 
     it 'is visible for members of the project, with the view_work_packages permissison' do
-      FactoryGirl.create(:member,
+      FactoryBot.create(:member,
                          user: user,
                          project: private_project,
                          role_ids: [view_work_packages.id])
@@ -73,7 +73,7 @@ describe 'WorkPackage-Visibility', type: :model do
     it 'is only returned once for members with two roles having view_work_packages permission' do
       subject
 
-      FactoryGirl.create(:member,
+      FactoryBot.create(:member,
                          user: user,
                          project: private_project,
                          role_ids: [view_work_packages.id,
@@ -87,8 +87,8 @@ describe 'WorkPackage-Visibility', type: :model do
     end
 
     it 'is not visible for members of the project, without the view_work_packages permissison' do
-      no_permission = FactoryGirl.create(:role, permissions: [:no_permission])
-      FactoryGirl.create(:member,
+      no_permission = FactoryBot.create(:role, permissions: [:no_permission])
+      FactoryBot.create(:member,
                          user: user,
                          project: private_project,
                          role_ids: [no_permission.id])

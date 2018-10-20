@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -34,10 +34,10 @@ describe 'API v3 Root resource' do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) {
-    FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
   }
-  let(:role) { FactoryGirl.create(:role, permissions: []) }
-  let(:project) { FactoryGirl.create(:project, is_public: false) }
+  let(:role) { FactoryBot.create(:role, permissions: []) }
+  let(:project) { FactoryBot.create(:project, is_public: false) }
 
   describe '#get' do
     let(:response) { last_response }
@@ -74,9 +74,9 @@ describe 'API v3 Root resource' do
       end
 
       context 'without the X-requested-with header', skip_xhr_header: true do
-        it 'returns unauthorized regardless of the session validity' do
-          expect(response.status).to eq(401)
-          expect(response.body).to eq('unauthorized')
+        it 'returns OK because GET requests are allowed' do
+          expect(response.status).to eq(200)
+          expect(subject).to have_json_path('instanceName')
         end
       end
     end

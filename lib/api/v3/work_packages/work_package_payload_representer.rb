@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module API
@@ -34,8 +34,37 @@ module API
       class WorkPackagePayloadRepresenter < WorkPackageRepresenter
         include ::API::Utilities::PayloadRepresenter
 
+        cached_representer disabled: true
+
         def writeable_attributes
-          super + ["date"]
+          super + %w[date attachments]
+        end
+
+        property :attachments,
+                 exec_context: :decorator,
+                 getter: ->(*) {},
+                 setter: ->(fragment:, **) do
+                   ids = fragment.map do |link|
+                     ::API::Utilities::ResourceLinkParser.parse_id link['href'],
+                                                                   property: :attachment,
+                                                                   expected_version: '3',
+                                                                   expected_namespace: :attachments
+                   end
+
+                   represented.attachment_ids = ids
+                 end,
+                 skip_render: ->(*) { true },
+                 linked_resource: true,
+                 uncacheable: true
+
+        links :attachments do
+          represented.attachments.map do |attachment|
+            { href: api_v3_paths.attachment(attachment.id) }
+          end
+        end
+
+        def load_complete_model(model)
+          model
         end
       end
     end

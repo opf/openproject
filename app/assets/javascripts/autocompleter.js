@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 //++
 
 
@@ -173,21 +173,21 @@
 
       if (match < 0) {
         return "<span data-value='" + item.id + "'>" +
-               OpenProject.Helpers.markupEscape(item.name) + "</span>";
+          _.escape(item.name) + "</span>";
       }
 
-      markup.push(OpenProject.Helpers.markupEscape(
+      markup.push(_.escape(
                   item.name.substring(0, match)));
       markup.push("<span class='select2-match' data-value='" + item.id + "'>");
-      markup.push(OpenProject.Helpers.markupEscape(
+      markup.push(_.escape(
                   item.name.substring(match, match + tl)));
       markup.push("</span>");
-      markup.push(OpenProject.Helpers.markupEscape(
+      markup.push(_.escape(
                   item.name.substring(match + tl, item.name.length)));
       return markup.join("");
     },
     formatSelection: function (item) {
-      return OpenProject.Helpers.markupEscape(item.name);
+      return _.escape(item.name);
     },
     initSelection: function (element, callback) {
       var data = [], multiple;

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module API
@@ -51,6 +51,10 @@ module API
         parsed_params[:timeline_visible] = boolearize(params[:timelineVisible])
 
         parsed_params[:timeline_zoom_level] = params[:timelineZoomLevel]
+
+        parsed_params[:highlighting_mode] = params[:highlightingMode]
+
+        parsed_params[:highlighted_attributes] = highlighted_attributes_from_params(params)
 
         parsed_params[:show_hierarchies] = boolearize(params[:showHierarchies])
 
@@ -113,12 +117,22 @@ module API
       end
 
       def columns_from_params(params)
-        columns = params[:columns] || params[:c] || params[:column_names]
+        columns = params[:columns] || params[:c] || params[:column_names] || params[:'columns[]']
 
         return unless columns
 
         columns.map do |column|
           convert_attribute(column)
+        end
+      end
+
+      def highlighted_attributes_from_params(params)
+        highlighted_attributes = params[:highlightedAttributes]
+
+        return unless highlighted_attributes
+
+        highlighted_attributes.map do |attr|
+          convert_attribute(attr)
         end
       end
 
@@ -186,7 +200,17 @@ module API
       end
 
       def params_exist?(params, symbols)
-        params.detect { |k, _| symbols.include? k.to_sym }
+        unsafe_params(params).detect { |k, _| symbols.include? k.to_sym }
+      end
+
+      ##
+      # Access the parameters as a hash, which has been deprecated
+      def unsafe_params(params)
+        if params.is_a? ActionController::Parameters
+          params.to_unsafe_h
+        else
+          params
+        end
       end
 
       def without_empty(hash, exceptions)

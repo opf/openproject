@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -31,7 +31,7 @@ require 'spec_helper'
 describe JournalManager, type: :model do
   describe '#self.changed?' do
     let(:journable) do
-      FactoryGirl.create(:work_package, description: old).tap do |journable|
+      FactoryBot.create(:work_package, description: old).tap do |journable|
         # replace newline character and apply another change
         journable.assign_attributes description: changed
       end
@@ -102,37 +102,37 @@ describe JournalManager, type: :model do
   end
 
   describe 'self.#update_user_references' do
-    let!(:work_package) { FactoryGirl.create :work_package }
+    let!(:work_package) { FactoryBot.create :work_package }
     let!(:doomed_user) { work_package.author }
-    let!(:data1) {
-      FactoryGirl.build(:journal_work_package_journal,
-                        subject: work_package.subject,
-                        status_id: work_package.status_id,
-                        type_id: work_package.type_id,
-                        author_id: doomed_user.id,
-                        project_id: work_package.project_id)
-    }
-    let!(:data2) {
-      FactoryGirl.build(:journal_work_package_journal,
-                        subject: work_package.subject,
-                        status_id: work_package.status_id,
-                        type_id: work_package.type_id,
-                        author_id: doomed_user.id,
-                        project_id: work_package.project_id)
-    }
-    let!(:doomed_user_journal) {
-      FactoryGirl.create :work_package_journal,
-                         notes: '1',
-                         user: doomed_user,
-                         journable_id: work_package.id,
-                         data: data1
-    }
-    let!(:some_other_journal) {
-      FactoryGirl.create :work_package_journal,
-                         notes: '2',
-                         journable_id: work_package.id,
-                         data: data2
-    }
+    let!(:data1) do
+      FactoryBot.build(:journal_work_package_journal,
+                       subject: work_package.subject,
+                       status_id: work_package.status_id,
+                       type_id: work_package.type_id,
+                       author_id: doomed_user.id,
+                       project_id: work_package.project_id)
+    end
+    let!(:data2) do
+      FactoryBot.build(:journal_work_package_journal,
+                       subject: work_package.subject,
+                       status_id: work_package.status_id,
+                       type_id: work_package.type_id,
+                       author_id: doomed_user.id,
+                       project_id: work_package.project_id)
+    end
+    let!(:doomed_user_journal) do
+      FactoryBot.create :work_package_journal,
+                        notes: '1',
+                        user: doomed_user,
+                        journable_id: work_package.id,
+                        data: data1
+    end
+    let!(:some_other_journal) do
+      FactoryBot.create :work_package_journal,
+                        notes: '2',
+                        journable_id: work_package.id,
+                        data: data2
+    end
 
     before do
       doomed_user.destroy
@@ -143,7 +143,7 @@ describe JournalManager, type: :model do
     end
 
     it "should not mark an unrelated journal's user as deleted" do
-      expect(some_other_journal.reload.user.is_a?(DeletedUser)).to be_falsy
+      expect(some_other_journal.reload.user.is_a?(DeletedUser)).to be_falsey
     end
   end
 end

@@ -1,0 +1,48 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% disable_accessibility_css! %>
+
+<% breadcrumb_paths(t('consent.title')) %>
+<% html_title t('consent.title') %>
+<%= call_hook :view_account_consent_top %>
+<div id="login-form" class="account-consent form -bordered">
+
+
+  <%= form_tag(account_confirm_consent_path, method: :post, class: "form -wide-labels") do %>
+    <%= render partial: 'user_consent_check', locals: { consenting_user: consenting_user } %>
+    <section class="form--section">
+      <button type="submit" class="button -highlight">
+      <span class="button--text"><%= t(:button_continue) %></span>
+      </button>
+      <%= link_to t(:button_decline), account_decline_consent_path, class: 'button' %>
+    </section>
+  <% end %>
+</div>
+<%= call_hook :view_account_consent_bottom %>

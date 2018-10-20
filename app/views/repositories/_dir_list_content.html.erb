@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See doc/COPYRIGHT.rdoc for more details.
+See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% if @entries.truncated? %>
@@ -48,12 +48,12 @@ See doc/COPYRIGHT.rdoc for more details.
       <% if entry.dir? %>
         <a class="icon-context dir-expander"
            title="<%= I18n.t('js.label_expand') %>"
-           href="javascript:"
+           href="#"
            data-element="<%= "##{tr_id}" %>"
            aria-label="<%= I18n.t('js.label_expand') %>"
            data-url="<%= url_for(action: 'show',
                                   project_id: @project,
-                                  path: to_path_param(ent_path),
+                                  repo_path: to_path_param(ent_path),
                                   rev: @rev,
                                   depth: (depth + 1),
                                   parent_id: tr_id) %>">
@@ -61,7 +61,7 @@ See doc/COPYRIGHT.rdoc for more details.
           &nbsp
         </a>
       <% end %>
-      <%= link_to({ action: (entry.dir? ? 'show' : 'changes'), project_id: @project, path: to_path_param(ent_path), rev: @rev },
+      <%= link_to({ action: (entry.dir? ? 'show' : 'changes'), project_id: @project, repo_path: to_path_param(ent_path), rev: @rev },
                   class: 'icon-context',
                   aria: { label: (entry.dir? ? t('label_folder') : t('activerecord.attributes.attachment.file')) + " #{h(ent_name)}" }) do %>
         <%= op_icon(entry.dir? ? 'icon-folder' : "icon-ticket #{Redmine::MimeType.css_class_of(ent_name)}") %>

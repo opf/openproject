@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -74,22 +74,34 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/attachments/1'
   end
 
-  describe '#attachment_download without file name' do
-    subject { helper.attachment_download 1 }
+  describe '#attachments' do
+    subject { helper.attachments }
 
-    it_behaves_like 'path', '/attachments/1'
+    it_behaves_like 'api v3 path', '/attachments'
   end
 
-  describe '#attachment_download with file name' do
-    subject { helper.attachment_download 1, 'file.png' }
+  describe '#attachment_content' do
+    subject { helper.attachment_content 1 }
 
-    it_behaves_like 'path', '/attachments/1/file.png'
+    it_behaves_like 'api v3 path', '/attachments/1/content'
+  end
+
+  describe '#attachments_by_post' do
+    subject { helper.attachments_by_post 1 }
+
+    it_behaves_like 'api v3 path', '/posts/1/attachments'
   end
 
   describe '#attachments_by_work_package' do
     subject { helper.attachments_by_work_package 1 }
 
     it_behaves_like 'api v3 path', '/work_packages/1/attachments'
+  end
+
+  describe '#attachments_by_wiki_page' do
+    subject { helper.attachments_by_wiki_page 1 }
+
+    it_behaves_like 'api v3 path', '/wiki_pages/1/attachments'
   end
 
   describe '#available_assignees' do
@@ -140,6 +152,20 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/configuration'
   end
 
+  context 'custom action paths' do
+    describe '#custom_action' do
+      subject { helper.custom_action 42 }
+
+      it_behaves_like 'api v3 path', '/custom_actions/42'
+    end
+
+    describe '#custom_action_execute' do
+      subject { helper.custom_action_execute 42 }
+
+      it_behaves_like 'api v3 path', '/custom_actions/42/execute'
+    end
+  end
+
   describe '#custom_option' do
     subject { helper.custom_option 42 }
 
@@ -158,42 +184,40 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/projects/42/work_packages/form'
   end
 
+  describe '#message' do
+    subject { helper.message(42) }
+
+    it_behaves_like 'api v3 path', '/messages/42'
+  end
+
   describe '#my_preferences' do
     subject { helper.my_preferences }
 
     it_behaves_like 'api v3 path', '/my_preferences'
   end
 
+  describe '#news' do
+    subject { helper.news(42) }
+
+    it_behaves_like 'api v3 path', '/news/42'
+  end
+
   describe '#render_markup' do
-    subject { helper.render_markup(format: 'super_fancy', link: 'link-ish') }
+    subject { helper.render_markup(link: 'link-ish') }
 
-    before do
-      allow(Setting).to receive(:text_formatting).and_return('by-the-settings')
-    end
-
-    it_behaves_like 'api v3 path', '/render/super_fancy?context=link-ish'
+    it_behaves_like 'api v3 path', '/render/markdown?context=link-ish'
 
     context 'no link given' do
-      subject { helper.render_markup(format: 'super_fancy') }
-
-      it { is_expected.to eql('/api/v3/render/super_fancy') }
-    end
-
-    context 'no format given' do
       subject { helper.render_markup }
 
-      it { is_expected.to eql('/api/v3/render/by-the-settings') }
-
-      context 'settings set to no formatting' do
-        subject { helper.render_markup }
-
-        before do
-          allow(Setting).to receive(:text_formatting).and_return('')
-        end
-
-        it { is_expected.to eql('/api/v3/render/plain') }
-      end
+      it { is_expected.to eql('/api/v3/render/markdown') }
     end
+  end
+
+  describe '#post' do
+    subject { helper.post 1 }
+
+    it_behaves_like 'api v3 path', '/posts/1'
   end
 
   describe '#principals' do
@@ -508,6 +532,14 @@ describe ::API::V3::Utilities::PathHelper do
     end
   end
 
+  describe 'group paths' do
+    describe '#group' do
+      subject { helper.group 1 }
+
+      it_behaves_like 'api v3 path', '/groups/1'
+    end
+  end
+
   describe '#version' do
     subject { helper.version 42 }
 
@@ -536,6 +568,14 @@ describe ::API::V3::Utilities::PathHelper do
     subject { helper.work_packages_by_project 42 }
 
     it_behaves_like 'api v3 path', '/projects/42/work_packages'
+  end
+
+  describe 'wiki pages paths' do
+    describe '#wiki_page' do
+      subject { helper.wiki_page 1 }
+
+      it_behaves_like 'api v3 path', '/wiki_pages/1'
+    end
   end
 
   describe 'work packages paths' do

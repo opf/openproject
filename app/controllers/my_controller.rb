@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,12 +25,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class MyController < ApplicationController
   include Concerns::PasswordConfirmation
   layout 'my'
+
+  helper_method :gon
 
   before_action :require_login
   before_action :check_password_confirmation,
@@ -69,21 +71,20 @@ class MyController < ApplicationController
   def index
     @user = User.current
     @blocks = get_current_layout
-    render action: 'page', layout: 'base'
+    render action: 'page', layout: 'no_menu'
   end
   alias :page :index
 
   # Edit user's account
   def account
     @user = User.current
-    @pref = @user.pref
-    write_settings(redirect_to: :account)
+    write_settings @user, request, permitted_params, params
   end
 
   # Edit user's settings
   def settings
     @user = User.current
-    write_settings(redirect_to: :settings)
+    write_settings @user, request, permitted_params, params
   end
 
   # Manage user's password
@@ -167,28 +168,27 @@ class MyController < ApplicationController
     @blocks         = get_current_layout
     @block_options  = []
 
+    # Pass block url to frontend
+    gon.my_order_blocks_url = my_order_blocks_url;
+
     # We track blocks that will show up on the page. This is in order to have
     # them disabled in the blocks-to-add-to-page dropdown.
     blocks_on_page = get_current_layout.values.flatten
 
     MyController.available_blocks.each do |block, value|
-      if blocks_on_page.include?(block)
-        @block_options << [l("my.blocks.#{value}", default: [value, value.to_s.humanize]), block.dasherize, disabled: true]
-      else
-        @block_options << [l("my.blocks.#{value}", default: [value, value.to_s.humanize]), block.dasherize]
-      end
+      @block_options << [t("my.blocks.#{value}", default: [value, value.to_s.humanize]), block.dasherize, disabled: blocks_on_page.include?(block)]
     end
   end
 
   # Add a block to the user's page at the top.
   # params[:block] : id of the block to add
   #
-  # Responds with a JS layout.
+  # Responds with a HTML block.
   def add_block
     @block = params[:block].to_s.underscore
 
     unless MyController.available_blocks.keys.include? @block
-      render nothing: true
+      render plain: I18n.t(:error_invalid_selected_value), status: 400
       return
     end
 
@@ -204,6 +204,8 @@ class MyController < ApplicationController
     # Save user preference.
     @user.pref[:my_page_layout] = layout
     @user.pref.save
+
+    render layout: false
   end
 
   # Remove a block from the user's `my` page.
@@ -221,6 +223,8 @@ class MyController < ApplicationController
     # Save user preference.
     @user.pref[:my_page_layout] = layout
     @user.pref.save
+
+    head 200, content_type: "text/html"
   end
 
   def order_blocks
@@ -269,19 +273,14 @@ class MyController < ApplicationController
     end
   end
 
-  def write_settings(redirect_to:)
-    if request.patch?
-      @user.attributes = permitted_params.user
-      @user.pref.attributes = if params[:pref].present?
-                                permitted_params.pref
-                              else
-                                {}
-                              end
-      if @user.save
-        @user.pref.save
-        flash[:notice] = l(:notice_account_updated)
-        redirect_to(action: redirect_to)
-      end
+  def write_settings(current_user, request, permitted_params, params)
+    result = Users::UpdateService
+             .new(current_user: current_user)
+             .call(request, permitted_params, params)
+
+    if result && result.success
+      redirect_back(fallback_location: root_path)
+      flash[:notice] = l(:notice_account_updated)
     end
   end
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -35,27 +35,27 @@ describe 'API v3 Revisions resource', type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:revision) {
-    FactoryGirl.create(:changeset,
+    FactoryBot.create(:changeset,
                        repository: repository,
                        comments: 'Some commit message',
                        committer: 'foo bar <foo@example.org>'
     )
   }
   let(:repository) {
-    FactoryGirl.create(:repository_subversion, project: project)
+    FactoryBot.create(:repository_subversion, project: project)
   }
   let(:project) {
-    FactoryGirl.create(:project, identifier: 'test_project', is_public: false)
+    FactoryBot.create(:project, identifier: 'test_project', is_public: false)
   }
   let(:role) {
-    FactoryGirl.create(:role,
+    FactoryBot.create(:role,
                        permissions: [:view_changesets])
   }
   let(:current_user) {
-    FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
   }
 
-  let(:unauthorized_user) { FactoryGirl.create(:user) }
+  let(:unauthorized_user) { FactoryBot.create(:user) }
 
   describe '#get' do
     let(:get_path) { api_v3_paths.revision revision.id }

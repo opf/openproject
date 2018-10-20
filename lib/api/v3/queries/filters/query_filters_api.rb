@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module API
@@ -50,15 +50,15 @@ module API
             route_param :id do
               get do
                 ar_id = convert_to_ar(params[:id])
-
                 filter_class = Query.find_registered_filter(ar_id)
 
-                if filter_class
-                  filter = filter_class.new
-                  filter.name = ar_id
+                raise API::Errors::NotFound unless filter_class
 
+                begin
+                  filter = filter_class.create! name: ar_id
                   ::API::V3::Queries::Filters::QueryFilterRepresenter.new(filter)
-                else
+                rescue ::Queries::Filters::InvalidError
+                  Rails.logger.error "Failed to instantiate filter #{ar_id} through API"
                   raise API::Errors::NotFound
                 end
               end

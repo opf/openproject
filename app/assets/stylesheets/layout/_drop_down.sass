@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 //++
 
 // --------------------------------------------------------
@@ -66,7 +66,6 @@
 .dropdown .dropdown-menu,
 .drop-down .menu-drop-down-container
   LI > A,
-  LABEL,
   .menu-item
     display: block
     @include varprop(color, context-menu-unselected-font-color)
@@ -75,7 +74,7 @@
     white-space: nowrap
     font-weight: normal
 
-    &:hover, &:focus
+    &:not(.inactive):hover, &:not(.inactive):focus
       background-color: #F0F0F0
       @include varprop(color, context-menu-hover-font-color)
       cursor: pointer
@@ -90,16 +89,18 @@
   LI > A.inactive
     color: #999999
 
+  LI > A.selected
+    @include varprop(background, drop-down-selected-bg-color)
+    @include varprop(color, drop-down-selected-font-color)
 
+.dropdown
+  @include dot_border_width_style
 
 // ---------------------------- .DROPDOWN styles --------------------------------
 
 // Styles taken from jquery-dropdown plugin:
 // https://github.com/plapier/jquery-dropdown
 // (dual MIT/GPL-Licensed)
-
-#column-context-menu .menu
-  margin: 0
 
 .dropdown
   // Will be overridden by the js code but having this here will prevent the
@@ -156,11 +157,12 @@
     width: 100%
 
 .drop-down .button--dropdown-indicator
+  @extend .icon-pulldown
   &:before
     @include icon-font-common
+    @include icon-mixin-pulldown
     font-size: 10px
     padding: 0 0 0 9px
-    @extend .icon-pulldown:before
 
 .drop-down .menu-drop-down-container
   right: 0
@@ -169,6 +171,9 @@
   li
     white-space: nowrap
     list-style-type: none
-    a
+    > a
       height: 32px
+      line-height: 32px
+      padding-bottom: 0px
+      padding-top: 0px
       text-decoration: none

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'digest/sha1'
@@ -36,14 +36,14 @@ class User < Principal
     lastname_firstname:       [:lastname, :firstname],
     lastname_coma_firstname:  [:lastname, :firstname],
     username:                 [:login]
-  }
+  }.freeze
 
-  USER_MAIL_OPTION_ALL            = ['all', :label_user_mail_option_all]
-  USER_MAIL_OPTION_SELECTED       = ['selected', :label_user_mail_option_selected]
-  USER_MAIL_OPTION_ONLY_MY_EVENTS = ['only_my_events', :label_user_mail_option_only_my_events]
-  USER_MAIL_OPTION_ONLY_ASSIGNED  = ['only_assigned', :label_user_mail_option_only_assigned]
-  USER_MAIL_OPTION_ONLY_OWNER     = ['only_owner', :label_user_mail_option_only_owner]
-  USER_MAIL_OPTION_NON            = ['none', :label_user_mail_option_none]
+  USER_MAIL_OPTION_ALL            = ['all', :label_user_mail_option_all].freeze
+  USER_MAIL_OPTION_SELECTED       = ['selected', :label_user_mail_option_selected].freeze
+  USER_MAIL_OPTION_ONLY_MY_EVENTS = ['only_my_events', :label_user_mail_option_only_my_events].freeze
+  USER_MAIL_OPTION_ONLY_ASSIGNED  = ['only_assigned', :label_user_mail_option_only_assigned].freeze
+  USER_MAIL_OPTION_ONLY_OWNER     = ['only_owner', :label_user_mail_option_only_owner].freeze
+  USER_MAIL_OPTION_NON            = ['none', :label_user_mail_option_none].freeze
 
   MAIL_NOTIFICATION_OPTIONS = [
     USER_MAIL_OPTION_ALL,
@@ -52,7 +52,7 @@ class User < Principal
     USER_MAIL_OPTION_ONLY_ASSIGNED,
     USER_MAIL_OPTION_ONLY_OWNER,
     USER_MAIL_OPTION_NON
-  ]
+  ].freeze
 
   has_and_belongs_to_many :groups,
                           join_table:   "#{table_name_prefix}group_users#{table_name_suffix}",
@@ -67,9 +67,6 @@ class User < Principal
   has_many :responsible_for_issues, foreign_key: 'responsible_id',
                                     class_name: 'WorkPackage',
                                     dependent: :nullify
-  has_many :responsible_for_projects, foreign_key: 'responsible_id',
-                                      class_name: 'Project',
-                                      dependent: :nullify
   has_many :watches, class_name: 'Watcher',
                      dependent: :delete_all
   has_many :changesets, dependent: :nullify
@@ -127,16 +124,16 @@ class User < Principal
   validate :password_meets_requirements
 
   after_save :update_password
+
   before_create :sanitize_mail_notification_setting
   before_destroy :delete_associated_private_queries
   before_destroy :reassign_associated
-  before_destroy :remove_from_filter
 
-  scope :in_group, -> (group) {
+  scope :in_group, ->(group) {
     group_id = group.is_a?(Group) ? group.id : group.to_i
     where(["#{User.table_name}.id IN (SELECT gu.user_id FROM #{table_name_prefix}group_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id])
   }
-  scope :not_in_group, -> (group) {
+  scope :not_in_group, ->(group) {
     group_id = group.is_a?(Group) ? group.id : group.to_i
     where(["#{User.table_name}.id NOT IN (SELECT gu.user_id FROM #{table_name_prefix}group_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id])
   }
@@ -189,7 +186,7 @@ class User < Principal
   end
 
   def self.search_in_project(query, options)
-    Project.find(options.fetch(:project)).users.like(query)
+    options.fetch(:project).users.like(query)
   end
 
   # Returns the user that matches provided login and password, or nil
@@ -253,7 +250,12 @@ class User < Principal
       user = new(attrs.except(:login))
       user.login = login
       user.language = Setting.default_language
-      if user.save
+
+      if OpenProject::Enterprise.user_limit_reached?
+        OpenProject::Enterprise.send_activation_limit_notification_about user
+
+        user.errors.add :base, I18n.t(:error_enterprise_activation_user_limit)
+      elsif user.save
         user.reload
         logger.info("User '#{user.login}' created from external auth source: #{user.auth_source.type} - #{user.auth_source.name}") if logger && user.auth_source
       end
@@ -441,7 +443,7 @@ class User < Principal
 
   # Return an array of project ids for which the user has explicitly turned mail notifications on
   def notified_projects_ids
-    @notified_projects_ids ||= memberships.select(&:mail_notification?).map(&:project_id)
+    @notified_projects_ids ||= memberships.reload.select(&:mail_notification?).map(&:project_id)
   end
 
   def notified_project_ids=(ids)
@@ -745,25 +747,6 @@ class User < Principal
     # minimum 1 to keep the actual user password
     keep_count = [1, Setting[:password_count_former_banned].to_i].max
     (passwords[keep_count..-1] || []).each(&:destroy)
-  end
-
-  def remove_from_filter
-    timelines_filter = ['planning_element_responsibles', 'planning_element_assignee', 'project_responsibles']
-    substitute = DeletedUser.first
-
-    timelines = Timeline.where(['options LIKE ?', "%#{id}%"])
-
-    timelines.each do |timeline|
-      timelines_filter.each do |field|
-        fieldOptions = timeline.options[field]
-        if fieldOptions && index = fieldOptions.index(id.to_s)
-          timeline.options_will_change!
-          fieldOptions[index] = substitute.id.to_s
-        end
-      end
-
-      timeline.save!
-    end
   end
 
   def reassign_associated

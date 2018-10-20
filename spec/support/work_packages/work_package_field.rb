@@ -19,7 +19,7 @@ class WorkPackageField
   end
 
   def field_container
-    @context.find @selector
+    context.find @selector
   end
 
   def display_selector
@@ -27,11 +27,19 @@ class WorkPackageField
   end
 
   def display_element
-    @context.find "#{@selector} #{display_selector}"
+    context.find "#{@selector} #{display_selector}"
   end
 
   def input_element
-    @context.find "#{@selector} #{input_selector}"
+    context.find "#{@selector} #{input_selector}"
+  end
+
+  def clear
+    input_element.native.clear
+  end
+
+  def expect_read_only
+    expect(context).to have_selector "#{@selector} #{display_selector}.-read-only"
   end
 
   def expect_state_text(text)
@@ -75,10 +83,17 @@ class WorkPackageField
     expect(field_container)
       .to have_selector(field_type, wait: 10),
           "Expected WP field input type '#{field_type}' for attribute '#{property_name}'."
+
+    # Also ensure the element is not disabled
+    expect_enabled!
   end
 
   def expect_inactive!
     expect(field_container).to have_no_selector("#{field_type}")
+  end
+
+  def expect_enabled!
+    expect(@context).to have_no_selector "#{@selector} #{input_selector}[disabled]"
   end
 
   def expect_invalid
@@ -101,11 +116,18 @@ class WorkPackageField
   # Set or select the given value.
   # For fields of type select, will check for an option with that value.
   def set_value(content)
+    scroll_to_element(input_element)
+
     if input_element.tag_name == 'select'
       input_element.find(:option, content).select_option
     else
       input_element.set(content)
     end
+  end
+
+  def type(text)
+    scroll_to_element(input_element)
+    input_element.send_keys text
   end
 
   ##
@@ -137,7 +159,11 @@ class WorkPackageField
   end
 
   def input_selector
-    '.wp-inline-edit--field'
+    if property_name == 'description'
+      '.op-ckeditor--wrapper'
+    else
+      '.wp-inline-edit--field'
+    end
   end
 
   def field_type

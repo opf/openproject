@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class ::Type < ActiveRecord::Base
@@ -51,7 +51,7 @@ class ::Type < ActiveRecord::Base
                           join_table: "#{table_name_prefix}custom_fields_types#{table_name_suffix}",
                           association_foreign_key: 'custom_field_id'
 
-  belongs_to :color, class_name:  'PlanningElementTypeColor',
+  belongs_to :color, class_name:  'Color',
                      foreign_key: 'color_id'
 
   acts_as_list
@@ -62,7 +62,7 @@ class ::Type < ActiveRecord::Base
                       maximum: 255,
                       unless: lambda { |e| e.name.blank? }
 
-  validates_inclusion_of :in_aggregation, :is_default, :is_milestone, in: [true, false]
+  validates_inclusion_of :is_default, :is_milestone, in: [true, false]
 
   default_scope { order('position ASC') }
 
@@ -73,15 +73,15 @@ class ::Type < ActiveRecord::Base
 
   def to_s; name end
 
-  def <=>(type)
-    name <=> type.name
+  def <=>(other)
+    name <=> other.name
   end
 
   def self.statuses(types)
     workflow_table, status_table = [Workflow, Status].map(&:arel_table)
-    old_id_subselect, new_id_subselect = [:old_status_id, :new_status_id].map { |foreign_key|
+    old_id_subselect, new_id_subselect = [:old_status_id, :new_status_id].map do |foreign_key|
       workflow_table.project(workflow_table[foreign_key]).where(workflow_table[:type_id].in(types))
-    }
+    end
     Status.where(status_table[:id].in(old_id_subselect).or(status_table[:id].in(new_id_subselect)))
   end
 
@@ -97,17 +97,20 @@ class ::Type < ActiveRecord::Base
     ::Type.includes(:projects).where(projects: { id: project })
   end
 
-  def statuses
-    return [] if new_record?
-    @statuses ||= ::Type.statuses([id])
+  def statuses(include_default: false)
+    if new_record?
+      Status.none
+    elsif include_default
+      ::Type
+        .statuses([id])
+        .or(Status.where_default)
+    else
+      ::Type.statuses([id])
+    end
   end
 
   def enabled_in?(object)
     object.types.include?(self)
-  end
-
-  def available_colors
-    PlanningElementTypeColor.all
   end
 
   def valid_transition?(status_id_a, status_id_b, roles)
@@ -117,13 +120,14 @@ class ::Type < ActiveRecord::Base
   private
 
   def check_integrity
-    raise "Can't delete type" if WorkPackage.where(['type_id=?', id]).any?
+    raise "Can't delete type" if WorkPackage.where(type_id: id).any?
   end
 
   def transition_exists?(status_id_a, status_id_b, role_ids)
-    workflows.where(old_status_id: status_id_a,
-                    new_status_id: status_id_b,
-                    role_id: role_ids)
+    workflows
+      .where(old_status_id: status_id_a,
+             new_status_id: status_id_b,
+             role_id: role_ids)
       .any?
   end
 end

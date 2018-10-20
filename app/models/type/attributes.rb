@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module Type::Attributes
@@ -130,7 +130,6 @@ module Type::Attributes
       end
     end
 
-
     def attr_i18n_key(name)
       if name == 'percentage_done'
         'done_ratio'
@@ -144,23 +143,10 @@ module Type::Attributes
         I18n.t('label_date')
       else
         key = attr_i18n_key(name)
-        I18n.t("activerecord.attributes.work_package.#{key}", default: '')
+        I18n.t("activerecord.attributes.work_package.#{key}", fallback: false, default: '')
           .presence || I18n.t("attributes.#{key}")
       end
     end
-  end
-
-  def attr_form_map(key, represented)
-    {
-      key: key,
-      is_cf: custom_field?(key),
-      is_required: represented[:required] && !represented[:has_default],
-      translation: self.class.translated_attribute_name(key, represented)
-    }
-  end
-
-  def custom_field?(attribute_name)
-    attribute_name.to_s.start_with? 'custom_field_'
   end
 
   ##
@@ -179,7 +165,7 @@ module Type::Attributes
   # to the constraint validator.
   def passes_attribute_constraint?(attribute, project: nil)
     # Check custom field constraints
-    if custom_field?(attribute) && !project.nil?
+    if CustomField.custom_field_attribute?(attribute) && !project.nil?
       return custom_field_in_project?(attribute, project)
     end
 
@@ -189,12 +175,9 @@ module Type::Attributes
   end
 
   ##
-  # Returns whether this type has the custom field currently
-  # (e.g. because it was checked in the removed CF view).
-  def has_custom_field?(attribute)
-    @has_custom_field_custom_field_ids ||= custom_field_ids.map { |id| "custom_field_#{id}" }
-
-    @has_custom_field_custom_field_ids.include? attribute
+  # Returns the active custom_field_attributes
+  def active_custom_field_attributes
+    custom_field_ids.map { |id| "custom_field_#{id}" }
   end
 
   ##

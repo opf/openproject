@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See doc/COPYRIGHT.rdoc for more details.
+See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <%= breadcrumb_toolbar l(:label_permissions_report) %>
@@ -36,7 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% perms_by_module.keys.sort.each do |mod| %>
     <% module_name = mod.blank? ? "form--" + I18n.t('attributes.project') : "form--" + l_or_humanize(mod, prefix: 'project_module_').gsub(' ','_') %>
     <fieldset class="form--fieldset -collapsible" id= "<%= module_name %>">
-      <legend class="form--fieldset-legend" onclick="toggleFieldset(this);">
+      <legend class="form--fieldset-legend" >
         <%= mod.blank? ? I18n.t('attributes.project') : l_or_humanize(mod, prefix: 'project_module_') %>
       </legend>
       <div class="form--fieldset-control">
@@ -44,7 +44,7 @@ See doc/COPYRIGHT.rdoc for more details.
           (<%= check_all_links module_name %>)
         </span>
       </div>
-    
+
       <div class="generic-table--container">
         <div class="generic-table--results-container">
           <table class="generic-table">

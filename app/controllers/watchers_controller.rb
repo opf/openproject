@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class WatchersController < ApplicationController
@@ -64,24 +64,6 @@ class WatchersController < ApplicationController
 
   def set_watcher(user, watching)
     @watched.set_watcher(user, watching)
-
-    respond_to do |format|
-      format.html do redirect_to :back end
-      format.js do
-        if params[:replace].present?
-          if params[:replace].is_a? Array
-            @replace_selectors = params[:replace]
-          else
-            @replace_selectors = params[:replace].split(',').map(&:strip)
-          end
-        else
-          @replace_selectors = ['#watcher']
-        end
-        @user = user
-        render template: 'watchers/set_watcher'
-      end
-    end
-  rescue ::ActionController::RedirectBackError
-    render text: (watching ? 'Watcher added.' : 'Watcher removed.'), layout: true
+    redirect_back(fallback_location: home_url)
   end
 end

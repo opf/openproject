@@ -1,7 +1,8 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++require 'rspec'
 
 require 'spec_helper'
@@ -34,15 +35,15 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
 
   let(:errors) { [] }
   let(:project) {
-    FactoryGirl.build_stubbed(:project)
+    FactoryBot.build_stubbed(:project)
   }
   let(:work_package) do
-    wp = FactoryGirl.build_stubbed(:work_package, project: project)
+    wp = FactoryBot.build_stubbed(:work_package, project: project)
     allow(wp).to receive(:assignable_versions).and_return []
     wp
   end
   let(:current_user) {
-    FactoryGirl.build_stubbed(:user)
+    FactoryBot.build_stubbed(:user)
   }
   let(:representer) {
     described_class.new(work_package, current_user: current_user, errors: errors)
@@ -94,8 +95,7 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
 
         it 'contains link to work package' do
           expected_preview_link =
-            api_v3_paths.render_markup(format: 'textile',
-                                       link: "/api/v3/projects/#{work_package.project_id}")
+            api_v3_paths.render_markup(link: "/api/v3/projects/#{work_package.project_id}")
           expect(subject)
             .to be_json_eql(expected_preview_link.to_json)
             .at_path('_links/previewMarkup/href')
@@ -179,7 +179,7 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
         end
 
         context 'with project and general admin priviliges' do
-          let(:current_user) { FactoryGirl.build_stubbed(:admin) }
+          let(:current_user) { FactoryBot.build_stubbed(:admin) }
 
           before do
             allow(current_user).to receive(:allowed_to?)
@@ -207,12 +207,12 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
         end
 
         context "as admin" do
-          let(:current_user) { FactoryGirl.build_stubbed(:admin) }
+          let(:current_user) { FactoryBot.build_stubbed(:admin) }
 
           context 'with type' do
-            let(:type) { FactoryGirl.build_stubbed(:type) }
+            let(:type) { FactoryBot.build_stubbed(:type) }
             let(:work_package) do
-              FactoryGirl.build(:work_package,
+              FactoryBot.build(:work_package,
                                 id: 42,
                                 created_at: DateTime.now,
                                 updated_at: DateTime.now,

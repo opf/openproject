@@ -5,7 +5,7 @@
       <%= render partial: "my/block", locals: { block_name: block_name, user: @user } %>
     <% else %>
       <div class="widget-box">
-        <%= render partial: "my/blocks/#{block_name}", locals: { user: @user } %>
+        <%= render partial: "my/blocks/#{block_name}", locals: { edit: false, user: @user } %>
       </div>
     <% end %>
   <% end %>

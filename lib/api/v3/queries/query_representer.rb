@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'roar/decorator'
@@ -67,10 +67,9 @@ module API
 
           url_query = ::API::V3::Queries::QueryParamsRepresenter
                       .new(represented)
-                      .to_h
-                      .merge(params.slice(:offset, :pageSize))
+                      .to_url_query(merge_params: params.slice(:offset, :pageSize))
           {
-            href: [path, url_query.to_query].join('?')
+            href: [path, url_query].join('?')
           }
         end
 
@@ -218,6 +217,30 @@ module API
                     end
                   }
 
+        resources :highlighted_attributes,
+                  getter: ->(*) {
+                    represented.highlighted_columns.map do |column|
+                      ::API::V3::Queries::Columns::QueryColumnsFactory.create(column)
+                    end
+                  },
+                  setter: ->(fragment:, **) {
+                    columns = Array(fragment).map do |column|
+                      name = id_from_href "queries/columns", column['href']
+
+                      ::API::Utilities::PropertyNameConverter.to_ar_name(name, context: WorkPackage.new) if name
+                    end
+
+                    represented.highlighted_attributes = columns.map(&:to_sym).compact if fragment
+                  },
+                  link: ->(*) {
+                    represented.highlighted_columns.map do |column|
+                      {
+                        href: api_v3_paths.query_column(convert_attribute(column.name)),
+                        title: column.caption
+                      }
+                    end
+                  }
+
         property :starred,
                  writeable: true
 
@@ -246,6 +269,10 @@ module API
         property :timeline_zoom_level
 
         property :timeline_labels
+
+        # Highlighting properties
+        property :highlighting_mode,
+                 render_nil: false
 
         attr_accessor :results,
                       :params
@@ -302,6 +329,8 @@ module API
         private
 
         def allowed_to?(action)
+          return false unless current_user
+
           @policy ||= QueryPolicy.new(current_user)
 
           @policy.allowed?(represented, action)

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module IconsHelper
@@ -32,8 +32,9 @@ module IconsHelper
   # Create an <i> tag with the given icon class names
   # and make it aria-hidden since screenreaders otherwise
   # output the css `content` of the icon.
-  def op_icon(classnames)
-    %(<i class="#{classnames}" aria-hidden="true"></i>).html_safe
+  def op_icon(classnames, title: nil)
+    title = "title=\"#{h(title)}\"" unless title.nil?
+    %(<i class="#{classnames}" #{title} aria-hidden="true"></i>).html_safe
   end
 
   ##

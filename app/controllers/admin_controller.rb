@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class AdminController < ApplicationController
@@ -53,9 +53,9 @@ class AdminController < ApplicationController
     ActionMailer::Base.raise_delivery_errors = true
     begin
       @test = UserMailer.test_mail(User.current).deliver_now
-      flash[:notice] = l(:notice_email_sent, ERB::Util.h(User.current.mail))
+      flash[:notice] = I18n.t(:notice_email_sent, value: User.current.mail)
     rescue => e
-      flash[:error] = l(:notice_email_error, ERB::Util.h(Redmine::CodesetUtil.replace_invalid_utf8(e.message.dup)))
+      flash[:error] = I18n.t(:notice_email_error, value: Redmine::CodesetUtil.replace_invalid_utf8(e.message.dup))
     end
     ActionMailer::Base.raise_delivery_errors = raise_delivery_errors
     redirect_to controller: '/settings', action: 'edit', tab: 'notifications'
@@ -76,8 +76,13 @@ class AdminController < ApplicationController
     repository_writable = File.writable?(OpenProject::Configuration.attachments_storage_path)
     @checklist = [
       [:text_default_administrator_account_changed, User.default_admin_account_changed?],
-      [:text_file_repository_writable, repository_writable]
+      [:text_file_repository_writable, repository_writable],
+      [:text_database_allows_tsv, OpenProject::Database.allows_tsv?]
     ]
+
+    if OpenProject::Database.allows_tsv?
+      @checklist += plaintext_extraction_checks
+    end
 
     @storage_information = OpenProject::Storage.mount_information
   end
@@ -93,5 +98,18 @@ class AdminController < ApplicationController
 
   def show_local_breadcrumb
     true
+  end
+
+  private
+
+  def plaintext_extraction_checks
+    [
+      [:'extraction.available.pdftotext', Plaintext::PdfHandler.available?],
+      [:'extraction.available.unrtf',     Plaintext::RtfHandler.available?],
+      [:'extraction.available.catdoc',    Plaintext::DocHandler.available?],
+      [:'extraction.available.xls2csv',   Plaintext::XlsHandler.available?],
+      [:'extraction.available.catppt',    Plaintext::PptHandler.available?],
+      [:'extraction.available.tesseract', Plaintext::ImageHandler.available?]
+    ]
   end
 end

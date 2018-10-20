@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class WorkPackagePolicy < BasePolicy
@@ -57,9 +57,7 @@ class WorkPackagePolicy < BasePolicy
 
   def edit_allowed?(work_package)
     @edit_cache ||= Hash.new do |hash, project|
-      hash[project] = work_package.persisted? &&
-                      (user.allowed_to?(:edit_work_packages, project) ||
-                       user.allowed_to?(:add_work_package_notes, project))
+      hash[project] = work_package.persisted? && user.allowed_to?(:edit_work_packages, project)
     end
 
     @edit_cache[work_package.project]
@@ -102,6 +100,8 @@ class WorkPackagePolicy < BasePolicy
   end
 
   def type_active_in_project?(work_package)
+    return false unless work_package.project
+
     @type_active_cache ||= Hash.new do |hash, project|
       hash[project] = project.types.pluck(:id)
     end
@@ -111,7 +111,7 @@ class WorkPackagePolicy < BasePolicy
 
   def manage_subtasks_allowed?(work_package)
     @manage_subtasks_cache ||= Hash.new do |hash, project|
-      hash[project] = user.allowed_to?(:manage_subtasks, work_package.project)
+      hash[project] = user.allowed_to?(:manage_subtasks, work_package.project, global: work_package.project.nil?)
     end
 
     @manage_subtasks_cache[work_package.project]

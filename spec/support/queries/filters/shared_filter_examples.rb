@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,19 +23,16 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 shared_context 'filter tests' do
   let(:context) { nil }
   let(:values) { ['bogus'] }
   let(:operator) { '=' }
+  let(:instance_key) { described_class.key }
   let(:instance) do
-    filter = described_class.new
-    filter.context = context
-    filter.operator = operator
-    filter.values = values
-    filter
+    described_class.create!(name: instance_key, context: context, operator: operator, values: values)
   end
   let(:name) { model.human_attribute_name((instance_key || class_key).to_s.gsub('_id', '')) }
   let(:model) { WorkPackage }
@@ -44,9 +41,8 @@ end
 shared_examples_for 'basic query filter' do
   include_context 'filter tests'
 
-  let(:context) { FactoryGirl.build_stubbed(:query, project: project) }
-  let(:project) { FactoryGirl.build_stubbed(:project) }
-  let(:instance_key) { nil }
+  let(:context) { FactoryBot.build_stubbed(:query, project: project) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
   let(:class_key) { raise 'needs to be defined' }
   let(:type) { raise 'needs to be defined' }
   let(:human_name) { nil }

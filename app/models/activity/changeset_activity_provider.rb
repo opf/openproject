@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class Activity::ChangesetActivityProvider < Activity::BaseActivityProvider
@@ -47,6 +47,21 @@ class Activity::ChangesetActivityProvider < Activity::BaseActivityProvider
 
   def projects_reference_table(_activity)
     repositories_table
+  end
+
+  ##
+  # Override this method if not the journal created_at datetime, but another column
+  # value is the actual relevant time event. (e..g., commit date)
+  def filter_for_event_datetime(query, journals_table, typed_journals_table, from, to)
+    if from
+      query = query.where(typed_journals_table[:committed_on].gteq(from))
+    end
+
+    if to
+      query = query.where(typed_journals_table[:committed_on].lteq(to))
+    end
+
+    query
   end
 
   protected

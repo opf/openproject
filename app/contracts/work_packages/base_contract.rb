@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,13 +25,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'model_contract'
 
 module WorkPackages
   class BaseContract < ::ModelContract
+    include ::Attachments::ValidateReplacements
+
     def self.model
       WorkPackage
     end
@@ -68,7 +70,7 @@ module WorkPackages
     attribute :assigned_to_id do
       next unless model.project
 
-      validate_people_visible :assignee,
+      validate_people_visible :assigned_to,
                               'assigned_to_id',
                               model.project.possible_assignee_members
     end
@@ -120,9 +122,8 @@ module WorkPackages
     validate :validate_estimated_hours
 
     def initialize(work_package, user)
-      super(work_package)
+      super(work_package, user)
 
-      @user = user
       @can = WorkPackagePolicy.new(user)
     end
 
@@ -132,8 +133,7 @@ module WorkPackages
 
     private
 
-    attr_reader :user,
-                :can
+    attr_reader :can
 
     def validate_estimated_hours
       if !model.estimated_hours.nil? && model.estimated_hours < 0
@@ -155,14 +155,13 @@ module WorkPackages
     end
 
     def validate_parent_not_milestone
-      if model.parent && model.parent.is_milestone?
+      if model.parent&.is_milestone?
         errors.add :parent, :cannot_be_milestone
       end
     end
 
     def validate_parent_exists
-      if model.parent &&
-         model.parent.is_a?(WorkPackage::InexistentWorkPackage)
+      if model.parent&.is_a?(WorkPackage::InexistentWorkPackage)
 
         errors.add :parent, :does_not_exist
       end
@@ -269,10 +268,19 @@ module WorkPackages
     end
 
     def invalid_relations_with_new_hierarchy
-      Relation
-        .from_parent_to_self_and_descendants(model)
-        .or(Relation.from_self_and_descendants_to_ancestors(model))
-        .non_reflexive
+      query = Relation.from_parent_to_self_and_descendants(model)
+                      .or(Relation.from_self_and_descendants_to_ancestors(model))
+                      .direct
+
+      # Ignore the immediate relation from the old parent to the model
+      # since that will still exist before saving.
+      old_parent_id = model.parent_id_was
+
+      if old_parent_id.present?
+        query.where.not(hierarchy: 1, from_id: old_parent_id, to_id: model.id)
+      else
+        query
+      end
     end
   end
 end

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class Setting < ActiveRecord::Base
@@ -103,7 +103,9 @@ class Setting < ActiveRecord::Base
 
       def self.#{name}?
         # when running too early, there is no settings table. do nothing
-        self[:#{name}].to_i > 0 if settings_table_exists_yet?
+        return unless settings_table_exists_yet?
+        value = self[:#{name}]
+        ActiveRecord::Type::Boolean.new.cast(value)
       end
 
       def self.#{name}=(value)
@@ -136,16 +138,24 @@ class Setting < ActiveRecord::Base
   end
 
   def value=(v)
-    if v && @@available_settings[name] && @@available_settings[name]['serialized']
-      v = v.to_yaml
+    write_attribute(:value, formatted_value(v))
+  end
+
+  def formatted_value(value)
+    return value unless value.present?
+
+    default = @@available_settings[name]
+
+    if default['serialized']
+      return value.to_yaml
     end
 
-    write_attribute(:value, v.to_s)
+    value.to_s
   end
 
   # Returns the value of the setting named name
   def self.[](name)
-    cached_or_default(name)
+    filtered_cached_or_default(name)
   end
 
   def self.[]=(name, v)
@@ -177,7 +187,6 @@ class Setting < ActiveRecord::Base
     @@available_settings.has_key?(name)
   end
 
-  # this should be fixed with globalize plugin
   [:emails_header, :emails_footer].each do |mail|
     src = <<-END_SRC
     def self.localized_#{mail}
@@ -203,6 +212,22 @@ class Setting < ActiveRecord::Base
   end
 
   private
+
+  # Returns the Setting instance for the setting named name
+  # and allows to filter the returned value
+  def self.filtered_cached_or_default(name)
+    name = name.to_s
+    raise "There's no setting named #{name}" unless exists? name
+
+    value = cached_or_default(name)
+
+    case name
+    when "work_package_list_default_highlighting_mode"
+      value = "none" unless EnterpriseToken.allows_to? :conditional_highlighting
+    end
+
+    value
+  end
 
   # Returns the Setting instance for the setting named name
   # (record found in cache or default value)
@@ -247,16 +272,35 @@ class Setting < ActiveRecord::Base
   def self.deserialize(name, v)
     default = @@available_settings[name]
 
-    v = YAML::load(v) if default['serialized'] && v.is_a?(String)
-
-    unless v.blank?
-      v = v.to_sym if default['format'] == 'symbol'
-      v = v.to_i if default['format'] == 'int'
+    if default['serialized'] && v.is_a?(String)
+      YAML::load(v)
+    elsif v.present?
+      read_formatted_setting v, default["format"]
+    else
+      v
     end
+  end
 
-    v
+  def self.read_formatted_setting(value, format)
+    case format
+    when "boolean"
+      ActiveRecord::Type::Boolean.new.cast(value)
+    when "symbol"
+      value.to_sym
+    when "int"
+      value.to_i
+    when "date"
+      Date.parse value
+    when "datetime"
+      DateTime.parse value
+    else
+      value
+    end
   end
 
   require_dependency 'setting/callbacks'
   extend Callbacks
+
+  require_dependency 'setting/aliases'
+  extend Aliases
 end

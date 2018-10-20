@@ -2,11 +2,11 @@ require "spec_helper"
 require "support/pages/abstract_work_package"
 
 describe "multi select custom values", js: true do
-  let(:type) { FactoryGirl.create :type }
-  let(:project) { FactoryGirl.create :project, types: [type] }
+  let(:type) { FactoryBot.create :type }
+  let(:project) { FactoryBot.create :project, types: [type] }
 
   let(:custom_field) do
-    FactoryGirl.create(
+    FactoryBot.create(
       :user_wp_custom_field,
       name: "Reviewer",
       multi_value: true,
@@ -27,14 +27,14 @@ describe "multi select custom values", js: true do
     member_names.zip(member_statuses).map do |name, status|
       first, last = name.split(" ")
 
-      FactoryGirl.create :user, firstname: first, lastname: last, status: status
+      FactoryBot.create :user, firstname: first, lastname: last, status: status
     end
   end
 
-  let(:role) { FactoryGirl.create :role }
+  let(:role) { FactoryBot.create :role }
 
   let(:wp_page) { Pages::FullWorkPackage.new work_package }
-  let(:user) { FactoryGirl.create :admin }
+  let(:user) { FactoryBot.create :admin }
 
   before do
     members.each do |user|
@@ -46,7 +46,7 @@ describe "multi select custom values", js: true do
 
   context "with existing custom values" do
     let(:work_package) do
-      wp = FactoryGirl.build :work_package, project: project, type: type
+      wp = FactoryBot.build :work_package, project: project, type: type
 
       wp.custom_field_values = {
         custom_field.id => [members[0].id.to_s, members[2].id.to_s]

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,23 +23,183 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::ResponsibleFilter, type: :model do
+  let(:instance) do
+    filter = described_class.create!
+    filter.values = values
+    filter.operator = operator
+    filter
+  end
+
+  let(:operator) { '=' }
+  let(:values) { [] }
+
+  describe 'where filter results' do
+    let(:work_package) { FactoryBot.create(:work_package, responsible: responsible) }
+    let(:responsible) { FactoryBot.create(:user) }
+    let(:group) { FactoryBot.create(:group) }
+
+    subject { WorkPackage.where(instance.where) }
+
+    context 'for the user value' do
+      let(:values) { [responsible.id.to_s] }
+
+      it 'returns the work package' do
+        is_expected
+          .to match_array [work_package]
+      end
+    end
+
+    context 'for the me value with the user being logged in' do
+      let(:values) { ['me'] }
+
+      before do
+        allow(User)
+          .to receive(:current)
+          .and_return(responsible)
+      end
+
+      it 'returns the work package' do
+        is_expected
+          .to match_array [work_package]
+      end
+
+      it 'returns the corrected value object' do
+        objects = instance.value_objects
+
+        expect(objects.size).to eq(1)
+        expect(objects.first.id).to eq 'me'
+        expect(objects.first.name).to eq 'me'
+      end
+    end
+
+    context 'for the me value with another user being logged in' do
+      let(:values) { ['me'] }
+
+      before do
+        allow(User)
+          .to receive(:current)
+          .and_return(FactoryBot.create(:user))
+      end
+
+      it 'does not return the work package' do
+        is_expected
+          .to be_empty
+      end
+    end
+
+    context 'for me and user values' do
+      let(:user) { FactoryBot.create :user }
+      let(:responsible2) { FactoryBot.create :user }
+      let(:values) { [responsible.id, user.id, 'me', responsible2.id] }
+
+      before do
+        # Order is important here for ids,
+        # otherwise the value_objects will return <user> due to its id
+        responsible
+        responsible2
+        user
+        values
+
+        allow(User)
+          .to receive(:current)
+          .and_return(user)
+      end
+
+      it 'returns the mapped value' do
+        objects = instance.value_objects
+
+        expect(objects.map(&:id)).to eql ['me', responsible.id, responsible2.id]
+      end
+    end
+
+    context 'for a group value with the group being assignee' do
+      let(:responsible) { group }
+      let(:values) { [group.id.to_s] }
+
+      it 'returns the work package' do
+        is_expected
+          .to match_array [work_package]
+      end
+    end
+
+    context 'for a group value with a group member being assignee' do
+      let(:values) { [group.id.to_s] }
+
+      before do
+        group.users << responsible
+      end
+
+      it 'does not return the work package' do
+        is_expected
+          .to be_empty
+      end
+    end
+
+    context 'for a group value with no group member being assignee' do
+      let(:values) { [group.id.to_s] }
+
+      it 'does not return the work package' do
+        is_expected
+          .to be_empty
+      end
+    end
+
+    context "for a user value with the user's group being assignee" do
+      let(:values) { [user.id.to_s] }
+      let(:responsible) { group }
+      let(:user) { FactoryBot.create(:user) }
+
+      before do
+        group.users << user
+      end
+
+      it 'does not return the work package' do
+        is_expected
+          .to be_empty
+      end
+    end
+
+    context "for a user value with the user not being member of the assigned group" do
+      let(:values) { [user.id.to_s] }
+      let(:responsible) { group }
+      let(:user) { FactoryBot.create(:user) }
+
+      it 'does not return the work package' do
+        is_expected
+          .to be_empty
+      end
+    end
+
+    context 'for an unmatched value' do
+      let(:values) { ['0'] }
+
+      it 'does not return the work package' do
+        is_expected
+          .to be_empty
+      end
+    end
+  end
+
   it_behaves_like 'basic query filter' do
     let(:order) { 4 }
     let(:type) { :list_optional }
     let(:class_key) { :responsible_id }
 
-    let(:user_1) { FactoryGirl.build_stubbed(:user) }
+    let(:user_1) { FactoryBot.build_stubbed(:user) }
 
     let(:principal_loader) do
       loader = double('principal_loader')
       allow(loader)
         .to receive(:user_values)
+        .and_return([])
+      allow(loader)
+        .to receive(:group_values)
         .and_return([])
 
       loader
@@ -141,8 +301,8 @@ describe Queries::WorkPackages::Filter::ResponsibleFilter, type: :model do
     end
 
     describe '#value_objects' do
-      let(:user) { FactoryGirl.build_stubbed(:user) }
-      let(:user2) { FactoryGirl.build_stubbed(:user) }
+      let(:user) { FactoryBot.build_stubbed(:user) }
+      let(:user2) { FactoryBot.build_stubbed(:user) }
 
       before do
         allow(Principal)

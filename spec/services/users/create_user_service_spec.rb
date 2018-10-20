@@ -29,13 +29,13 @@
 require 'spec_helper'
 
 describe Users::CreateUserService do
-  let(:current_user) { FactoryGirl.build_stubbed(:user) }
-  let(:new_user) { FactoryGirl.build_stubbed(:user) }
+  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:new_user) { FactoryBot.build_stubbed(:user) }
   let(:instance) { described_class.new(current_user: current_user) }
 
   describe '.contract' do
     it 'uses the CreateContract contract' do
-      expect(described_class.contract).to eql Users::CreateContract
+      expect(instance.contract_class).to eql Users::CreateContract
     end
   end
 

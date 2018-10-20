@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -33,8 +33,8 @@ describe CustomField, type: :model do
     CustomField.destroy_all
   end
 
-  let(:field)  { FactoryGirl.build :custom_field }
-  let(:field2) { FactoryGirl.build :custom_field }
+  let(:field)  { FactoryBot.build :custom_field }
+  let(:field2) { FactoryBot.build :custom_field }
 
   describe '#name' do
     it { should validate_presence_of(:name) }
@@ -178,7 +178,7 @@ describe CustomField, type: :model do
   end
 
   describe '#accessor_name' do
-    let(:field) { FactoryGirl.build_stubbed :custom_field }
+    let(:field) { FactoryBot.build_stubbed :custom_field }
 
     it 'is formatted as expected' do
       expect(field.accessor_name).to eql("custom_field_#{field.id}")
@@ -186,9 +186,9 @@ describe CustomField, type: :model do
   end
 
   describe '#possible_values_options' do
-    let(:project) { FactoryGirl.build_stubbed(:project) }
-    let(:user1) { FactoryGirl.build_stubbed(:user) }
-    let(:user2) { FactoryGirl.build_stubbed(:user) }
+    let(:project) { FactoryBot.build_stubbed(:project) }
+    let(:user1) { FactoryBot.build_stubbed(:user) }
+    let(:user2) { FactoryBot.build_stubbed(:user) }
 
     context 'for a user custom field' do
       before do
@@ -229,8 +229,8 @@ describe CustomField, type: :model do
     end
 
     context 'for a list custom field' do
-      let(:option1) { FactoryGirl.build_stubbed(:custom_option) }
-      let(:option2) { FactoryGirl.build_stubbed(:custom_option) }
+      let(:option1) { FactoryBot.build_stubbed(:custom_option) }
+      let(:option2) { FactoryBot.build_stubbed(:custom_option) }
 
       before do
         field.field_format = 'list'
@@ -244,12 +244,94 @@ describe CustomField, type: :model do
                            [option2.value, option2.id.to_s]]
       end
     end
+
+    context 'for a version custom field' do
+      let(:versions) { [FactoryBot.build_stubbed(:version), FactoryBot.build_stubbed(:version)] }
+
+      before do
+        field.field_format = 'version'
+      end
+
+      context 'with a project provided' do
+        it 'returns the project\'s shared_versions' do
+          allow(project)
+            .to receive(:shared_versions)
+            .and_return(versions)
+
+          expect(field.possible_values_options(project))
+            .to eql(versions.sort.map { |u| [u.name, u.id.to_s] })
+        end
+      end
+
+      context 'with a time entry provided' do
+        let(:time_entry) { FactoryBot.build_stubbed(:time_entry, project: project) }
+
+        it 'returns the project\'s shared_versions' do
+          allow(project)
+            .to receive(:shared_versions)
+            .and_return(versions)
+
+          expect(field.possible_values_options(project))
+            .to eql(versions.sort.map { |u| [u.name, u.id.to_s] })
+        end
+      end
+
+      context 'with nothing provided' do
+        it 'returns the systemwide versions' do
+          allow(Version)
+            .to receive(:systemwide)
+            .and_return(versions)
+
+          expect(field.possible_values_options)
+            .to eql(versions.sort.map { |u| [u.name, u.id.to_s] })
+        end
+      end
+    end
+  end
+
+  describe '#possible_values' do
+    context 'on a list custom field' do
+      let(:field) { CustomField.new field_format: "list" }
+
+      context 'on providing an array' do
+        before do
+          field.possible_values = ['One value', 'Two values', '']
+        end
+
+        it 'accepts the values' do
+          expect(field.possible_values.map(&:value))
+            .to match_array(['One value', 'Two values'])
+        end
+      end
+
+      context 'on providing a string' do
+        before do
+          field.possible_values = 'One value'
+        end
+
+        it 'accepts the values' do
+          expect(field.possible_values.map(&:value))
+            .to match_array(['One value'])
+        end
+      end
+
+      context 'on providing a multiline string' do
+        before do
+          field.possible_values = "One value\nTwo values  \r\n \n"
+        end
+
+        it 'accepts the values' do
+          expect(field.possible_values.map(&:value))
+            .to match_array(['One value', 'Two values'])
+        end
+      end
+    end
   end
 
   describe 'nested attributes for custom options' do
-    let(:option) { FactoryGirl.build(:custom_option) }
+    let(:option) { FactoryBot.build(:custom_option) }
     let(:options) { [option] }
-    let(:field) { FactoryGirl.build :custom_field, field_format: 'list', custom_options: options }
+    let(:field) { FactoryBot.build :custom_field, field_format: 'list', custom_options: options }
 
     before do
       field.save!
@@ -282,6 +364,17 @@ describe CustomField, type: :model do
       end
 
       it_behaves_like 'saving updates field\'s updated_at'
+    end
+  end
+
+  describe '#destroy' do
+    it 'removes the cf' do
+      field.save!
+
+      field.destroy
+
+      expect(CustomField.where(id: field.id).exists?)
+        .to be_falsey
     end
   end
 end

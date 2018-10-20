@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class WorkPackages::UpdateAncestorsService
@@ -76,7 +76,11 @@ class WorkPackages::UpdateAncestorsService
   def inherit_attributes(ancestor, attributes)
     return unless attributes_justify_inheritance?(attributes)
 
-    leaves = ancestor.leaves.select(selected_leaf_attributes).includes(:status).to_a
+    leaves = ancestor
+      .leaves
+      .select(selected_leaf_attributes)
+      .distinct(true) # Be explicit that this is a distinct (wrt ID) query
+      .includes(:status).to_a
 
     inherit_done_ratio(ancestor, leaves)
 
@@ -170,6 +174,6 @@ class WorkPackages::UpdateAncestorsService
   end
 
   def selected_leaf_attributes
-    %i(done_ratio estimated_hours status_id)
+    %i(id done_ratio estimated_hours status_id)
   end
 end

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 # Similar to regular Journals, but under the following circumstances journals are aggregated:
@@ -178,7 +178,8 @@ class Journal::AggregatedJournal
       "SELECT predecessor.*, #{sql_group_counter(uid)} AS group_number
       FROM #{sql_rough_group_from_clause(uid)}
       #{sql_rough_group_join(conditions[:join_conditions])}
-      #{sql_rough_group_where(conditions[:where_conditions])}"
+      #{sql_rough_group_where(conditions[:where_conditions])}
+      #{sql_rough_group_order}"
     end
 
     def additional_conditions(journable, until_version, journal_id)
@@ -222,6 +223,10 @@ class Journal::AggregatedJournal
              #{sql_beyond_aggregation_time?('predecessor', 'successor')} OR
              successor.id IS NULL)
              #{additional_conditions}"
+    end
+
+    def sql_rough_group_order
+      "ORDER BY predecessor.created_at"
     end
 
     # The "group_number" required in :sql_rough_group has to be generated differently depending on

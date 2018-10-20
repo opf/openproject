@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,24 +23,32 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 //++
 
-function toggleDescription(el) {
-  let $el = jQuery(el);
-  let otherTrigger = $el.siblings('.projects-table--description-toggle')
-  let clickedRow = $el.closest('.project');
-  let descriptionRow = clickedRow.next();
+(function($) {
+  function toggleDescription() {
+    let $el = $(this);
+    let otherTrigger = $el.siblings('.projects-table--description-toggle');
+    let clickedRow = $el.closest('.project');
+    let descriptionRow = clickedRow.next();
 
-  clickedRow.toggleClass('-no-highlighting');
-  clickedRow.toggleClass('-expanded');
-  descriptionRow.toggleClass('-expanded');
+    clickedRow.toggleClass('-no-highlighting');
+    clickedRow.toggleClass('-expanded');
+    descriptionRow.toggleClass('-expanded');
 
-  if (descriptionRow.hasClass('-expanded')) {
-    jQuery(descriptionRow).attr('aria-live', 'polite');
-  } else {
-    jQuery(descriptionRow).removeAttr('aria-live');
+    if (descriptionRow.hasClass('-expanded')) {
+      $(descriptionRow).attr('aria-live', 'polite');
+    } else {
+      $(descriptionRow).removeAttr('aria-live');
+    }
+
+    otherTrigger.focus();
+
+    return false;
   }
 
-  otherTrigger.focus();
-}
+  $('document').ready(function() {
+    $('.projects-table--description-toggle').click(toggleDescription);
+  });
+})(jQuery);

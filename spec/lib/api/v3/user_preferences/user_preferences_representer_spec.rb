@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -31,8 +31,8 @@ require 'spec_helper'
 describe ::API::V3::UserPreferences::UserPreferencesRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:preference) { FactoryGirl.build(:user_preference) }
-  let(:user) { FactoryGirl.build_stubbed(:user, preference: preference) }
+  let(:preference) { FactoryBot.build(:user_preference) }
+  let(:user) { FactoryBot.build_stubbed(:user, preference: preference) }
   let(:representer) { described_class.new(preference, current_user: user) }
 
   before do
@@ -52,7 +52,7 @@ describe ::API::V3::UserPreferences::UserPreferencesRepresenter do
 
     describe 'timeZone' do
       context 'no time zone set' do
-        let(:preference) { FactoryGirl.build(:user_preference, time_zone: '') }
+        let(:preference) { FactoryBot.build(:user_preference, time_zone: '') }
 
         it 'shows the timeZone as nil' do
           is_expected.to be_json_eql(nil.to_json).at_path('timeZone')
@@ -60,7 +60,7 @@ describe ::API::V3::UserPreferences::UserPreferencesRepresenter do
       end
 
       context 'short timezone set' do
-        let(:preference) { FactoryGirl.build(:user_preference, time_zone: 'Berlin') }
+        let(:preference) { FactoryBot.build(:user_preference, time_zone: 'Berlin') }
 
         it 'shows the canonical time zone' do
           is_expected.to be_json_eql('Europe/Berlin'.to_json).at_path('timeZone')
@@ -68,7 +68,7 @@ describe ::API::V3::UserPreferences::UserPreferencesRepresenter do
       end
 
       context 'canonical timezone set' do
-        let(:preference) { FactoryGirl.build(:user_preference, time_zone: 'Europe/Paris') }
+        let(:preference) { FactoryBot.build(:user_preference, time_zone: 'Europe/Paris') }
 
         it 'shows the canonical time zone' do
           is_expected.to be_json_eql('Europe/Paris'.to_json).at_path('timeZone')

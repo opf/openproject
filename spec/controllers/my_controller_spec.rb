@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,13 +23,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe MyController, type: :controller do
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryBot.create(:user) }
   before(:each) do
     login_as(user)
   end
@@ -118,7 +118,7 @@ describe MyController, type: :controller do
   end
 
   describe 'account' do
-    let(:custom_field) { FactoryGirl.create :text_user_custom_field }
+    let(:custom_field) { FactoryBot.create :text_user_custom_field }
     before do
       custom_field
       as_logged_in_user user do
@@ -165,7 +165,7 @@ describe MyController, type: :controller do
       end
 
       it 'redirects to settings' do
-        expect(response).to redirect_to my_settings_path
+        expect(request.path).to eq(my_settings_path)
       end
 
       it 'has a successful flash' do
@@ -211,21 +211,6 @@ describe MyController, type: :controller do
 
     it "does not render 'Change password' menu entry" do
       expect(response.body).not_to have_selector('#menu-sidebar li a', text: 'Change password')
-    end
-  end
-
-  describe 'index' do
-    render_views
-
-    before do
-      allow_any_instance_of(User).to receive(:reported_work_package_count).and_return(42)
-      get :index
-    end
-
-    it 'should show the number of reported packages' do
-      label = Regexp.escape(I18n.t(:label_reported_work_packages))
-
-      expect(response.body).to have_selector('h3', text: /#{label}.*42/)
     end
   end
 

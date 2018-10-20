@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class Version < ActiveRecord::Base
@@ -33,7 +33,7 @@ class Version < ActiveRecord::Base
 
   include Version::ProjectSharing
 
-  after_update :update_issues_from_sharing_change
+  after_update :update_issues_from_sharing_change, if: :saved_change_to_sharing?
   belongs_to :project
   has_many :fixed_issues, class_name: 'WorkPackage', foreign_key: 'fixed_version_id', dependent: :nullify
   has_many :work_packages, foreign_key: :fixed_version_id
@@ -107,7 +107,7 @@ class Version < ActiveRecord::Base
     status == 'open'
   end
 
-  # Returns true if the version is completed: due date reached and no open issues
+  # Returns true if the version is completed: finish date reached and no open issues
   def completed?
     effective_date && (effective_date <= Date.today) && open_issues_count.zero?
   end
@@ -146,7 +146,7 @@ class Version < ActiveRecord::Base
   end
   deprecated_alias :closed_pourcent, :closed_percent
 
-  # Returns true if the version is overdue: due date reached and some open issues
+  # Returns true if the version is overdue: finish date reached and some open issues
   def overdue?
     effective_date && (effective_date < Date.today) && (open_issues_count > 0)
   end
@@ -188,13 +188,13 @@ class Version < ActiveRecord::Base
   end
 
   # Versions are sorted by "Project Name - Version name"
-  def <=>(version)
+  def <=>(other)
     # using string interpolation for comparison is not efficient
     # (see to_s_with_project's implementation) but I wanted to
     # tie the comparison to the presentation as sorting is mostly
     # used within sorted tables.
     # Thus, when the representation changes, the sorting will change as well.
-    to_s_with_project.downcase <=> version.to_s_with_project.downcase
+    to_s_with_project.downcase <=> other.to_s_with_project.downcase
   end
 
   # Returns the sharings that +user+ can set the version to
@@ -228,12 +228,10 @@ class Version < ActiveRecord::Base
 
   # Update the issue's fixed versions. Used if a version's sharing changes.
   def update_issues_from_sharing_change
-    if sharing_changed?
-      if VERSION_SHARINGS.index(sharing_was).nil? ||
-         VERSION_SHARINGS.index(sharing).nil? ||
-         VERSION_SHARINGS.index(sharing_was) > VERSION_SHARINGS.index(sharing)
-        WorkPackage.update_versions_from_sharing_change self
-      end
+    if VERSION_SHARINGS.index(sharing_before_last_save).nil? ||
+       VERSION_SHARINGS.index(sharing).nil? ||
+       VERSION_SHARINGS.index(sharing_before_last_save) > VERSION_SHARINGS.index(sharing)
+      WorkPackage.update_versions_from_sharing_change self
     end
   end
 

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module TimelogHelper
@@ -199,7 +199,7 @@ module TimelogHelper
   end
 
   # Retrieves the date range based on predefined ranges or specific from/to param dates
-  def retrieve_date_range
+  def retrieve_date_range(allow_nil: false)
     @free_period = false
     @from = nil
     @to = nil
@@ -240,8 +240,11 @@ module TimelogHelper
     end
 
     @from, @to = @to, @from if @from && @to && @from > @to
-    @from ||= (TimeEntry.earliest_date_for_project(@project) || Date.today)
-    @to ||= (TimeEntry.latest_date_for_project(@project) || Date.today)
+
+    unless allow_nil
+      @from ||= (TimeEntry.earliest_date_for_project(@project) || Date.today)
+      @to ||= (TimeEntry.latest_date_for_project(@project) || Date.today)
+    end
   end
 
   def find_optional_project

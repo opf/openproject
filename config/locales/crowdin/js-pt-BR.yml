@@ -4,6 +4,18 @@ pt-BR:
     ajax:
       hide: Ocultar
       loading: Carregando ...
+    attachments:
+      draggable_hint: 'Arraste sobre o campo do editor para incorporar uma imagem
+        ou anexo de referência. Campos do editor fechados serão abertos enquanto você
+        continuar arrastando.
+
+'
+    autocomplete_select:
+      placeholder:
+        multi: Adicionar "%{name}"
+        single: Selecionar "%{name}"
+      remove: Remover %{name}
+      active: Ativar %{label} %{name}
     close_popup_title: Fechar pop-up
     close_filter_title: Fechar filtro
     close_form_title: Fechar formulário
@@ -47,8 +59,69 @@ pt-BR:
     description_select_work_package: 'Selecionar o pacote de trabalho #%{id}'
     description_selected_columns: Colunas selecionadas
     description_subwork_package: 'Filho do pacote de trabalho #%{id}'
+    editor:
+      preview: Alternar modo de visualização
+      source_code: Alternar para código Markdown
+      error_saving_failed: 'Não foi possível salvar o documento pelo seguinte erro:
+        %{error}'
+      mode:
+        manual: Alternar para fonte Markdown
+        wysiwyg: Alternar para editor WYSIWYG
+      macro:
+        child_pages:
+          button: Links para páginas filhas
+          include_parent: Incluir pai
+          text: "[Placeholder] Links para páginas filhas de"
+          page: Página wiki
+          this_page: esta página
+          hint: 'Deixe este campo em branco para listar todas as páginas filhas da
+            página atual. Se você deseja fazer referência a uma página diferente,
+            forneça seu título ou "slug".
+
+'
+        code_block:
+          button: Inserir trecho de código
+          title: Inserir / editar Trecho de código
+          language: Linguagem de formatação
+          language_hint: Insira a linguagem de formatação que será usada para destacar
+            (se suportado).
+        dropdown:
+          macros: Macros
+          chose_macro: Escolher macro
+        toc: Tabela de conteúdos
+        toolbar_help: Clique para selecionar o widget e mostrar a barra de ferramentas.
+          Clique duas vezes para editar o widget
+        wiki_page_include:
+          button: Incluir o conteúdo de outra página wiki
+          text: "[Placeholder] Incluída a página wiki de"
+          page: Página wiki
+          not_set: "(Página ainda não definida)"
+          hint: 'Inclua o conteúdo de outra página wiki, especificando seu título
+            ou slug. Você pode incluir a página wiki de um outro projeto, separando-a
+            com dois pontos como exemplo a seguir.
+
+'
+        work_package_button:
+          button: Inserir botão para criar pacote de trabalho
+          type: Tipo de pacote de trabalho
+          button_style: Use o estilo de botão
+          button_style_hint: 'Opcional: Marque para fazer a macro aparecer como um
+            botão, não como um link.'
+          without_type: Criar pacote de trabalho
+          with_type: 'Criar pacote de trabalho (Tipo: %{typename})'
+        embedded_table:
+          button: Embutir tabela de pacote de trabalho
+          text: "[Placeholder] Embutida tabela de pacote de trabalho"
+    custom_actions:
+      date:
+        specific: 'on'
+        current_date: Current date
     error:
       internal: Ocorreu um erro interno.
+      cannot_save_changes_with_message: 'Não foi possível salvar as alterações devido
+        ao seguinte erro: %{error}'
+      query_saving: A visão não pode ser salva.
+      embedded_table_loading: 'A visão incorporada não pôde ser carregada: %{message}'
     filter:
       description:
         text_open_filter: Abra este filtro com a tecla 'ALT' e as teclas de seta.
@@ -65,6 +138,8 @@ pt-BR:
           one: Primeiro critério de classificação
           two: Segundo critério de classificação
           three: Terceiro critério de classificação
+      upsale_for_more: Para filtros avançados, confira o
+      upsale_link: Enterprise Edition.
     general_text_no: não
     general_text_yes: sim
     general_text_No: Não
@@ -75,7 +150,7 @@ pt-BR:
       de um usuário.
     label_add_columns: Adicionar colunas
     label_add_comment: Adicionar comentário
-    label_add_comment_title: Clique para adicionar um comentário
+    label_add_comment_title: Comente e digite @ para notificar outras pessoas
     label_add_selected_columns: Adicionar colunas selecionadas
     label_added_by: adicionado por
     label_added_time_by: Adicionado por %{author} %{age}
@@ -112,6 +187,7 @@ pt-BR:
     label_expand: Expandir
     label_expanded: expandido
     label_expand_all: Expandir todos
+    label_expand_project_menu: Expandir menu do projeto
     label_export: Exportar
     label_filename: Arquivo
     label_filesize: Tamanho
@@ -119,10 +195,11 @@ pt-BR:
     label_group_by: Agrupar por
     label_hide_attributes: Mostrar Menos
     label_hide_column: Ocultar coluna
+    label_hide_project_menu: Recolher menu do projeto
     label_in: em
     label_in_less_than: em menos de
     label_in_more_than: em mais de
-    label_latest_activity: Últimas atividades
+    label_latest_activity: Última atividade
     label_last_updated_on: Última atualização em
     label_less_or_equal: "<="
     label_less_than_ago: menos dias atrás
@@ -140,6 +217,7 @@ pt-BR:
     label_not_equals: não é
     label_on: ligado
     label_open_menu: Abrir menu
+    label_open_context_menu: Abrir menu de contexto
     label_open_work_packages: aberto
     label_password: Senha
     label_previous: Anterior
@@ -153,20 +231,23 @@ pt-BR:
     label_select_watcher: Selecione um observador...
     label_selected_filter_list: Filtros selecionados
     label_show_attributes: Mostrar todos os atributos
-    label_show_in_menu: Mostrar a página no menu
+    label_show_in_menu: Mostrar visualização no menu
     label_sort_by: Ordenar por
     label_sorted_by: ordenados por
     label_sort_higher: Mover para cima
     label_sort_lower: Mover para baixo
     label_sorting: Ordenação
+    label_star_query: Favorecido
+    label_press_enter_to_save: Pressione enter para salvar.
+    label_public_query: Público
     label_sum_for: Soma para
     label_subject: Assunto
     label_this_week: esta semana
     label_today: hoje
+    label_up: Acima
     label_activity_show_only_comments: Mostrar somente as atividades com comentários
     label_activity_show_all: Mostrar todas as atividades
     label_total_progress: "%{percent}% Total de progresso"
-    label_visible_for_others: Página visível para outros
     label_updated_on: atualizado em
     label_warning: Aviso
     label_work_package: Pacote de trabalho
@@ -180,8 +261,10 @@ pt-BR:
     label_unwatch: Não observar
     label_unwatch_work_package: Não mais observar pacote de trabalho
     label_uploaded_by: Enviado por
-    label_global_queries: Consultas compartilhadas
-    label_custom_queries: Consultas privadas
+    label_default_queries: Visões padrão
+    label_starred_queries: Visões favoritas
+    label_global_queries: Visões públicas
+    label_custom_queries: Visões privadas
     label_columns: Colunas
     label_attachments: Arquivos
     label_drop_files: Solte os arquivos aqui
@@ -193,8 +276,9 @@ pt-BR:
     label_remove_watcher: Remover observador %{name}
     label_remove_all_files: Excluir todos os arquivos
     label_add_description: Adicionar uma descrição para %{file}
-    label_upload_notification: 'Enviando arquivos para o pacote de trabalho #%{id}:
-      %{subject}'
+    label_upload_notification: Enviando arquivos...
+    label_work_package_upload_notification: 'Enviando arquivos para o pacote de trabalho
+      #%{id}: %{subject}'
     label_files_to_upload: 'Estes arquivos serão enviados:'
     label_rejected_files: 'Estes arquivos não podem ser enviados:'
     label_rejected_files_reason: Estes arquivos não podem ser enviados, pois seu tamanho
@@ -224,6 +308,8 @@ pt-BR:
       context: Contexto do projeto
       work_package_belongs_to: Este pacote de trabalho pertence ao projeto %{projectname}.
       click_to_switch_context: Abra esse pacote de trabalho nesse projeto.
+      autocompleter:
+        label: Autocompletar projeto
     text_are_you_sure: Tem certeza?
     types:
       attribute_groups:
@@ -231,8 +317,8 @@ pt-BR:
           de Grupos devem ser únicos.
         reset_title: Voltar para a configuração padrão do formulário
         confirm_reset: 'Aviso: Tem certeza de que deseja redefinir a configuração
-          do formulário? Isto irá redefinir os atributos para o grupo padrão, desmarcar
-          as caixas de seleção de visibilidade e desativar TODOS os campos personalizados.
+          de formulário? Isto irá redefinir os atributos para o grupo padrão e desativar
+          TODOS os campos personalizados.
 
 '
         upgrade_to_ee: Atualizar para a versão Enterprise Edition
@@ -264,7 +350,8 @@ pt-BR:
       required: Requerido por
       relation_type: tipo de relação
     relations_hierarchy:
-      hierarchy_headline: hierarquia
+      parent_headline: Ascendente
+      children_headline: Filhos
     relation_buttons:
       change_parent: Alterar pai
       remove_parent: Remover pai
@@ -301,6 +388,7 @@ pt-BR:
         one: Você pode selecionar somente um item
         other: Você pode selecionar {{limit}} itens
         zero: You cannot select any items
+    project_menu_details: Detalhes
     sort:
       sorted_asc: 'Classificação crescente aplicada, '
       sorted_dsc: 'Ordenação decrescente aplicada, '
@@ -311,11 +399,12 @@ pt-BR:
       activate_no: ative para remover a classificação
     text_work_packages_destroy_confirmation: Tem certeza que deseja excluir o(s) pacote(s)
       de trabalho selecionado(s)?
-    text_query_destroy_confirmation: Tem certeza de que deseja excluir os itens selecionados?
+    text_query_destroy_confirmation: Tem certeza que deseja excluir a visão selecionada?
     text_attachment_destroy_confirmation: Tem certeza de que deseja excluir o anexo?
     timelines:
       gantt_chart: Gráfico de Gantt
       labels:
+        title: Configuração de rótulos
         bar: Barra de rótulos
         left: Esquerda
         right: Direita
@@ -326,11 +415,11 @@ pt-BR:
           elemento, seus marcadores de data serão exibidos em vez desses atributos.
 
 '
-      button_activate: Ativar o modo de linha do tempo
-      button_deactivate: Desativar o modo de linha do tempo
+      button_activate: Exibir gráfico de Gantt
+      button_deactivate: Ocultar gráfico de Gantt
       cancel: Cancelar
       change: Mudar no planejamento
-      due_date: Prazo
+      due_date: Data de conclusão
       empty: "(vazio)"
       error: Ocorreu um erro.
       errors:
@@ -343,18 +432,9 @@ pt-BR:
         report_timeout: O cronograma não pôde ser carregado em uma quantidade razoável
           de tempo.
       filter:
-        column:
-          assigned_to: Responsável
-          type: Tipo
-          due_date: Data de término
-          name: Nome
-          status: Situação
-          responsible: Responsável
-          start_date: Data de início
         grouping_other: Outro
         noneSelection: "(nenhum)"
       name: Nome
-      new_work_package: Novo pacote de trabalho
       outline: Redefinir o contorno
       outlines:
         aggregation: Mostrar somente agregações
@@ -365,7 +445,6 @@ pt-BR:
         level5: Expandir nível 5
         all: Mostrar todos
       project_status: Situação do projeto
-      project_type: Tipo de projeto
       really_close_dialog: Você quer realmente fechar a caixa de diálogo e perder
         os dados introduzidos?
       responsible: Responsável
@@ -385,6 +464,10 @@ pt-BR:
         quarters: Trimestres
         years: Anos
         slider: Controle deslizante de zoom
+        description: 'Selecione o nível de zoom inicial que deve ser exibido quando
+          o zoom automático não estiver disponível.
+
+'
     tl_toolbar:
       zooms: Nível de zoom
       outlines: Nível de hierarquia
@@ -397,6 +480,8 @@ pt-BR:
         para o Microsoft Edge.
       learn_more: Saiba mais
       close_warning: Ignorar este aviso.
+    upsale:
+      ee_only: Recurso exclusivo da Enterprise Edition
     wiki_formatting:
       strong: Negrito
       italic: Itálico
@@ -454,10 +539,13 @@ pt-BR:
       inline_create:
         title: Clique aqui para adicionar um novo pacote de trabalho a esta lista
       create:
+        title: Novo pacote de trabalho
         header: Novo %{type}
         header_no_type: Novo pacote de trabalho (Tipo ainda não definido)
         header_with_parent: 'Novo %{type} (Filho de %{parent_type} #%{id})'
         button: Criar
+      copy:
+        title: Copiar pacote de trabalho
       hierarchy:
         show: Mostrar o modo de hierarquia
         hide: Ocultar o modo de hierarquia
@@ -469,7 +557,7 @@ pt-BR:
           os filhos filtrados
       faulty_query:
         title: Pacotes de trabalho não podem ser carregados.
-        description: Sua consulta está incorreta e não poderia ser processada.
+        description: Sua visão está incorreta e não pôde ser processada.
       no_results:
         title: Não há pacotes de trabalho para exibir.
         description: Nenhum pacote criado ou todos os pacotes de trabalho foram filtrados.
@@ -479,12 +567,12 @@ pt-BR:
         estimatesAndTime: Estimativas e Tempo
         other: Outro
       properties:
-        assignee: Responsável
+        assignee: Atribuição
         author: Autor
         createdAt: Criado em
         description: Descrição
         date: Data
-        dueDate: Prazo
+        dueDate: Data de conclusão
         estimatedTime: Tempo estimado
         spentTime: Tempo gasto
         category: Categoria
@@ -500,6 +588,13 @@ pt-BR:
         updatedAt: Atualizado em
         versionName: Versão
         version: Versão
+      default_queries:
+        latest_activity: Última atividade
+        created_by_me: Criado por mim
+        assigned_to_me: Atribuído a mim
+        recently_created: Criado recentemente
+        all_open: Tudo aberto
+        summary: Resumo
       jump_marks:
         pagination: Pular para a tabela de paginação
         label_pagination: Clique aqui para pular a tabela de pacotes de trabalho e
@@ -517,7 +612,6 @@ pt-BR:
           de hierarquia está ativo.
         hierarchy_disabled_by_group_by: O modo de hierarquia está desativado, pois
           os resultados estão agrupados por %{column}.
-        hierarchy_mode: Modo de hierarquia
         sort_ascending: Ordenação crescente
         sort_descending: Ordenação decrescente
         move_column_left: Mover coluna para esquerda
@@ -526,11 +620,17 @@ pt-BR:
         insert_columns: Inserir colunas...
         filters: Filtros
         display_sums: Exibir somas
+        confirm_edit_cancel: Tem certeza que deseja cancelar a edição do nome desta
+          visão? O título será definido novamente com o valor anterior.
+        click_to_edit_query_name: Clique para editar o título desta visão.
+        rename_query_placeholder: Nome desta visão
         errors:
-          unretrievable_query: Não foi possível recuperar a consulta de URL
-          not_found: Não existe tal consulta
-        text_no_results: Nenhuma consulta correspondente foi encontrada.
+          unretrievable_query: Não foi possível recuperar a visualização da URL
+          not_found: Esta visão não existe
+          duplicate_query_title: O nome desta visão já existe. Modificar assim mesmo?
+        text_no_results: Nenhuma visão correspondente foi encontrada.
       table:
+        configure_button: Configurar a tabela de pacote de trabalho
         summary: Tabela com linhas de pacote de trabalho e colunas com atributos do
           pacote de trabalho.
         text_inline_edit: A maioria das células desta tabela são botões que ativam
@@ -539,6 +639,40 @@ pt-BR:
           agrupar, reordenar, remover e adicionar colunas na tabela.
         text_select_hint: Caixas de seleção devem ser abertas com 'ALT' e teclas de
           seta.
+      table_configuration:
+        button: Configurar esta tabela de pacote de trabalho
+        choose_display_mode: Exibir pacotes de trabalho como
+        modal_title: Configuração de tabela de pacote de trabalho
+        embedded_tab_disabled: Esta aba de configuração não está disponível para a
+          visão incorporada que você está editando.
+        default: padrão
+        display_settings: Configurações de exibição
+        default_mode: Lista plana
+        hierarchy_mode: Hierarquia
+        hierarchy_hint: Todos os resultados da tabela filtrada serão aumentados com
+          seus ancestrais. As hierarquias podem ser expandidas e recolhidas.
+        display_sums_hint: Exiba as somas de todos os atributos somáveis na linha
+          abaixo da tabela de resultados.
+        show_timeline_hint: Exiba um gráfico de gantt interativo no lado direito da
+          tela. Você pode alterar a largura arrastando a linha divisória entre a tabela
+          e o gráfico.
+        highlighting: Destacando
+        highlighting_mode:
+          description: Destacar com cor
+          none: Sem destaque
+          inline: Highlighted attribute(s)
+          inline_all: All attributes
+          entire_row_by: Toda linha por
+          status: Situação
+          priority: Prioridade
+          type: Tipo
+        columns_help_text: Use a entrada acima para adicionar ou remover colunas à
+          sua exibição de tabela. Você pode arrastar e soltar as colunas para reordená-las.
+        upsale:
+          attribute_highlighting: Precisa de certos pacotes de trabalho para se destacar
+            da massa?
+          relation_columns: Necessário ver as relações na lista de pacote de trabalho?
+          check_out_link: Confira a versão Enterprise Edition.
       tabs:
         overview: Visão geral
         activity: Atividade
@@ -551,6 +685,7 @@ pt-BR:
         months: meses
     toolbar:
       settings:
+        configure_view: Configurar visualização...
         columns: Colunas...
         sort_by: Ordenar por...
         group_by: Agrupar por...
@@ -561,15 +696,16 @@ pt-BR:
         save: Salvar
         save_as: Salvar como ...
         export: Exportar ...
-        publish: Publicar ...
-        page_settings: Renomear consulta...
+        visibility_settings: Configurações de visibilidade ...
+        page_settings: Renomear visualização...
         delete: Excluir
       filter: Filtro
       unselected_title: Pacote de trabalho
-      search_query_label: Localizar filtro de pesquisa salvo
-      search_query_title: Clique para localizar filtros de pesquisa salvos
+      search_query_label: Buscar visões salvas
+      search_query_title: Clique para procurar visões salvas
+      placeholder_query_title: Definir um título para esta visão
     modals:
-      label_settings: Renomear consulta
+      label_settings: Renomear visualização
       label_name: Nome
       label_delete_page: Excluir página atual
       button_apply: Aplicar
@@ -579,13 +715,14 @@ pt-BR:
       form_submit:
         title: Confirme para continuar
         text: Tem certeza de que deseja executar esta ação?
-      upsale_relation_columns: Necessário ver as relações na lista de pacote de trabalho?
-      upsale_relation_columns_link: Confira a versão Enterprise Edition.
       destroy_work_package:
         title: Confirmar exclusão do %{label}
         text: Você tem certeza que deseja excluir o seguinte %{label}?
         has_children: 'O pacote de trabalho tem %{childUnits}:'
-        deletes_children: Todos os pacotes de trabalho filhos também serão excluídos.
+        confirm_deletion_children: Tenho conhecimento que TODOS os descendentes dos
+          pacotes de trabalho listados serão removidos recursivamente.
+        deletes_children: Todos os pacotes de trabalho filhos e seus descendentes
+          também serão excluídos recursivamente.
     notice_successful_create: Criado com sucesso.
     notice_successful_delete: Excluído com sucesso.
     notice_successful_update: Atualizado com sucesso.
@@ -612,6 +749,9 @@ pt-BR:
         messages_on_field: 'Este campo é inválido: %{messages}'
     error_could_not_resolve_version_name: Não foi possível identificar o nome da versão
     error_could_not_resolve_user_name: Não foi possível identificar o nome do usuário
+    error_attachment_upload: 'Arquivo ''%{name}'' falhou no envio: %{error}'
+    error_attachment_upload_permission: Você não tem permissão para enviar arquivos
+      nesse recurso.
     units:
       workPackage:
         one: pacote de trabalho

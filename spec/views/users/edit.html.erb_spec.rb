@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,17 +23,24 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe 'users/edit', type: :view do
-  let(:admin) { FactoryGirl.build :admin }
+  let(:admin) { FactoryBot.build :admin }
+
+  before do
+    # The url_for is missing the users id that is usually taken
+    # from request parameters
+    controller.request.path_parameters[:id] = user.id
+    view.extend(Gon::ControllerHelpers)
+  end
 
   context 'authentication provider' do
     let(:user) do
-      FactoryGirl.build :user, id: 1, # id is required to create route to edit
+      FactoryBot.build :user, id: 1, # id is required to create route to edit
                                identity_url: 'test_provider:veryuniqueid'
     end
 
@@ -59,7 +66,7 @@ describe 'users/edit', type: :view do
   end
 
   context 'with an invited user' do
-    let(:user) { FactoryGirl.create :invited_user }
+    let(:user) { FactoryBot.build_stubbed :invited_user }
 
     before do
       assign(:user, user)
@@ -78,7 +85,7 @@ describe 'users/edit', type: :view do
     end
 
     context 'for a non-admin' do
-      let(:non_admin) { FactoryGirl.create :user }
+      let(:non_admin) { FactoryBot.create :user }
 
       before do
         allow(view).to receive(:current_user).and_return(non_admin)
@@ -92,7 +99,7 @@ describe 'users/edit', type: :view do
   end
 
   context 'with a normal (not invited) user' do
-    let(:user) { FactoryGirl.create :user }
+    let(:user) { FactoryBot.create :user }
 
     before do
       assign(:user, user)
@@ -108,7 +115,7 @@ describe 'users/edit', type: :view do
   end
 
   context 'with password-based login' do
-    let(:user) { FactoryGirl.build :user, id: 42 }
+    let(:user) { FactoryBot.build :user, id: 42 }
 
     before do
       assign :user, user
@@ -129,7 +136,7 @@ describe 'users/edit', type: :view do
       end
 
       context 'with auth sources' do
-        let(:auth_sources) { [FactoryGirl.create(:auth_source)] }
+        let(:auth_sources) { [FactoryBot.create(:auth_source)] }
 
         before do
           assign :auth_sources, auth_sources
@@ -155,7 +162,7 @@ describe 'users/edit', type: :view do
       end
 
       context 'with auth sources' do
-        let(:auth_sources) { [FactoryGirl.create(:auth_source)] }
+        let(:auth_sources) { [FactoryBot.create(:auth_source)] }
 
         before do
           assign :auth_sources, auth_sources

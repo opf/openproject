@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class Enumeration < ActiveRecord::Base
@@ -57,6 +57,10 @@ class Enumeration < ActiveRecord::Base
       end
     end
     super
+  end
+
+  def self.colored?
+    false
   end
 
   def self.default
@@ -174,7 +178,6 @@ class Enumeration < ActiveRecord::Base
 end
 
 # Force load the subclasses in development mode
-['time_entry_activity', 'issue_priority',
- 'reported_project_status'].each do |enum_subclass|
+%w(time_entry_activity issue_priority).each do |enum_subclass|
   require_dependency enum_subclass
 end

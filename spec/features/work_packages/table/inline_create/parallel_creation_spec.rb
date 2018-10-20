@@ -4,23 +4,23 @@ describe 'Parallel work package creation spec', js: true do
   let(:type) { project.types.first }
 
   let(:permissions) { %i(view_work_packages add_work_packages) }
-  let(:role) { FactoryGirl.create :role, permissions: permissions }
+  let(:role) { FactoryBot.create :role, permissions: permissions }
   let(:user) do
-    FactoryGirl.create :user,
-                       member_in_project: project,
-                       member_through_role: role
+    FactoryBot.create :user,
+                      member_in_project: project,
+                      member_through_role: role
   end
-  let(:status) { FactoryGirl.create(:default_status) }
+  let(:status) { FactoryBot.create(:default_status) }
   let(:workflow) do
-    FactoryGirl.create :workflow,
-                       type_id: type.id,
-                       old_status: status,
-                       new_status: FactoryGirl.create(:status),
-                       role: role
+    FactoryBot.create :workflow,
+                      type_id: type.id,
+                      old_status: status,
+                      new_status: FactoryBot.create(:status),
+                      role: role
   end
 
-  let!(:project) { FactoryGirl.create(:project, is_public: true) }
-  let!(:priority) { FactoryGirl.create :priority, is_default: true }
+  let!(:project) { FactoryBot.create(:project, is_public: true) }
+  let!(:priority) { FactoryBot.create :priority, is_default: true }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
 
   before do
@@ -37,7 +37,7 @@ describe 'Parallel work package creation spec', js: true do
 
     # Create in split screen
     split = wp_table.create_wp_split_screen type.name
-    description_field = WorkPackageTextAreaField.new split, 'description'
+    description_field = WorkPackageEditorField.new split, 'description'
     description_field.expect_active!
     description_field.set_value description
   end
@@ -57,10 +57,9 @@ describe 'Parallel work package creation spec', js: true do
     subject_field = wp_table.edit_field(nil, :subject)
     subject_field.save!
 
-    # Since the WP was started inline, a new row is entered
-    expect(page).to have_selector('.wp-inline-create-row')
-    scroll_to_and_click(page.find('.wp-table--cancel-create-link'))
+    # There should be one row, and no open inline create row
     expect(page).to have_selector('.wp--row', count: 1)
+    expect(page).to have_no_selector('.wp-inline-create-row')
 
     wp_table.expect_notification(
       message: 'Successful creation. Click here to open this work package in fullscreen view.'
@@ -93,12 +92,12 @@ describe 'Parallel work package creation spec', js: true do
     subject_field.expect_value 'New subject'
     subject_field.save!
 
-    expect(page).to have_selector('.wp-inline-create-row')
-    expect(page).to have_selector('.wp--row', count: 3)
     wp_table.expect_notification(
       message: 'Successful creation.'
     )
     wp_table.dismiss_notification!
+    expect(page).to have_selector('.wp--row', count: 2)
+    expect(page).to have_no_selector('.wp-inline-create-row')
 
     # Get the last work package
     wp2 = WorkPackage.last

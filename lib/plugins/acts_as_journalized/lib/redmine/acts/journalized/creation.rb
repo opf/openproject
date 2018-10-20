@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 #-- encoding: UTF-8
@@ -142,8 +142,10 @@ module Redmine::Acts::Journalized
 
         attributes_setter.call(initial_changes)
 
-        # Call the journal creating method
-        changed_data = fill_object.send(:merge_journal_changes)
+        # Get the changed attributes
+        changed_data = fill_object.changes.reject do |_, change|
+          change[0].blank? && change[1].blank?
+        end.slice(*journaled_columns)
 
         new_journal.version = 1
         new_journal.activity_type = activity_type

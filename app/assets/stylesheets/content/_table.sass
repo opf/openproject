@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 //++
 
 @keyframes fade-out
@@ -107,14 +107,14 @@ table.generic-table
     .sort
       &.asc:after
         @include icon-font-common
-        @extend .icon-sort-ascending:before
+        @include icon-mixin-sort-ascending
         margin-left: 5px
         font-size: 1.2em
         vertical-align: text-bottom
 
       &.desc:after
         @include icon-font-common
-        @extend .icon-sort-descending:before
+        @include icon-mixin-sort-descending
         margin-left: 5px
         font-size: 1.2em
         vertical-align: text-bottom
@@ -137,10 +137,11 @@ table.generic-table
     tr:not(.-no-highlighting)
       border-bottom: 1px solid $table-row-border-color
 
+    td:not(.-no-ellipsis)
+      @include text-shortener
+
     td
       max-width: 300px
-      overflow:  hidden
-      text-overflow: ellipsis
       text-align: left
       line-height: 1.6
       padding-top: 0.5rem
@@ -172,7 +173,7 @@ table.generic-table
       // become even wider.
       &.-max
         width: 100%
-        max-width: 600px
+        max-width: 500px
 
       &.info
         a
@@ -206,9 +207,10 @@ html.-supports-sticky-headers
   height:       $generic-table--footer-height
 
 .generic-table--header-outer,
-.generic-table--sort-header-outer,
+.generic-table--sort-header-outer
   padding:      0 12px 0 6px
   line-height:  $generic-table--header-height
+  height:  $generic-table--header-height
   z-index:      1
   border-bottom: 1px solid $table-row-border-color
 
@@ -220,10 +222,12 @@ html.-supports-sticky-headers
     .generic-table--header,
     .generic-table--sort-header
       visibility: hidden
+      // Matches the min-width of .generic-table--header, .generic-table--sort-header
+      max-width: 40px
 
 .generic-table--empty-header
   padding:       0 6px
-  height:        calc(#{$generic-table--header-height} + 1px)
+  height:        $generic-table--header-height
   border-bottom: 1px solid $table-row-border-color
   z-index:       1
 

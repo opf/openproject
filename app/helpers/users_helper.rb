@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module UsersHelper
@@ -130,15 +130,5 @@ module UsersHelper
 
   def user_mail_notification_options(user)
     user.valid_notification_options.map { |o| [l(o.last), o.first] }
-  end
-
-  def user_settings_tabs
-    tabs = [{ name: 'general', partial: 'users/general', label: :label_general },
-            { name: 'memberships', partial: 'users/memberships', label: :label_project_plural }
-           ]
-    if Group.all.any?
-      tabs.insert 1, name: 'groups', partial: 'users/groups', label: :label_group_plural
-    end
-    tabs
   end
 end

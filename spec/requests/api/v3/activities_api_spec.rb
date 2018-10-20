@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -33,7 +33,7 @@ describe API::V3::Activities::ActivitiesAPI, type: :request do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:admin) { FactoryGirl.create(:admin) }
+  let(:admin) { FactoryBot.create(:admin) }
   let(:comment) { 'This is a test comment!' }
 
   shared_examples_for 'safeguarded API' do
@@ -59,10 +59,10 @@ describe API::V3::Activities::ActivitiesAPI, type: :request do
   end
 
   describe 'PATCH /api/v3/activities/:activityId' do
-    let(:work_package) { FactoryGirl.create(:work_package) }
-    let(:wp_journal) { FactoryGirl.build(:journal_work_package_journal) }
+    let(:work_package) { FactoryBot.create(:work_package) }
+    let(:wp_journal) { FactoryBot.build(:journal_work_package_journal) }
     let(:journal) {
-      FactoryGirl.create(:work_package_journal,
+      FactoryBot.create(:work_package_journal,
                          data: wp_journal,
                          journable_id: work_package.id)
     }

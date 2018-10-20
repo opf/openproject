@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,11 +25,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
-require 'support/shared/previews'
 
 describe WorkPackagesController, type: :controller do
   before do
@@ -38,11 +37,11 @@ describe WorkPackagesController, type: :controller do
     allow(UserMailer).to receive(:new).and_return(double('mailer').as_null_object)
   end
 
-  let(:project) { FactoryGirl.create(:project, identifier: 'test_project', is_public: false) }
-  let(:stub_project) { FactoryGirl.build_stubbed(:project, identifier: 'test_project', is_public: false) }
+  let(:project) { FactoryBot.create(:project, identifier: 'test_project', is_public: false) }
+  let(:stub_project) { FactoryBot.build_stubbed(:project, identifier: 'test_project', is_public: false) }
   let(:stub_work_package) { double('work_package', id: 1337, project: stub_project).as_null_object }
 
-  let(:current_user) { FactoryGirl.create(:user) }
+  let(:current_user) { FactoryBot.create(:user) }
 
   def self.requires_permission_in_project(&block)
     describe 'w/o the permission to see the project/work_package' do
@@ -118,7 +117,7 @@ describe WorkPackagesController, type: :controller do
   end
 
   describe 'index' do
-    let(:query) { FactoryGirl.build_stubbed(:query).tap(&:add_default_filter) }
+    let(:query) { FactoryBot.build_stubbed(:query).tap(&:add_default_filter) }
     let(:work_packages) { double('work packages').as_null_object }
     let(:results) { double('results').as_null_object }
 
@@ -320,14 +319,14 @@ describe WorkPackagesController, type: :controller do
     # ISO-8859-1. Since this can happen, though, it is more sensible to encode everything
     # in UTF-8 which gets rid of this problem altogether.
     let(:work_package) do
-      FactoryGirl.create(
+      FactoryBot.create(
         :work_package,
         subject: "Ruby encodes ß as '\\xDF' in ISO-8859-1.",
         description: "\u2022 requires unicode.",
         assigned_to: current_user
       )
     end
-    let(:current_user) { FactoryGirl.create(:admin) }
+    let(:current_user) { FactoryBot.create(:admin) }
 
     it 'performs a successful export' do
       wp = work_package.reload

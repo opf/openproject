@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,31 +23,34 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
+
+require 'features/support/components/ui_autocomplete'
 
 module Components
   module WorkPackages
     class QueryMenu
       include Capybara::DSL
       include RSpec::Matchers
+      include ::Components::UIAutocompleteHelpers
 
       def select(query)
-        page.find(selector).click
-
-        page.fill_in 'query-title-filter', with: query.name
-
-        page.within(results_container) do
-          page.find('.ui-menu-item-wrapper', text: query.name).click
-        end
+        select_autocomplete autocompleter,
+                            results_selector: autocompleter_results_selector,
+                            query: query
       end
 
-      def selector
-        '.wp-table--query-menu-link'
+      def autocompleter
+        page.find autocompleter_selector
       end
 
-      def results_container
-        '.search-query-wrapper'
+      def autocompleter_results_selector
+        '.wp-query-menu--results-container'
+      end
+
+      def autocompleter_selector
+        '#query-title-filter'
       end
     end
   end

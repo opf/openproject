@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,18 +25,18 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe TimeEntry, type: :model do
   let(:activity) do
-    FactoryGirl.build(:time_entry_activity)
+    FactoryBot.build(:time_entry_activity)
   end
 
   describe '#activated_projects' do
-    let(:project1) { FactoryGirl.create(:project) }
+    let(:project1) { FactoryBot.create(:project) }
 
     context 'project specific activity' do
       before do
@@ -64,16 +64,16 @@ describe TimeEntry, type: :model do
     end
 
     context 'system activity' do
-      let(:project2) { FactoryGirl.create(:project) }
-      let(:project3) { FactoryGirl.create(:project) }
+      let(:project2) { FactoryBot.create(:project) }
+      let(:project3) { FactoryBot.create(:project) }
 
       let(:child_activity_active) do
-        FactoryGirl.create(:time_entry_activity,
+        FactoryBot.create(:time_entry_activity,
                            parent: activity,
                            project: project1)
       end
       let(:child_activity_inactive) do
-        FactoryGirl.create(:time_entry_activity,
+        FactoryBot.create(:time_entry_activity,
                            parent: activity,
                            project: project2,
                            active: false)

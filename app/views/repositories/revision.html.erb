@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See doc/COPYRIGHT.rdoc for more details.
+See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
@@ -51,7 +51,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <p><% if @changeset.scmid %>ID: <%= h(@changeset.scmid) %><br />
   <% end %>
   <span class="author"><%= authoring(@changeset.committed_on, @changeset.author) %></span></p>
-<%= format_text @changeset.comments %>
+<%= format_revision_text @changeset.comments %>
 <% if @changeset.work_packages.visible.any? %>
   <h3><%= l(:label_related_work_packages) %></h3>
   <ul>
@@ -69,7 +69,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <li class="change change-R icon icon-rename" title=<%= l(:label_renamed) %>><%= l(:label_renamed) %></li>
     <li class="change change-D icon icon-delete" title=<%= l(:label_deleted) %>><%= l(:label_deleted) %></li>
   </ul>
-  <p><%= link_to(l(:label_view_diff), action: 'diff', project_id: @project, path: nil, rev: @changeset.identifier) if @changeset.file_changes.any? %></p>
+  <p><%= link_to(l(:label_view_diff), action: 'diff', project_id: @project, repo_path: nil, rev: @changeset.identifier) if @changeset.file_changes.any? %></p>
   <div class="changeset-changes">
     <%= render_changeset_changes %>
   </div>

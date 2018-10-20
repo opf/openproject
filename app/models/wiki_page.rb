@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,14 +24,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'diff'
-require 'enumerator'
 
 class WikiPage < ActiveRecord::Base
-  belongs_to :wiki
+  belongs_to :wiki, touch: true
   has_one :project, through: :wiki
   has_one :content, class_name: 'WikiContent', foreign_key: 'page_id', dependent: :destroy
   acts_as_attachable delete_permission: :delete_wiki_pages_attachments
@@ -63,7 +62,6 @@ class WikiPage < ActiveRecord::Base
   validate :validate_non_circular_dependency
   validate :validate_same_project
 
-  after_initialize :check_and_mark_as_protected
   before_save :update_redirects
   before_destroy :remove_redirects
 
@@ -73,20 +71,17 @@ class WikiPage < ActiveRecord::Base
       .joins("LEFT JOIN #{WikiContent.table_name} ON #{WikiContent.table_name}.page_id = #{WikiPage.table_name}.id")
   }
 
-  scope :main_pages, -> (wiki_id) {
+  scope :main_pages, ->(wiki_id) {
     where(wiki_id: wiki_id, parent_id: nil)
   }
 
-  # Wiki pages that are protected by default
-  DEFAULT_PROTECTED_PAGES = %w(sidebar)
+  scope :visible, ->(user = User.current) {
+    includes(:project)
+      .references(:project)
+      .merge(Project.allowed_to(user, :view_wiki_pages))
+  }
 
   after_destroy :delete_wiki_menu_item
-
-  def check_and_mark_as_protected
-    if new_record? && DEFAULT_PROTECTED_PAGES.include?(title.to_s.downcase)
-      self.protected = true
-    end
-  end
 
   def slug
     read_attribute(:slug).presence || title.try(:to_url)
@@ -211,27 +206,20 @@ class WikiPage < ActiveRecord::Base
     MenuItems::WikiMenuItem.find_by(name: slug, navigatable_id: wiki_id)
   end
 
-  def nearest_menu_item
-    menu_item || nearest_parent_menu_item
-  end
-
-  # Returns the wiki menu item of nearest ancestor page that has a wiki menu item.
-  # To restrict the result to main menu items pass <tt>is_main_item: true</tt> as +options+ hash
-  def nearest_parent_menu_item(options = {})
+  # Returns the wiki menu item of nearest ancestor page that has a wiki menu item which is a main item.
+  def nearest_main_item
     return nil unless parent
 
-    options = options.with_indifferent_access
-
-    if (parent_menu_item = parent.menu_item) && (!options[:is_main_item] || parent_menu_item.is_main_item?)
+    if (parent_menu_item = parent.menu_item) && parent_menu_item.is_main_item?
       parent_menu_item
     else
-      parent.nearest_parent_menu_item
+      parent.nearest_main_item
     end
   end
 
   def breadcrumb_title
     if item = menu_item
-      item.name
+      item.title
     else
       title
     end
@@ -241,7 +229,17 @@ class WikiPage < ActiveRecord::Base
     slug || title.to_url
   end
 
-  def is_only_wiki_page?
+  def save_with_content
+    if valid? && content.valid?
+      ActiveRecord::Base.transaction do
+        save!
+        content.save!
+      end
+      true
+    end
+  end
+
+  def only_wiki_page?
     wiki.pages == [self]
   end
 
@@ -276,19 +274,19 @@ class WikiAnnotate
   def initialize(content)
     @content = content
     current = content
-    current_lines = current.journable.text.split(/\r?\n/)
+    current_lines = current.data.text.split(/\r?\n/)
     @lines = current_lines.map { |t| [nil, nil, t] }
     positions = []
     current_lines.size.times do |i| positions << i end
     while current.previous
-      d = current.previous.journable.text.split(/\r?\n/).diff(current.journable.text.split(/\r?\n/)).diffs.flatten
+      d = current.previous.data.text.split(/\r?\n/).diff(current.data.text.split(/\r?\n/)).diffs.flatten
       d.each_slice(3) do |s|
         sign = s[0]
         line = s[1]
         if sign == '+' && positions[line] && positions[line] != -1
           if @lines[positions[line]][0].nil?
             @lines[positions[line]][0] = current.version
-            @lines[positions[line]][1] = current.journable.author
+            @lines[positions[line]][1] = current.data.author
           end
         end
       end

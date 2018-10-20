@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -32,9 +32,9 @@ describe ::API::V3::WorkPackages::WorkPackageSumsRepresenter do
   let(:available_custom_fields) { [] }
   let(:sums) { double 'sums', estimated_hours: 5 }
   let(:schema) { double 'schema', available_custom_fields: available_custom_fields }
-  let(:representer) {
+  let(:representer) do
     described_class.create_class(schema).new(sums)
-  }
+  end
   let(:summable_columns) { [] }
 
   before do
@@ -63,9 +63,9 @@ describe ::API::V3::WorkPackages::WorkPackageSumsRepresenter do
   end
 
   context 'custom field x' do
-    let(:custom_field)  { FactoryGirl.build_stubbed(:integer_issue_custom_field, id: 1) }
+    let(:custom_field)  { FactoryBot.build_stubbed(:int_wp_custom_field, id: 1) }
     let(:available_custom_fields) { [custom_field] }
-    let(:sums) { double 'sums', custom_field_1: 5 }
+    let(:sums) { double 'sums', available_custom_fields: available_custom_fields, custom_field_1: 5 }
 
     context 'with it being configured to be summable' do
       let(:summable_columns) { ["cf_#{custom_field.id}"] }

@@ -1,19 +1,20 @@
 require 'spec_helper'
 
 describe 'Work Package table group headers', js: true do
-  let(:user) { FactoryGirl.create :admin }
+  let(:user) { FactoryBot.create :admin }
 
-  let(:project) { FactoryGirl.create(:project) }
-  let(:category) { FactoryGirl.create :category, project: project, name: 'Foo' }
-  let(:category2) { FactoryGirl.create :category, project: project, name: 'Bar' }
+  let(:project) { FactoryBot.create(:project) }
+  let(:category) { FactoryBot.create :category, project: project, name: 'Foo' }
+  let(:category2) { FactoryBot.create :category, project: project, name: 'Bar' }
 
-  let!(:wp_cat1) { FactoryGirl.create(:work_package, project: project, category: category) }
-  let!(:wp_cat2) { FactoryGirl.create(:work_package, project: project, category: category2) }
-  let!(:wp_none) { FactoryGirl.create(:work_package, project: project) }
+  let!(:wp_cat1) { FactoryBot.create(:work_package, project: project, category: category) }
+  let!(:wp_cat2) { FactoryBot.create(:work_package, project: project, category: category2) }
+  let!(:wp_none) { FactoryBot.create(:work_package, project: project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:group_by) { ::Components::WorkPackages::GroupBy.new }
 
   let!(:query) do
-    query              = FactoryGirl.build(:query, user: user, project: project)
+    query              = FactoryBot.build(:query, user: user, project: project)
     query.column_names = ['subject', 'category']
     query.show_hierarchies = false
 
@@ -32,9 +33,7 @@ describe 'Work Package table group headers', js: true do
 
   it 'shows group headers for group by category' do
     # Group by category
-    wp_table.click_setting_item 'Group by ...'
-    select 'Category', from: 'selected_columns_new'
-    click_button 'Apply'
+    group_by.enable_via_menu 'Category'
 
     # Expect table to be grouped as WP created above
     expect(page).to have_selector('.group--value .count', count: 3)

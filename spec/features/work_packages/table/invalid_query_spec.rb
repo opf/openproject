@@ -1,29 +1,30 @@
 require 'spec_helper'
 
-describe 'Invalid query spec', js: true, retry: 2 do
-  let(:user) { FactoryGirl.create :admin }
-  let(:project) { FactoryGirl.create :project }
+describe 'Invalid query spec', js: true do
+  let(:user) { FactoryBot.create :admin }
+  let(:project) { FactoryBot.create :project }
 
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:group_by) { ::Components::WorkPackages::GroupBy.new }
 
   let(:member) do
-    FactoryGirl.create(:member,
-                       user: user,
-                       project: project,
-                       roles: [FactoryGirl.create(:role)])
+    FactoryBot.create(:member,
+                      user: user,
+                      project: project,
+                      roles: [FactoryBot.create(:role)])
   end
   let(:status) do
-    FactoryGirl.create(:status)
+    FactoryBot.create(:status)
   end
   let(:status2) do
-    FactoryGirl.create(:status)
+    FactoryBot.create(:status)
   end
 
   let(:invalid_query) do
-    query = FactoryGirl.create(:query,
-                               project: project,
-                               user: user)
+    query = FactoryBot.create(:query,
+                              project: project,
+                              user: user)
 
     query.add_filter('assigned_to_id', '=', [99999])
     query.columns << 'cf_0815'
@@ -35,16 +36,16 @@ describe 'Invalid query spec', js: true, retry: 2 do
   end
 
   let(:valid_query) do
-    FactoryGirl.create(:query,
-                       project: project,
-                       user: user)
+    FactoryBot.create(:query,
+                      project: project,
+                      user: user)
   end
 
   let(:work_package_assigned) do
-    FactoryGirl.create(:work_package,
-                       project: project,
-                       status: status2,
-                       assigned_to: user)
+    FactoryBot.create(:work_package,
+                      project: project,
+                      status: status2,
+                      assigned_to: user)
   end
 
   before do
@@ -88,6 +89,7 @@ describe 'Invalid query spec', js: true, retry: 2 do
     wp_table.expect_notification(type: :error,
                                  message: I18n.t('js.work_packages.faulty_query.description'))
     wp_table.dismiss_notification!
+
     wp_table.expect_no_work_package_listed
     filters.expect_filter_count 2
 
@@ -95,7 +97,7 @@ describe 'Invalid query spec', js: true, retry: 2 do
     filters.expect_filter_by('Assignee', 'is', I18n.t('js.placeholders.selection'))
     filters.expect_filter_by('Status', 'is', [status.name, status2.name])
 
-    wp_table.group_by('Assignee')
+    group_by.enable_via_menu('Assignee')
     sleep(0.3)
     filters.set_filter('Assignee', 'is', user.name)
     sleep(0.3)

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,15 +23,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe WorkPackage, 'status', type: :model do
-  let(:status) { FactoryGirl.create(:status) }
+  let(:status) { FactoryBot.create(:status) }
   let!(:work_package) do
-    FactoryGirl.create(:work_package,
+    FactoryBot.create(:work_package,
                        status: status)
   end
 
@@ -41,21 +41,21 @@ describe WorkPackage, 'status', type: :model do
   end
 
   describe '#new_statuses_allowed_to' do
-    let(:role) { FactoryGirl.build_stubbed(:role) }
-    let(:type) { FactoryGirl.build_stubbed(:type) }
-    let(:user) { FactoryGirl.build_stubbed(:user) }
-    let(:assignee_user) { FactoryGirl.build_stubbed(:user) }
-    let(:author_user) { FactoryGirl.build_stubbed(:user) }
-    let(:current_status) { FactoryGirl.build_stubbed(:status) }
+    let(:role) { FactoryBot.build_stubbed(:role) }
+    let(:type) { FactoryBot.build_stubbed(:type) }
+    let(:user) { FactoryBot.build_stubbed(:user) }
+    let(:assignee_user) { FactoryBot.build_stubbed(:user) }
+    let(:author_user) { FactoryBot.build_stubbed(:user) }
+    let(:current_status) { FactoryBot.build_stubbed(:status) }
     let(:work_package) do
-      FactoryGirl.build_stubbed(:work_package,
+      FactoryBot.build_stubbed(:work_package,
                                 assigned_to: assignee_user,
                                 author: author_user,
                                 status: current_status,
                                 type: type)
     end
     let(:default_status) do
-      status = FactoryGirl.build_stubbed(:status)
+      status = FactoryBot.build_stubbed(:status)
 
       allow(Status)
         .to receive(:default)

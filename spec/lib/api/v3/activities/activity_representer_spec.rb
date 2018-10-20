@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,18 +23,18 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe ::API::V3::Activities::ActivityRepresenter do
-  let(:current_user) { FactoryGirl.create(:user,  member_in_project: project, member_through_role: role) }
-  let(:work_package) { FactoryGirl.build(:work_package) }
+  let(:current_user) { FactoryBot.create(:user,  member_in_project: project, member_through_role: role) }
+  let(:work_package) { FactoryBot.build(:work_package) }
   let(:journal) { Journal::AggregatedJournal.aggregated_journals.first }
   let(:project) { work_package.project }
   let(:permissions) { %i(edit_own_work_package_notes) }
-  let(:role) { FactoryGirl.create :role, permissions: permissions }
+  let(:role) { FactoryBot.create :role, permissions: permissions }
   let(:representer) { described_class.new(journal, current_user: current_user) }
 
   before do
@@ -62,7 +62,7 @@ describe ::API::V3::Activities::ActivityRepresenter do
       end
 
       it_behaves_like 'API V3 formattable', 'comment' do
-        let(:format) { 'textile' }
+        let(:format) { 'markdown' }
         let(:raw) { journal.notes }
         let(:html) { "#{journal.notes}" }
       end

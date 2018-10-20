@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'roar/decorator'
@@ -35,25 +35,20 @@ module API
     module WorkPackages
       module Schema
         class WorkPackageSchemaRepresenter < ::API::Decorators::SchemaRepresenter
+          include API::Caching::CachedRepresenter
+          extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
+
+          custom_field_injector type: :schema_representer
+
           class << self
             def represented_class
               WorkPackage
             end
 
-            def create_class(work_package_schema)
-              injector_class = ::API::V3::Utilities::CustomFieldInjector
-              injector_class.create_schema_representer(work_package_schema,
-                                                       WorkPackageSchemaRepresenter)
-            end
-
-            def create(work_package_schema, self_link, context)
-              create_class(work_package_schema).new(work_package_schema, self_link, context)
-            end
-
             def attribute_group(property)
               lambda do
                 key = property.to_s.gsub /^customField/, "custom_field_"
-                represented.attribute_group_map key
+                attribute_group_map key
               end
             end
 
@@ -88,14 +83,15 @@ module API
             super(schema, self_link, context)
           end
 
-          def cache_key
-            custom_fields = represented.project.all_work_package_custom_fields
+          def json_cache_key
+            parts = ['api/v3/work_packages/schemas',
+                     project_type_cache_key,
+                     I18n.locale,
+                     project_cache_key,
+                     type_cache_key,
+                     custom_field_cache_key]
 
-            OpenProject::Cache::CacheKey.key('api/v3/work_packages/schemas',
-                                             "#{represented.project.id}-#{represented.type.id}",
-                                             I18n.locale,
-                                             represented.type.updated_at,
-                                             OpenProject::Cache::CacheKey.expand(custom_fields))
+            OpenProject::Cache::CacheKey.key(parts)
           end
 
           link :baseSchema do
@@ -104,7 +100,8 @@ module API
 
           property :attribute_groups,
                    type: "[]String",
-                   as: "_attributeGroups"
+                   as: "_attributeGroups",
+                   exec_context: :decorator
 
           schema :lock_version,
                  type: 'Integer',
@@ -144,7 +141,8 @@ module API
 
           schema :spent_time,
                  type: 'Duration',
-                 required: false
+                 required: false,
+                 show_if: ->(*) { represented.project && represented.project.module_enabled?('time_tracking') }
 
           schema :percentage_done,
                  type: 'Integer',
@@ -250,6 +248,57 @@ module API
                                          },
                                          required: false,
                                          has_default: true
+
+          def attribute_groups
+            (represented.type && represented.type.attribute_groups || []).map do |group|
+              if group.is_a?(Type::QueryGroup)
+                ::API::V3::WorkPackages::Schema::FormConfigurations::QueryRepresenter
+                  .new(group, current_user: current_user, embed_links: true)
+              else
+                ::API::V3::WorkPackages::Schema::FormConfigurations::AttributeRepresenter
+                  .new(group, current_user: current_user, project: represented.project, embed_links: true)
+              end
+            end
+          end
+
+          ##
+          # Return a map of attribute => group name
+          def attribute_group_map(key)
+            return nil if represented.type.nil?
+            @attribute_group_map ||= begin
+              represented.type.attribute_groups.each_with_object({}) do |group, hash|
+                Array(group.active_members(represented.project)).each { |prop| hash[prop] = group.translated_key }
+              end
+            end
+
+            @attribute_group_map[key]
+          end
+
+          private
+
+          def custom_field_cache_key
+            custom_fields = represented.available_custom_fields
+            OpenProject::Cache::CacheKey.expand(custom_fields)
+          end
+
+          def project_type_cache_key
+            project_cache_key = represented.project ? represented.project.id : nil
+            type_cache_key = represented.type ? represented.type.id : nil
+
+            "#{project_cache_key}-#{type_cache_key}"
+          end
+
+          def type_cache_key
+            represented.type.try(:updated_at)
+          end
+
+          def project_cache_key
+            represented.project.updated_on
+          end
+
+          def no_caching?
+            represented.no_caching?
+          end
         end
       end
     end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,20 +23,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe 'Search', type: :feature do
   describe 'pagination' do
-    let(:project) { FactoryGirl.create :project }
-    let(:user) { FactoryGirl.create :admin }
+    let(:project) { FactoryBot.create :project }
+    let(:user) { FactoryBot.create :admin }
 
     let!(:work_packages) do
       (1..23).map do |n|
         subject = "Subject No. #{n}"
-        FactoryGirl.create :work_package, subject: subject, project: project, created_at: "2016-11-21 #{n}:00".to_datetime
+        FactoryBot.create :work_package, subject: subject, project: project, created_at: "2016-11-21 #{n}:00".to_datetime
       end
     end
 

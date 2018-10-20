@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 require_relative '../legacy_spec_helper'
 require 'wiki_controller'
@@ -54,10 +54,16 @@ describe WikiController, type: :controller do
     assert_select 'h1', content: /CookBook documentation/
 
     # child_pages macro
-    assert_select 'ul', attributes: { class: 'pages-hierarchy' },
-                    child: { tag: 'li',
-                             child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/Page_with_an_inline_image' },
-                                      content: 'Page with an inline image' } }
+    assert_select 'ul',
+                  attributes: { class: 'pages-hierarchy' },
+                  child: {
+                    tag: 'li',
+                    child: {
+                      tag: 'a',
+                      attributes: { href: '/projects/ecookbook/wiki/Page_with_an_inline_image' },
+                      content: 'Page with an inline image'
+                    }
+                  }
   end
 
   it 'should show page with name' do
@@ -65,21 +71,6 @@ describe WikiController, type: :controller do
     assert_response :success
     assert_template 'show'
     assert_select 'h1', content: /Another page/
-    # Included page with an inline image
-    assert_select 'p', content: /This is an inline image/
-    assert_select 'img', attributes: { src: '/attachments/3/download',
-                                         alt: 'This is a logo' }
-  end
-
-  it 'should show with sidebar' do
-    page = Project.find(1).wiki.pages.new(title: 'Sidebar')
-    page.content = WikiContent.new(text: 'Side bar content for test_show_with_sidebar')
-    page.save!
-
-    get :show, params: { project_id: 1, id: 'Another page' }
-    assert_response :success
-    assert_select 'div', attributes: { id: 'sidebar' },
-               content: /Side bar content for test_show_with_sidebar/
   end
 
   it 'should show unexistent page without edit right' do
@@ -91,15 +82,17 @@ describe WikiController, type: :controller do
     session[:user_id] = 2
     get :show, params: { project_id: 1, id: 'Unexistent page' }
     assert_response :success
-    assert_template 'edit'
+    assert_template 'new'
   end
 
   it 'should create page' do
     session[:user_id] = 2
-    put :update, params: { project_id: 1,
+    post :create, params: { project_id: 1,
                            id: 'New page',
                            content: { comments: 'Created the page',
-                                      text: "h1. New page\n\nThis is a new page" } }
+                                      text: "h1. New page\n\nThis is a new page",
+                                      page: { title: 'New page',
+                                              parent_id: '' } } }
     assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'new-page'
     page = wiki.find_page('New page')
     assert !page.new_record?
@@ -111,15 +104,17 @@ describe WikiController, type: :controller do
     session[:user_id] = 2
     assert_difference 'WikiPage.count' do
       assert_difference 'Attachment.count' do
-        put :update, params: { project_id: 1,
+        post :create, params: { project_id: 1,
                                id: 'New page',
                                content: { comments: 'Created the page',
                                           text: "h1. New page\n\nThis is a new page",
-                                          lock_version: 0 },
+                                          lock_version: 0,
+                                          page: { title: 'Freshly created page',
+                                                  parent_id: '' } },
                                attachments: { '1' => { 'file' => uploaded_test_file('testfile.txt', 'text/plain') } } }
       end
     end
-    page = wiki.find_page('New page')
+    page = wiki.find_page('Freshly created page')
     assert_equal 1, page.attachments.count
     assert_equal 'testfile.txt', page.attachments.first.filename
   end
@@ -137,14 +132,16 @@ describe WikiController, type: :controller do
                                  content: {
                                    comments: 'my comments',
                                    text: 'edited',
-                                   lock_version: 1
-                                 } }
+                                   lock_version: 1,
+                                   page: { title: 'Another page',
+                                           parent_id: '' } } }
         end
       end
     end
     assert_redirected_to '/projects/ecookbook/wiki/another-page'
 
     page.reload
+    assert_equal 'edited', page.content.text
     assert_equal 'edited', page.content.text
     assert_equal page.content.journals.map(&:version).max, page.content.version
     assert_equal 'my comments', page.content.last_journal.notes
@@ -160,7 +157,9 @@ describe WikiController, type: :controller do
                                  content: {
                                    comments: 'a' * 300, # failure here, comment is too long
                                    text: 'edited',
-                                   lock_version: 1
+                                   lock_version: 1,
+                                   page: { title: 'Another page',
+                                           parent_id: '' }
                                  } }
         end
       end
@@ -177,10 +176,10 @@ describe WikiController, type: :controller do
   # because running whole suite is fine, but running only this test
   # results in failure
   it 'should update stale page should not raise an error' do
-    journal = FactoryGirl.create :wiki_content_journal,
+    journal = FactoryBot.create :wiki_content_journal,
                                  journable_id: 2,
                                  version: 1,
-                                 data: FactoryGirl.build(:journal_wiki_content_journal,
+                                 data: FactoryBot.build(:journal_wiki_content_journal,
                                                          text: "h1. Another page\n\n\nthis is a link to ticket: #2")
     session[:user_id] = 2
     c = Wiki.find(1).find_page('Another page').content
@@ -196,7 +195,9 @@ describe WikiController, type: :controller do
                                  content: {
                                    comments: 'My comments',
                                    text: 'Text should not be lost',
-                                   lock_version: 1
+                                   lock_version: 1,
+                                   page: { title: 'Another page',
+                                           parent_id: '' }
                                  } }
         end
       end
@@ -218,17 +219,17 @@ describe WikiController, type: :controller do
   end
 
   it 'should history' do
-    FactoryGirl.create :wiki_content_journal,
+    FactoryBot.create :wiki_content_journal,
                        journable_id: 1,
-                       data: FactoryGirl.build(:journal_wiki_content_journal,
+                       data: FactoryBot.build(:journal_wiki_content_journal,
                                                text: 'h1. CookBook documentation')
-    FactoryGirl.create :wiki_content_journal,
+    FactoryBot.create :wiki_content_journal,
                        journable_id: 1,
-                       data: FactoryGirl.build(:journal_wiki_content_journal,
+                       data: FactoryBot.build(:journal_wiki_content_journal,
                                                text: "h1. CookBook documentation\n\n\nSome updated [[documentation]] here...")
-    FactoryGirl.create :wiki_content_journal,
+    FactoryBot.create :wiki_content_journal,
                        journable_id: 1,
-                       data: FactoryGirl.build(:journal_wiki_content_journal,
+                       data: FactoryBot.build(:journal_wiki_content_journal,
                                                text: "h1. CookBook documentation\nSome updated [[documentation]] here...")
 
     get :history, params: { project_id: 1, id: 'CookBook documentation' }
@@ -240,9 +241,9 @@ describe WikiController, type: :controller do
   end
 
   it 'should history with one version' do
-    FactoryGirl.create :wiki_content_journal,
+    FactoryBot.create :wiki_content_journal,
                        journable_id: 2,
-                       data: FactoryGirl.build(:journal_wiki_content_journal,
+                       data: FactoryBot.build(:journal_wiki_content_journal,
                                                text: "h1. Another page\n\n\nthis is a link to ticket: #2")
     get :history, params: { project_id: 1, id: 'Another page' }
     assert_response :success
@@ -253,13 +254,13 @@ describe WikiController, type: :controller do
   end
 
   it 'should diff' do
-    journal_from = FactoryGirl.create :wiki_content_journal,
+    journal_from = FactoryBot.create :wiki_content_journal,
                                       journable_id: 1,
-                                      data: FactoryGirl.build(:journal_wiki_content_journal,
+                                      data: FactoryBot.build(:journal_wiki_content_journal,
                                                               text: 'h1. CookBook documentation')
-    journal_to = FactoryGirl.create :wiki_content_journal,
+    journal_to = FactoryBot.create :wiki_content_journal,
                                     journable_id: 1,
-                                    data: FactoryGirl.build(:journal_wiki_content_journal,
+                                    data: FactoryBot.build(:journal_wiki_content_journal,
                                                             text: "h1. CookBook documentation\n\n\nSome updated [[documentation]] here...")
 
     get :diff, params: { project_id: 1, id: 'CookBook documentation', version: journal_to.version, version_from: journal_from.version }
@@ -270,26 +271,28 @@ describe WikiController, type: :controller do
   end
 
   it 'should annotate' do
-    FactoryGirl.create :wiki_content_journal,
+    FactoryBot.create :wiki_content_journal,
                        journable_id: 1,
-                       data: FactoryGirl.build(:journal_wiki_content_journal,
+                       data: FactoryBot.build(:journal_wiki_content_journal,
                                                text: 'h1. CookBook documentation')
-    journal_to = FactoryGirl.create :wiki_content_journal,
+    journal_to = FactoryBot.create :wiki_content_journal,
                                     journable_id: 1,
-                                    data: FactoryGirl.build(:journal_wiki_content_journal,
+                                    data: FactoryBot.build(:journal_wiki_content_journal,
                                                             text: "h1. CookBook documentation\n\n\nSome [[documentation]] here...")
 
     get :annotate, params: { project_id: 1, id:  'CookBook documentation', version: journal_to.version }
     assert_response :success
     assert_template 'annotate'
     # Line 1
-    assert_select 'tr', child: { tag: 'th', attributes: { class: 'line-num' }, content: '1' },
-               child: { tag: 'td', attributes: { class: 'author' }, content: /John Smith/ },
-               child: { tag: 'td', content: /h1\. CookBook documentation/ }
+    assert_select 'tr',
+                  child: { tag: 'th', attributes: { class: 'line-num' }, content: '1' },
+                  child: { tag: 'td', attributes: { class: 'author' }, content: /John Smith/ },
+                  child: { tag: 'td', content: /h1\. CookBook documentation/ }
     # Line 2
-    assert_select 'tr', child: { tag: 'th', attributes: { class: 'line-num' }, content: '2' },
-               child: { tag: 'td', attributes: { class: 'author' }, content: /redMine Admin/ },
-               child: { tag: 'td', content: /Some updated \[\[documentation\]\] here/ }
+    assert_select 'tr',
+                  child: { tag: 'th', attributes: { class: 'line-num' }, content: '2' },
+                  child: { tag: 'td', attributes: { class: 'author' }, content: /redMine Admin/ },
+                  child: { tag: 'td', content: /Some updated \[\[documentation\]\] here/ }
   end
 
   it 'should get rename' do

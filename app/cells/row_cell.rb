@@ -12,7 +12,12 @@ class RowCell < RailsCell
   end
 
   def column_value(column)
-    send column
+    value = send column
+    if value.html_safe?
+      value
+    else
+      h(value)
+    end
   end
 
   def row_css_id

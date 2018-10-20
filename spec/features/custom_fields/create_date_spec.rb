@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'support/pages/custom_fields'
 
 describe 'custom fields', js: true do
-  let(:user) { FactoryGirl.create :admin }
+  let(:user) { FactoryBot.create :admin }
   let(:cf_page) { Pages::CustomFields.new }
 
   before do

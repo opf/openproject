@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'api/v3/work_packages/work_package_representer'
@@ -36,7 +36,7 @@ module API
         resources :work_packages do
           helpers ::API::V3::WorkPackages::CreateWorkPackages
 
-          # The enpoint needs to be mounted before the GET :work_packages/:id.
+          # The endpoint needs to be mounted before the GET :work_packages/:id.
           # Otherwise, the matcher for the :id also seems to match available_projects.
           # This is also true when the :id param is declared to be of type: Integer.
           mount ::API::V3::WorkPackages::AvailableProjectsOnCreateAPI
@@ -68,16 +68,9 @@ module API
           end
           route_param :id do
             helpers WorkPackagesSharedHelpers
+
             helpers do
               attr_reader :work_package
-
-              def work_package_representer
-                ::API::V3::WorkPackages::WorkPackageRepresenter.create(
-                  @work_package,
-                  current_user: current_user,
-                  embed_links: true
-                )
-              end
             end
 
             before do
@@ -93,21 +86,23 @@ module API
             end
 
             patch do
-              write_work_package_attributes(@work_package, request_body, reset_lock_version: true)
+              parameters = ::API::V3::WorkPackages::ParseParamsService
+                           .new(current_user)
+                           .call(request_body)
 
               call = ::WorkPackages::UpdateService
                      .new(
                        user: current_user,
                        work_package: @work_package
                      )
-                     .call(send_notifications: notify_according_to_params)
+                     .call(attributes: parameters, send_notifications: notify_according_to_params)
 
               if call.success?
                 @work_package.reload
 
                 work_package_representer
               else
-                fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
+                handle_work_package_errors @work_package, call
               end
             end
 

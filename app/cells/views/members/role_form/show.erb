@@ -19,6 +19,9 @@
   <%= hidden_field_tag "member[role_ids][]", "" %>
   <p>
     <%= submit_tag t(:button_change), class: "button -highlight -small" %>
-    <%= link_to_function t(:button_cancel), row.toggle_javascript, class: 'button -small' %>
+    <%= link_to t(:button_cancel),
+                '#',
+                data: { 'toggle-target': ".#{row.toggle_item_class_name}" },
+                class: 'button -small toggle-membership-button' %>
   </p>
 </form>

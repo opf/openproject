@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -40,14 +40,56 @@ describe UsersController, type: :controller do
 
   let(:user_password) {'bob!' * 4}
   let(:user) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        login: 'bob',
                        password: user_password,
                        password_confirmation: user_password,
                        )
   end
-  let(:admin) { FactoryGirl.create(:admin) }
-  let(:anonymous) { FactoryGirl.create(:anonymous) }
+  let(:admin) { FactoryBot.create(:admin) }
+  let(:anonymous) { FactoryBot.create(:anonymous) }
+
+  describe 'GET new' do
+    context "with user limit reached" do
+      before do
+        allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(true)
+      end
+
+      context "with fail fast" do
+        before do
+          allow(OpenProject::Enterprise).to receive(:fail_fast?).and_return(true)
+
+          as_logged_in_user admin do
+            get :new
+          end
+        end
+
+        it "shows a user limit error" do
+          expect(flash[:error]).to match /user limit reached/i
+        end
+
+        it "redirects back to the user index" do
+          expect(response).to redirect_to users_path
+        end
+      end
+
+      context "without fail fast" do
+        before do
+          as_logged_in_user admin do
+            get :new
+          end
+        end
+
+        it "shows a user limit warning" do
+          expect(flash[:warning]).to match /user limit reached/i
+        end
+
+        it "shows the new user page" do
+          expect(response).to render_template("users/new")
+        end
+      end
+    end
+  end
 
   describe 'GET deletion_info' do
     describe "WHEN the current user is the requested user
@@ -133,10 +175,10 @@ describe UsersController, type: :controller do
   end
 
   describe 'POST resend_invitation' do
-    let(:invited_user) { FactoryGirl.create :invited_user }
+    let(:invited_user) { FactoryBot.create :invited_user }
 
     context 'without admin rights' do
-      let(:normal_user) { FactoryGirl.create :user }
+      let(:normal_user) { FactoryBot.create :user }
 
       before do
         as_logged_in_user normal_user do
@@ -150,7 +192,7 @@ describe UsersController, type: :controller do
     end
 
     context 'with admin rights' do
-      let(:admin_user) { FactoryGirl.create :admin }
+      let(:admin_user) { FactoryBot.create :admin }
 
       before do
         expect(ActionMailer::Base.deliveries).to be_empty
@@ -245,7 +287,7 @@ describe UsersController, type: :controller do
       describe "WHEN the current user is the admin
                 WHEN the given password does not match
                 WHEN the setting users_deletable_by_admins is set to true" do
-        let(:admin) { FactoryGirl.create(:admin) }
+        let(:admin) { FactoryBot.create(:admin) }
 
         before do
           disable_flash_sweep
@@ -269,7 +311,7 @@ describe UsersController, type: :controller do
 
         let(:admin_password) {'admin!' * 4}
         let(:admin) do
-          FactoryGirl.create(:admin,
+          FactoryBot.create(:admin,
                              password: admin_password,
                              password_confirmation: admin_password)
         end
@@ -289,7 +331,7 @@ describe UsersController, type: :controller do
 
       describe "WHEN the current user is the admin
                 WHEN the setting users_deletable_by_admins is set to false" do
-        let(:admin) { FactoryGirl.create(:admin) }
+        let(:admin) { FactoryBot.create(:admin) }
 
         before do
           disable_flash_sweep
@@ -307,7 +349,7 @@ describe UsersController, type: :controller do
 
   describe '#change_status_info' do
     let!(:registered_user) do
-      FactoryGirl.create(:user, status: User::STATUSES[:registered])
+      FactoryBot.create(:user, status: User::STATUSES[:registered])
     end
 
     before do
@@ -360,11 +402,15 @@ describe UsersController, type: :controller do
            } do
     describe 'WHEN activating a registered user' do
       let!(:registered_user) do
-        FactoryGirl.create(:user, status: User::STATUSES[:registered],
+        FactoryBot.create(:user, status: User::STATUSES[:registered],
                                   language: 'de')
       end
 
+      let(:user_limit_reached) { false }
+
       before do
+        allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(user_limit_reached)
+
         as_logged_in_user admin do
           post :change_status,
                params: {
@@ -386,6 +432,18 @@ describe UsersController, type: :controller do
         mail.parts.each do |part|
           assert part.body.encoded.include?(I18n.t(:notice_account_activated,
                                                    locale: 'de'))
+        end
+      end
+
+      context "with user limit reached" do
+        let(:user_limit_reached) { true }
+
+        it "shows the user limit reached error and recommends to upgrade" do
+          expect(flash[:error]).to match /user limit reached.*upgrade/i
+        end
+
+        it "does not activate the user" do
+          expect(registered_user.reload).not_to be_active
         end
       end
     end
@@ -495,7 +553,7 @@ describe UsersController, type: :controller do
   describe 'update' do
     context 'fields' do
       let(:user) {
-        FactoryGirl.create(:user, firstname: 'Firstname',
+        FactoryBot.create(:user, firstname: 'Firstname',
                                   admin: true,
                                   login: 'testlogin',
                                   mail_notification: 'all',
@@ -545,7 +603,7 @@ describe UsersController, type: :controller do
     end
 
     context 'with external authentication' do
-      let(:user) { FactoryGirl.create(:user, identity_url: 'some:identity') }
+      let(:user) { FactoryBot.create(:user, identity_url: 'some:identity') }
 
       before do
         as_logged_in_user(admin) do
@@ -560,7 +618,7 @@ describe UsersController, type: :controller do
     end
 
     context 'ldap auth source' do
-      let(:ldap_auth_source) { FactoryGirl.create(:ldap_auth_source) }
+      let(:ldap_auth_source) { FactoryBot.create(:ldap_auth_source) }
 
       it 'switchting to internal authentication on a password change' do
         user.auth_source = ldap_auth_source
@@ -638,33 +696,33 @@ describe UsersController, type: :controller do
       render_views
 
       let(:work_package) {
-        FactoryGirl.create(:work_package,
+        FactoryBot.create(:work_package,
                            author: user)
       }
       let!(:member) {
-        FactoryGirl.create(:member,
+        FactoryBot.create(:member,
                            project: work_package.project,
                            principal: user,
-                           roles: [FactoryGirl.create(:role,
+                           roles: [FactoryBot.create(:role,
                                                       permissions: [:view_work_packages])])
       }
       let!(:journal_1) {
-        FactoryGirl.create(:work_package_journal,
+        FactoryBot.create(:work_package_journal,
                            user: user,
                            journable_id: work_package.id,
                            version: Journal.maximum(:version) + 1,
-                           data: FactoryGirl.build(:journal_work_package_journal,
+                           data: FactoryBot.build(:journal_work_package_journal,
                                                    subject: work_package.subject,
                                                    status_id: work_package.status_id,
                                                    type_id: work_package.type_id,
                                                    project_id: work_package.project_id))
       }
       let!(:journal_2) {
-        FactoryGirl.create(:work_package_journal,
+        FactoryBot.create(:work_package_journal,
                            user: user,
                            journable_id: work_package.id,
                            version: Journal.maximum(:version) + 1,
-                           data: FactoryGirl.build(:journal_work_package_journal,
+                           data: FactoryBot.build(:journal_work_package_journal,
                                                    subject: work_package.subject,
                                                    status_id: work_package.status_id,
                                                    type_id: work_package.type_id,

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,22 +23,22 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe WorkPackage, type: :model do
   describe '#custom_fields' do
-    let(:type) { FactoryGirl.create(:type_standard) }
-    let(:project) { FactoryGirl.create(:project, types: [type]) }
+    let(:type) { FactoryBot.create(:type_standard) }
+    let(:project) { FactoryBot.create(:project, types: [type]) }
     let(:work_package) do
-      FactoryGirl.build(:work_package,
+      FactoryBot.build(:work_package,
                         project: project,
                         type: type)
     end
     let (:custom_field) do
-      FactoryGirl.create(:work_package_custom_field,
+      FactoryBot.create(:work_package_custom_field,
                          name: 'Database',
                          field_format: 'list',
                          possible_values: %w(MySQL PostgreSQL Oracle),
@@ -183,9 +183,9 @@ describe WorkPackage, type: :model do
     end
 
     describe 'work package type change' do
-      let (:custom_field_2) { FactoryGirl.create(:work_package_custom_field) }
+      let (:custom_field_2) { FactoryBot.create(:work_package_custom_field) }
       let(:type_feature) do
-        FactoryGirl.create(:type_feature,
+        FactoryBot.create(:type_feature,
                            custom_fields: [custom_field_2])
       end
 
@@ -216,7 +216,7 @@ describe WorkPackage, type: :model do
 
       context 'w/o initial type' do
         let(:work_package_without_type) do
-          FactoryGirl.build_stubbed(:work_package,
+          FactoryBot.build_stubbed(:work_package,
                                     project: project,
                                     type: type)
         end
@@ -253,14 +253,14 @@ describe WorkPackage, type: :model do
           wp.custom_value_for(custom_field_2.id).value
         end
 
-        it { is_expected.to eql(CustomValue::BoolStrategy::DB_VALUE_TRUE) }
+        it { is_expected.to eql(OpenProject::Database::DB_VALUE_TRUE) }
       end
     end
 
     describe "custom field type 'text'" do
       let(:value) { 'text' * 1024 }
       let(:custom_field) do
-        FactoryGirl.create(:work_package_custom_field,
+        FactoryBot.create(:work_package_custom_field,
                            name: 'Test Text',
                            field_format: 'text',
                            is_required: true)
@@ -286,7 +286,7 @@ describe WorkPackage, type: :model do
 
     describe 'validation error interpolation' do
       let :custom_field do
-        FactoryGirl.create :work_package_custom_field,
+        FactoryBot.create :work_package_custom_field,
                            name: 'PIN',
                            field_format: 'text',
                            max_length: 4,

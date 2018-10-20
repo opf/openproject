@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'forwardable'
@@ -36,13 +36,12 @@ module ApplicationHelper
   include OpenProject::ObjectLinking
   include OpenProject::SafeParams
   include I18n
+  include ERB::Util
   include Redmine::I18n
   include HookHelper
   include IconsHelper
   include AdditionalUrlHelpers
-
-  extend Forwardable
-  def_delegators :wiki_helper, :wikitoolbar_for, :heads_for_wiki_formatter
+  include OpenProject::PageHierarchyHelper
 
   # Return true if user is authorized for controller/action, otherwise false
   def authorize_for(controller, action, project: @project)
@@ -98,26 +97,17 @@ module ApplicationHelper
     onclick = "jQuery('##{id}').toggle(); "
     onclick << (options[:focus] ? "jQuery('##{options[:focus]}').focus(); " : 'this.blur(); ')
     onclick << 'return false;'
-    link_to(name, '#', { onclick: onclick }.merge(html_options))
+    link_to_function(name, onclick, html_options)
   end
 
   def delete_link(url, options = {})
     options = {
       method: :delete,
-      data: { confirm: l(:text_are_you_sure) },
+      data: { confirm: I18n.t(:text_are_you_sure) },
       class: 'icon icon-delete'
     }.merge(options)
 
-    link_to l(:button_delete), url, options
-  end
-
-  def image_to_function(name, function, html_options = {})
-    html_options.symbolize_keys!
-    tag(:input, html_options.merge(
-                  type: 'image', src: image_path(name),
-                  onclick: (html_options[:onclick] ? "#{html_options[:onclick]}; " : '') +
-                            "#{function};"
-    ))
+    link_to I18n.t(:button_delete), url, options
   end
 
   def format_activity_title(text)
@@ -143,55 +133,6 @@ module ApplicationHelper
       label = date < Date.today ? :label_roadmap_overdue : :label_roadmap_due_in
       l(label, distance_of_date_in_words(Date.today, date))
     end
-  end
-
-  def render_page_hierarchy(pages, node = nil, options = {})
-    return '' unless pages[node]
-
-    content_tag :ul, class: 'pages-hierarchy' do
-      pages[node].map { |page|
-        content_tag :li do
-          title = if options[:timestamp] && page.updated_on
-                    l(:label_updated_time, distance_of_time_in_words(Time.now, page.updated_on))
-                  end
-          concat link_to(page.title, project_wiki_path(page.project, page),
-                         title: title)
-          concat render_page_hierarchy(pages, page.id, options) if pages[page.id]
-        end
-      }.join.html_safe
-    end
-  end
-
-  def error_messages_for(*params)
-    objects, options = extract_objects_from_params(params)
-
-    error_messages = objects.map { |o| o.errors.full_messages }.flatten
-
-    unless error_messages.empty?
-      render partial: 'common/validation_error',
-             locals: { error_messages: error_messages,
-                       object_name: options[:object_name].to_s.gsub('_', '') }
-    end
-  end
-
-  # Taken from Dynamic Form
-  #
-  # lib/action_view/helpers/dynamic_form.rb:187-198
-  def extract_objects_from_params(params)
-    options = params.extract_options!.symbolize_keys
-
-    objects = Array.wrap(options.delete(:object) || params).map { |object|
-      object = instance_variable_get("@#{object}") unless object.respond_to?(:to_model)
-      object = convert_to_model(object)
-
-      if object.class.respond_to?(:model_name)
-        options[:object_name] ||= object.class.model_name.human.downcase
-      end
-
-      object
-    }
-
-    [objects.compact, options]
   end
 
   # Renders flash messages
@@ -222,7 +163,7 @@ module ApplicationHelper
     content_tag :div, html_options do
       if User.current.impaired?
         concat(content_tag('a', join_flash_messages(message),
-                           href: 'javascript:;',
+                           href: '#',
                            class: 'impaired--empty-link'))
         concat(content_tag(:i, '', class: 'icon-close close-handler',
                                    tabindex: '0',
@@ -235,15 +176,6 @@ module ApplicationHelper
                                    role: 'button',
                                    aria: { label: ::I18n.t('js.close_popup_title') }))
       end
-    end
-  end
-
-  # Renders tabs and their content
-  def render_tabs(tabs)
-    if tabs.any?
-      render partial: 'common/tabs', locals: { tabs: tabs }
-    else
-      content_tag 'p', l(:label_no_data), class: 'nodata'
     end
   end
 
@@ -355,7 +287,7 @@ module ApplicationHelper
   end
 
   def syntax_highlight(name, content)
-    highlighted = Redmine::SyntaxHighlighting.highlight_by_filename(content, name)
+    highlighted = OpenProject::SyntaxHighlighting.highlight_by_filename(content, name)
     highlighted.each_line do |line|
       yield highlighted.html_safe? ? line.html_safe : line
     end
@@ -365,38 +297,6 @@ module ApplicationHelper
     path.to_s
   end
 
-  def reorder_links(name, url, options = {})
-    method = options[:method] || :post
-
-    content_tag(:span,
-                link_to(content_tag(:span, '',
-                                    class: 'icon-context icon-sort-up icon-small',
-                                    title: l(:label_sort_highest)),
-                        url.merge("#{name}[move_to]" => 'highest'),
-                        method: method,
-                        title: l(:label_sort_highest)) +
-                link_to(content_tag(:span, '',
-                                    class: 'icon-context icon-arrow-up2 icon-small',
-                                    title: l(:label_sort_higher)),
-                        url.merge("#{name}[move_to]" => 'higher'),
-                        method: method,
-                        title: l(:label_sort_higher)) +
-                link_to(content_tag(:span, '',
-                                    class: 'icon-context icon-arrow-down2 icon-small',
-                                    title: l(:label_sort_lower)),
-                        url.merge("#{name}[move_to]" => 'lower'),
-                        method: method,
-                        title: l(:label_sort_lower)) +
-                link_to(content_tag(:span, '',
-                                    class: 'icon-context icon-sort-down icon-small',
-                                    title: l(:label_sort_lowest)),
-                        url.merge("#{name}[move_to]" => 'lowest'),
-                        method: method,
-                        title: l(:label_sort_lowest)),
-                class: 'reorder-icons'
-               )
-  end
-
   def other_formats_links(&block)
     formats = capture(Redmine::Views::OtherFormatsBuilder.new(self), &block)
     unless formats.nil? || formats.strip.empty?
@@ -404,21 +304,6 @@ module ApplicationHelper
         (l(:label_export_to) + formats).html_safe
       end
     end
-  end
-
-  def html_title(*args)
-    title = []
-
-    if args.empty?
-      title << h(@project.name) if @project
-      title += @html_title if @html_title
-    else
-      @html_title ||= []
-      @html_title += args
-      title += @html_title
-    end
-
-    title.select { |t| !t.blank? }.join(' - ').html_safe
   end
 
   # Returns the theme, controller name, and action as css classes for the
@@ -460,21 +345,17 @@ module ApplicationHelper
              []
            end
 
-    mapped_languages = valid_languages.map { |lang|
-      [ll(lang.to_s, :general_lang_name), lang.to_s]
-    }
+    mapped_languages = valid_languages.map { |lang| translate_language(lang) }
 
-    auto + mapped_languages.sort { |x, y| x.last <=> y.last }
+    auto + mapped_languages.sort_by(&:last)
   end
 
   def all_lang_options_for_select(blank = true)
     initial_lang_options = blank ? [['(auto)', '']] : []
 
-    mapped_languages = all_languages.map { |lang|
-      [ll(lang.to_s, :general_lang_name), lang.to_s]
-    }
+    mapped_languages = all_languages.map { |lang| translate_language(lang) }
 
-    initial_lang_options + mapped_languages.sort { |x, y| x.last <=> y.last }
+    initial_lang_options + mapped_languages.sort_by(&:last)
   end
 
   def labelled_tabular_form_for(record, options = {}, &block)
@@ -486,7 +367,7 @@ module ApplicationHelper
   def back_url_hidden_field_tag
     back_url = params[:back_url] || request.env['HTTP_REFERER']
     back_url = CGI.unescape(back_url.to_s)
-    hidden_field_tag('back_url', CGI.escape(back_url)) unless back_url.blank?
+    hidden_field_tag('back_url', CGI.escape(back_url), id: nil) unless back_url.blank?
   end
 
   def back_url_to_current_page_hidden_field_tag
@@ -523,13 +404,15 @@ module ApplicationHelper
     done   = (pcts[1] || closed) - closed
     width = options[:width] || '100px;'
     legend = options[:legend] || ''
+    total_progress = options[:hide_total_progress] ? '' : t(:total_progress)
+    percent_sign = options[:hide_percent_sign] ? '' : '%'
 
     content_tag :span do
       progress = content_tag :span, class: 'progress-bar', style: "width: #{width}" do
         concat content_tag(:span, '', class: 'inner-progress closed', style: "width: #{closed}%")
         concat content_tag(:span, '', class: 'inner-progress done',   style: "width: #{done}%")
       end
-      progress + content_tag(:span, "#{legend}% #{l(:total_progress)}", class: 'progress-bar-legend')
+      progress + content_tag(:span, "#{legend}#{percent_sign} #{total_progress}", class: 'progress-bar-legend')
     end
   end
 
@@ -539,39 +422,11 @@ module ApplicationHelper
     end
   end
 
-  def calendar_for(field_id)
-    include_calendar_headers_tags
-    javascript_tag("jQuery(function() { jQuery('##{field_id}').datepicker(); })")
-  end
-
-  def include_calendar_headers_tags
-    unless @calendar_headers_tags_included
-      @calendar_headers_tags_included = true
-      content_for :header_tags do
-        start_of_week = case Setting.start_of_week.to_i
-                        when 1
-                          '1' # Monday
-                        when 7
-                          '0' # Sunday
-                        when 6
-                          '6' # Saturday
-                        else
-                          # use language (pass a blank string into the JSON object,
-                          # as the datepicker implementation checks for numbers in
-                          # /frontend/app/misc/datepicker-defaults.js:34)
-                          '""'
-        end
-        # FIXME: Get rid of this abomination
-        js = "var CS = { lang: '#{current_language.to_s.downcase}', firstDay: #{start_of_week} };"
-        javascript_tag(js)
-      end
-    end
-  end
-
   # Returns the javascript tags that are included in the html layout head
   def user_specific_javascript_includes
     tags = ''
-    tags += javascript_tag(%{
+    tags += nonced_javascript_tag do
+      %{
       window.openProject = new OpenProject({
         urlRoot : '#{OpenProject::Configuration.rails_relative_url_root}',
         environment: '#{Rails.env}',
@@ -579,9 +434,32 @@ module ApplicationHelper
       });
       I18n.defaultLocale = "#{I18n.default_locale}";
       I18n.locale = "#{I18n.locale}";
-    })
+      I18n.firstDayOfWeek = "#{locale_first_day_of_week}"
+
+      }.html_safe
+    end
 
     tags.html_safe
+  end
+
+  def calendar_for(*args)
+    ActiveSupport::Deprecation.warn "calendar_for has been removed. Please add the class '-augmented-datepicker' instead.", caller
+  end
+
+  def locale_first_day_of_week
+    case Setting.start_of_week.to_i
+    when 1
+      '1' # Monday
+    when 7
+      '0' # Sunday
+    when 6
+      '6' # Saturday
+    else
+      # use language (pass a blank string into the JSON object,
+      # as the datepicker implementation checks for numbers in
+      # /frontend/app/misc/datepicker-defaults.js:34)
+      ''
+    end
   end
 
   # To avoid the menu flickering, disable it
@@ -655,25 +533,18 @@ module ApplicationHelper
     elements.join(', ').html_safe
   end
 
-  def darken_color(hex_color, amount = 0.4)
-    hex_color = hex_color.delete('#')
-    rgb = hex_color.scan(/../).map(&:hex)
-    rgb[0] = (rgb[0].to_i * amount).round
-    rgb[1] = (rgb[1].to_i * amount).round
-    rgb[2] = (rgb[2].to_i * amount).round
-    "#%02x%02x%02x" % rgb
-  end
-
   def permitted_params
     PermittedParams.new(params, current_user)
   end
 
-  private
-
-  def wiki_helper
-    helper = Redmine::WikiFormatting.helper_for(Setting.text_formatting)
-    extend helper
-    self
+  def translate_language(lang_code)
+    # rename in-context translation language name for the language select box
+    if lang_code == Redmine::I18n::IN_CONTEXT_TRANSLATION_CODE &&
+       ::I18n.locale != Redmine::I18n::IN_CONTEXT_TRANSLATION_CODE
+      [Redmine::I18n::IN_CONTEXT_TRANSLATION_NAME, lang_code.to_s]
+    else
+      [ll(lang_code.to_s, :general_lang_name), lang_code.to_s]
+    end
   end
 
   def link_to_content_update(text, url_params = {}, html_options = {})

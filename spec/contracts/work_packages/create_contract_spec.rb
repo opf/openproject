@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -32,8 +32,8 @@ require 'contracts/work_packages/shared_base_contract'
 
 describe WorkPackages::CreateContract do
   let(:work_package) { WorkPackage.new }
-  let(:project) { FactoryGirl.build_stubbed(:project) }
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
 
   subject(:contract) { described_class.new(work_package, user) }
   let(:validated_contract) {
@@ -125,7 +125,7 @@ describe WorkPackages::CreateContract do
     end
 
     it 'is invalid if the user is different from the user the contract is evaluated for' do
-      work_package.author = FactoryGirl.build_stubbed(:user)
+      work_package.author = FactoryBot.build_stubbed(:user)
 
       expect(validated_contract.errors.symbols_for(:author_id))
         .to match_array [:invalid]

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 # Contains tag helpers still existing in the OP code but already
@@ -34,7 +34,17 @@
 module RemovedJsHelpersHelper
   # removed in rails 4.1
   def link_to_function(content, function, html_options = {})
-    onclick = "#{function}; return false;"
-    content_tag(:a, content, html_options.merge(onclick: onclick, href: ''))
+    id = html_options.delete(:id) { "link-to-function-#{SecureRandom.uuid}" }
+    csp_onclick(function, "##{id}")
+
+    content_tag(:a, content, html_options.merge(id: id, href: ''))
+  end
+
+  ##
+  # Execute the callback on click
+  def csp_onclick(callback_str, selector)
+    content_for(:additional_js_dom_ready) do
+      "jQuery('#{selector}').click(function() { #{callback_str}; return false; });\n".html_safe
+    end
   end
 end

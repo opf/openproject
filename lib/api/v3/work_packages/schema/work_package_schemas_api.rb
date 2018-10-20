@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'api/v3/work_packages/schema/typed_work_package_schema'
@@ -83,7 +83,7 @@ module API
 
               WorkPackageSchemaCollectionRepresenter.new(schemas,
                                                          schemas_path_with_filters_params,
-                                                         current_user: current_user)
+                                                         current_user: nil)
             end
 
             # The schema identifier is an artificial identifier that is composed of a work package's
@@ -116,11 +116,9 @@ module API
                                                                          self_link,
                                                                          current_user: nil)
 
-                with_etag! represented_schema.cache_key
+                with_etag! represented_schema.json_cache_key
 
-                cache(represented_schema.cache_key) do
-                  represented_schema
-                end
+                represented_schema
               end
             end
 

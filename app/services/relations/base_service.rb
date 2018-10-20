@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class Relations::BaseService
@@ -43,7 +43,7 @@ class Relations::BaseService
   def update_relation(relation, attributes)
     relation.attributes = relation.attributes.merge attributes
 
-    success, errors = validate_and_save relation
+    success, errors = validate_and_save(relation, user)
 
     result = ServiceResult.new success: success, errors: errors, result: relation
 
@@ -61,10 +61,6 @@ class Relations::BaseService
     else
       relation.delay = nil
     end
-  end
-
-  def initialize_contract!(relation)
-    self.contract = self.class.contract.new relation, user
   end
 
   def reschedule(relation)

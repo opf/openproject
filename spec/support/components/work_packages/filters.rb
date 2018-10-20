@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,18 +23,24 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
+
+require_relative '../../shared/selenium_workarounds'
 
 module Components
   module WorkPackages
     class Filters
       include Capybara::DSL
       include RSpec::Matchers
+      include SeleniumWorkarounds
 
       def open
-        filter_button.click
-        expect_open
+        retry_block do
+          # Run in retry block because filters do nothing if not yet loaded
+          filter_button.click
+          find(filters_selector, visible: true)
+        end
       end
 
       def expect_filter_count(num)
@@ -42,7 +48,7 @@ module Components
       end
 
       def expect_open
-        expect(page).to have_selector(filters_selector, visible: true)
+        expect(page).to have_selector(filters_selector, wait: 5, visible: true)
       end
 
       def expect_closed
@@ -89,12 +95,10 @@ module Components
       end
 
       def remove_filter(field)
-        page.within(filters_selector) do
-          find("#filter_#{field} .advanced-filters--remove-filter-icon").click
-        end
+        find("#filter_#{field} .advanced-filters--remove-filter-icon").click
       end
 
-      private
+      protected
 
       def filter_button
         find(button_selector)
@@ -114,8 +118,8 @@ module Components
             select value, from: "values-#{id}"
           else
             page.all('input').each_with_index do |input, index|
-              input.set value[index]
-              sleep(0.5)
+              # Wait a bit to insert the values
+              ensure_value_is_input_correctly input, value: value[index]
             end
           end
         end

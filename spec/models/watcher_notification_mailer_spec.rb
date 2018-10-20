@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 require 'spec_helper'
 
@@ -42,15 +42,15 @@ describe WatcherNotificationMailer do
 
   describe 'watcher setup' do
     let(:work_package) {
-      work_package = FactoryGirl.build_stubbed(:work_package)
-      journal = FactoryGirl.build_stubbed(:work_package_journal)
+      work_package = FactoryBot.build_stubbed(:work_package)
+      journal = FactoryBot.build_stubbed(:work_package_journal)
 
       allow(work_package).to receive(:journals).and_return([journal])
       work_package
     }
 
     let(:watcher_setter) do
-      FactoryGirl.build_stubbed(:user,
+      FactoryBot.build_stubbed(:user,
                                 mail_notification: watching_setting,
                                 preference: user_pref)
     end
@@ -58,12 +58,12 @@ describe WatcherNotificationMailer do
     let(:watching_setting) { 'all' }
     let(:self_notified) { true }
     let(:watching_user) {
-      FactoryGirl.build_stubbed(:user,
+      FactoryBot.build_stubbed(:user,
                                 mail_notification: watching_setting,
                                 preference: user_pref)
     }
     let(:user_pref) {
-      pref = FactoryGirl.build_stubbed(:user_preference)
+      pref = FactoryBot.build_stubbed(:user_preference)
 
       allow(pref).to receive(:self_notified?).and_return(self_notified)
 
@@ -71,7 +71,7 @@ describe WatcherNotificationMailer do
     }
 
     let(:watcher) do
-      FactoryGirl.build_stubbed(:watcher, user: watching_user,
+      FactoryBot.build_stubbed(:watcher, user: watching_user,
                                           watchable: work_package)
     end
 
@@ -171,21 +171,21 @@ describe WatcherNotificationMailer do
     end
 
     it_behaves_like 'notifies the added watcher for', 'selected' do
-      let(:project) { FactoryGirl.build_stubbed(:project) }
+      let(:project) { FactoryBot.build_stubbed(:project) }
       before do
         work_package.project = project
         allow(watching_user).to receive(:notified_projects_ids).and_return([project.id])
       end
     end
     it_behaves_like 'does not notify the added watcher for', 'selected' do
-      let(:project) { FactoryGirl.build_stubbed(:project) }
+      let(:project) { FactoryBot.build_stubbed(:project) }
       before do
         work_package.project = project
         allow(watching_user).to receive(:notified_projects_ids).and_return([])
       end
     end
     it_behaves_like 'does not notify the added watcher for', 'selected' do
-      let(:project) { FactoryGirl.build_stubbed(:project) }
+      let(:project) { FactoryBot.build_stubbed(:project) }
       before do
         allow(watching_user).to receive(:notified_projects_ids).and_return([project.id])
       end

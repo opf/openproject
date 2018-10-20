@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,26 +24,22 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class ProjectsController < ApplicationController
   menu_item :overview
   menu_item :roadmap, only: :roadmap
-  menu_item :settings, only: :settings
 
-  helper :timelines
-
-  before_action :disable_api
+  before_action :disable_api, except: :level_list
   before_action :find_project, except: [:index, :level_list, :new, :create]
   before_action :authorize, only: [
-    :show, :settings, :edit, :update, :modules, :types, :custom_fields
+    :show, :edit, :update, :modules, :types, :custom_fields
   ]
   before_action :authorize_global, only: [:new, :create]
   before_action :require_admin, only: [:archive, :unarchive, :destroy, :destroy_info]
   before_action :jump_to_project_menu_item, only: :show
   before_action :load_project_settings, only: :settings
-  before_action :determine_base
 
   accept_key_auth :index, :level_list, :show, :create, :update, :destroy
 
@@ -65,6 +61,15 @@ class ProjectsController < ApplicationController
 
     @projects = load_projects query
     @custom_fields = ProjectCustomField.visible(User.current)
+
+    respond_to do |format|
+      format.atom do
+        head(:gone)
+      end
+      format.html do
+        render layout: 'no_menu'
+      end
+    end
   end
 
   current_menu_item :index do
@@ -72,11 +77,9 @@ class ProjectsController < ApplicationController
   end
 
   def new
-    @issue_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
-    @types = ::Type.all
-    @project = Project.new
-    @project.parent = Project.find(params[:parent_id]) if params[:parent_id]
-    @project.attributes = permitted_params.project if params[:project].present?
+    assign_default_create_variables
+
+    render layout: 'no_menu'
   end
 
   current_menu_item :new do
@@ -84,10 +87,7 @@ class ProjectsController < ApplicationController
   end
 
   def create
-    @issue_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
-    @types = ::Type.all
-    @project = Project.new
-    @project.attributes = permitted_params.project
+    assign_default_create_variables
 
     if validate_parent_id && @project.save
       @project.set_allowed_parent!(params['project']['parent_id']) if params['project'].has_key?('parent_id')
@@ -100,7 +100,7 @@ class ProjectsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html do render action: 'new' end
+        format.html { render action: 'new', layout: 'no_menu' }
       end
     end
   end
@@ -132,12 +132,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def settings
-    @altered_project ||= @project
-  end
-
-  def edit; end
-
   def update
     @altered_project = Project.find(@project.id)
 
@@ -146,41 +140,22 @@ class ProjectsController < ApplicationController
       if params['project'].has_key?('parent_id')
         @altered_project.set_allowed_parent!(params['project']['parent_id'])
       end
-      respond_to do |format|
-        format.html do
-          flash[:notice] = l(:notice_successful_update)
-          redirect_to action: 'settings', id: @altered_project
-        end
-      end
+      flash[:notice] = l(:notice_successful_update)
       OpenProject::Notifications.send('project_updated', project: @altered_project)
-    else
-      respond_to do |format|
-        format.html do
-          load_project_settings
-          render action: 'settings'
-        end
-      end
     end
+
+    redirect_to settings_project_path(@altered_project)
   end
 
   def update_identifier
     @project.attributes = permitted_params.project
 
     if @project.save
-      respond_to do |format|
-        format.html do
-          flash[:notice] = l(:notice_successful_update)
-          redirect_to action: 'settings', id: @project
-        end
-      end
+      flash[:notice] = I18n.t(:notice_successful_update)
+      redirect_to settings_project_path(@project)
       OpenProject::Notifications.send('project_renamed', project: @project)
     else
-      respond_to do |format|
-        format.html do
-          load_project_settings
-          render action: 'identifier'
-        end
-      end
+      render action: 'identifier'
     end
   end
 
@@ -196,8 +171,8 @@ class ProjectsController < ApplicationController
 
   def modules
     @project.enabled_module_names = permitted_params.project[:enabled_module_names]
-    flash[:notice] = l(:notice_successful_update)
-    redirect_to action: 'settings', id: @project, tab: 'modules'
+    flash[:notice] = I18n.t(:notice_successful_update)
+    redirect_to settings_project_path(@project, tab: 'modules')
   end
 
   def custom_fields
@@ -211,7 +186,7 @@ class ProjectsController < ApplicationController
         raise ActiveRecord::Rollback
       end
     end
-    redirect_to action: 'settings', id: @project, tab: 'custom_fields'
+    redirect_to settings_project_path(@project, tab: 'custom_fields')
   end
 
   def archive
@@ -233,7 +208,7 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       format.html do
         flash[:notice] = l(:notice_successful_delete)
-        redirect_to controller: '/admin', action: 'projects'
+        redirect_to controller: 'projects', action: 'index'
       end
     end
 
@@ -244,6 +219,14 @@ class ProjectsController < ApplicationController
     @project_to_destroy = @project
 
     hide_project_in_layout
+  end
+
+  def level_list
+    @projects = Project.project_level_list(Project.visible)
+
+    respond_to do |format|
+      format.api
+    end
   end
 
   private
@@ -267,15 +250,6 @@ class ProjectsController < ApplicationController
       # try to redirect to the requested menu item
       redirect_to_project_menu_item(@project, params[:jump]) && return
     end
-  end
-
-  def load_project_settings
-    @issue_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
-    @category ||= Category.new
-    @member ||= @project.members.new
-    @types = ::Type.all
-    @repository ||= @project.repository
-    @wiki ||= @project.wiki
   end
 
   def hide_project_in_layout
@@ -319,15 +293,15 @@ class ProjectsController < ApplicationController
     end
   end
 
-  protected
-
-  def determine_base
-    @base = if params[:project_type_id]
-              ProjectType.find(params[:project_type_id]).projects
-            else
-              Project
-            end
+  def assign_default_create_variables
+    @issue_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
+    @types = ::Type.all
+    @project = Project.new
+    @project.parent = Project.find(params[:parent_id]) if params[:parent_id]
+    @project.attributes = permitted_params.project if params[:project].present?
   end
+
+  protected
 
   def set_sorting(query)
     orders = query.orders.select(&:valid?).map { |o| [o.attribute.to_s, o.direction.to_s] }

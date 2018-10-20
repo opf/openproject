@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class WorkPackages::SetAttributesService
@@ -33,39 +33,50 @@ class WorkPackages::SetAttributesService
 
   attr_accessor :user,
                 :work_package,
-                :contract
+                :contract_class
 
-  def initialize(user:, work_package:, contract:)
+  def initialize(user:, work_package:, contract_class:)
     self.user = user
     self.work_package = work_package
-
-    self.contract = contract.new(work_package, user)
+    self.contract_class = contract_class
   end
 
   def call(attributes)
     set_attributes(attributes)
-
     validate_and_result
   end
 
   private
 
   def validate_and_result
-    boolean, errors = validate(work_package)
+    success, errors = validate(work_package, user)
 
-    ServiceResult.new(success: boolean,
+    ServiceResult.new(success: success,
                       errors: errors,
                       result: work_package)
   end
 
   def set_attributes(attributes)
-    work_package.attributes = attributes
+    if attributes.key?(:attachment_ids)
+      work_package.attachments_replacements = Attachment.where(id: attributes[:attachment_ids])
+    end
 
+    set_static_attributes(attributes)
     set_default_attributes
     unify_dates
     update_project_dependent_attributes
+    set_custom_attributes(attributes)
     update_dates
     reset_custom_values
+    reassign_invalid_status_if_type_changed
+  end
+
+  def set_static_attributes(attributes)
+    assignable_attributes = attributes.except(:attachment_ids).select do |key, _|
+      !CustomField.custom_field_attribute?(key) && work_package.respond_to?(key)
+    end
+
+    work_package.attributes = assignable_attributes
   end
 
   def set_default_attributes
@@ -74,6 +85,14 @@ class WorkPackages::SetAttributesService
     work_package.priority ||= IssuePriority.active.default
     work_package.author ||= user
     work_package.status ||= Status.default
+  end
+
+  def set_custom_attributes(attributes)
+    assignable_attributes = attributes.select do |key, _|
+      CustomField.custom_field_attribute?(key) && work_package.respond_to?(key)
+    end
+
+    work_package.attributes = assignable_attributes
   end
 
   def unify_dates
@@ -96,6 +115,7 @@ class WorkPackages::SetAttributesService
 
     set_fixed_version_to_nil
     reassign_category
+
     reassign_type unless work_package.type_id_changed?
   end
 
@@ -132,15 +152,22 @@ class WorkPackages::SetAttributesService
 
     work_package.type = available_types.detect(&:is_default) || available_types.first
 
-    reassign_status
+    reassign_status work_package.new_statuses_allowed_to(user, true)
   end
 
-  def reassign_status
-    available_statuses = work_package.new_statuses_allowed_to(user, true)
-
+  def reassign_status(available_statuses)
     return if available_statuses.include? work_package.status
 
-    work_package.status = available_statuses.detect(&:is_default) || available_statuses.first
+    new_status = available_statuses.detect(&:is_default) || available_statuses.first
+    work_package.status = new_status if new_status.present?
+  end
+
+  def reassign_invalid_status_if_type_changed
+    # Checks that the issue can not be moved to a type with the status unchanged
+    # and the target type does not have this status
+    if work_package.type_id_changed? && !work_package.status_id_changed?
+      reassign_status work_package.type.statuses(include_default: true)
+    end
   end
 
   def reset_custom_values

@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Columns::WorkPackageColumn
@@ -51,43 +51,31 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
     type: {
       association: 'type',
       sortable: "position",
+      highlightable: true,
       groupable: true
     },
     parent: {
       association: 'ancestors_relations',
       default_order: 'asc',
-      sortable: ["COALESCE(#{Relation.table_name}.from_id, #{WorkPackage.table_name}.id)",
-                 "COALESCE(#{Relation.table_name}.hierarchy, 0)"],
+      sortable: ["CONCAT_WS(',', hierarchy_paths.path, work_packages.id)"],
       sortable_join: <<-SQL
-        LEFT OUTER JOIN (
-          SELECT
-            r1.from_id,
-            r1.to_id,
-            r1.hierarchy
-        FROM relations r1
-        LEFT OUTER JOIN relations r2
-          ON
-            r1.to_id = r2.to_id
-            AND r1.hierarchy < r2.hierarchy
-            AND r1.relates = 0
-            AND r1.duplicates = 0
-            AND r1.follows = 0
-            AND r1.blocks = 0
-            AND r1.includes = 0
-            AND r1.requires = 0
-          WHERE r2.id IS NULL) depth_relations
-        ON depth_relations.to_id = work_packages.id
+        LEFT OUTER JOIN
+          hierarchy_paths
+        ON
+          hierarchy_paths.work_package_id = work_packages.id
       SQL
     },
     status: {
       association: 'status',
       sortable: "position",
+      highlightable: true,
       groupable: true
     },
     priority: {
       association: 'priority',
       sortable: "position",
       default_order: 'desc',
+      highlightable: true,
       groupable: true
     },
     author: {
@@ -122,8 +110,7 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
     },
     fixed_version: {
       association: 'fixed_version',
-      sortable: ["effective_date",
-                 "name"],
+      sortable: ["name"],
       default_order: 'desc',
       groupable: true
     },
@@ -135,6 +122,7 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
                  "#{WorkPackage.table_name}.start_date"]
     },
     due_date: {
+      highlightable: true,
       # Put empty due_dates in the far future rather than in the far past
       sortable: ["CASE WHEN #{WorkPackage.table_name}.due_date IS NULL
                   THEN 1

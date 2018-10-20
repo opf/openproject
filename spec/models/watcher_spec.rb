@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,27 +23,27 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe Watcher, type: :model do
   let(:project) { watchable.project }
-  let(:user) { FactoryGirl.build :user, admin: true }
+  let(:user) { FactoryBot.build :user, admin: true }
   let(:watcher) do
-    FactoryGirl.build :watcher,
+    FactoryBot.build :watcher,
                       watchable: watchable,
                       user: user
   end
-  let(:watchable) { FactoryGirl.build :work_package }
+  let(:watchable) { FactoryBot.build :work_package }
   let(:other_watcher) do
-    FactoryGirl.build :watcher,
+    FactoryBot.build :watcher,
                       watchable: watchable,
                       user: other_user
   end
-  let(:other_project) { FactoryGirl.create(:project) }
-  let(:other_user) { FactoryGirl.create(:user, admin: true) }
+  let(:other_project) { FactoryBot.create(:project) }
+  let(:other_user) { FactoryBot.create(:user, admin: true) }
 
   describe '#valid' do
     it 'is valid for an active user' do
@@ -99,7 +99,7 @@ describe Watcher, type: :model do
       end
 
       context 'with a non matching user scope' do
-        let(:other_other_user) { FactoryGirl.create(:user) }
+        let(:other_other_user) { FactoryBot.create(:user) }
 
         it 'leaves the watcher' do
           Watcher.prune(user: other_other_user)
@@ -173,10 +173,10 @@ describe Watcher, type: :model do
     end
 
     context 'for a message' do
-      let(:board) { FactoryGirl.build(:board) }
+      let(:board) { FactoryBot.build(:board) }
       let(:watchable) do
         board.save!
-        FactoryGirl.build(:message, board: board)
+        FactoryBot.build(:message, board: board)
       end
       let(:project) { board.project }
 

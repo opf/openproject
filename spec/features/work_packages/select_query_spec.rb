@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,17 +23,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
 describe 'Query selection', type: :feature do
-  let(:project) { FactoryGirl.create :project, identifier: 'test_project', is_public: false }
-  let(:role) { FactoryGirl.create :role, permissions: [:view_work_packages] }
+  let(:project) { FactoryBot.create :project, identifier: 'test_project', is_public: false }
+  let(:role) { FactoryBot.create :role, permissions: [:view_work_packages] }
   let(:current_user) do
-    FactoryGirl.create :user, member_in_project: project,
+    FactoryBot.create :user, member_in_project: project,
                               member_through_role: role
   end
 
@@ -41,10 +41,12 @@ describe 'Query selection', type: :feature do
   let(:filter_2_name) { 'percentageDone' }
   let(:i18n_filter_1_name) { WorkPackage.human_attribute_name(:assigned_to) }
   let(:i18n_filter_2_name) { WorkPackage.human_attribute_name(:done_ratio) }
-  let(:default_status) { FactoryGirl.create(:default_status) }
+  let(:default_status) { FactoryBot.create(:default_status) }
+  let(:wp_page) { ::Pages::WorkPackagesTable.new project }
+
 
   let(:query) do
-    FactoryGirl.build(:query, project: project, is_public: true).tap do |query|
+    FactoryBot.build(:query, project: project, is_public: true).tap do |query|
       query.filters.clear
       query.add_filter('assigned_to_id', '=', ['me'])
       query.add_filter('done_ratio', '>=', [10])
@@ -100,7 +102,7 @@ describe 'Query selection', type: :feature do
 
   context 'when the selected query is changed' do
     let(:query2) do
-      FactoryGirl.create(:query, project: project, is_public: true)
+      FactoryBot.create(:query, project: project, is_public: true)
     end
 
     before do
@@ -111,9 +113,9 @@ describe 'Query selection', type: :feature do
     end
 
     it 'updates the page upon query switching', js: true do
-      work_packages_page.expect_query(query)
-      work_packages_page.select_query_from_dropdown(query2)
-      work_packages_page.expect_query(query2)
+      wp_page.expect_title query.name, editable: false
+
+      find('.wp-query-menu--item-link', text: query2.name).click
     end
   end
 end

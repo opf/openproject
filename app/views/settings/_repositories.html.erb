@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See doc/COPYRIGHT.rdoc for more details.
+See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <%= styled_form_tag({action: 'edit', tab: 'repositories'}) do %>
@@ -44,8 +44,8 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     </div>
     <div class="form--field">
-      <%= setting_check_box :sys_api_enabled,
-                            onclick: "jQuery('#settings_sys_api_key').prop('disabled', !this.checked)" %>
+      <%= setting_check_box :sys_api_enabled %>
+      <% csp_onclick("jQuery('#settings_sys_api_key').prop('disabled', !this.checked)", '#settings_sys_api_enabled') %>
       <div class="form--field-instructions">
         <%= t(:setting_sys_api_description) %>
       </div>
@@ -130,8 +130,9 @@ See doc/COPYRIGHT.rdoc for more details.
       <div class="form--field-instructions"><%= t(:text_comma_separated) %></div>
     </div>
     <div class="form--field">
-      <%= setting_check_box :commit_logtime_enabled,
-                            onclick: "jQuery('#settings_commit_logtime_activity_id').prop('disabled', !this.checked)" %>
+      <%= setting_check_box :commit_logtime_enabled %>
+      <% csp_onclick("jQuery('#settings_commit_logtime_activity_id').prop('disabled', !this.checked)",
+                     '#setting_commit_logtime_enabled') %>
     </div>
     <div class="form--field"><%= setting_select :commit_logtime_activity_id,
          [[t(:label_default), 0]] + TimeEntryActivity.shared.map {|activity| [activity.name, activity.id.to_s]},

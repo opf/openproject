@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class GroupsController < ApplicationController
@@ -121,19 +121,17 @@ class GroupsController < ApplicationController
     @group = Group.includes(:users).find(params[:id])
     @users = User.includes(:memberships).where(id: params[:user_ids])
     @group.users << @users
-    respond_to do |format|
-      format.html do redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'users' end
-      format.js   do render action: 'change_members' end
-    end
+
+    I18n.t :notice_successful_update
+    redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'users'
   end
 
   def remove_user
     @group = Group.includes(:users).find(params[:id])
     @group.users.delete(User.includes(:memberships).find(params[:user_id]))
-    respond_to do |format|
-      format.html do redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'users' end
-      format.js   do render action: 'change_members' end
-    end
+
+    I18n.t :notice_successful_update
+    redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'users'
   end
 
   def autocomplete_for_user
@@ -144,15 +142,24 @@ class GroupsController < ApplicationController
   def create_memberships
     membership_params = permitted_params.group_membership
     membership_id = membership_params[:membership_id]
-    @membership = membership_id.present? ? Member.find(membership_id) : Member.new(principal: @group)
+
+    if membership_id.present?
+      key = :membership
+      @membership = Member.find(membership_id)
+    else
+      key = :new_membership
+      @membership = Member.new(principal: @group)
+    end
 
     service = ::Members::EditMembershipService.new(@membership, save: true, current_user: current_user)
-    service.call(attributes: membership_params[:membership])
+    result = service.call(attributes: membership_params[key])
 
-    respond_to do |format|
-      format.html do redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'memberships' end
-      format.js   do render action: 'change_memberships' end
+    if result.success?
+      flash[:notice] = I18n.t :notice_successful_update
+    else
+      flash[:error] = result.errors.full_messages.join("\n")
     end
+    redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'memberships'
   end
 
   alias :edit_membership :create_memberships
@@ -160,10 +167,9 @@ class GroupsController < ApplicationController
   def destroy_membership
     membership_params = permitted_params.group_membership
     Member.find(membership_params[:membership_id]).destroy
-    respond_to do |format|
-      format.html do redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'memberships' end
-      format.js   do render action: 'destroy_memberships' end
-    end
+
+    flash[:notice] = I18n.t :notice_successful_delete
+    redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'memberships'
   end
 
   protected

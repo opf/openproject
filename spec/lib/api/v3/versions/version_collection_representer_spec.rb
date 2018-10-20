@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,15 +23,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe ::API::V3::Versions::VersionCollectionRepresenter do
   let(:self_link) { '/api/v3/projects/1/versions' }
-  let(:versions) { FactoryGirl.build_list(:version, 3) }
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:versions) { FactoryBot.build_list(:version, 3) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
   let(:representer) { described_class.new(versions, self_link, current_user: user) }
 
   context 'generation' do

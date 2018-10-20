@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 # = OpenProject configuration file
@@ -91,6 +91,18 @@
 #   smtp_user_name: "your_email@gmail.com"
 #   smtp_password: "your_password"
 #
+# ==== SMTP server at using SSL
+#
+# production:
+#   email_delivery_method: "smtp"
+#   smtp_enable_starttls_auto: false
+#   smtp_ssl: true
+#   smtp_address: "smtp.gmail.com"
+#   smtp_port: 587
+#   smtp_domain: "smtp.gmail.com" # 'your.domain.com' for GoogleApps
+#   smtp_authentication: :plain
+#   smtp_user_name: "your_email@gmail.com"
+#   smtp_password: "your_password"
 #
 # === More configuration options
 #
@@ -127,7 +139,6 @@
 #       - settings
 #       - ldap_authentication
 #       - colors
-#       - project_types
 #       - export_card_configurations
 #       - plugins
 #       - info
@@ -143,7 +154,6 @@
 #     - 'admin/info'
 #     - 'admin/plugins'
 #     - 'export_card_configurations'
-#     - 'project_types'
 #     - 'colors'
 #     - 'settings'
 #     - 'admin/enumerations'
@@ -155,6 +165,8 @@
 
 # default configuration options for all environments
 default:
+  log_level: info
+
   # Outgoing emails configuration (see examples above)
   email_delivery_method: :smtp
   smtp_address: smtp.example.net
@@ -185,6 +197,10 @@ default:
   # Examples:
   # attachments_storage_path: /var/openproject/files
   # attachments_storage_path:
+
+  # Grace period until uploaded but unassigned (i.e. to a container like work packages,
+  # wiki pages) attachments are deleted (in minutes)
+  # attachment_grace_period: 180
 
   # Configuration of the autologin cookie.
   # autologin_cookie_name: the name of the cookie (default: autologin)
@@ -340,10 +356,6 @@ default:
   #     password: admin
 
 
-  # By default, the legacy APIv2 allows authentication through basic auth.
-  # Uncomment the following line to restrict APIv2 access to API tokens
-  # apiv2_enable_basic_auth: false
-
   # By default, the APIv3 allows authentication through basic auth.
   # Uncomment the following line to restrict APIv3 access to session.
   # apiv3_enable_basic_auth: false
@@ -352,10 +364,35 @@ default:
   # after_login_default_redirect_url: '/my/page'
   # after_first_login_redirect_url: '/projects/demo'
 
+  # For filtering work packages based on their attachments (name, content) it's worth to specify the main language that
+  # is used in those documents. This improves the full text search features of PostgreSQL. Currently PostgreSQL shipps
+  # with the following languages pre-installed:
+  #
+  # danish
+  # dutch
+  # english
+  # finnish
+  # french
+  # german
+  # hungarian
+  # italian
+  # norwegian
+  # portuguese
+  # romanian
+  # russian
+  # simple
+  # spanish
+  # swedish
+  # turkish
+  #
+  # main_content_language: 'english'
+
+
 
 # specific configuration options for production environment
 # that overrides the default ones
-# production:
+production:
+  log_level: warn
 
 # specific configuration options for development environment
 # that overrides the default ones

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,14 +24,34 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class WikiMenuItemsController < ApplicationController
   attr_reader :wiki_menu_item
 
-  current_menu_item do |controller|
-    controller.wiki_menu_item.menu_identifier if controller.wiki_menu_item
+  include Redmine::MenuManager::WikiMenuHelper
+
+  current_menu_item :edit do |controller|
+    next controller.wiki_menu_item.menu_identifier if controller.wiki_menu_item.persisted?
+
+    project = controller.instance_variable_get(:@project)
+    if (page = WikiPage.find_by(wiki_id: project.wiki.id, slug: controller.params[:id]))
+      default_menu_item(controller, page)
+    end
+  end
+
+  current_menu_item :select_main_menu_item do |controller|
+    next controller.wiki_menu_item.menu_identifier if controller.wiki_menu_item.try(:persisted?)
+
+    if (page = WikiPage.find_by(id: controller.params[:id]))
+      default_menu_item(controller, page)
+    end
+  end
+
+  def self.default_menu_item(controller, page)
+    menu_item = controller.default_menu_item(page)
+    "no-menu-item-#{menu_item.menu_identifier}".to_sym
   end
 
   before_action :find_project_by_project_id
@@ -50,7 +70,7 @@ class WikiMenuItemsController < ApplicationController
     if wiki_menu_setting == 'no_item'
       unless @wiki_menu_item.nil?
         if @wiki_menu_item.is_only_main_item?
-          if @page.is_only_wiki_page?
+          if @page.only_wiki_page?
             flash.now[:error] = t(:wiki_menu_item_delete_not_permitted)
             render(:edit, id: @page_title) and return
           else
@@ -73,7 +93,7 @@ class WikiMenuItemsController < ApplicationController
       end
     end
 
-    if @wiki_menu_item.save || @wiki_menu_item.destroyed?
+    if @wiki_menu_item.destroyed? || @wiki_menu_item.save
       # we may have just destroyed a new record
       # e.g. there was no menu_item before, and there is none now
       if !@wiki_menu_item.new_record? && (@wiki_menu_item.changed? || @wiki_menu_item.destroyed?)
@@ -92,11 +112,15 @@ class WikiMenuItemsController < ApplicationController
 
   def select_main_menu_item
     @page = WikiPage.find params[:id]
-    @possible_wiki_pages = @project.wiki.pages.includes(:parent)
-                           .reject { |page|
-                             page != @page && page.menu_item.present? &&
-                             page.menu_item.is_main_item?
-                           }
+    @possible_wiki_pages = @project
+                           .wiki
+                           .pages
+                           .includes(:parent)
+                           .reject do |page|
+                             page != @page &&
+                               page.menu_item.present? &&
+                               page.menu_item.is_main_item?
+                           end
   end
 
   def replace_main_menu_item
@@ -121,11 +145,10 @@ class WikiMenuItemsController < ApplicationController
 
     @page = wiki.find_page(params[:id])
     @page_title = @page.title
-    @wiki_menu_item = MenuItems::WikiMenuItem.find_or_initialize_by(
-      navigatable_id: wiki.id,
-      name: @page.slug
-    )
-    @wiki_menu_item.title ||= @page_title
+    @wiki_menu_item = MenuItems::WikiMenuItem
+                      .where(navigatable_id: wiki.id, name: @page.slug)
+                      .first_or_initialize(title: @page_title)
+
     possible_parent_menu_items = MenuItems::WikiMenuItem.main_items(wiki.id) - [@wiki_menu_item]
 
     @parent_menu_item_options = possible_parent_menu_items.map { |item| [item.name, item.id] }
@@ -133,7 +156,7 @@ class WikiMenuItemsController < ApplicationController
     @selected_parent_menu_item_id = if @wiki_menu_item.parent
                                       @wiki_menu_item.parent.id
                                     else
-                                      @page.nearest_parent_menu_item(is_main_item: true).try :id
+                                      @page.nearest_main_item.try :id
     end
   end
 

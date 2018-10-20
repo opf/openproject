@@ -19,7 +19,7 @@ the options that the package-based or manual installation provides.
 The fastest way to get an OpenProject instance up and running is to run the
 following command:
 
-    docker run -it -p 8080:80 -e SECRET_KEY_BASE=secret openproject/community:7
+    docker run -it -p 8080:80 -e SECRET_KEY_BASE=secret openproject/community:8
 
 This will take a bit of time the first time you launch it, but after a few
 minutes you should see a success message indicating the default administration
@@ -35,7 +35,7 @@ the logs to your terminal, which helps with debugging if anything goes wrong.
 For normal usage you probably want to start it in the background, which can be
 achieved with the `-d` flag:
 
-    docker run -d -p 8080:80 -e SECRET_KEY_BASE=secret openproject/community:5.0
+    docker run -d -p 8080:80 -e SECRET_KEY_BASE=secret openproject/community:8
 
 ### Recommended usage
 
@@ -55,10 +55,10 @@ those directories mounted:
     sudo mkdir -p /var/lib/openproject/{pgdata,logs,static}
 
     docker run -d -p 8080:80 --name openproject -e SECRET_KEY_BASE=secret \
-      -v /var/lib/openproject/pgdata:/var/lib/postgresql/9.4/main \
+      -v /var/lib/openproject/pgdata:/var/lib/postgresql/9.6/main \
       -v /var/lib/openproject/logs:/var/log/supervisor \
       -v /var/lib/openproject/static:/var/db/openproject \
-      openproject/community:7
+      openproject/community:8
 
 Since we named the container, you can now stop it by running:
 
@@ -143,7 +143,7 @@ Yes. You can simply pass a custom `DATABASE_URL` environment variable on the
 command-line, which could point to an external database. You can even choose to
 use MySQL instead of PostgreSQL if you wish. Here is how you would do it:
 
-    docker run -d ... -e DATABASE_URL=mysql2://user:pass@host:port/dbname openproject/community:5.0
+    docker run -d ... -e DATABASE_URL=mysql2://user:pass@host:port/dbname openproject/community:8
 
 The container will make sure that the database gets the migrations and demo
 data as well.

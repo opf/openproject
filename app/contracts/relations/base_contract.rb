@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'model_contract'
@@ -42,17 +42,10 @@ module Relations
     validate :validate_from_exists
     validate :validate_to_exists
     validate :validate_only_one_follow_direction_between_hierarchies
-
-    attr_reader :user
+    validate :validate_accepted_type
 
     def self.model
       Relation
-    end
-
-    def initialize(relation, user)
-      super relation
-
-      @user = user
     end
 
     def validate!(*args)
@@ -79,6 +72,12 @@ module Relations
       end
     end
 
+    def validate_accepted_type
+      return if (Relation::TYPES.keys + [Relation::TYPE_HIERARCHY]).include?(model.relation_type)
+
+      errors.add :relation_type, :inclusion
+    end
+
     def manage_relations_permission?
       if !manage_relations?
         errors.add :base, :error_unauthorized
@@ -93,7 +92,7 @@ module Relations
       user.allowed_to? :manage_work_package_relations, model.from.project
     end
 
-    # Go up to's hierarchy till the root.
+    # Go up to's hierarchy to the highest ancestor not shared with from.
     # Fetch all endpoints of relations that are reachable by following at least one follows
     # and zero or more hierarchy relations.
     # We now need to check whether those endpoints include any that
@@ -104,20 +103,40 @@ module Relations
     #
     # Siblings and sibling subtrees of ancestors are ok to have relations
     def follow_relations_in_opposite_direction
-      to_set = hierarchy_or_follows_of(model.to)
+      to_set = hierarchy_or_follows_of
 
       follows_relations_to_ancestors(to_set)
         .or(follows_relations_to_descendants(to_set))
         .or(follows_relations_to_from(to_set))
     end
 
-    def hierarchy_or_follows_of(work_package)
-      root_id = Relation.to_root(work_package).select(:from_id)
+    def hierarchy_or_follows_of
+      to_root_ancestor = tos_highest_ancestor_not_shared_by_from
 
       Relation
         .hierarchy_or_follows
-        .where(from_id: root_id)
+        .where(from_id: to_root_ancestor)
         .where('follows > 0')
+    end
+
+    def tos_highest_ancestor_not_shared_by_from
+      # mysql does not support a limit inside a subquery.
+      # we thus join/subselect the query for ancestors of to not shared by from
+      # with itself and exclude all that have a hierarchy value smaller than hierarchy - 1
+      unshared_ancestors = tos_ancestors_not_shared_by_from
+
+      unshared_ancestors
+        .where.not(hierarchy: unshared_ancestors.select('hierarchy - 1'))
+        .select(:from_id)
+    end
+
+    def tos_ancestors_not_shared_by_from
+      Relation
+        .hierarchy_or_reflexive
+        .where(to_id: model.to_id)
+        .where.not(from_id: Relation.hierarchy_or_reflexive
+                              .where(to_id: model.from_id)
+                              .select(:from_id))
     end
 
     def follows_relations_to_ancestors(to_set)

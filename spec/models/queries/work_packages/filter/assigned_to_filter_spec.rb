@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,14 +23,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
   let(:instance) do
-    filter = described_class.new
+    filter = described_class.create!
     filter.values = values
     filter.operator = operator
     filter
@@ -40,9 +40,9 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
   let(:values) { [] }
 
   describe 'where filter results' do
-    let(:work_package) { FactoryGirl.create(:work_package, assigned_to: assignee) }
-    let(:assignee) { FactoryGirl.create(:user) }
-    let(:group) { FactoryGirl.create(:group) }
+    let(:work_package) { FactoryBot.create(:work_package, assigned_to: assignee) }
+    let(:assignee) { FactoryBot.create(:user) }
+    let(:group) { FactoryBot.create(:group) }
 
     subject { WorkPackage.where(instance.where) }
 
@@ -61,7 +61,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       before do
         allow(User)
           .to receive(:current)
-                .and_return(assignee)
+          .and_return(assignee)
       end
 
       it 'returns the work package' do
@@ -70,11 +70,11 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       end
 
       it 'returns the corrected value object' do
-        objects = instance.value_objects_hash
+        objects = instance.value_objects
 
         expect(objects.size).to eq(1)
-        expect(objects.first[:id]).to eq 'me'
-        expect(objects.first[:name]).to eq 'me'
+        expect(objects.first.id).to eq 'me'
+        expect(objects.first.name).to eq 'me'
       end
     end
 
@@ -84,7 +84,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       before do
         allow(User)
           .to receive(:current)
-          .and_return(FactoryGirl.create(:user))
+          .and_return(FactoryBot.create(:user))
       end
 
       it 'does not return the work package' do
@@ -94,9 +94,9 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
     end
 
     context 'for me and user values' do
-      let(:user) { FactoryGirl.create :user }
-      let(:assignee2) { FactoryGirl.create :user }
-      let(:values) { [assignee.id , user.id, 'me', assignee2.id] }
+      let(:user) { FactoryBot.create :user }
+      let(:assignee2) { FactoryBot.create :user }
+      let(:values) { [assignee.id, user.id, 'me', assignee2.id] }
 
       before do
         # Order is important here for ids,
@@ -112,12 +112,9 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       end
 
       it 'returns the mapped value' do
-        objects = instance.value_objects_hash
+        objects = instance.value_objects
 
-        expect(objects.length).to eq(3)
-        expect(objects[0][:id]).to eq assignee.id
-        expect(objects[1][:id]).to eq assignee2.id
-        expect(objects[2][:id]).to eq 'me'
+        expect(objects.map(&:id)).to eql ['me', assignee.id, assignee2.id]
       end
     end
 
@@ -156,7 +153,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
     context "for a user value with the user's group being assignee" do
       let(:values) { [user.id.to_s] }
       let(:assignee) { group }
-      let(:user) { FactoryGirl.create(:user) }
+      let(:user) { FactoryBot.create(:user) }
 
       before do
         group.users << user
@@ -171,7 +168,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
     context "for a user value with the user not being member of the assigned group" do
       let(:values) { [user.id.to_s] }
       let(:assignee) { group }
-      let(:user) { FactoryGirl.create(:user) }
+      let(:user) { FactoryBot.create(:user) }
 
       it 'does not return the work package' do
         is_expected
@@ -195,7 +192,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
     let(:class_key) { :assigned_to_id }
 
     describe '#valid_values!' do
-      let(:user) { FactoryGirl.build_stubbed(:user) }
+      let(:user) { FactoryBot.build_stubbed(:user) }
       let(:loader) do
         loader = double('loader')
 

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 # This file is mostly based on source code of thoughbot's paperclip gem
@@ -59,6 +59,8 @@
 # - sensible default changed to "application/binary"
 # - removed references to paperclip
 
+require 'open3'
+
 module OpenProject
   class FileCommandContentTypeDetector
     SENSIBLE_DEFAULT = 'application/binary'
@@ -74,17 +76,16 @@ module OpenProject
     private
 
     def type_from_file_command
-      type = begin
-        # On BSDs, `file` doesn't give a result code of 1 if the file doesn't exist.
-        Cocaine::CommandLine.new('file', '-b --mime :file').run(file: @filename)
-      rescue Cocaine::CommandLineError
-        SENSIBLE_DEFAULT
-      end
+      # On BSDs, `file` doesn't give a result code of 1 if the file doesn't exist.
+      type, status = Open3.capture2('file', '-b', '--mime', @filename)
 
-      if type.nil? || type.match(/\(.*?\)/)
+      if type.nil? || status.to_i > 0 || type.match(/\(.*?\)/)
         type = SENSIBLE_DEFAULT
       end
       type.split(/[:;\s]+/)[0]
+    rescue => e
+      Rails.logger.info { "Failed to get mime type from #{@filename}: #{e} #{e.message}" }
+      SENSIBLE_DEFAULT
     end
   end
 end

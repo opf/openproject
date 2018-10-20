@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,19 +23,19 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe Queries::Relations::RelationQuery, type: :model do
   let(:instance) { described_class.new }
-  let(:base_scope) { Relation.visible.direct }
+  let(:base_scope) { Relation.direct }
 
   context 'without a filter' do
     describe '#results' do
       it 'is the same as getting all the relations' do
-        expect(instance.results.to_sql).to eql base_scope.to_sql
+        expect(instance.results.to_sql).to eql base_scope.visible.to_sql
       end
     end
 
@@ -56,6 +56,7 @@ describe Queries::Relations::RelationQuery, type: :model do
         expected = base_scope
                    .merge(Relation
                           .where("relations.follows IN ('1') OR relations.blocks IN ('1')"))
+                   .visible
 
         expect(instance.results.to_sql).to eql expected.to_sql
       end
@@ -70,6 +71,26 @@ describe Queries::Relations::RelationQuery, type: :model do
         instance.where('type', '=', [''])
 
         expect(instance).to be_invalid
+      end
+    end
+  end
+
+  context 'with a from filter' do
+    let(:current_user) { FactoryBot.build_stubbed(:user) }
+    before do
+      login_as(current_user)
+      instance.where('from_id', '=', ['1'])
+    end
+
+    describe '#results' do
+      it 'is the same as handwriting the query (with visibility checked within the filter query)' do
+        visible_sql = WorkPackage.visible(current_user).select(:id).to_sql
+
+        expected = base_scope
+                   .merge(Relation
+                          .where("from_id IN ('1') AND to_id IN (#{visible_sql})"))
+
+        expect(instance.results.to_sql).to eql expected.to_sql
       end
     end
   end

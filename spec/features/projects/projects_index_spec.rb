@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,114 +23,54 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
-require 'features/projects/projects_page'
 
 describe 'Projects index page',
          type: :feature,
          js: true,
          with_settings: { login_required?: false } do
 
-  let!(:admin) { FactoryGirl.create :admin }
+  let!(:admin) { FactoryBot.create :admin }
 
-  let!(:manager)   { FactoryGirl.create :role, name: 'Manager' }
-  let!(:developer) { FactoryGirl.create :role, name: 'Developer' }
+  let!(:manager)   { FactoryBot.create :role, name: 'Manager' }
+  let!(:developer) { FactoryBot.create :role, name: 'Developer' }
 
-  let!(:custom_field) { FactoryGirl.create :project_custom_field }
-  let!(:invisible_custom_field) { FactoryGirl.create :project_custom_field, visible: false }
+  let!(:custom_field) { FactoryBot.create :project_custom_field }
+  let!(:invisible_custom_field) { FactoryBot.create :project_custom_field, visible: false }
 
   let!(:project) do
-    FactoryGirl.create(:project,
-                       name: 'Plain project',
-                       identifier: 'plain-project')
+    FactoryBot.create(:project,
+                      name: 'Plain project',
+                      identifier: 'plain-project')
   end
   let!(:public_project) do
-    project = FactoryGirl.create(:project,
-                                 name: 'Public project',
-                                 identifier: 'public-project',
-                                 is_public: true)
+    project = FactoryBot.create(:project,
+                                name: 'Public project',
+                                identifier: 'public-project',
+                                is_public: true)
     project.custom_field_values = { invisible_custom_field.id => 'Secret CF' }
     project.save
     project
   end
   let!(:development_project) do
-    FactoryGirl.create(:project,
-                       name: 'Development project',
-                       identifier: 'development-project')
+    FactoryBot.create(:project,
+                      name: 'Development project',
+                      identifier: 'development-project')
   end
+  let(:news) { FactoryBot.create(:news, project: project) }
+  let(:projects_page) { Pages::Projects::Index.new }
 
   def load_and_open_filters(user)
     login_as(user)
-    visit projects_path
-    click_button('Show/hide filters')
-  end
-
-  def set_filter(name, human_name, human_operator = nil, values = [])
-    select human_name, from: 'add_filter_select'
-    selected_filter = page.find("li[filter-name='#{name}']")
-
-    within(selected_filter) do
-      select human_operator, from: 'operator'
-
-      return unless values.any?
-
-      case name
-      when 'name_and_identifier'
-        set_name_and_identifier_filter(values)
-      when 'status'
-        set_status_filter(values)
-      when 'created_on'
-        set_created_on_filter(human_operator, values)
-      when /cf_[\d]+/
-        set_custom_field_filter(selected_filter, human_operator, values)
-      end
-    end
-  end
-
-  def set_name_and_identifier_filter(values)
-    fill_in 'value', with: values.first
-  end
-
-  def set_status_filter(values)
-    if values.size == 1
-      select values.first, from: 'value'
-    end
-  end
-
-  def set_created_on_filter(human_operator, values)
-    case human_operator
-    when 'on', 'less than days ago', 'more than days ago', 'days ago'
-      fill_in 'value', with: values.first
-    when 'between'
-      fill_in 'from_value', with: values.first
-      fill_in 'to_value', with: values.second
-    end
-  end
-
-  def set_custom_field_filter(selected_filter, human_operator, values)
-    if selected_filter[:'filter-type'] == 'list_optional'
-      if values.size == 1
-        value_select = find('.single-select select[name="value"]')
-        value_select.select values.first
-      end
-    elsif selected_filter[:'filter-type'] == 'date'
-      if human_operator == 'on'
-        fill_in 'value', with: values.first
-      end
-    end
+    projects_page.visit!
+    projects_page.open_filters
   end
 
   def allow_enterprise_edition
-    allow(EnterpriseToken)
-      .to receive(:allows_to?)
-      .and_return(false)
-    allow(EnterpriseToken)
-      .to receive(:allows_to?)
-      .with(:custom_fields_in_projects_list)
-      .and_return(true)
+    with_enterprise_token(:custom_fields_in_projects_list)
   end
 
   def remove_filter(name)
@@ -153,12 +93,12 @@ describe 'Projects index page',
 
     feature 'for project members' do
       let!(:user) do
-        FactoryGirl.create(:user,
-                           member_in_project: development_project,
-                           member_through_role: developer,
-                           login: 'nerd',
-                           firstname: 'Alan',
-                           lastname: 'Turing')
+        FactoryBot.create(:user,
+                          member_in_project: development_project,
+                          member_through_role: developer,
+                          login: 'nerd',
+                          firstname: 'Alan',
+                          lastname: 'Turing')
       end
 
       before do
@@ -181,6 +121,12 @@ describe 'Projects index page',
     end
 
     feature 'for admins' do
+      before do
+        project.update_attributes(created_on: 7.days.ago)
+
+        news
+      end
+
       scenario 'test that all projects are visible' do
         login_as(admin)
         visit projects_path
@@ -188,17 +134,31 @@ describe 'Projects index page',
         expect(page).to have_text(public_project.name)
         expect(page).to have_text(project.name)
 
-        # because we use css opacity we can not test for the visibility changes
-        expect(page).to have_selector('.icon-show-more-horizontal')
-
         # Test visiblity of 'more' menu list items
-        page.first('tbody tr .icon-show-more-horizontal').click
+        item = page.first('tbody tr .icon-show-more-horizontal', visible: :all)
+        item.hover
+        item.click
+
         menu = page.first('tbody tr .project-actions')
         expect(menu).to have_text('Copy')
         expect(menu).to have_text('Project settings')
         expect(menu).to have_text('New subproject')
         expect(menu).to have_text('Delete')
         expect(menu).to have_text('Archive')
+
+        # Test visibility of admin only properties
+        within('#project-table') do
+          expect(page)
+            .to have_selector('th', text: 'REQUIRED DISK STORAGE')
+          expect(page)
+            .to have_selector('th', text: 'CREATED ON')
+          expect(page)
+            .to have_selector('td', text: project.created_on.strftime('%m/%d/%Y'))
+          expect(page)
+            .to have_selector('th', text: 'LATEST ACTIVITY AT')
+          expect(page)
+            .to have_selector('td', text: news.created_on.strftime('%m/%d/%Y'))
+        end
       end
     end
   end
@@ -237,10 +197,10 @@ describe 'Projects index page',
     scenario 'it should only show the matching projects and filters' do
       load_and_open_filters admin
 
-      set_filter('name_and_identifier',
-                 'Name or identifier',
-                 'contains',
-                 ['Plain'])
+      projects_page.set_filter('name_and_identifier',
+                               'Name or identifier',
+                               'contains',
+                               ['Plain'])
 
       click_on 'Apply'
       # Filter is applied: Only the project that contains the the word "Plain" gets listed
@@ -259,10 +219,10 @@ describe 'Projects index page',
     scenario 'it keeps applying filters and order' do
       load_and_open_filters admin
 
-      set_filter('name_and_identifier',
-                 'Name or identifier',
-                 'doesn\'t contain',
-                 ['Plain'])
+      projects_page.set_filter('name_and_identifier',
+                               'Name or identifier',
+                               'doesn\'t contain',
+                               ['Plain'])
 
       click_on 'Apply'
 
@@ -313,10 +273,10 @@ describe 'Projects index page',
       load_and_open_filters admin
 
       # Filter on model attribute 'name'
-      set_filter('name_and_identifier',
-                 'Name or identifier',
-                 'doesn\'t contain',
-                 ['Plain'])
+      projects_page.set_filter('name_and_identifier',
+                               'Name or identifier',
+                               'doesn\'t contain',
+                               ['Plain'])
 
       click_on 'Apply'
 
@@ -327,10 +287,10 @@ describe 'Projects index page',
       # Filter on model attribute 'identifier'
       remove_filter('name_and_identifier')
 
-      set_filter('name_and_identifier',
-                 'Name or identifier',
-                 'is',
-                 ['plain-project'])
+      projects_page.set_filter('name_and_identifier',
+                               'Name or identifier',
+                               'is',
+                               ['plain-project'])
 
       click_on 'Apply'
 
@@ -340,14 +300,19 @@ describe 'Projects index page',
     end
 
     feature 'Active or archived' do
-      let!(:archived_project) do
-        FactoryGirl.create(:project,
-                           name: 'Archived project',
-                           identifier: 'archived-project',
-                           status: Project::STATUS_ARCHIVED)
+      let!(:parent_project) do
+        FactoryBot.create(:project,
+                          name: 'Parent project',
+                          identifier: 'parent-project')
+      end
+      let!(:child_project) do
+        FactoryBot.create(:project,
+                          name: 'Child project',
+                          identifier: 'child-project',
+                          parent: parent_project)
       end
 
-      scenario 'filter on "status"' do
+      scenario 'filter on "status", archive and unarchive' do
         load_and_open_filters admin
 
         # value selection defaults to "active"'
@@ -358,35 +323,70 @@ describe 'Projects index page',
         expect(page.find('li[filter-name="status"] select[name="operator"] option[value="="]')).to have_text('is')
         expect(page.find('li[filter-name="status"] select[name="operator"] option[value="!"]')).to have_text('is not')
 
-        expect(page).to_not have_text('Archived project')
+        expect(page).to have_text(parent_project.name)
+        expect(page).to have_text(child_project.name)
         expect(page).to have_text('Plain project')
         expect(page).to have_text('Development project')
         expect(page).to have_text('Public project')
 
-        # Filter on model attribute 'status'
-        set_filter('status',
-                   'Active or archived',
-                   'is',
-                   ['archived'])
+        projects_page.click_menu_item_of('Archive', parent_project)
+        projects_page.accept_alert_dialog!
 
-        click_on 'Apply'
+        expect(page).to have_no_text(parent_project.name)
+        # The child project gets archived automatically
+        expect(page).to have_no_text(child_project.name)
+        expect(page).to have_text('Plain project')
+        expect(page).to have_text('Development project')
+        expect(page).to have_text('Public project')
+
+        visit project_path(parent_project)
+        expect(page).to have_text("The project you're trying to access has been archived.")
+
+        # The child project gets archived automatically
+        visit project_path(child_project)
+        expect(page).to have_text("The project you're trying to access has been archived.")
+
+        load_and_open_filters admin
+
+        projects_page.filter_by_status('archived')
+
+        expect(page).to have_text("ARCHIVED #{parent_project.name}")
+        expect(page).to have_text("ARCHIVED #{child_project.name}")
 
         # Test visiblity of 'more' menu list items
-        page.find('tbody tr').hover
-        page.find('tbody tr .icon-show-more-horizontal').click
-        menu = page.find('tbody tr .project-actions')
-        expect(menu).to have_text('Unarchive')
-        expect(menu).to have_text('Delete')
-        expect(menu).to_not have_text('Archive')
-        expect(menu).to_not have_text('Copy')
-        expect(menu).to_not have_text('Settings')
-        expect(menu).to_not have_text('New subproject')
+        projects_page.activate_menu_of(parent_project) do |menu|
+          expect(menu).to have_text('Unarchive')
+          expect(menu).to have_text('Delete')
+          expect(menu).to_not have_text('Archive')
+          expect(menu).to_not have_text('Copy')
+          expect(menu).to_not have_text('Settings')
+          expect(menu).to_not have_text('New subproject')
+
+          click_link('Unarchive')
+        end
+
+        # The child project does not get unarchived automatically
+        visit project_path(child_project)
+        expect(page).to have_text("The project you're trying to access has been archived.")
+
+        visit project_path(parent_project)
+        expect(page).to have_text(parent_project.name)
+
+        load_and_open_filters admin
+
+        projects_page.filter_by_status('active')
+
+        expect(page).to have_text(parent_project.name)
+        expect(page).to have_no_text(child_project.name)
+        expect(page).to have_text('Plain project')
+        expect(page).to have_text('Development project')
+        expect(page).to have_text('Public project')
       end
     end
 
     feature 'other filter types' do
-      let!(:list_custom_field) { FactoryGirl.create :list_project_custom_field }
-      let!(:date_custom_field) { FactoryGirl.create :date_project_custom_field }
+      let!(:list_custom_field) { FactoryBot.create :list_project_custom_field }
+      let!(:date_custom_field) { FactoryBot.create :date_project_custom_field }
       let(:datetime_of_this_week) do
         today = Date.today
         # Ensure that the date is not today but still in the middle of the week to not run into week-start-issues here.
@@ -396,34 +396,34 @@ describe 'Projects index page',
       let(:fixed_datetime) { DateTime.parse('2017-11-11T11:11:11+00:00') }
 
       let!(:project_created_on_today) do
-        project = FactoryGirl.create(:project,
-                                     name: 'Created today project',
-                                     created_on: DateTime.now)
+        project = FactoryBot.create(:project,
+                                    name: 'Created today project',
+                                    created_on: DateTime.now)
         project.custom_field_values = { list_custom_field.id => list_custom_field.possible_values[2],
                                         date_custom_field.id => '2011-11-11' }
         project.save!
         project
       end
       let!(:project_created_on_this_week) do
-        FactoryGirl.create(:project,
-                           name: 'Created on this week project',
-                           created_on: datetime_of_this_week)
+        FactoryBot.create(:project,
+                          name: 'Created on this week project',
+                          created_on: datetime_of_this_week)
       end
       let!(:project_created_on_six_days_ago) do
-        FactoryGirl.create(:project,
-                           name: 'Created on six days ago project',
-                           created_on: DateTime.now - 6.days)
+        FactoryBot.create(:project,
+                          name: 'Created on six days ago project',
+                          created_on: DateTime.now - 6.days)
       end
       let!(:project_created_on_fixed_date) do
-        FactoryGirl.create(:project,
-                           name: 'Created on fixed date project',
-                           created_on: fixed_datetime)
+        FactoryBot.create(:project,
+                          name: 'Created on fixed date project',
+                          created_on: fixed_datetime)
       end
       let!(:todays_wp) do
         # This WP should trigger a change to the project's 'latest activity at' DateTime
-        FactoryGirl.create(:work_package,
-                           updated_at: DateTime.now,
-                           project: project_created_on_today)
+        FactoryBot.create(:work_package,
+                          updated_at: DateTime.now,
+                          project: project_created_on_today)
       end
 
       before do
@@ -434,9 +434,9 @@ describe 'Projects index page',
 
       scenario 'selecting operator' do
         # created on 'today' shows projects that were created today
-        set_filter('created_on',
-                   'Created on',
-                   'today')
+        projects_page.set_filter('created_on',
+                                 'Created on',
+                                 'today')
 
         click_on 'Apply'
 
@@ -447,9 +447,9 @@ describe 'Projects index page',
         # created on 'this week' shows projects that were created within the last seven days
         remove_filter('created_on')
 
-        set_filter('created_on',
-                   'Created on',
-                   'this week')
+        projects_page.set_filter('created_on',
+                                 'Created on',
+                                 'this week')
 
         click_on 'Apply'
 
@@ -460,10 +460,10 @@ describe 'Projects index page',
         # created on 'on' shows projects that were created within the last seven days
         remove_filter('created_on')
 
-        set_filter('created_on',
-                   'Created on',
-                   'on',
-                   ['2017-11-11'])
+        projects_page.set_filter('created_on',
+                                 'Created on',
+                                 'on',
+                                 ['2017-11-11'])
 
         click_on 'Apply'
 
@@ -474,10 +474,10 @@ describe 'Projects index page',
         # created on 'less than days ago'
         remove_filter('created_on')
 
-        set_filter('created_on',
-                   'Created on',
-                   'less than days ago',
-                   ['1'])
+        projects_page.set_filter('created_on',
+                                 'Created on',
+                                 'less than days ago',
+                                 ['1'])
 
         click_on 'Apply'
 
@@ -487,10 +487,10 @@ describe 'Projects index page',
         # created on 'more than days ago'
         remove_filter('created_on')
 
-        set_filter('created_on',
-                   'Created on',
-                   'more than days ago',
-                   ['1'])
+        projects_page.set_filter('created_on',
+                                 'Created on',
+                                 'more than days ago',
+                                 ['1'])
 
         click_on 'Apply'
 
@@ -500,10 +500,10 @@ describe 'Projects index page',
         # created on 'between'
         remove_filter('created_on')
 
-        set_filter('created_on',
-                   'Created on',
-                   'between',
-                   ['2017-11-10', '2017-11-12'])
+        projects_page.set_filter('created_on',
+                                 'Created on',
+                                 'between',
+                                 ['2017-11-10', '2017-11-12'])
 
         click_on 'Apply'
 
@@ -513,9 +513,9 @@ describe 'Projects index page',
         # Latest activity at 'today'. This spot check would fail if the data does not get collected from multiple tables
         remove_filter('created_on')
 
-        set_filter('latest_activity_at',
-                   'Latest activity at',
-                   'today')
+        projects_page.set_filter('latest_activity_at',
+                                 'Latest activity at',
+                                 'today')
 
         click_on 'Apply'
 
@@ -525,10 +525,10 @@ describe 'Projects index page',
         # CF List
         remove_filter('latest_activity_at')
 
-        set_filter("cf_#{list_custom_field.id}",
-                   list_custom_field.name,
-                   'is',
-                   [list_custom_field.possible_values[2].value])
+        projects_page.set_filter("cf_#{list_custom_field.id}",
+                                 list_custom_field.name,
+                                 'is',
+                                 [list_custom_field.possible_values[2].value])
 
         click_on 'Apply'
 
@@ -580,10 +580,10 @@ describe 'Projects index page',
         # CF date filter work (at least for one operator)
         remove_filter("cf_#{list_custom_field.id}")
 
-        set_filter("cf_#{date_custom_field.id}",
-                   date_custom_field.name,
-                   'on',
-                   ['2011-11-11'])
+        projects_page.set_filter("cf_#{date_custom_field.id}",
+                                 date_custom_field.name,
+                                 'on',
+                                 ['2011-11-11'])
 
         click_on 'Apply'
 
@@ -597,32 +597,32 @@ describe 'Projects index page',
 
   feature 'Non-admins with role with permission' do
     let!(:can_copy_projects_role) do
-      FactoryGirl.create :role, name: 'Can Copy Projects Role', permissions: [:copy_projects]
+      FactoryBot.create :role, name: 'Can Copy Projects Role', permissions: [:copy_projects]
     end
     let!(:can_add_subprojects_role) do
-      FactoryGirl.create :role, name: 'Can Add Subprojects Role', permissions: [:add_subprojects]
+      FactoryBot.create :role, name: 'Can Add Subprojects Role', permissions: [:add_subprojects]
     end
 
     let!(:parent_project) do
-      FactoryGirl.create(:project,
-                         name: 'Parent project',
-                         identifier: 'parent-project')
+      FactoryBot.create(:project,
+                        name: 'Parent project',
+                        identifier: 'parent-project')
     end
 
     let!(:can_copy_projects_manager) do
-      FactoryGirl.create(:user,
-                         member_in_project: parent_project,
-                         member_through_role: can_copy_projects_role)
+      FactoryBot.create(:user,
+                        member_in_project: parent_project,
+                        member_through_role: can_copy_projects_role)
     end
     let!(:can_add_subprojects_manager) do
-      FactoryGirl.create(:user,
-                         member_in_project: parent_project,
-                         member_through_role: can_add_subprojects_role)
+      FactoryBot.create(:user,
+                        member_in_project: parent_project,
+                        member_through_role: can_add_subprojects_role)
     end
     let!(:simple_member) do
-      FactoryGirl.create(:user,
-                         member_in_project: parent_project,
-                         member_through_role: developer)
+      FactoryBot.create(:user,
+                        member_in_project: parent_project,
+                        member_through_role: developer)
     end
 
     before do
@@ -631,6 +631,10 @@ describe 'Projects index page',
 
       # Remove public projects from the default list for these scenarios.
       public_project.update_attribute :status, Project::STATUS_ARCHIVED
+
+      project.update_attributes(created_on: 7.days.ago)
+
+      news
     end
 
     scenario 'can see the "More" menu' do
@@ -681,22 +685,36 @@ describe 'Projects index page',
       expect(menu).to_not have_text('Delete')
       expect(menu).to_not have_text('Archive')
       expect(menu).to_not have_text('Unrchive')
+
+      # Test admin only properties are invisible
+      within('#project-table') do
+        expect(page)
+          .to have_no_selector('th', text: 'REQUIRED DISK STORAGE')
+        expect(page)
+          .to have_no_selector('th', text: 'CREATED ON')
+        expect(page)
+          .to have_no_selector('td', text: project.created_on.strftime('%m/%d/%Y'))
+        expect(page)
+          .to have_no_selector('th', text: 'LATEST ACTIVITY AT')
+        expect(page)
+          .to have_no_selector('td', text: news.created_on.strftime('%m/%d/%Y'))
+      end
     end
   end
 
   feature 'order' do
-    let!(:integer_custom_field) { FactoryGirl.create(:int_project_custom_field) }
+    let!(:integer_custom_field) { FactoryBot.create(:int_project_custom_field) }
     # order is important here as the implementation uses lft
     # first but then reorders in ruby
     let!(:child_project_z) do
-      FactoryGirl.create(:project,
-                         parent: project,
-                         name: "Z Child")
+      FactoryBot.create(:project,
+                        parent: project,
+                        name: "Z Child")
     end
     let!(:child_project_a) do
-      FactoryGirl.create(:project,
-                         parent: project,
-                         name: "A Child")
+      FactoryBot.create(:project,
+                        parent: project,
+                        name: "A Child")
     end
 
     before do

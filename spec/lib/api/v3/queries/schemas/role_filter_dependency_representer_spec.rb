@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::API::V3::Queries::Schemas::RoleFilterDependencyRepresenter, clear_cache: true do
   include ::API::V3::Utilities::PathHelper
 
-  let(:filter) { Queries::WorkPackages::Filter::RoleFilter.new }
+  let(:filter) { Queries::WorkPackages::Filter::RoleFilter.create! }
   let(:form_embedded) { false }
 
   let(:instance) do
@@ -106,6 +106,16 @@ describe ::API::V3::Queries::Schemas::RoleFilterDependencyRepresenter, clear_cac
         I18n.with_locale(:de) do
           instance.to_json
         end
+      end
+
+      it 'busts the cache on different form_embedded' do
+        embedded_instance = described_class.new(filter,
+                                                operator,
+                                                form_embedded: !form_embedded)
+        expect(embedded_instance)
+          .to receive(:to_hash)
+
+        embedded_instance.to_json
       end
     end
   end

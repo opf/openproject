@@ -1,7 +1,8 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 def aggregate_mocked_settings(example, settings)
@@ -46,7 +47,20 @@ RSpec.configure do |config|
       settings = aggregate_mocked_settings(example, settings)
 
       settings.each do |k, v|
-        allow(Setting).to receive(k).and_return(v)
+        bare, questionmarked = if k.to_s.ends_with?('?')
+                                 [k.to_s[0..-2].to_sym, k]
+                               else
+                                 [k, "#{k}?".to_sym]
+                               end
+
+        raise "#{k} is not a valid setting" unless Setting.respond_to?(bare)
+
+        if Setting.available_settings[bare.to_s] && Setting.available_settings[bare.to_s]['format'] == 'boolean'
+          allow(Setting).to receive(bare).and_return(v)
+          allow(Setting).to receive(questionmarked).and_return(v)
+        else
+          allow(Setting).to receive(k).and_return(v)
+        end
       end
     end
   end

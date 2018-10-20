@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,11 +23,11 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 //++
 
 @mixin default-transition
-  transition: all 200ms ease-in-out 0s
+  transition: all 100ms ease-in-out 0s
 
 @mixin default-font($color, $font-size: 13px, $font-weight: normal)
   color:              $color
@@ -91,3 +91,39 @@
   background: $widget-box-block-bg-color
   border: 1px solid $widget-box-block-border-color
   margin: 10px
+
+
+// These mixins are necessary so that other classes can inherit     the styles.
+// In future Sass versions a doubled inheritance like @extend classA.classB will not work any more.
+// See https://github.com/sass/sass/issues/1599
+@mixin form--input-field-mixin--tiny
+  font-size: 0.7rem
+
+@mixin form--input-field-mixin--small
+  font-size: 0.8rem
+
+@mixin form--input-field-mixin--narrow
+  width: auto
+  max-width: 100%
+
+@mixin form--input-field-mixin--large
+  font-size: 1.3rem
+
+@mixin form--field-affix-mixin--transparent
+  background: none
+  border: none
+
+@mixin styled-scroll-bar
+  &::-webkit-scrollbar
+    width: 8px
+    height: 12px
+
+  &::-webkit-scrollbar-track
+    background: transparent
+
+  &::-webkit-scrollbar-thumb
+    background: #ddd
+    visibility: hidden
+
+  &:hover::-webkit-scrollbar-thumb
+    visibility: visible

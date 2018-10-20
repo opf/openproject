@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 # Other than the Roar based representers of the api v3, this
@@ -37,16 +37,36 @@ module API
   module V3
     module Queries
       class QueryParamsRepresenter
+
         def initialize(query)
           self.query = query
         end
 
-        def to_h
+        ##
+        # To json hash outputs the hash to be parsed to the frontend http
+        # which contains a reference to the columns array as columns[].
+        # This will match the Rails +to_query+ output
+        def to_json
+          to_h(column_key: 'columns[]'.to_sym).to_json
+        end
+
+        ##
+        # Output as query params used for directly using in URL queries.
+        # Outputs columns[]=A,columns[]=B due to Rails query output.
+        def to_url_query(merge_params: {})
+          to_h
+            .merge(merge_params)
+            .to_query
+        end
+
+        def to_h(column_key: :columns)
           p = default_hash
 
-          p[:showSums] = 'true' if query.display_sums?
+          p[:showHierarchies] = query.show_hierarchies
+          p[:showSums] = query.display_sums?
           p[:groupBy] = query.group_by if query.group_by?
           p[:sortBy] = sort_criteria_to_v3 if query.sorted?
+          p[column_key] = columns_to_v3 unless query.has_default_columns?
 
           # an empty filter param is also relevant as this would mean to not apply
           # the default filter (status - open)
@@ -64,6 +84,10 @@ module API
         end
 
         private
+
+        def columns_to_v3
+          query.column_names.map { |name| convert_to_v3(name) }
+        end
 
         def sort_criteria_to_v3
           converted = query.sort_criteria.map { |first, last| [convert_to_v3(first), last] }

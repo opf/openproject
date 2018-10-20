@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module OpenProject
@@ -44,21 +44,20 @@ module OpenProject
     def link_to_user(user, options = {})
       if user.is_a?(User)
         name = user.name
+        only_path = options.delete(:only_path)
+        only_path = true if only_path.nil?
+
         if user.active? || user.registered? || user.invited?
-          link_to(name, user, options)
+          href = only_path ? user_path(user) : user_url(user)
+          options[:title] ||= I18n.t(:label_user_named, name: name)
+
+          link_to(name, href, options)
         else
           name
         end
       else
         h(user.to_s)
       end
-    end
-
-    def link_to_work_package_preview(context = nil, options = {})
-      form_id = options[:form_id] || 'work_package-form-preview'
-      path = (context.is_a? WorkPackage) ? preview_work_package_path(context) : preview_work_packages_path
-
-      preview_link path, "#{form_id}-preview"
     end
 
     # Generates a link to an attachment.
@@ -95,7 +94,7 @@ module OpenProject
     def link_to_message(message, options = {}, html_options = nil)
       link_to(
         h(truncate(message.subject, length: 60)),
-        topic_path_or_url(message.root,
+        topic_path_or_url(options.delete(:no_root) ? message : message.root,
                           { r: (message.parent_id && message.id),
                             anchor: (message.parent_id ? "message-#{message.id}" : nil)
                           }.merge(options)),

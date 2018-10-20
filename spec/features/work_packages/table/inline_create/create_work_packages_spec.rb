@@ -1,28 +1,28 @@
 require 'spec_helper'
 
 describe 'inline create work package', js: true do
-  let(:type) { FactoryGirl.create(:type) }
+  let(:type) { FactoryBot.create(:type) }
   let(:types) { [type] }
 
   let(:permissions) { %i(view_work_packages add_work_packages)}
-  let(:role) { FactoryGirl.create :role, permissions: permissions }
+  let(:role) { FactoryBot.create :role, permissions: permissions }
   let(:user) do
-    FactoryGirl.create :user,
+    FactoryBot.create :user,
                        member_in_project: project,
                        member_through_role: role
   end
-  let(:status) { FactoryGirl.create(:default_status) }
+  let(:status) { FactoryBot.create(:default_status) }
   let(:workflow) do
-    FactoryGirl.create :workflow,
+    FactoryBot.create :workflow,
                        type_id: type.id,
                        old_status: status,
-                       new_status: FactoryGirl.create(:status),
+                       new_status: FactoryBot.create(:status),
                        role: role
   end
 
-  let!(:project) { FactoryGirl.create(:project, is_public: true, types: types) }
-  let!(:existing_wp) { FactoryGirl.create(:work_package, project: project) }
-  let!(:priority) { FactoryGirl.create :priority, is_default: true }
+  let!(:project) { FactoryBot.create(:project, is_public: true, types: types) }
+  let!(:existing_wp) { FactoryBot.create(:work_package, project: project) }
+  let!(:priority) { FactoryBot.create :priority, is_default: true }
 
   before do
     workflow
@@ -37,6 +37,7 @@ describe 'inline create work package', js: true do
         wp_table.click_inline_create
         expect(page).to have_selector('.wp--row', count: 2)
         expect(page).to have_selector('.wp-inline-create-row')
+        expect(page).to have_focus_on('#wp-new-inline-edit--field-subject')
 
         # Expect subject to be activated
         subject_field = wp_table.edit_field(nil, :subject)
@@ -52,8 +53,10 @@ describe 'inline create work package', js: true do
         )
 
         # Expect new create row to exist
-        expect(page).to have_selector('.wp--row', count: 3)
-        expect(page).to have_selector('.wp-inline-create-row')
+        expect(page).to have_selector('.wp--row', count: 2)
+        expect(page).to have_selector('.wp-inline-create--add-link')
+
+        wp_table.click_inline_create
 
         subject_field = wp_table.edit_field(nil, :subject)
         subject_field.expect_active!
@@ -72,11 +75,8 @@ describe 'inline create work package', js: true do
           message: 'Successful update. Click here to open this work package in fullscreen view.'
         )
 
-        # Cancel creation
-        expect(page).to have_selector('.wp-inline-create-row')
-        page.find('.wp-table--cancel-create-link').click
+        # Expect no inline create open
         expect(page).to have_no_selector('.wp-inline-create-row')
-        expect(page).to have_selector('.wp-inline-create--add-link')
       end
     end
 
@@ -132,14 +132,14 @@ describe 'inline create work package', js: true do
     context 'user has permissions in other project' do
       let(:permissions) { [:view_work_packages] }
 
-      let(:project2) { FactoryGirl.create :project }
+      let(:project2) { FactoryBot.create :project }
       let(:role2) {
-        FactoryGirl.create :role,
+        FactoryBot.create :role,
                            permissions: [:view_work_packages,
                                          :add_work_packages]
       }
       let!(:membership) {
-        FactoryGirl.create :member,
+        FactoryBot.create :member,
                            user: user,
                            project: project2,
                            roles: [role2]

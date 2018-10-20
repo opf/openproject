@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require File.expand_path('../boot', __FILE__)
@@ -47,6 +47,10 @@ module SimpleBenchmark
 end
 
 require 'rails/all'
+require 'active_support'
+require 'active_support/dependencies'
+
+ActiveSupport::Deprecation.silenced = Rails.env.production? && !ENV['OPENPROJECT_SHOW_DEPRECATIONS']
 
 if defined?(Bundler)
   # lib directory has to be added to the load path so that
@@ -64,6 +68,7 @@ if defined?(Bundler)
   # Require the gems listed in Gemfile, including any gems
   # you've limited to :test, :development, or :production.
   Bundler.require(*Rails.groups(:opf_plugins))
+
 end
 
 require File.dirname(__FILE__) + '/../lib/open_project/configuration'
@@ -99,8 +104,8 @@ module OpenProject
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
     config.enable_dependency_loading = true
-    config.autoload_paths << Rails.root.join('lib')
-    config.autoload_paths << Rails.root.join('lib/constraints')
+    config.autoload_paths << Rails.root.join('lib').to_s
+    config.autoload_paths << Rails.root.join('lib/constraints').to_s
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
@@ -129,7 +134,7 @@ module OpenProject
     # Use SQL instead of Active Record's schema dumper when creating the database.
     # This is necessary if your schema can't be completely dumped by the schema dumper,
     # like if you have constraints or database-specific column types
-    # config.active_record.schema_format = :sql
+    config.active_record.schema_format = :sql
 
     # Load any local configuration that is kept out of source control
     # (e.g. patches).
@@ -162,5 +167,11 @@ module OpenProject
     config.active_job.queue_adapter = :delayed_job
 
     config.action_controller.asset_host = OpenProject::Configuration['rails_asset_host']
+
+    config.log_level = OpenProject::Configuration['log_level'].to_sym
+
+    def self.root_url
+      Setting.protocol + "://" + Setting.host_name
+    end
   end
 end

@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,22 +25,22 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe WorkPackages::UpdateService, type: :model do
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
   let(:project) do
-    p = FactoryGirl.build_stubbed(:project)
+    p = FactoryBot.build_stubbed(:project)
     allow(p).to receive(:shared_versions).and_return([])
 
     p
   end
   let(:work_package) do
-    wp = FactoryGirl.build_stubbed(:work_package, project: project)
-    wp.type = FactoryGirl.build_stubbed(:type)
+    wp = FactoryBot.build_stubbed(:work_package, project: project)
+    wp.type = FactoryBot.build_stubbed(:type)
     wp.send(:clear_changes_information)
 
     wp
@@ -180,7 +180,7 @@ describe WorkPackages::UpdateService, type: :model do
 
     context 'when switching the project' do
       let(:target_project) do
-        FactoryGirl.build_stubbed(:project)
+        FactoryBot.build_stubbed(:project)
       end
       let(:call_attributes) { attributes }
       let(:attributes) { { project: target_project } }
@@ -235,7 +235,7 @@ describe WorkPackages::UpdateService, type: :model do
     end
 
     context 'when switching the type' do
-      let(:target_type) { FactoryGirl.build_stubbed(:type) }
+      let(:target_type) { FactoryBot.build_stubbed(:type) }
 
       context 'custom_values' do
         it 'resets the custom values' do

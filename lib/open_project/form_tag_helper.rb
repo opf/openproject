@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,16 +24,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module OpenProject
   module FormTagHelper
     include ActionView::Helpers::FormTagHelper
 
-    TEXT_LIKE_FIELDS = [
-      'number_field', 'password_field', 'url_field', 'telephone_field', 'email_field'
-    ].freeze
+    TEXT_LIKE_FIELDS = %w(number_field password_field url_field telephone_field email_field).freeze
 
     def styled_form_tag(url_for_options = {}, options = {}, &block)
       apply_css_class_to_options(options, 'form')
@@ -73,8 +71,25 @@ module OpenProject
     def styled_text_area_tag(name, content = nil, options = {})
       apply_css_class_to_options(options, 'form--text-area')
       wrap_field 'text-area', options do
-        text_area_tag(name, content, options)
+        output = text_area_tag(name, content, options)
+
+        if options[:with_text_formatting]
+          # use either the provided id or fetch the one created by rails
+          id = options[:id] || output.match(/<[^>]* id="(\w+)"[^>]*>/)[1]
+          output << text_formatting_wrapper(id, options)
+        end
+
+        output
       end
+    end
+
+    ##
+    # Create a wrapper for the text formatting toolbar for this field
+    def text_formatting_wrapper(target_id, options)
+      return ''.html_safe unless target_id.present?
+
+      helper = ::OpenProject::TextFormatting::Formats.rich_helper.new(self)
+      helper.wikitoolbar_for target_id, options
     end
 
     def styled_check_box_tag(name, value = '1', checked = false, options = {})

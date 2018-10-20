@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,26 +23,28 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 RSpec.feature 'Work package index sums', js: true do
 
-  let(:admin) { FactoryGirl.create(:admin) }
+  let(:admin) { FactoryBot.create(:admin) }
   let(:project) {
-    FactoryGirl.create(:project, name: 'project1', identifier: 'project1')
+    FactoryBot.create(:project, name: 'project1', identifier: 'project1')
   }
 
   let!(:work_package_1) {
-    FactoryGirl.create(:work_package, project: project, estimated_hours: 10)
+    FactoryBot.create(:work_package, project: project, estimated_hours: 10)
   }
   let!(:work_package_2) {
-    FactoryGirl.create(:work_package, project: project, estimated_hours: 15)
+    FactoryBot.create(:work_package, project: project, estimated_hours: 15)
   }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:columns) { ::Components::WorkPackages::Columns.new }
+  let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
 
   before do
     login_as(admin)
@@ -52,32 +54,15 @@ RSpec.feature 'Work package index sums', js: true do
   end
 
   scenario 'calculates summs correctly' do
-    expect(page).to have_content('Work packages')
+    wp_table.expect_work_package_listed work_package_1, work_package_2
 
-    within('.work-packages-list-view--container') do
-      expect(page).to have_content(work_package_1.subject)
-      expect(page).to have_content(work_package_2.subject)
-    end
-
-    # name of the settings dropdown menu
-    dropdown_id = 'settings'
+    # Add estimated time column
+    columns.add 'Estimated time'
 
     # Trigger action from action menu dropdown
-    find("button[has-dropdown-menu][target=#{dropdown_id}DropdownMenu]").click
-    find("##{dropdown_id}Dropdown").click_link 'Columns'
+    modal.set_display_sums enable: true
 
-    within('.ng-modal-inner') do
-      find('input.select2-input').click
-
-      s2_result = find('ul.select2-result-single li', text: 'Estimated time')
-      s2_result.click
-
-      click_on 'Apply'
-    end
-
-    # Trigger action from action menu dropdown
-    find("button[has-dropdown-menu][target=#{dropdown_id}DropdownMenu]").click
-    find("##{dropdown_id}Dropdown").click_link 'Display sums'
+    wp_table.expect_work_package_listed work_package_1, work_package_2
 
     within('.sum.group.all') do
       expect(page).to have_content('Sum for all work packages')

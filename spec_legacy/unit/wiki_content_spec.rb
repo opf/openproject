@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 require 'legacy_spec_helper'
 
@@ -83,7 +83,7 @@ describe WikiContent, type: :model do
   end
 
   it 'should fetch history' do
-    wiki_content_journal = FactoryGirl.build(:wiki_content_journal,
+    wiki_content_journal = FactoryBot.build(:wiki_content_journal,
                                              journable_id: @page.content.id)
     wiki_content_journal.data.page_id = @page.id
     wiki_content_journal.data.text = ''

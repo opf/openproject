@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,21 +23,27 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe Query, type: :model do
-  let(:query) { FactoryGirl.build(:query) }
-  let(:project) { FactoryGirl.build_stubbed(:project) }
+  let(:query) { FactoryBot.build(:query) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
   let(:relation_columns_allowed) { true }
+  let(:conditional_highlighting_allowed) { true }
 
   before do
     allow(EnterpriseToken)
       .to receive(:allows_to?)
       .with(:work_package_query_relation_columns)
       .and_return(relation_columns_allowed)
+
+    allow(EnterpriseToken)
+      .to receive(:allows_to?)
+      .with(:conditional_highlighting)
+      .and_return(conditional_highlighting_allowed)
   end
 
   describe '.new_default' do
@@ -45,7 +51,7 @@ describe Query, type: :model do
       query = Query.new_default
 
       expect(query.sort_criteria)
-        .to match_array([['parent', 'asc'], ['id', 'asc']])
+        .to match_array([['parent', 'asc']])
     end
 
     it 'does not use the default sortation if an order is provided' do
@@ -72,6 +78,80 @@ describe Query, type: :model do
 
       query.timeline_labels = { 'left' => 'foobar', 'right' => 'bar', 'farRight' => 'blub' }
       expect(query).to be_valid
+    end
+  end
+
+  describe 'highlighting' do
+    context 'with EE' do
+      it '#hightlighted_attrirbutes accepts valid values' do
+        query.highlighted_attributes = %w(status type priority due_date)
+        expect(query).to be_valid
+      end
+
+      it '#hightlighted_attributes rejects invalid values' do
+        query.highlighted_attributes = %w(status bogus)
+        expect(query).not_to be_valid
+      end
+
+      it '#hightlighting_mode accepts non-present values' do
+        query.highlighting_mode = nil
+        expect(query).to be_valid
+
+        query.highlighting_mode = ''
+        expect(query).to be_valid
+      end
+
+      it '#hightlighting_mode rejects invalid values' do
+        query.highlighting_mode = 'bogus'
+        expect(query).not_to be_valid
+      end
+
+      it '#available_highlighting_columns returns highlightable columns' do
+        available_columns = {
+          highlightable1: {
+            highlightable: true
+          },
+          highlightable2: {
+            highlightable: true
+          },
+          no_highlight: {}
+        }
+
+        allow(Queries::WorkPackages::Columns::PropertyColumn).to receive(:property_columns)
+                                                                   .and_return(available_columns)
+
+        expect(query.available_highlighting_columns.map(&:name)).to eq(%i{highlightable1 highlightable2})
+      end
+
+      describe '#highlighted_columns returns a valid subset of Columns' do
+        let(:highlighted_attributes) { %i{status type priority due_date foo} }
+
+        before do
+          query.highlighted_attributes = highlighted_attributes
+        end
+
+        it 'removes the offending values' do
+          query.valid_subset!
+
+          expect(query.highlighted_columns.map(&:name))
+            .to match_array %i{status type priority due_date}
+        end
+      end
+    end
+
+    context 'without EE' do
+      let(:conditional_highlighting_allowed) { false }
+
+      it 'always returns :none as highlighting_mode' do
+        query.highlighting_mode = 'status'
+        expect(query.highlighting_mode).to eq(:none)
+      end
+
+      it 'always returns nil as highlighted_attributes' do
+        query.highlighting_mode = 'inline'
+        query.highlighted_attributes = ['status']
+        expect(query.highlighted_attributes).to be_empty
+      end
     end
   end
 
@@ -113,7 +193,7 @@ describe Query, type: :model do
     end
 
     context 'results caching' do
-      let(:project2) { FactoryGirl.build_stubbed(:project) }
+      let(:project2) { FactoryBot.build_stubbed(:project) }
 
       it 'does not call the db twice' do
         query.project = project
@@ -168,14 +248,14 @@ describe Query, type: :model do
 
     context 'relation_to_type columns' do
       let(:type_in_project) do
-        type = FactoryGirl.create(:type)
+        type = FactoryBot.create(:type)
         project.types << type
 
         type
       end
 
       let(:type_not_in_project) do
-        FactoryGirl.create(:type)
+        FactoryBot.create(:type)
       end
 
       before do
@@ -250,8 +330,8 @@ describe Query, type: :model do
   end
 
   describe '.available_columns' do
-    let(:custom_field) { FactoryGirl.create(:list_wp_custom_field) }
-    let(:type) { FactoryGirl.create(:type) }
+    let(:custom_field) { FactoryBot.create(:list_wp_custom_field) }
+    let(:type) { FactoryBot.create(:type) }
 
     before do
       stub_const('Relation::TYPES',
@@ -313,8 +393,8 @@ describe Query, type: :model do
     end
 
     context 'when filters are blank' do
-      let(:status) { FactoryGirl.create :status }
-      let(:query) { FactoryGirl.build(:query).tap { |q| q.filters = [] } }
+      let(:status) { FactoryBot.create :status }
+      let(:query) { FactoryBot.build(:query).tap { |q| q.filters = [] } }
 
       it 'is valid' do
         expect(query.valid?).to be_truthy
@@ -323,7 +403,7 @@ describe Query, type: :model do
 
     context 'with a missing value for a custom field' do
       let(:custom_field) do
-        FactoryGirl.create :text_issue_custom_field, is_filter: true, is_for_all: true
+        FactoryBot.create :text_issue_custom_field, is_filter: true, is_for_all: true
       end
 
       before do
@@ -348,7 +428,7 @@ describe Query, type: :model do
   end
 
   describe '#valid_subset!' do
-    let(:valid_status) { FactoryGirl.build_stubbed(:status) }
+    let(:valid_status) { FactoryBot.build_stubbed(:status) }
 
     context 'filters' do
       before do
@@ -500,6 +580,21 @@ describe Query, type: :model do
           expect(query.column_names)
             .to match_array [:status]
         end
+      end
+    end
+
+    context 'highlighted_attributes' do
+      let(:highlighted_attributes) { %i{status type priority due_date foo} }
+
+      before do
+        query.highlighted_attributes = highlighted_attributes
+      end
+
+      it 'removes the offending values' do
+        query.valid_subset!
+
+        expect(query.highlighted_attributes)
+          .to match_array %i{status type priority due_date}
       end
     end
   end

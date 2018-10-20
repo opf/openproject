@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,14 +23,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
-  let(:project) { FactoryGirl.build(:project) }
-  let(:type) { FactoryGirl.build(:type) }
+  let(:project) { FactoryBot.build(:project) }
+  let(:type) { FactoryBot.build(:type) }
 
   let(:current_user) { double }
   subject { described_class.new(project: project, type: type) }
@@ -64,7 +64,7 @@ describe ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
       expect(subject.writable?(:start_date)).to be true
     end
 
-    it 'due date is writable' do
+    it 'finish date is writable' do
       expect(subject.writable?(:due_date)).to be true
     end
   end
@@ -92,8 +92,8 @@ describe ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
   end
 
   describe '#assignable_custom_field_values' do
-    let(:list_cf) { FactoryGirl.build_stubbed(:list_wp_custom_field) }
-    let(:version_cf) { FactoryGirl.build_stubbed(:version_wp_custom_field) }
+    let(:list_cf) { FactoryBot.build_stubbed(:list_wp_custom_field) }
+    let(:version_cf) { FactoryBot.build_stubbed(:version_wp_custom_field) }
 
     it 'is nil for a list cf' do
       expect(subject.assignable_custom_field_values(list_cf)).to be_nil
@@ -101,21 +101,6 @@ describe ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
 
     it 'is nil for a version cf' do
       expect(subject.assignable_custom_field_values(version_cf)).to be_nil
-    end
-  end
-
-  describe '#attribute_groups' do
-    it "has no side effects on type's #attribute_groups" do
-      before = [["People", ["assignee", "responsible"]],
-                ["Estimates and time", ["estimated_time", "spent_time"]],
-                ["Details", ["category", "date", "priority", "version"]],
-                ["Other", ["percentage_done"]]]
-
-      type.attribute_groups = before
-
-      subject.attribute_groups
-
-      expect(type.attribute_groups).to eql before
     end
   end
 end

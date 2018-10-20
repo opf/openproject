@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'roar/decorator'
@@ -87,7 +87,11 @@ module API
           schema :public,
                  type: 'Boolean',
                  required: false,
-                 writable: true,
+                 writable: -> do
+                   current_user.allowed_to?(:manage_public_queries,
+                                            represented.project,
+                                            global: represented.project.nil?)
+                 end,
                  has_default: true,
                  visibility: false
 
@@ -114,6 +118,13 @@ module API
 
           schema :timeline_labels,
                  type: 'QueryTimelineLabels',
+                 required: false,
+                 writable: true,
+                 has_default: true,
+                 visibility: false
+
+          schema :highlighting_mode,
+                 type: 'String',
                  required: false,
                  writable: true,
                  has_default: true,
@@ -171,6 +182,26 @@ module API
 
                                            {
                                              href: api_v3_paths.query_group_by(converted_name),
+                                             title: column.caption
+                                           }
+                                         }
+
+          schema_with_allowed_collection :highlighted_attributes,
+                                         type: '[]QueryColumn',
+                                         required: false,
+                                         writable: true,
+                                         has_default: true,
+                                         visibility: false,
+                                         values_callback: -> { represented.available_highlighting_columns },
+                                         value_representer: ->(column) {
+                                           Columns::QueryColumnsFactory.representer(column)
+                                         },
+                                         link_factory: ->(column) {
+                                           converted_name = convert_attribute(column.name)
+
+                                           {
+                                             href: api_v3_paths.query_column(converted_name),
+                                             id: converted_name,
                                              title: column.caption
                                            }
                                          }

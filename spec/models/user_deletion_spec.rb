@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,27 +23,27 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe User, 'deletion', type: :model do
-  let(:project) { FactoryGirl.create(:project_with_types) }
-  let(:user) { FactoryGirl.build(:user, member_in_project: project) }
-  let(:user2) { FactoryGirl.build(:user) }
+  let(:project) { FactoryBot.create(:project_with_types) }
+  let(:user) { FactoryBot.build(:user, member_in_project: project) }
+  let(:user2) { FactoryBot.build(:user) }
   let(:member) { project.members.first }
   let(:role) { member.roles.first }
-  let(:status) { FactoryGirl.create(:status) }
+  let(:status) { FactoryBot.create(:status) }
   let(:issue) {
-    FactoryGirl.create(:work_package, type: project.types.first,
+    FactoryBot.create(:work_package, type: project.types.first,
                                       author: user,
                                       project: project,
                                       status: status,
                                       assigned_to: user)
   }
   let(:issue2) {
-    FactoryGirl.create(:work_package, type: project.types.first,
+    FactoryBot.create(:work_package, type: project.types.first,
                                       author: user2,
                                       project: project,
                                       status: status,
@@ -170,7 +170,7 @@ describe User, 'deletion', type: :model do
   end
 
   describe 'WHEN the user has created one attachment' do
-    let(:associated_instance) { FactoryGirl.build(:attachment) }
+    let(:associated_instance) { FactoryBot.build(:attachment) }
     let(:associated_class) { Attachment }
     let(:associations) { [:author] }
 
@@ -178,7 +178,7 @@ describe User, 'deletion', type: :model do
   end
 
   describe 'WHEN the user has updated one attachment' do
-    let(:associated_instance) { FactoryGirl.build(:attachment) }
+    let(:associated_instance) { FactoryBot.build(:attachment) }
     let(:associated_class) { Attachment }
     let(:associations) { [:author] }
 
@@ -187,7 +187,7 @@ describe User, 'deletion', type: :model do
 
   describe 'WHEN the user has an issue created and assigned' do
     let(:associated_instance) {
-      FactoryGirl.build(:work_package, type: project.types.first,
+      FactoryBot.build(:work_package, type: project.types.first,
                                        project: project,
                                        status: status)
     }
@@ -199,7 +199,7 @@ describe User, 'deletion', type: :model do
 
   describe 'WHEN the user has an issue updated and assigned' do
     let(:associated_instance) {
-      FactoryGirl.build(:work_package, type: project.types.first,
+      FactoryBot.build(:work_package, type: project.types.first,
                                        project: project,
                                        status: status)
     }
@@ -245,7 +245,7 @@ describe User, 'deletion', type: :model do
   end
 
   describe 'WHEN the user has updated a wiki content' do
-    let(:associated_instance) { FactoryGirl.build(:wiki_content) }
+    let(:associated_instance) { FactoryBot.build(:wiki_content) }
     let(:associated_class) { WikiContent }
     let(:associations) { [:author] }
 
@@ -253,7 +253,7 @@ describe User, 'deletion', type: :model do
   end
 
   describe 'WHEN the user has created a wiki content' do
-    let(:associated_instance) { FactoryGirl.build(:wiki_content) }
+    let(:associated_instance) { FactoryBot.build(:wiki_content) }
     let(:associated_class) { WikiContent }
     let(:associations) { [:author] }
 
@@ -261,7 +261,7 @@ describe User, 'deletion', type: :model do
   end
 
   describe 'WHEN the user has created a news' do
-    let(:associated_instance) { FactoryGirl.build(:news) }
+    let(:associated_instance) { FactoryBot.build(:news) }
     let(:associated_class) { News }
     let(:associations) { [:author] }
 
@@ -269,7 +269,7 @@ describe User, 'deletion', type: :model do
   end
 
   describe 'WHEN the user has worked on news' do
-    let(:associated_instance) { FactoryGirl.build(:news) }
+    let(:associated_instance) { FactoryBot.build(:news) }
     let(:associated_class) { News }
     let(:associations) { [:author] }
 
@@ -277,7 +277,7 @@ describe User, 'deletion', type: :model do
   end
 
   describe 'WHEN the user has created a message' do
-    let(:associated_instance) { FactoryGirl.build(:message) }
+    let(:associated_instance) { FactoryBot.build(:message) }
     let(:associated_class) { Message }
     let(:associations) { [:author] }
 
@@ -285,7 +285,7 @@ describe User, 'deletion', type: :model do
   end
 
   describe 'WHEN the user has worked on message' do
-    let(:associated_instance) { FactoryGirl.build(:message) }
+    let(:associated_instance) { FactoryBot.build(:message) }
     let(:associated_class) { Message }
     let(:associations) { [:author] }
 
@@ -294,10 +294,10 @@ describe User, 'deletion', type: :model do
 
   describe 'WHEN the user has created a time entry' do
     let(:associated_instance) {
-      FactoryGirl.build(:time_entry, project: project,
+      FactoryBot.build(:time_entry, project: project,
                                      work_package: issue,
                                      hours: 2,
-                                     activity: FactoryGirl.create(:time_entry_activity))
+                                     activity: FactoryBot.create(:time_entry_activity))
     }
     let(:associated_class) { TimeEntry }
     let(:associations) { [:user] }
@@ -307,10 +307,10 @@ describe User, 'deletion', type: :model do
 
   describe 'WHEN the user has worked on time_entry' do
     let(:associated_instance) {
-      FactoryGirl.build(:time_entry, project: project,
+      FactoryBot.build(:time_entry, project: project,
                                      work_package: issue,
                                      hours: 2,
-                                     activity: FactoryGirl.create(:time_entry_activity))
+                                     activity: FactoryBot.create(:time_entry_activity))
     }
     let(:associated_class) { TimeEntry }
     let(:associations) { [:user] }
@@ -319,7 +319,7 @@ describe User, 'deletion', type: :model do
   end
 
   describe 'WHEN the user has commented' do
-    let(:news) { FactoryGirl.create(:news, author: user) }
+    let(:news) { FactoryBot.create(:news, author: user) }
 
     let(:associated_instance) {
       Comment.new(commented: news,
@@ -344,7 +344,7 @@ describe User, 'deletion', type: :model do
   end
 
   describe 'WHEN the user is watching something' do
-    let(:watched) { FactoryGirl.create(:work_package, project: project) }
+    let(:watched) { FactoryBot.create(:work_package, project: project) }
     let(:watch) {
       Watcher.new(user: user,
                   watchable: watched)
@@ -374,7 +374,7 @@ describe User, 'deletion', type: :model do
   end
 
   describe 'WHEN the user has created a private query' do
-    let(:query) { FactoryGirl.build(:private_query, user: user) }
+    let(:query) { FactoryBot.build(:private_query, user: user) }
 
     before do
       query.save!
@@ -386,7 +386,7 @@ describe User, 'deletion', type: :model do
   end
 
   describe 'WHEN the user has created a public query' do
-    let(:associated_instance) { FactoryGirl.build(:public_query) }
+    let(:associated_instance) { FactoryBot.build(:public_query) }
 
     let(:associated_class) { Query }
     let(:associations) { [:user] }
@@ -397,7 +397,7 @@ describe User, 'deletion', type: :model do
   describe 'WHEN the user has created a changeset' do
     with_virtual_subversion_repository do
       let(:associated_instance) do
-        FactoryGirl.build(:changeset,
+        FactoryBot.build(:changeset,
                           repository_id: repository.id,
                           committer: user.login)
       end
@@ -412,7 +412,7 @@ describe User, 'deletion', type: :model do
   describe 'WHEN the user has updated a changeset' do
     with_virtual_subversion_repository do
       let(:associated_instance) do
-        FactoryGirl.build(:changeset,
+        FactoryBot.build(:changeset,
                           repository_id: repository.id,
                           committer: user2.login)
       end
@@ -449,21 +449,9 @@ describe User, 'deletion', type: :model do
     end
   end
 
-  describe 'WHEN the user is responsible for a project' do
-    before do
-      project.responsible = user
-      project.save!
-      user.destroy
-      project.reload
-    end
-
-    it { expect(Project.find_by(id: project.id)).to eq(project) }
-    it { expect(project.responsible).to be_nil }
-  end
-
   describe 'WHEN the user is assigned an issue category' do
     let(:category) {
-      FactoryGirl.build(:category, assigned_to: user,
+      FactoryBot.build(:category, assigned_to: user,
                                    project: project)
     }
 
@@ -475,23 +463,5 @@ describe User, 'deletion', type: :model do
 
     it { expect(Category.find_by(id: category.id)).to eq(category) }
     it { expect(category.assigned_to).to be_nil }
-  end
-
-  describe 'WHEN the user is used in a timelines filter' do
-    let(:timeline) { FactoryGirl.build(:timeline, project_id: project.id, name: 'Testline') }
-
-    before do
-      timeline.options['planning_element_responsibles'] = [user.id.to_s]
-      timeline.options['planning_element_assignee'] = [user.id.to_s]
-      timeline.options['project_responsibles'] = [user.id.to_s]
-      timeline.save!
-
-      user.destroy
-      timeline.reload
-    end
-
-    it { expect(timeline.options['planning_element_responsibles'].index(user.id.to_s)).to be_nil }
-    it { expect(timeline.options['planning_element_assignee'].index(user.id.to_s)).to be_nil }
-    it { expect(timeline.options['project_responsibles'].index(user.id.to_s)).to be_nil }
   end
 end

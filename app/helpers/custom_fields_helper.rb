@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module CustomFieldsHelper
@@ -52,8 +52,7 @@ module CustomFieldsHelper
 
     tag = case field_format.try(:edit_as)
           when 'date'
-            styled_text_field_tag(field_name, custom_value.value, id: field_id, size: 10) +
-            calendar_for(field_id)
+            styled_text_field_tag(field_name, custom_value.value, id: field_id, class: '-augmented-datepicker', size: 10)
           when 'text'
             styled_text_area_tag(field_name, custom_value.value, id: field_id, rows: 3)
           when 'bool'
@@ -118,10 +117,9 @@ module CustomFieldsHelper
     field_format = OpenProject::CustomFieldFormat.find_by_name(custom_field.field_format)
     case field_format.try(:edit_as)
     when 'date'
-      styled_text_field_tag(field_name, '', id: field_id, size: 10) +
-        calendar_for(field_id)
+      styled_text_field_tag(field_name, '', id: field_id, size: 10, class: '-augmented-datepicker')
     when 'text'
-      styled_text_area_tag(field_name, '', id: field_id, rows: 3)
+      styled_text_area_tag(field_name, '', id: field_id, rows: 3, with_text_formatting: true)
     when 'bool'
       styled_select_tag(field_name, options_for_select([[l(:label_no_change_option), ''],
                                                         [l(:general_text_yes), '1'],

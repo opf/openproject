@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module API
@@ -102,13 +102,14 @@ module API
         # returns whether expectation and actual are identical
         # will always be true if there is no expectation (nil)
         def matches_expectation?(expected, actual)
-          expected.nil? || expected.to_s == actual
+          expected.nil? || Array(expected).any? { |e| e.to_s == actual }
         end
 
-        def make_expected_link(version, namespace)
+        def make_expected_link(version, namespaces)
           version = "v#{version}" || ':apiVersion'
-          namespace = namespace || ':resource'
-          "/api/#{version}/#{namespace}/:id"
+          namespaces = Array(namespaces || ':resource')
+
+          namespaces.map { |namespace| "/api/#{version}/#{namespace}/:id" }
         end
       end
     end

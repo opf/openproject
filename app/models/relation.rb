@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,12 +25,29 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class Relation < ActiveRecord::Base
+  include Concerns::VirtualAttribute
+
   scope :of_work_package,
         ->(work_package) { where('from_id = ? OR to_id = ?', work_package, work_package) }
+
+  virtual_attribute :relation_type do
+    types = ((TYPES.keys + [TYPE_HIERARCHY]) & Relation.column_names).select do |name|
+      send(name) > 0
+    end
+
+    case types.length
+    when 1
+      types[0]
+    when 0
+      nil
+    else
+      TYPE_MIXED
+    end
+  end
 
   TYPE_RELATES      = 'relates'.freeze
   TYPE_DUPLICATES   = 'duplicates'.freeze
@@ -90,7 +107,6 @@ class Relation < ActiveRecord::Base
     }
   }.freeze
 
-  validates_inclusion_of :relation_type, in: TYPES.keys + [TYPE_HIERARCHY]
   validates_numericality_of :delay, allow_nil: true
 
   validate :validate_sanity_of_relation
@@ -98,6 +114,20 @@ class Relation < ActiveRecord::Base
   before_validation :reverse_if_needed
 
   before_save :set_type_column
+
+  [TYPE_RELATES,
+   TYPE_DUPLICATES,
+   TYPE_BLOCKS,
+   TYPE_PRECEDES,
+   TYPE_FOLLOWS,
+   TYPE_INCLUDES,
+   TYPE_REQUIRES,
+   TYPE_HIERARCHY].each do |type|
+    define_method "#{type}=" do |value|
+      instance_variable_set(:"@relation_type_set", nil)
+      super(value)
+    end
+  end
 
   def self.relation_column(type)
     if TYPES.key?(type) && TYPES[type][:reverse]
@@ -114,8 +144,12 @@ class Relation < ActiveRecord::Base
   end
 
   def self.from_work_package_or_ancestors(work_package)
-    where(from_id: work_package.ancestors_relations.select(:from_id))
-      .or(where(from_id: work_package.id))
+    ancestor_or_self_ids = work_package
+                           .ancestors_relations
+                           .or(where(from_id: work_package.id))
+                           .select(:from_id)
+
+    where(from_id: ancestor_or_self_ids)
   end
 
   def self.from_parent_to_self_and_descendants(work_package)
@@ -130,12 +164,12 @@ class Relation < ActiveRecord::Base
   end
 
   def self.hierarchy_or_follows
-    with_type_columns_0(WorkPackage._dag_options.type_columns - %i(hierarchy follows))
+    with_type_columns_0(_dag_options.type_columns - %i(hierarchy follows))
       .non_reflexive
   end
 
   def self.hierarchy_or_reflexive
-    with_type_columns_0(WorkPackage._dag_options.type_columns - %i(hierarchy))
+    with_type_columns_0(_dag_options.type_columns - %i(hierarchy))
   end
 
   def self.non_hierarchy_of_work_package(work_package)
@@ -166,34 +200,6 @@ class Relation < ActiveRecord::Base
   def self.sibling_of(work_package)
     hierarchy
       .where(from_id: work_package.parent_id)
-  end
-
-  def relation_type=(type)
-    attribute_will_change!('relation_type') if relation_type != type
-    @relation_type = type
-  end
-
-  def relation_type_changed?
-    changed.include?('relation_type')
-  end
-
-  def relation_type
-    if @relation_type.present?
-      @relation_type
-    else
-      types = ((TYPES.keys + [TYPE_HIERARCHY]) & Relation.column_names).select do |name|
-        send(name) > 0
-      end
-
-      @relation_type = case types.length
-                       when 1
-                         types[0]
-                       when 0
-                         nil
-                       else
-                         TYPE_MIXED
-                       end
-    end
   end
 
   def other_work_package(work_package)
@@ -239,6 +245,10 @@ class Relation < ActiveRecord::Base
   end
 
   def canonical_type
+    self.class(relation_type)
+  end
+
+  def self.canonical_type(relation_type)
     if TYPES.key?(relation_type) &&
        TYPES[relation_type][:reverse]
       TYPES[relation_type][:reverse]
@@ -246,6 +256,8 @@ class Relation < ActiveRecord::Base
       relation_type
     end
   end
+
+  private
 
   def shared_hierarchy?
     to_from = hierarchy_but_not_self(to: to, from: from)
@@ -255,8 +267,6 @@ class Relation < ActiveRecord::Base
       .or(from_to)
       .any?
   end
-
-  private
 
   def validate_sanity_of_relation
     return unless from && to
@@ -268,11 +278,15 @@ class Relation < ActiveRecord::Base
   end
 
   def set_type_column
+    if relation_type_changed? && relation_type_was
+      was_column = self.class.relation_column(relation_type_was)
+      write_attribute was_column, 0
+    end
+
     return unless relation_type
+    new_column = self.class.relation_column(relation_type)
 
-    column = self.class.relation_column(relation_type)
-
-    send("#{column}=", 1)
+    send("#{new_column}=", 1) if new_column
   end
 
   # Reverses the relation if needed so that it gets stored in the proper way

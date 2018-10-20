@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,8 +24,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
+
+require 'permitted_params/allowed_settings'
 
 class PermittedParams
   # This class intends to provide a method for all params hashes coming from the
@@ -89,6 +91,14 @@ class PermittedParams
     params.require(:custom_field).permit(*self.class.permitted_attributes[:custom_field])
   end
 
+  def custom_action
+    whitelisted = params
+                  .require(:custom_action)
+                  .permit(*self.class.permitted_attributes[:custom_action])
+
+    whitelisted.merge(params[:custom_action].slice(:actions, :conditions).permit!)
+  end
+
   def custom_field_type
     params.require(:type)
   end
@@ -120,36 +130,8 @@ class PermittedParams
     params.require(:member).permit(*self.class.permitted_attributes[:member])
   end
 
-  def planning_element_type
-    params.require(:planning_element_type)
-      .permit(*self.class.permitted_attributes[:planning_element_type])
-  end
-
-  def planning_element_type_move
-    params.require(:planning_element_type)
-      .permit(*self.class.permitted_attributes[:move_to])
-  end
-
-  def planning_element(args = {})
-    permitted = permitted_attributes(:planning_element, args)
-
-    permitted_params = params.require(:planning_element).permit(*permitted)
-
-    permitted_params = permitted_params.merge(custom_field_values(:planning_element))
-
-    permitted_params
-  end
-
-  def project_type
-    params.require(:project_type).permit(*self.class.permitted_attributes[:project_type])
-  end
-
   def projects_type_ids
     params.require(:project).require(:type_ids).map(&:to_i).select { |x| x > 0 }
-  end
-
-  def project_type_move
-    params.require(:project_type).permit(*self.class.permitted_attributes[:move_to])
   end
 
   def query
@@ -192,18 +174,7 @@ class PermittedParams
 
   def settings
     permitted_params = params.require(:settings).permit
-
-    all_setting_keys = Setting.available_settings.keys
-    all_valid_keys = if OpenProject::Configuration.disable_password_login?
-                       all_setting_keys - %w(password_min_length
-                                             password_active_rules
-                                             password_min_adhered_rules
-                                             password_days_valid
-                                             password_count_former_banned
-                                             lost_password)
-                     else
-                       all_setting_keys
-                     end
+    all_valid_keys = AllowedSettings.all
 
     permitted_params.merge(params[:settings].to_unsafe_hash.slice(*all_valid_keys))
   end
@@ -240,7 +211,7 @@ class PermittedParams
 
       allowed_params = self.class.permitted_attributes[:user] + \
                        additional_params + \
-                       [:admin, :login]
+                       %i[admin login]
 
       permitted_params = params.require(:user).permit(*allowed_params)
       permitted_params = permitted_params.merge(custom_field_values(:user))
@@ -253,7 +224,18 @@ class PermittedParams
 
   def type(args = {})
     permitted = permitted_attributes(:type, args)
-    params.require(:type).permit(*permitted)
+
+    type_params = params.require(:type)
+
+    whitelisted = type_params.permit(*permitted)
+
+    if type_params[:attribute_groups]
+      whitelisted[:attribute_groups] = JSON
+                                       .parse(type_params[:attribute_groups])
+                                       .map { |group| [(group[2] ? group[0].to_sym : group[0]), group[1]] }
+    end
+
+    whitelisted
   end
 
   def type_move
@@ -288,19 +270,6 @@ class PermittedParams
 
   def wiki_content
     params.require(:content).permit(*self.class.permitted_attributes[:wiki_content])
-  end
-
-  def timeline
-    # Options here will be empty. This is just initializing it.
-    whitelist = params.require(:timeline).permit(:name, options: {})
-
-    if params['timeline'].has_key?('options')
-      params['timeline']['options'].each do |key, _value|
-        whitelist['options'][key] = params['timeline']['options'][key]
-      end
-    end
-
-    whitelist.permit!
   end
 
   def pref
@@ -356,9 +325,7 @@ class PermittedParams
                                                          :wiki_page_title,
                                                          :status,
                                                          :sharing,
-                                                         version_settings_attributes: [:id,
-                                                                                       :display,
-                                                                                       :project_id])
+                                                         version_settings_attributes: %i(id display project_id))
 
     permitted_params.merge(custom_field_values(:version, required: false))
   end
@@ -379,12 +346,12 @@ class PermittedParams
   end
 
   def attachments
-    params.permit(attachments: [:file, :description])['attachments']
+    params.permit(attachments: %i[file description id])['attachments']
   end
 
   def enumerations
-    acceptable_params = [:active, :is_default, :move_to, :name, :reassign_to_i,
-                         :parent_id, :custom_field_values, :reassign_to_id]
+    acceptable_params = %i[active is_default move_to name reassign_to_i
+                           parent_id custom_field_values reassign_to_id]
 
     whitelist = ActionController::Parameters.new
 
@@ -421,12 +388,6 @@ class PermittedParams
 
   def wiki
     params.require(:wiki).permit(:start_page)
-  end
-
-  def reporting
-    params.fetch(:reporting, {}).permit(:reporting_to_project_id,
-                                        :reported_project_status_id,
-                                        :reported_project_status_comment)
   end
 
   def repository_diff
@@ -467,33 +428,40 @@ class PermittedParams
   def self.permitted_attributes
     @whitelisted_params ||= begin
       params = {
-        attribute_help_text: [
-          :type,
-          :attribute_name,
-          :help_text
-        ],
-        auth_source: [
-          :name,
-          :host,
-          :port,
-          :tls,
-          :account,
-          :account_password,
-          :base_dn,
-          :onthefly_register,
-          :attr_login,
-          :attr_firstname,
-          :attr_lastname,
-          :attr_mail,
-          :attr_admin],
-        board: [
-          :name,
-          :description],
-        color: [
-          :name,
-          :hexcode,
-          :move_to
-        ],
+        attribute_help_text: %i(
+          type
+          attribute_name
+          help_text
+        ),
+        auth_source: %i(
+          name
+          host
+          port
+          tls
+          account
+          account_password
+          base_dn
+          onthefly_register
+          attr_login
+          attr_firstname
+          attr_lastname
+          attr_mail
+          attr_admin
+        ),
+        board: %i(
+          name
+          description
+        ),
+        color: %i(
+          name
+          hexcode
+          move_to
+        ),
+        custom_action: %i(
+          name
+          description
+          move_to
+        ),
         custom_field: [
           :editable,
           :field_format,
@@ -514,30 +482,37 @@ class PermittedParams
           { custom_options_attributes: %i(id value default_value position) },
           type_ids: []
         ],
-        enumeration: [
-          :active,
-          :is_default,
-          :move_to,
-          :name,
-          :reassign_to_id
-        ],
+        enumeration: %i(
+          active
+          is_default
+          move_to
+          name
+          reassign_to_id
+        ),
         group: [
           :lastname
         ],
         membership: [
           :project_id,
-          role_ids: []],
+          role_ids: []
+        ],
         group_membership: [
           :membership_id,
           membership: [
             :project_id,
-            role_ids: []]],
+            role_ids: []
+          ],
+          new_membership: [
+            :project_id,
+            role_ids: []
+          ]
+        ],
         member: [
-          role_ids: []],
+          role_ids: []
+        ],
         new_work_package: [
-          # attributes common with :planning_element below
           :assigned_to_id,
-          { attachments: [:file, :description] },
+          { attachments: %i[file description] },
           :category_id,
           :description,
           :done_ratio,
@@ -566,122 +541,75 @@ class PermittedParams
                args[:params]['work_package'].has_key?('time_entry') &&
                args[:current_user].allowed_to?(:log_time, args[:project])
 
-              { time_entry: [:hours, :activity_id, :comments] }
+              { time_entry: %i[hours activity_id comments] }
             end
           end,
           # attributes unique to :new_work_package
           :journal_notes,
           :lock_version],
-        planning_element: [
-          # attributes common with :new_work_package above
-          :assigned_to_id,
-          { attachments: [:file, :description] },
-          :category_id,
-          :description,
-          :done_ratio,
-          :due_date,
-          :estimated_hours,
-          :fixed_version_id,
-          :parent_id,
-          :priority_id,
-          :responsible_id,
-          :start_date,
-          :status_id,
-          :type_id,
-          :subject,
-          Proc.new do |args|
-            # avoid costly allowed_to? if the param is not there at all
-            if args[:params]['planning_element'] &&
-               args[:params]['planning_element'].has_key?('watcher_user_ids') &&
-               args[:current_user].allowed_to?(:add_work_package_watchers, args[:project])
-
-              { watcher_user_ids: [] }
-            end
-          end,
-          Proc.new do |args|
-            # avoid costly allowed_to? if the param is not there at all
-            if args[:params]['planning_element'] &&
-               args[:params]['planning_element'].has_key?('time_entry') &&
-               args[:current_user].allowed_to?(:log_time, args[:project])
-
-              { time_entry: [:hours, :activity_id, :comments] }
-            end
-          end,
-          # attributes unique to planning_element
-          :note,
-          custom_fields: [ # json
-            :id,
-            :value,
-            custom_field: [ # xml
-              :id,
-              :value]]],
-        planning_element_type: [
-          :name,
-          :in_aggregation,
-          :is_milestone,
-          :is_default,
-          :color_id],
         project_type: [
           :name,
-          :allows_association,
-          type_ids: [],
-          reported_project_status_ids: []],
-        query: [
-          :name,
-          :display_sums,
-          :is_public,
-          :group_by],
+          type_ids: []],
+        query: %i(
+          name
+          display_sums
+          is_public
+          group_by
+        ),
         role: [
           :name,
           :assignable,
           :move_to,
           permissions: []],
-        search: [
-          :q,
-          :offset,
-          :previous,
-          :scope,
-          :all_words,
-          :titles_only,
-          :work_packages,
-          :news,
-          :changesets,
-          :wiki_pages,
-          :messages,
-          :projects,
-          :submit
-        ],
-        status: [
-          :name,
-          :default_done_ratio,
-          :is_closed,
-          :is_default,
-          :move_to],
+        search: %i(
+          q
+          offset
+          previous
+          scope
+          all_words
+          titles_only
+          work_packages
+          news
+          changesets
+          wiki_pages
+          messages
+          projects
+          submit
+        ),
+        status: %i(
+          name
+          color_id
+          default_done_ratio
+          is_closed
+          is_default
+          move_to
+        ),
         type: [
           :name,
           :is_in_roadmap,
-          :in_aggregation,
           :is_milestone,
           :is_default,
           :color_id,
-          project_ids: [],
-          custom_field_ids: []
+          project_ids: []
         ],
-        user: [
-          :firstname,
-          :lastname,
-          :mail,
-          :mail_notification,
-          :language,
-          :custom_fields],
-        wiki_page: [
-          :title,
-          :parent_id,
-          :redirect_existing_links],
-        wiki_content: [
-          :comments,
-          :text,
-          :lock_version],
+        user: %i(
+          firstname
+          lastname
+          mail
+          mail_notification
+          language
+          custom_fields
+        ),
+        wiki_page: %i(
+          title
+          parent_id
+          redirect_existing_links
+        ),
+        wiki_content: %i(
+          comments
+          text
+          lock_version
+        ),
         move_to: [:move_to]
       }
 

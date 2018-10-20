@@ -37,6 +37,19 @@ You can either try the manual installation, or ask in the forum whether this cou
 
 Linux packages are currently the most stable option, since they are regularly tested and provide an installer to help you configure your OpenProject installation. Docker images do not get the same level of testing.
 
+### Do you provide different release channels?
+
+Yes! We release OpenProject in separate release channels that you can try out. For production environments, **always** use the `stable/MAJOR`  (e.g., stable/8) package source that will receive stable and release updates. Every major upgrade will result in a source switch (from `stable/7` to `stable/8` for example).
+
+A closer look at the available branches:
+
+* [stable/8](https://packager.io/gh/opf/openproject-ce/refs/stable/8): Latest stable releases, starting with 8.0.0 until the last minor and patch releases of 8.X.Y are released, this will receive updates.
+* [release/8.0](https://packager.io/gh/opf/openproject-ce/refs/release/8.0): Regular (usually daily) release builds for the current next patch release (or for the first release in this version, such as 8.0.0). This will contain early bugfixes before they are being release into stable. **Do not use in production**. But, for upgrading to the next major version, this can be regarded as a _release candidate channel_ that you can use to test your upgrade on a copy of your production environment.
+* [stable/7](https://packager.io/gh/opf/openproject-ce/refs/stable/7): Previous stable release, will receive critical updates and bug fixes while enterprise support depends on it.
+* [dev](https://packager.io/gh/opf/openproject-ce/refs/dev): Daily builds of the current development build of OpenProject. While we try to keep this operable, this may result in broken code and/or migrations from time to time. Use when you're interested what the next release of OpenProject will look like. **Do not use in production!**
+
+For more information, please visit our dedicated [page regarding release candidates and channels](https://www.openproject.org/download-and-installation/release-candidate/).
+
 ### How to upgrade my OpenProject installation?
 
 Please refer to the documentation at https://www.openproject.org/operations/upgrading/

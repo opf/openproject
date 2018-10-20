@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class BoardsController < ApplicationController
@@ -80,7 +80,9 @@ class BoardsController < ApplicationController
         render template: 'messages/index'
       end
       format.atom do
-        @messages = @board.messages.order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
+        @messages = @board
+                    .messages
+                    .order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
                     .includes(:author, :board)
                     .limit(Setting.feeds_limit.to_i)
 
@@ -90,14 +92,15 @@ class BoardsController < ApplicationController
   end
 
   def set_topics
-    @topics =  @board.topics.order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
-               .includes(:author,  last_reply: :author)
+    @topics =  @board
+               .topics
+               .order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
+               .includes(:author, last_reply: :author)
                .page(params[:page])
                .per_page(per_page_param)
   end
 
-  def new
-  end
+  def new; end
 
   def create
     if @board.save
@@ -108,8 +111,7 @@ class BoardsController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @board.update_attributes(permitted_params.board)
@@ -127,10 +129,7 @@ class BoardsController < ApplicationController
       flash.now[:error] = l('board_could_not_be_saved')
       render action: 'edit'
     end
-    redirect_to controller: :projects,
-                action: 'settings',
-                tab: 'boards',
-                id: @board.project_id
+    redirect_to_settings_in_projects(@board.project_id)
   end
 
   def destroy
@@ -141,8 +140,8 @@ class BoardsController < ApplicationController
 
   private
 
-  def redirect_to_settings_in_projects
-    redirect_to controller: '/projects', action: 'settings', id: @project, tab: 'boards'
+  def redirect_to_settings_in_projects(id = @project)
+    redirect_to controller: '/project_settings', action: 'show', id: id, tab: 'boards'
   end
 
   def find_board_if_available

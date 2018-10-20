@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 require_relative '../legacy_spec_helper'
 
@@ -168,9 +168,9 @@ describe MailHandler, type: :model do
   end
 
   it 'should add work package should match assignee on display name' do # added from redmine  - not sure if it is ok here
-    user = FactoryGirl.create(:user, firstname: 'Foo', lastname: 'Bar')
-    role = FactoryGirl.create(:role, name: 'Superhero')
-    FactoryGirl.create(:member, user: user, project: Project.find(2), role_ids: [role.id])
+    user = FactoryBot.create(:user, firstname: 'Foo', lastname: 'Bar')
+    role = FactoryBot.create(:role, name: 'Superhero')
+    FactoryBot.create(:member, user: user, project: Project.find(2), role_ids: [role.id])
     issue = submit_email('ticket_on_given_project.eml') do |email|
       email.sub!(/^Assigned to.*$/, 'Assigned to: Foo Bar')
     end
@@ -256,6 +256,7 @@ describe MailHandler, type: :model do
 
   it 'should add work package with localized attributes' do
     User.find_by_mail('jsmith@somenet.foo').update_attribute 'language', 'de'
+
     issue = submit_email('ticket_with_localized_attributes.eml', allow_override: 'type,category,priority')
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
@@ -356,7 +357,7 @@ describe MailHandler, type: :model do
   specify 'reply to issue update (Journal) by message_id' do
     Journal.delete_all
     issue = WorkPackage.find(2)
-    j = FactoryGirl.create :work_package_journal, id: 3, journable_id: issue.id
+    j = FactoryBot.create :work_package_journal, id: 3, journable_id: issue.id
     journal = submit_email('ticket_reply_by_message_id.eml')
     assert journal.data.is_a?(Journal::WorkPackageJournal), "Email was a #{journal.data.class}"
     assert_equal User.find_by_login('jsmith'), journal.user

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,15 +24,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
 describe ::Type, type: :model do
-  let(:type) { FactoryGirl.build(:type) }
-  let(:type2) { FactoryGirl.build(:type) }
-  let(:project) { FactoryGirl.build(:project) }
+  let(:type) { FactoryBot.build(:type) }
+  let(:type2) { FactoryBot.build(:type) }
+  let(:project) { FactoryBot.build(:project) }
 
   describe '.enabled_in(project)' do
     before do
@@ -44,6 +44,54 @@ describe ::Type, type: :model do
 
     it 'returns the types enabled in the provided project' do
       expect(Type.enabled_in(project)).to match_array([type])
+    end
+  end
+
+  describe '.statuses' do
+    let(:subject) { type.statuses }
+
+    context 'when new' do
+      let(:type) { FactoryBot.build(:type) }
+
+      it 'returns an empty relation' do
+        expect(subject).to be_empty
+      end
+    end
+
+    context 'when existing but no statuses' do
+      let(:type) { FactoryBot.create(:type) }
+
+      it 'returns an empty relation' do
+        expect(subject).to be_empty
+      end
+    end
+
+    context 'when existing with workflow' do
+      let(:role) { FactoryBot.create(:role) }
+      let(:statuses) { (1..2).map { |_i| FactoryBot.create(:status) } }
+
+      let!(:type) { FactoryBot.create(:type) }
+      let!(:workflow_a) do
+        FactoryBot.create(:workflow, role_id: role.id,
+                          type_id: type.id,
+                          old_status_id: statuses[0].id,
+                          new_status_id: statuses[1].id,
+                          author: false,
+                          assignee: false)
+      end
+
+      it 'returns the statuses relation' do
+        expect(subject.pluck(:id)).to contain_exactly(statuses[0].id, statuses[1].id)
+      end
+
+      context 'with default status' do
+        let!(:default_status) { FactoryBot.create(:default_status) }
+        let(:subject) { type.statuses(include_default: true) }
+
+        it 'returns the workflow and the default status' do
+          expect(subject.pluck(:id)).to contain_exactly(default_status.id, statuses[0].id, statuses[1].id)
+        end
+      end
     end
   end
 end
