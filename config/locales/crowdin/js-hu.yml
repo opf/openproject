@@ -59,8 +59,8 @@ hu:
     description_selected_columns: Oszlopok kiválasztása
     description_subwork_package: 'Munkacsomag gyermeke #%{id}'
     editor:
-      preview: Váltás az előnézeti mód
-      source_code: Markdown forrás mód kapcsolás
+      preview: Váltás az előnézeti módra
+      source_code: Váltás Markdown forrás módra
       error_saving_failed: 'A dokumentum mentése a következő hiba miatt nem sikerült:
         %{error}'
       mode:
@@ -75,7 +75,7 @@ hu:
           this_page: ez az oldal
           hint: 'Hagyja üresen ezt a mezőt az aktuális oldal összes gyermekoldalának
             felsorolásához. Ha másik oldalra szeretne hivatkozni, adja meg a címét
-            vagy a csíkot.
+            vagy a sorközöket.
 
 '
         code_block:
@@ -98,16 +98,16 @@ hu:
             Include the content of another wiki page by specifying its title or slug.
             You can include the wiki page of another project by separating them with a colon like the following example.
         work_package_button:
-          button: Munka csomag létrehozása gomb beszúrása
-          type: Feladatcsoport típusok
-          button_style: A stílus gomb használata
+          button: Munkacsomag létrehozása gomb beszúrása
+          type: Munkacsomag típusok
+          button_style: Stílus gomb használata
           button_style_hint: 'Optional: Check to make macro appear as a button, not
             as a link.'
-          without_type: Új feladatcsoport létrehozása
-          with_type: 'Feladatcsoport készítése (Typ: %{typename})'
+          without_type: Munkacsomag létrehozása
+          with_type: 'Munkacsomag létrehozása (típus: %{typename})'
         embedded_table:
-          button: Feladatcsoport táblázat beágyazása
-          text: "[Placeholder] Beágyazott feladatcsoport táblázat"
+          button: Munkacsomag táblázat beágyazás
+          text: "[Placeholder] Beágyazott munkacsomag táblázat"
     error:
       internal: Belső hiba történt.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -187,7 +187,7 @@ hu:
     label_group_by: Csoportosítás a következők szerint
     label_hide_attributes: Kevesebb mutatása
     label_hide_column: Oszlop elrejtése
-    label_hide_project_menu: Projekt menü Kibontás/Összecsukás
+    label_hide_project_menu: Projekt menü összecsukás
     label_in: in
     label_in_less_than: kevesebb, mint
     label_in_more_than: több mint

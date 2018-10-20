@@ -2706,7 +2706,7 @@ hu:
       code_401_wrong_credentials: Nem megfelelő hitelesítési adatok kerültek megadásra.
       code_403: Ön nem jogosult az erőforrás eléréséhez.
       code_404: A kért erőforrás nem található.
-      code_409: Nem sikerült frissíteni az erőforrást ütköző módosítások miatt.
+      code_409: Nem sikerült frissíteni az erőforrást az ütköző módosítások miatt.
       code_500: Belső hiba történt.
       expected:
         date: ÉÉÉÉ-HH-NN (ISO 8601 dátum kötelező)
