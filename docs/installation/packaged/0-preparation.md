@@ -9,7 +9,7 @@ The package contains an interactive wizard that will configure your environment 
 
 The installation procedure assumes the following prerequisites:
 
-* A server running one of the Linux distributions listed in the [system requirements](./system-requirements.md).
+* A server running one of the Linux distributions listed in the [system requirements](../system-requirements.md).
 * A mail server that is accessible via SMTP that can be used for sending
   notification emails.
 * If you intend to use SSL for OpenProject: A valid SSL certifificate along

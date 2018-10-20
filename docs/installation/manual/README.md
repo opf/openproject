@@ -261,7 +261,7 @@ production:                          #main level
 
 Starting with 5.0, OpenProject directly manages your repositories. To
 use this feature you have to configure OpenProject as shown
-[here](./repository-integration.md).
+[here](../../repositories/README.md).
 
 Add this line into `configuration.yml` file at the end of the file for
 a better performance of OpenProject:
@@ -437,15 +437,15 @@ We do however support an integration with the Apache webserver to create and ser
 
 OpenProject ships with support for so-called *managed* repositories, which can be created and maintained directly within OpenProject and are linked to a single project.
 
-The complete guide for the integration of Subversion and Git repositories can be found in the [repository integration guide](repository-integration.md).
+The complete guide for the integration of Subversion and Git repositories can be found in the [repository integration guide](../../repositories/README.md).
 
 ## Follow-Ups
 
 Your OpenProject installation is ready to run. However, there are some things to consider:
 
-* Regularly backup your OpenProject installation. See the [backup guide](backup-guide.md) for details.
+* Regularly backup your OpenProject installation. See the [backup guide](../../operations/backup/manual/backup.md) for details.
 * Serve OpenProject via https
-* Watch for OpenProject updates. We advise to always run the latest stable version of OpenProject (especially for security updates). Information on how to perform an update can been found in the [upgrade guide](upgrade-guide.md). You can find out about new OpenProject releases in our [news](https://community.openproject.org/projects/openproject/news), or on [twitter](https://twitter.com/openproject).
+* Watch for OpenProject updates. We advise to always run the latest stable version of OpenProject (especially for security updates). Information on how to perform an update can been found in the [upgrade guide](../../operations/upgrading/manual/upgrading.md). You can find out about new OpenProject releases in our [news](https://community.openproject.org/projects/openproject/news), or on [twitter](https://twitter.com/openproject).
 
 
 ## Plug-In installation (Optional)
