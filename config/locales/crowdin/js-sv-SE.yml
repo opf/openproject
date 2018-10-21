@@ -112,7 +112,7 @@ sv-SE:
           text: "[Placeholder] Embedded work package table"
     custom_actions:
       date:
-        specific: 'on'
+        specific: på
         current_date: Current date
     error:
       internal: Ett internt fel har inträffat.

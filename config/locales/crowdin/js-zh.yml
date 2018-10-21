@@ -103,7 +103,7 @@ zh:
           text: "[Placeholder] 嵌入式工作包表"
     custom_actions:
       date:
-        specific: 'on'
+        specific: 于
         current_date: Current date
     error:
       internal: 发生了内部错误。

@@ -109,7 +109,7 @@ fi:
           text: "[Placeholder] Embedded work package table"
     custom_actions:
       date:
-        specific: 'on'
+        specific: päälle
         current_date: Current date
     error:
       internal: Tapahtui sisäinen virhe.

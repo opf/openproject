@@ -109,7 +109,7 @@ tr:
           text: "[Placeholder] Embedded work package table"
     custom_actions:
       date:
-        specific: 'on'
+        specific: açık
         current_date: Current date
     error:
       internal: İç hata oluştu.

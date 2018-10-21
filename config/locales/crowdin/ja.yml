@@ -944,7 +944,7 @@ ja:
 
 '
   error_external_authentication_failed: 外部認証中にエラーが発生しました。もう一度やり直してください。
-  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
+  error_attribute_not_highlightable: '強調表示されない属性: %{attributes}'
   events:
     project: プロジェクトが編集されました。
     changeset: 変更セットが編集されました。
@@ -2044,9 +2044,8 @@ ja:
   setting_welcome_on_homescreen: ホーム画面にようこそブロックを表示
   setting_wiki_compression: Wiki履歴を圧縮する
   setting_work_package_group_assignment: グループへの割り当てを許可する
-  setting_work_package_list_default_highlighting_mode: Default highlighting mode
-  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
-    attributes
+  setting_work_package_list_default_highlighting_mode: デフォルトの強調表示モード
+  setting_work_package_list_default_highlighted_attributes: デフォルトのインライン強調表示属性
   settings:
     general: 概要
     other: その他
@@ -2058,11 +2057,11 @@ ja:
       deletion: 削除
     highlighting:
       mode_long:
-        inline: Highlight attribute(s) inline
+        inline: 属性をインラインで強調表示する
         none: ハイライトなし
-        status: Entire row by Status
-        type: Entire row by Type
-        priority: Entire row by Priority
+        status: ステータス別の行全体
+        type: タイプごとの行全体
+        priority: 優先度別に行全体
   text_formatting:
     markdown: Markdown
     plain: プレーンテキスト

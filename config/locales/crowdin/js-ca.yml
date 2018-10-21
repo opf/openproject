@@ -109,7 +109,7 @@ ca:
           text: "[Placeholder] Embedded work package table"
     custom_actions:
       date:
-        specific: 'on'
+        specific: en
         current_date: Current date
     error:
       internal: S'ha produït un error intern.

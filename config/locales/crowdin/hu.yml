@@ -1037,7 +1037,7 @@ hu:
 '
   error_external_authentication_failed: Hiba történt a külső hitelesítés során. Kérjük,
     próbálja meg újra.
-  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
+  error_attribute_not_highlightable: 'Tulajdonság(ok) nem kiemelhetők: %{attributes}'
   events:
     project: Projekt szerkesztve
     changeset: Commit szerkesztve
@@ -1087,7 +1087,7 @@ hu:
       upsale:
         become_hero: Legyél egy hős!
         title: Frissítés a Vállalati Verzióra
-        description: Mik az előnyei?
+        description: Milyen előnyökkel jár?
         more_info: További információ
         additional_features: További erőteljes prémium funkciók
         professional_support: Professzionális támogatás az OpenProject szakértőktől
@@ -2228,9 +2228,9 @@ hu:
   setting_welcome_on_homescreen: Üdvözlő blokk megjelenítése a kezdőképernyőn
   setting_wiki_compression: Wiki előzmények tömörítése
   setting_work_package_group_assignment: Hozzárendelés engedélyezése csoportokhoz
-  setting_work_package_list_default_highlighting_mode: Default highlighting mode
-  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
-    attributes
+  setting_work_package_list_default_highlighting_mode: Alapértelmezett kiemelési mód
+  setting_work_package_list_default_highlighted_attributes: Alapértelmezett kiemelt
+    attribútumok sorai
   settings:
     general: Általános
     other: Egyéb
@@ -2242,11 +2242,11 @@ hu:
       deletion: Törlés
     highlighting:
       mode_long:
-        inline: Highlight attribute(s) inline
+        inline: Kiemelt attribútum(ok) egy vonalban
         none: Kiemelés nélkül
-        status: Entire row by Status
-        type: Entire row by Type
-        priority: Entire row by Priority
+        status: Teljes sor állapot szerint
+        type: Teljes sor típus szerint
+        priority: Teljes sor prioritás szerint
   text_formatting:
     markdown: Markdown
     plain: Egyszerű szöveg
@@ -2715,7 +2715,7 @@ hu:
       code_401_wrong_credentials: Nem megfelelő hitelesítési adatok kerültek megadásra.
       code_403: Ön nem jogosult az erőforrás eléréséhez.
       code_404: A kért erőforrás nem található.
-      code_409: Nem sikerült frissíteni az erőforrást ütköző módosítások miatt.
+      code_409: Nem sikerült frissíteni az erőforrást az ütköző módosítások miatt.
       code_500: Belső hiba történt.
       expected:
         date: ÉÉÉÉ-HH-NN (ISO 8601 dátum kötelező)

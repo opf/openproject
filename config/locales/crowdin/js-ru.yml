@@ -112,7 +112,7 @@ ru:
           text: "[Placeholder] Таблица внедренных пакетов работ"
     custom_actions:
       date:
-        specific: 'on'
+        specific: на
         current_date: Current date
     error:
       internal: Произошла внутренняя ошибка.

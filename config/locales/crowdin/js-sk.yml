@@ -109,7 +109,7 @@ sk:
           text: "[Placeholder] Embedded work package table"
     custom_actions:
       date:
-        specific: 'on'
+        specific: dňa
         current_date: Current date
     error:
       internal: Vyskytla sa vnútorná chyba.

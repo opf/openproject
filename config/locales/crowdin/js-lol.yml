@@ -103,8 +103,8 @@ lol:
           text: crwdns101513:0[Placeholder]crwdne101513:0
     custom_actions:
       date:
-        specific: 'on'
-        current_date: Current date
+        specific: crwdns102564:0crwdne102564:0
+        current_date: crwdns102566:0crwdne102566:0
     error:
       internal: crwdns101514:0crwdne101514:0
       cannot_save_changes_with_message: crwdns101515:0%{error}crwdne101515:0

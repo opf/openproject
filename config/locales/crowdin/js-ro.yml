@@ -111,7 +111,7 @@ ro:
           text: "[Placeholder] Tabelul pachetului de lucru inserat"
     custom_actions:
       date:
-        specific: 'on'
+        specific: pe
         current_date: Current date
     error:
       internal: A apărut o eroare internă.

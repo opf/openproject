@@ -114,7 +114,7 @@ de:
           text: "[Platzhalter] Eingebette Arbeitspaket-Tabelle"
     custom_actions:
       date:
-        specific: 'on'
+        specific: am
         current_date: Current date
     error:
       internal: Ein interner Fehler ist aufgetreten.

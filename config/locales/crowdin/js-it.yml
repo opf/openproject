@@ -111,7 +111,7 @@ it:
           text: "[Placeholder] Tabella della macro-attività incorporata"
     custom_actions:
       date:
-        specific: 'on'
+        specific: il
         current_date: Current date
     error:
       internal: Si è verificato un errore interno.

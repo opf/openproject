@@ -109,7 +109,7 @@ fil:
           text: "[Placeholder] Embedded work package table"
     custom_actions:
       date:
-        specific: 'on'
+        specific: sa
         current_date: Current date
     error:
       internal: Isang internal error ang naganap.

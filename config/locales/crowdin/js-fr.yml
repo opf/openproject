@@ -61,11 +61,12 @@ fr:
     description_subwork_package: 'Enfant du lot de travaux #%{id}'
     editor:
       preview: Basculer en mode aperçu
-      source_code: Toggle Markdown source mode
-      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      source_code: Basculer en mode source Markdown
+      error_saving_failed: 'L''enregistrement du document a échoué en raison de l''erreur
+        suivante: %{error}'
       mode:
-        manual: Switch to Markdown source
-        wysiwyg: Switch to WYSIWYG editor
+        manual: Basculer en mode source Markdown
+        wysiwyg: Basculer vers l'éditeur WYSIWYG
       macro:
         child_pages:
           button: Liens vers les pages enfants
@@ -111,8 +112,8 @@ fr:
           text: "[Placeholder] Tableau du lot de travaux intégré"
     custom_actions:
       date:
-        specific: 'on'
-        current_date: Current date
+        specific: le
+        current_date: Date actuelle
     error:
       internal: Une erreur interne s'est produite.
       cannot_save_changes_with_message: 'Impossible d’enregistrer vos modifications
@@ -668,8 +669,8 @@ fr:
         highlighting_mode:
           description: Surligner avec de la couleur
           none: Pas de surlignement
-          inline: Highlighted attribute(s)
-          inline_all: All attributes
+          inline: Attribut(s) en surbrillance
+          inline_all: Tous les attributs
           entire_row_by: Ligne entière par
           status: Statut
           priority: Priorité

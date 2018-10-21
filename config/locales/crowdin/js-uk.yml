@@ -109,7 +109,7 @@ uk:
           text: "[Placeholder] Embedded work package table"
     custom_actions:
       date:
-        specific: 'on'
+        specific: на
         current_date: Current date
     error:
       internal: Сталася внутрішня помилка.

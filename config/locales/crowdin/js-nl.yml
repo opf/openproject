@@ -111,7 +111,7 @@ nl:
           text: "[Placeholder] ingesloten werkpakket tabel"
     custom_actions:
       date:
-        specific: 'on'
+        specific: op
         current_date: Current date
     error:
       internal: Een interne fout is opgetreden.

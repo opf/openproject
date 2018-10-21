@@ -103,8 +103,8 @@ ja:
           text: "[Placeholder] 埋め込まれた作業項目表"
     custom_actions:
       date:
-        specific: 'on'
-        current_date: Current date
+        specific: オン
+        current_date: 現在の日付
     error:
       internal: 内部エラーが発生しました。
       cannot_save_changes_with_message: '次のエラーのために変更を保存できません: %{error}'
@@ -607,8 +607,8 @@ ja:
         highlighting_mode:
           description: 色付きでハイライト
           none: ハイライトなし
-          inline: Highlighted attribute(s)
-          inline_all: All attributes
+          inline: 強調表示された属性
+          inline_all: 全ての属性
           entire_row_by: 全体の行
           status: ステータス
           priority: 優先度

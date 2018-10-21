@@ -108,7 +108,7 @@ zh-TW:
           text: "[Placeholder] Embedded work package table"
     custom_actions:
       date:
-        specific: 'on'
+        specific: 開啟
         current_date: Current date
     error:
       internal: 發生內部錯誤。

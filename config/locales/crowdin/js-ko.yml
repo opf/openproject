@@ -105,7 +105,7 @@ ko:
           text: "[Placeholder] 포함 작업 패키지 테이블"
     custom_actions:
       date:
-        specific: 'on'
+        specific: 에
         current_date: Current date
     error:
       internal: 내부 오류가 발생하였습니다.

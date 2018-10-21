@@ -111,7 +111,7 @@ es:
           text: "[Placeholder] Tabla de paquetes de trabajo insertada"
     custom_actions:
       date:
-        specific: 'on'
+        specific: en
         current_date: Current date
     error:
       internal: Ha ocurrido un error interno.

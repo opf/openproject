@@ -114,7 +114,7 @@ pt-BR:
           text: "[Placeholder] Embutida tabela de pacote de trabalho"
     custom_actions:
       date:
-        specific: 'on'
+        specific: ligado
         current_date: Current date
     error:
       internal: Ocorreu um erro interno.
