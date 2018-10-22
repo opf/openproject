@@ -158,6 +158,22 @@ describe AttachmentsController, type: :controller do
       it 'redirects to AWS' do
         expect(subject.location).to match(url)
       end
+
+      context 'with an inline image' do
+        let(:file) { FileHelpers.mock_uploaded_file name: 'foobar.jpg', content_type: 'image/jpeg' }
+
+        it 'returns a download disposition' do
+          expect(subject.location).to include 'response-content-disposition=inline'
+        end
+      end
+
+      context 'with an SVG (#28715)' do
+        let(:file) { FileHelpers.mock_uploaded_file name: 'foobar.svg', content_type: 'image/svg+xml' }
+
+        it 'returns a download disposition' do
+          expect(subject.location).to include 'response-content-disposition=attachment'
+        end
+      end
     end
   end
 end
