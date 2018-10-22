@@ -150,7 +150,7 @@ export class MainMenuResizerComponent implements OnInit, OnDestroy {
     this.oldPosition = e.clientX;
     this.elementWidth = this.elementWidth + delta;
 
-    this.toggleService.setWidth(this.elementWidth);
+    this.toggleService.saveWidth(this.elementWidth);
   }
 }
 
