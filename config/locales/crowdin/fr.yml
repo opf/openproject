@@ -3,8 +3,8 @@ fr:
   no_results_title_text: Il n'y a actuellement rien à afficher.
   activities:
     index:
-      no_results_title_text: Il n’a aucune activité pour le projet dans ce laps de
-        temps.
+      no_results_title_text: Il n’y a pas eu d'activité pour le projet pendant cette
+        période.
   admin:
     plugins:
       no_results_title_text: Il n'y a actuellement aucun plugin disponible.
@@ -720,7 +720,7 @@ fr:
   button_create: Créer
   button_create_and_continue: Créer et continuer
   button_delete: Supprimer
-  button_decline: Decline
+  button_decline: Refuser
   button_delete_watcher: Supprimer l'observateur %{name}
   button_download: Télécharger
   button_duplicate: Dupliquer
@@ -1019,7 +1019,7 @@ fr:
   error_journal_attribute_not_present: Le journal ne contient pas l’attribut %{attribute}.
   error_pdf_export_too_many_columns: Trop de colonnes sélectionnées pour l’exportation
     PDF. Veuillez réduire le nombre de colonnes.
-  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
+  error_pdf_failed_to_export: 'L''export PDF n''a pas pu être enregistré: %{error}'
   error_token_authenticity: Impossible de vérifier le jeton de Cross-Site Request
     Forgery. Avez-vous essayé d'envoyer des données sur plusieurs navigateurs ou onglets
     ? Veuillez fermer tous les onglets et réessayer.
@@ -1074,8 +1074,8 @@ fr:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF avec descriptions
-      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
-      pdf_with_attachments: PDF with attachments
+      pdf_with_descriptions_and_attachments: PDF avec descriptions et pièces jointes
+      pdf_with_attachments: PDF avec pièces jointes
   extraction:
     available:
       pdftotext: Pdftotext disponible (optionnel)
@@ -2146,7 +2146,7 @@ fr:
   setting_email_delivery_method: Méthode de livraison d'e-mail
   setting_sendmail_location: Emplacement de l’exécutable sendmail
   setting_smtp_enable_starttls_auto: Utiliser automatiquement STARTTLS si disponible
-  setting_smtp_ssl: Use SSL connection
+  setting_smtp_ssl: Utiliser la connexion SSL
   setting_smtp_address: Serveur SMTP
   setting_smtp_port: Port SMTP
   setting_smtp_authentication: Authentification SMTP
@@ -2757,7 +2757,8 @@ fr:
         correctes.
       code_403: Vous n'êtes pas autorisé à accéder à cette ressource.
       code_404: La ressource demandée est introuvable.
-      code_409: Could not update the resource because of conflicting modifications.
+      code_409: Impossible de mettre à jour la ressource en raison de modifications
+        conflictuelles.
       code_500: Une erreur interne s'est produite.
       expected:
         date: AAAA-MM-JJ (date ISO 8601 uniquement)
