@@ -60,6 +60,7 @@ describe 'Wysiwyg code block macro', type: :feature, js: true do
       end
 
       it 'can add and save multiple code blocks (Regression #28350)' do
+
         editor.in_editor do |container,|
           editor.set_markdown expected
 
