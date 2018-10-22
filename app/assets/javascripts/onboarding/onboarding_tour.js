@@ -19,7 +19,9 @@
                 childList: true,
                 subtree: true
             });
-        }
+        };
+        window.demoProjectName = 'Demo Project';
+        window.scrumDemoProjectName = 'Scrum Project';
 
 
         var storageKey = 'openProject-onboardingTour';
@@ -32,56 +34,49 @@
 
             // Start after the intro modal (language selection)
             // This has to be changed once the project selection is implemented
-            if (url.searchParams.get("first_time_user")) {
+            if (url.searchParams.get("first_time_user") && demoDataVisible()) {
                 currentTourPart = '';
                 sessionStorage.setItem(storageKey, 'readyToStart');
 
                 // Start automatically when the language selection is closed
                 $('.op-modal--modal-close-button').click(function () {
-                    initializeTour('startOverviewTour', '.widget-box--blocks--buttons .button');
-                    startTour(homescreenOnboardingTourSteps);
+                    homescreenTour();
                 });
             }
 
             // ------------------------------- Tutorial Homescreen page -------------------------------
             if (currentTourPart === "readyToStart") {
-                initializeTour('startOverviewTour', '.widget-box--blocks--buttons .button');
-                startTour(homescreenOnboardingTourSteps);
+                homescreenTour();
             }
 
-            // ------------------------------- Tutorial Overview page -------------------------------
-            if (currentTourPart === "startOverviewTour" || url.searchParams.get("start_onboarding_tour")) {
+            // ------------------------------- Decide for tour depending on backlogs -------------------------------
+            if (currentTourPart === "startProjectTour" || url.searchParams.get("start_onboarding_tour")) {
                 if ($('.backlogs-menu-item').length > 0) {
-                    initializeTour('startBacklogsTour');
-                    startTour(scrumOverviewOnboardingTourSteps);
+                    backlogsTour();
                 } else {
-                    initializeTour('startWpTour');
-                    startTour(overviewOnboardingTourSteps);
+                    workPackageTour();
                 }
-            }
-
-            // ------------------------------- Tutorial Backlogs page -------------------------------
-            if (currentTourPart === "startBacklogsTour") {
-                initializeTour('startTaskBoardTour', ".backlog .menu a:not('.show_task_board')");
-                startTour(scrumBacklogsTourSteps);
             }
 
             // ------------------------------- Tutorial Task Board page -------------------------------
             if (currentTourPart === "startTaskBoardTour") {
-                initializeTour('startWpTour');
-                startTour(scrumTaskBoardTourSteps);
+                taskboardTour();
             }
 
             // ------------------------------- Tutorial WP page -------------------------------
             if (currentTourPart === "startWpTour") {
-                initializeTour('wpFinished', '.wp-table--details-link, .wp-table-context-menu-link, .wp-table--cell-span');
-
-                waitForElement('.work-package--results-tbody', '.work-packages-split-view--tabletimeline-side', function() {
-                    startTour(wpOnboardingTourSteps);
-                });
+                workPackageTour();
             }
         }
 
+        function demoDataVisible() {
+            demoProjects = jQuery.grep(jQuery(".widget-box.welcome a"), function( a ) {
+                return a.text === demoProjectName || a.text === scrumDemoProjectName;
+            });
+
+            return demoProjects.length === 2
+        }
+        
         function initializeTour(storageValue, disabledElements) {
             tutorialInstance = new EnjoyHint({
                 onStart: function () {
@@ -102,6 +97,29 @@
         function startTour(steps) {
             tutorialInstance.set(steps);
             tutorialInstance.run();
+        }
+        
+        function homescreenTour() {
+            initializeTour('startProjectTour', '.widget-box--blocks--buttons .button');
+            startTour(homescreenOnboardingTourSteps);
+        }
+
+        function backlogsTour() {
+            initializeTour('startTaskBoardTour', ".backlog .menu a:not('.show_task_board')");
+            startTour(scrumBacklogsTourSteps);
+        }
+
+        function taskboardTour() {
+            initializeTour('startWpTour');
+            startTour(scrumTaskBoardTourSteps);
+        }
+
+        function workPackageTour() {
+            initializeTour('wpFinished', '.wp-table--details-link, .wp-table-context-menu-link, .wp-table--cell-span');
+
+            waitForElement('.work-package--results-tbody', '.work-packages-split-view--tabletimeline-side', function() {
+                startTour(wpOnboardingTourSteps);
+            });
         }
     });
 }(jQuery));

@@ -52,7 +52,6 @@
 // Make sure the demo data still exists  
 <% if Project.find_by(identifier: 'demo-project') && Project.find_by(identifier: 'your-scrum-project') %>
   <% require_asset "onboarding/homescreen_tour" %>
-  <% require_asset "onboarding/overview_tour" %>
   <% require_asset "onboarding/backlogs_tour" %>
   <% require_asset "onboarding/work_package_tour" %>
   <% require_asset "onboarding/onboarding_tour" %>

@@ -36,7 +36,22 @@
             {
                 'next .work-packages-tabletimeline--timeline-side': I18n.t('js.onboarding.steps.wp_timeline'),
                 'showSkip': false,
-                'containerClass': '-dark'
+                'containerClass': '-dark -hidden-arrow'
+            },
+            {
+                'next .main-menu--arrow-left-to-project': I18n.t('js.onboarding.steps.sidebar_arrow'),
+                'showSkip': false,
+                onNext: function () {
+                    $('.main-menu--arrow-left-to-project')[0].click();
+                }
+            },
+            {
+                'next .members-menu-item': I18n.t('js.onboarding.steps.members'),
+                'showSkip': false
+            },
+            {
+                'next .wiki-menu--main-item': I18n.t('js.onboarding.steps.wiki'),
+                'showSkip': false
             },
             {
                 'next .menu-item--help': I18n.t('js.onboarding.steps.help_menu'),

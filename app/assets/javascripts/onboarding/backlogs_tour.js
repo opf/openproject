@@ -34,21 +34,12 @@
                 'containerClass': '-dark -hidden-arrow'
             },
             {
-                'next .toggler': I18n.t('js.onboarding.steps.wp_toggler'),
+                'next #main-menu-work-packages-wrapper': I18n.t('js.onboarding.steps.wp_toggler'),
                 'showSkip': false,
-                'shape': 'circle',
                 onNext: function () {
-                    $('#main-menu-work-packages-wrapper .toggler').click();
+                    $('#main-menu-work-packages')[0].click();
                 }
             },
-            {
-                "next .wp-query-menu--item[data-category='default']": I18n.t('js.onboarding.steps.wp_query'),
-                'showSkip': false,
-                'timeout': 200,
-                onNext: function () {
-                    $(".wp-query-menu--item[data-category='default'] .wp-query-menu--item-link")[0].click();
-                }
-            }
         ];
     });
 }(jQuery))
