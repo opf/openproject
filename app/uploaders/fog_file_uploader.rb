@@ -58,7 +58,7 @@ class FogFileUploader < CarrierWave::Uploader::Base
   end
 
   def download_url
-    remote_file.url
+    remote_file.url(query: { "response-content-disposition" => model.content_disposition })
   end
 
   ##
