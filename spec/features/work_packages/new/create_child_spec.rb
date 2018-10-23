@@ -29,6 +29,8 @@
 require 'spec_helper'
 
 RSpec.feature 'Work package create children', js: true, selenium: true do
+  let(:tabs) { ::Components::WorkPackages::Tabs.new(original_work_package) }
+  let(:relations_tab) { find('.tabrow li', text: 'RELATIONS') }
   let(:user) do
     FactoryBot.create(:user,
                        member_in_project: project,
@@ -41,7 +43,6 @@ RSpec.feature 'Work package create children', js: true, selenium: true do
                        old_status: original_work_package.status,
                        new_status: FactoryBot.create(:status))
   end
-
   let(:create_role) do
     FactoryBot.create(:role,
                        permissions: [:view_work_packages,
@@ -104,6 +105,8 @@ RSpec.feature 'Work package create children', js: true, selenium: true do
     original_work_package_page = Pages::FullWorkPackage.new(original_work_package)
 
     child_work_package_page = original_work_package_page.add_child
+    expect_angular_frontend_initialized
+
     type_field = child_work_package_page.edit_field :type
 
     type_field.expect_active!
@@ -118,6 +121,9 @@ RSpec.feature 'Work package create children', js: true, selenium: true do
 
     expect(page).to have_selector('.notification-box--content',
                                   text: I18n.t('js.notice_successful_create'))
+
+    # Relations counter in full view should equal 1
+    tabs.expect_counter(relations_tab, 1)
 
     child_work_package = WorkPackage.order(created_at: 'desc').first
 
@@ -136,6 +142,8 @@ RSpec.feature 'Work package create children', js: true, selenium: true do
     original_work_package_page = Pages::SplitWorkPackage.new(original_work_package, project)
 
     child_work_package_page = original_work_package_page.add_child
+    expect_angular_frontend_initialized
+
     type_field = child_work_package_page.edit_field :type
 
     expect(type_field.input_element).to have_selector('option[selected]', text: 'Please select')
@@ -149,6 +157,9 @@ RSpec.feature 'Work package create children', js: true, selenium: true do
 
     expect(page).to have_selector('.notification-box--content',
                                   text: I18n.t('js.notice_successful_create'))
+
+    # # Relations counter in split view should equal 1
+    tabs.expect_counter(relations_tab, 1)
 
     child_work_package = WorkPackage.order(created_at: 'desc').first
 
