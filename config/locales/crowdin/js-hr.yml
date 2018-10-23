@@ -107,6 +107,10 @@ hr:
         embedded_table:
           button: Embed work package table
           text: "[Placeholder] Embedded work package table"
+    custom_actions:
+      date:
+        specific: na
+        current_date: Current date
     error:
       internal: Dogodila se interna greška.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -472,6 +476,8 @@ hr:
         to Microsoft Edge.
       learn_more: Saznaj više
       close_warning: Ignorirati ovo upozorenje.
+    upsale:
+      ee_only: Enterprise Edition only feature
     wiki_formatting:
       strong: Strong
       italic: Italic
@@ -650,14 +656,15 @@ hr:
         highlighting_mode:
           description: Highlight with color
           none: No highlighting
-          inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline: Highlighted attribute(s)
+          inline_all: All attributes
           entire_row_by: Entire row by
           status: Status
           priority: Prioritet
+          type: Tip
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
         upsale:
-          ee_only: Enterprise Edition only feature
           attribute_highlighting: Need certain work packages to stand out from the
             mass?
           relation_columns: Need to see relations in the work package list?

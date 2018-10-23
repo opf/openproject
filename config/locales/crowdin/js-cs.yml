@@ -107,6 +107,10 @@ cs:
         embedded_table:
           button: Vložit tabulku pracovního balíčku
           text: "[Placeholder] Embedded work package table"
+    custom_actions:
+      date:
+        specific: 'on'
+        current_date: Current date
     error:
       internal: Došlo k vnitřní chybě.
       cannot_save_changes_with_message: 'Nelze uložit změny kvůli následující chybě:
@@ -474,6 +478,8 @@ cs:
         upgradujte na Microsoft Edge.
       learn_more: Více informací
       close_warning: Ignorovat toto upozornění.
+    upsale:
+      ee_only: Enterprise Edition only feature
     wiki_formatting:
       strong: Strong
       italic: Italic
@@ -652,14 +658,15 @@ cs:
         highlighting_mode:
           description: Highlight with color
           none: No highlighting
-          inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline: Highlighted attribute(s)
+          inline_all: All attributes
           entire_row_by: Entire row by
           status: Stav
           priority: Priorita
+          type: Typ
         columns_help_text: Použijte vstup výše pro přidání nebo odebrání sloupců do
           tabulkového pohledu. Přetažením sloupců změníte jejich pořadí.
         upsale:
-          ee_only: Enterprise Edition only feature
           attribute_highlighting: Need certain work packages to stand out from the
             mass?
           relation_columns: Need to see relations in the work package list?

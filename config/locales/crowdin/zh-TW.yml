@@ -951,6 +951,7 @@ zh-TW:
 
 '
   error_external_authentication_failed: 外部身份驗證錯誤。請再次一次。
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: 專案已編輯
     changeset: 已編輯變更
@@ -2049,8 +2050,9 @@ zh-TW:
   setting_welcome_on_homescreen: 在主頁面上顯示歡迎區塊
   setting_wiki_compression: 維基歷史壓縮
   setting_work_package_group_assignment: 允許分配給群組
-  setting_work_package_list_default_highlighting_mode: Default work package highlighting
-    mode
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: 一般
     other: 其他
@@ -2060,6 +2062,13 @@ zh-TW:
     user:
       default_preferences: 默認偏好設置
       deletion: 消除
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: No highlighting
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: 純文字

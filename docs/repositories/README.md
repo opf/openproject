@@ -68,7 +68,7 @@ Part of the managed repositories functionality was previously provided with repo
 Reposman periodically checked for new projects and automatically created a repository of a given type.
 It never deleted repositories on the filesystem when their associated project was removed in OpenProject.
 
-This script has been integrated into OpenProject and extended. If you previously used reposman, please see the [upgrade guide to 5.0](./upgrade-guide.md) for further guidance on how to migrate to managed repositories.
+This script has been integrated into OpenProject and extended. If you previously used reposman, please see the [upgrade guide to 5.0](../operations/upgrading) for further guidance on how to migrate to managed repositories.
 
 ### Managing Repositories Remotely
 

@@ -389,16 +389,26 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
       end
 
       it 'returns a list with a filter for every custom field' do
-        filters = described_class.all_for(project)
+        filters = described_class.all_for(query)
 
         all_custom_fields.each do |cf|
           expect(filters.detect { |filter| filter.name == :"cf_#{cf.id}" }).to_not be_nil
+        end
+      end
+
+      it 'sets the project as context for every created cf filter' do
+        filters = described_class.all_for(query)
+
+        all_custom_fields.each do |cf|
+          expect(filters.detect { |filter| filter.name == :"cf_#{cf.id}" }.context)
         end
       end
     end
 
     context 'without a project' do
       before do
+        query.project = nil
+
         allow(WorkPackageCustomField)
           .to receive_message_chain(:filter, :for_all, :where, :not)
           .and_return([list_wp_custom_field,
@@ -411,7 +421,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
       end
 
       it 'returns a list with a filter for every custom field' do
-        filters = described_class.all_for
+        filters = described_class.all_for(query)
 
         [list_wp_custom_field,
          bool_wp_custom_field,

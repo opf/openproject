@@ -30,8 +30,4 @@
 
 module CustomActions::Actions::Strategies::DateProperty
   include CustomActions::Actions::Strategies::Date
-
-  def apply(work_package)
-    work_package.send("#{self.class.key}=", values.first)
-  end
 end

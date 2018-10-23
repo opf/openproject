@@ -128,11 +128,6 @@ class WikiController < ApplicationController
 
   # display a page (in editing mode if it doesn't exist)
   def show
-    # TODO FIXME OMG! this is the ugliest hack I ever performed
-    # We need to hide the clearfix in the wiki to avoid additional spacing in the wiki
-    # THIS HACK NEEDS TO BE REPLACED BY AN ENGINEERS SOLUTION!
-    @no_clearfix = true
-
     @page = @wiki.find_or_new_page(wiki_page_title)
     if @page.new_record?
       if User.current.allowed_to?(:edit_wiki_pages, @project) && editable?

@@ -35,24 +35,15 @@ describe CustomActions::Actions::StartDate, type: :model do
   let(:value) { Date.today }
 
   it_behaves_like 'base custom action' do
-    describe '#apply' do
-      let(:work_package) { FactoryBot.build_stubbed(:stubbed_work_package) }
-
-      it 'sets the start_date to the action\'s value' do
-        instance.values = [Date.today]
-
-        instance.apply(work_package)
-
-        expect(work_package.start_date)
-          .to eql Date.today
-      end
-    end
-
     describe '#multi_value?' do
       it 'is false' do
         expect(instance)
           .not_to be_multi_value
       end
     end
+
+    it_behaves_like 'date custom action validations'
+    it_behaves_like 'date values transformation'
+    it_behaves_like 'date custom action apply'
   end
 end

@@ -1069,6 +1069,7 @@ pl:
 '
   error_external_authentication_failed: Wystąpił błąd podczas autoryzacji zewnętrznej.
     Proszę spróbować ponownie.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Projekt edytowany
     changeset: Komentarze edytowane
@@ -2281,8 +2282,9 @@ pl:
   setting_welcome_on_homescreen: Wyświetl wiadomość powitalną na ekranie głównym
   setting_wiki_compression: Kompresja historii wiki
   setting_work_package_group_assignment: Allow assignment to groups
-  setting_work_package_list_default_highlighting_mode: Domyślny tryb wyróżniania pakietu
-    roboczego
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: Ogólne
     other: Inne
@@ -2292,6 +2294,13 @@ pl:
     user:
       default_preferences: Ustawienia domyślne
       deletion: Usunięcie
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: Bez wyróżniania
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: Zwykły tekst

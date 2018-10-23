@@ -348,8 +348,6 @@ import {WorkPackageByVersionGraphComponent} from "core-components/wp-by-version-
     ZenModeButtonComponent,
     WpResizerDirective,
     MainMenuResizerComponent,
-    WpCustomActionComponent,
-    WpCustomActionsComponent,
     WorkPackageTableSumsRowController,
     SortHeaderDirective,
 
@@ -486,6 +484,10 @@ import {WorkPackageByVersionGraphComponent} from "core-components/wp-by-version-
     EmbeddedTablesMacroComponent,
     CkeditorAugmentedTextareaComponent,
 
+    // CustomActions
+    WpCustomActionComponent,
+    WpCustomActionsComponent,
+
     // Attachments
     AttachmentsComponent,
     AttachmentListComponent,
@@ -501,7 +503,6 @@ import {WorkPackageByVersionGraphComponent} from "core-components/wp-by-version-
     WorkPackageTablePaginationComponent,
     WorkPackagesTableController,
     TablePaginationComponent,
-    WpCustomActionsComponent,
 
     // Split view
     WorkPackageSplitViewComponent,
@@ -573,6 +574,9 @@ import {WorkPackageByVersionGraphComponent} from "core-components/wp-by-version-
     // CKEditor and macros
     CkeditorAugmentedTextareaComponent,
     EmbeddedTablesMacroComponent,
+
+    // CustomActions
+    WpCustomActionsComponent,
 
     // Attachments
     AttachmentsComponent,

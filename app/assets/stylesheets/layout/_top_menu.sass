@@ -102,31 +102,9 @@ $hamburger-width: 50px
       width: 400px
       left: 0px
 
-  li.drop-down
-    &:hover
-      @include varprop(background-color, header-item-bg-hover-color)
-      > a
-        @include varprop(color, header-item-font-hover-color)
-        i.icon-help:before
-          @include varprop(border-color, header-item-font-hover-color)
-
-    &.open
-      @include varprop(background-color, header-item-bg-hover-color)
-      > a
-        @include varprop(color, header-item-font-hover-color)
-        i.icon-help:before
-          @include varprop(border-color, header-item-font-hover-color)
-
-      .button--dropdown-indicator
-        &:before
-          @include icon-mixin-pulldown-up
-
-    li
-      > a
-        color: $header-drop-down-item-font-color
-        &:hover, &:focus
-          @include varprop(background, drop-down-hover-bg-color)
-          @include varprop(color, drop-down-hover-font-color)
+  li.drop-down.open
+    .button--dropdown-indicator:before
+      @include icon-mixin-pulldown-up
 
   li.last-child > ul,
   .drop-down--help,

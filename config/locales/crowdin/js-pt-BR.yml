@@ -112,6 +112,10 @@ pt-BR:
         embedded_table:
           button: Embutir tabela de pacote de trabalho
           text: "[Placeholder] Embutida tabela de pacote de trabalho"
+    custom_actions:
+      date:
+        specific: ligado
+        current_date: Current date
     error:
       internal: Ocorreu um erro interno.
       cannot_save_changes_with_message: 'Não foi possível salvar as alterações devido
@@ -476,6 +480,8 @@ pt-BR:
         para o Microsoft Edge.
       learn_more: Saiba mais
       close_warning: Ignorar este aviso.
+    upsale:
+      ee_only: Recurso exclusivo da Enterprise Edition
     wiki_formatting:
       strong: Negrito
       italic: Itálico
@@ -654,14 +660,15 @@ pt-BR:
         highlighting_mode:
           description: Destacar com cor
           none: Sem destaque
-          inline: Datas atrasadas, "Situação", "Tipo" e atributo "Prioridade"
+          inline: Highlighted attribute(s)
+          inline_all: All attributes
           entire_row_by: Toda linha por
           status: Situação
           priority: Prioridade
+          type: Tipo
         columns_help_text: Use a entrada acima para adicionar ou remover colunas à
           sua exibição de tabela. Você pode arrastar e soltar as colunas para reordená-las.
         upsale:
-          ee_only: Recurso exclusivo da Enterprise Edition
           attribute_highlighting: Precisa de certos pacotes de trabalho para se destacar
             da massa?
           relation_columns: Necessário ver as relações na lista de pacote de trabalho?

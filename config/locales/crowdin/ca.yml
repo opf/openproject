@@ -1046,6 +1046,7 @@ ca:
 '
   error_external_authentication_failed: S'ha produït un error durant l'autenticació
     externa. Torneu-ho a provar.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Projecte editat
     changeset: Conjunt de canvis editat
@@ -2265,8 +2266,9 @@ ca:
   setting_welcome_on_homescreen: Mostrar el bloc de benvinguda a la pàgina d'inici
   setting_wiki_compression: Compressió de l'historial de la wiki
   setting_work_package_group_assignment: Permeten l'assignació als grups
-  setting_work_package_list_default_highlighting_mode: Default work package highlighting
-    mode
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: General
     other: Altres
@@ -2276,6 +2278,13 @@ ca:
     user:
       default_preferences: Default preferences
       deletion: Deletion
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: No highlighting
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: Plain text

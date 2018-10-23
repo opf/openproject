@@ -59,6 +59,9 @@ module DemoData
           seeder.seed!
         end
       end
+
+      puts ' ↳ Updating settings'
+      seed_settings
     end
 
     def applicable?
@@ -73,6 +76,16 @@ module DemoData
       ]
 
       seeders.map { |seeder| seeder.new project, key }
+    end
+
+    def seed_settings
+      welcome = Hash(I18n.t("seeders.demo_data.welcome"))
+
+      if welcome.present?
+        Setting.welcome_title = welcome[:title]
+        Setting.welcome_text = welcome[:text]
+        Setting.welcome_on_homescreen = 1
+      end
     end
 
     def reset_project(key)

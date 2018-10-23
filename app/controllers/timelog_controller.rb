@@ -84,6 +84,7 @@ class TimelogController < ApplicationController
                        .includes(:project, :work_package)
                        .references(:projects)
                        .where(cond.conditions)
+                       .distinct(false)
                        .sum(:hours).to_f
 
         set_entries(cond)

@@ -1033,6 +1033,7 @@ vi:
 '
   error_external_authentication_failed: Lỗi xuất hiện trong khi xác thực bên ngoài.
     Xin vui lòng thử lại.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Đã chỉnh sửa dự án
     changeset: Đã chỉnh sửa Changeset (bộ thay đổi)
@@ -2215,8 +2216,9 @@ vi:
   setting_welcome_on_homescreen: Display welcome block on homescreen
   setting_wiki_compression: Wiki history compression
   setting_work_package_group_assignment: Allow assignment to groups
-  setting_work_package_list_default_highlighting_mode: Default work package highlighting
-    mode
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: Tổng quan
     other: Khác
@@ -2226,6 +2228,13 @@ vi:
     user:
       default_preferences: Cấu hình mặc định
       deletion: Xóa
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: No highlighting
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Gạch dưới
     plain: Văn bản thuần
