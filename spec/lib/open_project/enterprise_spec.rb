@@ -54,7 +54,13 @@ describe OpenProject::Enterprise do
         let(:num_active_users) { 0 }
 
         before do
-          FactoryBot.create_list :user, num_active_users
+          begin
+            allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(false)
+
+            FactoryBot.create_list :user, num_active_users
+          ensure
+            allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_call_original
+          end
 
           expect(User.active.count).to eq num_active_users
         end
