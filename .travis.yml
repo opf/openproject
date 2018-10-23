@@ -57,6 +57,7 @@ branches:
     - master
     - dev
     - /^(stable|release)\/.*$/
+    - /^(feature|fix)\/.*$/
 
 env:
   global:
