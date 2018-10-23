@@ -105,13 +105,17 @@ de:
           button: '"Arbeitspaket anlegen"-Schaltfläche einfügen'
           type: Arbeitspaket-Typ
           button_style: Als Schaltfläche anzeigen
-          button_style_hint: 'Optinoal: Haken setzen, um das Makro nicht als Link,
+          button_style_hint: 'Optional: Haken setzen, um das Makro nicht als Link,
             sondern als Schaltfläche erscheinen zu lassen.'
           without_type: Arbeitspaket erstellen
           with_type: 'Arbeitspaket erstellen (Typ: %{typename})'
         embedded_table:
           button: Arbeitspaket-Tabelle einbetten
           text: "[Platzhalter] Eingebette Arbeitspaket-Tabelle"
+    custom_actions:
+      date:
+        specific: am
+        current_date: Current date
     error:
       internal: Ein interner Fehler ist aufgetreten.
       cannot_save_changes_with_message: 'Ihre Änderungen können nicht gespeichert
@@ -481,6 +485,8 @@ de:
         führen ein Upgrade auf Microsoft Edge durch.
       learn_more: Weitere Informationen
       close_warning: Diese Warnung ignorieren.
+    upsale:
+      ee_only: Enterprise-Edition Feature
     wiki_formatting:
       strong: Fett
       italic: Kursiv
@@ -664,15 +670,16 @@ de:
         highlighting_mode:
           description: Farbliche Hervorherbung
           none: Keine Hervorhebung
-          inline: Überfällige Termine, Attribute "Status" und "Priorität"
+          inline: Highlighted attribute(s)
+          inline_all: All attributes
           entire_row_by: Gesamte Zeile durch
           status: Status
           priority: Priorität
+          type: Typ
         columns_help_text: Verwenden Sie die Eingabe oben um Spalten zur Tabellenansicht
           hinzuzufügen oder zu entfernen. Sie können die Reihenfolge der Spalten über
           Drag & Drop verändern.
         upsale:
-          ee_only: Enterprise-Edition Feature
           attribute_highlighting: Sollen bestimmte Arbeitspakete aus der Menge herausstechen?
           relation_columns: Möchten Sie Zusammenhänge in der Arbeitspaketliste anzeigen?
           check_out_link: Testen Sie die Enterprise Edition.

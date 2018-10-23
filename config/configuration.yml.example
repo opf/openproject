@@ -165,6 +165,8 @@
 
 # default configuration options for all environments
 default:
+  log_level: info
+
   # Outgoing emails configuration (see examples above)
   email_delivery_method: :smtp
   smtp_address: smtp.example.net
@@ -389,7 +391,8 @@ default:
 
 # specific configuration options for production environment
 # that overrides the default ones
-# production:
+production:
+  log_level: warn
 
 # specific configuration options for development environment
 # that overrides the default ones

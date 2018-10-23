@@ -84,11 +84,11 @@ class ServiceResult
   end
 
   def on_success
-    yield if success?
+    yield(self) if success?
   end
 
   def on_failure
-    yield if failure?
+    yield(self) if failure?
   end
 
   private

@@ -21,7 +21,7 @@ export class HighlightingRenderPass {
       return;
     }
 
-    const highlightAttribute = this.wpTableHighlighting.current;
+    const highlightAttribute = this.wpTableHighlighting.current.mode;
 
     // Get the computed style to identify bright properties
     const styles = window.getComputedStyle(document.body);

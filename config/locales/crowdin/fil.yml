@@ -1067,6 +1067,7 @@ fil:
 '
   error_external_authentication_failed: Isang error ang naganap habang nag-external
     authentication. Mangyaring subukan ulit.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Naka-edit ang proyekto
     changeset: Naka-edit ang changeset
@@ -1116,7 +1117,7 @@ fil:
       upsale:
         become_hero: Maging isang bayani!
         title: I-upgrade sa Enterprise Edition
-        description: Palakasin ang itong productivity kasama ang Enterprise Edition
+        description: What are the benefits?
         more_info: Karagdagang impornasyon
         additional_features: Karagdagang tampok ng powerful premium
         professional_support: Propesyonal na suporta mula sa OpenProject eksperto
@@ -2164,6 +2165,7 @@ fil:
   setting_email_delivery_method: Pamaraan ng paghahatid ng email
   setting_sendmail_location: Lokasyon ng sendmail na pagpapatupad
   setting_smtp_enable_starttls_auto: Automatikong gagamitin ang STARTTLS kung magagamit
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: Server g SMTP
   setting_smtp_port: Port ng SMTP
   setting_smtp_authentication: Pagpapatunay ng SMTP
@@ -2292,8 +2294,9 @@ fil:
   setting_welcome_on_homescreen: I-display ang welcome block sa homescreen
   setting_wiki_compression: Pag-compress ng wiki na kasaysayan
   setting_work_package_group_assignment: Pinayagan ang gawain sa mga grupo
-  setting_work_package_list_default_highlighting_mode: Default work package highlighting
-    mode
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: Pangkalahatan
     other: Iba pa
@@ -2303,6 +2306,13 @@ fil:
     user:
       default_preferences: Default preferences
       deletion: Deletion
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: No highlighting
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: Plain text
@@ -2784,7 +2794,7 @@ fil:
       code_401_wrong_credentials: Hindi mo na naibigay ang tamang mga kredensyal.
       code_403: Ikaw ay hindi pwedeng magpatunay na mag-akses sa mapagkukunan na ito.
       code_404: Ang hinihiling na mapagkukunan ay hindi nakita.
-      code_409: Hindi mai-updatr ang mapagkukunan dahil sa magkasalungat na mga pagbabago.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: Isang internal error ang naganap.
       expected:
         date: YYYY-MM-DD (ISO 8601 date only)

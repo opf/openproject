@@ -184,11 +184,11 @@ export class WorkPackageChangeset {
 
           this.workPackage.$links.updateImmediately(payload)
             .then((savedWp:WorkPackageResource) => {
-              // Initialize any potentially new HAL values
-              this.workPackage.$initialize(savedWp.$source);
-
               // Ensure the schema is loaded before updating
-              this.schemaCacheService.ensureLoaded(this.workPackage).then(() => {
+              this.schemaCacheService.ensureLoaded(savedWp).then(() => {
+
+                // Initialize any potentially new HAL values
+                this.workPackage = savedWp;
 
                 if (wasNew) {
                   this.workPackage.overriddenSchema = undefined;
@@ -196,6 +196,11 @@ export class WorkPackageChangeset {
                 }
 
                 this.wpActivity.clear(this.workPackage.id);
+
+                // If there is a parent, its view has to be updated as well
+                if (this.workPackage.parent) {
+                  this.wpCacheService.loadWorkPackage(this.workPackage.parent.id.toString(), true);
+                }
                 this.wpCacheService.updateWorkPackage(this.workPackage);
                 this.resource = null;
                 this.clear();
@@ -357,4 +362,3 @@ export class WorkPackageChangeset {
     this.wpEditing.updateValue(this.workPackage.id, this);
   }
 }
-

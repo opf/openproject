@@ -36,6 +36,7 @@ import {ApiV3FilterBuilder} from 'core-app/components/api/api-v3/api-v3-filter-b
 import {Injectable} from '@angular/core';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
+import {Observable} from "rxjs";
 
 export interface PaginationObject {
   pageSize:number;
@@ -50,7 +51,13 @@ export class QueryDmService {
               protected PayloadDm:PayloadDmService) {
   }
 
-  public find(queryData:Object, queryId?:number, projectIdentifier?:string):Promise<QueryResource> {
+  /**
+   * Stream the response for the given query request
+   * @param queryData
+   * @param queryId
+   * @param projectIdentifier
+   */
+  public stream(queryData:Object, queryId?:number, projectIdentifier?:string):Observable<QueryResource> {
     let path:string;
 
     if (queryId) {
@@ -60,8 +67,11 @@ export class QueryDmService {
     }
 
     return this.halResourceService
-      .get<QueryResource>(path, queryData)
-      .toPromise();
+      .get<QueryResource>(path, queryData);
+  }
+
+  public find(queryData:Object, queryId?:number, projectIdentifier?:string):Promise<QueryResource> {
+    return this.stream(queryData, queryId, projectIdentifier).toPromise();
   }
 
   public findDefault(queryData:Object, projectIdentifier?:string):Promise<QueryResource> {

@@ -944,6 +944,7 @@ ja:
 
 '
   error_external_authentication_failed: 外部認証中にエラーが発生しました。もう一度やり直してください。
+  error_attribute_not_highlightable: '強調表示されない属性: %{attributes}'
   events:
     project: プロジェクトが編集されました。
     changeset: 変更セットが編集されました。
@@ -993,7 +994,7 @@ ja:
       upsale:
         become_hero: ヒーローになる!
         title: エンタープライズ版にアップグレード
-        description: エンタープライズ版で生産性を向上します
+        description: メリットは何ですか？
         more_info: 詳細情報
         additional_features: 強力なプレミアム機能
         professional_support: OpenProject のエキスパートからのプロフェッショナル サポート
@@ -1938,6 +1939,7 @@ ja:
   setting_email_delivery_method: メールの配信方法
   setting_sendmail_location: Sendmail の実行可能ファイルの場所
   setting_smtp_enable_starttls_auto: 利用可能な場合、STARTTLS を自動的に使用する
+  setting_smtp_ssl: SSL接続を使用する
   setting_smtp_address: SMTPサーバ
   setting_smtp_port: SMTPポート
   setting_smtp_authentication: SMTP認証
@@ -2042,7 +2044,8 @@ ja:
   setting_welcome_on_homescreen: ホーム画面にようこそブロックを表示
   setting_wiki_compression: Wiki履歴を圧縮する
   setting_work_package_group_assignment: グループへの割り当てを許可する
-  setting_work_package_list_default_highlighting_mode: デフォルト作業項目のハイライトモード
+  setting_work_package_list_default_highlighting_mode: デフォルトの強調表示モード
+  setting_work_package_list_default_highlighted_attributes: デフォルトのインライン強調表示属性
   settings:
     general: 概要
     other: その他
@@ -2052,6 +2055,13 @@ ja:
     user:
       default_preferences: デフォルト設定
       deletion: 削除
+    highlighting:
+      mode_long:
+        inline: 属性をインラインで強調表示する
+        none: ハイライトなし
+        status: ステータス別の行全体
+        type: タイプごとの行全体
+        priority: 優先度別に行全体
   text_formatting:
     markdown: Markdown
     plain: プレーンテキスト
@@ -2446,7 +2456,7 @@ ja:
       code_401_wrong_credentials: 正しい認証情報が提供されていません。
       code_403: このリソースにアクセスする権限がありません。
       code_404: 要求したリソースが見つかりません。
-      code_409: 変更が競合しているため、リソースを更新できませんでした。
+      code_409: 競合する変更のためにリソースを更新できませんでした。
       code_500: 内部エラーが発生しました。
       expected:
         date: YYYY-MM-DD (ISO 8601 日付のみ)

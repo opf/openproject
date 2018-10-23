@@ -1051,6 +1051,7 @@ hr:
 '
   error_external_authentication_failed: Došlo je do greške tijekom izvođenja vanjske
     autentifikacije. Molim vas pokušajte opet.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Projekt je uređivan
     changeset: Changeset uređen
@@ -1100,7 +1101,7 @@ hr:
       upsale:
         become_hero: Postati heroj!
         title: Nadogradnja na izdanje Enterprise
-        description: Boost your productivity with the Enterprise Edition
+        description: What are the benefits?
         more_info: Više informacija
         additional_features: Additional powerful premium features
         professional_support: Stručna podrška OpenProject stručnjaka
@@ -2132,6 +2133,7 @@ hr:
   setting_email_delivery_method: Email delivery method
   setting_sendmail_location: Location of the sendmail executable
   setting_smtp_enable_starttls_auto: Automatically use STARTTLS if available
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: SMTP server
   setting_smtp_port: SMTP port
   setting_smtp_authentication: SMTP authentication
@@ -2249,8 +2251,9 @@ hr:
   setting_welcome_on_homescreen: Prikaži tekst dobrodošlice na početnoj stranici
   setting_wiki_compression: Kompresija Wiki povijesti
   setting_work_package_group_assignment: Allow assignment to groups
-  setting_work_package_list_default_highlighting_mode: Default work package highlighting
-    mode
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: Općenito
     other: Ostalo
@@ -2260,6 +2263,13 @@ hr:
     user:
       default_preferences: Default preferences
       deletion: Deletion
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: No highlighting
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: Plain text
@@ -2720,7 +2730,7 @@ hr:
       code_401_wrong_credentials: Niste naveli ispravnu akreditaciju.
       code_403: Niste autorizirani za pristup ovom resursu.
       code_404: The requested resource could not be found.
-      code_409: Couldn't update the resource because of conflicting modifications.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: Dogodila se interna pogreška.
       expected:
         date: YYYY-MM-DD (ISO 8601 date only)

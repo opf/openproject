@@ -27,6 +27,7 @@
 // ++
 
 import {Injector} from '@angular/core';
+import {DisplayFieldContext} from "core-app/modules/fields/display/display-field.service";
 
 export interface IFieldSchema {
   type:string;
@@ -43,7 +44,7 @@ export class Field {
   public resource:any;
   public name:string;
   public schema:IFieldSchema;
-  public context:string = '';
+  public context:DisplayFieldContext;
 
   public get displayName():string {
     return this.schema.name || this.name;

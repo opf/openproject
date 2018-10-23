@@ -109,6 +109,10 @@ pt:
         embedded_table:
           button: Incorporar a tabela de pacote de trabalho
           text: "[Placeholder] Tabela de pacote de trabalho incorporada"
+    custom_actions:
+      date:
+        specific: 'on'
+        current_date: Current date
     error:
       internal: Ocorreu um erro interno.
       cannot_save_changes_with_message: 'Não é possível guardar as alterações devido
@@ -470,6 +474,8 @@ pt:
         para o Microsoft Edge.
       learn_more: Saber mais
       close_warning: Ignore este aviso.
+    upsale:
+      ee_only: Recurso exclusivo da Edição Empresarial
     wiki_formatting:
       strong: Negrito
       italic: Itálico
@@ -647,15 +653,16 @@ pt:
         highlighting_mode:
           description: Destaque com cor
           none: Sem destaque
-          inline: Datas em atraso, atributo "Status" e "Prioridade"
+          inline: Highlighted attribute(s)
+          inline_all: All attributes
           entire_row_by: Toda a linha por
           status: Situação
           priority: Prioridade
+          type: Tipo
         columns_help_text: Utilize a entrada acima para adicionar ou remover colunas
           ao seu modo de vista de tabela. Pode arrastar e soltar as colunas para as
           reordenar.
         upsale:
-          ee_only: Recurso exclusivo da Edição Empresarial
           attribute_highlighting: Precisa de certos pacotes de trabalho para se destacar
             do resto?
           relation_columns: Precisa de ver as relações na lista do pacote de trabalho?

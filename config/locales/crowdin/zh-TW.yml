@@ -951,6 +951,7 @@ zh-TW:
 
 '
   error_external_authentication_failed: 外部身份驗證錯誤。請再次一次。
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: 專案已編輯
     changeset: 已編輯變更
@@ -1000,7 +1001,7 @@ zh-TW:
       upsale:
         become_hero: 成為英雄!
         title: 升級到企業版
-        description: 使用企業版提高您的生產率
+        description: What are the benefits?
         more_info: 更多資訊
         additional_features: 其他強大的高級功能
         professional_support: 由 OpenProject 專家提供專業支援
@@ -1945,6 +1946,7 @@ zh-TW:
   setting_email_delivery_method: 電子郵件傳遞方法
   setting_sendmail_location: Sendmail 的執行位置
   setting_smtp_enable_starttls_auto: 如果可用將自動使用 STARTTLS
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: SMTP 伺服器
   setting_smtp_port: SMTP 埠
   setting_smtp_authentication: SMTP 驗證
@@ -2048,8 +2050,9 @@ zh-TW:
   setting_welcome_on_homescreen: 在主頁面上顯示歡迎區塊
   setting_wiki_compression: 維基歷史壓縮
   setting_work_package_group_assignment: 允許分配給群組
-  setting_work_package_list_default_highlighting_mode: Default work package highlighting
-    mode
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: 一般
     other: 其他
@@ -2059,6 +2062,13 @@ zh-TW:
     user:
       default_preferences: 默認偏好設置
       deletion: 消除
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: No highlighting
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: 純文字
@@ -2455,9 +2465,7 @@ zh-TW:
         You are not authorized to access this resource.
         您未被授權使用這個資源。
       code_404: 找不到請求的資源。
-      code_409: |-
-        Couldn't update the resource because of conflicting modifications.
-        因為修改的衝突，所以無法更新這個資源。
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: 發生內部錯誤
       expected:
         date: YYYY-MM-DD (僅適用於 ISO 8601 日期)

@@ -28,10 +28,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# script/ci_setup.sh
-
-# $1 = TEST_SUITE
-# $2 = DB
+set -e
 
 run() {
   echo $1;
@@ -41,39 +38,14 @@ run() {
   eval $2;
 }
 
-if [ $2 = "mysql" ]; then
-  run "mysql -u root -e \"CREATE DATABASE IF NOT EXISTS travis_ci_test DEFAULT CHARACTER SET = 'utf8' DEFAULT COLLATE 'utf8_general_ci';\""
-  run "mysql -u root -e \"GRANT ALL ON travis_ci_test.* TO 'travis'@'localhost';\""
-  run "cp script/templates/database.travis.mysql.yml config/database.yml"
-elif [ $2 = "postgres" ]; then
-  run "psql -c 'create database travis_ci_test;' -U postgres"
-  run "cp script/templates/database.travis.postgres.yml config/database.yml"
-fi
+run "mysql -u root -e \"CREATE DATABASE IF NOT EXISTS travis_ci_test DEFAULT CHARACTER SET = 'utf8' DEFAULT COLLATE 'utf8_general_ci';\""
+run "mysql -u root -e \"GRANT ALL ON travis_ci_test.* TO 'travis'@'localhost';\""
+run "cp script/templates/database.travis.mysql.yml config/database.yml"
 
-# run migrations for mysql or postgres
-if [ $1 != 'npm' ]; then
-  run "bundle exec rake db:migrate"
-fi
+run "bundle exec rake db:migrate"
 
 run "for i in {1..3}; do npm install && break || sleep 15; done"
 
-if [ $1 = 'npm' ]; then
-  echo "No asset compilation required"
-elif [ $1 != 'specs' ] && [ $1 != 'spec_legacy' ]; then
-  run "bundle exec rails assets:precompile"
-else
-  # fake result of npm/asset run
-  run "mkdir -p public/assets/frontend/"
-  run "touch public/assets/frontend/runtime.js"
-  run "touch public/assets/frontend/vendor.js"
-  run "touch public/assets/frontend/main.js"
-  run "touch public/assets/frontend/styles.js"
-  run "touch public/assets/frontend/styles.css"
+run "bundle exec rails assets:precompile assets:clean"
 
-  run "mkdir -p app/assets/javascripts/bundles"
-  run "touch app/assets/javascripts/bundles/openproject-legacy-app.js"
-
-  run "mkdir -p app/assets/javascripts/locales"
-  run "touch app/assets/javascripts/locales/en.js"
-fi
-
+run "cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json"

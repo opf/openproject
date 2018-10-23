@@ -19,7 +19,7 @@ class WorkPackageField
   end
 
   def field_container
-    @context.find @selector
+    context.find @selector
   end
 
   def display_selector
@@ -27,15 +27,19 @@ class WorkPackageField
   end
 
   def display_element
-    @context.find "#{@selector} #{display_selector}"
+    context.find "#{@selector} #{display_selector}"
   end
 
   def input_element
-    @context.find "#{@selector} #{input_selector}"
+    context.find "#{@selector} #{input_selector}"
   end
 
   def clear
     input_element.native.clear
+  end
+
+  def expect_read_only
+    expect(context).to have_selector "#{@selector} #{display_selector}.-read-only"
   end
 
   def expect_state_text(text)
@@ -120,7 +124,6 @@ class WorkPackageField
       input_element.set(content)
     end
   end
-
 
   def type(text)
     scroll_to_element(input_element)

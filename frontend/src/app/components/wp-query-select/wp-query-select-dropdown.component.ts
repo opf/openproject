@@ -32,7 +32,7 @@ import {WorkPackagesListService} from '../wp-list/wp-list.service';
 import {WorkPackagesListChecksumService} from '../wp-list/wp-list-checksum.service';
 import {WorkPackagesListComponent} from 'core-components/routing/wp-list/wp-list.component';
 import {StateService, TransitionService} from '@uirouter/core';
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from "@angular/core";
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectorRef} from "@angular/core";
 import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
@@ -107,7 +107,8 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   private initialized = false;
 
 
-  constructor(readonly element:ElementRef,
+  constructor(readonly ref:ChangeDetectorRef,
+              readonly element:ElementRef,
               readonly QueryDm:QueryDmService,
               readonly $state:StateService,
               readonly $transitions:TransitionService,
@@ -233,7 +234,6 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   private loadQueries() {
     return this.loadingPromise = this.QueryDm
       .all(this.CurrentProject.identifier);
-
   }
 
   private set loadingPromise(promise:Promise<any>) {
@@ -413,12 +413,17 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
             let thisCategory:string = jQuery(category).attr("category");
             this.expandCollapseCategory(thisCategory);
           });
+          // Update view
+          this.ref.detectChanges();
         });
       });
   }
 
   private expandCollapseCategory(category:string) {
-    jQuery(`[data-category="${category}"]`).toggleClass('-hidden');
+    jQuery(`[data-category="${category}"]`)
+      // Don't hide the categories themselves (Regression #28584)
+      .not('.ui-autocomplete--category')
+      .toggleClass('-hidden');
     jQuery(`.wp-query-menu--category-icon[data-category="${category}"]`).toggleClass('-collapsed');
   }
 

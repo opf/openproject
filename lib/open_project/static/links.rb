@@ -107,7 +107,7 @@ module OpenProject
               label: :label_api_documentation
             },
             text_formatting: {
-              href: 'https://www.openproject.org/help/text-formatting',
+              href: 'https://www.openproject.org/help/wiki/',
               label: :setting_text_formatting
             }
           }

@@ -168,6 +168,8 @@ module OpenProject
 
     config.action_controller.asset_host = OpenProject::Configuration['rails_asset_host']
 
+    config.log_level = OpenProject::Configuration['log_level'].to_sym
+
     def self.root_url
       Setting.protocol + "://" + Setting.host_name
     end

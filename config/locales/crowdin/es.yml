@@ -1064,6 +1064,7 @@ es:
 '
   error_external_authentication_failed: Se ha producido un error durante la autenticación
     externa. Por favor inténtelo nuevamente.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Proyecto editado
     changeset: Set de cambios editado
@@ -1113,7 +1114,7 @@ es:
       upsale:
         become_hero: "¡Conviértete en héroe!"
         title: Actualizar hasta versión corporativa
-        description: Aumente el rendimiento con la versión corporativa
+        description: What are the benefits?
         more_info: Más información
         additional_features: Características Premium avanzadas adicionales
         professional_support: Apoyo profesional de los expertos de OpenProject
@@ -2160,6 +2161,7 @@ es:
   setting_email_delivery_method: Método de envío de correo electrónico
   setting_sendmail_location: Ubicación del ejecutable de sendmail
   setting_smtp_enable_starttls_auto: Usar STARTTLS automáticamente si está disponible
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: Servidor SMTP
   setting_smtp_port: Puerto SMTP
   setting_smtp_authentication: Autenticación SMTP
@@ -2287,8 +2289,9 @@ es:
   setting_welcome_on_homescreen: Mostrar bloque de bienvenida en la pagina de inicio
   setting_wiki_compression: Comprensión del historial del Wiki
   setting_work_package_group_assignment: Permite la asignación a grupos
-  setting_work_package_list_default_highlighting_mode: Modo predeterminado de resaltado
-    de paquete de trabajo
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: General
     other: Otros
@@ -2298,6 +2301,13 @@ es:
     user:
       default_preferences: Preferencias predeterminadas
       deletion: Eliminación
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: Sin resaltado
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: Texto sin formato
@@ -2770,7 +2780,7 @@ es:
       code_401_wrong_credentials: No se proporcionaron las credenciales correctas.
       code_403: No está autorizado a acceder a este recurso.
       code_404: No se pudo encontrar el recurso solicitado.
-      code_409: No se pudo actualizar el recurso debido a modificaciones en conflicto.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: Ha ocurrido un error interno.
       expected:
         date: AAAA-MM-DD (ISO 8601 fecha solamente)

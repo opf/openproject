@@ -33,7 +33,7 @@ describe TimelogController, type: :controller do
   let(:project) { FactoryBot.create(:project) }
   let(:user) do
     FactoryBot.create(:admin,
-                       member_in_project: project)
+                      member_in_project: project)
   end
   let(:params) do
     { 'time_entry' => { 'work_package_id' => work_package_id,
@@ -52,8 +52,6 @@ describe TimelogController, type: :controller do
 
   describe '#create' do
     shared_examples_for 'successful timelog creation' do
-      it { expect(response).to be_a_redirect }
-
       it { expect(response).to redirect_to(project_time_entries_path(project)) }
     end
 
@@ -79,8 +77,8 @@ describe TimelogController, type: :controller do
       context 'with a required custom field' do
         let(:custom_field) do
           FactoryBot.build_stubbed :time_entry_custom_field,
-                                    name: 'supplies',
-                                    is_required: true
+                                   name: 'supplies',
+                                   is_required: true
         end
 
         let(:time_entry) { double('time_entry', save: true, project: project) }
@@ -111,7 +109,7 @@ describe TimelogController, type: :controller do
       describe '#valid' do
         let(:work_package) do
           FactoryBot.create(:work_package,
-                             project: project)
+                            project: project)
         end
         let(:work_package_id) { work_package.id }
 
@@ -136,6 +134,57 @@ describe TimelogController, type: :controller do
 
           it { expect(response.body).to match(/Work package is invalid/) }
         end
+      end
+    end
+  end
+
+  describe '#destroy' do
+    let(:time_entry) do
+      FactoryBot.build_stubbed(:time_entry).tap do |entry|
+        allow(TimeEntry)
+          .to receive(:find)
+          .with(entry.id.to_s)
+          .and_return(entry)
+      end
+    end
+
+    let(:expected_destroy_response) { true }
+
+    before do
+      expect(time_entry)
+        .to receive(:destroy)
+        .and_return(expected_destroy_response)
+
+      allow(time_entry)
+        .to receive(:destroyed?)
+        .and_return(expected_destroy_response)
+
+      delete :destroy, params: { id: time_entry.id }
+    end
+
+    context 'successful' do
+      it 'redirects to index' do
+        expect(response)
+          .to redirect_to project_time_entries_path(time_entry.project)
+      end
+
+      it 'returns with a success flash' do
+        expect(flash[:notice])
+          .to eql I18n.t(:notice_successful_delete)
+      end
+    end
+
+    context 'failure' do
+      let(:expected_destroy_response) { false }
+
+      it 'redirects to index' do
+        expect(response)
+          .to redirect_to project_time_entries_path(time_entry.project)
+      end
+
+      it 'returns with a success flash' do
+        expect(flash[:error])
+          .to eql I18n.t(:notice_unable_delete_time_entry)
       end
     end
   end

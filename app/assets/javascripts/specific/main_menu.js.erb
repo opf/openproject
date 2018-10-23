@@ -115,4 +115,8 @@ jQuery(document).ready(function($) {
     $(child).before(header);
   })
 
+  if($('.menu_root').hasClass('closed')) {
+      // TODO: Instead of hiding the sidebar move sidebar's contents to submenus and cache it.
+      $('#sidebar').toggleClass('-hidden', true);
+  }
 });

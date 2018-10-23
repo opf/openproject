@@ -936,6 +936,7 @@ lol:
 
 '
   error_external_authentication_failed: crwdns100088:0crwdne100088:0
+  error_attribute_not_highlightable: crwdns102540:0%{attributes}crwdne102540:0
   events:
     project: crwdns100089:0crwdne100089:0
     changeset: crwdns100090:0crwdne100090:0
@@ -985,7 +986,7 @@ lol:
       upsale:
         become_hero: crwdns100127:0crwdne100127:0
         title: crwdns100128:0crwdne100128:0
-        description: crwdns100129:0crwdne100129:0
+        description: crwdns102536:0crwdne102536:0
         more_info: crwdns100130:0crwdne100130:0
         additional_features: crwdns100131:0crwdne100131:0
         professional_support: crwdns100132:0crwdne100132:0
@@ -1913,6 +1914,7 @@ lol:
   setting_email_delivery_method: crwdns100988:0crwdne100988:0
   setting_sendmail_location: crwdns100989:0crwdne100989:0
   setting_smtp_enable_starttls_auto: crwdns100990:0crwdne100990:0
+  setting_smtp_ssl: crwdns102531:0crwdne102531:0
   setting_smtp_address: crwdns100991:0crwdne100991:0
   setting_smtp_port: crwdns100992:0crwdne100992:0
   setting_smtp_authentication: crwdns100993:0crwdne100993:0
@@ -2015,7 +2017,8 @@ lol:
   setting_welcome_on_homescreen: crwdns101090:0crwdne101090:0
   setting_wiki_compression: crwdns101091:0crwdne101091:0
   setting_work_package_group_assignment: crwdns101092:0crwdne101092:0
-  setting_work_package_list_default_highlighting_mode: crwdns101093:0crwdne101093:0
+  setting_work_package_list_default_highlighting_mode: crwdns102542:0crwdne102542:0
+  setting_work_package_list_default_highlighted_attributes: crwdns102544:0crwdne102544:0
   settings:
     general: crwdns101094:0crwdne101094:0
     other: crwdns101095:0crwdne101095:0
@@ -2025,6 +2028,13 @@ lol:
     user:
       default_preferences: crwdns101099:0crwdne101099:0
       deletion: crwdns101100:0crwdne101100:0
+    highlighting:
+      mode_long:
+        inline: crwdns102546:0crwdne102546:0
+        none: crwdns102548:0crwdne102548:0
+        status: crwdns102550:0crwdne102550:0
+        type: crwdns102552:0crwdne102552:0
+        priority: crwdns102554:0crwdne102554:0
   text_formatting:
     markdown: crwdns101101:0crwdne101101:0
     plain: crwdns101102:0crwdne101102:0
@@ -2401,7 +2411,7 @@ lol:
       code_401_wrong_credentials: crwdns101405:0crwdne101405:0
       code_403: crwdns101406:0crwdne101406:0
       code_404: crwdns101407:0crwdne101407:0
-      code_409: crwdns101408:0crwdne101408:0
+      code_409: crwdns102537:0crwdne102537:0
       code_500: crwdns101409:0crwdne101409:0
       expected:
         date: crwdns101410:0crwdne101410:0

@@ -271,9 +271,11 @@ describe 'Custom actions', type: :feature, js: true do
     retry_block do
       new_ca_page.visit!
       new_ca_page.set_name('Move project')
+      # Add date custom action which has a different admin layout
+      select date_custom_field.name, from: 'Add action'
+      select 'on', from: date_custom_field.name
       date = (Date.today + 5.days).to_s
-      new_ca_page.add_action(date_custom_field.name, date)
-      page.find_field("custom_action_actions_custom_field_#{date_custom_field.id}", with: date)
+      fill_in "custom_action_actions_custom_field_#{date_custom_field.id}_visible", with: date
 
       # Close autocompleter
       if page.has_selector? '.ui-datepicker-close'

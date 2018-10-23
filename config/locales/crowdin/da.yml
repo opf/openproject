@@ -1031,6 +1031,7 @@ da:
 '
   error_external_authentication_failed: Der opstod en fejl ved den eksterne godkendelse.
     Prøv venligst igen.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Projekt er redigeret
     changeset: Pakke af ændringer er redigeret
@@ -1080,7 +1081,7 @@ da:
       upsale:
         become_hero: Become a hero!
         title: Opgradér til Enterprise Edition
-        description: Boost your productivity with the Enterprise Edition
+        description: What are the benefits?
         more_info: More information
         additional_features: Additional powerful premium features
         professional_support: Professional support from the OpenProject experts
@@ -2095,6 +2096,7 @@ da:
   setting_email_delivery_method: Email delivery method
   setting_sendmail_location: Location of the sendmail executable
   setting_smtp_enable_starttls_auto: Automatically use STARTTLS if available
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: SMTP server
   setting_smtp_port: SMTP port
   setting_smtp_authentication: SMTP authentication
@@ -2209,8 +2211,9 @@ da:
   setting_welcome_on_homescreen: Vis velkomstblok på hjemmeskærm
   setting_wiki_compression: Sammendrag af wiki-historie
   setting_work_package_group_assignment: Tillad tilknytning til grupper
-  setting_work_package_list_default_highlighting_mode: Default work package highlighting
-    mode
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: Generelle
     other: Andet
@@ -2220,6 +2223,13 @@ da:
     user:
       default_preferences: Default preferences
       deletion: Deletion
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: No highlighting
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: Plain text
@@ -2679,7 +2689,7 @@ da:
       code_401_wrong_credentials: Du har ikke givet korrekte loginoplysninger.
       code_403: Du har ikke tilladelse til at få adgang til denne ressource.
       code_404: Den forespurgte ressource kunne ikke findes.
-      code_409: Kunne ikke opdatere ressourcen på grund af modstridende ændringer.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: En intern fejl opstod.
       expected:
         date: YYYY-MM-DD (ISO 8601 date only)

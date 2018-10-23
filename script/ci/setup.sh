@@ -1,3 +1,4 @@
+#!/bin/bash
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
@@ -27,32 +28,48 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# script/ci_runner.sh
-#!/bin/sh
-
 set -e
 
-# Use the current HEAD as input to the seed
-export CI_SEED=$(git rev-parse HEAD | tr -d 'a-z' | cut -b 1-5 | tr -d '0')
-# Do not assume to have the angular cli running to serve assets. They are provided
-# by rails assets:precompile
-export OPENPROJECT_CLI_PROXY=''
+# script/ci/setup.sh
 
-case "$TEST_SUITE" in
-        npm)
-            npm test
-            ;;
-        spec_legacy)
-            echo "Preparing SCM test repositories for legacy specs"
-            bundle exec rake test:scm:setup:all
-            exec bundle exec rspec -I spec_legacy -o "--seed $CI_SEED" spec_legacy
-            ;;
-        specs)
-            bin/parallel_test --type rspec -o "--seed $CI_SEED" -n $GROUP_SIZE --only-group $GROUP --pattern '^spec/(?!features\/)' spec
-            ;;
-        features)
-            bin/parallel_test --type rspec -o "--seed $CI_SEED" -n $GROUP_SIZE --only-group $GROUP --pattern '^spec\/features\/' spec
-            ;;
-        *)
-            bundle exec rake parallel:$TEST_SUITE
-esac
+# $1 = TEST_SUITE
+# $2 = DB
+
+run() {
+  echo $1;
+  eval $1;
+
+  echo $2;
+  eval $2;
+}
+
+if [ $2 = "mysql" ]; then
+  run "mysql -u root -e \"CREATE DATABASE IF NOT EXISTS travis_ci_test DEFAULT CHARACTER SET = 'utf8' DEFAULT COLLATE 'utf8_general_ci';\""
+  run "mysql -u root -e \"GRANT ALL ON travis_ci_test.* TO 'travis'@'localhost';\""
+  run "cp script/templates/database.travis.mysql.yml config/database.yml"
+elif [ $2 = "postgres" ]; then
+  run "psql -c 'create database travis_ci_test;' -U postgres"
+  run "cp script/templates/database.travis.postgres.yml config/database.yml"
+fi
+
+# run migrations for mysql or postgres
+if [ $1 != 'npm' ]; then
+  run "bundle exec rake db:migrate"
+fi
+
+if [ $1 = 'npm' ]; then
+  run "for i in {1..3}; do npm install && break || sleep 15; done"
+  echo "No asset compilation required"
+fi
+
+if [ $1 = 'units' ]; then
+  # Install pandoc for testing textile migration
+  run "sudo apt-get update -qq"
+  run "sudo apt-get install -qq pandoc"
+fi
+
+if [ $1 = 'spec_legacy' ]; then
+  run "bundle exec rake test:scm:setup:all"
+fi
+
+run "cp -rp public/assets/frontend_assets.manifest.json config/frontend_assets.manifest.json"

@@ -66,7 +66,6 @@
 .dropdown .dropdown-menu,
 .drop-down .menu-drop-down-container
   LI > A,
-  LABEL,
   .menu-item
     display: block
     @include varprop(color, context-menu-unselected-font-color)
@@ -90,6 +89,10 @@
   LI > A.inactive
     color: #999999
 
+  LI > A.selected
+    @include varprop(background, drop-down-selected-bg-color)
+    @include varprop(color, drop-down-selected-font-color)
+
 .dropdown
   @include dot_border_width_style
 
@@ -98,9 +101,6 @@
 // Styles taken from jquery-dropdown plugin:
 // https://github.com/plapier/jquery-dropdown
 // (dual MIT/GPL-Licensed)
-
-#column-context-menu .menu
-  margin: 0
 
 .dropdown
   // Will be overridden by the js code but having this here will prevent the

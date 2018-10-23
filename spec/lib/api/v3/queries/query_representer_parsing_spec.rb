@@ -86,4 +86,18 @@ describe ::API::V3::Queries::QueryRepresenter do
       expect(subject).not_to be_grouped
     end
   end
+
+  describe 'parsing highlighted_attributes', with_ee: [:conditional_highlighting] do
+    let(:request_body) do
+      {
+        '_links' => {
+          'highlightedAttributes' => [{ 'href' => "/api/v3/queries/columns/type" }]
+        }
+      }
+    end
+
+    it 'should set highlighted_attributes' do
+      expect(subject.highlighted_attributes).to eq(%i{type})
+    end
+  end
 end

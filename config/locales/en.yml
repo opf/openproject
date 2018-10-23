@@ -983,6 +983,7 @@ en:
     with the existing menu item "%{existing_caption}" (%{existing_identifier}).
 
   error_external_authentication_failed: "An error occured during external authentication. Please try again."
+  error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
 
   events:
     project: 'Project edited'
@@ -1038,7 +1039,7 @@ en:
       upsale:
         become_hero: "Become a hero!"
         title: "Upgrade to Enterprise Edition"
-        description: "Boost your productivity with the Enterprise Edition"
+        description: "What are the benefits?"
         more_info: "More information"
         additional_features: "Additional powerful premium features"
         professional_support: "Professional support from the OpenProject experts"
@@ -2103,7 +2104,8 @@ en:
   setting_welcome_on_homescreen: "Display welcome block on homescreen"
   setting_wiki_compression: "Wiki history compression"
   setting_work_package_group_assignment: "Allow assignment to groups"
-  setting_work_package_list_default_highlighting_mode: "Default work package highlighting mode"
+  setting_work_package_list_default_highlighting_mode: "Default highlighting mode"
+  setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
 
   settings:
     general: "General"
@@ -2114,6 +2116,13 @@ en:
     user:
       default_preferences: "Default preferences"
       deletion: "Deletion"
+    highlighting:
+      mode_long:
+        inline: "Highlight attribute(s) inline"
+        none: "No highlighting"
+        status: "Entire row by Status"
+        type: "Entire row by Type"
+        priority: "Entire row by Priority"
 
   text_formatting:
     markdown: 'Markdown'
@@ -2523,7 +2532,7 @@ en:
       code_401_wrong_credentials: "You did not provide the correct credentials."
       code_403: "You are not authorized to access this resource."
       code_404: "The requested resource could not be found."
-      code_409: "Couldn\'t update the resource because of conflicting modifications."
+      code_409: "Could not update the resource because of conflicting modifications."
       code_500: "An internal error has occured."
       expected:
         date: "YYYY-MM-DD (ISO 8601 date only)"

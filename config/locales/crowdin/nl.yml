@@ -1051,6 +1051,7 @@ nl:
 '
   error_external_authentication_failed: Er heeft zich een fout voorgedaan bij de externe
     authenticatie. Probeer het opnieuw.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Project bewerkt
     changeset: Wijzigingsset bewerkt
@@ -1100,7 +1101,7 @@ nl:
       upsale:
         become_hero: Word een held!
         title: Upgrade naar Enterprise Edition
-        description: Uw productiviteit met de Enterprise Edition verbeteren
+        description: What are the benefits?
         more_info: Meer informatie
         additional_features: Extra krachtige premium functies
         professional_support: Professionele ondersteuning van de OpenProject experts
@@ -2136,6 +2137,7 @@ nl:
   setting_sendmail_location: Locatie van het uitvoerbare sendmail
   setting_smtp_enable_starttls_auto: Gebruik STARTTLS automatisch wanneer deze beschikbaar
     is
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: SMTP server
   setting_smtp_port: SMTP-port
   setting_smtp_authentication: SMTP-authenticatie
@@ -2255,8 +2257,9 @@ nl:
   setting_welcome_on_homescreen: Toon het Welkom blok op thuisscherm
   setting_wiki_compression: Compressie van wiki geschiedenis
   setting_work_package_group_assignment: Sta toewijzingen een groepen toe
-  setting_work_package_list_default_highlighting_mode: Default work package highlighting
-    mode
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: Algemeen
     other: Overig
@@ -2266,6 +2269,13 @@ nl:
     user:
       default_preferences: Standaardvoorkeuren
       deletion: Verwijdering
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: Geen markering
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: Onopgemaakte tekst
@@ -2738,7 +2748,7 @@ nl:
       code_401_wrong_credentials: U heeft niet de juiste referenties opgeven.
       code_403: U bent niet gemachtigd om toegang te hebben tot deze resource.
       code_404: De gevraagde resource kan niet worden gevonden.
-      code_409: Door conflicterende wijzigingen kan deze resource niet worden bijgewerkt.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: Een interne fout is opgetreden.
       expected:
         date: JJJJ-MM-DD (alleen ISO 8601 datum)

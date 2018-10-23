@@ -61,7 +61,7 @@ pl:
     editor:
       preview: Przełącz tryb podglądu
       source_code: Toggle Markdown source mode
-      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      error_saving_failed: 'Zapisywanie dokumentu nie powiodło się, błąd: %{error}'
       mode:
         manual: Switch to Markdown source
         wysiwyg: Switch to WYSIWYG editor
@@ -108,6 +108,10 @@ pl:
         embedded_table:
           button: Osadź tabelę pakietów roboczych
           text: "[Placeholder] Osadzona tabela pakietów roboczych"
+    custom_actions:
+      date:
+        specific: wł
+        current_date: Aktualna data
     error:
       internal: Wystąpił błąd wewnętrzny.
       cannot_save_changes_with_message: 'Nie można zapisać zmian ze względu na następujący
@@ -471,6 +475,8 @@ pl:
         lub zaistalować przeglądarkę Microsoft Edge.
       learn_more: Dowiedz się więcej
       close_warning: Zignoruj to ostrzeżenie.
+    upsale:
+      ee_only: Funkcja dostępna tylko w wersji Enterprise
     wiki_formatting:
       strong: Pogrubienie
       italic: Kursywa
@@ -648,15 +654,16 @@ pl:
         highlighting_mode:
           description: Wyróżniaj kolorem
           none: Bez wyróżniania
-          inline: Zaległe daty, atrybuty Stan i Priorytet
+          inline: Highlighted attribute(s)
+          inline_all: All attributes
           entire_row_by: Cały wiersz wg
           status: Status
           priority: Priorytet
+          type: Typ
         columns_help_text: Użyj powyższych danych wejściowych, aby dodać lub usunąć
           kolumny w widoku tabeli. Możesz przeciągać i upuszczać kolumny, aby zmienić
           ich kolejność.
         upsale:
-          ee_only: Funkcja dostępna tylko w wersji Enterprise
           attribute_highlighting: Czy określone pakiety robocze trzeba wyróżnić?
           relation_columns: Chcesz zobaczyć relacje w tej liście pakietów roboczych?
           check_out_link: Sprawdź wersję Enterprise.

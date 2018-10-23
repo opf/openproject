@@ -27,7 +27,7 @@
 // ++
 
 import {Injector} from '@angular/core';
-import {Field, IFieldSchema} from "core-app/modules/fields/field.base";
+import {Field} from "core-app/modules/fields/field.base";
 
 export interface IFieldType<T extends Field> {
   fieldType:string;

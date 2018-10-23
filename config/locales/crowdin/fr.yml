@@ -3,8 +3,8 @@ fr:
   no_results_title_text: Il n'y a actuellement rien à afficher.
   activities:
     index:
-      no_results_title_text: Il n’a aucune activité pour le projet dans ce laps de
-        temps.
+      no_results_title_text: Il n’y a pas eu d'activité pour le projet pendant cette
+        période.
   admin:
     plugins:
       no_results_title_text: Il n'y a actuellement aucun plugin disponible.
@@ -720,7 +720,7 @@ fr:
   button_create: Créer
   button_create_and_continue: Créer et continuer
   button_delete: Supprimer
-  button_decline: Decline
+  button_decline: Refuser
   button_delete_watcher: Supprimer l'observateur %{name}
   button_download: Télécharger
   button_duplicate: Dupliquer
@@ -1019,7 +1019,7 @@ fr:
   error_journal_attribute_not_present: Le journal ne contient pas l’attribut %{attribute}.
   error_pdf_export_too_many_columns: Trop de colonnes sélectionnées pour l’exportation
     PDF. Veuillez réduire le nombre de colonnes.
-  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
+  error_pdf_failed_to_export: 'L''export PDF n''a pas pu être enregistré: %{error}'
   error_token_authenticity: Impossible de vérifier le jeton de Cross-Site Request
     Forgery. Avez-vous essayé d'envoyer des données sur plusieurs navigateurs ou onglets
     ? Veuillez fermer tous les onglets et réessayer.
@@ -1057,6 +1057,7 @@ fr:
 '
   error_external_authentication_failed: Une erreur s'est produite lors de l'authentification
     externe. Veuillez essayer de nouveau.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Projet édité
     changeset: Lot de modification édité
@@ -1074,8 +1075,8 @@ fr:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF avec descriptions
-      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
-      pdf_with_attachments: PDF with attachments
+      pdf_with_descriptions_and_attachments: PDF avec descriptions et pièces jointes
+      pdf_with_attachments: PDF avec pièces jointes
   extraction:
     available:
       pdftotext: Pdftotext disponible (optionnel)
@@ -1106,7 +1107,7 @@ fr:
       upsale:
         become_hero: Devenez un héros !
         title: Passer à la version Entreprise
-        description: Augmentez votre productivité avec la version Entreprise
+        description: Quels sont les avantages?
         more_info: Plus d'informations
         additional_features: Puissantes fonctionnalités premium additionnelles
         professional_support: Support professionnel d'experts OpenProject
@@ -2146,6 +2147,7 @@ fr:
   setting_email_delivery_method: Méthode de livraison d'e-mail
   setting_sendmail_location: Emplacement de l’exécutable sendmail
   setting_smtp_enable_starttls_auto: Utiliser automatiquement STARTTLS si disponible
+  setting_smtp_ssl: Utiliser la connexion SSL
   setting_smtp_address: Serveur SMTP
   setting_smtp_port: Port SMTP
   setting_smtp_authentication: Authentification SMTP
@@ -2268,8 +2270,9 @@ fr:
   setting_welcome_on_homescreen: Afficher le bloc de bienvenue sur l'écran d'accueil
   setting_wiki_compression: Compression de l'historique du wiki
   setting_work_package_group_assignment: Autoriser l'assignation à des groupes
-  setting_work_package_list_default_highlighting_mode: Mode de surlignement des lots
-    de travaux par défaut
+  setting_work_package_list_default_highlighting_mode: Mode de surbrillance par défaut
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: Général
     other: Autre
@@ -2279,6 +2282,13 @@ fr:
     user:
       default_preferences: Préférences par défaut
       deletion: Suppression
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: Pas de surlignement
+        status: Ligne entière par Statut
+        type: Ligne entière par Type
+        priority: Ligne entière par Priorité
   text_formatting:
     markdown: Markdown
     plain: Texte brut
@@ -2756,7 +2766,7 @@ fr:
         correctes.
       code_403: Vous n'êtes pas autorisé à accéder à cette ressource.
       code_404: La ressource demandée est introuvable.
-      code_409: Ne pouvait pas mettre à jour la ressource en raison de modifications
+      code_409: Impossible de mettre à jour la ressource en raison de modifications
         conflictuelles.
       code_500: Une erreur interne s'est produite.
       expected:

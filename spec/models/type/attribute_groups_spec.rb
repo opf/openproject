@@ -156,51 +156,6 @@ describe ::Type, type: :model do
     end
   end
 
-  describe "#validate_attribute_groups" do
-    it 'raises an exception for invalid structure' do
-      # Exampel for invalid structure:
-      type.attribute_groups = ['foo']
-      expect { type.save }.to raise_exception(NoMethodError)
-      # Exampel for invalid structure:
-      expect { type.attribute_groups = [[]] }.to raise_exception(NoMethodError)
-      # Exampel for invalid group name:
-      type.attribute_groups = [['', ['date']]]
-      expect(type).not_to be_valid
-    end
-
-    it 'fails for duplicate group names' do
-      type.attribute_groups = [['foo', ['date']], ['foo', ['date']]]
-      expect(type).not_to be_valid
-    end
-
-    it 'passes validations for known attributes' do
-      type.attribute_groups = [['foo', ['date']]]
-      expect(type).to be_valid
-    end
-
-    it 'passes validation for defaults' do
-      expect(type).to be_valid
-    end
-
-    it 'passes validation for reset' do
-      # A reset is to save an empty Array
-      type.attribute_groups = []
-      expect(type).to be_valid
-    end
-
-    context 'with an invalid query' do
-      let(:query) { FactoryBot.build(:global_query, name: '') }
-
-      before do
-        type.attribute_groups = [['some name', [query]]]
-      end
-
-      it 'is invalid' do
-        expect(type).to be_invalid
-      end
-    end
-  end
-
   describe 'custom fields' do
     let!(:custom_field) do
       FactoryBot.create(

@@ -103,6 +103,10 @@ ko:
         embedded_table:
           button: 작업 패키지 테이블 포함
           text: "[Placeholder] 포함 작업 패키지 테이블"
+    custom_actions:
+      date:
+        specific: 에
+        current_date: Current date
     error:
       internal: 내부 오류가 발생하였습니다.
       cannot_save_changes_with_message: '다음 오류로 인해 변경 사항을 저장할 수 없습니다: %{error}'
@@ -447,6 +451,8 @@ ko:
       update_ie_user: Mozilla Firefox 또는 Google Chrome으로 전환하거나, Microsoft Edge로 업그레이드하십시오.
       learn_more: 자세히 알아보기
       close_warning: 이 경고를 무시하십시오.
+    upsale:
+      ee_only: Enterprise Edition 전용 기능
     wiki_formatting:
       strong: 굵게
       italic: 기울임꼴
@@ -608,13 +614,14 @@ ko:
         highlighting_mode:
           description: 색상으로 강조 표시
           none: 강조 표시 없음
-          inline: 기한 날짜, "상태" 및 "우선 순위" 특성
+          inline: Highlighted attribute(s)
+          inline_all: All attributes
           entire_row_by: 전체 행 기준
           status: 상태
           priority: 우선 순위
+          type: 타입
         columns_help_text: 위 입력을 사용하여 테이블 보기에 열을 추가하거나 제거하세요. 열을 끌어다 놓아 순서를 바꿀 수 있습니다.
         upsale:
-          ee_only: Enterprise Edition 전용 기능
           attribute_highlighting: 나머지 작업 중에 확연히 두드러지는 특정 작업 패키지가 필요합니까?
           relation_columns: 작업 패키지 목록에서 관계를 표시해야 합니까?
           check_out_link: Enterprise Edition을 체크아웃하세요.

@@ -24,19 +24,19 @@ fa:
       copied_successful: Sucessfully copied to clipboard!
     button_add_watcher: Add watcher
     button_back_to_list_view: Back to list view
-    button_cancel: Cancel
+    button_cancel: لغو
     button_close: Close
-    button_check_all: Check all
+    button_check_all: بررسی همه
     button_configure-form: Configure form
     button_confirm: Confirm
     button_continue: Continue
     button_copy: کپی
     button_custom-fields: Custom fields
-    button_delete: Delete
+    button_delete: حذف
     button_delete_watcher: حذف ناظر
     button_details_view: نمای جزییات
-    button_duplicate: Duplicate
-    button_edit: Edit
+    button_duplicate: نسخه برداری
+    button_edit: ویرایش
     button_filter: Filter
     button_list_view: نمای فهرستی
     button_show_view: Fullscreen view
@@ -47,9 +47,9 @@ fa:
     button_close_details: Close details view
     button_open_fullscreen: Open fullscreen view
     button_quote: نقل قول
-    button_save: Save
+    button_save: ذخیره
     button_settings: Settings
-    button_uncheck_all: Uncheck all
+    button_uncheck_all: لغو انتخاب همه
     button_update: به روز رسانی
     button_export-pdf: Download PDF
     button_export-atom: Download Atom
@@ -107,6 +107,10 @@ fa:
         embedded_table:
           button: Embed work package table
           text: "[Placeholder] Embedded work package table"
+    custom_actions:
+      date:
+        specific: برخط
+        current_date: Current date
     error:
       internal: An internal error has occurred.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -167,7 +171,7 @@ fa:
     label_closed_work_packages: closed
     label_collapse: Collapse
     label_collapsed: فروریخته
-    label_collapse_all: Collapse all
+    label_collapse_all: بستن همه
     label_comment: نظر
     label_committed_at: "%{committed_revision_link} at %{date}"
     label_committed_link: committed revision %{revision_identifier}
@@ -178,7 +182,7 @@ fa:
     label_equals: is
     label_expand: گشودن
     label_expanded: بست یافته
-    label_expand_all: Expand all
+    label_expand_all: باز کردن همه
     label_expand_project_menu: Expand project menu
     label_export: خروجی
     label_filename: فایل
@@ -217,7 +221,7 @@ fa:
     label_please_wait: Please wait
     label_visibility_settings: Visibility settings
     label_quote_comment: Quote this comment
-    label_reset: Reset
+    label_reset: تنظیم مجدد
     label_remove_columns: Remove selected columns
     label_save_as: ذخیره به عنوان
     label_select_watcher: یک ناظر را انتخاب کنید...
@@ -250,7 +254,7 @@ fa:
     label_watcher_deleted_successfully: ناظر با موفقیت حذف شد!
     label_work_package_details_you_are_here: شما بر روی زبانه ی %{tab} در %{type}
       %{subject} هستید.
-    label_unwatch: Unwatch
+    label_unwatch: عدم دنبال
     label_unwatch_work_package: عدم نمایش پکیچ وظیفه
     label_uploaded_by: بارگزاری شده توسط
     label_default_queries: Default views
@@ -410,7 +414,7 @@ fa:
 '
       button_activate: Show Gantt chart
       button_deactivate: Hide Gantt chart
-      cancel: Cancel
+      cancel: لغو
       change: Change in planning
       due_date: Finish date
       empty: "(empty)"
@@ -441,7 +445,7 @@ fa:
       really_close_dialog: Do you really want to close the dialog and lose the entered
         data?
       responsible: مسئول
-      save: Save
+      save: ذخیره
       start_date: Start date
       tooManyProjects: بیشتر از %{count} از پروژه ها. لطفا فیلتر بهتری استفاده کنید!
       selection_mode:
@@ -472,6 +476,8 @@ fa:
         to Microsoft Edge.
       learn_more: Learn more
       close_warning: Ignore this warning.
+    upsale:
+      ee_only: Enterprise Edition only feature
     wiki_formatting:
       strong: ضخیم
       italic: مورب
@@ -494,7 +500,7 @@ fa:
         edit: Bulk edit
         copy: Bulk copy
         delete: Bulk delete
-      button_clear: Clear
+      button_clear: پاکسازی
       comment_added: The comment was successfully added.
       comment_send_failed: An error has occurred. Could not submit the comment.
       comment_updated: The comment was successfully updated.
@@ -534,7 +540,7 @@ fa:
         header: New %{type}
         header_no_type: New work package (Type not yet set)
         header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
-        button: Create
+        button: ایجاد
       copy:
         title: Copy work package
       hierarchy:
@@ -575,9 +581,9 @@ fa:
         startDate: Start date
         status: Status
         subject: Subject
-        title: Title
+        title: عنوان
         type: نوع
-        updatedAt: Updated on
+        updatedAt: به روز شده
         versionName: نسخه
         version: نسخه
       default_queries:
@@ -650,14 +656,15 @@ fa:
         highlighting_mode:
           description: Highlight with color
           none: No highlighting
-          inline: Overdue dates, "Status", and "Priority" attribute
+          inline: Highlighted attribute(s)
+          inline_all: All attributes
           entire_row_by: Entire row by
           status: Status
           priority: اولويت
+          type: نوع
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
         upsale:
-          ee_only: Enterprise Edition only feature
           attribute_highlighting: Need certain work packages to stand out from the
             mass?
           relation_columns: آیا نیاز به مشاهده روابط در بسته کاری را دارید؟
@@ -682,12 +689,12 @@ fa:
         display_hierarchy: Display hierarchy
         hide_hierarchy: Hide hierarchy
         hide_sums: Hide sums
-        save: Save
+        save: ذخیره
         save_as: Save as ...
         export: Export ...
         visibility_settings: Visibility settings ...
         page_settings: Rename view ...
-        delete: Delete
+        delete: حذف
       filter: Filter
       unselected_title: Work package
       search_query_label: Search saved views
@@ -697,10 +704,10 @@ fa:
       label_settings: Rename view
       label_name: نام
       label_delete_page: Delete current page
-      button_apply: Apply
-      button_save: Save
-      button_submit: Submit
-      button_cancel: Cancel
+      button_apply: درخواست
+      button_save: ذخیره
+      button_submit: ثبت کردن
+      button_cancel: لغو
       form_submit:
         title: Confirm to continue
         text: Are you sure you want to perform this action?
@@ -723,8 +730,8 @@ fa:
       button_edit: "%{attribute}: Edit"
       button_save: "%{attribute}: Save"
       button_cancel: "%{attribute}: Cancel"
-      button_save_all: Save
-      button_cancel_all: Cancel
+      button_save_all: ذخیره
+      button_cancel_all: لغو
       link_formatting_help: Text formatting help
       btn_preview_enable: Preview
       btn_preview_disable: غیر فعال کردن پیش نمایش

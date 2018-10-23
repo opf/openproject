@@ -14,10 +14,7 @@ import {WorkPackageTableSumService} from 'core-components/wp-fast-table/state/wp
 import {WorkPackageTableAdditionalElementsService} from 'core-components/wp-fast-table/state/wp-table-additional-elements.service';
 import {withLatestFrom} from 'rxjs/operators';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
-import {
-  WorkPackageTableConfiguration,
-  WorkPackageTableConfigurationObject
-} from 'core-components/wp-table/wp-table-configuration';
+import { WorkPackageTableConfiguration } from 'core-components/wp-table/wp-table-configuration';
 import {OpTableActionFactory} from 'core-components/wp-table/table-actions/table-action';
 import {WorkPackageTableRefreshService} from 'core-components/wp-table/wp-table-refresh-request.service';
 import {OpTableActionsService} from 'core-components/wp-table/table-actions/table-actions.service';
@@ -30,6 +27,7 @@ import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {WorkPackageEmbeddedBaseComponent} from "core-components/wp-table/embedded/wp-embedded-base.component";
 
 @Component({
   selector: 'wp-embedded-table',
@@ -52,16 +50,12 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
     WorkPackageTableRefreshService,
   ]
 })
-export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit, OnDestroy {
+export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input('queryId') public queryId?:number;
   @Input('queryProps') public queryProps:any = {};
-  @Input('configuration') private providedConfiguration:WorkPackageTableConfigurationObject;
-  @Input() public uniqueEmbeddedTableName:string = `embedded-table-${Date.now()}`;
-  @Input() public initialLoadingIndicator:boolean = true;
   @Input() public tableActions:OpTableActionFactory[] = [];
   @Input() public compactTableStyle:boolean = false;
 
-  private query:QueryResource;
   public tableInformationLoaded = false;
   public showTablePagination = false;
   public configuration:WorkPackageTableConfiguration;
@@ -79,30 +73,16 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit,
               readonly wpTablePagination:WorkPackageTablePaginationService,
               readonly wpStatesInitialization:WorkPackageStatesInitializationService,
               readonly currentProject:CurrentProjectService) {
-
-  }
-
-  ngOnInit() {
-    this.configuration = new WorkPackageTableConfiguration(this.providedConfiguration);
-    // Set embedded status in configuration
-    this.configuration.isEmbedded = true;
+    super(QueryDm, tableState, I18n, urlParamsHelper, loadingIndicatorService, wpStatesInitialization, currentProject);
   }
 
   ngAfterViewInit():void {
+    super.ngAfterViewInit();
 
     // Provision embedded table actions
     if (this.tableActions) {
       this.tableActionsService.setActions(...this.tableActions);
     }
-
-    // Load initial query
-    this.loadQuery(this.initialLoadingIndicator);
-
-    // Reload results on refresh requests
-    this.tableState.refreshRequired
-      .values$()
-      .pipe(untilComponentDestroyed(this))
-      .subscribe(() => this.refresh(false));
 
     // Reload results on changes to pagination
     this.tableState.ready.fireOnStateChange(this.wpTablePagination.state,
@@ -113,9 +93,6 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit,
       this.QueryDm.loadResults(query, this.wpTablePagination.paginationObject)
         .then((results) => this.initializeStates(query, results));
     });
-  }
-
-  ngOnDestroy():void {
   }
 
   public openConfigurationModal(onUpdated:() => void) {
@@ -130,25 +107,6 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit,
       });
   }
 
-  get projectIdentifier() {
-    let identifier:string|null = null;
-
-    if (this.configuration.projectContext) {
-      identifier = this.currentProject.identifier;
-    } else {
-      identifier = this.configuration.projectIdentifier;
-    }
-
-    return identifier || undefined;
-  }
-
-  public buildQueryProps() {
-    const query = this.tableState.query.value!;
-    this.wpStatesInitialization.applyToQuery(query);
-
-    return this.urlParamsHelper.buildV3GetQueryFromQueryResource(query);
-  }
-
   private initializeStates(query:QueryResource, results:WorkPackageCollectionResource) {
     this.tableState.ready.doAndTransition('Query loaded', () => {
       this.wpStatesInitialization.clearStates();
@@ -158,7 +116,7 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit,
       return this.tableState.tableRendering.onQueryUpdated.valuesPromise()
         .then(() => {
           this.showTablePagination = results.total > results.count;
-          this.tableInformationLoaded = this.configuration.tableVisible;
+          this.setLoaded();
 
           // Disable compact mode when timeline active
           if (this.wpTableTimeline.isVisible) {
@@ -168,19 +126,7 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit,
     });
   }
 
-  public refresh(visible:boolean = true):Promise<any> {
-    return this.loadQuery(visible);
-  }
-
-  public set loadingIndicator(promise:Promise<any>) {
-    if (this.configuration.tableVisible) {
-      this.loadingIndicatorService
-        .indicator(this.uniqueEmbeddedTableName)
-        .promise = promise;
-    }
-  }
-
-  private loadQuery(visible:boolean = true) {
+  protected loadQuery(visible:boolean = true) {
 
     // HACK: Decrease loading time of queries when results are not needed.
     // We should allow the backend to disable results embedding instead.
@@ -195,7 +141,10 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit,
         this.queryId,
         this.queryProjectScope
       )
-      .then((query:QueryResource) => this.initializeStates(query, query.results))
+      .then((query:QueryResource) => {
+        this.initializeStates(query, query.results);
+        return query;
+      })
       .catch((error) => {
         this.error = this.I18n.t(
           'js.error.embedded_table_loading',
@@ -208,13 +157,5 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit,
     }
 
     return promise;
-  }
-
-  private get queryProjectScope() {
-    if (!this.configuration.projectContext) {
-      return undefined;
-    } else {
-      return this.projectIdentifier;
-    }
   }
 }

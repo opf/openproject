@@ -433,10 +433,10 @@ end
 shared_examples_for 'date values transformation' do
   describe '#values' do
     it 'transforms the values to integers' do
-      instance.values = ["2015-03-29", Date.today, nil, (Date.today - 1.day).to_datetime, 'bogus']
+      instance.values = ["2015-03-29", Date.today, nil, (Date.today - 1.day).to_datetime, 'bogus', '%CURRENT_DATE%']
 
       expect(instance.values)
-        .to match_array [Date.parse("2015-03-29"), Date.today, nil, Date.today - 1.day]
+        .to match_array [Date.parse("2015-03-29"), Date.today, nil, Date.today - 1.day, '%CURRENT_DATE%']
     end
   end
 end
@@ -504,6 +504,30 @@ shared_examples_for 'associated custom condition' do
 
       expect(errors.symbols_for(:conditions))
         .to eql [:inclusion]
+    end
+  end
+end
+
+shared_examples_for 'date custom action apply' do
+  describe '#apply' do
+    let(:work_package) { FactoryBot.build_stubbed(:stubbed_work_package) }
+
+    it 'sets the daate to the action\'s value' do
+      instance.values = [Date.today + 5.days]
+
+      instance.apply(work_package)
+
+      expect(work_package.send(key))
+        .to eql Date.today + 5.days
+    end
+
+    it 'sets the date to the current date if so specified' do
+      instance.values = ['%CURRENT_DATE%']
+
+      instance.apply(work_package)
+
+      expect(work_package.send(key))
+        .to eql Date.today
     end
   end
 end

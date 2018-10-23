@@ -29,11 +29,15 @@
 
 class BaseTypeService
   include Shared::BlockService
+  include Concerns::Contracted
 
+  attr_accessor :contract_class
   attr_accessor :type, :user
 
-  def initialize(user)
+  def initialize(type, user)
+    self.type = type
     self.user = user
+    self.contract_class = ::Types::BaseContract
   end
 
   def call(params, options, &block)
@@ -45,7 +49,10 @@ class BaseTypeService
   private
 
   def update(params, options)
-    success = Type.transaction do
+    success = false
+    errors = type.errors
+
+    Type.transaction do
       set_scalar_params(params)
 
       # Only set attribute groups when it exists
@@ -56,17 +63,21 @@ class BaseTypeService
 
       set_active_custom_fields
 
-      if type.save
+      success, errors = validate_and_save(type, user)
+      if success
         after_type_save(params, options)
-        true
       else
         raise(ActiveRecord::Rollback)
       end
     end
 
     ServiceResult.new(success: success,
-                      errors: type.errors,
+                      errors: errors,
                       result: type)
+  rescue => e
+    ServiceResult.new(success: false).tap do |result|
+      result.errors.add(:base, e.message)
+    end
   end
 
   def set_scalar_params(params)

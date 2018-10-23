@@ -69,7 +69,7 @@ export class WorkPackageRelationsHierarchyComponent implements OnInit, OnDestroy
 
     this.childrenQueryProps = {
       filters: JSON.stringify([{ parent: { operator: '=', values: [this.workPackage.id] }  }]),
-      'columns[]': ['id', 'type', 'subject'],
+      'columns[]': ['id', 'type', 'subject', 'status'],
       showHierarchies: false
     };
 
@@ -83,7 +83,7 @@ export class WorkPackageRelationsHierarchyComponent implements OnInit, OnDestroy
         let toLoad:string[] = [];
 
         if (this.workPackage.parent) {
-          toLoad.push(this.workPackage.parent.id);
+          toLoad.push(this.workPackage.parent.id.toString());
 
           this.wpCacheService.loadWorkPackage(this.workPackage.parent.id).values$()
             .pipe(

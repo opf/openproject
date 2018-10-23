@@ -169,11 +169,29 @@ module WorkPackagesHelper
       end
     end
 
+
     link = link_to_work_package(work_package, status: true, only_path: only_path)
-    link += " #{work_package.start_date.nil? ? '[?]' : work_package.start_date.to_s}"
-    link += changed_dates['start_date']
-    link += " – #{work_package.due_date.nil? ? '[?]' : work_package.due_date.to_s}"
-    link += changed_dates['due_date']
+
+    # Don't print dates if neither start nor due set
+    start = work_package.start_date&.to_s
+    due = work_package.due_date&.to_s
+
+    if start.nil? && due.nil?
+      return link
+    end
+
+    # Otherwise, print concise
+    # (2018-01-01 -)
+    # (- 2018-01-01)
+    # (2018-01-01 - 2018-01-01)
+    link <<
+      if start.nil?
+        " (- #{due})"
+      elsif due.nil?
+        " (#{start} -)"
+      else
+        " (#{start} - #{due})"
+      end
 
     link
   end

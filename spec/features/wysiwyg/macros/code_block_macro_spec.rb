@@ -90,6 +90,40 @@ describe 'Wysiwyg code block macro', type: :feature, js: true do
         end
       end
 
+      it 'respects the inserted whitespace' do
+        editor.in_editor do |container,|
+          editor.click_toolbar_button 'Insert code snippet'
+
+          expect(page).to have_selector('.op-modal--macro-modal')
+
+          # CM wraps an accessor to the editor instance on the outer container
+          cm = page.find('.CodeMirror')
+          page.execute_script('arguments[0].CodeMirror.setValue(arguments[1]);', cm.native, 'asdf')
+          find('.op-modal--submit-button').click
+
+          expect(container).to have_selector('.op-ckeditor--code-block', text: 'asdf')
+
+          click_on 'Save'
+          expect(page).to have_selector('.flash.notice')
+
+          wp = WikiPage.last
+          expect(wp.content.text.gsub("\r\n", "\n")).to eq("```text\nasdf\n```")
+
+          click_on 'Edit'
+
+          editor.in_editor do |container,|
+            expect(container).to have_selector('.op-ckeditor--code-block', text: 'asdf')
+          end
+
+          click_on 'Save'
+          expect(page).to have_selector('.flash.notice')
+
+          wp.reload
+          # Regression added two newlines before fence here
+          expect(wp.content.text.gsub("\r\n", "\n")).to eq("```text\nasdf\n```")
+        end
+      end
+
       it 'can add and edit a code block widget' do
         editor.in_editor do |container,|
           editor.click_toolbar_button 'Insert code snippet'
@@ -135,7 +169,7 @@ describe 'Wysiwyg code block macro', type: :feature, js: true do
           expect(container).to have_selector('.op-ckeditor--code-block-language', text: 'ruby')
 
           widget = container.find('.op-ckeditor--code-block')
-          page.driver.browser.mouse.double_click(widget.native)
+          page.driver.browser.action.double_click(widget.native).perform
           expect(page).to have_selector('.op-modal--macro-modal')
 
           expect(page).to have_selector('.op-ckeditor--code-block-language', text: 'ruby')

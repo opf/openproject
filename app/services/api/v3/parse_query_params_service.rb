@@ -54,6 +54,8 @@ module API
 
         parsed_params[:highlighting_mode] = params[:highlightingMode]
 
+        parsed_params[:highlighted_attributes] = highlighted_attributes_from_params(params)
+
         parsed_params[:show_hierarchies] = boolearize(params[:showHierarchies])
 
         allow_empty = params.keys + skip_empty
@@ -121,6 +123,16 @@ module API
 
         columns.map do |column|
           convert_attribute(column)
+        end
+      end
+
+      def highlighted_attributes_from_params(params)
+        highlighted_attributes = params[:highlightedAttributes]
+
+        return unless highlighted_attributes
+
+        highlighted_attributes.map do |attr|
+          convert_attribute(attr)
         end
       end
 

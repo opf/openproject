@@ -59,11 +59,9 @@
               </autocomplete-select-decoration>
             </div>
           <% elsif %i(date_property).include?(action.type) %>
-            <%= styled_text_field_tag input_name,
-                                      action.values,
-                                      container_class: '-slim',
-                                      class: '-augmented-datepicker',
-                                      size: '10' %>
+            <wp-custom-actions-admin-date-action field-value="<%= action.values.first %>"
+                                                 field-name="<%= input_name %>">
+            </wp-custom-actions-admin-date-action>
           <% elsif %i(string_property text_property).include?(action.type) %>
             <%= styled_text_field_tag input_name,
                                       action.values,

@@ -245,6 +245,10 @@ class ApplicationController < ActionController::Base
 
   def require_login
     unless User.current.logged?
+
+      # Ensure we reset the session to terminate any old session objects
+      reset_session
+
       respond_to do |format|
         format.any(:html, :atom) do redirect_to signin_path(back_url: login_back_url) end
 

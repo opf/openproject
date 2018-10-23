@@ -100,5 +100,26 @@ See docs/COPYRIGHT.rdoc for more details.
           .removeAttr('required') // Rails 4.0 still seems to use attribute
           .prop('required', wasChecked);
     })
+
+    /** Toggle highlighted attributes visibility depending on if the highlighting mode 'inline' was selected*/
+    $('.settings--highlighting-mode select').change(function() {
+      var highlightingMode = $(this).val();
+      $(".settings--highlighted-attributes").toggle(highlightingMode === "inline")
+    })
+
+    /** Initialize hightlighted attributes checkboxes. If none is selected, it means we want them all. So let's
+     * show them all as selected.
+     * On submitting the form, we remove all checkboxes before sending to communicate, we actually want all and not
+     * only the selected.*/
+    if ($(".settings--highlighted-attributes input[type='checkbox']:checked").length == 0) {
+      $(".settings--highlighted-attributes input[type='checkbox']").prop("checked", true);
+    }
+    $('#tab-content-work_packages form').submit(function() {
+      var availableAttributes = $(".settings--highlighted-attributes input[type='checkbox']");
+      var selectedAttributes = $(".settings--highlighted-attributes input[type='checkbox']:checked");
+      if (selectedAttributes.length == availableAttributes.length) {
+        availableAttributes.prop("checked", false);
+      }
+    })
   });
 }(jQuery));

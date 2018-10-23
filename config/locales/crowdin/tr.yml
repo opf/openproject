@@ -373,8 +373,8 @@ tr:
         type: Tür
       type:
         attribute_groups: ''
-        is_in_roadmap: Displayed in roadmap by default
-        is_default: Activated for new projects by default
+        is_in_roadmap: Yol haritasında varsayılan olarak gösterilsin
+        is_default: Yeni projelerde varsayılan olarak aktif
         is_milestone: Kilometre taşı
         color: Renk
       user:
@@ -500,7 +500,8 @@ tr:
             project:
               error_not_found: bulunamadı
             public:
-              error_unauthorized: "- The user has no permission to create public views."
+              error_unauthorized: "- Kullanıcı herkese açık görünüm oluşturma yetkisine
+                sahip değil."
           group_by_hierarchies_exclusive: grubu tarafından '%{group_by}' ile birlikte
             kullanılamaz. Her ikisi de etkinleştiremezsiniz.
           filters:
@@ -559,8 +560,8 @@ tr:
           attributes:
             attribute_groups:
               attribute_unknown: Geçersiz iş paketi özniteliği kullanıldı.
-              duplicate_group: The group name '%{group}' is used more than once. Group
-                names must be unique.
+              duplicate_group: "'%{group}' grup adı, birden fazla kez kullanıldı.
+                Grup isimleri benzersiz olmalıdır."
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
               group_without_name: Adsız gruplara izin verilmez.
         user:
@@ -745,7 +746,7 @@ tr:
   consent:
     checkbox_label: I have noted and do consent to the above.
     failure_message: Consent failed, cannot proceed.
-    title: User Consent
+    title: Kullanıcı Rızası
     decline_warning_message: You have declined to consent and have been logged out.
     user_has_consented: User has consented to your configured statement at the given
       time.
@@ -985,8 +986,8 @@ tr:
   error_cookie_missing: OpenProject çerezi yok. Lütfen uygulamanın düzgün çalışabilmesi
     için, tarayıcınızda çerezlere izin verildiğine emin olun.
   error_custom_option_not_found: Seçenek yok.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
+  error_dependent_work_package: 'Bağımlı #%{related_id} %{related_subject} iş paketinde
+    hata: %{error}'
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Girdi silinemedi.
@@ -997,7 +998,7 @@ tr:
   error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
   error_pdf_export_too_many_columns: PDF Dışa Aktarma için çok fazla sütun seçili.
     Sütun sayısını azaltın.
-  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
+  error_pdf_failed_to_export: 'PDF çıktısı kaydedilemedi: %{error}'
   error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
     you try to submit data on multiple browsers or tabs? Please close all tabs and
     try again.
@@ -1030,6 +1031,7 @@ tr:
 '
   error_external_authentication_failed: Harici doğrulama sırasında bir hata oluştu.
     Lütfen tekrar deneyin.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Proje düzenlendi
     changeset: Değişiklikler düzenlendi
@@ -1079,7 +1081,7 @@ tr:
       upsale:
         become_hero: Kahraman olun!
         title: Enterprise Edition sürümüne yükseltme
-        description: Enterprise Edition ile verimliliğinizi artırın
+        description: Avantajı nedir?
         more_info: Daha fazla bilgi
         additional_features: Ek güçlü premium özellikler
         professional_support: OpenProject uzmanlarından profesyonel destek
@@ -1126,10 +1128,10 @@ tr:
   label_add_subtask: Alt görev ekle
   label_added: eklendi
   label_added_time_by: "%{author} tarafından %{age} önce eklendi"
-  label_additional_workflow_transitions_for_assignee: Kullanıcı yaratan olduğu zaman
+  label_additional_workflow_transitions_for_assignee: Kullanıcı atanan olduğu zaman
     tanınacak ek yetkiler
-  label_additional_workflow_transitions_for_author: Kullanıcı yazar olduğunda izin
-    verilen ek geçişler
+  label_additional_workflow_transitions_for_author: Kullanıcı oluşturan olduğunda
+    izin verilen ek geçişler
   label_administration: Yönetim
   label_advanced_settings: Gelişmiş ayarlar
   label_age: Yaş
@@ -1179,7 +1181,7 @@ tr:
   label_calendar: Takvim
   label_calendar_show: Takvimi Göster
   label_category: Kategori
-  label_consent_settings: User Consent
+  label_consent_settings: Kullanıcı Rızası
   label_wiki_menu_item: Viki menü öğesi
   label_select_main_menu_item: Yeni ana menü öğesi seç
   label_select_project: Bir proje seçin
@@ -1387,7 +1389,7 @@ tr:
   label_my_queries: Özel sorgularım
   label_never: Hiçbir zaman
   label_new: Yeni
-  label_new_statuses_allowed: Yeni durumlara izin verildi
+  label_new_statuses_allowed: İzin verilen yeni durumlar
   label_news_added: Haberler eklendi
   label_news_comment_added: Yorum bir haberlere eklendi
   label_news_latest: En son haberler
@@ -1470,7 +1472,7 @@ tr:
   label_registration_activation_by_email: e-posta ile hesap etkinleştirme
   label_registration_automatic_activation: otomatik hesap etkinleştirme
   label_registration_manual_activation: elle hesap etkinleştirme
-  label_related_work_packages: İlgili iş paketi
+  label_related_work_packages: İlişkili iş paketleri
   label_relates: ile ilişkili
   label_relates_to: ile ilişkili
   label_relation_delete: İlişkiyi sil
@@ -1727,7 +1729,7 @@ tr:
   mail_subject_wiki_content_added: "'%{id}' viki sayfası eklendi"
   mail_subject_wiki_content_updated: "'%{id}' viki sayfası güncellendi"
   mail_user_activation_limit_reached:
-    subject: User activation limit reached
+    subject: Kullanıcı etkinleştirme sınırına ulaşıldı
     message: |
       A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
       The user cannot activate their account since the user limit has been reached.
@@ -1878,40 +1880,40 @@ tr:
   permission_edit_own_work_package_notes: Kendi notlarını düzenlemek
   permission_edit_own_messages: Kendi iletilerini düzenlemek
   permission_edit_own_time_entries: Kendi zaman kayıtlarını düzenlemek
-  permission_edit_project: Proje düzenlemek
+  permission_edit_project: Proje düzenleme
   permission_edit_reportings: Raporlamayı düzenlemek
   permission_edit_time_entries: Zaman kayıtlarını düzenlemek
   permission_edit_timelines: Zaman akışını düzenlemek
   permission_edit_wiki_pages: Wiki sayfalarını düzenlemek
   permission_export_work_packages: İş paketlerini dışarı aktar
   permission_export_wiki_pages: Wiki sayfalarını dışarı aktar
-  permission_list_attachments: Ekleri listele
+  permission_list_attachments: Ekleri listelemek
   permission_log_time: Harcanan zaman kayıtları
-  permission_manage_boards: Forumları yönet
+  permission_manage_boards: Forumları yönetmek
   permission_manage_categories: İş paket kategorilerini yönet
   permission_manage_work_package_relations: İş paketi ilişkilerini yönet
-  permission_manage_members: Üyeleri yönet
+  permission_manage_members: Üyeleri yönetmek
   permission_manage_news: Haberleri yönet
   permission_manage_project_activities: Proje aktivitilerini yönet
-  permission_manage_public_queries: Herkese açık görünümleri yönet
+  permission_manage_public_queries: Herkese açık görünümleri yönetmek
   permission_manage_repository: Depo yönetimi
   permission_manage_subtasks: Alt görevleri yönet
-  permission_manage_versions: Sürümleri Yönet
+  permission_manage_versions: Sürümleri yönetmek
   permission_manage_wiki: Wiki'yi yönet
   permission_manage_wiki_menu: Wiki menüsünü yönet
   permission_move_work_packages: İş paketini taşı
   permission_protect_wiki_pages: Wiki sayfalarını koruma
   permission_rename_wiki_pages: Wiki sayfalarını yeniden adlandır
-  permission_save_queries: Kayıtlı görünümler
-  permission_select_project_modules: Proje modüllerini seçin
-  permission_manage_types: Türleri seç
-  permission_view_calendar: Takvimi görüntüle
+  permission_save_queries: Görünüm kaydetmek
+  permission_select_project_modules: Proje modülleri seçmek
+  permission_manage_types: İş paketi türlerini seçmek
+  permission_view_calendar: Takvimi görüntülemek
   permission_view_changesets: OpenProject'de depo revizyonlarını görüntüle
   permission_view_commit_author_statistics: Yazar istatistiklerini inceleyin
   permission_view_work_package_watchers: Takipçi listesini göster
   permission_view_work_packages: İş paketlerini görüntüle
   permission_view_messages: İletileri görüntüle
-  permission_view_members: Üyeleri gör
+  permission_view_members: Üyeleri görmek
   permission_view_reportings: Raporları görüntüle
   permission_view_time_entries: Harcanan süreyi görüntüleme
   permission_view_timelines: Zaman çizelgelerini görüntüle
@@ -2091,6 +2093,7 @@ tr:
   setting_email_delivery_method: E-posta teslim yöntemi
   setting_sendmail_location: Çalıştırılabilir sendmail aracının yolu
   setting_smtp_enable_starttls_auto: STARTTLS varsa otomatik olarak kullan
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: SMTP Sunucusu
   setting_smtp_port: SMTP port
   setting_smtp_authentication: SMTP kimlik doğrulaması
@@ -2211,8 +2214,9 @@ tr:
   setting_welcome_on_homescreen: Hoşgeldiniz bloğunu ana ekranda göster
   setting_wiki_compression: Wiki geçmişini sıkıştır
   setting_work_package_group_assignment: Gruplara iş atanmasına izin ver
-  setting_work_package_list_default_highlighting_mode: Varsayılan iş paketi vurgulama
-    modu
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: Genel
     other: Diğer
@@ -2222,6 +2226,13 @@ tr:
     user:
       default_preferences: Varsayılan Tercihler
       deletion: Silme
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: Vurgulama
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: Düz yazı

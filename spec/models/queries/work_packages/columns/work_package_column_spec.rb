@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,34 +25,15 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-require_relative '../legacy_spec_helper'
 
-describe CustomField, type: :model do
-  it 'should create' do
-    field = UserCustomField.new(name: 'Money money money', field_format: 'float')
-    assert field.save
+require 'spec_helper'
+
+describe Queries::WorkPackages::Columns::WorkPackageColumn, type: :model do
+  it "allows to be constructed with attribute highlightable" do
+    expect(described_class.new('foo', highlightable: true).highlightable?).to eq(true)
   end
 
-  it 'should possible values should accept an array' do
-    field = CustomField.new field_format: "list"
-    field.possible_values = ['One value', '']
-    assert_equal ['One value'], field.possible_values.map(&:value)
-  end
-
-  it 'should possible values should accept a string' do
-    field = CustomField.new field_format: "list"
-    field.possible_values = 'One value'
-    assert_equal ['One value'], field.possible_values.map(&:value)
-  end
-
-  it 'should possible values should accept a multiline string' do
-    field = CustomField.new field_format: "list"
-    field.possible_values = "One value\nAnd another one  \r\n \n"
-    assert_equal ['One value', 'And another one'], field.possible_values.map(&:value)
-  end
-
-  it 'should destroy' do
-    field = FactoryBot.create :custom_field
-    assert field.destroy
+  it "allows to be constructed without attribute highlightable" do
+    expect(described_class.new('foo').highlightable?).to eq(false)
   end
 end

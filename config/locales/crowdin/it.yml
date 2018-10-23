@@ -1052,6 +1052,7 @@ it:
 '
   error_external_authentication_failed: Si è verificato un errore durante l'autenticazione
     esterna. Per favore riprova.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Progetto modificato
     changeset: Changeset modificato
@@ -1101,7 +1102,7 @@ it:
       upsale:
         become_hero: Diventa un eroe!
         title: Aggiorna ad Enterprise Edition
-        description: Incrementa la tua produttività con l'Enterprise Edition
+        description: What are the benefits?
         more_info: Altre informazioni
         additional_features: Funzionalità aggiuntive speciali
         professional_support: Assistenza professionale da parte degli esperti OpenProject
@@ -2146,6 +2147,7 @@ it:
   setting_sendmail_location: Percorso dell'eseguibile del programma di invio della
     posta
   setting_smtp_enable_starttls_auto: Usa automaticamente, se disponibile, STARTTLS
+  setting_smtp_ssl: Use SSL connection
   setting_smtp_address: Server SMTP
   setting_smtp_port: Porta SMTP
   setting_smtp_authentication: Autenticazione SMTP
@@ -2279,8 +2281,9 @@ it:
     home
   setting_wiki_compression: Compressione del registro della wiki
   setting_work_package_group_assignment: Consentire l'assegnazione ai gruppi
-  setting_work_package_list_default_highlighting_mode: Modalità di evidenziazione
-    predefinita per le macro-attività
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: Generale
     other: Altro
@@ -2290,6 +2293,13 @@ it:
     user:
       default_preferences: Preferenze predefinite
       deletion: Eliminazione
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: Non evidenziare
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: Testo semplice
@@ -2768,7 +2778,7 @@ it:
       code_401_wrong_credentials: Non hai fornito le credenziali corrette.
       code_403: Non sei autorizzato ad accedere a questa risorsa.
       code_404: La risorsa richiesta non è stata trovata.
-      code_409: Non ho potuto aggiornare la risorsa a causa di modifiche in conflitto.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: Si è verificato un errore interno.
       expected:
         date: AAAA-MM-GG (solo date ISO 8601)

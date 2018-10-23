@@ -51,6 +51,7 @@ describe 'Upload attachment to work package', js: true do
         # Besides testing caption functionality this also slows down clicking on the submit button
         # so that the image is properly embedded
         page.find('figure.image figcaption').base.send_keys('Some image caption')
+        expect(page).not_to have_selector('notification-upload-progress')
 
         field.submit_by_click
 
@@ -117,6 +118,8 @@ describe 'Upload attachment to work package', js: true do
         caption.click
         caption.base.send_keys('Some image caption')
 
+        expect(page).not_to have_selector('notification-upload-progress')
+
         click_on 'Save'
 
         wp_page.expect_notification(
@@ -143,12 +146,14 @@ describe 'Upload attachment to work package', js: true do
       # Attach file manually
       expect(page).to have_no_selector('.work-package--attachments--filename')
       attachments.attach_file_on_input(image_fixture)
-      expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png', wait: 20)
+      expect(page).not_to have_selector('notification-upload-progress')
+      expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png', wait: 5)
 
       ##
       # and via drag & drop
       attachments.drag_and_drop_file(container, Rails.root.join('spec/fixtures/files/image.png'))
-      expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png', count: 2, wait: 20)
+      expect(page).not_to have_selector('notification-upload-progress')
+      expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png', count: 2, wait: 5)
     end
   end
 end

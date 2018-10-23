@@ -29,7 +29,9 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Work package resource', type: :request, content_type: :json do
+describe 'API v3 Work package resource',
+         type: :request,
+         content_type: :json do
   include Rack::Test::Methods
   include Capybara::RSpecMatchers
   include API::V3::Utilities::PathHelper
@@ -64,11 +66,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
   let(:type) { FactoryBot.create(:type) }
 
   before do
-    allow(User).to receive(:current).and_return current_user
-
-    # some way some of these specs rely on this setting being disabled
-    # so we set it excplicitly as a precondition
-    Setting.cross_project_work_package_relations = 0
+    login_as(current_user)
   end
 
   describe '#get list' do

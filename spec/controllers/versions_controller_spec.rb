@@ -248,33 +248,4 @@ describe VersionsController, type: :controller do
       expect { Version.find(@deleted) }.to raise_error ActiveRecord::RecordNotFound
     end
   end
-
-  describe '#status_by' do
-    before do
-      login_as(user)
-    end
-
-    context 'status by version' do
-      before do
-        get :status_by,
-            xhr: true,
-            params: { id: version2.id }, format: :js
-      end
-
-      it { expect(response).to be_success }
-      it { expect(response).to render_template('versions/_work_package_counts') }
-    end
-
-    context 'status by version with status_by' do
-      before do
-        get :status_by,
-            xhr: true,
-            params: { id: version2.id, status_by: 'status' },
-            format: :js
-      end
-
-      it { expect(response).to be_success }
-      it { expect(response).to render_template('versions/_work_package_counts') }
-    end
-  end
 end

@@ -324,7 +324,8 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
     return this.displayFieldService.getField(
       resource,
       name,
-      resource.schema[name]
+      resource.schema[name],
+      { container: 'single-view', options: {} }
     ) as DisplayField;
   }
 }

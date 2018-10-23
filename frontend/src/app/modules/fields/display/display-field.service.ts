@@ -33,7 +33,15 @@ import {DisplayField} from "core-app/modules/fields/display/display-field.module
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 
 export interface IDisplayFieldType extends IFieldType<DisplayField> {
-  new(resource:HalResource, attributeType:string, schema:IFieldSchema):DisplayField;
+  new(resource:HalResource, attributeType:string, schema:IFieldSchema, context:DisplayFieldContext):DisplayField;
+}
+
+export interface DisplayFieldContext {
+  /** Where will the field be rendered? This may result in different styles (Multi select field, e.g.,) */
+  container: 'table'|'single-view'|'timeline';
+
+  /** Options passed to the display field */
+  options:{ [key:string]:any };
 }
 
 @Injectable()
@@ -57,7 +65,7 @@ export class DisplayFieldService extends AbstractFieldService<DisplayField, IDis
    * @param {string} context
    * @returns {T}
    */
-  public getField(resource:any, fieldName:string, schema:IFieldSchema, context:string = ''):DisplayField {
+  public getField(resource:any, fieldName:string, schema:IFieldSchema, context:DisplayFieldContext):DisplayField {
     const fieldClass = this.getClassFor(fieldName, schema.type);
     return new fieldClass(resource, fieldName, schema, context);
   }

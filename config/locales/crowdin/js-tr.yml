@@ -60,8 +60,8 @@ tr:
     description_subwork_package: "#%{id} nolu iş paketinin alt parçası"
     editor:
       preview: Önizleme modunu aç/kapat
-      source_code: Toggle Markdown source mode
-      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      source_code: İşaretleme kaynak modunu değiştir
+      error_saving_failed: 'Aşağıdaki nedenden dolayı belge kayıt edilemedi: %{error}'
       mode:
         manual: Markdown kaynağına geç
         wysiwyg: WYSIWYG düzenleyiciye geç
@@ -107,6 +107,10 @@ tr:
         embedded_table:
           button: Gömülü iş paketi tablosu
           text: "[Placeholder] Embedded work package table"
+    custom_actions:
+      date:
+        specific: açık
+        current_date: Current date
     error:
       internal: İç hata oluştu.
       cannot_save_changes_with_message: 'Değişikliklerinizin kaydedilememesine sebep
@@ -328,13 +332,13 @@ tr:
     relation_labels:
       parent: Kaynak
       children: Çocuk
-      relates: İlişkili Oldukları
+      relates: Alakalı
       duplicates: Çoğalt
       duplicated: Yineleyen
       blocks: Şunu Engelliyor
       blocked: Şuna Bağlı
       precedes: Ilerlettiği
-      follows: Takipçiler
+      follows: Takip eden
       includes: İçerir
       partof: Bölümü
       requires: Gerektirir
@@ -471,6 +475,8 @@ tr:
         da Microsoft Edge'e yükseltin.
       learn_more: Daha fazla bilgi edin
       close_warning: Bu uyarıyı yoksay.
+    upsale:
+      ee_only: Enterprise Edition özelliği
     wiki_formatting:
       strong: Kalın
       italic: İtalik
@@ -648,14 +654,15 @@ tr:
         highlighting_mode:
           description: Rekle vurgula
           none: Vurgulama
-          inline: Gecikmiş zamanları, "Durum" ve "Öncelik" öznitelikleri
+          inline: Highlighted attribute(s)
+          inline_all: All attributes
           entire_row_by: Entire row by
           status: Durum
           priority: Öncelik
+          type: Tür
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
         upsale:
-          ee_only: Enterprise Edition özelliği
           attribute_highlighting: Need certain work packages to stand out from the
             mass?
           relation_columns: İş paketleri listesindeki ilişkileri görmek ister misiniz?

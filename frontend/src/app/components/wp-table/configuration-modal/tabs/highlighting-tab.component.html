@@ -21,7 +21,13 @@
                  (change)="updateMode($event.target.value)"
                  value="inline"
                  name="highlighting_mode_switch">
-          <span [textContent]="text.highlighting_mode.inline"></span>
+          {{ text.highlighting_mode.inline }}
+          &nbsp;
+          <multi-toggled-select [isDisabled]="highlightingMode !== 'inline'"
+                                [availableOptions]="availableMappedHighlightedAttributes"
+                                [initialSelection]="selectedAttributes"
+                                (onValueChange)="selectedAttributes = $event">
+          </multi-toggled-select>
         </label>
       </div>
     </div>
@@ -44,6 +50,9 @@
             <option [textContent]="text.highlighting_mode.status"
                     [selected]="lastEntireRowAttribute === 'status'"
                     value="status"></option>
+            <option [textContent]="text.highlighting_mode.type"
+                    [selected]="lastEntireRowAttribute === 'type'"
+                    value="type"></option>
             <option [textContent]="text.highlighting_mode.priority"
                     [selected]="lastEntireRowAttribute === 'priority'"
                     value="priority"></option>
