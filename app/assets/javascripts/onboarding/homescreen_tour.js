@@ -15,23 +15,18 @@
                 'containerClass': '-dark -hidden-arrow',
                 'clickable': true,
                 onBeforeStart: function () {
-                    $(".widget-box.welcome a").click(function (e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                    });
-
                     // Handle the correct project selection and redirection
                     // This will be removed once the project selection is implemented
-                    $(".widget-box.welcome a:contains(scrumDemoProjectName)").click(function () {
+                    jQuery(".widget-box.welcome a:contains(" + scrumDemoProjectName + ")").click(function () {
                         tutorialInstance.trigger('next');
                         window.location = this.href + '/backlogs';
                     });
-                    $(".widget-box.welcome a:contains(demoProjectName)").click(function () {
+                    jQuery(".widget-box.welcome a:contains(" + demoProjectName + ")").click(function () {
                         tutorialInstance.trigger('next');
                         window.location = this.href + '/work_packages';
                     });
-                    // Disable clicks on the wp context menu links
-                    $('.widget-box--blocks--buttons .button').addClass('-disabled').bind('click', preventClickHandler);
+                    // Disable clicks on other links
+                    $('.widget-box.welcome a').addClass('-disabled').bind('click', preventClickHandler);
                 }
             }
         ];

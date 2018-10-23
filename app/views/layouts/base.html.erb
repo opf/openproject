@@ -57,6 +57,7 @@ See docs/COPYRIGHT.rdoc for more details.
         data-default-locale="<%= I18n.default_locale %>"
         data-environment="<%= Rails.env %>"/>
   <meta name="current_menu_item" content="<%= current_menu_item %>"/>
+  <meta name="demo_projects_available" content="<%= Setting.demo_projects_available %>"/>
   <%= csrf_meta_tags %>
   <%= render 'common/favicons' %>
   <%= stylesheet_link_tag 'openproject', media: "all" %>

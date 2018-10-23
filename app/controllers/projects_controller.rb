@@ -213,6 +213,11 @@ class ProjectsController < ApplicationController
     end
 
     hide_project_in_layout
+
+    # When one of the demo projects gets deleted
+    if @project_to_destroy.identifier == 'your-scrum-project' || @project_to_destroy.identifier == 'demo-project'
+      Setting.demo_projects_available = 'false'
+    end
   end
 
   def destroy_info

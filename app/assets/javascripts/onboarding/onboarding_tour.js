@@ -20,21 +20,20 @@
                 subtree: true
             });
         };
-        window.demoProjectName = 'Demo Project';
-        window.scrumDemoProjectName = 'Scrum Project';
-
+        window.demoProjectName = 'Demo project';
+        window.scrumDemoProjectName = 'Scrum project';
 
         var storageKey = 'openProject-onboardingTour';
         var currentTourPart = sessionStorage.getItem(storageKey);
         var url = new URL(window.location.href);
 
         // ------------------------------- Initial start -------------------------------
-        // Do not show the tutorial on mobile
-        if(! /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+        // Do not show the tutorial on mobile or when the demo data has been deleted
+        if(!(bowser.mobile || bowser.ios || bowser.android) && $('meta[name=demo_projects_available]').attr('content') == "true") {
 
             // Start after the intro modal (language selection)
             // This has to be changed once the project selection is implemented
-            if (url.searchParams.get("first_time_user") && demoDataVisible()) {
+            if (url.searchParams.get("first_time_user") && demoProjectsLinks().length == 2) {
                 currentTourPart = '';
                 sessionStorage.setItem(storageKey, 'readyToStart');
 
@@ -69,15 +68,14 @@
             }
         }
 
-        function demoDataVisible() {
+        function demoProjectsLinks() {
             demoProjects = jQuery.grep(jQuery(".widget-box.welcome a"), function( a ) {
                 return a.text === demoProjectName || a.text === scrumDemoProjectName;
             });
-
-            return demoProjects.length === 2
+            return demoProjects;
         }
         
-        function initializeTour(storageValue, disabledElements) {
+        function initializeTour(storageValue, disabledElements, projectSelection) {
             tutorialInstance = new EnjoyHint({
                 onStart: function () {
                     $('#content-wrapper, #menu-sidebar').addClass('-hidden-overflow');
@@ -89,6 +87,7 @@
                 onSkip: function () {
                     sessionStorage.setItem(storageKey, 'skipped');
                     if (disabledElements) jQuery(disabledElements).removeClass('-disabled').unbind('click', preventClickHandler);
+                    if (projectSelection) $.each(demoProjectsLinks(), function(i, e) { $(e).off('click')});
                     $('#content-wrapper, #menu-sidebar').removeClass('-hidden-overflow');
                 }
             });
@@ -100,7 +99,7 @@
         }
         
         function homescreenTour() {
-            initializeTour('startProjectTour', '.widget-box--blocks--buttons .button');
+            initializeTour('startProjectTour', '.widget-box--blocks--buttons a', true);
             startTour(homescreenOnboardingTourSteps);
         }
 
