@@ -69,9 +69,12 @@
         }
 
         function demoProjectsLinks() {
-            demoProjects = jQuery.grep(jQuery(".widget-box.welcome a"), function( a ) {
-                return a.text === demoProjectName || a.text === scrumDemoProjectName;
-            });
+            demoProjects = [];
+            demoProjectsLink = jQuery(".widget-box.welcome a:contains(" + demoProjectName + ")");
+            scrumDemoProjectsLink = jQuery(".widget-box.welcome a:contains(" + scrumDemoProjectName + ")");
+            if (demoProjectsLink.length) demoProjects.push(demoProjectsLink);
+            if (scrumDemoProjectsLink.length) demoProjects.push(scrumDemoProjectsLink);
+
             return demoProjects;
         }
         

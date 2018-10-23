@@ -30,18 +30,20 @@ require 'spec_helper'
 
 describe 'onboarding tour for new users', js: true do
   let(:user) { FactoryBot.create :admin }
-  let(:project) { FactoryBot.create :project, name: 'My Project', identifier: 'demo-project', is_public: true, enabled_module_names: %w[work_package_tracking] }
-  let(:scrum_project) { FactoryBot.create :project, name: 'Your Scrum Project', identifier: 'your-scrum-project', is_public: true, enabled_module_names: %w[work_package_tracking] }
+  let(:project) { FactoryBot.create :project, name: 'Demo project', identifier: 'demo-project', is_public: true, enabled_module_names: %w[work_package_tracking wiki] }
+  let(:scrum_project) {FactoryBot.create :project, name: 'Scrum project', identifier: 'your-scrum-project', is_public: true, enabled_module_names: %w[work_package_tracking] }
   let!(:wp_1) { FactoryBot.create(:work_package, project: project) }
   let(:next_button) { find('.enjoyhint_next_btn') }
 
   context 'as a new user' do
     before do
       login_as user
-      visit home_path first_time_user: true
+      allow(Setting).to receive(:welcome_title).and_return('Hey ho!')
+      allow(Setting).to receive(:welcome_on_homescreen?).and_return(true)
     end
 
     it 'I can select a language' do
+      visit home_path first_time_user: true
       expect(page).to have_text 'Please select your language for OpenProject'
 
       select 'Deutsch', :from => 'user_language'
@@ -50,30 +52,52 @@ describe 'onboarding tour for new users', js: true do
       expect(page).to have_text 'Projekt auswählen'
     end
 
-    context 'the tutorial starts' do
+    context 'the tutorial does not start' do
       before do
+        allow(Setting).to receive(:welcome_text).and_return("<a> #{project.name} </a>")
+        visit home_path first_time_user: true
+
         select 'English', :from => 'user_language'
         click_button 'Save'
       end
 
+      it 'when the welcome block does not include the demo projects' do
+        expect(page).not_to have_text 'Take a three minutes introduction tour to learn the most important features.'
+        expect(page).not_to have_selector '.enjoyhint_next_btn'
+      end
+    end
+
+    context 'the tutorial starts' do
+      before do
+        allow(Setting).to receive(:welcome_text).and_return("<a href=/projects/#{project.identifier}> #{project.name} </a><a href=/projects/#{scrum_project.identifier}> #{scrum_project.name} </a>")
+        visit home_path first_time_user: true
+
+        select 'English', :from => 'user_language'
+        click_button 'Save'
+      end
+
+      after do
+        # Clear session to avoid that the onboarding tour starts
+        page.execute_script("window.sessionStorage.clear();")
+      end
+
       it 'directly after the language selection' do
         # The tutorial appears
-        expect(page).to have_text 'Welcome to our short introduction tour to show you the important features in OpenProject'
+        expect(page).to have_text 'Take a three minutes introduction tour to learn the most important features.'
         expect(page).to have_selector '.enjoyhint_next_btn:not(.enjoyhint_hide)'
-        expect(page).to have_selector '.enjoyhint_skip_btn:not(.enjoyhint_hide)'
       end
 
       it 'and I skip the tutorial' do
         find('.enjoyhint_skip_btn').click
 
         # The tutorial disappears
-        expect(page).not_to have_text 'Welcome to our short introduction tour to show you the important features in OpenProject'
+        expect(page).not_to have_text 'Take a three minutes introduction tour to learn the most important features.'
         expect(page).not_to have_selector '.enjoyhint_next_btn'
 
         page.driver.browser.navigate.refresh
 
         # The tutorial did not start again
-        expect(page).not_to have_text 'Welcome to our short introduction tour to show you the important features in OpenProject'
+        expect(page).not_to have_text 'Take a three minutes introduction tour to learn the most important features.'
         expect(page).not_to have_selector '.enjoyhint_next_btn'
       end
 
@@ -81,29 +105,10 @@ describe 'onboarding tour for new users', js: true do
         next_button.click
         expect(page).to have_text 'Please select one of the projects with useful demo data to get started.'
 
-        click_link 'My Project'
-        expect(page).to have_current_path project_path('project1')
-        expect(page).to have_text 'This is the project’s Overview page.'
-
-        next_button.click
-        expect(page).to have_text 'From the Project menu you can access all modules within a project.'
-
-        next_button.click
-        expect(page).to have_text 'In the Project settings you can configure your project’s modules.'
-
-        next_button.click
-        expect(page).to have_text 'Invite new Members to join your project.'
-
-        next_button.click
-        expect(page).to have_text 'Here is the Work package section'
-
-        next_button.click
-        expect(page).to have_text  "Let's have a look at all open Work packages"
-
-        next_button.click
+        find('.welcome').click_link 'Demo project'
         expect(page).to have_current_path project_work_packages_path(project.identifier)
         expect(page).not_to have_selector('.loading-indicator')
-        expect(page).to have_text  'This is the Work package list.'
+        expect(page).to have_text  'This is the Work package list'
 
         next_button.click
         expect(page).to have_current_path project_work_package_path(project, wp_1.id, 'activity')
@@ -116,10 +121,19 @@ describe 'onboarding tour for new users', js: true do
         expect(page).to have_text 'The Create button will add a new work package to your project'
 
         next_button.click
-        expect(page).to have_text 'On the top, you can activate the Gantt chart.'
+        expect(page).to have_text 'You can activate the Gantt chart to create a timeline for your project.'
 
         next_button.click
-        expect(page).to have_text 'Here you can create and visualize a project plan and share it with your team.'
+        expect(page).to have_text 'Here you can edit your project plan. Create new phases, milestones, and add dependencies.'
+
+        next_button.click
+        expect(page).to have_text "With the arrow you can navigate back to the project's Main menu."
+
+        next_button.click
+        expect(page).to have_text 'Invite new Members to join your project.'
+
+        next_button.click
+        expect(page).to have_text 'Within the Wiki you can document and share knowledge together with your team.'
 
         next_button.click
         expect(page).to have_text 'In the Help menu you will find a user guide and additional help resources.'
