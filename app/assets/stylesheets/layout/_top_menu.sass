@@ -96,6 +96,12 @@ $hamburger-width: 50px
       border: 1px solid $header-drop-down-border-color
       border-top: 0
       background-color: $header-drop-down-bg-color
+      max-height: calc(100vh - #{$header-height})
+      overflow-y: auto
+      overflow-x: hidden
+
+      @include styled-scroll-bar
+
       li
         float: none
     > ul.drop-down--projects
@@ -277,6 +283,9 @@ input.top-menu-search--input
       position: absolute
       right: 15px
       top: calc(50% - 10px / 2)
+
+#top-menu #account-nav-left .menu-drop-down-container
+  overflow: hidden
 
 #account-nav-right
   .drop-down.last-child
