@@ -28,6 +28,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+set -e
+
 # script/ci/setup.sh
 
 # $1 = TEST_SUITE
@@ -60,10 +62,14 @@ if [ $1 = 'npm' ]; then
   echo "No asset compilation required"
 fi
 
-if [ $1 = 'specs' ]; then
+if [ $1 = 'units' ]; then
   # Install pandoc for testing textile migration
-  run "travis_retry sudo apt-get update -qq"
-  run "travis_retry sudo apt-get install -qq pandoc"
+  run "sudo apt-get update -qq"
+  run "sudo apt-get install -qq pandoc"
+fi
+
+if [ $1 = 'spec_legacy' ]; then
+  run "bundle exec rake test:scm:setup:all"
 fi
 
 run "cp -rp public/assets/frontend_assets.manifest.json config/frontend_assets.manifest.json"

@@ -2546,7 +2546,7 @@ ko:
       code_401_wrong_credentials: 올바른 자격 증명을 제공하지 않았습니다.
       code_403: 접근 권한이 없습니다.
       code_404: 요청한 리소스를 찾을 수 없습니다.
-      code_409: 수정사항이 출동되어 업데이트 할 수 없습니다.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: 내부 오류가 발생했습니다.
       expected:
         date: YYYY-MM-DD(ISO 8601 날짜만)

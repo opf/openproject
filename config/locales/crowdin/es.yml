@@ -2771,7 +2771,7 @@ es:
       code_401_wrong_credentials: No se proporcionaron las credenciales correctas.
       code_403: No está autorizado a acceder a este recurso.
       code_404: No se pudo encontrar el recurso solicitado.
-      code_409: No se pudo actualizar el recurso debido a modificaciones en conflicto.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: Ha ocurrido un error interno.
       expected:
         date: AAAA-MM-DD (ISO 8601 fecha solamente)

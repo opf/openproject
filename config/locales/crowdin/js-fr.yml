@@ -61,11 +61,12 @@ fr:
     description_subwork_package: 'Enfant du lot de travaux #%{id}'
     editor:
       preview: Basculer en mode aperçu
-      source_code: Toggle Markdown source mode
-      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      source_code: Basculer en mode source Markdown
+      error_saving_failed: 'L''enregistrement du document a échoué en raison de l''erreur
+        suivante: %{error}'
       mode:
-        manual: Switch to Markdown source
-        wysiwyg: Switch to WYSIWYG editor
+        manual: Basculer en mode source Markdown
+        wysiwyg: Basculer vers l'éditeur WYSIWYG
       macro:
         child_pages:
           button: Liens vers les pages enfants
@@ -662,7 +663,7 @@ fr:
         highlighting_mode:
           description: Surligner avec de la couleur
           none: Pas de surlignement
-          inline: Dates en retard, attribut "Statut" et "Priorité"
+          inline: Overdue dates, "Status", "Type", and "Priority" attribute
           entire_row_by: Ligne entière par
           status: Statut
           priority: Priorité

@@ -39,15 +39,15 @@ describe UsersController, type: :controller do
   end
 
   let(:user_password) {'bob!' * 4}
-  let(:user) do
+  let!(:user) do
     FactoryBot.create(:user,
                        login: 'bob',
                        password: user_password,
                        password_confirmation: user_password,
                        )
   end
-  let(:admin) { FactoryBot.create(:admin) }
-  let(:anonymous) { FactoryBot.create(:anonymous) }
+  let!(:admin) { FactoryBot.create(:admin) }
+  let!(:anonymous) { FactoryBot.create(:anonymous) }
 
   describe 'GET new' do
     context "with user limit reached" do

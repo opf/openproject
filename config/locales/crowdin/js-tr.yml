@@ -60,8 +60,8 @@ tr:
     description_subwork_package: "#%{id} nolu iş paketinin alt parçası"
     editor:
       preview: Önizleme modunu aç/kapat
-      source_code: Toggle Markdown source mode
-      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      source_code: İşaretleme kaynak modunu değiştir
+      error_saving_failed: 'Aşağıdaki nedenden dolayı belge kayıt edilemedi: %{error}'
       mode:
         manual: Markdown kaynağına geç
         wysiwyg: WYSIWYG düzenleyiciye geç
@@ -328,13 +328,13 @@ tr:
     relation_labels:
       parent: Kaynak
       children: Çocuk
-      relates: İlişkili Oldukları
+      relates: Alakalı
       duplicates: Çoğalt
       duplicated: Yineleyen
       blocks: Şunu Engelliyor
       blocked: Şuna Bağlı
       precedes: Ilerlettiği
-      follows: Takipçiler
+      follows: Takip eden
       includes: İçerir
       partof: Bölümü
       requires: Gerektirir
@@ -648,7 +648,7 @@ tr:
         highlighting_mode:
           description: Rekle vurgula
           none: Vurgulama
-          inline: Gecikmiş zamanları, "Durum" ve "Öncelik" öznitelikleri
+          inline: Overdue dates, "Status", "Type", and "Priority" attribute
           entire_row_by: Entire row by
           status: Durum
           priority: Öncelik

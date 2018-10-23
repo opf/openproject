@@ -2677,7 +2677,7 @@
       code_401_wrong_credentials: Du har ikke angitt gyldige legitimasjon.
       code_403: Du har ikke tilgang til denne ressursen.
       code_404: Finner ikke den forespurte ressursen.
-      code_409: Kunne ikke oppdatere ressursen på grunn av konflikt med andre endringer.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: An internal error has occured.
       expected:
         date: YYYY-MM-DD (ISO 8601 date only)

@@ -80,7 +80,7 @@ consent_time:
 consent_info:
   serialized: true
   default:
-    en: "## Consent\n\nYou need to agree to the privacy and security policy of this OpenProject instance."
+    en: "## Consent\n\nYou need to agree to the [privacy and security policy](https://www.openproject.org/data-privacy-and-security/) of this OpenProject instance."
 # Indicates wether or not users need to consent to something such as privacy policy.
 consent_required:
   default: 0
@@ -229,6 +229,7 @@ user_format:
   format: symbol
 cross_project_work_package_relations:
   default: 1
+  format: boolean
 work_package_group_assignment:
   default: 1
 notified_events:

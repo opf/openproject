@@ -1,5 +1,5 @@
 ---
-fa:
+hi:
   no_results_title_text: There is currently nothing to display.
   activities:
     index:
@@ -67,17 +67,17 @@ fa:
     label_no_color: No color
   custom_actions:
     actions:
-      name: اقدامات
-      add: افزودن عملیات
+      name: क्रियाएँ
+      add: Add action
       assigned_to:
         executing_user_value: "(Assign to executing user)"
-    conditions: شرایط
-    plural: اقدامات سفارشی
-    new: افزودن اقدام سفارشی
-    edit: ویرایش عمل سفارشی %{name}
-    execute: اجرای %{name}
+    conditions: Conditions
+    plural: Custom actions
+    new: New custom action
+    edit: Edit custom action %{name}
+    execute: Execute %{name}
     upsale:
-      title: اقدامات سفارشی از ویژگی های نسخه سازمانی است
+      title: Custom actions is an Enterprise Edition feature
       description: Custom actions streamline everyday work by combining a set of individual
         steps into one button.
   custom_fields:
@@ -140,11 +140,11 @@ fa:
       no_results_content_text: Add a member to the project
   my:
     access_token:
-      failed_to_reset_token: 'عدم موفقیت در تنظیم مجدد رمز دسترسی: %{error}'
-      notice_reset_token: 'نشانه %{type} جدید تولید شده است. رمز دسترسی عبارت است
-        از:'
-      token_value_warning: 'توجه: این تنها زمانی است که شما رمز دسترسی را می بینید،
-        مطمعن شوید که از آن کپی برداری کرده اید.'
+      failed_to_reset_token: 'Failed to reset access token: %{error}'
+      notice_reset_token: 'A new %{type} token has been generated. Your access token
+        is:'
+      token_value_warning: 'Note: This is the only time you will see this token, make
+        sure to copy it now.'
       no_results_title_text: There are currently no access tokens available.
   news:
     index:
@@ -234,11 +234,11 @@ fa:
           no_results_title_text: There are currently no types available.
         version:
           no_results_title_text: There are currently no versions available.
-  label_invitation: دعوت نامه
+  label_invitation: Invitation
   account:
-    delete: حذف حساب کاربری
-    delete_confirmation: مطمئن هستید که می خواهید حساب کاربری را حذف کنید؟
-    deleted: حساب با موفقیت حذف شد
+    delete: खाता हटाएं
+    delete_confirmation: आप सुनिश्चित करें कि आप खाता हटाना चाहते हैं ?
+    deleted: खाता सफलतापूर्वक हटा दिया गया
     deletion_info:
       data_consequences:
         other: Of the data the user created (e.g. email, preferences, work packages,
@@ -255,84 +255,87 @@ fa:
           user". As the data of every deleted account is reassigned to this account
           it will not be possible to distinguish the data you created from the data
           of another deleted account.
-      heading: حذف حساب %{name}
+      heading: खाता डाटा हटाएँ %{name}
       info:
-        other: حذف یک حساب کاربری عملیاتی غیرقابل برگشت است.
-        self: حذف حساب کاربری عملیاتی غیرقابل برگشت است.
+        other: उपयोगकर्ता खाते को हटाना एक अपरिवर्तनीय क्रिया है ।
+        self: अपने उपयोगकर्ता खाते को हटाना एक अपरिवर्तनीय क्रिया है ।
       login_consequences:
-        other: حساب از سیستم حذف خواهد شد. بنابراین، کاربر دیگر قادر به ورود با اعتبار
-          فعلی خود نخواهد بود. او می تواند دوباره به وسیله امکاناتی که نرم ازار در
-          اختیار او قرار می دهد به عضویت این نرم افزار در آید.
-        self: حساب کاربری شما از سیستم حذف خواهد شد. بنابراین، شما دیگر قادر به ورود
-          با اعتبار فعلی خود نخواهد بود. شما می توانید دوباره به وسیله امکاناتی که
-          نرم ازار در اختیار او قرار می دهد به عضویت این نرم افزار در آیید.
+        other: आपके खाते को सिस्टम से हटा दिया जाएगा । इसलिए, उपयोगकर्ता अब अपने वर्तमान
+          क्रेडेंशियल्स के साथ लॉग इन करने में असक्षम हो जाएगा । वह इस आवेदन अनुदान
+          का मतलब है फिर से इस अनुप्रयोग के एक उपयोगकर्ता बनने के लिए चुन सकते हैं
+          ।
+        self: Your account will be deleted from the system. Therefore, you will no
+          longer be able to log in with your current credentials. If you choose to
+          become a user of this application again, you can do so by using the means
+          this application grants.
       login_verification:
         other: Enter the login %{name} to verify the deletion. Once submitted, you
           will be asked to confirm your password.
         self: Enter your login %{name} to verify the deletion. Once submitted, you
           will be asked to confirm your password.
-    error_inactive_activation_by_mail: 'حساب شما هنوز فعال نشده است. برای فعال سازی
-      حساب خود ، بر روی لینکی که به شما ایمیل شده کلیک کنید.
+    error_inactive_activation_by_mail: 'आपका खाता अभी तक सक्रिय नहीं किया गया है ।
+      अपने खाते को सक्रिय करने के लिए, आपके द्वारा जो ईमेल खाता दिया गया था, उस खाते
+      पर भेजी गई ईमेल में सम्मिलित लिंक, पर क्लिक करें.
 
 '
-    error_inactive_manual_activation: 'حساب شما هنوز فعال نشده است. لطفا صبر کنید
-      تا ادمین حساب شما را فعال کند.
+    error_inactive_manual_activation: 'आपका खाता अभी तक सक्रिय नहीं किया गया है ।
+      कृपया किसी व्यवस्थापक द्वारा, आपका खाता सक्रिय करने के लिए, प्रतीक्षा करें ।
 
 '
-    error_self_registration_disabled: 'ثبت نام در این سیستم غیرفعال شده است. لطفا
-      ایجاد یک حساب کاربری را از مدیر بخواهید.
+    error_self_registration_disabled: 'इस सिस्टम पर उपयोगकर्ता पंजीकरण अक्षम किया
+      गया है । कृपया किसी व्यवस्थापक से आपके लिए खाता बनाने के लिए सम्पर्क करें ।
 
 '
-    login_with_auth_provider: یا با حساب موجود خود وارد سیستم شوید
+    login_with_auth_provider: या अपने मौजूदा खाते से साइन इन करें
     signup_with_auth_provider: or sign up using
     auth_source_login: Please login as <em>%{login}</em> to activate your account.
     omniauth_login: Please login to activate your account.
-  actionview_instancetag_blank_option: لطفا انتخاب کنید
+  actionview_instancetag_blank_option: कृपया चयन करें
   activerecord:
     attributes:
       announcements:
         show_until: Display until
       attachment:
-        attachment_content: محتوای پیوست
+        attachment_content: Attachment content
         attachment_file_name: Attachment file name
-        downloads: دانلود ها
-        file: فایل
-        filename: فایل
-        filesize: اندازه‌
+        downloads: डाउनलोड
+        file: फ़ाइल
+        filename: फ़ाइल
+        filesize: आकार
       attribute_help_text:
-        attribute_name: Attribute
+        attribute_name: गुण
         help_text: Help text
       auth_source:
-        account: حساب کاربری
-        attr_firstname: مشخصه نام
-        attr_lastname: مشخصه نام خانوادگی
-        attr_login: ویژگی ورود به سیستم
-        attr_mail: ویژگی ایمیل
-        base_dn: پایه DN
-        host: میزبان
-        onthefly: ایجاد کاربر بدون اخلال در سیستم
-        port: پورت
+        account: खाता
+        attr_firstname: पहला-नाम गुण
+        attr_lastname: कुल-नाम गुण
+        attr_login: लौगिन गुण
+        attr_mail: Email attribute
+        base_dn: बेस डी.एन.
+        host: होस्ट
+        onthefly: तत्काल उपयोगकर्ता उत्पन्न
+        port: पोर्ट
       changeset:
         repository: Repository
       comment:
-        commented: دارای اظهار نظر
+        commented: टिप्पणियाँकृत
       custom_action:
-        actions: اقدامات
+        actions: क्रियाएँ
       custom_field:
-        default_value: مقدار پیش فرض
-        editable: قابل ویرایش
-        field_format: قالب‎بندی
-        is_filter: به عنوان یک فیلتر استفاده شده
-        is_required: الزامی
-        max_length: حداکثر طول
-        min_length: حداقل طول
+        default_value: डिफ़ॉल्ट मान
+        editable: संपादनीय
+        field_format: Format
+        is_filter: फिल्टर रूप में इस्तेमाल
+        is_required: अनिवार्य
+        max_length: अधिकतम लंबाई
+        min_length: न्यूनतम लम्बाई
         multi_value: Allow multi-select
-        possible_values: مقادیر ممکن
-        regexp: عبارت منظم
-        searchable: قابل جستجو
-        visible: قابل مشاهده
+        possible_values: संभावित मिलान
+        regexp: नियमित अभिव्यक्ति
+        searchable: खोजनीय
+        visible: दृश्यमान
       custom_value:
-        value: مقدار
+        value: मान
       enterprise_token:
         starts_at: Valid since
         expires_at: Expires at
@@ -340,75 +343,75 @@ fa:
         encoded_token: Enterprise support token
         active_user_count_restriction: Maximum active users
       relation:
-        delay: تأخیر
-        from: Work package
-        to: بسته کاری وابسته
+        delay: देरी
+        from: कार्य पैकेज
+        to: संबंधित कार्य पैकेज
       status:
-        is_closed: بسته کاری بسته شد
+        is_closed: कार्य पैकेज बंद
       journal:
-        notes: یادداشت ها
+        notes: टिप्पणियाँ
       member:
-        roles: نقش ها
+        roles: भूमिकाएं
       project:
-        identifier: شناسه
+        identifier: पहचानकर्ता
         latest_activity_at: Latest activity at
-        parent: 'زیر پروژه ای از '
-        queries: پرس و جو ها
-        types: انواع
-        versions: نسخه ها
-        work_packages: بسته های کاری
+        parent: परियोजना की उपपरियोजना
+        queries: पूछताछ
+        types: प्रकार
+        versions: संस्करण
+        work_packages: कार्य पैकेज
       query:
-        column_names: ستون‌ها
+        column_names: स्तंभ
         relations_to_type_column: Relations to %{type}
         relations_of_type_column: "%{type} relations"
-        group_by: دسته بندی نتایج با
-        filters: فیلترها
-        timeline_labels: برچسب های خط زمان
+        group_by: द्वारा परिणाम समूह
+        filters: फ़िल्टर
+        timeline_labels: Timeline labels
       repository:
-        url: نشانی اینترنت
+        url: यू आर एल
       role:
         assignable: Work packages can be assigned to users and groups in possession
           of this role in the respective project
       time_entry:
-        activity: فعالیت
-        hours: ساعت‌‌‌‌‌‌
-        spent_on: تاریخ
-        type: نوع
+        activity: गतिविधी
+        hours: घंटे
+        spent_on: तिथि
+        type: प्रकार
       type:
         attribute_groups: ''
         is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
         is_milestone: Is milestone
-        color: رنگ
+        color: रंग
       user:
-        admin: مدیر
-        auth_source: حالت تأیید اعتبار
+        admin: व्यवस्थापक
+        auth_source: प्रमाणीकरण का तरीका
         current_password: Current password
-        force_password_change: اجبار برای تغییر گذرواژه در ورود بعدی
-        language: زبان
-        last_login_on: آخرین ورود
-        mail_notification: اعلان های ایمیل
-        new_password: رمز عبور جديد
-        password_confirmation: تاییدیه
+        force_password_change: अगले लॉगऑन पर पासवर्ड बदलवाएं
+        language: भाषा 
+        last_login_on: पिछला लॉगिन
+        mail_notification: ईमेल की सूचनाएँ
+        new_password: नया पासवर्ड
+        password_confirmation: पुष्टिकरण
         consented_at: Consented at
       user_preference:
-        comments_sorting: نمایش نظرات
-        hide_mail: مخفی کردن آدرس ایمیل من
-        impaired: حالت دسترسی
-        time_zone: منطقه زمانی
-        auto_hide_popups: پنهان کردن خودکار اعلان های موفقیت
+        comments_sorting: टिप्पणियां प्रदर्शित करें
+        hide_mail: मेरा ईमेल पता छुपाएं
+        impaired: पहुँच क्षमता
+        time_zone: समय क्षेत्र
+        auto_hide_popups: Auto-hide success notifications
         warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved
           changes
       version:
         effective_date: Finish date
-        sharing: اشتراک گذاری
+        sharing: साझा करना
       wiki_content:
-        text: متن
+        text: टेक्स्ट
       wiki_page:
-        parent_title: صفحه مرجع
-        redirect_existing_links: تغییر مسیر آدرس های فعلی
+        parent_title: पैरेंट पृष्ठ
+        redirect_existing_links: मौजूदा लिंक्स पुनर्निर्देशित करें
       planning_element_type_color:
-        hexcode: کد هگزا
+        hexcode: हेक्स कोड
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
@@ -416,18 +419,18 @@ fa:
         done_ratio: Progress (%)
         end_insertion: End of the insertion
         end_deletion: End of the deletion
-        fixed_version: نسخه
-        parent: بالادستی
-        parent_issue: بالادستی
-        parent_work_package: بالادستی
-        priority: اولويت
+        fixed_version: संस्करण
+        parent: जनक
+        parent_issue: जनक
+        parent_work_package: जनक
+        priority: वरीयता
         progress: Progress (%)
-        spent_hours: زمان صرف شده
-        spent_time: زمان صرف شده
-        subproject: زیر پروژه
-        time_entries: پیگیری زمان
-        type: نوع
-        watcher: ناظر
+        spent_hours: समय बिताया
+        spent_time: समय बिताया
+        subproject: परियोजना की उपपरियोजना
+        time_entries: लॉग समय
+        type: प्रकार
+        watcher: वॉचर
     errors:
       messages:
         accepted: must be accepted.
@@ -453,8 +456,8 @@ fa:
         greater_than_start_date: must be greater than the start date.
         inclusion: is not set to one of the allowed values.
         invalid: is invalid.
-        invalid_url: ساختار آدرس صحیح نیست.
-        invalid_url_scheme: 'این پروتکل مجاز نیست (موارد مجاز: %{allowed_schemes}).'
+        invalid_url: is not a valid URL.
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: must be less than or equal to %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
@@ -510,7 +513,7 @@ fa:
               invalid: The custom field is not valid in the given context.
         relation:
           typed_dag:
-            circular_dependency: رابطه دایره روابط ایجاد می کند.
+            circular_dependency: The relationship creates a circle of relationships.
           attributes:
             to:
               error_not_found: work package in `to` position not found or not visible
@@ -521,8 +524,8 @@ fa:
         repository:
           not_available: SCM vendor is not available
           not_whitelisted: is not allowed by the configuration.
-          invalid_url: یک ادرس یا URL مخزن نیست.
-          must_not_be_ssh: نباید یک آدرس SSH باشد.
+          invalid_url: is not a valid repository URL or path.
+          must_not_be_ssh: must not be an SSH url.
           no_directory: is not a directory.
         work_package:
           is_not_a_valid_target_for_time_entries: 'Work package #%{id} is not a valid
@@ -549,9 +552,9 @@ fa:
             priority_id:
               only_active_priorities_allowed: needs to be active.
             category:
-              only_same_project_categories_allowed: دسته یک بسته کاری باید در همان
-                پروژه به عنوان یک بسته کاری وجود داشته باشد.
-              does_not_exist: دسته انتخاب شده وجود ندارد.
+              only_same_project_categories_allowed: एक कार्य पैकेज की श्रेणी कार्य
+                पैकेज के रूप में एक ही प्रोजेक्ट के भीतर होना चाहिए ।
+              does_not_exist: निर्दिष्ट श्रेणी मौजूद नहीं है ।
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: must be >= 0.
         type:
@@ -567,182 +570,182 @@ fa:
             password:
               weak: 'Must contain characters of the following classes (at least %{min_count}
                 of %{all_count}): %{rules}.'
-              lowercase: lowercase (e.g. 'a')
-              uppercase: uppercase (e.g. 'A')
-              numeric: numeric (e.g. '1')
-              special: special (e.g. '%')
+              lowercase: लोअरकेस (उदा. ' a ')
+              uppercase: अपरकेस (उदा. ' A ')
+              numeric: सांख्यिक (उदा. ' 1 ')
+              special: विशेष अक्षर (उदा. '% ')
               reused:
-                one: has been used before. Please choose one that is different from
-                  your last one.
+                one: पहले इस्तेमाल किया गया है । कृपया एक है कि अपने पिछले एक से अलग
+                  है चुनें ।
                 other: has been used before. Please choose one that is different from
                   your last %{count}.
               match:
-                confirm: Confirm new password.
-                description: "'Password confirmation' should match the input in the
-                  'New password' field."
+                confirm: नए पासवर्ड की पुष्टि करें
+                description: "' पासवर्ड पुष्टिकरण ' नए पासवर्ड फ़ील्ड में इनपुट से
+                  मेल खाना चाहिए ।"
             status:
               invalid_on_create: is not a valid status for new users.
             auth_source:
               error_not_found: not found
         member:
-          principal_blank: لطفا حداقل یک کاربر یا گروه را انتخاب کنید.
-          role_blank: Please choose at least one role.
+          principal_blank: कृपया कम से कम एक समूह या उपयोगकर्ता चुनें।
+          role_blank: कृपया कम से कम एक भूमिका टेबल चुनें
       template:
-        body: 'Please check the following fields:'
+        body: 'कृपया निंनलिखित क्षेत्रों की जांच करें:'
         header:
           one: 1 error prohibited this %{model} from being saved
           other: "%{count} errors prohibited this %{model} from being saved"
     models:
-      attachment: فایل
+      attachment: फ़ाइल
       attribute_help_text: Attribute help text
-      board: تالار گفتگو
-      comment: نظر
-      custom_action: اقدام سفارشی
-      custom_field: فیلدهای سفارشی
-      group: Group
-      category: Category
-      status: Work package status
-      member: Member
-      news: News
-      project: Project
-      query: Custom query
+      board: मंच
+      comment: टिप्पणी
+      custom_action: Custom action
+      custom_field: रुचि के अनुसार फिल्ड
+      group: समूह
+      category: श्रेणी
+      status: कार्य पैकेज स्थिति
+      member: सदस्य
+      news: नया
+      project: परियोजना
+      query: विशेष प्रष्न
       role:
-        one: Role
-        other: Roles
-      type: نوع
-      user: User
-      version: نسخه
-      wiki: Wiki
-      wiki_page: Wiki page
-      workflow: Workflow
-      work_package: Work package
+        one: भूमिका
+        other: भूमिका
+      type: प्रकार
+      user: उपयोगकर्ता
+      version: संस्करण
+      wiki: विकी
+      wiki_page: विकी पृष्ठ
+      workflow: कार्यप्रवाह
+      work_package: कार्य पैकेज
   errors:
-    header_invalid_fields: 'There were problems with the following fields:'
+    header_invalid_fields: 'निम्न फ़ील्ड्स के साथ समस्याएं थीं:'
     field_erroneous_label: |-
       This field is invalid: %{full_errors}
       Please enter a valid value.
   activity:
-    created: 'Created: %{title}'
-    updated: 'Updated: %{title}'
+    created: 'रचना: %{title}'
+    updated: 'अद्यततन: %{title}'
   attributes:
-    active: Active
-    assigned_to: Assignee
-    assignee: Assignee
+    active: सक्रिय
+    assigned_to: अनुदिष्ट
+    assignee: अनुदिष्ट
     attachments: Attachments
-    author: نویسنده
+    author: Author
     base: 'General Error:'
     blocks_ids: IDs of blocked work packages
-    category: Category
-    comment: نظر
-    comments: نظر
-    content: محتوا
-    color: رنگ
+    category: श्रेणी
+    comment: टिप्पणी
+    comments: टिप्पणी
+    content: Content
+    color: रंग
     created_at: Created on
     created_on: Created on
-    custom_options: مقادیر ممکن
+    custom_options: संभावित मिलान
     custom_values: Custom fields
-    date: تاریخ
+    date: तिथि
     default_columns: Default columns
-    description: توضیحات
+    description: Description
     display_sums: Display Sums
     due_date: Finish date
     estimated_hours: Estimated time
     estimated_time: Estimated time
-    firstname: نام
-    group: Group
-    groups: Groups
-    groupname: نام گروه
-    id: شناسه
-    is_default: مقدار پیش فرض
-    is_for_all: نمایش تمام پروژه‌ها
-    is_public: عمومی
-    issue: Work package
-    lastname: نام خانوادگی
-    login: Login
-    mail: Email
-    name: نام
-    password: Password
-    priority: اولويت
-    project: Project
+    firstname: First name
+    group: समूह
+    groups: समूह
+    groupname: Group name
+    id: आईडी
+    is_default: डिफ़ॉल्ट मान
+    is_for_all: सभी परियोजनाओं के लिए
+    is_public: सार्वजनिक
+    issue: कार्य पैकेज
+    lastname: अंतिम नाम
+    login: लॉगिन
+    mail: ईमेल
+    name: नाम
+    password: पासवर्ड
+    priority: वरीयता
+    project: परियोजना
     responsible: Accountable
-    role: Role
-    roles: نقش ها
-    start_date: Start date
-    status: Status
-    subject: Subject
-    summary: Summary
-    title: عنوان
-    type: نوع
-    updated_at: به روز شده
-    updated_on: به روز شده
-    user: User
-    version: نسخه
-    work_package: Work package
-  button_add: ﺍﻓﺰﻭﺩﻥ
+    role: भूमिका
+    roles: भूमिकाएं
+    start_date: प्रारंभ दिनांक
+    status: अवस्था
+    subject: विषय
+    summary: सारांश
+    title: शीर्षक
+    type: प्रकार
+    updated_at: पर अद्यतीत
+    updated_on: पर अद्यतीत
+    user: उपयोगकर्ता
+    version: संस्करण
+    work_package: कार्य पैकेज
+  button_add: जोड़ें
   button_add_member: Add member
-  button_add_watcher: Add watcher
-  button_annotate: Annotate
-  button_apply: درخواست
-  button_archive: آرشیو
-  button_back: برگشت
-  button_cancel: لغو
-  button_change: تغییر
-  button_change_parent_page: تغییر صفحه والدین
-  button_change_password: تغییر رمز عبور
-  button_check_all: بررسی همه
-  button_clear: پاکسازی
+  button_add_watcher: द्रष्टा जोड़ें
+  button_annotate: व्याख्या
+  button_apply: लागू करें
+  button_archive: पुरालेखित करें
+  button_back: वापस जाएँ
+  button_cancel: निरस्त करें
+  button_change: बदलें
+  button_change_parent_page: पेरेंट पृष्ठ बदलें
+  button_change_password: पासवर्ड परिवर्तित करें
+  button_check_all: Check all
+  button_clear: खाली करें
   button_close: Close
-  button_collapse_all: بستن همه
-  button_configure: ویرایش
+  button_collapse_all: सभी को समेटें
+  button_configure: Configure
   button_continue: Continue
-  button_copy: کپی
-  button_copy_and_follow: کپی کنید و دنبال کردن
-  button_create: ایجاد
-  button_create_and_continue: ذخیره و ادامه
-  button_delete: حذف
+  button_copy: प्रतिलिपि बनाएँ
+  button_copy_and_follow: Copy and follow
+  button_create: रचना करें
+  button_create_and_continue: सहेजें और जारी रखें
+  button_delete: मिटाएँ
   button_decline: Decline
-  button_delete_watcher: Delete watcher %{name}
-  button_download: Download
-  button_duplicate: نسخه برداری
-  button_edit: ویرایش
-  button_edit_associated_wikipage: 'ویرایش صفحه ویکی مرتبط: %{page_title}'
-  button_expand_all: باز کردن همه
+  button_delete_watcher: द्रष्टा हटाएं %{name}
+  button_download: डाउनलोड
+  button_duplicate: प्रतिलिपि
+  button_edit: संपादित करें
+  button_edit_associated_wikipage: 'संबद्ध विकी पृष्ठ संपादित करें: %{page_title}'
+  button_expand_all: सभी विस्तृत करें
   button_filter: Filter
   button_generate: Generate
-  button_list: لیست
-  button_lock: قفل کردن
-  button_log_time: پیگیری زمان
-  button_login: ورود
-  button_move: انتقال
-  button_move_and_follow: کپی و دنبال کردن
-  button_print: چاپ کردن
-  button_quote: نقل قول
+  button_list: सूची
+  button_lock: सील करें
+  button_log_time: लॉग समय
+  button_login: साइन इन करें
+  button_move: स्थानांतरित करें
+  button_move_and_follow: स्थानांतरित करें व फौलो करें
+  button_print: Print
+  button_quote: उद्धरण
   button_remove: Remove
-  button_remove_widget: حذف ویجت
-  button_rename: تغییر نام
+  button_remove_widget: विजेट हटाएँ
+  button_rename: नाम बदलें
   button_replace: Replace
-  button_reply: پاسخ دادن
-  button_reset: تنظیم مجدد
-  button_rollback: برگرداندن به این نسخه
-  button_save: ذخیره
+  button_reply: जवाब दें
+  button_reset: रीसेट करें
+  button_rollback: इस संस्करण के लिए रोलबैक
+  button_save: सहेजें
   button_save_back: Save and back
-  button_show: نمایش
-  button_sort: مرتب‌سازی
-  button_submit: ثبت کردن
-  button_test: بررسی
-  button_unarchive: خروج از آرشیو
-  button_uncheck_all: لغو انتخاب همه
-  button_unlock: باز کردن
-  button_unwatch: عدم دنبال
-  button_update: به روز رسانی
+  button_show: दिखाएँ
+  button_sort: क्रम में लगायें
+  button_submit: सबमिट करें
+  button_test: परीक्षण
+  button_unarchive: अपुरालेखित करें
+  button_uncheck_all: सभी अचयनित करें
+  button_unlock: अनलॉक करें
+  button_unwatch: अनवॉच
+  button_update: अद्यतन करें
   button_upgrade: Upgrade
   button_upload: Upload
-  button_view: مشاهده
-  button_watch: نگاه کردن
-  button_manage_menu_entry: پیکربندی وسایل منو
-  button_add_menu_entry: افزودن آیتم منو
-  button_configure_menu_entry: پیکربندی وسایل منو
-  button_delete_menu_entry: حذف آیتم های منو
+  button_view: दृश्य
+  button_watch: देखें
+  button_manage_menu_entry: मेनू आइटम कॉंफ़िगर करें
+  button_add_menu_entry: मेनू आइटम जोड़ें
+  button_configure_menu_entry: मेनू आइटम कॉंफ़िगर करें
+  button_delete_menu_entry: मेनू आइटम हटाएं
   consent:
     checkbox_label: I have noted and do consent to the above.
     failure_message: Consent failed, cannot proceed.
@@ -763,160 +766,162 @@ fa:
   copy_project:
     started: Started to copy project "%{source_project_name}" to "%{target_project_name}".
       You will be informed by mail as soon as "%{target_project_name}" is available.
-    failed: Cannot copy project %{source_project_name}
-    succeeded: Created project %{target_project_name}
-    errors: Error
-    project_custom_fields: نمایش فیلد های نمایشی در چاپ
+    failed: प्रोजेक्ट की प्रतिलिपि बनाना सम्भव नहीं %{source_project_name}
+    succeeded: प्रोजेक्ट बनाया %{target_project_name}
+    errors: त्रुटि
+    project_custom_fields: Custom fields on project
     text:
-      failed: Could not copy project "%{source_project_name}" to project "%{target_project_name}".
-      succeeded: Copied project "%{source_project_name}" to "%{target_project_name}".
-  create_new_page: Wiki page
+      failed: प्रोजेक्ट की प्रतिलिपि नहीं बना सका "%{source_project_name}" प्रोजेक्ट
+        को "%{target_project_name}".
+      succeeded: '"%{source_project_name}" प्रोजेक्ट की प्रतिलिपि "%{target_project_name}"
+        में बनाई.'
+  create_new_page: विकी पृष्ठ
   date:
     abbr_day_names:
-    - Sun
-    - Mon
-    - Tue
-    - Wed
-    - Thu
-    - Fri
-    - Sat
+    - रविवार
+    - सोमवार
+    - मंगलवार
+    - बुधवार
+    - गुरुवार
+    - शुक्रवार
+    - शनिवार
     abbr_month_names:
     - 
-    - Jan
-    - Feb
-    - Mar
-    - Apr
-    - May
-    - Jun
-    - Jul
-    - Aug
-    - Sep
-    - Oct
-    - Nov
-    - Dec
+    - जनवरी
+    - फरवरी
+    - मार्च
+    - अप्रैल
+    - मई
+    - जून
+    - जुलाई
+    - अगस्त
+    - सितम्बर
+    - अक्टूबर
+    - नवम्बर
+    - दिसम्बर
     day_names:
-    - Sunday
-    - Monday
-    - Tuesday
-    - Wednesday
-    - Thursday
-    - Friday
-    - Saturday
+    - रविवार
+    - सोमवार
+    - मंगलवार
+    - बुधवार
+    - गुरुवार
+    - शुक्रवार
+    - शनिवार
     formats:
       default: "%m/%d/%Y"
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
     - 
-    - January
-    - February
-    - March
-    - April
-    - May
-    - June
-    - July
-    - August
-    - September
-    - October
-    - November
-    - December
+    - जनवरी
+    - फरवरी
+    - मार्च
+    - अप्रैल
+    - मई
+    - जून
+    - जुलाई
+    - अगस्त
+    - सितम्बर
+    - अक्टूबर
+    - नवम्बर
+    - दिसम्बर
     order:
-    - :year
-    - :month
-    - :day
+    - ":वर्ष"
+    - ":माह"
+    - ":दिन"
   datetime:
     distance_in_words:
       about_x_hours:
-        one: about 1 hour
+        one: लगभग 1 घंटा
         other: about %{count} hours
       about_x_months:
-        one: about 1 month
+        one: लगभग 1 महीने
         other: about %{count} months
       about_x_years:
-        one: about 1 year
+        one: लगभग 1 वर्ष
         other: about %{count} years
       almost_x_years:
         one: almost 1 year
         other: almost %{count} years
-      half_a_minute: half a minute
+      half_a_minute: आधा मिनट
       less_than_x_minutes:
-        one: less than a minute
+        one: एक मिनट से कम
         other: less than %{count} minutes
       less_than_x_seconds:
-        one: less than 1 second
+        one: 1 सेकंड से कम
         other: less than %{count} seconds
       over_x_years:
-        one: over 1 year
+        one: 1 वर्ष से अधिक
         other: over %{count} years
       x_days:
-        one: 1 day
+        one: 1 दिन
         other: "%{count} days"
       x_minutes:
-        one: 1 minute
+        one: 1 मिनट
         other: "%{count} minutes"
       x_months:
-        one: 1 month
+        one: 1 महीना
         other: "%{count} months"
       x_seconds:
-        one: 1 second
+        one: 1 सेकंड
         other: "%{count} seconds"
     units:
       hour:
-        one: hour
+        one: घंटा
         other: hours
-  default_activity_development: Development
-  default_activity_management: مدیریت
-  default_activity_other: Other
-  default_activity_specification: Specification
-  default_activity_support: پشتیبانی
-  default_activity_testing: آزمون
-  default_color_black: Black
-  default_color_blue: Blue
-  default_color_blue_dark: Blue (dark)
-  default_color_blue_light: Blue (light)
-  default_color_green_dark: Green (dark)
-  default_color_green_light: Green (light)
-  default_color_grey_dark: Grey (dark)
-  default_color_grey_light: Grey (light)
-  default_color_grey: Grey
-  default_color_magenta: Magenta
-  default_color_orange: Orange
-  default_color_red: قرمز
-  default_color_white: White
-  default_color_yellow: Yellow
-  default_status_closed: Closed
-  default_status_confirmed: Confirmed
-  default_status_developed: Developed
-  default_status_in_development: In development
-  default_status_in_progress: In progress
-  default_status_in_specification: In specification
-  default_status_in_testing: In testing
-  default_status_new: New
-  default_status_on_hold: On hold
-  default_status_rejected: Rejected
-  default_status_scheduled: Scheduled
-  default_status_specified: Specified
-  default_status_tested: Tested
-  default_status_test_failed: Test failed
-  default_status_to_be_scheduled: To be scheduled
-  default_priority_low: Low
-  default_priority_normal: Normal
-  default_priority_high: High
-  default_priority_immediate: Immediate
-  default_role_anonymous: Anonymous
-  default_role_developer: Developer
-  default_role_project_admin: Project admin
-  default_role_non_member: Non member
-  default_role_reader: خواننده
-  default_role_member: Member
-  default_type: بسته کاری
-  default_type_bug: Bug
-  default_type_deliverable: تحویل شدنی
-  default_type_epic: Epic
-  default_type_feature: Feature
-  default_type_milestone: Milestone
-  default_type_phase: Phase
-  default_type_task: وظیفه
+  default_activity_development: विकास
+  default_activity_management: प्रबंधन
+  default_activity_other: अन्य
+  default_activity_specification: विनिर्देश
+  default_activity_support: सहायता
+  default_activity_testing: परीक्षण
+  default_color_black: काला
+  default_color_blue: नीला
+  default_color_blue_dark: नीला (गहरा)
+  default_color_blue_light: नीला (हल्का)
+  default_color_green_dark: हरा (गहरा)
+  default_color_green_light: हरा (हल्का)
+  default_color_grey_dark: धूसर (डार्क)
+  default_color_grey_light: धूसर (हल्का)
+  default_color_grey: धूसर
+  default_color_magenta: मैजेंटा
+  default_color_orange: नारंगी
+  default_color_red: लाल
+  default_color_white: सफ़ेद
+  default_color_yellow: पीला
+  default_status_closed: बंद
+  default_status_confirmed: पुष्टि
+  default_status_developed: डिवेलपर
+  default_status_in_development: विकास प्रक्रिया में
+  default_status_in_progress: प्रगति में
+  default_status_in_specification: विनिर्देशन में
+  default_status_in_testing: परीक्षण में
+  default_status_new: नया
+  default_status_on_hold: होल्ड पर
+  default_status_rejected: अस्वीकृत
+  default_status_scheduled: अनुसूचित
+  default_status_specified: निर्दिष्ट
+  default_status_tested: परीक्षित
+  default_status_test_failed: टेस्ट फ़ैल हो गया
+  default_status_to_be_scheduled: निर्धारित किया जाना
+  default_priority_low: निम्न
+  default_priority_normal: साधारण
+  default_priority_high: उच्च
+  default_priority_immediate: तत्काल
+  default_role_anonymous: अज्ञात
+  default_role_developer: डिवेलपर
+  default_role_project_admin: परियोजना व्यवस्थापक
+  default_role_non_member: गैर सदस्य
+  default_role_reader: पाठक
+  default_role_member: सदस्य
+  default_type: कार्य पैकेज
+  default_type_bug: बग
+  default_type_deliverable: डिलिवरेबल्स
+  default_type_epic: महाकाव्य
+  default_type_feature: विशेषता
+  default_type_milestone: मील का पत्थर
+  default_type_phase: चरण
+  default_type_task: Task
   default_type_user_story: User story
   description_active: Active?
   description_attachment_toggle: Show/Hide attachments
@@ -942,7 +947,7 @@ fa:
   description_category_reassign: Choose category
   description_message_content: Message content
   description_my_project: You are member
-  description_notes: یادداشت ها
+  description_notes: टिप्पणियाँ
   description_parent_work_package: Parent work package of current
   description_project_scope: Search scope
   description_query_sort_criteria_attribute: Sort attribute
@@ -961,17 +966,16 @@ fa:
         add_groups: Add new attribute groups
         rename_groups: Rename attributes groups
       project_filters:
-        description_html: ارتقا به %{link} برای فیلتر و مرتب سازی فیلد های سفارشی
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: Activities (time tracking)
   enumeration_work_package_priorities: Work package priorities
   enumeration_system_activity: System Activity
-  enumeration_reported_project_statuses: Reported project status
-  error_auth_source_sso_failed: مشکل در سامانه ورود مرکزی (SSO) برای کاربر '%{value}'
-    به وجود آمد
+  enumeration_reported_project_statuses: रिपोर्ट की गई प्रोजेक्ट स्थिति
+  error_auth_source_sso_failed: Single Sign-On (SSO) for user '%{value}' failed
   error_can_not_archive_project: 'This project cannot be archived: There is at least
     one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Unable to delete entry
-  error_can_not_delete_custom_field: Unable to delete custom field
+  error_can_not_delete_custom_field: कस्टम फ़ील्ड हटाने में असमर्थ
   error_can_not_delete_type: This type contains work packages and cannot be deleted.
   error_can_not_delete_standard_type: Standard types cannot be deleted.
   error_can_not_invite_user: Failed to send invitation to user.
@@ -999,9 +1003,9 @@ fa:
     you try to submit data on multiple browsers or tabs? Please close all tabs and
     try again.
   error_work_package_done_ratios_not_updated: Work package done ratios not updated.
-  error_work_package_not_found_in_project: The work package was not found or does
-    not belong to this project
-  error_must_be_project_member: must be project member
+  error_work_package_not_found_in_project: कार्य पैकेज नहीं मिला, या इस प्रोजेक्ट
+    से संबंधित नहीं है
+  error_must_be_project_member: प्रोजेक्ट सदस्य होना जरूरी है
   error_no_default_work_package_status: No default work package status is defined.
     Please check your configuration (Go to "Administration -> Work package statuses").
   error_no_type_in_project: No type is associated to this project. Please check the
@@ -1034,7 +1038,7 @@ fa:
     project: Project edited
     changeset: Changeset edited
     message: Message edited
-    news: News
+    news: नया
     reply: Replied
     time_entry: Timelog edited
     wiki_page: Wiki page edited
@@ -1043,10 +1047,10 @@ fa:
     work_package_note: Work Package note added
   export:
     format:
-      atom: هسته
+      atom: एटम
       csv: CSV
-      pdf: پی دی اف
-      pdf_with_descriptions: PDF همراه توضيح
+      pdf: पीडीएफ
+      pdf_with_descriptions: विवरण सहित पीडीएफ
       pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
       pdf_with_attachments: PDF with attachments
   extraction:
@@ -1061,7 +1065,7 @@ fa:
   general_csv_encoding: UTF-8
   general_csv_separator: ","
   general_first_day_of_week: '7'
-  general_lang_name: فارسی
+  general_lang_name: English
   general_pdf_encoding: ISO-8859-1
   general_text_no: 'no'
   general_text_yes: 'yes'
@@ -1091,12 +1095,12 @@ fa:
       faq: FAQ
       glossary: Glossary
       shortcuts: Shortcuts
-      forums: Forums
+      forums: मंच
       blog: OpenProject blog
       boards: Community forum
-      newsletter: هشدارهای امنیتی / عضویت در خبرنامه
+      newsletter: Security alerts / Newsletter
   links:
-    configuration_guide: راهنمای پیکربندی
+    configuration_guide: Configuration guide
   instructions_after_registration: You can sign in as soon as your account has been
     activated by clicking %{signin}.
   instructions_after_logout: You can sign in again by clicking %{signin}.
@@ -1114,11 +1118,11 @@ fa:
         expiration: Expires
       indefinite_expiration: Never
   label_accessibility: Accessibility
-  label_account: حساب کاربری
-  label_active: Active
-  label_activate_user: کاربر فعال
-  label_active_in_new_projects: فعال در پروژه های جدید
-  label_activity: فعالیت
+  label_account: खाता
+  label_active: सक्रिय
+  label_activate_user: Activate user
+  label_active_in_new_projects: Active in new projects
+  label_activity: गतिविधी
   label_add_edit_translations: Add and edit translations
   label_add_another_file: Add another file
   label_add_columns: Add selected columns
@@ -1134,63 +1138,63 @@ fa:
   label_administration: Administration
   label_advanced_settings: Advanced settings
   label_age: Age
-  label_ago: days ago
-  label_all: all
-  label_all_time: all time
-  label_all_words: All words
-  label_all_open_wps: All open
+  label_ago: दिन पहले
+  label_all: सभी
+  label_all_time: हमेशा
+  label_all_words: सभी शब्दों
+  label_all_open_wps: सभी खुले
   label_always_visible: Always displayed
   label_announcement: Announcement
   label_and_its_subprojects: "%{value} and its subprojects"
-  label_api_access_key: API access key
+  label_api_access_key: API पहुंच कुंजी
   label_api_access_key_created_on: API access key created %{value} ago
   label_api_access_key_type: API
-  label_applied_status: Applied status
+  label_applied_status: लागू की गई स्थिति
   label_archive_project: Archive project
-  label_ascending: Ascending
-  label_assigned_to_me_work_packages: Work packages assigned to me
-  label_associated_revisions: Associated revisions
-  label_attachment_delete: Delete file
-  label_attachment_new: New file
-  label_attachment_plural: Files
-  label_attribute: Attribute
-  label_attribute_plural: Attributes
-  label_auth_source: حالت تأیید اعتبار
-  label_auth_source_new: New authentication mode
-  label_auth_source_plural: Authentication modes
-  label_authentication: Authentication
+  label_ascending: आरोही
+  label_assigned_to_me_work_packages: मेरे लिए असाइन किए गए कार्य पैकेज
+  label_associated_revisions: संबद्ध पुनरावलोकन
+  label_attachment_delete: फ़ाइल को हटाएं
+  label_attachment_new: नई फ़ाइल
+  label_attachment_plural: फ़ाइलें
+  label_attribute: गुण
+  label_attribute_plural: गुण
+  label_auth_source: प्रमाणीकरण का तरीका
+  label_auth_source_new: प्रमाणीकरण का नया तरीका
+  label_auth_source_plural: प्रमाणीकरण का तरीके
+  label_authentication: प्रमाणीकरण
   label_available_project_work_package_categories: Available work package categories
   label_available_project_boards: Available boards
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
   label_api_documentation: API documentation
   label_between: between
-  label_blocked_by: blocked by
-  label_blocks: blocks
+  label_blocked_by: द्वारा अवरुद्ध
+  label_blocks: ब्लॉक
   label_blog: Blog
-  label_board_locked: Locked
-  label_board_new: New forum
-  label_board_plural: Forums
-  label_board_sticky: Sticky
-  label_boolean: Boolean
-  label_branch: Branch
-  label_browse: Browse
-  label_bulk_edit_selected_work_packages: Bulk edit selected work packages
-  label_calendar: Calendar
-  label_calendar_show: Show Calendar
-  label_category: Category
+  label_board_locked: अवरोधित
+  label_board_new: नया मंच
+  label_board_plural: मंच
+  label_board_sticky: चिपचिपा
+  label_boolean: बूलियन
+  label_branch: शाखा
+  label_browse: ब्राउज करें
+  label_bulk_edit_selected_work_packages: चयनित कार्य पैकेजों का बल्क संपादन
+  label_calendar: कैलेंडर
+  label_calendar_show: कैलेंडर दिखाएं
+  label_category: श्रेणी
   label_consent_settings: User Consent
-  label_wiki_menu_item: Wiki menu item
-  label_select_main_menu_item: Select new main menu item
+  label_wiki_menu_item: विकी मेनू आइटम
+  label_select_main_menu_item: नए मुख्य मेनू आइटम का चयन करें
   label_select_project: Select a project
   label_required_disk_storage: Required disk storage
-  label_send_invitation: ارسال دعوت نامه
-  label_change_plural: Changes
-  label_change_properties: Change properties
-  label_change_status: Change status
-  label_change_status_of_user: 'وضعیت #{username} تغییر کرد'
-  label_change_view_all: View all changes
-  label_changes_details: Details of all changes
+  label_send_invitation: आमंत्रण भेजें
+  label_change_plural: परिवर्तन
+  label_change_properties: गुण परिवर्तित करें
+  label_change_status: स्थिति बदलें
+  label_change_status_of_user: 'Change status of #{username}'
+  label_change_view_all: सभी परिवर्तन देखें
+  label_changes_details: सभी परिवर्तनों का विवरण
   label_changeset: Changeset
   label_changeset_id: Changeset ID
   label_changeset_plural: Changesets
@@ -1198,21 +1202,21 @@ fa:
   label_check_uncheck_all_in_column: Check/Uncheck all in column
   label_check_uncheck_all_in_row: Check/Uncheck all in row
   label_child_element: Child element
-  label_chronological_order: In chronological order
-  label_close_versions: Close completed versions
-  label_closed_work_packages: closed
-  label_collapse: Collapse
+  label_chronological_order: कालानुक्रमिक क्रम में
+  label_close_versions: पूर्ण संस्करण बंद करें
+  label_closed_work_packages: बंद
+  label_collapse: संक्षिप्त करें
   label_collapsed_click_to_show: Collapsed. Click to show
-  label_configuration: configuration
-  label_comment_add: Add a comment
-  label_comment_added: Comment added
-  label_comment_delete: Delete comments
-  label_comment_plural: Comments
-  label_commits_per_author: Commits per author
+  label_configuration: विन्यास
+  label_comment_add: एक टिप्पणी जोड़ें
+  label_comment_added: टिप्पणी जोड़ी
+  label_comment_delete: टिप्पणियां हटाएं
+  label_comment_plural: टिप्पणियाँ
+  label_commits_per_author: प्रति लेखक प्रतिबद्ध
   label_commits_per_month: Commits per month
-  label_confirmation: تاییدیه
+  label_confirmation: पुष्टिकरण
   label_contains: contains
-  label_content: محتوا
+  label_content: Content
   label_copied: copied
   label_copy_to_clipboard: Copy to clipboard
   label_copy_same_as_target: Same as target
@@ -1228,7 +1232,7 @@ fa:
   label_custom_field_plural: Custom fields
   label_custom_field_default_type: Empty type
   label_custom_style: Design
-  label_date: تاریخ
+  label_date: तिथि
   label_date_and_time: Date and time
   label_date_from: From
   label_date_from_to: From %{start} to %{end}
@@ -1236,7 +1240,7 @@ fa:
   label_date_to: To
   label_day_plural: days
   label_default: Default
-  label_delete_user: حذف کاربر
+  label_delete_user: Delete user
   label_delete_project: Delete project
   label_deleted: deleted
   label_deleted_custom_field: "(deleted custom field)"
@@ -1256,7 +1260,7 @@ fa:
   label_duplicated_by: duplicated by
   label_duplicate: duplicate
   label_duplicates: duplicates
-  label_edit: ویرایش
+  label_edit: संपादित करें
   label_enable_multi_select: Toggle multiselect
   label_enabled_project_custom_fields: Enabled custom fields
   label_enabled_project_modules: Enabled modules
@@ -1278,62 +1282,62 @@ fa:
   label_f_hour: "%{value} hour"
   label_f_hour_plural: "%{value} hours"
   label_feed_plural: Feeds
-  label_feeds_access_key: RSS access key
+  label_feeds_access_key: RSS पहुंच कुंजी
   label_feeds_access_key_created_on: RSS access key created %{value} ago
   label_feeds_access_key_type: RSS
-  label_file_added: File added
-  label_file_plural: Files
-  label_filter_add: Add filter
-  label_filter_plural: فیلترها
-  label_filters_toggle: نمایش/پنهان کردن فیلتر
-  label_float: Float
+  label_file_added: फ़ाइल जोड़ी गई
+  label_file_plural: फ़ाइलें
+  label_filter_add: फ़िल्टर जोड़ें
+  label_filter_plural: फ़िल्टर
+  label_filters_toggle: Show/hide filters
+  label_float: फ्लोट
   label_folder: Folder
-  label_follows: follows
-  label_force_user_language_to_default: Set language of users having a non allowed
-    language to default
+  label_follows: फॉलो करें
+  label_force_user_language_to_default: डिफ़ॉल्ट करने के लिए एक गैर अनुमति भाषा वाले
+    उपयोगकर्ताओं की भाषा सेट करें
   label_form_configuration: Form configuration
-  label_gantt: Gantt
-  label_gantt_chart: نمودار گانت
-  label_general: General
-  label_generate_key: Generate a key
-  label_git_path: Path to .git directory
+  label_gantt: गैन्ट
+  label_gantt_chart: गैंट चार्ट
+  label_general: सामान्य
+  label_generate_key: कोई कुंजी जैनेरेट करें
+  label_git_path: ". git निर्देशिका के लिए पथ"
   label_greater_or_equal: ">="
-  label_group_by: Group by
-  label_group_new: New group
-  label_group: Group
+  label_group_by: द्वारा समूहीकृत
+  label_group_new: नया समूह
+  label_group: समूह
   label_group_named: Group %{name}
-  label_group_plural: Groups
-  label_help: Help
-  label_here: here
-  label_hide: Hide
-  label_history: History
+  label_group_plural: समूह
+  label_help: सहायता
+  label_here: यहाँ
+  label_hide: छुपाएँ
+  label_history: इतिहास
   label_hierarchy_leaf: Hierarchy leaf
-  label_home: Home
-  label_in: in
-  label_in_less_than: in less than
-  label_in_more_than: in more than
+  label_home: मुखपृष्ठ
+  label_in: में
+  label_in_less_than: से भी कम समय में
+  label_in_more_than: से अधिक में
   label_inactive: Inactive
-  label_incoming_emails: Incoming emails
+  label_incoming_emails: आने वाली ईमेल
   label_includes: includes
-  label_index_by_date: Index by date
-  label_index_by_title: Index by title
-  label_information: Information
-  label_information_plural: Information
-  label_integer: Integer
-  label_internal: Internal
+  label_index_by_date: दिनांक द्वारा अनुक्रमणिका
+  label_index_by_title: शीर्षक के आधार पर अनुक्रमणिका
+  label_information: जानकारी
+  label_information_plural: जानकारी
+  label_integer: पूर्णांक
+  label_internal: आंतरिक
   label_introduction_video: Introduction video
   label_invite_user: Invite user
   label_show_hide: Show/hide
-  label_show_all_registered_users: نمایش تمام کاربران ثبت نام شده
+  label_show_all_registered_users: Show all registered users
   label_journal: Journal
-  label_journal_diff: Description Comparison
-  label_language: زبان
-  label_jump_to_a_project: Jump to a project...
+  label_journal_diff: विवरण तुलना
+  label_language: भाषा 
+  label_jump_to_a_project: किसी प्रोजेक्ट पर जंप करें...
   label_language_based: Based on user's language
   label_last_activity: Last activity
   label_last_change_on: Last change on
   label_last_changes: last %{count} changes
-  label_last_login: آخرین ورود
+  label_last_login: पिछला लॉगिन
   label_last_month: last month
   label_last_n_days: last %{count} days
   label_last_week: last week
@@ -1342,11 +1346,11 @@ fa:
   label_ldap_authentication: LDAP authentication
   label_less_or_equal: "<="
   label_less_than_ago: less than days ago
-  label_list: لیست
+  label_list: सूची
   label_loading: Loading...
-  label_lock_user: کاربر قفل شده
+  label_lock_user: Lock user
   label_logged_as: Logged in as
-  label_login: ورود
+  label_login: साइन इन करें
   label_custom_logo: Custom logo
   label_custom_favicon: Custom favicon
   label_custom_touch_icon: Custom touch icon
@@ -1385,87 +1389,87 @@ fa:
   label_my_projects: My projects
   label_my_queries: My custom queries
   label_never: Never
-  label_new: New
+  label_new: नया
   label_new_statuses_allowed: New statuses allowed
   label_news_added: News added
   label_news_comment_added: Comment added to a news
   label_news_latest: Latest news
   label_news_new: Add news
   label_news_edit: Edit news
-  label_news_plural: News
+  label_news_plural: नया
   label_news_view_all: View all news
   label_next: Next
-  label_next_week: Next week
-  label_no_change_option: "(No change)"
-  label_no_data: No data to display
+  label_next_week: अगले सप्ताह
+  label_no_change_option: "(कोई परिवर्तन नहीं)"
+  label_no_data: प्रदर्शित करने के लिए कोई डेटा नहीं
   label_no_parent_page: No parent page
   label_nothing_display: Nothing to display
-  label_nobody: nobody
-  label_none: none
+  label_nobody: कोई नहीं
+  label_none: कुछ नहीं
   label_none_parentheses: "(none)"
-  label_not_contains: doesn't contain
-  label_not_equals: is not
-  label_notify_member_plural: Email updates
-  label_on: برخط
-  label_open_menu: Open menu
-  label_open_work_packages: open
-  label_open_work_packages_plural: open
-  label_openproject_website: OpenProject website
-  label_optional_description: توضیحات
-  label_options: Options
-  label_other: Other
-  label_overall_activity: Overall activity
-  label_overall_spent_time: Overall spent time
-  label_overview: Overview
-  label_page_title: Page title
+  label_not_contains: शामिल नहीं है
+  label_not_equals: नहीं है
+  label_notify_member_plural: ईमेल अपडेट
+  label_on: पर
+  label_open_menu: मेनू खोलें
+  label_open_work_packages: खोलें
+  label_open_work_packages_plural: खोलें
+  label_openproject_website: ओपेनप्रौजैक्ट वैबसाइट
+  label_optional_description: Description
+  label_options: विकल्प
+  label_other: अन्य
+  label_overall_activity: समग्र गतिविधि
+  label_overall_spent_time: कुल मिलाकर समय बिताया
+  label_overview: संक्षिप्त अवलोकन
+  label_page_title: पृष्ठ का शीर्षक
   label_part_of: part of
-  label_password_lost: Forgot your password?
-  label_password_rule_lowercase: Lowercase
-  label_password_rule_numeric: Numeric Characters
-  label_password_rule_special: Special Characters
-  label_password_rule_uppercase: Uppercase
-  label_path_encoding: Path encoding
-  label_pdf_with_descriptions: PDF with Descriptions
-  label_per_page: Per page
-  label_people: افراد
-  label_permissions: Permissions
-  label_permissions_report: Permissions report
-  label_personalize_page: Personalize this page
-  label_planning: Planning
-  label_please_login: Please log in
-  label_plugins: Plugins
-  label_precedes: precedes
-  label_preferences: Preferences
-  label_preview: Preview
-  label_previous: Previous
-  label_previous_week: Previous week
+  label_password_lost: आपना पासवर्ड भूल गए?
+  label_password_rule_lowercase: लोअरकेस
+  label_password_rule_numeric: सांख्यिक वर्णों
+  label_password_rule_special: विशेष अक्षर
+  label_password_rule_uppercase: अपरकेस
+  label_path_encoding: पथ एंकोडिंग
+  label_pdf_with_descriptions: विवरण के साथ पीडीएफ
+  label_per_page: प्रति पृष्ठ
+  label_people: People
+  label_permissions: अनुमतियाँ
+  label_permissions_report: अनुमतियाँ रिपोर्ट
+  label_personalize_page: इस प्रष्ठ को निजीकृत करें
+  label_planning: विनियोजन
+  label_please_login: कृपया लॉगिन करें
+  label_plugins: प्लगइन्स
+  label_precedes: पूर्व में होना
+  label_preferences: आपकी पसंद
+  label_preview: पूर्वावलोकन
+  label_previous: पिछला
+  label_previous_week: पिछला सप्ताह
   label_principal_invite_via_email: " or invite new users via email"
   label_principal_search: Add existing users or groups
   label_product_version: Product version
   label_professional_support: Professional support
-  label_profile: Profile
-  label_project_all: All Projects
+  label_profile: प्रोफ़ाइल
+  label_project_all: सभी परियोजनाएँ
   label_project_count: Total number of projects
-  label_project_copy_notifications: Send email notifications during the project copy
-  label_project_latest: Latest projects
-  label_project_default_type: Allow empty type
+  label_project_copy_notifications: प्रोजेक्ट प्रतिलिपी के दौरान ईमेल सूचनाएँ भेजें
+  label_project_latest: नवीनतम परियोजनाएं
+  label_project_default_type: रिक्त प्रकार की अनुमति दें
   label_project_hierarchy: Project hierarchy
-  label_project_new: New project
+  label_project_new: नया प्रोजेक्ट
   label_project_plural: Projects
-  label_project_settings: Project settings
+  label_project_settings: परियोजना सेटिंग्स
   label_projects_storage_information: "%{count} projects using %{storage} disk storage"
-  label_project_view_all: View all projects
-  label_project_show_details: نمایش جزئیات پروژه
-  label_project_hide_details: پنهان کردن جزئیات پروژه
-  label_public_projects: Public projects
-  label_query_new: New query
-  label_query_plural: Custom queries
-  label_query_menu_item: Query menu item
-  label_read: Read...
-  label_register: Create a new account
-  label_register_with_developer: Register as developer
-  label_registered_on: Registered on
-  label_registration_activation_by_email: account activation by email
+  label_project_view_all: सभी प्रोजेक्ट्स देखें
+  label_project_show_details: Show project details
+  label_project_hide_details: Hide project details
+  label_public_projects: सार्वजनिक परियोजनाएं
+  label_query_new: नया प्रष्ण
+  label_query_plural: विशेष प्रष्ण
+  label_query_menu_item: क्वेरी मेनू आइटम
+  label_read: पढ़ें...
+  label_register: नया खाता बनाएँ
+  label_register_with_developer: डेवलपर के रूप में पंजीकृत हों
+  label_registered_on: पर पंजीकृत
+  label_registration_activation_by_email: ईमेल द्वारा खाता सक्रियण
   label_registration_automatic_activation: automatic account activation
   label_registration_manual_activation: manual account activation
   label_related_work_packages: Related work packages
@@ -1501,7 +1505,7 @@ fa:
   label_roadmap_overdue: "%{value} late"
   label_role_and_permissions: Roles and permissions
   label_role_new: New role
-  label_role_plural: نقش ها
+  label_role_plural: भूमिकाएं
   label_role_search: Assign role to new members
   label_scm: SCM
   label_search: Search
@@ -1511,48 +1515,48 @@ fa:
   label_settings: Settings
   label_system_settings: System settings
   label_show_completed_versions: Show completed versions
-  label_sort: مرتب‌سازی
+  label_sort: क्रम में लगायें
   label_sort_by: Sort by %{value}
   label_sorted_by: sorted by %{value}
   label_sort_higher: Move up
   label_sort_highest: Move to top
   label_sort_lower: Move down
   label_sort_lowest: Move to bottom
-  label_spent_time: زمان صرف شده
+  label_spent_time: समय बिताया
   label_start_to_end: start to end
   label_start_to_start: start to start
   label_statistics: Statistics
-  label_status: Status
+  label_status: अवस्था
   label_status_updated: Work package status updated
   label_stay_logged_in: Stay logged in
   label_storage_free_space: Remaining disk space
   label_storage_used_space: Used disk space
   label_storage_group: Storage filesystem %{identifier}
   label_storage_for: Encompasses storage for
-  label_string: متن
-  label_subproject: زیر پروژه
+  label_string: टेक्स्ट
+  label_subproject: परियोजना की उपपरियोजना
   label_subproject_new: New subproject
-  label_subproject_plural: Subprojects
-  label_subtask_plural: Subtasks
-  label_summary: Summary
-  label_system: System
+  label_subproject_plural: उपपरियोजनाएँ
+  label_subtask_plural: उपकार्य
+  label_summary: सारांश
+  label_system: सिस्टम
   label_system_storage: Storage information
   label_table_of_contents: Table of contents
-  label_tag: Tag
-  label_text: Long text
-  label_this_month: this month
-  label_this_week: this week
-  label_this_year: this year
-  label_time_entry_plural: زمان صرف شده
-  label_time_sheet_menu: گزارش کارکرد
-  label_time_tracking: Time tracking
-  label_today: today
-  label_top_menu: Top Menu
-  label_topic_plural: Topics
-  label_total: Total
-  label_type_new: New type
-  label_type_plural: انواع
-  label_ui: User Interface
+  label_tag: टैग
+  label_text: लंबा पाठ
+  label_this_month: इस महीने
+  label_this_week: इस सप्ताह
+  label_this_year: इस वर्ष
+  label_time_entry_plural: समय बिताया
+  label_time_sheet_menu: समय पत्रक
+  label_time_tracking: समय ट्रैकिंग
+  label_today: आज
+  label_top_menu: शीर्ष मेनू
+  label_topic_plural: विषय
+  label_total: कुल
+  label_type_new: नए प्रकार
+  label_type_plural: प्रकार
+  label_ui: उपयोगकर्ता इंटरफ़ेस
   label_update_work_package_done_ratios: Update work package done ratios
   label_updated_time: Updated %{value} ago
   label_updated_time_at: "%{author} %{age}"
@@ -1560,10 +1564,10 @@ fa:
   label_used_by: Used by
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
-  label_user: User
+  label_user: उपयोगकर्ता
   label_user_named: User %{name}
   label_user_activity: "%{value}'s activity"
-  label_user_anonymous: Anonymous
+  label_user_anonymous: अज्ञात
   label_user_mail_option_all: For any event on all my projects
   label_user_mail_option_none: No events
   label_user_mail_option_only_assigned: Only for things I am assigned to
@@ -1574,61 +1578,62 @@ fa:
   label_user_plural: Users
   label_user_search: Search for user
   label_version_new: New version
-  label_version_plural: نسخه ها
+  label_version_plural: संस्करण
   label_version_sharing_descendants: With subprojects
   label_version_sharing_hierarchy: With project hierarchy
   label_version_sharing_none: Not shared
   label_version_sharing_system: With all projects
   label_version_sharing_tree: With project tree
-  label_videos: Videos
+  label_videos: वीडियो
   label_view_all_revisions: View all revisions
   label_view_diff: View differences
   label_view_revisions: View revisions
   label_watched_work_packages: Watched work packages
   label_week: Week
   label_wiki_content_added: Wiki page added
-  label_wiki_content_updated: Wiki page updated
-  label_wiki_toc: Table of Contents
+  label_wiki_content_updated: विकी पृष्ठ अद्यतित
+  label_wiki_toc: विषय-सूची
   label_wiki_dont_show_menu_item: Do not show this wikipage in project navigation
   label_wiki_edit: Wiki edit
   label_wiki_edit_plural: Wiki edits
-  label_wiki_page_attachments: پیوست صفحه ویکی
+  label_wiki_page_attachments: Wiki page attachments
   label_wiki_page_id: Wiki page ID
   label_wiki_navigation: Wiki navigation
-  label_wiki_page: Wiki page
+  label_wiki_page: विकी पृष्ठ
   label_wiki_page_plural: Wiki pages
   label_wiki_show_index_page_link: Show submenu item 'Table of Contents'
   label_wiki_show_menu_item: Show as menu item in project navigation
   label_wiki_show_new_page_link: Show submenu item 'Create new child page'
   label_wiki_show_submenu_item: 'Show as submenu item of '
-  label_wiki_start: صفحه‌ی شروع
-  label_work_package: Work package
-  label_work_package_added: Work package added
-  label_work_package_attachments: پیوست بسته کاری
-  label_work_package_category_new: New category
-  label_work_package_category_plural: Work package categories
+  label_wiki_start: प्रारंभ पृष्ठ
+  label_work_package: कार्य पैकेज
+  label_work_package_added: कार्य पैकेज जोड़ा गया
+  label_work_package_attachments: Work package attachments
+  label_work_package_category_new: नई श्रेणी
+  label_work_package_category_plural: कार्य पैकेज श्रेणियां
   label_work_package_hierarchy: Work package hierarchy
-  label_work_package_new: New work package
-  label_work_package_note_added: Work package note added
-  label_work_package_edit: Edit work package %{name}
-  label_work_package_plural: Work packages
-  label_work_package_priority_updated: Work package priority updated
-  label_work_package_status: Work package status
-  label_work_package_status_new: New status
-  label_work_package_status_plural: Work package statuses
+  label_work_package_new: नया कार्य पैकेज
+  label_work_package_note_added: कार्य पैकेज नोट जोड़ा गया
+  label_work_package_edit: कार्य पैकेज संपादित करें %{name}
+  label_work_package_plural: कार्य पैकेज
+  label_work_package_priority_updated: कार्य पैकेज प्राथमिकता अद्यतन
+  label_work_package_status: कार्य पैकेज स्थिति
+  label_work_package_status_new: नई स्थिति
+  label_work_package_status_plural: कार्य पैकेज स्थिति
   label_work_package_types: Work package types
-  label_work_package_updated: Work package updated
-  label_work_package_tracking: Work package tracking
-  label_work_package_view_all: View all work packages
-  label_work_package_view_all_assigned_to_me: View all work packages assigned to me
-  label_work_package_view_all_reported_by_me: View all work packages reported by me
+  label_work_package_updated: कार्य पैकेज अद्यतीत किया गया
+  label_work_package_tracking: कार्य पैकेज ट्रैकिंग
+  label_work_package_view_all: सभी कार्य पैकेज देखें
+  label_work_package_view_all_assigned_to_me: मुझे सौंपे गए सभी कार्य पैकेज देखें
+  label_work_package_view_all_reported_by_me: मेरे द्वारा सूचित किए किया गया सभी कार्य
+    पैकेज देखें
   label_work_package_view_all_responsible_for: View all work packages that I am accountable
     for
-  label_work_package_view_all_watched: View all watched work packages
-  label_work_package_watchers: Watchers
-  label_workflow: Workflow
+  label_work_package_view_all_watched: सभी देखे गए कार्य पैकेज देखें
+  label_work_package_watchers: वॉचर
+  label_workflow: कार्यप्रवाह
   label_workflow_plural: Workflows
-  label_workflow_summary: Summary
+  label_workflow_summary: सारांश
   label_x_closed_work_packages_abbr:
     one: 1 closed
     other: "%{count} closed"
@@ -1670,7 +1675,7 @@ fa:
   label_keyboard_shortcut_go_news: Go to project news
   label_keyboard_shortcut_go_timelines: Go to timelines
   label_keyboard_shortcut_new_work_package: Create new work package
-  label_keyboard_shortcut_details_package: نمایش جزئیات بسته های کاری
+  label_keyboard_shortcut_details_package: Show work packages details pane
   label_keyboard_shortcut_go_edit: Go to edit the current item (on detail pages only)
   label_keyboard_shortcut_open_more_menu: Open more-menu (on detail pages only)
   label_keyboard_shortcut_go_preview: Go to preview the current edit (on edit pages
@@ -1699,13 +1704,13 @@ fa:
         circular_inclusion: Circular inclusion of pages detected.
     create_work_package_link:
       errors:
-        no_project_context: فراخوانی ماکرو create_work_package_link خارج از فضای کاری
-          پروژه.
-        invalid_type: در پروژه '%{project}' هیچ نوع با عنوان '%{type}' یافت نشد.
-      link_name: New work package
-      link_name_type: "%{type_name} جدید"
+        no_project_context: Calling create_work_package_link macro from outside project
+          context.
+        invalid_type: No type found with name '%{type}' in project '%{project}'.
+      link_name: नया कार्य पैकेज
+      link_name_type: New %{type_name}
   mail:
-    actions: اقدامات
+    actions: क्रियाएँ
   mail_body_account_activation_request: 'A new user (%{value}) has registered. The
     account is pending your approval:'
   mail_body_account_information: Your account information
@@ -1763,10 +1768,10 @@ fa:
   notice_account_registered_and_logged_in: Welcome, your account has been activated.
     You are logged in now.
   notice_activation_failed: The account could not be activated.
-  notice_auth_stage_verification_error: قادر به تایید مرحله '%{stage}' نیستم.
-  notice_auth_stage_wrong_stage: انتظار می رفت اعتبارسنجی مرحله '%{expected}' پایان
-    یابد، اما '%{actual}'بازگشت.
-  notice_auth_stage_error: اعتبار سنجی مرحله '%{stage}' شکست خورد.
+  notice_auth_stage_verification_error: Could not verify stage '%{stage}'.
+  notice_auth_stage_wrong_stage: Expected to finish authentication stage '%{expected}',
+    but '%{actual}' returned.
+  notice_auth_stage_error: Authentication stage '%{stage}' failed.
   notice_can_t_change_password: This account uses an external authentication source.
     Impossible to change the password.
   notice_custom_options_deleted: Option '%{option_value}' and its %{num_deleted} occurrences
@@ -1798,7 +1803,7 @@ fa:
   notice_not_authorized: You are not authorized to access this page.
   notice_not_authorized_archived_project: The project you're trying to access has
     been archived.
-  notice_password_confirmation_failed: رمز عبور شما درست نیست. لذا ادامه ممکن نیست.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: "There are %{number} results found. \n Tab to
     focus the first result."
   notice_principals_found_single: "There is one result. \n Tab to focus it."
@@ -1814,7 +1819,7 @@ fa:
   notice_unable_delete_version: Unable to delete version.
   notice_user_missing_authentication_method: User has yet to choose a password or
     another way to sign in.
-  notice_user_invitation_resent: ایمیل دعوت به %{email} فرستاده شده است.
+  notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: 'Your %{key_name} is: %{value}'
   notice_automatic_set_of_standard_type: Set standard type automatically.
   notice_logged_out: You have been logged out.
@@ -1933,24 +1938,24 @@ fa:
       title: Change the project's identifier
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
-  project_module_activity: فعالیت
-  project_module_boards: Forums
-  project_module_calendar: Calendar
-  project_module_work_package_tracking: Work package tracking
-  project_module_news: News
+  project_module_activity: गतिविधी
+  project_module_boards: मंच
+  project_module_calendar: कैलेंडर
+  project_module_work_package_tracking: कार्य पैकेज ट्रैकिंग
+  project_module_news: नया
   project_module_repository: Repository
-  project_module_time_tracking: Time tracking
+  project_module_time_tracking: समय ट्रैकिंग
   project_module_timelines: Timelines
-  project_module_wiki: Wiki
+  project_module_wiki: विकी
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
-    active_or_archived: فعال و آرشیو
+    active_or_archived: Active or archived
     assigned_to_role: Assignee's role
     member_of_group: Assignee's group
     assignee_or_group: Assignee or belonging group
-    subproject_id: زیر پروژه
-    name_or_identifier: نام یا شناسه
+    subproject_id: परियोजना की उपपरियोजना
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: at %{identifier}
     atom_revision_feed: Atom revision feed
@@ -2043,7 +2048,7 @@ fa:
       managed_title: Git repository integrated into OpenProject
       managed_url: Managed URL
       path: Path to Git repository
-      path_encoding: Path encoding
+      path_encoding: पथ एंकोडिंग
     go_to_revision: Go to revision
     managed_remote: Managed repositories for this vendor are handled remotely.
     managed_remote_note: Information on the URL and path of this repository is not
@@ -2134,7 +2139,7 @@ fa:
     main projects by default
   setting_emails_footer: Emails footer
   setting_emails_header: Emails header
-  setting_email_login: استفاده از پست الکترونیکی به عنوان ورود به سیستم
+  setting_email_login: Use e-mail as login
   setting_enabled_scm: Enabled SCM
   setting_feeds_enabled: Enable Feeds
   setting_feeds_limit: Feed content limit
@@ -2167,12 +2172,12 @@ fa:
   setting_password_count_former_banned: Number of most recently used passwords banned
     for reuse
   setting_password_days_valid: Number of days, after which to enforce a password change
-  setting_password_min_length: حداقل طول
+  setting_password_min_length: न्यूनतम लम्बाई
   setting_password_min_adhered_rules: Minimum number of required classes
   setting_per_page_options: Objects per page options
   setting_plain_text_mail: Plain text mail (no HTML)
   setting_protocol: Protocol
-  setting_registration_footer: ثبت نام در پایین صفحه
+  setting_registration_footer: Registration footer
   setting_repositories_automatic_managed_vendor: Automatic repository vendor type
   setting_repositories_encodings: Repositories encodings
   setting_repository_authentication_caching_enabled: Enable caching for authentication
@@ -2199,7 +2204,7 @@ fa:
   setting_accessibility_mode_for_anonymous: Enable accessibility mode for anonymous
     users
   setting_user_format: Users display format
-  setting_user_default_timezone: منطقه زمانی پیش فرض کاربران
+  setting_user_default_timezone: Users default time zone
   setting_users_deletable_by_admins: User accounts deletable by admins
   setting_users_deletable_by_self: Users allowed to delete their accounts
   setting_welcome_text: Welcome block text
@@ -2210,8 +2215,8 @@ fa:
   setting_work_package_list_default_highlighting_mode: Default work package highlighting
     mode
   settings:
-    general: General
-    other: Other
+    general: सामान्य
+    other: अन्य
     passwords: Passwords
     session: Session
     brute_force_prevention: Automated user blocking
@@ -2222,7 +2227,7 @@ fa:
     markdown: Markdown
     plain: Plain text
   status_active: active
-  status_archived: بایگانی
+  status_archived: archived
   status_invited: invited
   status_locked: locked
   status_registered: registered
@@ -2279,7 +2284,7 @@ fa:
   text_database_allows_tsv: Database allows TSVector (optional)
   text_default_administrator_account_changed: Default administrator account changed
   text_default_encoding: 'Default: UTF-8'
-  text_destroy: حذف
+  text_destroy: मिटाएँ
   text_destroy_with_associated: 'There are additional objects assossociated with the
     work package(s) that are to be deleted. Those objects are of the following types:'
   text_destroy_what_to_do: What do you want to do?
@@ -2390,7 +2395,7 @@ fa:
     start: from
   timelines:
     admin_menu:
-      color: رنگ
+      color: रंग
       colors: Colors
     associations: Dependencies
     board_could_not_be_saved: Board could not be saved
@@ -2403,13 +2408,13 @@ fa:
     dates_are_calculated_based_on_sub_elements: Dates are calculated based on sub
       elements.
     delete_all: Delete all
-    delete_thing: حذف
+    delete_thing: मिटाएँ
     duration: Duration
     duration_days:
-      one: 1 day
+      one: 1 दिन
       other: "%{count} days"
     edit_color: Edit color
-    edit_thing: ویرایش
+    edit_thing: संपादित करें
     edit_timeline: Edit timeline report %{timeline}
     delete_timeline: Delete timeline report %{timeline}
     empty: "(empty)"
@@ -2445,20 +2450,20 @@ fa:
         date: date
         default: default
       column:
-        assigned_to: Assignee
-        type: نوع
+        assigned_to: अनुदिष्ट
+        type: प्रकार
         due_date: End date
-        name: نام
-        status: Status
-        start_date: Start date
-      columns: ستون‌ها
+        name: नाम
+        status: अवस्था
+        start_date: प्रारंभ दिनांक
+      columns: स्तंभ
       comparisons: Comparisons
       comparison:
         absolute: Absolute
         none: None
         relative: Relative
-        compare_relative_prefix: 'مقایسه برنامه ریزی فعلی با '
-        compare_relative_suffix: پیش
+        compare_relative_prefix: Compare current planning to
+        compare_relative_suffix: ago
         compare_absolute: Compare current planning to %{date}
       time_relative:
         days: days
@@ -2471,7 +2476,7 @@ fa:
       grouping_hide_group: Hide group "%{group}"
       grouping_one: First grouping criterion
       grouping_one_phrase: Is a subproject of
-      grouping_other: Other
+      grouping_other: अन्य
       hide_chart: Hide chart
       noneElement: "(none)"
       noneSelection: "(none)"
@@ -2484,7 +2489,7 @@ fa:
       status: Show status
       project_time_filter: Projects with a work package of a certain type in a certain
         timeframe
-      project_time_filter_timeframe: بازه زمانی
+      project_time_filter_timeframe: Timeframe
       project_time_filter_historical_from: from
       project_time_filter_historical_to: to
       project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
@@ -2498,10 +2503,10 @@ fa:
       timeframe_start: from
       timeline: General Settings
       zoom: Zoom factor
-    history: History
+    history: इतिहास
     new_color: New color
     new_association: New dependency
-    new_work_package: New work package
+    new_work_package: नया कार्य पैकेज
     new_reporting: New reporting
     new_timeline: New timeline report
     no_projects_for_reporting_available: There are no projects to which a reporting
@@ -2567,9 +2572,9 @@ fa:
 
 '
   tooltip:
-    setting_email_login: 'اگر فعال کاربر قادر به انتخاب ورود به سایت در طول ثبت نام
-      خواهد بود. جای آدرس داده شده ایمیل خود را به عنوان ورود خدمت می کنند. سرپرست
-      هنوز هم ورود به سایت به طور جداگانه تغییر دهید.
+    setting_email_login: 'If enabled a user will be unable to chose a login during
+      registration. Instead their given e-mail address will serve as the login. An
+      administrator may still change the login separately.
 
 '
   queries:
@@ -2580,7 +2585,7 @@ fa:
     help_and_support: Help and support
   total_progress: Total progress
   user:
-    all: all
+    all: सभी
     active: active
     activate: Activate
     activate_and_reset_failed_logins: Activate and reset failed logins
@@ -2596,8 +2601,8 @@ fa:
     blocked_num_failed_logins:
       one: locked temporarily (one failed login attempt)
       other: locked temporarily (%{count} failed login attempts)
-    confirm_status_change: شما در حال تغییر وضعیت '%{name}' هستید. آیا می خواهید ادامه
-      دهید؟
+    confirm_status_change: You are about to change the status of '%{name}'. Are you
+      sure you want to continue?
     deleted: Deleted user
     error_status_change_failed: 'Changing the user status failed due to the following
       errors: %{errors}'
@@ -2617,12 +2622,12 @@ fa:
         author or assignee of).
       mail_self_notified: I want to be notified of changes that I make myself
     status_user_and_brute_force: "%{user} and %{brute_force}"
-    status_change: تغییر وضعیت
-    unlock: باز کردن
+    status_change: Status change
+    unlock: अनलॉक करें
     unlock_and_reset_failed_logins: Unlock and reset failed logins
-  version_status_closed: closed
+  version_status_closed: बंद
   version_status_locked: locked
-  version_status_open: open
+  version_status_open: खोलें
   note: Note
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Warning
@@ -2669,13 +2674,13 @@ fa:
   nothing_to_preview: Nothing to preview
   api_v3:
     attributes:
-      lock_version: قفل نگارش
+      lock_version: Lock Version
     errors:
-      code_401: لازم است برای دسترسی به این منبع تأیید اعتبار شوید.
-      code_401_wrong_credentials: اطلاعات اعتبارسنجی درستی ارایه نکرده اید.
+      code_401: You need to be authenticated to access this resource.
+      code_401_wrong_credentials: You did not provide the correct credentials.
       code_403: You are not authorized to access this resource.
       code_404: The requested resource could not be found.
-      code_409: Could not update the resource because of conflicting modifications.
+      code_409: विरोधी संशोधनों के कारण संसाधन का सम्पादन न हो सका ।
       code_500: An internal error has occured.
       expected:
         date: YYYY-MM-DD (ISO 8601 date only)
@@ -2684,19 +2689,20 @@ fa:
         '%{actual}'.
       invalid_format: 'Invalid format for property ''%{property}'': Expected format
         like ''%{expected_format}'', but got ''%{actual}''.'
-      invalid_json: این درخواست را نمی توان به عنوان JSON تجزیه کرد.
+      invalid_json: The request could not be parsed as JSON.
       invalid_relation: The relation is invalid.
       invalid_resource: For property '%{property}' a link like '%{expected}' is expected,
         but got '%{actual}'.
       invalid_user_status_transition: The current user account status does not allow
         this operation.
       missing_content_type: not specified
-      missing_request_body: متن درخواست وجود ندارد.
+      missing_request_body: There was no request body.
       missing_or_malformed_parameter: The query parameter '%{parameter}' is missing
         or malformed.
-      multipart_body_error: متن درخواست شامل بخشهای مورد انتظار نمی باشد.
+      multipart_body_error: The request body did not contain the expected multipart
+        parts.
       multiple_errors: Multiple field constraints have been violated.
-      unable_to_create_attachment: امکان افزودن فایل پیوست وجود ندارد
+      unable_to_create_attachment: The attachment could not be created
       render:
         context_not_parsable: The context provided is not a link to a resource.
         unsupported_context: The resource given is not supported as context.

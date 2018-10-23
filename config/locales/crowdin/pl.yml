@@ -2754,7 +2754,7 @@ pl:
       code_401_wrong_credentials: Nie wprowadziłeś prawidłowych danych uwierzytelniania.
       code_403: Nie masz uprawnień do tego zasobu.
       code_404: Nie można odnaleźć żądanego zasobu.
-      code_409: Nie można zaktualizować zasobu ze względu na konfliktujące modyfikacje.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: Wystąpił błąd wewnętrzny.
       expected:
         date: RRRR-MM-DD (tylko data ISO 8601)

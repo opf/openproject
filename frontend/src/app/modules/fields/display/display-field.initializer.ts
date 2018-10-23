@@ -50,10 +50,14 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
       .addFieldType(TextDisplayField, 'text', ['String'])
       .addFieldType(FloatDisplayField, 'float', ['Float'])
       .addFieldType(IntegerDisplayField, 'integer', ['Integer'])
-      .addFieldType(HighlightedResourceDisplayField, 'highlight', ['Status', 'Priority'])
-      .addFieldType(ResourceDisplayField, 'resource', ['User',
-        'Project',
+      .addFieldType(HighlightedResourceDisplayField, 'highlight', [
+        'Status',
         'Type',
+        'Priority'
+      ])
+      .addFieldType(ResourceDisplayField, 'resource', [
+        'User',
+        'Project',
         'Version',
         'Category',
         'CustomOption'])

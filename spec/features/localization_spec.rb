@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,20 +28,26 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Project Visibility
-  Background:
-    Given there is 1 project with the following:
-      | name            | Bob's Accounting     |
-      | identifier      | bobs-accounting      |
-    Then the project "Bob's Accounting" is public
+require 'spec_helper'
 
-  Scenario: A Project is visible on the landing page if it is set to public
-    Given I am on the login page
-    Then I should see "Select a project" within "#top-menu-items"
-    When I go to the overall Projects page
-    Then I should see "Bob's Accounting" within "#content"
+describe 'Localization', type: :feature, with_settings: { login_required?: false,
+                                                          available_languages: %i[de en],
+                                                          default_language: 'en' } do
 
-  Scenario: Project is not visible on the landing page if it is not set to public
-    Given the project "Bob's Accounting" is not public
-    And I am on the login page
-    Then I should not see "Select a project" within "#top-menu-items"
+  it 'set localization' do
+    Capybara.current_session.driver.header('Accept-Language', 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3')
+
+    # a french user
+    visit projects_path
+
+    expect(page)
+      .to have_content('Projekte')
+
+    # not a supported language: default language should be used
+    Capybara.current_session.driver.header('Accept-Language', 'zz')
+    visit projects_path
+
+    expect(page)
+      .to have_content('Projects')
+  end
+end

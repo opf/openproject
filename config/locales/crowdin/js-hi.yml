@@ -1,9 +1,9 @@
 ---
-he:
+hi:
   js:
     ajax:
-      hide: הסתר
-      loading: טוען ...
+      hide: छुपाएँ
+      loading: लोड हो रहा है...
     attachments:
       draggable_hint: 'Drag on editor field to inline image or reference attachment.
         Closed editor fields will be opened while you keep dragging.
@@ -15,83 +15,83 @@ he:
         single: Select "%{name}"
       remove: Remove %{name}
       active: Active %{label} %{name}
-    close_popup_title: סגור פופ-אפ
+    close_popup_title: पॉपअप बंद करें
     close_filter_title: Close filter
     close_form_title: Close form
     clipboard:
       browser_error: Your browser doesn't support copying to clipboard. Please copy
         the selected text manually.
       copied_successful: Sucessfully copied to clipboard!
-    button_add_watcher: הוספת צופה
+    button_add_watcher: द्रष्टा जोड़ें
     button_back_to_list_view: Back to list view
-    button_cancel: ביטול
+    button_cancel: निरस्त करें
     button_close: Close
-    button_check_all: סמן את כולם
+    button_check_all: Check all
     button_configure-form: Configure form
     button_confirm: Confirm
     button_continue: Continue
-    button_copy: העתק
-    button_custom-fields: שדות מותאמים אישית
-    button_delete: מחק
-    button_delete_watcher: הסרת צופה
-    button_details_view: תצוגת הפרטים
-    button_duplicate: שכפל
-    button_edit: עריכה
-    button_filter: סינון
-    button_list_view: תצוגת רשימה
-    button_show_view: תצוגת מסך מלא
-    button_log_time: נרשם ביומן
-    button_more: עוד
-    button_move: העבר
-    button_open_details: פתיחת פרטים
+    button_copy: प्रतिलिपि बनाएँ
+    button_custom-fields: Custom fields
+    button_delete: मिटाएँ
+    button_delete_watcher: द्रष्टा हटाएँ
+    button_details_view: विवरणीय दृश्य
+    button_duplicate: प्रतिलिपि
+    button_edit: संपादित करें
+    button_filter: Filter
+    button_list_view: सूचीबद्ध दृश्य
+    button_show_view: Fullscreen view
+    button_log_time: लॉग समय
+    button_more: More
+    button_move: स्थानांतरित करें
+    button_open_details: विवरण दृश्य खोलें
     button_close_details: Close details view
     button_open_fullscreen: Open fullscreen view
-    button_quote: צטט
-    button_save: שמור
-    button_settings: הגדרות
-    button_uncheck_all: נקה הכל
-    button_update: עדכון
+    button_quote: उद्धरण
+    button_save: सहेजें
+    button_settings: Settings
+    button_uncheck_all: सभी अचयनित करें
+    button_update: अद्यतन करें
     button_export-pdf: Download PDF
     button_export-atom: Download Atom
-    description_available_columns: עמודות זמינות
-    description_current_position: 'אתה נמצא כאן:'
+    description_available_columns: Available Columns
+    description_current_position: 'You are here:'
     description_select_work_package: 'Select work package #%{id}'
-    description_selected_columns: עמודות נבחרות
+    description_selected_columns: Selected Columns
     description_subwork_package: 'Child of work package #%{id}'
     editor:
       preview: Toggle preview mode
-      source_code: Toggle Markdown source mode
-      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      source_code: Markdown स्रोत मोड टॉगल करें
+      error_saving_failed: 'दस्तावेज़ को सहेजना निम्न त्रुटि के साथ विफल हुआ: %{error}'
       mode:
-        manual: Switch to Markdown source
-        wysiwyg: Switch to WYSIWYG editor
+        manual: Markdown स्रोत पर स्विच करें
+        wysiwyg: WYSIWYG संपादक पर जाएं
       macro:
         child_pages:
           button: Links to child pages
           include_parent: Include parent
           text: "[Placeholder] Links to child pages of"
-          page: דף ויקי
-          this_page: this page
+          page: विकी पृष्ठ
+          this_page: यह पृष्ठ
           hint: 'Leave this field empty to list all child pages of the current page.
             If you want to reference a different page, provide its title or slug.
 
 '
         code_block:
-          button: Insert code snippet
-          title: Insert / edit Code snippet
-          language: Formatting language
-          language_hint: Enter the formatting language that will be used for highlighting
-            (if supported).
+          button: कोड स्निपेट संमिलित करें
+          title: कोड स्निपेट संमिलित करें/
+          language: स्वरूपण भाषा
+          language_hint: वह स्वरूपण भाषा दर्ज करें जिसका उपयोग हाइलाइटिंग (यदि समर्थित
+            हो) के लिए किया जाएगा.
         dropdown:
-          macros: Macros
-          chose_macro: Chose macro
+          macros: मैक्रो
+          chose_macro: मैक्रो चुनें
         toc: Table of contents
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget
         wiki_page_include:
           button: Include content of another wiki page
           text: "[Placeholder] Included wiki page of"
-          page: דף ויקי
+          page: विकी पृष्ठ
           not_set: "(Page not yet set)"
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -131,132 +131,133 @@ he:
           three: Third sorting criteria
       upsale_for_more: For more advanced filters, check out the
       upsale_link: Enterprise Edition.
-    general_text_no: לא
-    general_text_yes: כן
-    general_text_No: לא
-    general_text_Yes: כן
-    label_activate: הפעל
+    general_text_no: 'no'
+    general_text_yes: 'yes'
+    general_text_No: 'No'
+    general_text_Yes: 'Yes'
+    label_activate: Activate
     label_activity_no: Activity entry number %{activityNo}
     label_activity_with_comment_no: Activity entry number %{activityNo}. Has a user
       comment.
     label_add_columns: Add columns
-    label_add_comment: הוסף תגובה
+    label_add_comment: टिप्पणी लिखें
     label_add_comment_title: Comment and type @ to notify other people
-    label_add_selected_columns: הוסף עמודות נבחרות
-    label_added_by: נוסף על ידי
-    label_added_time_by: נוסף ע"י %{author} לפני %{age}
-    label_ago: ימים לפני
-    label_all: כל
-    label_all_work_packages: כל חבילות עבודה
+    label_add_selected_columns: Add selected columns
+    label_added_by: द्वारा जोड़ा गया
+    label_added_time_by: Added by %{author} %{age}
+    label_ago: दिन पहले
+    label_all: सभी
+    label_all_work_packages: समस्त कार्य पैकेज
     label_and: and
-    label_ascending: סדר עולה
+    label_ascending: आरोही
     label_author: 'Author: %{user}'
     label_between: between
-    label_board_locked: נעול
-    label_board_sticky: נעוץ
+    label_board_locked: अवरोधित
+    label_board_sticky: चिपचिपा
     label_create_work_package: Create new work package
     label_created_by: Created by
-    label_date: תאריך
+    label_date: तिथि
     label_date_with_format: 'Enter the %{date_attribute} using the following format:
       %{format}'
-    label_deactivate: השבת
-    label_descending: סדר יורד
-    label_description: תיאור
+    label_deactivate: निष्क्रिय करें
+    label_descending: Descending
+    label_description: Description
     label_cancel_comment: Cancel comment
-    label_closed_work_packages: סגור
-    label_collapse: צמצם
-    label_collapsed: מצומצם‎
-    label_collapse_all: סגור הכל
-    label_comment: תגובה
+    label_closed_work_packages: बंद
+    label_collapse: संक्षिप्त करें
+    label_collapsed: संक्षिप्त
+    label_collapse_all: सभी को समेटें
+    label_comment: टिप्पणी
     label_committed_at: "%{committed_revision_link} at %{date}"
     label_committed_link: committed revision %{revision_identifier}
-    label_contains: מכיל
+    label_contains: contains
     label_created_on: created on
     label_edit_comment: Edit this comment
     label_edit_status: Edit the status of the work package
-    label_equals: הינו
-    label_expand: הרחב
-    label_expanded: מורחב‎
-    label_expand_all: הרחב הכל
+    label_equals: is
+    label_expand: विस्तृत करें
+    label_expanded: विस्तारित
+    label_expand_all: सभी विस्तृत करें
     label_expand_project_menu: Expand project menu
-    label_export: ייצוא
-    label_filename: קובץ
-    label_filesize: גודל
+    label_export: निर्यात
+    label_filename: फ़ाइल
+    label_filesize: आकार
     label_greater_or_equal: ">="
-    label_group_by: קבץ לפי
+    label_group_by: द्वारा समूहीकृत
     label_hide_attributes: Show less
-    label_hide_column: הסתר עמודה
+    label_hide_column: स्तंभ छुपाएं
     label_hide_project_menu: Collapse project menu
-    label_in: ב
-    label_in_less_than: in less than
-    label_in_more_than: in more than
+    label_in: में
+    label_in_less_than: से भी कम समय में
+    label_in_more_than: से अधिक में
     label_latest_activity: Latest activity
-    label_last_updated_on: עידכון אחרון
+    label_last_updated_on: अंतिम अद्यतन
     label_less_or_equal: "<="
     label_less_than_ago: less than days ago
-    label_loading: טוען...
-    label_me: אני
-    label_menu_collapse: צמצם
-    label_menu_expand: הרחב
+    label_loading: Loading...
+    label_me: me
+    label_menu_collapse: संक्षिप्त करें
+    label_menu_expand: विस्तृत करें
     label_more_than_ago: more than days ago
-    label_next: הבא
-    label_no_data: אין נתונים להצגה
-    label_no_due_date: אין תאריך סיום
-    label_no_start_date: אין תאריך התחלה
-    label_none: none
-    label_not_contains: doesn't contain
-    label_not_equals: is not
-    label_on: פועל
-    label_open_menu: פתח תפריט
+    label_next: Next
+    label_no_data: प्रदर्शित करने के लिए कोई डेटा नहीं
+    label_no_due_date: कोई समाप्ति दिनांक नहीं
+    label_no_start_date: कोई प्रारंभ दिनांक नहीं
+    label_none: कुछ नहीं
+    label_not_contains: शामिल नहीं है
+    label_not_equals: नहीं है
+    label_on: पर
+    label_open_menu: मेनू खोलें
     label_open_context_menu: Open context menu
-    label_open_work_packages: open
-    label_password: סיסמה
-    label_previous: Previous
-    label_per_page: 'לכל עמוד:'
+    label_open_work_packages: खोलें
+    label_password: पासवर्ड
+    label_previous: पिछला
+    label_per_page: प्रति पृष्ठ
     label_please_wait: Please wait
     label_visibility_settings: Visibility settings
     label_quote_comment: Quote this comment
-    label_reset: איפוס
+    label_reset: रीसेट करें
     label_remove_columns: Remove selected columns
-    label_save_as: שמירה בשם
-    label_select_watcher: בחר צופה...
-    label_selected_filter_list: 'מסננים נבחרים: %s'
+    label_save_as: के रूप में सहेजें...
+    label_select_watcher: एक द्रष्टा का चयन करें..
+    label_selected_filter_list: चयनित फ़िल्टर्स
     label_show_attributes: Show all attributes
     label_show_in_menu: Show view in menu
     label_sort_by: Sort by
-    label_sorted_by: ממוין לפי
+    label_sorted_by: द्वारा क्रमबद्ध
     label_sort_higher: Move up
     label_sort_lower: Move down
-    label_sorting: מיון
+    label_sorting: छँटाई
     label_star_query: Favored
     label_press_enter_to_save: Press enter to save.
-    label_public_query: ציבורי
-    label_sum_for: סכום עבור
-    label_subject: נושא
-    label_this_week: השבוע
-    label_today: today
+    label_public_query: सार्वजनिक
+    label_sum_for: के लिए योग
+    label_subject: विषय
+    label_this_week: इस सप्ताह
+    label_today: आज
     label_up: Up
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
-    label_total_progress: התקדמות כוללת של % %{percent}
+    label_total_progress: "%{percent}% कुल प्रगति"
     label_updated_on: updated on
     label_warning: Warning
-    label_work_package: חבילת עבודה
-    label_work_package_plural: Work packages
-    label_watch: צפה
-    label_watch_work_package: חבילת שעון עבודה
-    label_watcher_added_successfully: הצופה נוסף בהצלחה!
-    label_watcher_deleted_successfully: הצופה נמחק בהצלחה!
-    label_work_package_details_you_are_here: אתה על הכרטיסיה ' %{tab} ' %{type} %{subject}.
-    label_unwatch: הספק מעקב
-    label_unwatch_work_package: חבילת שעון עבודה
-    label_uploaded_by: הועלה על ידי
+    label_work_package: कार्य पैकेज
+    label_work_package_plural: कार्य पैकेज
+    label_watch: देखें
+    label_watch_work_package: कार्य पैकेज तांकें
+    label_watcher_added_successfully: द्रष्टा सफलतापूर्वक जोड़ा!
+    label_watcher_deleted_successfully: द्रष्टा सफलतापूर्वक हटा दिया गया
+    label_work_package_details_you_are_here: You're on the %{tab} tab for %{type}
+      %{subject}.
+    label_unwatch: अनवॉच
+    label_unwatch_work_package: कार्य पैकेज तांकना समाप्त
+    label_uploaded_by: द्वारा अपलोड
     label_default_queries: Default views
     label_starred_queries: Favorite views
-    label_global_queries: Public views
-    label_custom_queries: Private views
-    label_columns: עמודות
-    label_attachments: קבצים
+    label_global_queries: सार्वजनिक दृश्य
+    label_custom_queries: निजी दृश्य
+    label_columns: स्तंभ
+    label_attachments: फ़ाइलें
     label_drop_files: Drop files here
     label_drop_files_hint: or click to add files
     label_add_attachments: Add attachments
@@ -264,7 +265,7 @@ he:
       or pasting from the clipboard.
     label_remove_file: Delete %{fileName}
     label_remove_watcher: Remove watcher %{name}
-    label_remove_all_files: מחק את כל הקבצים
+    label_remove_all_files: Delete all files
     label_add_description: Add a description for %{file}
     label_upload_notification: Uploading files...
     label_work_package_upload_notification: 'Uploading files for Work package #%{id}:
@@ -290,7 +291,7 @@ he:
     placeholders:
       default: "-"
       subject: Enter subject here
-      selection: אנא בחר
+      selection: कृपया चयन करें
       relation_description: Click to add description for this relation
     project:
       required_outside_context: You are not within a project context. Please choose
@@ -300,7 +301,7 @@ he:
       click_to_switch_context: Open this work package in that project.
       autocompleter:
         label: Project autocompletion
-    text_are_you_sure: האם הינך בטוח?
+    text_are_you_sure: Are you sure?
     types:
       attribute_groups:
         error_duplicate_group_name: The name %{group} is used more than once. Group
@@ -325,25 +326,25 @@ he:
       label_discard: Discard selection
       typeahead_placeholder: Search for possible watchers
     relation_labels:
-      parent: אב
-      children: ילדים
-      relates: קשור ל
-      duplicates: כפילויות
-      duplicated: משוכפלים על-ידי
-      blocks: בלוקים
-      blocked: חסום על ידי
-      precedes: מקדים
-      follows: עוקבים
+      parent: जनक
+      children: Children
+      relates: Related To
+      duplicates: Duplicates
+      duplicated: Duplicated by
+      blocks: Blocks
+      blocked: Blocked by
+      precedes: Precedes
+      follows: Follows
       includes: Includes
       partof: Part of
       requires: Requires
       required: Required by
       relation_type: relation type
     relations_hierarchy:
-      parent_headline: אב
-      children_headline: ילדים
+      parent_headline: जनक
+      children_headline: Children
     relation_buttons:
-      change_parent: שנה אב
+      change_parent: Change parent
       remove_parent: Remove parent
       group_by_wp_type: Group by work package type
       group_by_relation_type: Group by relation type
@@ -365,24 +366,20 @@ he:
     repositories:
       select_tag: Select tag
       select_branch: Select branch
-    field_value_enter_prompt: הזן ערך עבור '%{field}'
+    field_value_enter_prompt: Enter a value for '%{field}'
     select2:
       input_too_short:
-        one: נא הזן תו אחד נוסף
-        other: נא הזן אוד {{count}} תווים
+        one: Please enter one more character
+        other: Please enter {{count}} more characters
         zero: Please enter more characters
-        two: נא הזן אוד {{count}} תווים
-        many: נא הזן אוד {{count}} תווים
-      load_more: טוען תוצאות נוספות...
-      no_matches: לא נמצאו התאמות
-      searching: מחפש ...
+      load_more: Loading more results ...
+      no_matches: No matches found
+      searching: Searching ...
       selection_too_big:
-        one: באפשרותך לבחור רק פריט אחד
-        other: באפשרותך לבחור רק {{limit}} פריטים
+        one: You can only select one item
+        other: You can only select {{limit}} items
         zero: You cannot select any items
-        two: באפשרותך לבחור רק {{limit}} פריטים
-        many: באפשרותך לבחור רק {{limit}} פריטים
-    project_menu_details: פרטים
+    project_menu_details: Details
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -397,12 +394,12 @@ he:
       view?
     text_attachment_destroy_confirmation: Are you sure you want to delete the attachment?
     timelines:
-      gantt_chart: Gantt chart
+      gantt_chart: गैंट चार्ट
       labels:
         title: Label configuration
         bar: Bar labels
-        left: Left
-        right: Right
+        left: बाएँ
+        right: दाएँ
         farRight: Far right
         showNone: "-- No label --"
         description: 'Select the attributes you want to be shown in the respective
@@ -410,9 +407,9 @@ he:
           its date labels will be shown instead of these attributes.
 
 '
-      button_activate: Show Gantt chart
-      button_deactivate: Hide Gantt chart
-      cancel: ביטול
+      button_activate: गैन्ट चार्ट दिखाएं
+      button_deactivate: गैन्ट चार्ट छुपाएं
+      cancel: निरस्त करें
       change: Change in planning
       due_date: Finish date
       empty: "(empty)"
@@ -427,9 +424,9 @@ he:
         report_timeout: The timeline could not be loaded in a reasonable amount of
           time.
       filter:
-        grouping_other: אחר
+        grouping_other: अन्य
         noneSelection: "(none)"
-      name: שם
+      name: नाम
       outline: Reset Outline
       outlines:
         aggregation: Show aggregations only
@@ -439,12 +436,13 @@ he:
         level4: Expand level 4
         level5: Expand level 5
         all: Show all
-      project_status: מצב הפרוייקט
-      really_close_dialog: האם באמת ברצונך לסגור את תיבת הדו-שיח ולאבד הנתונים שהוזנו?
-      responsible: אחראי על
-      save: שמור
-      start_date: תאריך התחלה
-      tooManyProjects: יותר מ%{count} פרוייקטים. אנא השתמש במסנן טוב יותר!
+      project_status: प्रोजेक्ट स्थिति
+      really_close_dialog: Do you really want to close the dialog and lose the entered
+        data?
+      responsible: जिम्मेदार
+      save: सहेजें
+      start_date: प्रारंभ दिनांक
+      tooManyProjects: More than %{count} Projects. Please use a better filter!
       selection_mode:
         notification: Click on any highlighted work package to create the relation.
           Press escape to cancel.
@@ -452,58 +450,58 @@ he:
         in: Zoom in
         out: Zoom out
         auto: Auto zoom
-        days: ימים
-        weeks: שבועות
+        days: Days
+        weeks: Weeks
         months: Months
         quarters: Quarters
         years: Years
-        slider: מחוון גודל התצוגה
+        slider: Zoom slider
         description: 'Select the initial zoom level that should be shown when autozoom
           is not available.
 
 '
     tl_toolbar:
-      zooms: רמת גודל התצוגה
-      outlines: רמת היררכיה
+      zooms: Zoom level
+      outlines: Hierarchy level
     unsupported_browser:
-      title: הדפדפן שלך אינו נתמך
+      title: Your browser version is not supported
       message: The browser version you are using is no longer supported by OpenProject.
       update_message: Please update your browser.
       update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
         to Microsoft Edge.
-      learn_more: למידע נוסף
+      learn_more: Learn more
       close_warning: Ignore this warning.
     wiki_formatting:
-      strong: חזק
-      italic: נטוי קו
-      underline: קו תחתון
-      deleted: נמחק
-      code: קוד מוטבע
-      heading1: כותרת 1
-      heading2: כותרת 2
-      heading3: כותרת 3
-      unordered_list: רשימה לא מסודרת
-      ordered_list: רשימה מסודרת
-      quote: צטט
-      unquote: סוף ציטוט
-      preformatted_text: טקסט מעוצב מראש
-      wiki_link: קישור לדף Wiki
-      image: תמונה
+      strong: Strong
+      italic: Italic
+      underline: Underline
+      deleted: Deleted
+      code: Inline Code
+      heading1: Heading 1
+      heading2: Heading 2
+      heading3: Heading 3
+      unordered_list: Unordered List
+      ordered_list: Ordered List
+      quote: उद्धरण
+      unquote: Unquote
+      preformatted_text: Preformatted Text
+      wiki_link: Link to a Wiki page
+      image: Image
     work_packages:
       bulk_actions:
         move: Bulk move
         edit: Bulk edit
         copy: Bulk copy
         delete: Bulk delete
-      button_clear: נקה
+      button_clear: खाली करें
       comment_added: The comment was successfully added.
       comment_send_failed: An error has occurred. Could not submit the comment.
       comment_updated: The comment was successfully updated.
       confirm_edit_cancel: Are you sure you want to cancel editing the work package?
-      description_filter: סינון
-      description_enter_text: הזן טקסט
-      description_options_hide: הסתר אפשרויות
-      description_options_show: הצג אפשרויות
+      description_filter: Filter
+      description_enter_text: Enter text
+      description_options_hide: Hide options
+      description_options_show: Show options
       error:
         edit_prohibited: Editing %{attribute} is blocked for this work package. Either
           this attribute is derived from relations (e.g, children) or otherwise not
@@ -513,30 +511,31 @@ he:
         general: An error has occurred.
       edit_attribute: "%{attribute} - Edit"
       key_value: "%{key}: %{value}"
-      label_enable_multi_select: לאפשר בחירה מרובה
-      label_disable_multi_select: בטל בחירה מרובה
-      label_filter_add: Add filter
-      label_options: אפשריות
-      label_column_multiselect: 'השדה הנפתח משולב: בחר עם מקשי החצים, לאשר את הבחירה
-        עם enter, למחוק עם backspace'
+      label_enable_multi_select: Enable multiselect
+      label_disable_multi_select: Disable multiselect
+      label_filter_add: फ़िल्टर जोड़ें
+      label_options: विकल्प
+      label_column_multiselect: 'Combined dropdown field: Select with arrow keys,
+        confirm selection with enter, delete with backspace'
       label_switch_to_single_select: Switch to single select
       label_switch_to_multi_select: Switch to multi select
-      message_error_during_bulk_delete: אירעה שגיאה בעת ניסיון למחוק את התווית.
-      message_successful_bulk_delete: מחק בהצלחה חבילות עבודה.
+      message_error_during_bulk_delete: An error occurred while trying to delete work
+        packages.
+      message_successful_bulk_delete: Successfully deleted work packages.
       message_successful_show_in_fullscreen: Click here to open this work package
         in fullscreen view.
       message_view_spent_time: Show spent time for this work package
-      no_value: אין ערכים
+      no_value: No value
       inline_create:
         title: Click here to add a new work package to this list
       create:
-        title: New work package
+        title: नया कार्य पैकेज
         header: New %{type}
         header_no_type: New work package (Type not yet set)
         header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
-        button: צור
+        button: रचना करें
       copy:
-        title: Copy work package
+        title: कार्य पैकेज की प्रतिलिपी बनाएँ
       hierarchy:
         show: Show hierarchy mode
         hide: Hide hierarchy mode
@@ -554,39 +553,39 @@ he:
         description: Either none have been created or all work packages are filtered
           out.
       property_groups:
-        details: פרטים
-        people: אנשים
-        estimatesAndTime: זמן משוער
-        other: אחר
+        details: Details
+        people: People
+        estimatesAndTime: Estimates & Time
+        other: अन्य
       properties:
-        assignee: משויך אל
-        author: מחבר
-        createdAt: נוצר ב-
-        description: תיאור
-        date: תאריך
+        assignee: अनुदिष्ट
+        author: Author
+        createdAt: Created on
+        description: Description
+        date: तिथि
         dueDate: Finish date
-        estimatedTime: זמן משוער
-        spentTime: זמן שבוזבז
-        category: קטגוריה
-        percentageDone: האחוזים הסתיימו
-        priority: עדיפות
-        projectName: פרוייקט
-        responsible: אחראי על
-        startDate: תאריך התחלה
-        status: מצב
-        subject: נושא
-        title: כותרת
-        type: סוג
-        updatedAt: עודכן בתאריך
-        versionName: גירסה
-        version: גירסה
+        estimatedTime: Estimated time
+        spentTime: समय बिताया
+        category: श्रेणी
+        percentageDone: Percentage done
+        priority: वरीयता
+        projectName: परियोजना
+        responsible: जिम्मेदार
+        startDate: प्रारंभ दिनांक
+        status: अवस्था
+        subject: विषय
+        title: शीर्षक
+        type: प्रकार
+        updatedAt: पर अद्यतीत
+        versionName: संस्करण
+        version: संस्करण
       default_queries:
         latest_activity: Latest activity
-        created_by_me: Created by me
-        assigned_to_me: Assigned to me
-        recently_created: Recently created
-        all_open: All open
-        summary: פירוט
+        created_by_me: मेरे द्वारा सृजनित
+        assigned_to_me: मुझे सौपा गया
+        recently_created: हाल ही में बनाए गए
+        all_open: सभी खुले
+        summary: सारांश
       jump_marks:
         pagination: Jump to table pagination
         label_pagination: Click here to skip over the work packages table and go to
@@ -595,34 +594,35 @@ he:
         label_content: Click here to skip over the menu and go to the content
       placeholders:
         default: "-"
-        description: לחץ כדי להזין תיאור...
+        description: Click to enter description...
       query:
-        column_names: עמודות
-        group_by: קיבוץ תוצאות לפי
-        group: קבץ לפי
+        column_names: स्तंभ
+        group_by: द्वारा परिणाम समूह
+        group: द्वारा समूहीकृत
         group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy
           mode being active.
         hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
           being grouped by %{column}.
-        sort_ascending: מיין בסדר עולה
-        sort_descending: מיין בסדר יורד
-        move_column_left: להעביר את העמודה שמאלה
-        move_column_right: הזזת עמודה ימינה
-        hide_column: הסתר עמודה
-        insert_columns: הוסף עמודות...
-        filters: מסננים
-        display_sums: הצג סכומים
+        sort_ascending: Sort ascending
+        sort_descending: Sort descending
+        move_column_left: Move column left
+        move_column_right: Move column right
+        hide_column: स्तंभ छुपाएं
+        insert_columns: Insert columns ...
+        filters: फ़िल्टर
+        display_sums: Display Sums
         confirm_edit_cancel: Are you sure you want to cancel editing the name of this
           view? Title will be set back to previous value.
-        click_to_edit_query_name: Click to edit title of this view.
-        rename_query_placeholder: Name of this view
+        click_to_edit_query_name: इस दृश्य का शीर्षक संपादित करने के लिए क्लिक करें
+          ।
+        rename_query_placeholder: इस दृश्य का नाम
         errors:
-          unretrievable_query: Unable to retrieve view from URL
-          not_found: There is no such view
-          duplicate_query_title: Name of this view already exists. Change anyway?
-        text_no_results: No matching views were found.
+          unretrievable_query: URL से दृश्य पुनर्प्राप्त करने में असमर्थ
+          not_found: ऐसा कोई दृश्य नहीं है
+          duplicate_query_title: इस दृश्य का नाम पहले से मौजूद है । वैसे भी बदल?
+        text_no_results: कोई मेल खाता दृश्य नहीं मिले ।
       table:
-        configure_button: Configure work package table
+        configure_button: कार्य पैकेज तालिका कॉंफ़िगर करें
         summary: Table with rows of work package and columns of work package attributes.
         text_inline_edit: Most cells of this table are buttons that activate inline-editing
           functionality of that attribute.
@@ -630,15 +630,15 @@ he:
           remove and add table columns.
         text_select_hint: Select boxes should be opened with 'ALT' and arrow keys.
       table_configuration:
-        button: Configure this work package table
-        choose_display_mode: Display work packages as
-        modal_title: Work package table configuration
+        button: कार्य पैकेज तालिका कॉंफ़िगर करें
+        choose_display_mode: कार्य पैकेज इस रूप में प्रदर्शित करें
+        modal_title: कार्य पैकेज तालिका कॉंफ़िगरेशन
         embedded_tab_disabled: This configuration tab is not available for the embedded
           view you're editing.
-        default: ברירת מחדל
-        display_settings: Display settings
-        default_mode: Flat list
-        hierarchy_mode: Hierarchy
+        default: default
+        display_settings: प्रदर्शन सेटिंग्स
+        default_mode: फ्लैट सूची
+        hierarchy_mode: पदानुक्रम
         hierarchy_hint: All filtered table results will be augmented with their ancestors.
           Hierarchies can be expanded and collapsed.
         display_sums_hint: Display sums of all summable attributes in a row below
@@ -646,61 +646,61 @@ he:
         show_timeline_hint: Show an interactive gantt chart on the right side of the
           table. You can change its width by dragging the divider between table and
           gantt chart.
-        highlighting: Highlighting
+        highlighting: हाइलाइट
         highlighting_mode:
-          description: Highlight with color
-          none: No highlighting
+          description: रंग से हाइलाइट करें
+          none: हाइलाइट नहीं है
           inline: Overdue dates, "Status", "Type", and "Priority" attribute
-          entire_row_by: Entire row by
-          status: מצב
-          priority: עדיפות
+          entire_row_by: प्रकार के अनुसार संपूर्ण पंक्ति
+          status: अवस्था
+          priority: वरीयता
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
         upsale:
-          ee_only: Enterprise Edition only feature
+          ee_only: केवल एंटरप्राइज संस्करण में सुविधा
           attribute_highlighting: Need certain work packages to stand out from the
             mass?
           relation_columns: Need to see relations in the work package list?
           check_out_link: Check out the Enterprise Edition.
       tabs:
-        overview: Overview
-        activity: פעילות
-        relations: קשרים
-        watchers: צופים
-        attachments: קבצים מצורפים
+        overview: संक्षिप्त अवलोकन
+        activity: गतिविधी
+        relations: Relations
+        watchers: वॉचर
+        attachments: Attachments
       time_relative:
-        days: ימים
-        weeks: שבועות
-        months: חודשים
+        days: days
+        weeks: weeks
+        months: months
     toolbar:
       settings:
         configure_view: Configure view ...
-        columns: עמודות...
-        sort_by: מיין לפי...
-        group_by: קבץ לפי...
-        display_sums: הצג סכומים
+        columns: Columns ...
+        sort_by: Sort by ...
+        group_by: Group by ...
+        display_sums: Display sums
         display_hierarchy: Display hierarchy
         hide_hierarchy: Hide hierarchy
-        hide_sums: הסתר סכומים
-        save: שמור
-        save_as: שמור בשם ...
-        export: ייצוא...
+        hide_sums: Hide sums
+        save: सहेजें
+        save_as: Save as ...
+        export: Export ...
         visibility_settings: Visibility settings ...
         page_settings: Rename view ...
-        delete: מחק
-      filter: סינון
-      unselected_title: חבילת עבודה
+        delete: मिटाएँ
+      filter: Filter
+      unselected_title: कार्य पैकेज
       search_query_label: Search saved views
       search_query_title: Click to search saved views
       placeholder_query_title: Set a title for this view
     modals:
       label_settings: Rename view
-      label_name: שם
-      label_delete_page: מחק את הדף הנוכחי
-      button_apply: החל
-      button_save: שמור
-      button_submit: שלח
-      button_cancel: ביטול
+      label_name: नाम
+      label_delete_page: Delete current page
+      button_apply: लागू करें
+      button_save: सहेजें
+      button_submit: सबमिट करें
+      button_cancel: निरस्त करें
       form_submit:
         title: Confirm to continue
         text: Are you sure you want to perform this action?
@@ -715,29 +715,29 @@ he:
     notice_successful_create: Successful creation.
     notice_successful_delete: Successful deletion.
     notice_successful_update: Successful update.
-    notice_bad_request: בקשה שגויה.
+    notice_bad_request: Bad Request.
     relations:
-      empty: הקשר אינו קיים
+      empty: No relation exists
       remove: Remove relation
     inplace:
-      button_edit: "%{attribute}: עריכה"
-      button_save: "%{attribute}: להציל"
-      button_cancel: "%{attribute}: ביטול"
-      button_save_all: שמור
-      button_cancel_all: ביטול
+      button_edit: "%{attribute}: Edit"
+      button_save: "%{attribute}: Save"
+      button_cancel: "%{attribute}: Cancel"
+      button_save_all: सहेजें
+      button_cancel_all: निरस्त करें
       link_formatting_help: Text formatting help
-      btn_preview_enable: תצוגה מקדימה
-      btn_preview_disable: בטל תצוגה מקדימה
-      null_value_label: אין ערכים
+      btn_preview_enable: पूर्वावलोकन
+      btn_preview_disable: Disable preview
+      null_value_label: No value
       clear_value_label: "-"
       errors:
-        required: "%{field} אינו יכול להיות ריק"
-        number: "%{field} אינו מספר חוקי"
+        required: "%{field} cannot be empty"
+        number: "%{field} is not a valid number"
         maxlength: "%{field} cannot contain more than %{maxLength} digit(s)"
         minlength: "%{field} cannot contain less than %{minLength} digit(s)"
         messages_on_field: 'This field is invalid: %{messages}'
-    error_could_not_resolve_version_name: לא יכולתי לזהות גירסה שם
-    error_could_not_resolve_user_name: לא יכולתי למצוא את שם המשתמש
+    error_could_not_resolve_version_name: Couldn't resolve version name
+    error_could_not_resolve_user_name: Couldn't resolve user name
     error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
@@ -745,19 +745,13 @@ he:
       workPackage:
         one: work package
         other: work packages
-        two: work packages
-        many: work packages
       child_work_packages:
         one: one child work package
         other: "%{count} work package children"
-        two: "%{count} work package children"
-        many: "%{count} work package children"
       hour:
-        one: שעה אחת
-        other: "%{count} שעות"
+        one: 1 hour
+        other: "%{count} hours"
         zero: 0 hours
-        two: "%{count} שעות"
-        many: "%{count} שעות"
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode

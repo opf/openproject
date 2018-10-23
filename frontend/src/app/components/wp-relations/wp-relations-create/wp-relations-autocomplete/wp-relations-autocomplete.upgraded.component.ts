@@ -103,7 +103,7 @@ export class WpRelationsAutocompleteComponent implements OnInit {
   private autocompleteWorkPackages(query:string):Promise<WorkPackageResource[]> {
     this.$element.find('.ui-autocomplete--loading').show();
 
-    return this.workPackage.available_relation_candidates.$link.$fetch({
+    return this.workPackage.availableRelationCandidates.$link.$fetch({
       query: query,
       type: this.filterCandidatesFor || this.selectedRelationType
     }).then((collection:CollectionResource) => {

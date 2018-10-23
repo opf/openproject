@@ -28,9 +28,9 @@ describe 'Work package relations tab', js: true, selenium: true do
   end
 
   describe 'as admin' do
-    let!(:parent) { FactoryBot.create(:work_package, project: project) }
-    let!(:child) { FactoryBot.create(:work_package, project: project) }
-    let!(:child2) { FactoryBot.create(:work_package, project: project, subject: 'Something new') }
+    let!(:parent) { FactoryBot.create(:work_package, project: project, subject: 'Parent WP') }
+    let!(:child) { FactoryBot.create(:work_package, project: project, subject: 'Child WP') }
+    let!(:child2) { FactoryBot.create(:work_package, project: project, subject: 'Another child WP') }
 
     it 'allows to manage hierarchy' do
       # Shows link parent link
@@ -39,7 +39,8 @@ describe 'Work package relations tab', js: true, selenium: true do
            text: I18n.t('js.relation_buttons.add_parent')).click
 
       # Add parent
-      relations.add_parent(parent.id, parent.subject)
+      relations.add_parent(parent.id, parent)
+      relations.expect_parent(parent)
 
       ##
       # Add child #1
@@ -120,8 +121,8 @@ describe 'Work package relations tab', js: true, selenium: true do
       end
 
       context 'as view-only user, with parent set' do
-        let(:parent) { FactoryBot.create(:work_package, project: project) }
-        let(:work_package) { FactoryBot.create(:work_package, parent: parent, project: project) }
+        let(:parent) { FactoryBot.create(:work_package, project: project, subject: 'Parent WP') }
+        let(:work_package) { FactoryBot.create(:work_package, parent: parent, project: project, subject: 'Child WP') }
 
         it 'shows no links to create relations' do
           # No create buttons should exist
@@ -144,8 +145,8 @@ describe 'Work package relations tab', js: true, selenium: true do
 
       context 'with manage_subtasks permissions' do
         let(:permissions) { %i(view_work_packages manage_subtasks) }
-        let!(:parent) { FactoryBot.create(:work_package, project: project) }
-        let!(:child) { FactoryBot.create(:work_package, project: project) }
+        let!(:parent) { FactoryBot.create(:work_package, project: project, subject: 'Parent WP') }
+        let!(:child) { FactoryBot.create(:work_package, project: project, subject: 'Child WP') }
 
         it 'should be able to link parent and children' do
           # Shows link parent link
@@ -154,7 +155,9 @@ describe 'Work package relations tab', js: true, selenium: true do
                text: I18n.t('js.relation_buttons.add_parent')).click
 
           # Add parent
-          relations.add_parent(parent.id, parent.subject)
+          relations.add_parent(parent.id, parent)
+          work_packages_page.expect_and_dismiss_notification(message: 'Successful update.')
+          relations.expect_parent(parent)
 
           ##
           # Add child
@@ -162,12 +165,18 @@ describe 'Work package relations tab', js: true, selenium: true do
                text: I18n.t('js.relation_buttons.add_existing_child')).click
 
           relations.add_existing_child(child)
+          work_packages_page.expect_and_dismiss_notification(message: 'Successful update.')
+          relations.expect_child(child)
 
           # Remove parent
-          relations.remove_parent(parent.subject)
+          relations.remove_parent(parent)
+          work_packages_page.expect_and_dismiss_notification(message: 'Successful update.')
+          relations.expect_not_parent(parent)
 
           # Remove child
           relations.remove_child(child)
+          # Should also check for successful update but no message is shown, yet.
+          relations.expect_not_child(child)
         end
       end
     end
