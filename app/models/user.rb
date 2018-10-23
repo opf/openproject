@@ -126,6 +126,7 @@ class User < Principal
   after_save :update_password
 
   before_create :sanitize_mail_notification_setting
+  before_create :enforce_user_limit
   before_destroy :delete_associated_private_queries
   before_destroy :reassign_associated
 
@@ -726,6 +727,20 @@ class User < Principal
                                   :attributes,
                                   :password]))
       end
+    end
+  end
+
+  def enforce_user_limit
+    return if anonymous?
+    return unless active? && OpenProject::Enterprise.user_limit_reached?
+
+    if OpenProject::Enterprise.fail_fast?
+      errors.add :base, :user_limit_reached
+
+      throw :abort # prevent user creation
+    else
+      # allow creation but change status to registered so user cannot login
+      register!
     end
   end
 
