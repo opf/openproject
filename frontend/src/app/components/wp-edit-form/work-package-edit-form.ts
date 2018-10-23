@@ -157,7 +157,7 @@ export class WorkPackageEditForm {
    * Save the active changeset.
    * @return {any}
    */
-  public submit():Promise<WorkPackageResource> {
+  public async submit():Promise<WorkPackageResource> {
     const isInitial = this.workPackage.isNew;
 
     if (this.changeset.empty && !isInitial) {
@@ -170,6 +170,9 @@ export class WorkPackageEditForm {
 
     // Notify all fields of upcoming save
     const openFields = _.keys(this.activeFields);
+
+    // Call onSubmit handlers
+    await Promise.all(_.map(this.activeFields, (handler:WorkPackageEditFieldHandler) => handler.onSubmit()));
 
     return new Promise<WorkPackageResource>((resolve, reject) => {
       this.changeset.save()

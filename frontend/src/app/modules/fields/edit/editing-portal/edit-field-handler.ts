@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 import {Subject} from 'rxjs';
 
 export abstract class EditFieldHandler {
