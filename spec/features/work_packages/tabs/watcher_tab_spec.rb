@@ -6,6 +6,7 @@ require 'support/work_packages/work_package_field'
 describe 'Watcher tab', js: true, selenium: true do
   let(:project) { FactoryBot.create(:project) }
   let(:work_package) { FactoryBot.create(:work_package, project: project) }
+  let(:tabs) { ::Components::WorkPackages::Tabs.new(work_package) }
 
   let(:user) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
@@ -17,6 +18,7 @@ describe 'Watcher tab', js: true, selenium: true do
   }
 
   let(:watch_button) { find '#watch-button' }
+  let(:watchers_tab) { find('.tabrow li.selected', text: 'WATCHERS') }
 
   def expect_button_is_watching
     title = I18n.t('js.label_unwatch_work_package')
@@ -54,6 +56,7 @@ describe 'Watcher tab', js: true, selenium: true do
     before do
       login_as(user)
       wp_page.visit_tab! :watchers
+      expect_angular_frontend_initialized
       expect(page).to have_selector('.tabrow li.selected', text: 'WATCHERS')
     end
 
@@ -69,9 +72,15 @@ describe 'Watcher tab', js: true, selenium: true do
       expect(page).to have_selector('.work-package--watcher-name', count: 1, text: user.name)
       expect_button_is_watching
 
+      # Expect watchers counter to increase
+      tabs.expect_counter(watchers_tab, 1)
+
       # Remove watcher from list
       page.find('wp-watcher-entry', text: user.name).hover
       page.find('.form--selected-value--remover').click
+
+      # Watchers counter should not be displayed
+      tabs.expect_no_counter(watchers_tab)
 
       # Expect the removal of the user to toggle WP watch button
       expect(page).to have_no_selector('.work-package--watcher-name')

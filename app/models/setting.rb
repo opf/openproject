@@ -155,7 +155,7 @@ class Setting < ActiveRecord::Base
 
   # Returns the value of the setting named name
   def self.[](name)
-    cached_or_default(name)
+    filtered_cached_or_default(name)
   end
 
   def self.[]=(name, v)
@@ -212,6 +212,22 @@ class Setting < ActiveRecord::Base
   end
 
   private
+
+  # Returns the Setting instance for the setting named name
+  # and allows to filter the returned value
+  def self.filtered_cached_or_default(name)
+    name = name.to_s
+    raise "There's no setting named #{name}" unless exists? name
+
+    value = cached_or_default(name)
+
+    case name
+    when "work_package_list_default_highlighting_mode"
+      value = "none" unless EnterpriseToken.allows_to? :conditional_highlighting
+    end
+
+    value
+  end
 
   # Returns the Setting instance for the setting named name
   # (record found in cache or default value)

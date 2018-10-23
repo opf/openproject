@@ -1287,17 +1287,17 @@
       }
     },
     "@angular/compiler": {
-      "version": "6.1.2",
-      "resolved": "https://registry.npmjs.org/@angular/compiler/-/compiler-6.1.2.tgz",
-      "integrity": "sha512-IMaqx1gIYMqrori41bITgm22patbde/SRINiSggeUqegVhX4b2wIZ6ALIyT6utD2CC9n7oHQgp/VpMVMOIg0yA==",
+      "version": "6.1.10",
+      "resolved": "https://registry.npmjs.org/@angular/compiler/-/compiler-6.1.10.tgz",
+      "integrity": "sha512-FPIb2j3zfoBwb6vo/u0gQeu70h8InGlSisBr3xMACs/35/pwB6kbQR+JQiUr0D7k6QApg7AuMkvq8aFNelg0aw==",
       "requires": {
         "tslib": "^1.9.0"
       }
     },
     "@angular/compiler-cli": {
-      "version": "6.1.2",
-      "resolved": "https://registry.npmjs.org/@angular/compiler-cli/-/compiler-cli-6.1.2.tgz",
-      "integrity": "sha512-r3zSbXMc0Uv5kPau+AF7uxps3S8A02Bp2Rw18NnMY+2kXPPKXn/qfAplYidrRrlcW0Kwklt34TSMxd4cxerRuQ==",
+      "version": "6.1.10",
+      "resolved": "https://registry.npmjs.org/@angular/compiler-cli/-/compiler-cli-6.1.10.tgz",
+      "integrity": "sha512-GCWdyeNQSnF4RfzO4A0+WHsNEgxKpl5arg4ldLSWMNkj/DrhMD4TnmxhR+IVY+7ieMkUBwpcuWRnjdOdnbmV+w==",
       "requires": {
         "chokidar": "^1.4.2",
         "minimist": "^1.2.0",
@@ -1332,7 +1332,7 @@
         },
         "minimist": {
           "version": "1.2.0",
-          "resolved": "https://registry.npmjs.org/minimist/-/minimist-1.2.0.tgz",
+          "resolved": "http://registry.npmjs.org/minimist/-/minimist-1.2.0.tgz",
           "integrity": "sha1-o1AIsg9BOD7sH7kU9M1d95omQoQ="
         }
       }
@@ -1489,6 +1489,11 @@
       "requires": {
         "assertion-error": "*"
       }
+    },
+    "@types/chart.js": {
+      "version": "2.7.34",
+      "resolved": "https://registry.npmjs.org/@types/chart.js/-/chart.js-2.7.34.tgz",
+      "integrity": "sha512-dh0vgrF0oCpeb4AC+eBU7QdKPoaIg4Xd8+D1BtJKT737gNeloc91bmSUwo4PpJwZXM4vKBSNIO/LfLazvss15g=="
     },
     "@types/codemirror": {
       "version": "0.0.58",
@@ -3314,6 +3319,39 @@
       "version": "0.5.0",
       "resolved": "https://registry.npmjs.org/chardet/-/chardet-0.5.0.tgz",
       "integrity": "sha512-9ZTaoBaePSCFvNlNGrsyI8ZVACP2svUtq0DkM7t4K2ClAa96sqOIRjAzDTc8zXzFt1cZR46rRzLTiHFSJ+Qw0g=="
+    },
+    "chart.js": {
+      "version": "2.7.2",
+      "resolved": "https://registry.npmjs.org/chart.js/-/chart.js-2.7.2.tgz",
+      "integrity": "sha512-90wl3V9xRZ8tnMvMlpcW+0Yg13BelsGS9P9t0ClaDxv/hdypHDr/YAGf+728m11P5ljwyB0ZHfPKCapZFqSqYA==",
+      "requires": {
+        "chartjs-color": "^2.1.0",
+        "moment": "^2.10.2"
+      }
+    },
+    "chartjs-color": {
+      "version": "2.2.0",
+      "resolved": "https://registry.npmjs.org/chartjs-color/-/chartjs-color-2.2.0.tgz",
+      "integrity": "sha1-hKL7dVeH7YXDndbdjHsdiEKbrq4=",
+      "requires": {
+        "chartjs-color-string": "^0.5.0",
+        "color-convert": "^0.5.3"
+      },
+      "dependencies": {
+        "color-convert": {
+          "version": "0.5.3",
+          "resolved": "https://registry.npmjs.org/color-convert/-/color-convert-0.5.3.tgz",
+          "integrity": "sha1-vbbGnOZg+t/+CwAHzER+G59ygr0="
+        }
+      }
+    },
+    "chartjs-color-string": {
+      "version": "0.5.0",
+      "resolved": "https://registry.npmjs.org/chartjs-color-string/-/chartjs-color-string-0.5.0.tgz",
+      "integrity": "sha512-amWNvCOXlOUYxZVDSa0YOab5K/lmEhbFNKI55PWc4mlv28BDzA7zaoQTGxSBgJMHIW+hGX8YUrvw/FH4LyhwSQ==",
+      "requires": {
+        "color-name": "^1.0.0"
+      }
     },
     "check-types": {
       "version": "7.3.0",
@@ -7817,7 +7855,7 @@
     "jquery-mockjax": {
       "version": "2.2.2",
       "resolved": "https://registry.npmjs.org/jquery-mockjax/-/jquery-mockjax-2.2.2.tgz",
-      "integrity": "sha512-stVgUln5bo7g14KjeU45c31nAYlBHAUVBo4JbdoDYIJ3i6Nzlu8mkjKcAviwad9AU1dBEHHpuzA7R6mKcWgvZA==",
+      "integrity": "sha1-nH0rEDpEz2HJnMeKnueHhQS2CQc=",
       "dev": true,
       "requires": {
         "jquery": ">=1.5.2"
@@ -9609,6 +9647,14 @@
       "version": "0.2.2",
       "resolved": "https://registry.npmjs.org/next-tick/-/next-tick-0.2.2.tgz",
       "integrity": "sha1-ddpKkn7liH45BliABltzNkE7MQ0="
+    },
+    "ng2-charts": {
+      "version": "1.6.0",
+      "resolved": "https://registry.npmjs.org/ng2-charts/-/ng2-charts-1.6.0.tgz",
+      "integrity": "sha512-9w0WH69x5/nuqC1og2WaY39NbaBqTGIP1+5gZaH7/KPN6UEPonNg/pYnsIVklLj1DWPWXKa8+XXIJZ1jy5nLxg==",
+      "requires": {
+        "chart.js": "^2.6.0"
+      }
     },
     "ng2-rx-componentdestroyed": {
       "version": "3.0.0",
@@ -13588,7 +13634,7 @@
       "dependencies": {
         "minimist": {
           "version": "1.2.0",
-          "resolved": "https://registry.npmjs.org/minimist/-/minimist-1.2.0.tgz",
+          "resolved": "http://registry.npmjs.org/minimist/-/minimist-1.2.0.tgz",
           "integrity": "sha1-o1AIsg9BOD7sH7kU9M1d95omQoQ="
         },
         "source-map": {
@@ -13597,9 +13643,9 @@
           "integrity": "sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g=="
         },
         "source-map-support": {
-          "version": "0.5.8",
-          "resolved": "https://registry.npmjs.org/source-map-support/-/source-map-support-0.5.8.tgz",
-          "integrity": "sha512-WqAEWPdb78u25RfKzOF0swBpY0dKrNdjc4GvLwm7ScX/o9bj8Eh/YL8mcMhBHYDGl87UkkSXDOFnW4G7GhWhGg==",
+          "version": "0.5.9",
+          "resolved": "https://registry.npmjs.org/source-map-support/-/source-map-support-0.5.9.tgz",
+          "integrity": "sha512-gR6Rw4MvUlYy83vP0vxoVNzM6t8MUXqNuRsuBmBHQDu1Fh6X015FrLdgoDKcNdkwGubozq0P4N0Q37UyFVr1EA==",
           "requires": {
             "buffer-from": "^1.0.0",
             "source-map": "^0.6.0"

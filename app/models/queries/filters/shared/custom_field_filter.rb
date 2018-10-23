@@ -52,7 +52,7 @@ module Queries::Filters::Shared::CustomFieldFilter
       custom_field_context.custom_fields(context).map do |cf|
         cf_accessor = custom_field_accessor(cf)
         begin
-          create!(name: cf_accessor, custom_field: cf)
+          create!(name: cf_accessor, custom_field: cf, context: context)
         rescue ::Queries::Filters::InvalidError
           Rails.logger.error "Failed to map custom field filter for #{cf_accessor} (CF##{cf.id}."
           nil

@@ -19,6 +19,10 @@ export class CellBuilder {
     const td = document.createElement('td');
     td.classList.add(tdClassName, wpCellTdClassName, attribute);
 
+    if (attribute === 'subject') {
+      td.classList.add('-max');
+    }
+
     const container = document.createElement('span');
     container.classList.add(editCellContainer, editFieldContainerClass, attribute);
     const displayElement = this.fieldRenderer.render(workPackage, attribute, null);

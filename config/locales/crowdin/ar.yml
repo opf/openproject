@@ -1097,6 +1097,7 @@ ar:
 '
   error_external_authentication_failed: حدث خطأ أثناء المصادقة الخارجية. الرجاء المحاولة
     مرة أخرى.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: تم تعديل المشروع
     changeset: تم تحرير مجموعة التغييرات
@@ -2287,8 +2288,9 @@ ar:
   setting_welcome_on_homescreen: كتلة الترحيب عرض على الشاشة الرئيسية
   setting_wiki_compression: ضغط تاريخ Wiki
   setting_work_package_group_assignment: السماح بالإحالة إلى مجموعات
-  setting_work_package_list_default_highlighting_mode: Default work package highlighting
-    mode
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: عام
     other: اخرى
@@ -2298,6 +2300,13 @@ ar:
     user:
       default_preferences: Default preferences
       deletion: Deletion
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: No highlighting
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: Plain text

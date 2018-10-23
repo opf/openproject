@@ -1052,6 +1052,7 @@ it:
 '
   error_external_authentication_failed: Si è verificato un errore durante l'autenticazione
     esterna. Per favore riprova.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Progetto modificato
     changeset: Changeset modificato
@@ -2280,8 +2281,9 @@ it:
     home
   setting_wiki_compression: Compressione del registro della wiki
   setting_work_package_group_assignment: Consentire l'assegnazione ai gruppi
-  setting_work_package_list_default_highlighting_mode: Modalità di evidenziazione
-    predefinita per le macro-attività
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: Generale
     other: Altro
@@ -2291,6 +2293,13 @@ it:
     user:
       default_preferences: Preferenze predefinite
       deletion: Eliminazione
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: Non evidenziare
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: Testo semplice

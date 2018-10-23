@@ -1,0 +1,15 @@
+<div class="work-packages-embedded-view--container loading-indicator--location"
+     [attr.data-indicator-name]="uniqueEmbeddedTableName">
+    <ng-container *ngIf="tableInformationLoaded">
+        <canvas baseChart
+                [datasets]="chartData"
+                [labels]="chartLabels"
+                [chartType]="chartType"
+                [options]="chartOptions">
+        </canvas>
+    </ng-container>
+    <div class="notification-box -error" *ngIf="error">
+        <span [textContent]="error.message || error"></span>
+    </div>
+</div>
+

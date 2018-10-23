@@ -82,12 +82,21 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
         Queries::WorkPackages::Filter::CustomFieldFilter.from_custom_field! custom_field: custom_field
       end
 
+      shared_examples_for 'includes the cf json_cache_key mixin' do
+        it do
+          expect(subject.singleton_class.included_modules)
+            .to include(::API::V3::Queries::Schemas::CustomFieldJsonCacheKeyMixin)
+        end
+      end
+
       context 'type int' do
         let(:custom_field) { FactoryBot.build_stubbed(:int_wp_custom_field) }
 
         it 'is the integer dependency' do
           is_expected.to be_a(::API::V3::Queries::Schemas::IntegerFilterDependencyRepresenter)
         end
+
+        it_behaves_like 'includes the cf json_cache_key mixin'
       end
 
       context 'type float' do
@@ -96,6 +105,8 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
         it 'is the float dependency' do
           is_expected.to be_a(::API::V3::Queries::Schemas::FloatFilterDependencyRepresenter)
         end
+
+        it_behaves_like 'includes the cf json_cache_key mixin'
       end
 
       context 'type text' do
@@ -104,6 +115,8 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
         it 'is the text dependency' do
           is_expected.to be_a(::API::V3::Queries::Schemas::TextFilterDependencyRepresenter)
         end
+
+        it_behaves_like 'includes the cf json_cache_key mixin'
       end
 
       context 'type list' do
@@ -112,6 +125,8 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
         it 'is the string object dependency' do
           is_expected.to be_a(::API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresenter)
         end
+
+        it_behaves_like 'includes the cf json_cache_key mixin'
       end
 
       context 'type user' do
@@ -120,6 +135,8 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
         it 'is the user dependency' do
           is_expected.to be_a(::API::V3::Queries::Schemas::UserFilterDependencyRepresenter)
         end
+
+        it_behaves_like 'includes the cf json_cache_key mixin'
       end
 
       context 'type version' do
@@ -128,6 +145,8 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
         it 'is the version dependency' do
           is_expected.to be_a(::API::V3::Queries::Schemas::VersionFilterDependencyRepresenter)
         end
+
+        it_behaves_like 'includes the cf json_cache_key mixin'
       end
 
       context 'type date' do
@@ -136,6 +155,8 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
         it 'is the date dependency' do
           is_expected.to be_a(::API::V3::Queries::Schemas::DateFilterDependencyRepresenter)
         end
+
+        it_behaves_like 'includes the cf json_cache_key mixin'
       end
 
       context 'type bool' do
@@ -144,6 +165,8 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
         it 'is the string object dependency' do
           is_expected.to be_a(::API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter)
         end
+
+        it_behaves_like 'includes the cf json_cache_key mixin'
       end
 
       context 'type string' do
@@ -152,6 +175,8 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
         it 'is the text dependency' do
           is_expected.to be_a(::API::V3::Queries::Schemas::TextFilterDependencyRepresenter)
         end
+
+        it_behaves_like 'includes the cf json_cache_key mixin'
       end
     end
 

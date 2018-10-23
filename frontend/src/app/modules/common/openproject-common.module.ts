@@ -30,7 +30,7 @@
 
 import {FormsModule} from "@angular/forms";
 import {BrowserModule} from "@angular/platform-browser";
-import {APP_INITIALIZER, Injector, NgModule} from "@angular/core";
+import {APP_INITIALIZER, Injector, Input, NgModule} from "@angular/core";
 
 import {AuthoringComponent} from 'core-app/modules/common/authoring/authoring.component';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
@@ -63,6 +63,8 @@ import {CKEditorSetupService} from "core-app/modules/common/ckeditor/ckeditor-se
 import {CKEditorPreviewService} from "core-app/modules/common/ckeditor/ckeditor-preview.service";
 import {ColorsAutocompleter} from "core-app/modules/common/colors/colors-autocompleter.component";
 import {DynamicCssService} from "./dynamic-css/dynamic-css.service";
+import {MultiToggledSelectComponent} from "core-app/modules/common/multi-toggled-select/multi-toggled-select.component";
+import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -105,6 +107,9 @@ export function bootstrapModule(injector:Injector) {
     // Table highlight
     HighlightColDirective,
 
+    // Multi select component
+    MultiToggledSelectComponent,
+
     // CKEditor
     OpCkeditorComponent,
   ],
@@ -140,6 +145,8 @@ export function bootstrapModule(injector:Injector) {
 
     CopyToClipboardDirective,
     ColorsAutocompleter,
+
+    MultiToggledSelectComponent,
   ],
   entryComponents: [
     OpDateTimeComponent,
@@ -153,6 +160,7 @@ export function bootstrapModule(injector:Injector) {
     { provide: APP_INITIALIZER, useFactory: bootstrapModule, deps: [Injector], multi: true },
     I18nService,
     DynamicCssService,
+    BannersService,
     NotificationsService,
     FocusHelperService,
     LoadingIndicatorService,

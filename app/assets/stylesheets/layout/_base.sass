@@ -56,15 +56,6 @@ body
     overflow: visible
 
     #content-wrapper
-      &.hidden-navigation
-        margin-left: $main-menu-folded-width
-        width: calc(100% - #{$main-menu-folded-width})
-
-      &.nosidebar
-        padding: 0
-        width:    100%
-        margin-left: 0
-
       &.nomenus
         top: 0
         padding: 0
@@ -81,7 +72,8 @@ body
   margin: 0 0 0 0
   padding: 10px 20px
   width: auto
-  height: auto
+  height: calc(100vh - #{$header-height})
+  overflow: auto
   background-color: #fff
   width: 100%
   // As this is a flex item we need to set min-width to 0 so that its children's
@@ -113,7 +105,6 @@ body
 #content
   padding: 0
   margin: 0 0 0 0
-  overflow: hidden
   width: 100%
   z-index: 10
   background-color: $body-background

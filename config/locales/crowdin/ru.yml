@@ -1073,6 +1073,7 @@ ru:
 '
   error_external_authentication_failed: Ошибка внешней аутентификации. Пожалуйста,
     попробуйте еще раз.
+  error_attribute_not_highlightable: 'Атрибуты не выделяются: %{attributes}'
   events:
     project: Проект отредактирован
     changeset: Набор изменений отредактирован
@@ -2282,8 +2283,9 @@ ru:
   setting_welcome_on_homescreen: Показывать приветствие на домашней странице
   setting_wiki_compression: Сжатие истории  изменений wiki
   setting_work_package_group_assignment: Разрешить назначения группам
-  setting_work_package_list_default_highlighting_mode: Режим подсветки пакетов работ
-    по умолчанию
+  setting_work_package_list_default_highlighting_mode: Способ выделения по умолчанию
+  setting_work_package_list_default_highlighted_attributes: Выделенные встроенные
+    атрибуты по умолчанию
   settings:
     general: Общие
     other: Другие
@@ -2293,6 +2295,13 @@ ru:
     user:
       default_preferences: Предпочтения по умолчанию
       deletion: Удаление
+    highlighting:
+      mode_long:
+        inline: Выделите один или несколько встроенных атрибутов
+        none: Без подсветки
+        status: Вся строка по статусу
+        type: Вся строка по типу
+        priority: Вся строка по приоритету
   text_formatting:
     markdown: Markdown
     plain: Обычный текст

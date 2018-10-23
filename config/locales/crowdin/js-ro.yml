@@ -109,6 +109,10 @@ ro:
         embedded_table:
           button: Inserați tabel pachet de lucru
           text: "[Placeholder] Tabelul pachetului de lucru inserat"
+    custom_actions:
+      date:
+        specific: pe
+        current_date: Current date
     error:
       internal: A apărut o eroare internă.
       cannot_save_changes_with_message: 'Schimbările nu pot fi salvate datorită acestei
@@ -143,7 +147,7 @@ ro:
       de utilizator.
     label_add_columns: Adaugați coloane
     label_add_comment: Adăugare comentariu
-    label_add_comment_title: Comment and type @ to notify other people
+    label_add_comment_title: Comentați şi tastaţi @ pentru a notifica alte persoane
     label_add_selected_columns: Adăugați coloanele selectate
     label_added_by: adăugat de
     label_added_time_by: Adăugat de %{author} %{age}
@@ -175,7 +179,7 @@ ro:
     label_contains: conţine
     label_created_on: creat la data de
     label_edit_comment: Editare comentariu
-    label_edit_status: Edit the status of the work package
+    label_edit_status: Editați starea pachetului de lucru
     label_equals: este
     label_expand: Extindere
     label_expanded: extins
@@ -262,7 +266,7 @@ ro:
     label_attachments: Fişiere
     label_drop_files: Trageți fișierele aici
     label_drop_files_hint: sau dați click pentru a adăuga fişiere
-    label_add_attachments: Adaugă atașamente
+    label_add_attachments: Adaugă fișiere
     label_formattable_attachment_hint: Attach and link files by dropping on this field,
       or pasting from the clipboard.
     label_remove_file: Ştergere %{fileName}
@@ -285,7 +289,7 @@ ro:
     password_confirmation:
       field_description: Trebuie să introduceţi parola contului dumneavoastră pentru
         a confirma această schimbare.
-      title: Reintroduceţi parola pentru a continua
+      title: Vă rugăm să confirmați parola dumneavoastră pentru a continua
     pagination:
       no_other_page: Sunteți pe pagina unică.
       pages:
@@ -303,7 +307,7 @@ ro:
       work_package_belongs_to: Acest pachet de lucru face parte din proiectul %{projectname}.
       click_to_switch_context: Deschide pachetul de lucru din acel proiect.
       autocompleter:
-        label: Project autocompletion
+        label: Completarea automată a proiectului
     text_are_you_sure: Sunteți sigur?
     types:
       attribute_groups:
@@ -478,6 +482,8 @@ ro:
         faceți un upgrade către Microsoft Edge.
       learn_more: Aflați mai multe
       close_warning: Ignoră acest avertisment.
+    upsale:
+      ee_only: Enterprise Edition only feature
     wiki_formatting:
       strong: Aldin
       italic: Italic
@@ -658,14 +664,15 @@ ro:
         highlighting_mode:
           description: Highlight with color
           none: No highlighting
-          inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline: Highlighted attribute(s)
+          inline_all: All attributes
           entire_row_by: Entire row by
           status: Stare
           priority: Prioritate
+          type: Tip
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
         upsale:
-          ee_only: Enterprise Edition only feature
           attribute_highlighting: Need certain work packages to stand out from the
             mass?
           relation_columns: Need to see relations in the work package list?

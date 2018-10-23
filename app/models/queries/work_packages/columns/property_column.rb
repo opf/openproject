@@ -51,6 +51,7 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
     type: {
       association: 'type',
       sortable: "position",
+      highlightable: true,
       groupable: true
     },
     parent: {
@@ -67,12 +68,14 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
     status: {
       association: 'status',
       sortable: "position",
+      highlightable: true,
       groupable: true
     },
     priority: {
       association: 'priority',
       sortable: "position",
       default_order: 'desc',
+      highlightable: true,
       groupable: true
     },
     author: {
@@ -119,6 +122,7 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
                  "#{WorkPackage.table_name}.start_date"]
     },
     due_date: {
+      highlightable: true,
       # Put empty due_dates in the far future rather than in the far past
       sortable: ["CASE WHEN #{WorkPackage.table_name}.due_date IS NULL
                   THEN 1

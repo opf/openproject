@@ -363,6 +363,9 @@ fieldset.form--fieldset
   &.-no-margin
     margin-bottom: 0
 
+  &.-indented
+    @extend %form--field-after-container
+
 .form--label
   @include grid-content(2)
   @extend %label-style
@@ -577,7 +580,8 @@ select
       border-color: #999
 
 select
-  &[disabled=disabled]
+  &[disabled=disabled],
+  &[disabled]
     background-color: $inplace-edit--bg-color--disabled
     cursor: not-allowed
 

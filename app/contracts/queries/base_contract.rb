@@ -41,6 +41,7 @@ module Queries
     attribute :timeline_zoom_level
     attribute :timeline_labels
     attribute :highlighting_mode
+    attribute :highlighted_attributes
     attribute :show_hierarchies
 
     attribute :column_names # => columns

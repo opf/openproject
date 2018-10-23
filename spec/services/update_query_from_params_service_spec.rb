@@ -111,5 +111,44 @@ describe UpdateQueryFromParamsService,
           .to match_array(params[:columns].map(&:to_sym))
       end
     end
+
+    context 'highlighting mode', with_ee: %i[conditional_highlighting] do
+      let(:params) do
+        { highlighting_mode: 'status' }
+      end
+
+      it 'sets the highlighting_mode' do
+        subject
+
+        expect(query.highlighting_mode)
+          .to eq(:status)
+      end
+    end
+
+    context 'default highlighting mode', with_ee: %i[conditional_highlighting] do
+      let(:params) do
+        { }
+      end
+
+      it 'sets the highlighting_mode' do
+        subject
+
+        expect(query.highlighting_mode)
+          .to eq(:inline)
+      end
+    end
+
+    context 'highlighting mode without EE' do
+      let(:params) do
+        { highlighting_mode: 'status' }
+      end
+
+      it 'sets the highlighting_mode' do
+        subject
+
+        expect(query.highlighting_mode)
+          .to eq(:none)
+      end
+    end
   end
 end

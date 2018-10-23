@@ -44,6 +44,8 @@ class ExtractFulltextJob < ApplicationJob
 
     init
     update
+  ensure
+    FileUtils.rm @file.path if delete_file?
   end
 
   private
@@ -78,5 +80,13 @@ class ExtractFulltextJob < ApplicationJob
 
   def find_attachment(id)
     Attachment.find_by_id id
+  end
+
+  def remote_file?
+    !@attachment.file.is_a?(LocalFileUploader)
+  end
+
+  def delete_file?
+    remote_file? && @file
   end
 end

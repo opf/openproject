@@ -28,6 +28,19 @@
 en:
   seeders:
     demo_data:
+      welcome:
+        title: "Welcome to OpenProject!"
+        text: |
+          Select one of the demo projects to get started with some demo data we have prepared for you.
+
+          * [Demo project](/projects/demo-project): to get an overview about classical project management.
+          * [Scrum project](/projects/your-scrum-project): to learn about Agile and Scrum project management.
+
+          Also, you can create a blank [new project](/projects/new).
+
+          Never stop collaborating. With open source and open mind.
+
+          You can change this welcome text [here](/settings).
       projects:
         demo-project:
           name: Demo project
@@ -40,6 +53,7 @@ en:
           modules:
             - work_package_tracking
             - news
+            - wiki
           news:
             - title: Welcome to your demo project
               summary: >
@@ -58,7 +72,7 @@ en:
             - name: Bugs
               status: open
               type: :default_type_bug
-            - name: Gantt chart
+            - name: Project plan
               status: open
               timeline: true
               sort_by: id
@@ -80,6 +94,13 @@ en:
               type: :default_type_task
               hierarchy: true
               sort_by: id
+              columns:
+                - id
+                - subject
+                - priority
+                - type
+                - status
+                - assigned_to
           work_packages:
             - subject: Project kick-off
               description: Plan and execute the project kick-off.
@@ -119,7 +140,7 @@ en:
                     * set a project to public.
 
                     **Visuals:**
-                    ![new project](##attachment:"new_project.png")
+                    ![new project](##attachment:"new_project.jpg")
 
                     **Find out more:**
                     * https://www.openproject.org/help/administration/manage-projects/
@@ -128,7 +149,7 @@ en:
                   start: 0
                   duration: 0
                   attachments:
-                    - new_project.png
+                    - new_project.jpg
                 - subject: Customize project overview page
                   description: |
                     You can [customize your project overview page](/my_projects_overview/demo-project/page_layout) to add important information, such as project description, important links, work packages overview, news, and much more.
@@ -141,7 +162,7 @@ en:
                     * and much more.
 
                     **Visuals:**
-                    ![project overview](##attachment:"project_overview.png")
+                    ![project overview](##attachment:"project_overview.jpg")
 
                     **Find out more:**
                     * https://www.openproject.org/help/project-setup/
@@ -150,7 +171,7 @@ en:
                   start: 0
                   duration: 0
                   attachments:
-                    - project_overview.png
+                    - project_overview.jpg
                 - subject: Activate further modules
                   description: |
                     Please activate further [Modules](/projects/demo-project/settings/modules) in the Project settings in order to have more features in your project.
@@ -163,7 +184,7 @@ en:
                     * and more.
 
                     **Visuals:**
-                    ![project modules](##attachment:"project_modules.png")
+                    ![project modules](##attachment:"project_modules.jpg")
 
                     **Find out more:**
                     * https://www.openproject.org/help/activate-deactivate-modules/
@@ -172,7 +193,7 @@ en:
                   start: 0
                   duration: 0
                   attachments:
-                    - project_modules.png
+                    - project_modules.jpg
                 - subject: Invite new team members
                   description: |
                     Please invite new team members by going to [Members](/projects/demo-project/members) in the project navigation.
@@ -183,7 +204,7 @@ en:
                     * assign a certain role in this project for each user.
 
                     **Visuals:**
-                    ![project members](##attachment:"project_members.png")
+                    ![project members](##attachment:"project_members.jpg")
 
                     **Find out more:**
                     * https://www.openproject.org/help/add-project-members/
@@ -193,7 +214,7 @@ en:
                   duration: 1
                   priority: :default_priority_high
                   attachments:
-                    - project_members.png
+                    - project_members.jpg
                 - subject: Create work packages
                   description: |
                     Please create work packages for your project. Go to [Work package](/projects/demo-project/work_packages) and click the green +Create button.
@@ -206,7 +227,7 @@ en:
                     * insert any custom field to the forms.
 
                     **Visuals**:
-                    ![create work package](##attachment:"create_work_package.png")
+                    ![create work package](##attachment:"create_work_package.jpg")
 
                     **Find out more**:
                     * https://www.openproject.org/help/work-packages/create-new-work-package/
@@ -216,10 +237,10 @@ en:
                   duration: 1
                   priority: :default_priority_high
                   attachments:
-                    - create_work_package.png
+                    - create_work_package.jpg
                 - subject: Create a project plan
                   description: |
-                    Please create a project plan by going to [Gantt chart](##query:"Gantt chart") in the project navigation.
+                    Please create a project plan by going to [Project plan](##query:"Project plan") in the project navigation.
 
                     **You can:**
                     * create new phases and milestones by simply clicking in the project plan,
@@ -229,7 +250,7 @@ en:
                     * custom columns, group, filter and save timeline reports to have them at your fingertips.
 
                     **Visuals:**
-                    ![gantt chart](##attachment:"gantt_chart.png")
+                    ![gantt chart](##attachment:"gantt_chart.jpg")
 
                     **Find out more:**
                     * https://www.openproject.org/help/timelines/integrated-timeline-work-package-page/
@@ -239,7 +260,7 @@ en:
                   duration: 1
                   priority: :default_priority_high
                   attachments:
-                    - gantt_chart.png
+                    - gantt_chart.jpg
                 - subject: Edit a work package
                   description: |
                     [Edit a work package](/projects/demo-project/work_packages/41/activity) by double clicking on a row in the list view or open the split screen with the "i".
@@ -254,7 +275,7 @@ en:
                     * change forms in the Administration settings.
 
                     **Visuals**:
-                    ![edit work package](##attachment:"edit_work_package.png")
+                    ![edit work package](##attachment:"edit_work_package.jpg")
 
                     **Find out more**:
                     * https://www.openproject.org/help/work-packages/
@@ -264,7 +285,7 @@ en:
                   duration: 0
                   priority: :default_priority_high
                   attachments:
-                    - edit_work_package.png
+                    - edit_work_package.jpg
             - subject: Develop v1.0
               status: :default_status_scheduled
               type: :default_type_phase
@@ -327,6 +348,37 @@ en:
               relations:
                 - to: Develop v1.1
                   type: follows
+          wiki:
+            - title: Wiki
+              content: |
+                In this wiki you can collaboratively create and edit pages and sub-pages to create a project wiki.
+
+                **You can:**
+
+                *   insert text and format it with the toolbar,
+                *   insert text and images with copy and paste,
+                *   paste formatted text directly from MSOffice documents,
+                *   create a page hierarchy by inserting parent pages,
+                *   use makros to include, e.g. table of contents, work packages lists or Gantt charts,
+                *   include wiki pages in other text fields, e.g. project overview or meetings,
+                *   reference tickets with one, two or three "#"+ticket number, depending on what information should be displayed,
+                *   include links to other documents,
+                *   view the change history,
+                *   view as Mardown.
+
+                **More information:**
+                https://www.openproject.org/help/wiki/
+              children:
+                - title: Project documentation
+                  content: |
+                    This is a sub-page of the wiki. You can change this by editing the Parent page (Click the _EDIT_ button and see bottom of the page).
+
+                    ## Project scope
+
+                    ## Deliverables
+                  children:
+                    - title: Project manual
+                      content: ''
         scrum-project:
           name: Scrum project
           identifier: your-scrum-project
@@ -382,10 +434,10 @@ en:
 
                   * Short, daily status meeting of the team.
                   * Time boxed (max. 15 min).
-                  * Stand-up meeting to discuss the following topics from the [Task board](/projects/your-scrum-project/sprints/38/taskboard).
+                  * Stand-up meeting to discuss the following topics from the [Task board](##sprint:"Sprint 1").
                       * What do I plan to do until the next Daily Scrum?
                       * What has blocked my work (Impediments)?
-                  * Scrum Master moderates and notes down [Sprint Impediments](/projects/your-scrum-project/sprints/38/taskboard).
+                  * Scrum Master moderates and notes down [Sprint Impediments](##sprint:"Sprint 1").
                   * Product Owner may participate may participate in order to stay informed.
 
                   ### Sprint Review meeting
@@ -420,7 +472,7 @@ en:
           categories:
             - Category 1 (to be changed in Project settings)
           queries:
-            - name: Gantt chart
+            - name: Project plan
               status: open
               sort_by: id
               type:
@@ -629,10 +681,10 @@ en:
 
             * Short, daily status meeting of the team.
             * Time boxed (max. 15 min).
-            * Stand-up meeting to discuss the following topics from the [Task board](/projects/your-scrum-project/sprints/38/taskboard).
+            * Stand-up meeting to discuss the following topics from the Task board.
                 * What do I plan to do until the next Daily Scrum?
                 * What has blocked my work (Impediments)?
-            * Scrum Master moderates and notes down [Sprint Impediments](/projects/your-scrum-project/sprints/38/taskboard).
+            * Scrum Master moderates and notes down Sprint Impediments.
             * Product Owner may participate may participate in order to stay informed.
 
             ### Sprint Review meeting

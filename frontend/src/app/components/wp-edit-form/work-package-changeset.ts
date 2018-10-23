@@ -196,6 +196,11 @@ export class WorkPackageChangeset {
                 }
 
                 this.wpActivity.clear(this.workPackage.id);
+
+                // If there is a parent, its view has to be updated as well
+                if (this.workPackage.parent) {
+                  this.wpCacheService.loadWorkPackage(this.workPackage.parent.id.toString(), true);
+                }
                 this.wpCacheService.updateWorkPackage(this.workPackage);
                 this.resource = null;
                 this.clear();
@@ -357,4 +362,3 @@ export class WorkPackageChangeset {
     this.wpEditing.updateValue(this.workPackage.id, this);
   }
 }
-

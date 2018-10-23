@@ -109,6 +109,10 @@ it:
         embedded_table:
           button: Incorpora la tabella della macro-attività
           text: "[Placeholder] Tabella della macro-attività incorporata"
+    custom_actions:
+      date:
+        specific: il
+        current_date: Current date
     error:
       internal: Si è verificato un errore interno.
       cannot_save_changes_with_message: 'Impossibile salvare le modifiche a causa
@@ -476,6 +480,8 @@ it:
         a Microsoft Edge.
       learn_more: Scopri di più
       close_warning: Ignora questo avviso.
+    upsale:
+      ee_only: Funzionalità esclusiva della Versione Enterprise
     wiki_formatting:
       strong: Grassetto
       italic: Corsivo
@@ -657,15 +663,16 @@ it:
         highlighting_mode:
           description: Evidenzia con colore
           none: Non evidenziare
-          inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline: Highlighted attribute(s)
+          inline_all: All attributes
           entire_row_by: Tutta la riga per
           status: Stato
           priority: Priorità
+          type: Tipo
         columns_help_text: Utilizza l'input sopra per aggiungere o rimuovere colonne
           alla visualizzazione della tabella. È possibile trascinare e rilasciare
           le colonne per riordinarle.
         upsale:
-          ee_only: Funzionalità esclusiva della Versione Enterprise
           attribute_highlighting: Vuoi che alcune macro-attività si distinguano dalla
             massa?
           relation_columns: Vuoi visualizzare le relazioni nell'elenco di macro-attività?

@@ -47,6 +47,9 @@ $widget-box--enumeration-width: 20px
     .widget-box--feature-list
       flex-grow: 2
 
+  &.-vertical
+    flex-flow: column wrap
+
   .icon-context:before
     padding-right: 5px
 
@@ -70,6 +73,11 @@ $widget-box--enumeration-width: 20px
       min-height: 100px
     &.-wider
       flex-grow: 3
+    &.-minimal
+      flex-grow: 0
+    &.-no-border
+      padding: 0
+      border: 0
 
     .widget-box--header
       font-weight: bold

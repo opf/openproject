@@ -144,11 +144,10 @@ ro:
       no_results_content_text: Adăugare participant la proiect
   my:
     access_token:
-      failed_to_reset_token: 'Failed to reset access token: %{error}'
-      notice_reset_token: 'A new %{type} token has been generated. Your access token
-        is:'
-      token_value_warning: 'Note: This is the only time you will see this token, make
-        sure to copy it now.'
+      failed_to_reset_token: 'Resetarea tokenului de acces nu a reușit: %{error}'
+      notice_reset_token: 'S-a generat un token nou %{type} . Token-ul de acces este:'
+      token_value_warning: 'Notă: este singura dată când veți vedea acest token, asigurați-vă
+        că îl copiați acum.'
       no_results_title_text: În acest moment nu există tichete de acces disponibile.
   news:
     index:
@@ -350,7 +349,7 @@ ro:
         expires_at: Expires at
         subscriber: Subscriber
         encoded_token: Enterprise support token
-        active_user_count_restriction: Maximum active users
+        active_user_count_restriction: Număr maxim de utilizatori activi
       relation:
         delay: Întârziere
         from: Pachet de lucru
@@ -402,7 +401,7 @@ ro:
         mail_notification: Notificări prin e-mail
         new_password: Parolă nouă
         password_confirmation: Confirmare parolă
-        consented_at: Consented at
+        consented_at: Consimţit la
       user_preference:
         comments_sorting: Afişare Comentarii
         hide_mail: Nu se afișează adresa de email
@@ -465,8 +464,8 @@ ro:
         greater_than_start_date: trebuie să fie după data de începere.
         inclusion: nu este setată la una din valorile permise.
         invalid: este invalid.
-        invalid_url: is not a valid URL.
-        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
+        invalid_url: nu este o adresa URL validă.
+        invalid_url_scheme: 'nu este un protocol permis (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: trebuie să fie mai mic sau egal cu %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
@@ -522,7 +521,7 @@ ro:
               invalid: The custom field is not valid in the given context.
         relation:
           typed_dag:
-            circular_dependency: The relationship creates a circle of relationships.
+            circular_dependency: Relația creează un cerc închis.
           attributes:
             to:
               error_not_found: work package in `to` position not found or not visible
@@ -715,7 +714,7 @@ ro:
   button_create: Creare
   button_create_and_continue: Creare și continuare
   button_delete: Ștergere
-  button_decline: Decline
+  button_decline: Refuză
   button_delete_watcher: Ștergere observator %{name}
   button_download: Descărcare
   button_duplicate: Duplicare
@@ -730,7 +729,7 @@ ro:
   button_login: Autentificare
   button_move: Mutare
   button_move_and_follow: Mutare și continuare
-  button_print: Print
+  button_print: Tipărește
   button_quote: Citare
   button_remove: Eliminare
   button_remove_widget: Elimină secțiune
@@ -750,7 +749,7 @@ ro:
   button_unlock: Deblocare
   button_unwatch: Stop monitorizare
   button_update: Actualizare
-  button_upgrade: Upgrade
+  button_upgrade: Actualizare
   button_upload: Upload
   button_view: Vizualizare
   button_watch: Monitorizare
@@ -759,29 +758,32 @@ ro:
   button_configure_menu_entry: Configurare meniu
   button_delete_menu_entry: Ștergere meniu
   consent:
-    checkbox_label: I have noted and do consent to the above.
-    failure_message: Consent failed, cannot proceed.
-    title: User Consent
-    decline_warning_message: You have declined to consent and have been logged out.
-    user_has_consented: User has consented to your configured statement at the given
-      time.
-    not_yet_consented: User has not consented yet, will be requested upon next login.
-    contact_mail_instructions: Define the mail address that users can reach a data
-      controller to perform data change or removal requests.
-    contact_your_administrator: Please contact your administrator if you want to have
-      your account deleted.
-    contact_this_mail_address: Please contact %{mail_address} if you want to have
-      your account deleted.
-    text_update_consent_time: Check this box to force users to consent again. Enable
-      when you have changed the legal aspect of the consent information above.
-    update_consent_last_time: 'Last update of consent: %{update_time}'
+    checkbox_label: Am luat la cunoștință și consimt la cele de mai sus.
+    failure_message: Consimţământul a eșuat, nu putem continua.
+    title: Consimţământul utilizatorului
+    decline_warning_message: Ați refuzat să fiți de acord și ați fost delogat.
+    user_has_consented: Utilizatorul a consimțit la declarația dvs. configurată la
+      momentul dat.
+    not_yet_consented: Utilizatorul nu și-a exprimat acordul încă, consimțământul
+      va fi solicitat la următoarea conectare.
+    contact_mail_instructions: Definiți adresa de e-mail pe care utilizatorii o pot
+      utiliza pentru a ajunge la un responsabil cu securitatea datelor, pentru a efectua
+      modificări de date sau solicitări de eliminare din înregistrări.
+    contact_your_administrator: Contactați administratorul dvs. dacă doriți ștergerea
+      contului dvs.
+    contact_this_mail_address: Vă rugăm să contactați %{mail_address} dacă doriți
+      ștergerea contului dvs.
+    text_update_consent_time: Bifați această casetă pentru a forța utilizatorii să
+      consimtă din nou. Activați când ați modificat aspectul juridic al informațiilor
+      privind consimțământul de mai sus.
+    update_consent_last_time: 'Ultima actualizare a consimțământului: %{update_time}'
   copy_project:
     started: A început copierea proiectului "%{source_project_name}" în "%{target_project_name}".
       Veţi fi informat prin mail de îndată ce "%{target_project_name}" este disponibil.
     failed: Proiectul %{source_project_name} nu poate fi copiat
     succeeded: Proiectul %{target_project_name} a fost creat
     errors: Eroare
-    project_custom_fields: Custom fields on project
+    project_custom_fields: Câmpuri personalizate pentru proiect
     text:
       failed: Proiectul "%{source_project_name}" nu a putut fi copiat în proiectul
         "%{target_project_name}".
@@ -990,7 +992,8 @@ ro:
         add_groups: Add new attribute groups
         rename_groups: Rename attributes groups
       project_filters:
-        description_html: Upgrade to %{link} to filter and sort on custom fields
+        description_html: Actualizați la %{link} pentru a filtra și sorta câmpuri
+          personalizate
   enumeration_activities: Activități (durata de lucru)
   enumeration_work_package_priorities: Priorități pentru pachetele de lucru
   enumeration_system_activity: Activitate sistem
@@ -1010,10 +1013,10 @@ ro:
   error_cookie_missing: Cookie-ul OpenProject lipseşte. Vă rugăm să verificați setările
     referitoare la cookies, această aplicație nu va funcţiona corespunzător fără acestea.
   error_custom_option_not_found: Option does not exist.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
-  error_enterprise_activation_user_limit: Your account could not be activated (user
-    limit reached). Please contact your administrator to gain access.
+  error_dependent_work_package: 'Eroare în pachetele de lucru dependente #%{related_id}
+    %{related_subject}: %{error}'
+  error_enterprise_activation_user_limit: Contul dvs. nu a putut fi activat (limita
+    utilizatorilor a fost atinsă). Contactați administratorul dvs. pentru a avea acces.
   error_failed_to_delete_entry: Failed to delete this entry.
   error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Can''t group by: %{value}'
@@ -1022,7 +1025,7 @@ ro:
   error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
   error_pdf_export_too_many_columns: Too many columns selected for the PDF export.
     Please reduce the number of columns.
-  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
+  error_pdf_failed_to_export: 'Exportul pdf nu poate fi salvat: %{error}'
   error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
     you try to submit data on multiple browsers or tabs? Please close all tabs and
     try again.
@@ -1058,6 +1061,7 @@ ro:
 '
   error_external_authentication_failed: A apărut o eroare în timpul autentificării
     externe. Încercați din nou.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Proiect editat
     changeset: Set de schimbări editat
@@ -1075,8 +1079,9 @@ ro:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF cu descrieri
-      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
-      pdf_with_attachments: PDF with attachments
+      pdf_with_descriptions_and_attachments: Documentul pdf cu descriere și fișiere
+        atașate
+      pdf_with_attachments: Document pdf cu fișiere atașate
   extraction:
     available:
       pdftotext: Pdftotext available (optional)
@@ -1124,7 +1129,7 @@ ro:
       boards: Forum comunitate
       newsletter: Security alerts / Newsletter
   links:
-    configuration_guide: Configuration guide
+    configuration_guide: Ghid de configurare
   instructions_after_registration: Vă puteţi autentifica de îndată ce contul a fost
     activat dând click pe %{signin}.
   instructions_after_logout: Vă puteţi autentifica din nou dând click pe %{signin}.
@@ -1206,12 +1211,12 @@ ro:
   label_calendar: Calendar
   label_calendar_show: Afișare calendar
   label_category: Categorie
-  label_consent_settings: User Consent
+  label_consent_settings: Consimţământul utilizatorului
   label_wiki_menu_item: Meniu wiki
   label_select_main_menu_item: Selectare meniu wiki nou
   label_select_project: Select a project
   label_required_disk_storage: Necesar spațiu pe disc
-  label_send_invitation: Send invitation
+  label_send_invitation: Trimite invitație
   label_change_plural: Modificări
   label_change_properties: Modificare proprietăţi
   label_change_status: Modificare stare
@@ -1291,10 +1296,11 @@ ro:
   label_end_to_end: sfârșit la sfărșit
   label_end_to_start: sfârșit la început
   label_enumeration_new: Valoare enumerare nouă
-  label_enumeration_value: Enumeration value
+  label_enumeration_value: Valoare enumerare
   label_enumerations: Enumerări
   label_enterprise: Enterprise
-  label_enterprise_active_users: "%{current}/%{limit} booked active users"
+  label_enterprise_active_users: "%{current}/%{limit} numărul de utilizatori activi
+    rezervați"
   label_enterprise_edition: Enterprise Edition
   label_environment: Mediu
   label_estimates_and_time: Estimates and time
@@ -1312,7 +1318,7 @@ ro:
   label_file_plural: Fişiere
   label_filter_add: Adăugare filtru
   label_filter_plural: Filtre
-  label_filters_toggle: Show/hide filters
+  label_filters_toggle: Arată/ascunde filtre
   label_float: Număr real
   label_folder: Dosar
   label_follows: urmează după
@@ -1484,8 +1490,8 @@ ro:
   label_projects_storage_information: "%{count} proiecte folosind %{storage} spațiu
     pe disc"
   label_project_view_all: Vizualizare toate proiectele
-  label_project_show_details: Show project details
-  label_project_hide_details: Hide project details
+  label_project_show_details: Arată detaliile proietului
+  label_project_hide_details: Ascunde detaliile proiectului
   label_public_projects: Proiecte publice
   label_query_new: Interogare nouă
   label_query_plural: Interogări personalizate
@@ -1739,11 +1745,12 @@ ro:
         circular_inclusion: Circular inclusion of pages detected.
     create_work_package_link:
       errors:
-        no_project_context: Calling create_work_package_link macro from outside project
-          context.
-        invalid_type: No type found with name '%{type}' in project '%{project}'.
+        no_project_context: Apelarea macro-ului create_work_package_link din afara
+          contextului proiectului.
+        invalid_type: Nu s-a găsit nicio variabilă cu numele '%{type}' în proiectul
+          '%{project}'.
       link_name: Pachet de lucru nou
-      link_name_type: New %{type_name}
+      link_name_type: "%{type_name} nou"
   mail:
     actions: Actions
   mail_body_account_activation_request: 'A fost înregistrat un nou user (%{value}).
@@ -1764,13 +1771,15 @@ ro:
   mail_subject_wiki_content_added: Pagina de wiki '%{id}' a fost adăugată
   mail_subject_wiki_content_updated: Pagina wiki '%{id}' a fost actualizată
   mail_user_activation_limit_reached:
-    subject: User activation limit reached
-    message: |
-      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
-      The user cannot activate their account since the user limit has been reached.
+    subject: Limita numărului de utilizatori activi a fost atinsă
+    message: 'Un nou utilizator (%{email}) a încercat să creeze un cont pe un server
+      pe care îl gestionați (%{host}). Utilizatorul nu-și poate activa contul deoarece
+      s-a atins limita superioară de utilizatori activi.
+
+'
     steps:
-      label: 'To allow the user to sign in you can either: '
-      a: Upgrade your payment plan ([here](upgrade_url))
+      label: 'Pentru a permite utilizatorului să se conecteze, puteți: '
+      a: Actualizați planul de plată ([here](upgrade_url))
       b: Lock or delete an existing user ([here](users_url))
   more_actions: Mai multe acțiuni
   noscript_description: Trebuie să activaţi JavaScript pentru a utiliza OpenProject!
@@ -2263,8 +2272,9 @@ ro:
   setting_welcome_on_homescreen: Afişare bloc "bun venit" pe ecranul de start
   setting_wiki_compression: Comprimare istoric wiki
   setting_work_package_group_assignment: Atribuire la grupuri permisă
-  setting_work_package_list_default_highlighting_mode: Default work package highlighting
-    mode
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: General
     other: Altele
@@ -2274,6 +2284,13 @@ ro:
     user:
       default_preferences: Default preferences
       deletion: Deletion
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: No highlighting
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: Plain text
