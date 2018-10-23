@@ -41,7 +41,7 @@
       </accessible-by-keyboard>
     </div>
   </div>
-  <div class="user-comment wiki">
+  <div class="user-comment" [ngClass]="{ 'wiki': !inEdit }">
     <div *ngIf="inEdit" class="inplace-edit">
       <div class="user-comment--form inplace-edit--write-value">
         <edit-form-portal [changesetInput]="changeset"

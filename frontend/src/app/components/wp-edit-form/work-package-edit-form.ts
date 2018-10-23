@@ -189,6 +189,7 @@ export class WorkPackageEditForm {
 
           if (error instanceof ErrorResource) {
             this.handleSubmissionErrors(error);
+            reject();
           }
         });
     });
