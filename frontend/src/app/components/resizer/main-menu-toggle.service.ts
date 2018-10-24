@@ -179,7 +179,7 @@ export class MainMenuToggleService {
       else {
         // There might be a time gap between `focusout` and the focussing of the activeElement, thus we need a timeout.
         setTimeout(function() {
-          if (!jQuery.contains(<Element>document.getElementById('main-menu'), document.activeElement) &&
+          if (!jQuery.contains(document.getElementById('main-menu')!, document.activeElement!) &&
               (document.getElementById('main-menu-toggle') !== document.activeElement)) {
             // activeElement is outside of main menu.
             that.closeMenu();
@@ -196,7 +196,7 @@ export class MainMenuToggleService {
   }
 
   private ensureContentVisibility():void {
-    let viewportWidth = document.documentElement.clientWidth;
+    let viewportWidth = document.documentElement!.clientWidth;
     if (this.elementWidth >= viewportWidth - 150) {
       this.elementWidth = viewportWidth - 150;
     }
