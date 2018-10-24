@@ -45,10 +45,9 @@ import {PaginationObject, QueryDmService} from 'core-app/modules/hal/dm-services
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {BehaviorSubject, from, Observable} from 'rxjs';
 import {input} from "reactivestates";
 import {catchError, distinctUntilChanged, map, share, shareReplay, switchMap, take} from "rxjs/operators";
-import {from, Observable} from "rxjs";
 
 export interface QueryDefinition {
   queryParams:{ query_id?:number, query_props?:string };
