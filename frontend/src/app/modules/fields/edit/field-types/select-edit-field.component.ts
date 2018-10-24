@@ -30,10 +30,6 @@ import {Component} from "@angular/core";
 import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {EditField} from "core-app/modules/fields/edit/edit.field.module";
-import {WorkPackageEditingService} from "../../../../components/wp-edit-form/work-package-editing-service";
-import {componentDestroyed} from "ng2-rx-componentdestroyed";
-import {takeUntil} from "rxjs/internal/operators";
 import {EditFieldComponent} from "../edit-field.component";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 
@@ -74,7 +70,7 @@ export class SelectEditFieldComponent extends EditFieldComponent {
   }
 
   public get selectedOption() {
-    const href = this.field.value ? this.value.$href : null;
+    const href = this.value ? this.value.$href : null;
     return _.find(this.valueOptions, o => o.$href === href)!;
   }
 
@@ -122,8 +118,4 @@ export class SelectEditFieldComponent extends EditFieldComponent {
       });
     }
   }
-}
-
-export class SelectEditField extends EditField {
-  component = SelectEditFieldComponent;
 }

@@ -27,12 +27,12 @@
 // ++
 
 import {Injector} from '@angular/core';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {DisplayFieldContext} from "core-app/modules/fields/display/display-field.service";
 
 export interface IFieldSchema {
   type:string;
   writable:boolean;
-  allowedValues:any;
+  allowedValues?:any;
   required?:boolean;
   hasDefault:boolean;
   name?:string;
@@ -41,6 +41,10 @@ export interface IFieldSchema {
 export class Field {
   public static type:string;
   public static $injector:Injector;
+  public resource:any;
+  public name:string;
+  public schema:IFieldSchema;
+  public context:DisplayFieldContext;
 
   public get displayName():string {
     return this.schema.name || this.name;
@@ -76,17 +80,5 @@ export class Field {
 
   protected get $injector():Injector {
     return (this.constructor as typeof Field).$injector;
-  }
-
-  protected initializer() {
-  }
-
-
-  protected I18n:I18nService
-  constructor(public resource:any,
-              public name:string,
-              public schema:IFieldSchema) {
-    this.I18n = this.$injector.get(I18nService);
-    this.initializer();
   }
 }

@@ -1,7 +1,8 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,33 +25,27 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+module TimeEntries
+  class CreateContract < BaseContract
+    attribute :user_id do
+      errors.add :user_id, :invalid if model.user != user
+    end
 
-describe 'seeds' do
-  it 'create the demo data' do
-    perform_deliveries = ActionMailer::Base.perform_deliveries
-    ActionMailer::Base.perform_deliveries = false
+    def validate
+      user_allowed_to_add
 
-    num_queries = defined?(OpenProject::Backlogs) ? 8 : 6
+      super
+    end
 
-    begin
-      # Avoid asynchronous DeliverWorkPackageCreatedJob
-      Delayed::Worker.delay_jobs = false
+    private
 
-      expect { BasicDataSeeder.new.seed! }.not_to raise_error
-      expect { AdminUserSeeder.new.seed! }.not_to raise_error
-      expect { DemoDataSeeder.new.seed! }.not_to raise_error
-
-      expect(User.where(admin: true).count).to eq 1
-      expect(Project.count).to eq 2
-      expect(WorkPackage.count).to eq 41
-      expect(Wiki.count).to eq 2
-      expect(Query.count).to eq num_queries
-    ensure
-      ActionMailer::Base.perform_deliveries = perform_deliveries
+    def user_allowed_to_add
+      if model.project && !user.allowed_to?(:log_time, model.project)
+        errors.add :base, :error_unauthorized
+      end
     end
   end
 end

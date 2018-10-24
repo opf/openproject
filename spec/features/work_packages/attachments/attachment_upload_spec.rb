@@ -108,6 +108,9 @@ describe 'Upload attachment to work package', js: true do
         target = find('.ck-content')
         attachments.drag_and_drop_file(target, image_fixture)
 
+        sleep 2
+        expect(page).not_to have_selector('notification-upload-progress')
+
         editor.in_editor do |container, editable|
           expect(editable).to have_selector('img[src*="/api/v3/attachments/"]', wait: 20)
         end
@@ -118,8 +121,6 @@ describe 'Upload attachment to work package', js: true do
         caption.click
         caption.base.send_keys('Some image caption')
 
-        expect(page).not_to have_selector('notification-upload-progress')
-
         click_on 'Save'
 
         wp_page.expect_notification(
@@ -127,6 +128,7 @@ describe 'Upload attachment to work package', js: true do
         )
 
         field = wp_page.edit_field :description
+
         expect(field.display_element).to have_selector('img')
         expect(field.display_element).to have_content('Some image caption')
 

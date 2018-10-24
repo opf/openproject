@@ -65,6 +65,7 @@ module API
           ::API::V3::WorkPackages::ParseParamsService
             .new(current_user)
             .call(request_body)
+            .result
         end
       end
     end

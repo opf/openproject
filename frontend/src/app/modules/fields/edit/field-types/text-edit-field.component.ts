@@ -28,30 +28,20 @@
 
 import {Component} from "@angular/core";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
-import {EditField} from "core-app/modules/fields/edit/edit.field.module";
-
 
 @Component({
   template: `
-    <input type="checkbox"
-           class="wp-inline-edit--field wp-inline-edit--boolean-field"
-           [attr.aria-required]="field.required"
-           [checked]="field.value"
-           (change)="updateValue(!field.value)"
+    <input type="text"
+           class="wp-inline-edit--field"
+           [focus]="shouldFocus"
+           [attr.aria-required]="required"
+           [attr.required]="required"
+           [disabled]="inFlight"
+           [(ngModel)]="value"
            (keydown)="handler.handleUserKeydown($event)"
-           [disabled]="field.inFlight"
            [id]="handler.htmlId" />
   `
 })
-export class BooleanEditFieldComponent extends EditFieldComponent {
-  public field:BooleanEditField;
-
-  public updateValue(newValue:boolean) {
-    this.field.value = newValue;
-    this.handler.handleUserSubmit();
-  }
-}
-
-export class BooleanEditField extends EditField {
-  public component = BooleanEditFieldComponent;
+export class TextEditFieldComponent extends EditFieldComponent {
+  public shouldFocus = this.name === 'subject';
 }

@@ -113,7 +113,7 @@ ru:
     custom_actions:
       date:
         specific: на
-        current_date: Current date
+        current_date: Текущая дата
     error:
       internal: Произошла внутренняя ошибка.
       cannot_save_changes_with_message: 'Не удается сохранить изменения из-за следующей

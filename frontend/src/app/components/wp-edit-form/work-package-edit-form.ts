@@ -31,7 +31,6 @@ import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
 import {FormResource} from 'core-app/modules/hal/resources/form-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {Subscription} from 'rxjs';
-import {debugLog} from '../../helpers/debug_output';
 import {States} from '../states.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
@@ -39,10 +38,8 @@ import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-reque
 import {WorkPackageChangeset} from './work-package-changeset';
 import {WorkPackageEditContext} from './work-package-edit-context';
 import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
-import {WorkPackageEditingService} from './work-package-editing-service';
-import {EditFieldService} from "core-app/modules/fields/edit/edit-field.service";
-import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
+import {IFieldSchema} from "core-app/modules/fields/field.base";
 
 export const activeFieldContainerClassName = 'wp-inline-edit--active-field';
 export const activeFieldClassName = 'wp-inline-edit--field';
@@ -52,7 +49,6 @@ export class WorkPackageEditForm {
   public states:States = this.injector.get(States);
   public wpCacheService = this.injector.get(WorkPackageCacheService);
   public wpEditing = this.injector.get(IWorkPackageEditingServiceToken);
-  public wpEditField = this.injector.get(EditFieldService);
   public wpTableRefresh = this.injector.get(WorkPackageTableRefreshService);
   public wpNotificationsService = this.injector.get(WorkPackageNotificationService);
 
@@ -114,14 +110,14 @@ export class WorkPackageEditForm {
    */
   public activate(fieldName:string, noWarnings:boolean = false):Promise<WorkPackageEditFieldHandler> {
     return new Promise<WorkPackageEditFieldHandler>((resolve, reject) => {
-      this.buildField(fieldName)
-        .then((field:EditField) => {
-          if (!field.writable && !noWarnings) {
-            this.wpNotificationsService.showEditingBlockedError(field.displayName);
+      this.loadFieldSchema(fieldName)
+        .then((schema:IFieldSchema) => {
+          if (!schema.writable && !noWarnings) {
+            this.wpNotificationsService.showEditingBlockedError(schema.name || fieldName);
             reject();
           }
 
-          this.renderField(fieldName, field)
+          this.renderField(fieldName, schema)
             .then(resolve)
             .catch(reject);
         });
@@ -161,7 +157,7 @@ export class WorkPackageEditForm {
    * Save the active changeset.
    * @return {any}
    */
-  public submit():Promise<WorkPackageResource> {
+  public async submit():Promise<WorkPackageResource> {
     const isInitial = this.workPackage.isNew;
 
     if (this.changeset.empty && !isInitial) {
@@ -174,7 +170,9 @@ export class WorkPackageEditForm {
 
     // Notify all fields of upcoming save
     const openFields = _.keys(this.activeFields);
-    _.each(this.activeFields, (handler:WorkPackageEditFieldHandler) => handler.field.onSubmit());
+
+    // Call onSubmit handlers
+    await Promise.all(_.map(this.activeFields, (handler:WorkPackageEditFieldHandler) => handler.onSubmit()));
 
     return new Promise<WorkPackageResource>((resolve, reject) => {
       this.changeset.save()
@@ -193,7 +191,8 @@ export class WorkPackageEditForm {
           this.wpNotificationsService.handleRawError(error, this.workPackage);
 
           if (error instanceof ErrorResource) {
-            this.handleSubmissionErrors(error, reject);
+            this.handleSubmissionErrors(error);
+            reject();
           }
         });
     });
@@ -230,10 +229,9 @@ export class WorkPackageEditForm {
     });
   }
 
-  protected handleSubmissionErrors(error:any, reject:Function) {
+  protected handleSubmissionErrors(error:any) {
     // Process single API errors
     this.handleErroneousAttributes(error);
-    return reject();
   }
 
   protected handleErroneousAttributes(error:any) {
@@ -275,8 +273,13 @@ export class WorkPackageEditForm {
       });
   }
 
-  private buildField(fieldName:string):Promise<EditField> {
-    return new Promise<EditField>((resolve, reject) => {
+  /**
+   * Load the work package form to get the current field schema with all
+   * values loaded.
+   * @param fieldName
+   */
+  private loadFieldSchema(fieldName:string):Promise<IFieldSchema> {
+    return new Promise<IFieldSchema>((resolve, reject) => {
       this.changeset.getForm()
         .then((form:FormResource) => {
           const schemaName = this.changeset.getSchemaName(fieldName);
@@ -286,13 +289,7 @@ export class WorkPackageEditForm {
             return reject();
           }
 
-          const field = this.wpEditField.getField(
-            this.changeset,
-            schemaName,
-            fieldSchema
-          );
-
-          resolve(field);
+          resolve(fieldSchema);
         })
         .catch((error) => {
           console.error('Failed to build edit field: %o', error);
@@ -301,9 +298,9 @@ export class WorkPackageEditForm {
     });
   }
 
-  private renderField(fieldName:string, field:EditField):Promise<WorkPackageEditFieldHandler> {
+  private renderField(fieldName:string, schema:IFieldSchema):Promise<WorkPackageEditFieldHandler> {
     const promise:Promise<WorkPackageEditFieldHandler> = this.editContext.activateField(this,
-      field,
+      schema,
       fieldName,
       this.errorsPerAttribute[fieldName] || []);
 

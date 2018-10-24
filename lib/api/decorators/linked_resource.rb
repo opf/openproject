@@ -40,7 +40,7 @@ module API
       end
 
       def from_hash(hash, *args)
-        return super unless hash['_links']
+        return super unless hash && hash['_links']
 
         copied_hash = hash.deep_dup
 
