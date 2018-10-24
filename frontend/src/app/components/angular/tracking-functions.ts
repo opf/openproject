@@ -24,6 +24,15 @@ export namespace AngularTrackingHelpers {
     return _.get(item, 'href');
   }
 
+  export function trackByHrefAndProperty(propertyName:string) {
+    return (i:number, item:HalResource) => {
+      let href = _.get(item, 'href');
+      let prop = _.get(item, propertyName, 'none');
+
+      return `${href}#${propertyName}=${prop}`;
+    };
+  }
+
   export function trackByTrackingIdentifier(i:number, item:any) {
     return _.get(item, 'trackingIdentifier', item && item.href);
   }
