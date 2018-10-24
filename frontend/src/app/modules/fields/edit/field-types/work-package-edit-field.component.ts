@@ -26,49 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {TimezoneService} from 'core-components/datetime/timezone.service';
-import * as moment from 'moment';
 import {Component} from "@angular/core";
-import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 
 @Component({
   template: `
-    <input type="number"
-           step="0.01"
+    <input type="text"
            class="wp-inline-edit--field"
-           [attr.aria-required]="field.required"
-           [ngModel]="formatter(field.value)"
-           (ngModelChange)="field.value = parser($event)"
-           [attr.required]="field.required"
-           (keydown)="handler.handleUserKeydown($event)"
-           [disabled]="field.inFlight"
+           disabled
+           [ngModel]="value"
            [id]="handler.htmlId" />
   `
 })
-export class DurationEditFieldComponent extends EditFieldComponent {
-  public field:DurationEditField;
-
-  public parser(value:any) {
-    if (!isNaN(value)) {
-      let floatValue = parseFloat(value);
-      return moment.duration(floatValue, 'hours');
-    }
-
-    return value;
-  }
-
-  public formatter(value:any) {
-    return Number(moment.duration(value).asHours().toFixed(2));
-  }
-}
-
-export class DurationEditField extends EditField {
-  public component = DurationEditFieldComponent;
-  readonly TimezoneService:TimezoneService = this.$injector.get(TimezoneService);
-
-  protected parseValue(val:moment.Moment | null) {
-    return val === null ? null : val.toISOString();
-  }
-
+export class WorkPackageEditFieldComponent extends EditFieldComponent {
 }

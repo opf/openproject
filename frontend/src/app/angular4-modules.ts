@@ -219,6 +219,7 @@ import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table
 import {ChartsModule} from "ng2-charts";
 import {WorkPackageEmbeddedGraphComponent} from "core-components/wp-table/embedded/wp-embedded-graph.component";
 import {WorkPackageByVersionGraphComponent} from "core-components/wp-by-version-graph/wp-by-version-graph.component";
+import {WorkPackageCommentFieldComponent} from "core-components/work-packages/work-package-comment/wp-comment-field.component";
 
 @NgModule({
   imports: [
@@ -390,6 +391,7 @@ import {WorkPackageByVersionGraphComponent} from "core-components/wp-by-version-
     // Activity Tab
     NewestActivityOnOverviewComponent,
     WorkPackageCommentComponent,
+    WorkPackageCommentFieldComponent,
     ActivityEntryComponent,
     UserActivityComponent,
     RevisionActivityComponent,
@@ -518,6 +520,7 @@ import {WorkPackageByVersionGraphComponent} from "core-components/wp-by-version-
     // Single view
     WorkPackageOverviewTabComponent,
     WorkPackageEditFieldGroupComponent,
+    WorkPackageCommentFieldComponent,
 
     // Searchbar
     ExpandableSearchComponent,

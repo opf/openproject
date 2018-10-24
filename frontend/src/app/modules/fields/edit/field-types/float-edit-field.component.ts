@@ -25,29 +25,23 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {DurationEditField} from "core-app/modules/fields/edit/field-types/duration-edit-field";
 import {Component} from "@angular/core";
-import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 
 @Component({
   template: `
     <input type="number"
+           step="any"
            class="wp-inline-edit--field"
-           [attr.aria-required]="field.required"
-           [attr.required]="field.required"
-           [disabled]="field.inFlight"
-           [attr.lang]="locale"
-           [(ngModel)]="field.value"
+           [attr.aria-required]="required"
+           [attr.required]="required"
+           [disabled]="inFlight"
+           [(ngModel)]="value"
            (keydown)="handler.handleUserKeydown($event)"
+           [attr.lang]="locale"
            [id]="handler.htmlId" />
   `
 })
-export class IntegerEditFieldComponent extends EditFieldComponent {
+export class FloatEditFieldComponent extends EditFieldComponent {
   public locale = I18n.locale;
-  public field:DurationEditField;
-}
-
-export class IntegerEditField extends EditField {
-  public component = IntegerEditFieldComponent;
 }

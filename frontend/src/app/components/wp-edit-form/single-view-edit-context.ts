@@ -39,8 +39,8 @@ import {WorkPackageTableRefreshService} from 'core-components/wp-table/wp-table-
 import {WorkPackageEditForm} from 'core-components/wp-edit-form/work-package-edit-form';
 import {WorkPackageEditFieldHandler} from 'core-components/wp-edit-form/work-package-edit-field-handler';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
-import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 import {WorkPackageEditingPortalService} from "core-app/modules/fields/edit/editing-portal/wp-editing-portal-service";
+import {IFieldSchema} from "core-app/modules/fields/field.base";
 
 export class SingleViewEditContext implements WorkPackageEditContext {
 
@@ -60,14 +60,14 @@ export class SingleViewEditContext implements WorkPackageEditContext {
               readonly fieldGroup:WorkPackageEditFieldGroupComponent) {
   }
 
-  public async activateField(form:WorkPackageEditForm, field:EditField, fieldName:string, errors:string[]):Promise<WorkPackageEditFieldHandler> {
-    return this.fieldCtrl(field.name).then((ctrl) => {
+  public async activateField(form:WorkPackageEditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<WorkPackageEditFieldHandler> {
+    return this.fieldCtrl(fieldName).then((ctrl) => {
       ctrl.active = true;
       const container = ctrl.editContainer.nativeElement;
       return this.wpEditingPortalService.create(
         container,
         form,
-        field,
+        schema,
         fieldName,
         errors
       );

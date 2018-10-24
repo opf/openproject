@@ -26,50 +26,25 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageChangeset} from '../../wp-edit-form/work-package-changeset';
-import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {FormattableEditField} from "core-app/modules/fields/edit/field-types/formattable-edit-field";
+import {Component} from "@angular/core";
+import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 
-export class WorkPackageCommentField extends FormattableEditField {
-  public _value:any;
-  public isBusy:boolean = false;
 
-  public ConfigurationService:ConfigurationService = this.$injector.get(ConfigurationService);
-
-  constructor(public workPackage:WorkPackageResource) {
-    super(
-      new WorkPackageChangeset(WorkPackageCommentField.$injector, workPackage),
-      'comment',
-      {name: I18n.t('js.label_comment')} as any
-    );
-
-    this.initializeFieldValue();
+@Component({
+  template: `
+    <input type="checkbox"
+           class="wp-inline-edit--field wp-inline-edit--boolean-field"
+           [attr.aria-required]="required"
+           [checked]="value"
+           (change)="updateValue(!value)"
+           (keydown)="handler.handleUserKeydown($event)"
+           [disabled]="inFlight"
+           [id]="handler.htmlId" />
+  `
+})
+export class BooleanEditFieldComponent extends EditFieldComponent {
+  public updateValue(newValue:boolean) {
+    this.value = newValue;
+    this.handler.handleUserSubmit();
   }
-
-  public get value() {
-    return this._value;
-  }
-
-  public set value(val:any) {
-    this._value = val;
-  }
-
-  public get required() {
-    return true;
-  }
-
-  public initializeFieldValue(withText?:string):void {
-    if (!withText) {
-      this.rawValue = '';
-      return;
-    }
-
-    if (this.rawValue.length > 0) {
-      this.rawValue += '\n';
-    }
-
-    this.rawValue += withText;
-  }
-
 }

@@ -1,5 +1,5 @@
 <div *ngIf="handler"
-     class="wp-inline-edit--active-field wp-edit-field inplace-edit {{ editField.name }}"
+     class="wp-inline-edit--active-field wp-edit-field inplace-edit {{ handler.fieldName }}"
      [ngClass]="{'-error': handler.isErrorenous }">
   <form (submit)="handler.handleUserSubmit()"
         role="form"
@@ -11,6 +11,6 @@
 
       {{handler.errorMessageOnLabel}}
     </label>
-    <ng-container *ngComponentOutlet="editField.component; injector: fieldInjector"></ng-container>
+    <ng-container *ngComponentOutlet="componentClass; injector: fieldInjector"></ng-container>
   </form>
 </div>

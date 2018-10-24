@@ -114,7 +114,7 @@ describe 'edit work package', js: true do
                               dueDate: '2013-03-20',
                               responsible: manager.name,
                               assignee: manager.name,
-                              estimatedTime: '5.00',
+                              estimatedTime: '5',
                               priority: priority2.name,
                               version: version.name,
                               category: category.name,

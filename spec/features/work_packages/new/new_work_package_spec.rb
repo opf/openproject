@@ -184,8 +184,8 @@ describe 'new work package', js: true do
 
           find(".customField#{ids.last} option", text: 'foo').select_option
           save_work_package!(false)
-          # Its a known bug that custom fields validation errors do not contain their names
-          notification.expect_error("can't be blank.")
+
+          notification.expect_error("#{custom_field1.name} can't be blank.")
 
           cf1.set 'Custom field content'
           save_work_package!(true)
