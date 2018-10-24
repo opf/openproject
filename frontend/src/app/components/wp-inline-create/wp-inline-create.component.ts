@@ -58,12 +58,13 @@ import {
   inlineCreateRowClassName
 } from './inline-create-row-builder';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 import {IWorkPackageEditingServiceToken} from "../wp-edit-form/work-package-editing.service.interface";
 import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 import {CurrentUserService} from "core-components/user/current-user.service";
+import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
 
 @Component({
   selector: '[wpInlineCreate]',
@@ -94,19 +95,19 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
 
   private $element:JQuery;
 
-  constructor(readonly elementRef:ElementRef,
-              readonly injector:Injector,
-              readonly FocusHelper:FocusHelperService,
-              readonly I18n:I18nService,
-              readonly tableState:TableState,
-              readonly wpCacheService:WorkPackageCacheService,
-              readonly currentUser:CurrentUserService,
-              @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService,
-              @Inject(IWorkPackageCreateServiceToken) protected wpCreate:WorkPackageCreateService,
-              readonly wpTableColumns:WorkPackageTableColumnsService,
-              readonly wpTableFilters:WorkPackageTableFiltersService,
-              readonly wpTableFocus:WorkPackageTableFocusService,
-              readonly authorisationService:AuthorisationService) {
+  constructor(protected readonly elementRef:ElementRef,
+              protected readonly injector:Injector,
+              protected readonly FocusHelper:FocusHelperService,
+              protected readonly I18n:I18nService,
+              protected readonly tableState:TableState,
+              protected readonly wpCacheService:WorkPackageCacheService,
+              protected readonly currentUser:CurrentUserService,
+              @Inject(IWorkPackageEditingServiceToken) protected readonly wpEditing:WorkPackageEditingService,
+              @Inject(IWorkPackageCreateServiceToken) protected readonly wpCreate:WorkPackageCreateService,
+              protected readonly wpInlineCreate:WorkPackageInlineCreateService,
+              protected readonly wpTableColumns:WorkPackageTableColumnsService,
+              protected readonly wpTableFocus:WorkPackageTableFocusService,
+              protected readonly authorisationService:AuthorisationService) {
   }
 
   ngOnDestroy() {
@@ -129,43 +130,21 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
     const container = jQuery(this.table.timelineBody);
     container.addClass('-inline-create-mirror');
 
-    // Remove temporary rows on creation of new work package
-    this.wpCreate.onNewWorkPackage()
-      .pipe(
-        takeUntil(componentDestroyed(this))
-      )
-      .subscribe((wp:WorkPackageResource) => {
-        if (this.currentWorkPackage && this.currentWorkPackage === wp) {
-          // Remove row and focus
-          this.resetRow();
-
-          // Split view on the last inserted id if any
-          if (!this.table.configuration.isEmbedded) {
-            this.wpTableFocus.updateFocus(wp.id);
-          }
-        } else {
-          // Remove current row
-          this.table.editing.stopEditing('new');
-          this.removeWorkPackageRow();
-          this.showRow();
-        }
-      });
+    // Register callback on newly created work packages
+    this.registerCreationCallback();
 
     // Watch on this scope when the columns change and refresh this row
-    this.tableState.columns.values$()
-      .pipe(
-        filter(() => this.isHidden), // Take only when row is inserted
-        takeUntil(componentDestroyed(this))
-      )
-      .subscribe(() => {
-      const rowElement = this.$element.find(`.${inlineCreateRowClassName}`);
-
-      if (rowElement.length && this.currentWorkPackage) {
-        this.rowBuilder.refreshRow(this.currentWorkPackage, rowElement);
-      }
-    });
+    this.refreshOnColumnChanges();
 
     // Cancel edition of current new row
+    this.registerCancelHandler();
+  }
+
+  /**
+   * Reset the inline creation row on the cancel button,
+   * which is dynamically inserted into the action row by the inline create renderer.
+   */
+  private registerCancelHandler() {
     this.$element.on('click keydown', `.${inlineCreateCancelClassName}`, (evt) => {
       onClickOrEnter(evt, () => {
         this.resetRow();
@@ -176,45 +155,130 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
     });
   }
 
+  /**
+   * Since the table is refreshed imperatively whenever columns are changed,
+   * we need to manually ensure the inline create row gets refreshed as well.
+   */
+  private refreshOnColumnChanges() {
+    this.tableState.columns
+      .values$()
+      .pipe(
+        filter(() => this.isHidden), // Take only when row is inserted
+        untilComponentDestroyed(this),
+      )
+      .subscribe(() => {
+        const rowElement = this.$element.find(`.${inlineCreateRowClassName}`);
+
+        if (rowElement.length && this.currentWorkPackage) {
+          this.rowBuilder.refreshRow(this.currentWorkPackage, rowElement);
+        }
+      });
+  }
+
+  /**
+   * Listen to newly created work packages to detect whether the WP is the one we created,
+   * and properly reset inline create in this case
+   */
+  private registerCreationCallback() {
+    this.wpCreate
+      .onNewWorkPackage()
+      .pipe(untilComponentDestroyed(this))
+      .subscribe((wp:WorkPackageResource) => {
+        if (this.currentWorkPackage && this.currentWorkPackage === wp) {
+          // Remove row and focus
+          this.resetRow();
+
+          // Split view on the last inserted id if any
+          if (!this.table.configuration.isEmbedded) {
+            this.wpTableFocus.updateFocus(wp.id);
+          }
+
+          // Notify inline create service
+          this.wpInlineCreate.newInlineWorkPackage(wp);
+        } else {
+          // Remove current row
+          this.table.editing.stopEditing('new');
+          this.removeWorkPackageRow();
+          this.showRow();
+        }
+      });
+  }
+
   public handleAddRowClick() {
     this.addWorkPackageRow();
     return false;
   }
 
   public addWorkPackageRow() {
-    this.wpCreate.createNewWorkPackage(this.projectIdentifier).then((changeset:WorkPackageChangeset) => {
+    this.wpCreate
+      .createNewWorkPackage(this.projectIdentifier)
+      .then((changeset:WorkPackageChangeset) => {
       if (!changeset) {
         throw 'No new work package was created';
       }
 
       const wp = this.currentWorkPackage = changeset.workPackage;
+      this.applyDefaultsAndInsert(changeset, wp);
+    });
+  }
 
-      // Apply filter values
+  /**
+   * Apply values to the work package from the current set of filters
+   *
+   * @param changeset
+   * @param wp
+   */
+  private applyDefaultsAndInsert(changeset:WorkPackageChangeset, wp:WorkPackageResource) {
+    let promise:Promise<any>;
+
+    if (this.tableState.query.hasValue()) {
       const filter = new WorkPackageFilterValues(this.currentUser, changeset, this.tableState.query.value!.filters);
-      filter.applyDefaultsFromFilters().then(() => {
-        this.wpEditing.updateValue('new', changeset);
-        this.wpCacheService.updateWorkPackage(this.currentWorkPackage!);
+      promise = filter.applyDefaultsFromFilters();
+    } else {
+      promise = Promise.resolve();
+    }
 
-        // Set editing context to table
-        const context = new TableRowEditContext(
-          this.table,
-          this.injector,
-          wp.id,
-          this.rowBuilder.classIdentifier(wp)
-        );
-        
-        this.workPackageEditForm = WorkPackageEditForm.createInContext(this.injector, context, wp, false);
-        this.workPackageEditForm.changeset.clear();
+    promise.then(() => {
+      // Update the changeset with any added filtered values
+      this.wpEditing.updateValue('new', changeset);
+      this.wpCacheService.updateWorkPackage(this.currentWorkPackage!);
 
-        const row = this.rowBuilder.buildNew(wp, this.workPackageEditForm);
-        this.$element.append(row);
+      // Actually render the row
+      const form = this.workPackageEditForm = this.renderInlineCreateRow(wp);
 
-        setTimeout(() => {
-          this.workPackageEditForm!.activateMissingFields();
-          this.hideRow();
-        });
+      setTimeout(() => {
+        // Activate any required fields
+        form.activateMissingFields();
+
+        // Hide the button row
+        this.hideRow();
       });
     });
+  }
+
+  /**
+   * Actually render the row manually
+   * in the same fashion as all rows in the table are rendered.
+   *
+   * @param wp Work package to be rendered
+   * @returns The work package form of the row
+   */
+  private renderInlineCreateRow(wp:WorkPackageResource):WorkPackageEditForm {
+    // Set editing context to table
+    const context = new TableRowEditContext(
+      this.table,
+      this.injector,
+      wp.id,
+      this.rowBuilder.classIdentifier(wp)
+    );
+
+    const form = WorkPackageEditForm.createInContext(this.injector, context, wp, false);
+    form.changeset.clear();
+
+    const row = this.rowBuilder.buildNew(wp, form);
+    this.$element.append(row);
+
+    return form;
   }
 
   /**
@@ -253,4 +317,5 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
     return this.authorisationService.can('work_packages', 'createWorkPackage') ||
       this.authorisationService.can('work_package', 'addChild');
   }
+
 }

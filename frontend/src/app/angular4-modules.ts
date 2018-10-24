@@ -219,6 +219,7 @@ import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table
 import {ChartsModule} from "ng2-charts";
 import {WorkPackageEmbeddedGraphComponent} from "core-components/wp-table/embedded/wp-embedded-graph.component";
 import {WorkPackageByVersionGraphComponent} from "core-components/wp-by-version-graph/wp-by-version-graph.component";
+import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
 import {WorkPackageCommentFieldComponent} from "core-components/work-packages/work-package-comment/wp-comment-field.component";
 
 @NgModule({
@@ -298,6 +299,11 @@ import {WorkPackageCommentFieldComponent} from "core-components/work-packages/wo
     // Provide both serves with tokens to avoid tight dependency cycles
     { provide: IWorkPackageCreateServiceToken, useClass: WorkPackageCreateService },
     { provide: IWorkPackageEditingServiceToken, useClass: WorkPackageEditingService },
+
+    // Provide a separate service for creation events of WP Inline create
+    // This can be hierarchically injected to provide isolated events on an embedded table
+    WorkPackageInlineCreateService,
+
     OpTableActionsService,
     CurrentProjectService,
     FirstRouteService,
