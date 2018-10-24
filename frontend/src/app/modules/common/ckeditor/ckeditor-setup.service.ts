@@ -75,9 +75,6 @@ export class CKEditorSetupService {
           .on('op:ckeditor:getData', (event:any, cb:any) => cb(editor.getData()));
 
         return editor;
-      })
-      .catch((error:any) => {
-        console.error(`Failed to setup CKEditor instance: ${error}`);
       });
   }
 
