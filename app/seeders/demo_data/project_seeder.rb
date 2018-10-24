@@ -58,6 +58,8 @@ module DemoData
           puts "   -#{seeder.class.name.demodulize}"
           seeder.seed!
         end
+
+        Setting.demo_projects_available = 'true'
       end
 
       puts ' ↳ Updating settings'

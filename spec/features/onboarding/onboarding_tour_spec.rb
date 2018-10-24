@@ -38,6 +38,7 @@ describe 'onboarding tour for new users', js: true do
   context 'as a new user' do
     before do
       login_as user
+      allow(Setting).to receive(:demo_projects_available).and_return(true)
       allow(Setting).to receive(:welcome_title).and_return('Hey ho!')
       allow(Setting).to receive(:welcome_on_homescreen?).and_return(true)
     end
