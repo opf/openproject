@@ -29,12 +29,13 @@
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageEditForm} from './work-package-edit-form';
 import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
-import {EditField} from "core-app/modules/fields/edit/edit.field.module";
+import {IFieldSchema} from "core-app/modules/fields/field.base";
+
 export interface WorkPackageEditContext {
   /**
    * Activate the field, returning the element and associated field handler
    */
-  activateField(form:WorkPackageEditForm, field:EditField, fieldName:string, errors:string[]):Promise<WorkPackageEditFieldHandler>;
+  activateField(form:WorkPackageEditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<WorkPackageEditFieldHandler>;
 
   /**
    * Show this required field. E.g., add the necessary column

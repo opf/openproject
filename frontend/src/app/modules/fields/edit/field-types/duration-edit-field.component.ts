@@ -1,3 +1,4 @@
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -25,29 +26,43 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {TimezoneService} from 'core-components/datetime/timezone.service';
+import * as moment from 'moment';
 import {Component} from "@angular/core";
-import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 
 @Component({
   template: `
     <input type="number"
-           step="any"
+           step="0.01"
            class="wp-inline-edit--field"
-           [attr.aria-required]="field.required"
-           [attr.required]="field.required"
-           [disabled]="field.inFlight"
-           [(ngModel)]="field.value"
+           [attr.aria-required]="required"
+           [ngModel]="formatter(value)"
+           (ngModelChange)="value = parser($event)"
+           [attr.required]="required"
            (keydown)="handler.handleUserKeydown($event)"
-           [attr.lang]="locale"
+           [disabled]="inFlight"
            [id]="handler.htmlId" />
   `
 })
-export class FloatEditFieldComponent extends EditFieldComponent {
-  public locale = I18n.locale;
-  public field:FloatEditField;
+export class DurationEditFieldComponent extends EditFieldComponent {
+  readonly TimezoneService:TimezoneService = this.$injector.get(TimezoneService);
+
+  public parser(value:any) {
+    if (!isNaN(value)) {
+      let floatValue = parseFloat(value);
+      return moment.duration(floatValue, 'hours');
+    }
+
+    return value;
+  }
+
+  public formatter(value:any) {
+    return Number(moment.duration(value).asHours().toFixed(2));
+  }
+
+  protected parseValue(val:moment.Moment | null) {
+    return val === null ? null : val.toISOString();
+  }
 }
 
-export class FloatEditField extends EditField {
-  public component = FloatEditFieldComponent;
-}

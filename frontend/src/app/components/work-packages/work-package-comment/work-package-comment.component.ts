@@ -27,7 +27,6 @@
 // ++
 
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageCommentField} from './wp-comment-field.module';
 import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {WorkPackageCacheService} from '../work-package-cache.service';
@@ -38,7 +37,7 @@ import {
   Component,
   ContentChild,
   ElementRef,
-  Inject,
+  Inject, Injector,
   Input,
   OnDestroy,
   OnInit,
@@ -49,21 +48,19 @@ import {ConfigurationService} from "core-app/modules/common/config/configuration
 
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {IEditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler.interface";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {WorkPackageChangeset} from "core-components/wp-edit-form/work-package-changeset";
+import {WorkPackageCommentFieldHandler} from "core-components/work-packages/work-package-comment/work-package-comment-field-handler";
 
 @Component({
   selector: 'work-package-comment',
   templateUrl: './work-package-comment.component.html'
 })
-export class WorkPackageCommentComponent implements IEditFieldHandler, OnInit, OnDestroy {
+export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler implements OnInit, OnDestroy {
   @Input() public workPackage:WorkPackageResource;
 
   @ContentChild(TemplateRef) template:TemplateRef<any>;
   @ViewChild('commentContainer') public commentContainer:ElementRef;
-
-  public field:WorkPackageCommentField;
-  public handler:IEditFieldHandler = this;
 
   public text = {
     editTitle: this.I18n.t('js.label_add_comment_title'),
@@ -73,11 +70,13 @@ export class WorkPackageCommentComponent implements IEditFieldHandler, OnInit, O
   };
   public fieldLabel:string = this.text.editTitle;
 
-  public editing = false;
+  public inFlight = false;
   public canAddComment:boolean;
   public showAbove:boolean;
+  public changeset:WorkPackageChangeset;
 
   constructor(protected elementRef:ElementRef,
+              protected injector:Injector,
               protected commentService:CommentService,
               protected wpLinkedActivities:WorkPackagesActivityService,
               protected ConfigurationService:ConfigurationService,
@@ -86,10 +85,12 @@ export class WorkPackageCommentComponent implements IEditFieldHandler, OnInit, O
               protected wpNotificationsService:WorkPackageNotificationService,
               protected NotificationsService:NotificationsService,
               protected I18n:I18nService) {
-
+    super(elementRef, injector);
   }
 
   public ngOnInit() {
+    super.ngOnInit();
+
     this.canAddComment = !!this.workPackage.addComment;
     this.showAbove = this.ConfigurationService.commentsSortedInDescendingOrder();
 
@@ -124,57 +125,39 @@ export class WorkPackageCommentComponent implements IEditFieldHandler, OnInit, O
     return 'wp-comment-field';
   }
 
-  public get active() {
-    return this.editing;
-  }
-
-  public get inEditMode() {
-    return false;
-  }
-
   public activate(withText?:string) {
-    this.editing = true;
-
-    this.reset(withText);
+    super.activate(withText);
 
     if (!this.showAbove) {
       this.scrollToBottom();
     }
   }
 
-  public get project() {
-    return this.workPackage.project;
-  }
-
-  public reset(withText?:string) {
-    this.field = this.field || new WorkPackageCommentField(this.workPackage);
-    this.field.initializeFieldValue(withText);
-  }
-
   public deactivate(focus:boolean) {
     focus && this.focus();
-    this.editing = false;
+    this.inEdit = false;
   }
 
-  public handleUserSubmit() {
-    if (this.field.isBusy || this.field.isEmpty()) {
+  public async handleUserSubmit() {
+    if (this.inFlight || !this.rawComment) {
       return Promise.resolve();
     }
 
-    this.field.isBusy = true;
+    this.inFlight = true;
+    await this.onSubmit();
     let indicator = this.loadingIndicator.wpDetails;
-    return indicator.promise = this.commentService.createComment(this.workPackage, this.field.value)
+    return indicator.promise = this.commentService.createComment(this.workPackage, this.commentValue)
       .then(() => {
-        this.editing = false;
+        this.inEdit = false;
         this.NotificationsService.addSuccess(this.I18n.t('js.work_packages.comment_added'));
 
         this.wpLinkedActivities.require(this.workPackage, true);
         this.wpCacheService.updateWorkPackage(this.workPackage);
-        this.field.isBusy = false;
+        this.inFlight = false;
         this.focus();
       })
       .catch((error:any) => {
-        this.field.isBusy = false;
+        this.inFlight = false;
         if (error instanceof ErrorResource) {
           this.wpNotificationsService.showError(error, this.workPackage);
         }
@@ -182,27 +165,6 @@ export class WorkPackageCommentComponent implements IEditFieldHandler, OnInit, O
           this.NotificationsService.addError(this.I18n.t('js.work_packages.comment_send_failed'));
         }
       });
-  }
-
-  public handleUserCancel() {
-    this.deactivate(true);
-  }
-
-  focus():void {
-    const trigger = this.elementRef.nativeElement.querySelector('.inplace-editing--trigger-container');
-    trigger && trigger.focus();
-  }
-
-  handleUserKeydown(event:JQueryEventObject, onlyCancel?:boolean):void {
-    // We only save comments through field controls
-  }
-
-  isChanged():boolean {
-    return false;
-  }
-
-  stopPropagation(evt:JQueryEventObject):boolean {
-    return false;
   }
 
   scrollToBottom():void {

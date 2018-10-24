@@ -26,11 +26,31 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {TextEditField} from "core-app/modules/fields/edit/field-types/text-edit-field";
+import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
+import {Component, OnInit} from "@angular/core";
+import {
+  FormattableEditFieldComponent,
+  formattableFieldTemplate
+} from "core-app/modules/fields/edit/field-types/formattable-edit-field.component";
 
-export class WorkPackageEditField extends TextEditField {
+@Component({
+  template: formattableFieldTemplate
+})
+export class WorkPackageCommentFieldComponent extends FormattableEditFieldComponent implements OnInit {
+  public isBusy:boolean = false;
 
-  public get writable() {
-    return false;
+  public ConfigurationService:ConfigurationService = this.$injector.get(ConfigurationService);
+
+  public get name() {
+    return 'comment';
+  }
+
+  public get required() {
+    return true;
+  }
+
+  ngOnInit() {
+    super.ngOnInit();
+    this.rawValue = this.rawValue || '';
   }
 }

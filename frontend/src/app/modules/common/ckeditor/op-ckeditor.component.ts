@@ -72,7 +72,7 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
   // Debounce change listener for both CKE and codemirror
   // to read back changes as they happen
   private debouncedEmitter = _.debounce(
-    async () => {
+    () => {
       this.getTransformedContent(false)
         .then(val => {
           this.onContentChange.emit(val);
