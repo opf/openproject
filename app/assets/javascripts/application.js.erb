@@ -49,6 +49,9 @@
 //= require danger_zone_validation
 //= require flash_messages
 
+//= require_tree ./onboarding
+
+
 function checkAll(selector, checked) {
   jQuery('#' + selector + ' input:checkbox').not(':disabled').each(function() {
     this.checked = checked;

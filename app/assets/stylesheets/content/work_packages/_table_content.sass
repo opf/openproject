@@ -92,6 +92,8 @@ html:not(.-browser-mobile)
   .icon:before
     @include varprop(color, content-link-color)
     padding: 0 0 0 0.25rem
+  &.-disabled .icon:before
+    color: $gray-dark
   &:hover
     text-decoration: none
 
