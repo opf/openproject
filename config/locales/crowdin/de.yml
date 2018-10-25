@@ -1067,7 +1067,7 @@ de:
 '
   error_external_authentication_failed: Die externe Authentifizierung ist fehlgeschlagen.
     Bitte versuchen Sie es erneut.
-  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
+  error_attribute_not_highlightable: 'Nicht hervorhebbare Attribut(e): %{attributes}'
   events:
     project: Projekt bearbeitet
     changeset: Projektarchiv-Änderung bearbeitet
@@ -1117,7 +1117,7 @@ de:
       upsale:
         become_hero: Werde zum Held!
         title: Auf Enterprise-Edition upgraden
-        description: What are the benefits?
+        description: Was sind die Vorteile?
         more_info: Weitere Informationen
         additional_features: Zusätzliche mächtige Premium-Funktionen
         professional_support: Professioneller Support durch OpenProject Experten
@@ -1908,7 +1908,7 @@ de:
       Projekt-Management und Zusammenarbeit in Teams mit OpenProject.
     text_show_again: Sie können dieses Video über das Hilfe-Menü erneut starten
     welcome: Willkommen bei OpenProject
-    select_language: Bitte wählen Sie Ihre Sprache für OpenProject
+    select_language: Please select your language
   permission_add_work_package_notes: Kommentare hinzufügen
   permission_add_work_packages: Arbeitspakete hinzufügen
   permission_add_messages: Forenbeiträge hinzufügen
@@ -2283,9 +2283,9 @@ de:
   setting_welcome_on_homescreen: Willkommens-Block auf Startseite anzeigen
   setting_wiki_compression: Wiki-Historie komprimieren
   setting_work_package_group_assignment: Zuweisung zu Gruppen erlauben
-  setting_work_package_list_default_highlighting_mode: Default highlighting mode
-  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
-    attributes
+  setting_work_package_list_default_highlighting_mode: Standard Hervorhebung
+  setting_work_package_list_default_highlighted_attributes: Voreinstellung Inline
+    Hervorherbung
   settings:
     general: Allgemein
     other: Sonstiges
@@ -2297,11 +2297,11 @@ de:
       deletion: Löschen
     highlighting:
       mode_long:
-        inline: Highlight attribute(s) inline
+        inline: Inline hervorgehobene Attribute
         none: Keine Hervorhebung
-        status: Entire row by Status
-        type: Entire row by Type
-        priority: Entire row by Priority
+        status: Ganze Zeile nach Status
+        type: Ganze Zeile nach Typ
+        priority: Ganze Zeile nach Priorität
   text_formatting:
     markdown: Markdown
     plain: Reiner Text
@@ -2777,7 +2777,8 @@ de:
         korrekt.
       code_403: Sie sind nicht berechtigt auf diese Ressource zuzugreifen.
       code_404: Die angeforderte Ressource konnte nicht gefunden werden.
-      code_409: Could not update the resource because of conflicting modifications.
+      code_409: Die Ressource konnte wegen parallelen Zugriffs nicht aktualisiert
+        werden.
       code_500: Ein interner Fehler ist aufgetreten.
       expected:
         date: YYYY-MM-DD (Datum nach ISO 8601)

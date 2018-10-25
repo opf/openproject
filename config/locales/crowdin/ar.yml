@@ -1938,7 +1938,7 @@ ar:
       team collaboration with OpenProject.
     text_show_again: يمكنك إعادة تشغيل هذا الفيديو من قائمة المساعدة
     welcome: مرحبًا بكم في أوبِن بروجِكت
-    select_language: Please select your language for OpenProject
+    select_language: Please select your language
   permission_add_work_package_notes: إضافة ملاحظات
   permission_add_work_packages: إضافة مجموعات عمل
   permission_add_messages: نشر الرسائل

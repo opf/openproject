@@ -1855,7 +1855,7 @@ sv-SE:
       samarbete med OpenProject.
     text_show_again: Du kan starta om denna video från hjälpmenyn
     welcome: Välkommen till OpenProject
-    select_language: Vänligen välj språk för OpenProject
+    select_language: Please select your language
   permission_add_work_package_notes: Lägg till anteckningar
   permission_add_work_packages: Lägg till arbetspaket
   permission_add_messages: Publicera meddelanden

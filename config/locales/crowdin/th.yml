@@ -1827,7 +1827,7 @@ th:
       team collaboration with OpenProject.
     text_show_again: คุณสามารถเริ่มเล่นวิดีโอนี้ใหม่ได้จากเมนูวิธีใช้
     welcome: Welcome to OpenProject
-    select_language: Please select your language for OpenProject
+    select_language: Please select your language
   permission_add_work_package_notes: เพิ่มหมายเหตุ
   permission_add_work_packages: เพิ่มลำดับภารกิจ
   permission_add_messages: โพสต์ข้อความ

@@ -400,7 +400,7 @@ fr:
         mail_notification: Notifications par courriel
         new_password: Nouveau mot de passe
         password_confirmation: Confirmation
-        consented_at: Consented at
+        consented_at: Consenti à
       user_preference:
         comments_sorting: Afficher les commentaires
         hide_mail: Masquer mon adresse courriel
@@ -755,7 +755,7 @@ fr:
   button_unlock: Déverrouiller
   button_unwatch: Ne plus suivre
   button_update: Mettre à jour
-  button_upgrade: Upgrade
+  button_upgrade: Mise à niveau
   button_upload: Charger
   button_view: Afficher
   button_watch: Suivre
@@ -764,22 +764,25 @@ fr:
   button_configure_menu_entry: Configurer l'élément de menu
   button_delete_menu_entry: Supprimer l'élément de menu
   consent:
-    checkbox_label: I have noted and do consent to the above.
-    failure_message: Consent failed, cannot proceed.
-    title: User Consent
-    decline_warning_message: You have declined to consent and have been logged out.
-    user_has_consented: User has consented to your configured statement at the given
-      time.
-    not_yet_consented: User has not consented yet, will be requested upon next login.
-    contact_mail_instructions: Define the mail address that users can reach a data
-      controller to perform data change or removal requests.
-    contact_your_administrator: Please contact your administrator if you want to have
-      your account deleted.
-    contact_this_mail_address: Please contact %{mail_address} if you want to have
-      your account deleted.
-    text_update_consent_time: Check this box to force users to consent again. Enable
-      when you have changed the legal aspect of the consent information above.
-    update_consent_last_time: 'Last update of consent: %{update_time}'
+    checkbox_label: J'ai pris note de ce qui précède et je l'accepte.
+    failure_message: Échec de l'accord, impossible de continuer.
+    title: Accord de l'utilisateur
+    decline_warning_message: Vous avez refusé l'accord et avez été déconnecté.
+    user_has_consented: L'utilisateur a accepté votre déclaration configurée au moment
+      donné.
+    not_yet_consented: L'utilisateur n'a pas encore donné son accord, il sera demandé
+      lors de la prochaine connexion.
+    contact_mail_instructions: Définissez l'adresse mail à laquelle les utilisateurs
+      peuvent joindre un contrôleur de données pour effectuer des modifications de
+      données ou des demandes de suppression.
+    contact_your_administrator: Veuillez contacter votre administrateur si vous souhaitez
+      que votre compte soit supprimé.
+    contact_this_mail_address: Veuillez contacter %{mail_address} si vous voulez que
+      votre compte soit supprimé.
+    text_update_consent_time: Cochez cette case pour forcer les utilisateurs à accepter
+      à nouveau. Activer le lorsque vous avez modifié l'aspect juridique des informations
+      de l'accord ci-dessus.
+    update_consent_last_time: 'Dernière mise à jour de l''accord: %{update_time}'
   copy_project:
     started: La copie du projet "%{source_project_name}" vers "%{target_project_name}"
       a débuté. Vous serez informé par courriel dès que "%{target_project_name}" sera
@@ -1007,10 +1010,11 @@ fr:
   error_cookie_missing: Le cookie OpenProject est manquant. Assurez-vous que les cookies
     sont activés, sans quoi cette application ne fonctionnera pas correctement.
   error_custom_option_not_found: L'option n'existe pas.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
-  error_enterprise_activation_user_limit: Your account could not be activated (user
-    limit reached). Please contact your administrator to gain access.
+  error_dependent_work_package: 'Erreur dans le lot de travaux dépendants #%{related_id}
+    %{related_subject}: %{error}'
+  error_enterprise_activation_user_limit: Votre compte n'a pas pu être activé (limite
+    d'utilisateurs atteinte). Veuillez contacter votre administrateur pour obtenir
+    l'accès.
   error_failed_to_delete_entry: Échec lors de la suppression de cette entrée.
   error_invalid_selected_value: Valeur sélectionnée invalide.
   error_invalid_group_by: 'Impossible de grouper par : %{value}'
@@ -1057,7 +1061,8 @@ fr:
 '
   error_external_authentication_failed: Une erreur s'est produite lors de l'authentification
     externe. Veuillez essayer de nouveau.
-  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
+  error_attribute_not_highlightable: 'Attribut(s) ne pouvant pas être mis en surbrillance:
+    %{attributes}'
   events:
     project: Projet édité
     changeset: Lot de modification édité
@@ -1208,7 +1213,7 @@ fr:
   label_calendar: Calendrier
   label_calendar_show: Afficher le calendrier
   label_category: Catégorie
-  label_consent_settings: User Consent
+  label_consent_settings: Accord de l'utilisateur
   label_wiki_menu_item: Élément de menu wiki
   label_select_main_menu_item: Sélectionner nouvel élément de menu principal
   label_select_project: Sélectionner un projet
@@ -1297,7 +1302,7 @@ fr:
   label_enumeration_value: Valeur d'énumération
   label_enumerations: Énumérations
   label_enterprise: Entreprise
-  label_enterprise_active_users: "%{current}/%{limit} booked active users"
+  label_enterprise_active_users: "%{current}/%{limit} utilisateurs actifs inscrits"
   label_enterprise_edition: Version Entreprise
   label_environment: Environement
   label_estimates_and_time: Estimations et temps
@@ -1768,14 +1773,14 @@ fr:
   mail_subject_wiki_content_added: Page wiki '%{id}' a été ajouté
   mail_subject_wiki_content_updated: Page wiki '%{id}' a été mise à jour
   mail_user_activation_limit_reached:
-    subject: User activation limit reached
+    subject: Limite d'activation de l'utilisateur atteinte
     message: |
-      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
-      The user cannot activate their account since the user limit has been reached.
+      Un nouvel utilisateur (%{email}) a essayé de créer un compte sur un environnement OpenProject que vous gérez (%{host}).
+      L'utilisateur ne peut pas activer son compte puisque la limite d'utilisateurs a été atteinte.
     steps:
-      label: 'To allow the user to sign in you can either: '
-      a: Upgrade your payment plan ([here](upgrade_url))
-      b: Lock or delete an existing user ([here](users_url))
+      label: 'Pour permettre à l''utilisateur de se connecter, vous pouvez soit: '
+      a: Mettez à jour votre plan de paiement ([here](upgrade_url))
+      b: Verrouiller ou supprimer un utilisateur existant ([here](users_url))
   more_actions: Plus de fonctions
   noscript_description: Vous devez activer JavaScript afin d'utiliser OpenProject!
   noscript_heading: JavaScript désactivé
@@ -1898,7 +1903,7 @@ fr:
       et de la collaboration en équipe avec OpenProject.
     text_show_again: Vous pouvez relancer cette vidéo au départ du menu d'aide
     welcome: Bienvenue dans OpenProject
-    select_language: Veuillez sélectionner votre langue pour OpenProject
+    select_language: Please select your language
   permission_add_work_package_notes: Ajouter des notes
   permission_add_work_packages: Ajouter des lots de travaux
   permission_add_messages: Poster des messages
@@ -2175,10 +2180,10 @@ fr:
   setting_commit_logtime_activity_id: Activité pour les « Logged Time »
   setting_commit_logtime_enabled: Activer « time logging »
   setting_commit_ref_keywords: Referencement des mots clés
-  setting_consent_time: Consent time
-  setting_consent_info: Consent information text
-  setting_consent_required: Consent required
-  setting_consent_decline_mail: Consent contact mail address
+  setting_consent_time: Moment de l'accord
+  setting_consent_info: Texte d'information sur l'accord
+  setting_consent_required: Accord requis
+  setting_consent_decline_mail: Adresse mail de contact de l'accord
   setting_cross_project_work_package_relations: Autoriser les relations entre lots
     de travaux de projets différents
   setting_date_format: Format de date
@@ -2271,8 +2276,8 @@ fr:
   setting_wiki_compression: Compression de l'historique du wiki
   setting_work_package_group_assignment: Autoriser l'assignation à des groupes
   setting_work_package_list_default_highlighting_mode: Mode de surbrillance par défaut
-  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
-    attributes
+  setting_work_package_list_default_highlighted_attributes: Attributs en ligne mis
+    en surbrillance par défaut
   settings:
     general: Général
     other: Autre
@@ -2284,7 +2289,7 @@ fr:
       deletion: Suppression
     highlighting:
       mode_long:
-        inline: Highlight attribute(s) inline
+        inline: Mettre en surbrillance le(s) attribut(s) en ligne
         none: Pas de surlignement
         status: Ligne entière par Statut
         type: Ligne entière par Type
@@ -2638,7 +2643,7 @@ fr:
       quarters: Trimestres
       years: Années
   title_remove_and_delete_user: Retirer du projet l'utilisateur invité et le supprimer.
-  title_enterprise_upgrade: Upgrade to unlock more users.
+  title_enterprise_upgrade: Mettre à niveau pour débloquer plus d'utilisateurs.
   tooltip_user_default_timezone: 'Fuseau horaire par défaut des nouveaux utilisateurs.
     Il peut-être modifié dans les paramètres utilisateur.
 
@@ -2714,10 +2719,11 @@ fr:
     par %{configuration}.
   warning: Attention
   warning_attachments_not_saved: "%{count} fichier(s) n'ont pu être sauvegardés."
-  warning_imminent_user_limit: 'You invited more users than are supported by your
-    current plan. Invited users may not be able to join your OpenProject environment.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
-    in order to allow invited and registered users to join.
+  warning_imminent_user_limit: 'Vous avez invité plus d''utilisateurs que ce qui est
+    prévu dans votre plan actuel. Les utilisateurs invités peuvent ne pas être en
+    mesure de rejoindre votre environnement OpenProject. Veuillez <a href="%{upgrade_url}">mettre
+    à jour votre plan</a> ou bloquer les utilisateurs existants afin de permettre
+    aux utilisateurs invités et enregistrés de rejoindre votre environnement.
 
 '
   warning_registration_token_expired: 'L’émail d’activation a expiré. Nous vous avons
@@ -2725,14 +2731,14 @@ fr:
     activer votre compte.
 
 '
-  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
-    for additional users.
+  warning_user_limit_reached: 'Limite d''utilisateur atteinte. Vous ne pouvez plus
+    activer d''autres utilisateurs. Veuillez <a href="%{upgrade_url}">mettre à jour
+    votre plan</a> ou bloquez des membres pour permettre d''autres utilisateurs.
 
 '
-  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
-    active users). Please contact sales@openproject.com to upgrade your Enterprise
-    Edition plan and add additional users.
+  warning_user_limit_reached_instructions: 'Vous avez atteint votre limite d''utilisateurs
+    (%{current}/%{max} utilisateurs actifs). Veuillez contacter sales@openproject.com
+    pour mettre à jour votre plan Enterprise Edition et ajouter des utilisateurs supplémentaires.
 
 '
   menu_item: Éléments de menu

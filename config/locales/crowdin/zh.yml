@@ -1723,7 +1723,7 @@ zh:
     text_getting_started_description: 开放项目的项目部门和合作团队概览
     text_show_again: 您可以从帮助菜单重新启动此视频
     welcome: 欢迎来到 OpenProject
-    select_language: 请选择您的 OpenProject 语言
+    select_language: Please select your language
   permission_add_work_package_notes: 添加注释
   permission_add_work_packages: 添加工作包
   permission_add_messages: 发布消息

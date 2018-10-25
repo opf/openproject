@@ -305,7 +305,7 @@ pt:
       work_package_belongs_to: Este pacote de trabalho pertence ao projeto %{projectname}.
       click_to_switch_context: Abra este pacote de trabalho nesse projeto.
       autocompleter:
-        label: Autocompletar Projeto
+        label: Conclusão automática do Projecto
     text_are_you_sure: Tem a certeza?
     types:
       attribute_groups:

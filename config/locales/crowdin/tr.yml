@@ -1854,7 +1854,7 @@ tr:
       konusuna genel bir bakış.
     text_show_again: Bu videoyu Yardım menüsünden yeniden başlatabilirsiniz
     welcome: OpenProject'e hoş geldiniz
-    select_language: OpenProject için dilinizi seçin
+    select_language: Please select your language
   permission_add_work_package_notes: Not eklemek
   permission_add_work_packages: İş paketi eklemek
   permission_add_messages: İleti göndermek
@@ -2214,7 +2214,7 @@ tr:
   setting_welcome_on_homescreen: Hoşgeldiniz bloğunu ana ekranda göster
   setting_wiki_compression: Wiki geçmişini sıkıştır
   setting_work_package_group_assignment: Gruplara iş atanmasına izin ver
-  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighting_mode: Varsayılan vurgulama modu
   setting_work_package_list_default_highlighted_attributes: Default inline highlighted
     attributes
   settings:

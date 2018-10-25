@@ -115,7 +115,7 @@ de:
     custom_actions:
       date:
         specific: am
-        current_date: Current date
+        current_date: Aktuelles Datum
     error:
       internal: Ein interner Fehler ist aufgetreten.
       cannot_save_changes_with_message: 'Ihre Änderungen können nicht gespeichert
@@ -670,8 +670,8 @@ de:
         highlighting_mode:
           description: Farbliche Hervorherbung
           none: Keine Hervorhebung
-          inline: Highlighted attribute(s)
-          inline_all: All attributes
+          inline: Hervorgehobene Attribute
+          inline_all: Alle Attribute
           entire_row_by: Gesamte Zeile durch
           status: Status
           priority: Priorität
