@@ -1,7 +1,11 @@
 <ng-container>
   <div *ngIf="error" class="notification-box -error">
     <div class="notification-box--content">
-      <span [textContent]="error"></span>
+      <p>
+        <strong [textContent]="text.errorTitle"></strong>
+        <br/>
+        <span [textContent]="error"></span>
+      </p>
     </div>
   </div>
 
