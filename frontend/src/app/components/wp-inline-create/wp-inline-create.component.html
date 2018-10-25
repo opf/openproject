@@ -7,12 +7,24 @@
               href
               role="link"
               [focus]="focus"
+              [ngClass]="{'wp-inline-create--split-link': isReferencable }"
               (accessibleClick)="handleAddRowClick()"
               [attr.disabled]="!isAllowed || undefined"
               [attr.aria-label]="text.create"
               aria-haspopup="true">
         <op-icon icon-classes="icon icon-add"></op-icon>
       </a>
+      <ng-container *ngIf="isReferencable">
+        <a class="wp-inline-create--reference-link wp-inline-create--split-link"
+           href
+           role="link"
+           (accessibleClick)="handleReferenceClick()"
+           [attr.disabled]="!isAllowed || undefined"
+           [attr.aria-label]="text.create"
+           aria-haspopup="true">
+          <op-icon icon-classes="icon icon-add"></op-icon>
+        </a>
+      </ng-container>
     </div>
   </td>
 </tr>

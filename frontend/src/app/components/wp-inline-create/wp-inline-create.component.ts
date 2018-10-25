@@ -85,6 +85,10 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
     create: this.I18n.t('js.label_create_work_package')
   };
 
+  // Linking state
+
+  public isReferencable = false;
+
   private currentWorkPackage:WorkPackageResource | null;
 
   private workPackageEditForm:WorkPackageEditForm | undefined;
