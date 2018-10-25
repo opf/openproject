@@ -48,23 +48,21 @@
                 homescreenTour();
             }
 
-            // ------------------------------- Decide for tour depending on backlogs -------------------------------
-            if (currentTourPart === "startProjectTour" || url.searchParams.get("start_onboarding_tour")) {
+            // ------------------------------- Tutorial WP page -------------------------------
+            if (currentTourPart === "startWpTour" || url.searchParams.get("start_onboarding_tour")) {
+                workPackageTour();
+            }
+
+            // ------------------------------- Tutorial Backlogs page -------------------------------
+            if (url.searchParams.get("start_scrum_onboarding_tour")) {
                 if ($('.backlogs-menu-item').length > 0) {
                     backlogsTour();
-                } else {
-                    workPackageTour();
                 }
             }
 
             // ------------------------------- Tutorial Task Board page -------------------------------
             if (currentTourPart === "startTaskBoardTour") {
                 taskboardTour();
-            }
-
-            // ------------------------------- Tutorial WP page -------------------------------
-            if (currentTourPart === "startWpTour") {
-                workPackageTour();
             }
         }
 

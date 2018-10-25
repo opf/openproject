@@ -1,7 +1,8 @@
 @mixin onboarding-button-styles
   color: white
-  border: 2px solid $alternative-color
-  background: $alternative-color
+  border: 2px solid
+  @include varprop(border-color, alternative-color)
+  @include varprop(background, alternative-color)
   -webkit-box-sizing: content-box
   box-sizing: content-box
   -webkit-transition: background-color 0.3s cubic-bezier(0, 0, 0, 0), color 0.3s cubic-bezier(0, 0, 0, 0), width 0.3s cubic-bezier(0, 0, 0, 0), border-width 0.3s cubic-bezier(0, 0, 0, 0), border-color 0.3s cubic-bezier(0, 0, 0, 0)
@@ -9,11 +10,11 @@
   -o-transition: background-color 0.3s cubic-bezier(0, 0, 0, 0), color 0.3s cubic-bezier(0, 0, 0, 0), width 0.3s cubic-bezier(0, 0, 0, 0), border-width 0.3s cubic-bezier(0, 0, 0, 0), border-color 0.3s cubic-bezier(0, 0, 0, 0)
   transition: background-color 0.3s cubic-bezier(0, 0, 0, 0), color 0.3s cubic-bezier(0, 0, 0, 0), width 0.3s cubic-bezier(0, 0, 0, 0), border-width 0.3s cubic-bezier(0, 0, 0, 0), border-color 0.3s cubic-bezier(0, 0, 0, 0)
   &:hover
-    background: darken($alternative-color, 10%)
-    border-color: darken($alternative-color, 10%)
+    @include varprop(border-color, button--alt-highlight-background-hover-color)
+    @include varprop(background, button--alt-highlight-background-hover-color)
   &:active
-    background: darken($alternative-color, 10%)
-    border-color: darken($alternative-color, 10%)
+    @include varprop(border-color, button--alt-highlight-background-hover-color)
+    @include varprop(background, button--alt-highlight-background-hover-color)
     -webkit-transition: none
     -moz-transition: none
     -o-transition: none
@@ -135,7 +136,7 @@
 
 .enjoyhint_btn-transparent
   background: transparent
-  color: $alternative-color
+  @include varprop(color, alternative-color)
   &:hover
     color: white
   &:active
@@ -158,7 +159,7 @@
 .enjoyhint_btn
   &:hover
     color: rgba(255, 255, 255, 1)
-    background: darken($alternative-color, 10%)
+    @include varprop(background, button--alt-highlight-background-hover-color)
   &:active
     border: 2px solid rgba(33, 224, 163, 1)
     background: rgba(33, 224, 163, 1)

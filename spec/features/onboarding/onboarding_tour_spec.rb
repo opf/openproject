@@ -45,7 +45,7 @@ describe 'onboarding tour for new users', js: true do
 
     it 'I can select a language' do
       visit home_path first_time_user: true
-      expect(page).to have_text 'Please select your language for OpenProject'
+      expect(page).to have_text 'Please select your language'
 
       select 'Deutsch', :from => 'user_language'
       click_button 'Save'
@@ -107,7 +107,7 @@ describe 'onboarding tour for new users', js: true do
         expect(page).to have_text 'Please select one of the projects with useful demo data to get started.'
 
         find('.welcome').click_link 'Demo project'
-        expect(page).to have_current_path project_work_packages_path(project.identifier)
+        expect(page).to have_current_path "/projects/#{project.identifier}/work_packages/?start_onboarding_tour=true"
         expect(page).not_to have_selector('.loading-indicator')
         expect(page).to have_text  'This is the Work package list'
 

@@ -19,11 +19,11 @@
                     // This will be removed once the project selection is implemented
                     jQuery(".widget-box.welcome a:contains(" + scrumDemoProjectName + ")").click(function () {
                         tutorialInstance.trigger('next');
-                        window.location = this.href + '/backlogs';
+                        window.location = this.href + '/backlogs/?start_scrum_onboarding_tour=true';
                     });
                     jQuery(".widget-box.welcome a:contains(" + demoProjectName + ")").click(function () {
                         tutorialInstance.trigger('next');
-                        window.location = this.href + '/work_packages';
+                        window.location = this.href + '/work_packages/?start_onboarding_tour=true';
                     });
                     // Disable clicks on other links
                     $('.widget-box.welcome a').addClass('-disabled').bind('click', preventClickHandler);
