@@ -33,21 +33,21 @@ en:
         text: |
           Select one of the demo projects to get started with some demo data we have prepared for you.
 
-          * [Demo project](/projects/demo-project): to get an overview about classical project management.
-          * [Scrum project](/projects/your-scrum-project): to learn about Agile and Scrum project management.
+          * [Demo project](%{base_url}/projects/demo-project): to get an overview about classical project management.
+          * [Scrum project](%{base_url}/projects/your-scrum-project): to learn about Agile and Scrum project management.
 
-          Also, you can create a blank [new project](/projects/new).
+          Also, you can create a blank [new project](%{base_url}/projects/new).
 
           Never stop collaborating. With open source and open mind.
 
-          You can change this welcome text [here](/settings).
+          You can change this welcome text [here](%{base_url}/settings).
       projects:
         demo-project:
           name: Demo project
           identifier: demo-project
           description: >
             **This is a demo project**. You can edit the description in
-            the [Project settings -> Description](/projects/demo-project/settings).
+            the [Project settings -> Description](%{base_url}/projects/demo-project/settings).
           timeline:
             name: Timeline
           modules:
@@ -131,7 +131,7 @@ en:
               children:
                 - subject: Create a new project
                   description: |
-                    Please [create a new project](/projects/new) from the project drop down menu in the left hand header navigation.
+                    Please [create a new project](%{base_url}/projects/new) from the project drop down menu in the left hand header navigation.
 
                     **You can:**
                     * give your project a name,
@@ -152,7 +152,7 @@ en:
                     - new_project.jpg
                 - subject: Customize project overview page
                   description: |
-                    You can [customize your project overview page](/my_projects_overview/demo-project/page_layout) to add important information, such as project description, important links, work packages overview, news, and much more.
+                    You can [customize your project overview page](%{base_url}/my_projects_overview/demo-project/page_layout) to add important information, such as project description, important links, work packages overview, news, and much more.
 
                     **You can:**
                     * edit the project overview by clicking on the gear icon,
@@ -174,7 +174,7 @@ en:
                     - project_overview.jpg
                 - subject: Activate further modules
                   description: |
-                    Please activate further [Modules](/projects/demo-project/settings/modules) in the Project settings in order to have more features in your project.
+                    Please activate further [Modules](%{base_url}/projects/demo-project/settings/modules) in the Project settings in order to have more features in your project.
 
                     **You can:**
                     * add a Scrum module (Backlogs),
@@ -196,7 +196,7 @@ en:
                     - project_modules.jpg
                 - subject: Invite new team members
                   description: |
-                    Please invite new team members by going to [Members](/projects/demo-project/members) in the project navigation.
+                    Please invite new team members by going to [Members](%{base_url}/projects/demo-project/members) in the project navigation.
 
                     **You can:**
                     * add existing users to  a project by typing in their names,
@@ -217,7 +217,7 @@ en:
                     - project_members.jpg
                 - subject: Create work packages
                   description: |
-                    Please create work packages for your project. Go to [Work package](/projects/demo-project/work_packages) and click the green +Create button.
+                    Please create work packages for your project. Go to [Work package](%{base_url}/projects/demo-project/work_packages) and click the green +Create button.
 
                     **You can**:
                     * create any type of work, e.g. features, tasks, bugs, risks, ideas,
@@ -263,7 +263,7 @@ en:
                     - gantt_chart.jpg
                 - subject: Edit a work package
                   description: |
-                    [Edit a work package](/projects/demo-project/work_packages/41/activity) by double clicking on a row in the list view or open the split screen with the "i".
+                    [Edit a work package](%{base_url}/projects/demo-project/work_packages/41/activity) by double clicking on a row in the list view or open the split screen with the "i".
 
                     **You can**:
                     * change title or description,
@@ -384,7 +384,7 @@ en:
           identifier: your-scrum-project
           description: |
             *This is a Scrum demo project.*
-            You can edit the project description in the [Project settings -> Description](/projects/your-scrum-project/settings).
+            You can edit the project description in the [Project settings -> Description](%{base_url}/projects/your-scrum-project/settings).
           timeline:
             name: Timeline
           modules:
@@ -424,8 +424,8 @@ en:
 
                   * Divided into two additional time boxes of 4 h:
 
-                      * The Product Owner presents the team the [Product Backlog](/projects/your-scrum-project/backlogs) and the priorities and explanes the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team committs to the discussed delivery.
-                      * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog](/projects/your-scrum-project/backlogs).
+                      * The Product Owner presents the team the [Product Backlog](%{base_url}/projects/your-scrum-project/backlogs) and the priorities and explanes the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team committs to the discussed delivery.
+                      * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog](%{base_url}/projects/your-scrum-project/backlogs).
 
 
                   ### Daily Scrum meeting
@@ -671,8 +671,8 @@ en:
 
             * Divided into two additional time boxes of 4 h:
 
-                * The Product Owner presents the team the [Product Backlog](/projects/your-scrum-project/backlogs) and the priorities and explanes the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team committs to the discussed delivery.
-                * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog](/projects/your-scrum-project/backlogs).
+                * The Product Owner presents the team the [Product Backlog](%{base_url}/projects/your-scrum-project/backlogs) and the priorities and explanes the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team committs to the discussed delivery.
+                * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog](%{base_url}/projects/your-scrum-project/backlogs).
 
 
             ### Daily Scrum meeting
