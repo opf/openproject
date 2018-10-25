@@ -128,7 +128,7 @@
     "preserve": "./scripts/link_plugin_placeholder.js",
     "serve": "ng serve",
     "pretest": "./scripts/link_plugin_placeholder.js",
-    "test": "ng test",
+    "test": "ng test --watch=false",
     "tslint_typechecks": "./node_modules/.bin/tslint -p . -c tslint_typechecks.json",
     "generate-typings": "tsc -d -p src/tsconfig.app.json",
     "legacy-webpack": "./node_modules/.bin/webpack --colors --config legacy/webpack.config.js",
