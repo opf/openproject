@@ -35,7 +35,7 @@ module DemoData
     end
 
     def seed_data!
-      text = I18n.t("seeders.demo_data.projects.#{key}.wiki")
+      text = translate_with_base_url("seeders.demo_data.projects.#{key}.wiki")
 
       return if text.is_a?(String) && text.start_with?("translation missing")
 

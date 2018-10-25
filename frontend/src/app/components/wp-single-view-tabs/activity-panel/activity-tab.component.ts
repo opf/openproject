@@ -42,7 +42,7 @@ import {AngularTrackingHelpers} from "core-components/angular/tracking-functions
 export class WorkPackageActivityTabComponent extends ActivityPanelBaseController implements OnDestroy {
   public workPackage:WorkPackageResource;
   public tabName = this.I18n.t('js.work_packages.tabs.activity');
-  public trackByHref = AngularTrackingHelpers.trackByHref;
+  public trackByHref = AngularTrackingHelpers.trackByHrefAndProperty('version');
 
   constructor(readonly wpCacheService:WorkPackageCacheService,
               readonly $transition:Transition,

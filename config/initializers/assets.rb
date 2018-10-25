@@ -26,6 +26,7 @@ OpenProject::Application.configure do
     types_checkboxes.js
     work_packages.js
     vendor/ckeditor/ckeditor.*js
+    vendor/enjoyhint.js
     bundles/openproject-legacy-app.js
   )
 end
