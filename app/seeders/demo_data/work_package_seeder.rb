@@ -54,7 +54,7 @@ module DemoData
     private
 
     def seed_demo_work_packages
-      work_packages_data = I18n.t("seeders.demo_data.projects.#{key}.work_packages")
+      work_packages_data = translate_with_base_url("seeders.demo_data.projects.#{key}.work_packages")
 
       work_packages_data.each do |attributes|
         print '.'
@@ -108,15 +108,15 @@ module DemoData
     end
 
     def find_priority(attributes)
-      IssuePriority.find_by(name: I18n.t(attributes[:priority]))
+      IssuePriority.find_by(name: translate_with_base_url(attributes[:priority]))
     end
 
     def find_status(attributes)
-      Status.find_by!(name: I18n.t(attributes[:status]))
+      Status.find_by!(name: translate_with_base_url(attributes[:status]))
     end
 
     def find_type(attributes)
-      Type.find_by!(name: I18n.t(attributes[:type]))
+      Type.find_by!(name: translate_with_base_url(attributes[:type]))
     end
 
     def set_version!(wp_attr, attributes)
@@ -152,7 +152,7 @@ module DemoData
     end
 
     def set_workpackage_relations
-      work_packages_data = I18n.t("seeders.demo_data.projects.#{key}.work_packages")
+      work_packages_data = translate_with_base_url("seeders.demo_data.projects.#{key}.work_packages")
 
       work_packages_data.each do |attributes|
         create_relations attributes
