@@ -65,6 +65,7 @@ import {IWorkPackageEditingServiceToken} from "../wp-edit-form/work-package-edit
 import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 import {CurrentUserService} from "core-components/user/current-user.service";
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
+import {WorkPackageInlineReferenceComponent} from "core-components/wp-inline-create/wp-inline-reference.component";
 
 @Component({
   selector: '[wpInlineCreate]',
@@ -77,17 +78,17 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
 
   // inner state
 
-  public isHidden:boolean = false;
+  // Inline create / reference row is active
+  public mode:'inactive'|'create'|'reference' = 'inactive';
 
   public focus:boolean = false;
 
   public text = {
-    create: this.I18n.t('js.label_create_work_package')
+    create: this.I18n.t('js.label_create_work_package'),
+    reference: 'Reference',
   };
 
   // Linking state
-
-  public isReferencable = false;
 
   private currentWorkPackage:WorkPackageResource | null;
 
@@ -99,8 +100,8 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
 
   private $element:JQuery;
 
-  constructor(protected readonly elementRef:ElementRef,
-              protected readonly injector:Injector,
+  constructor(public readonly injector:Injector,
+              protected readonly elementRef:ElementRef,
               protected readonly FocusHelper:FocusHelperService,
               protected readonly I18n:I18nService,
               protected readonly tableState:TableState,
@@ -120,6 +121,10 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
 
   ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
+  }
+
+  get isActive():boolean {
+    return this.mode !== 'inactive';
   }
 
   ngOnChanges() {
@@ -167,7 +172,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
     this.tableState.columns
       .values$()
       .pipe(
-        filter(() => this.isHidden), // Take only when row is inserted
+        filter(() => this.isActive), // Take only when row is inserted
         untilComponentDestroyed(this),
       )
       .subscribe(() => {
@@ -211,6 +216,19 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
   public handleAddRowClick() {
     this.addWorkPackageRow();
     return false;
+  }
+
+  public handleReferenceClick() {
+    this.mode = 'reference';
+    return false;
+  }
+
+  public get referenceClass() {
+    return WorkPackageInlineReferenceComponent;
+  }
+
+  public get hasReferenceClass() {
+    return true; // !!this.wpInlineCreate.referenceComponentClass;
   }
 
   public addWorkPackageRow() {
@@ -306,11 +324,11 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
   }
 
   public showRow() {
-    return this.isHidden = false;
+    this.mode = 'inactive';
   }
 
   public hideRow() {
-    return this.isHidden = true;
+    this.mode = 'create';
   }
 
   public get colspan():number {

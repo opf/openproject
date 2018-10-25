@@ -221,6 +221,7 @@ import {WorkPackageEmbeddedGraphComponent} from "core-components/wp-table/embedd
 import {WorkPackageByVersionGraphComponent} from "core-components/wp-by-version-graph/wp-by-version-graph.component";
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
 import {WorkPackageCommentFieldComponent} from "core-components/work-packages/work-package-comment/wp-comment-field.component";
+import {WorkPackageInlineReferenceComponent} from "core-components/wp-inline-create/wp-inline-reference.component";
 
 @NgModule({
   imports: [
@@ -447,6 +448,7 @@ import {WorkPackageCommentFieldComponent} from "core-components/work-packages/wo
 
     // Inline create
     WorkPackageInlineCreateComponent,
+    WorkPackageInlineReferenceComponent,
 
     // Embedded table
     WorkPackageEmbeddedTableComponent,
@@ -527,6 +529,9 @@ import {WorkPackageCommentFieldComponent} from "core-components/work-packages/wo
     WorkPackageOverviewTabComponent,
     WorkPackageEditFieldGroupComponent,
     WorkPackageCommentFieldComponent,
+
+    // Inline create
+    WorkPackageInlineReferenceComponent,
 
     // Searchbar
     ExpandableSearchComponent,

@@ -26,45 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  Component,
-  ElementRef, HostListener,
-  Inject, Injectable,
-  Injector,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit
-} from '@angular/core';
-import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
-import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
-import {filter, takeUntil} from 'rxjs/operators';
+import {Injectable, OnDestroy} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
-import {TableRowEditContext} from '../wp-edit-form/table-row-edit-context';
-import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
-import {WorkPackageEditForm} from '../wp-edit-form/work-package-edit-form';
-import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-service';
-import {WorkPackageFilterValues} from '../wp-edit-form/work-package-filter-values';
-import {TimelineRowBuilder} from '../wp-fast-table/builders/timeline/timeline-row-builder';
-import {onClickOrEnter} from '../wp-fast-table/handlers/click-or-enter-handler';
-import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
-import {WorkPackageTableFiltersService} from '../wp-fast-table/state/wp-table-filters.service';
-import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
-import {WorkPackageCreateService} from '../wp-new/wp-create.service';
-import {
-  inlineCreateCancelClassName,
-  InlineCreateRowBuilder,
-  inlineCreateRowClassName
-} from './inline-create-row-builder';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
-import {IWorkPackageEditingServiceToken} from "../wp-edit-form/work-package-editing.service.interface";
-import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
-import {CurrentUserService} from "core-components/user/current-user.service";
 import {Observable, Subject} from "rxjs";
+import {ComponentType} from "@angular/cdk/portal";
 
 @Injectable()
 export class WorkPackageInlineCreateService implements OnDestroy {
@@ -84,6 +49,10 @@ export class WorkPackageInlineCreateService implements OnDestroy {
    */
   public newInlineWorkPackageCreated$():Observable<WorkPackageResource> {
     return this._newInlineWorkPackage.asObservable();
+  }
+
+  public get referenceComponentClass():ComponentType<any>|null {
+    return null;
   }
 
   /**
