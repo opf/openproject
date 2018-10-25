@@ -27,6 +27,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 module DemoData
   class VersionBuilder
+    include ::DemoData::References
+
     attr_reader :config
     attr_reader :project
 
@@ -68,7 +70,8 @@ module DemoData
       version.wiki_page_title = config[:title]
       page = WikiPage.create! wiki: version.project.wiki, title: version.wiki_page_title
 
-      WikiContent.create! page: page, author: User.admin.first, text: config[:content]
+      content = with_references config[:content], project
+      WikiContent.create! page: page, author: User.admin.first, text: content
 
       version.save!
     end
