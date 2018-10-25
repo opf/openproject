@@ -64,6 +64,7 @@ pt-BR:
       source_code: Alternar para código Markdown
       error_saving_failed: 'Não foi possível salvar o documento pelo seguinte erro:
         %{error}'
+      error_initialization_failed: Failed to initialize CKEditor!
       mode:
         manual: Alternar para fonte Markdown
         wysiwyg: Alternar para editor WYSIWYG

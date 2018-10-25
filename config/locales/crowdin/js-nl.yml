@@ -63,6 +63,7 @@ nl:
       source_code: Wissel Markdown bronmodus
       error_saving_failed: Het opslaan van het document is mislukt met de volgende
         foutmelding:%{error}
+      error_initialization_failed: Failed to initialize CKEditor!
       mode:
         manual: Schakel naar de bron van het Markdown
         wysiwyg: Schakel over naar de WYSIWYG-Editor

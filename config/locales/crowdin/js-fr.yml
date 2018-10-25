@@ -64,6 +64,7 @@ fr:
       source_code: Basculer en mode source Markdown
       error_saving_failed: 'L''enregistrement du document a échoué en raison de l''erreur
         suivante: %{error}'
+      error_initialization_failed: Failed to initialize CKEditor!
       mode:
         manual: Basculer en mode source Markdown
         wysiwyg: Basculer vers l'éditeur WYSIWYG

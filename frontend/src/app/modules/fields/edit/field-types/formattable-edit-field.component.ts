@@ -38,11 +38,12 @@ export const formattableFieldTemplate = `
         <op-ckeditor [context]="ckEditorContext"
                      [content]="rawValue"
                      (onContentChange)="onContentChange($event)"
+                     (onInitializationFailed)="initializationError = true"
                      (onInitialized)="onCkeditorSetup($event)"
                      [ckEditorType]="editorType">
         </op-ckeditor>
       </div>
-      <edit-field-controls *ngIf="!handler.inEditMode"
+      <edit-field-controls *ngIf="!(handler.inEditMode || initializationError)"
                            [fieldController]="field"
                            (onSave)="handler.handleUserSubmit()"
                            (onCancel)="handler.handleUserCancel()"
@@ -59,6 +60,9 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   readonly pathHelper:PathHelperService = this.$injector.get(PathHelperService);
 
   public readonly field = this;
+
+  // Detect when inner component could not be initalized
+  public initializationError = false;
 
   @ViewChild(OpCkeditorComponent) instance:OpCkeditorComponent;
 

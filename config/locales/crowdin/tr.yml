@@ -2214,7 +2214,7 @@ tr:
   setting_welcome_on_homescreen: Hoşgeldiniz bloğunu ana ekranda göster
   setting_wiki_compression: Wiki geçmişini sıkıştır
   setting_work_package_group_assignment: Gruplara iş atanmasına izin ver
-  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighting_mode: Varsayılan vurgulama modu
   setting_work_package_list_default_highlighted_attributes: Default inline highlighted
     attributes
   settings:

@@ -62,6 +62,7 @@ pl:
       preview: Przełącz tryb podglądu
       source_code: Toggle Markdown source mode
       error_saving_failed: 'Zapisywanie dokumentu nie powiodło się, błąd: %{error}'
+      error_initialization_failed: Failed to initialize CKEditor!
       mode:
         manual: Switch to Markdown source
         wysiwyg: Switch to WYSIWYG editor

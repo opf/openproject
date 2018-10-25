@@ -60,8 +60,9 @@ tr:
     description_subwork_package: "#%{id} nolu iş paketinin alt parçası"
     editor:
       preview: Önizleme modunu aç/kapat
-      source_code: İşaretleme kaynak modunu değiştir
+      source_code: Markdown kaynak modunu değiştir
       error_saving_failed: 'Aşağıdaki nedenden dolayı belge kayıt edilemedi: %{error}'
+      error_initialization_failed: Failed to initialize CKEditor!
       mode:
         manual: Markdown kaynağına geç
         wysiwyg: WYSIWYG düzenleyiciye geç
@@ -110,7 +111,7 @@ tr:
     custom_actions:
       date:
         specific: açık
-        current_date: Current date
+        current_date: Geçerli tarih
     error:
       internal: İç hata oluştu.
       cannot_save_changes_with_message: 'Değişikliklerinizin kaydedilememesine sebep
@@ -654,8 +655,8 @@ tr:
         highlighting_mode:
           description: Rekle vurgula
           none: Vurgulama
-          inline: Highlighted attribute(s)
-          inline_all: All attributes
+          inline: Vurgulanan öznitelik(ler)
+          inline_all: Tüm öznitelikler
           entire_row_by: Entire row by
           status: Durum
           priority: Öncelik

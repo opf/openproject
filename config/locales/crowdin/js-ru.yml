@@ -62,6 +62,7 @@ ru:
       preview: Переключить режим предпросмотра
       source_code: Переключить режим источника уценок
       error_saving_failed: 'Сохранение документа завершилась следующей ошибкой: %{error}'
+      error_initialization_failed: Failed to initialize CKEditor!
       mode:
         manual: Перейти к источнику уценок
         wysiwyg: Перейти к WYSIWYG-редактору

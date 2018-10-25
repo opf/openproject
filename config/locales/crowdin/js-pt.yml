@@ -63,6 +63,7 @@ pt:
       preview: Alternar modo de pré-visualização
       source_code: Toggle Markdown source mode
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      error_initialization_failed: Failed to initialize CKEditor!
       mode:
         manual: Switch to Markdown source
         wysiwyg: Switch to WYSIWYG editor
@@ -305,7 +306,7 @@ pt:
       work_package_belongs_to: Este pacote de trabalho pertence ao projeto %{projectname}.
       click_to_switch_context: Abra este pacote de trabalho nesse projeto.
       autocompleter:
-        label: Autocompletar Projeto
+        label: Conclusão automática do Projecto
     text_are_you_sure: Tem a certeza?
     types:
       attribute_groups:

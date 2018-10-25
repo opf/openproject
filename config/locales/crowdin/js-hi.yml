@@ -62,6 +62,7 @@ hi:
       preview: Toggle preview mode
       source_code: Markdown स्रोत मोड टॉगल करें
       error_saving_failed: 'दस्तावेज़ को सहेजना निम्न त्रुटि के साथ विफल हुआ: %{error}'
+      error_initialization_failed: Failed to initialize CKEditor!
       mode:
         manual: Markdown स्रोत पर स्विच करें
         wysiwyg: WYSIWYG संपादक पर जाएं

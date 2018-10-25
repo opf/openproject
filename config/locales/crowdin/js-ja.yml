@@ -60,6 +60,7 @@ ja:
       preview: プレビューモードの切り替え
       source_code: Markdown ソースモードの切り替え
       error_saving_failed: '次のエラーで文書を保存するのに失敗しました: %{error}'
+      error_initialization_failed: Failed to initialize CKEditor!
       mode:
         manual: Markdownソースに切り替える
         wysiwyg: WYSIWYGエディタに切り替えます

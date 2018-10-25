@@ -63,6 +63,7 @@ hu:
       source_code: Váltás Markdown forrás módra
       error_saving_failed: 'A dokumentum mentése a következő hiba miatt nem sikerült:
         %{error}'
+      error_initialization_failed: Failed to initialize CKEditor!
       mode:
         manual: Váltás Markdown forrásra
         wysiwyg: Váltás a WYSIWYG szerkesztőre
