@@ -47,4 +47,13 @@ class Seeder
   def not_applicable_message
     "Skipping #{self.class.name}"
   end
+
+  protected
+
+  ##
+  # Translate the given string with the fixed interpolation for base_url
+  # Deep interpolation is required in order for interpolations on hashes to work!
+  def translate_with_base_url(string)
+    I18n.t(string, deep_interpolation: true, base_url: OpenProject::Configuration.rails_relative_url_root)
+  end
 end

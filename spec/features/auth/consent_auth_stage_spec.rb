@@ -99,6 +99,12 @@ describe 'Authentication Stages', type: :feature, js: true do
 
   context 'when enabled, but consent exists', with_settings: { consent_info: { en: '# Consent header!' } } do
     let(:consent_required) { true }
+
+    after do
+      # Clear session to avoid that the onboarding tour starts
+      page.execute_script("window.sessionStorage.clear();")
+    end
+
     it 'should show consent' do
       expect(Setting.consent_time).to be_blank
       login_with user.login, user_password

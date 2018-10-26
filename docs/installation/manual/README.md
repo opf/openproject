@@ -1,16 +1,15 @@
-# Manual installation of OpenProject 7.0 with Apache on Ubuntu 14.04. LTS
+# Manual installation of OpenProject with Apache on Ubuntu 18.04. LTS
 
 **IMPORTANT: We strongly recommend to use the [OpenProject installers](https://www.openproject.org/download-and-installation) (packaged installation). There is no real advantage installing OpenProject manually.**
 
 
-This tutorial helps you to deploy OpenProject 7.0. Please, aware that:
+This tutorial helps you to deploy the latest stable version of OpenProject. Please, aware that:
 
-This guide requires that you have a clean Ubuntu 14.04 x64 installation
+This guide requires that you have a clean Ubuntu 18.04 x64 installation
 with administrative rights. We have tested the installation guide on an
-Ubuntu Server image, but it should work on any derivative.
+Ubuntu Server image, but it should work on any derivative. You may need to alter some of the commands to match your derivative.
 
-OpenProject will be installed with a MySQL database (the guide should
-work similarly with PostgreSQL).
+OpenProject will be installed with a PostgreSQL database.
 
 OpenProject will be served in a production environment with Apache
 (this guide should work similarly with other servers, like nginx and others)
@@ -46,7 +45,6 @@ sudo passwd openproject #(enter desired password)
                     libssl-dev libreadline-dev                      \
                     libyaml-dev libgdbm-dev                         \
                     libncurses5-dev automake                        \
-                    imagemagick libmagickcore-dev libmagickwand-dev \
                     libtool bison libffi-dev git curl               \
                     poppler-utils unrtf tesseract-ocr catdoc        \
                     libxml2 libxml2-dev libxslt1-dev # nokogiri
@@ -58,10 +56,43 @@ sudo passwd openproject #(enter desired password)
 [root@host] apt-get install -y memcached
 ```
 
-## Installation of MySQL
+## Installation of PostgreSQL
 
-We recommend to use the latest MySQL version (>= 5.7) as it supports
-special charachters such as emojis (emoticons) out of the box.
+We recommend you use PostgreSQL to serve OpenProject. We require PostgreSQL version of at least 9.6. Please check https://www.postgresql.org/download/ if your distributed package is too old.
+
+```bash
+[root@host] apt-get install postgresql postgresql-contrib libpq-dev
+```
+
+Once installed, switch to the PostgreSQL system user.
+
+
+```bash
+[root@host] su - postgres
+```
+
+Then, as the PostgreSQL user, create the system user for OpenProject. This will prompt you for a password. We are going to assume in the following guide that password were 'openproject'. Of course, please choose a strong password and replace the values in the following guide with it!
+
+```bash
+[postgres@host] createuser -W openproject
+```
+
+Next, create the database owned by the new user
+
+```bash
+[postgres@host] createdb -O openproject openproject
+```
+
+Lastly, exit the system user
+
+```bash
+[postgres@host] exit
+# You will be root again now.
+```
+
+### Using MySQL instead
+
+We recommend against using MySQL. If you have to use MySQL instead, please ensure a version of  >= 5.7 as it supports special characters such as emojis (emoticons) out of the box.
 
 If your Linux distribution only provides older versions of MySQL it is worth considering
 [adding MySQL as an `apt` source](https://dev.mysql.com/doc/mysql-apt-repo-quick-guide/en/).
@@ -115,7 +146,7 @@ mysql> QUIT
 
 The are several possibilities to install Ruby on your machine. We will
 use [rbenv](http://rbenv.org/). Please be aware that the actual installation of a specific Ruby version takes some
-time to finsih.
+time to finish.
 
 ```bash
 [root@host] su openproject --login
@@ -125,16 +156,16 @@ time to finsih.
 [openproject@host] source ~/.profile
 [openproject@host] git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
 
-[openproject@host] rbenv install 2.4.4
+[openproject@host] rbenv install 2.5.3
 [openproject@host] rbenv rehash
-[openproject@host] rbenv global 2.4.4
+[openproject@host] rbenv global 2.5.3
 ```
 
 To check our Ruby installation we run `ruby --version`. It should output
 something very similar to:
 
 ```
-ruby 2.4.4p296 (2018-03-28 revision 63013) [x86_64-linux]
+ruby 2.5.3pXYZ (....) [x86_64-linux]
 ```
 
 ## Installation of Node
@@ -153,16 +184,15 @@ time to finsih.
 [openproject@host] source ~/.profile
 [openproject@host] git clone git://github.com/OiNutter/node-build.git ~/.nodenv/plugins/node-build
 
-[openproject@host] nodenv install 6.9.1
+[openproject@host] nodenv install 8.12.0
 [openproject@host] nodenv rehash
-[openproject@host] nodenv global 6.9.1
+[openproject@host] nodenv global 8.12.0
 ```
 
-To check our Node installation we run `node --version`. It should output
-something very similar to:
+To check our Node installation we run `node --version`. It should output something very similar to:
 
 ```
-v6.9.1
+v8.12.0
 ```
 
 ## Installation of OpenProject
@@ -176,7 +206,8 @@ with OpenProject. For more information, see https://github.com/opf/openproject-c
 [openproject@host] git clone https://github.com/opf/openproject-ce.git --branch stable/8 --depth 1
 [openproject@host] cd openproject-ce
 [openproject@host] gem install bundler
-[openproject@host] bundle install --deployment --without postgres sqlite development test therubyracer docker
+# Replace mysql with postgresql if you had to install MySQL
+[openproject@host] bundle install --deployment --without mysql2 sqlite development test therubyracer docker
 [openproject@host] npm install
 ```
 
@@ -189,11 +220,21 @@ Create and configure the database configuration file in config/database.yml
 [openproject@host] cp config/database.yml.example config/database.yml
 ```
 
-Now we edit the `config/database.yml` file and insert our database credentials.
+Now we edit the `config/database.yml` file and insert our database credentials for PostgreSQL.
 It should look like this (please keep in mind that you have to use the values
 you used above: user, database and password):
 
-**On MySQL version 5.7 or greater (recommended)**
+```yaml
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: openproject
+  pool: 5
+  username: openproject
+  password: openproject
+```
+
+** MySQL installation: version 5.7 or greater (recommended)**
 
 The encoding should be set to `utf8mb4` as we created the DB with that encoding
 a few steps ago.
@@ -216,7 +257,7 @@ development:
   encoding: utf8mb4
 ```
 
-**On MySQL version 5.6 or older (not recommended)**
+**MySQL installation: version 5.6 or older (not recommended)**
 
 The encoding should be set to `utf8` as we created the DB with that encoding a
 few steps ago.

@@ -192,11 +192,13 @@ class ProjectsController < ApplicationController
   def archive
     flash[:error] = l(:error_can_not_archive_project) unless @project.archive
     redirect_to(url_for(controller: '/projects', action: 'index', status: params[:status]))
+    update_demo_project_settings @project, false
   end
 
   def unarchive
     @project.unarchive if !@project.active?
     redirect_to(url_for(controller: '/projects', action: 'index', status: params[:status]))
+    update_demo_project_settings @project, true
   end
 
   # Delete @project
@@ -213,6 +215,8 @@ class ProjectsController < ApplicationController
     end
 
     hide_project_in_layout
+
+    update_demo_project_settings @project_to_destroy, false
   end
 
   def destroy_info
@@ -336,5 +340,12 @@ class ProjectsController < ApplicationController
       end
     end
     true
+  end
+
+  def update_demo_project_settings(project, value)
+    # e.g. when one of the demo projects gets deleted or a archived
+    if project.identifier == 'your-scrum-project' || project.identifier == 'demo-project'
+      Setting.demo_projects_available = value
+    end
   end
 end

@@ -26,7 +26,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 module DemoData
-  class QueryBuilder
+  class QueryBuilder < ::Seeder
     attr_reader :config
     attr_reader :project
 
@@ -134,7 +134,7 @@ module DemoData
 
     def set_type_filter!(filters)
       types = Array(config[:type]).map do |name|
-        Type.find_by(name: I18n.t(name))
+        Type.find_by(name: translate_with_base_url(name))
       end
 
       if !types.empty?
