@@ -269,6 +269,26 @@ lol:
     label_validation_error: crwdns101669:0crwdne101669:0
     help_texts:
       show_modal: crwdns101670:0crwdne101670:0
+    onboarding:
+      steps:
+        welcome: crwdns109130:0crwdne109130:0
+        project_selection: crwdns109132:0crwdne109132:0
+        sidebar_arrow: crwdns109134:0crwdne109134:0
+        members: crwdns109136:0crwdne109136:0
+        wiki: crwdns109138:0crwdne109138:0
+        backlogs_overview: crwdns109140:0crwdne109140:0
+        backlogs_task_board_arrow: crwdns109142:0crwdne109142:0
+        backlogs_task_board_select: crwdns109144:0crwdne109144:0
+        backlogs_task_board: crwdns109146:0crwdne109146:0
+        wp_toggler: crwdns109148:0crwdne109148:0
+        wp_list: crwdns109150:0crwdne109150:0
+        wp_full_view: crwdns109152:0crwdne109152:0
+        wp_back_button: crwdns109154:0crwdne109154:0
+        wp_create_button: crwdns109156:0crwdne109156:0
+        wp_timeline_button: crwdns109158:0crwdne109158:0
+        wp_timeline: crwdns109160:0crwdne109160:0
+        help_menu: crwdns109162:0crwdne109162:0
+        got_it: crwdns109164:0crwdne109164:0
     password_confirmation:
       field_description: crwdns101671:0crwdne101671:0
       title: crwdns101672:0crwdne101672:0
