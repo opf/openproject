@@ -379,7 +379,7 @@ tr:
       duplicated: Yineleyen
       blocks: Şunu Engelliyor
       blocked: Şuna Bağlı
-      precedes: Ilerlettiği
+      precedes: Öncülleri
       follows: Takip eden
       includes: İçerir
       partof: Bölümü
