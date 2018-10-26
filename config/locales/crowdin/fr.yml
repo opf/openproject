@@ -1903,7 +1903,7 @@ fr:
       et de la collaboration en équipe avec OpenProject.
     text_show_again: Vous pouvez relancer cette vidéo au départ du menu d'aide
     welcome: Bienvenue dans OpenProject
-    select_language: Veuillez sélectionner votre langue pour OpenProject
+    select_language: Please select your language
   permission_add_work_package_notes: Ajouter des notes
   permission_add_work_packages: Ajouter des lots de travaux
   permission_add_messages: Poster des messages

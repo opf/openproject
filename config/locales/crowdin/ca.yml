@@ -1886,7 +1886,7 @@ ca:
       team collaboration with OpenProject.
     text_show_again: Pot reprendre aquest vídeo des del menú d'ajuda
     welcome: Welcome to OpenProject
-    select_language: Please select your language for OpenProject
+    select_language: Please select your language
   permission_add_work_package_notes: Afegir notes
   permission_add_work_packages: Afegir paquets de treball
   permission_add_messages: Publicar missatges

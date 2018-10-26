@@ -1899,7 +1899,7 @@ ro:
       unui proiect și a activității echipelor folosind OpenProject.
     text_show_again: Poate reporni acest videoclip din meniul de ajutor
     welcome: Welcome to OpenProject
-    select_language: Please select your language for OpenProject
+    select_language: Please select your language
   permission_add_work_package_notes: Adăugare note
   permission_add_work_packages: Adăugare pachete de lucru
   permission_add_messages: Publicare mesaje

@@ -1885,7 +1885,7 @@ pt:
       colaboração da equipa com o OpenProject.
     text_show_again: Pode reiniciar este vídeo através do menu de ajuda
     welcome: Bem-vindo ao OpenProject
-    select_language: Por favor selecione o seu idioma para OpenProject
+    select_language: Please select your language
   permission_add_work_package_notes: Adicionar notas
   permission_add_work_packages: Adicionar tarefas
   permission_add_messages: Publicar mensagens

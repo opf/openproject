@@ -1854,7 +1854,7 @@ tr:
       konusuna genel bir bakış.
     text_show_again: Bu videoyu Yardım menüsünden yeniden başlatabilirsiniz
     welcome: OpenProject'e hoş geldiniz
-    select_language: OpenProject için dilinizi seçin
+    select_language: Please select your language
   permission_add_work_package_notes: Not eklemek
   permission_add_work_packages: İş paketi eklemek
   permission_add_messages: İleti göndermek

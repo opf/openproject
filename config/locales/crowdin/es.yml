@@ -1908,7 +1908,7 @@ es:
       administración de proyectos y la colaboración en equipo con OpenProject.
     text_show_again: Puede reiniciar este vídeo en el menú ayuda
     welcome: Bienvenido a OpenProject
-    select_language: Seleccione el idioma de OpenProject
+    select_language: Please select your language
   permission_add_work_package_notes: Añadir notas
   permission_add_work_packages: Añadir paquetes de trabajo
   permission_add_messages: Publicar mensajes

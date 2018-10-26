@@ -1798,7 +1798,7 @@ ko:
       수 있습니다.
     text_show_again: 도움말 메뉴에서 이 비디오를 다시 시작할 수 있습니다.
     welcome: OpenProject에 오신 것을 환영합니다.
-    select_language: OpenProject에 대한 해당 언어를 선택하세요.
+    select_language: Please select your language
   permission_add_work_package_notes: 메모 추가
   permission_add_work_packages: 작업 패키지 추가
   permission_add_messages: 메시지 게시
