@@ -86,20 +86,6 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
     };
   }
 
-
-  /**
-   * Positioning args for jquery-ui position.
-   *
-   * @param {Event} openerEvent
-   */
-  public positionArgs(openerEvent:Event) {
-    return {
-      my: 'left top',
-      at: 'left bottom',
-      of: this.$element
-    };
-  }
-
   private buildItems(types:TypeResource[]) {
     this.items = types.map((type:TypeResource) => {
       return {
