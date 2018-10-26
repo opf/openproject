@@ -28,6 +28,7 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% form_attributes = form_configuration_groups(@type) %>
+<% query_types = %w{children precedes follows} %>
 
 <%= activate_angular_js :section, class: 'form--section' do %>
   <%= f.hidden_field :attribute_groups, value: attribute_groups_as_json(@type) %>
@@ -97,11 +98,13 @@ See docs/COPYRIGHT.rdoc for more details.
                 <%= t('types.edit.add_group') %>
               </a>
             </li>
-            <li>
-              <a class="form-configuration--add-group" ng-click="<%= show_hint ? 'showEEOnlyHint()' : 'addQuery($event)' %>">
-                <%= t('types.edit.add_subelements') %>
-              </a>
-            </li>
+            <% query_types.each do |query_type| %>
+              <li>
+                <a class="form-configuration--add-group" ng-click="<%= show_hint ? 'showEEOnlyHint()' : "addQuery('#{query_type}')" %>">
+                  <%= t("types.edit.add_table", relation: t("js.types.attribute_groups.query_types.#{query_type}")) %>
+                </a>
+              </li>
+            <% end %>
           </ul>
         </li>
       <% end %>
@@ -124,11 +127,13 @@ See docs/COPYRIGHT.rdoc for more details.
           <div class="attributes" dragula='"attributes"'>
           </div>
         </div>
+
         <div id="type-form-conf-query-template"
              class="type-form-conf-group type-form-query-group"
              data-original-key=""
              data-key=""
-             data-key-is-symbol="false">
+             data-key-is-symbol="false"
+             data-relation="">
           <div class="group-head">
             <span class="group-handle icon-toggle"></span>
             <group-edit-in-place
