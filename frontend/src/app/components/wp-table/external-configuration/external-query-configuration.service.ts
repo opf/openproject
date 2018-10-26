@@ -58,14 +58,21 @@ export class ExternalQueryConfigurationService {
    */
   public show(currentQuery:any,
               callback:(newQuery:any) => void,
-              disabledTabs:{[key:string]:string} = {}):void {
+              disabledTabs:{[key:string]:string} = {},
+              queryType:string):void {
     this.detach();
 
     // Create a portal for the given component class and render it
     const portal = new ComponentPortal(
       ExternalQueryConfigurationComponent,
       null,
-      this.injectorFor({ callback: callback, currentQuery: currentQuery, disabledTabs: disabledTabs }));
+      this.injectorFor({
+                        callback: callback,
+                        currentQuery: currentQuery,
+                        disabledTabs: disabledTabs,
+                        queryType: queryType
+                      })
+    );
     this.bodyPortalHost.attach(portal);
     this._portalHostElement.style.display = 'block';
   }

@@ -125,37 +125,45 @@ function typesFormConfigurationCtrl(
     $scope.updateHiddenFields();
   };
 
-  $scope.addGroup = (event:any) => {
-    let newGroup:JQuery = angular.element('#type-form-conf-group-template').clone();
-    let draggableGroups:JQuery = angular.element('#draggable-groups');
-    let randomId:string = Math.ceil(Math.random() * 10000000).toString();
+
+  $scope.createGroup = (templateSelector:string, groupName?:string, queryType?:string) => {
+    let newGroup: JQuery = angular.element(templateSelector).clone();
+    let draggableGroups: JQuery = angular.element('#draggable-groups');
+    let randomId: string = Math.ceil(Math.random() * 10000000).toString();
 
     // Remove the id of the template:
     newGroup.attr('id', null);
     // Every group needs a key and an original-key:
     newGroup.attr('data-key', randomId);
     newGroup.attr('data-original-key', randomId);
-    angular.element('group-edit-in-place', newGroup).attr('key', randomId);
+
+    if (queryType) {
+      let typeFormQuery = newGroup.closest('.type-form-query');
+      typeFormQuery.attr('data-query-type', queryType);
+    }
+
+    let groupEditInPlace:JQuery = angular.element('group-edit-in-place', newGroup);
+
+    if (groupName) {
+      groupEditInPlace.attr('name', groupName);
+    }
+
+    groupEditInPlace.attr('key', randomId);
 
     draggableGroups.prepend(newGroup);
     $compile(newGroup)($scope);
+  }
+
+  $scope.addGroup = () => {
+    $scope.createGroup('#type-form-conf-group-template');
   };
 
-  $scope.addQuery = (event:any) => {
-    let newGroup:JQuery = angular.element('#type-form-conf-query-template').clone();
-
-    let draggableGroups:JQuery = angular.element('#draggable-groups');
-    let randomId:string = Math.ceil(Math.random() * 10000000).toString();
-
-    // Remove the id of the template:
-    newGroup.attr('id', null);
-    // Every group needs a key and an original-key:
-    newGroup.attr('data-key', randomId);
-    newGroup.attr('data-original-key', randomId);
-    angular.element('group-edit-in-place', newGroup).attr('key', randomId);
-
-    draggableGroups.prepend(newGroup);
-    $compile(newGroup)($scope);
+  $scope.addQuery = (queryType:string) => {
+    $scope.createGroup(
+      '#type-form-conf-query-template',
+      I18n.t(`js.types.attribute_groups.query_types.${queryType}`),
+      queryType
+    );
   };
 
   $scope.editQuery = (event:JQueryEventObject) => {
@@ -171,7 +179,8 @@ function typesFormConfigurationCtrl(
     externalQueryConfiguration.show(
       currentQuery,
       (queryProps:any) => originator.data('queryProps', queryProps),
-      disabledTabs
+      disabledTabs,
+      originator.data('query-type')
     );
   };
 

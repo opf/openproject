@@ -216,7 +216,7 @@ en:
       projects: "Projects"
       enabled_projects: "Enabled projects"
       add_group: "Add attribute group"
-      add_subelements: "Add subelements group"
+      add_table: "Add \"%{relation}\" table"
       edit_query: "Edit embedded query"
       reset: "Reset to defaults"
       type_color_text: |

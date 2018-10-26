@@ -370,6 +370,10 @@ en:
         upgrade_to_ee_text: "Wow! If you need this feature you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise Edition client?"
         more_information: "More information"
         nevermind: "Nevermind"
+        query_types:
+          children: "Children"
+          precedes: "Precedes"
+          follows: "Follows"
 
     watchers:
       label_loading: loading watchers...
