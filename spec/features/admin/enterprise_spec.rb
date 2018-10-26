@@ -90,6 +90,7 @@ describe 'Enterprise token', type: :feature do
         # Expect section to be collapsed
         expect(page).to have_no_selector('#token_encoded_token', visible: true)
 
+        RequestStore.clear!
         expect(EnterpriseToken.current.encoded_token).to eq('foobar')
 
         # Replace token
