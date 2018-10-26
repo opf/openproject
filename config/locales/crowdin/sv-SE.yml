@@ -1032,6 +1032,7 @@ sv-SE:
 '
   error_external_authentication_failed: Ett fel uppstod under extern autentisering.
     Försök igen.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Projektet redigerades
     changeset: Uppdatering redigerades
@@ -1081,7 +1082,7 @@ sv-SE:
       upsale:
         become_hero: Bli en hjälte!
         title: Uppgradera till Enterprise Edition
-        description: Öka produktiviteten med Enterprise Edition
+        description: What are the benefits?
         more_info: Mer information
         additional_features: Ytterligare kraftfulla premium-funktioner
         professional_support: Professionell support från OpenProject-experterna
@@ -1854,7 +1855,7 @@ sv-SE:
       samarbete med OpenProject.
     text_show_again: Du kan starta om denna video från hjälpmenyn
     welcome: Välkommen till OpenProject
-    select_language: Vänligen välj språk för OpenProject
+    select_language: Please select your language
   permission_add_work_package_notes: Lägg till anteckningar
   permission_add_work_packages: Lägg till arbetspaket
   permission_add_messages: Publicera meddelanden
@@ -2211,8 +2212,9 @@ sv-SE:
   setting_welcome_on_homescreen: Visa välkomstblocket på hemsidan
   setting_wiki_compression: Wiki komprimera historia
   setting_work_package_group_assignment: Tillåt tilldelning till grupper
-  setting_work_package_list_default_highlighting_mode: Default work package highlighting
-    mode
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: Allmänt
     other: Andra
@@ -2222,6 +2224,13 @@ sv-SE:
     user:
       default_preferences: Förvalda inställningar
       deletion: Borttagning
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: No highlighting
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: Oformaterad text

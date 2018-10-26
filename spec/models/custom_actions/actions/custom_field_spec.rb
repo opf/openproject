@@ -508,9 +508,17 @@ describe CustomActions::Actions::CustomField, type: :model do
 
       it_behaves_like 'string custom action validations'
     end
+
+    context 'for a date custom field' do
+      let(:custom_field) { date_custom_field }
+
+      it_behaves_like 'date custom action validations'
+    end
   end
 
   describe '#apply' do
+    let(:work_package) { double('work_package') }
+
     %i[list
        version
        bool
@@ -523,7 +531,6 @@ describe CustomActions::Actions::CustomField, type: :model do
        list_multi].each do |type|
 
       let(:custom_field) { send(:"#{type}_custom_field") }
-      let(:work_package) { double('work_package') }
 
       it "sets the value for #{type} custom fields" do
         expect(work_package)
@@ -531,6 +538,20 @@ describe CustomActions::Actions::CustomField, type: :model do
           .with([42])
 
         instance.values = 42
+
+        instance.apply(work_package)
+      end
+    end
+
+    context 'for a date custom field' do
+      let(:custom_field) { date_custom_field }
+
+      it "sets the value to today for a dynamic value" do
+        expect(work_package)
+          .to receive(:"custom_field_#{custom_field.id}=")
+                .with(Date.today)
+
+        instance.values = '%CURRENT_DATE%'
 
         instance.apply(work_package)
       end

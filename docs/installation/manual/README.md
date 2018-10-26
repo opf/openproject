@@ -63,7 +63,7 @@ sudo passwd openproject #(enter desired password)
 We recommend to use the latest MySQL version (>= 5.7) as it supports
 special charachters such as emojis (emoticons) out of the box.
 
-If your Linux distribution only provides older versions of MySQL it is worth considering 
+If your Linux distribution only provides older versions of MySQL it is worth considering
 [adding MySQL as an `apt` source](https://dev.mysql.com/doc/mysql-apt-repo-quick-guide/en/).
 
 Once you have your `apt` sources nicely set up install the packages.
@@ -94,8 +94,8 @@ mysql> CREATE DATABASE openproject CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode
 **On MySQL version 5.6 or older (not recommended)**
 
 (!!) No support for emojis (emoticons). See above! If you have to use
-5.6 or older and you need to support special unicode characters you can 
-get there but we don't provide the instructions here as it would bloat 
+5.6 or older and you need to support special unicode characters you can
+get there but we don't provide the instructions here as it would bloat
 this manual.  
 
 ```sql
@@ -173,7 +173,7 @@ with OpenProject. For more information, see https://github.com/opf/openproject-c
 
 ```bash
 [openproject@host] cd ~
-[openproject@host] git clone https://github.com/opf/openproject-ce.git --branch stable/7 --depth 1
+[openproject@host] git clone https://github.com/opf/openproject-ce.git --branch stable/8 --depth 1
 [openproject@host] cd openproject-ce
 [openproject@host] gem install bundler
 [openproject@host] bundle install --deployment --without postgres sqlite development test therubyracer docker
@@ -196,7 +196,7 @@ you used above: user, database and password):
 **On MySQL version 5.7 or greater (recommended)**
 
 The encoding should be set to `utf8mb4` as we created the DB with that encoding
-a few steps ago. 
+a few steps ago.
 
 ```yaml
 production:
@@ -261,7 +261,7 @@ production:                          #main level
 
 Starting with 5.0, OpenProject directly manages your repositories. To
 use this feature you have to configure OpenProject as shown
-[here](./repository-integration.md).
+[here](../../repositories/README.md).
 
 Add this line into `configuration.yml` file at the end of the file for
 a better performance of OpenProject:
@@ -437,15 +437,15 @@ We do however support an integration with the Apache webserver to create and ser
 
 OpenProject ships with support for so-called *managed* repositories, which can be created and maintained directly within OpenProject and are linked to a single project.
 
-The complete guide for the integration of Subversion and Git repositories can be found in the [repository integration guide](repository-integration.md).
+The complete guide for the integration of Subversion and Git repositories can be found in the [repository integration guide](../../repositories/README.md).
 
 ## Follow-Ups
 
 Your OpenProject installation is ready to run. However, there are some things to consider:
 
-* Regularly backup your OpenProject installation. See the [backup guide](backup-guide.md) for details.
+* Regularly backup your OpenProject installation. See the [backup guide](../../operations/backup/manual/backup.md) for details.
 * Serve OpenProject via https
-* Watch for OpenProject updates. We advise to always run the latest stable version of OpenProject (especially for security updates). Information on how to perform an update can been found in the [upgrade guide](upgrade-guide.md). You can find out about new OpenProject releases in our [news](https://community.openproject.org/projects/openproject/news), or on [twitter](https://twitter.com/openproject).
+* Watch for OpenProject updates. We advise to always run the latest stable version of OpenProject (especially for security updates). Information on how to perform an update can been found in the [upgrade guide](../../operations/upgrading/manual/upgrading.md). You can find out about new OpenProject releases in our [news](https://community.openproject.org/projects/openproject/news), or on [twitter](https://twitter.com/openproject).
 
 
 ## Plug-In installation (Optional)
@@ -531,4 +531,3 @@ If you need to restart the server (for example after a configuration change), do
 
 If you have any further questions, comments, feedback, or an idea to enhance this guide, please tell us at the appropriate community [forum](https://community.openproject.org/projects/openproject/boards/9).
 [Follow OpenProject on twitter](https://twitter.com/openproject), and follow the news on [openproject.org](http://openproject.org) to stay up to date.
-

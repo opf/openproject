@@ -63,9 +63,9 @@ RSpec::Matchers.define :be_equivalent_to_journal do |expected|
 end
 
 describe Journal::AggregatedJournal, type: :model do
-  let(:work_package) {
+  let(:work_package) do
     FactoryBot.build(:work_package)
-  }
+  end
   let(:user1) { FactoryBot.create(:user) }
   let(:user2) { FactoryBot.create(:user) }
   let(:initial_author) { user1 }
@@ -74,8 +74,6 @@ describe Journal::AggregatedJournal, type: :model do
 
   before do
     allow(User).to receive(:current).and_return(initial_author)
-    allow(WorkPackages::UpdateContract).to receive(:new).and_return(NoopContract.new)
-    allow(WorkPackages::CreateNoteContract).to receive(:new).and_return(NoopContract.new)
     work_package.save!
   end
 
@@ -105,9 +103,8 @@ describe Journal::AggregatedJournal, type: :model do
 
       allow(User).to receive(:current).and_return(new_author)
 
-      WorkPackages::UpdateService
-        .new(user: new_author, work_package: work_package)
-        .call(attributes: changes)
+      work_package.attributes = changes
+      work_package.save!
     end
 
     context 'by author of last change' do
@@ -146,9 +143,8 @@ describe Journal::AggregatedJournal, type: :model do
           let(:notes) { 'Another comment, unrelated to the first one.' }
 
           before do
-            AddWorkPackageNoteService
-              .new(user: new_author, work_package: work_package)
-              .call(notes)
+            work_package.add_journal(new_author, notes)
+            work_package.save!
           end
 
           it 'returns two journals' do
@@ -189,9 +185,8 @@ describe Journal::AggregatedJournal, type: :model do
             work_package.reload # need to update the lock_version, avoiding StaleObjectError
             changes = { subject: 'foo' }
 
-            WorkPackages::UpdateService
-              .new(user: new_author, work_package: work_package)
-              .call(attributes: changes)
+            work_package.attributes = changes
+            work_package.save!
           end
 
           it 'returns a single journal' do
@@ -302,9 +297,8 @@ describe Journal::AggregatedJournal, type: :model do
 
       changes = { subject: 'a new subject!' }
 
-      WorkPackages::UpdateService
-        .new(user: new_author, work_package: work_package)
-        .call(attributes: changes)
+      work_package.attributes = changes
+      work_package.save!
     end
 
     it 'only returns the journals for the requested work package' do
@@ -313,9 +307,9 @@ describe Journal::AggregatedJournal, type: :model do
     end
 
     context 'specifying a maximum version' do
-      subject {
+      subject do
         described_class.aggregated_journals(journable: work_package, until_version: version)
-      }
+      end
 
       context 'equal to the latest version' do
         let(:version) { work_package.journals.last.version }

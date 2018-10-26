@@ -44,7 +44,10 @@ See docs/COPYRIGHT.rdoc for more details.
             <% event_type = e.event_type == 'cost_object' ? 'budget' : event_type %>
             <%= icon_wrapper("icon-context icon-#{event_type}", e.event_name) %>
             <span class="time"><%= format_time(e.event_datetime.to_time, false) %></span>
-            <%= content_tag('span', link_to(e.project.name, e.project), class: 'project') if (@project.nil? || @project != e.project) && e.project %>
+            <% if (@project.nil? || @project != e.project) && e.project %>
+              <%= content_tag('span', link_to(e.project.name, e.project), class: 'project') %>
+              <span> - </span>
+            <% end %>
             <%= link_to format_activity_title(e.event_title), e.event_path%>
           </div>
           <div class="description"><%= format_activity_description(e.event_description) %></div>

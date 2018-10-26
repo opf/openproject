@@ -28,12 +28,7 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% action_menu_key = action_menu_key ? action_menu_key : :action_menu_main %>
-<%
-   # TODO FIXME OMG! this is the ugliest hack I ever performed
-   # We need to hide the clearfix in the wiki to avoid additional spacing in the wiki
-   # THIS HACK NEEDS TO BE REPLACED BY AN ENGINEERS SOLUTION!
-   @no_clearfix ||= false
-%>
+
 <div class="toolbar-container">
   <div class="toolbar">
     <ul class="toolbar-items <%= action_menu_key %> <%= action_menu_key.to_s.gsub('action_menu_', 'legacy-actions-') %>">
@@ -53,7 +48,3 @@ See docs/COPYRIGHT.rdoc for more details.
     </ul>
   </div>
 </div>
-
-<% unless @no_clearfix %>
-  <div class="clearfix"></div>
-<% end %>

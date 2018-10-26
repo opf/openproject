@@ -44,3 +44,28 @@
   border-left: 1px solid $table-row-border-color
 .-table-border-right
   border-right: 1px solid $table-row-border-color
+
+.autoscroll
+  overflow-x: auto
+  padding: 1px
+  margin-bottom: 1.2em
+
+.-hidden-overflow
+  overflow: hidden !important
+
+.indent
+  padding-left: 10px
+
+.total-hours
+  font-weight: bold
+
+.ellipsis,
+.form--field.ellipsis .form--label
+  @include text-shortener
+
+.other-formats
+  font-size: 0.9em
+  color: $gray-dark
+
+  span + span:before
+    content: "| "

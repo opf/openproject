@@ -112,6 +112,10 @@ de:
         embedded_table:
           button: Arbeitspaket-Tabelle einbetten
           text: "[Platzhalter] Eingebette Arbeitspaket-Tabelle"
+    custom_actions:
+      date:
+        specific: am
+        current_date: Aktuelles Datum
     error:
       internal: Ein interner Fehler ist aufgetreten.
       cannot_save_changes_with_message: 'Ihre Änderungen können nicht gespeichert
@@ -481,6 +485,8 @@ de:
         führen ein Upgrade auf Microsoft Edge durch.
       learn_more: Weitere Informationen
       close_warning: Diese Warnung ignorieren.
+    upsale:
+      ee_only: Enterprise-Edition Feature
     wiki_formatting:
       strong: Fett
       italic: Kursiv
@@ -664,15 +670,16 @@ de:
         highlighting_mode:
           description: Farbliche Hervorherbung
           none: Keine Hervorhebung
-          inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline: Hervorgehobene Attribute
+          inline_all: Alle Attribute
           entire_row_by: Gesamte Zeile durch
           status: Status
           priority: Priorität
+          type: Typ
         columns_help_text: Verwenden Sie die Eingabe oben um Spalten zur Tabellenansicht
           hinzuzufügen oder zu entfernen. Sie können die Reihenfolge der Spalten über
           Drag & Drop verändern.
         upsale:
-          ee_only: Enterprise-Edition Feature
           attribute_highlighting: Sollen bestimmte Arbeitspakete aus der Menge herausstechen?
           relation_columns: Möchten Sie Zusammenhänge in der Arbeitspaketliste anzeigen?
           check_out_link: Testen Sie die Enterprise Edition.
@@ -710,7 +717,7 @@ de:
     modals:
       label_settings: Ansicht umbenennen
       label_name: Name
-      label_delete_page: Aktuelle Ansicht löschen
+      label_delete_page: Aktuelle Seite löschen
       button_apply: Anwenden
       button_save: Speichern
       button_submit: OK

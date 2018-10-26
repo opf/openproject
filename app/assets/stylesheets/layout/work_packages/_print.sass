@@ -106,13 +106,15 @@
       .work-packages-full-view--split-container
         display: block
 
-  // ------------------Only WP full scren view ------------------
+  // ------------------Only WP full screen view ------------------
   body.controller-work_packages.action-show
     // Since there is no toolbar and WP-back button the header can span 100%
     .wp-show--header-container
       flex-basis: 100%
     .work-packages-full-view--split-right
-      overflow: auto
+      overflow: visible
+      flex-basis: initial !important
+
 
     // decrease padding under subject
     .work-packages--show-view > .toolbar-container
@@ -121,7 +123,7 @@
 
     // Overwrite "click to add description" placeholder with a simple dash.
     .wp-edit-field.description.-placeholder
-      span
+      .read-value--html
         display: none
       &:after
         content: '-'

@@ -109,6 +109,10 @@ es:
         embedded_table:
           button: Insertar tabla de paquetes de trabajo
           text: "[Placeholder] Tabla de paquetes de trabajo insertada"
+    custom_actions:
+      date:
+        specific: en
+        current_date: Current date
     error:
       internal: Ha ocurrido un error interno.
       cannot_save_changes_with_message: 'No se pueden guardar los cambios debido al
@@ -477,6 +481,8 @@ es:
         a Microsoft Edge.
       learn_more: Saber más
       close_warning: Ignore esta advertencia.
+    upsale:
+      ee_only: Característica exclusiva de Enterprise Edition
     wiki_formatting:
       strong: Negrita
       italic: Cursiva
@@ -657,15 +663,16 @@ es:
         highlighting_mode:
           description: Resaltar con color
           none: Sin resaltado
-          inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline: Highlighted attribute(s)
+          inline_all: All attributes
           entire_row_by: Toda la fila por
           status: Estado
           priority: Prioridad
+          type: Tipo
         columns_help_text: Use los datos anteriores para agregar o quitar columnas
           de la vista de tabla. Puede arrastrar y colocar las columnas para cambiar
           el orden.
         upsale:
-          ee_only: Característica exclusiva de Enterprise Edition
           attribute_highlighting: "¿Necesita que algunos paquetes de trabajo destaquen
             del resto?"
           relation_columns: "¿Necesita ver las relaciones en la lista del paquete

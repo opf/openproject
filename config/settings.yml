@@ -265,6 +265,9 @@ work_package_list_default_columns:
   - updated_on
 work_package_list_default_highlighting_mode:
   default: 'inline'
+work_package_list_default_highlighted_attributes:
+  serialized: true
+  default: []
 work_package_list_summable_columns:
   serialized: true
   default:
@@ -356,3 +359,5 @@ repository_checkout_data:
 api_max_page_size:
   format: int
   default: 500
+demo_projects_available:
+  default: false

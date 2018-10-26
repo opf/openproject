@@ -1064,6 +1064,7 @@ es:
 '
   error_external_authentication_failed: Se ha producido un error durante la autenticación
     externa. Por favor inténtelo nuevamente.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Proyecto editado
     changeset: Set de cambios editado
@@ -1113,7 +1114,7 @@ es:
       upsale:
         become_hero: "¡Conviértete en héroe!"
         title: Actualizar hasta versión corporativa
-        description: Aumente el rendimiento con la versión corporativa
+        description: What are the benefits?
         more_info: Más información
         additional_features: Características Premium avanzadas adicionales
         professional_support: Apoyo profesional de los expertos de OpenProject
@@ -1907,7 +1908,7 @@ es:
       administración de proyectos y la colaboración en equipo con OpenProject.
     text_show_again: Puede reiniciar este vídeo en el menú ayuda
     welcome: Bienvenido a OpenProject
-    select_language: Seleccione el idioma de OpenProject
+    select_language: Please select your language
   permission_add_work_package_notes: Añadir notas
   permission_add_work_packages: Añadir paquetes de trabajo
   permission_add_messages: Publicar mensajes
@@ -2288,8 +2289,9 @@ es:
   setting_welcome_on_homescreen: Mostrar bloque de bienvenida en la pagina de inicio
   setting_wiki_compression: Comprensión del historial del Wiki
   setting_work_package_group_assignment: Permite la asignación a grupos
-  setting_work_package_list_default_highlighting_mode: Modo predeterminado de resaltado
-    de paquete de trabajo
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: General
     other: Otros
@@ -2299,6 +2301,13 @@ es:
     user:
       default_preferences: Preferencias predeterminadas
       deletion: Eliminación
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: Sin resaltado
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: Texto sin formato

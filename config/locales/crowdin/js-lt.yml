@@ -107,6 +107,10 @@ lt:
         embedded_table:
           button: Embed work package table
           text: "[Placeholder] Embedded work package table"
+    custom_actions:
+      date:
+        specific: įjungta
+        current_date: Current date
     error:
       internal: Įvyko vidinė klaida.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -473,6 +477,8 @@ lt:
         į Microsoft Edge.
       learn_more: Sužinoti daugiau
       close_warning: Ignoruoti šį perspėjimą.
+    upsale:
+      ee_only: Enterprise Edition only feature
     wiki_formatting:
       strong: Paryškintas
       italic: Pasvirasis
@@ -653,14 +659,15 @@ lt:
         highlighting_mode:
           description: Highlight with color
           none: No highlighting
-          inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline: Highlighted attribute(s)
+          inline_all: All attributes
           entire_row_by: Entire row by
           status: Būsena
           priority: Pirmenybė
+          type: Tipas
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
         upsale:
-          ee_only: Enterprise Edition only feature
           attribute_highlighting: Need certain work packages to stand out from the
             mass?
           relation_columns: Ar reikia matyti ryšius darbų paketų sąraše?

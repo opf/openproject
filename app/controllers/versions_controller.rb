@@ -35,8 +35,6 @@ class VersionsController < ApplicationController
   before_action :find_project, only: [:index, :new, :create, :close_completed]
   before_action :authorize
 
-  include VersionsHelper
-
   def index
     @types = @project.types.order('position')
     retrieve_selected_type_ids(@types, @types.select(&:is_in_roadmap?))
@@ -128,13 +126,6 @@ class VersionsController < ApplicationController
     else
       flash[:error] = l(:notice_unable_delete_version)
       redirect_to controller: '/project_settings', action: 'show', tab: 'versions', id: @project
-    end
-  end
-
-  def status_by
-    respond_to do |format|
-      format.html do render action: 'show' end
-      format.js do render_status_by @version, params[:status_by] end
     end
   end
 

@@ -42,11 +42,16 @@ export class WorkPackageTableHierarchiesService extends WorkPackageTableBaseServ
     state.current = active;
     state.last = null;
 
-    // hierarchies and group by are mutually exclusive
     if (active) {
+      // hierarchies and group by are mutually exclusive
       var groupBy = this.tableState.groupBy.value!;
       groupBy.current = undefined;
       this.tableState.groupBy.putValue(groupBy);
+
+      // hierarchies and sort by are mutually exclusive
+      var sortBy = this.tableState.sortBy.value!;
+      sortBy.current = [];
+      this.tableState.sortBy.putValue(sortBy);
     }
 
     this.state.putValue(state);

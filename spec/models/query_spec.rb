@@ -82,25 +82,76 @@ describe Query, type: :model do
   end
 
   describe 'highlighting' do
-    it 'accepts valid values' do
-      %w(inline none status priority).each do |val|
-        query.highlighting_mode = val
+    context 'with EE' do
+      it '#hightlighted_attrirbutes accepts valid values' do
+        query.highlighted_attributes = %w(status type priority due_date)
         expect(query).to be_valid
-        expect(query.highlighting_mode).to eq(val.to_sym)
+      end
+
+      it '#hightlighted_attributes rejects invalid values' do
+        query.highlighted_attributes = %w(status bogus)
+        expect(query).not_to be_valid
+      end
+
+      it '#hightlighting_mode accepts non-present values' do
+        query.highlighting_mode = nil
+        expect(query).to be_valid
+
+        query.highlighting_mode = ''
+        expect(query).to be_valid
+      end
+
+      it '#hightlighting_mode rejects invalid values' do
+        query.highlighting_mode = 'bogus'
+        expect(query).not_to be_valid
+      end
+
+      it '#available_highlighting_columns returns highlightable columns' do
+        available_columns = {
+          highlightable1: {
+            highlightable: true
+          },
+          highlightable2: {
+            highlightable: true
+          },
+          no_highlight: {}
+        }
+
+        allow(Queries::WorkPackages::Columns::PropertyColumn).to receive(:property_columns)
+                                                                   .and_return(available_columns)
+
+        expect(query.available_highlighting_columns.map(&:name)).to eq(%i{highlightable1 highlightable2})
+      end
+
+      describe '#highlighted_columns returns a valid subset of Columns' do
+        let(:highlighted_attributes) { %i{status type priority due_date foo} }
+
+        before do
+          query.highlighted_attributes = highlighted_attributes
+        end
+
+        it 'removes the offending values' do
+          query.valid_subset!
+
+          expect(query.highlighted_columns.map(&:name))
+            .to match_array %i{status type priority due_date}
+        end
       end
     end
 
-    it 'accepts non-present values' do
-      query.highlighting_mode = nil
-      expect(query).to be_valid
+    context 'without EE' do
+      let(:conditional_highlighting_allowed) { false }
 
-      query.highlighting_mode = ''
-      expect(query).to be_valid
-    end
+      it 'always returns :none as highlighting_mode' do
+        query.highlighting_mode = 'status'
+        expect(query.highlighting_mode).to eq(:none)
+      end
 
-    it 'rejects invalid values' do
-      query.highlighting_mode = 'bogus'
-      expect(query).not_to be_valid
+      it 'always returns nil as highlighted_attributes' do
+        query.highlighting_mode = 'inline'
+        query.highlighted_attributes = ['status']
+        expect(query.highlighted_attributes).to be_empty
+      end
     end
   end
 
@@ -529,6 +580,21 @@ describe Query, type: :model do
           expect(query.column_names)
             .to match_array [:status]
         end
+      end
+    end
+
+    context 'highlighted_attributes' do
+      let(:highlighted_attributes) { %i{status type priority due_date foo} }
+
+      before do
+        query.highlighted_attributes = highlighted_attributes
+      end
+
+      it 'removes the offending values' do
+        query.valid_subset!
+
+        expect(query.highlighted_attributes)
+          .to match_array %i{status type priority due_date}
       end
     end
   end

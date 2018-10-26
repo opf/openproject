@@ -9,7 +9,6 @@ OpenProject::Application.configure do
     admin_users.js
     autocompleter.js
     calendar/lang/*.js
-    contextual_fieldset.js
     copy_issue_actions.js
     date-de-DE.js
     date-en-US.js
@@ -27,6 +26,7 @@ OpenProject::Application.configure do
     types_checkboxes.js
     work_packages.js
     vendor/ckeditor/ckeditor.*js
+    vendor/enjoyhint.js
     bundles/openproject-legacy-app.js
   )
 end

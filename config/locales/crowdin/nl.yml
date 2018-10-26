@@ -1051,6 +1051,7 @@ nl:
 '
   error_external_authentication_failed: Er heeft zich een fout voorgedaan bij de externe
     authenticatie. Probeer het opnieuw.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Project bewerkt
     changeset: Wijzigingsset bewerkt
@@ -1100,7 +1101,7 @@ nl:
       upsale:
         become_hero: Word een held!
         title: Upgrade naar Enterprise Edition
-        description: Uw productiviteit met de Enterprise Edition verbeteren
+        description: What are the benefits?
         more_info: Meer informatie
         additional_features: Extra krachtige premium functies
         professional_support: Professionele ondersteuning van de OpenProject experts
@@ -1887,7 +1888,7 @@ nl:
       team samenwerking met OpenProject.
     text_show_again: U kunt deze video van het helpmenu opnieuw starten
     welcome: Welkom bij OpenProject
-    select_language: Selecteer uw taal voor OpenProject
+    select_language: Please select your language
   permission_add_work_package_notes: Notities toevoegen
   permission_add_work_packages: Werkpakketten toevoegen
   permission_add_messages: Berichten posten
@@ -2256,7 +2257,9 @@ nl:
   setting_welcome_on_homescreen: Toon het Welkom blok op thuisscherm
   setting_wiki_compression: Compressie van wiki geschiedenis
   setting_work_package_group_assignment: Sta toewijzingen een groepen toe
-  setting_work_package_list_default_highlighting_mode: Standaart werkpakket markeringsmode
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: Algemeen
     other: Overig
@@ -2266,6 +2269,13 @@ nl:
     user:
       default_preferences: Standaardvoorkeuren
       deletion: Verwijdering
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: Geen markering
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: Onopgemaakte tekst

@@ -5,21 +5,21 @@
 
 Get started with installing and upgrading OpenProject using [our Installation Guide starting point](https://www.openproject.org/open-source/download/).
 
-The guides for manual and Docker-based installations [are located here](./installing/README.md).
+The guides for [manual](./installation/manual/README.md), [packaged](./installation/packaged/) and [Docker-based](./installation/docker/README.md) installations are provided.
 
 ## Upgrading
 
 The detailed upgrade instructions for our packaged installer are located on the [official website](https://www.openproject.org/download/upgrade-guides/).
 
-The guides for manual and Docker-based installations [are located here](./upgrading/README.md).
+The guides for [manual](./operations/upgrading/manual/upgrading.md), [packaged](./operations/upgrading/packaged/upgrading.md) and [Docker-based](./operations/upgrading/docker/upgrading.md) upgrading are provided.
 
 ## Operation
 
-* [Backup guide](./backup/README.md)
-* [Alter configuration of OpenProject](./configuration/README.md)
+* Backup guides for [manual](./operations/backup/manual/backup.md), [packaged](./operations/backup/packaged/backup.md) and [Docker-based](./operations/backup/docker/backup.md) installations
+* [Alter configuration of OpenProject](./configuration/configuration.md)
 * [Manual repository integration for Git and Subversion](./repositories/README.md)
-* [Configure incoming mails](./incoming-mails/README.md)
-* [Install custom plugins](./plugins/README.md)
+* [Configure incoming mails](./configuration/incoming-emails.md)
+* [Install custom plugins](./plugins/plugins.md)
 
 
 ## User Guides
@@ -30,7 +30,7 @@ Please see our [User Guide pages](https://www.openproject.org/help/user-guides/)
 ## Development
 
 * [Quick Start for developers](./development/quick-start.md)
-* [Full development environment for developers](./development/setting-up-development-environment.md)
+* [Full development environment for developers on Ubuntu](./development/development-environment-ubuntu.md) and [Mac OS X](./development/development-environment-osx.md)
 * [Developing plugins](./development/create-openproject-plugin.md)
 * [Developing OmniAuth Plugins](./development/create-omniauth-plugin.md)
 * [Running tests](./development/running-tests.md)

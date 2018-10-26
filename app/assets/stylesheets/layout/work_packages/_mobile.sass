@@ -30,8 +30,7 @@
 
     // ------------- FULL SCREEN -------------------
     &.action-show
-      overflow: auto !important
-      overflow-y: scroll !important
+
 
       #main,
       #content-wrapper,
@@ -44,21 +43,13 @@
       #content-wrapper,
       #content
         height: 100% !important
-        overflow: visible
+        overflow: auto
 
       #main
         padding-bottom: 0
+        height: calc(100vh - #{$header-height})
 
         #content-wrapper
-          &.hidden-navigation
-            margin-left: 0
-            width: 100%
-
-          &.nosidebar
-            padding: 0
-            width:    100%
-            margin-left: 0
-
           &.nomenus
             top: 0
             padding: 0
@@ -105,7 +96,7 @@
 
     .work-packages-list-view--container
       padding-left: 5px
-      
+
     .toolbar-container
       min-height: 36px
       padding-right: 0

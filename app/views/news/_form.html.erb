@@ -28,18 +28,18 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 <%= error_messages_for 'news' %>
 <div class="form--field">
-  <%= f.text_field :title, required: true, size: 60, container_class: '-wide' %>
+  <%= f.text_field :title, required: true, size: 60, container_class: '-xxwide' %>
 </div>
 <div class="form--field">
   <%= f.text_area :summary,
                   cols: 60,
                   rows: 4,
                   class: 'wiki-edit wiki-toolbar -small',
-                  container_class: '-wide' %>
+                  container_class: '-xxwide' %>
 </div>
 <div class="form--field">
   <%= f.text_area :description,
                   class: 'wiki-edit wiki-toolbar',
-                  container_class: '-wide',
+                  container_class: '-xxwide',
                   with_text_formatting: true %>
 </div>

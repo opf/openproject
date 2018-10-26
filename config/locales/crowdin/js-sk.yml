@@ -107,6 +107,10 @@ sk:
         embedded_table:
           button: Embed work package table
           text: "[Placeholder] Embedded work package table"
+    custom_actions:
+      date:
+        specific: dňa
+        current_date: Current date
     error:
       internal: Vyskytla sa vnútorná chyba.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -474,6 +478,8 @@ sk:
         to Microsoft Edge.
       learn_more: Zistiť viac
       close_warning: Ignore this warning.
+    upsale:
+      ee_only: Enterprise Edition only feature
     wiki_formatting:
       strong: Tučné
       italic: Kurzíva
@@ -652,14 +658,15 @@ sk:
         highlighting_mode:
           description: Highlight with color
           none: No highlighting
-          inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline: Highlighted attribute(s)
+          inline_all: All attributes
           entire_row_by: Entire row by
           status: Stav
           priority: Priorita
+          type: Typ
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
         upsale:
-          ee_only: Enterprise Edition only feature
           attribute_highlighting: Need certain work packages to stand out from the
             mass?
           relation_columns: Potrebujete vidieť vzťahy v zozname pracovných balíčkov?

@@ -50,7 +50,31 @@ Note that this still takes previous values into consideration. Values that shoul
 
 Since OpenProject 8.0.0 is a major upgrade, you will need to perform some basic manual steps to upgrade your package.
 
+First, please check that the package repository is correct. Compare your local package repository with the one printed on your matching distribution on [our Download and Installation page](https://www.openproject.org/download-and-installation/)
 
+## Upgrade notes for OpenProject 8.0.
+
+These following points are some known issues around the update to 8.0. It does not contain the entire list of changes. To see all changes, [please browse the release notes](https://www.openproject.org/release-notes/openproject-8-0/).
+
+### Upgrades in NPM may result in package inconsistencies
+
+As has been reported from the community, [there appear to be issues with NPM leftover packages](https://community.openproject.com/projects/openproject/work_packages/28571) upgrading to OpenProject 8.0.0. This is due to the packages applying a delta between your installed version and the to-be-installed 8.0. package. In some cases such as SLES12 and Centos 7, the `frontend/node_modules` folder is not fully correctly replaced. This appears to hint at an issue with yum, the package manager behind both.
+
+To ensure the package's node_modules folder matches your local version, we recommend you simply remove `/opt/openproject/frontend/node_modules` entirely **before** installing the package
+
+```
+rm -rf /opt/openproject/frontend/node_modules
+# Continue with the installation steps described below
+```
+
+### Migration from Textile to Markdown
+
+OpenProject 8.0. has removed Textile, all previous content is migrated to GFM Markdown using [pandoc](https://pandoc.org). This will happen automatically during the migration run. A recent pandoc version will be downloaded by OpenProject.
+
+For more information, please visit this separate guide: https://github.com/opf/openproject/tree/dev/docs/user/textile-to-markdown-migration
+
+
+## Upgrade steps
 
 If you have currently installed the stable 7.x release of OpenProject by using the `stable/7` package source,
 you will need to adjust that package source.
@@ -69,3 +93,5 @@ you will need to adjust that package source.
 
  - Update the reference to `stable/7` in `/etc/zypp/repos.d/openproject.repo` to `stable/8`.
  - Perform the Upgrade steps as mentioned above in *Upgrading your OpenProject installation*
+
+

@@ -1033,6 +1033,7 @@ vi:
 '
   error_external_authentication_failed: Lỗi xuất hiện trong khi xác thực bên ngoài.
     Xin vui lòng thử lại.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Đã chỉnh sửa dự án
     changeset: Đã chỉnh sửa Changeset (bộ thay đổi)
@@ -1083,7 +1084,7 @@ vi:
       upsale:
         become_hero: Become a hero!
         title: Upgrade to Enterprise Edition
-        description: Boost your productivity with the Enterprise Edition
+        description: What are the benefits?
         more_info: More information
         additional_features: Additional powerful premium features
         professional_support: Professional support from the OpenProject experts
@@ -1859,7 +1860,7 @@ vi:
       team collaboration with OpenProject.
     text_show_again: Bạn có thể khởi động lại video này từ trình đơn trợ giúp
     welcome: Welcome to OpenProject
-    select_language: Vui lòng lựa chọn ngôn ngữ của OpenProject
+    select_language: Please select your language
   permission_add_work_package_notes: Add notes
   permission_add_work_packages: Thêm mới Gói công việc
   permission_add_messages: Đăng tin nhắn
@@ -2215,8 +2216,9 @@ vi:
   setting_welcome_on_homescreen: Display welcome block on homescreen
   setting_wiki_compression: Wiki history compression
   setting_work_package_group_assignment: Allow assignment to groups
-  setting_work_package_list_default_highlighting_mode: Default work package highlighting
-    mode
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: Tổng quan
     other: Khác
@@ -2226,6 +2228,13 @@ vi:
     user:
       default_preferences: Cấu hình mặc định
       deletion: Xóa
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: No highlighting
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Gạch dưới
     plain: Văn bản thuần

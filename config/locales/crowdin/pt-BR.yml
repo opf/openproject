@@ -1038,6 +1038,7 @@ pt-BR:
 '
   error_external_authentication_failed: Ocorreu um erro durante a autenticação externa.
     Por favor, tente novamente.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Projeto editado
     changeset: Conjunto de alterações editadas
@@ -1087,7 +1088,7 @@ pt-BR:
       upsale:
         become_hero: Torne-se um herói!
         title: Atualizar para a versão Enterprise Edition
-        description: Aumente sua produtividade com a versão Enterprise Edition
+        description: Quais são os benefícios?
         more_info: Mais informações
         additional_features: Poderosos recursos adicionais
         professional_support: Suporte profissional dos peritos da OpenProject
@@ -1871,7 +1872,7 @@ pt-BR:
       e colaboração de equipe com o OpenProject.
     text_show_again: Você pode reiniciar este vídeo através do menu ajuda
     welcome: Bem-vindo ao OpenProject
-    select_language: Por favor, selecione seu idioma para o OpenProject
+    select_language: Please select your language
   permission_add_work_package_notes: Adicionar anotações
   permission_add_work_packages: Adicionar pacotes de trabalho
   permission_add_messages: Postar mensagens
@@ -2122,7 +2123,7 @@ pt-BR:
   setting_smtp_authentication: Autenticação SMTP
   setting_smtp_user_name: Usuário SMTP
   setting_smtp_password: Senha SMTP
-  setting_smtp_domain: Domínio SMTP
+  setting_smtp_domain: Olá domínio SMTP
   setting_activity_days_default: Dias exibidos na atividade de projeto
   setting_app_subtitle: Subtítulo do aplicativo
   setting_app_title: Título da aplicação
@@ -2238,8 +2239,9 @@ pt-BR:
   setting_welcome_on_homescreen: Exibir bloco de boas-vindas na tela inicial
   setting_wiki_compression: Compactação de histórico do wiki
   setting_work_package_group_assignment: Permitir a atribuição de grupos
-  setting_work_package_list_default_highlighting_mode: Modo padrão de destaque do
-    pacote de trabalho
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: Geral
     other: Outro
@@ -2249,6 +2251,13 @@ pt-BR:
     user:
       default_preferences: Preferências padrão
       deletion: Exclusão
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: Sem destaque
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: Texto simples
@@ -2325,7 +2334,7 @@ pt-BR:
   text_enumeration_destroy_question: "% {count} objetos estão atribuídos a esse valor."
   text_file_repository_writable: Diretório de anexos graváveis
   text_git_repo_example: um repositório e local (por exemplo, /gitrepo, c:\gitrepo)
-  text_hint_date_format: Digite uma data no formato YYYY-MM-DD. Outros formatos podem
+  text_hint_date_format: Insira uma data no formato YYYY-MM-DD. Outros formatos podem
     ser alterados para uma data não desejada.
   text_hint_disable_with_0: 'Nota: Desabilitar com 0'
   text_hours_between: Entre %{min} e %{max} horas.

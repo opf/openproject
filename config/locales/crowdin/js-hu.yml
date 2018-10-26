@@ -108,6 +108,10 @@ hu:
         embedded_table:
           button: Munkacsomag táblázat beágyazás
           text: "[Placeholder] Beágyazott munkacsomag táblázat"
+    custom_actions:
+      date:
+        specific: be
+        current_date: Current date
     error:
       internal: Belső hiba történt.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -470,6 +474,8 @@ hu:
         vagy Microsoft Edge-re.
       learn_more: További információ
       close_warning: Figyelmeztetés figyelmen kívül hagyása.
+    upsale:
+      ee_only: Ez csak az Enterprise Edition-ban elérhető
     wiki_formatting:
       strong: Erős
       italic: Dőlt betű
@@ -648,14 +654,15 @@ hu:
         highlighting_mode:
           description: Kiemelés szinnel
           none: Kiemelés nélkül
-          inline: Lejárt dátumok, a "Státusz", "Típus" és "Prioritás" attribútummal
+          inline: Kiemelt attribútum(ok)
+          inline_all: Attribútumok
           entire_row_by: Egész sor alapján
           status: Állapot
           priority: Fontosság
+          type: Típus
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
         upsale:
-          ee_only: Ez csak az Enterprise Edition-ban elérhető
           attribute_highlighting: Need certain work packages to stand out from the
             mass?
           relation_columns: Szeretné látni a munkacsomag kapcsolatait?

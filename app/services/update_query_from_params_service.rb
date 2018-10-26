@@ -98,6 +98,7 @@ class UpdateQueryFromParamsService
 
   def apply_highlighting(params)
     query.highlighting_mode = params[:highlighting_mode] if params.key?(:highlighting_mode)
+    query.highlighted_attributes = params[:highlighted_attributes] if params.key?(:highlighted_attributes)
   end
 
   def disable_hierarchy_when_only_grouped_by(params)

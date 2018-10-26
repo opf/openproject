@@ -58,7 +58,12 @@ module DemoData
           puts "   -#{seeder.class.name.demodulize}"
           seeder.seed!
         end
+
+        Setting.demo_projects_available = 'true'
       end
+
+      puts ' ↳ Updating settings'
+      seed_settings
     end
 
     def applicable?
@@ -73,6 +78,16 @@ module DemoData
       ]
 
       seeders.map { |seeder| seeder.new project, key }
+    end
+
+    def seed_settings
+      welcome = translate_with_base_url("seeders.demo_data.welcome")
+
+      if welcome.present?
+        Setting.welcome_title = welcome[:title]
+        Setting.welcome_text = welcome[:text]
+        Setting.welcome_on_homescreen = 1
+      end
     end
 
     def reset_project(key)
@@ -91,44 +106,44 @@ module DemoData
     end
 
     def set_members(project)
-      role = Role.find_by(name: I18n.t(:default_role_project_admin))
+      role = Role.find_by(name: translate_with_base_url(:default_role_project_admin))
       user = User.admin.first
 
       Member.create!(
         project: project,
-        user:    user,
-        roles:   [role]
+        user: user,
+        roles: [role]
       )
     end
 
     def set_types(project, key)
       project.types.clear
-      Array(I18n.t("seeders.demo_data.projects.#{key}.types")).each do |type_name|
-        type = Type.find_by(name: I18n.t(type_name))
+      Array(translate_with_base_url("seeders.demo_data.projects.#{key}.types")).each do |type_name|
+        type = Type.find_by(name: translate_with_base_url(type_name))
         project.types << type
       end
     end
 
     def seed_categories(project, key)
-      Array(I18n.t("seeders.demo_data.projects.#{key}.categories")).each do |cat_name|
+      Array(translate_with_base_url("seeders.demo_data.projects.#{key}.categories")).each do |cat_name|
         project.categories.create name: cat_name
       end
     end
 
     def seed_news(project, key)
-      Array(I18n.t("seeders.demo_data.projects.#{key}")[:news]).each do |news|
+      Array(translate_with_base_url("seeders.demo_data.projects.#{key}")[:news]).each do |news|
         News.create! project: project, title: news[:title], summary: news[:summary], description: news[:description]
       end
     end
 
     def seed_queries(project, key)
-      Array(I18n.t("seeders.demo_data.projects.#{key}")[:queries]).each do |config|
+      Array(translate_with_base_url("seeders.demo_data.projects.#{key}")[:queries]).each do |config|
         QueryBuilder.new(config, project).create!
       end
     end
 
     def seed_versions(project, key)
-      version_data = I18n.t("seeders.demo_data.projects.#{key}.versions")
+      version_data = translate_with_base_url("seeders.demo_data.projects.#{key}.versions")
 
       return if version_data.is_a?(String) && version_data.start_with?("translation missing")
 
@@ -139,9 +154,9 @@ module DemoData
 
     def seed_board(project)
       Board.create!(
-        project:     project,
-        name:        I18n.t('seeders.demo_data.board.name'),
-        description: I18n.t('seeders.demo_data.board.description')
+        project: project,
+        name: translate_with_base_url('seeders.demo_data.board.name'),
+        description: translate_with_base_url('seeders.demo_data.board.description')
       )
     end
 
@@ -150,24 +165,24 @@ module DemoData
 
       def project_data(key)
         {
-          name:                 project_name(key),
-          identifier:           project_identifier(key),
-          description:          project_description(key),
+          name: project_name(key),
+          identifier: project_identifier(key),
+          description: project_description(key),
           enabled_module_names: project_modules(key),
-          types:                project_types
+          types: project_types
         }
       end
 
       def project_name(key)
-        I18n.t("seeders.demo_data.projects.#{key}.name")
+        translate_with_base_url("seeders.demo_data.projects.#{key}.name")
       end
 
       def project_identifier(key)
-        I18n.t("seeders.demo_data.projects.#{key}.identifier")
+        translate_with_base_url("seeders.demo_data.projects.#{key}.identifier")
       end
 
       def project_description(key)
-        I18n.t("seeders.demo_data.projects.#{key}.description")
+        translate_with_base_url("seeders.demo_data.projects.#{key}.description")
       end
 
       def project_types
@@ -175,7 +190,7 @@ module DemoData
       end
 
       def project_modules(key)
-        I18n.t("seeders.demo_data.projects.#{key}.modules")
+        translate_with_base_url("seeders.demo_data.projects.#{key}.modules")
       end
 
       def find_project(key)

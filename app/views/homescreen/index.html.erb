@@ -27,12 +27,10 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% breadcrumb_paths(nil) %>
-<div class="widget-boxes--screen-header">
-  <h2>
-    <span><%= organization_icon %></span>
-    <%= organization_name %>
-  </h2>
-</div>
+<h2>
+  <span><%= organization_icon %></span>
+  <%= organization_name %>
+</h2>
 
 <%= render partial: 'announcements/show' %>
 
@@ -40,7 +38,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <section class="widget-boxes -flex">
   <% @homescreen[:blocks].each do |block| %>
     <% if block[:if].nil? || instance_eval(&block[:if]) %>
-      <div class="widget-box">
+      <div class="widget-box <%= block[:partial] %>">
       <%= render partial: "homescreen/blocks/#{block[:partial]}", locals: (block[:locals] || {}) %>
       </div>
     <% end %>

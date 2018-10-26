@@ -26,10 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-body.controller-work_packages.action-show
 body.controller-work_packages.full-create
-  overflow-x: auto
-
   // Fix selenium scrolling the #content which shouldn't be possible
   // This appears to be caused by somehow setting the scrollTop to move to an element.
   #content-wrapper,
@@ -130,10 +127,7 @@ body.controller-work_packages.full-create
   position: relative
 
   .work-packages--panel-inner
-    position: absolute
-    display: inline-block
-    padding: 15px 15px 0px 0px
-    width: calc(100% - 18px)
+    padding: 15px 15px 0px 15px
 
   .work-package-details-activities-activity-contents ul.work-package-details-activities-messages
     padding-left: 0
@@ -150,7 +144,6 @@ body.controller-work_packages.full-create
   top: 50%
   bottom: 50%
   width: 18px
-  display: inline-block
   .work-packages--resizer
     left: -2px
     width: 18px
@@ -176,6 +169,9 @@ body.controller-work_packages.full-create
   .work-packages--show-view
     // Important for Safari
     height: initial
+  .work-packages-full-view--split-right
+    overflow: visible
+    flex-basis: initial !important
 
 @media only screen and (max-width: 679px)
   #toolbar

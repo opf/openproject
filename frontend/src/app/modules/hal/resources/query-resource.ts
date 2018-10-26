@@ -66,6 +66,7 @@ export class QueryResource extends HalResource {
   public timelineVisible:boolean;
   public timelineZoomLevel:TimelineZoomLevel;
   public highlightingMode:HighlightingMode;
+  public highlightedAttributes:HalResource[]|undefined;
   public timelineLabels:TimelineLabels;
   public showHierarchies:boolean;
   public public:boolean;

@@ -1066,6 +1066,7 @@ cs:
 '
   error_external_authentication_failed: An error occured during external authentication.
     Please try again.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Projekt upraven
     changeset: Changeset edited
@@ -1115,7 +1116,7 @@ cs:
       upsale:
         become_hero: Staň se hrdinou!
         title: Upgrade to Enterprise Edition
-        description: Boost your productivity with the Enterprise Edition
+        description: What are the benefits?
         more_info: Více informací
         additional_features: Additional powerful premium features
         professional_support: Professional support from the OpenProject experts
@@ -1902,7 +1903,7 @@ cs:
       team collaboration with OpenProject.
     text_show_again: You can restart this video from the help menu
     welcome: Vítejte v OpenProject
-    select_language: Please select your language for OpenProject
+    select_language: Please select your language
   permission_add_work_package_notes: Add notes
   permission_add_work_packages: Add work packages
   permission_add_messages: Post messages
@@ -2259,8 +2260,9 @@ cs:
   setting_welcome_on_homescreen: Display welcome block on homescreen
   setting_wiki_compression: Wiki history compression
   setting_work_package_group_assignment: Povolit přiřazení do skupin
-  setting_work_package_list_default_highlighting_mode: Default work package highlighting
-    mode
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: Obecné
     other: Ostatní
@@ -2270,6 +2272,13 @@ cs:
     user:
       default_preferences: Výchozí předvolby
       deletion: Odstranění
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: No highlighting
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Zmenšení
     plain: Obyčejný text

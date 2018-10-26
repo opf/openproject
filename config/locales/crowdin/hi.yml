@@ -1034,6 +1034,7 @@ hi:
 '
   error_external_authentication_failed: An error occured during external authentication.
     Please try again.
+  error_attribute_not_highlightable: 'गुण हाइलाइट नहीं करने लायक: %{attributes}'
   events:
     project: Project edited
     changeset: Changeset edited
@@ -1083,7 +1084,7 @@ hi:
       upsale:
         become_hero: Become a hero!
         title: Upgrade to Enterprise Edition
-        description: Boost your productivity with the Enterprise Edition
+        description: लाभ क्या हैं?
         more_info: More information
         additional_features: Additional powerful premium features
         professional_support: Professional support from the OpenProject experts
@@ -1857,7 +1858,7 @@ hi:
       team collaboration with OpenProject.
     text_show_again: You can restart this video from the help menu
     welcome: Welcome to OpenProject
-    select_language: Please select your language for OpenProject
+    select_language: Please select your language
   permission_add_work_package_notes: Add notes
   permission_add_work_packages: Add work packages
   permission_add_messages: Post messages
@@ -2212,8 +2213,9 @@ hi:
   setting_welcome_on_homescreen: Display welcome block on homescreen
   setting_wiki_compression: Wiki history compression
   setting_work_package_group_assignment: Allow assignment to groups
-  setting_work_package_list_default_highlighting_mode: Default work package highlighting
-    mode
+  setting_work_package_list_default_highlighting_mode: डिफ़ॉल्ट हाइलाइटिंग तरीका
+  setting_work_package_list_default_highlighted_attributes: डिफ़ॉल्ट पंक्ति ही में
+    हाइलाइट किए गए गुण
   settings:
     general: सामान्य
     other: अन्य
@@ -2223,6 +2225,13 @@ hi:
     user:
       default_preferences: Default preferences
       deletion: Deletion
+    highlighting:
+      mode_long:
+        inline: पंक्ति ही में गुण / गुणों को हाइलाइट करें
+        none: हाइलाइट नहीं है
+        status: स्थिति के अनुसार संपूर्ण पंक्ति
+        type: प्रकार के अनुसार संपूर्ण पंक्ति
+        priority: प्राथमिकता के अनुसार संपूर्ण पंक्ति
   text_formatting:
     markdown: Markdown
     plain: Plain text

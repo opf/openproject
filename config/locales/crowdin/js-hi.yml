@@ -107,6 +107,10 @@ hi:
         embedded_table:
           button: Embed work package table
           text: "[Placeholder] Embedded work package table"
+    custom_actions:
+      date:
+        specific: पर
+        current_date: वर्तमान दिनांक
     error:
       internal: An internal error has occurred.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -471,6 +475,8 @@ hi:
         to Microsoft Edge.
       learn_more: Learn more
       close_warning: Ignore this warning.
+    upsale:
+      ee_only: केवल एंटरप्राइज संस्करण में सुविधा
     wiki_formatting:
       strong: Strong
       italic: Italic
@@ -650,14 +656,15 @@ hi:
         highlighting_mode:
           description: रंग से हाइलाइट करें
           none: हाइलाइट नहीं है
-          inline: Overdue dates, "Status", "Type", and "Priority" attribute
+          inline: हाइलाइट की गई विशेषता (यां)
+          inline_all: सभी गुण
           entire_row_by: प्रकार के अनुसार संपूर्ण पंक्ति
           status: अवस्था
           priority: वरीयता
+          type: प्रकार
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
         upsale:
-          ee_only: केवल एंटरप्राइज संस्करण में सुविधा
           attribute_highlighting: Need certain work packages to stand out from the
             mass?
           relation_columns: Need to see relations in the work package list?

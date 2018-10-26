@@ -37,10 +37,27 @@ module CustomActions::Actions::Strategies::Date
     :date_property
   end
 
-  def to_date_or_nil(value)
-    return nil if value.nil?
+  def apply(work_package)
+    work_package.send("#{self.class.key}=", date_to_apply)
+  end
 
-    value.to_date
+  private
+
+  def date_to_apply
+    if values.first == '%CURRENT_DATE%'
+      Date.today
+    else
+      values.first
+    end
+  end
+
+  def to_date_or_nil(value)
+    case value
+    when nil, '%CURRENT_DATE%'
+      value
+    else
+      value.to_date
+    end
   rescue TypeError, ArgumentError
     nil
   end

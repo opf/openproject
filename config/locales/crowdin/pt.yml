@@ -1050,6 +1050,7 @@ pt:
 '
   error_external_authentication_failed: Ocorreu um erro durante a autenticação externa.
     Por favor, tente novamente.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Projeto alterado
     changeset: Changeset editado
@@ -1099,7 +1100,7 @@ pt:
       upsale:
         become_hero: Torne-se um herói!
         title: Atualizar para a versão Enterprise
-        description: Aumente sua produtividade com a versão Enterprise
+        description: What are the benefits?
         more_info: Mais informação
         additional_features: Poderosas funcionalidades Premium adicionais
         professional_support: Apoio profissional dos especialistas da OpenProject
@@ -1884,7 +1885,7 @@ pt:
       colaboração da equipa com o OpenProject.
     text_show_again: Pode reiniciar este vídeo através do menu de ajuda
     welcome: Bem-vindo ao OpenProject
-    select_language: Por favor selecione o seu idioma para OpenProject
+    select_language: Please select your language
   permission_add_work_package_notes: Adicionar notas
   permission_add_work_packages: Adicionar tarefas
   permission_add_messages: Publicar mensagens
@@ -2257,8 +2258,9 @@ pt:
   setting_welcome_on_homescreen: Exibir o bloco de boas-vindas no ecrã inicial
   setting_wiki_compression: Compressão do histórico da wiki
   setting_work_package_group_assignment: Permitir atribuição de grupos
-  setting_work_package_list_default_highlighting_mode: Modo de destaque padrão do
-    pacote de trabalho
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: Geral
     other: Outro
@@ -2268,6 +2270,13 @@ pt:
     user:
       default_preferences: Preferências por Omissão
       deletion: Eliminação
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: Sem destaque
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: Texto Simples
