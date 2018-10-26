@@ -28,7 +28,8 @@
 
 import {
   Component,
-  ElementRef, HostListener,
+  ElementRef,
+  HostListener,
   Inject,
   Injector,
   Input,
@@ -38,7 +39,7 @@ import {
 } from '@angular/core';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
-import {filter, takeUntil} from 'rxjs/operators';
+import {filter} from 'rxjs/operators';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {TableRowEditContext} from '../wp-edit-form/table-row-edit-context';
@@ -49,7 +50,6 @@ import {WorkPackageFilterValues} from '../wp-edit-form/work-package-filter-value
 import {TimelineRowBuilder} from '../wp-fast-table/builders/timeline/timeline-row-builder';
 import {onClickOrEnter} from '../wp-fast-table/handlers/click-or-enter-handler';
 import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
-import {WorkPackageTableFiltersService} from '../wp-fast-table/state/wp-table-filters.service';
 import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
 import {WorkPackageCreateService} from '../wp-new/wp-create.service';
 import {
@@ -58,14 +58,13 @@ import {
   inlineCreateRowClassName
 } from './inline-create-row-builder';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
-import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
+import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 import {IWorkPackageEditingServiceToken} from "../wp-edit-form/work-package-editing.service.interface";
 import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 import {CurrentUserService} from "core-components/user/current-user.service";
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
-import {WorkPackageInlineReferenceComponent} from "core-components/wp-inline-create/wp-inline-reference.component";
 
 @Component({
   selector: '[wpInlineCreate]',
@@ -85,7 +84,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
 
   public text = {
     create: this.I18n.t('js.label_create_work_package'),
-    reference: 'Reference',
+    reference: this.wpInlineCreate.referenceButtonText
   };
 
   // Linking state
@@ -203,7 +202,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
           }
 
           // Notify inline create service
-          this.wpInlineCreate.newInlineWorkPackage(wp);
+          this.wpInlineCreate.newInlineWorkPackageCreated.next(wp.id);
         } else {
           // Remove current row
           this.table.editing.stopEditing('new');
@@ -224,11 +223,11 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
   }
 
   public get referenceClass() {
-    return WorkPackageInlineReferenceComponent;
+    return this.wpInlineCreate.referenceComponentClass;
   }
 
   public get hasReferenceClass() {
-    return true; // !!this.wpInlineCreate.referenceComponentClass;
+    return !!this.referenceClass;
   }
 
   public addWorkPackageRow() {

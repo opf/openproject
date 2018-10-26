@@ -221,7 +221,8 @@ import {WorkPackageEmbeddedGraphComponent} from "core-components/wp-table/embedd
 import {WorkPackageByVersionGraphComponent} from "core-components/wp-by-version-graph/wp-by-version-graph.component";
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
 import {WorkPackageCommentFieldComponent} from "core-components/work-packages/work-package-comment/wp-comment-field.component";
-import {WorkPackageInlineReferenceComponent} from "core-components/wp-inline-create/wp-inline-reference.component";
+import {WorkPackageInlineAddExistingChildService} from "core-components/wp-relations/wp-relation-add-child/wp-inline-add-existing-child.service";
+import {WorkPackageInlineAddExistingChildComponent} from "core-components/wp-relations/wp-relation-add-child/wp-inline-add-existing-child.component";
 
 @NgModule({
   imports: [
@@ -304,6 +305,7 @@ import {WorkPackageInlineReferenceComponent} from "core-components/wp-inline-cre
     // Provide a separate service for creation events of WP Inline create
     // This can be hierarchically injected to provide isolated events on an embedded table
     WorkPackageInlineCreateService,
+    WorkPackageInlineAddExistingChildService,
 
     OpTableActionsService,
     CurrentProjectService,
@@ -448,7 +450,7 @@ import {WorkPackageInlineReferenceComponent} from "core-components/wp-inline-cre
 
     // Inline create
     WorkPackageInlineCreateComponent,
-    WorkPackageInlineReferenceComponent,
+    WorkPackageInlineAddExistingChildComponent,
 
     // Embedded table
     WorkPackageEmbeddedTableComponent,
@@ -531,7 +533,7 @@ import {WorkPackageInlineReferenceComponent} from "core-components/wp-inline-cre
     WorkPackageCommentFieldComponent,
 
     // Inline create
-    WorkPackageInlineReferenceComponent,
+    WorkPackageInlineAddExistingChildComponent,
 
     // Searchbar
     ExpandableSearchComponent,
