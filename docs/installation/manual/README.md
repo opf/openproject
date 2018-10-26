@@ -1,4 +1,4 @@
-# Manual installation of OpenProject with Apache on Ubuntu 14.04. LTS
+# Manual installation of OpenProject with Apache on Ubuntu 18.04. LTS
 
 **IMPORTANT: We strongly recommend to use the [OpenProject installers](https://www.openproject.org/download-and-installation) (packaged installation). There is no real advantage installing OpenProject manually.**
 
