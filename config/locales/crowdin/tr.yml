@@ -546,8 +546,8 @@ tr:
               status_invalid_in_type: is invalid because the current status does not
                 exist in this type.
             type:
-              cannot_be_milestone_due_to_children: cannot be a milestone because this
-                work package has children.
+              cannot_be_milestone_due_to_children: kilometre taşı olmaz çünkü alt
+                iş paketlerine sahip.
             priority_id:
               only_active_priorities_allowed: etkin olması gerekir.
             category:

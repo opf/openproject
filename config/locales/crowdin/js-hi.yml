@@ -25,7 +25,7 @@ hi:
     button_add_watcher: द्रष्टा जोड़ें
     button_back_to_list_view: Back to list view
     button_cancel: निरस्त करें
-    button_close: Close
+    button_close: बंद करें
     button_check_all: Check all
     button_configure-form: Configure form
     button_confirm: Confirm
@@ -85,7 +85,7 @@ hi:
         dropdown:
           macros: मैक्रो
           chose_macro: मैक्रो चुनें
-        toc: Table of contents
+        toc: विषय सूची
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget
         wiki_page_include:
@@ -218,7 +218,7 @@ hi:
     label_previous: पिछला
     label_per_page: प्रति पृष्ठ
     label_please_wait: Please wait
-    label_visibility_settings: Visibility settings
+    label_visibility_settings: दृश्यता settings
     label_quote_comment: Quote this comment
     label_reset: रीसेट करें
     label_remove_columns: Remove selected columns
@@ -241,7 +241,7 @@ hi:
     label_today: आज
     label_up: Up
     label_activity_show_only_comments: Show activities with comments only
-    label_activity_show_all: Show all activities
+    label_activity_show_all: समस्त गतिविधयाँ दिखाएँ
     label_total_progress: "%{percent}% कुल प्रगति"
     label_updated_on: updated on
     label_warning: Warning
@@ -286,15 +286,14 @@ hi:
       show_modal: Show attribute help text entry
     onboarding:
       steps:
-        welcome: Take a three minutes introduction tour to learn the most <b>important
-          features</b>. <br> We recommend to complete the steps until the end. You
-          can restart the tour any time.
-        project_selection: Please select one of the projects with useful demo data
-          to get started. <br> The <b>Demo project</b> suits best for classical project
-          management, while the <b>Scrum project</b> is better for Agile project management.
-        sidebar_arrow: With the arrow you can navigate back to the project's <b>Main
-          menu</b>.
-        members: Invite new <b>Members</b> to join your project.
+        welcome: एक तीन मिनट का परिचय टूर लें सबसे जानने के लिए । हम अंत तक चरणों
+          को पूरा करने की सलाह देते हैं । आप किसी भी समय दौरे को पुनः आरंभ कर सकते
+          हैं ।
+        project_selection: प्रारंभ करने के लिए कृपया डेमो डेटा सहित २ परियोजनाओं में
+          से किसी एक का चयन करें ।
+        sidebar_arrow: तीर के साथ आप वापस परियोजना के मुख्य मेनु में जा सकते हैं ।
+        members: अपने प्रोजेक्ट में शामिल होने के लिए नए सदस्यों को आमंत्रित करें
+          ।
         wiki: Within the <b>Wiki</b> you can document and share knowledge together
           with your team.
         backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> Here
@@ -319,12 +318,12 @@ hi:
           your project.
         wp_timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
           for your project.
-        wp_timeline: Here you can edit your project plan. Create new phases, milestones,
-          and add dependencies. All team members can see and update the latest plan
-          at any time.
+        wp_timeline: यहां आप अपनी परियोजना की योजना को संपादित कर सकते हैं । नए चरण,
+          माइलस्टोन बनाएं और निर्भरताएं जोड़ें । टीम के सभी सदस्य किसी भी समय नवीनतम
+          योजना को देख और अद्यतित कर सकते हैं ।
         help_menu: In the <b>Help</b> menu you will find a user guide and additional
           help resources. <br> Enjoy your work with OpenProject!
-        got_it: Got it
+        got_it: समझ गया
     password_confirmation:
       field_description: You need to enter your account password to confirm this change.
       title: Confirm your password to continue
@@ -456,7 +455,7 @@ hi:
       button_deactivate: गैन्ट चार्ट छुपाएं
       cancel: निरस्त करें
       change: Change in planning
-      due_date: Finish date
+      due_date: समाप्ति दिनांक
       empty: "(empty)"
       error: An error has occurred.
       errors:
@@ -536,10 +535,10 @@ hi:
       image: Image
     work_packages:
       bulk_actions:
-        move: Bulk move
-        edit: Bulk edit
-        copy: Bulk copy
-        delete: Bulk delete
+        move: एकमुश्त खिसकाएं
+        edit: एकमुश्त सम्पादित करें
+        copy: एकमुश्त प्रतिलिपी बनाएँ
+        delete: एकमुश्त हटाएँ
       button_clear: खाली करें
       comment_added: The comment was successfully added.
       comment_send_failed: An error has occurred. Could not submit the comment.
@@ -610,7 +609,7 @@ hi:
         createdAt: Created on
         description: Description
         date: तिथि
-        dueDate: Finish date
+        dueDate: समाप्ति दिनांक
         estimatedTime: Estimated time
         spentTime: समय बिताया
         category: श्रेणी

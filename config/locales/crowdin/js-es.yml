@@ -13,9 +13,9 @@ es:
     autocomplete_select:
       placeholder:
         multi: Añadir "%{name}"
-        single: Seleccionar "%{name}"
-      remove: Eliminar "%{name}"
-      active: Activar %{label} %{name}
+        single: Seleccione "%{name}"
+      remove: Elimine "%{name}"
+      active: Activo %{label} %{name}
     close_popup_title: Cerrar ventana emergente
     close_filter_title: Cerrar filtro
     close_form_title: Cerrar formulario
@@ -137,7 +137,7 @@ es:
           two: Segundo criterio de ordenación
           three: Tercer criterio de ordenación
       upsale_for_more: Para el uso de filtros más avanzados, consulte
-      upsale_link: Enterprise Edition.
+      upsale_link: Edición empresarial.
     general_text_no: 'no'
     general_text_yes: sí
     general_text_No: 'No'
@@ -765,8 +765,8 @@ es:
         title: Confirmar la eliminación de %{label}
         text: "¿Está seguro de que quiere eliminar la siguiente %{label} ?"
         has_children: 'El paquete de trabajo tiene %{childUnits}:'
-        confirm_deletion_children: Confirmo que TODOS los descendientes de los paquetes
-          de trabajo de la lista se eliminarán de forma recursiva.
+        confirm_deletion_children: Reconozco que TODOS los descendientes de los paquetes
+          de trabajo enumerados se eliminarán recursivamente.
         deletes_children: También se eliminarán de forma recursiva todos los paquetes
           de trabajo secundarios y sus descendientes.
     notice_successful_create: Creación exitosa.
