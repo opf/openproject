@@ -68,9 +68,9 @@ tr:
         wysiwyg: WYSIWYG düzenleyiciye geç
       macro:
         child_pages:
-          button: Links to child pages
+          button: Alt sayfalara bağlantılar
           include_parent: Include parent
-          text: "[Placeholder] Links to child pages of"
+          text: "[Placeholder] Alt sayfalara bağlantılar"
           page: Viki sayfası
           this_page: bu sayfa
           hint: 'Leave this field empty to list all child pages of the current page.
