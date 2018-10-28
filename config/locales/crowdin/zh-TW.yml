@@ -1735,7 +1735,7 @@ zh-TW:
     text_getting_started_description: 用 OpenProject 取得專案管理和團隊協作的快速概覽。
     text_show_again: 您可以從 "説明" 功能表中重新開啟此影片
     welcome: 歡迎來到 OpenProject
-    select_language: Please select your language for OpenProject
+    select_language: Please select your language
   permission_add_work_package_notes: 增加註釋
   permission_add_work_packages: 新增工作項目
   permission_add_messages: 張貼訊息

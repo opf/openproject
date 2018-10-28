@@ -112,7 +112,7 @@ hu:
     custom_actions:
       date:
         specific: be
-        current_date: Current date
+        current_date: Aktuális dátum
     error:
       internal: Belső hiba történt.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -286,9 +286,9 @@ hu:
       show_modal: Attribútum-súgószöveg mutatása
     onboarding:
       steps:
-        welcome: Take a three minutes introduction tour to learn the most <b>important
-          features</b>. <br> We recommend to complete the steps until the end. You
-          can restart the tour any time.
+        welcome: Ismerje meg három percben, hogy mik a legfontosabb <b> fontos funkciók
+          </b>.<br> Javasoljuk, hogy végezze el a lépéseket a végéig. Bármikor újraindíthatja
+          a ezt túrát.
         project_selection: Please select one of the projects with useful demo data
           to get started. <br> The <b>Demo project</b> suits best for classical project
           management, while the <b>Scrum project</b> is better for Agile project management.

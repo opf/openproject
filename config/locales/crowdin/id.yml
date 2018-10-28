@@ -1850,7 +1850,7 @@ id:
       proyek dan tim kolaborasi bersama OpenProject.
     text_show_again: You can restart this video from the help menu
     welcome: Welcome to OpenProject
-    select_language: Please select your language for OpenProject
+    select_language: Please select your language
   permission_add_work_package_notes: Tambahkan catatan
   permission_add_work_packages: Tambah Paket-Penugasan
   permission_add_messages: Kirim pesan

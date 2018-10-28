@@ -546,8 +546,8 @@ tr:
               status_invalid_in_type: is invalid because the current status does not
                 exist in this type.
             type:
-              cannot_be_milestone_due_to_children: cannot be a milestone because this
-                work package has children.
+              cannot_be_milestone_due_to_children: kilometre taşı olmaz çünkü alt
+                iş paketlerine sahip.
             priority_id:
               only_active_priorities_allowed: etkin olması gerekir.
             category:
@@ -1437,7 +1437,7 @@ tr:
   label_planning: Planlanıyor
   label_please_login: Lütfen giriş yapın
   label_plugins: Eklentiler
-  label_precedes: ilerlettiği
+  label_precedes: öncülü
   label_preferences: Seçenekler
   label_preview: Ön İzleme
   label_previous: Önceki
@@ -1854,7 +1854,7 @@ tr:
       konusuna genel bir bakış.
     text_show_again: Bu videoyu Yardım menüsünden yeniden başlatabilirsiniz
     welcome: OpenProject'e hoş geldiniz
-    select_language: OpenProject için dilinizi seçin
+    select_language: Please select your language
   permission_add_work_package_notes: Not eklemek
   permission_add_work_packages: İş paketi eklemek
   permission_add_messages: İleti göndermek

@@ -105,7 +105,7 @@
         }
 
         function backlogsTour() {
-            initializeTour('startTaskBoardTour', ".backlog .menu a:not('.show_task_board')");
+            initializeTour('startTaskBoardTour');
             startTour(scrumBacklogsTourSteps);
         }
 
@@ -115,7 +115,7 @@
         }
 
         function workPackageTour() {
-            initializeTour('wpFinished', '.wp-table--details-link, .wp-table-context-menu-link, .wp-table--cell-span');
+            initializeTour('wpFinished');
 
             waitForElement('.work-package--results-tbody', '.work-packages-split-view--tabletimeline-side', function() {
                 startTour(wpOnboardingTourSteps);

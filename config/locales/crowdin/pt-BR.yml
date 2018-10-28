@@ -1038,7 +1038,7 @@ pt-BR:
 '
   error_external_authentication_failed: Ocorreu um erro durante a autenticação externa.
     Por favor, tente novamente.
-  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
+  error_attribute_not_highlightable: 'Atributo(s) não destacado(s): %{attributes}'
   events:
     project: Projeto editado
     changeset: Conjunto de alterações editadas
@@ -1872,7 +1872,7 @@ pt-BR:
       e colaboração de equipe com o OpenProject.
     text_show_again: Você pode reiniciar este vídeo através do menu ajuda
     welcome: Bem-vindo ao OpenProject
-    select_language: Por favor, selecione seu idioma para o OpenProject
+    select_language: Por favor, selecione seu idioma
   permission_add_work_package_notes: Adicionar anotações
   permission_add_work_packages: Adicionar pacotes de trabalho
   permission_add_messages: Postar mensagens
@@ -2239,9 +2239,9 @@ pt-BR:
   setting_welcome_on_homescreen: Exibir bloco de boas-vindas na tela inicial
   setting_wiki_compression: Compactação de histórico do wiki
   setting_work_package_group_assignment: Permitir a atribuição de grupos
-  setting_work_package_list_default_highlighting_mode: Default highlighting mode
-  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
-    attributes
+  setting_work_package_list_default_highlighting_mode: Modo de destaque padrão
+  setting_work_package_list_default_highlighted_attributes: Atributos embutidos com
+    destaque padrão
   settings:
     general: Geral
     other: Outro
@@ -2253,11 +2253,11 @@ pt-BR:
       deletion: Exclusão
     highlighting:
       mode_long:
-        inline: Highlight attribute(s) inline
+        inline: Destacar atributo(s) embutido(s)
         none: Sem destaque
-        status: Entire row by Status
-        type: Entire row by Type
-        priority: Entire row by Priority
+        status: Toda a linha por Situação
+        type: Toda linha por Tipo
+        priority: Toda linha por Prioridade
   text_formatting:
     markdown: Markdown
     plain: Texto simples

@@ -1895,7 +1895,7 @@ it:
       e il lavoro di squadra in OpenProject.
     text_show_again: È possibile riavviare questo video dal menu Guida
     welcome: Benvenuto in OpenProject
-    select_language: Seleziona la lingua di OpenProject
+    select_language: Please select your language
   permission_add_work_package_notes: Aggiungi nota
   permission_add_work_packages: Aggiungere macro-attività (work package)
   permission_add_messages: Postare messaggi

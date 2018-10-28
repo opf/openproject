@@ -1860,7 +1860,7 @@ vi:
       team collaboration with OpenProject.
     text_show_again: Bạn có thể khởi động lại video này từ trình đơn trợ giúp
     welcome: Welcome to OpenProject
-    select_language: Vui lòng lựa chọn ngôn ngữ của OpenProject
+    select_language: Please select your language
   permission_add_work_package_notes: Add notes
   permission_add_work_packages: Thêm mới Gói công việc
   permission_add_messages: Đăng tin nhắn

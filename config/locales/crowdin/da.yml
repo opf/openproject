@@ -1855,7 +1855,7 @@ da:
       team collaboration with OpenProject.
     text_show_again: You can restart this video from the help menu
     welcome: Velkommen til OpenProject
-    select_language: Please select your language for OpenProject
+    select_language: Please select your language
   permission_add_work_package_notes: Tilføj noter
   permission_add_work_packages: Tilføj arbejdspakker
   permission_add_messages: Send beskeder
