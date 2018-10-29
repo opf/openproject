@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -30,22 +28,39 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::IdFilter, type: :model do
+describe Queries::WorkPackages::Filter::PredecessorFilter, type: :model do
   it_behaves_like 'filter by work package id' do
-    let(:class_key) { :id }
+    let(:class_key) { :predecessor }
 
     describe '#where' do
-      let!(:visible_wp) { FactoryBot.create(:work_package) }
+      let!(:preceding_wp) { FactoryBot.create(:work_package, precedes: [filter_wp]) }
+      let!(:filter_wp) { FactoryBot.create(:work_package) }
       let!(:other_wp) { FactoryBot.create(:work_package) }
 
       before do
-        instance.values = [visible_wp.id.to_s]
-        instance.operator = '='
+        instance.values = [filter_wp.id.to_s]
       end
 
-      it 'filters' do
-        expect(WorkPackage.where(instance.where))
-          .to match_array [visible_wp]
+      context "on '=' operator" do
+        before do
+          instance.operator = '='
+        end
+
+        it 'returns the preceding work packages' do
+          expect(WorkPackage.where(instance.where))
+            .to match_array [preceding_wp]
+        end
+      end
+
+      context "on '!' operator" do
+        before do
+          instance.operator = '!'
+        end
+
+        it 'returns the not preceding work packages' do
+          expect(WorkPackage.where(instance.where))
+            .to match_array [filter_wp, other_wp]
+        end
       end
     end
   end

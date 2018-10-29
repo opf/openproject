@@ -34,7 +34,7 @@ shared_context 'filter tests' do
   let(:instance) do
     described_class.create!(name: instance_key, context: context, operator: operator, values: values)
   end
-  let(:name) { model.human_attribute_name((instance_key || class_key).to_s.gsub('_id', '')) }
+  let(:name) { model.human_attribute_name((instance_key || expected_class_key).to_s.gsub('_id', '')) }
   let(:model) { WorkPackage }
 end
 
@@ -43,19 +43,19 @@ shared_examples_for 'basic query filter' do
 
   let(:context) { FactoryBot.build_stubbed(:query, project: project) }
   let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:class_key) { raise 'needs to be defined' }
+  let(:expected_class_key) { defined?(:class_key) ? class_key : raise('needs to be defined') }
   let(:type) { raise 'needs to be defined' }
   let(:human_name) { nil }
 
   describe '.key' do
     it 'is the defined key' do
-      expect(described_class.key).to eql(class_key)
+      expect(described_class.key).to eql(expected_class_key)
     end
   end
 
   describe '#name' do
     it 'is the defined key' do
-      expect(instance.name).to eql(instance_key || class_key)
+      expect(instance.name).to eql(instance_key || expected_class_key)
     end
   end
 
@@ -319,6 +319,214 @@ shared_examples_for 'non ar filter' do
     it 'is empty' do
       expect(instance.value_objects)
         .to be_empty
+    end
+  end
+end
+
+shared_examples_for 'filter by work package id' do
+  include_context 'filter tests'
+
+  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:query) do
+    FactoryBot.build_stubbed(:query, project: project)
+  end
+
+  it_behaves_like 'basic query filter' do
+    let(:type) { :list }
+
+    before do
+      instance.context = query
+    end
+
+    describe '#available?' do
+      context 'within a project' do
+        it 'is true if any work package exists and is visible' do
+          allow(WorkPackage)
+            .to receive_message_chain(:visible, :for_projects, :exists?)
+            .with(no_args)
+            .with(project)
+            .with(no_args)
+            .and_return true
+
+          expect(instance).to be_available
+        end
+
+        it 'is false if no work package exists/ is visible' do
+          allow(WorkPackage)
+            .to receive_message_chain(:visible, :for_projects, :exists?)
+            .with(no_args)
+            .with(project)
+            .with(no_args)
+            .and_return false
+
+          expect(instance).not_to be_available
+        end
+      end
+
+      context 'outside of a project' do
+        let(:project) { nil }
+
+        it 'is true if any work package exists and is visible' do
+          allow(WorkPackage)
+            .to receive_message_chain(:visible, :exists?)
+            .with(no_args)
+            .and_return true
+
+          expect(instance).to be_available
+        end
+
+        it 'is false if no work package exists/ is visible' do
+          allow(WorkPackage)
+            .to receive_message_chain(:visible, :exists?)
+            .with(no_args)
+            .and_return false
+
+          expect(instance).not_to be_available
+        end
+      end
+    end
+
+    describe '#ar_object_filter?' do
+      it 'is true' do
+        expect(instance).to be_ar_object_filter
+      end
+    end
+
+    describe '#allowed_values' do
+      it 'raises an error' do
+        expect { instance.allowed_values }.to raise_error NotImplementedError
+      end
+    end
+
+    describe '#value_object' do
+      let(:visible_wp) { FactoryBot.build_stubbed(:work_package) }
+
+      it 'returns the work package for the values' do
+        allow(WorkPackage)
+          .to receive_message_chain(:visible, :for_projects, :find)
+          .with(no_args)
+          .with(project)
+          .with(instance.values)
+          .and_return([visible_wp])
+
+        expect(instance.value_objects)
+          .to match_array [visible_wp]
+      end
+    end
+
+    describe '#allowed_objects' do
+      it 'raises an error' do
+        expect { instance.allowed_objects }.to raise_error NotImplementedError
+      end
+    end
+
+    describe '#valid_values!' do
+      let(:visible_wp) { FactoryBot.build_stubbed(:work_package) }
+      let(:invisible_wp) { FactoryBot.build_stubbed(:work_package) }
+
+      context 'within a project' do
+        it 'removes all non existing/non visible ids' do
+          instance.values = [visible_wp.id.to_s, invisible_wp.id.to_s, '999999']
+
+          allow(WorkPackage)
+            .to receive_message_chain(:visible, :for_projects, :where, :pluck)
+            .with(no_args)
+            .with(project)
+            .with(id: instance.values)
+            .with(:id)
+            .and_return([visible_wp.id])
+
+          instance.valid_values!
+
+          expect(instance.values)
+            .to match_array [visible_wp.id.to_s]
+        end
+      end
+
+      context 'outside of a project' do
+        let(:project) { nil }
+
+        it 'removes all non existing/non visible ids' do
+          instance.values = [visible_wp.id.to_s, invisible_wp.id.to_s, '999999']
+
+          allow(WorkPackage)
+            .to receive_message_chain(:visible, :where, :pluck)
+            .with(no_args)
+            .with(id: instance.values)
+            .with(:id)
+            .and_return([visible_wp.id])
+
+          instance.valid_values!
+
+          expect(instance.values)
+            .to match_array [visible_wp.id.to_s]
+        end
+      end
+    end
+
+    describe '#validate' do
+      let(:visible_wp) { FactoryBot.build_stubbed(:work_package) }
+      let(:invisible_wp) { FactoryBot.build_stubbed(:work_package) }
+
+      context 'within a project' do
+        it 'is valid if only visible wps are values' do
+          instance.values = [visible_wp.id.to_s]
+
+          allow(WorkPackage)
+            .to receive_message_chain(:visible, :for_projects, :where, :pluck)
+            .with(no_args)
+            .with(project)
+            .with(id: instance.values)
+            .with(:id)
+            .and_return([visible_wp.id])
+
+          expect(instance).to be_valid
+        end
+
+        it 'is invalid if invisible wps are values' do
+          instance.values = [invisible_wp.id.to_s, visible_wp.id.to_s]
+
+          allow(WorkPackage)
+            .to receive_message_chain(:visible, :for_projects, :where, :pluck)
+            .with(no_args)
+            .with(project)
+            .with(id: instance.values)
+            .with(:id)
+            .and_return([visible_wp.id])
+
+          expect(instance).not_to be_valid
+        end
+      end
+
+      context 'outside of a project' do
+        let(:project) { nil }
+
+        it 'is valid if only visible wps are values' do
+          instance.values = [visible_wp.id.to_s]
+
+          allow(WorkPackage)
+            .to receive_message_chain(:visible, :where, :pluck)
+            .with(no_args)
+            .with(id: instance.values)
+            .with(:id)
+            .and_return([visible_wp.id])
+
+          expect(instance).to be_valid
+        end
+
+        it 'is invalid if invisible wps are values' do
+          instance.values = [invisible_wp.id.to_s, visible_wp.id.to_s]
+
+          allow(WorkPackage)
+            .to receive_message_chain(:visible, :where, :pluck)
+            .with(no_args)
+            .with(id: instance.values)
+            .with(:id)
+            .and_return([visible_wp.id])
+
+          expect(instance).not_to be_valid
+        end
+      end
     end
   end
 end

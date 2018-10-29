@@ -224,6 +224,28 @@ describe ::Query::Results, type: :model do
           .to eql(user_1 => 1, user_2 => 1, nil => 1)
       end
     end
+
+    context 'when filtering by precedes and ordering by parent' do
+      let(:query) do
+        FactoryBot.build :query,
+                         project: project_1
+      end
+
+      before do
+        login_as(user_1)
+
+        wp_p1[1].precedes << wp_p1[0]
+
+        query.add_filter('predecessor', '=', [wp_p1[0].id.to_s])
+
+        query.sort_criteria = [['parent', 'asc']]
+      end
+
+      it 'returns the work packages preceding the filtered for work package' do
+        expect(query.results.work_packages)
+          .to match_array(wp_p1[1])
+      end
+    end
   end
 
   describe '#sorted_work_packages' do
