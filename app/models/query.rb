@@ -225,6 +225,9 @@ class Query < ActiveRecord::Base
   end
 
   def self.available_columns(project = nil)
+    # prevents having no columns registered
+    require 'queries/work_packages'
+
     Queries::Register
       .columns[self]
       .map { |col| col.instances(project) }
