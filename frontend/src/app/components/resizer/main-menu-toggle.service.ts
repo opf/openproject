@@ -27,13 +27,10 @@
 // ++
 
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, fromEvent, Observable, Subscription} from 'rxjs';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {Injector} from "@angular/core";
-import {fromEvent} from "rxjs/observable/fromEvent";
-import {Observable} from "rxjs/Observable";
-import {Subscription} from "rxjs/Subscription";
 
 @Injectable()
 export class MainMenuToggleService {
@@ -182,7 +179,7 @@ export class MainMenuToggleService {
       else {
         // There might be a time gap between `focusout` and the focussing of the activeElement, thus we need a timeout.
         setTimeout(function() {
-          if (!jQuery.contains(<Element>document.getElementById('main-menu'), document.activeElement) &&
+          if (!jQuery.contains(document.getElementById('main-menu')!, document.activeElement!) &&
               (document.getElementById('main-menu-toggle') !== document.activeElement)) {
             // activeElement is outside of main menu.
             that.closeMenu();
@@ -199,7 +196,7 @@ export class MainMenuToggleService {
   }
 
   private ensureContentVisibility():void {
-    let viewportWidth = document.documentElement.clientWidth;
+    let viewportWidth = document.documentElement!.clientWidth;
     if (this.elementWidth >= viewportWidth - 150) {
       this.elementWidth = viewportWidth - 150;
     }

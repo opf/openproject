@@ -172,7 +172,7 @@ export class KeyboardShortcutService {
     }
 
     index = list.indexOf(
-      jQuery(document.activeElement)
+      jQuery(document.activeElement!)
         .closest(accessibleRowSelector)
         .find(':visible:tabbable')[0]
     );

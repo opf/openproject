@@ -36,7 +36,7 @@ import {augmentedDatePicker} from "./global-listeners/augmented-date-picker";
 
 
   $(function() {
-    $(document.documentElement)
+    $(document.documentElement!)
       .on('click', (evt) => {
         const target = jQuery(evt.target);
 
@@ -51,7 +51,7 @@ import {augmentedDatePicker} from "./global-listeners/augmented-date-picker";
       });
 
     // Disable global drag & drop handling, which results in the browser loading the image and losing the page
-    $(document.documentElement)
+    $(document.documentElement!)
       .on('dragover drop', (evt:JQueryEventObject) => {
         evt.preventDefault();
         return false;
