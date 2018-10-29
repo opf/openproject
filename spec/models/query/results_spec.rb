@@ -249,9 +249,9 @@ describe ::Query::Results, type: :model do
   end
 
   describe '#sorted_work_packages' do
-    let(:work_package1) { FactoryBot.create(:work_package, project: project_1) }
-    let(:work_package2) { FactoryBot.create(:work_package, project: project_1) }
-    let(:work_package3) { FactoryBot.create(:work_package, project: project_1) }
+    let(:work_package1) { FactoryBot.create(:work_package, project: project_1, id: 1) }
+    let(:work_package2) { FactoryBot.create(:work_package, project: project_1, id: 2) }
+    let(:work_package3) { FactoryBot.create(:work_package, project: project_1, id: 3) }
     let(:sort_by) { [['parent', 'asc']] }
     let(:columns) { %i(id subject) }
     let(:group_by) { '' }
