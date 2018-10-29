@@ -98,7 +98,7 @@
     "moment": "^2.17.1",
     "moment-timezone": "^0.5.11",
     "mousetrap": "~1.6.0",
-    "ng-fullcalendar": "^1.6.2",
+    "ng-fullcalendar": "^1.7.0",
     "ng2-charts": "^1.1.0",
     "ng2-rx-componentdestroyed": "3.0.0",
     "ngtemplate-loader": "^2.0.1",
