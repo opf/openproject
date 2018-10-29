@@ -51,13 +51,7 @@ describe 'Upload attachment to wiki page', js: true do
     visit project_wiki_path(project, 'test')
 
     # adding an image
-    editor.in_editor do |container, editable|
-      attachments.drag_and_drop_file(editable, image_fixture)
-
-      # Besides testing caption functionality this also slows down clicking on the submit button
-      # so that the image is properly embedded
-      editable.find('figure.image figcaption').base.send_keys('Image uploaded the first time')
-    end
+    editor.drag_attachment image_fixture, 'Image uploaded the first time'
 
     expect(page).to have_selector('attachment-list-item', text: 'image.png')
     expect(page).not_to have_selector('notification-upload-progress')
@@ -75,16 +69,12 @@ describe 'Upload attachment to wiki page', js: true do
     # Replace one image with a named attachment URL (Regression #28381)
     editor.set_markdown "![my-first-image](image.png)\n\nText that prevents the two images colliding"
 
-    editor.in_editor do |container, editable|
+    editor.drag_attachment image_fixture, 'Image uploaded the second time'
+
+    editor.in_editor do |container, _|
       # Expect URL is mapped to the correct URL
       expect(container).to have_selector('img[src^="/api/v3/attachments/"')
       expect(container).to have_no_selector('img[src="image.png"]')
-
-      attachments.drag_and_drop_file(editable, image_fixture)
-
-      # Besides testing caption functionality this also slows down clicking on the submit button
-      # so that the image is properly embedded
-      editable.find('figure.image figcaption').base.send_keys('Image uploaded the second time')
     end
 
     expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)

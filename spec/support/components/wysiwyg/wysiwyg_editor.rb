@@ -2,10 +2,12 @@ module Components
   class WysiwygEditor
     include Capybara::DSL
     include RSpec::Matchers
-    attr_reader :context_selector
+    attr_reader :context_selector, :attachments
+
 
     def initialize(context = '#content')
       @context_selector = context
+      @attachments = ::Components::Attachments.new
     end
 
     def container
@@ -59,6 +61,24 @@ module Components
         yield container.find('.ck-editor__preview')
       ensure
         click_toolbar_button 'Toggle preview mode'
+      end
+    end
+
+    def drag_attachment(image_fixture, caption = 'Some caption')
+      in_editor do |container, editable|
+        editable.base.send_keys(:page_up, 'some text', :enter, :enter, :enter)
+
+        images = editable.all('figure.image')
+        attachments.drag_and_drop_file(editable, image_fixture)
+
+        expect(page)
+        .to have_selector('figure img[src^="/api/v3/attachments/"]', count: images.length + 1, wait: 10)
+
+        expect(page).not_to have_selector('notification-upload-progress')
+
+        # Besides testing caption functionality this also slows down clicking on the submit button
+        # so that the image is properly embedded
+        editable.all('figure.image figcaption').map { |el| el.base.send_keys(caption) }
       end
     end
 
