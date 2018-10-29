@@ -32,7 +32,8 @@ export abstract class OpContextMenuHandler {
     return {
       my: 'left top',
       at: 'right bottom',
-      of: this.$element
+      of: this.$element,
+      collision: 'flipfit'
     };
   }
 
