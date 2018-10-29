@@ -46,13 +46,7 @@ describe 'Upload attachment to overview page', js: true do
     fill_in "Title", with: 'New teaser'
 
     # adding an image
-    editor.in_editor do |container, editable|
-      attachments.drag_and_drop_file(editable, image_fixture)
-
-      # Besides testing caption functionality this also slows down clicking on the submit button
-      # so that the image is properly embedded
-      editable.find('figure.image figcaption').base.send_keys('Image uploaded on creation')
-    end
+    editor.drag_attachment image_fixture, 'Image uploaded on creation'
 
     within '.textile-form' do
       expect(page).to have_selector('attachment-list-item', text: 'image.png')
@@ -67,14 +61,7 @@ describe 'Upload attachment to overview page', js: true do
     find('.block-teaser .icon-edit').click
 
     expect(page).to have_selector('attachment-list-item', text: 'image.png')
-
-    editor.in_editor do |container, editable|
-      attachments.drag_and_drop_file(editable, image_fixture)
-
-      # Besides testing caption functionality this also slows down clicking on the submit button
-      # so that the image is properly embedded
-      editable.find('figure.image figcaption').base.send_keys('Image uploaded the second time')
-    end
+    editor.drag_attachment image_fixture, 'Image uploaded the second time'
 
     within '.textile-form' do
       expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
