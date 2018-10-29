@@ -73,7 +73,7 @@ describe 'Upload attachment to wiki page', js: true do
     end
 
     # Replace one image with a named attachment URL (Regression #28381)
-    editor.set_markdown "![my-first-image](image.png)"
+    editor.set_markdown "![my-first-image](image.png)\n\nText that prevents the two images colliding"
 
     editor.in_editor do |container, editable|
       # Expect URL is mapped to the correct URL

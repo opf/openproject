@@ -58,6 +58,8 @@ describe 'Upload attachment to board message', js: true do
 
     # adding an image
     editor.in_editor do |container, editable|
+      editable.base.send_keys('Some text')
+
       attachments.drag_and_drop_file(editable, image_fixture)
 
       # Besides testing caption functionality this also slows down clicking on the submit button
@@ -79,6 +81,7 @@ describe 'Upload attachment to board message', js: true do
     end
 
     editor.in_editor do |container, editable|
+      editable.base.send_keys(:page_up, 'some text', :enter, :enter, :enter)
       attachments.drag_and_drop_file(editable, image_fixture)
 
       # Besides testing caption functionality this also slows down clicking on the submit button
