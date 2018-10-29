@@ -44,6 +44,10 @@ table.cal
   width: 100%
   margin: 0 0 6px 0
   border: $content-calendar-border-width solid $content-calendar-border-color
+  display: block
+  overflow-x: auto
+
+  @include styled-scroll-bar-horizontal
 
   thead th
     width: 14%
@@ -55,7 +59,8 @@ table.cal
   tbody tr
     height: 100px
   td
-    border: $content-calendar-cell-border-width solid $content-calendar-cell-border-color
+    border-left: $content-calendar-cell-border-width solid $content-calendar-cell-border-color
+    border-top: $content-calendar-cell-border-width solid $content-calendar-cell-border-color
     vertical-align: top
     font-size: 0.9em
 
