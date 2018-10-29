@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,20 +26,42 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::FollowsFilter <
-  Queries::WorkPackages::Filter::WorkPackageFilter
+require 'spec_helper'
 
-  include ::Queries::WorkPackages::Filter::FilterForWpMixin
+describe Queries::WorkPackages::Filter::FollowerFilter, type: :model do
+  it_behaves_like 'filter by work package id' do
+    let(:class_key) { :follower }
 
-  def includes
-    :precedes_relations
-  end
+    describe '#where' do
+      let!(:following_wp) { FactoryBot.create(:work_package, follows: [filter_wp]) }
+      let!(:filter_wp) { FactoryBot.create(:work_package) }
+      let!(:other_wp) { FactoryBot.create(:work_package) }
 
-  def where
-    operator_strategy.sql_for_field(values,
-                                    # TODO: This is a temporary hack as it we do not really have a contract that the joined table has that alias.
-                                    # Relation.table_name,
-                                    'precedes_relations_work_packages',
-                                    'from_id')
+      before do
+        instance.values = [filter_wp.id.to_s]
+      end
+
+      context "on '=' operator" do
+        before do
+          instance.operator = '='
+        end
+
+        it 'returns the preceding work packages' do
+          expect(WorkPackage.where(instance.where))
+            .to match_array [following_wp]
+        end
+      end
+
+      context "on '!' operator" do
+        before do
+          instance.operator = '!'
+        end
+
+        it 'returns the not preceding work packages' do
+          expect(WorkPackage.where(instance.where))
+            .to match_array [filter_wp, other_wp]
+        end
+      end
+    end
   end
 end

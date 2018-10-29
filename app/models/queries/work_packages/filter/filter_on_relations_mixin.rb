@@ -28,25 +28,36 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+module Queries::WorkPackages::Filter::FilterOnRelationsMixin
+  include ::Queries::WorkPackages::Filter::FilterForWpMixin
 
-describe Queries::WorkPackages::Filter::IdFilter, type: :model do
-  it_behaves_like 'filter by work package id' do
-    let(:class_key) { :id }
+  def where
+    relations_subselect = Relation
+                          .direct
+                          .send(relation_type)
+                          .where(relation_filter)
+                          .select(relation_select)
 
-    describe '#where' do
-      let!(:visible_wp) { FactoryBot.create(:work_package) }
-      let!(:other_wp) { FactoryBot.create(:work_package) }
+    operator = if operator_class == Queries::Operators::Equals
+                 'IN'
+               else
+                 'NOT IN'
+               end
 
-      before do
-        instance.values = [visible_wp.id.to_s]
-        instance.operator = '='
-      end
+    "#{WorkPackage.table_name}.id #{operator} (#{relations_subselect.to_sql})"
+  end
 
-      it 'filters' do
-        expect(WorkPackage.where(instance.where))
-          .to match_array [visible_wp]
-      end
-    end
+  private
+
+  def relation_type
+    raise NotImplementedError
+  end
+
+  def relation_filter
+    raise NotImplementedError
+  end
+
+  def relation_select
+    raise NotImplementedError
   end
 end

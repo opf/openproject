@@ -28,20 +28,24 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::PrecedesFilter <
+# Filter for all work packages that are (or are not) followers of the provided values
+
+class Queries::WorkPackages::Filter::FollowerFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
 
-  include ::Queries::WorkPackages::Filter::FilterForWpMixin
+  include ::Queries::WorkPackages::Filter::FilterOnRelationsMixin
 
-  def includes
-    :follows_relations
+  private
+
+  def relation_type
+    :follows
   end
 
-  def where
-    operator_strategy.sql_for_field(values,
-                                    # TODO: This is a temporary hack as it we do not really have a contract that the joined table has that alias.
-                                    # Relation.table_name,
-                                    'follows_relations_work_packages',
-                                    'to_id')
+  def relation_filter
+    { to_id: values }
+  end
+
+  def relation_select
+    :from_id
   end
 end
