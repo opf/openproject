@@ -30,9 +30,15 @@ import {Injectable, OnDestroy} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {Subject} from "rxjs";
 import {ComponentType} from "@angular/cdk/portal";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
 
 @Injectable()
 export class WorkPackageInlineCreateService implements OnDestroy {
+
+  constructor(protected readonly I18n:I18nService,
+              protected readonly authorisationService:AuthorisationService) {
+  }
 
   /**
    * A separate reference pane for the inline create component
@@ -47,7 +53,19 @@ export class WorkPackageInlineCreateService implements OnDestroy {
   /**
    * Reference button text
    */
-  public readonly referenceButtonText:string = '';
+  public readonly buttonTexts = {
+    reference: '',
+    create: this.I18n.t('js.label_create_work_package'),
+  };
+
+  public get canAdd() {
+    return this.authorisationService.can('work_packages', 'createWorkPackage') ||
+      this.authorisationService.can('work_package', 'addChild');
+  }
+
+  public get canReference() {
+    return false;
+  }
 
   /** Allow callbacks to happen on newly created inline work packages */
   public newInlineWorkPackageCreated = new Subject<string>();

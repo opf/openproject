@@ -82,12 +82,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
 
   public focus:boolean = false;
 
-  public text = {
-    create: this.I18n.t('js.label_create_work_package'),
-    reference: this.wpInlineCreate.referenceButtonText
-  };
-
-  // Linking state
+  public text = this.wpInlineCreate.buttonTexts;
 
   private currentWorkPackage:WorkPackageResource | null;
 
@@ -334,9 +329,12 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
     return this.wpTableColumns.columnCount + 1;
   }
 
-  public get isAllowed():boolean {
-    return this.authorisationService.can('work_packages', 'createWorkPackage') ||
-      this.authorisationService.can('work_package', 'addChild');
+  public get canReference():boolean {
+    return this.hasReferenceClass && this.wpInlineCreate.canReference;
+  }
+
+  public get canAdd():boolean {
+    return this.wpInlineCreate.canAdd;
   }
 
 }

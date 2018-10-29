@@ -11,8 +11,3 @@
                                       projectIdentifier: workPackage.project.idFromLink,
                                       projectContext: false }" >
 </wp-embedded-table>
-
-<wp-relation-add-child
-    [workPackage]="workPackage"
-    (onAdded)="refreshTable()"
-    *ngIf="canModifyHierarchy && canHaveChildren && addExistingChildEnabled"></wp-relation-add-child>

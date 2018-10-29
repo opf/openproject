@@ -29,16 +29,11 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {Subject} from "rxjs";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
 import {WorkPackageInlineAddExistingChildComponent} from "core-components/wp-relations/wp-relation-add-child/wp-inline-add-existing-child.component";
 
 @Injectable()
 export class WorkPackageInlineAddExistingChildService extends WorkPackageInlineCreateService implements OnDestroy {
-
-  constructor(private readonly I18n:I18nService) {
-    super();
-  }
 
   /**
    * A separate reference pane for the inline create component
@@ -50,10 +45,21 @@ export class WorkPackageInlineAddExistingChildService extends WorkPackageInlineC
    */
   public referenceTarget:WorkPackageResource|null = null;
 
+  public get canAdd() {
+    return !!(this.referenceTarget && this.referenceTarget.addChild);
+  }
+
+  public get canReference() {
+    return !!(this.referenceTarget && this.referenceTarget.changeParent);
+  }
+
   /**
    * Reference button text
    */
-  public referenceButtonText = this.I18n.t('js.relation_buttons.add_existing_child');
+  public readonly buttonTexts = {
+    reference: this.I18n.t('js.relation_buttons.add_existing_child'),
+    create: this.I18n.t('js.relation_buttons.add_new_child')
+  };
 
   /** Allow callbacks to happen on newly created inline work packages */
   public newInlineWorkPackageCreated = new Subject<string>();

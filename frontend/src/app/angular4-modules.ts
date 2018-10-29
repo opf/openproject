@@ -122,7 +122,6 @@ import {WorkPackageNewSplitViewComponent} from 'core-components/wp-new/wp-new-sp
 import {WorkPackageQuerySelectDropdownComponent} from 'core-components/wp-query-select/wp-query-select-dropdown.component';
 import {WorkPackageQuerySelectableTitleComponent} from 'core-components/wp-query-select/wp-query-selectable-title.component';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
-import {WpRelationAddChildComponent} from 'core-components/wp-relations/wp-relation-add-child/wp-relation-add-child';
 import {WorkPackageRelationsHierarchyComponent} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.directive';
 import {WorkPackageRelationsHierarchyService} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
 import {WpRelationParentComponent} from 'core-components/wp-relations/wp-relations-parent/wp-relations-parent.component';
@@ -415,7 +414,6 @@ import {WorkPackageInlineAddExistingChildComponent} from "core-components/wp-rel
     WorkPackageRelationsCreateComponent,
     WorkPackageRelationsHierarchyComponent,
     WpRelationsAutocompleteComponent,
-    WpRelationAddChildComponent,
     WpRelationParentComponent,
 
     // Watchers tab

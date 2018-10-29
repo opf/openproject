@@ -1,4 +1,4 @@
-<ng-container *ngIf="isAllowed">
+<ng-container *ngIf="canAdd || canReference">
   <tr *ngIf="mode === 'inactive'"
       class="wp-inline-create-button-row hide-when-print">
     <td [attr.colspan]="colspan"
@@ -8,6 +8,7 @@
                 href
                 role="link"
                 [focus]="focus"
+                *ngIf="canAdd"
                 [ngClass]="{'wp-inline-create--split-link': hasReferenceClass }"
                 (accessibleClick)="handleAddRowClick()"
                 [attr.disabled]="!isAllowed || undefined"
@@ -16,7 +17,7 @@
           <op-icon icon-classes="icon icon-add"></op-icon>
           <span [textContent]="text.create"></span>
         </a>
-        <ng-container *ngIf="hasReferenceClass">
+        <ng-container *ngIf="canReference">
           <a class="wp-inline-create--reference-link wp-inline-create--split-link"
              href
              role="link"
