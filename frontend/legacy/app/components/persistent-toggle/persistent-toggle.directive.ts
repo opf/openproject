@@ -36,13 +36,13 @@ function persistentToggleDirective($timeout:ITimeoutService) {
       var clickHandler = element.find('.persistent-toggle--click-handler'),
         targetNotification = element.find('.persistent-toggle--notification');
 
-      scope.isActive = window.OpenProject.guardedLocalStorage(attributes.identifier) === 'true';
+      scope.isHidden = window.OpenProject.guardedLocalStorage(attributes.identifier) === 'true';
 
       function toggle(isNowHidden:boolean) {
         window.OpenProject.guardedLocalStorage(attributes.identifier, (!!isNowHidden).toString());
 
         scope.$apply(function() {
-          scope.isActive = isNowHidden;
+          scope.isHidden = isNowHidden;
         });
 
         if (isNowHidden) {
@@ -58,7 +58,7 @@ function persistentToggleDirective($timeout:ITimeoutService) {
 
       // Clicking the handler toggles the notification
       clickHandler.bind('click', function() {
-        toggle(!scope.isActive);
+        toggle(!scope.isHidden);
       });
 
       // Closing the notification remembers the decision
@@ -67,7 +67,7 @@ function persistentToggleDirective($timeout:ITimeoutService) {
       });
 
       // Set initial state
-      targetNotification.prop('hidden', !!scope.isActive);
+      targetNotification.prop('hidden', !!scope.isHidden);
     }
   };
 };
