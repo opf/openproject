@@ -38,4 +38,18 @@ export class OpContextMenuTrigger extends OpContextMenuHandler implements AfterV
       this.open(evt);
     });
   }
+
+  /**
+   * Positioning args for jquery-ui position.
+   *
+   * @param {Event} openerEvent
+   */
+  public positionArgs(openerEvent:Event) {
+    return {
+      my: 'left top',
+      at: 'left bottom',
+      of: this.$element,
+      collision: 'flipfit'
+    };
+  }
 }

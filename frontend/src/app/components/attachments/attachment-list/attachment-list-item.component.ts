@@ -65,21 +65,21 @@ export class AttachmentListItemComponent {
     const url = this.downloadPath;
     const previewElement = this.draggableHTML(url);
 
-    evt.dataTransfer.setData("text/plain", url);
-    evt.dataTransfer.setData("text/html", previewElement.outerHTML);
-    evt.dataTransfer.setData("text/uri-list", url);
-    evt.dataTransfer.setDragImage(previewElement, 0, 0);
+    evt.dataTransfer!.setData("text/plain", url);
+    evt.dataTransfer!.setData("text/html", previewElement.outerHTML);
+    evt.dataTransfer!.setData("text/uri-list", url);
+    evt.dataTransfer!.setDragImage(previewElement, 0, 0);
   }
 
   public draggableHTML(url:string) {
-    let el;
+    let el:HTMLImageElement|HTMLAnchorElement;
 
     if (this.isImage) {
-      el = document.createElement('img')
+      el = document.createElement('img') as HTMLImageElement;
       el.src = url;
       el.textContent = this.fileName;
     } else {
-      el = document.createElement('a');
+      el = document.createElement('a') as HTMLAnchorElement;
       el.href = url;
       el.textContent = this.fileName;
     }

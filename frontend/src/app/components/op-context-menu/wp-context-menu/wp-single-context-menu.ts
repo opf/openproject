@@ -64,12 +64,16 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
    *
    * @param {Event} openerEvent
    */
-  public positionArgs(openerEvent:Event) {
-    return {
+  public positionArgs(evt:JQueryEventObject) {
+    let additionalPositionArgs = {
       my: 'right top',
-      at: 'right bottom',
-      of: this.$element
+      at: 'right bottom'
     };
+
+    let position = super.positionArgs(evt);
+    _.assign(position, additionalPositionArgs);
+
+    return position;
   }
 
   private getPermittedActions(authorization:WorkPackageAuthorization) {

@@ -60,7 +60,7 @@ export class DynamicCssService {
     link.media = 'all';
 
     this.documentElement
-      .head
+      .head!
       .appendChild(link);
   }
 

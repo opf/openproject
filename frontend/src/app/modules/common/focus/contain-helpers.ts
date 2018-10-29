@@ -35,7 +35,7 @@ export namespace ContainHelpers {
    */
   export function whenOutside(within:Element, callback:Function) {
     setTimeout(() => {
-      if (!insideOrSelf(within, document.activeElement)) {
+      if (!insideOrSelf(within, document.activeElement!)) {
         callback();
       }
     }, 20);

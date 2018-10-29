@@ -45,7 +45,7 @@ export OPENPROJECT_CLI_PROXY=''
 
 case "$1" in
         npm)
-            npm test
+            cd frontend && npm run test
             ;;
         plugins:cucumber)
             bundle exec rake parallel:$1 -- --group-number $2 --only-group $3

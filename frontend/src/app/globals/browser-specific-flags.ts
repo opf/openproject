@@ -27,35 +27,38 @@
 //++
 
 jQuery(function() {
+  const doc = document.documentElement!;
+
   if (bowser.chrome && bowser.version >= '58' || bowser.firefox && bowser.version >= '59') {
-    document.documentElement.classList.add('-supports-sticky-headers');
+    doc.classList.add('-supports-sticky-headers');
   }
 
   if (bowser.chrome) {
-    document.documentElement.classList.add('-browser-chrome');
+    doc.classList.add('-browser-chrome');
   }
 
   if (bowser.safari) {
-    document.documentElement.classList.add('-browser-safari');
+    doc.classList.add('-browser-safari');
   }
 
   if (bowser.msedge) {
-    document.documentElement.classList.add('-browser-edge');
+    doc.classList.add('-browser-edge');
   }
 
   if (bowser.firefox) {
-    document.documentElement.classList.add('-browser-firefox');
+    doc.classList.add('-browser-firefox');
   }
 
   if (bowser.windows) {
-    document.documentElement.classList.add('-browser-windows');
+    doc.classList.add('-browser-windows');
   }
 
   if (bowser.ios) {
-    document.documentElement.classList.add('-browser-ios');
+    doc.classList.add('-browser-ios');
   }
 
   if (bowser.mobile || bowser.ios || bowser.android) {
-    document.documentElement.classList.add('-browser-mobile');
+    doc.classList.add('-browser-mobile');
   }
 });
+

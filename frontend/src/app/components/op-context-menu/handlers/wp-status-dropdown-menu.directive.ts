@@ -72,19 +72,6 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
     };
   }
 
-  /**
-   * Positioning args for jquery-ui position.
-   *
-   * @param {Event} openerEvent
-   */
-  public positionArgs(openerEvent:Event) {
-    return {
-      my: 'left top',
-      at: 'left bottom',
-      of: this.$element
-    };
-  }
-
   private updateStatus(status:HalResource) {
     const changeset = this.wpEditing.changesetFor(this.workPackage);
     changeset.setValue('status', status);
