@@ -406,6 +406,10 @@ module API
             "#{work_package_relations(work_package_id)}/#{id}"
           end
 
+          def self.work_package_available_relation_candidates(id)
+            "#{work_package(id)}/available_relation_candidates"
+          end
+
           def self.work_package_revisions(id)
             "#{work_package(id)}/revisions"
           end

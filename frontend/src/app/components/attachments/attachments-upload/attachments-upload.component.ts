@@ -76,11 +76,11 @@ export class AttachmentsUploadComponent implements OnInit {
   }
 
   public onDropFiles(event:DragEvent) {
-    event.dataTransfer.dropEffect = 'copy';
+    event.dataTransfer!.dropEffect = 'copy';
     event.preventDefault();
     event.stopPropagation();
 
-    let dfFiles = event.dataTransfer.files;
+    let dfFiles = event.dataTransfer!.files;
     let length:number = dfFiles ? dfFiles.length : 0;
 
     let files:UploadFile[] = [];
@@ -94,7 +94,7 @@ export class AttachmentsUploadComponent implements OnInit {
 
   public onDragOver(event:DragEvent)  {
     if (this.containsFiles(event.dataTransfer)) {
-      event.dataTransfer.dropEffect = 'copy';
+      event.dataTransfer!.dropEffect = 'copy';
       this.draggingOver = true;
     }
 

@@ -284,6 +284,20 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
         it_behaves_like 'has no visibility property'
       end
 
+      describe 'highlighting_mode' do
+        let(:path) { 'highlightingMode' }
+
+        it_behaves_like 'has basic schema properties' do
+          let(:type) { 'String' }
+          let(:name) { Query.human_attribute_name('highlighting_mode') }
+          let(:required) { false }
+          let(:writable) { true }
+          let(:has_default) { true }
+        end
+
+        it_behaves_like 'has no visibility property'
+      end
+
       describe 'columns' do
         let(:path) { 'columns' }
 
@@ -327,6 +341,38 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
                           .uniq
 
               expect(types).to match_array(%w(QueryColumn::Property QueryColumn::RelationToType QueryColumn::RelationOfType))
+            end
+          end
+        end
+      end
+
+      describe 'show highlighted_attributes' do
+        let(:path) { 'highlightedAttributes' }
+
+        it_behaves_like 'has basic schema properties' do
+          let(:type) { '[]QueryColumn' }
+          let(:name) { Query.human_attribute_name('highlighted_attributes') }
+          let(:required) { false }
+          let(:writable) { true }
+          let(:has_default) { true }
+        end
+
+        it_behaves_like 'does not link to allowed values'
+
+        context 'when embedding' do
+          let(:form_embedded) { true }
+          let(:type) { FactoryBot.build_stubbed(:type) }
+          let(:available_values) do
+            [Queries::WorkPackages::Columns::PropertyColumn.new(:bogus1, highlightable: true),
+             Queries::WorkPackages::Columns::PropertyColumn.new(:bogus2, highlightable: true)]
+          end
+          let(:available_values_method) { :available_columns }
+
+          it_behaves_like 'has a collection of allowed values' do
+            let(:expected_hrefs) do
+              available_values.map do |value|
+                api_v3_paths.query_column(value.name.to_s.camelcase(:lower))
+              end
             end
           end
         end

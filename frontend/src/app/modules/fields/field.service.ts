@@ -65,8 +65,9 @@ export abstract class AbstractFieldService<T extends Field, C extends IFieldType
    * @param {string} fieldName
    * @returns {C}
    */
-  public getClassFor(fieldName:string):C {
-    return this.classes[fieldName] || this.classes[this.defaultFieldType];
+  public getClassFor(fieldName:string, type:string = 'unknown'):C {
+    let key = this.fieldType(fieldName) || this.fieldType(type) || this.defaultFieldType;
+    return this.classes[key];
   }
 
   /**
@@ -96,7 +97,7 @@ export abstract class AbstractFieldService<T extends Field, C extends IFieldType
    * @returns {this}
    */
   public extendFieldType(fieldType:string, attributes:string[]) {
-    let fieldClass = this.getClassFor(fieldType);
+    let fieldClass = this.classes[fieldType] || this.getClassFor(fieldType);
     return this.addFieldType(fieldClass, fieldType, attributes);
   }
 

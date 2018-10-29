@@ -50,7 +50,7 @@ describe 'Upload attachment to board message', js: true do
     login_as(user)
   end
 
-  it 'can upload an image to new and existin messages via drag & drop' do
+  it 'can upload an image to new and existing messages via drag & drop' do
     index_page.visit!
 
     create_page = index_page.click_create_message
@@ -58,6 +58,8 @@ describe 'Upload attachment to board message', js: true do
 
     # adding an image
     editor.in_editor do |container, editable|
+      editable.base.send_keys('Some text')
+
       attachments.drag_and_drop_file(editable, image_fixture)
 
       # Besides testing caption functionality this also slows down clicking on the submit button
@@ -66,6 +68,7 @@ describe 'Upload attachment to board message', js: true do
     end
 
     expect(page).to have_selector('attachment-list-item', text: 'image.png')
+    expect(page).not_to have_selector('notification-upload-progress')
 
     show_page = create_page.click_save
 
@@ -78,6 +81,7 @@ describe 'Upload attachment to board message', js: true do
     end
 
     editor.in_editor do |container, editable|
+      editable.base.send_keys(:page_up, 'some text', :enter, :enter, :enter)
       attachments.drag_and_drop_file(editable, image_fixture)
 
       # Besides testing caption functionality this also slows down clicking on the submit button
@@ -86,6 +90,7 @@ describe 'Upload attachment to board message', js: true do
     end
 
     expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
+    expect(page).not_to have_selector('notification-upload-progress')
 
     show_page.click_save
 

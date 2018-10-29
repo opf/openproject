@@ -1029,6 +1029,7 @@ fi:
 '
   error_external_authentication_failed: An error occured during external authentication.
     Please try again.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Project edited
     changeset: Changeset edited
@@ -1078,7 +1079,7 @@ fi:
       upsale:
         become_hero: Ryhdy sankariksi!
         title: Päivitä yritysversioon
-        description: Tehosta tuottavuuttasi yritysversiolla
+        description: What are the benefits?
         more_info: Lisätietoja
         additional_features: Muita tehokkaita erikoisominaisuuksia
         professional_support: Professional support from the OpenProject experts
@@ -1850,7 +1851,7 @@ fi:
       team collaboration with OpenProject.
     text_show_again: Voit käynnistää tämä videon uudelleen ohjeet-valikosta
     welcome: Tervetuloa OpenProjectiin
-    select_language: Please select your language for OpenProject
+    select_language: Please select your language
   permission_add_work_package_notes: Lisää muistiinpanoja
   permission_add_work_packages: Lisää työpaketteja
   permission_add_messages: Jätä viesti
@@ -2204,8 +2205,9 @@ fi:
   setting_welcome_on_homescreen: Näytä tervehdyspalkki kotinäkymässä
   setting_wiki_compression: Wiki historian tiivistys
   setting_work_package_group_assignment: Allow assignment to groups
-  setting_work_package_list_default_highlighting_mode: Default work package highlighting
-    mode
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: Yleinen
     other: Muut
@@ -2215,6 +2217,13 @@ fi:
     user:
       default_preferences: Default preferences
       deletion: Deletion
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: No highlighting
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: Plain text
@@ -2668,7 +2677,7 @@ fi:
       code_401_wrong_credentials: Et ole antanut oikeita käyttäjätietoja.
       code_403: Sinulla ei ole oikeutta käyttää tätä resurssia.
       code_404: The requested resource could not be found.
-      code_409: Ei voinut päivittää resurssi koska ristiriitaisia muutoksia.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: An internal error has occured.
       expected:
         date: YYYY-MM-DD (ISO 8601 date only)

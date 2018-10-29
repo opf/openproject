@@ -34,13 +34,32 @@ module Components
 
       def initialize; end
 
-      def switch_highlight(label)
+      def switch_highlighting_mode(label)
         modal_open? or open_modal
-        if %w(Status Priority).include? label
-          choose "Entire row by"
-          select label
-        else
-          choose label
+        choose label
+
+        apply
+      end
+
+      def switch_entire_row_highlight(label)
+        modal_open? or open_modal
+        choose "Entire row by"
+        page.all(".form--field")[1].select label
+        apply
+      end
+
+      def switch_inline_attribute_highlight(*labels)
+        modal_open? or open_modal
+        choose "Highlighted attribute(s)"
+        within(page.all(".form--field")[0]) do
+          if labels.size == 1
+            select labels.first
+          elsif labels.size > 1
+            find('[class*="--toggle-multiselect"]').click
+            labels.each do |label|
+              select label
+            end
+          end
         end
         apply
       end

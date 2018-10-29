@@ -13,9 +13,9 @@ es:
     autocomplete_select:
       placeholder:
         multi: Añadir "%{name}"
-        single: Seleccionar "%{name}"
-      remove: Eliminar "%{name}"
-      active: Activar %{label} %{name}
+        single: Seleccione "%{name}"
+      remove: Elimine "%{name}"
+      active: Activo %{label} %{name}
     close_popup_title: Cerrar ventana emergente
     close_filter_title: Cerrar filtro
     close_form_title: Cerrar formulario
@@ -63,6 +63,7 @@ es:
       preview: Alternar modo de vista previa
       source_code: Toggle Markdown source mode
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      error_initialization_failed: Failed to initialize CKEditor!
       mode:
         manual: Switch to Markdown source
         wysiwyg: Switch to WYSIWYG editor
@@ -109,6 +110,10 @@ es:
         embedded_table:
           button: Insertar tabla de paquetes de trabajo
           text: "[Placeholder] Tabla de paquetes de trabajo insertada"
+    custom_actions:
+      date:
+        specific: en
+        current_date: Current date
     error:
       internal: Ha ocurrido un error interno.
       cannot_save_changes_with_message: 'No se pueden guardar los cambios debido al
@@ -133,7 +138,7 @@ es:
           two: Segundo criterio de ordenación
           three: Tercer criterio de ordenación
       upsale_for_more: Para el uso de filtros más avanzados, consulte
-      upsale_link: Enterprise Edition.
+      upsale_link: Edición empresarial.
     general_text_no: 'no'
     general_text_yes: sí
     general_text_No: 'No'
@@ -284,6 +289,47 @@ es:
       los errores siguientes:'
     help_texts:
       show_modal: Mostrar entrada de texto de ayuda para atributo
+    onboarding:
+      steps:
+        welcome: Take a three minutes introduction tour to learn the most <b>important
+          features</b>. <br> We recommend to complete the steps until the end. You
+          can restart the tour any time.
+        project_selection: Please select one of the projects with useful demo data
+          to get started. <br> The <b>Demo project</b> suits best for classical project
+          management, while the <b>Scrum project</b> is better for Agile project management.
+        sidebar_arrow: With the arrow you can navigate back to the project's <b>Main
+          menu</b>.
+        members: Invite new <b>Members</b> to join your project.
+        wiki: Within the <b>Wiki</b> you can document and share knowledge together
+          with your team.
+        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> Here
+          you can create <b>epics, user stories, and bugs</b>, prioritize via drag'n'drop
+          and add them to a sprint.
+        backlogs_task_board_arrow: To see your <b>Task board</b>, open on the Sprint
+          drop-down...
+        backlogs_task_board_select: "... and select the <b>Task board</b> entry."
+        backlogs_task_board: The <b>Task board</b> visualizes the progress for this
+          sprint. Add new tasks or impediments with the + icon next to a user story.
+          Via drag'n'drop you can update the status.
+        wp_toggler: Now let's have a look at the <b>Work package</b> section, which
+          gives you a more detailed view of your work.
+        wp_list: This is the <b>Work package</b> list with the important work within
+          your project, such as tasks, features, milestones, bugs, and more. <br>
+          You can create or edit a work package directly within this list. To see
+          its details you can double click on a row.
+        wp_full_view: Within the <b>Work package details</b> you find all relevant
+          information, such as description, status and priority, activities or comments.
+        wp_back_button: With the arrow you can navigate back to the work package list.
+        wp_create_button: The <b>Create</b> button will add a new work package to
+          your project.
+        wp_timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
+          for your project.
+        wp_timeline: Here you can edit your project plan. Create new phases, milestones,
+          and add dependencies. All team members can see and update the latest plan
+          at any time.
+        help_menu: In the <b>Help</b> menu you will find a user guide and additional
+          help resources. <br> Enjoy your work with OpenProject!
+        got_it: Got it
     password_confirmation:
       field_description: Necesitas introducir la contraseña de tu cuenta para confirmar
         este cambio.
@@ -477,6 +523,8 @@ es:
         a Microsoft Edge.
       learn_more: Saber más
       close_warning: Ignore esta advertencia.
+    upsale:
+      ee_only: Característica exclusiva de Enterprise Edition
     wiki_formatting:
       strong: Negrita
       italic: Cursiva
@@ -657,15 +705,16 @@ es:
         highlighting_mode:
           description: Resaltar con color
           none: Sin resaltado
-          inline: Fechas de vencimiento, “Estado” y atributo de “Prioridad”
+          inline: Highlighted attribute(s)
+          inline_all: All attributes
           entire_row_by: Toda la fila por
           status: Estado
           priority: Prioridad
+          type: Tipo
         columns_help_text: Use los datos anteriores para agregar o quitar columnas
           de la vista de tabla. Puede arrastrar y colocar las columnas para cambiar
           el orden.
         upsale:
-          ee_only: Característica exclusiva de Enterprise Edition
           attribute_highlighting: "¿Necesita que algunos paquetes de trabajo destaquen
             del resto?"
           relation_columns: "¿Necesita ver las relaciones en la lista del paquete
@@ -717,8 +766,8 @@ es:
         title: Confirmar la eliminación de %{label}
         text: "¿Está seguro de que quiere eliminar la siguiente %{label} ?"
         has_children: 'El paquete de trabajo tiene %{childUnits}:'
-        confirm_deletion_children: Confirmo que TODOS los descendientes de los paquetes
-          de trabajo de la lista se eliminarán de forma recursiva.
+        confirm_deletion_children: Reconozco que TODOS los descendientes de los paquetes
+          de trabajo enumerados se eliminarán recursivamente.
         deletes_children: También se eliminarán de forma recursiva todos los paquetes
           de trabajo secundarios y sus descendientes.
     notice_successful_create: Creación exitosa.

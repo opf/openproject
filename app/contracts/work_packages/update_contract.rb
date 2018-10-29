@@ -37,7 +37,6 @@ module WorkPackages
       end
     end
 
-
     validate :user_allowed_to_access
 
     validate :user_allowed_to_edit

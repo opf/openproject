@@ -60,6 +60,7 @@ describe 'Upload attachment to wiki page', js: true do
     end
 
     expect(page).to have_selector('attachment-list-item', text: 'image.png')
+    expect(page).not_to have_selector('notification-upload-progress')
 
     click_on 'Save'
 
@@ -72,7 +73,7 @@ describe 'Upload attachment to wiki page', js: true do
     end
 
     # Replace one image with a named attachment URL (Regression #28381)
-    editor.set_markdown "![my-first-image](image.png)"
+    editor.set_markdown "![my-first-image](image.png)\n\nText that prevents the two images colliding"
 
     editor.in_editor do |container, editable|
       # Expect URL is mapped to the correct URL
@@ -87,6 +88,7 @@ describe 'Upload attachment to wiki page', js: true do
     end
 
     expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
+    expect(page).not_to have_selector('notification-upload-progress')
 
     click_on 'Save'
 
@@ -113,6 +115,7 @@ describe 'Upload attachment to wiki page', js: true do
     # Upload image to dropzone
     expect(page).to have_no_selector('.work-package--attachments--filename')
     attachments.attach_file_on_input(image_fixture)
+    expect(page).not_to have_selector('notification-upload-progress')
     expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png')
 
     # Assume we could still save the page with an empty title

@@ -37,9 +37,8 @@ import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
 import {WorkPackageEditForm} from './work-package-edit-form';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 import {WorkPackageTable} from 'core-components/wp-fast-table/wp-fast-table';
-import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 import {WorkPackageEditingPortalService} from "core-app/modules/fields/edit/editing-portal/wp-editing-portal-service";
-import {asyncTimeOutput} from "core-app/helpers/debug_output";
+import {IFieldSchema} from "core-app/modules/fields/field.base";
 
 export class TableRowEditContext implements WorkPackageEditContext {
 
@@ -71,7 +70,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
     return this.rowContainer.find(`.${tdClassName}.${fieldName}`).first();
   }
 
-  public activateField(form:WorkPackageEditForm, field:EditField, fieldName:string, errors:string[]):Promise<WorkPackageEditFieldHandler> {
+  public activateField(form:WorkPackageEditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<WorkPackageEditFieldHandler> {
     return this.waitForContainer(fieldName)
       .then((cell) => {
 
@@ -85,7 +84,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
         return this.wpEditingPortalService.create(
           cell,
           form,
-          field,
+          schema,
           fieldName,
           errors
         );

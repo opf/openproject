@@ -135,6 +135,16 @@ export class WpResizerDirective implements OnInit, OnDestroy {
 
       // Enable mouse move
       window.addEventListener('mousemove', this.mouseMoveHandler);
+      window.addEventListener('touchmove', this.mouseMoveHandler, { passive: false });
+    }
+  }
+
+  @HostListener('window:touchend', ['$event'])
+  private handleTouchEnd(e:MouseEvent) {
+    window.removeEventListener('touchmove', this.mouseMoveHandler);
+    let localStorageValue = window.OpenProject.guardedLocalStorage(this.localStorageKey);
+    if (localStorageValue) {
+      this.elementFlex = parseInt(localStorageValue, 10);
     }
   }
 
@@ -150,7 +160,7 @@ export class WpResizerDirective implements OnInit, OnDestroy {
     // Change cursor icon back
     document.body.style.cursor = 'auto';
 
-    // Take care at the end that the elemntFlex-Value is the same as the acutal value
+    // Take care at the end that the elementFlex-Value is the same as the actual value
     // When the mouseup is outside the container these values will differ
     // which will cause problems at the next movement start
     let localStorageValue = window.OpenProject.guardedLocalStorage(this.localStorageKey);
@@ -172,8 +182,8 @@ export class WpResizerDirective implements OnInit, OnDestroy {
     e.stopPropagation();
 
     // Get delta to resize
-    let delta = this.oldPosition - e.clientX;
-    this.oldPosition = e.clientX;
+    let delta = this.oldPosition - (e.clientX || e.pageX);
+    this.oldPosition = (e.clientX || e.pageX);
 
     // Get new value depending on the delta
     // The resizingElement is not allowed to be smaller than 480px

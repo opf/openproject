@@ -995,6 +995,7 @@ ko:
 
 '
   error_external_authentication_failed: 외부 인증 중에 오류가 발생했습니다. 다시 시도하세요.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: 프로젝트 편집됨
     changeset: 변경 집합 편집됨
@@ -1044,7 +1045,7 @@ ko:
       upsale:
         become_hero: 영웅이 되세요!
         title: Enterprise Edition으로 업그레이드 하세요.
-        description: Enterprise Edition으로 당신의 생산성을 끌어올리세요.
+        description: What are the benefits?
         more_info: 더보기
         additional_features: 추가적인 강력한 프리미엄 기능들
         professional_support: OpenProject 전문가들의 전문적인 지원
@@ -1797,7 +1798,7 @@ ko:
       수 있습니다.
     text_show_again: 도움말 메뉴에서 이 비디오를 다시 시작할 수 있습니다.
     welcome: OpenProject에 오신 것을 환영합니다.
-    select_language: OpenProject에 대한 해당 언어를 선택하세요.
+    select_language: Please select your language
   permission_add_work_package_notes: 메모 추가
   permission_add_work_packages: 작업 패키지 추가
   permission_add_messages: 메시지 게시
@@ -2121,7 +2122,9 @@ ko:
   setting_welcome_on_homescreen: 홈 화면에 환영 블록 표시
   setting_wiki_compression: 위키 기록 압축
   setting_work_package_group_assignment: 그룹에 할당 허용
-  setting_work_package_list_default_highlighting_mode: 기본 작업 패키지 강조 표시 모드
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: 일반
     other: 기타
@@ -2131,6 +2134,13 @@ ko:
     user:
       default_preferences: 기본 설정
       deletion: 삭제
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: 강조 표시 없음
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: 일반 텍스트
@@ -2546,7 +2556,7 @@ ko:
       code_401_wrong_credentials: 올바른 자격 증명을 제공하지 않았습니다.
       code_403: 접근 권한이 없습니다.
       code_404: 요청한 리소스를 찾을 수 없습니다.
-      code_409: 수정사항이 출동되어 업데이트 할 수 없습니다.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: 내부 오류가 발생했습니다.
       expected:
         date: YYYY-MM-DD(ISO 8601 날짜만)

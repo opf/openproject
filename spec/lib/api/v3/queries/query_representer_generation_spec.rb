@@ -517,8 +517,64 @@ describe ::API::V3::Queries::QueryRepresenter do
 
           it 'renders the default' do
             query.highlighting_mode = nil
-
+            query.highlighted_attributes = nil
             is_expected.to be_json_eql('inline'.to_json).at_path('highlightingMode')
+            is_expected.to_not have_json_path('highlightedAttributes')
+          end
+
+          context "inline attribute highlighting" do
+            let :status do
+              {
+                href: '/api/v3/queries/columns/status',
+                title: 'Status'
+              }
+            end
+
+            let :type do
+              {
+                href: '/api/v3/queries/columns/type',
+                title: 'Type'
+              }
+            end
+
+            let :priority do
+              {
+                href: '/api/v3/queries/columns/priority',
+                title: 'Priority'
+              }
+            end
+
+            let :due_date do
+              {
+                href: '/api/v3/queries/columns/dueDate',
+                title: 'Finish date'
+              }
+            end
+
+            let(:query) do
+              query = FactoryBot.build_stubbed(:query, project: project)
+
+              query.highlighted_attributes = ['status', 'type', 'priority', 'due_date']
+
+              query
+            end
+
+            let(:highlighted_attributes) do
+              [status, type, priority, due_date]
+            end
+
+            it 'links an array of highlighted attributes' do
+              is_expected
+                .to be_json_eql(highlighted_attributes.to_json).at_path('_links/highlightedAttributes')
+            end
+
+            it 'embeds selected inline attributes' do
+              query.highlighted_attributes[0..0].each_with_index do |attr, index|
+                is_expected
+                  .to be_json_eql("/api/v3/queries/columns/#{attr}".to_json)
+                  .at_path("_embedded/highlightedAttributes/#{index}/_links/self/href")
+              end
+            end
           end
         end
 

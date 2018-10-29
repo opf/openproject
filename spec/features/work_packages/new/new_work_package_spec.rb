@@ -184,8 +184,8 @@ describe 'new work package', js: true do
 
           find(".customField#{ids.last} option", text: 'foo').select_option
           save_work_package!(false)
-          # Its a known bug that custom fields validation errors do not contain their names
-          notification.expect_error("can't be blank.")
+
+          notification.expect_error("#{custom_field1.name} can't be blank.")
 
           cf1.set 'Custom field content'
           save_work_package!(true)
@@ -307,6 +307,8 @@ describe 'new work package', js: true do
 
     it 'can create the work package, but not update it after saving' do
       type_field.set_value type_bug.name
+      # wait after the type change
+      sleep(0.2)
       subject_field.update('new work package')
 
       wp_page.expect_and_dismiss_notification(

@@ -284,7 +284,7 @@ describe CustomFieldFormBuilder do
         resource.custom_field.field_format = 'version'
         resource.customized = project
         allow(project)
-          .to receive(:versions)
+          .to receive(:shared_versions)
           .and_return([version1, version2])
       end
 

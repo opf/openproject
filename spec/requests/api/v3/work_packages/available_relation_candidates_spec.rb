@@ -81,10 +81,8 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
     end
   end
 
-  context "without cross project relations" do
-    before do
-      Setting.cross_project_work_package_relations = "0"
-    end
+  context "without cross project relations",
+          with_settings: { cross_project_work_package_relations: false } do
 
     describe "relation candidates for wp_1 (in hierarchy)" do
       it "should return an empty list" do # as relations to ancestors or descendents is not allowed
@@ -117,10 +115,8 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
     end
   end
 
-  context "with cross project relations" do
-    before do
-      Setting.cross_project_work_package_relations = "1"
-    end
+  context "with cross project relations",
+          with_settings: { cross_project_work_package_relations: true } do
 
     describe "relation candidates for wp_1 (in hierarchy)" do
       let(:href) { "/api/v3/work_packages/#{wp_1.id}/available_relation_candidates?query=WP" }

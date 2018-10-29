@@ -32,15 +32,16 @@ import {WorkPackageEditContext} from './work-package-edit-context';
 import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {ComponentRef, Injector} from '@angular/core';
+import {Injector} from '@angular/core';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
-import {EditField} from "core-app/modules/fields/edit/edit.field.module";
-import {IEditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler.interface";
+import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 import {ClickPositionMapper} from "core-app/modules/common/set-click-position/set-click-position";
 import {debugLog} from "core-app/helpers/debug_output";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
+import {IFieldSchema} from "core-app/modules/fields/field.base";
+import {Subject} from 'rxjs';
 
-export class WorkPackageEditFieldHandler implements IEditFieldHandler {
+export class WorkPackageEditFieldHandler extends EditFieldHandler {
   // Injections
   readonly FocusHelper:FocusHelperService = this.injector.get(FocusHelperService)
   readonly ConfigurationService = this.injector.get(ConfigurationService);
@@ -48,10 +49,9 @@ export class WorkPackageEditFieldHandler implements IEditFieldHandler {
 
   // Other fields
   public editContext:WorkPackageEditContext;
-  public schemaName:string;
 
   // Reference to the active component, if any
-  public componentInstance:ComponentRef<EditFieldComponent>;
+  public componentInstance:EditFieldComponent;
 
   // Current errors of the field
   public errors:string[];
@@ -59,13 +59,11 @@ export class WorkPackageEditFieldHandler implements IEditFieldHandler {
   constructor(public injector:Injector,
               public form:WorkPackageEditForm,
               public fieldName:string,
-              public field:EditField,
+              public schema:IFieldSchema,
               public element:HTMLElement,
-              protected onDestroy:() => void,
               protected withErrors?:string[]) {
-
+    super();
     this.editContext = form.editContext;
-    this.schemaName = field.name;
 
     if (withErrors !== undefined) {
       this.setErrors(withErrors);
@@ -82,6 +80,10 @@ export class WorkPackageEditFieldHandler implements IEditFieldHandler {
 
   public get inEditMode() {
     return this.form.editMode;
+  }
+
+  public get inFlight() {
+    return this.form.changeset.inFlight;
   }
 
   public get active() {
@@ -110,16 +112,19 @@ export class WorkPackageEditFieldHandler implements IEditFieldHandler {
     this.element.classList.toggle('-error', this.isErrorenous);
   }
 
+
+
   /**
    * Handle a user submitting the field (e.g, ng-change)
    */
   public handleUserSubmit():Promise<any> {
-    if (this.field.inFlight || this.form.editMode) {
+    if (this.form.changeset.inFlight || this.form.editMode) {
       return Promise.resolve();
     }
 
-    this.field.onSubmit();
-    return this.form.submit();
+    return this
+      .onSubmit()
+      .then(() => this.form.submit());
   }
 
   /**
@@ -169,7 +174,8 @@ export class WorkPackageEditFieldHandler implements IEditFieldHandler {
    */
   public deactivate(focus:boolean = false) {
     delete this.form.activeFields[this.fieldName];
-    this.onDestroy();
+    this.onDestroy.next();
+    this.onDestroy.complete();
     this.editContext.reset(this.workPackage, this.fieldName, focus);
   }
 
@@ -184,7 +190,7 @@ export class WorkPackageEditFieldHandler implements IEditFieldHandler {
    * Returns whether the field has been changed
    */
   public isChanged():boolean {
-    return this.form.changeset.isOverridden(this.schemaName);
+    return this.form.changeset.isOverridden(this.fieldName);
   }
 
   /**
@@ -213,7 +219,7 @@ export class WorkPackageEditFieldHandler implements IEditFieldHandler {
    * Return the field label
    */
   public get fieldLabel() {
-    return this.field.displayName;
+    return this.schema.name || this.fieldName;
   }
 
   public get errorMessageOnLabel() {

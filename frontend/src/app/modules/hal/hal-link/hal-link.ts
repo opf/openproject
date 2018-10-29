@@ -42,6 +42,11 @@ export interface HalLinkInterface {
   identifier?:string;
 }
 
+export interface HalLinkSource {
+  href:string|null;
+  title:string;
+}
+
 export interface CallableHalLink extends HalLinkInterface {
   $link:this;
   data?:Promise<HalResource>;

@@ -125,7 +125,6 @@ class WorkPackageField
     end
   end
 
-
   def type(text)
     scroll_to_element(input_element)
     input_element.send_keys text

@@ -28,6 +28,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+set -e
+
 run() {
   echo $1;
   eval $1;

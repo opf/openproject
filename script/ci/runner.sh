@@ -45,22 +45,11 @@ export OPENPROJECT_CLI_PROXY=''
 
 case "$1" in
         npm)
-            npm test
+            cd frontend && npm run test
             ;;
-        spec_legacy)
-            echo "Preparing SCM test repositories for legacy specs"
-            bundle exec rake test:scm:setup:all
-            exec bundle exec rspec -I spec_legacy -o "--seed $CI_SEED" spec_legacy
-            ;;
-        specs)
-            bin/parallel_test --type rspec -o "--seed $CI_SEED" -n $2 --only-group $3 --pattern '^spec/(?!features\/)' spec
-            ;;
-        features)
-            bin/parallel_test --type rspec -o "--seed $CI_SEED" -n $2 --only-group $3 --pattern '^spec\/features\/' spec
-            ;;
-        cucumber)
-            bin/parallel_test --type cucumber -n $2 --only-group $3 features
+        plugins:cucumber)
+            bundle exec rake parallel:$1 -- --group-number $2 --only-group $3
             ;;
         *)
-            bundle exec rake parallel:$1
+            bundle exec rake parallel:$1 -- --group-number $2 --only-group $3 --seed $CI_SEED
 esac

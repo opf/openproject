@@ -30,8 +30,10 @@ See docs/COPYRIGHT.rdoc for more details.
 <% content_for :action_menu_specific do %>
   <%= watcher_link(@wiki, User.current) %>
 <% end %>
-<h2 class="legacy-heading"><%= l(:label_index_by_date) %></h2>
-<%= render partial: 'layouts/action_menu_specific' %>
+
+<%= toolbar title: t(:label_index_by_date) %>
+<%= render partial: "layouts/action_menu_specific" %>
+
 <% if @pages.empty? %>
   <%= no_results_box %>
 <% end %>

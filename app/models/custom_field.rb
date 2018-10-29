@@ -260,7 +260,7 @@ class CustomField < ActiveRecord::Base
   def possible_version_values_options(obj)
     mapped_with_deduced_project(obj) do |project|
       if project
-        project.versions
+        project.shared_versions
       else
         Version.systemwide
       end

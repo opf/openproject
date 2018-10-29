@@ -27,7 +27,7 @@
 // ++
 
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, fromEvent, Observable, Subscription} from 'rxjs';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {Injector} from "@angular/core";
@@ -39,6 +39,7 @@ export class MainMenuToggleService {
   private elementWidth:number;
   private readonly localStorageKey:string = 'openProject-mainMenuWidth';
   private readonly defaultWidth:number = 230;
+  private readonly currentProject:CurrentProjectService = this.injector.get(CurrentProjectService);
 
   private global = (window as any);
   private htmlNode = document.getElementsByTagName('html')[0];
@@ -52,6 +53,9 @@ export class MainMenuToggleService {
   // Notes all changes of the menu size (currently needed in wp-resizer.component.ts)
   private changeData = new BehaviorSubject<any>({});
   public changeData$ = this.changeData.asObservable();
+
+  private resizeObservable$:Observable<Event>;
+  private resizeSubscription$:Subscription;
 
   constructor(protected I18n:I18nService,
               protected injector:Injector) {
@@ -74,9 +78,12 @@ export class MainMenuToggleService {
     }
 
     // mobile version default: hide menu on initialization
-    if (this.isMobile()) {
+    if (this.isMobile) {
       this.closeMenu();
     }
+
+    // Listen on changes of the screen size
+    this.onWindowResize();
   }
 
   // click on arrow or hamburger icon
@@ -86,8 +93,8 @@ export class MainMenuToggleService {
       event.preventDefault();
     }
 
-    if (!this.showNavigation()) { // sidebar is hidden -> show menu
-      if (this.isMobile()) { // mobile version
+    if (!this.showNavigation) { // sidebar is hidden -> show menu
+      if (this.isMobile) { // mobile version
         this.setWidth(window.innerWidth);
         // On mobile the main menu shall close whenever you click outside the menu.
         this.setupAutocloseMainMenu();
@@ -109,18 +116,22 @@ export class MainMenuToggleService {
   }
 
   public closeMenu():void {
-    this.saveWidth(0);
+    if (this.isMobile) {
+      this.saveWidth(0);  // save 0 in localStorage to open menu automatically on onWindowResize
+    } else {
+      this.setWidth(0);
+    }
     this.hideElements.addClass('hidden-navigation');
   }
 
   public closeWhenOnMobile():void {
-    if (this.isMobile()) {
+    if (this.isMobile) {
       this.closeMenu()
     };
   }
 
   private setToggleTitle():void {
-    if (this.showNavigation()) {
+    if (this.showNavigation) {
       this.toggleTitle = this.I18n.t('js.label_hide_project_menu');
     } else {
       this.toggleTitle = this.I18n.t('js.label_expand_project_menu');
@@ -129,7 +140,7 @@ export class MainMenuToggleService {
   }
 
   private addRemoveClassHidden():void {
-    this.hideElements.toggleClass('hidden-navigation', !this.showNavigation());
+    this.hideElements.toggleClass('hidden-navigation', !this.showNavigation);
   }
 
   public saveWidth(width?:number):void {
@@ -151,7 +162,7 @@ export class MainMenuToggleService {
     this.snapBack();
     this.ensureContentVisibility();
 
-    this.global.showNavigation = this.showNavigation();
+    this.global.showNavigation = this.showNavigation;
     this.addRemoveClassHidden();
     this.htmlNode.style.setProperty("--main-menu-width", this.elementWidth + 'px');
   }
@@ -162,13 +173,13 @@ export class MainMenuToggleService {
     jQuery('#main-menu').on('focusout.main_menu', function (event) {
       // Check that main menu is not closed and that the `focusout` event is not a click on an element
       // that tries to close the menu anyways.
-      if (!that.showNavigation() || document.getElementById('main-menu-toggle') ===  event.relatedTarget) {
+      if (!that.showNavigation || document.getElementById('main-menu-toggle') ===  event.relatedTarget) {
         return;
       }
       else {
         // There might be a time gap between `focusout` and the focussing of the activeElement, thus we need a timeout.
         setTimeout(function() {
-          if (!jQuery.contains(<Element>document.getElementById('main-menu'), document.activeElement) &&
+          if (!jQuery.contains(document.getElementById('main-menu')!, document.activeElement!) &&
               (document.getElementById('main-menu-toggle') !== document.activeElement)) {
             // activeElement is outside of main menu.
             that.closeMenu();
@@ -185,17 +196,40 @@ export class MainMenuToggleService {
   }
 
   private ensureContentVisibility():void {
-    let viewportWidth = document.documentElement.clientWidth;
+    let viewportWidth = document.documentElement!.clientWidth;
     if (this.elementWidth >= viewportWidth - 150) {
       this.elementWidth = viewportWidth - 150;
     }
   }
 
-  private isMobile():boolean {
+  public get isMobile():boolean {
     return (window.innerWidth < 680);
   }
 
-  public showNavigation():boolean {
+  public get showNavigation():boolean {
     return (this.elementWidth > 10);
+  }
+
+  private get isGlobalPage():boolean {
+    return this.currentProject.id? false : true;
+  }
+
+  // Listen on changes of the window size on all global pages
+  // Expand menu automatically on desktop
+  private onWindowResize() {
+    if (!this.isGlobalPage) { // Listen only on global pages
+      return;
+    }
+    this.resizeObservable$ = fromEvent(window, 'resize')
+    this.resizeSubscription$ = this.resizeObservable$.subscribe( evt => {
+      if (!this.isMobile) {
+        let localStorage = parseInt(window.OpenProject.guardedLocalStorage(this.localStorageKey) as string);
+        if (localStorage > 0 && this.elementWidth > 10) {             // Mobile menu is open and should stay open on desktop
+          this.setWidth(localStorage);
+        } else if (localStorage === 0 && this.elementWidth === 0) {   // Mobile menu is closed and should expand on desktop
+          this.saveWidth(this.defaultWidth);
+        }
+      }
+    });
   }
 }

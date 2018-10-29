@@ -1046,6 +1046,7 @@ ca:
 '
   error_external_authentication_failed: S'ha produït un error durant l'autenticació
     externa. Torneu-ho a provar.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Projecte editat
     changeset: Conjunt de canvis editat
@@ -1095,7 +1096,7 @@ ca:
       upsale:
         become_hero: Become a hero!
         title: Upgrade to Enterprise Edition
-        description: Boost your productivity with the Enterprise Edition
+        description: What are the benefits?
         more_info: More information
         additional_features: Additional powerful premium features
         professional_support: Professional support from the OpenProject experts
@@ -1885,7 +1886,7 @@ ca:
       team collaboration with OpenProject.
     text_show_again: Pot reprendre aquest vídeo des del menú d'ajuda
     welcome: Welcome to OpenProject
-    select_language: Please select your language for OpenProject
+    select_language: Please select your language
   permission_add_work_package_notes: Afegir notes
   permission_add_work_packages: Afegir paquets de treball
   permission_add_messages: Publicar missatges
@@ -2265,8 +2266,9 @@ ca:
   setting_welcome_on_homescreen: Mostrar el bloc de benvinguda a la pàgina d'inici
   setting_wiki_compression: Compressió de l'historial de la wiki
   setting_work_package_group_assignment: Permeten l'assignació als grups
-  setting_work_package_list_default_highlighting_mode: Default work package highlighting
-    mode
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: General
     other: Altres
@@ -2276,6 +2278,13 @@ ca:
     user:
       default_preferences: Default preferences
       deletion: Deletion
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: No highlighting
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: Plain text
@@ -2744,7 +2753,7 @@ ca:
       code_401_wrong_credentials: No heu proporcionat les credencials correctes.
       code_403: No està autoritzat a accedir a aquest recurs.
       code_404: El recurs sol·licitat no s'ha trobat.
-      code_409: No s'ha pogut actualitzar el recurs a causa de modificacions en conflicte.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: S'ha produït un error intern.
       expected:
         date: AAAA-MM-DD ( només dates ISO 8601)

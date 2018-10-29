@@ -53,11 +53,7 @@ class TimeEntry < ActiveRecord::Base
   validate :validate_project_is_set
   validate :validate_consistency_of_work_package_id
 
-
   scope :on_work_packages, ->(work_packages) { where(work_package_id: work_packages) }
-
-  after_initialize :set_default_activity
-  before_validation :set_default_project
 
   def self.visible(*args)
     # TODO: check whether the visibility should also be influenced by the work
@@ -67,19 +63,6 @@ class TimeEntry < ActiveRecord::Base
     # user lacks the view_work_packages permission in the moved to project.
     joins(:project)
       .merge(Project.allowed_to(args.first || User.current, :view_time_entries))
-  end
-
-  def set_default_activity
-    if new_record? && activity.nil?
-      if default_activity = TimeEntryActivity.default
-        self.activity_id = default_activity.id
-      end
-      self.hours = nil if hours == 0
-    end
-  end
-
-  def set_default_project
-    self.project ||= work_package.project if work_package
   end
 
   def hours=(h)
@@ -125,8 +108,10 @@ class TimeEntry < ActiveRecord::Base
 
   private
 
+  # TODO: move to contract
+
   def validate_hours_are_in_range
-    errors.add :hours, :invalid if hours && hours < 0
+    errors.add :hours, :invalid if hours&.negative?
   end
 
   def validate_project_is_set

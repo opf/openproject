@@ -940,6 +940,7 @@ zh:
 
 '
   error_external_authentication_failed: 在外部身份验证期间出错。请再试一次。
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: 编辑项目
     changeset: 编辑变更集
@@ -989,7 +990,7 @@ zh:
       upsale:
         become_hero: 成为英雄！
         title: 升级到企业版
-        description: 使用企业版提高您的生产率
+        description: What are the benefits?
         more_info: 更多信息
         additional_features: 其他强大的高级功能
         professional_support: 由 OpenProject 专家提供专业支持
@@ -1722,7 +1723,7 @@ zh:
     text_getting_started_description: 开放项目的项目部门和合作团队概览
     text_show_again: 您可以从帮助菜单重新启动此视频
     welcome: 欢迎来到 OpenProject
-    select_language: 请选择您的 OpenProject 语言
+    select_language: Please select your language
   permission_add_work_package_notes: 添加注释
   permission_add_work_packages: 添加工作包
   permission_add_messages: 发布消息
@@ -1772,7 +1773,7 @@ zh:
   permission_move_work_packages: 移动工作包
   permission_protect_wiki_pages: 保护维基页面
   permission_rename_wiki_pages: 重命名 wiki 网页
-  permission_save_queries: 保存查询
+  permission_save_queries: 保存界面设置
   permission_select_project_modules: 选择项目模块
   permission_manage_types: 选择类型
   permission_view_calendar: 查看日历
@@ -2029,7 +2030,9 @@ zh:
   setting_welcome_on_homescreen: 在主屏幕上显示欢迎信息
   setting_wiki_compression: Wiki 历史压缩
   setting_work_package_group_assignment: 允许分配到组
-  setting_work_package_list_default_highlighting_mode: 默认工作包突出显示模式
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: 通用
     other: 其他
@@ -2039,6 +2042,13 @@ zh:
     user:
       default_preferences: 默认偏好设置
       deletion: 删除
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: 无突出显示
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: 纯文本
@@ -2420,7 +2430,7 @@ zh:
       code_401_wrong_credentials: 你没有提供正确的凭据。
       code_403: 您无权访问此资源。
       code_404: 找不到所请求的资源。
-      code_409: 无法更新资源，因为发生冲突的修改。
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: 发生了内部错误。
       expected:
         date: YYYY-MM-DD（仅适用于 ISO 8601 日期）

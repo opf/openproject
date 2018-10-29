@@ -117,6 +117,7 @@ export class WorkPackageRelationsHierarchyService {
 
   public removeChild(childWorkPackage:WorkPackageResource) {
     return childWorkPackage.$load().then(() => {
+      let parentWorkPackage = childWorkPackage.parent;
       return childWorkPackage.changeParent({
         _links: {
           parent: {
@@ -125,6 +126,7 @@ export class WorkPackageRelationsHierarchyService {
         },
         lockVersion: childWorkPackage.lockVersion
       }).then(wp => {
+        this.wpCacheService.loadWorkPackage(parentWorkPackage.id.toString(), true);
         this.wpCacheService.updateWorkPackage(wp);
       })
       .catch((error) => {

@@ -6,8 +6,14 @@ export namespace AngularTrackingHelpers {
   }
 
   export function compareByName<T extends HalResource>(a:T|undefined|null, b:T|undefined|null):boolean {
-    const bothNil = !a && !b;
-    return bothNil || (!!a && !!b && a.name === b.name);
+    return compareByAttribute('name')(a, b);
+  }
+
+  export function compareByAttribute(attribute:string) {
+    return (a:any, b:any) => {
+      const bothNil = !a && !b;
+      return bothNil || (!!a && !!b && a[attribute] === b[attribute]);
+    };
   }
 
   export function trackByName(i:number, item:any) {
@@ -16,6 +22,15 @@ export namespace AngularTrackingHelpers {
 
   export function trackByHref(i:number, item:HalResource) {
     return _.get(item, 'href');
+  }
+
+  export function trackByHrefAndProperty(propertyName:string) {
+    return (i:number, item:HalResource) => {
+      let href = _.get(item, 'href');
+      let prop = _.get(item, propertyName, 'none');
+
+      return `${href}#${propertyName}=${prop}`;
+    };
   }
 
   export function trackByTrackingIdentifier(i:number, item:any) {

@@ -64,6 +64,7 @@ pt-BR:
       source_code: Alternar para código Markdown
       error_saving_failed: 'Não foi possível salvar o documento pelo seguinte erro:
         %{error}'
+      error_initialization_failed: Falhou ao inicializar o CKEditor!
       mode:
         manual: Alternar para fonte Markdown
         wysiwyg: Alternar para editor WYSIWYG
@@ -112,6 +113,10 @@ pt-BR:
         embedded_table:
           button: Embutir tabela de pacote de trabalho
           text: "[Placeholder] Embutida tabela de pacote de trabalho"
+    custom_actions:
+      date:
+        specific: ligado
+        current_date: Data atual
     error:
       internal: Ocorreu um erro interno.
       cannot_save_changes_with_message: 'Não foi possível salvar as alterações devido
@@ -285,6 +290,50 @@ pt-BR:
       erros:'
     help_texts:
       show_modal: Mostrar entrada para o texto de ajuda de atributos
+    onboarding:
+      steps:
+        welcome: Faça um tour de introdução de três minutos para aprender sobre as
+          <b>funcionalidades mais importantes</b>. <br> Recomendamos que conclua as
+          etapas até o final. Você pode reiniciar o tour a qualquer hora.
+        project_selection: Por favor, selecione um dos projetos com dados de demonstração
+          útil para começar. <br> O <b>Projeto Demo</b> é o melhor para gerenciamento
+          de projetos clássico, enquanto o <b>projeto Scrum</b> é melhor para gerenciamento
+          ágil de projetos.
+        sidebar_arrow: Com a seta, você pode navegar para o <b>menu principal</b>
+          do projeto.
+        members: Convide novos <b>Membros</b> para participar de seu projeto.
+        wiki: Na <b>Wiki</b> você pode documentar e compartilhar conhecimento com
+          sua equipe.
+        backlogs_overview: Gerencie seu trabalho na visão <b>Backlogs</b>. <br> Aqui
+          você pode criar <b>épicos, histórias de usuários e bugs</b>, priorizar através
+          de arrastar e soltar e adicioná-los a um sprint.
+        backlogs_task_board_arrow: Para ver seu <b>Quadro de tarefas</b>, abra no
+          menu suspenso Sprint...
+        backlogs_task_board_select: "... e selecione <b>Quadro de tarefas</b>."
+        backlogs_task_board: O <b>Quadro de tarefas</b> visualiza o progresso do sprint.
+          Adicione novas tarefas ou impedimentos com o + ícone ao lado de uma história
+          de usuário. Arrastando e soltando você pode atualizar o status.
+        wp_toggler: Agora vamos dar uma olhada na seção <b>Pacotes de trabalho</b>,
+          que lhe fornece uma visão mais detalhada do seu trabalho.
+        wp_list: Esta é a lista de <b>Pacotes de trabalho</b> com o trabalho importante
+          dentro de seu projeto, tais como tarefas, recursos, marcos, bugs e muito
+          mais. <br>Você pode criar ou editar um pacote de trabalho diretamente dentro
+          desta lista. Para ver seus detalhes você pode clicar duas vezes em uma linha.
+        wp_full_view: Nos <b>detalhes do pacote de trabalho</b> você encontra todas
+          as informações pertinentes, tais como descrição, estado e prioridade, atividades
+          ou comentários.
+        wp_back_button: Com a seta você pode navegar de volta para a lista de pacotes
+          de trabalho.
+        wp_create_button: O botão <b>Criar</b> irá adicionar um novo pacote de trabalho
+          ao seu projeto.
+        wp_timeline_button: Você pode ativar o <b>gráfico de Gantt</b> para criar
+          uma linha do tempo para o seu projeto.
+        wp_timeline: Aqui você pode editar o seu plano de projeto. Criar novas fases,
+          marcos e adicionar dependências. Todos os membros da equipe podem ver e
+          atualizar o plano mais recente a qualquer momento.
+        help_menu: No menu <b>Ajuda</b> você vai encontrar um guia do usuário e recursos
+          adicionais de ajuda. <br> Aprecie o seu trabalho com OpenProject!
+        got_it: Entendi
     password_confirmation:
       field_description: Você precisa digitar sua senha para confirmar essa alteração.
       title: Confirme sua senha para continuar
@@ -476,6 +525,8 @@ pt-BR:
         para o Microsoft Edge.
       learn_more: Saiba mais
       close_warning: Ignorar este aviso.
+    upsale:
+      ee_only: Recurso exclusivo da Enterprise Edition
     wiki_formatting:
       strong: Negrito
       italic: Itálico
@@ -654,14 +705,15 @@ pt-BR:
         highlighting_mode:
           description: Destacar com cor
           none: Sem destaque
-          inline: Datas atrasadas, "Situação" e atributo de "Prioridade"
+          inline: Atributo(s) destacado(s)
+          inline_all: Todos atributos
           entire_row_by: Toda linha por
           status: Situação
           priority: Prioridade
+          type: Tipo
         columns_help_text: Use a entrada acima para adicionar ou remover colunas à
           sua exibição de tabela. Você pode arrastar e soltar as colunas para reordená-las.
         upsale:
-          ee_only: Recurso exclusivo da Enterprise Edition
           attribute_highlighting: Precisa de certos pacotes de trabalho para se destacar
             da massa?
           relation_columns: Necessário ver as relações na lista de pacote de trabalho?

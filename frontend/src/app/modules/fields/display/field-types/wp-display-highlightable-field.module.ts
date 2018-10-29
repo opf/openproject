@@ -33,6 +33,6 @@ export class HighlightableDisplayField extends DisplayField {
   protected readonly wpTableHighlighting:WorkPackageTableHighlightingService = this.$injector.get(WorkPackageTableHighlightingService);
 
   public get shouldHighlight() {
-    return this.context.options.colorize !== false && (this.context.container !== 'table' || this.wpTableHighlighting.isInline);
+    return this.context.options.colorize !== false && (this.context.container !== 'table' || this.wpTableHighlighting.shouldHighlightInline(this.name));
   }
 }

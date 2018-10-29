@@ -1097,6 +1097,7 @@ ar:
 '
   error_external_authentication_failed: حدث خطأ أثناء المصادقة الخارجية. الرجاء المحاولة
     مرة أخرى.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: تم تعديل المشروع
     changeset: تم تحرير مجموعة التغييرات
@@ -1146,7 +1147,7 @@ ar:
       upsale:
         become_hero: Become a hero!
         title: Upgrade to Enterprise Edition
-        description: Boost your productivity with the Enterprise Edition
+        description: What are the benefits?
         more_info: More information
         additional_features: Additional powerful premium features
         professional_support: Professional support from the OpenProject experts
@@ -1937,7 +1938,7 @@ ar:
       team collaboration with OpenProject.
     text_show_again: يمكنك إعادة تشغيل هذا الفيديو من قائمة المساعدة
     welcome: مرحبًا بكم في أوبِن بروجِكت
-    select_language: Please select your language for OpenProject
+    select_language: Please select your language
   permission_add_work_package_notes: إضافة ملاحظات
   permission_add_work_packages: إضافة مجموعات عمل
   permission_add_messages: نشر الرسائل
@@ -2287,8 +2288,9 @@ ar:
   setting_welcome_on_homescreen: كتلة الترحيب عرض على الشاشة الرئيسية
   setting_wiki_compression: ضغط تاريخ Wiki
   setting_work_package_group_assignment: السماح بالإحالة إلى مجموعات
-  setting_work_package_list_default_highlighting_mode: Default work package highlighting
-    mode
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: عام
     other: اخرى
@@ -2298,6 +2300,13 @@ ar:
     user:
       default_preferences: Default preferences
       deletion: Deletion
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: No highlighting
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: Plain text
@@ -2754,7 +2763,7 @@ ar:
       code_401_wrong_credentials: لم تقدم بيانات الاعتماد الصحيحة.
       code_403: غير مسموح لك بدخول هذا المورد.
       code_404: تعذر العثور على المورد المطلوب.
-      code_409: لا يمكن تحديث الموارد  بسبب تضارب في التعديلات
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: حدث خطأ داخلي.
       expected:
         date: YYYY-MM-DD (ISO 8601 التاريخ فقط)

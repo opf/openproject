@@ -28,14 +28,13 @@
 
 $widget-box--enumeration-width: 20px
 
-.widget-boxes--screen-header
-  margin-left: 10px
-
 .widget-boxes
 
   &.-flex
     display: flex
     flex-flow: row wrap
+    // cancel the margin of the outer elements to align with the rest of the page
+    margin: 0 -10px
 
     .widget-box
       flex: 1
@@ -47,6 +46,9 @@ $widget-box--enumeration-width: 20px
     .widget-box--arrow-links,
     .widget-box--feature-list
       flex-grow: 2
+
+  &.-vertical
+    flex-flow: column wrap
 
   .icon-context:before
     padding-right: 5px
@@ -66,6 +68,16 @@ $widget-box--enumeration-width: 20px
     min-height: 250px
     word-wrap: break-word
     overflow: hidden
+
+    &.-thin
+      min-height: 100px
+    &.-wider
+      flex-grow: 3
+    &.-minimal
+      flex-grow: 0
+    &.-no-border
+      padding: 0
+      border: 0
 
     .widget-box--header
       font-weight: bold

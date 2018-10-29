@@ -63,6 +63,7 @@ nl:
       source_code: Wissel Markdown bronmodus
       error_saving_failed: Het opslaan van het document is mislukt met de volgende
         foutmelding:%{error}
+      error_initialization_failed: Failed to initialize CKEditor!
       mode:
         manual: Schakel naar de bron van het Markdown
         wysiwyg: Schakel over naar de WYSIWYG-Editor
@@ -109,6 +110,10 @@ nl:
         embedded_table:
           button: Werk pakket tabel insluiten
           text: "[Placeholder] ingesloten werkpakket tabel"
+    custom_actions:
+      date:
+        specific: op
+        current_date: Current date
     error:
       internal: Een interne fout is opgetreden.
       cannot_save_changes_with_message: 'Uw wijzigingen vanwege de volgende fout niet
@@ -284,6 +289,47 @@ nl:
       volgende fouten:'
     help_texts:
       show_modal: Toon kenmerk help tekstinvoer
+    onboarding:
+      steps:
+        welcome: Take a three minutes introduction tour to learn the most <b>important
+          features</b>. <br> We recommend to complete the steps until the end. You
+          can restart the tour any time.
+        project_selection: Please select one of the projects with useful demo data
+          to get started. <br> The <b>Demo project</b> suits best for classical project
+          management, while the <b>Scrum project</b> is better for Agile project management.
+        sidebar_arrow: With the arrow you can navigate back to the project's <b>Main
+          menu</b>.
+        members: Invite new <b>Members</b> to join your project.
+        wiki: Within the <b>Wiki</b> you can document and share knowledge together
+          with your team.
+        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> Here
+          you can create <b>epics, user stories, and bugs</b>, prioritize via drag'n'drop
+          and add them to a sprint.
+        backlogs_task_board_arrow: To see your <b>Task board</b>, open on the Sprint
+          drop-down...
+        backlogs_task_board_select: "... and select the <b>Task board</b> entry."
+        backlogs_task_board: The <b>Task board</b> visualizes the progress for this
+          sprint. Add new tasks or impediments with the + icon next to a user story.
+          Via drag'n'drop you can update the status.
+        wp_toggler: Now let's have a look at the <b>Work package</b> section, which
+          gives you a more detailed view of your work.
+        wp_list: This is the <b>Work package</b> list with the important work within
+          your project, such as tasks, features, milestones, bugs, and more. <br>
+          You can create or edit a work package directly within this list. To see
+          its details you can double click on a row.
+        wp_full_view: Within the <b>Work package details</b> you find all relevant
+          information, such as description, status and priority, activities or comments.
+        wp_back_button: With the arrow you can navigate back to the work package list.
+        wp_create_button: The <b>Create</b> button will add a new work package to
+          your project.
+        wp_timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
+          for your project.
+        wp_timeline: Here you can edit your project plan. Create new phases, milestones,
+          and add dependencies. All team members can see and update the latest plan
+          at any time.
+        help_menu: In the <b>Help</b> menu you will find a user guide and additional
+          help resources. <br> Enjoy your work with OpenProject!
+        got_it: Got it
     password_confirmation:
       field_description: U moet uw wachtwoord invoeren om deze wijziging te bevestigen.
       title: Voer uw wachtwoord in om door te gaan
@@ -478,6 +524,8 @@ nl:
         Edge.
       learn_more: Leer meer
       close_warning: Negeer deze waarschuwing.
+    upsale:
+      ee_only: Functie alleen voor de Enterprise Editie
     wiki_formatting:
       strong: Vet
       italic: Schuingedrukt
@@ -658,15 +706,16 @@ nl:
         highlighting_mode:
           description: Markeren met kleur
           none: Geen markering
-          inline: Achterstallige datums, 'Status' en 'Prioriteit' kenmerk
+          inline: Highlighted attribute(s)
+          inline_all: All attributes
           entire_row_by: Hele rij door
           status: Status
           priority: Prioriteit
+          type: Type
         columns_help_text: Gebruik de bovenstaande toegang voor het toevoegen of verwijderen
           van kolommen aan uw tabelweergave. U kunt de kolommen slepen en neerzetten
           om deze te rangschikken.
         upsale:
-          ee_only: Functie alleen voor de Enterprise Editie
           attribute_highlighting: Moeten bepaalde werkpakketten te onderscheiden zijn
             van de massa?
           relation_columns: Nodig om te zien van betrekkingen in de pakketlijst werk?

@@ -1,6 +1,9 @@
 <% url = ENV.fetch('DATABASE_URL') %>
 production:
   url: <%= url %>
+  <% if encoding = ENV['DATABASE_ENCODING'] %>
+  encoding: '<%= encoding %>'
+  <% end %>
   <% if url.start_with? 'mysql' %>
   reconnect: true
   variables:

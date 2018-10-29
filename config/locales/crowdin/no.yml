@@ -1030,6 +1030,7 @@
 '
   error_external_authentication_failed: Det oppstod en feil i forbindelse med ekstern
     autentisering. Vennligst forsøk igjen.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Prosjektet er redigert
     changeset: Changeset ble redigert
@@ -1079,7 +1080,7 @@
       upsale:
         become_hero: Bli en helt!
         title: Oppgrader til bedriftsversjonen
-        description: Boost your productivity with the Enterprise Edition
+        description: What are the benefits?
         more_info: Mer informasjon
         additional_features: Additional powerful premium features
         professional_support: Professional support from the OpenProject experts
@@ -1851,7 +1852,7 @@
       team collaboration with OpenProject.
     text_show_again: You can restart this video from the help menu
     welcome: Welcome to OpenProject
-    select_language: Please select your language for OpenProject
+    select_language: Please select your language
   permission_add_work_package_notes: Legg til notater
   permission_add_work_packages: Legg til arbeidspakker
   permission_add_messages: Skriv meldinger
@@ -2208,8 +2209,9 @@
   setting_welcome_on_homescreen: Display welcome block on homescreen
   setting_wiki_compression: Komprimering av wiki-historikk
   setting_work_package_group_assignment: Tillat tildeling til grupper
-  setting_work_package_list_default_highlighting_mode: Default work package highlighting
-    mode
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: Generell
     other: Øvrig
@@ -2219,6 +2221,13 @@
     user:
       default_preferences: Default preferences
       deletion: Deletion
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: No highlighting
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: Plain text
@@ -2677,7 +2686,7 @@
       code_401_wrong_credentials: Du har ikke angitt gyldige legitimasjon.
       code_403: Du har ikke tilgang til denne ressursen.
       code_404: Finner ikke den forespurte ressursen.
-      code_409: Kunne ikke oppdatere ressursen på grunn av konflikt med andre endringer.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: An internal error has occured.
       expected:
         date: YYYY-MM-DD (ISO 8601 date only)

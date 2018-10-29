@@ -33,21 +33,22 @@ import {DisplayFieldService} from "core-app/modules/fields/display/display-field
 import {initializeCoreEditFields} from "core-app/modules/fields/edit/edit-field.initializer";
 import {initializeCoreDisplayFields} from "core-app/modules/fields/display/display-field.initializer";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
-import {BooleanEditFieldComponent} from "core-app/modules/fields/edit/field-types/boolean-edit-field";
-import {DateEditFieldComponent} from "core-app/modules/fields/edit/field-types/date-edit-field";
+import {BooleanEditFieldComponent} from "core-app/modules/fields/edit/field-types/boolean-edit-field.component";
+import {DateEditFieldComponent} from "core-app/modules/fields/edit/field-types/date-edit-field.component";
 import {FormsModule} from "@angular/forms";
-import {DurationEditFieldComponent} from "core-app/modules/fields/edit/field-types/duration-edit-field";
-import {FloatEditFieldComponent} from "core-app/modules/fields/edit/field-types/float-edit-field";
-import {IntegerEditFieldComponent} from "core-app/modules/fields/edit/field-types/integer-edit-field";
-import {MultiSelectEditFieldComponent} from "core-app/modules/fields/edit/field-types/multi-select-edit-field";
-import {SelectEditFieldComponent} from "core-app/modules/fields/edit/field-types/select-edit-field";
+import {DurationEditFieldComponent} from "core-app/modules/fields/edit/field-types/duration-edit-field.component";
+import {FloatEditFieldComponent} from "core-app/modules/fields/edit/field-types/float-edit-field.component";
+import {IntegerEditFieldComponent} from "core-app/modules/fields/edit/field-types/integer-edit-field.component";
+import {MultiSelectEditFieldComponent} from "core-app/modules/fields/edit/field-types/multi-select-edit-field.component";
+import {SelectEditFieldComponent} from "core-app/modules/fields/edit/field-types/select-edit-field.component";
 import {FormattableEditFieldComponent} from "core-app/modules/fields/edit/field-types/formattable-edit-field.component";
-import {TextEditFieldComponent} from "core-app/modules/fields/edit/field-types/text-edit-field";
+import {TextEditFieldComponent} from "core-app/modules/fields/edit/field-types/text-edit-field.component";
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
 import {WorkPackageEditingPortalService} from "core-app/modules/fields/edit/editing-portal/wp-editing-portal-service";
 import {EditFormPortalComponent} from "core-app/modules/fields/edit/editing-portal/edit-form-portal.component";
 import {EditFieldControlsComponent,} from "core-app/modules/fields/edit/field-controls/edit-field-controls.component";
 import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-a11y.module";
+import {WorkPackageEditFieldComponent} from "core-app/modules/fields/edit/field-types/work-package-edit-field.component";
 
 @NgModule({
   imports: [
@@ -80,6 +81,7 @@ import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-
     SelectEditFieldComponent,
     TextEditFieldComponent,
     EditFieldControlsComponent,
+    WorkPackageEditFieldComponent,
   ],
   entryComponents: [
     EditFormPortalComponent,
@@ -93,6 +95,7 @@ import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-
     MultiSelectEditFieldComponent,
     SelectEditFieldComponent,
     TextEditFieldComponent,
+    WorkPackageEditFieldComponent,
   ]
 })
 export class OpenprojectFieldsModule { }

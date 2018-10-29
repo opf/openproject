@@ -56,6 +56,9 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
   // Output notification at max once/s for data changes
   @Output() onContentChange = new EventEmitter<string>();
 
+  // Output notification when editor cannot be initialized
+  @Output() onInitializationFailed = new EventEmitter<string>();
+
   // View container of the replacement used to initialize CKEditor5
   @ViewChild('opCkeditorReplacementContainer') opCkeditorReplacementContainer:ElementRef;
   @ViewChild('codeMirrorPane') codeMirrorPane:ElementRef;
@@ -66,13 +69,17 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
   public allowManualMode = false;
   public manualMode = false;
 
+  public text = {
+    errorTitle: this.I18n.t('js.editor.error_initialization_failed')
+  };
+
   // Codemirror instance, initialized lazily when running source mode
   public codeMirrorInstance:undefined | any;
 
   // Debounce change listener for both CKE and codemirror
   // to read back changes as they happen
   private debouncedEmitter = _.debounce(
-    async () => {
+    () => {
       this.getTransformedContent(false)
         .then(val => {
           this.onContentChange.emit(val);
@@ -156,6 +163,19 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    try {
+      this.initializeEditor();
+    } catch (error) {
+      // We will run into this error if, among others, the browser does not fully support
+      // CKEditor's requirements on ES6.
+
+      console.error(`Failed to setup CKEditor instance: ${error}`);
+      this.error = error;
+      this.onInitializationFailed.emit(error);
+    }
+  }
+
+  private initializeEditor()  {
     this.$element = jQuery(this.elementRef.nativeElement);
 
     const editorPromise = this.ckEditorSetup
@@ -166,7 +186,7 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
         this.content
       )
       .catch((error:string) => {
-        this.error = error;
+        throw(error);
       })
       .then((editor:ICKEditorInstance) => {
         this.ckEditorInstance = editor;

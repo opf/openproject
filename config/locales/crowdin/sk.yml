@@ -1076,6 +1076,7 @@ sk:
 '
   error_external_authentication_failed: Vyskytla sa chyba počas externej autentifikácie.
     Prosím skúste to znova.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Projekt upravený
     changeset: Sada zmien upravená
@@ -1125,7 +1126,7 @@ sk:
       upsale:
         become_hero: Become a hero!
         title: Upgrade to Enterprise Edition
-        description: Boost your productivity with the Enterprise Edition
+        description: What are the benefits?
         more_info: More information
         additional_features: Additional powerful premium features
         professional_support: Professional support from the OpenProject experts
@@ -1915,7 +1916,7 @@ sk:
       team collaboration with OpenProject.
     text_show_again: Môžete spustiť toto video z ponuky Pomocník
     welcome: Welcome to OpenProject
-    select_language: Please select your language for OpenProject
+    select_language: Please select your language
   permission_add_work_package_notes: Pridať poznámky
   permission_add_work_packages: Pridať pracovné balíky
   permission_add_messages: Post messages
@@ -2272,8 +2273,9 @@ sk:
   setting_welcome_on_homescreen: Display welcome block on homescreen
   setting_wiki_compression: Wiki history compression
   setting_work_package_group_assignment: Povoliť priradenie skupinám
-  setting_work_package_list_default_highlighting_mode: Default work package highlighting
-    mode
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: Všeobecné
     other: Ostatné
@@ -2283,6 +2285,13 @@ sk:
     user:
       default_preferences: Default preferences
       deletion: Deletion
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: No highlighting
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: Plain text
@@ -2745,7 +2754,7 @@ sk:
       code_401_wrong_credentials: Neposkytli ste správne prihlasovacie údaje.
       code_403: Nemáte oprávnenie na prístup k tomuto prostriedku.
       code_404: Požadovaný prostriedok sa nenašiel.
-      code_409: Nepodarilo sa aktualizovať prostriedok kvôli konfliktným modifikáciam.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: Nastala vnútorná chyba.
       expected:
         date: RRRR-MM-DD (len dátumu ISO 8601)

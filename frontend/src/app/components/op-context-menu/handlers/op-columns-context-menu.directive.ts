@@ -81,12 +81,15 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
    *
    * @param {Event} openerEvent
    */
-  public positionArgs(openerEvent:Event) {
-    return {
-      my: 'left top',
-      at: 'left bottom',
-      of: this.$element.find('.generic-table--sort-header-outer')
+  public positionArgs(evt:JQueryEventObject) {
+    let additionalPositionArgs = {
+      of:  this.$element.find('.generic-table--sort-header-outer'),
     };
+
+    let position = super.positionArgs(evt);
+    _.assign(position, additionalPositionArgs);
+
+    return position;
   }
 
   protected get afterFocusOn():JQuery {

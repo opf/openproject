@@ -38,7 +38,7 @@ import {Injector} from "@angular/core";
 @Component({
   selector: 'main-menu-toggle',
   template: `
-    <div *ngIf="this.currentProject.id !== null" id="main-menu-toggle"
+    <div *ngIf="this.currentProject.id !== null || toggleService.isMobile" id="main-menu-toggle"
         aria-haspopup="true"
         [attr.title]="toggleTitle"
         (accessibleClick)="toggleService.toggleNavigation($event)"

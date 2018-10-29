@@ -49,6 +49,9 @@
 //= require danger_zone_validation
 //= require flash_messages
 
+//= require_tree ./onboarding
+
+
 function checkAll(selector, checked) {
   jQuery('#' + selector + ' input:checkbox').not(':disabled').each(function() {
     this.checked = checked;
@@ -239,20 +242,6 @@ jQuery(document).ready(function($) {
       $('#ajax-indicator').hide();
     }
     addClickEventToAllErrorMessages();
-  });
-
-  // file table thumbnails
-  jQuery("table a.has-thumb").hover(function() {
-    jQuery(this).removeAttr("title").toggleClass("active");
-
-    // grab the image dimensions to position it properly
-    var thumbImg = $(this).find("img");
-    var thumbImgLeft = -(thumbImg.outerWidth() );
-    var thumbImgTop = -(thumbImg.height() / 2 );
-    thumbImg.css({top: thumbImgTop, left: thumbImgLeft}).show();
-
-  }, function() {
-    jQuery(this).toggleClass("active").find("img").hide();
   });
 
   // show/hide the files table

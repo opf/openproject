@@ -96,37 +96,21 @@ $hamburger-width: 50px
       border: 1px solid $header-drop-down-border-color
       border-top: 0
       background-color: $header-drop-down-bg-color
+      max-height: calc(100vh - #{$header-height})
+      overflow-y: auto
+      overflow-x: hidden
+
+      @include styled-scroll-bar
+
       li
         float: none
     > ul.drop-down--projects
       width: 400px
       left: 0px
 
-  li.drop-down
-    &:hover
-      @include varprop(background-color, header-item-bg-hover-color)
-      > a
-        @include varprop(color, header-item-font-hover-color)
-        i.icon-help:before
-          @include varprop(border-color, header-item-font-hover-color)
-
-    &.open
-      @include varprop(background-color, header-item-bg-hover-color)
-      > a
-        @include varprop(color, header-item-font-hover-color)
-        i.icon-help:before
-          @include varprop(border-color, header-item-font-hover-color)
-
-      .button--dropdown-indicator
-        &:before
-          @include icon-mixin-pulldown-up
-
-    li
-      > a
-        color: $header-drop-down-item-font-color
-        &:hover, &:focus
-          @include varprop(background, drop-down-hover-bg-color)
-          @include varprop(color, drop-down-hover-font-color)
+  li.drop-down.open
+    .button--dropdown-indicator:before
+      @include icon-mixin-pulldown-up
 
   li.last-child > ul,
   .drop-down--help,
@@ -277,6 +261,9 @@ input.top-menu-search--input
       position: absolute
       right: 15px
       top: calc(50% - 10px / 2)
+
+#top-menu #account-nav-left .menu-drop-down-container
+  overflow: hidden
 
 #account-nav-right
   .drop-down.last-child

@@ -1038,6 +1038,7 @@ pt-BR:
 '
   error_external_authentication_failed: Ocorreu um erro durante a autenticação externa.
     Por favor, tente novamente.
+  error_attribute_not_highlightable: 'Atributo(s) não destacado(s): %{attributes}'
   events:
     project: Projeto editado
     changeset: Conjunto de alterações editadas
@@ -1087,7 +1088,7 @@ pt-BR:
       upsale:
         become_hero: Torne-se um herói!
         title: Atualizar para a versão Enterprise Edition
-        description: Aumente sua produtividade com a versão Enterprise Edition
+        description: Quais são os benefícios?
         more_info: Mais informações
         additional_features: Poderosos recursos adicionais
         professional_support: Suporte profissional dos peritos da OpenProject
@@ -1871,7 +1872,7 @@ pt-BR:
       e colaboração de equipe com o OpenProject.
     text_show_again: Você pode reiniciar este vídeo através do menu ajuda
     welcome: Bem-vindo ao OpenProject
-    select_language: Por favor, selecione seu idioma para o OpenProject
+    select_language: Por favor, selecione seu idioma
   permission_add_work_package_notes: Adicionar anotações
   permission_add_work_packages: Adicionar pacotes de trabalho
   permission_add_messages: Postar mensagens
@@ -2116,7 +2117,7 @@ pt-BR:
   setting_email_delivery_method: Método de entrega de e-mail
   setting_sendmail_location: Localização do executável do sendmail
   setting_smtp_enable_starttls_auto: Automaticamente usar STARTTLS, se disponível
-  setting_smtp_ssl: Use SSL connection
+  setting_smtp_ssl: Usar conexão SSL
   setting_smtp_address: Servidor SMTP
   setting_smtp_port: Porta SMTP
   setting_smtp_authentication: Autenticação SMTP
@@ -2238,8 +2239,9 @@ pt-BR:
   setting_welcome_on_homescreen: Exibir bloco de boas-vindas na tela inicial
   setting_wiki_compression: Compactação de histórico do wiki
   setting_work_package_group_assignment: Permitir a atribuição de grupos
-  setting_work_package_list_default_highlighting_mode: Modo de destaque do pacote
-    de trabalho padrão
+  setting_work_package_list_default_highlighting_mode: Modo de destaque padrão
+  setting_work_package_list_default_highlighted_attributes: Atributos embutidos com
+    destaque padrão
   settings:
     general: Geral
     other: Outro
@@ -2249,6 +2251,13 @@ pt-BR:
     user:
       default_preferences: Preferências padrão
       deletion: Exclusão
+    highlighting:
+      mode_long:
+        inline: Destacar atributo(s) embutido(s)
+        none: Sem destaque
+        status: Toda a linha por Situação
+        type: Toda linha por Tipo
+        priority: Toda linha por Prioridade
   text_formatting:
     markdown: Markdown
     plain: Texto simples

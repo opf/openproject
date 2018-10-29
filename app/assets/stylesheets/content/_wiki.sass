@@ -91,6 +91,9 @@ div.wiki
     li
       list-style-type: none
 
+  ul li
+    word-wrap: break-word
+
 
   // ------------------- GENERAL -------------------
   .external.icon-context:before
@@ -150,15 +153,6 @@ h1:hover, h2:hover, h3:hover
 #wiki_page_parent_id
   overflow: auto
 
-blockquote
-  font-style: italic
-  &.icon:before
-    color: #e0e0e0
-    position: relative
-    bottom: 10px
-    right: 15px
-    padding: 0 0 0 0
-
 .toolbar-container ~ .wiki-content
   margin-top: 0
 
@@ -171,9 +165,6 @@ blockquote
     vertical-align: middle
 
 body.controller-wiki
-
-  #content
-    overflow: initial
 
   .ck-content
     min-height: 25vh

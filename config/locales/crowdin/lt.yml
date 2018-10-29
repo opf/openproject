@@ -1065,6 +1065,7 @@ lt:
 '
   error_external_authentication_failed: Įvyko klaida vykstant išorinei autentikacijai.
     Bandykite dar kartą.
+  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   events:
     project: Projektas redaguotas
     changeset: Pakeitimų paketas redaguotas
@@ -1114,7 +1115,7 @@ lt:
       upsale:
         become_hero: Tapti didvyriu!
         title: Patobulinti į „Enterprise Edition“ versiją
-        description: Padidinkite savo produktyvumą su „Enterprise Edition“
+        description: What are the benefits?
         more_info: Daugiau informacijos
         additional_features: Papildomos galingos premium funkcijos
         professional_support: Profesionali parama iš OpenProject expertų
@@ -1910,7 +1911,7 @@ lt:
       ir komandos bendradarbiavimą naudojant OpenProject.
     text_show_again: Jūs galite paleisti šį video iš naujo iš pagalbos meniu
     welcome: Sveiki atvykę į OpenProject
-    select_language: Please select your language for OpenProject
+    select_language: Please select your language
   permission_add_work_package_notes: Pridėti pastabų
   permission_add_work_packages: Pridėti darbų paketų
   permission_add_messages: Skelbti pranešimus
@@ -2279,8 +2280,9 @@ lt:
   setting_welcome_on_homescreen: Rodyti pasisveikinimo bloką namų lange
   setting_wiki_compression: Wiki istorijos suspaudimas
   setting_work_package_group_assignment: Leisti priskyrimus grupėms
-  setting_work_package_list_default_highlighting_mode: Default work package highlighting
-    mode
+  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
+    attributes
   settings:
     general: Bendra
     other: Kita
@@ -2290,6 +2292,13 @@ lt:
     user:
       default_preferences: Default preferences
       deletion: Deletion
+    highlighting:
+      mode_long:
+        inline: Highlight attribute(s) inline
+        none: No highlighting
+        status: Entire row by Status
+        type: Entire row by Type
+        priority: Entire row by Priority
   text_formatting:
     markdown: Markdown
     plain: Plain text
@@ -2759,7 +2768,7 @@ lt:
       code_401_wrong_credentials: Jūs nepateikėte teisingų prisijungimo duomenų.
       code_403: Jūs nesate autorizuotas šiam resursui pasiekti.
       code_404: Reikalaujamas resursas nerastas.
-      code_409: Nepavyko atnaujinti resurso dėl konfliktuojančių pakeitimų.
+      code_409: Could not update the resource because of conflicting modifications.
       code_500: Įvyko vidinė klaida.
       expected:
         date: YYYY-MM-DD (ISO 8601 date only)
