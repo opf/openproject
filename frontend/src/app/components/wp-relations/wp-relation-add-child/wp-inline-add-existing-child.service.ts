@@ -50,7 +50,7 @@ export class WorkPackageInlineAddExistingChildService extends WorkPackageInlineC
   }
 
   public get canReference() {
-    return !!(this.referenceTarget && this.referenceTarget.changeParent);
+    return !!(this.referenceTarget && !this.referenceTarget.isMilestone && this.referenceTarget.changeParent);
   }
 
   /**
