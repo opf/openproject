@@ -70,7 +70,7 @@ export class WpRelationsAutocompleteComponent implements OnInit {
     input.autocomplete({
       delay: 250,
       autoFocus: false, // Accessibility!
-      appendTo: '.detail-panel--autocomplete-target',
+      appendTo: '#content',
       classes: {
         'ui-autocomplete': 'wp-relations-autocomplete--results'
       },

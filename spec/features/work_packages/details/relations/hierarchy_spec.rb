@@ -46,14 +46,14 @@ shared_examples 'work package relations tab', js: true, selenium: true do
 
       ##
       # Add child #1
-      find('.wp-inline-create--add-link',
+      find('.wp-inline-create--reference-link',
            text: I18n.t('js.relation_buttons.add_existing_child')).click
 
       relations.add_existing_child(child)
 
       ##
       # Add child #2
-      find('.wp-inline-create--add-link',
+      find('.wp-inline-create--reference-link',
            text: I18n.t('js.relation_buttons.add_existing_child')).click
 
       relations.add_existing_child(child2)
@@ -172,7 +172,7 @@ shared_examples 'work package relations tab', js: true, selenium: true do
 
           ##
           # Add child
-          find('.wp-inline-create--add-link',
+          find('.wp-inline-create--reference-link',
                text: I18n.t('js.relation_buttons.add_existing_child')).click
 
           relations.add_existing_child(child)

@@ -28,7 +28,8 @@
 
 import {
   Component,
-  ElementRef, HostListener,
+  ElementRef,
+  HostListener,
   Inject,
   Injector,
   Input,
@@ -38,7 +39,7 @@ import {
 } from '@angular/core';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
-import {filter, takeUntil} from 'rxjs/operators';
+import {filter} from 'rxjs/operators';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {TableRowEditContext} from '../wp-edit-form/table-row-edit-context';
@@ -49,7 +50,6 @@ import {WorkPackageFilterValues} from '../wp-edit-form/work-package-filter-value
 import {TimelineRowBuilder} from '../wp-fast-table/builders/timeline/timeline-row-builder';
 import {onClickOrEnter} from '../wp-fast-table/handlers/click-or-enter-handler';
 import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
-import {WorkPackageTableFiltersService} from '../wp-fast-table/state/wp-table-filters.service';
 import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
 import {WorkPackageCreateService} from '../wp-new/wp-create.service';
 import {
@@ -58,7 +58,7 @@ import {
   inlineCreateRowClassName
 } from './inline-create-row-builder';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
-import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
+import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 import {IWorkPackageEditingServiceToken} from "../wp-edit-form/work-package-editing.service.interface";
@@ -77,13 +77,12 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
 
   // inner state
 
-  public isHidden:boolean = false;
+  // Inline create / reference row is active
+  public mode:'inactive'|'create'|'reference' = 'inactive';
 
   public focus:boolean = false;
 
-  public text = {
-    create: this.I18n.t('js.label_create_work_package')
-  };
+  public text = this.wpInlineCreate.buttonTexts;
 
   private currentWorkPackage:WorkPackageResource | null;
 
@@ -95,8 +94,8 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
 
   private $element:JQuery;
 
-  constructor(protected readonly elementRef:ElementRef,
-              protected readonly injector:Injector,
+  constructor(public readonly injector:Injector,
+              protected readonly elementRef:ElementRef,
               protected readonly FocusHelper:FocusHelperService,
               protected readonly I18n:I18nService,
               protected readonly tableState:TableState,
@@ -116,6 +115,10 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
 
   ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
+  }
+
+  get isActive():boolean {
+    return this.mode !== 'inactive';
   }
 
   ngOnChanges() {
@@ -163,7 +166,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
     this.tableState.columns
       .values$()
       .pipe(
-        filter(() => this.isHidden), // Take only when row is inserted
+        filter(() => this.isActive), // Take only when row is inserted
         untilComponentDestroyed(this),
       )
       .subscribe(() => {
@@ -194,7 +197,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
           }
 
           // Notify inline create service
-          this.wpInlineCreate.newInlineWorkPackage(wp);
+          this.wpInlineCreate.newInlineWorkPackageCreated.next(wp.id);
         } else {
           // Remove current row
           this.table.editing.stopEditing('new');
@@ -207,6 +210,19 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
   public handleAddRowClick() {
     this.addWorkPackageRow();
     return false;
+  }
+
+  public handleReferenceClick() {
+    this.mode = 'reference';
+    return false;
+  }
+
+  public get referenceClass() {
+    return this.wpInlineCreate.referenceComponentClass;
+  }
+
+  public get hasReferenceClass() {
+    return !!this.referenceClass;
   }
 
   public addWorkPackageRow() {
@@ -302,20 +318,23 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
   }
 
   public showRow() {
-    return this.isHidden = false;
+    this.mode = 'inactive';
   }
 
   public hideRow() {
-    return this.isHidden = true;
+    this.mode = 'create';
   }
 
   public get colspan():number {
     return this.wpTableColumns.columnCount + 1;
   }
 
-  public get isAllowed():boolean {
-    return this.authorisationService.can('work_packages', 'createWorkPackage') ||
-      this.authorisationService.can('work_package', 'addChild');
+  public get canReference():boolean {
+    return this.hasReferenceClass && this.wpInlineCreate.canReference;
+  }
+
+  public get canAdd():boolean {
+    return this.wpInlineCreate.canAdd;
   }
 
 }

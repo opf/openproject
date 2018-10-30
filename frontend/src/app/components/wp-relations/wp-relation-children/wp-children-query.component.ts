@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
@@ -35,12 +35,18 @@ import {WorkPackageRelationsHierarchyService} from 'core-components/wp-relations
 import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedded/wp-embedded-table.component';
 import {OpUnlinkTableAction} from 'core-components/wp-table/table-actions/actions/unlink-table-action';
 import {OpTableActionFactory} from 'core-components/wp-table/table-actions/table-action';
+import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
+import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {WorkPackageInlineAddExistingChildService} from "core-components/wp-relations/wp-relation-add-child/wp-inline-add-existing-child.service";
 
 @Component({
   selector: 'wp-children-query',
-  templateUrl: './wp-children-query.html'
+  templateUrl: './wp-children-query.html',
+  providers: [
+    { provide: WorkPackageInlineCreateService, useClass: WorkPackageInlineAddExistingChildService }
+  ]
 })
-export class WorkPackageChildrenQueryComponent implements OnInit {
+export class WorkPackageChildrenQueryComponent implements OnInit, OnDestroy {
   @Input() public workPackage:WorkPackageResource;
   @Input() public query:any;
   @Input() public addExistingChildEnabled:boolean = false;
@@ -66,11 +72,20 @@ export class WorkPackageChildrenQueryComponent implements OnInit {
 
   constructor(protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
               protected PathHelper:PathHelperService,
+              protected wpInlineCreate:WorkPackageInlineCreateService,
               protected queryUrlParamsHelper:UrlParamsHelperService,
               readonly I18n:I18nService) {
   }
 
   ngOnInit() {
+    // Set reference target and reference class
+    this.wpInlineCreate.referenceTarget = this.workPackage;
+
+    // Wire the successful saving of a new addition to refreshing the embedded table
+    this.wpInlineCreate.newInlineWorkPackageReferenced
+      .pipe(untilComponentDestroyed(this))
+      .subscribe(() => this.refreshTable());
+
     this.canHaveChildren = !this.workPackage.isMilestone;
     this.canModifyHierarchy = !!this.workPackage.changeParent;
 
@@ -80,6 +95,10 @@ export class WorkPackageChildrenQueryComponent implements OnInit {
     } else {
       this.childrenQueryProps = this.query;
     }
+  }
+
+  ngOnDestroy() {
+    // Nothing to do
   }
 
   public refreshTable() {
