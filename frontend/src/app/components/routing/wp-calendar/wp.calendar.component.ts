@@ -34,19 +34,7 @@ import {WorkPackagesListComponent} from "core-components/routing/wp-list/wp-list
 })
 
 export class WorkPackagesCalendarComponent extends WorkPackagesListComponent {
-  ngOnInit() {
-    if (!this.$state.params['query_props']) {
-      let params = this.$state.params;
-
-      params['query_props'] = JSON.stringify({ "f":[{ "n": "status", "o": "o", "v":[] }, { "n":"datesInterval","o":"<>d","v":["2018-09-30", "2018-11-11"]}] });
-
-      this.$state.go(this.$state.current,
-                     params,
-                     { reload: true, location: 'replace' }
-                    ) ;
-      return;
-    }
-
-    super.ngOnInit();
+  private initialQueryLoading(loadingRequired:boolean) {
+    // nothing
   }
 }

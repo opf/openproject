@@ -41,22 +41,22 @@ describe 'Work package calendars', type: :feature, js: true do
     FactoryBot.create(:work_package,
                       subject: 'Current work package',
                       project: project,
-                      start_date: Date.today,
-                      due_date: Date.today)
+                      start_date: Date.today.at_beginning_of_month + 15.days,
+                      due_date: Date.today.at_beginning_of_month + 15.days)
   end
   let!(:another_current_work_package) do
     FactoryBot.create(:work_package,
                       subject: 'Another current work package',
                       project: project,
-                      start_date: Date.today - 3.days,
-                      due_date: Date.today + 3.days)
+                      start_date: Date.today.at_beginning_of_month + 12.days,
+                      due_date: Date.today.at_beginning_of_month + 18.days)
   end
   let!(:future_work_package) do
     FactoryBot.create(:work_package,
                       subject: 'Future work package',
                       project: project,
-                      start_date: Date.today.at_beginning_of_month.next_month + 12.days,
-                      due_date: Date.today.at_beginning_of_month.next_month + 18.days)
+                      start_date: Date.today.at_beginning_of_month.next_month + 15.days,
+                      due_date: Date.today.at_beginning_of_month.next_month + 15.days)
   end
   let!(:another_future_work_package) do
     FactoryBot.create(:work_package,

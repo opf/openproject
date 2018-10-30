@@ -111,7 +111,7 @@ export class WorkPackagesListService {
         const queryProps = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(decodedProps);
         return from(this.handleQueryLoadingError(error, queryProps, queryParams.query_id, projectIdentifier));
       })
-    )
+    );
   }
 
   /**

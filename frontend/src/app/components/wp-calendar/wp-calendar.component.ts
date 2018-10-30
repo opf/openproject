@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
+import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {CalendarComponent} from 'ng-fullcalendar';
 import {Options} from 'fullcalendar';
 import {States} from "core-components/states.service";
@@ -8,6 +8,7 @@ import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-r
 import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
 import {WorkPackageTableFiltersService} from "core-components/wp-fast-table/state/wp-table-filters.service";
 import {Moment} from "moment";
+import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
 
 @Component({
   templateUrl: './wp-calendar.template.html',
@@ -18,9 +19,11 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy, AfterV
   calendarOptions:Options;
   events:any;
   @ViewChild(CalendarComponent) ucCalendar:CalendarComponent;
+  @Input() projectIdentifier:string;
 
   constructor(readonly states:States,
               readonly wpTableFilters:WorkPackageTableFiltersService,
+              readonly wpListService:WorkPackagesListService,
               readonly tableState:TableState) {
   }
 
@@ -37,7 +40,12 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy, AfterV
         center: 'title',
         right: 'month,basicWeek'
       },
-      events: []
+      events: [],
+      views: {
+        month: {
+          fixedWeekCount: false
+        }
+      }
     };
 
     this.tableState.results.values$().pipe(
@@ -72,19 +80,23 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy, AfterV
   }
 
   public updateTimeframe($event:any) {
-    if (!this.wpTableFilters.currentState) {
-      return;
-    }
-
-    let filtersState = this.wpTableFilters.currentState;
-
-    let datesIntervalFilter = _.find(filtersState.current, { 'id': 'datesInterval' })!;
-
     let calendarView = jQuery($event.currentTarget).fullCalendar('getView')!;
+    let startDate = (calendarView.start as Moment).format('YYYY-MM-DD');
+    let endDate = (calendarView.end as Moment).format('YYYY-MM-DD');
 
-    datesIntervalFilter.values[0] = (calendarView.start as Moment).format('YYYY-MM-DD');
-    datesIntervalFilter.values[1] = (calendarView.end as Moment).format('YYYY-MM-DD');
+    if (!this.wpTableFilters.currentState) {
+      let query_props = `{%22f%22:[{%20%22n%22:%20%22status%22,%20%22o%22:%20%22o%22,%20%22v%22:[]%20},%20{%20%22n%22:%22datesInterval%22,%20%22o%22:%20%22%3C%3Ed%22,%20%22v%22:%20[%22${startDate}%22,%20%22${endDate}%22]%20}],%22pp%22:50}`;
 
-    this.wpTableFilters.replace(filtersState);
+      this.wpListService.fromQueryParams({ query_props: query_props }, this.projectIdentifier).toPromise();
+    } else {
+      let filtersState = this.wpTableFilters.currentState;
+
+      let datesIntervalFilter = _.find(filtersState.current, {'id': 'datesInterval'})!;
+
+      datesIntervalFilter.values[0] = startDate;
+      datesIntervalFilter.values[1] = endDate;
+
+      this.wpTableFilters.replace(filtersState);
+    }
   }
 }
