@@ -49,8 +49,8 @@ $nm-color-success-background: #d8fdd1
   line-height: 22px
 
 .toolbar-container
+  margin-bottom: 1rem
   padding: 0
-  margin-bottom: 12px
 
   > .subtitle
     font-size: rem-calc(14px)
@@ -61,9 +61,12 @@ $nm-color-success-background: #d8fdd1
   &.-with-dropdown .toolbar-item.drop-down
     position: relative
 
+// Align title and toolbar with flex
 .toolbar
   display: flex
+  flex-wrap: wrap
   align-items: center
+  justify-content: flex-end
 
 .toolbar-items
   margin:  0
@@ -83,7 +86,7 @@ $nm-color-success-background: #d8fdd1
   .toolbar-button-group > li
     float: left
     &.toolbar-item
-      margin: 0 5px //$drop-nav-spacing // spacing between nav items
+      margin: 0 10px 10px 0 // spacing between nav items
 
       &:last-child
         margin-right: 0
@@ -178,10 +181,13 @@ $nm-color-success-background: #d8fdd1
         right: 1px
         vertical-align: text-top
 
+// Allow title container to grow
 .title-container
-  flex: 1
+  flex-grow: 1
+  flex-basis: auto
   overflow: hidden
   white-space: nowrap
+  margin-bottom: 10px // margin-bottom of toolbar buttons
 
   h2
     padding: 0
