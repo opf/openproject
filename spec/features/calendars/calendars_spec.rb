@@ -128,5 +128,25 @@ describe 'Work package calendars', type: :feature, js: true do
       .to have_selector '.fc-event-container', text: future_work_package.subject
     expect(page)
       .to have_selector '.fc-event-container', text: another_future_work_package.subject
+
+    future_url = current_url
+
+    # navigate back
+    find('.fc-left button.fc-prev-button').click
+
+    expect(page)
+      .to have_selector '.fc-event-container', text: current_work_package.subject
+
+    # open the page via the url should show the next month again
+    visit future_url
+
+    expect(page)
+      .to have_no_selector '.fc-event-container', text: current_work_package.subject
+    expect(page)
+      .to have_no_selector '.fc-event-container', text: another_current_work_package.subject
+    expect(page)
+      .to have_selector '.fc-event-container', text: future_work_package.subject
+    expect(page)
+      .to have_selector '.fc-event-container', text: another_future_work_package.subject
   end
 end

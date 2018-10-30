@@ -28,13 +28,13 @@
 
 import {Component} from '@angular/core';
 import {WorkPackagesListComponent} from "core-components/routing/wp-list/wp-list.component";
+import {WorkPackagesSetComponent} from "core-components/routing/wp-set/wp-set.component";
 
 @Component({
   templateUrl: './wp.calendar.component.html'
 })
 
-export class WorkPackagesCalendarComponent extends WorkPackagesListComponent {
-  private initialQueryLoading(loadingRequired:boolean) {
-    // nothing
-  }
+export class WorkPackagesCalendarComponent extends WorkPackagesSetComponent {
+  // overrides super's value
+  loadQueryImmediately = false;
 }

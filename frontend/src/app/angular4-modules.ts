@@ -225,6 +225,7 @@ import {WorkPackageInlineAddExistingChildComponent} from "core-components/wp-rel
 import {WorkPackagesCalendarComponent} from './components/routing/wp-calendar/wp.calendar.component';
 import {FullCalendarModule} from 'ng-fullcalendar';
 import {WorkPackagesCalendarController} from "core-components/wp-calendar/wp-calendar.component";
+import {WorkPackagesSetComponent} from "core-components/routing/wp-set/wp-set.component";
 
 @NgModule({
   imports: [
