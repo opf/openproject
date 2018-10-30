@@ -26,38 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {HighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
-export class WorkPackageTableHighlight {
-  private _selectedAttributes:HalResource[]|undefined;
-
-  constructor(public mode:HighlightingMode = 'inline',
-              selected:HalResource[]|undefined = undefined) {
-    this.selectedAttributes = selected;
-  }
-
-  public get selectedAttributes() {
-    return this._selectedAttributes;
-  }
-
-  public set selectedAttributes(val:HalResource[]|undefined) {
-    if (_.isEmpty(val)) {
-      this._selectedAttributes = undefined;
-    } else {
-      this._selectedAttributes = val;
-    }
-  }
-
-  public update(query:QueryResource|null) {
-    if (!query) {
-      this.mode = 'inline';
-      this.selectedAttributes = undefined;
-      return;
-    }
-
-    this.mode = query.highlightingMode;
-    this.selectedAttributes = query.selectedAttributes;
-  }
+export interface WorkPackageTableHighlight {
+  mode:HighlightingMode;
+  selectedAttributes?:HalResource[];
 }

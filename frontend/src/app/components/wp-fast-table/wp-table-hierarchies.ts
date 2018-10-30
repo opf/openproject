@@ -26,25 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageTableBaseState} from './wp-table-base';
+export class WorkPackageTableHierarchies {
+  public isVisible:boolean = false;
+  public last:string|null = null;
+  public collapsed:{[workPackageId:string]:boolean} = {};
 
-export class WorkPackageTableHierarchies extends WorkPackageTableBaseState<boolean> {
-  public current:boolean;
-  public last:string|null;
-  public collapsed:{[workPackageId:string]:boolean};
-
-  constructor(isVisible:boolean) {
-    super();
-    this.current = isVisible;
-    this.last = null;
-    this.collapsed = {};
-  }
-
-  public toggle() {
-    this.current = !this.current;
-  }
-
-  public get isEnabled() {
-    return this.current;
+  constructor(visible:boolean) {
+    this.isVisible = visible;
   }
 }

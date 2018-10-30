@@ -26,27 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageTableBaseState} from "./wp-table-base";
-
-export interface RelationColumnStateValue {
+export interface WorkPackageTableRelationColumns {
   [workPackageId:string]:string;
-}
-
-export class WorkPackageTableRelationColumns extends WorkPackageTableBaseState<RelationColumnStateValue> {
-  constructor() {
-    super();
-    this.current = {};
-  }
-
-  public getExpandFor(workPackageId:string):string|undefined {
-    return this.current[workPackageId];
-  }
-
-  public expandFor(workPackageId:string, columnId:string) {
-    this.current[workPackageId] = columnId;
-  }
-
-  public collapse(workPackageId:string) {
-    delete this.current[workPackageId];
-  }
 }

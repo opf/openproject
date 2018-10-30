@@ -15,7 +15,7 @@ import {PrimaryRenderPass, RenderedRow} from './builders/primary-render-pass';
 import {WorkPackageTableEditingContext} from './wp-table-editing';
 
 import {WorkPackageTableRow} from './wp-table.interfaces';
-import {WorkPackageTableConfiguration, WorkPackageTableConfigurationObject} from 'core-app/components/wp-table/wp-table-configuration';
+import {WorkPackageTableConfiguration} from 'core-app/components/wp-table/wp-table-configuration';
 
 export class WorkPackageTable {
 

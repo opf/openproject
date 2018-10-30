@@ -73,7 +73,7 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
         takeUntil(this.querySpace.stopAllSubscriptions)
       )
       .subscribe(([columns, resource, sum]) => {
-        if (sum.isEnabled && resource.sumsSchema) {
+        if (sum && resource.sumsSchema) {
           resource.sumsSchema.$load().then((schema:SchemaResource) => {
             this.refresh(columns, resource, schema);
           });

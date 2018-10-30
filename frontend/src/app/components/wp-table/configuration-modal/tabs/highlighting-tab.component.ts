@@ -53,9 +53,7 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
   public onSave() {
     let mode = this.highlightingMode;
     let highlightedAttributes:HalResource[] = this.selectedAttributesAsHal();
-
-    const newValue = new WorkPackageTableHighlight(mode, highlightedAttributes);
-    this.wpTableHighlight.update(newValue);
+    this.wpTableHighlight.update({ mode: mode, selectedAttributes: highlightedAttributes });
   }
 
   private selectedAttributesAsHal() {

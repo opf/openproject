@@ -26,42 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageTableBaseState} from './wp-table-base';
 import {
   QueryResource, TimelineLabels,
   TimelineZoomLevel
 } from 'core-app/modules/hal/resources/query-resource';
 
-export class WorkPackageTableTimelineState extends WorkPackageTableBaseState<boolean> {
-  public autoZoom:boolean = true;
-  public visible:boolean;
-  public zoomLevel:TimelineZoomLevel;
-  public labels:TimelineLabels;
-
-  constructor(query:QueryResource) {
-    super();
-    this.visible = query.timelineVisible;
-    this.zoomLevel = query.timelineZoomLevel;
-    this.labels = query.timelineLabels;
-  }
-
-  public get current():boolean {
-    return this.isVisible;
-  }
-
-  public toggle() {
-    this.visible = !this.visible;
-  }
-
-  public get isVisible() {
-    return this.visible;
-  }
-
-  public get defaultLabels():TimelineLabels {
-    return {
-      left: '',
-      right: '',
-      farRight: 'subject'
-    };
-  }
+export interface WorkPackageTableTimelineState {
+  autoZoom:boolean;
+  visible:boolean;
+  zoomLevel:TimelineZoomLevel;
+  labels:TimelineLabels;
 }
