@@ -75,9 +75,7 @@ namespace :packager do
       end
 
     # Set https configured, set Rails force_ssl to true
-    if Setting.https?
-      shell_setup(['config:set', "OPENPROJECT_RAILS__FORCE__SSL=true"])
-    end
+    shell_setup(['config:set', "OPENPROJECT_RAILS__FORCE__SSL=#{Setting.https?}"])
 
     # Run customization step, if it is defined.
     # Use to define custom postinstall steps required after each configure,
