@@ -8,7 +8,7 @@ module.exports = function (config) {
       // I18n.js is provided by the Asset pipeline,
       // which is unavailable for unit tests.
       // For testing, shim its functionality
-      'tests/unit/lib/i18n-js.shim.js',
+      'src/test/i18n-shim.ts',
       'node_modules/jquery/dist/jquery.js',
       // 'node_modules/angular-mocks/angular-mocks.js'
     ],
