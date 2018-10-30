@@ -1908,7 +1908,7 @@ de:
       Projekt-Management und Zusammenarbeit in Teams mit OpenProject.
     text_show_again: Sie können dieses Video über das Hilfe-Menü erneut starten
     welcome: Willkommen bei OpenProject
-    select_language: Please select your language
+    select_language: Bitte wählen Sie Ihre Sprache
   permission_add_work_package_notes: Kommentare hinzufügen
   permission_add_work_packages: Arbeitspakete hinzufügen
   permission_add_messages: Forenbeiträge hinzufügen
@@ -2160,7 +2160,7 @@ de:
   setting_email_delivery_method: E-Mail Zustellungsoption
   setting_sendmail_location: Systempfad zu sendmail
   setting_smtp_enable_starttls_auto: Automatisch STARTTLS verwenden, falls vorhanden
-  setting_smtp_ssl: Use SSL connection
+  setting_smtp_ssl: Benutzen Sie eine SSL-Verbindung
   setting_smtp_address: SMTP-Server
   setting_smtp_port: SMTP-Port
   setting_smtp_authentication: SMTP-Authentifizierung
