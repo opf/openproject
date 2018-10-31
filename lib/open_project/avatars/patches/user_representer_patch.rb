@@ -9,7 +9,7 @@ module OpenProject::Avatars::Patches
       # Dependencies required to cache users with avatars
       # When the plugin is loaded, depend on its settings
       def avatar_cache_dependencies
-        [Setting.plugin_openproject_avatars]
+        [Setting.plugin_openproject_avatars, Setting.protocol]
       end
     end
   end
