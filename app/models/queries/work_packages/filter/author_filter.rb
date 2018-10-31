@@ -40,10 +40,6 @@ class Queries::WorkPackages::Filter::AuthorFilter <
     :list
   end
 
-  def order
-    5
-  end
-
   def self.key
     :author_id
   end

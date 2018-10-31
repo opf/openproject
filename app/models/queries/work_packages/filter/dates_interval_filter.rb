@@ -35,16 +35,11 @@ class Queries::WorkPackages::Filter::DatesIntervalFilter < Queries::WorkPackages
     :date
   end
 
-  def order
-    # TODO: remove all order methods
-    12
-  end
-
   def where
     lower_boundary, upper_boundary = values.map { |v| v.blank? ? nil : Date.parse(v) }
 
     <<-SQL
-      (work_packages.start_date < '#{quoted_date_from_utc(lower_boundary)}' AND 
+      (work_packages.start_date < '#{quoted_date_from_utc(lower_boundary)}' AND
        work_packages.due_date > '#{quoted_date_from_utc(lower_boundary)}') OR
       (#{date_range_clause('work_packages', 'start_date', lower_boundary, upper_boundary)}) OR
       (#{date_range_clause('work_packages', 'due_date', lower_boundary, upper_boundary)})

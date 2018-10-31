@@ -32,7 +32,6 @@ describe Queries::WorkPackages::Filter::WatcherFilter, type: :model do
   let(:user) { FactoryBot.build_stubbed(:user) }
 
   it_behaves_like 'basic query filter' do
-    let(:order) { 15 }
     let(:type) { :list }
     let(:class_key) { :watcher_id }
 

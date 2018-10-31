@@ -46,7 +46,6 @@ shared_examples_for 'basic query filter' do
   let(:class_key) { raise 'needs to be defined' }
   let(:type) { raise 'needs to be defined' }
   let(:human_name) { nil }
-  let(:order) { nil }
 
   describe '.key' do
     it 'is the defined key' do
@@ -57,14 +56,6 @@ shared_examples_for 'basic query filter' do
   describe '#name' do
     it 'is the defined key' do
       expect(instance.name).to eql(instance_key || class_key)
-    end
-  end
-
-  describe '#order' do
-    it 'has the defined order' do
-      if order
-        expect(instance.order).to eql(order)
-      end
     end
   end
 

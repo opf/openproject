@@ -187,37 +187,168 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
   end
 
   it_behaves_like 'basic query filter' do
-    let(:order) { 4 }
     let(:type) { :list_optional }
     let(:class_key) { :assigned_to_id }
 
+    let(:user_1) { FactoryBot.build_stubbed(:user) }
+    let(:group_1) { FactoryBot.build_stubbed(:group) }
+
+    let(:principal_loader) do
+      loader = double('principal_loader')
+      allow(loader)
+        .to receive(:user_values)
+        .and_return(user_values)
+      allow(loader)
+        .to receive(:group_values)
+        .and_return(group_values)
+
+      loader
+    end
+    let(:user_values) { [] }
+    let(:group_values) { [] }
+
     describe '#valid_values!' do
-      let(:user) { FactoryBot.build_stubbed(:user) }
-      let(:loader) do
-        loader = double('loader')
-
-        allow(loader)
-          .to receive(:user_values)
-          .and_return([[user.name, user.id.to_s]])
-        allow(loader)
-          .to receive(:group_values)
-          .and_return([])
-
-        loader
-      end
+      let(:user_values) { [[user_1.name, user_1.id.to_s]] }
 
       before do
-        allow(::Queries::WorkPackages::Filter::PrincipalLoader)
-          .to receive(:new)
-          .and_return(loader)
-
-        instance.values = [user.id.to_s, '99999']
+        instance.values = [user_1.id.to_s, '99999']
       end
 
       it 'remove the invalid value' do
         instance.valid_values!
 
-        expect(instance.values).to match_array [user.id.to_s]
+        expect(instance.values).to match_array [user_1.id.to_s]
+      end
+    end
+
+    before do
+      allow(Queries::WorkPackages::Filter::PrincipalLoader)
+        .to receive(:new)
+        .with(project)
+        .and_return(principal_loader)
+    end
+
+    describe '#available?' do
+      let(:logged_in) { true }
+
+      before do
+        allow(User)
+          .to receive_message_chain(:current, :logged?)
+          .and_return(logged_in)
+      end
+
+      context 'when being logged in' do
+        it 'is true if no other user is available' do
+          expect(instance).to be_available
+        end
+
+        it 'is true if there is another user selectable' do
+          allow(principal_loader)
+            .to receive(:user_values)
+            .and_return([user_1])
+
+          expect(instance).to be_available
+        end
+
+        it 'is true if there is another group selectable' do
+          allow(principal_loader)
+            .to receive(:group_values)
+            .and_return([[group_1.name, group_1.id.to_s]])
+
+          expect(instance).to be_available
+        end
+      end
+
+      context 'when not being logged in' do
+        let(:logged_in) { false }
+
+        it 'is false if no other user is available' do
+          expect(instance).to_not be_available
+        end
+
+        it 'is true if there is another user selectable' do
+          allow(principal_loader)
+            .to receive(:user_values)
+            .and_return([[user_1.name, user_1.id.to_s]])
+
+          expect(instance).to be_available
+        end
+
+        it 'is true if there is another group selectable' do
+          allow(principal_loader)
+            .to receive(:group_values)
+            .and_return([[group_1.name, group_1.id.to_s]])
+
+          expect(instance).to be_available
+        end
+
+        it 'is false if there is another group selectable but the setting is not favourable' do
+          allow(Setting)
+            .to receive(:work_package_group_assignment?)
+            .and_return(false)
+
+          allow(principal_loader)
+            .to receive(:group_values)
+            .and_return([[group_1.name, group_1.id.to_s]])
+
+          expect(instance).to_not be_available
+        end
+      end
+    end
+
+    describe '#allowed_values' do
+      let(:logged_in) { true }
+
+      before do
+        allow(User)
+          .to receive_message_chain(:current, :logged?)
+          .and_return(logged_in)
+
+        allow(principal_loader)
+          .to receive(:user_values)
+          .and_return([[user_1.name, user_1.id.to_s]])
+
+        allow(principal_loader)
+          .to receive(:group_values)
+          .and_return([[group_1.name, group_1.id.to_s]])
+      end
+
+      context 'when being logged in' do
+        it 'returns the me value and the available users and groups' do
+          expect(instance.allowed_values)
+            .to match_array([[I18n.t(:label_me), 'me'],
+                             [user_1.name, user_1.id.to_s],
+                             [group_1.name, group_1.id.to_s]])
+        end
+
+        it 'returns the me value and only the available users if no group assignmit is allowed' do
+          allow(Setting)
+            .to receive(:work_package_group_assignment?)
+            .and_return(false)
+
+          expect(instance.allowed_values)
+            .to match_array([[I18n.t(:label_me), 'me'],
+                             [user_1.name, user_1.id.to_s]])
+        end
+      end
+
+      context 'when not being logged in' do
+        let(:logged_in) { false }
+
+        it 'returns the available users' do
+          expect(instance.allowed_values)
+            .to match_array([[user_1.name, user_1.id.to_s],
+                             [group_1.name, group_1.id.to_s]])
+        end
+
+        it 'returns the available users if no group assignmit is allowed' do
+          allow(Setting)
+            .to receive(:work_package_group_assignment?)
+            .and_return(false)
+
+          expect(instance.allowed_values)
+            .to match_array([[user_1.name, user_1.id.to_s]])
+        end
       end
     end
   end

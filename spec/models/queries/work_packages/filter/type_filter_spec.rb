@@ -30,7 +30,6 @@ require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::TypeFilter, type: :model do
   it_behaves_like 'basic query filter' do
-    let(:order) { 3 }
     let(:type) { :list }
     let(:class_key) { :type_id }
 

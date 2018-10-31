@@ -35,10 +35,6 @@ class Queries::WorkPackages::Filter::AssignedToFilter <
     :list_optional
   end
 
-  def order
-    4
-  end
-
   def human_name
     WorkPackage.human_attribute_name('assigned_to')
   end

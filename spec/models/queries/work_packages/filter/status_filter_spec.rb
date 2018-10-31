@@ -33,7 +33,6 @@ describe Queries::WorkPackages::Filter::StatusFilter, type: :model do
   let(:status2) { FactoryBot.build_stubbed(:status) }
 
   it_behaves_like 'basic query filter' do
-    let(:order) { 1 }
     let(:type) { :list }
     let(:class_key) { :status_id }
 

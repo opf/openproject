@@ -46,10 +46,6 @@ class Queries::WorkPackages::Filter::AssigneeOrGroupFilter <
     :list_optional
   end
 
-  def order
-    4
-  end
-
   def human_name
     I18n.t('query_fields.assignee_or_group')
   end

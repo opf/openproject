@@ -32,7 +32,6 @@ describe Queries::WorkPackages::Filter::PriorityFilter, type: :model do
   let(:priority) { FactoryBot.build_stubbed(:priority) }
 
   it_behaves_like 'basic query filter' do
-    let(:order) { 3 }
     let(:type) { :list }
     let(:class_key) { :priority_id }
 

@@ -31,8 +31,4 @@ class Queries::WorkPackages::Filter::UpdatedAtFilter < Queries::WorkPackages::Fi
   def type
     :datetime_past
   end
-
-  def order
-    10
-  end
 end

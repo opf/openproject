@@ -188,7 +188,6 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
         name = "cf_#{cf.id}"
         filter = described_class.create!(name: name)
         expect(filter.name).to eql(:"cf_#{cf.id}")
-        expect(filter.order).to eql(20)
       end
     end
   end
