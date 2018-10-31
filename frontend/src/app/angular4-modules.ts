@@ -226,6 +226,7 @@ import {WorkPackagesCalendarComponent} from './components/routing/wp-calendar/wp
 import {FullCalendarModule} from 'ng-fullcalendar';
 import {WorkPackagesCalendarController} from "core-components/wp-calendar/wp-calendar.component";
 import {WorkPackagesSetComponent} from "core-components/routing/wp-set/wp-set.component";
+import {WorkPackagesEmbeddedCalendarEntryComponent} from "core-components/wp-table/embedded/wp-embedded-calendar-entry.component";
 
 @NgModule({
   imports: [
@@ -515,12 +516,14 @@ import {WorkPackagesSetComponent} from "core-components/routing/wp-set/wp-set.co
     WorkPackageByVersionGraphComponent,
 
     // Work package calendars
-    WorkPackagesCalendarController
+    WorkPackagesCalendarController,
+    WorkPackagesEmbeddedCalendarEntryComponent
   ],
   entryComponents: [
     WorkPackagesBaseComponent,
     WorkPackagesListComponent,
     WorkPackagesCalendarComponent,
+    WorkPackagesEmbeddedCalendarEntryComponent,
     WorkPackageTablePaginationComponent,
     WorkPackagesTableController,
     TablePaginationComponent,
@@ -564,6 +567,9 @@ import {WorkPackagesSetComponent} from "core-components/routing/wp-set/wp-set.co
     // Embedded table
     WorkPackageEmbeddedTableComponent,
     WorkPackageEmbeddedTableEntryComponent,
+
+    // Embedded calendar
+    WorkPackagesCalendarController,
 
     // Relations tab (ng1 -> ng2)
     WorkPackageRelationsHierarchyComponent,

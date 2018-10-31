@@ -23,6 +23,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
   events:any;
   @ViewChild(CalendarComponent) ucCalendar:CalendarComponent;
   @Input() projectIdentifier:string;
+  @Input() static:boolean = false;
 
   constructor(readonly states:States,
               readonly $state:StateService,
@@ -128,7 +129,15 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
   }
 
   private setCalendarOptions() {
-    this.calendarOptions = {
+    if (this.static) {
+      this.calendarOptions = this.staticOptions;
+    } else {
+      this.calendarOptions = this.dynamicOptions;
+    }
+  }
+
+  private get dynamicOptions() {
+    return {
       editable: false,
       eventLimit: false,
       header: {
@@ -142,6 +151,21 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
           fixedWeekCount: false
         }
       }
+    };
+  }
+
+  private get staticOptions() {
+    return {
+      editable: false,
+      eventLimit: 17,
+      height: 400,
+      header: {
+        left: '',
+        center: '',
+        right: ''
+      },
+      defaultView: 'basicWeek',
+      events: []
     };
   }
 
