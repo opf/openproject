@@ -105,7 +105,7 @@ describe 'Work package calendars', type: :feature, js: true do
     # The filter for the time frame added implicitly should not be visible
     filters.expect_filter_count 2
 
-    # navigate to the next
+    # navigate to the next month
     find('.fc-left button.fc-next-button').click
 
     expect(page)
@@ -131,11 +131,17 @@ describe 'Work package calendars', type: :feature, js: true do
 
     future_url = current_url
 
-    # navigate back
+    # navigate back a month
     find('.fc-left button.fc-prev-button').click
 
     expect(page)
       .to have_selector '.fc-event-container', text: current_work_package.subject
+    expect(page)
+      .to have_selector '.fc-event-container', text: another_current_work_package.subject
+    expect(page)
+      .to have_no_selector '.fc-event-container', text: future_work_package.subject
+    expect(page)
+      .to have_no_selector '.fc-event-container', text: another_future_work_package.subject
 
     # open the page via the url should show the next month again
     visit future_url
@@ -148,5 +154,17 @@ describe 'Work package calendars', type: :feature, js: true do
       .to have_selector '.fc-event-container', text: future_work_package.subject
     expect(page)
       .to have_selector '.fc-event-container', text: another_future_work_package.subject
+
+    # go back a month by using the browser back functionality
+    page.execute_script('window.history.back()')
+
+    expect(page)
+      .to have_selector '.fc-event-container', text: current_work_package.subject
+    expect(page)
+      .to have_selector '.fc-event-container', text: another_current_work_package.subject
+    expect(page)
+      .to have_no_selector '.fc-event-container', text: future_work_package.subject
+    expect(page)
+      .to have_no_selector '.fc-event-container', text: another_future_work_package.subject
   end
 end

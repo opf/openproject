@@ -207,14 +207,18 @@ export class WorkPackagesSetComponent implements OnInit, OnDestroy {
       this.wpListChecksumService
         .executeIfOutdated(newId,
           newChecksum,
-          () => this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier));
+          () => this.loadCurrentQuery);
     });
   }
 
   private initialQueryLoading(loadingRequired:boolean) {
     if (loadingRequired && this.loadQueryImmediately) {
       this.wpTableRefresh.clear('Impending query loading.');
-      this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier);
+      this.loadCurrentQuery();
     }
+  }
+
+  private loadCurrentQuery() {
+    this.loadingIndicator.table.promise = this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier);
   }
 }
