@@ -60,8 +60,6 @@ export class WorkPackagesSetComponent implements OnInit, OnDestroy {
 
   private removeTransitionSubscription:Function;
 
-  protected loadQueryImmediately = true;
-
   constructor(readonly states:States,
               readonly tableState:TableState,
               readonly authorisationService:AuthorisationService,
@@ -207,18 +205,22 @@ export class WorkPackagesSetComponent implements OnInit, OnDestroy {
       this.wpListChecksumService
         .executeIfOutdated(newId,
           newChecksum,
-          () => this.loadCurrentQuery);
+          () => this.loadCurrentQuery());
     });
   }
 
-  private initialQueryLoading(loadingRequired:boolean) {
-    if (loadingRequired && this.loadQueryImmediately) {
+  protected initialQueryLoading(loadingRequired:boolean) {
+    if (loadingRequired) {
       this.wpTableRefresh.clear('Impending query loading.');
       this.loadCurrentQuery();
     }
   }
 
-  private loadCurrentQuery() {
-    this.loadingIndicator.table.promise = this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier);
+  protected loadCurrentQuery():Promise<any> {
+    let loadingPromise = this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier);
+
+    this.loadingIndicator.table.promise = loadingPromise;
+
+    return loadingPromise;
   }
 }

@@ -35,6 +35,8 @@ import {WorkPackagesSetComponent} from "core-components/routing/wp-set/wp-set.co
 })
 
 export class WorkPackagesCalendarComponent extends WorkPackagesSetComponent {
-  // overrides super's value
-  loadQueryImmediately = false;
+  // overrides super
+  protected initialQueryLoading(loadingRequired:boolean) {
+    // nothing
+  }
 }

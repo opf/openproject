@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from "@angular/core";
+import {Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {CalendarComponent} from 'ng-fullcalendar';
 import {Options} from 'fullcalendar';
 import {States} from "core-components/states.service";
@@ -34,47 +34,12 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // Clear any old table subscribers
+    // Clear any old subscribers
     this.tableState.stopAllSubscriptions.next();
 
-    this.calendarOptions = {
-      editable: false,
-      eventLimit: false,
-      header: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'month,basicWeek'
-      },
-      events: [],
-      views: {
-        month: {
-          fixedWeekCount: false
-        }
-      }
-    };
+    this.setCalendarOptions();
 
-    this.tableState.results.values$().pipe(
-      untilComponentDestroyed(this)
-    ).subscribe((results:WorkPackageCollectionResource) => {
-      this.events = results.elements.map((result:WorkPackageResource) => {
-        let startDate = result.startDate;
-        let endDate = result.dueDate;
-
-        if (result.isMilestone) {
-          startDate = result.date;
-          endDate = result.date;
-        }
-
-        return {
-          title: result.subject,
-          start: startDate,
-          end: endDate,
-          className: `__hl_row_type_${result.type.getId()}`
-        };
-      });
-
-      this.setCalendarsDate();
-    });
+    this.setupWorkPackagesListener();
   }
 
   ngOnDestroy() {
@@ -88,14 +53,14 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
 
     if (!this.wpTableFilters.currentState && this.states.query.resource.value) {
       // nothing to do
-    } else if (!this.wpTableFilters.currentState && this.$state.params.query_props) {
-      let query_props = this.$state.params.query_props;
-
-      this.wpListService.fromQueryParams({ query_props: query_props }, this.projectIdentifier).toPromise();
     } else if (!this.wpTableFilters.currentState) {
-      let query_props = `{%22f%22:[{%20%22n%22:%20%22status%22,%20%22o%22:%20%22o%22,%20%22v%22:[]%20},%20{%20%22n%22:%22datesInterval%22,%20%22o%22:%20%22%3C%3Ed%22,%20%22v%22:%20[%22${startDate}%22,%20%22${endDate}%22]%20}],%22pp%22:50}`;
+      let queryProps = this.defaultQueryProps(startDate, endDate);
 
-      this.wpListService.fromQueryParams({ query_props: query_props }, this.projectIdentifier).toPromise();
+      if (this.$state.params.query_props) {
+        queryProps = this.$state.params.query_props;
+      }
+
+      this.wpListService.fromQueryParams({ query_props: queryProps }, this.projectIdentifier).toPromise();
     } else {
       let params = this.$state.params;
       let filtersState = this.wpTableFilters.currentState;
@@ -132,5 +97,55 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
     }
 
     this.calendarElement.fullCalendar('gotoDate', calendarDate.format('YYYY-MM-DD'));
+  }
+
+  private setupWorkPackagesListener() {
+    this.tableState.results.values$().pipe(
+      untilComponentDestroyed(this)
+    ).subscribe((collection:WorkPackageCollectionResource) => {
+      this.mapToCalendarEvents(collection.elements);
+      this.setCalendarsDate();
+    });
+  }
+
+  private mapToCalendarEvents(workPackages:WorkPackageResource[]) {
+    this.events = workPackages.map((workPackage:WorkPackageResource) => {
+      let startDate = workPackage.startDate;
+      let endDate = workPackage.dueDate;
+
+      if (workPackage.isMilestone) {
+        startDate = workPackage.date;
+        endDate = workPackage.date;
+      }
+
+      return {
+        title: workPackage.subject,
+        start: startDate,
+        end: endDate,
+        className: `__hl_row_type_${workPackage.type.getId()}`
+      };
+    });
+  }
+
+  private setCalendarOptions() {
+    this.calendarOptions = {
+      editable: false,
+      eventLimit: false,
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,basicWeek'
+      },
+      events: [],
+      views: {
+        month: {
+          fixedWeekCount: false
+        }
+      }
+    };
+  }
+
+  private defaultQueryProps(startDate:string, endDate:string) {
+    return `{"c": ["id"], "t": "id:asc", "f":[{ "n": "status", "o": "o", "v": [] }, { "n": "datesInterval", "o": "<>d", "v": ["${startDate}", "${endDate}"] }], "pp": 50}`;
   }
 }

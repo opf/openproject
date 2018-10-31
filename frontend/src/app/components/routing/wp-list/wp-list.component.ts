@@ -84,4 +84,11 @@ export class WorkPackagesListComponent extends WorkPackagesSetComponent {
       this.titleEditingEnabled = false;
     }
   }
+
+  protected loadCurrentQuery() {
+    return super.loadCurrentQuery()
+                .then(() => {
+                  return this.tableState.rendered.valuesPromise();
+                });
+  }
 }

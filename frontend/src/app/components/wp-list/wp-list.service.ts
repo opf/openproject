@@ -204,10 +204,7 @@ export class WorkPackagesListService {
   public loadCurrentQueryFromParams(projectIdentifier?:string) {
     this.wpListChecksumService.clear();
     return this.fromQueryParams(this.$state.params as any, projectIdentifier)
-      .toPromise()
-      .then(() => {
-        return this.tableState.rendered.valuesPromise();
-    });
+      .toPromise();
   }
 
   public loadForm(query:QueryResource):Promise<QueryFormResource> {
@@ -262,7 +259,6 @@ export class WorkPackagesListService {
         }
 
         this.loadDefaultQuery(id);
-
 
         this.queryChanges.next(query.name);
       });
