@@ -101,6 +101,9 @@ export class WpRelationsAutocompleteComponent implements OnInit {
   }
 
   private autocompleteWorkPackages(query:string):Promise<WorkPackageResource[]> {
+    // Remove prefix # from search
+    query = query.replace(/^#/, '');
+
     this.$element.find('.ui-autocomplete--loading').show();
 
     return this.workPackage.availableRelationCandidates.$link.$fetch({
