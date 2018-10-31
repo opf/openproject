@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -36,7 +37,7 @@ module Queries::WorkPackages::FilterSerializer
 
     # yeah, dunno, but apparently '=' may have been serialized as a Syck::DefaultKey instance...
     yaml = serialized_filter_hash
-      .gsub('!ruby/object:Syck::DefaultKey {}', '"="')
+           .gsub('!ruby/object:Syck::DefaultKey {}', '"="')
 
     (YAML.load(yaml) || {}).each_with_object([]) do |(field, options), array|
       options = options.with_indifferent_access
