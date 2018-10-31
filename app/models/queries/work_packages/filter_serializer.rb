@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::FilterSerializer
+module Queries::WorkPackages::FilterSerializer
   extend Queries::AvailableFilters
   extend Queries::AvailableFilters::ClassMethods
 
