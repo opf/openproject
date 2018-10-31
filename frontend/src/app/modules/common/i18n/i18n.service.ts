@@ -11,7 +11,7 @@ export interface GlobalI18n {
 
 @Injectable()
 export class I18nService {
-  private _i18n:GlobalI18n
+  private _i18n:GlobalI18n;
 
   constructor() {
     this._i18n = (window as any).I18n;

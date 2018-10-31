@@ -245,7 +245,7 @@ module API
 
         link :addChild,
              cache_if: -> { current_user_allowed_to(:add_work_packages, context: represented.project) } do
-          next if represented.new_record?
+          next if represented.milestone? || represented.new_record?
           {
             href: api_v3_paths.work_packages_by_project(represented.project.identifier),
             method: :post,

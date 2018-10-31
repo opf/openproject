@@ -29,43 +29,37 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {Subject} from "rxjs";
-import {ComponentType} from "@angular/cdk/portal";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
+import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
+import {WorkPackageInlineAddExistingChildComponent} from "core-components/wp-relations/wp-relation-add-child/wp-inline-add-existing-child.component";
 
 @Injectable()
-export class WorkPackageInlineCreateService implements OnDestroy {
-
-  constructor(protected readonly I18n:I18nService,
-              protected readonly authorisationService:AuthorisationService) {
-  }
+export class WorkPackageInlineAddExistingChildService extends WorkPackageInlineCreateService implements OnDestroy {
 
   /**
    * A separate reference pane for the inline create component
    */
-  public readonly referenceComponentClass:ComponentType<any>|null = null;
+  public readonly referenceComponentClass = WorkPackageInlineAddExistingChildComponent;
 
   /**
    * A related work package for the inline create context
    */
   public referenceTarget:WorkPackageResource|null = null;
 
+  public get canAdd() {
+    return !!(this.referenceTarget && this.referenceTarget.addChild);
+  }
+
+  public get canReference() {
+    return !!(this.referenceTarget && !this.referenceTarget.isMilestone && this.referenceTarget.changeParent);
+  }
+
   /**
    * Reference button text
    */
   public readonly buttonTexts = {
-    reference: '',
-    create: this.I18n.t('js.label_create_work_package'),
+    reference: this.I18n.t('js.relation_buttons.add_existing_child'),
+    create: this.I18n.t('js.relation_buttons.add_new_child')
   };
-
-  public get canAdd() {
-    return this.authorisationService.can('work_packages', 'createWorkPackage') ||
-      this.authorisationService.can('work_package', 'addChild');
-  }
-
-  public get canReference() {
-    return false;
-  }
 
   /** Allow callbacks to happen on newly created inline work packages */
   public newInlineWorkPackageCreated = new Subject<string>();

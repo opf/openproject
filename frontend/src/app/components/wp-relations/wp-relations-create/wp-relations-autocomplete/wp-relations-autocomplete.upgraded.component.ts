@@ -70,7 +70,7 @@ export class WpRelationsAutocompleteComponent implements OnInit {
     input.autocomplete({
       delay: 250,
       autoFocus: false, // Accessibility!
-      appendTo: '.detail-panel--autocomplete-target',
+      appendTo: '#content',
       classes: {
         'ui-autocomplete': 'wp-relations-autocomplete--results'
       },
@@ -101,6 +101,9 @@ export class WpRelationsAutocompleteComponent implements OnInit {
   }
 
   private autocompleteWorkPackages(query:string):Promise<WorkPackageResource[]> {
+    // Remove prefix # from search
+    query = query.replace(/^#/, '');
+
     this.$element.find('.ui-autocomplete--loading').show();
 
     return this.workPackage.availableRelationCandidates.$link.$fetch({
