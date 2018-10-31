@@ -27,40 +27,38 @@
 //++
 
 @include breakpoint (680px down)
-  .toolbar-container
-    margin-bottom: 0px
-    margin-top: 10px
+  #content
+    .toolbar-container
+      margin-top: 10px
+      margin-right: -10px // Workaround (necessary because of margin of toolbar-items)
 
-    .toolbar
-      flex-wrap: wrap
+      .title-container
+        margin-right: 10px
 
-    .toolbar-items
-      background: #fff
-      display: flex
-      width: calc(100% + 5px)
+      .toolbar-items
+        background: #fff
+        display: flex
+        flex-wrap: wrap
+        justify-content: stretch
+        width: 100%
 
-      &:not(:empty)
-        margin-bottom: 20px
-      > li
-        -webkit-flex: 1 0 0
-        flex: 1 0 0
+        > li
+          -webkit-flex: 1 0 0
+          flex: 1 0 0
 
-        // Add left margin for all visible toolbar elements except the first one
-        &:not(.hidden-for-mobile)
-          margin: 0px
-        &:not(.hidden-for-mobile) + :not(.hidden-for-mobile)
-          margin-left: 10px
+          &:last-child
+            margin-right: 10px
 
-        &:first-child
-          -webkit-flex: 3 0 0
-          flex: 3 0 0
+          .button
+            width: 100%
+            white-space: nowrap
 
-        .button
-          width: 100%
-          white-space: nowrap
+          .button,
+          input,
+          label,
+          div
+            margin-top: 0
 
-        .button,
-        input,
-        label,
-        div
-          margin-top: 0
+    overview-page-layout
+      .toolbar-item:first-child
+        flex-basis: calc(100% - 10px) // 10px right margin
