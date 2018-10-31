@@ -133,7 +133,7 @@ describe WorkPackagesController, type: :controller do
 
     describe 'with valid query' do
       before do
-        allow(controller).to receive(:retrieve_query_v3).and_return(query)
+        allow(controller).to receive(:retrieve_query).and_return(query)
 
         # Note: Stubs for methods used to build up the json query results.
         # TODO RS:  Clearly this isn't testing anything, but it all needs to be moved to an API controller anyway.
@@ -243,7 +243,7 @@ describe WorkPackagesController, type: :controller do
             context 'when a non-existant query has been previously selected' do
               before do
                 allow(controller)
-                  .to receive(:retrieve_query_v3)
+                  .to receive(:retrieve_query)
                   .and_raise(ActiveRecord::RecordNotFound)
 
                 call_action
