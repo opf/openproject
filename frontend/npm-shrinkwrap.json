@@ -5986,12 +5986,12 @@
       }
     },
     "fullcalendar": {
-      "version": "3.9.0",
-      "resolved": "http://registry.npmjs.org/fullcalendar/-/fullcalendar-3.9.0.tgz",
-      "integrity": "sha512-bbALDK8+SBqluv8SKPDeVNtaSr87NYblte/pRgV5NnDJWCEARpRlQ1qQ/XEakcAXbMZov6rWYIvLOrtKwQo2Bg==",
+      "version": "3.6.1",
+      "resolved": "https://registry.npmjs.org/fullcalendar/-/fullcalendar-3.6.1.tgz",
+      "integrity": "sha1-C5tiseaX1S05wRGK+eTkEeUEVZA=",
       "requires": {
         "jquery": "2 - 3",
-        "moment": "^2.20.1"
+        "moment": "^2.9.0"
       }
     },
     "function-bind": {
@@ -8734,15 +8734,6 @@
           "version": "3.2.17",
           "resolved": "https://registry.npmjs.org/@types/jquery/-/jquery-3.2.17.tgz",
           "integrity": "sha512-lt8i2ZqymxxN1JnWSOTPU7Xc3ze32lhASkVdsMd6/SZnb/jtBsmFEoYCBSa0tzGDSyO7ZB+4r4aihj+KTlDs5w=="
-        },
-        "fullcalendar": {
-          "version": "3.6.1",
-          "resolved": "https://registry.npmjs.org/fullcalendar/-/fullcalendar-3.6.1.tgz",
-          "integrity": "sha1-C5tiseaX1S05wRGK+eTkEeUEVZA=",
-          "requires": {
-            "jquery": "2 - 3",
-            "moment": "^2.9.0"
-          }
         }
       }
     },
