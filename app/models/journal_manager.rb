@@ -68,7 +68,7 @@ class JournalManager
 
     def changed_references(merged_references)
       merged_references
-        .select { |_, (old_value, new_value)| old_value.present? && new_value.present? && old_value != new_value }
+        .select { |_, (old_value, new_value)| old_value.present? && new_value.present? && old_value.strip != new_value.strip }
     end
 
     def to_changes_format(references, key)
