@@ -28,8 +28,28 @@
 
 import {Component} from "@angular/core";
 import {WorkPackagesSetComponent} from "core-components/routing/wp-set/wp-set.component";
-import {QueryResource} from "core-app/modules/hal/resources/query-resource";
-import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {StateService, TransitionService} from '@uirouter/core';
+import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
+import {States} from '../../states.service';
+import {WorkPackageTableColumnsService} from '../../wp-fast-table/state/wp-table-columns.service';
+import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table-filters.service';
+import {WorkPackageTableGroupByService} from '../../wp-fast-table/state/wp-table-group-by.service';
+import {WorkPackageTablePaginationService} from '../../wp-fast-table/state/wp-table-pagination.service';
+import {WorkPackageTableSortByService} from '../../wp-fast-table/state/wp-table-sort-by.service';
+import {WorkPackageTableSumService} from '../../wp-fast-table/state/wp-table-sum.service';
+import {WorkPackageTableTimelineService} from '../../wp-fast-table/state/wp-table-timeline.service';
+import {WorkPackagesListChecksumService} from '../../wp-list/wp-list-checksum.service';
+import {WorkPackagesListService} from '../../wp-list/wp-list.service';
+import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-request.service';
+import {WorkPackageTableHierarchiesService} from './../../wp-fast-table/state/wp-table-hierarchy.service';
+import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {WorkPackageStaticQueriesService} from 'core-components/wp-query-select/wp-static-queries.service';
+import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
+import {OpTitleService} from "core-components/html/op-title.service";
 
 @Component({
   selector: 'wp-list',
@@ -44,11 +64,60 @@ export class WorkPackagesListComponent extends WorkPackagesSetComponent {
 
   titleEditingEnabled:boolean;
   selectedTitle?:string;
-  staticTitle?:string;
   currentQuery:QueryResource;
+
+  constructor(readonly states:States,
+              readonly tableState:TableState,
+              readonly authorisationService:AuthorisationService,
+              readonly wpTableRefresh:WorkPackageTableRefreshService,
+              readonly wpTableColumns:WorkPackageTableColumnsService,
+              readonly wpTableHighlighting:WorkPackageTableHighlightingService,
+              readonly wpTableSortBy:WorkPackageTableSortByService,
+              readonly wpTableGroupBy:WorkPackageTableGroupByService,
+              readonly wpTableFilters:WorkPackageTableFiltersService,
+              readonly wpTableSum:WorkPackageTableSumService,
+              readonly wpTableTimeline:WorkPackageTableTimelineService,
+              readonly wpTableHierarchies:WorkPackageTableHierarchiesService,
+              readonly wpTablePagination:WorkPackageTablePaginationService,
+              readonly wpListService:WorkPackagesListService,
+              readonly wpListChecksumService:WorkPackagesListChecksumService,
+              readonly loadingIndicator:LoadingIndicatorService,
+              readonly $transitions:TransitionService,
+              readonly $state:StateService,
+              readonly I18n:I18nService,
+              readonly titleService:OpTitleService,
+              readonly wpStaticQueries:WorkPackageStaticQueriesService) {
+    super(states,
+          tableState,
+          authorisationService,
+          wpTableRefresh,
+          wpTableColumns,
+          wpTableHighlighting,
+          wpTableSortBy,
+          wpTableGroupBy,
+          wpTableFilters,
+          wpTableSum,
+          wpTableTimeline,
+          wpTableHierarchies,
+          wpTablePagination,
+          wpListService,
+          wpListChecksumService,
+          loadingIndicator,
+          $transitions,
+          $state,
+          I18n,
+          wpStaticQueries);
+  }
 
   ngOnInit() {
     super.ngOnInit();
+
+    // Update title on entering this state
+    this.$transitions.onSuccess({to: 'work-packages.list'}, () => {
+      if (this.selectedTitle) {
+        this.titleService.setFirstPart(this.selectedTitle);
+      }
+    });
 
     // Update the title whenever the query changes
     this.states.query.resource.values$().pipe(
@@ -82,6 +151,11 @@ export class WorkPackagesListComponent extends WorkPackagesSetComponent {
     } else {
       this.selectedTitle =  this.wpStaticQueries.getStaticName(query);
       this.titleEditingEnabled = false;
+    }
+
+    // Update the title if we're in the list state alone
+    if (this.$state.current.name === 'work-packages.list') {
+      this.titleService.setFirstPart(this.selectedTitle);
     }
   }
 
