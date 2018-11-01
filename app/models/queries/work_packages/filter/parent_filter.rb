@@ -31,15 +31,19 @@
 class Queries::WorkPackages::Filter::ParentFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
 
-  include ::Queries::WorkPackages::Filter::FilterForWpMixin
+  include ::Queries::WorkPackages::Filter::FilterOnRelationsMixin
 
-  def includes
-    :parent_relation
+  private
+
+  def relation_type
+    :hierarchy
   end
 
-  def where
-    operator_strategy.sql_for_field(values,
-                                    Relation.table_name,
-                                    'from_id')
+  def relation_filter
+    { from_id: values }
+  end
+
+  def relation_select
+    :to_id
   end
 end
