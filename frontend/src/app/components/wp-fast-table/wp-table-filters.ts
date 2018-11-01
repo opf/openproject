@@ -35,7 +35,7 @@ import {cloneHalResourceCollection} from 'core-app/modules/hal/helpers/hal-resou
 export class WorkPackageTableFilters extends WorkPackageTableBaseState<QueryFilterInstanceResource[]> {
 
   public current:QueryFilterInstanceResource[] = [];
-  public hidden:string[] = ['id', 'parent', 'datesInterval'];
+  public hidden:string[] = ['id', 'parent', 'datesInterval', 'predecessor', 'follower'];
 
   constructor(filters:QueryFilterInstanceResource[], public availableSchemas:QueryFilterInstanceSchemaResource[]) {
     super();
