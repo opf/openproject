@@ -140,6 +140,10 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
     return {
       editable: false,
       eventLimit: false,
+      height: () => {
+        // -12 for the bottom padding
+        return jQuery(window).height() - this.calendarElement.offset().top - 12;
+      },
       header: {
         left: 'prev,next today',
         center: 'title',
