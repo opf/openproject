@@ -53,6 +53,7 @@ import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageStaticQueriesService} from 'core-components/wp-query-select/wp-static-queries.service';
 import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
+import {OpTitleService} from "core-components/html/op-title.service";
 
 @Component({
   selector: 'wp-list',
@@ -70,7 +71,6 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
 
   tableInformationLoaded = false;
   selectedTitle?:string;
-  staticTitle?:string;
   titleEditingEnabled:boolean;
 
   currentQuery:QueryResource;
@@ -96,6 +96,7 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
               readonly $transitions:TransitionService,
               readonly $state:StateService,
               readonly I18n:I18nService,
+              readonly titleService:OpTitleService,
               readonly wpStaticQueries:WorkPackageStaticQueriesService) {
 
   }
@@ -114,6 +115,13 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
 
     // Listen for refresh changes
     this.setupRefreshObserver();
+
+    // Update title on entering this state
+    this.$transitions.onSuccess({ to: 'work-packages.list' }, () => {
+      if (this.selectedTitle) {
+        this.titleService.setFirstPart(this.selectedTitle);
+      }
+    });
 
     // Listen for param changes
     this.removeTransitionSubscription = this.$transitions.onSuccess({}, (transition):any => {
@@ -255,6 +263,11 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
     } else {
       this.selectedTitle =  this.wpStaticQueries.getStaticName(query);
       this.titleEditingEnabled = false;
+    }
+
+    // Update the title if we're in the list state alone
+    if (this.$state.current.name === 'work-packages.list') {
+      this.titleService.setFirstPart(this.selectedTitle);
     }
   }
 }
