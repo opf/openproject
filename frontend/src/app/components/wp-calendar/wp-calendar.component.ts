@@ -12,6 +12,7 @@ import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
 import {StateService} from "@uirouter/core";
 import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
 import * as moment from "moment";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
   templateUrl: './wp-calendar.template.html',
@@ -31,7 +32,8 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
               readonly wpListService:WorkPackagesListService,
               readonly tableState:TableState,
               readonly urlParamsHelper:UrlParamsHelperService,
-              private element:ElementRef) {
+              private element:ElementRef,
+              readonly i18n:I18nService) {
   }
 
   ngOnInit() {
@@ -140,6 +142,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
     return {
       editable: false,
       eventLimit: false,
+      locale: this.i18n.locale,
       height: () => {
         // -12 for the bottom padding
         return jQuery(window).height() - this.calendarElement.offset().top - 12;
@@ -162,6 +165,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
     return {
       editable: false,
       eventLimit: 17,
+      locale: this.i18n.locale,
       height: 400,
       header: {
         left: '',
