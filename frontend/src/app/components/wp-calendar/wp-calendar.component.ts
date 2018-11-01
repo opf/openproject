@@ -90,16 +90,26 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
 
     let datesIntervalFilter = _.find(query.filters || [], {'id': 'datesInterval'})!;
 
-    let calendarDate = moment();
+    let calendarDate:any = null;
+    let calendarUnit = 'month';
 
     if (datesIntervalFilter) {
       let lower = moment(datesIntervalFilter.values[0] as string);
       let upper = moment(datesIntervalFilter.values[1] as string);
+      let diff = upper.diff(lower, 'days');
 
-      calendarDate = lower.add(upper.diff(lower, 'days') / 2, 'days');
+      calendarDate = lower.add(diff / 2, 'days');
+
+      if (diff === 7) {
+        calendarUnit = 'basicWeek';
+      }
     }
 
-    this.calendarElement.fullCalendar('gotoDate', calendarDate.format('YYYY-MM-DD'));
+    if (calendarDate) {
+      this.calendarElement.fullCalendar('changeView', calendarUnit, calendarDate);
+    } else {
+      this.calendarElement.fullCalendar('changeView', calendarUnit);
+    }
   }
 
   private setupWorkPackagesListener() {
