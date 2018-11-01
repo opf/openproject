@@ -179,8 +179,7 @@ function typesFormConfigurationCtrl(
     externalQueryConfiguration.show(
       currentQuery,
       (queryProps:any) => originator.data('queryProps', queryProps),
-      disabledTabs,
-      originator.data('query-type')
+      disabledTabs
     );
   };
 

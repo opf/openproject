@@ -128,6 +128,7 @@ import {WpTableConfigurationFiltersTab} from 'core-components/wp-table/configura
 import {WpTableConfigurationSortByTab} from 'core-components/wp-table/configuration-modal/tabs/sort-by-tab.component';
 import {WpTableConfigurationTimelinesTab} from 'core-components/wp-table/configuration-modal/tabs/timelines-tab.component';
 import {WpTableConfigurationHighlightingTab} from 'core-components/wp-table/configuration-modal/tabs/highlighting-tab.component';
+import {WpTableConfigurationRelationSelectorComponent} from "core-components/wp-table/configuration-modal/wp-table-configuration-relation-selector";
 import {WorkPackageWatchersTabComponent} from 'core-components/wp-single-view-tabs/watchers-tab/watchers-tab.component';
 import {WorkPackageWatcherEntryComponent} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watcher-entry.component';
 import {WorkPackageCopyFullViewComponent} from 'core-components/wp-copy/wp-copy-full-view.component';
@@ -409,6 +410,7 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
     WpTableConfigurationSortByTab,
     WpTableConfigurationTimelinesTab,
     WpTableConfigurationHighlightingTab,
+    WpTableConfigurationRelationSelectorComponent,
     WpTableExportModal,
     QuerySharingForm,
     QuerySharingModal,

@@ -704,7 +704,9 @@ en:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Need to see relations in the work package list?'
           check_out_link: 'Check out the Enterprise Edition.'
-
+        relation_filters:
+          first_part: "Show all work packages that"
+          second_part: "the current work package"
       tabs:
         overview: Overview
         activity: Activity

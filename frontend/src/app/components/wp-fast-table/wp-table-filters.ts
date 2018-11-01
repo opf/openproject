@@ -92,6 +92,6 @@ export class WorkPackageTableFilters extends WorkPackageTableBaseState<QueryFilt
 
   private get availableFilters() {
     return this.availableSchemas
-               .map(schema => (schema.filter.allowedValues as QueryFilterResource[])[0]);
+      .map(schema => (schema.filter.allowedValues as QueryFilterResource[])[0]);
   }
 }
