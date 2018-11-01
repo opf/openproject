@@ -260,6 +260,12 @@ class WorkPackage < ActiveRecord::Base
     status.nil? || status.is_closed?
   end
 
+  # Return true if the work_package's status is_readonly
+  # Careful not to use +readonly?+ which is AR internals!
+  def readonly_status?
+    status.present? && status.is_readonly?
+  end
+
   # Returns true if the work_package is overdue
   def overdue?
     !due_date.nil? && (due_date < Date.today) && !closed?

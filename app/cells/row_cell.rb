@@ -45,4 +45,10 @@ class RowCell < RailsCell
   def button_links
     []
   end
+
+  def checkmark(condition)
+    if condition
+      op_icon 'icon icon-checkmark'
+    end
+  end
 end

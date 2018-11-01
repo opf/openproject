@@ -582,6 +582,7 @@ class PermittedParams
           default_done_ratio
           is_closed
           is_default
+          is_readonly
           move_to
         ),
         type: [

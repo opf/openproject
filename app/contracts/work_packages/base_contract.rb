@@ -128,6 +128,12 @@ module WorkPackages
     end
 
     def writable_attributes
+      # If we're in a readonly status and did not move into that status right now
+      # only allow other status transitions
+      if model.readonly_status? && !model.status_id_change
+        return %w[status status_id]
+      end
+
       super + model.available_custom_fields.map { |cf| "custom_field_#{cf.id}" }
     end
 

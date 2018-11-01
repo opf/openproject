@@ -40,10 +40,10 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 })
 export class WorkPackageStatusButtonComponent {
   @Input('workPackage') public workPackage:WorkPackageResource;
-  @Input('allowed') public allowed:boolean;
 
   public text = {
-    explanation: this.I18n.t('js.label_edit_status')
+    explanation: this.I18n.t('js.label_edit_status'),
+    workPackageReadOnly: this.I18n.t('js.work_packages.message_work_package_read_only')
   };
 
   constructor(readonly I18n:I18nService,
@@ -55,6 +55,14 @@ export class WorkPackageStatusButtonComponent {
     return !this.allowed || changeset.inFlight;
   }
 
+  public get buttonTitle() {
+    if (this.workPackage.isReadonly) {
+      return this.text.workPackageReadOnly;
+    } else {
+      return '';
+    }
+  }
+
   public get statusHighlightClass() {
     return Highlighting.inlineClass('status', this.status.getId());
   }
@@ -62,5 +70,9 @@ export class WorkPackageStatusButtonComponent {
   public get status():HalResource {
     let changeset = this.wpEditing.changesetFor(this.workPackage);
     return changeset.value('status');
+  }
+
+  public get allowed() {
+    return this.workPackage.isAttributeEditable('status');
   }
 }

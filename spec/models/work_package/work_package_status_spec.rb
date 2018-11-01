@@ -40,6 +40,22 @@ describe WorkPackage, 'status', type: :model do
     expect(WorkPackage.where(status_id: status.id).first).to eq(work_package)
   end
 
+  describe '#readonly' do
+    let(:status) { FactoryBot.create(:status, is_readonly: true) }
+
+    context 'with EE', with_ee: %i[readonly_work_packages] do
+      it 'marks work package as read only' do
+        expect(work_package).to be_readonly_status
+      end
+    end
+
+    context 'without EE' do
+      it 'is not marked as read only' do
+        expect(work_package).not_to be_readonly_status
+      end
+    end
+  end
+
   describe '#new_statuses_allowed_to' do
     let(:role) { FactoryBot.build_stubbed(:role) }
     let(:type) { FactoryBot.build_stubbed(:type) }

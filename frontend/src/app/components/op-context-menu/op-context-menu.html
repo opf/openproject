@@ -17,6 +17,9 @@
            [accessibleClickStopEvent]="false">
           <op-icon *ngIf="item.icon" icon-classes="icon-action-menu {{ item.icon }}"> </op-icon>
           <span [textContent]="item.linkText"></span>
+          <op-icon *ngIf="item.postIcon"
+                   [icon-title]="item.postIconTitle || ''"
+                   icon-classes="icon-action-menu-post {{ item.postIcon }}"> </op-icon>
         </a>
       </li>
     </ng-container>

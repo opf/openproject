@@ -32,7 +32,9 @@ import {Component, Input} from '@angular/core';
   selector: 'op-icon',
   host: { 'class': 'op-icon--wrapper' },
   template: `
-      <i [ngClass]="iconClasses" aria-hidden="true"></i>
+      <i [ngClass]="iconClasses"
+         [title]="iconTitle"
+         aria-hidden="true"></i>
       <span
         class="hidden-for-sighted"
         [textContent]="iconTitle"
@@ -41,5 +43,5 @@ import {Component, Input} from '@angular/core';
 })
 export class OpIcon {
   @Input('icon-classes') iconClasses:string;
-  @Input('icon-title') iconTitle:string;
+  @Input('icon-title') iconTitle:string = '';
 }

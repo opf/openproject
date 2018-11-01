@@ -127,7 +127,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
 
   public get isEditable() {
     const fieldSchema = this.resource.schema[this.fieldName] as IFieldSchema;
-    return this.resource.isEditable && fieldSchema && fieldSchema.writable;
+    return this.resource.isAttributeEditable(this.fieldName) && fieldSchema && fieldSchema.writable;
   }
 
   public activateIfEditable(event:JQueryEventObject) {
