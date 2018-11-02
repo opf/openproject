@@ -33,8 +33,8 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import * as moment from 'moment';
 import {Moment} from 'moment';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {filter, map, takeUntil, withLatestFrom} from 'rxjs/operators';
+import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
+import {debounceTime, delay, filter, map, take, takeUntil, throttleTime, withLatestFrom} from 'rxjs/operators';
 import {debugLog, timeOutput} from '../../../../helpers/debug_output';
 import {States} from '../../../states.service';
 import {WorkPackageNotificationService} from '../../../wp-edit/wp-notification.service';
@@ -58,6 +58,8 @@ import {
   zoomLevelOrder
 } from '../wp-timeline';
 import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css.service";
+import {input} from "reactivestates";
+import {Subject} from "rxjs";
 
 @Component({
   selector: 'wp-timeline-container',
@@ -91,7 +93,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
 
   private text:{ selectionMode:string };
 
-  private debouncedRefresh:() => any;
+  private refreshRequest = input<void>();
 
   constructor(public readonly injector:Injector,
               private elementRef:ElementRef,
@@ -118,24 +120,20 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     this.outerContainer = this.$element.find('.wp-table-timeline--outer');
     this.timelineBody = this.$element.find('.wp-table-timeline--body');
 
-    // Debounced refresh function
-    this.debouncedRefresh = _.debounce(
-      () => {
-        debugLog('Refreshing view in debounce.');
-        this.refreshView();
-      },
-      500,
-      {leading: true}
-    );
-
     // Register this instance to the table
     this.wpTableDirective.registerTimeline(this, this.timelineBody[0]);
 
     // Refresh on changes to work packages
     this.updateOnWorkPackageChanges();
 
+    // Set initial auto zoom level, if applicable
+    this.applyAutoZoomLevel();
+
+    // Refresh timeline rendering callback
+    this.setupRefreshListener();
+
     // Refresh on window resize events
-    window.addEventListener('wp-resize.timeline', this.debouncedRefresh.bind(this));
+    window.addEventListener('wp-resize.timeline', () => this.refreshRequest.putValue(undefined));
 
     // Refresh timeline view after table rendered
     this.tableState.rendered.values$()
@@ -146,7 +144,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       .subscribe((orderedRows) => {
         // Remember all visible rows in their order of appearance.
         this.workPackageIdOrder = orderedRows.filter(row => !row.hidden);
-        this.refreshView();
+        this.refreshRequest.putValue(undefined);
       });
 
     // Refresh timeline view when becoming visible
@@ -158,8 +156,18 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       .subscribe((timelineState:WorkPackageTableTimelineState) => {
         this.viewParameters.settings.autoZoom = timelineState.autoZoom;
         this.viewParameters.settings.zoomLevel = timelineState.zoomLevel;
-        this.debouncedRefresh();
+        this.refreshRequest.putValue(undefined);
       });
+  }
+
+  private setupRefreshListener() {
+    this.refreshRequest
+      .changes$()
+      .pipe(
+        untilComponentDestroyed(this),
+        debounceTime(250)
+      )
+      .subscribe(() => this.refreshView());
   }
 
   ngOnDestroy():void {
@@ -211,16 +219,15 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       return;
     }
 
+    // Update autozoom level
+    this.applyAutoZoomLevel();
+
     // Require dynamic CSS to be visible
     this.dynamicCssService.requireHighlighting();
 
     timeOutput('refreshView() in timeline container', () => {
       // Reset the width of the outer container if its content shrinks
       this.outerContainer.css('width', 'auto');
-
-      if (!this.workPackageTable.configuration.isEmbedded && this.viewParameters.settings.autoZoom) {
-        this.applyAutoZoomLevel();
-      }
 
       this.calculateViewParams(this._viewParameters);
 
@@ -251,7 +258,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       .subscribe((wpId) => {
         const viewParamsChanged = this.calculateViewParams(this._viewParameters);
         if (viewParamsChanged) {
-          this.debouncedRefresh();
+          this.refreshRequest.putValue(undefined);
         } else {
           // Refresh the single cell
           this.cellsRenderer.refreshCellsFor(wpId);
@@ -414,8 +421,16 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
   }
 
   private applyAutoZoomLevel() {
+    if (this.workPackageTable.configuration.isEmbedded || !this.viewParameters.settings.autoZoom) {
+      return;
+    }
+
+    if (this.workPackageIdOrder.length === 0) {
+      return;
+    }
+
     const daysSpan = calculateDaySpan(this.workPackageIdOrder, this.states.workPackages, this._viewParameters);
-    const timelineWidthInPx = this.outerContainer.width() - (2 * requiredPixelMarginLeft);
+    const timelineWidthInPx = this.$element.parent().width() - (2 * requiredPixelMarginLeft);
 
     for (let zoomLevel of zoomLevelOrder) {
       const pixelPerDay = getPixelPerDayForZoomLevel(zoomLevel);
