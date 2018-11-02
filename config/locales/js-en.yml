@@ -85,6 +85,7 @@ en:
 
     calendar:
       title: 'Calendar'
+      too_many: 'There are more work packages (%{count}) than can be displayed by the calendar (%{max}). Add filters to focus on the relevant ones.'
 
     description_available_columns: "Available Columns"
     description_current_position: "You are here:"

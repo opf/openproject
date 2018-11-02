@@ -13,18 +13,19 @@ import {StateService} from "@uirouter/core";
 import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
 import * as moment from "moment";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 
 @Component({
   templateUrl: './wp-calendar.template.html',
   selector: 'wp-calendar',
 })
-
 export class WorkPackagesCalendarController implements OnInit, OnDestroy {
   calendarOptions:Options;
   events:any;
   @ViewChild(CalendarComponent) ucCalendar:CalendarComponent;
   @Input() projectIdentifier:string;
   @Input() static:boolean = false;
+  static MAX_DISPLAYED = 100;
 
   constructor(readonly states:States,
               readonly $state:StateService,
@@ -33,8 +34,8 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
               readonly tableState:TableState,
               readonly urlParamsHelper:UrlParamsHelperService,
               private element:ElementRef,
-              readonly i18n:I18nService) {
-  }
+              readonly i18n:I18nService,
+              readonly notificationsService:NotificationsService) { }
 
   ngOnInit() {
     // Clear any old subscribers
@@ -116,6 +117,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
     this.tableState.results.values$().pipe(
       untilComponentDestroyed(this)
     ).subscribe((collection:WorkPackageCollectionResource) => {
+      this.warnOnTooManyResults(collection);
       this.mapToCalendarEvents(collection.elements);
       this.setCalendarsDate();
     });
@@ -138,6 +140,15 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
         className: `__hl_row_type_${workPackage.type.getId()}`
       };
     });
+  }
+
+  private warnOnTooManyResults(collection:WorkPackageCollectionResource) {
+    if (collection.count < collection.total) {
+      const message = this.i18n.t('js.calendar.too_many',
+                                  { count: collection.total,
+                                               max: WorkPackagesCalendarController.MAX_DISPLAYED });
+      this.notificationsService.addNotice(message);
+    }
   }
 
   private setCalendarOptions() {
@@ -188,6 +199,13 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
   }
 
   private defaultQueryProps(startDate:string, endDate:string) {
-    return `{"c": ["id"], "t": "id:asc", "f":[{ "n": "status", "o": "o", "v": [] }, { "n": "datesInterval", "o": "<>d", "v": ["${startDate}", "${endDate}"] }], "pp": 50}`;
+    let props = { "c": ["id"],
+                  "t":
+                  "id:asc",
+                  "f": [{ "n": "status", "o": "o", "v": [] },
+                        { "n": "datesInterval", "o": "<>d", "v": [startDate, endDate] }],
+                  "pp": WorkPackagesCalendarController.MAX_DISPLAYED };
+
+    return JSON.stringify(props);
   }
 }
