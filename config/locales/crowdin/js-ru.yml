@@ -287,15 +287,15 @@ ru:
       show_modal: Показать содержимое атрибута текста справки
     onboarding:
       steps:
-        welcome: Take a three minutes introduction tour to learn the most <b>important
-          features</b>. <br> We recommend to complete the steps until the end. You
-          can restart the tour any time.
-        project_selection: Please select one of the projects with useful demo data
-          to get started. <br> The <b>Demo project</b> suits best for classical project
-          management, while the <b>Scrum project</b> is better for Agile project management.
-        sidebar_arrow: With the arrow you can navigate back to the project's <b>Main
-          menu</b>.
-        members: Invite new <b>Members</b> to join your project.
+        welcome: Совершите вводный трехминутный тур для знакомства с наиболее <b>важными
+          особенностями</b>. <br>Рекомендуем пройти все шаги до конца. Тур можно перезапустить
+          в любое время.
+        project_selection: Пожалуйста, выберите для начала один из проектов с полезными
+          демонстрационными данными. <br> <b>Демонстрационный проект</b> подходит
+          лучше всего для классического проекта управления, пока <b>проект Scrum</b>
+          лучший в Agile-управлении проектами.
+        sidebar_arrow: Стрелка возвращает к <b>главному меню</b> проекта.
+        members: Предложите новому <b>участнику</b> присоединиться к вашему проекту.
         wiki: Within the <b>Wiki</b> you can document and share knowledge together
           with your team.
         backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> Here
@@ -323,9 +323,9 @@ ru:
         wp_timeline: Here you can edit your project plan. Create new phases, milestones,
           and add dependencies. All team members can see and update the latest plan
           at any time.
-        help_menu: In the <b>Help</b> menu you will find a user guide and additional
-          help resources. <br> Enjoy your work with OpenProject!
-        got_it: Got it
+        help_menu: В меню <b>Справка</b> руководство пользователя и дополнительные
+          справочные материалы. <br>Приятной работы с OpenProject!
+        got_it: Принять
     password_confirmation:
       field_description: Необходимо ввести свой пароль для подтверждения изменений.
       title: Для продолжения введите свой пароль

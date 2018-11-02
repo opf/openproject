@@ -112,7 +112,7 @@ nl:
     custom_actions:
       date:
         specific: op
-        current_date: Current date
+        current_date: Huidige datum
     error:
       internal: Een interne fout is opgetreden.
       cannot_save_changes_with_message: 'Uw wijzigingen vanwege de volgende fout niet
@@ -290,20 +290,21 @@ nl:
       show_modal: Toon kenmerk help tekstinvoer
     onboarding:
       steps:
-        welcome: Take a three minutes introduction tour to learn the most <b>important
-          features</b>. <br> We recommend to complete the steps until the end. You
-          can restart the tour any time.
-        project_selection: Please select one of the projects with useful demo data
-          to get started. <br> The <b>Demo project</b> suits best for classical project
-          management, while the <b>Scrum project</b> is better for Agile project management.
-        sidebar_arrow: With the arrow you can navigate back to the project's <b>Main
-          menu</b>.
-        members: Invite new <b>Members</b> to join your project.
-        wiki: Within the <b>Wiki</b> you can document and share knowledge together
-          with your team.
-        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> Here
-          you can create <b>epics, user stories, and bugs</b>, prioritize via drag'n'drop
-          and add them to a sprint.
+        welcome: Neem drie minuten de tijd voor een introductie rondleiding, om de
+          meeste belangrijke kenmerken te leren <b>-</b>. <br> het is raadzaam de
+          stappen uitvoeren tot het einde. U kunt de tour ieder moment opnieuw beginnen.
+        project_selection: Gelieve één van de projecten te selecteren met voor u nuttige
+          voorbeeldgegevens. alvorens aan de slag te gaan <br> Het <b>Demo project</b>
+          is gebaseerd op het klassieke projectmanagement, terwijl het <b>Scrum-project</b>
+          Een beter voorbeeld is voor Agile projectmanagement.
+        sidebar_arrow: U kunt met de pijl terug navigeren naar het <b>Hoofd menu</b>
+          van het project.
+        members: Nodig nieuwe <b>leden,</b> uit voor uw project.
+        wiki: U kunt binnen de <b>Wiki</b> kennis delen en documenteren samen met
+          uw team.
+        backlogs_overview: Beheer uw werk in de weergave <b> Backlogs </b> view <br>
+          Hier kun je <b> epics, user stories en bugs </b> maken, prioriteiten stellen
+          via drag & drop en ze toevoegen aan een sprint.
         backlogs_task_board_arrow: To see your <b>Task board</b>, open on the Sprint
           drop-down...
         backlogs_task_board_select: "... and select the <b>Task board</b> entry."
