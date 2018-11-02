@@ -1442,7 +1442,7 @@ cs:
   label_not_contains: neobsahuje
   label_not_equals: není
   label_notify_member_plural: Email updates
-  label_on: 'on'
+  label_on: zapnuto
   label_open_menu: Otevřít nabídku
   label_open_work_packages: otevřít
   label_open_work_packages_plural: otevřít
@@ -1463,7 +1463,7 @@ cs:
   label_path_encoding: Path encoding
   label_pdf_with_descriptions: PDF with Descriptions
   label_per_page: Per page
-  label_people: People
+  label_people: Lidé
   label_permissions: Práva
   label_permissions_report: Permissions report
   label_personalize_page: Personalize this page
