@@ -47,14 +47,6 @@ describe RepositoriesController, 'Subversion', type: :controller do
                                                 scm_type: 'local',
                                                 url: self.class.subversion_repository_url)
 
-    # #reload is broken for repositories because it defines
-    # `has_many :changes` which conflicts with AR's #changes method
-    # here we implement #reload differently for that single repository instance
-    def @repository.reload
-      ActiveRecord::Base.connection.clear_query_cache
-      self.class.find(id)
-    end
-
     assert @repository
   end
 
