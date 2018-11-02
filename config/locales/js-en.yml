@@ -550,6 +550,7 @@ en:
       description_options_hide: "Hide options"
       description_options_show: "Show options"
       error:
+        update_conflict_refresh: "Click here to refresh the work package and update to the newest version."
         edit_prohibited: "Editing %{attribute} is blocked for this work package. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
         format:
           date: "%{attribute} is no valid date - YYYY-MM-DD expected."

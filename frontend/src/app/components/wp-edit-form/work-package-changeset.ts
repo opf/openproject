@@ -46,6 +46,7 @@ import {
 } from "core-components/wp-edit-form/work-package-editing.service.interface";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
+import {take} from "rxjs/operators";
 
 export class WorkPackageChangeset {
   // Injections
@@ -62,7 +63,9 @@ export class WorkPackageChangeset {
   public inFlight:boolean = false;
 
   // The current work package form
-  public wpForm:InputState<FormResource> = input<FormResource>();
+  public wpForm:FormResource|undefined;
+  public wpFormPromise:Promise<FormResource>|undefined;
+
 
   // The current editing resource
   public resource:WorkPackageResource|null;
@@ -72,7 +75,7 @@ export class WorkPackageChangeset {
               form?:FormResource) {
     // New work packages have no schema set yet, so update the form immediately to get one
     if (form !== undefined) {
-      this.wpForm.putValue(form);
+      this.wpForm = form;
     }
   }
 
@@ -83,7 +86,12 @@ export class WorkPackageChangeset {
 
   public clear() {
     this.changes = {};
-    this.wpForm.clear();
+    this.resetForm();
+  }
+
+  public resetForm() {
+    this.wpForm = undefined;
+    this.wpFormPromise = undefined;
   }
 
   public get empty() {
@@ -133,16 +141,12 @@ export class WorkPackageChangeset {
   }
 
   public getForm():Promise<FormResource> {
-    this.wpForm.putFromPromiseIfPristine(() => {
-      return this.updateForm();
-    });
-
-
-    if (this.wpForm.hasValue()) {
-      return Promise.resolve(this.wpForm.value!);
-    } else {
-      return new Promise<FormResource>((resolve,) => this.wpForm.valuesPromise().then(resolve));
+    if (this.wpForm) {
+      return Promise.resolve(this.wpForm)
     }
+
+    this.wpFormPromise = this.wpFormPromise || this.updateForm();
+    return this.wpFormPromise;
   }
 
   /**
@@ -151,20 +155,18 @@ export class WorkPackageChangeset {
   public updateForm():Promise<FormResource> {
     let payload = this.buildPayloadFromChanges();
 
-    return new Promise<FormResource>((resolve, reject) => {
-      this.workPackage.$links.update(payload)
-        .then((form:FormResource) => {
-          this.wpForm.putValue(form);
-          this.buildResource();
+    return this.workPackage.$links
+      .update(payload)
+      .then((form:FormResource) => {
+        this.wpForm = form;
+        this.buildResource();
 
-          resolve(form);
-        })
-        .catch((error:any) => {
-          this.wpForm.clear();
-          this.wpNotificationsService.handleRawError(error, this.workPackage);
-          reject(error);
-        });
-    });
+        return form;
+      })
+      .catch((error:any) => {
+        this.resetForm();
+        throw error;
+      });
   }
 
   public save():Promise<WorkPackageResource> {
@@ -232,8 +234,8 @@ export class WorkPackageChangeset {
   private mergeWithPayload(plainPayload:any) {
     // Fall back to the last known state of the work package should the form not be loaded.
     let reference = this.workPackage.$source;
-    if (this.wpForm.hasValue()) {
-      reference = this.wpForm.value!.payload.$source;
+    if (this.wpForm) {
+      reference = this.wpForm.payload.$source;
     }
 
     _.each(this.changes, (val:any, key:string) => {
@@ -264,8 +266,8 @@ export class WorkPackageChangeset {
     if (this.workPackage.isNew) {
       // If the work package is new, we need to pass the entire form payload
       // to let all default values be transmitted (type, status, etc.)
-      if (this.wpForm.hasValue()) {
-        payload = this.wpForm.value!.payload.$source;
+      if (this.wpForm) {
+        payload = this.wpForm.payload.$source;
       } else {
         payload = this.workPackage.$source;
       }
@@ -333,7 +335,7 @@ export class WorkPackageChangeset {
    * and contains available values.
    */
   public get schema():HalResource {
-    return this.wpForm.getValueOr(this.workPackage).schema;
+    return (this.wpForm || this.workPackage).schema;
   }
 
   public getSchemaName(attribute:string):string {
@@ -351,7 +353,7 @@ export class WorkPackageChangeset {
       return;
     }
 
-    const hasForm = this.wpForm.hasValue();
+    const hasForm = !!this.wpForm;
     let payload:any = this.workPackage.$source;
 
     const resource = this.halResourceService.createHalResourceOfType('WorkPackage', this.mergeWithPayload(payload));
