@@ -166,5 +166,11 @@ describe 'Work package calendars', type: :feature, js: true do
       .to have_no_selector '.fc-event-container', text: future_work_package.subject
     expect(page)
       .to have_no_selector '.fc-event-container', text: another_future_work_package.subject
+
+    # click goes to work package show page
+    page.find('.fc-event-container', text: current_work_package.subject).click
+
+    expect(page)
+      .to have_selector('.subject-header', text: current_work_package.subject)
   end
 end

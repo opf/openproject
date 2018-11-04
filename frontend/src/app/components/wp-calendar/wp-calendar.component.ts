@@ -92,6 +92,12 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
     });
   }
 
+  public toWPFullView($event:any) {
+    let workPackage = $event.detail.event.workPackage;
+
+    this.$state.go('work-packages.show', { workPackageId: workPackage.id });
+  }
+
   private get calendarElement() {
     return jQuery(this.element.nativeElement).find('ng-fullcalendar');
   }

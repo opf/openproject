@@ -7,6 +7,7 @@
                      [options]="calendarOptions"
                      [(eventsModel)]="events"
                      (viewRender)="updateTimeframe($event)"
-                     (eventRender)="addTooltip($event)">
+                     (eventRender)="addTooltip($event)"
+                     (eventClick)="toWPFullView($event)">
     </ng-fullcalendar>
 </div>
