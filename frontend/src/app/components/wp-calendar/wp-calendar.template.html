@@ -6,6 +6,7 @@
     <ng-fullcalendar #ucCalendar
                      [options]="calendarOptions"
                      [(eventsModel)]="events"
-                     (viewRender)="updateTimeframe($event)">
+                     (viewRender)="updateTimeframe($event)"
+                     (eventRender)="addTooltip($event)">
     </ng-fullcalendar>
 </div>

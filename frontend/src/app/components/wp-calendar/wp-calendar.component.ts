@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from "@angular/core";
+import {Component, ElementRef, Input, OnDestroy, OnInit, ViewChild, SecurityContext} from "@angular/core";
 import {CalendarComponent} from 'ng-fullcalendar';
 import {Options} from 'fullcalendar';
 import {States} from "core-components/states.service";
@@ -14,6 +14,7 @@ import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper
 import * as moment from "moment";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   templateUrl: './wp-calendar.template.html',
@@ -35,7 +36,8 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
               readonly urlParamsHelper:UrlParamsHelperService,
               private element:ElementRef,
               readonly i18n:I18nService,
-              readonly notificationsService:NotificationsService) { }
+              readonly notificationsService:NotificationsService,
+              private sanitizer:DomSanitizer) { }
 
   ngOnInit() {
     // Clear any old subscribers
@@ -76,6 +78,18 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
 
       this.wpTableFilters.replace(filtersState);
     }
+  }
+
+  public addTooltip($event:any) {
+    let event = $event.detail.event;
+    let element = $event.detail.element;
+    let workPackage = event.workPackage;
+
+    jQuery(element).tooltip({
+      content: this.contentString(workPackage),
+      items: '.fc-content',
+      track: true
+    });
   }
 
   private get calendarElement() {
@@ -125,19 +139,15 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
 
   private mapToCalendarEvents(workPackages:WorkPackageResource[]) {
     this.events = workPackages.map((workPackage:WorkPackageResource) => {
-      let startDate = workPackage.startDate;
-      let endDate = workPackage.dueDate;
-
-      if (workPackage.isMilestone) {
-        startDate = workPackage.date;
-        endDate = workPackage.date;
-      }
+      let startDate = this.eventDate(workPackage, 'start');
+      let endDate = this.eventDate(workPackage, 'due');
 
       return {
         title: workPackage.subject,
         start: startDate,
         end: endDate,
-        className: `__hl_row_type_${workPackage.type.getId()}`
+        className: `__hl_row_type_${workPackage.type.getId()}`,
+        workPackage: workPackage
       };
     });
   }
@@ -207,5 +217,53 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
                   "pp": WorkPackagesCalendarController.MAX_DISPLAYED };
 
     return JSON.stringify(props);
+  }
+
+  private eventDate(workPackage:WorkPackageResource, type:'start'|'due') {
+    if (workPackage.isMilestone) {
+      return workPackage.date;
+    } else {
+      return workPackage[`${type}Date`];
+    }
+  }
+
+  private contentString(workPackage:WorkPackageResource) {
+    return `
+        ${this.sanitizedValue(workPackage, 'type')} #${workPackage.id}: ${this.sanitizedValue(workPackage, 'subject', null)}
+        <ul class="tooltip--map">
+          <li class="tooltip--map--item">
+            <span class="tooltip--map--key">${this.i18n.t('js.work_packages.properties.projectName')}:</span>
+            <span class="tooltip--map--value">${this.sanitizedValue(workPackage, 'project')}</span>
+          </li>
+          <li class="tooltip--map--item">
+            <span class="tooltip--map--key">${this.i18n.t('js.work_packages.properties.status')}:</span>
+            <span class="tooltip--map--value">${this.sanitizedValue(workPackage, 'status')}</span>
+          </li>
+          <li class="tooltip--map--item">
+            <span class="tooltip--map--key">${this.i18n.t('js.work_packages.properties.startDate')}:</span>
+            <span class="tooltip--map--value">${this.eventDate(workPackage, 'start')}</span>
+          </li>
+          <li class="tooltip--map--item">
+            <span class="tooltip--map--key">${this.i18n.t('js.work_packages.properties.dueDate')}:</span>
+            <span class="tooltip--map--value">${this.eventDate(workPackage, 'due')}</span>
+          </li>
+          <li class="tooltip--map--item">
+            <span class="tooltip--map--key">${this.i18n.t('js.work_packages.properties.assignee')}:</span>
+            <span class="tooltip--map--value">${this.sanitizedValue(workPackage, 'assignee')}</span>
+          </li>
+          <li class="tooltip--map--item">
+            <span class="tooltip--map--key">${this.i18n.t('js.work_packages.properties.priority')}:</span>
+            <span class="tooltip--map--value">${this.sanitizedValue(workPackage, 'priority')}</span>
+          </li>
+        </ul>
+        `;
+  }
+
+  private sanitizedValue(workPackage:WorkPackageResource, attribute:string, toStringMethod:string|null = 'name') {
+    let value = workPackage[attribute];
+    value = toStringMethod && value ? value[toStringMethod] : value;
+    value = value || this.i18n.t('js.placeholders.default');
+
+    return this.sanitizer.sanitize(SecurityContext.HTML, value);
   }
 }
