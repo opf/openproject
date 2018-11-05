@@ -38,7 +38,10 @@ module CustomActions::Actions::Strategies::Date
   end
 
   def apply(work_package)
-    work_package.send("#{self.class.key}=", date_to_apply)
+    accessor = :"#{self.class.key}="
+    if work_package.respond_to? accessor
+      work_package.send(accessor, date_to_apply)
+    end
   end
 
   private
