@@ -184,6 +184,12 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/projects/42/work_packages/form'
   end
 
+  describe '#grid' do
+    subject { helper.grid(42) }
+
+    it_behaves_like 'api v3 path', '/grids/42'
+  end
+
   describe '#message' do
     subject { helper.message(42) }
 

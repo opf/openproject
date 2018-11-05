@@ -46,6 +46,7 @@ import {UserDmService} from 'core-app/modules/hal/dm-services/user-dm.service';
 import {ProjectDmService} from 'core-app/modules/hal/dm-services/project-dm.service';
 import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
 import {HalAwareErrorHandler} from "core-app/modules/hal/services/hal-aware-error-handler";
+import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
 
 @NgModule({
   imports: [
@@ -67,7 +68,8 @@ import {HalAwareErrorHandler} from "core-app/modules/hal/services/hal-aware-erro
     RelationsDmService,
     ProjectDmService,
     RootDmService,
-    TypeDmService
+    TypeDmService,
+    GridDmService
   ]
 })
 export class OpenprojectHalModule { }

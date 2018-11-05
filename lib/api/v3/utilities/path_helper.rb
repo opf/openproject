@@ -131,6 +131,10 @@ module API
             "#{root}/custom_options/#{id}"
           end
 
+          def self.grid(id)
+            "#{root}/grids/#{id}"
+          end
+
           def self.help_texts
             "#{root}/help_texts"
           end

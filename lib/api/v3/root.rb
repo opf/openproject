@@ -61,6 +61,7 @@ module API
       mount ::API::V3::Versions::VersionsAPI
       mount ::API::V3::WorkPackages::WorkPackagesAPI
       mount ::API::V3::WikiPages::WikiPagesAPI
+      mount ::API::V3::Grids::GridsAPI
 
       get '/' do
         RootRepresenter.new({}, current_user: current_user)

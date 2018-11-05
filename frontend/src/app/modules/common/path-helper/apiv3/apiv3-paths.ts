@@ -37,6 +37,7 @@ import {Apiv3QueriesPaths} from 'core-app/modules/common/path-helper/apiv3/queri
 import {Apiv3ProjectPaths} from 'core-app/modules/common/path-helper/apiv3/projects/apiv3-project-paths';
 import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
 import {Apiv3TypesPaths} from "core-app/modules/common/path-helper/apiv3/types/apiv3-types-paths";
+import {Apiv3GridsPaths} from "core-app/modules/common/path-helper/apiv3/grids/apiv3-grids-paths";
 
 export class ApiV3Paths {
   // Base path
@@ -77,6 +78,9 @@ export class ApiV3Paths {
 
   // /api/v3/help_texts
   public readonly help_texts = new SimpleResourceCollection(this.apiV3Base, 'help_texts');
+
+  // /api/v3/grid_blocks
+  public readonly grids = new Apiv3GridsPaths(this.apiV3Base);
 
   constructor(readonly appBasePath:string) {
   }

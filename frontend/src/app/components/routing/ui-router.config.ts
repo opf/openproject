@@ -45,6 +45,7 @@ import {Injector} from "@angular/core";
 import {WorkPackagesBaseComponent} from "core-components/routing/main/work-packages-base.component";
 import {wpBaseAppSelector} from "./main/work-packages-base.component";
 import {WorkPackagesCalendarComponent} from "core-components/routing/wp-calendar/wp.calendar.component";
+import {MyPageComponent} from "core-components/routing/my-page/my-page.component";
 
 const panels = {
   get overview() {
@@ -197,7 +198,12 @@ export const OPENPROJECT_ROUTES:StateDeclaration[] = [
   _.extend(panels.activity, {name: 'work-packages.list.details.activity'}),
   _.extend(panels.activityDetails, {name: 'work-packages.list.details.activity.details'}),
   _.extend(panels.relations, {name: 'work-packages.list.details.relations'}),
-  _.extend(panels.watchers, {name: 'work-packages.list.details.watchers'})
+  _.extend(panels.watchers, {name: 'work-packages.list.details.watchers'}),
+  {
+    name: 'my_page',
+    url: baseUrl + '/my/page',
+    component: MyPageComponent,
+  }
 ];
 
 export function initializeUiRouterConfiguration(injector:Injector) {

@@ -226,6 +226,10 @@ import {FullCalendarModule} from 'ng-fullcalendar';
 import {WorkPackagesCalendarController} from "core-components/wp-calendar/wp-calendar.component";
 import {WorkPackagesEmbeddedCalendarEntryComponent} from "core-components/wp-table/embedded/wp-embedded-calendar-entry.component";
 import {WorkPackageBreadcrumbParentComponent} from './components/work-packages/wp-breadcrumb/wp-breadcrumb-parent.component';
+import {MyPageComponent} from "core-components/routing/my-page/my-page.component";
+import {GridComponent} from "core-components/grid/grid.component";
+import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
+import {WidgetWpAssignedToMeComponent} from "core-components/grid/widgets/wp-assigned-to-me/wp-assigned-to-me.component";
 
 @NgModule({
   imports: [
@@ -516,7 +520,14 @@ import {WorkPackageBreadcrumbParentComponent} from './components/work-packages/w
 
     // Work package calendars
     WorkPackagesCalendarController,
-    WorkPackagesEmbeddedCalendarEntryComponent
+    WorkPackagesEmbeddedCalendarEntryComponent,
+
+    // MyPage
+    MyPageComponent,
+
+    //GridBlocks
+    GridComponent,
+    WidgetWpAssignedToMeComponent
   ],
   entryComponents: [
     WorkPackagesBaseComponent,
@@ -616,6 +627,9 @@ import {WorkPackageBreadcrumbParentComponent} from './components/work-packages/w
 
     // Work package graphs on version page
     WorkPackageByVersionGraphComponent,
+
+    // MyPage
+    MyPageComponent
   ]
 })
 export class OpenProjectModule {
