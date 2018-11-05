@@ -31,7 +31,7 @@ require 'spec_helper'
 describe 'attachments', type: :feature do
   let(:project) { FactoryBot.create :valid_project }
   let(:current_user) { FactoryBot.create :admin }
-  let!(:priority) { FactoryBot.create :priority_normal }
+  let!(:priority) { FactoryBot.create :default_priority }
 
   before do
     allow(User).to receive(:current).and_return current_user
