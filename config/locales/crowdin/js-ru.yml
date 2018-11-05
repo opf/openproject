@@ -296,33 +296,33 @@ ru:
           лучший в Agile-управлении проектами.
         sidebar_arrow: Стрелка возвращает к <b>главному меню</b> проекта.
         members: Предложите новому <b>участнику</b> присоединиться к вашему проекту.
-        wiki: Within the <b>Wiki</b> you can document and share knowledge together
-          with your team.
+        wiki: В пределах <b>вики</b> возможно документирование и обмен знаниями в
+          вашей команде.
         backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> Here
           you can create <b>epics, user stories, and bugs</b>, prioritize via drag'n'drop
           and add them to a sprint.
-        backlogs_task_board_arrow: To see your <b>Task board</b>, open on the Sprint
-          drop-down...
-        backlogs_task_board_select: "... and select the <b>Task board</b> entry."
-        backlogs_task_board: The <b>Task board</b> visualizes the progress for this
-          sprint. Add new tasks or impediments with the + icon next to a user story.
-          Via drag'n'drop you can update the status.
-        wp_toggler: Now let's have a look at the <b>Work package</b> section, which
-          gives you a more detailed view of your work.
-        wp_list: This is the <b>Work package</b> list with the important work within
-          your project, such as tasks, features, milestones, bugs, and more. <br>
-          You can create or edit a work package directly within this list. To see
-          its details you can double click on a row.
-        wp_full_view: Within the <b>Work package details</b> you find all relevant
-          information, such as description, status and priority, activities or comments.
-        wp_back_button: With the arrow you can navigate back to the work package list.
-        wp_create_button: The <b>Create</b> button will add a new work package to
-          your project.
-        wp_timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
-          for your project.
-        wp_timeline: Here you can edit your project plan. Create new phases, milestones,
-          and add dependencies. All team members can see and update the latest plan
-          at any time.
+        backlogs_task_board_arrow: Чтобы увидеть вашу <b>Панель задач</b>, откройте
+          в раскрывающемся списке спринта...
+        backlogs_task_board_select: "... и выберите строку <b>Панель задач</b>."
+        backlogs_task_board: "<b>Панель задач</b> визуализирует прогресс этого спринта.
+          Добавьте новые задачи или помехи с помощью значка + рядом с историей пользователя.
+          Используя перетаскивание, вы можете обновить статус."
+        wp_toggler: Давайте теперь в секции <b>Пакет работ</b> посмотрим более детальное
+          описание вашей работы.
+        wp_list: Это список <b>Пакета работ</b> с важной работой в рамках проекта
+          такими как задачи, функции, вехи, ошибки и многое другое. <br>Создать или
+          изменить пакет работ можно непосредственно в этом списке. Чтобы увидеть
+          его детали, нужно дважды щелкнуть по строке.
+        wp_full_view: 'В <b>Деталях пакета работ</b> вы найдете всю необходимую информацию:
+          описание, состояние и приоритет, активность или комментарии.'
+        wp_back_button: Стрелка возвращает к списку пакетов работ.
+        wp_create_button: Кнопка <b>Создать</b> добавляет новый пакет работ к вашему
+          проекту.
+        wp_timeline_button: Вы можете активировать <b>Диаграмму Ганта</b> для создания
+          временной шкалы вашего проекта.
+        wp_timeline: Здесь вы можете редактировать план вашего проекта. Создать новые
+          фазы, вехи и добавить зависимости. Отредактированный план может быть отредактирован
+          любым членом вашей команды в любое время.
         help_menu: В меню <b>Справка</b> руководство пользователя и дополнительные
           справочные материалы. <br>Приятной работы с OpenProject!
         got_it: Принять
