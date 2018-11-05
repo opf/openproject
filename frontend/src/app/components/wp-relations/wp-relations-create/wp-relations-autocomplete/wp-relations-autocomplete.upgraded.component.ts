@@ -38,16 +38,20 @@ import {CollectionResource} from 'core-app/modules/hal/resources/collection-reso
   templateUrl: './wp-relations-autocomplete.upgraded.html'
 })
 export class WpRelationsAutocompleteComponent implements OnInit {
+  readonly text = {
+    placeholder: this.I18n.t('js.relations_autocomplete.placeholder')
+  };
+
   @Input() workPackage:WorkPackageResource;
   @Input() loadingPromiseName:string;
   @Input() selectedRelationType:string;
   @Input() filterCandidatesFor:string;
+  @Input() initialSelection?:WorkPackageResource;
+  @Input() inputPlaceholder:string = this.text.placeholder;
+  @Input() appendToContainer:string = '#content';
 
-  @Output('onWorkPackageIdSelected') public onSelect = new EventEmitter<string>();
-
-  readonly text = {
-    placeholder: this.I18n.t('js.relations_autocomplete.placeholder')
-  };
+  @Output('onWorkPackageIdSelected') public onSelect = new EventEmitter<string|null>();
+  @Output('onEscape') public onEscapePressed = new EventEmitter<KeyboardEvent>();
 
   public options:any = [];
   public relatedWps:any = [];
@@ -67,16 +71,25 @@ export class WpRelationsAutocompleteComponent implements OnInit {
     let input = this.$element.find('.wp-relations--autocomplete');
     let selected = false;
 
+    if (this.initialSelection) {
+      input.val(this.getIdentifier(this.initialSelection));
+    }
+
     input.autocomplete({
       delay: 250,
       autoFocus: false, // Accessibility!
-      appendTo: '#content',
+      appendTo: this.appendToContainer,
       classes: {
         'ui-autocomplete': 'wp-relations-autocomplete--results'
       },
       source: (request:{ term:string }, response:Function) => {
         this.autocompleteWorkPackages(request.term).then((values) => {
           selected = false;
+
+          if (this.initialSelection) {
+            values.unshift(this.initialSelection);
+          }
+
           response(values.map(wp => {
             return {workPackage: wp, value: this.getIdentifier(wp)};
           }));
@@ -87,9 +100,17 @@ export class WpRelationsAutocompleteComponent implements OnInit {
         this.onSelect.emit(ui.item.workPackage.id);
       },
       minLength: 0
-    }).focus(() => !selected && input.autocomplete('search', input.val()));
+    })
+    .focus(() => !selected && input.autocomplete('search', input.val()));
 
     setTimeout(() => input.focus(), 20);
+  }
+
+  public handleEnterPressed($event:KeyboardEvent) {
+    const val = ($event.target as HTMLInputElement).value;
+    if (!val) {
+        this.onSelect.emit(null);
+    }
   }
 
   private getIdentifier(workPackage:WorkPackageResource):string {

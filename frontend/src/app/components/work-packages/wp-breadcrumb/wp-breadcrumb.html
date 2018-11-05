@@ -1,15 +1,22 @@
 <div class="wp-breadcrumb -show"
-     *ngIf="workPackage && workPackage.ancestors.length > 0">
+     *ngIf="workPackage">
   <ul class="breadcrumb">
-    <li *ngFor="let ancestor of workPackage.ancestors"
-        class="icon4 icon-small icon-arrow-right5">
-      <a [attr.title]="ancestor.name"
-         [textContent]="ancestor.name"
-         uiSref="work-packages.show.activity"
-         [uiParams]="{workPackageId: ancestor.id}"
-         class="breadcrumb-project-title nocut"></a>
+    <ng-container *ngIf="!inputActive && hierarchyCount > 0">
+      <li>
+        <span>{{ hierarchyLabel }}: </span>
+      </li>
+      <li *ngFor="let ancestor of workPackage.ancestors; let first = first ; let last = last"
+          [ngClass]="{ 'icon4 icon-small icon-arrow-right5': !first }">
+        <a *ngIf="!last"
+          [attr.title]="ancestor.name"
+          [textContent]="ancestor.name"
+          uiSref="work-packages.show.activity"
+          [uiParams]="{workPackageId: ancestor.id}"
+          class="breadcrumb-project-title nocut"></a>
+      </li>
+    </ng-container>
+    <li [ngClass]="{ 'active-parent-select': inputActive }">
+      <wp-breadcrumb-parent (onSwitch)="inputActive = !inputActive" [workPackage]="workPackage"></wp-breadcrumb-parent>
     </li>
-    <li class="icon4 icon-small icon-arrow-right5"
-        [textContent]="workPackage.name"></li>
   </ul>
 </div>

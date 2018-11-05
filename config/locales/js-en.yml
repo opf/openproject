@@ -396,9 +396,11 @@ en:
 
     relations_hierarchy:
       parent_headline: "Parent"
+      hierarchy_headline: "Hierarchy"
       children_headline: "Children"
 
     relation_buttons:
+      set_parent: "Set parent work package"
       change_parent: "Change parent"
       remove_parent: "Remove parent"
       group_by_wp_type: "Group by work package type"
@@ -419,6 +421,7 @@ en:
 
     relations_autocomplete:
       placeholder: "Enter the related work package id"
+      parent_placeholder: "Choose new parent, press enter to unset, escape to cancel."
 
     repositories:
       select_tag: 'Select tag'

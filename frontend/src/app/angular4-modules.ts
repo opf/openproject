@@ -124,7 +124,6 @@ import {WorkPackageQuerySelectableTitleComponent} from 'core-components/wp-query
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 import {WorkPackageRelationsHierarchyComponent} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.directive';
 import {WorkPackageRelationsHierarchyService} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
-import {WpRelationParentComponent} from 'core-components/wp-relations/wp-relations-parent/wp-relations-parent.component';
 import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relations.service';
 import {NewestActivityOnOverviewComponent} from 'core-components/wp-single-view-tabs/activity-panel/activity-on-overview.component';
 import {WorkPackageActivityTabComponent} from 'core-components/wp-single-view-tabs/activity-panel/activity-tab.component';
@@ -226,6 +225,7 @@ import {WorkPackagesCalendarComponent} from './components/routing/wp-calendar/wp
 import {FullCalendarModule} from 'ng-fullcalendar';
 import {WorkPackagesCalendarController} from "core-components/wp-calendar/wp-calendar.component";
 import {WorkPackagesEmbeddedCalendarEntryComponent} from "core-components/wp-table/embedded/wp-embedded-calendar-entry.component";
+import {WorkPackageBreadcrumbParentComponent} from './components/work-packages/wp-breadcrumb/wp-breadcrumb-parent.component';
 
 @NgModule({
   imports: [
@@ -386,6 +386,7 @@ import {WorkPackagesEmbeddedCalendarEntryComponent} from "core-components/wp-tab
     WorkPackageRelationsCountComponent,
     WorkPackageWatchersCountComponent,
     WorkPackageBreadcrumbComponent,
+    WorkPackageBreadcrumbParentComponent,
     WorkPackageEditFieldGroupComponent,
     WorkPackageSplitViewToolbarComponent,
     WorkPackageWatcherButtonComponent,
@@ -421,7 +422,6 @@ import {WorkPackagesEmbeddedCalendarEntryComponent} from "core-components/wp-tab
     WorkPackageRelationsCreateComponent,
     WorkPackageRelationsHierarchyComponent,
     WpRelationsAutocompleteComponent,
-    WpRelationParentComponent,
 
     // Watchers tab
     WorkPackageWatchersTabComponent,
