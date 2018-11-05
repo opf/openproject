@@ -27,7 +27,9 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= include_gon(nonce: content_security_policy_script_nonce) %>
+<%= nonced_javascript_tag do %>
+  <%= include_gon(need_tag: false) -%>
+<% end %>
 
 <%= toolbar title: l(:label_spent_time) do %>
   <% if User.current.allowed_to?({controller: :timelog, action: :new}, @project) %>

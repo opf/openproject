@@ -27,7 +27,9 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <%= javascript_include_tag 'my_page' %>
-<%= include_gon(nonce: content_security_policy_nonce(:script)) %>
+<%= nonced_javascript_tag do %>
+  <%= include_gon(need_tag: false) -%>
+<% end %>
 
 <%= toolbar title: l(:label_my_page) do %>
   <%= styled_form_tag({ action: "add_block" }, class: 'my-page--block-form') do %>

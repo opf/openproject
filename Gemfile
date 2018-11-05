@@ -33,8 +33,9 @@ ruby '~> 2.5.1'
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-session_store', '~> 1.1.0'
-gem 'rails', '~> 5.1.6'
+gem 'rails', '~> 5.2.1'
 gem 'responders', '~> 2.4'
+gem "listen", "~> 3.1" # Use for event-based reloaders
 
 gem 'rubytree', git: 'https://github.com/dr0verride/RubyTree.git', ref: '06f53ee'
 gem 'rdoc', '>= 2.4.2'
@@ -118,7 +119,7 @@ gem 'rack-protection', '~> 2.0.0'
 gem 'rack-attack', '~> 5.2.0'
 
 # CSP headers
-gem 'secure_headers', '~> 5.0.5'
+gem 'secure_headers', '~> 6.0.0'
 
 # Providing health checks
 gem 'okcomputer', '~> 1.16.0'

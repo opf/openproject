@@ -39,4 +39,3 @@ if Setting.table_exists? # don't want to prevent migrations
 end
 
 require 'open_project'
-require 'chili_project'
