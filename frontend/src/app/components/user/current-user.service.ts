@@ -31,7 +31,7 @@ import {Injectable} from "@angular/core";
 @Injectable()
 export class CurrentUserService {
   public get isLoggedIn() {
-    return jQuery('meta[name=current_user]').length;
+    return jQuery('meta[name=current_user]').length > 0;
   }
 
   public get userId() {

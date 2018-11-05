@@ -264,6 +264,15 @@ export class HalResourceService {
   }
 
   /**
+   * Create an empty HAL resource with only the self link set.
+   * @param href Self link of the HAL resource
+   */
+  public fromSelfLink(href:string|null) {
+    const source = { _links: { self: { href: href }}};
+    return this.createHalResource(source);
+  }
+
+  /**
    * Get a linked resource from its HalLink with the correct type.
    */
   public createLinkedResource<T extends HalResource = HalResource>(halResource:T, linkName:string, link:HalLinkInterface) {

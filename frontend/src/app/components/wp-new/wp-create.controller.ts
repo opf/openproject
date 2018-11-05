@@ -155,7 +155,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
     }
 
     return this.wpCreate.createNewTypedWorkPackage(stateParams.projectPath, type).then(changeset => {
-      const filter = new WorkPackageFilterValues(this.currentUser, changeset, this.wpTableFilters.current, ['type']);
+      const filter = new WorkPackageFilterValues(this.injector, changeset, this.wpTableFilters.current, ['type']);
       return filter.applyDefaultsFromFilters().then(() => changeset);
     });
   }

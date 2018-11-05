@@ -248,7 +248,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
     let promise:Promise<any>;
 
     if (this.tableState.query.hasValue()) {
-      const filter = new WorkPackageFilterValues(this.currentUser, changeset, this.tableState.query.value!.filters);
+      const filter = new WorkPackageFilterValues(this.injector, changeset, this.tableState.query.value!.filters);
       promise = filter.applyDefaultsFromFilters();
     } else {
       promise = Promise.resolve();
