@@ -43,7 +43,6 @@
       #content-wrapper,
       #content
         height: 100% !important
-        overflow: auto
 
       #main
         padding-bottom: 0
@@ -76,6 +75,7 @@
 
           .work-packages--panel-inner
             padding: 5px 0 20px 0
+            width: calc(100vw - 30px)
 
         .work-packages-full-view--split-right
           width: initial
@@ -83,7 +83,8 @@
             margin: 0.75rem 0 2.5rem 0
 
           .work-packages--panel-inner
-            padding-right: 0
+            padding: 0
+            max-width: calc(100vw - 30px)
 
         .work-packages-full-view--resizer
           display: none
@@ -164,6 +165,7 @@
     #toolbar-items
       position: absolute
       top: 10px
+      right: 0
       justify-content: flex-end
       .toolbar-item
         flex-grow: 0

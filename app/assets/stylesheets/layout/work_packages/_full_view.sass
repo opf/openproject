@@ -40,8 +40,7 @@ body.controller-work_packages.full-create
 
   #toolbar
     display: flex
-    justify-content: flex-end
-    flex-wrap: wrap-reverse
+    margin-right: 10px
     @include clearfix
 
   .toolbar-container
@@ -49,8 +48,8 @@ body.controller-work_packages.full-create
 
   ul#toolbar-items
     @include clearfix
-    order: 2
-    margin: 0 0 1rem 2rem
+    position: absolute
+    right: 20px
 
     button
       margin-bottom: 0
@@ -189,19 +188,14 @@ body.controller-work_packages.full-create
     @media only screen and (max-width: 679px)
       width: 100%
     @media only screen and (min-width: 679px)
-      flex: 1 1 auto
       display: flex
+      flex-wrap: wrap
       margin-bottom: 6px
 
   .subject-header
     margin: 0
     padding: 0
-    align-self: center
-    /* Leave space for the back button */
-    flex-basis: calc(100% - 90px)
-    @media only screen and (max-width: 679px)
-      // let use full width
-      flex-basis: 100%
+    flex-basis: 100%
 
     .wp-table--cell-span
       white-space: normal
