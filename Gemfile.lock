@@ -407,7 +407,7 @@ GEM
     public_suffix (3.0.2)
     rabl (0.13.1)
       activesupport (>= 2.3.14)
-    rack (2.0.5)
+    rack (2.0.6)
     rack-accept (0.4.5)
       rack (>= 0.4)
     rack-attack (5.2.0)
