@@ -87,12 +87,12 @@ module Components
       container.find('.ck-button', visible: :all, text: label).click
     end
 
-    def click_and_type_slowly(text)
+    def click_and_type_slowly(*text)
       sleep 0.5
       editor_element.click
 
       sleep 0.5
-      editor_element.send_keys text
+      editor_element.send_keys *text
 
       sleep 0.5
     end
