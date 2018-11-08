@@ -35,6 +35,7 @@ import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {IWorkPackageCreateService} from "core-components/wp-new/wp-create.service.interface";
+import {HookService} from 'core-app/modules/plugins/hook-service';
 
 @Injectable()
 export class WorkPackageCreateService implements IWorkPackageCreateService {
@@ -44,6 +45,7 @@ export class WorkPackageCreateService implements IWorkPackageCreateService {
   protected newWorkPackageCreatedSubject = new Subject<WorkPackageResource>();
 
   constructor(protected injector:Injector,
+              protected hooks:HookService,
               protected wpCacheService:WorkPackageCacheService,
               protected halResourceService:HalResourceService,
               protected apiWorkPackages:ApiWorkPackagesService) {
@@ -73,7 +75,12 @@ export class WorkPackageCreateService implements IWorkPackageCreateService {
     let wp = this.halResourceService.createHalResourceOfType<WorkPackageResource>('WorkPackage', form.payload.$plain());
     wp.initializeNewResource(form);
 
-    return new WorkPackageChangeset(this.injector, wp, form);
+    const changeset = new WorkPackageChangeset(this.injector, wp, form);
+
+    // Call work package initialization hook
+    this.hooks.call('workPackageNewInitialization', changeset);
+
+    return changeset;
   }
 
   /**
