@@ -55,8 +55,14 @@ function typesFormConfigurationCtrl(
     return !$scope.updateHiddenFields();
   });
 
+  $scope.showNotificationWhileDragging
+
   // Setup autoscroll
-  var scroll = autoScroll(window, {
+  var scroll = autoScroll(
+    [
+      document.getElementById('content-wrapper')
+    ],
+    {
     margin: 20,
     maxSpeed: 5,
     scrollWhenOutside: true,
