@@ -48,6 +48,9 @@ RUN sed -i "s|Rails.groups(:opf_plugins)|Rails.groups(:opf_plugins, :docker)|" c
 # Run the npm postinstall manually after it was copied
 RUN DATABASE_URL=sqlite3:///tmp/db.sqlite3 SECRET_TOKEN=foobar RAILS_ENV=production bundle exec rake assets:precompile
 
+# Include pandoc
+RUN RAILS_ENV=production bundle exec rails runner "puts ::OpenProject::TextFormatting::Formats::Markdown::PandocDownloader.check_or_download!"
+
 CMD ["./docker/web"]
 ENTRYPOINT ["./docker/entrypoint.sh"]
 VOLUME ["$APP_DATA"]

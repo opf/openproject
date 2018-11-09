@@ -93,6 +93,7 @@ module Group::Destroy
         .joins("INNER JOIN #{members}
                 ON #{members}.project_id = categories.project_id
                 AND #{members}.user_id = categories.assigned_to_id")
+        .where("#{members}.user_id" => self.id)
         .update_all "assigned_to_id = NULL"
 
       self.users.delete_all # remove all users from this group
