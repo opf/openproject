@@ -95,6 +95,9 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
   public toWPFullView($event:any) {
     let workPackage = $event.detail.event.workPackage;
 
+    // do not display the tooltip on the wp show page
+    this.removeTooltip($event.detail.jsEvent.currentTarget);
+
     this.$state.go('work-packages.show', { workPackageId: workPackage.id });
   }
 
@@ -271,5 +274,12 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
     value = value || this.i18n.t('js.placeholders.default');
 
     return this.sanitizer.sanitize(SecurityContext.HTML, value);
+  }
+
+  private removeTooltip(target:ElementRef) {
+    // deactivate tooltip so that it is not displayed on the wp show page
+    jQuery(target).tooltip({
+      disabled: true
+    });
   }
 }
