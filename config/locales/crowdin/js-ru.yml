@@ -298,9 +298,9 @@ ru:
         members: Предложите новому <b>участнику</b> присоединиться к вашему проекту.
         wiki: В пределах <b>вики</b> возможно документирование и обмен знаниями в
           вашей команде.
-        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> Here
-          you can create <b>epics, user stories, and bugs</b>, prioritize via drag'n'drop
-          and add them to a sprint.
+        backlogs_overview: Управляйте своей работой в представлении <b>Отставания</b>.
+          <br> Здесь, вы можете создать <b>эпики, пользовательские описания, и ошибки</b>,
+          управляя их приоритетами через перетаскивание и добавление их в спринте.
         backlogs_task_board_arrow: Чтобы увидеть вашу <b>Панель задач</b>, откройте
           в раскрывающемся списке спринта...
         backlogs_task_board_select: "... и выберите строку <b>Панель задач</b>."

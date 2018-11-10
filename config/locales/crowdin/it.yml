@@ -345,7 +345,7 @@ it:
         expires_at: Scade il
         subscriber: Iscritto
         encoded_token: Token di assistenza Enterprise
-        active_user_count_restriction: Maximum active users
+        active_user_count_restriction: Numero massimo di utenti attivi
       relation:
         delay: Ritardo
         from: Macro-attività
@@ -397,7 +397,7 @@ it:
         mail_notification: Notifiche email
         new_password: Nuova password
         password_confirmation: Conferma
-        consented_at: Consented at
+        consented_at: Consenso a
       user_preference:
         comments_sorting: Mostra commenti
         hide_mail: Nascondi il mio indirizzo email
@@ -715,7 +715,7 @@ it:
   button_create: Crea
   button_create_and_continue: Crea e continua
   button_delete: Cancella
-  button_decline: Decline
+  button_decline: Rifiuto
   button_delete_watcher: Eliminare osservatore %{name}
   button_download: Scarica
   button_duplicate: Duplica
@@ -750,7 +750,7 @@ it:
   button_unlock: Sblocca
   button_unwatch: Smetti di Osservare
   button_update: Aggiorna
-  button_upgrade: Upgrade
+  button_upgrade: Aggiornamento
   button_upload: Carica
   button_view: Vedi
   button_watch: Osserva
@@ -759,22 +759,25 @@ it:
   button_configure_menu_entry: Configura voci di menu
   button_delete_menu_entry: Elimina voce di menu
   consent:
-    checkbox_label: I have noted and do consent to the above.
-    failure_message: Consent failed, cannot proceed.
-    title: User Consent
-    decline_warning_message: You have declined to consent and have been logged out.
-    user_has_consented: User has consented to your configured statement at the given
-      time.
-    not_yet_consented: User has not consented yet, will be requested upon next login.
-    contact_mail_instructions: Define the mail address that users can reach a data
-      controller to perform data change or removal requests.
-    contact_your_administrator: Please contact your administrator if you want to have
-      your account deleted.
-    contact_this_mail_address: Please contact %{mail_address} if you want to have
-      your account deleted.
-    text_update_consent_time: Check this box to force users to consent again. Enable
-      when you have changed the legal aspect of the consent information above.
-    update_consent_last_time: 'Last update of consent: %{update_time}'
+    checkbox_label: Ho letto e acconsento a quanto sopra.
+    failure_message: Consenso respinto, impossibile procedere.
+    title: Consenso dell'utente
+    decline_warning_message: Hai rifiutato il consenso e sei stato disconnesso.
+    user_has_consented: L'utente ha acconsentito al tuo stato configurato al momento
+      stabilito.
+    not_yet_consented: L'utente non ha ancora acconsentito, verrà richiesto al prossimo
+      accesso.
+    contact_mail_instructions: Definire l'indirizzo mail di un controllore che gli
+      utenti possono raggiungere per eseguire la modifica dei dati o le richieste
+      di rimozione.
+    contact_your_administrator: Contattare l'amministratore se desideri che il tuo
+      account venga eliminato.
+    contact_this_mail_address: Per favore contatta %{mail_address} se desideri che
+      il tuo account venga eliminato.
+    text_update_consent_time: Selezionare questa casella per obbligare gli utenti
+      a dare nuovamente il consenso. Attiva quando modifichi l'aspetto giuridico delle
+      informazioni del consenso precedenti.
+    update_consent_last_time: 'Ultimo aggiornamento del consenso: %{update_time}'
   copy_project:
     started: Copia del progetto "%{source_project_name}" a "%{target_project_name}"
       iniziata. Sarete informati via mail appena "%{target_project_name}" è disponibile.
@@ -1002,10 +1005,11 @@ it:
   error_cookie_missing: Il cookie di OpenProject è mancante. Prego, verifica che i
     cookie siano attivati, questa applicazione non funziona correttamente senza.
   error_custom_option_not_found: L'opzione non esiste.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
-  error_enterprise_activation_user_limit: Your account could not be activated (user
-    limit reached). Please contact your administrator to gain access.
+  error_dependent_work_package: 'Errore nel pacchetto di lavoro dipendente #%{related_id}
+    %{related_subject}: %{error}'
+  error_enterprise_activation_user_limit: Il tuo account potrebbe non essere attivo
+    (raggiunto il limite utente). Si prega di contattare l'amministratore per ottenere
+    l'accesso.
   error_failed_to_delete_entry: Cancellazione voce non riuscita.
   error_invalid_selected_value: Valore selezionato non valido.
   error_invalid_group_by: 'Impossibile raggruppare per: %{value}'
@@ -1014,7 +1018,7 @@ it:
   error_journal_attribute_not_present: Il diario non contiene l'attributo %{attribute}.
   error_pdf_export_too_many_columns: Troppe colonne selezionate per l'esportazione
     in PDF. Ridurre il numero di colonne.
-  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
+  error_pdf_failed_to_export: 'L''esportazione del PDF non può essere salvata: %{error}'
   error_token_authenticity: Impossibile verificare il token di richiesta. Forse hai
     provato a inviare i dati da più browser o schede? Chiudi tutte le schede e riprova.
   error_work_package_done_ratios_not_updated: Percentuale di completamento della macro-attività
@@ -1052,7 +1056,7 @@ it:
 '
   error_external_authentication_failed: Si è verificato un errore durante l'autenticazione
     esterna. Per favore riprova.
-  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
+  error_attribute_not_highlightable: 'Attributo/i non sottolineabile/i: %{attributes}'
   events:
     project: Progetto modificato
     changeset: Changeset modificato
@@ -1070,8 +1074,8 @@ it:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF con descrizioni
-      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
-      pdf_with_attachments: PDF with attachments
+      pdf_with_descriptions_and_attachments: PDF con descrizioni e allegati
+      pdf_with_attachments: PDF con allegati
   extraction:
     available:
       pdftotext: Pdfatesto disponibile (opzionale)
@@ -1102,7 +1106,7 @@ it:
       upsale:
         become_hero: Diventa un eroe!
         title: Aggiorna ad Enterprise Edition
-        description: What are the benefits?
+        description: Quali sono i vantaggi?
         more_info: Altre informazioni
         additional_features: Funzionalità aggiuntive speciali
         professional_support: Assistenza professionale da parte degli esperti OpenProject
@@ -1204,7 +1208,7 @@ it:
   label_calendar: Calendario
   label_calendar_show: Mostra Calendario
   label_category: Categoria
-  label_consent_settings: User Consent
+  label_consent_settings: Consenso dell'utente
   label_wiki_menu_item: Voce di menu wiki
   label_select_main_menu_item: Seleziona una nuova voce del menu principale
   label_select_project: Seleziona un progetto
@@ -1292,7 +1296,7 @@ it:
   label_enumeration_value: Valore di enumerazione
   label_enumerations: Enumerazioni
   label_enterprise: Enterprise
-  label_enterprise_active_users: "%{current}/%{limit} booked active users"
+  label_enterprise_active_users: "%{current}/%{limit} utenti attivi riservati"
   label_enterprise_edition: Enterprise Edition
   label_environment: Ambiente
   label_estimates_and_time: Stime e tempi
@@ -1765,14 +1769,14 @@ it:
   mail_subject_wiki_content_added: La pagina wiki '%{id}' è stata aggiunta
   mail_subject_wiki_content_updated: La pagina wiki '%{id}' è stata aggiornata
   mail_user_activation_limit_reached:
-    subject: User activation limit reached
+    subject: Limite di attivazione dell'utente raggiunto
     message: |
-      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
-      The user cannot activate their account since the user limit has been reached.
+      Un nuovo utente (%{email}) ha tentato di creare un account su un ambiente OpenProject che gestisci (%{host}).
+      L'utente non può attivare il proprio account dal momento che è stato raggiunto il limite di utente.
     steps:
-      label: 'To allow the user to sign in you can either: '
-      a: Upgrade your payment plan ([here](upgrade_url))
-      b: Lock or delete an existing user ([here](users_url))
+      label: 'Per consentire all''utente di registrarsi puoi: '
+      a: Aggiorna il tuo piano di pagamento ([here](upgrade_url))
+      b: Bloccare o eliminare un utente esistente ([here](users_url))
   more_actions: Altre funzioni
   noscript_description: È necessario attivare JavaScript per poter usare OpenProject!
   noscript_heading: JavaScript disabilitato
@@ -1895,7 +1899,7 @@ it:
       e il lavoro di squadra in OpenProject.
     text_show_again: È possibile riavviare questo video dal menu Guida
     welcome: Benvenuto in OpenProject
-    select_language: Please select your language
+    select_language: Per favore seleziona la tua lingua
   permission_add_work_package_notes: Aggiungi nota
   permission_add_work_packages: Aggiungere macro-attività (work package)
   permission_add_messages: Postare messaggi
@@ -2147,7 +2151,7 @@ it:
   setting_sendmail_location: Percorso dell'eseguibile del programma di invio della
     posta
   setting_smtp_enable_starttls_auto: Usa automaticamente, se disponibile, STARTTLS
-  setting_smtp_ssl: Use SSL connection
+  setting_smtp_ssl: Usa connessione SSL
   setting_smtp_address: Server SMTP
   setting_smtp_port: Porta SMTP
   setting_smtp_authentication: Autenticazione SMTP
@@ -2178,10 +2182,10 @@ it:
   setting_commit_logtime_activity_id: Attività svolta durante l'orario registrato
   setting_commit_logtime_enabled: Abilita la registrazione dell'orario effettuato
   setting_commit_ref_keywords: Parole chiave di riferimento
-  setting_consent_time: Consent time
-  setting_consent_info: Consent information text
-  setting_consent_required: Consent required
-  setting_consent_decline_mail: Consent contact mail address
+  setting_consent_time: Tempo di consenso
+  setting_consent_info: Testo informazioni del consenso
+  setting_consent_required: Consenso richiesto
+  setting_consent_decline_mail: Indirizzo mail del contatto di consenso
   setting_cross_project_work_package_relations: Consenti di correlare i work package
     con più progetti
   setting_date_format: Formato data
@@ -2281,9 +2285,9 @@ it:
     home
   setting_wiki_compression: Compressione del registro della wiki
   setting_work_package_group_assignment: Consentire l'assegnazione ai gruppi
-  setting_work_package_list_default_highlighting_mode: Default highlighting mode
-  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
-    attributes
+  setting_work_package_list_default_highlighting_mode: Modalità evidenziazione predefinita
+  setting_work_package_list_default_highlighted_attributes: Attributi evidenziati
+    in linea predefiniti
   settings:
     general: Generale
     other: Altro
@@ -2295,11 +2299,11 @@ it:
       deletion: Eliminazione
     highlighting:
       mode_long:
-        inline: Highlight attribute(s) inline
+        inline: Attributo/i evidenziato/i in linea
         none: Non evidenziare
-        status: Entire row by Status
-        type: Entire row by Type
-        priority: Entire row by Priority
+        status: Tutta la riga per Stato
+        type: Tutta la riga per Tipo
+        priority: Tutta la riga per Priorità
   text_formatting:
     markdown: Markdown
     plain: Testo semplice
@@ -2655,7 +2659,7 @@ it:
       quarters: Trimestri
       years: Anni
   title_remove_and_delete_user: Rimuovi l'utente invitato dal progetto ed eliminalo/a.
-  title_enterprise_upgrade: Upgrade to unlock more users.
+  title_enterprise_upgrade: Aggiorna per sbloccare altri utenti.
   tooltip_user_default_timezone: 'L''orario predefinito per i nuovi utenti. Può essere
     cambiato in un impostazione utenti.
 
@@ -2729,23 +2733,24 @@ it:
     %{configuration}.
   warning: Attenzione
   warning_attachments_not_saved: "%{count} file non possono essere salvati."
-  warning_imminent_user_limit: 'You invited more users than are supported by your
-    current plan. Invited users may not be able to join your OpenProject environment.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
-    in order to allow invited and registered users to join.
+  warning_imminent_user_limit: 'Hai invitato più utenti di quanti siano supportati
+    dal tuo attuale piano. Gli utenti invitati potrebbero non essere in grado di unirsi
+    al vostro ambiente OpenProject. Per favore <a href="%{upgrade_url}">aggiorna il
+    tuo piano</a> o blocca gli utenti esistenti al fine di consentire agli utenti
+    invitati e e registrati di unirsi.
 
 '
   warning_registration_token_expired: |
     L'attivazione della e-mail è scaduta. Te ne abbiamo mandata una nuova a %{email}.
     Clicca il link al suo interno per attivare il tuo account.
-  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
-    for additional users.
+  warning_user_limit_reached: 'Raggiunto il limite di utente. Non puoi attivare altri
+    utenti. Per favore<a href="%{upgrade_url}">aggiorna il tuo piano</a> o blocca
+    i membri per consentire altri utenti.
 
 '
-  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
-    active users). Please contact sales@openproject.com to upgrade your Enterprise
-    Edition plan and add additional users.
+  warning_user_limit_reached_instructions: 'Raggiunto il limite di utenti (%{current}/%{max}
+    utenti attivi). Si prega di contattare sales@openproject.com per aggiornare il
+    tuo piano Enterprise Edition e aggiungere ulteriori utenti.
 
 '
   menu_item: Voce di menu
@@ -2778,7 +2783,7 @@ it:
       code_401_wrong_credentials: Non hai fornito le credenziali corrette.
       code_403: Non sei autorizzato ad accedere a questa risorsa.
       code_404: La risorsa richiesta non è stata trovata.
-      code_409: Could not update the resource because of conflicting modifications.
+      code_409: Impossibile aggiornare la risorsa a causa di modifiche in conflitto.
       code_500: Si è verificato un errore interno.
       expected:
         date: AAAA-MM-GG (solo date ISO 8601)
