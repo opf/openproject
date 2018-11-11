@@ -1,41 +1,67 @@
-import {Component, OnInit, AfterViewInit} from "@angular/core";
+import {Component, OnInit, AfterViewInit, ComponentFactoryResolver, ElementRef, ViewChild, ViewContainerRef,
+  ComponentRef,
+  OnDestroy} from "@angular/core";
 import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
+import {WidgetWpAssignedComponent} from "core-components/grid/widgets/wp-assigned/wp-assigned.component";
+import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
+import {HookService} from "core-app/modules/plugins/hook-service";
+import {debugLog} from "core-app/helpers/debug_output";
+
+export interface WidgetRegistration {
+  identifier:string;
+  // TODO: Find out how to declare component to be of type class
+  component:any;
+}
 
 @Component({
   templateUrl: './grid.component.html',
   selector: 'grid'
 })
-export class GridComponent implements OnInit, AfterViewInit {
-  public gridItems = [];
+export class GridComponent implements OnInit, AfterViewInit, OnDestroy {
+  public gridWidgets:ComponentRef<any>[] = [];
+  private registeredWidgets:WidgetRegistration[] = [];
 
-  constructor(readonly gridDm:GridDmService) {}
+  @ViewChild('gridContainer', { read: ViewContainerRef }) gridContainer:ViewContainerRef;
+
+  public areaResources = [{component: WidgetWpAssignedComponent}];
+
+  constructor(readonly gridDm:GridDmService,
+              readonly resolver:ComponentFactoryResolver,
+              readonly Hook:HookService) {}
 
   ngOnInit() {
-    this.gridDm.load().then((grid:GridResource) => {
-
-      console.log('done');
+    _.each(this.Hook.call('gridWidgets'), (registration:WidgetRegistration[]) => {
+      this.registeredWidgets = this.registeredWidgets.concat(registration);
     });
   }
 
-  //public get actions() {
-  //  return _.flatten(this.hookService.call('customActions', this.workPackage));
-  //}
+  ngOnDestroy() {
+    this.gridWidgets.forEach((widget) => widget.destroy());
+  }
 
   ngAfterViewInit() {
-    setTimeout(() => {
-      this.actions.forEach((action:CustomActionResource) => {
-        this.createComponent(action);
+    this.gridDm.load().then((grid:GridResource) => {
+      grid.widgets.forEach((widget) => {
+        this.createWidget(widget);
       });
     });
   }
 
-  createComponent(spec:any) {
-    const factory = this.resolver.resolveComponentFactory(spec.component);
+  createWidget(widget:GridWidgetResource) {
+    let registration = this.registeredWidgets.find((reg) => reg.identifier === widget.identifier);
 
-    this.componentRef = this.actionContainer.createComponent(factory);
+    if (!registration) {
+      debugLog(`No widget registered with identifier ${widget.identifier}`);
 
-    this.componentRef.instance.workPackage = this.workPackage;
-    this.componentRef.instance.action = spec.action;
+      return;
+    }
+
+    const factory = this.resolver.resolveComponentFactory(registration.component);
+
+    let componentRef = this.gridContainer.createComponent(factory);
+    (componentRef.instance as WidgetWpAssignedComponent).widgetResource = widget;
+
+    this.gridWidgets.push(componentRef);
   }
 }

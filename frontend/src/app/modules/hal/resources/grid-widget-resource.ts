@@ -27,8 +27,11 @@
 //++
 
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 
-export class GridResource extends HalResource {
-  public widgets:GridWidgetResource[];
+export class GridWidgetResource extends HalResource {
+  public identifier:string;
+  public startRow:string;
+  public endRow:string;
+  public startColumn:string;
+  public endColumn:string;
 }

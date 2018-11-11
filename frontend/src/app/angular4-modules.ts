@@ -229,7 +229,9 @@ import {WorkPackageBreadcrumbParentComponent} from './components/work-packages/w
 import {MyPageComponent} from "core-components/routing/my-page/my-page.component";
 import {GridComponent} from "core-components/grid/grid.component";
 import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
-import {WidgetWpAssignedToMeComponent} from "core-components/grid/widgets/wp-assigned-to-me/wp-assigned-to-me.component";
+import {WidgetWpAssignedComponent} from "core-components/grid/widgets/wp-assigned/wp-assigned.component";
+import {WidgetWpCreatedComponent} from "core-components/grid/widgets/wp-created/wp-created.component";
+import {WidgetWpWatchedComponent} from "core-components/grid/widgets/wp-watched/wp-watched.component";
 
 @NgModule({
   imports: [
@@ -266,6 +268,12 @@ import {WidgetWpAssignedToMeComponent} from "core-components/grid/widgets/wp-ass
     {
       provide: APP_INITIALIZER,
       useFactory: initializeServices,
+      deps: [Injector],
+      multi: true
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: registerWidgets,
       deps: [Injector],
       multi: true
     },
@@ -527,7 +535,9 @@ import {WidgetWpAssignedToMeComponent} from "core-components/grid/widgets/wp-ass
 
     //GridBlocks
     GridComponent,
-    WidgetWpAssignedToMeComponent
+    WidgetWpAssignedComponent,
+    WidgetWpCreatedComponent,
+    WidgetWpWatchedComponent,
   ],
   entryComponents: [
     WorkPackagesBaseComponent,
@@ -629,7 +639,10 @@ import {WidgetWpAssignedToMeComponent} from "core-components/grid/widgets/wp-ass
     WorkPackageByVersionGraphComponent,
 
     // MyPage
-    MyPageComponent
+    MyPageComponent,
+    WidgetWpAssignedComponent,
+    WidgetWpCreatedComponent,
+    WidgetWpWatchedComponent,
   ]
 })
 export class OpenProjectModule {
@@ -662,5 +675,27 @@ export function initializeServices(injector:Injector) {
 
     // Setup query configuration listener
     ExternalQueryConfiguration.setupListener();
+  };
+}
+
+export function registerWidgets(injector:Injector) {
+  return () => {
+    const hookService = injector.get(HookService);
+    hookService.register('gridWidgets', () => {
+      return [
+        {
+          identifier: 'work_packages_assigned',
+          component: WidgetWpAssignedComponent
+        },
+        {
+          identifier: 'work_packages_created',
+          component: WidgetWpCreatedComponent
+        },
+        {
+          identifier: 'work_packages_watched',
+          component: WidgetWpWatchedComponent
+        }
+      ];
+    });
   };
 }

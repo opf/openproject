@@ -61,11 +61,27 @@ module API
           [
             {
               "_type": "Widget",
-              "identifier": 'work_packages_assigned_to_me',
+              "identifier": 'work_packages_assigned',
               "startRow": '2',
               "endRow": '4',
               "startColumn": '2',
               "endColumn": '4'
+            },
+            {
+              "_type": "Widget",
+              "identifier": 'work_packages_created',
+              "startRow": '1',
+              "endRow": '2',
+              "startColumn": '1',
+              "endColumn": '6'
+            },
+            {
+              "_type": "Widget",
+              "identifier": 'work_packages_watched',
+              "startRow": '2',
+              "endRow": '4',
+              "startColumn": '4',
+              "endColumn": '6'
             }
           ]
         end

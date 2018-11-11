@@ -65,7 +65,6 @@ describe ::API::V3::Grids::GridRepresenter do
       widgets = [
         {
           "_type": "Widget",
-          "identifier": 'work_packages_assigned_to_me',
           "startRow": '2',
           "endRow": '4',
           "startColumn": '2',
