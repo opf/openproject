@@ -8,8 +8,9 @@
     <op-icon icon-classes="icon-context icon-attachment"></op-icon>
     <a
         class="work-package--attachments--filename"
-        [attr.href]="downloadPath || '#'"
-        download>
+        target="_blank"
+        rel="noopener"
+        [attr.href]="downloadPath || '#'">
 
       {{ attachment.fileName || attachment.customName || attachment.name }}
 

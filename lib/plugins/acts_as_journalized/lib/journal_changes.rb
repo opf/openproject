@@ -36,12 +36,13 @@ module JournalChanges
     @changes = HashWithIndifferentAccess.new
 
     if predecessor.nil?
-      @changes = data.journaled_attributes
+      @changes = data
+                 .journaled_attributes
                  .reject { |_, new_value| new_value.nil? }
-                 .inject({}) { |result, (attribute, new_value)|
+                 .inject({}) do |result, (attribute, new_value)|
                    result[attribute] = [nil, new_value]
                    result
-                 }
+                 end
     else
       normalized_new_data = JournalManager.normalize_newlines(data.journaled_attributes)
       normalized_old_data = JournalManager.normalize_newlines(predecessor.data.journaled_attributes)
