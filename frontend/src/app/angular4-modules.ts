@@ -27,6 +27,7 @@
 // ++
 
 import {PortalModule} from '@angular/cdk/portal';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 import {APP_INITIALIZER, ApplicationRef, Injector, NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
@@ -241,6 +242,7 @@ import {WidgetWpWatchedComponent} from "core-components/grid/widgets/wp-watched/
     UIRouterModule.forRoot(),
     // Angular CDK
     PortalModule,
+    DragDropModule,
     // Commons
     OpenprojectCommonModule,
     // A11y

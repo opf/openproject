@@ -1,5 +1,14 @@
 <div class="grid--container"
-     style="grid-template-columns: repeat(5, 1fr);grid-template-rows: repeat(4, 1fr)">
-  <template #gridContainer>
+     [style.grid-template-columns]="gridColumnStyle"
+     [style.grid-template-rows]="gridRowStyle">
+  <template #gridContent>
   </template>
+
+  <div *ngFor="let cell of gridCellArray"
+    [style.grid-row-start]="cell[0]"
+    [style.grid-row-end]="cell[0] + 1"
+    [style.grid-column-start]="cell[1]"
+    [style.grid-column-end]="cell[1] + 1"
+    cdkDropList>
+  </div>
 </div>
