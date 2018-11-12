@@ -74,6 +74,8 @@ describe 'Read-only statuses affect work package editing',
   end
 
   it 'locks the work package on a read only status' do
+    expect(page).to have_selector '.work-package--attachments--drop-box'
+
     subject_field = wp_page.edit_field :subject
     subject_field.activate!
     subject_field.cancel_by_escape
@@ -89,5 +91,8 @@ describe 'Read-only statuses affect work package editing',
     subject_field = wp_page.edit_field :subject
     subject_field.activate! expect_open: false
     subject_field.expect_read_only
+
+    # Expect attachments not available
+    expect(page).to have_no_selector '.work-package--attachments--drop-box'
   end
 end

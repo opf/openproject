@@ -60,14 +60,16 @@ module Redmine
             view_permission: view_permission(options),
             delete_permission: delete_permission(options),
             add_on_new_permission: add_on_new_permission(options),
-            add_on_persisted_permission: add_on_persisted_permission(options)
+            add_on_persisted_permission: add_on_persisted_permission(options),
+            modification_blocked: options[:modification_blocked]
           }
 
           options.except!(:view_permission,
                           :delete_permission,
                           :add_on_new_permission,
                           :add_on_persisted_permission,
-                          :add_permission)
+                          :add_permission,
+                          :modification_blocked)
         end
 
         def view_permission(options)
@@ -114,15 +116,27 @@ module Redmine
         end
 
         module InstanceMethods
+          def modification_blocked?
+            if policy = self.class.attachable_options[:modification_blocked]
+              return instance_eval &policy
+            end
+
+            false
+          end
+
           def attachments_visible?(user = User.current)
             allowed_to_on_attachment?(user, self.class.attachable_options[:view_permission])
           end
 
           def attachments_deletable?(user = User.current)
+            return false if modification_blocked?
+
             allowed_to_on_attachment?(user, self.class.attachable_options[:delete_permission])
           end
 
           def attachments_addable?(user = User.current)
+            return false if modification_blocked?
+
             (new_record? && allowed_to_on_attachment?(user, self.class.attachable_options[:add_on_new_permission])) ||
               (persisted? && allowed_to_on_attachment?(user, self.class.attachable_options[:add_on_persisted_permission]))
           end
