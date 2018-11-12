@@ -45,7 +45,7 @@ export class UrlParamsHelperService {
       return undefined;
     }
 
-    var parts:string[] = [];
+    let parts:string[] = [];
     _.each(params, (value, key) => {
       if (!value) return;
       if (!Array.isArray(value)) value = [value];

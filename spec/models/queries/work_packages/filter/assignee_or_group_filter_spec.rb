@@ -154,7 +154,6 @@ describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter, type: :model do
   end
 
   it_behaves_like 'basic query filter' do
-    let(:order) { 4 }
     let(:type) { :list_optional }
     let(:class_key) { :assignee_or_group }
     let(:human_name) { I18n.t('query_fields.assignee_or_group') }

@@ -30,7 +30,6 @@ require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::AuthorFilter, type: :model do
   it_behaves_like 'basic query filter' do
-    let(:order) { 5 }
     let(:type) { :list }
     let(:class_key) { :author_id }
 

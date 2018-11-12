@@ -41,10 +41,6 @@ class Queries::WorkPackages::Filter::VersionFilter <
     :list_optional
   end
 
-  def order
-    7
-  end
-
   def human_name
     WorkPackage.human_attribute_name('fixed_version')
   end

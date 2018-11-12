@@ -46,14 +46,16 @@ module Queries::Operators
     def date_range_clause(table, field, from, to)
       s = []
       if from
-        s << "#{table}.#{field} > '%s'" % [
-          connection.quoted_date(from.yesterday.to_time(:utc).end_of_day)
-        ]
+        s << "#{table}.#{field} > '%s'" % [quoted_date_from_utc(from.yesterday)]
       end
       if to
-        s << "#{table}.#{field} <= '%s'" % [connection.quoted_date(to.to_time(:utc).end_of_day)]
+        s << "#{table}.#{field} <= '%s'" % [quoted_date_from_utc(to)]
       end
       s.join(' AND ')
+    end
+
+    def quoted_date_from_utc(value)
+      connection.quoted_date(value.to_time(:utc).end_of_day)
     end
   end
 end

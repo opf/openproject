@@ -32,8 +32,4 @@ class Queries::WorkPackages::Filter::EstimatedHoursFilter <
   def type
     :integer
   end
-
-  def order
-    13
-  end
 end

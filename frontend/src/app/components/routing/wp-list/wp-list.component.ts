@@ -26,22 +26,18 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component} from "@angular/core";
+import {WorkPackagesSetComponent} from "core-components/routing/wp-set/wp-set.component";
 import {StateService, TransitionService} from '@uirouter/core';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
-import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
-import {auditTime, distinctUntilChanged, filter, take, withLatestFrom} from 'rxjs/operators';
-import {debugLog} from '../../../helpers/debug_output';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {States} from '../../states.service';
-import {WorkPackageQueryStateService} from '../../wp-fast-table/state/wp-table-base.service';
 import {WorkPackageTableColumnsService} from '../../wp-fast-table/state/wp-table-columns.service';
 import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table-filters.service';
 import {WorkPackageTableGroupByService} from '../../wp-fast-table/state/wp-table-group-by.service';
 import {WorkPackageTablePaginationService} from '../../wp-fast-table/state/wp-table-pagination.service';
-import {WorkPackageTableRelationColumnsService} from '../../wp-fast-table/state/wp-table-relation-columns.service';
 import {WorkPackageTableSortByService} from '../../wp-fast-table/state/wp-table-sort-by.service';
 import {WorkPackageTableSumService} from '../../wp-fast-table/state/wp-table-sum.service';
 import {WorkPackageTableTimelineService} from '../../wp-fast-table/state/wp-table-timeline.service';
@@ -59,23 +55,16 @@ import {OpTitleService} from "core-components/html/op-title.service";
   selector: 'wp-list',
   templateUrl: './wp.list.component.html'
 })
-export class WorkPackagesListComponent implements OnInit, OnDestroy {
-
-  projectIdentifier = this.$state.params['projectPath'] || null;
-
+export class WorkPackagesListComponent extends WorkPackagesSetComponent {
   text = {
     'jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.pagination'),
     'text_jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.label_pagination'),
     'button_settings': this.I18n.t('js.button_settings')
   };
 
-  tableInformationLoaded = false;
-  selectedTitle?:string;
   titleEditingEnabled:boolean;
-
+  selectedTitle?:string;
   currentQuery:QueryResource;
-  private removeTransitionSubscription:Function;
-
 
   constructor(readonly states:States,
               readonly tableState:TableState,
@@ -98,58 +87,45 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
               readonly I18n:I18nService,
               readonly titleService:OpTitleService,
               readonly wpStaticQueries:WorkPackageStaticQueriesService) {
-
+    super(states,
+          tableState,
+          authorisationService,
+          wpTableRefresh,
+          wpTableColumns,
+          wpTableHighlighting,
+          wpTableSortBy,
+          wpTableGroupBy,
+          wpTableFilters,
+          wpTableSum,
+          wpTableTimeline,
+          wpTableHierarchies,
+          wpTablePagination,
+          wpListService,
+          wpListChecksumService,
+          loadingIndicator,
+          $transitions,
+          $state,
+          I18n,
+          wpStaticQueries);
   }
 
   ngOnInit() {
-    const loadingRequired = this.wpListChecksumService.isUninitialized();
-
-    // Listen to changes on the query state objects
-    this.setupQueryObservers();
-
-    //  Require initial loading of the list if not yet done
-    if (loadingRequired) {
-      this.wpTableRefresh.clear('Impending query loading.');
-      this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier);
-    }
-
-    // Listen for refresh changes
-    this.setupRefreshObserver();
+    super.ngOnInit();
 
     // Update title on entering this state
-    this.$transitions.onSuccess({ to: 'work-packages.list' }, () => {
+    this.$transitions.onSuccess({to: 'work-packages.list'}, () => {
       if (this.selectedTitle) {
         this.titleService.setFirstPart(this.selectedTitle);
       }
     });
 
-    // Listen for param changes
-    this.removeTransitionSubscription = this.$transitions.onSuccess({}, (transition):any => {
-      let options = transition.options();
-
-      // Avoid performing any changes when we're going to reload
-      if (options.reload || (options.custom && options.custom.notify === false)) {
-        return true;
-      }
-
-      const params = transition.params('to');
-      let newChecksum = this.wpListService.getCurrentQueryProps(params);
-      let newId = params.query_id && parseInt(params.query_id);
-
-      this.wpListChecksumService
-        .executeIfOutdated(newId,
-          newChecksum,
-          () => this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier));
+    // Update the title whenever the query changes
+    this.states.query.resource.values$().pipe(
+      untilComponentDestroyed(this)
+    ).subscribe((query) => {
+      this.updateTitle(query);
+      this.currentQuery = query;
     });
-  }
-
-  ngOnDestroy():void {
-    this.removeTransitionSubscription();
-    this.wpTableRefresh.clear('Table controller scope destroyed.');
-  }
-
-  public allowed(model:string, permission:string) {
-    return this.authorisationService.can(model, permission);
   }
 
   public setAnchorToNextElement() {
@@ -164,96 +140,8 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
     }
   }
 
-  private setupQueryObservers() {
-    this.tableState.tableRendering.onQueryUpdated.values$()
-      .pipe(
-        take(1)
-      )
-      .subscribe(() => this.tableInformationLoaded = true);
-
-    // Update the title whenever the query changes
-    this.states.query.resource.values$().pipe(
-      untilComponentDestroyed(this)
-    ).subscribe((query) => {
-      this.updateTitle(query);
-      this.currentQuery = query;
-    });
-
-    this.tableState.ready.fireOnStateChange(this.wpTablePagination.state,
-      'Query loaded').values$().pipe(
-      untilComponentDestroyed(this),
-      withLatestFrom(this.states.query.resource.values$())
-    ).subscribe(([pagination, query]) => {
-      if (this.wpListChecksumService.isQueryOutdated(query, pagination)) {
-        this.wpListChecksumService.update(query, pagination);
-        this.updateResultsVisibly();
-      }
-    });
-
-    this.setupChangeObserver(this.wpTableFilters, true);
-    this.setupChangeObserver(this.wpTableGroupBy);
-    this.setupChangeObserver(this.wpTableSortBy);
-    this.setupChangeObserver(this.wpTableSum);
-    this.setupChangeObserver(this.wpTableTimeline);
-    this.setupChangeObserver(this.wpTableHierarchies);
-    this.setupChangeObserver(this.wpTableColumns);
-    this.setupChangeObserver(this.wpTableHighlighting);
-  }
-
-  setupChangeObserver(service:WorkPackageQueryStateService, firstPage:boolean = false) {
-    const queryState = this.states.query.resource;
-
-    this.tableState.ready.fireOnStateChange(service.state, 'Query loaded').values$().pipe(
-      untilComponentDestroyed(this),
-      filter(() => queryState.hasValue() && service.hasChanged(queryState.value!))
-    ).subscribe(() => {
-      const newQuery = queryState.value!;
-      const triggerUpdate = service.applyToQuery(newQuery);
-      this.states.query.resource.putValue(newQuery);
-
-      // Update the current checksum
-      this.wpListChecksumService.updateIfDifferent(newQuery, this.wpTablePagination.current);
-
-      // Update the page, if the change requires it
-      if (triggerUpdate) {
-        this.wpTableRefresh.request('Query updated by user', true, firstPage);
-      }
-    });
-  }
-
-  /**
-   * Setup the listener for members of the table to request a refresh of the entire table
-   * through the refresh service.
-   */
-  setupRefreshObserver() {
-    this.wpTableRefresh.state.values$('Refresh listener in wp-list.controller').pipe(
-      untilComponentDestroyed(this),
-      auditTime(20)
-    ).subscribe(([refreshVisibly, firstPage]) => {
-      if (refreshVisibly) {
-        debugLog('Refreshing work package results visibly.');
-        this.updateResultsVisibly(firstPage);
-      } else {
-        debugLog('Refreshing work package results in the background.');
-        this.updateResults();
-      }
-    });
-  }
-
-  updateResults():Promise<WorkPackageCollectionResource> {
-    return this.wpListService.reloadCurrentResultsList();
-  }
-
-  updateToFirstResultsPage():Promise<WorkPackageCollectionResource> {
-    return this.wpListService.loadCurrentResultsListFirstPage();
-  }
-
-  updateResultsVisibly(firstPage:boolean = false) {
-    if (firstPage) {
-      this.loadingIndicator.table.promise = this.updateToFirstResultsPage();
-    } else {
-      this.loadingIndicator.table.promise = this.updateResults();
-    }
+  public allowed(model:string, permission:string) {
+    return this.authorisationService.can(model, permission);
   }
 
   updateTitle(query:QueryResource) {
@@ -269,5 +157,12 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
     if (this.$state.current.name === 'work-packages.list') {
       this.titleService.setFirstPart(this.selectedTitle);
     }
+  }
+
+  protected loadCurrentQuery() {
+    return super.loadCurrentQuery()
+                .then(() => {
+                  return this.tableState.rendered.valuesPromise();
+                });
   }
 }

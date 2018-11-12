@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -27,31 +28,29 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::FilterSerializer
-  extend Queries::AvailableFilters
-  extend Queries::AvailableFilters::ClassMethods
+class Queries::WorkPackages::Filter::DatesIntervalFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  include Queries::Operators::DateRangeClauses
 
-  def self.load(serialized_filter_hash)
-    return [] if serialized_filter_hash.nil?
-
-    # yeah, dunno, but apparently '=' may have been serialized as a Syck::DefaultKey instance...
-    yaml = serialized_filter_hash
-      .gsub('!ruby/object:Syck::DefaultKey {}', '"="')
-
-    (YAML.load(yaml) || {}).each_with_object([]) do |(field, options), array|
-      options = options.with_indifferent_access
-      filter = filter_for(field, true)
-      filter.operator = options['operator']
-      filter.values = options['values']
-      array << filter
-    end
+  def type
+    :date
   end
 
-  def self.dump(filters)
-    YAML.dump ((filters || []).map(&:to_hash).reduce(:merge) || {}).stringify_keys
+  def where
+    lower_boundary, upper_boundary = values.map { |v| v.blank? ? nil : Date.parse(v) }
+
+    <<-SQL
+      (work_packages.start_date < '#{quoted_date_from_utc(lower_boundary)}' AND
+       work_packages.due_date > '#{quoted_date_from_utc(lower_boundary)}') OR
+      (#{date_range_clause('work_packages', 'start_date', lower_boundary, upper_boundary)}) OR
+      (#{date_range_clause('work_packages', 'due_date', lower_boundary, upper_boundary)})
+    SQL
   end
 
-  def self.registered_filters
-    Queries::Register.filters[Query]
+  def type_strategy
+    @type_strategy ||= Queries::Filters::Strategies::DateInterval.new(self)
+  end
+
+  def connection
+    ActiveRecord::Base::connection
   end
 end

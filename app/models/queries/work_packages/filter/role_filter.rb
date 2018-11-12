@@ -42,10 +42,6 @@ class Queries::WorkPackages::Filter::RoleFilter < Queries::WorkPackages::Filter:
     :list_optional
   end
 
-  def order
-    7
-  end
-
   def human_name
     I18n.t('query_fields.assigned_to_role')
   end

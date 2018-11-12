@@ -144,7 +144,7 @@ class WorkPackagesController < ApplicationController
   end
 
   def load_query
-    @query ||= retrieve_query_v3
+    @query ||= retrieve_query
   rescue ActiveRecord::RecordNotFound
     render_404
   end

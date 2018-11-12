@@ -37,7 +37,6 @@ import {WorkPackageStatesInitializationService} from './wp-states-initialization
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {StateService} from '@uirouter/core';
 import {WorkPackagesListChecksumService} from 'core-components/wp-list/wp-list-checksum.service';
-import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Injectable} from '@angular/core';
 import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
@@ -83,7 +82,6 @@ export class WorkPackagesListService {
               protected wpTablePagination:WorkPackageTablePaginationService,
               protected wpListChecksumService:WorkPackagesListChecksumService,
               protected wpStatesInitialization:WorkPackageStatesInitializationService,
-              protected loadingIndicator:LoadingIndicatorService,
               protected wpListInvalidQueryService:WorkPackagesListInvalidQueryService) {
   }
 
@@ -111,7 +109,7 @@ export class WorkPackagesListService {
         const queryProps = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(decodedProps);
         return from(this.handleQueryLoadingError(error, queryProps, queryParams.query_id, projectIdentifier));
       })
-    )
+    );
   }
 
   /**
@@ -205,12 +203,8 @@ export class WorkPackagesListService {
    */
   public loadCurrentQueryFromParams(projectIdentifier?:string) {
     this.wpListChecksumService.clear();
-    this.loadingIndicator.table.promise =
-      this.fromQueryParams(this.$state.params as any, projectIdentifier)
-        .toPromise()
-        .then(() => {
-          return this.tableState.rendered.valuesPromise();
-      });
+    return this.fromQueryParams(this.$state.params as any, projectIdentifier)
+      .toPromise();
   }
 
   public loadForm(query:QueryResource):Promise<QueryFormResource> {
@@ -265,7 +259,6 @@ export class WorkPackagesListService {
         }
 
         this.loadDefaultQuery(id);
-
 
         this.queryChanges.next(query.name);
       });

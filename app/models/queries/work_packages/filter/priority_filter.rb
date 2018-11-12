@@ -41,10 +41,6 @@ class Queries::WorkPackages::Filter::PriorityFilter <
     :list
   end
 
-  def order
-    3
-  end
-
   def self.key
     :priority_id
   end

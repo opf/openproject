@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,28 +28,9 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-require 'features/support/toggable_fieldsets'
-require 'features/work_packages/work_packages_page'
-
-describe 'Work package calendar index', type: :feature do
-  describe 'Toggable fieldset', js: true do
-    include_context 'Toggable fieldset examples'
-
-    let(:project) { FactoryBot.create(:project) }
-    let(:current_user) { FactoryBot.create (:admin) }
-    let(:work_packages_page) { WorkPackagesPage.new(project) }
-
-    before do
-      allow(User).to receive(:current).and_return current_user
-
-      work_packages_page.visit_calendar
-    end
-
-    describe 'Filter fieldset', js: true do
-      it_behaves_like 'toggable fieldset initially collapsed' do
-        let(:fieldset_name) { 'Filters' }
-      end
-    end
+module Queries::Filters::Strategies
+  class DateInterval < Queries::Filters::Strategies::Date
+    self.supported_operators = ['<>d']
+    self.default_operator = '<>d'
   end
 end

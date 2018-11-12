@@ -30,7 +30,6 @@ require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::DueDateFilter, type: :model do
   it_behaves_like 'basic query filter' do
-    let(:order) { 12 }
     let(:type) { :date }
     let(:class_key) { :due_date }
 

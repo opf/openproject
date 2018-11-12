@@ -48,10 +48,6 @@ class Queries::WorkPackages::Filter::ProjectFilter < Queries::WorkPackages::Filt
     :list
   end
 
-  def order
-    1
-  end
-
   def self.key
     :project_id
   end

@@ -50,10 +50,6 @@ class Queries::WorkPackages::Filter::WatcherFilter <
     :list
   end
 
-  def order
-    15
-  end
-
   def self.key
     :watcher_id
   end

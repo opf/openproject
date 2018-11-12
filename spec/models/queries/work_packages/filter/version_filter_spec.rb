@@ -32,7 +32,6 @@ describe Queries::WorkPackages::Filter::VersionFilter, type: :model do
   let(:version) { FactoryBot.build_stubbed(:version) }
 
   it_behaves_like 'basic query filter' do
-    let(:order) { 7 }
     let(:type) { :list_optional }
     let(:class_key) { :fixed_version_id }
     let(:values) { [version.id.to_s] }

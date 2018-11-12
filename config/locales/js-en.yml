@@ -82,6 +82,11 @@ en:
     button_update: "Update"
     button_export-pdf: "Download PDF"
     button_export-atom: "Download Atom"
+
+    calendar:
+      title: 'Calendar'
+      too_many: 'There are more work packages (%{count}) than can be displayed by the calendar (%{max}). Add filters to focus on the relevant ones.'
+
     description_available_columns: "Available Columns"
     description_current_position: "You are here:"
     description_select_work_package: "Select work package #%{id}"

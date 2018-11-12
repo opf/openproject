@@ -30,7 +30,6 @@ require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::CategoryFilter, type: :model do
   it_behaves_like 'basic query filter' do
-    let(:order) { 6 }
     let(:type) { :list_optional }
     let(:class_key) { :category_id }
 
