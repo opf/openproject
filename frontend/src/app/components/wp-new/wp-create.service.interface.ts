@@ -28,6 +28,7 @@
 
 import {InjectionToken} from "@angular/core";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
+import {Observable} from "rxjs";
 
 export const IWorkPackageCreateServiceToken = new InjectionToken<IWorkPackageCreateService>('IWorkPackageCreateService');
 
@@ -36,6 +37,17 @@ export const IWorkPackageCreateServiceToken = new InjectionToken<IWorkPackageCre
  * to avoid circular dependency warnigns due to TS imports.
  */
 export interface IWorkPackageCreateService {
+
+  /**
+   * Observable for new work packages as created through various sources
+   * on the WP frontend.
+   */
+  onNewWorkPackage():Observable<WorkPackageResource>;
+
+  /**
+   * Notifier callback for new work packages
+   * @param wp
+   */
   newWorkPackageCreated(wp:WorkPackageResource):void;
 }
 
