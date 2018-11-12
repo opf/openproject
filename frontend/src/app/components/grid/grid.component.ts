@@ -3,11 +3,11 @@ import {Component, OnInit, AfterViewInit, ComponentFactoryResolver, ElementRef, 
   OnDestroy} from "@angular/core";
 import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
-import {WidgetWpAssignedComponent} from "core-components/grid/widgets/wp-assigned/wp-assigned.component";
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 import {HookService} from "core-app/modules/plugins/hook-service";
 import {debugLog} from "core-app/helpers/debug_output";
 import {DomSanitizer} from "@angular/platform-browser";
+import {AbstractWidgetComponent} from "core-components/grid/widgets/abstract-widget.component";
 
 export interface WidgetRegistration {
   identifier:string;
@@ -20,14 +20,15 @@ export interface WidgetRegistration {
   selector: 'grid'
 })
 export class GridComponent implements OnInit, AfterViewInit, OnDestroy {
-  public gridWidgets:ComponentRef<any>[] = [];
+  public uiWidgets:ComponentRef<any>[] = [];
   private registeredWidgets:WidgetRegistration[] = [];
+  public widgetResources:GridWidgetResource[] = [];
   private numColumns:number = 0;
   private numRows:number = 0;
 
   @ViewChild('gridContent', { read: ViewContainerRef }) gridContent:ViewContainerRef;
 
-  public areaResources = [{component: WidgetWpAssignedComponent}];
+  public areaResources = [{component: AbstractWidgetComponent}];
 
   constructor(readonly gridDm:GridDmService,
               readonly resolver:ComponentFactoryResolver,
@@ -41,7 +42,7 @@ export class GridComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.gridWidgets.forEach((widget) => widget.destroy());
+    this.uiWidgets.forEach((widget) => widget.destroy());
   }
 
   ngAfterViewInit() {
@@ -49,8 +50,12 @@ export class GridComponent implements OnInit, AfterViewInit, OnDestroy {
       this.numRows = grid.rowCount;
       this.numColumns = grid.columnCount;
 
-      grid.widgets.forEach((widget) => {
-        this.createWidget(widget);
+      this.widgetResources = grid.widgets;
+
+      setTimeout(() => {
+        grid.widgets.forEach((widget) => {
+          this.createWidget(widget);
+        });
       });
     });
   }
@@ -67,9 +72,9 @@ export class GridComponent implements OnInit, AfterViewInit, OnDestroy {
     const factory = this.resolver.resolveComponentFactory(registration.component);
 
     let componentRef = this.gridContent.createComponent(factory);
-    (componentRef.instance as WidgetWpAssignedComponent).widgetResource = widget;
+    (componentRef.instance as AbstractWidgetComponent).widgetResource = widget;
 
-    this.gridWidgets.push(componentRef);
+    this.uiWidgets.push(componentRef);
   }
 
   public get gridColumnStyle() {
@@ -90,5 +95,23 @@ export class GridComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     return cells;
+  }
+
+  public identifyGridCellItem(index:number, item:any) {
+    return `gridItem ${item[0]}/${item[1]}`;
+  }
+
+  public identifyWidgetResource(index:number, item:GridWidgetResource) {
+    return `${item.identifier} ${item.startRow}/${item.startColumn}`;
+  }
+
+  public get gridAreaIds() {
+    let ids = [];
+
+    for (let i = 1; i < 23; i++) {
+      ids.push(`cdk-drop-list-${i}`);
+    }
+
+    return ids;
   }
 }
