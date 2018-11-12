@@ -72,6 +72,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   @Input() projectIdentifier:string;
   @Input('configuration') configurationObject:WorkPackageTableConfigurationObject;
+
   public configuration:WorkPackageTableConfiguration;
 
   private $element:JQuery;

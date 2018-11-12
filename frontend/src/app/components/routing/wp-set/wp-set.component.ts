@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {OnDestroy, OnInit} from '@angular/core';
+import {Injector, OnDestroy, OnInit} from '@angular/core';
 import {StateService, TransitionService} from '@uirouter/core';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
@@ -60,7 +60,8 @@ export class WorkPackagesSetComponent implements OnInit, OnDestroy {
 
   private removeTransitionSubscription:Function;
 
-  constructor(readonly states:States,
+  constructor(readonly injector:Injector,
+              readonly states:States,
               readonly tableState:TableState,
               readonly authorisationService:AuthorisationService,
               readonly wpTableRefresh:WorkPackageTableRefreshService,
