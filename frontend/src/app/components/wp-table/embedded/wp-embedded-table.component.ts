@@ -90,7 +90,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
       untilComponentDestroyed(this),
       withLatestFrom(this.tableState.query.values$())
     ).subscribe(([pagination, query]) => {
-      this.QueryDm.loadResults(query, this.wpTablePagination.paginationObject)
+      this.loadingIndicator = this.QueryDm.loadResults(query, this.wpTablePagination.paginationObject)
         .then((results) => this.initializeStates(query, results));
     });
   }

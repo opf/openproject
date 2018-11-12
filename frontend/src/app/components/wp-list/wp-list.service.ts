@@ -133,7 +133,6 @@ export class WorkPackagesListService {
     return this
       .queryLoading
       .pipe(
-        tap((val:any) => console.error("WTF %O", val)),
         take(1)
       );
   }

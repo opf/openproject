@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {OnDestroy, OnInit} from '@angular/core';
+import {Injector, OnDestroy, OnInit} from '@angular/core';
 import {StateService, TransitionService} from '@uirouter/core';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
@@ -60,7 +60,8 @@ export class WorkPackagesSetComponent implements OnInit, OnDestroy {
 
   private removeTransitionSubscription:Function;
 
-  constructor(readonly states:States,
+  constructor(readonly injector:Injector,
+              readonly states:States,
               readonly tableState:TableState,
               readonly authorisationService:AuthorisationService,
               readonly wpTableRefresh:WorkPackageTableRefreshService,
@@ -202,7 +203,6 @@ export class WorkPackagesSetComponent implements OnInit, OnDestroy {
       let newChecksum = this.wpListService.getCurrentQueryProps(params);
       let newId = params.query_id && parseInt(params.query_id);
 
-      console.warn("TESTING %O and %O", params.query_id, params)
       this.wpListChecksumService
         .executeIfOutdated(newId,
           newChecksum,

@@ -68,48 +68,7 @@ export class WorkPackagesListComponent extends WorkPackagesSetComponent implemen
   currentQuery:QueryResource;
   unRegisterTitleListener:Function;
 
-  constructor(readonly states:States,
-              readonly tableState:TableState,
-              readonly authorisationService:AuthorisationService,
-              readonly wpTableRefresh:WorkPackageTableRefreshService,
-              readonly wpTableColumns:WorkPackageTableColumnsService,
-              readonly wpTableHighlighting:WorkPackageTableHighlightingService,
-              readonly wpTableSortBy:WorkPackageTableSortByService,
-              readonly wpTableGroupBy:WorkPackageTableGroupByService,
-              readonly wpTableFilters:WorkPackageTableFiltersService,
-              readonly wpTableSum:WorkPackageTableSumService,
-              readonly wpTableTimeline:WorkPackageTableTimelineService,
-              readonly wpTableHierarchies:WorkPackageTableHierarchiesService,
-              readonly wpTablePagination:WorkPackageTablePaginationService,
-              readonly wpListService:WorkPackagesListService,
-              readonly wpListChecksumService:WorkPackagesListChecksumService,
-              readonly loadingIndicator:LoadingIndicatorService,
-              readonly $transitions:TransitionService,
-              readonly $state:StateService,
-              readonly I18n:I18nService,
-              readonly titleService:OpTitleService,
-              readonly wpStaticQueries:WorkPackageStaticQueriesService) {
-    super(states,
-          tableState,
-          authorisationService,
-          wpTableRefresh,
-          wpTableColumns,
-          wpTableHighlighting,
-          wpTableSortBy,
-          wpTableGroupBy,
-          wpTableFilters,
-          wpTableSum,
-          wpTableTimeline,
-          wpTableHierarchies,
-          wpTablePagination,
-          wpListService,
-          wpListChecksumService,
-          loadingIndicator,
-          $transitions,
-          $state,
-          I18n,
-          wpStaticQueries);
-  }
+  private readonly titleService:OpTitleService = this.injector.get(OpTitleService);
 
   ngOnInit() {
     super.ngOnInit();
