@@ -68,13 +68,16 @@ export class WorkPackageBreadcrumbParentComponent {
     return this.editing;
   }
 
-  public toggle():void {
-    this.editing = !this.editing;
-    this.onSwitch.emit(this.editing);
+  public close():void {
+    this.toggle(false);
+  }
+
+  public open():void {
+    this.toggle(true);
   }
 
   public updateParent(newParentId:string|null) {
-    this.toggle();
+    this.close();
     if (_.isNil(newParentId)) {
       newParentId = null;
     }
@@ -89,6 +92,13 @@ export class WorkPackageBreadcrumbParentComponent {
         this.wpNotifications.handleRawError(error, this.workPackage);
       })
       .then(() => this.isSaving = false); // Behaves as .finally()
+  }
+
+  private toggle(state:boolean) {
+    if (this.editing !== state) {
+      this.editing = state;
+      this.onSwitch.emit(this.editing);
+    }
   }
 }
 

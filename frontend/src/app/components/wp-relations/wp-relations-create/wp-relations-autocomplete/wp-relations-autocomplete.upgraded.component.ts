@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Inject, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
@@ -37,7 +37,7 @@ import {CollectionResource} from 'core-app/modules/hal/resources/collection-reso
   selector: 'wp-relations-autocomplete-upgraded',
   templateUrl: './wp-relations-autocomplete.upgraded.html'
 })
-export class WpRelationsAutocompleteComponent implements OnInit {
+export class WpRelationsAutocompleteComponent implements OnInit, OnDestroy {
   readonly text = {
     placeholder: this.I18n.t('js.relations_autocomplete.placeholder')
   };
@@ -52,6 +52,7 @@ export class WpRelationsAutocompleteComponent implements OnInit {
 
   @Output('onWorkPackageIdSelected') public onSelect = new EventEmitter<string|null>();
   @Output('onEscape') public onEscapePressed = new EventEmitter<KeyboardEvent>();
+  @Output('onBlur') public onBlur = new EventEmitter<FocusEvent>();
 
   public options:any = [];
   public relatedWps:any = [];
@@ -106,10 +107,23 @@ export class WpRelationsAutocompleteComponent implements OnInit {
     setTimeout(() => input.focus(), 20);
   }
 
+  ngOnDestroy():void {
+    this.$element = jQuery(this.elementRef.nativeElement);
+
+    // Remove any open autocompleter, if we're being killed
+    this.$element.find('.wp-relations-autocomplete--results').remove();
+  }
+
   public handleEnterPressed($event:KeyboardEvent) {
-    const val = ($event.target as HTMLInputElement).value;
+    let val = ($event.target as HTMLInputElement).value;
     if (!val) {
         this.onSelect.emit(null);
+    }
+
+    // If trying to enter work package ID
+    if (val.match(/^#?\d+$/)) {
+      val = val.replace(/^#/, '');
+      this.onSelect.emit(val);
     }
   }
 

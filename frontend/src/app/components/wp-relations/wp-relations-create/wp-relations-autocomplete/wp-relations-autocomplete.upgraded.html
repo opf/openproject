@@ -4,6 +4,7 @@
          [ngClass]="{ '-error': noResults && !initialSelection }"
          (keydown.enter)="handleEnterPressed($event)"
          (keydown.escape)="onEscapePressed.emit($event)"
+         (blur)="onBlur.emit($event)"
          [attr.placeholder]="inputPlaceholder">
   <div class="ui-autocomplete--loading" style="display: none">
     <div class="loading-indicator -small">
