@@ -46,7 +46,7 @@ import {NotificationsService} from 'core-app/modules/common/notifications/notifi
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {BehaviorSubject, from, Observable} from 'rxjs';
 import {input} from "reactivestates";
-import {catchError, distinctUntilChanged, map, share, shareReplay, switchMap, take} from "rxjs/operators";
+import {catchError, mergeMap, share, switchMap, take, tap} from "rxjs/operators";
 
 export interface QueryDefinition {
   queryParams:{ query_id?:number, query_props?:string };
@@ -63,8 +63,25 @@ export class WorkPackagesListService {
   private queryLoading = this.queryRequests
     .values$()
     .pipe(
-      switchMap((q:QueryDefinition) => this.handleQueryRequest(q.queryParams, q.projectIdentifier)),
-      shareReplay(1)
+      // Stream the query request, switchMap will call previous requests to be cancelled
+      switchMap((q:QueryDefinition) => this.streamQueryRequest(q.queryParams, q.projectIdentifier)),
+      // Map the observable from the stream to a new one that completes when states are loaded
+      mergeMap((query:QueryResource) => {
+          // load the form if needed
+          this.conditionallyLoadForm(query);
+
+
+          // Project the loaded query into the table states and confirm the query is fully loaded
+          return this.tableState.ready
+            .doAndTransition('Query loaded', () => {
+              this.wpStatesInitialization.initialize(query, query.results);
+              return this.tableState.tableRendering.onQueryUpdated.valuesPromise();
+            })
+            .then(() => query);
+      }),
+      // Share any consecutive requests to the same resource, this is due to switchMap
+      // diverting observables to the LATEST emitted.
+      share()
     );
 
   private queryChanges = new BehaviorSubject<string>('');
@@ -80,35 +97,28 @@ export class WorkPackagesListService {
               protected states:States,
               protected tableState:TableState,
               protected wpTablePagination:WorkPackageTablePaginationService,
-              protected wpListChecksumService:WorkPackagesListChecksumService,
               protected wpStatesInitialization:WorkPackageStatesInitializationService,
               protected wpListInvalidQueryService:WorkPackagesListInvalidQueryService) {
   }
 
-  private handleQueryRequest(queryParams:{ query_id?:number, query_props?:string }, projectIdentifier ?:string):Observable<QueryResource> {
+  /**
+   * Stream a query request as a HTTP observable. Each request to this method will
+   * result in a new HTTP request.
+   *
+   * @param queryParams
+   * @param projectIdentifier
+   */
+  private streamQueryRequest(queryParams:{ query_id?:number, query_props?:string }, projectIdentifier ?:string):Observable<QueryResource> {
     const decodedProps = this.getCurrentQueryProps(queryParams);
     const queryData = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(decodedProps);
     const stream = this.QueryDm.stream(queryData, queryParams.query_id, projectIdentifier);
 
     return stream.pipe(
-      map((query:QueryResource) => {
-
-        // Project the loaded query into the table states and confirm the query is fully loaded
-        this.tableState.ready.doAndTransition('Query loaded', () => {
-          this.wpStatesInitialization.initialize(query, query.results);
-          return this.tableState.tableRendering.onQueryUpdated.valuesPromise();
-        });
-
-        // load the form if needed
-        this.conditionallyLoadForm(query);
-
-        return query;
-      }),
       catchError((error) => {
         // Load a default query
         const queryProps = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(decodedProps);
         return from(this.handleQueryLoadingError(error, queryProps, queryParams.query_id, projectIdentifier));
-      })
+      }),
     );
   }
 
@@ -123,6 +133,7 @@ export class WorkPackagesListService {
     return this
       .queryLoading
       .pipe(
+        tap((val:any) => console.error("WTF %O", val)),
         take(1)
       );
   }
@@ -202,8 +213,8 @@ export class WorkPackagesListService {
    * Load the query from the given state params
    */
   public loadCurrentQueryFromParams(projectIdentifier?:string) {
-    this.wpListChecksumService.clear();
-    return this.fromQueryParams(this.$state.params as any, projectIdentifier)
+    return this
+      .fromQueryParams(this.$state.params as any, projectIdentifier)
       .toPromise();
   }
 

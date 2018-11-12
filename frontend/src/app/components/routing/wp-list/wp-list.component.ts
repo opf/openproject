@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component} from "@angular/core";
+import {Component, OnDestroy} from "@angular/core";
 import {WorkPackagesSetComponent} from "core-components/routing/wp-set/wp-set.component";
 import {StateService, TransitionService} from '@uirouter/core';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
@@ -50,12 +50,13 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageStaticQueriesService} from 'core-components/wp-query-select/wp-static-queries.service';
 import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
 import {OpTitleService} from "core-components/html/op-title.service";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'wp-list',
   templateUrl: './wp.list.component.html'
 })
-export class WorkPackagesListComponent extends WorkPackagesSetComponent {
+export class WorkPackagesListComponent extends WorkPackagesSetComponent implements OnDestroy {
   text = {
     'jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.pagination'),
     'text_jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.label_pagination'),
@@ -65,6 +66,7 @@ export class WorkPackagesListComponent extends WorkPackagesSetComponent {
   titleEditingEnabled:boolean;
   selectedTitle?:string;
   currentQuery:QueryResource;
+  unRegisterTitleListener:Function;
 
   constructor(readonly states:States,
               readonly tableState:TableState,
@@ -113,7 +115,7 @@ export class WorkPackagesListComponent extends WorkPackagesSetComponent {
     super.ngOnInit();
 
     // Update title on entering this state
-    this.$transitions.onSuccess({to: 'work-packages.list'}, () => {
+    this.unRegisterTitleListener = this.$transitions.onSuccess({to: 'work-packages.list'}, () => {
       if (this.selectedTitle) {
         this.titleService.setFirstPart(this.selectedTitle);
       }
@@ -126,6 +128,11 @@ export class WorkPackagesListComponent extends WorkPackagesSetComponent {
       this.updateTitle(query);
       this.currentQuery = query;
     });
+  }
+
+  ngOnDestroy():void {
+    super.ngOnDestroy();
+    this.unRegisterTitleListener();
   }
 
   public setAnchorToNextElement() {

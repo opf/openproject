@@ -202,6 +202,7 @@ export class WorkPackagesSetComponent implements OnInit, OnDestroy {
       let newChecksum = this.wpListService.getCurrentQueryProps(params);
       let newId = params.query_id && parseInt(params.query_id);
 
+      console.warn("TESTING %O and %O", params.query_id, params)
       this.wpListChecksumService
         .executeIfOutdated(newId,
           newChecksum,
