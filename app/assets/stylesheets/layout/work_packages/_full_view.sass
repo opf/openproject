@@ -40,7 +40,8 @@ body.controller-work_packages.full-create
 
   #toolbar
     display: flex
-    margin-right: 10px
+    flex-wrap: wrap-reverse
+    justify-content: flex-end
     @include clearfix
 
   .toolbar-container
@@ -48,21 +49,13 @@ body.controller-work_packages.full-create
 
   ul#toolbar-items
     @include clearfix
-    position: absolute
-    right: 20px
-
-    button
-      margin-bottom: 0
 
     li
       float: left
       position: relative
 
-      &.toolbar-item:first-of-type
-        margin-left: 0
-
       &.toolbar-item
-        margin: 0 5px
+        margin: 0 10px 6px 0
 
         &:last-child
           margin-right: 0
@@ -77,7 +70,6 @@ body.controller-work_packages.full-create
 
   ul#toolbar-items, ul.subject-header
     list-style-type: none
-    padding: 0
 
     li
       margin: 0
@@ -189,13 +181,11 @@ body.controller-work_packages.full-create
       width: 100%
     @media only screen and (min-width: 679px)
       display: flex
-      flex-wrap: wrap
+      flex: 1 1 auto
       margin-bottom: 6px
 
   .subject-header
     margin: 0
-    padding: 0
-    flex-basis: 100%
 
     .wp-table--cell-span
       white-space: normal
