@@ -42,13 +42,14 @@
         justify-content: stretch
         width: 100%
 
-        > li
+        .toolbar-item
           -webkit-flex: 1 0 0
           flex: 1 0 0
 
           &:last-child
             margin-right: 10px
 
+        > li
           .button
             width: 100%
             white-space: nowrap
@@ -58,6 +59,9 @@
           label,
           div
             margin-top: 0
+
+        > form input.button
+          width: 100%
 
     overview-page-layout
       .toolbar-item:first-child
