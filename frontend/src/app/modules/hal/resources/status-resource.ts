@@ -26,22 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input} from '@angular/core';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
+import {InputState} from 'reactivestates';
 
-@Component({
-  selector: 'op-icon',
-  host: { 'class': 'op-icon--wrapper' },
-  template: `
-      <i [ngClass]="iconClasses"
-         [title]="iconTitle"
-         aria-hidden="true"></i>
-      <span
-        class="hidden-for-sighted"
-        [textContent]="iconTitle"
-        *ngIf="iconTitle"></span>
-    `
-})
-export class OpIcon {
-  @Input('icon-classes') iconClasses:string;
-  @Input('icon-title') iconTitle:string = '';
+export class StatusResource extends HalResource {
+
+  public get state():InputState<this> {
+    return this.states.statuses.get(this.href as string) as any;
+  }
 }
+

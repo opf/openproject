@@ -118,7 +118,7 @@ export class DisplayFieldRenderer {
       span.classList.add(placeholderClassName);
     }
 
-    if (field.writable && workPackage.isEditable) {
+    if (field.writable && workPackage.isAttributeEditable(field.name)) {
       span.classList.add(editableClassName);
       span.setAttribute('role', 'button');
     } else {
@@ -142,7 +142,7 @@ export class DisplayFieldRenderer {
       titleContent = labelContent;
     }
 
-    if (field.writable && workPackage.isEditable) {
+    if (field.writable && workPackage.isAttributeEditable(field.name)) {
       return this.I18n.t('js.inplace.button_edit', { attribute: `${field.displayName} ${titleContent}` });
     } else {
       return `${field.displayName} ${titleContent}`;

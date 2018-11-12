@@ -144,7 +144,8 @@ class WorkPackage < ActiveRecord::Base
   acts_as_attachable after_remove: :attachments_changed,
                      order: "#{Attachment.table_name}.filename",
                      add_on_new_permission: :add_work_packages,
-                     add_on_persisted_permission: :edit_work_packages
+                     add_on_persisted_permission: :edit_work_packages,
+                     modification_blocked: ->(*) { readonly_status? }
 
   after_validation :set_attachments_error_details,
                    if: lambda { |work_package| work_package.errors.messages.has_key? :attachments }
@@ -258,6 +259,12 @@ class WorkPackage < ActiveRecord::Base
   # Return true if the work_package is closed, otherwise false
   def closed?
     status.nil? || status.is_closed?
+  end
+
+  # Return true if the work_package's status is_readonly
+  # Careful not to use +readonly?+ which is AR internals!
+  def readonly_status?
+    status.present? && status.is_readonly?
   end
 
   # Returns true if the work_package is overdue

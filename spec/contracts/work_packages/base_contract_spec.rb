@@ -145,6 +145,16 @@ describe WorkPackages::BaseContract do
     end
   end
 
+  describe 'locked status' do
+    before do
+      allow(work_package).to receive(:readonly_status?).and_return true
+    end
+
+    it 'only sets status to allowed' do
+      expect(contract.writable_attributes).to eq(%w[status status_id])
+    end
+  end
+
   describe 'estimated hours' do
     it_behaves_like 'a parent unwritable property', :estimated_hours
 

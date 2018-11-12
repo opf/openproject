@@ -64,7 +64,7 @@ export class TimelineCellRenderer {
   }
 
   public canMoveDates(wp:WorkPackageResource) {
-    return wp.schema.startDate.writable && wp.schema.dueDate.writable;
+    return wp.schema.startDate.writable && wp.schema.dueDate.writable && wp.isAttributeEditable('startDate');
   }
 
   public isEmpty(wp:WorkPackageResource) {

@@ -68,6 +68,26 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
     end
   end
 
+  describe '#readonly?' do
+    it "modifies the writable attributes" do
+      allow(work_package)
+        .to receive(:readonly_status?)
+        .and_return(true)
+
+      is_expected.to be_readonly
+      expect(subject.writable?(:status)).to be_truthy
+      expect(subject.writable?(:subject)).to be_falsey
+
+      allow(work_package)
+        .to receive(:readonly_status?)
+        .and_return(false)
+
+      is_expected.to_not be_readonly
+      expect(subject.writable?(:status)).to be_truthy
+      expect(subject.writable?(:subject)).to be_truthy
+    end
+  end
+
   describe '#assignable_statuses_for' do
     let(:status_result) { double('status result') }
 

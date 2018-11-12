@@ -52,6 +52,7 @@ import {Injectable} from '@angular/core';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {WikiPageResource} from "core-app/modules/hal/resources/wiki-page-resource";
 import {PostResource} from "core-app/modules/hal/resources/post-resource";
+import {StatusResource} from "core-app/modules/hal/resources/status-resource";
 
 const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInterface } = {
   WorkPackage: {
@@ -62,6 +63,7 @@ const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInter
       children: 'WorkPackage',
       relations: 'Relation',
       schema: 'Schema',
+      status: 'Status',
       type: 'Type'
     }
   },
@@ -95,6 +97,9 @@ const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInter
   },
   Type: {
     cls: TypeResource
+  },
+  Status: {
+    cls: StatusResource
   },
   SchemaDependency: {
     cls: SchemaDependencyResource

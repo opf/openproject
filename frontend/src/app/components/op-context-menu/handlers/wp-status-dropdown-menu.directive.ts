@@ -38,6 +38,7 @@ import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {IWorkPackageEditingServiceToken} from "../../wp-edit-form/work-package-editing.service.interface";
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Directive({
   selector: '[wpStatusDropdown]'
@@ -50,6 +51,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
               readonly $state:StateService,
               protected wpNotificationsService:WorkPackageNotificationService,
               @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService,
+              protected I18n:I18nService,
               protected wpTableRefresh:WorkPackageTableRefreshService) {
 
     super(elementRef, opContextMenu);
@@ -89,6 +91,8 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
       return {
         disabled: false,
         linkText: status.name,
+        postIcon: status.isReadonly ? 'icon-locked' : null,
+        postIconTitle: this.I18n.t('js.work_packages.message_work_package_read_only'),
         class: Highlighting.dotClass('status', status.getId()),
         onClick: () => {
           this.updateStatus(status);

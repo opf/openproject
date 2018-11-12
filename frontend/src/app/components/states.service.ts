@@ -13,6 +13,7 @@ import {QueryColumn} from './wp-query/query-column';
 import {WikiPageResource} from 'core-app/modules/hal/resources/wiki-page-resource';
 import {PostResource} from 'core-app/modules/hal/resources/post-resource';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {StatusResource} from "core-app/modules/hal/resources/status-resource";
 
 export class States extends StatesGroup {
   [key:string]:any;
@@ -36,6 +37,9 @@ export class States extends StatesGroup {
 
   /* /api/v3/types */
   types = multiInput<TypeResource>();
+
+  /* /api/v3/types */
+  statuses = multiInput<StatusResource>();
 
   /* /api/v3/users */
   users = multiInput<UserResource>();

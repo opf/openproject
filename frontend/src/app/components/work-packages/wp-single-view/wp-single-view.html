@@ -9,8 +9,8 @@
 
   <div class="wp-info-wrapper">
     <wp-status-button *ngIf="!workPackage.isNew"
-                      [workPackage]="workPackage"
-                      [allowed]="workPackage.isEditable"></wp-status-button>
+                      [workPackage]="workPackage">
+    </wp-status-button>
     <attribute-help-text [attribute]="'status'"
                          [attributeScope]="'WorkPackage'"
                          *ngIf="!workPackage.isNew"></attribute-help-text>

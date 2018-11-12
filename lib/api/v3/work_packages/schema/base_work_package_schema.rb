@@ -53,8 +53,13 @@ module API
           end
 
           def writable?(property)
+            property = property.to_sym
+
+            # Special case for readonly: Only status is allowed
+            return property == :status if readonly?
+
             # Special case for milestones + date property
-            property = :start_date if property.to_sym == :date && milestone?
+            property = :start_date if property == :date && milestone?
 
             @writable_attributes ||= begin
               contract.writable_attributes
@@ -67,6 +72,10 @@ module API
 
           def milestone?
             false
+          end
+
+          def readonly?
+            work_package.readonly_status?
           end
 
           private

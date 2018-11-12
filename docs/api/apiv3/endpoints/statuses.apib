@@ -13,6 +13,7 @@
 | position         | Sort index of the status                                      | Integer |               | READ                 |
 | isDefault        |                                                               | Boolean |               | READ                 |
 | isClosed         | are tickets of this status considered closed?                 | Boolean |               | READ                 |
+| isReadonly       | are tickets of this status read only?                         | Boolean |               | READ                 |
 | defaultDoneRatio | The percentageDone being applied when changing to this status | Integer | 0 <= x <= 100 | READ                 |
 
 ## Statuses [/api/v3/statuses]
@@ -64,6 +65,7 @@
                             "position": 3,
                             "isDefault": false,
                             "isClosed": false,
+                            "isReadonly": false,
                             "defaultDoneRatio": 75
                         },
                         {
