@@ -172,7 +172,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
 
     this.activateOnForm()
       .then((handler) => {
-        handler.focus(positionOffset);
+        handler && handler.focus(positionOffset);
       });
 
     return false;

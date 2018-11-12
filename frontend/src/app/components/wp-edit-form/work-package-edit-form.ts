@@ -109,18 +109,14 @@ export class WorkPackageEditForm {
    * @param noWarnings Ignore warnings if the field cannot be opened
    */
   public activate(fieldName:string, noWarnings:boolean = false):Promise<WorkPackageEditFieldHandler> {
-    return new Promise<WorkPackageEditFieldHandler>((resolve, reject) => {
-      this.loadFieldSchema(fieldName)
-        .then((schema:IFieldSchema) => {
-          if (!schema.writable && !noWarnings) {
-            this.wpNotificationsService.showEditingBlockedError(schema.name || fieldName);
-            reject();
-          }
+    return this.loadFieldSchema(fieldName)
+      .then((schema:IFieldSchema) => {
+        if (!schema.writable && !noWarnings) {
+          this.wpNotificationsService.showEditingBlockedError(schema.name || fieldName);
+          return Promise.reject();
+        }
 
-          this.renderField(fieldName, schema)
-            .then(resolve)
-            .catch(reject);
-        });
+        return this.renderField(fieldName, schema);
     });
   }
 
@@ -279,23 +275,22 @@ export class WorkPackageEditForm {
    * @param fieldName
    */
   private loadFieldSchema(fieldName:string):Promise<IFieldSchema> {
-    return new Promise<IFieldSchema>((resolve, reject) => {
-      this.changeset.getForm()
-        .then((form:FormResource) => {
-          const schemaName = this.changeset.getSchemaName(fieldName);
-          const fieldSchema = form.schema[schemaName];
+    return this.changeset.getForm()
+      .then((form:FormResource) => {
+        const schemaName = this.changeset.getSchemaName(fieldName);
+        const fieldSchema:IFieldSchema = form.schema[schemaName];
 
-          if (!fieldSchema) {
-            return reject();
-          }
+        if (!fieldSchema) {
+          throw new Error();
+        }
 
-          resolve(fieldSchema);
-        })
-        .catch((error) => {
-          console.error('Failed to build edit field: %o', error);
-          this.wpNotificationsService.handleRawError(error);
-        });
-    });
+        return fieldSchema;
+      })
+      .catch((error) => {
+        console.error('Failed to build edit field: %o', error);
+        this.wpNotificationsService.handleRawError(error, this.workPackage);
+        throw new Error();
+      });
   }
 
   private renderField(fieldName:string, schema:IFieldSchema):Promise<WorkPackageEditFieldHandler> {

@@ -35,11 +35,13 @@ import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HttpErrorResponse} from "@angular/common/http";
+import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 
 @Injectable()
 export class WorkPackageNotificationService {
   constructor(readonly I18n:I18nService,
               protected $state:StateService,
+              protected wpCacheService:WorkPackageCacheService,
               protected halResourceService:HalResourceService,
               protected NotificationsService:NotificationsService,
               protected loadingIndicator:LoadingIndicatorService) {
@@ -131,6 +133,21 @@ export class WorkPackageNotificationService {
   }
 
   private showCustomError(errorResource:any, workPackage:WorkPackageResource) {
+    if (errorResource.errorIdentifier === 'urn:openproject-org:api:v3:errors:UpdateConflict') {
+      this.NotificationsService.addError({
+        message: errorResource.message,
+        type: 'error',
+        link: {
+          text: this.I18n.t('js.work_packages.error.update_conflict_refresh'),
+          target: () => this.wpCacheService.require(workPackage.id, true)
+        }
+      });
+
+
+      return true;
+    }
+
+
     if (errorResource.errorIdentifier === 'urn:openproject-org:api:v3:errors:PropertyFormatError') {
 
       let attributeName = workPackage.schema[errorResource.details.attribute].name;
