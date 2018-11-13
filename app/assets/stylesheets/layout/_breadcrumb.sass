@@ -56,12 +56,15 @@
     @extend %breadcrumb--default-font
     color: lighten($breadcrumb-font-color, 20)
     list-style-type: none
-    white-space: nowrap
     &.cutme
       max-width: $breadcrumb-height
 
   &.-show
     display: block
+
+#breadcrumb
+  li
+    white-space: nowrap
 
 ul.breadcrumb
   margin: 0 0 0 0
