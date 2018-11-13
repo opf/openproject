@@ -26,5 +26,25 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
+<% html_title t(:label_my_account), t('oauth.my_application_grants') -%>
 
-<%= render file: "layouts/base", locals: { menu_name: nil, current_menu_item: nil } %>
+<%= toolbar title: t('oauth.my_application_grants'), title_class: 'no-padding-bottom' %>
+
+<% if @grants.empty? %>
+  <%= no_results_box(custom_title: t('oauth.grants.none_given')) %>
+<% end %>
+
+<% @grants.each do |application, per_app_grants| %>
+  <%= toolbar title: h(application.name) do %>
+    <li class="toolbar-item">
+      <%= link_to revoke_my_oauth_application_path(application.id),
+                  method: :post,
+                  data: { confirm: I18n.t('oauth.revoke_my_application_confirmation', count: per_app_grants.count) },
+                  class: 'button -danger' do %>
+        <%= op_icon('button--icon icon-delete') %>
+        <span class="button--text"><%= t(:button_revoke) %></span>
+      <% end %>
+    </li>
+  <% end %>
+  <%= cell ::OAuth::Grants::TableCell, per_app_grants, current_user: current_user %>
+<% end %>

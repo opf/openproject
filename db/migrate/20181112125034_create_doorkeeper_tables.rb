@@ -4,6 +4,8 @@ class CreateDoorkeeperTables < ActiveRecord::Migration[5.1]
       t.string  :name,         null: false
       t.string  :uid,          null: false
       t.string  :secret,       null: false
+      t.integer :owner_id,     null: false
+      t.string  :owner_type,   null: false
       t.text    :redirect_uri, null: false
       t.string  :scopes,       null: false, default: ''
       t.boolean :confidential, null: false, default: true
@@ -11,6 +13,7 @@ class CreateDoorkeeperTables < ActiveRecord::Migration[5.1]
     end
 
     add_index :oauth_applications, :uid, unique: true
+    add_index :oauth_applications, %i[owner_id owner_type]
 
     create_table :oauth_access_grants do |t|
       t.references :resource_owner,  null: false

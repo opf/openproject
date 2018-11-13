@@ -5,14 +5,20 @@ Doorkeeper.configure do
   # This block will be called to check whether the resource owner is authenticated or not.
   resource_owner_authenticator do
     logged_user = User.active.find_by(id: session[:user_id])
-    return logged_user || redirect_to(signin_path)
+    if logged_user.present?
+      logged_user
+    else
+      warn request.fullpath
+      session[:back_url] = request.fullpath
+      redirect_to(signin_path)
+    end
   end
 
   # If you are planning to use Doorkeeper in Rails 5 API-only application, then you might
   # want to use API mode that will skip all the views management and change the way how
   # Doorkeeper responds to a requests.
   #
-  api_only
+  # api_only
 
   # Enforce token request content type to application/x-www-form-urlencoded.
   # It is not enabled by default to not break prior versions of the gem.
@@ -48,7 +54,7 @@ Doorkeeper.configure do
   # Defaults to ActionController::Base.
   # See https://github.com/doorkeeper-gem/doorkeeper#custom-base-controller
   #
-  # base_controller 'ApplicationController'
+  base_controller 'ApplicationController'
 
   # Reuse access token for the same resource owner within an application (disabled by default).
   #
@@ -81,7 +87,7 @@ Doorkeeper.configure do
   # a registered application
   # Note: you must also run the rails g doorkeeper:application_owner generator to provide the necessary support
   #
-  # enable_application_owner confirmation: false
+  enable_application_owner confirmation: false
 
   # Define access token scopes for your provider
   # For more information go to
@@ -201,4 +207,10 @@ Doorkeeper.configure do
   # WWW-Authenticate Realm (default "Doorkeeper").
   #
   # realm "Doorkeeper"
+end
+
+OpenProject::Application.configure do |application|
+  application.config.to_prepare do
+    ::Doorkeeper::AuthorizationsController.layout "only_logo"
+  end
 end

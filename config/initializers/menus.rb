@@ -108,6 +108,10 @@ Redmine::MenuManager.map :my_menu do |menu|
             { controller: '/my', action: 'access_token' },
             caption: I18n.t('my_account.access_tokens.access_token'),
             icon: 'icon2 icon-key'
+  menu.push :oauth_grants,
+            { controller: '/oauth/grants', action: 'index' },
+            caption: I18n.t('oauth.my_oauth'),
+            icon: 'icon2 icon-key'
   menu.push :mail_notifications,
             { controller: '/my', action: 'mail_notifications' },
             caption: I18n.t('activerecord.attributes.user.mail_notification'),
@@ -185,6 +189,11 @@ Redmine::MenuManager.map :admin_menu do |menu|
             html: { class: 'server_authentication' },
             icon: 'icon2 icon-flag',
             if: proc { !OpenProject::Configuration.disable_password_login? }
+
+  menu.push :oauth_applications,
+            { controller: '/oauth/applications', action: 'index' },
+            html: { class: 'oauth_applications' },
+            icon: 'icon2 icon-key'
 
   menu.push :announcements,
             { controller: '/announcements', action: 'edit' },

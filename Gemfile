@@ -41,6 +41,7 @@ gem 'rubytree', git: 'https://github.com/dr0verride/RubyTree.git', ref: '06f53ee
 gem 'rdoc', '>= 2.4.2'
 
 gem 'omniauth', git: 'https://github.com/oliverguenther/omniauth', ref: '40c6f5f751d2da7cce5444bbd96c390c450440a9'
+gem "doorkeeper", "~> 5.0.2"
 gem 'request_store', '~> 1.4.1'
 
 gem 'warden', '~> 1.2'
@@ -302,5 +303,3 @@ gemfiles.each do |file|
   next unless File.readable?(file)
   eval_gemfile(file)
 end
-
-gem "doorkeeper", "~> 5.0"

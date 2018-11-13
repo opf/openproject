@@ -858,7 +858,7 @@ DEPENDENCIES
   database_cleaner (~> 1.6)
   date_validator (~> 0.9.0)
   delayed_job_active_record (~> 4.1.1)
-  doorkeeper (~> 5.0)
+  doorkeeper (~> 5.0.2)
   equivalent-xml (~> 0.6)
   escape_utils (~> 1.0)
   factory_bot (~> 4.8)

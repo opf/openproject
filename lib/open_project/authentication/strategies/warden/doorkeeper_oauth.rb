@@ -10,13 +10,11 @@ module OpenProject
         class DoorkeeperOAuth < ::Warden::Strategies::Base
 
           def valid?
-            binding.pry
             @token = ::Doorkeeper::OAuth::Token.authenticate(decorated_request, *Doorkeeper.configuration.access_token_methods)
             @token&.accessible? && @token.acceptable?(scope)
           end
 
           def authenticate!
-            binding.pry
             user = User.where(id: @token.resource_owner_id).first
             if user
               success!(user)
