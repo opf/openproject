@@ -137,6 +137,8 @@ en:
         embedded_table:
           button: 'Embed work package table'
           text: '[Placeholder] Embedded work package table'
+        embedded_calendar:
+          text: '[Placeholder] Embedded calendar'
 
     custom_actions:
       date:
