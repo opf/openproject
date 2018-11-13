@@ -77,17 +77,23 @@ $nm-color-success-background: #d8fdd1
 .toolbar-items
   display: flex
   flex-wrap: wrap
-  margin:  0
+  margin:  0 -10px 0 0
   padding: 0
 
   li
     list-style-type: none
+    flex-grow: 1
 
   .toolbar-item
     margin: 0 10px 10px 0 // spacing between nav items
+    flex-grow: 1
 
-    &:last-child
-      margin-right: 0
+    .button
+      width: 100%
+      overflow: hidden
+      white-space: normal
+      // For links the total height adds borders to line-height (== 34px)
+      line-height: 32px
 
     // hack around the old watchers_link implementation
     // remove once all watcher_links in plugins have no button wrappers anymore
@@ -98,7 +104,13 @@ $nm-color-success-background: #d8fdd1
       padding: 0
 
   .toolbar-button-group
+    display: flex
+    justify-content: flex-end
+    flex-direction: row-reverse
     margin-left: 0px
+
+    > li
+      margin-right: 2px
 
   button,
   .button
@@ -115,10 +127,6 @@ $nm-color-success-background: #d8fdd1
       font-size: 14px
       vertical-align: 1px
 
-    &.toolbar-icon
-      // Make sure that icon only toolbar items are squared
-      width: 34px
-
       font-size: 14px
       line-height: 1
       i
@@ -127,10 +135,6 @@ $nm-color-success-background: #d8fdd1
         &::before
           font-size: 14px
           line-height: 1
-
-  a.button
-    // For links the total height adds borders to line-height (== 34px)
-    line-height: 32px
 
   button,
   .button,
@@ -188,6 +192,7 @@ $nm-color-success-background: #d8fdd1
   margin-bottom: 10px // margin-bottom of toolbar buttons
 
   h2
+    @include text-shortener
     padding: 0
 
   div.inline-edit

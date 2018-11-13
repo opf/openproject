@@ -30,7 +30,6 @@
   #content
     .toolbar-container
       margin-top: 10px
-      margin-right: -10px // Workaround (necessary because of margin of toolbar-items)
 
       .title-container
         margin-right: 10px
@@ -40,14 +39,10 @@
         display: flex
         flex-wrap: wrap
         justify-content: stretch
-        width: 100%
+        width: calc(100% + 10px)
 
-        .toolbar-item
-          -webkit-flex: 1 0 0
-          flex: 1 0 0
-
-          &:last-child
-            margin-right: 10px
+        .toolbar-item:last-child
+          margin-right: 10px
 
         > li
           .button
