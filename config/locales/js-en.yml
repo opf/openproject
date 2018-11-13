@@ -362,6 +362,7 @@ en:
     types:
       attribute_groups:
         error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."
+        error_no_table_configured: "Please configure a table for %{group}."
         reset_title: "Reset form configuration"
         confirm_reset: >
           Warning: Are you sure you want to reset the form configuration?
@@ -370,10 +371,10 @@ en:
         upgrade_to_ee_text: "Wow! If you need this feature you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise Edition client?"
         more_information: "More information"
         nevermind: "Nevermind"
-        query_types:
+        filter_types:
           children: "Children"
-          precedes: "Precedes"
-          follows: "Follows"
+          predecessors: "Predecessors"
+          followers: "Followers"
 
     watchers:
       label_loading: loading watchers...
@@ -705,8 +706,8 @@ en:
           relation_columns: 'Need to see relations in the work package list?'
           check_out_link: 'Check out the Enterprise Edition.'
         relation_filters:
-          first_part: "Show all work packages that"
-          second_part: "the current work package"
+          first_part: "Show all"
+          second_part: "of the current work package"
       tabs:
         overview: Overview
         activity: Activity

@@ -8,9 +8,8 @@
             (ngModelChange)="onRelationFilterSelected()"
             [compareWith]="compareRelationFilters">
       <option *ngFor="let filter of availableRelationFilters"
-              [textContent]="filter.name"
-              [ngValue]="filter"
-              >
+              [textContent]="text[filter.id]"
+              [ngValue]="filter">
       </option>
     </select>
     &ngsp;

@@ -26,6 +26,10 @@ export class WpTableConfigurationRelationSelectorComponent implements OnInit  {
     please_select: this.I18n.t('js.placeholders.selection'),
     first_part:    this.I18n.t('js.work_packages.table_configuration.relation_filters.first_part'),
     second_part:   this.I18n.t('js.work_packages.table_configuration.relation_filters.second_part'),
+    parent:        this.I18n.t('js.types.attribute_groups.filter_types.children'),
+    predecessor:    this.I18n.t('js.types.attribute_groups.filter_types.predecessors'),
+    follower:      this.I18n.t('js.types.attribute_groups.filter_types.followers'),
+
   };
 
   // public impaired = this.ConfigurationService.accessibilityModeEnabled();
@@ -54,6 +58,7 @@ export class WpTableConfigurationRelationSelectorComponent implements OnInit  {
     } else {
       this.selectedRelationFilter = this.availableRelationFilters[0];
     }
+    this.onRelationFilterSelected();
   }
 
   public onRelationFilterSelected() {

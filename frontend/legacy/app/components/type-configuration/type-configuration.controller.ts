@@ -58,7 +58,7 @@ function typesFormConfigurationCtrl(
   $scope.showNotificationWhileDragging
 
   // Setup autoscroll
-  var scroll = autoScroll(
+  autoScroll(
     [
       document.getElementById('content-wrapper')
     ],
@@ -126,21 +126,16 @@ function typesFormConfigurationCtrl(
   };
 
 
-  $scope.createGroup = (templateSelector:string, groupName?:string, queryType?:string) => {
-    let newGroup: JQuery = angular.element(templateSelector).clone();
-    let draggableGroups: JQuery = angular.element('#draggable-groups');
-    let randomId: string = Math.ceil(Math.random() * 10000000).toString();
+  $scope.createGroup = (templateSelector:string, groupName?:string):JQuery => {
+    let newGroup:JQuery = angular.element(templateSelector).clone();
+    let draggableGroups:JQuery = angular.element('#draggable-groups');
+    let randomId:string = Math.ceil(Math.random() * 10000000).toString();
 
     // Remove the id of the template:
     newGroup.attr('id', null);
     // Every group needs a key and an original-key:
     newGroup.attr('data-key', randomId);
     newGroup.attr('data-original-key', randomId);
-
-    if (queryType) {
-      let typeFormQuery = newGroup.closest('.type-form-query');
-      typeFormQuery.attr('data-query-type', queryType);
-    }
 
     let groupEditInPlace:JQuery = angular.element('group-edit-in-place', newGroup);
 
@@ -152,22 +147,29 @@ function typesFormConfigurationCtrl(
 
     draggableGroups.prepend(newGroup);
     $compile(newGroup)($scope);
-  }
-
-  $scope.addGroup = () => {
-    $scope.createGroup('#type-form-conf-group-template');
+    return newGroup;
   };
 
-  $scope.addQuery = (queryType:string) => {
-    $scope.createGroup(
-      '#type-form-conf-query-template',
-      I18n.t(`js.types.attribute_groups.query_types.${queryType}`),
-      queryType
-    );
+  $scope.addGroupAndOpenQuery = ():void => {
+    let newGroup = $scope.addQuery();
+    $scope.editQuery(undefined, newGroup);
   };
 
-  $scope.editQuery = (event:JQueryEventObject) => {
-    const originator = jQuery(event.target).closest('.type-form-query');
+  $scope.addGroup = ():JQuery => {
+    return $scope.createGroup('#type-form-conf-group-template');
+  };
+
+  $scope.addQuery = ():JQuery => {
+    return $scope.createGroup('#type-form-conf-query-template');
+  };
+
+  $scope.editQuery = (event:JQueryEventObject, group?:JQuery) => {
+    let originator:JQuery;
+    if (group) {
+      originator = group.find('.type-form-query');
+    } else {
+      originator = jQuery(event.target).closest('.type-form-query');
+    }
     const currentQuery = $scope.extractQuery(originator);
 
     // Disable display mode and timeline for now since we don't want users to enable it
@@ -189,7 +191,7 @@ function typesFormConfigurationCtrl(
     // When the user edited the query at least once, the up-to-date query is persisted in queryProps dataset
     let currentQuery = originator.data('queryProps');
 
-    return currentQuery || persistentQuery || {};
+    return currentQuery || persistentQuery || undefined;
   };
 
   $scope.updateHiddenFields = ():boolean => {
@@ -215,7 +217,6 @@ function typesFormConfigurationCtrl(
         // Do not save groups without a name.
         return;
       }
-
 
       if (seenGroupNames[groupKey.toLowerCase()]) {
         NotificationsService.addError(

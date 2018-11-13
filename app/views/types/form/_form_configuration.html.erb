@@ -28,7 +28,6 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% form_attributes = form_configuration_groups(@type) %>
-<% query_types = %w{children precedes follows} %>
 
 <%= activate_angular_js :section, class: 'form--section' do %>
   <%= f.hidden_field :attribute_groups, value: attribute_groups_as_json(@type) %>
@@ -98,13 +97,11 @@ See docs/COPYRIGHT.rdoc for more details.
                 <%= t('types.edit.add_group') %>
               </a>
             </li>
-            <% query_types.each do |query_type| %>
-              <li>
-                <a class="form-configuration--add-group" ng-click="<%= show_hint ? 'showEEOnlyHint()' : "addQuery('#{query_type}')" %>">
-                  <%= t("types.edit.add_table", relation: t("js.types.attribute_groups.query_types.#{query_type}")) %>
-                </a>
-              </li>
-            <% end %>
+            <li>
+              <a class="form-configuration--add-group" ng-click="<%= show_hint ? 'showEEOnlyHint()' : "addGroupAndOpenQuery()" %>">
+                <%= t("types.edit.add_table") %>
+              </a>
+            </li>
           </ul>
         </li>
       <% end %>
@@ -132,8 +129,7 @@ See docs/COPYRIGHT.rdoc for more details.
              class="type-form-conf-group type-form-query-group"
              data-original-key=""
              data-key=""
-             data-key-is-symbol="false"
-             data-relation="">
+             data-key-is-symbol="false">
           <div class="group-head">
             <span class="group-handle icon-toggle"></span>
             <group-edit-in-place
@@ -141,6 +137,7 @@ See docs/COPYRIGHT.rdoc for more details.
               key=""
               onvaluechange="groupNameChange"
               onupsale="<%= EnterpriseToken.allows_to?(:edit_attribute_groups) ? '' : 'showEEOnlyHint' %>"
+              placeholder="<%= t('types.edit.query_group_placeholder')%>"
               class="group-name">
             </group-edit-in-place>
             <span class="delete-group icon-small icon-close" ng-click="deleteGroup($event)"></span>
