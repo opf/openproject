@@ -64,7 +64,7 @@ class MyProjectsOverviewsController < ApplicationController
   def add_block
     block = params[:block]
     if MyProjectsOverviewsController.available_blocks.keys.include? block
-      render partial: "block", locals: { block_name: block, editing: true }
+      render partial: "block", locals: { block_name: block, edit: true }
     elsif block == "custom_element"
       render_new_custom_block
     else

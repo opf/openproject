@@ -34,7 +34,7 @@ See doc/COPYRIGHT.md for more details.
   <% end %>
 
   <div class="handle">
-    <%= render partial: "my_projects_overviews/blocks/#{block_name}", locals: { block_name_id: block_name_id } %>
+    <%= render partial: "my_projects_overviews/blocks/#{block_name}", locals: { block_name_id: block_name_id, edit: defined?(edit) ? edit : false } %>
   </div>
 </div>
 

@@ -25,23 +25,13 @@ See doc/COPYRIGHT.md for more details.
 
 <h3 class="widget-box--header">
   <%= op_icon('icon-context icon-calendar') %>
-  <span class="widget-box--header-title"><%=l(:label_calendar)%></span>
+  <span class="widget-box--header-title"><%=t(:label_calendar)%></span>
 </h3>
 
-<%
-  calendar = Redmine::Helpers::Calendar.new(Date.today, current_language, :week)
-  wps = WorkPackage.table_name
-
-  calendar.events = WorkPackage.visible
-    .where(project: current_user.projects)
-    .where(
-      "
-        (#{wps}.start_date >= ? AND #{wps}.start_date <= ?) OR
-        (#{wps}.due_date >= ? AND #{wps}.due_date <= ?)
-      ",
-      calendar.startdt, calendar.enddt, calendar.startdt, calendar.enddt
-    )
-    .includes(:project, :type, :priority, :assigned_to) unless current_user.projects.empty?
-%>
-
-<%= render :partial => 'common/calendar', :locals => {:calendar => calendar } %>
+<% if edit %>
+  <div class="macro -embedded-table ck-widget">
+    <%= t('js.editor.macro.embedded_calendar.text') %>
+  </div>
+<% else %>
+  <wp-embedded-calendar></wp-embedded-calendar>
+<% end %>
