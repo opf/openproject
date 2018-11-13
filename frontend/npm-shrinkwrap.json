@@ -1504,7 +1504,7 @@
         },
         "minimist": {
           "version": "1.2.0",
-          "resolved": "http://registry.npmjs.org/minimist/-/minimist-1.2.0.tgz",
+          "resolved": "https://registry.npmjs.org/minimist/-/minimist-1.2.0.tgz",
           "integrity": "sha1-o1AIsg9BOD7sH7kU9M1d95omQoQ="
         },
         "path-type": {
@@ -8542,6 +8542,11 @@
       "resolved": "https://registry.npmjs.org/next-tick/-/next-tick-0.2.2.tgz",
       "integrity": "sha1-ddpKkn7liH45BliABltzNkE7MQ0="
     },
+    "ng-dynamic-component": {
+      "version": "4.0.0",
+      "resolved": "https://registry.npmjs.org/ng-dynamic-component/-/ng-dynamic-component-4.0.0.tgz",
+      "integrity": "sha512-EQpT3gIeaz1GUZu063mZinZFMi/w7+Bpgggkm8A5dJffUi8hlBXSAj03z9drDwJEFRC4astfV34FOde4XZ9Ubg=="
+    },
     "ng-fullcalendar": {
       "version": "1.7.0",
       "resolved": "https://registry.npmjs.org/ng-fullcalendar/-/ng-fullcalendar-1.7.0.tgz",
@@ -9273,7 +9278,7 @@
       "dependencies": {
         "async": {
           "version": "1.5.2",
-          "resolved": "http://registry.npmjs.org/async/-/async-1.5.2.tgz",
+          "resolved": "https://registry.npmjs.org/async/-/async-1.5.2.tgz",
           "integrity": "sha1-7GphrlZIDAw8skHJVhjiCJL5Zyo="
         }
       }

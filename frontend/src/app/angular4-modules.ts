@@ -233,6 +233,7 @@ import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
 import {WidgetWpAssignedComponent} from "core-components/grid/widgets/wp-assigned/wp-assigned.component";
 import {WidgetWpCreatedComponent} from "core-components/grid/widgets/wp-created/wp-created.component";
 import {WidgetWpWatchedComponent} from "core-components/grid/widgets/wp-watched/wp-watched.component";
+import { DynamicModule } from 'ng-dynamic-component';
 
 @NgModule({
   imports: [
@@ -258,7 +259,11 @@ import {WidgetWpWatchedComponent} from "core-components/grid/widgets/wp-watched/
     // Rendering charts
     ChartsModule,
     // Calendar component
-    FullCalendarModule
+    FullCalendarModule,
+
+    DynamicModule.withComponents([WidgetWpAssignedComponent,
+                                  WidgetWpCreatedComponent,
+                                  WidgetWpWatchedComponent])
   ],
   providers: [
     {

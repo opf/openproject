@@ -1,0 +1,17 @@
+.widget-box {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+wp-embedded-table {
+  flex: 1 1 auto;
+  display: flex;
+  overflow: hidden;
+}
+
+:host {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}

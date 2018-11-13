@@ -3,6 +3,7 @@ import {AbstractWidgetComponent} from "core-components/grid/widgets/abstract-wid
 
 @Component({
   templateUrl: '../wp-widget/wp-widget.component.html',
+  styleUrls: ['../wp-widget/wp-widget.component.css']
 })
 
 export class WidgetWpAssignedComponent extends AbstractWidgetComponent{

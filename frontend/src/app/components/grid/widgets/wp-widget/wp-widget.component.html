@@ -1,12 +1,10 @@
-<div class="widget-box" cdkDrag [cdkDragRootElement]="'ng-component'">
+<h3 class="widget-box--header" cdkDragHandle>
+  <i class="icon-context icon-assigned-to-me" aria-hidden="true"></i>
+  <span class="widget-box--header-title" [textContent]="widgetHeading"></span>
+</h3>
 
-  <h3 class="widget-box--header" cdkDragHandle>
-    <i class="icon-context icon-assigned-to-me" aria-hidden="true"></i>
-    <span class="widget-box--header-title" [textContent]="widgetHeading"></span>
-  </h3>
-
-  <wp-embedded-table [queryProps]="queryProps"
-                     [configuration]="configuration">
-  </wp-embedded-table>
-</div>
+<wp-embedded-table [queryProps]="queryProps"
+                   [configuration]="configuration"
+                   [externalHeight]="true">
+</wp-embedded-table>
 

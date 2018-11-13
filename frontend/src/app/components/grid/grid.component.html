@@ -1,23 +1,29 @@
 <div class="grid--container"
      [style.grid-template-columns]="gridColumnStyle"
      [style.grid-template-rows]="gridRowStyle">
-  <div *ngFor="let widget of widgetResources;trackBy:identifyWidgetResource"
-       [style.grid-row-start]="widget.startRow"
-       [style.grid-row-end]="widget.endRow"
-       [style.grid-column-start]="widget.startColumn"
-       [style.grid-column-end]="widget.endColumn"
-    cdkDropList
-    [cdkDropListConnectedTo]="gridAreaIds">
-    <template #gridContent>
-    </template>
-  </div>
 
-  <div *ngFor="let cell of gridCellArray;trackBy:identifyGridCellItem"
-    [style.grid-row-start]="cell[0]"
-    [style.grid-row-end]="cell[0] + 1"
-    [style.grid-column-start]="cell[1]"
-    [style.grid-column-end]="cell[1] + 1"
-    cdkDropList
-    [cdkDropListConnectedTo]="gridAreaIds">
+  <div *ngFor="let area of gridAreas; trackBy: identifyGridCellItem;"
+       class="grid--area"
+       [ngClass] = "{'-drop-target': currentlyDragging && gridAreaDropIds.indexOf(gridAreaId(area)) >= 0}"
+       [style.grid-row-start]="area.startRow"
+       [style.grid-row-end]="area.endRow"
+       [style.grid-column-start]="area.startColumn"
+       [style.grid-column-end]="area.endColumn"
+       cdkDropList
+       [id]="gridAreaId(area)"
+       [cdkDropListData]="area"
+       (cdkDropListDropped)="drop($event)"
+       (dragStart)="dragStart(event)"
+       [cdkDropListConnectedTo]="gridAreaDropIds">
+    <div class="widget-box"
+         cdkDrag
+         (cdkDragStarted)="dragStart($event)"
+         (cdkDragEnded)="dragStop($event)"
+         *ngIf="area.widget"
+         style="height: 100%">
+      <ndc-dynamic [ndcDynamicComponent]="widgetComponent(area.widget)"
+                   [ndcDynamicOutputs]="{}">
+      </ndc-dynamic>
+    </div>
   </div>
 </div>
