@@ -29,15 +29,18 @@
 #rb
   #backlogs_container
     width: 100%
-    min-width: 950px
+    display: flex
+    flex-wrap: wrap
+    justify-content: space-between
   #owner_backlogs_container
-    float: right
-    width: 49.5%
-    min-width: 470px
+    min-width: 420px
+    order: 2
+    width: 49%
+    flex: 0 0 49%
   #sprint_backlogs_container
-    float: left
-    width: 49.5%
-    min-width: 470px
+    min-width: 420px
+    width: 49%
+    flex: 0 0 49%
     min-height: 230px
   #owner_backlogs_container .backlog .header > .add_new_story
     height: 28px
