@@ -28,22 +28,12 @@
 
 @include breakpoint(680px down)
   form
-    .grid-block
-      display: block
+    .form--field-container
+      flex: 1 1 auto
 
-      .grid-content
-        padding: 0
-
-    &.-wide-labels .form--field .form--label,
-    .form--field.-wide-label .form--label,
     .form--label,
-    .form--field-container,
-    .form--select-container,
-    .form--field-instructions
-      @include grid-content(12)
-      display: flex
-      margin-left: 0
-      padding: 0
+    .attributes-key-value
+      width: 90%
 
   .choice .choice--select
     width: 100%

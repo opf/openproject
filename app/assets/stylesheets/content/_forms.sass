@@ -317,8 +317,10 @@ fieldset.form--fieldset
     margin-bottom: 1rem
 
 .form--field
-  @include grid-block($wrap: true)
   @include grid-visible-overflow
+  display: flex
+  flex-wrap: wrap
+  height: auto
   align-items: center
   margin-bottom: 0.825rem
   line-height: 2
@@ -367,12 +369,8 @@ fieldset.form--fieldset
     @extend %form--field-after-container
 
 .form--label
-  @include grid-content(2)
-  @extend %label-style
-  overflow-x: hidden
-  white-space: normal
-  overflow-y: visible
-  padding:      0 1rem 0 0
+  width: 200px
+  padding: 0 1rem 0 0
   margin-bottom: 0
   font-size:    $form-label-fontsize
   line-height:  $base-line-height
@@ -410,11 +408,9 @@ fieldset.form--fieldset
     color: $content-form-error-color
 
 .form--field-container
-  @include grid-content(10)
-  @include grid-visible-overflow
+  overflow: hidden
   padding: 0
   display: flex
-  align-items: stretch
 
   &.-wrap-around
     display: flex
@@ -452,8 +448,7 @@ fieldset.form--fieldset
   line-height: 2rem
 
 %form--field-after-container
-  @include grid-content(10, 2)
-  padding:      0
+  min-width: 100%
   font-size:    $form-label-fontsize
   line-height:  1.4
   color:        $form-label-color
