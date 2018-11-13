@@ -28,13 +28,33 @@
 
 import {Component, Input} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 
 @Component({
   templateUrl: './wp-breadcrumb.html',
+  styleUrls: ['./wp-breadcrumb.sass'],
   selector: 'wp-breadcrumb',
 })
 export class WorkPackageBreadcrumbComponent {
   @Input('workPackage') workPackage:WorkPackageResource;
+
+  public text = {
+    parent: this.I18n.t('js.relations_hierarchy.parent_headline'),
+    hierarchy: this.I18n.t('js.relations_hierarchy.hierarchy_headline'),
+  };
+
+  constructor(private I18n:I18nService) {
+  }
+
+  public inputActive:boolean = false;
+
+  public get hierarchyCount() {
+    return this.workPackage.ancestors.length;
+  }
+
+  public get hierarchyLabel() {
+    return (this.hierarchyCount === 1) ? this.text.parent : this.text.hierarchy;
+  }
 }
 
 
