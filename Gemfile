@@ -302,3 +302,5 @@ gemfiles.each do |file|
   next unless File.readable?(file)
   eval_gemfile(file)
 end
+
+gem "doorkeeper", "~> 5.0"

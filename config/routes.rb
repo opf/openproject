@@ -28,6 +28,7 @@
 #++
 
 OpenProject::Application.routes.draw do
+  use_doorkeeper
   root to: 'homescreen#index', as: 'home'
   rails_relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || ''
 
@@ -92,6 +93,12 @@ OpenProject::Application.routes.draw do
   # remove the prefix (v3) before checking whether the method is supported. I
   # don't understand why that should make sense.
   mount API::Root => '/'
+
+  # OAuth authorization routes
+  use_doorkeeper do
+    # Do not add global application controller
+    # skip_controllers :applications, :authorized_applications
+  end
 
   get '/roles/workflow/:id/:role_id/:type_id' => 'roles#workflow'
 
