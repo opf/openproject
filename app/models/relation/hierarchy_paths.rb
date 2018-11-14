@@ -104,9 +104,9 @@ module Relation::HierarchyPaths
         SQL
       else
         stmt = <<-SQL
-        INSERT INTO 
-          #{hierarchy_table_name} 
-          (work_package_id, path) 
+        INSERT INTO
+          #{hierarchy_table_name}
+          (work_package_id, path)
         SELECT
           to_id, #{add_hierarchy_agg_function} AS path
         FROM (
