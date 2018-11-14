@@ -1,0 +1,80 @@
+<% html_title(t(:label_administration), t('two_factor_authentication.settings.title')) -%>
+
+<%= breadcrumb_toolbar(t('two_factor_authentication.settings.title')) %>
+<section class="admin--edit-section">
+  <%= styled_form_tag({ action: :update },
+                      method: :post,
+                      id: 'update-ldap-group-settings-form') do %>
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= t('two_factor_authentication.settings.current_configuration') %></legend>
+      <p>
+        <%= t('two_factor_authentication.settings.text_configuration') %>
+        <br/>
+        <% configuration_link = OpenProject::Static::Links.links.fetch :configuration_guide %>
+        <%= link_to t('two_factor_authentication.settings.text_configuration_guide'), configuration_link[:href] %>
+      </p>
+      <div class="attributes-key-value">
+        <div class="attributes-key-value--key"><%= t('two_factor_authentication.settings.label_active_strategies') %></div>
+        <div class="attributes-key-value--value-container">
+          <div class="attributes-key-value--value">
+            <%= t(:label_none) if configuration[:active_strategies].empty? %>
+            <% configuration[:active_strategies].each do |key| %>
+              <span>
+                <%= t("two_factor_authentication.strategies.#{key}") %>
+              </span>
+              <br/>
+            <% end %>
+          </div>
+        </div>
+        <div class="attributes-key-value--key"><%= t('two_factor_authentication.settings.label_enforced') %></div>
+        <div class="attributes-key-value--value-container">
+          <div class="attributes-key-value--value">
+            <span><%= !!configuration[:enforced] %></span>
+          </div>
+        </div>
+        <div class="attributes-key-value--key"><%= t('two_factor_authentication.settings.label_remember') %></div>
+        <div class="attributes-key-value--value-container">
+          <div class="attributes-key-value--value">
+            <% if configuration[:allow_remember_for_days].to_i == 0 %>
+              <span><%= t(:label_disabled) %></span>
+            <% else %>
+              <span><%= configuration[:allow_remember_for_days] %> (<%= t(:label_day_plural) %>)</span>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= t(:label_settings) %></legend>
+      <div class="form--field">
+        <label class="form--label" for='settings[enforced]'><%= t('two_factor_authentication.settings.label_enforced') %></label>
+        <div class="form--field-container ">
+          <%= styled_check_box_tag 'settings[enforced]',
+                                   '1',
+                                   !!configuration[:enforced],
+                                   disabled: strategy_manager.enforced_by_configuration?(:enforced) || configuration[:active_strategies].empty?,
+                                   container_class: '-middle' %>
+        </div>
+        <div class="form--field-instructions">
+          <%= I18n.t('two_factor_authentication.settings.text_enforced') %>
+        </div>
+      </div>
+      <div class="form--field">
+        <label class="form--label" for='settings[allow_remember_for_days]'><%= t('two_factor_authentication.settings.label_remember') %></label>
+        <div class="form--field-container">
+          <%= styled_number_field_tag 'settings[allow_remember_for_days]',
+                                      configuration[:allow_remember_for_days],
+                                      min: '0',
+                                      max: '365',
+                                      step: '1',
+                                      disabled: strategy_manager.enforced_by_configuration?(:allow_remember_for_days),
+                                      container_class: '-middle' %>
+        </div>
+        <div class="form--field-instructions">
+          <%= I18n.t('two_factor_authentication.settings.text_remember') %>
+        </div>
+      </div>
+    </fieldset>
+    <%= styled_submit_tag l(:button_apply), class: '-highlight' %>
+  <% end %>
+</section>

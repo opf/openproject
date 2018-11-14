@@ -1,0 +1,22 @@
+<%= render partial: 'two_factor_authentication/header_tags' %>
+
+<% html_title(t(:label_my_account), t('two_factor_authentication.devices.add_new')) -%>
+<% breadcrumb_paths link_to(t('two_factor_authentication.label_two_factor_authentication'), index_path),
+                    t('two_factor_authentication.devices.add_new') -%>
+
+<%= toolbar title: t('two_factor_authentication.devices.add_new') %>
+
+<div class="mobile-otp-new-devices">
+  <% @available_devices.each do |key, device_class| %>
+  <div class="mobile-otp-new-device mobile-otp-new-device-<%= key %>">
+    <h2><%= t("two_factor_authentication.devices.#{key}.title") %></h2>
+    <div class="mobile-otp-new-device--body">
+      <p><%= t("two_factor_authentication.devices.#{key}.description") %></p>
+    </div>
+    <div class="mobile-otp-new-device--footer">
+      <%= link_to t('two_factor_authentication.devices.register'), url_for(action: :new, type: key), class: 'button button--tiny' %>
+    </div>
+  </div>
+  <% end %>
+</div>
+
