@@ -62,10 +62,10 @@ module API
             {
               "_type": "Widget",
               "identifier": 'work_packages_assigned',
-              "startRow": '3',
+              "startRow": '4',
               "endRow": '5',
               "startColumn": '1',
-              "endColumn": '3'
+              "endColumn": '2'
             },
             {
               "_type": "Widget",
@@ -78,10 +78,10 @@ module API
             {
               "_type": "Widget",
               "identifier": 'work_packages_watched',
-              "startRow": '3',
-              "endRow": '5',
+              "startRow": '2',
+              "endRow": '4',
               "startColumn": '4',
-              "endColumn": '6'
+              "endColumn": '5'
             }
           ]
         end

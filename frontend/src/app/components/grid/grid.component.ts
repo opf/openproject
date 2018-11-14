@@ -132,7 +132,7 @@ export class GridComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public gridAreaId(area:GridArea) {
-    return `grid--area-${area.startRow}/${area.startColumn}`;
+    return `grid--area-${area.startRow}-${area.startColumn}`;
   }
 
   public buildGridAreas() {
