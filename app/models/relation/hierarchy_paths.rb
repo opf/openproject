@@ -158,9 +158,9 @@ module Relation::HierarchyPaths
 
     def self.add_hierarchy_agg_function
       if ActiveRecord::Base.connection.adapter_name == 'Mysql2'
-        "GROUP_CONCAT(from_id ORDER BY hierarchy DESC SEPARATOR ',')"
+        "GROUP_CONCAT(DISTINCT from_id ORDER BY hierarchy DESC SEPARATOR ',')"
       else
-        "string_agg(from_id::TEXT, ',' ORDER BY hierarchy DESC)"
+        "string_agg(DISTINCT from_id::TEXT, ',' ORDER BY hierarchy DESC)"
       end
     end
 
