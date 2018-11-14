@@ -1,0 +1,30 @@
+<%#-- copyright
+OpenProject Global Roles Plugin
+
+Copyright (C) 2010 - 2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+version 3.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+++#%>
+
+<% html_title l(:label_administration), l("label_group_new") %>
+
+<% local_assigns[:additional_breadcrumb] = l(:label_role_new) %>
+<%= breadcrumb_toolbar l(:label_role_new) %>
+
+<%= labelled_tabular_form_for @role, :url => { :action => 'create' }, :html => {:id => 'role_form'}, :as => :role do |f| %>
+<%= render :partial => 'form', :locals => { :f => f, :role => @role, :member_role => @member_role, :global_role => @global_role, :roles => @roles,  :member_permissions => @member_permissions, :global_permissions => @global_permissions} %>
+<br/>
+<%= styled_button_tag l(:button_create), class: '-with-icon icon-checkmark' %>
+<% end %>

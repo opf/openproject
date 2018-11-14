@@ -1,0 +1,11 @@
+sk:
+  error_can_not_be_assigned: Rola nemôže byť priradená tomuto používateľovi
+  global_roles: Globálne roly
+  label_role_type: Typ
+  label_member_role: Rola projektu
+  label_global_role: Globálna rola
+  label_not_changeable: (nemodifikovateľná)
+  label_no_assignable_role: Nie je dostupná žiadna globálna rola pre priradenie
+  label_global: Globálna
+  seeders:
+    default_role_project_creator: 'Project creator'

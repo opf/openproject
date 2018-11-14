@@ -1,0 +1,11 @@
+ru:
+  error_can_not_be_assigned: Роль не может быть назначена для этого пользователя
+  global_roles: Глобальная роль
+  label_role_type: Тип
+  label_member_role: Роль проекта
+  label_global_role: Глобальная роль
+  label_not_changeable: (неизменяемая)
+  label_no_assignable_role: Нет глобальной роли, доступной для назначения
+  label_global: Глобальная
+  seeders:
+    default_role_project_creator: 'Создатель проекта'
