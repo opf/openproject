@@ -179,37 +179,37 @@ jobs:
       script:
       - bash script/ci/setup.sh plugins:units mysql
       - bash script/ci/runner.sh plugins:units 1 1
-      if: branch !~ /^core\/$/
+      if: head_branch !~ /^core\//
     - stage: test
       name: 'plugins:units (1/1) - postgres'
       script:
       - bash script/ci/setup.sh plugins:units postgres
       - bash script/ci/runner.sh plugins:units 1 1
-      if: branch !~ /^core\/$/
+      if: head_branch !~ /^core\//
     - stage: test
       name: 'plugins:features (1/1) - mysql'
       script:
       - bash script/ci/setup.sh plugins:features mysql
       - bash script/ci/runner.sh plugins:features 1 1
-      if: branch !~ /^core\/$/
+      if: head_branch !~ /^core\//
     - stage: test
       name: 'plugins:features (1/1) - postgres'
       script:
       - bash script/ci/setup.sh plugins:features postgres
       - bash script/ci/runner.sh plugins:features 1 1
-      if: branch !~ /^core\/$/
+      if: head_branch !~ /^core\//
     - stage: test
       name: 'plugins:cucumber (1/1) - mysql'
       script:
       - bash script/ci/setup.sh plugins:cucumber mysql
       - bash script/ci/runner.sh plugins:cucumber 1 1
-      if: branch !~ /^core\/$/
+      if: head_branch !~ /^core\//
     - stage: test
       name: 'plugins:cucumber (1/1) - postgres'
       script:
       - bash script/ci/setup.sh plugins:cucumber postgres
       - bash script/ci/runner.sh plugins:cucumber 1 1
-      if: branch !~ /^core\/$/
+      if: head_branch !~ /^core\//
 
 addons:
   chrome: stable
