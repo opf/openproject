@@ -1,0 +1,105 @@
+<%#-- copyright
+OpenProject Costs Plugin
+
+Copyright (C) 2009 - 2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+version 3.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+++#%>
+
+<%= render :partial => 'shared/costs_header' %>
+
+<% html_title "#{t(:label_cost_object_id, id: @cost_object.id)}: #{@cost_object.subject}" %>
+<%= toolbar title: t(:label_cost_object_id,  id:  @cost_object.id) do %>
+  <% if authorize_for(:cost_objects, :edit) %>
+    <li class="toolbar-item">
+      <%= link_to({ controller: 'cost_objects', action: 'edit',  id: @cost_object }, class: 'button', accesskey: accesskey(:edit)) do %>
+        <%= op_icon('button--icon icon-edit') %> <%= t(:button_update) %>
+      <% end %>
+    </li>
+  <% end %>
+  <% if authorize_for(:cost_objects, :copy) %>
+    <li class="toolbar-item">
+      <%= link_to({ controller: 'cost_objects', action: 'copy', id: @cost_object }, class: 'button') do %>
+        <%= op_icon('button--icon icon-copy') %> <%= t(:button_copy) %>
+      <% end %>
+    </li>
+  <% end %>
+  <% if authorize_for(:cost_objects, :copy) %>
+    <li class="toolbar-item">
+      <%= link_to({ controller: 'cost_objects', action: 'destroy', id: @cost_object }, class: 'button', method: :delete, data: { confirm: t(:text_are_you_sure)}) do %>
+        <%= op_icon('button--icon icon-delete') %> <%= t(:button_delete) %>
+      <% end %>
+    </li>
+  <% end %>
+<% end %>
+
+<div class="<%= @cost_object.css_classes %> details">
+  <h3><%=h @cost_object.subject %></h3>
+  <p class="author">
+    <%= authoring @cost_object.created_on, @cost_object.author %>.
+    <%= t(:label_updated_time, value: distance_of_time_in_words(Time.now, @cost_object.updated_on)) + '.' if @cost_object.created_on != @cost_object.updated_on %>
+  </p>
+
+  <div class="attributes-group">
+    <div class="attributes-key-value">
+      <div class="attributes-key-value--key"><%= CostObject.human_attribute_name(:type) %></div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span><%= @cost_object.type_label %></span>
+        </div>
+      </div>
+      <div class="attributes-key-value--key"><%= CostObject.human_attribute_name(:fixed_date) %></div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span><%= format_date(@cost_object.fixed_date) %></span>
+        </div>
+      </div>
+      <div class="attributes-key-value--key"><%= CostObject.human_attribute_name(:budget_ratio) %></div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span>
+            <%= extended_progress_bar(@cost_object.budget_ratio,
+                                      :width => '80px',
+                                      :legend => @cost_object.budget_ratio) %>
+          </span>
+        </div>
+      </div>
+      <% unless format_text(@cost_object, :description, :attachments => @cost_object.attachments).empty? %>
+        <div class="attributes-key-value--key"><%= CostObject.human_attribute_name(:description) %></div>
+        <div class="attributes-key-value--value-container">
+          <div class="attributes-key-value--value -text">
+            <span>
+              <%= format_text @cost_object, :description, :attachments => @cost_object.attachments %>
+            </span>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <% resource = budget_attachment_representer(@cost_object) %>
+  <%= list_attachments(resource) %>
+
+  <%= render :partial => "show_variable_cost_object" %>
+</div>
+
+<div style="clear: both;"></div>
+
+<% if authorize_for('cost_objects', 'edit') %>
+  <div id="update" style="display:none;">
+  <h3><%= t(:button_update) %></h3>
+  <%= render :partial => 'edit' %>
+  </div>
+<% end %>
