@@ -11,7 +11,7 @@ module OpenProject::Webhooks
       # Return a complete mapping of all resource modules
       # in the form { label => { event1: label , event2: label } }
       def available_events_map
-        @available_events ||= Hash[resource_modules.map { |m| [m.resource_name, m.available_events_map] }]
+        Hash[resource_modules.map { |m| [m.resource_name, m.available_events_map] }]
       end
 
       ##
