@@ -147,6 +147,11 @@ zh:
       no_results_content_text: 添加状态报告
   statuses:
     edit:
+      status_readonly_html: |
+        Check this option to mark work packages with this status as read-only.
+        No attributes can be changed with the exception of the status.
+        <br/>
+        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
       status_color_text: |
         单击可以分配或更改此状态的颜色。
         颜色显示在状态按钮中，可用于突出显示表中的工作包。
@@ -301,6 +306,7 @@ zh:
         to: 相关的工作包
       status:
         is_closed: 工作包已关闭
+        is_readonly: Work package read-only
       journal:
         notes: 备注
       member:

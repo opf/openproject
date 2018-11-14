@@ -166,6 +166,11 @@ pt-BR:
       no_results_content_text: Adicionar um relatório de situação
   statuses:
     edit:
+      status_readonly_html: |
+        Check this option to mark work packages with this status as read-only.
+        No attributes can be changed with the exception of the status.
+        <br/>
+        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
       status_color_text: |
         Clique para atribuir ou alterar a cor desta situação.
         É exibido no botão de situação e pode ser usado para destacar pacotes de trabalho na tabela.
@@ -347,6 +352,7 @@ pt-BR:
         to: Pacote de trabalho relacionado
       status:
         is_closed: Pacote de trabalho fechado
+        is_readonly: Work package read-only
       journal:
         notes: Anotações
       member:

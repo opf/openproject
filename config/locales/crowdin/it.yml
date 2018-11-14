@@ -167,6 +167,11 @@ it:
       no_results_content_text: Aggiungi una relazione sullo stato
   statuses:
     edit:
+      status_readonly_html: |
+        Seleziona questa opzione per contrassegnare i pacchetti di lavoro con questo stato come di sola lettura.
+        Nessun attributo può essere modificato ad eccezione dello stato.
+        <br/>
+        <strong> Nota </strong>: i valori ereditati (ad esempio, dai figli o dalle relazioni) verranno comunque applicati.
       status_color_text: |
         Clicca per assegnare o modificare il colore di questo stato.
         Viene mostrato come tasto di stato e può essere utilizzato per evidenziare le macro-attività nella tabella.
@@ -352,6 +357,7 @@ it:
         to: Macro-attività correlata
       status:
         is_closed: Macro-attività chiusa
+        is_readonly: Pacchetto di lavoro di sola lettura
       journal:
         notes: Note
       member:

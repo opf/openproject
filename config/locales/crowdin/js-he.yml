@@ -53,6 +53,10 @@ he:
     button_update: עדכון
     button_export-pdf: Download PDF
     button_export-atom: Download Atom
+    calendar:
+      title: לוח שנה
+      too_many: There are more work packages (%{count}) than can be displayed by the
+        calendar (%{max}). Add filters to focus on the relevant ones.
     description_available_columns: עמודות זמינות
     description_current_position: 'אתה נמצא כאן:'
     description_select_work_package: 'Select work package #%{id}'
@@ -108,6 +112,8 @@ he:
         embedded_table:
           button: Embed work package table
           text: "[Placeholder] Embedded work package table"
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
     custom_actions:
       date:
         specific: פועל
@@ -387,8 +393,10 @@ he:
       relation_type: relation type
     relations_hierarchy:
       parent_headline: אב
+      hierarchy_headline: Hierarchy
       children_headline: ילדים
     relation_buttons:
+      set_parent: Set parent work package
       change_parent: שנה אב
       remove_parent: Remove parent
       group_by_wp_type: Group by work package type
@@ -408,6 +416,7 @@ he:
       abort: Abort
     relations_autocomplete:
       placeholder: Enter the related work package id
+      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
     repositories:
       select_tag: Select tag
       select_branch: Select branch
@@ -553,6 +562,8 @@ he:
       description_options_hide: הסתר אפשרויות
       description_options_show: הצג אפשרויות
       error:
+        update_conflict_refresh: Click here to refresh the work package and update
+          to the newest version.
         edit_prohibited: Editing %{attribute} is blocked for this work package. Either
           this attribute is derived from relations (e.g, children) or otherwise not
           configurable.
@@ -574,6 +585,8 @@ he:
       message_successful_show_in_fullscreen: Click here to open this work package
         in fullscreen view.
       message_view_spent_time: Show spent time for this work package
+      message_work_package_read_only: Work package is locked in this status. No attribute
+        other than status can be altered.
       no_value: אין ערכים
       inline_create:
         title: Click here to add a new work package to this list

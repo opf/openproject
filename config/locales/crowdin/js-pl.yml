@@ -53,6 +53,10 @@ pl:
     button_update: Aktualizacja
     button_export-pdf: Pobierz plik PDF
     button_export-atom: Pobierz Atom
+    calendar:
+      title: Kalendarz
+      too_many: There are more work packages (%{count}) than can be displayed by the
+        calendar (%{max}). Add filters to focus on the relevant ones.
     description_available_columns: Dostępne kolumny
     description_current_position: 'Jesteś tutaj:'
     description_select_work_package: 'Zaznacz zestaw Zadań #%{id}'
@@ -109,6 +113,8 @@ pl:
         embedded_table:
           button: Osadź tabelę pakietów roboczych
           text: "[Placeholder] Osadzona tabela pakietów roboczych"
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
     custom_actions:
       date:
         specific: wł
@@ -385,8 +391,10 @@ pl:
       relation_type: typ relacji
     relations_hierarchy:
       parent_headline: Rodzic
+      hierarchy_headline: Hierarchia
       children_headline: Dzieci
     relation_buttons:
+      set_parent: Set parent work package
       change_parent: Zmień nadrzędny
       remove_parent: Usuń nadrzędny
       group_by_wp_type: Grupuj wg typu zadań
@@ -406,6 +414,7 @@ pl:
       abort: Przerwij
     relations_autocomplete:
       placeholder: Wprowadź id pakietu roboczego
+      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
     repositories:
       select_tag: Wybierz tag
       select_branch: Wybierz gałąź
@@ -551,6 +560,8 @@ pl:
       description_options_hide: Ukryj opcje
       description_options_show: Pokaż opcje
       error:
+        update_conflict_refresh: Click here to refresh the work package and update
+          to the newest version.
         edit_prohibited: Edytowanie atrybutu %{attribute} w tym pakiecie pracy jest
           zablokowane. Ten atrybut jest dziedziczony z relacji (np. dziecka) lub nie
           można go skonfigurować z innego powodu.
@@ -573,6 +584,8 @@ pl:
       message_successful_show_in_fullscreen: Kliknij tutaj, aby otworzyć ten pakiet
         prac w trybie pełnoekranowym.
       message_view_spent_time: Pokaż spędzony czas dla tych zadań
+      message_work_package_read_only: Work package is locked in this status. No attribute
+        other than status can be altered.
       no_value: Brak wartości
       inline_create:
         title: Kliknij tutaj, aby dodać nowy pakiet prac do tej listy

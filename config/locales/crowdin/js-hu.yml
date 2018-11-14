@@ -53,6 +53,10 @@ hu:
     button_update: Frissítés
     button_export-pdf: PDF-fájl letöltése
     button_export-atom: Atom letöltés
+    calendar:
+      title: Naptár
+      too_many: There are more work packages (%{count}) than can be displayed by the
+        calendar (%{max}). Add filters to focus on the relevant ones.
     description_available_columns: Elérhető oszlopok
     description_current_position: 'Itt vagy:'
     description_select_work_package: 'Munkacsomag kiválasztás #%{id}'
@@ -109,6 +113,8 @@ hu:
         embedded_table:
           button: Munkacsomag táblázat beágyazás
           text: "[Placeholder] Beágyazott munkacsomag táblázat"
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
     custom_actions:
       date:
         specific: be
@@ -388,8 +394,10 @@ hu:
       relation_type: kapcsolat típusa
     relations_hierarchy:
       parent_headline: Szülő
+      hierarchy_headline: Hierarchia
       children_headline: Gyermekek
     relation_buttons:
+      set_parent: Set parent work package
       change_parent: Szülő módosítása
       remove_parent: Szülő eltávolítása
       group_by_wp_type: Rendezés feladatcsoport típusai szerint
@@ -409,6 +417,7 @@ hu:
       abort: Megszakít
     relations_autocomplete:
       placeholder: Adja meg a kapcsolódó feladatcsoport azonosítóját
+      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
     repositories:
       select_tag: Címke kiválasztása
       select_branch: Branch kiválasztása
@@ -550,6 +559,8 @@ hu:
       description_options_hide: Beállítások elrejtése
       description_options_show: Beállítások megjelenítése
       error:
+        update_conflict_refresh: Click here to refresh the work package and update
+          to the newest version.
         edit_prohibited: A (z) %{attribute} attribútum nem szerkeszthető. Vagy azért
           mert ez valamelyik kapcsolatból származik (gyerekektől), vagy más okból
           nem módosítható.
@@ -571,6 +582,8 @@ hu:
       message_successful_show_in_fullscreen: Ide kattintva a munkacsomag részletei
         teljes képernyős nézeten jeleníthetőek meg.
       message_view_spent_time: Feladatcsoporttal töltött idő megjelenítése
+      message_work_package_read_only: Work package is locked in this status. No attribute
+        other than status can be altered.
       no_value: Nincs érték
       inline_create:
         title: Ide kattintva adhatsz új munkacsomagot a listához

@@ -53,6 +53,10 @@ ro:
     button_update: Actualizare
     button_export-pdf: Descărcare PDF
     button_export-atom: Descărcare Atom
+    calendar:
+      title: Calendar
+      too_many: There are more work packages (%{count}) than can be displayed by the
+        calendar (%{max}). Add filters to focus on the relevant ones.
     description_available_columns: Coloane disponibile
     description_current_position: 'Sunteți aici:'
     description_select_work_package: 'Selectaţi pachetul de lucru #%{id}'
@@ -110,6 +114,8 @@ ro:
         embedded_table:
           button: Inserați tabel pachet de lucru
           text: "[Placeholder] Tabelul pachetului de lucru inserat"
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
     custom_actions:
       date:
         specific: pe
@@ -391,8 +397,10 @@ ro:
       relation_type: tipul de relaţie
     relations_hierarchy:
       parent_headline: Părinte
+      hierarchy_headline: Hierarchy
       children_headline: Fii
     relation_buttons:
+      set_parent: Set parent work package
       change_parent: Modificare părinte
       remove_parent: Elimina părinte
       group_by_wp_type: Grupează după tipul packetului de lucru
@@ -412,6 +420,7 @@ ro:
       abort: Anulează
     relations_autocomplete:
       placeholder: Introduceţi ID-ul packetului de lucru
+      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
     repositories:
       select_tag: Selectare etichetă
       select_branch: Selectare ramură
@@ -559,6 +568,8 @@ ro:
       description_options_hide: Ascundere opțiuni
       description_options_show: Afișare opțiuni
       error:
+        update_conflict_refresh: Click here to refresh the work package and update
+          to the newest version.
         edit_prohibited: Editarea câmpului %{attribute} este blocată pentru acest
           pachet de lucru. Fie acest câmp este calculat indirect (de exemplu pe baza
           fiilor) sau nu este modificabil.
@@ -581,6 +592,8 @@ ro:
       message_successful_show_in_fullscreen: Click aici pentru a afișa acest pachet
         de lucru pe tot ecranul.
       message_view_spent_time: Arată timpul petrecut pentru acest pachet de lucru
+      message_work_package_read_only: Work package is locked in this status. No attribute
+        other than status can be altered.
       no_value: Nici o valoare
       inline_create:
         title: Click aici pentru a adăuga un nou pachet de lucru în listă

@@ -53,6 +53,10 @@ nl:
     button_update: Bijwerken
     button_export-pdf: Download PDF
     button_export-atom: Download Atom
+    calendar:
+      title: Agenda
+      too_many: There are more work packages (%{count}) than can be displayed by the
+        calendar (%{max}). Add filters to focus on the relevant ones.
     description_available_columns: Beschikbare kolommen
     description_current_position: 'U bent hier:'
     description_select_work_package: 'Selecteer werk pakket #%{id}'
@@ -110,6 +114,8 @@ nl:
         embedded_table:
           button: Werk pakket tabel insluiten
           text: "[Placeholder] ingesloten werkpakket tabel"
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
     custom_actions:
       date:
         specific: op
@@ -394,8 +400,10 @@ nl:
       relation_type: relatie type
     relations_hierarchy:
       parent_headline: Bovenliggende
+      hierarchy_headline: Hiërarchie
       children_headline: Subdocumenten
     relation_buttons:
+      set_parent: Set parent work package
       change_parent: Wijzig bovenliggende pagina
       remove_parent: Verwijder bovenliggende map
       group_by_wp_type: Groep per werkpakkettype
@@ -415,6 +423,7 @@ nl:
       abort: Annuleren
     relations_autocomplete:
       placeholder: Geef het verwante werkpakket-id in
+      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
     repositories:
       select_tag: Selecteer label
       select_branch: Selecteer pad
@@ -560,6 +569,8 @@ nl:
       description_options_hide: Verberg opties
       description_options_show: Toon opties
       error:
+        update_conflict_refresh: Click here to refresh the work package and update
+          to the newest version.
         edit_prohibited: Het bewerken van %{attribute} is geblokkeerd voor dit werkpakket.
           Ofwel is dit attribuut afgeleid van relaties (bv. kinderen) of anders is
           het niet configureerbaar.
@@ -582,6 +593,8 @@ nl:
       message_successful_show_in_fullscreen: Klik hier om dit werkpakket te openen
         in volledig scherm.
       message_view_spent_time: Toon bestede tijd voor dit werkpakket
+      message_work_package_read_only: Work package is locked in this status. No attribute
+        other than status can be altered.
       no_value: Geen waarde
       inline_create:
         title: Klik hier om een nieuw werkpakket aan deze lijst toe te voegen

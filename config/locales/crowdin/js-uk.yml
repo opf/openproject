@@ -53,6 +53,10 @@ uk:
     button_update: Update
     button_export-pdf: Завантажити PDF
     button_export-atom: Завантажити Atom
+    calendar:
+      title: Calendar
+      too_many: There are more work packages (%{count}) than can be displayed by the
+        calendar (%{max}). Add filters to focus on the relevant ones.
     description_available_columns: Available Columns
     description_current_position: 'You are here:'
     description_select_work_package: 'Виберіть пакет робіт #%{id}'
@@ -108,6 +112,8 @@ uk:
         embedded_table:
           button: Embed work package table
           text: "[Placeholder] Embedded work package table"
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
     custom_actions:
       date:
         specific: на
@@ -389,8 +395,10 @@ uk:
       relation_type: relation type
     relations_hierarchy:
       parent_headline: Parent
+      hierarchy_headline: Hierarchy
       children_headline: Дочірні елементи
     relation_buttons:
+      set_parent: Set parent work package
       change_parent: Змінити батьківський об'єкт
       remove_parent: Remove parent
       group_by_wp_type: Group by work package type
@@ -410,6 +418,7 @@ uk:
       abort: Відмінити
     relations_autocomplete:
       placeholder: Enter the related work package id
+      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
     repositories:
       select_tag: Виберіть мітку
       select_branch: Виберіть гілку
@@ -556,6 +565,8 @@ uk:
       description_options_hide: Сховати опції
       description_options_show: Показати опції
       error:
+        update_conflict_refresh: Click here to refresh the work package and update
+          to the newest version.
         edit_prohibited: Редагування %{attribute} заблоковано для цього пакету робіт.
           Цей атрибут або походить від зв'язку (наприклад, нащадки), або не налаштовується
           в інший спосіб.
@@ -578,6 +589,8 @@ uk:
       message_successful_show_in_fullscreen: Клацніть тут, щоб відкрити цей пакет
         робіт в повноекранному режимі.
       message_view_spent_time: Show spent time for this work package
+      message_work_package_read_only: Work package is locked in this status. No attribute
+        other than status can be altered.
       no_value: Значення відсутнє
       inline_create:
         title: Клацніть тут, щоб додати до цього списку новий пакет робіт

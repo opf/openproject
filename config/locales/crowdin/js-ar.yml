@@ -53,6 +53,10 @@ ar:
     button_update: التحديث
     button_export-pdf: تنزيل PDF
     button_export-atom: تحميل Atom
+    calendar:
+      title: التقويم
+      too_many: There are more work packages (%{count}) than can be displayed by the
+        calendar (%{max}). Add filters to focus on the relevant ones.
     description_available_columns: الأعمدة المتوفرة
     description_current_position: 'أنت هنا:'
     description_select_work_package: 'اختر مجموعة العمل #%{id}'
@@ -108,6 +112,8 @@ ar:
         embedded_table:
           button: Embed work package table
           text: "[Placeholder] Embedded work package table"
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
     custom_actions:
       date:
         specific: في
@@ -382,8 +388,10 @@ ar:
       relation_type: نوع العلاقة
     relations_hierarchy:
       parent_headline: الجذر
+      hierarchy_headline: Hierarchy
       children_headline: الأطفال
     relation_buttons:
+      set_parent: Set parent work package
       change_parent: تغيير الوالد
       remove_parent: إزالة والد
       group_by_wp_type: تجميع حسب نوع حزمة العمل
@@ -403,6 +411,7 @@ ar:
       abort: إلغاء
     relations_autocomplete:
       placeholder: أدخل معرّف حزمة العمل ذات الصلة
+      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
     repositories:
       select_tag: حدد العلامة
       select_branch: اختر فرع
@@ -549,6 +558,8 @@ ar:
       description_options_hide: إخفاء الخيارات
       description_options_show: إظهار الخيارات
       error:
+        update_conflict_refresh: Click here to refresh the work package and update
+          to the newest version.
         edit_prohibited: 'تعديل %{attribute} محظور لمجموعة العمل هذه. إما أن تكون
           هذه الميزة مستمدة من علاقات (مثل: الأبناء) أو ما عدا ذلك فإنها غير قابلة
           للتشكيل.'
@@ -570,6 +581,8 @@ ar:
       message_successful_show_in_fullscreen: اضغط هنا لفتح مجموعة العمل هذه بعرض كامل
         الشاشة.
       message_view_spent_time: أظهر الوقت المنقضي في رزمة العمل هذه
+      message_work_package_read_only: Work package is locked in this status. No attribute
+        other than status can be altered.
       no_value: لا توجد قيمة
       inline_create:
         title: اضغط هنا لإضافة مجموعة عمل جديدة للقائمة

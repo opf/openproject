@@ -51,6 +51,10 @@ zh:
     button_update: 更新
     button_export-pdf: 下载 PDF
     button_export-atom: 下载原子
+    calendar:
+      title: 日历
+      too_many: There are more work packages (%{count}) than can be displayed by the
+        calendar (%{max}). Add filters to focus on the relevant ones.
     description_available_columns: 可用的列
     description_current_position: 你在这里：
     description_select_work_package: '选择工作包 #%{id}'
@@ -102,6 +106,8 @@ zh:
         embedded_table:
           button: 嵌入工作包表
           text: "[Placeholder] 嵌入式工作包表"
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
     custom_actions:
       date:
         specific: 于
@@ -367,8 +373,10 @@ zh:
       relation_type: 关系类型
     relations_hierarchy:
       parent_headline: 父
+      hierarchy_headline: 层次结构
       children_headline: 子类
     relation_buttons:
+      set_parent: Set parent work package
       change_parent: 更改父级
       remove_parent: 删除上一级
       group_by_wp_type: 按工作包类型分组
@@ -388,6 +396,7 @@ zh:
       abort: 放弃
     relations_autocomplete:
       placeholder: 输入相关的工作包ID
+      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
     repositories:
       select_tag: 选择标签
       select_branch: 选择分支
@@ -518,6 +527,8 @@ zh:
       description_options_hide: 隐藏选项
       description_options_show: 显示选项
       error:
+        update_conflict_refresh: Click here to refresh the work package and update
+          to the newest version.
         edit_prohibited: 已阻止对此工作包编辑 %{attribute}。此属性来源于关系（如儿童）或无法配置。
         format:
           date: "%{attribute} 不是有效日期 - 需要 YYYY-MM-DD。"
@@ -535,6 +546,8 @@ zh:
       message_successful_bulk_delete: 已成功删除工作包。
       message_successful_show_in_fullscreen: 单击此处以全屏视图打开此工作包。
       message_view_spent_time: 显示这个工作包所花费的时间
+      message_work_package_read_only: Work package is locked in this status. No attribute
+        other than status can be altered.
       no_value: 无值
       inline_create:
         title: 单击此处将新工作包添加至此列表

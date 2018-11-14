@@ -174,6 +174,11 @@ fil:
       no_results_content_text: Magdagdag ng status reporting
   statuses:
     edit:
+      status_readonly_html: |
+        Check this option to mark work packages with this status as read-only.
+        No attributes can be changed with the exception of the status.
+        <br/>
+        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
@@ -366,6 +371,7 @@ fil:
         to: Ang kaugnayan sa pakete na ginagawa
       status:
         is_closed: Sarado na ang pagawaan ng pakete
+        is_readonly: Work package read-only
       journal:
         notes: Ang mga tala
       member:

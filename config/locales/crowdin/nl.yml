@@ -166,6 +166,11 @@ nl:
       no_results_content_text: Voeg een statusrapport toe
   statuses:
     edit:
+      status_readonly_html: |
+        Check this option to mark work packages with this status as read-only.
+        No attributes can be changed with the exception of the status.
+        <br/>
+        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
       status_color_text: |
         Klik op toewijzen of wijzigen van de kleur van deze status.
         het wordt weergegeven in de statusknop en kan worden gebruikt voor het benadrukken van de werkpakketten in de tabel.
@@ -352,6 +357,7 @@ nl:
         to: Verwante werkpakket
       status:
         is_closed: Werkpakket gesloten
+        is_readonly: Work package read-only
       journal:
         notes: Notities
       member:

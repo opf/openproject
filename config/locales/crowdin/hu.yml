@@ -163,6 +163,11 @@ hu:
       no_results_content_text: Állapot jelentés hozzáadása
   statuses:
     edit:
+      status_readonly_html: |
+        Check this option to mark work packages with this status as read-only.
+        No attributes can be changed with the exception of the status.
+        <br/>
+        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
       status_color_text: |
         Ide kattintva rendelhet vagy változtathatja meg a színét az állapotnak.
         Az állapot gomb látható és kiemelhető a feladatcsoport táblázatban.
@@ -344,6 +349,7 @@ hu:
         to: Kapcsolódó feladatcsoport
       status:
         is_closed: Lezárt feladatcsoport
+        is_readonly: Work package read-only
       journal:
         notes: Jegyzet
       member:
