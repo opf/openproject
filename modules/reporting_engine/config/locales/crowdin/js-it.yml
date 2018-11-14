@@ -1,0 +1,5 @@
+it:
+  js:
+    reporting_engine:
+      label_remove: "Elimina"
+      label_response_error: "Si è verificato un errore durante l'elaborazione della query."

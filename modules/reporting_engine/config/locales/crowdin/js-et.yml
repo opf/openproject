@@ -1,0 +1,5 @@
+et:
+  js:
+    reporting_engine:
+      label_remove: "Kustuta"
+      label_response_error: "Päringu käsitlemisel tekkis tõrge."
