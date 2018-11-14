@@ -48,6 +48,7 @@ import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
   `
 })
 
+// TODO use generic resizer
 export class MainMenuResizerComponent implements OnInit, OnDestroy {
   public toggleTitle:string;
   private resizeEvent:string;

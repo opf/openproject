@@ -1,40 +1,37 @@
 import {
   Component,
   OnDestroy,
-  Input,
-  AfterViewInit} from "@angular/core";
+  EventEmitter,
+  Output} from "@angular/core";
+
+
+export interface ResizeDelta {
+  x:number;
+  y:number;
+}
 
 @Component({
-  selector: 'widget-resizer',
-  templateUrl: './widget-resizer.component.html'
+  selector: 'resizer',
+  templateUrl: './resizer.component.html'
 })
-export class WidgetResizerComponent implements OnDestroy, AfterViewInit {
+export class ResizerComponent implements OnDestroy {
   private oldX:number;
   private oldY:number;
-  //private newX:number;
-  //private newY:number;
-  //private newWidth:number;
-  //private newHeight:number;
+  private newX:number;
+  private newY:number;
   private mouseMoveHandler:EventListener;
   private mouseUpHandler:EventListener;
   private resizing = false;
 
-  // TODO: refactor
-  private widget:JQuery;
-
-  @Input() areaId:string;
+  @Output() end:EventEmitter<ResizeDelta> = new EventEmitter();
+  @Output() start:EventEmitter<null> = new EventEmitter();
+  @Output() move:EventEmitter<ResizeDelta> = new EventEmitter();
 
   ngOnDestroy() {
     this.removeEventListener();
   }
 
-  ngAfterViewInit() {
-    this.widget = jQuery(`#${this.areaId}`).find('widget-box');
-  }
-
   public startResize(event:MouseEvent) {
-    console.log('resize down');
-
     event.preventDefault();
     event.stopPropagation();
 
@@ -44,41 +41,43 @@ export class WidgetResizerComponent implements OnDestroy, AfterViewInit {
       this.oldX = event.clientX;
       this.oldY = event.clientY;
 
-      //this.newWidth = this.widget.width();
-      //this.newHeight = this.widget.height();
+      this.newX = event.clientX;
+      this.newY = event.clientY;
 
       this.resizing = true;
 
       this.setResizeCursor();
-      //this.mouseMoveHandler = this.onMouseMove.bind(this, event.currentTarget);
-      //this.mouseUpHandler = this.onMouseUp.bind(this, event.currentTarget);
       this.bindEventListener(event);
     }
+
+    this.start.emit();
   }
 
   private onMouseUp(element:HTMLElement, event:MouseEvent) {
-    console.log('resize up');
-
     this.setAutoCursor();
-
     this.removeEventListener();
+
+    let deltas = {
+      x: this.newX - this.oldX,
+      y: this.newY - this.oldY
+    };
+
+    this.end.emit(deltas);
   }
 
   private onMouseMove(element:HTMLElement, event:MouseEvent) {
-    console.log(event.clientX);
     event.preventDefault();
     event.stopPropagation();
 
-    console.log(event.clientX);
-    let deltaX = event.clientX - this.oldX;
-    let deltaY = event.clientY - this.oldY;
+    this.newX = event.clientX;
+    this.newY = event.clientY;
 
-    console.log(deltaX);
-    console.log(deltaY);
-    //this.oldPosition = e.clientX;
-    //this.elementWidth = this.elementWidth + delta;
+    let deltas = {
+      x: this.newX - this.oldX,
+      y: this.newY - this.oldY
+    };
 
-    //this.toggleService.saveWidth(this.elementWidth);
+    this.move.emit(deltas);
   }
 
   // Necessary to encapsulate this to be able to remove the event listener later

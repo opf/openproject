@@ -5,13 +5,15 @@
   <div *ngFor="let area of gridAreas; trackBy: identifyGridCellItem;"
        class="grid--area"
        [ngClass] = "{'-drop-target': currentlyDragging && gridAreaDropIds.indexOf(gridAreaId(area)) >= 0,
-                     '-widgeted': area.widget }"
+                     '-widgeted': area.widget,
+                     '-resize-target': resizeArea && gridAreaDropIds.indexOf(gridAreaId(area)) >= 0 }"
        [style.grid-row-start]="area.startRow"
        [style.grid-row-end]="area.endRow"
        [style.grid-column-start]="area.startColumn"
        [style.grid-column-end]="area.endColumn"
        cdkDropList
        [id]="gridAreaId(area)"
+       (mouseover)="setMousedOverArea(area)"
        [cdkDropListData]="area"
        (cdkDropListDropped)="drop($event)"
        (dragStart)="dragStart(event)"
@@ -25,9 +27,18 @@
       <ndc-dynamic [ndcDynamicComponent]="widgetComponent(area.widget)"
                    [ndcDynamicOutputs]="{}">
       </ndc-dynamic>
-
     </div>
-    <widget-resizer [areaId]="gridAreaId(area)">
-    </widget-resizer>
+    <resizer (end)="resize(area, $event)"
+             (start)="resizeStart(area)"
+             (move)="resizeMove($event)">
+    </resizer>
+  </div>
+
+  <div class="grid--area -resizing"
+       *ngIf="resizeArea"
+       [style.grid-row-start]="resizeArea.startRow"
+       [style.grid-row-end]="resizeArea.endRow"
+       [style.grid-column-start]="resizeArea.startColumn"
+       [style.grid-column-end]="resizeArea.endColumn">
   </div>
 </div>

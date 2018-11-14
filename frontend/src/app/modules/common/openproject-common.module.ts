@@ -65,6 +65,7 @@ import {ColorsAutocompleter} from "core-app/modules/common/colors/colors-autocom
 import {DynamicCssService} from "./dynamic-css/dynamic-css.service";
 import {MultiToggledSelectComponent} from "core-app/modules/common/multi-toggled-select/multi-toggled-select.component";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
+import {ResizerComponent} from "core-app/modules/common/resizer/resizer.component";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -112,6 +113,8 @@ export function bootstrapModule(injector:Injector) {
 
     // CKEditor
     OpCkeditorComponent,
+
+    ResizerComponent,
   ],
   declarations: [
     OpDatePickerComponent,
@@ -147,6 +150,8 @@ export function bootstrapModule(injector:Injector) {
     ColorsAutocompleter,
 
     MultiToggledSelectComponent,
+
+    ResizerComponent
   ],
   entryComponents: [
     OpDateTimeComponent,

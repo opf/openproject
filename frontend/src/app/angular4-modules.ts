@@ -234,7 +234,6 @@ import {WidgetWpAssignedComponent} from "core-components/grid/widgets/wp-assigne
 import {WidgetWpCreatedComponent} from "core-components/grid/widgets/wp-created/wp-created.component";
 import {WidgetWpWatchedComponent} from "core-components/grid/widgets/wp-watched/wp-watched.component";
 import { DynamicModule } from 'ng-dynamic-component';
-import {WidgetResizerComponent} from "core-components/grid/widgets/widget-resizer/widget-resizer.component";
 
 @NgModule({
   imports: [
@@ -543,7 +542,6 @@ import {WidgetResizerComponent} from "core-components/grid/widgets/widget-resize
 
     //GridBlocks
     GridComponent,
-    WidgetResizerComponent,
     WidgetWpAssignedComponent,
     WidgetWpCreatedComponent,
     WidgetWpWatchedComponent,

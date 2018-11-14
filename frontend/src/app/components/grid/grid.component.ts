@@ -11,6 +11,7 @@ import {debugLog} from "core-app/helpers/debug_output";
 import {DomSanitizer} from "@angular/platform-browser";
 import {AbstractWidgetComponent} from "core-components/grid/widgets/abstract-widget.component";
 import {CdkDragDrop, CdkDragStart, CdkDragEnd} from "@angular/cdk/drag-drop";
+import {ResizeDelta} from "../../modules/common/resizer/resizer.component";
 
 export interface WidgetRegistration {
   identifier:string;
@@ -39,10 +40,12 @@ export class GridComponent implements OnInit, AfterViewInit, OnDestroy {
   public gridAreas:GridArea[];
   public gridAreaDropIds:string[];
   public currentlyDragging = false;
-
-  @ViewChild('gridContent', { read: ViewContainerRef }) gridContent:ViewContainerRef;
+  public GRID_AREA_HEIGHT = 400;
 
   public areaResources = [{component: AbstractWidgetComponent}];
+
+  public resizeArea:GridArea|null;
+  private mousedOverArea:GridArea|null;
 
   constructor(readonly gridDm:GridDmService,
               readonly resolver:ComponentFactoryResolver,
@@ -72,23 +75,6 @@ export class GridComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  createWidget(widget:GridWidgetResource) {
-    let registration = this.registeredWidgets.find((reg) => reg.identifier === widget.identifier);
-
-    if (!registration) {
-      debugLog(`No widget registered with identifier ${widget.identifier}`);
-
-      return;
-    }
-
-    const factory = this.resolver.resolveComponentFactory(registration.component);
-
-    let componentRef = this.gridContent.createComponent(factory);
-    (componentRef.instance as AbstractWidgetComponent).widgetResource = widget;
-
-    this.uiWidgets.push(componentRef);
-  }
-
   public widgetComponent(widget:GridWidgetResource|null) {
     if (!widget) {
       return null;
@@ -110,7 +96,15 @@ export class GridComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public get gridRowStyle() {
-    return this.sanitization.bypassSecurityTrustStyle(`repeat(${this.numRows}, 400px)`);
+    return this.sanitization.bypassSecurityTrustStyle(`repeat(${this.numRows}, ${this.GRID_AREA_HEIGHT}px)`);
+  }
+
+  public dragStart(event:CdkDragStart) {
+    this.currentlyDragging = true;
+  }
+
+  public dragStop(event:CdkDragEnd) {
+    this.currentlyDragging = false;
   }
 
   public drop(event:CdkDragDrop<GridArea>) {
@@ -129,6 +123,46 @@ export class GridComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.gridAreas = this.buildGridAreas();
     this.gridAreaDropIds = this.buildGridAreaDropIds();
+  }
+
+  public resize(area:GridArea, deltas:ResizeDelta) {
+    if (!this.resizeArea || !this.mousedOverArea) {
+      return;
+    }
+
+    if (this.mousedOverArea !== this.resizeArea) {
+      area.endRow = this.mousedOverArea.endRow;
+      area.endColumn = this.mousedOverArea.endColumn;
+    }
+
+    return this.resizeArea = null;
+  }
+
+  public resizeStart(area:GridArea) {
+    this.resizeArea = {
+      startRow: area.startRow,
+      endRow: area.endRow,
+      startColumn: area.startColumn,
+      endColumn: area.endColumn,
+      widget: null
+    };
+  }
+
+  public resizeMove(deltas:ResizeDelta) {
+    if (!this.resizeArea || !this.mousedOverArea) {
+      return;
+    }
+
+    if (this.mousedOverArea !== this.resizeArea) {
+      this.resizeArea.endRow = this.mousedOverArea.endRow;
+      this.resizeArea.endColumn = this.mousedOverArea.endColumn;
+    }
+  }
+
+  public setMousedOverArea(area:GridArea) {
+    this.mousedOverArea = area;
+    console.log(area.startRow);
+    console.log(area.startColumn);
   }
 
   public gridAreaId(area:GridArea) {
@@ -156,14 +190,6 @@ export class GridComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private widgetOfArea(row:number, column:number) {
     return this.widgetResources.find((resource) => parseInt(resource.startRow) === row && parseInt(resource.startColumn) === column);
-  }
-
-  public dragStart(event:CdkDragStart) {
-    this.currentlyDragging = true;
-  }
-
-  public dragStop(event:CdkDragEnd) {
-    this.currentlyDragging = false;
   }
 
   public identifyGridCellItem(index:number, cell:GridArea) {

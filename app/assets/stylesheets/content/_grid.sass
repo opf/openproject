@@ -6,8 +6,15 @@
 .grid--area
   overflow: hidden
 
-  &.-drop-target
+  &.-drop-target, &.-resize-target
     background-color: rgba(10, 10, 10, 0.1)
+
+  &.-resize-target
+    z-index: 1000
 
   &.-widgeted
     z-index: 10
+
+  &.-resizing
+    border: 1px solid red
+    z-index: 100
