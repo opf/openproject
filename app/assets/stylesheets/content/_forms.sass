@@ -317,10 +317,8 @@ fieldset.form--fieldset
     margin-bottom: 1rem
 
 .form--field
-  @include grid-visible-overflow
   display: flex
   flex-wrap: wrap
-  height: auto
   align-items: center
   margin-bottom: 0.825rem
   line-height: 2
@@ -408,9 +406,9 @@ fieldset.form--fieldset
     color: $content-form-error-color
 
 .form--field-container
-  overflow: hidden
-  padding: 0
   display: flex
+  padding: 0
+
 
   &.-wrap-around
     display: flex
@@ -448,7 +446,7 @@ fieldset.form--fieldset
   line-height: 2rem
 
 %form--field-after-container
-  min-width: 100%
+  min-width:   100%
   font-size:    $form-label-fontsize
   line-height:  1.4
   color:        $form-label-color
@@ -470,7 +468,6 @@ fieldset.form--fieldset
 .form--field-instructions
   @extend %form--field-after-container
   font-style: italic
-  max-width: 500px // improve readability
 
   &.-no-margin
     margin: 0
@@ -493,7 +490,6 @@ fieldset.form--fieldset
 
 %form--field-element-container
   display: block
-  flex: 1 1
 
   &:nth-last-of-type(n+2)
     padding-right: $block-padding
