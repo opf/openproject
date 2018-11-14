@@ -86,21 +86,23 @@ module Relation::HierarchyPaths
     end
 
     def self.add_hierarchy_path_sql(id = nil)
-      <<-SQL
-        INSERT INTO
-          #{hierarchy_table_name}
-          (work_package_id, path)
-        SELECT
-          to_id, #{add_hierarchy_agg_function} AS path
-          FROM
-          (SELECT to_id, from_id, hierarchy
-          FROM relations
-          WHERE hierarchy > 0 AND relates = 0 AND blocks = 0 AND duplicates = 0 AND includes = 0 AND requires = 0 AND follows = 0
-          #{add_hierarchy_id_constraint(id)}
-          ) ordered_by_hierarchy
-          GROUP BY to_id
+      # Added a slighly optimized sql statement, which works without subselects. STEFFEN
+      stmt = <<-SQL
+        INSERT INTO #{hierarchy_table_name} (work_package_id, path) 
+        SELECT                              to_id, #{add_hierarchy_agg_function} AS path
+        FROM (
+          SELECT  a.to_id, a.from_id, a.hierarchy
+            FROM relations AS a
+            JOIN relations AS b
+            ON a.to_id = b.from_id or b.to_id = #{id}
+            WHERE a.to_id=#{id}
+              AND a.hierarchy >  0 AND a.relates = 0 AND a.blocks = 0 AND a.duplicates = 0 AND a.includes = 0 AND a.requires = 0 AND a.follows = 0
+              AND b.hierarchy != 0 AND b.relates = 0 AND b.duplicates = 0 AND b.follows = 0 AND b.blocks = 0 AND b.includes = 0 AND b.requires = 0
+          ) tmp
+           GROUP BY  to_id
         #{add_hierarchy_conflict_statement}
       SQL
+      stmt
     end
 
     def self.remove_hierarchy_path_sql(id = nil)
