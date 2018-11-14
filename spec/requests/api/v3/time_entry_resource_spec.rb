@@ -438,4 +438,59 @@ describe 'API v3 time_entry resource', type: :request do
       end
     end
   end
+
+  describe 'PATCH api/v3/time_entries/:id' do
+    let(:path) { api_v3_paths.time_entry(time_entry.id) }
+    let(:permissions) { %i(edit_time_entries view_time_entries view_work_packages) }
+
+    let(:params) do
+      {
+        "hours": 'PT10H'
+      }
+    end
+
+    before do
+      time_entry
+      custom_value
+
+      patch path, params.to_json, 'CONTENT_TYPE' => 'application/json'
+    end
+
+    it 'updates the time entry' do
+      expect(subject.status).to eq(200)
+
+      time_entry.reload
+      expect(time_entry.hours).to eq 10
+    end
+
+    context 'when lacking permissions' do
+      let(:permissions) { %i(view_time_entries) }
+
+      it 'returns 403' do
+        expect(subject.status)
+          .to eql(403)
+      end
+    end
+
+    context 'when sending invalid params' do
+      let(:params) do
+        {
+          "_links": {
+            "workPackage": {
+              "href": api_v3_paths.work_package(work_package.id + 1)
+            }
+          }
+        }
+      end
+
+      it 'returns 422 and complains about work packages' do
+        expect(subject.status)
+          .to eql(422)
+
+        expect(subject.body)
+          .to be_json_eql("Work package is invalid.".to_json)
+          .at_path("message")
+      end
+    end
+  end
 end
