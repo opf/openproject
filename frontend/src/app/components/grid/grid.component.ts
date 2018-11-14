@@ -38,6 +38,7 @@ export class GridComponent implements OnInit, AfterViewInit, OnDestroy {
   private numColumns:number = 0;
   private numRows:number = 0;
   public gridAreas:GridArea[];
+  public gridWidgetAreas:GridArea[];
   public gridAreaDropIds:string[];
   public currentlyDragging = false;
   public GRID_AREA_HEIGHT = 400;
@@ -72,6 +73,7 @@ export class GridComponent implements OnInit, AfterViewInit, OnDestroy {
 
       this.gridAreas = this.buildGridAreas();
       this.gridAreaDropIds = this.buildGridAreaDropIds();
+      this.gridWidgetAreas = this.buildWidgetGridAreas();
     });
   }
 
@@ -123,6 +125,7 @@ export class GridComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.gridAreas = this.buildGridAreas();
     this.gridAreaDropIds = this.buildGridAreaDropIds();
+    this.gridWidgetAreas = this.buildWidgetGridAreas();
   }
 
   public resize(area:GridArea, deltas:ResizeDelta) {
@@ -149,20 +152,24 @@ export class GridComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public resizeMove(deltas:ResizeDelta) {
-    if (!this.resizeArea || !this.mousedOverArea) {
+    if (!this.resizeArea ||
+        !this.mousedOverArea ||
+        this.mousedOverArea === this.resizeArea) {
       return;
     }
 
-    if (this.mousedOverArea !== this.resizeArea) {
-      this.resizeArea.endRow = this.mousedOverArea.endRow;
-      this.resizeArea.endColumn = this.mousedOverArea.endColumn;
-    }
+    this.resizeArea.endRow = this.mousedOverArea.endRow;
+    this.resizeArea.endColumn = this.mousedOverArea.endColumn;
+  }
+
+  public isResizeTarget(area:GridArea) {
+    let areaId = this.gridAreaId(area);
+
+    return this.resizeArea && (areaId === this.gridAreaId(this.resizeArea) || this.gridAreaDropIds.indexOf(areaId) >= 0);
   }
 
   public setMousedOverArea(area:GridArea) {
     this.mousedOverArea = area;
-    console.log(area.startRow);
-    console.log(area.startColumn);
   }
 
   public gridAreaId(area:GridArea) {
@@ -175,13 +182,38 @@ export class GridComponent implements OnInit, AfterViewInit, OnDestroy {
     for (let row = 1; row <= this.numRows; row++) {
       for (let column = 1; column <= this.numColumns; column++) {
         let widget = this.widgetOfArea(row, column);
+
         let cell = { startRow: row,
-                     endRow: widget && parseInt(widget.endRow) || row + 1,
+                     endRow: row + 1,
                      startColumn: column,
-                     endColumn: widget && parseInt(widget.endColumn) || column + 1,
-                     widget: widget || null };
+                     endColumn: column + 1,
+                     widget: null };//widget || null };
 
         cells.push(cell);
+      }
+    }
+
+    return cells;
+  }
+
+  public buildWidgetGridAreas() {
+    let cells:GridArea[] = [];
+
+    for (let row = 1; row <= this.numRows; row++) {
+      for (let column = 1; column <= this.numColumns; column++) {
+        let widget = this.widgetOfArea(row, column);
+
+        if (widget) {
+          let cell = {
+            startRow: row,
+            endRow: parseInt(widget.endRow),
+            startColumn: column,
+            endColumn: parseInt(widget.endColumn),
+            widget: widget
+          };
+
+          cells.push(cell);
+        }
       }
     }
 

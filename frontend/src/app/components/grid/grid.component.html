@@ -2,20 +2,16 @@
      [style.grid-template-columns]="gridColumnStyle"
      [style.grid-template-rows]="gridRowStyle">
 
-  <div *ngFor="let area of gridAreas; trackBy: identifyGridCellItem;"
-       class="grid--area"
-       [ngClass] = "{'-drop-target': currentlyDragging && gridAreaDropIds.indexOf(gridAreaId(area)) >= 0,
-                     '-widgeted': area.widget,
-                     '-resize-target': resizeArea && gridAreaDropIds.indexOf(gridAreaId(area)) >= 0 }"
+  <div *ngFor="let area of gridWidgetAreas; trackBy: identifyGridCellItem;"
+       class="grid--area -widgeted"
+       [ngClass] = "{ '-resize-target': resizeArea && gridAreaDropIds.indexOf(gridAreaId(area)) >= 0 }"
        [style.grid-row-start]="area.startRow"
        [style.grid-row-end]="area.endRow"
        [style.grid-column-start]="area.startColumn"
        [style.grid-column-end]="area.endColumn"
        cdkDropList
-       [id]="gridAreaId(area)"
-       (mouseover)="setMousedOverArea(area)"
+       [id]="gridAreaId(area) + '-widgeted'"
        [cdkDropListData]="area"
-       (cdkDropListDropped)="drop($event)"
        (dragStart)="dragStart(event)"
        [cdkDropListConnectedTo]="gridAreaDropIds">
     <div class="widget-box"
@@ -32,6 +28,23 @@
              (start)="resizeStart(area)"
              (move)="resizeMove($event)">
     </resizer>
+  </div>
+
+  <div *ngFor="let area of gridAreas; trackBy: identifyGridCellItem;"
+       class="grid--area"
+       [ngClass] = "{'-drop-target': currentlyDragging && gridAreaDropIds.indexOf(gridAreaId(area)) >= 0,
+                     '-resize-target': isResizeTarget(area) }"
+       [style.grid-row-start]="area.startRow"
+       [style.grid-row-end]="area.endRow"
+       [style.grid-column-start]="area.startColumn"
+       [style.grid-column-end]="area.endColumn"
+       cdkDropList
+       [id]="gridAreaId(area)"
+       (mouseover)="setMousedOverArea(area)"
+       [cdkDropListData]="area"
+       (cdkDropListDropped)="drop($event)"
+       (dragStart)="dragStart(event)"
+       [cdkDropListConnectedTo]="gridAreaDropIds">
   </div>
 
   <div class="grid--area -resizing"
