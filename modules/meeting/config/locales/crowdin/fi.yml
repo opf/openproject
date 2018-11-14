@@ -1,0 +1,64 @@
+fi:
+  activerecord:
+    attributes:
+      meeting:
+        location: "Sijainti"
+        duration: "Kesto"
+        participants: "Osallistujat"
+        participants_attended: "Osallistujat"
+        participants_invited: "Kutsutut"
+        start_time: "Aika"
+        start_time_hour: "Aloitusaika"
+    errors:
+      messages:
+        invalid_time_format: "ei ole kelvollinen aika. Vaadittava muoto: TT:MM"
+    models:
+      meeting_agenda: "Esityslista"
+      meeting_minutes: "Pöytäkirja"
+  description_attended: "osallistunut"
+  description_invite: "kutsuttu"
+  events:
+    meeting: Kokousta muokattu
+    meeting_agenda: Kokouksen esityslistaa muokattu
+    meeting_agenda_closed: Kokouksen esityslista suljettu
+    meeting_agenda_opened: Kokouksen esityslista avattu
+    meeting_minutes: Kokouksen pöytäkirjaa muokattu
+    meeting_minutes_created: Kokouksen pöytäkirja luotu
+  error_notification_with_errors: "Ei voinut lähettää ilmoitusta. Seuraaville vastaanottajille ei voitu ilmoittaa: %{recipients}"
+  label_meeting: "Kokous"
+  label_meeting_plural: "Kokoukset"
+  label_meeting_new: "Uusi kokous"
+  label_meeting_edit: "Muokkaa kokousta"
+  label_meeting_agenda: "Esityslista"
+  label_meeting_minutes: "Pöytäkirja"
+  label_meeting_close: "Sulje"
+  label_meeting_open: "Avoinna"
+  label_meeting_agenda_close: "Sulje esityslista aloittaaksesi pöytäkirjan"
+  label_meeting_date_time: "Päivämäärä/aika"
+  label_meeting_diff: "Erot"
+  label_notify: "Lähetä tarkistettavaksi"
+  label_icalendar: "Lähetä iCalendar"
+  label_version: "Versio"
+  label_time_zone: "Aikavyöhyke"
+  label_start_date: "Aloituspäivä"
+  notice_successful_notification: "Ilmoituksen lähettäminen onnistui"
+  notice_timezone_missing: Aikavyöhykettä ei ole määritetty, joten oletuksena on %{zone}. Valitaksesi aikavyöhykkeen, klikkaa tästä.
+  permission_create_meetings: "Luo kokouksia"
+  permission_edit_meetings: "Muokkaa kokouksia"
+  permission_delete_meetings: "Poista kokouksia"
+  permission_view_meetings: "Tarkastele kokouksia"
+  permission_create_meeting_agendas: "Hallita esityslistoja"
+  permission_close_meeting_agendas: "Sulje esityslistoja"
+  permission_send_meeting_agendas_notification: "Lähetä esityslistoja hyväksyttäväksi"
+  permission_create_meeting_minutes: "Hallitse pöytäkirjoja"
+  permission_send_meeting_minutes_notification: "Lähetä pyötäkirjoja hyväksyttäväksi"
+  project_module_meetings: "Kokoukset"
+  text_duration_in_hours: "Keston tunteina"
+  text_in_hours: "tuntia"
+  text_meeting_agenda_for_meeting: 'kokouksen "%{meeting}" esityslista'
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting?"
+  text_meeting_agenda_open_are_you_sure: "Pöytäkirjaan tallentamaton sisältö menetetään! Haluatko jatkaa?"
+  text_meeting_minutes_for_meeting: 'kokouksen "%{meeting}" pöytäkirja'
+  text_review_meeting_agenda: "%{author} on tehnyt %{link} tarkasteltavaksi."
+  text_review_meeting_minutes: "%{author} on tehnyt %{link} tarkasteltavaksi."
+  text_notificiation_invited: "Tämä sähköposti sisältää ics merkinnän alla olevalle kokoukselle:"

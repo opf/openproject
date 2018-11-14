@@ -1,0 +1,38 @@
+<%#-- copyright
+OpenProject Meeting Plugin
+
+Copyright (C) 2011-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.md for more details.
+
+++#%>
+
+<%= form_for content, :url => {:controller => '/' + content_type.pluralize, :action => 'update', :meeting_id => content.meeting}, :html => {:id => "#{content_type}_form", :method => :put} do |f| %>
+  <%= error_messages_for content_type %>
+
+  <p>
+    <%= f.text_area :text,
+                     class: 'wiki-edit' %>
+  </p>
+  <%= f.hidden_field :lock_version %>
+  <% path = send("preview_#{content_type}_path", content.meeting) %>
+  <%= wikitoolbar_for "#{content_type}_text", preview_context: preview_context(content.meeting, @project) %>
+
+  <p><label for="<%= content_type %>_comment"><%= Meeting.human_attribute_name(:comments) %></label><%= f.text_field :comment, :size => 120 %></p>
+  <p><%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+  <%= link_to l(:button_cancel), "#", data: { 'content-type': content_type }, class: 'button button--cancel-agenda' %>
+<% end %>
+
+<%= render :partial => 'shared/meeting_header' %>

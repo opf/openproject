@@ -1,0 +1,57 @@
+<%#-- copyright
+OpenProject Meeting Plugin
+
+Copyright (C) 2011-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.md for more details.
+
+++#%>
+
+<%
+  tab ||= locals[:tab_contents] if defined? locals
+  content, content_type = tab[:content], tab[:content_type] if tab && tab.present?
+-%>
+
+<% content_for :header_tags do %>
+  <%= javascript_include_tag('meeting/meeting.js') %>
+<% end %>
+
+<div class="meeting_content <%= content_type %>">
+  <div>
+    <%= toolbar title: l(:"label_#{content_type}") do %>
+      <%=raw meeting_content_context_menu content, content_type %>
+    <% end %>
+  </div>
+
+  <% if can_edit_meeting_content?(content, content_type) -%>
+    <div id="edit-<%= content_type %>"
+         class="edit-<%= content_type %>"
+         style="<%= 'display: none' unless show_meeting_content_editor?(content, content_type) %>">
+    <%= render(:partial => "meeting_contents/form", :locals => {:content => content, :content_type => content_type}) %>
+    </div>
+  <% end -%>
+
+  <% if saved_meeting_content_text_present?(content) -%>
+    <div id="<%= content_type %>-text"
+         style="<%= 'display: none' if show_meeting_content_editor?(content, content_type) %>"
+         class="wiki show-<%= content_type %>">
+      <%= format_text(content.text, :object => @meeting) %>
+    </div>
+  <% else -%>
+    <%= no_results_box %>
+  <% end -%>
+</div>
+
+<%= render :partial => 'shared/meeting_header' %>
