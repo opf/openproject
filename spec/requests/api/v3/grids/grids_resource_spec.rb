@@ -94,4 +94,32 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
         .at_path('rowCount')
     end
   end
+
+  describe '#post' do
+    let(:path) { api_v3_paths.grids }
+
+    let(:params) do
+      {
+        "rowCount": 10,
+        "columnCount": 15
+      }.with_indifferent_access
+    end
+
+    before do
+      post path, params.to_json, 'CONTENT_TYPE' => 'application/json'
+    end
+
+    it 'responds with 201 CREATED' do
+      expect(subject.status).to eq(201)
+    end
+
+    it 'returns the created grid block' do
+      expect(subject.body)
+        .to be_json_eql('Grid'.to_json)
+        .at_path('_type')
+      expect(subject.body)
+        .to be_json_eql(params['rowCount'].to_json)
+        .at_path('rowCount')
+    end
+  end
 end

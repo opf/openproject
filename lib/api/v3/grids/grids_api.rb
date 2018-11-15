@@ -70,31 +70,39 @@ module API
             end
           end
 
+          post do
+            # TODO: replace mock with actual creation
+            params = API::V3::ParseResourceParamsService
+                     .new(current_user, representer: GridRepresenter)
+                     .call(request_body)
+                     .result
+
+            grid = OpenStruct.new(bogus_grid.to_h.merge(params))
+
+            status 201
+            GridRepresenter.create(grid,
+                                   current_user: current_user,
+                                   embed_links: true)
+          end
+
           route_param :id do
             get do
+              # TODO: replace mock with actual fetching
               GridRepresenter.new(bogus_grid, current_user: current_user)
             end
 
             patch do
+              # TODO: replace mock with actual update
               params = API::V3::ParseResourceParamsService
                        .new(current_user, representer: GridRepresenter)
                        .call(request_body)
                        .result
 
               grid = OpenStruct.new(bogus_grid.to_h.merge(params))
-              #result = ::TimeEntries::CreateService
-              #           .new(user: current_user)
-              #           .call(params)
 
-              #if result.success?
-              #  new_entry = result.result
-                GridRepresenter.create(grid,
-                                       current_user: current_user,
-                                       embed_links: true)
-              #else
-              #  fail ::API::Errors::ErrorBase.create_and_merge_errors(result.errors)
-              #end
-              #GridRepresenter.new(bogus_grid, current_user: current_user)
+              GridRepresenter.create(grid,
+                                     current_user: current_user,
+                                     embed_links: true)
             end
           end
         end
