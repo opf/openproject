@@ -14,7 +14,9 @@
 
     <h3 [textContent]="text.title"></h3>
 
-    <wp-table-configuration-relation-selector></wp-table-configuration-relation-selector>
+    <ng-container *ngIf="!!prependModalComponent">
+      <ng-container *ngComponentOutlet="prependModalComponent; injector: injector"></ng-container>
+    </ng-container>
 
     <div *ngIf="!!tabPortalHost"
          class="tabs--container">

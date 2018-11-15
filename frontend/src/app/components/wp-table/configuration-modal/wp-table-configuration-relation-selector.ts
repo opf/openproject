@@ -5,7 +5,6 @@ import {
 } from '@angular/core';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {WorkPackageTableFilters} from "core-components/wp-fast-table/wp-table-filters";
 import {WorkPackageTableFiltersService} from "core-components/wp-fast-table/state/wp-table-filters.service";
 import {QueryFilterResource} from "core-app/modules/hal/resources/query-filter-resource";
 import {QueryOperatorResource} from "core-app/modules/hal/resources/query-operator-resource";

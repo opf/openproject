@@ -39,13 +39,13 @@ function typesFormConfigurationCtrl(
 
   let confirmDialog:any;
   let NotificationsService:any;
-  let externalQueryConfiguration:any;
+  let externalRelationQueryConfiguration:any;
   let I18n:any;
 
   window.OpenProject.getPluginContext().then((context) => {
     confirmDialog = context.services.confirmDialog;
     NotificationsService = context.services.notifications;
-    externalQueryConfiguration = context.services.externalQueryConfiguration;
+    externalRelationQueryConfiguration = context.services.externalRelationQueryConfiguration;
     I18n = context.services.i18n;
   });
 
@@ -178,7 +178,7 @@ function typesFormConfigurationCtrl(
       'timelines': I18n.t('js.work_packages.table_configuration.embedded_tab_disabled')
     };
 
-    externalQueryConfiguration.show(
+    externalRelationQueryConfiguration.show(
       currentQuery,
       (queryProps:any) => originator.data('queryProps', queryProps),
       disabledTabs

@@ -8,9 +8,11 @@ import {
   OpQueryConfigurationTriggerEvent
 } from "core-components/wp-table/external-configuration/external-query-configuration.constants";
 
+export type Class = { new(...args:any[]):any; };
 
 @Injectable()
 export class ExternalQueryConfigurationService {
+
   // Hold a reference to the DOM node we're using as a host
   private _portalHostElement:HTMLElement;
   // And a reference to the actual portal host interface on top of the element
@@ -63,7 +65,7 @@ export class ExternalQueryConfigurationService {
 
     // Create a portal for the given component class and render it
     const portal = new ComponentPortal(
-      ExternalQueryConfigurationComponent,
+      this.externalQueryConfigurationComponent(),
       null,
       this.injectorFor({
                         callback: callback,
@@ -101,5 +103,9 @@ export class ExternalQueryConfigurationService {
     injectorTokens.set(OpQueryConfigurationLocalsToken, data);
 
     return new PortalInjector(this.injector, injectorTokens);
+  }
+
+  externalQueryConfigurationComponent():Class {
+    return ExternalQueryConfigurationComponent;
   }
 }

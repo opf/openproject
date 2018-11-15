@@ -189,6 +189,7 @@ import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {WpTableConfigurationService} from 'core-components/wp-table/configuration-modal/wp-table-configuration.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {ExternalRelationQueryConfigurationService} from "core-components/wp-table/external-configuration/external-relation-query-configuration.service";
 
 @NgModule({
   imports: [
@@ -234,6 +235,7 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 
     // External query configuration
     ExternalQueryConfigurationService,
+    ExternalRelationQueryConfigurationService,
 
     // Table and query states services
     WorkPackageTableRelationColumnsService,
@@ -303,8 +305,10 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
     // Embedded table
     WorkPackageEmbeddedTableComponent,
     WorkPackageEmbeddedTableEntryComponent,
+
     // External query configuration
     ExternalQueryConfigurationComponent,
+    ExternalRelationQueryConfigurationService,
 
     // Inline create
     WorkPackageInlineCreateComponent,
@@ -486,6 +490,7 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 
     // Modals
     WpTableConfigurationModalComponent,
+    WpTableConfigurationRelationSelectorComponent,
     WpTableConfigurationColumnsTab,
     WpTableConfigurationDisplaySettingsTab,
     WpTableConfigurationFiltersTab,
