@@ -79,7 +79,7 @@ class Widget::GroupBys < Widget::Base
   end
 
   def render
-    write(content_tag(:div, id: 'group-by--area') do
+    write(content_tag(:div, id: 'group-by--area', class: 'autoscroll') do
       out =  render_group 'columns', @subject.group_bys(:column)
       out += render_group 'rows', @subject.group_bys(:row)
       out.html_safe
