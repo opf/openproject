@@ -189,12 +189,10 @@ Doorkeeper.configure do
   #   Rails.logger.info(params.inspect)
   # end
   #
-  # after_successful_authorization do |controller|
-  #   controller.session[:logout_urls] <<
-  #     Doorkeeper::Application
-  #       .find_by(controller.request.params.slice(:redirect_uri))
-  #       .logout_uri
-  # end
+  after_successful_authorization do |controller|
+    # Schedule a cleanup job to clean out over-TTL tokens and grants
+    Delayed::Job.enqueue ::OAuth::CleanupJob.new, priority: ::ApplicationJob.priority_number(:low)
+  end
 
   # Under some circumstances you might want to have applications auto-approved,
   # so that the user skips the authorization step.

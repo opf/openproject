@@ -1,4 +1,3 @@
-#!/usr/bin/env rake
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,13 +25,51 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
+require 'rake'
 
-# Add your own tasks in files placed in lib/tasks ending in .rake,
-# for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
+##
+# Invoke a rake task while safely loading the tasks only once
+# to ensure they are neither loaded nor executed twice.
+class RakeJob < ApplicationJob
+  attr_reader :task_name
 
-require File.expand_path('../config/application', __FILE__)
+  def initialize(task_name)
+    @task_name = task_name
+  end
 
-OpenProject::Application.load_rake_tasks
+  def perform
+    Rails.logger.info { "Invoking Rake task #{task_name}." }
+    invoke
+  end
 
-Rake::Task[:default].clear
-task default: 'test:suite:run'
+  protected
+
+  def invoke
+    load_tasks!
+    task.invoke
+  end
+
+  private
+
+  ##
+  # Load tasks if there are none. This should only be run once in an environment
+  def load_tasks!
+    raise unless tasks_loaded?
+  rescue StandardError
+    OpenProject::Application.load_rake_tasks
+  end
+
+  ##
+  # Reference to the task name.
+  # Will raise NameError or NoMethodError depending on what of rake is (not) loaded
+  def task
+    Rake::Task[task_name]
+  end
+
+  ##
+  # Returns whether any task is loaded
+  # Will raise NameError or NoMethodError depending on what of rake is (not) loaded
+  def tasks_loaded?
+    !Rake::Task.tasks.empty?
+  end
+end

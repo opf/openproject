@@ -190,5 +190,12 @@ module OpenProject
     def self.root_url
       Setting.protocol + "://" + Setting.host_name
     end
+
+    ##
+    # Load core and engine tasks we're interested in
+    def self.load_rake_tasks
+      load_tasks
+      Doorkeeper::Rake.load_tasks
+    end
   end
 end
