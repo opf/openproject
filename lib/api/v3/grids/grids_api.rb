@@ -57,6 +57,13 @@ module API
                     end_row: 4,
                     start_column: 4,
                     end_column: 5
+                  ),
+                  OpenStruct.new(
+                    identifier: 'work_packages_calendar',
+                    start_row: 1,
+                    end_row: 2,
+                    start_column: 4,
+                    end_column: 6
                   )
                 ]
               )

@@ -229,11 +229,11 @@ import {WorkPackagesEmbeddedCalendarEntryComponent} from "core-components/wp-tab
 import {WorkPackageBreadcrumbParentComponent} from './components/work-packages/wp-breadcrumb/wp-breadcrumb-parent.component';
 import {MyPageComponent} from "core-components/routing/my-page/my-page.component";
 import {GridComponent} from "core-components/grid/grid.component";
-import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
 import {WidgetWpAssignedComponent} from "core-components/grid/widgets/wp-assigned/wp-assigned.component";
 import {WidgetWpCreatedComponent} from "core-components/grid/widgets/wp-created/wp-created.component";
 import {WidgetWpWatchedComponent} from "core-components/grid/widgets/wp-watched/wp-watched.component";
 import { DynamicModule } from 'ng-dynamic-component';
+import {WidgetWpCalendarComponent} from "core-components/grid/widgets/wp-calendar/wp-calendar.component";
 
 @NgModule({
   imports: [
@@ -263,7 +263,8 @@ import { DynamicModule } from 'ng-dynamic-component';
 
     DynamicModule.withComponents([WidgetWpAssignedComponent,
                                   WidgetWpCreatedComponent,
-                                  WidgetWpWatchedComponent])
+                                  WidgetWpWatchedComponent,
+                                  WidgetWpCalendarComponent])
   ],
   providers: [
     {
@@ -545,6 +546,7 @@ import { DynamicModule } from 'ng-dynamic-component';
     WidgetWpAssignedComponent,
     WidgetWpCreatedComponent,
     WidgetWpWatchedComponent,
+    WidgetWpCalendarComponent
   ],
   entryComponents: [
     WorkPackagesBaseComponent,
@@ -701,6 +703,10 @@ export function registerWidgets(injector:Injector) {
         {
           identifier: 'work_packages_watched',
           component: WidgetWpWatchedComponent
+        },
+        {
+          identifier: 'work_packages_calendar',
+          component: WidgetWpCalendarComponent
         }
       ];
     });
