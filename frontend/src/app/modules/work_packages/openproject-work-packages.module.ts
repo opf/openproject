@@ -220,6 +220,12 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
     DynamicModule.withComponents([WorkPackageFormAttributeGroupComponent, WorkPackageChildrenQueryComponent])
   ],
   providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: OpenprojectWorkPackagesModule.bootstrapAttributeGroups,
+      deps: [Injector],
+      multi: true
+    },
     WorkPackageTablePaginationService,
 
     // Timeline
@@ -504,4 +510,33 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
     WorkPackageEmbeddedTableComponent,
   ]
 })
-export class OpenprojectWorkPackagesModule {}
+export class OpenprojectWorkPackagesModule {
+  static bootstrapAttributeGroupsCalled = false;
+
+  // The static property prevents running the function
+  // multiple times. This happens e.g. when the module is included
+  // into a plugin's module.
+  public static bootstrapAttributeGroups(injector:Injector) {
+    if (this.bootstrapAttributeGroupsCalled) {
+      return () => {
+        // no op
+      };
+    }
+
+    this.bootstrapAttributeGroupsCalled = true;
+
+    return () => {
+      const hookService = injector.get(HookService);
+
+      hookService.register('attributeGroupComponent', (group:GroupDescriptor, workPackage:WorkPackageResource) => {
+        if (group.type === 'WorkPackageFormAttributeGroup') {
+          return WorkPackageFormAttributeGroupComponent;
+        } else if (!workPackage.isNew && group.type === 'WorkPackageFormQueryGroup') {
+          return WorkPackageChildrenQueryComponent;
+        } else {
+          return null;
+        }
+      });
+    };
+  }
+}
