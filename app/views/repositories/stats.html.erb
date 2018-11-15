@@ -29,7 +29,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= toolbar title: l(:label_statistics) %>
 
-<p>
+<p class="autoscroll">
   <%= tag("embed", width: 800,
                    height: 300,
                    type: "image/svg+xml",
@@ -39,7 +39,7 @@ See docs/COPYRIGHT.rdoc for more details.
                                    graph: "commits_per_month")) %>
 </p>
 <% if @show_commits_per_author %>
-  <p>
+  <p class="autoscroll">
     <%= tag("embed", width: 800,
                      height: 400,
                      type: "image/svg+xml",
