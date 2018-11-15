@@ -369,6 +369,10 @@ fieldset.form--fieldset
 .form--label
   @include grid-content(2)
   @extend %label-style
+  // override max-width set by including grid-content
+  max-width:    100%
+  min-width:    100px
+  flex-grow:    1
   overflow-x: hidden
   white-space: normal
   overflow-y: visible
@@ -411,9 +415,12 @@ fieldset.form--fieldset
 
 .form--field-container
   @include grid-content(10)
-  @include grid-visible-overflow
+  // override max-width set by including grid-content
+  max-width: 100%
+  overflow: hidden
   padding: 0
   display: flex
+  flex-grow: 2
   align-items: stretch
 
   &.-wrap-around
@@ -804,6 +811,7 @@ input[readonly].-clickable
   clear:       both
   line-height: $base-line-height
   padding:  0 2rem 0 0
+  @include text-shortener
 
   & > .form--check-box-container
     display:  block

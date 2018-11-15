@@ -42,8 +42,14 @@
     .form--field-instructions
       @include grid-content(12)
       display: flex
+      flex: 1
       margin-left: 0
       padding: 0
+
+  #tab-content-info form
+    .form--label,
+    .form--field-container
+      flex-basis: 100%
 
   .choice .choice--select
     width: 100%
