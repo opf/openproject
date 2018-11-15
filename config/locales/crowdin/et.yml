@@ -1338,6 +1338,7 @@ et:
   label_journal_diff: Kirjelduse võrdlus
   label_language: Keel
   label_jump_to_a_project: Mine projekti...
+  label_keyword_plural: Keywords
   label_language_based: Põhineb kasutaja keelel
   label_last_activity: Last activity
   label_last_change_on: Last change on

@@ -1343,6 +1343,7 @@ bg:
   label_journal_diff: Сравнение на описание
   label_language: Език
   label_jump_to_a_project: Отиди на проект...
+  label_keyword_plural: Keywords
   label_language_based: Въз основа на езика на потребителя
   label_last_activity: Последна активност
   label_last_change_on: 'Последна промяна на:'

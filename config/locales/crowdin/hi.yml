@@ -1347,6 +1347,7 @@ hi:
   label_journal_diff: विवरण तुलना
   label_language: भाषा 
   label_jump_to_a_project: किसी प्रोजेक्ट पर जंप करें...
+  label_keyword_plural: Keywords
   label_language_based: Based on user's language
   label_last_activity: Last activity
   label_last_change_on: Last change on

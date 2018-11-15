@@ -1382,6 +1382,7 @@ sk:
   label_journal_diff: Porovnanie popisu
   label_language: Jazyk
   label_jump_to_a_project: Skok do projektu...
+  label_keyword_plural: Keywords
   label_language_based: Založené na jazyku používateľa
   label_last_activity: Posledná aktivita
   label_last_change_on: Posledná zmena

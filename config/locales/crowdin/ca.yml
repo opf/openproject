@@ -1353,6 +1353,7 @@ ca:
   label_journal_diff: Descripció de comparació
   label_language: Idioma
   label_jump_to_a_project: Anar al projecte...
+  label_keyword_plural: Keywords
   label_language_based: Basat en l'idioma de l'usuari
   label_last_activity: Darrera activitat
   label_last_change_on: Darrer canvi en

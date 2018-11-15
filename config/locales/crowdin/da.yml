@@ -1336,6 +1336,7 @@ da:
   label_journal_diff: Sammenligning af beskrivelser
   label_language: Sprog
   label_jump_to_a_project: Gå til et projekt...
+  label_keyword_plural: Keywords
   label_language_based: Baseret på brugerens sprog
   label_last_activity: Seneste aktivitet
   label_last_change_on: Last change on
