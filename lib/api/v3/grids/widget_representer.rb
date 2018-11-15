@@ -26,55 +26,20 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+module API
+  module V3
+    module Grids
+      class WidgetRepresenter < ::API::Decorators::Single
+        property :identifier
+        property :start_row
+        property :end_row
+        property :start_column
+        property :end_column
 
-describe ::API::V3::Grids::GridRepresenter do
-  include OpenProject::StaticRouting::UrlHelpers
-
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
-  let(:representer) { described_class.new(OpenStruct.new, current_user: current_user) }
-
-  context 'generation' do
-    subject(:generated) { representer.to_json }
-
-    it 'denotes its type' do
-      is_expected
-        .to be_json_eql('Grid'.to_json)
-        .at_path('_type')
-    end
-
-    it 'identifies the url the grid is stored for' do
-      is_expected
-        .to be_json_eql(my_page_path.to_json)
-        .at_path('_links/page/href')
-    end
-
-    it 'has a rowCount' do
-      is_expected
-        .to be_json_eql(4)
-        .at_path('rowCount')
-    end
-
-    it 'has a columnCount' do
-      is_expected
-        .to be_json_eql(5)
-        .at_path('columnCount')
-    end
-
-    it 'has a list of widgets' do
-      widgets = [
-        {
-          "_type": "Widget",
-          "startRow": '2',
-          "endRow": '4',
-          "startColumn": '2',
-          "endColumn": '4'
-        }
-      ]
-
-      is_expected
-        .to be_json_eql(widgets.to_json)
-        .at_path('widgets')
+        def _type
+          'Widget'
+        end
+      end
     end
   end
 end

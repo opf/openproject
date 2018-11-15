@@ -32,11 +32,62 @@ module API
       class GridsAPI < ::API::OpenProjectAPI
         resources :grids do
           helpers do
+            def bogus_grid
+              OpenStruct.new(
+                row_count: 4,
+                column_count: 5,
+                widgets: [
+                  OpenStruct.new(
+                    identifier: 'work_packages_assigned',
+                    start_row: 4,
+                    end_row: 5,
+                    start_column: 1,
+                    end_column: 2
+                  ),
+                  OpenStruct.new(
+                    identifier: 'work_packages_created',
+                    start_row: 1,
+                    end_row: 2,
+                    start_column: 1,
+                    end_column: 2
+                  ),
+                  OpenStruct.new(
+                    identifier: 'work_packages_watched',
+                    start_row: 2,
+                    end_row: 4,
+                    start_column: 4,
+                    end_column: 5
+                  )
+                ]
+              )
+            end
           end
 
           route_param :id do
             get do
-              GridRepresenter.new({}, current_user: current_user)
+              GridRepresenter.new(bogus_grid, current_user: current_user)
+            end
+
+            patch do
+              params = API::V3::ParseResourceParamsService
+                       .new(current_user, representer: GridRepresenter)
+                       .call(request_body)
+                       .result
+
+              grid = OpenStruct.new(bogus_grid.to_h.merge(params))
+              #result = ::TimeEntries::CreateService
+              #           .new(user: current_user)
+              #           .call(params)
+
+              #if result.success?
+              #  new_entry = result.result
+                GridRepresenter.create(grid,
+                                       current_user: current_user,
+                                       embed_links: true)
+              #else
+              #  fail ::API::Errors::ErrorBase.create_and_merge_errors(result.errors)
+              #end
+              #GridRepresenter.new(bogus_grid, current_user: current_user)
             end
           end
         end

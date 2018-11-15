@@ -32,58 +32,33 @@ module API
       class GridRepresenter < ::API::Decorators::Single
         link :page do
           {
-            href: my_page_path
+            href: my_page_path,
+            type: 'text/html'
           }
         end
 
-        property :row_count,
-                 exec_context: :decorator
+        self_link title_getter: ->(*) { nil }
 
-        property :column_count,
-                 exec_context: :decorator
+        property :row_count
+
+        property :column_count
 
         property :widgets,
-                 exec_context: :decorator
+                 getter: ->(*) do
+                   widgets.map do |widget|
+                     WidgetRepresenter.new(widget, current_user: current_user)
+                   end
+                 end,
+                 setter: ->(fragment:, **) do
+                   self.widgets = fragment.map do |widget_fragment|
+                     WidgetRepresenter
+                       .new(OpenStruct.new, current_user: current_user)
+                       .from_hash(widget_fragment.with_indifferent_access)
+                   end
+                 end
 
         def _type
           'Grid'
-        end
-
-        def row_count
-          4
-        end
-
-        def column_count
-          5
-        end
-
-        def widgets
-          [
-            {
-              "_type": "Widget",
-              "identifier": 'work_packages_assigned',
-              "startRow": '4',
-              "endRow": '5',
-              "startColumn": '1',
-              "endColumn": '2'
-            },
-            {
-              "_type": "Widget",
-              "identifier": 'work_packages_created',
-              "startRow": '1',
-              "endRow": '2',
-              "startColumn": '1',
-              "endColumn": '2'
-            },
-            {
-              "_type": "Widget",
-              "identifier": 'work_packages_watched',
-              "startRow": '2',
-              "endRow": '4',
-              "startColumn": '4',
-              "endColumn": '5'
-            }
-          ]
         end
       end
     end

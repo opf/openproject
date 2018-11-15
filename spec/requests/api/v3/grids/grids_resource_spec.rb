@@ -41,15 +41,15 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
     login_as(current_user)
   end
 
-  describe '#get' do
-    subject(:response) { last_response }
-    let(:get_path) { api_v3_paths.grid(42) }
+  let(:path) { api_v3_paths.grid(42) }
+  subject(:response) { last_response }
 
+  describe '#get' do
     before do
-      get get_path
+      get path
     end
 
-    it 'should respond with 200' do
+    it 'responds with 200 OK' do
       expect(subject.status).to eq(200)
     end
 
@@ -63,6 +63,35 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
       expect(subject.body)
         .to be_json_eql(my_page_path.to_json)
         .at_path('_links/page/href')
+    end
+  end
+
+  describe '#patch' do
+    let(:params) do
+      {
+        "rowCount": 10,
+        "columnCount": 15
+      }.with_indifferent_access
+    end
+
+    before do
+      patch path, params.to_json, 'CONTENT_TYPE' => 'application/json'
+    end
+
+    it 'responds with 200 OK' do
+      expect(subject.status).to eq(200)
+    end
+
+    it 'sends a grid block' do
+      expect(subject.body)
+        .to be_json_eql('Grid'.to_json)
+        .at_path('_type')
+    end
+
+    it 'returns the altered grid block' do
+      expect(subject.body)
+        .to be_json_eql(params['rowCount'].to_json)
+        .at_path('rowCount')
     end
   end
 end

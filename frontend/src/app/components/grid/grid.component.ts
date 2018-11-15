@@ -129,14 +129,20 @@ export class GridComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public resize(area:GridArea, deltas:ResizeDelta) {
-    if (!this.resizeArea || !this.mousedOverArea) {
+    if (!this.resizeArea ||
+        !this.mousedOverArea ||
+        this.mousedOverArea === this.resizeArea) {
       return;
     }
 
-    if (this.mousedOverArea !== this.resizeArea) {
-      area.endRow = this.mousedOverArea.endRow;
-      area.endColumn = this.mousedOverArea.endColumn;
-    }
+    let widget = area.widget!;
+
+    widget.endRow = this.resizeArea.endRow.toString();
+    widget.endColumn = this.resizeArea.endColumn.toString();
+
+    this.gridAreas = this.buildGridAreas();
+    this.gridAreaDropIds = this.buildGridAreaDropIds();
+    this.gridWidgetAreas = this.buildWidgetGridAreas();
 
     return this.resizeArea = null;
   }
@@ -187,7 +193,7 @@ export class GridComponent implements OnInit, AfterViewInit, OnDestroy {
                      endRow: row + 1,
                      startColumn: column,
                      endColumn: column + 1,
-                     widget: null };//widget || null };
+                     widget: null };
 
         cells.push(cell);
       }

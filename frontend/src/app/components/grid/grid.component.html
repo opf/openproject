@@ -2,6 +2,7 @@
      [style.grid-template-columns]="gridColumnStyle"
      [style.grid-template-rows]="gridRowStyle">
 
+  <!-- Grid areas that have a widget in them -->
   <div *ngFor="let area of gridWidgetAreas; trackBy: identifyGridCellItem;"
        class="grid--area -widgeted"
        [ngClass] = "{ '-resize-target': resizeArea && gridAreaDropIds.indexOf(gridAreaId(area)) >= 0 }"
@@ -30,6 +31,7 @@
     </resizer>
   </div>
 
+  <!-- One grid area per cell (row x columns) -->
   <div *ngFor="let area of gridAreas; trackBy: identifyGridCellItem;"
        class="grid--area"
        [ngClass] = "{'-drop-target': currentlyDragging && gridAreaDropIds.indexOf(gridAreaId(area)) >= 0,
@@ -47,6 +49,7 @@
        [cdkDropListConnectedTo]="gridAreaDropIds">
   </div>
 
+  <!-- Grid area to visualize resizing -->
   <div class="grid--area -resizing"
        *ngIf="resizeArea"
        [style.grid-row-start]="resizeArea.startRow"
