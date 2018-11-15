@@ -169,9 +169,16 @@ export class GridComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public isResizeTarget(area:GridArea) {
-    let areaId = this.gridAreaId(area);
-
-    return this.resizeArea && (areaId === this.gridAreaId(this.resizeArea) || this.gridAreaDropIds.indexOf(areaId) >= 0);
+    if (!this.resizeArea) {
+      return false;
+    } else if (this.gridAreaDropIds.indexOf(this.gridAreaId(area)) >= 0) {
+      return true;
+    } else {
+      return area.startRow >= this.resizeArea.startRow &&
+             area.endRow <= this.resizeArea.endRow &&
+             area.startColumn >= this.resizeArea.startColumn &&
+             area.endColumn <= this.resizeArea.endColumn;
+    }
   }
 
   public setMousedOverArea(area:GridArea) {
