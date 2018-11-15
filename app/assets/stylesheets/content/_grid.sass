@@ -14,7 +14,16 @@
 
   &.-widgeted
     z-index: 10
+    @include widget-box--style
+    margin: 0px
+    padding: 20px
 
   &.-resizing
     border: 1px solid red
     z-index: 100
+
+  .resizer
+    margin-top: 0px
+    margin-left: auto
+    margin-right: -20px
+    position: relative
