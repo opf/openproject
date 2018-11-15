@@ -1,0 +1,74 @@
+<%#-- copyright
+OpenProject Meeting Plugin
+
+Copyright (C) 2011-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.md for more details.
+
+++#%>
+
+<% html_title l(:label_meeting_plural) %>
+
+<%= toolbar title: l(:label_meeting_plural) do %>
+  <% if authorize_for(:meetings, :new) %>
+    <li class="toolbar-item">
+      <a href="<%= new_meeting_path %>"
+         id="add-meeting-button"
+         title="<%= I18n.t(:label_meeting_new) %>"
+         arial-label="<%= I18n.t(:label_meeting_new) %>"
+         class="button -alt-highlight">
+        <%= op_icon('button--icon icon-add') %>
+        <span class="button--text"><%= t(:label_meeting) %></span>
+      </a>
+    </li>
+  <% end %>
+<% end %>
+
+<% if @meetings_by_start_year_month_date.empty? -%>
+  <%= no_results_box %>
+<% else -%>
+<div class="meetings meetings_by_month_year" id="activity">
+<% @meetings_by_start_year_month_date.each do |year,meetings_by_start_month_date| -%>
+<% meetings_by_start_month_date.each do |month,meetings_by_start_date| -%>
+  <h3 class="month_year"><%= ::I18n.t('date.month_names')[month] + " #{year}" %></h3>
+  <div class="meetings_by_date">
+  <% meetings_by_start_date.each do |date,meetings| -%>
+    <h4 id="<%= date.strftime("%m-%d-%Y") %>" class="date"><%= format_activity_day(date) %></h4>
+    <dl class="meetings">
+    <% meetings.each do |meeting| -%>
+      <dt class="meeting" id="meeting-<%= meeting.id %>">
+        <%= link_to h(meeting.title), :controller => '/meetings', :action => 'show', :id => meeting %>
+      </dt>
+      <dd class="meeting" id="meeting-<%= meeting.id %>">
+        <p><strong><%= Meeting.human_attribute_name(:time) %></strong>: <%= format_time meeting.start_time, false %>-<%= format_time meeting.end_time, false %></p>
+        <p><strong><%= Meeting.human_attribute_name(:location) %></strong>: <%=h meeting.location %></p>
+        <p><strong><%= Meeting.human_attribute_name(:participants_invited) %></strong> (<%= meeting.participants.select(&:invited).count %>): <%= format_participant_list meeting.participants.select(&:invited) %></p>
+        <p><strong><%= Meeting.human_attribute_name(:participants_attended) %></strong> (<%= meeting.participants.select(&:attended).count %>): <%= format_participant_list meeting.participants.select(&:attended) %></p>
+      </dd>
+    <% end -%>
+    </dl>
+  <% end -%>
+  </div>
+<% end -%>
+<% end -%>
+</div>
+<% end -%>
+
+<p class="pagination">
+  <%= link_to_content_update(l(:label_today), page: @page_of_today, anchor: Date.today.strftime("%m-%d-%Y")) %>
+  <%= pagination_links_full @meetings, :container => false %>
+</p>
+
+<%= render :partial => 'shared/meeting_header' %>

@@ -1,0 +1,6 @@
+{
+  "name": "openproject-my_project_page",
+  "version": "0.1.0",
+  "main": "frontend/app/openproject-my_project_page-app.js",
+  "dependencies": {}
+}

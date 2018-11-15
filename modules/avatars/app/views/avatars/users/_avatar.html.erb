@@ -1,0 +1,8 @@
+<% @manager = ::OpenProject::Avatars::AvatarManager %>
+<% if @manager.gravatar_enabled? %>
+    <%= render partial: 'avatars/users/gravatars' %>
+<% end %>
+
+<% if @manager.local_avatars_enabled? %>
+    <%= render partial: 'avatars/users/local_avatars' %>
+<% end %>

@@ -1,0 +1,56 @@
+<%#-- copyright
+OpenProject Backlogs Plugin
+
+Copyright (C)2013-2014 the OpenProject Foundation (OPF)
+Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
+Copyright (C)2010-2011 friflaj
+Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns
+Copyright (C)2009-2010 Mark Maglana
+Copyright (C)2009 Joe Heck, Nate Lowrie
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License version 3.
+
+OpenProject Backlogs is a derivative work based on ChiliProject Backlogs.
+The copyright follows:
+Copyright (C) 2010-2011 - Emiliano Heyns, Mark Maglana, friflaj
+Copyright (C) 2011 - Jens Ulferts, Gregor Schmidt - Finn GmbH - Berlin, Germany
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% prevent_edit = User.current.allowed_to?(:edit_work_packages, defined?(project) ? project : impediment.project) ? '' : 'prevent_edit'%>
+<div class="model work_package impediment <%= color_contrast_class(impediment) %> <%= prevent_edit %> <%= mark_if_closed(impediment) %><%= color_contrast_class(impediment) %>" id="work_package_<%= impediment.id %>" <%= build_inline_style(impediment) %>>
+  <div class="id">
+    <div class="t"><%= work_package_link_or_empty(impediment) %></div>
+    <div class="v"><%= id_or_empty(impediment) %></div>
+  </div>
+  <div class="subject editable" fieldtype="textarea" fieldname="subject" field_id=<%= impediment.id %>><%= impediment.subject %></div>
+  <div class="blocks editable" fieldname="blocks_ids" fieldlabel="<%= l(:label_blocks_ids) %>" field_id=<%= impediment.id %>><%= blocks_ids(impediment.blocks_ids) %></div>
+  <div class="assigned_to_id editable" fieldtype="select" fieldname="assigned_to_id" field_id=<%= impediment.id %>>
+    <div class="t"><%= assignee_name_or_empty(impediment) %></div>
+    <div class="v"><%= assignee_id_or_empty(impediment) %></div>
+  </div>
+  <div class="remaining_hours editable<%= ' empty' if remaining_hours(impediment).blank? %>" fieldname="remaining_hours" field_id=<%= impediment.id %>><%= remaining_hours(impediment) %></div>
+  <div class="indicator"> </div>
+  <div class="meta">
+    <div class="story_id"><%= impediment.parent_id %></div>
+    <div class="status_id"><%= impediment.status_id %></div>
+    <%= render :partial => "shared/model_errors", :object => impediment.errors %>
+  </div>
+</div>

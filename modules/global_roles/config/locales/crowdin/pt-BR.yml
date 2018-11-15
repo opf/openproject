@@ -1,0 +1,11 @@
+pt-BR:
+  error_can_not_be_assigned: O papel não pode ser atribuído a este usuário
+  global_roles: Papéis globais
+  label_role_type: Tipo
+  label_member_role: Papel no projeto
+  label_global_role: Papel global
+  label_not_changeable: (não modificável)
+  label_no_assignable_role: Nenhum papel global disponível para atribuição
+  label_global: Global
+  seeders:
+    default_role_project_creator: 'Criador do projeto'

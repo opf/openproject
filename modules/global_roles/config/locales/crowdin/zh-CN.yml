@@ -1,0 +1,11 @@
+zh-CN:
+  error_can_not_be_assigned: 无法将角色分配给此用户
+  global_roles: 全局角色
+  label_role_type: 类型
+  label_member_role: 项目角色
+  label_global_role: 全局角色
+  label_not_changeable: '（不变）'
+  label_no_assignable_role: 无可用于分配的全局角色
+  label_global: 全局
+  seeders:
+    default_role_project_creator: '项目创建人'

@@ -1,0 +1,19 @@
+<%= render partial: 'header_tags' %>
+
+<% html_title(t(:label_administration), t('webhooks.plural')) -%>
+<% local_assigns[:additional_breadcrumb] = t('webhooks.plural') %>
+
+<%= toolbar title: t('webhooks.plural') do %>
+  <li class="toolbar-item">
+    <%= link_to new_admin_outgoing_webhook_path,
+          { class: 'button -alt-highlight',
+            aria: {label: t('webhooks.outgoing.label_add_new')},
+            title: t('webhooks.outgoing.label_add_new')} do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= t('webhooks.singular') %></span>
+    <% end %>
+  </li>
+<% end %>
+
+<%= cell ::Webhooks::Outgoing::Webhooks::TableCell, @webhooks %>
+

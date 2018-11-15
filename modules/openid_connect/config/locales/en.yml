@@ -1,0 +1,4 @@
+en:
+  logout_warning: >
+    You have been logged out. The contents of any form you submit may be lost.
+    Please [log in].

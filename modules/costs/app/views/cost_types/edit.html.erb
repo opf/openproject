@@ -1,0 +1,115 @@
+<%#-- copyright
+OpenProject Costs Plugin
+
+Copyright (C) 2009 - 2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+version 3.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+++#%>
+
+<%= render partial: 'shared/costs_header' %>
+
+<% if(@cost_type.id) %>
+  <% html_title  t(:label_cost_type_specific, id: @cost_type.id, name: @cost_type.name) %>
+  <% local_assigns[:additional_breadcrumb] = @cost_type.name %>
+<% else %>
+  <% html_title l(:label_administration), t(:label_cost_type_plural) %>
+  <% local_assigns[:additional_breadcrumb] = l(:label_new) + ' ' + I18n.t('activerecord.models.cost_type.one') %>
+<% end %>
+
+
+<%= toolbar title: CostType.model_name.human %>
+
+<%= activate_angular_js do %>
+<costs-subform item-count="<%= @cost_type.rates.length %>">
+<%= labelled_tabular_form_for @cost_type do |f| %>
+  <%= error_messages_for 'cost_type' %>
+  <%= back_url_hidden_field_tag %>
+
+  <div class="form--field">
+    <%= f.text_field :name, required: true, container_class: '-wide' %>
+  </div>
+  <div class="form--field">
+    <%= f.text_field :unit, required: true, container_class: '-middle' %>
+  </div>
+  <div class="form--field">
+    <%= f.text_field :unit_plural, required: true, container_class: '-middle' %>
+  </div>
+  <div class="form--field">
+    <%= f.check_box :default %>
+  </div>
+
+  <h3><%= t :caption_rate_history %></h3>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Rate.human_attribute_name(:valid_from) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th class="currency">
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Rate.model_name.human %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th><div class="generic-table--empty-header"></div></th>
+          </tr>
+        </thead>
+        <tbody id="rates_body" class="subform-container">
+          <%= render partial: "rate", object: CostRate.new, locals: { templated: true } %>
+          <% @cost_type.rates.sort do |a,b|
+            case
+            when !a.valid? && !b.valid?
+              0
+            when !a.valid?
+              -1
+            when !b.valid?
+              1
+            else
+              b.valid_from <=> a.valid_from
+            end
+          end.each_with_index do |rate, index| %>
+            <%= render partial: 'rate', object: rate, locals: {index: index} %>
+          <%- end -%>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+  <div class="wp-inline-create-button">
+    <label class="hidden-for-sighted" for="add_rate_date" %>"><%= t(:description_date_for_new_rate) %></label>
+    <a id="add_rate_date" href="#" class="add-row-button wp-inline-create--add-link" title="<%= t(:button_add_rate) %>">
+      <%= op_icon('icon icon-add') %>
+    </a>
+    <%= styled_button_tag t(:button_save), class: '-with-icon icon-checkmark' %>
+  </div>
+<% end %>
+</costs-subform>
+<% end %>

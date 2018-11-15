@@ -1,0 +1,48 @@
+<%#-- copyright
+OpenProject My Project Page Plugin
+
+Copyright (C) 2011-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.md for more details.
+
+++#%>
+
+<% if defined? block_name_id %>
+  <%= content_for block_name_id %>
+<% end %>
+
+<h3 class="widget-box--header">
+  <%= op_icon('icon-context icon-types') %>
+  <span class="widget-box--header-title"><%=l(:label_work_package_tracking)%></span>
+</h3>
+
+<% if User.current.allowed_to?(:view_work_packages, project) %>
+  <div class="issues overview">
+    <ul>
+      <% for type in types %>
+        <li><%= link_to h(type.name), project_property_path(project, "type_id", type.id) %>:
+          <%= l(:label_x_open_work_packages_abbr_on_total, :count => open_work_packages_by_type[type].to_i,
+                :total => total_work_packages_by_type[type].to_i) %>
+        </li>
+      <% end %>
+    </ul>
+    <p>
+      <%= link_to l(:label_work_package_view_all), {:controller => '/work_packages', :action => 'index', :project_id => project}, :class => 'button -highlight-inverted' %>
+      <% if User.current.allowed_to?(:view_gantt, project, :global => true) %>
+        <%= link_to(l(:label_gantt), {:controller => '/gantts', :action => 'show', :project_id => project}, :class => 'button -highlight') %>
+      <% end %>
+    </p>
+  </div>
+<% end %>

@@ -1,0 +1,11 @@
+<% html_title(t(:label_administration), t('two_factor_authentication.settings.title')) -%>
+
+<%= breadcrumb_toolbar(t('two_factor_authentication.settings.title')) %>
+
+<%= render template: 'common/upsale',
+           locals: {
+               feature_title: t('two_factor_authentication.upsale.title'),
+               feature_description: t('two_factor_authentication.upsale.description'),
+               feature_reference: '2fa'
+           } %>
+

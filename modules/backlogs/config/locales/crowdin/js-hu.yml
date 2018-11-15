@@ -1,0 +1,6 @@
+hu:
+  js:
+    work_packages:
+      properties:
+        storyPoints: "Story pontok"
+        remainingTime: "Hátralévő óra"
