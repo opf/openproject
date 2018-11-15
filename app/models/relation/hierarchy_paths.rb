@@ -96,30 +96,36 @@ module Relation::HierarchyPaths
             to_id, #{add_hierarchy_agg_function} AS path
             FROM
             (SELECT to_id, from_id, hierarchy
-            FROM relations
-            WHERE hierarchy > 0 AND relates = 0 AND blocks = 0 AND duplicates = 0 AND includes = 0 AND requires = 0 AND follows = 0
-            #{add_hierarchy_id_constraint(id)}
+               FROM relations
+               WHERE hierarchy > 0 AND relates = 0 AND blocks = 0 AND duplicates = 0 AND includes = 0 AND requires = 0 AND follows = 0
             ) ordered_by_hierarchy
             GROUP BY to_id
+            #{add_hierarchy_conflict_statement}
         SQL
       else
         stmt = <<-SQL
-        INSERT INTO
-          #{hierarchy_table_name}
-          (work_package_id, path)
-        SELECT
-          to_id, #{add_hierarchy_agg_function} AS path
-        FROM (
-          SELECT  a.to_id, a.from_id, a.hierarchy
-            FROM relations AS a
-            JOIN relations AS b
-            ON a.to_id = b.from_id or b.to_id = #{id}
-            WHERE a.to_id=#{id}
-              AND a.hierarchy >  0 AND a.relates = 0 AND a.blocks = 0 AND a.duplicates = 0 AND a.includes = 0 AND a.requires = 0 AND a.follows = 0
-              AND b.hierarchy != 0 AND b.relates = 0 AND b.duplicates = 0 AND b.follows = 0 AND b.blocks = 0 AND b.includes = 0 AND b.requires = 0
-          ) tmp
-           GROUP BY  to_id
-        #{add_hierarchy_conflict_statement}
+          INSERT INTO
+            #{hierarchy_table_name}
+            (work_package_id, path)
+          SELECT
+            to_id, #{add_hierarchy_agg_function} AS path
+          FROM (
+            SELECT to_id, from_id, hierarchy 
+            FROM relations 
+            WHERE to_id = #{id} AND
+                  hierarchy > 0 AND relates = 0 AND blocks = 0 AND duplicates = 0 AND includes = 0 AND requires = 0 AND follows = 0
+            UNION SELECT to_id,from_id,hierarchy 
+                  FROM relations 
+                  WHERE from_id=#{id} AND
+                        hierarchy > 0 AND relates = 0 AND blocks = 0 AND duplicates = 0 AND includes = 0 AND requires = 0 AND follows = 0
+            UNION SELECT b.to_id, b.from_id, b.hierarchy FROM relations a
+                  JOIN relations b ON b.to_id = a.to_id
+                  WHERE a.from_id = #{id} AND
+                        a.hierarchy > 0 AND a.relates = 0 AND a.blocks = 0 AND a.duplicates = 0 AND a.includes = 0 AND a.requires = 0 AND a.follows = 0 AND
+                        b.hierarchy > 0 AND b.relates = 0 AND b.blocks = 0 AND b.duplicates = 0 AND b.includes = 0 AND b.requires = 0 AND b.follows = 0
+          ) AS Foo
+          GROUP BY to_id
+          #{add_hierarchy_conflict_statement}
         SQL
       end
       stmt
@@ -158,9 +164,9 @@ module Relation::HierarchyPaths
 
     def self.add_hierarchy_agg_function
       if ActiveRecord::Base.connection.adapter_name == 'Mysql2'
-        "GROUP_CONCAT(DISTINCT from_id ORDER BY hierarchy DESC SEPARATOR ',')"
+        "GROUP_CONCAT(from_id ORDER BY hierarchy DESC SEPARATOR ',')"
       else
-        "string_agg(DISTINCT from_id::TEXT, ',' ORDER BY hierarchy DESC)"
+        "string_agg(from_id::TEXT, ',' ORDER BY hierarchy DESC)"
       end
     end
 
