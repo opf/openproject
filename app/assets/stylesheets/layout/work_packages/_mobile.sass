@@ -31,23 +31,7 @@
     // ------------- FULL SCREEN -------------------
     &.action-show
 
-
-      #main,
-      #content-wrapper,
-      #content
-        position: relative !important
-        width: 100%
-        margin-left: 0
-
-
-      #content-wrapper,
-      #content
-        height: 100% !important
-
       #main
-        padding-bottom: 0
-        height: calc(100vh - #{$header-height})
-
         #content-wrapper
           &.nomenus
             top: 0
@@ -161,9 +145,6 @@
       padding: 0
 
     #toolbar-items
-      position: absolute
-      top: 10px
-      justify-content: flex-end
       .toolbar-item
         flex-grow: 0
     .work-packages-full-view--split-container

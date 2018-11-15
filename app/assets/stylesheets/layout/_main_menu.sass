@@ -30,18 +30,13 @@ $toggler-width: 40px
 $menu-item-line-height: 30px
 
 .main-menu
-  bottom: auto
   @include varprop(width, main-menu-width)
   @include varprop(min-width, main-menu-width)
-  float: left
   overflow-x: hidden
-  left: 0
   border-right-style: solid
   @include varprop(border-right-width, main-menu-border-width)
   @include varprop(border-right-color, main-menu-border-color)
   @include varprop(background-color, main-menu-bg-color)
-  // min-height is full height minus header and footer.
-  min-height: calc(100vh - #{$header-height})
 
   #menu-sidebar
     +allow-vertical-scrolling
