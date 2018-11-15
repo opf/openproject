@@ -29,8 +29,8 @@
 module API
   module V3
     module Grids
-      class GridsAPI < ::API::OpenProjectAPI
-        resources :grids do
+      class CreateFormAPI < ::API::OpenProjectAPI
+        resource :form do
           helpers do
             def bogus_grid
               OpenStruct.new(
@@ -70,12 +70,8 @@ module API
             end
           end
 
-          get do
-
-          end
-
           post do
-            # TODO: replace mock with actual creation
+            # TODO: replace mock with functionality
             params = API::V3::ParseResourceParamsService
                      .new(current_user, representer: GridRepresenter)
                      .call(request_body)
@@ -83,33 +79,9 @@ module API
 
             grid = OpenStruct.new(bogus_grid.to_h.merge(params))
 
-            status 201
-            GridRepresenter.create(grid,
-                                   current_user: current_user,
-                                   embed_links: true)
-          end
-
-          mount CreateFormAPI
-
-          route_param :id do
-            get do
-              # TODO: replace mock with actual fetching
-              GridRepresenter.new(bogus_grid, current_user: current_user)
-            end
-
-            patch do
-              # TODO: replace mock with actual update
-              params = API::V3::ParseResourceParamsService
-                       .new(current_user, representer: GridRepresenter)
-                       .call(request_body)
-                       .result
-
-              grid = OpenStruct.new(bogus_grid.to_h.merge(params))
-
-              GridRepresenter.create(grid,
-                                     current_user: current_user,
-                                     embed_links: true)
-            end
+            status 200
+            CreateFormRepresenter.new(grid,
+                                      current_user: current_user)
           end
         end
       end

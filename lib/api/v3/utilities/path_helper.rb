@@ -135,6 +135,10 @@ module API
             "#{root}/grids"
           end
 
+          def self.create_grid_form
+            "#{grids}/form"
+          end
+
           def self.grid(id)
             "#{grids}/#{id}"
           end

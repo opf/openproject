@@ -33,7 +33,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) do
+  shared_let(:current_user) do
     FactoryBot.create(:user)
   end
 
