@@ -180,6 +180,17 @@ export class GridComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  public isAddable(area:GridArea) {
+    return !this.currentlyDragging &&
+             !this.currentlyResizing &&
+             this.mousedOverArea === area &&
+             this.gridAreaDropIds.includes(this.gridAreaId(area));
+  }
+
+  public get currentlyResizing() {
+    return this.resizeArea;
+  }
+
   public setMousedOverArea(area:GridArea) {
     this.mousedOverArea = area;
   }
@@ -188,7 +199,7 @@ export class GridComponent implements OnInit, AfterViewInit, OnDestroy {
     return `grid--area-${area.startRow}-${area.startColumn}`;
   }
 
-  public buildGridAreas() {
+  private buildGridAreas() {
     let cells:GridArea[] = [];
 
     for (let row = 1; row <= this.numRows; row++) {
@@ -208,7 +219,7 @@ export class GridComponent implements OnInit, AfterViewInit, OnDestroy {
     return cells;
   }
 
-  public buildWidgetGridAreas() {
+  private buildWidgetGridAreas() {
     let cells:GridArea[] = [];
 
     for (let row = 1; row <= this.numRows; row++) {
@@ -244,7 +255,7 @@ export class GridComponent implements OnInit, AfterViewInit, OnDestroy {
     return `${item.identifier} ${item.startRow}/${item.startColumn}`;
   }
 
-  public buildGridAreaDropIds() {
+  private buildGridAreaDropIds() {
     let ids:string[] = [];
 
     this.gridAreas.filter((area) => {

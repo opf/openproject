@@ -25,7 +25,8 @@
                    [ndcDynamicOutputs]="{}">
       </ndc-dynamic>
     </div>
-    <resizer (end)="resize(area, $event)"
+    <resizer *ngIf="!currentlyDragging"
+             (end)="resize(area, $event)"
              (start)="resizeStart(area)"
              (move)="resizeMove($event)">
     </resizer>
@@ -36,7 +37,7 @@
        class="grid--area"
        [ngClass] = "{'-drop-target': currentlyDragging && gridAreaDropIds.indexOf(gridAreaId(area)) >= 0,
                      '-resize-target': isResizeTarget(area),
-                     '-addable': mousedOverArea === area && gridAreaDropIds.indexOf(gridAreaId(area)) >= 0 }"
+                     '-addable': isAddable(area) }"
        [style.grid-row-start]="area.startRow"
        [style.grid-row-end]="area.endRow"
        [style.grid-column-start]="area.startColumn"
@@ -49,7 +50,7 @@
        (dragStart)="dragStart(event)"
        [cdkDropListConnectedTo]="gridAreaDropIds">
 
-    <div class="grid--widget-add" *ngIf="mousedOverArea === area && gridAreaDropIds.indexOf(gridAreaId(area)) >= 0">
+    <div class="grid--widget-add" *ngIf="isAddable(area)">
     </div>
   </div>
 
