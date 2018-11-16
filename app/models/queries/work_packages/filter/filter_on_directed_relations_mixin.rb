@@ -28,24 +28,36 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Filter for all work packages that are (or are not) followers of the provided values
+module Queries::WorkPackages::Filter::FilterOnDirectedRelationsMixin
+  include ::Queries::WorkPackages::Filter::FilterForWpMixin
 
-class Queries::WorkPackages::Filter::FollowerFilter <
-  Queries::WorkPackages::Filter::WorkPackageFilter
+  def where
+    relations_subselect = Relation
+                          .direct
+                          .send(relation_type)
+                          .where(relation_filter)
+                          .select(relation_select)
 
-  include ::Queries::WorkPackages::Filter::FilterOnRelationsMixin
+    operator = if operator_class == Queries::Operators::Equals
+                 'IN'
+               else
+                 'NOT IN'
+               end
+
+    "#{WorkPackage.table_name}.id #{operator} (#{relations_subselect.to_sql})"
+  end
 
   private
 
   def relation_type
-    :follows
+    raise NotImplementedError
   end
 
   def relation_filter
-    { to_id: values }
+    raise NotImplementedError
   end
 
   def relation_select
-    :from_id
+    raise NotImplementedError
   end
 end

@@ -16,7 +16,18 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
   selector: 'wp-table-configuration-relation-selector'
 })
 export class WpTableConfigurationRelationSelectorComponent implements OnInit  {
-  private relationFilterIds:string[] = ['parent', 'predecessor', 'follower'];
+  private relationFilterIds:string[] = [
+    'parent',
+    'precedes',
+    'follows',
+    'relates',
+    'duplicates',
+    'duplicatedBy',
+    'blocks',
+    'blockedBy',
+    'requires',
+    'requiredBy'
+  ];
 
   public availableRelationFilters:QueryFilterResource[] = [];
   public selectedRelationFilter:QueryFilterResource|undefined = undefined;
@@ -25,10 +36,16 @@ export class WpTableConfigurationRelationSelectorComponent implements OnInit  {
     please_select: this.I18n.t('js.placeholders.selection'),
     first_part:    this.I18n.t('js.work_packages.table_configuration.relation_filters.first_part'),
     second_part:   this.I18n.t('js.work_packages.table_configuration.relation_filters.second_part'),
-    parent:        this.I18n.t('js.types.attribute_groups.filter_types.children'),
-    predecessor:    this.I18n.t('js.types.attribute_groups.filter_types.predecessors'),
-    follower:      this.I18n.t('js.types.attribute_groups.filter_types.followers'),
-
+    parent:        this.I18n.t('js.types.attribute_groups.filter_types.parent'),
+    precedes:      this.I18n.t('js.types.attribute_groups.filter_types.precedes'),
+    follows:       this.I18n.t('js.types.attribute_groups.filter_types.follows'),
+    relates:       this.I18n.t('js.types.attribute_groups.filter_types.relates'),
+    duplicates:    this.I18n.t('js.types.attribute_groups.filter_types.duplicates'),
+    duplicatedBy:  this.I18n.t('js.types.attribute_groups.filter_types.duplicated_by'),
+    blocks:        this.I18n.t('js.types.attribute_groups.filter_types.blocks'),
+    blockedBy:     this.I18n.t('js.types.attribute_groups.filter_types.blocked_by'),
+    requires:      this.I18n.t('js.types.attribute_groups.filter_types.requires'),
+    requiredBy:    this.I18n.t('js.types.attribute_groups.filter_types.required_by')
   };
 
   // public impaired = this.ConfigurationService.accessibilityModeEnabled();

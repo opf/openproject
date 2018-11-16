@@ -28,7 +28,9 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::ParentFilter <
+# Filter for all work packages that are (or are not) requiring work packages with the provided values.
+
+class Queries::WorkPackages::Filter::RequiresFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
 
   include ::Queries::WorkPackages::Filter::FilterOnDirectedRelationsMixin
@@ -36,7 +38,7 @@ class Queries::WorkPackages::Filter::ParentFilter <
   private
 
   def relation_type
-    :hierarchy
+    :requires
   end
 
   def relation_filter

@@ -28,22 +28,35 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::ParentFilter <
-  Queries::WorkPackages::Filter::WorkPackageFilter
+module Queries::WorkPackages::Filter::FilterOnUndirectedRelationsMixin
+  include ::Queries::WorkPackages::Filter::FilterForWpMixin
 
-  include ::Queries::WorkPackages::Filter::FilterOnDirectedRelationsMixin
+  def where
+    relations_subselect_from_to = Relation
+                                    .direct
+                                    .send(relation_type)
+                                    .where(from_id: values)
+                                    .select(:to_id)
+
+    relations_subselect_to_from = Relation
+                                    .direct
+                                    .send(relation_type)
+                                    .where(to_id: values)
+                                    .select(:from_id)
+
+    operator = if operator_class == Queries::Operators::Equals
+                 'IN'
+               else
+                 'NOT IN'
+               end
+
+    "#{WorkPackage.table_name}.id #{operator} (#{relations_subselect_from_to.to_sql}) OR #{WorkPackage.table_name}.id #{operator} (#{relations_subselect_to_from.to_sql})"
+  end
 
   private
 
   def relation_type
-    :hierarchy
+    raise NotImplementedError
   end
 
-  def relation_filter
-    { from_id: values }
-  end
-
-  def relation_select
-    :to_id
-  end
 end

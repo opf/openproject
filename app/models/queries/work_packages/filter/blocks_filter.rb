@@ -28,7 +28,9 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::ParentFilter <
+# Filter for all work packages that are (or are not) blocking work packages with the provided values.
+
+class Queries::WorkPackages::Filter::BlocksFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
 
   include ::Queries::WorkPackages::Filter::FilterOnDirectedRelationsMixin
@@ -36,7 +38,7 @@ class Queries::WorkPackages::Filter::ParentFilter <
   private
 
   def relation_type
-    :hierarchy
+    :blocks
   end
 
   def relation_filter

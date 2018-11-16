@@ -28,7 +28,9 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::ParentFilter <
+# Filter for all work packages that are (or are not) duplicated by work packages with the provided values.
+
+class Queries::WorkPackages::Filter::BlockedByFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
 
   include ::Queries::WorkPackages::Filter::FilterOnDirectedRelationsMixin
@@ -36,14 +38,14 @@ class Queries::WorkPackages::Filter::ParentFilter <
   private
 
   def relation_type
-    :hierarchy
+    :blocks
   end
 
   def relation_filter
-    { from_id: values }
+    { to_id: values }
   end
 
   def relation_select
-    :to_id
+    :from_id
   end
 end

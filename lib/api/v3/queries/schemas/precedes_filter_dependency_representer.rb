@@ -28,24 +28,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Filter for all work packages that are (or are not) predecessor of the provided values
-
-class Queries::WorkPackages::Filter::PredecessorFilter <
-  Queries::WorkPackages::Filter::WorkPackageFilter
-
-  include ::Queries::WorkPackages::Filter::FilterOnRelationsMixin
-
-  private
-
-  def relation_type
-    :follows
-  end
-
-  def relation_filter
-    { from_id: values }
-  end
-
-  def relation_select
-    :to_id
+module API
+  module V3
+    module Queries
+      module Schemas
+        class PrecedesFilterDependencyRepresenter < ByWorkPackageFilterDependencyRepresenter; end
+      end
+    end
   end
 end

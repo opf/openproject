@@ -372,9 +372,16 @@ en:
         more_information: "More information"
         nevermind: "Nevermind"
         filter_types:
-          children: "Children"
-          predecessors: "Predecessors"
-          followers: "Followers"
+          parent: "being child of"
+          precedes: "preceding"
+          follows: "following"
+          relates: "relating to"
+          duplicates: "duplicating"
+          duplicated_by: "duplicated by"
+          blocks: "blocking"
+          blocked_by: "blocked by"
+          requires: "requiring"
+          required_by: "required by"
 
     watchers:
       label_loading: loading watchers...
@@ -706,8 +713,8 @@ en:
           relation_columns: 'Need to see relations in the work package list?'
           check_out_link: 'Check out the Enterprise Edition.'
         relation_filters:
-          first_part: "Show all"
-          second_part: "of the current work package"
+          first_part: "Show all work packages"
+          second_part: "the current work package"
       tabs:
         overview: Overview
         activity: Activity

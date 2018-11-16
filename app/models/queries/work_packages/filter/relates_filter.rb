@@ -28,22 +28,16 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::ParentFilter <
+# Filter for all work packages that are (or are not) predecessor of the provided values
+
+class Queries::WorkPackages::Filter::RelatesFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
 
-  include ::Queries::WorkPackages::Filter::FilterOnDirectedRelationsMixin
+  include ::Queries::WorkPackages::Filter::FilterOnUndirectedRelationsMixin
 
   private
 
   def relation_type
-    :hierarchy
-  end
-
-  def relation_filter
-    { from_id: values }
-  end
-
-  def relation_select
-    :to_id
+    :relates
   end
 end

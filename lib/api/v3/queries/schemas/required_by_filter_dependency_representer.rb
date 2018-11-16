@@ -28,36 +28,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::WorkPackages::Filter::FilterOnRelationsMixin
-  include ::Queries::WorkPackages::Filter::FilterForWpMixin
-
-  def where
-    relations_subselect = Relation
-                          .direct
-                          .send(relation_type)
-                          .where(relation_filter)
-                          .select(relation_select)
-
-    operator = if operator_class == Queries::Operators::Equals
-                 'IN'
-               else
-                 'NOT IN'
-               end
-
-    "#{WorkPackage.table_name}.id #{operator} (#{relations_subselect.to_sql})"
-  end
-
-  private
-
-  def relation_type
-    raise NotImplementedError
-  end
-
-  def relation_filter
-    raise NotImplementedError
-  end
-
-  def relation_select
-    raise NotImplementedError
+module API
+  module V3
+    module Queries
+      module Schemas
+        class RequiredByFilterDependencyRepresenter < ByWorkPackageFilterDependencyRepresenter; end
+      end
+    end
   end
 end

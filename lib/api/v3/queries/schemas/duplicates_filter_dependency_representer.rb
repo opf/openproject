@@ -28,22 +28,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::ParentFilter <
-  Queries::WorkPackages::Filter::WorkPackageFilter
-
-  include ::Queries::WorkPackages::Filter::FilterOnDirectedRelationsMixin
-
-  private
-
-  def relation_type
-    :hierarchy
-  end
-
-  def relation_filter
-    { from_id: values }
-  end
-
-  def relation_select
-    :to_id
+module API
+  module V3
+    module Queries
+      module Schemas
+        class DuplicatesFilterDependencyRepresenter < ByWorkPackageFilterDependencyRepresenter; end
+      end
+    end
   end
 end

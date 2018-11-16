@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,22 +26,42 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::ParentFilter <
-  Queries::WorkPackages::Filter::WorkPackageFilter
+require 'spec_helper'
 
-  include ::Queries::WorkPackages::Filter::FilterOnDirectedRelationsMixin
+describe Queries::WorkPackages::Filter::FollowsFilter, type: :model do
+  it_behaves_like 'filter by work package id' do
+    let(:class_key) { :follower }
 
-  private
+    describe '#where' do
+      let!(:following_wp) { FactoryBot.create(:work_package, follows: [filter_wp]) }
+      let!(:filter_wp) { FactoryBot.create(:work_package) }
+      let!(:other_wp) { FactoryBot.create(:work_package) }
 
-  def relation_type
-    :hierarchy
-  end
+      before do
+        instance.values = [filter_wp.id.to_s]
+      end
 
-  def relation_filter
-    { from_id: values }
-  end
+      context "on '=' operator" do
+        before do
+          instance.operator = '='
+        end
 
-  def relation_select
-    :to_id
+        it 'returns the preceding work packages' do
+          expect(WorkPackage.where(instance.where))
+            .to match_array [following_wp]
+        end
+      end
+
+      context "on '!' operator" do
+        before do
+          instance.operator = '!'
+        end
+
+        it 'returns the not preceding work packages' do
+          expect(WorkPackage.where(instance.where))
+            .to match_array [filter_wp, other_wp]
+        end
+      end
+    end
   end
 end
