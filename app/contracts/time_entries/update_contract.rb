@@ -57,14 +57,14 @@ module TimeEntries
       else
         return delete_all
       end
-
-      ##
-      # Validate that the new work_package is visible to the user
-      def work_package_visible_to_user?
-        model.work_package.nil? ||
+    end
+    
+    ##
+    # Validate that the new work_package is visible to the user
+    def work_package_visible_to_user?
+      model.work_package.nil? ||
         work_package_id.nil? ||
         model.work_package.visible?(user)
-      end
     end
   end
 end
