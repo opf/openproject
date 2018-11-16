@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -29,7 +30,7 @@
 
 ##
 # Implements the deletion of a time entry.
-class TimeEntries::DeleteService 
+class TimeEntries::DeleteService
   include Concerns::Contracted
   attr_accessor :user, :time_entry
 
@@ -46,5 +47,6 @@ class TimeEntries::DeleteService
   def call
     time_entry.destroy
   end
+
 
 end

@@ -48,11 +48,5 @@ class TimeEntries::UpdateService
 
   def set_attributes(attributes)
     time_entry.attributes = attributes
-
-    ##
-    # Update project context if moving time entry
-    if time_entry.work_package && time_entry.work_package_id_changed?
-      time_entry.project_id = time_entry.work_package.project_id
-    end
   end
 end
