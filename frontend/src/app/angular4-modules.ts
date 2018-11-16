@@ -234,6 +234,9 @@ import {WidgetWpCreatedComponent} from "core-components/grid/widgets/wp-created/
 import {WidgetWpWatchedComponent} from "core-components/grid/widgets/wp-watched/wp-watched.component";
 import { DynamicModule } from 'ng-dynamic-component';
 import {WidgetWpCalendarComponent} from "core-components/grid/widgets/wp-calendar/wp-calendar.component";
+import {GridWidgetsService} from "core-components/grid/widgets/widgets.service";
+import {AddGridWidgetModal} from "core-components/grid/widgets/add/add.modal";
+import {AddGridWidgetService} from "core-components/grid/widgets/add/add.service";
 
 @NgModule({
   imports: [
@@ -261,10 +264,11 @@ import {WidgetWpCalendarComponent} from "core-components/grid/widgets/wp-calenda
     // Calendar component
     FullCalendarModule,
 
+    //Grids
     DynamicModule.withComponents([WidgetWpAssignedComponent,
                                   WidgetWpCreatedComponent,
                                   WidgetWpWatchedComponent,
-                                  WidgetWpCalendarComponent])
+                                  WidgetWpCalendarComponent]),
   ],
   providers: [
     {
@@ -362,6 +366,10 @@ import {WidgetWpCalendarComponent} from "core-components/grid/widgets/wp-calenda
 
     // Augmenting Rails
     ModalWrapperAugmentService,
+
+    // Grids
+    GridWidgetsService,
+    AddGridWidgetService
   ],
   declarations: [
     ConfirmFormSubmitController,
@@ -546,7 +554,8 @@ import {WidgetWpCalendarComponent} from "core-components/grid/widgets/wp-calenda
     WidgetWpAssignedComponent,
     WidgetWpCreatedComponent,
     WidgetWpWatchedComponent,
-    WidgetWpCalendarComponent
+    WidgetWpCalendarComponent,
+    AddGridWidgetModal,
   ],
   entryComponents: [
     WorkPackagesBaseComponent,
@@ -649,9 +658,12 @@ import {WidgetWpCalendarComponent} from "core-components/grid/widgets/wp-calenda
 
     // MyPage
     MyPageComponent,
+
+    // Grid
     WidgetWpAssignedComponent,
     WidgetWpCreatedComponent,
     WidgetWpWatchedComponent,
+    AddGridWidgetModal
   ]
 })
 export class OpenProjectModule {

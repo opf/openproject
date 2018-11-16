@@ -50,7 +50,9 @@
        (dragStart)="dragStart(event)"
        [cdkDropListConnectedTo]="gridAreaDropIds">
 
-    <div class="grid--widget-add" *ngIf="isAddable(area)">
+    <div class="grid--widget-add"
+         *ngIf="isAddable(area)"
+         (click)="addWidget(area)">
     </div>
   </div>
 

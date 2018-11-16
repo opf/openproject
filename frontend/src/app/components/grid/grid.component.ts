@@ -11,6 +11,8 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {AbstractWidgetComponent} from "core-components/grid/widgets/abstract-widget.component";
 import {CdkDragDrop, CdkDragStart, CdkDragEnd} from "@angular/cdk/drag-drop";
 import {ResizeDelta} from "../../modules/common/resizer/resizer.component";
+import {GridWidgetsService} from "core-components/grid/widgets/widgets.service";
+import {AddGridWidgetService} from "core-components/grid/widgets/add/add.service";
 
 export interface WidgetRegistration {
   identifier:string;
@@ -18,7 +20,7 @@ export interface WidgetRegistration {
   component:any;
 }
 
-interface GridArea {
+export interface GridArea {
   startRow:number;
   endRow:number;
   startColumn:number;
@@ -30,9 +32,8 @@ interface GridArea {
   templateUrl: './grid.component.html',
   selector: 'grid'
 })
-export class GridComponent implements OnInit, AfterViewInit, OnDestroy {
+export class GridComponent implements AfterViewInit, OnDestroy {
   public uiWidgets:ComponentRef<any>[] = [];
-  private registeredWidgets:WidgetRegistration[] = [];
   public widgetResources:GridWidgetResource[] = [];
   private numColumns:number = 0;
   private numRows:number = 0;
@@ -51,13 +52,8 @@ export class GridComponent implements OnInit, AfterViewInit, OnDestroy {
               readonly resolver:ComponentFactoryResolver,
               readonly Hook:HookService,
               private sanitization:DomSanitizer,
-              private injector:Injector) {}
-
-  ngOnInit() {
-    _.each(this.Hook.call('gridWidgets'), (registration:WidgetRegistration[]) => {
-      this.registeredWidgets = this.registeredWidgets.concat(registration);
-    });
-  }
+              private widgetsService:GridWidgetsService,
+              private addService:AddGridWidgetService) {}
 
   ngOnDestroy() {
     this.uiWidgets.forEach((widget) => widget.destroy());
@@ -68,6 +64,7 @@ export class GridComponent implements OnInit, AfterViewInit, OnDestroy {
       this.numRows = grid.rowCount;
       this.numColumns = grid.columnCount;
 
+      // TODO: ensure they are casted to proper HalResources
       this.widgetResources = grid.widgets;
 
       this.gridAreas = this.buildGridAreas();
@@ -81,7 +78,7 @@ export class GridComponent implements OnInit, AfterViewInit, OnDestroy {
       return null;
     }
 
-    let registration = this.registeredWidgets.find((reg) => reg.identifier === widget.identifier);
+    let registration = this.widgetsService.registered.find((reg) => reg.identifier === widget.identifier);
 
     if (!registration) {
       debugLog(`No widget registered with identifier ${widget.identifier}`);
@@ -197,6 +194,22 @@ export class GridComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public gridAreaId(area:GridArea) {
     return `grid--area-${area.startRow}-${area.startColumn}`;
+  }
+
+  public addWidget(area:GridArea) {
+    this
+      .addService
+      .select(area)
+      .then((widgetResource) => {
+        // TODO: We should use the proper resource here
+        // but they are not casted as such when we get the
+        // initial resources from the backend
+        this.widgetResources.push(widgetResource.source);
+
+        this.gridAreas = this.buildGridAreas();
+        this.gridAreaDropIds = this.buildGridAreaDropIds();
+        this.gridWidgetAreas = this.buildWidgetGridAreas();
+      });
   }
 
   private buildGridAreas() {
