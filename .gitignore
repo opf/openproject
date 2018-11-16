@@ -34,12 +34,16 @@
 
 # Ignore bundler config.
 /.bundle
+/vendor/bundle
 
 # Ignore all logfiles and tempfiles.
 /log/*.log
 npm-debug.log*
 /tmp
 *.swp
+
+# Ignore Visual Studio Code files
+/.vscode
 
 # Ignore RubyMine files
 /.idea

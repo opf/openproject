@@ -107,6 +107,48 @@ Depending on custom fields defined for time entries, additional properties might
                 "message": "The requested resource could not be found."
             }
 
+
+## Delete time entry [DELETE]
+
+Permanently deletes the specified time entry.
+
++ Parameters
+    + id (required, integer, `1`) ... Time entry id
+
++ Response 202
+
+    Returned if the time entry was deleted successfully.
+
+    Note that the response body is empty as of now. In future versions of the API a body
+    *might* be returned, indicating the progress of deletion.
+
+    + Body
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to delete this time entry."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the time entry does not exist.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified user does not exist."
+            }
+
+
 ## Time entries [/api/v3/time_entries{?offset,pageSize,filters,sortBy}]
 
 + Model
@@ -337,7 +379,7 @@ Updates the given time entry by applying the attributes provided in the body. Pl
 
 There is no form and schema resource for time entries, yet.
 
-+ Request Create time entry
++ Request update time entry
 
     + Body
 
@@ -359,7 +401,6 @@ There is no form and schema resource for time entries, yet.
                     "href": "/api/v3/custom_options/11"
                   }
                 },
-                "id": 123,
                 "hours": 'PT5H',
                 "comment": "some comment",
                 "spentOn": "2017-07-28",

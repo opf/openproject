@@ -1,5 +1,4 @@
 #-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,31 +27,24 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class TimeEntries::UpdateService
+##
+# Implements the deletion of a time entry.
+class TimeEntries::DeleteService 
   include Concerns::Contracted
   attr_accessor :user, :time_entry
 
   def initialize(user:, time_entry:)
     self.user = user
     self.time_entry = time_entry
-    self.contract_class = TimeEntries::UpdateContract
+    self.contract_class = TimeEntries::DeleteContract
   end
 
-  def call(attributes: {})
-    set_attributes attributes
-    time_entry.errors.empty? && time_entry.save
-    ServiceResult.new success: success, errors: errors, result: time_entry
+  ##
+  # Deletes the given time entry if allowed.
+  #
+  # @return True if the deletion has been initiated, false otherwise.
+  def call
+    time_entry.destroy
   end
 
-  private
-
-  def set_attributes(attributes)
-    time_entry.attributes = attributes
-
-    ##
-    # Update project context if moving time entry
-    if time_entry.work_package && time_entry.work_package_id_changed?
-      time_entry.project_id = time_entry.work_package.project_id
-    end
-  end
 end

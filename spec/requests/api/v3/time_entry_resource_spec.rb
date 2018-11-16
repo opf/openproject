@@ -493,4 +493,49 @@ describe 'API v3 time_entry resource', type: :request do
       end
     end
   end
+
+  describe 'DELETE /api/v3/time_entries/:id' do
+    let(:path) { api_v3_paths.time_entry time_entry.id }
+
+    before do
+      delete path
+    end
+
+    subject(:response) { last_response }
+
+    shared_examples_for 'deletes the time_entry' do
+      it 'responds with HTTP No Content' do
+        expect(subject.status).to eq 204
+      end
+
+      it 'removes the time_entry from the DB' do
+        expect(TimeEntry.exists?(time_entry.id)).to be_falsey
+      end
+    end
+
+    shared_examples_for 'does not delete the time_entry' do |status = 403|
+      it "responds with #{status}" do
+        expect(subject.status).to eq status
+      end
+
+      it 'does not delete the time_entry' do
+        expect(TimeEntry.exists?(time_entry.id)).to be_truthy
+      end
+    end
+
+    context "with an uncontainered time_entry" do
+      let(:container) { nil }
+
+      context 'with the user being the author' do
+        it_behaves_like 'deletes the time_entry'
+      end
+
+      context 'with the user not being the author' do
+        let(:author) { FactoryBot.create(:user) }
+
+        it_behaves_like 'does not delete the time_entry', 404
+      end
+    end
+  end
+
 end
