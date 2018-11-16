@@ -41,6 +41,9 @@ npm-debug.log*
 /tmp
 *.swp
 
+# Ignore Visual Studio Code files
+/.vscode
+
 # Ignore RubyMine files
 /.idea
 /frontend/.idea
