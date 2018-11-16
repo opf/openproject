@@ -30,7 +30,7 @@
 #wrapper
   @include default-transition
   display: grid
-  grid-template-rows: #{$header-height} calc(100vh - #{$header-height})
+  grid-template-rows: auto 1fr
 
 
 #main
@@ -50,6 +50,8 @@
   @include default-transition
   margin: 0 0 0 0
   padding: 10px 20px
+  // Needed for Safari
+  height: calc(100vh - #{$header-height})
   overflow-y: auto
   overflow-x: hidden
   background-color: #fff

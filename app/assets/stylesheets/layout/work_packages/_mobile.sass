@@ -134,13 +134,15 @@
 
 @include breakpoint(680px down)
   body.controller-work_packages.action-show
+    #content
+      position: relative
     .work-packages--show-view
-      padding: 0
+      padding: 40px 0 0 0
 
     #toolbar-items
       position: absolute
-      top: 65px
-      right: 20px
+      top: 0
+      right: 0
       justify-content: flex-end
 
       .toolbar-item
