@@ -131,13 +131,6 @@
       padding: 8px 0 !important
       font-size: 1rem
 
-    @include breakpoint(680px up)
-      &.action-show,
-      &.full-create
-        #main
-          #main-menu
-            height: initial
-            min-height: calc(100vh - 55px - 5px)
 
 @include breakpoint(680px down)
   body.controller-work_packages.action-show
@@ -145,11 +138,17 @@
       padding: 0
 
     #toolbar-items
+      position: absolute
+      top: 65px
+      right: 20px
+      justify-content: flex-end
+
       .toolbar-item
         flex-grow: 0
     .work-packages-full-view--split-container
       border-top: none
 
-  body.controller-work_packages.action-details
+  body.controller-work_packages.action-details,
+  body.controller-work_packages.action-create
     .work-packages-split-view--details-side
       overflow-x: auto

@@ -51,15 +51,6 @@ body.controller-work_packages.full-create
     @include clearfix
 
     li
-      float: left
-      position: relative
-
-      &.toolbar-item
-        margin: 0 10px 6px 0
-
-        &:last-child
-          margin-right: 0
-
       .dropdown
         top: 100% !important
         right: 0px !important
@@ -68,7 +59,7 @@ body.controller-work_packages.full-create
         ul li
           float: none
 
-  ul#toolbar-items, ul.subject-header
+  ul.subject-header
     list-style-type: none
 
     li
@@ -173,8 +164,6 @@ body.controller-work_packages.full-create
     display: none
 
 .work-packages--show-view
-  padding: 0 20px
-
   .wp-show--header-container
     @media only screen and (max-width: 679px)
       width: 100%

@@ -29,14 +29,13 @@
 .controller-work_packages.action-index,
 .controller-work_packages.action-show,
 .controller-work_packages.full-create
-
-  #content-wrapper,
-  #content
-    padding: 0
-
   .in_modal &
     #main
       top: 12px
+
+.controller-work_packages.action-index:not(.action-show):not(.full-create)
+  #content-wrapper
+    padding: 0 0 0 20px
 
 // Ensure correct height applied to child elements.
 // The dom looks like this:
@@ -50,8 +49,6 @@
   height: 100%
 
 .work-packages-list-view--container
-  // Set  padding on left side
-  padding-left: 20px
   // Flexbox for the toolbar, filters and work package split view
   display: flex
   flex-direction: column
@@ -194,14 +191,3 @@
   #attributes
     .form--field-container
       max-width: 400px
-
-// Workaround to make the toolbar menu accessible even on very small screens
-@media screen and (max-height: 25em)
-  .controller-work_packages.action-show,
-  .controller-work_packages.action-details,
-  .controller-work_packages.action-index
-    #main
-      overflow: overlay
-    #content-wrapper,
-    #content
-      overflow-y: auto
