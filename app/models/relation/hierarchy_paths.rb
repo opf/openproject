@@ -110,12 +110,12 @@ module Relation::HierarchyPaths
           SELECT
             to_id, #{add_hierarchy_agg_function} AS path
           FROM (
-            SELECT to_id, from_id, hierarchy 
-            FROM relations 
+            SELECT to_id, from_id, hierarchy
+            FROM relations
             WHERE to_id = #{id} AND
                   hierarchy > 0 AND relates = 0 AND blocks = 0 AND duplicates = 0 AND includes = 0 AND requires = 0 AND follows = 0
-            UNION SELECT to_id,from_id,hierarchy 
-                  FROM relations 
+            UNION SELECT to_id,from_id,hierarchy
+                  FROM relations
                   WHERE from_id=#{id} AND
                         hierarchy > 0 AND relates = 0 AND blocks = 0 AND duplicates = 0 AND includes = 0 AND requires = 0 AND follows = 0
             UNION SELECT b.to_id, b.from_id, b.hierarchy FROM relations a

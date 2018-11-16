@@ -169,9 +169,10 @@ gem 'nokogiri', '~> 1.8.5'
 gem 'fog-aws'
 gem 'carrierwave', '~> 1.2.2'
 
-gem 'aws-sdk-core', '~> 3.38.0' #'~> 3.20.2'
+gem 'aws-sdk-core', '~> 3.38.0' # '~> 3.20.2'
+
 # File upload via fog + screenshots on travis
-gem 'aws-sdk-s3', '~> 1.24.0' #, '~> 1.9.1'
+gem 'aws-sdk-s3', '~> 1.24.0' # , '~> 1.9.1'
 
 gem 'openproject-token', '~> 1.0.1'
 
@@ -204,8 +205,8 @@ group :test do
   # not possible to upgrade to 3.6+ until rails is 5.1+
   gem 'rspec', '~> 3.7.0'
   # also add to development group, so "spec" rake task gets loaded
-  gem 'rspec-rails', '~> 3.7.2', group: :development
   gem 'rspec-activemodel-mocks', '~> 1.0.3', git: 'https://github.com/rspec/rspec-activemodel-mocks', branch: 'v1.0.3'
+  gem 'rspec-rails', '~> 3.7.2', group: :development
 
   # Retry failures within the same environment
   gem 'retriable', '~> 3.1.1'
