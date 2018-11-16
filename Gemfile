@@ -169,9 +169,9 @@ gem 'nokogiri', '~> 1.8.5'
 gem 'fog-aws'
 gem 'carrierwave', '~> 1.2.2'
 
-gem 'aws-sdk-core', '~> 3.20.2'
+gem 'aws-sdk-core', '~> 3.38.0' #'~> 3.20.2'
 # File upload via fog + screenshots on travis
-gem 'aws-sdk-s3', '~> 1.9.1'
+gem 'aws-sdk-s3', '~> 1.24.0' #, '~> 1.9.1'
 
 gem 'openproject-token', '~> 1.0.1'
 
