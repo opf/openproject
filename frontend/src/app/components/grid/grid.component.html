@@ -35,7 +35,8 @@
   <div *ngFor="let area of gridAreas; trackBy: identifyGridCellItem;"
        class="grid--area"
        [ngClass] = "{'-drop-target': currentlyDragging && gridAreaDropIds.indexOf(gridAreaId(area)) >= 0,
-                     '-resize-target': isResizeTarget(area) }"
+                     '-resize-target': isResizeTarget(area),
+                     '-addable': mousedOverArea === area && gridAreaDropIds.indexOf(gridAreaId(area)) >= 0 }"
        [style.grid-row-start]="area.startRow"
        [style.grid-row-end]="area.endRow"
        [style.grid-column-start]="area.startColumn"
@@ -47,6 +48,9 @@
        (cdkDropListDropped)="drop($event)"
        (dragStart)="dragStart(event)"
        [cdkDropListConnectedTo]="gridAreaDropIds">
+
+    <div class="grid--widget-add" *ngIf="mousedOverArea === area && gridAreaDropIds.indexOf(gridAreaId(area)) >= 0">
+    </div>
   </div>
 
   <!-- Grid area to visualize resizing -->

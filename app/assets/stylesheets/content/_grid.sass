@@ -22,8 +22,22 @@
     border: 1px solid red
     z-index: 100
 
+  &.-addable
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+
   .resizer
     margin-top: 0px
     margin-left: auto
     margin-right: -20px
     position: relative
+
+.grid--widget-add
+  padding: 20px
+  background-color: rgba(10, 10, 10, 0.1)
+
+  &:before
+    @include icon-font-common
+    @include icon-mixin-add

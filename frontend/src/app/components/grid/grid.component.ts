@@ -1,7 +1,6 @@
 import {Component, OnInit, AfterViewInit, ComponentFactoryResolver, ElementRef, ViewChild, ViewContainerRef,
   ComponentRef,
   OnDestroy,
-  ReflectiveInjector,
   Injector} from "@angular/core";
 import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
