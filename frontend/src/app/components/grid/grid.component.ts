@@ -212,6 +212,22 @@ export class GridComponent implements AfterViewInit, OnDestroy {
       });
   }
 
+  public removeWidget(area:GridArea) {
+    let removedWidget = area.widget!;
+
+    this.widgetResources = this.widgetResources.filter((widget) => {
+      return widget.identifier !== removedWidget.identifier ||
+        widget.startColumn !== removedWidget.startColumn ||
+        widget.endColumn !== removedWidget.endColumn ||
+        widget.startRow !== removedWidget.startRow ||
+        widget.endRow !== removedWidget.endRow;
+    });
+
+    this.gridAreas = this.buildGridAreas();
+    this.gridAreaDropIds = this.buildGridAreaDropIds();
+    this.gridWidgetAreas = this.buildWidgetGridAreas();
+  }
+
   private buildGridAreas() {
     let cells:GridArea[] = [];
 

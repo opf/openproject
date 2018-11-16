@@ -21,6 +21,9 @@
          (cdkDragEnded)="dragStop($event)"
          *ngIf="area.widget"
          style="height: 100%">
+      <div class="grid--widget-remove"
+           (click)="removeWidget(area)">
+      </div>
       <ndc-dynamic [ndcDynamicComponent]="widgetComponent(area.widget)"
                    [ndcDynamicOutputs]="{}">
       </ndc-dynamic>

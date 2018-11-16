@@ -34,6 +34,9 @@
     margin-right: -20px
     position: relative
 
+  .cdk-drag-handle
+    cursor: grab
+
 .grid--widget-add
   padding: 20px
   background-color: rgba(10, 10, 10, 0.1)
@@ -41,3 +44,14 @@
   &:before
     @include icon-font-common
     @include icon-mixin-add
+
+.grid--widget-remove
+  float: right
+  margin-top: -10px
+  margin-right: -10px
+  cursor: pointer
+
+  &:before
+    @include icon-font-common
+    @include icon-mixin-remove
+    font-size: 0.75em
