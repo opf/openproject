@@ -1,0 +1,19 @@
+ko:
+  activerecord:
+    models:
+      document: "문서"
+  default_doc_category_tech: "기술 설명서"
+  default_doc_category_user: "사용자 설명서"
+  enumeration_doc_categories: "문서 범주"
+  enumeration:
+    document_category:
+      documentation: 설명서
+      specification: 사양
+      other: 기타
+  label_document_added: "문서 추가됨"
+  label_document_new: "새 문서"
+  label_document_plural: "문서"
+  label_documents: "문서"
+  permission_manage_documents: "문서 관리"
+  permission_view_documents: "문서 보기"
+  project_module_documents: "문서"

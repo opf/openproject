@@ -1323,6 +1323,7 @@ th:
   label_journal_diff: เปรียบเทียบคำอธิบาย
   label_language: ภาษา
   label_jump_to_a_project: ไปยังโครงการ...
+  label_keyword_plural: Keywords
   label_language_based: ตามภาษาของผู้ใช้
   label_last_activity: Last activity
   label_last_change_on: Last change on

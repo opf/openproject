@@ -1376,6 +1376,7 @@ pl:
   label_journal_diff: Opis porównania
   label_language: Język
   label_jump_to_a_project: Skok do projektu...
+  label_keyword_plural: Keywords
   label_language_based: Na podstawie języka użytkownika
   label_last_activity: Ostatnia aktywność
   label_last_change_on: Ostatnia zmiana na

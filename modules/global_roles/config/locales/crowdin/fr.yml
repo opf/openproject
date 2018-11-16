@@ -1,0 +1,11 @@
+fr:
+  error_can_not_be_assigned: Le rôle ne peut pas être assigné à cet utilisateur
+  global_roles: Rôles globaux
+  label_role_type: Type
+  label_member_role: Rôle du projet
+  label_global_role: Rôle global
+  label_not_changeable: (non modifiable)
+  label_no_assignable_role: Aucun rôle global disponible pour l'assignation
+  label_global: Global
+  seeders:
+    default_role_project_creator: 'Créateur du projet'

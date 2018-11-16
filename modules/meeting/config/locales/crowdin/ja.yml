@@ -1,0 +1,64 @@
+ja:
+  activerecord:
+    attributes:
+      meeting:
+        location: "場所"
+        duration: "期間"
+        participants: "参加者"
+        participants_attended: "出席者"
+        participants_invited: "招待者"
+        start_time: "時間"
+        start_time_hour: "開始時刻"
+    errors:
+      messages:
+        invalid_time_format: "有効な時間ではありません。必要なフォーマット: HH:MM"
+    models:
+      meeting_agenda: "アジェンダ"
+      meeting_minutes: "議事録"
+  description_attended: "出席した"
+  description_invite: "招待済み"
+  events:
+    meeting: 会議が編集されました
+    meeting_agenda: 会議の議題が編集されました
+    meeting_agenda_closed: 会議の議題は終了しました
+    meeting_agenda_opened: 会議の議題を開始しました
+    meeting_minutes: 会議の議事録が編集されました
+    meeting_minutes_created: 議事録の作成
+  error_notification_with_errors: "通知を送信できませんでした。次の受信者には通知できませんでした: %{recipients}"
+  label_meeting: "会議"
+  label_meeting_plural: "会議"
+  label_meeting_new: "新しい会議"
+  label_meeting_edit: "会議を編集"
+  label_meeting_agenda: "アジェンダ"
+  label_meeting_minutes: "議事録"
+  label_meeting_close: "終了する"
+  label_meeting_open: "開く"
+  label_meeting_agenda_close: "議題を閉じて議事録を開始する"
+  label_meeting_date_time: "日付/時刻"
+  label_meeting_diff: "差分"
+  label_notify: "レビュー用に送信"
+  label_icalendar: "iCalendar を送信"
+  label_version: "バージョン"
+  label_time_zone: "タイムゾーン"
+  label_start_date: "開始日"
+  notice_successful_notification: "通知が正常に送信されました"
+  notice_timezone_missing: タイムゾーンが設定されていない場合、%{zone} が使用されます。タイムゾーンを選択するには、ここをクリックしてください。
+  permission_create_meetings: "会議を作成"
+  permission_edit_meetings: "会議の編集"
+  permission_delete_meetings: "会議の削除"
+  permission_view_meetings: "会議を表示"
+  permission_create_meeting_agendas: "議題を管理する"
+  permission_close_meeting_agendas: "議題を閉じる"
+  permission_send_meeting_agendas_notification: "議題のレビュー通知を送信する"
+  permission_create_meeting_minutes: "議事録の管理"
+  permission_send_meeting_minutes_notification: "議事録のレビュー通知を送信する"
+  project_module_meetings: "会議"
+  text_duration_in_hours: "期間（時間）"
+  text_in_hours: "数時間以内"
+  text_meeting_agenda_for_meeting: '会議の議題 "%{meeting}"'
+  text_meeting_closing_are_you_sure: "会議を終了してもよろしいですか？"
+  text_meeting_agenda_open_are_you_sure: "保存されていない議事録のコンテンツは失われます！続行しますか？"
+  text_meeting_minutes_for_meeting: '会議の議事録 "%{meeting}"'
+  text_review_meeting_agenda: "%{author} はレビューのために %{link} をアップしました。"
+  text_review_meeting_minutes: "%{author} はレビューのために %{link} をアップしました。"
+  text_notificiation_invited: "このメールには以下のミーティングのicsエントリーが含まれています:"

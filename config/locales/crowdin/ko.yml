@@ -1296,6 +1296,7 @@ ko:
   label_journal_diff: 설명 비교
   label_language: 언어
   label_jump_to_a_project: 프로젝트로 이동...
+  label_keyword_plural: Keywords
   label_language_based: 사용자 언어에 따름
   label_last_activity: 마지막 활동
   label_last_change_on: 마지막 변경

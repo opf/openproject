@@ -1,0 +1,6 @@
+id:
+  js:
+    work_packages:
+      properties:
+        storyPoints: "Cerita poin"
+        remainingTime: "Jam yang tersisa"

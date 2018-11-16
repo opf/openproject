@@ -1364,6 +1364,7 @@ it:
   label_journal_diff: Confronto Descrizione
   label_language: Linguaggio
   label_jump_to_a_project: Salta ad altro progetto...
+  label_keyword_plural: Keywords
   label_language_based: Basato sulla lingua dell'utente
   label_last_activity: Ultima attività
   label_last_change_on: Ultima modifica fatta il

@@ -1,0 +1,11 @@
+lt:
+  error_can_not_be_assigned: Rolė negali būti priskirta šiam vartotojui
+  global_roles: Globalios rolės
+  label_role_type: Tipas
+  label_member_role: Projekto rolė
+  label_global_role: Globali rolė
+  label_not_changeable: (negalima pakeisti)
+  label_no_assignable_role: Jokia globali rolė nėra prieinama šiam priskyrimui
+  label_global: Globali
+  seeders:
+    default_role_project_creator: 'Project creator'

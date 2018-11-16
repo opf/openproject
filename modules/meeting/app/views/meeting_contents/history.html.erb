@@ -1,0 +1,130 @@
+<%#-- copyright
+OpenProject Meeting Plugin
+
+Copyright (C) 2011-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.md for more details.
+
+++#%>
+
+<% html_title "#{l(:label_history)}: #{@meeting.title}" %>
+
+<%= toolbar title: l(:"label_#{@content_type}"),
+            link_to: link_to(@meeting, @meeting) %>
+
+<h3><%= l(:label_history) %></h3>
+
+<% content_for :header_tags do %>
+  <%= javascript_include_tag('meeting/meeting.js') %>
+<% end %>
+
+<%= form_tag({:action => "diff"}, :method => :get) do %>
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table class="generic-table">
+      <colgroup>
+        <col highlight-col>
+        <col>
+        <col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th class="-short">
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span id="history-version">#</span>
+                <label class="hidden-for-sighted" for="history-version"><%= l(:label_version) %></label>
+              </div>
+            </div>
+          </th>
+          <th class="-short">
+            <div class="generic-table--empty-header"></div>
+          </th>
+          <th class="-short">
+            <div class="generic-table--empty-header"></div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Meeting.human_attribute_name(:updated_on) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Meeting.human_attribute_name(:author) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Meeting.human_attribute_name(:comments) %>
+                </span>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% show_diff = @content_versions.size > 1 %>
+        <% @content_versions.each_with_index do |content_version,index| %>
+          <tr>
+            <td class="id -short">
+              <%= content_version.version == @content.version ?
+                    link_to(content_version.version, tab_meeting_path(@meeting, :tab => @content_type.sub(/^meeting_/, '')), id: "version-#{content_version.version}") :
+                    link_to(content_version.version, send(:"#{@content_type}_version_path", @meeting, content_version.version), id: "version-#{content_version.version}") %>
+            </td>
+              <td class="checkbox -short">
+                <% if show_diff && (index < @content_versions.size-1) %>
+                  <%= radio_button_tag('version_to',
+                                       content_version.version,
+                                       (index==0),
+                                       id: "checkbox-from-#{index}",
+                                       class: 'meetings--checkbox-version-to',
+                                       data: { target: ".checkbox-to-#{index+1}" }) %>
+                  <label class="hidden-for-sighted" for="checkbox-from-<%= index %>"><%= l(:description_compare_from) %> <%= index %></label>
+                <% end %>
+              </td>
+              <td class="checkbox -short">
+                <% if show_diff && (index > 0) %>
+                  <%= radio_button_tag('version_from', content_version.version, (index==1), :id => "checkbox-to-#{index}") %>
+                  <label class="hidden-for-sighted" for="checkbox-to-<%= index %>"><%= l(:description_compare_to) %> <%= index %></label>
+                <% end %>
+              </td>
+              <td id="test"><%= format_time(content_version.created_at) %></td>
+              <td><em><%= User.find content_version.user_id %></em></td>
+              <td><%=h content_version.notes %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+<%= styled_button_tag l(:label_view_diff), class: '-small -highlight' if show_diff %>
+<%= pagination_links_full @content_versions %>
+<% end %>
+
+<%= render :partial => 'shared/meeting_header' %>

@@ -1,0 +1,11 @@
+et:
+  error_can_not_be_assigned: Seda rolli ei saa sellele kasutajale määrata
+  global_roles: Üldised rollid
+  label_role_type: Tüüp
+  label_member_role: Projekti roll
+  label_global_role: Globaalne roll
+  label_not_changeable: (pole muudetav)
+  label_no_assignable_role: Määramiseks pole saadaval ühtegi üldist rolli
+  label_global: Üldine
+  seeders:
+    default_role_project_creator: 'Project creator'

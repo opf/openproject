@@ -1239,6 +1239,7 @@ zh:
   label_journal_diff: 描述的对比
   label_language: 语言
   label_jump_to_a_project: 跳转到一个项目...
+  label_keyword_plural: Keywords
   label_language_based: 基于用户的语言
   label_last_activity: 最近一次活动
   label_last_change_on: 最后一次修改时间
