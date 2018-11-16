@@ -78,7 +78,7 @@ describe TimeEntries::DeleteContract do
 
   it_behaves_like 'is valid'
 
-  context 'when user is not allowed to edit time entries' do
+  context 'when user is not allowed to delete time entries' do
     let(:permissions) { [] }
 
     it 'is invalid' do

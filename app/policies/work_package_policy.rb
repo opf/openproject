@@ -44,7 +44,7 @@ class WorkPackagePolicy < BasePolicy
     # sense only because the work_packages/moves controller handles
     # copying multiple work packages.
     {
-      edit: delete_allowed?(work_package),
+      edit: edit_allowed?(work_package),
       log_time: log_time_allowed?(work_package),
       move: move_allowed?(work_package),
       copy: move_allowed?(work_package),
@@ -55,7 +55,7 @@ class WorkPackagePolicy < BasePolicy
     }
   end
 
-  def delete_allowed?(work_package)
+  def edit_allowed?(work_package)
     @edit_cache ||= Hash.new do |hash, project|
       hash[project] = work_package.persisted? && user.allowed_to?(:edit_work_packages, project)
     end

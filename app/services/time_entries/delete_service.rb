@@ -47,6 +47,4 @@ class TimeEntries::DeleteService
   def call
     time_entry.destroy
   end
-
-
 end

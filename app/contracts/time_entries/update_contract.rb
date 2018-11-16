@@ -35,7 +35,7 @@ module TimeEntries
         errors.add :base, :error_unauthorized
       end
 
-      unless work_package_visible_to_user? 
+      unless work_package_visible_to_user?
         model.errors.add :work_package_id, :invalid
       end
 
@@ -61,10 +61,10 @@ module TimeEntries
       ##
       # Validate that the new work_package is visible to the user if it has been changed
       def work_package_visible_to_user?
-        return  not time_entry.work_package_id_changed? ||
-                not time_entry.work_package || 
-                time_entry.work_package.nil? ||
-                time_entry.work_package.visible?(user)
+        return  model.work_package.nil? ||
+                work_package_id.nil? ||
+                model.work_package.id != work_package_id ||
+                model.work_package.visible?(user)
       end
     end
   end

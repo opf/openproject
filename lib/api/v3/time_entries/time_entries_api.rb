@@ -96,9 +96,8 @@ module API
                        .new(time_entry: @time_entry, user: current_user)
                        .call(attributes: params)
 
-              if result.success?
-                updated_entry = result.result
-                TimeEntryRepresenter.create(updated_entry,
+              if result
+                TimeEntryRepresenter.create(result,
                                             current_user: current_user,
                                             embed_links: true)
               else
