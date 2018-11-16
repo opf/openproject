@@ -58,7 +58,7 @@ module TimeEntries
         return delete_all
       end
     end
-    
+
     ##
     # Validate that the new work_package is visible to the user
     def work_package_visible_to_user?
