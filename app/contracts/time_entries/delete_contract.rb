@@ -53,8 +53,6 @@ module TimeEntries
       else
         return edit_all
       end
-
-
     end
   end
 end

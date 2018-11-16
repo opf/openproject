@@ -41,7 +41,7 @@ class TimeEntries::UpdateService
   def call(attributes: {})
     set_attributes attributes
     time_entry.errors.empty? && time_entry.save
-    return time_entry
+    time_entry
   end
 
   private

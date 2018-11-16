@@ -59,12 +59,11 @@ module TimeEntries
       end
 
       ##
-      # Validate that the new work_package is visible to the user if it has been changed
+      # Validate that the new work_package is visible to the user
       def work_package_visible_to_user?
-        return  model.work_package.nil? ||
-                work_package_id.nil? ||
-                model.work_package.id != work_package_id ||
-                model.work_package.visible?(user)
+        model.work_package.nil? ||
+        work_package_id.nil? ||
+        model.work_package.visible?(user)
       end
     end
   end
