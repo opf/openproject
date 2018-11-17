@@ -117,7 +117,7 @@ fa:
     custom_actions:
       date:
         specific: برخط
-        current_date: Current date
+        current_date: تاریخ کنونی
     error:
       internal: An internal error has occurred.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -332,7 +332,7 @@ fa:
           at any time.
         help_menu: In the <b>Help</b> menu you will find a user guide and additional
           help resources. <br> Enjoy your work with OpenProject!
-        got_it: Got it
+        got_it: متوجه شدم
     password_confirmation:
       field_description: You need to enter your account password to confirm this change.
       title: Confirm your password to continue
@@ -711,8 +711,8 @@ fa:
         highlighting_mode:
           description: Highlight with color
           none: No highlighting
-          inline: Highlighted attribute(s)
-          inline_all: All attributes
+          inline: بخش(های) هایلایت‌شده
+          inline_all: همه‌ی بخش‌ها
           entire_row_by: Entire row by
           status: Status
           priority: اولويت
