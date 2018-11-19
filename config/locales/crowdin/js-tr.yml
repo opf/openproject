@@ -66,7 +66,7 @@ tr:
       preview: Önizleme modunu aç/kapat
       source_code: Markdown kaynak modunu değiştir
       error_saving_failed: 'Aşağıdaki nedenden dolayı belge kayıt edilemedi: %{error}'
-      error_initialization_failed: Failed to initialize CKEditor!
+      error_initialization_failed: CKEditor başlatılamadı!
       mode:
         manual: Markdown kaynağına geç
         wysiwyg: WYSIWYG düzenleyiciye geç
@@ -113,7 +113,7 @@ tr:
           button: Gömülü iş paketi tablosu
           text: "[Placeholder] Embedded work package table"
         embedded_calendar:
-          text: "[Placeholder] Embedded calendar"
+          text: "[Placeholder] Göümülü takvim"
     custom_actions:
       date:
         specific: açık
@@ -378,26 +378,26 @@ tr:
       label_discard: Seçimi gözardı et
       typeahead_placeholder: Olası takipçiler için arayın
     relation_labels:
-      parent: Kaynak
+      parent: Üst
       children: Çocuk
       relates: Alakalı
       duplicates: Çoğalt
       duplicated: Yineleyen
       blocks: Şunu Engelliyor
       blocked: Şuna Bağlı
-      precedes: Öncülleri
-      follows: Takip eden
+      precedes: Sonrası
+      follows: Öncesi
       includes: İçerir
       partof: Bölümü
       requires: Gerektirir
       required: Tarafından gerekli
       relation_type: ilişki türü
     relations_hierarchy:
-      parent_headline: Kaynak
+      parent_headline: Üst
       hierarchy_headline: Hiyerarşi
       children_headline: Çocuk
     relation_buttons:
-      set_parent: Set parent work package
+      set_parent: Üst iş paketi ayarla
       change_parent: Üstünü değiştir
       remove_parent: Üstündekini kaldır
       group_by_wp_type: İş paketi türüne göre grupla
