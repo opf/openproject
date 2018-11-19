@@ -46,16 +46,11 @@ $hamburger-width: 50px
 #top-menu
   @include varprop(background-color, header-bg-color)
   height: $header-height
-  width: 100%
   padding: 0
   z-index: 22
-  position: relative
   border-bottom-style: solid
   @include varprop(border-bottom-width, header-border-bottom-width)
   @include varprop(border-bottom-color, header-border-bottom-color)
-
-  %absolute-layout-mode &
-    position: absolute
 
   ::-webkit-input-placeholder
     color: $header-search-field-font-color
