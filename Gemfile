@@ -217,7 +217,7 @@ group :test do
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 3.0.0'
+  gem 'capybara', '~> 3.11.1'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
   gem 'chromedriver-helper', '~> 1.2.0'
@@ -251,6 +251,7 @@ end
 group :development, :test do
   gem 'thin', '~> 1.7.2'
   gem 'ruby-prof', require: false
+  gem 'puma', '~> 3.11.3'
 
   gem 'pry-rails', '~> 0.3.6'
   gem 'pry-stack_explorer', '~> 0.4.9.2'
