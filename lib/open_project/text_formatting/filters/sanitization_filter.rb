@@ -31,9 +31,23 @@
 module OpenProject::TextFormatting
   module Filters
     class SanitizationFilter < HTML::Pipeline::SanitizationFilter
-      WHITELIST[:elements] << 'macro'
-      # Whitelist class and data-* attributes on all macros
-      WHITELIST[:attributes].merge!('macro' => ['class', :data])
+      # WHITELIST and it's elements are frozen....
+      if WHITELIST[:elements].frozen?
+        whitelist = WHITELIST.dup
+        whitelist[:elements] = WHITELIST[:elements].dup
+        whitelist[:elements] << 'macro'
+        whitelist[:attributes] = WHITELIST[:attributes].dup
+        whitelist[:attributes].merge!('macro' => ['class', :data])
+        # Ignore, it's a constant, ignore the warning. - quite smelly, though -
+        WHITELIST = whitelist
+        WHITELIST[:elements].freeze
+        WHITELIST[:attributes].freeze
+        WHITELIST.freeze
+      else
+        WHITELIST[:elements] << 'macro'
+        # Whitelist class and data-* attributes on all macros
+        WHITELIST[:attributes].merge!('macro' => ['class', :data])
+      end
     end
   end
 end
