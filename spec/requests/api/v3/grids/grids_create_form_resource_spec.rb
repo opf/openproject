@@ -55,10 +55,67 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
         .to eql 200
     end
 
-    it 'should be of type form' do
+    it 'is of type form' do
       expect(subject.body)
         .to be_json_eql("Form".to_json)
         .at_path('_type')
+    end
+
+    it 'contains a Schema' do
+      expect(subject.body)
+        .to be_json_eql("Schema".to_json)
+        .at_path('_embedded/schema/_type')
+    end
+
+    it 'contains default data in the payload' do
+      expected = {
+        "rowCount": 4,
+        "columnCount": 5,
+        "widgets": [
+          {
+            "_type": "Widget",
+            "identifier": "work_packages_assigned",
+            "startRow": 4,
+            "endRow": 5,
+            "startColumn": 1,
+            "endColumn": 2
+          },
+          {
+            "_type": "Widget",
+            "identifier": "work_packages_created",
+            "startRow": 1,
+            "endRow": 2,
+            "startColumn": 1,
+            "endColumn": 2
+          },
+          {
+            "_type": "Widget",
+            "identifier": "work_packages_watched",
+            "startRow": 2,
+            "endRow": 4,
+            "startColumn": 4,
+            "endColumn": 5
+          },
+          {
+            "_type": "Widget",
+            "identifier": "work_packages_calendar",
+            "startRow": 1,
+            "endRow": 2,
+            "startColumn": 4,
+            "endColumn": 6
+          }
+        ],
+        "_links": {
+          "page": {
+            "href": "/my/page",
+            "type": "text/html"
+          }
+        }
+      }
+
+      expect(subject.body)
+        .to be_json_eql(expected.to_json)
+        .at_path('_embedded/payload')
     end
   end
 end

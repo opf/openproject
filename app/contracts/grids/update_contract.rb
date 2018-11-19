@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,42 +28,9 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Grids
-      class GridRepresenter < ::API::Decorators::Single
-        link :page do
-          {
-            href: my_page_path,
-            type: 'text/html'
-          }
-        end
+require 'grids/base_contract'
 
-        self_link title_getter: ->(*) { nil }
-
-        property :row_count
-
-        property :column_count
-
-        property :widgets,
-                 exec_context: :decorator,
-                 getter: ->(*) do
-                   represented.widgets.map do |widget|
-                     WidgetRepresenter.new(widget, current_user: current_user)
-                   end
-                 end,
-                 setter: ->(fragment:, **) do
-                   represented.widgets = fragment.map do |widget_fragment|
-                     WidgetRepresenter
-                       .new(OpenStruct.new, current_user: current_user)
-                       .from_hash(widget_fragment.with_indifferent_access)
-                   end
-                 end
-
-        def _type
-          'Grid'
-        end
-      end
-    end
+module Grids
+  class UpdateContract < BaseContract
   end
 end

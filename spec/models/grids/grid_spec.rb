@@ -26,42 +26,11 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Grids
-      class GridRepresenter < ::API::Decorators::Single
-        link :page do
-          {
-            href: my_page_path,
-            type: 'text/html'
-          }
-        end
+require 'spec_helper'
+require_relative './shared_model'
 
-        self_link title_getter: ->(*) { nil }
+describe Grid, type: :model do
+  let(:instance) { Grid.new }
 
-        property :row_count
-
-        property :column_count
-
-        property :widgets,
-                 exec_context: :decorator,
-                 getter: ->(*) do
-                   represented.widgets.map do |widget|
-                     WidgetRepresenter.new(widget, current_user: current_user)
-                   end
-                 end,
-                 setter: ->(fragment:, **) do
-                   represented.widgets = fragment.map do |widget_fragment|
-                     WidgetRepresenter
-                       .new(OpenStruct.new, current_user: current_user)
-                       .from_hash(widget_fragment.with_indifferent_access)
-                   end
-                 end
-
-        def _type
-          'Grid'
-        end
-      end
-    end
-  end
+  it_behaves_like 'grid attributes'
 end

@@ -26,42 +26,35 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Grids
-      class GridRepresenter < ::API::Decorators::Single
-        link :page do
-          {
-            href: my_page_path,
-            type: 'text/html'
-          }
-        end
+shared_examples_for 'grid attributes' do
+  describe 'attributes' do
+    it '#row_count' do
+      instance.row_count = 5
+      expect(instance.row_count)
+        .to eql 5
+    end
 
-        self_link title_getter: ->(*) { nil }
+    it '#column_count' do
+      instance.column_count = 5
+      expect(instance.column_count)
+        .to eql 5
+    end
 
-        property :row_count
+    it '#page' do
+      instance.page = 'some_page/at/a/url'
+      expect(instance.page)
+        .to eql 'some_page/at/a/url'
+    end
 
-        property :column_count
+    it '#widgets' do
+      widgets = [
+        GridWidget.new(start_row: 2),
+        GridWidget.new(start_row: 5)
+      ]
 
-        property :widgets,
-                 exec_context: :decorator,
-                 getter: ->(*) do
-                   represented.widgets.map do |widget|
-                     WidgetRepresenter.new(widget, current_user: current_user)
-                   end
-                 end,
-                 setter: ->(fragment:, **) do
-                   represented.widgets = fragment.map do |widget_fragment|
-                     WidgetRepresenter
-                       .new(OpenStruct.new, current_user: current_user)
-                       .from_hash(widget_fragment.with_indifferent_access)
-                   end
-                 end
-
-        def _type
-          'Grid'
-        end
-      end
+      instance.widgets = widgets
+      expect(instance.widgets)
+        .to match_array widgets
     end
   end
 end

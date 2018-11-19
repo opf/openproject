@@ -81,14 +81,14 @@ module API
         #end
 
         def payload_representer
-          GridRepresenter
+          GridPayloadRepresenter
             .new(represented, current_user: current_user)
         end
 
         def schema_representer
-          Schemas::GridSchemaRepresenter.new(represented,
-                                             form_embedded: true,
-                                             current_user: current_user)
+          API::V3::Grids::Schemas::GridSchemaRepresenter.new(represented,
+                                                             form_embedded: true,
+                                                             current_user: current_user)
         end
 
         #def allow_commit?

@@ -26,42 +26,60 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Grids
-      class GridRepresenter < ::API::Decorators::Single
-        link :page do
-          {
-            href: my_page_path,
-            type: 'text/html'
-          }
-        end
+require 'spec_helper'
 
-        self_link title_getter: ->(*) { nil }
+describe GridWidget, type: :model do
+  let(:instance) { GridWidget.new }
 
-        property :row_count
+  describe 'attributes' do
+    it '#start_row' do
+      instance.start_row = 5
+      expect(instance.start_row)
+        .to eql 5
+    end
 
-        property :column_count
+    it '#end_row' do
+      instance.end_row = 5
+      expect(instance.end_row)
+        .to eql 5
+    end
 
-        property :widgets,
-                 exec_context: :decorator,
-                 getter: ->(*) do
-                   represented.widgets.map do |widget|
-                     WidgetRepresenter.new(widget, current_user: current_user)
-                   end
-                 end,
-                 setter: ->(fragment:, **) do
-                   represented.widgets = fragment.map do |widget_fragment|
-                     WidgetRepresenter
-                       .new(OpenStruct.new, current_user: current_user)
-                       .from_hash(widget_fragment.with_indifferent_access)
-                   end
-                 end
+    it '#start_column' do
+      instance.start_column = 5
+      expect(instance.start_column)
+        .to eql 5
+    end
 
-        def _type
-          'Grid'
-        end
-      end
+    it '#end_column' do
+      instance.end_column = 5
+      expect(instance.end_column)
+        .to eql 5
+    end
+
+    it '#identifier' do
+      instance.identifier = 'some_identifier'
+      expect(instance.identifier)
+        .to eql 'some_identifier'
+    end
+
+    it '#options' do
+      value = {
+        some: 'value',
+        and: {
+          also: 1
+        }
+      }
+
+      instance.options = value
+      expect(instance.options)
+        .to eql value
+    end
+
+    it '#grid' do
+      grid = Grid.new
+      instance.grid = grid
+      expect(instance.grid)
+        .to eql grid
     end
   end
 end

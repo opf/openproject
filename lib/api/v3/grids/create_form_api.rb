@@ -33,32 +33,32 @@ module API
         resource :form do
           helpers do
             def bogus_grid
-              OpenStruct.new(
+              Grid.new(
                 row_count: 4,
                 column_count: 5,
                 widgets: [
-                  OpenStruct.new(
+                  GridWidget.new(
                     identifier: 'work_packages_assigned',
                     start_row: 4,
                     end_row: 5,
                     start_column: 1,
                     end_column: 2
                   ),
-                  OpenStruct.new(
+                  GridWidget.new(
                     identifier: 'work_packages_created',
                     start_row: 1,
                     end_row: 2,
                     start_column: 1,
                     end_column: 2
                   ),
-                  OpenStruct.new(
+                  GridWidget.new(
                     identifier: 'work_packages_watched',
                     start_row: 2,
                     end_row: 4,
                     start_column: 4,
                     end_column: 5
                   ),
-                  OpenStruct.new(
+                  GridWidget.new(
                     identifier: 'work_packages_calendar',
                     start_row: 1,
                     end_row: 2,
@@ -73,14 +73,15 @@ module API
           post do
             # TODO: replace mock with functionality
             params = API::V3::ParseResourceParamsService
-                     .new(current_user, representer: GridRepresenter)
+                     .new(current_user, representer: GridPayloadRepresenter)
                      .call(request_body)
                      .result
 
-            grid = OpenStruct.new(bogus_grid.to_h.merge(params))
+            #grid = OpenStruct.new(bogus_grid.attributes.to_h.merge(params))
+            bogus_grid.attributes = params
 
             status 200
-            CreateFormRepresenter.new(grid,
+            CreateFormRepresenter.new(bogus_grid,
                                       current_user: current_user)
           end
         end
