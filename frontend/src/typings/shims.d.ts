@@ -14,6 +14,7 @@
 /// <reference path="../../node_modules/@types/urijs/index.d.ts" />
 /// <reference path="../../node_modules/@types/webpack-env/index.d.ts" />
 /// <reference path="../../node_modules/@types/es6-shim/index.d.ts" />
+/// <reference path="../../node_modules/@types/dragula/index.d.ts" />
 
 import {Injector} from '@angular/core';
 
@@ -22,6 +23,7 @@ import * as TLodash from 'lodash';
 import * as TMoment from 'moment';
 import * as TSinon from 'sinon';
 import {GlobalI18n} from "core-app/modules/common/i18n/i18n.service";
+import {Dragula} from "dragula";
 
 declare global {
   const _:typeof TLodash;
@@ -29,6 +31,7 @@ declare global {
   const moment:typeof TMoment;
   const bowser:any;
   const I18n:GlobalI18n;
+  const dragula:Dragula;
 
   declare const require:any;
   declare const describe:any;

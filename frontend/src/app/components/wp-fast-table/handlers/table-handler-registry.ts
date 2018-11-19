@@ -17,6 +17,7 @@ import {RowsTransformer} from './state/rows-transformer';
 import {SelectionTransformer} from './state/selection-transformer';
 import {TimelineTransformer} from './state/timeline-transformer';
 import {HighlightingTransformer} from "core-components/wp-fast-table/handlers/state/highlighting-transformer";
+import {DragAndDropTransformer} from "core-components/wp-fast-table/handlers/state/drag-and-drop-transformer";
 
 export interface TableEventHandler {
   EVENT:string;
@@ -67,7 +68,8 @@ export class TableHandlerRegistry {
     TimelineTransformer,
     HierarchyTransformer,
     RelationsTransformer,
-    HighlightingTransformer
+    HighlightingTransformer,
+    DragAndDropTransformer
   ];
 
   attachTo(table:WorkPackageTable) {
