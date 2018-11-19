@@ -49,9 +49,9 @@ module TimeEntries
       edit_own = user.allowed_to?(:edit_own_time_entries, model.project)
 
       if model.user == user
-        return edit_own || edit_all
+        edit_own || edit_all
       else
-        return edit_all
+        edit_all
       end
     end
   end

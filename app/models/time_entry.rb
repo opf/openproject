@@ -49,10 +49,6 @@ class TimeEntry < ActiveRecord::Base
   validates_numericality_of :hours, allow_nil: true, message: :invalid
   validates_length_of :comments, maximum: 255, allow_nil: true
 
-  validate :validate_hours_are_in_range
-  validate :validate_project_is_set
-  validate :validate_consistency_of_work_package_id
-
   scope :on_work_packages, ->(work_packages) { where(work_package_id: work_packages) }
 
   def self.visible(*args)
@@ -104,21 +100,5 @@ class TimeEntry < ActiveRecord::Base
     else
       activity.root
     end
-  end
-
-  private
-
-  # TODO: move to contract
-
-  def validate_hours_are_in_range
-    errors.add :hours, :invalid if hours&.negative?
-  end
-
-  def validate_project_is_set
-    errors.add :project_id, :invalid if project.nil?
-  end
-
-  def validate_consistency_of_work_package_id
-    errors.add :work_package_id, :invalid if (work_package_id && !work_package) || (work_package && project != work_package.project)
   end
 end
