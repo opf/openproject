@@ -108,8 +108,9 @@ module OpenProject::TwoFactorAuthentication
         config
       end
 
-      def enforced_by_configuration?(key)
-        (OpenProject::Configuration['2fa'] || {}).has_key? key
+      def enforced_by_configuration?
+        enforced = (OpenProject::Configuration['2fa'] || {})[:enforced]
+        ActiveModel::Type::Boolean.new.cast enforced
       end
 
       def merge_with_settings!(config, settings)
