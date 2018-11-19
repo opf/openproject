@@ -30,23 +30,22 @@
 require 'spec_helper'
 require_relative './shared_contract_examples'
 
-describe TimeEntries::CreateContract do
+describe TimeEntries::UpdateContract do
   it_behaves_like 'time entry contract' do
     let(:time_entry) do
-      TimeEntry.new(project: time_entry_project,
-                    work_package: time_entry_work_package,
-                    user: time_entry_user,
-                    activity: time_entry_activity,
-                    spent_on: time_entry_spent_on,
-                    hours: time_entry_hours,
-                    comments: time_entry_comments)
+      FactoryBot.build_stubbed(:time_entry,
+                               project: time_entry_project,
+                               work_package: time_entry_work_package,
+                               user: time_entry_user,
+                               activity: time_entry_activity,
+                               spent_on: time_entry_spent_on,
+                               hours: time_entry_hours,
+                               comments: time_entry_comments)
     end
-    let(:permissions) { %i(log_time) }
-    let(:other_user) { FactoryBot.build_stubbed(:user) }
-
     subject(:contract) { described_class.new(time_entry, current_user) }
+    let(:permissions) { %i(edit_time_entries) }
 
-    context 'when user is not allowed to log time' do
+    context 'when user is not allowed to edit time entries' do
       let(:permissions) { [] }
 
       it 'is invalid' do
@@ -54,19 +53,37 @@ describe TimeEntries::CreateContract do
       end
     end
 
-    context 'when time_entry user is not contract user' do
-      let(:time_entry_user) { other_user }
-
-      it 'is invalid' do
-        expect_valid(false, user_id: %i(invalid))
-      end
-    end
-
     context 'when the user is nil' do
       let(:time_entry_user) { nil }
 
       it 'is invalid' do
-        expect_valid(false, user_id: %i(blank invalid))
+        expect_valid(false, user_id: %i(blank))
+      end
+    end
+
+    context 'when the user is changed' do
+      it 'is invalid' do
+        time_entry.user = other_user
+        expect_valid(false, user_id: %i(error_readonly))
+      end
+    end
+
+    context 'when time_entry user is not contract user' do
+      let(:time_entry_user) { other_user }
+
+      context 'when has permission' do
+        let(:permissions) { %i[edit_time_entries] }
+
+        it 'is valid' do
+          expect_valid(true)
+        end
+      end
+
+      context 'when has no permission' do
+        let(:permissions) { %i[edit_own_time_entries] }
+        it 'is invalid' do
+          expect_valid(false, base: %i(error_unauthorized))
+        end
       end
     end
   end
