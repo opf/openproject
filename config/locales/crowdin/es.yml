@@ -170,6 +170,11 @@ es:
       no_results_content_text: Añadir un informe de estado
   statuses:
     edit:
+      status_readonly_html: |
+        Check this option to mark work packages with this status as read-only.
+        No attributes can be changed with the exception of the status.
+        <br/>
+        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
       status_color_text: |
         Haga clic para asignar o cambiar el color de este estado.
         Se muestra en el botón de estado y puede usarse para resaltar paquetes de trabajo en la tabla.
@@ -362,6 +367,7 @@ es:
         to: Paquete de trabajo relacionado
       status:
         is_closed: Paquete de trabajo cerrado
+        is_readonly: Work package read-only
       journal:
         notes: Notas
       member:
@@ -1368,6 +1374,7 @@ es:
   label_journal_diff: Comparación de la descripción
   label_language: Idioma
   label_jump_to_a_project: Saltar a un proyecto...
+  label_keyword_plural: Keywords
   label_language_based: Basado en el idioma del usuario
   label_last_activity: Última actividad
   label_last_change_on: Último cambio en

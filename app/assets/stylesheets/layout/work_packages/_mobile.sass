@@ -43,7 +43,6 @@
       #content-wrapper,
       #content
         height: 100% !important
-        overflow: auto
 
       #main
         padding-bottom: 0
@@ -83,7 +82,8 @@
             margin: 0.75rem 0 2.5rem 0
 
           .work-packages--panel-inner
-            padding-right: 0
+            padding: 0
+            max-width: calc(100vw - 30px)
 
         .work-packages-full-view--resizer
           display: none
@@ -95,11 +95,10 @@
       contain: none
 
     .work-packages-list-view--container
-      padding-left: 5px
+      padding: 0 5px 0 5px
 
     .toolbar-container
-      min-height: 36px
-      padding: 0
+      padding-right: 0
 
     .attributes-key-value--key,
     .attributes-key-value--value-container

@@ -53,6 +53,10 @@ fil:
     button_update: I-update
     button_export-pdf: I-download ang PDF
     button_export-atom: I-download ang atom
+    calendar:
+      title: Kalendaryo
+      too_many: There are more work packages (%{count}) than can be displayed by the
+        calendar (%{max}). Add filters to focus on the relevant ones.
     description_available_columns: Ang mga hanay na magagamit
     description_current_position: 'Nandito ka na:'
     description_select_work_package: 'Piliin ang work package #%{id}'
@@ -108,6 +112,8 @@ fil:
         embedded_table:
           button: Embed work package table
           text: "[Placeholder] Embedded work package table"
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
     custom_actions:
       date:
         specific: sa
@@ -390,8 +396,10 @@ fil:
       relation_type: uri ng naguugnay
     relations_hierarchy:
       parent_headline: Magulang
+      hierarchy_headline: Hierarchy
       children_headline: Ang mga bata
     relation_buttons:
+      set_parent: Set parent work package
       change_parent: Palitan ng magulang
       remove_parent: Alisin ang magulang
       group_by_wp_type: Grupo sa pamamagitan ng uri ng work package
@@ -411,6 +419,7 @@ fil:
       abort: Huwag ituloy
     relations_autocomplete:
       placeholder: Ipasok ang Id ng kauganay sa work package
+      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
     repositories:
       select_tag: Pumiling ng tag
       select_branch: Pumili ng sangay
@@ -558,6 +567,8 @@ fil:
       description_options_hide: Itago ang mga opsyon
       description_options_show: Ipakita ang mga opsyon
       error:
+        update_conflict_refresh: Click here to refresh the work package and update
+          to the newest version.
         edit_prohibited: Ang pag-iedit ng %{attribute} ay naka-block para sa work
           package na ito. Alinman sa katangian ito ay nagmula sa relasyon (hal. mga
           bata) o kung hindi man hindi ito naka-configure.
@@ -581,6 +592,8 @@ fil:
         na ito sa fullscreen view.
       message_view_spent_time: Magpakita ng oras na nagamit para sa work package na
         ito
+      message_work_package_read_only: Work package is locked in this status. No attribute
+        other than status can be altered.
       no_value: Walang halaga
       inline_create:
         title: Pindutin dito upang magdagdag ng bagong work package sa listahan na

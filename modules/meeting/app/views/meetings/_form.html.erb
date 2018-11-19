@@ -1,0 +1,136 @@
+<%#-- copyright
+OpenProject Meeting Plugin
+
+Copyright (C) 2011-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.md for more details.
+
+++#%>
+
+<%= error_messages_for 'meeting' %>
+
+<section class="form--section">
+
+  <div class="form--field">
+    <%= f.text_field :title, :required => true, :size => 60, container_class: '-wide' %>
+  </div>
+
+  <div class="form--field">
+    <%= f.text_field :location, :size => 60, container_class: '-wide' %>
+  </div>
+
+  <div class="form--field">
+    <label for="meeting-form-start-date" class="form--label -required">
+      <span aria-hidden="true"><%= Meeting.human_attribute_name(:start_date) %>
+        <span class="form--label-required" aria-hidden="true">*</span>
+      </span>
+      <span class="hidden-for-sighted"><%= t(:label_start_date)%>
+        <%= t(:text_hint_date_format) %></span>
+    </label>
+
+    <div class="form--field-container">
+      <%= f.text_field :start_date,
+            id: 'meeting-form-start-date',
+            class: '-augmented-datepicker',
+            required: true,
+            size:     10,
+            no_label: true,
+            container_class: '-xslim' %>
+      <label for="meeting-form-start-time" class="hidden-for-sighted">
+        <%= Meeting.human_attribute_name(:start_time) %>
+        <label lang="en">
+          <%= t(:label_time_zone) %>
+          <%= Time.zone.to_s %>
+        </label>
+      </label>
+      <%= f.text_field :start_time_hour,
+            id: 'meeting-form-start-time',
+            required: true,
+            type:     'time',
+            no_label: true,
+            step:     5.minutes,
+            suffix:   Time.zone.to_s,
+            container_class: '-xslim' %>
+    </div>
+  </div>
+
+  <div class="form--field">
+    <label for="meeting-form-duration" class="form--label -required">
+      <span><%= Meeting.human_attribute_name(:duration) %>
+        <span class="form--label-required" aria-hidden="true">*</span>
+      </span>
+    </label>
+
+    <div class="form--field-container">
+      <%= f.number_field :duration,
+            id: 'meeting-form-duration',
+            required: true,
+            size:     5,
+            no_label: true,
+            min:      0.00,
+            step:     0.25,
+            max:      168,
+            suffix:   t(:text_in_hours),
+            container_class: '-xslim' %>
+    </div>
+  </div>
+
+  <div class="form--field">
+    <label class="form--label"><%=Meeting.human_attribute_name(:participants) %></label>
+    <div class="form--field-container">
+      <table class="form--matrix">
+        <thead>
+          <tr class="form--matrix-header-row">
+            <th class="form--matrix-header-cell"><%= Meeting.human_attribute_name(:name) %></th>
+            <th class="form--matrix-header-cell"><%= Meeting.human_attribute_name(:participants_invited) %></th>
+            <th class="form--matrix-header-cell"><%= Meeting.human_attribute_name(:participants_attended) %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @meeting.all_changeable_participants.sort.each do |user| -%>
+          <%= hidden_field_tag "meeting[participants_attributes][][user_id]", user.id %>
+          <tr class="form--matrix-row">
+            <td class="form--matrix-cell"><%=h user %></td>
+            <% if @meeting.participants.present? && participant = @meeting.participants.detect{|p| p.user_id == user.id} -%>
+              <%= hidden_field_tag "meeting[participants_attributes][][id]", participant.id %>
+              <td class="form--matrix-checkbox-cell">
+                <%= label_tag "checkbox_invited_#{user.id}", user.name + " " + t(:description_invite), :class => "hidden-for-sighted" %>
+                <%= styled_check_box_tag "meeting[participants_attributes][][invited]", 1, participant.invited?, :id => "checkbox_invited_#{user.id}" %>
+              </td>
+              <td class="form--matrix-checkbox-cell">
+                <%= label_tag "checkbox_attended_#{user.id}", user.name + " " + t(:description_attended), :class => "hidden-for-sighted" %>
+                <%= styled_check_box_tag "meeting[participants_attributes][][attended]", 1, participant.attended?, :id => "checkbox_attended_#{user.id}" %>
+              </td>
+            <% else -%>
+              <td class="form--matrix-checkbox-cell">
+                <%= label_tag "checkbox_invited_#{user.id}", user.name + " " + t(:description_invite), :class => "hidden-for-sighted" %>
+                <%= styled_check_box_tag "meeting[participants_attributes][][invited]", value = "1", checked = false, :id => "checkbox_invited_#{user.id}" %>
+              </td>
+              <td class="form--matrix-checkbox-cell">
+                <%= label_tag "checkbox_attended_#{user.id}", user.name + " " + t(:description_attended), :class => "hidden-for-sighted" %>
+                <%= styled_check_box_tag "meeting[participants_attributes][][attended]", value = "1", checked = false, :id => "checkbox_attended_#{user.id}" %>
+              </td>
+            <% end -%>
+          </tr>
+          <% end -%>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <%= hidden_field_tag "copied_from_meeting_id", params[:copied_from_meeting_id] if params[:copied_from_meeting_id].present? %>
+  <%= hidden_field_tag "copied_meeting_agenda_text", params[:copied_meeting_agenda_text] if params[:copied_meeting_agenda_text].present? %>
+</section>
+
+<%= render :partial => 'shared/meeting_header' %>

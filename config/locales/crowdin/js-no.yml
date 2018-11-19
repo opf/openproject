@@ -53,6 +53,10 @@
     button_update: Oppdatèr
     button_export-pdf: Last ned PDF
     button_export-atom: Download Atom
+    calendar:
+      title: Kalender
+      too_many: There are more work packages (%{count}) than can be displayed by the
+        calendar (%{max}). Add filters to focus on the relevant ones.
     description_available_columns: Tilgjengelige Kolonner
     description_current_position: 'Du er her:'
     description_select_work_package: 'Velg arbeidspakke #%{id}'
@@ -108,6 +112,8 @@
         embedded_table:
           button: Embed work package table
           text: "[Placeholder] Embedded work package table"
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
     custom_actions:
       date:
         specific: på
@@ -386,8 +392,10 @@
       relation_type: relation type
     relations_hierarchy:
       parent_headline: Overordnet
+      hierarchy_headline: Hierarchy
       children_headline: Underordnede
     relation_buttons:
+      set_parent: Set parent work package
       change_parent: Endre overordnet
       remove_parent: Remove parent
       group_by_wp_type: Group by work package type
@@ -407,6 +415,7 @@
       abort: Abort
     relations_autocomplete:
       placeholder: Enter the related work package id
+      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
     repositories:
       select_tag: Select tag
       select_branch: Select branch
@@ -548,6 +557,8 @@
       description_options_hide: Skjul alternativer
       description_options_show: Vis alternativer
       error:
+        update_conflict_refresh: Click here to refresh the work package and update
+          to the newest version.
         edit_prohibited: Editing %{attribute} is blocked for this work package. Either
           this attribute is derived from relations (e.g, children) or otherwise not
           configurable.
@@ -569,6 +580,8 @@
       message_successful_show_in_fullscreen: Klikk her for å åpne denne arbeidspakken
         i fullskjermsmodus.
       message_view_spent_time: Show spent time for this work package
+      message_work_package_read_only: Work package is locked in this status. No attribute
+        other than status can be altered.
       no_value: Ingen verdi
       inline_create:
         title: Klikk her for å legge til en nye arbeidspakke i listen

@@ -54,6 +54,10 @@ es:
     button_update: Actualizar
     button_export-pdf: Descargar PDF
     button_export-atom: Descargar Atom
+    calendar:
+      title: Calendario
+      too_many: There are more work packages (%{count}) than can be displayed by the
+        calendar (%{max}). Add filters to focus on the relevant ones.
     description_available_columns: Columnas disponibles
     description_current_position: 'Usted está aquí:'
     description_select_work_package: 'Seleccione el paquete de trabajo #%{id}'
@@ -110,6 +114,8 @@ es:
         embedded_table:
           button: Insertar tabla de paquetes de trabajo
           text: "[Placeholder] Tabla de paquetes de trabajo insertada"
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
     custom_actions:
       date:
         specific: en
@@ -393,8 +399,10 @@ es:
       relation_type: tipo de relación
     relations_hierarchy:
       parent_headline: Padre
+      hierarchy_headline: Jerarquía
       children_headline: Subordinado
     relation_buttons:
+      set_parent: Set parent work package
       change_parent: Cambiar padre
       remove_parent: Eliminar padre
       group_by_wp_type: Agrupar por tipo de paquete de trabajo
@@ -414,6 +422,7 @@ es:
       abort: Abandonar
     relations_autocomplete:
       placeholder: Indique el ID del paquete de trabajo relacionado
+      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
     repositories:
       select_tag: Seleccionar etiqueta
       select_branch: Seleccione Sucursal
@@ -558,6 +567,8 @@ es:
       description_options_hide: Ocultar opciones
       description_options_show: Mostrar opciones
       error:
+        update_conflict_refresh: Click here to refresh the work package and update
+          to the newest version.
         edit_prohibited: La edición de %{attribute} está bloqueada para este paquete
           de trabajo. Ya sea que este atributo se derive de las relaciones (por ejemplo,
           niños) o de lo contrario que no sea configurable.
@@ -580,6 +591,8 @@ es:
       message_successful_show_in_fullscreen: Haga clic aquí para abrir este paquete
         de trabajo en la vista de pantalla completa.
       message_view_spent_time: Mostrar el tiempo invertido en este paquete de trabajo
+      message_work_package_read_only: Work package is locked in this status. No attribute
+        other than status can be altered.
       no_value: Sin valor
       inline_create:
         title: Haga clic aquí para agregar un nuevo paquete de trabajo a esta lista

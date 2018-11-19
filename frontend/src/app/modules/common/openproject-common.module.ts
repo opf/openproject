@@ -65,6 +65,11 @@ import {ColorsAutocompleter} from "core-app/modules/common/colors/colors-autocom
 import {DynamicCssService} from "./dynamic-css/dynamic-css.service";
 import {MultiToggledSelectComponent} from "core-app/modules/common/multi-toggled-select/multi-toggled-select.component";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
+import {TablePaginationComponent} from 'core-components/table-pagination/table-pagination.component';
+import {SortHeaderDirective} from 'core-components/wp-table/sort-header/sort-header.directive';
+import {ZenModeButtonComponent} from 'core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
+import {OPContextMenuComponent} from 'core-components/op-context-menu/op-context-menu.component';
+import {TimezoneService} from 'core-components/datetime/timezone.service';
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -110,8 +115,12 @@ export function bootstrapModule(injector:Injector) {
     // Multi select component
     MultiToggledSelectComponent,
 
-    // CKEditor
-    OpCkeditorComponent,
+    TablePaginationComponent,
+    SortHeaderDirective,
+
+    ZenModeButtonComponent,
+
+    OPContextMenuComponent,
   ],
   declarations: [
     OpDatePickerComponent,
@@ -131,6 +140,7 @@ export function bootstrapModule(injector:Injector) {
     UploadProgressComponent,
     OpDateTimeComponent,
 
+    OPContextMenuComponent,
     // Entries for ng1 downgraded components
     AttributeHelpTextComponent,
 
@@ -140,13 +150,16 @@ export function bootstrapModule(injector:Injector) {
     // Add functionality to rails rendered templates
     CopyToClipboardDirective,
 
-    // CKEditor
-    OpCkeditorComponent,
-
     CopyToClipboardDirective,
     ColorsAutocompleter,
 
     MultiToggledSelectComponent,
+
+    TablePaginationComponent,
+    SortHeaderDirective,
+
+    // Zen mode button
+    ZenModeButtonComponent,
   ],
   entryComponents: [
     OpDateTimeComponent,
@@ -155,6 +168,10 @@ export function bootstrapModule(injector:Injector) {
     HighlightColDirective,
     HighlightColDirective,
     ColorsAutocompleter,
+
+    TablePaginationComponent,
+
+    OPContextMenuComponent,
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: bootstrapModule, deps: [Injector], multi: true },
@@ -169,8 +186,8 @@ export function bootstrapModule(injector:Injector) {
     ConfigurationService,
     PathHelperService,
     HTMLSanitizeService,
-    CKEditorSetupService,
-    CKEditorPreviewService
+
+    TimezoneService,
   ]
 })
 export class OpenprojectCommonModule { }

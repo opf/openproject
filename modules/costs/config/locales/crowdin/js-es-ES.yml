@@ -1,0 +1,12 @@
+es:
+  js:
+    work_packages:
+      property_groups:
+        costs: "Costos"
+      properties:
+        costObject: "Presupuesto"
+        overallCosts: "Costos totales"
+        spentUnits: "Unidades usadas"
+    button_log_costs: "Registrar costos unitarios"
+    label_hour: "hora"
+    label_hours: "horas"

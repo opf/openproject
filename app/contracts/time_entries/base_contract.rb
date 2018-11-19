@@ -36,6 +36,14 @@ module TimeEntries
       TimeEntry
     end
 
+    def validate
+      validate_hours_are_in_range
+      validate_project_is_set
+      validate_work_package
+
+      super
+    end
+
     attribute :project_id
     attribute :work_package_id
     attribute :activity_id
@@ -45,5 +53,32 @@ module TimeEntries
     attribute :tyear
     attribute :tmonth
     attribute :tweek
+
+    private
+
+    def validate_work_package
+      return unless model.work_package || model.work_package_id_changed?
+
+      if work_package_invisible? ||
+         work_package_not_in_project?
+        errors.add :work_package_id, :invalid
+      end
+    end
+
+    def validate_hours_are_in_range
+      errors.add :hours, :invalid if model.hours&.negative?
+    end
+
+    def validate_project_is_set
+      errors.add :project_id, :invalid if model.project.nil?
+    end
+
+    def work_package_invisible?
+      model.work_package.nil? || !model.work_package.visible?(user)
+    end
+
+    def work_package_not_in_project?
+      model.work_package && model.project != model.work_package.project
+    end
   end
 end

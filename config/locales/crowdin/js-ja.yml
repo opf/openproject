@@ -51,6 +51,9 @@ ja:
     button_update: 更新
     button_export-pdf: PDFファイルをダウンロード
     button_export-atom: Atomをダウンロード
+    calendar:
+      title: カレンダー
+      too_many: カレンダー(%{max}) で表示できるよりも多くの作業項目 (%{count}) があります。 関連するものに焦点を当てるためにフィルタを追加します。
     description_available_columns: 利用できる項目
     description_current_position: ここにいます：
     description_select_work_package: '作業項目を選択 #%{id}'
@@ -102,6 +105,8 @@ ja:
         embedded_table:
           button: 作業項目表を埋め込む
           text: "[Placeholder] 埋め込まれた作業項目表"
+        embedded_calendar:
+          text: "[Placeholder] 埋め込みカレンダー"
     custom_actions:
       date:
         specific: オン
@@ -352,8 +357,10 @@ ja:
       relation_type: 関係タイプ
     relations_hierarchy:
       parent_headline: 親項目
+      hierarchy_headline: 階層
       children_headline: 子
     relation_buttons:
+      set_parent: 親作業項目を設定する
       change_parent: 親タスクの変更
       remove_parent: 親関係を削除
       group_by_wp_type: ワークパッケージタイプのグループ
@@ -373,6 +380,7 @@ ja:
       abort: 中止
     relations_autocomplete:
       placeholder: 関係しているワークパッケージ ID を入力してください
+      parent_placeholder: 新しい親を選択し、Enterキーを押して設定を解除し、エスケープしてキャンセルします。
     repositories:
       select_tag: タグを選択する
       select_branch: 分岐を選択する
@@ -503,6 +511,7 @@ ja:
       description_options_hide: オプションを非表示
       description_options_show: オプションを表示
       error:
+        update_conflict_refresh: 作業項目を更新して最新のバージョンに更新するには、ここをクリックしてください。
         edit_prohibited: この作業項目の %{attribute} の編集はブロックされます。この属性が関係から派生している (例えば、子供)
           か、あるいは構成できないため。
         format:
@@ -521,6 +530,7 @@ ja:
       message_successful_bulk_delete: 作業項目が正常に削除されました。
       message_successful_show_in_fullscreen: クリックすると全画面表示でこの作業項目を開きます。
       message_view_spent_time: このワークパッケージに費やした時間を表示する
+      message_work_package_read_only: 作業項目はこの状態でロックされています。 ステータス以外の属性は変更できません。
       no_value: 値なし
       inline_create:
         title: クリックしてこのリストに新しい作業項目を追加します

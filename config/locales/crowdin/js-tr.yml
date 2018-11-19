@@ -53,6 +53,10 @@ tr:
     button_update: Güncelle
     button_export-pdf: PDF indir
     button_export-atom: Atom indir
+    calendar:
+      title: Takvim
+      too_many: There are more work packages (%{count}) than can be displayed by the
+        calendar (%{max}). Add filters to focus on the relevant ones.
     description_available_columns: Kullanılabilir sütunlar
     description_current_position: 'Buradasınız:'
     description_select_work_package: "#%{id} nolu iş paketini seçin"
@@ -108,6 +112,8 @@ tr:
         embedded_table:
           button: Gömülü iş paketi tablosu
           text: "[Placeholder] Embedded work package table"
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
     custom_actions:
       date:
         specific: açık
@@ -388,8 +394,10 @@ tr:
       relation_type: ilişki türü
     relations_hierarchy:
       parent_headline: Kaynak
+      hierarchy_headline: Hiyerarşi
       children_headline: Çocuk
     relation_buttons:
+      set_parent: Set parent work package
       change_parent: Üstünü değiştir
       remove_parent: Üstündekini kaldır
       group_by_wp_type: İş paketi türüne göre grupla
@@ -409,6 +417,7 @@ tr:
       abort: İptal
     relations_autocomplete:
       placeholder: İlgili çalışma paket kimliğini girin
+      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
     repositories:
       select_tag: Etiket seç
       select_branch: Branş seç
@@ -552,6 +561,8 @@ tr:
       description_options_hide: Seçenekleri gizle
       description_options_show: Seçenekleri göster
       error:
+        update_conflict_refresh: Click here to refresh the work package and update
+          to the newest version.
         edit_prohibited: "%{attribute} düzenleme bu iş paketi için bloke durumda.
           Ya bu öznitelik ilişkileri (ör, alt paket) ile tanımlanabilir ya da yapılandırılamaz."
         format:
@@ -573,6 +584,8 @@ tr:
       message_successful_show_in_fullscreen: Bu iş paketini tam ekran görebilmek için
         buraya tıklayın.
       message_view_spent_time: Bu iş paketi için harcanan zamanı göster
+      message_work_package_read_only: Work package is locked in this status. No attribute
+        other than status can be altered.
       no_value: Değer yok
       inline_create:
         title: Listeden yeni bir iş paketi eklemek için buraya tıklayınız

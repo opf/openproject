@@ -54,6 +54,11 @@ it:
     button_update: Aggiorna
     button_export-pdf: Scarica PDF
     button_export-atom: Scarica Atom
+    calendar:
+      title: Calendario
+      too_many: Ci sono più pacchetti di lavoro (%{count}), di quanti possono essere
+        visualizzati dal calendario (%{max}). Aggiungere filtri per concentrarsi su
+        quelli pertinenti.
     description_available_columns: Colonne disponibili
     description_current_position: 'Sei qui:'
     description_select_work_package: 'Seleziona la macro-attività #%{id}'
@@ -111,6 +116,8 @@ it:
         embedded_table:
           button: Incorpora la tabella della macro-attività
           text: "[Placeholder] Tabella della macro-attività incorporata"
+        embedded_calendar:
+          text: "[Placeholder] Calendario incorporato"
     custom_actions:
       date:
         specific: il
@@ -396,8 +403,10 @@ it:
       relation_type: tipo di relazione
     relations_hierarchy:
       parent_headline: Superiore
+      hierarchy_headline: Gerarchia
       children_headline: Figli
     relation_buttons:
+      set_parent: Imposta il pacchetto di lavoro principale
       change_parent: Cambia genitore
       remove_parent: Rimuovi genitore
       group_by_wp_type: Raggruppa per tipo di macro-attività
@@ -417,6 +426,8 @@ it:
       abort: Interrompi
     relations_autocomplete:
       placeholder: Inserisci l'ID della macro-attività relativa
+      parent_placeholder: Scegli un nuovo padre, premi invio per rimuovere, esci per
+        cancellare.
     repositories:
       select_tag: Selezionare tag
       select_branch: Selezionare ramo
@@ -561,6 +572,8 @@ it:
       description_options_hide: Nascondi opzioni
       description_options_show: Mostra opzioni
       error:
+        update_conflict_refresh: Clicca qui per ricaricare il pacchetto di lavoro
+          e aggiornare alla versione più recente.
         edit_prohibited: La modifica di %{attribute} è bloccata per questa macro-attività.
           Questo attributo o deriva da relazioni (ad es., con attività subordinate)
           oppure non è configurabile.
@@ -584,6 +597,8 @@ it:
       message_successful_show_in_fullscreen: Clicca qui per aprire questa macro-attività
         in una visualizzazione a schermo intero.
       message_view_spent_time: Visualizza il tempo speso sulla macro-attività
+      message_work_package_read_only: Il pacchetto di lavoro è bloccato in questo
+        stato. Nessun attributo eccetto lo stato può essere alterato.
       no_value: Nessun valore
       inline_create:
         title: Clicca qui per aggiungere un nuovo work package a questa lista

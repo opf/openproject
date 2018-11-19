@@ -1,0 +1,64 @@
+<%= render partial: '/two_factor_authentication/header_tags' %>
+<% html_title(t(:label_my_account), t('two_factor_authentication.label_two_factor_authentication')) -%>
+
+<% if @remember_token.present? %>
+  <section class="account--section" id="two_factor_authentication_remember_cookie">
+    <div class="notification-box show-when-print -info">
+      <div class="notification-box--content">
+        <p>
+          <strong><%= t(:note) %></strong>
+          <%= t 'two_factor_authentication.remember.active_session_notice',
+                expires_on: format_date(@remember_token.expires_on) %>
+          <br/>
+          <strong>
+            <%= link_to t('two_factor_authentication.remember.clear_cookie'),
+                        my_2fa_remember_cookie_path,
+                        class: 'two-factor-authentication--remove-remember-cookie-link',
+                        method: :delete  %>
+          </strong>
+        </p>
+      </div>
+    </div>
+  </section>
+<% end %>
+
+<%= activate_angular_js do %>
+<% breadcrumb_paths(t(:label_my_account), t('two_factor_authentication.label_two_factor_authentication')) -%>
+<%= toolbar title: t('two_factor_authentication.label_two_factor_authentication') do %>
+  <li class="toolbar-item">
+    <%= link_to new_my_2fa_device_path,
+          { class: 'button -alt-highlight',
+            aria: {label: t('two_factor_authentication.label_device')},
+            title: t('two_factor_authentication.devices.add_new')} do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= t('two_factor_authentication.label_device') %></span>
+    <% end %>
+  </li>
+<% end %>
+
+<section class="account--section">
+    <%= render partial: 'two_factor_status', locals: { device: @default_device }%>
+</section>
+
+<section class="account--section">
+  <h2><%= t 'two_factor_authentication.label_devices' %></h2>
+  <%= cell ::TwoFactorAuthentication::Devices::TableCell, @two_factor_devices, admin_table: false %>
+</section>
+
+<section class="account--section">
+  <h2><%= t 'two_factor_authentication.backup_codes.plural' %></h2>
+  <p>
+    <%= t 'two_factor_authentication.backup_codes.overview_description' %>
+    <br/>
+    <strong><%= t 'two_factor_authentication.backup_codes.generate.regenerate_warning' %></strong>
+  </p>
+
+  <%= password_confirmation_form_tag({ controller: 'two_factor_authentication/my/backup_codes', action: :create },
+                                     method: :post,
+                                     id: 'two_factor_backup_codes_form',
+                                     class: 'form--inline') do
+    submit_tag I18n.t('two_factor_authentication.backup_codes.generate.title'),
+             class: 'button'
+  end %>
+</section>
+<% end %>

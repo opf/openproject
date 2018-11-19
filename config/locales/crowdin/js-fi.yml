@@ -53,6 +53,10 @@ fi:
     button_update: Päivitä
     button_export-pdf: Lataa PDF
     button_export-atom: Lataa Atom
+    calendar:
+      title: Kalenteri
+      too_many: There are more work packages (%{count}) than can be displayed by the
+        calendar (%{max}). Add filters to focus on the relevant ones.
     description_available_columns: Käytettävissä olevat sarakkeet
     description_current_position: 'You are here:'
     description_select_work_package: 'Valitse työpaketti #%{id}'
@@ -108,6 +112,8 @@ fi:
         embedded_table:
           button: Embed work package table
           text: "[Placeholder] Embedded work package table"
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
     custom_actions:
       date:
         specific: päälle
@@ -386,8 +392,10 @@ fi:
       relation_type: suhdetyyppi
     relations_hierarchy:
       parent_headline: Ylätaso
+      hierarchy_headline: Hierarchy
       children_headline: Lapset
     relation_buttons:
+      set_parent: Set parent work package
       change_parent: Vaihda pääkohdetta
       remove_parent: Poista ylätaso
       group_by_wp_type: Ryhmittele työpaketin tyypin mukaan
@@ -407,6 +415,7 @@ fi:
       abort: Keskeytä
     relations_autocomplete:
       placeholder: Kirjoita liittyvä työpaketin tunnus
+      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
     repositories:
       select_tag: Valitse tunniste
       select_branch: Valitse haara
@@ -548,6 +557,8 @@ fi:
       description_options_hide: Piilota valinnat
       description_options_show: Näytä asetukset
       error:
+        update_conflict_refresh: Click here to refresh the work package and update
+          to the newest version.
         edit_prohibited: "%{attribute} muokkaaminen on estetty tällä työpaketilla.
           Joko tämä arvo on peräisin suhteet (esim, alipaketti) tai se ei ole muuten
           muokattavissa."
@@ -568,6 +579,8 @@ fi:
       message_successful_bulk_delete: Poistetut työpaketit.
       message_successful_show_in_fullscreen: Klikkaa tästä avataksesi työpaketin kokonäyttötilaan.
       message_view_spent_time: Näytä tähän työpakettiin käytetty aika
+      message_work_package_read_only: Work package is locked in this status. No attribute
+        other than status can be altered.
       no_value: Ei arvoa
       inline_create:
         title: Napsauttamalla tätä voit lisätä luetteloon uuden työpaketin

@@ -54,6 +54,10 @@ fr:
     button_update: Mettre à jour
     button_export-pdf: Télécharger le PDF
     button_export-atom: Télécharger Atom
+    calendar:
+      title: Calendrier
+      too_many: There are more work packages (%{count}) than can be displayed by the
+        calendar (%{max}). Add filters to focus on the relevant ones.
     description_available_columns: Colonnes disponibles
     description_current_position: 'Vous êtes ici :'
     description_select_work_package: 'Sélectionner le lot de travaux #%{id}'
@@ -111,6 +115,8 @@ fr:
         embedded_table:
           button: Intégrer le tableau du lot de travaux
           text: "[Placeholder] Tableau du lot de travaux intégré"
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
     custom_actions:
       date:
         specific: le
@@ -394,8 +400,10 @@ fr:
       relation_type: type de relation
     relations_hierarchy:
       parent_headline: Parent
+      hierarchy_headline: Hiérarchie
       children_headline: Enfants
     relation_buttons:
+      set_parent: Set parent work package
       change_parent: Changer le parent
       remove_parent: Supprimer le parent
       group_by_wp_type: Grouper par type de lot de travaux
@@ -415,6 +423,7 @@ fr:
       abort: Interrompre
     relations_autocomplete:
       placeholder: Saisir l'ID du lot de travaux associé
+      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
     repositories:
       select_tag: Sélectionner une étiquette
       select_branch: Sélectionner une branche
@@ -562,6 +571,8 @@ fr:
       description_options_hide: Masquer les options
       description_options_show: Afficher les options
       error:
+        update_conflict_refresh: Click here to refresh the work package and update
+          to the newest version.
         edit_prohibited: L'édition de %{attribute} est bloquée pour ce lot de travaux.
           Soit cet attribut découle d'une relation (par ex. enfants), soit il n'est
           pas configurable.
@@ -585,6 +596,8 @@ fr:
       message_successful_show_in_fullscreen: Cliquez ici pour ouvrir ce lot de travaux
         en affichage plein écran.
       message_view_spent_time: Afficher le temps passé pour ce lot de travaux
+      message_work_package_read_only: Work package is locked in this status. No attribute
+        other than status can be altered.
       no_value: Aucune valeur
       inline_create:
         title: Cliquez ici pour ajouter un nouveau lot de travaux à cette liste

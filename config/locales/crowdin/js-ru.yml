@@ -53,6 +53,10 @@ ru:
     button_update: Обновление
     button_export-pdf: Скачать PDF
     button_export-atom: Скачать Atom
+    calendar:
+      title: Календарь
+      too_many: Пакетов работ больше (%{count}), чем может отобразить calendar (%{max}).
+        Отфильтруйте нужные пакеты добавив фильтры.
     description_available_columns: Доступные столбцы
     description_current_position: 'Вы находитесь здесь:'
     description_select_work_package: 'Выберите пакет работ #%{id}'
@@ -111,6 +115,8 @@ ru:
         embedded_table:
           button: Вложить таблицу пакетов работ
           text: "[Placeholder] Таблица внедренных пакетов работ"
+        embedded_calendar:
+          text: "[Placeholder] Встроенный календарь"
     custom_actions:
       date:
         specific: на
@@ -388,8 +394,10 @@ ru:
       relation_type: тип отношения
     relations_hierarchy:
       parent_headline: Родитель
+      hierarchy_headline: Иерархии
       children_headline: Дочерние элементы
     relation_buttons:
+      set_parent: Установить родительский пакет работ
       change_parent: Сменить родителя
       remove_parent: Удалить родителя
       group_by_wp_type: Группировать по типу комплекса работ
@@ -409,6 +417,8 @@ ru:
       abort: Прервать
     relations_autocomplete:
       placeholder: Внести Id cвязанного пакета работ
+      parent_placeholder: Выберите нового родителя, нажмите ввод для снятия, escape
+        для отмены
     repositories:
       select_tag: Выберите тег
       select_branch: Выберите ветвь
@@ -554,6 +564,8 @@ ru:
       description_options_hide: Скрыть параметры
       description_options_show: Показать параметры
       error:
+        update_conflict_refresh: Кликните здесь для обновления пакета работ и обновления
+          до последней версии.
         edit_prohibited: Редактирование %{attribute} этого пакета работ заблокировано.
           Либо этот атрибут является производным от отношений (например, потомков)
           или же не конфигурируется.
@@ -577,6 +589,8 @@ ru:
       message_successful_show_in_fullscreen: Кликните здесь, чтобы открыть этот пакет
         работ в полноэкранном режиме.
       message_view_spent_time: Показать время, затраченное на этот комплекс работ
+      message_work_package_read_only: В этом статусе пакет работ заблокирован. Никакой
+        атрибут, отличный от статуса, изменен быть не может.
       no_value: Значение отсутствует
       inline_create:
         title: Кликните здесь, чтобы добавить новый пакет работ в этот список

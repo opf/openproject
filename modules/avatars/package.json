@@ -1,0 +1,6 @@
+{
+  "name": "openproject-avatars",
+  "version": "0.1.0",
+  "main": "frontend/app/openproject-avatars-app.js",
+  "dependencies": {}
+}

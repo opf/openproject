@@ -53,6 +53,10 @@ lt:
     button_update: Atnaujinti
     button_export-pdf: Parsisiųsti PDF
     button_export-atom: Parsiųsti Atom
+    calendar:
+      title: Kalendorius
+      too_many: There are more work packages (%{count}) than can be displayed by the
+        calendar (%{max}). Add filters to focus on the relevant ones.
     description_available_columns: Galimi stulpeliai
     description_current_position: 'Jūs esate čia:'
     description_select_work_package: 'Pasirinkite darbų paketą #%{id}'
@@ -108,6 +112,8 @@ lt:
         embedded_table:
           button: Embed work package table
           text: "[Placeholder] Embedded work package table"
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
     custom_actions:
       date:
         specific: įjungta
@@ -386,8 +392,10 @@ lt:
       relation_type: ryšio tipas
     relations_hierarchy:
       parent_headline: Tėvas
+      hierarchy_headline: Hierarchy
       children_headline: Pasekėjai
     relation_buttons:
+      set_parent: Set parent work package
       change_parent: Keisti pirmtaką
       remove_parent: Pašalinti tėvą
       group_by_wp_type: Grupuoti pagal darbų paketo tipą
@@ -407,6 +415,7 @@ lt:
       abort: Nutraukti
     relations_autocomplete:
       placeholder: Nurodykite susijusio darbų paketo id
+      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
     repositories:
       select_tag: Pasirinkti žymę
       select_branch: Parinkti padalinį
@@ -553,6 +562,8 @@ lt:
       description_options_hide: Slėpti parinktis
       description_options_show: Rodyti parinktis
       error:
+        update_conflict_refresh: Click here to refresh the work package and update
+          to the newest version.
         edit_prohibited: "%{attribute} redagavimas yra darbų paketo blokuojamas. Arba
           šis atributas atsiradęs iš ryšių (pvz., vaiko ryšio), arba jis nėra galimas
           konfigūruoti."
@@ -575,6 +586,8 @@ lt:
       message_successful_show_in_fullscreen: Paspauskite čia, kad atvertumėte darbų
         paketą pilno lango režime.
       message_view_spent_time: Rodyti praleistą laiką su šiuo darbų paketu
+      message_work_package_read_only: Work package is locked in this status. No attribute
+        other than status can be altered.
       no_value: Nenurodytas dydis
       inline_create:
         title: Paspauskite čia, kad pridėtumėte į sąrašą naują darbų paketą

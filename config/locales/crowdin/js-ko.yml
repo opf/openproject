@@ -52,6 +52,10 @@ ko:
     button_update: 업데이트
     button_export-pdf: PDF 다운로드
     button_export-atom: Atom 다운로드
+    calendar:
+      title: 달력
+      too_many: There are more work packages (%{count}) than can be displayed by the
+        calendar (%{max}). Add filters to focus on the relevant ones.
     description_available_columns: 사용 가능한 열
     description_current_position: '사용자의 위치:'
     description_select_work_package: '작업 패키지 #%{id} 선택'
@@ -104,6 +108,8 @@ ko:
         embedded_table:
           button: 작업 패키지 테이블 포함
           text: "[Placeholder] 포함 작업 패키지 테이블"
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
     custom_actions:
       date:
         specific: 에
@@ -374,8 +380,10 @@ ko:
       relation_type: 관계 유형
     relations_hierarchy:
       parent_headline: 부모
+      hierarchy_headline: 계층 구조
       children_headline: 하위
     relation_buttons:
+      set_parent: Set parent work package
       change_parent: 부모 변경
       remove_parent: 부모 제거
       group_by_wp_type: 작업 패키지 유형별 그룹화
@@ -395,6 +403,7 @@ ko:
       abort: 중단
     relations_autocomplete:
       placeholder: 관련된 작업 패키지 ID 입력
+      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
     repositories:
       select_tag: 태그 선택
       select_branch: 브랜치 선택
@@ -527,6 +536,8 @@ ko:
       description_options_hide: 옵션 숨기기
       description_options_show: 옵션 표시
       error:
+        update_conflict_refresh: Click here to refresh the work package and update
+          to the newest version.
         edit_prohibited: "%{attribute} 편집은 이 작업 패키지에 대해 차단되었습니다. 이 특성은 관계(예: 자식)에서
           파생되었거나 그렇지 않으면 구성할 수 없습니다."
         format:
@@ -545,6 +556,8 @@ ko:
       message_successful_bulk_delete: 성공적으로 작업 패키지를 삭제했습니다.
       message_successful_show_in_fullscreen: 전체 화면 보기에서 이 작업 패키지를 열려면 여기를 클릭하세요.
       message_view_spent_time: 이 작업 패키지에 대해 소비한 시간 표시
+      message_work_package_read_only: Work package is locked in this status. No attribute
+        other than status can be altered.
       no_value: 값 없음
       inline_create:
         title: 이 목록에 새 작업 패키지를 추가하려면 여기를 클릭하세요.

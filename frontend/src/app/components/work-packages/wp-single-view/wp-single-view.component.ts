@@ -38,13 +38,12 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 import {WorkPackageCacheService} from '../work-package-cache.service';
 import {input, InputState} from 'reactivestates';
-import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
-import {DisplayField} from "core-app/modules/fields/display/display-field.module";
-import {QueryResource} from "core-app/modules/hal/resources/query-resource";
-import {IWorkPackageEditingServiceToken} from "../../wp-edit-form/work-package-editing.service.interface";
-import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
-import {WorkPackageInlineHighlightingService} from "core-components/wp-fast-table/state/wp-table-inline-highlighting.service";
-import {DynamicCssService} from "../../../modules/common/dynamic-css/dynamic-css.service";
+import {DisplayFieldService} from 'core-app/modules/fields/display/display-field.service';
+import {DisplayField} from 'core-app/modules/fields/display/display-field.module';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
+import {IWorkPackageEditingServiceToken} from '../../wp-edit-form/work-package-editing.service.interface';
+import {DynamicCssService} from '../../../modules/common/dynamic-css/dynamic-css.service';
+import {HookService} from 'core-app/modules/plugins/hook-service';
 
 export interface FieldDescriptor {
   name:string;
@@ -120,7 +119,8 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
               protected dynamicCssService:DynamicCssService,
               @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService,
               protected displayFieldService:DisplayFieldService,
-              protected wpCacheService:WorkPackageCacheService) {
+              protected wpCacheService:WorkPackageCacheService,
+              protected hook:HookService) {
   }
 
   public ngOnInit() {
@@ -195,6 +195,12 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
    */
   public trackByName(_index:number, elem:{ name:string }) {
     return elem.name;
+  }
+
+  public attributeGroupComponent(group:GroupDescriptor) {
+    // we take the last registered group component which means that
+    // plugins will have their say if they register for it.
+    return this.hook.call('attributeGroupComponent', group, this.workPackage).pop() || null;
   }
 
   /*

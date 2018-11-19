@@ -167,6 +167,11 @@ cs:
       no_results_content_text: Add a status reporting
   statuses:
     edit:
+      status_readonly_html: |
+        Check this option to mark work packages with this status as read-only.
+        No attributes can be changed with the exception of the status.
+        <br/>
+        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
       status_color_text: |
         Klikněte na přiřadit nebo změnit barvu této priority.
         lze použít ke zvýraznění pracovních balíčků v tabulce.
@@ -350,6 +355,7 @@ cs:
         to: Související pracovní balíček
       status:
         is_closed: Pracovní balíček uzavřen
+        is_readonly: Work package read-only
       journal:
         notes: Poznámky
       member:
@@ -1365,6 +1371,7 @@ cs:
   label_journal_diff: Popis porovnání
   label_language: Jazyk
   label_jump_to_a_project: Přejít na projekt...
+  label_keyword_plural: Keywords
   label_language_based: Na základě jazyka uživatele
   label_last_activity: Last activity
   label_last_change_on: Poslední změna

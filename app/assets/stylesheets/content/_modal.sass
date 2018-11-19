@@ -55,13 +55,13 @@ $ng-modal-image-width: $ng-modal-image-height
 .op-modal--modal-container
   transition: opacity 0.25s ease
   background: $ng-modal-background
-  margin: auto
-  width: 50%
-  max-height: 95%
   position: relative
   padding: $ng-modal-padding / 2
+  min-width: 200px
+  max-width: 60vw
   overflow-y: auto
-  overflow-x: hidden
+  
+  @include styled-scroll-bar-vertical
 
   &.-wide
     min-width: 75vw
@@ -143,14 +143,15 @@ $ng-modal-image-width: $ng-modal-image-height
 
 // Specific styles for export-modal
 ul.export-options
+  display: flex
+  flex-wrap: wrap
   margin: 0
   padding: 20px 0
   list-style-type: none
   li
-    margin: 0 0 30px 0
+    flex: 1 1 calc(33% - 40px)  // line break after third element
+    margin: 20px
     text-align: center
-    display: inline-block
-    width: 32%
     a
       cursor: pointer
       text-decoration: none

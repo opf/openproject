@@ -53,6 +53,10 @@ cs:
     button_update: Aktualizovat
     button_export-pdf: Stáhnout PDF
     button_export-atom: Stáhnout Atom
+    calendar:
+      title: Kalendář
+      too_many: There are more work packages (%{count}) than can be displayed by the
+        calendar (%{max}). Add filters to focus on the relevant ones.
     description_available_columns: Dostupné sloupce
     description_current_position: 'Nacházíte se zde:'
     description_select_work_package: 'Vyberte pracovní balíček #%{id}'
@@ -108,6 +112,8 @@ cs:
         embedded_table:
           button: Vložit tabulku pracovního balíčku
           text: "[Placeholder] Embedded work package table"
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
     custom_actions:
       date:
         specific: zapnuto
@@ -388,8 +394,10 @@ cs:
       relation_type: typ vztahu
     relations_hierarchy:
       parent_headline: Rodič
+      hierarchy_headline: Hierarchy
       children_headline: Potomci
     relation_buttons:
+      set_parent: Set parent work package
       change_parent: Změnit nadřazený
       remove_parent: Odstranit nadřazený
       group_by_wp_type: Seskupit podle typu pracovního balíčku
@@ -409,6 +417,7 @@ cs:
       abort: Zrušit
     relations_autocomplete:
       placeholder: Zadejte ID pracovního balíčku
+      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
     repositories:
       select_tag: Select tag
       select_branch: Select branch
@@ -554,6 +563,8 @@ cs:
       description_options_hide: Skrýt možnosti
       description_options_show: Zobrazit možnosti
       error:
+        update_conflict_refresh: Click here to refresh the work package and update
+          to the newest version.
         edit_prohibited: Editing %{attribute} is blocked for this work package. Either
           this attribute is derived from relations (e.g, children) or otherwise not
           configurable.
@@ -576,6 +587,8 @@ cs:
       message_successful_show_in_fullscreen: Click here to open this work package
         in fullscreen view.
       message_view_spent_time: Zobrazit strávený čas pro tento pracovní balíček
+      message_work_package_read_only: Work package is locked in this status. No attribute
+        other than status can be altered.
       no_value: Žádná hodnota
       inline_create:
         title: Click here to add a new work package to this list
