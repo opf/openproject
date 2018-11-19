@@ -195,7 +195,7 @@ group :test do
 
   # Test prof provides factories from code
   # and other niceties
-  gem 'test-prof', '~> 0.4.0'
+  gem 'test-prof', '~> 0.7.3'
 
   gem 'cucumber', '~> 3.0.0'
   gem 'cucumber-rails', '~> 1.6.0', require: false
@@ -250,6 +250,7 @@ end
 
 group :development, :test do
   gem 'thin', '~> 1.7.2'
+  gem 'ruby-prof', require: false
 
   gem 'pry-rails', '~> 0.3.6'
   gem 'pry-stack_explorer', '~> 0.4.9.2'
