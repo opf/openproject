@@ -37,7 +37,8 @@ module OpenProject::TextFormatting
         whitelist[:elements] = WHITELIST[:elements].dup
         whitelist[:elements] << 'macro'
         whitelist[:attributes] = WHITELIST[:attributes].dup
-        whitelist[:attributes].merge!('macro' => ['class', :data])
+        # whitelist[:attributes].merge!('macro' => ['class', :data])
+        whitelist[:attributes]['macro'] = ['class', :data]
         # Ignore, it's a constant, ignore the warning. - quite smelly, though -
         WHITELIST = whitelist
         WHITELIST[:elements].freeze

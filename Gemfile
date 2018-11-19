@@ -205,8 +205,8 @@ group :test do
   # not possible to upgrade to 3.6+ until rails is 5.1+
   gem 'rspec', '~> 3.7.0'
   # also add to development group, so "spec" rake task gets loaded
-  gem 'rspec-activemodel-mocks', '~> 1.0.3', git: 'https://github.com/rspec/rspec-activemodel-mocks', branch: 'v1.0.3'
   gem 'rspec-rails', '~> 3.7.2', group: :development
+  gem 'rspec-activemodel-mocks', '~> 1.0.3', git: 'https://github.com/rspec/rspec-activemodel-mocks', branch: 'v1.0.3'
 
   # Retry failures within the same environment
   gem 'retriable', '~> 3.1.1'
