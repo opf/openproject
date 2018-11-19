@@ -164,6 +164,11 @@ ru:
       no_results_content_text: Добавить статус отчёта
   statuses:
     edit:
+      status_readonly_html: |
+        Установите этот флажок, чтобы пометить пакеты работ как доступные только для чтения.
+        Никакие атрибуты не могут быть изменены за исключением статуса.
+        <br/>
+        <strong>Примечание</ strong>: Будут применены унаследованные значения (например, элементов предков или потомков).
       status_color_text: |
         Щелкните, чтобы задать или изменить цвет этого статуса.
         Этот цвет отображается на кнопке статуса и может использоваться для выделения пакетов работ в таблице.
@@ -348,6 +353,7 @@ ru:
         to: Похожий пакет работ
       status:
         is_closed: Пакет работ закрыт
+        is_readonly: Пакет работ только для просмотра
       journal:
         notes: Примечания
       member:
@@ -1373,6 +1379,7 @@ ru:
   label_journal_diff: Описание сравнения
   label_language: Язык
   label_jump_to_a_project: Перейти к проекту...
+  label_keyword_plural: Ключевые слова
   label_language_based: Основанный на языке пользователя
   label_last_activity: Последняя активность
   label_last_change_on: Последнее изменение
@@ -1918,7 +1925,7 @@ ru:
       сопровождения с OpenProject.
     text_show_again: Вы можете перезапустить это видео из меню «Справка»
     welcome: Добро пожаловать в OpenProject
-    select_language: Please select your language
+    select_language: Пожалуйста, выберите язык
   permission_add_work_package_notes: Добавить заметки
   permission_add_work_packages: Добавление пакетов работ
   permission_add_messages: Написать сообщения

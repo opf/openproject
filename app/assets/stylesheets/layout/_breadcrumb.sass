@@ -56,12 +56,15 @@
     @extend %breadcrumb--default-font
     color: lighten($breadcrumb-font-color, 20)
     list-style-type: none
-    white-space: nowrap
     &.cutme
       max-width: $breadcrumb-height
 
   &.-show
     display: block
+
+#breadcrumb
+  li
+    white-space: nowrap
 
 ul.breadcrumb
   margin: 0 0 0 0
@@ -94,21 +97,16 @@ ul.breadcrumb
 .wp-breadcrumb
   margin-top: 10px
   height: initial
+
   ul.breadcrumb
     height: initial
-    li
-      line-height: 20px
-      max-width: 420px
-      @include text-shortener
 
-      &:first-child
-        &:before
-          display: none
+  li
+    line-height: 20px
 
-// This is ugly. However, this way we do not need to touch complicated
-// toolbar-container positioning.
-body.action-show .wp-breadcrumb
-  margin-bottom: -10px
+  .wp-breadcrumb--ellipsed
+    max-width: 420px
+    @include text-shortener
 
 // Hide projects in normal mode
 body:not(.accessibility-mode) .breadcrumb .breadcrumb-project-element
@@ -121,10 +119,3 @@ body:not(.accessibility-mode) .breadcrumb .breadcrumb-project-element
     margin: 10px 0 0 0 !important
     ul.breadcrumb
       line-height: 1.25
-      li
-        display: inline
-        float: unset
-        line-height: inherit
-        white-space: normal
-        margin: 0 10px 0 0
-

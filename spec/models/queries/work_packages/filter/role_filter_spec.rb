@@ -32,7 +32,6 @@ describe Queries::WorkPackages::Filter::RoleFilter, type: :model do
   let(:role) { FactoryBot.build_stubbed(:role) }
 
   it_behaves_like 'basic query filter' do
-    let(:order) { 7 }
     let(:type) { :list_optional }
     let(:class_key) { :assigned_to_role }
     let(:name) { I18n.t('query_fields.assigned_to_role') }

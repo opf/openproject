@@ -28,31 +28,58 @@
 
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageEditingService} from 'core-components/wp-edit-form/work-package-editing-service';
-import {Component, Inject, Input} from '@angular/core';
+import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {IWorkPackageEditingServiceToken} from "../../wp-edit-form/work-package-editing.service.interface";
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
+import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
 @Component({
   selector: 'wp-status-button',
   templateUrl: './wp-status-button.html'
 })
-export class WorkPackageStatusButtonComponent {
+export class WorkPackageStatusButtonComponent implements OnInit, OnDestroy {
   @Input('workPackage') public workPackage:WorkPackageResource;
-  @Input('allowed') public allowed:boolean;
 
   public text = {
-    explanation: this.I18n.t('js.label_edit_status')
+    explanation: this.I18n.t('js.label_edit_status'),
+    workPackageReadOnly: this.I18n.t('js.work_packages.message_work_package_read_only')
   };
 
   constructor(readonly I18n:I18nService,
+              readonly wpCacheService:WorkPackageCacheService,
               @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService) {
+  }
+
+  ngOnInit() {
+    this.wpCacheService
+      .observe(this.workPackage.id)
+      .pipe(
+        untilComponentDestroyed(this)
+      )
+      .subscribe((wp) => {
+        this.workPackage = wp;
+        this.workPackage.status.$load();
+      });
+  }
+
+  ngOnDestroy():void {
+    // Nothing to do
   }
 
   public isDisabled() {
     let changeset = this.wpEditing.changesetFor(this.workPackage);
     return !this.allowed || changeset.inFlight;
+  }
+
+  public get buttonTitle() {
+    if (this.workPackage.isReadonly) {
+      return this.text.workPackageReadOnly;
+    } else {
+      return '';
+    }
   }
 
   public get statusHighlightClass() {
@@ -62,5 +89,9 @@ export class WorkPackageStatusButtonComponent {
   public get status():HalResource {
     let changeset = this.wpEditing.changesetFor(this.workPackage);
     return changeset.value('status');
+  }
+
+  public get allowed() {
+    return this.workPackage.isAttributeEditable('status');
   }
 }

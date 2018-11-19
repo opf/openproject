@@ -35,10 +35,6 @@ class Queries::WorkPackages::Filter::ResponsibleFilter <
     :list_optional
   end
 
-  def order
-    4
-  end
-
   def self.key
     :responsible_id
   end

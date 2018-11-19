@@ -1,0 +1,5 @@
+"no":
+  js:
+    reporting_engine:
+      label_remove: "Slette"
+      label_response_error: "En feil oppstod under behandling av spørringen."

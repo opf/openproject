@@ -166,6 +166,11 @@ bg:
       no_results_content_text: Добавете отчет за статус
   statuses:
     edit:
+      status_readonly_html: |
+        Check this option to mark work packages with this status as read-only.
+        No attributes can be changed with the exception of the status.
+        <br/>
+        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
@@ -349,6 +354,7 @@ bg:
         to: Свързани работени пакети
       status:
         is_closed: Работният пакет е затворен
+        is_readonly: Work package read-only
       journal:
         notes: Бележки
       member:
@@ -1337,6 +1343,7 @@ bg:
   label_journal_diff: Сравнение на описание
   label_language: Език
   label_jump_to_a_project: Отиди на проект...
+  label_keyword_plural: Keywords
   label_language_based: Въз основа на езика на потребителя
   label_last_activity: Последна активност
   label_last_change_on: 'Последна промяна на:'

@@ -147,6 +147,10 @@ export class WorkPackageBaseResource extends HalResource {
     return ancestors.map((el:WorkPackageResource) => el.id.toString());
   }
 
+  public get isReadonly():boolean {
+    return this.status && this.status.isReadonly;
+  }
+
   /**
    * Return "<type name>: <subject>" if the type is known.
    */
@@ -171,8 +175,24 @@ export class WorkPackageBaseResource extends HalResource {
     return !(children && children.length > 0);
   }
 
-  public get isEditable():boolean {
-    return !!this.$links.update || this.isNew;
+  /**
+   * Return whether the user in general has permission to edit the work package.
+   * This check is required, but not sufficient to check all attribute restrictions.
+   *
+   * Use +isAttributeEditable(property)+ for this case.
+   */
+  public get isEditable() {
+    return this.isNew || !!this.$links.update;
+  }
+
+  /**
+   * Return whether the work package is editable with the user's permission
+   * on the given work package attribute.
+   *
+   * @param property
+   */
+  public isAttributeEditable(property:string):boolean {
+    return this.isEditable && (!this.isReadonly || property === 'status');
   }
 
   private performUpload(files:UploadFile[]) {

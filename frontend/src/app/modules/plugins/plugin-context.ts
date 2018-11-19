@@ -33,7 +33,8 @@ export class OpenProjectPluginContext {
 
   private _knownHookNames = [
     'workPackageTableContextMenu',
-    'workPackageSingleContextMenu'
+    'workPackageSingleContextMenu',
+    'workPackageNewInitialization'
   ];
 
   // Common services referencable by index
@@ -86,6 +87,6 @@ export class OpenProjectPluginContext {
     DynamicBootstrapper.bootstrapOptionalEmbeddable(
       this.injector.get(ApplicationRef),
       element
-      )
+    );
   }
 }

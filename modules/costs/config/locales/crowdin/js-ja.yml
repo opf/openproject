@@ -1,0 +1,12 @@
+ja:
+  js:
+    work_packages:
+      property_groups:
+        costs: "コスト"
+      properties:
+        costObject: "予算"
+        overallCosts: "集計コスト"
+        spentUnits: "使用済単価"
+    button_log_costs: "単価を記録"
+    label_hour: " 時間"
+    label_hours: "時間"

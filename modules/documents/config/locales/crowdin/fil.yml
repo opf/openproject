@@ -1,0 +1,19 @@
+fil:
+  activerecord:
+    models:
+      document: "Dokumento"
+  default_doc_category_tech: "Teknikal na dokumentasyon"
+  default_doc_category_user: "Dokumento para sa mga gagamit"
+  enumeration_doc_categories: "Mga kategorya ng dokumento"
+  enumeration:
+    document_category:
+      documentation: Dokumentasyon
+      specification: Mga Detalye
+      other: Iba pa
+  label_document_added: "Idinagdag ang dokumento"
+  label_document_new: "Bagong dokumento"
+  label_document_plural: "Mga dokumento"
+  label_documents: "Mga dokumento"
+  permission_manage_documents: "Pamahalaan ang mga dokumento"
+  permission_view_documents: "Tingnan ang dokumento"
+  project_module_documents: "Mga dokumento"

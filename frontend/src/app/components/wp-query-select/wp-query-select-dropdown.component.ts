@@ -437,12 +437,9 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     const isSameItem = params.query_id && params.query_id === currentId.toString();
 
 
-    // Ensure we're loading the query
-    if (isStaticItem || isSameItem) {
-      this.wpListChecksumService.clear();
-    }
-
+    // Ensure we're reloading the query
     if (isSameItem) {
+      this.wpListChecksumService.clear();
       opts.reload = true;
     }
 

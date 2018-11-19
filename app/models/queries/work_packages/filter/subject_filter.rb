@@ -31,8 +31,4 @@ class Queries::WorkPackages::Filter::SubjectFilter < Queries::WorkPackages::Filt
   def type
     :text
   end
-
-  def order
-    8
-  end
 end

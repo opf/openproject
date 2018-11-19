@@ -53,6 +53,10 @@ sv-SE:
     button_update: Uppdatera
     button_export-pdf: Ladda ner PDF
     button_export-atom: Ladda ner Atom
+    calendar:
+      title: Kalender
+      too_many: There are more work packages (%{count}) than can be displayed by the
+        calendar (%{max}). Add filters to focus on the relevant ones.
     description_available_columns: Tillgängliga kolumner
     description_current_position: 'Du är här:'
     description_select_work_package: 'Välj arbetspaket #%{id}'
@@ -111,6 +115,8 @@ sv-SE:
         embedded_table:
           button: Bädda in arbetspaket-tabell
           text: "[Placeholder] Embedded work package table"
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
     custom_actions:
       date:
         specific: på
@@ -388,8 +394,10 @@ sv-SE:
       relation_type: relationstyp
     relations_hierarchy:
       parent_headline: Överordnad
+      hierarchy_headline: Hierarchy
       children_headline: Barn
     relation_buttons:
+      set_parent: Set parent work package
       change_parent: Ändra överordnad
       remove_parent: Ta bort förälder
       group_by_wp_type: Gruppera efter arbetspakettyp
@@ -409,6 +417,7 @@ sv-SE:
       abort: Avbryt
     relations_autocomplete:
       placeholder: Ange ID på det relaterade arbetspaketet
+      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
     repositories:
       select_tag: Välj etikett
       select_branch: Välj gren
@@ -551,6 +560,8 @@ sv-SE:
       description_options_hide: Dölj alternativ
       description_options_show: Visa alternativ
       error:
+        update_conflict_refresh: Click here to refresh the work package and update
+          to the newest version.
         edit_prohibited: Redigering av %{attribute} är låst för detta arbetspaket.
           Antingen härrör attributet från relationer eller så kan det inte redigeringsbart.
         format:
@@ -571,6 +582,8 @@ sv-SE:
       message_successful_show_in_fullscreen: Klicka här för att öppna det här arbetspaketet
         i fullskärmsläge.
       message_view_spent_time: Visa loggad tid för detta arbetspaket
+      message_work_package_read_only: Work package is locked in this status. No attribute
+        other than status can be altered.
       no_value: Inget värde
       inline_create:
         title: Klicka här för att lägga till ett nytt arbetspaket till listan

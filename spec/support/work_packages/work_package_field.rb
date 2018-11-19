@@ -53,13 +53,13 @@ class WorkPackageField
 
   ##
   # Activate the field and check it opened correctly
-  def activate!
+  def activate!(expect_open: true)
     retry_block do
       unless active?
         scroll_to_and_click(display_element)
       end
 
-      unless active?
+      if expect_open && !active?
         raise "Expected WP field input type '#{field_type}' for attribute '#{property_name}'."
       end
     end

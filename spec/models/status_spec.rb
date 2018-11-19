@@ -98,6 +98,27 @@ describe Status, type: :model do
     end
   end
 
+  describe '#is_readonly' do
+    let!(:status) { FactoryBot.build(:status, is_readonly: true) }
+    context 'when EE enabled', with_ee: %i[readonly_work_packages] do
+      it 'is still marked read only' do
+        expect(status.is_readonly).to be_truthy
+        expect(status.is_readonly?).to be_truthy
+      end
+    end
+
+    context 'when EE no longer enabled', with_ee: %i[] do
+      it 'is still marked read only' do
+        expect(status.is_readonly).to be_falsey
+        expect(status.is_readonly?).to be_falsey
+
+        # But DB attribute is still correct to keep the state
+        # whenever user reactivates
+        expect(status.read_attribute(:is_readonly)).to be_truthy
+      end
+    end
+  end
+
   describe '#cache_key' do
     it 'updates when the updated_at field changes' do
       old_cache_key = stubbed_status.cache_key

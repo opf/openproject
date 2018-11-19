@@ -35,11 +35,6 @@ shared_examples 'work package relations tab', js: true, selenium: true do
     let!(:child2) { FactoryBot.create(:work_package, project: project, subject: 'Another child WP') }
 
     it 'allows to manage hierarchy' do
-      # Shows link parent link
-      expect(page).to have_selector('#hierarchy--add-parent')
-      find('.wp-inline-create--add-link',
-           text: I18n.t('js.relation_buttons.add_parent')).click
-
       # Add parent
       relations.add_parent(parent.id, parent)
       relations.expect_parent(parent)
@@ -58,8 +53,8 @@ shared_examples 'work package relations tab', js: true, selenium: true do
 
       relations.add_existing_child(child2)
 
-      # Count parent and child relations in split view
-      tabs.expect_counter(relations_tab, 3)
+      # Count child relations in split view
+      tabs.expect_counter(relations_tab, 2)
     end
 
     describe 'inline create' do
@@ -129,8 +124,8 @@ shared_examples 'work package relations tab', js: true, selenium: true do
       end
 
       context 'as view-only user, with parent set' do
-        let(:parent) { FactoryBot.create(:work_package, project: project, subject: 'Parent WP') }
-        let(:work_package) { FactoryBot.create(:work_package, parent: parent, project: project, subject: 'Child WP') }
+        let!(:parent) { FactoryBot.create(:work_package, project: project, subject: 'Parent WP') }
+        let!(:work_package) { FactoryBot.create(:work_package, parent: parent, project: project, subject: 'Child WP') }
 
         it 'shows no links to create relations' do
           # No create buttons should exist
@@ -140,17 +135,17 @@ shared_examples 'work package relations tab', js: true, selenium: true do
           expect(page).to have_no_selector('#relation--add-relation')
 
           # Test for add parent
-          expect(page).to have_no_selector('#hierarchy--add-parent')
+          expect(page).to have_no_selector('.wp-relation--parent-change')
 
           # Test for add children
           expect(page).to have_no_selector('#hierarchy--add-exisiting-child')
           expect(page).to have_no_selector('#hierarchy--add-new-child')
 
           # But it should show the linked parent
-          expect(page).to have_selector('.wp-relations-hierarchy-subject', text: parent.subject)
+          expect(page).to have_selector('.wp-breadcrumb-parent', text: parent.subject)
 
-          # And it should count parent and the two relations
-          tabs.expect_counter(relations_tab, 3)
+          # And it should count the two relations
+          tabs.expect_counter(relations_tab, 2)
         end
       end
 
@@ -160,11 +155,6 @@ shared_examples 'work package relations tab', js: true, selenium: true do
         let!(:child) { FactoryBot.create(:work_package, project: project, subject: 'Child WP') }
 
         it 'should be able to link parent and children' do
-          # Shows link parent link
-          expect(page).to have_selector('#hierarchy--add-parent')
-          find('.wp-inline-create--add-link',
-               text: I18n.t('js.relation_buttons.add_parent')).click
-
           # Add parent
           relations.add_parent(parent.id, parent)
           wp_page.expect_and_dismiss_notification(message: 'Successful update.')
@@ -179,20 +169,20 @@ shared_examples 'work package relations tab', js: true, selenium: true do
           wp_page.expect_and_dismiss_notification(message: 'Successful update.')
           relations.expect_child(child)
 
-          # Expect counter to add up new parent and child to the existing relations
-          tabs.expect_counter(relations_tab, 4)
+          # Expect counter to add up child to the existing relations
+          tabs.expect_counter(relations_tab, 3)
 
           # Remove parent
-          relations.remove_parent(parent)
+          relations.remove_parent
           wp_page.expect_and_dismiss_notification(message: 'Successful update.')
-          relations.expect_not_parent(parent)
+          relations.expect_no_parent
 
           # Remove child
           relations.remove_child(child)
           # Should also check for successful update but no message is shown, yet.
           relations.expect_not_child(child)
 
-          # Expect counter to only count the two existing relations
+          # Expect counter to count the two relations
           tabs.expect_counter(relations_tab, 2)
         end
       end

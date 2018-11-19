@@ -104,8 +104,13 @@ If a matching account is found, the mail handler impersonates the user to create
 If no matching account is found, the mail is rejected. To override this behavior and allow unknown mail address
 to create work packages, set the option `no_permission_check=1` and specify with `unknown_user=ACTION`
 
-**Note**: This feature only provides a mapping of mail to user account, it does not authenticate the user based on the mail.
-Since you can easily spoof mail addresses, you should not rely on the authenticity of work packages created that way.
+**Note**: This feature only provides a mapping of mail to user account, it does not authenticate the user based on the mail. Since you can easily spoof mail addresses, you should not rely on the authenticity of work packages created that way.
+
+**Users with mail suffixes**
+
+If you're used to using mail accounts with suffix support such as Google Mail, where you can specify `account+suffix@googlemail.com`, you will receive mails to that account but respond with your regular account `account@googlemail.com` . To mitigiate this, OpenProject by default will expand searching for mail ddresses `account@domain` to accounts `account+suffix@domain`  through regex searching the mail column. If you do not wish that behavior or want to customize the prefix, alter the setting `mail_suffix_separators` by running `bundle exec rails runner "Setting.mail_suffix_separators = ''"`
+
+
 
 #### Attributes
 

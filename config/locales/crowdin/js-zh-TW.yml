@@ -52,6 +52,10 @@ zh-TW:
     button_update: 更新
     button_export-pdf: 下載 PDF
     button_export-atom: 下載 Atom
+    calendar:
+      title: 行事曆
+      too_many: There are more work packages (%{count}) than can be displayed by the
+        calendar (%{max}). Add filters to focus on the relevant ones.
     description_available_columns: 可用欄
     description_current_position: 您在這裏：
     description_select_work_package: '選取工作項目 #%{id}'
@@ -107,6 +111,8 @@ zh-TW:
         embedded_table:
           button: 嵌入工作包表
           text: "[Placeholder] Embedded work package table"
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
     custom_actions:
       date:
         specific: 開啟
@@ -374,8 +380,10 @@ zh-TW:
       relation_type: 關聯類型
     relations_hierarchy:
       parent_headline: 主
+      hierarchy_headline: Hierarchy
       children_headline: 子階
     relation_buttons:
+      set_parent: Set parent work package
       change_parent: 改變上層
       remove_parent: 移除上一層
       group_by_wp_type: 按工作包類型分組
@@ -395,6 +403,7 @@ zh-TW:
       abort: 捨棄
     relations_autocomplete:
       placeholder: 輸入相關的工作包 ID
+      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
     repositories:
       select_tag: 選擇標籤
       select_branch: 選擇分支
@@ -527,6 +536,8 @@ zh-TW:
       description_options_hide: 隱藏選項
       description_options_show: 顯示選項
       error:
+        update_conflict_refresh: Click here to refresh the work package and update
+          to the newest version.
         edit_prohibited: 已禁止對此工作包編輯 %{attribute}。此屬性來源於關聯 (如：子項) 或無法配置。
         format:
           date: "%{attribute} 不是有效日期 - 需要 YYYY-MM-DD。"
@@ -544,6 +555,8 @@ zh-TW:
       message_successful_bulk_delete: 成功刪除工作項目
       message_successful_show_in_fullscreen: 點擊此處以全螢幕開啟此工作包
       message_view_spent_time: 顯示這個工作包所花費的時間
+      message_work_package_read_only: Work package is locked in this status. No attribute
+        other than status can be altered.
       no_value: 無值
       inline_create:
         title: 點擊添加新的工作項目到此清單

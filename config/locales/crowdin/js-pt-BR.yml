@@ -54,6 +54,10 @@ pt-BR:
     button_update: Atualizar
     button_export-pdf: Baixar PDF
     button_export-atom: Baixar Atom
+    calendar:
+      title: Calendário
+      too_many: There are more work packages (%{count}) than can be displayed by the
+        calendar (%{max}). Add filters to focus on the relevant ones.
     description_available_columns: Colunas disponíveis
     description_current_position: 'Você está aqui:'
     description_select_work_package: 'Selecionar o pacote de trabalho #%{id}'
@@ -113,6 +117,8 @@ pt-BR:
         embedded_table:
           button: Embutir tabela de pacote de trabalho
           text: "[Placeholder] Embutida tabela de pacote de trabalho"
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
     custom_actions:
       date:
         specific: ligado
@@ -396,8 +402,10 @@ pt-BR:
       relation_type: tipo de relação
     relations_hierarchy:
       parent_headline: Ascendente
+      hierarchy_headline: Hierarquia
       children_headline: Filhos
     relation_buttons:
+      set_parent: Set parent work package
       change_parent: Alterar pai
       remove_parent: Remover pai
       group_by_wp_type: Agrupar por tipo de pacote de trabalho
@@ -417,6 +425,7 @@ pt-BR:
       abort: Abortar
     relations_autocomplete:
       placeholder: Insira o id do pacote de trabalho relacionado
+      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
     repositories:
       select_tag: Selecionar marca
       select_branch: Selecionar o branch
@@ -559,6 +568,8 @@ pt-BR:
       description_options_hide: Ocultar opções
       description_options_show: Mostrar opções
       error:
+        update_conflict_refresh: Click here to refresh the work package and update
+          to the newest version.
         edit_prohibited: A edição de %{attribute} está bloqueada neste pacote de trabalho.
           Ou este atributo é derivado de relações (por exemplo, filhas) ou não é configurável.
         format:
@@ -580,6 +591,8 @@ pt-BR:
       message_successful_show_in_fullscreen: Clique aqui para abrir este pacote de
         trabalho na visualização de tela cheia.
       message_view_spent_time: Mostrar o tempo gasto para este pacote de trabalho
+      message_work_package_read_only: Work package is locked in this status. No attribute
+        other than status can be altered.
       no_value: Nenhum valor
       inline_create:
         title: Clique aqui para adicionar um novo pacote de trabalho a esta lista

@@ -1,0 +1,64 @@
+zh-TW:
+  activerecord:
+    attributes:
+      meeting:
+        location: "地點"
+        duration: "會議長度"
+        participants: "參加人員"
+        participants_attended: "出席人員"
+        participants_invited: "受邀人員"
+        start_time: "時間"
+        start_time_hour: "開始時間"
+    errors:
+      messages:
+        invalid_time_format: "不是有效時間。所需格式: HH:MM"
+    models:
+      meeting_agenda: "會議大綱"
+      meeting_minutes: "會議記錄"
+  description_attended: "出席人員"
+  description_invite: "已邀請"
+  events:
+    meeting: 會議已編輯
+    meeting_agenda: 會議大綱已編輯
+    meeting_agenda_closed: 會議大綱已定案
+    meeting_agenda_opened: 會議大綱開啟
+    meeting_minutes: 會議記錄已編輯
+    meeting_minutes_created: 會議記錄已建立
+  error_notification_with_errors: "傳送通知失敗。以下的收件者將不會被通知到: %{recipients}"
+  label_meeting: "會議"
+  label_meeting_plural: "會議"
+  label_meeting_new: "新增會議"
+  label_meeting_edit: "編輯會議"
+  label_meeting_agenda: "會議大綱"
+  label_meeting_minutes: "會議記錄"
+  label_meeting_close: "結束"
+  label_meeting_open: "開始"
+  label_meeting_agenda_close: "定案會議大綱以便開始會議記錄"
+  label_meeting_date_time: "日期 / 時間"
+  label_meeting_diff: "比較"
+  label_notify: "送出審閱"
+  label_icalendar: "發送 iCalendar"
+  label_version: "版本"
+  label_time_zone: "時區"
+  label_start_date: "開始日期"
+  notice_successful_notification: "通知傳送成功"
+  notice_timezone_missing: 沒有設定時區，預設時區為 %{zone} 。請按這裡選擇您的時區。
+  permission_create_meetings: "建立會議"
+  permission_edit_meetings: "編輯會議"
+  permission_delete_meetings: "刪除會議"
+  permission_view_meetings: "檢視會議"
+  permission_create_meeting_agendas: "管理會議"
+  permission_close_meeting_agendas: "定案會議大綱"
+  permission_send_meeting_agendas_notification: "傳送會議大綱審閱通知"
+  permission_create_meeting_minutes: "管理會議記錄"
+  permission_send_meeting_minutes_notification: "傳送會議記錄審閱通知"
+  project_module_meetings: "會議"
+  text_duration_in_hours: "持續時間 (小時)"
+  text_in_hours: "在一小時內"
+  text_meeting_agenda_for_meeting: '%{meeting} 的會議大綱'
+  text_meeting_closing_are_you_sure: "確實要關閉會議嗎？"
+  text_meeting_agenda_open_are_you_sure: "會議記錄中未儲存的內容會遺失！確定要繼續嗎？"
+  text_meeting_minutes_for_meeting: '%{meeting} 的會議記錄'
+  text_review_meeting_agenda: "%{author} 已經放上 %{link} 來審閱"
+  text_review_meeting_minutes: "%{author} 已經放上 %{link} 來審閱"
+  text_notificiation_invited: "此郵件包含以下會議的 ics 條目:"

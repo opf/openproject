@@ -148,6 +148,11 @@ zh-TW:
       no_results_content_text: 新增一個狀態回報
   statuses:
     edit:
+      status_readonly_html: |
+        Check this option to mark work packages with this status as read-only.
+        No attributes can be changed with the exception of the status.
+        <br/>
+        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
@@ -304,6 +309,7 @@ zh-TW:
         to: 相關的工作項目
       status:
         is_closed: 工作項目關閉
+        is_readonly: Work package read-only
       journal:
         notes: 備註
       member:
@@ -1244,6 +1250,7 @@ zh-TW:
   label_journal_diff: 內容對比
   label_language: 語言
   label_jump_to_a_project: 前往一個專案...
+  label_keyword_plural: Keywords
   label_language_based: 根據使用者的語言
   label_last_activity: 最後的活動
   label_last_change_on: 最後一次更改在

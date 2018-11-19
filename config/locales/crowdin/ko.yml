@@ -151,6 +151,11 @@ ko:
       no_results_content_text: 상태 보고 추가
   statuses:
     edit:
+      status_readonly_html: |
+        Check this option to mark work packages with this status as read-only.
+        No attributes can be changed with the exception of the status.
+        <br/>
+        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
       status_color_text: |
         이 상태 색상을 할당하거나 변경하려면 클릭하세요.
         상태 버튼에 표시되고 테이블의 작업 패키지를 강조 표시하는 데 사용할 수 있습니다.
@@ -314,6 +319,7 @@ ko:
         to: 관련 패키지
       status:
         is_closed: 종료된 작업 패키지
+        is_readonly: Work package read-only
       journal:
         notes: 노트
       member:
@@ -1290,6 +1296,7 @@ ko:
   label_journal_diff: 설명 비교
   label_language: 언어
   label_jump_to_a_project: 프로젝트로 이동...
+  label_keyword_plural: Keywords
   label_language_based: 사용자 언어에 따름
   label_last_activity: 마지막 활동
   label_last_change_on: 마지막 변경

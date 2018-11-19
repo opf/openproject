@@ -1,4 +1,5 @@
 <div
+  *ngIf="resource.canAddAttachments"
   class="wp-attachment-upload hide-when-print"
   (drop)="onDropFiles($event)"
   (dragover)="onDragOver($event)"

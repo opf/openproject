@@ -1,0 +1,29 @@
+@import "fonts/openproject_icon_definitions"
+
+@mixin sort-icons
+  font-family: "openproject-icon-font" !important
+  font-weight: normal !important
+  speak: none
+  margin-left: 5px
+  font-size: 1.2em
+  line-height: 1
+  vertical-align: text-bottom
+
+.tablesorter-header
+  cursor: pointer
+
+.tablesorter-headerDesc .generic-table--sort-header span
+  &:after
+    @include sort-icons
+    @include icon-mixin-sort-descending
+
+.tablesorter-headerAsc .generic-table--sort-header span
+  &:after
+    @include sort-icons
+    @include icon-mixin-sort-ascending
+
+#result-table .generic-table--results-container tfoot
+  td
+    width: 150px
+  .generic-table--footer-outer
+    width: inherit

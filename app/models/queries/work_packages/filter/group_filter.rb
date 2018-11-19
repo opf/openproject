@@ -40,10 +40,6 @@ class Queries::WorkPackages::Filter::GroupFilter < Queries::WorkPackages::Filter
     :list_optional
   end
 
-  def order
-    6
-  end
-
   def human_name
     I18n.t('query_fields.member_of_group')
   end

@@ -44,10 +44,6 @@ class Queries::WorkPackages::Filter::TypeFilter <
     :list
   end
 
-  def order
-    3
-  end
-
   def self.key
     :type_id
   end

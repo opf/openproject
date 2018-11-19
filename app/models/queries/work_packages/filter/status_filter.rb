@@ -49,10 +49,6 @@ class Queries::WorkPackages::Filter::StatusFilter < Queries::WorkPackages::Filte
     :list
   end
 
-  def order
-    1
-  end
-
   def self.key
     :status_id
   end

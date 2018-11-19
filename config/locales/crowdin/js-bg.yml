@@ -53,6 +53,10 @@ bg:
     button_update: Обнови
     button_export-pdf: Свали PDF
     button_export-atom: Свали Atom
+    calendar:
+      title: Календар
+      too_many: There are more work packages (%{count}) than can be displayed by the
+        calendar (%{max}). Add filters to focus on the relevant ones.
     description_available_columns: Достъпни колони
     description_current_position: 'Вие сте тук:'
     description_select_work_package: 'Избери работен пакет #%{id}'
@@ -108,6 +112,8 @@ bg:
         embedded_table:
           button: Embed work package table
           text: "[Placeholder] Embedded work package table"
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
     custom_actions:
       date:
         specific: на
@@ -387,8 +393,10 @@ bg:
       relation_type: relation type
     relations_hierarchy:
       parent_headline: Горна категория
+      hierarchy_headline: Hierarchy
       children_headline: Деца
     relation_buttons:
+      set_parent: Set parent work package
       change_parent: Смяна на главният работен пакет
       remove_parent: Remove parent
       group_by_wp_type: Group by work package type
@@ -408,6 +416,7 @@ bg:
       abort: Abort
     relations_autocomplete:
       placeholder: Enter the related work package id
+      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
     repositories:
       select_tag: Изберете етикет
       select_branch: Изберете клон
@@ -553,6 +562,8 @@ bg:
       description_options_hide: Скрий опциите
       description_options_show: Покажи опциите
       error:
+        update_conflict_refresh: Click here to refresh the work package and update
+          to the newest version.
         edit_prohibited: Редактирането на %{attribute} е блокиран за този работен
           пакет. Или този атрибут е получен от свързани пакети (например, подпакети),
           или не са кофигурируеми по друга причина.
@@ -575,6 +586,8 @@ bg:
       message_successful_show_in_fullscreen: Щракнете тук, за да отворите този работен
         пакет в изглед на цял екран.
       message_view_spent_time: Show spent time for this work package
+      message_work_package_read_only: Work package is locked in this status. No attribute
+        other than status can be altered.
       no_value: Няма стойност
       inline_create:
         title: Щракнете тук, за да добавите нов работен пакет към този списък

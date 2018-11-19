@@ -1,0 +1,40 @@
+<%#-- copyright
+OpenProject My Project Page Plugin
+
+Copyright (C) 2011-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.md for more details.
+
+++#%>
+
+<% if defined? block_name_id %>
+  <%= content_for block_name_id %>
+<% end %>
+
+<h3 class="widget-box--header">
+  <%= op_icon('icon-context icon-watched') %>
+  <span class="widget-box--header-title"><%=l(:label_work_package_view_all_watched)%> (<%= WorkPackage.where(project_id: @project.id).visible.watched_by(user.id).count %>)</span>
+</h3>
+
+<% watched_work_packages = WorkPackage.where(project_id: @project.id).visible.on_active_project.watched_by(user.id).recently_updated.with_limit(10) %>
+
+<%= render :partial => 'work_packages/list_simple', :locals => { :work_packages => watched_work_packages, list_for: :watched } %>
+<% if watched_work_packages.length > 0 %>
+  <div class="generic-table--action-buttons">
+    <%= link_to l(:label_work_package_view_all_watched),
+                  project_work_packages_watched_path(@project),
+                  :class => 'button -highlight-inverted' %>
+  </div>
+<% end %>

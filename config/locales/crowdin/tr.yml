@@ -164,6 +164,11 @@ tr:
       no_results_content_text: Durum bildirme ekleme
   statuses:
     edit:
+      status_readonly_html: |
+        Check this option to mark work packages with this status as read-only.
+        No attributes can be changed with the exception of the status.
+        <br/>
+        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
@@ -342,6 +347,7 @@ tr:
         to: İlgili iş paketi
       status:
         is_closed: İş paketi kapalı
+        is_readonly: Work package read-only
       journal:
         notes: Notlar
       member:
@@ -1332,6 +1338,7 @@ tr:
   label_journal_diff: Açıklama Karşılaştırması
   label_language: Dil
   label_jump_to_a_project: Projeye git...
+  label_keyword_plural: Keywords
   label_language_based: Kullanıcının dili tabanlı
   label_last_activity: Son Aktivite
   label_last_change_on: Son değişiklik

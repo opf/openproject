@@ -31,8 +31,4 @@ class Queries::WorkPackages::Filter::DoneRatioFilter < Queries::WorkPackages::Fi
   def type
     :integer
   end
-
-  def order
-    14
-  end
 end

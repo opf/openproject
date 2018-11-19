@@ -166,6 +166,11 @@ th:
       no_results_content_text: เพิ่มรายงานสถานะ
   statuses:
     edit:
+      status_readonly_html: |
+        Check this option to mark work packages with this status as read-only.
+        No attributes can be changed with the exception of the status.
+        <br/>
+        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
@@ -343,6 +348,7 @@ th:
         to: ชุดภารกิจที่เกี่ยวข้อง
       status:
         is_closed: ปิดชุดภารกิจแล้ว
+        is_readonly: Work package read-only
       journal:
         notes: หมายเหตุ
       member:
@@ -1317,6 +1323,7 @@ th:
   label_journal_diff: เปรียบเทียบคำอธิบาย
   label_language: ภาษา
   label_jump_to_a_project: ไปยังโครงการ...
+  label_keyword_plural: Keywords
   label_language_based: ตามภาษาของผู้ใช้
   label_last_activity: Last activity
   label_last_change_on: Last change on

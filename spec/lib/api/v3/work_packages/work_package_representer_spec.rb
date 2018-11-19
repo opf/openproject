@@ -553,6 +553,16 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           let(:href) { api_v3_paths.attachments_by_work_package(work_package.id) }
         end
 
+        context 'when work package blocked' do
+          before do
+            allow(work_package).to receive(:readonly_status?).and_return true
+          end
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'addAttachment' }
+          end
+        end
+
         it 'addAttachments is a post link' do
           is_expected.to be_json_eql('post'.to_json).at_path('_links/addAttachment/method')
         end

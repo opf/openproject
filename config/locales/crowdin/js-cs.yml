@@ -53,6 +53,10 @@ cs:
     button_update: Aktualizovat
     button_export-pdf: Stáhnout PDF
     button_export-atom: Stáhnout Atom
+    calendar:
+      title: Kalendář
+      too_many: There are more work packages (%{count}) than can be displayed by the
+        calendar (%{max}). Add filters to focus on the relevant ones.
     description_available_columns: Dostupné sloupce
     description_current_position: 'Nacházíte se zde:'
     description_select_work_package: 'Vyberte pracovní balíček #%{id}'
@@ -108,9 +112,11 @@ cs:
         embedded_table:
           button: Vložit tabulku pracovního balíčku
           text: "[Placeholder] Embedded work package table"
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
     custom_actions:
       date:
-        specific: 'on'
+        specific: zapnuto
         current_date: Current date
     error:
       internal: Došlo k vnitřní chybě.
@@ -181,7 +187,7 @@ cs:
     label_edit_status: Úprava stavu pracovního balíčku
     label_equals: je
     label_expand: Rozbalit
-    label_expanded: expanded
+    label_expanded: rozšířené
     label_expand_all: Rozbalit vše
     label_expand_project_menu: Rozbalit nabídku projektu
     label_export: Export
@@ -211,7 +217,7 @@ cs:
     label_none: žádný
     label_not_contains: neobsahuje
     label_not_equals: není
-    label_on: 'on'
+    label_on: zapnuto
     label_open_menu: Otevřít nabídku
     label_open_context_menu: Otevřít kontextovou nabídku
     label_open_work_packages: otevřít
@@ -243,7 +249,7 @@ cs:
     label_up: Nahoru
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
-    label_total_progress: "%{percent}% Total progress"
+    label_total_progress: Celkový průběh %{percent}%
     label_updated_on: aktualizováno
     label_warning: Varování
     label_work_package: Pracovní balíček
@@ -388,8 +394,10 @@ cs:
       relation_type: typ vztahu
     relations_hierarchy:
       parent_headline: Rodič
+      hierarchy_headline: Hierarchy
       children_headline: Potomci
     relation_buttons:
+      set_parent: Set parent work package
       change_parent: Změnit nadřazený
       remove_parent: Odstranit nadřazený
       group_by_wp_type: Seskupit podle typu pracovního balíčku
@@ -409,6 +417,7 @@ cs:
       abort: Zrušit
     relations_autocomplete:
       placeholder: Zadejte ID pracovního balíčku
+      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
     repositories:
       select_tag: Select tag
       select_branch: Select branch
@@ -416,19 +425,19 @@ cs:
     select2:
       input_too_short:
         one: Prosím, zadejte jeden nebo více znaků
-        other: Prosím, zadejte {{count}} nebo více znaků
+        other: Prosím, zadejte ještě {{count}} znaků
         zero: Please enter more characters
-        few: Prosím, zadejte {{count}} nebo více znaků
-        many: Please enter {{count}} more characters
+        few: Prosím, zadejte ještě {{count}} znaků
+        many: Prosím, zadejte ještě {{count}} znaků
       load_more: Načíst další výsledky...
       no_matches: Nenalezena žádná shoda
       searching: Vyhledávání ...
       selection_too_big:
-        one: You can only select one item
-        other: You can only select {{limit}} items
+        one: Můžete vybrat pouze jednu položku
+        other: Můžete vybrat pouze {{limit}} položek
         zero: You cannot select any items
-        few: You can only select {{limit}} items
-        many: You can only select {{limit}} items
+        few: Můžete vybrat pouze {{limit}} položek
+        many: Můžete vybrat pouze {{limit}} položek
     project_menu_details: Podrobnosti
     sort:
       sorted_asc: 'Ascending sort applied, '
@@ -504,16 +513,16 @@ cs:
         months: Měsíce
         quarters: Čtvrtletí
         years: Roky
-        slider: Zoom slider
+        slider: Posuvník přiblížení/oddálení
         description: 'Select the initial zoom level that should be shown when autozoom
           is not available.
 
 '
     tl_toolbar:
-      zooms: Zoom level
-      outlines: Hierarchy level
+      zooms: Úroveň přiblížení/oddálení
+      outlines: Úroveň hierarchie
     unsupported_browser:
-      title: Your browser version is not supported
+      title: Verze vašeho prohlížeče není podporována
       message: Verze prohlížeče, který používáte, již není OpenProject podporována.
       update_message: Aktualizujte svůj prohlížeč prosím.
       update_ie_user: Prosím přepněte do Mozilla Firefox nebo Google Chrome, nebo
@@ -524,8 +533,8 @@ cs:
       ee_only: Enterprise Edition only feature
     wiki_formatting:
       strong: Strong
-      italic: Italic
-      underline: Underline
+      italic: Kurzíva
+      underline: Podtržení
       deleted: Smazáno
       code: Inline Code
       heading1: Nadpis 1
@@ -554,6 +563,8 @@ cs:
       description_options_hide: Skrýt možnosti
       description_options_show: Zobrazit možnosti
       error:
+        update_conflict_refresh: Click here to refresh the work package and update
+          to the newest version.
         edit_prohibited: Editing %{attribute} is blocked for this work package. Either
           this attribute is derived from relations (e.g, children) or otherwise not
           configurable.
@@ -576,6 +587,8 @@ cs:
       message_successful_show_in_fullscreen: Click here to open this work package
         in fullscreen view.
       message_view_spent_time: Zobrazit strávený čas pro tento pracovní balíček
+      message_work_package_read_only: Work package is locked in this status. No attribute
+        other than status can be altered.
       no_value: Žádná hodnota
       inline_create:
         title: Click here to add a new work package to this list
@@ -605,8 +618,8 @@ cs:
           out.
       property_groups:
         details: Podrobnosti
-        people: People
-        estimatesAndTime: Estimates & Time
+        people: Lidé
+        estimatesAndTime: Odhady a Čas
         other: Ostatní
       properties:
         assignee: Řešitel
@@ -654,10 +667,10 @@ cs:
           mode being active.
         hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
           being grouped by %{column}.
-        sort_ascending: Sort ascending
-        sort_descending: Sort descending
-        move_column_left: Move column left
-        move_column_right: Move column right
+        sort_ascending: Seřadit vzestupně
+        sort_descending: Seřadit sestupně
+        move_column_left: Přesunout sloupec vlevo
+        move_column_right: Přesunout sloupec vpravo
         hide_column: Skrýt sloupec
         insert_columns: Insert columns ...
         filters: Filtry
@@ -726,10 +739,10 @@ cs:
     toolbar:
       settings:
         configure_view: Configure view ...
-        columns: Columns ...
-        sort_by: Sort by ...
-        group_by: Group by ...
-        display_sums: Display sums
+        columns: Sloupce ...
+        sort_by: Řadit podle ...
+        group_by: Seskupit podle ...
+        display_sums: Zobrazit součty
         display_hierarchy: Display hierarchy
         hide_hierarchy: Hide hierarchy
         hide_sums: Skrýt součty
@@ -747,7 +760,7 @@ cs:
     modals:
       label_settings: Rename view
       label_name: Jméno
-      label_delete_page: Delete current page
+      label_delete_page: Odstranit aktuální stránku
       button_apply: Použít
       button_save: Uložit
       button_submit: Potvrdit
@@ -771,9 +784,9 @@ cs:
       empty: No relation exists
       remove: Odstranit vztah
     inplace:
-      button_edit: "%{attribute}: Edit"
-      button_save: "%{attribute}: Save"
-      button_cancel: "%{attribute}: Cancel"
+      button_edit: "%{attribute}: Upravit"
+      button_save: "%{attribute}: Uložit"
+      button_cancel: "%{attribute}: Zrušit"
       button_save_all: Uložit
       button_cancel_all: Zrušit
       link_formatting_help: Text formatting help
@@ -805,10 +818,10 @@ cs:
         many: "%{count} work package children"
       hour:
         one: 1 hodina
-        other: "%{count} hodiny"
+        other: "%{count} hodin"
         zero: 0 hours
-        few: "%{count} hodiny"
-        many: "%{count} hours"
+        few: "%{count} hodin"
+        many: "%{count} hodin"
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode

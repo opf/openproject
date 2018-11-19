@@ -118,6 +118,18 @@ See docs/COPYRIGHT.rdoc for more details.
                                  container_class: '-middle' %>
           </div>
         <% end %>
+
+        <% if @user.active? -%>
+          <div class="form--field send-information -hidden">
+            <%= styled_label_tag 'send_information', t(:label_send_information) %>
+            <div class="form--field-container">
+              <%= styled_check_box_tag("send_information",
+                                       "1",
+                                       true) %>
+            </div>
+          </div>
+        <% end -%>
+
         <div class="form--field">
           <%= f.check_box :force_password_change,
                           disabled: assign_random_password_enabled %>

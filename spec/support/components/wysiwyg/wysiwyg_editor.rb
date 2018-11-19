@@ -66,19 +66,22 @@ module Components
 
     def drag_attachment(image_fixture, caption = 'Some caption')
       in_editor do |container, editable|
-        editable.base.send_keys(:page_up, 'some text', :enter, :enter, :enter)
+        sleep 1
+        editable.base.send_keys(:enter, 'some text', :enter, :enter, :enter)
 
         images = editable.all('figure.image')
         attachments.drag_and_drop_file(editable, image_fixture)
 
         expect(page)
-        .to have_selector('figure img[src^="/api/v3/attachments/"]', count: images.length + 1, wait: 10)
+          .to have_selector('figure img[src^="/api/v3/attachments/"]', count: images.length + 1, wait: 10)
 
+        sleep 1
         expect(page).not_to have_selector('notification-upload-progress')
 
         # Besides testing caption functionality this also slows down clicking on the submit button
         # so that the image is properly embedded
         editable.all('figure.image figcaption').map { |el| el.base.send_keys(caption) }
+        sleep 1
       end
     end
 
@@ -87,12 +90,12 @@ module Components
       container.find('.ck-button', visible: :all, text: label).click
     end
 
-    def click_and_type_slowly(text)
+    def click_and_type_slowly(*text)
       sleep 0.5
       editor_element.click
 
       sleep 0.5
-      editor_element.send_keys text
+      editor_element.send_keys *text
 
       sleep 0.5
     end

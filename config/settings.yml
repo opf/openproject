@@ -254,6 +254,8 @@ mail_handler_api_enabled:
   default: 0
 mail_handler_api_key:
   default:
+mail_suffix_separators:
+  default: '+'
 work_package_list_default_columns:
   serialized: true
   default:

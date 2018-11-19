@@ -68,7 +68,7 @@ class JournalManager
 
     def changed_references(merged_references)
       merged_references
-        .select { |_, (old_value, new_value)| old_value.present? && new_value.present? && old_value != new_value }
+        .select { |_, (old_value, new_value)| old_value.present? && new_value.present? && old_value.strip != new_value.strip }
     end
 
     def to_changes_format(references, key)
@@ -250,7 +250,8 @@ class JournalManager
 
   def self.create_journal(journable, journal_attributes, user = User.current,  notes = '')
     type = base_class(journable.class)
-    extended_journal_attributes = journal_attributes.merge(journable_type: type.to_s)
+    extended_journal_attributes = journal_attributes
+                                  .merge(journable_type: type.to_s)
                                   .merge(notes: notes)
                                   .except(:details)
                                   .except(:id)
@@ -320,9 +321,9 @@ class JournalManager
   end
 
   def self.normalize_newlines(data)
-    data.each_with_object({}) { |e, h|
+    data.each_with_object({}) do |e, h|
       h[e[0]] = (e[1].is_a?(String) ? e[1].gsub(/\r\n/, "\n") : e[1])
-    }
+    end
   end
 
   def self.with_send_notifications(send_notifications, &block)

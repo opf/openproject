@@ -30,6 +30,7 @@ require 'spec_helper'
 
 describe MyController, type: :controller do
   let(:user) { FactoryBot.create(:user) }
+
   before(:each) do
     login_as(user)
   end
@@ -221,7 +222,7 @@ describe MyController, type: :controller do
 
         post :generate_rss_key
         expect(user.reload.rss_token).to be_present
-        expect(flash[:notice]).to be_present
+        expect(flash[:info]).to be_present
         expect(flash[:error]).not_to be_present
 
         expect(response).to redirect_to action: :access_token
@@ -239,7 +240,7 @@ describe MyController, type: :controller do
           expect(new_token.value).not_to eq(key.value)
           expect(new_token.value).to eq(user.rss_key)
 
-          expect(flash[:notice]).to be_present
+          expect(flash[:info]).to be_present
           expect(flash[:error]).not_to be_present
           expect(response).to redirect_to action: :access_token
         end
@@ -255,7 +256,7 @@ describe MyController, type: :controller do
           new_token = user.reload.api_token
           expect(new_token).to be_present
 
-          expect(flash[:notice]).to be_present
+          expect(flash[:info]).to be_present
           expect(flash[:error]).not_to be_present
 
           expect(response).to redirect_to action: :access_token
@@ -273,7 +274,7 @@ describe MyController, type: :controller do
           new_token = user.reload.api_token
           expect(new_token).not_to eq(key)
           expect(new_token.value).not_to eq(key.value)
-          expect(flash[:notice]).to be_present
+          expect(flash[:info]).to be_present
           expect(flash[:error]).not_to be_present
 
           expect(response).to redirect_to action: :access_token

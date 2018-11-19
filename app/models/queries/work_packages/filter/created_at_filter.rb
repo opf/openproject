@@ -31,8 +31,4 @@ class Queries::WorkPackages::Filter::CreatedAtFilter < Queries::WorkPackages::Fi
   def type
     :datetime_past
   end
-
-  def order
-    9
-  end
 end

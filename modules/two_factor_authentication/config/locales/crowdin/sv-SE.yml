@@ -1,0 +1,170 @@
+sv:
+  activerecord:
+    attributes:
+      two_factor_authentication/device:
+        identifier: 'Identifierare'
+        default: 'Använd som standard'
+      two_factor_authentication/device/sms:
+        phone_number: "Telefonnummer"
+    errors:
+      models:
+        two_factor_authentication/device:
+          default_already_exists: 'är redan inställd för en annan OTP enhet.'
+        two_factor_authentication/device/sms:
+          attributes:
+            phone_number:
+              error_phone_number_format: "måste vara av formatet + XX XXXXXXXXX"
+    models:
+      two_factor_authentication/device: "2FA enhet"
+      two_factor_authentication/device/sms: "Mobiltelefon"
+      two_factor_authentication/device/totp: "Autentiseringsprogram"
+  two_factor_authentication:
+    error_2fa_disabled: "2FA leverans har inaktiverats."
+    error_no_device: "Ingen registrerad 2FA enhet hittades för den här användaren, trots att det krävs för den här instansen."
+    error_no_matching_strategy: "Ingen matchande 2FA strategi tillgänglig för den här användaren. Vänligen kontakta din administratör."
+    error_is_enforced_not_active: 'Konfigurationsfel: tvåfaktorsautentisering har verkställts, men inga aktiva strategier finns.'
+    error_invalid_backup_code: 'Ogiltig 2FA reservkod'
+    channel_unavailable: "Leveranskanal %{channel} är inte tillgänglig."
+    no_valid_phone_number: "Det finns inget giltigt telefonnummer."
+    label_pwd_confirmation: "Lösenord"
+    notice_pwd_confirmation: "Du måste bekräfta ditt lösenord när du gör ändringar till dessa inställningar."
+    label_device_type: "Enhetstyp"
+    label_default_device: "2FA standardenhet"
+    label_device: "2FA enhet"
+    label_devices: "2FA enheter"
+    label_one_time_password: 'Engångslösenord'
+    label_2fa_enabled: 'Tvåfaktorsautentisering är aktiv'
+    label_2fa_disabled: 'Tvåfaktorsautentisering är inaktiverad'
+    text_otp_delivery_message_sms: "Engångslösenordet för %{app_title} är %{token}"
+    text_otp_delivery_message_voice: "Engångslösenordet för %{app_title} är: %{pause} %{token}. %{pause} jag upprepar: %{pause} %{token}"
+    text_enter_2fa: 'Vänligen ange engångslösenordet från din enhet.'
+    text_2fa_enabled: 'Vid varje inloggning, blir du ombedd att ange ett OTP-token från din standard 2FA-enhet.'
+    text_2fa_disabled: 'För att aktivera tvåfaktorsautentisering, använd knappen ovan för att registrera en ny 2FA-enhet. Om du redan har en enhet måste du göra den till standardenhet.'
+    login:
+      enter_backup_code_title: Ange säkerhetskod
+      enter_backup_code_text: Ange en giltig säkerhetskod från din kodlista om du inte längre kan komma åt dina registrerade 2FA-enheter.
+      other_device: 'Använd en annan enhet eller säkerhetskod'
+    settings:
+      title: '2FA-inställningar'
+      current_configuration: 'Aktuell konfiguration'
+      label_active_strategies: 'Aktiva 2FA strategier'
+      label_enforced: 'Tvinga 2FA'
+      label_remember: 'Kom ihåg 2FA inloggning'
+      text_configuration: |
+        Obs: Dessa värden representerar den aktuella konfigurationen för hela programmet. Du kan inte inaktivera inställningar som tvingats av konfigurationen eller ändra de aktuella aktiva strategierna, eftersom de kräver en omstart av servern.
+      text_configuration_guide: För mer information, kolla konfigurationsguiden.
+      text_enforced: 'Aktivera denna inställning för att tvinga alla användare att registrera en 2FA-enhet vid nästa inloggning. Kan endast inaktiveras när det inte görs genom konfiguration.'
+      text_remember: |
+        Ställ in detta till mer än noll för att tillåta användare att komma ihåg sin 2FA-autentisering för det angivna antalet dagar. De kommer inte att bli ombedda att skriva in den under den perioden. Kan bara ställas in när det inte sker genom konfiguration.
+      error_invalid_settings: 'De 2FA strategier du har valt är ogiltiga'
+      failed_to_save_settings: 'Det gick inte att uppdatera 2FA inställningarna: %{message}'
+    admin:
+      self_edit_path: 'För att lägga till eller ändra dina egna 2FA enheter, vänligen gå till %{self_edit_link}'
+      self_edit_link_name: 'Två-faktor autentisering på din kontosida'
+      self_edit_forbidden: 'Du kan inte redigera din egen 2FA enheter här. Gå till Mitt konto > Två faktor autentisering i stället.'
+      no_devices_for_user: 'Ingen 2FA enhet har registrerats för den här användaren.'
+      all_devices_deleted: 'Alla 2FA enheter för den här användaren har tagits bort'
+      delete_all_are_you_sure: 'Är du säker du vill ta bort alla 2FA enheter för denna användare?'
+      button_delete_all_devices: 'Ta bort registrerade 2FA enheter'
+      button_register_mobile_phone_for_user: 'Registrera mobiltelefon'
+      text_2fa_enabled: 'Vid varje inloggning, kommer användaren att uppmanas att ange en OTP-token från hans eller hennes 2FA standardenhet.'
+      text_2fa_disabled: "Användaren ställde inte in en 2FA enhet genom sidan 'Mitt konto'"
+    upsale:
+      title: 'Tvåfaktorsautentisering är en enterprise-funktion'
+      description: 'Stärk dina inre eller yttre autentiseringsmekanismer med en andra faktor.'
+    backup_codes:
+      none_found: Inga reservkoder finns för detta konto.
+      singular: Reservkod
+      plural: Reservkoder
+      your_codes: för din %{app_name} konto %{login}
+      overview_description: |
+        Om det inte går att komma åt dina tvåfaktor-enheter, kan du använda en reservkod för att återfå tillgång till kontot. Använd följande knapp för att generera en ny uppsättning reservkoder.
+      generate:
+        title: Generera reservkoder
+        keep_safe_as_password: 'Viktigt! Behandla dessa koder som lösenord.'
+        keep_safe_warning: 'Spara dem antingen i din lösenordshanterare, eller skriv ut sidan och lägg den på en säker plats.'
+        regenerate_warning: 'Varning: Om du har skapat reservkoder innan, blir de ogiltiga och fungerar inte längre.'
+    devices:
+      add_new: 'Lägg till ny 2FA enhet'
+      register: 'Registrera enheten'
+      confirm_default: 'Bekräfta ändra standardenhet'
+      confirm_device: 'Bekräfta enhet'
+      confirm_now: 'Har inte bekräftas, klicka här för att aktivera'
+      cannot_delete_default: 'Kan inte ta bort standardenheten'
+      make_default_are_you_sure: 'Är du säker på att du vill göra den här 2FA enheten till standard?'
+      make_default_failed: 'Det gick inte att uppdatera 2FA standardenhet.'
+      deletion_are_you_sure: 'Är du säker du vill ta bort denna 2FA enhet?'
+      registration_complete: '2FA enhetsregistrering klar!'
+      registration_failed_token_invalid: '2FA enhetsregistreringen misslyckades, token var ogiltigt.'
+      registration_failed_update: '2FA enhetsregistreringen misslyckades, token var giltigt men enheten kunde inte uppdateras.'
+      confirm_send_failed: 'Bekräftelse av din 2FA enhet misslyckades.'
+      button_complete_registration: 'Slutför 2FA registreringen'
+      text_confirm_to_complete_html: "Vänligen fyll i registreringen av din enhet <strong>%{identifier}</strong> genom att ange ett engångslösenord från standardenheten."
+      text_confirm_to_change_default_html: "Bekräfta att du ändrar standardinställningen till <strong>%{new_identifier}</strong> genom att ange ett engångslösenord från din nuvarande standardenhet."
+      text_identifier: 'Du kan ge enheten en anpassad identifierare med det här fältet.'
+      failed_to_delete: 'Kunde inte ta bort 2FA enhet.'
+      is_default_cannot_delete: 'Enheten är markerad som standard och kan inte raderas på grund av en aktiv säkerhetspolicy. Markera en annan enhet som standard innan du raderar.'
+      not_existing: 'Ingen 2FA enhet har registrerats för det här kontot.'
+      request_2fa: Ange koden från %{device_name} för att verifiera din identitet.
+      totp:
+        title: 'Använd din autentiserings-app'
+        provisioning_uri: 'Tillhandahållande av URI'
+        secret_key: 'Hemlig nyckel'
+        time_based: 'Tidsbaserad'
+        account: 'Kontonamn / Utgivare'
+        setup: |
+          För att konfigurera tvåfaktorsautentisering med Google Authenticator, ladda ner programmet från Apples App Store eller Google Play Butiken. När du har öppnat appen kan du skanna följande QR-kod för att registrera enheten.
+        question_cannot_scan: |
+          Kunde du inte skanna koden med din app?
+        text_cannot_scan: |
+          Om du inte kan skanna koden kan du ange den manuellt med följande uppgifter:
+        description: |
+          Registrera en app-autentiserare för användning med OpenProject med hjälp av den tidsbaserade engångsautentiserings-standarden. Vanliga exempel är Google Authenticator eller Authy.
+      sms:
+        title: 'Använd din mobiltelefon'
+        redacted_identifier: 'Mobiltelefon (%{redacted_number})'
+        request_2fa_identifier: '%{redacted_identifier}, vi skickade en autentiseringskod till dig via %{delivery_channel}'
+        description: |
+          Registrera ditt mobiltelefonnummer för leverans av OpenProject engångslösenord.
+    sns:
+      delivery_failed: 'SNS leverans misslyckades:'
+    message_bird:
+      sms_delivery_failed: 'MessageBird SMS leverans misslyckades.'
+      voice_delivery_failed: 'MessageBird röstsamtal misslyckades.'
+    restdt:
+      delivery_failed_with_code: 'Token leverans misslyckades. (Felkod %{code})'
+    strategies:
+      totp: 'Autentiseringsprogram'
+      sns: 'Amazon SNS'
+      resdt: 'SMS Rest API'
+    mobile_transmit_notification: "Ett engångslösenord har skickats till din mobiltelefon."
+    label_two_factor_authentication: 'Tvåfaktorsautentisering'
+    forced_registration:
+      required_to_add_device: 'En aktiv säkerhetsprincip kräver att du aktiverar tvåfaktorsautentisering. Använd formuläret nedan för att registrera en enhet.'
+    remember:
+      active_session_notice: >
+        Ditt konto har en aktiv cookie giltigt till %{expires_on}. Med denna cookie kan du under tiden logga in utan en andra faktor till ditt konto.
+      label: 'Kom ihåg'
+      clear_cookie: 'Klicka här för att ta bort denna cookie'
+      cookie_removed: 'Kom ihåg kakan (cookie) har tagits bort.'
+      dont_ask_again: "Skapa en cookie för att komma ihåg 2FA autentisering på den här klienten för %{days} dagar."
+  field_phone: "Mobiltelefon"
+  field_otp: "Engångslösenord"
+  notice_account_otp_invalid: "Ogiltig engångslösenord."
+  notice_account_otp_expired: "Engångslösenordet har upphört att gälla."
+  notice_developer_strategy_otp: "Utvecklarstrategin genererade följande engångslösenord: %{token} (kanal: %{channel})"
+  notice_account_otp_send_failed: "Ditt engångslösenord kunde inte skickas."
+  notice_account_has_no_phone: "Ingen mobiltelefonnummer är kopplat till ditt konto."
+  label_expiration_hint: "%{date} eller på utloggning"
+  label_actions: 'Åtgärder'
+  label_confirmed: 'Bekräftad'
+  button_continue: 'Fortsätt'
+  button_make_default: 'Markera som standard'
+  label_unverified_phone: "Mobiltelefon som inte ännu verifierats"
+  notice_phone_number_format: "Vänligen ange nummer i följande format: + XX XXXXXXXX."
+  text_otp_not_receive: "Andra verifieringsmetoder"
+  text_send_otp_again: "Skicka åter engångslösenord genom:"
+  button_resend_otp_form: "Skicka igen"
+  button_otp_by_voice: "Röstsamtal"
+  button_otp_by_sms: "SMS"
+  label_otp_channel: "Leveranskanal"

@@ -30,7 +30,6 @@ require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::SubjectFilter, type: :model do
   it_behaves_like 'basic query filter' do
-    let(:order) { 8 }
     let(:type) { :text }
     let(:class_key) { :subject }
 

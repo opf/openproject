@@ -30,17 +30,6 @@
 module MyHelper
   include WorkPackagesFilterHelper
 
-  def calendar_items(startdt, enddt)
-    WorkPackage.visible
-      .where(project_id: User.current.projects.map(&:id))
-      .where("(#{WorkPackage.table_name}.start_date >= ? AND " \
-             "#{WorkPackage.table_name}.start_date <= ?)" \
-             "OR (#{WorkPackage.table_name}.due_date >= ? AND  " \
-             "#{WorkPackage.table_name}.due_date <= ? )", startdt, enddt, startdt, enddt)
-      .includes(:project, :type, :priority, :assigned_to)
-      .references(:work_packages)
-  end
-
   def deletion_info_path
     url_for(:delete_my_account_info)
   end

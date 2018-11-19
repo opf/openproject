@@ -1,0 +1,12 @@
+fr:
+  js:
+    work_packages:
+      property_groups:
+        costs: "Coûts"
+      properties:
+        costObject: "Budget"
+        overallCosts: "Coûts globaux"
+        spentUnits: "Unités consommées"
+    button_log_costs: "Consigner coûts unitaires"
+    label_hour: "heure"
+    label_hours: "heures"

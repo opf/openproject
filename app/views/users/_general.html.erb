@@ -46,15 +46,6 @@ See docs/COPYRIGHT.rdoc for more details.
                                          autocomplete: 'off' },
                               as: :user do |f| %>
   <%= render partial: 'form', locals: { f: f } %>
-  <% if @user.active? -%>
-    <div class="form--field -no-label">
-      <div class="form--field-container">
-        <label class="form--label-with-check-box">
-          <%= styled_check_box_tag 'send_information', 1, true %>
-          <%= l(:label_send_information) %>
-        </label>
-      </div>
-    </div>
-  <% end -%>
-  <div><%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %></div>
+
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>

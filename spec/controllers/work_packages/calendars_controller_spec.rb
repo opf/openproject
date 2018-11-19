@@ -29,22 +29,27 @@
 require 'spec_helper'
 
 describe WorkPackages::CalendarsController, type: :controller do
-  let(:project) { FactoryBot.create(:project) }
-  let(:role) {
-    FactoryBot.create(:role,
-                       permissions: [:view_calendar])
-  }
-  let(:user) {
-    FactoryBot.create(:user,
-                       member_in_project: project,
-                       member_through_role: role)
-  }
-  let(:work_package) {
-    FactoryBot.create(:work_package,
-                       project: project)
-  }
+  let(:project) do
+    FactoryBot.build_stubbed(:project).tap do |p|
+      allow(Project)
+        .to receive(:find)
+        .with(p.id.to_s)
+        .and_return(p)
+    end
+  end
+  let(:permissions) { [:view_calendar] }
+  let(:user) do
+    FactoryBot.build_stubbed(:user).tap do |user|
+      allow(user)
+        .to receive(:allowed_to?) do |permission, p, global:|
+        permission[:controller] == 'work_packages/calendars' &&
+          permission[:action] == 'index' &&
+          (p.nil? || p == project)
+      end
+    end
+  end
 
-  before do login_as(user) end
+  before { login_as(user) }
 
   describe '#index' do
     shared_examples_for 'calendar#index' do
@@ -53,12 +58,6 @@ describe WorkPackages::CalendarsController, type: :controller do
       it { is_expected.to be_success }
 
       it { is_expected.to render_template('work_packages/calendars/index') }
-
-      context 'assigns' do
-        subject { assigns(:calendar) }
-
-        it { is_expected.to be_truthy }
-      end
     end
 
     context 'cross-project' do
@@ -71,84 +70,10 @@ describe WorkPackages::CalendarsController, type: :controller do
 
     context 'project' do
       before do
-        work_package
-
         get :index, params: { project_id: project.id }
       end
 
       it_behaves_like 'calendar#index'
-    end
-
-    context 'custom query' do
-      let (:query) {
-        FactoryBot.create(:query,
-                           project: nil,
-                           user: user)
-      }
-
-      before do
-        get :index, params: { query_id: query.id }
-      end
-
-      it_behaves_like 'calendar#index'
-    end
-
-    describe 'start of week' do
-      context 'Sunday' do
-        before do
-          allow(Setting).to receive(:start_of_week).and_return(7)
-
-          get :index, params: { month: '1', year: '2010' }
-        end
-
-        it_behaves_like 'calendar#index'
-
-        describe '#view' do
-          render_views
-
-          subject { response }
-
-          it { assert_select('tr td.week-number', content: '53') }
-
-          it { assert_select('tr td.odd', content: '27') }
-
-          it { assert_select('tr td.even', content: '2') }
-
-          it { assert_select('tr td.week-number', content: '1') }
-
-          it { assert_select('tr td.odd', content: '3') }
-
-          it { assert_select('tr td.even', content: '9') }
-        end
-      end
-
-      context 'Monday' do
-        before do
-          allow(Setting).to receive(:start_of_week).and_return(1)
-
-          get :index, params: { month: '1', year: '2010' }
-        end
-
-        it_behaves_like 'calendar#index'
-
-        describe '#view' do
-          render_views
-
-          subject { response }
-
-          it { assert_select('tr td.week-number', content: '53') }
-
-          it { assert_select('tr td.even', content: '28') }
-
-          it { assert_select('tr td.even', content: '3') }
-
-          it { assert_select('tr td.week-number', content: '1') }
-
-          it { assert_select('tr td.even', content: '4') }
-
-          it { assert_select('tr td.even', content: '10') }
-        end
-      end
     end
   end
 end

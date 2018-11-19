@@ -53,6 +53,10 @@ vi:
     button_update: Cập Nhật
     button_export-pdf: Tải PDF
     button_export-atom: Tải về Atom
+    calendar:
+      title: Lịch
+      too_many: There are more work packages (%{count}) than can be displayed by the
+        calendar (%{max}). Add filters to focus on the relevant ones.
     description_available_columns: Cột có sẵn
     description_current_position: 'Bạn đang ở đây:'
     description_select_work_package: 'Chọn work package #%{id}'
@@ -111,6 +115,8 @@ vi:
         embedded_table:
           button: Nhúng danh sách gói công việc dưới dạng bảng
           text: "[Placeholder] gói công việc nhúng"
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
     custom_actions:
       date:
         specific: 'on'
@@ -389,8 +395,10 @@ vi:
       relation_type: relation type
     relations_hierarchy:
       parent_headline: Cha
+      hierarchy_headline: Hệ thống phân cấp
       children_headline: Children
     relation_buttons:
+      set_parent: Set parent work package
       change_parent: Change parent
       remove_parent: Remove parent
       group_by_wp_type: Group by work package type
@@ -410,6 +418,7 @@ vi:
       abort: Abort
     relations_autocomplete:
       placeholder: Enter the related work package id
+      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
     repositories:
       select_tag: Chọn từ khóa
       select_branch: Chọn nhánh
@@ -551,6 +560,8 @@ vi:
       description_options_hide: Hide options
       description_options_show: Show options
       error:
+        update_conflict_refresh: Click here to refresh the work package and update
+          to the newest version.
         edit_prohibited: Việc chỉnh sửa %{attribute} bị chặn cho work package này.
           Hoặc thuộc tính này bắt nguồn từ quan hệ (ví dụ, trẻ em) hoặc nếu không
           không thể cấu hình.
@@ -573,6 +584,8 @@ vi:
       message_successful_show_in_fullscreen: Click vào đây để mở work package này
         trong chế độ xem toàn màn hình.
       message_view_spent_time: Show spent time for this work package
+      message_work_package_read_only: Work package is locked in this status. No attribute
+        other than status can be altered.
       no_value: No value
       inline_create:
         title: Click vào đây để thêm một work package mới vào danh sách này

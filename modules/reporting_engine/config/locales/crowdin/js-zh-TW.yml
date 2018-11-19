@@ -1,0 +1,5 @@
+zh-TW:
+  js:
+    reporting_engine:
+      label_remove: "刪除"
+      label_response_error: "處理查詢時發生錯誤"

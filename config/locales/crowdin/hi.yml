@@ -167,6 +167,11 @@ hi:
       no_results_content_text: Add a status reporting
   statuses:
     edit:
+      status_readonly_html: |
+        Check this option to mark work packages with this status as read-only.
+        No attributes can be changed with the exception of the status.
+        <br/>
+        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
       status_color_text: 'इस प्राथमिकता का रंग असाइन करने या बदलने के लिए क्लिक करें
         । यह तालिका में कार्य पैकेज हाइलाइटिंग के लिए उपयोग किया जा सकता है ।
 
@@ -352,6 +357,7 @@ hi:
         to: संबंधित कार्य पैकेज
       status:
         is_closed: कार्य पैकेज बंद
+        is_readonly: Work package read-only
       journal:
         notes: टिप्पणियाँ
       member:
@@ -1341,6 +1347,7 @@ hi:
   label_journal_diff: विवरण तुलना
   label_language: भाषा 
   label_jump_to_a_project: किसी प्रोजेक्ट पर जंप करें...
+  label_keyword_plural: Keywords
   label_language_based: Based on user's language
   label_last_activity: Last activity
   label_last_change_on: Last change on

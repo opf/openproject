@@ -11,6 +11,7 @@
   .contextual,
   .other-formats,
   .toolbar-items,
+  .ui-helper-hidden-accessible,
   #wiki_add_attachment
     display: none !important
 
@@ -41,6 +42,13 @@
 
     th, td
       border: 1px solid #aaa
+
+  // Show dot highlight in print
+  // even when bg not enabled
+  // not supported in all browsers
+  [class^="__hl_"]
+    color-adjust: exact
+    -webkit-print-color-adjust: exact
 
   // Sizes from user agent stylesheet
   h1

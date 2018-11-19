@@ -31,8 +31,4 @@ class Queries::WorkPackages::Filter::StartDateFilter < Queries::WorkPackages::Fi
   def type
     :date
   end
-
-  def order
-    11
-  end
 end

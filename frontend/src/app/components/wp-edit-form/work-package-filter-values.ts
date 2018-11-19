@@ -4,10 +4,15 @@ import {FormResource} from 'core-app/modules/hal/resources/form-resource';
 import {WorkPackageChangeset} from './work-package-changeset';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {CurrentUserService} from "core-components/user/current-user.service";
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
+import {Injector} from '@angular/core';
 
 export class WorkPackageFilterValues {
 
-  constructor(private currentUser:CurrentUserService,
+  private currentUser:CurrentUserService = this.injector.get(CurrentUserService);
+  private halResourceService:HalResourceService = this.injector.get(HalResourceService);
+
+  constructor(private injector:Injector,
               private changeset:WorkPackageChangeset,
               private filters:QueryFilterInstanceResource[],
               private excluded:string[] = []) {
@@ -65,7 +70,7 @@ export class WorkPackageFilterValues {
     }
 
     if (value instanceof HalResource && value.$href === '/api/v3/users/me' && this.currentUser.isLoggedIn) {
-      return value.$copy({ href: `/api/v3/users/${this.currentUser.userId}` });
+      return this.halResourceService.fromSelfLink(`/api/v3/users/${this.currentUser.userId}`);
     }
 
     return undefined;

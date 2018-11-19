@@ -27,6 +27,7 @@
 // ++
 
 import {InputState, MultiInputState, State} from 'reactivestates';
+import {Observable} from "rxjs";
 
 export abstract class StateCacheService<T> {
   private cacheDurationInMs:number;
@@ -55,6 +56,13 @@ export abstract class StateCacheService<T> {
    */
   public updateValue(id:string, val:T) {
     this.multiState.get(id).putValue(val);
+  }
+
+  /**
+   * Observe the value of the given id
+   */
+  public observe(id:string):Observable<T> {
+    return this.state(id).values$();
   }
 
   /**

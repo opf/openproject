@@ -1,0 +1,5 @@
+hr:
+  js:
+    reporting_engine:
+      label_remove: "Delete"
+      label_response_error: "There was an error handling the query."

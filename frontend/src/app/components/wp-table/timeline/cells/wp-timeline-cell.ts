@@ -147,7 +147,7 @@ export class WorkPackageTimelineCell {
     cell.append(this.wpElement);
 
     // Allow editing if editable
-    if (renderInfo.workPackage.isEditable) {
+    if (renderer.canMoveDates(renderInfo.workPackage)) {
       this.wpElement.classList.add('-editable');
 
       registerWorkPackageMouseHandler(

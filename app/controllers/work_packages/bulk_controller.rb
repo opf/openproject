@@ -36,7 +36,6 @@ class WorkPackages::BulkController < ApplicationController
   include RelationsHelper
   include QueriesHelper
   include IssuesHelper
-  include ::WorkPackages::Shared::UpdateAncestors
 
   def edit
     @available_statuses = @projects.map { |p| Workflow.available_statuses(p) }.inject { |memo, w| memo & w }
@@ -50,25 +49,26 @@ class WorkPackages::BulkController < ApplicationController
     unsaved_work_package_ids = []
     saved_work_packages = []
 
-
     @work_packages.each do |work_package|
       work_package.reload
       work_package.add_journal(User.current, params[:notes])
 
       # filter parameters by whitelist and add defaults
       attributes = parse_params_for_bulk_work_package_attributes params, work_package.project
-      work_package.assign_attributes attributes
 
       call_hook(:controller_work_packages_bulk_edit_before_save, params: params, work_package: work_package)
-      JournalManager.send_notification = params[:send_notification] == '0' ? false : true
-      if work_package.save
-        saved_work_packages << work_package
+
+      service_call = WorkPackages::UpdateService
+        .new(user: user, work_package: work_package)
+        .call(attributes: attributes, send_notifications: params[:send_notification] == '1')
+
+      if service_call.success?
+        saved_work_packages << service_call.result
       else
         unsaved_work_package_ids << work_package.id
       end
     end
 
-    update_ancestors(saved_work_packages)
     set_flash_from_bulk_save(@work_packages, unsaved_work_package_ids)
     redirect_back_or_default(controller: '/work_packages', action: :index, project_id: @project)
   end
@@ -121,7 +121,9 @@ class WorkPackages::BulkController < ApplicationController
 
     safe_params = permitted_params.update_work_package project: project
     attributes = safe_params.reject { |_k, v| v.blank? }
-    attributes.keys.each do |k| attributes[k] = '' if attributes[k] == 'none' end
+    attributes.keys.each do |k|
+      attributes[k] = '' if attributes[k] == 'none'
+    end
     attributes[:custom_field_values].reject! { |_k, v| v.blank? } if attributes[:custom_field_values]
     attributes.delete :custom_field_values if not attributes.has_key?(:custom_field_values) or attributes[:custom_field_values].empty?
     attributes

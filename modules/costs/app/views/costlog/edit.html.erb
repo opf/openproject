@@ -1,0 +1,131 @@
+<%#-- copyright
+OpenProject Costs Plugin
+
+Copyright (C) 2009 - 2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+version 3.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+++#%>
+
+<% html_title t(:label_log_costs) %>
+<%= render partial: 'shared/costs_header' %>
+<h2><%= t(:label_log_costs) %></h2>
+
+<% url = @cost_entry.new_record? ?
+          { action: 'create', project_id: @project.id } :
+          { action: 'update', id: @cost_entry } %>
+
+<% method = @cost_entry.new_record? ?
+            :post :
+            :put %>
+
+<%= activate_angular_js do %>
+<remote-field-updater url="<%= url_for(controller: :cost_objects, action: :update_material_budget_item, project_id: @cost_entry.project) %>"
+                      mode="json"
+                      method="POST">
+<%= labelled_tabular_form_for @cost_entry, url: url, html: { method: method } do |f| %>
+    <%= error_messages_for 'cost_entry' %>
+    <%= back_url_hidden_field_tag %>
+    <%= f.hidden_field :element_id, value: 'cost_entry', class: 'remote-field--input', data: { :'remote-field-key' =>'element_id' } %>
+
+    <div class="box">
+      <div class="form--field">
+        <%= f.text_field :work_package_id,
+                         size: 6,
+                         required: true,
+                         autofocus: true,
+                         container_class: '-xslim' %>
+
+        <% if @cost_entry.work_package %>
+          <div class="form--field-instructions">
+            <%= h("#{@cost_entry.work_package.to_s}") %>
+          </div>
+        <% end %>
+      </div>
+      <div class="form--field">
+        <%= f.text_field :spent_on,
+                         size: 10,
+                         required: true,
+                         class: 'remote-field--input -augmented-datepicker',
+                         data: { :'remote-field-key' =>'fixed_date' },
+                         container_class: '-xslim' %>
+        <label for="cost_entry_spent_on" class="hidden-for-sighted"><%= l(:label_date) %> <%=l(:text_hint_date_format) %></label>
+      </div>
+      <% if User.current.allowed_to? :log_costs, @project %>
+        <div class="form--field">
+        <%# Without knowing why `prompt` is in this case responsible for no blank line in the selection options %>
+          <%= f.select :user_id,
+                       user_collection_for_select_options,
+                       required: true,
+                       prompt: true,
+                       container_class: '-middle' %>
+        </div>
+      <% else %>
+        <%= f.hidden_field :user_id, value: User.current.id %>
+      <% end %>
+      <div class="form--field">
+        <%# see above %>
+        <%= f.select :cost_type_id,
+                     cost_types_collection_for_select_options,
+                     { prompt: true,
+                       container_class: '-middle' },
+                     {
+                       required: true,
+                       class: 'remote-field--input',
+                       data: { :'remote-field-key' => 'cost_type_id' }
+                     } %></p>
+      </div>
+      <div class="form--field">
+        <% if @cost_entry.cost_type.nil? %>
+            <%= f.text_field :units, size: 6, required: true, container_class: '-slim' %>
+        <% else %>
+          <% suffix = @cost_entry.units == 1 ? @cost_entry.cost_type.unit : @cost_entry.cost_type.unit_plural %>
+          <%= f.text_field :units,
+                           size: 6,
+                           required: true,
+                           suffix: h(suffix),
+                           suffix_id: 'cost_entry_unit_name',
+                           class: 'remote-field--input',
+                           data: { :'remote-field-key' => 'units' },
+                           container_class: '-slim' %>
+        <% end %>
+      </div>
+
+      <div class="form--field">
+        <label for="cost_entry_costs_edit" class="form--label"><%= CostEntry.human_attribute_name(:costs) %></label>
+        <span class="form--field-container">
+          <cost-unit-subform obj-id="cost_entry_costs" obj-name="cost_entry[overridden_costs]">
+            <% if User.current.allowed_to? :view_cost_rates, @cost_entry.project %>
+              <a href="#" id="cost_entry_costs" class="icon-context icon-edit" title="<%= t(:help_click_to_edit) %>">
+                <%= number_to_currency(@cost_entry.real_costs) %>
+              </a>
+            <% else %>
+              <span id="cost_entry_costs_editor" class="form--text-field-container">
+                <input class="currency form--text-field" value="<%= number_to_currency(@cost_entry.overridden_costs, unit: "").strip if @cost_entry.overridden_costs %>" size="7" name="cost_entry[overridden_costs]" id="cost_entry_costs_edit"/> <%= Setting.plugin_openproject_costs['costs_currency'] %>
+              </span>
+              <br /><em><%= t(:help_override_rate) %></em>
+            <% end %>
+          </cost-unit-subform>
+        </span>
+      </div>
+
+      <div class="form--field">
+        <%= f.text_field :comments, size: 100, container_class: '-wide' %>
+      </div>
+    </div>
+
+    <%= styled_button_tag t(:button_save), class: '-with-icon icon-checkmark' %>
+<% end %>
+</remote-field-updater>
+<% end %>

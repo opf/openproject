@@ -658,4 +658,49 @@ describe User, type: :model do
       expect(User.newest).to match_array([user1, user2])
     end
   end
+
+  describe '#mail_regexp' do
+    it 'handles suffixed mails' do
+      _, suffixed = User.mail_regexp('foo+bar@example.org')
+      expect(suffixed).to be_truthy
+    end
+  end
+
+  describe '#find_by_mail' do
+    let!(:user1) { FactoryBot.create(:user, mail: 'foo+test@example.org') }
+    let!(:user2) { FactoryBot.create(:user, mail: 'foo@example.org') }
+    let!(:user3) { FactoryBot.create(:user, mail: 'foo-bar@example.org') }
+
+    context 'with default plus suffix' do
+      it 'finds users matching the suffix' do
+        expect(Setting.mail_suffix_separators).to eq '+'
+
+        # Can match either of the first two
+        match2 = User.find_by_mail('foo@example.org')
+        expect([user1.id, user2.id]).to include(match2.id)
+
+        matches = User.where_mail_with_suffix('foo@example.org')
+        expect(matches.pluck(:id)).to match_array [user1.id, user2.id]
+
+        matches = User.where_mail_with_suffix('foo+test@example.org')
+        expect(matches.pluck(:id)).to match_array [user1.id]
+      end
+    end
+
+    context 'with plus and minus suffix', with_settings: { mail_suffix_separators: '+-' } do
+      it 'finds users matching the suffix' do
+        expect(Setting.mail_suffix_separators).to eq '+-'
+
+        match1 = User.find_by_mail('foo-bar@example.org')
+        expect(match1).to eq(user3)
+
+        # Can match either of the three
+        match2 = User.find_by_mail('foo@example.org')
+        expect([user1.id, user2.id, user3.id]).to include(match2.id)
+
+        matches = User.where_mail_with_suffix('foo@example.org')
+        expect(matches.pluck(:id)).to match_array [user1.id, user2.id, user3.id]
+      end
+    end
+  end
 end

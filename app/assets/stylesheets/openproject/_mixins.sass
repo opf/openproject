@@ -113,7 +113,7 @@
   background: none
   border: none
 
-@mixin styled-scroll-bar
+@mixin styled-scroll-bar-vertical
   &::-webkit-scrollbar
     width: 8px
     height: 12px
@@ -126,4 +126,17 @@
     visibility: hidden
 
   &:hover::-webkit-scrollbar-thumb
+    visibility: visible
+
+@mixin styled-scroll-bar-horizontal
+  &::-webkit-scrollbar
+    width: 12px
+    height: 8px
+
+  &::-webkit-scrollbar-track
+    background: transparent
+
+  // Should always be visible otherwise it would not be displayed on mobile or tablet
+  &::-webkit-scrollbar-thumb
+    background: #ddd
     visibility: visible

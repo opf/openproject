@@ -54,6 +54,10 @@ de:
     button_update: Bearbeiten
     button_export-pdf: PDF-Download
     button_export-atom: Atom-Download
+    calendar:
+      title: Kalender
+      too_many: There are more work packages (%{count}) than can be displayed by the
+        calendar (%{max}). Add filters to focus on the relevant ones.
     description_available_columns: Verfügbare Spalten
     description_current_position: 'Sie sind hier:'
     description_select_work_package: 'Arbeitspaket #%{id} auswählen'
@@ -113,6 +117,8 @@ de:
         embedded_table:
           button: Arbeitspaket-Tabelle einbetten
           text: "[Platzhalter] Eingebette Arbeitspaket-Tabelle"
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
     custom_actions:
       date:
         specific: am
@@ -394,8 +400,10 @@ de:
       relation_type: Beziehungstyp
     relations_hierarchy:
       parent_headline: Übergeordnete Aufgabe
+      hierarchy_headline: Hierarchie
       children_headline: Untergeordnete Arbeitspakete
     relation_buttons:
+      set_parent: Set parent work package
       change_parent: Übergeordnetes Arbeitspaket ändern
       remove_parent: Übergeordnetes Arbeitspaket entfernen
       group_by_wp_type: Nach Arbeitspaket-Typ gruppieren
@@ -415,6 +423,7 @@ de:
       abort: Abbrechen
     relations_autocomplete:
       placeholder: ID des zugehörigen Arbeitspaketes eingeben
+      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
     repositories:
       select_tag: Tag auswählen
       select_branch: Branch auswählen
@@ -562,6 +571,8 @@ de:
       description_options_hide: Optionen ausblenden
       description_options_show: Optionen anzeigen
       error:
+        update_conflict_refresh: Click here to refresh the work package and update
+          to the newest version.
         edit_prohibited: Bearbeitung von %{attribute} ist für dieses Arbeitspaket
           gesperrt. Entweder wird dieses Attribut von verwandten Arbeitspaketen (z.B.
           Unterelementen) abgeleitet oder es ist anderweitig nicht konfigurierbar.
@@ -583,6 +594,8 @@ de:
       message_successful_show_in_fullscreen: Klicken Sie hier, um dieses Arbeitspaket
         in der Vollbild-Ansicht zu öffnen.
       message_view_spent_time: Aufgewendete Zeit für dieses Arbeitspaket anzeigen
+      message_work_package_read_only: Work package is locked in this status. No attribute
+        other than status can be altered.
       no_value: Kein Wert
       inline_create:
         title: Klicken Sie hier, um ein neues Arbeitspaket zu dieser Liste hinzufügen

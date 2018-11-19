@@ -51,6 +51,9 @@ lol:
     button_update: crwdns107018:0crwdne107018:0
     button_export-pdf: crwdns107020:0crwdne107020:0
     button_export-atom: crwdns107022:0crwdne107022:0
+    calendar:
+      title: crwdns109206:0crwdne109206:0
+      too_many: crwdns109208:0%{count}crwdnd109208:0%{max}crwdne109208:0
     description_available_columns: crwdns107024:0crwdne107024:0
     description_current_position: crwdns107026:0crwdne107026:0
     description_select_work_package: crwdns107028:0%{id}crwdne107028:0
@@ -102,6 +105,8 @@ lol:
         embedded_table:
           button: crwdns107094:0crwdne107094:0
           text: crwdns107096:0[Placeholder]crwdne107096:0
+        embedded_calendar:
+          text: crwdns109214:0[Placeholder]crwdne109214:0
     custom_actions:
       date:
         specific: crwdns107098:0crwdne107098:0
@@ -346,8 +351,10 @@ lol:
       relation_type: crwdns107498:0crwdne107498:0
     relations_hierarchy:
       parent_headline: crwdns107500:0crwdne107500:0
+      hierarchy_headline: crwdns109216:0crwdne109216:0
       children_headline: crwdns107502:0crwdne107502:0
     relation_buttons:
+      set_parent: crwdns109218:0crwdne109218:0
       change_parent: crwdns107504:0crwdne107504:0
       remove_parent: crwdns107506:0crwdne107506:0
       group_by_wp_type: crwdns107508:0crwdne107508:0
@@ -367,6 +374,7 @@ lol:
       abort: crwdns107536:0crwdne107536:0
     relations_autocomplete:
       placeholder: crwdns107538:0crwdne107538:0
+      parent_placeholder: crwdns109220:0crwdne109220:0
     repositories:
       select_tag: crwdns107540:0crwdne107540:0
       select_branch: crwdns107542:0crwdne107542:0
@@ -497,6 +505,7 @@ lol:
       description_options_hide: crwdns107742:0crwdne107742:0
       description_options_show: crwdns107744:0crwdne107744:0
       error:
+        update_conflict_refresh: crwdns109210:0crwdne109210:0
         edit_prohibited: crwdns107746:0%{attribute}crwdne107746:0
         format:
           date: crwdns107748:0%{attribute}crwdne107748:0
@@ -514,6 +523,7 @@ lol:
       message_successful_bulk_delete: crwdns107772:0crwdne107772:0
       message_successful_show_in_fullscreen: crwdns107774:0crwdne107774:0
       message_view_spent_time: crwdns107776:0crwdne107776:0
+      message_work_package_read_only: crwdns109212:0crwdne109212:0
       no_value: crwdns107778:0crwdne107778:0
       inline_create:
         title: crwdns107780:0crwdne107780:0

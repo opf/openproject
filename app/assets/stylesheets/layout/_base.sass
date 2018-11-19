@@ -27,7 +27,6 @@
 //++
 
 html
-  min-width: 840px
   &.in_modal
     min-width: 0
 
@@ -73,7 +72,8 @@ body
   padding: 10px 20px
   width: auto
   height: calc(100vh - #{$header-height})
-  overflow: auto
+  overflow-y: auto
+  overflow-x: hidden
   background-color: #fff
   width: 100%
   // As this is a flex item we need to set min-width to 0 so that its children's

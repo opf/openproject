@@ -147,6 +147,9 @@ ja:
       no_results_content_text: ステータス報告を追加
   statuses:
     edit:
+      status_readonly_html: |
+        このステータスを読み取り専用としてマークするにはこのオプションを選択します。ステータスを除く属性は変更できません。<br/>
+        <strong>注</strong>：継承された値（子供や関係など）は引き続き適用されます。
       status_color_text: |
         このステータスの色を割り当てたり変更する場合にクリックします。
         ステータスボタンに表示され、テーブル内の作業パッケージを強調表示するために使用できます。
@@ -303,6 +306,7 @@ ja:
         to: 関連する作業項目
       status:
         is_closed: 作業が完了
+        is_readonly: 読み取り専用の作業項目
       journal:
         notes: 注記
       member:
@@ -1237,6 +1241,7 @@ ja:
   label_journal_diff: 説明の比較
   label_language: 言語
   label_jump_to_a_project: プロジェクトへ移動...
+  label_keyword_plural: Keywords
   label_language_based: ユーザの言語設定に基づく
   label_last_activity: 最新の活動
   label_last_change_on: 最終更新
@@ -1725,7 +1730,7 @@ ja:
     text_getting_started_description: OpenProject のプロジェクト管理とチームコラボレーションの簡単な概要を取得します。
     text_show_again: ヘルプメニューからこのビデオを再度開始することができます。
     welcome: OpenProjectへようこそ
-    select_language: Please select your language
+    select_language: 言語を選択してください
   permission_add_work_package_notes: 注記の追加
   permission_add_work_packages: 作業項目の追加
   permission_add_messages: メッセージの投稿

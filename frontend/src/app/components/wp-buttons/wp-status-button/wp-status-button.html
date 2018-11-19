@@ -2,12 +2,17 @@
   <button class="button"
           [ngClass]="statusHighlightClass"
           [disabled]="isDisabled()"
+          [attr.title]="buttonTitle"
           [attr.aria-label]="text.explanation"
 
           wpStatusDropdown
           [wpStatusDropdown-workPackage]="workPackage">
 
-    <span class="button--text "
+    <span *ngIf="workPackage.isReadonly"
+          class="button--text">
+      <op-icon icon-classes="button--icon icon-locked"></op-icon>
+    </span>
+    <span class="button--text"
           aria-hidden="true"
           [textContent]="status.name"></span>
     <op-icon icon-classes="button--icon icon-small icon-pulldown"></op-icon>

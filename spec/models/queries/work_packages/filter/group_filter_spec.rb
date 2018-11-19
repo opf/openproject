@@ -32,7 +32,6 @@ describe Queries::WorkPackages::Filter::GroupFilter, type: :model do
   let(:group) { FactoryBot.build_stubbed(:group) }
 
   it_behaves_like 'basic query filter' do
-    let(:order) { 6 }
     let(:type) { :list_optional }
     let(:class_key) { :member_of_group }
     let(:name) { I18n.t('query_fields.member_of_group') }

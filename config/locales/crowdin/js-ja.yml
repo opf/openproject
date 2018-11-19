@@ -51,6 +51,9 @@ ja:
     button_update: 更新
     button_export-pdf: PDFファイルをダウンロード
     button_export-atom: Atomをダウンロード
+    calendar:
+      title: カレンダー
+      too_many: カレンダー(%{max}) で表示できるよりも多くの作業項目 (%{count}) があります。 関連するものに焦点を当てるためにフィルタを追加します。
     description_available_columns: 利用できる項目
     description_current_position: ここにいます：
     description_select_work_package: '作業項目を選択 #%{id}'
@@ -60,7 +63,7 @@ ja:
       preview: プレビューモードの切り替え
       source_code: Markdown ソースモードの切り替え
       error_saving_failed: '次のエラーで文書を保存するのに失敗しました: %{error}'
-      error_initialization_failed: Failed to initialize CKEditor!
+      error_initialization_failed: CKEditor の初期化に失敗しました！
       mode:
         manual: Markdownソースに切り替える
         wysiwyg: WYSIWYGエディタに切り替えます
@@ -102,6 +105,8 @@ ja:
         embedded_table:
           button: 作業項目表を埋め込む
           text: "[Placeholder] 埋め込まれた作業項目表"
+        embedded_calendar:
+          text: "[Placeholder] 埋め込みカレンダー"
     custom_actions:
       date:
         specific: オン
@@ -273,45 +278,27 @@ ja:
       show_modal: テキスト入力属性のヘルプを表示
     onboarding:
       steps:
-        welcome: Take a three minutes introduction tour to learn the most <b>important
-          features</b>. <br> We recommend to complete the steps until the end. You
-          can restart the tour any time.
-        project_selection: Please select one of the projects with useful demo data
-          to get started. <br> The <b>Demo project</b> suits best for classical project
-          management, while the <b>Scrum project</b> is better for Agile project management.
-        sidebar_arrow: With the arrow you can navigate back to the project's <b>Main
-          menu</b>.
-        members: Invite new <b>Members</b> to join your project.
-        wiki: Within the <b>Wiki</b> you can document and share knowledge together
-          with your team.
-        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> Here
-          you can create <b>epics, user stories, and bugs</b>, prioritize via drag'n'drop
-          and add them to a sprint.
-        backlogs_task_board_arrow: To see your <b>Task board</b>, open on the Sprint
-          drop-down...
-        backlogs_task_board_select: "... and select the <b>Task board</b> entry."
-        backlogs_task_board: The <b>Task board</b> visualizes the progress for this
-          sprint. Add new tasks or impediments with the + icon next to a user story.
-          Via drag'n'drop you can update the status.
-        wp_toggler: Now let's have a look at the <b>Work package</b> section, which
-          gives you a more detailed view of your work.
-        wp_list: This is the <b>Work package</b> list with the important work within
-          your project, such as tasks, features, milestones, bugs, and more. <br>
-          You can create or edit a work package directly within this list. To see
-          its details you can double click on a row.
-        wp_full_view: Within the <b>Work package details</b> you find all relevant
-          information, such as description, status and priority, activities or comments.
-        wp_back_button: With the arrow you can navigate back to the work package list.
-        wp_create_button: The <b>Create</b> button will add a new work package to
-          your project.
-        wp_timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
-          for your project.
-        wp_timeline: Here you can edit your project plan. Create new phases, milestones,
-          and add dependencies. All team members can see and update the latest plan
-          at any time.
-        help_menu: In the <b>Help</b> menu you will find a user guide and additional
-          help resources. <br> Enjoy your work with OpenProject!
-        got_it: Got it
+        welcome: "<b>重要な機能</b>の詳細については、3分間の紹介ツアーをご覧ください。 <br>最後まで手順を完了することをお勧めします。
+          いつでもツアーを再開できます。"
+        project_selection: 開始するには、便利なデモデータを含むプロジェクトの1つを選択してください。 <br> <b>デモプロジェクト</b>は古典的なプロジェクト管理に最適ですが、<b>スクラムプロジェクト</b>はアジャイルプロジェクト管理に適しています。
+        sidebar_arrow: 矢印を使って、プロジェクトの<b>メインメニュー</b>に戻ることができます。
+        members: 新しい<b>メンバー</b>を招待してプロジェクトに参加してください。
+        wiki: "<b>Wiki</b>内ではチームと一緒に知識を文書化して共有することができます。"
+        backlogs_overview: "<b>バックログ</b>ビューで作業を管理します。 <br> <b>叙事詩、ユーザーストーリー、バグ</b>を作成し、ドラッグ&ドロップで優先順位を付けてスプリントに追加することができます。"
+        backlogs_task_board_arrow: "<b>タスクボード</b>を表示するには、スプリントのドロップダウンを開きます..."
+        backlogs_task_board_select: "... <b>タスクボード</b>を選択します。"
+        backlogs_task_board: "<b>タスクボード</b>はこのスプリントの進捗状況を視覚化します。ユーザーのストーリーの横にある+アイコンを使用して、新しいタスクや障害を追加します。
+          ドラッグ&ドロップ経由でステータスを更新することができます。"
+        wp_toggler: 次に、<b>作業パッケージ</b>セクションを見て、作業の詳細を確認してください。
+        wp_list: これは、タスク、機能、マイルストーン、バグなど、プロジェクト内の重要な作業をまとめた<b>作業項目</b>リストです。 <br>このリスト内で作業パッケージを直接作成または編集できます。
+          詳細を見るには行をダブルクリックします。
+        wp_full_view: "<b>パッケージの詳細</b>には、説明、ステータス、優先度、アクティビティ、コメントなどの関連情報がすべて表示されます。"
+        wp_back_button: 矢印を使用すると作業項目リストに戻ることができます。
+        wp_create_button: "<b>作成</b>ボタンをクリックすると、プロジェクトに新しい作業項目が追加されます。"
+        wp_timeline_button: "<b>ガントチャート</b>をアクティブにして、プロジェクトのタイムラインを作成することができます。"
+        wp_timeline: ここでプロジェクト計画を編集できます。 新しい段階、マイルストーンを作成し、依存関係を追加します。 すべてのチームメンバーは、いつでも最新のプランを見て更新することができます。
+        help_menu: "<b>ヘルプ</b>メニューには、ユーザーガイドとその他のヘルプリソースがあります。 <br> OpenProjectであなたの仕事をお楽しみください！"
+        got_it: 了承
     password_confirmation:
       field_description: この変更を確認するには、アカウントのパスワードを入力する必要があります。
       title: 続行するにはパスワードを確認してください
@@ -370,8 +357,10 @@ ja:
       relation_type: 関係タイプ
     relations_hierarchy:
       parent_headline: 親項目
+      hierarchy_headline: 階層
       children_headline: 子
     relation_buttons:
+      set_parent: 親作業項目を設定する
       change_parent: 親タスクの変更
       remove_parent: 親関係を削除
       group_by_wp_type: ワークパッケージタイプのグループ
@@ -391,6 +380,7 @@ ja:
       abort: 中止
     relations_autocomplete:
       placeholder: 関係しているワークパッケージ ID を入力してください
+      parent_placeholder: 新しい親を選択し、Enterキーを押して設定を解除し、エスケープしてキャンセルします。
     repositories:
       select_tag: タグを選択する
       select_branch: 分岐を選択する
@@ -521,6 +511,7 @@ ja:
       description_options_hide: オプションを非表示
       description_options_show: オプションを表示
       error:
+        update_conflict_refresh: 作業項目を更新して最新のバージョンに更新するには、ここをクリックしてください。
         edit_prohibited: この作業項目の %{attribute} の編集はブロックされます。この属性が関係から派生している (例えば、子供)
           か、あるいは構成できないため。
         format:
@@ -539,6 +530,7 @@ ja:
       message_successful_bulk_delete: 作業項目が正常に削除されました。
       message_successful_show_in_fullscreen: クリックすると全画面表示でこの作業項目を開きます。
       message_view_spent_time: このワークパッケージに費やした時間を表示する
+      message_work_package_read_only: 作業項目はこの状態でロックされています。 ステータス以外の属性は変更できません。
       no_value: 値なし
       inline_create:
         title: クリックしてこのリストに新しい作業項目を追加します
