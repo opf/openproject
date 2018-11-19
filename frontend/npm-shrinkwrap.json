@@ -1504,7 +1504,7 @@
         },
         "minimist": {
           "version": "1.2.0",
-          "resolved": "http://registry.npmjs.org/minimist/-/minimist-1.2.0.tgz",
+          "resolved": "https://registry.npmjs.org/minimist/-/minimist-1.2.0.tgz",
           "integrity": "sha1-o1AIsg9BOD7sH7kU9M1d95omQoQ="
         },
         "path-type": {
@@ -1796,6 +1796,11 @@
       "version": "0.0.58",
       "resolved": "https://registry.npmjs.org/@types/codemirror/-/codemirror-0.0.58.tgz",
       "integrity": "sha512-z74f1e0zqxJ8xrss10bsrjnoJZHE4zDkC8Q7ACw82gr6e4ILSUe0GNifNg1uIaSbR3UQf5sqHJO8vn9GQLFKbA=="
+    },
+    "@types/dragula": {
+      "version": "2.1.34",
+      "resolved": "https://registry.npmjs.org/@types/dragula/-/dragula-2.1.34.tgz",
+      "integrity": "sha512-tZbauiqJgEpKKtBQI8pQ24FrkDNGhiXCFsygqQPeAJTPJJC1RI0BOmHv7VHI9qDehhXXffq9aJEUhqEQyY/PVA=="
     },
     "@types/es6-shim": {
       "version": "0.31.35",
@@ -9278,7 +9283,7 @@
       "dependencies": {
         "async": {
           "version": "1.5.2",
-          "resolved": "http://registry.npmjs.org/async/-/async-1.5.2.tgz",
+          "resolved": "https://registry.npmjs.org/async/-/async-1.5.2.tgz",
           "integrity": "sha1-7GphrlZIDAw8skHJVhjiCJL5Zyo="
         }
       }
