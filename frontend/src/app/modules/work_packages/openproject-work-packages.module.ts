@@ -149,6 +149,8 @@ import {OpenprojectEditorModule} from 'core-app/modules/editor/openproject-edito
 import {WorkPackageTableSumsRowController} from 'core-components/wp-table/wp-table-sums-row/wp-table-sums-row.directive';
 import {ExternalQueryConfigurationComponent} from 'core-components/wp-table/external-configuration/external-query-configuration.component';
 import {ExternalQueryConfigurationService} from 'core-components/wp-table/external-configuration/external-query-configuration.service';
+import {ExternalRelationQueryConfigurationComponent} from "core-components/wp-table/external-configuration/external-relation-query-configuration.component";
+import {ExternalRelationQueryConfigurationService} from "core-components/wp-table/external-configuration/external-relation-query-configuration.service";
 import {WorkPackageTableRelationColumnsService} from 'core-components/wp-fast-table/state/wp-table-relation-columns.service';
 import {WorkPackageTableGroupByService} from 'core-components/wp-fast-table/state/wp-table-group-by.service';
 import {WorkPackageTableHierarchiesService} from 'core-components/wp-fast-table/state/wp-table-hierarchy.service';
@@ -189,7 +191,6 @@ import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {WpTableConfigurationService} from 'core-components/wp-table/configuration-modal/wp-table-configuration.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {ExternalRelationQueryConfigurationService} from "core-components/wp-table/external-configuration/external-relation-query-configuration.service";
 
 @NgModule({
   imports: [
@@ -308,7 +309,7 @@ import {ExternalRelationQueryConfigurationService} from "core-components/wp-tabl
 
     // External query configuration
     ExternalQueryConfigurationComponent,
-    ExternalRelationQueryConfigurationService,
+    ExternalRelationQueryConfigurationComponent,
 
     // Inline create
     WorkPackageInlineCreateComponent,
@@ -472,8 +473,10 @@ import {ExternalRelationQueryConfigurationService} from "core-components/wp-tabl
     // Embedded table
     WorkPackageEmbeddedTableComponent,
     WorkPackageEmbeddedTableEntryComponent,
+
     // External query configuration
     ExternalQueryConfigurationComponent,
+    ExternalRelationQueryConfigurationComponent,
 
     WorkPackageFormAttributeGroupComponent,
     WorkPackageChildrenQueryComponent,
