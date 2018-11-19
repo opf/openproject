@@ -1,0 +1,39 @@
+<%#-- copyright
+OpenProject PDF Export Plugin
+
+Copyright (C)2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License version 3.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.md for more details.
+
+++#%>
+
+<% html_title l(:label_administration), l(:label_export_card_configuration_new) %>
+
+<%= error_messages_for 'config' %>
+
+<% local_assigns[:additional_breadcrumb] = t(:label_export_card_configuration_new) %>
+
+<%= breadcrumb_toolbar t(:label_export_card_configuration_new) %>
+
+<%= labelled_tabular_form_for @config, url: pdf_export_export_card_configurations_path do |f| -%>
+  <%= render partial: 'form', locals: { f: f } %>
+  <hr class="form--separator">
+  <%= styled_button_tag l(:button_create), class: "-highlight -with-icon icon-checkmark" %>
+<% end %>

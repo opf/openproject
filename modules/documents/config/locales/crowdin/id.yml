@@ -1,0 +1,19 @@
+id:
+  activerecord:
+    models:
+      document: "Dokumen"
+  default_doc_category_tech: "Dokumentasi teknis"
+  default_doc_category_user: "Dokumentasi pengguna"
+  enumeration_doc_categories: "Kategori dokumen"
+  enumeration:
+    document_category:
+      documentation: Documentation
+      specification: Specification
+      other: Other
+  label_document_added: "Dokumen ditambahkan"
+  label_document_new: "Dokumen baru"
+  label_document_plural: "Dokumen"
+  label_documents: "Dokumen"
+  permission_manage_documents: "Kelola dokumen"
+  permission_view_documents: "Lihat dokumen"
+  project_module_documents: "Dokumen"

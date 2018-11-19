@@ -1368,6 +1368,7 @@ ro:
   label_journal_diff: Comparare descriere
   label_language: Limbă
   label_jump_to_a_project: Salt la un proiect...
+  label_keyword_plural: Keywords
   label_language_based: Bazat pe limba utilizatorului
   label_last_activity: Ultima activitate
   label_last_change_on: Ultima modificare

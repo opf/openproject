@@ -116,7 +116,7 @@ ru:
           button: Вложить таблицу пакетов работ
           text: "[Placeholder] Таблица внедренных пакетов работ"
         embedded_calendar:
-          text: "[Placeholder] Embedded calendar"
+          text: "[Placeholder] Встроенный календарь"
     custom_actions:
       date:
         specific: на
@@ -397,7 +397,7 @@ ru:
       hierarchy_headline: Иерархии
       children_headline: Дочерние элементы
     relation_buttons:
-      set_parent: Set parent work package
+      set_parent: Установить родительский пакет работ
       change_parent: Сменить родителя
       remove_parent: Удалить родителя
       group_by_wp_type: Группировать по типу комплекса работ
@@ -417,7 +417,8 @@ ru:
       abort: Прервать
     relations_autocomplete:
       placeholder: Внести Id cвязанного пакета работ
-      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
+      parent_placeholder: Выберите нового родителя, нажмите ввод для снятия, escape
+        для отмены
     repositories:
       select_tag: Выберите тег
       select_branch: Выберите ветвь

@@ -1334,6 +1334,7 @@ id:
   label_journal_diff: Deskripsi perbandingan
   label_language: Bahasa
   label_jump_to_a_project: Lompat ke Project...
+  label_keyword_plural: Keywords
   label_language_based: Berdasarkan bahasa user
   label_last_activity: Aktivitas terakhir
   label_last_change_on: Last change on

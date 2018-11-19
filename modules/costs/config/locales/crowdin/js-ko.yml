@@ -1,0 +1,12 @@
+ko:
+  js:
+    work_packages:
+      property_groups:
+        costs: "비용"
+      properties:
+        costObject: "예산"
+        overallCosts: "전체 비용"
+        spentUnits: "소비 단위"
+    button_log_costs: "단위 비용 기록"
+    label_hour: "시간"
+    label_hours: "시간"

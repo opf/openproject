@@ -252,6 +252,7 @@ i
 .wp-info-wrapper
   display: flex
   align-items: center
+  padding-top: 0.5rem
   .wp-status-button .button
     padding: 5px
     margin-bottom: 0
@@ -270,7 +271,11 @@ i
       padding: 0
   .work-packages--info-row
     flex-grow: 2
-    margin-right: 5px
+
+  attribute-help-text,
+  .wp-status-button,
+  .work-packages--info-row
+    margin-bottom: 0.5rem
 
   &.-wrapped
     flex-wrap: wrap
@@ -280,7 +285,6 @@ i
       margin-bottom: 0.5rem
 
     wp-status-button
-      margin-bottom: 0.5rem
       // In case that there is no attribute help text, the status button needs to increase.
       // This is a heuristic based on the current DOM structure.
       &:nth-last-child(3)

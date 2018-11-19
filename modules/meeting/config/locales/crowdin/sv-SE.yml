@@ -1,0 +1,64 @@
+sv:
+  activerecord:
+    attributes:
+      meeting:
+        location: "Plats"
+        duration: "Varaktighet"
+        participants: "Deltagare"
+        participants_attended: "Deltagare"
+        participants_invited: "Inbjudna"
+        start_time: "Tid"
+        start_time_hour: "Starttid"
+    errors:
+      messages:
+        invalid_time_format: "är inte en giltig tid. Använd formatet HH:MM"
+    models:
+      meeting_agenda: "Agenda"
+      meeting_minutes: "Protokoll"
+  description_attended: "deltog"
+  description_invite: "inbjudna"
+  events:
+    meeting: Mötet redigerat
+    meeting_agenda: Mötets agenda redigerat
+    meeting_agenda_closed: Mötets agenda stängt
+    meeting_agenda_opened: Mötets agenda öppnat
+    meeting_minutes: Mötesprotokoll redigerat
+    meeting_minutes_created: Mötesprotokoll skapat
+  error_notification_with_errors: "Det gick inte att skicka underrättelse. Följande mottagare kunde inte underrättas: %{recipients}"
+  label_meeting: "Möte"
+  label_meeting_plural: "Möten"
+  label_meeting_new: "Nytt möte"
+  label_meeting_edit: "Redigera möte"
+  label_meeting_agenda: "Agenda"
+  label_meeting_minutes: "Protokoll"
+  label_meeting_close: "Stäng"
+  label_meeting_open: "Öppna"
+  label_meeting_agenda_close: "Stäng agendan för att påbörja protokollet"
+  label_meeting_date_time: "Datum/tid"
+  label_meeting_diff: "Skillnad"
+  label_notify: "Skicka för granskning"
+  label_icalendar: "Skicka iCalendar"
+  label_version: "Version"
+  label_time_zone: "Tidszon"
+  label_start_date: "Startdatum"
+  notice_successful_notification: "Underrättelse skickades"
+  notice_timezone_missing: Ingen tidszon angiven och %{zone} antas. För att välja din tidszon, vänligen klicka här.
+  permission_create_meetings: "Skapa möten"
+  permission_edit_meetings: "Redigera möten"
+  permission_delete_meetings: "Ta bort möten"
+  permission_view_meetings: "Visa möten"
+  permission_create_meeting_agendas: "Hantera agendor"
+  permission_close_meeting_agendas: "Stäng agendor"
+  permission_send_meeting_agendas_notification: "Skicka underrättelse om granskning av agendor"
+  permission_create_meeting_minutes: "Hantera protokoll"
+  permission_send_meeting_minutes_notification: "Skicka underrättelse om granskning av protokoll"
+  project_module_meetings: "Möten"
+  text_duration_in_hours: "Varaktighet i timmar"
+  text_in_hours: "i timmar"
+  text_meeting_agenda_for_meeting: 'agenda för mötet "%{meeting}"'
+  text_meeting_closing_are_you_sure: "Är du säker du vill stänga mötet?"
+  text_meeting_agenda_open_are_you_sure: "Osparat innehåll i protokollet kommer att förloras! Vill du fortsätta?"
+  text_meeting_minutes_for_meeting: 'protokollet för mötet "%{meeting}"'
+  text_review_meeting_agenda: "%{author} har lagt upp %{link} för granskning."
+  text_review_meeting_minutes: "%{author} har lagt upp %{link} för granskning."
+  text_notificiation_invited: "Detta mail innehåller en ics-post för mötet nedan:"

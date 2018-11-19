@@ -1,0 +1,34 @@
+en:
+  activerecord:
+    attributes:
+      ldap_groups/synchronized_group:
+        entry: 'Entry identifier'
+        auth_source: 'LDAP connection'
+    models:
+      ldap_groups/synchronized_group: 'Synchronized LDAP group'
+  ldap_groups:
+    label_menu_item: 'Group synchronization'
+    label_group_key: 'LDAP group filter key'
+    label_group_key: 'LDAP group filter key'
+    settings:
+      group_key: 'LDAP group attribute'
+      group_key_text: 'The LDAP attribute name used to identify the groups.'
+      group_base: 'LDAP group base'
+      group_base_text: 'LDAP group base used to search for group entries.'
+
+    synchronized_groups:
+      add_new: 'Add synchronized LDAP group'
+      destroy:
+        title: 'Remove synchronized group %{name}'
+        confirmation: "If you continue, the synchronized group %{name} and all %{users_count} users synchronized through it will be removed."
+        info: "Note: The OpenProject group itself and members added outside this LDAP synchronization will not be removed."
+        verification: "Enter the group's name %{name} to verify the deletion."
+      no_results: 'No synchronized groups found.'
+      no_members: 'This group has no synchronized members yet.'
+      plural: 'Synchronized LDAP groups'
+      singular: 'Synchronized LDAP group'
+      form:
+        auth_source_text: 'Select which LDAP authentication mode is used.'
+        entry_text: 'Define the LDAP group identifier.'
+        group_text: 'Select an existing OpenProject group that members of the LDAP group shall be synchronized with'
+

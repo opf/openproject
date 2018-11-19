@@ -1357,6 +1357,7 @@ hr:
   label_journal_diff: Opis uspoređivanja
   label_language: Jezik
   label_jump_to_a_project: Pređi na projekt...
+  label_keyword_plural: Keywords
   label_language_based: Na osnovi jezika korisnika
   label_last_activity: Zadnja aktivnost
   label_last_change_on: Posljednja promjena

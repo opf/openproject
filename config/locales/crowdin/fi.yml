@@ -1335,6 +1335,7 @@ fi:
   label_journal_diff: Kuvauksen vertailu
   label_language: Kieli
   label_jump_to_a_project: Siirry projektiin...
+  label_keyword_plural: Keywords
   label_language_based: Pohjautuen käyttäjän kieleen
   label_last_activity: Viimeinen toiminta
   label_last_change_on: Viimeisin muutos

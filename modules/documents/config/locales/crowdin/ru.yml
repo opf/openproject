@@ -1,0 +1,19 @@
+ru:
+  activerecord:
+    models:
+      document: "Документ"
+  default_doc_category_tech: "Техническая документация"
+  default_doc_category_user: "Документация пользователя"
+  enumeration_doc_categories: "Категории документов"
+  enumeration:
+    document_category:
+      documentation: Документация
+      specification: Спецификация
+      other: Прочее
+  label_document_added: "Документ добавлен"
+  label_document_new: "Новый документ"
+  label_document_plural: "Документы"
+  label_documents: "Документы"
+  permission_manage_documents: "Управление документами"
+  permission_view_documents: "Просмотр документов"
+  project_module_documents: "Документы"

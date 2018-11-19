@@ -49,8 +49,8 @@ $nm-color-success-background: #d8fdd1
   line-height: 22px
 
 .toolbar-container
+  margin-bottom: 1rem
   padding: 0
-  margin-bottom: 12px
 
   > .subtitle
     font-size: rem-calc(14px)
@@ -61,16 +61,12 @@ $nm-color-success-background: #d8fdd1
   &.-with-dropdown .toolbar-item.drop-down
     position: relative
 
+// Align title and toolbar with flex
 .toolbar
   display: flex
+  flex-wrap: wrap
   align-items: center
-
-.toolbar-items
-  margin:  0
-  padding: 0
-
-  li
-    list-style-type: none
+  justify-content: flex-end
 
 // automatically clear the toolbar
 .toolbar:after
@@ -79,26 +75,43 @@ $nm-color-success-background: #d8fdd1
   display: table
 
 .toolbar-items
-  .toolbar-item,
-  .toolbar-button-group > li
-    float: left
-    &.toolbar-item
-      margin: 0 5px //$drop-nav-spacing // spacing between nav items
+  display: flex
+  flex-wrap: wrap
+  margin:  0 -10px 0 0
+  padding: 0
 
-      &:last-child
-        margin-right: 0
+  li
+    list-style-type: none
+    flex-grow: 1
 
-      // hack around the old watchers_link implementation
-      // remove once all watcher_links in plugins have no button wrappers anymore
-      .button .button
-        background: transparent
-        border: none
-        margin: 0
-        padding: 0
+  .toolbar-item
+    margin: 0 10px 10px 0 // spacing between nav items
+    flex-grow: 1
+
+    .button
+      width: 100%
+      overflow: hidden
+      white-space: normal
+      // For links the total height adds borders to line-height (== 34px)
+      line-height: 32px
+
+    // hack around the old watchers_link implementation
+    // remove once all watcher_links in plugins have no button wrappers anymore
+    .button .button
+      background: transparent
+      border: none
+      margin: 0
+      padding: 0
 
   .toolbar-button-group
+    display: flex
+    justify-content: flex-end
+    flex-direction: row-reverse
     margin-left: 0px
-    
+
+    > li
+      margin-right: 2px
+
   button,
   .button
     // Overwrite Foundastion's default padding. Let line-height fix vertical
@@ -114,10 +127,6 @@ $nm-color-success-background: #d8fdd1
       font-size: 14px
       vertical-align: 1px
 
-    &.toolbar-icon
-      // Make sure that icon only toolbar items are squared
-      width: 34px
-
       font-size: 14px
       line-height: 1
       i
@@ -126,10 +135,6 @@ $nm-color-success-background: #d8fdd1
         &::before
           font-size: 14px
           line-height: 1
-
-  a.button
-    // For links the total height adds borders to line-height (== 34px)
-    line-height: 32px
 
   button,
   .button,
@@ -165,7 +170,7 @@ $nm-color-success-background: #d8fdd1
     margin-right: 0
 
   #repository-checkout-url
-    min-width: 350px
+    min-width: 320px
 
   .toolbar-item
     &.-icon-only
@@ -178,11 +183,16 @@ $nm-color-success-background: #d8fdd1
         right: 1px
         vertical-align: text-top
 
+// Allow title container to grow
 .title-container
-  flex: 1
-  padding: 0
+  flex-grow: 1
+  flex-basis: auto
+  overflow: hidden
+  white-space: nowrap
+  margin-bottom: 10px // margin-bottom of toolbar buttons
 
   h2
+    @include text-shortener
     padding: 0
 
   div.inline-edit
@@ -273,6 +283,7 @@ $nm-color-success-background: #d8fdd1
     border: 1px solid $toolbar-item--border-color
     color: $inlinelabel-color
     border-radius: 2px
+    white-space: nowrap
 
     &.-prepend
       border-right: none !important

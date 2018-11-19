@@ -1,0 +1,110 @@
+<%#-- copyright
+OpenProject Costs Plugin
+
+Copyright (C) 2009 - 2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+version 3.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+++#%>
+
+<%= form_tag({}) do -%>
+
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table class="generic-table" id="material_budget_items">
+      <colgroup>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+      </colgroup>
+      <thead>
+        <tr>
+          <%= sort_header_tag("id", :caption => '#', :default_order => 'desc') %>
+          <%= sort_header_tag("subject", :caption => CostObject.human_attribute_name(:subject)) %>
+          <th class="currency">
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= CostObject.human_attribute_name(:budget) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th class="currency">
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= CostObject.human_attribute_name(:spent) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th class="currency">
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= CostObject.human_attribute_name(:available) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= CostObject.human_attribute_name(:budget_ratio) %>
+                </span>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% total_budget = BigDecimal.new("0"); labor_budget = BigDecimal.new("0"); material_budget = BigDecimal.new("0"); spent = BigDecimal.new("0") %>
+        <% cost_objects.each do |cost_object| %>
+        <tr id="cost_object-<%= cost_object.id %>" class="<%= cost_object.css_classes %>">
+          <td><%= link_to cost_object.id, cost_object_path(cost_object.id) %></td>
+          <%= content_tag(:td, link_to(h(cost_object.subject), cost_object_path(cost_object.id)), :class => 'subject') %>
+          <%= content_tag(:td, number_to_currency(cost_object.budget, :precision => 0), :class => 'currency') %>
+          <%= content_tag(:td, number_to_currency(cost_object.spent, :precision => 0), :class => 'currency') %>
+          <%= content_tag(:td, number_to_currency(cost_object.budget - cost_object.spent, :precision => 0), :class => 'currency') %>
+          <%= content_tag(:td, extended_progress_bar(cost_object.budget_ratio, :legend => "#{cost_object.budget_ratio}")) %>
+          <%-
+            total_budget += cost_object.budget
+            labor_budget += cost_object.labor_budget
+            material_budget += cost_object.material_budget
+            spent += cost_object.spent
+          -%>
+        </tr>
+        <% end %>
+        <% if cost_objects.length > 0 %>
+        <tr>
+          <td />
+          <td />
+          <td class="currency"><strong><%= number_to_currency( total_budget, :precision => 0) %></strong></td>
+          <td class="currency"><strong><%= number_to_currency( spent, :precision => 0) %></strong></td>
+          <td class="currency"><strong><%= number_to_currency( total_budget - spent, :precision => 0) %></strong></td>
+          <td />
+        <tr>
+        <% end %>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<% end -%>

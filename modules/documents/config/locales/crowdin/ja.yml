@@ -1,0 +1,19 @@
+ja:
+  activerecord:
+    models:
+      document: "ドキュメント"
+  default_doc_category_tech: "技術文書"
+  default_doc_category_user: "ユーザー文書"
+  enumeration_doc_categories: "ドキュメントのカテゴリ"
+  enumeration:
+    document_category:
+      documentation: 文章
+      specification: 仕様
+      other: その他
+  label_document_added: "追加されたドキュメント"
+  label_document_new: "新しいドキュメント"
+  label_document_plural: "ドキュメント"
+  label_documents: "ドキュメント"
+  permission_manage_documents: "ドキュメントを管理"
+  permission_view_documents: "ドキュメントの表示"
+  project_module_documents: "ドキュメント"

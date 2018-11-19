@@ -95,10 +95,10 @@ hu:
     single: vagy
   deprecations:
     old_timeline:
-      replacement: Ezt az idővonalak modult egy munkacsomagok modulba ágyazott interaktív
-        idővonal váltja ki.
+      replacement: Ezt az idővonalak modult egy feladatcsoportok modulba ágyazott
+        interaktív idővonal váltja ki.
       removal: Ez a modul az OpenProject 8.0-tól megszűnik. A konfiguráció NEM kerül
-        migrálásra a munkacsomag nézetbe.
+        migrálásra a feladatcsoport nézetbe.
       further_information_before: Kérjük, nézze meg a
       link_name: hogyan térjünk át az új idővonalakba.
       further_information_after: ''
@@ -163,16 +163,15 @@ hu:
       no_results_content_text: Állapot jelentés hozzáadása
   statuses:
     edit:
-      status_readonly_html: |
-        Check this option to mark work packages with this status as read-only.
-        No attributes can be changed with the exception of the status.
-        <br/>
-        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+      status_readonly_html: "Válaszd ki ezt az opciót a Feladatcsoport csak olvashatóvá
+        tételéhez.\nNo attributes can be changed with the exception of the status.
+        \n<br/> \n<strong>Note</strong>: Örökölt értékek (pl. a gyermektől, vagy kapcsolatoktól)
+        meg fognak maradni.\n"
       status_color_text: |
         Ide kattintva rendelhet vagy változtathatja meg a színét az állapotnak.
         Az állapot gomb látható és kiemelhető a feladatcsoport táblázatban.
     index:
-      no_results_title_text: Jelenleg nincsenek munkacsomag státuszok.
+      no_results_title_text: Jelenleg nincsenek feladatcsoport státuszok.
       no_results_content_text: Új státusz hozzáadása
   types:
     index:
@@ -194,7 +193,7 @@ hu:
 '
   versions:
     overview:
-      no_results_title_text: Jelenleg nincsenek ehhez a verzióhoz hozzárendelt munkacsomagok.
+      no_results_title_text: Jelenleg nincsenek ehhez a verzióhoz hozzárendelt feladatcsoportok.
   wiki:
     no_results_title_text: Jelenleg nincsenek wiki oldalak.
     index:
@@ -210,16 +209,16 @@ hu:
       no_common_statuses_exists: Az összes kiválasztott feladatcsoporthoz nincs elérhető
         állapot. Státuszuk nem változtatható meg.
       unsupported_for_multiple_projects: Tömeges mozgatás/másolás nem támogatott a
-        különböző projektekből származó munkacsomagokhoz
+        különböző projektekből származó feladatcsoportokhoz
     list_simple:
       assigned:
-        no_results_title_text: Nincs hozzám rendelt munkacsomag.
+        no_results_title_text: Nincs hozzám rendelt feladatcsoport.
       reported:
-        no_results_title_text: Nincs általam beszámolt munkacsomag.
+        no_results_title_text: Nincs általam beszámolt feladatcsoport.
       responsible:
         no_results_title_text: Nincs feladatcsoport, amelyért én vagyok a felelős.
       watched:
-        no_results_title_text: Nincs általam megfigyelt munkacsomag.
+        no_results_title_text: Nincs általam megfigyelt feladatcsoport.
     summary:
       reports:
         category:
@@ -349,7 +348,7 @@ hu:
         to: Kapcsolódó feladatcsoport
       status:
         is_closed: Lezárt feladatcsoport
-        is_readonly: Work package read-only
+        is_readonly: Feladatcsoport csak olvasható
       journal:
         notes: Jegyzet
       member:
@@ -441,7 +440,7 @@ hu:
         before: korábbinak kell lennie, mint %{date}.
         before_or_equal_to: korábbinak vagy egyenlőnek kell lennie, mint %{date}.
         blank: nem lehet üres.
-        cant_link_a_work_package_with_a_descendant: A munka csomag nem kapcsolható
+        cant_link_a_work_package_with_a_descendant: A feladatcsoport nem kapcsolható
           saját részfeladatához.
         circular_dependency: Ez a kapcsolat egy körkörös függőséget eredményezne.
         confirmation: "%{attribute} nem egyezik."
@@ -564,7 +563,7 @@ hu:
         type:
           attributes:
             attribute_groups:
-              attribute_unknown: Érvénytelen munkacsomag attribútumot használt.
+              attribute_unknown: Érvénytelen feladatcsoport attribútumot használt.
               duplicate_group: A %{group} név már használatban van. A csoport névnek
                 egyedinek kell lennie.
               query_invalid: 'A beágyazott lekérdezés ''%{group}'' érvénytelen: %{details}'
@@ -1239,7 +1238,7 @@ hu:
   label_core_version: Core verzió
   label_current_status: Jelenlegi állapot
   label_current_version: Jelenlegi verzió
-  label_custom_field_add_no_type: Mező hozzáadása egy munkacsomag típushoz
+  label_custom_field_add_no_type: Mező hozzáadása egy feladatcsoport típushoz
   label_custom_field_new: Új választható mező
   label_custom_field_plural: Választható mezők
   label_custom_field_default_type: Üres típus
@@ -1346,6 +1345,7 @@ hu:
   label_journal_diff: Leírás összehasonlítás
   label_language: Nyelv
   label_jump_to_a_project: Ugrás a projekthez
+  label_keyword_plural: Keywords
   label_language_based: A felhasználói nyelv alapján
   label_last_activity: Utolsó aktivitás
   label_last_change_on: Utolsó módosítás a
@@ -1506,7 +1506,7 @@ hu:
   label_repository_plural: Csomagtárolók
   label_required: kötelező
   label_requires: igényel
-  label_responsible_for_work_packages: feladatcsoportok, amelyért én vagyok a felelős
+  label_responsible_for_work_packages: Feladatcsoportok, amelyért én vagyok a felelős
   label_result_plural: Eredmények
   label_reverse_chronological_order: Fordított időrendi sorrendben
   label_revision: Felülvizsgálat
@@ -2292,7 +2292,7 @@ hu:
     szem előtt, hogy az egyéni mezőket minden projektben külön aktiválni kell.
 
 '
-  text_custom_field_hint_activate_per_project_and_type: 'Az egyéni mezőket munkacsomag
+  text_custom_field_hint_activate_per_project_and_type: 'Az egyéni mezőket feladatcsoport
     típusonként és projektenként egyenként aktiválni kell.
 
 '
@@ -2400,8 +2400,8 @@ hu:
   text_unallowed_characters: Nem engedélyezett karakterek
   text_user_invited: A felhasználót meghívták és a regisztráció folyamatban van.
   text_user_wrote: "%{value} írta:"
-  text_warn_on_leaving_unsaved: A munkacsomag nem mentett szöveget tartalmaz, ami
-    elveszik ha elhagyod ezt az oldalt.
+  text_warn_on_leaving_unsaved: A  feladatcsoport  nem mentett szöveget tartalmaz,
+    ami elveszik ha elhagyod ezt az oldalt.
   text_what_did_you_change_click_to_add_comment: Mit változtattál? Klikkelj egy megjegyzés
     hozzáadásához.
   text_wiki_destroy_confirmation: Biztosan törli ezt a wikit és annak tartalmát?
@@ -2517,7 +2517,7 @@ hu:
       outline: Első vázlat bővítése
       parent: Az alprojektek megjelenítése
       work_package_filters: A feladatcsoportok szűrése
-      work_package_responsible: feladatcsoportok megjelenítése a felelősökkel
+      work_package_responsible: Feladatcsoportok megjelenítése a felelősökkel
       work_package_assignee: A feladatcsoportok megjelenítése a hozzárendelésekkel
       types: Típusok megjelenítése
       status: Állapot megjelenítése

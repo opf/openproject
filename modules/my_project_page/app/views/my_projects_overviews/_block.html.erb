@@ -1,0 +1,42 @@
+<%#-- copyright
+OpenProject My Project Page Plugin
+
+Copyright (C) 2011-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.md for more details.
+
+++#%>
+<div id="block_<%= block_name %>" class="widget-box">
+
+  <% block_name_id = "my_page_#{block_name}_box_actions" %>
+  <% content_for block_name_id do %>
+    <div class="box-actions">
+      <% if User.current.allowed_to?(:edit_project, project) %>
+      <a href="#"
+         ng-click="$ctrl.remove($event)"
+         ng-show="$ctrl.editing"
+         class="icon icon-close remove-block"
+         title="<%= t(:button_delete) %>"></a>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="handle">
+    <%= render partial: "my_projects_overviews/blocks/#{block_name}", locals: { block_name_id: block_name_id, edit: defined?(edit) ? edit : false } %>
+  </div>
+</div>
+
+<overview-block block-name="<%= block_name %>">
+</overview-block>

@@ -1358,6 +1358,7 @@ nl:
   label_journal_diff: Beschrijving vergelijking
   label_language: Taal
   label_jump_to_a_project: Ga naar een project...
+  label_keyword_plural: Keywords
   label_language_based: Op basis van de taal van gebruiker
   label_last_activity: Laatste activiteit
   label_last_change_on: Laatste wijziging op

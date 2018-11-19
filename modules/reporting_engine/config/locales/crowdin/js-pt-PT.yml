@@ -1,0 +1,5 @@
+pt:
+  js:
+    reporting_engine:
+      label_remove: "Eliminar"
+      label_response_error: "Houve um erro ao tratar o questionário."

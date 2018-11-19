@@ -55,8 +55,8 @@ hu:
     button_export-atom: Atom letöltés
     calendar:
       title: Naptár
-      too_many: There are more work packages (%{count}) than can be displayed by the
-        calendar (%{max}). Add filters to focus on the relevant ones.
+      too_many: Több Feladatcsoport (%{count}) van, mint amennyi a naptárban (%{max})
+        megjeleníthető. Adj szűrőket a fontosabb kiemeléséhez.
     description_available_columns: Elérhető oszlopok
     description_current_position: 'Itt vagy:'
     description_select_work_package: 'Munkacsomag kiválasztás #%{id}'
@@ -103,16 +103,16 @@ hu:
             Include the content of another wiki page by specifying its title or slug.
             You can include the wiki page of another project by separating them with a colon like the following example.
         work_package_button:
-          button: Munkacsomag létrehozása gomb beszúrása
-          type: Munkacsomag típusok
+          button: Feladatcsoport létrehozása gomb beszúrása
+          type: Feladatcsoport típusok
           button_style: Stílus gomb használata
           button_style_hint: 'Optional: Check to make macro appear as a button, not
             as a link.'
-          without_type: Munkacsomag létrehozása
-          with_type: 'Munkacsomag létrehozása (típus: %{typename})'
+          without_type: Feladatcsoport létrehozása
+          with_type: 'Feladatcsoport létrehozása (típus: %{typename})'
         embedded_table:
-          button: Munkacsomag táblázat beágyazás
-          text: "[Placeholder] Beágyazott munkacsomag táblázat"
+          button: Feladatcsoport táblázat beágyazás
+          text: "[Placeholder] Beágyazott feladatcsoport táblázat"
         embedded_calendar:
           text: "[Placeholder] Embedded calendar"
     custom_actions:
@@ -280,14 +280,14 @@ hu:
     label_add_description: Adjon meg leírást a %{file} fájlhoz
     label_upload_notification: Fájl feltöltése folyamatban
     label_work_package_upload_notification: 'Fájlok feltöltése a #%{id}: %{subject}
-      munkacsomaghoz'
+      feladatcsoporthoz'
     label_files_to_upload: 'Ezek a fájlok kerülnek feltöltésre:'
     label_rejected_files: 'Ezeket a fájlokat nem lehet felölteni:'
     label_rejected_files_reason: Ezeket a fájlokat nem lehet feltölteni, mert a méretük
       nagyobb, mint %{maximumFilesize}
     label_wait: Kérem, várjon a konfigurációra...
     label_upload_counter: "%{done}/%{count} fájl feltöltve"
-    label_validation_error: 'A munka csomag a következő hibák miatt nem menthető:'
+    label_validation_error: 'A feladatcsoport a következő hibák miatt nem menthető:'
     help_texts:
       show_modal: Attribútum-súgószöveg mutatása
     onboarding:
@@ -312,17 +312,17 @@ hu:
         backlogs_task_board: The <b>Task board</b> visualizes the progress for this
           sprint. Add new tasks or impediments with the + icon next to a user story.
           Via drag'n'drop you can update the status.
-        wp_toggler: Now let's have a look at the <b>Work package</b> section, which
-          gives you a more detailed view of your work.
-        wp_list: This is the <b>Work package</b> list with the important work within
-          your project, such as tasks, features, milestones, bugs, and more. <br>
-          You can create or edit a work package directly within this list. To see
-          its details you can double click on a row.
-        wp_full_view: Within the <b>Work package details</b> you find all relevant
-          information, such as description, status and priority, activities or comments.
+        wp_toggler: Most vessünk egy pillantást a <b>Feladatcsoport</b> kiválasztására,
+          amely részletesebb képet ad a munkáról.
+        wp_list: Ez a <b>Feladatcsoport</b> a fontos munkát a projektben, mint például
+          a feladatok, szolgáltatások, mérföldkövek, hibák, és több. <br> létrehozása
+          vagy szerkesztése a feladatcsoport közvetlenül a listán belül. Megtekintheti
+          a vonatkozó adatokat is dupla kattintással.
+        wp_full_view: Belül a <b>Feladatcsoport részletek</b> talál, minden lényeges
+          információt, például a leírás, állapot és prioritás, tevékenység vagy megjegyzéseket.
         wp_back_button: With the arrow you can navigate back to the work package list.
-        wp_create_button: The <b>Create</b> button will add a new work package to
-          your project.
+        wp_create_button: A <b>Létrehoz</b> gombbal tudsz új feladatot hozzáadni a
+          projekthez.
         wp_timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
           for your project.
         wp_timeline: Here you can edit your project plan. Create new phases, milestones,
@@ -397,7 +397,7 @@ hu:
       hierarchy_headline: Hierarchia
       children_headline: Gyermekek
     relation_buttons:
-      set_parent: Set parent work package
+      set_parent: A Szülő Feladatcsoport kiválasztása
       change_parent: Szülő módosítása
       remove_parent: Szülő eltávolítása
       group_by_wp_type: Rendezés feladatcsoport típusai szerint
@@ -497,7 +497,7 @@ hu:
       tooManyProjects: Több mint %{count} projekt. Kérjük, használjon jobb szűrési
         beállításokat!
       selection_mode:
-        notification: Klikkeljen valamelyik munkacsomagra a kapcsolat létrehozásához.
+        notification: Klikkeljen valamelyik feladatcsoportra a kapcsolat létrehozásához.
           Visszavonás az Esc megnyomásával.
       zoom:
         in: Nagyítás
@@ -559,8 +559,8 @@ hu:
       description_options_hide: Beállítások elrejtése
       description_options_show: Beállítások megjelenítése
       error:
-        update_conflict_refresh: Click here to refresh the work package and update
-          to the newest version.
+        update_conflict_refresh: Kattintson ide, hogy a Feladatcsoportot legújabb
+          verzióra történő frissítéséhez.
         edit_prohibited: A (z) %{attribute} attribútum nem szerkeszthető. Vagy azért
           mert ez valamelyik kapcsolatból származik (gyerekektől), vagy más okból
           nem módosítható.
@@ -582,8 +582,8 @@ hu:
       message_successful_show_in_fullscreen: Ide kattintva a munkacsomag részletei
         teljes képernyős nézeten jeleníthetőek meg.
       message_view_spent_time: Feladatcsoporttal töltött idő megjelenítése
-      message_work_package_read_only: Work package is locked in this status. No attribute
-        other than status can be altered.
+      message_work_package_read_only: Ez Feladatcsomag ebben a státuszban zárolt.
+        Nem lehet más attribútum segítségével megváltoztatni.
       no_value: Nincs érték
       inline_create:
         title: Ide kattintva adhatsz új munkacsomagot a listához
@@ -710,7 +710,7 @@ hu:
           description: Kiemelés szinnel
           none: Kiemelés nélkül
           inline: Kiemelt attribútum(ok)
-          inline_all: Attribútumok
+          inline_all: Minden attribútum
           entire_row_by: Egész sor alapján
           status: Állapot
           priority: Fontosság
