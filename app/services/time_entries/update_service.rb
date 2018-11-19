@@ -41,15 +41,7 @@ class TimeEntries::UpdateService
   def call(attributes: {})
     set_attributes attributes
 
-    success, errors = validate_and_yield(time_entry, user) do
-      ##
-      # Perform additional validations on the model,
-      # since the errors from reform are not merged into the model for form errors
-      validate_visible_work_package
-
-      time_entry.errors.empty? && time_entry.save
-    end
-
+    success, errors = validate_and_save(time_entry, user)
     ServiceResult.new success: success, errors: errors, result: time_entry
   end
 
@@ -62,14 +54,6 @@ class TimeEntries::UpdateService
     # Update project context if moving time entry
     if time_entry.work_package && time_entry.work_package_id_changed?
       time_entry.project_id = time_entry.work_package.project_id
-    end
-  end
-
-  def validate_visible_work_package
-    return unless time_entry.work_package || time_entry.work_package_id_changed?
-
-    if time_entry.work_package.nil? || !time_entry.work_package.visible?(user)
-      time_entry.errors.add :work_package_id, :invalid
     end
   end
 end

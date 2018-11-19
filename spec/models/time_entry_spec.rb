@@ -69,14 +69,14 @@ describe TimeEntry, type: :model do
 
       let(:child_activity_active) do
         FactoryBot.create(:time_entry_activity,
-                           parent: activity,
-                           project: project1)
+                          parent: activity,
+                          project: project1)
       end
       let(:child_activity_inactive) do
         FactoryBot.create(:time_entry_activity,
-                           parent: activity,
-                           project: project2,
-                           active: false)
+                          parent: activity,
+                          project: project2,
+                          active: false)
       end
 
       before do
