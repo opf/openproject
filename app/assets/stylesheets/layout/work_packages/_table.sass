@@ -56,20 +56,17 @@
 
   > .toolbar-container
     margin-top: 1rem
-    // not flex-item
-    padding-right: 15px
+    padding-right: 20px
 
   input[type="text"].toolbar--editable-toolbar
     font-size: 24px
 
   .work-packages--filters-optional-container
-    // not flex-item
-    height: auto
+    max-height: 40vh
     overflow: auto
-    flex-shrink: 0
     // Filters are hidden when not expanded
     // When expanded, add some distance to the table
-    margin-bottom: 20px
+    margin: 0 20px 20px 0
 
 // Outer Flex container for (table+timeline)|details
 .work-packages-split-view
