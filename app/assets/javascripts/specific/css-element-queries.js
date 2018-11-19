@@ -26,20 +26,6 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-@include breakpoint(680px down)
-  #main-menu ~ #content-wrapper
-    padding: 5px 15px 0 15px !important
-
-  #main
-    grid-template-columns: auto
-
-  #breadcrumb,
-  .hidden-for-mobile
-    display: none !important
-
-  h2
-    font-size: 1.4rem
-
-@include breakpoint(680px up)
-  .hidden-for-desktop
-    display: none
+jQuery(document).ready(function() {
+    ElementQueries.init();
+});

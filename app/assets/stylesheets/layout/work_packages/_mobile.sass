@@ -24,56 +24,58 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See docs/COPYRIGHT.rdoc for more details.
-//++
-@media screen and (max-width: 1248px), print
-  body.controller-work_packages
 
-    // ------------- FULL SCREEN -------------------
-    &.action-show
+@mixin work-packages--tablet-size-layout
+  &.nomenus
+    top: 0
+    padding: 0
+    width: 100%
+    margin-left: 0
 
-      #main
-        #content-wrapper
-          &.nomenus
-            top: 0
-            padding: 0
-            width: 100%
-            margin-left: 0
+  .work-packages--show-view
+    &.edit-all-mode
+      .work-packages-full-view--split-right
+        display: none
+
+    ul#toolbar-items li .wp-create-button .dropdown
+      left: 0 !important
+
+  .work-packages-full-view--split-container
+    flex-direction: column
+    // Safari
+    height: initial
+    .work-packages-full-view--split-left
+      margin: 0
+      width: initial
+      border: none
+
+      .work-packages--panel-inner
+        padding: 5px 0 20px 0
+
+    .work-packages-full-view--split-right
+      width: initial
+      .tabrow
+        margin: 0.75rem 0 2.5rem 0
+
+      .work-packages--panel-inner
+        padding: 0
+        max-width: calc(100vw - 30px)
+
+    .work-packages-full-view--resizer
+      display: none
+
+@media print
+  #content-wrapper
+    @include work-packages--tablet-size-layout
+
+body.controller-work_packages.action-show
+  // ------------- FULL SCREEN -------------------
+  #content-wrapper[max-width~="1008px"]
+    @include work-packages--tablet-size-layout
 
 
-      .work-packages--show-view
-        &.edit-all-mode
-          .work-packages-full-view--split-right
-            display: none
-
-        ul#toolbar-items li .wp-create-button .dropdown
-          left: 0 !important
-
-      .work-packages-full-view--split-container
-        flex-direction: column
-        // Safari
-        height: initial
-        .work-packages-full-view--split-left
-          margin: 0
-          width: initial
-          border: none
-
-          .work-packages--panel-inner
-            padding: 5px 0 20px 0
-
-        .work-packages-full-view--split-right
-          width: initial
-          .tabrow
-            margin: 0.75rem 0 2.5rem 0
-
-          .work-packages--panel-inner
-            padding: 0
-            max-width: calc(100vw - 30px)
-
-        .work-packages-full-view--resizer
-          display: none
-
-@include breakpoint(1248px down)
-  body.controller-work_packages
+body.controller-work_packages
+  #content-wrapper[max-width~="1008px"]
     // --------------- ALL WP VIEWS ---------------
     .work-packages-tabletimeline--table-side
       contain: none
@@ -119,7 +121,6 @@
       font-size: 0.9rem
 
     .work-package--new-state
-      overflow: auto
       height: 100%
       padding-right: 0
 
@@ -132,8 +133,8 @@
       font-size: 1rem
 
 
-@include breakpoint(680px down)
-  body.controller-work_packages.action-show
+body.controller-work_packages.action-show
+  #content-wrapper[max-width~="680px"]
     #content
       position: relative
     .work-packages--show-view
@@ -150,7 +151,8 @@
     .work-packages-full-view--split-container
       border-top: none
 
-  body.controller-work_packages.action-details,
-  body.controller-work_packages.action-create
+body.controller-work_packages.action-details,
+body.controller-work_packages.action-create
+  #content-wrapper[max-width~="680x"]
     .work-packages-split-view--details-side
       overflow-x: auto

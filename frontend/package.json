@@ -74,6 +74,7 @@
     "contra": "^1.9.4",
     "core-js": "^2.5.1",
     "crossvent": "^1.5.4",
+    "css-element-queries": "^1.1.1",
     "custom-event": "^1.0.0",
     "dom-autoscroller": "^2.2.8",
     "dragula": "^3.5.2",

@@ -133,13 +133,13 @@
       &.inline-edit
         width: 75%
 
-@media only screen and (max-width: 1280px)
+#content-wrapper[max-width~="1280px"]
   .work-packages--details
     @at-root
       .detailsViewMenuItem
         display: block
 
-@media only screen and (max-width: 78rem)
+#content-wrapper[max-width~="1008px"]
   .work-packages--show-view
     // Important for Safari
     height: initial
@@ -147,7 +147,7 @@
     overflow: visible
     flex-basis: initial !important
 
-@media only screen and (max-width: 679px)
+#content-wrapper[max-width~="680px"]
   #toolbar
     #toolbar-items
       margin-left: 0
@@ -158,9 +158,9 @@
 
 .work-packages--show-view
   .wp-show--header-container
-    @media only screen and (max-width: 679px)
+    #content-wrapper[max-width~="680px"] &
       width: 100%
-    @media only screen and (min-width: 679px)
+    #content-wrapper[min-width~="681px"] &
       display: flex
       flex: 1 1 auto
       margin-bottom: 6px
@@ -217,7 +217,7 @@
     margin-right: 6px
 
 
-  @media only screen and (min-width: 679px)
+  #content-wrapper[min-width~="681px"] &
     .wp-edit-field--container.-active
       margin-right: 80px !important
       width: 95%
