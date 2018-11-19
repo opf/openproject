@@ -30,6 +30,7 @@ import {Injectable} from '@angular/core';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
+import {FormResource} from "core-app/modules/hal/resources/form-resource";
 
 @Injectable()
 export class GridDmService {
@@ -37,7 +38,12 @@ export class GridDmService {
               protected pathHelper:PathHelperService) {
   }
 
-  public load():Promise<GridResource> {
-    return this.halResourceService.get<GridResource>(this.pathHelper.api.v3.grids.id(42).toString()).toPromise();
+  public one(id:number):Promise<GridResource> {
+    return this.halResourceService.get<GridResource>(this.pathHelper.api.v3.grids.id(id).toString()).toPromise();
+  }
+
+  public createForm(payload:any) {
+    return this.halResourceService.post<FormResource>(this.pathHelper.api.v3.grids.createForm().toString(),
+                                                      payload).toPromise();
   }
 }

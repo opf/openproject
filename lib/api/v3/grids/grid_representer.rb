@@ -30,12 +30,18 @@ module API
   module V3
     module Grids
       class GridRepresenter < ::API::Decorators::Single
-        link :page do
-          {
-            href: my_page_path,
-            type: 'text/html'
-          }
-        end
+        include API::Decorators::LinkedResource
+
+        resource_link :page,
+                      getter: ->(*) {
+                        {
+                          href: represented.page,
+                          type: 'text/html'
+                        }
+                      },
+                      setter: ->(fragment:, **) {
+                        # nothing for now
+                      }
 
         self_link title_getter: ->(*) { nil }
 

@@ -30,4 +30,42 @@
 
 class MyPageGrid < Grid
   belongs_to :user
+
+  def self.new_default
+    new(
+      page: OpenProject::StaticRouting::StaticRouter.new.url_helpers.my_page_path,
+      row_count: 4,
+      column_count: 5,
+      widgets: [
+        GridWidget.new(
+          identifier: 'work_packages_assigned',
+          start_row: 4,
+          end_row: 5,
+          start_column: 1,
+          end_column: 2
+        ),
+        GridWidget.new(
+          identifier: 'work_packages_created',
+          start_row: 1,
+          end_row: 2,
+          start_column: 1,
+          end_column: 2
+        ),
+        GridWidget.new(
+          identifier: 'work_packages_watched',
+          start_row: 2,
+          end_row: 4,
+          start_column: 4,
+          end_column: 5
+        ),
+        GridWidget.new(
+          identifier: 'work_packages_calendar',
+          start_row: 1,
+          end_row: 2,
+          start_column: 4,
+          end_column: 6
+        )
+      ]
+    )
+  end
 end

@@ -39,4 +39,8 @@ export class Apiv3GridsPaths extends SimpleResourceCollection {
   public id(gridId:string|number) {
     return new SimpleResource(this.path, gridId);
   }
+
+  public createForm() {
+    return new SimpleResource(this.path, 'form');
+  }
 }

@@ -26,38 +26,25 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
+require 'api/v3/work_packages/work_package_payload_representer'
+
 module API
   module V3
-    module Grids
-      class CreateFormAPI < ::API::OpenProjectAPI
-        resource :form do
-          helpers do
-            include API::V3::Utilities::FormHelper
-          end
+    module Utilities
+      module FormHelper
+        extend Grape::API::Helpers
 
-          post do
-            params = API::V3::ParseResourceParamsService
-                     .new(current_user, representer: GridPayloadRepresenter)
-                     .call(request_body)
-                     .result
+        private
 
-            # TODO: determine grid class based on the page parameter
-            call = ::Grids::SetAttributesService
-                   .new(user: current_user, grid: MyPageGrid.new_default, contract_class: ::Grids::CreateContract)
-                   .call(params)
+        def only_validation_errors(errors)
+          errors.all? { |error| error.code == 422 }
+        end
 
-            api_errors = ::API::Errors::ErrorBase.create_errors(call.errors)
-
-            # errors for invalid data (e.g. validation errors) are handled inside the form
-            if only_validation_errors(api_errors)
-              status 200
-              CreateFormRepresenter.new(call.result,
-                                        errors: api_errors,
-                                        current_user: current_user)
-            else
-              fail ::API::Errors::MultipleErrors.create_if_many(api_errors)
-            end
-          end
+        def parse_body
+          ::API::V3::WorkPackages::ParseParamsService
+            .new(current_user)
+            .call(request_body)
+            .result
         end
       end
     end

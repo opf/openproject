@@ -1,7 +1,8 @@
 import {Component, OnInit, AfterViewInit, ComponentFactoryResolver, ElementRef, ViewChild, ViewContainerRef,
   ComponentRef,
   OnDestroy,
-  Injector} from "@angular/core";
+  Injector,
+  Input} from "@angular/core";
 import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
@@ -32,7 +33,7 @@ export interface GridArea {
   templateUrl: './grid.component.html',
   selector: 'grid'
 })
-export class GridComponent implements AfterViewInit, OnDestroy {
+export class GridComponent implements OnDestroy, OnInit {
   public uiWidgets:ComponentRef<any>[] = [];
   public widgetResources:GridWidgetResource[] = [];
   private numColumns:number = 0;
@@ -48,8 +49,9 @@ export class GridComponent implements AfterViewInit, OnDestroy {
   public resizeArea:GridArea|null;
   private mousedOverArea:GridArea|null;
 
-  constructor(readonly gridDm:GridDmService,
-              readonly resolver:ComponentFactoryResolver,
+  @Input() grid:GridResource;
+
+  constructor(readonly resolver:ComponentFactoryResolver,
               readonly Hook:HookService,
               private sanitization:DomSanitizer,
               private widgetsService:GridWidgetsService,
@@ -59,18 +61,16 @@ export class GridComponent implements AfterViewInit, OnDestroy {
     this.uiWidgets.forEach((widget) => widget.destroy());
   }
 
-  ngAfterViewInit() {
-    this.gridDm.load().then((grid:GridResource) => {
-      this.numRows = grid.rowCount;
-      this.numColumns = grid.columnCount;
+  ngOnInit() {
+    this.numRows = this.grid.rowCount;
+    this.numColumns = this.grid.columnCount;
 
-      // TODO: ensure they are casted to proper HalResources
-      this.widgetResources = grid.widgets;
+    // TODO: ensure they are casted to proper HalResources
+    this.widgetResources = this.grid.widgets;
 
-      this.gridAreas = this.buildGridAreas();
-      this.gridAreaDropIds = this.buildGridAreaDropIds();
-      this.gridWidgetAreas = this.buildWidgetGridAreas();
-    });
+    this.gridAreas = this.buildGridAreas();
+    this.gridAreaDropIds = this.buildGridAreaDropIds();
+    this.gridWidgetAreas = this.buildWidgetGridAreas();
   }
 
   public widgetComponent(widget:GridWidgetResource|null) {

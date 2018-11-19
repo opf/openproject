@@ -43,17 +43,18 @@ class Grids::SetAttributesService
 
   def call(attributes)
     set_attributes(attributes)
+
     validate_and_result
   end
 
   private
 
   def validate_and_result
-    success, errors = validate(work_package, user)
+    success, errors = validate(grid, user)
 
     ServiceResult.new(success: success,
                       errors: errors,
-                      result: work_package)
+                      result: grid)
   end
 
   def set_attributes(attributes)
