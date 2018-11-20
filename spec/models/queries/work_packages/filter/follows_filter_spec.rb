@@ -30,38 +30,10 @@ require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::FollowsFilter, type: :model do
   it_behaves_like 'filter by work package id' do
-    let(:class_key) { :follower }
+    let(:class_key) { :follows }
 
-    describe '#where' do
-      let!(:following_wp) { FactoryBot.create(:work_package, follows: [filter_wp]) }
-      let!(:filter_wp) { FactoryBot.create(:work_package) }
-      let!(:other_wp) { FactoryBot.create(:work_package) }
-
-      before do
-        instance.values = [filter_wp.id.to_s]
-      end
-
-      context "on '=' operator" do
-        before do
-          instance.operator = '='
-        end
-
-        it 'returns the preceding work packages' do
-          expect(WorkPackage.where(instance.where))
-            .to match_array [following_wp]
-        end
-      end
-
-      context "on '!' operator" do
-        before do
-          instance.operator = '!'
-        end
-
-        it 'returns the not preceding work packages' do
-          expect(WorkPackage.where(instance.where))
-            .to match_array [filter_wp, other_wp]
-        end
-      end
+    it_behaves_like 'filter for directed relation' do
+      let(:relation_type) { :follows }
     end
   end
 end

@@ -28,12 +28,12 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::PrecedesFilter, type: :model do
+describe Queries::WorkPackages::Filter::BlocksFilter, type: :model do
   it_behaves_like 'filter by work package id' do
-    let(:class_key) { :precedes }
+    let(:class_key) { :blocks }
 
     it_behaves_like 'filter for directed relation' do
-      let(:relation_type) { :precedes }
+      let(:relation_type) { :blocked_by }
     end
   end
 end

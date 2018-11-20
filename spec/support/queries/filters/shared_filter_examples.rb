@@ -530,3 +530,47 @@ shared_examples_for 'filter by work package id' do
     end
   end
 end
+
+shared_examples_for 'operators for relation filters' do
+  context "on '=' operator" do
+    before do
+      instance.operator = '='
+    end
+
+    it 'returns the related work packages' do
+      expect(WorkPackage.where(instance.where))
+        .to match_array [related_wp]
+    end
+  end
+
+  context "on '!' operator" do
+    before do
+      instance.operator = '!'
+    end
+
+    it 'returns the unrelated work packages' do
+      expect(WorkPackage.where(instance.where))
+        .to match_array [filter_value_wp, unrelated_wp]
+    end
+  end
+end
+
+shared_examples_for 'filter for directed relation' do
+  describe '#where' do
+    let!(:filter_value_wp) { FactoryBot.create(:work_package) }
+    let(:wp_relation_type) { defined?(:relation_type) ? relation_type : raise('needs to be defined') }
+    let!(:related_wp) do
+      relation = Hash.new
+      relation[wp_relation_type] = [filter_value_wp]
+      FactoryBot.create(:work_package, relation)
+    end
+
+    let!(:unrelated_wp) { FactoryBot.create(:work_package) }
+
+    before do
+      instance.values = [filter_value_wp.id.to_s]
+    end
+
+    it_behaves_like 'operators for relation filters'
+  end
+end
