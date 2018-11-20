@@ -31,6 +31,7 @@
   padding: rem-calc(10px)
   margin: 0
   min-inline-size: calc(100% - 40px)  // right and left margin
+  overflow: hidden
 
   &.collapsed
     display: none
@@ -40,70 +41,52 @@
     width: 1rem
     z-index: 2
 
-@mixin advanced-filters--sizing()
-  @include grid-block()
-
-  @include breakpoint(medium)
-    @include grid-size(12)
-
-  @include breakpoint(large)
-    @include grid-size(10)
-
-  @include breakpoint(xlarge)
-    @include grid-size(8)
-
-  @include breakpoint(xxlarge)
-    @include grid-size(6)
-
-  @include breakpoint(xxxlarge)
-    @include grid-size(5)
-
-.advanced-filters--filters
+.advanced-filters--filters,
+.simple-filters--filters
   list-style-type:  none
   margin:           20px 0 0 0
 
-  > li
+  > li:not(.simple-filters--controls)
     display: grid
-    grid-template-columns: 15% 20% auto 20px
+    grid-template-columns: 15% 20% auto 15px
     grid-gap: 10px
     align-items: center
     margin-bottom: 10px
     max-width: 100%
 
+  .advanced-filters--filter-name,
+  .advanced-filters--add-filter-label,
+    @include text-shortener
+    white-space:  normal
+    margin:       0
+
+  .advanced-filters--filter-value,
+  .advanced-filters--filter-operator
+    select,
+    .advanced-filters--number-field
+      @include form--input-field-mixin--small
+      @include form--input-field-mixin--narrow
+      flex: 0
+
+// The type="number" is required to be more specific
+.advanced-filters--number-field[type="number"]
+  @extend .form--text-field
+  text-align: right
+
 // The type="text" is required to be more specific
 .advanced-filters--text-field[type="text"],
-.advanced-filters--date-field[type="text"]
+.advanced-filters--date-field[type="text"],
   @extend .form--text-field
-  @include form--input-field-mixin--small
 
   &:required
     box-shadow: none
 
 .advanced-filters--select
   @extend .form--select
-  @include form--input-field-mixin--small
-  @include form--input-field-mixin--narrow
-  margin-bottom: 0
 
-filter-toggled-multiselect-value
-  .advanced-filters--select
-    width: 100%
+[multiple].advanced-filters--select
+  min-width: 200px
 
-// The type="number" is required to be more specific
-.advanced-filters--number-field[type="number"]
-  @extend .form--text-field
-  @include form--input-field-mixin--small
-
-.advanced-filters--filter-name,
-.advanced-filters--add-filter-label,
-.advanced-filters--filter-operator,
-.advanced-filters--filter-value,
-.advanced-filters--add-filter-value
-  @include text-shortener
-  white-space:  normal
-  max-width:    200px
-  min-width:    50px
-  margin:       0
 
 .advanced-filters--affix
   @extend .form--field-affix
