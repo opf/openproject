@@ -37,6 +37,18 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
     FactoryBot.create(:user)
   end
 
+  let(:my_page_grid) do
+    grid = MyPageGrid.new_default(current_user)
+    grid.save!
+    grid
+  end
+  let(:other_user) do
+    FactoryBot.create(:user)
+  end
+  let(:other_my_page_grid) do
+    MyPageGrid.new_default(other_user).save
+  end
+
   before do
     login_as(current_user)
   end
@@ -45,15 +57,6 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
 
   describe '#get INDEX' do
     let(:path) { api_v3_paths.grids }
-    shared_let(:my_page_grid) do
-      MyPageGrid.new_default(current_user).save
-    end
-    shared_let(:other_user) do
-      FactoryBot.create(:user)
-    end
-    shared_let(:other_my_page_grid) do
-      MyPageGrid.new_default(other_user).save
-    end
 
     let(:stored_grids) do
       my_page_grid
@@ -132,9 +135,15 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
   end
 
   describe '#get' do
-    let(:path) { api_v3_paths.grid(42) }
+    let(:path) { api_v3_paths.grid(my_page_grid.id) }
+
+    let(:stored_grids) do
+      my_page_grid
+    end
 
     before do
+      stored_grids
+
       get path
     end
 
@@ -153,19 +162,53 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
         .to be_json_eql(my_page_path.to_json)
         .at_path('_links/page/href')
     end
+
+    context 'with the page not existing' do
+      let(:path) { api_v3_paths.grid(5) }
+
+      it 'responds with 404 NOT FOUND' do
+        expect(subject.status).to eql 404
+      end
+    end
+
+    context 'with the grid belonging to someone else' do
+      let(:stored_grids) do
+        my_page_grid
+        other_my_page_grid
+      end
+
+      let(:path) { api_v3_paths.grid(other_my_page_grid) }
+
+      it 'responds with 404 NOT FOUND' do
+        expect(subject.status).to eql 404
+      end
+    end
   end
 
   describe '#patch' do
-    let(:path) { api_v3_paths.grid(42) }
+    let(:path) { api_v3_paths.grid(my_page_grid.id) }
 
     let(:params) do
       {
         "rowCount": 10,
-        "columnCount": 15
+        "columnCount": 15,
+        "widgets": [{
+          "identifier": "work_packages_assigned",
+          "startRow": 4,
+          "endRow": 8,
+          "startColumn": 2,
+          "endColumn": 5
+        }]
       }.with_indifferent_access
     end
 
+    let(:stored_grids) do
+      my_page_grid
+    end
+
     before do
+      stored_grids
+
       patch path, params.to_json, 'CONTENT_TYPE' => 'application/json'
     end
 
@@ -173,16 +216,42 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
       expect(subject.status).to eq(200)
     end
 
-    it 'sends a grid block' do
+    it 'returns the altered grid block' do
       expect(subject.body)
         .to be_json_eql('Grid'.to_json)
         .at_path('_type')
-    end
-
-    it 'returns the altered grid block' do
       expect(subject.body)
         .to be_json_eql(params['rowCount'].to_json)
         .at_path('rowCount')
+      expect(subject.body)
+        .to be_json_eql(params['widgets'][0]['identifier'].to_json)
+        .at_path('widgets/0/identifier')
+    end
+
+    it 'perists the changes' do
+      expect(my_page_grid.reload.row_count)
+        .to eql params['rowCount']
+    end
+
+    context 'with the page not existing' do
+      let(:path) { api_v3_paths.grid(5) }
+
+      it 'responds with 404 NOT FOUND' do
+        expect(subject.status).to eql 404
+      end
+    end
+
+    context 'with the grid belonging to someone else' do
+      let(:stored_grids) do
+        my_page_grid
+        other_my_page_grid
+      end
+
+      let(:path) { api_v3_paths.grid(other_my_page_grid) }
+
+      it 'responds with 404 NOT FOUND' do
+        expect(subject.status).to eql 404
+      end
     end
   end
 

@@ -32,5 +32,11 @@ require 'grids/base_contract'
 
 module Grids
   class CreateContract < BaseContract
+    # TODO: generalize
+    attribute :user_id,
+              writeable: -> { model.is_a?(MyPageGrid) }
+
+    # TODO: prevent that value from being set
+    attribute :type
   end
 end

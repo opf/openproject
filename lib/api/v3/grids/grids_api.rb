@@ -73,25 +73,31 @@ module API
           mount CreateFormAPI
 
           route_param :id do
+            before do
+              @grid = ::Queries::Grids::GridQuery
+                      .new(user: current_user)
+                      .results
+                      .where(id: params['id'])
+                      .first
+
+              raise ActiveRecord::RecordNotFound unless @grid
+            end
+
             get do
-              # TODO: replace mock with actual fetching
-              GridRepresenter.new(MyPageGrid.new_default(current_user),
+              GridRepresenter.new(@grid,
                                   current_user: current_user)
             end
 
             patch do
-              # TODO: replace mock with actual update
               params = API::V3::ParseResourceParamsService
                        .new(current_user, representer: GridRepresenter)
                        .call(request_body)
                        .result
 
-              # TODO: determine grid class based on the page parameter
-              call = ::Grids::SetAttributesService
+              call = ::Grids::UpdateService
                      .new(user: current_user,
-                          grid: MyPageGrid.new_default(current_user),
-                          contract_class: ::Grids::UpdateContract)
-                     .call(params)
+                          grid: @grid)
+                     .call(attributes: params)
 
               GridRepresenter.create(call.result,
                                      current_user: current_user,

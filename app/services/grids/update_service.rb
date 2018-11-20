@@ -28,35 +28,44 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'model_contract'
+class Grids::UpdateService
+  include ::Shared::ServiceContext
 
-module Grids
-  class BaseContract < ::ModelContract
-    attribute :row_count do
-      validate_positive_integer(:row_count)
+  attr_accessor :user,
+                :grid,
+                :contract_class
+
+  def initialize(user:, grid:, contract_class: Grids::UpdateContract)
+    self.user = user
+    self.grid = grid
+    self.contract_class = contract_class
+  end
+
+  def call(attributes: {})
+    in_context(false) do
+      create(attributes)
+    end
+  end
+
+  protected
+
+  def create(attributes)
+    set_attributes_call = set_attributes(attributes, grid)
+
+    if set_attributes_call.success? &&
+       !grid.save
+      set_attributes_call.errors = grid.errors
+      set_attributes_call.success = false
     end
 
-    attribute :column_count do
-      validate_positive_integer(:column_count)
-    end
+    set_attributes_call
+  end
 
-    attribute :widgets
-
-
-    def self.model
-      Grid
-    end
-
-    private
-
-    def validate_positive_integer(attribute)
-      value = model.send(attribute)
-
-      if !value
-        errors.add(attribute, :blank)
-      elsif value < 1
-        errors.add(attribute, :greater_than, count: 0)
-      end
-    end
+  def set_attributes(attributes, grid)
+    Grids::SetAttributesService
+      .new(user: user,
+           grid: grid,
+           contract_class: contract_class)
+      .call(attributes)
   end
 end
