@@ -111,7 +111,7 @@ PATH
   remote: modules/github_integration
   specs:
     openproject-github_integration (8.2.0)
-      openproject-webhooks (~> 8.2.0)
+      openproject-webhooks
       rails (~> 5.0)
 
 PATH

@@ -57,8 +57,7 @@ module OpenProject
       if revision.present?
         revision.strip[0..8]
       end
-    rescue => e
-      Rails.logger.warn("Tried to parse version REVISION, but failed with #{e.message}.")
+    rescue StandardError
       nil
     end
 
@@ -68,8 +67,7 @@ module OpenProject
         if File.exists? path
           File.read(path)
         end
-      rescue => e
-        Rails.logger.warn("Tried to parse PRODUCT_VERSION, but failed with #{e.message}.")
+      rescue StandardError
         nil
       end
 
@@ -103,8 +101,7 @@ module OpenProject
           s = File.read(path)
           Date.parse(s)
         end
-      rescue => e
-        Rails.logger.warn("Tried to parse RELEASE_DATE, but failed with #{e.message}.")
+      rescue StandardError
         nil
       end
 
@@ -115,7 +112,7 @@ module OpenProject
       defined?(@git_date) || @git_date = begin
         date, = Open3.capture3('git', 'log', '-1', '--format=%cd', '--date=short')
         Date.parse(date) if date
-      rescue
+      rescue StandardError
         nil
       end
 

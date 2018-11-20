@@ -1,4 +1,5 @@
 $:.push File.expand_path("../lib", __FILE__)
+$:.push File.expand_path("../../lib", __dir__)
 
 # Maintain your gem's version:
 require "open_project/reporting/version"
