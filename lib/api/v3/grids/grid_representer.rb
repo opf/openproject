@@ -34,6 +34,7 @@ module API
 
         resource_link :page,
                       getter: ->(*) {
+                        # TODO generalize
                         path = if represented.is_a?(::MyPageGrid)
                                  my_page_path
                                else

@@ -212,5 +212,10 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
         .to be_json_eql(params['rowCount'].to_json)
         .at_path('rowCount')
     end
+
+    it 'persists the grid' do
+      expect(Grid.count)
+        .to eql(1)
+    end
   end
 end
