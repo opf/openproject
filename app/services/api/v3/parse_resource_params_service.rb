@@ -38,7 +38,7 @@ module API
         self.model = model
 
         self.representer = if !representer && model
-                             "API::V3::#{model.to_s.pluralize}::#{model.to_s}Representer".constantize
+                             "API::V3::#{model.to_s.pluralize}::#{model}Representer".constantize
                            elsif representer
                              representer
                            else
