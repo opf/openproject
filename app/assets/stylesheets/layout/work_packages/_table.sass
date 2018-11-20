@@ -33,10 +33,6 @@
     #main
       top: 12px
 
-.controller-work_packages.action-index:not(.action-show):not(.full-create)
-  #content-wrapper
-    padding: 0 0 0 20px
-
 // Ensure correct height applied to child elements.
 // The dom looks like this:
 // flash (generated from rails - if it was generated when rendering the page)
@@ -54,10 +50,6 @@
   flex-direction: column
   height: 100%
 
-  > .toolbar-container
-    margin-top: 1rem
-    padding-right: 20px
-
   input[type="text"].toolbar--editable-toolbar
     font-size: 24px
 
@@ -66,7 +58,7 @@
     overflow: auto
     // Filters are hidden when not expanded
     // When expanded, add some distance to the table
-    margin: 0 20px 20px 0
+    margin-bottom: 10px
 
 // Outer Flex container for (table+timeline)|details
 .work-packages-split-view
@@ -74,6 +66,7 @@
   display: flex
   // Required for correctly scrolling the inner containers
   overflow: hidden
+  margin-right: -20px
 
   .row-hovered
     background: #E5F2FA
