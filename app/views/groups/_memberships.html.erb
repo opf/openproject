@@ -27,7 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% roles = Role.find_all_givable %>
-<% projects = Project.active.order('lft') %>
+<% projects = Project.active.order(Arel.sql('lft')) %>
 
 <div class="grid-block">
   <div class="grid-content">

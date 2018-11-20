@@ -253,7 +253,7 @@ module RbCommonHelper
   end
 
   def all_work_package_status
-    @all_work_package_status ||= Status.order('position ASC')
+    @all_work_package_status ||= Status.order(Arel.sql('position ASC'))
   end
 
   def backlogs_types
@@ -261,7 +261,7 @@ module RbCommonHelper
       backlogs_ids = Setting.plugin_openproject_backlogs['story_types']
       backlogs_ids << Setting.plugin_openproject_backlogs['task_type']
 
-      Type.where(id: backlogs_ids).order('position ASC')
+      Type.where(id: backlogs_ids).order(Arel.sql('position ASC'))
     end
   end
 

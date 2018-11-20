@@ -36,7 +36,7 @@ class VersionsController < ApplicationController
   before_action :authorize
 
   def index
-    @types = @project.types.order('position')
+    @types = @project.types.order(Arel.sql('position'))
     retrieve_selected_type_ids(@types, @types.select(&:is_in_roadmap?))
     @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_work_packages? : (params[:with_subprojects].to_i == 1)
     project_ids = @with_subprojects ? @project.self_and_descendants.map(&:id) : [@project.id]

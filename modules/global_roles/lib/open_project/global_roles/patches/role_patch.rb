@@ -31,7 +31,7 @@ module OpenProject::GlobalRoles::Patches
 
     module ClassMethods
       def find_all_givable
-        where(builtin: 0, type: 'Role').order('position')
+        where(builtin: 0, type: 'Role').order(Arel.sql('position'))
       end
     end
 

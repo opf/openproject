@@ -60,7 +60,7 @@ describe Redmine::Ciphering do
     end
 
     OpenProject::Configuration.with 'database_cipher_key' => 'secret' do
-      r = Repository.order('id DESC').first
+      r = Repository.order(Arel.sql('id DESC')).first
       assert_equal 'clear', r.password
     end
   end
@@ -74,7 +74,7 @@ describe Redmine::Ciphering do
 
     OpenProject::Configuration.with 'database_cipher_key' => 'secret' do
       assert Repository.encrypt_all(:password)
-      r = Repository.order('id DESC').first
+      r = Repository.order(Arel.sql('id DESC')).first
       assert_equal 'bar', r.password
       assert r.read_attribute(:password).match(/\Aaes-256-cbc:.+\Z/)
     end
@@ -87,7 +87,7 @@ describe Redmine::Ciphering do
       FactoryBot.create(:repository_subversion, password: 'bar')
 
       assert Repository.decrypt_all(:password)
-      r = Repository.order('id DESC').first
+      r = Repository.order(Arel.sql('id DESC')).first
       assert_equal 'bar', r.password
       assert_equal 'bar', r.read_attribute(:password)
     end

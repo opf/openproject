@@ -131,9 +131,12 @@ class ::Query::Results
 
   def order_option
     order_option = [group_by_sort_order].reject(&:blank?).join(', ')
-    order_option = nil if order_option.blank?
 
-    order_option
+    if order_option.blank?
+      nil
+    else
+      Arel.sql(order_option)
+    end
   end
 
   private

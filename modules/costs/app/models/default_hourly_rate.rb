@@ -26,7 +26,7 @@ class DefaultHourlyRate < Rate
   def next(reference_date = valid_from)
     DefaultHourlyRate
       .where(['user_id = ? and valid_from > ?', user_id, reference_date])
-      .order('valid_from ASC')
+      .order(Arel.sql('valid_from ASC'))
       .first
   end
 
@@ -37,7 +37,7 @@ class DefaultHourlyRate < Rate
   def self.at_for_user(date, user_id)
     user_id = user_id.id if user_id.is_a?(User)
 
-    where(['user_id = ? and valid_from <= ?', user_id, date]).order('valid_from DESC').first
+    where(['user_id = ? and valid_from <= ?', user_id, date]).order(Arel.sql('valid_from DESC')).first
   end
 
   private

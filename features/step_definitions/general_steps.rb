@@ -220,7 +220,7 @@ Given /^the type "(.+?)" has the default workflow for the role "(.+?)"$/ do |typ
   type = ::Type.find_by(name: type_name)
   type.workflows = []
 
-  Status.order('id ASC').map(&:id).combination(2).each do |c|
+  Status.order(Arel.sql('id ASC')).map(&:id).combination(2).each do |c|
     type.workflows.build(old_status_id: c[0], new_status_id: c[1], role: role)
   end
   type.save!

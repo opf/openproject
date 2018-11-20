@@ -173,12 +173,12 @@ class Changeset < ActiveRecord::Base
 
   # Returns the previous changeset
   def previous
-    @previous ||= Changeset.where(['id < ? AND repository_id = ?', id, repository_id]).order('id DESC').first
+    @previous ||= Changeset.where(['id < ? AND repository_id = ?', id, repository_id]).order(Arel.sql('id DESC')).first
   end
 
   # Returns the next changeset
   def next
-    @next ||= Changeset.where(['id > ? AND repository_id = ?', id, repository_id]).order('id ASC').first
+    @next ||= Changeset.where(['id > ? AND repository_id = ?', id, repository_id]).order(Arel.sql('id ASC')).first
   end
 
   # Creates a new Change from it's common parameters

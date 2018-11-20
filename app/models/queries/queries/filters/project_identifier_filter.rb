@@ -45,6 +45,6 @@ class Queries::Queries::Filters::ProjectIdentifierFilter < Queries::Queries::Fil
   end
 
   def allowed_values
-    Project.visible.pluck('name', 'identifier')
+    Project.visible.pluck(:name, :identifier)
   end
 end

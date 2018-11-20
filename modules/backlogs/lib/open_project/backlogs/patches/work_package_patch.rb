@@ -125,7 +125,7 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
       elsif self.is_task?
         # Make sure to get the closest ancestor that is a Story, i.e. the one with the highest lft
         # otherwise, the highest parent that is a Story is returned
-        story_work_package = ancestors.find_by(type_id: Story.types).order('lft DESC')
+        story_work_package = ancestors.find_by(type_id: Story.types).order(Arel.sql('lft DESC'))
         return Story.find(story_work_package.id) if story_work_package
       end
       nil

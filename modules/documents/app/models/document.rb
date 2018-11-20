@@ -79,7 +79,7 @@ class Document < ActiveRecord::Base
       # attachments has a default order that conflicts with `created_on DESC`
       # #reorder removes that default order but rather than #unscoped keeps the
       # scoping by this document
-      a = attachments.reorder('created_at DESC').first
+      a = attachments.reorder(Arel.sql('created_at DESC')).first
       @updated_on = (a && a.created_at) || created_on
     end
     @updated_on

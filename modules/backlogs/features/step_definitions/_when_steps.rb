@@ -84,7 +84,7 @@ When /^I move the story named (.+) (up|down) to the (\d+)(?:st|nd|rd|th) positio
   attributes[:prev] = if position == 1
                         ''
                       else
-                        stories = Story.where(fixed_version_id: sprint.id, type_id: Story.types).order('position ASC')
+                        stories = Story.where(fixed_version_id: sprint.id, type_id: Story.types).order(Arel.sql('position ASC'))
                         raise "You indicated an invalid position (#{position}) in a sprint with #{stories.length} stories" if 0 > position or position > stories.length
                         stories[position - (direction == 'up' ? 2 : 1)].id
                       end

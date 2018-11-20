@@ -190,7 +190,7 @@ describe WorkflowsController, type: :controller do
   def status_transitions(conditions)
     Workflow
       .where(conditions)
-      .order('type_id, role_id, old_status_id, new_status_id')
+      .order(Arel.sql('type_id, role_id, old_status_id, new_status_id'))
       .map { |w| [w.old_status, w.new_status_id] }
   end
 end

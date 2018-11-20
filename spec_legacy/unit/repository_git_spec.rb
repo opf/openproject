@@ -72,7 +72,7 @@ describe Repository::Git, type: :model do
     file_count = @repository.file_changes.count
     assert([33,34].include? file_count) # Mac OS X reports one file less changed
 
-    commit = @repository.changesets.reorder('committed_on ASC').first
+    commit = @repository.changesets.reorder(Arel.sql('committed_on ASC')).first
     assert_equal "Initial import.\nThe repository contains 3 files.", commit.comments
     assert_equal 'jsmith <jsmith@foo.bar>', commit.committer
     assert_equal User.find_by_login('jsmith'), commit.user
@@ -90,12 +90,12 @@ describe Repository::Git, type: :model do
   it 'should fetch changesets incremental' do
     @repository.fetch_changesets
     # Remove the 3 latest changesets
-    @repository.changesets.order('committed_on DESC').limit(8).each(&:destroy)
+    @repository.changesets.order(Arel.sql('committed_on DESC')).limit(8).each(&:destroy)
     @repository.reload
     cs1 = @repository.changesets
     assert_equal 14, cs1.count
 
-    rev_a_commit = @repository.changesets.order('committed_on DESC').first
+    rev_a_commit = @repository.changesets.order(Arel.sql('committed_on DESC')).first
     assert_equal 'ed5bb786bbda2dee66a2d50faf51429dbc043a7b', rev_a_commit.revision
     # Mon Jul 5 22:34:26 2010 +0200
     rev_a_committed_on = Time.gm(2010, 9, 18, 19, 59, 46)

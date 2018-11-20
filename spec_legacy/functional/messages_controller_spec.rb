@@ -57,13 +57,13 @@ describe MessagesController, type: :controller do
         message.children << m
       end
     end
-    get :show, params: { board_id: 1, id: 1, per_page: 100, r: message.children.order('id').last.id }
+    get :show, params: { board_id: 1, id: 1, per_page: 100, r: message.children.order(Arel.sql('id')).last.id }
     assert_response :success
     assert_template 'show'
     replies = assigns(:replies)
     refute_nil replies
-    assert !replies.include?(message.children.order('id').first)
-    assert replies.include?(message.children.order('id').last)
+    assert !replies.include?(message.children.order(Arel.sql('id')).first)
+    assert replies.include?(message.children.order(Arel.sql('id')).last)
   end
 
   it 'should show with reply permission' do
@@ -149,7 +149,7 @@ describe MessagesController, type: :controller do
   it 'should reply' do
     session[:user_id] = 2
     post :reply, params: { board_id: 1, id: 1, reply: { content: 'This is a test reply', subject: 'Test reply' } }
-    reply = Message.order('id DESC').first
+    reply = Message.order(Arel.sql('id DESC')).first
     assert_redirected_to topic_path(1, r: reply)
     assert Message.find_by(subject: 'Test reply')
   end

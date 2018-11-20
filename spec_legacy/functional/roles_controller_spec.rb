@@ -46,7 +46,7 @@ describe RolesController, type: :controller do
     assert_template 'index'
 
     refute_nil assigns(:roles)
-    assert_equal Role.order('builtin, position').to_a, assigns(:roles)
+    assert_equal Role.order(Arel.sql('builtin, position')).to_a, assigns(:roles)
 
     assert_select 'a',
                   attributes: { href: edit_role_path(1) },
@@ -153,7 +153,7 @@ describe RolesController, type: :controller do
     assert_template 'report'
 
     refute_nil assigns(:roles)
-    assert_equal Role.order('builtin, position'), assigns(:roles)
+    assert_equal Role.order(Arel.sql('builtin, position')), assigns(:roles)
 
     assert_select 'input', attributes: { type: 'checkbox',
                                          name: 'permissions[3][]',
