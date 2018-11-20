@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
-import {WidgetRegistration} from "core-components/grid/grid.component";
-import {HookService} from "core-app/modules/plugins/hook-service";
+import {WidgetRegistration} from "app/modules/grids/grid.component";
+import {HookService} from "app/modules/plugins/hook-service";
 
 @Injectable()
 export class GridWidgetsService {

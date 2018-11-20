@@ -1,5 +1,5 @@
 import {Component, HostBinding, Input, InjectionToken, Inject, Output, EventEmitter} from "@angular/core";
-import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
+import {GridWidgetResource} from "app/modules/hal/resources/grid-widget-resource";
 import {CdkDragStart} from "@angular/cdk/drag-drop";
 
 export abstract class AbstractWidgetComponent {

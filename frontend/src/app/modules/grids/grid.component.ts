@@ -1,19 +1,17 @@
 import {Component, OnInit, AfterViewInit, ComponentFactoryResolver, ElementRef, ViewChild, ViewContainerRef,
   ComponentRef,
   OnDestroy,
-  Injector,
   Input} from "@angular/core";
-import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
-import {GridResource} from "core-app/modules/hal/resources/grid-resource";
-import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
-import {HookService} from "core-app/modules/plugins/hook-service";
-import {debugLog} from "core-app/helpers/debug_output";
+import {GridResource} from "app/modules/hal/resources/grid-resource";
+import {GridWidgetResource} from "app/modules/hal/resources/grid-widget-resource";
+import {HookService} from "app/modules/plugins/hook-service";
+import {debugLog} from "app/helpers/debug_output";
 import {DomSanitizer} from "@angular/platform-browser";
-import {AbstractWidgetComponent} from "core-components/grid/widgets/abstract-widget.component";
 import {CdkDragDrop, CdkDragStart, CdkDragEnd} from "@angular/cdk/drag-drop";
-import {ResizeDelta} from "../../modules/common/resizer/resizer.component";
-import {GridWidgetsService} from "core-components/grid/widgets/widgets.service";
-import {AddGridWidgetService} from "core-components/grid/widgets/add/add.service";
+import {ResizeDelta} from "../common/resizer/resizer.component";
+import {GridWidgetsService} from "core-app/modules/grids/widgets/widgets.service";
+import {AddGridWidgetService} from "core-app/modules/grids/widgets/add/add.service";
+import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
 
 export interface WidgetRegistration {
   identifier:string;
@@ -44,7 +42,7 @@ export class GridComponent implements OnDestroy, OnInit {
   public currentlyDragging = false;
   public GRID_AREA_HEIGHT = 400;
 
-  public areaResources = [{component: AbstractWidgetComponent}];
+  public areaResources = [{component:AbstractWidgetComponent}];
 
   public resizeArea:GridArea|null;
   private mousedOverArea:GridArea|null;

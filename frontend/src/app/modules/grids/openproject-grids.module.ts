@@ -27,15 +27,7 @@
 // ++
 
 import {NgModule, APP_INITIALIZER, Injector} from '@angular/core';
-import {WidgetWpAssignedComponent} from "core-components/grid/widgets/wp-assigned/wp-assigned.component";
-import {WidgetWpCreatedComponent} from "core-components/grid/widgets/wp-created/wp-created.component";
-import {WidgetWpWatchedComponent} from "core-components/grid/widgets/wp-watched/wp-watched.component";
-import {WidgetWpCalendarComponent} from "core-components/grid/widgets/wp-calendar/wp-calendar.component";
 import {DynamicModule} from 'ng-dynamic-component';
-import {GridComponent} from "core-components/grid/grid.component";
-import {AddGridWidgetModal} from "core-components/grid/widgets/add/add.modal";
-import {AddGridWidgetService} from "core-components/grid/widgets/add/add.service";
-import {GridWidgetsService} from "core-components/grid/widgets/widgets.service";
 import {HookService} from "core-app/modules/plugins/hook-service";
 import {MyPageComponent} from "core-components/routing/my-page/my-page.component";
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
@@ -43,6 +35,14 @@ import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
+import {WidgetWpAssignedComponent} from "core-app/modules/grids/widgets/wp-assigned/wp-assigned.component.ts";
+import {WidgetWpCreatedComponent} from "core-app/modules/grids/widgets/wp-created/wp-created.component.ts";
+import {WidgetWpWatchedComponent} from "core-app/modules/grids/widgets/wp-watched/wp-watched.component.ts";
+import {WidgetWpCalendarComponent} from "core-app/modules/grids/widgets/wp-calendar/wp-calendar.component.ts";
+import {GridWidgetsService} from "core-app/modules/grids/widgets/widgets.service";
+import {AddGridWidgetService} from "core-app/modules/grids/widgets/add/add.service";
+import {GridComponent} from "core-app/modules/grids/grid.component";
+import {AddGridWidgetModal} from "core-app/modules/grids/widgets/add/add.modal";
 
 @NgModule({
   imports: [
@@ -52,7 +52,7 @@ import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/open
 
     OpenprojectCommonModule,
     OpenprojectWorkPackagesModule,
-    //Grids
+
     DynamicModule.withComponents([WidgetWpAssignedComponent,
                                   WidgetWpCreatedComponent,
                                   WidgetWpWatchedComponent,

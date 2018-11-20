@@ -1,8 +1,8 @@
 import {Injectable, Injector} from "@angular/core";
-import {OpModalService} from "core-components/op-modals/op-modal.service";
-import {AddGridWidgetModal} from "core-components/grid/widgets/add/add.modal";
-import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
-import {GridArea} from "core-components/grid/grid.component";
+import {OpModalService} from "app/components/op-modals/op-modal.service";
+import {AddGridWidgetModal} from "app/modules/grids/widgets/add/add.modal";
+import {GridWidgetResource} from "app/modules/hal/resources/grid-widget-resource";
+import {GridArea} from "app/modules/grids/grid.component";
 
 @Injectable()
 export class AddGridWidgetService {

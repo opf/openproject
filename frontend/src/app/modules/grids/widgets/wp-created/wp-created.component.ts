@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {AbstractWidgetComponent} from "core-components/grid/widgets/abstract-widget.component";
+import {AbstractWidgetComponent} from "app/modules/grids/widgets/abstract-widget.component";
 
 @Component({
   templateUrl: '../wp-widget/wp-widget.component.html',

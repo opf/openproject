@@ -1,9 +1,9 @@
 import {Component, ElementRef, Inject, ChangeDetectorRef} from "@angular/core";
-import {OpModalComponent} from "core-components/op-modals/op-modal.component";
-import {WidgetRegistration} from "core-components/grid/grid.component";
-import {OpModalLocalsToken} from "core-app/components/op-modals/op-modal.service";
-import {OpModalLocalsMap} from "core-app/components/op-modals/op-modal.types";
-import {GridWidgetsService} from "core-components/grid/widgets/widgets.service";
+import {OpModalComponent} from "app/components/op-modals/op-modal.component";
+import {WidgetRegistration} from "app/modules/grids/grid.component";
+import {OpModalLocalsToken} from "app/components/op-modals/op-modal.service";
+import {OpModalLocalsMap} from "app/components/op-modals/op-modal.types";
+import {GridWidgetsService} from "app/modules/grids/widgets/widgets.service";
 
 @Component({
   templateUrl: './add.modal.html'
