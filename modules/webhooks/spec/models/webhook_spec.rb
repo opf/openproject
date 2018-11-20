@@ -45,6 +45,7 @@ describe ::Webhooks::Webhook, type: :model do
     let(:project1) { FactoryBot.create :project }
 
     before do
+      subject.all_projects = false
       subject.projects << project1
       subject.save!
     end
@@ -52,6 +53,14 @@ describe ::Webhooks::Webhook, type: :model do
     it 'has an event association' do
       expect(subject.projects.count).to eq 1
       expect(subject.project_ids).to eq([project1.id])
+
+      expect(subject.enabled_for_project?(project1.id)).to be_truthy
+      expect(subject.enabled_for_project?(project1.id + 1)).to be_falsey
+
+      # When for all
+      subject.all_projects = true
+      expect(subject.enabled_for_project?(project1.id)).to be_truthy
+      expect(subject.enabled_for_project?(project1.id + 1)).to be_truthy
     end
   end
 end
