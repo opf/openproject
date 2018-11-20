@@ -44,8 +44,6 @@ require('jquery-ujs');
 
 require('expose-loader?mousetrap!mousetrap/mousetrap.js');
 
-require('expose-loader?ElementQueries!css-element-queries/src/ElementQueries.js');
-
 // Angular dependencies
 require('expose-loader?dragula!dragula/dist/dragula.min.js');
 require('@uirouter/angular');

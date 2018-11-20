@@ -27,6 +27,8 @@ OpenProject::Application.configure do
     work_packages.js
     vendor/ckeditor/ckeditor.*js
     vendor/enjoyhint.js
+    vendor/css-element-queries/ResizeSensor.js
+    vendor/css-element-queries/ElementQueries.js
     bundles/openproject-legacy-app.js
   )
 end
