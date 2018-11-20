@@ -43,7 +43,9 @@ module API
 
             # TODO: determine grid class based on the page parameter
             call = ::Grids::SetAttributesService
-                   .new(user: current_user, grid: MyPageGrid.new_default, contract_class: ::Grids::CreateContract)
+                   .new(user: current_user,
+                        grid: MyPageGrid.new_default(current_user),
+                        contract_class: ::Grids::CreateContract)
                    .call(params)
 
             api_errors = ::API::Errors::ErrorBase.create_errors(call.errors)

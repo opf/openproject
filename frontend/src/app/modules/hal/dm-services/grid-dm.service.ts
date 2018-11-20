@@ -31,6 +31,8 @@ import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.ser
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
+import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
+import {ApiV3FilterBuilder, FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 
 @Injectable()
 export class GridDmService {
@@ -40,6 +42,17 @@ export class GridDmService {
 
   public one(id:number):Promise<GridResource> {
     return this.halResourceService.get<GridResource>(this.pathHelper.api.v3.grids.id(id).toString()).toPromise();
+  }
+
+  public list(filterParams:[string, FilterOperator, [string]][]):Promise<CollectionResource> {
+    let filters = new ApiV3FilterBuilder();
+    filterParams.forEach((filterParam) => {
+      filters.add(...filterParam);
+    });
+
+    let params = `?${filters.toParams()}`;
+
+    return this.halResourceService.get<CollectionResource>(this.pathHelper.api.v3.grids.toString() + params).toPromise();
   }
 
   public createForm(payload:any) {
