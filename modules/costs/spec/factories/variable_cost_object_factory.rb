@@ -23,6 +23,6 @@ FactoryBot.define do
     sequence(:subject) do |n| "Cost Object No. #{n}" end
     sequence(:description) do |n| "I am a Cost Object No. #{n}" end
     association :author, factory: :user
-    fixed_date Time.now
+    fixed_date { Time.now }
   end
 end
