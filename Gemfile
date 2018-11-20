@@ -220,8 +220,8 @@ group :test do
   gem 'capybara', '~> 3.11.1'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
-  gem 'chromedriver-helper', '~> 1.2.0'
-  gem 'selenium-webdriver', '~> 3.11'
+  gem 'chromedriver-helper', '~> 2.1.0'
+  gem 'selenium-webdriver', '~> 3.14'
 
   gem 'fuubar', '~> 2.3.1'
   gem 'timecop', '~> 0.9.0'
