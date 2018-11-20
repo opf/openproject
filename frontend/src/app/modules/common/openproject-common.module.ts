@@ -172,6 +172,7 @@ export function bootstrapModule(injector:Injector) {
     TablePaginationComponent,
 
     OPContextMenuComponent,
+    ZenModeButtonComponent,
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: bootstrapModule, deps: [Injector], multi: true },

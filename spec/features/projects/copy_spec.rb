@@ -45,6 +45,9 @@ describe 'Projects copy',
     project.work_package_custom_fields << wp_custom_field
     project.types.first.custom_fields << wp_custom_field
 
+    # Enable wiki
+    project.enabled_module_names += ['wiki']
+
     project
   end
   let!(:parent_project) do
@@ -106,6 +109,14 @@ describe 'Projects copy',
                        custom_field_values: { wp_custom_field.id => 'Some wp cf text' })
   end
 
+  let!(:wiki) { project.wiki }
+  let!(:wiki_page) do
+    FactoryBot.create :wiki_page_with_content,
+                      title: 'Attached',
+                      wiki: wiki,
+                      attachments: [FactoryBot.build(:attachment, container: nil, filename: 'attachment.pdf')]
+  end
+
   before do
     login_as user
 
@@ -120,6 +131,9 @@ describe 'Projects copy',
 
     click_link 'Copy'
     fill_in 'Name', with: 'Copied project'
+
+    # Check copy wiki page attachments
+    check 'only_wiki_page_attachments'
 
     # the value of the custom field should be preselected
     expect(page)
@@ -163,6 +177,13 @@ describe 'Projects copy',
     end
 
     copied_settings_page.expect_type_inactive(inactive_type)
+
+    # Expect wiki was copied
+    expect(copied_project.wiki.pages.count).to eq(project.wiki.pages.count)
+    copied_page = copied_project.wiki.find_page 'Attached'
+    expect(copied_page).not_to be_nil
+    expect(copied_page.attachments.count).to eq 1
+    expect(copied_page.attachments.first.filename).to eq 'attachment.pdf'
 
     # custom field is copied over where the author is the current user
     # Using the db directly due to performance and clarity

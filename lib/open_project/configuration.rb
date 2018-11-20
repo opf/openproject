@@ -46,6 +46,7 @@ module OpenProject
       'database_cipher_key'     => nil,
       'force_help_link'         => nil,
       'force_formatting_help_link' => nil,
+      'show_community_links' => true,
       'log_level' => 'info',
       'scm_git_command'         => nil,
       'scm_subversion_command'  => nil,

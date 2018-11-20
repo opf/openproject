@@ -31,23 +31,7 @@
     // ------------- FULL SCREEN -------------------
     &.action-show
 
-
-      #main,
-      #content-wrapper,
-      #content
-        position: relative !important
-        width: 100%
-        margin-left: 0
-
-
-      #content-wrapper,
-      #content
-        height: 100% !important
-
       #main
-        padding-bottom: 0
-        height: calc(100vh - #{$header-height})
-
         #content-wrapper
           &.nomenus
             top: 0
@@ -147,28 +131,26 @@
       padding: 8px 0 !important
       font-size: 1rem
 
-    @include breakpoint(680px up)
-      &.action-show,
-      &.full-create
-        #main
-          #main-menu
-            height: initial
-            min-height: calc(100vh - 55px - 5px)
 
 @include breakpoint(680px down)
   body.controller-work_packages.action-show
+    #content
+      position: relative
     .work-packages--show-view
-      padding: 0
+      padding: 40px 0 0 0
 
     #toolbar-items
       position: absolute
-      top: 10px
+      top: 0
+      right: 0
       justify-content: flex-end
+
       .toolbar-item
         flex-grow: 0
     .work-packages-full-view--split-container
       border-top: none
 
-  body.controller-work_packages.action-details
+  body.controller-work_packages.action-details,
+  body.controller-work_packages.action-create
     .work-packages-split-view--details-side
       overflow-x: auto

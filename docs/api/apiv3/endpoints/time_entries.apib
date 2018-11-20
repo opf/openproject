@@ -331,6 +331,91 @@ There is no form and schema resource for time entries, yet.
                 }
             }
 
+## Update Time entry [PATCH]
+
+Updates the given time entry by applying the attributes provided in the body. Please note that while there is a fixed set of attributes, custom fields can extend a time entries' attributes and are accepted by the endpoint.
+
+There is no form and schema resource for time entries, yet.
+
++ Request Update time entry
+
+    + Body
+
+            {
+                "_links": {
+                  "activity": {
+                    "href": "/api/v3/time_entries/activities/18",
+                  },
+                  "workPackage": {
+                    "href": "/api/v3/work_packages/5"
+                  },
+                  "customField4": {
+                    "href": "/api/v3/users/5"
+                  },
+                  "customField51": {
+                    "href": "/api/v3/custom_options/11"
+                  }
+                },
+                "hours": 'PT5H',
+                "comment": "some comment",
+                "spentOn": "2017-07-28",
+                "customField1": {
+                  raw: 'some text custom field value'
+                },
+                "customField8": 5
+            }
+
++ Response 200
+
+    [Time entry][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** Edit (own) time entries, depending on what time entry is being modified.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
++ Response 422 (application/hal+json)
+
+    Returned if:
+
+    * a constraint for a property was violated (`PropertyConstraintViolation`)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "Work package is invalid.",
+                "_embedded": {
+                    "details": {
+                        "attribute"=>"workPackage"
+                    }
+                }
+            }
+
+
+
 
 # Group Time Entry Activities
 
