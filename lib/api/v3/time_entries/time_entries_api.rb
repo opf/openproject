@@ -107,10 +107,12 @@ module API
             end
 
             delete do
-              if ::TimeEntries::DeleteService.new(time_entry: @time_entry, user: current_user).call
+              call = ::TimeEntries::DeleteService.new(time_entry: @time_entry, user: current_user).call
+
+              if call.success?
                 status 202
               else
-                fail ::API::Errors::Unauthorized
+                fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
               end
             end
           end

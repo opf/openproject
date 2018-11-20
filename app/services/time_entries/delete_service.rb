@@ -48,5 +48,7 @@ class TimeEntries::DeleteService
     validate_and_yield(time_entry, user) do
       time_entry.destroy
     end
+
+    ServiceResult.new(success: result, errors: errors, result: result)
   end
 end

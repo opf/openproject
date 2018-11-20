@@ -537,5 +537,4 @@ describe 'API v3 time_entry resource', type: :request do
       end
     end
   end
-
 end

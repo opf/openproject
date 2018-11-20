@@ -133,7 +133,7 @@ Permanently deletes the specified time entry.
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
-                "message": "You are not allowed to delete this time entry."
+                "message": "You are not authorized to access this resource."
             }
 
 + Response 404 (application/hal+json)
@@ -145,7 +145,7 @@ Permanently deletes the specified time entry.
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
-                "message": "The specified user does not exist."
+                "message": "The requested resource could not be found."
             }
 
 
