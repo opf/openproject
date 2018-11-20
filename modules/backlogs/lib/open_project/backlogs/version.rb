@@ -33,8 +33,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'open_project/version'
+
 module OpenProject
   module Backlogs
-    VERSION = "8.2.0"
+    VERSION = ::OpenProject::VERSION.to_semver
   end
 end

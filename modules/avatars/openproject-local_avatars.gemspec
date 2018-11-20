@@ -1,6 +1,7 @@
 # encoding: UTF-8
 
 $:.push File.expand_path("../lib", __FILE__)
+$:.push File.expand_path("../../lib", __dir__)
 
 require 'open_project/avatars/version'
 # Describe your gem and declare its dependencies:
