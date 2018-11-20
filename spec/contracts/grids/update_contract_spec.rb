@@ -31,13 +31,13 @@
 require 'spec_helper'
 require_relative './shared_examples'
 
-describe Grids::CreateContract do
+describe Grids::UpdateContract do
   include_context 'grid contract'
 
   it_behaves_like 'shared grid contract attributes'
 
   describe 'type' do
-    it_behaves_like 'is writable' do
+    it_behaves_like 'is not writable' do
       let(:attribute) { :type }
       let(:value) { 'MyPageGrid' }
     end
@@ -47,17 +47,6 @@ describe Grids::CreateContract do
     it_behaves_like 'is not writable' do
       let(:attribute) { :user_id }
       let(:value) { 5 }
-    end
-
-    context 'for a MyPageGrid' do
-      let(:grid) do
-        FactoryBot.build_stubbed(:my_page_grid, default_values)
-      end
-
-      it_behaves_like 'is writable' do
-        let(:attribute) { :user_id }
-        let(:value) { 5 }
-      end
     end
   end
 end
