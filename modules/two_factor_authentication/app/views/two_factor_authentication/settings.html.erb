@@ -52,7 +52,7 @@
           <%= styled_check_box_tag 'settings[enforced]',
                                    '1',
                                    !!configuration[:enforced],
-                                   disabled: strategy_manager.enforced_by_configuration?(:enforced) || configuration[:active_strategies].empty?,
+                                   disabled: strategy_manager.enforced_by_configuration? || configuration[:active_strategies].empty?,
                                    container_class: '-middle' %>
         </div>
         <div class="form--field-instructions">
@@ -67,7 +67,6 @@
                                       min: '0',
                                       max: '365',
                                       step: '1',
-                                      disabled: strategy_manager.enforced_by_configuration?(:allow_remember_for_days),
                                       container_class: '-middle' %>
         </div>
         <div class="form--field-instructions">

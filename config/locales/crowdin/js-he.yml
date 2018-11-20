@@ -19,9 +19,9 @@ he:
     close_filter_title: Close filter
     close_form_title: Close form
     clipboard:
-      browser_error: Your browser doesn't support copying to clipboard. Please copy
-        the selected text manually.
-      copied_successful: Sucessfully copied to clipboard!
+      browser_error: הדפדפן שלך אינו תומך העתקה ללוח. נא להעתיק את הטקסט הנבחר באופן
+        ידני.
+      copied_successful: הועתק בהצלחה!
     button_add_watcher: הוספת צופה
     button_back_to_list_view: Back to list view
     button_cancel: ביטול

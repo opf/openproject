@@ -37,7 +37,6 @@ module API
   module V3
     module Queries
       class QueryParamsRepresenter
-
         def initialize(query)
           self.query = query
         end

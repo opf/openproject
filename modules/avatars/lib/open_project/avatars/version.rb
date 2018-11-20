@@ -1,5 +1,7 @@
+require 'open_project/version'
+
 module OpenProject
   module Avatars
-    VERSION = "8.2.0".freeze
+    VERSION = ::OpenProject::VERSION.to_semver
   end
 end

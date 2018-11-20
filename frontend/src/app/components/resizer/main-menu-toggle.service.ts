@@ -144,6 +144,13 @@ export class MainMenuToggleService {
   }
 
   public saveWidth(width?:number):void {
+    // Leave a minimum amount of space for space fot the content
+    let maxMenuWidth = window.innerWidth - 520;
+
+    if (width != undefined && width > maxMenuWidth) {
+      width = maxMenuWidth;
+    }
+
     this.setWidth(width);
     window.OpenProject.guardedLocalStorage(this.localStorageKey, String(this.elementWidth));
     this.setToggleTitle();

@@ -58,14 +58,16 @@ import {CopyToClipboardDirective} from "core-app/modules/common/copy-to-clipboar
 import {highlightColBootstrap} from "./highlight-col/highlight-col.directive";
 import {HookService} from "../plugins/hook-service";
 import {HTMLSanitizeService} from "./html-sanitize/html-sanitize.service";
-import {OpCkeditorComponent} from "core-app/modules/common/ckeditor/op-ckeditor.component";
-import {CKEditorSetupService} from "core-app/modules/common/ckeditor/ckeditor-setup.service";
-import {CKEditorPreviewService} from "core-app/modules/common/ckeditor/ckeditor-preview.service";
 import {ColorsAutocompleter} from "core-app/modules/common/colors/colors-autocompleter.component";
 import {DynamicCssService} from "./dynamic-css/dynamic-css.service";
 import {MultiToggledSelectComponent} from "core-app/modules/common/multi-toggled-select/multi-toggled-select.component";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 import {ResizerComponent} from "core-app/modules/common/resizer/resizer.component";
+import {TablePaginationComponent} from 'core-components/table-pagination/table-pagination.component';
+import {SortHeaderDirective} from 'core-components/wp-table/sort-header/sort-header.directive';
+import {ZenModeButtonComponent} from 'core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
+import {OPContextMenuComponent} from 'core-components/op-context-menu/op-context-menu.component';
+import {TimezoneService} from 'core-components/datetime/timezone.service';
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -111,10 +113,14 @@ export function bootstrapModule(injector:Injector) {
     // Multi select component
     MultiToggledSelectComponent,
 
-    // CKEditor
-    OpCkeditorComponent,
-
     ResizerComponent,
+
+    TablePaginationComponent,
+    SortHeaderDirective,
+
+    ZenModeButtonComponent,
+
+    OPContextMenuComponent,
   ],
   declarations: [
     OpDatePickerComponent,
@@ -134,6 +140,7 @@ export function bootstrapModule(injector:Injector) {
     UploadProgressComponent,
     OpDateTimeComponent,
 
+    OPContextMenuComponent,
     // Entries for ng1 downgraded components
     AttributeHelpTextComponent,
 
@@ -143,15 +150,18 @@ export function bootstrapModule(injector:Injector) {
     // Add functionality to rails rendered templates
     CopyToClipboardDirective,
 
-    // CKEditor
-    OpCkeditorComponent,
-
     CopyToClipboardDirective,
     ColorsAutocompleter,
 
     MultiToggledSelectComponent,
 
-    ResizerComponent
+    ResizerComponent,
+
+    TablePaginationComponent,
+    SortHeaderDirective,
+
+    // Zen mode button
+    ZenModeButtonComponent,
   ],
   entryComponents: [
     OpDateTimeComponent,
@@ -160,6 +170,11 @@ export function bootstrapModule(injector:Injector) {
     HighlightColDirective,
     HighlightColDirective,
     ColorsAutocompleter,
+
+    TablePaginationComponent,
+
+    OPContextMenuComponent,
+    ZenModeButtonComponent,
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: bootstrapModule, deps: [Injector], multi: true },
@@ -174,8 +189,8 @@ export function bootstrapModule(injector:Injector) {
     ConfigurationService,
     PathHelperService,
     HTMLSanitizeService,
-    CKEditorSetupService,
-    CKEditorPreviewService
+
+    TimezoneService,
   ]
 })
 export class OpenprojectCommonModule { }

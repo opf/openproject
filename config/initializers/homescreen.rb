@@ -32,25 +32,43 @@ require 'open_project/static/links'
 
 OpenProject::Static::Homescreen.manage :blocks do |blocks|
   blocks.push(
-    { partial: 'welcome',
-      if: Proc.new { Setting.welcome_on_homescreen? && Setting.welcome_text.present? } },
-    { partial: 'projects' },
-    { partial: 'users',
-      if: Proc.new { User.current.admin? } },
-    { partial: 'my_account',
-      if: Proc.new { User.current.logged? } },
-    { partial: 'news',
-      if: Proc.new { !@news.empty? } },
-    { partial: 'community' },
-    { partial: 'administration',
-      if: Proc.new { User.current.admin? } },
-    { partial: 'upsale',
-      if: Proc.new { EnterpriseToken.show_banners? } }
+    {
+      partial: 'welcome',
+      if: Proc.new { Setting.welcome_on_homescreen? && Setting.welcome_text.present? }
+    },
+    {
+      partial: 'projects'
+    },
+    {
+      partial: 'users',
+      if: Proc.new { User.current.admin? }
+    },
+    {
+      partial: 'my_account',
+      if: Proc.new { User.current.logged? }
+    },
+    {
+      partial: 'news',
+      if: Proc.new { !@news.empty? }
+    },
+    {
+      partial: 'community',
+      if: Proc.new { OpenProject::Configuration.show_community_links? }
+    },
+    {
+      partial: 'administration',
+      if: Proc.new { User.current.admin? }
+    },
+    {
+      partial: 'upsale',
+      if: Proc.new { EnterpriseToken.show_banners? }
+    }
   )
 end
 
 OpenProject::Static::Homescreen.manage :links do |links|
   static_links = OpenProject::Static::Links.links
+  next unless OpenProject::Configuration.show_community_links?
 
   links.push(
     {

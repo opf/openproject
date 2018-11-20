@@ -85,6 +85,26 @@ module API
                                           current_user: current_user,
                                           embed_links: true)
             end
+
+            patch do
+              params = API::V3::ParseResourceParamsService
+                       .new(current_user, TimeEntry, TimeEntryRepresenter)
+                       .call(request_body)
+                       .result
+
+              result = ::TimeEntries::UpdateService
+                       .new(time_entry: @time_entry, user: current_user)
+                       .call(attributes: params)
+
+              if result.success?
+                updated_entry = result.result
+                TimeEntryRepresenter.create(updated_entry,
+                                            current_user: current_user,
+                                            embed_links: true)
+              else
+                fail ::API::Errors::ErrorBase.create_and_merge_errors(result.errors)
+              end
+            end
           end
 
           mount ::API::V3::TimeEntries::TimeEntriesActivityAPI
