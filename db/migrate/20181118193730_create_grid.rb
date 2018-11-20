@@ -10,14 +10,11 @@ class CreateGrid < ActiveRecord::Migration[5.1]
     create_table :grids do |t|
       t.integer :row_count, null: false
       t.integer :column_count, null: false
-      t.string :page, null: false
       t.string :type
 
       t.references :user
 
       t.timestamps
-
-      t.index :page
     end
   end
 

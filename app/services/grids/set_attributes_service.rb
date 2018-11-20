@@ -58,6 +58,7 @@ class Grids::SetAttributesService
   end
 
   def set_attributes(attributes)
+    grid.attributes = attributes
     #if attributes.key?(:attachment_ids)
     #  work_package.attachments_replacements = Attachment.where(id: attributes[:attachment_ids])
     #end

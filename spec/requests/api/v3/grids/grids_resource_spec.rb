@@ -41,10 +41,99 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
     login_as(current_user)
   end
 
-  let(:path) { api_v3_paths.grid(42) }
   subject(:response) { last_response }
 
+  describe '#get INDEX' do
+    let(:path) { api_v3_paths.grids }
+    shared_let(:my_page_grid) do
+      MyPageGrid.new_default(current_user).save
+    end
+    shared_let(:other_user) do
+      FactoryBot.create(:user)
+    end
+    shared_let(:other_my_page_grid) do
+      MyPageGrid.new_default(other_user).save
+    end
+
+    let(:stored_grids) do
+      my_page_grid
+      other_my_page_grid
+    end
+
+    before do
+      stored_grids
+
+      get path
+    end
+
+    it 'responds with 200 OK' do
+      expect(subject.status).to eq(200)
+    end
+
+    it 'sends a collection of grids but only those visible to the current user' do
+      expect(subject.body)
+        .to be_json_eql('Collection'.to_json)
+        .at_path('_type')
+
+      expect(subject.body)
+        .to be_json_eql('Grid'.to_json)
+        .at_path('_embedded/elements/0/_type')
+
+      expect(subject.body)
+        .to be_json_eql(1.to_json)
+        .at_path('total')
+    end
+
+    context 'with a filter on the page attribute' do
+      shared_let(:other_grid) do
+        grid = Grid.new(row_count: 20,
+                        column_count: 20)
+        grid.save
+
+        Grid.where(id: grid.id).update_all(user_id: current_user.id)
+
+        grid
+      end
+
+      let(:stored_grids) do
+        my_page_grid
+        other_my_page_grid
+        other_grid
+      end
+
+      let(:path) do
+        filter = [{ 'page' =>
+                    {
+                      'operator' => '=',
+                      'values' => [my_page_path]
+                    } }]
+
+        "#{api_v3_paths.grids}?#{{ filters: filter.to_json }.to_query}"
+      end
+
+      it 'responds with 200 OK' do
+        expect(subject.status).to eq(200)
+      end
+
+      it 'sends only the my page of the current user' do
+        expect(subject.body)
+          .to be_json_eql('Collection'.to_json)
+          .at_path('_type')
+
+        expect(subject.body)
+          .to be_json_eql('Grid'.to_json)
+          .at_path('_embedded/elements/0/_type')
+
+        expect(subject.body)
+          .to be_json_eql(1.to_json)
+          .at_path('total')
+      end
+    end
+  end
+
   describe '#get' do
+    let(:path) { api_v3_paths.grid(42) }
+
     before do
       get path
     end
@@ -67,6 +156,8 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
   end
 
   describe '#patch' do
+    let(:path) { api_v3_paths.grid(42) }
+
     let(:params) do
       {
         "rowCount": 10,

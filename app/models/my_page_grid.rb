@@ -31,9 +31,9 @@
 class MyPageGrid < Grid
   belongs_to :user
 
-  def self.new_default
+  def self.new_default(user)
     new(
-      page: OpenProject::StaticRouting::StaticRouter.new.url_helpers.my_page_path,
+      user: user,
       row_count: 4,
       column_count: 5,
       widgets: [

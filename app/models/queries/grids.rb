@@ -28,6 +28,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Grid < ActiveRecord::Base
-  has_many :widgets, class_name: 'GridWidget'
+module Queries::Grids
+  query = Queries::Grids::GridQuery
+
+  Queries::Register.filter query, Queries::Grids::Filters::PageFilter
 end

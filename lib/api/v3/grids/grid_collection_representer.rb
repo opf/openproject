@@ -28,6 +28,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Grid < ActiveRecord::Base
-  has_many :widgets, class_name: 'GridWidget'
+module API
+  module V3
+    module Grids
+      class GridCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
+        element_decorator ::API::V3::Grids::GridRepresenter
+      end
+    end
+  end
 end

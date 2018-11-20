@@ -28,6 +28,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Grid < ActiveRecord::Base
-  has_many :widgets, class_name: 'GridWidget'
+class Queries::Grids::Filters::GridFilter < Queries::Filters::Base
+  self.model = Grid
+
+  def human_name
+    Grid.human_attribute_name(name)
+  end
 end

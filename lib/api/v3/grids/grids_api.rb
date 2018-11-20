@@ -32,46 +32,23 @@ module API
       class GridsAPI < ::API::OpenProjectAPI
         resources :grids do
           helpers do
-            def bogus_grid
-              OpenStruct.new(
-                row_count: 4,
-                column_count: 5,
-                widgets: [
-                  OpenStruct.new(
-                    identifier: 'work_packages_assigned',
-                    start_row: 4,
-                    end_row: 5,
-                    start_column: 1,
-                    end_column: 2
-                  ),
-                  OpenStruct.new(
-                    identifier: 'work_packages_created',
-                    start_row: 1,
-                    end_row: 2,
-                    start_column: 1,
-                    end_column: 2
-                  ),
-                  OpenStruct.new(
-                    identifier: 'work_packages_watched',
-                    start_row: 2,
-                    end_row: 4,
-                    start_column: 4,
-                    end_column: 5
-                  ),
-                  OpenStruct.new(
-                    identifier: 'work_packages_calendar',
-                    start_row: 1,
-                    end_row: 2,
-                    start_column: 4,
-                    end_column: 6
-                  )
-                ]
-              )
-            end
+            include API::Utilities::ParamsHelper
           end
 
           get do
+            query = ParamsToQueryService
+                    .new(Grid, current_user)
+                    .call(params)
 
+            if query.valid?
+              GridCollectionRepresenter.new(query.results,
+                                            api_v3_paths.time_entries,
+                                            page: to_i_or_nil(params[:offset]),
+                                            per_page: resolve_page_size(params[:pageSize]),
+                                            current_user: current_user)
+            else
+              raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
+            end
           end
 
           post do
@@ -81,10 +58,15 @@ module API
                      .call(request_body)
                      .result
 
-            grid = OpenStruct.new(bogus_grid.to_h.merge(params))
+            # TODO: determine grid class based on the page parameter
+            call = ::Grids::SetAttributesService
+                   .new(user: current_user,
+                        grid: MyPageGrid.new_default(current_user),
+                        contract_class: ::Grids::CreateContract)
+                   .call(params)
 
             status 201
-            GridRepresenter.create(grid,
+            GridRepresenter.create(call.result,
                                    current_user: current_user,
                                    embed_links: true)
           end
@@ -94,7 +76,8 @@ module API
           route_param :id do
             get do
               # TODO: replace mock with actual fetching
-              GridRepresenter.new(bogus_grid, current_user: current_user)
+              GridRepresenter.new(MyPageGrid.new_default(current_user),
+                                  current_user: current_user)
             end
 
             patch do
@@ -104,9 +87,14 @@ module API
                        .call(request_body)
                        .result
 
-              grid = OpenStruct.new(bogus_grid.to_h.merge(params))
+              # TODO: determine grid class based on the page parameter
+              call = ::Grids::SetAttributesService
+                       .new(user: current_user,
+                            grid: MyPageGrid.new_default(current_user),
+                            contract_class: ::Grids::UpdateContract)
+                       .call(params)
 
-              GridRepresenter.create(grid,
+              GridRepresenter.create(call.result,
                                      current_user: current_user,
                                      embed_links: true)
             end

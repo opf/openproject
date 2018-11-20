@@ -34,7 +34,8 @@ module Grids
   class BaseContract < ::ModelContract
     attribute :row_count
     attribute :column_count
-    attribute :page
+    # TODO: check how this can be restricted to only MyPage
+    attribute :user
     attribute :widgets
 
     def self.model

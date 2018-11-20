@@ -34,8 +34,14 @@ module API
 
         resource_link :page,
                       getter: ->(*) {
+                        path = if represented.is_a?(::MyPageGrid)
+                                 my_page_path
+                               else
+                                 raise "undefined error"
+                               end
+
                         {
-                          href: represented.page,
+                          href: path,
                           type: 'text/html'
                         }
                       },

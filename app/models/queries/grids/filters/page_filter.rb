@@ -28,6 +28,29 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Grid < ActiveRecord::Base
-  has_many :widgets, class_name: 'GridWidget'
+class Queries::Grids::Filters::PageFilter < Queries::Grids::Filters::GridFilter
+  def allowed_values
+    # TODO: generalize
+    [OpenProject::StaticRouting::StaticUrlHelpers.new.my_page_path]
+  end
+
+  def type
+    :string
+  end
+
+  def self.key
+    :page
+  end
+
+  def where
+    # TODO: generalize
+    actual_values = [MyPageGrid.name]
+    operator_strategy.sql_for_field(actual_values,
+                                    self.class.model.table_name,
+                                    'type')
+  end
+
+  def available_operators
+    [::Queries::Operators::Equals]
+  end
 end

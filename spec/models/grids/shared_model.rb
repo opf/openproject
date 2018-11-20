@@ -40,12 +40,6 @@ shared_examples_for 'grid attributes' do
         .to eql 5
     end
 
-    it '#page' do
-      instance.page = 'some_page/at/a/url'
-      expect(instance.page)
-        .to eql 'some_page/at/a/url'
-    end
-
     it '#widgets' do
       widgets = [
         GridWidget.new(start_row: 2),

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,6 +26,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Grid < ActiveRecord::Base
-  has_many :widgets, class_name: 'GridWidget'
+class Queries::Grids::GridQuery < Queries::BaseQuery
+  def self.model
+    Grid
+  end
+
+  def default_scope
+    # TODO: introduce visible scope
+    #Grid.visible(User.current)
+    Grid.where(user_id: User.current.id)
+  end
 end
