@@ -192,7 +192,14 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
     let(:params) do
       {
         "rowCount": 10,
-        "columnCount": 15
+        "columnCount": 15,
+        "widgets": [{
+          "identifier": "work_packages_assigned",
+          "startRow": 4,
+          "endRow": 8,
+          "startColumn": 2,
+          "endColumn": 5
+        }]
       }.with_indifferent_access
     end
 
@@ -211,11 +218,53 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
       expect(subject.body)
         .to be_json_eql(params['rowCount'].to_json)
         .at_path('rowCount')
+      expect(subject.body)
+        .to be_json_eql(params['widgets'][0]['identifier'].to_json)
+        .at_path('widgets/0/identifier')
     end
 
     it 'persists the grid' do
       expect(Grid.count)
         .to eql(1)
+    end
+
+    context 'with invalid params' do
+      let(:params) do
+        {
+          "rowCount": -5,
+          "columnCount": "sdjfksdfsdfdsf",
+          "widgets": [{
+            "identifier": "work_packages_assigned",
+            "startRow": 4,
+            "endRow": 8,
+            "startColumn": 2,
+            "endColumn": 5
+          }]
+        }.with_indifferent_access
+      end
+
+      it 'responds with 422' do
+        expect(subject.status).to eq(422)
+      end
+
+      it 'does not create a grid' do
+        expect(Grid.count)
+          .to eql(0)
+      end
+
+      it 'returns the errors' do
+        expect(subject.body)
+          .to be_json_eql('Error'.to_json)
+          .at_path('_type')
+
+        expect(subject.body)
+          .to be_json_eql("Row count must be greater than 0.".to_json)
+          .at_path('_embedded/errors/0/message')
+
+        expect(subject.body)
+          .to be_json_eql("Column count must be greater than 0.".to_json)
+          .at_path('_embedded/errors/1/message')
+      end
     end
   end
 end

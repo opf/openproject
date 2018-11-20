@@ -32,14 +32,36 @@ require 'model_contract'
 
 module Grids
   class BaseContract < ::ModelContract
-    attribute :row_count
-    attribute :column_count
-    # TODO: check how this can be restricted to only MyPage
-    attribute :user
+    attribute :row_count do
+      validate_positive_integer(:row_count)
+    end
+
+    attribute :column_count do
+      validate_positive_integer(:column_count)
+    end
+
     attribute :widgets
+
+    # TODO: generalize
+    attribute :user_id,
+              writeable: -> { model.is_a?(MyPageGrid) }
+    # TODO: prevent that value from being set
+    attribute :type
 
     def self.model
       Grid
+    end
+
+    private
+
+    def validate_positive_integer(attribute)
+      value = model.send(attribute)
+
+      if !value
+        errors.add(attribute, :blank)
+      elsif value < 1
+        errors.add(attribute, :greater_than, count: 0)
+      end
     end
   end
 end

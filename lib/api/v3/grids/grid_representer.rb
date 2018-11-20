@@ -66,7 +66,7 @@ module API
                  setter: ->(fragment:, **) do
                    represented.widgets = fragment.map do |widget_fragment|
                      WidgetRepresenter
-                       .new(OpenStruct.new, current_user: current_user)
+                       .new(GridWidget.new, current_user: current_user)
                        .from_hash(widget_fragment.with_indifferent_access)
                    end
                  end

@@ -52,23 +52,22 @@ module API
           end
 
           post do
-            # TODO: replace mock with actual creation
             params = API::V3::ParseResourceParamsService
                      .new(current_user, representer: GridRepresenter)
                      .call(request_body)
                      .result
 
-            # TODO: determine grid class based on the page parameter
-            call = ::Grids::SetAttributesService
-                   .new(user: current_user,
-                        grid: MyPageGrid.new_default(current_user),
-                        contract_class: ::Grids::CreateContract)
-                   .call(params)
+            call = ::Grids::CreateService
+                   .new(user: current_user)
+                   .call(attributes: params)
 
-            status 201
-            GridRepresenter.create(call.result,
-                                   current_user: current_user,
-                                   embed_links: true)
+            if call.success?
+              GridRepresenter.create(call.result,
+                                     current_user: current_user,
+                                     embed_links: true)
+            else
+              fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
+            end
           end
 
           mount CreateFormAPI
@@ -89,10 +88,10 @@ module API
 
               # TODO: determine grid class based on the page parameter
               call = ::Grids::SetAttributesService
-                       .new(user: current_user,
-                            grid: MyPageGrid.new_default(current_user),
-                            contract_class: ::Grids::UpdateContract)
-                       .call(params)
+                     .new(user: current_user,
+                          grid: MyPageGrid.new_default(current_user),
+                          contract_class: ::Grids::UpdateContract)
+                     .call(params)
 
               GridRepresenter.create(call.result,
                                      current_user: current_user,

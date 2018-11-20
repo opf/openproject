@@ -38,8 +38,16 @@ describe Grids::CreateContract do
   let(:instance) { described_class.new(grid, user) }
 
   shared_examples_for 'is writable' do
+    let(:default_values) do
+      {
+        row_count: 6,
+        column_count: 7
+      }
+    end
     let(:grid) do
-      FactoryBot.build_stubbed(:grid, attribute => value)
+      attributes = default_values.merge(attribute => value)
+
+      FactoryBot.build_stubbed(:grid, attributes)
     end
 
     it 'is writable' do
@@ -48,10 +56,36 @@ describe Grids::CreateContract do
     end
   end
 
+  shared_examples_for 'validates positive integer' do
+    context 'when the value is negative' do
+      let(:value) { -1 }
+
+      it 'is invalid' do
+        instance.validate
+
+        expect(instance.errors.details[attribute])
+          .to match_array [{ error: :greater_than, count: 0 }]
+      end
+    end
+
+    context 'when the value is nil' do
+      let(:value) { nil }
+
+      it 'is invalid' do
+        instance.validate
+
+        expect(instance.errors.details[attribute])
+          .to match_array [{ error: :blank }]
+      end
+    end
+  end
+
   describe 'row_count' do
     it_behaves_like 'is writable' do
       let(:attribute) { :row_count }
       let(:value) { 5 }
+
+      it_behaves_like 'validates positive integer'
     end
   end
 
@@ -59,13 +93,8 @@ describe Grids::CreateContract do
     it_behaves_like 'is writable' do
       let(:attribute) { :column_count }
       let(:value) { 5 }
-    end
-  end
 
-  describe 'page' do
-    it_behaves_like 'is writable' do
-      let(:attribute) { :page }
-      let(:value) { 'some/other/page' }
+      it_behaves_like 'validates positive integer'
     end
   end
 
