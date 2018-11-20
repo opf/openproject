@@ -100,7 +100,7 @@ module Pages
         raise ArgumentError, "Invalid value"
       end
 
-      expect(page).to have_selector(".wp-table-timeline--header-inner[data-current-zoom-level='#{value}'")
+      expect(page).to have_selector(".wp-table-timeline--header-inner[data-current-zoom-level='#{value}']")
     end
 
     def expect_timeline_element(work_package)
