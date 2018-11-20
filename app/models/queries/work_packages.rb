@@ -66,6 +66,8 @@ module Queries::WorkPackages
   register.filter Query, filters_module::DuplicatedByFilter
   register.filter Query, filters_module::BlocksFilter
   register.filter Query, filters_module::BlockedByFilter
+  register.filter Query, filters_module::PartOfFilter
+  register.filter Query, filters_module::IncludesFilter
   register.filter Query, filters_module::RequiresFilter
   register.filter Query, filters_module::RequiredByFilter
 

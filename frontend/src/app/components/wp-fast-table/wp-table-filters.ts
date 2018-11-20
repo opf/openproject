@@ -46,6 +46,8 @@ export class WorkPackageTableFilters extends WorkPackageTableBaseState<QueryFilt
     'duplicatedBy',
     'blocks',
     'blockedBy',
+    'partOf',
+    'includes',
     'requires',
     'requiredBy',
   ];

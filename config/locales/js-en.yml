@@ -380,6 +380,8 @@ en:
           duplicated_by: "duplicated by"
           blocks: "blocking"
           blocked_by: "blocked by"
+          part_of: "being part of"
+          includes: "including"
           requires: "requiring"
           required_by: "required by"
 

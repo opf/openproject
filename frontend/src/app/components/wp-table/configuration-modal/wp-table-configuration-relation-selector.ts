@@ -25,6 +25,8 @@ export class WpTableConfigurationRelationSelectorComponent implements OnInit  {
     'duplicatedBy',
     'blocks',
     'blockedBy',
+    'partOf',
+    'includes',
     'requires',
     'requiredBy'
   ];
@@ -45,7 +47,9 @@ export class WpTableConfigurationRelationSelectorComponent implements OnInit  {
     blocks:        this.I18n.t('js.types.attribute_groups.filter_types.blocks'),
     blockedBy:     this.I18n.t('js.types.attribute_groups.filter_types.blocked_by'),
     requires:      this.I18n.t('js.types.attribute_groups.filter_types.requires'),
-    requiredBy:    this.I18n.t('js.types.attribute_groups.filter_types.required_by')
+    requiredBy:    this.I18n.t('js.types.attribute_groups.filter_types.required_by'),
+    partOf:        this.I18n.t('js.types.attribute_groups.filter_types.part_of'),
+    includes:      this.I18n.t('js.types.attribute_groups.filter_types.includes')
   };
 
   // public impaired = this.ConfigurationService.accessibilityModeEnabled();
