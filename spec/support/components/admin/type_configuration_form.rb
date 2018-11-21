@@ -42,8 +42,8 @@ module Components
         page.find 'a', text: I18n.t('types.edit.add_group')
       end
 
-      def add_subelements_button
-        page.find 'a', text: I18n.t('types.edit.add_subelements')
+      def add_table_button
+        page.find 'a', text: I18n.t('types.edit.add_table')
       end
 
       def reset_button
@@ -123,9 +123,15 @@ module Components
           .perform
       end
 
-      def add_query_group(name, expect: true)
+      def add_query_group(name, relation_filter, expect: true)
         add_button_dropdown.click
-        add_subelements_button.click
+        add_table_button.click
+
+        modal = ::Components::WorkPackages::TableConfigurationModal.new
+        within find('.relation-filter-selector') do
+          select I18n.t("js.types.attribute_groups.filter_types.#{relation_filter}")
+        end
+        modal.save
 
         input = find('.group-edit-in-place--input')
         input.set(name)

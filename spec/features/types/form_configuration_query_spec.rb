@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'form subelements configuration', type: :feature, js: true do
+describe 'form query configuration', type: :feature, js: true do
   let(:admin) { FactoryBot.create :admin }
   let(:type_bug) { FactoryBot.create :type_bug }
   let(:type_task) { FactoryBot.create :type_task }
@@ -74,7 +74,7 @@ describe 'form subelements configuration', type: :feature, js: true do
     end
 
     it 'can save an empty query group' do
-      form.add_query_group('Empty test')
+      form.add_query_group('Empty test', :parent)
       form.save_changes
       expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
       type_bug.reload
@@ -84,8 +84,8 @@ describe 'form subelements configuration', type: :feature, js: true do
       expect(query_group.key).to eq('Empty test')
     end
 
-    it 'loads the subelements from the table split view (Regression #28490)' do
-      form.add_query_group('Subtasks')
+    it 'loads the children from the table split view (Regression #28490)' do
+      form.add_query_group('Subtasks', :parent)
       # Save changed query
       form.save_changes
       expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
@@ -109,7 +109,7 @@ describe 'form subelements configuration', type: :feature, js: true do
     end
 
     it 'can modify and keep changed columns (Regression #27604)' do
-      form.add_query_group('Columns Test')
+      form.add_query_group('Columns Test', :parent)
       form.edit_query_group('Columns Test')
 
       # Restrict filters to type_task
@@ -132,7 +132,7 @@ describe 'form subelements configuration', type: :feature, js: true do
       column_names = query.attributes.columns.map(&:name).sort
       expect(column_names).to eq %i[id subject]
 
-      form.add_query_group('Second query')
+      form.add_query_group('Second query', :parent)
       form.edit_query_group('Second query')
 
       # Restrict filters to type_task
@@ -174,8 +174,8 @@ describe 'form subelements configuration', type: :feature, js: true do
       columns.apply
     end
 
-    it 'can create and save embedded subelements' do
-      form.add_query_group('Subtasks')
+    it 'can create and save an embedded children table' do
+      form.add_query_group('Subtasks', :parent)
       form.edit_query_group('Subtasks')
 
       # Expect disabled tabs for timelines and display mode
@@ -185,7 +185,8 @@ describe 'form subelements configuration', type: :feature, js: true do
       # Restrict filters to type_task
       modal.expect_open
       modal.switch_to 'Filters'
-      filters.expect_filter_count 1
+      # the parent filter should be hidden in the Filters tab
+      filters.expect_filter_count 0
       filters.add_filter_by('Type', 'is', type_task.name)
       filters.save
 
@@ -212,7 +213,7 @@ describe 'form subelements configuration', type: :feature, js: true do
       # Expect filter still there
       modal.expect_open
       modal.switch_to 'Filters'
-      filters.expect_filter_count 2
+      filters.expect_filter_count 1
       filters.expect_filter_by 'Type', 'is', type_task.name
 
       # Remove the filter again

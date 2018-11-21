@@ -41,7 +41,7 @@ export class WpTableConfigurationRelationSelectorComponent implements OnInit  {
     parent:        this.I18n.t('js.types.attribute_groups.filter_types.parent'),
     precedes:      this.I18n.t('js.types.attribute_groups.filter_types.precedes'),
     follows:       this.I18n.t('js.types.attribute_groups.filter_types.follows'),
-    relatesTo:     this.I18n.t('js.types.attribute_groups.filter_types.relatesTo'),
+    relatesTo:     this.I18n.t('js.types.attribute_groups.filter_types.relates_to'),
     duplicates:    this.I18n.t('js.types.attribute_groups.filter_types.duplicates'),
     duplicatedBy:  this.I18n.t('js.types.attribute_groups.filter_types.duplicated_by'),
     blocks:        this.I18n.t('js.types.attribute_groups.filter_types.blocks'),
