@@ -339,20 +339,11 @@ fieldset.form--fieldset
   &.-trailing-label
     .form--label
       @include grid-order(2)
-      @include grid-size(expand)
-      // override max-width set by including grid-content
-      max-width: 100%
       padding-left: 0.5rem
-      margin-bottom: 0
+      width: auto
 
     .form--field-container
       @include grid-order(1)
-      @include grid-size(shrink)
-
-      // FIXME: this will break anything in regards to flex layouting within the container,
-      // e.g. using form--field-inline-action inside -trailing-label
-    .form--label + span.form--field-container
-      display: block
 
   &.-break-words > .form--label
     @include text-shortener
@@ -377,15 +368,6 @@ fieldset.form--fieldset
   font-size:    $form-label-fontsize
   line-height:  $base-line-height
   color:        $form-label-color
-
-  .form.-wide-labels &,
-  .form--field.-wide-label &,
-    @include grid-size(4)
-
-  .form--field.-vertical &,
-  .form.-vertical &
-    @include grid-size(shrink)
-    max-width: none
 
   &.-error
     @extend .icon-error
@@ -420,53 +402,16 @@ fieldset.form--fieldset
   &.-vertical
     display: block
 
-  &:nth-of-type(n+2),
-  .form--field.-no-label &
-    @include grid-offset(2)
-
-  .form--field.-full-width &
-    @include grid-size(12)
-
-  .form.-wide-labels &,
-  .form--field.-wide-label &
-    @include grid-size(8)
-
-  .form.-wide-labels .form--field.-no-label &,
-  .form--field.-wide-label.-no-label &
-    @include grid-offset(4)
-
-  .form--field.-vertical &,
-  .form.-vertical &
-    @include grid-size(shrink)
-    max-width: none
-
-  .destroy_locale
-    display: flex
-
 .form--field-inline-action
   @include grid-content(shrink)
   padding: 0 0 0 0.2rem
   line-height: 2rem
 
 %form--field-after-container
-  min-width:   100%
   font-size:    $form-label-fontsize
   line-height:  1.4
   color:        $form-label-color
-
-  .form--field.-full-width &
-    @include grid-size(12)
-    @include grid-offset(0)
-
-  .form.-wide-labels &,
-  .form--field.-wide-label &
-    @include grid-size(8)
-    @include grid-offset(4)
-
-  .form.-vertical &
-    @include grid-size(shrink)
-    @include grid-offset(0)
-    max-width: none
+  margin-left:  20px
 
 .form--field-instructions
   @extend %form--field-after-container
@@ -534,6 +479,9 @@ fieldset.form--fieldset
     // remove once the initial limit on the width is removed
     .select2-container
       max-width: initial
+
+      &.colors-autocomplete
+        min-width: 160px
 
   &.-auto
     select
