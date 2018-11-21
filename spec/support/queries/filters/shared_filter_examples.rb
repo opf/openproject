@@ -555,7 +555,7 @@ shared_examples_for 'operators for relation filters' do
   end
 end
 
-shared_examples_for 'filter for directed relation' do
+shared_examples_for 'filter for relation' do
   describe '#where' do
     let!(:filter_value_wp) { FactoryBot.create(:work_package) }
     let(:wp_relation_type) { defined?(:relation_type) ? relation_type : raise('needs to be defined') }
