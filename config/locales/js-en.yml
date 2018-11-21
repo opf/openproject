@@ -375,7 +375,7 @@ en:
           parent: "being child of"
           precedes: "preceding"
           follows: "following"
-          relates: "relating to"
+          relates_to: "relating to"
           duplicates: "duplicating"
           duplicated_by: "duplicated by"
           blocks: "blocking"

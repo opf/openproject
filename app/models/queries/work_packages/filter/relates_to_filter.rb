@@ -30,7 +30,7 @@
 
 # Filter for all work packages that are (or are not) predecessor of the provided values
 
-class Queries::WorkPackages::Filter::RelatesFilter <
+class Queries::WorkPackages::Filter::RelatesToFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
 
   include ::Queries::WorkPackages::Filter::FilterOnUndirectedRelationsMixin

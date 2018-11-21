@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,12 +26,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Queries
-      module Schemas
-        class RelatesToFilterDependencyRepresenter < ByWorkPackageFilterDependencyRepresenter; end
-      end
+require 'spec_helper'
+
+describe Queries::WorkPackages::Filter::RelatesToFilter, type: :model do
+  it_behaves_like 'filter by work package id' do
+    let(:class_key) { :relates_to }
+
+    it_behaves_like 'filter for relation' do
+      let(:relation_type) { :relates }
     end
   end
 end

@@ -41,7 +41,7 @@ export class WorkPackageTableFilters extends WorkPackageTableBaseState<QueryFilt
     'datesInterval',
     'precedes',
     'follows',
-    'relates',
+    'relatesTo',
     'duplicates',
     'duplicatedBy',
     'blocks',
