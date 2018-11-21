@@ -32,7 +32,7 @@ describe Queries::WorkPackages::Filter::DuplicatesFilter, type: :model do
   it_behaves_like 'filter by work package id' do
     let(:class_key) { :duplicates }
 
-    it_behaves_like 'filter for directed relation' do
+    it_behaves_like 'filter for relation' do
       let(:relation_type) { :duplicates }
     end
   end

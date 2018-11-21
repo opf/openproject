@@ -32,8 +32,8 @@ describe Queries::WorkPackages::Filter::PartOfFilter, type: :model do
   it_behaves_like 'filter by work package id' do
     let(:class_key) { :part_of }
 
-    it_behaves_like 'filter for directed relation' do
-      let(:relation_type) { :includes }
+    it_behaves_like 'filter for relation' do
+      let(:relation_type) { :part_of }
     end
   end
 end
