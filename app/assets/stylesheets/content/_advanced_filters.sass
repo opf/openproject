@@ -30,13 +30,13 @@
   @extend %filters--container
   padding: rem-calc(10px)
   margin: 0
-  min-inline-size: calc(100% - 40px)  // right and left margin
   overflow: hidden
 
   &.collapsed
     display: none
 
   .advanced-filters--close
+    // Flex would be a nicer solution, but will not work here (for unknown reasons)
     float: right
     width: 1rem
     z-index: 2
@@ -66,7 +66,7 @@
     .advanced-filters--number-field
       @include form--input-field-mixin--small
       @include form--input-field-mixin--narrow
-      flex: 0
+      flex: 0 0 auto
 
 // The type="number" is required to be more specific
 .advanced-filters--number-field[type="number"]
@@ -83,9 +83,6 @@
 
 .advanced-filters--select
   @extend .form--select
-
-[multiple].advanced-filters--select
-  min-width: 200px
 
 
 .advanced-filters--affix
