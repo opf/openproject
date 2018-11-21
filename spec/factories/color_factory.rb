@@ -52,8 +52,8 @@ end
   'gray'    => '#808080' }.each do |name, code|
   FactoryBot.define do
     factory(:"color_#{name}", parent: :color) do
-      name name
-      hexcode code
+      name { name }
+      hexcode { code }
     end
   end
 end

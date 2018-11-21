@@ -30,15 +30,15 @@
 FactoryBot.define do
   factory :project do
     transient do
-      no_types false
-      disable_modules []
+      no_types { false }
+      disable_modules { [] }
     end
 
     sequence(:name) do |n| "My Project No. #{n}" end
     sequence(:identifier) do |n| "myproject_no_#{n}" end
     created_on do Time.now end
     updated_on do Time.now end
-    enabled_module_names Redmine::AccessControl.available_project_modules
+    enabled_module_names { Redmine::AccessControl.available_project_modules }
 
     callback(:after_build) do |project, evaluator|
       disabled_modules = Array(evaluator.disable_modules)
@@ -53,7 +53,7 @@ FactoryBot.define do
     end
 
     factory :public_project do
-      is_public true # Remark: is_public defaults to true
+      is_public { true } # Remark: is_public defaults to true
     end
 
     factory :project_with_types do
