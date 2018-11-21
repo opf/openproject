@@ -67,7 +67,7 @@ module Components
     def drag_attachment(image_fixture, caption = 'Some caption')
       in_editor do |container, editable|
         sleep 1
-        editable.base.send_keys(:enter, 'some text', :enter, :enter, :enter)
+        editable.base.send_keys(:enter, 'some text', :enter, :enter, caption)
 
         images = editable.all('figure.image')
         attachments.drag_and_drop_file(editable, image_fixture)
@@ -77,11 +77,6 @@ module Components
 
         sleep 1
         expect(page).not_to have_selector('notification-upload-progress')
-
-        # Besides testing caption functionality this also slows down clicking on the submit button
-        # so that the image is properly embedded
-        editable.all('figure.image figcaption').map { |el| el.base.send_keys(caption) }
-        sleep 1
       end
     end
 
