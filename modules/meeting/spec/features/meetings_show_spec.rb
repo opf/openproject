@@ -49,7 +49,7 @@ describe 'Meetings', type: :feature, js: true do
     it 'can visit the meeting' do
       visit meetings_path(meeting)
 
-      find('.meeting a', text: 'Awesome meeting!').click
+      find('.meeting a', text: 'Awesome meeting!', wait: 10).click
       expect(page).to have_selector('h2', text: 'Meeting: Awesome meeting!')
 
       expect(page).to have_selector('.meeting_agenda', text: 'There is currently nothing to display')
