@@ -541,7 +541,9 @@ export class OpenprojectWorkPackagesModule {
       hookService.register('attributeGroupComponent', (group:GroupDescriptor, workPackage:WorkPackageResource) => {
         if (group.type === 'WorkPackageFormAttributeGroup') {
           return WorkPackageFormAttributeGroupComponent;
-        } else if (!workPackage.isNew && group.type === 'WorkPackageFormQueryGroup') {
+        } else if (!workPackage.isNew && group.type === 'WorkPackageFormChildrenQueryGroup') {
+          return WorkPackageChildrenQueryComponent;
+        } else if (!workPackage.isNew && group.type === 'WorkPackageFormRelationQueryGroup') {
           return WorkPackageChildrenQueryComponent;
         } else {
           return null;

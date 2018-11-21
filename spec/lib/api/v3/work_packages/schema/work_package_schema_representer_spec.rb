@@ -44,7 +44,12 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:current_user) do
     FactoryBot.build_stubbed(:user)
   end
-  let(:attribute_query) { FactoryBot.build_stubbed(:query) }
+  let(:attribute_query) do
+    FactoryBot.build_stubbed(:query).tap do |query|
+      query.filters.clear
+      query.add_filter('parent', '=', ['{id}'])
+    end
+  end
   let(:attribute_groups) do
     [Type::AttributeGroup.new(wp_type, "People", %w(assignee responsible)),
      Type::AttributeGroup.new(wp_type, "Estimates and time", %w(estimated_time spent_time)),
@@ -182,9 +187,9 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           .at_path('_attributeGroups/1')
       end
 
-      it 'renders form query group elements of the schema' do
+      it 'renders form children query group elements of the schema' do
         expect(subject)
-          .to be_json_eql("WorkPackageFormQueryGroup".to_json)
+          .to be_json_eql("WorkPackageFormChildrenQueryGroup".to_json)
           .at_path('_attributeGroups/2/_type')
 
         expect(subject)
@@ -194,6 +199,29 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         expect(subject)
           .to be_json_eql('Query'.to_json)
           .at_path('_attributeGroups/2/_embedded/query/_type')
+      end
+
+      context 'with relation query group' do
+        let(:attribute_query) do
+          FactoryBot.build_stubbed(:query).tap do |query|
+            query.filters.clear
+            query.add_filter('follows', '=', ['{id}'])
+          end
+        end
+
+        it 'renders form relation query group elements of the schema' do
+          expect(subject)
+            .to be_json_eql("WorkPackageFormRelationQueryGroup".to_json)
+                  .at_path('_attributeGroups/2/_type')
+
+          expect(subject)
+            .to be_json_eql(api_v3_paths.query(attribute_query.id).to_json)
+                  .at_path('_attributeGroups/2/_links/query/href')
+
+          expect(subject)
+            .to be_json_eql('Query'.to_json)
+                  .at_path('_attributeGroups/2/_embedded/query/_type')
+        end
       end
     end
 

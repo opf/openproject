@@ -54,7 +54,11 @@ module API
                                 end
 
             def _type
-              "WorkPackageFormQueryGroup"
+              if query.filters.map(&:name).include? :parent
+                "WorkPackageFormChildrenQueryGroup"
+              else
+                "WorkPackageFormRelationQueryGroup"
+              end
             end
 
             def name
