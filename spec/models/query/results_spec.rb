@@ -236,7 +236,7 @@ describe ::Query::Results, type: :model do
 
         wp_p1[1].precedes << wp_p1[0]
 
-        query.add_filter('predecessor', '=', [wp_p1[0].id.to_s])
+        query.add_filter('precedes', '=', [wp_p1[0].id.to_s])
 
         query.sort_criteria = [['parent', 'asc']]
       end
