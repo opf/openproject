@@ -233,6 +233,39 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
         .to eql params['rowCount']
     end
 
+    context 'with invalid params' do
+      let(:params) do
+        {
+          "rowCount": -5,
+          "columnCount": 15,
+          "widgets": [{
+            "identifier": "work_packages_assigned",
+            "startRow": 4,
+            "endRow": 8,
+            "startColumn": 2,
+            "endColumn": 5
+          }]
+        }.with_indifferent_access
+      end
+
+      it 'responds with 422 and mentions the error' do
+        expect(subject.status).to eq 422
+
+        expect(subject.body)
+          .to be_json_eql('Error'.to_json)
+          .at_path('_type')
+
+        expect(subject.body)
+          .to be_json_eql("Row count must be greater than 0.".to_json)
+          .at_path('message')
+      end
+
+      it 'does not persist the changes to widgets' do
+        expect(my_page_grid.reload.widgets.count)
+          .to eql MyPageGrid.new_default(current_user).widgets.size
+      end
+    end
+
     context 'with the page not existing' do
       let(:path) { api_v3_paths.grid(5) }
 

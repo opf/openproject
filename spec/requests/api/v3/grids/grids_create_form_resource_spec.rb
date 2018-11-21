@@ -46,6 +46,8 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
   end
 
   describe '#post' do
+    # TODO: spec errors
+    # spec that widgets are not updated
     before do
       post path, params: params
     end

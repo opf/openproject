@@ -32,6 +32,7 @@ require 'model_contract'
 
 module Grids
   class BaseContract < ::ModelContract
+    # TODO: validate widgets are in array of allowed widgets
     attribute :row_count do
       validate_positive_integer(:row_count)
     end
@@ -41,7 +42,6 @@ module Grids
     end
 
     attribute :widgets
-
 
     def self.model
       Grid

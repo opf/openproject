@@ -32,26 +32,29 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
   include OpenProject::StaticRouting::UrlHelpers
 
   let(:grid) do
-    OpenStruct.new(
-      id: 42,
+    FactoryBot.build_stubbed(
+      :my_page_grid,
       row_count: 4,
       column_count: 5,
       widgets: [
-        OpenStruct.new(
+        FactoryBot.build_stubbed(
+          :grid_widget,
           identifier: 'work_packages_assigned',
           start_row: 4,
           end_row: 5,
           start_column: 1,
           end_column: 2
         ),
-        OpenStruct.new(
+        FactoryBot.build_stubbed(
+          :grid_widget,
           identifier: 'work_packages_created',
           start_row: 1,
           end_row: 2,
           start_column: 1,
           end_column: 2
         ),
-        OpenStruct.new(
+        FactoryBot.build_stubbed(
+          :grid_widget,
           identifier: 'work_packages_watched',
           start_row: 2,
           end_row: 4,

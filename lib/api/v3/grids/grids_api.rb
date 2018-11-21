@@ -99,9 +99,13 @@ module API
                           grid: @grid)
                      .call(attributes: params)
 
-              GridRepresenter.create(call.result,
-                                     current_user: current_user,
-                                     embed_links: true)
+              if call.success?
+                GridRepresenter.create(call.result,
+                                       current_user: current_user,
+                                       embed_links: true)
+              else
+                fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
+              end
             end
           end
         end

@@ -32,334 +32,310 @@ require 'spec_helper'
 
 describe Grids::SetAttributesService, type: :model do
   let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:new_grid) do
-    wp = Grid.new
+  let(:contract_class) do
+    contract = double('contract_class')
 
-    allow(wp)
-      .to receive(:valid?)
-      .and_return(grid_valid)
+    allow(contract)
+      .to receive(:new)
+      .with(grid, user)
+      .and_return(contract_instance)
 
-    wp
+    contract
   end
-  let(:mock_contract) do
-    double(contract_class,
-           new: mock_contract_instance)
-  end
-  let(:mock_contract_instance) do
-    mock = mock_model(contract_class)
-    allow(mock)
-      .to receive(:validate)
-      .and_return contract_valid
-
-    mock
+  let(:contract_instance) do
+    double('contract_instance', validate: contract_valid, errors: contract_errors)
   end
   let(:contract_valid) { true }
+  let(:contract_errors) do
+    double('contract_errors')
+  end
   let(:grid_valid) { true }
   let(:instance) do
     described_class.new(user: user,
-                        grid: work_package,
-                        contract_class: mock_contract)
+                        grid: grid,
+                        contract_class: contract_class)
   end
   let(:call_attributes) { {} }
+  let(:grid_class) { MyPageGrid }
+  let(:grid) do
+    FactoryBot.build_stubbed(grid_class.name.underscore.to_sym)
+  end
 
   describe 'call' do
-    shared_examples_for 'service call' do
-      subject { instance.call(call_attributes) }
-
-      it 'is successful' do
-        expect(subject.success?).to be_truthy
-      end
-
-      it 'sets the value' do
-        subject
-
-        attributes.each do |attribute, key|
-          expect(work_package.send(attribute)).to eql key
-        end
-      end
-
-      it 'does not persist the grid' do
-        expect(grid)
-          .not_to receive(:save)
-
-        subject
-      end
-
-      it 'has no errors' do
-        expect(subject.errors).to be_empty
-      end
-
-      context 'when the contract does not validate' do
-        let(:contract_valid) { false }
-
-        it 'is unsuccessful' do
-          expect(subject.success?).to be_falsey
-        end
-
-        it 'does not persist the changes' do
-          expect(grid)
-            .to_not receive(:save)
-
-          subject
-        end
-
-        it "exposes the contract's errors" do
-          subject
-
-          expect(subject.errors).to eql mock_contract_instance.errors
-        end
-      end
-
-      context 'when the grid is invalid' do
-        let(:grid) { false }
-
-        it 'is unsuccessful' do
-          expect(subject.success?).to be_falsey
-        end
-
-        it 'leaves the value unchanged' do
-          subject
-
-          expect(grid.changed?).to be_truthy
-        end
-
-        it "exposes the grid's errors" do
-          subject
-
-          expect(subject.errors).to eql grid.errors
-        end
-      end
+    let(:call_attributes) do
+      {
+        row_count: 5
+      }
     end
 
-    context 'on a new grid' do
-      context 'without parameters' do
-
-      end
+    before do
+      expect(contract_instance)
+        .to receive(:validate)
+        .and_return(contract_valid)
     end
 
-    context 'status' do
-      let(:default_status) { FactoryBot.build_stubbed(:default_status) }
-      let(:other_status) { FactoryBot.build_stubbed(:status) }
-      let(:new_statuses) { [other_status, default_status] }
+    subject { instance.call(call_attributes) }
+
+    it 'is successful' do
+      expect(subject.success?).to be_truthy
+    end
+
+    it 'sets the attributes' do
+      subject
+
+      expect(grid.attributes.slice(*grid.changed).symbolize_keys)
+        .to eql call_attributes
+    end
+
+    it 'does not persist the grid' do
+      expect(grid)
+        .not_to receive(:save)
+
+      subject
+    end
+
+    context 'with additional widgets' do
+      let(:widgets) do
+        [
+          FactoryBot.build_stubbed(:grid_widget,
+                                   identifier: 'work_packages_assigned',
+                                   start_row: 3,
+                                   end_row: 5,
+                                   start_column: 1,
+                                   end_column: 3)
+        ]
+      end
+
+      let(:call_attributes) do
+        {
+          widgets: widgets
+        }
+      end
 
       before do
-        allow(work_package)
-          .to receive(:new_statuses_allowed_to)
-                .with(user, true)
-                .and_return(new_statuses)
-        allow(Status)
-          .to receive(:default)
-                .and_return(default_status)
+        subject
       end
 
-      context 'no value set before for a new work package' do
-        let(:call_attributes) { {} }
-        let(:attributes) { {} }
-        let(:work_package) { new_work_package }
-
-        before do
-          work_package.status = nil
-        end
-
-        it_behaves_like 'service call' do
-          it 'sets the default status' do
-            subject
-
-            expect(work_package.status)
-              .to eql default_status
-          end
-        end
+      it 'adds the new widgets' do
+        expect(grid.widgets.length)
+          .to eql 1
       end
 
-      context 'no value set on existing work package' do
-        let(:call_attributes) { {} }
-        let(:attributes) { {} }
-
-        before do
-          work_package.status = nil
-        end
-
-        it_behaves_like 'service call' do
-          it 'stays nil' do
-            subject
-
-            expect(work_package.status)
-              .to be_nil
-          end
-        end
+      it 'does not persist the new widget' do
+        expect(grid.widgets[0])
+          .to be_new_record
       end
 
-      context 'update status before calling the service' do
-        let(:call_attributes) { {} }
-        let(:attributes) { { status: other_status } }
-
-        before do
-          work_package.attributes = attributes
-        end
-
-        it_behaves_like 'service call'
-      end
-
-      context 'updating status via attributes' do
-        let(:call_attributes) { attributes }
-        let(:attributes) { { status: other_status } }
-
-        it_behaves_like 'service call'
+      it 'applies the provided valuees' do
+        expect(grid.widgets[0].attributes.except('id'))
+          .to eql widgets[0].attributes.except('id').merge('grid_id' => grid.id)
       end
     end
 
-    context 'author' do
-      let(:other_user) { FactoryBot.build_stubbed(:user) }
-
-      context 'no value set before for a new work package' do
-        let(:call_attributes) { {} }
-        let(:attributes) { {} }
-        let(:work_package) { new_work_package }
-
-        before do
-          work_package.author = nil
-        end
-
-        it_behaves_like 'service call' do
-          it "sets the service's author" do
-            subject
-
-            expect(work_package.author)
-              .to eql user
-          end
-        end
+    context 'with empty widget params' do
+      let(:existing_widgets) do
+        [
+          FactoryBot.build_stubbed(:grid_widget,
+                                   identifier: 'work_packages_assigned',
+                                   start_row: 3,
+                                   end_row: 5,
+                                   start_column: 1,
+                                   end_column: 3)
+        ]
+      end
+      let(:grid) do
+        FactoryBot.build_stubbed(
+          grid_class.name.underscore.to_sym,
+          widgets: existing_widgets
+        )
       end
 
-      context 'no value set on existing work package' do
-        let(:call_attributes) { {} }
-        let(:attributes) { {} }
-
-        before do
-          work_package.author = nil
-        end
-
-        it_behaves_like 'service call' do
-          it 'stays nil' do
-            subject
-
-            expect(work_package.author)
-              .to be_nil
-          end
-        end
+      let(:call_attributes) do
+        {
+          widgets: []
+        }
       end
-
-      context 'update author before calling the service' do
-        let(:call_attributes) { {} }
-        let(:attributes) { { author: other_user } }
-
-        before do
-          work_package.attributes = attributes
-        end
-
-        it_behaves_like 'service call'
-      end
-
-      context 'updating author via attributes' do
-        let(:call_attributes) { attributes }
-        let(:attributes) { { author: other_user } }
-
-        it_behaves_like 'service call'
-      end
-    end
-
-    context 'with the actual contract' do
-      let(:invalid_wp) do
-        wp = FactoryBot.create(:work_package)
-        wp.start_date = Date.today + 5.days
-        wp.due_date = Date.today
-        wp.save!(validate: false)
-
-        wp
-      end
-      let(:user) { FactoryBot.build_stubbed(:admin) }
-      let(:instance) do
-        described_class.new(user: user,
-                            work_package: invalid_wp,
-                            contract_class: contract_class)
-      end
-
-      context 'with a current invalid start date' do
-        let(:call_attributes) { attributes }
-        let(:attributes) { { start_date: Date.today - 5.days } }
-        let(:contract_valid) { true }
-        let(:work_package_valid) { true }
-        subject { instance.call(call_attributes) }
-
-        it 'is successful' do
-          expect(subject.success?).to be_truthy
-          expect(subject.errors).to be_empty
-        end
-      end
-    end
-
-    context 'priority' do
-      let(:default_priority) { FactoryBot.build_stubbed(:priority) }
-      let(:other_priority) { FactoryBot.build_stubbed(:priority) }
 
       before do
-        allow(IssuePriority)
-          .to receive_message_chain(:active, :default)
-                .and_return(default_priority)
+        subject
       end
 
-      context 'no value set before for a new work package' do
-        let(:call_attributes) { {} }
-        let(:attributes) { {} }
-        let(:work_package) { new_work_package }
-
-        before do
-          work_package.priority = nil
-        end
-
-        it_behaves_like 'service call' do
-          it "sets the default priority" do
-            subject
-
-            expect(work_package.priority)
-              .to eql default_priority
-          end
-        end
+      it 'does not remove the widget right away' do
+        expect(grid.widgets.length)
+          .to eql 1
       end
 
-      context 'no value set on existing work package' do
-        let(:call_attributes) { {} }
-        let(:attributes) { {} }
+      it 'marks the  widget for destruction' do
+        expect(grid.widgets[0])
+          .to be_marked_for_destruction
+      end
+    end
 
-        before do
-          work_package.priority = nil
-        end
-
-        it_behaves_like 'service call' do
-          it 'stays nil' do
-            subject
-
-            expect(work_package.priority)
-              .to be_nil
-          end
-        end
+    context 'without widget params' do
+      let(:existing_widgets) do
+        [
+          FactoryBot.build_stubbed(:grid_widget,
+                                   identifier: 'work_packages_assigned',
+                                   start_row: 3,
+                                   end_row: 5,
+                                   start_column: 1,
+                                   end_column: 3)
+        ]
+      end
+      let(:grid) do
+        FactoryBot.build_stubbed(
+          grid_class.name.underscore.to_sym,
+          widgets: existing_widgets
+        )
       end
 
-      context 'update priority before calling the service' do
-        let(:call_attributes) { {} }
-        let(:attributes) { { priority: other_priority } }
+      let(:call_attributes) { {} }
 
-        before do
-          work_package.attributes = attributes
-        end
-
-        it_behaves_like 'service call'
+      before do
+        subject
       end
 
-      context 'updating priority via attributes' do
-        let(:call_attributes) { attributes }
-        let(:attributes) { { priority: other_priority } }
+      it 'does not remove the widget' do
+        expect(grid.widgets.length)
+          .to eql 1
+      end
 
-        it_behaves_like 'service call'
+      it 'does not mark the  widget for destruction' do
+        expect(grid.widgets[0])
+          .not_to be_marked_for_destruction
+      end
+    end
+
+    context 'with updates to an existing widget' do
+      let(:widgets) do
+        [
+          FactoryBot.build_stubbed(:grid_widget,
+                                   identifier: 'work_packages_assigned',
+                                   start_row: 3,
+                                   end_row: 5,
+                                   start_column: 1,
+                                   end_column: 3)
+        ]
+      end
+      let(:existing_widgets) do
+        [
+          FactoryBot.build_stubbed(:grid_widget,
+                                   identifier: 'work_packages_assigned',
+                                   start_row: 2,
+                                   end_row: 5,
+                                   start_column: 1,
+                                   end_column: 3)
+        ]
+      end
+      let(:grid) do
+        FactoryBot.build_stubbed(
+          grid_class.name.underscore.to_sym,
+          widgets: existing_widgets
+        )
+      end
+
+      let(:call_attributes) { { widgets: widgets } }
+
+      before do
+        subject
+      end
+
+      it 'updates the widget' do
+        expect(grid.widgets[0].start_row)
+          .to eql widgets[0].start_row
+      end
+
+      it 'does not persist the changes' do
+        expect(grid.widgets[0])
+          .to be_changed
+      end
+    end
+
+    context 'with updates to an existing widget' do
+      let(:widgets) do
+        [
+          FactoryBot.build_stubbed(:grid_widget,
+                                   identifier: 'work_packages_assigned',
+                                   start_row: 3,
+                                   end_row: 5,
+                                   start_column: 1,
+                                   end_column: 3),
+          FactoryBot.build_stubbed(:grid_widget,
+                                   identifier: 'work_packages_watched',
+                                   start_row: 1,
+                                   end_row: 2,
+                                   start_column: 1,
+                                   end_column: 2),
+          FactoryBot.build_stubbed(:grid_widget,
+                                   identifier: 'work_packages_calendar',
+                                   start_row: 2,
+                                   end_row: 4,
+                                   start_column: 1,
+                                   end_column: 2),
+          FactoryBot.build_stubbed(:grid_widget,
+                                   identifier: 'work_packages_calendar',
+                                   start_row: 1,
+                                   end_row: 2,
+                                   start_column: 4,
+                                   end_column: 4)
+        ]
+      end
+      let(:existing_widgets) do
+        [
+          FactoryBot.build_stubbed(:grid_widget,
+                                   identifier: 'work_packages_assigned',
+                                   start_row: 2,
+                                   end_row: 5,
+                                   start_column: 1,
+                                   end_column: 3),
+          FactoryBot.build_stubbed(:grid_widget,
+                                   identifier: 'work_packages_assigned',
+                                   start_row: 1,
+                                   end_row: 2,
+                                   start_column: 3,
+                                   end_column: 4),
+          FactoryBot.build_stubbed(:grid_widget,
+                                   identifier: 'work_packages_calendar',
+                                   start_row: 1,
+                                   end_row: 2,
+                                   start_column: 1,
+                                   end_column: 2)
+        ]
+      end
+      let(:grid) do
+        FactoryBot.build_stubbed(
+          grid_class.name.underscore.to_sym,
+          widgets: existing_widgets
+        )
+      end
+
+      let(:call_attributes) { { widgets: widgets } }
+
+      before do
+        subject
+      end
+
+      it 'updates the widgets but does not persist them' do
+        expect(grid.widgets.detect { |w| w.identifier == 'work_packages_assigned' && w.changed? }
+                 .attributes.slice('start_row', 'end_row', 'start_colum', 'end_column'))
+          .to eql('start_row' => 3, 'end_row' => 5, 'end_column' => 3)
+
+        expect(grid.widgets.detect { |w| w.identifier == 'work_packages_calendar' && w.changed? }
+                 .attributes.slice('start_row', 'end_row', 'start_colum', 'end_column'))
+          .to eql('start_row' => 2, 'end_row' => 4, 'end_column' => 2)
+      end
+
+      it 'does not persist the new widgets' do
+        expect(grid.widgets.any? { |w| w.identifier == 'work_packages_watched' && w.new_record? })
+          .to be_truthy
+
+        expect(grid.widgets.any? { |w| w.identifier == 'work_packages_calendar' && w.new_record? })
+          .to be_truthy
+      end
+
+      it 'does mark a widget for destruction' do
+        expect(grid.widgets.detect(&:marked_for_destruction?).identifier)
+          .to eql 'work_packages_assigned'
       end
     end
   end
