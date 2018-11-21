@@ -32,50 +32,50 @@ FactoryBot.define do
       Enumeration.where(type: 'Enumeration', is_default: true).first || Enumeration.new
     end
 
-    active true
-    is_default true
-    type 'Enumeration'
-    name 'Default Enumeration'
+    active { true }
+    is_default { true }
+    type { 'Enumeration' }
+    name { 'Default Enumeration' }
   end
 
   factory :activity, class: TimeEntryActivity do
     sequence(:name) do |i| "Activity #{i}" end
-    active true
-    is_default false
+    active { true }
+    is_default { false }
 
     factory :inactive_activity do
-      active false
+      active { false }
     end
     factory :default_activity do
-      is_default true
+      is_default { true }
     end
   end
 
   factory :priority, class: IssuePriority do
     sequence(:name) do |i| "Priority #{i}" end
-    active true
+    active { true }
 
     factory :priority_low do
-      name 'Low'
+      name { 'Low' }
 
       # reuse existing priority with the given name
       # this prevents a validation error (name has to be unique)
       initialize_with do IssuePriority.find_or_create_by(name: name) end
 
       factory :priority_normal do
-        name 'Normal'
+        name { 'Normal' }
       end
 
       factory :priority_high do
-        name 'High'
+        name { 'High' }
       end
 
       factory :priority_urgent do
-        name 'Urgent'
+        name { 'Urgent' }
       end
 
       factory :priority_immediate do
-        name 'Immediate'
+        name { 'Immediate' }
       end
     end
   end

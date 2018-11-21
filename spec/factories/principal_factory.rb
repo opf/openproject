@@ -29,10 +29,10 @@
 FactoryBot.define do
   factory :principal do
     transient do
-      member_in_project nil
-      member_in_projects nil
-      member_through_role nil
-      member_with_permissions nil
+      member_in_project { nil }
+      member_in_projects { nil }
+      member_through_role { nil }
+      member_with_permissions { nil }
     end
 
     # necessary as we have created_on instead of created_at for which factory girl would
