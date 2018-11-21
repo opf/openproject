@@ -29,18 +29,20 @@
 #++
 
 class TimeEntries::UpdateService
+  include Concerns::Contracted
   attr_accessor :user, :time_entry
 
   def initialize(user:, time_entry:)
     self.user = user
     self.time_entry = time_entry
+    self.contract_class = TimeEntries::UpdateContract
   end
 
   def call(attributes: {})
     set_attributes attributes
 
-    success = validate_and_save
-    ServiceResult.new success: success, errors: time_entry.errors, result: time_entry
+    success, errors = validate_and_save(time_entry, user)
+    ServiceResult.new success: success, errors: errors, result: time_entry
   end
 
   private
@@ -50,27 +52,8 @@ class TimeEntries::UpdateService
 
     ##
     # Update project context if moving time entry
-    if time_entry.work_package_id_changed?
+    if time_entry.work_package && time_entry.work_package_id_changed?
       time_entry.project_id = time_entry.work_package.project_id
-    end
-  end
-
-  def validate_and_save
-    ##
-    # Perform additional validations on the model,
-    # since the errors from reform are not merged into the model for form errors
-    validate_visible_work_package
-
-    if time_entry.errors.empty?
-      time_entry.save
-    else
-      false
-    end
-  end
-
-  def validate_visible_work_package
-    if time_entry.work_package
-      time_entry.errors.add :work_package_id, :invalid unless time_entry.work_package.visible?(user)
     end
   end
 end

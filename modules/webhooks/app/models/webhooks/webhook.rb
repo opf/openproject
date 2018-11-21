@@ -31,6 +31,13 @@ module Webhooks
       !!all_projects
     end
 
+    ##
+    # Check whether the webhook should fire for events
+    # in the given project id
+    def enabled_for_project?(project_id)
+      all_projects? || projects.exists?(project_id)
+    end
+
     def enabled?
       !!enabled
     end

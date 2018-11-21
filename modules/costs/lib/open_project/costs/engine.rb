@@ -18,7 +18,7 @@
 #++
 
 require 'open_project/plugins'
-require 'open_project/costs/version'
+
 
 module OpenProject::Costs
   class Engine < ::Rails::Engine

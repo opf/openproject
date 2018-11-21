@@ -111,7 +111,7 @@ PATH
   remote: modules/github_integration
   specs:
     openproject-github_integration (8.2.0)
-      openproject-webhooks (~> 8.2.0)
+      openproject-webhooks
       rails (~> 5.0)
 
 PATH
@@ -700,6 +700,7 @@ GEM
     ruby-enum (0.7.2)
       i18n
     ruby-ole (1.2.12.1)
+    ruby-prof (0.17.0)
     ruby-progressbar (1.9.0)
     ruby-rc4 (0.1.5)
     ruby-saml (1.9.0)
@@ -753,7 +754,7 @@ GEM
       httpclient (>= 2.4)
     sys-filesystem (1.1.9)
       ffi
-    test-prof (0.4.9)
+    test-prof (0.7.3)
     thin (1.7.2)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0, >= 1.0.4)
@@ -929,6 +930,7 @@ DEPENDENCIES
   rspec-retry (~> 0.5.6)
   rubocop
   ruby-duration (~> 3.2.0)
+  ruby-prof
   ruby-progressbar (~> 1.9.0)
   rubytree!
   sanitize (~> 4.6.0)
@@ -945,7 +947,7 @@ DEPENDENCIES
   stringex (~> 2.7.1)
   svg-graph (~> 2.1.0)
   sys-filesystem (~> 1.1.4)
-  test-prof (~> 0.4.0)
+  test-prof (~> 0.7.3)
   thin (~> 1.7.2)
   timecop (~> 0.9.0)
   transactional_lock!

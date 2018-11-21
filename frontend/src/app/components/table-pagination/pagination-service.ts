@@ -71,7 +71,7 @@ export class PaginationService {
     if (value !== undefined) {
       const perPage = parseInt(value, 10);
 
-      if (perPage > 0) {
+      if (perPage > 0 && (initialPageOptions.length === 0 || initialPageOptions.indexOf(perPage) !== -1)) {
         return perPage;
       }
     }

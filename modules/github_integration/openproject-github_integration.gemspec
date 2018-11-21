@@ -1,5 +1,6 @@
 # encoding: UTF-8
 $:.push File.expand_path("../lib", __FILE__)
+$:.push File.expand_path("../../lib", __dir__)
 
 require 'open_project/github_integration/version'
 # Describe your gem and declare its dependencies:
@@ -17,5 +18,5 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'rails', '~> 5.0'
 
-  s.add_dependency "openproject-webhooks", "~> #{OpenProject::GithubIntegration::VERSION}"
+  s.add_dependency "openproject-webhooks"
 end

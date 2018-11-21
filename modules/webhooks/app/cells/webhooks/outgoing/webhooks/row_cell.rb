@@ -41,6 +41,10 @@ module ::Webhooks
         end
 
         def selected_projects
+          if webhook.all_projects?
+            return "(#{I18n.t(:label_all)})"
+          end
+
           selected = webhook.projects.map(&:name)
 
           if selected.empty?
