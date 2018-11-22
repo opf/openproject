@@ -45,10 +45,10 @@ class TimeEntries::DeleteService
   #
   # @return True if the deletion has been initiated, false otherwise.
   def call
-    validate_and_yield(time_entry, user) do
+    result, errors = validate_and_yield(time_entry, user) do
       time_entry.destroy
     end
 
-    ServiceResult.new(success: result, errors: errors, result: result)
+    ServiceResult.new(success: result, errors: errors, result: time_entry)
   end
 end
