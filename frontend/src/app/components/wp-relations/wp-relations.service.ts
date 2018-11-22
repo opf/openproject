@@ -67,6 +67,23 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
   }
 
   /**
+   * Find a given relation by from,to and relation Type
+   */
+  public find(from:WorkPackageResource, to:WorkPackageResource, type:string):RelationResource|undefined {
+    const relations:RelationsStateValue|undefined = this.state(from.id).value;
+
+    if (!relations) {
+      return;
+    }
+
+    return _.find(relations, (relation:RelationResource) => {
+      return relation.from.id.toString() === from.id.toString() &&
+        relation.to.id.toString() === to.id.toString() &&
+        relation.type === type;
+    });
+  }
+
+  /**
    * Remove the given relation.
    */
   public removeRelation(relation:RelationResource) {

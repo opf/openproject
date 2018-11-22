@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageChildrenQueryComponent} from 'core-components/wp-relations/wp-relation-children/wp-children-query.component';
 import {FormsModule} from '@angular/forms';
 import {PortalModule} from '@angular/cdk/portal';
 import {OpenprojectCommonModule} from 'core-app/modules/common/openproject-common.module';
@@ -36,7 +35,7 @@ import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module'
 import {OpenprojectFieldsModule} from 'core-app/modules/fields/openproject-fields.module';
 import {ChartsModule} from 'ng2-charts';
 import {DynamicModule} from 'ng-dynamic-component';
-import {APP_INITIALIZER, Injector, NgModule, ApplicationRef} from '@angular/core';
+import {APP_INITIALIZER, Injector, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {
   GroupDescriptor,
@@ -51,10 +50,8 @@ import {WorkPackageTablePaginationComponent} from 'core-components/wp-table/tabl
 import {WpResizerDirective} from 'core-components/resizer/wp-resizer.component';
 import {WorkPackageTimelineTableController} from 'core-components/wp-table/timeline/container/wp-timeline-container.directive';
 import {WorkPackageInlineCreateComponent} from 'core-components/wp-inline-create/wp-inline-create.component';
-import {WorkPackageInlineAddExistingChildComponent} from 'core-components/wp-relations/wp-relation-add-child/wp-inline-add-existing-child.component';
 import {WpRelationsAutocompleteComponent} from 'core-components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.upgraded.component';
 import {OpTypesContextMenuDirective} from 'core-components/op-context-menu/handlers/op-types-context-menu.directive';
-import {OPContextMenuComponent} from 'core-components/op-context-menu/op-context-menu.component';
 import {OpColumnsContextMenu} from 'core-components/op-context-menu/handlers/op-columns-context-menu.directive';
 import {OpSettingsMenuDirective} from 'core-components/op-context-menu/handlers/op-settings-dropdown-menu.directive';
 import {WorkPackageStatusDropdownDirective} from 'core-components/op-context-menu/handlers/wp-status-dropdown-menu.directive';
@@ -172,7 +169,6 @@ import {WorkPackageCreateService} from 'core-components/wp-new/wp-create.service
 import {WorkPackageEditingService} from 'core-components/wp-edit-form/work-package-editing-service';
 import {IWorkPackageEditingServiceToken} from 'core-components/wp-edit-form/work-package-editing.service.interface';
 import {WorkPackageInlineCreateService} from 'core-components/wp-inline-create/wp-inline-create.service';
-import {WorkPackageInlineAddExistingChildService} from 'core-components/wp-relations/wp-relation-add-child/wp-inline-add-existing-child.service';
 import {OpTableActionsService} from 'core-components/wp-table/table-actions/table-actions.service';
 import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relations.service';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
@@ -191,6 +187,11 @@ import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {WpTableConfigurationService} from 'core-components/wp-table/configuration-modal/wp-table-configuration.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {WorkPackageChildrenQueryComponent} from "core-components/wp-relations/embedded/children/wp-children-query.component";
+import {WpRelationInlineAddExistingComponent} from "core-components/wp-relations/embedded/inline/add-existing/wp-relation-inline-add-existing.component";
+import {WorkPackageRelationQueryComponent} from "core-components/wp-relations/embedded/relations/wp-relation-query.component";
+import {WpRelationInlineCreateService} from "core-components/wp-relations/embedded/relations/wp-relation-inline-create.service";
+import {WpChildrenInlineCreateService} from "core-components/wp-relations/embedded/children/wp-children-inline-create.service";
 
 @NgModule({
   imports: [
@@ -263,7 +264,8 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
     // Provide a separate service for creation events of WP Inline create
     // This can be hierarchically injected to provide isolated events on an embedded table
     WorkPackageInlineCreateService,
-    WorkPackageInlineAddExistingChildService,
+    WpChildrenInlineCreateService,
+    WpRelationInlineCreateService,
 
     OpTableActionsService,
 
@@ -313,7 +315,7 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 
     // Inline create
     WorkPackageInlineCreateComponent,
-    WorkPackageInlineAddExistingChildComponent,
+    WpRelationInlineAddExistingComponent,
 
     WorkPackagesTableController,
     WorkPackageTablePaginationComponent,
@@ -367,6 +369,7 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
     WorkPackageReplacementLabelComponent,
     UserLinkComponent,
     WorkPackageChildrenQueryComponent,
+    WorkPackageRelationQueryComponent,
     WorkPackageFormAttributeGroupComponent,
 
     // Activity Tab
@@ -458,7 +461,7 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
     WorkPackageCommentFieldComponent,
 
     // Inline create
-    WorkPackageInlineAddExistingChildComponent,
+    WpRelationInlineAddExistingComponent,
     WorkPackagesBaseComponent,
     WorkPackagesListComponent,
 
@@ -480,6 +483,7 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 
     WorkPackageFormAttributeGroupComponent,
     WorkPackageChildrenQueryComponent,
+    WorkPackageRelationQueryComponent,
 
     WorkPackagesTableController,
     WorkPackagesEmbeddedCalendarEntryComponent,
@@ -544,7 +548,7 @@ export class OpenprojectWorkPackagesModule {
         } else if (!workPackage.isNew && group.type === 'WorkPackageFormChildrenQueryGroup') {
           return WorkPackageChildrenQueryComponent;
         } else if (!workPackage.isNew && group.type === 'WorkPackageFormRelationQueryGroup') {
-          return WorkPackageChildrenQueryComponent;
+          return WorkPackageRelationQueryComponent;
         } else {
           return null;
         }

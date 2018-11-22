@@ -426,6 +426,8 @@ en:
       add_existing_child: "Add existing child"
       remove_child: "Remove child"
       add_new_relation: "Create new relation"
+      add_new_related_wp: "Create new related work package"
+      add_existing_relation: "Add existing relation"
       update_description: "Set or update description of this relation"
       toggle_description: "Toggle relation description"
       update_relation: "Click to change the relation type"

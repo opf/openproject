@@ -187,7 +187,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
       .onNewWorkPackage()
       .pipe(untilComponentDestroyed(this))
       .subscribe((wp:WorkPackageResource) => {
-        if (this.currentWorkPackage && this.currentWorkPackage === wp) {
+        if (this.currentWorkPackage && this.currentWorkPackage.__initialized_at === wp.__initialized_at) {
           // Remove row and focus
           this.resetRow();
 

@@ -26,94 +26,89 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
-import {WorkPackageRelationsHierarchyService} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
-import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedded/wp-embedded-table.component';
 import {OpUnlinkTableAction} from 'core-components/wp-table/table-actions/actions/unlink-table-action';
 import {OpTableActionFactory} from 'core-components/wp-table/table-actions/table-action';
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {WorkPackageInlineAddExistingChildService} from "core-components/wp-relations/wp-relation-add-child/wp-inline-add-existing-child.service";
+import {WorkPackageRelationQueryBase} from "core-components/wp-relations/embedded/wp-relation-query.base";
+import {WpRelationInlineCreateService} from "core-components/wp-relations/embedded/relations/wp-relation-inline-create.service";
+import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {forkJoin, merge} from "rxjs";
 
 @Component({
-  selector: 'wp-children-query',
-  templateUrl: './wp-children-query.html',
+  selector: 'wp-relation-query',
+  templateUrl: '../wp-relation-query.html',
   providers: [
-    { provide: WorkPackageInlineCreateService, useClass: WorkPackageInlineAddExistingChildService }
+    { provide: WorkPackageInlineCreateService, useClass: WpRelationInlineCreateService }
   ]
 })
-export class WorkPackageChildrenQueryComponent implements OnInit, OnDestroy {
+export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryBase implements OnInit, OnDestroy {
   @Input() public workPackage:WorkPackageResource;
+
   @Input() public query:any;
-  @Input() public addExistingChildEnabled:boolean = false;
-  @ViewChild('childrenEmbeddedTable') private childrenEmbeddedTable:WorkPackageEmbeddedTableComponent;
+  @Input() public group:any;
 
-  public canHaveChildren:boolean;
-  public canModifyHierarchy:boolean;
-
-  public childrenQueryProps:any;
-
-  public childrenTableActions:OpTableActionFactory[] = [
+  public tableActions:OpTableActionFactory[] = [
     OpUnlinkTableAction.factoryFor(
-      'remove-child-action',
-      this.I18n.t('js.relation_buttons.remove_child'),
-      (child:WorkPackageResource) => {
-        this.childrenEmbeddedTable.loadingIndicator = this.wpRelationsHierarchyService
-          .removeChild(child)
+      'remove-relation-action',
+      this.I18n.t('js.relation_buttons.remove'),
+      (relatedTo:WorkPackageResource) => {
+        this.embeddedTable.loadingIndicator = this.wpInlineCreate
+          .remove(this.workPackage, relatedTo)
           .then(() => this.refreshTable());
       },
       (child:WorkPackageResource) => !!child.changeParent
     )
   ];
 
-  constructor(protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
-              protected PathHelper:PathHelperService,
-              protected wpInlineCreate:WorkPackageInlineCreateService,
-              protected queryUrlParamsHelper:UrlParamsHelperService,
-              readonly I18n:I18nService) {
+  constructor(protected readonly PathHelper:PathHelperService,
+              @Inject(WorkPackageInlineCreateService) protected readonly wpInlineCreate:WpRelationInlineCreateService,
+              protected readonly queryUrlParamsHelper:UrlParamsHelperService,
+              protected readonly wpNotifications:WorkPackageNotificationService,
+              protected readonly I18n:I18nService) {
+    super(queryUrlParamsHelper)
   }
 
   ngOnInit() {
+    let relationType = this.getRelationTypeFromQuery();
+
     // Set reference target and reference class
     this.wpInlineCreate.referenceTarget = this.workPackage;
+    this.wpInlineCreate.relationType = relationType;
+
+    // Set up the query props
+    this.buildQueryProps();
 
     // Wire the successful saving of a new addition to refreshing the embedded table
+    this.wpInlineCreate.newInlineWorkPackageCreated
+      .pipe(untilComponentDestroyed(this))
+      .subscribe((toId:string) => this.addRelationAndReload(toId));
+
+    // Wire the successful referencing of a work package to refreshing the embedded table
     this.wpInlineCreate.newInlineWorkPackageReferenced
       .pipe(untilComponentDestroyed(this))
       .subscribe(() => this.refreshTable());
-
-    this.canHaveChildren = !this.workPackage.isMilestone;
-    this.canModifyHierarchy = !!this.workPackage.changeParent;
-
-    if (this.query && this.query._type === 'Query') {
-      this.childrenQueryProps = this.queryUrlParamsHelper.buildV3GetQueryFromQueryResource(this.contextualizedQuery,
-        {});
-    } else {
-      this.childrenQueryProps = this.query;
-    }
   }
 
   ngOnDestroy() {
     // Nothing to do
   }
 
-  public refreshTable() {
-    this.childrenEmbeddedTable.refresh();
+  private addRelationAndReload(toId:string) {
+    this.wpInlineCreate.add(this.workPackage, toId)
+      .then(() => {
+        this.refreshTable();
+      })
+      .catch(error => this.wpNotifications.handleRawError(error, this.workPackage));
   }
 
-  private get contextualizedQuery() {
-    let duppedQuery = _.cloneDeep(this.query);
-
-    _.each(duppedQuery.filters, (filter) => {
-      if (filter._links.values[0] && filter._links.values[0].templated) {
-        filter._links.values[0].href = filter._links.values[0].href.replace('{id}', this.workPackage.id);
-      }
-    });
-
-    return duppedQuery;
+  private getRelationTypeFromQuery() {
+    // TODO from group
+    return 'relates';
   }
 }

@@ -167,7 +167,7 @@ module Components
 
       def add_existing_child(work_package)
         # Locate the create row container
-        container = find('.wp-relations--child-form')
+        container = find('.wp-relations--add-form')
 
         # Enter the query and select the child
         autocomplete = container.find(".wp-relations--autocomplete")

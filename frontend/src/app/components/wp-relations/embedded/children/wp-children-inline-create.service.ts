@@ -26,31 +26,51 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Injectable, OnDestroy} from '@angular/core';
+import {Injectable, Injector, OnDestroy} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {Subject} from "rxjs";
+import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
-import {WorkPackageInlineAddExistingChildComponent} from "core-components/wp-relations/wp-relation-add-child/wp-inline-add-existing-child.component";
+import {WpRelationInlineCreateServiceInterface} from "core-components/wp-relations/embedded/wp-relation-inline-create.service.interface";
 
 @Injectable()
-export class WorkPackageInlineAddExistingChildService extends WorkPackageInlineCreateService implements OnDestroy {
+export class WpChildrenInlineCreateService extends WorkPackageInlineCreateService implements WpRelationInlineCreateServiceInterface, OnDestroy {
+
+  constructor(protected readonly injector:Injector,
+              protected readonly wpRelationsHierarchyService:WorkPackageRelationsHierarchyService) {
+    super(injector);
+  }
 
   /**
-   * A separate reference pane for the inline create component
+   * Define the reference type
    */
-  public readonly referenceComponentClass = WorkPackageInlineAddExistingChildComponent;
+  public relationType:string = 'children';
+
+  /**
+   * Add a new relation of the above type
+   */
+  public add(from:WorkPackageResource, toId:string):Promise<unknown> {
+    return this.wpRelationsHierarchyService.addExistingChildWp(from, toId);
+  }
+
+  /**
+   * Remove a given relation
+   */
+  public remove(from:WorkPackageResource, to:WorkPackageResource):Promise<unknown> {
+    return this.wpRelationsHierarchyService.removeChild(to);
+  }
 
   /**
    * A related work package for the inline create context
    */
   public referenceTarget:WorkPackageResource|null = null;
 
+
   public get canAdd() {
-    return !!(this.referenceTarget && this.referenceTarget.addChild);
+    return !!(this.referenceTarget && this.referenceTarget.addRelation);
   }
 
   public get canReference() {
-    return !!(this.referenceTarget && !this.referenceTarget.isMilestone && this.referenceTarget.changeParent);
+    return !!(this.referenceTarget && this.referenceTarget.add);
   }
 
   /**
@@ -61,18 +81,11 @@ export class WorkPackageInlineAddExistingChildService extends WorkPackageInlineC
     create: this.I18n.t('js.relation_buttons.add_new_child')
   };
 
-  /** Allow callbacks to happen on newly created inline work packages */
-  public newInlineWorkPackageCreated = new Subject<string>();
-
-  /** Allow callbacks to happen on newly created inline work packages */
-  public newInlineWorkPackageReferenced = new Subject<string>();
-
   /**
    * Ensure hierarchical injected versions of this service correctly unregister
    */
   ngOnDestroy() {
-    this.newInlineWorkPackageCreated.complete();
-    this.newInlineWorkPackageReferenced.complete();
+    super.ngOnDestroy();
   }
 
 }
