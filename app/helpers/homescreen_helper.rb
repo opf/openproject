@@ -59,6 +59,12 @@ module HomescreenHelper
   end
 
   ##
+  # Determine whether we should render the links on homescreen?
+  def show_homescreen_links?
+    EnterpriseToken.show_banners? || OpenProject::Configuration.show_community_links?
+  end
+
+  ##
   # Determine whether we should render the onboarding modal
   def show_onboarding_modal?
     return OpenProject::Configuration.onboarding_enabled? && params[:first_time_user]
