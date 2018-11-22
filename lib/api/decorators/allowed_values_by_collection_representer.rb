@@ -61,7 +61,7 @@ module API
       end
 
       links :allowedValues do
-        next unless allowed_values
+        next unless allowed_values && link_factory
 
         allowed_values.map do |value|
           link_factory.call(value)
@@ -72,7 +72,7 @@ module API
                  exec_context: :decorator,
                  embedded: true,
                  getter: ->(*) {
-                   next unless allowed_values
+                   next unless allowed_values && value_representer
 
                    allowed_values.map do |value|
                      representer = if value_representer.respond_to?(:call)

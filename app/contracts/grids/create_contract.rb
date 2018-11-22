@@ -38,5 +38,18 @@ module Grids
 
     # TODO: prevent that value from being set
     attribute :type
+
+    # TODO tests and check if it should be here
+    def assignable_values(column, user)
+      case column
+      when :page
+        [my_page_path]
+      end
+    end
+
+    # TODO tests
+    def writable?(attribute)
+      attribute == :page || super
+    end
   end
 end

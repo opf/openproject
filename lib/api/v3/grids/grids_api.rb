@@ -71,6 +71,7 @@ module API
           end
 
           mount CreateFormAPI
+          mount ::API::V3::Grids::Schemas::GridSchemaAPI
 
           route_param :id do
             before do

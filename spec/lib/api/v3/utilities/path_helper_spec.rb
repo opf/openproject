@@ -196,10 +196,10 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/grids/form'
   end
 
-  describe '#grids' do
-    subject { helper.grids }
+  describe '#grid_schema' do
+    subject { helper.grid_schema }
 
-    it_behaves_like 'api v3 path', '/grids'
+    it_behaves_like 'api v3 path', '/grids/schema'
   end
 
   describe '#grid' do

@@ -359,6 +359,11 @@ en:
         subscriber: "Subscriber"
         encoded_token: "Enterprise support token"
         active_user_count_restriction: "Maximum active users"
+      grid:
+        page: "Page"
+        row_count: "Number of rows"
+        column_count: "Number of column"
+        widgets: "Widgets"
       relation:
         delay: "Delay"
         from: "Work package"

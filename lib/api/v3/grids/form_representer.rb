@@ -86,7 +86,16 @@ module API
         end
 
         def schema_representer
-          API::V3::Grids::Schemas::GridSchemaRepresenter.new(represented,
+          # TODO: spec this out
+          contract_class = if represented.new_record?
+                             ::Grids::CreateContract
+                           else
+                             ::Grids::UpdateContract
+                           end
+
+          contract = contract_class.new(represented, current_user)
+
+          API::V3::Grids::Schemas::GridSchemaRepresenter.new(contract,
                                                              form_embedded: true,
                                                              current_user: current_user)
         end

@@ -139,6 +139,10 @@ module API
             "#{grids}/form"
           end
 
+          def self.grid_schema
+            "#{grids}/schema"
+          end
+
           def self.grid(id)
             "#{grids}/#{id}"
           end

@@ -32,7 +32,9 @@ require 'model_contract'
 
 module Grids
   class BaseContract < ::ModelContract
+    include OpenProject::StaticRouting::UrlHelpers
     # TODO: validate widgets are in array of allowed widgets
+    #       validate widgets do not collide
     attribute :row_count do
       validate_positive_integer(:row_count)
     end
@@ -45,6 +47,11 @@ module Grids
 
     def self.model
       Grid
+    end
+
+    # TODO tests and check if it should be here
+    def assignable_values(column, user)
+      nil
     end
 
     private

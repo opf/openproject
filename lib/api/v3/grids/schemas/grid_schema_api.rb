@@ -29,15 +29,17 @@
 module API
   module V3
     module Grids
-      class WidgetRepresenter < ::API::Decorators::Single
-        property :identifier
-        property :start_row
-        property :end_row
-        property :start_column
-        property :end_column
+      module Schemas
+        class GridSchemaAPI < ::API::OpenProjectAPI
+          resources :schema do
+            get do
+              contract = ::Grids::CreateContract.new(Grid.new, current_user)
 
-        def _type
-          'GridWidget'
+              ::API::V3::Grids::Schemas::GridSchemaRepresenter.new(contract,
+                                                                   api_v3_paths.grid_schema,
+                                                                   current_user: current_user)
+            end
+          end
         end
       end
     end

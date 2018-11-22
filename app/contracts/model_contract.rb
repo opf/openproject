@@ -90,13 +90,19 @@ class ModelContract < Reform::Contract
   end
 
   def writable_attributes
-    writable = collect_ancestor_attributes(:writable_attributes)
+    @writable_attributes ||= begin
+      writable = collect_ancestor_attributes(:writable_attributes)
 
-    collect_ancestor_attributes(:writable_conditions).each do |attribute, condition|
-      writable -= [attribute, "#{attribute}_id"] unless instance_exec(&condition)
+      collect_ancestor_attributes(:writable_conditions).each do |attribute, condition|
+        writable -= [attribute, "#{attribute}_id"] unless instance_exec(&condition)
+      end
+
+      writable
     end
+  end
 
-    writable
+  def writable?(attribute)
+    writable_attributes.include?(attribute.to_s)
   end
 
   def validate

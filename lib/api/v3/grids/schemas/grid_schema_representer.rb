@@ -43,227 +43,57 @@ module API
                   form_embedded: form_embedded)
           end
 
-          #def self.filters_schema
-          #  ->(*) do
-          #    {
-          #      'type': '[]QueryFilterInstance',
-          #      'name': Query.human_attribute_name('filters'),
-          #      'required': false,
-          #      'writable': true,
-          #      'hasDefault': true,
-          #      '_links': {
-          #        'allowedValuesSchemas': {
-          #          'href': filter_instance_schemas_href
-          #        }
-          #      }
-          #    }
-          #  end
-          #end
+          # TODO: add to grid representer
+          schema :id,
+                 type: 'Integer',
+                 visibility: false
 
-          #schema :id,
-          #       type: 'Integer',
-          #       visibility: false
+          # TODO: add to grid representer
+          schema :created_at,
+                 type: 'DateTime',
+                 visibility: false
 
-          #schema :name,
-          #       type: 'String',
-          #       writable: true,
-          #       min_length: 1,
-          #       max_length: 255,
-          #       visibility: false
+          # TODO: add to grid representer
+          schema :updated_at,
+                 type: 'DateTime',
+                 visibility: false
 
-          #schema :user,
-          #       type: 'User',
-          #       has_default: true,
-          #       visibility: false
+          schema :row_count,
+                 type: 'Integer',
+                 visibility: false
 
-          #schema_with_allowed_link :project,
-          #                         type: 'Project',
-          #                         required: false,
-          #                         writable: true,
-          #                         visibility: false,
-          #                         href_callback: ->(*) {
-          #                           api_v3_paths.query_available_projects
-          #                         }
-          #schema :public,
-          #       type: 'Boolean',
-          #       required: false,
-          #       writable: -> do
-          #         current_user.allowed_to?(:manage_public_queries,
-          #                                  represented.project,
-          #                                  global: represented.project.nil?)
-          #       end,
-          #       has_default: true,
-          #       visibility: false
+          schema :column_count,
+                 type: 'Integer',
+                 visibility: false
 
-          #schema :sums,
-          #       type: 'Boolean',
-          #       required: false,
-          #       writable: true,
-          #       has_default: true,
-          #       visibility: false
+          schema_with_allowed_collection :page,
+                                         type: 'Href',
+                                         required: true,
+                                         has_default: false,
+                                         visibility: false,
+                                         value_representer: false,
+                                         link_factory: ->(path) {
+                                           {
+                                             href: path,
+                                             title: I18n.t(:label_my_page)
+                                           }
+                                         }
 
-          #schema :timeline_visible,
-          #       type: 'Boolean',
-          #       required: false,
-          #       writable: true,
-          #       has_default: true,
-          #       visibility: false
-
-          #schema :timeline_zoom_level,
-          #       type: 'String',
-          #       required: false,
-          #       writable: true,
-          #       has_default: true,
-          #       visibility: false
-
-          #schema :timeline_labels,
-          #       type: 'QueryTimelineLabels',
-          #       required: false,
-          #       writable: true,
-          #       has_default: true,
-          #       visibility: false
-
-          #schema :highlighting_mode,
-          #       type: 'String',
-          #       required: false,
-          #       writable: true,
-          #       has_default: true,
-          #       visibility: false
-
-          #schema :show_hierarchies,
-          #       type: 'Boolean',
-          #       required: false,
-          #       writable: true,
-          #       has_default: true,
-          #       visibility: false
-
-          #schema :starred,
-          #       type: 'Boolean',
-          #       required: false,
-          #       writable: false,
-          #       has_default: true,
-          #       visibility: false
-
-          #schema_with_allowed_collection :columns,
-          #                               type: '[]QueryColumn',
-          #                               required: false,
-          #                               writable: true,
-          #                               has_default: true,
-          #                               visibility: false,
-          #                               values_callback: -> { represented.available_columns },
-          #                               value_representer: ->(column) {
-          #                                 Columns::QueryColumnsFactory.representer(column)
-          #                               },
-          #                               link_factory: ->(column) {
-          #                                 converted_name = convert_attribute(column.name)
-
-          #                                 {
-          #                                   href: api_v3_paths.query_column(converted_name),
-          #                                   title: column.caption
-          #                                 }
-          #                               }
-
-          #schema_property :filters,
-          #                filters_schema,
-          #                true,
-          #                false,
-          #                true,
-          #                :filters
-
-          #schema_with_allowed_collection :group_by,
-          #                               type: '[]QueryGroupBy',
-          #                               required: false,
-          #                               writable: true,
-          #                               visibility: false,
-          #                               values_callback: -> { represented.groupable_columns },
-          #                               value_representer: GroupBys::QueryGroupByRepresenter,
-          #                               link_factory: ->(column) {
-          #                                 converted_name = convert_attribute(column.name)
-
-          #                                 {
-          #                                   href: api_v3_paths.query_group_by(converted_name),
-          #                                   title: column.caption
-          #                                 }
-          #                               }
-
-          #schema_with_allowed_collection :highlighted_attributes,
-          #                               type: '[]QueryColumn',
-          #                               required: false,
-          #                               writable: true,
-          #                               has_default: true,
-          #                               visibility: false,
-          #                               values_callback: -> { represented.available_highlighting_columns },
-          #                               value_representer: ->(column) {
-          #                                 Columns::QueryColumnsFactory.representer(column)
-          #                               },
-          #                               link_factory: ->(column) {
-          #                                 converted_name = convert_attribute(column.name)
-
-          #                                 {
-          #                                   href: api_v3_paths.query_column(converted_name),
-          #                                   id: converted_name,
-          #                                   title: column.caption
-          #                                 }
-          #                               }
-
-          #schema_with_allowed_collection :sort_by,
-          #                               type: '[]QuerySortBy',
-          #                               required: false,
-          #                               writable: true,
-          #                               has_default: true,
-          #                               visibility: false,
-          #                               values_callback: -> do
-          #                                 values = represented.sortable_columns.map do |column|
-          #                                   [SortBys::SortByDecorator.new(column, 'asc'),
-          #                                    SortBys::SortByDecorator.new(column, 'desc')]
-          #                                 end
-
-          #                                 values.flatten
-          #                               end,
-          #                               value_representer: SortBys::QuerySortByRepresenter,
-          #                               link_factory: ->(sort_by) {
-          #                                 name = sort_by.converted_name
-          #                                 direction = sort_by.direction_name
-          #                                 {
-          #                                   href: api_v3_paths.query_sort_by(name, direction),
-          #                                   title: sort_by.name
-          #                                 }
-          #                               }
-
-          #schema :results,
-          #       type: 'WorkPackageCollection',
-          #       required: false,
-          #       writable: false,
-          #       visibility: false
-
-          #property :filters_schemas,
-          #         embedded: true,
-          #         exec_context: :decorator
+          schema_with_allowed_collection :widgets,
+                                         type: '[]GridWidget',
+                                         required: true,
+                                         has_default: false,
+                                         visibility: false,
+                                         value_representer: ::API::V3::Grids::WidgetRepresenter,
+                                         link_factory: false
 
           def self.represented_class
             Grid
           end
 
-          #def convert_attribute(attribute)
-          #  ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
-          #end
-
-          #def filters_schemas
-          #  filters = represented.available_filters
-
-          #  QueryFilterInstanceSchemaCollectionRepresenter.new(filters,
-          #                                                     filter_instance_schemas_href,
-          #                                                     form_embedded: form_embedded,
-          #                                                     current_user: current_user)
-          #end
-
-          #def filter_instance_schemas_href
-          #  if represented.project
-          #    api_v3_paths.query_project_filter_instance_schemas(represented.project.id)
-          #  else
-          #    api_v3_paths.query_filter_instance_schemas
-          #  end
-          #end
+          def _dependencies
+            nil
+          end
         end
       end
     end
