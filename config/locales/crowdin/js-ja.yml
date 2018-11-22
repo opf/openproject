@@ -143,7 +143,7 @@ ja:
     label_activity_with_comment_no: アクティビティのエントリ番号 %{activityNo}。ユーザー コメントがあります。
     label_add_columns: 列を追加
     label_add_comment: コメントを追加
-    label_add_comment_title: コメントと @ を入力して他の人に通知します
+    label_add_comment_title: コメントで@ を入力して人に通知する
     label_add_selected_columns: 選択した列を追加
     label_added_by: 追加した人
     label_added_time_by: "%{author} %{age}によって追加されました。"
@@ -318,7 +318,7 @@ ja:
       work_package_belongs_to: このワークパッケージは、プロジェクト %{projectname} に属しています。
       click_to_switch_context: このワークパッケージをそのプロジェクトで開きます。
       autocompleter:
-        label: プロジェクトの自動補完
+        label: プロジェクト名の入力補完
     text_are_you_sure: よろしいですか？
     types:
       attribute_groups:

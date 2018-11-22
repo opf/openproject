@@ -30,6 +30,9 @@
 require 'open_project/static/homescreen'
 require 'open_project/static/links'
 
+# Skip this initializer if we're too early
+return unless EnterpriseToken.table_exists?
+
 OpenProject::Static::Homescreen.manage :blocks do |blocks|
   blocks.push(
     {
@@ -53,7 +56,7 @@ OpenProject::Static::Homescreen.manage :blocks do |blocks|
     },
     {
       partial: 'community',
-      if: Proc.new { OpenProject::Configuration.show_community_links? }
+      if: Proc.new { EnterpriseToken.show_banners? || OpenProject::Configuration.show_community_links? }
     },
     {
       partial: 'administration',
@@ -68,7 +71,7 @@ end
 
 OpenProject::Static::Homescreen.manage :links do |links|
   static_links = OpenProject::Static::Links.links
-  next unless OpenProject::Configuration.show_community_links?
+  next unless  EnterpriseToken.show_banners? || OpenProject::Configuration.show_community_links?
 
   links.push(
     {

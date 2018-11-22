@@ -64,10 +64,15 @@ module Components
       end
     end
 
+    ##
+    # Create an image fixture with the optional caption
+    # Note: The caption will be added to all figures
     def drag_attachment(image_fixture, caption = 'Some caption')
       in_editor do |container, editable|
-        sleep 1
-        editable.base.send_keys(:enter, 'some text', :enter, :enter, :enter)
+        sleep 0.5
+        refocus
+        editable.base.send_keys(:enter, 'some text', :enter, :enter)
+        sleep 0.5
 
         images = editable.all('figure.image')
         attachments.drag_and_drop_file(editable, image_fixture)
@@ -75,14 +80,32 @@ module Components
         expect(page)
           .to have_selector('figure img[src^="/api/v3/attachments/"]', count: images.length + 1, wait: 10)
 
-        sleep 1
         expect(page).not_to have_selector('notification-upload-progress')
-
+        refocus
+        sleep 0.5
         # Besides testing caption functionality this also slows down clicking on the submit button
         # so that the image is properly embedded
-        editable.all('figure.image figcaption').map { |el| el.base.send_keys(caption) }
-        sleep 1
+        editable.all('figure').each do |figure|
+
+          # Locate image within figure
+          # Click on image to show figcaption
+          img = figure.find('img')
+          img.click
+          sleep 0.5
+
+          # Locate figcaption to create comment
+          figcaption = figure.find('figcaption')
+          figcaption.click
+          figcaption.send_keys(caption)
+          sleep 0.5
+        end
       end
+    end
+
+    def refocus
+      editor_element.first('*').click
+    rescue => e
+      warn "Failed to refocus on first editor element #{e}"
     end
 
     def click_toolbar_button(label)

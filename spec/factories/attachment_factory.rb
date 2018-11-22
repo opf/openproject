@@ -32,13 +32,13 @@ FactoryBot.define do
   factory :attachment do
     container factory: :work_package
     author factory: :user
-    description nil
+    description { nil }
 
     transient do
-      filename nil
+      filename { nil }
     end
 
-    content_type 'application/binary'
+    content_type { 'application/binary' }
     sequence(:file) do |n|
       FileHelpers.mock_uploaded_file name: filename || "file-#{n}.test",
                                      content_type: content_type,
@@ -50,7 +50,7 @@ FactoryBot.define do
     end
 
     factory :attached_picture do
-      content_type 'image/jpeg'
+      content_type { 'image/jpeg' }
     end
   end
 end

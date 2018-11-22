@@ -73,7 +73,7 @@ describe 'Upload attachment to wiki page', js: true do
 
     editor.in_editor do |container, _|
       # Expect URL is mapped to the correct URL
-      expect(container).to have_selector('img[src^="/api/v3/attachments/"')
+      expect(container).to have_selector('img[src^="/api/v3/attachments/"]')
       expect(container).to have_no_selector('img[src="image.png"]')
     end
 
@@ -87,10 +87,10 @@ describe 'Upload attachment to wiki page', js: true do
     expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
 
     # Rendered once through the name in the backend
-    expect(page).to have_selector('img[src^="/attachments', count: 1)
+    expect(page).to have_selector('img[src^="/attachments"]', count: 1)
 
     # And once with the full url
-    expect(page).to have_selector('img[src^="/api/v3/attachments/"', count: 1)
+    expect(page).to have_selector('img[src^="/api/v3/attachments/"]', count: 1)
 
     expect(wiki_page_content).to include '![my-first-image](image.png)'
     expect(wiki_page_content).to include '![](/api/v3/attachments'

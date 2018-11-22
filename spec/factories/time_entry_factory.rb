@@ -31,8 +31,8 @@ FactoryBot.define do
     project
     user
     work_package
-    spent_on Date.today
+    spent_on { Date.today }
     activity factory: :time_entry_activity
-    hours 1.0
+    hours { 1.0 }
   end
 end

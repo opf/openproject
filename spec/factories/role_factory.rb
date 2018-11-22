@@ -30,28 +30,28 @@ require 'digest'
 
 FactoryBot.define do
   factory :role do
-    permissions []
+    permissions { [] }
     sequence(:name) do |n| "role_#{n}" end
-    assignable true
+    assignable { true }
 
     factory :non_member do
-      name 'Non member'
-      builtin Role::BUILTIN_NON_MEMBER
-      assignable false
+      name { 'Non member' }
+      builtin { Role::BUILTIN_NON_MEMBER }
+      assignable { false }
       initialize_with { Role.find_or_create_by(name: name) }
     end
 
     factory :anonymous_role do
-      name 'Anonymous'
-      builtin Role::BUILTIN_ANONYMOUS
-      assignable false
+      name { 'Anonymous' }
+      builtin { Role::BUILTIN_ANONYMOUS }
+      assignable { false }
       initialize_with { Role.find_or_create_by(name: name) }
     end
 
     factory :existing_role do
       name { 'Role ' + Digest::MD5.hexdigest(permissions.map(&:to_s).join('/'))[0..4] }
-      assignable true
-      permissions []
+      assignable { true }
+      permissions { [] }
 
       initialize_with do
         role =
