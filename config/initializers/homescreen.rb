@@ -30,6 +30,9 @@
 require 'open_project/static/homescreen'
 require 'open_project/static/links'
 
+# Skip this initializer if we're too early
+return unless EnterpriseToken.table_exists?
+
 OpenProject::Static::Homescreen.manage :blocks do |blocks|
   blocks.push(
     {
