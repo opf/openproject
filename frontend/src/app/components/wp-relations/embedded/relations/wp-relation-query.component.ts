@@ -39,6 +39,7 @@ import {WorkPackageRelationQueryBase} from "core-components/wp-relations/embedde
 import {WpRelationInlineCreateService} from "core-components/wp-relations/embedded/relations/wp-relation-inline-create.service";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {forkJoin, merge} from "rxjs";
+import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
 
 @Component({
   selector: 'wp-relation-query',
@@ -68,6 +69,7 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
 
   constructor(protected readonly PathHelper:PathHelperService,
               @Inject(WorkPackageInlineCreateService) protected readonly wpInlineCreate:WpRelationInlineCreateService,
+              protected readonly wpRelations:WorkPackageRelationsService,
               protected readonly queryUrlParamsHelper:UrlParamsHelperService,
               protected readonly wpNotifications:WorkPackageNotificationService,
               protected readonly I18n:I18nService) {
@@ -87,10 +89,11 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
     // Wire the successful saving of a new addition to refreshing the embedded table
     this.wpInlineCreate.newInlineWorkPackageCreated
       .pipe(untilComponentDestroyed(this))
-      .subscribe((toId:string) => this.addRelationAndReload(toId));
+      .subscribe((toId:string) => this.addRelation(toId));
 
-    // Wire the successful referencing of a work package to refreshing the embedded table
-    this.wpInlineCreate.newInlineWorkPackageReferenced
+    // When relations have changed, refresh this table
+
+    this.wpRelations.observe(this.workPackage.id)
       .pipe(untilComponentDestroyed(this))
       .subscribe(() => this.refreshTable());
   }
@@ -99,11 +102,9 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
     // Nothing to do
   }
 
-  private addRelationAndReload(toId:string) {
-    this.wpInlineCreate.add(this.workPackage, toId)
-      .then(() => {
-        this.refreshTable();
-      })
+  private addRelation(toId:string) {
+    this.wpInlineCreate
+      .add(this.workPackage, toId)
       .catch(error => this.wpNotifications.handleRawError(error, this.workPackage));
   }
 

@@ -93,8 +93,8 @@ export class WpRelationInlineCreateService extends WorkPackageInlineCreateServic
    * Reference button text
    */
   public readonly buttonTexts = {
-    reference: this.I18n.t('js.relation_buttons.add_existing_relation'),
-    create: this.I18n.t('js.relation_buttons.add_new_related_wp')
+    reference: this.I18n.t('js.relation_buttons.add_existing'),
+    create: this.I18n.t('js.relation_buttons.create_new')
   };
 
   /**
