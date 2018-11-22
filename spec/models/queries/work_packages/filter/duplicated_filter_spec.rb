@@ -28,12 +28,12 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::RequiredByFilter, type: :model do
+describe Queries::WorkPackages::Filter::DuplicatedFilter, type: :model do
   it_behaves_like 'filter by work package id' do
-    let(:class_key) { :required_by }
+    let(:class_key) { :duplicated }
 
     it_behaves_like 'filter for relation' do
-      let(:relation_type) { :requires }
+      let(:relation_type) { :duplicated }
     end
   end
 end

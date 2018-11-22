@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,24 +26,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Filter for all work packages that are (or are not) duplicated by work packages with the provided values.
+require 'spec_helper'
 
-class Queries::WorkPackages::Filter::DuplicatedByFilter <
-  Queries::WorkPackages::Filter::WorkPackageFilter
+describe Queries::WorkPackages::Filter::RelatesFilter, type: :model do
+  it_behaves_like 'filter by work package id' do
+    let(:class_key) { :relates }
 
-  include ::Queries::WorkPackages::Filter::FilterOnDirectedRelationsMixin
-
-  private
-
-  def relation_type
-    :duplicates
-  end
-
-  def relation_filter
-    { to_id: values }
-  end
-
-  def relation_select
-    :from_id
+    it_behaves_like 'filter for relation' do
+      let(:relation_type) { :related_to }
+    end
   end
 end

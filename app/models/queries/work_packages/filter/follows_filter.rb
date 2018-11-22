@@ -35,11 +35,11 @@ class Queries::WorkPackages::Filter::FollowsFilter <
 
   include ::Queries::WorkPackages::Filter::FilterOnDirectedRelationsMixin
 
-  private
-
   def relation_type
-    :follows
+    ::Relation::TYPE_FOLLOWS
   end
+
+  private
 
   def relation_filter
     { to_id: values }

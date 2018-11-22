@@ -36,7 +36,7 @@ module Queries::WorkPackages::Filter::FilterOnDirectedRelationsMixin
     # the `Relation`'s association `includes` is overwritten with the method `includes`
     # otherwise.
     relations_subselect = Relation
-                          .send(relation_type)
+                          .send(normalized_relation_type)
                           .direct
                           .where(relation_filter)
                           .select(relation_select)
@@ -50,11 +50,15 @@ module Queries::WorkPackages::Filter::FilterOnDirectedRelationsMixin
     "#{WorkPackage.table_name}.id #{operator} (#{relations_subselect.to_sql})"
   end
 
-  private
-
   def relation_type
     raise NotImplementedError
   end
+
+  def normalized_relation_type
+    ::Relation.canonical_type relation_type
+  end
+
+  private
 
   def relation_filter
     raise NotImplementedError

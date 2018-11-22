@@ -32,7 +32,7 @@ module API
   module V3
     module Queries
       module Schemas
-        class BlockedByFilterDependencyRepresenter < ByWorkPackageFilterDependencyRepresenter; end
+        class RelatesFilterDependencyRepresenter < ByWorkPackageFilterDependencyRepresenter; end
       end
     end
   end

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 
 #-- copyright
-# OpenProject is a project management system.
+# OpenProject is a project management system../spec/models/queries/work_packages/filter/blocks_filter_spec.rb
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
@@ -35,17 +35,17 @@ class Queries::WorkPackages::Filter::BlocksFilter <
 
   include ::Queries::WorkPackages::Filter::FilterOnDirectedRelationsMixin
 
-  private
-
   def relation_type
-    :blocks
+    ::Relation::TYPE_BLOCKS
   end
 
+  private
+
   def relation_filter
-    { from_id: values }
+    { to_id: values }
   end
 
   def relation_select
-    :to_id
+    :from_id
   end
 end

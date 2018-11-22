@@ -28,12 +28,24 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Queries
-      module Schemas
-        class DuplicatedByFilterDependencyRepresenter < ByWorkPackageFilterDependencyRepresenter; end
-      end
-    end
+# Filter for all work packages that are (or are not) blocking work packages with the provided values.
+
+class Queries::WorkPackages::Filter::PartofFilter <
+  Queries::WorkPackages::Filter::WorkPackageFilter
+
+  include ::Queries::WorkPackages::Filter::FilterOnDirectedRelationsMixin
+
+  def relation_type
+    ::Relation::TYPE_PARTOF
+  end
+
+  private
+
+  def relation_filter
+    { to_id: values }
+  end
+
+  def relation_select
+    :from_id
   end
 end

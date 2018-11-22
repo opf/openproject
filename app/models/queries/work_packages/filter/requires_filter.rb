@@ -35,11 +35,11 @@ class Queries::WorkPackages::Filter::RequiresFilter <
 
   include ::Queries::WorkPackages::Filter::FilterOnDirectedRelationsMixin
 
-  private
-
   def relation_type
-    :requires
+    ::Relation::TYPE_REQUIRES
   end
+
+  private
 
   def relation_filter
     { from_id: values }

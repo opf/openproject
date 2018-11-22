@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,14 +28,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+# Filter for all work packages that are (or are not) predecessor of the provided values
 
-describe Queries::WorkPackages::Filter::PartOfFilter, type: :model do
-  it_behaves_like 'filter by work package id' do
-    let(:class_key) { :part_of }
+class Queries::WorkPackages::Filter::RelatesFilter <
+  Queries::WorkPackages::Filter::WorkPackageFilter
 
-    it_behaves_like 'filter for relation' do
-      let(:relation_type) { :part_of }
-    end
+  include ::Queries::WorkPackages::Filter::FilterOnUndirectedRelationsMixin
+
+  def relation_type
+    ::Relation::TYPE_RELATES
   end
 end

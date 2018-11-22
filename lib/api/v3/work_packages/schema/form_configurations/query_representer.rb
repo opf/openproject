@@ -37,6 +37,9 @@ module API
             property :name,
                      exec_context: :decorator
 
+            property :relation_type,
+                     exec_context: :decorator
+
             associated_resource :query,
                                 link: ->(*) do
                                   {
@@ -54,11 +57,19 @@ module API
                                 end
 
             def _type
-              if query.filters.map(&:name).include? :parent
+              if relation_type == ::Relation::TYPE_HIERARCHY
                 "WorkPackageFormChildrenQueryGroup"
               else
                 "WorkPackageFormRelationQueryGroup"
               end
+            end
+
+            def relation_type
+              relation_filter&.relation_type
+            end
+
+            def relation_filter
+              @relation_filter ||= query.filters.detect { |f| f.respond_to? :relation_type }
             end
 
             def name

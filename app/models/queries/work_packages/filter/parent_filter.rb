@@ -33,11 +33,11 @@ class Queries::WorkPackages::Filter::ParentFilter <
 
   include ::Queries::WorkPackages::Filter::FilterOnDirectedRelationsMixin
 
-  private
-
   def relation_type
-    :hierarchy
+    ::Relation::TYPE_HIERARCHY
   end
+
+  private
 
   def relation_filter
     { from_id: values }

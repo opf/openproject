@@ -35,11 +35,11 @@ class Queries::WorkPackages::Filter::DuplicatesFilter <
 
   include ::Queries::WorkPackages::Filter::FilterOnDirectedRelationsMixin
 
-  private
-
   def relation_type
-    :duplicates
+    ::Relation::TYPE_DUPLICATES
   end
+
+  private
 
   def relation_filter
     { from_id: values }

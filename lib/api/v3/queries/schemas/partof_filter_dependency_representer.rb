@@ -28,24 +28,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Filter for all work packages that are (or are not) blocking work packages with the provided values.
-
-class Queries::WorkPackages::Filter::PartOfFilter <
-  Queries::WorkPackages::Filter::WorkPackageFilter
-
-  include ::Queries::WorkPackages::Filter::FilterOnDirectedRelationsMixin
-
-  private
-
-  def relation_type
-    :includes
-  end
-
-  def relation_filter
-    { from_id: values }
-  end
-
-  def relation_select
-    :to_id
+module API
+  module V3
+    module Queries
+      module Schemas
+        class PartofFilterDependencyRepresenter < ByWorkPackageFilterDependencyRepresenter; end
+      end
+    end
   end
 end

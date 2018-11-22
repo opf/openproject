@@ -28,18 +28,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Filter for all work packages that are (or are not) duplicated by work packages with the provided values.
+# Filter for all work packages that are (or are not) required by work packages with the provided values.
 
-class Queries::WorkPackages::Filter::BlockedByFilter <
+class Queries::WorkPackages::Filter::RequiredFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
 
   include ::Queries::WorkPackages::Filter::FilterOnDirectedRelationsMixin
 
-  private
-
   def relation_type
-    :blocks
+    ::Relation::TYPE_REQUIRED
   end
+
+  private
 
   def relation_filter
     { to_id: values }

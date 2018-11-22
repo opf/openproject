@@ -108,7 +108,6 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
   }
 
   private getRelationTypeFromQuery() {
-    // TODO from group
-    return 'relates';
+    return this.group.relationType;
   }
 }

@@ -35,11 +35,11 @@ class Queries::WorkPackages::Filter::PrecedesFilter <
 
   include ::Queries::WorkPackages::Filter::FilterOnDirectedRelationsMixin
 
-  private
-
   def relation_type
-    :follows
+    ::Relation::TYPE_PRECEDES
   end
+
+  private
 
   def relation_filter
     { from_id: values }
