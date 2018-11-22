@@ -53,7 +53,7 @@ OpenProject::Static::Homescreen.manage :blocks do |blocks|
     },
     {
       partial: 'community',
-      if: Proc.new { OpenProject::Configuration.show_community_links? }
+      if: Proc.new { EnterpriseToken.show_banners? || OpenProject::Configuration.show_community_links? }
     },
     {
       partial: 'administration',
@@ -68,7 +68,7 @@ end
 
 OpenProject::Static::Homescreen.manage :links do |links|
   static_links = OpenProject::Static::Links.links
-  next unless OpenProject::Configuration.show_community_links?
+  next unless  EnterpriseToken.show_banners? || OpenProject::Configuration.show_community_links?
 
   links.push(
     {
