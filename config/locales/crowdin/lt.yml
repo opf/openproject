@@ -345,7 +345,7 @@ lt:
         expires_at: Nustoja galioti
         subscriber: Prenumeruotojas
         encoded_token: "„Enterprise“ paramos raktas"
-        active_user_count_restriction: Maximum active users
+        active_user_count_restriction: Maksimalus aktyvių vartotojų skaičius
       relation:
         delay: Vėlavimas
         from: Darbų paketas
@@ -398,7 +398,7 @@ lt:
         mail_notification: El. pašto priminimai
         new_password: Naujas slaptažodis
         password_confirmation: Patvirtinimas
-        consented_at: Consented at
+        consented_at: Sutikimo laikas
       user_preference:
         comments_sorting: Rodyti komentarus
         hide_mail: Slėpti mano el. pašto adresą
@@ -715,7 +715,7 @@ lt:
   button_create: Sukurti
   button_create_and_continue: Sukurti ir tęsti
   button_delete: Ištrinti
-  button_decline: Decline
+  button_decline: Atmesti
   button_delete_watcher: Pašalinti stebėtoją vardu %{name}
   button_download: Atsiųsti
   button_duplicate: Dublikuoti
@@ -750,7 +750,7 @@ lt:
   button_unlock: Atrakinti
   button_unwatch: Nestebėti
   button_update: Atnaujinti
-  button_upgrade: Upgrade
+  button_upgrade: Atnaujinti
   button_upload: Įkelti
   button_view: Peržiūrėti
   button_watch: Stebėti
@@ -759,10 +759,11 @@ lt:
   button_configure_menu_entry: Konfigūruoti meniu punktą
   button_delete_menu_entry: Panaikinti meniu punktą
   consent:
-    checkbox_label: I have noted and do consent to the above.
-    failure_message: Consent failed, cannot proceed.
-    title: User Consent
-    decline_warning_message: You have declined to consent and have been logged out.
+    checkbox_label: Perskaičiau ir sutinku su tekstu aukščiau.
+    failure_message: Sutikimas negautas. Tęsti negalima.
+    title: Vartotojo sutikimas
+    decline_warning_message: Jūs nesutikote su sąlygomis, todėl buvote atjungtas nuo
+      sistemos.
     user_has_consented: User has consented to your configured statement at the given
       time.
     not_yet_consented: User has not consented yet, will be requested upon next login.
@@ -1027,8 +1028,8 @@ lt:
   error_custom_option_not_found: Galimybė neegzistuoja.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
-  error_enterprise_activation_user_limit: Your account could not be activated (user
-    limit reached). Please contact your administrator to gain access.
+  error_enterprise_activation_user_limit: Jūsų paskyra negali būti aktyvuota (pasiektas
+    vartotojų limitas). Prašome kreiptis į savo sistemos administratorių.
   error_failed_to_delete_entry: Šio įrašo nepavyko panaikinti.
   error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Negalima grupuoti naudojant: %{value}'
@@ -1221,7 +1222,7 @@ lt:
   label_calendar: Kalendorius
   label_calendar_show: Rodyti kalendorių
   label_category: Kategorija
-  label_consent_settings: User Consent
+  label_consent_settings: Vartotojo sutikimas
   label_wiki_menu_item: Wiki meniu punktas
   label_select_main_menu_item: Pasirinkti naują pagrindinio meniu punktą
   label_select_project: Pasirinkti projektą
@@ -1793,7 +1794,7 @@ lt:
       The user cannot activate their account since the user limit has been reached.
     steps:
       label: 'To allow the user to sign in you can either: '
-      a: Upgrade your payment plan ([here](upgrade_url))
+      a: Atnaujinti savo mokėjimo planą ([here](upgrade_url))
       b: Lock or delete an existing user ([here](users_url))
   more_actions: Daugiau funkcijų
   noscript_description: Jums reikia įjungti JavaScript, kad galėtumėte naudoti OpenProject!
