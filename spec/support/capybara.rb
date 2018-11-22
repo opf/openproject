@@ -16,7 +16,7 @@ end
 Capybara::Screenshot.prune_strategy = :keep_last_run
 
 # silence puma if we're using it
-Capybara.server = :puma, { Silent: true }
+Capybara.server = :puma
 
 # Set up S3 uploads if desired
 if ENV['OPENPROJECT_ENABLE_CAPYBARA_SCREENSHOT_S3_UPLOADS'] && ENV['AWS_ACCESS_KEY_ID']

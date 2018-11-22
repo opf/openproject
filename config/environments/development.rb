@@ -37,6 +37,7 @@ OpenProject::Application.configure do
 
   # Automatically refresh translations with I18n middleware
   config.middleware.use ::I18n::JS::Middleware
+  config.middleware.insert_before Rack::Sendfile, ActionDispatch::DebugLocks
 
   # Do not eager load code on boot.
   config.eager_load = false
