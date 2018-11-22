@@ -101,7 +101,7 @@ module Relation::HierarchyPaths
 
     def self.add_conditions_and_union(id)
       if id.nil?
-        <<-SQL 
+        <<-SQL
            WHERE hierarchy > 0 AND relates = 0 AND blocks = 0 AND duplicates = 0 AND includes = 0 AND requires = 0 AND follows = 0
         SQL
       else
