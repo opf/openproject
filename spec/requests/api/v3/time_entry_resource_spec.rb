@@ -505,7 +505,7 @@ describe 'API v3 time_entry resource', type: :request do
 
     shared_examples_for 'deletes the time_entry' do
       it 'responds with HTTP No Content' do
-        expect(subject.status).to eq 204
+        expect(subject.status).to eq 202
       end
 
       it 'removes the time_entry from the DB' do
@@ -533,7 +533,7 @@ describe 'API v3 time_entry resource', type: :request do
       context 'with the user not being the author' do
         let(:author) { FactoryBot.create(:user) }
 
-        it_behaves_like 'does not delete the time_entry', 404
+        it_behaves_like 'does not delete the time_entry', 415
       end
     end
   end

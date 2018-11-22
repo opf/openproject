@@ -43,7 +43,7 @@ describe TimeEntries::DeleteContract do
     FactoryBot.build_stubbed(:work_package,
                              project: time_entry_project)
   end
-  let(:time_entry_project) { FactoryBot.build_stubbed(:project) }
+  let(:time_entry_project) { FactoryBot.create(:project) }
   let(:time_entry_activity) { FactoryBot.build_stubbed(:time_entry_activity) }
   let(:time_entry_user) { current_user }
   let(:time_entry_spent_on) { Date.today }

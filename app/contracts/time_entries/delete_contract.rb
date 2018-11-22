@@ -29,7 +29,7 @@
 #++
 
 module TimeEntries
-  class DeleteContract < ModelContract
+  class DeleteContract < BaseContract
     def validate
       unless user_allowed_to_delete?
         errors.add :base, :error_unauthorized
