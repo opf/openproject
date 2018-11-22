@@ -30,4 +30,13 @@
 
 class Grid < ActiveRecord::Base
   has_many :widgets, class_name: 'GridWidget'
+
+  def self.new_default(_user)
+    new(
+      #user: user,
+      row_count: 4,
+      column_count: 5,
+      widgets: []
+    )
+  end
 end

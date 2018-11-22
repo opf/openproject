@@ -47,9 +47,8 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
 
   describe '#post' do
     # TODO: spec errors
-    # spec that widgets are not updated
     before do
-      post path, params: params
+      post path, params.to_json, 'CONTENT_TYPE' => 'application/json'
     end
 
     it 'returns 200 OK' do
@@ -63,61 +62,130 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
         .at_path('_type')
     end
 
-    it 'contains a Schema' do
+    it 'contains a Schema embedding the available values' do
       expect(subject.body)
         .to be_json_eql("Schema".to_json)
         .at_path('_embedded/schema/_type')
+
+      expect(subject.body)
+        .to be_json_eql(my_page_path.to_json)
+        .at_path('_embedded/schema/page/_links/allowedValues/0/href')
     end
 
     it 'contains default data in the payload' do
       expected = {
         "rowCount": 4,
         "columnCount": 5,
-        "widgets": [
-          {
-            "_type": "Widget",
-            "identifier": "work_packages_assigned",
-            "startRow": 4,
-            "endRow": 5,
-            "startColumn": 1,
-            "endColumn": 2
-          },
-          {
-            "_type": "Widget",
-            "identifier": "work_packages_created",
-            "startRow": 1,
-            "endRow": 2,
-            "startColumn": 1,
-            "endColumn": 2
-          },
-          {
-            "_type": "Widget",
-            "identifier": "work_packages_watched",
-            "startRow": 2,
-            "endRow": 4,
-            "startColumn": 4,
-            "endColumn": 5
-          },
-          {
-            "_type": "Widget",
-            "identifier": "work_packages_calendar",
-            "startRow": 1,
-            "endRow": 2,
-            "startColumn": 4,
-            "endColumn": 6
-          }
-        ],
-        "_links": {
-          "page": {
-            "href": "/my/page",
-            "type": "text/html"
-          }
-        }
+        "widgets": [],
+        "_links": {}
       }
 
       expect(subject.body)
         .to be_json_eql(expected.to_json)
         .at_path('_embedded/payload')
+    end
+
+    it 'has a validation error on page' do
+      expect(subject.body)
+        .to be_json_eql("Page is not set to one of the allowed values.".to_json)
+        .at_path('_embedded/validationErrors/page/message')
+    end
+
+    context 'with /my/page for the page value' do
+      let(:params) do
+        {
+          '_links': {
+            'page': {
+              'href': my_page_path
+            }
+          }
+        }
+      end
+
+      it 'contains default data in the payload' do
+        expected = {
+          "rowCount": 4,
+          "columnCount": 5,
+          "widgets": [
+            {
+              "_type": "GridWidget",
+              "identifier": "work_packages_assigned",
+              "startRow": 4,
+              "endRow": 5,
+              "startColumn": 1,
+              "endColumn": 2
+            },
+            {
+              "_type": "GridWidget",
+              "identifier": "work_packages_created",
+              "startRow": 1,
+              "endRow": 2,
+              "startColumn": 1,
+              "endColumn": 2
+            },
+            {
+              "_type": "GridWidget",
+              "identifier": "work_packages_watched",
+              "startRow": 2,
+              "endRow": 4,
+              "startColumn": 4,
+              "endColumn": 5
+            },
+            {
+              "_type": "GridWidget",
+              "identifier": "work_packages_calendar",
+              "startRow": 1,
+              "endRow": 2,
+              "startColumn": 4,
+              "endColumn": 6
+            }
+          ],
+          "_links": {
+            "page": {
+              "href": "/my/page",
+              "type": "text/html"
+            }
+          }
+        }
+
+        expect(subject.body)
+          .to be_json_eql(expected.to_json)
+          .at_path('_embedded/payload')
+      end
+
+      it 'has no validationErrors' do
+        expect(subject.body)
+          .to be_json_eql({}.to_json)
+          .at_path('_embedded/validationErrors')
+      end
+    end
+
+    context 'with an unsupported widget identifier' do
+      let(:params) do
+        {
+          '_links': {
+            'page': {
+              'href': my_page_path
+            }
+          },
+          "widgets": [
+            {
+              "_type": "GridWidget",
+              "identifier": "bogus_identifier",
+              "startRow": 4,
+              "endRow": 5,
+              "startColumn": 1,
+              "endColumn": 2
+            }
+          ]
+        }
+      end
+
+      it 'has a validationError on widget' do
+        expect(subject.body)
+          .to be_json_eql("Widgets is not set to one of the allowed values.".to_json)
+          .at_path('_embedded/validationErrors/widgets/message')
+      end
     end
   end
 end

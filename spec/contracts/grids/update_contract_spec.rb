@@ -37,9 +37,20 @@ describe Grids::UpdateContract do
   it_behaves_like 'shared grid contract attributes'
 
   describe 'type' do
-    it_behaves_like 'is not writable' do
-      let(:attribute) { :type }
-      let(:value) { 'MyPageGrid' }
+    before do
+      grid.type = 'Grid'
+    end
+
+    it 'is not writable' do
+      expect(instance.validate)
+        .to be_falsey
+    end
+
+    it 'explains the not writable error' do
+      instance.validate
+      # page because that is what type is called on the outside for grids
+      expect(instance.errors.details[:page])
+        .to match_array [{ error: :error_readonly }]
     end
   end
 

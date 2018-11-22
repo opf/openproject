@@ -50,6 +50,14 @@ class Grids::UpdateService
   protected
 
   def create(attributes)
+    # TODO prettify and explain that this is done only so that
+    # error messages are displayed
+    page = attributes.delete(:page)
+    if page
+      grid_class = ::Grids::Configuration.grid_for_page(page)
+      grid.type = grid_class.name
+    end
+
     set_attributes_call = set_attributes(attributes, grid)
 
     if set_attributes_call.success? &&

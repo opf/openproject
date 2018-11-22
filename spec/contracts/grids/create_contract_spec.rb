@@ -44,6 +44,9 @@ describe Grids::CreateContract do
   end
 
   describe 'user_id' do
+    let(:grid) do
+      FactoryBot.build_stubbed(:grid, default_values)
+    end
     it_behaves_like 'is not writable' do
       let(:attribute) { :user_id }
       let(:value) { 5 }

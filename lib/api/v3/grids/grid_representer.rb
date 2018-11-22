@@ -34,12 +34,9 @@ module API
 
         resource_link :page,
                       getter: ->(*) {
-                        # TODO generalize
-                        path = if represented.is_a?(::MyPageGrid)
-                                 my_page_path
-                               else
-                                 raise "undefined error"
-                               end
+                        path = ::Grids::Configuration.grid_for_class(represented.class)
+
+                        next unless path
 
                         {
                           href: path,
@@ -47,7 +44,7 @@ module API
                         }
                       },
                       setter: ->(fragment:, **) {
-                        # nothing for now
+                        represented.page = fragment['href']
                       }
 
         self_link title_getter: ->(*) { nil }

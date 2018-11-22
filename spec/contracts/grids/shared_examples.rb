@@ -38,7 +38,7 @@ shared_context 'grid contract' do
     }
   end
   let(:grid) do
-    FactoryBot.build_stubbed(:grid, default_values)
+    FactoryBot.build_stubbed(:my_page_grid, default_values)
   end
 
   shared_examples_for 'is not writable' do
@@ -49,6 +49,12 @@ shared_context 'grid contract' do
     it 'is not writable' do
       expect(instance.validate)
         .to be_falsey
+    end
+
+    it 'explains the not writable error' do
+      instance.validate
+      expect(instance.errors.details[attribute])
+        .to match_array [{ error: :error_readonly }]
     end
   end
 
@@ -118,6 +124,121 @@ shared_examples_for 'shared grid contract attributes' do
                          end_column: 2,
                          identifier: 'work_packages_assigned')
         ]
+      end
+    end
+
+    context 'invalid identifier' do
+      before do
+        grid.widgets.build(start_row: 1,
+                           end_row: 1,
+                           start_column: 2,
+                           end_column: 2,
+                           identifier: 'bogus_identifier')
+      end
+
+      it 'is invalid' do
+        expect(instance.validate)
+          .to be_falsey
+      end
+
+      it 'notes the error' do
+        instance.validate
+        expect(instance.errors.details[:widgets])
+          .to match_array [{ error: :inclusion }]
+      end
+    end
+
+    context 'collisions between widgets' do
+      before do
+        grid.widgets.build(start_row: 1,
+                           end_row: 3,
+                           start_column: 1,
+                           end_column: 3,
+                           identifier: 'work_packages_assigned')
+        grid.widgets.build(start_row: 2,
+                           end_row: 4,
+                           start_column: 2,
+                           end_column: 4,
+                           identifier: 'work_packages_created')
+      end
+
+      it 'is invalid' do
+        expect(instance.validate)
+          .to be_falsey
+      end
+
+      it 'notes the error' do
+        instance.validate
+        expect(instance.errors.details[:widgets])
+          .to match_array [{ error: :overlaps }, { error: :overlaps }]
+      end
+    end
+  end
+
+  context 'widgets having the same start column as another\'s end column' do
+    before do
+      grid.widgets.build(start_row: 1,
+                         end_row: 3,
+                         start_column: 1,
+                         end_column: 3,
+                         identifier: 'work_packages_assigned')
+      grid.widgets.build(start_row: 1,
+                         end_row: 3,
+                         start_column: 3,
+                         end_column: 4,
+                         identifier: 'work_packages_created')
+    end
+
+    it 'is valid' do
+      expect(instance.validate)
+        .to be_truthy
+    end
+  end
+
+  context 'widgets having the same start row as another\'s end row' do
+    before do
+      grid.widgets.build(start_row: 1,
+                         end_row: 3,
+                         start_column: 1,
+                         end_column: 3,
+                         identifier: 'work_packages_assigned')
+      grid.widgets.build(start_row: 3,
+                         end_row: 4,
+                         start_column: 1,
+                         end_column: 3,
+                         identifier: 'work_packages_created')
+    end
+
+    it 'is valid' do
+      expect(instance.validate)
+        .to be_truthy
+    end
+  end
+
+  describe 'valid grid subclasses' do
+    context 'for a registered subclass' do
+      let(:grid) do
+        FactoryBot.build_stubbed(:my_page_grid, default_values)
+      end
+
+      it 'is valid' do
+        expect(instance.validate)
+          .to be_truthy
+      end
+    end
+
+    context 'for the Grid superclass itself' do
+      let(:grid) do
+        FactoryBot.build_stubbed(:grid, default_values)
+      end
+
+      before do
+        instance.validate
+      end
+
+      it 'is invalid for the grid superclass itself' do
+        expect(instance.errors.details[:page])
+          .to match_array [{ error: :inclusion }]
       end
     end
   end

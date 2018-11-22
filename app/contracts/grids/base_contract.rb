@@ -43,6 +43,16 @@ module Grids
       validate_positive_integer(:column_count)
     end
 
+    attribute_alias :type, :page
+
+    def validate
+      validate_registered_subclass
+      validate_registered_widgets
+      validate_widget_collisions
+
+      super
+    end
+
     attribute :widgets
 
     def self.model
@@ -50,11 +60,45 @@ module Grids
     end
 
     # TODO tests and check if it should be here
-    def assignable_values(column, user)
+    def assignable_values(_column, _user)
       nil
     end
 
     private
+
+    def validate_registered_subclass
+      unless Grids::Configuration.registered_grid?(model.class)
+        # page because that is what is exposed to the outside
+        errors.add(:page, :inclusion)
+      end
+    end
+
+    def validate_registered_widgets
+      return unless Grids::Configuration.registered_grid?(model.class)
+
+      model.widgets.each do |widget|
+        next if Grids::Configuration.allowed_widget?(model.class, widget.identifier)
+
+        errors.add(:widgets, :inclusion)
+      end
+    end
+
+    def validate_widget_collisions
+      model.widgets.each do |widget|
+        overlaps = model
+                   .widgets
+                   .any? do |other_widget|
+                     widget != other_widget &&
+                       !widget.marked_for_destruction? &&
+                       !other_widget.marked_for_destruction? &&
+                       widgets_overlap?(widget, other_widget)
+                   end
+
+        if overlaps
+          errors.add(:widgets, :overlaps)
+        end
+      end
+    end
 
     def validate_positive_integer(attribute)
       value = model.send(attribute)
@@ -64,6 +108,18 @@ module Grids
       elsif value < 1
         errors.add(attribute, :greater_than, count: 0)
       end
+    end
+
+    def widgets_overlap?(widget, other_widget)
+      point_in_widget_area(widget, other_widget.start_row, other_widget.start_column) ||
+        point_in_widget_area(widget, other_widget.start_row, other_widget.end_column) ||
+        point_in_widget_area(widget, other_widget.end_row, other_widget.start_column) ||
+        point_in_widget_area(widget, other_widget.end_row, other_widget.end_column)
+    end
+
+    def point_in_widget_area(widget, row, column)
+      widget.start_row < row && widget.end_row > row &&
+        widget.start_column < column && widget.end_column > column
     end
   end
 end

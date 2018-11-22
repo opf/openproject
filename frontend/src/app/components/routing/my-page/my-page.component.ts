@@ -36,9 +36,17 @@ export class MyPageComponent implements OnInit {
   }
 
   private myPageForm():Promise<GridResource> {
+    let payload = {
+      '_links': {
+        'page': {
+          'href': this.pathHelper.myPagePath()
+        }
+      }
+    };
+
     return this
       .gridDm
-      .createForm({})
+      .createForm(payload)
       .then((form) => {
         return (form.payload as GridResource);
       });

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Grids::GridRepresenter, 'parsing' do
+describe ::API::V3::Grids::GridPayloadRepresenter, 'parsing' do
   include ::API::V3::Utilities::PathHelper
 
   let(:object) do
@@ -68,11 +68,23 @@ describe ::API::V3::Grids::GridRepresenter, 'parsing' do
           "startColumn": 4,
           "endColumn": 5
         }
-      ]
+      ],
+      "_links" => {
+        "page" => {
+          "href" => my_page_path
+        }
+      }
     }
   end
 
   describe '_links' do
+    context 'page' do
+      it 'updates page' do
+        grid = representer.from_hash(hash)
+        expect(grid.page)
+          .to eql(my_page_path)
+      end
+    end
   end
 
   describe 'properties' do

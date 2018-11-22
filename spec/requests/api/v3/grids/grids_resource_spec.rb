@@ -256,13 +256,41 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
           .at_path('_type')
 
         expect(subject.body)
-          .to be_json_eql("Row count must be greater than 0.".to_json)
+          .to be_json_eql("Number of rows must be greater than 0.".to_json)
           .at_path('message')
       end
 
       it 'does not persist the changes to widgets' do
         expect(my_page_grid.reload.widgets.count)
           .to eql MyPageGrid.new_default(current_user).widgets.size
+      end
+    end
+
+    context 'with a page param' do
+      let(:params) do
+        {
+          "_links": {
+            "page": {
+              "href": ''
+            }
+          }
+        }.with_indifferent_access
+      end
+
+      it 'responds with 422 and mentions the error' do
+        expect(subject.status).to eq 422
+
+        expect(subject.body)
+          .to be_json_eql('Error'.to_json)
+          .at_path('_type')
+
+        expect(subject.body)
+          .to be_json_eql("You must not write a read-only attribute.".to_json)
+          .at_path('message')
+
+        expect(subject.body)
+          .to be_json_eql("page".to_json)
+          .at_path('_embedded/details/attribute')
       end
     end
 
@@ -301,7 +329,12 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
           "endRow": 8,
           "startColumn": 2,
           "endColumn": 5
-        }]
+        }],
+        "_links": {
+          "page": {
+            "href": my_page_path
+          }
+        }
       }.with_indifferent_access
     end
 
@@ -341,6 +374,50 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
             "endRow": 8,
             "startColumn": 2,
             "endColumn": 5
+          }],
+          "_links": {
+            "page": {
+              "href": my_page_path
+            }
+          }
+        }.with_indifferent_access
+      end
+
+      it 'responds with 422' do
+        expect(subject.status).to eq(422)
+      end
+
+      it 'does not create a grid' do
+        expect(Grid.count)
+          .to eql(0)
+      end
+
+      it 'returns the errors' do
+        expect(subject.body)
+          .to be_json_eql('Error'.to_json)
+          .at_path('_type')
+
+        expect(subject.body)
+          .to be_json_eql("Number of rows must be greater than 0.".to_json)
+          .at_path('_embedded/errors/0/message')
+
+        expect(subject.body)
+          .to be_json_eql("Number of columns must be greater than 0.".to_json)
+          .at_path('_embedded/errors/1/message')
+      end
+    end
+
+    context 'without a page link' do
+      let(:params) do
+        {
+          "rowCount": 5,
+          "columnCount": 5,
+          "widgets": [{
+            "identifier": "work_packages_assigned",
+            "startRow": 4,
+            "endRow": 8,
+            "startColumn": 2,
+            "endColumn": 5
           }]
         }.with_indifferent_access
       end
@@ -360,12 +437,8 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
           .at_path('_type')
 
         expect(subject.body)
-          .to be_json_eql("Row count must be greater than 0.".to_json)
-          .at_path('_embedded/errors/0/message')
-
-        expect(subject.body)
-          .to be_json_eql("Column count must be greater than 0.".to_json)
-          .at_path('_embedded/errors/1/message')
+          .to be_json_eql("Page is not set to one of the allowed values.".to_json)
+          .at_path('message')
       end
     end
   end

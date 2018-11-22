@@ -99,7 +99,7 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
       it 'has a list of widgets' do
         widgets = [
           {
-            "_type": "Widget",
+            "_type": "GridWidget",
             "identifier": 'work_packages_assigned',
             "startRow": 4,
             "endRow": 5,
@@ -107,7 +107,7 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
             "endColumn": 2
           },
           {
-            "_type": "Widget",
+            "_type": "GridWidget",
             "identifier": 'work_packages_created',
             "startRow": 1,
             "endRow": 2,
@@ -115,7 +115,7 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
             "endColumn": 2
           },
           {
-            "_type": "Widget",
+            "_type": "GridWidget",
             "identifier": 'work_packages_watched',
             "startRow": 2,
             "endRow": 4,

@@ -41,10 +41,12 @@ module API
                      .call(request_body)
                      .result
 
-            # TODO: determine grid class based on the page parameter
+            grid_class = ::Grids::Configuration.grid_for_page(params.delete(:page))
+            grid = grid_class.new_default(current_user)
+
             call = ::Grids::SetAttributesService
                    .new(user: current_user,
-                        grid: MyPageGrid.new_default(current_user),
+                        grid: grid,
                         contract_class: ::Grids::CreateContract)
                    .call(params)
 

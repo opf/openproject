@@ -362,7 +362,7 @@ en:
       grid:
         page: "Page"
         row_count: "Number of rows"
-        column_count: "Number of column"
+        column_count: "Number of columns"
         widgets: "Widgets"
       relation:
         delay: "Delay"
@@ -506,6 +506,8 @@ en:
           greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
         enterprise_token:
           unreadable: "can't be read. Are you sure it is a support token?"
+        grid:
+          overlaps: 'overlap.'
         parse_schema_filter_params_service:
           attributes:
             base:
