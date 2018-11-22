@@ -23,9 +23,9 @@ FactoryBot.define do
     user do FactoryBot.create(:user, member_in_project: project)end
     work_package do FactoryBot.create(:work_package, project: project) end
     cost_type
-    spent_on Date.today
-    units 1
-    comments ''
+    spent_on { Date.today }
+    units { 1 }
+    comments { '' }
     created_on do Time.now end
     updated_on { Time.now }
   end

@@ -29,7 +29,7 @@
 FactoryBot.define do
   factory :user_preference do
     user
-    hide_mail true
+    hide_mail { true }
     others = {}
   end
 end

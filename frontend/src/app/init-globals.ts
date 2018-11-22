@@ -48,6 +48,7 @@ window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';
 const meta = jQuery('meta[name=openproject_initializer]');
 I18n.locale = meta.data('defaultLocale');
 I18n.locale = meta.data('locale');
+I18n.firstDayOfWeek = parseInt(meta.data('firstDayOfWeek'), 10);
 
 // Enable debug logging for reactive states
 whenDebugging(() => {

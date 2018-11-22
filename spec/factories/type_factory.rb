@@ -41,16 +41,16 @@ FactoryBot.define do
   end
 
   factory :type_standard, class: ::Type do
-    name 'None'
-    is_standard true
-    is_default true
+    name { 'None' }
+    is_standard { true }
+    is_default { true }
     created_at do Time.now end
     updated_at { Time.now }
   end
 
   factory :type_bug, class: ::Type do
-    name 'Bug'
-    position 1
+    name { 'Bug' }
+    position { 1 }
     created_at do Time.now end
     updated_at do Time.now end
 
@@ -59,19 +59,19 @@ FactoryBot.define do
     initialize_with do ::Type.find_or_initialize_by(name: name) end
 
     factory :type_feature do
-      name 'Feature'
-      position 2
-      is_default true
+      name { 'Feature' }
+      position { 2 }
+      is_default { true }
     end
 
     factory :type_support do
-      name 'Support'
-      position 3
+      name { 'Support' }
+      position { 3 }
     end
 
     factory :type_task do
-      name 'Task'
-      position 4
+      name { 'Task' }
+      position { 4 }
     end
   end
 end
