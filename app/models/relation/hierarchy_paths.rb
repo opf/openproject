@@ -86,7 +86,6 @@ module Relation::HierarchyPaths
     end
 
     def self.add_hierarchy_path_sql(id = nil)
-      # Added a slighly optimized sql statement, which works without subselects. STEFFEN
       if id.nil?
         stmt = <<-SQL
           INSERT INTO
