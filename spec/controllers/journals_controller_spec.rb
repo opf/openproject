@@ -69,7 +69,7 @@ describe JournalsController, type: :controller do
 
     describe 'w/ authorization' do
       it 'should be successful' do
-        expect(response).to be_success
+        expect(response).to be_successful
       end
 
       it 'should present the diff correctly' do
@@ -79,7 +79,7 @@ describe JournalsController, type: :controller do
 
     describe 'w/o authorization' do
       let(:permissions) { [] }
-      it { expect(response).not_to be_success }
+      it { expect(response).not_to be_successful }
     end
   end
 end

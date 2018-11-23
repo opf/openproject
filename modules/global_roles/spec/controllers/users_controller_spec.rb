@@ -38,7 +38,7 @@ describe UsersController, type: :controller do
       get 'edit', params: { id: 1 }
     end
 
-    it { expect(response).to be_success }
+    it { expect(response).to be_successful }
     it { expect(assigns(:global_roles)).to eql @global_roles }
     it { expect(response).to render_template 'users/edit' }
   end

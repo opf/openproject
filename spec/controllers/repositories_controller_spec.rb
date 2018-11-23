@@ -170,7 +170,7 @@ describe RepositoriesController, type: :controller do
           }
 
           it 'should be successful' do
-            expect(response).to be_success
+            expect(response).to be_successful
           end
 
           it 'should have the right content type' do
@@ -196,7 +196,7 @@ describe RepositoriesController, type: :controller do
           end
 
           it 'should be successful' do
-            expect(response).to be_success
+            expect(response).to be_successful
             expect(response).to render_template 'repositories/committers'
           end
         end
@@ -242,7 +242,7 @@ describe RepositoriesController, type: :controller do
 
       shared_examples 'renders the repository title' do |active_breadcrumb|
         it do
-          expect(response).to be_success
+          expect(response).to be_successful
           expect(response.body).to have_selector('.repository-breadcrumbs', text: active_breadcrumb)
         end
       end
@@ -272,7 +272,7 @@ describe RepositoriesController, type: :controller do
 
         before do
           get :changes, params: { project_id: project.identifier, repo_path: path }
-          expect(response).to be_success
+          expect(response).to be_successful
         end
 
         context 'with brackets' do

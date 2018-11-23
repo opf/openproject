@@ -207,7 +207,7 @@ describe MessagesController, type: :controller do
       it 'renders the content as json' do
         get :quote, params: { board_id: board.id, id: message.id }, format: :json
 
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response.body).to eq '{"subject":"RE: subject","content":" wrote:\n\u003e foo\n\n"}'
       end
     end

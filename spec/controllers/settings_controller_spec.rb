@@ -51,7 +51,7 @@ describe SettingsController, type: :controller do
     it 'contains a check box for the activity module on the projects tab' do
       get 'edit', params: { tab: 'projects' }
 
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response).to render_template 'edit'
       expect(response.body).to have_selector "input[@name='settings[default_projects_modules][]'][@value='activity']"
     end
@@ -94,7 +94,7 @@ describe SettingsController, type: :controller do
       it 'contains a checked checkbox for activity' do
         get 'edit', params: { tab: 'projects' }
 
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response).to render_template 'edit'
 
         expect(response.body).to have_selector "input[@name='settings[default_projects_modules][]'][@value='activity'][@checked='checked']"
@@ -109,7 +109,7 @@ describe SettingsController, type: :controller do
       it 'contains an unchecked checkbox for activity' do
         get 'edit', params: { tab: 'projects' }
 
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response).to render_template 'edit'
 
         expect(response.body).not_to have_selector "input[@name='settings[default_projects_modules][]'][@value='activity'][@checked='checked']"

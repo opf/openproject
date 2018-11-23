@@ -76,7 +76,7 @@ describe DocumentsController do
     end
 
     it "should render the index-template successfully" do
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response).to render_template("index")
     end
 
@@ -182,7 +182,7 @@ describe DocumentsController do
     end
 
     it "should delete the document and redirect back to documents-page of the project" do
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response).to render_template('show')
     end
   end

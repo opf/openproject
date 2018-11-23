@@ -50,7 +50,7 @@ describe VersionsController, type: :controller do
         get :index, params: { project_id: project.id }
       end
 
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
       it { expect(response).to render_template('index') }
 
       subject { assigns(:versions) }
@@ -71,7 +71,7 @@ describe VersionsController, type: :controller do
         get :index, params: { project_id: project, completed: '1' }
       end
 
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
       it { expect(response).to render_template('index') }
 
       subject { assigns(:versions) }
@@ -96,7 +96,7 @@ describe VersionsController, type: :controller do
         get :index, params: { project_id: project, with_subprojects: '1' }
       end
 
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
       it { expect(response).to render_template('index') }
 
       subject { assigns(:versions) }
@@ -121,7 +121,7 @@ describe VersionsController, type: :controller do
       get :show, params: { id: version2.id }
     end
 
-    it { expect(response).to be_success }
+    it { expect(response).to be_successful }
     it { expect(response).to render_template('show') }
     it {assert_select 'h2', content: version2.name }
 
@@ -165,7 +165,7 @@ describe VersionsController, type: :controller do
     end
 
     context 'when resource is found' do
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
       it { expect(response).to render_template('edit') }
     end
   end
@@ -231,7 +231,7 @@ describe VersionsController, type: :controller do
               }
       end
 
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
       it { expect(response).to render_template('edit') }
     end
   end

@@ -25,7 +25,7 @@ describe AttributeHelpTextsController, type: :controller do
     end
 
     it 'is successful' do
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(assigns(:texts_by_type)).to eql('WorkPackage' => [model])
     end
 
@@ -47,7 +47,7 @@ describe AttributeHelpTextsController, type: :controller do
 
     context 'when found' do
       it 'is successful' do
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(assigns(:attribute_help_text)).to eql model
       end
     end
@@ -112,7 +112,7 @@ describe AttributeHelpTextsController, type: :controller do
       end
 
       it 'fails to update the announcement' do
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response).to render_template 'edit'
       end
     end

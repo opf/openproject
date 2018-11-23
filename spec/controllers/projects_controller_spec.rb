@@ -58,7 +58,7 @@ describe ProjectsController, type: :controller do
 
       it 'renders show' do
         get 'show', params: @params
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response).to render_template 'show'
       end
 
@@ -79,7 +79,7 @@ describe ProjectsController, type: :controller do
       describe 'without custom wiki menu items' do
         it 'renders show' do
           get 'show', params: @params
-          expect(response).to be_success
+          expect(response).to be_successful
           expect(response).to render_template 'show'
         end
 
@@ -98,7 +98,7 @@ describe ProjectsController, type: :controller do
 
         it 'renders show' do
           get 'show', params: @params
-          expect(response).to be_success
+          expect(response).to be_successful
           expect(response).to render_template 'show'
         end
 
@@ -124,7 +124,7 @@ describe ProjectsController, type: :controller do
 
       it 'renders show' do
         get 'show', params: @params
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response).to render_template 'show'
       end
 
@@ -142,7 +142,7 @@ describe ProjectsController, type: :controller do
 
       it 'renders show' do
         get 'show', params: @params
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response).to render_template 'show'
       end
 
@@ -156,7 +156,7 @@ describe ProjectsController, type: :controller do
   describe 'new' do
     it "renders 'new'" do
       get 'new', params: @params
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response).to render_template 'new'
     end
   end
@@ -178,7 +178,7 @@ describe ProjectsController, type: :controller do
 
     shared_examples_for 'successful index' do
       it 'is success' do
-        expect(response).to be_success
+        expect(response).to be_successful
       end
 
       it 'renders the index template' do

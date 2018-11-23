@@ -46,7 +46,7 @@ describe CustomStylesController, type: :controller do
         end
 
         it 'renders show' do
-          expect(subject).to be_success
+          expect(subject).to be_successful
           expect(response).to render_template 'show'
         end
       end
@@ -67,7 +67,7 @@ describe CustomStylesController, type: :controller do
       render_views
 
       it 'renders upsale' do
-        expect(subject).to be_success
+        expect(subject).to be_successful
         expect(subject).to render_template 'upsale'
       end
     end
