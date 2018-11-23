@@ -32,6 +32,6 @@ class Queries::TimeEntries::Orders::DefaultOrder < Queries::BaseOrder
   self.model = TimeEntry
 
   def self.key
-    /id|hours/
+    /id|hours|spent_on|created_on/
   end
 end

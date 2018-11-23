@@ -28,15 +28,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::TimeEntries
-  query = Queries::TimeEntries::TimeEntryQuery
+class Queries::TimeEntries::Filters::ActivityFilter < Queries::TimeEntries::Filters::TimeEntryFilter
+  def allowed_values
+    @allowed_values ||= begin
+      ::TimeEntryActivity.pluck(:name, :id)
+    end
+  end
 
-  Queries::Register.filter query, Queries::TimeEntries::Filters::UserFilter
-  Queries::Register.filter query, Queries::TimeEntries::Filters::WorkPackageFilter
-  Queries::Register.filter query, Queries::TimeEntries::Filters::ProjectFilter
-  Queries::Register.filter query, Queries::TimeEntries::Filters::SpentOnFilter
-  Queries::Register.filter query, Queries::TimeEntries::Filters::CreatedOnFilter
-  Queries::Register.filter query, Queries::TimeEntries::Filters::ActivityFilter
+  def type
+    :list_optional
+  end
 
-  Queries::Register.order query, Queries::TimeEntries::Orders::DefaultOrder
+  def self.key
+    :activity_id
+  end
 end

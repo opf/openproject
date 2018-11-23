@@ -28,15 +28,37 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::TimeEntries
-  query = Queries::TimeEntries::TimeEntryQuery
+require 'spec_helper'
 
-  Queries::Register.filter query, Queries::TimeEntries::Filters::UserFilter
-  Queries::Register.filter query, Queries::TimeEntries::Filters::WorkPackageFilter
-  Queries::Register.filter query, Queries::TimeEntries::Filters::ProjectFilter
-  Queries::Register.filter query, Queries::TimeEntries::Filters::SpentOnFilter
-  Queries::Register.filter query, Queries::TimeEntries::Filters::CreatedOnFilter
-  Queries::Register.filter query, Queries::TimeEntries::Filters::ActivityFilter
+describe Queries::TimeEntries::Filters::ActivityFilter, type: :model do
+  let(:time_entry_activity1) { FactoryBot.build_stubbed(:time_entry_activity) }
+  let(:time_entry_activity2) { FactoryBot.build_stubbed(:time_entry_activity) }
+  let(:plucked) do
+    [time_entry_activity1, time_entry_activity2].map { |x| [x.name, x.id] }
+  end
 
-  Queries::Register.order query, Queries::TimeEntries::Orders::DefaultOrder
+  before do
+    allow(::TimeEntryActivity)
+      .to receive_message_chain(:pluck)
+      .with(:name, :id)
+      .and_return(plucked)
+  end
+
+  it_behaves_like 'basic query filter' do
+    let(:class_key) { :activity_id }
+    let(:type) { :list_optional }
+    let(:name) { TimeEntry.human_attribute_name(:activity) }
+
+    describe '#allowed_values' do
+      it 'is a list of the possible values' do
+        expect(instance.allowed_values).to match_array(plucked)
+      end
+    end
+  end
+
+  it_behaves_like 'list_optional query filter' do
+    let(:attribute) { :activity_id }
+    let(:model) { TimeEntry }
+    let(:valid_values) { [time_entry_activity1.id.to_s] }
+  end
 end

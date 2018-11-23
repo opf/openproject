@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,15 +26,26 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::TimeEntries
-  query = Queries::TimeEntries::TimeEntryQuery
+require 'spec_helper'
 
-  Queries::Register.filter query, Queries::TimeEntries::Filters::UserFilter
-  Queries::Register.filter query, Queries::TimeEntries::Filters::WorkPackageFilter
-  Queries::Register.filter query, Queries::TimeEntries::Filters::ProjectFilter
-  Queries::Register.filter query, Queries::TimeEntries::Filters::SpentOnFilter
-  Queries::Register.filter query, Queries::TimeEntries::Filters::CreatedOnFilter
-  Queries::Register.filter query, Queries::TimeEntries::Filters::ActivityFilter
+describe Queries::TimeEntries::Filters::SpentOnFilter, type: :model do
+  it_behaves_like 'basic query filter' do
+    let(:type) { :date }
+    let(:class_key) { :spent_on }
+    let(:human_name) { ::TimeEntry.human_attribute_name :spent_on }
 
-  Queries::Register.order query, Queries::TimeEntries::Orders::DefaultOrder
+    describe '#available?' do
+      it 'is true' do
+        expect(instance).to be_available
+      end
+    end
+
+    describe '#allowed_values' do
+      it 'is nil' do
+        expect(instance.allowed_values).to be_nil
+      end
+    end
+
+    it_behaves_like 'non ar filter'
+  end
 end
