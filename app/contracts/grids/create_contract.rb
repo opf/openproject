@@ -38,7 +38,7 @@ module Grids
     attribute :type
 
     # TODO tests and check if it should be here
-    def assignable_values(column, user)
+    def assignable_values(column, _user)
       case column
       when :page
         [my_page_path]

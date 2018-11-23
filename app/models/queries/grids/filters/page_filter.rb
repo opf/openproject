@@ -30,8 +30,7 @@
 
 class Queries::Grids::Filters::PageFilter < Queries::Grids::Filters::GridFilter
   def allowed_values
-    # TODO: generalize
-    [OpenProject::StaticRouting::StaticUrlHelpers.new.my_page_path]
+    ::Grids::Configuration.registered_pages
   end
 
   def type
@@ -43,8 +42,11 @@ class Queries::Grids::Filters::PageFilter < Queries::Grids::Filters::GridFilter
   end
 
   def where
-    # TODO: generalize
-    actual_values = [MyPageGrid.name]
+    actual_values = values
+                    .map do |page|
+                      ::Grids::Configuration.grid_for_page(page).name
+                    end
+
     operator_strategy.sql_for_field(actual_values,
                                     self.class.model.table_name,
                                     'type')

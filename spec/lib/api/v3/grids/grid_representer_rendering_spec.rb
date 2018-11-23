@@ -84,6 +84,12 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
           .at_path('_links/page/href')
       end
 
+      it 'has an id' do
+        is_expected
+          .to be_json_eql(grid.id)
+          .at_path('id')
+      end
+
       it 'has a rowCount' do
         is_expected
           .to be_json_eql(4)
@@ -94,6 +100,20 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
         is_expected
           .to be_json_eql(5)
           .at_path('columnCount')
+      end
+
+      describe 'createdAt' do
+        it_behaves_like 'has UTC ISO 8601 date and time' do
+          let(:date) { grid.created_at }
+          let(:json_path) { 'createdAt' }
+        end
+      end
+
+      describe 'updatedAt' do
+        it_behaves_like 'has UTC ISO 8601 date and time' do
+          let(:date) { grid.updated_at }
+          let(:json_path) { 'updatedAt' }
+        end
       end
 
       it 'has a list of widgets' do

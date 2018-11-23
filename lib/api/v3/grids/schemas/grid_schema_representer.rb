@@ -28,9 +28,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
-
 module API
   module V3
     module Grids
@@ -43,17 +40,14 @@ module API
                   form_embedded: form_embedded)
           end
 
-          # TODO: add to grid representer
           schema :id,
                  type: 'Integer',
                  visibility: false
 
-          # TODO: add to grid representer
           schema :created_at,
                  type: 'DateTime',
                  visibility: false
 
-          # TODO: add to grid representer
           schema :updated_at,
                  type: 'DateTime',
                  visibility: false

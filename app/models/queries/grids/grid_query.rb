@@ -32,8 +32,16 @@ class Queries::Grids::GridQuery < Queries::BaseQuery
   end
 
   def default_scope
-    # TODO: introduce visible scope
-    #Grid.visible(User.current)
-    Grid.where(user_id: User.current.id)
+    grid_classes = ::Grids::Configuration.registered_grids
+
+    or_scope = grid_classes.pop.visible_scope
+
+    while grid_classes.any?
+      or_scope = or_scope.or(grid_classes.pop.visible_scope)
+    end
+
+    # Have to use the subselect as AR will otherwise remove
+    # associations not defined on the subclass
+    Grid.where(id: or_scope)
   end
 end

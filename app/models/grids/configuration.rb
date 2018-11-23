@@ -39,6 +39,14 @@ class Grids::Configuration
       self.registered_grid_by_page = registered_grid_by_klass.invert
     end
 
+    def registered_grids
+      registered_grid_by_klass.keys
+    end
+
+    def registered_pages
+      registered_grid_by_page.keys
+    end
+
     def grid_for_page(page)
       registered_grid_by_page[page] || Grid
     end

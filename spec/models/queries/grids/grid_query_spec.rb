@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe Queries::Grids::GridQuery, type: :model do
   let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:base_scope) { Grid.where(user_id: user.id) }
+  let(:base_scope) { Grid.where(id: MyPageGrid.where(user_id: user.id)) }
   let(:instance) { described_class.new }
 
   before do

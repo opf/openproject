@@ -33,7 +33,6 @@ class Grid < ActiveRecord::Base
 
   def self.new_default(_user)
     new(
-      #user: user,
       row_count: 4,
       column_count: 5,
       widgets: []

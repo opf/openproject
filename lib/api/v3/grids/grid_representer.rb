@@ -49,6 +49,8 @@ module API
 
         self_link title_getter: ->(*) { nil }
 
+        property :id
+
         property :row_count
 
         property :column_count
@@ -67,6 +69,20 @@ module API
                        .from_hash(widget_fragment.with_indifferent_access)
                    end
                  end
+
+        property :created_at,
+                 exec_context: :decorator,
+                 getter: ->(*) {
+                   next unless represented.created_at
+                   datetime_formatter.format_datetime(represented.created_at)
+                 }
+
+        property :updated_at,
+                 exec_context: :decorator,
+                 getter: ->(*) {
+                   next unless represented.updated_at
+                   datetime_formatter.format_datetime(represented.updated_at)
+                 }
 
         def _type
           'Grid'
