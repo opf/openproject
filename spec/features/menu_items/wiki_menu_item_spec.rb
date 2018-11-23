@@ -44,8 +44,8 @@ feature 'Wiki menu items' do
   let(:parent_menu) { wiki.wiki_menu_items.find_by(name: 'wiki') }
   let(:wiki_page) { FactoryBot.create :wiki_page_with_content, wiki: wiki }
   let(:other_wiki_page) do
-    FactoryBot.create(:wiki_page_with_content, wiki: wiki).tap do |page|
-      MenuItems::WikiMenuItem.create!(navigatable_id: page.id,
+    FactoryBot.create(:wiki_page_with_content, wiki: wiki, title: "Other page").tap do |page|
+      MenuItems::WikiMenuItem.create!(navigatable_id: page.wiki.id,
                                       title: page.title,
                                       name: page.slug)
     end

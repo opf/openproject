@@ -114,7 +114,7 @@ describe 'filter me value', js: true do
         split_screen.expect_and_dismiss_notification message: 'Successful creation.'
 
         wp = WorkPackage.last
-        expect(wp.assigned_to_id).to eq(wp_admin.id)
+        expect(wp.assigned_to_id).to eq(admin.id)
       end
     end
   end
