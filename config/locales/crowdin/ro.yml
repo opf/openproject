@@ -1198,6 +1198,7 @@ ro:
   label_auth_source_plural: Moduri de autentificare
   label_authentication: Autentificare
   label_available_project_work_package_categories: Categorii de pachete de lucru disponibile
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Planșe disponibile
   label_available_project_versions: Versiuni disponibile
   label_available_project_repositories: Arhive disponibile

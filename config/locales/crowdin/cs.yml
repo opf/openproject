@@ -1202,6 +1202,7 @@ cs:
   label_auth_source_plural: Režimy ověřování
   label_authentication: Ověření
   label_available_project_work_package_categories: Dostupné kategorie pracovních balíčků
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Available boards
   label_available_project_versions: Dostupné verze
   label_available_project_repositories: Dostupné repozitáře

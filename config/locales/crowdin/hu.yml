@@ -1174,6 +1174,7 @@ hu:
   label_authentication: Hitelesítés
   label_available_project_work_package_categories: Rendelkezésre álló munkacsomag
     kategóriák
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Rendelkezésre álló táblák
   label_available_project_versions: Rendelkezésre álló verziók
   label_available_project_repositories: Rendelkezésre álló tárolók

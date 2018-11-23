@@ -1128,6 +1128,7 @@ ko:
   label_auth_source_plural: 인증 모드
   label_authentication: 인증
   label_available_project_work_package_categories: 사용 가능한 작업 패키지 카테고리
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: 사용 가능한 보드
   label_available_project_versions: 사용 가능한 버전
   label_available_project_repositories: 사용 가능한 저장소

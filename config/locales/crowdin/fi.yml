@@ -1166,6 +1166,7 @@ fi:
   label_auth_source_plural: Varmennustavat
   label_authentication: Varmennus
   label_available_project_work_package_categories: Saatavilla olevat työpakettiluokat
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Saatavilla olevat taulut
   label_available_project_versions: Saatavana olevat versiot
   label_available_project_repositories: Available repositories

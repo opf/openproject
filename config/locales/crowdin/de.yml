@@ -1206,6 +1206,7 @@ de:
   label_auth_source_plural: Authentifizierungs-Arten
   label_authentication: Authentifizierung
   label_available_project_work_package_categories: Verfügbare Arbeitspaket-Kategorien
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Verfügbare Foren
   label_available_project_versions: Verfügbare Versionen
   label_available_project_repositories: Verfügbare Projektarchive

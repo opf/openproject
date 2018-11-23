@@ -1155,6 +1155,7 @@ th:
   label_auth_source_plural: โหมดการระบุตัวตนผู้ใช้
   label_authentication: การระบุตัวตนผู้ใช้
   label_available_project_work_package_categories: Available work package categories
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Available boards
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
