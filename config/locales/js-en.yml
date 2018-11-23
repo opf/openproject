@@ -375,15 +375,15 @@ en:
           parent: "being child of"
           precedes: "preceding"
           follows: "following"
-          relates_to: "relating to"
+          relates: "relating to"
           duplicates: "duplicating"
-          duplicated_by: "duplicated by"
+          duplicated: "duplicated by"
           blocks: "blocking"
-          blocked_by: "blocked by"
-          part_of: "being part of"
+          blocked: "blocked by"
+          partof: "being part of"
           includes: "including"
           requires: "requiring"
-          required_by: "required by"
+          required: "required by"
 
     watchers:
       label_loading: loading watchers...

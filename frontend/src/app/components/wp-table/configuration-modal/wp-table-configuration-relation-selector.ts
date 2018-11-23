@@ -20,15 +20,15 @@ export class WpTableConfigurationRelationSelectorComponent implements OnInit  {
     'parent',
     'precedes',
     'follows',
-    'relatesTo',
+    'relates',
     'duplicates',
-    'duplicatedBy',
+    'duplicated',
     'blocks',
-    'blockedBy',
-    'partOf',
+    'blocked',
+    'partof',
     'includes',
     'requires',
-    'requiredBy'
+    'required'
   ];
 
   public availableRelationFilters:QueryFilterResource[] = [];
@@ -41,14 +41,14 @@ export class WpTableConfigurationRelationSelectorComponent implements OnInit  {
     parent:        this.I18n.t('js.types.attribute_groups.filter_types.parent'),
     precedes:      this.I18n.t('js.types.attribute_groups.filter_types.precedes'),
     follows:       this.I18n.t('js.types.attribute_groups.filter_types.follows'),
-    relatesTo:     this.I18n.t('js.types.attribute_groups.filter_types.relates_to'),
+    relates:     this.I18n.t('js.types.attribute_groups.filter_types.relates'),
     duplicates:    this.I18n.t('js.types.attribute_groups.filter_types.duplicates'),
-    duplicatedBy:  this.I18n.t('js.types.attribute_groups.filter_types.duplicated_by'),
+    duplicated:  this.I18n.t('js.types.attribute_groups.filter_types.duplicated'),
     blocks:        this.I18n.t('js.types.attribute_groups.filter_types.blocks'),
-    blockedBy:     this.I18n.t('js.types.attribute_groups.filter_types.blocked_by'),
+    blocked:     this.I18n.t('js.types.attribute_groups.filter_types.blocked'),
     requires:      this.I18n.t('js.types.attribute_groups.filter_types.requires'),
-    requiredBy:    this.I18n.t('js.types.attribute_groups.filter_types.required_by'),
-    partOf:        this.I18n.t('js.types.attribute_groups.filter_types.part_of'),
+    required:    this.I18n.t('js.types.attribute_groups.filter_types.required'),
+    partof:        this.I18n.t('js.types.attribute_groups.filter_types.partof'),
     includes:      this.I18n.t('js.types.attribute_groups.filter_types.includes')
   };
 
