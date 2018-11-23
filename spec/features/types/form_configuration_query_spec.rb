@@ -40,23 +40,33 @@ describe 'form query configuration', type: :feature, js: true do
                       project: project,
                       type: type_bug
   end
-  let!(:subtask) do
-    FactoryBot.create :work_package,
-                      parent: work_package,
-                      project: project,
-                      type: type_task
+  let(:relation_type) { :parent }
+  let(:relation_target) { work_package }
+  let(:new_relation) do
+    relation = Hash.new
+    relation[relation_type] = relation_target
+    relation
   end
-  let!(:subtask_other_project) do
+  let!(:related_task) do
     FactoryBot.create :work_package,
-                      parent: work_package,
-                      project: other_project,
-                      type: type_task
+                      new_relation.merge(
+                        project: project,
+                        type: type_task
+                      )
   end
-  let!(:subbug) do
+  let!(:related_task_other_project) do
     FactoryBot.create :work_package,
-                      parent: work_package,
-                      project: project,
-                      type: type_bug
+                      new_relation.merge(
+                        project: other_project,
+                        type: type_task
+                      )
+  end
+  let!(:related_bug) do
+    FactoryBot.create :work_package,
+                      new_relation.merge(
+                        project: project,
+                        type: type_bug
+                      )
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
@@ -93,10 +103,10 @@ describe 'form query configuration', type: :feature, js: true do
 
       # Visit wp_table
       wp_table.visit!
-      wp_table.expect_work_package_listed work_package, subtask, subbug
+      wp_table.expect_work_package_listed work_package, related_task, related_bug
 
       # Open another ticket
-      wp_table.open_split_view subtask
+      wp_table.open_split_view related_task
 
       # Open the parent ticket
       wp_split = wp_table.open_split_view work_package
@@ -104,7 +114,7 @@ describe 'form query configuration', type: :feature, js: true do
 
       wp_split.expect_group('Subtasks') do
         embedded_table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
-        embedded_table.expect_work_package_listed subtask, subbug
+        embedded_table.expect_work_package_listed related_task, related_bug
       end
     end
 
@@ -174,62 +184,82 @@ describe 'form query configuration', type: :feature, js: true do
       columns.apply
     end
 
-    it 'can create and save an embedded children table' do
-      form.add_query_group('Subtasks', :parent)
-      form.edit_query_group('Subtasks')
+    shared_examples_for 'query group' do
+      it '' do
+        form.add_query_group('Subtasks', relation_type)
+        form.edit_query_group('Subtasks')
 
-      # Expect disabled tabs for timelines and display mode
-      modal.expect_disabled_tab 'Gantt chart'
-      modal.expect_disabled_tab 'Display settings'
+        # Expect disabled tabs for timelines and display mode
+        modal.expect_disabled_tab 'Gantt chart'
+        modal.expect_disabled_tab 'Display settings'
 
-      # Restrict filters to type_task
-      modal.expect_open
-      modal.switch_to 'Filters'
-      # the parent filter should be hidden in the Filters tab
-      filters.expect_filter_count 0
-      filters.add_filter_by('Type', 'is', type_task.name)
-      filters.save
+        # Restrict filters to type_task
+        modal.expect_open
+        modal.switch_to 'Filters'
+        # the parent filter should be hidden in the Filters tab
+        filters.expect_filter_count 0
+        filters.add_filter_by('Type', 'is', type_task.name)
+        filters.save
 
-      form.save_changes
-      expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
+        form.save_changes
+        expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
 
-      # Visit work package with that type
-      wp_page.visit!
-      wp_page.ensure_page_loaded
+        # Visit work package with that type
+        wp_page.visit!
+        wp_page.ensure_page_loaded
 
-      wp_page.expect_group('Subtasks')
-      table_container = find(".attributes-group[data-group-name='Subtasks']")
-                        .find('.work-packages-embedded-view--container')
-      embedded_table = Pages::EmbeddedWorkPackagesTable.new(table_container)
-      embedded_table.expect_work_package_listed subtask, subtask_other_project
-      embedded_table.expect_work_package_not_listed subbug
+        wp_page.expect_group('Subtasks')
+        table_container = find(".attributes-group[data-group-name='Subtasks']")
+                            .find('.work-packages-embedded-view--container')
+        embedded_table = Pages::EmbeddedWorkPackagesTable.new(table_container)
+        embedded_table.expect_work_package_listed related_task, related_task_other_project
+        embedded_table.expect_work_package_not_listed related_bug
 
-      # Go back to type configuration
-      visit edit_type_tab_path(id: type_bug.id, tab: "form_configuration")
+        # Go back to type configuration
+        visit edit_type_tab_path(id: type_bug.id, tab: "form_configuration")
 
-      # Edit query to remove filters
-      form.edit_query_group('Subtasks')
+        # Edit query to remove filters
+        form.edit_query_group('Subtasks')
 
-      # Expect filter still there
-      modal.expect_open
-      modal.switch_to 'Filters'
-      filters.expect_filter_count 1
-      filters.expect_filter_by 'Type', 'is', type_task.name
+        # Expect filter still there
+        modal.expect_open
+        modal.switch_to 'Filters'
+        filters.expect_filter_count 1
+        filters.expect_filter_by 'Type', 'is', type_task.name
 
-      # Remove the filter again
-      filters.remove_filter 'type'
-      filters.save
+        # Remove the filter again
+        filters.remove_filter 'type'
+        filters.save
 
-      # Save changes
-      form.save_changes
+        # Save changes
+        form.save_changes
 
-      # Visit wp_page again, expect both listed
-      wp_page.visit!
-      wp_page.ensure_page_loaded
+        # Visit wp_page again, expect both listed
+        wp_page.visit!
+        wp_page.ensure_page_loaded
 
-      wp_page.expect_group('Subtasks') do
-        embedded_table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
-        embedded_table.expect_work_package_listed subtask, subbug
+        wp_page.expect_group('Subtasks') do
+          embedded_table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
+          embedded_table.expect_work_package_listed related_task, related_bug
+        end
+      end
+    end
+
+    context 'children table' do
+      it_behaves_like 'query group'
+    end
+
+    context 'relates_to table' do
+      it_behaves_like 'query group' do
+        let(:relation_type) { :relates_to }
+        let(:relation_target) { [work_package ] }
+      end
+    end
+
+    context 'blocks table' do
+      it_behaves_like 'query group' do
+        let(:relation_type) { :blocks }
+        let(:relation_target) { [work_package] }
       end
     end
   end
