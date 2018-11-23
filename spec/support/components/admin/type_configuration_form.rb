@@ -128,8 +128,29 @@ module Components
         add_table_button.click
 
         modal = ::Components::WorkPackages::TableConfigurationModal.new
+
         within find('.relation-filter-selector') do
           select I18n.t("js.types.attribute_groups.filter_types.#{relation_filter}")
+
+          # While we are here, let's check that all relation filters are present.
+          option_labels = %w[
+            parent
+            precedes
+            follows
+            relates
+            duplicates
+            duplicated
+            blocks
+            blocked
+            partof
+            includes
+            requires
+            required
+          ].map { |filter_name| I18n.t("js.types.attribute_groups.filter_types.#{filter_name}") }
+
+          option_labels.each do |label|
+            expect(page).to have_text(label)
+          end
         end
         modal.save
 
