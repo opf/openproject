@@ -173,5 +173,30 @@ describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
           .at_path('_embedded/validationErrors/widgets/message')
       end
     end
+
+    context 'for a non existing grid' do
+      let(:path) { api_v3_paths.grid_form(grid.id + 5) }
+
+      it 'returns 404 NOT FOUND' do
+        expect(subject.status)
+          .to eql 404
+      end
+    end
+
+    context 'for another user\'s grid' do
+      let(:other_user) { FactoryBot.create(:user) }
+      let(:other_grid) do
+        grid = MyPageGrid.new_default(other_user)
+        grid.save!
+        grid
+      end
+
+      let(:path) { api_v3_paths.grid_form(other_grid.id) }
+
+      it 'returns 404 NOT FOUND' do
+        expect(subject.status)
+          .to eql 404
+      end
+    end
   end
 end
