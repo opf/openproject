@@ -31,6 +31,16 @@ See docs/COPYRIGHT.rdoc for more details.
     <legend class="form--fieldset-legend">
       <%= l(:label_available_project_versions) %>
     </legend>
+    <div class="form--fieldset-control">
+      <span class="form--fieldset-control-container">
+        <%= link_to_if_authorized({ controller: '/versions', action: 'new', project_id: @project },
+                                  { aria: { label: t(:label_version_new) },
+                                    title: t(:label_version_new) }) do %>
+          <%= op_icon('icon-add icon-small') %>
+            <span><%= l(:label_version) %></span>
+        <% end %>
+      </span>
+    </div>
     <div class="generic-table--container">
       <div class="generic-table--results-container">
         <table class="generic-table">
