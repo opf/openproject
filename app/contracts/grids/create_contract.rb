@@ -32,11 +32,9 @@ require 'grids/base_contract'
 
 module Grids
   class CreateContract < BaseContract
-    # TODO: generalize
     attribute :user_id,
-              writeable: -> { model.is_a?(MyPageGrid) }
+              writeable: -> { model.class.reflect_on_association(:user) }
 
-    # TODO: prevent that value from being set
     attribute :type
 
     # TODO tests and check if it should be here
@@ -47,7 +45,6 @@ module Grids
       end
     end
 
-    # TODO tests
     def writable?(attribute)
       attribute == :page || super
     end

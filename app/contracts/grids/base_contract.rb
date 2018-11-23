@@ -33,8 +33,6 @@ require 'model_contract'
 module Grids
   class BaseContract < ::ModelContract
     include OpenProject::StaticRouting::UrlHelpers
-    # TODO: validate widgets are in array of allowed widgets
-    #       validate widgets do not collide
     attribute :row_count do
       validate_positive_integer(:row_count)
     end
@@ -49,6 +47,8 @@ module Grids
       validate_registered_subclass
       validate_registered_widgets
       validate_widget_collisions
+      validate_widgets_within
+      validate_widgets_start_before_end
 
       super
     end
@@ -76,7 +76,7 @@ module Grids
     def validate_registered_widgets
       return unless Grids::Configuration.registered_grid?(model.class)
 
-      model.widgets.each do |widget|
+      undestroyed_widgets.each do |widget|
         next if Grids::Configuration.allowed_widget?(model.class, widget.identifier)
 
         errors.add(:widgets, :inclusion)
@@ -84,19 +84,24 @@ module Grids
     end
 
     def validate_widget_collisions
-      model.widgets.each do |widget|
-        overlaps = model
-                   .widgets
+      undestroyed_widgets.each do |widget|
+        overlaps = undestroyed_widgets
                    .any? do |other_widget|
                      widget != other_widget &&
-                       !widget.marked_for_destruction? &&
-                       !other_widget.marked_for_destruction? &&
                        widgets_overlap?(widget, other_widget)
                    end
 
         if overlaps
           errors.add(:widgets, :overlaps)
         end
+      end
+    end
+
+    def validate_widgets_within
+      undestroyed_widgets.each do |widget|
+        next unless outside?(widget)
+
+        errors.add(:widgets, :outside)
       end
     end
 
@@ -110,6 +115,16 @@ module Grids
       end
     end
 
+    def validate_widgets_start_before_end
+      undestroyed_widgets.each do |widget|
+        if widget.start_row >= widget.end_row ||
+           widget.start_column >= widget.end_column
+
+          errors.add(:widgets, :end_before_start)
+        end
+      end
+    end
+
     def widgets_overlap?(widget, other_widget)
       point_in_widget_area(widget, other_widget.start_row, other_widget.start_column) ||
         point_in_widget_area(widget, other_widget.start_row, other_widget.end_column) ||
@@ -120,6 +135,25 @@ module Grids
     def point_in_widget_area(widget, row, column)
       widget.start_row < row && widget.end_row > row &&
         widget.start_column < column && widget.end_column > column
+    end
+
+    def outside?(widget)
+      outside_row(widget.start_row) ||
+        outside_row(widget.end_row) ||
+        outside_column(widget.start_column) ||
+        outside_column(widget.end_column)
+    end
+
+    def outside_row(number)
+      number > model.row_count + 1 || number < 1
+    end
+
+    def outside_column(number)
+      number > model.column_count + 1 || number < 1
+    end
+
+    def undestroyed_widgets
+      model.widgets.reject(&:marked_for_destruction?)
     end
   end
 end

@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe "POST /api/v3/grids/form", type: :request, content_type: :json do
+describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -37,7 +37,12 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
     FactoryBot.create(:user)
   end
 
-  let(:path) { api_v3_paths.create_grid_form }
+  let(:grid) do
+    grid = MyPageGrid.new_default(current_user)
+    grid.save!
+    grid
+  end
+  let(:path) { api_v3_paths.grid_form(grid.id) }
   let(:params) { {} }
   subject(:response) { last_response }
 
@@ -61,22 +66,60 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
         .at_path('_type')
     end
 
-    it 'contains a Schema embedding the available values' do
+    it 'contains a Schema disallowing setting page' do
       expect(subject.body)
         .to be_json_eql("Schema".to_json)
         .at_path('_embedded/schema/_type')
 
       expect(subject.body)
-        .to be_json_eql(my_page_path.to_json)
-        .at_path('_embedded/schema/page/_links/allowedValues/0/href')
+        .to be_json_eql(false.to_json)
+        .at_path('_embedded/schema/page/writable')
     end
 
-    it 'contains default data in the payload' do
+    it 'contains the current data in the payload' do
       expected = {
         "rowCount": 4,
         "columnCount": 5,
-        "widgets": [],
-        "_links": {}
+        "widgets": [
+          {
+            "_type": "GridWidget",
+            "identifier": "work_packages_assigned",
+            "startRow": 4,
+            "endRow": 5,
+            "startColumn": 1,
+            "endColumn": 2
+          },
+          {
+            "_type": "GridWidget",
+            "identifier": "work_packages_created",
+            "startRow": 1,
+            "endRow": 2,
+            "startColumn": 1,
+            "endColumn": 2
+          },
+          {
+            "_type": "GridWidget",
+            "identifier": "work_packages_watched",
+            "startRow": 2,
+            "endRow": 4,
+            "startColumn": 4,
+            "endColumn": 5
+          },
+          {
+            "_type": "GridWidget",
+            "identifier": "work_packages_calendar",
+            "startRow": 1,
+            "endRow": 2,
+            "startColumn": 4,
+            "endColumn": 6
+          }
+        ],
+        "_links": {
+          "page": {
+            "href": "/my/page",
+            "type": "text/html"
+          }
+        }
       }
 
       expect(subject.body)
@@ -84,100 +127,33 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
         .at_path('_embedded/payload')
     end
 
-    it 'has a validation error on page' do
+    it 'has a commit link' do
       expect(subject.body)
-        .to be_json_eql("Page is not set to one of the allowed values.".to_json)
-        .at_path('_embedded/validationErrors/page/message')
+        .to be_json_eql(api_v3_paths.grid(grid.id).to_json)
+        .at_path('_links/commit/href')
     end
 
-    it 'does not have a commit link' do
-      expect(subject.body)
-        .not_to have_json_path('_links/commit')
-    end
-
-    context 'with /my/page for the page value' do
+    context 'with some value for the page value' do
       let(:params) do
         {
           '_links': {
             'page': {
-              'href': my_page_path
+              'href': '/some/path'
             }
           }
         }
       end
 
-      it 'contains default data in the payload' do
-        expected = {
-          "rowCount": 4,
-          "columnCount": 5,
-          "widgets": [
-            {
-              "_type": "GridWidget",
-              "identifier": "work_packages_assigned",
-              "startRow": 4,
-              "endRow": 5,
-              "startColumn": 1,
-              "endColumn": 2
-            },
-            {
-              "_type": "GridWidget",
-              "identifier": "work_packages_created",
-              "startRow": 1,
-              "endRow": 2,
-              "startColumn": 1,
-              "endColumn": 2
-            },
-            {
-              "_type": "GridWidget",
-              "identifier": "work_packages_watched",
-              "startRow": 2,
-              "endRow": 4,
-              "startColumn": 4,
-              "endColumn": 5
-            },
-            {
-              "_type": "GridWidget",
-              "identifier": "work_packages_calendar",
-              "startRow": 1,
-              "endRow": 2,
-              "startColumn": 4,
-              "endColumn": 6
-            }
-          ],
-          "_links": {
-            "page": {
-              "href": "/my/page",
-              "type": "text/html"
-            }
-          }
-        }
-
+      it 'has a validation error on page as the value is not writeable' do
         expect(subject.body)
-          .to be_json_eql(expected.to_json)
-          .at_path('_embedded/payload')
-      end
-
-      it 'has no validationErrors' do
-        expect(subject.body)
-          .to be_json_eql({}.to_json)
-          .at_path('_embedded/validationErrors')
-      end
-
-      it 'has a commit link' do
-        expect(subject.body)
-          .to be_json_eql(api_v3_paths.grids.to_json)
-          .at_path('_links/commit/href')
+          .to be_json_eql("You must not write a read-only attribute.".to_json)
+          .at_path('_embedded/validationErrors/page/message')
       end
     end
 
     context 'with an unsupported widget identifier' do
       let(:params) do
         {
-          '_links': {
-            'page': {
-              'href': my_page_path
-            }
-          },
           "widgets": [
             {
               "_type": "GridWidget",

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -31,21 +29,39 @@
 module API
   module V3
     module Grids
-      class CreateFormRepresenter < FormRepresenter
-        def form_url
-          api_v3_paths.create_grid_form
-        end
+      class UpdateFormAPI < ::API::OpenProjectAPI
+        resource :form do
+          helpers do
+            include API::V3::Utilities::FormHelper
+          end
 
-        def resource_url
-          api_v3_paths.grids
-        end
+          post do
+            params = API::V3::ParseResourceParamsService
+                     .new(current_user, representer: GridPayloadRepresenter)
+                     .call(request_body)
+                     .result
 
-        def commit_method
-          :post
-        end
+            if params[:page]
+              params[:type] = ::Grids::Configuration.grid_for_page(params.delete(:page)).to_s
+            end
 
-        def contract_class
-          ::Grids::CreateContract
+            call = ::Grids::SetAttributesService
+                   .new(user: current_user,
+                        grid: @grid,
+                        contract_class: ::Grids::UpdateContract)
+                   .call(params)
+
+            api_errors = ::API::Errors::ErrorBase.create_errors(call.errors)
+
+            if only_validation_errors(api_errors)
+              status 200
+              UpdateFormRepresenter.new(call.result,
+                                        errors: api_errors,
+                                        current_user: current_user)
+            else
+              fail ::API::Errors::MultipleErrors.create_if_many(api_errors)
+            end
+          end
         end
       end
     end

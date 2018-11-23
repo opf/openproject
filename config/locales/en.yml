@@ -508,6 +508,8 @@ en:
           unreadable: "can't be read. Are you sure it is a support token?"
         grid:
           overlaps: 'overlap.'
+          outside: 'is outside of the grid.'
+          end_before_start: 'end value needs to be larger than the start value.'
         parse_schema_filter_params_service:
           attributes:
             base:

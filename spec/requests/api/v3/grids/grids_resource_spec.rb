@@ -256,8 +256,12 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
           .at_path('_type')
 
         expect(subject.body)
+          .to be_json_eql("Widgets is outside of the grid.".to_json)
+          .at_path('_embedded/errors/0/message')
+
+        expect(subject.body)
           .to be_json_eql("Number of rows must be greater than 0.".to_json)
-          .at_path('message')
+          .at_path('_embedded/errors/1/message')
       end
 
       it 'does not persist the changes to widgets' do
@@ -398,12 +402,16 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
           .at_path('_type')
 
         expect(subject.body)
-          .to be_json_eql("Number of rows must be greater than 0.".to_json)
+          .to be_json_eql("Widgets is outside of the grid.".to_json)
           .at_path('_embedded/errors/0/message')
 
         expect(subject.body)
-          .to be_json_eql("Number of columns must be greater than 0.".to_json)
+          .to be_json_eql("Number of rows must be greater than 0.".to_json)
           .at_path('_embedded/errors/1/message')
+
+        expect(subject.body)
+          .to be_json_eql("Number of columns must be greater than 0.".to_json)
+          .at_path('_embedded/errors/2/message')
       end
     end
 
@@ -414,8 +422,8 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
           "columnCount": 5,
           "widgets": [{
             "identifier": "work_packages_assigned",
-            "startRow": 4,
-            "endRow": 8,
+            "startRow": 2,
+            "endRow": 4,
             "startColumn": 2,
             "endColumn": 5
           }]

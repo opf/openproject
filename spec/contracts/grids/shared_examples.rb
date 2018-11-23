@@ -102,6 +102,18 @@ shared_examples_for 'shared grid contract attributes' do
 
       it_behaves_like 'validates positive integer'
     end
+
+    context 'row_count less than 1' do
+      before do
+        grid.row_count = 0
+      end
+
+      it 'notes the error' do
+        instance.validate
+        expect(instance.errors.details[:row_count])
+          .to match_array [{ error: :greater_than, count: 0 }]
+      end
+    end
   end
 
   describe 'column_count' do
@@ -111,6 +123,18 @@ shared_examples_for 'shared grid contract attributes' do
 
       it_behaves_like 'validates positive integer'
     end
+
+    context 'row_count less than 1' do
+      before do
+        grid.column_count = 0
+      end
+
+      it 'notes the error' do
+        instance.validate
+        expect(instance.errors.details[:column_count])
+          .to match_array [{ error: :greater_than, count: 0 }]
+      end
+    end
   end
 
   describe 'widgets' do
@@ -119,9 +143,9 @@ shared_examples_for 'shared grid contract attributes' do
       let(:value) do
         [
           GridWidget.new(start_row: 1,
-                         end_row: 1,
+                         end_row: 4,
                          start_column: 2,
-                         end_column: 2,
+                         end_column: 5,
                          identifier: 'work_packages_assigned')
         ]
       end
@@ -130,9 +154,9 @@ shared_examples_for 'shared grid contract attributes' do
     context 'invalid identifier' do
       before do
         grid.widgets.build(start_row: 1,
-                           end_row: 1,
+                           end_row: 4,
                            start_column: 2,
-                           end_column: 2,
+                           end_column: 5,
                            identifier: 'bogus_identifier')
       end
 
@@ -173,45 +197,186 @@ shared_examples_for 'shared grid contract attributes' do
           .to match_array [{ error: :overlaps }, { error: :overlaps }]
       end
     end
-  end
 
-  context 'widgets having the same start column as another\'s end column' do
-    before do
-      grid.widgets.build(start_row: 1,
-                         end_row: 3,
-                         start_column: 1,
-                         end_column: 3,
-                         identifier: 'work_packages_assigned')
-      grid.widgets.build(start_row: 1,
-                         end_row: 3,
-                         start_column: 3,
-                         end_column: 4,
-                         identifier: 'work_packages_created')
+    context 'widgets having the same start column as another\'s end column' do
+      before do
+        grid.widgets.build(start_row: 1,
+                           end_row: 3,
+                           start_column: 1,
+                           end_column: 3,
+                           identifier: 'work_packages_assigned')
+        grid.widgets.build(start_row: 1,
+                           end_row: 3,
+                           start_column: 3,
+                           end_column: 4,
+                           identifier: 'work_packages_created')
+      end
+
+      it 'is valid' do
+        expect(instance.validate)
+          .to be_truthy
+      end
     end
 
-    it 'is valid' do
-      expect(instance.validate)
-        .to be_truthy
-    end
-  end
+    context 'widgets having the same start row as another\'s end row' do
+      before do
+        grid.widgets.build(start_row: 1,
+                           end_row: 3,
+                           start_column: 1,
+                           end_column: 3,
+                           identifier: 'work_packages_assigned')
+        grid.widgets.build(start_row: 3,
+                           end_row: 4,
+                           start_column: 1,
+                           end_column: 3,
+                           identifier: 'work_packages_created')
+      end
 
-  context 'widgets having the same start row as another\'s end row' do
-    before do
-      grid.widgets.build(start_row: 1,
-                         end_row: 3,
-                         start_column: 1,
-                         end_column: 3,
-                         identifier: 'work_packages_assigned')
-      grid.widgets.build(start_row: 3,
-                         end_row: 4,
-                         start_column: 1,
-                         end_column: 3,
-                         identifier: 'work_packages_created')
+      it 'is valid' do
+        expect(instance.validate)
+          .to be_truthy
+      end
     end
 
-    it 'is valid' do
-      expect(instance.validate)
-        .to be_truthy
+    context 'widgets being outside (max) of the grid' do
+      before do
+        grid.widgets.build(start_row: 1,
+                           end_row: grid.row_count + 2,
+                           start_column: 1,
+                           end_column: 3,
+                           identifier: 'work_packages_assigned')
+      end
+
+      it 'is invalid' do
+        expect(instance.validate)
+          .to be_falsey
+      end
+
+      it 'notes the error' do
+        instance.validate
+        expect(instance.errors.details[:widgets])
+          .to match_array [{ error: :outside }]
+      end
+    end
+
+    context 'widgets being outside (min) of the grid' do
+      before do
+        grid.widgets.build(start_row: 1,
+                           end_row: 2,
+                           start_column: -1,
+                           end_column: 3,
+                           identifier: 'work_packages_assigned')
+      end
+
+      it 'is invalid' do
+        expect(instance.validate)
+          .to be_falsey
+      end
+
+      it 'notes the error' do
+        instance.validate
+        expect(instance.errors.details[:widgets])
+          .to match_array [{ error: :outside }]
+      end
+    end
+
+    context 'widgets spanning the whole grid' do
+      before do
+        grid.widgets.build(start_row: 1,
+                           end_row: grid.row_count + 1,
+                           start_column: 1,
+                           end_column: grid.column_count + 1,
+                           identifier: 'work_packages_assigned')
+      end
+
+      it 'is valid' do
+        expect(instance.validate)
+          .to be_truthy
+      end
+    end
+
+    context 'widgets having start after end column' do
+      before do
+        grid.widgets.build(start_row: 1,
+                           end_row: 2,
+                           start_column: 4,
+                           end_column: 3,
+                           identifier: 'work_packages_assigned')
+      end
+
+      it 'is invalid' do
+        expect(instance.validate)
+          .to be_falsey
+      end
+
+      it 'notes the error' do
+        instance.validate
+        expect(instance.errors.details[:widgets])
+          .to match_array [{ error: :end_before_start }]
+      end
+    end
+
+    context 'widgets having start after end row' do
+      before do
+        grid.widgets.build(start_row: 4,
+                           end_row: 2,
+                           start_column: 1,
+                           end_column: 3,
+                           identifier: 'work_packages_assigned')
+      end
+
+      it 'is invalid' do
+        expect(instance.validate)
+          .to be_falsey
+      end
+
+      it 'notes the error' do
+        instance.validate
+        expect(instance.errors.details[:widgets])
+          .to match_array [{ error: :end_before_start }]
+      end
+    end
+
+    context 'widgets having start equals end column' do
+      before do
+        grid.widgets.build(start_row: 1,
+                           end_row: 2,
+                           start_column: 4,
+                           end_column: 3,
+                           identifier: 'work_packages_assigned')
+      end
+
+      it 'is invalid' do
+        expect(instance.validate)
+          .to be_falsey
+      end
+
+      it 'notes the error' do
+        instance.validate
+        expect(instance.errors.details[:widgets])
+          .to match_array [{ error: :end_before_start }]
+      end
+    end
+
+    context 'widgets having start equals end row' do
+      before do
+        grid.widgets.build(start_row: 2,
+                           end_row: 2,
+                           start_column: 1,
+                           end_column: 3,
+                           identifier: 'work_packages_assigned')
+      end
+
+      it 'is invalid' do
+        expect(instance.validate)
+          .to be_falsey
+      end
+
+      it 'notes the error' do
+        instance.validate
+        expect(instance.errors.details[:widgets])
+          .to match_array [{ error: :end_before_start }]
+      end
     end
   end
 

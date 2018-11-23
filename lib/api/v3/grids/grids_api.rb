@@ -108,6 +108,8 @@ module API
                 fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
               end
             end
+
+            mount UpdateFormAPI
           end
         end
       end
