@@ -38,23 +38,30 @@ module Queries::WorkPackages::Filter::FilterOnUndirectedRelationsMixin
                                     .where(from_id: values)
                                     .select(:to_id)
 
-    relations_subselect_to_from = Relation
-                                    .direct
-                                    .send(relation_type)
-                                    .where(to_id: values)
-                                    .select(:from_id)
+    relations_subselect_to_from = Relation.direct.send(relation_type)
+                                    # .where(to_id: values)
+    #                                 .select(:from_id)
 
-    operator, junction =
-      if operator_class == Queries::Operators::Equals
-        ['IN', 'OR']
-      else
-        ['NOT IN', 'AND']
-      end
+    operator, junction = operator_and_junction
 
-    "#{WorkPackage.table_name}.id #{operator} (#{relations_subselect_from_to.to_sql}) #{junction} #{WorkPackage.table_name}.id #{operator} (#{relations_subselect_to_from.to_sql})"
+    <<-SQL
+      #{WorkPackage.table_name}.id #{operator} (#{relations_subselect_from_to.to_sql})
+      #{junction}
+      #{WorkPackage.table_name}.id #{operator} (#{relations_subselect_to_from.to_sql})
+    SQL
   end
 
   def relation_type
     raise NotImplementedError
+  end
+
+  private
+
+  def operator_and_junction
+    if operator_class == Queries::Operators::Equals
+      %w[IN OR]
+    else
+      ['NOT IN', 'AND']
+    end
   end
 end
