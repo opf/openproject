@@ -72,6 +72,7 @@ module API
 
         property :created_at,
                  exec_context: :decorator,
+                 writeable: false,
                  getter: ->(*) {
                    next unless represented.created_at
                    datetime_formatter.format_datetime(represented.created_at)
@@ -79,6 +80,7 @@ module API
 
         property :updated_at,
                  exec_context: :decorator,
+                 writeable: false,
                  getter: ->(*) {
                    next unless represented.updated_at
                    datetime_formatter.format_datetime(represented.updated_at)

@@ -30,13 +30,13 @@
 
 class Grids::Configuration
   class << self
+    include OpenProject::StaticRouting::UrlHelpers
+
     def register_grid(grid,
                       page)
-      self.registered_grid_by_klass ||= {}
+      @grid_register ||= {}
 
-      registered_grid_by_klass[grid] = page
-
-      self.registered_grid_by_page = registered_grid_by_klass.invert
+      @grid_register[grid] = page
     end
 
     def registered_grids
@@ -60,9 +60,9 @@ class Grids::Configuration
     end
 
     def register_widget(identifier, grid_classes)
-      self.registered_widget_by_identifier ||= {}
+      @widget_register ||= {}
 
-      registered_widget_by_identifier[identifier] = Array(grid_classes)
+      @widget_register[identifier] = Array(grid_classes)
     end
 
     def allowed_widget?(grid, identifier)
@@ -73,14 +73,36 @@ class Grids::Configuration
 
     protected
 
-    attr_accessor :registered_grid_by_klass,
-                  :registered_grid_by_page,
-                  :registered_widget_by_identifier
+    def registered_grid_by_page
+      if @registered_grid_by_page && @registered_grid_by_page.length == @grid_register.length
+        @registered_grid_by_page
+      else
+        @registered_grid_by_page = @grid_register.map { |klass, path| [send(path), klass.constantize] }.to_h
+      end
+    end
+
+    def registered_grid_by_klass
+      if @registered_grid_by_klass && @registered_grid_by_klass.length == @grid_register.length
+        @registered_grid_by_klass
+      else
+        @registered_grid_by_klass = @grid_register.map { |klass, path| [klass.constantize, send(path)] }.to_h
+      end
+    end
+
+    def registered_widget_by_identifier
+      if @registered_widget_by_identifier && @registered_widget_by_identifier.length == @widget_register.length
+        @registered_widget_by_identifier
+      else
+        @registered_widget_by_identifier = @widget_register
+                                           .map { |identifier, classes| [identifier, classes.map(&:constantize)] }
+                                           .to_h
+      end
+    end
   end
 end
 
-Grids::Configuration.register_grid(MyPageGrid, OpenProject::StaticRouting::StaticUrlHelpers.new.my_page_path)
-Grids::Configuration.register_widget('work_packages_assigned', MyPageGrid)
-Grids::Configuration.register_widget('work_packages_watched', MyPageGrid)
-Grids::Configuration.register_widget('work_packages_created', MyPageGrid)
-Grids::Configuration.register_widget('work_packages_calendar', MyPageGrid)
+Grids::Configuration.register_grid('MyPageGrid', 'my_page_path')
+Grids::Configuration.register_widget('work_packages_assigned', 'MyPageGrid')
+Grids::Configuration.register_widget('work_packages_watched', 'MyPageGrid')
+Grids::Configuration.register_widget('work_packages_created', 'MyPageGrid')
+Grids::Configuration.register_widget('work_packages_calendar', 'MyPageGrid')
