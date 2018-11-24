@@ -40,7 +40,7 @@ describe Grids::CreateService, type: :model do
     described_class.new(user: user,
                         contract_class: contract_class)
   end
-  let(:call_attributes) { {} }
+  let(:call_attributes) { { page: OpenProject::StaticRouting::StaticUrlHelpers.new.my_page_path } }
   let(:grid_class) { MyPageGrid }
   let(:set_attributes_success) do
     true
@@ -146,11 +146,12 @@ describe Grids::CreateService, type: :model do
 
     context 'without parameters' do
       let(:call_attributes) { {} }
+      let(:grid_class) { Grid }
 
       it_behaves_like 'service call' do
-        it 'creates a MyPageGrid' do
+        it 'creates a Grid' do
           expect(subject.result)
-            .to be_a MyPageGrid
+            .to be_a grid_class
         end
       end
     end
