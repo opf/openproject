@@ -1065,7 +1065,7 @@ lol:
   label_auth_source_plural: crwdns104192:0crwdne104192:0
   label_authentication: crwdns104194:0crwdne104194:0
   label_available_project_work_package_categories: crwdns104196:0crwdne104196:0
-  label_available_project_work_package_types: Available work package types
+  label_available_project_work_package_types: crwdns109224:0crwdne109224:0
   label_available_project_boards: crwdns104198:0crwdne104198:0
   label_available_project_versions: crwdns104200:0crwdne104200:0
   label_available_project_repositories: crwdns104202:0crwdne104202:0
