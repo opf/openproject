@@ -168,10 +168,10 @@ lt:
   statuses:
     edit:
       status_readonly_html: |
-        Check this option to mark work packages with this status as read-only.
-        No attributes can be changed with the exception of the status.
+        Pažymėkite čia, jei norite, kad darbų paketai šioje būsenoje būtų tik skaitomi.
+        Nebebus galima keisti jokių atributų išskyrus būseną.
         <br/>
-        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+        <strong>Pastaba:</strong> paveldėti atributai (pvz., iš vaikų ar sąryšių) gali būti keičiami automatiškai.
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
@@ -352,7 +352,7 @@ lt:
         to: Susijusių darbų paketas
       status:
         is_closed: Darbų paketas uždarytas
-        is_readonly: Work package read-only
+        is_readonly: Darbų paketas nekeičiamas
       journal:
         notes: Pastabos
       member:
@@ -1038,7 +1038,7 @@ lt:
   error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
   error_pdf_export_too_many_columns: PDF eksportavimui pasirinkta per daug stulpelių.
     Prašome sumažinti stulpelių skaičių.
-  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
+  error_pdf_failed_to_export: 'PDF eksportas negali būti išsaugotas: %{error}'
   error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
     you try to submit data on multiple browsers or tabs? Please close all tabs and
     try again.
@@ -1072,7 +1072,7 @@ lt:
 '
   error_external_authentication_failed: Įvyko klaida vykstant išorinei autentikacijai.
     Bandykite dar kartą.
-  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
+  error_attribute_not_highlightable: 'Atributai, kurių negalima paryškinti: %{attributes}'
   events:
     project: Projektas redaguotas
     changeset: Pakeitimų paketas redaguotas
@@ -1090,8 +1090,8 @@ lt:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF su aprašymu
-      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
-      pdf_with_attachments: PDF with attachments
+      pdf_with_descriptions_and_attachments: PDF su aprašymais ir priedais
+      pdf_with_attachments: PDF su priedais
   extraction:
     available:
       pdftotext: Pdf-į-tekstą pasiekiamas (pasirinktinai)
@@ -1122,7 +1122,7 @@ lt:
       upsale:
         become_hero: Tapti didvyriu!
         title: Patobulinti į „Enterprise Edition“ versiją
-        description: What are the benefits?
+        description: Kokie privalumai?
         more_info: Daugiau informacijos
         additional_features: Papildomos galingos premium funkcijos
         professional_support: Profesionali parama iš OpenProject expertų
@@ -1203,6 +1203,7 @@ lt:
   label_auth_source_plural: Autentifikacijos būdai
   label_authentication: Autentifikacija
   label_available_project_work_package_categories: Galimos darbų paketo kategorijos
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Galimos skelbimų lentos
   label_available_project_versions: Galimos versijos
   label_available_project_repositories: Galimos saugyklos
@@ -1310,7 +1311,7 @@ lt:
   label_enumeration_value: Enumeracijos reikšmė
   label_enumerations: Enumeratoriai
   label_enterprise: Enterprise
-  label_enterprise_active_users: "%{current}/%{limit} booked active users"
+  label_enterprise_active_users: "%{current}/%{limit} aktyviai naudojami vartotojai"
   label_enterprise_edition: "„Enterprise Edition“"
   label_environment: Aplinka
   label_estimates_and_time: Sąmatos ir laikas
@@ -1372,7 +1373,7 @@ lt:
   label_journal_diff: Aprašymų palyginimas
   label_language: Kalba
   label_jump_to_a_project: Peršokti į projektą...
-  label_keyword_plural: Keywords
+  label_keyword_plural: Raktažodžiai
   label_language_based: Paremta vartotojo kalba
   label_last_activity: Paskutinė veikla
   label_last_change_on: Paskutinį kartą pakeista
@@ -1788,14 +1789,14 @@ lt:
   mail_subject_wiki_content_added: Wiki puslapis '%{id}' buvo pridėtas
   mail_subject_wiki_content_updated: Wiki puslapis '%{id}' buvo atnaujintas
   mail_user_activation_limit_reached:
-    subject: User activation limit reached
+    subject: Pasiekta vartotojų aktyvinimo riba
     message: |
-      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
-      The user cannot activate their account since the user limit has been reached.
+      Naujas vartotojas (%{email}) bandė sukurti paskyrą OpenProject aplinkoją, kurią jūs valdote (%{host}).
+      Vartotojas negali aktyvuoti savo paskyros, nes sistemoje pasiekta vartotojų riba.
     steps:
-      label: 'To allow the user to sign in you can either: '
+      label: 'Norėdami leisti vartotojui prisijungti jūs galite: '
       a: Atnaujinti savo mokėjimo planą ([here](upgrade_url))
-      b: Lock or delete an existing user ([here](users_url))
+      b: Užrakinti arba panaikinti esamo naudotojo paskyrą ([here](users_url))
   more_actions: Daugiau funkcijų
   noscript_description: Jums reikia įjungti JavaScript, kad galėtumėte naudoti OpenProject!
   noscript_heading: JavaScript išjungta
@@ -1919,7 +1920,7 @@ lt:
       ir komandos bendradarbiavimą naudojant OpenProject.
     text_show_again: Jūs galite paleisti šį video iš naujo iš pagalbos meniu
     welcome: Sveiki atvykę į OpenProject
-    select_language: Please select your language
+    select_language: Pasirinkite kalbą
   permission_add_work_package_notes: Pridėti pastabų
   permission_add_work_packages: Pridėti darbų paketų
   permission_add_messages: Skelbti pranešimus
@@ -2020,7 +2021,7 @@ lt:
     member_of_group: Priskirtojo asmens grupė
     assignee_or_group: Paskirtas ar priklausanti grupė
     subproject_id: Sub-projektas
-    name_or_identifier: Pavadinimas arba indentifikatorius
+    name_or_identifier: Pavadinimas arba identifikatorius
   repositories:
     at_identifier: "%{identifier}"
     atom_revision_feed: Atominių pakeitimų naujienų srautas
@@ -2288,9 +2289,9 @@ lt:
   setting_welcome_on_homescreen: Rodyti pasisveikinimo bloką namų lange
   setting_wiki_compression: Wiki istorijos suspaudimas
   setting_work_package_group_assignment: Leisti priskyrimus grupėms
-  setting_work_package_list_default_highlighting_mode: Default highlighting mode
-  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
-    attributes
+  setting_work_package_list_default_highlighting_mode: Numatytasis paryškinimo būdas
+  setting_work_package_list_default_highlighted_attributes: Atributai, kuriuos numatyta
+    paryškinti
   settings:
     general: Bendra
     other: Kita
@@ -2302,11 +2303,11 @@ lt:
       deletion: Deletion
     highlighting:
       mode_long:
-        inline: Highlight attribute(s) inline
+        inline: Paryškinti tik konkrečius atributus
         none: No highlighting
-        status: Entire row by Status
-        type: Entire row by Type
-        priority: Entire row by Priority
+        status: Visa eilutė pagal būseną
+        type: Visa eilutė pagal tipą
+        priority: Visa eilutė pagal prioritetą
   text_formatting:
     markdown: Markdown
     plain: Plain text
@@ -2647,7 +2648,7 @@ lt:
       years: Metai(-ų)
   title_remove_and_delete_user: Pašalinti pakviestą vartotoją iš projekto ir ištrinti
     jį/ją.
-  title_enterprise_upgrade: Upgrade to unlock more users.
+  title_enterprise_upgrade: Atnaujinkite norėdami atrakinti daugiau vartotojų.
   tooltip_user_default_timezone: 'Numatytoji laiko juosta naujiems vartotojams. Gali
     būti pakeista vartotojo nustatymuose.
 
@@ -2725,10 +2726,10 @@ lt:
   warning: Įspėjimas
   warning_attachments_not_saved: "%{count} failas (-ai, -ų) negali būti išsaugotas
     (-i)."
-  warning_imminent_user_limit: 'You invited more users than are supported by your
-    current plan. Invited users may not be able to join your OpenProject environment.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
-    in order to allow invited and registered users to join.
+  warning_imminent_user_limit: 'Jūs pakvietėte daugiau vartotojų, nei palaikoma jūsų
+    dabartis planas. Pakviestiems vartotojams gali nepavykti prisijungti prie jūsų
+    OpenProject aplinkos. <a href="%{upgrade_url}">Atnaujinkite savo planą</a> arba
+    blokuokite esamus vartotojus, kad pakviesti ir registruoti vartotojai galėtų prisijungti.
 
 '
   warning_registration_token_expired: 'Aktyvavimo el. laiško galiojimas pasibaigė.
@@ -2736,14 +2737,14 @@ lt:
     savo paskyrą.
 
 '
-  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
-    for additional users.
+  warning_user_limit_reached: 'Pasiektas vartotojų limitas. Jūs negalite aktyvuoti
+    daugiau vartotojų. Prašome <a href="%{upgrade_url}">atnaujinti planą</a> arba
+    blokuokite esamus vartotojus norėdami aktyvuoti naujus vartotojus.
 
 '
-  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
-    active users). Please contact sales@openproject.com to upgrade your Enterprise
-    Edition plan and add additional users.
+  warning_user_limit_reached_instructions: 'Jūs pasiekėte vartotojų ribą (%{current}/%{max}
+    aktyvūs vartotojai). Susisiekite su sales@openproject.com norėdami atnaujinti
+    savo Enterprise Edition planą arba pridėti papildomų vartotojų.
 
 '
   menu_item: Meniu punktas
@@ -2776,7 +2777,7 @@ lt:
       code_401_wrong_credentials: Jūs nepateikėte teisingų prisijungimo duomenų.
       code_403: Jūs nesate autorizuotas šiam resursui pasiekti.
       code_404: Reikalaujamas resursas nerastas.
-      code_409: Could not update the resource because of conflicting modifications.
+      code_409: Nepavyko atnaujinti resurso dėl konfliktuojančių pakeitimų.
       code_500: Įvyko vidinė klaida.
       expected:
         date: YYYY-MM-DD (ISO 8601 date only)

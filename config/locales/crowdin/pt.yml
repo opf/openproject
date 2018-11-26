@@ -1188,6 +1188,7 @@ pt:
   label_authentication: Autenticação
   label_available_project_work_package_categories: Categorias de pacotes de trabalho
     disponíveis
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Quadros disponíveis
   label_available_project_versions: Versões disponíveis
   label_available_project_repositories: Repositórios disponíveis

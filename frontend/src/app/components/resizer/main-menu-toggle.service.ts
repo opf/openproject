@@ -81,9 +81,6 @@ export class MainMenuToggleService {
     if (this.isMobile) {
       this.closeMenu();
     }
-
-    // Listen on changes of the screen size
-    this.onWindowResize();
   }
 
   // click on arrow or hamburger icon
@@ -117,7 +114,7 @@ export class MainMenuToggleService {
 
   public closeMenu():void {
     if (this.isMobile) {
-      this.saveWidth(0);  // save 0 in localStorage to open menu automatically on onWindowResize
+      this.saveWidth(0);
     } else {
       this.setWidth(0);
     }
@@ -219,24 +216,5 @@ export class MainMenuToggleService {
 
   private get isGlobalPage():boolean {
     return this.currentProject.id? false : true;
-  }
-
-  // Listen on changes of the window size on all global pages
-  // Expand menu automatically on desktop
-  private onWindowResize() {
-    if (!this.isGlobalPage) { // Listen only on global pages
-      return;
-    }
-    this.resizeObservable$ = fromEvent(window, 'resize')
-    this.resizeSubscription$ = this.resizeObservable$.subscribe( evt => {
-      if (!this.isMobile) {
-        let localStorage = parseInt(window.OpenProject.guardedLocalStorage(this.localStorageKey) as string);
-        if (localStorage > 0 && this.elementWidth > 10) {             // Mobile menu is open and should stay open on desktop
-          this.setWidth(localStorage);
-        } else if (localStorage === 0 && this.elementWidth === 0) {   // Mobile menu is closed and should expand on desktop
-          this.saveWidth(this.defaultWidth);
-        }
-      }
-    });
   }
 }

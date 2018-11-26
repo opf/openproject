@@ -1205,6 +1205,7 @@ es:
   label_authentication: Autentificación
   label_available_project_work_package_categories: Categorias de paquetes de trabjo
     disponibles
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Tablones disponibles
   label_available_project_versions: Versiones disponibles
   label_available_project_repositories: Repositorios disponibles

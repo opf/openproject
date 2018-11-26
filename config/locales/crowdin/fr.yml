@@ -1200,6 +1200,7 @@ fr:
   label_auth_source_plural: Modes d'authentification
   label_authentication: Authentification
   label_available_project_work_package_categories: Catégories de lots de travaux disponibles
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Tableaux disponibles
   label_available_project_versions: Versions disponibles
   label_available_project_repositories: Dépôts disponibles

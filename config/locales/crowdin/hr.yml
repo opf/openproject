@@ -1188,6 +1188,7 @@ hr:
   label_auth_source_plural: Provjera autentičnosti
   label_authentication: Autentifikacija
   label_available_project_work_package_categories: Dostupne kategorije radnih paketa
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Odaberi forume
   label_available_project_versions: Dostupne verzije
   label_available_project_repositories: Dostupni repozitoriji

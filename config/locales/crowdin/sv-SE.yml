@@ -1168,6 +1168,7 @@ sv-SE:
   label_auth_source_plural: Autentiseringslägen
   label_authentication: Autentisering
   label_available_project_work_package_categories: Tillgängliga arbetspaketkategorier
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Tillgängliga anslagstavlor
   label_available_project_versions: Tillgängliga versioner
   label_available_project_repositories: Tillgängliga databaser
