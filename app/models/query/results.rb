@@ -234,7 +234,7 @@ class ::Query::Results
     criteria = SortHelper::SortCriteria.new
     criteria.available_criteria = aliased_sorting_by_column_name
     criteria.criteria = query.sort_criteria
-    criteria.to_a
+    criteria.map_each { |criteria| criteria.map { |raw| Arel.sql raw } }
   end
 
   def aliased_sorting_by_column_name
