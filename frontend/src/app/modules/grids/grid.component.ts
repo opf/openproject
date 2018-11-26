@@ -42,8 +42,6 @@ export class GridComponent implements OnDestroy, OnInit {
   public currentlyDragging = false;
   public GRID_AREA_HEIGHT = 400;
 
-  public areaResources = [{component:AbstractWidgetComponent}];
-
   public resizeArea:GridArea|null;
   private mousedOverArea:GridArea|null;
 
@@ -63,12 +61,9 @@ export class GridComponent implements OnDestroy, OnInit {
     this.numRows = this.grid.rowCount;
     this.numColumns = this.grid.columnCount;
 
-    // TODO: ensure they are casted to proper HalResources
     this.widgetResources = this.grid.widgets;
 
-    this.gridAreas = this.buildGridAreas();
-    this.gridAreaDropIds = this.buildGridAreaDropIds();
-    this.gridWidgetAreas = this.buildWidgetGridAreas();
+    this.buildAreas();
   }
 
   public widgetComponent(widget:GridWidgetResource|null) {
@@ -108,18 +103,17 @@ export class GridComponent implements OnDestroy, OnInit {
       //nothing
     } else {
       let widget = event.previousContainer.data.widget as GridWidgetResource;
+      let dropArea = event.container.data;
       let width = widget.width;
       let height = widget.height;
 
-      widget.startRow = event.container.data.startRow;
+      widget.startRow = dropArea.startRow;
       widget.endRow = widget.startRow + height;
-      widget.startColumn = event.container.data.startColumn;
+      widget.startColumn = dropArea.startColumn;
       widget.endColumn = widget.startColumn + width;
     }
 
-    this.gridAreas = this.buildGridAreas();
-    this.gridAreaDropIds = this.buildGridAreaDropIds();
-    this.gridWidgetAreas = this.buildWidgetGridAreas();
+    this.buildAreas();
   }
 
   public resize(area:GridArea, deltas:ResizeDelta) {
@@ -134,9 +128,7 @@ export class GridComponent implements OnDestroy, OnInit {
     widget.endRow = this.resizeArea.endRow;
     widget.endColumn = this.resizeArea.endColumn;
 
-    this.gridAreas = this.buildGridAreas();
-    this.gridAreaDropIds = this.buildGridAreaDropIds();
-    this.gridWidgetAreas = this.buildWidgetGridAreas();
+    this.buildAreas();
 
     return this.resizeArea = null;
   }
@@ -202,11 +194,9 @@ export class GridComponent implements OnDestroy, OnInit {
         // TODO: We should use the proper resource here
         // but they are not casted as such when we get the
         // initial resources from the backend
-        this.widgetResources.push(widgetResource.source);
+        this.widgetResources.push(widgetResource);
 
-        this.gridAreas = this.buildGridAreas();
-        this.gridAreaDropIds = this.buildGridAreaDropIds();
-        this.gridWidgetAreas = this.buildWidgetGridAreas();
+        this.buildAreas();
       });
   }
 
@@ -221,6 +211,10 @@ export class GridComponent implements OnDestroy, OnInit {
         widget.endRow !== removedWidget.endRow;
     });
 
+    this.buildAreas();
+  }
+
+  private buildAreas() {
     this.gridAreas = this.buildGridAreas();
     this.gridAreaDropIds = this.buildGridAreaDropIds();
     this.gridWidgetAreas = this.buildWidgetGridAreas();
