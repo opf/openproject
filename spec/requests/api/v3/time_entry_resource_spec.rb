@@ -494,11 +494,30 @@ describe 'API v3 time_entry resource', type: :request do
     end
   end
 
-  describe 'DELETE /api/v3/time_entries/:id' do
-    let(:path) { api_v3_paths.time_entry time_entry.id }
+  describe 'DELETE api/v3/time_entries/:id' do
+    let(:path) { api_v3_paths.time_entry(time_entry.id) }
+    let(:permissions) { %i(edit_own_time_entries view_time_entries view_work_packages) }
+    let(:params) {}
 
     before do
-      delete path
+      time_entry
+      other_time_entry
+      custom_value
+
+      delete path, params.to_json, 'CONTENT_TYPE' => 'application/json'
+    end
+
+    it 'deleted the time entry' do
+      expect(subject.status).to eq(202)
+    end
+
+    context 'when lacking permissions' do
+      let(:permissions) { %i(view_time_entries) }
+
+      it 'returns 403' do
+        expect(subject.status)
+          .to eql(403)
+      end
     end
 
     subject(:response) { last_response }
@@ -523,18 +542,22 @@ describe 'API v3 time_entry resource', type: :request do
       end
     end
 
-    context "with an uncontainered time_entry" do
-      let(:container) { nil }
+    context 'with the user being the author' do
+      it_behaves_like 'deletes the time_entry'
+    end
 
-      context 'with the user being the author' do
+    context 'with the user not being the author' do
+      let(:time_entry) { other_time_entry } 
+
+      context 'but permission to edit all time entries' do
+        let(:permissions) { %i(edit_time_entries view_time_entries view_work_packages) }
+
         it_behaves_like 'deletes the time_entry'
       end
 
-      context 'with the user not being the author' do
-        let(:author) { FactoryBot.create(:user) }
-
-        it_behaves_like 'does not delete the time_entry', 415
-      end
+      context 'with permission to delete own time entries' do
+        it_behaves_like 'does not delete the time_entry', 403
+      end 
     end
   end
 end
