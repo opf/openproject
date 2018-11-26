@@ -4,13 +4,15 @@ import {GridResource} from "core-app/modules/hal/resources/grid-resource";
 import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
+import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 
 @Component({
   templateUrl: './my-page.component.html'
 })
 export class MyPageComponent implements OnInit {
   constructor(readonly gridDm:GridDmService,
-              readonly pathHelper:PathHelperService) {}
+              readonly pathHelper:PathHelperService,
+              readonly halResource:HalResourceService) {}
 
   public grid:GridResource;
 
@@ -48,7 +50,12 @@ export class MyPageComponent implements OnInit {
       .gridDm
       .createForm(payload)
       .then((form) => {
-        return (form.payload as GridResource);
+        // cast payload to GridResource
+        let payloadSource = form.payload.$source;
+
+        payloadSource['_type'] = 'Grid';
+
+        return this.halResource.createHalResource(payloadSource, false) as GridResource;
       });
   }
 }

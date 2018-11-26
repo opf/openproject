@@ -108,13 +108,13 @@ export class GridComponent implements OnDestroy, OnInit {
       //nothing
     } else {
       let widget = event.previousContainer.data.widget as GridWidgetResource;
-      let width = parseInt(widget.endColumn) - parseInt(widget.startColumn);
-      let height = parseInt(widget.endRow) - parseInt(widget.startRow);
+      let width = widget.width;
+      let height = widget.height;
 
-      widget.startRow = event.container.data.startRow.toString();
-      widget.endRow = (parseInt(widget.startRow) + height).toString();
-      widget.startColumn = event.container.data.startColumn.toString();
-      widget.endColumn = (parseInt(widget.startColumn) + width).toString();
+      widget.startRow = event.container.data.startRow;
+      widget.endRow = widget.startRow + height;
+      widget.startColumn = event.container.data.startColumn;
+      widget.endColumn = widget.startColumn + width;
     }
 
     this.gridAreas = this.buildGridAreas();
@@ -131,8 +131,8 @@ export class GridComponent implements OnDestroy, OnInit {
 
     let widget = area.widget!;
 
-    widget.endRow = this.resizeArea.endRow.toString();
-    widget.endColumn = this.resizeArea.endColumn.toString();
+    widget.endRow = this.resizeArea.endRow;
+    widget.endColumn = this.resizeArea.endColumn;
 
     this.gridAreas = this.buildGridAreas();
     this.gridAreaDropIds = this.buildGridAreaDropIds();
@@ -256,9 +256,9 @@ export class GridComponent implements OnDestroy, OnInit {
         if (widget) {
           let cell = {
             startRow: row,
-            endRow: parseInt(widget.endRow),
+            endRow: widget.endRow,
             startColumn: column,
-            endColumn: parseInt(widget.endColumn),
+            endColumn: widget.endColumn,
             widget: widget
           };
 
@@ -271,7 +271,7 @@ export class GridComponent implements OnDestroy, OnInit {
   }
 
   private widgetOfArea(row:number, column:number) {
-    return this.widgetResources.find((resource) => parseInt(resource.startRow) === row && parseInt(resource.startColumn) === column);
+    return this.widgetResources.find((resource) => resource.startRow === row && resource.startColumn === column);
   }
 
   public identifyGridCellItem(index:number, cell:GridArea) {
@@ -287,10 +287,10 @@ export class GridComponent implements OnDestroy, OnInit {
 
     this.gridAreas.filter((area) => {
       return !this.widgetResources.find((resource) => {
-        return parseInt(resource.startRow) <= area.startRow &&
-          parseInt(resource.endRow) >= area.endRow &&
-          parseInt(resource.startColumn) <= area.startColumn &&
-          parseInt(resource.endColumn) >= area.endColumn;
+        return resource.startRow <= area.startRow &&
+          resource.endRow >= area.endRow &&
+          resource.startColumn <= area.startColumn &&
+          resource.endColumn >= area.endColumn;
       });
     }).forEach((area) => {
       ids.push(this.gridAreaId(area as GridArea));

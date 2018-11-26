@@ -3,10 +3,10 @@ import {GridWidgetResource} from "app/modules/hal/resources/grid-widget-resource
 import {CdkDragStart} from "@angular/cdk/drag-drop";
 
 export abstract class AbstractWidgetComponent {
-  @HostBinding('style.grid-column-start') gridColumnStart:string;
-  @HostBinding('style.grid-column-end') gridColumnEnd:string;
-  @HostBinding('style.grid-row-start') gridRowStart:string;
-  @HostBinding('style.grid-row-end') gridRowEnd:string;
+  @HostBinding('style.grid-column-start') gridColumnStart:number;
+  @HostBinding('style.grid-column-end') gridColumnEnd:number;
+  @HostBinding('style.grid-row-start') gridRowStart:number;
+  @HostBinding('style.grid-row-end') gridRowEnd:number;
 
   @Input() resource:GridWidgetResource;
   @Output() cdkDragStart:EventEmitter<CdkDragStart> = new EventEmitter();

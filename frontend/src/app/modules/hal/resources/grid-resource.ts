@@ -31,4 +31,19 @@ import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-res
 
 export class GridResource extends HalResource {
   public widgets:GridWidgetResource[];
+
+  public $initialize(source:any) {
+    super.$initialize(source);
+
+    this.widgets = this
+      .widgets
+      .map((widget:Object) => new GridWidgetResource(
+        this.injector,
+        widget,
+        true,
+        this.halInitializer,
+        'GridWidget'
+        )
+      );
+  }
 }

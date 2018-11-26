@@ -53,6 +53,8 @@ import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {WikiPageResource} from "core-app/modules/hal/resources/wiki-page-resource";
 import {PostResource} from "core-app/modules/hal/resources/post-resource";
 import {StatusResource} from "core-app/modules/hal/resources/status-resource";
+import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
+import {GridResource} from "core-app/modules/hal/resources/grid-resource";
 
 const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInterface } = {
   WorkPackage: {
@@ -156,6 +158,12 @@ const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInter
   },
   Post: {
     cls: PostResource
+  },
+  Grid: {
+    cls: GridResource,
+  },
+  GridWidget: {
+    cls: GridWidgetResource
   }
 };
 

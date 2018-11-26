@@ -30,8 +30,16 @@ import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
 export class GridWidgetResource extends HalResource {
   public identifier:string;
-  public startRow:string;
-  public endRow:string;
-  public startColumn:string;
-  public endColumn:string;
+  public startRow:number;
+  public endRow:number;
+  public startColumn:number;
+  public endColumn:number;
+
+  public get height() {
+    return this.endRow - this.startRow;
+  }
+
+  public get width() {
+    return this.endColumn - this.startColumn;
+  }
 }
