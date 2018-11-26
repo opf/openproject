@@ -31,6 +31,7 @@
 module TimeEntries
   class CreateService
     include Concerns::Contracted
+    include SharedMixin
 
     attr_reader :user
 
@@ -61,14 +62,6 @@ module TimeEntries
       time_entry.activity ||= TimeEntryActivity.default
       time_entry.hours = nil if time_entry.hours&.zero?
       time_entry.project ||= time_entry.work_package.project if time_entry.work_package
-    end
-
-    def use_project_activity(time_entry)
-      if time_entry.activity&.shared? && time_entry.project
-        project_activity = time_entry.project.time_entry_activities.find_by(parent_id: time_entry.activity_id) ||
-                           time_entry.activity
-        time_entry.activity = project_activity
-      end
     end
   end
 end

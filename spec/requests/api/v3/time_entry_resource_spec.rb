@@ -244,6 +244,95 @@ describe 'API v3 time_entry resource', type: :request do
       end
     end
 
+    context 'filtering by global activity' do
+      let(:project_activity) do
+        FactoryBot.create(:time_entry_activity,
+                          parent: activity,
+                          project: project)
+      end
+      let(:other_project_activity) do
+        FactoryBot.create(:time_entry_activity,
+                          parent: activity,
+                          project: other_project)
+      end
+      let(:another_project_activity) do
+        FactoryBot.create(:time_entry_activity,
+                          parent: FactoryBot.create(:time_entry_activity),
+                          project: project)
+      end
+      let(:shared_activity) do
+        FactoryBot.create(:time_entry_activity,
+                          parent: nil)
+      end
+      let!(:time_entry) do
+        FactoryBot.create(:time_entry,
+                          project: project,
+                          work_package: work_package,
+                          user: current_user,
+                          activity: project_activity)
+      end
+      let!(:other_time_entry) do
+        FactoryBot.create(:time_entry,
+                          project: other_project,
+                          work_package: other_work_package,
+                          user: current_user,
+                          activity: other_project_activity)
+      end
+      let!(:another_time_entry) do
+        FactoryBot.create(:time_entry,
+                          project: project,
+                          work_package: work_package,
+                          user: current_user,
+                          activity: another_project_activity)
+      end
+      let!(:shared_time_entry) do
+        FactoryBot.create(:time_entry,
+                          project: project,
+                          work_package: work_package,
+                          user: current_user,
+                          activity: shared_activity)
+      end
+
+      before do
+        FactoryBot.create(:member,
+                          roles: [role],
+                          project: other_project,
+                          user: current_user)
+        get path
+      end
+
+      let(:path) do
+        filter = [
+          {
+            'activity_id' => {
+              'operator' => '=',
+              'values' => [activity.id, shared_activity.id]
+            }
+          }
+        ]
+
+        "#{api_v3_paths.time_entries}?#{{ filters: filter.to_json }.to_query}&sortBy=#{[%w(id asc)].to_json}"
+      end
+
+      it 'contains only the filtered time entries in the response' do
+        expect(subject.body)
+          .to be_json_eql('3')
+          .at_path('total')
+
+        expect(subject.body)
+          .to be_json_eql(time_entry.id.to_json)
+          .at_path('_embedded/elements/0/id')
+
+        expect(subject.body)
+          .to be_json_eql(other_time_entry.id.to_json)
+          .at_path('_embedded/elements/1/id')
+
+        expect(subject.body)
+          .to be_json_eql(shared_time_entry.id.to_json)
+          .at_path('_embedded/elements/2/id')
+      end
+    end
+
     context 'invalid filter' do
       let(:path) do
         filter = [{ 'bogus' => {
@@ -333,7 +422,7 @@ describe 'API v3 time_entry resource', type: :request do
         }
       }
     end
-    let(:additional_setup) { ->{} }
+    let(:additional_setup) { -> {} }
 
     before do
       work_package
@@ -445,13 +534,20 @@ describe 'API v3 time_entry resource', type: :request do
 
     let(:params) do
       {
-        "hours": 'PT10H'
+        "hours": 'PT10H',
+        "activity": {
+          "href": api_v3_paths.time_entries_activity(activity.id)
+        }
       }
     end
+
+    let(:additional_setup) { -> {} }
 
     before do
       time_entry
       custom_value
+
+      additional_setup.call
 
       patch path, params.to_json, 'CONTENT_TYPE' => 'application/json'
     end
@@ -461,6 +557,8 @@ describe 'API v3 time_entry resource', type: :request do
 
       time_entry.reload
       expect(time_entry.hours).to eq 10
+
+      expect(time_entry.activity).to eq activity
     end
 
     context 'when lacking permissions' do
@@ -469,6 +567,25 @@ describe 'API v3 time_entry resource', type: :request do
       it 'returns 403' do
         expect(subject.status)
           .to eql(403)
+      end
+    end
+
+    context 'when sending an activity the project overrides' do
+      let(:project_activity) do
+        params = activity.attributes.except('id')
+        params['parent_id'] = activity.id
+        project.create_time_entry_activity_if_needed(params)
+
+        project.time_entry_activities.first
+      end
+
+      let(:additional_setup) { -> { project_activity } }
+
+      it 'creates the time entry with the project activity' do
+        time_entry.reload
+
+        expect(time_entry.activity)
+          .to eql project_activity
       end
     end
 
