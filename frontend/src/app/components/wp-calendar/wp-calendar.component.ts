@@ -204,9 +204,20 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
   private get staticOptions() {
     return {
       editable: false,
-      eventLimit: 17,
+      eventLimit: false,
       locale: this.i18n.locale,
-      height: 400,
+      height: () => {
+        let heightElement = jQuery(this.element.nativeElement);
+
+        while (!heightElement.height() && heightElement.parent()) {
+          heightElement = heightElement.parent();
+        }
+
+        let topOfCalendar = jQuery(this.element.nativeElement).position().top;
+        let topOfHeightElement = heightElement.position().top;
+
+        return heightElement.height() - (topOfCalendar - topOfHeightElement);
+      },
       header: {
         left: '',
         center: '',
