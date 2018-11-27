@@ -493,4 +493,71 @@ describe 'API v3 time_entry resource', type: :request do
       end
     end
   end
+
+  describe 'DELETE api/v3/time_entries/:id' do
+    let(:path) { api_v3_paths.time_entry(time_entry.id) }
+    let(:permissions) { %i(edit_own_time_entries view_time_entries view_work_packages) }
+    let(:params) {}
+
+    before do
+      time_entry
+      other_time_entry
+      custom_value
+
+      delete path, params.to_json, 'CONTENT_TYPE' => 'application/json'
+    end
+
+    it 'deleted the time entry' do
+      expect(subject.status).to eq(202)
+    end
+
+    context 'when lacking permissions' do
+      let(:permissions) { %i(view_time_entries) }
+
+      it 'returns 403' do
+        expect(subject.status)
+          .to eql(403)
+      end
+    end
+
+    subject(:response) { last_response }
+
+    shared_examples_for 'deletes the time_entry' do
+      it 'responds with HTTP No Content' do
+        expect(subject.status).to eq 202
+      end
+
+      it 'removes the time_entry from the DB' do
+        expect(TimeEntry.exists?(time_entry.id)).to be_falsey
+      end
+    end
+
+    shared_examples_for 'does not delete the time_entry' do |status = 403|
+      it "responds with #{status}" do
+        expect(subject.status).to eq status
+      end
+
+      it 'does not delete the time_entry' do
+        expect(TimeEntry.exists?(time_entry.id)).to be_truthy
+      end
+    end
+
+    context 'with the user being the author' do
+      it_behaves_like 'deletes the time_entry'
+    end
+
+    context 'with the user not being the author' do
+      let(:time_entry) { other_time_entry } 
+
+      context 'but permission to edit all time entries' do
+        let(:permissions) { %i(edit_time_entries view_time_entries view_work_packages) }
+
+        it_behaves_like 'deletes the time_entry'
+      end
+
+      context 'with permission to delete own time entries' do
+        it_behaves_like 'does not delete the time_entry', 403
+      end 
+    end
+  end
 end
