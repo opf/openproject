@@ -126,15 +126,30 @@ module Grids
     end
 
     def widgets_overlap?(widget, other_widget)
-      point_in_widget_area(widget, other_widget.start_row, other_widget.start_column) ||
-        point_in_widget_area(widget, other_widget.start_row, other_widget.end_column) ||
-        point_in_widget_area(widget, other_widget.end_row, other_widget.start_column) ||
-        point_in_widget_area(widget, other_widget.end_row, other_widget.end_column)
+      top_left_inside?(widget, other_widget) ||
+        top_right_inside?(widget, other_widget) ||
+        bottom_left_inside?(widget, other_widget) ||
+        bottom_right_inside?(widget, other_widget)
     end
 
-    def point_in_widget_area(widget, row, column)
-      widget.start_row < row && widget.end_row > row &&
-        widget.start_column < column && widget.end_column > column
+    def top_left_inside?(widget, other_widget)
+      widget.start_row <= other_widget.start_row && widget.end_row > other_widget.start_row &&
+        widget.start_column <= other_widget.start_column && widget.end_column > other_widget.start_column
+    end
+
+    def top_right_inside?(widget, other_widget)
+      widget.start_row <= other_widget.start_row && widget.end_row > other_widget.start_row &&
+        widget.start_column < other_widget.end_column && widget.end_column >= other_widget.end_column
+    end
+
+    def bottom_left_inside?(widget, other_widget)
+      widget.start_row < other_widget.end_row && widget.end_row >= other_widget.end_row &&
+        widget.start_column <= other_widget.start_column && widget.end_column > other_widget.start_column
+    end
+
+    def bottom_right_inside?(widget, other_widget)
+      widget.start_row < other_widget.end_row && widget.end_row >= other_widget.end_row &&
+        widget.start_column < other_widget.end_column && widget.end_column >= other_widget.end_column
     end
 
     def outside?(widget)

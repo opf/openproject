@@ -11,7 +11,6 @@ import {CdkDragDrop, CdkDragStart, CdkDragEnd} from "@angular/cdk/drag-drop";
 import {ResizeDelta} from "../common/resizer/resizer.component";
 import {GridWidgetsService} from "core-app/modules/grids/widgets/widgets.service";
 import {AddGridWidgetService} from "core-app/modules/grids/widgets/add/add.service";
-import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
 
 export interface WidgetRegistration {
   identifier:string;
@@ -294,41 +293,38 @@ export class GridComponent implements OnDestroy, OnInit {
 
   private doAreasOverlap(area:GridArea, otherArea:GridArea) {
     return this.doesAreaContain(area, otherArea) ||
-             this.doesAreaContain(otherArea, area) ||
-             this.isOnStartRowLine(area, otherArea.startRow, otherArea.startColumn) ||
-             this.isOnStartRowLine(area, otherArea.startRow, otherArea.endColumn) ||
-             this.isOnStartRowLine(otherArea, area.startRow, area.startColumn) ||
-             this.isOnStartRowLine(otherArea, area.startRow, area.endColumn) ||
-             this.isOnStartColumnLine(area, otherArea.startRow, otherArea.startColumn) ||
-             this.isOnStartColumnLine(area, otherArea.startRow, otherArea.endColumn) ||
-             this.isOnStartColumnLine(otherArea, area.startRow, area.startColumn) ||
-             this.isOnStartColumnLine(otherArea, area.startRow, area.endColumn);
+             this.doesAreaContain(otherArea, area);
   }
 
   private doesAreaContain(area:GridArea, otherArea:GridArea) {
-    return this.isPointInArea(area, otherArea.startRow, otherArea.startColumn) ||
-      this.isPointInArea(area, otherArea.startRow, otherArea.endColumn) ||
-      this.isPointInArea(area, otherArea.endRow, otherArea.startColumn) ||
-      this.isPointInArea(area, otherArea.endRow, otherArea.endColumn);
+    return this.isTopLeftInside(area, otherArea) ||
+      this.isTopRightInside(area, otherArea) ||
+      this.isBottomLeftInside(area, otherArea) ||
+      this.isBottomRightInside(area, otherArea);
   }
 
-  private isPointInArea(area:GridArea, row:number, column:number) {
-    return area.startRow < row && area.endRow > row &&
-             area.startColumn < column && area.endColumn > column;
+  private isTopLeftInside(area:GridArea, otherArea:GridArea) {
+    return area.startRow <= otherArea.startRow && area.endRow > otherArea.startRow &&
+      area.startColumn <= otherArea.startColumn && area.endColumn > otherArea.startColumn;
   }
 
-  private isOnStartRowLine(area:GridArea, row:number, column:number) {
-    return area.startRow === row &&
-             area.startColumn <= column && area.endColumn > column;
+  private isTopRightInside(area:GridArea, otherArea:GridArea) {
+    return area.startRow <= otherArea.startRow && area.endRow > otherArea.startRow &&
+      area.startColumn < otherArea.endColumn && area.endColumn >= otherArea.endColumn;
   }
 
-  private isOnStartColumnLine(area:GridArea, row:number, column:number) {
-    return area.startColumn === column &&
-      area.startRow <= row && area.endRow > row;
+  private isBottomLeftInside(area:GridArea, otherArea:GridArea) {
+    return area.startRow <= otherArea.startRow && area.endRow > otherArea.startRow &&
+      area.startColumn < otherArea.endColumn && area.endColumn >= otherArea.endColumn;
+  }
+
+  private isBottomRightInside(area:GridArea, otherArea:GridArea) {
+    return area.startRow < otherArea.endRow && area.endRow >= otherArea.endRow &&
+      area.startColumn < otherArea.endColumn && area.endColumn >= otherArea.endColumn;
   }
 
   private moveAreasDown(movedArea:GridArea|null) {
-    let movedAreas = [movedArea];
+    let movedAreas = [];
     let remainingAreas = this.gridWidgetAreas.slice(0).sort((a, b) => {
       return b.startRow - a.startRow;
     });
