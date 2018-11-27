@@ -28,39 +28,47 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module TimeEntries
-  class UpdateService
-    include Concerns::Contracted
-    include SharedMixin
-
-    attr_accessor :user,
-                  :time_entry
-
-    def initialize(user:, time_entry:)
-      self.user = user
-      self.time_entry = time_entry
-      self.contract_class = TimeEntries::UpdateContract
+class Queries::TimeEntries::Filters::ActivityFilter < Queries::TimeEntries::Filters::TimeEntryFilter
+  def allowed_values
+    @allowed_values ||= begin
+      # To mask the internal complexity of time entries and to
+      # allow filtering by a combined value only shared activities are
+      # valid values
+      ::TimeEntryActivity
+        .shared
+        .pluck(:name, :id)
     end
+  end
 
-    def call(attributes: {})
-      set_attributes attributes
+  def type
+    :list_optional
+  end
 
-      success, errors = validate_and_save(time_entry, user)
-      ServiceResult.new success: success, errors: errors, result: time_entry
-    end
+  def self.key
+    :activity_id
+  end
 
-    private
+  def where
+    # Because the project specific activity is used for storing the time entry,
+    # we have to deduce the actual filter value which is the id of all the provided activities' children.
+    # But when the activity itself is already shared, we use that value.
+    db_values = child_values
+                .or(shared_values)
+                .pluck(:id)
 
-    def set_attributes(attributes)
-      time_entry.attributes = attributes
+    operator_strategy.sql_for_field(db_values, self.class.model.table_name, self.class.key)
+  end
 
-      ##
-      # Update project context if moving time entry
-      if time_entry.work_package && time_entry.work_package_id_changed?
-        time_entry.project_id = time_entry.work_package.project_id
-      end
+  private
 
-      use_project_activity(time_entry)
-    end
+  def child_values
+    TimeEntryActivity
+      .where(parent_id: values)
+  end
+
+  def shared_values
+    TimeEntryActivity
+      .shared
+      .where(id: values)
   end
 end

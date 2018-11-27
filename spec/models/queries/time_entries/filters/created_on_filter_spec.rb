@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,39 +26,25 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module TimeEntries
-  class UpdateService
-    include Concerns::Contracted
-    include SharedMixin
+require 'spec_helper'
 
-    attr_accessor :user,
-                  :time_entry
+describe Queries::TimeEntries::Filters::CreatedOnFilter, type: :model do
+  it_behaves_like 'basic query filter' do
+    let(:type) { :datetime_past }
+    let(:class_key) { :created_on }
 
-    def initialize(user:, time_entry:)
-      self.user = user
-      self.time_entry = time_entry
-      self.contract_class = TimeEntries::UpdateContract
-    end
-
-    def call(attributes: {})
-      set_attributes attributes
-
-      success, errors = validate_and_save(time_entry, user)
-      ServiceResult.new success: success, errors: errors, result: time_entry
-    end
-
-    private
-
-    def set_attributes(attributes)
-      time_entry.attributes = attributes
-
-      ##
-      # Update project context if moving time entry
-      if time_entry.work_package && time_entry.work_package_id_changed?
-        time_entry.project_id = time_entry.work_package.project_id
+    describe '#available?' do
+      it 'is true' do
+        expect(instance).to be_available
       end
-
-      use_project_activity(time_entry)
     end
+
+    describe '#allowed_values' do
+      it 'is nil' do
+        expect(instance.allowed_values).to be_nil
+      end
+    end
+
+    it_behaves_like 'non ar filter'
   end
 end
