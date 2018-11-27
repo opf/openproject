@@ -173,7 +173,7 @@ So, if you want to develop a feature, create a feature branch from a current `de
 
 ## Configure OpenProject
 
-Create and configure the database configuration file in `config/database.yml` (relative to the openproject-directory.
+Configure the database in `config/database.yml` (relative to the openproject-directory.
 
 ```bash
 [dev@debian]# vim config/database.yml
@@ -200,6 +200,17 @@ test:
 ```
 
 **NOTE:** If you want to use MySQL instead and have a database installed, simply use the MySQL section of the exemplary `database.yml.example` configuration file.
+
+**About git**
+
+Local changes to your `database.yml` will prevent pulls unless you stash your changes first.
+To avoid this you can ignore local changes to the file like this:
+
+```
+git update-index --assume-unchanged config/database.yml
+```
+
+After this the file will always show as unchanged using `git st` and won't get in the way of pulls anymore.
 
 ## Finish the Installation of OpenProject
 
