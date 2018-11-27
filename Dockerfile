@@ -50,6 +50,9 @@ COPY . /usr/src/app
 RUN cp docker/Procfile .
 RUN sed -i "s|Rails.groups(:opf_plugins)|Rails.groups(:opf_plugins, :docker)|" config/application.rb
 
+# Re-use packager database.yml
+COPY packaging/conf/database.yml ./config/database.yml
+
 # Run the npm postinstall manually after it was copied
 RUN DATABASE_URL=sqlite3:///tmp/db.sqlite3 SECRET_TOKEN=foobar RAILS_ENV=production bundle exec rake assets:precompile
 
