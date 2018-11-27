@@ -43,19 +43,11 @@ $filters--border-color: $gray !default
   position: relative
 
   .simple-filter--trailing-labels
-    list-style-type: none
-    display: flex
-    margin-left: 0
-
-    .simple-filters--filter
-      flex-basis: 33.33%
-      max-width: 33.33%
-      padding: 0 1rem 0 0
-
-    &.-label-columns-3
-      .simple-filters--filter
-        flex-basis: 25%
-        max-width: 25%
+    display:          grid
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr))
+    grid-gap:         10px 40px
+    list-style-type:  none
+    margin:           20px 0 0 0
 
   &.collapsed
     display: none
@@ -68,7 +60,13 @@ $filters--border-color: $gray !default
     z-index: 2
 
 .simple-filters--filters
-  .simple-filters--filter
+  @extend .simple-filter--trailing-labels
+
+  > li:not(.simple-filters--controls)
+    display: grid
+    grid-template-columns: repeat(auto-fill, 50%)
+    align-items: center
+
     .form--radio-button-container
       margin-right: 20px
       flex-grow: 0
@@ -77,5 +75,10 @@ $filters--border-color: $gray !default
     .button
       margin: 0 10px 10px 0
 
-.simple-filters--filters + .simple-filter--trailing-labels
-  margin-top: 1rem
+  .simple-filters--controls
+    grid-column: 1 / -1
+    margin-top: 10px
+
+  .simple-filters--filter-name
+    @include text-shortener
+    margin: auto 0

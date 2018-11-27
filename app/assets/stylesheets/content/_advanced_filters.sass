@@ -30,7 +30,8 @@
   @extend %filters--container
   padding: rem-calc(10px)
   margin: 0
-  overflow: hidden
+  overflow-y: auto
+  max-height: 50vh
 
   &.collapsed
     display: none
@@ -42,23 +43,20 @@
     z-index: 2
 
 .advanced-filters--filters,
-.simple-filters--filters
   list-style-type:  none
   margin:           20px 0 0 0
 
-  > li:not(.simple-filters--controls)
+  > li
     display: grid
-    grid-template-columns: 15% 20% auto 15px
+    grid-template-columns: repeat(auto-fit, 20%)
     grid-gap: 10px
     align-items: center
     margin-bottom: 10px
-    max-width: 100%
 
   .advanced-filters--filter-name,
   .advanced-filters--add-filter-label,
     @include text-shortener
-    white-space:  normal
-    margin:       0
+    margin: auto 0
 
   .advanced-filters--filter-value,
   .advanced-filters--filter-operator
@@ -75,7 +73,7 @@
 
 // The type="text" is required to be more specific
 .advanced-filters--text-field[type="text"],
-.advanced-filters--date-field[type="text"],
+.advanced-filters--date-field[type="text"]
   @extend .form--text-field
 
   &:required
@@ -94,8 +92,8 @@
   @extend .advanced-filters--affix, .tooltip--right
 
 .advanced-filters--remove-filter
-  @include grid-visible-overflow
-  padding: 0
+  grid-column: -1
+  text-align: right
 
   a
     display: block

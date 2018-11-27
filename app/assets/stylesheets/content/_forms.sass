@@ -321,8 +321,9 @@ fieldset.form--fieldset
     margin-bottom: 1rem
 
 .form--field
-  display: flex
-  flex-wrap: wrap
+  display: grid
+  grid-template-columns: repeat(auto-fit, 250px)
+  grid-gap: 10px
   align-items: center
   margin-bottom: 0.825rem
   line-height: 2
@@ -337,6 +338,7 @@ fieldset.form--fieldset
     padding-right: 1rem
 
   &.-trailing-label
+    display: flex
     .form--label
       @include grid-order(2)
       padding-left: 0.5rem
@@ -362,8 +364,6 @@ fieldset.form--fieldset
     @extend %form--field-after-container
 
 .form--label
-  width: 200px
-  padding: 0 1rem 0 0
   margin-bottom: 0
   font-size:    $form-label-fontsize
   line-height:  $base-line-height
@@ -411,7 +411,7 @@ fieldset.form--fieldset
   font-size:    $form-label-fontsize
   line-height:  1.4
   color:        $form-label-color
-  margin-left:  20px
+  grid-column:  2 / 5
 
 .form--field-instructions
   @extend %form--field-after-container
@@ -498,6 +498,7 @@ select
   line-height: 100%
   margin-bottom: 0rem
   font-size: 0.9rem
+  width: auto
 
   &:hover, &:focus, &:active
     border-color: #999
