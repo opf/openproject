@@ -100,36 +100,17 @@ export class GridComponent implements OnDestroy, OnInit {
   }
 
   public drop(event:CdkDragDrop<GridArea>) {
-    if (event.previousContainer === event.container) {
-      //nothing
-    } else {
+    if (event.previousContainer !== event.container) {
       let widgetArea = event.previousContainer.data as GridArea;
       let widget = widgetArea.widget as GridWidgetResource;
       let dropArea = event.container.data;
-      let width = widget.width;
-      let height = widget.height;
 
       widgetArea.startRow = dropArea.startRow;
-      widgetArea.endRow = widgetArea.startRow + height;
+      widgetArea.endRow = widgetArea.startRow + widget.height;
       widgetArea.startColumn = dropArea.startColumn;
-      widgetArea.endColumn = widgetArea.startColumn + width;
+      widgetArea.endColumn = widgetArea.startColumn + widget.width;
 
-      let movedAreas = [widgetArea];
-      let remainingAreas = this.gridWidgetAreas.filter((area) => {
-        return area.guid !== widgetArea.guid;
-      });
-
-      let movedArea = this.moveAreasDown(movedAreas, remainingAreas);
-
-      while (movedArea !== null) {
-        movedAreas.push(movedArea);
-
-        remainingAreas = remainingAreas.filter((area) => {
-          return area.guid !== movedArea!.guid;
-        });
-
-        movedArea = this.moveAreasDown(movedAreas, remainingAreas);
-      }
+      this.moveAreasDown(widgetArea);
     }
 
     //this.buildAreas();
@@ -346,7 +327,24 @@ export class GridComponent implements OnDestroy, OnInit {
       area.startRow <= row && area.endRow > row;
   }
 
-  private moveAreasDown(anchorAreas:GridArea[], movableAreas:GridArea[]) {
+  private moveAreasDown(movedArea:GridArea|null) {
+    let movedAreas = [movedArea];
+    let remainingAreas = this.gridWidgetAreas.slice(0).sort((a, b) => {
+      return b.startRow - a.startRow;
+    });
+
+    while (movedArea !== null) {
+      movedAreas.push(movedArea!);
+
+      remainingAreas = remainingAreas.filter((area) => {
+        return area.guid !== movedArea!.guid;
+      });
+
+      movedArea = this.moveOneAreaDown(movedAreas as GridArea[], remainingAreas);
+    }
+  }
+
+  private moveOneAreaDown(anchorAreas:GridArea[], movableAreas:GridArea[]) {
     let moveSpecification = this.firstAreaToMove(anchorAreas, movableAreas);
 
     if (moveSpecification) {
@@ -366,7 +364,6 @@ export class GridComponent implements OnDestroy, OnInit {
     } else {
       return null;
     }
-
   }
 
   // Return first area that needs to move as it overlaps another area.
@@ -381,7 +378,6 @@ export class GridComponent implements OnDestroy, OnInit {
   // than the area overlapping the area to move. Unmovable areas which's column values do not include the
   // start column are to the left or right of the area to move and can thus be ignored.
   private firstAreaToMove(anchorAreas:GridArea[], movableAreas:GridArea[]) {
-    // TODO: ensure keeping order by sorting the movableAreas by startRow
     let overlappingArea:GridArea|null = null;
     let toMoveArea:GridArea|null = null;
 
