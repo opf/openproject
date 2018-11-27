@@ -167,10 +167,10 @@ fr:
   statuses:
     edit:
       status_readonly_html: |
-        Check this option to mark work packages with this status as read-only.
-        No attributes can be changed with the exception of the status.
+        Cochez cette option pour marquer les paquets de travail avec ce statut en lecture seule.
+        Aucuns attributs ne peut être changés à l’exception de l’État.
         <br/>
-        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+        <strong>Note</strong>: les valeurs héritées (ex: des enfants ou relations) continueront de s’appliquer.
       status_color_text: |
         Cliquez pour assigner ou modifier la couleur de ce statut.
         Elle peut être utilisée pour mettre en évidence les lots de travaux dans le tableau.
@@ -359,7 +359,7 @@ fr:
         to: Lot de travaux associé
       status:
         is_closed: Lot de travaux clôturé
-        is_readonly: Work package read-only
+        is_readonly: Paquet de travail en lecture seule
       journal:
         notes: Notes
       member:
@@ -1200,7 +1200,7 @@ fr:
   label_auth_source_plural: Modes d'authentification
   label_authentication: Authentification
   label_available_project_work_package_categories: Catégories de lots de travaux disponibles
-  label_available_project_work_package_types: Available work package types
+  label_available_project_work_package_types: Types de paquet de travail disponible
   label_available_project_boards: Tableaux disponibles
   label_available_project_versions: Versions disponibles
   label_available_project_repositories: Dépôts disponibles
@@ -1371,7 +1371,7 @@ fr:
   label_journal_diff: Comparaison de description
   label_language: Langue
   label_jump_to_a_project: Aller à un projet…
-  label_keyword_plural: Keywords
+  label_keyword_plural: Mots clés
   label_language_based: Basé sur le langage de l'utilisateur
   label_last_activity: Dernière activité
   label_last_change_on: Dernière modification le

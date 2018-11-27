@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,42 +25,34 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See doc/COPYRIGHT.rdoc for more details.
 #++
 
 module TimeEntries
-  class UpdateService
-    include Concerns::Contracted
-    include SharedMixin
+  class DeleteContract < BaseContract
+    def validate
+      unless user_allowed_to_delete?
+        errors.add :base, :error_unauthorized
+      end
 
-    attr_accessor :user,
-                  :time_entry
-
-    def initialize(user:, time_entry:)
-      self.user = user
-      self.time_entry = time_entry
-      self.contract_class = TimeEntries::UpdateContract
-    end
-
-    def call(attributes: {})
-      set_attributes attributes
-
-      success, errors = validate_and_save(time_entry, user)
-      ServiceResult.new success: success, errors: errors, result: time_entry
+      super
     end
 
     private
 
-    def set_attributes(attributes)
-      time_entry.attributes = attributes
+    ##
+    # Users may delete time entries IF
+    # they have the :edit_time_entries or
+    # user == deleting user and :edit_own_time_entries
+    def user_allowed_to_delete?
+      edit_all = user.allowed_to?(:edit_time_entries, model.project)
+      edit_own = user.allowed_to?(:edit_own_time_entries, model.project)
 
-      ##
-      # Update project context if moving time entry
-      if time_entry.work_package && time_entry.work_package_id_changed?
-        time_entry.project_id = time_entry.work_package.project_id
+      if model.user == user
+        edit_own || edit_all
+      else
+        edit_all
       end
-
-      use_project_activity(time_entry)
     end
   end
 end

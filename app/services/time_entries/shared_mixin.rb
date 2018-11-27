@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,42 +25,18 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See doc/COPYRIGHT.rdoc for more details.
 #++
 
 module TimeEntries
-  class UpdateService
-    include Concerns::Contracted
-    include SharedMixin
+  module SharedMixin
+    def use_project_activity(time_entry)
+      if time_entry.activity&.shared? && time_entry.project
+        project_activity = time_entry.project.time_entry_activities.find_by(parent_id: time_entry.activity_id) ||
+                           time_entry.activity
 
-    attr_accessor :user,
-                  :time_entry
-
-    def initialize(user:, time_entry:)
-      self.user = user
-      self.time_entry = time_entry
-      self.contract_class = TimeEntries::UpdateContract
-    end
-
-    def call(attributes: {})
-      set_attributes attributes
-
-      success, errors = validate_and_save(time_entry, user)
-      ServiceResult.new success: success, errors: errors, result: time_entry
-    end
-
-    private
-
-    def set_attributes(attributes)
-      time_entry.attributes = attributes
-
-      ##
-      # Update project context if moving time entry
-      if time_entry.work_package && time_entry.work_package_id_changed?
-        time_entry.project_id = time_entry.work_package.project_id
+        time_entry.activity = project_activity
       end
-
-      use_project_activity(time_entry)
     end
   end
 end

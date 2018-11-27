@@ -105,6 +105,16 @@ module API
                 fail ::API::Errors::ErrorBase.create_and_merge_errors(result.errors)
               end
             end
+
+            delete do
+              call = ::TimeEntries::DeleteService.new(time_entry: @time_entry, user: current_user).call
+
+              if call.success?
+                status 202
+              else
+                fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
+              end
+            end
           end
 
           mount ::API::V3::TimeEntries::TimeEntriesActivityAPI
