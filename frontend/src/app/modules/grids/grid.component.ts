@@ -20,6 +20,7 @@ export interface WidgetRegistration {
 }
 
 export interface GridArea {
+  guid:string;
   startRow:number;
   endRow:number;
   startColumn:number;
@@ -102,18 +103,36 @@ export class GridComponent implements OnDestroy, OnInit {
     if (event.previousContainer === event.container) {
       //nothing
     } else {
-      let widget = event.previousContainer.data.widget as GridWidgetResource;
+      let widgetArea = event.previousContainer.data as GridArea;
+      let widget = widgetArea.widget as GridWidgetResource;
       let dropArea = event.container.data;
       let width = widget.width;
       let height = widget.height;
 
-      widget.startRow = dropArea.startRow;
-      widget.endRow = widget.startRow + height;
-      widget.startColumn = dropArea.startColumn;
-      widget.endColumn = widget.startColumn + width;
+      widgetArea.startRow = dropArea.startRow;
+      widgetArea.endRow = widgetArea.startRow + height;
+      widgetArea.startColumn = dropArea.startColumn;
+      widgetArea.endColumn = widgetArea.startColumn + width;
+
+      let movedAreas = [widgetArea];
+      let remainingAreas = this.gridWidgetAreas.filter((area) => {
+        return area.guid !== widgetArea.guid;
+      });
+
+      let movedArea = this.moveAreasDown(movedAreas, remainingAreas);
+
+      while (movedArea !== null) {
+        movedAreas.push(movedArea);
+
+        remainingAreas = remainingAreas.filter((area) => {
+          return area.guid !== movedArea!.guid;
+        });
+
+        movedArea = this.moveAreasDown(movedAreas, remainingAreas);
+      }
     }
 
-    this.buildAreas();
+    //this.buildAreas();
   }
 
   public resize(area:GridArea, deltas:ResizeDelta) {
@@ -135,6 +154,7 @@ export class GridComponent implements OnDestroy, OnInit {
 
   public resizeStart(area:GridArea) {
     this.resizeArea = {
+      guid: this.guid(),
       startRow: area.startRow,
       endRow: area.endRow,
       startColumn: area.startColumn,
@@ -225,13 +245,14 @@ export class GridComponent implements OnDestroy, OnInit {
 
     for (let row = 1; row <= this.numRows; row++) {
       for (let column = 1; column <= this.numColumns; column++) {
-        let widget = this.widgetOfArea(row, column);
-
-        let cell = { startRow: row,
-                     endRow: row + 1,
-                     startColumn: column,
-                     endColumn: column + 1,
-                     widget: null };
+        let cell = {
+          guid: this.guid(),
+          startRow: row,
+          endRow: row + 1,
+          startColumn: column,
+          endColumn: column + 1,
+          widget: null
+        };
 
         cells.push(cell);
       }
@@ -249,6 +270,7 @@ export class GridComponent implements OnDestroy, OnInit {
 
         if (widget) {
           let cell = {
+            guid: this.guid(),
             startRow: row,
             endRow: widget.endRow,
             startColumn: column,
@@ -272,24 +294,133 @@ export class GridComponent implements OnDestroy, OnInit {
     return `gridItem ${cell.startRow}/${cell.endColumn}`;
   }
 
-  public identifyWidgetResource(index:number, item:GridWidgetResource) {
-    return `${item.identifier} ${item.startRow}/${item.startColumn}`;
-  }
-
   private buildGridAreaDropIds() {
     let ids:string[] = [];
 
-    this.gridAreas.filter((area) => {
-      return !this.widgetResources.find((resource) => {
-        return resource.startRow <= area.startRow &&
-          resource.endRow >= area.endRow &&
-          resource.startColumn <= area.startColumn &&
-          resource.endColumn >= area.endColumn;
-      });
-    }).forEach((area) => {
+    //this.gridAreas.filter((area) => {
+    //  return !this.widgetResources.find((resource) => {
+    //    return resource.startRow <= area.startRow &&
+    //      resource.endRow >= area.endRow &&
+    //      resource.startColumn <= area.startColumn &&
+    //      resource.endColumn >= area.endColumn;
+    //  });
+    this.gridAreas.forEach((area) => {
       ids.push(this.gridAreaId(area as GridArea));
     });
 
     return ids;
+  }
+
+  private doAreasOverlap(area:GridArea, otherArea:GridArea) {
+    return this.doesAreaContain(area, otherArea) ||
+             this.doesAreaContain(otherArea, area) ||
+             this.isOnStartRowLine(area, otherArea.startRow, otherArea.startColumn) ||
+             this.isOnStartRowLine(area, otherArea.startRow, otherArea.endColumn) ||
+             this.isOnStartRowLine(otherArea, area.startRow, area.startColumn) ||
+             this.isOnStartRowLine(otherArea, area.startRow, area.endColumn) ||
+             this.isOnStartColumnLine(area, otherArea.startRow, otherArea.startColumn) ||
+             this.isOnStartColumnLine(area, otherArea.startRow, otherArea.endColumn) ||
+             this.isOnStartColumnLine(otherArea, area.startRow, area.startColumn) ||
+             this.isOnStartColumnLine(otherArea, area.startRow, area.endColumn);
+  }
+
+  private doesAreaContain(area:GridArea, otherArea:GridArea) {
+    return this.isPointInArea(area, otherArea.startRow, otherArea.startColumn) ||
+      this.isPointInArea(area, otherArea.startRow, otherArea.endColumn) ||
+      this.isPointInArea(area, otherArea.endRow, otherArea.startColumn) ||
+      this.isPointInArea(area, otherArea.endRow, otherArea.endColumn);
+  }
+
+  private isPointInArea(area:GridArea, row:number, column:number) {
+    return area.startRow < row && area.endRow > row &&
+             area.startColumn < column && area.endColumn > column;
+  }
+
+  private isOnStartRowLine(area:GridArea, row:number, column:number) {
+    return area.startRow === row &&
+             area.startColumn <= column && area.endColumn > column;
+  }
+
+  private isOnStartColumnLine(area:GridArea, row:number, column:number) {
+    return area.startColumn === column &&
+      area.startRow <= row && area.endRow > row;
+  }
+
+  private moveAreasDown(anchorAreas:GridArea[], movableAreas:GridArea[]) {
+    let moveSpecification = this.firstAreaToMove(anchorAreas, movableAreas);
+
+    if (moveSpecification) {
+      let toMoveArea = moveSpecification[0] as GridArea;
+      let anchorArea = moveSpecification[1] as GridArea;
+
+      let areaHeight = toMoveArea.widget!.height;
+
+      toMoveArea.startRow = anchorArea.endRow;
+      toMoveArea.endRow = toMoveArea.startRow + areaHeight;
+
+      if (this.numRows < toMoveArea.endRow - 1) {
+        this.numRows = toMoveArea.endRow - 1;
+      }
+
+      return toMoveArea;
+    } else {
+      return null;
+    }
+
+  }
+
+  // Return first area that needs to move as it overlaps another area.
+  // There are two groups of areas here. The first (anchorAreas) is considered stable
+  // and as such not fit for being moved. This happens e.g. when the user explicitly
+  // moved a widget or if the area has already been moved in a previous run of this method.
+  // The second group (movableAreas) consists of all areas that are movable.
+  // Once an area out of the second group has been identified that overlaps an area of the first
+  // group, the appropriate reference area for later moving is selected out of the group of all
+  // unmovable areas. The reference area is the bottommost area within the unmovable areas which's
+  // column values (start/end) include the to move area's start column value and which's end row is larger
+  // than the area overlapping the area to move. Unmovable areas which's column values do not include the
+  // start column are to the left or right of the area to move and can thus be ignored.
+  private firstAreaToMove(anchorAreas:GridArea[], movableAreas:GridArea[]) {
+    // TODO: ensure keeping order by sorting the movableAreas by startRow
+    let overlappingArea:GridArea|null = null;
+    let toMoveArea:GridArea|null = null;
+
+    movableAreas.forEach((movableArea) => {
+      anchorAreas.forEach((anchorArea) => {
+        if (this.doAreasOverlap(anchorArea, movableArea)) {
+          overlappingArea = anchorArea;
+          toMoveArea = movableArea;
+          return;
+        }
+      });
+
+      if (toMoveArea) {
+        return;
+      }
+    });
+
+    if (toMoveArea !== null) {
+      let referenceArea = overlappingArea!;
+
+      anchorAreas.forEach((anchorArea) => {
+        if (anchorArea.endRow > referenceArea.endRow &&
+            toMoveArea!.startColumn >= anchorArea.startColumn && toMoveArea!.startColumn < anchorArea.endColumn) {
+          referenceArea = anchorArea;
+        }
+      });
+
+      return [toMoveArea, referenceArea];
+    } else {
+      return null;
+    }
+  }
+
+  private guid() {
+    function s4() {
+      return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+    }
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
   }
 }
