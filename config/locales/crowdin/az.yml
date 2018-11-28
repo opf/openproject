@@ -1054,7 +1054,7 @@ az:
       atom: Atom
       csv: CSV
       pdf: PDF
-      pdf_with_descriptions: PDF with descriptions
+      pdf_with_descriptions: Açıqlaması ilə PDF
       pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
       pdf_with_attachments: PDF with attachments
   extraction:

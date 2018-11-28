@@ -171,10 +171,10 @@ de:
   statuses:
     edit:
       status_readonly_html: |
-        Check this option to mark work packages with this status as read-only.
-        No attributes can be changed with the exception of the status.
+        Wählen Sie diese Option um Bearbeitung von Arbeitspaketen in diesem Status zu sperren.
+        Außer dem Status selbst können dann keine Attribute verändert werden.
         <br/>
-        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+        <strong>Hinweis</strong>: Vererbte Attribute (z.B. von Kinderelementen oder Relationen) werden auch auf Arbeitspakete in diesen Status angewandt.
       status_color_text: 'Klicken zum Zuweisen einer Farbe für diesen Status. Diese
         wird für die Hervorhebung von Arbeitspaketen in Tabellen verwendet.
 
@@ -363,7 +363,7 @@ de:
         to: Zugehöriges Arbeitspaket
       status:
         is_closed: Arbeitspaket geschlossen
-        is_readonly: Work package read-only
+        is_readonly: Arbeitspakete schreibgeschützt
       journal:
         notes: Kommentare
       member:
@@ -1206,7 +1206,7 @@ de:
   label_auth_source_plural: Authentifizierungs-Arten
   label_authentication: Authentifizierung
   label_available_project_work_package_categories: Verfügbare Arbeitspaket-Kategorien
-  label_available_project_work_package_types: Available work package types
+  label_available_project_work_package_types: Verfügbare Arbeitspaket-Typen
   label_available_project_boards: Verfügbare Foren
   label_available_project_versions: Verfügbare Versionen
   label_available_project_repositories: Verfügbare Projektarchive
@@ -1377,7 +1377,7 @@ de:
   label_journal_diff: Beschreibungsvergleich
   label_language: Sprache
   label_jump_to_a_project: Zu einem Projekt springen...
-  label_keyword_plural: Keywords
+  label_keyword_plural: Schlüsselwörter
   label_language_based: Sprachabhängig
   label_last_activity: Letzte Aktivität
   label_last_change_on: Letzte Änderung am
