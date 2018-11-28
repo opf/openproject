@@ -3,7 +3,7 @@
      [style.grid-template-rows]="gridRowStyle">
 
   <!-- Grid areas that have a widget in them -->
-  <div *ngFor="let area of gridWidgetAreas; trackBy: identifyGridCellItem;"
+  <div *ngFor="let area of gridWidgetAreas; trackBy: identifyGridArea;"
        class="grid--area -widgeted"
        [ngClass] = "{ '-resize-target': resizeArea && gridAreaDropIds.indexOf(gridAreaId(area)) >= 0 }"
        [style.grid-row-start]="area.startRow"
@@ -11,14 +11,13 @@
        [style.grid-column-start]="area.startColumn"
        [style.grid-column-end]="area.endColumn"
        cdkDropList
-       [id]="gridAreaId(area) + '-widgeted'"
+       [id]="gridAreaId(area) + '-widgeted-' + area.guid"
        [cdkDropListData]="area"
-       (dragStart)="dragStart(event)"
-       [cdkDropListConnectedTo]="gridAreaDropIds">
+       [cdkDropListConnectedTo]="gridAreaDropIdsWithoutSelf(area)">
     <div class="widget-box"
          cdkDrag
-         (cdkDragStarted)="dragStart($event)"
-         (cdkDragEnded)="dragStop($event)"
+         (cdkDragStarted)="dragStart(area)"
+         (cdkDragEnded)="dragStop()"
          *ngIf="area.widget"
          style="height: 100%">
       <div class="grid--widget-remove"
@@ -36,7 +35,7 @@
   </div>
 
   <!-- One grid area per cell (row x columns) -->
-  <div *ngFor="let area of gridAreas; trackBy: identifyGridCellItem;"
+  <div *ngFor="let area of gridAreas; trackBy: identifyGridArea;"
        class="grid--area"
        [ngClass] = "{'-drop-target': currentlyDragging && gridAreaDropIds.indexOf(gridAreaId(area)) >= 0,
                      '-resize-target': isResizeTarget(area),
@@ -50,9 +49,8 @@
        (mouseover)="setMousedOverArea(area)"
        [cdkDropListData]="area"
        (cdkDropListDropped)="drop($event)"
-       (dragStart)="dragStart(event)"
+       (cdkDropListEntered)="dragEntered($event)"
        [cdkDropListConnectedTo]="gridAreaDropIds">
-
     <div class="grid--widget-add"
          *ngIf="isAddable(area)"
          (click)="addWidget(area)">
