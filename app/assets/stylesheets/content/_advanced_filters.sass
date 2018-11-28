@@ -123,6 +123,19 @@
     display: none
 
 
-
 fieldset#date-range p
   margin: 2px 0 2px 0
+
+@include breakpoint(680px down)
+  .advanced-filters--filters
+    .advanced-filters--filter-name,
+    .advanced-filters--add-filter-label
+      grid-column: 1 / -1
+
+    .advanced-filters--filter-operator,
+    .advanced-filters--filter-value
+      grid-column: span 2
+      order: 2
+
+      input
+        width: 100%

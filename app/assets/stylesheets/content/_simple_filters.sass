@@ -82,3 +82,7 @@ $filters--border-color: $gray !default
   .simple-filters--filter-name
     @include text-shortener
     margin: auto 0
+
+@include breakpoint(680px down)
+  .simple-filters--filter-value
+    grid-column: 1 / -1
