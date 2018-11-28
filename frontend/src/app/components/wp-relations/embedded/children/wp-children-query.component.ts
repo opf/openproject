@@ -39,6 +39,7 @@ import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/w
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {WorkPackageRelationQueryBase} from "core-components/wp-relations/embedded/wp-relation-query.base";
 import {WpChildrenInlineCreateService} from "core-components/wp-relations/embedded/children/wp-children-inline-create.service";
+import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 
 @Component({
   selector: 'wp-children-query',
@@ -58,9 +59,7 @@ export class WorkPackageChildrenQueryComponent extends WorkPackageRelationQueryB
       'remove-child-action',
       this.I18n.t('js.relation_buttons.remove_child'),
       (child:WorkPackageResource) => {
-        this.childrenEmbeddedTable.loadingIndicator = this.wpRelationsHierarchyService
-          .removeChild(child)
-          .then(() => this.refreshTable());
+        this.childrenEmbeddedTable.loadingIndicator = this.wpRelationsHierarchyService.removeChild(child);
       },
       (child:WorkPackageResource) => !!child.changeParent
     )
@@ -69,6 +68,7 @@ export class WorkPackageChildrenQueryComponent extends WorkPackageRelationQueryB
   constructor(protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
               protected PathHelper:PathHelperService,
               protected wpInlineCreate:WorkPackageInlineCreateService,
+              protected wpCacheService:WorkPackageCacheService,
               protected queryUrlParamsHelper:UrlParamsHelperService,
               readonly I18n:I18nService) {
     super(queryUrlParamsHelper);
@@ -81,9 +81,12 @@ export class WorkPackageChildrenQueryComponent extends WorkPackageRelationQueryB
     // Set up the query props
     this.buildQueryProps();
 
-    // Wire the successful saving of a new addition to refreshing the embedded table
-    this.wpInlineCreate.newInlineWorkPackageReferenced
-      .pipe(untilComponentDestroyed(this))
+    // Refresh table when work package is refreshed
+    this.wpCacheService
+      .observe(this.workPackage.id)
+      .pipe(
+        untilComponentDestroyed(this)
+      )
       .subscribe(() => this.refreshTable());
   }
 
