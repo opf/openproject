@@ -18,8 +18,7 @@ RUN apt-get update -qq && \
 	poppler-utils \
 	unrtf \
 	tesseract-ocr \
-	catdoc \
-	pandoc && \
+	catdoc && \
 	apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # using /home/app since npm cache and other stuff will be put there when running npm install
