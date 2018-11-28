@@ -1082,6 +1082,7 @@ zh-TW:
   label_auth_source_plural: 身份驗證模式
   label_authentication: 身份驗證
   label_available_project_work_package_categories: 可用的工作項目類別
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: 可用的佈告欄
   label_available_project_versions: 可用的版本
   label_available_project_repositories: 可用的版本庫

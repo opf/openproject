@@ -33,7 +33,7 @@ ruby '~> 2.5.1'
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-session_store', '~> 1.1.0'
-gem 'rails', '~> 5.1.5'
+gem 'rails', '~> 5.1.6'
 gem 'responders', '~> 2.4'
 
 gem 'rubytree', git: 'https://github.com/dr0verride/RubyTree.git', ref: '06f53ee'
@@ -217,11 +217,11 @@ group :test do
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 3.0.0'
+  gem 'capybara', '~> 3.11.1'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
-  gem 'chromedriver-helper', '~> 1.2.0'
-  gem 'selenium-webdriver', '~> 3.11'
+  gem 'chromedriver-helper', '~> 2.1.0'
+  gem 'selenium-webdriver', '~> 3.14'
 
   gem 'fuubar', '~> 2.3.1'
   gem 'timecop', '~> 0.9.0'
@@ -251,6 +251,7 @@ end
 group :development, :test do
   gem 'thin', '~> 1.7.2'
   gem 'ruby-prof', require: false
+  gem 'puma', '~> 3.11.3'
 
   gem 'pry-rails', '~> 0.3.6'
   gem 'pry-stack_explorer', '~> 0.4.9.2'

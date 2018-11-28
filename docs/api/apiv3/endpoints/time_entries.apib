@@ -26,7 +26,7 @@ Depending on custom fields defined for time entries, additional properties might
 | spentOn      | The date the expenditure is booked for                    | Date     |                                                      | READ                 |                                                             |
 | hours        | The time quantifiying the expenditure                     | Time     |                                                      | READ                 |                                                             |
 | createdAt    | The time the time entry was created                       | DateTime |                                                      | READ                 |                                                             |
-| updatedAT    | The time the time entry was last updated                  | DateTime |                                                      | READ                 |                                                             |
+| updatedAt    | The time the time entry was last updated                  | DateTime |                                                      | READ                 |                                                             |
 
 Depending on custom fields defined for time entries, additional properties might exist.
 
@@ -106,6 +106,48 @@ Depending on custom fields defined for time entries, additional properties might
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
                 "message": "The requested resource could not be found."
             }
+
+
+## Delete time entry [DELETE]
+
+Permanently deletes the specified time entry.
+
++ Parameters
+    + id (required, integer, `1`) ... Time entry id
+
++ Response 202
+
+    Returned if the time entry was deleted successfully.
+
+    Note that the response body is empty as of now. In future versions of the API a body
+    *might* be returned, indicating the progress of deletion.
+
+    + Body
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the time entry does not exist.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The requested resource could not be found."
+            }
+
 
 ## Time entries [/api/v3/time_entries{?offset,pageSize,filters,sortBy}]
 
@@ -209,11 +251,21 @@ Lists time entries. The time entries returned depend on the filters provided and
 
     + pageSize (optional, integer, `25`) ... Number of elements to display per page.
 
+    + sortBy = ["spent_on", "asc"] (optional, string, `[["spent_on", "asc"]]`) ... JSON specifying sort criteria.
+    Accepts the same format as returned by the [queries](#queries) endpoint. Currently supported sorts are:
+      + id: Sort by primary key
+      + hours: Sort by logged hours
+      + spent_on: Sort by spent on date
+      + created_on: Sort by time entry creation datetime
+
     + filters (optional, string, `[{ "work_package": { "operator": "=", "values": ["1", "2"] } }, { "project": { "operator": "=", "values": ["1"] } }]`) ... JSON specifying filter conditions.
     Accepts the same format as returned by the [queries](#queries) endpoint. Currently supported filters are:
       + work_package: Filter time entries by work package
       + project: Filter time entries by project
       + user: Filter time entries by users
+      + spent_on: Filter time entries by spent on date
+      + created_on: Filter time entries by creation datetime
+      + activity: Filter time entries by time entry activity
 
 + Response 200 (application/hal+json)
 

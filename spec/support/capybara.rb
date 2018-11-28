@@ -15,12 +15,8 @@ end
 # Remove old images automatically
 Capybara::Screenshot.prune_strategy = :keep_last_run
 
-# Don't silence puma if we're using it
-Capybara.register_server :thin do |app, port, host|
-  require 'rack/handler/thin'
-  Rack::Handler::Thin.run(app, Port: port, Host: host, signals: false)
-end
-Capybara.server = :thin
+# silence puma if we're using it
+Capybara.server = :puma, { Silent: true }
 
 # Set up S3 uploads if desired
 if ENV['OPENPROJECT_ENABLE_CAPYBARA_SCREENSHOT_S3_UPLOADS'] && ENV['AWS_ACCESS_KEY_ID']

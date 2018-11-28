@@ -33,6 +33,10 @@ class EnterpriseToken < ActiveRecord::Base
       end
     end
 
+    def table_exists?
+      connection.data_source_exists? self.table_name
+    end
+
     def allows_to?(action)
       Authorization::EnterpriseService.new(current).call(action).result
     end

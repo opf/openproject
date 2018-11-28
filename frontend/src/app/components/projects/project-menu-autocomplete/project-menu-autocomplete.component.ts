@@ -112,6 +112,8 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
       this.addClickHandler();
       this.loaded = true;
       this.cdRef.detectChanges();
+
+      this.scrollCurrentProjectIntoView();
     });
   }
 
@@ -295,6 +297,24 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
     }
 
     return params;
+  }
+
+  private scrollCurrentProjectIntoView() {
+    let currentProject = document.getElementsByClassName('ui-menu-item-wrapper selected')[0] as HTMLElement;
+    let currentProjectHeight = currentProject.offsetHeight
+    let scrollableContainer = document.getElementsByClassName('project-menu-autocomplete--results')[0];
+
+    // Scroll current project to top of the list and
+    // substract half the container width again to center it vertically
+    let scrollValue = currentProject.offsetTop -
+                      (scrollableContainer as HTMLElement).offsetHeight / 2 +
+                      currentProjectHeight / 2;
+
+    // The top visible project shall be seen completely.
+    // Otherwise there will be a scrolling effect when the user hovers over the project.
+    scrollableContainer.scrollTop = (scrollValue % currentProjectHeight === 0) ?
+                                      scrollValue :
+                                      scrollValue - (scrollValue % currentProjectHeight);
   }
 }
 

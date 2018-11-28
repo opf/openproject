@@ -30,11 +30,12 @@ require 'spec_helper'
 
 describe 'search/index', type: :view do
   let(:project)      { FactoryBot.create :project }
-  let(:user)         { FactoryBot.create :admin, member_in_project: project }
+  let(:subproject)   { FactoryBot.create(:project, parent: project).tap { |_| project.reload }  }
   let(:work_package) { FactoryBot.create :work_package, project: project }
 
   before do
     assign :project, project
+    assign :subproject, subproject
     assign :object_types, ['work_packages']
     assign :scope, ['work_packages', 'changesets']
     assign :results, [work_package]
@@ -43,13 +44,12 @@ describe 'search/index', type: :view do
     assign :tokens, ['bar']
   end
 
-  it 'selects the current project' do
+  it 'selects the current project and its subprojects' do
     render
-
-    # the current project should be selected as the scope
-    expect(rendered).to have_selector('option[selected]', text: project.name)
+    # the current project and its subprojects should be selected as the scope
+    expect(rendered).to have_selector('option[selected]', text: project.name + ' and its subprojects')
 
     # The grouped result link should retain the scope
-    expect(rendered).to have_xpath("//a[contains(@href,'current_project')]", text: /work packages.*/i)
+    expect(rendered).to have_xpath("//a[contains(@href,'subprojects')]", text: /work packages.*/i)
   end
 end

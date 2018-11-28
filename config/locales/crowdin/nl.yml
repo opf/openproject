@@ -1188,6 +1188,7 @@ nl:
   label_auth_source_plural: Verificatiemodi
   label_authentication: Verificatie
   label_available_project_work_package_categories: Beschikbare werkpakket categorieën
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Beschikbare borden
   label_available_project_versions: Beschikbare versies
   label_available_project_repositories: Beschikbare opslagplaatsen

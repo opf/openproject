@@ -167,10 +167,10 @@ pt-BR:
   statuses:
     edit:
       status_readonly_html: |
-        Check this option to mark work packages with this status as read-only.
-        No attributes can be changed with the exception of the status.
+        Marque esta opção para marcar pacotes de trabalho com esta situação como somente leitura.
+        Nenhum atributo pode ser alterado com exceção da situação.
         <br/>
-        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+        <strong>Nota</strong>: valores herdados (por exemplo, de filhos ou relações) ainda serão aplicados.
       status_color_text: |
         Clique para atribuir ou alterar a cor desta situação.
         É exibido no botão de situação e pode ser usado para destacar pacotes de trabalho na tabela.
@@ -352,7 +352,7 @@ pt-BR:
         to: Pacote de trabalho relacionado
       status:
         is_closed: Pacote de trabalho fechado
-        is_readonly: Work package read-only
+        is_readonly: Pacote de trabalho somente leitura
       journal:
         notes: Anotações
       member:
@@ -1175,6 +1175,7 @@ pt-BR:
   label_authentication: Autenticação
   label_available_project_work_package_categories: Categorias de pacote de trabalho
     disponíveis
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Painéis disponíveis
   label_available_project_versions: Versões disponíveis
   label_available_project_repositories: Repositórios disponíveis
@@ -1345,7 +1346,7 @@ pt-BR:
   label_journal_diff: Comparação de Descrição
   label_language: Idioma
   label_jump_to_a_project: Saltar para um projeto...
-  label_keyword_plural: Keywords
+  label_keyword_plural: Palavras-chave
   label_language_based: Com base no idioma do usuário
   label_last_activity: Última atividade
   label_last_change_on: Última alteração em

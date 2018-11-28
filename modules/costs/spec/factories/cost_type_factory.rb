@@ -20,11 +20,11 @@
 FactoryBot.define do
   factory :cost_type  do
     sequence(:name) do |n| "ct no. #{n}" end
-    unit 'singular_unit'
-    unit_plural 'plural_unit'
+    unit { 'singular_unit' }
+    unit_plural { 'plural_unit' }
 
     trait :deleted do
-      deleted_at Time.now
+      deleted_at { Time.now }
     end
   end
 end

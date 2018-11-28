@@ -36,7 +36,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <div id="result-table">
   <%= render_widget Widget::Table, @query %>
 </div>
-<div style="height: 1em; background: none;">&nbsp;</div> <!-- IE7 band-aid -->
 <p class="footnote">
   <%= l(:text_costs_are_rounded_note) %>
   <%= "<br />#{l(:information_restricted_depending_on_permission)}".html_safe if !User.current.admin?%>

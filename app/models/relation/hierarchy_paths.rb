@@ -93,14 +93,32 @@ module Relation::HierarchyPaths
         SELECT
           to_id, #{add_hierarchy_agg_function} AS path
           FROM
-          (SELECT to_id, from_id, hierarchy
-          FROM relations
-          WHERE hierarchy > 0 AND relates = 0 AND blocks = 0 AND duplicates = 0 AND includes = 0 AND requires = 0 AND follows = 0
-          #{add_hierarchy_id_constraint(id)}
-          ) ordered_by_hierarchy
+            (SELECT to_id, from_id, hierarchy FROM relations #{add_conditions_and_union id}) as rel
           GROUP BY to_id
-        #{add_hierarchy_conflict_statement}
+          #{add_hierarchy_conflict_statement}
       SQL
+    end
+
+    def self.add_conditions_and_union(id)
+      if id.nil?
+        <<-SQL
+           WHERE hierarchy > 0 AND relates = 0 AND blocks = 0 AND duplicates = 0 AND includes = 0 AND requires = 0 AND follows = 0
+        SQL
+      else
+        <<-SQL
+        WHERE to_id = #{id} AND
+              hierarchy > 0 AND relates = 0 AND blocks = 0 AND duplicates = 0 AND includes = 0 AND requires = 0 AND follows = 0
+        UNION SELECT to_id,from_id,hierarchy
+              FROM relations
+              WHERE from_id=#{id} AND
+                    hierarchy > 0 AND relates = 0 AND blocks = 0 AND duplicates = 0 AND includes = 0 AND requires = 0 AND follows = 0
+        UNION SELECT b.to_id, b.from_id, b.hierarchy FROM relations a
+              JOIN relations b ON b.to_id = a.to_id
+              WHERE a.from_id = #{id} AND
+                    a.hierarchy > 0 AND a.relates = 0 AND a.blocks = 0 AND a.duplicates = 0 AND a.includes = 0 AND a.requires = 0 AND a.follows = 0 AND
+                    b.hierarchy > 0 AND b.relates = 0 AND b.blocks = 0 AND b.duplicates = 0 AND b.includes = 0 AND b.requires = 0 AND b.follows = 0
+        SQL
+      end
     end
 
     def self.remove_hierarchy_path_sql(id = nil)
@@ -111,7 +129,7 @@ module Relation::HierarchyPaths
       <<-SQL
         DELETE FROM
         #{hierarchy_table_name}
-        #{id_constraint}
+      #{id_constraint}
       SQL
     end
 

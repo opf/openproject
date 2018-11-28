@@ -750,7 +750,7 @@ id:
     checkbox_label: Saya telah memperhatikan dan menyetujui hal di atas.
     failure_message: Persetujuan gagal, tidak bisa dilanjutkan.
     title: Persetujuan Pengguna
-    decline_warning_message: You have declined to consent and have been logged out.
+    decline_warning_message: Anda telah menolak untuk menyetujui dan telah dikeluarkan.
     user_has_consented: User has consented to your configured statement at the given
       time.
     not_yet_consented: User has not consented yet, will be requested upon next login.
@@ -1165,6 +1165,7 @@ id:
   label_auth_source_plural: Mode otentikasi
   label_authentication: Otentikasi
   label_available_project_work_package_categories: Available work package categories
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Available boards
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories

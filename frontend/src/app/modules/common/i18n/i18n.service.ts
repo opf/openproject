@@ -7,6 +7,7 @@ export interface GlobalI18n {
   t(translateId:string, parameters?:any):string;
   lookup(translateId:string):boolean | undefined;
   locale:string;
+  firstDayOfWeek:number;
 }
 
 @Injectable()

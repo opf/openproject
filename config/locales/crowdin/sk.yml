@@ -1213,6 +1213,7 @@ sk:
   label_auth_source_plural: Režimy autentifikácie
   label_authentication: Autentifikácia
   label_available_project_work_package_categories: Dostupné kategórie pracovných balíčkov
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Dostupné panely
   label_available_project_versions: Dostupné verzie
   label_available_project_repositories: Dosupné úložíská

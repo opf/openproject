@@ -54,6 +54,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
   <meta name="openproject_initializer"
         data-locale="<%= I18n.locale %>"
+        data-first-day-of-week="<%= locale_first_day_of_week %>"
         data-default-locale="<%= I18n.default_locale %>"
         data-environment="<%= Rails.env %>"/>
   <meta name="current_menu_item" content="<%= current_menu_item %>"/>
@@ -173,13 +174,7 @@ See docs/COPYRIGHT.rdoc for more details.
           <%= yield %>
         <% end %>
         <%= call_hook :view_layouts_base_content %>
-        <% unless local_assigns[:no_action_menu] %>
-          <div style="clear:both;">&nbsp;</div>
-        <% end %>
       </div>
-      <% unless local_assigns[:no_action_menu] %>
-        <div style="clear:both;">&nbsp;</div>
-      <% end %>
     </div>
   </div>
   <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>

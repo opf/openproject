@@ -105,7 +105,7 @@ export const OPENPROJECT_ROUTES:StateDeclaration[] = [
       projectPath: {type: 'path', value: null, squash: true},
       projects: {type: 'path', value: null, squash: true},
       query_id: {type: 'query', dynamic: true},
-      query_props: {type: 'query', dynamic: true, raw: true }
+      query_props: {type: 'query', dynamic: true }
     }
   },
   {

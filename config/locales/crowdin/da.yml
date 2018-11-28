@@ -1167,6 +1167,7 @@ da:
   label_auth_source_plural: Godkendelsestilstande
   label_authentication: Godkendelse
   label_available_project_work_package_categories: Tilgængelige arbejdspakkekategorier
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Tilgængelige kategorier
   label_available_project_versions: Tilgængelige versioner
   label_available_project_repositories: Tilgængelige repositorier

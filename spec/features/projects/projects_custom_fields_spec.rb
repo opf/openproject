@@ -29,25 +29,45 @@
 require 'spec_helper'
 
 describe 'Projects custom fields', type: :feature do
-  let(:current_user) { FactoryBot.create(:admin) }
-  let(:project) { FactoryBot.create(:project, name: 'Foo project', identifier: 'foo-project') }
-  let!(:custom_field) do
-    FactoryBot.create(:bool_project_custom_field)
-  end
-
+  shared_let(:current_user) { FactoryBot.create(:admin) }
+  shared_let(:project) { FactoryBot.create(:project, name: 'Foo project', identifier: 'foo-project') }
   let(:identifier) { "project_custom_field_values_#{custom_field.id}" }
 
   before do
     login_as current_user
   end
 
-  scenario 'allows settings the project boolean CF (regression #26313)', js: true do
-    visit settings_project_path(id: project.id)
-    expect(page).to have_no_checked_field identifier
-    check identifier
+  describe 'with version CF' do
+    let!(:custom_field) do
+      FactoryBot.create(:version_project_custom_field)
+    end
 
-    click_on 'Save'
-    expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_update))
-    expect(page).to have_checked_field identifier
+    scenario 'allows creating a new project (regression #29099)', js: true do
+      visit new_project_path
+
+      fill_in 'project_name', with: 'My project name'
+      find('.form--fieldset-legend a', text: 'ADVANCED SETTINGS').click
+      expect(page).to have_selector "##{identifier}"
+
+      click_on 'Create'
+      expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_create))
+    end
+  end
+
+  describe 'with boolean CF' do
+    let!(:custom_field) do
+      FactoryBot.create(:bool_project_custom_field)
+    end
+
+
+    scenario 'allows settings the project boolean CF (regression #26313)', js: true do
+      visit settings_project_path(id: project.id)
+      expect(page).to have_no_checked_field identifier
+      check identifier
+
+      click_on 'Save'
+      expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_update))
+      expect(page).to have_checked_field identifier
+    end
   end
 end
