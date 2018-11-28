@@ -32,13 +32,11 @@ WORKDIR $APP_PATH
 
 COPY Gemfile ./Gemfile
 COPY Gemfile.* ./
-
+COPY modules ./modules
 # OpenProject::Version is required by module versions in gemspecs
 RUN mkdir -p lib/open_project
 COPY lib/open_project/version.rb ./lib/open_project/
-
-COPY modules ./modules
-RUN bundle install --jobs 8 --retry 3 --with docker
+RUN bundle install --deployment --with="docker opf_plugins" --without="test development" --jobs=8 --retry=3
 
 # Then, npm install node modules
 COPY package.json /tmp/npm/package.json
@@ -57,7 +55,7 @@ COPY packaging/conf/database.yml ./config/database.yml
 RUN DATABASE_URL=sqlite3:///tmp/db.sqlite3 SECRET_TOKEN=foobar RAILS_ENV=production bundle exec rake assets:precompile
 
 # Include pandoc
-RUN RAILS_ENV=production bundle exec rails runner "puts ::OpenProject::TextFormatting::Formats::Markdown::PandocDownloader.check_or_download!"
+RUN DATABASE_URL=sqlite3:///tmp/db.sqlite3 RAILS_ENV=production bundle exec rails runner "puts ::OpenProject::TextFormatting::Formats::Markdown::PandocDownloader.check_or_download!"
 
 CMD ["./docker/web"]
 ENTRYPOINT ["./docker/entrypoint.sh"]
