@@ -18,13 +18,76 @@ export interface WidgetRegistration {
   component:any;
 }
 
-export interface GridArea {
-  guid:string;
-  startRow:number;
-  endRow:number;
-  startColumn:number;
-  endColumn:number;
-  widget:GridWidgetResource|null;
+export class GridArea implements GridArea {
+  private storedGuid:string;
+  public startRow:number;
+  public endRow:number;
+  public startColumn:number;
+  public endColumn:number;
+
+  constructor(startRow:number, endRow:number, startColumn:number, endColumn:number) {
+    this.startRow = startRow;
+    this.endRow = endRow;
+    this.startColumn = startColumn;
+    this.endColumn = endColumn;
+  }
+
+  public doesContain(otherArea:GridArea) {
+    return this.isTopLeftInside(otherArea) ||
+      this.isTopRightInside(otherArea) ||
+      this.isBottomLeftInside(otherArea) ||
+      this.isBottomRightInside(otherArea);
+  }
+
+  private isTopLeftInside(otherArea:GridArea) {
+    return this.startRow <= otherArea.startRow && this.endRow > otherArea.startRow &&
+      this.startColumn <= otherArea.startColumn && this.endColumn > otherArea.startColumn;
+  }
+
+  private isTopRightInside(otherArea:GridArea) {
+    return this.startRow <= otherArea.startRow && this.endRow > otherArea.startRow &&
+      this.startColumn < otherArea.endColumn && this.endColumn >= otherArea.endColumn;
+  }
+
+  private isBottomLeftInside(otherArea:GridArea) {
+    return this.startRow <= otherArea.startRow && this.endRow > otherArea.startRow &&
+      this.startColumn < otherArea.endColumn && this.endColumn >= otherArea.endColumn;
+  }
+
+  private isBottomRightInside(otherArea:GridArea) {
+    return this.startRow < otherArea.endRow && this.endRow >= otherArea.endRow &&
+      this.startColumn < otherArea.endColumn && this.endColumn >= otherArea.endColumn;
+  }
+
+  public get guid():string {
+    if (!this.storedGuid) {
+      this.storedGuid = this.newGuid();
+    }
+
+    return this.storedGuid;
+  }
+
+  private newGuid() {
+    function s4() {
+      return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+    }
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+  }
+}
+
+export class GridWidgetArea extends GridArea {
+  public widget:GridWidgetResource;
+
+  constructor(widget:GridWidgetResource) {
+    super(widget.startRow,
+          widget.endRow,
+          widget.startColumn,
+          widget.endColumn);
+
+    this.widget = widget;
+  }
 }
 
 @Component({
@@ -37,7 +100,7 @@ export class GridComponent implements OnDestroy, OnInit {
   private numColumns:number = 0;
   private numRows:number = 0;
   public gridAreas:GridArea[];
-  public gridWidgetAreas:GridArea[];
+  public gridWidgetAreas:GridWidgetArea[];
   public gridAreaDropIds:string[];
   public currentlyDragging = false;
   public GRID_AREA_HEIGHT = 400;
@@ -100,8 +163,8 @@ export class GridComponent implements OnDestroy, OnInit {
 
   public drop(event:CdkDragDrop<GridArea>) {
     if (event.previousContainer !== event.container) {
-      let widgetArea = event.previousContainer.data as GridArea;
-      let widget = widgetArea.widget as GridWidgetResource;
+      let widgetArea = event.previousContainer.data as GridWidgetArea;
+      let widget = widgetArea.widget;
       let dropArea = event.container.data;
 
       widgetArea.startRow = dropArea.startRow;
@@ -115,14 +178,14 @@ export class GridComponent implements OnDestroy, OnInit {
     //this.buildAreas();
   }
 
-  public resize(area:GridArea, deltas:ResizeDelta) {
+  public resize(area:GridWidgetArea, deltas:ResizeDelta) {
     if (!this.resizeArea ||
         !this.mousedOverArea ||
         this.mousedOverArea === this.resizeArea) {
       return;
     }
 
-    let widget = area.widget!;
+    let widget = area.widget;
 
     widget.endRow = this.resizeArea.endRow;
     widget.endColumn = this.resizeArea.endColumn;
@@ -133,14 +196,10 @@ export class GridComponent implements OnDestroy, OnInit {
   }
 
   public resizeStart(area:GridArea) {
-    this.resizeArea = {
-      guid: this.guid(),
-      startRow: area.startRow,
-      endRow: area.endRow,
-      startColumn: area.startColumn,
-      endColumn: area.endColumn,
-      widget: null
-    };
+    this.resizeArea = new GridArea(area.startRow,
+                                   area.endRow,
+                                   area.startColumn,
+                                   area.endColumn);
   }
 
   public resizeMove(deltas:ResizeDelta) {
@@ -200,8 +259,8 @@ export class GridComponent implements OnDestroy, OnInit {
       });
   }
 
-  public removeWidget(area:GridArea) {
-    let removedWidget = area.widget!;
+  public removeWidget(area:GridWidgetArea) {
+    let removedWidget = area.widget;
 
     this.widgetResources = this.widgetResources.filter((widget) => {
       return widget.identifier !== removedWidget.identifier ||
@@ -217,7 +276,7 @@ export class GridComponent implements OnDestroy, OnInit {
   private buildAreas() {
     this.gridAreas = this.buildGridAreas();
     this.gridAreaDropIds = this.buildGridAreaDropIds();
-    this.gridWidgetAreas = this.buildWidgetGridAreas();
+    this.gridWidgetAreas = this.buildGridWidgetAreas();
   }
 
   private buildGridAreas() {
@@ -225,14 +284,10 @@ export class GridComponent implements OnDestroy, OnInit {
 
     for (let row = 1; row <= this.numRows; row++) {
       for (let column = 1; column <= this.numColumns; column++) {
-        let cell = {
-          guid: this.guid(),
-          startRow: row,
-          endRow: row + 1,
-          startColumn: column,
-          endColumn: column + 1,
-          widget: null
-        };
+        let cell = new GridArea(row,
+                                row + 1,
+                                column,
+                                column + 1);
 
         cells.push(cell);
       }
@@ -241,29 +296,10 @@ export class GridComponent implements OnDestroy, OnInit {
     return cells;
   }
 
-  private buildWidgetGridAreas() {
-    let cells:GridArea[] = [];
-
-    for (let row = 1; row <= this.numRows; row++) {
-      for (let column = 1; column <= this.numColumns; column++) {
-        let widget = this.widgetOfArea(row, column);
-
-        if (widget) {
-          let cell = {
-            guid: this.guid(),
-            startRow: row,
-            endRow: widget.endRow,
-            startColumn: column,
-            endColumn: widget.endColumn,
-            widget: widget
-          };
-
-          cells.push(cell);
-        }
-      }
-    }
-
-    return cells;
+  private buildGridWidgetAreas() {
+    return this.widgetResources.map((widget) => {
+      return new GridWidgetArea(widget);
+    });
   }
 
   private widgetOfArea(row:number, column:number) {
@@ -292,40 +328,13 @@ export class GridComponent implements OnDestroy, OnInit {
   }
 
   private doAreasOverlap(area:GridArea, otherArea:GridArea) {
-    return this.doesAreaContain(area, otherArea) ||
-             this.doesAreaContain(otherArea, area);
+    return area.doesContain(otherArea) ||
+             otherArea.doesContain(area);
   }
 
-  private doesAreaContain(area:GridArea, otherArea:GridArea) {
-    return this.isTopLeftInside(area, otherArea) ||
-      this.isTopRightInside(area, otherArea) ||
-      this.isBottomLeftInside(area, otherArea) ||
-      this.isBottomRightInside(area, otherArea);
-  }
-
-  private isTopLeftInside(area:GridArea, otherArea:GridArea) {
-    return area.startRow <= otherArea.startRow && area.endRow > otherArea.startRow &&
-      area.startColumn <= otherArea.startColumn && area.endColumn > otherArea.startColumn;
-  }
-
-  private isTopRightInside(area:GridArea, otherArea:GridArea) {
-    return area.startRow <= otherArea.startRow && area.endRow > otherArea.startRow &&
-      area.startColumn < otherArea.endColumn && area.endColumn >= otherArea.endColumn;
-  }
-
-  private isBottomLeftInside(area:GridArea, otherArea:GridArea) {
-    return area.startRow <= otherArea.startRow && area.endRow > otherArea.startRow &&
-      area.startColumn < otherArea.endColumn && area.endColumn >= otherArea.endColumn;
-  }
-
-  private isBottomRightInside(area:GridArea, otherArea:GridArea) {
-    return area.startRow < otherArea.endRow && area.endRow >= otherArea.endRow &&
-      area.startColumn < otherArea.endColumn && area.endColumn >= otherArea.endColumn;
-  }
-
-  private moveAreasDown(movedArea:GridArea|null) {
-    let movedAreas = [];
-    let remainingAreas = this.gridWidgetAreas.slice(0).sort((a, b) => {
+  private moveAreasDown(movedArea:GridWidgetArea|null) {
+    let movedAreas:GridWidgetArea[] = [];
+    let remainingAreas:GridWidgetArea[] = this.gridWidgetAreas.slice(0).sort((a, b) => {
       return b.startRow - a.startRow;
     });
 
@@ -336,18 +345,18 @@ export class GridComponent implements OnDestroy, OnInit {
         return area.guid !== movedArea!.guid;
       });
 
-      movedArea = this.moveOneAreaDown(movedAreas as GridArea[], remainingAreas);
+      movedArea = this.moveOneAreaDown(movedAreas, remainingAreas);
     }
   }
 
-  private moveOneAreaDown(anchorAreas:GridArea[], movableAreas:GridArea[]) {
+  private moveOneAreaDown(anchorAreas:GridWidgetArea[], movableAreas:GridWidgetArea[]) {
     let moveSpecification = this.firstAreaToMove(anchorAreas, movableAreas);
 
     if (moveSpecification) {
-      let toMoveArea = moveSpecification[0] as GridArea;
-      let anchorArea = moveSpecification[1] as GridArea;
+      let toMoveArea = moveSpecification[0] as GridWidgetArea;
+      let anchorArea = moveSpecification[1] as GridWidgetArea;
 
-      let areaHeight = toMoveArea.widget!.height;
+      let areaHeight = toMoveArea.widget.height;
 
       toMoveArea.startRow = anchorArea.endRow;
       toMoveArea.endRow = toMoveArea.startRow + areaHeight;
@@ -407,12 +416,4 @@ export class GridComponent implements OnDestroy, OnInit {
     }
   }
 
-  private guid() {
-    function s4() {
-      return Math.floor((1 + Math.random()) * 0x10000)
-        .toString(16)
-        .substring(1);
-    }
-    return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-  }
 }
