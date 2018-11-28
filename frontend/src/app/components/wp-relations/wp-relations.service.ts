@@ -6,6 +6,8 @@ import {multiInput, MultiInputState, StatesGroup} from 'reactivestates';
 import {StateCacheService} from '../states/state-cache.service';
 import {Injectable} from "@angular/core";
 import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-request.service';
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 
 export type RelationsStateValue = { [relationId:number]:RelationResource };
 
@@ -28,7 +30,8 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
   /*@ngInject*/
   constructor(private relationsDm:RelationsDmService,
               private wpTableRefresh:WorkPackageTableRefreshService,
-              private PathHelper:PathHelperService) {
+              private PathHelper:PathHelperService,
+              private halResource:HalResourceService) {
     super();
     this.relationStates = new RelationStateGroup();
   }
@@ -123,18 +126,21 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
       });
   }
 
-  public addCommonRelation(workPackage:WorkPackageResource,
+  public addCommonRelation(fromId:string,
                            relationType:string,
                            relatedWpId:string) {
     const params = {
       _links: {
-        from: {href: workPackage.href},
+        from: {href: this.PathHelper.api.v3.work_packages.id(fromId).toString() },
         to: {href: this.PathHelper.api.v3.work_packages.id(relatedWpId).toString() }
       },
       type: relationType
     };
-
-    return workPackage.addRelation(params).then((relation:RelationResource) => {
+    const path = this.PathHelper.api.v3.work_packages.id(fromId).relations.toString();
+    return this.halResource
+      .post<RelationResource>(path, params)
+      .toPromise()
+      .then((relation:RelationResource) => {
       this.insertIntoStates(relation);
       this.wpTableRefresh.request(
         `Adding relation (${relation.ids.from} to ${relation.ids.to})`,
