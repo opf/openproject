@@ -119,6 +119,14 @@ module Components
         expect(relation.other_work_package(work_package).id).to eq(to.id)
       end
 
+      def expect_relation(relatable)
+        expect(relations_group).to have_selector('.wp-relations--subject-field', text: relatable.subject)
+        end
+
+      def expect_relation_by_text(text)
+        expect(relations_group).to have_text('.wp-relations--subject-field', text)
+      end
+
       def expect_no_relation(relatable)
         expect(page).to have_no_selector('.wp-relations--subject-field', text: relatable.subject)
       end
@@ -197,7 +205,11 @@ module Components
       end
 
       def children_table
-        ::Pages::EmbeddedWorkPackagesTable.new find('.work-packages-embedded-view--container')
+        ::Pages::EmbeddedWorkPackagesTable.new find('wp-relations-tab .work-packages-embedded-view--container')
+      end
+
+      def relations_group
+        find('wp-relations-tab wp-relations-group')
       end
 
       def remove_child(work_package)

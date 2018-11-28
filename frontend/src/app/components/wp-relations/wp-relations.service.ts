@@ -70,7 +70,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
   }
 
   /**
-   * Find a given relation by from,to and relation Type
+   * Find a given relation by from, to and relation Type
    */
   public find(from:WorkPackageResource, to:WorkPackageResource, type:string):RelationResource|undefined {
     const relations:RelationsStateValue|undefined = this.state(from.id).value;

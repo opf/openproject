@@ -66,7 +66,7 @@ export class WpRelationInlineCreateService extends WorkPackageInlineCreateServic
    */
   public remove(from:WorkPackageResource, to:WorkPackageResource):Promise<unknown> {
     // Find the relation matching relationType and from->to which are unique together
-    const relation = this.wpRelations.find(from, to, this.relationType);
+    const relation = this.wpRelations.find(to, from, this.relationType);
 
     if (relation !== undefined) {
       return this.wpRelations.removeRelation(relation);

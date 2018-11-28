@@ -38,6 +38,19 @@ FactoryBot.define do
         t.workflows = [FactoryBot.build(:workflow_with_default_status)]
       end
     end
+
+    factory :type_with_relation_query_group, class: Type do
+      transient do
+        relation_filter 'parent'
+      end
+
+      callback(:after_build) do |t, evaluator|
+        query = FactoryBot.create(:query)
+        query.add_filter(evaluator.relation_filter.to_s, '=', [::Queries::Filters::TemplatedValue::KEY])
+        query.save
+        t.attribute_groups = t.default_attribute_groups + [["Embedded table for #{evaluator.relation_filter.to_s}", ["query_#{query.id}".to_sym]]]
+      end
+    end
   end
 
   factory :type_standard, class: ::Type do
