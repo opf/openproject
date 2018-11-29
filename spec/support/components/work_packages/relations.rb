@@ -197,7 +197,7 @@ module Components
       end
 
       def expect_not_child(work_package)
-        page.within('.work-packages-embedded-view--container') do
+        page.within('wp-relations-tab .work-packages-embedded-view--container') do
           row = ".wp-row-#{work_package.id}-table"
 
           expect(page).to have_no_selector(row)

@@ -90,9 +90,19 @@ describe 'Work package with relation query group', js: true, selenium: true do
       subject_field.expect_active!
       subject_field.set_value("Fresh WP\n")
 
-      # Expect WP existence propagated to all tables
+      # Expect work package existence propagated to all tables
       expect(embedded_table.table_container).to have_text("Fresh WP")
       expect(relations.children_table).to have_text("Fresh WP")
+
+      # removing work package from embedded table will also remove it from relations tab
+      row = ".wp-row-#{related_work_package.id}-table"
+      embedded_table.table_container.find(row).hover
+      embedded_table.table_container.find("#{row} .wp-table-action--unlink").click
+      within(embedded_table.table_container) do
+        embedded_table.expect_work_package_not_listed(related_work_package)
+      end
+      relations.expect_not_child(related_work_package)
+
     end
   end
 
@@ -140,7 +150,9 @@ describe 'Work package with relation query group', js: true, selenium: true do
       within(embedded_table.table_container) do
         embedded_table.expect_work_package_not_listed(independent_work_package)
       end
-      expect(embedded_table.table_container).to_not have_text('Fresh WP')
+      within(relations.relations_group) do
+        relations.expect_no_relation(independent_work_package)
+      end
 
       # adding existing from relations tab
       relations.add_relation type: ::Relation::TYPES[relation_type.to_s][:sym], to: independent_work_package
@@ -149,6 +161,34 @@ describe 'Work package with relation query group', js: true, selenium: true do
       end
       relations.expect_relation(independent_work_package)
 
+      # Check that deletion of relations still work after a page reload
+      full_wp.visit!
+      relations_tab = find('.tabrow li', text: 'RELATIONS')
+      relations = Components::WorkPackages::Relations.new(work_package)
+      embedded_table = Pages::EmbeddedWorkPackagesTable.new(first('wp-single-view .work-packages-embedded-view--container'))
+
+      embedded_table.table_container.find(".wp-row-#{independent_work_package.id}-table").hover
+      embedded_table.table_container.find("#{row} .wp-table-action--unlink").click
+      within(embedded_table.table_container) do
+        embedded_table.expect_work_package_not_listed(independent_work_package)
+      end
+      relations_tab.click
+      within(relations.relations_group) do
+        relations.expect_no_relation(independent_work_package)
+      end
+
+      # adding existing from relations tab will show work package also in the embedded table
+      relations.add_relation type: ::Relation::TYPES[relation_type.to_s][:sym], to: independent_work_package
+      within(embedded_table.table_container) do
+        embedded_table.expect_work_package_listed(independent_work_package)
+      end
+      relations.expect_relation(independent_work_package)
+
+      # removing relation from relations tab removes it from embedded table, too
+      relations.remove_relation independent_work_package
+      within(embedded_table.table_container) do
+        embedded_table.expect_work_package_not_listed(independent_work_package)
+      end
     end
   end
 end
