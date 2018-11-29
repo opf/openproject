@@ -59,9 +59,12 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
       'remove-relation-action',
       this.I18n.t('js.relation_buttons.remove'),
       (relatedTo:WorkPackageResource) => {
-        this.embeddedTable.loadingIndicator = this.wpInlineCreate
-          .remove(this.workPackage, relatedTo)
-          .then(() => this.refreshTable());
+        this.embeddedTable.loadingIndicator = this.wpRelations.require(relatedTo.id)
+          .then(() => {
+            return this.wpInlineCreate.remove(this.workPackage, relatedTo);
+          })
+          .then(() => this.refreshTable())
+          .catch((thing:any) => {console.log("bad bad not good", thing);});
       },
       (child:WorkPackageResource) => !!child.changeParent
     )

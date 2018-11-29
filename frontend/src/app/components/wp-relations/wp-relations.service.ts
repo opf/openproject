@@ -80,9 +80,12 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
     }
 
     return _.find(relations, (relation:RelationResource) => {
-      return relation.from.id.toString() === from.id.toString() &&
-        relation.to.id.toString() === to.id.toString() &&
-        relation.type === type;
+      const denormalized = relation.denormalized(from);
+      // Check that
+      // 1. the denormalized relation points at "to"
+      // 2. that the denormalized relation type matches.
+      return denormalized.target.id.toString() === to.id.toString() &&
+        denormalized.relationType === type;
     });
   }
 
