@@ -62,16 +62,18 @@ See docs/COPYRIGHT.rdoc for more details.
         <span><%= @application.uid %></span>
       </div>
     </div>
+    <% if flash[:_application_secret] %>
     <div class="attributes-key-value--key"><%= @application.class.human_attribute_name :secret %></div>
     <div class="attributes-key-value--value-container">
       <div class="attributes-key-value--value -text">
-        <% if @reveal_secret %>
-          <span><%= @application.secret %></span>
-        <% else %>
-          <%= link_to t(:button_click_to_reveal), { action: :show_reveal }, method: :post %>
-        <% end %>
+          <p>
+            <code><%= flash[:_application_secret] %></code>
+            <br/>
+            <strong><%= t 'oauth.client_secret_notice' %></strong>
+          </p>
       </div>
     </div>
+    <% end %>
     <div class="attributes-key-value--key"><%= @application.class.human_attribute_name :scopes %></div>
     <div class="attributes-key-value--value-container">
       <div class="attributes-key-value--value -text">

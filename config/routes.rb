@@ -386,11 +386,7 @@ OpenProject::Application.routes.draw do
     resources :custom_actions, except: :show
 
     namespace :oauth do
-      resources :applications do
-        member do
-          post :show_reveal
-        end
-      end
+      resources :applications
     end
   end
 

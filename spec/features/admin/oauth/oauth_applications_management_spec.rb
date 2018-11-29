@@ -55,17 +55,13 @@ describe 'OAuth applications management', type: :feature, js: true do
 
     expect(page).to have_selector('.flash.notice', text: 'Successful creation.')
 
-    # Show application
-    find('td a', text: 'My API application').click
-
     expect(page).to have_selector('.attributes-key-value--key', text: 'Client ID')
     expect(page).to have_selector('.attributes-key-value--value', text: 'Full API access')
     expect(page).to have_selector('.attributes-key-value--value', text: "urn:ietf:wg:oauth:2.0:oob\nhttps://localhost/my/callback")
 
-    # Click to reveal secret
-    find('.attributes-key-value--value a', text: 'Click to reveal').click
-    expect(page).to have_no_selector('.attributes-key-value--value a', text: 'Click to reveal')
-    expect(page.all('.attributes-key-value--value')[1].text).to match /\w+/
+    # Should print secret on initial visit
+    expect(page).to have_selector('.attributes-key-value--key', text: 'Client secret')
+    expect(page.first('.attributes-key-value--value code').text).to match /\w+/
 
     # Edit again
     click_on 'Edit'
@@ -77,6 +73,8 @@ describe 'OAuth applications management', type: :feature, js: true do
     # Show application
     find('td a', text: 'My API application').click
 
+    expect(page).to have_no_selector('.attributes-key-value--key', text: 'Client secret')
+    expect(page).to have_no_selector('.attributes-key-value--value code')
     expect(page).to have_selector('.attributes-key-value--key', text: 'Client ID')
     expect(page).to have_selector('.attributes-key-value--value', text: 'Public access')
     expect(page).to have_no_selector('.attributes-key-value--value', text: "Public Access Full API access")

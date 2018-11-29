@@ -92,11 +92,12 @@ describe ::OAuth::ApplicationsController, type: :controller do
       expect(application_stub).to receive(:attributes=)
       expect(application_stub).to receive(:owner=).with(user)
       expect(application_stub).to receive(:save).and_return(true)
+      expect(application_stub).to receive(:plaintext_secret).and_return('secret!')
     end
 
     it do
       post :create, params: { application: { name: 'foo' } }
-      expect(response).to redirect_to action: :index
+      expect(response).to redirect_to action: :show, id: application_stub.id
     end
   end
 

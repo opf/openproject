@@ -2647,12 +2647,15 @@ en:
         redirect_uri_html: >
           The allowed URLs authorized users can be redirected to. One entry per line.
           <br/>
-          If you're registering a desktop application, use this URL: <code>%{native_default}</code>
+          If you're registering a desktop application, use the following URL.
         confidential: "Check if Application will be used where the client secret can be kept confidential. Native mobile apps and Single Page Apps are assumed non-confidential."
         scopes: Select which scopes this application can access. Leave empty to use defaults.
         register_intro: "If you are developing an OAuth API client application for OpenProject, you can register it using this form for all users to use."
         default_scopes: ""
     client_id: "Client ID"
+    client_secret_notice: >
+      This is the only time we can print the client secret, please note it down and keep it secure.
+      It should be treated as a password and cannot be retrieved by OpenProject it at a later time.
     authorization_dialog:
       authorize: "Authorize"
       cancel: "Cancel and deny authorization."

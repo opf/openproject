@@ -39,7 +39,9 @@ See docs/COPYRIGHT.rdoc for more details.
   <div class="form--field">
     <%= f.text_area :redirect_uri, required: true, container_class: '-middle' %>
     <span class="form--field-instructions">
-      <%= t('oauth.application.instructions.redirect_uri_html', native_default: ::Doorkeeper.configuration.native_redirect_uri) %>
+      <%= t('oauth.application.instructions.redirect_uri_html') %>
+      <br/>
+      <code><%= ::Doorkeeper.configuration.native_redirect_uri %></code>
     </span>
   </div>
   <div class="form--field">

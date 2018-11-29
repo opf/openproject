@@ -56,6 +56,11 @@ Doorkeeper.configure do
   #
   base_controller 'ApplicationController'
 
+  # Enable hashing and bcrypt-hashing of token secrets
+  # and application secrets, respectively.
+  hash_token_secrets
+  hash_application_secrets
+
   # Reuse access token for the same resource owner within an application (disabled by default).
   #
   # This option protects your application from creating new tokens before old valid one becomes
