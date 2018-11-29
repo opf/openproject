@@ -34,7 +34,15 @@ See docs/COPYRIGHT.rdoc for more details.
       <div class="form--field"><%= setting_check_box :plain_text_mail %></div>
       <div class="form--field"><%= setting_select(:default_notification_option, User.valid_notification_options.collect {|o| [t(o.last), o.first.to_s]}, container_class: '-middle') %></div>
     </section>
-    <fieldset id="notified_events" class="form--fieldset"><legend class="form--fieldset-legend"><%=t(:text_select_mail_notifications)%></legend>
+    <fieldset id="notified_events" class="form--fieldset">
+      <legend class="form--fieldset-legend">
+        <%= t(:text_select_mail_notifications) %>
+      </legend>
+      <div class="form--fieldset-control">
+        <span class="form--fieldset-control-container">
+          (<%= check_all_links 'notified_events' %>)
+        </span>
+      </div>
       <%= hidden_field_tag 'settings[notified_events][]', '' %>
       <div class="form--field">
         <div class="form--field-container -vertical">
@@ -43,7 +51,6 @@ See docs/COPYRIGHT.rdoc for more details.
           <% end %>
         </div>
       </div>
-      <div class="form--field"><%= check_all_links('notified_events') %></div>
     </fieldset>
     <fieldset id="emails_decorators" class="form--fieldset"><legend class="form--fieldset-legend"><%= t(:setting_emails_header) %> & <%= t(:setting_emails_footer) %></legend>
       <%= rails_cell Settings::TextSettingCell, I18n.locale, name: "emails_header" %>
