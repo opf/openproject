@@ -8548,9 +8548,9 @@
       "integrity": "sha512-EQpT3gIeaz1GUZu063mZinZFMi/w7+Bpgggkm8A5dJffUi8hlBXSAj03z9drDwJEFRC4astfV34FOde4XZ9Ubg=="
     },
     "ng-fullcalendar": {
-      "version": "1.7.0",
-      "resolved": "https://registry.npmjs.org/ng-fullcalendar/-/ng-fullcalendar-1.7.0.tgz",
-      "integrity": "sha512-94MQuP7JBPFJAojCwYU5BNzuq3guaLl6GRwl4YshtBEQUoV1yUa9NT53x7OCBD4IjSuqHoG3SAA9quKMmiBzlA==",
+      "version": "1.7.1",
+      "resolved": "https://registry.npmjs.org/ng-fullcalendar/-/ng-fullcalendar-1.7.1.tgz",
+      "integrity": "sha512-8OMHPOt32QmNU5x2Bj8R4bCgoi//CgBX+1+O3xvDtChfwkD96pq12mgWvRb4+XqixYizJjzQX/zD6bh7d+MdJg==",
       "requires": {
         "@types/fullcalendar": "3.5.2",
         "@types/jquery": "3.2.17",

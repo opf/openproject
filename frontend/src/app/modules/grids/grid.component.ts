@@ -466,5 +466,4 @@ export class GridComponent implements OnDestroy, OnInit {
       return null;
     }
   }
-
 }

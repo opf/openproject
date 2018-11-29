@@ -22,7 +22,6 @@ import {DomSanitizer} from "@angular/platform-browser";
 })
 export class WorkPackagesCalendarController implements OnInit, OnDestroy {
   calendarOptions:Options;
-  events:any;
   @ViewChild(CalendarComponent) ucCalendar:CalendarComponent;
   @Input() projectIdentifier:string;
   @Input() static:boolean = false;
@@ -147,7 +146,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
   }
 
   private mapToCalendarEvents(workPackages:WorkPackageResource[]) {
-    this.events = workPackages.map((workPackage:WorkPackageResource) => {
+    let events = workPackages.map((workPackage:WorkPackageResource) => {
       let startDate = this.eventDate(workPackage, 'start');
       let endDate = this.eventDate(workPackage, 'due');
 
@@ -159,6 +158,15 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
         workPackage: workPackage
       };
     });
+
+    // Instead of using two way bindings we manually trigger
+    // event rendering here. For whatever reasons, when embedded
+    // in a grid, having two way binding will lead to having constantly
+    // removed the events after showing them initially.
+    // It appears as if the two way binding is initialized twice if used.
+    setTimeout(() => {
+      this.ucCalendar.renderEvents(events);
+    }, 50);
   }
 
   private warnOnTooManyResults(collection:WorkPackageCollectionResource) {
@@ -192,7 +200,6 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
         center: 'title',
         right: 'month,basicWeek'
       },
-      events: [],
       views: {
         month: {
           fixedWeekCount: false
@@ -218,13 +225,8 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
 
         return heightElement.height() - (topOfCalendar - topOfHeightElement);
       },
-      header: {
-        left: '',
-        center: '',
-        right: ''
-      },
-      defaultView: 'basicWeek',
-      events: []
+      header: false,
+      defaultView: 'basicWeek'
     };
   }
 
