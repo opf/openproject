@@ -13,11 +13,11 @@ import {CdkDragDrop, CdkDragEnter} from "@angular/cdk/drag-drop";
 import {ResizeDelta} from "../common/resizer/resizer.component";
 import {GridWidgetsService} from "core-app/modules/grids/widgets/widgets.service";
 import {AddGridWidgetService} from "core-app/modules/grids/widgets/add/add.service";
+import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
 
 export interface WidgetRegistration {
   identifier:string;
-  // TODO: Find out how to declare component to be of type class
-  component:any;
+  component:{ new (...args:any[]):AbstractWidgetComponent };
 }
 
 export class GridArea implements GridArea {
