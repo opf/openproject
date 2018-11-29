@@ -1,3 +1,27 @@
+
+<!-- Column headers -->
+<div class="grid--top-headers"
+     [style.grid-template-columns]="gridColumnStyle">
+  <div *ngFor="let column of columnNumbers"
+       [style.grid-row-start]="1"
+       [style.grid-row-end]="2"
+       [style.grid-column-start]="column"
+       [style.grid-column-end]="column + 1">
+  </div>
+</div>
+
+<!-- Row headers -->
+<div class="grid--left-headers"
+     [style.grid-template-rows]="gridRowStyle">
+
+  <div *ngFor="let row of rowNumbers"
+       [style.grid-row-start]="row"
+       [style.grid-row-end]="row + 1"
+       [style.grid-column-start]="1"
+       [style.grid-column-end]="2">
+  </div>
+</div>
+
 <div class="grid--container"
      [style.grid-template-columns]="gridColumnStyle"
      [style.grid-template-rows]="gridRowStyle">

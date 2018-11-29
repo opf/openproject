@@ -1,4 +1,6 @@
-import {Component, OnInit, AfterViewInit, ComponentFactoryResolver, ElementRef, ViewChild, ViewContainerRef,
+import {Component,
+  OnInit,
+  ComponentFactoryResolver,
   ComponentRef,
   OnDestroy,
   Input} from "@angular/core";
@@ -7,7 +9,7 @@ import {GridWidgetResource} from "app/modules/hal/resources/grid-widget-resource
 import {HookService} from "app/modules/plugins/hook-service";
 import {debugLog} from "app/helpers/debug_output";
 import {DomSanitizer} from "@angular/platform-browser";
-import {CdkDragDrop, CdkDragStart, CdkDragEnd, CdkDragEnter, CdkDragExit} from "@angular/cdk/drag-drop";
+import {CdkDragDrop, CdkDragEnter} from "@angular/cdk/drag-drop";
 import {ResizeDelta} from "../common/resizer/resizer.component";
 import {GridWidgetsService} from "core-app/modules/grids/widgets/widgets.service";
 import {AddGridWidgetService} from "core-app/modules/grids/widgets/add/add.service";
@@ -151,6 +153,16 @@ export class GridComponent implements OnDestroy, OnInit {
 
   public get gridRowStyle() {
     return this.sanitization.bypassSecurityTrustStyle(`repeat(${this.numRows}, ${this.GRID_AREA_HEIGHT}px)`);
+  }
+
+  // array containing Numbers from 1 to this.numColumns
+  public get columnNumbers() {
+    return Array.from(Array(this.numColumns + 1).keys()).slice(1);
+  }
+
+  // array containing Numbers from 1 to this.numRows
+  public get rowNumbers() {
+    return Array.from(Array(this.numRows + 1).keys()).slice(1);
   }
 
   public get currentlyDragging() {

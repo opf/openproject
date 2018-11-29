@@ -1,7 +1,13 @@
-.grid--container
+$grid--gap-width: 20px
+$grid--header-width: 40px
+
+@mixin grid--commons
   display: grid
-  grid-column-gap: 20px
-  grid-row-gap: 20px
+  grid-column-gap: $grid--gap-width
+  grid-row-gap: $grid--gap-width
+
+.grid--container
+  @include grid--commons
 
 .grid--area
   overflow: hidden
@@ -56,3 +62,13 @@
     @include icon-font-common
     @include icon-mixin-remove
     font-size: 0.75em
+
+.grid--top-headers
+  @include grid--commons
+  grid-template-rows: $grid--header-width
+  margin-left: $grid--header-width
+
+.grid--left-headers
+  @include grid--commons
+  grid-template-columns: $grid--header-width
+  float: left
