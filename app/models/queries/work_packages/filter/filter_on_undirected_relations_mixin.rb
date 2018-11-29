@@ -32,16 +32,6 @@ module Queries::WorkPackages::Filter::FilterOnUndirectedRelationsMixin
   include ::Queries::WorkPackages::Filter::FilterForWpMixin
 
   def where
-    relations_subselect_from_to = Relation
-                                    .direct
-                                    .send(relation_type)
-                                    .where(from_id: values)
-                                    .select(:to_id)
-
-    relations_subselect_to_from = Relation.direct.send(relation_type)
-                                    # .where(to_id: values)
-    #                                 .select(:from_id)
-
     operator, junction = operator_and_junction
 
     <<-SQL
@@ -63,5 +53,22 @@ module Queries::WorkPackages::Filter::FilterOnUndirectedRelationsMixin
     else
       ['NOT IN', 'AND']
     end
+  end
+
+  def relations_subselect_to_from
+    Relation
+      .direct
+      .send(relation_type)
+      .where(to_id: values)
+      .select(:from_id)
+  end
+
+  def relations_subselect_from_to
+    Relation
+      .direct
+      .send(relation_type)
+      .where(from_id: values)
+      .select(:to_id)
+
   end
 end
