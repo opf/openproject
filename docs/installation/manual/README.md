@@ -58,7 +58,7 @@ sudo passwd openproject #(enter desired password)
 
 ## Installation of PostgreSQL
 
-We recommend you use PostgreSQL to serve OpenProject. We require PostgreSQL version of at least 9.6. Please check https://www.postgresql.org/download/ if your distributed package is too old.
+We recommend you use PostgreSQL to serve OpenProject. We require PostgreSQL version of at least 9.5. Please check https://www.postgresql.org/download/ if your distributed package is too old.
 
 ```bash
 [root@host] apt-get install postgresql postgresql-contrib libpq-dev
