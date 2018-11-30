@@ -60,25 +60,14 @@ export class GridRowContextMenu extends OpContextMenuTrigger {
     };
   }
 
-  /**
-   * Positioning args for jquery-ui position.
-   *
-   * @param {Event} openerEvent
-   */
-  //public positionArgs(evt:JQueryEventObject) {
-  //  //let additionalPositionArgs = {
-  //  //  of:  this.$element.find('.generic-table--sort-header-outer'),
-  //  //};
-
-  //  let position = super.positionArgs(evt);
-  //  _.assign(position, additionalPositionArgs);
-
-  //  return position;
-  //}
-
-  //protected get afterFocusOn():JQuery {
-  //  return this.$element.find(`#${this.column.id}`);
-  //}
+  public positionArgs(openerEvent:Event):any {
+    return {
+      my: 'left top',
+      at: 'right top',
+      of: this.$element,
+      collision: 'flipfit'
+    };
+  }
 
   private buildItems() {
     let grid = this.grid;
