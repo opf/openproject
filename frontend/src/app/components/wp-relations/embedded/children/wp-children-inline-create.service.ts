@@ -31,6 +31,7 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
 import {WpRelationInlineCreateServiceInterface} from "core-components/wp-relations/embedded/wp-relation-inline-create.service.interface";
+import {WpRelationInlineAddExistingComponent} from "core-components/wp-relations/embedded/inline/add-existing/wp-relation-inline-add-existing.component";
 
 @Injectable()
 export class WpChildrenInlineCreateService extends WorkPackageInlineCreateService implements WpRelationInlineCreateServiceInterface, OnDestroy {
@@ -39,6 +40,11 @@ export class WpChildrenInlineCreateService extends WorkPackageInlineCreateServic
               protected readonly wpRelationsHierarchyService:WorkPackageRelationsHierarchyService) {
     super(injector);
   }
+
+  /**
+   * A separate reference pane for the inline create component
+   */
+  public readonly referenceComponentClass = WpRelationInlineAddExistingComponent;
 
   /**
    * Define the reference type
@@ -64,13 +70,12 @@ export class WpChildrenInlineCreateService extends WorkPackageInlineCreateServic
    */
   public referenceTarget:WorkPackageResource|null = null;
 
-
   public get canAdd() {
-    return !!(this.referenceTarget && this.referenceTarget.addRelation);
+    return !!(this.referenceTarget && this.canCreateWorkPackages && this.referenceTarget.changeParent);
   }
 
   public get canReference() {
-    return !!(this.referenceTarget && this.referenceTarget.add);
+    return !!(this.referenceTarget && this.referenceTarget.changeParent);
   }
 
   /**

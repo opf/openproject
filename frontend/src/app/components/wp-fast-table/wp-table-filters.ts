@@ -41,15 +41,15 @@ export class WorkPackageTableFilters extends WorkPackageTableBaseState<QueryFilt
     'datesInterval',
     'precedes',
     'follows',
-    'relatesTo',
+    'relates',
     'duplicates',
-    'duplicatedBy',
+    'duplicated',
     'blocks',
-    'blockedBy',
-    'partOf',
+    'blocked',
+    'partof',
     'includes',
     'requires',
-    'requiredBy',
+    'required',
   ];
 
   constructor(filters:QueryFilterInstanceResource[], public availableSchemas:QueryFilterInstanceSchemaResource[]) {

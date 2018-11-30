@@ -69,17 +69,17 @@ shared_examples 'work package relations tab', js: true, selenium: true do
 
       ##
       # Add child #1
-      find('.wp-inline-create--reference-link',
-           text: I18n.t('js.relation_buttons.add_existing_child')).click
+      find('.wp-inline-create--reference-link', text: I18n.t('js.relation_buttons.add_existing_child')).click
 
       relations.add_existing_child(child)
+      relations.expect_child(child)
 
       ##
       # Add child #2
-      find('.wp-inline-create--reference-link',
-           text: I18n.t('js.relation_buttons.add_existing_child')).click
+      find('.wp-inline-create--reference-link', text: I18n.t('js.relation_buttons.add_existing_child')).click
 
       relations.add_existing_child(child2)
+      relations.expect_child(child2)
 
       # Count child relations in split view
       tabs.expect_counter(relations_tab, 2)
@@ -190,8 +190,7 @@ shared_examples 'work package relations tab', js: true, selenium: true do
 
           ##
           # Add child
-          find('.wp-inline-create--reference-link',
-               text: I18n.t('js.relation_buttons.add_existing_child')).click
+          find('.wp-inline-create--reference-link', text: I18n.t('js.relation_buttons.add_existing_child')).click
 
           relations.add_existing_child(child)
           wp_page.expect_and_dismiss_notification(message: 'Successful update.')

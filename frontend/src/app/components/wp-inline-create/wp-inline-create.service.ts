@@ -62,7 +62,7 @@ export class WorkPackageInlineCreateService implements OnDestroy {
   };
 
   public get canAdd() {
-    return  this.canCreateWorkPackages || this.authorisationService.can('work_package', 'addChild');
+    return this.canCreateWorkPackages || this.authorisationService.can('work_package', 'addChild');
   }
 
   public get canReference() {

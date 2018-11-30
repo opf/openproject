@@ -192,7 +192,7 @@ module Components
 
         within container do
           expect(page)
-            .to have_selector('.wp-table--cell-td.subject', text: work_package.subject)
+            .to have_selector('.wp-table--cell-td.subject', text: work_package.subject, wait: 10)
         end
       end
 

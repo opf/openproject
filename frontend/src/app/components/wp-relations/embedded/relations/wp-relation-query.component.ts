@@ -60,11 +60,9 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
       this.I18n.t('js.relation_buttons.remove'),
       (relatedTo:WorkPackageResource) => {
         this.embeddedTable.loadingIndicator = this.wpRelations.require(relatedTo.id)
-          .then(() => {
-            return this.wpInlineCreate.remove(this.workPackage, relatedTo);
-          })
+          .then(() => this.wpInlineCreate.remove(this.workPackage, relatedTo))
           .then(() => this.refreshTable())
-          .catch((thing:any) => {console.log("bad bad not good", thing);});
+          .catch((error) => this.wpNotifications.handleRawError(error, this.workPackage));
       },
       (child:WorkPackageResource) => !!child.changeParent
     )
@@ -76,7 +74,7 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
               protected readonly queryUrlParamsHelper:UrlParamsHelperService,
               protected readonly wpNotifications:WorkPackageNotificationService,
               protected readonly I18n:I18nService) {
-    super(queryUrlParamsHelper)
+    super(queryUrlParamsHelper);
   }
 
   ngOnInit() {

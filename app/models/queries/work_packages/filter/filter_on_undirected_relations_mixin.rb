@@ -69,6 +69,5 @@ module Queries::WorkPackages::Filter::FilterOnUndirectedRelationsMixin
       .send(relation_type)
       .where(from_id: values)
       .select(:to_id)
-
   end
 end

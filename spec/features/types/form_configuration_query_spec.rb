@@ -40,11 +40,12 @@ describe 'form query configuration', type: :feature, js: true do
                       project: project,
                       type: type_bug
   end
-  let(:relation_type) { :parent }
+  let(:wp_relation_type) { :parent }
+  let(:frontend_relation_type) { wp_relation_type }
   let(:relation_target) { work_package }
   let(:new_relation) do
     relation = Hash.new
-    relation[relation_type] = relation_target
+    relation[wp_relation_type] = relation_target
     relation
   end
   let!(:related_task) do
@@ -186,7 +187,7 @@ describe 'form query configuration', type: :feature, js: true do
 
     shared_examples_for 'query group' do
       it '' do
-        form.add_query_group('Subtasks', relation_type)
+        form.add_query_group('Subtasks', frontend_relation_type)
         form.edit_query_group('Subtasks')
 
         # Expect disabled tabs for timelines and display mode
@@ -196,7 +197,7 @@ describe 'form query configuration', type: :feature, js: true do
         # Restrict filters to type_task
         modal.expect_open
         modal.switch_to 'Filters'
-        # the parent filter should be hidden in the Filters tab
+        # the templated filter should be hidden in the Filters tab
         filters.expect_filter_count 0
         filters.add_filter_by('Type', 'is', type_task.name)
         filters.save
@@ -251,14 +252,15 @@ describe 'form query configuration', type: :feature, js: true do
 
     context 'relates_to table' do
       it_behaves_like 'query group' do
-        let(:relation_type) { :relates_to }
-        let(:relation_target) { [work_package ] }
+        let(:wp_relation_type) { :relates_to }
+        let(:frontend_relation_type) { :relates }
+        let(:relation_target) { [work_package] }
       end
     end
 
     context 'blocks table' do
       it_behaves_like 'query group' do
-        let(:relation_type) { :blocks }
+        let(:wp_relation_type) { :blocks }
         let(:relation_target) { [work_package] }
       end
     end

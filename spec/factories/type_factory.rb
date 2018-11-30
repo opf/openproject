@@ -28,10 +28,10 @@
 
 FactoryBot.define do
   factory :type do
-    sequence(:position) do |p| p end
-    name do |a| "Type No. #{a.position}" end
-    created_at do Time.now end
-    updated_at do Time.now end
+    sequence(:position) { |p| p }
+    name { |a| "Type No. #{a.position}" }
+    created_at { Time.now }
+    updated_at { Time.now }
 
     factory :type_with_workflow, class: Type do
       callback(:after_build) do |t|
@@ -41,7 +41,7 @@ FactoryBot.define do
 
     factory :type_with_relation_query_group, class: Type do
       transient do
-        relation_filter 'parent'
+        relation_filter { 'parent' }
       end
 
       callback(:after_build) do |t, evaluator|
