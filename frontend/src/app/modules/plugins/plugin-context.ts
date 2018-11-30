@@ -24,6 +24,7 @@ import {PathHelperService} from "../common/path-helper/path-helper.service";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {States} from 'core-components/states.service';
 import {CKEditorPreviewService} from "core-app/modules/common/ckeditor/ckeditor-preview.service";
+import {ExternalRelationQueryConfigurationService} from "core-components/wp-table/external-configuration/external-relation-query-configuration.service";
 
 /**
  * Plugin context bridge for plugins outside the CLI compiler context
@@ -41,6 +42,7 @@ export class OpenProjectPluginContext {
   public readonly services = {
     confirmDialog: this.injector.get<ConfirmDialogService>(ConfirmDialogService),
     externalQueryConfiguration: this.injector.get<ExternalQueryConfigurationService>(ExternalQueryConfigurationService),
+    externalRelationQueryConfiguration: this.injector.get<ExternalRelationQueryConfigurationService>(ExternalRelationQueryConfigurationService),
     halResource: this.injector.get<HalResourceService>(HalResourceService),
     hooks: this.injector.get<HookService>(HookService),
     i18n: this.injector.get<I18nService>(I18nService),

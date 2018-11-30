@@ -43,7 +43,6 @@ export class WpRelationsAutocompleteComponent implements OnInit, OnDestroy {
   };
 
   @Input() workPackage:WorkPackageResource;
-  @Input() loadingPromiseName:string;
   @Input() selectedRelationType:string;
   @Input() filterCandidatesFor:string;
   @Input() initialSelection?:WorkPackageResource;

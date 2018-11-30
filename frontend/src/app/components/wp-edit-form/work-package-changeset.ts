@@ -190,6 +190,7 @@ export class WorkPackageChangeset {
               this.schemaCacheService.ensureLoaded(savedWp).then(() => {
 
                 // Initialize any potentially new HAL values
+                savedWp.retainFrom(this.workPackage);
                 this.workPackage = savedWp;
 
                 if (wasNew) {

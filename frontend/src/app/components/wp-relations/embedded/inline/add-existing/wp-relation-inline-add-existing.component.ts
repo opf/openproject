@@ -26,52 +26,48 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
 import {WorkPackageInlineCreateComponent} from "core-components/wp-inline-create/wp-inline-create.component";
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
-import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
+import {WpRelationInlineCreateServiceInterface} from "core-components/wp-relations/embedded/wp-relation-inline-create.service.interface";
 
 @Component({
-  templateUrl: './wp-inline-add-existing-child.component.html'
+  templateUrl: './wp-relation-inline-add-existing.component.html'
 })
-export class WorkPackageInlineAddExistingChildComponent {
+export class WpRelationInlineAddExistingComponent {
   public selectedWpId:string;
   public isDisabled = false;
 
   public text = {
     save: this.I18n.t('js.relation_buttons.save'),
     abort: this.I18n.t('js.relation_buttons.abort'),
-    addNewChild: this.I18n.t('js.relation_buttons.add_new_child'),
-    addExistingChild: this.I18n.t('js.relation_buttons.add_existing_child')
   };
 
   constructor(protected readonly parent:WorkPackageInlineCreateComponent,
-              protected readonly wpInlineCreate:WorkPackageInlineCreateService,
+              @Inject(WorkPackageInlineCreateService) protected readonly wpInlineCreate:WpRelationInlineCreateServiceInterface,
               protected wpCacheService:WorkPackageCacheService,
               protected wpRelations:WorkPackageRelationsService,
-              protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected readonly I18n:I18nService) {
   }
 
-  public addExistingChild() {
+  public addExisting() {
     if (_.isNil(this.selectedWpId)) {
       return;
     }
 
-    const newChildId = this.selectedWpId;
+    const newRelationId = this.selectedWpId;
     this.isDisabled = true;
 
-    this.wpRelationsHierarchyService
-      .addExistingChildWp(this.workPackage, newChildId)
+    this.wpInlineCreate.add(this.workPackage, newRelationId)
       .then(() => {
         this.wpCacheService.loadWorkPackage(this.workPackage.id, true);
         this.isDisabled = false;
-        this.wpInlineCreate.newInlineWorkPackageReferenced.next(newChildId);
+        this.wpInlineCreate.newInlineWorkPackageReferenced.next(newRelationId);
         this.cancel();
       })
       .catch((err:any) => {
@@ -83,6 +79,10 @@ export class WorkPackageInlineAddExistingChildComponent {
 
   public updateSelectedId(workPackageId:string) {
     this.selectedWpId = workPackageId;
+  }
+
+  public get relationType() {
+    return this.wpInlineCreate.relationType;
   }
 
   public get workPackage() {

@@ -52,7 +52,7 @@ export class WorkPackageRelationsCreateComponent {
   }
 
   protected createCommonRelation() {
-    return this.wpRelations.addCommonRelation(this.workPackage,
+    return this.wpRelations.addCommonRelation(this.workPackage.id,
       this.selectedRelationType,
       this.selectedWpId)
       .then(relation => {

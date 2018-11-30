@@ -106,14 +106,13 @@ class BaseTypeService
     groups.each_with_index do |(name, attributes), index|
       next unless attributes.is_a? Hash
 
-      query = Query.new_default(name: "Embedded subelements: #{name}")
+      query = Query.new_default(name: "Embedded table: #{name}")
 
       ::API::V3::UpdateQueryFromV3ParamsService
         .new(query, user)
         .call(attributes.with_indifferent_access)
 
       query.show_hierarchies = false
-      query.add_filter('parent', '=', ::Queries::Filters::TemplatedValue::KEY)
 
       groups[index][1] = [query]
     end

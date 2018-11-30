@@ -106,9 +106,6 @@ module ::TypesHelper
   end
 
   def query_to_query_props(query)
-    # Remove the templated filter since we can't yet handle it in the frontend
-    query.filters.delete_if(&:templated?)
-
     # Modify the hash to match Rails array based +to_query+ transforms:
     # e.g., { columns: [1,2] }.to_query == "columns[]=1&columns[]=2" (unescaped)
     # The frontend will do that IFF the hash key is an array
