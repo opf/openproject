@@ -63,6 +63,11 @@ form
     display: flex
     flex-wrap: wrap
 
+  &.-wide-labels
+    .form--text-field-container,
+    .form--text-field-container input
+      width: 100%
+
   &.-inline
     display: inline
 
@@ -322,7 +327,7 @@ fieldset.form--fieldset
 
 .form--field
   display: grid
-  grid-template-columns: repeat(auto-fit, 250px)
+  grid-template-columns: repeat(auto-fit, minmax(250px, max-content))
   grid-gap: 10px
   align-items: center
   margin-bottom: 0.825rem
@@ -330,7 +335,17 @@ fieldset.form--fieldset
 
   &.-vertical,
   .form.-vertical &
-    @include grid-orient(vertical)
+    //@include grid-orient(vertical)
+    display: flex
+    flex-direction: column
+    flex: 1
+    align-items: normal
+
+    .button
+      margin: 0
+
+    > *
+      margin-bottom: 5px
 
   .grid-block > &:nth-last-of-type(n+2),
   .form--row > &:nth-last-of-type(n+2),
@@ -368,6 +383,10 @@ fieldset.form--fieldset
   font-size:    $form-label-fontsize
   line-height:  $base-line-height
   color:        $form-label-color
+
+  .form--field &
+    // Provisional solution (necessary for a consistent grid until element media queries can be used)
+    max-width: 250px
 
   &.-error
     @extend .icon-error
