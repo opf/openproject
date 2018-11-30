@@ -54,8 +54,6 @@ export class GridRowContextMenu extends OpContextMenuTrigger {
 
   public get locals() {
     return {
-      //showAnchorRight: this.column && this.column.id !== 'id',
-      contextMenuId: 'grid-context-menu',
       items: this.items
     };
   }
@@ -73,7 +71,7 @@ export class GridRowContextMenu extends OpContextMenuTrigger {
     let grid = this.grid;
     let rowNumber = this.rowNumber;
 
-    this.items = [
+    let items = [
       {
         linkText: I18n.t('js.label_add_row_before'),
         onClick: () => {
@@ -87,16 +85,22 @@ export class GridRowContextMenu extends OpContextMenuTrigger {
           grid.addRow(rowNumber);
           return true;
         }
-      },
-      // TODO: do not show if only one row left
-      {
-        linkText: I18n.t('js.label_remove_row'),
-        onClick: () => {
-          grid.removeRow(rowNumber);
-          return true;
-        }
       }
     ];
+
+    if (grid.numRows > 1) {
+      items.push(
+        {
+          linkText: I18n.t('js.label_remove_row'),
+          onClick: () => {
+            grid.removeRow(rowNumber);
+            return true;
+          }
+        }
+      );
+    }
+
+    this.items = items;
   }
 }
 
