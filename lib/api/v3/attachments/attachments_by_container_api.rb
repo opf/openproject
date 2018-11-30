@@ -102,7 +102,7 @@ module API
                                 else
                                   "without container"
                                 end
-            message "Failed to save attachment #{container_message}: #{error.class} - #{error.message}"
+            message = "Failed to save attachment #{container_message}: #{error&.class} - #{error&.message || 'Unknown error'}"
 
             Rails.logger.error message
           end
