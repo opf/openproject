@@ -265,6 +265,19 @@ export class GridComponent implements OnDestroy, OnInit {
     this.buildAreas();
   }
 
+  public addRow(row:number) {
+    this.numRows++;
+
+    this.widgetResources.filter((widget) => {
+      return widget.startRow > row;
+    }).forEach((widget) => {
+      widget.startRow++;
+      widget.endRow++;
+    });
+
+    this.buildAreas();
+  }
+
   public removeColumn(column:number) {
     this.numColumns--;
 
@@ -288,6 +301,34 @@ export class GridComponent implements OnDestroy, OnInit {
     }).forEach((widget) => {
       widget.startColumn--;
       widget.endColumn--;
+    });
+
+    this.buildAreas();
+  }
+
+  public removeRow(row:number) {
+    this.numRows--;
+
+    // remove widgets that only span the removed row
+    this.widgetResources = this.widgetResources.filter((widget) => {
+      return !(widget.startRow === row && widget.endRow === row + 1);
+    });
+
+    //shrink widgets that span more than the removed row
+    this.widgetResources.forEach((widget) => {
+      if (widget.startRow <= row && widget.endRow >= row + 1) {
+        //shrink widgets that span more than the removed row
+        widget.endRow--;
+      }
+    });
+
+    // move all widgets that are after the removed row
+    // so that they appear to keep their place.
+    this.widgetResources.filter((widget) => {
+      return widget.startRow > row;
+    }).forEach((widget) => {
+      widget.startRow--;
+      widget.endRow--;
     });
 
     this.buildAreas();

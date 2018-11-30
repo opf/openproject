@@ -82,27 +82,28 @@ export class GridRowContextMenu extends OpContextMenuTrigger {
 
   private buildItems() {
     let grid = this.grid;
+    let rowNumber = this.rowNumber;
 
     // TODO: I18n
     this.items = [
       {
         linkText: "Add row before",
         onClick: () => {
-          //this.wpTableSortBy.addDescending(c);
+          grid.addRow(rowNumber - 1);
           return true;
         }
       },
       {
         linkText: "Add row after",
         onClick: () => {
-          //this.wpTableSortBy.addAscending(c);
+          grid.addRow(rowNumber);
           return true;
         }
       },
       {
         linkText: "Remove row",
         onClick: () => {
-          //this.wpTableGroupBy.setBy(c);
+          grid.removeRow(rowNumber);
           return true;
         }
       }
