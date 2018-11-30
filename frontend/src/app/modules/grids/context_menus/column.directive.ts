@@ -76,21 +76,22 @@ export class GridColumnContextMenu extends OpContextMenuTrigger {
     // TODO: I18n
     this.items = [
       {
-        linkText: "Add column before",
+        linkText: I18n.t('js.label_add_column_before'),
         onClick: () => {
           grid.addColumn(columnNumber - 1);
           return true;
         }
       },
       {
-        linkText: "Add column after",
+        linkText: I18n.t('js.label_add_column_after'),
         onClick: () => {
           grid.addColumn(columnNumber);
           return true;
         }
       },
+      // TODO: do not show if only one column is left
       {
-        linkText: "Remove column",
+        linkText: I18n.t('js.label_remove_column'),
         onClick: () => {
           grid.removeColumn(columnNumber);
           return true;

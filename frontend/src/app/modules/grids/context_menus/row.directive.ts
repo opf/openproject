@@ -73,24 +73,24 @@ export class GridRowContextMenu extends OpContextMenuTrigger {
     let grid = this.grid;
     let rowNumber = this.rowNumber;
 
-    // TODO: I18n
     this.items = [
       {
-        linkText: "Add row before",
+        linkText: I18n.t('js.label_add_row_before'),
         onClick: () => {
           grid.addRow(rowNumber - 1);
           return true;
         }
       },
       {
-        linkText: "Add row after",
+        linkText: I18n.t('js.label_add_row_after'),
         onClick: () => {
           grid.addRow(rowNumber);
           return true;
         }
       },
+      // TODO: do not show if only one row left
       {
-        linkText: "Remove row",
+        linkText: I18n.t('js.label_remove_row'),
         onClick: () => {
           grid.removeRow(rowNumber);
           return true;
