@@ -359,6 +359,7 @@ vi:
       attribute_groups:
         error_duplicate_group_name: The name %{group} is used more than once. Group
           names must be unique.
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: Reset form configuration
         confirm_reset: 'Chú ý: Bạn có chắc bạn muốn đặt lại cấu hình dạng? Điều này
           sẽ thiết lập lại các thuộc tính của nhóm mặc định và vô hiệu hóa tất cả
@@ -371,6 +372,19 @@ vi:
           client?
         more_information: More information
         nevermind: Nevermind
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: duplicated by
+          blocks: blocking
+          blocked: blocked by
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: lấy danh sách người theo dõi...
       label_error_loading: Lỗi khi tải về danh sách người theo dõi
@@ -405,9 +419,12 @@ vi:
       group_by_relation_type: Group by relation type
       add_parent: Add existing parent
       add_new_child: Create new child
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: Add existing child
       remove_child: Remove child
       add_new_relation: Create new relation
+      add_existing_relation: Add existing relation
       update_description: Set or update description of this relation
       toggle_description: Toggle relation description
       update_relation: Click to change the relation type
@@ -721,6 +738,9 @@ vi:
             mass?
           relation_columns: Need to see relations in the work package list?
           check_out_link: Check out the Enterprise Edition.
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: Tổng quan
         activity: Hoạt động

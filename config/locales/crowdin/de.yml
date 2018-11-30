@@ -192,13 +192,15 @@ de:
       projects: Projekte
       enabled_projects: Aktivierte Projekte
       add_group: Attributgruppe hinzufügen
-      add_subelements: Kindelemente-Gruppe hinzufügen
+      add_table: Add table of related work packages
       edit_query: Eingebettete Abfrage bearbeiten
+      query_group_placeholder: Give the table a name
       reset: Auf Standardwerte zurücksetzen
       type_color_text: 'Klicken zum Zuweisen einer Farbe für diesen Typ. Diese wird
         für die Hervorhebung von Arbeitspaketen in Tabellen und Gantt-Diagrammen verwendet.
 
 '
+      add_subelements: Kindelemente-Gruppe hinzufügen
   versions:
     overview:
       no_results_title_text: Derzeit sind keine Arbeitspakete dieser Version zugewiesen.

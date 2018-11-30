@@ -188,12 +188,14 @@ it:
       projects: Progetti
       enabled_projects: Progetti abilitati
       add_group: Aggiungi gruppo di attributi
-      add_subelements: Aggiungi gruppo di sottoelementi
+      add_table: Add table of related work packages
       edit_query: Modifica la query incorporata
+      query_group_placeholder: Give the table a name
       reset: Ripristino predefinite
       type_color_text: |
         Clicca per assegnare o modificare il colore di questo tipo. Il colore selezionato distingue le macro-attività
         nei Diagrammi di Gantt.
+      add_subelements: Aggiungi gruppo di sottoelementi
   versions:
     overview:
       no_results_title_text: Al momento non vi è alcuna macro-attività assegnata a
@@ -1194,7 +1196,7 @@ it:
   label_auth_source_plural: Modalità di autenticazione
   label_authentication: Autenticazione
   label_available_project_work_package_categories: Categorie di macro-attività disponibili
-  label_available_project_work_package_types: Available work package types
+  label_available_project_work_package_types: Tipi di pacchetti di lavoro disponibili
   label_available_project_boards: Comitati disponibili
   label_available_project_versions: Versioni disponibili
   label_available_project_repositories: Archivi disponibili

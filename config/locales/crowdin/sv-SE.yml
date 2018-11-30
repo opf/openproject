@@ -188,12 +188,14 @@ sv-SE:
       projects: Projekt
       enabled_projects: Aktiverade projekt
       add_group: Lägg till attributgrupp
-      add_subelements: Lägg till underelement grupp
+      add_table: Add table of related work packages
       edit_query: Redigera inbäddad fråga
+      query_group_placeholder: Give the table a name
       reset: Återställ standardinställningar
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
+      add_subelements: Lägg till underelement grupp
   versions:
     overview:
       no_results_title_text: Det finns för närvarande inga arbetspaket tilldelade

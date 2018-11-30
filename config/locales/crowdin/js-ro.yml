@@ -361,6 +361,7 @@ ro:
       attribute_groups:
         error_duplicate_group_name: Numele %{group} este utilizat de mai multe ori.
           Fiecare grup trebuie să aibă un nume unic.
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: Reset form configuration
         confirm_reset: 'Antenție: Sunteți sigur că doriți să resetați congurația formularului?
           Această acțiune va reseta toate atributele înapoi la grupul implicit și
@@ -373,6 +374,19 @@ ro:
           Versiunea Enterprise.
         more_information: More information
         nevermind: Asta e...
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: duplicated by
+          blocks: blocking
+          blocked: blocked by
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: se încarcă observatorii...
       label_error_loading: A apărut o eroare în timpul încărcării observatorilor
@@ -407,9 +421,12 @@ ro:
       group_by_relation_type: Grupează dupa tipul legăturii
       add_parent: Adaugă părinte existent
       add_new_child: Crează un nou copil
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: Adaugă un copil existent
       remove_child: Elimină copil
       add_new_relation: Crează o nouă relație
+      add_existing_relation: Add existing relation
       update_description: Setează sau actualizează descrierea acestei relații
       toggle_description: Activați/Dezactivați descrierea legăturilor
       update_relation: Faceți click pentru a schimba tipul de legătură
@@ -732,6 +749,9 @@ ro:
             mass?
           relation_columns: Need to see relations in the work package list?
           check_out_link: Check out the Enterprise Edition.
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: Vedere de ansamblu
         activity: Activitate

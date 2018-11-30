@@ -356,6 +356,7 @@ fi:
       attribute_groups:
         error_duplicate_group_name: The name %{group} is used more than once. Group
           names must be unique.
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
           This will reset the attributes to their default group and disable ALL custom
@@ -368,6 +369,19 @@ fi:
           client?
         more_information: Lisätietoja
         nevermind: Nevermind
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: duplicated by
+          blocks: blocking
+          blocked: blocked by
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: ladataan seuraajia...
       label_error_loading: Virhe ladattaessa seuraajia
@@ -402,9 +416,12 @@ fi:
       group_by_relation_type: Ryhmittele suhteen tyypin mukaan
       add_parent: Lisää olemassaoleva ylätaso
       add_new_child: Luo uusi alataso
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: Lisää olemassaoleva alataso
       remove_child: Poista alataso
       add_new_relation: Luo uusi suhde
+      add_existing_relation: Add existing relation
       update_description: Määritä tai päivitä tämän suhteen kuvaus
       toggle_description: Toggle relation description
       update_relation: Click to change the relation type
@@ -717,6 +734,9 @@ fi:
             mass?
           relation_columns: Täytyy nähdä suhteet toimia paketti lista?
           check_out_link: Check out the Enterprise Edition.
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: Yleiskatsaus
         activity: Aktiviteetti

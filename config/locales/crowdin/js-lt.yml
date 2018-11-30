@@ -355,6 +355,7 @@ lt:
       attribute_groups:
         error_duplicate_group_name: "%{group} grupės pavadinimas naudotas daugiau
           nei kartą. Grupių pavadinimai privalo būti unikalūs."
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: Nustatyti iš naujo formos konfigūraciją
         confirm_reset: 'Įspėjimas: Ar tikrai norite grįžti prie pradinės formos konfigūracijos?
           Atributai bus perkelti į jų numatytąsias grupes ir išjungs VISUS pritaikytus
@@ -367,6 +368,19 @@ lt:
           Edition klientu?
         more_information: Daugiau informacijos
         nevermind: Nekreipti dėmesio
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: duplicated by
+          blocks: blocking
+          blocked: blocked by
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: Įkeliami stebėtojai...
       label_error_loading: Įkeliant stebėtojus įvyko klaida
@@ -401,9 +415,12 @@ lt:
       group_by_relation_type: Grupuoti pagal ryšio tipą
       add_parent: Pridėti jau esamą tėvą
       add_new_child: Sukurti naują vaiką
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: Pridėti jau esamą vaiką
       remove_child: Pašalinti vaiką
       add_new_relation: Sukurti naują ryšį
+      add_existing_relation: Add existing relation
       update_description: Nustatyti arba atnaujinti šio ryšio aprašymą
       toggle_description: Įjungti/išjungti ryšio aprašymą
       update_relation: Paspauskite, jei norite pakeisti ryšio tipą
@@ -727,6 +744,9 @@ lt:
             mass?
           relation_columns: Ar reikia matyti ryšius darbų paketų sąraše?
           check_out_link: Patikrinkite Enterprise Edition.
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: Peržiūra
         activity: Veikla

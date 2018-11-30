@@ -187,14 +187,16 @@ fr:
       projects: Projets
       enabled_projects: Projets activés
       add_group: Ajouter un groupe d’attributs
-      add_subelements: Ajouter un groupe de sous-éléments
+      add_table: Add table of related work packages
       edit_query: Modifier la requête intégrée
+      query_group_placeholder: Give the table a name
       reset: Rétablir les valeurs par défaut
       type_color_text: 'Cliquez pour assigner ou modifier la couleur de ce type. La
         couleur sélectionnée distingue les lots de travaux dans les diagrammes de
         Gantt.
 
 '
+      add_subelements: Ajouter un groupe de sous-éléments
   versions:
     overview:
       no_results_title_text: Il n'y a actuellement aucun lot de travaux assigné à

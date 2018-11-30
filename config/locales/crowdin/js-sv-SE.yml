@@ -358,6 +358,7 @@ sv-SE:
       attribute_groups:
         error_duplicate_group_name: Namnet %{group} används redan. Gruppnamn måste
           vara unika.
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: Återställ formulärinställningarna
         confirm_reset: 'Varning: Är du säker på att du vill återställa formulärinställningarna?
           Detta kommer att återställa attributen till deras standardgrupper, avmarkera
@@ -370,6 +371,19 @@ sv-SE:
           Edition-kund?
         more_information: Mer information
         nevermind: Det var inget
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: duplicated by
+          blocks: blocking
+          blocked: blocked by
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: laddar bevakare...
       label_error_loading: Ett fel inträffade när bevakarna laddades
@@ -404,9 +418,12 @@ sv-SE:
       group_by_relation_type: Gruppera efter relationstyp
       add_parent: Lägga till befintlig förälder
       add_new_child: Skapa nytt barn
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: Lägg till befintligt barn
       remove_child: Ta bort barn
       add_new_relation: Skapa ny relation
+      add_existing_relation: Add existing relation
       update_description: Ange eller uppdatera beskrivningen av denna relation
       toggle_description: Visa/dölj relationsbeskrivning
       update_relation: Klicka för att ändra relationstypen
@@ -721,6 +738,9 @@ sv-SE:
             mass?
           relation_columns: Need to see relations in the work package list?
           check_out_link: Check out the Enterprise Edition.
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: Översikt
         activity: Aktivitet

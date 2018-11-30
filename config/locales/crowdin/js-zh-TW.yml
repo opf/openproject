@@ -346,6 +346,7 @@ zh-TW:
     types:
       attribute_groups:
         error_duplicate_group_name: 名稱 %{group} 已被使用，群組名稱不可重複。
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: 重設表單配置
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
           This will reset the attributes to their default group and disable ALL custom
@@ -356,6 +357,19 @@ zh-TW:
         upgrade_to_ee_text: 哇！如果您需要使用此功能，說明您非常專業！您是否願意成為企業版客戶來支持 OpenSource 開發人員？
         more_information: 更多資訊
         nevermind: 無視
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: duplicated by
+          blocks: blocking
+          blocked: blocked by
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: 正在載入關注者...
       label_error_loading: 而發生錯誤裝載的觀察家
@@ -390,9 +404,12 @@ zh-TW:
       group_by_relation_type: 按關聯類型分組
       add_parent: 增加現有的上一層
       add_new_child: 建立新子項
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: 加入現有子項
       remove_child: 移除子項
       add_new_relation: 建立新關聯
+      add_existing_relation: Add existing relation
       update_description: 設置或更新此關聯的說明
       toggle_description: 切換關係描述
       update_relation: 按一下此處以更改關聯類型
@@ -681,6 +698,9 @@ zh-TW:
             mass?
           relation_columns: 需要檢視工作項目清單的關係嗎
           check_out_link: 請查閱企業版
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: 概要
         activity: 活動

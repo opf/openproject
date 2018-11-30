@@ -186,13 +186,15 @@ pl:
       projects: Projekty
       enabled_projects: Aktywne projekty
       add_group: Dodaj grupę atrybutów
-      add_subelements: Dodaj grupę elementeów składowych
+      add_table: Add table of related work packages
       edit_query: Edytuj osadzoną kwerendę
+      query_group_placeholder: Give the table a name
       reset: Resetuj do ustawień domyślnych
       type_color_text: 'Kliknij, aby przypisać lub zmienić kolor tego typu. Wybrany
         kolor odróżnia pakiety robocze na wykresach Gantta.
 
 '
+      add_subelements: Dodaj grupę elementeów składowych
   versions:
     overview:
       no_results_title_text: Nie ma jeszcze żadnego Zestawu zadań przypisanego do

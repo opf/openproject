@@ -365,6 +365,7 @@ de:
       attribute_groups:
         error_duplicate_group_name: Der Name %{group} wird mehr als einmal verwendet.
           Gruppen-Namen müssen eindeutig sein.
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: Formularkonfiguration zurücksetzen
         confirm_reset: 'Achtung: Wollen Sie die Formkonfiguration wirklich zurücksetzen?
           Alle Attribute und Gruppen werden auf ihre Standardwerte zurück gesetzt
@@ -377,6 +378,19 @@ de:
           Edition-Kunde wirst?
         more_information: Weitere Informationen
         nevermind: Nein danke
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: duplicated by
+          blocks: blocking
+          blocked: blocked by
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: Lade Beobachter...
       label_error_loading: Beim Laden der Beobachter ist ein Fehler aufgetreten
@@ -411,9 +425,12 @@ de:
       group_by_relation_type: Nach Relations-Typ gruppieren
       add_parent: Übergeordnetes Arbeitspaket setzen
       add_new_child: Neue Unteraufgabe
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: Unteraufgabe zuweisen
       remove_child: Unteraufgabe entfernen
       add_new_relation: Neue Beziehung erstellen
+      add_existing_relation: Add existing relation
       update_description: Beschreibung dieser Beziehung erstellen oder bearbeiten
       toggle_description: Beschreibung der Beziehung ein-/ausklappen
       update_relation: Klicken um den Beziehungstyp zu ändern
@@ -740,6 +757,9 @@ de:
           attribute_highlighting: Sollen bestimmte Arbeitspakete aus der Menge herausstechen?
           relation_columns: Möchten Sie Zusammenhänge in der Arbeitspaketliste anzeigen?
           check_out_link: Testen Sie die Enterprise Edition.
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: Übersicht
         activity: Aktivität

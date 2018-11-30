@@ -359,6 +359,7 @@ ru:
       attribute_groups:
         error_duplicate_group_name: Имя %{group} используется более одного раза. Имена
           групп должны быть уникальными.
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: Сбросить настройки формы
         confirm_reset: 'Предупреждение: хотите сбросить форму? Это сбросит атрибуты
           к первоначальным значениям группы и запретит правку настраиваемых полей.
@@ -370,6 +371,19 @@ ru:
           версии?
         more_information: Больше информации
         nevermind: Неважно
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: duplicated by
+          blocks: blocking
+          blocked: blocked by
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: Загрузка наблюдателей...
       label_error_loading: При загрузке наблюдателей произошла ошибка
@@ -404,9 +418,12 @@ ru:
       group_by_relation_type: Группировать по типу связи
       add_parent: Добавить существующего родителя
       add_new_child: Создать новый дочерний элемент
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: Добавить существующий дочерний элемент
       remove_child: Удалить дочерний элемент
       add_new_relation: Создать новое отношение
+      add_existing_relation: Add existing relation
       update_description: Определить или обновить описание этой связи
       toggle_description: Переключить описание связи
       update_relation: Кликните, чтобы изменить тип связи
@@ -729,6 +746,9 @@ ru:
             массы?
           relation_columns: Нужно видеть отношения в списке пакетов работ?
           check_out_link: Проверьте корпоративную версию.
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: Обзор
         activity: Деятельность

@@ -363,6 +363,7 @@ nl:
       attribute_groups:
         error_duplicate_group_name: De groep naam %{group} word meer dan één keer
           gebruikt. Groep namen moeten uniek zijn.
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: Reset formulier configuratie
         confirm_reset: 'Waarschuwing: Weet u zeker dat u de configuratie van het formulier
           wilt herstellen? Dit herstelt de kenmerken hun standaardgroep, deselecteerd
@@ -376,6 +377,19 @@ nl:
           te nemen op de enterprice edition?
         more_information: Meer informatie
         nevermind: Geen aandacht
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: duplicated by
+          blocks: blocking
+          blocked: blocked by
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: volgers worden geladen...
       label_error_loading: Er is een fout opgetreden tijdens het laden van de volgers
@@ -410,9 +424,12 @@ nl:
       group_by_relation_type: Groep per relatietype
       add_parent: Voeg bestaande ouder toe
       add_new_child: Maak nieuw kind
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: Voeg bestaand kind toe
       remove_child: Verwijder kind
       add_new_relation: Maak nieuwe relatie
+      add_existing_relation: Add existing relation
       update_description: Kies of wijzig beschrijving van deze relatie
       toggle_description: Wissel de relatie beschrijving
       update_relation: Klik op het type relatie wijzigen
@@ -734,6 +751,9 @@ nl:
             van de massa?
           relation_columns: Nodig om te zien van betrekkingen in de pakketlijst werk?
           check_out_link: Bekijk de Enterprise Edition.
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: Overzicht
         activity: Activiteit

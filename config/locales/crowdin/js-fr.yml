@@ -371,6 +371,7 @@ fr:
       attribute_groups:
         error_duplicate_group_name: Le nom %{group} est utilisé plus d’une fois. Les
           noms de groupe doivent être uniques.
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: Réinitialiser la configuration du formulaire
         confirm_reset: 'Avertissement : êtes-vous sûr de vouloir réinitialiser la
           configuration du formulaire ? Ceci va réinitialiser les attributs à leur
@@ -383,6 +384,19 @@ fr:
           Open Source en devenant un client de la Version Enterprise ?
         more_information: Plus d'informations
         nevermind: Peu importe
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: duplicated by
+          blocks: blocking
+          blocked: blocked by
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: observateurs en cours de chargement…
       label_error_loading: Une erreur s'est produite lors du chargement des observateurs
@@ -417,9 +431,12 @@ fr:
       group_by_relation_type: Grouper par type de relation
       add_parent: Ajouter un parent existant
       add_new_child: Créer un nouvel enfant
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: Ajouter un enfant existant
       remove_child: Supprimer enfant
       add_new_relation: Créer une nouvelle relation
+      add_existing_relation: Add existing relation
       update_description: Définir ou mettre à jour la description de cette relation
       toggle_description: Alterner la description de relation
       update_relation: Cliquez pour modifier le type de relation
@@ -747,6 +764,9 @@ fr:
           relation_columns: Besoin de voir les relations sur la liste des lots de
             travaux ?
           check_out_link: Découvrez l’édition entreprise.
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: Vue globale
         activity: Activité

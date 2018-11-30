@@ -188,12 +188,14 @@ cs:
       projects: Projekty
       enabled_projects: Povolit projekty
       add_group: Přidat skupinu atributů
-      add_subelements: Přidat skupinu dílčích prvků
+      add_table: Add table of related work packages
       edit_query: Upravit vložený dotaz
+      query_group_placeholder: Give the table a name
       reset: Obnovit výchozí nastavení
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
+      add_subelements: Přidat skupinu dílčích prvků
   versions:
     overview:
       no_results_title_text: Momentálně zde nejsou žádné pracovní balíčky přiřazené

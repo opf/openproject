@@ -360,6 +360,7 @@ fil:
       attribute_groups:
         error_duplicate_group_name: Ang pangalan ng %{group} ay ginamit higit pa sa
           isang beses. Ang mga pangalan ng grupo ay dapat nakakakatangi.
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
           This will reset the attributes to their default group and disable ALL custom
@@ -372,6 +373,19 @@ fil:
           sa pamamagitan ng pagiging isang kliyente ng Enterprise Edition?
         more_information: Karagdagang impornasyon
         nevermind: Hindi bale
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: duplicated by
+          blocks: blocking
+          blocked: blocked by
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: naglo-load ang mga manunuod...
       label_error_loading: Isang mali ang naganap habang naglo-load ng mga manunuod
@@ -406,9 +420,12 @@ fil:
       group_by_relation_type: Grupo sa pamamagitan ng uri ng pakikipag-ugnayan
       add_parent: Magdagdag ng umiiral na magulang
       add_new_child: Maglikha ng bagong bata
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: Magdagdag ng umiiral na bata
       remove_child: Alisin ang bata
       add_new_relation: Lumikha ng pagkikipag-ugnayan
+      add_existing_relation: Add existing relation
       update_description: Itakda o i-update ang paglalarawan sa kaugnayan ito
       toggle_description: I-toggle ang kaugnayan sa paglalarawan
       update_relation: Pindutin upang baguhin ang uri ng kaugnayan
@@ -736,6 +753,9 @@ fil:
           relation_columns: Kailangan tingnan ang mga relasyon sa listahan ng work
             package?
           check_out_link: Suriin ang Enterprise Edition.
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: Buod
         activity: Aktibidad

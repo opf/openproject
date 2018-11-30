@@ -366,6 +366,7 @@ pt-BR:
       attribute_groups:
         error_duplicate_group_name: O nome %{group} foi usado mais de uma vez. Nomes
           de Grupos devem ser únicos.
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: Voltar para a configuração padrão do formulário
         confirm_reset: 'Aviso: Tem certeza de que deseja redefinir a configuração
           de formulário? Isto irá redefinir os atributos para o grupo padrão e desativar
@@ -378,6 +379,19 @@ pt-BR:
           tornando-se um cliente da versão Enterprise Edition?
         more_information: Mais informações
         nevermind: Deixa pra lá
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: duplicated by
+          blocks: blocking
+          blocked: blocked by
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: carregando observadores...
       label_error_loading: Ocorreu um erro ao carregar os observadores
@@ -412,9 +426,12 @@ pt-BR:
       group_by_relation_type: Agrupar por tipo de relação
       add_parent: Adicionar pai existente
       add_new_child: Criar novo filho
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: Adicionar ao filho existente
       remove_child: Remover filho
       add_new_relation: Criar nova relação
+      add_existing_relation: Add existing relation
       update_description: Definir ou atualizar a descrição desta relação
       toggle_description: Alternar descrição da relação
       update_relation: Clique para alterar o tipo de relação
@@ -732,6 +749,9 @@ pt-BR:
             da massa?
           relation_columns: Necessário ver as relações na lista de pacote de trabalho?
           check_out_link: Confira a versão Enterprise Edition.
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: Visão geral
         activity: Atividade

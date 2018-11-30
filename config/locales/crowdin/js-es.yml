@@ -363,6 +363,7 @@ es:
       attribute_groups:
         error_duplicate_group_name: El nombre %{group} se ha usado más de una vez.
           Los nombres de grupos deben ser únicos.
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: Restablecer la configuración del formulario
         confirm_reset: 'Advertencia: ¿Está seguro de que quiere restablecer la configuración
           del formulario? Se restablecerán los atributos al grupo predeterminado y
@@ -375,6 +376,19 @@ es:
           en un cliente de la versión corporativa?"
         more_information: Más información
         nevermind: No importa
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: duplicated by
+          blocks: blocking
+          blocked: blocked by
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: cargando observadores...
       label_error_loading: Se ha producido un error al cargar los observadores
@@ -409,9 +423,12 @@ es:
       group_by_relation_type: Grupo por tipo de relación
       add_parent: Añadir padre existente
       add_new_child: Crear nuevo hijo
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: Añadir hijo existente
       remove_child: Eliminar hijo
       add_new_relation: Crear nueva relación
+      add_existing_relation: Add existing relation
       update_description: Establecer o actualizar la descripción de esta relación
       toggle_description: Activar descripción de la relación
       update_relation: Haga clic para cambiar el tipo de relación
@@ -733,6 +750,9 @@ es:
           relation_columns: "¿Necesita ver las relaciones en la lista del paquete
             de trabajo?"
           check_out_link: Vea la versión Enterprise Edition.
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: Resumen
         activity: Actividad

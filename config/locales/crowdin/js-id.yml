@@ -358,6 +358,7 @@ id:
       attribute_groups:
         error_duplicate_group_name: Nama %{group} digunakan lebih dari satu kali.
           Nama grup harus unik.
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: Setel ulang konfigurasi formulir
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
           This will reset the attributes to their default group and disable ALL custom
@@ -370,6 +371,19 @@ id:
           menjadi pelanggan Edisi Perusahaan?
         more_information: Informasi lebih lanjut
         nevermind: Tidak masalah
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: duplicated by
+          blocks: blocking
+          blocked: blocked by
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: memuat pengamat...
       label_error_loading: An error occurred while loading the watchers
@@ -404,9 +418,12 @@ id:
       group_by_relation_type: Group by relation type
       add_parent: Add existing parent
       add_new_child: Create new child
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: Add existing child
       remove_child: Remove child
       add_new_relation: Create new relation
+      add_existing_relation: Add existing relation
       update_description: Set or update description of this relation
       toggle_description: Mengganti-ganti penjelasan hubungan
       update_relation: Klik untuk mengganti jenis hubungan
@@ -723,6 +740,9 @@ id:
           relation_columns: Apakah perlu untuk melihat hubungan dalam daftar paker
             kerja?
           check_out_link: Periksa edisi Perusahaan.
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: Tinjauan
         activity: Activity

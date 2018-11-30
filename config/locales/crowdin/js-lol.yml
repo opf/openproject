@@ -319,6 +319,7 @@ lol:
     types:
       attribute_groups:
         error_duplicate_group_name: crwdns107446:0%{group}crwdne107446:0
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: crwdns107448:0crwdne107448:0
         confirm_reset: 'crwdns107450:0crwdne107450:0
 
@@ -327,6 +328,19 @@ lol:
         upgrade_to_ee_text: crwdns107454:0crwdne107454:0
         more_information: crwdns107456:0crwdne107456:0
         nevermind: crwdns107458:0crwdne107458:0
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: duplicated by
+          blocks: blocking
+          blocked: blocked by
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: crwdns107460:0crwdne107460:0
       label_error_loading: crwdns107462:0crwdne107462:0
@@ -361,9 +375,12 @@ lol:
       group_by_relation_type: crwdns107510:0crwdne107510:0
       add_parent: crwdns107512:0crwdne107512:0
       add_new_child: crwdns107514:0crwdne107514:0
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: crwdns107516:0crwdne107516:0
       remove_child: crwdns107518:0crwdne107518:0
       add_new_relation: crwdns107520:0crwdne107520:0
+      add_existing_relation: Add existing relation
       update_description: crwdns107522:0crwdne107522:0
       toggle_description: crwdns107524:0crwdne107524:0
       update_relation: crwdns107526:0crwdne107526:0
@@ -645,6 +662,9 @@ lol:
           attribute_highlighting: crwdns107980:0crwdne107980:0
           relation_columns: crwdns107982:0crwdne107982:0
           check_out_link: crwdns107984:0crwdne107984:0
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: crwdns107986:0crwdne107986:0
         activity: crwdns107988:0crwdne107988:0

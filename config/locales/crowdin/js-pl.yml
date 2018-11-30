@@ -356,6 +356,7 @@ pl:
       attribute_groups:
         error_duplicate_group_name: Nazwa  %{group} jest użyta więcej niż raz. Nazwy
           grup muszą być unikalne.
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: Zresetuj konfigurację formularza
         confirm_reset: 'Ostrzeżenie: czy na pewno chcesz zresetować konfigurację formularza?
           Przywróci to atrybuty do ich grupy domyślnej i wyłączy WSZYSTKIE pola niestandardowe.
@@ -367,6 +368,19 @@ pl:
           edycji Enterprise.
         more_information: Więcej informacji
         nevermind: Nieważne
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: duplicated by
+          blocks: blocking
+          blocked: blocked by
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: ładowanie obserwatorów...
       label_error_loading: Wystąpił błąd podczas ładowania obserwatorów.
@@ -401,9 +415,12 @@ pl:
       group_by_relation_type: Grupuj wg typu relacji
       add_parent: Dodaj do istniejącego nadrzędnego
       add_new_child: Utwórz nowy podrzędny
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: Dodaj istniejący podrzędny
       remove_child: Usuń podrzędny
       add_new_relation: Utwórz nową relację
+      add_existing_relation: Add existing relation
       update_description: Ustaw bądź zaktualizuj opis tej relacji
       toggle_description: Przełącz opis powiązania
       update_relation: Kliknij, aby zmienić typ powiązania
@@ -722,6 +739,9 @@ pl:
           attribute_highlighting: Czy określone pakiety robocze trzeba wyróżnić?
           relation_columns: Chcesz zobaczyć relacje w tej liście pakietów roboczych?
           check_out_link: Sprawdź wersję Enterprise.
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: Przegląd
         activity: Działanie

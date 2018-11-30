@@ -367,6 +367,7 @@ it:
       attribute_groups:
         error_duplicate_group_name: Il nome %{group} è usato più di una volta. I nomi
           dei gruppi devono essere univoci.
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: Reimposta la configurazione del modulo
         confirm_reset: 'Attenzione: vuoi reimpostare la configurazione del modulo?
           Tutti gli attributi torneranno al loro gruppo predefinito e TUTTI i campi
@@ -379,6 +380,19 @@ it:
           un cliente Enterprise Edition?
         more_information: Altre informazioni
         nevermind: Lascia stare
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: duplicated by
+          blocks: blocking
+          blocked: blocked by
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: caricamento osservatori in corso...
       label_error_loading: Si è verificato un errore nel caricamento degli osservatori
@@ -413,9 +427,12 @@ it:
       group_by_relation_type: Raggruppa per tipo di relazione
       add_parent: Aggiungi genitore esistente
       add_new_child: Crea nuovo figlio
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: Aggiungi figlio esistente
       remove_child: Rimuovi figlio
       add_new_relation: Crea nuova relazione
+      add_existing_relation: Add existing relation
       update_description: Inserisci o aggiorna la descrizione della relazione
       toggle_description: Attiva/disattiva descrizione della relazione
       update_relation: Clicca per modificare il tipo di relazione
@@ -739,6 +756,9 @@ it:
             massa?
           relation_columns: Vuoi visualizzare le relazioni nell'elenco di macro-attività?
           check_out_link: Scopri Enterprise Edition.
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: Panoramica
         activity: Attività

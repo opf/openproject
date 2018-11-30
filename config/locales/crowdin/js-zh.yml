@@ -341,6 +341,7 @@ zh:
     types:
       attribute_groups:
         error_duplicate_group_name: 名称 %{group} 已多次使用。组名不能重复。
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: 重置表单配置
         confirm_reset: '警告：确定想要重置表单配置吗？这会将属性重置为它们的默认组，并禁用所有自定义字段。
 
@@ -349,6 +350,19 @@ zh:
         upgrade_to_ee_text: 哇！如果您需要使用此功能，说明您非常专业！您是否愿意成为企业版客户来支持 OpenSource 开发人员？
         more_information: 更多信息
         nevermind: 我愿意
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: duplicated by
+          blocks: blocking
+          blocked: blocked by
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: 正在加载关注者...
       label_error_loading: 加载关注者时出错
@@ -383,9 +397,12 @@ zh:
       group_by_relation_type: 按关系类型分组
       add_parent: 添加现有的上一级
       add_new_child: 创建子结点
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: 增加现有的子节点
       remove_child: 删除子结点
       add_new_relation: 创建新的关系
+      add_existing_relation: Add existing relation
       update_description: 设置或更新此关系的描述
       toggle_description: 切换关系描述
       update_relation: 点击以更改关系类型
@@ -669,6 +686,9 @@ zh:
           attribute_highlighting: 需要特定的工作包以脱颖而出？
           relation_columns: 需要查看工作包列表中的关系吗？
           check_out_link: 签出企业版。
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: 概述
         activity: 活动

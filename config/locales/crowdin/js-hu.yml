@@ -358,6 +358,7 @@ hu:
       attribute_groups:
         error_duplicate_group_name: A %{group} név már használatban van. A csoport
           névnek egyedinek kell lennie.
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: Űrlap konfiguráció visszaállítása
         confirm_reset: 'Figyelmeztetés: Biztosan visszaállítja az alap űrlap beállítást?
           Az attribútumok az alapértelmezett csoportba kerülnek, a láthatósági beállítások
@@ -370,6 +371,19 @@ hu:
           legyen?
         more_information: További információ
         nevermind: Mindegy
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: duplicated by
+          blocks: blocking
+          blocked: blocked by
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: megfigyelők betöltése...
       label_error_loading: Hiba történt a megfigyelők betöltése közben
@@ -404,9 +418,12 @@ hu:
       group_by_relation_type: Rendezés kapcsolati típusok szerint
       add_parent: Meglévő szülő kapcsolat hozzáadása
       add_new_child: Új gyermek kapcsolat hozzáadása
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: Meglévő gyermek kapcsolat hozzáadása
       remove_child: Gyermek kapcsolat törlése
       add_new_relation: Új kapcsolat hozzáadása
+      add_existing_relation: Add existing relation
       update_description: Kapcsolat részleteinek beállítása vagy frissítése
       toggle_description: Kapcsolat leírás kapcsolása
       update_relation: Klikk a kapcsolat típus módosításához
@@ -722,6 +739,9 @@ hu:
             mass?
           relation_columns: Szeretné látni a munkacsomag kapcsolatait?
           check_out_link: Tekintse meg az Enterprise Edition-t!
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: Áttekintő
         activity: Tevékenység

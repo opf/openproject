@@ -357,6 +357,7 @@ tr:
       attribute_groups:
         error_duplicate_group_name: "%{group} ismi birden fazla kullanıldı. Grup isimleri
           eşsiz olmalıdır."
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: Form ayarlarlarını sıfırlayın
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
           This will reset the attributes to their default group and disable ALL custom
@@ -370,6 +371,19 @@ tr:
           musunuz?
         more_information: Daha fazla bilgi
         nevermind: Boşver
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: duplicated by
+          blocks: blocking
+          blocked: blocked by
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: takipçiler yükleniyor...
       label_error_loading: Takipçileri yüklerken bir hata oluştu
@@ -404,9 +418,12 @@ tr:
       group_by_relation_type: İlişki türüne göre gruplandırma
       add_parent: Mevcut bir üst ekle
       add_new_child: Yeni alt birim oluştur
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: Mevcut bir alt birim ekle
       remove_child: Alt bileşeni kaldır
       add_new_relation: Yeni ilişki oluştur
+      add_existing_relation: Add existing relation
       update_description: Bu ilişkinin açıklamasını güncelle
       toggle_description: İlişki açıklamasını göster
       update_relation: İlişki türünü değiştirmek için tıklayın
@@ -722,6 +739,9 @@ tr:
             mass?
           relation_columns: İş paketleri listesindeki ilişkileri görmek ister misiniz?
           check_out_link: Enterprise sürüme bakın.
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: Genel Bakış
         activity: Etkinlik

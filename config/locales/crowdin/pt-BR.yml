@@ -167,7 +167,7 @@ pt-BR:
   statuses:
     edit:
       status_readonly_html: |
-        Marque esta opção para marcar pacotes de trabalho com esta situação como somente leitura.
+        Use esta opção para marcar pacotes de trabalho com situação como somente leitura.
         Nenhum atributo pode ser alterado com exceção da situação.
         <br/>
         <strong>Nota</strong>: valores herdados (por exemplo, de filhos ou relações) ainda serão aplicados.
@@ -187,13 +187,15 @@ pt-BR:
       projects: Projetos
       enabled_projects: Projetos habilitados
       add_group: Adicionar grupo de atributo
-      add_subelements: Adicionar grupo de subelementos
+      add_table: Add table of related work packages
       edit_query: Editar consulta embutida
+      query_group_placeholder: Give the table a name
       reset: Redefinir para os padrões
       type_color_text: 'Clique para atribuir ou alterar a cor deste tipo. A cor selecionada
         diferencia pacotes de trabalho em gráficos de Gantt.
 
 '
+      add_subelements: Adicionar grupo de subelementos
   versions:
     overview:
       no_results_title_text: Não há pacote de trabalho atribuído a esta versão.
@@ -1175,7 +1177,7 @@ pt-BR:
   label_authentication: Autenticação
   label_available_project_work_package_categories: Categorias de pacote de trabalho
     disponíveis
-  label_available_project_work_package_types: Available work package types
+  label_available_project_work_package_types: Tipos de pacote de trabalho disponíveis
   label_available_project_boards: Painéis disponíveis
   label_available_project_versions: Versões disponíveis
   label_available_project_repositories: Repositórios disponíveis

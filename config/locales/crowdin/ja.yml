@@ -166,12 +166,14 @@ ja:
       projects: プロジェクト
       enabled_projects: 有効なプロジェクト
       add_group: 属性グループを追加する
-      add_subelements: サブ要素を追加するグループ
+      add_table: Add table of related work packages
       edit_query: 埋め込まれたクエリの編集
+      query_group_placeholder: Give the table a name
       reset: デフォルトに戻す
       type_color_text: 'このタイプの色を割り当てたり変更する場合にクリックします。 選択された色は、ガントチャートの作業項目を区別します。
 
 '
+      add_subelements: サブ要素を追加するグループ
   versions:
     overview:
       no_results_title_text: このバージョンに割り当てられている作業項目はありません。

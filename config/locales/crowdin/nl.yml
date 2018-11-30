@@ -187,12 +187,14 @@ nl:
       projects: Projecten
       enabled_projects: Ingeschakelde projecten
       add_group: Toevoegen van nieuwe attribuutgroepen
-      add_subelements: Subelementen groep toevoegen
+      add_table: Add table of related work packages
       edit_query: Bewerken van ingesloten zoekopdracht
+      query_group_placeholder: Give the table a name
       reset: Standaardinstellingen herstellen
       type_color_text: |
         Klik op toewijzen of wijzigen van de kleur van dit type. De geselecteerde kleur onderscheidt werk pakketten
         in Gantt-diagrammen.
+      add_subelements: Subelementen groep toevoegen
   versions:
     overview:
       no_results_title_text: Er zijn momenteel geen werkpakketten toegewezen aan deze

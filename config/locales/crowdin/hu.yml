@@ -183,14 +183,16 @@ hu:
       projects: Projektek
       enabled_projects: Engedélyezett projektek
       add_group: Tulajdonságcsoport
-      add_subelements: Alelem csoport hozzáadása
+      add_table: Add table of related work packages
       edit_query: Beágyazott lekérdezés szerkesztése
+      query_group_placeholder: Give the table a name
       reset: Alapbeállítások visszaállítása
       type_color_text: 'Kattintson az adott típus színének hozzárendeléséhez vagy
         megváltoztatásához. A kiválasztott szín különbözteti meg a feladatcsoportokat
         a Gantt-diagramokban.
 
 '
+      add_subelements: Alelem csoport hozzáadása
   versions:
     overview:
       no_results_title_text: Jelenleg nincsenek ehhez a verzióhoz hozzárendelt feladatcsoportok.

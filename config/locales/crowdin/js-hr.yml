@@ -357,6 +357,7 @@ hr:
       attribute_groups:
         error_duplicate_group_name: The name %{group} is used more than once. Group
           names must be unique.
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
           This will reset the attributes to their default group and disable ALL custom
@@ -369,6 +370,19 @@ hr:
           client?
         more_information: Više informacija
         nevermind: Nevermind
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: duplicated by
+          blocks: blocking
+          blocked: blocked by
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: učitavanje nadglednika...
       label_error_loading: Došlo je do pogreške tijekom učitavanja nadglednika
@@ -403,9 +417,12 @@ hr:
       group_by_relation_type: Grupisanje po tipu odnosa
       add_parent: Add existing parent
       add_new_child: Create new child
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: Add existing child
       remove_child: Remove child
       add_new_relation: Stvori novi odnos
+      add_existing_relation: Add existing relation
       update_description: Postavit ili ažuriraj opis ovog odnosa
       toggle_description: Toggle relation description
       update_relation: Click to change the relation type
@@ -724,6 +741,9 @@ hr:
             mass?
           relation_columns: Need to see relations in the work package list?
           check_out_link: Check out the Enterprise Edition.
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: Pregled
         activity: Aktivnost

@@ -323,6 +323,7 @@ ja:
     types:
       attribute_groups:
         error_duplicate_group_name: 名前 %{group} が複数回使用されています。グループ名は一意にする必要があります。
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: フォーム設定をリセット
         confirm_reset: '警告：フォーム設定をリセットしてもよろしいですか？ これにより、属性が規定のグループにリセットされ、すべてのカスタムフィールドが無効になります。
             コンテキスト| リクエストコンテキスト
@@ -333,6 +334,19 @@ ja:
           ソース開発者を支援していただけませんか?
         more_information: 詳細情報
         nevermind: 無視
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: duplicated by
+          blocks: blocking
+          blocked: blocked by
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: ウォッチャーを読み込み中...
       label_error_loading: ウォッチャーを読み込み中にエラーが発生しました。
@@ -367,9 +381,12 @@ ja:
       group_by_relation_type: 関係タイプのグループ
       add_parent: 既存の親関係を追加する
       add_new_child: 子関係を作成
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: 既存の子関係を追加
       remove_child: 子関係を削除
       add_new_relation: 新しい関係を作成
+      add_existing_relation: Add existing relation
       update_description: この関係の説明を設定または更新する
       toggle_description: 関係の説明を切り替え
       update_relation: クリックして関係のタイプを変更
@@ -652,6 +669,9 @@ ja:
           attribute_highlighting: 全体から目立つように特定の作業項目が必要ですか？
           relation_columns: ワークパッケージリストに関係を表示する必要がありますか?
           check_out_link: エンタープライズ版をチェックしてください。
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: 概要
         activity: 活動
