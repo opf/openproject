@@ -90,7 +90,6 @@ export class GridColumnContextMenu extends OpContextMenuTrigger {
         linkText: "Add column before",
         onClick: () => {
           grid.addColumn(columnNumber - 1);
-          //this.wpTableSortBy.addDescending(c);
           return true;
         }
       },
@@ -98,14 +97,13 @@ export class GridColumnContextMenu extends OpContextMenuTrigger {
         linkText: "Add column after",
         onClick: () => {
           grid.addColumn(columnNumber);
-          //this.wpTableSortBy.addAscending(c);
           return true;
         }
       },
       {
         linkText: "Remove column",
         onClick: () => {
-          //this.wpTableGroupBy.setBy(c);
+          grid.removeColumn(columnNumber);
           return true;
         }
       }

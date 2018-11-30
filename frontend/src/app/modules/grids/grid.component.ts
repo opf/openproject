@@ -252,29 +252,45 @@ export class GridComponent implements OnDestroy, OnInit {
     this.buildAreas();
   }
 
-  public addColumn(after:number) {
+  public addColumn(column:number) {
     this.numColumns++;
 
     this.addAreas(this.buildGridAreasColumn(this.numColumns));
 
     this.gridWidgetAreas.filter((area) => {
-      return area.startColumn > after;
+      return area.startColumn > column;
     }).forEach((area) => {
       area.moveRight();
     });
   }
 
-  //public addColumnBefore(before:number) {
-  //  this.numColumns++;
+  public removeColumn(column:number) {
+    this.numColumns--;
 
-  //  this.gridAreas.push(...this.buildGridAreasColumn(this.numColumns));
+    // remove widgets that only span the removed column
+    this.widgetResources = this.widgetResources.filter((widget) => {
+      return !(widget.startColumn === column && widget.endColumn === column + 1);
+    });
 
-  //  this.gridWidgetAreas.filter((area) => {
-  //    return area.startColumn >= before;
-  //  }).forEach((area) => {
-  //    area.moveRight();
-  //  });
-  //}
+    //shrink widgets that span more than the removed column
+    this.widgetResources.forEach((widget) => {
+      if (widget.startColumn <= column && widget.endColumn >= column + 1) {
+        //shrink widgets that span more than the removed column
+        widget.endColumn--;
+      }
+    });
+
+    // move all widgets that are after the removed column
+    // so that they appear to keep their place.
+    this.widgetResources.filter((widget) => {
+      return widget.startColumn > column;
+    }).forEach((widget) => {
+      widget.startColumn--;
+      widget.endColumn--;
+    });
+
+    this.buildAreas();
+  }
 
   private buildAreas() {
     this.gridAreas = this.buildGridAreas();
