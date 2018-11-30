@@ -66,12 +66,12 @@ $grid--header-width: 20px
 .grid--top-headers
   @include grid--commons
   grid-template-rows: $grid--header-width
-  margin-left: $grid--header-width
 
 .grid--left-headers
   @include grid--commons
   grid-template-columns: $grid--header-width
   float: left
+  margin-left: -$grid--header-width
 
 .grid--header
   background-color: rgba(10, 10, 10, 0.1)

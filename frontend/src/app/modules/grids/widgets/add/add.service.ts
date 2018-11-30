@@ -3,12 +3,14 @@ import {OpModalService} from "app/components/op-modals/op-modal.service";
 import {AddGridWidgetModal} from "app/modules/grids/widgets/add/add.modal";
 import {GridWidgetResource} from "app/modules/hal/resources/grid-widget-resource";
 import {GridArea} from "app/modules/grids/areas/grid-area";
+import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 
 @Injectable()
 export class AddGridWidgetService {
 
   constructor(readonly opModalService:OpModalService,
-              readonly injector:Injector) {
+              readonly injector:Injector,
+              readonly halResource:HalResourceService) {
   }
 
   public select(area:GridArea) {
@@ -18,7 +20,7 @@ export class AddGridWidgetService {
         let registered = modal.chosenWidget;
 
         let source = {
-          _type: 'Widget',
+          _type: 'GridWidget',
           identifier: registered.identifier,
           startRow: area.startRow,
           endRow: area.endRow,
@@ -26,11 +28,8 @@ export class AddGridWidgetService {
           endColumn: area.endColumn
         };
 
-        let resource = new GridWidgetResource(this.injector,
-                                              source,
-                                              true,
-                                              (resource:any) => { },
-                                              'GridWidgetResource' );
+        let resource = this.halResource.createHalResource(source) as GridWidgetResource;
+
         resolve(resource);
       });
     });

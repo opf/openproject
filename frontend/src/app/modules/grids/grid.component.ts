@@ -14,8 +14,8 @@ import {ResizeDelta} from "../common/resizer/resizer.component";
 import {GridWidgetsService} from "core-app/modules/grids/widgets/widgets.service";
 import {AddGridWidgetService} from "core-app/modules/grids/widgets/add/add.service";
 import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
-import {GridArea} from "./areas/grid-area";
-import {GridWidgetArea} from "./areas/grid-widget-area";
+import {GridArea} from "core-app/modules/grids/areas/grid-area";
+import {GridWidgetArea} from "core-app/modules/grids/areas/grid-widget-area";
 
 export interface WidgetRegistration {
   identifier:string;
@@ -255,13 +255,14 @@ export class GridComponent implements OnDestroy, OnInit {
   public addColumn(column:number) {
     this.numColumns++;
 
-    this.addAreas(this.buildGridAreasColumn(this.numColumns));
-
-    this.gridWidgetAreas.filter((area) => {
-      return area.startColumn > column;
-    }).forEach((area) => {
-      area.moveRight();
+    this.widgetResources.filter((widget) => {
+      return widget.startColumn > column;
+    }).forEach((widget) => {
+      widget.startColumn++;
+      widget.endColumn++;
     });
+
+    this.buildAreas();
   }
 
   public removeColumn(column:number) {
