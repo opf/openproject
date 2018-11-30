@@ -42,10 +42,10 @@ class Queries::WorkPackages::Filter::DuplicatedFilter <
   private
 
   def relation_filter
-    { to_id: values }
+    { from_id: values }
   end
 
   def relation_select
-    :from_id
+    :to_id
   end
 end
