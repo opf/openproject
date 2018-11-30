@@ -1,0 +1,10 @@
+<div *ngFor="let row of rowNumbers"
+     [style.grid-row-start]="row"
+     [style.grid-row-end]="row + 1"
+     [style.grid-column-start]="1"
+     [style.grid-column-end]="2"
+     class="grid--header"
+     gridRowContextMenu
+     [gridRowContextMenu-grid]="grid"
+     [gridRowContextMenu-rowNumber]="row">
+</div>

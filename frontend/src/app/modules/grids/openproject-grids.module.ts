@@ -43,6 +43,10 @@ import {GridWidgetsService} from "core-app/modules/grids/widgets/widgets.service
 import {AddGridWidgetService} from "core-app/modules/grids/widgets/add/add.service";
 import {GridComponent} from "core-app/modules/grids/grid.component";
 import {AddGridWidgetModal} from "core-app/modules/grids/widgets/add/add.modal";
+import {GridColumnContextMenu} from "core-app/modules/grids/context_menus/column.directive";
+import {GridRowContextMenu} from "core-app/modules/grids/context_menus/row.directive";
+import {GridAreaColumnHeadersComponent} from "core-app/modules/grids/areas/column-headers.component";
+import {GridAreaRowHeadersComponent} from "core-app/modules/grids/areas/row-headers.component";
 
 @NgModule({
   imports: [
@@ -75,6 +79,12 @@ import {AddGridWidgetModal} from "core-app/modules/grids/widgets/add/add.modal";
     WidgetWpWatchedComponent,
     WidgetWpCalendarComponent,
     AddGridWidgetModal,
+
+    GridColumnContextMenu,
+    GridRowContextMenu,
+
+    GridAreaColumnHeadersComponent,
+    GridAreaRowHeadersComponent,
 
     // MyPage
     MyPageComponent,

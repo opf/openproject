@@ -1,5 +1,5 @@
 $grid--gap-width: 20px
-$grid--header-width: 40px
+$grid--header-width: 20px
 
 @mixin grid--commons
   display: grid
@@ -72,3 +72,6 @@ $grid--header-width: 40px
   @include grid--commons
   grid-template-columns: $grid--header-width
   float: left
+
+.grid--header
+  background-color: rgba(10, 10, 10, 0.1)

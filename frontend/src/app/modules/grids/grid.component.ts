@@ -14,82 +14,12 @@ import {ResizeDelta} from "../common/resizer/resizer.component";
 import {GridWidgetsService} from "core-app/modules/grids/widgets/widgets.service";
 import {AddGridWidgetService} from "core-app/modules/grids/widgets/add/add.service";
 import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
+import {GridArea} from "./areas/grid-area";
+import {GridWidgetArea} from "./areas/grid-widget-area";
 
 export interface WidgetRegistration {
   identifier:string;
   component:{ new (...args:any[]):AbstractWidgetComponent };
-}
-
-export class GridArea implements GridArea {
-  private storedGuid:string;
-  public startRow:number;
-  public endRow:number;
-  public startColumn:number;
-  public endColumn:number;
-
-  constructor(startRow:number, endRow:number, startColumn:number, endColumn:number) {
-    this.startRow = startRow;
-    this.endRow = endRow;
-    this.startColumn = startColumn;
-    this.endColumn = endColumn;
-  }
-
-  public doesContain(otherArea:GridArea) {
-    return this.isTopLeftInside(otherArea) ||
-      this.isTopRightInside(otherArea) ||
-      this.isBottomLeftInside(otherArea) ||
-      this.isBottomRightInside(otherArea);
-  }
-
-  private isTopLeftInside(otherArea:GridArea) {
-    return this.startRow <= otherArea.startRow && this.endRow > otherArea.startRow &&
-      this.startColumn <= otherArea.startColumn && this.endColumn > otherArea.startColumn;
-  }
-
-  private isTopRightInside(otherArea:GridArea) {
-    return this.startRow <= otherArea.startRow && this.endRow > otherArea.startRow &&
-      this.startColumn < otherArea.endColumn && this.endColumn >= otherArea.endColumn;
-  }
-
-  private isBottomLeftInside(otherArea:GridArea) {
-    return this.startRow <= otherArea.startRow && this.endRow > otherArea.startRow &&
-      this.startColumn < otherArea.endColumn && this.endColumn >= otherArea.endColumn;
-  }
-
-  private isBottomRightInside(otherArea:GridArea) {
-    return this.startRow < otherArea.endRow && this.endRow >= otherArea.endRow &&
-      this.startColumn < otherArea.endColumn && this.endColumn >= otherArea.endColumn;
-  }
-
-  public get guid():string {
-    if (!this.storedGuid) {
-      this.storedGuid = this.newGuid();
-    }
-
-    return this.storedGuid;
-  }
-
-  private newGuid() {
-    function s4() {
-      return Math.floor((1 + Math.random()) * 0x10000)
-        .toString(16)
-        .substring(1);
-    }
-    return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-  }
-}
-
-export class GridWidgetArea extends GridArea {
-  public widget:GridWidgetResource;
-
-  constructor(widget:GridWidgetResource) {
-    super(widget.startRow,
-          widget.endRow,
-          widget.startColumn,
-          widget.endColumn);
-
-    this.widget = widget;
-  }
 }
 
 @Component({
@@ -99,8 +29,8 @@ export class GridWidgetArea extends GridArea {
 export class GridComponent implements OnDestroy, OnInit {
   public uiWidgets:ComponentRef<any>[] = [];
   public widgetResources:GridWidgetResource[] = [];
-  private numColumns:number = 0;
-  private numRows:number = 0;
+  public numColumns:number = 0;
+  public numRows:number = 0;
   public gridAreas:GridArea[];
   public gridWidgetAreas:GridWidgetArea[];
   public gridAreaDropIds:string[];
@@ -153,11 +83,6 @@ export class GridComponent implements OnDestroy, OnInit {
 
   public get gridRowStyle() {
     return this.sanitization.bypassSecurityTrustStyle(`repeat(${this.numRows}, ${this.GRID_AREA_HEIGHT}px)`);
-  }
-
-  // array containing Numbers from 1 to this.numColumns
-  public get columnNumbers() {
-    return Array.from(Array(this.numColumns + 1).keys()).slice(1);
   }
 
   // array containing Numbers from 1 to this.numRows
@@ -327,24 +252,77 @@ export class GridComponent implements OnDestroy, OnInit {
     this.buildAreas();
   }
 
+  public addColumn(after:number) {
+    this.numColumns++;
+
+    this.addAreas(this.buildGridAreasColumn(this.numColumns));
+
+    this.gridWidgetAreas.filter((area) => {
+      return area.startColumn > after;
+    }).forEach((area) => {
+      area.moveRight();
+    });
+  }
+
+  //public addColumnBefore(before:number) {
+  //  this.numColumns++;
+
+  //  this.gridAreas.push(...this.buildGridAreasColumn(this.numColumns));
+
+  //  this.gridWidgetAreas.filter((area) => {
+  //    return area.startColumn >= before;
+  //  }).forEach((area) => {
+  //    area.moveRight();
+  //  });
+  //}
+
   private buildAreas() {
     this.gridAreas = this.buildGridAreas();
     this.gridAreaDropIds = this.buildGridAreaDropIds();
     this.gridWidgetAreas = this.buildGridWidgetAreas();
   }
 
+  private addAreas(additionalAreas:GridArea[]) {
+    this.gridAreas.push(...additionalAreas);
+
+    this.gridAreaDropIds = this.buildGridAreaDropIds();
+  }
+
   private buildGridAreas() {
     let cells:GridArea[] = [];
 
     for (let row = 1; row <= this.numRows; row++) {
-      for (let column = 1; column <= this.numColumns; column++) {
-        let cell = new GridArea(row,
-                                row + 1,
-                                column,
-                                column + 1);
+      cells.push(...this.buildGridAreasRow(row));
+    }
 
-        cells.push(cell);
-      }
+    return cells;
+  }
+
+  private buildGridAreasColumn(column:number) {
+    let cells:GridArea[] = [];
+
+    for (let row = 1; row <= this.numRows; row++) {
+      let cell = new GridArea(row,
+        row + 1,
+        column,
+        column + 1);
+
+      cells.push(cell);
+    }
+
+    return cells;
+  }
+
+  private buildGridAreasRow(row:number) {
+    let cells:GridArea[] = [];
+
+    for (let column = 1; column <= this.numColumns; column++) {
+      let cell = new GridArea(row,
+        row + 1,
+        column,
+        column + 1);
+
+      cells.push(cell);
     }
 
     return cells;
