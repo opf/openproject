@@ -292,9 +292,9 @@ hu:
       show_modal: Attribútum-súgószöveg mutatása
     onboarding:
       steps:
-        welcome: Ismerje meg három percben, hogy mik a legfontosabb <b> fontos funkciók
-          </b>.<br> Javasoljuk, hogy végezze el a lépéseket a végéig. Bármikor újraindíthatja
-          a ezt túrát.
+        welcome: Take a three minutes introduction tour to learn the most <b>important
+          features</b>. <br> We recommend completing the steps until the end. You
+          can restart the tour any time.
         project_selection: Please select one of the projects with useful demo data
           to get started. <br> The <b>Demo project</b> suits best for classical project
           management, while the <b>Scrum project</b> is better for Agile project management.
@@ -303,10 +303,11 @@ hu:
         members: Invite new <b>Members</b> to join your project.
         wiki: Within the <b>Wiki</b> you can document and share knowledge together
           with your team.
-        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> Here
-          you can create <b>epics, user stories, and bugs</b>, prioritize via drag'n'drop
-          and add them to a sprint.
-        backlogs_task_board_arrow: To see your <b>Task board</b>, open on the Sprint
+        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
+          right you have the Product Backlog or a Bug Backlog, on the left you will
+          have the respective sprints. Here you can create <b>epics, user stories,
+          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
+        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
           drop-down...
         backlogs_task_board_select: "... and select the <b>Task board</b> entry."
         backlogs_task_board: The <b>Task board</b> visualizes the progress for this
@@ -318,8 +319,9 @@ hu:
           a feladatok, szolgáltatások, mérföldkövek, hibák, és több. <br> létrehozása
           vagy szerkesztése a feladatcsoport közvetlenül a listán belül. Megtekintheti
           a vonatkozó adatokat is dupla kattintással.
-        wp_full_view: Belül a <b>Feladatcsoport részletek</b> talál, minden lényeges
-          információt, például a leírás, állapot és prioritás, tevékenység vagy megjegyzéseket.
+        wp_full_view: Within the <b>Work package details</b> you find all relevant
+          information, such as description, status and priority, activities, dependencies
+          or comments.
         wp_back_button: With the arrow you can navigate back to the work package list.
         wp_create_button: A <b>Létrehoz</b> gombbal tudsz új feladatot hozzáadni a
           projekthez.
@@ -377,9 +379,9 @@ hu:
           follows: following
           relates: relating to
           duplicates: duplicating
-          duplicated: duplicated by
+          duplicated: duplázott
           blocks: blocking
-          blocked: blocked by
+          blocked: blokkolta
           partof: being part of
           includes: including
           requires: requiring

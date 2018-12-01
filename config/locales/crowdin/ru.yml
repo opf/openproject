@@ -186,14 +186,13 @@ ru:
       enabled_projects: Доступные проекты
       add_group: Добавить группу атрибутов
       add_table: Add table of related work packages
-      edit_query: Редактировать вложенный запрос
+      edit_query: Edit table
       query_group_placeholder: Give the table a name
       reset: Восстановить значения по умолчанию
       type_color_text: 'Щелкните, чтобы задать или изменить цвет этого типа. Выбранный
         цвет позволяет различать пакеты работ на диаграммах Ганта.
 
 '
-      add_subelements: Добавить группа вложенных элементов
   versions:
     overview:
       no_results_title_text: В настоящее время пакетов работ для этой версии нет.

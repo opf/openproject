@@ -291,9 +291,9 @@ lt:
       show_modal: Rodyti atributo pagalbos teksto įrašą
     onboarding:
       steps:
-        welcome: Paskirkite tris minutes įvadinei kelionei ir išmokite daugumą <b>svarbių
-          sistemos galimybių</b>. <br>Rekomenduojame atlikti visus veiksmus iki pabaigos.
-          Ekskursiją galite paleisti iš naujo bet kuriuo metu.
+        welcome: Take a three minutes introduction tour to learn the most <b>important
+          features</b>. <br> We recommend completing the steps until the end. You
+          can restart the tour any time.
         project_selection: Prašome pasirinkti vieną iš projektų su įdėtais naudingais
           demonstraciniais duomenimis. <br> <b>Demo project</b> geriausiai tinka klasikiniam
           projektų valdymui, o <b>Scrum project</b> labiau tinka Agile projektų valdymui.
@@ -301,11 +301,12 @@ lt:
         members: Pakvieskite naujus <b>Narius</b> prisijungti prie projekto.
         wiki: "<b>Wiki</b>'yje galite dokumentuoti ir dalintis žiniomis su savo komandos
           nariais."
-        backlogs_overview: Tvarkykite savo darbą <b>Backlog</b> vaizde. <br>Čia galite
-          sukurti <b>Epic, User story ir Bug</b> tipų užduotis, valdyti pirmenybę
-          naudojant drag'n'drop ir įtraukti juos į sprintus.
-        backlogs_task_board_arrow: Norėdami pamatyti savo <b>darbo lenta</b>, atidarykite
-          sprint elementą...
+        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
+          right you have the Product Backlog or a Bug Backlog, on the left you will
+          have the respective sprints. Here you can create <b>epics, user stories,
+          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
+        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
+          drop-down...
         backlogs_task_board_select: "... ir pasirinkite <b>Task board</b> elementą."
         backlogs_task_board: "<b>Darbo lenta</b> rodo pažangą šiame sprinte. Pridėkite
           naujas užduotis ar kliūtis spausdami + piktogramą šalia vartotojo istorija.
@@ -316,8 +317,9 @@ lt:
           tasks, features, milestones, bugs, ir pan. <br> Jūs galite kurti ir redaguoti
           darbų paketus tiesiai šiame sąraše. Norėdami pamatyti detaliau, du kart
           spustelkite pele ant pasirinktos eilutės.'
-        wp_full_view: "<b>Darbo paketo detalių</b> lange rasite visą reikalingą informaciją,
-          pvz., aprašymą, būseną ir prioritetą, veiklą ar komentarus."
+        wp_full_view: Within the <b>Work package details</b> you find all relevant
+          information, such as description, status and priority, activities, dependencies
+          or comments.
         wp_back_button: Su rodykle galite pereiti atgal į darbo paketų sąrašą.
         wp_create_button: Mygtukas <b>Sukurti</b> pridės naują darbą į jūsų projektą.
         wp_timeline_button: Jūs galite aktyvuoti <b>Gantto diagramą</b> norėdami matyti
@@ -374,9 +376,9 @@ lt:
           follows: following
           relates: relating to
           duplicates: duplicating
-          duplicated: duplicated by
+          duplicated: dubliuojasi su
           blocks: blocking
-          blocked: blocked by
+          blocked: blokuojamas
           partof: being part of
           includes: including
           requires: requiring

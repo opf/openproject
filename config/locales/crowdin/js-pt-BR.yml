@@ -298,9 +298,9 @@ pt-BR:
       show_modal: Mostrar entrada para o texto de ajuda de atributos
     onboarding:
       steps:
-        welcome: Faça um tour de introdução de três minutos para aprender sobre as
-          <b>funcionalidades mais importantes</b>. <br> Recomendamos que conclua as
-          etapas até o final. Você pode reiniciar o tour a qualquer hora.
+        welcome: Take a three minutes introduction tour to learn the most <b>important
+          features</b>. <br> We recommend completing the steps until the end. You
+          can restart the tour any time.
         project_selection: Por favor, selecione um dos projetos com dados de demonstração
           útil para começar. <br> O <b>Projeto Demo</b> é o melhor para gerenciamento
           de projetos clássico, enquanto o <b>projeto Scrum</b> é melhor para gerenciamento
@@ -310,11 +310,12 @@ pt-BR:
         members: Convide novos <b>Membros</b> para participar de seu projeto.
         wiki: Na <b>Wiki</b> você pode documentar e compartilhar conhecimento com
           sua equipe.
-        backlogs_overview: Gerencie seu trabalho na visão <b>Backlogs</b>. <br> Aqui
-          você pode criar <b>épicos, histórias de usuários e bugs</b>, priorizar através
-          de arrastar e soltar e adicioná-los a um sprint.
-        backlogs_task_board_arrow: Para ver seu <b>Quadro de tarefas</b>, abra no
-          menu suspenso Sprint...
+        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
+          right you have the Product Backlog or a Bug Backlog, on the left you will
+          have the respective sprints. Here you can create <b>epics, user stories,
+          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
+        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
+          drop-down...
         backlogs_task_board_select: "... e selecione <b>Quadro de tarefas</b>."
         backlogs_task_board: O <b>Quadro de tarefas</b> visualiza o progresso do sprint.
           Adicione novas tarefas ou impedimentos com o + ícone ao lado de uma história
@@ -325,9 +326,9 @@ pt-BR:
           dentro de seu projeto, tais como tarefas, recursos, marcos, bugs e muito
           mais. <br>Você pode criar ou editar um pacote de trabalho diretamente dentro
           desta lista. Para ver seus detalhes você pode clicar duas vezes em uma linha.
-        wp_full_view: Nos <b>detalhes do pacote de trabalho</b> você encontra todas
-          as informações pertinentes, tais como descrição, estado e prioridade, atividades
-          ou comentários.
+        wp_full_view: Within the <b>Work package details</b> you find all relevant
+          information, such as description, status and priority, activities, dependencies
+          or comments.
         wp_back_button: Com a seta você pode navegar de volta para a lista de pacotes
           de trabalho.
         wp_create_button: O botão <b>Criar</b> irá adicionar um novo pacote de trabalho
@@ -385,9 +386,9 @@ pt-BR:
           follows: following
           relates: relating to
           duplicates: duplicating
-          duplicated: duplicated by
+          duplicated: duplicado por
           blocks: blocking
-          blocked: blocked by
+          blocked: bloqueado por
           partof: being part of
           includes: including
           requires: requiring

@@ -297,9 +297,9 @@ it:
       show_modal: Mostra l'immissione di testo della guida dell'attributo
     onboarding:
       steps:
-        welcome: Fai un tour introduttivo di tre minuti per imparare le piú <b>importanti
-          caratteristiche</b>. <br>Raccomandiamo di completare i passi fino alla fine.
-          Puoi riavviare sempre il tour.
+        welcome: Take a three minutes introduction tour to learn the most <b>important
+          features</b>. <br> We recommend completing the steps until the end. You
+          can restart the tour any time.
         project_selection: Si prega di selezionare uno dei progetti con gli utili
           dati demo per iniziare. <br> Il <b>Progetto Demo</b> si adatta meglio per
           la gestione dei progetti classici, mentre il <b>Progetto Scrum</b> è migliore
@@ -309,11 +309,12 @@ it:
         members: Invita nuovi <b>Membri</b> per entrare al tuo progetto.
         wiki: Nella <b>Wiki</b> puoi documentare e condividere la conoscenza con il
           tuo team.
-        backlogs_overview: Gestisci il tuo laviro nella vista <b>Backlogs</b>. <br>Qui
-          puoi creare <b>epiche, storie utente e bug</b>, priotarizza con trascinamento
-          e rilascio ed aggiungilo ad uno Sprint.
-        backlogs_task_board_arrow: Per vedere la tua <b>Scheda Mansioni</b>, apri
-          sul rilascia giù di Sprint...
+        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
+          right you have the Product Backlog or a Bug Backlog, on the left you will
+          have the respective sprints. Here you can create <b>epics, user stories,
+          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
+        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
+          drop-down...
         backlogs_task_board_select: "... e seleziona l'entrata <b>Tabella Mansioni</b>."
         backlogs_task_board: La <b>Tabella Mansioni</b> visualizza il progresso per
           questo sprint. Aggiungi nuove mansioni o impedimenti con l'icona + vicino
@@ -325,9 +326,9 @@ it:
           nel tuo progetto, come mansioni, funziono, pietre miliari, bug ed altro.
           <br> Puoi creare o modificare un pacchetto lavoro direttamente in questo
           elenco. Per vedere i suoi dettagli puoi cliccare due volte di fila.
-        wp_full_view: Nei <b>Dettagli pacchetto lavoro</b> trovi tutte le informazioni
-          rilevanti, come la descrizione, lo stato e la priorità, le attività o i
-          commenti.
+        wp_full_view: Within the <b>Work package details</b> you find all relevant
+          information, such as description, status and priority, activities, dependencies
+          or comments.
         wp_back_button: Con la freccia puoi navigare indietro nell'elenco pacchetto
           lavoro.
         wp_create_button: Il pulsante <b>Crea</b> aggiungerà un nuovo pacchetto lavoro
@@ -386,9 +387,9 @@ it:
           follows: following
           relates: relating to
           duplicates: duplicating
-          duplicated: duplicated by
+          duplicated: duplicato da
           blocks: blocking
-          blocked: blocked by
+          blocked: bloccato da
           partof: being part of
           includes: including
           requires: requiring

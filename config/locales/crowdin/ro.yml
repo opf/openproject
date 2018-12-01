@@ -192,13 +192,12 @@ ro:
       enabled_projects: Enabled projects
       add_group: Add attribute group
       add_table: Add table of related work packages
-      edit_query: Edit embedded query
+      edit_query: Edit table
       query_group_placeholder: Give the table a name
       reset: Reset to defaults
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts.
-      add_subelements: Add subelements group
   versions:
     overview:
       no_results_title_text: În acest moment nu există pachete de lucru alocate acestei

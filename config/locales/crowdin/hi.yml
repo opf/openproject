@@ -190,7 +190,7 @@ hi:
       enabled_projects: Enabled projects
       add_group: विशेषता समूह जोड़ें
       add_table: Add table of related work packages
-      edit_query: एंबेडेड क्वेरी संपादित करें
+      edit_query: Edit table
       query_group_placeholder: Give the table a name
       reset: Reset to defaults
       type_color_text: 'इस प्रकार का रंग असाइन करने या बदलने के लिए क्लिक करें । चयनित
@@ -198,7 +198,6 @@ hi:
         चार्ट्स में ।
 
 '
-      add_subelements: उपतत्व समूह जोड़ें
   versions:
     overview:
       no_results_title_text: There are currently no work packages assigned to this
