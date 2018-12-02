@@ -1242,9 +1242,9 @@
       }
     },
     "@angular/cdk": {
-      "version": "7.0.2",
-      "resolved": "https://registry.npmjs.org/@angular/cdk/-/cdk-7.0.2.tgz",
-      "integrity": "sha512-MAugJsjQ3ye2RX7vNjd9IN1c7enAxJaCz9UZBFuzfo/pNxvjaEObFmF2NUKyU1DctknqjyOzZYYg0e+bBxrBbQ==",
+      "version": "7.1.0",
+      "resolved": "https://registry.npmjs.org/@angular/cdk/-/cdk-7.1.0.tgz",
+      "integrity": "sha512-dY740pKcIRtKr6n6NomrgqfdEj988urTZ9I/bfJjxF5fdhnSjyhEvDlB55EHsrF+bTTZbZXRmv7AwOQ9GJnD9w==",
       "requires": {
         "parse5": "^5.0.0",
         "tslib": "^1.7.1"
