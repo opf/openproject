@@ -188,9 +188,9 @@ it:
       projects: Progetti
       enabled_projects: Progetti abilitati
       add_group: Aggiungi gruppo di attributi
-      add_table: Add table of related work packages
-      edit_query: Edit table
-      query_group_placeholder: Give the table a name
+      add_table: Aggiungi la tabella dei pacchetti di lavoro correlati
+      edit_query: Modificare la Tabella
+      query_group_placeholder: Assegnare un nome alla tabella
       reset: Ripristino predefinite
       type_color_text: |
         Clicca per assegnare o modificare il colore di questo tipo. Il colore selezionato distingue le macro-attività

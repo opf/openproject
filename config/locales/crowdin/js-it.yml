@@ -297,9 +297,9 @@ it:
       show_modal: Mostra l'immissione di testo della guida dell'attributo
     onboarding:
       steps:
-        welcome: Take a three minutes introduction tour to learn the most <b>important
-          features</b>. <br> We recommend completing the steps until the end. You
-          can restart the tour any time.
+        welcome: Fai un tour introduttivo di tre minuti per apprendere le <b>funzioni
+          importanti</b>. <br> Consigliamo di completare i passaggi fino alla fine.
+          Puoi riavviare il tour in qualsiasi momento.
         project_selection: Si prega di selezionare uno dei progetti con gli utili
           dati demo per iniziare. <br> Il <b>Progetto Demo</b> si adatta meglio per
           la gestione dei progetti classici, mentre il <b>Progetto Scrum</b> è migliore
@@ -309,12 +309,12 @@ it:
         members: Invita nuovi <b>Membri</b> per entrare al tuo progetto.
         wiki: Nella <b>Wiki</b> puoi documentare e condividere la conoscenza con il
           tuo team.
-        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
-          right you have the Product Backlog or a Bug Backlog, on the left you will
-          have the respective sprints. Here you can create <b>epics, user stories,
-          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
-        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
-          drop-down...
+        backlogs_overview: Gestisci il tuo lavoro nella visualizzazione <b>Backlogs</b>.
+          <br> A destra hai il Product Backlog o un Bug Backlog, a sinistra avrai
+          i rispettivi sprint. Qui puoi creare <b>epiche, storie utente, e bug</b>,
+          dare la priorità tramite drag'n'drop e aggiungerli a uno sprint.
+        backlogs_task_board_arrow: Per vedere la tua <b>Scheda Mansioni</b>, apri
+          il menu a cascata Sprint...
         backlogs_task_board_select: "... e seleziona l'entrata <b>Tabella Mansioni</b>."
         backlogs_task_board: La <b>Tabella Mansioni</b> visualizza il progresso per
           questo sprint. Aggiungi nuove mansioni o impedimenti con l'icona + vicino
@@ -326,9 +326,9 @@ it:
           nel tuo progetto, come mansioni, funziono, pietre miliari, bug ed altro.
           <br> Puoi creare o modificare un pacchetto lavoro direttamente in questo
           elenco. Per vedere i suoi dettagli puoi cliccare due volte di fila.
-        wp_full_view: Within the <b>Work package details</b> you find all relevant
-          information, such as description, status and priority, activities, dependencies
-          or comments.
+        wp_full_view: All'interno dei <b>Dettagli del pacchetto di lavoro</b> trovi
+          tutte le informazioni pertinenti, come descrizione, stato e priorità, attività,
+          dipendenze o commenti.
         wp_back_button: Con la freccia puoi navigare indietro nell'elenco pacchetto
           lavoro.
         wp_create_button: Il pulsante <b>Crea</b> aggiungerà un nuovo pacchetto lavoro
@@ -368,7 +368,7 @@ it:
       attribute_groups:
         error_duplicate_group_name: Il nome %{group} è usato più di una volta. I nomi
           dei gruppi devono essere univoci.
-        error_no_table_configured: Please configure a table for %{group}.
+        error_no_table_configured: Si prega di configurare una tabella per %{group}.
         reset_title: Reimposta la configurazione del modulo
         confirm_reset: 'Attenzione: vuoi reimpostare la configurazione del modulo?
           Tutti gli attributi torneranno al loro gruppo predefinito e TUTTI i campi
@@ -382,18 +382,18 @@ it:
         more_information: Altre informazioni
         nevermind: Lascia stare
         filter_types:
-          parent: being child of
-          precedes: preceding
-          follows: following
-          relates: relating to
-          duplicates: duplicating
+          parent: essere figlio di
+          precedes: precedente
+          follows: seguente
+          relates: in relazione a
+          duplicates: duplicazione
           duplicated: duplicato da
-          blocks: blocking
+          blocks: blocco
           blocked: bloccato da
-          partof: being part of
-          includes: including
-          requires: requiring
-          required: required by
+          partof: essere parte di
+          includes: compreso
+          requires: che richiedono
+          required: richiesto dalla
     watchers:
       label_loading: caricamento osservatori in corso...
       label_error_loading: Si è verificato un errore nel caricamento degli osservatori
@@ -428,12 +428,12 @@ it:
       group_by_relation_type: Raggruppa per tipo di relazione
       add_parent: Aggiungi genitore esistente
       add_new_child: Crea nuovo figlio
-      create_new: Create new
-      add_existing: Add existing
+      create_new: Crea nuovo
+      add_existing: Aggiungi esistente
       add_existing_child: Aggiungi figlio esistente
       remove_child: Rimuovi figlio
       add_new_relation: Crea nuova relazione
-      add_existing_relation: Add existing relation
+      add_existing_relation: Aggiungere relazione esistente
       update_description: Inserisci o aggiorna la descrizione della relazione
       toggle_description: Attiva/disattiva descrizione della relazione
       update_relation: Clicca per modificare il tipo di relazione
@@ -758,8 +758,8 @@ it:
           relation_columns: Vuoi visualizzare le relazioni nell'elenco di macro-attività?
           check_out_link: Scopri Enterprise Edition.
         relation_filters:
-          first_part: Show all work packages
-          second_part: the current work package
+          first_part: Visualizza tutti i pacchetti di lavoro
+          second_part: l'attuale pacchetto di lavoro
       tabs:
         overview: Panoramica
         activity: Attività

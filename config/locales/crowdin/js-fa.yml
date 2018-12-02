@@ -55,8 +55,8 @@ fa:
     button_export-atom: Download Atom
     calendar:
       title: Calendar
-      too_many: There are more work packages (%{count}) than can be displayed by the
-        calendar (%{max}). Add filters to focus on the relevant ones.
+      too_many: بسته های کار بیشتری(%{count}) نسبت به آن‌چه تقویم می‌تواند نمایش دهد
+        وجود دارد(%{max}). برای تمرکز بر موارد مرتیط از فیلتر‌ها استفاده کنید.
     description_available_columns: Available Columns
     description_current_position: 'You are here:'
     description_select_work_package: 'Select work package #%{id}'
@@ -66,7 +66,7 @@ fa:
       preview: Toggle preview mode
       source_code: Toggle Markdown source mode
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
-      error_initialization_failed: Failed to initialize CKEditor!
+      error_initialization_failed: راه اندازی CKEditor انجام نشد!
       mode:
         manual: Switch to Markdown source
         wysiwyg: Switch to WYSIWYG editor
@@ -113,7 +113,7 @@ fa:
           button: Embed work package table
           text: "[Placeholder] Embedded work package table"
         embedded_calendar:
-          text: "[Placeholder] Embedded calendar"
+          text: "[Placeholder] تقویم جاسازی شده"
     custom_actions:
       date:
         specific: برخط
@@ -294,9 +294,9 @@ fa:
       show_modal: Show attribute help text entry
     onboarding:
       steps:
-        welcome: Take a three minutes introduction tour to learn the most <b>important
-          features</b>. <br> We recommend completing the steps until the end. You
-          can restart the tour any time.
+        welcome: یک تور معرفی سه دقیقه‌ای را برای یادگیری <b>مهم‌ترین ویژگی ها</b>
+          در پیش گیرید. <br>وصیه می‌کنیم مراحل را تا پایان کامل کنید. شما می توانید
+          تور را در هر زمان دیگری هم دوباره راه اندازی کنید.
         project_selection: Please select one of the projects with useful demo data
           to get started. <br> The <b>Demo project</b> suits best for classical project
           management, while the <b>Scrum project</b> is better for Agile project management.
@@ -305,12 +305,13 @@ fa:
         members: Invite new <b>Members</b> to join your project.
         wiki: Within the <b>Wiki</b> you can document and share knowledge together
           with your team.
-        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
-          right you have the Product Backlog or a Bug Backlog, on the left you will
-          have the respective sprints. Here you can create <b>epics, user stories,
-          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
-        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
-          drop-down...
+        backlogs_overview: کار‌های خود را در <b>Backlogs view</b> مدیریت کنید. <br>
+          در سمت راست Product Backlog یا یک Bug Backlog دارید، در سمت چپ چشم‌انداز
+          sprintها را خواهید داشت. در اینجا می‌توانید <b>epicها, کاربر‌ها استوری ها,
+          و باگ‌ها</b> را ایجاد کنید، با Drag'n'drop آن‌ها را اولویت‌بندی نموده و
+          به یک sprint اضافه‌شان کنید.
+        backlogs_task_board_arrow: برای مشاهده‌ی <b>صفحه‌ی کارتان</b>، منوی پایین‌باز‌شونده‌ی
+          sprint را باز کنید...
         backlogs_task_board_select: "... and select the <b>Task board</b> entry."
         backlogs_task_board: The <b>Task board</b> visualizes the progress for this
           sprint. Add new tasks or impediments with the + icon next to a user story.
