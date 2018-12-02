@@ -108,11 +108,26 @@ export class GridComponent implements OnDestroy, OnInit {
       let dropArea = event.container.data;
       let draggedArea = event.previousContainer.data as GridWidgetArea;
 
+      // Set the draggedArea's startRow/startColumn properties
+      // to the drop zone ones.
+      // The dragged Area should keep it's height and width normally but will
+      // shrink if the area would otherwise end outside the grid.
       draggedArea.startRow = dropArea.startRow;
-      draggedArea.endRow = dropArea.startRow + draggedArea.widget.height;
-      draggedArea.startColumn = dropArea.startColumn;
-      draggedArea.endColumn = dropArea.startColumn + draggedArea.widget.width;
+      if (dropArea.startRow + draggedArea.widget.height > this.numRows + 1) {
+        draggedArea.endRow = this.numRows + 1;
+      } else {
+        draggedArea.endRow = dropArea.startRow + draggedArea.widget.height;
+      }
 
+      draggedArea.startColumn = dropArea.startColumn;
+      if (dropArea.startColumn + draggedArea.widget.width > this.numColumns + 1) {
+        draggedArea.endColumn = this.numColumns + 1;
+      } else {
+        draggedArea.endColumn = dropArea.startColumn + draggedArea.widget.width;
+      }
+
+      // persist all changes to the areas caused by dragging
+      // to the widget
       this.gridWidgetAreas.forEach((area) => {
         area.widget.startRow = area.startRow;
         area.widget.endRow = area.endRow;
@@ -120,7 +135,6 @@ export class GridComponent implements OnDestroy, OnInit {
         area.widget.endColumn = area.endColumn;
       });
 
-      this.draggedArea = null;
       this.buildAreas();
     }
   }
