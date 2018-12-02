@@ -18,7 +18,6 @@
   <!-- Grid areas that have a widget in them -->
   <div *ngFor="let area of gridWidgetAreas; trackBy: identifyGridArea;"
        class="grid--area -widgeted"
-       [ngClass] = "{ '-resize-target': resizeArea && gridAreaDropIds.indexOf(gridAreaId(area)) >= 0 }"
        [style.grid-row-start]="area.startRow"
        [style.grid-row-end]="area.endRow"
        [style.grid-column-start]="area.startColumn"
@@ -31,7 +30,6 @@
          cdkDrag
          (cdkDragStarted)="dragStart(area)"
          (cdkDragEnded)="dragStop()"
-         *ngIf="area.widget"
          style="height: 100%">
       <div class="grid--widget-remove"
            (click)="removeWidget(area)">

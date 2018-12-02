@@ -38,6 +38,7 @@ export class GridComponent implements OnDestroy, OnInit {
   public GRID_AREA_HEIGHT = 400;
 
   public resizeArea:GridArea|null;
+  public resizeAreaTargetIds:string[];
   private mousedOverArea:GridArea|null;
 
   @Input() grid:GridResource;
@@ -172,9 +173,7 @@ export class GridComponent implements OnDestroy, OnInit {
   }
 
   public resize(area:GridWidgetArea, deltas:ResizeDelta) {
-    if (!this.resizeArea ||
-        !this.mousedOverArea ||
-        this.mousedOverArea === this.resizeArea) {
+    if (!this.resizeArea) {
       return;
     }
 
@@ -188,17 +187,36 @@ export class GridComponent implements OnDestroy, OnInit {
     return this.resizeArea = null;
   }
 
-  public resizeStart(area:GridArea) {
-    this.resizeArea = new GridArea(area.startRow,
-                                   area.endRow,
-                                   area.startColumn,
-                                   area.endColumn);
+  public resizeStart(resizedArea:GridWidgetArea) {
+    this.resizeArea = new GridArea(resizedArea.startRow,
+                                   resizedArea.endRow,
+                                   resizedArea.startColumn,
+                                   resizedArea.endColumn);
+
+    let blockableWidgetAreas = this.gridWidgetAreas.filter((widgetArea) => {
+      return resizedArea.guid !== widgetArea.guid &&
+        widgetArea.startRow >= resizedArea.startRow &&
+        widgetArea.startColumn >= resizedArea.startColumn;
+    }) as GridWidgetArea[];
+
+    let resizeTargets = this.gridAreas.filter((area) => {
+      return area.startRow >= this.resizeArea!.startRow &&
+        area.startColumn >= this.resizeArea!.startColumn &&
+        !blockableWidgetAreas.some((widgetArea) => {
+          return area.startRow >= widgetArea.startRow &&
+            area.startColumn >= widgetArea.startColumn;
+        });
+    });
+
+    this.resizeAreaTargetIds = resizeTargets.map((area) => {
+      return this.gridAreaId(area);
+    });
   }
 
   public resizeMove(deltas:ResizeDelta) {
     if (!this.resizeArea ||
         !this.mousedOverArea ||
-        this.mousedOverArea === this.resizeArea) {
+        !this.resizeAreaTargetIds.includes(this.gridAreaId(this.mousedOverArea))) {
       return;
     }
 
@@ -207,16 +225,9 @@ export class GridComponent implements OnDestroy, OnInit {
   }
 
   public isResizeTarget(area:GridArea) {
-    if (!this.resizeArea) {
-      return false;
-    } else if (this.gridAreaDropIds.indexOf(this.gridAreaId(area)) >= 0) {
-      return true;
-    } else {
-      return area.startRow >= this.resizeArea.startRow &&
-             area.endRow <= this.resizeArea.endRow &&
-             area.startColumn >= this.resizeArea.startColumn &&
-             area.endColumn <= this.resizeArea.endColumn;
-    }
+    let areaId = this.gridAreaId(area);
+
+    return this.resizeArea && this.resizeAreaTargetIds.includes(areaId);
   }
 
   public isAddable(area:GridArea) {
@@ -243,9 +254,6 @@ export class GridComponent implements OnDestroy, OnInit {
       .addService
       .select(area)
       .then((widgetResource) => {
-        // TODO: We should use the proper resource here
-        // but they are not casted as such when we get the
-        // initial resources from the backend
         this.widgetResources.push(widgetResource);
 
         this.buildAreas();
