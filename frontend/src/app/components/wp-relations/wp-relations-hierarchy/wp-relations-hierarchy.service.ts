@@ -54,13 +54,13 @@ export class WorkPackageRelationsHierarchyService {
     if (parentId) {
       payload['_links'] = {
         parent: {
-            href: this.pathHelper.api.v3.work_packages.id(parentId).toString()
+          href: this.pathHelper.api.v3.work_packages.id(parentId).toString()
         }
       };
     } else {
       payload['_links'] = {
         parent: {
-            href: null
+          href: null
         }
       };
     }
@@ -84,17 +84,16 @@ export class WorkPackageRelationsHierarchyService {
   }
 
   public addExistingChildWp(workPackage:WorkPackageResource, childWpId:string):Promise<WorkPackageResource> {
-    const state = this.wpCacheService.loadWorkPackage(childWpId);
-
-    return new Promise<WorkPackageResource>((resolve, reject) => {
-      state.valuesPromise().then((wpToBecomeChild:WorkPackageResource|undefined) => {
-        this.wpTableRefresh.request(`Added new child to ${workPackage.id}`, true);
-
+    return this.wpCacheService
+      .require(childWpId)
+      .then((wpToBecomeChild:WorkPackageResource | undefined) => {
         return this.changeParent(wpToBecomeChild!, workPackage.id)
-          .then(wp => resolve(wp))
-          .catch(reject);
+          .then(wp => {
+            this.wpCacheService.loadWorkPackage(workPackage.id.toString(), true);
+            this.wpTableRefresh.request(`Added new child to ${workPackage.id}`, true);
+            return wp;
+          });
       });
-    });
   }
 
   public addNewChildWp(workPackage:WorkPackageResource) {
@@ -121,7 +120,7 @@ export class WorkPackageRelationsHierarchyService {
       return childWorkPackage.changeParent({
         _links: {
           parent: {
-              href: null
+            href: null
           }
         },
         lockVersion: childWorkPackage.lockVersion
@@ -129,10 +128,10 @@ export class WorkPackageRelationsHierarchyService {
         this.wpCacheService.loadWorkPackage(parentWorkPackage.id.toString(), true);
         this.wpCacheService.updateWorkPackage(wp);
       })
-      .catch((error) => {
-        this.wpNotificationsService.handleRawError(error, childWorkPackage);
-        return Promise.reject(error);
-      });
+        .catch((error) => {
+          this.wpNotificationsService.handleRawError(error, childWorkPackage);
+          return Promise.reject(error);
+        });
     });
   }
 }

@@ -95,9 +95,11 @@ describe 'Select work package row', type: :feature, js: true, selenium: true do
   end
 
   def check_row_selection_state(row_index, state = true)
-    selector = ".work-package-table--container tr:nth-of-type(#{row_index}).issue.-checked"
+    selector = ".work-package-table--container tr:nth-of-type(#{row_index}).issue"
+    checked_selector = ".work-package-table--container tr:nth-of-type(#{row_index}).issue.-checked"
 
-    expect(page).to (state ? have_selector(selector) : have_no_selector(selector))
+    expect(page).to have_selector(selector)
+    expect(page).to (state ? have_selector(checked_selector) : have_no_selector(checked_selector))
   end
 
   def check_all

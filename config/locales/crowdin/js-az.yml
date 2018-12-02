@@ -3,7 +3,7 @@ az:
   js:
     ajax:
       hide: Hide
-      loading: Loading ...
+      loading: Yüklənir ...
     attachments:
       draggable_hint: 'Drag on editor field to inline image or reference attachment.
         Closed editor fields will be opened while you keep dragging.
@@ -15,7 +15,7 @@ az:
         single: Select "%{name}"
       remove: Remove %{name}
       active: Active %{label} %{name}
-    close_popup_title: Close popup
+    close_popup_title: Açılan pəncərəni bağla
     close_filter_title: Close filter
     close_form_title: Close form
     clipboard:
@@ -33,17 +33,17 @@ az:
     button_copy: Copy
     button_custom-fields: Custom fields
     button_delete: Delete
-    button_delete_watcher: Delete watcher
-    button_details_view: Details view
+    button_delete_watcher: İzləyicini sil
+    button_details_view: Təfsilat baxışı
     button_duplicate: Duplicate
     button_edit: Edit
     button_filter: Filter
-    button_list_view: List view
+    button_list_view: Siyahı baxışı
     button_show_view: Fullscreen view
     button_log_time: Log time
     button_more: More
     button_move: Move
-    button_open_details: Open details view
+    button_open_details: Təfsilat baxışını aç
     button_close_details: Close details view
     button_open_fullscreen: Open fullscreen view
     button_quote: Quote
@@ -151,14 +151,14 @@ az:
     label_activity_with_comment_no: Activity entry number %{activityNo}. Has a user
       comment.
     label_add_columns: Add columns
-    label_add_comment: Add comment
+    label_add_comment: Rəy bildir
     label_add_comment_title: Comment and type @ to notify other people
     label_add_selected_columns: Add selected columns
-    label_added_by: added by
-    label_added_time_by: Added by %{author} %{age}
+    label_added_by: əlavə edən
+    label_added_time_by: "%{author} %{age} tərəfindən əlavə edildi"
     label_ago: days ago
     label_all: all
-    label_all_work_packages: all work packages
+    label_all_work_packages: bütün iş paketləri
     label_and: and
     label_ascending: Ascending
     label_author: 'Author: %{user}'
@@ -170,7 +170,7 @@ az:
     label_date: Date
     label_date_with_format: 'Enter the %{date_attribute} using the following format:
       %{format}'
-    label_deactivate: Deactivate
+    label_deactivate: Söndür
     label_descending: Descending
     label_description: Description
     label_cancel_comment: Cancel comment
@@ -186,34 +186,34 @@ az:
     label_edit_comment: Edit this comment
     label_edit_status: Edit the status of the work package
     label_equals: is
-    label_expand: Expand
-    label_expanded: expanded
+    label_expand: Genişləndir
+    label_expanded: genişləndirilmiş
     label_expand_all: Expand all
     label_expand_project_menu: Expand project menu
-    label_export: Export
+    label_export: İxrac et
     label_filename: File
     label_filesize: Size
     label_greater_or_equal: ">="
     label_group_by: Group by
     label_hide_attributes: Show less
-    label_hide_column: Hide column
+    label_hide_column: Sütunu gizlət
     label_hide_project_menu: Collapse project menu
     label_in: in
     label_in_less_than: in less than
     label_in_more_than: in more than
     label_latest_activity: Latest activity
-    label_last_updated_on: Last updated on
+    label_last_updated_on: Son yenilənmə
     label_less_or_equal: "<="
     label_less_than_ago: less than days ago
     label_loading: Loading...
     label_me: me
     label_menu_collapse: collapse
-    label_menu_expand: expand
+    label_menu_expand: genişləndir
     label_more_than_ago: more than days ago
     label_next: Next
     label_no_data: No data to display
-    label_no_due_date: no end date
-    label_no_start_date: no start date
+    label_no_due_date: bitmə tarixi yoxdur
+    label_no_start_date: başlama tarixi yoxdur
     label_none: none
     label_not_contains: doesn't contain
     label_not_equals: is not
@@ -223,22 +223,22 @@ az:
     label_open_work_packages: open
     label_password: Password
     label_previous: Previous
-    label_per_page: 'Per page:'
+    label_per_page: 'Səhifə başına:'
     label_please_wait: Please wait
     label_visibility_settings: Visibility settings
     label_quote_comment: Quote this comment
     label_reset: Reset
     label_remove_columns: Remove selected columns
-    label_save_as: Save as
-    label_select_watcher: Select a watcher...
-    label_selected_filter_list: Selected filters
+    label_save_as: Fərqli saxla
+    label_select_watcher: İzləyici seç...
+    label_selected_filter_list: Seçilmiş filtrlər
     label_show_attributes: Show all attributes
     label_show_in_menu: Show view in menu
     label_sort_by: Sort by
-    label_sorted_by: sorted by
+    label_sorted_by: sıralama
     label_sort_higher: Move up
     label_sort_lower: Move down
-    label_sorting: Sorting
+    label_sorting: Sıralama
     label_star_query: Favored
     label_press_enter_to_save: Press enter to save.
     label_public_query: Public
@@ -294,7 +294,7 @@ az:
     onboarding:
       steps:
         welcome: Take a three minutes introduction tour to learn the most <b>important
-          features</b>. <br> We recommend to complete the steps until the end. You
+          features</b>. <br> We recommend completing the steps until the end. You
           can restart the tour any time.
         project_selection: Please select one of the projects with useful demo data
           to get started. <br> The <b>Demo project</b> suits best for classical project
@@ -304,10 +304,11 @@ az:
         members: Invite new <b>Members</b> to join your project.
         wiki: Within the <b>Wiki</b> you can document and share knowledge together
           with your team.
-        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> Here
-          you can create <b>epics, user stories, and bugs</b>, prioritize via drag'n'drop
-          and add them to a sprint.
-        backlogs_task_board_arrow: To see your <b>Task board</b>, open on the Sprint
+        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
+          right you have the Product Backlog or a Bug Backlog, on the left you will
+          have the respective sprints. Here you can create <b>epics, user stories,
+          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
+        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
           drop-down...
         backlogs_task_board_select: "... and select the <b>Task board</b> entry."
         backlogs_task_board: The <b>Task board</b> visualizes the progress for this
@@ -320,7 +321,8 @@ az:
           You can create or edit a work package directly within this list. To see
           its details you can double click on a row.
         wp_full_view: Within the <b>Work package details</b> you find all relevant
-          information, such as description, status and priority, activities or comments.
+          information, such as description, status and priority, activities, dependencies
+          or comments.
         wp_back_button: With the arrow you can navigate back to the work package list.
         wp_create_button: The <b>Create</b> button will add a new work package to
           your project.
@@ -358,6 +360,7 @@ az:
       attribute_groups:
         error_duplicate_group_name: The name %{group} is used more than once. Group
           names must be unique.
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
           This will reset the attributes to their default group and disable ALL custom
@@ -370,6 +373,19 @@ az:
           client?
         more_information: More information
         nevermind: Nevermind
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: duplicated by
+          blocks: blocking
+          blocked: blocked by
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: loading watchers...
       label_error_loading: An error occurred while loading the watchers
@@ -404,9 +420,12 @@ az:
       group_by_relation_type: Group by relation type
       add_parent: Add existing parent
       add_new_child: Create new child
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: Add existing child
       remove_child: Remove child
       add_new_relation: Create new relation
+      add_existing_relation: Add existing relation
       update_description: Set or update description of this relation
       toggle_description: Toggle relation description
       update_relation: Click to change the relation type
@@ -668,7 +687,7 @@ az:
         sort_descending: Sort descending
         move_column_left: Move column left
         move_column_right: Move column right
-        hide_column: Hide column
+        hide_column: Sütunu gizlət
         insert_columns: Insert columns ...
         filters: Filters
         display_sums: Display Sums
@@ -723,6 +742,9 @@ az:
             mass?
           relation_columns: Need to see relations in the work package list?
           check_out_link: Check out the Enterprise Edition.
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: Overview
         activity: Activity

@@ -44,14 +44,13 @@ import {ExpandableSearchComponent} from 'core-components/expandable-search/expan
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
 import {UserCacheService} from 'core-components/user/user-cache.service';
 import {MainMenuResizerComponent} from 'core-components/resizer/main-menu-resizer.component';
-import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-group/wp-attribute-group.component';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 import {ExternalQueryConfigurationService} from 'core-components/wp-table/external-configuration/external-query-configuration.service';
+import {ExternalRelationQueryConfigurationService} from 'core-components/wp-table/external-configuration/external-relation-query-configuration.service';
 import {ConfirmDialogModal} from "core-components/modals/confirm-dialog/confirm-dialog.modal";
 import {ConfirmDialogService} from "core-components/modals/confirm-dialog/confirm-dialog.service";
 import {DynamicContentModal} from "core-components/modals/modal-wrapper/dynamic-content.modal";
 import {PasswordConfirmationModal} from "core-components/modals/request-for-confirmation/password-confirmation.modal";
-import {WorkPackageChildrenQueryComponent} from 'core-components/wp-relations/wp-relation-children/wp-children-query.component';
 import {OpTitleService} from 'core-components/html/op-title.service';
 import {OpenprojectFieldsModule} from "core-app/modules/fields/openproject-fields.module";
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
@@ -174,6 +173,7 @@ import {OpenprojectGridsModule} from "core-app/modules/grids/openproject-grids.m
     ProjectMenuAutocompleteComponent,
 
     // Modals
+
     DynamicContentModal,
     ConfirmDialogModal,
     PasswordConfirmationModal,
@@ -206,6 +206,7 @@ export class OpenProjectModule {
 export function initializeServices(injector:Injector) {
   return () => {
     const ExternalQueryConfiguration = injector.get(ExternalQueryConfigurationService);
+    const ExternalRelationQueryConfiguration = injector.get(ExternalRelationQueryConfigurationService);
     const ModalWrapper = injector.get(ModalWrapperAugmentService);
     const EditorMacros = injector.get(EditorMacrosService);
 
@@ -214,5 +215,6 @@ export function initializeServices(injector:Injector) {
 
     // Setup query configuration listener
     ExternalQueryConfiguration.setupListener();
+    ExternalRelationQueryConfiguration.setupListener();
   };
 }

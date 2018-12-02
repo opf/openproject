@@ -187,8 +187,9 @@ az:
       projects: Projects
       enabled_projects: Enabled projects
       add_group: Add attribute group
-      add_subelements: Add subelements group
-      edit_query: Edit embedded query
+      add_table: Add table of related work packages
+      edit_query: Edit table
+      query_group_placeholder: Give the table a name
       reset: Reset to defaults
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
@@ -1054,7 +1055,7 @@ az:
       atom: Atom
       csv: CSV
       pdf: PDF
-      pdf_with_descriptions: PDF with descriptions
+      pdf_with_descriptions: Açıqlaması ilə PDF
       pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
       pdf_with_attachments: PDF with attachments
   extraction:

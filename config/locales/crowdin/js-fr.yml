@@ -298,9 +298,9 @@ fr:
       show_modal: Afficher l’aide de l’attribut de saisie de texte
     onboarding:
       steps:
-        welcome: Trois minutes d'introduction pour apprendre les <b>fonctionnalités
-          importantes </b>. <br> Nous vous recommandons de compléter chaque étapes
-          jusqu'à la fin. Vous pouvez rejouer l'introduction à tout moment.
+        welcome: Take a three minutes introduction tour to learn the most <b>important
+          features</b>. <br> We recommend completing the steps until the end. You
+          can restart the tour any time.
         project_selection: Veuillez sélectionner un des projets avec des données de
           démonstration utile pour commencer. <br> Le <b>projet de démo</b> convient
           le mieux pour la gestion de projet classique, tandis que le <b>projet Scrum</b>
@@ -310,11 +310,12 @@ fr:
         members: Inviter des nouveaux<b>membres</b> à participer à votre projet.
         wiki: Dans le <b>Wiki</b> vous pouvez documenter et partager vos connaissances
           avec votre équipe.
-        backlogs_overview: Gérer votre travail dans la vue <b>Backlogs</b>.<br> Ici,
-          vous pouvez créer <b> des récits utilisateurs épiques et des bogues</b>,
-          prioriser les via un glisser/déposer et ajoutez-les à un sprint.
-        backlogs_task_board_arrow: Pour voir votre <b>Tableau de bord des Tâches</b>,
-          ouvert sur le menu déroulant de Sprint...
+        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
+          right you have the Product Backlog or a Bug Backlog, on the left you will
+          have the respective sprints. Here you can create <b>epics, user stories,
+          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
+        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
+          drop-down...
         backlogs_task_board_select: "... et sélectionnez l'entrée <b>Tableau de bord
           des Tâches</b>."
         backlogs_task_board: Le <b>Tableau de bord des Tâches</b> visualise l’état
@@ -328,9 +329,9 @@ fr:
           jalons, les bogues, et plus encore. <br> vous pouvez créer ou modifier un
           paquet de travail directement dans cette liste. Pour voir ses détails, vous
           pouvez double-cliquer sur une rangée.
-        wp_full_view: Dans les <b>détails du Paquet de Travail</b> vous trouverez
-          toutes les informations pertinentes, telles que la description, l'état,
-          la priorité et les activités ou les commentaires.
+        wp_full_view: Within the <b>Work package details</b> you find all relevant
+          information, such as description, status and priority, activities, dependencies
+          or comments.
         wp_back_button: Avec la flèche, vous pouvez naviguer vers la liste de paquet
           de travail.
         wp_create_button: La touche <b>Créer</b> ajoutera un nouveau paquet de travail
@@ -371,6 +372,7 @@ fr:
       attribute_groups:
         error_duplicate_group_name: Le nom %{group} est utilisé plus d’une fois. Les
           noms de groupe doivent être uniques.
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: Réinitialiser la configuration du formulaire
         confirm_reset: 'Avertissement : êtes-vous sûr de vouloir réinitialiser la
           configuration du formulaire ? Ceci va réinitialiser les attributs à leur
@@ -383,6 +385,19 @@ fr:
           Open Source en devenant un client de la Version Enterprise ?
         more_information: Plus d'informations
         nevermind: Peu importe
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: dupliqué par
+          blocks: blocking
+          blocked: bloqué par
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: observateurs en cours de chargement…
       label_error_loading: Une erreur s'est produite lors du chargement des observateurs
@@ -417,9 +432,12 @@ fr:
       group_by_relation_type: Grouper par type de relation
       add_parent: Ajouter un parent existant
       add_new_child: Créer un nouvel enfant
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: Ajouter un enfant existant
       remove_child: Supprimer enfant
       add_new_relation: Créer une nouvelle relation
+      add_existing_relation: Add existing relation
       update_description: Définir ou mettre à jour la description de cette relation
       toggle_description: Alterner la description de relation
       update_relation: Cliquez pour modifier le type de relation
@@ -747,6 +765,9 @@ fr:
           relation_columns: Besoin de voir les relations sur la liste des lots de
             travaux ?
           check_out_link: Découvrez l’édition entreprise.
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: Vue globale
         activity: Activité

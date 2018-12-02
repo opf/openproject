@@ -191,8 +191,9 @@ es:
       projects: Proyectos
       enabled_projects: Proyectos habilitados
       add_group: Agregar grupo de atributos
-      add_subelements: Agregar grupo de subelementos
-      edit_query: Editar consulta insertada
+      add_table: Add table of related work packages
+      edit_query: Edit table
+      query_group_placeholder: Give the table a name
       reset: Restablecer valores predeterminados
       type_color_text: 'Haga clic para asignar o cambiar el color de este tipo. El
         color seleccionado permite distinguir los paquetes de trabajo en los diagramas

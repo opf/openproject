@@ -297,9 +297,9 @@ it:
       show_modal: Mostra l'immissione di testo della guida dell'attributo
     onboarding:
       steps:
-        welcome: Fai un tour introduttivo di tre minuti per imparare le piú <b>importanti
-          caratteristiche</b>. <br>Raccomandiamo di completare i passi fino alla fine.
-          Puoi riavviare sempre il tour.
+        welcome: Fai un tour introduttivo di tre minuti per apprendere le <b>funzioni
+          importanti</b>. <br> Consigliamo di completare i passaggi fino alla fine.
+          Puoi riavviare il tour in qualsiasi momento.
         project_selection: Si prega di selezionare uno dei progetti con gli utili
           dati demo per iniziare. <br> Il <b>Progetto Demo</b> si adatta meglio per
           la gestione dei progetti classici, mentre il <b>Progetto Scrum</b> è migliore
@@ -309,11 +309,12 @@ it:
         members: Invita nuovi <b>Membri</b> per entrare al tuo progetto.
         wiki: Nella <b>Wiki</b> puoi documentare e condividere la conoscenza con il
           tuo team.
-        backlogs_overview: Gestisci il tuo laviro nella vista <b>Backlogs</b>. <br>Qui
-          puoi creare <b>epiche, storie utente e bug</b>, priotarizza con trascinamento
-          e rilascio ed aggiungilo ad uno Sprint.
+        backlogs_overview: Gestisci il tuo lavoro nella visualizzazione <b>Backlogs</b>.
+          <br> A destra hai il Product Backlog o un Bug Backlog, a sinistra avrai
+          i rispettivi sprint. Qui puoi creare <b>epiche, storie utente, e bug</b>,
+          dare la priorità tramite drag'n'drop e aggiungerli a uno sprint.
         backlogs_task_board_arrow: Per vedere la tua <b>Scheda Mansioni</b>, apri
-          sul rilascia giù di Sprint...
+          il menu a cascata Sprint...
         backlogs_task_board_select: "... e seleziona l'entrata <b>Tabella Mansioni</b>."
         backlogs_task_board: La <b>Tabella Mansioni</b> visualizza il progresso per
           questo sprint. Aggiungi nuove mansioni o impedimenti con l'icona + vicino
@@ -325,9 +326,9 @@ it:
           nel tuo progetto, come mansioni, funziono, pietre miliari, bug ed altro.
           <br> Puoi creare o modificare un pacchetto lavoro direttamente in questo
           elenco. Per vedere i suoi dettagli puoi cliccare due volte di fila.
-        wp_full_view: Nei <b>Dettagli pacchetto lavoro</b> trovi tutte le informazioni
-          rilevanti, come la descrizione, lo stato e la priorità, le attività o i
-          commenti.
+        wp_full_view: All'interno dei <b>Dettagli del pacchetto di lavoro</b> trovi
+          tutte le informazioni pertinenti, come descrizione, stato e priorità, attività,
+          dipendenze o commenti.
         wp_back_button: Con la freccia puoi navigare indietro nell'elenco pacchetto
           lavoro.
         wp_create_button: Il pulsante <b>Crea</b> aggiungerà un nuovo pacchetto lavoro
@@ -367,6 +368,7 @@ it:
       attribute_groups:
         error_duplicate_group_name: Il nome %{group} è usato più di una volta. I nomi
           dei gruppi devono essere univoci.
+        error_no_table_configured: Si prega di configurare una tabella per %{group}.
         reset_title: Reimposta la configurazione del modulo
         confirm_reset: 'Attenzione: vuoi reimpostare la configurazione del modulo?
           Tutti gli attributi torneranno al loro gruppo predefinito e TUTTI i campi
@@ -379,6 +381,19 @@ it:
           un cliente Enterprise Edition?
         more_information: Altre informazioni
         nevermind: Lascia stare
+        filter_types:
+          parent: essere figlio di
+          precedes: precedente
+          follows: seguente
+          relates: in relazione a
+          duplicates: duplicazione
+          duplicated: duplicato da
+          blocks: blocco
+          blocked: bloccato da
+          partof: essere parte di
+          includes: compreso
+          requires: che richiedono
+          required: richiesto dalla
     watchers:
       label_loading: caricamento osservatori in corso...
       label_error_loading: Si è verificato un errore nel caricamento degli osservatori
@@ -413,9 +428,12 @@ it:
       group_by_relation_type: Raggruppa per tipo di relazione
       add_parent: Aggiungi genitore esistente
       add_new_child: Crea nuovo figlio
+      create_new: Crea nuovo
+      add_existing: Aggiungi esistente
       add_existing_child: Aggiungi figlio esistente
       remove_child: Rimuovi figlio
       add_new_relation: Crea nuova relazione
+      add_existing_relation: Aggiungere relazione esistente
       update_description: Inserisci o aggiorna la descrizione della relazione
       toggle_description: Attiva/disattiva descrizione della relazione
       update_relation: Clicca per modificare il tipo di relazione
@@ -739,6 +757,9 @@ it:
             massa?
           relation_columns: Vuoi visualizzare le relazioni nell'elenco di macro-attività?
           check_out_link: Scopri Enterprise Edition.
+        relation_filters:
+          first_part: Visualizza tutti i pacchetti di lavoro
+          second_part: l'attuale pacchetto di lavoro
       tabs:
         overview: Panoramica
         activity: Attività

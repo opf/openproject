@@ -238,6 +238,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
         return {
           name: group.name,
           query: group._embedded.query,
+          relationType: group.relationType,
           members: [group._embedded.query],
           type: group._type
         };

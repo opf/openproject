@@ -29,7 +29,8 @@
 #++
 
 class Queries::Filters::TemplatedValue
-  KEY = 'templated'.freeze
+  KEY = '{id}'.freeze
+  DEPRECATED_KEY = 'templated'.freeze
 
   attr_accessor :templated_class
 

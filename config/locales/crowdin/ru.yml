@@ -185,8 +185,9 @@ ru:
       projects: Проекты
       enabled_projects: Доступные проекты
       add_group: Добавить группу атрибутов
-      add_subelements: Добавить группа вложенных элементов
-      edit_query: Редактировать вложенный запрос
+      add_table: Add table of related work packages
+      edit_query: Edit table
+      query_group_placeholder: Give the table a name
       reset: Восстановить значения по умолчанию
       type_color_text: 'Щелкните, чтобы задать или изменить цвет этого типа. Выбранный
         цвет позволяет различать пакеты работ на диаграммах Ганта.
@@ -1210,7 +1211,7 @@ ru:
   label_auth_source_plural: Режимы аутентификации
   label_authentication: Аутентификация
   label_available_project_work_package_categories: Доступные категории рабочих пакетов
-  label_available_project_work_package_types: Available work package types
+  label_available_project_work_package_types: Доступные типы пакетов работ
   label_available_project_boards: Доступные форумы
   label_available_project_versions: Имеющиеся этапы проекта
   label_available_project_repositories: Доступные репозитории

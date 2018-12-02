@@ -166,8 +166,9 @@ ja:
       projects: プロジェクト
       enabled_projects: 有効なプロジェクト
       add_group: 属性グループを追加する
-      add_subelements: サブ要素を追加するグループ
-      edit_query: 埋め込まれたクエリの編集
+      add_table: Add table of related work packages
+      edit_query: Edit table
+      query_group_placeholder: Give the table a name
       reset: デフォルトに戻す
       type_color_text: 'このタイプの色を割り当てたり変更する場合にクリックします。 選択された色は、ガントチャートの作業項目を区別します。
 
@@ -1073,7 +1074,7 @@ ja:
   label_auth_source_plural: 認証方式
   label_authentication: 認証
   label_available_project_work_package_categories: 有効な作業項目のカテゴリ
-  label_available_project_work_package_types: Available work package types
+  label_available_project_work_package_types: 利用可能な作業項目の種類
   label_available_project_boards: 利用できる掲示板
   label_available_project_versions: 利用できるバージョン
   label_available_project_repositories: 使用できるリポジトリ

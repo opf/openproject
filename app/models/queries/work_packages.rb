@@ -57,8 +57,19 @@ module Queries::WorkPackages
   register.filter Query, filters_module::UpdatedAtFilter
   register.filter Query, filters_module::VersionFilter
   register.filter Query, filters_module::WatcherFilter
-  register.filter Query, filters_module::ParentFilter
   register.filter Query, filters_module::DatesIntervalFilter
+  register.filter Query, filters_module::ParentFilter
+  register.filter Query, filters_module::PrecedesFilter
+  register.filter Query, filters_module::FollowsFilter
+  register.filter Query, filters_module::RelatesFilter
+  register.filter Query, filters_module::DuplicatesFilter
+  register.filter Query, filters_module::DuplicatedFilter
+  register.filter Query, filters_module::BlocksFilter
+  register.filter Query, filters_module::BlockedFilter
+  register.filter Query, filters_module::PartofFilter
+  register.filter Query, filters_module::IncludesFilter
+  register.filter Query, filters_module::RequiresFilter
+  register.filter Query, filters_module::RequiredFilter
 
   columns_module = Queries::WorkPackages::Columns
 

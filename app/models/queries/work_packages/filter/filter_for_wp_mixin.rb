@@ -86,7 +86,11 @@ module Queries::WorkPackages::Filter::FilterForWpMixin
   end
 
   def no_templated_values
-    values.reject { |v| v == templated_value_key }
+    values.reject { |v| templated_value_keys.include? v }
+  end
+
+  def templated_value_keys
+    [::Queries::Filters::TemplatedValue::KEY, ::Queries::Filters::TemplatedValue::DEPRECATED_KEY]
   end
 
   def templated_value_key
@@ -94,6 +98,6 @@ module Queries::WorkPackages::Filter::FilterForWpMixin
   end
 
   def has_templated_value?
-    values.include?(templated_value_key)
+    (values & templated_value_keys).any?
   end
 end
