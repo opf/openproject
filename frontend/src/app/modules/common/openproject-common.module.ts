@@ -70,6 +70,9 @@ import {SortHeaderDirective} from 'core-components/wp-table/sort-header/sort-hea
 import {ZenModeButtonComponent} from 'core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
 import {OPContextMenuComponent} from 'core-components/op-context-menu/op-context-menu.component';
 import {TimezoneService} from 'core-components/datetime/timezone.service';
+import {UIRouterModule} from "@uirouter/angular";
+import {PortalModule} from "@angular/cdk/portal";
+import {CommonModule} from "@angular/common";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -84,11 +87,28 @@ export function bootstrapModule(injector:Injector) {
 
 @NgModule({
   imports: [
-    FormsModule,
+    // UI router components (NOT routes!)
+    UIRouterModule,
+    // Angular browser + common module
+    CommonModule,
     BrowserModule,
+    // Angular Forms
+    FormsModule,
+    // Angular CDK
+    PortalModule,
+    // Our own A11y module
     OpenprojectAccessibilityModule,
   ],
   exports: [
+    // Re-export all commonly used
+    // modules to DRY
+    UIRouterModule,
+    CommonModule,
+    BrowserModule,
+    FormsModule,
+    PortalModule,
+    OpenprojectAccessibilityModule,
+
     OpDatePickerComponent,
     OpDateTimeComponent,
     OpIcon,

@@ -26,17 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {FormsModule} from '@angular/forms';
-import {PortalModule} from '@angular/cdk/portal';
 import {OpenprojectCommonModule} from 'core-app/modules/common/openproject-common.module';
 import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-group/wp-attribute-group.component';
-import {OpenprojectAccessibilityModule} from 'core-app/modules/a11y/openproject-a11y.module';
 import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
 import {OpenprojectFieldsModule} from 'core-app/modules/fields/openproject-fields.module';
 import {ChartsModule} from 'ng2-charts';
 import {DynamicModule} from 'ng-dynamic-component';
 import {APP_INITIALIZER, Injector, NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
 import {
   GroupDescriptor,
   WorkPackageSingleViewComponent
@@ -81,7 +77,6 @@ import {OpenprojectAttachmentsModule} from 'core-app/modules/attachments/openpro
 import {WorkPackageEditFieldComponent} from 'core-app/components/wp-edit/wp-edit-field/wp-edit-field.component';
 import {WpCustomActionComponent} from 'core-components/wp-custom-actions/wp-custom-actions/wp-custom-action.component';
 import {WpCustomActionsComponent} from 'core-components/wp-custom-actions/wp-custom-actions.component';
-import {UIRouterModule} from '@uirouter/angular';
 import {WorkPackageSplitViewComponent} from 'core-components/routing/wp-split-view/wp-split-view.component';
 import {WorkPackageRelationsCountComponent} from 'core-components/work-packages/wp-relations-count/wp-relations-count.component';
 import {WorkPackageWatchersCountComponent} from 'core-components/work-packages/wp-relations-count/wp-watchers-count.component';
@@ -195,16 +190,8 @@ import {WpChildrenInlineCreateService} from "core-components/wp-relations/embedd
 
 @NgModule({
   imports: [
-    UIRouterModule,
-
-    BrowserModule,
-    FormsModule,
-    // Angular CDK
-    PortalModule,
     // Commons
     OpenprojectCommonModule,
-    // A11y
-    OpenprojectAccessibilityModule,
     // Hal Module
     OpenprojectHalModule,
     // Display + Edit field functionality

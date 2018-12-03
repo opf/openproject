@@ -26,10 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {PortalModule} from '@angular/cdk/portal';
 import {APP_INITIALIZER, ApplicationRef, Injector, NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {BrowserModule} from '@angular/platform-browser';
 import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
 
 import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
@@ -53,7 +50,6 @@ import {PasswordConfirmationModal} from "core-components/modals/request-for-conf
 import {OpTitleService} from 'core-components/html/op-title.service';
 import {OpenprojectFieldsModule} from "core-app/modules/fields/openproject-fields.module";
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
-import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-a11y.module";
 import {CommentService} from "core-components/wp-activity/comment-service";
 import {OpDragScrollDirective} from "core-app/modules/common/ui/op-drag-scroll.directive";
 import {UIRouterModule} from "@uirouter/angular";
@@ -77,16 +73,10 @@ import {OpenprojectEditorModule} from 'core-app/modules/editor/openproject-edito
 
 @NgModule({
   imports: [
-    BrowserModule,
-    FormsModule,
     // UI router routes configuration
     UIRouterModule.forRoot(),
-    // Angular CDK
-    PortalModule,
     // Commons
     OpenprojectCommonModule,
-    // A11y
-    OpenprojectAccessibilityModule,
     // Hal Module
     OpenprojectHalModule,
 
