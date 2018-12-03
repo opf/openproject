@@ -58,7 +58,7 @@ module Pages
           expect(page)
             .to have_content(I18n.t('js.grid.add_modal.choose_widget'))
 
-          click_button name
+          page.find('.grid--addable-widget', text: name).click
         end
       end
     end

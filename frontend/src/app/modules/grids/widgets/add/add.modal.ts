@@ -26,7 +26,13 @@ export class AddGridWidgetModal extends OpModalComponent {
   }
 
   public get selectable() {
-    return this.widgetsService.registered;
+    return this.widgetsService.registered.map((widget) => {
+      return {
+        identifier: widget.identifier,
+        title: this.i18n.t(`js.grid.widgets.title.${widget.identifier}`),
+        component: widget.component
+      };
+    });
   }
 
   public select($event:any, widget:WidgetRegistration) {

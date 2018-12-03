@@ -75,3 +75,22 @@ $grid--header-width: 20px
 
 .grid--header
   background-color: rgba(10, 10, 10, 0.1)
+
+.grid--addable-widget
+  min-width: 400px
+  padding: 20px 5px
+  border-bottom: 1px solid #dddddd
+  cursor: pointer
+  background: none
+  transition: background 4s ease
+
+  &:hover
+    background: #eeeeee
+    transition: background 1s ease
+
+  &:last-of-type
+    border-bottom: none
+
+.widget-box.cdk-drag-preview
+  background: #fff
+  padding: 20px

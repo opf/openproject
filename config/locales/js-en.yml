@@ -175,6 +175,12 @@ en:
     grid:
       add_modal:
         choose_widget: 'Choose widget'
+      widgets:
+        title:
+          work_packages_assigned: 'Work packages assigned by me'
+          work_packages_created: 'Work packages created by me'
+          work_packages_watched: 'Work packages watched by me'
+          work_packages_calendar: 'Calendar'
 
     label_activate: "Activate"
     label_activity_no: "Activity entry number %{activityNo}"
