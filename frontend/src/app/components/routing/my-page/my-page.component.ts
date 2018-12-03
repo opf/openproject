@@ -1,9 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
-import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 
 @Component({
@@ -12,7 +10,7 @@ import {HalResourceService} from "core-app/modules/hal/services/hal-resource.ser
 export class MyPageComponent implements OnInit {
   constructor(readonly gridDm:GridDmService,
               readonly pathHelper:PathHelperService,
-              readonly halResource:HalResourceService) {}
+              readonly halResourceService:HalResourceService) {}
 
   public grid:GridResource;
 
@@ -24,6 +22,10 @@ export class MyPageComponent implements OnInit {
       });
   }
 
+  // If a page with the current page exists (scoped to the current user by the backend)
+  // that page will be used to initialized the grid.
+  // If it does not exist, fetch the createForm and then create a new resource.
+  // The created resource is then used to initialize the grid.
   private loadMyPage():Promise<GridResource> {
     return this
              .gridDm
@@ -38,24 +40,31 @@ export class MyPageComponent implements OnInit {
   }
 
   private myPageForm():Promise<GridResource> {
-    let payload = {
-      '_links': {
-        'page': {
-          'href': this.pathHelper.myPagePath()
+    return new Promise<GridResource>((resolve, reject) => {
+      let payload = {
+        '_links': {
+          'page': {
+            'href': this.pathHelper.myPagePath()
+          }
         }
-      }
-    };
+      };
 
-    return this
-      .gridDm
-      .createForm(payload)
-      .then((form) => {
-        // cast payload to GridResource
-        let payloadSource = form.payload.$source;
+      this
+        .gridDm
+        .createForm(payload)
+        .then((form) => {
+          let source = form.payload.$source;
 
-        payloadSource['_type'] = 'Grid';
+          let resource = this.halResourceService.createHalResource(source) as GridResource;
 
-        return this.halResource.createHalResource(payloadSource, false) as GridResource;
-      });
+          this.gridDm.create(resource, form.schema)
+            .then((resource) => {
+              resolve(resource);
+            })
+            .catch(() => {
+              reject();
+            });
+        });
+    });
   }
 }

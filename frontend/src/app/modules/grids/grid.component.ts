@@ -16,6 +16,8 @@ import {AddGridWidgetService} from "core-app/modules/grids/widgets/add/add.servi
 import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
 import {GridArea} from "core-app/modules/grids/areas/grid-area";
 import {GridWidgetArea} from "core-app/modules/grids/areas/grid-widget-area";
+import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
+import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 
 export interface WidgetRegistration {
   identifier:string;
@@ -35,7 +37,9 @@ export class GridComponent implements OnDestroy, OnInit {
   public gridWidgetAreas:GridWidgetArea[];
   public gridAreaDropIds:string[];
   public draggedArea:GridWidgetArea|null;
-  public GRID_AREA_HEIGHT = 400;
+  public GRID_AREA_HEIGHT = 100;
+
+  private schema:SchemaResource;
 
   public resizeArea:GridArea|null;
   public resizeAreaTargetIds:string[];
@@ -47,19 +51,22 @@ export class GridComponent implements OnDestroy, OnInit {
               readonly Hook:HookService,
               private sanitization:DomSanitizer,
               private widgetsService:GridWidgetsService,
-              private addService:AddGridWidgetService) {}
+              private addService:AddGridWidgetService,
+              private gridDm:GridDmService) {}
 
   ngOnDestroy() {
     this.uiWidgets.forEach((widget) => widget.destroy());
   }
 
   ngOnInit() {
+    this.fetchSchema();
+
     this.numRows = this.grid.rowCount;
     this.numColumns = this.grid.columnCount;
 
     this.widgetResources = this.grid.widgets;
 
-    this.buildAreas();
+    this.buildAreas(false);
   }
 
   public widgetComponent(widget:GridWidgetResource|null) {
@@ -359,10 +366,23 @@ export class GridComponent implements OnDestroy, OnInit {
     this.buildAreas();
   }
 
-  private buildAreas() {
+  private buildAreas(save = true) {
     this.gridAreas = this.buildGridAreas();
     this.gridAreaDropIds = this.buildGridAreaDropIds();
     this.gridWidgetAreas = this.buildGridWidgetAreas();
+
+    this.grid.widgets = this.widgetResources;
+    this.grid.rowCount = this.numRows;
+    this.grid.columnCount = this.numColumns;
+
+    this.gridDm.update(this.grid, this.schema);
+  }
+
+  private fetchSchema() {
+    this.gridDm.updateForm(this.grid)
+      .then((form) => {
+        this.schema = form.schema;
+      });
   }
 
   private addAreas(additionalAreas:GridArea[]) {

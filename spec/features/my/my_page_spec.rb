@@ -50,22 +50,56 @@ describe 'My page', type: :feature, js: true do
                       member_in_project: project,
                       member_with_permissions: %i[view_work_packages add_work_packages])
   end
+  let(:my_page) do
+    Pages::My::Page.new
+  end
 
   before do
     login_as user
-    visit my_page_path
+
+    my_page.visit!
   end
 
   it 'renders the default view, allows altering and saving' do
-    expect(page)
-      .to have_selector('.widget-box--header-title', text: 'Work packages assigned to me')
-    expect(page)
-      .to have_selector('.widget-box--header-title', text: 'Work packages created by me')
+    assigned_area = Components::Grids::GridArea.new('.grid--area', text: 'Work packages assigned to me')
+    created_area = Components::Grids::GridArea.new('.grid--area', text: 'Work packages created by me')
 
+    assigned_area.expect_to_exist
+    created_area.expect_to_exist
+    assigned_area.expect_to_span(1, 1, 7, 3)
+    created_area.expect_to_span(1, 3, 7, 5)
+
+    # The widgets load their respective contents
     expect(page)
       .to have_content(created_work_package.subject)
-
     expect(page)
       .to have_content(assigned_work_package.subject)
+
+    my_page.add_row(1)
+
+    # within top-right area, add an additional widget
+    my_page.add_widget(1, 1, 'work_packages_calendar')
+
+    calendar_area = Components::Grids::GridArea.new('.grid--area', text: 'Calendar')
+    calendar_area.expect_to_span(1, 1, 2, 2)
+
+    calendar_area.resize_to(1, 4)
+
+    # Resizing leads to the calendar area now spanning a larger area
+    calendar_area.expect_to_span(1, 1, 2, 5)
+    # Because of the added column, the other widgets have moved down
+    assigned_area.expect_to_span(2, 1, 8, 3)
+    created_area.expect_to_span(2, 3, 8, 5)
+
+    # Reloading keept the users values
+    visit home_path
+    my_page.visit!
+
+    assigned_area.expect_to_exist
+    created_area.expect_to_exist
+    calendar_area.expect_to_exist
+    calendar_area.expect_to_span(1, 1, 2, 5)
+    assigned_area.expect_to_span(2, 1, 8, 3)
+    created_area.expect_to_span(2, 3, 8, 5)
   end
 end

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,16 +26,41 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Grid < ActiveRecord::Base
-  has_many :widgets,
-           class_name: 'GridWidget',
-           autosave: true
+require 'support/pages/page'
 
-  def self.new_default(_user)
-    new(
-      row_count: 4,
-      column_count: 5,
-      widgets: []
-    )
+module Pages
+  module My
+    class Page < ::Pages::Page
+      def path
+        my_page_path
+      end
+
+      def add_row(row_number, before_or_after: :before)
+        # open grid row menu
+        find("grid-area-row-headers .grid--header:nth-of-type(#{row_number})").click
+
+        label = if before_or_after == :before
+                  I18n.t('js.label_add_row_before')
+                else
+                  I18n.t('js.label_add_row_after')
+                end
+
+        find('li .menu-item', text: label).click
+      end
+
+      def add_widget(row_number, column_number, name)
+        # within top-right area, add an additional widget
+        within "#grid--area-#{row_number}-#{column_number}" do
+          find('.grid--widget-add').click
+        end
+
+        within '.op-modal--portal' do
+          expect(page)
+            .to have_content(I18n.t('js.grid.add_modal.choose_widget'))
+
+          click_button name
+        end
+      end
+    end
   end
 end

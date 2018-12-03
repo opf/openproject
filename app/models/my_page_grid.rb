@@ -34,36 +34,22 @@ class MyPageGrid < Grid
   def self.new_default(user)
     new(
       user: user,
-      row_count: 4,
-      column_count: 5,
+      row_count: 7,
+      column_count: 4,
       widgets: [
         GridWidget.new(
           identifier: 'work_packages_assigned',
-          start_row: 4,
-          end_row: 5,
+          start_row: 1,
+          end_row: 7,
           start_column: 1,
-          end_column: 2
+          end_column: 3
         ),
         GridWidget.new(
           identifier: 'work_packages_created',
           start_row: 1,
-          end_row: 2,
-          start_column: 1,
-          end_column: 2
-        ),
-        GridWidget.new(
-          identifier: 'work_packages_watched',
-          start_row: 2,
-          end_row: 4,
-          start_column: 4,
+          end_row: 7,
+          start_column: 3,
           end_column: 5
-        ),
-        GridWidget.new(
-          identifier: 'work_packages_calendar',
-          start_row: 1,
-          end_row: 2,
-          start_column: 4,
-          end_column: 6
         )
       ]
     )

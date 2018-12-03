@@ -33,11 +33,15 @@ import {GridResource} from "core-app/modules/hal/resources/grid-resource";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {ApiV3FilterBuilder, FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
+import {PayloadDmService} from "core-app/modules/hal/dm-services/payload-dm.service";
+import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 @Injectable()
 export class GridDmService {
   constructor(protected halResourceService:HalResourceService,
-              protected pathHelper:PathHelperService) {
+              protected pathHelper:PathHelperService,
+              protected payloadDm:PayloadDmService) {
   }
 
   public one(id:number):Promise<GridResource> {
@@ -55,8 +59,57 @@ export class GridDmService {
     return this.halResourceService.get<CollectionResource>(this.pathHelper.api.v3.grids.toString() + params).toPromise();
   }
 
-  public createForm(payload:any) {
+  public createForm(resource:GridResource|null|any = null, schema:SchemaResource|null = null) {
+    let payload = this.extractPayload(resource, schema);
+
     return this.halResourceService.post<FormResource>(this.pathHelper.api.v3.grids.createForm().toString(),
                                                       payload).toPromise();
+  }
+
+  public create(resource:GridResource, schema:SchemaResource|null = null):Promise<GridResource> {
+    let payload = this.extractPayload(resource, schema);
+
+    return this.halResourceService.post<GridResource>(this.pathHelper.api.v3.grids.path,
+                                                      payload).toPromise();
+  }
+
+  public update(resource:GridResource, schema:SchemaResource):Promise<GridResource> {
+    let payload = this.extractPayload(resource, schema);
+
+    return this.halResourceService.patch<GridResource>(this.pathHelper.api.v3.grids.id(resource.idFromLink).toString(),
+                                                       payload).toPromise();
+  }
+
+  public updateForm(resource:GridResource, schema:SchemaResource|null = null) {
+    let payload = this.extractPayload(resource, schema);
+
+    return this.halResourceService.post<FormResource>(this.pathHelper.api.v3.grids.createForm().toString(),
+                                                      payload).toPromise();
+  }
+
+  public extractPayload(resource:GridResource|null = null, schema:SchemaResource|null = null) {
+    if (resource && schema) {
+      let payload = this.payloadDm.extract(resource, schema);
+
+      // The widget only states the type of the widget resource but does not explain
+      // the widget itself. We therefore have to do that by hand.
+      if (payload.widgets) {
+        payload.widgets = resource.widgets.map((widget) => {
+          return {
+            startRow: widget.startRow,
+            endRow: widget.endRow,
+            startColumn: widget.startColumn,
+            endColumn: widget.endColumn,
+            identifier: widget.identifier
+          };
+        });
+      }
+
+      return payload;
+    } else if (!(resource instanceof HalResource)) {
+      return resource;
+    } else {
+      return {};
+    }
   }
 }

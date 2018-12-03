@@ -50,13 +50,7 @@ class Grids::UpdateService
   protected
 
   def create(attributes)
-    # TODO prettify and explain that this is done only so that
-    # error messages are displayed
-    page = attributes.delete(:page)
-    if page
-      grid_class = ::Grids::Configuration.grid_for_page(page)
-      grid.type = grid_class.name
-    end
+    set_type_for_error_message(attributes.delete(:page))
 
     set_attributes_call = set_attributes(attributes, grid)
 
@@ -75,5 +69,14 @@ class Grids::UpdateService
            grid: grid,
            contract_class: contract_class)
       .call(attributes)
+  end
+
+  # Changing the page/type after the grid has been created is prohibited.
+  # But we set the value so that an error message can be displayed
+  def set_type_for_error_message(page)
+    if page
+      grid_class = ::Grids::Configuration.grid_for_page(page)
+      grid.type = grid_class.name
+    end
   end
 end
