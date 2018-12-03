@@ -28,23 +28,51 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Filters
-  STRATEGIES = {
-    list: Queries::Filters::Strategies::List,
-    list_all: Queries::Filters::Strategies::ListAll,
-    list_optional: Queries::Filters::Strategies::ListOptional,
-    integer: Queries::Filters::Strategies::Integer,
-    date: Queries::Filters::Strategies::Date,
-    datetime_past: Queries::Filters::Strategies::DateTimePast,
-    string: Queries::Filters::Strategies::String,
-    text: Queries::Filters::Strategies::Text,
-    search: Queries::Filters::Strategies::Search,
-    float: Queries::Filters::Strategies::Float,
-    inexistent: Queries::Filters::Strategies::Inexistent
-  }.freeze
+module Queries::WorkPackages::Filter::FilterOnTsvMixin
+  DISALLOWED_CHARACTERS = /['?\\:()&|!*]/
 
-  ##
-  # Wrapper class for invalid filters being created
-  class InvalidError < StandardError; end
-  class MissingError < StandardError; end
+  def type
+    :text
+  end
+
+  def available?
+    EnterpriseToken.allows_to?(:attachment_filters) && OpenProject::Database.allows_tsv?
+  end
+
+  def search_column
+    raise NotImplementedError
+  end
+
+  def tsv_where(table_name, column_name)
+    if OpenProject::Database.allows_tsv?
+      column = '"' + table_name.to_s + '"."' + column_name.to_s + '_tsv"'
+      query = tokenize
+      language = OpenProject::Configuration.main_content_language
+
+      ActiveRecord::Base.send(
+        :sanitize_sql_array, ["#{column} @@ to_tsquery(?, ?)",
+                              language,
+                              query]
+      )
+    end
+  end
+
+  def tokenize
+    terms = normalize_text(clean_terms).split(/[\s]+/).reject(&:blank?)
+
+    case operator
+    when '~'
+      terms.join ' & '
+    when '!~'
+      '! ' + terms.join(' & ! ')
+    end
+  end
+
+  def clean_terms
+    values.first.gsub(DISALLOWED_CHARACTERS, ' ')
+  end
+
+  def normalize_text(text)
+    OpenProject::FullTextSearch.normalize_text(text)
+  end
 end

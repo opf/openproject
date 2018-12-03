@@ -28,14 +28,29 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::AttachmentBaseFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+class Queries::WorkPackages::Filter::SearchFilter < Queries::WorkPackages::Filter::WorkPackageFilter
   include Queries::WorkPackages::Filter::FilterOnTsvMixin
 
-  def includes
-    :attachments
+  def self.key
+    :search
+  end
+
+  def name
+    :search
+  end
+
+  def type
+    :search
+  end
+
+  def human_name
+    I18n.t('label_search')
   end
 
   def where
-    tsv_where(Attachment.table_name, search_column)
+    operator_strategy.sql_for_field(values, WorkPackage.table_name, :subject)     + ' OR ' +
+    operator_strategy.sql_for_field(values, WorkPackage.table_name, :description) + ' OR ' +
+    tsv_where(Attachment.table_name, :fulltext)                       + ' OR ' +
+    tsv_where(Attachment.table_name, :file)
   end
 end
