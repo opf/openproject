@@ -23,8 +23,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 end%>
 
 <div class="grid-content" id="available_principal_roles">
-  <fieldset>
-    <legend><%= Role.model_name.human(:count => 2) %></legend>
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend"><%= Role.model_name.human(:count => 2) %></legend>
     <% if available_additional_global_roles(global_roles, user).count == 0 %>
       <span id="no_additional_principal_roles">
         <%= no_results_box %>

@@ -111,7 +111,6 @@ Reporting.Filters = function($){
         load_available_values_for_filter(field, options.callback_func);
         $('#rm_' + field).val(field); // set the value, so the serialized form will return this filter
         value_changed(field);
-        set_filter_value_widths(100);
       } else {
         options.slowly ? field_el.fadeOut('slow') : field_el.hide();
 
@@ -119,7 +118,6 @@ Reporting.Filters = function($){
           field_el.removeAttr('data-selected');
         }
         $('#rm_' + field).val(""); // reset the value, so the serialized form will not return this filter
-        set_filter_value_widths(5000);
       }
       operator_changed(field, $("#operators\\[" + field + "\\]"));
       display_category($('#' + field_el.attr("data-label")));
@@ -142,39 +140,6 @@ Reporting.Filters = function($){
     show_filter(field, { show_filter: false, hide_only: hide_only });
     select_option_enabled($("#add_filter_select"), field, true);
   };
-
-  /*
-    Smoothly sets the width of currently displayed filters.
-    Params:
-      delay:Int
-        Time to wait before resizing the filters width */
-  var set_filter_value_widths = function (delay) {
-    window.clearTimeout(set_filter_value_widths_timeout);
-    if (visible_filters().length > 0) {
-      set_filter_value_widths_timeout = window.setTimeout(function () {
-        var table_data = $('#filter_' + visible_filters()[0] + ' .advanced-filters--filter-value').first().parent();
-        var current_width = table_data.width();
-        var filters = $(".advanced-filters--filter");
-        // First, reset all widths
-        filters.css('width', 'auto');
-        // Now, get the current width
-        // Any width will be fine, as the table layout makes all elements the same width
-        var new_width = table_data.width();
-        if (new_width < current_width) {
-          // Set all widths to previous, so we can animate
-          filters.css('width', current_width + 'px');
-        }
-        // Now, set all widths to be the widest
-        if (new_width < current_width) {
-          filters.animate('width', new_width + 'px');
-        } else {
-          filters.css('width', new_width + 'px');
-        }
-      }, delay);
-    }
-  };
-
-  var set_filter_value_widths_timeout;
 
   var last_visible_filter = function () {
     return $('.advanced-filters--filter:visible').last()[0];
