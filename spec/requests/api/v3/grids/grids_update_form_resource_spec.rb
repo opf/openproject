@@ -78,40 +78,24 @@ describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
 
     it 'contains the current data in the payload' do
       expected = {
-        "rowCount": 4,
-        "columnCount": 5,
+        "rowCount": 7,
+        "columnCount": 4,
         "widgets": [
           {
             "_type": "GridWidget",
-            "identifier": "work_packages_assigned",
-            "startRow": 4,
-            "endRow": 5,
-            "startColumn": 1,
-            "endColumn": 2
+            identifier: 'work_packages_assigned',
+            startRow: 1,
+            endRow: 7,
+            startColumn: 1,
+            endColumn: 3
           },
           {
             "_type": "GridWidget",
-            "identifier": "work_packages_created",
-            "startRow": 1,
-            "endRow": 2,
-            "startColumn": 1,
-            "endColumn": 2
-          },
-          {
-            "_type": "GridWidget",
-            "identifier": "work_packages_watched",
-            "startRow": 2,
-            "endRow": 4,
-            "startColumn": 4,
-            "endColumn": 5
-          },
-          {
-            "_type": "GridWidget",
-            "identifier": "work_packages_calendar",
-            "startRow": 1,
-            "endRow": 2,
-            "startColumn": 4,
-            "endColumn": 6
+            identifier: 'work_packages_created',
+            startRow: 1,
+            endRow: 7,
+            startColumn: 3,
+            endColumn: 5
           }
         ],
         "_links": {
