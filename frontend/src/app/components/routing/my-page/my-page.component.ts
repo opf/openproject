@@ -24,7 +24,7 @@ export class MyPageComponent implements OnInit {
 
   // If a page with the current page exists (scoped to the current user by the backend)
   // that page will be used to initialized the grid.
-  // If it does not exist, fetch the createForm and then create a new resource.
+  // If it does not exist, fetch the form and then create a new resource.
   // The created resource is then used to initialize the grid.
   private loadMyPage():Promise<GridResource> {
     return this

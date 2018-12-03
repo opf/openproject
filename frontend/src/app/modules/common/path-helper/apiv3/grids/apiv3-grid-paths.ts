@@ -27,21 +27,14 @@
 // ++
 
 import {
-  SimpleResource,
-  SimpleResourceCollection
+  SimpleResource
 } from 'core-app/modules/common/path-helper/apiv3/path-resources';
-import {Apiv3GridPaths} from "core-app/modules/common/path-helper/apiv3/grids/apiv3-grid-paths";
 
-export class Apiv3GridsPaths extends SimpleResourceCollection {
-  constructor(basePath:string) {
-    super(basePath, 'grids');
+export class Apiv3GridPaths extends SimpleResource {
+  constructor(basePath:string, gridId:string|number) {
+    super(basePath, gridId);
   }
 
-  public id(gridId:string|number) {
-    return new Apiv3GridPaths(this.path, gridId);
-  }
-
-  public form() {
-    return new SimpleResource(this.path, 'form');
-  }
+  // Static paths
+  readonly form = new SimpleResource(this.path, 'form');
 }

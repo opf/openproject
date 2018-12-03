@@ -62,7 +62,7 @@ export class GridDmService {
   public createForm(resource:GridResource|null|any = null, schema:SchemaResource|null = null) {
     let payload = this.extractPayload(resource, schema);
 
-    return this.halResourceService.post<FormResource>(this.pathHelper.api.v3.grids.createForm().toString(),
+    return this.halResourceService.post<FormResource>(this.pathHelper.api.v3.grids.form().toString(),
                                                       payload).toPromise();
   }
 
@@ -83,7 +83,7 @@ export class GridDmService {
   public updateForm(resource:GridResource, schema:SchemaResource|null = null) {
     let payload = this.extractPayload(resource, schema);
 
-    return this.halResourceService.post<FormResource>(this.pathHelper.api.v3.grids.createForm().toString(),
+    return this.halResourceService.post<FormResource>(this.pathHelper.api.v3.grids.id(resource.idFromLink).form.toString(),
                                                       payload).toPromise();
   }
 
