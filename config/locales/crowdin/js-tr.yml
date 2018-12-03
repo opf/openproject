@@ -66,7 +66,7 @@ tr:
       preview: Önizleme modunu aç/kapat
       source_code: Markdown kaynak modunu değiştir
       error_saving_failed: 'Aşağıdaki nedenden dolayı belge kayıt edilemedi: %{error}'
-      error_initialization_failed: Failed to initialize CKEditor!
+      error_initialization_failed: CKEditor başlatılamadı!
       mode:
         manual: Markdown kaynağına geç
         wysiwyg: WYSIWYG düzenleyiciye geç
@@ -113,7 +113,7 @@ tr:
           button: Gömülü iş paketi tablosu
           text: "[Placeholder] Embedded work package table"
         embedded_calendar:
-          text: "[Placeholder] Embedded calendar"
+          text: "[Placeholder] Göümülü takvim"
     custom_actions:
       date:
         specific: açık
@@ -293,7 +293,7 @@ tr:
     onboarding:
       steps:
         welcome: Take a three minutes introduction tour to learn the most <b>important
-          features</b>. <br> We recommend to complete the steps until the end. You
+          features</b>. <br> We recommend completing the steps until the end. You
           can restart the tour any time.
         project_selection: Please select one of the projects with useful demo data
           to get started. <br> The <b>Demo project</b> suits best for classical project
@@ -303,10 +303,11 @@ tr:
         members: Invite new <b>Members</b> to join your project.
         wiki: Within the <b>Wiki</b> you can document and share knowledge together
           with your team.
-        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> Here
-          you can create <b>epics, user stories, and bugs</b>, prioritize via drag'n'drop
-          and add them to a sprint.
-        backlogs_task_board_arrow: To see your <b>Task board</b>, open on the Sprint
+        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
+          right you have the Product Backlog or a Bug Backlog, on the left you will
+          have the respective sprints. Here you can create <b>epics, user stories,
+          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
+        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
           drop-down...
         backlogs_task_board_select: "... and select the <b>Task board</b> entry."
         backlogs_task_board: The <b>Task board</b> visualizes the progress for this
@@ -319,7 +320,8 @@ tr:
           You can create or edit a work package directly within this list. To see
           its details you can double click on a row.
         wp_full_view: Within the <b>Work package details</b> you find all relevant
-          information, such as description, status and priority, activities or comments.
+          information, such as description, status and priority, activities, dependencies
+          or comments.
         wp_back_button: With the arrow you can navigate back to the work package list.
         wp_create_button: The <b>Create</b> button will add a new work package to
           your project.
@@ -357,6 +359,7 @@ tr:
       attribute_groups:
         error_duplicate_group_name: "%{group} ismi birden fazla kullanıldı. Grup isimleri
           eşsiz olmalıdır."
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: Form ayarlarlarını sıfırlayın
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
           This will reset the attributes to their default group and disable ALL custom
@@ -370,6 +373,19 @@ tr:
           musunuz?
         more_information: Daha fazla bilgi
         nevermind: Boşver
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: yineleyen
+          blocks: blocking
+          blocked: tarafından engellendi
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: takipçiler yükleniyor...
       label_error_loading: Takipçileri yüklerken bir hata oluştu
@@ -378,35 +394,38 @@ tr:
       label_discard: Seçimi gözardı et
       typeahead_placeholder: Olası takipçiler için arayın
     relation_labels:
-      parent: Kaynak
+      parent: Üst
       children: Çocuk
       relates: Alakalı
       duplicates: Çoğalt
       duplicated: Yineleyen
       blocks: Şunu Engelliyor
       blocked: Şuna Bağlı
-      precedes: Öncülleri
-      follows: Takip eden
+      precedes: Sonrası
+      follows: Öncesi
       includes: İçerir
       partof: Bölümü
       requires: Gerektirir
       required: Tarafından gerekli
       relation_type: ilişki türü
     relations_hierarchy:
-      parent_headline: Kaynak
+      parent_headline: Üst
       hierarchy_headline: Hiyerarşi
       children_headline: Çocuk
     relation_buttons:
-      set_parent: Set parent work package
+      set_parent: Üst iş paketi ayarla
       change_parent: Üstünü değiştir
       remove_parent: Üstündekini kaldır
       group_by_wp_type: İş paketi türüne göre grupla
       group_by_relation_type: İlişki türüne göre gruplandırma
       add_parent: Mevcut bir üst ekle
       add_new_child: Yeni alt birim oluştur
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: Mevcut bir alt birim ekle
       remove_child: Alt bileşeni kaldır
       add_new_relation: Yeni ilişki oluştur
+      add_existing_relation: Add existing relation
       update_description: Bu ilişkinin açıklamasını güncelle
       toggle_description: İlişki açıklamasını göster
       update_relation: İlişki türünü değiştirmek için tıklayın
@@ -722,6 +741,9 @@ tr:
             mass?
           relation_columns: İş paketleri listesindeki ilişkileri görmek ister misiniz?
           check_out_link: Enterprise sürüme bakın.
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: Genel Bakış
         activity: Etkinlik

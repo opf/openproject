@@ -37,8 +37,8 @@ FactoryBot.define do
       sequence(:title) do |n| "Wiki Title #{n}" end
 
       trait :with_menu_item_options do
-        index_page true
-        new_wiki_page true
+        index_page { true }
+        new_wiki_page { true }
       end
 
       factory :wiki_menu_item_with_parent do

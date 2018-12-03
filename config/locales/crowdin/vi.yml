@@ -187,8 +187,9 @@ vi:
       projects: Các dự án
       enabled_projects: Enabled projects
       add_group: Thêm 1 nhóm thuộc tính
-      add_subelements: Thêm subelements nhóm
-      edit_query: Chỉnh sửa nhúng truy vấn
+      add_table: Add table of related work packages
+      edit_query: Edit table
+      query_group_placeholder: Give the table a name
       reset: Reset to defaults
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
@@ -1171,6 +1172,7 @@ vi:
   label_auth_source_plural: Chế độ xác thực
   label_authentication: Xác thực
   label_available_project_work_package_categories: Available work package categories
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Available boards
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories

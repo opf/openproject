@@ -11,7 +11,7 @@ RSpec.configure do |config|
   config.append_after(:each) do
     # Cleanup after specs changing locale explicitly or
     # by calling code in the app setting changing the locale.
-    I18n.locale = :en
+    I18n.locale = :en unless I18n.locale == :en
 
     # Set the class instance variable @current_user to nil
     # to avoid having users from one spec present in the next

@@ -201,7 +201,7 @@ cs:
     label_in: v
     label_in_less_than: za méně než
     label_in_more_than: za více než
-    label_latest_activity: Latest activity
+    label_latest_activity: Poslední aktivita
     label_last_updated_on: Naposled aktualizováno
     label_less_or_equal: "<="
     label_less_than_ago: před méně jak (dny)
@@ -263,7 +263,7 @@ cs:
     label_unwatch: Přestat sledovat
     label_unwatch_work_package: Přestat sledovat pracovní balíček
     label_uploaded_by: Nahrál
-    label_default_queries: Default views
+    label_default_queries: Výchozí zobrazení
     label_starred_queries: Favorite views
     label_global_queries: Public views
     label_custom_queries: Private views
@@ -294,7 +294,7 @@ cs:
     onboarding:
       steps:
         welcome: Take a three minutes introduction tour to learn the most <b>important
-          features</b>. <br> We recommend to complete the steps until the end. You
+          features</b>. <br> We recommend completing the steps until the end. You
           can restart the tour any time.
         project_selection: Please select one of the projects with useful demo data
           to get started. <br> The <b>Demo project</b> suits best for classical project
@@ -304,10 +304,11 @@ cs:
         members: Invite new <b>Members</b> to join your project.
         wiki: Within the <b>Wiki</b> you can document and share knowledge together
           with your team.
-        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> Here
-          you can create <b>epics, user stories, and bugs</b>, prioritize via drag'n'drop
-          and add them to a sprint.
-        backlogs_task_board_arrow: To see your <b>Task board</b>, open on the Sprint
+        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
+          right you have the Product Backlog or a Bug Backlog, on the left you will
+          have the respective sprints. Here you can create <b>epics, user stories,
+          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
+        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
           drop-down...
         backlogs_task_board_select: "... and select the <b>Task board</b> entry."
         backlogs_task_board: The <b>Task board</b> visualizes the progress for this
@@ -320,15 +321,16 @@ cs:
           You can create or edit a work package directly within this list. To see
           its details you can double click on a row.
         wp_full_view: Within the <b>Work package details</b> you find all relevant
-          information, such as description, status and priority, activities or comments.
+          information, such as description, status and priority, activities, dependencies
+          or comments.
         wp_back_button: With the arrow you can navigate back to the work package list.
         wp_create_button: The <b>Create</b> button will add a new work package to
           your project.
         wp_timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
           for your project.
-        wp_timeline: Here you can edit your project plan. Create new phases, milestones,
-          and add dependencies. All team members can see and update the latest plan
-          at any time.
+        wp_timeline: Zde můžete upravit váš projektový plán. Vytvářet nové fáze, milníky
+          a přidat závislosti. Všichni členové týmu mohou kdykoliv zobrazit a aktualizovat
+          aktuální plán.
         help_menu: In the <b>Help</b> menu you will find a user guide and additional
           help resources. <br> Enjoy your work with OpenProject!
         got_it: Got it
@@ -358,6 +360,7 @@ cs:
       attribute_groups:
         error_duplicate_group_name: Jméno %{group} je již použito. Jména skupin musí
           být jedinečná.
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
           This will reset the attributes to their default group and disable ALL custom
@@ -370,6 +373,19 @@ cs:
           client?
         more_information: Více informací
         nevermind: Nevermind
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: duplikováno
+          blocks: blocking
+          blocked: zablokoval
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: loading watchers...
       label_error_loading: An error occurred while loading the watchers
@@ -394,7 +410,7 @@ cs:
       relation_type: typ vztahu
     relations_hierarchy:
       parent_headline: Rodič
-      hierarchy_headline: Hierarchy
+      hierarchy_headline: Hierarchie
       children_headline: Potomci
     relation_buttons:
       set_parent: Set parent work package
@@ -404,9 +420,12 @@ cs:
       group_by_relation_type: Seskupit podle typu vztahu
       add_parent: Přidat existujícího rodiče
       add_new_child: Vytvořit nového potomka
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: Přidat existujícího potomka
       remove_child: Odstranit záznam
       add_new_relation: Vytvořit nový vztah
+      add_existing_relation: Add existing relation
       update_description: Nastavit nebo upravit popis tohoto vztahu
       toggle_description: Toggle relation description
       update_relation: Click to change the relation type
@@ -453,7 +472,7 @@ cs:
       view?
     text_attachment_destroy_confirmation: Are you sure you want to delete the attachment?
     timelines:
-      gantt_chart: Gantt chart
+      gantt_chart: Ganttův diagram
       labels:
         title: Konfigurace popisku
         bar: Bar labels
@@ -466,8 +485,8 @@ cs:
           its date labels will be shown instead of these attributes.
 
 '
-      button_activate: Show Gantt chart
-      button_deactivate: Hide Gantt chart
+      button_activate: Zobrazit Ganttův diagram
+      button_deactivate: Skrýt Ganttův diagram
       cancel: Zrušit
       change: Změna v plánování
       due_date: Datum dokončení
@@ -530,7 +549,7 @@ cs:
       learn_more: Více informací
       close_warning: Ignorovat toto upozornění.
     upsale:
-      ee_only: Enterprise Edition only feature
+      ee_only: Pouze funkce Enterprise edice
     wiki_formatting:
       strong: Strong
       italic: Kurzíva
@@ -644,10 +663,10 @@ cs:
         versionName: Verze
         version: Verze
       default_queries:
-        latest_activity: Latest activity
-        created_by_me: Created by me
-        assigned_to_me: Assigned to me
-        recently_created: Recently created
+        latest_activity: Poslední aktivita
+        created_by_me: Vytvořeno mnou
+        assigned_to_me: Přiřazeno mně
+        recently_created: Nedávno vytvořené
         all_open: Všechny otevřené
         summary: Souhrn
       jump_marks:
@@ -695,24 +714,24 @@ cs:
           šipkami.
       table_configuration:
         button: Konfigurovat tabulku tohoto pracovního balíčku
-        choose_display_mode: Display work packages as
+        choose_display_mode: Zobrazit pracovní balíčky jako
         modal_title: Konfigurace tabulky pracovních balíčků
         embedded_tab_disabled: This configuration tab is not available for the embedded
           view you're editing.
         default: výchozí
         display_settings: Zobrazit nastavení
         default_mode: Flat list
-        hierarchy_mode: Hierarchy
+        hierarchy_mode: Hierarchie
         hierarchy_hint: Všechny filtrované výsledky z tabulky budou rozšířeny o jejich
           předky. Hierarchii lze rozbalit a sbalit.
         display_sums_hint: Zobrazit součty všech sčitatelných atributů v řádku pod
           tabulkou výsledků.
         show_timeline_hint: Zobrazit interaktivní Ganttův graf na pravé straně tabulky.
           Šířku můžete změnit přetažením dělící příčky mezi tabulkou a Ganttovým diagramem.
-        highlighting: Highlighting
+        highlighting: Zvýraznění
         highlighting_mode:
-          description: Highlight with color
-          none: No highlighting
+          description: Barevné zvýraznění
+          none: Bez zvýraznění
           inline: Highlighted attribute(s)
           inline_all: All attributes
           entire_row_by: Entire row by
@@ -726,6 +745,9 @@ cs:
             mass?
           relation_columns: Need to see relations in the work package list?
           check_out_link: Check out the Enterprise Edition.
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: Přehled
         activity: Aktivita
@@ -738,7 +760,7 @@ cs:
         months: mesice
     toolbar:
       settings:
-        configure_view: Configure view ...
+        configure_view: Nastavit zobrazení ...
         columns: Sloupce ...
         sort_by: Řadit podle ...
         group_by: Seskupit podle ...
@@ -750,12 +772,12 @@ cs:
         save_as: Uložit jako...
         export: Exportovat ...
         visibility_settings: Visibility settings ...
-        page_settings: Rename view ...
+        page_settings: Přejmenovat pohled...
         delete: Odstranit
       filter: Filtr
       unselected_title: Pracovní balíček
-      search_query_label: Search saved views
-      search_query_title: Click to search saved views
+      search_query_label: Vyhledat uložené pohledy
+      search_query_title: Kliknutím zahájíte vyhledávání uložených pohledů
       placeholder_query_title: Set a title for this view
     modals:
       label_settings: Rename view

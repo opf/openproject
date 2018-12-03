@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Injectable, OnDestroy} from '@angular/core';
+import {Injectable, Injector, OnDestroy} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {Subject} from "rxjs";
 import {ComponentType} from "@angular/cdk/portal";
@@ -36,14 +36,17 @@ import {AuthorisationService} from "core-app/modules/common/model-auth/model-aut
 @Injectable()
 export class WorkPackageInlineCreateService implements OnDestroy {
 
-  constructor(protected readonly I18n:I18nService,
-              protected readonly authorisationService:AuthorisationService) {
+  protected readonly I18n:I18nService = this.injector.get(I18nService);
+  protected readonly authorisationService:AuthorisationService = this.injector.get(AuthorisationService);
+
+  constructor(protected readonly injector:Injector) {
   }
 
   /**
    * A separate reference pane for the inline create component
    */
   public readonly referenceComponentClass:ComponentType<any>|null = null;
+
 
   /**
    * A related work package for the inline create context
@@ -59,12 +62,15 @@ export class WorkPackageInlineCreateService implements OnDestroy {
   };
 
   public get canAdd() {
-    return this.authorisationService.can('work_packages', 'createWorkPackage') ||
-      this.authorisationService.can('work_package', 'addChild');
+    return this.canCreateWorkPackages || this.authorisationService.can('work_package', 'addChild');
   }
 
   public get canReference() {
     return false;
+  }
+
+  public get canCreateWorkPackages() {
+    return this.authorisationService.can('work_packages', 'createWorkPackage');
   }
 
   /** Allow callbacks to happen on newly created inline work packages */

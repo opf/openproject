@@ -12,8 +12,10 @@
 # See doc/COPYRIGHT.md for more details.
 #++
 
+require 'open_project/version'
+
 module OpenProject
   module Webhooks
-    VERSION = "8.2.0"
+    VERSION = ::OpenProject::VERSION.to_semver
   end
 end

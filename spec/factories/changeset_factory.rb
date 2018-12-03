@@ -29,7 +29,7 @@
 FactoryBot.define do
   factory :changeset do
     sequence(:revision) do |n| "#{n}" end
-    committed_on Time.now
-    commit_date Date.today
+    committed_on { Time.now }
+    commit_date { Date.today }
   end
 end

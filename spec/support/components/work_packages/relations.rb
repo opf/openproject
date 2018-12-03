@@ -119,6 +119,14 @@ module Components
         expect(relation.other_work_package(work_package).id).to eq(to.id)
       end
 
+      def expect_relation(relatable)
+        expect(relations_group).to have_selector('.wp-relations--subject-field', text: relatable.subject)
+        end
+
+      def expect_relation_by_text(text)
+        expect(relations_group).to have_text('.wp-relations--subject-field', text)
+      end
+
       def expect_no_relation(relatable)
         expect(page).to have_no_selector('.wp-relations--subject-field', text: relatable.subject)
       end
@@ -167,7 +175,7 @@ module Components
 
       def add_existing_child(work_package)
         # Locate the create row container
-        container = find('.wp-relations--child-form')
+        container = find('.wp-relations--add-form')
 
         # Enter the query and select the child
         autocomplete = container.find(".wp-relations--autocomplete")
@@ -184,12 +192,12 @@ module Components
 
         within container do
           expect(page)
-            .to have_selector('.wp-table--cell-td.subject', text: work_package.subject)
+            .to have_selector('.wp-table--cell-td.subject', text: work_package.subject, wait: 10)
         end
       end
 
       def expect_not_child(work_package)
-        page.within('.work-packages-embedded-view--container') do
+        page.within('wp-relations-tab .work-packages-embedded-view--container') do
           row = ".wp-row-#{work_package.id}-table"
 
           expect(page).to have_no_selector(row)
@@ -197,7 +205,11 @@ module Components
       end
 
       def children_table
-        ::Pages::EmbeddedWorkPackagesTable.new find('.work-packages-embedded-view--container')
+        ::Pages::EmbeddedWorkPackagesTable.new find('wp-relations-tab .work-packages-embedded-view--container')
+      end
+
+      def relations_group
+        find('wp-relations-tab wp-relations-group')
       end
 
       def remove_child(work_package)

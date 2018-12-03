@@ -32,6 +32,6 @@ FactoryBot.define do
   end
 
   factory :default_priority, parent: :issue_priority do
-    is_default true
+    is_default { true }
   end
 end

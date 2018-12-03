@@ -188,8 +188,9 @@ id:
       projects: Project
       enabled_projects: Proyek-proyek yang diaktifkan
       add_group: Add attribute group
-      add_subelements: Add subelements group
-      edit_query: Edit embedded query
+      add_table: Add table of related work packages
+      edit_query: Edit table
+      query_group_placeholder: Give the table a name
       reset: Disetel ulang ke kondisi bawaan
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
@@ -750,7 +751,7 @@ id:
     checkbox_label: Saya telah memperhatikan dan menyetujui hal di atas.
     failure_message: Persetujuan gagal, tidak bisa dilanjutkan.
     title: Persetujuan Pengguna
-    decline_warning_message: You have declined to consent and have been logged out.
+    decline_warning_message: Anda telah menolak untuk menyetujui dan telah dikeluarkan.
     user_has_consented: User has consented to your configured statement at the given
       time.
     not_yet_consented: User has not consented yet, will be requested upon next login.
@@ -1165,6 +1166,7 @@ id:
   label_auth_source_plural: Mode otentikasi
   label_authentication: Otentikasi
   label_available_project_work_package_categories: Available work package categories
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Available boards
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories

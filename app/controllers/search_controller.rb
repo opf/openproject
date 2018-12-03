@@ -44,10 +44,10 @@ class SearchController < ApplicationController
         nil
       when 'my_projects'
         User.current.memberships.map(&:project)
-      when 'subprojects'
-        @project ? (@project.self_and_descendants.active) : nil
-      else
+      when 'current_project'
         @project
+      else
+        @project ? (@project.self_and_descendants.active) : nil
       end
 
     offset = begin

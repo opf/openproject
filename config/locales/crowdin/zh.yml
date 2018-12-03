@@ -168,8 +168,9 @@ zh:
       projects: 项目
       enabled_projects: 已启用的项目
       add_group: 增加属性组
-      add_subelements: 增加子元素组
-      edit_query: 编辑嵌入式查询
+      add_table: Add table of related work packages
+      edit_query: Edit table
+      query_group_placeholder: Give the table a name
       reset: 重置为默认值
       type_color_text: '单击可以分配或更改此类型的颜色。选定颜色可区分甘特图中的工作包。
 
@@ -1071,6 +1072,7 @@ zh:
   label_auth_source_plural: 身份验证模式
   label_authentication: 身份验证
   label_available_project_work_package_categories: 可用的工作包类别
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: 可用的公告板
   label_available_project_versions: 可用版本
   label_available_project_repositories: 可用存储库

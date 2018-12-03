@@ -189,8 +189,9 @@ ca:
       projects: Projectes
       enabled_projects: Enabled projects
       add_group: Add attribute group
-      add_subelements: Add subelements group
-      edit_query: Edit embedded query
+      add_table: Add table of related work packages
+      edit_query: Edit table
+      query_group_placeholder: Give the table a name
       reset: Reset to defaults
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
@@ -1184,6 +1185,7 @@ ca:
   label_authentication: Autenticació
   label_available_project_work_package_categories: Categories de paquet de treball
     disponibles
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Taulers disponibles
   label_available_project_versions: Versions disponibles
   label_available_project_repositories: Repositòris disponibles

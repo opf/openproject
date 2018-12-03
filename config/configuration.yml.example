@@ -245,6 +245,27 @@ default:
   #   host: errbit.example.org
   #   port: 443 (default)
 
+
+  ##
+  # Overriding the appearance of the help menu
+  #
+  # You can set a custom help link to appear in stead of the built-in help dropdown.
+  # Users clicking on the help icon will be referred to the given page.
+  # To enable, uncomment this line and set your URL.
+  # force_help_link: https://my-custom-domain.example/my-help-url
+
+  ##
+  # Overriding the text formatting help link
+  # In each WYSIWYG editor, there is a help button that by default shows OpenProject's
+  # own formatting text help. You can override that to show a custom page.
+  # force_formatting_help_link: https://my-custom-domain/my-formatting-help-url
+
+  ##
+  # Overriding the existence of community back links
+  # By default, the homescreen will have some links towards our community pages
+  # To disable it, uncomment this line
+  # show_community_links: false
+
   # Configuration of Source control vendors
   # client_command:
   #   Use this command to the default SCM vendor command (taken from path).

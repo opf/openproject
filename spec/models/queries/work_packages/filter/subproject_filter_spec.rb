@@ -38,9 +38,11 @@ describe Queries::WorkPackages::Filter::SubprojectFilter, type: :model do
     let(:plucked) { projects.map { |p| [p.id, p.name] } }
 
     before do
-      allow(project)
-      .to receive_message_chain(:descendants, :visible)
-      .and_return relation
+      if project
+        allow(project)
+        .to receive_message_chain(:descendants, :visible)
+        .and_return relation
+      end
 
       allow(relation)
         .to receive(:pluck)

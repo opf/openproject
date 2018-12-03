@@ -292,9 +292,9 @@ hu:
       show_modal: Attribútum-súgószöveg mutatása
     onboarding:
       steps:
-        welcome: Ismerje meg három percben, hogy mik a legfontosabb <b> fontos funkciók
-          </b>.<br> Javasoljuk, hogy végezze el a lépéseket a végéig. Bármikor újraindíthatja
-          a ezt túrát.
+        welcome: Take a three minutes introduction tour to learn the most <b>important
+          features</b>. <br> We recommend completing the steps until the end. You
+          can restart the tour any time.
         project_selection: Please select one of the projects with useful demo data
           to get started. <br> The <b>Demo project</b> suits best for classical project
           management, while the <b>Scrum project</b> is better for Agile project management.
@@ -303,10 +303,11 @@ hu:
         members: Invite new <b>Members</b> to join your project.
         wiki: Within the <b>Wiki</b> you can document and share knowledge together
           with your team.
-        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> Here
-          you can create <b>epics, user stories, and bugs</b>, prioritize via drag'n'drop
-          and add them to a sprint.
-        backlogs_task_board_arrow: To see your <b>Task board</b>, open on the Sprint
+        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
+          right you have the Product Backlog or a Bug Backlog, on the left you will
+          have the respective sprints. Here you can create <b>epics, user stories,
+          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
+        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
           drop-down...
         backlogs_task_board_select: "... and select the <b>Task board</b> entry."
         backlogs_task_board: The <b>Task board</b> visualizes the progress for this
@@ -318,8 +319,9 @@ hu:
           a feladatok, szolgáltatások, mérföldkövek, hibák, és több. <br> létrehozása
           vagy szerkesztése a feladatcsoport közvetlenül a listán belül. Megtekintheti
           a vonatkozó adatokat is dupla kattintással.
-        wp_full_view: Belül a <b>Feladatcsoport részletek</b> talál, minden lényeges
-          információt, például a leírás, állapot és prioritás, tevékenység vagy megjegyzéseket.
+        wp_full_view: Within the <b>Work package details</b> you find all relevant
+          information, such as description, status and priority, activities, dependencies
+          or comments.
         wp_back_button: With the arrow you can navigate back to the work package list.
         wp_create_button: A <b>Létrehoz</b> gombbal tudsz új feladatot hozzáadni a
           projekthez.
@@ -358,6 +360,7 @@ hu:
       attribute_groups:
         error_duplicate_group_name: A %{group} név már használatban van. A csoport
           névnek egyedinek kell lennie.
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: Űrlap konfiguráció visszaállítása
         confirm_reset: 'Figyelmeztetés: Biztosan visszaállítja az alap űrlap beállítást?
           Az attribútumok az alapértelmezett csoportba kerülnek, a láthatósági beállítások
@@ -370,6 +373,19 @@ hu:
           legyen?
         more_information: További információ
         nevermind: Mindegy
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: duplázott
+          blocks: blocking
+          blocked: blokkolta
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: megfigyelők betöltése...
       label_error_loading: Hiba történt a megfigyelők betöltése közben
@@ -404,9 +420,12 @@ hu:
       group_by_relation_type: Rendezés kapcsolati típusok szerint
       add_parent: Meglévő szülő kapcsolat hozzáadása
       add_new_child: Új gyermek kapcsolat hozzáadása
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: Meglévő gyermek kapcsolat hozzáadása
       remove_child: Gyermek kapcsolat törlése
       add_new_relation: Új kapcsolat hozzáadása
+      add_existing_relation: Add existing relation
       update_description: Kapcsolat részleteinek beállítása vagy frissítése
       toggle_description: Kapcsolat leírás kapcsolása
       update_relation: Klikk a kapcsolat típus módosításához
@@ -722,6 +741,9 @@ hu:
             mass?
           relation_columns: Szeretné látni a munkacsomag kapcsolatait?
           check_out_link: Tekintse meg az Enterprise Edition-t!
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: Áttekintő
         activity: Tevékenység

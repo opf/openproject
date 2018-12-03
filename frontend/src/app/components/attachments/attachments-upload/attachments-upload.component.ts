@@ -122,10 +122,21 @@ export class AttachmentsUploadComponent implements OnInit {
   }
 
   private uploadFiles(files:UploadFile[]):void {
-    if (files === undefined || files.length === 0) {
+    files = this.filterFolders(files || [])
+
+    if (files.length === 0) {
       return;
     }
 
     this.resource.uploadAttachments(files);
+  }
+
+  /**
+   * We try to detect folders by checking for either empty types
+   * or empty file sizes.
+   * @param files
+   */
+  private filterFolders(files:UploadFile[]) {
+    return files.filter((file) => file.type !== '' && file.size !== 0);
   }
 }

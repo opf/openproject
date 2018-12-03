@@ -37,7 +37,7 @@ class Widget::Settings < Widget::Base
   end
 
   def render_controls_settings
-    content_tag :div, class: 'buttons form_controls' do
+    content_tag :div, class: 'form--buttons -with-button-form' do
       widgets = ''.html_safe
       render_widget(Widget::Controls::Apply, @subject, to: widgets)
       render_widget(Widget::Controls::Save, @subject, to: widgets,

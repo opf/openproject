@@ -195,8 +195,9 @@ fil:
       projects: Mga proyekto
       enabled_projects: Paganahin ang mga proyekto
       add_group: Add attribute group
-      add_subelements: Add subelements group
-      edit_query: Edit embedded query
+      add_table: Add table of related work packages
+      edit_query: Edit table
+      query_group_placeholder: Give the table a name
       reset: I-reset sa mga default
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
@@ -1207,6 +1208,7 @@ fil:
   label_authentication: Pagpapatunay
   label_available_project_work_package_categories: Ang mga kategorya ng magagamit
     na work package
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Mga magagamit na board
   label_available_project_versions: Ang magagamit na bersyon
   label_available_project_repositories: Magagamit na mga respository

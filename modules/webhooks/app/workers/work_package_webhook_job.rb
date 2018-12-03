@@ -41,6 +41,8 @@ class WorkPackageWebhookJob < WebhookJob
   end
 
   def perform
+    return unless webhook.enabled_for_project?(work_package.project_id)
+
     body = request_body
     headers = request_headers
     exception = nil
@@ -85,13 +87,15 @@ class WorkPackageWebhookJob < WebhookJob
   end
 
   def request_body
-    '{"action":"' + event_name + '","work_package":' + work_package_json + '}'
+    {
+      action: event_name,
+      work_package: work_package_representer
+    }.to_json
   end
 
-  def work_package_json
+  def work_package_representer
     ::API::V3::WorkPackages::WorkPackageRepresenter
       .create(work_package, current_user: User.admin.first, embed_links: true)
-      .to_json
   end
 
   def work_package

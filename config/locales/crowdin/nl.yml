@@ -187,8 +187,9 @@ nl:
       projects: Projecten
       enabled_projects: Ingeschakelde projecten
       add_group: Toevoegen van nieuwe attribuutgroepen
-      add_subelements: Subelementen groep toevoegen
-      edit_query: Bewerken van ingesloten zoekopdracht
+      add_table: Add table of related work packages
+      edit_query: Edit table
+      query_group_placeholder: Give the table a name
       reset: Standaardinstellingen herstellen
       type_color_text: |
         Klik op toewijzen of wijzigen van de kleur van dit type. De geselecteerde kleur onderscheidt werk pakketten
@@ -1188,6 +1189,7 @@ nl:
   label_auth_source_plural: Verificatiemodi
   label_authentication: Verificatie
   label_available_project_work_package_categories: Beschikbare werkpakket categorieën
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Beschikbare borden
   label_available_project_versions: Beschikbare versies
   label_available_project_repositories: Beschikbare opslagplaatsen

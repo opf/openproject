@@ -71,8 +71,8 @@ module Project::Copy
       unless project.wiki.nil?
         self.wiki = build_wiki(project.wiki.attributes.dup.except('id', 'project_id'))
         self.wiki.wiki_menu_items.delete_all
-        copy_wiki_pages(project)
-        copy_wiki_menu_items(project)
+        copy_wiki_pages(project, selected_copies)
+        copy_wiki_menu_items(project, selected_copies)
       end
     end
 
@@ -87,15 +87,15 @@ module Project::Copy
         new_wiki_page.content = new_wiki_content
 
         wiki.pages << new_wiki_page
-        wiki_pages_map[page.id] = new_wiki_page
+        wiki_pages_map[page] = new_wiki_page
       end
       wiki.save
 
       # Reproduce page hierarchy
       project.wiki.pages.each do |page|
-        if page.parent_id && wiki_pages_map[page.id]
-          wiki_pages_map[page.id].parent = wiki_pages_map[page.parent_id]
-          wiki_pages_map[page.id].save
+        if page.parent_id && wiki_pages_map[page]
+          wiki_pages_map[page].parent = wiki_pages_map[page.parent]
+          wiki_pages_map[page].save
         end
       end
 

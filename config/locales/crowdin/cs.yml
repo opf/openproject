@@ -188,8 +188,9 @@ cs:
       projects: Projekty
       enabled_projects: Povolit projekty
       add_group: Přidat skupinu atributů
-      add_subelements: Přidat skupinu dílčích prvků
-      edit_query: Upravit vložený dotaz
+      add_table: Add table of related work packages
+      edit_query: Edit table
+      query_group_placeholder: Give the table a name
       reset: Obnovit výchozí nastavení
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
@@ -389,7 +390,7 @@ cs:
         attribute_groups: ''
         is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
-        is_milestone: Is milestone
+        is_milestone: Je milník
         color: Barva
       user:
         admin: Administrátor
@@ -1036,7 +1037,7 @@ cs:
   error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
   error_pdf_export_too_many_columns: Příliš mnoho sloupců vybraných pro PDF export.
     Snižte počet sloupců.
-  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
+  error_pdf_failed_to_export: 'PDF export nelze uložit: %{error}'
   error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
     you try to submit data on multiple browsers or tabs? Please close all tabs and
     try again.
@@ -1090,8 +1091,8 @@ cs:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF s popisem
-      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
-      pdf_with_attachments: PDF with attachments
+      pdf_with_descriptions_and_attachments: PDF s popisky a přílohami
+      pdf_with_attachments: PDF s přílohami
   extraction:
     available:
       pdftotext: Pdftotext k dispozici (volitelné)
@@ -1202,6 +1203,7 @@ cs:
   label_auth_source_plural: Režimy ověřování
   label_authentication: Ověření
   label_available_project_work_package_categories: Dostupné kategorie pracovních balíčků
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Available boards
   label_available_project_versions: Dostupné verze
   label_available_project_repositories: Dostupné repozitáře
@@ -1335,7 +1337,7 @@ cs:
     language to default
   label_form_configuration: Form configuration
   label_gantt: Ganttův diagram
-  label_gantt_chart: Gantt chart
+  label_gantt_chart: Ganttův diagram
   label_general: Obecné
   label_generate_key: Generovat klíč
   label_git_path: Cesta ke složce .git
@@ -1574,7 +1576,7 @@ cs:
   label_storage_for: Encompasses storage for
   label_string: Text
   label_subproject: Dílčí projekt
-  label_subproject_new: New subproject
+  label_subproject_new: Nový podprojekt
   label_subproject_plural: Podprojekty
   label_subtask_plural: Podúkoly
   label_summary: Souhrn
@@ -2282,7 +2284,7 @@ cs:
     highlighting:
       mode_long:
         inline: Highlight attribute(s) inline
-        none: No highlighting
+        none: Bez zvýraznění
         status: Entire row by Status
         type: Entire row by Type
         priority: Entire row by Priority
@@ -2606,8 +2608,8 @@ cs:
       barvě nebudou odstraněny.
 
 '
-    really_delete_reporting: 'Are you sure, you want to delete the following reporting?
-      Previous reporting statuses will be deleted, too.
+    really_delete_reporting: 'Chcete tuto zprávu o stavu opravdu smazat? Předchozí
+      zprávy o stavu budou smazány také.
 
 '
     start: Začátek
@@ -2699,19 +2701,20 @@ cs:
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Varování
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
-  warning_imminent_user_limit: 'You invited more users than are supported by your
-    current plan. Invited users may not be able to join your OpenProject environment.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
-    in order to allow invited and registered users to join.
+  warning_imminent_user_limit: 'Pozvali jste více uživatelů, než je podporováno vaším
+    aktuálním předplaceným plánem. Pozvaní uživatelé nemusí být schopni se připojit
+    do OpenProject prostředí. Prosím <a href="%{upgrade_url}">upgradujte váš plán</a>
+    nebo zablokujte stávající uživatele, aby se pozvaní a registrovaní uživatelé mohli
+    připojit.
 
 '
   warning_registration_token_expired: 'Platnost aktivačního emailu vypršela. Poslali
     jsme vám nový %{email}. Klikněte prosím na odkaz uvnitř pro aktivaci vašeho účtu.
 
 '
-  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
-    for additional users.
+  warning_user_limit_reached: 'Váš limit počtu uživatelů byl dosažen. Nelze aktivovat
+    více uživatelů. Prosím <a href="%{upgrade_url}">upgradujte váš cenový plán</a>
+    nebo zablokujte některé stávající členy pro přidání dalších uživatelů.
 
 '
   warning_user_limit_reached_instructions: 'Limit počtu uživatelů (%{current}/%{max}

@@ -18,8 +18,7 @@ RUN apt-get update -qq && \
 	poppler-utils \
 	unrtf \
 	tesseract-ocr \
-	catdoc \
-	pandoc && \
+	catdoc && \
 	apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # using /home/app since npm cache and other stuff will be put there when running npm install
@@ -32,8 +31,11 @@ WORKDIR $APP_PATH
 
 COPY Gemfile ./Gemfile
 COPY Gemfile.* ./
-COPY vendored-plugins ./vendored-plugins
-RUN bundle install --jobs 8 --retry 3 --with docker
+COPY modules ./modules
+# OpenProject::Version is required by module versions in gemspecs
+RUN mkdir -p lib/open_project
+COPY lib/open_project/version.rb ./lib/open_project/
+RUN bundle install --deployment --with="docker opf_plugins" --without="test development" --jobs=8 --retry=3
 
 # Then, npm install node modules
 COPY package.json /tmp/npm/package.json
@@ -45,11 +47,14 @@ COPY . /usr/src/app
 RUN cp docker/Procfile .
 RUN sed -i "s|Rails.groups(:opf_plugins)|Rails.groups(:opf_plugins, :docker)|" config/application.rb
 
+# Re-use packager database.yml
+COPY packaging/conf/database.yml ./config/database.yml
+
 # Run the npm postinstall manually after it was copied
 RUN DATABASE_URL=sqlite3:///tmp/db.sqlite3 SECRET_TOKEN=foobar RAILS_ENV=production bundle exec rake assets:precompile
 
 # Include pandoc
-RUN RAILS_ENV=production bundle exec rails runner "puts ::OpenProject::TextFormatting::Formats::Markdown::PandocDownloader.check_or_download!"
+RUN DATABASE_URL=sqlite3:///tmp/db.sqlite3 RAILS_ENV=production bundle exec rails runner "puts ::OpenProject::TextFormatting::Formats::Markdown::PandocDownloader.check_or_download!"
 
 CMD ["./docker/web"]
 ENTRYPOINT ["./docker/entrypoint.sh"]

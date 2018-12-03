@@ -17,8 +17,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
+require 'open_project/version'
+
 module OpenProject
   module Reporting
-    VERSION = "8.2.0"
+    VERSION = ::OpenProject::VERSION.to_semver
   end
 end

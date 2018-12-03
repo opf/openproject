@@ -30,19 +30,16 @@
 require 'spec_helper'
 
 describe WorkPackageWebhookJob, type: :model, webmock: true do
-  shared_examples "a work package webhook call" do |*flags|
-    let(:title) { "Some workpackage subject" }
-    let(:work_package) { FactoryBot.create :work_package, subject: title }
+  shared_let(:user) { FactoryBot.create :admin }
+  shared_let(:title) { "Some workpackage subject" }
+  shared_let(:request_url) { "http://example.net/test/42" }
+  shared_let(:work_package) { FactoryBot.create :work_package, subject: title }
+  shared_let(:webhook) { FactoryBot.create :webhook, all_projects: true, url: request_url, secret: nil }
 
-    let(:secret) { nil }
-    let(:webhook) { FactoryBot.create :webhook, url: request_url, secret: secret }
-
-    let(:user) { FactoryBot.create :admin }
-
+  shared_examples "a work package webhook call" do
     let(:event) { "work_package:created" }
     let(:job) { WorkPackageWebhookJob.new webhook.id, work_package.journals.last.id, event }
 
-    let(:request_url) { "http://example.net/test/42" }
     let(:stubbed_url) { request_url }
 
     let(:request_headers) do
@@ -74,32 +71,59 @@ describe WorkPackageWebhookJob, type: :model, webmock: true do
         )
     end
 
-    before do
-      User.current = user
-
-      stub
-
+    subject do
       begin
         job.perform
       rescue
         # ignoring it as it's expected to throw exceptions in certain scenarios
+        nil
       end
     end
 
-    it "calls the webhook url" do
+    before do
+      allow(::Webhooks::Webhook).to receive(:find).with(webhook.id).and_return(webhook)
+      login_as user
+      stub
+    end
+
+    it 'requests with all projects' do
+      expect(webhook)
+        .to receive(:enabled_for_project?).with(work_package.project_id)
+        .and_call_original
+
+      subject
       expect(stub).to have_been_requested
     end
 
-    it "creates a log for the call" do
-      log = Webhooks::Log.last
+    it 'does not request when project does not match' do
+      expect(webhook)
+        .to receive(:enabled_for_project?).with(work_package.project_id)
+        .and_return(false)
 
-      expect(log.webhook).to eq webhook
-      expect(log.url).to eq webhook.url
-      expect(log.event_name).to eq event
-      expect(log.request_headers).to eq request_headers
-      expect(log.response_code).to eq response_code
-      expect(log.response_body).to eq response_body
-      expect(log.response_headers).to eq response_headers
+      subject
+      expect(stub).not_to have_been_requested
+    end
+
+    describe 'successful flow' do
+      before do
+        subject
+      end
+
+      it "calls the webhook url" do
+        expect(stub).to have_been_requested
+      end
+
+      it "creates a log for the call" do
+        log = Webhooks::Log.last
+
+        expect(log.webhook).to eq webhook
+        expect(log.url).to eq webhook.url
+        expect(log.event_name).to eq event
+        expect(log.request_headers).to eq request_headers
+        expect(log.response_code).to eq response_code
+        expect(log.response_body).to eq response_body
+        expect(log.response_headers).to eq response_headers
+      end
     end
   end
 

@@ -189,8 +189,9 @@ pt:
       projects: Projetos
       enabled_projects: Projetos ativados
       add_group: Adicionar grupo de atributos
-      add_subelements: Adicionar grupo de subelementos
-      edit_query: Editar consulta incorporada
+      add_table: Add table of related work packages
+      edit_query: Edit table
+      query_group_placeholder: Give the table a name
       reset: Repor predefinições
       type_color_text: |
         Clique para atribuir ou alterar a cor deste tipo. A cor selecionada distingue pacotes de trabalho
@@ -1188,6 +1189,7 @@ pt:
   label_authentication: Autenticação
   label_available_project_work_package_categories: Categorias de pacotes de trabalho
     disponíveis
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Quadros disponíveis
   label_available_project_versions: Versões disponíveis
   label_available_project_repositories: Repositórios disponíveis

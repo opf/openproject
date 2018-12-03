@@ -187,8 +187,9 @@ ar:
       projects: المشاريع
       enabled_projects: Enabled projects
       add_group: Add attribute group
-      add_subelements: Add subelements group
-      edit_query: Edit embedded query
+      add_table: Add table of related work packages
+      edit_query: Edit table
+      query_group_placeholder: Give the table a name
       reset: Reset to defaults
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
@@ -1233,6 +1234,7 @@ ar:
   label_auth_source_plural: أوضاع المصادقة
   label_authentication: المصادقة
   label_available_project_work_package_categories: فئات مجموعة العمل المتاحة
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: الجوانب المتاحة
   label_available_project_versions: الإصدارات المتوفرة
   label_available_project_repositories: مستودعات البيانات المتوفرة

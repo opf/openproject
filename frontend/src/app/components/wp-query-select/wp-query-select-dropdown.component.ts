@@ -45,6 +45,7 @@ import {LinkHandling} from "core-app/modules/common/link-handling/link-handling"
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {keyCodes} from "../../../../legacy/app/components/keyCodes.enum";
 import {MainMenuToggleService} from "core-components/resizer/main-menu-toggle.service";
+import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
 
 export type QueryCategory = 'starred' | 'public' | 'private' | 'default';
 
@@ -120,7 +121,8 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
               readonly loadingIndicator:LoadingIndicatorService,
               readonly pathHelper:PathHelperService,
               readonly wpStaticQueries:WorkPackageStaticQueriesService,
-              readonly toggleService:MainMenuToggleService) {
+              readonly toggleService:MainMenuToggleService,
+              readonly wpStatesInitialization:WorkPackageStatesInitializationService) {
   }
 
   public ngOnInit() {
@@ -439,6 +441,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
 
     // Ensure we're reloading the query
     if (isSameItem) {
+      this.wpStatesInitialization.clearStates();
       this.wpListChecksumService.clear();
       opts.reload = true;
     }

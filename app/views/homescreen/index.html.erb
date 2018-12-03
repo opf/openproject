@@ -46,7 +46,7 @@ See docs/COPYRIGHT.rdoc for more details.
   </section>
 <% end %>
 
-<% if @homescreen[:links].any? %>
+<% if show_homescreen_links? && @homescreen[:links].any? %>
   <section class="homescreen--links">
   <% @homescreen[:links].each do |link| %>
     <% title = I18n.t(link[:label], scope: 'homescreen.links') %>

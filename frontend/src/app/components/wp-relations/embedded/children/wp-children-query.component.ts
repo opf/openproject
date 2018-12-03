@@ -37,34 +37,29 @@ import {OpUnlinkTableAction} from 'core-components/wp-table/table-actions/action
 import {OpTableActionFactory} from 'core-components/wp-table/table-actions/table-action';
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {WorkPackageInlineAddExistingChildService} from "core-components/wp-relations/wp-relation-add-child/wp-inline-add-existing-child.service";
+import {WorkPackageRelationQueryBase} from "core-components/wp-relations/embedded/wp-relation-query.base";
+import {WpChildrenInlineCreateService} from "core-components/wp-relations/embedded/children/wp-children-inline-create.service";
+import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 
 @Component({
   selector: 'wp-children-query',
-  templateUrl: './wp-children-query.html',
+  templateUrl: '../wp-relation-query.html',
   providers: [
-    { provide: WorkPackageInlineCreateService, useClass: WorkPackageInlineAddExistingChildService }
+    { provide: WorkPackageInlineCreateService, useClass: WpChildrenInlineCreateService }
   ]
 })
-export class WorkPackageChildrenQueryComponent implements OnInit, OnDestroy {
+export class WorkPackageChildrenQueryComponent extends WorkPackageRelationQueryBase implements OnInit, OnDestroy {
   @Input() public workPackage:WorkPackageResource;
   @Input() public query:any;
   @Input() public addExistingChildEnabled:boolean = false;
   @ViewChild('childrenEmbeddedTable') private childrenEmbeddedTable:WorkPackageEmbeddedTableComponent;
 
-  public canHaveChildren:boolean;
-  public canModifyHierarchy:boolean;
-
-  public childrenQueryProps:any;
-
-  public childrenTableActions:OpTableActionFactory[] = [
+  public tableActions:OpTableActionFactory[] = [
     OpUnlinkTableAction.factoryFor(
       'remove-child-action',
       this.I18n.t('js.relation_buttons.remove_child'),
       (child:WorkPackageResource) => {
-        this.childrenEmbeddedTable.loadingIndicator = this.wpRelationsHierarchyService
-          .removeChild(child)
-          .then(() => this.refreshTable());
+        this.childrenEmbeddedTable.loadingIndicator = this.wpRelationsHierarchyService.removeChild(child);
       },
       (child:WorkPackageResource) => !!child.changeParent
     )
@@ -73,47 +68,29 @@ export class WorkPackageChildrenQueryComponent implements OnInit, OnDestroy {
   constructor(protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
               protected PathHelper:PathHelperService,
               protected wpInlineCreate:WorkPackageInlineCreateService,
+              protected wpCacheService:WorkPackageCacheService,
               protected queryUrlParamsHelper:UrlParamsHelperService,
               readonly I18n:I18nService) {
+    super(queryUrlParamsHelper);
   }
 
   ngOnInit() {
     // Set reference target and reference class
     this.wpInlineCreate.referenceTarget = this.workPackage;
 
-    // Wire the successful saving of a new addition to refreshing the embedded table
-    this.wpInlineCreate.newInlineWorkPackageReferenced
-      .pipe(untilComponentDestroyed(this))
+    // Set up the query props
+    this.buildQueryProps();
+
+    // Refresh table when work package is refreshed
+    this.wpCacheService
+      .observe(this.workPackage.id)
+      .pipe(
+        untilComponentDestroyed(this)
+      )
       .subscribe(() => this.refreshTable());
-
-    this.canHaveChildren = !this.workPackage.isMilestone;
-    this.canModifyHierarchy = !!this.workPackage.changeParent;
-
-    if (this.query && this.query._type === 'Query') {
-      this.childrenQueryProps = this.queryUrlParamsHelper.buildV3GetQueryFromQueryResource(this.contextualizedQuery,
-        {});
-    } else {
-      this.childrenQueryProps = this.query;
-    }
   }
 
   ngOnDestroy() {
     // Nothing to do
-  }
-
-  public refreshTable() {
-    this.childrenEmbeddedTable.refresh();
-  }
-
-  private get contextualizedQuery() {
-    let duppedQuery = _.cloneDeep(this.query);
-
-    _.each(duppedQuery.filters, (filter) => {
-      if (filter._links.values[0] && filter._links.values[0].templated) {
-        filter._links.values[0].href = filter._links.values[0].href.replace('{id}', this.workPackage.id);
-      }
-    });
-
-    return duppedQuery;
   }
 }

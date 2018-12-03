@@ -422,26 +422,6 @@ module ApplicationHelper
     end
   end
 
-  # Returns the javascript tags that are included in the html layout head
-  def user_specific_javascript_includes
-    tags = ''
-    tags += nonced_javascript_tag do
-      %{
-      window.openProject = new OpenProject({
-        urlRoot : '#{OpenProject::Configuration.rails_relative_url_root}',
-        environment: '#{Rails.env}',
-        loginUrl: '#{url_for controller: '/account', action: 'login'}'
-      });
-      I18n.defaultLocale = "#{I18n.default_locale}";
-      I18n.locale = "#{I18n.locale}";
-      I18n.firstDayOfWeek = "#{locale_first_day_of_week}"
-
-      }.html_safe
-    end
-
-    tags.html_safe
-  end
-
   def calendar_for(*args)
     ActiveSupport::Deprecation.warn "calendar_for has been removed. Please add the class '-augmented-datepicker' instead.", caller
   end

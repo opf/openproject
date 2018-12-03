@@ -55,8 +55,8 @@ fa:
     button_export-atom: Download Atom
     calendar:
       title: Calendar
-      too_many: There are more work packages (%{count}) than can be displayed by the
-        calendar (%{max}). Add filters to focus on the relevant ones.
+      too_many: بسته های کار بیشتری(%{count}) نسبت به آن‌چه تقویم می‌تواند نمایش دهد
+        وجود دارد(%{max}). برای تمرکز بر موارد مرتیط از فیلتر‌ها استفاده کنید.
     description_available_columns: Available Columns
     description_current_position: 'You are here:'
     description_select_work_package: 'Select work package #%{id}'
@@ -66,7 +66,7 @@ fa:
       preview: Toggle preview mode
       source_code: Toggle Markdown source mode
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
-      error_initialization_failed: Failed to initialize CKEditor!
+      error_initialization_failed: راه اندازی CKEditor انجام نشد!
       mode:
         manual: Switch to Markdown source
         wysiwyg: Switch to WYSIWYG editor
@@ -113,7 +113,7 @@ fa:
           button: Embed work package table
           text: "[Placeholder] Embedded work package table"
         embedded_calendar:
-          text: "[Placeholder] Embedded calendar"
+          text: "[Placeholder] تقویم جاسازی شده"
     custom_actions:
       date:
         specific: برخط
@@ -294,9 +294,9 @@ fa:
       show_modal: Show attribute help text entry
     onboarding:
       steps:
-        welcome: Take a three minutes introduction tour to learn the most <b>important
-          features</b>. <br> We recommend to complete the steps until the end. You
-          can restart the tour any time.
+        welcome: یک تور معرفی سه دقیقه‌ای را برای یادگیری <b>مهم‌ترین ویژگی ها</b>
+          در پیش گیرید. <br>وصیه می‌کنیم مراحل را تا پایان کامل کنید. شما می توانید
+          تور را در هر زمان دیگری هم دوباره راه اندازی کنید.
         project_selection: Please select one of the projects with useful demo data
           to get started. <br> The <b>Demo project</b> suits best for classical project
           management, while the <b>Scrum project</b> is better for Agile project management.
@@ -305,11 +305,13 @@ fa:
         members: Invite new <b>Members</b> to join your project.
         wiki: Within the <b>Wiki</b> you can document and share knowledge together
           with your team.
-        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> Here
-          you can create <b>epics, user stories, and bugs</b>, prioritize via drag'n'drop
-          and add them to a sprint.
-        backlogs_task_board_arrow: To see your <b>Task board</b>, open on the Sprint
-          drop-down...
+        backlogs_overview: کار‌های خود را در <b>Backlogs view</b> مدیریت کنید. <br>
+          در سمت راست Product Backlog یا یک Bug Backlog دارید، در سمت چپ چشم‌انداز
+          sprintها را خواهید داشت. در اینجا می‌توانید <b>epicها, کاربر‌ها استوری ها,
+          و باگ‌ها</b> را ایجاد کنید، با Drag'n'drop آن‌ها را اولویت‌بندی نموده و
+          به یک sprint اضافه‌شان کنید.
+        backlogs_task_board_arrow: برای مشاهده‌ی <b>صفحه‌ی کارتان</b>، منوی پایین‌باز‌شونده‌ی
+          sprint را باز کنید...
         backlogs_task_board_select: "... and select the <b>Task board</b> entry."
         backlogs_task_board: The <b>Task board</b> visualizes the progress for this
           sprint. Add new tasks or impediments with the + icon next to a user story.
@@ -321,7 +323,8 @@ fa:
           You can create or edit a work package directly within this list. To see
           its details you can double click on a row.
         wp_full_view: Within the <b>Work package details</b> you find all relevant
-          information, such as description, status and priority, activities or comments.
+          information, such as description, status and priority, activities, dependencies
+          or comments.
         wp_back_button: With the arrow you can navigate back to the work package list.
         wp_create_button: The <b>Create</b> button will add a new work package to
           your project.
@@ -359,6 +362,7 @@ fa:
       attribute_groups:
         error_duplicate_group_name: The name %{group} is used more than once. Group
           names must be unique.
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
           This will reset the attributes to their default group and disable ALL custom
@@ -371,6 +375,19 @@ fa:
           client?
         more_information: More information
         nevermind: Nevermind
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: duplicated by
+          blocks: blocking
+          blocked: blocked by
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: loading watchers...
       label_error_loading: An error occurred while loading the watchers
@@ -405,9 +422,12 @@ fa:
       group_by_relation_type: Group by relation type
       add_parent: Add existing parent
       add_new_child: Create new child
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: Add existing child
       remove_child: Remove child
       add_new_relation: Create new relation
+      add_existing_relation: Add existing relation
       update_description: Set or update description of this relation
       toggle_description: Toggle relation description
       update_relation: Click to change the relation type
@@ -724,6 +744,9 @@ fa:
             mass?
           relation_columns: آیا نیاز به مشاهده روابط در بسته کاری را دارید؟
           check_out_link: نسخه سازمانی را بررسی کنید.
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: Overview
         activity: فعالیت

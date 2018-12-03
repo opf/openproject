@@ -1,5 +1,7 @@
+require 'open_project/version'
+
 module OpenProject
   module XlsExport
-    VERSION = "8.2.0"
+    VERSION = ::OpenProject::VERSION.to_semver
   end
 end
