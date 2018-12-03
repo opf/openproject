@@ -64,7 +64,13 @@ module OpenProject
     end
 
     def unsubscribe(name, id)
-      subscriptions[name].delete_at id
+      sub = subscriptions[name].delete_at id
+
+      if sub
+        ActiveSupport::Notifications.unsubscribe sub
+
+        true
+      end
     end
 
     # Send a notification

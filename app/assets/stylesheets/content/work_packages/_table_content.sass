@@ -114,11 +114,18 @@ html:not(.-browser-mobile)
   // the user from using click (to select) or double-click (to open full screen)
   // on the cell. Hence we disable events on this element but have to reenable them
   // for the inplace-edit fields.
+  // The ID field is an exception because there the link needs to capture the pointer-events not the span.
+  // Otherwise there would be a small area where nothing happens on click.
   pointer-events: none
 
   .inplace-edit
     display: initial
     pointer-events: all
+
+  &.id .inplace-edit
+    pointer-events: none
+    a
+      pointer-events: all
 
 // Some padding for the inner cells of the display fields
 .wp-table--cell-span

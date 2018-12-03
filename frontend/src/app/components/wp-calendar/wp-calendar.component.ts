@@ -43,12 +43,14 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
     this.tableState.stopAllSubscriptions.next();
 
     this.setCalendarOptions();
-
-    this.setupWorkPackagesListener();
   }
 
   ngOnDestroy() {
     // nothing to do
+  }
+
+  public onCalendarInitialized() {
+    this.setupWorkPackagesListener();
   }
 
   public updateTimeframe($event:any) {
@@ -164,9 +166,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
     // in a grid, having two way binding will lead to having constantly
     // removed the events after showing them initially.
     // It appears as if the two way binding is initialized twice if used.
-    setTimeout(() => {
-      this.ucCalendar.renderEvents(events);
-    }, 50);
+    this.ucCalendar.renderEvents(events);
   }
 
   private warnOnTooManyResults(collection:WorkPackageCollectionResource) {

@@ -241,17 +241,19 @@ describe MailHandler, type: :model do
     assert_equal false, submit_email('ticket_without_from_header.eml')
   end
 
-  it 'should add work package with invalid attributes' do
-    issue = submit_email('ticket_with_invalid_attributes.eml', allow_override: 'type,category,priority')
-    assert issue.is_a?(WorkPackage)
-    assert !issue.new_record?
-    issue.reload
-    assert_nil issue.assigned_to
-    assert_nil issue.start_date
-    assert_nil issue.due_date
-    assert_equal 0, issue.done_ratio
-    assert_equal 'Normal', issue.priority.to_s
-    assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
+  context 'without default start_date', with_settings: { work_package_startdate_is_adddate: false } do
+    it 'should add work package with invalid attributes' do
+      issue = submit_email('ticket_with_invalid_attributes.eml', allow_override: 'type,category,priority')
+      assert issue.is_a?(WorkPackage)
+      assert !issue.new_record?
+      issue.reload
+      assert_nil issue.assigned_to
+      assert_nil issue.start_date
+      assert_nil issue.due_date
+      assert_equal 0, issue.done_ratio
+      assert_equal 'Normal', issue.priority.to_s
+      assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
+    end
   end
 
   it 'should add work package with localized attributes' do
