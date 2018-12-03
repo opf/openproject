@@ -71,6 +71,8 @@ export class WorkPackageNotificationService {
    * @param workPackage
    */
   public handleRawError(response:any, workPackage?:WorkPackageResource) {
+    console.error("Handling error message %O for work package %O", response, workPackage);
+
     // Some transformation may already have returned the error as a HAL resource,
     // which we will forward to handleErrorResponse
     if (response instanceof ErrorResource) {

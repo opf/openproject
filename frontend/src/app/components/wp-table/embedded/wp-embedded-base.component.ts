@@ -79,6 +79,10 @@ export abstract class WorkPackageEmbeddedBaseComponent implements OnInit, AfterV
     return this.loadQuery(visible);
   }
 
+  public get isInitialized() {
+    return !!this.configuration;
+  }
+
   public set loadingIndicator(promise:Promise<any>) {
     if (this.configuration.tableVisible) {
       this.loadingIndicatorService

@@ -44,9 +44,10 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
 
   let(:create_role) do
     FactoryBot.create(:role,
-                      permissions: [:view_work_packages,
-                                    :add_work_packages,
-                                    :edit_work_packages])
+                      permissions: %i[view_work_packages
+                                      add_work_packages
+                                      manage_work_package_relations
+                                      edit_work_packages])
   end
   let(:type) { FactoryBot.create(:type) }
   let(:project) { FactoryBot.create(:project, types: [type]) }
@@ -121,6 +122,11 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
 
     work_package_page.expect_activity user, number: 1
     work_package_page.expect_current_path
+
+    work_package_page.visit_tab! :relations
+    expect_angular_frontend_initialized
+    expect(page).to have_selector('.relation-group--header', text: 'RELATED TO')
+    expect(page).to have_selector('.wp-relations--subject-field', text: original_work_package.subject)
   end
 
   scenario 'on split screen page' do
@@ -152,5 +158,11 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
 
     work_package_page.expect_activity user, number: 1
     work_package_page.expect_current_path
+
+
+    work_package_page.visit_tab!('relations')
+    expect_angular_frontend_initialized
+    expect(page).to have_selector('.relation-group--header', text: 'RELATED TO')
+    expect(page).to have_selector('.wp-relations--subject-field', text: original_work_package.subject)
   end
 end

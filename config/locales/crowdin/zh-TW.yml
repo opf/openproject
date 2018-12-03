@@ -169,8 +169,9 @@ zh-TW:
       projects: 專案
       enabled_projects: 已啟用的專案
       add_group: 添加屬性組
-      add_subelements: 添加子項目組
-      edit_query: 編輯嵌入式查詢
+      add_table: Add table of related work packages
+      edit_query: Edit table
+      query_group_placeholder: Give the table a name
       reset: 重設為預設值
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages

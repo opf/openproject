@@ -183,8 +183,9 @@ hu:
       projects: Projektek
       enabled_projects: Engedélyezett projektek
       add_group: Tulajdonságcsoport
-      add_subelements: Alelem csoport hozzáadása
-      edit_query: Beágyazott lekérdezés szerkesztése
+      add_table: Add table of related work packages
+      edit_query: Edit table
+      query_group_placeholder: Give the table a name
       reset: Alapbeállítások visszaállítása
       type_color_text: 'Kattintson az adott típus színének hozzárendeléséhez vagy
         megváltoztatásához. A kiválasztott szín különbözteti meg a feladatcsoportokat

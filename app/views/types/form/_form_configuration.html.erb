@@ -98,8 +98,8 @@ See docs/COPYRIGHT.rdoc for more details.
               </a>
             </li>
             <li>
-              <a class="form-configuration--add-group" ng-click="<%= show_hint ? 'showEEOnlyHint()' : 'addQuery($event)' %>">
-                <%= t('types.edit.add_subelements') %>
+              <a class="form-configuration--add-group" ng-click="<%= show_hint ? 'showEEOnlyHint()' : "addGroupAndOpenQuery()" %>">
+                <%= t("types.edit.add_table") %>
               </a>
             </li>
           </ul>
@@ -124,6 +124,7 @@ See docs/COPYRIGHT.rdoc for more details.
           <div class="attributes" dragula='"attributes"'>
           </div>
         </div>
+
         <div id="type-form-conf-query-template"
              class="type-form-conf-group type-form-query-group"
              data-original-key=""
@@ -136,11 +137,13 @@ See docs/COPYRIGHT.rdoc for more details.
               key=""
               onvaluechange="groupNameChange"
               onupsale="<%= EnterpriseToken.allows_to?(:edit_attribute_groups) ? '' : 'showEEOnlyHint' %>"
+              placeholder="<%= t('types.edit.query_group_placeholder')%>"
               class="group-name">
             </group-edit-in-place>
             <span class="delete-group icon-small icon-close" ng-click="deleteGroup($event)"></span>
           </div>
-          <div class="type-form-query" data-query="">
+          <% no_filter_query = ::API::V3::Queries::QueryParamsRepresenter.new(Query.new_default.tap { |q| q.filters = []}).to_json %>
+          <div class="type-form-query" data-query='<%= no_filter_query %>'>
             <span class="type-form-query-group--edit-button" ng-click="editQuery($event)">
               <%= op_icon('button--icon icon-edit') %>
               <%= t('types.edit.edit_query') %>

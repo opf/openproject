@@ -133,7 +133,7 @@ shared_examples_for 'type service' do
       before do
         allow(Query)
           .to receive(:new_default)
-          .with(name: "Embedded subelements: group1")
+          .with(name: "Embedded table: group1")
           .and_return(query)
 
         parse_service = double('ParseQueryParamsService')
@@ -148,23 +148,17 @@ shared_examples_for 'type service' do
           .and_return(service_result)
       end
 
-      it 'assigns the fully parsed query to the type\'s attribute group and adds the parent filter' do
+      it 'assigns the fully parsed query to the type\'s attribute group' do
         expect(service_call).to be_success
 
         expect(type.attribute_groups[0].query)
           .to eql query
 
         expect(query.filters.length)
-          .to eql 2
+          .to eql 1
 
         expect(query.filters[0].name)
           .to eql :status_id
-        expect(query.filters[1].name)
-          .to eql :parent
-        expect(query.filters[1].operator)
-          .to eql '='
-        expect(query.filters[1].values)
-          .to eql [::Queries::Filters::TemplatedValue::KEY]
       end
 
       context 'when the query service reports an error' do

@@ -121,6 +121,7 @@ export class WorkPackageBaseResource extends HalResource {
   public attachments:AttachmentCollectionResource;
 
   public overriddenSchema?:SchemaResource;
+  public __initialized_at:Number;
 
   readonly I18n:I18nService = this.injector.get(I18nService);
   readonly states:States = this.injector.get(States);
@@ -264,12 +265,27 @@ export class WorkPackageBaseResource extends HalResource {
     this.form = Promise.resolve(form);
     this.$source.id = 'new';
 
+    // Since the ID will change upon saving, keep track of the WP
+    // with the actual creation date
+    this.__initialized_at = Date.now();
+
     // Set update link to form
     this['update'] = this.$links.update = form.$links.self;
     // Use POST /work_packages for saving link
     this['updateImmediately'] = this.$links.updateImmediately = (payload) => {
       return this.apiWorkPackages.createWorkPackage(payload);
     };
+  }
+
+  /**
+   * Retain the internal tracking identifier from the given other work package.
+   * This is due to us needing to identify a work package beyond its actual ID,
+   * because that changes upon saving.
+   *
+   * @param other
+   */
+  public retainFrom(other:WorkPackageResource) {
+    this.__initialized_at = other.__initialized_at;
   }
 
   public $initialize(source:any) {

@@ -278,21 +278,28 @@ ja:
       show_modal: テキスト入力属性のヘルプを表示
     onboarding:
       steps:
-        welcome: "<b>重要な機能</b>の詳細については、3分間の紹介ツアーをご覧ください。 <br>最後まで手順を完了することをお勧めします。
-          いつでもツアーを再開できます。"
+        welcome: Take a three minutes introduction tour to learn the most <b>important
+          features</b>. <br> We recommend completing the steps until the end. You
+          can restart the tour any time.
         project_selection: 開始するには、便利なデモデータを含むプロジェクトの1つを選択してください。 <br> <b>デモプロジェクト</b>は古典的なプロジェクト管理に最適ですが、<b>スクラムプロジェクト</b>はアジャイルプロジェクト管理に適しています。
         sidebar_arrow: 矢印を使って、プロジェクトの<b>メインメニュー</b>に戻ることができます。
         members: 新しい<b>メンバー</b>を招待してプロジェクトに参加してください。
         wiki: "<b>Wiki</b>内ではチームと一緒に知識を文書化して共有することができます。"
-        backlogs_overview: "<b>バックログ</b>ビューで作業を管理します。 <br> <b>叙事詩、ユーザーストーリー、バグ</b>を作成し、ドラッグ&ドロップで優先順位を付けてスプリントに追加することができます。"
-        backlogs_task_board_arrow: "<b>タスクボード</b>を表示するには、スプリントのドロップダウンを開きます..."
+        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
+          right you have the Product Backlog or a Bug Backlog, on the left you will
+          have the respective sprints. Here you can create <b>epics, user stories,
+          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
+        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
+          drop-down...
         backlogs_task_board_select: "... <b>タスクボード</b>を選択します。"
         backlogs_task_board: "<b>タスクボード</b>はこのスプリントの進捗状況を視覚化します。ユーザーのストーリーの横にある+アイコンを使用して、新しいタスクや障害を追加します。
           ドラッグ&ドロップ経由でステータスを更新することができます。"
         wp_toggler: 次に、<b>作業パッケージ</b>セクションを見て、作業の詳細を確認してください。
         wp_list: これは、タスク、機能、マイルストーン、バグなど、プロジェクト内の重要な作業をまとめた<b>作業項目</b>リストです。 <br>このリスト内で作業パッケージを直接作成または編集できます。
           詳細を見るには行をダブルクリックします。
-        wp_full_view: "<b>パッケージの詳細</b>には、説明、ステータス、優先度、アクティビティ、コメントなどの関連情報がすべて表示されます。"
+        wp_full_view: Within the <b>Work package details</b> you find all relevant
+          information, such as description, status and priority, activities, dependencies
+          or comments.
         wp_back_button: 矢印を使用すると作業項目リストに戻ることができます。
         wp_create_button: "<b>作成</b>ボタンをクリックすると、プロジェクトに新しい作業項目が追加されます。"
         wp_timeline_button: "<b>ガントチャート</b>をアクティブにして、プロジェクトのタイムラインを作成することができます。"
@@ -323,6 +330,7 @@ ja:
     types:
       attribute_groups:
         error_duplicate_group_name: 名前 %{group} が複数回使用されています。グループ名は一意にする必要があります。
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: フォーム設定をリセット
         confirm_reset: '警告：フォーム設定をリセットしてもよろしいですか？ これにより、属性が規定のグループにリセットされ、すべてのカスタムフィールドが無効になります。
             コンテキスト| リクエストコンテキスト
@@ -333,6 +341,19 @@ ja:
           ソース開発者を支援していただけませんか?
         more_information: 詳細情報
         nevermind: 無視
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: 次の項目が重複
+          blocks: blocking
+          blocked: ブロックされている
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: ウォッチャーを読み込み中...
       label_error_loading: ウォッチャーを読み込み中にエラーが発生しました。
@@ -367,9 +388,12 @@ ja:
       group_by_relation_type: 関係タイプのグループ
       add_parent: 既存の親関係を追加する
       add_new_child: 子関係を作成
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: 既存の子関係を追加
       remove_child: 子関係を削除
       add_new_relation: 新しい関係を作成
+      add_existing_relation: Add existing relation
       update_description: この関係の説明を設定または更新する
       toggle_description: 関係の説明を切り替え
       update_relation: クリックして関係のタイプを変更
@@ -652,6 +676,9 @@ ja:
           attribute_highlighting: 全体から目立つように特定の作業項目が必要ですか？
           relation_columns: ワークパッケージリストに関係を表示する必要がありますか?
           check_out_link: エンタープライズ版をチェックしてください。
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: 概要
         activity: 活動

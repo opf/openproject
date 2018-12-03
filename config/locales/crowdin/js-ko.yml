@@ -282,7 +282,7 @@ ko:
     onboarding:
       steps:
         welcome: Take a three minutes introduction tour to learn the most <b>important
-          features</b>. <br> We recommend to complete the steps until the end. You
+          features</b>. <br> We recommend completing the steps until the end. You
           can restart the tour any time.
         project_selection: Please select one of the projects with useful demo data
           to get started. <br> The <b>Demo project</b> suits best for classical project
@@ -292,10 +292,11 @@ ko:
         members: Invite new <b>Members</b> to join your project.
         wiki: Within the <b>Wiki</b> you can document and share knowledge together
           with your team.
-        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> Here
-          you can create <b>epics, user stories, and bugs</b>, prioritize via drag'n'drop
-          and add them to a sprint.
-        backlogs_task_board_arrow: To see your <b>Task board</b>, open on the Sprint
+        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
+          right you have the Product Backlog or a Bug Backlog, on the left you will
+          have the respective sprints. Here you can create <b>epics, user stories,
+          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
+        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
           drop-down...
         backlogs_task_board_select: "... and select the <b>Task board</b> entry."
         backlogs_task_board: The <b>Task board</b> visualizes the progress for this
@@ -308,7 +309,8 @@ ko:
           You can create or edit a work package directly within this list. To see
           its details you can double click on a row.
         wp_full_view: Within the <b>Work package details</b> you find all relevant
-          information, such as description, status and priority, activities or comments.
+          information, such as description, status and priority, activities, dependencies
+          or comments.
         wp_back_button: With the arrow you can navigate back to the work package list.
         wp_create_button: The <b>Create</b> button will add a new work package to
           your project.
@@ -346,6 +348,7 @@ ko:
       attribute_groups:
         error_duplicate_group_name: "%{group} 이라는 그룹 이름은 한 번 이상 사용되었습니다. 그룹 이름은 중복될
           수 없습니다."
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: 구성 양식 초기화
         confirm_reset: '경고: 양식 구성을 재설정하시겠습니까? 그러면 특성이 기본 그룹으로 재설정되고, 모든 사용자 지정 필드가
           비활성화됩니다.
@@ -356,6 +359,19 @@ ko:
           되어서 OpenSource 개발자들을 지원할 생각이 있나요?
         more_information: 더보기
         nevermind: 신경쓰지 마세요
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: 복제한 사용자
+          blocks: blocking
+          blocked: 차단한 사용자
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: 관찰자 로딩 중...
       label_error_loading: 관찰자를 로드하는 동안 오류가 발생 했습니다.
@@ -390,9 +406,12 @@ ko:
       group_by_relation_type: 관계 유형별 그룹화
       add_parent: 기존 부모 추가
       add_new_child: 새 자식 만들기
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: 기존 자식 추가
       remove_child: 자식 제거
       add_new_relation: 새 관계 만들기
+      add_existing_relation: Add existing relation
       update_description: 이 관계의 설명 설정 또는 업데이트
       toggle_description: 토글 관계 설명
       update_relation: 관계 타입을 변경하려면 클릭하세요
@@ -680,6 +699,9 @@ ko:
           attribute_highlighting: 나머지 작업 중에 확연히 두드러지는 특정 작업 패키지가 필요합니까?
           relation_columns: 작업 패키지 목록에서 관계를 표시해야 합니까?
           check_out_link: Enterprise Edition을 체크아웃하세요.
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: 요약
         activity: 활동

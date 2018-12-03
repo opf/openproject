@@ -291,9 +291,9 @@ lt:
       show_modal: Rodyti atributo pagalbos teksto įrašą
     onboarding:
       steps:
-        welcome: Paskirkite tris minutes įvadinei kelionei ir išmokite daugumą <b>svarbių
-          sistemos galimybių</b>. <br>Rekomenduojame atlikti visus veiksmus iki pabaigos.
-          Ekskursiją galite paleisti iš naujo bet kuriuo metu.
+        welcome: Take a three minutes introduction tour to learn the most <b>important
+          features</b>. <br> We recommend completing the steps until the end. You
+          can restart the tour any time.
         project_selection: Prašome pasirinkti vieną iš projektų su įdėtais naudingais
           demonstraciniais duomenimis. <br> <b>Demo project</b> geriausiai tinka klasikiniam
           projektų valdymui, o <b>Scrum project</b> labiau tinka Agile projektų valdymui.
@@ -301,11 +301,12 @@ lt:
         members: Pakvieskite naujus <b>Narius</b> prisijungti prie projekto.
         wiki: "<b>Wiki</b>'yje galite dokumentuoti ir dalintis žiniomis su savo komandos
           nariais."
-        backlogs_overview: Tvarkykite savo darbą <b>Backlog</b> vaizde. <br>Čia galite
-          sukurti <b>Epic, User story ir Bug</b> tipų užduotis, valdyti pirmenybę
-          naudojant drag'n'drop ir įtraukti juos į sprintus.
-        backlogs_task_board_arrow: Norėdami pamatyti savo <b>darbo lenta</b>, atidarykite
-          sprint elementą...
+        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
+          right you have the Product Backlog or a Bug Backlog, on the left you will
+          have the respective sprints. Here you can create <b>epics, user stories,
+          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
+        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
+          drop-down...
         backlogs_task_board_select: "... ir pasirinkite <b>Task board</b> elementą."
         backlogs_task_board: "<b>Darbo lenta</b> rodo pažangą šiame sprinte. Pridėkite
           naujas užduotis ar kliūtis spausdami + piktogramą šalia vartotojo istorija.
@@ -316,8 +317,9 @@ lt:
           tasks, features, milestones, bugs, ir pan. <br> Jūs galite kurti ir redaguoti
           darbų paketus tiesiai šiame sąraše. Norėdami pamatyti detaliau, du kart
           spustelkite pele ant pasirinktos eilutės.'
-        wp_full_view: "<b>Darbo paketo detalių</b> lange rasite visą reikalingą informaciją,
-          pvz., aprašymą, būseną ir prioritetą, veiklą ar komentarus."
+        wp_full_view: Within the <b>Work package details</b> you find all relevant
+          information, such as description, status and priority, activities, dependencies
+          or comments.
         wp_back_button: Su rodykle galite pereiti atgal į darbo paketų sąrašą.
         wp_create_button: Mygtukas <b>Sukurti</b> pridės naują darbą į jūsų projektą.
         wp_timeline_button: Jūs galite aktyvuoti <b>Gantto diagramą</b> norėdami matyti
@@ -355,6 +357,7 @@ lt:
       attribute_groups:
         error_duplicate_group_name: "%{group} grupės pavadinimas naudotas daugiau
           nei kartą. Grupių pavadinimai privalo būti unikalūs."
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: Nustatyti iš naujo formos konfigūraciją
         confirm_reset: 'Įspėjimas: Ar tikrai norite grįžti prie pradinės formos konfigūracijos?
           Atributai bus perkelti į jų numatytąsias grupes ir išjungs VISUS pritaikytus
@@ -367,6 +370,19 @@ lt:
           Edition klientu?
         more_information: Daugiau informacijos
         nevermind: Nekreipti dėmesio
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: dubliuojasi su
+          blocks: blocking
+          blocked: blokuojamas
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: Įkeliami stebėtojai...
       label_error_loading: Įkeliant stebėtojus įvyko klaida
@@ -401,9 +417,12 @@ lt:
       group_by_relation_type: Grupuoti pagal ryšio tipą
       add_parent: Pridėti jau esamą tėvą
       add_new_child: Sukurti naują vaiką
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: Pridėti jau esamą vaiką
       remove_child: Pašalinti vaiką
       add_new_relation: Sukurti naują ryšį
+      add_existing_relation: Add existing relation
       update_description: Nustatyti arba atnaujinti šio ryšio aprašymą
       toggle_description: Įjungti/išjungti ryšio aprašymą
       update_relation: Paspauskite, jei norite pakeisti ryšio tipą
@@ -727,6 +746,9 @@ lt:
             mass?
           relation_columns: Ar reikia matyti ryšius darbų paketų sąraše?
           check_out_link: Patikrinkite Enterprise Edition.
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: Peržiūra
         activity: Veikla

@@ -166,8 +166,9 @@ lol:
       projects: crwdns102764:0crwdne102764:0
       enabled_projects: crwdns102766:0crwdne102766:0
       add_group: crwdns102768:0crwdne102768:0
-      add_subelements: crwdns102770:0crwdne102770:0
-      edit_query: crwdns102772:0crwdne102772:0
+      add_table: crwdns109226:0crwdne109226:0
+      edit_query: crwdns109228:0crwdne109228:0
+      query_group_placeholder: crwdns109230:0crwdne109230:0
       reset: crwdns102774:0crwdne102774:0
       type_color_text: 'crwdns102776:0crwdne102776:0
 

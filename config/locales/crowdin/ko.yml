@@ -172,8 +172,9 @@ ko:
       projects: 프로젝트
       enabled_projects: 활성화 된 프로젝트
       add_group: 특성 그룹 추가
-      add_subelements: 하위 요소 그룹 추가
-      edit_query: 포함된 쿼리 편집
+      add_table: Add table of related work packages
+      edit_query: Edit table
+      query_group_placeholder: Give the table a name
       reset: 기본값으로 초기화
       type_color_text: |
         이 유형의 색상을 할당하거나 변경하려면 클릭하세요. 선택된 색상은 Gantt 차트에서 작업 패키지를

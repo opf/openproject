@@ -185,8 +185,9 @@ ru:
       projects: Проекты
       enabled_projects: Доступные проекты
       add_group: Добавить группу атрибутов
-      add_subelements: Добавить группа вложенных элементов
-      edit_query: Редактировать вложенный запрос
+      add_table: Add table of related work packages
+      edit_query: Edit table
+      query_group_placeholder: Give the table a name
       reset: Восстановить значения по умолчанию
       type_color_text: 'Щелкните, чтобы задать или изменить цвет этого типа. Выбранный
         цвет позволяет различать пакеты работ на диаграммах Ганта.

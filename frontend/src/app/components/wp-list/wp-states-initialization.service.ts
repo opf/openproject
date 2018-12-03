@@ -156,5 +156,8 @@ export class WorkPackageStatesInitializationService {
 
     // Clear rendered state
     this.tableState.rendered.clear(reason);
+
+    // Needed for reinitialization of WpSetComponent
+    this.states.query.resource.clear();
   }
 }

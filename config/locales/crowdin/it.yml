@@ -188,8 +188,9 @@ it:
       projects: Progetti
       enabled_projects: Progetti abilitati
       add_group: Aggiungi gruppo di attributi
-      add_subelements: Aggiungi gruppo di sottoelementi
-      edit_query: Modifica la query incorporata
+      add_table: Aggiungi la tabella dei pacchetti di lavoro correlati
+      edit_query: Modificare la Tabella
+      query_group_placeholder: Assegnare un nome alla tabella
       reset: Ripristino predefinite
       type_color_text: |
         Clicca per assegnare o modificare il colore di questo tipo. Il colore selezionato distingue le macro-attività
@@ -1194,7 +1195,7 @@ it:
   label_auth_source_plural: Modalità di autenticazione
   label_authentication: Autenticazione
   label_available_project_work_package_categories: Categorie di macro-attività disponibili
-  label_available_project_work_package_types: Available work package types
+  label_available_project_work_package_types: Tipi di pacchetti di lavoro disponibili
   label_available_project_boards: Comitati disponibili
   label_available_project_versions: Versioni disponibili
   label_available_project_repositories: Archivi disponibili

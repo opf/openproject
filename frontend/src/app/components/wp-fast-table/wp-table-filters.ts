@@ -35,7 +35,22 @@ import {cloneHalResourceCollection} from 'core-app/modules/hal/helpers/hal-resou
 export class WorkPackageTableFilters extends WorkPackageTableBaseState<QueryFilterInstanceResource[]> {
 
   public current:QueryFilterInstanceResource[] = [];
-  public hidden:string[] = ['id', 'parent', 'datesInterval'];
+  public hidden:string[] = [
+    'id',
+    'parent',
+    'datesInterval',
+    'precedes',
+    'follows',
+    'relates',
+    'duplicates',
+    'duplicated',
+    'blocks',
+    'blocked',
+    'partof',
+    'includes',
+    'requires',
+    'required',
+  ];
 
   constructor(filters:QueryFilterInstanceResource[], public availableSchemas:QueryFilterInstanceSchemaResource[]) {
     super();
@@ -90,8 +105,8 @@ export class WorkPackageTableFilters extends WorkPackageTableBaseState<QueryFilt
     return this.current.map((filter:QueryFilterInstanceResource) => filter.filter);
   }
 
-  private get availableFilters() {
+  public get availableFilters() {
     return this.availableSchemas
-               .map(schema => (schema.filter.allowedValues as QueryFilterResource[])[0]);
+      .map(schema => (schema.filter.allowedValues as QueryFilterResource[])[0]);
   }
 }

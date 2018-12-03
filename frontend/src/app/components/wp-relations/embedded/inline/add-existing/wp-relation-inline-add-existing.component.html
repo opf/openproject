@@ -1,20 +1,19 @@
 <div class="loading-indicator--location"
      data-indicator-name="relationAddChild">
-  <div class="v-align wp-relations-create--form wp-relations--child-form">
+  <div class="v-align wp-relations-create--form wp-relations--add-form">
     <div class="grid-content medium-10">
       <wp-relations-autocomplete-upgraded
           [workPackage]="workPackage"
           appendToContainer=".work-packages--details-content"
           (onWorkPackageIdSelected)="updateSelectedId($event)"
-          loadingPromiseName="relationAddChild"
-          filterCandidatesFor="children">
+          [filterCandidatesFor]="relationType">
       </wp-relations-autocomplete-upgraded>
     </div>
     <div class="grid-content medium-2 collapse wp-relations-controls-section relation-row">
       <accessible-by-keyboard
           linkClass="wp-create-relation--save"
           [isDisabled]="isDisabled"
-          (execute)="addExistingChild()"
+          (execute)="addExisting()"
           aria-hidden="false">
         <op-icon icon-classes="icon-checkmark" [icon-title]="text.save"></op-icon>
       </accessible-by-keyboard>
