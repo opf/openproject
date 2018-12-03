@@ -257,6 +257,9 @@ export class GridComponent implements OnDestroy, OnInit {
         this.widgetResources.push(widgetResource);
 
         this.buildAreas();
+      })
+      .catch(() => {
+        // user didn't select a widget
       });
   }
 

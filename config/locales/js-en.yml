@@ -171,6 +171,11 @@ en:
     general_text_yes: "yes"
     general_text_No: "No"
     general_text_Yes: "Yes"
+
+    grid:
+      add_modal:
+        choose_widget: 'Choose widget'
+
     label_activate: "Activate"
     label_activity_no: "Activity entry number %{activityNo}"
     label_activity_with_comment_no: "Activity entry number %{activityNo}. Has a user comment."

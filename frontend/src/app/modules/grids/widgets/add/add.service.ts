@@ -19,6 +19,11 @@ export class AddGridWidgetService {
       modal.closingEvent.subscribe((modal:AddGridWidgetModal) => {
         let registered = modal.chosenWidget;
 
+        if (!registered) {
+          reject();
+          return;
+        }
+
         let source = {
           _type: 'GridWidget',
           identifier: registered.identifier,
