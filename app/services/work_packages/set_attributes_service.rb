@@ -85,6 +85,10 @@ class WorkPackages::SetAttributesService
     work_package.priority ||= IssuePriority.active.default
     work_package.author ||= user
     work_package.status ||= Status.default
+
+    if Setting.work_package_startdate_is_adddate?
+      work_package.start_date ||= Date.today
+    end
   end
 
   def set_custom_attributes(attributes)
