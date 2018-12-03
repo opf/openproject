@@ -27,30 +27,10 @@
 // ++
 
 import {Component, OnDestroy} from "@angular/core";
-import {WorkPackagesSetComponent} from "core-components/routing/wp-set/wp-set.component";
-import {StateService, TransitionService} from '@uirouter/core';
-import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {States} from '../../states.service';
-import {WorkPackageTableColumnsService} from '../../wp-fast-table/state/wp-table-columns.service';
-import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table-filters.service';
-import {WorkPackageTableGroupByService} from '../../wp-fast-table/state/wp-table-group-by.service';
-import {WorkPackageTablePaginationService} from '../../wp-fast-table/state/wp-table-pagination.service';
-import {WorkPackageTableSortByService} from '../../wp-fast-table/state/wp-table-sort-by.service';
-import {WorkPackageTableSumService} from '../../wp-fast-table/state/wp-table-sum.service';
-import {WorkPackageTableTimelineService} from '../../wp-fast-table/state/wp-table-timeline.service';
-import {WorkPackagesListChecksumService} from '../../wp-list/wp-list-checksum.service';
-import {WorkPackagesListService} from '../../wp-list/wp-list.service';
-import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-request.service';
-import {WorkPackageTableHierarchiesService} from './../../wp-fast-table/state/wp-table-hierarchy.service';
-import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {WorkPackageStaticQueriesService} from 'core-components/wp-query-select/wp-static-queries.service';
-import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
 import {OpTitleService} from "core-components/html/op-title.service";
-import {Observable} from "rxjs";
+import {WorkPackagesSetComponent} from "core-app/modules/work_packages/routing/wp-set/wp-set.component";
 
 @Component({
   selector: 'wp-list',

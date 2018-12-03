@@ -77,7 +77,6 @@ import {OpenprojectAttachmentsModule} from 'core-app/modules/attachments/openpro
 import {WorkPackageEditFieldComponent} from 'core-app/components/wp-edit/wp-edit-field/wp-edit-field.component';
 import {WpCustomActionComponent} from 'core-components/wp-custom-actions/wp-custom-actions/wp-custom-action.component';
 import {WpCustomActionsComponent} from 'core-components/wp-custom-actions/wp-custom-actions.component';
-import {WorkPackageSplitViewComponent} from 'core-components/routing/wp-split-view/wp-split-view.component';
 import {WorkPackageRelationsCountComponent} from 'core-components/work-packages/wp-relations-count/wp-relations-count.component';
 import {WorkPackageWatchersCountComponent} from 'core-components/work-packages/wp-relations-count/wp-watchers-count.component';
 import {WorkPackageBreadcrumbComponent} from 'core-components/work-packages/wp-breadcrumb/wp-breadcrumb.component';
@@ -85,7 +84,6 @@ import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edi
 import {WorkPackageSplitViewToolbarComponent} from 'core-components/wp-details/wp-details-toolbar.component';
 import {WorkPackageWatcherButtonComponent} from 'core-components/work-packages/wp-watcher-button/wp-watcher-button.component';
 import {WorkPackageSubjectComponent} from 'core-components/work-packages/wp-subject/wp-subject.component';
-import {WorkPackagesFullViewComponent} from 'core-components/routing/wp-full-view/wp-full-view.component';
 import {WorkPackageRelationsTabComponent} from 'core-components/wp-single-view-tabs/relations-tab/relations-tab.component';
 import {WorkPackageRelationsComponent} from 'core-components/wp-relations/wp-relations.component';
 import {WorkPackageRelationsGroupComponent} from 'core-components/wp-relations/wp-relations-group/wp-relations-group.component';
@@ -93,10 +91,7 @@ import {WorkPackageRelationRowComponent} from 'core-components/wp-relations/wp-r
 import {WorkPackageRelationsCreateComponent} from 'core-components/wp-relations/wp-relations-create/wp-relations-create.component';
 import {WorkPackageRelationsHierarchyComponent} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.directive';
 import {WorkPackageCreateButtonComponent} from 'core-components/wp-buttons/wp-create-button/wp-create-button.component';
-import {WorkPackagesCalendarController} from 'core-components/wp-calendar/wp-calendar.component';
-import {WorkPackagesEmbeddedCalendarEntryComponent} from 'core-components/wp-table/embedded/wp-embedded-calendar-entry.component';
 import {FullCalendarModule} from 'ng-fullcalendar';
-import {WorkPackagesCalendarComponent} from 'core-components/routing/wp-calendar/wp.calendar.component';
 import {WorkPackageBreadcrumbParentComponent} from 'core-components/work-packages/wp-breadcrumb/wp-breadcrumb-parent.component';
 import {WorkPackageFilterButtonComponent} from 'core-components/wp-buttons/wp-filter-button/wp-filter-button.component';
 import {WorkPackageFilterContainerComponent} from 'core-components/filters/filter-container/filter-container.directive';
@@ -110,8 +105,6 @@ import {FilterDateTimesValueComponent} from 'core-components/filters/filter-date
 import {FilterIntegerValueComponent} from 'core-components/filters/filter-integer-value/filter-integer-value.component';
 import {FilterStringValueComponent} from 'core-components/filters/filter-string-value/filter-string-value.component';
 import {FilterToggledMultiselectValueComponent} from 'core-components/filters/filter-toggled-multiselect-value/filter-toggled-multiselect-value.component';
-import {WorkPackagesBaseComponent} from 'core-components/routing/main/work-packages-base.component';
-import {WorkPackagesListComponent} from 'core-components/routing/wp-list/wp-list.component';
 import {WorkPackageDetailsViewButtonComponent} from 'core-components/wp-buttons/wp-details-view-button/wp-details-view-button.component';
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
 import {WpTableConfigurationColumnsTab} from 'core-components/wp-table/configuration-modal/tabs/columns-tab.component';
@@ -187,6 +180,12 @@ import {WpRelationInlineAddExistingComponent} from "core-components/wp-relations
 import {WorkPackageRelationQueryComponent} from "core-components/wp-relations/embedded/relations/wp-relation-query.component";
 import {WpRelationInlineCreateService} from "core-components/wp-relations/embedded/relations/wp-relation-inline-create.service";
 import {WpChildrenInlineCreateService} from "core-components/wp-relations/embedded/children/wp-children-inline-create.service";
+import {WorkPackagesBaseComponent} from "core-app/modules/work_packages/routing/wp-base/wp--base.component";
+import {WorkPackagesListComponent} from "core-app/modules/work_packages/routing/wp-list/wp-list.component";
+import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
+import {WorkPackagesFullViewComponent} from "core-app/modules/work_packages/routing/wp-full-view/wp-full-view.component";
+import {UIRouterModule} from "@uirouter/angular";
+import {WORK_PACKAGES_ROUTES} from "core-app/modules/work_packages/routing/work-packages-routes";
 
 @NgModule({
   imports: [
@@ -198,6 +197,9 @@ import {WpChildrenInlineCreateService} from "core-components/wp-relations/embedd
     OpenprojectFieldsModule,
     // CKEditor
     OpenprojectEditorModule,
+
+    // Routes for /work_packages
+    UIRouterModule.forChild({ states: WORK_PACKAGES_ROUTES }),
 
     ChartsModule,
 
@@ -279,7 +281,7 @@ import {WpChildrenInlineCreateService} from "core-components/wp-relations/embedd
     WpTableConfigurationService,
   ],
   declarations: [
-    // views
+    // Routing
     WorkPackagesBaseComponent,
     WorkPackagesListComponent,
 
@@ -416,11 +418,6 @@ import {WpChildrenInlineCreateService} from "core-components/wp-relations/embedd
     WpCustomActionComponent,
     WpCustomActionsComponent,
 
-    // Work package calendars
-    WorkPackagesCalendarController,
-    WorkPackagesCalendarComponent,
-    WorkPackagesEmbeddedCalendarEntryComponent,
-
     // Embedded graphs
     WorkPackageEmbeddedGraphComponent,
     // Work package graphs on version page
@@ -473,11 +470,6 @@ import {WpChildrenInlineCreateService} from "core-components/wp-relations/embedd
     WorkPackageRelationQueryComponent,
 
     WorkPackagesTableController,
-    WorkPackagesEmbeddedCalendarEntryComponent,
-
-    // Embedded calendar
-    WorkPackagesCalendarComponent,
-    WorkPackagesCalendarController,
 
     // Work package graphs on version page
     WorkPackageByVersionGraphComponent,
@@ -509,6 +501,8 @@ import {WpChildrenInlineCreateService} from "core-components/wp-relations/embedd
   ],
   exports: [
     WorkPackageEmbeddedTableComponent,
+    WorkPackageFilterButtonComponent,
+    WorkPackageFilterContainerComponent,
   ]
 })
 export class OpenprojectWorkPackagesModule {

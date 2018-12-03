@@ -26,20 +26,41 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component} from "@angular/core";
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import {APP_INITIALIZER, Injector, NgModule} from '@angular/core';
+import {FirstRouteService} from "core-app/modules/router/first-route-service";
+import {UIRouterModule} from "@uirouter/angular";
+import {
+  initializeUiRouterListeners,
+  OPENPROJECT_ROUTES,
+  uiRouterConfiguration
+} from "core-app/modules/router/openproject-routes.config";
+import {ApplicationBaseComponent} from "core-app/modules/router/base/application-base.component";
 
-export const wpBaseAppSelector = 'work-packages-base';
-
-@Component({
-  selector: wpBaseAppSelector,
-  template: `
-    <div class="work-packages-page--ui-view">
-      <ui-view></ui-view>
-    </div>
-  `
+@NgModule({
+  imports: [
+    UIRouterModule.forRoot({
+      states: OPENPROJECT_ROUTES,
+      useHash: false,
+      config: uiRouterConfiguration,
+    }),
+  ],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeUiRouterListeners,
+      deps: [Injector],
+      multi: true
+    },
+    FirstRouteService
+  ],
+  declarations: [
+    ApplicationBaseComponent
+  ],
+  entryComponents: [
+    ApplicationBaseComponent
+  ],
+  exports: [
+  ]
 })
-export class WorkPackagesBaseComponent {
+export class OpenprojectRouterModule {
 }
-
-DynamicBootstrapper.register({ selector: wpBaseAppSelector, cls: WorkPackagesBaseComponent });

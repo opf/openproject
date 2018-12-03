@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -24,39 +24,18 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++    Ng1FieldControlsWrapper,
+// ++
 
+import {Component} from '@angular/core';
+import {WorkPackagesSetComponent} from "core-app/modules/work_packages/routing/wp-set/wp-set.component";
 
-import {FormsModule} from "@angular/forms";
-import {BrowserModule} from "@angular/platform-browser";
-import {APP_INITIALIZER, Injector, NgModule} from "@angular/core";
-import {AccessibleClickDirective} from "core-app/modules/a11y/accessible-click.directive";
-import {AccessibleByKeyboardComponent} from "core-app/modules/a11y/accessible-by-keyboard.component";
-import {initializeKeyboardShortcuts, KeyboardShortcutService} from "core-app/modules/a11y/keyboard-shortcut-service";
-
-@NgModule({
-  imports: [
-    FormsModule,
-    BrowserModule,
-  ],
-  exports: [
-    AccessibleClickDirective,
-    AccessibleByKeyboardComponent,
-  ],
-  providers: [
-    KeyboardShortcutService,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeKeyboardShortcuts,
-      deps: [KeyboardShortcutService],
-      multi: true
-    }
-  ],
-  declarations: [
-    AccessibleClickDirective,
-    AccessibleByKeyboardComponent,
-  ]
+@Component({
+  templateUrl: './wp-calendar-entry.component.html'
 })
-export class OpenprojectAccessibilityModule { }
 
-
+export class WorkPackagesCalendarEntryComponent extends WorkPackagesSetComponent {
+  // overrides super
+  protected initialQueryLoading(loadingRequired:boolean) {
+    // nothing
+  }
+}

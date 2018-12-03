@@ -30,7 +30,6 @@ import {CollectionResource} from 'core-app/modules/hal/resources/collection-reso
 import {States} from '../states.service';
 import {WorkPackagesListService} from '../wp-list/wp-list.service';
 import {WorkPackagesListChecksumService} from '../wp-list/wp-list-checksum.service';
-import {WorkPackagesListComponent} from 'core-components/routing/wp-list/wp-list.component';
 import {StateService, TransitionService} from '@uirouter/core';
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectorRef} from "@angular/core";
 import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
@@ -72,7 +71,6 @@ interface IQueryAutocompleteJQuery extends JQuery {
 
 
 @Component({
-  providers: [WorkPackagesListComponent],
   selector: 'wp-query-select',
   templateUrl: './wp-query-select.template.html'
 })

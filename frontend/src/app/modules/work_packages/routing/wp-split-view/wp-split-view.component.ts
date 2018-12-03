@@ -26,16 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Inject, Injector} from '@angular/core';
+import {Component, Injector} from '@angular/core';
 import {StateService} from '@uirouter/core';
-import {FirstRouteService} from 'core-components/routing/first-route-service';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
-import {States} from '../../states.service';
-import {WorkPackageTableSelection} from '../../wp-fast-table/state/wp-table-selection.service';
-import {KeepTabService} from '../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import {WorkPackageViewController} from '../wp-view-base/wp-view-base.controller';
+import {States} from "core-components/states.service";
+import {FirstRouteService} from "core-app/modules/router/first-route-service";
+import {KeepTabService} from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
+import {WorkPackageTableSelection} from "core-components/wp-fast-table/state/wp-table-selection.service";
 
 @Component({
   templateUrl: './wp-split-view.html',

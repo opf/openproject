@@ -26,17 +26,18 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component} from '@angular/core';
-import {WorkPackagesListComponent} from "core-components/routing/wp-list/wp-list.component";
-import {WorkPackagesSetComponent} from "core-components/routing/wp-set/wp-set.component";
+import {Component} from "@angular/core";
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+
+export const wpBaseSelector = 'work-packages-base';
 
 @Component({
-  templateUrl: './wp.calendar.component.html'
+  selector: wpBaseSelector,
+  template: `
+    <div class="work-packages-page--ui-view">
+      <ui-view></ui-view>
+    </div>
+  `
 })
-
-export class WorkPackagesCalendarComponent extends WorkPackagesSetComponent {
-  // overrides super
-  protected initialQueryLoading(loadingRequired:boolean) {
-    // nothing
-  }
+export class WorkPackagesBaseComponent {
 }

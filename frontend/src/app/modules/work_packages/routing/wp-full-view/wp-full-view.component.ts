@@ -35,8 +35,8 @@ import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
 import {Component, Injector} from '@angular/core';
 import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
 import {States} from 'core-components/states.service';
-import {FirstRouteService} from 'core-components/routing/first-route-service';
 import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
+import {FirstRouteService} from "core-app/modules/router/first-route-service";
 
 @Component({
   templateUrl: './wp-full-view.html',
