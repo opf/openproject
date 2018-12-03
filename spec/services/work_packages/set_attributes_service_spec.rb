@@ -354,20 +354,38 @@ describe WorkPackages::SetAttributesService, type: :model do
         end
       end
 
-      context 'no value set on existing work package' do
-        let(:call_attributes) { {} }
-        let(:attributes) { {} }
+      context 'start_date with default setting', with_settings: { work_package_startdate_is_adddate: true } do
+        context 'no value set before for a new work package' do
+          let(:call_attributes) { {} }
+          let(:attributes) { {} }
+          let(:work_package) { new_work_package }
 
-        before do
-          work_package.priority = nil
+          before do
+            work_package.priority = nil
+          end
+
+          it_behaves_like 'service call' do
+            it "sets the default priority" do
+              subject
+
+              expect(work_package.priority)
+                .to eql default_priority
+            end
+          end
         end
 
-        it_behaves_like 'service call' do
-          it 'stays nil' do
-            subject
+        context 'value set on new work package' do
+          let(:call_attributes) { { start_date: Date.today + 1.day } }
+          let(:attributes) { {} }
+          let(:work_package) { new_work_package }
 
-            expect(work_package.priority)
-              .to be_nil
+          it_behaves_like 'service call' do
+            it 'stays that value' do
+              subject
+
+              expect(work_package.start_date)
+                .to eq(Date.today + 1.day)
+            end
           end
         end
       end

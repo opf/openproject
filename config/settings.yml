@@ -329,6 +329,7 @@ emails_header:
     en: ''
 work_package_startdate_is_adddate:
   default: 1
+  format: boolean
 user_default_timezone:
   default: ""
 users_deletable_by_admins:
