@@ -151,11 +151,11 @@ export class GridComponent implements OnDestroy, OnInit {
     if (this.draggedArea) {
       let dropArea = event.container.data;
       this.resetAreasOnDragging();
-      this.updateAreasOnDragging(dropArea);
+      this.moveAreasOnDragging(dropArea);
     }
   }
 
-  private updateAreasOnDragging(dropArea:GridArea) {
+  private moveAreasOnDragging(dropArea:GridArea) {
     let widgetArea = this.draggedArea!;
 
     // we cannot use the widget's original area as moving it while dragging confuses cdkDrag
@@ -177,6 +177,9 @@ export class GridComponent implements OnDestroy, OnInit {
       area.startColumn = area.widget.startColumn;
       area.endColumn = area.widget.endColumn;
     });
+
+    this.numRows = this.grid.rowCount;
+    this.numColumns = this.grid.columnCount;
   }
 
   public resize(area:GridWidgetArea, deltas:ResizeDelta) {
@@ -385,12 +388,6 @@ export class GridComponent implements OnDestroy, OnInit {
       });
   }
 
-  private addAreas(additionalAreas:GridArea[]) {
-    this.gridAreas.push(...additionalAreas);
-
-    this.gridAreaDropIds = this.buildGridAreaDropIds();
-  }
-
   private buildGridAreas() {
     let cells:GridArea[] = [];
 
@@ -435,10 +432,6 @@ export class GridComponent implements OnDestroy, OnInit {
     return this.widgetResources.map((widget) => {
       return new GridWidgetArea(widget);
     });
-  }
-
-  private widgetOfArea(row:number, column:number) {
-    return this.widgetResources.find((resource) => resource.startRow === row && resource.startColumn === column);
   }
 
   public identifyGridArea(index:number, cell:GridArea) {
