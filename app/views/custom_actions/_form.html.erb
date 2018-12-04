@@ -22,12 +22,15 @@
       <% selected_values = condition.values
          select_options = options_for_select(condition.allowed_values.map { |v| [v[:label], v[:value]] },
                                              selected: selected_values) %>
-      <div class="form--select-container -middle">
-        <autocomplete-select-decoration>
-          <%= select_tag input_name,
-                         select_options,
-                         multiple: true %>
-        </autocomplete-select-decoration>
+
+      <div class="form--field-container">
+        <div class="form--select-container -middle">
+          <autocomplete-select-decoration>
+            <%= select_tag input_name,
+                           select_options,
+                           multiple: true %>
+          </autocomplete-select-decoration>
+        </div>
       </div>
     </div>
     <div class="form--space"></div>
@@ -50,37 +53,47 @@
             <% selected_values = action.values
                select_options = options_for_select(action.allowed_values.map { |v| [v[:label], v[:value]] },
                                                    selected: selected_values) %>
-            <div class="form--select-container -middle">
-              <autocomplete-select-decoration
-                  label="<%=action.human_name%>">
-                <%= select_tag input_name,
-                               select_options,
-                               multiple: action.multi_value? %>
-              </autocomplete-select-decoration>
-            </div>
+              <div class="form--field-container">
+                <div class="form--select-container -middle">
+                  <autocomplete-select-decoration
+                      label="<%=action.human_name%>">
+                    <%= select_tag input_name,
+                                   select_options,
+                                   multiple: action.multi_value? %>
+                  </autocomplete-select-decoration>
+                </div>
+              </div>
           <% elsif %i(date_property).include?(action.type) %>
-            <wp-custom-actions-admin-date-action field-value="<%= action.values.first %>"
-                                                 field-name="<%= input_name %>">
-            </wp-custom-actions-admin-date-action>
+            <div class="form--field-container">
+              <wp-custom-actions-admin-date-action field-value="<%= action.values.first %>"
+                                                   field-name="<%= input_name %>">
+              </wp-custom-actions-admin-date-action>
+            </div>
           <% elsif %i(string_property text_property).include?(action.type) %>
-            <%= styled_text_field_tag input_name,
-                                      action.values,
-                                      container_class: '-slim',
-                                      step: 'any' %>
-          <% elsif action.type == :float_property %>
-            <%= styled_number_field_tag input_name,
+            <div class="form--field-container">
+              <%= styled_text_field_tag input_name,
                                         action.values,
                                         container_class: '-slim',
-                                        min: action.minimum,
-                                        max: action.maximum,
                                         step: 'any' %>
+            </div>
+          <% elsif action.type == :float_property %>
+            <div class="form--field-container">
+              <%= styled_number_field_tag input_name,
+                                          action.values,
+                                          container_class: '-slim',
+                                          min: action.minimum,
+                                          max: action.maximum,
+                                          step: 'any' %>
+            </div>
           <% elsif action.type == :integer_property %>
-            <%= styled_number_field_tag input_name,
-                                        action.values,
-                                        container_class: '-slim',
-                                        min: action.minimum,
-                                        max: action.maximum,
-                                        step: 1 %>
+            <div class="form--field-container">
+              <%= styled_number_field_tag input_name,
+                                          action.values,
+                                          container_class: '-slim',
+                                          min: action.minimum,
+                                          max: action.maximum,
+                                          step: 1 %>
+            </div>
           <% end %>
           <hide-section-link section-name="'<%= action.key %>'"></hide-section-link>
         </div>
