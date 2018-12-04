@@ -9,7 +9,7 @@ import {GridWidgetResource} from "app/modules/hal/resources/grid-widget-resource
 import {HookService} from "app/modules/plugins/hook-service";
 import {debugLog} from "app/helpers/debug_output";
 import {DomSanitizer} from "@angular/platform-browser";
-import {CdkDragDrop, CdkDragEnter} from "@angular/cdk/drag-drop";
+import {CdkDragDrop, CdkDragEnter, CdkDragExit, CdkDragEnd} from "@angular/cdk/drag-drop";
 import {ResizeDelta} from "../common/resizer/resizer.component";
 import {GridWidgetsService} from "core-app/modules/grids/widgets/widgets.service";
 import {AddGridWidgetService} from "core-app/modules/grids/widgets/add/add.service";
@@ -37,11 +37,13 @@ export class GridComponent implements OnDestroy, OnInit {
   public gridWidgetAreas:GridWidgetArea[];
   public gridAreaDropIds:string[];
   public draggedArea:GridWidgetArea|null;
+  public dragPlaceholderArea:GridWidgetArea|null;
   public GRID_AREA_HEIGHT = 100;
 
   private schema:SchemaResource;
 
-  public resizeArea:GridArea|null;
+  public resizePlaceholderArea:GridWidgetArea|null;
+  private resizedArea:GridWidgetArea|null;
   public resizeAreaTargetIds:string[];
   private mousedOverArea:GridArea|null;
 
@@ -104,74 +106,110 @@ export class GridComponent implements OnDestroy, OnInit {
 
   public dragStart(area:GridWidgetArea) {
     this.draggedArea = area;
+    this.dragPlaceholderArea = new GridWidgetArea(area.widget);
   }
 
-  public dragStop() {
+  public dragStop(area:GridWidgetArea, event:CdkDragEnd) {
+    if (!this.draggedArea) {
+      return;
+    }
+
+    let dropArea = event.source.dropContainer.data;
+
+    // Handle special case of user starting to move the widget but then deciding to
+    // move it back to the original area.
+    if (this.draggedArea.startColumn === dropArea.startColumn &&
+      this.draggedArea.startRow === dropArea.startRow) {
+      this.resetAreasOnDragging();
+    }
     this.draggedArea = null;
+    this.dragPlaceholderArea = null;
   }
 
   public drop(event:CdkDragDrop<GridArea>) {
     // this.draggedArea is already reset to null at this point
-    if (event.previousContainer !== event.container) {
-      let dropArea = event.container.data;
-      let draggedArea = event.previousContainer.data as GridWidgetArea;
+    let dropArea = event.container.data;
+    let draggedArea = event.previousContainer.data as GridWidgetArea;
 
-      // Set the draggedArea's startRow/startColumn properties
-      // to the drop zone ones.
-      // The dragged Area should keep it's height and width normally but will
-      // shrink if the area would otherwise end outside the grid.
-      draggedArea.startRow = dropArea.startRow;
-      if (dropArea.startRow + draggedArea.widget.height > this.numRows + 1) {
-        draggedArea.endRow = this.numRows + 1;
-      } else {
-        draggedArea.endRow = dropArea.startRow + draggedArea.widget.height;
-      }
-
-      draggedArea.startColumn = dropArea.startColumn;
-      if (dropArea.startColumn + draggedArea.widget.width > this.numColumns + 1) {
-        draggedArea.endColumn = this.numColumns + 1;
-      } else {
-        draggedArea.endColumn = dropArea.startColumn + draggedArea.widget.width;
-      }
-
-      // persist all changes to the areas caused by dragging
-      // to the widget
-      this.gridWidgetAreas.forEach((area) => {
-        area.widget.startRow = area.startRow;
-        area.widget.endRow = area.endRow;
-        area.widget.startColumn = area.startColumn;
-        area.widget.endColumn = area.endColumn;
-      });
-
-      this.buildAreas();
+    // Set the draggedArea's startRow/startColumn properties
+    // to the drop zone ones.
+    // The dragged Area should keep it's height and width normally but will
+    // shrink if the area would otherwise end outside the grid.
+    draggedArea.startRow = dropArea.startRow;
+    if (dropArea.startRow + draggedArea.widget.height > this.numRows + 1) {
+      draggedArea.endRow = this.numRows + 1;
+    } else {
+      draggedArea.endRow = dropArea.startRow + draggedArea.widget.height;
     }
+
+    draggedArea.startColumn = dropArea.startColumn;
+    if (dropArea.startColumn + draggedArea.widget.width > this.numColumns + 1) {
+      draggedArea.endColumn = this.numColumns + 1;
+    } else {
+      draggedArea.endColumn = dropArea.startColumn + draggedArea.widget.width;
+    }
+
+    this.writeAreaChangesToWidgets();
+    this.buildAreas();
+  }
+
+  // persist all changes to the areas caused by dragging/resizing
+  // to the widget
+  private writeAreaChangesToWidgets() {
+    this.gridWidgetAreas.forEach((area) => {
+      area.widget.startRow = area.startRow;
+      area.widget.endRow = area.endRow;
+      area.widget.startColumn = area.startColumn;
+      area.widget.endColumn = area.endColumn;
+    });
   }
 
   public dragEntered(event:CdkDragEnter<GridArea>) {
     if (this.draggedArea) {
       let dropArea = event.container.data;
-      this.resetAreasOnDragging();
+      this.resetAreasOnDragging(this.draggedArea);
       this.moveAreasOnDragging(dropArea);
     }
   }
 
+  public dragExited(event:CdkDragExit<GridArea>) {
+    // prevent flickering when dragging within the area spanned
+    // by the dragged element. Otherwise, cdk drag fire an entered event on every
+    // move.
+    if (this.draggedArea) {
+      this.draggedArea.endRow = this.draggedArea.startRow + 1;
+      this.draggedArea.endColumn = this.draggedArea.startColumn + 1;
+    }
+  }
+
   private moveAreasOnDragging(dropArea:GridArea) {
+    if (!this.dragPlaceholderArea) {
+      return;
+    }
     let widgetArea = this.draggedArea!;
 
     // we cannot use the widget's original area as moving it while dragging confuses cdkDrag
-    let widget = widgetArea.widget;
-    let placeholderArea = new GridWidgetArea(widget);
+    this.dragPlaceholderArea.startRow = dropArea.startRow;
+    if (this.dragPlaceholderArea.startRow + this.dragPlaceholderArea.widget.height > this.numRows + 1) {
+      this.dragPlaceholderArea.endRow = this.numRows + 1;
+    } else {
+      this.dragPlaceholderArea.endRow = dropArea.startRow + this.dragPlaceholderArea.widget.height;
+    }
 
-    placeholderArea.startRow = dropArea.startRow;
-    placeholderArea.endRow = placeholderArea.startRow + widget.height;
-    placeholderArea.startColumn = dropArea.startColumn;
-    placeholderArea.endColumn = placeholderArea.startColumn + widget.width;
+    this.dragPlaceholderArea.startColumn = dropArea.startColumn;
+    if (this.dragPlaceholderArea.startColumn + this.dragPlaceholderArea.widget.height > this.numColumns + 1) {
+      this.dragPlaceholderArea.endColumn = this.numColumns + 1;
+    } else {
+      this.dragPlaceholderArea.endColumn = dropArea.startColumn + this.dragPlaceholderArea.widget.height;
+    }
 
-    this.moveAreasDown(placeholderArea, widgetArea);
+    this.moveAreasDown(this.dragPlaceholderArea, widgetArea);
   }
 
-  private resetAreasOnDragging() {
-    this.gridWidgetAreas.forEach((area) => {
+  private resetAreasOnDragging(ignoredArea:GridWidgetArea|null = null) {
+    this.gridWidgetAreas.filter((area) => {
+     return !ignoredArea || area.guid !== ignoredArea.guid;
+    }).forEach((area) => {
       area.startRow = area.widget.startRow;
       area.endRow = area.widget.endRow;
       area.startColumn = area.widget.startColumn;
@@ -183,39 +221,28 @@ export class GridComponent implements OnDestroy, OnInit {
   }
 
   public resize(area:GridWidgetArea, deltas:ResizeDelta) {
-    if (!this.resizeArea) {
+    if (!this.resizePlaceholderArea ||
+        !this.resizedArea) {
       return;
     }
 
-    let widget = area.widget;
+    this.resizedArea.endRow = this.resizePlaceholderArea.endRow;
+    this.resizedArea.endColumn = this.resizePlaceholderArea.endColumn;
 
-    widget.endRow = this.resizeArea.endRow;
-    widget.endColumn = this.resizeArea.endColumn;
-
+    this.writeAreaChangesToWidgets();
     this.buildAreas();
 
-    return this.resizeArea = null;
+    this.resizedArea = null;
+    this.resizePlaceholderArea = null;
   }
 
   public resizeStart(resizedArea:GridWidgetArea) {
-    this.resizeArea = new GridArea(resizedArea.startRow,
-                                   resizedArea.endRow,
-                                   resizedArea.startColumn,
-                                   resizedArea.endColumn);
-
-    let blockableWidgetAreas = this.gridWidgetAreas.filter((widgetArea) => {
-      return resizedArea.guid !== widgetArea.guid &&
-        widgetArea.startRow >= resizedArea.startRow &&
-        widgetArea.startColumn >= resizedArea.startColumn;
-    }) as GridWidgetArea[];
+    this.resizePlaceholderArea = new GridWidgetArea(resizedArea.widget);
+    this.resizedArea = resizedArea;
 
     let resizeTargets = this.gridAreas.filter((area) => {
-      return area.startRow >= this.resizeArea!.startRow &&
-        area.startColumn >= this.resizeArea!.startColumn &&
-        !blockableWidgetAreas.some((widgetArea) => {
-          return area.startRow >= widgetArea.startRow &&
-            area.startColumn >= widgetArea.startColumn;
-        });
+      return area.startRow >= this.resizePlaceholderArea!.startRow &&
+        area.startColumn >= this.resizePlaceholderArea!.startColumn; //&&
     });
 
     this.resizeAreaTargetIds = resizeTargets.map((area) => {
@@ -224,20 +251,24 @@ export class GridComponent implements OnDestroy, OnInit {
   }
 
   public resizeMove(deltas:ResizeDelta) {
-    if (!this.resizeArea ||
+    if (!this.resizePlaceholderArea ||
         !this.mousedOverArea ||
         !this.resizeAreaTargetIds.includes(this.gridAreaId(this.mousedOverArea))) {
       return;
     }
 
-    this.resizeArea.endRow = this.mousedOverArea.endRow;
-    this.resizeArea.endColumn = this.mousedOverArea.endColumn;
+    this.resetAreasOnDragging();
+
+    this.resizePlaceholderArea.endRow = this.mousedOverArea.endRow;
+    this.resizePlaceholderArea.endColumn = this.mousedOverArea.endColumn;
+
+    this.moveAreasDown(this.resizePlaceholderArea, this.resizedArea);
   }
 
   public isResizeTarget(area:GridArea) {
     let areaId = this.gridAreaId(area);
 
-    return this.resizeArea && this.resizeAreaTargetIds.includes(areaId);
+    return this.resizePlaceholderArea && this.resizeAreaTargetIds.includes(areaId);
   }
 
   public isAddable(area:GridArea) {
@@ -248,7 +279,7 @@ export class GridComponent implements OnDestroy, OnInit {
   }
 
   public get currentlyResizing() {
-    return this.resizeArea;
+    return this.resizePlaceholderArea;
   }
 
   public setMousedOverArea(area:GridArea) {
@@ -436,14 +467,6 @@ export class GridComponent implements OnDestroy, OnInit {
 
   public identifyGridArea(index:number, cell:GridArea) {
     return `gridArea ${cell.guid}`;
-  }
-
-  private gridAreaDropIdsWithoutSelf(area:GridArea) {
-    let selfId = this.gridAreaId(area);
-
-    return this.gridAreaDropIds.filter((areaId) => {
-      return selfId !== areaId;
-    });
   }
 
   private buildGridAreaDropIds() {

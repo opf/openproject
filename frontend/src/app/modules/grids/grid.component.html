@@ -25,12 +25,13 @@
        cdkDropList
        [id]="gridAreaId(area) + '-widgeted-' + area.guid"
        [cdkDropListData]="area"
-       [cdkDropListConnectedTo]="gridAreaDropIdsWithoutSelf(area)">
+       [cdkDropListConnectedTo]="gridAreaDropIds">
     <div class="widget-box"
          cdkDrag
          (cdkDragStarted)="dragStart(area)"
-         (cdkDragEnded)="dragStop()"
+         (cdkDragEnded)="dragStop(area, $event)"
          style="height: 100%">
+      <div *cdkDragPlaceholder></div>
       <div class="grid--widget-remove"
            (click)="removeWidget(area)">
       </div>
@@ -48,7 +49,7 @@
   <!-- One grid area per cell (row x columns) -->
   <div *ngFor="let area of gridAreas; trackBy: identifyGridArea;"
        class="grid--area"
-       [ngClass] = "{'-drop-target': currentlyDragging && gridAreaDropIds.indexOf(gridAreaId(area)) >= 0,
+       [ngClass] = "{'-drop-target': currentlyDragging,
                      '-resize-target': isResizeTarget(area),
                      '-addable': isAddable(area) }"
        [style.grid-row-start]="area.startRow"
@@ -61,6 +62,7 @@
        [cdkDropListData]="area"
        (cdkDropListDropped)="drop($event)"
        (cdkDropListEntered)="dragEntered($event)"
+       (cdkDropListExited)="dragExited($event)"
        [cdkDropListConnectedTo]="gridAreaDropIds">
     <div class="grid--widget-add"
          *ngIf="isAddable(area)"
@@ -70,10 +72,25 @@
 
   <!-- Grid area to visualize resizing -->
   <div class="grid--area -resizing"
-       *ngIf="resizeArea"
-       [style.grid-row-start]="resizeArea.startRow"
-       [style.grid-row-end]="resizeArea.endRow"
-       [style.grid-column-start]="resizeArea.startColumn"
-       [style.grid-column-end]="resizeArea.endColumn">
+       *ngIf="resizePlaceholderArea"
+       [style.grid-row-start]="resizePlaceholderArea.startRow"
+       [style.grid-row-end]="resizePlaceholderArea.endRow"
+       [style.grid-column-start]="resizePlaceholderArea.startColumn"
+       [style.grid-column-end]="resizePlaceholderArea.endColumn">
+  </div>
+
+  <!-- Grid area used as a placeholder while dragging -->
+  <div *ngIf="dragPlaceholderArea"
+       class="grid--area -widgeted"
+       [style.grid-row-start]="dragPlaceholderArea.startRow"
+       [style.grid-row-end]="dragPlaceholderArea.endRow"
+       [style.grid-column-start]="dragPlaceholderArea.startColumn"
+       [style.grid-column-end]="dragPlaceholderArea.endColumn">
+    <div class="widget-box"
+         style="height: 100%">
+      <ndc-dynamic [ndcDynamicComponent]="widgetComponent(dragPlaceholderArea.widget)"
+                   [ndcDynamicOutputs]="{}">
+      </ndc-dynamic>
+    </div>
   </div>
 </div>
