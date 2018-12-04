@@ -70,16 +70,19 @@ module ::Webhooks
         end
 
         def edit_link
-          link_to I18n.t(:button_edit),
-                  { controller: table.target_controller, action: :edit, webhook_id: webhook.id },
-                  class: 'button--link'
+          link_to(
+            op_icon('icon icon-edit button--link'),
+            { controller: table.target_controller, action: :edit, webhook_id: webhook.id },
+          )
         end
 
         def delete_link
-          link_to I18n.t(:button_delete),
-                  { controller: table.target_controller, action: :destroy, webhook_id: webhook.id },
-                  data: { method: 'delete', confirm: I18n.t(:text_are_you_sure) },
-                  class: 'button--link'
+          link_to(
+            op_icon('icon icon-delete button--link'),
+            { controller: table.target_controller, action: :destroy, webhook_id: webhook.id },
+            method: :delete,
+            data: { confirm: I18n.t(:text_are_you_sure) }
+          )
         end
       end
     end

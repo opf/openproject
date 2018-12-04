@@ -79,7 +79,11 @@ See docs/COPYRIGHT.rdoc for more details.
                 </attribute-help-text>
               </td>
               <td class="buttons">
-                <%= delete_link attribute_help_text_path(attribute_help_text) %>
+                <%= link_to(
+                      op_icon('icon icon-delete'),
+                      (attribute_help_text_path(attribute_help_text)),
+                      method: :delete,
+                      data: { confirm: I18n.t(:text_are_you_sure) }) %>
               </td>
             </tr>
           <% end %>

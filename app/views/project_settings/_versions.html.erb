@@ -143,10 +143,10 @@ See docs/COPYRIGHT.rdoc for more details.
                 </td>
                 <td class="buttons">
                   <% if version.project == @project %>
-                    <%= link_to_if_authorized l(:button_edit),
+                    <%= link_to_if_authorized '',
                                               { controller: '/versions', action: 'edit', id: version },
                                               class: 'icon icon-edit' %>
-                    <%= link_to_if_authorized l(:button_delete),
+                    <%= link_to_if_authorized '',
                                               { controller: '/versions', action: 'destroy', id: version },
                                               data: { confirm: l(:text_are_you_sure) },
                                               method: :delete,
