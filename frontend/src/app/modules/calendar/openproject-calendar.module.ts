@@ -35,10 +35,11 @@ import {WorkPackagesCalendarController} from "core-app/modules/calendar/wp-calen
 import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
 import {Ng2StateDeclaration, UIRouterModule} from "@uirouter/angular";
 
+require("fullcalendar/dist/locale-all.js");
+
 export const CALENDAR_ROUTES:Ng2StateDeclaration[] = [
   {
-    parent: 'work-packages',
-    name: 'calendar',
+    name: 'work-packages.calendar',
     url: '/calendar',
     component: WorkPackagesCalendarEntryComponent,
     reloadOnSearch: false

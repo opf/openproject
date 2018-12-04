@@ -3,6 +3,7 @@
   "repository": "https://github.com/opf/openproject",
   "license": "GPLv3",
   "version": "0.1.0",
+  "private": true,
   "devDependencies": {
     "@angular/language-service": "7.1.1",
     "@types/jasmine": "~3.3.1",
@@ -31,8 +32,6 @@
   },
   "dependencies": {
     "@angular-devkit/build-angular": "^0.11.1",
-    "@angular-devkit/core": "^7.1.1",
-    "@angular-devkit/schematics": "^7.1.1",
     "@angular/animations": "7.1.1",
     "@angular/cdk": "^7.1.1",
     "@angular/cli": "^7.1.1",
@@ -122,7 +121,6 @@
     "typescript": "^3.1.6",
     "ui-select": "~0.19.6",
     "url-loader": "^1.1.2",
-    "webpack": "^4.23.1",
     "zone.js": "^0.8.26"
   },
   "scripts": {

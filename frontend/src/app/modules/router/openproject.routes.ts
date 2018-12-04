@@ -47,6 +47,14 @@ export const OPENPROJECT_ROUTES = [
       projects: {type: 'path', value: null, squash: true},
     }
   },
+  // We could lazily load work packages module already,
+  // but e.g., the plugin context requires service from it.
+  // {
+  //   name: 'work-packages.**',
+  //   parent: 'root',
+  //   url: '/work_packages/**',
+  //   loadChildren: '../work_packages/openproject-work-packages.module#OpenprojectWorkPackagesModule'
+  // },
 ];
 
 /**

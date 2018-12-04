@@ -68,7 +68,6 @@ import {OpenprojectWorkPackagesModule} from 'core-app/modules/work_packages/open
 import {OpenprojectAttachmentsModule} from 'core-app/modules/attachments/openproject-attachments.module';
 import {OpenprojectEditorModule} from 'core-app/modules/editor/openproject-editor.module';
 import {OpenprojectRouterModule} from "core-app/modules/router/openproject-router.module";
-import {OpenprojectCalendarModule} from "core-app/modules/calendar/openproject-calendar.module";
 
 @NgModule({
   imports: [
@@ -86,9 +85,6 @@ import {OpenprojectCalendarModule} from "core-app/modules/calendar/openproject-c
 
     OpenprojectAttachmentsModule,
     OpenprojectWorkPackagesModule,
-
-    // Dynamic calendars functionality
-    OpenprojectCalendarModule,
 
     // Plugin hooks and modules
     OpenprojectPluginsModule,
