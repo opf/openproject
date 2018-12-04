@@ -14,10 +14,12 @@
 
   <div class="form--field">
     <%= styled_label_tag 'settings[gravatar_default]', t('avatars.settings.gravatar_default') %>
-    <%= styled_select_tag 'settings[gravatar_default]',
-                          options_for_select(manager.default_gravatar_options, @settings['gravatar_default']),
-                          container_class: '-slim'
-    %>
+    <div class="form--field-container">
+      <%= styled_select_tag 'settings[gravatar_default]',
+                            options_for_select(manager.default_gravatar_options, @settings['gravatar_default']),
+                            container_class: '-slim'
+      %>
+    </div>
   </div>
 </fieldset>
 

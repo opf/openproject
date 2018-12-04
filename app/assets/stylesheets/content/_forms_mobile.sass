@@ -38,13 +38,16 @@
     .form--field.-wide-label .form--label,
     .form--label,
     .form--field-container,
-    .form--select-container,
-    .form--field-instructions
+    .form--select-container
       @include grid-content(12)
       display: flex
       flex: 1
       margin-left: 0
       padding: 0
+    .form--field-instructions
+      margin-left: 0
+      flex-basis: 100%
+      max-width: 100%
 
   #tab-content-info form
     .form--label,

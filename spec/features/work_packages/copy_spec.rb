@@ -125,7 +125,7 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
 
     work_package_page.visit_tab! :relations
     expect_angular_frontend_initialized
-    expect(page).to have_selector('.relation-group--header', text: 'RELATED TO')
+    expect(page).to have_selector('.relation-group--header', text: 'RELATED TO', wait: 20)
     expect(page).to have_selector('.wp-relations--subject-field', text: original_work_package.subject)
   end
 
@@ -162,7 +162,7 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
 
     work_package_page.visit_tab!('relations')
     expect_angular_frontend_initialized
-    expect(page).to have_selector('.relation-group--header', text: 'RELATED TO')
+    expect(page).to have_selector('.relation-group--header', text: 'RELATED TO', wait: 20)
     expect(page).to have_selector('.wp-relations--subject-field', text: original_work_package.subject)
   end
 end

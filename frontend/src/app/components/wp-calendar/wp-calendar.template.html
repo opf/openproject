@@ -5,7 +5,7 @@
      style="position: relative">
     <ng-fullcalendar #ucCalendar
                      [options]="calendarOptions"
-                     [(eventsModel)]="events"
+                     (initialized)="onCalendarInitialized()"
                      (viewRender)="updateTimeframe($event)"
                      (eventRender)="addTooltip($event)"
                      (eventClick)="toWPFullView($event)">

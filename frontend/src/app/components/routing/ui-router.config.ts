@@ -226,6 +226,9 @@ export function initializeUiRouterConfiguration(injector:Injector) {
     let wpBase = document.querySelector(wpBaseAppSelector);
 
     $transitions.onStart({}, function(transition:Transition) {
+      const profiler:any = (window as any).MiniProfiler;
+      profiler && profiler.pageTransition();
+
       const $state = transition.router.stateService;
       const toParams = transition.params('to');
       const toState = transition.to();
