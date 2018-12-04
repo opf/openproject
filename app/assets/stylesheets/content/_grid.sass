@@ -12,12 +12,11 @@ $grid--header-width: 20px
 .grid--area
   overflow: hidden
 
-  &.-drop-target, &.-resize-target
+  &.-drop-target
     background-color: $gray-light
 
   &.-resize-target
     z-index: 1000
-    background-color: initial
 
   &.-widgeted
     z-index: 10
@@ -26,7 +25,7 @@ $grid--header-width: 20px
     padding: 20px
 
   &.-resizing
-    border: 1px solid red
+    border: 1px solid $primary-color
     z-index: 100
 
   &.-addable
@@ -45,8 +44,8 @@ $grid--header-width: 20px
     cursor: grab
 
 .grid--widget-add
-  padding: 20px
-  background-color: rgba(10, 10, 10, 0.1)
+  padding: 15px
+  background-color: $gray
   border-radius: 50%
 
   &:before
@@ -75,18 +74,23 @@ $grid--header-width: 20px
   margin-left: -$grid--header-width
 
 .grid--header
-  background-color: rgba(10, 10, 10, 0.1)
+  background-color: $gray-light
+  transition: background-color 4s ease
+
+  &:hover
+    background-color: $gray
+    transition: background-color 1s ease
 
 .grid--addable-widget
   min-width: 400px
   padding: 20px 5px
-  border-bottom: 1px solid #dddddd
+  border-bottom: 1px solid $gray
   cursor: pointer
   background: none
   transition: background 4s ease
 
   &:hover
-    background: #eeeeee
+    background: $gray-light
     transition: background 1s ease
 
   &:last-of-type
