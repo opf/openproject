@@ -90,11 +90,11 @@ export class WpResizerDirective implements OnInit, OnDestroy {
         untilComponentDestroyed(this)
       )
       .subscribe( changeData => {
-        jQuery('.-can-have-columns').toggleClass('-columns-2', jQuery('.work-packages-full-view--split-left').width() > 750);
+        jQuery('.-can-have-columns').toggleClass('-columns-2', jQuery('.work-packages-full-view--split-left').width()! > 750);
       });
     let that = this;
     jQuery(window).resize(function() {
-      jQuery('.-can-have-columns').toggleClass('-columns-2', jQuery('.work-packages-full-view--split-left').width() > 750);
+      jQuery('.-can-have-columns').toggleClass('-columns-2', jQuery('.work-packages-full-view--split-left').width()! > 750);
       that.applyInfoRowLayout();
     });
 
@@ -206,7 +206,7 @@ export class WpResizerDirective implements OnInit, OnDestroy {
   private applyColumnLayout(element:HTMLElement, newWidth:number) {
     // Apply two column layout in fullscreen view of a workpackage
     if (element === jQuery('.work-packages-full-view--split-right')[0]) {
-      jQuery('.-can-have-columns').toggleClass('-columns-2', jQuery('.work-packages-full-view--split-left').width() > 750);
+      jQuery('.-can-have-columns').toggleClass('-columns-2', jQuery('.work-packages-full-view--split-left').width()! > 750);
     }
     // Apply two column layout when details view of wp is open
     else {
@@ -215,6 +215,9 @@ export class WpResizerDirective implements OnInit, OnDestroy {
   }
 
   private applyInfoRowLayout() {
-    jQuery('.wp-info-wrapper').toggleClass('-wrapped', jQuery('.wp-info-wrapper').width() - jQuery('wp-custom-actions').width() - jQuery('wp-status-button .button').width() < 475);
+    jQuery('.wp-info-wrapper').toggleClass(
+      '-wrapped',
+      jQuery('.wp-info-wrapper').width()! - jQuery('wp-custom-actions').width()! - jQuery('wp-status-button .button').width()! < 475
+    );
   }
 }

@@ -44,6 +44,7 @@ import {WorkPackagesBaseComponent} from "core-app/modules/work_packages/routing/
 export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'work-packages',
+    parent: 'root',
     component: WorkPackagesBaseComponent,
     url: '/work_packages?query_id&query_props',
     abstract: true,

@@ -93,7 +93,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
       });
   }
 
-  protected open(evt:Event) {
+  protected open(evt:JQuery.Event) {
     this.loadingPromise.then(() => {
       this.buildItems();
       this.opContextMenu.show(this, evt);

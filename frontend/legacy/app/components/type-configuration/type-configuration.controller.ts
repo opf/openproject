@@ -168,7 +168,7 @@ function typesFormConfigurationCtrl(
     if (group) {
       originator = group.find('.type-form-query');
     } else {
-      originator = jQuery(event.target).closest('.type-form-query');
+      originator = jQuery(event.target).closest('.type-form-query') as JQuery;
     }
     const currentQuery = $scope.extractQuery(originator);
 
@@ -208,8 +208,8 @@ function typesFormConfigurationCtrl(
     // with the active groups.
     groups.forEach((groupEl:HTMLElement) => {
       let group:JQuery = jQuery(groupEl);
-      let groupKey:string = group.attr('data-key');
-      let keyIsSymbol:boolean = JSON.parse(group.attr('data-key-is-symbol'));
+      let groupKey:string = group.attr('data-key') as string;
+      let keyIsSymbol:boolean = JSON.parse(group.attr('data-key-is-symbol') as string);
       let attrKeys:string[] = [];
 
       angular.element(group).removeClass('-error');
@@ -242,7 +242,7 @@ function typesFormConfigurationCtrl(
       // For attribute groups, extract the attributes
       group.find('.type-form-conf-attribute').each((i, attribute) => {
         let attr:JQuery = jQuery(attribute);
-        let key:string = attr.attr('data-key');
+        let key:string = attr.attr('data-key') as string;
         attrKeys.push(key);
       });
 

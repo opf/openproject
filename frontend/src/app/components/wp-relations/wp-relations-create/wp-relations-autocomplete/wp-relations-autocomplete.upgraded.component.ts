@@ -101,7 +101,7 @@ export class WpRelationsAutocompleteComponent implements OnInit, OnDestroy {
       },
       minLength: 0
     })
-    .focus(() => !selected && input.autocomplete('search', input.val()));
+    .focus(() => !selected && input.autocomplete('search', input.val() as string));
 
     setTimeout(() => input.focus(), 20);
   }

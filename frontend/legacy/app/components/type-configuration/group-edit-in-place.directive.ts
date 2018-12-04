@@ -70,7 +70,7 @@ function groupEditInPlace($timeout:any):any {
         }
         scope.editing = true;
         scope.nameBefore = scope.name;
-        $timeout(function(){
+        $timeout(function() {
           angular.element('input', element).trigger('focus');
         }, 100);
       };
@@ -88,7 +88,7 @@ function groupEditInPlace($timeout:any):any {
       };
 
       scope.saveEdition = function() {
-        let newValue: string = angular.element("input", element[0]).first().val();
+        let newValue:string = angular.element("input", element[0]).first().val() as string;
         scope.nameOriginal = scope.name;
         scope.name = newValue.trim();
         scope.leaveEditingMode();

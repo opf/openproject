@@ -121,7 +121,7 @@ export abstract class ILazyAutocompleterBridge<T> {
       distance: 10000, // allow the term to appear anywhere
       maxPatternLength: 16,
       minMatchCharLength: 2,
-      keys: ['label']
+      keys: ['label'] as any
     };
 
     this.fuseInstance = new Fuse(items, options);
@@ -158,9 +158,9 @@ export namespace LazyLoadedAutocompleter {
    * @param ul
    */
   function isScrollbarBottom(container:JQuery) {
-    var height = container.outerHeight();
+    var height = container.outerHeight()!;
     var scrollHeight = container[0].scrollHeight;
-    var scrollTop = container.scrollTop();
+    var scrollTop = container.scrollTop()!;
     return scrollTop >= (scrollHeight - height);
   }
 
@@ -232,7 +232,7 @@ export namespace LazyLoadedAutocompleter {
         }
       },
 
-      _resizeMenu: function () {
+      _resizeMenu: function (this:any) {
         var ul = this.menu.element;
         ul.outerWidth(this.element.outerWidth());
       },
@@ -259,7 +259,7 @@ export namespace LazyLoadedAutocompleter {
 
       _renderLazyMenu: function (this:any, ul:Element, items:IAutocompleteItem<T>[]) {
         const widget = this;
-        const container = jQuery(ul);
+        const container = jQuery(ul) as JQuery;
         const pages = this._pages(items);
 
         if (pages <= 1) {

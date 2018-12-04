@@ -47,7 +47,7 @@ export class ModalWrapperAugmentService {
   public setupListener() {
     const matches = this.documentElement.querySelectorAll('section[data-augmented-model-wrapper]');
     for (let i = 0; i < matches.length; ++i) {
-      this.wrapElement(jQuery(matches[i]));
+      this.wrapElement(jQuery(matches[i]) as JQuery);
     }
   }
 
@@ -68,7 +68,7 @@ export class ModalWrapperAugmentService {
     if (initializeNow) {
       this.show(element);
     } else {
-      activationLink.click((evt:JQueryEventObject) => {
+      activationLink.click((evt:JQuery.Event) => {
         this.show(element);
         evt.preventDefault();
       });

@@ -38,6 +38,9 @@
 // ES6 Promise polyfill
 require('expose-loader?Promise!es6-promise');
 
+// Lodash
+require('expose-loader?_!lodash');
+
 // jQuery
 require('expose-loader?jQuery!jquery');
 require('jquery-ujs');

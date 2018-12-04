@@ -5,7 +5,7 @@
  * @param evt
  * @param target
  */
-export function augmentedDatePicker(evt:JQueryEventObject, target:JQuery) {
+export function augmentedDatePicker(evt:JQuery.Event, target:JQuery) {
   if (target.hasClass('-augmented-datepicker')) {
     target
       .attr('autocomplete', 'off') // Disable autocomplete for those fields

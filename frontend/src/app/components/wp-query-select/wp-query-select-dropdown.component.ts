@@ -267,7 +267,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
       focus: (_event:JQueryEventObject, ui:{ item:IAutocompleteItem }) => {
         let sourceEvent:any|null = _event;
 
-        while(sourceEvent && sourceEvent.originalEvent) {
+        while (sourceEvent && sourceEvent.originalEvent) {
           sourceEvent = sourceEvent.originalEvent as any;
         }
 
@@ -410,7 +410,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
           // To search an empty string would expand all categories again every time
           // Remember all previously hidden categories and set them again after updating the menu
           _.each(this.hiddenCategories, category => {
-            let thisCategory:string = jQuery(category).attr("category");
+            let thisCategory:string = jQuery(category).attr("category")!;
             this.expandCollapseCategory(thisCategory);
           });
           // Update view
@@ -516,7 +516,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
           evt.stopImmediatePropagation();
 
           if (evt.type === 'keydown') {
-            window.location.href = target.attr('href');
+            window.location.href = target.attr('href')!;
           }
         } else {
           // If neither clicked with modifier nor static

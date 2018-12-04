@@ -70,7 +70,7 @@ export class WpTableHoverSync {
   }
 
   private handleHover(element:Element) {
-    const $element = jQuery(element);
+    const $element = jQuery(element) as JQuery;
     const parentTableRow = this.locateHoveredTableRow($element);
     const parentTimelineRow = this.locateHoveredTimelineRow($element);
 

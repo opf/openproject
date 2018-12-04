@@ -29,7 +29,7 @@ export class ExternalQueryConfigurationService {
     // Listen to keyups on window to close context menus
     jQuery(window)
       .on(OpQueryConfigurationTriggerEvent,
-        (event:JQueryEventObject, originator:JQuery, currentQuery:any) => {
+        (event:JQuery.Event, originator:JQuery, currentQuery:any) => {
       this.show(originator, currentQuery);
       return false;
     });

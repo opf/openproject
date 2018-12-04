@@ -208,7 +208,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
 
     // Since we use the original schema values, avoid adding
     // the option if one is returned / exists already.
-    const emptyOption = _.find(this.options, { name: this.text.placeholder });
+    const emptyOption = _.find(this.options, el => el.name === this.text.placeholder);
     if (emptyOption === undefined) {
       this.options.unshift(this.nullOption);
     }

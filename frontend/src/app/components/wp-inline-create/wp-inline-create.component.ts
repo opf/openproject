@@ -148,7 +148,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
    * which is dynamically inserted into the action row by the inline create renderer.
    */
   private registerCancelHandler() {
-    this.$element.on('click keydown', `.${inlineCreateCancelClassName}`, (evt) => {
+    this.$element.on('click keydown', `.${inlineCreateCancelClassName}`, (evt:JQuery.Event) => {
       onClickOrEnter(evt, () => {
         this.resetRow();
       });
@@ -291,7 +291,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
     const form = WorkPackageEditForm.createInContext(this.injector, context, wp, false);
     form.changeset.clear();
 
-    const row = this.rowBuilder.buildNew(wp, form);
+    const [row, ] = this.rowBuilder.buildNew(wp, form);
     this.$element.append(row);
 
     return form;

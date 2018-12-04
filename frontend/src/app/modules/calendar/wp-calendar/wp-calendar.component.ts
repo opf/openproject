@@ -71,7 +71,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
       let params = this.$state.params;
       let filtersState = this.wpTableFilters.currentState;
 
-      let datesIntervalFilter = _.find(filtersState.current, {'id': 'datesInterval'})!;
+      let datesIntervalFilter = _.find(filtersState.current, {'id': 'datesInterval'}) as any;
 
       datesIntervalFilter.values[0] = startDate;
       datesIntervalFilter.values[1] = endDate;
@@ -112,7 +112,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
 
     let query = this.states.query.resource.value;
 
-    let datesIntervalFilter = _.find(query.filters || [], {'id': 'datesInterval'})!;
+    let datesIntervalFilter = _.find(query.filters || [], {'id': 'datesInterval'}) as any;
 
     let calendarDate:any = null;
     let calendarUnit = 'month';
@@ -185,7 +185,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
       locale: this.i18n.locale,
       height: () => {
         // -12 for the bottom padding
-        return jQuery(window).height() - this.calendarElement.offset().top - 12;
+        return jQuery(window).height()! - this.calendarElement.offset()!.top - 12;
       },
       header: {
         left: 'prev,next today',

@@ -32,8 +32,8 @@ export class CostUnitSubformController {
   public objName: string;
 
   constructor(public $element:ng.IAugmentedJQuery) {
-    this.objId = this.$element.attr('obj-id');
-    this.objName = this.$element.attr('obj-name');
+    this.objId = this.$element.attr('obj-id')!;
+    this.objName = this.$element.attr('obj-name')!;
 
     // Add new row handler
     $element.find('#'+this.objId).click(() => {
@@ -49,7 +49,7 @@ export class CostUnitSubformController {
   public makeEditable(id:string, name:string){
     var obj = jQuery(id);
 
-    jQuery(id).click(this.edit_and_focus(obj, name));
+    jQuery(id).click(() => this.edit_and_focus(obj, name));
   }
 
   private edit_and_focus(obj:any, name:string) {
