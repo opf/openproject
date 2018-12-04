@@ -84,6 +84,10 @@ export function initializeUiRouterListeners(injector:Injector) {
       const fromState = transition.from();
       const toState = transition.to();
 
+      // Reset profiler, if we're actually profiling
+      const profiler:any = (window as any).MiniProfiler;
+      profiler && profiler.pageTransition();
+
       // Remove and add any body class definitions for entering
       // and exiting states.
       bodyClass(_.get(fromState, 'data.bodyClasses', 'remove'));
