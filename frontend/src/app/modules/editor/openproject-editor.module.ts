@@ -33,16 +33,16 @@ import {ChildPagesMacroModal} from 'core-components/modals/editor/macro-child-pa
 import {CkeditorAugmentedTextareaComponent} from 'core-app/ckeditor/ckeditor-augmented-textarea.component';
 import {OpenprojectAttachmentsModule} from 'core-app/modules/attachments/openproject-attachments.module';
 import {OpCkeditorComponent} from 'core-app/modules/common/ckeditor/op-ckeditor.component';
-import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
 import {EditorMacrosService} from 'core-components/modals/editor/editor-macros.service';
 import {CKEditorSetupService} from 'core-app/modules/common/ckeditor/ckeditor-setup.service';
 import {CKEditorPreviewService} from 'core-app/modules/common/ckeditor/ckeditor-preview.service';
+import {CommonModule} from "@angular/common";
 
 @NgModule({
   imports: [
     FormsModule,
-    BrowserModule,
+    CommonModule,
     OpenprojectAttachmentsModule
   ],
   providers: [

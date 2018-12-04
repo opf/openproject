@@ -174,7 +174,7 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
   },
   {
     name: 'work-packages.calendar.**',
-    url: '/work-packages/calendar',
+    url: '/calendar',
     loadChildren: '../calendar/openproject-calendar.module#OpenprojectCalendarModule'
   },
 ];

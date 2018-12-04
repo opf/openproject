@@ -28,16 +28,16 @@
 
 export class CostUnitSubformController {
 
-  public objId: string;
-  public objName: string;
+  public objId:string;
+  public objName:string;
 
   constructor(public $element:ng.IAugmentedJQuery) {
     this.objId = this.$element.attr('obj-id')!;
     this.objName = this.$element.attr('obj-name')!;
 
     // Add new row handler
-    $element.find('#'+this.objId).click(() => {
-      this.makeEditable('#'+this.objId, this.objName);
+    $element.find('#' + this.objId).click(() => {
+      this.makeEditable('#' + this.objId, this.objName);
     });
   }
 
@@ -46,51 +46,50 @@ export class CostUnitSubformController {
     return result ? new Array(result[1], result[3]) : new Array(str, "");
   }
 
-  public makeEditable(id:string, name:string){
+  public makeEditable(id:string, name:string) {
     var obj = jQuery(id);
-
-    jQuery(id).click(() => this.edit_and_focus(obj, name));
+    this.edit_and_focus(obj, name);
   }
 
   private edit_and_focus(obj:any, name:string) {
     this.edit(obj, name);
 
-    jQuery('#'+obj[0].id+'_edit').focus();
-    jQuery('#'+obj[0].id+'_edit').select();
+    jQuery('#' + obj[0].id + '_edit').focus();
+    jQuery('#' + obj[0].id + '_edit').select();
   }
 
   private edit(obj:any, name:string, obj_value?:any) {
     obj.hide();
 
-    var obj_value = typeof(obj_value) != 'undefined' ? obj_value : obj[0].innerHTML;
+    var obj_value = typeof (obj_value) != 'undefined' ? obj_value : obj[0].innerHTML;
     var parsed = this.getCurrencyValue(obj_value);
     var value = parsed[0];
     var currency = parsed[1];
 
-    var form_start = '<section class="form--section" id="'+obj[0].id+
-                     '_section"><div class="form--field"><div class="form--field-container">';
-    var button = '<div id="'+obj[0].id+
-                 '_cancel" class="form--field-affix -transparent icon icon-close"></div>';
-    var span = '<div id="'+obj[0].id+'_editor" class="form--text-field-container">';
-        span += '<input id="'+obj[0].id+'_edit" class="form--text-field" name="'+name+'" value="'+value+'" class="currency" type="text" /> ';
-        span += '</div>';
+    var form_start = '<section class="form--section" id="' + obj[0].id +
+      '_section"><div class="form--field"><div class="form--field-container">';
+    var button = '<div id="' + obj[0].id +
+      '_cancel" class="form--field-affix -transparent icon icon-close"></div>';
+    var span = '<div id="' + obj[0].id + '_editor" class="form--text-field-container">';
+    span += '<input id="' + obj[0].id + '_edit" class="form--text-field" name="' + name + '" value="' + value + '" class="currency" type="text" /> ';
+    span += '</div>';
 
-    var affix = '<div class="form--field-affix" id="'+obj[0].id+'_affix">' +
-                 currency +
-                 '</div>';
+    var affix = '<div class="form--field-affix" id="' + obj[0].id + '_affix">' +
+      currency +
+      '</div>';
     var form_end = '</div></div></section>';
 
     jQuery(form_start + button + span + affix + form_end).insertAfter(obj);
 
     var that = this;
-    jQuery('#'+obj[0].id+'_cancel').on('click', function() {
+    jQuery('#' + obj[0].id + '_cancel').on('click', function() {
       that.cleanUp(obj)
       return false;
     });
   }
 
-  private cleanUp(obj:any){
-    jQuery('#'+obj[0].id+'_section').remove();
+  private cleanUp(obj:any) {
+    jQuery('#' + obj[0].id + '_section').remove();
     obj.show();
   }
 }
@@ -98,8 +97,7 @@ export class CostUnitSubformController {
 function costUnitSubform():any {
   return {
     restrict: 'E',
-    scope: {
-    },
+    scope: {},
     bindToController: true,
     controller: CostUnitSubformController,
     controllerAs: '$ctrl'

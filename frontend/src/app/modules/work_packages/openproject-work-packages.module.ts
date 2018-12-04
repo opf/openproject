@@ -184,22 +184,15 @@ import {WorkPackagesBaseComponent} from "core-app/modules/work_packages/routing/
 import {WorkPackagesListComponent} from "core-app/modules/work_packages/routing/wp-list/wp-list.component";
 import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
 import {WorkPackagesFullViewComponent} from "core-app/modules/work_packages/routing/wp-full-view/wp-full-view.component";
-import {UIRouterModule} from "@uirouter/angular";
-import {WORK_PACKAGES_ROUTES} from "core-app/modules/work_packages/routing/work-packages-routes";
 
 @NgModule({
   imports: [
     // Commons
     OpenprojectCommonModule,
-    // Hal Module
-    OpenprojectHalModule,
     // Display + Edit field functionality
     OpenprojectFieldsModule,
     // CKEditor
     OpenprojectEditorModule,
-
-    // Routes for /work_packages
-    UIRouterModule.forChild({ states: WORK_PACKAGES_ROUTES }),
 
     ChartsModule,
 

@@ -31,7 +31,7 @@ import {States} from '../states.service';
 import {WorkPackagesListService} from '../wp-list/wp-list.service';
 import {WorkPackagesListChecksumService} from '../wp-list/wp-list-checksum.service';
 import {StateService, TransitionService} from '@uirouter/core';
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectorRef} from "@angular/core";
+import {ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
@@ -72,7 +72,7 @@ interface IQueryAutocompleteJQuery extends JQuery {
 
 @Component({
   selector: 'wp-query-select',
-  templateUrl: './wp-query-select.template.html'
+  templateUrl: './wp-query-select.template.html',
 })
 export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestroy {
   @ViewChild('wpQueryMenuSearchInput') _wpQueryMenuSearchInput:ElementRef;

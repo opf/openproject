@@ -64,7 +64,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
       let queryProps = this.defaultQueryProps(startDate, endDate);
 
       if (this.$state.params.query_props) {
-        queryProps = this.$state.params.query_props;
+        queryProps = decodeURIComponent(this.$state.params.query_props || '');
       }
 
       this.wpListService.fromQueryParams({ query_props: queryProps }, this.projectIdentifier).toPromise();

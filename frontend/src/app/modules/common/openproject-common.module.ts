@@ -27,10 +27,8 @@
 // ++
 
 
-
 import {FormsModule} from "@angular/forms";
-import {BrowserModule} from "@angular/platform-browser";
-import {APP_INITIALIZER, Injector, Input, NgModule} from "@angular/core";
+import {APP_INITIALIZER, Injector, NgModule} from "@angular/core";
 
 import {AuthoringComponent} from 'core-app/modules/common/authoring/authoring.component';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
@@ -58,9 +56,6 @@ import {CopyToClipboardDirective} from "core-app/modules/common/copy-to-clipboar
 import {highlightColBootstrap} from "./highlight-col/highlight-col.directive";
 import {HookService} from "../plugins/hook-service";
 import {HTMLSanitizeService} from "./html-sanitize/html-sanitize.service";
-import {OpCkeditorComponent} from "core-app/modules/common/ckeditor/op-ckeditor.component";
-import {CKEditorSetupService} from "core-app/modules/common/ckeditor/ckeditor-setup.service";
-import {CKEditorPreviewService} from "core-app/modules/common/ckeditor/ckeditor-preview.service";
 import {ColorsAutocompleter} from "core-app/modules/common/colors/colors-autocompleter.component";
 import {DynamicCssService} from "./dynamic-css/dynamic-css.service";
 import {MultiToggledSelectComponent} from "core-app/modules/common/multi-toggled-select/multi-toggled-select.component";
@@ -91,7 +86,6 @@ export function bootstrapModule(injector:Injector) {
     UIRouterModule,
     // Angular browser + common module
     CommonModule,
-    BrowserModule,
     // Angular Forms
     FormsModule,
     // Angular CDK
@@ -104,7 +98,6 @@ export function bootstrapModule(injector:Injector) {
     // modules to DRY
     UIRouterModule,
     CommonModule,
-    BrowserModule,
     FormsModule,
     PortalModule,
     OpenprojectAccessibilityModule,

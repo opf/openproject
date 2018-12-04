@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -15,6 +15,7 @@
 // of the License, or (at your option) any later version.
 //
 // This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
@@ -23,41 +24,28 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
+// ++
 
-import {APP_INITIALIZER, Injector, NgModule} from '@angular/core';
-import {CommonModule} from "@angular/common";
-import {AvatarUploadFormComponent} from "./avatar-upload-form/avatar-upload-form.component";
-import {HookService} from "../../hook-service";
-import './globals/global-avatar-fallback'
+import {NgModule} from '@angular/core';
+import {UIRouterModule} from "@uirouter/angular";
+import {WORK_PACKAGES_ROUTES} from "core-app/modules/work_packages/routing/work-packages-routes";
+import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
 
-export function initializeAvatarsPlugin(injector:Injector) {
-  return () => {
-    const hookService = injector.get(HookService);
-    hookService.register('openProjectAngularBootstrap', () => {
-      return [
-        { selector: 'avatar-upload-form', cls: AvatarUploadFormComponent }
-      ];
-    });
-
-  }
-}
+/**
+ * Separate module for work package routes because WP modules
+ * are required by other lazy-loaded modules such as calendar.
+ *
+ * And we must not re-import a module with route definitions.
+ */
 
 @NgModule({
-    imports: [
-      CommonModule,
-    ],
-    providers: [
-      { provide: APP_INITIALIZER, useFactory: initializeAvatarsPlugin, deps: [Injector], multi: true },
-    ],
-    declarations: [
-        AvatarUploadFormComponent
-    ],
-    entryComponents: [
-        AvatarUploadFormComponent
-    ]
+  imports: [
+    // Import the actual WP modules
+    OpenprojectWorkPackagesModule,
+
+    // Routes for /work_packages
+    UIRouterModule.forChild({ states: WORK_PACKAGES_ROUTES }),
+  ]
 })
-export class PluginModule {
+export class OpenprojectWorkPackageRoutesModule {
 }
-
-
-

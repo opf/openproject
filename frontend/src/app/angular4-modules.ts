@@ -26,7 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {APP_INITIALIZER, ApplicationRef, Injector, NgModule} from '@angular/core';
+import {
+  APP_INITIALIZER,
+  ApplicationRef,
+  Injector,
+  NgModule,
+  NgModuleFactoryLoader,
+  SystemJsNgModuleLoader
+} from '@angular/core';
 import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
 
 import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
@@ -68,9 +75,13 @@ import {OpenprojectWorkPackagesModule} from 'core-app/modules/work_packages/open
 import {OpenprojectAttachmentsModule} from 'core-app/modules/attachments/openproject-attachments.module';
 import {OpenprojectEditorModule} from 'core-app/modules/editor/openproject-editor.module';
 import {OpenprojectRouterModule} from "core-app/modules/router/openproject-router.module";
+import {OpenprojectWorkPackageRoutesModule} from "core-app/modules/work_packages/openproject-work-package-routes.module";
+import {BrowserModule} from "@angular/platform-browser";
 
 @NgModule({
   imports: [
+    // The BrowserModule must only be loaded here!
+    BrowserModule,
     // Commons
     OpenprojectCommonModule,
     // Router module
@@ -84,7 +95,10 @@ import {OpenprojectRouterModule} from "core-app/modules/router/openproject-route
     OpenprojectFieldsModule,
 
     OpenprojectAttachmentsModule,
+
+    // Work packages and their routes
     OpenprojectWorkPackagesModule,
+    OpenprojectWorkPackageRoutesModule,
 
     // Plugin hooks and modules
     OpenprojectPluginsModule,
@@ -98,6 +112,9 @@ import {OpenprojectRouterModule} from "core-app/modules/router/openproject-route
       deps: [Injector],
       multi: true
     },
+    // Provide a factory loaded for lazily loaded modules
+    // https://ui-router.github.io/guide/lazyloading#angular
+    { provide: NgModuleFactoryLoader, useClass: SystemJsNgModuleLoader },
     OpTitleService,
     UrlParamsHelperService,
     ProjectCacheService,
