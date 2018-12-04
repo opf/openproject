@@ -13,10 +13,11 @@ $grid--header-width: 20px
   overflow: hidden
 
   &.-drop-target, &.-resize-target
-    background-color: rgba(10, 10, 10, 0.1)
+    background-color: $gray-light
 
   &.-resize-target
     z-index: 1000
+    background-color: initial
 
   &.-widgeted
     z-index: 10
@@ -90,7 +91,3 @@ $grid--header-width: 20px
 
   &:last-of-type
     border-bottom: none
-
-.widget-box.cdk-drag-preview
-  background: #fff
-  padding: 20px
