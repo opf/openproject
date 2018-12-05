@@ -4,7 +4,7 @@ module ::TwoFactorAuthentication
       extend ActiveSupport::Concern
 
       included do
-        helper_method :has_valid_2fa_remember_cookie?
+        helper_method :has_valid_2fa_remember_token?
         helper_method :remember_2fa_enabled?
         helper_method :remember_2fa_days
       end
@@ -13,7 +13,7 @@ module ::TwoFactorAuthentication
       # Check for valid 2FA autologin cookie and log in the user
       # if that's the case
       def perform_2fa_authentication_with_remember(service)
-        if has_valid_2fa_remember_cookie?(@authenticated_user)
+        if has_valid_2fa_remember_token?(@authenticated_user)
           complete_stage_redirect
         else
           perform_2fa_authentication service
@@ -35,9 +35,11 @@ module ::TwoFactorAuthentication
       end
 
       ##
-      # Remove the 2FA autologin cookies
+      # Remove the 2FA autologin cookie
+      # and all potentially stored tokens
       def clear_remember_token!(user = current_user)
         cookies.delete remember_cookie_name
+
         ::TwoFactorAuthentication::RememberedAuthToken
             .where(user: user)
             .delete_all
@@ -47,14 +49,31 @@ module ::TwoFactorAuthentication
         remember_2fa_days > 0
       end
 
-      def has_valid_2fa_remember_cookie?(user = current_user)
+      ##
+      # Return whether for the given user,
+      # any valid remember tokens exist (not necessary in this session!)
+      def any_remember_token_present?(user = current_user)
         return false unless remember_2fa_enabled?
 
-        token = get_2fa_remember_cookie(user)
+        ::TwoFactorAuthentication::RememberedAuthToken
+          .not_expired
+          .where(user: user)
+          .exists?
+      end
+
+      ##
+      # Return whether the user has a valid remember token
+      # that is identified by his cookie value.
+      def has_valid_2fa_remember_token?(user = current_user)
+        return false unless remember_2fa_enabled?
+
+        token = get_2fa_remember_token(user)
         token.present? && !token.expired?
       end
 
-      def get_2fa_remember_cookie(user)
+      ##
+      # Try to read a Remember token from the cookie
+      def get_2fa_remember_token(user)
         value = cookies.encrypted[remember_cookie_name]
         return false unless value.present?
 

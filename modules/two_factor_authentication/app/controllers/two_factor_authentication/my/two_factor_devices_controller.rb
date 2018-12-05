@@ -24,7 +24,8 @@ module ::TwoFactorAuthentication
 
       def index
         @two_factor_devices = @user.otp_devices.reload
-        @remember_token = get_2fa_remember_cookie(current_user)
+        @has_remember_token_for_user = any_remember_token_present?(current_user)
+        @remember_token = get_2fa_remember_token(current_user)
       end
 
       ##
