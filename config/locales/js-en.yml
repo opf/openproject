@@ -416,7 +416,7 @@ en:
       children_headline: "Children"
 
     relation_buttons:
-      set_parent: "Set parent work package"
+      set_parent: "Set parent"
       change_parent: "Change parent"
       remove_parent: "Remove parent"
       group_by_wp_type: "Group by work package type"
