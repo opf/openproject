@@ -72,6 +72,20 @@ export function bodyClass(className:string|null|undefined, action:'add'|'remove'
 export function uiRouterConfiguration(uiRouter:UIRouter, injector:Injector, module:StatesModule) {
   // Allow optional trailing slashes
   uiRouter.urlService.config.strictMode(false);
+
+  // Register custom URL params type
+  // to ensure query props are correctly set
+  uiRouter.urlService.config.type(
+    'opQueryString',
+    {
+      encode: encodeURIComponent,
+      decode: decodeURIComponent,
+      raw: true,
+      dynamic: true,
+      is: (val:unknown) => typeof(val) === 'string',
+      equals: (a:any, b:any) => _.isEqual(a, b),
+    }
+  );
 }
 
 export function initializeUiRouterListeners(injector:Injector) {
