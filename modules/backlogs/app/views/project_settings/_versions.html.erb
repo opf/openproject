@@ -145,16 +145,19 @@ See doc/COPYRIGHT.rdoc for more details.
                   <% if version.project == @project %>
                     <%= link_to_if_authorized '',
                                               { controller: '/versions', action: 'edit', id: version },
-                                              class: 'icon icon-edit' %>
+                                              class: 'icon icon-edit',
+                                              title: t(:button_edit) %>
                     <%= link_to_if_authorized '',
                                               { controller: '/versions', action: 'destroy', id: version },
                                               data: { confirm: l(:text_are_you_sure) },
                                               method: :delete,
-                                              class: 'icon icon-delete' %>
+                                              class: 'icon icon-delete',
+                                              title: t(:button_delete) %>
                   <% elsif @project.enabled_modules.collect(&:name).include?("backlogs") %>
                     <%= link_to_if_authorized '',
                                               { :controller => '/versions', :action => 'edit', :id => version, :project_id => @project.id },
-                                              :class => 'icon icon-edit' %>
+                                              :class => 'icon icon-edit',
+                                              title: t(:button_edit) %>
                   <% end %>
                 </td>
               </tr>

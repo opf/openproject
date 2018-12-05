@@ -49,7 +49,8 @@ module Statuses
         op_icon('icon icon-delete'),
         status_path(status),
         method: :delete,
-        data: { confirm: I18n.t(:text_are_you_sure) }
+        data: { confirm: I18n.t(:text_are_you_sure) },
+        title: t(:button_delete)
       )
     end
   end

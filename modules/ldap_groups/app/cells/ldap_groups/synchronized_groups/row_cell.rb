@@ -30,7 +30,8 @@ module LdapGroups
 
       def delete_link
         link_to '',
-                controller: table.target_controller, ldap_group_id: model.id, action: :destroy_info
+                { controller: table.target_controller, ldap_group_id: model.id, action: :destroy_info },
+                title: t(:button_delete)
       end
     end
   end

@@ -86,13 +86,14 @@ See docs/COPYRIGHT.rdoc for more details.
               <%= link_to('', role_path(role),
                                        method: :delete,
                                        data: { confirm: l(:text_are_you_sure) },
-                                       class: 'icon icon-delete') unless role.builtin? %>
+                                       class: 'icon icon-delete',
+                                       title: t(:button_delete)) unless role.builtin? %>
             </td>
           </tr>
         <% end %>
       </tbody>
     </table>
-    
+
   </div>
 </div>
 <%= pagination_links_full @roles %>

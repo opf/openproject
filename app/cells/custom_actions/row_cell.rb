@@ -25,7 +25,8 @@ module CustomActions
     def edit_link
       link_to(
         op_icon('icon icon-edit'),
-        edit_custom_action_path(action)
+        edit_custom_action_path(action),
+        title: t(:button_edit)
       )
     end
 
@@ -34,7 +35,8 @@ module CustomActions
         op_icon('icon icon-delete'),
         custom_action_path(action),
         method: :delete,
-        data: { confirm: I18n.t(:text_are_you_sure) }
+        data: { confirm: I18n.t(:text_are_you_sure) },
+        title: t(:button_delete)
       )
     end
   end

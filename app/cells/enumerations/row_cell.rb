@@ -43,7 +43,8 @@ module Enumerations
         op_icon('icon icon-delete'),
         enumeration_path(enumeration),
         method: :delete,
-        data: { confirm: I18n.t(:text_are_you_sure) }
+        data: { confirm: I18n.t(:text_are_you_sure) },
+        title: t(:button_delete)
       )
     end
   end

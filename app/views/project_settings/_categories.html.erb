@@ -81,13 +81,14 @@ See docs/COPYRIGHT.rdoc for more details.
                   <td class="buttons">
                     <%= link_to_if_authorized '',
                                               { controller: '/categories', action: 'edit', id: category },
-                                              class: 'icon icon-edit' %>
-
+                                              class: 'icon icon-edit',
+                                              title: t(:button_edit) %>
                     <%= link_to_if_authorized '',
                                               { controller: '/categories', action: 'destroy', id: category },
                                               data: { confirm: l(:text_are_you_sure) },
                                               method: :delete,
-                                              class: 'icon icon-delete' %>
+                                              class: 'icon icon-delete',
+                                              title: t(:button_delete) %>
                   </td>
                 </tr>
               <% end %>

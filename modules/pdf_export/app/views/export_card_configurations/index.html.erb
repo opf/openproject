@@ -99,18 +99,28 @@ See doc/COPYRIGHT.md for more details.
             <td><%= config.active %></td>
             <td class="buttons">
               <% if config.can_delete? %>
-                <%= link_to pdf_export_export_card_configuration_path(config), :method => :delete, :confirm => t(:text_are_you_sure), :class => 'icon-context icon-delete' do %>
+                <%= link_to pdf_export_export_card_configuration_path(config),
+                            :method => :delete,
+                            :confirm => t(:text_are_you_sure),
+                            :class => 'icon-context icon-delete',
+                            :title => t(:button_delete) do %>
                   <span class="hidden-for-sighted"><%=h config.name %></span>
                 <% end %>
               <% end %>
               <% if config.can_activate? %>
-                <%= link_to activate_pdf_export_export_card_configuration_path(config), :method => :post, :class => 'icon-context icon-unlocked' do %>
+                <%= link_to activate_pdf_export_export_card_configuration_path(config),
+                            :method => :post,
+                            :class => 'icon-context icon-unlocked',
+                            :title => t(:label_export_card_activate) do %>
                   <%= t(:label_export_card_activate) %>
                   <span class="hidden-for-sighted"><%=h config.name %></span>
                 <% end %>
               <% end %>
               <% if config.can_deactivate? %>
-                <%= link_to deactivate_pdf_export_export_card_configuration_path(config), :method => :post, :class => 'icon-context icon-locked' do %>
+                <%= link_to deactivate_pdf_export_export_card_configuration_path(config),
+                            :method => :post,
+                            :class => 'icon-context icon-locked',
+                            :title => t(:label_export_card_deactivate) do %>
                   <%= t(:label_export_card_deactivate) %>
                   <span class="hidden-for-sighted"><%=h config.name %></span>
                 <% end %>
@@ -120,7 +130,7 @@ See doc/COPYRIGHT.md for more details.
         <% end %>
       </tbody>
     </table>
-    
+
   </div>
 </div>
 <div class="generic-table--action-buttons">
