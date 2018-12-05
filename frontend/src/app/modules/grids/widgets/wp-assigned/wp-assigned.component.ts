@@ -8,7 +8,7 @@ import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-build
 })
 
 export class WidgetWpAssignedComponent extends AbstractWidgetComponent implements OnInit {
-  public widgetHeading = 'Work packages assigned to me';
+  public text = { title: this.i18n.t('js.grid.widgets.title.work_packages_assigned') };
   public queryProps:any;
   public configuration = { "actionsColumnEnabled": false,
                            "columnMenuEnabled": false,
@@ -21,7 +21,6 @@ export class WidgetWpAssignedComponent extends AbstractWidgetComponent implement
 
     this.queryProps = {"columns[]":["id", "project", "type", "subject"],
       "filters":filters.toJson()};
-
   }
 }
 

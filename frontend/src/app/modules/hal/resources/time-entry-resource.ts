@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,14 +24,9 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-import {Component} from '@angular/core';
-import {AbstractWidgetComponent} from "app/modules/grids/widgets/abstract-widget.component";
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
-@Component({
-  templateUrl: './wp-calendar.component.html',
-})
-export class WidgetWpCalendarComponent extends AbstractWidgetComponent {
-  public text = { title: this.i18n.t('js.grid.widgets.title.work_packages_calendar') };
+export class TimeEntryResource extends HalResource {
 }

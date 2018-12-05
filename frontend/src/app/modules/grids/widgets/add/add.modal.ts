@@ -32,6 +32,8 @@ export class AddGridWidgetModal extends OpModalComponent {
         title: this.i18n.t(`js.grid.widgets.title.${widget.identifier}`),
         component: widget.component
       };
+    }).sort((a, b) => {
+      return a.title.localeCompare(b.title);
     });
   }
 

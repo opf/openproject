@@ -1,6 +1,6 @@
-import {Component, HostBinding, Input, InjectionToken, Inject, Output, EventEmitter} from "@angular/core";
+import {Component, HostBinding, Input, Output, EventEmitter} from "@angular/core";
 import {GridWidgetResource} from "app/modules/hal/resources/grid-widget-resource";
-import {CdkDragStart} from "@angular/cdk/drag-drop";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 export abstract class AbstractWidgetComponent {
   @HostBinding('style.grid-column-start') gridColumnStart:number;
@@ -9,16 +9,14 @@ export abstract class AbstractWidgetComponent {
   @HostBinding('style.grid-row-end') gridRowEnd:number;
 
   @Input() resource:GridWidgetResource;
-  @Output() cdkDragStart:EventEmitter<CdkDragStart> = new EventEmitter();
 
+  constructor(protected i18n:I18nService) { }
+
+  // TODO: check if still needed
   public set widgetResource(resource:GridWidgetResource) {
     this.gridColumnStart = resource.startColumn;
     this.gridColumnEnd = resource.endColumn;
     this.gridRowStart = resource.startRow;
     this.gridRowEnd = resource.endRow;
-  }
-
-  public emitDragStart(event:CdkDragStart) {
-    this.cdkDragStart.emit(event);
   }
 }

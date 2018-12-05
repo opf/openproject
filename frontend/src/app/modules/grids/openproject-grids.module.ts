@@ -39,6 +39,7 @@ import {WidgetWpAssignedComponent} from "core-app/modules/grids/widgets/wp-assig
 import {WidgetWpCreatedComponent} from "core-app/modules/grids/widgets/wp-created/wp-created.component.ts";
 import {WidgetWpWatchedComponent} from "core-app/modules/grids/widgets/wp-watched/wp-watched.component.ts";
 import {WidgetWpCalendarComponent} from "core-app/modules/grids/widgets/wp-calendar/wp-calendar.component.ts";
+import {WidgetTimeEntriesCurrentUserComponent} from "core-app/modules/grids/widgets/time-entries-current-user/time-entries-current-user.component";
 import {GridWidgetsService} from "core-app/modules/grids/widgets/widgets.service";
 import {AddGridWidgetService} from "core-app/modules/grids/widgets/add/add.service";
 import {GridComponent} from "core-app/modules/grids/grid.component";
@@ -60,7 +61,8 @@ import {GridAreaRowHeadersComponent} from "core-app/modules/grids/areas/row-head
     DynamicModule.withComponents([WidgetWpAssignedComponent,
                                   WidgetWpCreatedComponent,
                                   WidgetWpWatchedComponent,
-                                  WidgetWpCalendarComponent]),
+                                  WidgetWpCalendarComponent,
+                                  WidgetTimeEntriesCurrentUserComponent]),
   ],
   providers: [
     {
@@ -78,6 +80,7 @@ import {GridAreaRowHeadersComponent} from "core-app/modules/grids/areas/row-head
     WidgetWpCreatedComponent,
     WidgetWpWatchedComponent,
     WidgetWpCalendarComponent,
+    WidgetTimeEntriesCurrentUserComponent,
     AddGridWidgetModal,
 
     GridColumnContextMenu,
@@ -124,6 +127,10 @@ export function registerWidgets(injector:Injector) {
         {
           identifier: 'work_packages_calendar',
           component: WidgetWpCalendarComponent
+        },
+        {
+          identifier: 'time_entries_current_user',
+          component: WidgetTimeEntriesCurrentUserComponent
         }
       ];
     });

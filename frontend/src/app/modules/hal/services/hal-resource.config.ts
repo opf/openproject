@@ -55,6 +55,7 @@ import {PostResource} from "core-app/modules/hal/resources/post-resource";
 import {StatusResource} from "core-app/modules/hal/resources/status-resource";
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
+import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
 
 const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInterface } = {
   WorkPackage: {
@@ -164,12 +165,15 @@ const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInter
   },
   GridWidget: {
     cls: GridWidgetResource
+  },
+  TimeEntry: {
+    cls: TimeEntryResource
   }
 };
 
 export function initializeHalResourceConfig(halResourceService:HalResourceService) {
   return () => {
     _.each(halResourceDefaultConfig, (value, key) => halResourceService.registerResource(key, value));
-  }
+  };
 }
 

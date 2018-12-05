@@ -49,10 +49,9 @@ module Pages
       end
 
       def add_widget(row_number, column_number, name)
-        # within top-right area, add an additional widget
-        within "#grid--area-#{row_number}-#{column_number}" do
-          find('.grid--widget-add').click
-        end
+        area = find("#grid--area-#{row_number}-#{column_number}")
+        area.hover
+        area.find('.grid--widget-add').click
 
         within '.op-modal--portal' do
           expect(page)

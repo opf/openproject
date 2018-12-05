@@ -14,6 +14,10 @@ module Components
         area.find('.resizer').drag_to find("#grid--area-#{row}-#{column}")
       end
 
+      def remove
+        area.find('.grid--widget-remove').click
+      end
+
       def expect_to_exist
         expect(page)
           .to have_selector(*area_selector)

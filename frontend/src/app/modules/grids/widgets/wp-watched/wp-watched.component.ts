@@ -7,7 +7,7 @@ import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-build
   styleUrls: ['../wp-widget/wp-widget.component.css']
 })
 export class WidgetWpWatchedComponent extends AbstractWidgetComponent implements OnInit {
-  public widgetHeading = 'Work packages watched by me';
+  public text = { title: this.i18n.t('js.grid.widgets.title.work_packages_watched') };
   public queryProps:any;
   public configuration = { "actionsColumnEnabled": false,
                            "columnMenuEnabled": false,

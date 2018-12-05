@@ -28,28 +28,41 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::TimeEntries::Filters::UserFilter < Queries::TimeEntries::Filters::TimeEntryFilter
-  include Queries::Filters::Shared::MeValueFilter
+module Queries::Filters::Shared::MeValueFilter
+  ##
+  # Return the values object with the me value
+  # mapped to the current user.
+  def values_replaced
+    vals = values.clone
 
-  def allowed_values
-    @allowed_values ||= begin
-      # We don't care for the first value as we do not display the values visibly
-      me_allowed_value + ::Principal
-                         .in_visible_project
-                         .pluck(:id)
-                         .map { |id| [id, id.to_s] }
+    if vals.delete(me_value_key)
+      if User.current.logged?
+        vals.push(User.current.id.to_s)
+      else
+        vals.push('0')
+      end
     end
+
+    vals
   end
 
-  def where
-    operator_strategy.sql_for_field(values_replaced, self.class.model.table_name, self.class.key)
+  protected
+
+  ##
+  # Returns the me value if the user is logged
+  def me_allowed_value
+    values = []
+    if User.current.logged?
+      values << [me_label, me_value_key]
+    end
+    values
   end
 
-  def type
-    :list_optional
+  def me_label
+    I18n.t(:label_me)
   end
 
-  def self.key
-    :user_id
+  def me_value_key
+    ::Queries::Filters::MeValue::KEY
   end
 end

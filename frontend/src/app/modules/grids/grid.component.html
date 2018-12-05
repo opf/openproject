@@ -26,11 +26,10 @@
        [id]="gridAreaId(area) + '-widgeted-' + area.guid"
        [cdkDropListData]="area"
        [cdkDropListConnectedTo]="gridAreaDropIds">
-    <div class="widget-box"
+    <div class="grid--area-content widget-box"
          cdkDrag
          (cdkDragStarted)="dragStart(area)"
-         (cdkDragEnded)="dragStop(area, $event)"
-         style="height: 100%">
+         (cdkDragEnded)="dragStop(area, $event)">
       <div *cdkDragPlaceholder></div>
       <div class="grid--widget-remove"
            (click)="removeWidget(area)">
