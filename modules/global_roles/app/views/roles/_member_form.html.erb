@@ -28,7 +28,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   <% if role.new_record? && roles.any? %>
     <div class="form--field">
       <%= styled_label_tag :copy_workflow_from, l(:label_copy_workflow_from) %>
-      <%= select_tag(:copy_workflow_from, content_tag("option") + options_from_collection_for_select(@roles, :id, :name)) %>
+      <div class="form--field-container">
+        <%= select_tag(:copy_workflow_from, content_tag("option") + options_from_collection_for_select(@roles, :id, :name)) %>
+      </div>
     </div>
   <% end %>
 <% end %>
