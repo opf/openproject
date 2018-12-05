@@ -41,6 +41,8 @@ import {Ng2StateDeclaration} from "@uirouter/angular";
 import {WorkPackagesBaseComponent} from "core-app/modules/work_packages/routing/wp-base/wp--base.component";
 
 
+
+
 export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'work-packages',
@@ -49,10 +51,9 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     url: '/work_packages?query_id&query_props',
     abstract: true,
     params: {
-      // value: null makes the parameter optional
-      // squash: true avoids duplicate slashes when the parameter is not provided
-      query_id: {type: 'query', dynamic: true},
-      query_props: {type: 'query', dynamic: true }
+      query_id: { type: 'query', dynamic: true },
+      // Use custom encoder/decoder that ensures validity of URL string
+      query_props: { type: 'opQueryString' }
     }
   },
   {
