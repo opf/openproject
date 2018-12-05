@@ -32,7 +32,7 @@ require 'spec_helper'
 describe Queries::WorkPackages::Filter::SearchFilter, type: :model do
   let(:context) { nil }
   let(:value) { 'bogus' }
-  let(:operator) { '~' }
+  let(:operator) { '**' }
   let(:subject) { 'Some subject' }
   let(:work_package) { FactoryBot.create(:work_package, subject: subject) }
   let(:instance) do

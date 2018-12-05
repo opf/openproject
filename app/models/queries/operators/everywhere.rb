@@ -1,5 +1,4 @@
 #-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,9 +27,9 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Filters::Strategies
-  class Search < BaseStrategy
-    self.supported_operators = ['**']
-    self.default_operator = '**'
+module Queries::Operators
+  class Everywhere < Base
+    label 'everywhere'
+    set_symbol '**'
   end
 end

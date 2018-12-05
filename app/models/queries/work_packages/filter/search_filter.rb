@@ -52,7 +52,7 @@ class Queries::WorkPackages::Filter::SearchFilter < Queries::WorkPackages::Filte
       @filters = filter_class_list.map do |filter_class|
         filter_class.first.create!(name: filter_class.second,
                                    context: context,
-                                   operator: operator,
+                                   operator: '~',
                                    values: values)
       end
     end

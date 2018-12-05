@@ -33,7 +33,6 @@ module Queries::Operators
     Queries::Operators::LessOrEqual,
     Queries::Operators::Equals,
     Queries::Operators::NotEquals,
-    Queries::Operators::NotEquals,
     Queries::Operators::None,
     Queries::Operators::All,
     Queries::Operators::Contains,
@@ -47,7 +46,8 @@ module Queries::Operators
     Queries::Operators::MoreThanAgo,
     Queries::Operators::Ago,
     Queries::Operators::OnDate,
-    Queries::Operators::BetweenDate
+    Queries::Operators::BetweenDate,
+    Queries::Operators::Everywhere
   ]
 
   OPERATORS = Hash[*(operators.map { |o| [o.symbol.to_s, o] }).flatten].freeze
