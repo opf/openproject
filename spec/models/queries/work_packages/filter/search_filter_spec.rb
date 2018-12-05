@@ -39,79 +39,95 @@ describe Queries::WorkPackages::Filter::SearchFilter, type: :model do
     described_class.create!(name: :search, context: context, operator: operator, values: [value])
   end
 
-  context 'WP without attachment' do
-    let(:work_package) { FactoryBot.create(:work_package, subject: "A bogus subject", description: "And a short description") }
-    it 'finds in subject' do
-      instance.values = ['bogus subject']
-      expect(WorkPackage.where(instance.where))
-        .to match_array [work_package]
-    end
-    it 'finds in description' do
-      instance.values = ['short description']
-      expect(WorkPackage.where(instance.where))
-        .to match_array [work_package]
-    end
-  end
+  shared_examples "subject and description filter" do
+    context '' do
+      let!(:work_package) { FactoryBot.create(:work_package, subject: "A bogus subject", description: "And a short description") }
 
-  context 'WP with attachment' do
-    let(:text) { 'lorem ipsum' }
-    # let(:filename) { 'plaintext-file.txt' }
-    # let(:attachment) { FactoryBot.create(:attachment, container: work_package, file: filename) }
-    let(:attachment) { FactoryBot.create(:attachment, container: work_package) }
+      it 'finds in subject' do
+        instance.values = ['bogus subject']
+        expect(WorkPackage.eager_load(instance.includes).where(instance.where))
+          .to match_array [work_package]
+      end
 
-    before do
-      allow_any_instance_of(Plaintext::Resolver).to receive(:text).and_return(text)
-      allow(attachment).to receive(:readable?).and_return(true)
-      attachment.reload
+      it 'finds in description' do
+        instance.values = ['short description']
+        expect(WorkPackage.eager_load(instance.includes).where(instance.where))
+          .to match_array [work_package]
+      end
     end
-
-    it "finds in attachment content" do
-      instance.values = ['ipsum']
-      expect(WorkPackage.joins(:attachments).where(instance.where))
-        .to match_array [work_package]
-    end
-
-    # it "finds in attachment content" do
-    #   instance.values = [filename]
-    #   expect(WorkPackage.joins(:attachments).where(instance.where))
-    #     .to match_array [work_package]
-    # end
   end
 
   if OpenProject::Database.allows_tsv?
-    before do
-      allow(EnterpriseToken).to receive(:allows_to?).and_return(false)
-      allow(EnterpriseToken).to receive(:allows_to?).with(:attachment_filters).and_return(true)
+    context 'DB allows tsv' do
+      context 'with EE' do
+        before do
+          allow(EnterpriseToken).to receive(:allows_to?).and_return(false)
+          allow(EnterpriseToken).to receive(:allows_to?).with(:attachment_filters).and_return(true)
+        end
+
+        it_behaves_like 'subject and description filter'
+
+        context 'WP with attachment' do
+          let(:text) { 'lorem ipsum' }
+          let(:filename) { 'plaintext-file.txt' }
+          let(:attachment) { FactoryBot.create(:attachment, container: work_package, filename: filename) }
+
+          before do
+            allow_any_instance_of(Plaintext::Resolver).to receive(:text).and_return(text)
+            allow(attachment).to receive(:readable?).and_return(true)
+            attachment.reload
+            work_package.reload
+          end
+
+          it "finds in attachment content" do
+            instance.values = ['ipsum']
+            expect(WorkPackage.eager_load(instance.includes).where(instance.where))
+              .to match_array [work_package]
+          end
+
+          it "finds in attachment file name" do
+            instance.values = [filename]
+            expect(WorkPackage.eager_load(instance.includes).where(instance.where))
+              .to match_array [work_package]
+          end
+        end
+      end
+
+      it_behaves_like 'basic query filter' do
+        let(:type) { :search }
+        let(:class_key) { :search }
+
+        describe '#available?' do
+          it 'is available' do
+            expect(instance).to be_available
+          end
+        end
+
+        describe '#allowed_values' do
+          it 'is nil' do
+            expect(instance.allowed_values).to be_nil
+          end
+        end
+
+        describe '#valid_values!' do
+          it 'is a noop' do
+            instance.values = ['none', 'is', 'changed']
+
+            instance.valid_values!
+
+            expect(instance.values)
+              .to match_array ['none', 'is', 'changed']
+          end
+        end
+
+        it_behaves_like 'non ar filter'
+      end
     end
-
-    it_behaves_like 'basic query filter' do
-      let(:type) { :search }
-      let(:class_key) { :search }
-
-      describe '#available?' do
-        it 'is available' do
-          expect(instance).to be_available
-        end
+  else
+    context 'DB does not support TSV' do
+      context 'WP without attachment' do
+        it_behaves_like 'subject and description filter'
       end
-
-      describe '#allowed_values' do
-        it 'is nil' do
-          expect(instance.allowed_values).to be_nil
-        end
-      end
-
-      describe '#valid_values!' do
-        it 'is a noop' do
-          instance.values = ['none', 'is', 'changed']
-
-          instance.valid_values!
-
-          expect(instance.values)
-            .to match_array ['none', 'is', 'changed']
-        end
-      end
-
-      it_behaves_like 'non ar filter'
     end
   end
 end

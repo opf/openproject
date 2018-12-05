@@ -29,50 +29,12 @@
 #++
 
 module Queries::WorkPackages::Filter::FilterOnTsvMixin
-  DISALLOWED_CHARACTERS = /['?\\:()&|!*]/
-
-  def type
-    :text
-  end
-
-  def available?
-    EnterpriseToken.allows_to?(:attachment_filters) && OpenProject::Database.allows_tsv?
-  end
-
-  def search_column
-    raise NotImplementedError
-  end
-
-  def tsv_where(table_name, column_name)
-    if OpenProject::Database.allows_tsv?
-      column = '"' + table_name.to_s + '"."' + column_name.to_s + '_tsv"'
-      query = tokenize
-      language = OpenProject::Configuration.main_content_language
-
-      ActiveRecord::Base.send(
-        :sanitize_sql_array, ["#{column} @@ to_tsquery(?, ?)",
-                              language,
-                              query]
-      )
-    end
-  end
-
-  def tokenize
-    terms = normalize_text(clean_terms).split(/[\s]+/).reject(&:blank?)
-
+  def concatenation
     case operator
     when '~'
-      terms.join ' & '
+      :and
     when '!~'
-      '! ' + terms.join(' & ! ')
+      :and_not
     end
-  end
-
-  def clean_terms
-    values.first.gsub(DISALLOWED_CHARACTERS, ' ')
-  end
-
-  def normalize_text(text)
-    OpenProject::FullTextSearch.normalize_text(text)
   end
 end

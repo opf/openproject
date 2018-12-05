@@ -31,6 +31,33 @@
 class Queries::WorkPackages::Filter::SearchFilter < Queries::WorkPackages::Filter::WorkPackageFilter
   include Queries::WorkPackages::Filter::FilterOnTsvMixin
 
+  def filters
+    if @filters
+      @filters.each do |filter|
+        filter.operator = operator
+        filter.values = values
+      end
+    else
+      filter_class_list = [
+        [Queries::WorkPackages::Filter::SubjectFilter, :subject],
+        [Queries::WorkPackages::Filter::DescriptionFilter, :description]
+      ]
+
+      if EnterpriseToken.allows_to?(:attachment_filters) && OpenProject::Database.allows_tsv?
+        filter_class_list += [
+          [Queries::WorkPackages::Filter::AttachmentContentFilter, :attachment_content],
+          [Queries::WorkPackages::Filter::AttachmentFileNameFilter, :attachment_file_name]
+        ]
+      end
+      @filters = filter_class_list.map do |filter_class|
+        filter_class.first.create!(name: filter_class.second,
+                                   context: context,
+                                   operator: operator,
+                                   values: values)
+      end
+    end
+  end
+
   def self.key
     :search
   end
@@ -47,10 +74,11 @@ class Queries::WorkPackages::Filter::SearchFilter < Queries::WorkPackages::Filte
     I18n.t('label_search')
   end
 
+  def includes
+    filters.map(&:includes).flatten.uniq.reject(&:blank?)
+  end
+
   def where
-    operator_strategy.sql_for_field(values, WorkPackage.table_name, :subject)     + ' OR ' +
-    operator_strategy.sql_for_field(values, WorkPackage.table_name, :description) + ' OR ' +
-    tsv_where(Attachment.table_name, :fulltext)                       + ' OR ' +
-    tsv_where(Attachment.table_name, :file)
+    filters.map(&:where).join(' OR ')
   end
 end
