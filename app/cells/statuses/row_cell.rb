@@ -47,7 +47,7 @@ module Statuses
     def delete_link
       link_to(
         op_icon('icon icon-delete'),
-        (status_path(status)),
+        status_path(status),
         method: :delete,
         data: { confirm: I18n.t(:text_are_you_sure) }
       )

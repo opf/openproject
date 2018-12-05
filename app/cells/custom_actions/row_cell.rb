@@ -25,14 +25,14 @@ module CustomActions
     def edit_link
       link_to(
         op_icon('icon icon-edit'),
-        (edit_custom_action_path(action)),
+        edit_custom_action_path(action)
       )
     end
 
     def delete_link
       link_to(
         op_icon('icon icon-delete'),
-        (custom_action_path(action)),
+        custom_action_path(action),
         method: :delete,
         data: { confirm: I18n.t(:text_are_you_sure) }
       )

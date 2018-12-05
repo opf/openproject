@@ -72,7 +72,9 @@ module ::Webhooks
         def edit_link
           link_to(
             op_icon('icon icon-edit button--link'),
-            { controller: table.target_controller, action: :edit, webhook_id: webhook.id },
+            controller: table.target_controller,
+            action: :edit,
+            webhook_id: webhook.id
           )
         end
 

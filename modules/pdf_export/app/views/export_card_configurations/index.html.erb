@@ -100,7 +100,6 @@ See doc/COPYRIGHT.md for more details.
             <td class="buttons">
               <% if config.can_delete? %>
                 <%= link_to pdf_export_export_card_configuration_path(config), :method => :delete, :confirm => t(:text_are_you_sure), :class => 'icon-context icon-delete' do %>
-                  <%= t(:button_delete) %>
                   <span class="hidden-for-sighted"><%=h config.name %></span>
                 <% end %>
               <% end %>
