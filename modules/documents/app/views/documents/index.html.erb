@@ -51,36 +51,35 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <% @grouped.keys.sort.each do |group| %>
-  <collapsible-section initially-expanded="true"
-                       section-title="<%= group %>">
+  <%= augmented_collapsible_section title: group do %>
     <div class="document-category--inner-section">
       <div class="form--field document-category-elements">
         <%= render :partial => 'documents/document', :collection => @grouped[group] %>
       </div>
     </div>
-  </collapsible-section>
+  <% end %>
 <% end %>
 
 <% content_for :sidebar do %>
   <%= form_tag({}, :method => :get, class: 'sidebar--document-sort') do %>
     <fieldset class="form--fieldset">
-      <legend class="form--fieldset-legend"><%= l(:label_sort_by, '') %></legend>
+      <legend class="form--fieldset-legend"><%= l(:label_group_by, '') %></legend>
       <p>
-        <%= radio_button_tag 'sort_by', 'category', (@sort_by == 'category'), class: 'submit-this-form' %>
-      <label for="sort_by_category">
+        <%= radio_button_tag 'group_by', 'category', (@group_by == 'category'), class: 'submit-this-form' %>
+      <label for="group_by_category">
         <%= Document.human_attribute_name(:category) %>
       </label><br />
-        <%= radio_button_tag 'sort_by', 'date', (@sort_by == 'date'), class: 'submit-this-form' %>
-      <label for="sort_by_date">
+        <%= radio_button_tag 'group_by', 'date', (@group_by == 'date'), class: 'submit-this-form' %>
+      <label for="group_by_date">
         <%= l(:label_date) %>
       </label><br />
-        <%= radio_button_tag 'sort_by', 'title', (@sort_by == 'title'), class: 'submit-this-form' %>
-      <label for="sort_by_title">
+        <%= radio_button_tag 'group_by', 'title', (@group_by == 'title'), class: 'submit-this-form' %>
+      <label for="group_by_title">
         <%= Document.human_attribute_name(:title) %>
       </label><br />
-        <%= radio_button_tag 'sort_by', 'author', (@sort_by == 'author'), class: 'submit-this-form' %>
-      <label for="sort_by_author">
-        <%= Document.human_attribute_name(:author) %>
+        <%= radio_button_tag 'group_by', 'author', (@group_by == 'author'), class: 'submit-this-form' %>
+      <label for="group_by_author">
+        <%= t 'documents.attachment_author' %>
       </label>
       </p>
     </fieldset>

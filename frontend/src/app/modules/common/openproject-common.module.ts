@@ -68,6 +68,7 @@ import {TimezoneService} from 'core-components/datetime/timezone.service';
 import {UIRouterModule} from "@uirouter/angular";
 import {PortalModule} from "@angular/cdk/portal";
 import {CommonModule} from "@angular/common";
+import {CollapsibleSectionComponent} from "core-app/modules/common/collapsible-section/collapsible-section.component";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -162,6 +163,7 @@ export function bootstrapModule(injector:Injector) {
 
     // Add functionality to rails rendered templates
     CopyToClipboardDirective,
+    CollapsibleSectionComponent,
 
     CopyToClipboardDirective,
     ColorsAutocompleter,
@@ -186,6 +188,7 @@ export function bootstrapModule(injector:Injector) {
 
     OPContextMenuComponent,
     ZenModeButtonComponent,
+    CollapsibleSectionComponent,
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: bootstrapModule, deps: [Injector], multi: true },

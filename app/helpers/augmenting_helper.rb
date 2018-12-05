@@ -1,15 +1,13 @@
+#-- encoding: UTF-8
 #-- copyright
-# OpenProject Documents Plugin
-#
-# Former OpenProject Core functionality extracted into a plugin.
-#
-# Copyright (C) 2009-2014 the OpenProject Foundation (OPF)
+# OpenProject is a project management system.
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -26,32 +24,23 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
-en:
-  activerecord:
-    models:
-      document: "Document"
+module AugmentingHelper
 
-  default_doc_category_tech: "Technical documentation"
-  default_doc_category_user: "User documentation"
-
-  enumeration_doc_categories: "Document categories"
-  enumeration:
-    document_category:
-      documentation: Documentation
-      specification: Specification
-      other: Other
-
-  documents:
-    label_attachment_author: "Attachment author"
-
-  label_document_added: "Document added"
-  label_document_new: "New document"
-  label_document_plural: "Documents"
-  label_documents: "Documents"
-
-  permission_manage_documents: "Manage documents"
-  permission_view_documents: "View documents"
-  project_module_documents: "Documents"
+  ##
+  # Create a collapsible section and yield to render the block
+  #
+  # @param title [String] Section title
+  #
+  # @param initiallyExpanded [Boolean] Whether the section is initially expanded
+  #
+  # @param block [Block] A block that renders the section's body.
+  def augmented_collapsible_section(title:, initiallyExpanded: true, &block)
+    render(
+      partial: '/augmented/collapsible_section',
+      locals: { title: title, initiallyExpanded: !!initiallyExpanded, block: block }
+    )
+  end
+end
