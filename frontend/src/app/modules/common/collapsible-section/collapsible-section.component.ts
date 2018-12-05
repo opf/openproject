@@ -26,20 +26,36 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {openprojectLegacyModule} from "core-app/openproject-legacy-app";
 
-export class CollapsibleSectionController {
-  public text:any;
+import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+
+export const collapsibleSectionAugmentSelector = 'collapsible-section-augment';
+
+@Component({
+  selector: collapsibleSectionAugmentSelector,
+  templateUrl: './collapsible-section.html'
+})
+export class CollapsibleSectionComponent implements OnInit {
   public expanded:boolean = false;
   public sectionTitle:string;
 
-  constructor(public $scope:ng.IScope,
-              public $attrs:ng.IAttributes) {
+  @ViewChild('sectionBody') public sectionBody:ElementRef;
 
+  constructor(public elementRef:ElementRef) {
+  }
 
-    if ($attrs['initiallyExpanded']) {
+  ngOnInit():void {
+    const element:HTMLElement = this.elementRef.nativeElement;
+
+    this.sectionTitle = element.getAttribute('section-title')!;
+    if (element.getAttribute('initially-expanded') === 'true') {
       this.expanded = true;
     }
+
+    const target:HTMLElement = element.nextElementSibling as HTMLElement;
+    this.sectionBody.nativeElement.appendChild(target);
+    target.removeAttribute('hidden');
   }
 
   public toggle() {
@@ -47,21 +63,4 @@ export class CollapsibleSectionController {
   }
 }
 
-function CollapsibleSection():any {
-  return {
-    restrict: 'E',
-    replace: true,
-    transclude: true,
-    template: require('!!raw-loader!./collapsible-section.directive.html'),
-
-    scope: {
-      sectionTitle: '@'
-    },
-
-    bindToController: true,
-    controller: CollapsibleSectionController,
-    controllerAs: '$ctrl'
-  };
-}
-
-openprojectLegacyModule.directive('collapsibleSection', CollapsibleSection);
+DynamicBootstrapper.register({ selector: collapsibleSectionAugmentSelector, cls: CollapsibleSectionComponent });
