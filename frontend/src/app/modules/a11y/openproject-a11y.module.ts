@@ -28,17 +28,16 @@
 
 
 import {FormsModule} from "@angular/forms";
-import {BrowserModule} from "@angular/platform-browser";
-import {APP_INITIALIZER, Injector, NgModule} from "@angular/core";
+import {APP_INITIALIZER, NgModule} from "@angular/core";
 import {AccessibleClickDirective} from "core-app/modules/a11y/accessible-click.directive";
 import {AccessibleByKeyboardComponent} from "core-app/modules/a11y/accessible-by-keyboard.component";
 import {initializeKeyboardShortcuts, KeyboardShortcutService} from "core-app/modules/a11y/keyboard-shortcut-service";
-import {initializeUiRouterConfiguration} from "core-components/routing/ui-router.config";
+import {CommonModule} from "@angular/common";
 
 @NgModule({
   imports: [
     FormsModule,
-    BrowserModule,
+    CommonModule,
   ],
   exports: [
     AccessibleClickDirective,

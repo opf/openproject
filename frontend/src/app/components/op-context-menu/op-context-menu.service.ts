@@ -25,7 +25,7 @@ export class OPContextMenuService {
               private $transitions:TransitionService,
               private injector:Injector) {
 
-    const hostElement = this.portalHostElement = document.createElement('div')
+    const hostElement = this.portalHostElement = document.createElement('div');
     hostElement.classList.add('op-context-menu--overlay');
     document.body.appendChild(hostElement);
 
@@ -40,7 +40,7 @@ export class OPContextMenuService {
     $transitions.onStart({}, () => this.close());
 
     // Listen to keyups on window to close context menus
-    jQuery(window).keydown('keydown', (evt:JQueryKeyEventObject) => {
+    jQuery(window).on('keydown', (evt:JQuery.Event) => {
       if (this.active && evt.which === keyCodes.ESCAPE) {
         this.close();
       }
@@ -49,8 +49,8 @@ export class OPContextMenuService {
     });
 
     // Listen to any click and close the active context menu
-    jQuery(window).click((evt) => {
-      if (this.active && !this.portalHostElement.contains(evt.target)) {
+    jQuery(window).on('click', (evt:JQuery.Event) => {
+      if (this.active && !this.portalHostElement.contains(evt.target as Element)) {
         this.close();
       }
     });
@@ -60,7 +60,7 @@ export class OPContextMenuService {
    * Open a ContextMenu reference and append it to the portal
    * @param contextMenu A reference to a context menu handler
    */
-  public show(menu:OpContextMenuHandler, event:Event, component:any = OPContextMenuComponent) {
+  public show(menu:OpContextMenuHandler, event:JQuery.Event, component:any = OPContextMenuComponent) {
     this.close();
 
     // Create a portal for the given component class and render it
@@ -97,7 +97,7 @@ export class OPContextMenuService {
     this.active = null;
   }
 
-  public reposition(event:Event) {
+  public reposition(event:JQuery.Event) {
     if (!this.active) {
       return;
     }

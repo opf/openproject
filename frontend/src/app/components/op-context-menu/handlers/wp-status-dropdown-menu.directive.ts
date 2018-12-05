@@ -57,7 +57,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
     super(elementRef, opContextMenu);
   }
 
-  protected open(evt:Event) {
+  protected open(evt:JQuery.Event) {
     const changeset = this.wpEditing.changesetFor(this.workPackage);
 
     changeset.getForm().then((form:any) => {

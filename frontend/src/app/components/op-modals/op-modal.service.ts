@@ -37,7 +37,7 @@ export class OpModalService {
     document.body.appendChild(hostElement);
 
     // Listen to keyups on window to close context menus
-    jQuery(window).keydown('keydown', (evt:JQueryKeyEventObject) => {
+    jQuery(window).on('keydown', (evt:JQuery.Event) => {
       if (this.active && this.active.closeOnEscape && evt.which === keyCodes.ESCAPE) {
         this.close(evt);
       }
@@ -46,11 +46,11 @@ export class OpModalService {
     });
 
     // Listen to any click when should close outside modal
-    jQuery(window).click((evt) => {
+    jQuery(window).on('click', (evt:JQuery.Event) => {
       if (this.active &&
         !this.opening &&
         this.active.closeOnOutsideClick &&
-        !this.portalHostElement.contains(evt.target)) {
+        !this.portalHostElement.contains(evt.target as Element)) {
         this.close(evt);
       }
     });
@@ -97,7 +97,7 @@ export class OpModalService {
   /**
    * Closes currently open modal window
    */
-  public close(evt?:Event) {
+  public close(evt?:JQuery.Event) {
     // Detach any component currently in the portal
     if (this.active && this.active.onClose()) {
       this.active.closingEvent.emit(this.active);

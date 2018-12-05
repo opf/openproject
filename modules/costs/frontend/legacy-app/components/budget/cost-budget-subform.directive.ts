@@ -53,12 +53,12 @@ export class CostBudgetSubformController {
               private $compile:any) {
 
     this.container = $element.find('.budget-item-container');
-    this.rowIndex = parseInt(this.$element.attr('item-count'));
+    this.rowIndex = parseInt(this.$element.attr('item-count') as string);
 
       // Refresh row on changes
     $element.on('change', '.budget-item-value', (evt) => {
       var row = angular.element(evt.target).closest('.cost_entry');
-      this.refreshRow(row.attr('id'));
+      this.refreshRow(row.attr('id') as string);
     });
 
     $element.on('click', '.delete-budget-item', (evt) => {

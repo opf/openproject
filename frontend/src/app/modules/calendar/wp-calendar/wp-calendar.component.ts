@@ -64,7 +64,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
       let queryProps = this.defaultQueryProps(startDate, endDate);
 
       if (this.$state.params.query_props) {
-        queryProps = this.$state.params.query_props;
+        queryProps = decodeURIComponent(this.$state.params.query_props || '');
       }
 
       this.wpListService.fromQueryParams({ query_props: queryProps }, this.projectIdentifier).toPromise();
@@ -72,7 +72,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
       let params = this.$state.params;
       let filtersState = this.wpTableFilters.currentState;
 
-      let datesIntervalFilter = _.find(filtersState.current, {'id': 'datesInterval'})!;
+      let datesIntervalFilter = _.find(filtersState.current, {'id': 'datesInterval'}) as any;
 
       datesIntervalFilter.values[0] = startDate;
       datesIntervalFilter.values[1] = endDate;
@@ -113,7 +113,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
 
     let query = this.states.query.resource.value;
 
-    let datesIntervalFilter = _.find(query.filters || [], {'id': 'datesInterval'})!;
+    let datesIntervalFilter = _.find(query.filters || [], {'id': 'datesInterval'}) as any;
 
     let calendarDate:any = null;
     let calendarUnit = 'month';
@@ -193,7 +193,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
       locale: this.i18n.locale,
       height: () => {
         // -12 for the bottom padding
-        return jQuery(window).height() - this.calendarElement.offset().top - 12;
+        return jQuery(window).height()! - this.calendarElement.offset()!.top - 12;
       },
       header: {
         left: 'prev,next today',

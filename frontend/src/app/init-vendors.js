@@ -38,6 +38,9 @@
 // ES6 Promise polyfill
 require('expose-loader?Promise!es6-promise');
 
+// Lodash
+require('expose-loader?_!lodash');
+
 // jQuery
 require('expose-loader?jQuery!jquery');
 require('jquery-ujs');
@@ -82,5 +85,3 @@ require('expose-loader?URI!URIjs');
 require('URIjs/src/URITemplate');
 
 require("expose-loader?I18n!../vendor/i18n");
-
-require("fullcalendar/dist/locale-all.js");
