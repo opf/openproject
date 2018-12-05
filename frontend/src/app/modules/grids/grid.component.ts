@@ -197,10 +197,10 @@ export class GridComponent implements OnDestroy, OnInit {
     }
 
     this.dragPlaceholderArea.startColumn = dropArea.startColumn;
-    if (this.dragPlaceholderArea.startColumn + this.dragPlaceholderArea.widget.height > this.numColumns + 1) {
+    if (this.dragPlaceholderArea.startColumn + this.dragPlaceholderArea.widget.width > this.numColumns + 1) {
       this.dragPlaceholderArea.endColumn = this.numColumns + 1;
     } else {
-      this.dragPlaceholderArea.endColumn = dropArea.startColumn + this.dragPlaceholderArea.widget.height;
+      this.dragPlaceholderArea.endColumn = dropArea.startColumn + this.dragPlaceholderArea.widget.width;
     }
 
     this.moveAreasDown(this.dragPlaceholderArea, widgetArea);
