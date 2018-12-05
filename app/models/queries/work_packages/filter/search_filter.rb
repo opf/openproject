@@ -81,4 +81,8 @@ class Queries::WorkPackages::Filter::SearchFilter < Queries::WorkPackages::Filte
   def where
     filters.map(&:where).join(' OR ')
   end
+
+  def ar_object_filter?
+    false
+  end
 end

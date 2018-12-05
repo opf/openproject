@@ -32,7 +32,7 @@ module API
   module V3
     module Queries
       module Schemas
-        class SearchFilterDependencyRepresenter < ByWorkPackageFilterDependencyRepresenter; end
+        class SearchFilterDependencyRepresenter < TextFilterDependencyRepresenter; end
       end
     end
   end
