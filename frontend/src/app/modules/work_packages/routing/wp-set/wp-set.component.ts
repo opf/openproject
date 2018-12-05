@@ -33,24 +33,24 @@ import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-c
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {auditTime, filter, take, withLatestFrom} from 'rxjs/operators';
-import {debugLog} from '../../../helpers/debug_output';
-import {States} from '../../states.service';
-import {WorkPackageQueryStateService} from '../../wp-fast-table/state/wp-table-base.service';
-import {WorkPackageTableColumnsService} from '../../wp-fast-table/state/wp-table-columns.service';
-import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table-filters.service';
-import {WorkPackageTableGroupByService} from '../../wp-fast-table/state/wp-table-group-by.service';
-import {WorkPackageTablePaginationService} from '../../wp-fast-table/state/wp-table-pagination.service';
-import {WorkPackageTableSortByService} from '../../wp-fast-table/state/wp-table-sort-by.service';
-import {WorkPackageTableSumService} from '../../wp-fast-table/state/wp-table-sum.service';
-import {WorkPackageTableTimelineService} from '../../wp-fast-table/state/wp-table-timeline.service';
-import {WorkPackagesListChecksumService} from '../../wp-list/wp-list-checksum.service';
-import {WorkPackagesListService} from '../../wp-list/wp-list.service';
-import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-request.service';
-import {WorkPackageTableHierarchiesService} from './../../wp-fast-table/state/wp-table-hierarchy.service';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageStaticQueriesService} from 'core-components/wp-query-select/wp-static-queries.service';
 import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
+import {States} from "core-components/states.service";
+import {WorkPackageTableRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
+import {WorkPackageTableColumnsService} from "core-components/wp-fast-table/state/wp-table-columns.service";
+import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state/wp-table-sort-by.service";
+import {WorkPackageTableGroupByService} from "core-components/wp-fast-table/state/wp-table-group-by.service";
+import {WorkPackageTableFiltersService} from "core-components/wp-fast-table/state/wp-table-filters.service";
+import {WorkPackageTableSumService} from "core-components/wp-fast-table/state/wp-table-sum.service";
+import {WorkPackageTableTimelineService} from "core-components/wp-fast-table/state/wp-table-timeline.service";
+import {WorkPackageTableHierarchiesService} from "core-components/wp-fast-table/state/wp-table-hierarchy.service";
+import {WorkPackageTablePaginationService} from "core-components/wp-fast-table/state/wp-table-pagination.service";
+import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
+import {WorkPackagesListChecksumService} from "core-components/wp-list/wp-list-checksum.service";
+import {WorkPackageQueryStateService} from "core-components/wp-fast-table/state/wp-table-base.service";
+import {debugLog} from "core-app/helpers/debug_output";
 
 export class WorkPackagesSetComponent implements OnInit, OnDestroy {
 

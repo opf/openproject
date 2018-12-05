@@ -113,6 +113,7 @@ See docs/COPYRIGHT.rdoc for more details.
           <div class="form--field-container">
             <%= setting_text_field :commit_fix_keywords, size: 30, label: false %>
           </div>
+          <div class="form--field-instructions"><%= t(:text_comma_separated) %></div>
         </div>
         <div class="form--field">
           <%= styled_label_tag :settings_commit_fix_status_id, t(:label_applied_status) %>
@@ -127,7 +128,6 @@ See docs/COPYRIGHT.rdoc for more details.
           </div>
         </div>
       </div>
-      <div class="form--field-instructions"><%= t(:text_comma_separated) %></div>
     </div>
     <div class="form--field">
       <%= setting_check_box :commit_logtime_enabled %>

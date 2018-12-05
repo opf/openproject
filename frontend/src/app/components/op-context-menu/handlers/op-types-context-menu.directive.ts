@@ -73,7 +73,7 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
       .then(types => this.buildItems(types));
   }
 
-  protected open(evt:Event) {
+  protected open(evt:JQuery.Event) {
     this.loadingPromise.then(() => {
       this.opContextMenu.show(this, evt);
     });

@@ -81,12 +81,12 @@ export class CurrentProjectService {
    * Detect the current project from its meta tag.
    */
   public detect() {
-    const element = jQuery('meta[name=current_project]');
-    if (element.length) {
+    const element:HTMLMetaElement|null = document.querySelector('meta[name=current_project]');
+    if (element) {
       this.current = {
-        id: element.data('projectId'),
-        name: element.data('projectName'),
-        identifier: element.data('projectIdentifier')
+        id: element.dataset.projectId!,
+        name: element.dataset.projectName!,
+        identifier: element.dataset.projectIdentifier!
       };
     }
   }

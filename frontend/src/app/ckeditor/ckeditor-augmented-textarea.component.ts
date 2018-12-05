@@ -81,8 +81,8 @@ export class CkeditorAugmentedTextareaComponent implements OnInit, OnDestroy {
     this.$element = jQuery(this.elementRef.nativeElement);
 
     // Parse the attribute explicitly since this is likely a bootstrapped element
-    this.textareaSelector = this.$element.attr('textarea-selector');
-    this.previewContext = this.$element.attr('preview-context');
+    this.textareaSelector = this.$element.attr('textarea-selector')!;
+    this.previewContext = this.$element.attr('preview-context')!;
 
     // Parse the resource if any exists
     const source = this.$element.data('resource');
@@ -93,7 +93,7 @@ export class CkeditorAugmentedTextareaComponent implements OnInit, OnDestroy {
     this.wrappedTextArea
       .removeAttr('required')
       .hide();
-    this.initialContent = this.wrappedTextArea.val();
+    this.initialContent = this.wrappedTextArea.val() as string;
 
     this.$attachmentsElement = this.formElement.find('#attachments_fields');
     this.context = { resource: this.resource, previewContext: this.previewContext };
@@ -114,7 +114,7 @@ export class CkeditorAugmentedTextareaComponent implements OnInit, OnDestroy {
       try {
         this.wrappedTextArea.val(this.ckEditorInstance.getRawData());
       } catch (e) {
-        console.error(`Failed to save CKEditor body to textarea: ${e}.`)
+        console.error(`Failed to save CKEditor body to textarea: ${e}.`);
         this.Notifications.addError(e || this.I18n.t('js.errors.internal'));
 
         // Avoid submission of the form
@@ -189,11 +189,11 @@ export class CkeditorAugmentedTextareaComponent implements OnInit, OnDestroy {
       }
     });
 
-    const maxValue = takenIds.toArray().sort().pop() || 0;
+    const maxValue:number = takenIds.toArray().sort().pop() || 0;
 
     let addedAttachments = this.resource.attachments.elements || [];
 
-    jQuery.each(addedAttachments, (index, attachment:HalResource) => {
+    jQuery.each(addedAttachments, (index:number, attachment:HalResource) => {
       this.$attachmentsElement.append(`<input type="hidden" name="attachments[${maxValue + index + 1}][id]" value="${attachment.id}">`);
     });
   }

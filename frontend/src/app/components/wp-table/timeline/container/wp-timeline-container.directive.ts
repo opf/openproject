@@ -194,7 +194,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
   }
 
   getAbsoluteLeftCoordinates():number {
-    return this.$element.offset().left;
+    return this.$element.offset()!.left;
   }
 
   getParentScrollContainer() {
@@ -390,7 +390,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     // RR: kept both variants for documentation purpose.
     // A: calculate the minimal width based on the width of the timeline view
     // B: calculate the minimal width based on the window width
-    const width = this.$element.children().width(); // A
+    const width = this.$element.children().width()!; // A
     // const width = jQuery('body').width(); // B
 
     const pixelPerDay = currentParams.pixelPerDay;
@@ -430,7 +430,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     }
 
     const daysSpan = calculateDaySpan(this.workPackageIdOrder, this.states.workPackages, this._viewParameters);
-    const timelineWidthInPx = this.$element.parent().width() - (2 * requiredPixelMarginLeft);
+    const timelineWidthInPx = this.$element.parent().width()! - (2 * requiredPixelMarginLeft);
 
     for (let zoomLevel of zoomLevelOrder) {
       const pixelPerDay = getPixelPerDayForZoomLevel(zoomLevel);

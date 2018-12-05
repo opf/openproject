@@ -32,19 +32,18 @@ import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
-import {States} from '../../states.service';
-import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
-import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
-import {KeepTabService} from '../../wp-single-view-tabs/keep-tab/keep-tab.service';
-import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-request.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {ProjectCacheService} from 'core-components/projects/project-cache.service';
 import {OpTitleService} from 'core-components/html/op-title.service';
 import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
+import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
+import {States} from "core-components/states.service";
+import {KeepTabService} from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
+import {WorkPackageTableRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
 import {
   IWorkPackageEditingService,
   IWorkPackageEditingServiceToken
-} from "../../wp-edit-form/work-package-editing.service.interface";
+} from "core-components/wp-edit-form/work-package-editing.service.interface";
 
 export class WorkPackageViewController implements OnDestroy {
 

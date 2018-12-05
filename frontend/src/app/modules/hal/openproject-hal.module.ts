@@ -28,7 +28,6 @@
 
 import {APP_INITIALIZER, ErrorHandler, NgModule} from '@angular/core';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {BrowserModule} from '@angular/platform-browser';
 import {
   initializeHalResourceConfig
 } from 'core-app/modules/hal/services/hal-resource.config';
@@ -46,10 +45,11 @@ import {UserDmService} from 'core-app/modules/hal/dm-services/user-dm.service';
 import {ProjectDmService} from 'core-app/modules/hal/dm-services/project-dm.service';
 import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
 import {HalAwareErrorHandler} from "core-app/modules/hal/services/hal-aware-error-handler";
+import {CommonModule} from "@angular/common";
 
 @NgModule({
   imports: [
-    BrowserModule,
+    CommonModule,
     HttpClientModule,
   ],
   providers: [

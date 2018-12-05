@@ -26,12 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
-import {Component, Inject, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {States} from 'core-components/states.service';
+import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 
 @Component({
   selector: 'attachment-list-item',

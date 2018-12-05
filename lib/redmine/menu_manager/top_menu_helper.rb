@@ -125,7 +125,7 @@ module Redmine::MenuManager::TopMenuHelper
 
   # Menu items for the main top menu
   def main_top_menu_items
-    split_top_menu_into_main_or_more_menus[:main]
+    split_top_menu_into_main_or_more_menus[:base]
   end
 
   # Menu items for the modules top menu

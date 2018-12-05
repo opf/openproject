@@ -37,8 +37,8 @@ import {augmentedDatePicker} from "./global-listeners/augmented-date-picker";
 
   $(function() {
     $(document.documentElement!)
-      .on('click', (evt) => {
-        const target = jQuery(evt.target);
+      .on('click', (evt:JQuery.Event) => {
+        const target = jQuery(evt.target) as JQuery;
 
         // Create datepickers dynamically for Rails-based views
         augmentedDatePicker(evt, target);

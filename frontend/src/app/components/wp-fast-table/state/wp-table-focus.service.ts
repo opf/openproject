@@ -107,8 +107,8 @@ export class WorkPackageTableFocusService {
         map(state => _.find(state, (row:any) => row.workPackageId)),
         filter(fullRow => !!fullRow && this.wpTableSelection.isEmpty)
       )
-      .subscribe(fullRow => {
-        this.updateFocus(fullRow!.workPackageId!);
+      .subscribe((fullRow:any) => {
+        this.updateFocus(fullRow!.workPackageId);
       });
   }
 }

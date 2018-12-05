@@ -113,7 +113,7 @@ export class WorkPackagesListInvalidQueryService {
   private restoreGroupBy(query:QueryResource, stubQuery:QueryResource, schema:SchemaResource) {
     let groupBy = _.find((schema.groupBy.allowedValues as QueryGroupByResource[]), candidate => {
       return stubQuery.groupBy && stubQuery.groupBy.$href === candidate.$href;
-    });
+    }) as any;
 
     query.groupBy = groupBy;
   }

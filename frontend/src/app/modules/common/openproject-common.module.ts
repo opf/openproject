@@ -27,10 +27,8 @@
 // ++
 
 
-
 import {FormsModule} from "@angular/forms";
-import {BrowserModule} from "@angular/platform-browser";
-import {APP_INITIALIZER, Injector, Input, NgModule} from "@angular/core";
+import {APP_INITIALIZER, Injector, NgModule} from "@angular/core";
 
 import {AuthoringComponent} from 'core-app/modules/common/authoring/authoring.component';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
@@ -58,9 +56,6 @@ import {CopyToClipboardDirective} from "core-app/modules/common/copy-to-clipboar
 import {highlightColBootstrap} from "./highlight-col/highlight-col.directive";
 import {HookService} from "../plugins/hook-service";
 import {HTMLSanitizeService} from "./html-sanitize/html-sanitize.service";
-import {OpCkeditorComponent} from "core-app/modules/common/ckeditor/op-ckeditor.component";
-import {CKEditorSetupService} from "core-app/modules/common/ckeditor/ckeditor-setup.service";
-import {CKEditorPreviewService} from "core-app/modules/common/ckeditor/ckeditor-preview.service";
 import {ColorsAutocompleter} from "core-app/modules/common/colors/colors-autocompleter.component";
 import {DynamicCssService} from "./dynamic-css/dynamic-css.service";
 import {MultiToggledSelectComponent} from "core-app/modules/common/multi-toggled-select/multi-toggled-select.component";
@@ -70,6 +65,9 @@ import {SortHeaderDirective} from 'core-components/wp-table/sort-header/sort-hea
 import {ZenModeButtonComponent} from 'core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
 import {OPContextMenuComponent} from 'core-components/op-context-menu/op-context-menu.component';
 import {TimezoneService} from 'core-components/datetime/timezone.service';
+import {UIRouterModule} from "@uirouter/angular";
+import {PortalModule} from "@angular/cdk/portal";
+import {CommonModule} from "@angular/common";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -84,11 +82,26 @@ export function bootstrapModule(injector:Injector) {
 
 @NgModule({
   imports: [
+    // UI router components (NOT routes!)
+    UIRouterModule,
+    // Angular browser + common module
+    CommonModule,
+    // Angular Forms
     FormsModule,
-    BrowserModule,
+    // Angular CDK
+    PortalModule,
+    // Our own A11y module
     OpenprojectAccessibilityModule,
   ],
   exports: [
+    // Re-export all commonly used
+    // modules to DRY
+    UIRouterModule,
+    CommonModule,
+    FormsModule,
+    PortalModule,
+    OpenprojectAccessibilityModule,
+
     OpDatePickerComponent,
     OpDateTimeComponent,
     OpIcon,

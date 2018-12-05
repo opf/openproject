@@ -294,9 +294,9 @@ ru:
       show_modal: Показать содержимое атрибута текста справки
     onboarding:
       steps:
-        welcome: Take a three minutes introduction tour to learn the most <b>important
-          features</b>. <br> We recommend completing the steps until the end. You
-          can restart the tour any time.
+        welcome: Совершите вводный трехминутный тур для знакомства с наиболее <b>важными
+          особенностями</b>. <br>Рекомендуем пройти все шаги до конца. Пройти вводный
+          тур повторно можно в любое время.
         project_selection: Пожалуйста, выберите для начала один из проектов с полезными
           демонстрационными данными. <br> <b>Демонстрационный проект</b> подходит
           лучше всего для классического проекта управления, пока <b>проект Scrum</b>
@@ -305,12 +305,13 @@ ru:
         members: Предложите новому <b>участнику</b> присоединиться к вашему проекту.
         wiki: В пределах <b>вики</b> возможно документирование и обмен знаниями в
           вашей команде.
-        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
-          right you have the Product Backlog or a Bug Backlog, on the left you will
-          have the respective sprints. Here you can create <b>epics, user stories,
-          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
-        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
-          drop-down...
+        backlogs_overview: Управляйте своей работой в представлении <b>Backlogs</b>.
+          <br> Справа список невыполненных работ и ошибки, слева им соответствующие
+          спринты. Здесь можно создавать <b>эпопеи, описания функциональности пользователей
+          и ошибок</b>, меняя их приоритет с помощью перетаскивания, и добавлять их
+          к спринту.
+        backlogs_task_board_arrow: Чтобы увидеть вашу <b>Панель задач</b>, откройте
+          раскрывающийся список спринта...
         backlogs_task_board_select: "... и выберите строку <b>Панель задач</b>."
         backlogs_task_board: "<b>Панель задач</b> визуализирует прогресс этого спринта.
           Добавьте новые задачи или помехи с помощью значка + рядом с историей пользователя.
@@ -321,9 +322,8 @@ ru:
           такими как задачи, функции, вехи, ошибки и многое другое. <br>Создать или
           изменить пакет работ можно непосредственно в этом списке. Чтобы увидеть
           его детали, нужно дважды щелкнуть по строке.
-        wp_full_view: Within the <b>Work package details</b> you find all relevant
-          information, such as description, status and priority, activities, dependencies
-          or comments.
+        wp_full_view: 'В <b>Деталях пакета работ</b> вы найдете всю необходимую информацию:
+          описание, состояние и приоритет, активность, зависимости или комментарии.'
         wp_back_button: Стрелка возвращает к списку пакетов работ.
         wp_create_button: Кнопка <b>Создать</b> добавляет новый пакет работ к вашему
           проекту.
@@ -361,7 +361,7 @@ ru:
       attribute_groups:
         error_duplicate_group_name: Имя %{group} используется более одного раза. Имена
           групп должны быть уникальными.
-        error_no_table_configured: Please configure a table for %{group}.
+        error_no_table_configured: Пожалуйста, настройте таблицу для %{group}.
         reset_title: Сбросить настройки формы
         confirm_reset: 'Предупреждение: хотите сбросить форму? Это сбросит атрибуты
           к первоначальным значениям группы и запретит правку настраиваемых полей.
@@ -374,18 +374,18 @@ ru:
         more_information: Больше информации
         nevermind: Неважно
         filter_types:
-          parent: being child of
-          precedes: preceding
-          follows: following
-          relates: relating to
-          duplicates: duplicating
+          parent: будучи потомком
+          precedes: предыдущие
+          follows: следующие
+          relates: связанные с
+          duplicates: дублирование
           duplicated: дублируется
-          blocks: blocking
+          blocks: блокировка
           blocked: заблокировано
-          partof: being part of
-          includes: including
-          requires: requiring
-          required: required by
+          partof: является частью
+          includes: включая
+          requires: требование
+          required: необходим для
     watchers:
       label_loading: Загрузка наблюдателей...
       label_error_loading: При загрузке наблюдателей произошла ошибка
@@ -420,12 +420,12 @@ ru:
       group_by_relation_type: Группировать по типу связи
       add_parent: Добавить существующего родителя
       add_new_child: Создать новый дочерний элемент
-      create_new: Create new
-      add_existing: Add existing
+      create_new: Создать новое
+      add_existing: Добавить существующий
       add_existing_child: Добавить существующий дочерний элемент
       remove_child: Удалить дочерний элемент
       add_new_relation: Создать новое отношение
-      add_existing_relation: Add existing relation
+      add_existing_relation: Добавление существующего отношения
       update_description: Определить или обновить описание этой связи
       toggle_description: Переключить описание связи
       update_relation: Кликните, чтобы изменить тип связи
@@ -749,8 +749,8 @@ ru:
           relation_columns: Нужно видеть отношения в списке пакетов работ?
           check_out_link: Проверьте корпоративную версию.
         relation_filters:
-          first_part: Show all work packages
-          second_part: the current work package
+          first_part: Показать все пакеты работы
+          second_part: текущий пакет работ
       tabs:
         overview: Обзор
         activity: Деятельность

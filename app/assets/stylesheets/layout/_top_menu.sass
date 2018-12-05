@@ -29,6 +29,13 @@
 $hamburger-right: -3px
 $hamburger-width: 50px
 
+%top-menu-hover-styles
+  @include varprop(background, header-item-bg-hover-color)
+  @include varprop(color, header-item-font-hover-color)
+  @include varprop(border-bottom-width, header-border-bottom-width)
+  @include varprop(border-bottom-color, header-border-bottom-color)
+  border-bottom-style: solid
+
 #logo
   width: 230px
   @include varprop(height, header-height)
@@ -82,8 +89,7 @@ $hamburger-width: 50px
       padding: 0 15px
 
     > a:hover
-      @include varprop(background, header-item-bg-hover-color)
-      @include varprop(color, header-item-font-hover-color)
+      @extend %top-menu-hover-styles
 
     > ul
       min-width: 270px
@@ -192,8 +198,7 @@ $hamburger-width: 50px
   .top-menu-search.-collapsed &
     display: block
     &:hover
-      @include varprop(background, header-item-bg-hover-color)
-      @include varprop(color, header-item-font-hover-color)
+      @extend %top-menu-hover-styles
 
 input.top-menu-search--input
   margin: 0
@@ -314,8 +319,7 @@ input.top-menu-search--input
     display: none
     
   &:hover
-    @include varprop(background, header-item-bg-hover-color)
-    @include varprop(color, header-item-font-hover-color)
+    @extend %top-menu-hover-styles
 
 @media only screen and (max-width: 18.75rem)
   #logo

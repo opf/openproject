@@ -134,7 +134,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
       minLength: 0
     } as any);
 
-    input.focus(() => input.autocomplete('search', input.val()));
+    input.focus(() => input.autocomplete('search', input.val() as string));
     (input.autocomplete('instance')as any)._renderItem = (ul:any, item:any) => this.renderWatcherItem(
       ul,
       item);
@@ -217,7 +217,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
         this.autocompleteInput = '';
       })
       .catch((error:any) => this.wpNotificationsService.showError(error, this.workPackage));
-  };
+  }
 
   public removeWatcher(watcher:any) {
     this.workPackage.removeWatcher.$link.$prepare({user_id: watcher.id})()
@@ -232,7 +232,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
         this.wpCacheService.loadWorkPackage(this.workPackage.id, true);
       })
       .catch((error:any) => this.wpNotificationsService.showError(error, this.workPackage));
-  };
+  }
 
   ngOnDestroy() {
     // Nothing to do

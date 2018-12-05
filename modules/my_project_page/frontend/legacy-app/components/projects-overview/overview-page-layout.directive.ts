@@ -86,7 +86,7 @@ export class ProjectsOverviewController {
 
     this.$element.find('#block-select option').each((i, el) => {
       var option = angular.element(el);
-      var blockName = option.val();
+      var blockName = option.val() as string;
       var isDisabled = blockName === '' || currentBlocks.indexOf(blockName) !== -1;
 
       option.prop('disabled', isDisabled);
@@ -123,7 +123,7 @@ export class ProjectsOverviewController {
     }
 
     this.$http({
-      url: this.addForm.attr('action'),
+      url: this.addForm.attr('action')!,
       method: 'POST',
       data: { block: this.selectedBlock },
       headers: { Accept: 'text/html' }
@@ -131,7 +131,7 @@ export class ProjectsOverviewController {
       var blockName = response.data.match(/id="block_(.*?)"/)[1];
       this.addBlock(blockName, response.data);
       this.updateAvailableBlocks();
-    }).catch(error => {
+    }).catch((error:any) => {
       this.pluginContext.context!.services.wpNotifications.handleErrorResponse(error);
     }).finally(() => {
       this.selectedBlock = null;

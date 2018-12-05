@@ -13,6 +13,7 @@ import {
 import {GlobalI18n} from "core-app/modules/common/i18n/i18n.service";
 import {I18nShim} from "./test/i18n-shim";
 
+require('expose-loader?_!lodash');
 
 declare const require:any;
 declare global {
