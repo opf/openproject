@@ -50,9 +50,10 @@ See docs/COPYRIGHT.rdoc for more details.
       <tr id="user-<%= user.id %>">
         <td class="user"><%= link_to_user user %></td>
         <td class="buttons">
-          <%= link_to l(:button_remove), member_of_group_path(@group, user),
-                      method: :delete,
-                      class: 'icon icon-remove' %>
+          <%= link_to '', member_of_group_path(@group, user),
+                          method: :delete,
+                          class: 'icon icon-remove',
+                          title: t(:button_remove) %>
         </td>
       </tr>
   <% end %>

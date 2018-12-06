@@ -72,11 +72,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
         </td>
         <td class="buttons">
           <% if entry.editable_by?(User.current) -%>
-            <%= link_to icon_wrapper('icon-context icon-edit',t(:button_edit)),
+            <%= link_to icon_wrapper('icon-context icon-edit', ''),
                         {:controller => '/costlog', :action => 'edit', :id => entry, :project_id => nil},
                         :class => 'no-decoration-on-hover',
                         :title => t(:button_edit) %>
-            <%= link_to icon_wrapper('icon-context icon-delete',t(:button_delete)),
+            <%= link_to icon_wrapper('icon-context icon-delete', ''),
                         {:controller => '/costlog', :action => 'destroy', :id => entry, :project_id => nil},
                         :confirm => t(:text_are_you_sure),
                         :method => :delete,

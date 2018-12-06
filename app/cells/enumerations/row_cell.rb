@@ -34,8 +34,18 @@ module Enumerations
 
     def button_links
       [
-        delete_link(enumeration_path(enumeration))
+        delete_link
       ]
+    end
+
+    def delete_link
+      link_to(
+        op_icon('icon icon-delete'),
+        enumeration_path(enumeration),
+        method: :delete,
+        data: { confirm: I18n.t(:text_are_you_sure) },
+        title: t(:button_delete)
+      )
     end
   end
 end
