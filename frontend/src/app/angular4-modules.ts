@@ -139,7 +139,6 @@ import {BrowserModule} from "@angular/platform-browser";
     ModalWrapperAugmentService,
   ],
   declarations: [
-    ConfirmFormSubmitController,
     OpContextMenuTrigger,
     MainMenuResizerComponent,
 
@@ -160,6 +159,7 @@ import {BrowserModule} from "@angular/platform-browser";
 
     // Form configuration
     OpDragScrollDirective,
+    ConfirmFormSubmitController,
   ],
   entryComponents: [
     // Searchbar
@@ -178,6 +178,7 @@ import {BrowserModule} from "@angular/platform-browser";
     // Main menu
     MainMenuResizerComponent,
     MainMenuToggleComponent,
+    ConfirmFormSubmitController,
   ]
 })
 export class OpenProjectModule {

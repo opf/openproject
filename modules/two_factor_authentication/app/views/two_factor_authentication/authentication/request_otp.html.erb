@@ -28,7 +28,7 @@ end %>
     </div>
     <% if remember_2fa_enabled? %>
     <div class="form--field -wide-label">
-      <label class="form--label-with-check-box">
+      <label class="form--label-with-check-box -no-ellipsis">
         <div class="form--check-box-container">
           <%= styled_check_box_tag 'remember_me', true, false %>
         </div>

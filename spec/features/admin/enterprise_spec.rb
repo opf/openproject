@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Enterprise token', type: :feature do
+describe 'Enterprise token', type: :feature, js: true do
   include Redmine::I18n
 
   let(:admin) { FactoryBot.create(:admin) }
@@ -63,9 +63,6 @@ describe 'Enterprise token', type: :feature do
                                     text: "Enterprise support token can't be read. " \
                                           "Are you sure it is a support token?")
       expect(page).to have_selector('span.errorSpan #enterprise_token_encoded_token')
-
-      # Keeps value
-      expect(textarea.value).to eq('foobar')
     end
 
     context 'assuming valid input' do

@@ -72,6 +72,20 @@ export function bodyClass(className:string|null|undefined, action:'add'|'remove'
 export function uiRouterConfiguration(uiRouter:UIRouter, injector:Injector, module:StatesModule) {
   // Allow optional trailing slashes
   uiRouter.urlService.config.strictMode(false);
+
+  // Register custom URL params type
+  // to ensure query props are correctly set
+  uiRouter.urlService.config.type(
+    'opQueryString',
+    {
+      encode: encodeURIComponent,
+      decode: decodeURIComponent,
+      raw: true,
+      dynamic: true,
+      is: (val:unknown) => typeof(val) === 'string',
+      equals: (a:any, b:any) => _.isEqual(a, b),
+    }
+  );
 }
 
 export function initializeUiRouterListeners(injector:Injector) {
@@ -86,6 +100,23 @@ export function initializeUiRouterListeners(injector:Injector) {
     // component
     let wpBase = document.querySelector(appBaseSelector);
 
+    // Apply classes from bodyClasses in each state definition
+    // This was defined as onEnter, onExit functions in each state before
+    // but since AOT doesn't allow anonymous functions, we can't re-use them now.
+    $transitions.onEnter({}, function(transition:Transition) {
+      const toState = transition.to();
+
+      // Add body class when leaving this state
+      bodyClass(_.get(toState, 'data.bodyClasses'), 'add');
+    });
+
+    $transitions.onExit({}, function(transition:Transition) {
+      const fromState = transition.from();
+
+      // Remove body class when leaving this state
+      bodyClass(_.get(fromState, 'data.bodyClasses'), 'remove');
+    });
+
     $transitions.onStart({}, function(transition:Transition) {
       const $state = transition.router.stateService;
       const toParams = transition.params('to');
@@ -98,8 +129,7 @@ export function initializeUiRouterListeners(injector:Injector) {
 
       // Remove and add any body class definitions for entering
       // and exiting states.
-      bodyClass(_.get(fromState, 'data.bodyClasses', 'remove'));
-      bodyClass(_.get(toState, 'data.bodyClasses', 'add'));
+      bodyClass(_.get(toState, 'data.bodyClasses'), 'add');
 
       // Abort the transition and move to the url instead
       if (wpBase === null) {

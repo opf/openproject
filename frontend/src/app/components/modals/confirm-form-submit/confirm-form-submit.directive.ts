@@ -28,10 +28,12 @@
 
 import {ConfirmDialogService} from './../confirm-dialog/confirm-dialog.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {Directive, ElementRef, OnInit} from "@angular/core";
+import {Component, Directive, ElementRef, OnInit} from "@angular/core";
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
-@Directive({
-  selector: '[confirm-form-submit], .confirm-form-submit'
+@Component({
+  template: '',
+  selector: 'confirm-form-submit'
 })
 export class ConfirmFormSubmitController implements OnInit {
 
@@ -41,7 +43,9 @@ export class ConfirmFormSubmitController implements OnInit {
     title: this.I18n.t('js.modals.form_submit.title'),
     text: this.I18n.t('js.modals.form_submit.text')
   };
-  private $element:JQuery;
+
+  private $element:JQuery<HTMLElement>;
+  private $form:JQuery<HTMLElement>;
 
   constructor(readonly element:ElementRef,
               readonly confirmDialog:ConfirmDialogService,
@@ -49,8 +53,15 @@ export class ConfirmFormSubmitController implements OnInit {
   }
 
   ngOnInit() {
-    this.$element = jQuery(this.element.nativeElement);
-    this.$element.on('submit', (evt) => {
+    this.$element = jQuery<HTMLElement>(this.element.nativeElement);
+
+    if (this.$element.is('form')) {
+      this.$form = this.$element;
+    } else {
+      this.$form = this.$element.closest('form');
+    }
+
+    this.$form.on('submit', (evt) => {
       if (!this.confirmed) {
         evt.preventDefault();
         this.openConfirmationDialog();
@@ -69,9 +80,11 @@ export class ConfirmFormSubmitController implements OnInit {
       closeByDocument: true,
     }).then(() => {
         this.confirmed = true;
-        this.$element.trigger('submit');
+        this.$form.trigger('submit');
       })
       .catch(() => this.confirmed = false);
   }
 }
 
+// Register the element style for bootstrapping
+DynamicBootstrapper.register({ selector: 'confirm-form-submit', cls: ConfirmFormSubmitController });

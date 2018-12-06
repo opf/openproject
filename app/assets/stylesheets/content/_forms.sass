@@ -819,7 +819,9 @@ input[readonly].-clickable
   clear:       both
   line-height: $base-line-height
   padding:  0 2rem 0 0
-  @include text-shortener
+
+  &:not(.-no-ellipsis)
+    @include text-shortener
 
   & > .form--check-box-container
     display:  block

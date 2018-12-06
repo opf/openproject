@@ -42,7 +42,7 @@ module Pages
 
         def edit(name)
           within_buttons_of name do
-            click_link 'Edit'
+            find('.icon-edit').click
           end
 
           custom_action = CustomAction.find_by!(name: name)
@@ -51,7 +51,7 @@ module Pages
 
         def delete(name)
           within_buttons_of name do
-            click_link 'Delete'
+            find('.icon-delete').click
 
             accept_alert_dialog!
           end

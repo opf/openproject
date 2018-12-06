@@ -51,5 +51,14 @@ module Token
         self.class.where(["expires_on < ?", Time.now]).delete_all
       end
     end
+
+    module ClassMethods
+
+      ##
+      # Return a scope of active tokens
+      def not_expired
+        where(["expires_on > ?", Time.now])
+      end
+    end
   end
 end

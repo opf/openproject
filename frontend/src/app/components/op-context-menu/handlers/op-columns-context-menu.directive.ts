@@ -155,7 +155,6 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         linkText: this.I18n.t('js.work_packages.query.hide_column'),
         icon: 'icon-delete',
         onClick: () => {
-          this.wpTableColumns.shift(c, 1);
           let focusColumn = this.wpTableColumns.previous(c) || this.wpTableColumns.next(c);
           this.wpTableColumns.removeColumn(c);
 

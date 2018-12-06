@@ -61,7 +61,7 @@ export class WorkPackagesListComponent extends WorkPackagesSetComponent implemen
     });
 
     // Update the title whenever the query changes
-    this.states.query.resource.values$().pipe(
+    this.tableState.query.values$().pipe(
       untilComponentDestroyed(this)
     ).subscribe((query) => {
       this.updateTitle(query);
