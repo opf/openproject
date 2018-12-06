@@ -77,7 +77,6 @@ export class WpResizerDirective implements OnInit, OnDestroy {
     // Otherwise function will be executed with empty list
     jQuery(document).ready(() => {
       this.applyColumnLayout(this.resizingElement, this.elementFlex);
-      this.applyInfoRowLayout();
     });
 
     // Add event listener
@@ -95,13 +94,6 @@ export class WpResizerDirective implements OnInit, OnDestroy {
     let that = this;
     jQuery(window).resize(function() {
       jQuery('.-can-have-columns').toggleClass('-columns-2', jQuery('.work-packages-full-view--split-left').width()! > 750);
-      that.applyInfoRowLayout();
-    });
-
-    // Listen to changes from a non overview state to the overview state
-    // which requires us to reevaluate the wrapping of the info row.
-    this.unregisterTransitionListener = this.$transitions.onSuccess({ to: 'work-packages.list.details.overview' }, (transition) => {
-      setTimeout(() => this.applyInfoRowLayout());
     });
   }
 
@@ -196,9 +188,6 @@ export class WpResizerDirective implements OnInit, OnDestroy {
     // Apply two column layout
     this.applyColumnLayout(element, newValue);
 
-    // Apply info row Layout
-    this.applyInfoRowLayout();
-
     // Set new width
     element.style.flexBasis = newValue + 'px';
   }
@@ -212,12 +201,5 @@ export class WpResizerDirective implements OnInit, OnDestroy {
     else {
       element.classList.toggle('-columns-2', newWidth > 700);
     }
-  }
-
-  private applyInfoRowLayout() {
-    jQuery('.wp-info-wrapper').toggleClass(
-      '-wrapped',
-      jQuery('.wp-info-wrapper').width()! - jQuery('wp-custom-actions').width()! - jQuery('wp-status-button .button').width()! < 475
-    );
   }
 }
