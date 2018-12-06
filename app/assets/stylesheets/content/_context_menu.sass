@@ -34,6 +34,14 @@
   height: 100%
   display: none
 
+  // Disable pointer events on this element
+  // since it spans the entire body
+  // and EDGE doesn't like it.
+  pointer-events: none
+
+  .dropdown
+    pointer-events: initial
+
 #work-package-context-menu, #column-context-menu
   &.action-menu
     position: absolute
