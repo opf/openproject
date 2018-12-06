@@ -273,6 +273,8 @@ ru:
     label_attachments: Файлы
     label_drop_files: Перетащите файлы сюда
     label_drop_files_hint: или кликните для добавления файлов
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
+      single files.
     label_add_attachments: Добавить вложения
     label_formattable_attachment_hint: Прикрепите и связать файлы, перетащив их на
       это поле, или вставив из буфера обмена.
@@ -413,7 +415,7 @@ ru:
       hierarchy_headline: Иерархии
       children_headline: Дочерние элементы
     relation_buttons:
-      set_parent: Установить родительский пакет работ
+      set_parent: Set parent
       change_parent: Сменить родителя
       remove_parent: Удалить родителя
       group_by_wp_type: Группировать по типу комплекса работ

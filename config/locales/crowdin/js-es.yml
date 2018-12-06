@@ -275,6 +275,8 @@ es:
     label_attachments: Archivos
     label_drop_files: Suelta los archivos aquí
     label_drop_files_hint: o haga clic en Agregar archivos
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
+      single files.
     label_add_attachments: Añadir adjuntos
     label_formattable_attachment_hint: Para adjuntar y vincular archivos, colóquelos
       en este campo o péguelos desde el Portapapeles.
@@ -418,7 +420,7 @@ es:
       hierarchy_headline: Jerarquía
       children_headline: Subordinado
     relation_buttons:
-      set_parent: Set parent work package
+      set_parent: Set parent
       change_parent: Cambiar padre
       remove_parent: Eliminar padre
       group_by_wp_type: Agrupar por tipo de paquete de trabajo

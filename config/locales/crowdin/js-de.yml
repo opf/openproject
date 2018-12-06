@@ -278,6 +278,8 @@ de:
     label_attachments: Dateien
     label_drop_files: Dateien hier ablegen
     label_drop_files_hint: oder klicken Sie um Dateien hinzuzufügen
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
+      single files.
     label_add_attachments: Anhänge hinzufügen
     label_formattable_attachment_hint: Ziehen Sie Dateien in dieses Feld hinein oder
       fügen Sie sie aus der Zwischenablage ein, um sie Hinzuzufügen und zu Verlinken.
@@ -419,7 +421,7 @@ de:
       hierarchy_headline: Hierarchie
       children_headline: Untergeordnete Arbeitspakete
     relation_buttons:
-      set_parent: Elternelement setzen
+      set_parent: Set parent
       change_parent: Übergeordnetes Arbeitspaket ändern
       remove_parent: Übergeordnetes Arbeitspaket entfernen
       group_by_wp_type: Nach Arbeitspaket-Typ gruppieren

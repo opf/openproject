@@ -270,6 +270,8 @@ fil:
     label_attachments: Mga file
     label_drop_files: Ihulog ang mga file dito
     label_drop_files_hint: o pindutin upang magdagdag ng mga file
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
+      single files.
     label_add_attachments: Magdagdag ng mga nakalakip
     label_formattable_attachment_hint: Idijit at i-link ang mga file sa pamamagitan
       ng paghulog sa patlang na ito, o idikit mula sa clipboard.
@@ -415,7 +417,7 @@ fil:
       hierarchy_headline: Hierarchy
       children_headline: Ang mga bata
     relation_buttons:
-      set_parent: Set parent work package
+      set_parent: Set parent
       change_parent: Palitan ng magulang
       remove_parent: Alisin ang magulang
       group_by_wp_type: Grupo sa pamamagitan ng uri ng work package

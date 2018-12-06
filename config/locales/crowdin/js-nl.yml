@@ -275,6 +275,8 @@ nl:
     label_attachments: Bestanden
     label_drop_files: Bestanden hier neerzetten
     label_drop_files_hint: of klik om bestanden toe te voegen
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
+      single files.
     label_add_attachments: Bijlagen toevoegen
     label_formattable_attachment_hint: Hecht en link bestanden door deze in dit veld
       te slepen, of plak deze vanuit het klembord.
@@ -419,7 +421,7 @@ nl:
       hierarchy_headline: Hiërarchie
       children_headline: Subdocumenten
     relation_buttons:
-      set_parent: Set parent work package
+      set_parent: Set parent
       change_parent: Wijzig bovenliggende pagina
       remove_parent: Verwijder bovenliggende map
       group_by_wp_type: Groep per werkpakkettype

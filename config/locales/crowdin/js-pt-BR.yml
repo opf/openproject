@@ -276,6 +276,8 @@ pt-BR:
     label_attachments: Arquivos
     label_drop_files: Solte os arquivos aqui
     label_drop_files_hint: ou clique para adicionar arquivos
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
+      single files.
     label_add_attachments: Adicionar anexos
     label_formattable_attachment_hint: Anexar e vincular arquivos soltando neste campo,
       ou colando da área de transferência.
@@ -420,7 +422,7 @@ pt-BR:
       hierarchy_headline: Hierarquia
       children_headline: Filhos
     relation_buttons:
-      set_parent: Definir pacote de trabalho pai
+      set_parent: Set parent
       change_parent: Alterar pai
       remove_parent: Remover pai
       group_by_wp_type: Agrupar por tipo de pacote de trabalho

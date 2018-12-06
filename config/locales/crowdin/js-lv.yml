@@ -270,6 +270,8 @@ lv:
     label_attachments: Faili
     label_drop_files: Nomest failus šeit
     label_drop_files_hint: vai klikšķiniet šeit, lai pievienotu failus
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
+      single files.
     label_add_attachments: Add attachments
     label_formattable_attachment_hint: Attach and link files by dropping on this field,
       or pasting from the clipboard.
@@ -411,7 +413,7 @@ lv:
       hierarchy_headline: Hierarchy
       children_headline: Bērni
     relation_buttons:
-      set_parent: Set parent work package
+      set_parent: Set parent
       change_parent: Mainīt vecāku
       remove_parent: Remove parent
       group_by_wp_type: Group by work package type
