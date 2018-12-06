@@ -71,11 +71,16 @@ export class WpChildrenInlineCreateService extends WorkPackageInlineCreateServic
   public referenceTarget:WorkPackageResource|null = null;
 
   public get canAdd() {
-    return !!(this.referenceTarget && this.canCreateWorkPackages && this.referenceTarget.changeParent);
+    return !!(this.referenceTarget && this.canCreateWorkPackages && this.canAddChild);
   }
 
   public get canReference() {
-    return !!(this.referenceTarget && this.referenceTarget.changeParent);
+    return !!(this.referenceTarget && this.canAddChild);
+  }
+
+  public get canAddChild() {
+    const wp = this.referenceTarget;
+    return wp && !wp.isMilestone && wp.changeParent;
   }
 
   /**
