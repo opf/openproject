@@ -39,6 +39,24 @@ module API
 
         defaults render_nil: true
 
+        link :updateImmediately do
+          next unless update_allowed?
+
+          {
+            href: api_v3_paths.time_entry(represented.id),
+            method: :patch
+          }
+        end
+
+        link :delete do
+          next unless update_allowed?
+
+          {
+            href: api_v3_paths.time_entry(represented.id),
+            method: :delete
+          }
+        end
+
         property :id
 
         property :comments,
@@ -108,6 +126,15 @@ module API
 
         def _type
           'TimeEntry'
+        end
+
+        def update_allowed?
+          current_user_allowed_to(:edit_time_entries, context: represented.project) ||
+            represented.user_id == current_user.id && current_user_allowed_to(:edit_own_time_entries, context: represented.project)
+        end
+
+        def current_user_allowed_to(permission, context:)
+          current_user.allowed_to?(permission, context)
         end
       end
     end
