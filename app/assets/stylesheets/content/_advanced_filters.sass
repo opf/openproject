@@ -28,7 +28,7 @@
 
 .advanced-filters--container
   @extend %filters--container
-  padding: rem-calc(10px)
+  padding: 1rem
   max-height: 50vh
   overflow-y: auto
   position: relative
@@ -47,11 +47,11 @@
   list-style-type:  none
   margin:           20px 0 0 0
 
-  > li
+  > li:not(.advanced-filters--controls)
     display: grid
     // Filters will not span the whole width,
     // but have an orientation to the left side
-    grid-template-columns: 20% 20% 25%
+    grid-template-columns: 20% 20% 25% 50px
     grid-gap: 10px
     align-items: center
     margin-bottom: 10px
@@ -89,7 +89,6 @@
   @extend .advanced-filters--affix, .tooltip--right
 
 .advanced-filters--remove-filter
-  grid-column: -1
   text-align: right
 
   a
@@ -129,8 +128,14 @@ fieldset#date-range p
       grid-gap: 0 10px
 
     .advanced-filters--filter-name,
-    .advanced-filters--add-filter-label
+    .advanced-filters--add-filter-label,
+    .advanced-filters--add-filter-value
+      // Span over entire width
       grid-column: 1 / -1
+
+    .advanced-filters--remove-filter
+      // Align at the end of the container
+      grid-column: -1
 
     .advanced-filters--filter-operator,
     .advanced-filters--filter-value
