@@ -168,13 +168,14 @@ class WikiController < ApplicationController
   # Creates a new page or updates an existing one
   def update
     @old_title = params[:id]
+    @page = @wiki.find_or_new_page(@old_title)
     @page = @wiki.find_page(@old_title)
     if @page.nil?
       render_404
       return
     end
 
-    @content = @page.content
+    @content = @page.content || @page.build_content
     return if locked?
 
     @page.attach_files(permitted_params.attachments.to_h)
