@@ -33,6 +33,7 @@ import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {OnInit} from '@angular/core';
 import {UploadFile} from "core-components/api/op-file-upload/op-file-upload.service";
+import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 
 @Component({
   selector: 'attachments-upload',
@@ -50,12 +51,14 @@ export class AttachmentsUploadComponent implements OnInit {
 
   constructor(readonly I18n:I18nService,
               readonly ConfigurationService:ConfigurationService,
+              readonly notificationsService:NotificationsService,
               protected elementRef:ElementRef,
               protected halResourceService:HalResourceService) {
     this.text = {
       uploadLabel: I18n.t('js.label_add_attachments'),
       dropFiles: I18n.t('js.label_drop_files'),
-      dropFilesHint: I18n.t('js.label_drop_files_hint')
+      dropFilesHint: I18n.t('js.label_drop_files_hint'),
+      foldersWarning: I18n.t('js.label_drop_folders_hint')
     };
   }
 
@@ -122,9 +125,17 @@ export class AttachmentsUploadComponent implements OnInit {
   }
 
   private uploadFiles(files:UploadFile[]):void {
-    files = this.filterFolders(files || [])
+    files = files || [];
+    const countBefore = files.length;
+    files = this.filterFolders(files)
 
     if (files.length === 0) {
+
+      // If we filtered all files as directories, show a notice
+      if (countBefore > 0) {
+        this.notificationsService.addNotice(this.text.foldersWarning);
+      }
+
       return;
     }
 
@@ -137,6 +148,21 @@ export class AttachmentsUploadComponent implements OnInit {
    * @param files
    */
   private filterFolders(files:UploadFile[]) {
-    return files.filter((file) => file.type !== '' && file.size !== 0);
+    return files.filter((file) => {
+
+      // Folders never have a mime type
+      if (file.type !== '') {
+        return true;
+      }
+
+      // Files however MAY have no mime type as well
+      // so fall back to checking zero or multitudes of 4096:
+      if ((file.size % 4096) === 0) {
+        console.warn(`Skipping file because of file size (${file.size}) %O`, file);
+        return false;
+      }
+
+      return true;
+    });
   }
 }
