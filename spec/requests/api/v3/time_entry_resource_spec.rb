@@ -625,7 +625,7 @@ describe 'API v3 time_entry resource', type: :request do
     end
 
     it 'deleted the time entry' do
-      expect(subject.status).to eq(202)
+      expect(subject.status).to eq(204)
     end
 
     context 'when lacking permissions' do
@@ -641,7 +641,7 @@ describe 'API v3 time_entry resource', type: :request do
 
     shared_examples_for 'deletes the time_entry' do
       it 'responds with HTTP No Content' do
-        expect(subject.status).to eq 202
+        expect(subject.status).to eq 204
       end
 
       it 'removes the time_entry from the DB' do
@@ -664,7 +664,7 @@ describe 'API v3 time_entry resource', type: :request do
     end
 
     context 'with the user not being the author' do
-      let(:time_entry) { other_time_entry } 
+      let(:time_entry) { other_time_entry }
 
       context 'but permission to edit all time entries' do
         let(:permissions) { %i(edit_time_entries view_time_entries view_work_packages) }

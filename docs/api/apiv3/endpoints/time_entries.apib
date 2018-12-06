@@ -1,8 +1,10 @@
 # Group Time Entries
 
 ## Actions
-| Link                | Description                                                          | Condition                                                        |
-|:-------------------:| -------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| Link                | Description                                                          | Condition                                                                                           |
+|:-------------------:| -------------------------------------------------------------------- | ----------------------------------------------------------------                                    |
+| updateImmediately   | Directly perform edits on this time entry                            | **Permission**: 'edit time entries' or 'edit own time entries if the time entry belongs to the user |
+| delete              | Delete this time entry                                               | **Permission**: 'edit time entries' or 'edit own time entries if the time entry belongs to the user |
 
 None yet
 
@@ -62,6 +64,14 @@ Depending on custom fields defined for time entries, additional properties might
                     "self": {
                         "href": "/api/v3/time_entries/1"
                     },
+                    "updateImmediately": {
+                        "href": "/api/v3/time_entries/1",
+                        "method": "patch"
+                    },
+                    "delete": {
+                        "href": "/api/v3/time_entries/1",
+                        "method": "delete"
+                    },
                     "project": {
                         "href": "/api/v3/projects/1",
                         "title": "Some project"
@@ -115,12 +125,9 @@ Permanently deletes the specified time entry.
 + Parameters
     + id (required, integer, `1`) ... Time entry id
 
-+ Response 202
++ Response 204
 
     Returned if the time entry was deleted successfully.
-
-    Note that the response body is empty as of now. In future versions of the API a body
-    *might* be returned, indicating the progress of deletion.
 
     + Body
 
@@ -173,6 +180,14 @@ Permanently deletes the specified time entry.
                           "_links": {
                               "self": {
                                   "href": "/api/v3/time_entries/1"
+                              },
+                              "updateImmediately": {
+                                  "href": "/api/v3/time_entries/1",
+                                  "method": "patch"
+                              },
+                              "delete": {
+                                  "href": "/api/v3/time_entries/1",
+                                  "method": "delete"
                               },
                               "project": {
                                   "href": "/api/v3/projects/1",
