@@ -99,12 +99,12 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'work-packages.show.relations',
     url: '/relations',
-    component: WorkPackageRelationsTabComponent,
+    component: WorkPackageRelationsTabComponent
   },
   {
     name: 'work-packages.show.watchers',
     url: '/watchers',
-    component: WorkPackageWatchersTabComponent,
+    component: WorkPackageWatchersTabComponent
   },
   {
     name: 'work-packages.list',
@@ -147,6 +147,9 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
         value: true
       }
     },
+    data: {
+      bodyClasses: 'action-details'
+    },
   },
   {
     name: 'work-packages.list.details.overview',
@@ -156,7 +159,7 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'work-packages.list.details.activity',
     url: '/activity',
-    component: WorkPackageActivityTabComponent
+    component: WorkPackageActivityTabComponent,
   },
   {
     name: 'work-packages.list.details.activity.details',
