@@ -26,23 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, OnInit} from '@angular/core';
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import {Component} from '@angular/core';
 
 @Component({
-  selector: 'wp-embedded-calendar',
-  template: `
-    <wp-calendar [static]="true">
-    </wp-calendar>
-  `
+  templateUrl: './wp-calendar-embedded.component.html'
 })
-export class WorkPackagesEmbeddedCalendarEntryComponent implements OnInit {
-  constructor(readonly elementRef:ElementRef) {
-  }
 
-  ngOnInit() {
-    const element = this.elementRef.nativeElement;
-  }
+export class WorkPackagesCalendarEmbeddedComponent {
 }
-
-DynamicBootstrapper.register({ selector: 'wp-embedded-calendar', cls: WorkPackagesEmbeddedCalendarEntryComponent });

@@ -69,6 +69,8 @@ import {UIRouterModule} from "@uirouter/angular";
 import {PortalModule} from "@angular/cdk/portal";
 import {CommonModule} from "@angular/common";
 import {CollapsibleSectionComponent} from "core-app/modules/common/collapsible-section/collapsible-section.component";
+import {WorkPackagesEmbeddedCalendarEntryComponent} from "core-app/modules/common/dynamic-embedding/wp-embedded-calendar/wp-embedded-calendar-entry.component";
+import {DynamicModule} from "ng-dynamic-component";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -93,6 +95,8 @@ export function bootstrapModule(injector:Injector) {
     PortalModule,
     // Our own A11y module
     OpenprojectAccessibilityModule,
+    // Dynamic components
+    DynamicModule,
   ],
   exports: [
     // Re-export all commonly used
@@ -135,6 +139,9 @@ export function bootstrapModule(injector:Injector) {
     ZenModeButtonComponent,
 
     OPContextMenuComponent,
+
+    // Embedded components
+    WorkPackagesEmbeddedCalendarEntryComponent,
   ],
   declarations: [
     OpDatePickerComponent,
@@ -175,6 +182,8 @@ export function bootstrapModule(injector:Injector) {
 
     // Zen mode button
     ZenModeButtonComponent,
+    // Embedded components
+    WorkPackagesEmbeddedCalendarEntryComponent,
   ],
   entryComponents: [
     OpDateTimeComponent,
@@ -189,6 +198,8 @@ export function bootstrapModule(injector:Injector) {
     OPContextMenuComponent,
     ZenModeButtonComponent,
     CollapsibleSectionComponent,
+    // Embedded components
+    WorkPackagesEmbeddedCalendarEntryComponent,
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: bootstrapModule, deps: [Injector], multi: true },

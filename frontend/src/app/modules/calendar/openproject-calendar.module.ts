@@ -30,10 +30,12 @@ import {OpenprojectCommonModule} from 'core-app/modules/common/openproject-commo
 import {NgModule} from '@angular/core';
 import {FullCalendarModule} from 'ng-fullcalendar';
 import {WorkPackagesCalendarEntryComponent} from "core-app/modules/calendar/wp-calendar-entry/wp-calendar-entry.component";
-import {WorkPackagesEmbeddedCalendarEntryComponent} from "core-app/modules/calendar/wp-embedded-calendar/wp-embedded-calendar-entry.component";
 import {WorkPackagesCalendarController} from "core-app/modules/calendar/wp-calendar/wp-calendar.component";
 import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
 import {Ng2StateDeclaration, UIRouterModule} from "@uirouter/angular";
+import {DynamicLazyLoadModule} from "core-app/modules/common/dynamic-embedding/dynamic-embeddable-module.interface";
+import {DynamicModule} from "ng-dynamic-component";
+import {WorkPackagesCalendarEmbeddedComponent} from "core-app/modules/calendar/wp-calendar-embedded/wp-calendar-entry.component";
 
 require("fullcalendar/dist/locale-all.js");
 
@@ -64,13 +66,21 @@ export const CALENDAR_ROUTES:Ng2StateDeclaration[] = [
     // Work package calendars
     WorkPackagesCalendarEntryComponent,
     WorkPackagesCalendarController,
-    WorkPackagesEmbeddedCalendarEntryComponent,
+    WorkPackagesCalendarEmbeddedComponent,
   ],
   entryComponents: [
-    WorkPackagesEmbeddedCalendarEntryComponent,
     WorkPackagesCalendarController,
+    WorkPackagesCalendarEmbeddedComponent,
     WorkPackagesCalendarEntryComponent,
   ],
 })
-export class OpenprojectCalendarModule {
+export class OpenprojectCalendarModule implements DynamicLazyLoadModule {
+
+  /**
+   * Define the components another component may lazily load in this module
+   * to allow tree shaking.
+   */
+  public lazyloadableComponents = {
+    calendar: WorkPackagesCalendarEmbeddedComponent
+  };
 }
