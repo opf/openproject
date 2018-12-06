@@ -27,15 +27,17 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<h2><%=t(:label_summary)%></h2>
+<% html_title t(:label_summary) %>
+<%= toolbar title: t(:label_summary) %>
+<div class="form--fieldset">
+  <div class="form--fieldset-legend"><%= @report.report_type %></div>
 
-<h3><%=@report_title%></h3>
+  <%= render partial: 'report', locals: { statuses: @statuses,
+                                          rows: @rows,
+                                          data: @data,
+                                          field_name: @field,
+                                          report: @report } %>
+  <br />
+</div>
 
-<%= render partial: 'report', locals: { statuses: @statuses,
-                                              rows: @rows,
-                                              data: @data,
-                                              field_name: @field,
-                                              report: @report } %>
-<br />
-
-<%= link_to t(:button_back), report_project_work_packages_path(@project) %>
+<%= link_to t(:button_back), report_project_work_packages_path(@project), class:'button' %>
