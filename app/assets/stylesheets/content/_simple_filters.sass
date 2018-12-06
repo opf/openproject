@@ -51,6 +51,11 @@ $filters--border-color: $gray !default
 
   .simple-filter--trailing-labels
     @extend %filters-grid
+    grid-column: 1 / -1
+
+    > .-trailing-label.form--field
+      grid-column: 1 / -1
+      margin-bottom: 0
 
   &.collapsed
     display: none
