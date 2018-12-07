@@ -192,6 +192,20 @@ describe Queries::WorkPackages::Filter::ParentFilter, type: :model do
       let(:visible_wp) { FactoryBot.build_stubbed(:work_package) }
       let(:invisible_wp) { FactoryBot.build_stubbed(:work_package) }
 
+      context 'with old templated value' do
+        it 'is still valid' do
+          instance.values = %w[templated]
+          expect(instance).to be_valid
+        end
+      end
+
+      context 'with new templated value' do
+        it 'is still valid' do
+          instance.values = %w[{id}]
+          expect(instance).to be_valid
+        end
+      end
+
       context 'within a project' do
         it 'is valid if only visible wps are values' do
           instance.values = [visible_wp.id.to_s]
