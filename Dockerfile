@@ -51,6 +51,9 @@ RUN sed -i "s|Rails.groups(:opf_plugins)|Rails.groups(:opf_plugins, :docker)|" c
 RUN mkdir -p /tmp/op_uploaded_files/
 RUN chown -R $APP_USER:$APP_USER /tmp/op_uploaded_files/
 
+# Allow uploading avatars w/ postgres
+RUN chown -R $APP_USER:$APP_USER /var/db/openproject/
+
 # Re-use packager database.yml
 COPY packaging/conf/database.yml ./config/database.yml
 
