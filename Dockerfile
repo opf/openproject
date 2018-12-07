@@ -52,7 +52,7 @@ RUN mkdir -p /tmp/op_uploaded_files/
 RUN chown -R $APP_USER:$APP_USER /tmp/op_uploaded_files/
 
 # Allow uploading avatars w/ postgres
-RUN chown -R $APP_USER:$APP_USER /var/db/openproject/
+RUN chown -R $APP_USER:$APP_USER $APP_DATA
 
 # Re-use packager database.yml
 COPY packaging/conf/database.yml ./config/database.yml
