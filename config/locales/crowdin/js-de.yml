@@ -302,9 +302,9 @@ de:
       show_modal: Hilfe-Text für dieses Attribut anzeigen
     onboarding:
       steps:
-        welcome: Take a three minutes introduction tour to learn the most <b>important
-          features</b>. <br> We recommend completing the steps until the end. You
-          can restart the tour any time.
+        welcome: Lernen Sie in drei Minuten die <b>wichtigsten Funktionen</b> kennen.
+          <br> Wir empfehlen Ihnen die Tour bis zum Ende zu machen. Sie können diese
+          jederzeit wieder neu starten.
         project_selection: 'Bitte wählen Sie eines der Projekte mit hilfreichen Demodaten
           aus: <br> Das <b>„Demo project“</b> passt für klassisches Projektmanagement,
           das <b>„Scrum project“</b> ist geeignet für agiles Projektmanagement.'

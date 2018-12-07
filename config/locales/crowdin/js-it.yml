@@ -423,7 +423,7 @@ it:
       hierarchy_headline: Gerarchia
       children_headline: Figli
     relation_buttons:
-      set_parent: Set parent
+      set_parent: Imposta genitore
       change_parent: Cambia genitore
       remove_parent: Rimuovi genitore
       group_by_wp_type: Raggruppa per tipo di macro-attività
