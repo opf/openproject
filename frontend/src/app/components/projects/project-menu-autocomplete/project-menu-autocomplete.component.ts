@@ -300,8 +300,14 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
   }
 
   private scrollCurrentProjectIntoView() {
-    let currentProject = document.getElementsByClassName('ui-menu-item-wrapper selected')[0] as HTMLElement;
-    let currentProjectHeight = currentProject.offsetHeight
+    let currentProject:HTMLElement|null = document.querySelector('.ui-menu-item-wrapper.selected');
+
+    // It can happen that no project is selected yet initially.
+    if (!currentProject) {
+      return;
+    }
+
+    let currentProjectHeight = currentProject.offsetHeight;
     let scrollableContainer = document.getElementsByClassName('project-menu-autocomplete--results')[0];
 
     // Scroll current project to top of the list and
