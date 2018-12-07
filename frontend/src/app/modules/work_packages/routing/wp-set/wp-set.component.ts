@@ -115,7 +115,7 @@ export class WorkPackagesSetComponent implements OnInit, OnDestroy {
     this.tableState.ready.fireOnStateChange(this.wpTablePagination.state,
       'Query loaded').values$().pipe(
       untilComponentDestroyed(this),
-      withLatestFrom(this.states.query.resource.values$())
+      withLatestFrom(this.tableState.query.values$())
     ).subscribe(([pagination, query]) => {
       if (this.wpListChecksumService.isQueryOutdated(query, pagination)) {
         this.wpListChecksumService.update(query, pagination);
@@ -134,7 +134,7 @@ export class WorkPackagesSetComponent implements OnInit, OnDestroy {
   }
 
   setupChangeObserver(service:WorkPackageQueryStateService, firstPage:boolean = false) {
-    const queryState = this.states.query.resource;
+    const queryState = this.tableState.query;
 
     this.tableState.ready.fireOnStateChange(service.state, 'Query loaded').values$().pipe(
       untilComponentDestroyed(this),
@@ -142,7 +142,7 @@ export class WorkPackagesSetComponent implements OnInit, OnDestroy {
     ).subscribe(() => {
       const newQuery = queryState.value!;
       const triggerUpdate = service.applyToQuery(newQuery);
-      this.states.query.resource.putValue(newQuery);
+      this.tableState.query.putValue(newQuery);
 
       // Update the current checksum
       this.wpListChecksumService.updateIfDifferent(newQuery, this.wpTablePagination.current);

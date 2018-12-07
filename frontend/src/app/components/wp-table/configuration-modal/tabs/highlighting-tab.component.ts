@@ -8,6 +8,7 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {States} from "core-app/components/states.service";
 import {WorkPackageTableHighlight} from "core-components/wp-fast-table/wp-table-highlight";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
+import {TableState} from "core-components/wp-table/table-state/table-state";
 
 @Component({
   templateUrl: './highlighting-tab.component.html'
@@ -44,6 +45,7 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
   constructor(readonly injector:Injector,
               readonly I18n:I18nService,
               readonly states:States,
+              readonly tableState:TableState,
               readonly Banners:BannersService,
               readonly wpTableHighlight:WorkPackageTableHighlightingService) {
   }
@@ -117,7 +119,7 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
   }
 
   public get availableHighlightedAttributes():HalResource[] {
-    const schema = this.states.query.form.value!.schema;
+    const schema = this.tableState.queryForm.value!.schema;
     return schema.highlightedAttributes.allowedValues;
   }
 

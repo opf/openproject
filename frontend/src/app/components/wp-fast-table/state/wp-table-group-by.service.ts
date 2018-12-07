@@ -101,7 +101,7 @@ export class WorkPackageTableGroupByService extends WorkPackageTableBaseService<
   }
 
   protected get availableState() {
-    return this.states.query.available.groupBy;
+    return this.states.queries.groupBy;
   }
 
   public get current():QueryGroupByResource|undefined {
