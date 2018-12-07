@@ -270,6 +270,8 @@ th:
     label_attachments: ไฟล์
     label_drop_files: วางไฟล์ที่นี่
     label_drop_files_hint: หรือคลิกเพื่อเพิ่มไฟล์
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
+      single files.
     label_add_attachments: เพิ่มไฟล์แนบ
     label_formattable_attachment_hint: Attach and link files by dropping on this field,
       or pasting from the clipboard.
@@ -412,7 +414,7 @@ th:
       hierarchy_headline: Hierarchy
       children_headline: Children
     relation_buttons:
-      set_parent: Set parent work package
+      set_parent: Set parent
       change_parent: Change parent
       remove_parent: Remove parent
       group_by_wp_type: Group by work package type

@@ -58,7 +58,7 @@ import {
   zoomLevelOrder
 } from '../wp-timeline';
 import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css.service";
-import {input} from "reactivestates";
+import {input, InputState} from "reactivestates";
 import {Subject} from "rxjs";
 
 @Component({
@@ -357,13 +357,17 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     this.workPackageIdOrder.forEach((renderedRow) => {
       const wpId = renderedRow.workPackageId;
 
-      // Not all rendered rows are work packages
-      if (!wpId || this.states.workPackages.get(wpId).isPristine()) {
+      if (!wpId) {
+        return;
+      }
+      const workPackageState:InputState<WorkPackageResource> = this.states.workPackages.get(wpId);
+      const workPackage:WorkPackageResource|undefined = workPackageState.value;
+
+      if (!workPackage) {
         return;
       }
 
       // We may still have a reference to a row that, e.g., just got deleted
-      const workPackage = this.states.workPackages.get(wpId).value!;
       const startDate = workPackage.startDate ? moment(workPackage.startDate) : currentParams.now;
       const dueDate = workPackage.dueDate ? moment(workPackage.dueDate) : currentParams.now;
       const date = workPackage.date ? moment(workPackage.date) : currentParams.now;

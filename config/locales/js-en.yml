@@ -293,6 +293,7 @@ en:
     label_attachments: Files
     label_drop_files: Drop files here
     label_drop_files_hint: or click to add files
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
     label_add_attachments: "Add attachments"
     label_formattable_attachment_hint: "Attach and link files by dropping on this field, or pasting from the clipboard."
     label_remove_file: "Delete %{fileName}"

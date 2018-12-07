@@ -259,6 +259,8 @@ lol:
     label_attachments: crwdns107380:0crwdne107380:0
     label_drop_files: crwdns107382:0crwdne107382:0
     label_drop_files_hint: crwdns107384:0crwdne107384:0
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
+      single files.
     label_add_attachments: crwdns107386:0crwdne107386:0
     label_formattable_attachment_hint: crwdns107388:0crwdne107388:0
     label_remove_file: crwdns107390:0%{fileName}crwdne107390:0
@@ -368,7 +370,7 @@ lol:
       hierarchy_headline: crwdns109216:0crwdne109216:0
       children_headline: crwdns107502:0crwdne107502:0
     relation_buttons:
-      set_parent: crwdns109218:0crwdne109218:0
+      set_parent: crwdns109276:0crwdne109276:0
       change_parent: crwdns107504:0crwdne107504:0
       remove_parent: crwdns107506:0crwdne107506:0
       group_by_wp_type: crwdns107508:0crwdne107508:0

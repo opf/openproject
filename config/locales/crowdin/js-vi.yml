@@ -274,6 +274,8 @@ vi:
     label_attachments: Tập tin
     label_drop_files: Thả các tập tin ở đây
     label_drop_files_hint: hoặc nhấn vào đây để thêm tập tin
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
+      single files.
     label_add_attachments: Add attachments
     label_formattable_attachment_hint: Đính kèm và liên kết tập tin bằng cách thả
       vào đây, hoặc copy và dán.
@@ -414,7 +416,7 @@ vi:
       hierarchy_headline: Hệ thống phân cấp
       children_headline: Children
     relation_buttons:
-      set_parent: Set parent work package
+      set_parent: Set parent
       change_parent: Change parent
       remove_parent: Remove parent
       group_by_wp_type: Group by work package type

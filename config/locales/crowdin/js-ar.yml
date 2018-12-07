@@ -268,6 +268,8 @@ ar:
     label_attachments: الملفّات
     label_drop_files: إسقاط الملفات هنا
     label_drop_files_hint: أو اضغط لإضافة ملفات
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
+      single files.
     label_add_attachments: إضافة مرفقات
     label_formattable_attachment_hint: Attach and link files by dropping on this field,
       or pasting from the clipboard.
@@ -407,7 +409,7 @@ ar:
       hierarchy_headline: Hierarchy
       children_headline: الأطفال
     relation_buttons:
-      set_parent: Set parent work package
+      set_parent: Set parent
       change_parent: تغيير الوالد
       remove_parent: إزالة والد
       group_by_wp_type: تجميع حسب نوع حزمة العمل

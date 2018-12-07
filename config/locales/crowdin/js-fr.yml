@@ -276,6 +276,8 @@ fr:
     label_attachments: Fichiers
     label_drop_files: Déposez des fichiers ici
     label_drop_files_hint: ou cliquez pour ajouter des fichiers
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
+      single files.
     label_add_attachments: Ajouter pièces jointes
     label_formattable_attachment_hint: Insérer des fichiers en les glissant sur ce
       champ, ou en les collant depuis le presse-papiers.
@@ -425,7 +427,7 @@ fr:
       hierarchy_headline: Hiérarchie
       children_headline: Enfants
     relation_buttons:
-      set_parent: Définir le package de travail parent
+      set_parent: Set parent
       change_parent: Changer le parent
       remove_parent: Supprimer le parent
       group_by_wp_type: Grouper par type de lot de travaux
