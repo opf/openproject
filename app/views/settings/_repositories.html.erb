@@ -108,26 +108,26 @@ See docs/COPYRIGHT.rdoc for more details.
         <%= I18n.t("setting_commit_fix_keywords") %>
       </div>
       <div class="form--grouping-row">
-        <div class="form--field">
+        <div class="form--field -vertical">
           <%= styled_label_tag 'commit_fix_keywords', I18n.t(:label_keyword_plural) %>
           <div class="form--field-container">
             <%= setting_text_field :commit_fix_keywords, size: 30, label: false %>
           </div>
+          <div class="form--field-instructions"><%= t(:text_comma_separated) %></div>
         </div>
-        <div class="form--field">
+        <div class="form--field -vertical">
           <%= styled_label_tag :settings_commit_fix_status_id, t(:label_applied_status) %>
           <div class="form--field-container">
             <%= setting_select :commit_fix_status_id, [["--- #{t(:actionview_instancetag_blank_option)} ---", '0', { disabled: true }]] + Status.all.collect{ |status| [status.name, status.id.to_s] }, label: false %>
           </div>
         </div>
-        <div class="form--field">
+        <div class="form--field -vertical">
           <%= styled_label_tag :settings_commit_fix_done_ratio, WorkPackage.human_attribute_name(:done_ratio) %>
           <div class="form--field-container">
             <%= setting_select :commit_fix_done_ratio, (0..10).to_a.collect {|r| ["#{r*10} %", "#{r*10}"] }, blank: :label_no_change_option, label: false %>
           </div>
         </div>
       </div>
-      <div class="form--field-instructions"><%= t(:text_comma_separated) %></div>
     </div>
     <div class="form--field">
       <%= setting_check_box :commit_logtime_enabled %>

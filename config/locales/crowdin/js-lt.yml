@@ -271,6 +271,8 @@ lt:
     label_attachments: Failai
     label_drop_files: Numeskite failus čia
     label_drop_files_hint: arba spustelkite, kad pridėtumėte failus
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
+      single files.
     label_add_attachments: Prisegti priedus
     label_formattable_attachment_hint: Prisegti ir susieti failus užvelkant ant šio
       laukelio arba įklijuojant į iškarpinę.
@@ -410,7 +412,7 @@ lt:
       hierarchy_headline: Hierarchy
       children_headline: Pasekėjai
     relation_buttons:
-      set_parent: Nustatyti tėvinį darbų paketą
+      set_parent: Set parent
       change_parent: Keisti pirmtaką
       remove_parent: Pašalinti tėvą
       group_by_wp_type: Grupuoti pagal darbų paketo tipą

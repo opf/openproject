@@ -39,18 +39,20 @@ class DocumentsController < ApplicationController
   before_action :authorize
 
   def index
-    @sort_by = %w(category date title author).include?(params[:sort_by]) ? params[:sort_by] : 'category'
+    @group_by = %w(category date title author).include?(params[:group_by]) ? params[:group_by] : 'category'
     documents = @project.documents
-    case @sort_by
-    when 'date'
-      @grouped = documents.group_by {|d| d.updated_on.to_date }
-    when 'title'
-      @grouped = documents.group_by {|d| d.title.first.upcase}
-    when 'author'
-      @grouped = documents.with_attachments.group_by {|d| d.attachments.last.author}
-    else
-      @grouped = documents.includes(:category).group_by(&:category)
-    end
+    @grouped =
+      case @group_by
+      when 'date'
+        documents.group_by {|d| d.updated_on.to_date }
+      when 'title'
+        documents.group_by {|d| d.title.first.upcase}
+      when 'author'
+        documents.with_attachments.group_by {|d| d.attachments.last.author}
+      else
+        documents.includes(:category).group_by(&:category)
+      end
+
     render layout: false if request.xhr?
   end
 

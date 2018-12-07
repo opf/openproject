@@ -42,7 +42,7 @@ export class CostSubformController {
 
   constructor(public $element:ng.IAugmentedJQuery) {
     this.container = $element.find('.subform-container');
-    this.rowIndex = parseInt(this.$element.attr('item-count'));
+    this.rowIndex = parseInt(this.$element.attr('item-count') as string);
 
     $element.on('click', '.delete-row-button,.delete-budget-item', (evt:JQueryEventObject) => {
       var row = angular.element(evt.target).closest('.subform-row');

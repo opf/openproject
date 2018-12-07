@@ -51,7 +51,7 @@ describe 'Manage webhooks through UI', type: :feature, js: true do
       expect(page).to have_selector('.webhooks--outgoing-webhook-row .description', text: webhook.description)
 
       # Edit this webhook
-      find(".webhooks--outgoing-webhook-row-#{webhook.id} a", text: 'Edit').click
+      find(".webhooks--outgoing-webhook-row-#{webhook.id} .icon-edit").click
 
       # Check the other event
       find('.form--check-box[value="work_package:created"]').set false
@@ -70,7 +70,7 @@ describe 'Manage webhooks through UI', type: :feature, js: true do
       expect(webhook.all_projects).to be_falsey
 
       # Delete webhook
-      find(".webhooks--outgoing-webhook-row-#{webhook.id} a", text: 'Delete').click
+      find(".webhooks--outgoing-webhook-row-#{webhook.id} .icon-delete").click
       page.driver.browser.switch_to.alert.accept
 
       expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_delete))

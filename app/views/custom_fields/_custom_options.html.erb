@@ -108,11 +108,12 @@ See docs/COPYRIGHT.rdoc for more details.
                 </span>
               </td>
               <td>
-                <%= link_to t(:button_delete),
+                <%= link_to '',
                     delete_option_of_custom_field_path(id: custom_field.id || 0, option_id: custom_option.id || 0),
                     method: :delete,
                     data: { confirm: t(:'custom_fields.confirm_destroy_option') },
-                    class: 'icon icon-delete delete-custom-option' %>
+                    class: 'icon icon-delete delete-custom-option',
+                    title: t(:button_delete) %>
               </td>
             </tr>
           <% end %>

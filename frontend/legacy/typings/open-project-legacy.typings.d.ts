@@ -33,7 +33,7 @@
 
 import * as TAngular from 'angular';
 import * as TLodash from 'lodash';
-import {State} from "reactivestates";
+import {InputState, State} from "reactivestates";
 import {GlobalI18n} from "../../src/app/modules/common/i18n/i18n.service";
 
 export interface IPluginContext {
@@ -49,7 +49,7 @@ declare global {
       guardedLocalStorage(key:string, newValue?:string):string|void,
       environment:string,
       getPluginContext():Promise<IPluginContext>,
-      pluginContext:State<IPluginContext>
+      pluginContext:InputState<IPluginContext>
     };
   }
   const angular:typeof TAngular;

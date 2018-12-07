@@ -94,9 +94,8 @@ Feature: Version Settings
 
     When I go to the settings/versions page of the project called "ecookbook"
 
-    Then I should see "Edit" within ".version.shared .buttons"
-
-    When I follow "Edit" within ".version.shared .buttons"
+    # Click on the edit link
+    When I click on the element with class "icon-edit" within ".version.shared .buttons"
 
     Then the editable attributes of the version should be the following:
       | Column in backlog | left |

@@ -86,10 +86,9 @@ describe DocumentsController do
     end
 
     it "should render documents with long descriptions properly" do
-
-      expect(response.body).to have_css('.wiki p')
-      expect(response.body).to have_css('.wiki p', text: (document.description.split("\n").first + '...'))
-      expect(response.body).to have_css('.wiki p', text: /EndOfLineHere.../)
+      expect(response.body).to have_selector('.wiki p', visible: :all)
+      expect(response.body).to have_selector('.wiki p', visible: :all, text: (document.description.split("\n").first + '...'))
+      expect(response.body).to have_selector('.wiki p', visible: :all, text: /EndOfLineHere.../)
     end
 
   end

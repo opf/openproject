@@ -300,6 +300,9 @@ fieldset.form--fieldset
   font-size:      1rem
   font-style:     italic
   line-height:    1.8
+  
+  a:hover
+    text-decoration: none
 
 .form--fieldset-control-container
   padding: 0 0.25rem
@@ -716,10 +719,13 @@ input[readonly].-clickable
 
   .form--grouping-row
     @include grid-block(10)
-    align-items: center
+    align-items: baseline
 
     .select2-container
       margin-bottom: 0
+
+    .form--field-instructions
+      margin-left: 0px
 
   .form--grouping-row + .form--grouping-row
     @include grid-offset(2)
@@ -816,7 +822,9 @@ input[readonly].-clickable
   clear:       both
   line-height: $base-line-height
   padding:  0 2rem 0 0
-  @include text-shortener
+
+  &:not(.-no-ellipsis)
+    @include text-shortener
 
   & > .form--check-box-container
     display:  block

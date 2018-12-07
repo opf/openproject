@@ -64,7 +64,7 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
   public noResults:JQuery;
 
   // The result set for the instance, loaded only once
-  public results:null|IProjectMenuEntry[] = null;
+  public results:null | IProjectMenuEntry[] = null;
 
   private loaded = false;
   private $element:JQuery;
@@ -104,7 +104,7 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
     this.$element.find('.project-search-results').css('visibility', 'visible');
     this.loadProjects().then((results:IProjectMenuEntry[]) => {
       let autocompleteValues = _.map(results, project => {
-        return { label: project.name, render: 'match', object: project } as ProjectAutocompleteItem;
+        return {label: project.name, render: 'match', object: project} as ProjectAutocompleteItem;
       });
 
       this.setup(this.input, autocompleteValues);
@@ -217,7 +217,7 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
 
     items.forEach(el => {
       const identifier = el.object.identifier;
-      let renderType:'disabled'|'match';
+      let renderType:'disabled' | 'match';
 
       if (matches.indexOf(identifier) >= 0) {
         renderType = 'match';
@@ -243,7 +243,7 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
   protected addInputHandlers() {
     this.input.off('blur');
 
-    this.input.keydown((evt:JQueryKeyEventObject) => {
+    this.input.keydown((evt:JQuery.Event) => {
       if (evt.which === keyCodes.ESCAPE) {
         this.input.val('');
         (this.input as any)[this.widgetName].call(this.input, 'search', '');
@@ -273,15 +273,15 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
 
       // On iOS the click event doesn't get fired. So we need to listen to touch events and discard them if they they
       // are the beginning of some scrolling.
-      .on('touchend', '.ui-menu-item a',function(evt){
-        if(!touchMoved){
-          window.location.href =  (evt.target as HTMLAnchorElement).href;
+      .on('touchend', '.ui-menu-item a', function(evt:JQuery.Event) {
+        if (!touchMoved) {
+          window.location.href = (evt.target as HTMLAnchorElement).href;
         }
-      }).on('touchmove', '.ui-menu-item a',function(){
-        touchMoved = true;
-      }).on('touchstart', '.ui-menu-item a',function(){
-        touchMoved = false;
-      });
+      }).on('touchmove', '.ui-menu-item a', function() {
+      touchMoved = true;
+    }).on('touchstart', '.ui-menu-item a', function() {
+      touchMoved = false;
+    });
   }
 
   protected setupParams(autocompleteValues:ProjectAutocompleteItem[]) {
@@ -300,22 +300,28 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
   }
 
   private scrollCurrentProjectIntoView() {
-    let currentProject = document.getElementsByClassName('ui-menu-item-wrapper selected')[0] as HTMLElement;
-    let currentProjectHeight = currentProject.offsetHeight
+    let currentProject:HTMLElement|null = document.querySelector('.ui-menu-item-wrapper.selected');
+
+    // It can happen that no project is selected yet initially.
+    if (!currentProject) {
+      return;
+    }
+
+    let currentProjectHeight = currentProject.offsetHeight;
     let scrollableContainer = document.getElementsByClassName('project-menu-autocomplete--results')[0];
 
     // Scroll current project to top of the list and
     // substract half the container width again to center it vertically
     let scrollValue = currentProject.offsetTop -
-                      (scrollableContainer as HTMLElement).offsetHeight / 2 +
-                      currentProjectHeight / 2;
+      (scrollableContainer as HTMLElement).offsetHeight / 2 +
+      currentProjectHeight / 2;
 
     // The top visible project shall be seen completely.
     // Otherwise there will be a scrolling effect when the user hovers over the project.
     scrollableContainer.scrollTop = (scrollValue % currentProjectHeight === 0) ?
-                                      scrollValue :
-                                      scrollValue - (scrollValue % currentProjectHeight);
+      scrollValue :
+      scrollValue - (scrollValue % currentProjectHeight);
   }
 }
 
-DynamicBootstrapper.register({ selector: 'project-menu-autocomplete', cls: ProjectMenuAutocompleteComponent });
+DynamicBootstrapper.register({selector: 'project-menu-autocomplete', cls: ProjectMenuAutocompleteComponent});

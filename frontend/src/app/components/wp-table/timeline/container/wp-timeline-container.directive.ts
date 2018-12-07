@@ -58,7 +58,7 @@ import {
   zoomLevelOrder
 } from '../wp-timeline';
 import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css.service";
-import {input} from "reactivestates";
+import {input, InputState} from "reactivestates";
 import {Subject} from "rxjs";
 
 @Component({
@@ -194,7 +194,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
   }
 
   getAbsoluteLeftCoordinates():number {
-    return this.$element.offset().left;
+    return this.$element.offset()!.left;
   }
 
   getParentScrollContainer() {
@@ -269,7 +269,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
   startAddRelationPredecessor(start:WorkPackageResource) {
     this.activateSelectionMode(start.id, end => {
       this.wpRelations
-        .addCommonRelation(start as any, 'follows', end.id)
+        .addCommonRelation(start.id, 'follows', end.id)
         .catch((error:any) => this.wpNotificationsService.handleRawError(error, end));
     });
   }
@@ -277,7 +277,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
   startAddRelationFollower(start:WorkPackageResource) {
     this.activateSelectionMode(start.id, end => {
       this.wpRelations
-        .addCommonRelation(start as any, 'precedes', end.id)
+        .addCommonRelation(start.id, 'precedes', end.id)
         .catch((error:any) => this.wpNotificationsService.handleRawError(error, end));
     });
   }
@@ -357,13 +357,17 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     this.workPackageIdOrder.forEach((renderedRow) => {
       const wpId = renderedRow.workPackageId;
 
-      // Not all rendered rows are work packages
-      if (!wpId || this.states.workPackages.get(wpId).isPristine()) {
+      if (!wpId) {
+        return;
+      }
+      const workPackageState:InputState<WorkPackageResource> = this.states.workPackages.get(wpId);
+      const workPackage:WorkPackageResource|undefined = workPackageState.value;
+
+      if (!workPackage) {
         return;
       }
 
       // We may still have a reference to a row that, e.g., just got deleted
-      const workPackage = this.states.workPackages.get(wpId).value!;
       const startDate = workPackage.startDate ? moment(workPackage.startDate) : currentParams.now;
       const dueDate = workPackage.dueDate ? moment(workPackage.dueDate) : currentParams.now;
       const date = workPackage.date ? moment(workPackage.date) : currentParams.now;
@@ -390,7 +394,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     // RR: kept both variants for documentation purpose.
     // A: calculate the minimal width based on the width of the timeline view
     // B: calculate the minimal width based on the window width
-    const width = this.$element.children().width(); // A
+    const width = this.$element.children().width()!; // A
     // const width = jQuery('body').width(); // B
 
     const pixelPerDay = currentParams.pixelPerDay;
@@ -430,7 +434,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     }
 
     const daysSpan = calculateDaySpan(this.workPackageIdOrder, this.states.workPackages, this._viewParameters);
-    const timelineWidthInPx = this.$element.parent().width() - (2 * requiredPixelMarginLeft);
+    const timelineWidthInPx = this.$element.parent().width()! - (2 * requiredPixelMarginLeft);
 
     for (let zoomLevel of zoomLevelOrder) {
       const pixelPerDay = getPixelPerDayForZoomLevel(zoomLevel);

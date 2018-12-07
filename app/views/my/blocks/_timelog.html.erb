@@ -117,12 +117,12 @@ entries_by_day = entries.group_by(&:spent_on)
                 <td class="hours"><%= html_hours("%.2f" % entry.hours) %></td>
                 <td class="buttons">
                   <% if entry.editable_by?(@user) -%>
-                    <%= link_to icon_wrapper('icon-context icon-edit', l(:button_edit)),
+                    <%= link_to icon_wrapper('icon-context icon-edit', ''),
                                 {controller: '/timelog', action: 'edit', id: entry},
                                 alt: l(:button_edit),
                                 class: 'no-decoration-on-hover',
                                 title: l(:button_edit) %>
-                    <%= link_to icon_wrapper('icon-context icon-delete', l(:button_delete)),
+                    <%= link_to icon_wrapper('icon-context icon-delete', ''),
                                 {controller: '/timelog', action: 'destroy', id: entry},
                                 data: { confirm: l(:text_are_you_sure) },
                                 class: 'no-decoration-on-hover',
@@ -136,7 +136,7 @@ entries_by_day = entries.group_by(&:spent_on)
           <% end -%>
         </tbody>
       </table>
-      
+
     </div>
   </div>
 <% end %>

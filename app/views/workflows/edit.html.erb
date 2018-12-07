@@ -45,48 +45,41 @@ See docs/COPYRIGHT.rdoc for more details.
           <%= styled_select_tag 'type_id', options_from_collection_for_select(@types, "id", "name", @type && @type.id) %>
         </div>
       </li>
-      <li class="simple-filters--controls">
-        <%= submit_tag l(:button_edit), name: nil, accesskey: accesskey(:edit), class: 'button -highlight' %>
-      </li>
-    </ul>
-    <ul class="simple-filter--trailing-labels">
-      <li class="form--field -trailing-label">
-        <%= hidden_field_tag 'used_statuses_only', '0', id: 'used_statuses_only_hidden' %>
+      <ul class="simple-filter--trailing-labels">
+        <li class="form--field -trailing-label">
+          <%= hidden_field_tag 'used_statuses_only', '0', id: 'used_statuses_only_hidden' %>
 
-        <%= styled_label_tag :used_statuses_only, l(:label_display_used_statuses_only) %>
-        <span class="form--field-container">
-          <%= styled_check_box_tag :used_statuses_only, '1', @used_statuses_only %>
-        </span>
+          <%= styled_label_tag :used_statuses_only, l(:label_display_used_statuses_only) %>
+          <span class="form--field-container">
+            <%= styled_check_box_tag :used_statuses_only, '1', @used_statuses_only %>
+          </span>
+        </li>
+      </ul>
+      <li class="simple-filters--controls">
+        <%= submit_tag l(:button_edit), name: nil, accesskey: accesskey(:edit), class: 'button -small -highlight' %>
       </li>
     </ul>
   </fieldset>
 <% end %>
 <% if @type && @role && @statuses.any? %>
-  <%= activate_angular_js do %>
-    <%= form_tag({}, id: 'workflow_form' ) do %>
-      <%= hidden_field_tag 'type_id', @type.id %>
-      <%= hidden_field_tag 'role_id', @role.id %>
+  <%= form_tag({}, id: 'workflow_form' ) do %>
+    <%= hidden_field_tag 'type_id', @type.id %>
+    <%= hidden_field_tag 'role_id', @role.id %>
 
-      <%= render partial: 'form',
-                 locals: { name: 'always', workflows: @workflows['always'] } %>
+    <%= render partial: 'form',
+               locals: { name: 'always', workflows: @workflows['always'] } %>
 
-      <% author_expanded = @workflows['author'].present? ? 'true' : '' %>
-      <% assignee_expanded = @workflows['assignee'].present? ? 'true' : '' %>
-       
-      <collapsible-section initially-expanded="<%= author_expanded %>"
-                           id="author_workflows"
-                           section-title="<%= t(:label_additional_workflow_transitions_for_author) %>">
-        <%= render partial: 'form', locals: { name: 'author', workflows: @workflows['author'] } %>
-      </collapsible-section>
-
-      <collapsible-section initially-expanded="<%= assignee_expanded %>"
-                           id="assignee_workflows"
-                           section-title="<%= t(:label_additional_workflow_transitions_for_assignee) %>">
-        <%= render partial: 'form', locals: { name: 'assignee', workflows: @workflows['assignee'] } %>
-      </collapsible-section>
-
-      <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+    <%= augmented_collapsible_section initiallyExpanded: @workflows['author'].present?,
+                                      title: t(:label_additional_workflow_transitions_for_author) do %>
+      <%= render partial: 'form', locals: { name: 'author', workflows: @workflows['author'] } %>
     <% end %>
+
+    <%= augmented_collapsible_section initiallyExpanded: @workflows['assignee'].present?,
+                                      title: t(:label_additional_workflow_transitions_for_assignee) do %>
+      <%= render partial: 'form', locals: { name: 'assignee', workflows: @workflows['assignee'] } %>
+    <% end %>
+
+    <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
   <% end %>
 <% end %>
 

@@ -43,7 +43,7 @@ export interface INotification {
   link?:{ text:string, target:Function };
   type:NotificationType;
   data?:any;
-};
+}
 
 @Injectable()
 export class NotificationsService {
@@ -54,8 +54,8 @@ export class NotificationsService {
   constructor(readonly configurationService:ConfigurationService) {
     jQuery(window)
       .on(OPNotificationEvent,
-        (event:JQueryEventObject, notification:INotification) => {
-          this.add(notification)
+        (event:JQuery.Event, notification:INotification) => {
+          this.add(notification);
         });
   }
 

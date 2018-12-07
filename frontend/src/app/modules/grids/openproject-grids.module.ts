@@ -48,6 +48,17 @@ import {GridColumnContextMenu} from "core-app/modules/grids/context_menus/column
 import {GridRowContextMenu} from "core-app/modules/grids/context_menus/row.directive";
 import {GridAreaColumnHeadersComponent} from "core-app/modules/grids/areas/column-headers.component";
 import {GridAreaRowHeadersComponent} from "core-app/modules/grids/areas/row-headers.component";
+import {OpenprojectCalendarModule} from "core-app/modules/calendar/openproject-calendar.module";
+import {Ng2StateDeclaration, UIRouterModule} from '@uirouter/angular';
+
+export const GRID_ROUTES:Ng2StateDeclaration[] = [
+  {
+    name: 'my_page',
+    url: '/my/page',
+    component: MyPageComponent,
+  },
+];
+
 
 @NgModule({
   imports: [
@@ -57,12 +68,16 @@ import {GridAreaRowHeadersComponent} from "core-app/modules/grids/areas/row-head
 
     OpenprojectCommonModule,
     OpenprojectWorkPackagesModule,
+    OpenprojectCalendarModule,
 
     DynamicModule.withComponents([WidgetWpAssignedComponent,
                                   WidgetWpCreatedComponent,
                                   WidgetWpWatchedComponent,
                                   WidgetWpCalendarComponent,
                                   WidgetTimeEntriesCurrentUserComponent]),
+
+    // Routes for grid pages
+    UIRouterModule.forChild({ states: GRID_ROUTES }),
   ],
   providers: [
     {

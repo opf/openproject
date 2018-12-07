@@ -273,6 +273,8 @@ ro:
     label_attachments: Fişiere
     label_drop_files: Trageți fișierele aici
     label_drop_files_hint: sau dați click pentru a adăuga fişiere
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
+      single files.
     label_add_attachments: Adaugă fișiere
     label_formattable_attachment_hint: Attach and link files by dropping on this field,
       or pasting from the clipboard.
@@ -416,7 +418,7 @@ ro:
       hierarchy_headline: Hierarchy
       children_headline: Fii
     relation_buttons:
-      set_parent: Set parent work package
+      set_parent: Set parent
       change_parent: Modificare părinte
       remove_parent: Elimina părinte
       group_by_wp_type: Grupează după tipul packetului de lucru

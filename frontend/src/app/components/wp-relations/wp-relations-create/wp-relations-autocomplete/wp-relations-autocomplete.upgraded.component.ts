@@ -58,6 +58,7 @@ export class WpRelationsAutocompleteComponent implements OnInit, OnDestroy {
   public noResults = false;
 
   private $element:JQuery;
+  private $input:JQuery;
 
   constructor(readonly elementRef:ElementRef,
               readonly PathHelper:PathHelperService,
@@ -68,7 +69,7 @@ export class WpRelationsAutocompleteComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
-    let input = this.$element.find('.wp-relations--autocomplete');
+    const input = this.$input = this.$element.find('.wp-relations--autocomplete');
     let selected = false;
 
     if (this.initialSelection) {
@@ -101,16 +102,13 @@ export class WpRelationsAutocompleteComponent implements OnInit, OnDestroy {
       },
       minLength: 0
     })
-    .focus(() => !selected && input.autocomplete('search', input.val()));
+    .focus(() => !selected && input.autocomplete('search', input.val() as string));
 
     setTimeout(() => input.focus(), 20);
   }
 
   ngOnDestroy():void {
-    this.$element = jQuery(this.elementRef.nativeElement);
-
-    // Remove any open autocompleter, if we're being killed
-    this.$element.find('.wp-relations-autocomplete--results').remove();
+    this.$input.autocomplete('destroy');
   }
 
   public handleEnterPressed($event:KeyboardEvent) {

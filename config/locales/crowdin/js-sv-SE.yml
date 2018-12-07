@@ -271,6 +271,8 @@ sv-SE:
     label_attachments: Filer
     label_drop_files: Släpp filer här
     label_drop_files_hint: eller klicka för att lägga till filer
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
+      single files.
     label_add_attachments: Lägg till bilagor
     label_formattable_attachment_hint: Attach and link files by dropping on this field,
       or pasting from the clipboard.
@@ -413,7 +415,7 @@ sv-SE:
       hierarchy_headline: Hierarchy
       children_headline: Barn
     relation_buttons:
-      set_parent: Set parent work package
+      set_parent: Set parent
       change_parent: Ändra överordnad
       remove_parent: Ta bort förälder
       group_by_wp_type: Gruppera efter arbetspakettyp

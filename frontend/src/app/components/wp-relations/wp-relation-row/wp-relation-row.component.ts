@@ -86,7 +86,7 @@ export class WorkPackageRelationRowComponent implements OnInit {
     this.userInputs.showDescriptionEditForm = true;
     setTimeout(() => {
       const textarea = jQuery(this.relationDescriptionTextarea.nativeElement);
-      const textlen = textarea.val().length;
+      const textlen = (textarea.val() as string).length;
       // Focus and set cursor to end
       textarea.focus();
 

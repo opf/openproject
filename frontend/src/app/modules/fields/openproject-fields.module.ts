@@ -27,7 +27,6 @@
 // ++
 
 import {APP_INITIALIZER, NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
 import {EditFieldService} from "core-app/modules/fields/edit/edit-field.service";
 import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
 import {initializeCoreEditFields} from "core-app/modules/fields/edit/edit-field.initializer";
@@ -35,7 +34,6 @@ import {initializeCoreDisplayFields} from "core-app/modules/fields/display/displ
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 import {BooleanEditFieldComponent} from "core-app/modules/fields/edit/field-types/boolean-edit-field.component";
 import {DateEditFieldComponent} from "core-app/modules/fields/edit/field-types/date-edit-field.component";
-import {FormsModule} from "@angular/forms";
 import {DurationEditFieldComponent} from "core-app/modules/fields/edit/field-types/duration-edit-field.component";
 import {FloatEditFieldComponent} from "core-app/modules/fields/edit/field-types/float-edit-field.component";
 import {IntegerEditFieldComponent} from "core-app/modules/fields/edit/field-types/integer-edit-field.component";
@@ -53,8 +51,6 @@ import {OpenprojectEditorModule} from 'core-app/modules/editor/openproject-edito
 
 @NgModule({
   imports: [
-    FormsModule,
-    BrowserModule,
     OpenprojectCommonModule,
     OpenprojectAccessibilityModule,
     OpenprojectEditorModule,

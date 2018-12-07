@@ -271,6 +271,8 @@ tr:
     label_attachments: Dosyalar
     label_drop_files: Dosyaları buraya bırakın
     label_drop_files_hint: veya eklemek için tıklayın
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
+      single files.
     label_add_attachments: Dosya Ekle
     label_formattable_attachment_hint: Dosyaları bu alana sürükleyerek ekleyebilir
       veya panodan yapıştırabilirsiniz.
@@ -413,7 +415,7 @@ tr:
       hierarchy_headline: Hiyerarşi
       children_headline: Çocuk
     relation_buttons:
-      set_parent: Üst iş paketi ayarla
+      set_parent: Set parent
       change_parent: Üstünü değiştir
       remove_parent: Üstündekini kaldır
       group_by_wp_type: İş paketi türüne göre grupla

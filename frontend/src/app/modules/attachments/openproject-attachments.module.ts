@@ -26,23 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {AttachmentsComponent} from 'core-components/attachments/attachments.component';
-import {AttachmentListComponent} from 'core-components/attachments/attachment-list/attachment-list.component';
-import {AttachmentListItemComponent} from 'core-components/attachments/attachment-list/attachment-list-item.component';
-import {AttachmentsUploadComponent} from 'core-components/attachments/attachments-upload/attachments-upload.component';
 import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {BrowserModule} from '@angular/platform-browser';
+
 import {OpenprojectCommonModule} from 'core-app/modules/common/openproject-common.module';
+import {AttachmentsComponent} from "core-app/modules/attachments/attachments.component";
+import {AttachmentListComponent} from "core-app/modules/attachments/attachment-list/attachment-list.component";
+import {AttachmentListItemComponent} from "core-app/modules/attachments/attachment-list/attachment-list-item.component";
+import {AttachmentsUploadComponent} from "core-app/modules/attachments/attachments-upload/attachments-upload.component";
 
 @NgModule({
   imports: [
-    FormsModule,
-    BrowserModule,
-
     OpenprojectCommonModule,
-  ],
-  providers: [
   ],
   declarations: [
     AttachmentsComponent,

@@ -11,6 +11,16 @@ module TwoFactorAuthentication
       allow_remember_for_days.days
     end
 
+    protected
+
+    ##
+    # Potentially multiple sessions may exist
+    # for a user with remember tokens set.
+    # (e.g., two different browsers)
+    def single_value?
+      false
+    end
+
     private
 
     def validate_remember_time

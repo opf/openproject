@@ -265,6 +265,8 @@ zh-TW:
     label_attachments: 檔案
     label_drop_files: 將檔案拖曳至此處
     label_drop_files_hint: 或按一下要添加的檔
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
+      single files.
     label_add_attachments: 新增附件
     label_formattable_attachment_hint: 藉由拖放或從剪貼簿貼上至此欄位來附加和連結檔案。
     label_remove_file: 刪除 %{fileName}
@@ -399,7 +401,7 @@ zh-TW:
       hierarchy_headline: Hierarchy
       children_headline: 子階
     relation_buttons:
-      set_parent: Set parent work package
+      set_parent: Set parent
       change_parent: 改變上層
       remove_parent: 移除上一層
       group_by_wp_type: 按工作包類型分組

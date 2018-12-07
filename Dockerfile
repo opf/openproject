@@ -47,6 +47,13 @@ COPY . /usr/src/app
 RUN cp docker/Procfile .
 RUN sed -i "s|Rails.groups(:opf_plugins)|Rails.groups(:opf_plugins, :docker)|" config/application.rb
 
+# Ensure we can write in /tmp/op_uploaded_files (cf. #29112)
+RUN mkdir -p /tmp/op_uploaded_files/
+RUN chown -R $APP_USER:$APP_USER /tmp/op_uploaded_files/
+
+# Allow uploading avatars w/ postgres
+RUN chown -R $APP_USER:$APP_USER $APP_DATA
+
 # Re-use packager database.yml
 COPY packaging/conf/database.yml ./config/database.yml
 

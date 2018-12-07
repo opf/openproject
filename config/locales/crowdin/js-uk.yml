@@ -272,6 +272,8 @@ uk:
     label_attachments: Files
     label_drop_files: Перетягніть файли сюди
     label_drop_files_hint: або клацніть, щоб додати файли
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
+      single files.
     label_add_attachments: Додати вкладення
     label_formattable_attachment_hint: Attach and link files by dropping on this field,
       or pasting from the clipboard.
@@ -414,7 +416,7 @@ uk:
       hierarchy_headline: Hierarchy
       children_headline: Дочірні елементи
     relation_buttons:
-      set_parent: Set parent work package
+      set_parent: Set parent
       change_parent: Змінити батьківський об'єкт
       remove_parent: Remove parent
       group_by_wp_type: Group by work package type

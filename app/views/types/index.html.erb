@@ -138,12 +138,11 @@ See docs/COPYRIGHT.rdoc for more details.
               </td>
               <td class="buttons">
                 <% if !type.is_standard? %>
-                  <%= link_to type, method: :delete,
-                                    data: { confirm: t(:text_are_you_sure) },
-                                    class: 'icon icon-delete' do %>
-                    <%= t(:button_delete) %>
-                    <span class="hidden-for-sighted"><%=h type.name %></span>
-                  <% end %>
+                  <%= link_to '', type,
+                                  method: :delete,
+                                  data: { confirm: t(:text_are_you_sure) },
+                                  class: 'icon icon-delete',
+                                  title: t(:button_delete) %>
                 <% end %>
               </td>
             </tr>

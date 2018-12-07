@@ -25,9 +25,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 
 import {APP_INITIALIZER, Injector, NgModule} from '@angular/core';
+import {CommonModule} from "@angular/common";
 import {AvatarUploadFormComponent} from "./avatar-upload-form/avatar-upload-form.component";
 import {HookService} from "../../hook-service";
-import {BrowserModule} from "@angular/platform-browser";
 import './globals/global-avatar-fallback'
 
 export function initializeAvatarsPlugin(injector:Injector) {
@@ -44,7 +44,7 @@ export function initializeAvatarsPlugin(injector:Injector) {
 
 @NgModule({
     imports: [
-      BrowserModule,
+      CommonModule,
     ],
     providers: [
       { provide: APP_INITIALIZER, useFactory: initializeAvatarsPlugin, deps: [Injector], multi: true },

@@ -65,7 +65,7 @@ module Pages
 
       def delete(type)
         within_row(type) do
-          click_link 'Delete'
+          find('.icon-delete').click
         end
 
         accept_alert_dialog!

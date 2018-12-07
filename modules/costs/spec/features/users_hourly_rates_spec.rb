@@ -53,9 +53,9 @@ describe 'hourly rates on user edit', type: :feature, js: true do
 
     describe 'deleting all rates' do
       before do
-        click_link 'Update' # go to update view for rates
-        click_on 'Delete'   # delete last existing rate
-        click_on 'Save'     # save change
+        click_link 'Update'         # go to update view for rates
+        find('.icon-delete').click  # delete last existing rate
+        click_on 'Save'             # save change
       end
 
       # regression test: clicking save used to result in a error

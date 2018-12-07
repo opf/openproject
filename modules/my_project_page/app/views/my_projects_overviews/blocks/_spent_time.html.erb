@@ -111,12 +111,12 @@ See doc/COPYRIGHT.md for more details.
                   <td class="hours"><%= html_hours("%.2f" % entry.hours) %></td>
                   <td class="buttons -short">
                     <% if entry.editable_by?(user) -%>
-                      <%= link_to icon_wrapper('icon-context icon-edit', t(:button_edit)),
+                      <%= link_to icon_wrapper('icon-context icon-edit', ''),
                                   {:controller => '/timelog', :action => 'edit', :id => entry},
                                   :alt => l(:button_edit),
                                   :class => 'no-decoration-on-hover',
                                   :title => l(:button_edit) %>
-                      <%= link_to icon_wrapper('icon-context icon-delete', t(:button_delete)),
+                      <%= link_to icon_wrapper('icon-context icon-delete', ''),
                                   {:controller => '/timelog', :action => 'destroy', :id => entry},
                                   :confirm => l(:text_are_you_sure),
                                   :method => :delete,

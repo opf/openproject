@@ -85,7 +85,7 @@ export class WorkPackageNotificationService {
 
     // Angular http response have an error body attribute
     if (response instanceof HttpErrorResponse) {
-      errorBody = response.error || response.message;
+      errorBody = response.message || response.error;
     }
 
     // Some older response may have a data attribute
@@ -98,7 +98,7 @@ export class WorkPackageNotificationService {
       return this.handleErrorResponse(resource, workPackage);
     }
 
-    this.showGeneralError(response);
+    this.showGeneralError(errorBody || response);
   }
 
   protected handleErrorResponse(errorResource:any, workPackage?:WorkPackageResource) {
