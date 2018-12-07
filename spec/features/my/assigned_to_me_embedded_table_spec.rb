@@ -33,6 +33,23 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
   let!(:priority) { FactoryBot.create :default_priority }
   let!(:project) { FactoryBot.create :project, types: [type] }
   let!(:open_status) { FactoryBot.create :default_status }
+  let!(:assigned_work_package) do
+    FactoryBot.create :work_package,
+                      project: project,
+                      type: type,
+                      author: user,
+                      assigned_to: user
+  end
+  let!(:assigned_to_other_work_package) do
+    FactoryBot.create :work_package,
+                      project: project,
+                      type: type,
+                      author: user,
+                      assigned_to: other_user
+  end
+  let(:other_user) do
+    FactoryBot.create(:user)
+  end
 
   let(:role) { FactoryBot.create(:role, permissions: %i[view_work_packages add_work_packages]) }
 
@@ -41,16 +58,28 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
                       member_in_project: project,
                       member_through_role: role)
   end
+  let(:my_page) do
+    Pages::My::Page.new
+  end
 
   before do
     login_as user
-    visit my_page_path
+
+    my_page.visit!
   end
 
   it 'can create a new ticket with correct me values (Regression test #28488)' do
-    expect(page).to have_selector('.widget-box--header-title', text: 'Work packages assigned to me')
+    # exists as default
+    assigned_area = Components::Grids::GridArea.new('.grid--area', text: 'Work packages assigned to me')
+    assigned_area.expect_to_exist
 
-    embedded_table = Pages::EmbeddedWorkPackagesTable.new(find('#left'))
+    expect(assigned_area.area)
+      .to have_selector('.subject', text: assigned_work_package.subject)
+
+    expect(assigned_area.area)
+      .to have_no_selector('.subject', text: assigned_to_other_work_package.subject)
+
+    embedded_table = Pages::EmbeddedWorkPackagesTable.new(assigned_area.area)
     embedded_table.click_inline_create
 
     subject_field = embedded_table.edit_field(nil, :subject)
@@ -58,7 +87,6 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
 
     subject_field.set_value 'Assigned to me'
     subject_field.save!
-
 
     # Set project
     project_field = embedded_table.edit_field(nil, :project)
