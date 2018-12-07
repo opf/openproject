@@ -28,6 +28,7 @@ import {WpTableConfigurationModalComponent} from 'core-components/wp-table/confi
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageEmbeddedBaseComponent} from "core-components/wp-table/embedded/wp-embedded-base.component";
+import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
 
 @Component({
   selector: 'wp-embedded-table',
@@ -35,7 +36,6 @@ import {WorkPackageEmbeddedBaseComponent} from "core-components/wp-table/embedde
   providers: [
     TableState,
     OpTableActionsService,
-    WorkPackageStatesInitializationService,
     WorkPackageTableRelationColumnsService,
     WorkPackageTablePaginationService,
     WorkPackageTableGroupByService,
@@ -48,6 +48,10 @@ import {WorkPackageEmbeddedBaseComponent} from "core-components/wp-table/embedde
     WorkPackageTableSumService,
     WorkPackageTableAdditionalElementsService,
     WorkPackageTableRefreshService,
+    WorkPackageTableHighlightingService,
+    // Order is important here, to avoid this service
+    // getting global injections
+    WorkPackageStatesInitializationService,
   ]
 })
 export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseComponent implements OnInit, AfterViewInit, OnDestroy {
