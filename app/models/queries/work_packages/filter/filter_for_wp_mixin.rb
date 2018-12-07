@@ -63,7 +63,7 @@ module Queries::WorkPackages::Filter::FilterForWpMixin
     id_values = scope.where(id: no_templated_values).pluck(:id).map(&:to_s)
 
     if has_templated_value?
-      id_values + [templated_value_key]
+      id_values + templated_value_keys
     else
       id_values
     end
@@ -90,11 +90,15 @@ module Queries::WorkPackages::Filter::FilterForWpMixin
   end
 
   def templated_value_keys
-    [::Queries::Filters::TemplatedValue::KEY, ::Queries::Filters::TemplatedValue::DEPRECATED_KEY]
+    [templated_value_key, deprecated_templated_value_key]
   end
 
   def templated_value_key
     ::Queries::Filters::TemplatedValue::KEY
+  end
+
+  def deprecated_templated_value_key
+    ::Queries::Filters::TemplatedValue::DEPRECATED_KEY
   end
 
   def has_templated_value?
