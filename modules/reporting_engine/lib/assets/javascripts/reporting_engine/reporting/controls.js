@@ -24,14 +24,14 @@ Reporting.Controls = function($){
   var toggle_delete_form = function (e) {
     e.preventDefault();
 
-    var offset = $('#query-icon-delete').offset().left;
+    var offset = $('#query-icon-delete').offsetLeft;
     $('#delete_form').css("left", offset + "px").toggle();
   };
 
   var toggle_save_as_form = function (e) {
     e.preventDefault();
 
-    var offset = $('#query-icon-save-as').offset().left;
+    var offset = $('#query-icon-save-as').offsetLeft;
     $('#save_as_form')
       .css('left',  offset + 'px')
       .toggle();
