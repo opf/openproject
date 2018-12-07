@@ -184,6 +184,7 @@ import {WorkPackagesBaseComponent} from "core-app/modules/work_packages/routing/
 import {WorkPackagesListComponent} from "core-app/modules/work_packages/routing/wp-list/wp-list.component";
 import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
 import {WorkPackagesFullViewComponent} from "core-app/modules/work_packages/routing/wp-full-view/wp-full-view.component";
+import {OpenprojectCalendarModule} from "core-app/modules/calendar/openproject-calendar.module";
 
 @NgModule({
   imports: [
@@ -195,9 +196,6 @@ import {WorkPackagesFullViewComponent} from "core-app/modules/work_packages/rout
     OpenprojectEditorModule,
 
     ChartsModule,
-
-    // Calendar component
-    FullCalendarModule,
 
     OpenprojectAttachmentsModule,
 
