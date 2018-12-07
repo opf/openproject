@@ -275,8 +275,8 @@ it:
     label_attachments: File
     label_drop_files: Trascina i file qui
     label_drop_files_hint: o fai clic per aggiungere file
-    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
-      single files.
+    label_drop_folders_hint: Non è possibile caricare cartelle come allegati. Si prega
+      di selezionare singoli file.
     label_add_attachments: Aggiungi allegati
     label_formattable_attachment_hint: Allega e collega i file trascinandoli in questo
       campo, o incollandoli dagli appunti.
